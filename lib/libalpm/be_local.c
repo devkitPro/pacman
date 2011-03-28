@@ -52,7 +52,6 @@
 	do { \
 		ALPM_LOG_FUNC; \
 		ASSERT(handle != NULL, return (errret)); \
-		ASSERT(pkg != NULL, return (errret)); \
 		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
 			_alpm_local_db_read(pkg->origin_data.db, pkg, info); \
 		} \
@@ -69,18 +68,6 @@ static const char *_cache_get_filename(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->filename;
-}
-
-static const char *_cache_get_name(pmpkg_t *pkg)
-{
-	ASSERT(pkg != NULL, return NULL);
-	return pkg->name;
-}
-
-static const char *_cache_get_version(pmpkg_t *pkg)
-{
-	ASSERT(pkg != NULL, return NULL);
-	return pkg->version;
 }
 
 static const char *_cache_get_desc(pmpkg_t *pkg)
@@ -161,7 +148,6 @@ static int _cache_has_scriptlet(pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return -1);
-	ASSERT(pkg != NULL, return -1);
 
 	if(!(pkg->infolevel & INFRQ_SCRIPTLET)) {
 		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
@@ -211,7 +197,6 @@ static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
-	ASSERT(pkg != NULL, return NULL);
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
@@ -226,7 +211,6 @@ static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
-	ASSERT(pkg != NULL, return NULL);
 
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
@@ -247,7 +231,6 @@ static void *_cache_changelog_open(pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
-	ASSERT(pkg != NULL, return NULL);
 
 	char clfile[PATH_MAX];
 	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
@@ -299,8 +282,6 @@ static int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
  */
 static struct pkg_operations local_pkg_ops = {
 	.get_filename    = _cache_get_filename,
-	.get_name        = _cache_get_name,
-	.get_version     = _cache_get_version,
 	.get_desc        = _cache_get_desc,
 	.get_url         = _cache_get_url,
 	.get_builddate   = _cache_get_builddate,

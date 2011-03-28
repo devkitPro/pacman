@@ -46,8 +46,6 @@ typedef enum _pmpkgfrom_t {
  */
 struct pkg_operations {
 	const char *(*get_filename) (pmpkg_t *);
-	const char *(*get_name) (pmpkg_t *);
-	const char *(*get_version) (pmpkg_t *);
 	const char *(*get_desc) (pmpkg_t *);
 	const char *(*get_url) (pmpkg_t *);
 	time_t (*get_builddate) (pmpkg_t *);

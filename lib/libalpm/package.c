@@ -99,8 +99,6 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
  * a lazy-load cache. However, the defaults will work just fine for fully-
  * populated package structures. */
 static const char *_pkg_get_filename(pmpkg_t *pkg)    { return pkg->filename; }
-static const char *_pkg_get_name(pmpkg_t *pkg)        { return pkg->name; }
-static const char *_pkg_get_version(pmpkg_t *pkg)     { return pkg->version; }
 static const char *_pkg_get_desc(pmpkg_t *pkg)        { return pkg->desc; }
 static const char *_pkg_get_url(pmpkg_t *pkg)         { return pkg->url; }
 static time_t _pkg_get_builddate(pmpkg_t *pkg)        { return pkg->builddate; }
@@ -133,8 +131,6 @@ static int _pkg_changelog_close(const pmpkg_t *pkg, void *fp) { return EOF; }
  */
 struct pkg_operations default_pkg_ops = {
 	.get_filename    = _pkg_get_filename,
-	.get_name        = _pkg_get_name,
-	.get_version     = _pkg_get_version,
 	.get_desc        = _pkg_get_desc,
 	.get_url         = _pkg_get_url,
 	.get_builddate   = _pkg_get_builddate,
@@ -173,12 +169,12 @@ const char SYMEXPORT *alpm_pkg_get_filename(pmpkg_t *pkg)
 
 const char SYMEXPORT *alpm_pkg_get_name(pmpkg_t *pkg)
 {
-	return pkg->ops->get_name(pkg);
+	return pkg->name;
 }
 
 const char SYMEXPORT *alpm_pkg_get_version(pmpkg_t *pkg)
 {
-	return pkg->ops->get_version(pkg);
+	return pkg->version;
 }
 
 const char SYMEXPORT *alpm_pkg_get_desc(pmpkg_t *pkg)
