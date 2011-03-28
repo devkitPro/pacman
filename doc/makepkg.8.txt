@@ -11,24 +11,24 @@ makepkg - package build utility
 
 Synopsis
 --------
-makepkg [options]
+'makepkg' [options]
 
 
 Description
 -----------
-makepkg is a script to automate the building of packages. The requirements for
+'makepkg' is a script to automate the building of packages. The requirements for
 using the script are a build-capable \*nix platform and a custom build script
 for each package you wish to build (known as a PKGBUILD). See
 linkman:PKGBUILD[5] for details on creating your own build scripts.
 
 The advantage to a script-based build is that the work is only done once. Once
-you have the build script for a package, makepkg will do the rest: download and
+you have the build script for a package, 'makepkg' will do the rest: download and
 validate source files, check dependencies, configure the build-time settings,
 build the package, install the package into a temporary root, make
 customizations, generate meta-info, and package the whole thing up for pacman
 to use.
 
-NOTE: makepkg uses your current locale by default and does not unset it when
+NOTE: 'makepkg' uses your current locale by default and does not unset it when
 building packages. If you wish to share your build output with others when
 seeking help or for other purposes, you may wish to run "`LC_ALL=C makepkg`" so
 your logs and output are not localized.

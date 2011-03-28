@@ -10,22 +10,22 @@ repo-add - package database maintenance utility
 
 Synopsis
 --------
-repo-add [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> [<package|delta> ...]
+'repo-add' [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> [<package|delta> ...]
 
-repo-remove [-q] [-s] [-v] <path-to-db> <packagename|delta> [<packagename|delta> ...]
+'repo-remove' [-q] [-s] [-v] <path-to-db> <packagename|delta> [<packagename|delta> ...]
 
 
 Description
 -----------
-repo-add and repo-remove are two scripts to help build a package database for
+'repo-add' and 'repo-remove' are two scripts to help build a package database for
 packages built with linkman:makepkg[8] and installed with linkman:pacman[8].
 They also handle package deltas produced by linkman:pkgdelta[8].
 
-repo-add will update a package database by reading a built package or package
+'repo-add' will update a package database by reading a built package or package
 delta file. Multiple packages and/or deltas to add can be specified on the
 command line.
 
-repo-remove will update a package database by removing the package name or
+'repo-remove' will update a package database by removing the package name or
 delta specified on the command line. Multiple packages and/or delta to remove
 can be specified on the command line.
 
