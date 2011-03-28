@@ -109,35 +109,56 @@ char *alpm_fetch_pkgurl(const char *url);
  * @{
  */
 
+/** @name The logging callback. */
+/* @{ */
 alpm_cb_log alpm_option_get_logcb(void);
 void alpm_option_set_logcb(alpm_cb_log cb);
+/* @} */
 
+/** Get/set the download progress callback. */
 alpm_cb_download alpm_option_get_dlcb(void);
 void alpm_option_set_dlcb(alpm_cb_download cb);
 
+/** Get/set the downloader callback. */
 alpm_cb_fetch alpm_option_get_fetchcb(void);
 void alpm_option_set_fetchcb(alpm_cb_fetch cb);
 
+/** Get/set the callback used when download size is known. */
 alpm_cb_totaldl alpm_option_get_totaldlcb(void);
 void alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
 
+/** Get/set the root of the destination filesystem. */
 const char *alpm_option_get_root(void);
 int alpm_option_set_root(const char *root);
 
+/** Get/set the path to the database directory. */
 const char *alpm_option_get_dbpath(void);
 int alpm_option_set_dbpath(const char *dbpath);
 
+/** Get/set the list of package cache directories. */
 alpm_list_t *alpm_option_get_cachedirs(void);
-int alpm_option_add_cachedir(const char *cachedir);
 void alpm_option_set_cachedirs(alpm_list_t *cachedirs);
+
+/** Add a single directory to the package cache paths. */
+int alpm_option_add_cachedir(const char *cachedir);
+
+/** Remove a single directory from the package cache paths. */
 int alpm_option_remove_cachedir(const char *cachedir);
 
+/** Get/set the logfile name. */
 const char *alpm_option_get_logfile(void);
 int alpm_option_set_logfile(const char *logfile);
 
+/** Get the name of the database lock file.
+ *
+ * This properly is read-only, and determined from
+ * the database path.
+ *
+ * @sa alpm_option_set_dbpath(const char*)
+ */
 const char *alpm_option_get_lockfile(void);
-/* no set_lockfile, path is determined from dbpath */
 
+/** Get/set whether to use syslog (0 is FALSE, TRUE otherwise). */
 int alpm_option_get_usesyslog(void);
 void alpm_option_set_usesyslog(int usesyslog);
 
@@ -161,6 +182,7 @@ void alpm_option_add_ignoregrp(const char *grp);
 void alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
 int alpm_option_remove_ignoregrp(const char *grp);
 
+/** Get/set the targeted architecture. */
 const char *alpm_option_get_arch(void);
 void alpm_option_set_arch(const char *arch);
 
@@ -736,9 +758,12 @@ int alpm_trans_interrupt(void);
 int alpm_trans_release(void);
 /** @} */
 
+/** @name Common Transactions */
+/** @{ */
 int alpm_sync_sysupgrade(int enable_downgrade);
 int alpm_add_pkg(pmpkg_t *pkg);
 int alpm_remove_pkg(pmpkg_t *pkg);
+/** @} */
 
 /** @addtogroup alpm_api_depends Dependency Functions
  * Functions dealing with libalpm representation of dependency
