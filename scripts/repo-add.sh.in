@@ -63,32 +63,39 @@ error() {
 
 # print usage instructions
 usage() {
-	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: repo-add [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> ...\n")"
-	printf "$(gettext "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\n\n")"
-	printf "$(gettext "\
+	cmd="$(basename $0)"
+	printf "%s (pacman) %s\n\n" "$cmd" "$myver"
+	if [[ $cmd == "repo-add" ]] ; then
+		printf "$(gettext "Usage: repo-add [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> ...\n")"
+		printf "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
 Multiple packages to add can be specified on the command line.\n\n")"
-	printf "$(gettext "\
+		printf "$(gettext "Options:\n")"
+		printf "$(gettext "  -d, --delta   generate and add delta for package update\n")"
+		printf "$(gettext "  -f, --files   update database's file list\n")"
+	elif [[ $cmd == "repo-remove" ]] ; then
+		printf "$(gettext "Usage: repo-remove [-q] [-s] [-v] <path-to-db> <packagename|delta> ...\n\n")"
+		printf "$(gettext "\
 repo-remove will update a package database by removing the package name\n\
 specified on the command line from the given repo database. Multiple\n\
 packages to remove can be specified on the command line.\n\n")"
-	printf "$(gettext "\
-Use the -q/--quiet flag to minimize output to basic messages, warnings,\n\
-and errors.\n\n")"
-	printf "$(gettext "\
-Use the -d/--delta flag to automatically generate and add a delta file\n\
-between the old entry and the new one, if the old package file is found\n\
-next to the new one.\n\n")"
-	printf "$(gettext "\
-Use the -f/--files flag to update a database including file entries.\n\n
-See repo-add(8) for more details and descriptions of the available options.\n\n")"
-	echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
-	echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
+		printf "$(gettext "Options:\n")"
+	fi
+	printf "$(gettext "  -q, --quiet   minimize output\n")"
+	printf "$(gettext "  -s, --sign    sign database with GnuPG after update\n")"
+	printf "$(gettext "  -v, --verify  verify database's signature before update\n")"
+	printf "$(gettext "\n\
+See %s(8) for more details and descriptions of the available options.\n\n")" $cmd
+	if [[ $cmd == "repo-add" ]] ; then
+		echo "$(gettext "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz")"
+	elif [[ $cmd == "repo-remove" ]] ; then
+		echo "$(gettext "Example:  repo-remove /path/to/repo.db.tar.gz kernel26")"
+	fi
 }
 
 version() {
-	printf "repo-add, repo-remove (pacman) %s\n\n" "$myver"
+	cmd="$(basename $0)"
+	printf "%s (pacman) %s\n\n" "$cmd" "$myver"
 	printf "$(gettext "\
 Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\n\
 Copyright (c) 2007-2008 Dan McGee <dan@archlinux.org>.\n\n\
