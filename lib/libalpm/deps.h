@@ -44,20 +44,14 @@ struct __pmdepmissing_t {
 
 void _alpm_dep_free(pmdepend_t *dep);
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,
-		const char *causinpkg);
 void _alpm_depmiss_free(pmdepmissing_t *miss);
 alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse);
 void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);
-pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs, alpm_list_t *excluding, int prompt);
 int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pkg,
 		alpm_list_t *preferred, alpm_list_t **packages, alpm_list_t *remove,
 		alpm_list_t **data);
-int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2);
 pmdepend_t *_alpm_splitdep(const char *depstring);
-pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep);
 int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
-int _alpm_depcmp_tolerant(pmpkg_t *pkg, pmdepend_t *dep);
 
 #endif /* _ALPM_DEPS_H */
 

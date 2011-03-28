@@ -83,8 +83,12 @@ if [[ -n $1 ]]; then
 	dbroot="$1"
 fi
 
-if [[ ! -d $dbroot || ! -d $dbroot/local ]]; then
+if [[ ! -d $dbroot ]]; then
 	die "$(gettext "%s does not exist or is not a directory.")" "$dbroot"
+fi
+
+if [[ ! -d $dbroot/local ]]; then
+	die "$(gettext "%s is not a pacman database directory.")" "$dbroot"
 fi
 
 if [[ ! -w $dbroot ]]; then

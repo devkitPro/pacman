@@ -43,7 +43,7 @@ void _alpm_dep_free(pmdepend_t *dep)
 	FREE(dep);
 }
 
-pmdepmissing_t *_alpm_depmiss_new(const char *target, pmdepend_t *dep,
+static pmdepmissing_t *depmiss_new(const char *target, pmdepend_t *dep,
 		const char *causingpkg)
 {
 	pmdepmissing_t *miss;
@@ -65,6 +65,18 @@ void _alpm_depmiss_free(pmdepmissing_t *miss)
 	FREE(miss->target);
 	FREE(miss->causingpkg);
 	FREE(miss);
+}
+
+/* Does pkg1 depend on pkg2, ie. does pkg2 satisfy a dependency of pkg1? */
+static int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2)
+{
+	alpm_list_t *i;
+	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
+		if(_alpm_depcmp(pkg2, i->data)) {
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /* Convert a list of pmpkg_t * to a graph structure,
@@ -192,13 +204,37 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 	return newtargs;
 }
 
-pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
+static int no_dep_version(void)
+{
+	int flags = alpm_trans_get_flags();
+	return flags != -1 && (flags & PM_TRANS_FLAG_NODEPVERSION);
+}
+
+static pmdepend_t *filtered_depend(pmdepend_t *dep, int nodepversion)
+{
+	if(nodepversion) {
+		pmdepend_t *newdep = _alpm_dep_dup(dep);
+		ASSERT(newdep, return dep);
+		newdep->mod = PM_DEP_MOD_ANY;
+		dep = newdep;
+	}
+	return dep;
+}
+
+static void release_filtered_depend(pmdepend_t *dep, int nodepversion)
+{
+	if(nodepversion) {
+		free(dep);
+	}
+}
+
+static pmpkg_t *find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 {
 	alpm_list_t *i;
 
 	for(i = pkgs; i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = i->data;
-		if(_alpm_depcmp_tolerant(pkg, dep)) {
+		if(_alpm_depcmp(pkg, dep)) {
 			return pkg;
 		}
 	}
@@ -214,7 +250,7 @@ pmpkg_t *_alpm_find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 {
 	pmdepend_t *dep = _alpm_splitdep(depstring);
-	pmpkg_t *pkg = _alpm_find_dep_satisfier(pkgs, dep);
+	pmpkg_t *pkg = find_dep_satisfier(pkgs, dep);
 	_alpm_dep_free(dep);
 	return pkg;
 }
@@ -233,6 +269,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 	alpm_list_t *i, *j;
 	alpm_list_t *targets, *dblist = NULL, *modified = NULL;
 	alpm_list_t *baddeps = NULL;
+	int nodepversion;
 
 	ALPM_LOG_FUNC;
 
@@ -247,6 +284,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 	}
 	alpm_list_free(targets);
 
+	nodepversion = no_dep_version();
+
 	/* look for unsatisfied dependencies of the upgrade list */
 	for(i = upgrade; i; i = i->next) {
 		pmpkg_t *tp = i->data;
@@ -255,19 +294,21 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 
 		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 			pmdepend_t *depend = j->data;
+			depend = filtered_depend(depend, nodepversion);
 			/* 1. we check the upgrade list */
 			/* 2. we check database for untouched satisfying packages */
-			if(!_alpm_find_dep_satisfier(upgrade, depend) &&
-			   !_alpm_find_dep_satisfier(dblist, depend)) {
+			if(!find_dep_satisfier(upgrade, depend) &&
+			   !find_dep_satisfier(dblist, depend)) {
 				/* Unsatisfied dependency in the upgrade list */
 				pmdepmissing_t *miss;
 				char *missdepstring = alpm_dep_compute_string(depend);
 				_alpm_log(PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
-				miss = _alpm_depmiss_new(alpm_pkg_get_name(tp), depend, NULL);
+				miss = depmiss_new(alpm_pkg_get_name(tp), depend, NULL);
 				baddeps = alpm_list_add(baddeps, miss);
 			}
+			release_filtered_depend(depend, nodepversion);
 		}
 	}
 
@@ -278,21 +319,23 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 			pmpkg_t *lp = i->data;
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
 				pmdepend_t *depend = j->data;
-				pmpkg_t *causingpkg = _alpm_find_dep_satisfier(modified, depend);
+				depend = filtered_depend(depend, nodepversion);
+				pmpkg_t *causingpkg = find_dep_satisfier(modified, depend);
 				/* we won't break this depend, if it is already broken, we ignore it */
 				/* 1. check upgrade list for satisfiers */
 				/* 2. check dblist for satisfiers */
 				if(causingpkg &&
-				   !_alpm_find_dep_satisfier(upgrade, depend) &&
-				   !_alpm_find_dep_satisfier(dblist, depend)) {
+				   !find_dep_satisfier(upgrade, depend) &&
+				   !find_dep_satisfier(dblist, depend)) {
 					pmdepmissing_t *miss;
 					char *missdepstring = alpm_dep_compute_string(depend);
 					_alpm_log(PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
 					free(missdepstring);
-					miss = _alpm_depmiss_new(lp->name, depend, alpm_pkg_get_name(causingpkg));
+					miss = depmiss_new(lp->name, depend, alpm_pkg_get_name(causingpkg));
 					baddeps = alpm_list_add(baddeps, miss);
 				}
+				release_filtered_depend(depend, nodepversion);
 			}
 		}
 	}
@@ -324,18 +367,10 @@ static int dep_vercmp(const char *version1, pmdepmod_t mod,
 	return equal;
 }
 
-/* nodepversion: skip version checking */
-static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
+int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
 {
 	alpm_list_t *i;
 	int satisfy = 0;
-	int depmod;
-
-	if(nodepversion) {
-		depmod = PM_DEP_MOD_ANY;
-	} else {
-		depmod = dep->mod;
-	}
 
 	/* check (pkg->name, pkg->version) */
 	if(pkg->name_hash && dep->name_hash
@@ -343,7 +378,7 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 		/* skip more expensive checks */
 	} else {
 		satisfy = (strcmp(pkg->name, dep->name) == 0
-				&& dep_vercmp(pkg->version, depmod, dep->version));
+				&& dep_vercmp(pkg->version, dep->mod, dep->version));
 		if(satisfy) {
 			return satisfy;
 		}
@@ -355,7 +390,7 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 		const char *provver = strchr(provision, '=');
 
 		if(provver == NULL) { /* no provision version */
-			satisfy = (depmod == PM_DEP_MOD_ANY
+			satisfy = (dep->mod == PM_DEP_MOD_ANY
 					&& strcmp(provision, dep->name) == 0);
 		} else {
 			/* This is a bit tricker than the old code for performance reasons. To
@@ -367,30 +402,11 @@ static int _depcmp(pmpkg_t *pkg, pmdepend_t *dep, int nodepversion)
 			provver += 1;
 			satisfy = (strlen(dep->name) == namelen
 					&& strncmp(provision, dep->name, namelen) == 0
-					&& dep_vercmp(provver, depmod, dep->version));
+					&& dep_vercmp(provver, dep->mod, dep->version));
 		}
 	}
 
 	return satisfy;
-}
-
-/* tolerant : respects NODEPVERSION flag */
-int _alpm_depcmp_tolerant(pmpkg_t *pkg, pmdepend_t *dep)
-{
-	int nodepversion = 0;
-	int flags = alpm_trans_get_flags();
-
-	if (flags != -1) {
-		nodepversion = flags & PM_TRANS_FLAG_NODEPVERSION;
-	}
-
-	return _depcmp(pkg, dep, nodepversion);
-}
-
-/* strict : ignores NODEPVERSION flag */
-int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep)
-{
-	return _depcmp(pkg, dep, 0);
 }
 
 pmdepend_t *_alpm_splitdep(const char *depstring)
@@ -526,28 +542,6 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 	}
 }
 
-/** Find a package satisfying a specified dependency.
- * First look for a literal, going through each db one by one. Then look for
- * providers. The first satisfier found is returned.
- * The dependency can include versions with depmod operators.
- * @param dbs an alpm_list_t* of pmdb_t where the satisfier will be searched
- * @param depstring package or provision name, versioned or not
- * @return a pmpkg_t* satisfying depstring
- */
-pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstring)
-{
-	pmdepend_t *dep;
-	pmpkg_t *pkg;
-
-	ASSERT(dbs, return NULL);
-
-	dep = _alpm_splitdep(depstring);
-	ASSERT(dep, return NULL);
-	pkg = _alpm_resolvedep(dep, dbs, NULL, 1);
-	_alpm_dep_free(dep);
-	return pkg;
-}
-
 /**
  * helper function for resolvedeps: search for dep satisfier in dbs
  *
@@ -560,7 +554,7 @@ pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstri
  *        an error code without prompting
  * @return the resolved package
  **/
-pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
+static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 		alpm_list_t *excluding, int prompt)
 {
 	alpm_list_t *i, *j;
@@ -572,7 +566,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
-		if(pkg && _alpm_depcmp_tolerant(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
+		if(pkg && _alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(pkg)) {
 				int install = 0;
 				if (prompt) {
@@ -593,7 +587,7 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	for(i = dbs; i; i = i->next) {
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			pmpkg_t *pkg = j->data;
-			if(_alpm_depcmp_tolerant(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
+			if(_alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
 					int install = 0;
@@ -650,7 +644,30 @@ pmpkg_t *_alpm_resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	return NULL;
 }
 
-/* Computes resolvable dependencies for a given package and adds that package
+/** Find a package satisfying a specified dependency.
+ * First look for a literal, going through each db one by one. Then look for
+ * providers. The first satisfier found is returned.
+ * The dependency can include versions with depmod operators.
+ * @param dbs an alpm_list_t* of pmdb_t where the satisfier will be searched
+ * @param depstring package or provision name, versioned or not
+ * @return a pmpkg_t* satisfying depstring
+ */
+pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstring)
+{
+	pmdepend_t *dep;
+	pmpkg_t *pkg;
+
+	ASSERT(dbs, return NULL);
+
+	dep = _alpm_splitdep(depstring);
+	ASSERT(dep, return NULL);
+	pkg = resolvedep(dep, dbs, NULL, 1);
+	_alpm_dep_free(dep);
+	return pkg;
+}
+
+/**
+ * Computes resolvable dependencies for a given package and adds that package
  * and those resolvable dependencies to a list.
  *
  * @param localpkgs is the list of local packages
@@ -704,16 +721,16 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 			pmdepend_t *missdep = alpm_miss_get_dep(miss);
 			/* check if one of the packages in the [*packages] list already satisfies
 			 * this dependency */
-			if(_alpm_find_dep_satisfier(*packages, missdep)) {
+			if(find_dep_satisfier(*packages, missdep)) {
 				_alpm_depmiss_free(miss);
 				continue;
 			}
 			/* check if one of the packages in the [preferred] list already satisfies
 			 * this dependency */
-			pmpkg_t *spkg = _alpm_find_dep_satisfier(preferred, missdep);
+			pmpkg_t *spkg = find_dep_satisfier(preferred, missdep);
 			if(!spkg) {
 				/* find a satisfier package in the given repositories */
-				spkg = _alpm_resolvedep(missdep, dbs_sync, *packages, 0);
+				spkg = resolvedep(missdep, dbs_sync, *packages, 0);
 			}
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;
@@ -744,18 +761,6 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 	}
 	_alpm_log(PM_LOG_DEBUG, "finished resolving dependencies\n");
 	return ret;
-}
-
-/* Does pkg1 depend on pkg2, ie. does pkg2 satisfy a dependency of pkg1? */
-int _alpm_dep_edge(pmpkg_t *pkg1, pmpkg_t *pkg2)
-{
-	alpm_list_t *i;
-	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
-		if(_alpm_depcmp_tolerant(pkg2, i->data)) {
-			return 1;
-		}
-	}
-	return 0;
 }
 
 const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
@@ -825,7 +830,8 @@ const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
  */
 char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 {
-	char *name, *opr, *ver, *str = NULL;
+	const char *name, *opr, *ver;
+	char *str;
 	size_t len;
 
 	ALPM_LOG_FUNC;
@@ -863,7 +869,7 @@ char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 			break;
 	}
 
-	if(dep->version) {
+	if(dep->mod != PM_DEP_MOD_ANY && dep->version) {
 		ver = dep->version;
 	} else {
 		ver = "";
