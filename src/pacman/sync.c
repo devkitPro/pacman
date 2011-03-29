@@ -578,10 +578,11 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 static alpm_list_t *syncfirst(void) {
 	alpm_list_t *i, *res = NULL;
+	pmdb_t *db_local = alpm_option_get_localdb();
 
 	for(i = config->syncfirst; i; i = alpm_list_next(i)) {
 		char *pkgname = alpm_list_getdata(i);
-		pmpkg_t *pkg = alpm_db_get_pkg(alpm_option_get_localdb(), pkgname);
+		pmpkg_t *pkg = alpm_db_get_pkg(db_local, pkgname);
 		if(pkg == NULL) {
 			continue;
 		}
