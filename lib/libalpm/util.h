@@ -59,6 +59,10 @@
 
 #define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
 
+#define RET_ERR_VOID(err) do { pm_errno = (err); \
+	_alpm_log(PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerrorlast()); \
+	return; } while(0)
+
 #define RET_ERR(err, ret) do { pm_errno = (err); \
 	_alpm_log(PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerrorlast()); \
 	return (ret); } while(0)

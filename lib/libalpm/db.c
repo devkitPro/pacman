@@ -90,10 +90,7 @@ int SYMEXPORT alpm_db_unregister_all(void)
 	/* Do not unregister a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
-	/* since the local DB is registered in alpm_initialize(), we'll be
-	 * symmetrical and let the cleanup occur in alpm_release() */
-
-	/* and also sync ones */
+	/* unregister all sync dbs */
 	for(i = handle->dbs_sync; i; i = i->next) {
 		db = i->data;
 		db->ops->unregister(db);

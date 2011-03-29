@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pacman 3.5.1\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-20 23:42-0500\n"
+"POT-Creation-Date: 2011-03-27 21:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -338,18 +338,17 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
+msgid "  -n, --nosave         remove configuration files\n"
 msgstr ""
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr ""
 
 #, c-format
@@ -489,7 +488,9 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
 msgstr ""
 
 #, c-format
@@ -509,7 +510,7 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
 
@@ -583,10 +584,6 @@ msgstr ""
 
 #, c-format
 msgid "only one operation may be used at a time\n"
-msgstr ""
-
-#, c-format
-msgid "no operation specified (use -h for help)\n"
 msgstr ""
 
 #, c-format
@@ -666,6 +663,10 @@ msgstr ""
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
+msgstr ""
+
+#, c-format
+msgid "no operation specified (use -h for help)\n"
 msgstr ""
 
 #, c-format
@@ -1542,6 +1543,9 @@ msgid ""
 msgstr ""
 
 msgid "%s does not exist or is not a directory."
+msgstr ""
+
+msgid "%s is not a pacman database directory."
 msgstr ""
 
 msgid "You must have correct permissions to upgrade the database."
