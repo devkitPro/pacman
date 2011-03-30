@@ -1039,13 +1039,12 @@ create_package() {
 	local comp_files=".PKGINFO"
 
 	# check for changelog/install files
-	for i in 'changelog' 'install'; do
-		orig=${!i}
-		dest=$(tr '[:lower:]' '[:upper:]' <<<".$i")
+	for i in 'changelog/.CHANGELOG' 'install/.INSTALL'; do
+		IFS='/' read -r orig dest <<< "$i"
 
-		if [[ -n $orig ]]; then
-			msg2 "$(gettext "Adding %s file...")" "$i"
-			cp "$startdir/$orig" "$dest"
+		if [[ -n ${!orig} ]]; then
+			msg2 "$(gettext "Adding %s file...")" "$orig"
+			cp "$startdir/${!orig}" "$dest"
 			chmod 644 "$dest"
 			comp_files+=" $dest"
 		fi
