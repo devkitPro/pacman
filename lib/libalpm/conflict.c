@@ -212,11 +212,17 @@ alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_list_t *pkglist) {
 	return _alpm_innerconflicts(pkglist);
 }
 
-/* Returns a alpm_list_t* of file conflicts.
- *  Hooray for set-intersects!
- *  Pre-condition: both lists are sorted!
+static const int DIFFERENCE = 0;
+static const int INTERSECT = 1;
+/* Returns a set operation on the provided two lists of files.
+ * Pre-condition: both lists are sorted!
+ *
+ * Operations:
+ *   DIFFERENCE - a difference operation is performed. filesA - filesB.
+ *   INTERSECT - an intersection operation is performed. filesA & filesB.
  */
-static alpm_list_t *chk_fileconflicts(alpm_list_t *filesA, alpm_list_t *filesB)
+static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
+		int operation)
 {
 	alpm_list_t *ret = NULL;
 	alpm_list_t *pA = filesA, *pB = filesB;
@@ -224,7 +230,7 @@ static alpm_list_t *chk_fileconflicts(alpm_list_t *filesA, alpm_list_t *filesB)
 	while(pA && pB) {
 		const char *strA = pA->data;
 		const char *strB = pB->data;
-		/* skip directories, we don't care about dir conflicts */
+		/* skip directories, we don't care about them */
 		if(strA[strlen(strA)-1] == '/') {
 			pA = pA->next;
 		} else if(strB[strlen(strB)-1] == '/') {
@@ -232,59 +238,26 @@ static alpm_list_t *chk_fileconflicts(alpm_list_t *filesA, alpm_list_t *filesB)
 		} else {
 			int cmp = strcmp(strA, strB);
 			if(cmp < 0) {
-				/* item only in filesA, ignore it */
+				if(operation == DIFFERENCE) {
+					/* item only in filesA, qualifies as a difference */
+					ret = alpm_list_add(ret, strdup(strA));
+				}
 				pA = pA->next;
 			} else if(cmp > 0) {
-				/* item only in filesB, ignore it */
 				pB = pB->next;
 			} else {
-				/* item in both, record it */
-				ret = alpm_list_add(ret, strdup(strA));
+				if(operation == INTERSECT) {
+					/* item in both, qualifies as an intersect */
+					ret = alpm_list_add(ret, strdup(strA));
+				}
 				pA = pA->next;
 				pB = pB->next;
 			}
 	  }
 	}
 
-	return ret;
-}
-
-/* Returns a alpm_list_t* of files that are in filesA but *NOT* in filesB
- *  This is an 'A minus B' set operation
- *  Pre-condition: both lists are sorted!
- */
-static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
-{
-	alpm_list_t *ret = NULL;
-	alpm_list_t *pA = filesA, *pB = filesB;
-
-	/* if both filesA and filesB have entries, do this loop */
-	while(pA && pB) {
-		const char *strA = pA->data;
-		const char *strB = pB->data;
-		/* skip directories, we don't care about dir conflicts */
-		if(strA[strlen(strA)-1] == '/') {
-			pA = pA->next;
-		} else if(strB[strlen(strB)-1] == '/') {
-			pB = pB->next;
-		} else {
-			int cmp = strcmp(strA, strB);
-			if(cmp < 0) {
-				/* item only in filesA, record it */
-				ret = alpm_list_add(ret, strdup(strA));
-				pA = pA->next;
-			} else if(cmp > 0) {
-				/* item only in fileB, but this means nothing */
-				pB = pB->next;
-			} else {
-				/* item in both, ignore it */
-				pA = pA->next;
-				pB = pB->next;
-			}
-	  }
-	}
-	/* ensure we have completely emptied pA */
-	while(pA) {
+	/* if doing a difference, ensure we have completely emptied pA */
+	while(operation == DIFFERENCE && pA) {
 		const char *strA = pA->data;
 		/* skip directories */
 		if(strA[strlen(strA)-1] != '/') {
@@ -419,7 +392,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 			if(!p2) {
 				continue;
 			}
-			tmpfiles = chk_fileconflicts(alpm_pkg_get_files(p1), alpm_pkg_get_files(p2));
+			tmpfiles = filelist_operation( alpm_pkg_get_files(p1),
+					alpm_pkg_get_files(p2), INTERSECT);
 
 			if(tmpfiles) {
 				for(k = tmpfiles; k; k = k->next) {
@@ -444,8 +418,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 		 * is not currently installed, then simply stat the whole filelist */
 		if(dbpkg) {
 			/* older ver of package currently installed */
-			tmpfiles = chk_filedifference(alpm_pkg_get_files(p1),
-					alpm_pkg_get_files(dbpkg));
+			tmpfiles = filelist_operation(alpm_pkg_get_files(p1),
+					alpm_pkg_get_files(dbpkg), DIFFERENCE);
 		} else {
 			/* no version of package currently installed */
 			tmpfiles = alpm_list_strdup(alpm_pkg_get_files(p1));
