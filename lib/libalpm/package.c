@@ -123,6 +123,10 @@ static alpm_list_t *_pkg_get_deltas(pmpkg_t *pkg)     { return pkg->deltas; }
 static alpm_list_t *_pkg_get_files(pmpkg_t *pkg)      { return pkg->files; }
 static alpm_list_t *_pkg_get_backup(pmpkg_t *pkg)     { return pkg->backup; }
 
+static void *_pkg_changelog_open(pmpkg_t *pkg)        { return NULL; }
+static size_t _pkg_changelog_read(void *ptr, size_t size, const pmpkg_t *pkg, const void *fp) { return 0; }
+static int _pkg_changelog_close(const pmpkg_t *pkg, void *fp) { return EOF; }
+
 /** The standard package operations struct. Get fields directly from the
  * struct itself with no abstraction layer or any type of lazy loading.
  */
@@ -141,6 +145,7 @@ struct pkg_operations default_pkg_ops = {
 	.get_isize       = _pkg_get_isize,
 	.get_reason      = _pkg_get_reason,
 	.has_scriptlet   = _pkg_has_scriptlet,
+
 	.get_licenses    = _pkg_get_licenses,
 	.get_groups      = _pkg_get_groups,
 	.get_depends     = _pkg_get_depends,
@@ -151,6 +156,10 @@ struct pkg_operations default_pkg_ops = {
 	.get_deltas      = _pkg_get_deltas,
 	.get_files       = _pkg_get_files,
 	.get_backup      = _pkg_get_backup,
+
+	.changelog_open  = _pkg_changelog_open,
+	.changelog_read  = _pkg_changelog_read,
+	.changelog_close = _pkg_changelog_close,
 };
 
 /* Public functions for getting package information. These functions
