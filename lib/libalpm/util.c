@@ -34,6 +34,7 @@
 #include <time.h>
 #include <syslog.h>
 #include <errno.h>
+#include <limits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
