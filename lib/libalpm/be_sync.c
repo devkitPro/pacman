@@ -197,9 +197,11 @@ static size_t estimate_package_count(struct stat *st, struct archive *archive)
 		case ARCHIVE_COMPRESSION_XZ:
 			per_package = 143;
 			break;
+#ifdef ARCHIVE_COMPRESSION_UU
 		case ARCHIVE_COMPRESSION_UU:
 			per_package = 3543;
 			break;
+#endif
 		default:
 			/* assume it is at least somewhat compressed */
 			per_package = 200;
