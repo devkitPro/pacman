@@ -878,6 +878,10 @@ static int question(short preset, char *fmt, va_list args)
 		stream = stderr;
 	}
 
+	/* ensure all text makes it to the screen before we prompt the user */
+	fflush(stdout);
+	fflush(stderr);
+
 	vfprintf(stream, fmt, args);
 
 	if(preset) {
@@ -891,6 +895,7 @@ static int question(short preset, char *fmt, va_list args)
 		return(preset);
 	}
 
+	fflush(stream);
 	if(fgets(response, sizeof(response), stdin)) {
 		strtrim(response);
 		if(strlen(response) == 0) {
