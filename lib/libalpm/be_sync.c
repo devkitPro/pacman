@@ -209,6 +209,7 @@ static size_t estimate_package_count(struct stat *st, struct archive *archive)
 
 static int sync_db_populate(pmdb_t *db)
 {
+	const char *dbpath;
 	size_t est_count;
 	int count = 0;
 	struct stat buf;
@@ -226,14 +227,22 @@ static int sync_db_populate(pmdb_t *db)
 	archive_read_support_compression_all(archive);
 	archive_read_support_format_all(archive);
 
-	if(archive_read_open_filename(archive, _alpm_db_path(db),
+	dbpath = _alpm_db_path(db);
+	if(!dbpath) {
+		/* pm_errno set in _alpm_db_path() */
+		return 1;
+	}
+
+	_alpm_log(PM_LOG_DEBUG, "opening database archive %s\n", dbpath);
+
+	if(archive_read_open_filename(archive, dbpath,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), _alpm_db_path(db),
+		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
 				archive_error_string(archive));
 		archive_read_finish(archive);
 		RET_ERR(PM_ERR_DB_OPEN, 1);
 	}
-	if(stat(_alpm_db_path(db), &buf) != 0) {
+	if(stat(dbpath, &buf) != 0) {
 		RET_ERR(PM_ERR_DB_OPEN, 1);
 	}
 	est_count = estimate_package_count(&buf, archive);
