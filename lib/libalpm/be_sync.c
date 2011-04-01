@@ -418,6 +418,12 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 				pkg->isize = atol(line);
 			} else if(strcmp(line, "%MD5SUM%") == 0) {
 				READ_AND_STORE(pkg->md5sum);
+			} else if(strcmp(line, "%SHA256SUM%") == 0) {
+				/* we don't do anything with this value right now */
+				READ_NEXT(line);
+			} else if(strcmp(line, "%PGPSIG%") == 0) {
+				/* we don't do anything with this value right now */
+				READ_NEXT(line);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
 				READ_AND_STORE_ALL(pkg->replaces);
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
