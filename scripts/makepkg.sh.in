@@ -1275,7 +1275,7 @@ check_sanity() {
 	done
 
 	local optdepends_list=()
-	eval $(awk '/^[[:space:]]*optdepends=\(/,/\)[[:space:]]*(|#.*)$/' "$BUILDFILE" | \
+	eval $(awk '/^[[:space:]]*optdepends=\(/,/\)[[:space:]]*(#.*)?$/' "$BUILDFILE" | \
 		sed -e "s/optdepends=/optdepends_list+=/" -e "s/#.*//" -e 's/\\$//')
 	for i in "${optdepends_list[@]}"; do
 		local pkg=${i%%:*}
