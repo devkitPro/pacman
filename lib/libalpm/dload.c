@@ -159,7 +159,8 @@ static int curl_download_internal(const char *url, const char *localpath,
 {
 	int ret = -1;
 	FILE *localf = NULL;
-	const char *open_mode, *useragent;
+	const char *useragent;
+	const char *open_mode = "wb";
 	char *destfile, *tempfile;
 	char hostname[256]; /* RFC1123 states applications should support this length */
 	struct stat st;
