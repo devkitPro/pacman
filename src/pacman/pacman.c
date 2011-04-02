@@ -322,7 +322,7 @@ static void handler(int signum)
 		xwrite(out, msg1, strlen(msg1));
 		xwrite(err, msg2, strlen(msg2));
 		exit(signum);
-	} else if((signum == SIGINT)) {
+	} else if(signum == SIGINT) {
 		const char *msg = "\nInterrupt signal received\n";
 		xwrite(err, msg, strlen(msg));
 		if(alpm_trans_interrupt() == 0) {
