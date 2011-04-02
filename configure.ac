@@ -131,6 +131,9 @@ AC_PATH_PROGS([BASH_SHELL], [bash bash4 bash3], [false])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION(0.13.1)
 
+AC_CHECK_LIB([m], [fabs], ,
+	AC_MSG_ERROR([libm is needed to compile pacman!]))
+
 # Check for libarchive
 AC_CHECK_LIB([archive], [archive_read_data], ,
 	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
