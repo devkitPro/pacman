@@ -331,7 +331,7 @@ int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t 
 	pkg->reason = reason;
 	/* write DESC */
 	if(_alpm_local_db_write(db, pkg, INFRQ_DESC)) {
-		return(-1);
+		RET_ERR(PM_ERR_DB_WRITE, -1);
 	}
 
 	return(0);
