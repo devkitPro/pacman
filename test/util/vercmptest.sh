@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # vercmptest - a test suite for the vercmp/libalpm program
 #

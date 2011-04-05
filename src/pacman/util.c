@@ -761,8 +761,9 @@ static int multiselect_parse(char *array, int count, char *response)
 		char *ends = NULL;
 		char *starts = strtok_r(str, " ", &saveptr);
 
-		if (starts == NULL)
+		if (starts == NULL) {
 			break;
+		}
 		strtrim(starts);
 		int len = strlen(starts);
 		if(len == 0)
@@ -780,9 +781,9 @@ static int multiselect_parse(char *array, int count, char *response)
 		if(len > 1) {
 			/* check for range */
 			char *p;
-			if((p = strchr(starts+1, '-'))) {
+			if((p = strchr(starts + 1, '-'))) {
 				*p = 0;
-				ends = p+1;
+				ends = p + 1;
 			}
 		}
 
@@ -792,9 +793,11 @@ static int multiselect_parse(char *array, int count, char *response)
 		if(!ends) {
 			array[start-1] = include;
 		} else {
-			if(parseindex(ends, &end, start, count) != 0)
+			int d;
+			if(parseindex(ends, &end, start, count) != 0) {
 				return -1;
-			for(int d = start; d <= end; d++) {
+			}
+			for(d = start; d <= end; d++) {
 				array[d-1] = include;
 			}
 		}
@@ -897,6 +900,10 @@ static int question(short preset, char *fmt, va_list args)
 		stream = stderr;
 	}
 
+	/* ensure all text makes it to the screen before we prompt the user */
+	fflush(stdout);
+	fflush(stderr);
+
 	vfprintf(stream, fmt, args);
 
 	if(preset) {
@@ -910,6 +917,7 @@ static int question(short preset, char *fmt, va_list args)
 		return preset;
 	}
 
+	fflush(stream);
 	flush_term_input();
 
 	if(fgets(response, sizeof(response), stdin)) {

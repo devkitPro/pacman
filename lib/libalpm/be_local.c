@@ -405,7 +405,7 @@ static int local_db_populate(pmdb_t *db)
 		 * http://kerneltrap.org/mailarchive/linux-btrfs/2010/1/23/6723483/thread
 		 */
 		est_count = 0;
-		while((ent = readdir(dbdir)) != NULL) {
+		while(readdir(dbdir) != NULL) {
 			est_count++;
 		}
 		rewinddir(dbdir);
