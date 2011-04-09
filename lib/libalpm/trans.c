@@ -465,8 +465,8 @@ cleanup:
 int SYMEXPORT alpm_trans_get_flags()
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return(-1));
-	ASSERT(handle->trans != NULL, return(-1));
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	return handle->trans->flags;
 }
