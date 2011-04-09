@@ -591,7 +591,7 @@ typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_CASCADE = (1 << 4),
 	/** Remove packages and their unneeded deps (not explicitly installed). */
 	PM_TRANS_FLAG_RECURSE = (1 << 5),
-	/** Modify database but do not cmomit changes to the filesystem. */
+	/** Modify database but do not commit changes to the filesystem. */
 	PM_TRANS_FLAG_DBONLY = (1 << 6),
 	/* (1 << 7) flag can go here */
 	/** Use PM_PKG_REASON_DEPEND when installing packages. */
