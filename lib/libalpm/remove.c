@@ -129,6 +129,14 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 	}
 }
 
+/** Transaction preparation for remove actions.
+ * This functions takes a pointer to a alpm_list_t which will be
+ * filled with a list of pmdepmissing_t* objects representing
+ * the packages blocking the transaction.
+ * @param trans the transaction object
+ * @param db the database of local packages
+ * @param data a pointer to an alpm_list_t* to fill
+ */
 int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
 	alpm_list_t *lp;

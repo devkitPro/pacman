@@ -177,8 +177,8 @@ static alpm_list_t *check_arch(alpm_list_t *pkgs)
 }
 
 /** Prepare a transaction.
- * @param data the address of an alpm_list where detailed description
- * of an error can be dumped (ie. list of conflicting files)
+ * @param data the address of an alpm_list where a list
+ * of pmdepmissing_t objects is dumped (conflicting packages)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
