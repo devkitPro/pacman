@@ -412,7 +412,7 @@ static void setlibpaths(void)
 
 #define check_optarg() if(!optarg) { return 1; }
 
-typedef void (*fn_add) (const char *s);
+typedef int (*fn_add) (const char *s);
 
 static int parsearg_util_addlist(fn_add fn)
 {
@@ -810,17 +810,19 @@ static int parseargs(int argc, char *argv[])
 }
 
 /* helper for being used with setrepeatingoption */
-static void option_add_holdpkg(const char *name) {
+static int option_add_holdpkg(const char *name) {
 	config->holdpkg = alpm_list_add(config->holdpkg, strdup(name));
+	return 0;
 }
 
 /* helper for being used with setrepeatingoption */
-static void option_add_syncfirst(const char *name) {
+static int option_add_syncfirst(const char *name) {
 	config->syncfirst = alpm_list_add(config->syncfirst, strdup(name));
+	return 0;
 }
 
 /* helper for being used with setrepeatingoption */
-static void option_add_cleanmethod(const char *value) {
+static int option_add_cleanmethod(const char *value) {
 	if (strcmp(value, "KeepInstalled") == 0) {
 		config->cleanmethod |= PM_CLEAN_KEEPINST;
 	} else if (strcmp(value, "KeepCurrent") == 0) {
@@ -829,6 +831,7 @@ static void option_add_cleanmethod(const char *value) {
 		pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"),
 				value);
 	}
+	return 0;
 }
 
 /** Add repeating options such as NoExtract, NoUpgrade, etc to libalpm
@@ -839,7 +842,7 @@ static void option_add_cleanmethod(const char *value) {
  * @param optionfunc a function pointer to an alpm_option_add_* function
  */
 static void setrepeatingoption(char *ptr, const char *option,
-		void (*optionfunc)(const char*))
+		int (*optionfunc)(const char*))
 {
 	char *q;
 
