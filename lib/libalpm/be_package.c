@@ -289,15 +289,6 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);
 	}
 
-	newpkg = _alpm_pkg_new();
-	if(newpkg == NULL) {
-		archive_read_finish(archive);
-		RET_ERR(PM_ERR_MEMORY, NULL);
-	}
-
-	newpkg->filename = strdup(pkgfile);
-	newpkg->size = st.st_size;
-
 	_alpm_log(PM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
 
 	/* If full is false, only read through the archive until we find our needed
