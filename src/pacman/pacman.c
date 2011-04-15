@@ -39,7 +39,6 @@
 #include <sys/stat.h>
 #include <sys/utsname.h> /* uname */
 #include <locale.h> /* setlocale */
-#include <time.h> /* time_t */
 #include <errno.h>
 #include <glob.h>
 #if defined(PACMAN_DEBUG) && defined(HAVE_MCHECK_H)
@@ -55,7 +54,6 @@
 #include "util.h"
 #include "callback.h"
 #include "conf.h"
-#include "package.h"
 
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;

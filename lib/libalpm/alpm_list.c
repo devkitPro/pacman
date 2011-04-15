@@ -20,7 +20,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 /* libalpm */
 #include "alpm_list.h"

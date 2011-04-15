@@ -31,7 +31,6 @@
 #include <stdint.h> /* intmax_t */
 #include <string.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <ctype.h>
 #include <dirent.h>
 #include <unistd.h>

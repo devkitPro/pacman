@@ -26,8 +26,6 @@
 
 #include <stdlib.h>
 #include <errno.h>
-#include <time.h>
-#include <fcntl.h>
 #include <string.h>
 #include <limits.h>
 #include <unistd.h>
@@ -36,6 +34,7 @@
 /* libalpm */
 #include "remove.h"
 #include "alpm_list.h"
+#include "alpm.h"
 #include "trans.h"
 #include "util.h"
 #include "log.h"
@@ -44,7 +43,6 @@
 #include "db.h"
 #include "deps.h"
 #include "handle.h"
-#include "alpm.h"
 
 int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 {

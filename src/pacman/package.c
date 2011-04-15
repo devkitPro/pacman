@@ -26,7 +26,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <errno.h>
-#include <wchar.h>
 
 #include <alpm.h>
 #include <alpm_list.h>

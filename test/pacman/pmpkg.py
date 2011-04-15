@@ -27,7 +27,7 @@ import util
 class pmpkg(object):
     """Package object.
     
-    Object holding data from an ArchLinux package.
+    Object holding data from an Arch Linux package.
     """
 
     def __init__(self, name, version = "1.0-1"):
@@ -89,7 +89,7 @@ class pmpkg(object):
         return "%s%s" % (self.fullname(), util.PM_EXT_PKG)
 
     def makepkg(self, path):
-        """Creates an ArchLinux package archive.
+        """Creates an Arch Linux package archive.
         
         A package archive is generated in the location 'path', based on the data
         from the object.

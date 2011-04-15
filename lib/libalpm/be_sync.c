@@ -20,8 +20,7 @@
 
 #include "config.h"
 
-#include <errno.h>
-#include <limits.h>
+#include <sys/stat.h>
 
 /* libarchive */
 #include <archive.h>

@@ -23,13 +23,9 @@
 
 #include "config.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <errno.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 
 /* libalpm */
 #include "package.h"

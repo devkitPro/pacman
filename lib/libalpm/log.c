@@ -22,10 +22,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <errno.h>
-#include <time.h>
 
 /* libalpm */
 #include "log.h"

@@ -26,11 +26,9 @@
 #include <sys/types.h> /* off_t */
 #include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
 #include <string.h>
 #include <stdint.h> /* intmax_t */
 #include <unistd.h>
-#include <time.h>
 #include <limits.h>
 
 /* libalpm */

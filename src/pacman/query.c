@@ -26,7 +26,6 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
-#include <unistd.h>
 
 #include <alpm.h>
 #include <alpm_list.h>

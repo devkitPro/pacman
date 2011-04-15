@@ -28,8 +28,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/statvfs.h>
 #include <errno.h>
 #include <limits.h>
 #include <fcntl.h>
@@ -41,11 +39,9 @@
 #include "util.h"
 #include "log.h"
 #include "handle.h"
-#include "add.h"
 #include "remove.h"
 #include "sync.h"
 #include "alpm.h"
-#include "deps.h"
 
 /** \addtogroup alpm_trans Transaction Functions
  * @brief Functions to manipulate libalpm transactions

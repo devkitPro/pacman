@@ -31,10 +31,6 @@
 #include <time.h>
 #include <limits.h> /* PATH_MAX */
 
-/* libarchive */
-#include <archive.h>
-#include <archive_entry.h>
-
 /* libalpm */
 #include "db.h"
 #include "alpm_list.h"
@@ -43,9 +39,7 @@
 #include "alpm.h"
 #include "handle.h"
 #include "package.h"
-#include "group.h"
 #include "deps.h"
-#include "dload.h"
 
 
 #define LAZY_LOAD(info, errret) \

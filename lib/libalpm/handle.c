@@ -27,9 +27,7 @@
 #include <limits.h>
 #include <sys/types.h>
 #include <syslog.h>
-#include <time.h>
 #include <sys/stat.h>
-#include <errno.h>
 
 /* libalpm */
 #include "handle.h"
