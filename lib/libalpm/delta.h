@@ -20,6 +20,8 @@
 #ifndef _ALPM_DELTA_H
 #define _ALPM_DELTA_H
 
+#include "config.h" /* ensure off_t is correct length */
+
 #include <sys/types.h> /* off_t */
 
 #include "alpm.h"
@@ -29,12 +31,12 @@ struct __pmdelta_t {
 	char *delta;
 	/** md5sum of the delta file */
 	char *delta_md5;
-	/** filesize of the delta file */
-	off_t delta_size;
 	/** filename of the 'before' file */
 	char *from;
 	/** filename of the 'after' file */
 	char *to;
+	/** filesize of the delta file */
+	off_t delta_size;
 	/** download filesize of the delta file */
 	off_t download_size;
 };
