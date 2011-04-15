@@ -47,10 +47,7 @@
  * @{
  */
 
-/** Register a sync database of packages.
- * @param treename the name of the sync repository
- * @return a pmdb_t* on success (the value), NULL on error
- */
+/** Register a sync database of packages. */
 pmdb_t SYMEXPORT *alpm_db_register_sync(const char *treename)
 {
 	ALPM_LOG_FUNC;
@@ -75,9 +72,7 @@ void _alpm_db_unregister(pmdb_t *db)
 	_alpm_db_free(db);
 }
 
-/** Unregister all package databases
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Unregister all package databases. */
 int SYMEXPORT alpm_db_unregister_all(void)
 {
 	alpm_list_t *i;
@@ -100,10 +95,7 @@ int SYMEXPORT alpm_db_unregister_all(void)
 	return 0;
 }
 
-/** Unregister a package database
- * @param db pointer to the package database to unregister
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Unregister a package database. */
 int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 {
 	int found = 0;
@@ -140,11 +132,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 	return 0;
 }
 
-/** Set the serverlist of a database.
- * @param db database pointer
- * @param url url of the server
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Set the serverlist of a database. */
 int SYMEXPORT alpm_db_setserver(pmdb_t *db, const char *url)
 {
 	char *newurl;
@@ -193,10 +181,7 @@ int SYMEXPORT alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify)
 	return(0);
 }
 
-/** Get the name of a package database
- * @param db pointer to the package database
- * @return the name of the package database, NULL on error
- */
+/** Get the name of a package database. */
 const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
@@ -208,10 +193,7 @@ const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 	return db->treename;
 }
 
-/** Get a download URL for the package database
- * @param db pointer to the package database
- * @return a fully-specified download URL, NULL on error
- */
+/** Get a download URL for the package database. */
 const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 {
 	char *url;
@@ -229,11 +211,7 @@ const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 }
 
 
-/** Get a package entry from a package database
- * @param db pointer to the package database to get the package from
- * @param name of the package
- * @return the package entry on success, NULL on error
- */
+/** Get a package entry from a package database. */
 pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 {
 	ALPM_LOG_FUNC;
@@ -246,10 +224,7 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 	return _alpm_db_get_pkgfromcache(db, name);
 }
 
-/** Get the package cache of a package database
- * @param db pointer to the package database to get the package from
- * @return the list of packages on success, NULL on error
- */
+/** Get the package cache of a package database. */
 alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
@@ -261,11 +236,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 	return _alpm_db_get_pkgcache(db);
 }
 
-/** Get a group entry from a package database
- * @param db pointer to the package database to get the group from
- * @param name of the group
- * @return the groups entry on success, NULL on error
- */
+/** Get a group entry from a package database. */
 pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 {
 	ALPM_LOG_FUNC;
@@ -278,10 +249,7 @@ pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 	return _alpm_db_get_grpfromcache(db, name);
 }
 
-/** Get the group cache of a package database
- * @param db pointer to the package database to get the group from
- * @return the list of groups on success, NULL on error
- */
+/** Get the group cache of a package database. */
 alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
@@ -293,11 +261,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 	return _alpm_db_get_grpcache(db);
 }
 
-/** Searches a database
- * @param db pointer to the package database to search in
- * @param needles the list of strings to search for
- * @return the list of packages on success, NULL on error
- */
+/** Searches a database. */
 alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 {
 	ALPM_LOG_FUNC;
@@ -309,12 +273,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 	return _alpm_db_search(db, needles);
 }
 
-/** Set install reason for a package in db
- * @param db pointer to the package database
- * @param name the name of the package
- * @param reason the new install reason
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Set install reason for a package in db. */
 int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason)
 {
 	ALPM_LOG_FUNC;

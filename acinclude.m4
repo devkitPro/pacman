@@ -123,6 +123,13 @@ extern int getmntinfo (struct statfs **, int);
   )
   AC_DEFINE_UNQUOTED(FSSTATSTYPE, [$fs_stats_cv_type],
     [Defined as the filesystem stats type ('statvfs' or 'statfs')])
+  if test $ac_cv_func_getmntinfo = yes; then
+    if test "$fs_stats_cv_type" = "struct statvfs"; then
+      AC_DEFINE([HAVE_GETMNTINFO_STATVFS], 1, [Define if getmntinfo() uses statvfs.])
+    else
+      AC_DEFINE([HAVE_GETMNTINFO_STATFS], 1, [Define if getmntinfo() uses statfs.])
+    fi
+  fi
 ])
 
 dnl Checks for PATH_MAX and defines it if not present

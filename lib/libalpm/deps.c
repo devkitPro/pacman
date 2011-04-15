@@ -261,7 +261,7 @@ pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
  * @param reversedeps handles the backward dependencies
  * @param remove an alpm_list_t* of packages to be removed
  * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
- * @return an alpm_list_t* of pmpkg_t* of pmdepmissing_t pointers.
+ * @return an alpm_list_t* of pmdepmissing_t pointers.
  */
 alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 		alpm_list_t *remove, alpm_list_t *upgrade)

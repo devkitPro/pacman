@@ -395,7 +395,7 @@ run_pacman() {
 		if type -p sudo >/dev/null; then
 			cmd="sudo $cmd"
 		else
-			cmd="su -c '$cmd'"
+			cmd="su root -c '$cmd'"
 		fi
 	fi
 	eval "$cmd"

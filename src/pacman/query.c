@@ -92,6 +92,16 @@ static int search_path(char **filename, struct stat *bufptr)
 	return -1;
 }
 
+static void print_query_fileowner(const char *filename, pmpkg_t *info)
+{
+	if (!config->quiet) {
+		printf(_("%s is owned by %s %s\n"), filename,
+				alpm_pkg_get_name(info), alpm_pkg_get_version(info));
+	} else {
+		printf("%s\n", alpm_pkg_get_name(info));
+	}
+}
+
 static int query_fileowner(alpm_list_t *targets)
 {
 	int ret = 0;
@@ -156,17 +166,21 @@ static int query_fileowner(alpm_list_t *targets)
 
 		bname = mbasename(filename);
 		dname = mdirname(filename);
-		rpath = resolve_path(dname);
+		/* for files in '/', there is no directory name to match */
+		if (strcmp(dname, "") == 0) {
+			rpath = NULL;
+		} else {
+			rpath = resolve_path(dname);
 
-		/* this odd conditional is to ensure files in '/' can be checked */
-		if(!rpath && strcmp(dname, "") != 0) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
-					filename, strerror(errno));
-			free(filename);
-			free(dname);
-			free(rpath);
-			ret++;
-			continue;
+			if(!rpath) {
+				pm_fprintf(stderr, PM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
+						filename, strerror(errno));
+				free(filename);
+				free(dname);
+				free(rpath);
+				ret++;
+				continue;
+			}
 		}
 		free(dname);
 
@@ -183,6 +197,13 @@ static int query_fileowner(alpm_list_t *targets)
 					continue;
 				}
 
+				/* for files in '/', there is no directory name to match */
+				if(!rpath) {
+					print_query_fileowner(filename, info);
+					found = 1;
+					continue;
+				}
+
 				if(strlen(pkgfile) > max_length) {
 					pm_fprintf(stderr, PM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
 				}
@@ -194,12 +215,7 @@ static int query_fileowner(alpm_list_t *targets)
 				free(pdname);
 
 				if(ppath && strcmp(ppath, rpath) == 0) {
-					if (!config->quiet) {
-						printf(_("%s is owned by %s %s\n"), filename,
-								alpm_pkg_get_name(info), alpm_pkg_get_version(info));
-					} else {
-						printf("%s\n", alpm_pkg_get_name(info));
-					}
+					print_query_fileowner(filename, info);
 					found = 1;
 				}
 				free(ppath);

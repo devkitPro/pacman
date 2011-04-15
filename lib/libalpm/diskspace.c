@@ -112,9 +112,9 @@ static alpm_list_t *mount_point_list(void)
 		mp->mount_dir = strdup(fsp->f_mntonname);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
-#if defined HAVE_STRUCT_STATVFS_F_FLAG
+#if defined(HAVE_GETMNTINFO_STATVFS) && defined(HAVE_STRUCT_STATVFS_F_FLAG)
 		mp->read_only = fsp->f_flag & ST_RDONLY;
-#elif defined HAVE_STRUCT_STATFS_F_FLAGS
+#elif defined(HAVE_GETMNTINFO_STATFS) && defined(HAVE_STRUCT_STATFS_F_FLAGS)
 		mp->read_only = fsp->f_flags & MNT_RDONLY;
 #endif
 

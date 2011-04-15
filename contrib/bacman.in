@@ -174,7 +174,7 @@ fi
 echo "# $(LC_ALL=C date)"            >> .PKGINFO
 echo "#"                    >> .PKGINFO
 
-cat "$pkg_dir"/{desc,files,depends} |
+cat "$pkg_dir"/{desc,files} |
 while read i; do
     if [[ -z "$i" ]]; then
         continue;
@@ -220,14 +220,6 @@ while read i; do
         %REPLACES%)
             echo "replaces = $i"    >> .PKGINFO
         ;;
-
-        # files
-        %BACKUP%)
-            # strip the md5sum after the tab
-            echo "backup = ${i%%$'\t'*}"   >> .PKGINFO
-        ;;
-
-        # depends
         %DEPENDS%)
             echo "depend = $i"   >> .PKGINFO
         ;;
@@ -239,6 +231,12 @@ while read i; do
         ;;
         %PROVIDES%)
             echo "provides = $i"  >> .PKGINFO
+        ;;
+
+        # files
+        %BACKUP%)
+            # strip the md5sum after the tab
+            echo "backup = ${i%%$'\t'*}"   >> .PKGINFO
         ;;
     esac
 done
