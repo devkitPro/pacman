@@ -26,9 +26,9 @@ struct __pmpgpsig_t {
 	 * this way we can decode on an as-needed basis since most
 	 * operations won't require the overhead of base64 decodes
 	 * on all packages in a sync repository. */
-	char *encdata;
-	size_t rawlen;
-	unsigned char *rawdata;
+	char *base64_data;
+	unsigned char *data;
+	size_t len;
 };
 
 int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig);

@@ -109,7 +109,7 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 
 	ALPM_LOG_FUNC;
 
-	if(!sig || !sig->rawdata) {
+	if(!sig || !sig->data) {
 		 RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
 	}
 	if(!path || access(path, R_OK) != 0) {
@@ -140,7 +140,7 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 	CHECK_ERR();
 
 	/* next create data object for the signature */
-	err = gpgme_data_new_from_mem(&sigdata, (char *)sig->rawdata, sig->rawlen, 0);
+	err = gpgme_data_new_from_mem(&sigdata, (char *)sig->data, sig->len, 0);
 	CHECK_ERR();
 
 	/* here's where the magic happens */
@@ -227,18 +227,18 @@ int _alpm_load_signature(const char *file, pmpgpsig_t *pgpsig) {
 			free(sigfile);
 			return ret;
 		}
-		CALLOC(pgpsig->rawdata, st.st_size, sizeof(unsigned char),
+		CALLOC(pgpsig->data, st.st_size, sizeof(unsigned char),
 				RET_ERR(PM_ERR_MEMORY, -1));
-		bytes_read = fread(pgpsig->rawdata, sizeof(char), st.st_size, f);
+		bytes_read = fread(pgpsig->data, sizeof(char), st.st_size, f);
 		if(bytes_read == (size_t)st.st_size) {
-			pgpsig->rawlen = bytes_read;
+			pgpsig->len = bytes_read;
 			_alpm_log(PM_LOG_DEBUG, "loaded gpg signature file, location %s\n",
 					sigfile);
 			ret = 0;
 		} else {
 			_alpm_log(PM_LOG_WARNING, _("Failed reading PGP signature file %s"),
 					sigfile);
-			FREE(pgpsig->rawdata);
+			FREE(pgpsig->data);
 		}
 
 		fclose(f);

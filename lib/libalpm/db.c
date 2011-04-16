@@ -321,7 +321,7 @@ const pmpgpsig_t *_alpm_db_pgpsig(pmdb_t *db)
 	/* Sanity checks */
 	ASSERT(db != NULL, return(NULL));
 
-	if(db->pgpsig.rawdata == NULL) {
+	if(db->pgpsig.data == NULL) {
 		const char *dbfile;
 		int ret;
 
@@ -343,8 +343,8 @@ void _alpm_db_free(pmdb_t *db)
 	_alpm_db_free_pkgcache(db);
 	/* cleanup server list */
 	FREELIST(db->servers);
-	/* only need to free rawdata */
-	FREE(db->pgpsig.rawdata);
+	/* only need to free data */
+	FREE(db->pgpsig.data);
 	FREE(db->_path);
 	FREE(db->treename);
 	FREE(db);

@@ -198,25 +198,26 @@ const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 }
 
 static int decode_pgpsig(pmpkg_t *pkg) {
-	int len = strlen(pkg->pgpsig.encdata);
-	const unsigned char *usline = (const unsigned char *)pkg->pgpsig.encdata;
-	int destlen = 0;
+	const int len = strlen(pkg->pgpsig.base64_data);
+	const unsigned char *usline = (const unsigned char *)pkg->pgpsig.base64_data;
+	int ret, destlen = 0;
 	/* get the necessary size for the buffer by passing 0 */
-	int ret = base64_decode(NULL, &destlen, usline, len);
+	ret = base64_decode(NULL, &destlen, usline, len);
 	/* alloc our memory and repeat the call to decode */
-	MALLOC(pkg->pgpsig.rawdata, (size_t)destlen, goto error);
-	ret = base64_decode(pkg->pgpsig.rawdata, &destlen, usline, len);
-	pkg->pgpsig.rawlen = destlen;
+	MALLOC(pkg->pgpsig.data, (size_t)destlen, goto error);
+	ret = base64_decode(pkg->pgpsig.data, &destlen, usline, len);
+	pkg->pgpsig.len = destlen;
 	if(ret != 0) {
 		goto error;
 	}
 
-	FREE(pkg->pgpsig.encdata);
+	/* we no longer have a need for this */
+	FREE(pkg->pgpsig.base64_data);
 	return 0;
 
 error:
-	FREE(pkg->pgpsig.rawdata);
-	pkg->pgpsig.rawlen = 0;
+	FREE(pkg->pgpsig.data);
+	pkg->pgpsig.len = 0;
 	return 1;
 }
 
@@ -227,7 +228,7 @@ const pmpgpsig_t SYMEXPORT *alpm_pkg_get_pgpsig(pmpkg_t *pkg)
 	/* Sanity checks */
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, NULL));
 
-	if(pkg->pgpsig.rawdata == NULL && pkg->pgpsig.encdata != NULL) {
+	if(pkg->pgpsig.data == NULL && pkg->pgpsig.base64_data != NULL) {
 		decode_pgpsig(pkg);
 	}
 	return &(pkg->pgpsig);
@@ -467,8 +468,8 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREE(pkg->url);
 	FREE(pkg->packager);
 	FREE(pkg->md5sum);
-	FREE(pkg->pgpsig.encdata);
-	FREE(pkg->pgpsig.rawdata);
+	FREE(pkg->pgpsig.base64_data);
+	FREE(pkg->pgpsig.data);
 	FREE(pkg->arch);
 	FREELIST(pkg->licenses);
 	FREELIST(pkg->replaces);
