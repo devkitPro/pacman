@@ -81,9 +81,7 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 	return NULL;
 }
 
-/** Search for packages to upgrade and add them to the transaction.
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Search for packages to upgrade and add them to the transaction. */
 int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 {
 	alpm_list_t *i, *j, *k;
