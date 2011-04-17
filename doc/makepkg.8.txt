@@ -161,6 +161,17 @@ Options
 *\--nocheck*::
 	Do not run the check() function in the PKGBUILD or handle the checkdepends.
 
+*\--sign*::
+	Sign the resulting package with gpg, overriding the setting in
+	linkman:makepkg.conf[5].
+
+*\--nosign*::
+	Do not create a signature for the built package.
+
+*\--key* <key>::
+	Specify a key to use when signing the package. If not specified, the default
+	key from the keyring will be used.
+
 *\--noconfirm*::
 	(Passed to pacman) Prevent pacman from waiting for user input before
 	proceeding with operations.
