@@ -169,8 +169,9 @@ Options
 	Do not create a signature for the built package.
 
 *\--key* <key>::
-	Specify a key to use when signing the package. If not specified, the default
-	key from the keyring will be used.
+	Specify a key to use when signing packages, overriding the GPGKEY setting
+	in linkman:makepkg.conf[5]. If not specified in either location, the
+	default key from the keyring will be used.
 
 *\--noconfirm*::
 	(Passed to pacman) Prevent pacman from waiting for user input before

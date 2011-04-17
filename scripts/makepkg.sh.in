@@ -1116,8 +1116,8 @@ create_signature() {
 	fi
 
 	local SIGNWITHKEY=""
-	if [[ -n $SIGNKEY ]]; then
-		SIGNWITHKEY="-u ${SIGNKEY}"
+	if [[ -n $GPGKEY ]]; then
+		SIGNWITHKEY="-u ${GPGKEY}"
 	fi
 	# The signature will be generated directly in ascii-friendly format
 	gpg --detach-sign --use-agent ${SIGNWITHKEY} "$filename" &>/dev/null || ret=$?
@@ -1697,7 +1697,7 @@ while true; do
 		-g|--geninteg)    GENINTEG=1 ;;
 		--holdver)        HOLDVER=1 ;;
 		-i|--install)     INSTALL=1 ;;
-		--key)            shift; SIGNKEY=$1 ;;
+		--key)            shift; GPGKEY=$1 ;;
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
 		--nocheck)        RUN_CHECK='n' ;;
@@ -1727,6 +1727,7 @@ done
 [[ -n ${SRCPKGDEST} ]] && _SRCPKGDEST=$(canonicalize_path ${SRCPKGDEST})
 [[ -n ${PKGEXT} ]] && _PKGEXT=${PKGEXT}
 [[ -n ${SRCEXT} ]] && _SRCEXT=${SRCEXT}
+[[ -n ${GPGKEY} ]] && _GPGKEY=${GPGKEY}
 
 # default config is makepkg.conf
 MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
@@ -1792,6 +1793,7 @@ SRCPKGDEST=${SRCPKGDEST:-$startdir} #default to $startdir if undefined
 
 PKGEXT=${_PKGEXT:-$PKGEXT}
 SRCEXT=${_SRCEXT:-$SRCEXT}
+GPGKEY=${_GPGKEY:-$GPGKEY}
 
 if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
 	# The '\\0' is here to prevent gettext from thinking --holdver is an option
@@ -1948,9 +1950,9 @@ if [[ -z "$SIGNPKG" && $(check_buildenv sign) == 'y' ]]; then
   SIGNPKG='y'
 fi
 if [[ $SIGNPKG == 'y' ]]; then
-	if ! gpg --list-key ${SIGNKEY} &>/dev/null; then
-		if [[ ! -z $SIGNKEY ]]; then
-			error "$(gettext "The key ${SIGNKEY} does not exist in your keyring.")"
+	if ! gpg --list-key ${GPGKEY} &>/dev/null; then
+		if [[ ! -z $GPGKEY ]]; then
+			error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
 		else
 			error "$(gettext "There is no key in your keyring.")"
 		fi

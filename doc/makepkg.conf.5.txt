@@ -110,6 +110,10 @@ Options
 	running in the DistCC cluster. In addition, you will want to modify your
 	`MAKEFLAGS`.
 
+**GPGKEY=**""::
+	Specify a key to use for gpg signing instead of the default key in the
+	keyring. Can be overridden with makepkg's `--key` option.
+
 **OPTIONS=(**strip !docs libtool emptydirs zipman**)**::
 	This array contains options that affect the default packaging. They are
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
