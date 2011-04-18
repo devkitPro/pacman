@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-12 10:54+0000\n"
+"Last-Translator: hseara <hseara@gmail.com>\n"
+"Language-Team: Catalan <None>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +75,7 @@ msgstr ":: Recuperant paquets des de %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
-msgstr ""
+msgstr "comprovant l'espai disponible al disc ...\n"
 
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -101,17 +101,21 @@ msgid_plural ""
 ":: The following packages cannot be upgraded due to unresolvable "
 "dependencies:\n"
 msgstr[0] ""
+":: El següent paquet no es pot actualitzar a causa de dependències sense "
+"resolució:\n"
 msgstr[1] ""
+":: Els següents paquets no es pot actualitzar a causa de dependències sense "
+"resolució:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vols saltar aquest paquet en aquesta actualització?"
+msgstr[1] "Vols saltar aquests paquets en aquesta actualització?"
 
 #, c-format
 msgid ":: There are %d providers available for %s:\n"
-msgstr ""
+msgstr ":: Hi ha %d proveïdors disponibles per %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -139,11 +143,11 @@ msgstr "s'estan comprovant els conflictes amb fitxers"
 
 #, c-format
 msgid "checking available disk space"
-msgstr ""
+msgstr "comprovant l'espai disponible al disc"
 
 #, c-format
 msgid "checking package integrity"
-msgstr ""
+msgstr "comprovant la integritat del paquet"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -159,19 +163,21 @@ msgstr "no s'ha especificat cap objectiu (useu -h per ajuda)\n"
 
 #, c-format
 msgid "no install reason specified (use -h for help)\n"
-msgstr ""
+msgstr "cap motiu d'instal·lació especificat (empra -h per ajuda)\n"
 
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
-msgstr ""
+msgstr "no s'ha pogut establir el motiu d'instal·lació del paquet %s (%s)\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
 msgstr ""
+"%s: el motiu d'instal·lació s'ha fixat a \"instal.lat com a dependència\"\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
+"%s: el motiu d'instal·lació s'ha fixat a ' instal·lat explicitament \"\n"
 
 #, c-format
 msgid "Explicitly installed"
@@ -340,25 +346,20 @@ msgstr ""
 "  -c, --cascade        elimina paquets i tots els paques que depenen d'ells\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         elimina també els fitxers de configuració\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         esborra arxius de configuració\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      elimina també les dependències (que no trenquen "
-"paquets)\n"
-"                       (-ss inclou també les dependències instal·lades "
-"explícitament)\n"
+"  -s, --recursive      esborra dependències innecessàries\n"
+"                       (-ss inclou dependències installades explícitament)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded       elimina els paquets innecessaris (que no trenquen "
-"paquets)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       esborra paquets innecessaris\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -533,13 +534,20 @@ msgstr ""
 "d'un alhora)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         salta la comprovació de dependències\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         ometre comprovacions de versions de les dependències "
+"(-dd per ometre totes les comprovacions)\n"
 
 #, c-format
 msgid ""
 "  -k, --dbonly         only modify database entries, not package files\n"
 msgstr ""
+"  -k, --dbonly         modifica entrades del paquet a la base de dades, però "
+"no fitxers\n"
+"\n"
 
 #, c-format
 msgid ""
@@ -555,10 +563,10 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          només imprimeix els objectius enlloc de realitzar "
+"      --print          imprimir el objectius in comptes d'executar "
 "l'operació\n"
 
 #, c-format
@@ -645,7 +653,7 @@ msgstr "només es pot usar una operació alhora\n"
 
 #, c-format
 msgid "invalid option\n"
-msgstr ""
+msgstr "opció no vàlida\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -653,7 +661,7 @@ msgstr "valor invàlid per «CleanMethod» : «%s»\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr ""
+msgstr "no s'ha pogut obtenir l'actual directori de treball\n"
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
@@ -665,12 +673,14 @@ msgstr "execució XferCommand: ha fallat la bifurcació!\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr ""
+msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
+"fitxer de configuració %s, línia %d: directiva '%s' en la secció '%s' no "
+"reconeguda.\n"
 
 #, c-format
 msgid ""
@@ -712,6 +722,7 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
+"fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -720,10 +731,11 @@ msgstr "ha fallat en iniciar la llibreria alpm (%s)\n"
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
 msgstr ""
+"desbordament de memòria detectat en l'anàlisi i interpolació dels arguments\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
-msgstr ""
+msgstr "Errada al reobrir stdin per a la lectura: (%s)\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -732,6 +744,10 @@ msgstr "no podeu realitzar aquesta operació si no sou root.\n"
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "no s'ha especificat cap operació (useu -h per ajuda)\n"
+
+#, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s pertany a %s %s\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -747,7 +763,7 @@ msgstr "ha fallat en llegir el fitxer «%s»: %s\n"
 
 #, c-format
 msgid "cannot determine ownership of directory '%s'\n"
-msgstr ""
+msgstr "no s'ha pogut determinar la propietat del directori '%s'\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
@@ -755,11 +771,7 @@ msgstr "no es pot determinar la ruta real per «%s»: %s\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
-msgstr ""
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s pertany a %s %s\n"
+msgstr "ruta d'accés massa llarga:%s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -772,14 +784,14 @@ msgstr "no s'ha trobat el grup \"%s\"\n"
 #, c-format
 msgid "%s: %d total file, "
 msgid_plural "%s: %d total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: %d fitxer en total, "
+msgstr[1] "%s: %d fitxers en total, "
 
 #, c-format
 msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Falta %d fitxer\n"
+msgstr[1] "Falten %d fitxers\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -827,7 +839,7 @@ msgstr "no es pot accedit al directori de la base de dades\n"
 
 #, c-format
 msgid "could not remove %s\n"
-msgstr ""
+msgstr "no s'ha pogut esborrar %s\n"
 
 #, c-format
 msgid "Do you want to remove %s?"
@@ -851,19 +863,19 @@ msgstr "Directori de memòria cau: %s\n"
 
 #, c-format
 msgid "Packages to keep:\n"
-msgstr ""
+msgstr "Paquets a conservar:\n"
 
 #, c-format
 msgid "  All locally installed packages\n"
-msgstr ""
+msgstr "  Tots els paquets instal·lats localment\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr ""
+msgstr "  Tots els paquets de base de dades a sincronitzar\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
-msgstr ""
+msgstr "Vols eliminar tots els altres paquets de la memòria cau?"
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -923,15 +935,15 @@ msgstr "s'ometrà l'objectiu: %s\n"
 
 #, c-format
 msgid "target not found: %s\n"
-msgstr ""
+msgstr "objectiu que no es troba: %s\n"
 
 #, c-format
 msgid ":: There are %d members in group %s:\n"
-msgstr ""
+msgstr ":: Hi ha %d membres en el grup %s:\n"
 
 #, c-format
 msgid "database not found: %s\n"
-msgstr ""
+msgstr "base de dades no trobada: %s\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -999,7 +1011,7 @@ msgstr ""
 
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
-msgstr ""
+msgstr "  proveu d'executar pacman-db-upgrade\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1039,23 +1051,23 @@ msgstr "Dependències opcionals per %s\n"
 
 #, c-format
 msgid "Repository %s\n"
-msgstr ""
+msgstr "Programari %s\n"
 
 #, c-format
 msgid "Invalid value: %d is not between %d and %d\n"
-msgstr ""
+msgstr "valor no vàlid: %d no està entre %d i %d\n"
 
 #, c-format
 msgid "Invalid number: %s\n"
-msgstr ""
+msgstr "nombre no vàlid: %s\n"
 
 #, c-format
 msgid "Enter a selection (default=all)"
-msgstr ""
+msgstr "Introduïu una selecció (per defecte=all)"
 
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Introduïu un número (per defecte =%d)"
 
 #, c-format
 msgid "[Y/n]"
@@ -1083,7 +1095,7 @@ msgstr "NO"
 
 #, c-format
 msgid "failed to allocate string\n"
-msgstr ""
+msgstr "No s'ha pogut assignar memòria a la cadena de caràcters\n"
 
 #, c-format
 msgid "error: %s"
@@ -1194,7 +1206,7 @@ msgid "Failed to extract %s"
 msgstr "Ha fallat en extreure %s"
 
 msgid "A failure occurred in %s()."
-msgstr ""
+msgstr "S'ha produït un error en %s()."
 
 msgid "Starting %s()..."
 msgstr "Iniciant %s()..."
@@ -1232,7 +1244,7 @@ msgid "Example for GPL'ed software: license=('GPL')."
 msgstr "Exemple per programari amb llicència GPL: license=('GPL')."
 
 msgid "Backup entry file not in package : %s"
-msgstr ""
+msgstr "Entrada arxiu de còpia de seguretat no present al paquet: %s"
 
 msgid "Package contains reference to %s"
 msgstr "El paquet conté referències a %s"
@@ -1244,7 +1256,7 @@ msgid "Creating package..."
 msgstr "S'està creant el paquet..."
 
 msgid "Adding %s file..."
-msgstr ""
+msgstr "Afegint fitxer %s..."
 
 msgid "Compressing package..."
 msgstr "S'està comprimint el paquet..."
@@ -1277,7 +1289,7 @@ msgid "Failed to create source package file."
 msgstr "Ha fallat en crear el fitxer de paquet de codi font."
 
 msgid "Failed to create symlink to source package file."
-msgstr ""
+msgstr "No s'ha pogut crear l'enllaç simbòlic a l'arxiu font del paquet."
 
 msgid "Installing package %s with %s -U..."
 msgstr "S'està instal·lant el paquet %s amb %s -U... "
@@ -1295,13 +1307,13 @@ msgid "%s is not allowed to start with a hyphen."
 msgstr "%s no pot començar amb un guionet."
 
 msgid "%s is not allowed to contain colons or hyphens."
-msgstr ""
+msgstr "%s no pot contenir dos punts o guions."
 
 msgid "%s is not allowed to contain hyphens."
 msgstr "%s no pot contenir guionets."
 
 msgid "%s must be an integer."
-msgstr ""
+msgstr "%s ha de ser un nombre enter."
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s no és disponible per l'arquitectura «%s»."
@@ -1318,6 +1330,7 @@ msgstr ""
 
 msgid "Backup entry should not contain leading slash : %s"
 msgstr ""
+"Entrada arxiu de còpia de seguretat no pot contenir barra inclinada: %s"
 
 msgid "Invalid syntax for optdepend : '%s'"
 msgstr "Sintaxi invàlida per optdepend : «%s»"
@@ -1335,7 +1348,7 @@ msgid "requested package %s is not provided in %s"
 msgstr "el paquet sol·licitat %s no és proporcionat a %s"
 
 msgid "Determining latest %s revision..."
-msgstr ""
+msgstr "Determinant la darrera revisió %s..."
 
 msgid "Version found: %s"
 msgstr "S'ha trobat la versió: %s"
@@ -1425,7 +1438,7 @@ msgid "  --asroot         Allow makepkg to run as root user"
 msgstr "  --asroot     Permet a makepkg executar-se com a usuari root"
 
 msgid "  --check          Run the check() function in the %s"
-msgstr ""
+msgstr "  --check          Executa la funció check() en %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
@@ -1434,9 +1447,11 @@ msgstr ""
 msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
+"  --holdver        Prevé increment automàtic de la versió en el "
+"desenvolupament %ss"
 
 msgid "  --nocheck        Do not run the check() function in the %s"
-msgstr ""
+msgstr "  --nocheck        No execució de la funció check() en %s"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
@@ -1471,6 +1486,10 @@ msgid ""
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAquest es "
+"un programa lliure; consulteu el codi font per a les condicions de còpia."
+"\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 msgid "%s not found."
 msgstr "no s'ha trobat %s"
@@ -1591,10 +1610,10 @@ msgid "Skipping dependency checks."
 msgstr "S'està ometent la comprovació de les dependències."
 
 msgid "Checking runtime dependencies..."
-msgstr ""
+msgstr "Comprovant les dependències en temps d'execució ..."
 
 msgid "Checking buildtime dependencies..."
-msgstr ""
+msgstr "Comprovant de dependències per l'assemblatge ..."
 
 msgid "Could not resolve all dependencies."
 msgstr "No es poden resoldre totes les dependències."
@@ -1641,12 +1660,18 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nAquest es un programa lliure; consulteu el codi font per a les condicions "
+"de còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s no existeix o no és un directori."
 
+msgid "%s is not a pacman database directory."
+msgstr "%s no és un directori de la base de dades de pacman."
+
 msgid "You must have correct permissions to upgrade the database."
-msgstr ""
+msgstr "Has de corregir els permisos per actualitzar la base de dades."
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr ""
@@ -1654,10 +1679,10 @@ msgstr ""
 "pacman és en execució."
 
 msgid "Pre-3.5 database format detected - upgrading..."
-msgstr ""
+msgstr "Format base de dades Pre-3.5 detectat - actualitzant..."
 
 msgid "Done."
-msgstr ""
+msgstr "Fet."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -1725,51 +1750,57 @@ msgid "Finished. Your pacman database has been optimized."
 msgstr "Ha finalitzat. S'ha optimitzat la base de dades del pacman."
 
 msgid "Usage: pkgdelta [-q] <package1> <package2>\\n"
-msgstr ""
+msgstr "Ús: pkgdelta [q] <package1><package2>\\n"
 
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
 msgstr ""
+"»pkgdelta crearà un fitxer delta file entre dos paquets.\\n Aquest fitxer "
+"delta pot ser afegit a la base de dades mitjançant repo-add.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
-msgstr ""
+msgstr "Exemple:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nAquest es un "
+"programa lliure; consulteu el codi font per a les condicions de còpia.\\nNO "
+"hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Fitxer de paquet invàlid «%s»..."
 
 msgid "The package names don't match : '%s' and '%s'"
-msgstr ""
+msgstr "Els noms dels paquets no coincideixen: '%s' i '%s'"
 
 msgid "The package architectures don't match : '%s' and '%s'"
-msgstr ""
+msgstr "Les arquitectures del paquet no coincideixen: '%s' i '%s'"
 
 msgid "Both packages have the same version : '%s'"
-msgstr ""
+msgstr "Tots dos paquets tenen la mateixa versió: '%s'"
 
 msgid "Generating delta from version %s to version %s"
-msgstr ""
+msgstr "Generant delta de la versió %s a la versió %s"
 
 msgid "Delta could not be created."
-msgstr ""
+msgstr "No s'ha pogut generar delta."
 
 msgid "Generated delta : '%s'"
-msgstr ""
+msgstr "Delta generada: '%s'"
 
 msgid "File '%s' does not exist"
-msgstr ""
+msgstr "L'arxiu '%s' no existeix"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "No es pot trobar el binari xdelta3! Està instal·lat xdelta3?"
 
 msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
 msgstr ""
+"Ús: reposició afegeix [-d] [-f] [-q] <path-to-db><package|delta> ...\\n"
 
 msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr "Sintaxi: repo-remove [-q] <ruta-a-la-bd> <nomdepaquet|delta> ...\\n\\n"
@@ -1796,16 +1827,23 @@ msgid ""
 "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
 "\\nand errors.\\n\\n"
 msgstr ""
+"Utilitzeu l'indicador -q/--quiet per reduir al mínim la producció de "
+"missatges,\\n advertències, i errors. \\n\\n"
 
 msgid ""
 "Use the -d/--delta flag to automatically generate and add a delta file"
 "\\nbetween the old entry and the new one, if the old package file is found"
 "\\nnext to the new one.\\n\\n"
 msgstr ""
+"Utilitzeu l'indicador -d/--delta per generar i afegir de forma automàtica\\n "
+"un arxiu delta entre la nova entrada i l'antiga, si l'antic fitxer del "
+"paquet es troba\\n al costat del nou. \\n\\n"
 
 msgid ""
 "Use the -f/--files flag to update a database including file entries.\\n\\n"
 msgstr ""
+"Utilitzeu l'indicador -f/--files per actualitzar una base de dades "
+"conjuntament amb les entrades d'arxiu. \\n\\n"
 
 msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 msgstr "Exemple:  repo-add /ruta/a/repo.bd.tar.gz pacman-3.0.0.pkg.tar.gz"
@@ -1825,10 +1863,10 @@ msgstr ""
 "GARANTIA ampliada a la permesa per la llei.\\n"
 
 msgid "No database entry for package '%s'."
-msgstr ""
+msgstr "No existeix cap base de dades amb entrades referents al paquet '%s'."
 
 msgid "Adding 'deltas' entry : %s -> %s"
-msgstr ""
+msgstr "Afegint entrada 'deltas':%s -> %s"
 
 msgid "Removing existing entry '%s'..."
 msgstr "S'està eliminant l'entrada existent «%s»..."
@@ -1837,13 +1875,13 @@ msgid "An entry for '%s' already existed"
 msgstr "Ja existeix una entrada per «%s»"
 
 msgid "Creating '%s' db entry..."
-msgstr ""
+msgstr "Creant entrada base de dades '%s'..."
 
 msgid "Computing md5 checksums..."
 msgstr "S'estan computant les sumes de comprovació md5"
 
 msgid "Old package file not found: %s"
-msgstr ""
+msgstr "Antic arxiu del paquet no trobat: %s"
 
 msgid "Failed to acquire lockfile: %s."
 msgstr "Ha fallat en adquirir el fitxer de bloqueig: %s."

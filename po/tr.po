@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
-"Last-Translator: ras0ir <ras0ir@eventualis.org>\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-06 08:03+0000\n"
+"Last-Translator: tarakbumba <tarakbumba@gmail.com>\n"
 "Language-Team: Turkish <None>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -344,24 +344,21 @@ msgstr ""
 "  -c, --cascade       paket(ler)i ve on(lar)a ait tüm bağımlılıkları kaldır\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         yapılandırma dosyalarını da sil\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         yapılandırma dosyalarını kaldır\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      paketin çalışmasını engellemeyecek bağımlılıkları da "
+"  -s, --recursive      gereksiz bağımlılıkları\n"
 "kaldır\n"
-"                       (-ss doğrudan kurulmuş bağımlılıkları da içerir)\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded       paketin çalışmasını engellemeyecek gereksiz "
-"bağımlılıkları da kaldır\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       gereksiz paketleri kaldır\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -525,8 +522,12 @@ msgstr ""
 "grup için kullanılabilir)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         bağımlılık kontrolünü atla\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         bağımlılk sürüm denetimlerini atla (-dd tüm "
+"denetimleri atlar)\n"
 
 #, c-format
 msgid ""
@@ -545,10 +546,11 @@ msgstr "      --noscriptlet    kurulum betiği varsa çalıştırma\n"
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print           işlemi gerçekleştirmek yerine hedefleri göster\n"
+"      --print          işlemi gerçekleştirmek yerine hedefleri ekrana "
+"yazdır\n"
 
 #, c-format
 msgid ""
@@ -714,6 +716,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "herhangi bir işlem belirlenmedi (yardım için -h kullanın)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s, %s %s tarafından sahiplenilmektedir\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "--owns parametresi için herhangi bir dosya belirtilmedi\n"
 
@@ -736,10 +742,6 @@ msgstr "'%s' için gerçek yol belirlenemedi: %s\n"
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "dosya yolu çok uzun: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s, %s %s tarafından sahiplenilmektedir\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1632,6 +1634,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s bulunamadı ya da bir dizin değil."
+
+msgid "%s is not a pacman database directory."
+msgstr "%s bir pacman veritabanı dizini değil."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Veritabanını yükseltmek için geçerli izniniz bulunmalıdır."

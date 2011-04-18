@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-13 16:07+0000\n"
+"Last-Translator: vdk <vdk@gmx.us>\n"
 "Language-Team: Russian <None>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -346,24 +346,18 @@ msgid ""
 msgstr "  -c, --cascade        удалить пакет и все зависящие от него пакеты\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         удалить в том числе и конфигурационные файлы\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         удалить конфигурационный файл\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      удалить вместе с зависимостями (которые не повредят "
-"другие пакеты)\n"
-"                       (-ss включая явно установленные зависимости)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded       удалить ненужные пакеты (это не повредит другие "
-"пакеты)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       удалить ненужные пакеты\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -529,8 +523,12 @@ msgstr ""
 "использовано неоднократно)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         не проверять зависимости\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         пропостить проверку версий (-dd пропускает все "
+"проверки)\n"
 
 #, c-format
 msgid ""
@@ -553,10 +551,9 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
-msgstr ""
-"      --print          только показать цели, вместо выполнения действия\n"
+msgstr "      --print          вывести цели вместо реального исполнения\n"
 
 #, c-format
 msgid ""
@@ -725,6 +722,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "не задана операция (для справки используйте -h)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s принадлежит %s %s\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "не был указан файл для --owns\n"
 
@@ -747,10 +748,6 @@ msgstr "не удалось определить настоящий путь д�
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "путь слишком длинный: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s принадлежит %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1639,6 +1636,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s не существует или не является каталогом."
+
+msgid "%s is not a pacman database directory."
+msgstr "%s не является директорией базы дынных pacman."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Вы должны иметь правильные права доступа для обновления базы данных."

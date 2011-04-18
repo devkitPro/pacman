@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-03-28 02:45+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en_GB\n"
@@ -344,22 +344,20 @@ msgstr ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         remove configuration files as well\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         remove configuration files\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       remove unneeded packages\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -518,8 +516,12 @@ msgstr ""
 "                       ignore a group upgrade (can be used more than once)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         skip dependency checks\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
 
 #, c-format
 msgid ""
@@ -541,10 +543,10 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 
 #, c-format
@@ -710,6 +712,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "no operation specified (use -h for help)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s is owned by %s %s\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "no file was specified for --owns\n"
 
@@ -732,10 +738,6 @@ msgstr "cannot determine real path for '%s': %s\n"
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "path too long: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s is owned by %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1605,6 +1607,9 @@ msgstr ""
 msgid "%s does not exist or is not a directory."
 msgstr "%s does not exist or is not a directory."
 
+msgid "%s is not a pacman database directory."
+msgstr "%s is not a pacman database directory."
+
 msgid "You must have correct permissions to upgrade the database."
 msgstr "You must have correct permissions to upgrade the database."
 
@@ -1658,7 +1663,7 @@ msgid "Tar'ing up %s failed."
 msgstr "Tar'ing up %s failed."
 
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Making and MD5summing the new database..."
+msgstr "Making and MD5sum'ing the new database..."
 
 msgid "Untar'ing %s failed."
 msgstr "Untar'ing %s failed."

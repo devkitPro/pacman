@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-16 17:39+0000\n"
 "Last-Translator: ngaba <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian <None>\n"
 "Language: hu\n"
@@ -344,22 +344,20 @@ msgstr ""
 "  -c, --cascade        a csomagok és az őket igénylő csomagok eltávolítása\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         a konfigurációs fájlokat is törölje\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         törölje a konfigurációs fájlokat\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      a függőségeket is távolítsa el (melyeknél ez "
-"biztonságos)\n"
+"  -s, --recursive      a feleslegessé váló függőségeket is távolítsa el\n"
 "                       (-ss a kézzel telepített függőségeket is "
 "eltávolítja)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr ""
 "  -u, --unneeded       a megmaradó csomagok által igényelt csomagok "
 "kihagyása\n"
@@ -525,8 +523,12 @@ msgstr ""
 "                       csoportfrissítés mellőzése (többször is használható)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         függőségi ellenőrzések kihagyása\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         függőségverzió-ellenőrzések kihagyása\n"
+"                       (-dd: minden függőség-ellenőrzés kihagyása)\n"
 
 #, c-format
 msgid ""
@@ -548,11 +550,10 @@ msgstr "      --noscriptlet    ne futtassa az install szkripteket\n"
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          csak listázza a csomagokat a művelet végrehajtása "
-"helyett\n"
+"      --print          a célok listázása a művelet végrehajtása helyett\n"
 
 #, c-format
 msgid ""
@@ -723,6 +724,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "nincs megadva egyetlen művelet sem (használja a '-h'-t segítségért)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "a %s fájlt a %s %s tartalmazza\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "nincs megadva fájl a --owns számára\n"
 
@@ -745,10 +750,6 @@ msgstr "nem állapítható meg a valódi útvonal a(z) '%s' számára: %s\n"
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "az útvonal túl hosszú: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "a %s fájlt a %s %s tartalmazza\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1645,6 +1646,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "A %s nem létezik vagy nem egy könyvtár."
+
+msgid "%s is not a pacman database directory."
+msgstr "%s nem pacman adatbáziskönyvtár."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Megfelelő jogosultságok kellenek az adatbázis frissítéséhez."

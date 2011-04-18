@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-03-28 02:39+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -343,23 +343,18 @@ msgstr ""
 "  -c, --cascade        вилучити пакунки і всі пакунки, які залежать від них\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         також вилучити файли налаштувань\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr ""
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      вилучити залежності також (які не зламають пакунки)\n"
-"                       (-ss включає явно встановлені залежності також)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr ""
-"  -u, --unneeded       вилучити непотрібні пакунки (які не зламають "
-"пакунки)\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -528,8 +523,10 @@ msgstr ""
 "неодноразово)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         пропустити перевірку залежностей\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -550,10 +547,9 @@ msgstr "      --noscriptlet    не виконувати скрипт встан
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          тільки вивести цілі замість виконання операції\n"
 
 #, c-format
 msgid ""
@@ -723,6 +719,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "не вказано операцію (використайте -h для довідки)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s є власністю %s %s\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "не було вказано файл для --owns\n"
 
@@ -745,10 +745,6 @@ msgstr "неможливо визначити справжній шлях до '
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr ""
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s є власністю %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1624,6 +1620,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s не існує, або не є каталогом."
+
+msgid "%s is not a pacman database directory."
+msgstr ""
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr ""

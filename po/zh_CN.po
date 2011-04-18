@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-12 04:10+0000\n"
 "Last-Translator: ganlu <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese (China) <None>\n"
 "Language: zh_CN\n"
@@ -338,22 +338,20 @@ msgid ""
 msgstr "  -c, --cascade        删除软件包及所有依赖于此的软件包\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         同时删除配置文件\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         删除配置文件\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      同时删除 (不会破坏其他软件包的) 依赖关系\n"
-"                       (-ss·也包括单独指定安装的依赖关系)\n"
+"  -s, --recursive      删除不需要的依赖关系\n"
+"                       (-ss 包括单独指定安装的依赖关系)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded       同时删除不需要的 (且不会破坏其他软件包的) 依赖关系\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       删除不需要的软件包\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -495,8 +493,10 @@ msgstr ""
 "                         升级时忽略某个软件包组 (可多次使用) \n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         略过依赖关系检查\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr "-d, --nodeps         跳过依赖关系的版本检查 (-dd 跳过所有检查)\n"
 
 #, c-format
 msgid ""
@@ -515,9 +515,9 @@ msgstr "      --noscriptlet    不执行安装小脚本\n"
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
-msgstr "      --print          仅打印目标而不执行操作\n"
+msgstr "      --print          打印本目标而不是执行本操作\n"
 
 #, c-format
 msgid ""
@@ -679,6 +679,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "没有指定的操作 (使用 -h 获取帮助) \n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s 属于 %s %s\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "错误：没有为 --owns 指定文件\n"
 
@@ -701,10 +705,6 @@ msgstr "无法确定 '%s' 的真实路径：%s\n"
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "路径过长：%s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s 属于 %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1560,6 +1560,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s 不存在或不是一个目录。"
+
+msgid "%s is not a pacman database directory."
+msgstr "%s 不是一个 pacman 的数据库目录。"
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "您必须有正确的许可才可升级数据库。"

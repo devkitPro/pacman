@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
-"Last-Translator: tlaloc <matthias@archlinux.de>\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-12 12:00+0000\n"
+"Last-Translator: Mineo <themineo+transifex@googlemail.com>\n"
 "Language-Team: German <None>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -349,25 +349,22 @@ msgstr ""
 "  -c, --cascade        Entfernt Pakete und alle, die von ihnen abhängen\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         Auch Konfigurationsdateien entfernen\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         auch Konfigurationsdateien entfernen\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      Auch Abhängigkeiten entfernen (beschädigt keine "
-"Pakete)\n"
-"                       (-ss schließt auch ausdrücklich installierte "
-"Abhängigkeiten mit ein)\n"
+"  -s, --recursive      entfernt unnötige Abhängigkeiten\n"
+"                       (-ss auch explizit installierte Abhängigkeiten "
+"entfernen)\n"
+"\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded      Entferne nicht benötigte Pakete (beschädigt keine "
-"Pakete)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       entfernt unnötige Pakete\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -541,8 +538,12 @@ msgstr ""
 "werden)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         Überspringt die Abhängigkeitsprüfung\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         überspringt die Versionsüberprüfungen für "
+"Abhängigkeiten (-dd um alle Überprüfungen zu überspringen)\n"
 
 #, c-format
 msgid ""
@@ -566,7 +567,7 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
 "      --print          gibt nur die Zeile aus, statt die Operation "
@@ -744,6 +745,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "Keine Operation angegeben (benutzen Sie -h für Hilfe)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s ist in %s %s enthalten\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "Es wurde keine Datei für --owns angegeben\n"
 
@@ -766,10 +771,6 @@ msgstr "Kann den wahren Pfad für '%s' nicht ermitteln: %s\n"
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "Pfad zu lang: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s ist in %s %s enthalten\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -831,7 +832,7 @@ msgstr "Möchten Sie diese Pakete entfernen?"
 
 #, c-format
 msgid "failed to commit transaction (%s)\n"
-msgstr "Konnte den Vorgang (%s) nicht durchführen\n"
+msgstr "Konnte den Vorgang nicht durchführen (%s)\n"
 
 #, c-format
 msgid "could not access database directory\n"
@@ -999,7 +1000,7 @@ msgstr ""
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
-msgstr "Konnte den Vorgang (%s) nicht starten\n"
+msgstr "Konnte den Vorgang nicht starten (%s)\n"
 
 #, c-format
 msgid ""
@@ -1015,7 +1016,7 @@ msgstr "  Vesuche, pacman-db-upgrade zu starten\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
-msgstr "Konnte den Vorgang (%s) nicht freigeben\n"
+msgstr "Konnte den Vorgang nicht freigeben (%s)\n"
 
 #, c-format
 msgid "None"
@@ -1683,6 +1684,9 @@ msgstr ""
 msgid "%s does not exist or is not a directory."
 msgstr "%s existiert nicht oder ist kein Verzeichnis"
 
+msgid "%s is not a pacman database directory."
+msgstr "%s ist kein Pacman Datenbank Verzeichnis."
+
 msgid "You must have correct permissions to upgrade the database."
 msgstr ""
 "Sie müssen über die korrekten Berechtigungen verfügen, um die Datenbank zu "
@@ -1743,7 +1747,7 @@ msgid "Tar'ing up %s failed."
 msgstr "Erstellen des Tarballs %s fehlgeschlagen."
 
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Erstelle neue Datenbak und prüfe MD5-Summen..."
+msgstr "Erstelle neue Datenbank und prüfe MD5-Summen..."
 
 msgid "Untar'ing %s failed."
 msgstr "Entpacken des Tarballs %s fehlgeschlagen."
