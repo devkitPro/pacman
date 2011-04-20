@@ -2,7 +2,17 @@ VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
 3.5.2         - ensure we show correct missing dependency info (FS#23424)
               - pacman usage/--help updates (FS#23433, FS#23369)
-              - makepkg: simplify log redirection and remove sync (FS#23378)
+              - ensure stdout/stderr are flushed before prompts (FS#23492)
+              - compile/portability fixes for FreeBSD platform
+              - extensive documentation updates for alpm.h interfaces
+              - fix several missing pm_errno error code returns
+              - makepkg:
+                - simplify log redirection and remove sync (FS#23378)
+                - improve parsing for sanity checks (FS#23524)
+                - avoid use of `tr` to avoid locale and other issues
+                - fix GNU-ism in `su` invocation
+              - bacman: update for new local database format (FS#23641)
+              - extensive translation updates and fixes
 3.5.1         - don't error on unknown pacman.conf directives (FS#23055)
               - only read arguments from stdin if '-' is provided as target
               - fix case with ignore handling in argument list (FS#23342)

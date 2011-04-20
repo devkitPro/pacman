@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-03-28 02:39+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv\n"
@@ -341,24 +341,18 @@ msgstr ""
 "dom\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         ta även bort konfigurationsfiler\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr ""
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      ta även bort beroenden (som inte stör andra paket)\n"
-"                       (-ss inkluderar även uttryckligt installerade "
-"beroenden\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr ""
-"  -u, --unneeded       tar bort ej behövda paket (som inte stör andra "
-"paket)\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -522,8 +516,10 @@ msgstr ""
 "gång)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         hoppa över kontroll av beroenden\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -546,9 +542,9 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
-msgstr "--print         skriv endast ut, utan att utföra operationen\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -714,6 +710,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "ingen operation specifierad (använd -h för hjälp)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s ägs av %s %s\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "ingen fil specifierades för --owns\n"
 
@@ -736,10 +736,6 @@ msgstr "kan inte bestämma riktig sökväg för '%s': %s\n"
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr ""
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s ägs av %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1616,6 +1612,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s existerar inte eller är inte en katalog."
+
+msgid "%s is not a pacman database directory."
+msgstr ""
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr ""

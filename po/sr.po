@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-12 10:01+0000\n"
 "Last-Translator: Xabre <githzerai06@gmail.com>\n"
 "Language-Team: Serbian <None>\n"
 "Language: sr\n"
@@ -242,7 +242,7 @@ msgstr "Вел. преузимања  : %6.2f K\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f K\n"
-msgstr "Вел. архиве      : %6.2f K\n"
+msgstr "Вел. архиве    : %6.2f K\n"
 
 #, c-format
 msgid "Installed Size : %6.2f K\n"
@@ -346,23 +346,20 @@ msgid ""
 msgstr " -c, --cascade        уклања пакета и све пакете који зависе од њих\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr " -n, --nosave         уклања и све фајлове поставки\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave        уклања фајлове поставки\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --resursive      уклања и све зависности (које неће поломити пакете)\n"
-"                      (-ss укључује и експлицитно инсталиране зависности)\n"
+"  -s, --recursive      уклања непотребне зависности\n"
+"                       (-ss укључује и експлицитно инсталиране зависности)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-" -u, --unneeded       укања непотребне пакете (који неће поломити друге "
-"пакете)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       уклања непотребне пакете\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -528,8 +525,12 @@ msgstr ""
 "пута)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         прескаче проверу зависности\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         прескаче проверу верзија зависности (-dd прескаче све "
+"провере)\n"
 
 #, c-format
 msgid ""
@@ -550,10 +551,9 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
-msgstr ""
-"      --print          само штампа циљеве иместо извршавања операције\n"
+msgstr "      --print         штампа циљеве уместо извршавања операције\n"
 
 #, c-format
 msgid ""
@@ -718,6 +718,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "није назначена операција (употребите -h за помоћ)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s је у саставу %s %s\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "није одређен фајл за --owns\n"
 
@@ -740,10 +744,6 @@ msgstr "не могу да утврдим стварну путању за „%s
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "предуга путања: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s је у саставу %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -968,8 +968,8 @@ msgid ""
 ":: Do you want to cancel the current operation\n"
 ":: and upgrade these packages now?"
 msgstr ""
-":: Желите ли да откажете тренутну радњу\n"
-":: и надорадите ове пакете одмах?"
+":: Желите ли да откажете тренутну операцију\n"
+":: и надоградите ове пакете одмах?"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1616,6 +1616,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s не постоји или није у фасцикли."
+
+msgid "%s is not a pacman database directory."
+msgstr "%s није фасцикла пакменове базе."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Морате имати одговарајуће дозволе за надоградњу базе."

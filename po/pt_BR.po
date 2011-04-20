@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-12 02:31+0000\n"
+"Last-Translator: ambaratti <ambaratti.listas@gmail.com>\n"
 "Language-Team: Portuguese (Brazilian) <None>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -346,25 +346,20 @@ msgid ""
 msgstr "  -c, --cascade        remove pacotes e todos os que dependem deles\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         remove também os arquivos de configuração\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         remove os arquivos de configuração\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      também remove as dependências (que não causem quebra "
-"dos pacotes)\n"
-"                       (-ss também inclui dependências instaladas "
-"explicitamente)\n"
+"  -s, --recursive      remove as dependências desnecessárias\n"
+"                       (-ss inclui dependências instaladas explicitamente)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded       remove pacotes desnecessários (que não quebrarão "
-"outros pacotes)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       remove pacotes desnecessários\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -541,8 +536,12 @@ msgstr ""
 "de uma vez)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         ignora a verificação de dependências\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         ignora verificações de versão da dependência (-dd "
+"para ignorar todas as verificações)\n"
 
 #, c-format
 msgid ""
@@ -566,11 +565,9 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
-msgstr ""
-"      --print          mostra apenas os pacotes em vez de efetuar a "
-"operação\n"
+msgstr "      --print          mostrar os alvos em vez de efetuar a operação\n"
 
 #, c-format
 msgid ""
@@ -682,6 +679,8 @@ msgstr "não foi possível mudar para o diretório %s (%s)\n"
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
+"arquivo de configuração %s, linha %d: diretiva '%s' na seção '%s' não foi "
+"reconhecida.\n"
 
 #, c-format
 msgid ""
@@ -723,6 +722,7 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
+"arquivo de configuração %s, linha %d: diretiva '%s' precisa de um valor\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -743,6 +743,10 @@ msgstr "você não pode realizar esta operação a menos que seja root.\n"
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nenhuma operação especificada (use -h para obter ajuda)\n"
+
+#, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s pertence a %s %s\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -767,10 +771,6 @@ msgstr "não é possível determinar o caminho real para '%s': %s\n"
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "caminho muito longo: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s pertence a %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1661,6 +1661,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s não existe ou não é um diretório."
+
+msgid "%s is not a pacman database directory."
+msgstr "%s não é um diretório de base de dados do pacman."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr ""

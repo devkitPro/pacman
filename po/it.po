@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-10 16:14+0000\n"
 "Last-Translator: giovanni <giovanni@archlinux.org>\n"
 "Language-Team: Italian <None>\n"
 "Language: it\n"
@@ -352,24 +352,20 @@ msgstr ""
 "essi\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         rimuove anche i file di configurazione\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave         rimuove i file di configurazione\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      rimuove anche le dipendenze (non richieste altrove)\n"
-"                       (-ss include le dipendenze installate "
-"esplicitamente)\n"
+"  -s, --recursive      rimuove le dipendenze non necessarie\n"
+"                       (-ss include quelle installate esplicitamente)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded       rimuove i pacchetti non necessari (non richiesti "
-"altrove)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --unneeded       rimuove i pacchetti non necessari\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -542,8 +538,12 @@ msgstr ""
 "                       ignora l'aggiornamento di un gruppo\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         ignora i controlli sulle dipendenze\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps         salta il controllo sulle versioni delle dipendenze (-"
+"dd salta tutti i controlli)\n"
 
 #, c-format
 msgid ""
@@ -564,11 +564,10 @@ msgstr "      --noscriptlet    non esegue un eventuale script di install\n"
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          elenca solo i pacchetti invece di eseguire "
-"l'operazione\n"
+"      --print          visualizza i pacchetti senza effettuare operazioni\n"
 
 #, c-format
 msgid ""
@@ -748,6 +747,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "nessuna operazione specificata (usa -h per un aiuto)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s è contenuto in %s %s\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "non è stato specificato nessun file per --owns\n"
 
@@ -772,10 +775,6 @@ msgid "path too long: %s%s\n"
 msgstr "il path è troppo lungo: %s%s\n"
 
 #, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s è contenuto in %s %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "Nessun pacchetto contiene %s\n"
 
@@ -792,7 +791,7 @@ msgstr[1] "%s: %d file totali, "
 #, c-format
 msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
-msgstr[0] "%d file mancente\n"
+msgstr[0] "%d file mancante\n"
 msgstr[1] "%d file mancanti\n"
 
 #, c-format
@@ -1674,6 +1673,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s non esiste o non è una directory."
+
+msgid "%s is not a pacman database directory."
+msgstr "%s non è una directory di un database di pacman."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Per aggiornare il database devi avere i corretti permessi."

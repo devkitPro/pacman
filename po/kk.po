@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-03-28 02:39+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Kazakh <None>\n"
 "Language: kk\n"
@@ -344,24 +344,18 @@ msgstr ""
 "өшіру\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave         дестемен қоса баптаулар файлдарын өшіру\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr ""
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      тәуелділіктермен бірге өшіру (басқа дестелерге зиян "
-"келтірмесе)\n"
-"                       (-ss нақты орнатылған тәуелділіктерін қоса)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr ""
-"  -u, --unneeded       керек емес дестелерді өшіру (бұл басқа дестелерге "
-"зиян келтірмейді)\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -527,8 +521,10 @@ msgstr ""
 "          жаңарту кезінде топты елемеу (бірнеше рет қолданылуы мүмкін)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps         тәуелділіктерді тексермеу\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -549,11 +545,9 @@ msgstr "      --noscriptlet    орнату скриптері бар болса
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          әрекетті шынымен орындамай тек мақсаттар тізімін "
-"шығару\n"
 
 #, c-format
 msgid ""
@@ -719,6 +713,10 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "әрекет көрсетілмеді (көмек үшін -h қолданыңыз)\n"
 
 #, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "%s қазір %s %s иелігінде\n"
+
+#, c-format
 msgid "no file was specified for --owns\n"
 msgstr "--owns үшін файл көрсетілмеді\n"
 
@@ -741,10 +739,6 @@ msgstr "'%s' үшін шын жолды анықтау мүмкін емес: %s
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "жол тым ұзын: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "%s қазір %s %s иелігінде\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1627,6 +1621,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s жоқ болып тұр немесе ол бума емес."
+
+msgid "%s is not a pacman database directory."
+msgstr ""
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Дерекқорды жаңарту үшін сізде керек рұқсаттар болу тиіс."

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-03-23 02:03-0500\n"
-"PO-Revision-Date: 2011-03-22 15:36+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"PO-Revision-Date: 2011-04-08 19:22+0000\n"
+"Last-Translator: nous <nous@archlinux.us>\n"
 "Language-Team: Greek <None>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr "έλεγχος διαθέσιμου χώρου δίσκου"
 
 #, c-format
 msgid "checking package integrity"
-msgstr "έλεγχος ακεραιότητας πακέτου"
+msgstr "έλεγχος ακεραιότητας πακέτων"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -333,7 +333,7 @@ msgid ""
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"δώσε '%s {-h --help}' μαζί με μια λειτουργία για τις διαθέσιμες επιλογές\n"
+"χρήση: '%s {-h --help}' με μια λειτουργία για διαθέσιμες επιλογές\n"
 
 #, c-format
 msgid ""
@@ -343,25 +343,20 @@ msgstr ""
 "αυτά\n"
 
 #, c-format
-msgid "  -n, --nosave         remove configuration files as well\n"
-msgstr "  -n, --nosave               διαγραφή και των αρχείων ρυθμίσεων\n"
+msgid "  -n, --nosave         remove configuration files\n"
+msgstr "  -n, --nosave               κατάργηση αρχείων ρυθμίσεων\n"
 
 #, c-format
 msgid ""
-"  -s, --recursive      remove dependencies also (that won't break packages)\n"
-"                       (-ss includes explicitly installed dependencies too)\n"
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive            διαγραφή και εξαρτήσεων (που δεν επηρεάζουν "
-"άλλα πακέτα)\n"
-"                             (-ss περιλαμβάνει και τις ρητώς εγκατεστημένες "
-"εξαρτήσεις)\n"
+"  -s, --recursive            κατάργηση αχρείαστων εξαρτήσεων\n"
+"                             (-ss και ρητώς εγκατεστημένες εξαρτήσεις)\n"
 
 #, c-format
-msgid ""
-"  -u, --unneeded       remove unneeded packages (that won't break packages)\n"
-msgstr ""
-"  -u, --unneeded             κατάργηση αχρείαστων πακέτων (που δεν "
-"απαιτούνται από άλλα)\n"
+msgid "  -u, --unneeded       remove unneeded packages\n"
+msgstr "  -u, --uneeded              κατάργηση αχρείαστων πακέτων\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -520,7 +515,7 @@ msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignore <πακέτο>      παράβλεψη αναβάθμισης πακέτου (επιτρέπεται και "
+"      --ignore <πακέτο>      παράβλεψη αναβάθμισης πακέτου (επιτρέπεται "
 "πολλαπλή χρήση)\n"
 
 #, c-format
@@ -528,12 +523,16 @@ msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
-"      --ignoregroup <ομάδα>  παράβλεψη αναβάθμισης ομάδας (επιτρέπεται και "
+"      --ignoregroup <ομάδα>  παράβλεψη αναβάθμισης ομάδας (επιτρέπεται "
 "πολλαπλή χρήση)\n"
 
 #, c-format
-msgid "  -d, --nodeps         skip dependency checks\n"
-msgstr "  -d, --nodeps               παράλειψη ελέγχου εξαρτήσεων\n"
+msgid ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
+msgstr ""
+"  -d, --nodeps               παράλειψη ελέγχου έκδοσης εξαρτήσεων (-dd "
+"παράλειψη όλων των ελέγχων)\n"
 
 #, c-format
 msgid ""
@@ -554,10 +553,10 @@ msgstr ""
 
 #, c-format
 msgid ""
-"      --print          only print the targets instead of performing the "
+"      --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print                παράθεση στόχων χωρίς εκτέλεση λειτουργίας\n"
+"      --print                εμφάνιση στόχων χωρίς εκτέλεση λειτουργίας\n"
 
 #, c-format
 msgid ""
@@ -633,7 +632,7 @@ msgstr "το '%s' δεν είναι έγκυρο επίπεδο αποσφαλμ
 
 #, c-format
 msgid "only one operation may be used at a time\n"
-msgstr "μόνο μια λειτουργία μπορεί να εκτελεστεί\n"
+msgstr "μόνο μια λειτουργία την φορά μπορεί να εκτελεστεί\n"
 
 #, c-format
 msgid "invalid option\n"
@@ -662,7 +661,7 @@ msgstr "αδυναμία μετάβασης στον κατάλογο %s (%s)\n"
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
+msgstr "αρχείο επιλογών %s, γραμμή %d: άγνωστη εντολή '%s' στο τμήμα '%s'\n"
 
 #, c-format
 msgid ""
@@ -700,7 +699,7 @@ msgstr ""
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
+msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: η εντολή '%s' απαιτεί τιμή\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -721,6 +720,10 @@ msgstr "αυτή η λειτουργία απαιτεί προνόμια root.\n
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "ακαθόριστη λειτουργία ('-h' για βοήθεια)\n"
+
+#, c-format
+msgid "%s is owned by %s %s\n"
+msgstr "Το %s ανήκει στο %s %s\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -745,10 +748,6 @@ msgstr "αδύνατος ο προσδιορισμός της πραγματικ
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "υπερβολικό μήκος διαδρομής: %s%s\n"
-
-#, c-format
-msgid "%s is owned by %s %s\n"
-msgstr "Το %s ανήκει στο %s %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1624,6 +1623,9 @@ msgstr ""
 
 msgid "%s does not exist or is not a directory."
 msgstr "Το %s δεν υπάρχει ή δεν είναι κατάλογος."
+
+msgid "%s is not a pacman database directory."
+msgstr "το %s δεν είναι κατάλογος βάσης του pacman."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Απαιτούνται σωστές άδειες για την αναβάθμιση της βάσης."
