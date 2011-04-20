@@ -10,9 +10,6 @@ Pacman 3.1:
 Downgrade feature - allow users to see cached packages and downgrade to
 (previous or any?) available options.
 
-Installed size and download size in -Si/Qi output should scale with package
-size- KB to MB to GB. We should also get consistancy of K/KB, M/MB, etc.
-
 Extreme similarity between some of the sync and add code...we have to be able
 to abstract more away from sync actions and add actions to just 'actions'
 (example: sync,c, add.c, and deptest.c all contain a switch on PM_DEP_MOD_*).
@@ -78,9 +75,6 @@ Refine makepkg error codes. Each kind of failure could have its own code:
   --failed integ checks
   --failed build
   --etc.
-
-Add utility function to either frontend or backend to convert sizes: e.g. bytes
-to KB, MB, GB.
 
 Revamp the downloadprog function a bit. Seems kind of messy.
 
