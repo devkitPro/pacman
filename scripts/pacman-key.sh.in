@@ -137,12 +137,12 @@ reload_keyring() {
 	if [[ -r "${REMOVED_KEYS}" ]]; then
 		while read key; do
 			local key_values name
-			key_values=$(${GPG_PACMAN} --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5,10 --output-delimiter=' ')
+			key_values="$(${GPG_PACMAN} --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5,10 --output-delimiter=' ')"
 			if [[ -n $key_values ]]; then
 				# The first word is the key_id
-				key_id=${key_values%% *}
+				key_id="${key_values%% *}"
 				# the rest if the name of the owner
-				name=${key_values#* }
+				name="${key_values#* }"
 				if [[ -n ${key_id} ]]; then
 					# Mark this key to be deleted
 					removed_ids[$key_id]="$name"
@@ -152,12 +152,12 @@ reload_keyring() {
 	fi
 
 	# List of keys that must be kept installed, even if in the list of keys to be removed
-	local HOLD_KEYS=$(get_from "$CONFIG" "HoldKeys")
+	local HOLD_KEYS="$(get_from "$CONFIG" "HoldKeys")"
 
 	# Remove the keys that must be kept from the set of keys that should be removed
 	if [[ -n ${HOLD_KEYS} ]]; then
 		for key in ${HOLD_KEYS}; do
-			key_id=$(${GPG_PACMAN} --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5)
+			key_id="$(${GPG_PACMAN} --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5)"
 			if [[ -n "${removed_ids[$key_id]}" ]]; then
 				unset removed_ids[$key_id]
 			fi
@@ -168,7 +168,7 @@ reload_keyring() {
 	# be updated automatically.
 	if [[ -r "${ADDED_KEYS}" ]]; then
 		msg "$(gettext "Appending official keys...")"
-		local add_keys=$(${GPG_NOKEYRING} --keyring "${ADDED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)
+		local add_keys="$(${GPG_NOKEYRING} --keyring "${ADDED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
 		for key_id in ${add_keys}; do
 			# There is no point in adding a key that will be deleted right after
 			if [[ -z "${removed_ids[$key_id]}" ]]; then
@@ -179,7 +179,7 @@ reload_keyring() {
 
 	if [[ -r "${DEPRECATED_KEYS}" ]]; then
 		msg "$(gettext "Appending deprecated keys...")"
-		local add_keys=$(${GPG_NOKEYRING} --keyring "${DEPRECATED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)
+		local add_keys="$(${GPG_NOKEYRING} --keyring "${DEPRECATED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
 		for key_id in ${add_keys}; do
 			# There is no point in adding a key that will be deleted right after
 			if [[ -z "${removed_ids[$key_id]}" ]]; then
@@ -264,7 +264,7 @@ if [[ ! -r "${CONFIG}" ]]; then
 fi
 
 # Get GPGDIR from pacman.conf iff not specified on command line
-if [[ -z PACMAN_KEYRING_DIR && GPGDIR=$(get_from "$CONFIG" "GPGDir") == 0 ]]; then
+if [[ -z PACMAN_KEYRING_DIR && GPGDIR="$(get_from "$CONFIG" "GPGDir")" == 0 ]]; then
 	PACMAN_KEYRING_DIR="${GPGDIR}"
 fi
 PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-@sysconfdir@/pacman.d/gnupg}
