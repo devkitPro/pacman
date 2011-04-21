@@ -114,9 +114,16 @@ int alpm_logaction(const char *fmt, ...);
  * Downloading
  */
 
+/** Type of download progress callbacks.
+ * @param filename the name of the file being downloaded
+ * @param xfered the number of transferred bytes
+ * @param total the total number of bytes to transfer
+ */
 typedef void (*alpm_cb_download)(const char *filename,
 		off_t xfered, off_t total);
+
 typedef void (*alpm_cb_totaldl)(off_t total);
+
 /** A callback for downloading files
  * @param url the URL of the file to be downloaded
  * @param localpath the directory to which the file should be downloaded
@@ -596,6 +603,9 @@ size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 
 int alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp);
 
+/** Returns whether the package has an install scriptlet.
+ * @return 0 if FALSE, TRUE otherwise
+ */
 int alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
 /** Returns the size of download.
@@ -797,6 +807,9 @@ typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
 /** Transaction Progress callback */
 typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t, size_t);
 
+/** Returns the bitfield of flags for the current transaction.
+ * @sa _pmtransflag_t
+ */
 int alpm_trans_get_flags(void);
 
 /** Returns a list of packages added by the transaction.
