@@ -156,7 +156,7 @@ static int utimes_long(const char *path, long time)
 
 
 static int curl_download_internal(const char *url, const char *localpath,
-		int force, int allow_resume)
+		int force, int allow_resume, int errors_ok)
 {
 	int ret = -1;
 	FILE *localf = NULL;
@@ -249,9 +249,14 @@ static int curl_download_internal(const char *url, const char *localpath,
 	if(handle->curlerr == CURLE_ABORTED_BY_CALLBACK) {
 		goto cleanup;
 	} else if(handle->curlerr != CURLE_OK) {
-		pm_errno = PM_ERR_LIBCURL;
-		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				dlfile.filename, hostname, error_buffer);
+		if(!errors_ok) {
+			pm_errno = PM_ERR_LIBCURL;
+			_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+					dlfile.filename, hostname, error_buffer);
+		} else {
+			_alpm_log(PM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
+					dlfile.filename, hostname, error_buffer);
+		}
 		unlink(tempfile);
 		goto cleanup;
 	}
@@ -289,8 +294,6 @@ cleanup:
 		utimes_long(tempfile, remote_time);
 	}
 
-	/* TODO: A signature download will need to return success here as well before
-	 * we're willing to rotate the new file into place. */
 	if(ret == 0) {
 		rename(tempfile, destfile);
 	}
@@ -310,76 +313,22 @@ cleanup:
 }
 #endif
 
-static int download(const char *url, const char *localpath,
-		int force)
+int _alpm_download(const char *url, const char *localpath,
+		int force, int allow_resume, int errors_ok)
 {
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
-		return curl_download_internal(url, localpath, force, 1);
+		return curl_download_internal(url, localpath, force, allow_resume, errors_ok);
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
 	} else {
 		int ret = handle->fetchcb(url, localpath, force);
-		if(ret == -1) {
+		if(ret == -1 && !errors_ok) {
 			RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 		}
 		return ret;
 	}
-}
-
-/*
- * Download a single file
- *   - servers must be a list of urls WITHOUT trailing slashes.
- *
- * RETURN:  0 for successful download
- *          1 if the files are identical
- *         -1 on error
- */
-int _alpm_download_single_file(const char *filename,
-		alpm_list_t *servers, const char *localpath,
-		int force)
-{
-	alpm_list_t *i;
-	int ret = -1;
-
-	ASSERT(servers != NULL, RET_ERR(PM_ERR_SERVER_NONE, -1));
-
-	for(i = servers; i; i = i->next) {
-		const char *server = i->data;
-		char *fileurl = NULL;
-		size_t len;
-
-		/* print server + filename into a buffer */
-		len = strlen(server) + strlen(filename) + 2;
-		CALLOC(fileurl, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
-		snprintf(fileurl, len, "%s/%s", server, filename);
-
-		ret = download(fileurl, localpath, force);
-		FREE(fileurl);
-		if(ret != -1) {
-			break;
-		}
-	}
-
-	return ret;
-}
-
-int _alpm_download_files(alpm_list_t *files,
-		alpm_list_t *servers, const char *localpath)
-{
-	int ret = 0;
-	alpm_list_t *lp;
-
-	for(lp = files; lp; lp = lp->next) {
-		char *filename = lp->data;
-		if(_alpm_download_single_file(filename, servers,
-					localpath, 0) == -1) {
-			ret++;
-		}
-	}
-
-	return ret;
 }
 
 /** Fetch a remote pkg. */
@@ -397,12 +346,34 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	cachedir = _alpm_filecache_setup();
 
 	/* download the file */
-	ret = download(url, cachedir, 0);
+	ret = _alpm_download(url, cachedir, 0, 1, 0);
 	if(ret == -1) {
 		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
 		return NULL;
 	}
 	_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s\n", url);
+
+	/* attempt to download the signature */
+	if(ret == 0 && (handle->sigverify == PM_PGP_VERIFY_ALWAYS ||
+				handle->sigverify == PM_PGP_VERIFY_OPTIONAL)) {
+		char *sig_url;
+		size_t len;
+		int errors_ok = (handle->sigverify == PM_PGP_VERIFY_OPTIONAL);
+
+		len = strlen(url) + 5;
+		CALLOC(sig_url, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
+		snprintf(sig_url, len, "%s.sig", url);
+
+		ret = _alpm_download(sig_url, cachedir, 1, 0, errors_ok);
+		if(ret == -1 && !errors_ok) {
+			_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), sig_url);
+			/* Warn now, but don't return NULL. We will fail later during package
+			 * load time. */
+		} else if(ret == 0) {
+			_alpm_log(PM_LOG_DEBUG, "successfully downloaded %s\n", sig_url);
+		}
+		FREE(sig_url);
+	}
 
 	/* we should be able to find the file the second time around */
 	filepath = _alpm_filecache_find(filename);

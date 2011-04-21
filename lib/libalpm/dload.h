@@ -31,12 +31,8 @@ struct fileinfo {
 	double initial_size;
 };
 
-int _alpm_download_single_file(const char *filename,
-		alpm_list_t *servers, const char *localpath,
-		int force);
-
-int _alpm_download_files(alpm_list_t *files,
-		alpm_list_t *servers, const char *localpath);
+int _alpm_download(const char *url, const char *localpath,
+		int force, int allow_resume, int errors_ok);
 
 #endif /* _ALPM_DLOAD_H */
 

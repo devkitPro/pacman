@@ -689,8 +689,8 @@ static int test_md5sum(pmtrans_t *trans, const char *filepath,
 
 int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 {
-	alpm_list_t *i, *j, *files = NULL;
-	alpm_list_t *deltas = NULL;
+	alpm_list_t *i, *j, *k;
+	alpm_list_t *files = NULL, *deltas = NULL;
 	size_t numtargs, current = 0, replaces = 0;
 	int errors = 0;
 	const char *cachedir = NULL;
@@ -758,7 +758,26 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		if(files) {
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
-			errors = _alpm_download_files(files, current->servers, cachedir);
+			for(j = files; j; j = j->next) {
+				const char *filename = j->data;
+				for(k = current->servers; k; k = k->next) {
+					const char *server = k->data;
+					char *fileurl;
+					size_t len;
+
+					/* print server + filename into a buffer */
+					len = strlen(server) + strlen(filename) + 2;
+					CALLOC(fileurl, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+					snprintf(fileurl, len, "%s/%s", server, filename);
+
+					ret = _alpm_download(fileurl, cachedir, 0, 1, 0);
+					FREE(fileurl);
+					if(ret != -1) {
+						break;
+					}
+					errors++;
+				}
+			}
 
 			if(errors) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),

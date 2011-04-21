@@ -78,11 +78,12 @@
  */
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
-	char *dbfile, *syncpath;
+	char *syncpath;
 	const char *dbpath;
+	alpm_list_t *i;
 	struct stat buf;
 	size_t len;
-	int ret;
+	int ret = -1;
 	mode_t oldmask;
 	pgp_verify_t check_sig;
 
@@ -91,14 +92,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-
-	if(!alpm_list_find_ptr(handle->dbs_sync, db)) {
-		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
-	}
-
-	len = strlen(db->treename) + 4;
-	MALLOC(dbfile, len, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(dbfile, "%s.db", db->treename);
+	ASSERT(db->servers != NULL, RET_ERR(PM_ERR_SERVER_NONE, -1));
 
 	dbpath = alpm_option_get_dbpath();
 	len = strlen(dbpath) + 6;
@@ -112,20 +106,48 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
 				syncpath);
 		if(_alpm_makepath(syncpath) != 0) {
-			free(dbfile);
 			free(syncpath);
 			RET_ERR(PM_ERR_SYSTEM, -1);
 		}
 	} else if(!S_ISDIR(buf.st_mode)) {
 		_alpm_log(PM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
 		if(unlink(syncpath) != 0 || _alpm_makepath(syncpath) != 0) {
-			free(dbfile);
 			free(syncpath);
 			RET_ERR(PM_ERR_SYSTEM, -1);
 		}
 	}
 
-	ret = _alpm_download_single_file(dbfile, db->servers, syncpath, force);
+	check_sig = _alpm_db_get_sigverify_level(db);
+
+	for(i = db->servers; i; i = i->next) {
+		const char *server = i->data;
+		char *fileurl;
+		size_t len;
+		int sig_ret = 0;
+
+		/* print server + filename into a buffer (leave space for .sig) */
+		len = strlen(server) + strlen(db->treename) + 9;
+		CALLOC(fileurl, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+		snprintf(fileurl, len, "%s/%s.db", server, db->treename);
+
+		ret = _alpm_download(fileurl, syncpath, force, 0, 0);
+
+		if(ret == 0 && (check_sig == PM_PGP_VERIFY_ALWAYS ||
+					check_sig == PM_PGP_VERIFY_OPTIONAL)) {
+			int errors_ok = (check_sig == PM_PGP_VERIFY_OPTIONAL);
+			/* if we downloaded a DB, we want the .sig from the same server */
+			snprintf(fileurl, len, "%s/%s.db.sig", server, db->treename);
+
+			sig_ret = _alpm_download(fileurl, syncpath, 1, 0, errors_ok);
+			/* errors_ok suppresses error messages, but not the return code */
+			sig_ret = errors_ok ? 0 : sig_ret;
+		}
+
+		FREE(fileurl);
+		if(ret != -1 && sig_ret != -1) {
+			break;
+		}
+	}
 
 	if(ret == 1) {
 		/* files match, do nothing */
@@ -137,51 +159,11 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		goto cleanup;
 	}
 
-	check_sig = _alpm_db_get_sigverify_level(db);
-
-	/* Download and check the signature of the database if needed */
-	if(check_sig != PM_PGP_VERIFY_NEVER) {
-		char *sigfile, *sigfilepath;
-		int sigret;
-
-		len = strlen(dbfile) + 5;
-		MALLOC(sigfile, len, RET_ERR(PM_ERR_MEMORY, -1));
-		sprintf(sigfile, "%s.sig", dbfile);
-
-		/* prevent old signature being used if the following download fails */
-		len = strlen(syncpath) + strlen(sigfile) + 1;
-		MALLOC(sigfilepath, len, RET_ERR(PM_ERR_MEMORY, -1));
-		sprintf(sigfilepath, "%s%s", syncpath, sigfile);
-		_alpm_rmrf(sigfilepath);
-		free(sigfilepath);
-
-		sigret = _alpm_download_single_file(sigfile, db->servers, syncpath, 0);
-		free(sigfile);
-
-		if(sigret == -1 && check_sig == PM_PGP_VERIFY_ALWAYS) {
-			_alpm_log(PM_LOG_ERROR, _("Failed to download signature for db: %s\n"),
-					alpm_strerrorlast());
-			pm_errno = PM_ERR_SIG_INVALID;
-			ret = -1;
-			goto cleanup;
-		}
-
-		sigret = alpm_db_check_pgp_signature(db);
-		if((check_sig == PM_PGP_VERIFY_ALWAYS && sigret != 0) ||
-				(check_sig == PM_PGP_VERIFY_OPTIONAL && sigret == 1)) {
-			/* pm_errno was set by the checking code */
-			/* TODO: should we just leave the unverified database */
-			ret = -1;
-			goto cleanup;
-		}
-	}
-
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
 
 cleanup:
 
-	free(dbfile);
 	free(syncpath);
 	umask(oldmask);
 	return ret;
