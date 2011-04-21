@@ -114,9 +114,16 @@ int alpm_logaction(const char *fmt, ...);
  * Downloading
  */
 
+/** Type of download progress callbacks.
+ * @param filename the name of the file being downloaded
+ * @param xfered the number of transferred bytes
+ * @param total the total number of bytes to transfer
+ */
 typedef void (*alpm_cb_download)(const char *filename,
 		off_t xfered, off_t total);
+
 typedef void (*alpm_cb_totaldl)(off_t total);
+
 /** A callback for downloading files
  * @param url the URL of the file to be downloaded
  * @param localpath the directory to which the file should be downloaded
@@ -138,44 +145,48 @@ char *alpm_fetch_pkgurl(const char *url);
  * @{
  */
 
-/** @name The logging callback. */
-/* @{ */
+/** Returns the callback used for logging. */
 alpm_cb_log alpm_option_get_logcb(void);
+/** Sets the callback used for logging. */
 int alpm_option_set_logcb(alpm_cb_log cb);
-/* @} */
 
-/** Get/set the download progress callback. */
+/** Returns the callback used to report download progress. */
 alpm_cb_download alpm_option_get_dlcb(void);
+/** Sets the callback used to report download progress. */
 int alpm_option_set_dlcb(alpm_cb_download cb);
 
-/** Get/set the downloader callback. */
+/** Returns the downloading callback. */
 alpm_cb_fetch alpm_option_get_fetchcb(void);
+/** Sets the downloading callback. */
 int alpm_option_set_fetchcb(alpm_cb_fetch cb);
 
-/** Get/set the callback used when download size is known. */
+/** Returns the callback used to report total download size. */
 alpm_cb_totaldl alpm_option_get_totaldlcb(void);
+/** Sets the callback used to report total download size. */
 int alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
 
-/** Get/set the root of the destination filesystem. */
+/** Returns the root of the destination filesystem. */
 const char *alpm_option_get_root(void);
+/** Sets the root of the destination filesystem. */
 int alpm_option_set_root(const char *root);
 
-/** Get/set the path to the database directory. */
+/** Returns the path to the database directory. */
 const char *alpm_option_get_dbpath(void);
+/** Sets the path to the database directory. */
 int alpm_option_set_dbpath(const char *dbpath);
 
-/** Get/set the list of package cache directories. */
+/** @name Accessors to the list of package cache directories
+ * @{
+ */
 alpm_list_t *alpm_option_get_cachedirs(void);
 int alpm_option_set_cachedirs(alpm_list_t *cachedirs);
-
-/** Add a single directory to the package cache paths. */
 int alpm_option_add_cachedir(const char *cachedir);
-
-/** Remove a single directory from the package cache paths. */
 int alpm_option_remove_cachedir(const char *cachedir);
+/** @} */
 
-/** Get/set the logfile name. */
+/** Returns the logfile name. */
 const char *alpm_option_get_logfile(void);
+/** Sets the logfile name. */
 int alpm_option_set_logfile(const char *logfile);
 
 /** Get the name of the database lock file.
@@ -187,36 +198,64 @@ int alpm_option_set_logfile(const char *logfile);
  */
 const char *alpm_option_get_lockfile(void);
 
-/** Get/set the signature directory. */
+/** Returns the signature directory path. */
 const char *alpm_option_get_signaturedir(void);
+/** Sets the signature directory path. */
 int alpm_option_set_signaturedir(const char *signaturedir);
 
-/** Get/set whether to use syslog (0 is FALSE, TRUE otherwise). */
+/** Returns whether to use syslog (0 is FALSE, TRUE otherwise). */
 int alpm_option_get_usesyslog(void);
+/** Sets whether to use syslog (0 is FALSE, TRUE otherwise). */
 int alpm_option_set_usesyslog(int usesyslog);
 
+/** @name Accessors to the list of no-upgrade files.
+ * These functions modify the list of files which should
+ * not be updated by package installation.
+ * @{
+ */
 alpm_list_t *alpm_option_get_noupgrades(void);
 int alpm_option_add_noupgrade(const char *pkg);
 int alpm_option_set_noupgrades(alpm_list_t *noupgrade);
 int alpm_option_remove_noupgrade(const char *pkg);
+/** @} */
 
+/** @name Accessors to the list of no-extract files.
+ * These functions modify the list of filenames which should
+ * be skipped packages which should
+ * not be upgraded by a sysupgrade operation.
+ * @{
+ */
 alpm_list_t *alpm_option_get_noextracts(void);
 int alpm_option_add_noextract(const char *pkg);
 int alpm_option_set_noextracts(alpm_list_t *noextract);
 int alpm_option_remove_noextract(const char *pkg);
+/** @} */
 
+/** @name Accessors to the list of ignored packages.
+ * These functions modify the list of packages that
+ * should be ignored by a sysupgrade.
+ * @{
+ */
 alpm_list_t *alpm_option_get_ignorepkgs(void);
 int alpm_option_add_ignorepkg(const char *pkg);
 int alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
 int alpm_option_remove_ignorepkg(const char *pkg);
+/** @} */
 
+/** @name Accessors to the list of ignored groups.
+ * These functions modify the list of groups whose packages
+ * should be ignored by a sysupgrade.
+ * @{
+ */
 alpm_list_t *alpm_option_get_ignoregrps(void);
 int alpm_option_add_ignoregrp(const char *grp);
 int alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
 int alpm_option_remove_ignoregrp(const char *grp);
+/** @} */
 
-/** Get/set the targeted architecture. */
+/** Returns the targeted architecture. */
 const char *alpm_option_get_arch(void);
+/** Sets the targeted architecture. */
 int alpm_option_set_arch(const char *arch);
 
 int alpm_option_get_usedelta(void);
@@ -279,7 +318,8 @@ const char *alpm_db_get_name(const pmdb_t *db);
  */
 const char *alpm_db_get_url(const pmdb_t *db);
 
-/** Set the serverlist of a database.
+/** Add a new server for a database.
+ * An empty string or NULL can be passed to empty the current server list.
  * @param db database pointer
  * @param url url of the server
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
@@ -314,10 +354,10 @@ pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
  */
 alpm_list_t *alpm_db_get_grpcache(pmdb_t *db);
 
-/** Searches a database.
+/** Searches a database with regular expressions.
  * @param db pointer to the package database to search in
- * @param needles the list of strings to search for
- * @return the list of packages on success, NULL on error
+ * @param needles a list of regular expressions to search for
+ * @return the list of packages matching all regular expressions on success, NULL on error
  */
 alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
 
@@ -339,7 +379,8 @@ int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
 /** Create a package from a file.
  * If full is false, the archive is read only until all necessary
  * metadata is found. If it is true, the entire archive is read, which
- * serves as a verfication of integrity and the filelist can be created.
+ * serves as a verification of integrity and the filelist can be created.
+ * The allocated structure should be freed using alpm_pkg_free().
  * @param filename location of the package tarball
  * @param full whether to stop the load after metadata is read or continue
  *             through the full archive
@@ -562,6 +603,9 @@ size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 
 int alpm_pkg_changelog_close(const pmpkg_t *pkg, void *fp);
 
+/** Returns whether the package has an install scriptlet.
+ * @return 0 if FALSE, TRUE otherwise
+ */
 int alpm_pkg_has_scriptlet(pmpkg_t *pkg);
 
 /** Returns the size of download.
@@ -763,6 +807,9 @@ typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
 /** Transaction Progress callback */
 typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t, size_t);
 
+/** Returns the bitfield of flags for the current transaction.
+ * @sa _pmtransflag_t
+ */
 int alpm_trans_get_flags(void);
 
 /** Returns a list of packages added by the transaction.
@@ -813,9 +860,27 @@ int alpm_trans_release(void);
 
 /** @name Common Transactions */
 /** @{ */
+
+/** Search for packages to upgrade and add them to the transaction.
+ * @param enable_downgrade allow downgrading of packages if the remote version is lower
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_sync_sysupgrade(int enable_downgrade);
+
+/** Add a package to the transaction.
+ * If the package was loaded by alpm_pkg_load(), it will be freed upon
+ * alpm_trans_release() invocation.
+ * @param pkg the package to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_add_pkg(pmpkg_t *pkg);
+
+/** Add a package removal action to the transaction.
+ * @param pkg the package to uninstall
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_remove_pkg(pmpkg_t *pkg);
+
 /** @} */
 
 /** @addtogroup alpm_api_depends Dependency Functions

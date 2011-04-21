@@ -47,10 +47,7 @@
 #include "remove.h"
 #include "handle.h"
 
-/** Add a package to the transaction.
- * @param pkg the package to add
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
+/** Add a package to the transaction. */
 int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 {
 	const char *pkgname, *pkgver;
