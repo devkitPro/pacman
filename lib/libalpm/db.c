@@ -370,14 +370,6 @@ const char *_alpm_db_path(pmdb_t *db)
 	return db->_path;
 }
 
-int _alpm_db_version(pmdb_t *db)
-{
-	if(!db) {
-		return -1;
-	}
-	return db->ops->version(db);
-}
-
 char *_alpm_db_sig_path(pmdb_t *db)
 {
 	char *sigpath;
@@ -520,11 +512,6 @@ pmpkghash_t *_alpm_db_get_pkgcache_hash(pmdb_t *db)
 
 	if(!db->pkgcache_loaded) {
 		_alpm_db_load_pkgcache(db);
-	}
-
-	/* hmmm, still NULL ?*/
-	if(!db->pkgcache) {
-		_alpm_log(db->handle, PM_LOG_DEBUG, "warning: pkgcache is NULL for db '%s'\n", db->treename);
 	}
 
 	return db->pkgcache;

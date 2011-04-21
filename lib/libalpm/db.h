@@ -46,7 +46,6 @@ typedef enum _pmdbinfrq_t {
 struct db_operations {
 	int (*populate) (pmdb_t *);
 	void (*unregister) (pmdb_t *);
-	int (*version) (pmdb_t *);
 };
 
 /* Database */

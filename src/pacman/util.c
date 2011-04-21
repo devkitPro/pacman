@@ -68,9 +68,6 @@ int trans_init(pmtransflag_t flags)
 						"  running, you can remove %s\n"),
 					alpm_option_get_lockfile(config->handle));
 		}
-		else if(err == PM_ERR_DB_VERSION) {
-			fprintf(stderr, _("  try running pacman-db-upgrade\n"));
-		}
 
 		return -1;
 	}

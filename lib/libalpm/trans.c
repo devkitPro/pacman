@@ -101,8 +101,6 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 		alpm_trans_cb_progress progress)
 {
 	pmtrans_t *trans;
-	const int required_db_version = 2;
-	int db_version;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -121,16 +119,6 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 	trans->cb_conv = conv;
 	trans->cb_progress = progress;
 	trans->state = STATE_INITIALIZED;
-
-	/* check database version */
-	db_version = _alpm_db_version(handle->db_local);
-	if(db_version < required_db_version) {
-		_alpm_log(handle, PM_LOG_ERROR,
-				_("%s database version is too old\n"), handle->db_local->treename);
-		remove_lock(handle);
-		_alpm_trans_free(trans);
-		RET_ERR(handle, PM_ERR_DB_VERSION, -1);
-	}
 
 	handle->trans = trans;
 
