@@ -852,13 +852,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 		check_sig = _alpm_db_get_sigverify_level(sdb);
 
-		if(check_sig == PM_PGP_VERIFY_UNKNOWN) {
-			_alpm_log(PM_LOG_ERROR, _("failed to determine signature verification "
-						"level for database: %s\n"), sdb->treename);
-			pm_errno = PM_ERR_PKG_INVALID;
-			goto error;
-		}
-
 		if(check_sig != PM_PGP_VERIFY_NEVER) {
 			int ret = _alpm_gpgme_checksig(filepath, pgpsig);
 			if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
