@@ -321,5 +321,6 @@ case "${command}" in
 	-V|--version)
 		version; exit 0 ;;
 	*)
+		error "$(gettext "Unknown command:") $command"
 		usage; exit 1 ;;
 esac
