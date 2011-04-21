@@ -156,16 +156,18 @@ static int utimes_long(const char *path, long time)
 
 
 static int curl_download_internal(const char *url, const char *localpath,
-		int force)
+		int force, int allow_resume)
 {
 	int ret = -1;
 	FILE *localf = NULL;
 	const char *useragent;
 	const char *open_mode = "wb";
 	char *destfile, *tempfile;
-	char hostname[256]; /* RFC1123 states applications should support this length */
+	/* RFC1123 states applications should support this length */
+	char hostname[256];
+	char error_buffer[CURL_ERROR_SIZE];
 	struct stat st;
-	long httpresp, timecond, remote_time;
+	long timecond, remote_time;
 	double remote_size, bytes_dl;
 	struct sigaction sig_pipe[2], sig_int[2];
 	struct fileinfo dlfile;
@@ -188,6 +190,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 	curl_easy_reset(handle->curl);
 	curl_easy_setopt(handle->curl, CURLOPT_URL, url);
 	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_ERRORBUFFER, error_buffer);
 	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
 	curl_easy_setopt(handle->curl, CURLOPT_FILETIME, 1L);
 	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
@@ -206,9 +209,8 @@ static int curl_download_internal(const char *url, const char *localpath,
 		 * our local is out of date. */
 		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
-	} else if(stat(tempfile, &st) == 0 && st.st_size > 0) {
-		/* assume its a partial package download. we do not support resuming of
-		 * transfers on partially downloaded sync DBs. */
+	} else if(stat(tempfile, &st) == 0 && allow_resume) {
+		/* a previous partial download exists, resume from end of file. */
 		open_mode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
 		_alpm_log(PM_LOG_DEBUG, "tempfile found, attempting continuation");
@@ -243,8 +245,18 @@ static int curl_download_internal(const char *url, const char *localpath,
 	/* perform transfer */
 	handle->curlerr = curl_easy_perform(handle->curl);
 
+	/* was it a success? */
+	if(handle->curlerr == CURLE_ABORTED_BY_CALLBACK) {
+		goto cleanup;
+	} else if(handle->curlerr != CURLE_OK) {
+		pm_errno = PM_ERR_LIBCURL;
+		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+				dlfile.filename, hostname, error_buffer);
+		unlink(tempfile);
+		goto cleanup;
+	}
+
 	/* retrieve info about the state of the transfer */
-	curl_easy_getinfo(handle->curl, CURLINFO_RESPONSE_CODE, &httpresp);
 	curl_easy_getinfo(handle->curl, CURLINFO_FILETIME, &remote_time);
 	curl_easy_getinfo(handle->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
 	curl_easy_getinfo(handle->curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
@@ -252,18 +264,8 @@ static int curl_download_internal(const char *url, const char *localpath,
 
 	/* time condition was met and we didn't download anything. we need to
 	 * clean up the 0 byte .part file that's left behind. */
-	if(DOUBLE_EQ(bytes_dl, 0) && timecond == 1) {
+	if(timecond == 1 && DOUBLE_EQ(bytes_dl, 0)) {
 		ret = 1;
-		unlink(tempfile);
-		goto cleanup;
-	}
-
-	if(handle->curlerr == CURLE_ABORTED_BY_CALLBACK) {
-		goto cleanup;
-	} else if(handle->curlerr != CURLE_OK) {
-		pm_errno = PM_ERR_LIBCURL;
-		_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-				dlfile.filename, hostname, curl_easy_strerror(handle->curlerr));
 		unlink(tempfile);
 		goto cleanup;
 	}
@@ -313,7 +315,7 @@ static int download(const char *url, const char *localpath,
 {
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
-		return curl_download_internal(url, localpath, force);
+		return curl_download_internal(url, localpath, force, 1);
 #else
 		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
