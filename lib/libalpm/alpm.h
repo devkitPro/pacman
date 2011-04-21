@@ -138,44 +138,48 @@ char *alpm_fetch_pkgurl(const char *url);
  * @{
  */
 
-/** @name The logging callback. */
-/* @{ */
+/** Returns the callback used for logging. */
 alpm_cb_log alpm_option_get_logcb(void);
+/** Sets the callback used for logging. */
 int alpm_option_set_logcb(alpm_cb_log cb);
-/* @} */
 
-/** Get/set the download progress callback. */
+/** Returns the callback used to report download progress. */
 alpm_cb_download alpm_option_get_dlcb(void);
+/** Sets the callback used to report download progress. */
 int alpm_option_set_dlcb(alpm_cb_download cb);
 
-/** Get/set the downloader callback. */
+/** Returns the downloading callback. */
 alpm_cb_fetch alpm_option_get_fetchcb(void);
+/** Sets the downloading callback. */
 int alpm_option_set_fetchcb(alpm_cb_fetch cb);
 
-/** Get/set the callback used when download size is known. */
+/** Returns the callback used to report total download size. */
 alpm_cb_totaldl alpm_option_get_totaldlcb(void);
+/** Sets the callback used to report total download size. */
 int alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
 
-/** Get/set the root of the destination filesystem. */
+/** Returns the root of the destination filesystem. */
 const char *alpm_option_get_root(void);
+/** Sets the root of the destination filesystem. */
 int alpm_option_set_root(const char *root);
 
-/** Get/set the path to the database directory. */
+/** Returns the path to the database directory. */
 const char *alpm_option_get_dbpath(void);
+/** Sets the path to the database directory. */
 int alpm_option_set_dbpath(const char *dbpath);
 
-/** Get/set the list of package cache directories. */
+/** @name Accessors to the list of package cache directories
+ * @{
+ */
 alpm_list_t *alpm_option_get_cachedirs(void);
 int alpm_option_set_cachedirs(alpm_list_t *cachedirs);
-
-/** Add a single directory to the package cache paths. */
 int alpm_option_add_cachedir(const char *cachedir);
-
-/** Remove a single directory from the package cache paths. */
 int alpm_option_remove_cachedir(const char *cachedir);
+/** @} */
 
-/** Get/set the logfile name. */
+/** Returns the logfile name. */
 const char *alpm_option_get_logfile(void);
+/** Sets the logfile name. */
 int alpm_option_set_logfile(const char *logfile);
 
 /** Get the name of the database lock file.
@@ -187,36 +191,64 @@ int alpm_option_set_logfile(const char *logfile);
  */
 const char *alpm_option_get_lockfile(void);
 
-/** Get/set the signature directory. */
+/** Returns the signature directory path. */
 const char *alpm_option_get_signaturedir(void);
+/** Sets the signature directory path. */
 int alpm_option_set_signaturedir(const char *signaturedir);
 
-/** Get/set whether to use syslog (0 is FALSE, TRUE otherwise). */
+/** Returns whether to use syslog (0 is FALSE, TRUE otherwise). */
 int alpm_option_get_usesyslog(void);
+/** Sets whether to use syslog (0 is FALSE, TRUE otherwise). */
 int alpm_option_set_usesyslog(int usesyslog);
 
+/** @name Accessors to the list of no-upgrade files.
+ * These functions modify the list of files which should
+ * not be updated by package installation.
+ * @{
+ */
 alpm_list_t *alpm_option_get_noupgrades(void);
 int alpm_option_add_noupgrade(const char *pkg);
 int alpm_option_set_noupgrades(alpm_list_t *noupgrade);
 int alpm_option_remove_noupgrade(const char *pkg);
+/** @} */
 
+/** @name Accessors to the list of no-extract files.
+ * These functions modify the list of filenames which should
+ * be skipped packages which should
+ * not be upgraded by a sysupgrade operation.
+ * @{
+ */
 alpm_list_t *alpm_option_get_noextracts(void);
 int alpm_option_add_noextract(const char *pkg);
 int alpm_option_set_noextracts(alpm_list_t *noextract);
 int alpm_option_remove_noextract(const char *pkg);
+/** @} */
 
+/** @name Accessors to the list of ignored packages.
+ * These functions modify the list of packages that
+ * should be ignored by a sysupgrade.
+ * @{
+ */
 alpm_list_t *alpm_option_get_ignorepkgs(void);
 int alpm_option_add_ignorepkg(const char *pkg);
 int alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
 int alpm_option_remove_ignorepkg(const char *pkg);
+/** @} */
 
+/** @name Accessors to the list of ignored groups.
+ * These functions modify the list of groups whose packages
+ * should be ignored by a sysupgrade.
+ * @{
+ */
 alpm_list_t *alpm_option_get_ignoregrps(void);
 int alpm_option_add_ignoregrp(const char *grp);
 int alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
 int alpm_option_remove_ignoregrp(const char *grp);
+/** @} */
 
-/** Get/set the targeted architecture. */
+/** Returns the targeted architecture. */
 const char *alpm_option_get_arch(void);
+/** Sets the targeted architecture. */
 int alpm_option_set_arch(const char *arch);
 
 int alpm_option_get_usedelta(void);
