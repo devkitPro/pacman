@@ -82,11 +82,17 @@ This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
-find_config() {
-	# Prints on stdin the values of all the options from the configuration file that
-	# are associated with the first parameter of this function.
-	# The option names are stripped
-	grep -e "^[[:blank:]]*$1[[:blank:]]*=.*" "$CONFIG" | cut -d= -f 2-
+# Read provided file and search for values matching the given key
+# The contents of the file are expected to be in this format: key = value
+# 'key', 'equal sign' and 'value' can be surrounded by random whitespace
+# Usage: get_from "$file" "$key" # returns the value for the first matching key in the file
+get_from() {
+    while read key _ value; do
+        if [[ $key = $2 ]]; then
+            echo "$value"
+            break
+        fi
+    done < "$1"
 }
 
 reload_keyring() {
@@ -154,7 +160,7 @@ reload_keyring() {
 	fi
 
 	# List of keys that must be kept installed, even if in the list of keys to be removed
-	local HOLD_KEYS=$(find_config "HoldKeys")
+	local HOLD_KEYS=$(get_from "$CONFIG" "HoldKeys")
 
 	# Remove the keys that must be kept from the set of keys that should be removed
 	if [[ -n ${HOLD_KEYS} ]]; then
@@ -239,9 +245,7 @@ if [[ ! -r "${CONFIG}" ]]; then
 fi
 
 # Read GPGDIR from $CONFIG.
-# The pattern is: any spaces or tabs, GPGDir, any spaces or tabs, equal sign
-# and the rest of the line. The string is splitted after the first occurrence of =
-if [[ GPGDIR=$(find_config "GPGDir") == 0 ]]; then
+if [[ GPGDIR=$(get_from "$CONFIG" "GPGDir") == 0 ]]; then
 	PACMAN_KEYRING_DIR="${GPGDIR}"
 fi
 GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
