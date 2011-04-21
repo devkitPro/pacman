@@ -45,6 +45,32 @@ extern "C" {
  */
 
 /*
+ * Enumerations
+ * These ones are used in multiple contexts, so are forward-declared.
+ */
+
+/**
+ * Install reasons
+ * Why the package was installed.
+ */
+typedef enum _pmpkgreason_t {
+	/** Explicitly requested by the user. */
+	PM_PKG_REASON_EXPLICIT = 0,
+	/** Installed as a dependency for another package. */
+	PM_PKG_REASON_DEPEND = 1
+} pmpkgreason_t;
+
+/**
+ * GPG signature verification options
+ */
+typedef enum _pgp_verify_t {
+	PM_PGP_VERIFY_UNKNOWN,
+	PM_PGP_VERIFY_NEVER,
+	PM_PGP_VERIFY_OPTIONAL,
+	PM_PGP_VERIFY_ALWAYS
+} pgp_verify_t;
+
+/*
  * Structures
  */
 
@@ -71,7 +97,9 @@ const char *alpm_version(void);
  * Logging facilities
  */
 
-/* Levels */
+/**
+ * Logging Levels
+ */
 typedef enum _pmloglevel_t {
 	PM_LOG_ERROR    = 1,
 	PM_LOG_WARNING  = (1 << 1),
@@ -198,16 +226,6 @@ int alpm_option_get_checkspace(void);
 int alpm_option_set_checkspace(int checkspace);
 
 /** @} */
-
-/** Install reasons
- * Why the package was installed.
- */
-typedef enum _pmpkgreason_t {
-	/** Explicitly requested by the user. */
-	PM_PKG_REASON_EXPLICIT = 0,
-	/** Installed as a dependency for another package. */
-	PM_PKG_REASON_DEPEND = 1
-} pmpkgreason_t;
 
 /** @addtogroup alpm_api_databases Database Functions
  * Functions to query and manipulate the database of libalpm.
@@ -561,15 +579,8 @@ alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
  */
 
 int alpm_pkg_check_pgp_signature(pmpkg_t *pkg);
+
 int alpm_db_check_pgp_signature(pmdb_t *db);
-
-/* GPG signature verification option */
-typedef enum _pgp_verify_t {
-	PM_PGP_VERIFY_ALWAYS,
-	PM_PGP_VERIFY_OPTIONAL,
-	PM_PGP_VERIFY_NEVER
-} pgp_verify_t;
-
 int alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify);
 
 /*
