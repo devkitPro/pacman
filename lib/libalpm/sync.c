@@ -117,7 +117,8 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 			pmdb_t *sdb = j->data;
 			/* Check sdb */
 			pmpkg_t *spkg = _alpm_db_get_pkgfromcache(sdb, lpkg->name);
-			if(spkg) { /* 1. literal was found in sdb */
+			if(spkg) {
+				/* 1. literal was found in sdb */
 				int cmp = _alpm_pkg_compare_versions(spkg, lpkg);
 				if(cmp > 0) {
 					_alpm_log(PM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
@@ -147,8 +148,10 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 								lpkg->name, lpkg->version, sdb->treename, spkg->version);
 					}
 				}
-				break; /* jump to next local package */
-			} else { /* 2. search for replacers in sdb */
+				/* jump to next local package */
+				break;
+			} else {
+				/* 2. search for replacers in sdb */
 				int found = 0;
 				for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
 					spkg = k->data;
@@ -184,7 +187,8 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 							if(alpm_pkg_get_reason(lpkg) == PM_PKG_REASON_EXPLICIT) {
 								tpkg->reason = PM_PKG_REASON_EXPLICIT;
 							}
-						} else { /* add spkg to the target list */
+						} else {
+							/* add spkg to the target list */
 							/* copy over reason */
 							spkg->reason = alpm_pkg_get_reason(lpkg);
 							spkg->removes = alpm_list_add(NULL, lpkg);
