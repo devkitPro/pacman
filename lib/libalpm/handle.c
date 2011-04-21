@@ -628,6 +628,7 @@ int SYMEXPORT alpm_option_set_checkspace(int checkspace)
 int SYMEXPORT alpm_option_set_default_sigverify(pgp_verify_t level)
 {
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(level != PM_PGP_VERIFY_UNKNOWN, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	handle->sigverify = level;
 	return 0;
 }
