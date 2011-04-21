@@ -27,7 +27,7 @@
 
 /* internal structure for communicating with curl progress callback */
 struct fileinfo {
-	char *filename;
+	const char *filename;
 	double initial_size;
 };
 

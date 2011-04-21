@@ -46,7 +46,7 @@
 static double prevprogress; /* last download amount */
 #endif
 
-static char *get_filename(const char *url)
+static const char *get_filename(const char *url)
 {
 	char *filename = strrchr(url, '/');
 	if(filename != NULL) {
@@ -71,9 +71,10 @@ static char *get_fullpath(const char *path, const char *filename,
 #define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
 enum sighandlers { OLD = 0, NEW = 1 };
 
-int dload_interrupted;
+static int dload_interrupted;
 static void inthandler(int signum)
 {
+	(void)signum;
 	dload_interrupted = 1;
 }
 
@@ -119,7 +120,7 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 
 static int curl_gethost(const char *url, char *buffer)
 {
-	int hostlen;
+	size_t hostlen;
 	char *p;
 
 	if(strncmp(url, "file://", 7) == 0) {
@@ -382,8 +383,8 @@ int _alpm_download_files(alpm_list_t *files,
 /** Fetch a remote pkg. */
 char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 {
-	char *filename, *filepath;
-	const char *cachedir;
+	char *filepath;
+	const char *filename, *cachedir;
 	int ret;
 
 	ALPM_LOG_FUNC;
