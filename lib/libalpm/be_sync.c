@@ -84,6 +84,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	size_t len;
 	int ret;
 	mode_t oldmask;
+	pgp_verify_t check_sig;
 
 	ALPM_LOG_FUNC;
 
@@ -136,8 +137,10 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		goto cleanup;
 	}
 
+	check_sig = _alpm_db_get_sigverify_level(db);
+
 	/* Download and check the signature of the database if needed */
-	if(db->pgp_verify != PM_PGP_VERIFY_NEVER) {
+	if(check_sig != PM_PGP_VERIFY_NEVER) {
 		char *sigfile, *sigfilepath;
 		int sigret;
 
@@ -155,7 +158,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		sigret = _alpm_download_single_file(sigfile, db->servers, syncpath, 0);
 		free(sigfile);
 
-		if(sigret == -1 && db->pgp_verify == PM_PGP_VERIFY_ALWAYS) {
+		if(sigret == -1 && check_sig == PM_PGP_VERIFY_ALWAYS) {
 			_alpm_log(PM_LOG_ERROR, _("Failed to download signature for db: %s\n"),
 					alpm_strerrorlast());
 			pm_errno = PM_ERR_SIG_INVALID;
@@ -164,8 +167,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		}
 
 		sigret = alpm_db_check_pgp_signature(db);
-		if((db->pgp_verify == PM_PGP_VERIFY_ALWAYS && sigret != 0) ||
-				(db->pgp_verify == PM_PGP_VERIFY_OPTIONAL && sigret == 1)) {
+		if((check_sig == PM_PGP_VERIFY_ALWAYS && sigret != 0) ||
+				(check_sig == PM_PGP_VERIFY_OPTIONAL && sigret == 1)) {
 			/* pm_errno was set by the checking code */
 			/* TODO: should we just leave the unverified database */
 			ret = -1;
