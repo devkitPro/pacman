@@ -360,7 +360,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 			int remove_unresolvable = 0;
 			QUESTION(handle->trans, PM_TRANS_CONV_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
-			if (remove_unresolvable) {
+			if(remove_unresolvable) {
 				/* User wants to remove the unresolvable packages from the
 				   transaction. The packages will be removed from the actual
 				   transaction when the transaction packages are replaced with a
@@ -764,7 +764,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
 			errors = _alpm_download_files(files, current->servers, cachedir);
 
-			if (errors) {
+			if(errors) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
 				if(pm_errno == 0) {

@@ -80,7 +80,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 
 	if(retval == 0) {
 		return 0;
-	} else if (retval == 1) {
+	} else if(retval == 1) {
 		pm_errno = PM_ERR_PKG_INVALID;
 		retval = -1;
 	}

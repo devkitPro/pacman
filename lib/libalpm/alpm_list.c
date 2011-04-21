@@ -178,10 +178,10 @@ alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
 {
 	alpm_list_t *tmp;
 
-	if (first == NULL) {
+	if(first == NULL) {
 		return second;
 	}
-	if (second == NULL) {
+	if(second == NULL) {
 		return first;
 	}
 	/* tmp is the last element of the first list */
@@ -209,12 +209,12 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 {
 	alpm_list_t *newlist, *lp;
 
-	if (left == NULL)
+	if(left == NULL)
 		return right;
-	if (right == NULL)
+	if(right == NULL)
 		return left;
 
-	if (fn(left->data, right->data) <= 0) {
+	if(fn(left->data, right->data) <= 0) {
 		newlist = left;
 		left = left->next;
 	}
@@ -226,8 +226,8 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 	newlist->next = NULL;
 	lp = newlist;
 
-	while ((left != NULL) && (right != NULL)) {
-		if (fn(left->data, right->data) <= 0) {
+	while((left != NULL) && (right != NULL)) {
+		if(fn(left->data, right->data) <= 0) {
 			lp->next = left;
 			left->prev = lp;
 			left = left->next;
@@ -240,11 +240,11 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 		lp = lp->next;
 		lp->next = NULL;
 	}
-	if (left != NULL) {
+	if(left != NULL) {
 		lp->next = left;
 		left->prev = lp;
 	}
-	else if (right != NULL) {
+	else if(right != NULL) {
 		lp->next = right;
 		right->prev = lp;
 	}
@@ -271,7 +271,7 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
  */
 alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn_cmp fn)
 {
-	if (n > 1) {
+	if(n > 1) {
 		alpm_list_t *left = list;
 		alpm_list_t *lastleft = alpm_list_nth(list, n/2 - 1);
 		alpm_list_t *right = lastleft->next;
@@ -689,7 +689,7 @@ void SYMEXPORT alpm_list_diff_sorted(const alpm_list_t *left,
 		return;
 	}
 
-	while (l != NULL && r != NULL) {
+	while(l != NULL && r != NULL) {
 		int cmp = fn(l->data, r->data);
 		if(cmp < 0) {
 			if(onlyleft) {
@@ -707,13 +707,13 @@ void SYMEXPORT alpm_list_diff_sorted(const alpm_list_t *left,
 			r = r->next;
 		}
 	}
-	while (l != NULL) {
+	while(l != NULL) {
 		if(onlyleft) {
 			*onlyleft = alpm_list_add(*onlyleft, l->data);
 		}
 		l = l->next;
 	}
-	while (r != NULL) {
+	while(r != NULL) {
 		if(onlyright) {
 			*onlyright = alpm_list_add(*onlyright, r->data);
 		}

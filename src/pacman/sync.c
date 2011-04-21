@@ -340,14 +340,14 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 			alpm_list_t *grp;
 			pmpkg_t *pkg = alpm_list_getdata(j);
 
-			if (!config->quiet) {
+			if(!config->quiet) {
 				printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
 							 alpm_pkg_get_version(pkg));
 			} else {
 				printf("%s", alpm_pkg_get_name(pkg));
 			}
 
-			if (!config->quiet) {
+			if(!config->quiet) {
 				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 					alpm_list_t *k;
 					printf(" (");
@@ -550,7 +550,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 		for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
 			pmpkg_t *pkg = alpm_list_getdata(j);
 
-			if (!config->quiet) {
+			if(!config->quiet) {
 				printf("%s %s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
 						alpm_pkg_get_version(pkg));
 				print_installed(db_local, pkg);

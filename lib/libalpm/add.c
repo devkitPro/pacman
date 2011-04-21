@@ -559,7 +559,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 
 		_alpm_log(PM_LOG_DEBUG, "extracting files\n");
 
-		if ((archive = archive_read_new()) == NULL) {
+		if((archive = archive_read_new()) == NULL) {
 			pm_errno = PM_ERR_LIBARCHIVE;
 			ret = -1;
 			goto cleanup;

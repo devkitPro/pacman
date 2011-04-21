@@ -443,7 +443,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 				matched = name;
 			}
 			/* check desc */
-			else if (desc && regexec(&reg, desc, 0, 0, 0) == 0) {
+			else if(desc && regexec(&reg, desc, 0, 0, 0) == 0) {
 				matched = desc;
 			}
 			/* TODO: should we be doing this, and should we print something
@@ -451,7 +451,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 			if(!matched) {
 				/* check provides */
 				for(k = alpm_pkg_get_provides(pkg); k; k = k->next) {
-					if (regexec(&reg, k->data, 0, 0, 0) == 0) {
+					if(regexec(&reg, k->data, 0, 0, 0) == 0) {
 						matched = k->data;
 						break;
 					}
@@ -460,7 +460,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 			if(!matched) {
 				/* check groups */
 				for(k = alpm_pkg_get_groups(pkg); k; k = k->next) {
-					if (regexec(&reg, k->data, 0, 0, 0) == 0) {
+					if(regexec(&reg, k->data, 0, 0, 0) == 0) {
 						matched = k->data;
 						break;
 					}

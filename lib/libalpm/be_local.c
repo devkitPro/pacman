@@ -335,7 +335,7 @@ static int is_dir(const char *path, struct dirent *entry)
 
 		snprintf(buffer, PATH_MAX, "%s/%s", path, entry->d_name);
 
-		if (!stat(buffer, &sbuf)) {
+		if(!stat(buffer, &sbuf)) {
 			return S_ISDIR(sbuf.st_mode);
 		}
 	}

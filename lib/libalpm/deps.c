@@ -153,7 +153,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 		while(vertex->childptr && !found) {
 			pmgraph_t *nextchild = vertex->childptr->data;
 			vertex->childptr = vertex->childptr->next;
-			if (nextchild->state == 0) {
+			if(nextchild->state == 0) {
 				found = 1;
 				nextchild->parent = vertex;
 				vertex = nextchild;
@@ -181,7 +181,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 				vptr = vptr->next;
 				while(vptr) {
 					vertex = vptr->data;
-					if (vertex->state == 0) break;
+					if(vertex->state == 0) break;
 					vptr = vptr->next;
 				}
 			}
@@ -569,7 +569,7 @@ static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 		if(pkg && _alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(pkg)) {
 				int install = 0;
-				if (prompt) {
+				if(prompt) {
 					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 							 NULL, NULL, &install);
 				} else {
@@ -591,7 +591,7 @@ static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 			             !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(pkg)) {
 					int install = 0;
-					if (prompt) {
+					if(prompt) {
 						QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,
 									pkg, NULL, NULL, &install);
 					} else {
@@ -613,13 +613,13 @@ static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
 	/* first check if one provider is already installed locally */
 	for(i = providers; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
-		if (_alpm_pkghash_find(_alpm_db_get_pkgcache_hash(handle->db_local), pkg->name)) {
+		if(_alpm_pkghash_find(_alpm_db_get_pkgcache_hash(handle->db_local), pkg->name)) {
 			alpm_list_free(providers);
 			return pkg;
 		}
 	}
 	count = alpm_list_count(providers);
-	if (count >= 1) {
+	if(count >= 1) {
 		/* default to first provider if there is no QUESTION callback */
 		int index = 0;
 		if(count > 1) {

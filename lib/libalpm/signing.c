@@ -148,7 +148,7 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 	CHECK_ERR();
 	result = gpgme_op_verify_result(ctx);
 	gpgsig = result->signatures;
-	if (!gpgsig || gpgsig->next) {
+	if(!gpgsig || gpgsig->next) {
 		_alpm_log(PM_LOG_ERROR, _("Unexpected number of signatures\n"));
 		ret = -1;
 		goto error;

@@ -71,7 +71,7 @@ static alpm_list_t *mount_point_list(void)
 
 	fp = setmntent(MOUNTED, "r");
 
-	if (fp == NULL) {
+	if(fp == NULL) {
 		return NULL;
 	}
 
@@ -103,7 +103,7 @@ static alpm_list_t *mount_point_list(void)
 
 	entries = getmntinfo(&fsp, MNT_NOWAIT);
 
-	if (entries < 0) {
+	if(entries < 0) {
 		return NULL;
 	}
 
@@ -192,7 +192,7 @@ static int calculate_installed_size(const alpm_list_t *mount_points,
 	struct archive *archive;
 	struct archive_entry *entry;
 
-	if ((archive = archive_read_new()) == NULL) {
+	if((archive = archive_read_new()) == NULL) {
 		pm_errno = PM_ERR_LIBARCHIVE;
 		ret = -1;
 		goto cleanup;

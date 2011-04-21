@@ -160,7 +160,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
 				remove_prepare_cascade(trans, db, lp);
-			} else if (trans->flags & PM_TRANS_FLAG_UNNEEDED) {
+			} else if(trans->flags & PM_TRANS_FLAG_UNNEEDED) {
 				/* Remove needed packages (which would break dependencies)
 				 * from target list */
 				remove_prepare_keep_needed(trans, db, lp);

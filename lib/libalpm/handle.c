@@ -98,7 +98,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 
 alpm_cb_log SYMEXPORT alpm_option_get_logcb()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -107,7 +107,7 @@ alpm_cb_log SYMEXPORT alpm_option_get_logcb()
 
 alpm_cb_download SYMEXPORT alpm_option_get_dlcb()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -116,7 +116,7 @@ alpm_cb_download SYMEXPORT alpm_option_get_dlcb()
 
 alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -125,7 +125,7 @@ alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb()
 
 alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -134,7 +134,7 @@ alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb()
 
 const char SYMEXPORT *alpm_option_get_root()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -143,7 +143,7 @@ const char SYMEXPORT *alpm_option_get_root()
 
 const char SYMEXPORT *alpm_option_get_dbpath()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -152,7 +152,7 @@ const char SYMEXPORT *alpm_option_get_dbpath()
 
 alpm_list_t SYMEXPORT *alpm_option_get_cachedirs()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -161,7 +161,7 @@ alpm_list_t SYMEXPORT *alpm_option_get_cachedirs()
 
 const char SYMEXPORT *alpm_option_get_logfile()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -170,7 +170,7 @@ const char SYMEXPORT *alpm_option_get_logfile()
 
 const char SYMEXPORT *alpm_option_get_lockfile()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -179,7 +179,7 @@ const char SYMEXPORT *alpm_option_get_lockfile()
 
 const char SYMEXPORT *alpm_option_get_signaturedir()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -188,7 +188,7 @@ const char SYMEXPORT *alpm_option_get_signaturedir()
 
 int SYMEXPORT alpm_option_get_usesyslog()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return -1;
 	}
@@ -197,7 +197,7 @@ int SYMEXPORT alpm_option_get_usesyslog()
 
 alpm_list_t SYMEXPORT *alpm_option_get_noupgrades()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -206,7 +206,7 @@ alpm_list_t SYMEXPORT *alpm_option_get_noupgrades()
 
 alpm_list_t SYMEXPORT *alpm_option_get_noextracts()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -215,7 +215,7 @@ alpm_list_t SYMEXPORT *alpm_option_get_noextracts()
 
 alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -224,7 +224,7 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs()
 
 alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -233,7 +233,7 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
 
 const char SYMEXPORT *alpm_option_get_arch()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -242,7 +242,7 @@ const char SYMEXPORT *alpm_option_get_arch()
 
 int SYMEXPORT alpm_option_get_usedelta()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return -1;
 	}
@@ -251,7 +251,7 @@ int SYMEXPORT alpm_option_get_usedelta()
 
 int SYMEXPORT alpm_option_get_checkspace()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return -1;
 	}
@@ -260,7 +260,7 @@ int SYMEXPORT alpm_option_get_checkspace()
 
 pmdb_t SYMEXPORT *alpm_option_get_localdb()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}
@@ -269,7 +269,7 @@ pmdb_t SYMEXPORT *alpm_option_get_localdb()
 
 alpm_list_t SYMEXPORT *alpm_option_get_syncdbs()
 {
-	if (handle == NULL) {
+	if(handle == NULL) {
 		pm_errno = PM_ERR_HANDLE_NULL;
 		return NULL;
 	}

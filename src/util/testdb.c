@@ -66,7 +66,7 @@ static int check_localdb_files(void)
 		return 1;
 	}
 
-	while ((ent = readdir(dir)) != NULL) {
+	while((ent = readdir(dir)) != NULL) {
 		if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0
 				|| ent->d_name[0] == '.') {
 			continue;

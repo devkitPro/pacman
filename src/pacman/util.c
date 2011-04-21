@@ -589,7 +589,7 @@ void list_display(const char *title, const alpm_list_t *list)
 				for (j = 1; j <= len; j++) {
 					printf(" ");
 				}
-			} else if (cols != len) {
+			} else if(cols != len) {
 				/* 2 spaces are added if this is not the first element on a line. */
 				printf("  ");
 				cols += 2;
@@ -978,7 +978,7 @@ static int multiselect_parse(char *array, int count, char *response)
 		char *ends = NULL;
 		char *starts = strtok_r(str, " ", &saveptr);
 
-		if (starts == NULL) {
+		if(starts == NULL) {
 			break;
 		}
 		strtrim(starts);
@@ -986,7 +986,7 @@ static int multiselect_parse(char *array, int count, char *response)
 		if(len == 0)
 			continue;
 
-		if (*starts == '^') {
+		if(*starts == '^') {
 			starts++;
 			len--;
 			include = 0;
@@ -1145,7 +1145,7 @@ static int question(short preset, char *fmt, va_list args)
 
 		if(strcasecmp(response, _("Y")) == 0 || strcasecmp(response, _("YES")) == 0) {
 			return 1;
-		} else if (strcasecmp(response, _("N")) == 0 || strcasecmp(response, _("NO")) == 0) {
+		} else if(strcasecmp(response, _("N")) == 0 || strcasecmp(response, _("NO")) == 0) {
 			return 0;
 		}
 	}
@@ -1316,7 +1316,7 @@ char *strndup(const char *s, size_t n)
   size_t len = strnlen(s, n);
   char *new = (char *) malloc(len + 1);
 
-  if (new == NULL)
+  if(new == NULL)
     return NULL;
 
   new[len] = '\0';

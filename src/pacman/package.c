@@ -179,7 +179,7 @@ static const char *get_backup_file_status(const char *root,
 		}
 
 		/* if checksums don't match, file has been modified */
-		if (strcmp(md5sum, expected_md5) != 0) {
+		if(strcmp(md5sum, expected_md5) != 0) {
 			ret = "MODIFIED";
 		} else {
 			ret = "UNMODIFIED";

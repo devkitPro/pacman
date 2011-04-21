@@ -398,7 +398,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	}
 
 	infolen = getcols() * 6 / 10;
-	if (infolen < 50) {
+	if(infolen < 50) {
 		infolen = 50;
 	}
 
@@ -507,7 +507,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	}
 
 	infolen = getcols() * 6 / 10;
-	if (infolen < 50) {
+	if(infolen < 50) {
 		infolen = 50;
 	}
 	/* explanation of magic 28 number at the end */

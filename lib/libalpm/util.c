@@ -65,14 +65,14 @@ char* strsep(char** str, const char* delims)
 {
 	char* token;
 
-	if (*str==NULL) {
+	if(*str==NULL) {
 		/* No more tokens */
 		return NULL;
 	}
 
 	token=*str;
-	while (**str!='\0') {
-		if (strchr(delims,**str)!=NULL) {
+	while(**str!='\0') {
+		if(strchr(delims,**str)!=NULL) {
 			**str='\0';
 			(*str)++;
 			return token;
@@ -307,7 +307,7 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 			char *found = alpm_list_find_str(list, prefix);
 			free(prefix);
 			if(!found) {
-				if (archive_read_data_skip(_archive) != ARCHIVE_OK) {
+				if(archive_read_data_skip(_archive) != ARCHIVE_OK) {
 					ret = 1;
 					goto cleanup;
 				}
@@ -700,7 +700,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	/* defined above for OpenSSL, otherwise defined in md5.h */
 	ret = md5_file(filename, output);
 
-	if (ret > 0) {
+	if(ret > 0) {
 		RET_ERR(PM_ERR_NOT_A_FILE, NULL);
 	}
 
@@ -838,7 +838,7 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	end = target + strlen(target);
 
 	/* remove any trailing '/' */
-	while (*(end - 1) == '/') {
+	while(*(end - 1) == '/') {
 	  --end;
 	}
 
@@ -916,7 +916,7 @@ char *strndup(const char *s, size_t n)
   size_t len = strnlen(s, n);
   char *new = (char *) malloc(len + 1);
 
-  if (new == NULL)
+  if(new == NULL)
     return NULL;
 
   new[len] = '\0';

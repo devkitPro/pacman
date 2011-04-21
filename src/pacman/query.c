@@ -60,16 +60,16 @@ static int search_path(char **filename, struct stat *bufptr)
 	char *envpath, *envpathsplit, *path, *fullname;
 	size_t flen;
 
-	if ((envpath = getenv("PATH")) == NULL) {
+	if((envpath = getenv("PATH")) == NULL) {
 		return -1;
 	}
-	if ((envpath = envpathsplit = strdup(envpath)) == NULL) {
+	if((envpath = envpathsplit = strdup(envpath)) == NULL) {
 		return -1;
 	}
 
 	flen = strlen(*filename);
 
-	while ((path = strsep(&envpathsplit, ":")) != NULL) {
+	while((path = strsep(&envpathsplit, ":")) != NULL) {
 		size_t plen = strlen(path);
 
 		/* strip the trailing slash if one exists */
@@ -94,7 +94,7 @@ static int search_path(char **filename, struct stat *bufptr)
 
 static void print_query_fileowner(const char *filename, pmpkg_t *info)
 {
-	if (!config->quiet) {
+	if(!config->quiet) {
 		printf(_("%s is owned by %s %s\n"), filename,
 				alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 	} else {
@@ -167,7 +167,7 @@ static int query_fileowner(alpm_list_t *targets)
 		bname = mbasename(filename);
 		dname = mdirname(filename);
 		/* for files in '/', there is no directory name to match */
-		if (strcmp(dname, "") == 0) {
+		if(strcmp(dname, "") == 0) {
 			rpath = NULL;
 		} else {
 			rpath = resolve_path(dname);
@@ -255,14 +255,14 @@ static int query_search(alpm_list_t *targets)
 		alpm_list_t *grp;
 		pmpkg_t *pkg = alpm_list_getdata(i);
 
-		if (!config->quiet) {
+		if(!config->quiet) {
 			printf("local/%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		} else {
 			printf("%s", alpm_pkg_get_name(pkg));
 		}
 
 
-		if (!config->quiet) {
+		if(!config->quiet) {
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 				alpm_list_t *k;
 				printf(" (");
@@ -468,7 +468,7 @@ static int display(pmpkg_t *pkg)
 	}
 	if(!config->op_q_info && !config->op_q_list
 			&& !config->op_q_changelog && !config->op_q_check) {
-		if (!config->quiet) {
+		if(!config->quiet) {
 			printf("%s %s\n", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		} else {
 			printf("%s\n", alpm_pkg_get_name(pkg));

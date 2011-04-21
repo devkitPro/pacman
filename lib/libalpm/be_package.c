@@ -60,7 +60,7 @@ static void *_package_changelog_open(pmpkg_t *pkg)
 	archive_read_support_compression_all(archive);
 	archive_read_support_format_all(archive);
 
-	if (archive_read_open_filename(archive, pkgfile,
+	if(archive_read_open_filename(archive, pkgfile,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);
 	}
@@ -275,7 +275,7 @@ static pmpkg_t *pkg_load(const char *pkgfile, int full)
 	archive_read_support_compression_all(archive);
 	archive_read_support_format_all(archive);
 
-	if (archive_read_open_filename(archive, pkgfile,
+	if(archive_read_open_filename(archive, pkgfile,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		alpm_pkg_free(newpkg);
 		RET_ERR(PM_ERR_PKG_OPEN, NULL);
