@@ -42,6 +42,7 @@
 int pacman_upgrade(alpm_list_t *targets)
 {
 	alpm_list_t *i, *data = NULL;
+	pgp_verify_t check_sig = alpm_option_get_default_sigverify();
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -75,7 +76,7 @@ int pacman_upgrade(alpm_list_t *targets)
 		char *targ = alpm_list_getdata(i);
 		pmpkg_t *pkg;
 
-		if(alpm_pkg_load(targ, 1, &pkg) != 0) {
+		if(alpm_pkg_load(targ, 1, check_sig, &pkg) != 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
 			trans_release();

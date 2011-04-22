@@ -862,45 +862,27 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	for(i = trans->add; i; i = i->next, current++) {
 		pmpkg_t *spkg = i->data;
 		int percent = (current * 100) / numtargs;
+		const char *filename;
+		char *filepath;
+		pgp_verify_t check_sig;
+
+		PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
+				numtargs, current);
 		if(spkg->origin == PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
-		PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
-				numtargs, current);
 
-		const char *filename = alpm_pkg_get_filename(spkg);
-		char *filepath = _alpm_filecache_find(filename);
-		const char *md5sum = alpm_pkg_get_md5sum(spkg);
-		pgp_verify_t check_sig;
-
-		/* check md5sum first */
-		if(test_md5sum(trans, filepath, md5sum) != 0) {
-			errors++;
-			*data = alpm_list_add(*data, strdup(filename));
-			FREE(filepath);
-			continue;
-		}
-		/* check PGP signature next */
+		filename = alpm_pkg_get_filename(spkg);
+		filepath = _alpm_filecache_find(filename);
 		pmdb_t *sdb = alpm_pkg_get_db(spkg);
-
 		check_sig = _alpm_db_get_sigverify_level(sdb);
 
-		if(check_sig != PM_PGP_VERIFY_NEVER) {
-			int ret = _alpm_gpgme_checksig(filepath, spkg->base64_sig);
-			if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
-					(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
-				errors++;
-				*data = alpm_list_add(*data, strdup(filename));
-				FREE(filepath);
-				continue;
-			}
-		}
 		/* load the package file and replace pkgcache entry with it in the target list */
 		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
 		_alpm_log(PM_LOG_DEBUG, "replacing pkgcache entry with package file for target %s\n", spkg->name);
-		pmpkg_t *pkgfile;
-		if(alpm_pkg_load(filepath, 1, &pkgfile) != 0) {
-			_alpm_pkg_free(pkgfile);
+		pmpkg_t *pkgfile =_alpm_pkg_load_internal(filepath, 1, spkg->md5sum,
+				spkg->base64_sig, check_sig);
+		if(!pkgfile) {
 			errors++;
 			*data = alpm_list_add(*data, strdup(filename));
 			FREE(filepath);

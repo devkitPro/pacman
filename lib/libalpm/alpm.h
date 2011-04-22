@@ -382,11 +382,14 @@ int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
  * The allocated structure should be freed using alpm_pkg_free().
  * @param filename location of the package tarball
  * @param full whether to stop the load after metadata is read or continue
- *             through the full archive
+ * through the full archive
+ * @param check_sig what level of package signature checking to perform on the
+ * package; note that this must be a '.sig' file type verification
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_pkg_load(const char *filename, int full, pmpkg_t **pkg);
+int alpm_pkg_load(const char *filename, int full, pgp_verify_t check_sig,
+		pmpkg_t **pkg);
 
 /** Free a package.
  * @param pkg package pointer to free
