@@ -373,12 +373,14 @@ linkman:pacman.conf[5].
 	report of all packages to upgrade will be presented and  the operation
 	will not proceed without user confirmation. Dependencies are
 	automatically resolved at this level and will be installed/upgraded if
-	necessary. Pass this option twice to enable package downgrade; in this
-	case pacman will select sync packages whose version does not match with
-	the local version. This can be useful when the user switches from a testing
-	repo to a stable one. Additional targets can also be specified manually, so
-	that '-Su foo' will do a system upgrade and install/upgrade the foo package in
-	the same operation.
+	necessary.
++
+Pass this option twice to enable package downgrade; in this case pacman will
+select sync packages whose version does not match with the local version.  This
+can be useful when the user switches from a testing repo to a stable one.
++
+Additional targets can also be specified manually, so that '-Su foo' will do a
+system upgrade and install/upgrade the foo package in the same operation.
 
 *-w, \--downloadonly*::
 	Retrieve all packages from the server, but do not install/upgrade anything.
