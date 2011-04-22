@@ -651,6 +651,7 @@ static int apply_deltas(pmtrans_t *trans)
 			if(retval != 0) {
 				/* one delta failed for this package, cancel the remaining ones */
 				EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_FAILED, NULL, NULL);
+				pm_errno = PM_ERR_DLT_PATCHFAILED;
 				ret = 1;
 				break;
 			}
@@ -684,6 +685,44 @@ static int test_md5sum(pmtrans_t *trans, const char *filepath,
 		}
 	}
 
+	return ret;
+}
+
+static int validate_deltas(pmtrans_t *trans, alpm_list_t *deltas,
+		alpm_list_t **data)
+{
+	int errors = 0, ret = 0;
+	alpm_list_t *i;
+
+	if(!deltas) {
+		return 0;
+	}
+
+	/* Check integrity of deltas */
+	EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
+
+	for(i = deltas; i; i = i->next) {
+		pmdelta_t *d = alpm_list_getdata(i);
+		const char *filename = alpm_delta_get_filename(d);
+		char *filepath = _alpm_filecache_find(filename);
+		const char *md5sum = alpm_delta_get_md5sum(d);
+
+		if(test_md5sum(trans, filepath, md5sum) != 0) {
+			errors++;
+			*data = alpm_list_add(*data, strdup(filename));
+		}
+		FREE(filepath);
+	}
+	if(errors) {
+		pm_errno = PM_ERR_DLT_INVALID;
+		return -1;
+	}
+	EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
+
+	/* Use the deltas to generate the packages */
+	EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
+	ret = apply_deltas(trans);
+	EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
 	return ret;
 }
 
@@ -797,52 +836,22 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	alpm_list_t *i;
 	alpm_list_t *deltas = NULL;
 	size_t numtargs, current = 0, replaces = 0;
-	int errors = 0;
-	int ret = -1;
+	int errors;
 
 	ALPM_LOG_FUNC;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	if(download_files(trans, &deltas)) {
-		goto error;
+		alpm_list_free(deltas);
+		return -1;
 	}
 
-	/* if we have deltas to work with */
-	if(handle->usedelta && deltas) {
-		int ret = 0;
-		errors = 0;
-		/* Check integrity of deltas */
-		EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
-
-		for(i = deltas; i; i = i->next) {
-			pmdelta_t *d = alpm_list_getdata(i);
-			const char *filename = alpm_delta_get_filename(d);
-			char *filepath = _alpm_filecache_find(filename);
-			const char *md5sum = alpm_delta_get_md5sum(d);
-
-			if(test_md5sum(trans, filepath, md5sum) != 0) {
-				errors++;
-				*data = alpm_list_add(*data, strdup(filename));
-			}
-			FREE(filepath);
-		}
-		if(errors) {
-			pm_errno = PM_ERR_DLT_INVALID;
-			goto error;
-		}
-		EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
-
-		/* Use the deltas to generate the packages */
-		EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
-		ret = apply_deltas(trans);
-		EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
-
-		if(ret) {
-			pm_errno = PM_ERR_DLT_PATCHFAILED;
-			goto error;
-		}
+	if(validate_deltas(trans, deltas, data)) {
+		alpm_list_free(deltas);
+		return -1;
 	}
+	alpm_list_free(deltas);
 
 	/* Check integrity of packages */
 	numtargs = alpm_list_count(trans->add);
@@ -909,13 +918,11 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 
 	if(errors) {
-		pm_errno = PM_ERR_PKG_INVALID;
-		goto error;
+		RET_ERR(PM_ERR_PKG_INVALID, -1);
 	}
 
 	if(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY) {
-		ret = 0;
-		goto error;
+		return 0;
 	}
 
 	trans->state = STATE_COMMITING;
@@ -930,14 +937,13 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		alpm_list_t *conflict = _alpm_db_find_fileconflicts(db_local, trans,
 								    trans->add, trans->remove);
 		if(conflict) {
-			pm_errno = PM_ERR_FILE_CONFLICTS;
 			if(data) {
 				*data = conflict;
 			} else {
 				alpm_list_free_inner(conflict, (alpm_list_fn_free)_alpm_fileconflict_free);
 				alpm_list_free(conflict);
 			}
-			goto error;
+			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
 		}
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
@@ -950,7 +956,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		_alpm_log(PM_LOG_DEBUG, "checking available disk space\n");
 		if(_alpm_check_diskspace(trans, handle->db_local) == -1) {
 			_alpm_log(PM_LOG_ERROR, "%s\n", _("not enough free disk space"));
-			goto error;
+			return -1;
 		}
 
 		EVENT(trans, PM_TRANS_EVT_DISKSPACE_DONE, NULL, NULL);
@@ -962,7 +968,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		/* we want the frontend to be aware of commit details */
 		if(_alpm_remove_packages(trans, handle->db_local) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not commit removal transaction\n"));
-			goto error;
+			return -1;
 		}
 	}
 
@@ -970,13 +976,10 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	_alpm_log(PM_LOG_DEBUG, "installing packages\n");
 	if(_alpm_upgrade_packages(trans, handle->db_local) == -1) {
 		_alpm_log(PM_LOG_ERROR, _("could not commit transaction\n"));
-		goto error;
+		return -1;
 	}
-	ret = 0;
 
-error:
-	alpm_list_free(deltas);
-	return ret;
+	return 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */
