@@ -37,6 +37,82 @@
 		if(err != GPG_ERR_NO_ERROR) { goto error; } \
 	} while(0)
 
+static const char *gpgme_string_validity(gpgme_validity_t validity)
+{
+	switch(validity) {
+		case GPGME_VALIDITY_UNKNOWN:
+			return "unknown";
+		case GPGME_VALIDITY_UNDEFINED:
+			return "undefined";
+		case GPGME_VALIDITY_NEVER:
+			return "never";
+		case GPGME_VALIDITY_MARGINAL:
+			return "marginal";
+		case GPGME_VALIDITY_FULL:
+			return "full";
+		case GPGME_VALIDITY_ULTIMATE:
+			return "ultimate";
+	}
+	return "???";
+}
+
+static alpm_list_t *gpgme_list_sigsum(gpgme_sigsum_t sigsum)
+{
+	alpm_list_t *summary = NULL;
+	/* The docs say this can be a bitmask...not sure I believe it, but we'll code
+	 * for it anyway and show all possible flags in the returned string. */
+
+	/* The signature is fully valid.  */
+	if(sigsum & GPGME_SIGSUM_VALID) {
+		summary = alpm_list_add(summary, "valid");
+	}
+	/* The signature is good.  */
+	if(sigsum & GPGME_SIGSUM_GREEN) {
+		summary = alpm_list_add(summary, "green");
+	}
+	/* The signature is bad.  */
+	if(sigsum & GPGME_SIGSUM_RED) {
+		summary = alpm_list_add(summary, "red");
+	}
+	/* One key has been revoked.  */
+	if(sigsum & GPGME_SIGSUM_KEY_REVOKED) {
+		summary = alpm_list_add(summary, "key revoked");
+	}
+	/* One key has expired.  */
+	if(sigsum & GPGME_SIGSUM_KEY_EXPIRED) {
+		summary = alpm_list_add(summary, "key expired");
+	}
+	/* The signature has expired.  */
+	if(sigsum & GPGME_SIGSUM_SIG_EXPIRED) {
+		summary = alpm_list_add(summary, "sig expired");
+	}
+	/* Can't verify: key missing.  */
+	if(sigsum & GPGME_SIGSUM_KEY_MISSING) {
+		summary = alpm_list_add(summary, "key missing");
+	}
+	/* CRL not available.  */
+	if(sigsum & GPGME_SIGSUM_CRL_MISSING) {
+		summary = alpm_list_add(summary, "crl missing");
+	}
+	/* Available CRL is too old.  */
+	if(sigsum & GPGME_SIGSUM_CRL_TOO_OLD) {
+		summary = alpm_list_add(summary, "crl too old");
+	}
+	/* A policy was not met.  */
+	if(sigsum & GPGME_SIGSUM_BAD_POLICY) {
+		summary = alpm_list_add(summary, "bad policy");
+	}
+	/* A system error occured.  */
+	if(sigsum & GPGME_SIGSUM_SYS_ERROR) {
+		summary = alpm_list_add(summary, "sys error");
+	}
+	/* Fallback case */
+	if(!sigsum) {
+		summary = alpm_list_add(summary, "(empty)");
+	}
+	return summary;
+}
+
 static int gpgme_init(void)
 {
 	static int init = 0;
@@ -221,17 +297,27 @@ int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
 		ret = -1;
 		goto error;
 	}
-	_alpm_log(PM_LOG_DEBUG, "summary=%x\n", gpgsig->summary);
-	_alpm_log(PM_LOG_DEBUG, "fpr=%s\n", gpgsig->fpr);
-	_alpm_log(PM_LOG_DEBUG, "status=%d\n", gpgsig->status);
-	_alpm_log(PM_LOG_DEBUG, "timestamp=%lu\n", gpgsig->timestamp);
-	_alpm_log(PM_LOG_DEBUG, "wrong_key_usage=%u\n", gpgsig->wrong_key_usage);
-	_alpm_log(PM_LOG_DEBUG, "pka_trust=%u\n", gpgsig->pka_trust);
-	_alpm_log(PM_LOG_DEBUG, "chain_model=%u\n", gpgsig->chain_model);
-	_alpm_log(PM_LOG_DEBUG, "validity=%d\n", gpgsig->validity);
-	_alpm_log(PM_LOG_DEBUG, "validity_reason=%d\n", gpgsig->validity_reason);
-	_alpm_log(PM_LOG_DEBUG, "key=%d\n", gpgsig->pubkey_algo);
-	_alpm_log(PM_LOG_DEBUG, "hash=%d\n", gpgsig->hash_algo);
+
+	{
+		alpm_list_t *summary_list, *summary;
+
+		_alpm_log(PM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
+		summary_list = gpgme_list_sigsum(gpgsig->summary);
+		for(summary = summary_list; summary; summary = summary->next) {
+			_alpm_log(PM_LOG_DEBUG, "summary: %s\n", (const char *)summary->data);
+		}
+		_alpm_log(PM_LOG_DEBUG, "status: %s\n", gpgme_strerror(gpgsig->status));
+		_alpm_log(PM_LOG_DEBUG, "timestamp: %lu\n", gpgsig->timestamp);
+		_alpm_log(PM_LOG_DEBUG, "exp_timestamp: %lu\n", gpgsig->exp_timestamp);
+		_alpm_log(PM_LOG_DEBUG, "validity: %s\n",
+				gpgme_string_validity(gpgsig->validity));
+		_alpm_log(PM_LOG_DEBUG, "validity_reason: %s\n",
+				gpgme_strerror(gpgsig->validity_reason));
+		_alpm_log(PM_LOG_DEBUG, "pubkey algo: %s\n",
+				gpgme_pubkey_algo_name(gpgsig->pubkey_algo));
+		_alpm_log(PM_LOG_DEBUG, "hash algo: %s\n",
+				gpgme_hash_algo_name(gpgsig->hash_algo));
+	}
 
 	if(gpgsig->summary & GPGME_SIGSUM_VALID) {
 		/* good signature, continue */
