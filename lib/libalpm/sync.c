@@ -687,18 +687,12 @@ static int test_md5sum(pmtrans_t *trans, const char *filepath,
 	return ret;
 }
 
-int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
+static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 {
-	alpm_list_t *i, *j, *k;
-	alpm_list_t *files = NULL, *deltas = NULL;
-	size_t numtargs, current = 0, replaces = 0;
+	const char *cachedir;
+	alpm_list_t *i, *j;
+	alpm_list_t *files = NULL;
 	int errors = 0;
-	const char *cachedir = NULL;
-	int ret = -1;
-
-	ALPM_LOG_FUNC;
-
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	cachedir = _alpm_filecache_setup();
 	trans->state = STATE_DOWNLOADING;
@@ -731,26 +725,18 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				alpm_list_t *delta_path = spkg->delta_path;
 				if(delta_path) {
 					/* using deltas */
-					alpm_list_t *dlts = NULL;
-
+					alpm_list_t *dlts;
 					for(dlts = delta_path; dlts; dlts = dlts->next) {
-						pmdelta_t *d = dlts->data;
-
-						if(d->download_size != 0) {
-							/* add the delta filename to the download list if needed */
-							files = alpm_list_add(files, strdup(d->delta));
+						pmdelta_t *delta = dlts->data;
+						if(delta->download_size != 0) {
+							files = alpm_list_add(files, strdup(delta->delta));
 						}
-
 						/* keep a list of all the delta files for md5sums */
-						deltas = alpm_list_add(deltas, d);
+						*deltas = alpm_list_add(*deltas, delta);
 					}
 
-				} else {
-					/* not using deltas */
-					if(spkg->download_size != 0) {
-						/* add the filename to the download list if needed */
-						files = alpm_list_add(files, strdup(fname));
-					}
+				} else if(spkg->download_size != 0) {
+					files = alpm_list_add(files, strdup(fname));
 				}
 
 			}
@@ -760,15 +746,17 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
 			for(j = files; j; j = j->next) {
 				const char *filename = j->data;
-				for(k = current->servers; k; k = k->next) {
-					const char *server = k->data;
+				alpm_list_t *server;
+				for(server = current->servers; server; server = server->next) {
+					const char *server_url = server->data;
 					char *fileurl;
 					size_t len;
+					int ret;
 
 					/* print server + filename into a buffer */
-					len = strlen(server) + strlen(filename) + 2;
+					len = strlen(server_url) + strlen(filename) + 2;
 					CALLOC(fileurl, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
-					snprintf(fileurl, len, "%s/%s", server, filename);
+					snprintf(fileurl, len, "%s/%s", server_url, filename);
 
 					ret = _alpm_download(fileurl, cachedir, 0, 1, 0);
 					FREE(fileurl);
@@ -779,15 +767,15 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 				}
 			}
 
+			FREELIST(files);
 			if(errors) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
 				if(pm_errno == 0) {
 					pm_errno = PM_ERR_RETRIEVE;
 				}
-				goto error;
+				return -1;
 			}
-			FREELIST(files);
 		}
 	}
 
@@ -800,6 +788,24 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	/* clear out value to let callback know we are done */
 	if(handle->totaldlcb) {
 		handle->totaldlcb(0);
+	}
+	return 0;
+}
+
+int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
+{
+	alpm_list_t *i;
+	alpm_list_t *deltas = NULL;
+	size_t numtargs, current = 0, replaces = 0;
+	int errors = 0;
+	int ret = -1;
+
+	ALPM_LOG_FUNC;
+
+	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+
+	if(download_files(trans, &deltas)) {
+		goto error;
 	}
 
 	/* if we have deltas to work with */
@@ -969,7 +975,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	ret = 0;
 
 error:
-	FREELIST(files);
 	alpm_list_free(deltas);
 	return ret;
 }
