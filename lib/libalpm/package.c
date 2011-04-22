@@ -36,7 +36,6 @@
 #include "delta.h"
 #include "handle.h"
 #include "deps.h"
-#include "base64.h"
 
 /** \addtogroup alpm_packages Package Functions
  * @brief Functions to manipulate libalpm packages
@@ -195,43 +194,6 @@ const char SYMEXPORT *alpm_pkg_get_packager(pmpkg_t *pkg)
 const char SYMEXPORT *alpm_pkg_get_md5sum(pmpkg_t *pkg)
 {
 	return pkg->ops->get_md5sum(pkg);
-}
-
-static int decode_pgpsig(pmpkg_t *pkg) {
-	const int len = strlen(pkg->pgpsig.base64_data);
-	const unsigned char *usline = (const unsigned char *)pkg->pgpsig.base64_data;
-	int ret, destlen = 0;
-	/* get the necessary size for the buffer by passing 0 */
-	ret = base64_decode(NULL, &destlen, usline, len);
-	/* alloc our memory and repeat the call to decode */
-	MALLOC(pkg->pgpsig.data, (size_t)destlen, goto error);
-	ret = base64_decode(pkg->pgpsig.data, &destlen, usline, len);
-	pkg->pgpsig.len = destlen;
-	if(ret != 0) {
-		goto error;
-	}
-
-	/* we no longer have a need for this */
-	FREE(pkg->pgpsig.base64_data);
-	return 0;
-
-error:
-	FREE(pkg->pgpsig.data);
-	pkg->pgpsig.len = 0;
-	return 1;
-}
-
-const pmpgpsig_t SYMEXPORT *alpm_pkg_get_pgpsig(pmpkg_t *pkg)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, NULL));
-
-	if(pkg->pgpsig.data == NULL && pkg->pgpsig.base64_data != NULL) {
-		decode_pgpsig(pkg);
-	}
-	return &(pkg->pgpsig);
 }
 
 const char SYMEXPORT *alpm_pkg_get_arch(pmpkg_t *pkg)
@@ -468,8 +430,7 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREE(pkg->url);
 	FREE(pkg->packager);
 	FREE(pkg->md5sum);
-	FREE(pkg->pgpsig.base64_data);
-	FREE(pkg->pgpsig.data);
+	FREE(pkg->base64_sig);
 	FREE(pkg->arch);
 	FREELIST(pkg->licenses);
 	FREELIST(pkg->replaces);

@@ -28,6 +28,7 @@
 /* libalpm */
 #include "signing.h"
 #include "package.h"
+#include "base64.h"
 #include "util.h"
 #include "log.h"
 #include "alpm.h"
@@ -92,13 +93,48 @@ error:
 }
 
 /**
+ * Decode a loaded signature in base64 form.
+ * @param base64_data the signature to attempt to decode
+ * @param data the decoded data; must be freed by the caller
+ * @param data_len the length of the returned data
+ * @return 0 on success, 1 on failure to properly decode
+ */
+static int decode_signature(const char *base64_data,
+		unsigned char **data, int *data_len) {
+	unsigned char *usline;
+	int len;
+
+	len = strlen(base64_data);
+	usline = (unsigned char *)base64_data;
+	int ret, destlen = 0;
+	/* get the necessary size for the buffer by passing 0 */
+	ret = base64_decode(NULL, &destlen, usline, len);
+	if(ret != 0 || ret != POLARSSL_ERR_BASE64_BUFFER_TOO_SMALL) {
+		goto error;
+	}
+	/* alloc our memory and repeat the call to decode */
+	MALLOC(data, (size_t)destlen, goto error);
+	ret = base64_decode(*data, &destlen, usline, len);
+	if(ret != 0) {
+		goto error;
+	}
+	*data_len = destlen;
+	return 0;
+
+error:
+	*data = NULL;
+	*data_len = 0;
+	return 1;
+}
+
+/**
  * Check the PGP signature for the given file.
  * @param path the full path to a file
- * @param sig PGP signature data in raw form (already decoded); if NULL, expect
- * a signature file next to 'path'
+ * @param base64_sig PGP signature data in base64 encoding; if NULL, expect a
+ * signature file next to 'path'
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
  */
-int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
+int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
 {
 	int ret = 0;
 	gpgme_error_t err;
@@ -107,6 +143,7 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 	gpgme_verify_result_t result;
 	gpgme_signature_t gpgsig;
 	char *sigpath = NULL;
+	unsigned char *decoded_sigdata = NULL;
 	FILE *file = NULL, *sigfile = NULL;
 
 	ALPM_LOG_FUNC;
@@ -115,7 +152,7 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 		RET_ERR(PM_ERR_NOT_A_FILE, -1);
 	}
 
-	if(!sig) {
+	if(!base64_sig) {
 		size_t len = strlen(path) + 5;
 		CALLOC(sigpath, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
 		snprintf(sigpath, len, "%s.sig", path);
@@ -124,8 +161,6 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 			FREE(sigpath);
 			RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
 		}
-	} else if(!sig->data) {
-		 RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
 	}
 
 	if(gpgme_init()) {
@@ -153,9 +188,17 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 	CHECK_ERR();
 
 	/* next create data object for the signature */
-	if(sig) {
+	if(base64_sig) {
 		/* memory-based, we loaded it from a sync DB */
-		err = gpgme_data_new_from_mem(&sigdata, (char *)sig->data, sig->len, 0);
+		int data_len;
+		int decode_ret = decode_signature(base64_sig,
+				&decoded_sigdata, &data_len);
+		if(decode_ret) {
+			ret = -1;
+			goto error;
+		}
+		err = gpgme_data_new_from_mem(&sigdata,
+				(char *)decoded_sigdata, data_len, 0);
 	} else {
 		/* file-based, it is on disk */
 		sigfile = fopen(sigpath, "rb");
@@ -222,6 +265,7 @@ error:
 		fclose(file);
 	}
 	FREE(sigpath);
+	FREE(decoded_sigdata);
 	if(err != GPG_ERR_NO_ERROR) {
 		_alpm_log(PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
 		RET_ERR(PM_ERR_GPGME, -1);
@@ -257,8 +301,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 	ALPM_LOG_FUNC;
 	ASSERT(pkg != NULL, return 0);
 
-	return _alpm_gpgme_checksig(alpm_pkg_get_filename(pkg),
-			alpm_pkg_get_pgpsig(pkg));
+	return _alpm_gpgme_checksig(alpm_pkg_get_filename(pkg), pkg->base64_sig);
 }
 
 /**

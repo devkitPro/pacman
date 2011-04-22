@@ -97,9 +97,8 @@ struct __pmpkg_t {
 	char *url;
 	char *packager;
 	char *md5sum;
+	char *base64_sig;
 	char *arch;
-
-	pmpgpsig_t pgpsig;
 
 	time_t builddate;
 	time_t installdate;

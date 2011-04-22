@@ -76,7 +76,6 @@ typedef enum _pgp_verify_t {
 
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
-typedef struct __pmpgpsig_t pmpgpsig_t;
 typedef struct __pmdelta_t pmdelta_t;
 typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmtrans_t pmtrans_t;
@@ -475,8 +474,6 @@ const char *alpm_pkg_get_packager(pmpkg_t *pkg);
  * @return a reference to an internal string
  */
 const char *alpm_pkg_get_md5sum(pmpkg_t *pkg);
-
-const pmpgpsig_t *alpm_pkg_get_pgpsig(pmpkg_t *pkg);
 
 /** Returns the architecture for which the package was built.
  * @param pkg a pointer to package
