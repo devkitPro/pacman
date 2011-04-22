@@ -22,8 +22,14 @@
 
 #include <alpm.h>
 
-void dump_pkg_full(pmpkg_t *pkg, int level);
-void dump_pkg_sync(pmpkg_t *pkg, const char *treename, int level);
+/* TODO it would be nice if we didn't duplicate a backend type */
+enum pkg_from {
+	PKG_FROM_FILE = 1,
+	PKG_FROM_LOCALDB,
+	PKG_FROM_SYNCDB
+};
+
+void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra);
 
 void dump_pkg_backups(pmpkg_t *pkg);
 void dump_pkg_files(pmpkg_t *pkg, int quiet);

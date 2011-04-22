@@ -36,16 +36,15 @@
 
 #define CLBUF_SIZE 4096
 
-/* Display the content of a package
- *
- * levels:
- *       <-1 - sync package, extra information (required by) [-Sii]
- *        -1 - sync package, normal level [-Si]
- *        =0 - file query [-Qip]
- *         1 - localdb query, normal level [-Qi]
- *        >1 - localdb query, extra information (backup files) [-Qii]
+/**
+ * Display the details of a package.
+ * Extra information entails 'required by' info for sync packages and backup
+ * files info for local packages.
+ * @param pkg package to display information for
+ * @param from the type of package we are dealing with
+ * @param extra should we show extra information
  */
-void dump_pkg_full(pmpkg_t *pkg, int level)
+void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra)
 {
 	const char *reason;
 	time_t bdate, idate;
@@ -87,12 +86,16 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 		depstrings = alpm_list_add(depstrings, alpm_dep_compute_string(dep));
 	}
 
-	if(level > 0 || level < -1) {
+	if(extra || from == PKG_FROM_LOCALDB) {
 		/* compute this here so we don't get a pause in the middle of output */
 		requiredby = alpm_pkg_compute_requiredby(pkg);
 	}
 
 	/* actual output */
+	if(from == PKG_FROM_SYNCDB) {
+		string_display(_("Repository     :"),
+				alpm_db_get_name(alpm_pkg_get_db(pkg)));
+	}
 	string_display(_("Name           :"), alpm_pkg_get_name(pkg));
 	string_display(_("Version        :"), alpm_pkg_get_version(pkg));
 	string_display(_("URL            :"), alpm_pkg_get_url(pkg));
@@ -101,16 +104,16 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
 	list_display(_("Depends On     :"), depstrings);
 	list_display_linebreak(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
-	if(level > 0 || level < -1) {
+	if(extra || from == PKG_FROM_LOCALDB) {
 		list_display(_("Required By    :"), requiredby);
 	}
 	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 
 	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 1, &label);
-	if(level < 0) {
+	if(from == PKG_FROM_SYNCDB) {
 		printf(_("Download Size  : %6.2f %s\n"), size, label);
-	} else if(level == 0) {
+	} else if(from == PKG_FROM_FILE) {
 		printf(_("Compressed Size: %6.2f %s\n"), size, label);
 	}
 
@@ -120,23 +123,22 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg));
 	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg));
 	string_display(_("Build Date     :"), bdatestr);
-	if(level > 0) {
+	if(from == PKG_FROM_LOCALDB) {
 		string_display(_("Install Date   :"), idatestr);
 		string_display(_("Install Reason :"), reason);
 	}
-	if(level >= 0) {
+	if(from == PKG_FROM_FILE || from == PKG_FROM_LOCALDB) {
 		string_display(_("Install Script :"),
 				alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
 	}
 
-	/* MD5 Sum for sync package */
-	if(level < 0) {
+	if(from == PKG_FROM_SYNCDB) {
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg));
 	}
 	string_display(_("Description    :"), alpm_pkg_get_desc(pkg));
 
 	/* Print additional package info if info flag passed more than once */
-	if(level > 1) {
+	if(from == PKG_FROM_LOCALDB && extra) {
 		dump_pkg_backups(pkg);
 	}
 
@@ -145,18 +147,6 @@ void dump_pkg_full(pmpkg_t *pkg, int level)
 
 	FREELIST(depstrings);
 	FREELIST(requiredby);
-}
-
-/* Display the content of a sync package
- */
-void dump_pkg_sync(pmpkg_t *pkg, const char *treename, int level)
-{
-	if(pkg == NULL) {
-		return;
-	}
-	string_display(_("Repository     :"), treename);
-	/* invert the level since we are a sync package */
-	dump_pkg_full(pkg, -level);
 }
 
 static const char *get_backup_file_status(const char *root,

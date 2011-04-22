@@ -465,7 +465,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					pmpkg_t *pkg = alpm_list_getdata(k);
 
 					if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
-						dump_pkg_sync(pkg, alpm_db_get_name(db), config->op_s_info);
+						dump_pkg_full(pkg, PKG_FROM_SYNCDB, config->op_s_info > 1);
 						foundpkg = 1;
 						break;
 					}
@@ -486,7 +486,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 						pmpkg_t *pkg = alpm_list_getdata(k);
 
 						if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
-							dump_pkg_sync(pkg, alpm_db_get_name(db), config->op_s_info);
+							dump_pkg_full(pkg, PKG_FROM_SYNCDB, config->op_s_info > 1);
 							foundpkg = 1;
 							break;
 						}
@@ -504,7 +504,8 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 			pmdb_t *db = alpm_list_getdata(i);
 
 			for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
-				dump_pkg_sync(alpm_list_getdata(j), alpm_db_get_name(db), config->op_s_info);
+				pmpkg_t *pkg = alpm_list_getdata(j);
+				dump_pkg_full(pkg, PKG_FROM_SYNCDB, config->op_s_info > 1);
 			}
 		}
 	}

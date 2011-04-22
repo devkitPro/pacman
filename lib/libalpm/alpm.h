@@ -567,9 +567,9 @@ alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
  */
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
 
-/** Returns the database containing pkg
+/** Returns the database containing pkg.
  * Returns a pointer to the pmdb_t structure the package is
- * originating from, or NULL is the package was loaded from a file.
+ * originating from, or NULL if the package was loaded from a file.
  * @param pkg a pointer to package
  * @return a pointer to the DB containing pkg, or NULL.
  */
