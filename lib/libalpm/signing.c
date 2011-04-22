@@ -92,9 +92,10 @@ error:
 }
 
 /**
- * Check the PGP package signature for the given file.
+ * Check the PGP signature for the given file.
  * @param path the full path to a file
- * @param sig PGP signature data in raw form (already decoded)
+ * @param sig PGP signature data in raw form (already decoded); if NULL, expect
+ * a signature file next to 'path'
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
  */
 int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
@@ -105,16 +106,28 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 	gpgme_data_t filedata, sigdata;
 	gpgme_verify_result_t result;
 	gpgme_signature_t gpgsig;
+	char *sigpath = NULL;
 	FILE *file = NULL, *sigfile = NULL;
 
 	ALPM_LOG_FUNC;
 
-	if(!sig || !sig->data) {
-		 RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
-	}
 	if(!path || access(path, R_OK) != 0) {
 		RET_ERR(PM_ERR_NOT_A_FILE, -1);
 	}
+
+	if(!sig) {
+		size_t len = strlen(path) + 5;
+		CALLOC(sigpath, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+		snprintf(sigpath, len, "%s.sig", path);
+
+		if(!access(sigpath, R_OK) == 0) {
+			FREE(sigpath);
+			RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
+		}
+	} else if(!sig->data) {
+		 RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
+	}
+
 	if(gpgme_init()) {
 		/* pm_errno was set in gpgme_init() */
 		return -1;
@@ -140,7 +153,19 @@ int _alpm_gpgme_checksig(const char *path, const pmpgpsig_t *sig)
 	CHECK_ERR();
 
 	/* next create data object for the signature */
-	err = gpgme_data_new_from_mem(&sigdata, (char *)sig->data, sig->len, 0);
+	if(sig) {
+		/* memory-based, we loaded it from a sync DB */
+		err = gpgme_data_new_from_mem(&sigdata, (char *)sig->data, sig->len, 0);
+	} else {
+		/* file-based, it is on disk */
+		sigfile = fopen(sigpath, "rb");
+		if(sigfile == NULL) {
+			pm_errno = PM_ERR_NOT_A_FILE;
+			ret = -1;
+			goto error;
+		}
+		err = gpgme_data_new_from_stream(&sigdata, sigfile);
+	}
 	CHECK_ERR();
 
 	/* here's where the magic happens */
@@ -196,59 +221,11 @@ error:
 	if(file) {
 		fclose(file);
 	}
+	FREE(sigpath);
 	if(err != GPG_ERR_NO_ERROR) {
 		_alpm_log(PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
 		RET_ERR(PM_ERR_GPGME, -1);
 	}
-	return ret;
-}
-
-/**
- * Load the signature from the given path into the provided struct.
- * @param sigfile the signature to attempt to load
- * @param pgpsig the struct to place the data in
- *
- * @return 0 on success, 1 on file not found, -1 on error
- */
-int _alpm_load_signature(const char *file, pmpgpsig_t *pgpsig) {
-	struct stat st;
-	char *sigfile;
-	int ret = -1;
-
-	/* look around for a PGP signature file; load if available */
-	MALLOC(sigfile, strlen(file) + 5, RET_ERR(PM_ERR_MEMORY, -1));
-	sprintf(sigfile, "%s.sig", file);
-
-	if(access(sigfile, R_OK) == 0 && stat(sigfile, &st) == 0) {
-		FILE *f;
-		size_t bytes_read;
-
-		if(st.st_size > 4096 || (f = fopen(sigfile, "rb")) == NULL) {
-			free(sigfile);
-			return ret;
-		}
-		CALLOC(pgpsig->data, st.st_size, sizeof(unsigned char),
-				RET_ERR(PM_ERR_MEMORY, -1));
-		bytes_read = fread(pgpsig->data, sizeof(char), st.st_size, f);
-		if(bytes_read == (size_t)st.st_size) {
-			pgpsig->len = bytes_read;
-			_alpm_log(PM_LOG_DEBUG, "loaded gpg signature file, location %s\n",
-					sigfile);
-			ret = 0;
-		} else {
-			_alpm_log(PM_LOG_WARNING, _("Failed reading PGP signature file %s"),
-					sigfile);
-			FREE(pgpsig->data);
-		}
-
-		fclose(f);
-	} else {
-		_alpm_log(PM_LOG_DEBUG, "signature file %s not found\n", sigfile);
-		/* not fatal...we return a different error code here */
-		ret = 1;
-	}
-
-	free(sigfile);
 	return ret;
 }
 
@@ -271,7 +248,7 @@ pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
 }
 
 /**
- * Check the PGP package signature for the given package file.
+ * Check the PGP signature for the given package file.
  * @param pkg the package to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
@@ -285,7 +262,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 }
 
 /**
- * Check the PGP package signature for the given database.
+ * Check the PGP signature for the given database.
  * @param db the database to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
@@ -294,8 +271,7 @@ int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
 	ALPM_LOG_FUNC;
 	ASSERT(db != NULL, return 0);
 
-	return _alpm_gpgme_checksig(_alpm_db_path(db),
-			_alpm_db_pgpsig(db));
+	return _alpm_gpgme_checksig(_alpm_db_path(db), NULL);
 }
 
 /* vim: set ts=2 sw=2 noet: */

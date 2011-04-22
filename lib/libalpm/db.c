@@ -314,27 +314,6 @@ pmdb_t *_alpm_db_new(const char *treename, int is_local)
 	return db;
 }
 
-const pmpgpsig_t *_alpm_db_pgpsig(pmdb_t *db)
-{
-	ALPM_LOG_FUNC;
-
-	/* Sanity checks */
-	ASSERT(db != NULL, return(NULL));
-
-	if(db->pgpsig.data == NULL) {
-		const char *dbfile;
-		int ret;
-
-		dbfile = _alpm_db_path(db);
-
-		/* TODO: do something with ret value */
-		ret = _alpm_load_signature(dbfile, &(db->pgpsig));
-		(void)ret;
-	}
-
-	return &(db->pgpsig);
-}
-
 void _alpm_db_free(pmdb_t *db)
 {
 	ALPM_LOG_FUNC;
@@ -343,8 +322,6 @@ void _alpm_db_free(pmdb_t *db)
 	_alpm_db_free_pkgcache(db);
 	/* cleanup server list */
 	FREELIST(db->servers);
-	/* only need to free data */
-	FREE(db->pgpsig.data);
 	FREE(db->_path);
 	FREE(db->treename);
 	FREE(db);
