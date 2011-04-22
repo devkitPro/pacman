@@ -63,11 +63,10 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	db_local = handle->db_local;
 
-	pkgname = alpm_pkg_get_name(pkg);
-	pkgver = alpm_pkg_get_version(pkg);
+	pkgname = pkg->name;
+	pkgver = pkg->version;
 
 	_alpm_log(PM_LOG_DEBUG, "adding package '%s'\n", pkgname);
 
@@ -100,7 +99,7 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 
 	/* add the package to the transaction */
 	pkg->reason = PM_PKG_REASON_EXPLICIT;
-	_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
+	_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction add list\n",
 						pkgname, pkgver);
 	trans->add = alpm_list_add(trans->add, pkg);
 

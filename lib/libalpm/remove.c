@@ -59,13 +59,14 @@ int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 	ASSERT(trans->state == STATE_INITIALIZED,
 			RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
-	pkgname = alpm_pkg_get_name(pkg);
+	pkgname = pkg->name;
 
 	if(_alpm_pkg_find(trans->remove, pkgname)) {
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "adding %s in the target list\n", pkgname);
+	_alpm_log(PM_LOG_DEBUG, "adding package %s to the transaction remove list\n",
+			pkgname);
 	trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(pkg));
 	return 0;
 }
