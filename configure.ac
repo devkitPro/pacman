@@ -99,7 +99,7 @@ AC_ARG_WITH(gpgme,
 	[], [with_gpgme=check])
 
 # Check for useable libcurl
-LIBCURL_CHECK_CONFIG([yes], [7.19.4])
+LIBCURL_CHECK_CONFIG([yes], [7.19.4], [with_libcurl=yes], [with_libcurl=no])
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
@@ -151,9 +151,10 @@ AS_IF([test "x$with_openssl" != "xno"],
 	[if test "x$with_openssl" != "xcheck"; then
 		AC_MSG_FAILURE([--with-openssl was given, but -lssl was not found])
 	fi],
-	[-lcrypto])],
+	[-lcrypto])
+	with_openssl=$ac_cv_lib_ssl_MD5_Final],
 	AC_MSG_RESULT(no))
-AM_CONDITIONAL([HAVE_LIBSSL], [test "x$ac_cv_lib_ssl_MD5_Final" = "xyes"])
+AM_CONDITIONAL([HAVE_LIBSSL], [test "x$with_openssl" = "xyes"])
 
 # Check for gpgme
 AC_MSG_CHECKING(whether to link with libgpgme)
@@ -418,6 +419,9 @@ ${PACKAGE_NAME}:
     build script name      : ${BUILDSCRIPT}
 
   Compilation options:
+    Use libcurl            : ${with_libcurl}
+    Use GPGME              : ${with_gpgme}
+    Use OpenSSL            : ${with_openssl}
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
