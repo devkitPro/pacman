@@ -195,16 +195,19 @@ db_remove_delta()
 	return 1
 } # end db_remove_delta
 
+check_gpg() {
+	if ! type -p gpg >/dev/null; then
+		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+}
+
 # sign the package database once repackaged
 create_signature() {
 	(( ! SIGN )) && return
 	local dbfile="$1"
 	local ret=0
 	msg "$(gettext "Signing database...")"
-	if ! type -p gpg; then
-		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
-		exit 1 # $E_MISSING_PROGRAM
-	fi
 
 	local SIGNWITHKEY=""
 	if [[ -n $GPGKEY ]]; then
@@ -225,10 +228,7 @@ verify_signature() {
 	local dbfile="$1"
 	local ret=0
 	msg "$(gettext "Verifying database signature...")"
-	if ! type -p gpg; then
-		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
-		exit 1 # $E_MISSING_PROGRAM
-	fi
+
 	if [[ ! -f $dbfile.sig ]]; then
 		warning "$(gettext "No existing signature found, skipping verification.")"
 		return
@@ -555,6 +555,7 @@ while [[ $# > 0 ]]; do
 		-d|--delta) DELTA=1;;
 		-f|--files) WITHFILES=1;;
 		-s|--sign)
+			check_gpg
 			SIGN=1
 			if ! gpg --list-key ${GPGKEY} &>/dev/null; then
 				if [[ ! -z $GPGKEY ]]; then
@@ -566,6 +567,7 @@ while [[ $# > 0 ]]; do
 			fi
 			;;
 		-k|--key)
+			check_gpg
 			shift
 			GPGKEY="$1"
 			if ! gpg --list-key ${GPGKEY} &>/dev/null; then
@@ -573,7 +575,10 @@ while [[ $# > 0 ]]; do
 				exit 1
 			fi
 			;;
-		-v|--verify) VERIFY=1;;
+		-v|--verify)
+			check_gpg
+			VERIFY=1
+			;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
 				REPO_DB_FILE="$1"
