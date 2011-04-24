@@ -71,8 +71,8 @@ usage() {
 repo-add will update a package database by reading a package file.\n\
 Multiple packages to add can be specified on the command line.\n\n")"
 		printf "$(gettext "Options:\n")"
-		printf "$(gettext "  -d, --delta   generate and add delta for package update\n")"
-		printf "$(gettext "  -f, --files   update database's file list\n")"
+		printf "$(gettext "  -d, --delta       generate and add delta for package update\n")"
+		printf "$(gettext "  -f, --files       update database's file list\n")"
 	elif [[ $cmd == "repo-remove" ]] ; then
 		printf "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\n\n")"
 		printf "$(gettext "\
@@ -81,9 +81,10 @@ specified on the command line from the given repo database. Multiple\n\
 packages to remove can be specified on the command line.\n\n")"
 		printf "$(gettext "Options:\n")"
 	fi
-	printf "$(gettext "  -q, --quiet   minimize output\n")"
-	printf "$(gettext "  -s, --sign    sign database with GnuPG after update\n")"
-	printf "$(gettext "  -v, --verify  verify database's signature before update\n")"
+	printf "$(gettext "  -q, --quiet       minimize output\n")"
+	printf "$(gettext "  -s, --sign        sign database with GnuPG after update\n")"
+	printf "$(gettext "  -k, --key <key>   use the specified key to sign the database\n")"
+	printf "$(gettext "  -v, --verify      verify database's signature before update\n")"
 	printf "$(gettext "\n\
 See %s(8) for more details and descriptions of the available options.\n\n")" $cmd
 	if [[ $cmd == "repo-add" ]] ; then
@@ -204,7 +205,13 @@ create_signature() {
 		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
-	gpg --detach-sign --use-agent "$dbfile" || ret=$?
+
+	local SIGNWITHKEY=""
+	if [[ -n $GPGKEY ]]; then
+		SIGNWITHKEY="-u ${GPGKEY}"
+	fi
+	gpg --detach-sign --use-agent ${SIGNWITHKEY} "$dbfile" &>/dev/null || ret=$?
+
 	if (( ! ret )); then
 		msg2 "$(gettext "Created signature file %s.")" "$dbfile.sig"
 	else
@@ -542,26 +549,35 @@ trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
 
 success=0
 # parse arguments
-for arg in "$@"; do
-	case "$arg" in
+while [[ $# > 0 ]]; do
+	case "$1" in
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
 		-f|--files) WITHFILES=1;;
 		-s|--sign) SIGN=1;;
+		-k|--key)
+			shift
+			GPGKEY="$1"
+			if ! gpg --list-key ${GPGKEY} &>/dev/null; then
+				error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
+				exit 1
+			fi
+			;;
 		-v|--verify) VERIFY=1;;
 		*)
 			if [[ -z $REPO_DB_FILE ]]; then
-				REPO_DB_FILE="$arg"
+				REPO_DB_FILE="$1"
 				LOCKFILE="$REPO_DB_FILE.lck"
 				check_repo_db
 			else
 				case "$cmd" in
-					repo-add) add $arg && success=1 ;;
-					repo-remove) remove $arg && success=1 ;;
+					repo-add) add $1 && success=1 ;;
+					repo-remove) remove $1 && success=1 ;;
 				esac
 			fi
 			;;
 	esac
+	shift
 done
 
 # if at least one operation was a success, re-zip database
