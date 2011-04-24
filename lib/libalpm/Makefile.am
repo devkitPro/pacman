@@ -25,7 +25,6 @@ libalpm_la_SOURCES = \
 	alpm.h alpm.c \
 	alpm_list.h alpm_list.c \
 	backup.h backup.c \
-	base64.h base64.c \
 	be_local.c \
 	be_package.c \
 	be_sync.c \
@@ -52,6 +51,11 @@ libalpm_la_SOURCES = \
 if !HAVE_LIBSSL
 libalpm_la_SOURCES += \
 	md5.h md5.c
+endif
+
+if HAVE_LIBGPGME
+libalpm_la_SOURCES += \
+	base64.h base64.c
 endif
 
 libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO) @LIBCURL@

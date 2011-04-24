@@ -22,17 +22,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+#if HAVE_LIBGPGME
 #include <locale.h> /* setlocale() */
 #include <gpgme.h>
+#include "base64.h"
+#endif
 
 /* libalpm */
 #include "signing.h"
 #include "package.h"
-#include "base64.h"
 #include "util.h"
 #include "log.h"
 #include "alpm.h"
 
+#if HAVE_LIBGPGME
 #define CHECK_ERR(void) do { \
 		if(err != GPG_ERR_NO_ERROR) { goto error; } \
 	} while(0)
@@ -364,6 +368,12 @@ error:
 	}
 	return ret;
 }
+#else
+int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
+{
+	return -1;
+}
+#endif
 
 /**
  * Determines the necessity of checking for a valid PGP signature

@@ -93,6 +93,11 @@ AC_ARG_WITH(openssl,
 	AS_HELP_STRING([--with-openssl], [use OpenSSL crypto implementations instead of internal routines]),
 	[], [with_openssl=check])
 
+# Help line for using gpgme
+AC_ARG_WITH(gpgme,
+	AS_HELP_STRING([--with-gpgme], [use GPGME for PGP signature verification]),
+	[], [with_gpgme=check])
+
 # Check for useable libcurl
 LIBCURL_CHECK_CONFIG([yes], [7.19.4])
 
@@ -151,8 +156,17 @@ AS_IF([test "x$with_openssl" != "xno"],
 AM_CONDITIONAL([HAVE_LIBSSL], [test "x$ac_cv_lib_ssl_MD5_Final" = "xyes"])
 
 # Check for gpgme
-AC_CHECK_LIB([gpgme], [gpgme_check_version], ,
-	AC_MSG_ERROR([gpgme is needed to compile pacman!]))
+AC_MSG_CHECKING(whether to link with libgpgme)
+AS_IF([test "x$with_gpgme" != "xno"],
+	[AC_MSG_RESULT(yes)
+	AC_CHECK_LIB([gpgme], [gpgme_check_version], ,
+	[if test "x$with_gpgme" != "xcheck"; then
+		AC_MSG_FAILURE([--with-ggpme was given, but -lgpgme was not found])
+	fi],
+	[-lgpgme])
+	with_gpgme=$ac_cv_lib_gpgme_gpgme_check_version],
+	AC_MSG_RESULT(no))
+AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$with_gpgme" = "xyes"])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h \
