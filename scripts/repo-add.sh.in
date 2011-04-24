@@ -554,7 +554,17 @@ while [[ $# > 0 ]]; do
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
 		-f|--files) WITHFILES=1;;
-		-s|--sign) SIGN=1;;
+		-s|--sign)
+			SIGN=1
+			if ! gpg --list-key ${GPGKEY} &>/dev/null; then
+				if [[ ! -z $GPGKEY ]]; then
+					error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
+				else
+					error "$(gettext "There is no key in your keyring.")"
+				fi
+				exit 1
+			fi
+			;;
 		-k|--key)
 			shift
 			GPGKEY="$1"
