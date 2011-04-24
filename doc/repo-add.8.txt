@@ -10,9 +10,9 @@ repo-add - package database maintenance utility
 
 Synopsis
 --------
-'repo-add' [-d] [-f] [-q] [-s] [-v] <path-to-db> <package|delta> [<package|delta> ...]
+'repo-add' [options] <path-to-db> <package|delta> [<package|delta> ...]
 
-'repo-remove' [-q] [-s] [-v] <path-to-db> <packagename|delta> [<packagename|delta> ...]
+'repo-remove' [options] <path-to-db> <packagename|delta> [<packagename|delta> ...]
 
 
 Description
@@ -41,6 +41,11 @@ Common Options
 	--detach-sign --use-agent` on the generated database to generate a detached
 	signature file, using the GPG agent if it is available. The signature file
 	will be the entire filename of the database with a ``.sig'' extension.
+
+*-k, \--key* <key>::
+	Specify a key to use when signing packages. Can also be specified using
+	the GPGKEY environmental variable. If not specified in either location, the
+	default key from the keyring will be used.
 
 *-v, \--verify*::
 	Verify the PGP signature of the database before updating the database.
