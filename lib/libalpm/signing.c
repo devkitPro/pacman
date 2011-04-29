@@ -292,7 +292,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		goto error;
 	}
 
-	{
+	while(gpgsig) {
 		alpm_list_t *summary_list, *summary;
 
 		_alpm_log(handle, PM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
@@ -304,35 +304,36 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		_alpm_log(handle, PM_LOG_DEBUG, "status: %s\n", gpgme_strerror(gpgsig->status));
 		_alpm_log(handle, PM_LOG_DEBUG, "timestamp: %lu\n", gpgsig->timestamp);
 		_alpm_log(handle, PM_LOG_DEBUG, "exp_timestamp: %lu\n", gpgsig->exp_timestamp);
-		_alpm_log(handle, PM_LOG_DEBUG, "validity: %s\n",
-				string_validity(gpgsig->validity));
-		_alpm_log(handle, PM_LOG_DEBUG, "validity_reason: %s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "validity: %s; reason: %s\n",
+				string_validity(gpgsig->validity),
 				gpgme_strerror(gpgsig->validity_reason));
-		_alpm_log(handle, PM_LOG_DEBUG, "pubkey algo: %s\n",
-				gpgme_pubkey_algo_name(gpgsig->pubkey_algo));
-		_alpm_log(handle, PM_LOG_DEBUG, "hash algo: %s\n",
-				gpgme_hash_algo_name(gpgsig->hash_algo));
-	}
 
-	if(gpgsig->summary & GPGME_SIGSUM_VALID) {
-		/* good signature, continue */
-		_alpm_log(handle, PM_LOG_DEBUG, _("File %s has a valid signature.\n"),
-				path);
-	} else if(gpgsig->summary & GPGME_SIGSUM_GREEN) {
-		/* 'green' signature, not sure what to do here */
-		_alpm_log(handle, PM_LOG_WARNING, _("File %s has a green signature.\n"),
-				path);
-	} else if(gpgsig->summary & GPGME_SIGSUM_KEY_MISSING) {
-		handle->pm_errno = PM_ERR_SIG_UNKNOWN;
-		_alpm_log(handle, PM_LOG_WARNING, _("File %s has a signature from an unknown key.\n"),
-				path);
-		ret = -1;
-	} else {
-		/* we'll capture everything else here */
-		handle->pm_errno = PM_ERR_SIG_INVALID;
-		_alpm_log(handle, PM_LOG_ERROR, _("File %s has an invalid signature.\n"),
-				path);
-		ret = 1;
+		/* Note: this is structured so any bad signature will set the return code
+		 * to a bad one, but good ones just leave the default value in place; e.g.
+		 * worst case wins out. */
+		if(gpgsig->summary & GPGME_SIGSUM_VALID) {
+			/* definite good signature */
+			_alpm_log(handle, PM_LOG_DEBUG, "result: valid signature\n");
+		} else if(gpgsig->summary & GPGME_SIGSUM_GREEN) {
+			/* good signature */
+			_alpm_log(handle, PM_LOG_DEBUG, "result: green signature\n");
+		} else if(gpgsig->summary & GPGME_SIGSUM_RED) {
+			/* definite bad signature, error */
+			_alpm_log(handle, PM_LOG_DEBUG, "result: red signature\n");
+			handle->pm_errno = PM_ERR_SIG_INVALID;
+			ret = 1;
+		} else if(gpgsig->summary & GPGME_SIGSUM_KEY_MISSING) {
+			_alpm_log(handle, PM_LOG_DEBUG, "result: signature from unknown key\n");
+			handle->pm_errno = PM_ERR_SIG_UNKNOWN;
+			ret = 1;
+		} else {
+			/* we'll capture everything else here */
+			_alpm_log(handle, PM_LOG_DEBUG, "result: invalid signature\n");
+			handle->pm_errno = PM_ERR_SIG_INVALID;
+			ret = 1;
+		}
+
+		gpgsig = gpgsig->next;
 	}
 
 error:
