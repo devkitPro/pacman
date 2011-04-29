@@ -180,7 +180,7 @@ static alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
 }
 
 /* local packages can not have deltas */
-static alpm_list_t *_cache_get_deltas(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_deltas(pmpkg_t UNUSED *pkg)
 {
 	return NULL;
 }
@@ -245,7 +245,7 @@ static void *_cache_changelog_open(pmpkg_t *pkg)
  * @return the number of characters read, or 0 if there is no more data
  */
 static size_t _cache_changelog_read(void *ptr, size_t size,
-		const pmpkg_t *pkg, const void *fp)
+		const pmpkg_t UNUSED *pkg, const void *fp)
 {
 	return fread(ptr, 1, size, (FILE *)fp);
 }
@@ -257,7 +257,7 @@ static size_t _cache_changelog_read(void *ptr, size_t size,
  * @param fp a 'file stream' to the package changelog
  * @return whether closing the package changelog stream was successful
  */
-static int _cache_changelog_close(const pmpkg_t *pkg, void *fp)
+static int _cache_changelog_close(const pmpkg_t UNUSED *pkg, void *fp)
 {
 	return fclose((FILE *)fp);
 }

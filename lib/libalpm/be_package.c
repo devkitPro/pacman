@@ -87,7 +87,7 @@ static void *_package_changelog_open(pmpkg_t *pkg)
  * @return the number of characters read, or 0 if there is no more data
  */
 static size_t _package_changelog_read(void *ptr, size_t size,
-		const pmpkg_t *pkg, const void *fp)
+		const pmpkg_t UNUSED *pkg, const void *fp)
 {
 	ssize_t sret = archive_read_data((struct archive *)fp, ptr, size);
 	/* Report error (negative values) */
@@ -106,7 +106,7 @@ static size_t _package_changelog_read(void *ptr, size_t size,
  * @param fp a 'file stream' to the package changelog
  * @return whether closing the package changelog stream was successful
  */
-static int _package_changelog_close(const pmpkg_t *pkg, void *fp)
+static int _package_changelog_close(const pmpkg_t UNUSED *pkg, void *fp)
 {
 	return archive_read_finish((struct archive *)fp);
 }

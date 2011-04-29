@@ -117,6 +117,8 @@ char *strndup(const char *s, size_t n);
 #define SYMEXPORT __attribute__((visibility("default")))
 #define SYMHIDDEN __attribute__((visibility("internal")))
 
+#define UNUSED __attribute__((unused))
+
 #endif /* _ALPM_UTIL_H */
 
 /* vim: set ts=2 sw=2 noet: */

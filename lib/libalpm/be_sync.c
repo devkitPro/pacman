@@ -494,7 +494,7 @@ error:
 	return 0;
 }
 
-static int sync_db_version(pmdb_t *db)
+static int sync_db_version(pmdb_t UNUSED *db)
 {
 	return 2;
 }

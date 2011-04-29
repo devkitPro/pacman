@@ -72,21 +72,16 @@ static char *get_fullpath(const char *path, const char *filename,
 enum sighandlers { OLD = 0, NEW = 1 };
 
 static int dload_interrupted;
-static void inthandler(int signum)
+static void inthandler(int UNUSED signum)
 {
-	(void)signum;
 	dload_interrupted = 1;
 }
 
 static int curl_progress(void *file, double dltotal, double dlnow,
-		double ultotal, double ulnow)
+		double UNUSED ultotal, double UNUSED ulnow)
 {
 	struct fileinfo *dlfile = (struct fileinfo *)file;
 	double current_size, total_size;
-
-	/* unused parameters */
-	(void)ultotal;
-	(void)ulnow;
 
 	/* SIGINT sent, abort by alerting curl */
 	if(dload_interrupted) {
