@@ -223,8 +223,9 @@ static int sync_db_populate(pmdb_t *db)
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
-	if((archive = archive_read_new()) == NULL)
-		RET_ERR(PM_ERR_LIBARCHIVE, 1);
+	if((archive = archive_read_new()) == NULL) {
+		RET_ERR(PM_ERR_LIBARCHIVE, -1);
+	}
 
 	archive_read_support_compression_all(archive);
 	archive_read_support_format_all(archive);
@@ -232,7 +233,7 @@ static int sync_db_populate(pmdb_t *db)
 	dbpath = _alpm_db_path(db);
 	if(!dbpath) {
 		/* pm_errno set in _alpm_db_path() */
-		return 1;
+		return -1;
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "opening database archive %s\n", dbpath);
@@ -242,10 +243,10 @@ static int sync_db_populate(pmdb_t *db)
 		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
 				archive_error_string(archive));
 		archive_read_finish(archive);
-		RET_ERR(PM_ERR_DB_OPEN, 1);
+		RET_ERR(PM_ERR_DB_OPEN, -1);
 	}
 	if(stat(dbpath, &buf) != 0) {
-		RET_ERR(PM_ERR_DB_OPEN, 1);
+		RET_ERR(PM_ERR_DB_OPEN, -1);
 	}
 	est_count = estimate_package_count(&buf, archive);
 
