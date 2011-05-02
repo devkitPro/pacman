@@ -434,7 +434,7 @@ static int local_db_populate(pmdb_t *db)
 		}
 
 		/* add to the collection */
-		_alpm_log(PM_LOG_DEBUG, "adding '%s' to package cache for db '%s'\n",
+		_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);
 		db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
 		count++;
@@ -444,6 +444,9 @@ static int local_db_populate(pmdb_t *db)
 	if(count > 0) {
 		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
 	}
+	_alpm_log(PM_LOG_DEBUG, "added %d packages to package cache for db '%s'\n",
+			count, db->treename);
+
 	return count;
 }
 

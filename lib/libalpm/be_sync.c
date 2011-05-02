@@ -327,6 +327,8 @@ static int sync_db_populate(pmdb_t *db)
 		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
 	}
 	archive_read_finish(archive);
+	_alpm_log(PM_LOG_DEBUG, "added %d packages to package cache for db '%s'\n",
+			count, db->treename);
 
 	return count;
 }
