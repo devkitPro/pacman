@@ -1080,7 +1080,7 @@ create_package() {
 	    *tar.bz2) bzip2 -c -f ;;
 	    *tar.xz)  xz -c -z - ;;
 	    *tar)     cat ;;
-	esac > ${pkg_file} || ret=$?
+	esac > "${pkg_file}" || ret=$?
 
 	shopt -u nullglob
 	shopt -u -o pipefail
