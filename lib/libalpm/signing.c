@@ -180,7 +180,7 @@ static int decode_signature(const char *base64_data,
 		goto error;
 	}
 	/* alloc our memory and repeat the call to decode */
-	MALLOC(data, (size_t)destlen, goto error);
+	MALLOC(*data, (size_t)destlen, goto error);
 	ret = base64_decode(*data, &destlen, usline, len);
 	if(ret != 0) {
 		goto error;
