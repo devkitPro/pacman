@@ -180,6 +180,8 @@ static int curl_download_internal(const char *url, const char *localpath,
 		goto cleanup;
 	}
 
+	error_buffer[0] = '\0';
+
 	/* the curl_easy handle is initialized with the alpm handle, so we only need
 	 * to reset the curl handle set parameters for each time it's used. */
 	curl_easy_reset(handle->curl);
