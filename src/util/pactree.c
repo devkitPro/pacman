@@ -27,18 +27,51 @@
 #include <alpm_list.h>
 
 /* output */
-char *provides     = " provides";
-char *unresolvable = " [unresolvable]";
-char *branch_tip1  = "|--";
-char *branch_tip2  = "+--";
-int   indent_size  = 3;
+struct graph_style {
+	const char *provides;
+	const char *tip1;
+	const char *tip2;
+	int indent;
+};
 
-/* color */
-char *branch1_color = "\033[0;33m"; /* yellow */
-char *branch2_color = "\033[0;37m"; /* white */
-char *leaf1_color   = "\033[1;32m"; /* bold green */
-char *leaf2_color   = "\033[0;32m"; /* green */
-char *color_off     = "\033[0m";
+static struct graph_style graph_default = {
+	" provides",
+	"|--",
+	"+--",
+	3
+};
+
+static struct graph_style graph_linear = {
+	"",
+	"",
+	"",
+	0
+};
+
+/* color choices */
+struct color_choices {
+	const char *branch1;
+	const char *branch2;
+	const char *leaf1;
+	const char *leaf2;
+	const char *off;
+};
+
+static struct color_choices use_color = {
+	"\033[0;33m", /* yellow */
+	"\033[0;37m", /* white */
+	"\033[1;32m", /* bold green */
+	"\033[0;32m", /* green */
+	"\033[0m"
+};
+
+static struct color_choices no_color = {
+	"",
+	"",
+	"",
+	"",
+	""
+};
 
 /* globals */
 pmdb_t *db_local;
@@ -46,13 +79,13 @@ alpm_list_t *walked = NULL;
 alpm_list_t *provisions = NULL;
 
 /* options */
-int color = 0;
+struct color_choices *color = &no_color;
+struct graph_style *style = &graph_default;
 int graphviz = 0;
-int linear = 0;
 int max_depth = -1;
 int reverse = 0;
 int unique = 0;
-char *dbpath = NULL;
+const char *dbpath = DBPATH;
 
 static int alpm_local_init(void)
 {
@@ -68,11 +101,7 @@ static int alpm_local_init(void)
 		return ret;
 	}
 
-	if(dbpath) {
-		ret = alpm_option_set_dbpath(dbpath);
-	} else {
-		ret = alpm_option_set_dbpath(DBPATH);
-	}
+	ret = alpm_option_set_dbpath(dbpath);
 	if(ret != 0) {
 		return ret;
 	}
@@ -109,10 +138,10 @@ static int parse_options(int argc, char *argv[])
 
 		switch(opt) {
 			case 'b':
-				dbpath = strdup(optarg);
+				dbpath = optarg;
 				break;
 			case 'c':
-				color = 1;
+				color = &use_color;
 				break;
 			case 'd':
 				/* validate depth */
@@ -126,13 +155,14 @@ static int parse_options(int argc, char *argv[])
 				graphviz = 1;
 				break;
 			case 'l':
-				linear = 1;
+				style = &graph_linear;
 				break;
 			case 'r':
 				reverse = 1;
 				break;
 			case 'u':
-				unique = linear = 1;
+				unique = 1;
+				style = &graph_linear;
 				break;
 			case 'h':
 			case '?':
@@ -143,20 +173,6 @@ static int parse_options(int argc, char *argv[])
 
 	if(!argv[optind]) {
 		return 1;
-	}
-
-	if(!color) {
-		branch1_color = "";
-		branch2_color = "";
-		leaf1_color   = "";
-		leaf2_color   = "";
-		color_off     = "";
-	}
-	if(linear) {
-		provides     = "";
-		branch_tip1  = "";
-		branch_tip2  = "";
-		indent_size  = 0;
 	}
 
 	return 0;
@@ -178,10 +194,6 @@ static void usage(void)
 
 static void cleanup(void)
 {
-	if(dbpath) {
-		free(dbpath);
-	}
-
 	alpm_list_free(walked);
 	alpm_list_free(provisions);
 	alpm_release();
@@ -190,7 +202,7 @@ static void cleanup(void)
 /* pkg provides provision */
 static void print_text(const char *pkg, const char *provision, int depth)
 {
-	int indent_sz = (depth + 1) * indent_size;
+	int indent_sz = (depth + 1) * style->indent;
 
 	if(!pkg && !provision) {
 		/* not much we can do */
@@ -199,17 +211,17 @@ static void print_text(const char *pkg, const char *provision, int depth)
 
 	if(!pkg && provision) {
 		/* we failed to resolve provision */
-		printf("%s%*s%s%s%s%s%s\n", branch1_color, indent_sz, branch_tip1,
-				leaf1_color, provision, branch1_color, unresolvable, color_off);
+		printf("%s%*s%s%s%s [unresolvable]%s\n", color->branch1, indent_sz,
+				style->tip1, color->leaf1, provision, color->branch1, color->off);
 	} else if(provision && strcmp(pkg, provision) != 0) {
 		/* pkg provides provision */
-		printf("%s%*s%s%s%s%s %s%s%s\n", branch2_color, indent_sz, branch_tip2,
-				leaf1_color, pkg, leaf2_color, provides, leaf1_color, provision,
-				color_off);
+		printf("%s%*s%s%s%s%s %s%s%s\n", color->branch2, indent_sz, style->tip2,
+				color->leaf1, pkg, color->leaf2, style->provides, color->leaf1, provision,
+				color->off);
 	} else {
 		/* pkg is a normal package */
-		printf("%s%*s%s%s%s\n", branch1_color, indent_sz, branch_tip1, leaf1_color,
-				pkg, color_off);
+		printf("%s%*s%s%s%s\n", color->branch1, indent_sz, style->tip1, color->leaf1,
+				pkg, color->off);
 	}
 }
 
