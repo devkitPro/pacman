@@ -65,7 +65,7 @@ static void checkpkgs(alpm_list_t *pkglist)
 	}
 }
 
-static void checkdbs(char *dbpath, alpm_list_t *dbnames) {
+static void checkdbs(const char *dbpath, alpm_list_t *dbnames) {
 	char syncdbpath[PATH_MAX];
 	pmdb_t *db = NULL;
 	alpm_list_t *i;
@@ -93,7 +93,7 @@ static void usage(void) {
 
 int main(int argc, char *argv[])
 {
-	char *dbpath = DBPATH;
+	const char *dbpath = DBPATH;
 	int a = 1;
 	alpm_list_t *dbnames = NULL;
 

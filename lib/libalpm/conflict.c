@@ -287,7 +287,7 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 	if(name2) {
 		STRDUP(conflict->ctarget, name2, RET_ERR(PM_ERR_MEMORY, NULL));
 	} else {
-		conflict->ctarget = "";
+		STRDUP(conflict->ctarget, "", RET_ERR(PM_ERR_MEMORY, NULL));
 	}
 
 	conflicts = alpm_list_add(conflicts, conflict);
@@ -299,10 +299,8 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
 
 void _alpm_fileconflict_free(pmfileconflict_t *conflict)
 {
-	if(strlen(conflict->ctarget) > 0) {
-		FREE(conflict->ctarget);
-	}
-	FREE(conflict->file);;
+	FREE(conflict->ctarget);
+	FREE(conflict->file);
 	FREE(conflict->target);
 	FREE(conflict);
 }

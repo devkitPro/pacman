@@ -153,7 +153,7 @@ static const char *get_backup_file_status(const char *root,
 		const char *filename, const char *expected_md5)
 {
 	char path[PATH_MAX];
-	char *ret;
+	const char *ret;
 
 	snprintf(path, PATH_MAX, "%s%s", root, filename);
 

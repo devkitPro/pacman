@@ -502,12 +502,13 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 
 	/* now use the column width info to generate format strings */
 	for(i = longest_strs; i; i = alpm_list_next(i)) {
+		const char *display;
 		colwidth = strlen(alpm_list_getdata(i)) + padding;
 		totalwidth += colwidth;
 
 		/* right align the last column for a cleaner table display */
-		str = (alpm_list_next(i) != NULL) ? "%%-%ds" : "%%%ds";
-		pm_asprintf(&formatstr, str, colwidth);
+		display = (alpm_list_next(i) != NULL) ? "%%-%ds" : "%%%ds";
+		pm_asprintf(&formatstr, display, colwidth);
 
 		formats = alpm_list_add(formats, formatstr);
 	}
