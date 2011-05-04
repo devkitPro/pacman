@@ -60,6 +60,15 @@ static const char *gpgme_string_validity(gpgme_validity_t validity)
 	return "???";
 }
 
+static alpm_list_t *sigsum_test_bit(gpgme_sigsum_t sigsum, alpm_list_t *summary,
+		gpgme_sigsum_t bit, const char *value)
+{
+	if(sigsum & bit) {
+		summary = alpm_list_add(summary, (void *)value);
+	}
+	return summary;
+}
+
 static alpm_list_t *gpgme_list_sigsum(gpgme_sigsum_t sigsum)
 {
 	alpm_list_t *summary = NULL;
@@ -67,52 +76,30 @@ static alpm_list_t *gpgme_list_sigsum(gpgme_sigsum_t sigsum)
 	 * for it anyway and show all possible flags in the returned string. */
 
 	/* The signature is fully valid.  */
-	if(sigsum & GPGME_SIGSUM_VALID) {
-		summary = alpm_list_add(summary, "valid");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_VALID, "valid");
 	/* The signature is good.  */
-	if(sigsum & GPGME_SIGSUM_GREEN) {
-		summary = alpm_list_add(summary, "green");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_GREEN, "green");
 	/* The signature is bad.  */
-	if(sigsum & GPGME_SIGSUM_RED) {
-		summary = alpm_list_add(summary, "red");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_RED, "red");
 	/* One key has been revoked.  */
-	if(sigsum & GPGME_SIGSUM_KEY_REVOKED) {
-		summary = alpm_list_add(summary, "key revoked");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_KEY_REVOKED, "key revoked");
 	/* One key has expired.  */
-	if(sigsum & GPGME_SIGSUM_KEY_EXPIRED) {
-		summary = alpm_list_add(summary, "key expired");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_KEY_EXPIRED, "key expired");
 	/* The signature has expired.  */
-	if(sigsum & GPGME_SIGSUM_SIG_EXPIRED) {
-		summary = alpm_list_add(summary, "sig expired");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_SIG_EXPIRED, "sig expired");
 	/* Can't verify: key missing.  */
-	if(sigsum & GPGME_SIGSUM_KEY_MISSING) {
-		summary = alpm_list_add(summary, "key missing");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_KEY_MISSING, "key missing");
 	/* CRL not available.  */
-	if(sigsum & GPGME_SIGSUM_CRL_MISSING) {
-		summary = alpm_list_add(summary, "crl missing");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_CRL_MISSING, "crl missing");
 	/* Available CRL is too old.  */
-	if(sigsum & GPGME_SIGSUM_CRL_TOO_OLD) {
-		summary = alpm_list_add(summary, "crl too old");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_CRL_TOO_OLD, "crl too old");
 	/* A policy was not met.  */
-	if(sigsum & GPGME_SIGSUM_BAD_POLICY) {
-		summary = alpm_list_add(summary, "bad policy");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_BAD_POLICY, "bad policy");
 	/* A system error occured.  */
-	if(sigsum & GPGME_SIGSUM_SYS_ERROR) {
-		summary = alpm_list_add(summary, "sys error");
-	}
+	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_SYS_ERROR, "sys error");
 	/* Fallback case */
 	if(!sigsum) {
-		summary = alpm_list_add(summary, "(empty)");
+		summary = alpm_list_add(summary, (void *)"(empty)");
 	}
 	return summary;
 }
@@ -189,7 +176,7 @@ static int decode_signature(const char *base64_data,
 	int ret, destlen = 0;
 	/* get the necessary size for the buffer by passing 0 */
 	ret = base64_decode(NULL, &destlen, usline, len);
-	if(ret != 0 || ret != POLARSSL_ERR_BASE64_BUFFER_TOO_SMALL) {
+	if(ret != 0 && ret != POLARSSL_ERR_BASE64_BUFFER_TOO_SMALL) {
 		goto error;
 	}
 	/* alloc our memory and repeat the call to decode */
@@ -316,6 +303,7 @@ int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
 		for(summary = summary_list; summary; summary = summary->next) {
 			_alpm_log(PM_LOG_DEBUG, "summary: %s\n", (const char *)summary->data);
 		}
+		alpm_list_free(summary_list);
 		_alpm_log(PM_LOG_DEBUG, "status: %s\n", gpgme_strerror(gpgsig->status));
 		_alpm_log(PM_LOG_DEBUG, "timestamp: %lu\n", gpgsig->timestamp);
 		_alpm_log(PM_LOG_DEBUG, "exp_timestamp: %lu\n", gpgsig->exp_timestamp);
