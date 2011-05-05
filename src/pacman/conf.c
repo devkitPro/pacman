@@ -214,6 +214,21 @@ int config_set_arch(const char *arch)
 	}
 }
 
+static pgp_verify_t option_verifysig(const char *value)
+{
+	pgp_verify_t level;
+	if(strcmp(value, "Always") == 0) {
+		level = PM_PGP_VERIFY_ALWAYS;
+	} else if(strcmp(value, "Optional") == 0) {
+		level = PM_PGP_VERIFY_OPTIONAL;
+	} else if(strcmp(value, "Never") == 0) {
+		level = PM_PGP_VERIFY_NEVER;
+	} else {
+		level = PM_PGP_VERIFY_UNKNOWN;
+	}
+	pm_printf(PM_LOG_DEBUG, "config: VerifySig = %s (%d)\n", value, level);
+	return level;
+}
 
 /* helper for being used with setrepeatingoption */
 static int option_add_holdpkg(const char *name) {
@@ -344,17 +359,15 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "CleanMethod") == 0) {
 			setrepeatingoption(value, "CleanMethod", option_add_cleanmethod);
 		} else if(strcmp(key, "VerifySig") == 0) {
-			if(strcmp(value, "Always") == 0) {
-				alpm_option_set_default_sigverify(PM_PGP_VERIFY_ALWAYS);
-			} else if(strcmp(value, "Optional") == 0) {
-				alpm_option_set_default_sigverify(PM_PGP_VERIFY_OPTIONAL);
-			} else if(strcmp(value, "Never") == 0) {
-				alpm_option_set_default_sigverify(PM_PGP_VERIFY_NEVER);
+			pgp_verify_t level = option_verifysig(value);
+			if(level != PM_PGP_VERIFY_UNKNOWN) {
+				alpm_option_set_default_sigverify(level);
 			} else {
-				pm_printf(PM_LOG_ERROR, _("invalid value for 'VerifySig' : '%s'\n"), value);
+				pm_printf(PM_LOG_ERROR,
+						_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
+						file, linenum, key, value);
 				return 1;
 			}
-			pm_printf(PM_LOG_DEBUG, "config: setting default VerifySig: %s\n", value);
 		} else {
 
 			pm_printf(PM_LOG_WARNING,
@@ -630,23 +643,21 @@ static int _parseconfig(const char *file, int parse_options,
 					goto cleanup;
 				}
 			} else if(strcmp(key, "VerifySig") == 0) {
-				if(strcmp(value, "Always") == 0) {
-					ret = alpm_db_set_pgp_verify(db, PM_PGP_VERIFY_ALWAYS);
-				} else if(strcmp(value, "Optional") == 0) {
-					ret = alpm_db_set_pgp_verify(db, PM_PGP_VERIFY_OPTIONAL);
-				} else if(strcmp(value, "Never") == 0) {
-					ret = alpm_db_set_pgp_verify(db, PM_PGP_VERIFY_NEVER);
+				pgp_verify_t level = option_verifysig(value);
+				if(level != PM_PGP_VERIFY_UNKNOWN) {
+					ret = alpm_db_set_pgp_verify(db, level);
+					if(ret != 0) {
+						pm_printf(PM_LOG_ERROR, _("could not add set verify option for database '%s': %s (%s)\n"),
+								alpm_db_get_name(db), value, alpm_strerrorlast());
+						goto cleanup;
+					}
 				} else {
-					pm_printf(PM_LOG_ERROR, _("invalid value for 'VerifySig' : '%s'\n"), value);
+					pm_printf(PM_LOG_ERROR,
+							_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
+							file, linenum, key, value);
 					ret = 1;
 					goto cleanup;
 				}
-				if(ret != 0) {
-					pm_printf(PM_LOG_ERROR, _("could not add pgp verify option to database '%s': %s (%s)\n"),
-							alpm_db_get_name(db), value, alpm_strerrorlast());
-					goto cleanup;
-				}
-				pm_printf(PM_LOG_DEBUG, "config: VerifySig for %s: %s\n",alpm_db_get_name(db), value);
 			} else {
 				pm_printf(PM_LOG_WARNING,
 						_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
