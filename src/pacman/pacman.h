@@ -22,8 +22,12 @@
 
 #include <alpm_list.h>
 
+void cleanup(int ret);
+
 /* database.c */
 int pacman_database(alpm_list_t *targets);
+/* deptest.c */
+int pacman_deptest(alpm_list_t *targets);
 /* query.c */
 int pacman_query(alpm_list_t *targets);
 /* remove.c */
@@ -32,9 +36,6 @@ int pacman_remove(alpm_list_t *targets);
 int pacman_sync(alpm_list_t *targets);
 /* upgrade.c */
 int pacman_upgrade(alpm_list_t *targets);
-
-/* deptest.c */
-int pacman_deptest(alpm_list_t *targets);
 
 #endif /* _PM_PACMAN_H */
 
