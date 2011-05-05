@@ -786,11 +786,11 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 			for(j = files; j; j = j->next) {
 				const char *filename = j->data;
 				alpm_list_t *server;
+				int ret = -1;
 				for(server = current->servers; server; server = server->next) {
 					const char *server_url = server->data;
 					char *fileurl;
 					size_t len;
-					int ret;
 
 					/* print server + filename into a buffer */
 					len = strlen(server_url) + strlen(filename) + 2;
@@ -802,6 +802,8 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 					if(ret != -1) {
 						break;
 					}
+				}
+				if(ret == -1) {
 					errors++;
 				}
 			}
