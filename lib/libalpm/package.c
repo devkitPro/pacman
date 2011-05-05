@@ -116,7 +116,7 @@ static void *_pkg_changelog_open(pmpkg_t UNUSED *pkg)
 	return NULL;
 }
 
-static size_t _pkg_changelog_read(void UNUSED *ptr, size_t UNUSEDsize,
+static size_t _pkg_changelog_read(void UNUSED *ptr, size_t UNUSED size,
 		const pmpkg_t UNUSED *pkg, const UNUSED void *fp)
 {
 	return 0;
