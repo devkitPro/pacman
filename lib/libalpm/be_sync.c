@@ -511,18 +511,8 @@ struct db_operations sync_db_ops = {
 pmdb_t *_alpm_db_register_sync(const char *treename)
 {
 	pmdb_t *db;
-	alpm_list_t *i;
 
 	ALPM_LOG_FUNC;
-
-	for(i = handle->dbs_sync; i; i = i->next) {
-		pmdb_t *sdb = i->data;
-		if(strcmp(treename, sdb->treename) == 0) {
-			_alpm_log(PM_LOG_DEBUG, "attempt to re-register the '%s' database, using existing\n", sdb->treename);
-			return sdb;
-		}
-	}
-
 	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
 	db = _alpm_db_new(treename, 0);
