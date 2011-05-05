@@ -352,7 +352,8 @@ static int local_db_populate(pmdb_t *db)
 
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
-		RET_ERR(PM_ERR_DB_OPEN, -1);
+		/* pm_errno set in _alpm_db_path() */
+		return -1;
 	}
 	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
