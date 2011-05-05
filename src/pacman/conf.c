@@ -369,7 +369,6 @@ static int _parse_options(const char *key, char *value,
 				return 1;
 			}
 		} else {
-
 			pm_printf(PM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
 					file, linenum, key, "options");
@@ -486,13 +485,12 @@ static int setlibpaths(void)
 /* The real parseconfig. Called with a null section argument by the publicly
  * visible parseconfig so we can recall from within ourself on an include */
 static int _parseconfig(const char *file, int parse_options,
-		const char *givensection, pmdb_t * const givendb)
+		char **section, pmdb_t *db)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX+1];
 	int linenum = 0;
-	char *ptr, *section = NULL;
-	pmdb_t *db = NULL;
+	char *ptr;
 	int ret = 0;
 
 	pm_printf(PM_LOG_DEBUG, "config: attempting to read file %s\n", file);
@@ -500,15 +498,6 @@ static int _parseconfig(const char *file, int parse_options,
 	if(fp == NULL) {
 		pm_printf(PM_LOG_ERROR, _("config file %s could not be read.\n"), file);
 		return 1;
-	}
-
-	/* if we are passed a section, use it as our starting point */
-	if(givensection != NULL) {
-		section = strdup(givensection);
-	}
-	/* if we are passed a db, use it as our starting point */
-	if(givendb != NULL) {
-		db = givendb;
 	}
 
 	while(fgets(line, PATH_MAX, fp)) {
@@ -534,31 +523,33 @@ static int _parseconfig(const char *file, int parse_options,
 		}
 
 		if(line[0] == '[' && line[strlen(line)-1] == ']') {
+			char *name;
 			/* new config section, skip the '[' */
 			ptr = line;
 			ptr++;
-			if(section) {
-				free(section);
-			}
-			section = strdup(ptr);
-			section[strlen(section)-1] = '\0';
-			pm_printf(PM_LOG_DEBUG, "config: new section '%s'\n", section);
-			if(!strlen(section)) {
+			name = strdup(ptr);
+			name[strlen(name)-1] = '\0';
+			if(!strlen(name)) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
 						file, linenum);
 				ret = 1;
 				goto cleanup;
 			}
+			pm_printf(PM_LOG_DEBUG, "config: new section '%s'\n", name);
 			/* if we are not looking at the options section, register a db */
-			if(!parse_options && strcmp(section, "options") != 0) {
-				db = alpm_db_register_sync(section);
+			if(!parse_options && strcmp(name, "options") != 0) {
+				db = alpm_db_register_sync(name);
 				if(db == NULL) {
 					pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
-							section, alpm_strerrorlast());
+							name, alpm_strerrorlast());
 					ret = 1;
 					goto cleanup;
 				}
 			}
+			if(*section) {
+				free(*section);
+			}
+			*section = name;
 			continue;
 		}
 
@@ -577,7 +568,7 @@ static int _parseconfig(const char *file, int parse_options,
 			goto cleanup;
 		}
 		/* For each directive, compare to the camelcase string. */
-		if(section == NULL) {
+		if(*section == NULL) {
 			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
 					file, linenum);
 			ret = 1;
@@ -624,12 +615,12 @@ static int _parseconfig(const char *file, int parse_options,
 			globfree(&globbuf);
 			continue;
 		}
-		if(parse_options && strcmp(section, "options") == 0) {
+		if(parse_options && strcmp(*section, "options") == 0) {
 			/* we are either in options ... */
 			if((ret = _parse_options(key, value, file, linenum)) != 0) {
 				goto cleanup;
 			}
-		} else if (!parse_options && strcmp(section, "options") != 0) {
+		} else if (!parse_options && strcmp(*section, "options") != 0) {
 			/* ... or in a repo section */
 			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
@@ -661,16 +652,13 @@ static int _parseconfig(const char *file, int parse_options,
 			} else {
 				pm_printf(PM_LOG_WARNING,
 						_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
-						file, linenum, key, section);
+						file, linenum, key, *section);
 			}
 		}
 	}
 
 cleanup:
 	fclose(fp);
-	if(section){
-		free(section);
-	}
 	pm_printf(PM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return ret;
 }
@@ -682,22 +670,27 @@ cleanup:
 int parseconfig(const char *file)
 {
 	int ret;
+	char *section = NULL;
 	/* the config parse is a two-pass affair. We first parse the entire thing for
 	 * the [options] section so we can get all default and path options set.
 	 * Next, we go back and parse everything but [options]. */
 
 	/* call the real parseconfig function with a null section & db argument */
 	pm_printf(PM_LOG_DEBUG, "parseconfig: options pass\n");
-	if((ret = _parseconfig(file, 1, NULL, NULL))) {
+	if((ret = _parseconfig(file, 1, &section, NULL))) {
+		free(section);
 		return ret;
 	}
+	free(section);
 	/* call setlibpaths here to ensure we have called it at least once */
 	if((ret = setlibpaths())) {
 		return ret;
 	}
 	/* second pass, repo section parsing */
+	section = NULL;
 	pm_printf(PM_LOG_DEBUG, "parseconfig: repo pass\n");
-	return _parseconfig(file, 0, NULL, NULL);
+	return _parseconfig(file, 0, &section, NULL);
+	free(section);
 }
 
 /* vim: set ts=2 sw=2 noet: */
