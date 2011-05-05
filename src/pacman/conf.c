@@ -405,78 +405,75 @@ static int _add_mirror(pmdb_t *db, char *value)
  * of our paths to live under the rootdir that was specified. Safe to call
  * multiple times (will only do anything the first time).
  */
-static void setlibpaths(void)
+static int setlibpaths(void)
 {
-	static int init = 0;
-	if(!init) {
-		int ret = 0;
+	int ret = 0;
 
-		pm_printf(PM_LOG_DEBUG, "setlibpaths() called\n");
-		/* Configure root path first. If it is set and dbpath/logfile were not
-		 * set, then set those as well to reside under the root. */
-		if(config->rootdir) {
-			char path[PATH_MAX];
-			ret = alpm_option_set_root(config->rootdir);
-			if(ret != 0) {
-				pm_printf(PM_LOG_ERROR, _("problem setting rootdir '%s' (%s)\n"),
-						config->rootdir, alpm_strerrorlast());
-				cleanup(ret);
-			}
-			if(!config->dbpath) {
-				/* omit leading slash from our static DBPATH, root handles it */
-				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH + 1);
-				config->dbpath = strdup(path);
-			}
-			if(!config->logfile) {
-				/* omit leading slash from our static LOGFILE path, root handles it */
-				snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE + 1);
-				config->logfile = strdup(path);
-			}
+	pm_printf(PM_LOG_DEBUG, "setlibpaths() called\n");
+	/* Configure root path first. If it is set and dbpath/logfile were not
+	 * set, then set those as well to reside under the root. */
+	if(config->rootdir) {
+		char path[PATH_MAX];
+		ret = alpm_option_set_root(config->rootdir);
+		if(ret != 0) {
+			pm_printf(PM_LOG_ERROR, _("problem setting rootdir '%s' (%s)\n"),
+					config->rootdir, alpm_strerrorlast());
+			return ret;
 		}
-		/* Set other paths if they were configured. Note that unless rootdir
-		 * was left undefined, these two paths (dbpath and logfile) will have
-		 * been set locally above, so the if cases below will now trigger. */
-		if(config->dbpath) {
-			ret = alpm_option_set_dbpath(config->dbpath);
-			if(ret != 0) {
-				pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
-						config->dbpath, alpm_strerrorlast());
-				cleanup(ret);
-			}
+		if(!config->dbpath) {
+			/* omit leading slash from our static DBPATH, root handles it */
+			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH + 1);
+			config->dbpath = strdup(path);
 		}
-		if(config->logfile) {
-			ret = alpm_option_set_logfile(config->logfile);
-			if(ret != 0) {
-				pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-						config->logfile, alpm_strerrorlast());
-				cleanup(ret);
-			}
+		if(!config->logfile) {
+			/* omit leading slash from our static LOGFILE path, root handles it */
+			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE + 1);
+			config->logfile = strdup(path);
 		}
-
-		/* Set GnuPG's home directory.  This is not relative to rootdir, even if
-		 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
-		if(config->gpgdir) {
-			ret = alpm_option_set_signaturedir(config->gpgdir);
-			if(ret != 0) {
-				pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
-						config->gpgdir, alpm_strerrorlast());
-				cleanup(ret);
-			}
-		}
-
-		/* add a default cachedir if one wasn't specified */
-		if(alpm_option_get_cachedirs() == NULL) {
-			alpm_option_add_cachedir(CACHEDIR);
-		}
-		init = 1;
 	}
+	/* Set other paths if they were configured. Note that unless rootdir
+	 * was left undefined, these two paths (dbpath and logfile) will have
+	 * been set locally above, so the if cases below will now trigger. */
+	if(config->dbpath) {
+		ret = alpm_option_set_dbpath(config->dbpath);
+		if(ret != 0) {
+			pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
+					config->dbpath, alpm_strerrorlast());
+			return ret;
+		}
+	}
+	if(config->logfile) {
+		ret = alpm_option_set_logfile(config->logfile);
+		if(ret != 0) {
+			pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
+					config->logfile, alpm_strerrorlast());
+			return ret;
+		}
+	}
+
+	/* Set GnuPG's home directory.  This is not relative to rootdir, even if
+	 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
+	if(config->gpgdir) {
+		ret = alpm_option_set_signaturedir(config->gpgdir);
+		if(ret != 0) {
+			pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
+					config->gpgdir, alpm_strerrorlast());
+			return ret;
+		}
+	}
+
+	/* add a default cachedir if one wasn't specified */
+	if(alpm_option_get_cachedirs() == NULL) {
+		alpm_option_add_cachedir(CACHEDIR);
+	}
+	return 0;
 }
 
 
 /* The real parseconfig. Called with a null section argument by the publicly
  * visible parseconfig so we can recall from within ourself on an include */
-static int _parseconfig(const char *file, const char *givensection,
-                        pmdb_t * const givendb)
+static int _parseconfig(const char *file, int parse_options,
+		const char *givensection, pmdb_t * const givendb)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX+1];
@@ -502,6 +499,8 @@ static int _parseconfig(const char *file, const char *givensection,
 	}
 
 	while(fgets(line, PATH_MAX, fp)) {
+		char *key, *value;
+
 		linenum++;
 		strtrim(line);
 
@@ -511,6 +510,14 @@ static int _parseconfig(const char *file, const char *givensection,
 		}
 		if((ptr = strchr(line, '#'))) {
 			*ptr = '\0';
+		}
+
+		/* sanity check */
+		if(parse_options && db) {
+			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: parsing options but have a database.\n"),
+						file, linenum);
+			ret = 1;
+			goto cleanup;
 		}
 
 		if(line[0] == '[' && line[strlen(line)-1] == ']') {
@@ -530,7 +537,7 @@ static int _parseconfig(const char *file, const char *givensection,
 				goto cleanup;
 			}
 			/* if we are not looking at the options section, register a db */
-			if(strcmp(section, "options") != 0) {
+			if(!parse_options && strcmp(section, "options") != 0) {
 				db = alpm_db_register_sync(section);
 				if(db == NULL) {
 					pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
@@ -543,7 +550,6 @@ static int _parseconfig(const char *file, const char *givensection,
 		}
 
 		/* directive */
-		char *key, *value;
 		/* strsep modifies the 'line' string: 'key \0 value' */
 		key = line;
 		value = line;
@@ -566,6 +572,10 @@ static int _parseconfig(const char *file, const char *givensection,
 		}
 		/* Include is allowed in both options and repo sections */
 		if(strcmp(key, "Include") == 0) {
+			glob_t globbuf;
+			int globret;
+			size_t gindex;
+
 			if(value == NULL) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
 						file, linenum, key);
@@ -573,8 +583,6 @@ static int _parseconfig(const char *file, const char *givensection,
 				goto cleanup;
 			}
 			/* Ignore include failures... assume non-critical */
-			int globret;
-			glob_t globbuf;
 			globret = glob(value, GLOB_NOCHECK, NULL, &globbuf);
 			switch(globret) {
 				case GLOB_NOSPACE:
@@ -593,22 +601,22 @@ static int _parseconfig(const char *file, const char *givensection,
 							file, linenum, value);
 				break;
 				default:
-					for(size_t gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
+					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(PM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
-						_parseconfig(globbuf.gl_pathv[gindex], section, db);
+						_parseconfig(globbuf.gl_pathv[gindex], parse_options, section, db);
 					}
 				break;
 			}
 			globfree(&globbuf);
 			continue;
 		}
-		if(strcmp(section, "options") == 0) {
+		if(parse_options && strcmp(section, "options") == 0) {
 			/* we are either in options ... */
 			if((ret = _parse_options(key, value, file, linenum)) != 0) {
 				goto cleanup;
 			}
-		} else {
+		} else if (!parse_options && strcmp(section, "options") != 0) {
 			/* ... or in a repo section */
 			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
@@ -645,7 +653,6 @@ static int _parseconfig(const char *file, const char *givensection,
 						file, linenum, key, section);
 			}
 		}
-
 	}
 
 cleanup:
@@ -653,8 +660,6 @@ cleanup:
 	if(section){
 		free(section);
 	}
-	/* call setlibpaths here to ensure we have called it at least once */
-	setlibpaths();
 	pm_printf(PM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return ret;
 }
@@ -665,8 +670,23 @@ cleanup:
  */
 int parseconfig(const char *file)
 {
+	int ret;
+	/* the config parse is a two-pass affair. We first parse the entire thing for
+	 * the [options] section so we can get all default and path options set.
+	 * Next, we go back and parse everything but [options]. */
+
 	/* call the real parseconfig function with a null section & db argument */
-	return _parseconfig(file, NULL, NULL);
+	pm_printf(PM_LOG_DEBUG, "parseconfig: options pass\n");
+	if((ret = _parseconfig(file, 1, NULL, NULL))) {
+		return ret;
+	}
+	/* call setlibpaths here to ensure we have called it at least once */
+	if((ret = setlibpaths())) {
+		return ret;
+	}
+	/* second pass, repo section parsing */
+	pm_printf(PM_LOG_DEBUG, "parseconfig: repo pass\n");
+	return _parseconfig(file, 0, NULL, NULL);
 }
 
 /* vim: set ts=2 sw=2 noet: */

@@ -262,7 +262,7 @@ static void setuseragent(void)
  *
  * @param ret the return value
  */
-void cleanup(int ret) {
+static void cleanup(int ret) {
 	/* free alpm library resources */
 	if(alpm_release() == -1) {
 		pm_printf(PM_LOG_ERROR, "%s\n", alpm_strerrorlast());

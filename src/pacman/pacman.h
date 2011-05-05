@@ -22,8 +22,6 @@
 
 #include <alpm_list.h>
 
-void cleanup(int ret);
-
 /* database.c */
 int pacman_database(alpm_list_t *targets);
 /* deptest.c */
