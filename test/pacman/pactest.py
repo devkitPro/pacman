@@ -17,8 +17,12 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os, sys, glob
+import glob
 from optparse import OptionParser
+import os
+import shutil
+import sys
+import tempfile
 
 import pmenv
 import util
@@ -63,6 +67,9 @@ def createOptParser():
     parser.add_option("-t", "--test", action = "callback",
                       callback = globTests, dest = "testcases",
                       help = "specify test case(s)")
+    parser.add_option("--keep-root", action = "store_true",
+                      dest = "keeproot", default = False,
+                      help = "don't remove the generated pacman root filesystem")
     parser.add_option("--nolog", action = "store_true",
                       dest = "nolog", default = False,
                       help = "do not log pacman messages")
@@ -80,7 +87,8 @@ def createOptParser():
  
 if __name__ == "__main__":
     # instantiate env and parser objects 
-    env = pmenv.pmenv()
+    root_path = tempfile.mkdtemp()
+    env = pmenv.pmenv(root=root_path)
     opt_parser = createOptParser()
     (opts, args) = opt_parser.parse_args()
 
@@ -95,16 +103,22 @@ if __name__ == "__main__":
 
     if opts.testcases is None or len(opts.testcases) == 0:
         print "no tests defined, nothing to do"
+        os.rmdir(root_path)
         sys.exit(2)
+
+    for i in opts.testcases:
+        env.addtest(i)
+
+    # run tests and print overall results
+    env.run()
+    env.results()
+
+    if env.failed > 0:
+        sys.exit(1)
+
+    if not opts.keeproot:
+        shutil.rmtree(root_path)
     else:
-        for i in opts.testcases:
-            env.addtest(i)
-
-        # run tests and print overall results
-        env.run()
-        env.results()
-
-        if env.failed > 0:
-            sys.exit(1)
+        print "pacman testing root saved: %s" % root_path
 
 # vim: set ts=4 sw=4 et:

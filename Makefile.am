@@ -21,7 +21,6 @@ check-local: test/pacman test/util src/pacman src/util
 	$(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
 		--test $(top_srcdir)/test/pacman/tests/*.py \
 		-p $(top_builddir)/src/pacman/pacman
-	rm -rf $(top_builddir)/root
 	$(SH) $(top_srcdir)/test/util/vercmptest.sh \
 		$(top_builddir)/src/util/vercmp
 
