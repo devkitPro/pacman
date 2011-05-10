@@ -39,7 +39,8 @@
 
 /* if keep_used != 0, then the db files which match an used syncdb
  * will be kept  */
-static int sync_cleandb(const char *dbpath, int keep_used) {
+static int sync_cleandb(const char *dbpath, int keep_used)
+{
 	DIR *dir;
 	struct dirent *ent;
 	alpm_list_t *syncdbs;
@@ -118,7 +119,8 @@ static int sync_cleandb(const char *dbpath, int keep_used) {
 	return 0;
 }
 
-static int sync_cleandb_all(void) {
+static int sync_cleandb_all(void)
+{
 	const char *dbpath;
 	char newdbpath[PATH_MAX];
 	int ret = 0;
@@ -191,10 +193,10 @@ static int sync_cleancache(int level)
 		/* step through the directory one file at a time */
 		while((ent = readdir(dir)) != NULL) {
 			char path[PATH_MAX];
+			size_t pathlen;
 			int delete = 1;
 			pmpkg_t *localpkg = NULL, *pkg = NULL;
 			const char *local_name, *local_version;
-			alpm_list_t *j;
 
 			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
 				continue;
@@ -208,12 +210,19 @@ static int sync_cleancache(int level)
 				continue;
 			}
 
+			/* we handle .sig files with packages, not separately */
+			pathlen = strlen(path);
+			if(strcmp(path + pathlen - 4, ".sig") == 0) {
+				continue;
+			}
+
 			/* attempt to load the package, prompt removal on failures as we may have
 			 * files here that aren't valid packages. we also don't need a full
 			 * load of the package, just the metadata. */
 			if(alpm_pkg_load(path, 0, PM_PGP_VERIFY_NEVER, &localpkg) != 0
 					|| localpkg == NULL) {
-				if(yesno(_("File %s does not seem to be a valid package, remove it?"), path)) {
+				if(yesno(_("File %s does not seem to be a valid package, remove it?"),
+							path)) {
 					if(localpkg) {
 						alpm_pkg_free(localpkg);
 					}
@@ -236,6 +245,7 @@ static int sync_cleancache(int level)
 				}
 			}
 			if(config->cleanmethod & PM_CLEAN_KEEPCUR) {
+				alpm_list_t *j;
 				/* check if this package is in a sync DB */
 				for(j = sync_dbs; j && delete; j = alpm_list_next(j)) {
 					pmdb_t *db = alpm_list_getdata(j);
@@ -254,6 +264,11 @@ static int sync_cleancache(int level)
 
 			if(delete) {
 				unlink(path);
+				/* unlink a signature file if present too */
+				if(PATH_MAX - 5 >= pathlen) {
+					strcpy(path + pathlen, ".sig");
+					unlink(path);
+				}
 			}
 		}
 		closedir(dir);
