@@ -41,5 +41,3 @@ self.addrule("!FILE_EXIST=etc/nonexistent")
 self.addrule("FILE_EXIST=etc/exists3")
 self.addrule("FILE_TYPE=etc/brokenlink3|link")
 self.addrule("FILE_TYPE=etc/exists3|file")
-
-self.expectfailure = True

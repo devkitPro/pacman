@@ -266,7 +266,7 @@ static void unlink_file(pmpkg_t *info, char *filename, alpm_list_t *skip_remove,
 				FREE(pkghash);
 			} else {
 				char *filehash = alpm_compute_md5sum(file);
-				int cmp = strcmp(filehash,pkghash);
+				int cmp = filehash ? strcmp(filehash, pkghash) : 0;
 				FREE(filehash);
 				FREE(pkghash);
 				if(cmp != 0) {
