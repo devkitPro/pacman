@@ -1416,7 +1416,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* set up the print operations */
-	if(config->print) {
+	if(config->print && !config->op_s_clean) {
 		config->noconfirm = 1;
 		config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 		config->flags |= PM_TRANS_FLAG_NOLOCK;
