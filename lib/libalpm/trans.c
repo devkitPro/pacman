@@ -58,6 +58,8 @@ static int make_lock(pmhandle_t *handle)
 	int fd;
 	char *dir, *ptr;
 
+	ASSERT(handle->lockfile != NULL, return -1);
+
 	/* create the dir of the lockfile first */
 	dir = strdup(handle->lockfile);
 	ptr = strrchr(dir, '/');
@@ -110,7 +112,6 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* lock db */
