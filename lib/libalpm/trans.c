@@ -116,15 +116,6 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 		}
 	}
 
-	/* check database version */
-	db_version = _alpm_db_version(handle->db_local);
-	if(db_version < required_db_version) {
-		_alpm_log(PM_LOG_ERROR,
-				_("%s database version is too old\n"), handle->db_local->treename);
-		remove_lock(handle);
-		RET_ERR(PM_ERR_DB_VERSION, -1);
-	}
-
 	trans = _alpm_trans_new();
 	if(trans == NULL) {
 		RET_ERR(PM_ERR_MEMORY, -1);
@@ -137,6 +128,16 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 	trans->state = STATE_INITIALIZED;
 
 	handle->trans = trans;
+
+	/* check database version */
+	db_version = _alpm_db_version(handle->db_local);
+	if(db_version < required_db_version) {
+		_alpm_log(PM_LOG_ERROR,
+				_("%s database version is too old\n"), handle->db_local->treename);
+		remove_lock(handle);
+		_alpm_trans_free(trans);
+		RET_ERR(PM_ERR_DB_VERSION, -1);
+	}
 
 	return 0;
 }

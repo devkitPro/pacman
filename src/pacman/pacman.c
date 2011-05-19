@@ -732,8 +732,9 @@ static void cl_to_log(int argc, char* argv[])
 		size += strlen(argv[i]) + 1;
 	}
 	char *cl_text = malloc(size);
-	if(!cl_text)
+	if(!cl_text) {
 		return;
+	}
 	char *p = cl_text;
 	for(i = 0; i<argc-1; i++) {
 		strcpy(p, argv[i]);
@@ -884,7 +885,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* set up the print operations */
-	if(config->print) {
+	if(config->print && !config->op_s_clean) {
 		config->noconfirm = 1;
 		config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 		config->flags |= PM_TRANS_FLAG_NOLOCK;

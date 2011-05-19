@@ -77,6 +77,10 @@ static int search_path(char **filename, struct stat *bufptr)
 		}
 
 		fullname = malloc(plen + flen + 2);
+		if(!fullname) {
+			free(envpath);
+			return(-1);
+		}
 		sprintf(fullname, "%s/%s", path, *filename);
 
 		if(lstat(fullname, bufptr) == 0) {

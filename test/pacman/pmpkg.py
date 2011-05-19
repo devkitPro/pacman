@@ -103,7 +103,7 @@ class pmpkg(object):
         # Generate package file system
         for f in self.files:
             util.mkfile(f, f)
-            self.size += os.stat(util.getfilename(f))[stat.ST_SIZE]
+            self.size += os.lstat(util.getfilename(f))[stat.ST_SIZE]
 
         # .PKGINFO
         data = ["pkgname = %s" % self.name]

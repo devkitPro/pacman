@@ -150,7 +150,6 @@ def getmd5sum(filename):
     """
     """
     if not os.path.isfile(filename):
-        print "file %s does not exist!" % filename
         return ""
     fd = open(filename, "rb")
     checksum = hashlib.md5()
@@ -178,9 +177,8 @@ def getmtime(filename):
     """
     """
     if not os.path.exists(filename):
-        print "path %s does not exist!" % filename
-        return 0, 0, 0
-    st = os.stat(filename)
+        return None, None, None
+    st = os.lstat(filename)
     return st[stat.ST_ATIME], st[stat.ST_MTIME], st[stat.ST_CTIME]
 
 #
