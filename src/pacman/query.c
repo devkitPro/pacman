@@ -60,16 +60,16 @@ static int search_path(char **filename, struct stat *bufptr)
 	char *envpath, *envpathsplit, *path, *fullname;
 	size_t flen;
 
-	if ((envpath = getenv("PATH")) == NULL) {
+	if((envpath = getenv("PATH")) == NULL) {
 		return(-1);
 	}
-	if ((envpath = envpathsplit = strdup(envpath)) == NULL) {
+	if((envpath = envpathsplit = strdup(envpath)) == NULL) {
 		return(-1);
 	}
 
 	flen = strlen(*filename);
 
-	while ((path = strsep(&envpathsplit, ":")) != NULL) {
+	while((path = strsep(&envpathsplit, ":")) != NULL) {
 		size_t plen = strlen(path);
 
 		/* strip the trailing slash if one exists */
@@ -78,6 +78,10 @@ static int search_path(char **filename, struct stat *bufptr)
 		}
 
 		fullname = malloc(plen + flen + 2);
+		if(!fullname) {
+			free(envpath);
+			return(-1);
+		}
 		sprintf(fullname, "%s/%s", path, *filename);
 
 		if(lstat(fullname, bufptr) == 0) {
@@ -94,7 +98,7 @@ static int search_path(char **filename, struct stat *bufptr)
 
 static void print_query_fileowner(const char *filename, pmpkg_t *info)
 {
-	if (!config->quiet) {
+	if(!config->quiet) {
 		printf(_("%s is owned by %s %s\n"), filename,
 				alpm_pkg_get_name(info), alpm_pkg_get_version(info));
 	} else {
