@@ -56,7 +56,7 @@ usage() {
 	echo
 	echo "$(gettext "Options must be placed before commands. The available options are:")"
 	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$CONFIG"
-	echo "$(gettext "  --gpgdir         Set an alternate directory for gnupg")"
+	printf "$(gettext "  --gpgdir         Set an alternate directory for gnupg (instead of '%s')")\n" "$PACMAN_KEYRING_DIR"
 	echo
 	echo "$(gettext "The available commands are:")"
 	echo "$(gettext "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)")"
