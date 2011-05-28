@@ -913,6 +913,7 @@ int main(int argc, char *argv[])
 		printf("\n");
 		printf("Lock File : %s\n", alpm_option_get_lockfile());
 		printf("Log File  : %s\n", alpm_option_get_logfile());
+		printf("GPG Dir   : %s\n", alpm_option_get_signaturedir());
 		list_display("Targets   :", pm_targets);
 	}
 
