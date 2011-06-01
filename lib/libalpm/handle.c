@@ -44,8 +44,6 @@ pmhandle_t *_alpm_handle_new()
 {
 	pmhandle_t *handle;
 
-	ALPM_LOG_FUNC;
-
 	CALLOC(handle, 1, sizeof(pmhandle_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	handle->sigverify = PM_PGP_VERIFY_OPTIONAL;

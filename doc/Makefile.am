@@ -92,9 +92,9 @@ html: $(HTML_DOCS)
 website: html
 	bsdtar czf website.tar.gz $(HTML_DOCS) \
 		-C /etc/asciidoc/stylesheets/ \
-		xhtml11.css xhtml11-manpage.css xhtml11-quirks.css \
+		asciidoc.css asciidoc-manpage.css \
 		-C /etc/asciidoc/javascripts/ \
-		asciidoc-xhtml11.js \
+		asciidoc.js \
 		-C /etc/asciidoc/ \
 		images
 
