@@ -194,7 +194,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
 	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void *)&dlfile);
-	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_LIMIT, 1200L);
+	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
 	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_TIME, 10L);
 
 	useragent = getenv("HTTP_USER_AGENT");
@@ -202,10 +202,8 @@ static int curl_download_internal(const char *url, const char *localpath,
 		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
 	}
 
-	/* TODO: no assuming here. the calling function should tell us what's kosher */
-	if(!force && stat(destfile, &st) == 0) {
-		/* assume its a sync, so we're starting from scratch. but, only download
-		 * our local is out of date. */
+	if(!allow_resume && !force && stat(destfile, &st) == 0) {
+		/* start from scratch, but only download if our local is out of date. */
 		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
 	} else if(stat(tempfile, &st) == 0 && allow_resume) {
