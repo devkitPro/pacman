@@ -688,8 +688,9 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	const char *title, *label;
 	double size;
 	const alpm_list_t *i;
-	off_t isize = 0, dlsize = 0;
+	off_t isize = 0, rsize = 0, dlsize = 0;
 	alpm_list_t *j, *lp, *header = NULL, *targets = NULL;
+	pmdb_t *db_local = alpm_option_get_localdb();
 
 	if(!pkgs) {
 		return;
@@ -700,7 +701,12 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		pmpkg_t *pkg = alpm_list_getdata(i);
 
 		if(install) {
+			pmpkg_t *lpkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(pkg));
 			dlsize += alpm_pkg_download_size(pkg);
+			if(lpkg) {
+				/* add up size of all removed packages */
+				rsize += alpm_pkg_get_isize(lpkg);
+			}
 		}
 		isize += alpm_pkg_get_isize(pkg);
 
@@ -736,6 +742,11 @@ void display_targets(const alpm_list_t *pkgs, int install)
 		if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
 			size = humanize_size(isize, 'M', 1, &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
+			/* only show this net value if different from raw installed size */
+			if(rsize > 0) {
+				size = humanize_size(isize - rsize, 'M', 1, &label);
+				printf(_("Net Upgrade Size:       %.2f %s\n"), size, label);
+			}
 		}
 	} else {
 		size = humanize_size(isize, 'M', 1, &label);

@@ -31,7 +31,7 @@
 #include "util.h"
 #include "conf.h"
 
-static int remove_target(char *target)
+static int remove_target(const char *target)
 {
 	pmpkg_t *info;
 	pmdb_t *db_local = alpm_option_get_localdb();
