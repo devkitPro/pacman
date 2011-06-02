@@ -1,5 +1,12 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.5.3         - segfault when creating lock in non-existent dir (FS#24292)
+              - segfault when uninstalling broken backed-up symlink (FS#24230)
+              - --print should not enable --noconfirm (FS#24287)
+              - fix default path substitution in documentation
+              - makepkg: quote variables that may contain spaces (FS#24002)
+              - repo-add: include dotfiles in filelists (FS#24534)
+              - minor translation updates: de, fi, sk
 3.5.2         - ensure we show correct missing dependency info (FS#23424)
               - pacman usage/--help updates (FS#23433, FS#23369)
               - ensure stdout/stderr are flushed before prompts (FS#23492)
