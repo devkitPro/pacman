@@ -351,7 +351,9 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcstr;
 
-	if(config->noprogressbar) {
+	const int cols = getcols(0);
+
+	if(config->noprogressbar || cols == 0) {
 		return;
 	}
 
@@ -397,7 +399,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 			return;
 	}
 
-	infolen = getcols() * 6 / 10;
+	infolen = cols * 6 / 10;
 	if(infolen < 50) {
 		infolen = 50;
 	}
@@ -454,7 +456,7 @@ void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
 	free(wcstr);
 
 	/* call refactored fill progress function */
-	fill_progress(percent, percent, getcols() - infolen);
+	fill_progress(percent, percent, cols - infolen);
 
 	if(percent == 100) {
 		alpm_list_t *i = NULL;
@@ -498,7 +500,9 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	const char *rate_label, *xfered_label;
 	int file_percent = 0, total_percent = 0;
 
-	if(config->noprogressbar || file_total == -1) {
+	const int cols = getcols(0);
+
+	if(config->noprogressbar || cols == 0 || file_total == -1) {
 		if(file_xfered == 0) {
 			printf(_("downloading %s...\n"), filename);
 			fflush(stdout);
@@ -506,7 +510,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		return;
 	}
 
-	infolen = getcols() * 6 / 10;
+	infolen = cols * 6 / 10;
 	if(infolen < 50) {
 		infolen = 50;
 	}
@@ -639,9 +643,9 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	free(wcfname);
 
 	if(totaldownload) {
-		fill_progress(file_percent, total_percent, getcols() - infolen);
+		fill_progress(file_percent, total_percent, cols - infolen);
 	} else {
-		fill_progress(file_percent, file_percent, getcols() - infolen);
+		fill_progress(file_percent, file_percent, cols - infolen);
 	}
 	return;
 }

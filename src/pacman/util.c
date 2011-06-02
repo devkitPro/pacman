@@ -115,7 +115,7 @@ static int flush_term_input(void) {
 }
 
 /* gets the current screen column width */
-int getcols(void)
+int getcols(int def)
 {
 #ifdef TIOCGSIZE
 	struct ttysize win;
@@ -128,7 +128,7 @@ int getcols(void)
 		return win.ws_col;
 	}
 #endif
-	return 0;
+	return def;
 }
 
 /* does the same thing as 'rm -rf' */
@@ -223,13 +223,12 @@ void indentprint(const char *str, int indent)
 {
 	wchar_t *wcstr;
 	const wchar_t *p;
-	int len, cidx, cols;
+	int len, cidx;
+	const int cols = getcols(0);
 
 	if(!str) {
 		return;
 	}
-
-	cols = getcols();
 
 	/* if we're not a tty, print without indenting */
 	if(cols == 0) {
@@ -439,8 +438,6 @@ static int string_length(const char *s)
 
 void string_display(const char *title, const char *string)
 {
-	int len = 0;
-
 	if(title) {
 		printf("%s ", title);
 	}
@@ -448,7 +445,7 @@ void string_display(const char *title, const char *string)
 		printf(_("None"));
 	} else {
 		/* compute the length of title + a space */
-		len = string_length(title) + 1;
+		int len = string_length(title) + 1;
 		indentprint(string, len);
 	}
 	printf("\n");
@@ -516,7 +513,7 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 	alpm_list_free(longest_strs);
 
 	/* return NULL if terminal is not wide enough */
-	if(totalwidth > getcols()) {
+	if(totalwidth > getcols(80)) {
 		fprintf(stderr, _("insufficient columns available for table display\n"));
 		FREELIST(formats);
 		return(NULL);
@@ -568,7 +565,7 @@ int table_display(const char *title, const alpm_list_t *header,
 void list_display(const char *title, const alpm_list_t *list)
 {
 	const alpm_list_t *i;
-	int cols, len = 0;
+	int len = 0;
 
 	if(title) {
 		len = string_length(title) + 1;
@@ -578,11 +575,12 @@ void list_display(const char *title, const alpm_list_t *list)
 	if(!list) {
 		printf("%s\n", _("None"));
 	} else {
+		int cols;
+		const int maxcols = getcols(80);
 		for(i = list, cols = len; i; i = alpm_list_next(i)) {
 			char *str = alpm_list_getdata(i);
 			int s = string_length(str);
-			int maxcols = getcols();
-			if(maxcols > 0 && (cols + s + 2) >= maxcols) {
+			if(cols + s + 2 >= maxcols) {
 				int j;
 				cols = len;
 				printf("\n");
