@@ -32,6 +32,7 @@
 #include "alpm_list.h"
 #include "util.h"
 #include "log.h"
+#include "handle.h"
 #include "package.h"
 #include "deps.h" /* _alpm_splitdep */
 
@@ -350,6 +351,7 @@ pmpkg_t *_alpm_pkg_load_internal(const char *pkgfile, int full,
 	newpkg->origin = PKG_FROM_FILE;
 	newpkg->origin_data.file = strdup(pkgfile);
 	newpkg->ops = get_file_pkg_ops();
+	newpkg->handle = handle;
 
 	if(full) {
 		/* "checking for conflicts" requires a sorted list, ensure that here */

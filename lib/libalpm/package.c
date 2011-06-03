@@ -408,14 +408,15 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->deltas     = alpm_list_copy_data(pkg->deltas, sizeof(pmdelta_t));
 
 	/* internal */
+	newpkg->infolevel = pkg->infolevel;
 	newpkg->origin = pkg->origin;
-	newpkg->ops = pkg->ops;
 	if(newpkg->origin == PKG_FROM_FILE) {
 		newpkg->origin_data.file = strdup(pkg->origin_data.file);
 	} else {
 		newpkg->origin_data.db = pkg->origin_data.db;
 	}
-	newpkg->infolevel = pkg->infolevel;
+	newpkg->ops = pkg->ops;
+	newpkg->handle = handle;
 
 	return newpkg;
 }

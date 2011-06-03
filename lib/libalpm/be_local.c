@@ -415,6 +415,7 @@ static int local_db_populate(pmdb_t *db)
 		pkg->origin = PKG_FROM_LOCALDB;
 		pkg->origin_data.db = db;
 		pkg->ops = &local_pkg_ops;
+		pkg->handle = handle;
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
 		if(_alpm_local_db_read(db, pkg, INFRQ_BASE) == -1) {

@@ -110,6 +110,7 @@ struct __pmpkg_t {
 	int scriptlet;
 
 	pmpkgreason_t reason;
+	pmdbinfrq_t infolevel;
 	pmpkgfrom_t origin;
 	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
 	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
@@ -117,7 +118,7 @@ struct __pmpkg_t {
 		pmdb_t *db;
 		char *file;
 	} origin_data;
-	pmdbinfrq_t infolevel;
+	pmhandle_t *handle;
 
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;

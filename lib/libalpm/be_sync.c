@@ -306,8 +306,9 @@ static int sync_db_populate(pmdb_t *db)
 			}
 
 			pkg->origin = PKG_FROM_SYNCDB;
-			pkg->ops = &default_pkg_ops;
 			pkg->origin_data.db = db;
+			pkg->ops = &default_pkg_ops;
+			pkg->handle = handle;
 
 			/* add to the collection */
 			_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
