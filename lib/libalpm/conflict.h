@@ -42,8 +42,8 @@ pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict);
 void _alpm_conflict_free(pmconflict_t *conflict);
 alpm_list_t *_alpm_innerconflicts(alpm_list_t *packages);
 alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages);
-alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
-					 alpm_list_t *upgrade, alpm_list_t *remove);
+alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
+		alpm_list_t *upgrade, alpm_list_t *remove);
 
 void _alpm_fileconflict_free(pmfileconflict_t *conflict);
 

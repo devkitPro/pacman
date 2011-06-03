@@ -202,7 +202,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 			return -1;
 		}
 	}	else {
-		if(_alpm_sync_prepare(trans, handle->db_local, handle->dbs_sync, data) == -1) {
+		if(_alpm_sync_prepare(handle, data) == -1) {
 			/* pm_errno is set by _alpm_sync_prepare() */
 			return -1;
 		}
@@ -241,7 +241,7 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 			return -1;
 		}
 	} else {
-		if(_alpm_sync_commit(trans, handle->db_local, data) == -1) {
+		if(_alpm_sync_commit(handle, data) == -1) {
 			/* pm_errno is set by _alpm_sync_commit() */
 			return -1;
 		}

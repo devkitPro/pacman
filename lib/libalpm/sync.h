@@ -24,8 +24,8 @@
 
 #include "alpm.h"
 
-int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data);
-int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data);
+int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data);
+int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data);
 
 #endif /* _ALPM_SYNC_H */
 

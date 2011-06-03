@@ -233,7 +233,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 			if(_alpm_pkg_should_ignore(pkg)) {
 				ignorelist = alpm_list_add(ignorelist, pkg);
 				int install = 0;
-				QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+				QUESTION(db->handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 						NULL, NULL, &install);
 				if(!install)
 					continue;
@@ -270,7 +270,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	if(fpath) {
 		FREE(fpath);
 		size = 0;
-	} else if(handle->usedelta) {
+	} else if(newpkg->handle->usedelta) {
 		off_t dltsize;
 		off_t pkgsize = alpm_pkg_get_size(newpkg);
 
@@ -300,16 +300,15 @@ static int compute_download_size(pmpkg_t *newpkg)
 	return 0;
 }
 
-int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync, alpm_list_t **data)
+int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *deps = NULL;
 	alpm_list_t *unresolvable = NULL;
 	alpm_list_t *i, *j;
 	alpm_list_t *remove = NULL;
 	int ret = 0;
-
-	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	pmtrans_t *trans = handle->trans;
+	pmdb_t *db_local = handle->db_local;
 
 	if(data) {
 		*data = NULL;
@@ -340,7 +339,7 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 		   building up a list of packages which could not be resolved. */
 		for(i = trans->add; i; i = i->next) {
 			pmpkg_t *pkg = i->data;
-			if(_alpm_resolvedeps(localpkgs, dbs_sync, pkg, trans->add,
+			if(_alpm_resolvedeps(localpkgs, handle->dbs_sync, pkg, trans->add,
 						&resolved, remove, data) == -1) {
 				unresolvable = alpm_list_add(unresolvable, pkg);
 			}
@@ -725,7 +724,7 @@ static int validate_deltas(pmtrans_t *trans, alpm_list_t *deltas,
 	return ret;
 }
 
-static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
+static int download_files(pmhandle_t *handle, alpm_list_t **deltas)
 {
 	const char *cachedir;
 	alpm_list_t *i, *j;
@@ -733,7 +732,7 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 	int errors = 0;
 
 	cachedir = _alpm_filecache_setup();
-	trans->state = STATE_DOWNLOADING;
+	handle->trans->state = STATE_DOWNLOADING;
 
 	/* Total progress - figure out the total download size if required to
 	 * pass to the callback. This function is called once, and it is up to the
@@ -741,7 +740,7 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 	if(handle->totaldlcb) {
 		off_t total_size = (off_t)0;
 		/* sum up the download size for each package and store total */
-		for(i = trans->add; i; i = i->next) {
+		for(i = handle->trans->add; i; i = i->next) {
 			pmpkg_t *spkg = i->data;
 			total_size += spkg->download_size;
 		}
@@ -752,7 +751,7 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 	for(i = handle->dbs_sync; i; i = i->next) {
 		pmdb_t *current = i->data;
 
-		for(j = trans->add; j; j = j->next) {
+		for(j = handle->trans->add; j; j = j->next) {
 			pmpkg_t *spkg = j->data;
 
 			if(spkg->origin != PKG_FROM_FILE && current == spkg->origin_data.db) {
@@ -781,7 +780,7 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 		}
 
 		if(files) {
-			EVENT(trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
+			EVENT(handle->trans, PM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
 			for(j = files; j; j = j->next) {
 				const char *filename = j->data;
 				alpm_list_t *server;
@@ -819,7 +818,7 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 		}
 	}
 
-	for(j = trans->add; j; j = j->next) {
+	for(j = handle->trans->add; j; j = j->next) {
 		pmpkg_t *pkg = j->data;
 		pkg->infolevel &= ~INFRQ_DSIZE;
 		pkg->download_size = 0;
@@ -832,16 +831,15 @@ static int download_files(pmtrans_t *trans, alpm_list_t **deltas)
 	return 0;
 }
 
-int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
+int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *i;
 	alpm_list_t *deltas = NULL;
 	size_t numtargs, current = 0, replaces = 0;
 	int errors;
+	pmtrans_t *trans = handle->trans;
 
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-
-	if(download_files(trans, &deltas)) {
+	if(download_files(handle, &deltas)) {
 		alpm_list_free(deltas);
 		return -1;
 	}
@@ -915,8 +913,8 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, "looking for file conflicts\n");
-		alpm_list_t *conflict = _alpm_db_find_fileconflicts(db_local, trans,
-								    trans->add, trans->remove);
+		alpm_list_t *conflict = _alpm_db_find_fileconflicts(handle,
+				trans->add, trans->remove);
 		if(conflict) {
 			if(data) {
 				*data = conflict;
@@ -955,7 +953,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 
 	/* install targets */
 	_alpm_log(PM_LOG_DEBUG, "installing packages\n");
-	if(_alpm_upgrade_packages(trans, handle->db_local) == -1) {
+	if(_alpm_upgrade_packages(handle) == -1) {
 		_alpm_log(PM_LOG_ERROR, _("could not commit transaction\n"));
 		return -1;
 	}

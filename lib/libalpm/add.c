@@ -47,9 +47,6 @@
 #include "remove.h"
 #include "handle.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 /** Add a package to the transaction. */
 int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 {
@@ -60,11 +57,10 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	trans = handle->trans;
+	trans = pkg->handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	db_local = handle->db_local;
+	db_local = pkg->handle->db_local;
 
 	pkgname = pkg->name;
 	pkgver = pkg->version;
@@ -132,9 +128,8 @@ static int perform_extraction(struct archive *archive,
 	return 0;
 }
 
-static int extract_single_file(struct archive *archive,
-		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg,
-		pmtrans_t *trans, pmdb_t *db)
+static int extract_single_file(pmhandle_t *handle, struct archive *archive,
+		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg)
 {
 	const char *entryname;
 	mode_t entrymode;
@@ -152,12 +147,12 @@ static int extract_single_file(struct archive *archive,
 	if(strcmp(entryname, ".INSTALL") == 0) {
 		/* the install script goes inside the db */
 		snprintf(filename, PATH_MAX, "%s%s-%s/install",
-				_alpm_db_path(db), newpkg->name, newpkg->version);
+				_alpm_db_path(handle->db_local), newpkg->name, newpkg->version);
 		archive_entry_set_perm(entry, 0644);
 	} else if(strcmp(entryname, ".CHANGELOG") == 0) {
 		/* the changelog goes inside the db */
 		snprintf(filename, PATH_MAX, "%s%s-%s/changelog",
-				_alpm_db_path(db), newpkg->name, newpkg->version);
+				_alpm_db_path(handle->db_local), newpkg->name, newpkg->version);
 		archive_entry_set_perm(entry, 0644);
 	} else if(*entryname == '.') {
 		/* for now, ignore all files starting with '.' that haven't
@@ -426,7 +421,7 @@ static int extract_single_file(struct archive *archive,
 			_alpm_log(PM_LOG_DEBUG, "extracting %s\n", filename);
 		}
 
-		if(trans->flags & PM_TRANS_FLAG_FORCE) {
+		if(handle->trans->flags & PM_TRANS_FLAG_FORCE) {
 			/* if FORCE was used, unlink() each file (whether it's there
 			 * or not) before extracting. This prevents the old "Text file busy"
 			 * error that crops up if forcing a glibc or pacman upgrade. */
@@ -467,15 +462,15 @@ static int extract_single_file(struct archive *archive,
 	return errors;
 }
 
-static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
-		size_t pkg_count, pmtrans_t *trans, pmdb_t *db)
+static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
+		size_t pkg_current, size_t pkg_count)
 {
 	int i, ret = 0, errors = 0;
 	char scriptlet[PATH_MAX+1];
 	int is_upgrade = 0;
 	pmpkg_t *oldpkg = NULL;
-
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	pmdb_t *db = handle->db_local;
+	pmtrans_t *trans = handle->trans;
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
 			_alpm_db_path(db), alpm_pkg_get_name(newpkg),
@@ -501,7 +496,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 
 		/* pre_upgrade scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle, newpkg->origin_data.file,
+			_alpm_runscriptlet(newpkg->handle, newpkg->origin_data.file,
 					"pre_upgrade", newpkg->version, oldpkg->version);
 		}
 	} else {
@@ -513,7 +508,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 
 		/* pre_install scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle, newpkg->origin_data.file,
+			_alpm_runscriptlet(newpkg->handle, newpkg->origin_data.file,
 					"pre_install", newpkg->version, NULL);
 		}
 	}
@@ -527,7 +522,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 
 	if(oldpkg) {
 		/* set up fake remove transaction */
-		if(_alpm_upgraderemove_package(handle, oldpkg, newpkg) == -1) {
+		if(_alpm_upgraderemove_package(newpkg->handle, oldpkg, newpkg) == -1) {
 			pm_errno = PM_ERR_TRANS_ABORT;
 			ret = -1;
 			goto cleanup;
@@ -577,8 +572,9 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 		}
 
 		/* libarchive requires this for extracting hard links */
-		if(chdir(handle->root) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), handle->root, strerror(errno));
+		if(chdir(newpkg->handle->root) != 0) {
+			_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
+					newpkg->handle->root, strerror(errno));
 			ret = -1;
 			goto cleanup;
 		}
@@ -622,8 +618,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 			}
 
 			/* extract the next file from the archive */
-			errors += extract_single_file(archive, entry, newpkg, oldpkg,
-					trans, db);
+			errors += extract_single_file(newpkg->handle, archive, entry, newpkg, oldpkg);
 		}
 		archive_read_finish(archive);
 
@@ -681,11 +676,11 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 	if(alpm_pkg_has_scriptlet(newpkg)
 			&& !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 		if(is_upgrade) {
-			_alpm_runscriptlet(handle, scriptlet, "post_upgrade",
+			_alpm_runscriptlet(newpkg->handle, scriptlet, "post_upgrade",
 					alpm_pkg_get_version(newpkg),
 					oldpkg ? alpm_pkg_get_version(oldpkg) : NULL);
 		} else {
-			_alpm_runscriptlet(handle, scriptlet, "post_install",
+			_alpm_runscriptlet(newpkg->handle, scriptlet, "post_install",
 					alpm_pkg_get_version(newpkg), NULL);
 		}
 	}
@@ -701,14 +696,12 @@ cleanup:
 	return ret;
 }
 
-int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
+int _alpm_upgrade_packages(pmhandle_t *handle)
 {
 	size_t pkg_count, pkg_current;
 	int skip_ldconfig = 0, ret = 0;
 	alpm_list_t *targ;
-
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	pmtrans_t *trans = handle->trans;
 
 	if(trans->add == NULL) {
 		return 0;
@@ -724,7 +717,7 @@ int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 		}
 
 		pmpkg_t *newpkg = (pmpkg_t *)targ->data;
-		if(commit_single_pkg(newpkg, pkg_current, pkg_count, trans, db)) {
+		if(commit_single_pkg(handle, newpkg, pkg_current, pkg_count)) {
 			/* something screwed up on the commit, abort the trans */
 			trans->state = STATE_INTERRUPTED;
 			pm_errno = PM_ERR_TRANS_ABORT;

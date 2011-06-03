@@ -40,9 +40,6 @@
 #include "log.h"
 #include "deps.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2,
 		const char *reason)
 {
@@ -308,7 +305,7 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 	char abspath[PATH_MAX];
 	DIR *dir;
 
-	snprintf(abspath, PATH_MAX, "%s%s", handle->root, dirpath);
+	snprintf(abspath, PATH_MAX, "%s%s", pkg->handle->root, dirpath);
 	dir = opendir(abspath);
 	if(dir == NULL) {
 		return 1;
@@ -320,7 +317,7 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 			continue;
 		}
 		snprintf(path, PATH_MAX, "%s/%s", dirpath, name);
-		snprintf(abspath, PATH_MAX, "%s%s", handle->root, path);
+		snprintf(abspath, PATH_MAX, "%s%s", pkg->handle->root, path);
 		if(stat(abspath, &sbuf) != 0) {
 			continue;
 		}
@@ -347,14 +344,15 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 /* Find file conflicts that may occur during the transaction with two checks:
  * 1: check every target against every target
  * 2: check every target against the filesystem */
-alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
+alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 		alpm_list_t *upgrade, alpm_list_t *remove)
 {
 	alpm_list_t *i, *j, *conflicts = NULL;
 	size_t numtargs = alpm_list_count(upgrade);
 	size_t current;
+	pmtrans_t *trans = handle->trans;
 
-	if(db == NULL || upgrade == NULL || trans == NULL) {
+	if(!upgrade) {
 		return NULL;
 	}
 
@@ -402,7 +400,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 
 		/* CHECK 2: check every target against the filesystem */
 		_alpm_log(PM_LOG_DEBUG, "searching for filesystem conflicts: %s\n", p1->name);
-		dbpkg = _alpm_db_get_pkgfromcache(db, p1->name);
+		dbpkg = _alpm_db_get_pkgfromcache(handle->db_local, p1->name);
 
 		/* Do two different checks here. If the package is currently installed,
 		 * then only check files that are new in the new package. If the package
@@ -456,7 +454,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 				if(!p2 || strcmp(p1->name, p2->name) == 0) {
 					continue;
 				}
-				pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(db, p2->name);
+				pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(handle->db_local, p2->name);
 
 				/* localp2->files will be removed (target conflicts are handled by CHECK 1) */
 				if(localp2 && alpm_list_find_str(alpm_pkg_get_files(localp2), filestr)) {
