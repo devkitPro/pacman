@@ -121,11 +121,11 @@ int pacman_remove(alpm_list_t *targets)
 							depstring);
 					free(depstring);
 				}
-				FREELIST(data);
 				break;
 			default:
 				break;
 		}
+		FREELIST(data);
 		retval = 1;
 		goto cleanup;
 	}
@@ -165,11 +165,13 @@ int pacman_remove(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	if(alpm_trans_commit(config->handle, NULL) == -1) {
+	if(alpm_trans_commit(config->handle, &data) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerror(alpm_errno(config->handle)));
 		retval = 1;
 	}
+
+	FREELIST(data);
 
 	/* Step 4: release transaction resources */
 cleanup:
