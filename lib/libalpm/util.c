@@ -57,9 +57,6 @@
 #include "alpm_list.h"
 #include "handle.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 #ifndef HAVE_STRSEP
 /* This is a replacement for strsep which is not portable (missing on Solaris).
  * Copyright (c) 2001 by François Gouget <fgouget_at_codeweavers.com> */
@@ -418,7 +415,7 @@ int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
 	return ret;
 }
 
-int _alpm_run_chroot(const char *root, const char *path, char *const argv[])
+int _alpm_run_chroot(pmhandle_t *handle, const char *path, char *const argv[])
 {
 	char cwd[PATH_MAX];
 	pid_t pid;
@@ -434,12 +431,14 @@ int _alpm_run_chroot(const char *root, const char *path, char *const argv[])
 	}
 
 	/* just in case our cwd was removed in the upgrade operation */
-	if(chdir(root) != 0) {
-		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), root, strerror(errno));
+	if(chdir(handle->root) != 0) {
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
+				handle->root, strerror(errno));
 		goto cleanup;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "executing \"%s\" under chroot \"%s\"\n", path, root);
+	_alpm_log(PM_LOG_DEBUG, "executing \"%s\" under chroot \"%s\"\n",
+			path, handle->root);
 
 	/* Flush open fds before fork() to avoid cloning buffers */
 	fflush(NULL);
@@ -468,7 +467,7 @@ int _alpm_run_chroot(const char *root, const char *path, char *const argv[])
 		close(pipefd[1]);
 
 		/* use fprintf instead of _alpm_log to send output through the parent */
-		if(chroot(root) != 0) {
+		if(chroot(handle->root) != 0) {
 			fprintf(stderr, _("could not change the root directory (%s)\n"), strerror(errno));
 			exit(1);
 		}
@@ -533,18 +532,18 @@ cleanup:
 	return retval;
 }
 
-int _alpm_ldconfig(const char *root)
+int _alpm_ldconfig(pmhandle_t *handle)
 {
 	char line[PATH_MAX];
 
 	_alpm_log(PM_LOG_DEBUG, "running ldconfig\n");
 
-	snprintf(line, PATH_MAX, "%setc/ld.so.conf", root);
+	snprintf(line, PATH_MAX, "%setc/ld.so.conf", handle->root);
 	if(access(line, F_OK) == 0) {
-		snprintf(line, PATH_MAX, "%ssbin/ldconfig", root);
+		snprintf(line, PATH_MAX, "%ssbin/ldconfig", handle->root);
 		if(access(line, X_OK) == 0) {
 			char *argv[] = { "ldconfig", NULL };
-			_alpm_run_chroot(root, "/sbin/ldconfig", argv);
+			_alpm_run_chroot(handle, "/sbin/ldconfig", argv);
 		}
 	}
 

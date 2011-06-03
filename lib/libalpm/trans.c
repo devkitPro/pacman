@@ -354,9 +354,8 @@ static int grep(const char *fn, const char *needle)
 	return 0;
 }
 
-int _alpm_runscriptlet(const char *root, const char *installfn,
-		const char *script, const char *ver,
-		const char *oldver, pmtrans_t UNUSED *trans)
+int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
+		const char *script, const char *ver, const char *oldver)
 {
 	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];
@@ -373,11 +372,11 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 
 	/* creates a directory in $root/tmp/ for copying/extracting the scriptlet */
-	snprintf(tmpdir, PATH_MAX, "%stmp/", root);
+	snprintf(tmpdir, PATH_MAX, "%stmp/", handle->root);
 	if(access(tmpdir, F_OK) != 0) {
 		_alpm_makepath_mode(tmpdir, 01777);
 	}
-	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", root);
+	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", handle->root);
 	if(mkdtemp(tmpdir) == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not create temp directory\n"));
 		return 1;
@@ -402,7 +401,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	}
 
 	/* chop off the root so we can find the tmpdir in the chroot */
-	scriptpath = scriptfn + strlen(root) - 1;
+	scriptpath = scriptfn + strlen(handle->root) - 1;
 
 	if(!grep(scriptfn, script)) {
 		/* script not found in scriptlet file */
@@ -419,7 +418,7 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 
 	_alpm_log(PM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
 
-	retval = _alpm_run_chroot(root, "/bin/sh", argv);
+	retval = _alpm_run_chroot(handle, "/bin/sh", argv);
 
 cleanup:
 	if(clean_tmpdir && _alpm_rmrf(tmpdir)) {

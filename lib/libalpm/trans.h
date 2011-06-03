@@ -71,9 +71,8 @@ void _alpm_trans_free(pmtrans_t *trans);
 int _alpm_trans_init(pmtrans_t *trans, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress);
-int _alpm_runscriptlet(const char *root, const char *installfn,
-                       const char *script, const char *ver,
-                       const char *oldver, pmtrans_t *trans);
+int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
+		const char *script, const char *ver, const char *oldver);
 
 #endif /* _ALPM_TRANS_H */
 

@@ -385,8 +385,8 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 
 		/* run the pre-remove scriptlet if it exists  */
 		if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle->root, scriptlet, "pre_remove",
-					alpm_pkg_get_version(info), NULL, trans);
+			_alpm_runscriptlet(handle, scriptlet, "pre_remove",
+					alpm_pkg_get_version(info), NULL);
 		}
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
@@ -430,8 +430,8 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 
 		/* run the post-remove script if it exists  */
 		if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle->root, scriptlet, "post_remove",
-					alpm_pkg_get_version(info), NULL, trans);
+			_alpm_runscriptlet(handle, scriptlet, "post_remove",
+					alpm_pkg_get_version(info), NULL);
 		}
 
 		/* remove the package from the database */
@@ -451,7 +451,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 	}
 
 	/* run ldconfig if it exists */
-	_alpm_ldconfig(handle->root);
+	_alpm_ldconfig(handle);
 
 	return 0;
 }
