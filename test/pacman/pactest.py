@@ -114,6 +114,7 @@ if __name__ == "__main__":
     env.results()
 
     if env.failed > 0:
+        print "pacman testing root saved: %s" % root_path
         sys.exit(1)
 
     if not opts.keeproot:

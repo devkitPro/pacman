@@ -137,13 +137,13 @@ static struct pkg_operations *get_file_pkg_ops(void)
  * @param archive the archive to read from, pointed at the .PKGINFO entry
  * @param newpkg an empty pmpkg_t struct to fill with package info
  *
- * @return 0 on success, 1 on error
+ * @return 0 on success, -1 on error
  */
 static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 {
 	char *ptr = NULL;
 	char *key = NULL;
-	int linenum = 0;
+	int ret, linenum = 0;
 	struct archive_read_buffer buf;
 
 	memset(&buf, 0, sizeof(buf));
@@ -151,7 +151,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 	buf.max_line_size = 512 * 1024;
 
 	/* loop until we reach EOF or other error */
-	while(_alpm_archive_fgets(a, &buf) == ARCHIVE_OK) {
+	while((ret = _alpm_archive_fgets(a, &buf)) == ARCHIVE_OK) {
 		char *line = _alpm_strtrim(buf.line);
 
 		linenum++;
@@ -214,6 +214,10 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			}
 		}
 		line[0] = '\0';
+	}
+	if(ret != ARCHIVE_EOF) {
+		_alpm_log(PM_LOG_DEBUG, "error parsing package descfile\n");
+		return -1;
 	}
 
 	return 0;

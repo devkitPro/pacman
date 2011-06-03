@@ -294,6 +294,7 @@ static int sync_db_populate(pmdb_t *db)
 				_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
 						name);
 				_alpm_pkg_free(pkg);
+				pkg = NULL;
 				continue;
 			}
 
@@ -301,6 +302,7 @@ static int sync_db_populate(pmdb_t *db)
 			if(_alpm_pkghash_find(db->pkgcache, pkg->name)) {
 				_alpm_log(PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
 				_alpm_pkg_free(pkg);
+				pkg = NULL;
 				continue;
 			}
 
@@ -316,7 +318,14 @@ static int sync_db_populate(pmdb_t *db)
 			count++;
 		} else {
 			/* we have desc, depends or deltas - parse it */
-			sync_db_read(db, archive, entry, pkg);
+			if(sync_db_read(db, archive, entry, pkg) != 0) {
+				_alpm_log(PM_LOG_ERROR,
+						_("could not parse package '%s' description file from db '%s'\n"),
+						pkg->name, db->treename);
+				_alpm_pkg_free(pkg);
+				pkg = NULL;
+				continue;
+			}
 		}
 	}
 
@@ -401,7 +410,8 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 
 	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
 			|| strcmp(filename, "deltas") == 0) {
-		while(_alpm_archive_fgets(archive, &buf) == ARCHIVE_OK) {
+		int ret;
+		while((ret = _alpm_archive_fgets(archive, &buf)) == ARCHIVE_OK) {
 			char *line = _alpm_strtrim(buf.line);
 
 			if(strcmp(line, "%NAME%") == 0) {
@@ -478,6 +488,9 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 				}
 			}
 		}
+		if(ret != ARCHIVE_EOF) {
+			goto error;
+		}
 	} else if(strcmp(filename, "files") == 0) {
 		/* currently do nothing with this file */
 	} else {
@@ -485,10 +498,11 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 		_alpm_log(PM_LOG_DEBUG, "unknown database file: %s\n", filename);
 	}
 
+	return 0;
+
 error:
 	FREE(pkgname);
-	/* TODO: return 0 always? */
-	return 0;
+	return -1;
 }
 
 static int sync_db_version(pmdb_t UNUSED *db)

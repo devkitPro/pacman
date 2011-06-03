@@ -771,20 +771,19 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 		/* allocate our buffer, or ensure our existing one is big enough */
 		if(!b->line) {
 			/* set the initial buffer to the read block_size */
-			CALLOC(b->line, b->block_size + 1, sizeof(char),
-					RET_ERR(PM_ERR_MEMORY, -1));
+			CALLOC(b->line, b->block_size + 1, sizeof(char), return ENOMEM);
 			b->line_size = b->block_size + 1;
 			b->line_offset = b->line;
 		} else {
 			size_t needed = (size_t)((b->line_offset - b->line)
 					+ (i - b->block_offset) + 1);
 			if(needed > b->max_line_size) {
-				RET_ERR(PM_ERR_MEMORY, -1);
+				return ERANGE;
 			}
 			if(needed > b->line_size) {
 				/* need to realloc + copy data to fit total length */
 				char *new;
-				CALLOC(new, needed, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+				CALLOC(new, needed, sizeof(char), return ENOMEM);
 				memcpy(new, b->line, b->line_size);
 				b->line_size = needed;
 				b->line_offset = new + (b->line_offset - b->line);

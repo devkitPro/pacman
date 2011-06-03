@@ -10,10 +10,8 @@ self.addpkg(p2)
 
 self.args = "-U %s %s" % (p1.filename(), p2.filename())
 
-# Note that the current cutoff on line length is 512K, so the first package
-# will succeed while the second one will fail to record the description.
-self.addrule("PACMAN_RETCODE=0")
-self.addrule("PKG_EXIST=pkg1")
-self.addrule("PKG_DESC=pkg1|%s" % p1.desc)
-self.addrule("PKG_EXIST=pkg1")
-self.addrule("!PKG_DESC=pkg1|%s" % p2.desc)
+# We error out when fed a package with an invalid description; the second one
+# fits the bill in this case as the desc is > 512K
+self.addrule("PACMAN_RETCODE=1")
+self.addrule("!PKG_EXIST=pkg1")
+self.addrule("!PKG_EXIST=pkg1")
