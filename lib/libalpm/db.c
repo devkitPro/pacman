@@ -71,7 +71,7 @@ void _alpm_db_unregister(pmdb_t *db)
 }
 
 /** Unregister all package databases. */
-int SYMEXPORT alpm_db_unregister_all(void)
+int SYMEXPORT alpm_db_unregister_all(pmhandle_t *handle)
 {
 	alpm_list_t *i;
 	pmdb_t *db;

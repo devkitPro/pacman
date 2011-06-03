@@ -86,14 +86,6 @@ typedef struct __pmconflict_t pmconflict_t;
 typedef struct __pmfileconflict_t pmfileconflict_t;
 
 /*
- * Library
- */
-
-int alpm_initialize(void);
-int alpm_release(void);
-const char *alpm_version(void);
-
-/*
  * Logging facilities
  */
 
@@ -165,15 +157,14 @@ alpm_cb_totaldl alpm_option_get_totaldlcb(void);
 /** Sets the callback used to report total download size. */
 int alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
 
-/** Returns the root of the destination filesystem. */
+/** Returns the root of the destination filesystem. Read-only. */
 const char *alpm_option_get_root(void);
-/** Sets the root of the destination filesystem. */
-int alpm_option_set_root(const char *root);
 
-/** Returns the path to the database directory. */
+/** Returns the path to the database directory. Read-only. */
 const char *alpm_option_get_dbpath(void);
-/** Sets the path to the database directory. */
-int alpm_option_set_dbpath(const char *dbpath);
+
+/** Get the name of the database lock file. Read-only. */
+const char *alpm_option_get_lockfile(void);
 
 /** @name Accessors to the list of package cache directories.
  * @{
@@ -188,15 +179,6 @@ int alpm_option_remove_cachedir(const char *cachedir);
 const char *alpm_option_get_logfile(void);
 /** Sets the logfile name. */
 int alpm_option_set_logfile(const char *logfile);
-
-/** Get the name of the database lock file.
- *
- * This properly is read-only, and determined from
- * the database path.
- *
- * @sa alpm_option_set_dbpath(const char*)
- */
-const char *alpm_option_get_lockfile(void);
 
 /** Returns the signature directory path. */
 const char *alpm_option_get_signaturedir(void);
@@ -302,9 +284,10 @@ pmdb_t *alpm_db_register_sync(const char *treename);
 int alpm_db_unregister(pmdb_t *db);
 
 /** Unregister all package databases.
+ * @param handle the context handle
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_unregister_all(void);
+int alpm_db_unregister_all(pmhandle_t *handle);
 
 /** Get the name of a package database.
  * @param db pointer to the package database
@@ -1053,6 +1036,11 @@ const char *alpm_strerrorlast(void);
 
 /* End of alpm_api_errors */
 /** @} */
+
+pmhandle_t *alpm_initialize(const char *root, const char *dbpath,
+		enum _pmerrno_t *err);
+int alpm_release(pmhandle_t *handle);
+const char *alpm_version(void);
 
 /* End of alpm_api */
 /** @} */

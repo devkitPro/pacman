@@ -936,7 +936,7 @@ pmdb_t *_alpm_db_register_local(pmhandle_t *handle)
 
 	db = _alpm_db_new("local", 1);
 	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_CREATE, NULL);
+		return NULL;
 	}
 	db->ops = &local_db_ops;
 	db->handle = handle;

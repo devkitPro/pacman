@@ -313,7 +313,7 @@ static char *canonicalize_path(const char *path) {
 	return new_path;
 }
 
-int _alpm_set_directory_option(const char *value,
+enum _pmerrno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist)
  {
 	struct stat st;
@@ -322,19 +322,16 @@ int _alpm_set_directory_option(const char *value,
 
 	path = value;
 	if(!path) {
-		pm_errno = PM_ERR_WRONG_ARGS;
-		return -1;
+		return PM_ERR_WRONG_ARGS;
 	}
 	if(must_exist) {
 		if(stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
-			pm_errno = PM_ERR_NOT_A_DIR;
-			return -1;
+			return PM_ERR_NOT_A_DIR;
 		}
 		real = calloc(PATH_MAX + 1, sizeof(char));
 		if(!realpath(path, real)) {
 			free(real);
-			pm_errno = PM_ERR_NOT_A_DIR;
-			return -1;
+			return PM_ERR_NOT_A_DIR;
 		}
 		path = real;
 	}
@@ -344,39 +341,6 @@ int _alpm_set_directory_option(const char *value,
 	}
 	*storage = canonicalize_path(path);
 	free(real);
-	return 0;
-}
-
-int SYMEXPORT alpm_option_set_root(const char *root)
-{
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-
-	if(_alpm_set_directory_option(root, &(handle->root), 1)) {
-		return -1;
-	}
-	_alpm_log(PM_LOG_DEBUG, "option 'root' = %s\n", handle->root);
-	return 0;
-}
-
-int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
-{
-	const char *lf = "db.lck";
-	size_t lockfilelen;
-
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-
-	if(_alpm_set_directory_option(dbpath, &(handle->dbpath), 1)) {
-		return -1;
-	}
-	_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s\n", handle->dbpath);
-
-	if(handle->lockfile) {
-		FREE(handle->lockfile);
-	}
-	lockfilelen = strlen(handle->dbpath) + strlen(lf) + 1;
-	handle->lockfile = calloc(lockfilelen, sizeof(char));
-	snprintf(handle->lockfile, lockfilelen, "%s%s", handle->dbpath, lf);
-	_alpm_log(PM_LOG_DEBUG, "option 'lockfile' = %s\n", handle->lockfile);
 	return 0;
 }
 

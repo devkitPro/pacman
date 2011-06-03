@@ -45,21 +45,37 @@ extern pmhandle_t *handle;
 
 /** Initializes the library.  This must be called before any other
  * functions are called.
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ * @param root the root path for all filesystem operations
+ * @param dbpath the absolute path to the libalpm database
+ * @param err an optional variable to hold any error return codes
+ * @return a context handle on success, NULL on error, err will be set if provided
  */
-int SYMEXPORT alpm_initialize(void)
+pmhandle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
+		enum _pmerrno_t *err)
 {
-	ASSERT(handle == NULL, RET_ERR(PM_ERR_HANDLE_NOT_NULL, -1));
+	enum _pmerrno_t myerr;
+	const char *lf = "db.lck";
+	size_t lockfilelen;
+	pmhandle_t *myhandle = _alpm_handle_new();
 
-	handle = _alpm_handle_new();
-	if(handle == NULL) {
-		RET_ERR(PM_ERR_MEMORY, -1);
+	if(myhandle == NULL) {
+		myerr = PM_ERR_MEMORY;
+		goto cleanup;
 	}
-	if(_alpm_db_register_local(handle) == NULL) {
-		/* error code should be set */
-		_alpm_handle_free(handle);
-		handle = NULL;
-		return -1;
+	if((myerr = _alpm_set_directory_option(root, &(myhandle->root), 1))) {
+		goto cleanup;
+	}
+	if((myerr = _alpm_set_directory_option(dbpath, &(myhandle->dbpath), 1))) {
+		goto cleanup;
+	}
+
+	lockfilelen = strlen(myhandle->dbpath) + strlen(lf) + 1;
+	myhandle->lockfile = calloc(lockfilelen, sizeof(char));
+	snprintf(myhandle->lockfile, lockfilelen, "%s%s", myhandle->dbpath, lf);
+
+	if(_alpm_db_register_local(myhandle) == NULL) {
+		myerr = PM_ERR_DB_CREATE;
+		goto cleanup;
 	}
 
 #ifdef ENABLE_NLS
@@ -68,33 +84,47 @@ int SYMEXPORT alpm_initialize(void)
 
 #ifdef HAVE_LIBCURL
 	curl_global_init(CURL_GLOBAL_SSL);
-	handle->curl = curl_easy_init();
+	myhandle->curl = curl_easy_init();
 #endif
 
-	return 0;
+	/* TODO temporary until global var removed */
+	handle = myhandle;
+	return myhandle;
+
+cleanup:
+	_alpm_handle_free(myhandle);
+	if(err && myerr) {
+		*err = myerr;
+	}
+	return NULL;
 }
 
 /** Release the library.  This should be the last alpm call you make.
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ * After this returns, handle should be considered invalid and cannot be reused
+ * in any way.
+ * @param handle the context handle
+ * @return 0 on success, -1 on error
  */
-int SYMEXPORT alpm_release(void)
+int SYMEXPORT alpm_release(pmhandle_t *myhandle)
 {
 	pmdb_t *db;
 
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(myhandle != NULL, return -1);
 
 	/* close local database */
-	db = handle->db_local;
+	db = myhandle->db_local;
 	if(db) {
 		db->ops->unregister(db);
-		handle->db_local = NULL;
+		myhandle->db_local = NULL;
 	}
 
-	if(alpm_db_unregister_all() == -1) {
+	if(alpm_db_unregister_all(myhandle) == -1) {
 		return -1;
 	}
 
-	_alpm_handle_free(handle);
+	_alpm_handle_free(myhandle);
+	myhandle = NULL;
+	/* TODO temporary until global var removed */
 	handle = NULL;
 
 #ifdef HAVE_LIBCURL

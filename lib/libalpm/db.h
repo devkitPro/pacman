@@ -22,9 +22,6 @@
 #ifndef _ALPM_DB_H
 #define _ALPM_DB_H
 
-#include "alpm.h"
-#include "pkghash.h"
-
 #include <time.h>
 
 /* libarchive */
@@ -32,6 +29,7 @@
 #include <archive_entry.h>
 
 #include "alpm.h"
+#include "pkghash.h"
 #include "signing.h"
 
 /* Database entries */

@@ -75,7 +75,8 @@ struct __pmhandle_t {
 pmhandle_t *_alpm_handle_new(void);
 void _alpm_handle_free(pmhandle_t *handle);
 
-int _alpm_set_directory_option(const char *value, char **storage, int must_exist);
+enum _pmerrno_t _alpm_set_directory_option(const char *value,
+		char **storage, int must_exist);
 
 #endif /* _ALPM_HANDLE_H */
 
