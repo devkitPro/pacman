@@ -45,8 +45,6 @@
 /** Free a package. */
 int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	/* Only free packages loaded in user space */
@@ -62,8 +60,6 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 {
 	char *fpath;
 	int retval;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* We only inspect packages from sync repositories */
@@ -370,8 +366,6 @@ pmpkg_t *_alpm_pkg_new(void)
 {
 	pmpkg_t* pkg;
 
-	ALPM_LOG_FUNC;
-
 	CALLOC(pkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	return pkg;
@@ -381,8 +375,6 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 {
 	pmpkg_t *newpkg;
 	alpm_list_t *i;
-
-	ALPM_LOG_FUNC;
 
 	CALLOC(newpkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
@@ -430,8 +422,6 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 
 void _alpm_pkg_free(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	if(pkg == NULL) {
 		return;
 	}
@@ -473,8 +463,6 @@ void _alpm_pkg_free(pmpkg_t *pkg)
  */
 void _alpm_pkg_free_trans(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	if(pkg == NULL) {
 		return;
 	}
@@ -491,8 +479,6 @@ void _alpm_pkg_free_trans(pmpkg_t *pkg)
 /* Is spkg an upgrade for localpkg? */
 int _alpm_pkg_compare_versions(pmpkg_t *spkg, pmpkg_t *localpkg)
 {
-	ALPM_LOG_FUNC;
-
 	return alpm_pkg_vercmp(alpm_pkg_get_version(spkg),
 			alpm_pkg_get_version(localpkg));
 }
@@ -513,8 +499,6 @@ pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 {
 	alpm_list_t *lp;
 	unsigned long needle_hash;
-
-	ALPM_LOG_FUNC;
 
 	if(needle == NULL || haystack == NULL) {
 		return NULL;

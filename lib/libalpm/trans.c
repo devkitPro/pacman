@@ -104,8 +104,6 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 	const int required_db_version = 2;
 	int db_version;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
@@ -173,8 +171,6 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 {
 	pmtrans_t *trans;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -219,8 +215,6 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 {
 	pmtrans_t *trans;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
@@ -260,8 +254,6 @@ int SYMEXPORT alpm_trans_interrupt(void)
 {
 	pmtrans_t *trans;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
@@ -279,8 +271,6 @@ int SYMEXPORT alpm_trans_interrupt(void)
 int SYMEXPORT alpm_trans_release(void)
 {
 	pmtrans_t *trans;
-
-	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -313,8 +303,6 @@ pmtrans_t *_alpm_trans_new(void)
 {
 	pmtrans_t *trans;
 
-	ALPM_LOG_FUNC;
-
 	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(PM_ERR_MEMORY, NULL));
 	trans->state = STATE_IDLE;
 
@@ -323,8 +311,6 @@ pmtrans_t *_alpm_trans_new(void)
 
 void _alpm_trans_free(pmtrans_t *trans)
 {
-	ALPM_LOG_FUNC;
-
 	if(trans == NULL) {
 		return;
 	}
@@ -376,8 +362,6 @@ int _alpm_runscriptlet(const char *root, const char *installfn,
 	char *scriptpath;
 	int clean_tmpdir = 0;
 	int retval = 0;
-
-	ALPM_LOG_FUNC;
 
 	if(access(installfn, R_OK)) {
 		/* not found */

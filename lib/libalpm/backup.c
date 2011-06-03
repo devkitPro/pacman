@@ -83,8 +83,6 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 {
 	const alpm_list_t *lp;
 
-	ALPM_LOG_FUNC;
-
 	if(file == NULL || backup == NULL) {
 		return NULL;
 	}

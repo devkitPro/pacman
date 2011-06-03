@@ -111,8 +111,6 @@ static int gpgme_init(void)
 	gpgme_error_t err;
 	gpgme_engine_info_t enginfo;
 
-	ALPM_LOG_FUNC;
-
 	if(init) {
 		/* we already successfully initialized the library */
 		return 0;
@@ -212,8 +210,6 @@ int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
 	char *sigpath = NULL;
 	unsigned char *decoded_sigdata = NULL;
 	FILE *file = NULL, *sigfile = NULL;
-
-	ALPM_LOG_FUNC;
 
 	if(!path || access(path, R_OK) != 0) {
 		RET_ERR(PM_ERR_NOT_A_FILE, -1);
@@ -371,7 +367,6 @@ int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
  */
 pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
 {
-	ALPM_LOG_FUNC;
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, PM_PGP_VERIFY_UNKNOWN));
 
 	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
@@ -388,7 +383,6 @@ pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
  */
 int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
 	ASSERT(pkg != NULL, return 0);
 
 	return _alpm_gpgme_checksig(alpm_pkg_get_filename(pkg), pkg->base64_sig);
@@ -401,7 +395,6 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
  */
 int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
 {
-	ALPM_LOG_FUNC;
 	ASSERT(db != NULL, return 0);
 
 	return _alpm_gpgme_checksig(_alpm_db_path(db), NULL);

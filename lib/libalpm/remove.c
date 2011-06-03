@@ -49,8 +49,6 @@ int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 	pmtrans_t *trans;
 	const char *pkgname;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -74,8 +72,6 @@ int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
 		alpm_list_t *lp)
 {
-	ALPM_LOG_FUNC;
-
 	while(lp) {
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
@@ -101,8 +97,6 @@ static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
 static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 		alpm_list_t *lp)
 {
-	ALPM_LOG_FUNC;
-
 	/* Remove needed packages (which break dependencies) from target list */
 	while(lp != NULL) {
 		alpm_list_t *i;
@@ -139,8 +133,6 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 {
 	alpm_list_t *lp;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -227,8 +219,6 @@ static void unlink_file(pmpkg_t *info, char *filename, alpm_list_t *skip_remove,
 	struct stat buf;
 	char file[PATH_MAX+1];
 
-	ALPM_LOG_FUNC;
-
 	snprintf(file, PATH_MAX, "%s%s", handle->root, filename);
 
 	/* check the remove skip list before removing the file.
@@ -297,8 +287,6 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg,
 	alpm_list_t *files = alpm_pkg_get_files(oldpkg);
 	const char *pkgname = alpm_pkg_get_name(oldpkg);
 
-	ALPM_LOG_FUNC;
-
 	_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 			oldpkg->name, oldpkg->version);
 
@@ -366,8 +354,6 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 	pmpkg_t *info;
 	alpm_list_t *targ, *lp;
 	size_t pkg_count;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));

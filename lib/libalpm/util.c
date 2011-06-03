@@ -252,8 +252,6 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 	char cwd[PATH_MAX];
 	int restore_cwd = 0;
 
-	ALPM_LOG_FUNC;
-
 	if((_archive = archive_read_new()) == NULL)
 		RET_ERR(PM_ERR_LIBARCHIVE, 1);
 
@@ -424,8 +422,6 @@ int _alpm_run_chroot(const char *root, const char *path, char *const argv[])
 	int pipefd[2];
 	int restore_cwd = 0;
 	int retval = 0;
-
-	ALPM_LOG_FUNC;
 
 	/* save the cwd so we can restore it later */
 	if(getcwd(cwd, PATH_MAX) == NULL) {
@@ -689,8 +685,6 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	unsigned char output[16];
 	char *md5sum;
 	int ret, i;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(filename != NULL, return NULL);
 

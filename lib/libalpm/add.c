@@ -55,8 +55,6 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 	pmdb_t *db_local;
 	pmpkg_t *local;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -474,8 +472,6 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 	int is_upgrade = 0;
 	pmpkg_t *oldpkg = NULL;
 
-	ALPM_LOG_FUNC;
-
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
@@ -707,8 +703,6 @@ int _alpm_upgrade_packages(pmtrans_t *trans, pmdb_t *db)
 	size_t pkg_count, pkg_current;
 	int skip_ldconfig = 0, ret = 0;
 	alpm_list_t *targ;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));

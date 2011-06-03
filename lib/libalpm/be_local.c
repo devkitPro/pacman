@@ -44,7 +44,6 @@
 
 #define LAZY_LOAD(info, errret) \
 	do { \
-		ALPM_LOG_FUNC; \
 		ASSERT(handle != NULL, return (errret)); \
 		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
 			_alpm_local_db_read(pkg->origin_data.db, pkg, info); \
@@ -138,8 +137,6 @@ static alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
 
 static int _cache_has_scriptlet(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, return -1);
 
@@ -187,8 +184,6 @@ static alpm_list_t *_cache_get_deltas(pmpkg_t UNUSED *pkg)
 
 static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
 
@@ -201,8 +196,6 @@ static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 
 static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
 
@@ -221,8 +214,6 @@ static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
  */
 static void *_cache_changelog_open(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
 
@@ -345,8 +336,6 @@ static int local_db_populate(pmdb_t *db)
 	struct dirent *ent = NULL;
 	const char *dbpath;
 	DIR *dbdir;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
@@ -472,8 +461,6 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	char path[PATH_MAX];
 	char line[1024];
 	char *pkgpath = NULL;
-
-	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, -1);
@@ -721,8 +708,6 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	int retval = 0;
 	char *pkgpath = NULL;
 
-	ALPM_LOG_FUNC;
-
 	if(db == NULL || info == NULL) {
 		return -1;
 	}
@@ -884,8 +869,6 @@ int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
 	int ret = 0;
 	char *pkgpath = NULL;
 
-	ALPM_LOG_FUNC;
-
 	if(db == NULL || info == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, -1);
 	}
@@ -961,8 +944,6 @@ struct db_operations local_db_ops = {
 pmdb_t *_alpm_db_register_local(void)
 {
 	pmdb_t *db;
-
-	ALPM_LOG_FUNC;
 
 	_alpm_log(PM_LOG_DEBUG, "registering local database\n");
 

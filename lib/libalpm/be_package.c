@@ -43,8 +43,6 @@
  */
 static void *_package_changelog_open(pmpkg_t *pkg)
 {
-	ALPM_LOG_FUNC;
-
 	ASSERT(pkg != NULL, return NULL);
 
 	struct archive *archive = NULL;
@@ -144,8 +142,6 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 	int linenum = 0;
 	struct archive_read_buffer buf;
 
-	ALPM_LOG_FUNC;
-
 	memset(&buf, 0, sizeof(buf));
 	/* 512K for a line length seems reasonable */
 	buf.max_line_size = 512 * 1024;
@@ -235,8 +231,6 @@ pmpkg_t *_alpm_pkg_load_internal(const char *pkgfile, int full,
 	struct archive_entry *entry;
 	pmpkg_t *newpkg = NULL;
 	struct stat st;
-
-	ALPM_LOG_FUNC;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
@@ -383,8 +377,6 @@ error:
 int SYMEXPORT alpm_pkg_load(const char *filename, int full,
 		pgp_verify_t check_sig, pmpkg_t **pkg)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 

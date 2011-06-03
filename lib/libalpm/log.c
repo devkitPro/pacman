@@ -44,8 +44,6 @@ int SYMEXPORT alpm_logaction(const char *fmt, ...)
 	int ret;
 	va_list args;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 

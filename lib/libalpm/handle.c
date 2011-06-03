@@ -53,8 +53,6 @@ pmhandle_t *_alpm_handle_new()
 
 void _alpm_handle_free(pmhandle_t *handle)
 {
-	ALPM_LOG_FUNC;
-
 	if(handle == NULL) {
 		return;
 	}
@@ -306,8 +304,6 @@ int SYMEXPORT alpm_option_set_root(const char *root)
 	char *realroot;
 	size_t rootlen;
 
-	ALPM_LOG_FUNC;
-
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 
 	if(!root) {
@@ -348,8 +344,6 @@ int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 	size_t dbpathlen, lockfilelen;
 	const char *lf = "db.lck";
 
-	ALPM_LOG_FUNC;
-
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(!dbpath) {
 		pm_errno = PM_ERR_WRONG_ARGS;
@@ -386,8 +380,6 @@ int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 {
 	char *newcachedir;
 	size_t cachedirlen;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(!cachedir) {
@@ -445,8 +437,6 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 {
 	char *oldlogfile = handle->logfile;
 
-	ALPM_LOG_FUNC;
-
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(!logfile) {
 		pm_errno = PM_ERR_WRONG_ARGS;
@@ -470,8 +460,6 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 
 int SYMEXPORT alpm_option_set_signaturedir(const char *signaturedir)
 {
-	ALPM_LOG_FUNC;
-
 	if(!signaturedir) {
 		pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;

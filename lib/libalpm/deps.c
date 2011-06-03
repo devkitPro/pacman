@@ -48,8 +48,6 @@ static pmdepmissing_t *depmiss_new(const char *target, pmdepend_t *dep,
 {
 	pmdepmissing_t *miss;
 
-	ALPM_LOG_FUNC;
-
 	MALLOC(miss, sizeof(pmdepmissing_t), RET_ERR(PM_ERR_MEMORY, NULL));
 
 	STRDUP(miss->target, target, RET_ERR(PM_ERR_MEMORY, NULL));
@@ -133,8 +131,6 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 	alpm_list_t *vertices = NULL;
 	alpm_list_t *vptr;
 	pmgraph_t *vertex;
-
-	ALPM_LOG_FUNC;
 
 	if(targets == NULL) {
 		return NULL;
@@ -270,8 +266,6 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 	alpm_list_t *targets, *dblist = NULL, *modified = NULL;
 	alpm_list_t *baddeps = NULL;
 	int nodepversion;
-
-	ALPM_LOG_FUNC;
 
 	targets = alpm_list_join(alpm_list_copy(remove), alpm_list_copy(upgrade));
 	for(i = pkglist; i; i = i->next) {
@@ -521,8 +515,6 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 {
 	alpm_list_t *i, *j;
 
-	ALPM_LOG_FUNC;
-
 	if(db == NULL || targs == NULL) {
 		return;
 	}
@@ -696,8 +688,6 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 	alpm_list_t *deps = NULL;
 	alpm_list_t *packages_copy;
 
-	ALPM_LOG_FUNC;
-
 	if(_alpm_pkg_find(*packages, pkg->name) != NULL) {
 		return 0;
 	}
@@ -765,8 +755,6 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 
 const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(miss != NULL, return NULL);
 
@@ -775,8 +763,6 @@ const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
 
 const char SYMEXPORT *alpm_miss_get_causingpkg(const pmdepmissing_t *miss)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(miss != NULL, return NULL);
 
@@ -785,8 +771,6 @@ const char SYMEXPORT *alpm_miss_get_causingpkg(const pmdepmissing_t *miss)
 
 pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(miss != NULL, return NULL);
 
@@ -795,8 +779,6 @@ pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
 
 pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(dep != NULL, return -1);
 
@@ -805,8 +787,6 @@ pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
 
 const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(dep != NULL, return NULL);
 
@@ -815,8 +795,6 @@ const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
 
 const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
 {
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(dep != NULL, return NULL);
 
@@ -833,8 +811,6 @@ char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 	const char *name, *opr, *ver;
 	char *str;
 	size_t len;
-
-	ALPM_LOG_FUNC;
 
 	/* Sanity checks */
 	ASSERT(dep != NULL, return NULL);

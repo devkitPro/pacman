@@ -304,8 +304,6 @@ pmpkg_t *_alpm_pkghash_find(pmpkghash_t *hash, const char *name)
 	unsigned long name_hash;
 	size_t position;
 
-	ALPM_LOG_FUNC;
-
 	if(name == NULL || hash == NULL) {
 		return NULL;
 	}

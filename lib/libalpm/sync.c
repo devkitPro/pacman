@@ -89,8 +89,6 @@ int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
 	pmdb_t *db_local;
 	alpm_list_t *dbs_sync;
 
-	ALPM_LOG_FUNC;
-
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	trans = handle->trans;
 	db_local = handle->db_local;
@@ -306,8 +304,6 @@ int _alpm_sync_prepare(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t *dbs_sync
 	alpm_list_t *i, *j;
 	alpm_list_t *remove = NULL;
 	int ret = 0;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(db_local != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
@@ -839,8 +835,6 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	alpm_list_t *deltas = NULL;
 	size_t numtargs, current = 0, replaces = 0;
 	int errors;
-
-	ALPM_LOG_FUNC;
 
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 

@@ -225,8 +225,6 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 	alpm_list_t *vertices;
 	off_t bestsize = LONG_MAX;
 
-	ALPM_LOG_FUNC;
-
 	if(deltas == NULL) {
 		*path = NULL;
 		return bestsize;

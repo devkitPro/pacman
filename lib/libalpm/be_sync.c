@@ -87,8 +87,6 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	mode_t oldmask;
 	pgp_verify_t check_sig;
 
-	ALPM_LOG_FUNC;
-
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
@@ -242,8 +240,6 @@ static int sync_db_populate(pmdb_t *db)
 	struct archive_entry *entry;
 	pmpkg_t *pkg = NULL;
 
-	ALPM_LOG_FUNC;
-
 	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
 
 	if((archive = archive_read_new()) == NULL) {
@@ -359,8 +355,6 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	char *pkgname, *p, *q;
 	pmpkg_t *pkg;
 	struct archive_read_buffer buf;
-
-	ALPM_LOG_FUNC;
 
 	if(db == NULL) {
 		RET_ERR(PM_ERR_DB_NULL, -1);
@@ -512,7 +506,6 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 {
 	pmdb_t *db;
 
-	ALPM_LOG_FUNC;
 	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
 	db = _alpm_db_new(treename, 0);
