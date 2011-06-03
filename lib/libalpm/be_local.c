@@ -41,12 +41,8 @@
 #include "package.h"
 #include "deps.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 #define LAZY_LOAD(info, errret) \
 	do { \
-		ASSERT(handle != NULL, return (errret)); \
 		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
 			_alpm_local_db_read(pkg->origin_data.db, pkg, info); \
 		} \
@@ -139,9 +135,6 @@ static alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
 
 static int _cache_has_scriptlet(pmpkg_t *pkg)
 {
-	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
-
 	if(!(pkg->infolevel & INFRQ_SCRIPTLET)) {
 		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
 	}
@@ -186,9 +179,6 @@ static alpm_list_t *_cache_get_deltas(pmpkg_t UNUSED *pkg)
 
 static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 {
-	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
-
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
 		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
@@ -198,9 +188,6 @@ static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 
 static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
 {
-	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
-
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
 		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
@@ -216,9 +203,6 @@ static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
  */
 static void *_cache_changelog_open(pmpkg_t *pkg)
 {
-	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
-
 	char clfile[PATH_MAX];
 	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
 			alpm_option_get_dbpath(),
@@ -417,7 +401,7 @@ static int local_db_populate(pmdb_t *db)
 		pkg->origin = PKG_FROM_LOCALDB;
 		pkg->origin_data.db = db;
 		pkg->ops = &local_pkg_ops;
-		pkg->handle = handle;
+		pkg->handle = db->handle;
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
 		if(_alpm_local_db_read(db, pkg, INFRQ_BASE) == -1) {
@@ -944,7 +928,7 @@ struct db_operations local_db_ops = {
 	.version          = local_db_version,
 };
 
-pmdb_t *_alpm_db_register_local(void)
+pmdb_t *_alpm_db_register_local(pmhandle_t *handle)
 {
 	pmdb_t *db;
 

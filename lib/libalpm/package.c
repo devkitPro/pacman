@@ -37,9 +37,6 @@
 #include "handle.h"
 #include "deps.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 /** \addtogroup alpm_packages Package Functions
  * @brief Functions to manipulate libalpm packages
  * @{
@@ -353,7 +350,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 		if(db->is_local) {
 			find_requiredby(pkg, db, &reqs);
 		} else {
-			for(i = handle->dbs_sync; i; i = i->next) {
+			for(i = pkg->handle->dbs_sync; i; i = i->next) {
 				db = i->data;
 				find_requiredby(pkg, db, &reqs);
 			}
@@ -419,7 +416,7 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 		newpkg->origin_data.db = pkg->origin_data.db;
 	}
 	newpkg->ops = pkg->ops;
-	newpkg->handle = handle;
+	newpkg->handle = pkg->handle;
 
 	return newpkg;
 }
@@ -542,12 +539,12 @@ int _alpm_pkg_should_ignore(pmpkg_t *pkg)
 	alpm_list_t *groups = NULL;
 
 	/* first see if the package is ignored */
-	if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
+	if(alpm_list_find_str(pkg->handle->ignorepkg, alpm_pkg_get_name(pkg))) {
 		return 1;
 	}
 
 	/* next see if the package is in a group that is ignored */
-	for(groups = handle->ignoregrp; groups; groups = alpm_list_next(groups)) {
+	for(groups = pkg->handle->ignoregrp; groups; groups = alpm_list_next(groups)) {
 		char *grp = (char *)alpm_list_getdata(groups);
 		if(alpm_list_find_str(alpm_pkg_get_groups(pkg), grp)) {
 			return 1;

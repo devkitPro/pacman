@@ -37,9 +37,6 @@
 #include "deps.h"
 #include "dload.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 /** Update a package database
  *
  * An update of the package database \a db will be attempted. Unless
@@ -91,8 +88,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	pgp_verify_t check_sig;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(db != NULL && db != handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL && db != db->handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(db->servers != NULL, RET_ERR(PM_ERR_SERVER_NONE, -1));
 
 	dbpath = alpm_option_get_dbpath();
@@ -311,7 +307,7 @@ static int sync_db_populate(pmdb_t *db)
 			pkg->origin = PKG_FROM_SYNCDB;
 			pkg->origin_data.db = db;
 			pkg->ops = &default_pkg_ops;
-			pkg->handle = handle;
+			pkg->handle = db->handle;
 
 			/* add to the collection */
 			_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
@@ -506,7 +502,7 @@ struct db_operations sync_db_ops = {
 	.version          = sync_db_version,
 };
 
-pmdb_t *_alpm_db_register_sync(const char *treename)
+pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename)
 {
 	pmdb_t *db;
 

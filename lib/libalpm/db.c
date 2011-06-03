@@ -56,7 +56,7 @@ pmdb_t SYMEXPORT *alpm_db_register_sync(const char *treename)
 	/* Do not register a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, NULL));
 
-	return _alpm_db_register_sync(treename);
+	return _alpm_db_register_sync(handle, treename);
 }
 
 /* Helper function for alpm_db_unregister{_all} */
@@ -97,13 +97,12 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 	int found = 0;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	/* Do not unregister a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+	ASSERT(db->handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
 
-	if(db == handle->db_local) {
-		handle->db_local = NULL;
+	if(db == db->handle->db_local) {
+		db->handle->db_local = NULL;
 		found = 1;
 	} else {
 		/* Warning : this function shouldn't be used to unregister all sync
@@ -111,7 +110,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 		 * alpm_option_get_syncdbs, because the db is removed from that list here.
 		 */
 		void *data;
-		handle->dbs_sync = alpm_list_remove(handle->dbs_sync,
+		db->handle->dbs_sync = alpm_list_remove(db->handle->dbs_sync,
 				db, _alpm_db_cmp, &data);
 		if(data) {
 			found = 1;
