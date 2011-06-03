@@ -46,7 +46,7 @@ typedef struct __alpm_mountpoint_t {
 	FSSTATSTYPE fsp;
 } alpm_mountpoint_t;
 
-int _alpm_check_diskspace(pmtrans_t *trans, pmdb_t *db_local);
+int _alpm_check_diskspace(pmhandle_t *handle);
 
 #endif /* _ALPM_DISKSPACE_H */
 
