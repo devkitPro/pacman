@@ -56,6 +56,7 @@
 #include "alpm.h"
 #include "alpm_list.h"
 #include "handle.h"
+#include "trans.h"
 
 #ifndef HAVE_STRSEP
 /* This is a replacement for strsep which is not portable (missing on Solaris).
@@ -606,15 +607,18 @@ const char *_alpm_filecache_setup(void)
 		} else if(S_ISDIR(buf.st_mode) && (buf.st_mode & S_IWUSR)) {
 			_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
 			return cachedir;
+		} else {
+			_alpm_log(PM_LOG_DEBUG, "skipping cachedir: %s\n", cachedir);
 		}
 	}
 
 	/* we didn't find a valid cache directory. use /tmp. */
-	tmp = alpm_list_add(NULL, strdup("/tmp/"));
+	tmp = alpm_list_add(NULL, "/tmp/");
 	alpm_option_set_cachedirs(tmp);
-	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s", "/tmp/\n");
+	alpm_list_free(tmp);
+	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", "/tmp/");
 	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
-	return alpm_list_getdata(tmp);
+	return "/tmp/";
 }
 
 /** lstat wrapper that treats /path/dirsymlink/ the same as /path/dirsymlink.

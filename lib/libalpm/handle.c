@@ -298,72 +298,76 @@ int SYMEXPORT alpm_option_set_totaldlcb(alpm_cb_totaldl cb)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_root(const char *root)
-{
+static char *canonicalize_path(const char *path) {
+	char *new_path;
+	size_t len;
+
+	/* verify path ends in a '/' */
+	len = strlen(path);
+	if(path[len - 1] != '/') {
+		len += 1;
+	}
+	new_path = calloc(len + 1, sizeof(char));
+	strncpy(new_path, path, len);
+	new_path[len - 1] = '/';
+	return new_path;
+}
+
+int _alpm_set_directory_option(const char *value,
+		char **storage, int must_exist)
+ {
 	struct stat st;
-	char *realroot;
-	size_t rootlen;
+	char *real = NULL;
+	const char *path;
 
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-
-	if(!root) {
+	path = value;
+	if(!path) {
 		pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
 	}
-	if(stat(root, &st) == -1 || !S_ISDIR(st.st_mode)) {
-		pm_errno = PM_ERR_NOT_A_DIR;
-		return -1;
+	if(must_exist) {
+		if(stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
+			pm_errno = PM_ERR_NOT_A_DIR;
+			return -1;
+		}
+		real = calloc(PATH_MAX + 1, sizeof(char));
+		if(!realpath(path, real)) {
+			free(real);
+			pm_errno = PM_ERR_NOT_A_DIR;
+			return -1;
+		}
+		path = real;
 	}
 
-	realroot = calloc(PATH_MAX+1, sizeof(char));
-	if(!realpath(root, realroot)) {
-		FREE(realroot);
-		pm_errno = PM_ERR_NOT_A_DIR;
+	if(*storage) {
+		FREE(*storage);
+	}
+	*storage = canonicalize_path(path);
+	free(real);
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_root(const char *root)
+{
+	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+
+	if(_alpm_set_directory_option(root, &(handle->root), 1)) {
 		return -1;
 	}
-
-	/* verify root ends in a '/' */
-	rootlen = strlen(realroot);
-	if(realroot[rootlen-1] != '/') {
-		rootlen += 1;
-	}
-	if(handle->root) {
-		FREE(handle->root);
-	}
-	handle->root = calloc(rootlen + 1, sizeof(char));
-	strncpy(handle->root, realroot, rootlen);
-	handle->root[rootlen-1] = '/';
-	FREE(realroot);
 	_alpm_log(PM_LOG_DEBUG, "option 'root' = %s\n", handle->root);
 	return 0;
 }
 
 int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 {
-	struct stat st;
-	size_t dbpathlen, lockfilelen;
 	const char *lf = "db.lck";
+	size_t lockfilelen;
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	if(!dbpath) {
-		pm_errno = PM_ERR_WRONG_ARGS;
+
+	if(_alpm_set_directory_option(dbpath, &(handle->dbpath), 1)) {
 		return -1;
 	}
-	if(stat(dbpath, &st) == -1 || !S_ISDIR(st.st_mode)) {
-		pm_errno = PM_ERR_NOT_A_DIR;
-		return -1;
-	}
-	/* verify dbpath ends in a '/' */
-	dbpathlen = strlen(dbpath);
-	if(dbpath[dbpathlen-1] != '/') {
-		dbpathlen += 1;
-	}
-	if(handle->dbpath) {
-		FREE(handle->dbpath);
-	}
-	handle->dbpath = calloc(dbpathlen+1, sizeof(char));
-	strncpy(handle->dbpath, dbpath, dbpathlen);
-	handle->dbpath[dbpathlen-1] = '/';
 	_alpm_log(PM_LOG_DEBUG, "option 'dbpath' = %s\n", handle->dbpath);
 
 	if(handle->lockfile) {
@@ -379,7 +383,6 @@ int SYMEXPORT alpm_option_set_dbpath(const char *dbpath)
 int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 {
 	char *newcachedir;
-	size_t cachedirlen;
 
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(!cachedir) {
@@ -389,16 +392,9 @@ int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 	/* don't stat the cachedir yet, as it may not even be needed. we can
 	 * fail later if it is needed and the path is invalid. */
 
-	/* verify cachedir ends in a '/' */
-	cachedirlen = strlen(cachedir);
-	if(cachedir[cachedirlen-1] != '/') {
-		cachedirlen += 1;
-	}
-	newcachedir = calloc(cachedirlen + 1, sizeof(char));
-	strncpy(newcachedir, cachedir, cachedirlen);
-	newcachedir[cachedirlen-1] = '/';
+	newcachedir = canonicalize_path(cachedir);
 	handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
-	_alpm_log(PM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
+	_alpm_log(PM_LOG_DEBUG, "backend option 'cachedir' = %s\n", newcachedir);
 	return 0;
 }
 

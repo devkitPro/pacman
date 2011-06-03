@@ -31,6 +31,7 @@
 #include "alpm.h"
 #include "alpm_list.h"
 #include "handle.h"
+#include "log.h"
 #include "util.h"
 
 /* Globals */

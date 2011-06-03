@@ -35,6 +35,7 @@
 #include "package.h"
 #include "db.h"
 #include "handle.h"
+#include "trans.h"
 
 /* global handle variable */
 extern pmhandle_t *handle;

@@ -24,10 +24,7 @@
 #include <sys/types.h>
 
 #include "alpm_list.h"
-#include "db.h"
-#include "log.h"
 #include "alpm.h"
-#include "trans.h"
 
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
@@ -77,6 +74,8 @@ struct __pmhandle_t {
 
 pmhandle_t *_alpm_handle_new(void);
 void _alpm_handle_free(pmhandle_t *handle);
+
+int _alpm_set_directory_option(const char *value, char **storage, int must_exist);
 
 #endif /* _ALPM_HANDLE_H */
 
