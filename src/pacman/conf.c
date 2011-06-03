@@ -34,6 +34,7 @@
 #include "conf.h"
 #include "util.h"
 #include "pacman.h"
+#include "callback.h"
 
 /* global config variable */
 config_t *config = NULL;
@@ -50,8 +51,8 @@ config_t *config_new(void)
 	/* defaults which may get overridden later */
 	newconfig->op = PM_OP_MAIN;
 	newconfig->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
-	/* CONFFILE is defined at compile-time */
 	newconfig->configfile = strdup(CONFFILE);
+	newconfig->sigverify = PM_PGP_VERIFY_UNKNOWN;
 
 	return newconfig;
 }
@@ -64,12 +65,19 @@ int config_free(config_t *oldconfig)
 
 	FREELIST(oldconfig->holdpkg);
 	FREELIST(oldconfig->syncfirst);
+	FREELIST(oldconfig->ignorepkg);
+	FREELIST(oldconfig->ignoregrp);
+	FREELIST(oldconfig->noupgrade);
+	FREELIST(oldconfig->noextract);
 	free(oldconfig->configfile);
 	free(oldconfig->rootdir);
 	free(oldconfig->dbpath);
 	free(oldconfig->logfile);
+	free(oldconfig->gpgdir);
+	FREELIST(oldconfig->cachedirs);
 	free(oldconfig->xfercommand);
 	free(oldconfig->print_format);
+	free(oldconfig->arch);
 	free(oldconfig);
 	oldconfig = NULL;
 
@@ -206,12 +214,12 @@ int config_set_arch(const char *arch)
 	if(strcmp(arch, "auto") == 0) {
 		struct utsname un;
 		uname(&un);
-		pm_printf(PM_LOG_DEBUG, "config: Architecture: %s\n", un.machine);
-		return alpm_option_set_arch(un.machine);
+		config->arch = strdup(un.machine);
 	} else {
-		pm_printf(PM_LOG_DEBUG, "config: Architecture: %s\n", arch);
-		return alpm_option_set_arch(arch);
+		config->arch = strdup(arch);
 	}
+	pm_printf(PM_LOG_DEBUG, "config: arch: %s\n", config->arch);
+	return 0;
 }
 
 static pgp_verify_t option_verifysig(const char *value)
@@ -230,27 +238,19 @@ static pgp_verify_t option_verifysig(const char *value)
 	return level;
 }
 
-/* helper for being used with setrepeatingoption */
-static int option_add_holdpkg(const char *name) {
-	config->holdpkg = alpm_list_add(config->holdpkg, strdup(name));
-	return 0;
-}
-
-/* helper for being used with setrepeatingoption */
-static int option_add_syncfirst(const char *name) {
-	config->syncfirst = alpm_list_add(config->syncfirst, strdup(name));
-	return 0;
-}
-
-/* helper for being used with setrepeatingoption */
-static int option_add_cleanmethod(const char *value) {
-	if(strcmp(value, "KeepInstalled") == 0) {
-		config->cleanmethod |= PM_CLEAN_KEEPINST;
-	} else if(strcmp(value, "KeepCurrent") == 0) {
-		config->cleanmethod |= PM_CLEAN_KEEPCUR;
-	} else {
-		pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"),
-				value);
+static int process_cleanmethods(alpm_list_t *values) {
+	alpm_list_t *i;
+	for(i = values; i; i = alpm_list_next(i)) {
+		const char *value = i->data;
+		if(strcmp(value, "KeepInstalled") == 0) {
+			config->cleanmethod |= PM_CLEAN_KEEPINST;
+		} else if(strcmp(value, "KeepCurrent") == 0) {
+			config->cleanmethod |= PM_CLEAN_KEEPCUR;
+		} else {
+			pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"),
+					value);
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -260,21 +260,21 @@ static int option_add_cleanmethod(const char *value) {
  * the exact same thing and duplicated code.
  * @param ptr a pointer to the start of the multiple options
  * @param option the string (friendly) name of the option, used for messages
- * @param optionfunc a function pointer to an alpm_option_add_* function
+ * @param list the list to add the option to
  */
 static void setrepeatingoption(char *ptr, const char *option,
-		int (*optionfunc)(const char *))
+		alpm_list_t **list)
 {
 	char *q;
 
 	while((q = strchr(ptr, ' '))) {
 		*q = '\0';
-		(*optionfunc)(ptr);
+		*list = alpm_list_add(*list, strdup(ptr));
 		pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
 		ptr = q;
 		ptr++;
 	}
-	(*optionfunc)(ptr);
+	*list = alpm_list_add(*list, strdup(ptr));
 	pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
 }
 
@@ -284,7 +284,7 @@ static int _parse_options(const char *key, char *value,
 	if(value == NULL) {
 		/* options without settings */
 		if(strcmp(key, "UseSyslog") == 0) {
-			alpm_option_set_usesyslog(1);
+			config->usesyslog = 1;
 			pm_printf(PM_LOG_DEBUG, "config: usesyslog\n");
 		} else if(strcmp(key, "ILoveCandy") == 0) {
 			config->chomp = 1;
@@ -293,13 +293,13 @@ static int _parse_options(const char *key, char *value,
 			config->verbosepkglists = 1;
 			pm_printf(PM_LOG_DEBUG, "config: verbosepkglists\n");
 		} else if(strcmp(key, "UseDelta") == 0) {
-			alpm_option_set_usedelta(1);
+			config->usedelta = 1;
 			pm_printf(PM_LOG_DEBUG, "config: usedelta\n");
 		} else if(strcmp(key, "TotalDownload") == 0) {
 			config->totaldownload = 1;
 			pm_printf(PM_LOG_DEBUG, "config: totaldownload\n");
 		} else if(strcmp(key, "CheckSpace") == 0) {
-			alpm_option_set_checkspace(1);
+			config->checkspace = 1;
 		} else {
 			pm_printf(PM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
@@ -308,19 +308,21 @@ static int _parse_options(const char *key, char *value,
 	} else {
 		/* options with settings */
 		if(strcmp(key, "NoUpgrade") == 0) {
-			setrepeatingoption(value, "NoUpgrade", alpm_option_add_noupgrade);
+			setrepeatingoption(value, "NoUpgrade", &(config->noupgrade));
 		} else if(strcmp(key, "NoExtract") == 0) {
-			setrepeatingoption(value, "NoExtract", alpm_option_add_noextract);
+			setrepeatingoption(value, "NoExtract", &(config->noextract));
 		} else if(strcmp(key, "IgnorePkg") == 0) {
-			setrepeatingoption(value, "IgnorePkg", alpm_option_add_ignorepkg);
+			setrepeatingoption(value, "IgnorePkg", &(config->ignorepkg));
 		} else if(strcmp(key, "IgnoreGroup") == 0) {
-			setrepeatingoption(value, "IgnoreGroup", alpm_option_add_ignoregrp);
+			setrepeatingoption(value, "IgnoreGroup", &(config->ignoregrp));
 		} else if(strcmp(key, "HoldPkg") == 0) {
-			setrepeatingoption(value, "HoldPkg", option_add_holdpkg);
+			setrepeatingoption(value, "HoldPkg", &(config->holdpkg));
 		} else if(strcmp(key, "SyncFirst") == 0) {
-			setrepeatingoption(value, "SyncFirst", option_add_syncfirst);
+			setrepeatingoption(value, "SyncFirst", &(config->syncfirst));
+		} else if(strcmp(key, "CacheDir") == 0) {
+			setrepeatingoption(value, "CacheDir", &(config->cachedirs));
 		} else if(strcmp(key, "Architecture") == 0) {
-			if(!alpm_option_get_arch()) {
+			if(!config->arch) {
 				config_set_arch(value);
 			}
 		} else if(strcmp(key, "DBPath") == 0) {
@@ -329,13 +331,6 @@ static int _parse_options(const char *key, char *value,
 				config->dbpath = strdup(value);
 				pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", value);
 			}
-		} else if(strcmp(key, "CacheDir") == 0) {
-			if(alpm_option_add_cachedir(value) != 0) {
-				pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
-						value, alpm_strerrorlast());
-				return 1;
-			}
-			pm_printf(PM_LOG_DEBUG, "config: cachedir: %s\n", value);
 		} else if(strcmp(key, "RootDir") == 0) {
 			/* don't overwrite a path specified on the command line */
 			if(!config->rootdir) {
@@ -354,14 +349,19 @@ static int _parse_options(const char *key, char *value,
 			}
 		} else if(strcmp(key, "XferCommand") == 0) {
 			config->xfercommand = strdup(value);
-			alpm_option_set_fetchcb(download_with_xfercommand);
 			pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", value);
 		} else if(strcmp(key, "CleanMethod") == 0) {
-			setrepeatingoption(value, "CleanMethod", option_add_cleanmethod);
+			alpm_list_t *methods = NULL;
+			setrepeatingoption(value, "CleanMethod", &methods);
+			if(process_cleanmethods(methods)) {
+				FREELIST(methods);
+				return 1;
+			}
+			FREELIST(methods);
 		} else if(strcmp(key, "VerifySig") == 0) {
 			pgp_verify_t level = option_verifysig(value);
 			if(level != PM_PGP_VERIFY_UNKNOWN) {
-				alpm_option_set_default_sigverify(level);
+				config->sigverify = level;
 			} else {
 				pm_printf(PM_LOG_ERROR,
 						_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
@@ -384,7 +384,7 @@ static int _add_mirror(pmdb_t *db, char *value)
 	/* let's attempt a replacement for the current repo */
 	char *temp = strreplace(value, "$repo", dbname);
 	/* let's attempt a replacement for the arch */
-	const char *arch = alpm_option_get_arch();
+	const char *arch = config->arch;
 	char *server;
 	if(arch) {
 		server = strreplace(temp, "$arch", arch);
@@ -411,73 +411,97 @@ static int _add_mirror(pmdb_t *db, char *value)
 	return 0;
 }
 
-/** Sets all libalpm required paths in one go. Called after the command line
+/** Sets up libalpm global stuff in one go. Called after the command line
  * and inital config file parsing. Once this is complete, we can see if any
  * paths were defined. If a rootdir was defined and nothing else, we want all
  * of our paths to live under the rootdir that was specified. Safe to call
  * multiple times (will only do anything the first time).
  */
-static int setlibpaths(void)
+static int setup_libalpm(void)
 {
 	int ret = 0;
+	enum _pmerrno_t err;
 
-	pm_printf(PM_LOG_DEBUG, "setlibpaths() called\n");
+	pm_printf(PM_LOG_DEBUG, "setup_libalpm called\n");
+
 	/* Configure root path first. If it is set and dbpath/logfile were not
 	 * set, then set those as well to reside under the root. */
 	if(config->rootdir) {
 		char path[PATH_MAX];
-		ret = alpm_option_set_root(config->rootdir);
-		if(ret != 0) {
-			pm_printf(PM_LOG_ERROR, _("problem setting rootdir '%s' (%s)\n"),
-					config->rootdir, alpm_strerrorlast());
-			return ret;
-		}
 		if(!config->dbpath) {
-			/* omit leading slash from our static DBPATH, root handles it */
-			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), DBPATH + 1);
+			snprintf(path, PATH_MAX, "%s/%s", config->rootdir, DBPATH + 1);
 			config->dbpath = strdup(path);
 		}
 		if(!config->logfile) {
-			/* omit leading slash from our static LOGFILE path, root handles it */
-			snprintf(path, PATH_MAX, "%s%s", alpm_option_get_root(), LOGFILE + 1);
+			snprintf(path, PATH_MAX, "%s/%s", config->rootdir, LOGFILE + 1);
 			config->logfile = strdup(path);
 		}
-	}
-	/* Set other paths if they were configured. Note that unless rootdir
-	 * was left undefined, these two paths (dbpath and logfile) will have
-	 * been set locally above, so the if cases below will now trigger. */
-	if(config->dbpath) {
-		ret = alpm_option_set_dbpath(config->dbpath);
-		if(ret != 0) {
-			pm_printf(PM_LOG_ERROR, _("problem setting dbpath '%s' (%s)\n"),
-					config->dbpath, alpm_strerrorlast());
-			return ret;
+	} else {
+		config->rootdir = strdup(ROOTDIR);
+		if(!config->dbpath) {
+			config->dbpath = strdup(DBPATH);
 		}
 	}
-	if(config->logfile) {
-		ret = alpm_option_set_logfile(config->logfile);
-		if(ret != 0) {
-			pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-					config->logfile, alpm_strerrorlast());
-			return ret;
-		}
+
+	/* initialize library */
+	config->handle = alpm_initialize(config->rootdir, config->dbpath, &err);
+	if(!config->handle) {
+		pm_printf(PM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
+		        alpm_strerror(err));
+		return -1;
+	}
+
+	alpm_option_set_logcb(cb_log);
+	alpm_option_set_dlcb(cb_dl_progress);
+
+	config->logfile = config->logfile ? config->logfile : strdup(LOGFILE);
+	ret = alpm_option_set_logfile(config->logfile);
+	if(ret != 0) {
+		pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
+				config->logfile, alpm_strerrorlast());
+		return ret;
 	}
 
 	/* Set GnuPG's home directory.  This is not relative to rootdir, even if
 	 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
-	if(config->gpgdir) {
-		ret = alpm_option_set_signaturedir(config->gpgdir);
-		if(ret != 0) {
-			pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
-					config->gpgdir, alpm_strerrorlast());
-			return ret;
-		}
+	config->gpgdir = config->gpgdir ? config->gpgdir : strdup(GPGDIR);
+	ret = alpm_option_set_signaturedir(config->gpgdir);
+	if(ret != 0) {
+		pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
+				config->gpgdir, alpm_strerrorlast());
+		return ret;
 	}
 
 	/* add a default cachedir if one wasn't specified */
-	if(alpm_option_get_cachedirs() == NULL) {
+	if(config->cachedirs == NULL) {
 		alpm_option_add_cachedir(CACHEDIR);
+	} else {
+		alpm_option_set_cachedirs(config->cachedirs);
 	}
+
+	if(config->sigverify != PM_PGP_VERIFY_UNKNOWN) {
+		alpm_option_set_default_sigverify(config->sigverify);
+	}
+
+	if(config->xfercommand) {
+		alpm_option_set_fetchcb(download_with_xfercommand);
+	}
+
+	if(config->totaldownload) {
+		alpm_option_set_totaldlcb(cb_dl_total);
+	}
+
+	alpm_option_set_arch(config->arch);
+	alpm_option_set_checkspace(config->checkspace);
+	alpm_option_set_usesyslog(config->usesyslog);
+	alpm_option_set_usedelta(config->usedelta);
+	alpm_option_set_default_sigverify(config->sigverify);
+
+	alpm_option_set_ignorepkgs(config->ignorepkg);
+	alpm_option_set_ignoregrps(config->ignoregrp);
+	alpm_option_set_noupgrades(config->noupgrade);
+	alpm_option_set_noextracts(config->noextract);
+
 	return 0;
 }
 
@@ -682,8 +706,7 @@ int parseconfig(const char *file)
 		return ret;
 	}
 	free(section);
-	/* call setlibpaths here to ensure we have called it at least once */
-	if((ret = setlibpaths())) {
+	if((ret = setup_libalpm())) {
 		return ret;
 	}
 	/* second pass, repo section parsing */

@@ -50,7 +50,6 @@
 /* pacman */
 #include "pacman.h"
 #include "util.h"
-#include "callback.h"
 #include "conf.h"
 
 /* list of targets specified on command line */
@@ -264,8 +263,8 @@ static void setuseragent(void)
  */
 static void cleanup(int ret) {
 	/* free alpm library resources */
-	if(alpm_release() == -1) {
-		pm_printf(PM_LOG_ERROR, "%s\n", alpm_strerrorlast());
+	if(alpm_release(config->handle) == -1) {
+		pm_printf(PM_LOG_ERROR, "error releasing alpm library\n");
 	}
 
 	/* free memory */
@@ -322,18 +321,16 @@ static void handler(int signum)
 
 #define check_optarg() if(!optarg) { return 1; }
 
-typedef int (*fn_add) (const char *s);
-
-static int parsearg_util_addlist(fn_add fn)
+static int parsearg_util_addlist(alpm_list_t **list)
 {
-	alpm_list_t *list = NULL, *item = NULL; /* lists for splitting strings */
+	alpm_list_t *split, *item;
 
 	check_optarg();
-	list = strsplit(optarg, ',');
-	for(item = list; item; item = alpm_list_next(item)) {
-		fn((char *)alpm_list_getdata(item));
+	split = strsplit(optarg, ',');
+	for(item = split; item; item = alpm_list_next(item)) {
+		*list = alpm_list_add(*list, item->data);
 	}
-	FREELIST(list);
+	alpm_list_free(split);
 	return 0;
 }
 
@@ -385,7 +382,7 @@ static int parsearg_global(int opt)
 	switch(opt) {
 		case OP_ARCH:
 			check_optarg();
-			config_set_arch(optarg);
+			config_set_arch(strdup(optarg));
 			break;
 		case OP_ASK:
 			check_optarg();
@@ -394,11 +391,7 @@ static int parsearg_global(int opt)
 			break;
 		case OP_CACHEDIR:
 			check_optarg();
-			if(alpm_option_add_cachedir(optarg) != 0) {
-				pm_printf(PM_LOG_ERROR, _("problem adding cachedir '%s' (%s)\n"),
-						optarg, alpm_strerrorlast());
-				return 1;
-			}
+			config->cachedirs = alpm_list_add(config->cachedirs, strdup(optarg));
 			break;
 		case OP_CONFIG:
 			check_optarg();
@@ -535,10 +528,10 @@ static int parsearg_upgrade(int opt)
 		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
 		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
 		case OP_IGNORE:
-			parsearg_util_addlist(alpm_option_add_ignorepkg);
+			parsearg_util_addlist(&(config->ignorepkg));
 			break;
 		case OP_IGNOREGROUP:
-			parsearg_util_addlist(alpm_option_add_ignoregrp);
+			parsearg_util_addlist(&(config->ignoregrp));
 			break;
 		default: return 1;
 	}
@@ -800,22 +793,6 @@ int main(int argc, char *argv[])
 		config->noprogressbar = 1;
 	}
 
-	/* initialize library */
-	if(alpm_initialize() == -1) {
-		pm_printf(PM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
-		        alpm_strerrorlast());
-		cleanup(EXIT_FAILURE);
-	}
-
-	/* Setup logging as soon as possible, to print out maximum debugging info */
-	alpm_option_set_logcb(cb_log);
-	alpm_option_set_dlcb(cb_dl_progress);
-	/* define paths to reasonable defaults */
-	alpm_option_set_root(ROOTDIR);
-	alpm_option_set_dbpath(DBPATH);
-	alpm_option_set_signaturedir(GPGDIR);
-	alpm_option_set_logfile(LOGFILE);
-
 	/* Priority of options:
 	 * 1. command line
 	 * 2. config file
@@ -872,11 +849,6 @@ int main(int argc, char *argv[])
 	ret = parseconfig(config->configfile);
 	if(ret != 0) {
 		cleanup(ret);
-	}
-
-	/* set TotalDownload callback if option enabled */
-	if(config->totaldownload) {
-		alpm_option_set_totaldlcb(cb_dl_total);
 	}
 
 	/* noask is meant to be non-interactive */

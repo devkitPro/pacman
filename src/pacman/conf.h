@@ -32,6 +32,10 @@ typedef struct __config_t {
 	unsigned short noprogressbar;
 	unsigned short logmask;
 	unsigned short print;
+	unsigned short checkspace;
+	unsigned short usesyslog;
+	unsigned short usedelta;
+	char *arch;
 	char *print_format;
 	/* unfortunately, we have to keep track of paths both here and in the library
 	 * because they can come from both the command line or config file, and we
@@ -41,7 +45,7 @@ typedef struct __config_t {
 	char *dbpath;
 	char *logfile;
 	char *gpgdir;
-	/* TODO how to handle cachedirs? */
+	alpm_list_t *cachedirs;
 
 	unsigned short op_q_isfile;
 	unsigned short op_q_info;
@@ -64,9 +68,10 @@ typedef struct __config_t {
 	unsigned short op_s_upgrade;
 
 	unsigned short group;
-	pmtransflag_t flags;
 	unsigned short noask;
 	unsigned int ask;
+	pmtransflag_t flags;
+	pgp_verify_t sigverify;
 
 	/* conf file options */
 	/* I Love Candy! */
@@ -80,7 +85,14 @@ typedef struct __config_t {
 	unsigned short cleanmethod;
 	alpm_list_t *holdpkg;
 	alpm_list_t *syncfirst;
+	alpm_list_t *ignorepkg;
+	alpm_list_t *ignoregrp;
+	alpm_list_t *noupgrade;
+	alpm_list_t *noextract;
 	char *xfercommand;
+
+	/* our connection to libalpm */
+	pmhandle_t *handle;
 } config_t;
 
 /* Operations */
