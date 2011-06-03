@@ -508,7 +508,6 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 const char SYMEXPORT *alpm_conflict_get_package1(pmconflict_t *conflict)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->package1;
@@ -517,7 +516,6 @@ const char SYMEXPORT *alpm_conflict_get_package1(pmconflict_t *conflict)
 const char SYMEXPORT *alpm_conflict_get_package2(pmconflict_t *conflict)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->package2;
@@ -526,7 +524,6 @@ const char SYMEXPORT *alpm_conflict_get_package2(pmconflict_t *conflict)
 const char SYMEXPORT *alpm_conflict_get_reason(pmconflict_t *conflict)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->reason;
@@ -535,7 +532,6 @@ const char SYMEXPORT *alpm_conflict_get_reason(pmconflict_t *conflict)
 const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->target;
@@ -544,7 +540,6 @@ const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)
 pmfileconflicttype_t SYMEXPORT alpm_fileconflict_get_type(pmfileconflict_t *conflict)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
 	ASSERT(conflict != NULL, return -1);
 
 	return conflict->type;
@@ -553,7 +548,6 @@ pmfileconflicttype_t SYMEXPORT alpm_fileconflict_get_type(pmfileconflict_t *conf
 const char SYMEXPORT *alpm_fileconflict_get_file(pmfileconflict_t *conflict)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->file;
@@ -562,7 +556,6 @@ const char SYMEXPORT *alpm_fileconflict_get_file(pmfileconflict_t *conflict)
 const char SYMEXPORT *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(conflict != NULL, return NULL);
 
 	return conflict->ctarget;

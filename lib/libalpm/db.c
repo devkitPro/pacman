@@ -230,7 +230,6 @@ int SYMEXPORT alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify)
 const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(db != NULL, return NULL);
 
 	return db->treename;
@@ -242,7 +241,6 @@ const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 	char *url;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(db != NULL, return NULL);
 	ASSERT(db->servers != NULL, return NULL);
 
@@ -256,7 +254,6 @@ const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(db != NULL, return NULL);
 	ASSERT(name != NULL && strlen(name) != 0, return NULL);
 
@@ -267,7 +264,6 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(db != NULL, return NULL);
 
 	return _alpm_db_get_pkgcache(db);
@@ -277,7 +273,6 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(db != NULL, return NULL);
 	ASSERT(name != NULL && strlen(name) != 0, return NULL);
 
@@ -288,7 +283,6 @@ pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(db != NULL, return NULL);
 
 	return _alpm_db_get_grpcache(db);
@@ -298,7 +292,6 @@ alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
 	ASSERT(db != NULL, return NULL);
 
 	return _alpm_db_search(db, needles);
@@ -308,7 +301,6 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	ASSERT(db != NULL && name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
 	pmpkg_t *pkg = _alpm_db_get_pkgfromcache(db, name);
