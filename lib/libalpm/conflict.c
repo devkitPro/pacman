@@ -40,6 +40,9 @@
 #include "log.h"
 #include "deps.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2,
 		const char *reason)
 {

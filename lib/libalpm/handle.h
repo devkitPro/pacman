@@ -75,9 +75,6 @@ struct __pmhandle_t {
 	pgp_verify_t sigverify;  /* Default signature verification level */
 };
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 pmhandle_t *_alpm_handle_new(void);
 void _alpm_handle_free(pmhandle_t *handle);
 

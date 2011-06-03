@@ -39,6 +39,9 @@
 #include "package.h"
 #include "group.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 /** \addtogroup alpm_databases Database Functions
  * @brief Functions to query and manipulate the database of libalpm
  * @{

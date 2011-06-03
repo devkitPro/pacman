@@ -35,6 +35,7 @@
 
 /* Globals */
 enum _pmerrno_t pm_errno SYMEXPORT;
+extern pmhandle_t *handle;
 
 /** \addtogroup alpm_interface Interface Functions
  * @brief Functions to initialize and release libalpm

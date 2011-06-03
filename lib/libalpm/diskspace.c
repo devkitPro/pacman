@@ -51,6 +51,9 @@
 #include "trans.h"
 #include "handle.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 static int mount_point_cmp(const void *p1, const void *p2)
 {
 	const alpm_mountpoint_t *mp1 = p1;

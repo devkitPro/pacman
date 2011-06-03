@@ -37,6 +37,9 @@
 #include "deps.h"
 #include "dload.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 /** Update a package database
  *
  * An update of the package database \a db will be attempted. Unless

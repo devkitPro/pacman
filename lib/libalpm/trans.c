@@ -43,6 +43,9 @@
 #include "sync.h"
 #include "alpm.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 /** \addtogroup alpm_trans Transaction Functions
  * @brief Functions to manipulate libalpm transactions
  * @{

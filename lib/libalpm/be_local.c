@@ -41,6 +41,8 @@
 #include "package.h"
 #include "deps.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
 
 #define LAZY_LOAD(info, errret) \
 	do { \

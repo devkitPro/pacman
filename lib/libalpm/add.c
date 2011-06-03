@@ -47,6 +47,9 @@
 #include "remove.h"
 #include "handle.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 /** Add a package to the transaction. */
 int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 {

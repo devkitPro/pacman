@@ -36,6 +36,9 @@
 #include "db.h"
 #include "handle.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 void _alpm_dep_free(pmdepend_t *dep)
 {
 	FREE(dep->name);

@@ -44,6 +44,9 @@
 #include "deps.h"
 #include "handle.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 {
 	pmtrans_t *trans;

@@ -57,6 +57,9 @@
 #include "alpm_list.h"
 #include "handle.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 #ifndef HAVE_STRSEP
 /* This is a replacement for strsep which is not portable (missing on Solaris).
  * Copyright (c) 2001 by François Gouget <fgouget_at_codeweavers.com> */

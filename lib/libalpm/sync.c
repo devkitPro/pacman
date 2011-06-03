@@ -50,6 +50,9 @@
 #include "diskspace.h"
 #include "signing.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 /** Check for new version of pkg in sync repos
  * (only the first occurrence is considered in sync)
  */

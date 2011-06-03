@@ -29,6 +29,9 @@
 #include "alpm.h"
 #include "handle.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 const char SYMEXPORT *alpm_strerrorlast(void)
 {
 	return alpm_strerror(pm_errno);

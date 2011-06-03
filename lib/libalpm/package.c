@@ -37,6 +37,9 @@
 #include "handle.h"
 #include "deps.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 /** \addtogroup alpm_packages Package Functions
  * @brief Functions to manipulate libalpm packages
  * @{

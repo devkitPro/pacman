@@ -42,6 +42,9 @@
 #include "util.h"
 #include "handle.h"
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 #ifdef HAVE_LIBCURL
 static double prevprogress; /* last download amount */
 #endif

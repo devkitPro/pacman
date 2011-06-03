@@ -36,6 +36,9 @@
 #include "package.h"
 #include "deps.h" /* _alpm_splitdep */
 
+/* global handle variable */
+extern pmhandle_t *handle;
+
 /**
  * Open a package changelog for reading. Similar to fopen in functionality,
  * except that the returned 'file stream' is from an archive.
