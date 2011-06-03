@@ -947,7 +947,7 @@ int _alpm_sync_commit(pmtrans_t *trans, pmdb_t *db_local, alpm_list_t **data)
 	if(replaces) {
 		_alpm_log(PM_LOG_DEBUG, "removing conflicting and to-be-replaced packages\n");
 		/* we want the frontend to be aware of commit details */
-		if(_alpm_remove_packages(trans, handle->db_local) == -1) {
+		if(_alpm_remove_packages(handle) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not commit removal transaction\n"));
 			return -1;
 		}

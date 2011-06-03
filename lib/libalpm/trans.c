@@ -197,7 +197,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 	}
 
 	if(trans->add == NULL) {
-		if(_alpm_remove_prepare(trans, handle->db_local, data) == -1) {
+		if(_alpm_remove_prepare(handle, data) == -1) {
 			/* pm_errno is set by _alpm_remove_prepare() */
 			return -1;
 		}
@@ -236,7 +236,7 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 	trans->state = STATE_COMMITING;
 
 	if(trans->add == NULL) {
-		if(_alpm_remove_packages(trans, handle->db_local) == -1) {
+		if(_alpm_remove_packages(handle) == -1) {
 			/* pm_errno is set by _alpm_remove_commit() */
 			return -1;
 		}

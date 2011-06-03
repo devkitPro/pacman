@@ -44,9 +44,6 @@
 #include "deps.h"
 #include "handle.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 {
 	pmtrans_t *trans;
@@ -54,8 +51,7 @@ int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	trans = handle->trans;
+	trans = pkg->handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED,
 			RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
@@ -129,16 +125,14 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
  * This functions takes a pointer to a alpm_list_t which will be
  * filled with a list of pmdepmissing_t* objects representing
  * the packages blocking the transaction.
- * @param trans the transaction object
- * @param db the database of local packages
+ * @param handle the context handle
  * @param data a pointer to an alpm_list_t* to fill
  */
-int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
+int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *lp;
-
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	pmtrans_t *trans = handle->trans;
+	pmdb_t *db = handle->db_local;
 
 	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
 		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies\n");
@@ -190,7 +184,7 @@ int _alpm_remove_prepare(pmtrans_t *trans, pmdb_t *db, alpm_list_t **data)
 	return 0;
 }
 
-static int can_remove_file(const char *path, alpm_list_t *skip)
+static int can_remove_file(pmhandle_t *handle, const char *path, alpm_list_t *skip)
 {
 	char file[PATH_MAX+1];
 
@@ -217,7 +211,8 @@ static int can_remove_file(const char *path, alpm_list_t *skip)
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(pmpkg_t *info, char *filename, alpm_list_t *skip_remove, int nosave)
+static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
+		alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
 	char file[PATH_MAX+1];
@@ -281,8 +276,8 @@ static void unlink_file(pmpkg_t *info, char *filename, alpm_list_t *skip_remove,
 	}
 }
 
-int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg,
-		pmtrans_t *trans)
+int _alpm_upgraderemove_package(pmhandle_t *handle,
+		pmpkg_t *oldpkg, pmpkg_t *newpkg)
 {
 	alpm_list_t *skip_remove, *b;
 	alpm_list_t *newfiles, *lp;
@@ -293,13 +288,13 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg,
 	_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 			oldpkg->name, oldpkg->version);
 
-	if(trans->flags & PM_TRANS_FLAG_DBONLY) {
+	if(handle->trans->flags & PM_TRANS_FLAG_DBONLY) {
 		goto db;
 	}
 
 	/* copy the remove skiplist over */
 	skip_remove = alpm_list_join(
-			alpm_list_strdup(trans->skip_remove),
+			alpm_list_strdup(handle->trans->skip_remove),
 			alpm_list_strdup(handle->noupgrade));
 	/* Add files in the NEW backup array to the skip_remove array
 	 * so this removal operation doesn't kill them */
@@ -317,7 +312,7 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg,
 	}
 
 	for(lp = files; lp; lp = lp->next) {
-		if(!can_remove_file(lp->data, skip_remove)) {
+		if(!can_remove_file(handle, lp->data, skip_remove)) {
 			_alpm_log(PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
 					pkgname);
 			RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
@@ -330,7 +325,7 @@ int _alpm_upgraderemove_package(pmpkg_t *oldpkg, pmpkg_t *newpkg,
 	/* iterate through the list backwards, unlinking files */
 	newfiles = alpm_list_reverse(files);
 	for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
-		unlink_file(oldpkg, lp->data, skip_remove, 0);
+		unlink_file(handle, oldpkg, lp->data, skip_remove, 0);
 	}
 	alpm_list_free(newfiles);
 	FREELIST(skip_remove);
@@ -352,14 +347,12 @@ db:
 	return 0;
 }
 
-int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
+int _alpm_remove_packages(pmhandle_t *handle)
 {
 	pmpkg_t *info;
 	alpm_list_t *targ, *lp;
 	size_t pkg_count;
-
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	pmtrans_t *trans = handle->trans;
 
 	pkg_count = alpm_list_count(trans->remove);
 
@@ -370,14 +363,14 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 		const char *pkgname = NULL;
 		size_t targcount = alpm_list_count(targ);
 
-		if(handle->trans->state == STATE_INTERRUPTED) {
+		if(trans->state == STATE_INTERRUPTED) {
 			return 0;
 		}
 
 		/* get the name now so we can use it after package is removed */
 		pkgname = alpm_pkg_get_name(info);
 		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
-				_alpm_db_path(db), pkgname, alpm_pkg_get_version(info));
+				_alpm_db_path(handle->db_local), pkgname, alpm_pkg_get_version(info));
 
 		EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
 		_alpm_log(PM_LOG_DEBUG, "removing package %s-%s\n",
@@ -395,7 +388,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 			size_t filenum;
 
 			for(lp = files; lp; lp = lp->next) {
-				if(!can_remove_file(lp->data, NULL)) {
+				if(!can_remove_file(handle, lp->data, NULL)) {
 					_alpm_log(PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
 					          pkgname);
 					RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
@@ -413,7 +406,7 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 			newfiles = alpm_list_reverse(files);
 			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
 				int percent;
-				unlink_file(info, lp->data, NULL, trans->flags & PM_TRANS_FLAG_NOSAVE);
+				unlink_file(handle, info, lp->data, NULL, trans->flags & PM_TRANS_FLAG_NOSAVE);
 
 				/* update progress bar after each file */
 				percent = (position * 100) / filenum;
@@ -437,12 +430,12 @@ int _alpm_remove_packages(pmtrans_t *trans, pmdb_t *db)
 		/* remove the package from the database */
 		_alpm_log(PM_LOG_DEBUG, "updating database\n");
 		_alpm_log(PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
-		if(_alpm_local_db_remove(db, info) == -1) {
+		if(_alpm_local_db_remove(handle->db_local, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s\n"),
 			          pkgname, alpm_pkg_get_version(info));
 		}
 		/* remove the package from the cache */
-		if(_alpm_db_remove_pkgfromcache(db, info) == -1) {
+		if(_alpm_db_remove_pkgfromcache(handle->db_local, info) == -1) {
 			_alpm_log(PM_LOG_ERROR, _("could not remove entry '%s' from cache\n"),
 			          pkgname);
 		}

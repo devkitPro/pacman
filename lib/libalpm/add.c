@@ -527,7 +527,7 @@ static int commit_single_pkg(pmpkg_t *newpkg, size_t pkg_current,
 
 	if(oldpkg) {
 		/* set up fake remove transaction */
-		if(_alpm_upgraderemove_package(oldpkg, newpkg, trans) == -1) {
+		if(_alpm_upgraderemove_package(handle, oldpkg, newpkg) == -1) {
 			pm_errno = PM_ERR_TRANS_ABORT;
 			ret = -1;
 			goto cleanup;
