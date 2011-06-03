@@ -513,6 +513,7 @@ pmdb_t *_alpm_db_register_sync(const char *treename)
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
 	db->ops = &sync_db_ops;
+	db->handle = handle;
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return db;

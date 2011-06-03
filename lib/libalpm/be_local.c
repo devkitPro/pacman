@@ -952,6 +952,7 @@ pmdb_t *_alpm_db_register_local(void)
 		RET_ERR(PM_ERR_DB_CREATE, NULL);
 	}
 	db->ops = &local_db_ops;
+	db->handle = handle;
 
 	handle->db_local = db;
 	return db;

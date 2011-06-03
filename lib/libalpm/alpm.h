@@ -74,6 +74,7 @@ typedef enum _pgp_verify_t {
  * Structures
  */
 
+typedef struct __pmhandle_t pmhandle_t;
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
 typedef struct __pmdelta_t pmdelta_t;

@@ -53,6 +53,7 @@ struct db_operations {
 
 /* Database */
 struct __pmdb_t {
+	pmhandle_t *handle;
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */
 	char *_path;

@@ -33,7 +33,7 @@
 #include <curl/curl.h>
 #endif
 
-typedef struct _pmhandle_t {
+struct __pmhandle_t {
 	/* internal usage */
 	pmdb_t *db_local;       /* local db pointer */
 	alpm_list_t *dbs_sync;  /* List of (pmdb_t *) */
@@ -73,7 +73,7 @@ typedef struct _pmhandle_t {
 	int usedelta;            /* Download deltas if possible */
 	int checkspace;          /* Check disk space before installing */
 	pgp_verify_t sigverify;  /* Default signature verification level */
-} pmhandle_t;
+};
 
 /* global handle variable */
 extern pmhandle_t *handle;
