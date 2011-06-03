@@ -31,9 +31,11 @@
 
 #define BASENAME "testdb"
 
+pmhandle_t *handle = NULL;
+
 static void cleanup(int signum) {
-	if(alpm_release() == -1) {
-		fprintf(stderr, "error releasing alpm: %s\n", alpm_strerrorlast());
+	if(handle && alpm_release(handle) == -1) {
+		fprintf(stderr, "error releasing alpm\n");
 	}
 
 	exit(signum);
@@ -184,6 +186,7 @@ static void usage(void) {
 int main(int argc, char *argv[])
 {
 	int ret = 0;
+	enum _pmerrno_t err;
 	const char *dbpath = DBPATH;
 	int a = 1;
 	alpm_list_t *dbnames = NULL;
@@ -204,18 +207,14 @@ int main(int argc, char *argv[])
 		a++;
 	}
 
-	if(alpm_initialize() == -1) {
-		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerrorlast());
+	handle = alpm_initialize(ROOTDIR, dbpath, &err);
+	if(!handle) {
+		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerror(err));
 		return EXIT_FAILURE;
 	}
 
 	/* let us get log messages from libalpm */
 	alpm_option_set_logcb(output_cb);
-
-	if(alpm_option_set_dbpath(dbpath) != 0) {
-		fprintf(stderr, "cannot set dbpath: %s\n", alpm_strerrorlast());
-		return EXIT_FAILURE;
-	}
 
 	if(!dbnames) {
 		ret = check_localdb();

@@ -74,6 +74,7 @@ static struct color_choices no_color = {
 };
 
 /* globals */
+pmhandle_t *handle = NULL;
 pmdb_t *db_local;
 alpm_list_t *walked = NULL;
 alpm_list_t *provisions = NULL;
@@ -89,21 +90,11 @@ const char *dbpath = DBPATH;
 
 static int alpm_local_init(void)
 {
-	int ret;
+	enum _pmerrno_t err;
 
-	ret = alpm_initialize();
-	if(ret != 0) {
-		return ret;
-	}
-
-	ret = alpm_option_set_root(ROOTDIR);
-	if(ret != 0) {
-		return ret;
-	}
-
-	ret = alpm_option_set_dbpath(dbpath);
-	if(ret != 0) {
-		return ret;
+	handle = alpm_initialize(ROOTDIR, dbpath, &err);
+	if(!handle) {
+		return -1;
 	}
 
 	db_local = alpm_option_get_localdb();
@@ -196,7 +187,7 @@ static void cleanup(void)
 {
 	alpm_list_free(walked);
 	alpm_list_free(provisions);
-	alpm_release();
+	alpm_release(handle);
 }
 
 /* pkg provides provision */

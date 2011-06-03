@@ -40,6 +40,8 @@ static void output_cb(pmloglevel_t level, const char *fmt, va_list args)
 int main(int argc, char *argv[])
 {
 	int retval = 1; /* default = false */
+	pmhandle_t *handle;
+	enum _pmerrno_t err;
 	pmpkg_t *pkg = NULL;
 
 	if(argc != 2) {
@@ -47,8 +49,9 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	if(alpm_initialize() == -1) {
-		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerrorlast());
+	handle = alpm_initialize(ROOTDIR, DBPATH, &err);
+	if(!handle) {
+		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerror(err));
 		return 1;
 	}
 
@@ -76,8 +79,8 @@ int main(int argc, char *argv[])
 		retval = 0;
 	}
 
-	if(alpm_release() == -1) {
-		fprintf(stderr, "error releasing alpm: %s\n", alpm_strerrorlast());
+	if(alpm_release(handle) == -1) {
+		fprintf(stderr, "error releasing alpm\n");
 	}
 
 	return retval;

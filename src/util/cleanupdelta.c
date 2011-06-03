@@ -29,9 +29,11 @@
 
 #define BASENAME "cleanupdelta"
 
+pmhandle_t *handle = NULL;
+
 static void cleanup(int signum) {
-	if(alpm_release() == -1) {
-		fprintf(stderr, "error releasing alpm: %s\n", alpm_strerrorlast());
+	if(handle && alpm_release(handle) == -1) {
+		fprintf(stderr, "error releasing alpm\n");
 	}
 
 	exit(signum);
@@ -94,6 +96,7 @@ static void usage(void) {
 int main(int argc, char *argv[])
 {
 	const char *dbpath = DBPATH;
+	enum _pmerrno_t err;
 	int a = 1;
 	alpm_list_t *dbnames = NULL;
 
@@ -117,15 +120,14 @@ int main(int argc, char *argv[])
 		usage();
 	}
 
-	if(alpm_initialize() == -1) {
-		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerrorlast());
+	handle = alpm_initialize(ROOTDIR, dbpath, &err);
+	if(!handle) {
+		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerror(err));
 		return 1;
 	}
 
 	/* let us get log messages from libalpm */
 	alpm_option_set_logcb(output_cb);
-
-	alpm_option_set_dbpath(dbpath);
 
 	checkdbs(dbpath,dbnames);
 	alpm_list_free(dbnames);
