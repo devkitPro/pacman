@@ -92,7 +92,7 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
 						localpkgname, localpkgver);
 				return(0);
-			} else {
+			} else if(!(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
 				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
 						localpkgname, localpkgver);
 			}
