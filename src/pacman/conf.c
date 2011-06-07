@@ -564,7 +564,7 @@ static int _parseconfig(const char *file, int parse_options,
 			pm_printf(PM_LOG_DEBUG, "config: new section '%s'\n", name);
 			/* if we are not looking at the options section, register a db */
 			if(!parse_options && strcmp(name, "options") != 0) {
-				db = alpm_db_register_sync(name);
+				db = alpm_db_register_sync(config->handle, name);
 				if(db == NULL) {
 					pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
 							name, alpm_strerrorlast());

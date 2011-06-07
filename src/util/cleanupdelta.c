@@ -75,7 +75,7 @@ static void checkdbs(const char *dbpath, alpm_list_t *dbnames) {
 	for(i = dbnames; i; i = alpm_list_next(i)) {
 		char *dbname = alpm_list_getdata(i);
 		snprintf(syncdbpath, PATH_MAX, "%s/sync/%s", dbpath, dbname);
-		db = alpm_db_register_sync(dbname);
+		db = alpm_db_register_sync(handle, dbname);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database (%s)\n",
 					alpm_strerrorlast());

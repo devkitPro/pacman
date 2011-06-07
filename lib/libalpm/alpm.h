@@ -268,15 +268,17 @@ pmdb_t *alpm_option_get_localdb(pmhandle_t *handle);
 /** Get the list of sync databases.
  * Returns a list of pmdb_t structures, one for each registered
  * sync database.
+ * @param handle the context handle
  * @return a reference to an internal list of pmdb_t structures
  */
 alpm_list_t *alpm_option_get_syncdbs(pmhandle_t *handle);
 
 /** Register a sync database of packages.
+ * @param handle the context handle
  * @param treename the name of the sync repository
  * @return a pmdb_t* on success (the value), NULL on error
  */
-pmdb_t *alpm_db_register_sync(const char *treename);
+pmdb_t *alpm_db_register_sync(pmhandle_t *handle, const char *treename);
 
 /** Unregister a package database.
  * @param db pointer to the package database to unregister

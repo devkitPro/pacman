@@ -39,16 +39,13 @@
 #include "package.h"
 #include "group.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 /** \addtogroup alpm_databases Database Functions
  * @brief Functions to query and manipulate the database of libalpm
  * @{
  */
 
 /** Register a sync database of packages. */
-pmdb_t SYMEXPORT *alpm_db_register_sync(const char *treename)
+pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
