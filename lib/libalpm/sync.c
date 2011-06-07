@@ -50,9 +50,6 @@
 #include "diskspace.h"
 #include "signing.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 /** Check for new version of pkg in sync repos
  * (only the first occurrence is considered in sync)
  */
@@ -85,7 +82,7 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 }
 
 /** Search for packages to upgrade and add them to the transaction. */
-int SYMEXPORT alpm_sync_sysupgrade(int enable_downgrade)
+int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 {
 	alpm_list_t *i, *j, *k;
 	pmtrans_t *trans;

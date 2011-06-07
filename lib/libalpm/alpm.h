@@ -858,10 +858,11 @@ int alpm_trans_release(pmhandle_t *handle);
 /** @{ */
 
 /** Search for packages to upgrade and add them to the transaction.
+ * @param handle the context handle
  * @param enable_downgrade allow downgrading of packages if the remote version is lower
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_sync_sysupgrade(int enable_downgrade);
+int alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade);
 
 /** Add a package to the transaction.
  * If the package was loaded by alpm_pkg_load(), it will be freed upon
