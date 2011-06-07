@@ -768,7 +768,7 @@ static int sync_trans(alpm_list_t *targets)
 	}
 
 	/* Step 2: "compute" the transaction based on targets and flags */
-	if(alpm_trans_prepare(&data) == -1) {
+	if(alpm_trans_prepare(config->handle, &data) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerrorlast());
 		switch(pm_errno) {
@@ -810,7 +810,7 @@ static int sync_trans(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	packages = alpm_trans_get_add();
+	packages = alpm_trans_get_add(config->handle);
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
 		printf(_(" there is nothing to do\n"));
@@ -823,8 +823,8 @@ static int sync_trans(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	display_targets(alpm_trans_get_remove(), 0);
-	display_targets(alpm_trans_get_add(), 1);
+	display_targets(alpm_trans_get_remove(config->handle), 0);
+	display_targets(alpm_trans_get_add(config->handle), 1);
 	printf("\n");
 
 	int confirm;
@@ -837,7 +837,7 @@ static int sync_trans(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	if(alpm_trans_commit(&data) == -1) {
+	if(alpm_trans_commit(config->handle, &data) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
 		switch(pm_errno) {

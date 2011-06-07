@@ -794,54 +794,62 @@ typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
 typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t, size_t);
 
 /** Returns the bitfield of flags for the current transaction.
- * @sa _pmtransflag_t
+ * @param handle the context handle
+ * @return the bitfield of transaction flags
  */
-int alpm_trans_get_flags(void);
+pmtransflag_t alpm_trans_get_flags(pmhandle_t *handle);
 
 /** Returns a list of packages added by the transaction.
+ * @param handle the context handle
  * @return a list of pmpkg_t structures
  */
-alpm_list_t * alpm_trans_get_add(void);
+alpm_list_t * alpm_trans_get_add(pmhandle_t *handle);
 
 /** Returns the list of packages removed by the transaction.
+ * @param handle the context handle
  * @return a list of pmpkg_t structures
  */
-alpm_list_t * alpm_trans_get_remove(void);
+alpm_list_t * alpm_trans_get_remove(pmhandle_t *handle);
 
 /** Initialize the transaction.
+ * @param handle the context handle
  * @param flags flags of the transaction (like nodeps, etc)
  * @param event event callback function pointer
  * @param conv question callback function pointer
  * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(pmtransflag_t flags,
+int alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);
 
 /** Prepare a transaction.
+ * @param handle the context handle
  * @param data the address of an alpm_list where a list
  * of pmdepmissing_t objects is dumped (conflicting packages)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_prepare(alpm_list_t **data);
+int alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data);
 
 /** Commit a transaction.
+ * @param handle the context handle
  * @param data the address of an alpm_list where detailed description
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_commit(alpm_list_t **data);
+int alpm_trans_commit(pmhandle_t *handle, alpm_list_t **data);
 
 /** Interrupt a transaction.
+ * @param handle the context handle
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_interrupt(void);
+int alpm_trans_interrupt(pmhandle_t *handle);
 
 /** Release a transaction.
+ * @param handle the context handle
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_release(void);
+int alpm_trans_release(pmhandle_t *handle);
 /** @} */
 
 /** @name Common Transactions */

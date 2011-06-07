@@ -53,9 +53,9 @@ int trans_init(pmtransflag_t flags)
 {
 	int ret;
 	if(config->print) {
-		ret = alpm_trans_init(flags, NULL, NULL, NULL);
+		ret = alpm_trans_init(config->handle, flags, NULL, NULL, NULL);
 	} else {
-		ret = alpm_trans_init(flags, cb_trans_evt, cb_trans_conv,
+		ret = alpm_trans_init(config->handle, flags, cb_trans_evt, cb_trans_conv,
 				cb_trans_progress);
 	}
 
@@ -78,7 +78,7 @@ int trans_init(pmtransflag_t flags)
 
 int trans_release(void)
 {
-	if(alpm_trans_release() == -1) {
+	if(alpm_trans_release(config->handle) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
 				alpm_strerrorlast());
 		return -1;

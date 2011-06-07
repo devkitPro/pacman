@@ -204,9 +204,9 @@ alpm_list_t *_alpm_sortbydeps(alpm_list_t *targets, int reverse)
 	return newtargs;
 }
 
-static int no_dep_version(void)
+static int no_dep_version(pmhandle_t *handle)
 {
-	int flags = alpm_trans_get_flags();
+	int flags = alpm_trans_get_flags(handle);
 	return flags != -1 && (flags & PM_TRANS_FLAG_NODEPVERSION);
 }
 
@@ -282,7 +282,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
 	}
 	alpm_list_free(targets);
 
-	nodepversion = no_dep_version();
+	nodepversion = no_dep_version(handle);
 
 	/* look for unsatisfied dependencies of the upgrade list */
 	for(i = upgrade; i; i = i->next) {

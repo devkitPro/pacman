@@ -307,12 +307,12 @@ static void handler(int signum)
 	} else if(signum == SIGINT) {
 		const char *msg = "\nInterrupt signal received\n";
 		xwrite(err, msg, strlen(msg));
-		if(alpm_trans_interrupt() == 0) {
+		if(alpm_trans_interrupt(config->handle) == 0) {
 			/* a transaction is being interrupted, don't exit pacman yet. */
 			return;
 		}
 		/* no commiting transaction, we can release it now and then exit pacman */
-		alpm_trans_release();
+		alpm_trans_release(config->handle);
 		/* output a newline to be sure we clear any line we may be on */
 		xwrite(out, "\n", 1);
 	}

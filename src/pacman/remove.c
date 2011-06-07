@@ -99,7 +99,7 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	/* Step 2: prepare the transaction based on its type, targets and flags */
-	if(alpm_trans_prepare(&data) == -1) {
+	if(alpm_trans_prepare(config->handle, &data) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerrorlast());
 		switch(pm_errno) {
@@ -129,7 +129,7 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Search for holdpkg in target list */
 	int holdpkg = 0;
-	for(i = alpm_trans_get_remove(); i; i = alpm_list_next(i)) {
+	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
 		pmpkg_t *pkg = alpm_list_getdata(i);
 		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
 			pm_printf(PM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
@@ -143,7 +143,7 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	/* Step 3: actually perform the removal */
-	alpm_list_t *pkglist = alpm_trans_get_remove();
+	alpm_list_t *pkglist = alpm_trans_get_remove(config->handle);
 	if(pkglist == NULL) {
 		printf(_(" there is nothing to do\n"));
 		goto cleanup; /* we are done */
@@ -162,7 +162,7 @@ int pacman_remove(alpm_list_t *targets)
 		goto cleanup;
 	}
 
-	if(alpm_trans_commit(NULL) == -1) {
+	if(alpm_trans_commit(config->handle, NULL) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerrorlast());
 		retval = 1;

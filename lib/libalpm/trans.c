@@ -43,9 +43,6 @@
 #include "sync.h"
 #include "alpm.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 /** \addtogroup alpm_trans Transaction Functions
  * @brief Functions to manipulate libalpm transactions
  * @{
@@ -99,7 +96,7 @@ static int remove_lock(pmhandle_t *handle)
 }
 
 /** Initialize the transaction. */
-int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
+int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 		alpm_trans_cb_event event, alpm_trans_cb_conv conv,
 		alpm_trans_cb_progress progress)
 {
@@ -144,7 +141,7 @@ int SYMEXPORT alpm_trans_init(pmtransflag_t flags,
 	return 0;
 }
 
-static alpm_list_t *check_arch(alpm_list_t *pkgs)
+static alpm_list_t *check_arch(pmhandle_t *handle, alpm_list_t *pkgs)
 {
 	alpm_list_t *i;
 	alpm_list_t *invalid = NULL;
@@ -170,7 +167,7 @@ static alpm_list_t *check_arch(alpm_list_t *pkgs)
 }
 
 /** Prepare a transaction. */
-int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
+int SYMEXPORT alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data)
 {
 	pmtrans_t *trans;
 
@@ -188,7 +185,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 		return 0;
 	}
 
-	alpm_list_t *invalid = check_arch(trans->add);
+	alpm_list_t *invalid = check_arch(handle, trans->add);
 	if(invalid) {
 		if(data) {
 			*data = invalid;
@@ -214,7 +211,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_list_t **data)
 }
 
 /** Commit a transaction. */
-int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
+int SYMEXPORT alpm_trans_commit(pmhandle_t *handle, alpm_list_t **data)
 {
 	pmtrans_t *trans;
 
@@ -253,7 +250,7 @@ int SYMEXPORT alpm_trans_commit(alpm_list_t **data)
 }
 
 /** Interrupt a transaction. */
-int SYMEXPORT alpm_trans_interrupt(void)
+int SYMEXPORT alpm_trans_interrupt(pmhandle_t *handle)
 {
 	pmtrans_t *trans;
 
@@ -271,7 +268,7 @@ int SYMEXPORT alpm_trans_interrupt(void)
 }
 
 /** Release a transaction. */
-int SYMEXPORT alpm_trans_release(void)
+int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
 {
 	pmtrans_t *trans;
 
@@ -428,7 +425,7 @@ cleanup:
 	return retval;
 }
 
-int SYMEXPORT alpm_trans_get_flags()
+pmtransflag_t SYMEXPORT alpm_trans_get_flags(pmhandle_t *handle)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
@@ -437,7 +434,7 @@ int SYMEXPORT alpm_trans_get_flags()
 	return handle->trans->flags;
 }
 
-alpm_list_t SYMEXPORT * alpm_trans_get_add()
+alpm_list_t SYMEXPORT *alpm_trans_get_add(pmhandle_t *handle)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
@@ -446,7 +443,7 @@ alpm_list_t SYMEXPORT * alpm_trans_get_add()
 	return handle->trans->add;
 }
 
-alpm_list_t SYMEXPORT * alpm_trans_get_remove()
+alpm_list_t SYMEXPORT *alpm_trans_get_remove(pmhandle_t *handle)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
