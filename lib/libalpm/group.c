@@ -34,8 +34,8 @@ pmgrp_t *_alpm_grp_new(const char *name)
 {
 	pmgrp_t* grp;
 
-	CALLOC(grp, 1, sizeof(pmgrp_t), RET_ERR(PM_ERR_MEMORY, NULL));
-	STRDUP(grp->name, name, RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(grp, 1, sizeof(pmgrp_t), return NULL);
+	STRDUP(grp->name, name, free(grp); return NULL);
 
 	return grp;
 }

@@ -37,7 +37,9 @@
 
 /* libalpm */
 #include "add.h"
+#include "alpm.h"
 #include "alpm_list.h"
+#include "handle.h"
 #include "trans.h"
 #include "util.h"
 #include "log.h"
@@ -56,12 +58,12 @@ int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return -1);
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle == pkg->handle, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle == pkg->handle, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED,
-			RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+			RET_ERR(handle, PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	pkgname = pkg->name;
 	pkgver = pkg->version;
@@ -69,7 +71,7 @@ int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	_alpm_log(PM_LOG_DEBUG, "adding package '%s'\n", pkgname);
 
 	if(_alpm_pkg_find(trans->add, pkgname)) {
-		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+		RET_ERR(pkg->handle, PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	local = _alpm_db_get_pkgfromcache(handle->db_local, pkgname);
@@ -266,7 +268,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 
 				/* if we force hash_orig to be non-NULL retroactive backup works */
 				if(needbackup && !hash_orig) {
-					STRDUP(hash_orig, "", RET_ERR(PM_ERR_MEMORY, -1));
+					STRDUP(hash_orig, "", RET_ERR(handle, PM_ERR_MEMORY, -1));
 				}
 			}
 		}
@@ -276,7 +278,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 
 	/* we need access to the original entryname later after calls to
 	 * archive_entry_set_pathname(), so we need to dupe it and free() later */
-	STRDUP(entryname_orig, entryname, RET_ERR(PM_ERR_MEMORY, -1));
+	STRDUP(entryname_orig, entryname, RET_ERR(handle, PM_ERR_MEMORY, -1));
 
 	if(needbackup) {
 		char checkfile[PATH_MAX];
@@ -308,7 +310,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			char *backup = NULL;
 			/* length is tab char, null byte and MD5 (32 char) */
 			size_t backup_len = strlen(oldbackup) + 34;
-			MALLOC(backup, backup_len, RET_ERR(PM_ERR_MEMORY, -1));
+			MALLOC(backup, backup_len, RET_ERR(handle, PM_ERR_MEMORY, -1));
 
 			sprintf(backup, "%s\t%s", oldbackup, hash_pkg);
 			backup[backup_len-1] = '\0';
@@ -450,7 +452,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
 
 			hash = alpm_compute_md5sum(filename);
-			MALLOC(backup, backup_len, RET_ERR(PM_ERR_MEMORY, -1));
+			MALLOC(backup, backup_len, RET_ERR(handle, PM_ERR_MEMORY, -1));
 
 			sprintf(backup, "%s\t%s", oldbackup, hash);
 			backup[backup_len-1] = '\0';
@@ -524,7 +526,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 	if(oldpkg) {
 		/* set up fake remove transaction */
 		if(_alpm_upgraderemove_package(handle, oldpkg, newpkg) == -1) {
-			pm_errno = PM_ERR_TRANS_ABORT;
+			handle->pm_errno = PM_ERR_TRANS_ABORT;
 			ret = -1;
 			goto cleanup;
 		}
@@ -535,7 +537,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 	if(_alpm_local_db_prepare(db, newpkg)) {
 		alpm_logaction(handle, "error: could not create database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
-		pm_errno = PM_ERR_DB_WRITE;
+		handle->pm_errno = PM_ERR_DB_WRITE;
 		ret = -1;
 		goto cleanup;
 	}
@@ -549,7 +551,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 		_alpm_log(PM_LOG_DEBUG, "extracting files\n");
 
 		if((archive = archive_read_new()) == NULL) {
-			pm_errno = PM_ERR_LIBARCHIVE;
+			handle->pm_errno = PM_ERR_LIBARCHIVE;
 			ret = -1;
 			goto cleanup;
 		}
@@ -560,7 +562,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 		_alpm_log(PM_LOG_DEBUG, "archive: %s\n", newpkg->origin_data.file);
 		if(archive_read_open_filename(archive, newpkg->origin_data.file,
 					ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-			pm_errno = PM_ERR_PKG_OPEN;
+			handle->pm_errno = PM_ERR_PKG_OPEN;
 			ret = -1;
 			goto cleanup;
 		}
@@ -655,7 +657,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		alpm_logaction(handle, "error: could not update database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
-		pm_errno = PM_ERR_DB_WRITE;
+		handle->pm_errno = PM_ERR_DB_WRITE;
 		ret = -1;
 		goto cleanup;
 	}
@@ -721,7 +723,7 @@ int _alpm_upgrade_packages(pmhandle_t *handle)
 		if(commit_single_pkg(handle, newpkg, pkg_current, pkg_count)) {
 			/* something screwed up on the commit, abort the trans */
 			trans->state = STATE_INTERRUPTED;
-			pm_errno = PM_ERR_TRANS_ABORT;
+			handle->pm_errno = PM_ERR_TRANS_ABORT;
 			/* running ldconfig at this point could possibly screw system */
 			skip_ldconfig = 1;
 			ret = -1;

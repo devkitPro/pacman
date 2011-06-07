@@ -402,7 +402,7 @@ static int _add_mirror(pmdb_t *db, char *value)
 	if(alpm_db_add_server(db, server) != 0) {
 		/* pm_errno is set by alpm_db_setserver */
 		pm_printf(PM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
-				dbname, server, alpm_strerrorlast());
+				dbname, server, alpm_strerror(alpm_errno(config->handle)));
 		free(server);
 		return 1;
 	}
@@ -460,7 +460,7 @@ static int setup_libalpm(void)
 	ret = alpm_option_set_logfile(handle, config->logfile);
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-				config->logfile, alpm_strerrorlast());
+				config->logfile, alpm_strerror(alpm_errno(config->handle)));
 		return ret;
 	}
 
@@ -470,7 +470,7 @@ static int setup_libalpm(void)
 	ret = alpm_option_set_signaturedir(handle, config->gpgdir);
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
-				config->gpgdir, alpm_strerrorlast());
+				config->gpgdir, alpm_strerror(alpm_errno(config->handle)));
 		return ret;
 	}
 
@@ -567,7 +567,7 @@ static int _parseconfig(const char *file, int parse_options,
 				db = alpm_db_register_sync(config->handle, name);
 				if(db == NULL) {
 					pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
-							name, alpm_strerrorlast());
+							name, alpm_strerror(alpm_errno(config->handle)));
 					ret = 1;
 					goto cleanup;
 				}
@@ -665,7 +665,7 @@ static int _parseconfig(const char *file, int parse_options,
 					ret = alpm_db_set_pgp_verify(db, level);
 					if(ret != 0) {
 						pm_printf(PM_LOG_ERROR, _("could not add set verify option for database '%s': %s (%s)\n"),
-								alpm_db_get_name(db), value, alpm_strerrorlast());
+								alpm_db_get_name(db), value, alpm_strerror(alpm_errno(config->handle)));
 						goto cleanup;
 					}
 				} else {

@@ -60,14 +60,15 @@ int trans_init(pmtransflag_t flags)
 	}
 
 	if(ret == -1) {
+		enum _pmerrno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to init transaction (%s)\n"),
-				alpm_strerrorlast());
-		if(pm_errno == PM_ERR_HANDLE_LOCK) {
+				alpm_strerror(err));
+		if(err == PM_ERR_HANDLE_LOCK) {
 			fprintf(stderr, _("  if you're sure a package manager is not already\n"
 						"  running, you can remove %s\n"),
 					alpm_option_get_lockfile(config->handle));
 		}
-		else if(pm_errno == PM_ERR_DB_VERSION) {
+		else if(err == PM_ERR_DB_VERSION) {
 			fprintf(stderr, _("  try running pacman-db-upgrade\n"));
 		}
 
@@ -80,7 +81,7 @@ int trans_release(void)
 {
 	if(alpm_trans_release(config->handle) == -1) {
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
-				alpm_strerrorlast());
+				alpm_strerror(alpm_errno(config->handle)));
 		return -1;
 	}
 	return 0;

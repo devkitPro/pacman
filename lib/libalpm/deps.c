@@ -49,11 +49,11 @@ static pmdepmissing_t *depmiss_new(const char *target, pmdepend_t *dep,
 {
 	pmdepmissing_t *miss;
 
-	MALLOC(miss, sizeof(pmdepmissing_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	MALLOC(miss, sizeof(pmdepmissing_t), return NULL);
 
-	STRDUP(miss->target, target, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(miss->target, target, return NULL);
 	miss->depend = _alpm_dep_dup(dep);
-	STRDUP(miss->causingpkg, causingpkg, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(miss->causingpkg, causingpkg, return NULL);
 
 	return miss;
 }
@@ -247,6 +247,9 @@ static pmpkg_t *find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
 pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 {
 	pmdepend_t *dep = _alpm_splitdep(depstring);
+	if(!dep) {
+		return NULL;
+	}
 	pmpkg_t *pkg = find_dep_satisfier(pkgs, dep);
 	_alpm_dep_free(dep);
 	return pkg;
@@ -414,7 +417,7 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 		return NULL;
 	}
 
-	CALLOC(depend, 1, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(depend, 1, sizeof(pmdepend_t), return NULL);
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
@@ -440,11 +443,10 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 	}
 
 	/* copy the right parts to the right places */
-	STRNDUP(depend->name, depstring, ptr - depstring,
-			RET_ERR(PM_ERR_MEMORY, NULL));
+	STRNDUP(depend->name, depstring, ptr - depstring, return NULL);
 	depend->name_hash = _alpm_hash_sdbm(depend->name);
 	if(version) {
-		STRDUP(depend->version, version, RET_ERR(PM_ERR_MEMORY, NULL));
+		STRDUP(depend->version, version, return NULL);
 	}
 
 	return depend;
@@ -453,11 +455,11 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
 {
 	pmdepend_t *newdep;
-	CALLOC(newdep, 1, sizeof(pmdepend_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(newdep, 1, sizeof(pmdepend_t), return NULL);
 
-	STRDUP(newdep->name, dep->name, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(newdep->name, dep->name, return NULL);
 	newdep->name_hash = dep->name_hash;
-	STRDUP(newdep->version, dep->version, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(newdep->version, dep->version, return NULL);
 	newdep->mod = dep->mod;
 
 	return newdep;
@@ -632,9 +634,9 @@ static pmpkg_t *resolvedep(pmhandle_t *handle, pmdepend_t *dep,
 	}
 
 	if(ignored) { /* resolvedeps will override these */
-		pm_errno = PM_ERR_PKG_IGNORED;
+		handle->pm_errno = PM_ERR_PKG_IGNORED;
 	} else {
-		pm_errno = PM_ERR_PKG_NOT_FOUND;
+		handle->pm_errno = PM_ERR_PKG_NOT_FOUND;
 	}
 	return NULL;
 }
@@ -728,7 +730,7 @@ int _alpm_resolvedeps(pmhandle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
 				spkg = resolvedep(handle, missdep, handle->dbs_sync, *packages, 0);
 			}
 			if(!spkg) {
-				pm_errno = PM_ERR_UNSATISFIED_DEPS;
+				handle->pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
 				_alpm_log(PM_LOG_WARNING,
 						_("cannot resolve \"%s\", a dependency of \"%s\"\n"),
@@ -860,7 +862,7 @@ char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
 	 * and ver will be empty when PM_DEP_MOD_ANY is the depend type. the
 	 * reassignments above also ensure we do not do a strlen(NULL). */
 	len = strlen(name) + strlen(opr) + strlen(ver) + 1;
-	MALLOC(str, len, RET_ERR(PM_ERR_MEMORY, NULL));
+	MALLOC(str, len, return NULL);
 	snprintf(str, len, "%s%s%s", name, opr, ver);
 
 	return str;

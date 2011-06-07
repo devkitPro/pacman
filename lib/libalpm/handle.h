@@ -70,6 +70,9 @@ struct __pmhandle_t {
 	int usedelta;            /* Download deltas if possible */
 	int checkspace;          /* Check disk space before installing */
 	pgp_verify_t sigverify;  /* Default signature verification level */
+
+	/* error code */
+	enum _pmerrno_t pm_errno;
 };
 
 pmhandle_t *_alpm_handle_new(void);

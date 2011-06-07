@@ -88,19 +88,6 @@ int reverse = 0;
 int unique = 0;
 const char *dbpath = DBPATH;
 
-static int alpm_local_init(void)
-{
-	enum _pmerrno_t err;
-
-	handle = alpm_initialize(ROOTDIR, dbpath, &err);
-	if(!handle) {
-		return -1;
-	}
-
-	db_local = alpm_option_get_localdb(handle);
-	return 0;
-}
-
 static int parse_options(int argc, char *argv[])
 {
 	int opt, option_index = 0;
@@ -327,21 +314,26 @@ static void walk_deps(pmpkg_t *pkg, int depth)
 
 int main(int argc, char *argv[])
 {
-	int ret;
+	int ret = 0;
+	enum _pmerrno_t err;
 	const char *target_name;
 	pmpkg_t *pkg;
 
-	ret = parse_options(argc, argv);
-	if(ret != 0) {
+	if(parse_options(argc, argv) != 0) {
 		usage();
+		ret = 1;
 		goto finish;
 	}
 
-	ret = alpm_local_init();
-	if(ret != 0) {
-		fprintf(stderr, "error: cannot initialize alpm: %s\n", alpm_strerrorlast());
+	handle = alpm_initialize(ROOTDIR, dbpath, &err);
+	if(!handle) {
+		fprintf(stderr, "error: cannot initialize alpm: %s\n",
+				alpm_strerror(err));
+		ret = 1;
 		goto finish;
 	}
+
+	db_local = alpm_option_get_localdb(handle);
 
 	/* we only care about the first non option arg for walking */
 	target_name = argv[optind];

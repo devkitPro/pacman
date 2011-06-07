@@ -57,7 +57,7 @@ int pacman_upgrade(alpm_list_t *targets)
 			char *str = alpm_fetch_pkgurl(config->handle, i->data);
 			if(str == NULL) {
 				pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
-						(char *)i->data, alpm_strerrorlast());
+						(char *)i->data, alpm_strerror(alpm_errno(config->handle)));
 				return 1;
 			} else {
 				free(i->data);
@@ -78,13 +78,13 @@ int pacman_upgrade(alpm_list_t *targets)
 
 		if(alpm_pkg_load(config->handle, targ, 1, check_sig, &pkg) != 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
-					targ, alpm_strerrorlast());
+					targ, alpm_strerror(alpm_errno(config->handle)));
 			trans_release();
 			return 1;
 		}
 		if(alpm_add_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
-					targ, alpm_strerrorlast());
+					targ, alpm_strerror(alpm_errno(config->handle)));
 			alpm_pkg_free(pkg);
 			trans_release();
 			return 1;
@@ -94,9 +94,10 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	/* TODO: No, compute nothing. This is stupid. */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
+		enum _pmerrno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
-		        alpm_strerrorlast());
-		switch(pm_errno) {
+		        alpm_strerror(err));
+		switch(err) {
 			case PM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
 					char *pkg = alpm_list_getdata(i);
@@ -140,15 +141,15 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	/* Step 3: perform the installation */
+	alpm_list_t *packages = alpm_trans_get_add(config->handle);
 
 	if(config->print) {
-		print_packages(alpm_trans_get_add(config->handle));
+		print_packages(packages);
 		trans_release();
 		return 0;
 	}
 
 	/* print targets and ask user confirmation */
-	alpm_list_t *packages = alpm_trans_get_add(config->handle);
 	if(packages == NULL) { /* we are done */
 		printf(_(" there is nothing to do\n"));
 		trans_release();
@@ -164,9 +165,10 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
+		enum _pmerrno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
-				alpm_strerrorlast());
-		switch(pm_errno) {
+				alpm_strerror(err));
+		switch(err) {
 			alpm_list_t *i;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {

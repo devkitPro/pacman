@@ -68,7 +68,7 @@ int pacman_database(alpm_list_t *targets)
 		char *pkgname = i->data;
 		if(alpm_db_set_pkgreason(db_local, pkgname, reason) == -1) {
 			pm_printf(PM_LOG_ERROR, _("could not set install reason for package %s (%s)\n"),
-							pkgname, alpm_strerrorlast());
+							pkgname, alpm_strerror(alpm_errno(config->handle)));
 			retval = 1;
 		} else {
 			if(reason == PM_PKG_REASON_DEPEND) {

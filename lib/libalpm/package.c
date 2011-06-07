@@ -45,7 +45,7 @@
 /** Free a package. */
 int SYMEXPORT alpm_pkg_free(pmpkg_t *pkg)
 {
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, return -1);
 
 	/* Only free packages loaded in user space */
 	if(pkg->origin == PKG_FROM_FILE) {
@@ -61,9 +61,9 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	char *fpath;
 	int retval;
 
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, return -1);
 	/* We only inspect packages from sync repositories */
-	ASSERT(pkg->origin == PKG_FROM_SYNCDB, RET_ERR(PM_ERR_PKG_INVALID, -1));
+	ASSERT(pkg->origin == PKG_FROM_SYNCDB, return -1);
 
 	fpath = _alpm_filecache_find(pkg->handle, alpm_pkg_get_filename(pkg));
 
@@ -72,7 +72,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	if(retval == 0) {
 		return 0;
 	} else if(retval == 1) {
-		pm_errno = PM_ERR_PKG_INVALID;
+		pkg->handle->pm_errno = PM_ERR_PKG_INVALID;
 		retval = -1;
 	}
 
@@ -366,7 +366,7 @@ pmpkg_t *_alpm_pkg_new(void)
 {
 	pmpkg_t* pkg;
 
-	CALLOC(pkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(pkg, 1, sizeof(pmpkg_t), return NULL);
 
 	return pkg;
 }
@@ -376,19 +376,19 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	pmpkg_t *newpkg;
 	alpm_list_t *i;
 
-	CALLOC(newpkg, 1, sizeof(pmpkg_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(newpkg, 1, sizeof(pmpkg_t), goto cleanup);
 
 	newpkg->name_hash = pkg->name_hash;
-	STRDUP(newpkg->filename, pkg->filename, RET_ERR(PM_ERR_MEMORY, newpkg));
-	STRDUP(newpkg->name, pkg->name, RET_ERR(PM_ERR_MEMORY, newpkg));
-	STRDUP(newpkg->version, pkg->version, RET_ERR(PM_ERR_MEMORY, newpkg));
-	STRDUP(newpkg->desc, pkg->desc, RET_ERR(PM_ERR_MEMORY, newpkg));
-	STRDUP(newpkg->url, pkg->url, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->filename, pkg->filename, goto cleanup);
+	STRDUP(newpkg->name, pkg->name, goto cleanup);
+	STRDUP(newpkg->version, pkg->version, goto cleanup);
+	STRDUP(newpkg->desc, pkg->desc, goto cleanup);
+	STRDUP(newpkg->url, pkg->url, goto cleanup);
 	newpkg->builddate = pkg->builddate;
 	newpkg->installdate = pkg->installdate;
-	STRDUP(newpkg->packager, pkg->packager, RET_ERR(PM_ERR_MEMORY, newpkg));
-	STRDUP(newpkg->md5sum, pkg->md5sum, RET_ERR(PM_ERR_MEMORY, newpkg));
-	STRDUP(newpkg->arch, pkg->arch, RET_ERR(PM_ERR_MEMORY, newpkg));
+	STRDUP(newpkg->packager, pkg->packager, goto cleanup);
+	STRDUP(newpkg->md5sum, pkg->md5sum, goto cleanup);
+	STRDUP(newpkg->arch, pkg->arch, goto cleanup);
 	newpkg->size = pkg->size;
 	newpkg->isize = pkg->isize;
 	newpkg->scriptlet = pkg->scriptlet;
@@ -419,6 +419,10 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->handle = pkg->handle;
 
 	return newpkg;
+
+cleanup:
+	_alpm_pkg_free(newpkg);
+	return NULL;
 }
 
 void _alpm_pkg_free(pmpkg_t *pkg)

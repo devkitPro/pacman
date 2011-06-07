@@ -42,9 +42,6 @@
 #include "util.h"
 #include "handle.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 #ifdef HAVE_LIBCURL
 static double prevprogress; /* last download amount */
 #endif
@@ -65,7 +62,7 @@ static char *get_fullpath(const char *path, const char *filename,
 	char *filepath;
 	/* len = localpath len + filename len + suffix len + null */
 	size_t len = strlen(path) + strlen(filename) + strlen(suffix) + 1;
-	CALLOC(filepath, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(filepath, len, sizeof(char), return NULL);
 	snprintf(filepath, len, "%s%s%s", path, filename, suffix);
 
 	return filepath;
@@ -92,7 +89,7 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 	}
 
 	/* none of what follows matters if the front end has no callback */
-	if(handle->dlcb == NULL) {
+	if(dlfile->handle->dlcb == NULL) {
 		return 0;
 	}
 
@@ -106,10 +103,10 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 	/* initialize the progress bar here to avoid displaying it when
 	 * a repo is up to date and nothing gets downloaded */
 	if(DOUBLE_EQ(prevprogress, 0)) {
-		handle->dlcb(dlfile->filename, 0, (long)dltotal);
+		dlfile->handle->dlcb(dlfile->filename, 0, (long)dltotal);
 	}
 
-	handle->dlcb(dlfile->filename, (long)current_size, (long)total_size);
+	dlfile->handle->dlcb(dlfile->filename, (long)current_size, (long)total_size);
 
 	prevprogress = current_size;
 
@@ -153,7 +150,8 @@ static int utimes_long(const char *path, long time)
 }
 
 
-static int curl_download_internal(const char *url, const char *localpath,
+static int curl_download_internal(pmhandle_t *handle,
+		const char *url, const char *localpath,
 		int force, int allow_resume, int errors_ok)
 {
 	int ret = -1;
@@ -170,11 +168,12 @@ static int curl_download_internal(const char *url, const char *localpath,
 	struct sigaction sig_pipe[2], sig_int[2];
 	struct fileinfo dlfile;
 
+	dlfile.handle = handle;
 	dlfile.initial_size = 0.0;
 	dlfile.filename = get_filename(url);
 	if(!dlfile.filename || curl_gethost(url, hostname) != 0) {
 		_alpm_log(PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
-		RET_ERR(PM_ERR_SERVER_BAD_URL, -1);
+		RET_ERR(handle, PM_ERR_SERVER_BAD_URL, -1);
 	}
 
 	destfile = get_fullpath(localpath, dlfile.filename, "");
@@ -250,7 +249,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 		goto cleanup;
 	} else if(handle->curlerr != CURLE_OK) {
 		if(!errors_ok) {
-			pm_errno = PM_ERR_LIBCURL;
+			handle->pm_errno = PM_ERR_LIBCURL;
 			_alpm_log(PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
 					dlfile.filename, hostname, error_buffer);
 		} else {
@@ -280,7 +279,7 @@ static int curl_download_internal(const char *url, const char *localpath,
 	 * as actually being transferred during curl_easy_perform() */
 	if(!DOUBLE_EQ(remote_size, -1) && !DOUBLE_EQ(bytes_dl, -1) &&
 			!DOUBLE_EQ(bytes_dl, remote_size)) {
-		pm_errno = PM_ERR_RETRIEVE;
+		handle->pm_errno = PM_ERR_RETRIEVE;
 		_alpm_log(PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				dlfile.filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		goto cleanup;
@@ -313,19 +312,20 @@ cleanup:
 }
 #endif
 
-int _alpm_download(const char *url, const char *localpath,
+int _alpm_download(pmhandle_t *handle, const char *url, const char *localpath,
 		int force, int allow_resume, int errors_ok)
 {
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
-		return curl_download_internal(url, localpath, force, allow_resume, errors_ok);
+		return curl_download_internal(handle, url, localpath,
+				force, allow_resume, errors_ok);
 #else
-		RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
+		RET_ERR(handle, PM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
 	} else {
 		int ret = handle->fetchcb(url, localpath, force);
 		if(ret == -1 && !errors_ok) {
-			RET_ERR(PM_ERR_EXTERNAL_DOWNLOAD, -1);
+			RET_ERR(handle, PM_ERR_EXTERNAL_DOWNLOAD, -1);
 		}
 		return ret;
 	}
@@ -344,7 +344,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url)
 	cachedir = _alpm_filecache_setup(handle);
 
 	/* download the file */
-	ret = _alpm_download(url, cachedir, 0, 1, 0);
+	ret = _alpm_download(handle, url, cachedir, 0, 1, 0);
 	if(ret == -1) {
 		_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), url);
 		return NULL;
@@ -359,10 +359,10 @@ char SYMEXPORT *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url)
 		int errors_ok = (handle->sigverify == PM_PGP_VERIFY_OPTIONAL);
 
 		len = strlen(url) + 5;
-		CALLOC(sig_url, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, NULL));
+		CALLOC(sig_url, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, NULL));
 		snprintf(sig_url, len, "%s.sig", url);
 
-		ret = _alpm_download(sig_url, cachedir, 1, 0, errors_ok);
+		ret = _alpm_download(handle, sig_url, cachedir, 1, 0, errors_ok);
 		if(ret == -1 && !errors_ok) {
 			_alpm_log(PM_LOG_WARNING, _("failed to download %s\n"), sig_url);
 			/* Warn now, but don't return NULL. We will fail later during package

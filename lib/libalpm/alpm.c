@@ -35,7 +35,6 @@
 #include "util.h"
 
 /* Globals */
-enum _pmerrno_t pm_errno SYMEXPORT;
 extern pmhandle_t *handle;
 
 /** \addtogroup alpm_interface Interface Functions
@@ -107,6 +106,7 @@ cleanup:
  */
 int SYMEXPORT alpm_release(pmhandle_t *myhandle)
 {
+	int ret = 0;
 	pmdb_t *db;
 
 	ASSERT(myhandle != NULL, return -1);
@@ -119,7 +119,7 @@ int SYMEXPORT alpm_release(pmhandle_t *myhandle)
 	}
 
 	if(alpm_db_unregister_all(myhandle) == -1) {
-		return -1;
+		ret = -1;
 	}
 
 	_alpm_handle_free(myhandle);
@@ -131,7 +131,7 @@ int SYMEXPORT alpm_release(pmhandle_t *myhandle)
 	curl_global_cleanup();
 #endif
 
-	return 0;
+	return ret;
 }
 
 /** @} */

@@ -55,11 +55,7 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 	pmpkghash_t *hash = NULL;
 	size_t i, loopsize;
 
-	MALLOC(hash, sizeof(pmpkghash_t), RET_ERR(PM_ERR_MEMORY, NULL));
-
-	hash->list = NULL;
-	hash->entries = 0;
-	hash->buckets = 0;
+	CALLOC(hash, 1, sizeof(pmpkghash_t), return NULL);
 
 	loopsize = sizeof(prime_list) / sizeof(*prime_list);
 	for(i = 0; i < loopsize; i++) {
@@ -76,7 +72,7 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 	}
 
 	CALLOC(hash->hash_table, hash->buckets, sizeof(alpm_list_t *), \
-				free(hash); RET_ERR(PM_ERR_MEMORY, NULL));
+				free(hash); return NULL);
 
 	return hash;
 }

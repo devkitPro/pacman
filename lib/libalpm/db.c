@@ -48,10 +48,11 @@
 pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, NULL));
-	ASSERT(treename != NULL && strlen(treename) != 0, RET_ERR(PM_ERR_WRONG_ARGS, NULL));
+	ASSERT(handle != NULL, return NULL);
+	ASSERT(treename != NULL && strlen(treename) != 0,
+			RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL));
 	/* Do not register a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, NULL));
+	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, NULL));
 
 	return _alpm_db_register_sync(handle, treename);
 }
@@ -74,9 +75,9 @@ int SYMEXPORT alpm_db_unregister_all(pmhandle_t *handle)
 	pmdb_t *db;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	/* Do not unregister a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* unregister all sync dbs */
 	for(i = handle->dbs_sync; i; i = i->next) {
@@ -92,14 +93,16 @@ int SYMEXPORT alpm_db_unregister_all(pmhandle_t *handle)
 int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 {
 	int found = 0;
+	pmhandle_t *handle;
 
 	/* Sanity checks */
-	ASSERT(db != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, return -1);
 	/* Do not unregister a database if a transaction is on-going */
-	ASSERT(db->handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+	handle = db->handle;
+	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
-	if(db == db->handle->db_local) {
-		db->handle->db_local = NULL;
+	if(db == handle->db_local) {
+		handle->db_local = NULL;
 		found = 1;
 	} else {
 		/* Warning : this function shouldn't be used to unregister all sync
@@ -107,7 +110,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 		 * alpm_option_get_syncdbs, because the db is removed from that list here.
 		 */
 		void *data;
-		db->handle->dbs_sync = alpm_list_remove(db->handle->dbs_sync,
+		handle->dbs_sync = alpm_list_remove(handle->dbs_sync,
 				db, _alpm_db_cmp, &data);
 		if(data) {
 			found = 1;
@@ -115,7 +118,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 	}
 
 	if(!found) {
-		RET_ERR(PM_ERR_DB_NOT_FOUND, -1);
+		RET_ERR(handle, PM_ERR_DB_NOT_FOUND, -1);
 	}
 
 	db->ops->unregister(db);
@@ -126,7 +129,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 alpm_list_t SYMEXPORT *alpm_db_get_servers(const pmdb_t *db)
 {
 	/* Sanity checks */
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, NULL));
+	ASSERT(db != NULL, return NULL);
 
 	return db->servers;
 }
@@ -135,7 +138,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_servers(const pmdb_t *db)
 int SYMEXPORT alpm_db_set_servers(pmdb_t *db, alpm_list_t *servers)
 {
 	/* Sanity checks */
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(db != NULL, return -1);
 
 	if(db->servers) FREELIST(db->servers);
 	db->servers = servers;
@@ -147,7 +150,7 @@ static char *sanitize_url(const char *url)
 	char *newurl;
 	size_t len = strlen(url);
 
-	STRDUP(newurl, url, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(newurl, url, return NULL);
 	/* strip the trailing slash if one exists */
 	if(newurl[len - 1] == '/') {
 		newurl[len - 1] = '\0';
@@ -165,8 +168,8 @@ int SYMEXPORT alpm_db_add_server(pmdb_t *db, const char *url)
 	char *newurl;
 
 	/* Sanity checks */
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, return -1);
+	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
 	if(!newurl) {
@@ -190,8 +193,8 @@ int SYMEXPORT alpm_db_remove_server(pmdb_t *db, const char *url)
 	char *newurl, *vdata = NULL;
 
 	/* Sanity checks */
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, return -1);
+	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
 	if(!newurl) {
@@ -216,7 +219,7 @@ int SYMEXPORT alpm_db_remove_server(pmdb_t *db, const char *url)
 int SYMEXPORT alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify)
 {
 	/* Sanity checks */
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
+	ASSERT(db != NULL, return -1);
 
 	db->pgp_verify = verify;
 	_alpm_log(PM_LOG_DEBUG, "adding VerifySig option to database '%s': %d\n",
@@ -228,9 +231,7 @@ int SYMEXPORT alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify)
 /** Get the name of a package database. */
 const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 {
-	/* Sanity checks */
 	ASSERT(db != NULL, return NULL);
-
 	return db->treename;
 }
 
@@ -239,7 +240,6 @@ const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 {
 	char *url;
 
-	/* Sanity checks */
 	ASSERT(db != NULL, return NULL);
 	ASSERT(db->servers != NULL, return NULL);
 
@@ -252,7 +252,6 @@ const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
 /** Get a package entry from a package database. */
 pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 {
-	/* Sanity checks */
 	ASSERT(db != NULL, return NULL);
 	ASSERT(name != NULL && strlen(name) != 0, return NULL);
 
@@ -262,16 +261,13 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 /** Get the package cache of a package database. */
 alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 {
-	/* Sanity checks */
 	ASSERT(db != NULL, return NULL);
-
 	return _alpm_db_get_pkgcache(db);
 }
 
 /** Get a group entry from a package database. */
 pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 {
-	/* Sanity checks */
 	ASSERT(db != NULL, return NULL);
 	ASSERT(name != NULL && strlen(name) != 0, return NULL);
 
@@ -281,7 +277,6 @@ pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 /** Get the group cache of a package database. */
 alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 {
-	/* Sanity checks */
 	ASSERT(db != NULL, return NULL);
 
 	return _alpm_db_get_grpcache(db);
@@ -290,7 +285,6 @@ alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 /** Searches a database. */
 alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 {
-	/* Sanity checks */
 	ASSERT(db != NULL, return NULL);
 
 	return _alpm_db_search(db, needles);
@@ -299,12 +293,13 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 /** Set install reason for a package in db. */
 int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason)
 {
-	/* Sanity checks */
-	ASSERT(db != NULL && name != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db != NULL, return -1);
+	/* TODO assert db == db_local ? shouldn't need a db param at all here... */
+	ASSERT(name != NULL, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
 
 	pmpkg_t *pkg = _alpm_db_get_pkgfromcache(db, name);
 	if(pkg == NULL) {
-		RET_ERR(PM_ERR_PKG_NOT_FOUND, -1);
+		RET_ERR(db->handle, PM_ERR_PKG_NOT_FOUND, -1);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "setting install reason %u for %s/%s\n", reason, db->treename, name);
@@ -316,7 +311,7 @@ int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t 
 	pkg->reason = reason;
 	/* write DESC */
 	if(_alpm_local_db_write(db, pkg, INFRQ_DESC)) {
-		RET_ERR(PM_ERR_DB_WRITE, -1);
+		RET_ERR(db->handle, PM_ERR_DB_WRITE, -1);
 	}
 
 	return 0;
@@ -328,8 +323,8 @@ pmdb_t *_alpm_db_new(const char *treename, int is_local)
 {
 	pmdb_t *db;
 
-	CALLOC(db, 1, sizeof(pmdb_t), RET_ERR(PM_ERR_MEMORY, NULL));
-	STRDUP(db->treename, treename, RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(db, 1, sizeof(pmdb_t), return NULL);
+	STRDUP(db->treename, treename, return NULL);
 	db->is_local = is_local;
 	db->pgp_verify = PM_PGP_VERIFY_UNKNOWN;
 
@@ -361,16 +356,16 @@ const char *_alpm_db_path(pmdb_t *db)
 		dbpath = alpm_option_get_dbpath(db->handle);
 		if(!dbpath) {
 			_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
-			RET_ERR(PM_ERR_DB_OPEN, NULL);
+			RET_ERR(db->handle, PM_ERR_DB_OPEN, NULL);
 		}
 
 		if(db->is_local) {
 			pathsize = strlen(dbpath) + strlen(db->treename) + 2;
-			CALLOC(db->_path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
+			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
 			sprintf(db->_path, "%s%s/", dbpath, db->treename);
 		} else {
 			pathsize = strlen(dbpath) + 5 + strlen(db->treename) + 4;
-			CALLOC(db->_path, 1, pathsize, RET_ERR(PM_ERR_MEMORY, NULL));
+			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
 			/* all sync DBs now reside in the sync/ subdir of the dbpath */
 			sprintf(db->_path, "%ssync/%s.db", dbpath, db->treename);
 		}
@@ -414,7 +409,7 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 		_alpm_log(PM_LOG_DEBUG, "searching for target '%s'\n", targ);
 
 		if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
-			RET_ERR(PM_ERR_INVALID_REGEX, NULL);
+			RET_ERR(db->handle, PM_ERR_INVALID_REGEX, NULL);
 		}
 
 		for(j = list; j; j = j->next) {
@@ -641,6 +636,10 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 			}
 			/* we didn't find the group, so create a new one with this name */
 			grp = _alpm_grp_new(grpname);
+			if(!grp) {
+				_alpm_db_free_grpcache(db);
+				return -1;
+			}
 			grp->packages = alpm_list_add(grp->packages, pkg);
 			db->grpcache = alpm_list_add(db->grpcache, grp);
 		}

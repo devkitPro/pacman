@@ -60,7 +60,8 @@ int main(int argc, char *argv[])
 
 	if(alpm_pkg_load(handle, argv[1], 1, PM_PGP_VERIFY_OPTIONAL, &pkg) == -1
 			|| pkg == NULL) {
-		switch(pm_errno) {
+		enum _pmerrno_t err = alpm_errno(handle);
+		switch(err) {
 			case PM_ERR_PKG_OPEN:
 				printf("Cannot open the given file.\n");
 				break;
@@ -69,7 +70,7 @@ int main(int argc, char *argv[])
 				printf("Package is invalid.\n");
 				break;
 			default:
-				printf("libalpm error: %s\n", alpm_strerrorlast());
+				printf("libalpm error: %s\n", alpm_strerror(err));
 				break;
 		}
 		retval = 1;

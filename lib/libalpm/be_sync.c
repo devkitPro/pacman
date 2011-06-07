@@ -85,15 +85,18 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	size_t len;
 	int ret = -1;
 	mode_t oldmask;
+	pmhandle_t *handle;
 	pgp_verify_t check_sig;
 
 	/* Sanity checks */
-	ASSERT(db != NULL && db != db->handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(db->servers != NULL, RET_ERR(PM_ERR_SERVER_NONE, -1));
+	ASSERT(db != NULL, return -1);
+	handle = db->handle;
+	ASSERT(db != handle->db_local, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(db->servers != NULL, RET_ERR(handle, PM_ERR_SERVER_NONE, -1));
 
-	dbpath = alpm_option_get_dbpath(db->handle);
+	dbpath = alpm_option_get_dbpath(handle);
 	len = strlen(dbpath) + 6;
-	MALLOC(syncpath, len, RET_ERR(PM_ERR_MEMORY, -1));
+	MALLOC(syncpath, len, RET_ERR(handle, PM_ERR_MEMORY, -1));
 	sprintf(syncpath, "%s%s", dbpath, "sync/");
 
 	/* make sure we have a sane umask */
@@ -104,13 +107,13 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 				syncpath);
 		if(_alpm_makepath(syncpath) != 0) {
 			free(syncpath);
-			RET_ERR(PM_ERR_SYSTEM, -1);
+			RET_ERR(handle, PM_ERR_SYSTEM, -1);
 		}
 	} else if(!S_ISDIR(buf.st_mode)) {
 		_alpm_log(PM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
 		if(unlink(syncpath) != 0 || _alpm_makepath(syncpath) != 0) {
 			free(syncpath);
-			RET_ERR(PM_ERR_SYSTEM, -1);
+			RET_ERR(handle, PM_ERR_SYSTEM, -1);
 		}
 	}
 
@@ -124,10 +127,10 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 		/* print server + filename into a buffer (leave space for .sig) */
 		len = strlen(server) + strlen(db->treename) + 9;
-		CALLOC(fileurl, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+		CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, -1));
 		snprintf(fileurl, len, "%s/%s.db", server, db->treename);
 
-		ret = _alpm_download(fileurl, syncpath, force, 0, 0);
+		ret = _alpm_download(handle, fileurl, syncpath, force, 0, 0);
 
 		if(ret == 0 && (check_sig == PM_PGP_VERIFY_ALWAYS ||
 					check_sig == PM_PGP_VERIFY_OPTIONAL)) {
@@ -135,7 +138,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 			/* if we downloaded a DB, we want the .sig from the same server */
 			snprintf(fileurl, len, "%s/%s.db.sig", server, db->treename);
 
-			sig_ret = _alpm_download(fileurl, syncpath, 1, 0, errors_ok);
+			sig_ret = _alpm_download(handle, fileurl, syncpath, 1, 0, errors_ok);
 			/* errors_ok suppresses error messages, but not the return code */
 			sig_ret = errors_ok ? 0 : sig_ret;
 		}
@@ -148,11 +151,11 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 	if(ret == 1) {
 		/* files match, do nothing */
-		pm_errno = 0;
+		handle->pm_errno = 0;
 		goto cleanup;
 	} else if(ret == -1) {
 		/* pm_errno was set by the download code */
-		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerrorlast());
+		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerror(handle->pm_errno));
 		goto cleanup;
 	}
 
@@ -239,10 +242,8 @@ static int sync_db_populate(pmdb_t *db)
 	struct archive_entry *entry;
 	pmpkg_t *pkg = NULL;
 
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-
 	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(PM_ERR_LIBARCHIVE, -1);
+		RET_ERR(db->handle, PM_ERR_LIBARCHIVE, -1);
 	}
 
 	archive_read_support_compression_all(archive);
@@ -261,17 +262,17 @@ static int sync_db_populate(pmdb_t *db)
 		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
 				archive_error_string(archive));
 		archive_read_finish(archive);
-		RET_ERR(PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
 	}
 	if(stat(dbpath, &buf) != 0) {
-		RET_ERR(PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
 	}
 	est_count = estimate_package_count(&buf, archive);
 
 	/* initialize hash at 66% full */
 	db->pkgcache = _alpm_pkghash_create(est_count * 3 / 2);
 	if(db->pkgcache == NULL) {
-		RET_ERR(PM_ERR_MEMORY, -1);
+		RET_ERR(db->handle, PM_ERR_MEMORY, -1);
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
@@ -285,7 +286,7 @@ static int sync_db_populate(pmdb_t *db)
 			pkg = _alpm_pkg_new();
 			if(pkg == NULL) {
 				archive_read_finish(archive);
-				RET_ERR(PM_ERR_MEMORY, -1);
+				RET_ERR(db->handle, PM_ERR_MEMORY, -1);
 			}
 
 			name = archive_entry_pathname(entry);
@@ -360,18 +361,12 @@ static int sync_db_populate(pmdb_t *db)
 static int sync_db_read(pmdb_t *db, struct archive *archive,
 		struct archive_entry *entry, pmpkg_t *likely_pkg)
 {
-	const char *entryname = NULL, *filename;
+	const char *entryname, *filename;
 	char *pkgname, *p, *q;
 	pmpkg_t *pkg;
 	struct archive_read_buffer buf;
 
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_NULL, -1);
-	}
-
-	if(entry != NULL) {
-		entryname = archive_entry_pathname(entry);
-	}
+	entryname = archive_entry_pathname(entry);
 	if(entryname == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "invalid archive entry provided to _alpm_sync_db_read, skipping\n");
 		return -1;
@@ -385,7 +380,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	buf.max_line_size = 512 * 1024;
 
 	/* get package and db file names */
-	STRDUP(pkgname, entryname, RET_ERR(PM_ERR_MEMORY, -1));
+	STRDUP(pkgname, entryname, RET_ERR(db->handle, PM_ERR_MEMORY, -1));
 	p = pkgname + strlen(pkgname);
 	for(q = --p; *q && *q != '/'; q--);
 	filename = q + 1;
@@ -398,7 +393,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 		pkg = likely_pkg;
 	} else {
 		if(db->pkgcache == NULL) {
-			RET_ERR(PM_ERR_MEMORY, -1);
+			RET_ERR(db->handle, PM_ERR_MEMORY, -1);
 		}
 		pkg = _alpm_pkghash_find(db->pkgcache, pkgname);
 	}
@@ -502,6 +497,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 	return 0;
 
 error:
+	_alpm_log(PM_LOG_DEBUG, "error parsing database file: %s\n", filename);
 	FREE(pkgname);
 	return -1;
 }
@@ -525,7 +521,7 @@ pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename)
 
 	db = _alpm_db_new(treename, 0);
 	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_CREATE, NULL);
+		RET_ERR(handle, PM_ERR_DB_CREATE, NULL);
 	}
 	db->ops = &sync_db_ops;
 	db->handle = handle;

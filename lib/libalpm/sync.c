@@ -89,12 +89,12 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 	pmdb_t *db_local;
 	alpm_list_t *dbs_sync;
 
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	trans = handle->trans;
 	db_local = handle->db_local;
 	dbs_sync = handle->dbs_sync;
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(handle, PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	_alpm_log(PM_LOG_DEBUG, "checking for package upgrades\n");
 	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
@@ -118,7 +118,8 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 					_alpm_log(PM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
 								lpkg->name, lpkg->version, spkg->version);
 					/* check IgnorePkg/IgnoreGroup */
-					if(_alpm_pkg_should_ignore(spkg) || _alpm_pkg_should_ignore(lpkg)) {
+					if(_alpm_pkg_should_ignore(spkg)
+							|| _alpm_pkg_should_ignore(lpkg)) {
 						_alpm_log(PM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
 										lpkg->name, lpkg->version, spkg->version);
 					} else {
@@ -129,7 +130,8 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 				} else if(cmp < 0) {
 					if(enable_downgrade) {
 						/* check IgnorePkg/IgnoreGroup */
-						if(_alpm_pkg_should_ignore(spkg) || _alpm_pkg_should_ignore(lpkg)) {
+						if(_alpm_pkg_should_ignore(spkg)
+								|| _alpm_pkg_should_ignore(lpkg)) {
 							_alpm_log(PM_LOG_WARNING, _("%s: ignoring package downgrade (%s => %s)\n"),
 											lpkg->name, lpkg->version, spkg->version);
 						} else {
@@ -152,7 +154,8 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 					if(alpm_list_find_str(alpm_pkg_get_replaces(spkg), lpkg->name)) {
 						found = 1;
 						/* check IgnorePkg/IgnoreGroup */
-						if(_alpm_pkg_should_ignore(spkg) || _alpm_pkg_should_ignore(lpkg)) {
+						if(_alpm_pkg_should_ignore(spkg)
+								|| _alpm_pkg_should_ignore(lpkg)) {
 							_alpm_log(PM_LOG_WARNING, _("ignoring package replacement (%s-%s => %s-%s)\n"),
 										lpkg->name, lpkg->version, spkg->name, spkg->version);
 							continue;
@@ -261,7 +264,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	}
 
 	fname = alpm_pkg_get_filename(newpkg);
-	ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
+	ASSERT(fname != NULL, RET_ERR(newpkg->handle, PM_ERR_PKG_INVALID_NAME, -1));
 	fpath = _alpm_filecache_find(newpkg->handle, fname);
 
 	if(fpath) {
@@ -299,13 +302,12 @@ static int compute_download_size(pmpkg_t *newpkg)
 
 int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 {
+	alpm_list_t *i, *j;
 	alpm_list_t *deps = NULL;
 	alpm_list_t *unresolvable = NULL;
-	alpm_list_t *i, *j;
 	alpm_list_t *remove = NULL;
 	int ret = 0;
 	pmtrans_t *trans = handle->trans;
-	pmdb_t *db_local = handle->db_local;
 
 	if(data) {
 		*data = NULL;
@@ -329,7 +331,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 
 		/* Compute the fake local database for resolvedeps (partial fix for the
 		 * phonon/qt issue) */
-		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(db_local),
+		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(handle->db_local),
 				trans->add, _alpm_pkg_cmp);
 
 		/* Resolve packages in the transaction one at a time, in addition
@@ -349,14 +351,14 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
 			int remove_unresolvable = 0;
-			QUESTION(handle->trans, PM_TRANS_CONV_REMOVE_PKGS, unresolvable,
+			QUESTION(trans, PM_TRANS_CONV_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
 			if(remove_unresolvable) {
 				/* User wants to remove the unresolvable packages from the
 				   transaction. The packages will be removed from the actual
 				   transaction when the transaction packages are replaced with a
 				   dependency-reordered list below */
-				pm_errno = 0; /* pm_errno was set by resolvedeps */
+				handle->pm_errno = 0; /* pm_errno was set by resolvedeps */
 				if(data) {
 					alpm_list_free_inner(*data, (alpm_list_fn_free)_alpm_depmiss_free);
 					alpm_list_free(*data);
@@ -425,7 +427,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 				sync = sync2;
 			} else {
 				_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
-				pm_errno = PM_ERR_CONFLICTING_DEPS;
+				handle->pm_errno = PM_ERR_CONFLICTING_DEPS;
 				ret = -1;
 				if(data) {
 					pmconflict_t *newconflict = _alpm_conflict_dup(conflict);
@@ -457,7 +459,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 
 		/* 2. we check for target vs db conflicts (and resolve)*/
 		_alpm_log(PM_LOG_DEBUG, "check targets vs db and db vs targets\n");
-		deps = _alpm_outerconflicts(db_local, trans->add);
+		deps = _alpm_outerconflicts(handle->db_local, trans->add);
 
 		for(i = deps; i; i = i->next) {
 			pmconflict_t *conflict = i->data;
@@ -479,7 +481,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 					conflict->package1, conflict->package2);
 
 			pmpkg_t *sync = _alpm_pkg_find(trans->add, conflict->package1);
-			pmpkg_t *local = _alpm_db_get_pkgfromcache(db_local, conflict->package2);
+			pmpkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
 			int doremove = 0;
 			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
 							conflict->package2, conflict->reason, &doremove);
@@ -489,7 +491,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 				sync->removes = alpm_list_add(sync->removes, local);
 			} else { /* abort */
 				_alpm_log(PM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
-				pm_errno = PM_ERR_CONFLICTING_DEPS;
+				handle->pm_errno = PM_ERR_CONFLICTING_DEPS;
 				ret = -1;
 				if(data) {
 					pmconflict_t *newconflict = _alpm_conflict_dup(conflict);
@@ -524,7 +526,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 		deps = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
 				trans->remove, trans->add, 1);
 		if(deps) {
-			pm_errno = PM_ERR_UNSATISFIED_DEPS;
+			handle->pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			ret = -1;
 			if(data) {
 				*data = deps;
@@ -608,11 +610,11 @@ static int apply_deltas(pmhandle_t *handle)
 			} else {
 				/* len = cachedir len + from len + '/' + null */
 				len = strlen(cachedir) + strlen(d->from) + 2;
-				CALLOC(from, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, 1));
+				CALLOC(from, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, 1));
 				snprintf(from, len, "%s/%s", cachedir, d->from);
 			}
 			len = strlen(cachedir) + strlen(d->to) + 2;
-			CALLOC(to, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, 1));
+			CALLOC(to, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, 1));
 			snprintf(to, len, "%s/%s", cachedir, d->to);
 
 			/* build the patch command */
@@ -648,7 +650,7 @@ static int apply_deltas(pmhandle_t *handle)
 			if(retval != 0) {
 				/* one delta failed for this package, cancel the remaining ones */
 				EVENT(trans, PM_TRANS_EVT_DELTA_PATCH_FAILED, NULL, NULL);
-				pm_errno = PM_ERR_DLT_PATCHFAILED;
+				handle->pm_errno = PM_ERR_DLT_PATCHFAILED;
 				ret = 1;
 				break;
 			}
@@ -712,7 +714,7 @@ static int validate_deltas(pmhandle_t *handle, alpm_list_t *deltas,
 		FREE(filepath);
 	}
 	if(errors) {
-		pm_errno = PM_ERR_DLT_INVALID;
+		handle->pm_errno = PM_ERR_DLT_INVALID;
 		return -1;
 	}
 	EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
@@ -758,7 +760,7 @@ static int download_files(pmhandle_t *handle, alpm_list_t **deltas)
 				const char *fname = NULL;
 
 				fname = alpm_pkg_get_filename(spkg);
-				ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
+				ASSERT(fname != NULL, RET_ERR(handle, PM_ERR_PKG_INVALID_NAME, -1));
 				alpm_list_t *delta_path = spkg->delta_path;
 				if(delta_path) {
 					/* using deltas */
@@ -792,10 +794,10 @@ static int download_files(pmhandle_t *handle, alpm_list_t **deltas)
 
 					/* print server + filename into a buffer */
 					len = strlen(server_url) + strlen(filename) + 2;
-					CALLOC(fileurl, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+					CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, -1));
 					snprintf(fileurl, len, "%s/%s", server_url, filename);
 
-					ret = _alpm_download(fileurl, cachedir, 0, 1, 0);
+					ret = _alpm_download(handle, fileurl, cachedir, 0, 1, 0);
 					FREE(fileurl);
 					if(ret != -1) {
 						break;
@@ -810,8 +812,8 @@ static int download_files(pmhandle_t *handle, alpm_list_t **deltas)
 			if(errors) {
 				_alpm_log(PM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
-				if(pm_errno == 0) {
-					pm_errno = PM_ERR_RETRIEVE;
+				if(handle->pm_errno == 0) {
+					handle->pm_errno = PM_ERR_RETRIEVE;
 				}
 				return -1;
 			}
@@ -897,7 +899,7 @@ int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data)
 
 
 	if(errors) {
-		RET_ERR(PM_ERR_PKG_INVALID, -1);
+		RET_ERR(handle, PM_ERR_PKG_INVALID, -1);
 	}
 
 	if(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY) {
@@ -922,7 +924,7 @@ int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data)
 				alpm_list_free_inner(conflict, (alpm_list_fn_free)_alpm_fileconflict_free);
 				alpm_list_free(conflict);
 			}
-			RET_ERR(PM_ERR_FILE_CONFLICTS, -1);
+			RET_ERR(handle, PM_ERR_FILE_CONFLICTS, -1);
 		}
 
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);

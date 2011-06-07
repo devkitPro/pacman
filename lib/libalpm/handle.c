@@ -44,7 +44,7 @@ pmhandle_t *_alpm_handle_new()
 {
 	pmhandle_t *handle;
 
-	CALLOC(handle, 1, sizeof(pmhandle_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(handle, 1, sizeof(pmhandle_t), return NULL);
 
 	handle->sigverify = PM_PGP_VERIFY_OPTIONAL;
 
@@ -290,7 +290,7 @@ int SYMEXPORT alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir)
 
 	ASSERT(handle != NULL, return -1);
 	if(!cachedir) {
-		pm_errno = PM_ERR_WRONG_ARGS;
+		handle->pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
 	}
 	/* don't stat the cachedir yet, as it may not even be needed. we can
@@ -347,7 +347,7 @@ int SYMEXPORT alpm_option_set_logfile(pmhandle_t *handle, const char *logfile)
 
 	ASSERT(handle != NULL, return -1);
 	if(!logfile) {
-		pm_errno = PM_ERR_WRONG_ARGS;
+		handle->pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
 	}
 
@@ -370,7 +370,7 @@ int SYMEXPORT alpm_option_set_signaturedir(pmhandle_t *handle, const char *signa
 {
 	ASSERT(handle != NULL, return -1);
 	if(!signaturedir) {
-		pm_errno = PM_ERR_WRONG_ARGS;
+		handle->pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
 	}
 
@@ -527,7 +527,7 @@ int SYMEXPORT alpm_option_set_checkspace(pmhandle_t *handle, int checkspace)
 int SYMEXPORT alpm_option_set_default_sigverify(pmhandle_t *handle, pgp_verify_t level)
 {
 	ASSERT(handle != NULL, return -1);
-	ASSERT(level != PM_PGP_VERIFY_UNKNOWN, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(level != PM_PGP_VERIFY_UNKNOWN, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	handle->sigverify = level;
 	return 0;
 }

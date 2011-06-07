@@ -52,7 +52,7 @@ static void *_package_changelog_open(pmpkg_t *pkg)
 	const char *pkgfile = pkg->origin_data.file;
 
 	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(PM_ERR_LIBARCHIVE, NULL);
+		RET_ERR(pkg->handle, PM_ERR_LIBARCHIVE, NULL);
 	}
 
 	archive_read_support_compression_all(archive);
@@ -60,7 +60,7 @@ static void *_package_changelog_open(pmpkg_t *pkg)
 
 	if(archive_read_open_filename(archive, pkgfile,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		RET_ERR(PM_ERR_PKG_OPEN, NULL);
+		RET_ERR(pkg->handle, PM_ERR_PKG_OPEN, NULL);
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
@@ -92,7 +92,7 @@ static size_t _package_changelog_read(void *ptr, size_t size,
 	ssize_t sret = archive_read_data((struct archive *)fp, ptr, size);
 	/* Report error (negative values) */
 	if(sret < 0) {
-		pm_errno = PM_ERR_LIBARCHIVE;
+		pkg->handle->pm_errno = PM_ERR_LIBARCHIVE;
 		return 0;
 	} else {
 		return (size_t)sret;
@@ -166,26 +166,26 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			while(*ptr == ' ') ptr++;
 			ptr = _alpm_strtrim(ptr);
 			if(strcmp(key, "pkgname") == 0) {
-				STRDUP(newpkg->name, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+				STRDUP(newpkg->name, ptr, return -1);
 				newpkg->name_hash = _alpm_hash_sdbm(newpkg->name);
 			} else if(strcmp(key, "pkgbase") == 0) {
 				/* not used atm */
 			} else if(strcmp(key, "pkgver") == 0) {
-				STRDUP(newpkg->version, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+				STRDUP(newpkg->version, ptr, return -1);
 			} else if(strcmp(key, "pkgdesc") == 0) {
-				STRDUP(newpkg->desc, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+				STRDUP(newpkg->desc, ptr, return -1);
 			} else if(strcmp(key, "group") == 0) {
 				newpkg->groups = alpm_list_add(newpkg->groups, strdup(ptr));
 			} else if(strcmp(key, "url") == 0) {
-				STRDUP(newpkg->url, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+				STRDUP(newpkg->url, ptr, return -1);
 			} else if(strcmp(key, "license") == 0) {
 				newpkg->licenses = alpm_list_add(newpkg->licenses, strdup(ptr));
 			} else if(strcmp(key, "builddate") == 0) {
 				newpkg->builddate = _alpm_parsedate(ptr);
 			} else if(strcmp(key, "packager") == 0) {
-				STRDUP(newpkg->packager, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+				STRDUP(newpkg->packager, ptr, return -1);
 			} else if(strcmp(key, "arch") == 0) {
-				STRDUP(newpkg->arch, ptr, RET_ERR(PM_ERR_MEMORY, -1));
+				STRDUP(newpkg->arch, ptr, return -1);
 			} else if(strcmp(key, "size") == 0) {
 				/* size in the raw package is uncompressed (installed) size */
 				newpkg->isize = atol(ptr);
@@ -241,20 +241,20 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	struct stat st;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
-		RET_ERR(PM_ERR_WRONG_ARGS, NULL);
+		RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL);
 	}
 
 	/* attempt to stat the package file, ensure it exists */
 	if(stat(pkgfile, &st) == 0) {
 		newpkg = _alpm_pkg_new();
 		if(newpkg == NULL) {
-			RET_ERR(PM_ERR_MEMORY, NULL);
+			RET_ERR(handle, PM_ERR_MEMORY, NULL);
 		}
 		newpkg->filename = strdup(pkgfile);
 		newpkg->size = st.st_size;
 	} else {
 		/* couldn't stat the pkgfile, return an error */
-		RET_ERR(PM_ERR_PKG_OPEN, NULL);
+		RET_ERR(handle, PM_ERR_PKG_OPEN, NULL);
 	}
 
 	/* first steps- validate the package file */
@@ -263,7 +263,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 		_alpm_log(PM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
 		if(_alpm_test_md5sum(pkgfile, md5sum) != 0) {
 			alpm_pkg_free(newpkg);
-			RET_ERR(PM_ERR_PKG_INVALID, NULL);
+			RET_ERR(handle, PM_ERR_PKG_INVALID, NULL);
 		}
 	}
 
@@ -274,14 +274,14 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
 				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
 			alpm_pkg_free(newpkg);
-			RET_ERR(PM_ERR_SIG_INVALID, NULL);
+			RET_ERR(handle, PM_ERR_SIG_INVALID, NULL);
 		}
 	}
 
 	/* next- try to create an archive object to read in the package */
 	if((archive = archive_read_new()) == NULL) {
 		alpm_pkg_free(newpkg);
-		RET_ERR(PM_ERR_LIBARCHIVE, NULL);
+		RET_ERR(handle, PM_ERR_LIBARCHIVE, NULL);
 	}
 
 	archive_read_support_compression_all(archive);
@@ -290,7 +290,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	if(archive_read_open_filename(archive, pkgfile,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		alpm_pkg_free(newpkg);
-		RET_ERR(PM_ERR_PKG_OPEN, NULL);
+		RET_ERR(handle, PM_ERR_PKG_OPEN, NULL);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
@@ -331,7 +331,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
 					pkgfile, archive_error_string(archive));
-			pm_errno = PM_ERR_LIBARCHIVE;
+			handle->pm_errno = PM_ERR_LIBARCHIVE;
 			goto error;
 		}
 
@@ -344,7 +344,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occured */
 		_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
 				pkgfile, archive_error_string(archive));
-		pm_errno = PM_ERR_LIBARCHIVE;
+		handle->pm_errno = PM_ERR_LIBARCHIVE;
 		goto error;
 	}
 
@@ -376,7 +376,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	return newpkg;
 
 pkg_invalid:
-	pm_errno = PM_ERR_PKG_INVALID;
+	handle->pm_errno = PM_ERR_PKG_INVALID;
 error:
 	_alpm_pkg_free(newpkg);
 	archive_read_finish(archive);
@@ -388,7 +388,7 @@ int SYMEXPORT alpm_pkg_load(pmhandle_t *handle, const char *filename, int full,
 		pgp_verify_t check_sig, pmpkg_t **pkg)
 {
 	ASSERT(handle != NULL, return -1);
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 
 	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, check_sig);
 	if(*pkg == NULL) {

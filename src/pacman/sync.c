@@ -293,7 +293,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 		ret = alpm_db_update((level < 2 ? 0 : 1), db);
 		if(ret < 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, _("failed to update %s (%s)\n"),
-					alpm_db_get_name(db), alpm_strerrorlast());
+					alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));
 		} else if(ret == 1) {
 			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
 			success++;
@@ -623,14 +623,15 @@ static int process_pkg(pmpkg_t *pkg)
 	int ret = alpm_add_pkg(config->handle, pkg);
 
 	if(ret == -1) {
-		if(pm_errno == PM_ERR_TRANS_DUP_TARGET
-				|| pm_errno == PM_ERR_PKG_IGNORED) {
+		enum _pmerrno_t err = alpm_errno(config->handle);
+		if(err == PM_ERR_TRANS_DUP_TARGET
+				|| err == PM_ERR_PKG_IGNORED) {
 			/* just skip duplicate or ignored targets */
 			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
 			return 0;
 		} else {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
-					alpm_strerrorlast());
+					alpm_strerror(err));
 			return 1;
 		}
 	}
@@ -687,10 +688,11 @@ static int process_targname(alpm_list_t *dblist, char *targname)
 {
 	pmpkg_t *pkg = alpm_find_dbs_satisfier(config->handle, dblist, targname);
 
-	/* #FS23342 - skip ignored packages when user says no */
-	if(pm_errno == PM_ERR_PKG_IGNORED) {
+	/* #FS#23342 - skip ignored packages when user says no */
+	if(alpm_errno(config->handle) == PM_ERR_PKG_IGNORED) {
 			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), targname);
-			pm_errno = 0;
+			/* TODO how to do this, we shouldn't be fucking with it from the frontend */
+			/* pm_errno = 0; */
 			return 0;
 	}
 
@@ -761,7 +763,7 @@ static int sync_trans(alpm_list_t *targets)
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction(config->handle, "starting full system upgrade\n");
 		if(alpm_sync_sysupgrade(config->handle, config->op_s_upgrade >= 2) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "%s\n", alpm_strerrorlast());
+			pm_fprintf(stderr, PM_LOG_ERROR, "%s\n", alpm_strerror(alpm_errno(config->handle)));
 			retval = 1;
 			goto cleanup;
 		}
@@ -769,9 +771,10 @@ static int sync_trans(alpm_list_t *targets)
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
+		enum _pmerrno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
-		        alpm_strerrorlast());
-		switch(pm_errno) {
+		        alpm_strerror(err));
+		switch(err) {
 			alpm_list_t *i;
 			case PM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
@@ -838,9 +841,10 @@ static int sync_trans(alpm_list_t *targets)
 	}
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
+		enum _pmerrno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
-		        alpm_strerrorlast());
-		switch(pm_errno) {
+		        alpm_strerror(err));
+		switch(err) {
 			alpm_list_t *i;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {

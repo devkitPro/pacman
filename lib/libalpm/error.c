@@ -29,15 +29,12 @@
 #include "alpm.h"
 #include "handle.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
-const char SYMEXPORT *alpm_strerrorlast(void)
+enum _pmerrno_t SYMEXPORT alpm_errno(pmhandle_t *handle)
 {
-	return alpm_strerror(pm_errno);
+	return handle->pm_errno;
 }
 
-const char SYMEXPORT *alpm_strerror(int err)
+const char SYMEXPORT *alpm_strerror(enum _pmerrno_t err)
 {
 	switch(err) {
 		/* System */
@@ -140,8 +137,6 @@ const char SYMEXPORT *alpm_strerror(int err)
 		/* Miscellaenous */
 		case PM_ERR_RETRIEVE:
 			return _("failed to retrieve some files");
-		case PM_ERR_WRITE:
-			return _("failed to copy some file");
 		case PM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
 		/* Errors from external libraries- our own wrapper error */
@@ -151,12 +146,7 @@ const char SYMEXPORT *alpm_strerror(int err)
 			 * error string instead. */
 			return _("libarchive error");
 		case PM_ERR_LIBCURL:
-#ifdef HAVE_LIBCURL
-			return curl_easy_strerror(handle->curlerr);
-#else
-			/* obviously shouldn't get here... */
 			return _("download library error");
-#endif
 		case PM_ERR_GPGME:
 			return _("gpgme error");
 		case PM_ERR_EXTERNAL_DOWNLOAD:

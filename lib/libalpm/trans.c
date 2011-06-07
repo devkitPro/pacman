@@ -105,28 +105,22 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 	int db_version;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(handle->trans == NULL, RET_ERR(PM_ERR_TRANS_NOT_NULL, -1));
+	ASSERT(handle != NULL, return -1);
+	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* lock db */
 	if(!(flags & PM_TRANS_FLAG_NOLOCK)) {
 		if(make_lock(handle)) {
-			RET_ERR(PM_ERR_HANDLE_LOCK, -1);
+			RET_ERR(handle, PM_ERR_HANDLE_LOCK, -1);
 		}
 	}
 
-	trans = _alpm_trans_new();
-	if(trans == NULL) {
-		RET_ERR(PM_ERR_MEMORY, -1);
-	}
-
+	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(handle, PM_ERR_MEMORY, -1));
 	trans->flags = flags;
 	trans->cb_event = event;
 	trans->cb_conv = conv;
 	trans->cb_progress = progress;
 	trans->state = STATE_INITIALIZED;
-
-	handle->trans = trans;
 
 	/* check database version */
 	db_version = _alpm_db_version(handle->db_local);
@@ -135,8 +129,10 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 				_("%s database version is too old\n"), handle->db_local->treename);
 		remove_lock(handle);
 		_alpm_trans_free(trans);
-		RET_ERR(PM_ERR_DB_VERSION, -1);
+		RET_ERR(handle, PM_ERR_DB_VERSION, -1);
 	}
+
+	handle->trans = trans;
 
 	return 0;
 }
@@ -158,7 +154,7 @@ static alpm_list_t *check_arch(pmhandle_t *handle, alpm_list_t *pkgs)
 			const char *pkgname = alpm_pkg_get_name(pkg);
 			const char *pkgver = alpm_pkg_get_version(pkg);
 			size_t len = strlen(pkgname) + strlen(pkgver) + strlen(pkgarch) + 3;
-			MALLOC(string, len, RET_ERR(PM_ERR_MEMORY, invalid));
+			MALLOC(string, len, RET_ERR(handle, PM_ERR_MEMORY, invalid));
 			sprintf(string, "%s-%s-%s", pkgname, pkgver, pkgarch);
 			invalid = alpm_list_add(invalid, string);
 		}
@@ -172,13 +168,13 @@ int SYMEXPORT alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(data != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle != NULL, return -1);
+	ASSERT(data != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 
 	trans = handle->trans;
 
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(handle, PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	/* If there's nothing to do, return without complaining */
 	if(trans->add == NULL && trans->remove == NULL) {
@@ -190,7 +186,7 @@ int SYMEXPORT alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data)
 		if(data) {
 			*data = invalid;
 		}
-		RET_ERR(PM_ERR_PKG_INVALID_ARCH, -1);
+		RET_ERR(handle, PM_ERR_PKG_INVALID_ARCH, -1);
 	}
 
 	if(trans->add == NULL) {
@@ -216,14 +212,14 @@ int SYMEXPORT alpm_trans_commit(pmhandle_t *handle, alpm_list_t **data)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 
 	trans = handle->trans;
 
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_PREPARED, RET_ERR(PM_ERR_TRANS_NOT_PREPARED, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_PREPARED, RET_ERR(handle, PM_ERR_TRANS_NOT_PREPARED, -1));
 
-	ASSERT(!(trans->flags & PM_TRANS_FLAG_NOLOCK), RET_ERR(PM_ERR_TRANS_NOT_LOCKED, -1));
+	ASSERT(!(trans->flags & PM_TRANS_FLAG_NOLOCK), RET_ERR(handle, PM_ERR_TRANS_NOT_LOCKED, -1));
 
 	/* If there's nothing to do, return without complaining */
 	if(trans->add == NULL && trans->remove == NULL) {
@@ -255,12 +251,12 @@ int SYMEXPORT alpm_trans_interrupt(pmhandle_t *handle)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 
 	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_COMMITING || trans->state == STATE_INTERRUPTED,
-			RET_ERR(PM_ERR_TRANS_TYPE, -1));
+			RET_ERR(handle, PM_ERR_TRANS_TYPE, -1));
 
 	trans->state = STATE_INTERRUPTED;
 
@@ -273,11 +269,11 @@ int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 
 	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state != STATE_IDLE, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state != STATE_IDLE, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 
 	int nolock_flag = trans->flags & PM_TRANS_FLAG_NOLOCK;
 
@@ -298,16 +294,6 @@ int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
 }
 
 /** @} */
-
-pmtrans_t *_alpm_trans_new(void)
-{
-	pmtrans_t *trans;
-
-	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(PM_ERR_MEMORY, NULL));
-	trans->state = STATE_IDLE;
-
-	return trans;
-}
 
 void _alpm_trans_free(pmtrans_t *trans)
 {
@@ -384,7 +370,7 @@ int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
 	/* either extract or copy the scriptlet */
 	snprintf(scriptfn, PATH_MAX, "%s/.INSTALL", tmpdir);
 	if(strcmp(script, "pre_upgrade") == 0 || strcmp(script, "pre_install") == 0) {
-		if(_alpm_unpack_single(installfn, tmpdir, ".INSTALL")) {
+		if(_alpm_unpack_single(handle, installfn, tmpdir, ".INSTALL")) {
 			retval = 1;
 		}
 	} else {
@@ -428,8 +414,8 @@ cleanup:
 pmtransflag_t SYMEXPORT alpm_trans_get_flags(pmhandle_t *handle)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	ASSERT(handle->trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(handle != NULL, return -1);
+	ASSERT(handle->trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 
 	return handle->trans->flags;
 }
@@ -438,7 +424,7 @@ alpm_list_t SYMEXPORT *alpm_trans_get_add(pmhandle_t *handle)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
-	ASSERT(handle->trans != NULL, return NULL);
+	ASSERT(handle->trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, NULL));
 
 	return handle->trans->add;
 }
@@ -447,7 +433,7 @@ alpm_list_t SYMEXPORT *alpm_trans_get_remove(pmhandle_t *handle)
 {
 	/* Sanity checks */
 	ASSERT(handle != NULL, return NULL);
-	ASSERT(handle->trans != NULL, return NULL);
+	ASSERT(handle->trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, NULL));
 
 	return handle->trans->remove;
 }

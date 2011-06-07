@@ -51,17 +51,17 @@ int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return -1);
-	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle == pkg->handle, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle == pkg->handle, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED,
-			RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
+			RET_ERR(handle, PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	pkgname = pkg->name;
 
 	if(_alpm_pkg_find(trans->remove, pkgname)) {
-		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
+		RET_ERR(handle, PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	_alpm_log(PM_LOG_DEBUG, "adding package %s to the transaction remove list\n",
@@ -166,7 +166,7 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 					alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
 					alpm_list_free(lp);
 				}
-				RET_ERR(PM_ERR_UNSATISFIED_DEPS, -1);
+				RET_ERR(handle, PM_ERR_UNSATISFIED_DEPS, -1);
 			}
 		}
 	}
@@ -191,11 +191,12 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-static int can_remove_file(pmhandle_t *handle, const char *path, alpm_list_t *skip)
+static int can_remove_file(const char *root, const char *path,
+		alpm_list_t *skip)
 {
 	char file[PATH_MAX];
 
-	snprintf(file, PATH_MAX, "%s%s", handle->root, path);
+	snprintf(file, PATH_MAX, "%s%s", root, path);
 
 	if(alpm_list_find_str(skip, file)) {
 		/* return success because we will never actually remove this file */
@@ -319,10 +320,10 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 	}
 
 	for(lp = files; lp; lp = lp->next) {
-		if(!can_remove_file(handle, lp->data, skip_remove)) {
+		if(!can_remove_file(handle->root, lp->data, skip_remove)) {
 			_alpm_log(PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
 					pkgname);
-			RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
+			RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
 		}
 	}
 
@@ -395,10 +396,10 @@ int _alpm_remove_packages(pmhandle_t *handle)
 			size_t filenum;
 
 			for(lp = files; lp; lp = lp->next) {
-				if(!can_remove_file(handle, lp->data, NULL)) {
+				if(!can_remove_file(handle->root, lp->data, NULL)) {
 					_alpm_log(PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
 					          pkgname);
-					RET_ERR(PM_ERR_PKG_CANT_REMOVE, -1);
+					RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
 				}
 			}
 

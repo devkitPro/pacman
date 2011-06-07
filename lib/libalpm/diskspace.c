@@ -59,7 +59,7 @@ static int mount_point_cmp(const void *p1, const void *p2)
 	return -strcmp(mp1->mount_dir, mp2->mount_dir);
 }
 
-static alpm_list_t *mount_point_list(void)
+static alpm_list_t *mount_point_list(pmhandle_t *handle)
 {
 	alpm_list_t *mount_points = NULL, *ptr;
 	alpm_mountpoint_t *mp;
@@ -87,7 +87,7 @@ static alpm_list_t *mount_point_list(void)
 			continue;
 		}
 
-		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
+		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, PM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), &fsp, sizeof(struct statvfs));
@@ -193,7 +193,7 @@ static int calculate_installed_size(pmhandle_t *handle,
 	struct archive_entry *entry;
 
 	if((archive = archive_read_new()) == NULL) {
-		pm_errno = PM_ERR_LIBARCHIVE;
+		handle->pm_errno = PM_ERR_LIBARCHIVE;
 		ret = -1;
 		goto cleanup;
 	}
@@ -203,7 +203,7 @@ static int calculate_installed_size(pmhandle_t *handle,
 
 	if(archive_read_open_filename(archive, pkg->origin_data.file,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		pm_errno = PM_ERR_PKG_OPEN;
+		handle->pm_errno = PM_ERR_PKG_OPEN;
 		ret = -1;
 		goto cleanup;
 	}
@@ -246,7 +246,7 @@ static int calculate_installed_size(pmhandle_t *handle,
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
 					pkg->name, archive_error_string(archive));
-			pm_errno = PM_ERR_LIBARCHIVE;
+			handle->pm_errno = PM_ERR_LIBARCHIVE;
 			break;
 		}
 	}
@@ -267,7 +267,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 	pmtrans_t *trans = handle->trans;
 
 	numtargs = alpm_list_count(trans->add);
-	mount_points = mount_point_list();
+	mount_points = mount_point_list(handle);
 	if(mount_points == NULL) {
 		_alpm_log(PM_LOG_ERROR, _("could not determine filesystem mount points\n"));
 		return -1;
@@ -350,7 +350,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 	FREELIST(mount_points);
 
 	if(abort) {
-		RET_ERR(PM_ERR_DISK_SPACE, -1);
+		RET_ERR(handle, PM_ERR_DISK_SPACE, -1);
 	}
 
 	return 0;

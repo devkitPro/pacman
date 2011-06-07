@@ -66,7 +66,6 @@ do { \
 	} \
 } while(0)
 
-pmtrans_t *_alpm_trans_new(void);
 void _alpm_trans_free(pmtrans_t *trans);
 int _alpm_trans_init(pmtrans_t *trans, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,

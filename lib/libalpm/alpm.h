@@ -1032,7 +1032,6 @@ enum _pmerrno_t {
 	PM_ERR_FILE_CONFLICTS,
 	/* Misc */
 	PM_ERR_RETRIEVE,
-	PM_ERR_WRITE,
 	PM_ERR_INVALID_REGEX,
 	/* External library errors */
 	PM_ERR_LIBARCHIVE,
@@ -1041,14 +1040,11 @@ enum _pmerrno_t {
 	PM_ERR_GPGME
 };
 
-/** The number of the last error that occurred. */
-extern enum _pmerrno_t pm_errno;
+/** Returns the current error code from the handle. */
+enum _pmerrno_t alpm_errno(pmhandle_t *handle);
 
 /** Returns the string corresponding to an error number. */
-const char *alpm_strerror(int err);
-
-/** Returns the string corresponding to pm_errno. */
-const char *alpm_strerrorlast(void);
+const char *alpm_strerror(enum _pmerrno_t err);
 
 /* End of alpm_api_errors */
 /** @} */

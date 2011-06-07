@@ -152,9 +152,6 @@ int _alpm_copyfile(const char *src, const char *dest)
 		size_t nwritten = 0;
 		nwritten = fwrite(buf, 1, len, out);
 		if((nwritten != len) || ferror(out)) {
-			pm_errno = PM_ERR_WRITE;
-			_alpm_log(PM_LOG_ERROR, _("error writing to file '%s': %s\n"),
-					dest, strerror(errno));
 			ret = -1;
 			goto cleanup;
 		}
@@ -215,20 +212,22 @@ char *_alpm_strtrim(char *str)
 /**
  * @brief Unpack a specific file in an archive.
  *
- * @param archive  the archive to unpack
- * @param prefix   where to extract the files
- * @param fn       a file within the archive to unpack
+ * @param handle the context handle
+ * @param archive the archive to unpack
+ * @param prefix where to extract the files
+ * @param filename a file within the archive to unpack
  * @return 0 on success, 1 on failure
  */
-int _alpm_unpack_single(const char *archive, const char *prefix, const char *fn)
+int _alpm_unpack_single(pmhandle_t *handle, const char *archive,
+		const char *prefix, const char *filename)
 {
 	alpm_list_t *list = NULL;
 	int ret = 0;
-	if(fn == NULL) {
+	if(filename == NULL) {
 		return 1;
 	}
-	list = alpm_list_add(list, (void *)fn);
-	ret = _alpm_unpack(archive, prefix, list, 1);
+	list = alpm_list_add(list, (void *)filename);
+	ret = _alpm_unpack(handle, archive, prefix, list, 1);
 	alpm_list_free(list);
 	return ret;
 }
@@ -236,15 +235,16 @@ int _alpm_unpack_single(const char *archive, const char *prefix, const char *fn)
 /**
  * @brief Unpack a list of files in an archive.
  *
- * @param archive  the archive to unpack
- * @param prefix   where to extract the files
- * @param list     a list of files within the archive to unpack or
- * NULL for all
+ * @param handle the context handle
+ * @param archive the archive to unpack
+ * @param prefix where to extract the files
+ * @param list a list of files within the archive to unpack or NULL for all
  * @param breakfirst break after the first entry found
  *
  * @return 0 on success, 1 on failure
  */
-int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int breakfirst)
+int _alpm_unpack(pmhandle_t *handle, const char *archive, const char *prefix,
+		alpm_list_t *list, int breakfirst)
 {
 	int ret = 0;
 	mode_t oldmask;
@@ -253,8 +253,9 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 	char cwd[PATH_MAX];
 	int restore_cwd = 0;
 
-	if((_archive = archive_read_new()) == NULL)
-		RET_ERR(PM_ERR_LIBARCHIVE, 1);
+	if((_archive = archive_read_new()) == NULL) {
+		RET_ERR(handle, PM_ERR_LIBARCHIVE, 1);
+	}
 
 	archive_read_support_compression_all(_archive);
 	archive_read_support_format_all(_archive);
@@ -263,7 +264,7 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), archive,
 				archive_error_string(_archive));
-		RET_ERR(PM_ERR_PKG_OPEN, 1);
+		RET_ERR(handle, PM_ERR_PKG_OPEN, 1);
 	}
 
 	oldmask = umask(0022);
@@ -277,7 +278,8 @@ int _alpm_unpack(const char *archive, const char *prefix, alpm_list_t *list, int
 
 	/* just in case our cwd was removed in the upgrade operation */
 	if(chdir(prefix) != 0) {
-		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), prefix, strerror(errno));
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
+				prefix, strerror(errno));
 		ret = 1;
 		goto cleanup;
 	}
@@ -337,7 +339,8 @@ cleanup:
 	umask(oldmask);
 	archive_read_finish(_archive);
 	if(restore_cwd && chdir(cwd) != 0) {
-		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
+		_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
+				cwd, strerror(errno));
 	}
 	return ret;
 }
@@ -581,7 +584,7 @@ char *_alpm_filecache_find(pmhandle_t *handle, const char *filename)
 		}
 	}
 	/* package wasn't found in any cachedir */
-	RET_ERR(PM_ERR_PKG_NOT_FOUND, NULL);
+	return NULL;
 }
 
 /** Check the alpm cachedirs for existance and find a writable one.
@@ -656,7 +659,7 @@ static int md5_file(const char *path, unsigned char output[16])
 	MD5_CTX ctx;
 	unsigned char *buf;
 
-	CALLOC(buf, 8192, sizeof(unsigned char), RET_ERR(PM_ERR_MEMORY, 1));
+	CALLOC(buf, 8192, sizeof(unsigned char), return 1);
 
 	if((f = fopen(path, "rb")) == NULL) {
 		free(buf);
@@ -703,7 +706,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	ret = md5_file(filename, output);
 
 	if(ret > 0) {
-		RET_ERR(PM_ERR_NOT_A_FILE, NULL);
+		return NULL;
 	}
 
 	/* Convert the result to something readable */
@@ -857,13 +860,12 @@ int _alpm_splitname(const char *target, pmpkg_t *pkg)
 	}
 	/* version actually points to the dash, so need to increment 1 and account
 	 * for potential end character */
-	STRNDUP(pkg->version, version + 1, end - version - 1,
-			RET_ERR(PM_ERR_MEMORY, -1));
+	STRNDUP(pkg->version, version + 1, end - version - 1, return -1);
 
 	if(pkg->name) {
 		FREE(pkg->name);
 	}
-	STRNDUP(pkg->name, target, version - target, RET_ERR(PM_ERR_MEMORY, -1));
+	STRNDUP(pkg->name, target, version - target, return -1);
 	pkg->name_hash = _alpm_hash_sdbm(pkg->name);
 
 	return 0;

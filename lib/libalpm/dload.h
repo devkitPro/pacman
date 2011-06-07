@@ -27,11 +27,12 @@
 
 /* internal structure for communicating with curl progress callback */
 struct fileinfo {
+	pmhandle_t *handle;
 	const char *filename;
 	double initial_size;
 };
 
-int _alpm_download(const char *url, const char *localpath,
+int _alpm_download(pmhandle_t *handle, const char *url, const char *localpath,
 		int force, int allow_resume, int errors_ok);
 
 #endif /* _ALPM_DLOAD_H */

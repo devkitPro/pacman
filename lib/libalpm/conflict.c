@@ -40,16 +40,16 @@
 #include "log.h"
 #include "deps.h"
 
-pmconflict_t *_alpm_conflict_new(const char *package1, const char *package2,
+static pmconflict_t *conflict_new(const char *package1, const char *package2,
 		const char *reason)
 {
 	pmconflict_t *conflict;
 
-	MALLOC(conflict, sizeof(pmconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	MALLOC(conflict, sizeof(pmconflict_t), return NULL);
 
-	STRDUP(conflict->package1, package1, RET_ERR(PM_ERR_MEMORY, NULL));
-	STRDUP(conflict->package2, package2, RET_ERR(PM_ERR_MEMORY, NULL));
-	STRDUP(conflict->reason, reason, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(conflict->package1, package1, return NULL);
+	STRDUP(conflict->package2, package2, return NULL);
+	STRDUP(conflict->reason, reason, return NULL);
 
 	return conflict;
 }
@@ -65,11 +65,11 @@ void _alpm_conflict_free(pmconflict_t *conflict)
 pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict)
 {
 	pmconflict_t *newconflict;
-	CALLOC(newconflict, 1, sizeof(pmconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	CALLOC(newconflict, 1, sizeof(pmconflict_t), );
 
-	STRDUP(newconflict->package1, conflict->package1, RET_ERR(PM_ERR_MEMORY, NULL));
-	STRDUP(newconflict->package2, conflict->package2, RET_ERR(PM_ERR_MEMORY, NULL));
-	STRDUP(newconflict->reason, conflict->reason, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(newconflict->package1, conflict->package1, return NULL);
+	STRDUP(newconflict->package2, conflict->package2, return NULL);
+	STRDUP(newconflict->reason, conflict->reason, return NULL);
 
 	return newconflict;
 }
@@ -98,17 +98,21 @@ static int conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
  * @param pkg1 first package
  * @param pkg2 package causing conflict
  */
-static void add_conflict(alpm_list_t **baddeps, const char *pkg1,
+static int add_conflict(alpm_list_t **baddeps, const char *pkg1,
 		const char *pkg2, const char *reason)
 {
-	pmconflict_t *conflict = _alpm_conflict_new(pkg1, pkg2, reason);
+	pmconflict_t *conflict = conflict_new(pkg1, pkg2, reason);
+	if(!conflict) {
+		return -1;
+	}
 	_alpm_log(PM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
 			pkg1, pkg2, reason);
-	if(conflict && !conflict_isin(conflict, *baddeps)) {
+	if(!conflict_isin(conflict, *baddeps)) {
 		*baddeps = alpm_list_add(*baddeps, conflict);
 	} else {
 		_alpm_conflict_free(conflict);
 	}
+	return 0;
 }
 
 /** Check if packages from list1 conflict with packages from list2.
@@ -273,15 +277,15 @@ static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
                     const char* name1, const char* name2)
 {
 	pmfileconflict_t *conflict;
-	MALLOC(conflict, sizeof(pmfileconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
+	MALLOC(conflict, sizeof(pmfileconflict_t), return NULL);
 
 	conflict->type = type;
-	STRDUP(conflict->target, name1, RET_ERR(PM_ERR_MEMORY, NULL));
-	STRDUP(conflict->file, filestr, RET_ERR(PM_ERR_MEMORY, NULL));
+	STRDUP(conflict->target, name1, return NULL);
+	STRDUP(conflict->file, filestr, return NULL);
 	if(name2) {
-		STRDUP(conflict->ctarget, name2, RET_ERR(PM_ERR_MEMORY, NULL));
+		STRDUP(conflict->ctarget, name2, return NULL);
 	} else {
-		STRDUP(conflict->ctarget, "", RET_ERR(PM_ERR_MEMORY, NULL));
+		STRDUP(conflict->ctarget, "", return NULL);
 	}
 
 	conflicts = alpm_list_add(conflicts, conflict);
@@ -392,6 +396,11 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 					snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)k->data);
 					conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_TARGET, path,
 							alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
+					if(!conflicts) {
+						FREELIST(conflicts);
+						FREELIST(tmpfiles);
+						RET_ERR(handle, PM_ERR_MEMORY, NULL);
+					}
 				}
 				FREELIST(tmpfiles);
 			}
@@ -464,7 +473,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 					/* skip removal of file, but not add. this will prevent a second
 					 * package from removing the file when it was already installed
 					 * by its new owner (whether the file is in backup array or not */
-					trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(filestr));
+					handle->trans->skip_remove =
+						alpm_list_add(handle->trans->skip_remove, strdup(filestr));
 					_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
 					resolved_conflict = 1;
 				}
@@ -499,6 +509,11 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 				_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
 				conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_FILESYSTEM,
 						path, p1->name, NULL);
+				if(!conflicts) {
+					FREELIST(conflicts);
+					FREELIST(tmpfiles);
+					RET_ERR(handle, PM_ERR_MEMORY, NULL);
+				}
 			}
 		}
 		FREELIST(tmpfiles);
@@ -511,57 +526,43 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 
 const char SYMEXPORT *alpm_conflict_get_package1(pmconflict_t *conflict)
 {
-	/* Sanity checks */
 	ASSERT(conflict != NULL, return NULL);
-
 	return conflict->package1;
 }
 
 const char SYMEXPORT *alpm_conflict_get_package2(pmconflict_t *conflict)
 {
-	/* Sanity checks */
 	ASSERT(conflict != NULL, return NULL);
-
 	return conflict->package2;
 }
 
 const char SYMEXPORT *alpm_conflict_get_reason(pmconflict_t *conflict)
 {
-	/* Sanity checks */
 	ASSERT(conflict != NULL, return NULL);
-
 	return conflict->reason;
 }
 
 const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)
 {
-	/* Sanity checks */
 	ASSERT(conflict != NULL, return NULL);
-
 	return conflict->target;
 }
 
 pmfileconflicttype_t SYMEXPORT alpm_fileconflict_get_type(pmfileconflict_t *conflict)
 {
-	/* Sanity checks */
 	ASSERT(conflict != NULL, return -1);
-
 	return conflict->type;
 }
 
 const char SYMEXPORT *alpm_fileconflict_get_file(pmfileconflict_t *conflict)
 {
-	/* Sanity checks */
 	ASSERT(conflict != NULL, return NULL);
-
 	return conflict->file;
 }
 
 const char SYMEXPORT *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict)
 {
-	/* Sanity checks */
 	ASSERT(conflict != NULL, return NULL);
-
 	return conflict->ctarget;
 }
 

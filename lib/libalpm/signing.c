@@ -35,6 +35,7 @@
 #include "util.h"
 #include "log.h"
 #include "alpm.h"
+#include "handle.h"
 
 #if HAVE_LIBGPGME
 #define CHECK_ERR(void) do { \
@@ -117,7 +118,7 @@ static int gpgme_init(pmhandle_t *handle)
 	}
 
 	if(!alpm_option_get_signaturedir(handle)) {
-		RET_ERR(PM_ERR_SIG_MISSINGDIR, 1);
+		RET_ERR(handle, PM_ERR_SIG_MISSINGDIR, 1);
 	}
 
 	/* calling gpgme_check_version() returns the current version and runs
@@ -154,7 +155,7 @@ static int gpgme_init(pmhandle_t *handle)
 
 error:
 	_alpm_log(PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
-	RET_ERR(PM_ERR_GPGME, 1);
+	RET_ERR(handle, PM_ERR_GPGME, 1);
 }
 
 /**
@@ -214,17 +215,17 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 	FILE *file = NULL, *sigfile = NULL;
 
 	if(!path || access(path, R_OK) != 0) {
-		RET_ERR(PM_ERR_NOT_A_FILE, -1);
+		RET_ERR(handle, PM_ERR_NOT_A_FILE, -1);
 	}
 
 	if(!base64_sig) {
 		size_t len = strlen(path) + 5;
-		CALLOC(sigpath, len, sizeof(char), RET_ERR(PM_ERR_MEMORY, -1));
+		CALLOC(sigpath, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, -1));
 		snprintf(sigpath, len, "%s.sig", path);
 
 		if(!access(sigpath, R_OK) == 0) {
 			FREE(sigpath);
-			RET_ERR(PM_ERR_SIG_UNKNOWN, -1);
+			RET_ERR(handle, PM_ERR_SIG_UNKNOWN, -1);
 		}
 	}
 
@@ -245,7 +246,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 	/* create our necessary data objects to verify the signature */
 	file = fopen(path, "rb");
 	if(file == NULL) {
-		pm_errno = PM_ERR_NOT_A_FILE;
+		handle->pm_errno = PM_ERR_NOT_A_FILE;
 		ret = -1;
 		goto error;
 	}
@@ -268,7 +269,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 		/* file-based, it is on disk */
 		sigfile = fopen(sigpath, "rb");
 		if(sigfile == NULL) {
-			pm_errno = PM_ERR_NOT_A_FILE;
+			handle->pm_errno = PM_ERR_NOT_A_FILE;
 			ret = -1;
 			goto error;
 		}
@@ -324,13 +325,13 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 		_alpm_log(PM_LOG_WARNING, _("File %s has a green signature.\n"),
 				path);
 	} else if(gpgsig->summary & GPGME_SIGSUM_KEY_MISSING) {
-		pm_errno = PM_ERR_SIG_UNKNOWN;
+		handle->pm_errno = PM_ERR_SIG_UNKNOWN;
 		_alpm_log(PM_LOG_WARNING, _("File %s has a signature from an unknown key.\n"),
 				path);
 		ret = -1;
 	} else {
 		/* we'll capture everything else here */
-		pm_errno = PM_ERR_SIG_INVALID;
+		handle->pm_errno = PM_ERR_SIG_INVALID;
 		_alpm_log(PM_LOG_ERROR, _("File %s has an invalid signature.\n"),
 				path);
 		ret = 1;
@@ -350,12 +351,13 @@ error:
 	FREE(decoded_sigdata);
 	if(err != GPG_ERR_NO_ERROR) {
 		_alpm_log(PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
-		RET_ERR(PM_ERR_GPGME, -1);
+		RET_ERR(handle, PM_ERR_GPGME, -1);
 	}
 	return ret;
 }
 #else
-int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
+int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
+		const char *base64_sig)
 {
 	return -1;
 }
@@ -369,7 +371,6 @@ int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
  */
 pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
 {
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, PM_PGP_VERIFY_UNKNOWN));
 
 	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
 		return db->pgp_verify;

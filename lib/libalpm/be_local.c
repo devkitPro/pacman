@@ -282,12 +282,12 @@ static int checkdbdir(pmdb_t *db)
 		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
 				path);
 		if(_alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
+			RET_ERR(db->handle, PM_ERR_SYSTEM, -1);
 		}
 	} else if(!S_ISDIR(buf.st_mode)) {
 		_alpm_log(PM_LOG_WARNING, _("removing invalid database: %s\n"), path);
 		if(unlink(path) != 0 || _alpm_makepath(path) != 0) {
-			RET_ERR(PM_ERR_SYSTEM, -1);
+			RET_ERR(db->handle, PM_ERR_SYSTEM, -1);
 		}
 	}
 	return 0;
@@ -323,8 +323,6 @@ static int local_db_populate(pmdb_t *db)
 	const char *dbpath;
 	DIR *dbdir;
 
-	ASSERT(db != NULL, RET_ERR(PM_ERR_DB_NULL, -1));
-
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
 		/* pm_errno set in _alpm_db_path() */
@@ -336,10 +334,10 @@ static int local_db_populate(pmdb_t *db)
 			/* no database existing yet is not an error */
 			return 0;
 		}
-		RET_ERR(PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
 	}
 	if(fstat(dirfd(dbdir), &buf) != 0) {
-		RET_ERR(PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
 	}
 	if(buf.st_nlink >= 2) {
 		est_count = buf.st_nlink;
@@ -363,7 +361,7 @@ static int local_db_populate(pmdb_t *db)
 	db->pkgcache = _alpm_pkghash_create(est_count * 2);
 	if(db->pkgcache == NULL){
 		closedir(dbdir);
-		RET_ERR(PM_ERR_MEMORY, -1);
+		RET_ERR(db->handle, PM_ERR_MEMORY, -1);
 	}
 
 	while((ent = readdir(dbdir)) != NULL) {
@@ -381,7 +379,7 @@ static int local_db_populate(pmdb_t *db)
 		pkg = _alpm_pkg_new();
 		if(pkg == NULL) {
 			closedir(dbdir);
-			RET_ERR(PM_ERR_MEMORY, -1);
+			RET_ERR(db->handle, PM_ERR_MEMORY, -1);
 		}
 		/* split the db entry name */
 		if(_alpm_splitname(name, pkg) != 0) {
@@ -436,7 +434,7 @@ static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
 
 	dbpath = _alpm_db_path(db);
 	len = strlen(dbpath) + strlen(info->name) + strlen(info->version) + 3;
-	MALLOC(pkgpath, len, RET_ERR(PM_ERR_MEMORY, NULL));
+	MALLOC(pkgpath, len, RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
 	sprintf(pkgpath, "%s%s-%s/", dbpath, info->name, info->version);
 	return pkgpath;
 }
@@ -448,10 +446,6 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 	char path[PATH_MAX];
 	char line[1024];
 	char *pkgpath = NULL;
-
-	if(db == NULL) {
-		RET_ERR(PM_ERR_DB_NULL, -1);
-	}
 
 	if(info == NULL || info->name == NULL || info->version == NULL) {
 		_alpm_log(PM_LOG_DEBUG, "invalid package entry provided to _alpm_local_db_read, skipping\n");
@@ -856,10 +850,6 @@ int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
 	int ret = 0;
 	char *pkgpath = NULL;
 
-	if(db == NULL || info == NULL) {
-		RET_ERR(PM_ERR_DB_NULL, -1);
-	}
-
 	pkgpath = get_pkgpath(db, info);
 
 	ret = _alpm_rmrf(pkgpath);
@@ -879,7 +869,7 @@ static int local_db_version(pmdb_t *db)
 
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
-		RET_ERR(PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
 	}
 	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
@@ -888,7 +878,7 @@ static int local_db_version(pmdb_t *db)
 			version = 2;
 			goto done;
 		} else {
-			RET_ERR(PM_ERR_DB_OPEN, -1);
+			RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
 		}
 	}
 
