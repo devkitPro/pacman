@@ -876,7 +876,7 @@ int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data)
 		/* load the package file and replace pkgcache entry with it in the target list */
 		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
 		_alpm_log(PM_LOG_DEBUG, "replacing pkgcache entry with package file for target %s\n", spkg->name);
-		pmpkg_t *pkgfile =_alpm_pkg_load_internal(filepath, 1, spkg->md5sum,
+		pmpkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1, spkg->md5sum,
 				spkg->base64_sig, check_sig);
 		if(!pkgfile) {
 			errors++;

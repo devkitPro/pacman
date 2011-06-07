@@ -76,7 +76,7 @@ int pacman_upgrade(alpm_list_t *targets)
 		char *targ = alpm_list_getdata(i);
 		pmpkg_t *pkg;
 
-		if(alpm_pkg_load(targ, 1, check_sig, &pkg) != 0) {
+		if(alpm_pkg_load(config->handle, targ, 1, check_sig, &pkg) != 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerrorlast());
 			trans_release();

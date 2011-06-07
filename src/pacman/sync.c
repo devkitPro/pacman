@@ -220,7 +220,7 @@ static int sync_cleancache(int level)
 			/* attempt to load the package, prompt removal on failures as we may have
 			 * files here that aren't valid packages. we also don't need a full
 			 * load of the package, just the metadata. */
-			if(alpm_pkg_load(path, 0, PM_PGP_VERIFY_NEVER, &localpkg) != 0
+			if(alpm_pkg_load(config->handle, path, 0, PM_PGP_VERIFY_NEVER, &localpkg) != 0
 					|| localpkg == NULL) {
 				if(yesno(_("File %s does not seem to be a valid package, remove it?"),
 							path)) {

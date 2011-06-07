@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	/* let us get log messages from libalpm */
 	alpm_option_set_logcb(handle, output_cb);
 
-	if(alpm_pkg_load(argv[1], 1, PM_PGP_VERIFY_OPTIONAL, &pkg) == -1
+	if(alpm_pkg_load(handle, argv[1], 1, PM_PGP_VERIFY_OPTIONAL, &pkg) == -1
 			|| pkg == NULL) {
 		switch(pm_errno) {
 			case PM_ERR_PKG_OPEN:

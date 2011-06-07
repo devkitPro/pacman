@@ -30,14 +30,12 @@
 
 /* libalpm */
 #include "alpm_list.h"
+#include "alpm.h"
 #include "util.h"
 #include "log.h"
 #include "handle.h"
 #include "package.h"
 #include "deps.h" /* _alpm_splitdep */
-
-/* global handle variable */
-extern pmhandle_t *handle;
 
 /**
  * Open a package changelog for reading. Similar to fopen in functionality,
@@ -225,13 +223,15 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 
 /**
  * Load a package and create the corresponding pmpkg_t struct.
+ * @param handle the context handle
  * @param pkgfile path to the package file
  * @param full whether to stop the load after metadata is read or continue
  *             through the full archive
  * @return An information filled pmpkg_t struct
  */
-pmpkg_t *_alpm_pkg_load_internal(const char *pkgfile, int full,
-		const char *md5sum, const char *base64_sig, pgp_verify_t check_sig)
+pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
+		int full, const char *md5sum, const char *base64_sig,
+		pgp_verify_t check_sig)
 {
 	int ret;
 	int config = 0;
@@ -384,13 +384,13 @@ error:
 	return NULL;
 }
 
-int SYMEXPORT alpm_pkg_load(const char *filename, int full,
+int SYMEXPORT alpm_pkg_load(pmhandle_t *handle, const char *filename, int full,
 		pgp_verify_t check_sig, pmpkg_t **pkg)
 {
-	/* Sanity checks */
+	ASSERT(handle != NULL, return -1);
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 
-	*pkg = _alpm_pkg_load_internal(filename, full, NULL, NULL, check_sig);
+	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, check_sig);
 	if(*pkg == NULL) {
 		/* pm_errno is set by pkg_load */
 		return -1;

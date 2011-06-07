@@ -368,6 +368,7 @@ int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
  * metadata is found. If it is true, the entire archive is read, which
  * serves as a verification of integrity and the filelist can be created.
  * The allocated structure should be freed using alpm_pkg_free().
+ * @param handle the context handle
  * @param filename location of the package tarball
  * @param full whether to stop the load after metadata is read or continue
  * through the full archive
@@ -376,8 +377,8 @@ int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_pkg_load(const char *filename, int full, pgp_verify_t check_sig,
-		pmpkg_t **pkg);
+int alpm_pkg_load(pmhandle_t *handle, const char *filename, int full,
+		pgp_verify_t check_sig, pmpkg_t **pkg);
 
 /** Free a package.
  * @param pkg package pointer to free
