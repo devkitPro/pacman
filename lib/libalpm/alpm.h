@@ -914,7 +914,7 @@ const char *alpm_miss_get_target(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
 const char *alpm_miss_get_causingpkg(const pmdepmissing_t *miss);
 
-alpm_list_t *alpm_checkconflicts(alpm_list_t *pkglist);
+alpm_list_t *alpm_checkconflicts(pmhandle_t *handle, alpm_list_t *pkglist);
 
 const char *alpm_conflict_get_package1(pmconflict_t *conflict);
 const char *alpm_conflict_get_package2(pmconflict_t *conflict);

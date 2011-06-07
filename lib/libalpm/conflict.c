@@ -160,7 +160,7 @@ static void check_conflict(alpm_list_t *list1, alpm_list_t *list2,
 }
 
 /* Check for inter-conflicts */
-alpm_list_t *_alpm_innerconflicts(alpm_list_t *packages)
+alpm_list_t *_alpm_innerconflicts(pmhandle_t *handle, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
 
@@ -197,11 +197,13 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
 
 /** Check the package conflicts in a database
  *
+ * @param handle the context handle
  * @param pkglist the list of packages to check
  * @return an alpm_list_t of pmconflict_t
  */
-alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_list_t *pkglist) {
-	return _alpm_innerconflicts(pkglist);
+alpm_list_t SYMEXPORT *alpm_checkconflicts(pmhandle_t *handle,
+		alpm_list_t *pkglist) {
+	return _alpm_innerconflicts(handle, pkglist);
 }
 
 static const int DIFFERENCE = 0;
@@ -297,7 +299,8 @@ void _alpm_fileconflict_free(pmfileconflict_t *conflict)
 	FREE(conflict);
 }
 
-static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
+static int dir_belongsto_pkg(const char *root, const char *dirpath,
+		pmpkg_t *pkg)
 {
 	struct dirent *ent = NULL;
 	struct stat sbuf;
@@ -305,7 +308,7 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 	char abspath[PATH_MAX];
 	DIR *dir;
 
-	snprintf(abspath, PATH_MAX, "%s%s", pkg->handle->root, dirpath);
+	snprintf(abspath, PATH_MAX, "%s%s", root, dirpath);
 	dir = opendir(abspath);
 	if(dir == NULL) {
 		return 1;
@@ -317,12 +320,12 @@ static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
 			continue;
 		}
 		snprintf(path, PATH_MAX, "%s/%s", dirpath, name);
-		snprintf(abspath, PATH_MAX, "%s%s", pkg->handle->root, path);
+		snprintf(abspath, PATH_MAX, "%s%s", root, path);
 		if(stat(abspath, &sbuf) != 0) {
 			continue;
 		}
 		if(S_ISDIR(sbuf.st_mode)) {
-			if(dir_belongsto_pkg(path, pkg)) {
+			if(dir_belongsto_pkg(root, path, pkg)) {
 				continue;
 			} else {
 				closedir(dir);
@@ -474,7 +477,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 				if(alpm_list_find_str(alpm_pkg_get_files(dbpkg),dir)) {
 					_alpm_log(PM_LOG_DEBUG, "check if all files in %s belongs to %s\n",
 							dir, dbpkg->name);
-					resolved_conflict = dir_belongsto_pkg(filestr, dbpkg);
+					resolved_conflict = dir_belongsto_pkg(handle->root, filestr, dbpkg);
 				}
 				free(dir);
 			}
@@ -561,4 +564,5 @@ const char SYMEXPORT *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict)
 
 	return conflict->ctarget;
 }
+
 /* vim: set ts=2 sw=2 noet: */

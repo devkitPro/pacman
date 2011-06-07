@@ -398,7 +398,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 
 		/* 1. check for conflicts in the target list */
 		_alpm_log(PM_LOG_DEBUG, "check targets vs targets\n");
-		deps = _alpm_innerconflicts(trans->add);
+		deps = _alpm_innerconflicts(handle, trans->add);
 
 		for(i = deps; i; i = i->next) {
 			pmconflict_t *conflict = i->data;
