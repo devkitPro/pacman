@@ -42,7 +42,7 @@ extern pmhandle_t *handle;
  * @param fmt output format
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_logaction(const char *fmt, ...)
+int SYMEXPORT alpm_logaction(pmhandle_t *handle, const char *fmt, ...)
 {
 	int ret;
 	va_list args;
@@ -67,7 +67,7 @@ int SYMEXPORT alpm_logaction(const char *fmt, ...)
 	}
 
 	va_start(args, fmt);
-	ret = _alpm_logaction(handle->usesyslog, handle->logstream, fmt, args);
+	ret = _alpm_logaction(handle, fmt, args);
 	va_end(args);
 
 	/* TODO	We should add a prefix to log strings depending on who called us.

@@ -176,7 +176,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_ADD_DONE:
-			alpm_logaction("installed %s (%s)\n",
+			alpm_logaction(config->handle, "installed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			display_optdepends(data1);
@@ -187,7 +187,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_REMOVE_DONE:
-			alpm_logaction("removed %s (%s)\n",
+			alpm_logaction(config->handle, "removed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			break;
@@ -197,7 +197,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 			}
 			break;
 		case PM_TRANS_EVT_UPGRADE_DONE:
-			alpm_logaction("upgraded %s (%s -> %s)\n",
+			alpm_logaction(config->handle, "upgraded %s (%s -> %s)\n",
 			         (char *)alpm_pkg_get_name(data1),
 			         (char *)alpm_pkg_get_version(data2),
 			         (char *)alpm_pkg_get_version(data1));

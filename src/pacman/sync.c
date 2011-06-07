@@ -757,7 +757,7 @@ static int sync_trans(alpm_list_t *targets)
 
 	if(config->op_s_upgrade) {
 		printf(_(":: Starting full system upgrade...\n"));
-		alpm_logaction("starting full system upgrade\n");
+		alpm_logaction(config->handle, "starting full system upgrade\n");
 		if(alpm_sync_sysupgrade(config->op_s_upgrade >= 2) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "%s\n", alpm_strerrorlast());
 			retval = 1;
@@ -919,7 +919,7 @@ int pacman_sync(alpm_list_t *targets)
 	if(config->op_s_sync) {
 		/* grab a fresh package list */
 		printf(_(":: Synchronizing package databases...\n"));
-		alpm_logaction("synchronizing package lists\n");
+		alpm_logaction(config->handle, "synchronizing package lists\n");
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
 			return 1;
 		}

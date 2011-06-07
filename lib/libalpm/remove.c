@@ -261,7 +261,7 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
 					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
 					rename(file, newpath);
 					_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
-					alpm_logaction("warning: %s saved as %s\n", file, newpath);
+					alpm_logaction(handle, "warning: %s saved as %s\n", file, newpath);
 					return;
 				}
 			}

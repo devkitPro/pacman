@@ -100,7 +100,7 @@ typedef enum _pmloglevel_t {
 } pmloglevel_t;
 
 typedef void (*alpm_cb_log)(pmloglevel_t, const char *, va_list);
-int alpm_logaction(const char *fmt, ...);
+int alpm_logaction(pmhandle_t *handle, const char *fmt, ...);
 
 /*
  * Downloading

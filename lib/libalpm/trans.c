@@ -292,7 +292,7 @@ int SYMEXPORT alpm_trans_release(void)
 		if(remove_lock(handle)) {
 			_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s\n"),
 					alpm_option_get_lockfile());
-			alpm_logaction("warning: could not remove lock file %s\n",
+			alpm_logaction(handle, "warning: could not remove lock file %s\n",
 					alpm_option_get_lockfile());
 		}
 	}

@@ -385,11 +385,11 @@ int _alpm_rmrf(const char *path)
 	return 0;
 }
 
-int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
+int _alpm_logaction(pmhandle_t *handle, const char *fmt, va_list args)
 {
 	int ret = 0;
 
-	if(usesyslog) {
+	if(handle->usesyslog) {
 		/* we can't use a va_list more than once, so we need to copy it
 		 * so we can use the original when calling vfprintf below. */
 		va_list args_syslog;
@@ -398,7 +398,7 @@ int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
 		va_end(args_syslog);
 	}
 
-	if(f) {
+	if(handle->logstream) {
 		time_t t;
 		struct tm *tm;
 
@@ -406,11 +406,11 @@ int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args)
 		tm = localtime(&t);
 
 		/* Use ISO-8601 date format */
-		fprintf(f, "[%04d-%02d-%02d %02d:%02d] ",
+		fprintf(handle->logstream, "[%04d-%02d-%02d %02d:%02d] ",
 						tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
 						tm->tm_hour, tm->tm_min);
-		ret = vfprintf(f, fmt, args);
-		fflush(f);
+		ret = vfprintf(handle->logstream, fmt, args);
+		fflush(handle->logstream);
 	}
 
 	return ret;
@@ -496,7 +496,7 @@ int _alpm_run_chroot(pmhandle_t *handle, const char *path, char *const argv[])
 				char line[PATH_MAX];
 				if(fgets(line, PATH_MAX, pipe) == NULL)
 					break;
-				alpm_logaction("%s", line);
+				alpm_logaction(handle, "%s", line);
 				EVENT(handle->trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
 			}
 			fclose(pipe);
