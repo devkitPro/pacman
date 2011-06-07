@@ -37,9 +37,6 @@
 #include "handle.h"
 #include "trans.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 void _alpm_dep_free(pmdepend_t *dep)
 {
 	FREE(dep->name);
@@ -257,14 +254,15 @@ pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 
 /** Checks dependencies and returns missing ones in a list.
  * Dependencies can include versions with depmod operators.
+ * @param handle the context handle
  * @param pkglist the list of local packages
- * @param reversedeps handles the backward dependencies
  * @param remove an alpm_list_t* of packages to be removed
  * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
+ * @param reversedeps handles the backward dependencies
  * @return an alpm_list_t* of pmdepmissing_t pointers.
  */
-alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
-		alpm_list_t *remove, alpm_list_t *upgrade)
+alpm_list_t SYMEXPORT *alpm_checkdeps(pmhandle_t *handle, alpm_list_t *pkglist,
+		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *targets, *dblist = NULL, *modified = NULL;
@@ -541,6 +539,7 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
 /**
  * helper function for resolvedeps: search for dep satisfier in dbs
  *
+ * @param handle the context handle
  * @param dep is the dependency to search for
  * @param dbs are the databases to search
  * @param excluding are the packages to exclude from the search
@@ -550,8 +549,8 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
  *        an error code without prompting
  * @return the resolved package
  **/
-static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
-		alpm_list_t *excluding, int prompt)
+static pmpkg_t *resolvedep(pmhandle_t *handle, pmdepend_t *dep,
+		alpm_list_t *dbs, alpm_list_t *excluding, int prompt)
 {
 	alpm_list_t *i, *j;
 	int ignored = 0;
@@ -644,11 +643,13 @@ static pmpkg_t *resolvedep(pmdepend_t *dep, alpm_list_t *dbs,
  * First look for a literal, going through each db one by one. Then look for
  * providers. The first satisfier found is returned.
  * The dependency can include versions with depmod operators.
+ * @param handle the context handle
  * @param dbs an alpm_list_t* of pmdb_t where the satisfier will be searched
  * @param depstring package or provision name, versioned or not
  * @return a pmpkg_t* satisfying depstring
  */
-pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstring)
+pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(pmhandle_t *handle,
+		alpm_list_t *dbs, const char *depstring)
 {
 	pmdepend_t *dep;
 	pmpkg_t *pkg;
@@ -657,7 +658,7 @@ pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstri
 
 	dep = _alpm_splitdep(depstring);
 	ASSERT(dep, return NULL);
-	pkg = resolvedep(dep, dbs, NULL, 1);
+	pkg = resolvedep(handle, dep, dbs, NULL, 1);
 	_alpm_dep_free(dep);
 	return pkg;
 }
@@ -666,8 +667,8 @@ pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstri
  * Computes resolvable dependencies for a given package and adds that package
  * and those resolvable dependencies to a list.
  *
+ * @param handle the context handle
  * @param localpkgs is the list of local packages
- * @param dbs_sync are the sync databases
  * @param pkg is the package to resolve
  * @param packages is a pointer to a list of packages which will be
  *        searched first for any dependency packages needed to complete the
@@ -682,7 +683,7 @@ pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstri
  *         unresolvable dependency, in which case the [*packages] list will be
  *         unmodified by this function
  */
-int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pkg,
+int _alpm_resolvedeps(pmhandle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
                       alpm_list_t *preferred, alpm_list_t **packages,
                       alpm_list_t *remove, alpm_list_t **data)
 {
@@ -707,7 +708,7 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 	for(i = alpm_list_last(*packages); i; i = i->next) {
 		pmpkg_t *tpkg = i->data;
 		targ = alpm_list_add(NULL, tpkg);
-		deps = alpm_checkdeps(localpkgs, 0, remove, targ);
+		deps = alpm_checkdeps(handle, localpkgs, remove, targ, 0);
 		alpm_list_free(targ);
 
 		for(j = deps; j; j = j->next) {
@@ -724,7 +725,7 @@ int _alpm_resolvedeps(alpm_list_t *localpkgs, alpm_list_t *dbs_sync, pmpkg_t *pk
 			pmpkg_t *spkg = find_dep_satisfier(preferred, missdep);
 			if(!spkg) {
 				/* find a satisfier package in the given repositories */
-				spkg = resolvedep(missdep, dbs_sync, *packages, 0);
+				spkg = resolvedep(handle, missdep, handle->dbs_sync, *packages, 0);
 			}
 			if(!spkg) {
 				pm_errno = PM_ERR_UNSATISFIED_DEPS;

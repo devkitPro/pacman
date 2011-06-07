@@ -905,10 +905,11 @@ typedef enum _pmdepmod_t {
 	PM_DEP_MOD_LT
 } pmdepmod_t;
 
-alpm_list_t *alpm_checkdeps(alpm_list_t *pkglist, int reversedeps,
-		alpm_list_t *remove, alpm_list_t *upgrade);
+alpm_list_t *alpm_checkdeps(pmhandle_t *handle, alpm_list_t *pkglist,
+		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps);
 pmpkg_t *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring);
-pmpkg_t *alpm_find_dbs_satisfier(alpm_list_t *dbs, const char *depstring);
+pmpkg_t *alpm_find_dbs_satisfier(pmhandle_t *handle,
+		alpm_list_t *dbs, const char *depstring);
 
 const char *alpm_miss_get_target(const pmdepmissing_t *miss);
 pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);

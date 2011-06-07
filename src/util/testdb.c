@@ -98,7 +98,7 @@ static int checkdeps(alpm_list_t *pkglist)
 	alpm_list_t *data, *i;
 	int ret = 0;
 	/* check dependencies */
-	data = alpm_checkdeps(pkglist, 0, NULL, pkglist);
+	data = alpm_checkdeps(handle, pkglist, NULL, pkglist, 0);
 	for(i = data; i; i = alpm_list_next(i)) {
 		pmdepmissing_t *miss = alpm_list_getdata(i);
 		pmdepend_t *dep = alpm_miss_get_dep(miss);

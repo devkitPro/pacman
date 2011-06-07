@@ -336,7 +336,7 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 		   building up a list of packages which could not be resolved. */
 		for(i = trans->add; i; i = i->next) {
 			pmpkg_t *pkg = i->data;
-			if(_alpm_resolvedeps(localpkgs, handle->dbs_sync, pkg, trans->add,
+			if(_alpm_resolvedeps(handle, localpkgs, pkg, trans->add,
 						&resolved, remove, data) == -1) {
 				unresolvable = alpm_list_add(unresolvable, pkg);
 			}
@@ -521,7 +521,8 @@ int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		_alpm_log(PM_LOG_DEBUG, "checking dependencies\n");
-		deps = alpm_checkdeps(_alpm_db_get_pkgcache(db_local), 1, trans->remove, trans->add);
+		deps = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
+				trans->remove, trans->add, 1);
 		if(deps) {
 			pm_errno = PM_ERR_UNSATISFIED_DEPS;
 			ret = -1;

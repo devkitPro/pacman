@@ -70,14 +70,15 @@ int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	return 0;
 }
 
-static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
-		alpm_list_t *lp)
+static void remove_prepare_cascade(pmhandle_t *handle, alpm_list_t *lp)
 {
+	pmtrans_t *trans = handle->trans;
+
 	while(lp) {
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
 			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
-			pmpkg_t *info = _alpm_db_get_pkgfromcache(db, miss->target);
+			pmpkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
 				if(!_alpm_pkg_find(trans->remove, alpm_pkg_get_name(info))) {
 					_alpm_log(PM_LOG_DEBUG, "pulling %s in target list\n",
@@ -91,13 +92,15 @@ static void remove_prepare_cascade(pmtrans_t *trans, pmdb_t *db,
 		}
 		alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
 		alpm_list_free(lp);
-		lp = alpm_checkdeps(_alpm_db_get_pkgcache(db), 1, trans->remove, NULL);
+		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
+				trans->remove, NULL, 1);
 	}
 }
 
-static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
-		alpm_list_t *lp)
+static void remove_prepare_keep_needed(pmhandle_t *handle, alpm_list_t *lp)
 {
+	pmtrans_t *trans = handle->trans;
+
 	/* Remove needed packages (which break dependencies) from target list */
 	while(lp != NULL) {
 		alpm_list_t *i;
@@ -119,7 +122,8 @@ static void remove_prepare_keep_needed(pmtrans_t *trans, pmdb_t *db,
 		}
 		alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
 		alpm_list_free(lp);
-		lp = alpm_checkdeps(_alpm_db_get_pkgcache(db), 1, trans->remove, NULL);
+		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
+				trans->remove, NULL, 1);
 	}
 }
 
@@ -138,22 +142,23 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 
 	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
 		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies\n");
-		_alpm_recursedeps(db, trans->remove, trans->flags & PM_TRANS_FLAG_RECURSEALL);
+		_alpm_recursedeps(db, trans->remove,
+				trans->flags & PM_TRANS_FLAG_RECURSEALL);
 	}
 
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
-		lp = alpm_checkdeps(_alpm_db_get_pkgcache(db), 1, trans->remove, NULL);
+		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(db), trans->remove, NULL, 1);
 		if(lp != NULL) {
 
 			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
-				remove_prepare_cascade(trans, db, lp);
+				remove_prepare_cascade(handle, lp);
 			} else if(trans->flags & PM_TRANS_FLAG_UNNEEDED) {
 				/* Remove needed packages (which would break dependencies)
 				 * from target list */
-				remove_prepare_keep_needed(trans, db, lp);
+				remove_prepare_keep_needed(handle, lp);
 			} else {
 				if(data) {
 					*data = lp;
