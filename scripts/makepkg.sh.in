@@ -1169,7 +1169,7 @@ create_srcpackage() {
 
 	local i
 	for i in 'changelog' 'install'; do
-		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDSCRIPT")
+		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE")
 		local file
 		for file in $filelist; do
 			# evaluate any bash variables used
