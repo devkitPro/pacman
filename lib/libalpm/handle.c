@@ -298,7 +298,7 @@ int SYMEXPORT alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir)
 
 	newcachedir = canonicalize_path(cachedir);
 	handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
-	_alpm_log(PM_LOG_DEBUG, "backend option 'cachedir' = %s\n", newcachedir);
+	_alpm_log(handle, PM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
 	return 0;
 }
 
@@ -362,7 +362,7 @@ int SYMEXPORT alpm_option_set_logfile(pmhandle_t *handle, const char *logfile)
 		fclose(handle->logstream);
 		handle->logstream = NULL;
 	}
-	_alpm_log(PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
+	_alpm_log(handle, PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
 	return 0;
 }
 
@@ -379,7 +379,7 @@ int SYMEXPORT alpm_option_set_signaturedir(pmhandle_t *handle, const char *signa
 	}
 	handle->signaturedir = strdup(signaturedir);
 
-	_alpm_log(PM_LOG_DEBUG, "option 'signaturedir' = %s\n", handle->signaturedir);
+	_alpm_log(handle, PM_LOG_DEBUG, "option 'signaturedir' = %s\n", handle->signaturedir);
 	return 0;
 }
 

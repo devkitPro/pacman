@@ -68,10 +68,10 @@ int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	pkgname = pkg->name;
 	pkgver = pkg->version;
 
-	_alpm_log(PM_LOG_DEBUG, "adding package '%s'\n", pkgname);
+	_alpm_log(handle, PM_LOG_DEBUG, "adding package '%s'\n", pkgname);
 
 	if(_alpm_pkg_find(trans->add, pkgname)) {
-		RET_ERR(pkg->handle, PM_ERR_TRANS_DUP_TARGET, -1);
+		RET_ERR(handle, PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	local = _alpm_db_get_pkgfromcache(handle->db_local, pkgname);
@@ -83,23 +83,23 @@ int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 		if(cmp == 0) {
 			if(trans->flags & PM_TRANS_FLAG_NEEDED) {
 				/* with the NEEDED flag, packages up to date are not reinstalled */
-				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
+				_alpm_log(handle, PM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
 						localpkgname, localpkgver);
 				return 0;
 			} else if(!(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
-				_alpm_log(PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
+				_alpm_log(handle, PM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
 						localpkgname, localpkgver);
 			}
 		} else if(cmp < 0) {
 			/* local version is newer */
-			_alpm_log(PM_LOG_WARNING, _("downgrading package %s (%s => %s)\n"),
+			_alpm_log(handle, PM_LOG_WARNING, _("downgrading package %s (%s => %s)\n"),
 					localpkgname, localpkgver, pkgver);
 		}
 	}
 
 	/* add the package to the transaction */
 	pkg->reason = PM_PKG_REASON_EXPLICIT;
-	_alpm_log(PM_LOG_DEBUG, "adding package %s-%s to the transaction add list\n",
+	_alpm_log(handle, PM_LOG_DEBUG, "adding package %s-%s to the transaction add list\n",
 						pkgname, pkgver);
 	trans->add = alpm_list_add(trans->add, pkg);
 
@@ -119,10 +119,10 @@ static int perform_extraction(pmhandle_t *handle, struct archive *archive,
 	ret = archive_read_extract(archive, entry, archive_flags);
 	if(ret == ARCHIVE_WARN && archive_errno(archive) != ENOSPC) {
 		/* operation succeeded but a "non-critical" error was encountered */
-		_alpm_log(PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
+		_alpm_log(handle, PM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
 				origname, archive_error_string(archive));
 	} else if(ret != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not extract %s (%s)\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("could not extract %s (%s)\n"),
 				origname, archive_error_string(archive));
 		alpm_logaction(handle, "error: could not extract %s (%s)\n",
 				origname, archive_error_string(archive));
@@ -160,7 +160,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 	} else if(*entryname == '.') {
 		/* for now, ignore all files starting with '.' that haven't
 		 * already been handled (for future possibilities) */
-		_alpm_log(PM_LOG_DEBUG, "skipping extraction of '%s'\n", entryname);
+		_alpm_log(handle, PM_LOG_DEBUG, "skipping extraction of '%s'\n", entryname);
 		archive_read_data_skip(archive);
 		return 0;
 	} else {
@@ -170,7 +170,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 
 	/* if a file is in NoExtract then we never extract it */
 	if(alpm_list_find_str(handle->noextract, entryname)) {
-		_alpm_log(PM_LOG_DEBUG, "%s is in NoExtract, skipping extraction\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "%s is in NoExtract, skipping extraction\n",
 				entryname);
 		alpm_logaction(handle, "note: %s is in NoExtract, skipping extraction\n",
 				entryname);
@@ -209,20 +209,20 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 				if(lsbuf.st_mode != entrymode) {
 					/* if filesystem perms are different than pkg perms, warn user */
 					mode_t mask = 07777;
-					_alpm_log(PM_LOG_WARNING, _("directory permissions differ on %s\n"
+					_alpm_log(handle, PM_LOG_WARNING, _("directory permissions differ on %s\n"
 								"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
 							entrymode & mask);
 					alpm_logaction(handle, "warning: directory permissions differ on %s\n"
 							"filesystem: %o  package: %o\n", entryname, lsbuf.st_mode & mask,
 							entrymode & mask);
 				}
-				_alpm_log(PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
+				_alpm_log(handle, PM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
 						entryname);
 				archive_read_data_skip(archive);
 				return 0;
 			} else {
 				/* case 10/11: trying to overwrite dir with file/symlink, don't allow it */
-				_alpm_log(PM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
+				_alpm_log(handle, PM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
 						entryname);
 				archive_read_data_skip(archive);
 				return 1;
@@ -231,20 +231,20 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			/* case 9: existing symlink, dir in package */
 			if(S_ISDIR(sbuf.st_mode)) {
 				/* the symlink on FS is to a directory, so we'll use it */
-				_alpm_log(PM_LOG_DEBUG, "extract: skipping symlink overwrite of %s\n",
+				_alpm_log(handle, PM_LOG_DEBUG, "extract: skipping symlink overwrite of %s\n",
 						entryname);
 				archive_read_data_skip(archive);
 				return 0;
 			} else {
 				/* this is BAD. symlink was not to a directory */
-				_alpm_log(PM_LOG_ERROR, _("extract: symlink %s does not point to dir\n"),
+				_alpm_log(handle, PM_LOG_ERROR, _("extract: symlink %s does not point to dir\n"),
 						entryname);
 				archive_read_data_skip(archive);
 				return 1;
 			}
 		} else if(S_ISREG(lsbuf.st_mode) && S_ISDIR(entrymode)) {
 			/* case 6: trying to overwrite file with dir */
-			_alpm_log(PM_LOG_DEBUG, "extract: overwriting file with dir %s\n",
+			_alpm_log(handle, PM_LOG_DEBUG, "extract: overwriting file with dir %s\n",
 					entryname);
 		} else if(S_ISREG(entrymode)) {
 			/* case 4,7: */
@@ -318,10 +318,10 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			backups->data = backup;
 		}
 
-		_alpm_log(PM_LOG_DEBUG, "checking hashes for %s\n", entryname_orig);
-		_alpm_log(PM_LOG_DEBUG, "current:  %s\n", hash_local);
-		_alpm_log(PM_LOG_DEBUG, "new:      %s\n", hash_pkg);
-		_alpm_log(PM_LOG_DEBUG, "original: %s\n", hash_orig);
+		_alpm_log(handle, PM_LOG_DEBUG, "checking hashes for %s\n", entryname_orig);
+		_alpm_log(handle, PM_LOG_DEBUG, "current:  %s\n", hash_local);
+		_alpm_log(handle, PM_LOG_DEBUG, "new:      %s\n", hash_pkg);
+		_alpm_log(handle, PM_LOG_DEBUG, "original: %s\n", hash_orig);
 
 		if(!oldpkg) {
 			if(strcmp(hash_local, hash_pkg) != 0) {
@@ -332,7 +332,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 
 				/* move the existing file to the "pacorig" */
 				if(rename(filename, newpath)) {
-					_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+					_alpm_log(handle, PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
 							filename, newpath, strerror(errno));
 					alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
 							filename, newpath, strerror(errno));
@@ -340,13 +340,13 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 				} else {
 					/* rename the file we extracted to the real name */
 					if(rename(checkfile, filename)) {
-						_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+						_alpm_log(handle, PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
 								checkfile, filename, strerror(errno));
 						alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
 								checkfile, filename, strerror(errno));
 						errors++;
 					} else {
-						_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), filename, newpath);
+						_alpm_log(handle, PM_LOG_WARNING, _("%s saved as %s\n"), filename, newpath);
 						alpm_logaction(handle, "warning: %s saved as %s\n", filename, newpath);
 					}
 				}
@@ -360,11 +360,11 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			if(strcmp(hash_orig, hash_local) == 0) {
 				/* installed file has NOT been changed by user */
 				if(strcmp(hash_orig, hash_pkg) != 0) {
-					_alpm_log(PM_LOG_DEBUG, "action: installing new file: %s\n",
+					_alpm_log(handle, PM_LOG_DEBUG, "action: installing new file: %s\n",
 							entryname_orig);
 
 					if(rename(checkfile, filename)) {
-						_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+						_alpm_log(handle, PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
 								checkfile, filename, strerror(errno));
 						alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
 								checkfile, filename, strerror(errno));
@@ -373,33 +373,33 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 				} else {
 					/* there's no sense in installing the same file twice, install
 					 * ONLY is the original and package hashes differ */
-					_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place\n");
+					_alpm_log(handle, PM_LOG_DEBUG, "action: leaving existing file in place\n");
 					unlink(checkfile);
 				}
 			} else if(strcmp(hash_orig, hash_pkg) == 0) {
 				/* originally installed file and new file are the same - this
 				 * implies the case above failed - i.e. the file was changed by a
 				 * user */
-				_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place\n");
+				_alpm_log(handle, PM_LOG_DEBUG, "action: leaving existing file in place\n");
 				unlink(checkfile);
 			} else if(strcmp(hash_local, hash_pkg) == 0) {
 				/* this would be magical.  The above two cases failed, but the
 				 * user changes just so happened to make the new file exactly the
 				 * same as the one in the package... skip it */
-				_alpm_log(PM_LOG_DEBUG, "action: leaving existing file in place\n");
+				_alpm_log(handle, PM_LOG_DEBUG, "action: leaving existing file in place\n");
 				unlink(checkfile);
 			} else {
 				char newpath[PATH_MAX];
-				_alpm_log(PM_LOG_DEBUG, "action: keeping current file and installing"
+				_alpm_log(handle, PM_LOG_DEBUG, "action: keeping current file and installing"
 						" new one with .pacnew ending\n");
 				snprintf(newpath, PATH_MAX, "%s.pacnew", filename);
 				if(rename(checkfile, newpath)) {
-					_alpm_log(PM_LOG_ERROR, _("could not install %s as %s (%s)\n"),
+					_alpm_log(handle, PM_LOG_ERROR, _("could not install %s as %s (%s)\n"),
 							filename, newpath, strerror(errno));
 					alpm_logaction(handle, "error: could not install %s as %s (%s)\n",
 							filename, newpath, strerror(errno));
 				} else {
-					_alpm_log(PM_LOG_WARNING, _("%s installed as %s\n"),
+					_alpm_log(handle, PM_LOG_WARNING, _("%s installed as %s\n"),
 							filename, newpath);
 					alpm_logaction(handle, "warning: %s installed as %s\n",
 							filename, newpath);
@@ -416,12 +416,12 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 		/* we didn't need a backup */
 		if(notouch) {
 			/* change the path to a .pacnew extension */
-			_alpm_log(PM_LOG_DEBUG, "%s is in NoUpgrade -- skipping\n", filename);
-			_alpm_log(PM_LOG_WARNING, _("extracting %s as %s.pacnew\n"), filename, filename);
+			_alpm_log(handle, PM_LOG_DEBUG, "%s is in NoUpgrade -- skipping\n", filename);
+			_alpm_log(handle, PM_LOG_WARNING, _("extracting %s as %s.pacnew\n"), filename, filename);
 			alpm_logaction(handle, "warning: extracting %s as %s.pacnew\n", filename, filename);
 			strncat(filename, ".pacnew", PATH_MAX - strlen(filename));
 		} else {
-			_alpm_log(PM_LOG_DEBUG, "extracting %s\n", filename);
+			_alpm_log(handle, PM_LOG_DEBUG, "extracting %s\n", filename);
 		}
 
 		if(handle->trans->flags & PM_TRANS_FLAG_FORCE) {
@@ -449,7 +449,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			if(!oldbackup || strcmp(oldbackup, entryname_orig) != 0) {
 				continue;
 			}
-			_alpm_log(PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
+			_alpm_log(handle, PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
 
 			hash = alpm_compute_md5sum(filename);
 			MALLOC(backup, backup_len, RET_ERR(handle, PM_ERR_MEMORY, -1));
@@ -491,7 +491,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 		_alpm_local_db_read(oldpkg->origin_data.db, oldpkg, INFRQ_ALL);
 
 		EVENT(trans, PM_TRANS_EVT_UPGRADE_START, newpkg, oldpkg);
-		_alpm_log(PM_LOG_DEBUG, "upgrading package %s-%s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "upgrading package %s-%s\n",
 				newpkg->name, newpkg->version);
 
 		/* copy over the install reason */
@@ -506,7 +506,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 		is_upgrade = 0;
 
 		EVENT(trans, PM_TRANS_EVT_ADD_START, newpkg, NULL);
-		_alpm_log(PM_LOG_DEBUG, "adding package %s-%s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "adding package %s-%s\n",
 				newpkg->name, newpkg->version);
 
 		/* pre_install scriptlet */
@@ -548,7 +548,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 		char cwd[PATH_MAX] = "";
 		int restore_cwd = 0;
 
-		_alpm_log(PM_LOG_DEBUG, "extracting files\n");
+		_alpm_log(handle, PM_LOG_DEBUG, "extracting files\n");
 
 		if((archive = archive_read_new()) == NULL) {
 			handle->pm_errno = PM_ERR_LIBARCHIVE;
@@ -559,7 +559,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 		archive_read_support_compression_all(archive);
 		archive_read_support_format_all(archive);
 
-		_alpm_log(PM_LOG_DEBUG, "archive: %s\n", newpkg->origin_data.file);
+		_alpm_log(handle, PM_LOG_DEBUG, "archive: %s\n", newpkg->origin_data.file);
 		if(archive_read_open_filename(archive, newpkg->origin_data.file,
 					ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 			handle->pm_errno = PM_ERR_PKG_OPEN;
@@ -569,15 +569,15 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 
 		/* save the cwd so we can restore it later */
 		if(getcwd(cwd, PATH_MAX) == NULL) {
-			_alpm_log(PM_LOG_ERROR, _("could not get current working directory\n"));
+			_alpm_log(handle, PM_LOG_ERROR, _("could not get current working directory\n"));
 		} else {
 			restore_cwd = 1;
 		}
 
 		/* libarchive requires this for extracting hard links */
-		if(chdir(newpkg->handle->root) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
-					newpkg->handle->root, strerror(errno));
+		if(chdir(handle->root) != 0) {
+			_alpm_log(handle, PM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
+					handle->root, strerror(errno));
 			ret = -1;
 			goto cleanup;
 		}
@@ -600,7 +600,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 				 * (missing metadata sizes) */
 				int64_t pos = archive_position_compressed(archive);
 				percent = (pos * 100) / newpkg->size;
-				_alpm_log(PM_LOG_DEBUG, "decompression progress: "
+				_alpm_log(handle, PM_LOG_DEBUG, "decompression progress: "
 						"%d%% (%"PRId64" / %jd)\n",
 						percent, pos, (intmax_t)newpkg->size);
 				if(percent >= 100) {
@@ -627,18 +627,18 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 
 		/* restore the old cwd if we have it */
 		if(restore_cwd && chdir(cwd) != 0) {
-			_alpm_log(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
+			_alpm_log(handle, PM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
 		}
 
 		if(errors) {
 			ret = -1;
 			if(is_upgrade) {
-				_alpm_log(PM_LOG_ERROR, _("problem occurred while upgrading %s\n"),
+				_alpm_log(handle, PM_LOG_ERROR, _("problem occurred while upgrading %s\n"),
 						newpkg->name);
 				alpm_logaction(handle, "error: problem occurred while upgrading %s\n",
 						newpkg->name);
 			} else {
-				_alpm_log(PM_LOG_ERROR, _("problem occurred while installing %s\n"),
+				_alpm_log(handle, PM_LOG_ERROR, _("problem occurred while installing %s\n"),
 						newpkg->name);
 				alpm_logaction(handle, "error: problem occurred while installing %s\n",
 						newpkg->name);
@@ -649,11 +649,11 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 	/* make an install date (in UTC) */
 	newpkg->installdate = time(NULL);
 
-	_alpm_log(PM_LOG_DEBUG, "updating database\n");
-	_alpm_log(PM_LOG_DEBUG, "adding database entry '%s'\n", newpkg->name);
+	_alpm_log(handle, PM_LOG_DEBUG, "updating database\n");
+	_alpm_log(handle, PM_LOG_DEBUG, "adding database entry '%s'\n", newpkg->name);
 
 	if(_alpm_local_db_write(db, newpkg, INFRQ_ALL)) {
-		_alpm_log(PM_LOG_ERROR, _("could not update database entry %s-%s\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("could not update database entry %s-%s\n"),
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		alpm_logaction(handle, "error: could not update database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
@@ -663,7 +663,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 	}
 
 	if(_alpm_db_add_pkgincache(db, newpkg) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not add entry '%s' in cache\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("could not add entry '%s' in cache\n"),
 				alpm_pkg_get_name(newpkg));
 	}
 

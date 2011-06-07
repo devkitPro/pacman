@@ -103,14 +103,14 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	oldmask = umask(0022);
 
 	if(stat(syncpath, &buf) != 0) {
-		_alpm_log(PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
 				syncpath);
 		if(_alpm_makepath(syncpath) != 0) {
 			free(syncpath);
 			RET_ERR(handle, PM_ERR_SYSTEM, -1);
 		}
 	} else if(!S_ISDIR(buf.st_mode)) {
-		_alpm_log(PM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
+		_alpm_log(handle, PM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
 		if(unlink(syncpath) != 0 || _alpm_makepath(syncpath) != 0) {
 			free(syncpath);
 			RET_ERR(handle, PM_ERR_SYSTEM, -1);
@@ -155,7 +155,8 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 		goto cleanup;
 	} else if(ret == -1) {
 		/* pm_errno was set by the download code */
-		_alpm_log(PM_LOG_DEBUG, "failed to sync db: %s\n", alpm_strerror(handle->pm_errno));
+		_alpm_log(handle, PM_LOG_DEBUG, "failed to sync db: %s\n",
+				alpm_strerror(handle->pm_errno));
 		goto cleanup;
 	}
 
@@ -255,11 +256,11 @@ static int sync_db_populate(pmdb_t *db)
 		return -1;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "opening database archive %s\n", dbpath);
+	_alpm_log(db->handle, PM_LOG_DEBUG, "opening database archive %s\n", dbpath);
 
 	if(archive_read_open_filename(archive, dbpath,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		_alpm_log(PM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
+		_alpm_log(db->handle, PM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
 				archive_error_string(archive));
 		archive_read_finish(archive);
 		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
@@ -292,7 +293,7 @@ static int sync_db_populate(pmdb_t *db)
 			name = archive_entry_pathname(entry);
 
 			if(_alpm_splitname(name, pkg) != 0) {
-				_alpm_log(PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
+				_alpm_log(db->handle, PM_LOG_ERROR, _("invalid name for database entry '%s'\n"),
 						name);
 				_alpm_pkg_free(pkg);
 				pkg = NULL;
@@ -301,7 +302,7 @@ static int sync_db_populate(pmdb_t *db)
 
 			/* duplicated database entries are not allowed */
 			if(_alpm_pkghash_find(db->pkgcache, pkg->name)) {
-				_alpm_log(PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
+				_alpm_log(db->handle, PM_LOG_ERROR, _("duplicated database entry '%s'\n"), pkg->name);
 				_alpm_pkg_free(pkg);
 				pkg = NULL;
 				continue;
@@ -313,14 +314,14 @@ static int sync_db_populate(pmdb_t *db)
 			pkg->handle = db->handle;
 
 			/* add to the collection */
-			_alpm_log(PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
+			_alpm_log(db->handle, PM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 					pkg->name, db->treename);
 			db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
 			count++;
 		} else {
 			/* we have desc, depends or deltas - parse it */
 			if(sync_db_read(db, archive, entry, pkg) != 0) {
-				_alpm_log(PM_LOG_ERROR,
+				_alpm_log(db->handle, PM_LOG_ERROR,
 						_("could not parse package '%s' description file from db '%s'\n"),
 						pkg->name, db->treename);
 				_alpm_pkg_free(pkg);
@@ -334,7 +335,7 @@ static int sync_db_populate(pmdb_t *db)
 		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
 	}
 	archive_read_finish(archive);
-	_alpm_log(PM_LOG_DEBUG, "added %d packages to package cache for db '%s'\n",
+	_alpm_log(db->handle, PM_LOG_DEBUG, "added %d packages to package cache for db '%s'\n",
 			count, db->treename);
 
 	return count;
@@ -368,11 +369,12 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 
 	entryname = archive_entry_pathname(entry);
 	if(entryname == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "invalid archive entry provided to _alpm_sync_db_read, skipping\n");
+		_alpm_log(db->handle, PM_LOG_DEBUG,
+				"invalid archive entry provided to _alpm_sync_db_read, skipping\n");
 		return -1;
 	}
 
-	_alpm_log(PM_LOG_FUNCTION, "loading package data from archive entry %s\n",
+	_alpm_log(db->handle, PM_LOG_FUNCTION, "loading package data from archive entry %s\n",
 			entryname);
 
 	memset(&buf, 0, sizeof(buf));
@@ -398,7 +400,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 		pkg = _alpm_pkghash_find(db->pkgcache, pkgname);
 	}
 	if(pkg == NULL) {
-		_alpm_log(PM_LOG_DEBUG, "package %s not found in %s sync database",
+		_alpm_log(db->handle, PM_LOG_DEBUG, "package %s not found in %s sync database",
 					pkgname, db->treename);
 		return -1;
 	}
@@ -412,13 +414,13 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 			if(strcmp(line, "%NAME%") == 0) {
 				READ_NEXT(line);
 				if(strcmp(line, pkg->name) != 0) {
-					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: name "
+					_alpm_log(db->handle, PM_LOG_ERROR, _("%s database is inconsistent: name "
 								"mismatch on package %s\n"), db->treename, pkg->name);
 				}
 			} else if(strcmp(line, "%VERSION%") == 0) {
 				READ_NEXT(line);
 				if(strcmp(line, pkg->version) != 0) {
-					_alpm_log(PM_LOG_ERROR, _("%s database is inconsistent: version "
+					_alpm_log(db->handle, PM_LOG_ERROR, _("%s database is inconsistent: version "
 								"mismatch on package %s\n"), db->treename, pkg->name);
 				}
 			} else if(strcmp(line, "%FILENAME%") == 0) {
@@ -490,14 +492,14 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 		/* currently do nothing with this file */
 	} else {
 		/* unknown database file */
-		_alpm_log(PM_LOG_DEBUG, "unknown database file: %s\n", filename);
+		_alpm_log(db->handle, PM_LOG_DEBUG, "unknown database file: %s\n", filename);
 	}
 
 	FREE(pkgname);
 	return 0;
 
 error:
-	_alpm_log(PM_LOG_DEBUG, "error parsing database file: %s\n", filename);
+	_alpm_log(db->handle, PM_LOG_DEBUG, "error parsing database file: %s\n", filename);
 	FREE(pkgname);
 	return -1;
 }
@@ -517,7 +519,7 @@ pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename)
 {
 	pmdb_t *db;
 
-	_alpm_log(PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
+	_alpm_log(handle, PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
 	db = _alpm_db_new(treename, 0);
 	if(db == NULL) {

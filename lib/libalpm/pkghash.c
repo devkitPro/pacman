@@ -17,9 +17,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <errno.h>
+
 #include "pkghash.h"
 #include "util.h"
-#include "log.h"
 
 /* List of primes for possible sizes of hash tables.
  *
@@ -66,7 +67,7 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 	}
 
 	if(hash->buckets < size) {
-		_alpm_log(PM_LOG_ERROR, _("database larger than maximum size\n"));
+		errno = ERANGE;
 		free(hash);
 		return NULL;
 	}

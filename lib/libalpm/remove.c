@@ -46,8 +46,8 @@
 
 int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 {
-	pmtrans_t *trans;
 	const char *pkgname;
+	pmtrans_t *trans;
 
 	/* Sanity checks */
 	ASSERT(handle != NULL, return -1);
@@ -64,7 +64,7 @@ int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 		RET_ERR(handle, PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "adding package %s to the transaction remove list\n",
+	_alpm_log(handle, PM_LOG_DEBUG, "adding package %s to the transaction remove list\n",
 			pkgname);
 	trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(pkg));
 	return 0;
@@ -81,12 +81,12 @@ static void remove_prepare_cascade(pmhandle_t *handle, alpm_list_t *lp)
 			pmpkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
 				if(!_alpm_pkg_find(trans->remove, alpm_pkg_get_name(info))) {
-					_alpm_log(PM_LOG_DEBUG, "pulling %s in target list\n",
+					_alpm_log(handle, PM_LOG_DEBUG, "pulling %s in target list\n",
 							alpm_pkg_get_name(info));
 					trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(info));
 				}
 			} else {
-				_alpm_log(PM_LOG_ERROR, _("could not find %s in database -- skipping\n"),
+				_alpm_log(handle, PM_LOG_ERROR, _("could not find %s in database -- skipping\n"),
 									miss->target);
 			}
 		}
@@ -115,7 +115,7 @@ static void remove_prepare_keep_needed(pmhandle_t *handle, alpm_list_t *lp)
 					&vpkg);
 			pkg = vpkg;
 			if(pkg) {
-				_alpm_log(PM_LOG_WARNING, _("removing %s from target list\n"),
+				_alpm_log(handle, PM_LOG_WARNING, _("removing %s from target list\n"),
 						alpm_pkg_get_name(pkg));
 				_alpm_pkg_free(pkg);
 			}
@@ -141,7 +141,7 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 	pmdb_t *db = handle->db_local;
 
 	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
-		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies\n");
+		_alpm_log(handle, PM_LOG_DEBUG, "finding removable dependencies\n");
 		_alpm_recursedeps(db, trans->remove,
 				trans->flags & PM_TRANS_FLAG_RECURSEALL);
 	}
@@ -149,7 +149,7 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
-		_alpm_log(PM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
+		_alpm_log(handle, PM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(db), trans->remove, NULL, 1);
 		if(lp != NULL) {
 
@@ -172,15 +172,15 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 	}
 
 	/* re-order w.r.t. dependencies */
-	_alpm_log(PM_LOG_DEBUG, "sorting by dependencies\n");
-	lp = _alpm_sortbydeps(trans->remove, 1);
+	_alpm_log(handle, PM_LOG_DEBUG, "sorting by dependencies\n");
+	lp = _alpm_sortbydeps(handle, trans->remove, 1);
 	/* free the old alltargs */
 	alpm_list_free(trans->remove);
 	trans->remove = lp;
 
 	/* -Rcs == -Rc then -Rs */
 	if((trans->flags & PM_TRANS_FLAG_CASCADE) && (trans->flags & PM_TRANS_FLAG_RECURSE)) {
-		_alpm_log(PM_LOG_DEBUG, "finding removable dependencies\n");
+		_alpm_log(handle, PM_LOG_DEBUG, "finding removable dependencies\n");
 		_alpm_recursedeps(db, trans->remove, trans->flags & PM_TRANS_FLAG_RECURSEALL);
 	}
 
@@ -191,12 +191,12 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-static int can_remove_file(const char *root, const char *path,
+static int can_remove_file(pmhandle_t *handle, const char *path,
 		alpm_list_t *skip)
 {
 	char file[PATH_MAX];
 
-	snprintf(file, PATH_MAX, "%s%s", root, path);
+	snprintf(file, PATH_MAX, "%s%s", handle->root, path);
 
 	if(alpm_list_find_str(skip, file)) {
 		/* return success because we will never actually remove this file */
@@ -208,7 +208,7 @@ static int can_remove_file(const char *root, const char *path,
 		if(errno != EACCES && errno != ETXTBSY && access(file, F_OK) == 0) {
 			/* only return failure if the file ACTUALLY exists and we can't write to
 			 * it - ignore "chmod -w" simple permission failures */
-			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
+			_alpm_log(handle, PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
 			          file, strerror(errno));
 			return 0;
 		}
@@ -231,7 +231,7 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
 	 * see the big comment block in db_find_fileconflicts() for an
 	 * explanation. */
 	if(alpm_list_find_str(skip_remove, filename)) {
-		_alpm_log(PM_LOG_DEBUG, "%s is in skip_remove, skipping removal\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "%s is in skip_remove, skipping removal\n",
 				file);
 		return;
 	}
@@ -241,23 +241,23 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
 	 * filesystem, we want to work with the linked directory instead of the
 	 * actual symlink */
 	if(lstat(file, &buf)) {
-		_alpm_log(PM_LOG_DEBUG, "file %s does not exist\n", file);
+		_alpm_log(handle, PM_LOG_DEBUG, "file %s does not exist\n", file);
 		return;
 	}
 
 	if(S_ISDIR(buf.st_mode)) {
 		if(rmdir(file)) {
 			/* this is okay, other packages are probably using it (like /usr) */
-			_alpm_log(PM_LOG_DEBUG, "keeping directory %s\n", file);
+			_alpm_log(handle, PM_LOG_DEBUG, "keeping directory %s\n", file);
 		} else {
-			_alpm_log(PM_LOG_DEBUG, "removing directory %s\n", file);
+			_alpm_log(handle, PM_LOG_DEBUG, "removing directory %s\n", file);
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */
 		char *pkghash = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
 		if(pkghash) {
 			if(nosave) {
-				_alpm_log(PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
+				_alpm_log(handle, PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
 				FREE(pkghash);
 			} else {
 				char *filehash = alpm_compute_md5sum(file);
@@ -268,17 +268,17 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
 					char newpath[PATH_MAX];
 					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
 					rename(file, newpath);
-					_alpm_log(PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
+					_alpm_log(handle, PM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
 					alpm_logaction(handle, "warning: %s saved as %s\n", file, newpath);
 					return;
 				}
 			}
 		}
 
-		_alpm_log(PM_LOG_DEBUG, "unlinking %s\n", file);
+		_alpm_log(handle, PM_LOG_DEBUG, "unlinking %s\n", file);
 
 		if(unlink(file) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
+			_alpm_log(handle, PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
 								filename, strerror(errno));
 		}
 	}
@@ -293,7 +293,7 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 	alpm_list_t *files = alpm_pkg_get_files(oldpkg);
 	const char *pkgname = alpm_pkg_get_name(oldpkg);
 
-	_alpm_log(PM_LOG_DEBUG, "removing old package first (%s-%s)\n",
+	_alpm_log(handle, PM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 			oldpkg->name, oldpkg->version);
 
 	if(handle->trans->flags & PM_TRANS_FLAG_DBONLY) {
@@ -315,20 +315,20 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 			FREE(backup);
 			continue;
 		}
-		_alpm_log(PM_LOG_DEBUG, "adding %s to the skip_remove array\n", backup);
+		_alpm_log(handle, PM_LOG_DEBUG, "adding %s to the skip_remove array\n", backup);
 		skip_remove = alpm_list_add(skip_remove, backup);
 	}
 
 	for(lp = files; lp; lp = lp->next) {
-		if(!can_remove_file(handle->root, lp->data, skip_remove)) {
-			_alpm_log(PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
+		if(!can_remove_file(handle, lp->data, skip_remove)) {
+			_alpm_log(handle, PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
 					pkgname);
 			RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
 		}
 	}
 
 	filenum = alpm_list_count(files);
-	_alpm_log(PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
+	_alpm_log(handle, PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 	/* iterate through the list backwards, unlinking files */
 	newfiles = alpm_list_reverse(files);
@@ -340,15 +340,15 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 
 db:
 	/* remove the package from the database */
-	_alpm_log(PM_LOG_DEBUG, "updating database\n");
-	_alpm_log(PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
+	_alpm_log(handle, PM_LOG_DEBUG, "updating database\n");
+	_alpm_log(handle, PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
 	if(_alpm_local_db_remove(handle->db_local, oldpkg) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("could not remove database entry %s-%s\n"),
 				pkgname, alpm_pkg_get_version(oldpkg));
 	}
 	/* remove the package from the cache */
 	if(_alpm_db_remove_pkgfromcache(handle->db_local, oldpkg) == -1) {
-		_alpm_log(PM_LOG_ERROR, _("could not remove entry '%s' from cache\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("could not remove entry '%s' from cache\n"),
 				pkgname);
 	}
 
@@ -381,7 +381,7 @@ int _alpm_remove_packages(pmhandle_t *handle)
 				_alpm_db_path(handle->db_local), pkgname, alpm_pkg_get_version(info));
 
 		EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
-		_alpm_log(PM_LOG_DEBUG, "removing package %s-%s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "removing package %s-%s\n",
 				pkgname, alpm_pkg_get_version(info));
 
 		/* run the pre-remove scriptlet if it exists  */
@@ -396,15 +396,15 @@ int _alpm_remove_packages(pmhandle_t *handle)
 			size_t filenum;
 
 			for(lp = files; lp; lp = lp->next) {
-				if(!can_remove_file(handle->root, lp->data, NULL)) {
-					_alpm_log(PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
+				if(!can_remove_file(handle, lp->data, NULL)) {
+					_alpm_log(handle, PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
 					          pkgname);
 					RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
 				}
 			}
 
 			filenum = alpm_list_count(files);
-			_alpm_log(PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
+			_alpm_log(handle, PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 			/* init progress bar */
 			PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 0,
@@ -436,15 +436,15 @@ int _alpm_remove_packages(pmhandle_t *handle)
 		}
 
 		/* remove the package from the database */
-		_alpm_log(PM_LOG_DEBUG, "updating database\n");
-		_alpm_log(PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
+		_alpm_log(handle, PM_LOG_DEBUG, "updating database\n");
+		_alpm_log(handle, PM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
 		if(_alpm_local_db_remove(handle->db_local, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("could not remove database entry %s-%s\n"),
+			_alpm_log(handle, PM_LOG_ERROR, _("could not remove database entry %s-%s\n"),
 			          pkgname, alpm_pkg_get_version(info));
 		}
 		/* remove the package from the cache */
 		if(_alpm_db_remove_pkgfromcache(handle->db_local, info) == -1) {
-			_alpm_log(PM_LOG_ERROR, _("could not remove entry '%s' from cache\n"),
+			_alpm_log(handle, PM_LOG_ERROR, _("could not remove entry '%s' from cache\n"),
 			          pkgname);
 		}
 

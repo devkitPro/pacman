@@ -86,7 +86,7 @@ int SYMEXPORT alpm_logaction(pmhandle_t *handle, const char *fmt, ...)
 
 /** @} */
 
-void _alpm_log(pmloglevel_t flag, const char *fmt, ...)
+void _alpm_log(pmhandle_t *handle, pmloglevel_t flag, const char *fmt, ...)
 {
 	va_list args;
 	alpm_cb_log logcb = alpm_option_get_logcb(handle);

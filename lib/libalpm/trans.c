@@ -125,7 +125,7 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 	/* check database version */
 	db_version = _alpm_db_version(handle->db_local);
 	if(db_version < required_db_version) {
-		_alpm_log(PM_LOG_ERROR,
+		_alpm_log(handle, PM_LOG_ERROR,
 				_("%s database version is too old\n"), handle->db_local->treename);
 		remove_lock(handle);
 		_alpm_trans_free(trans);
@@ -283,7 +283,7 @@ int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
 	/* unlock db */
 	if(!nolock_flag) {
 		if(remove_lock(handle)) {
-			_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s\n"),
+			_alpm_log(handle, PM_LOG_WARNING, _("could not remove lock file %s\n"),
 					alpm_option_get_lockfile(handle));
 			alpm_logaction(handle, "warning: could not remove lock file %s\n",
 					alpm_option_get_lockfile(handle));
@@ -350,7 +350,7 @@ int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
 
 	if(access(installfn, R_OK)) {
 		/* not found */
-		_alpm_log(PM_LOG_DEBUG, "scriptlet '%s' not found\n", installfn);
+		_alpm_log(handle, PM_LOG_DEBUG, "scriptlet '%s' not found\n", installfn);
 		return 0;
 	}
 
@@ -361,7 +361,7 @@ int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
 	}
 	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", handle->root);
 	if(mkdtemp(tmpdir) == NULL) {
-		_alpm_log(PM_LOG_ERROR, _("could not create temp directory\n"));
+		_alpm_log(handle, PM_LOG_ERROR, _("could not create temp directory\n"));
 		return 1;
 	} else {
 		clean_tmpdir = 1;
@@ -375,7 +375,7 @@ int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
 		}
 	} else {
 		if(_alpm_copyfile(installfn, scriptfn)) {
-			_alpm_log(PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), scriptfn, strerror(errno));
+			_alpm_log(handle, PM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), scriptfn, strerror(errno));
 			retval = 1;
 		}
 	}
@@ -399,13 +399,13 @@ int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
 				scriptpath, script, ver);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
+	_alpm_log(handle, PM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
 
 	retval = _alpm_run_chroot(handle, "/bin/sh", argv);
 
 cleanup:
 	if(clean_tmpdir && _alpm_rmrf(tmpdir)) {
-		_alpm_log(PM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
+		_alpm_log(handle, PM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
 	}
 
 	return retval;

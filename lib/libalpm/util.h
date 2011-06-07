@@ -49,7 +49,7 @@
 #define _(s) s
 #endif
 
-#define ALLOC_FAIL(s) do { _alpm_log(PM_LOG_ERROR, _("alloc failure: could not allocate %zd bytes\n"), s); } while(0)
+#define ALLOC_FAIL(s) do { fprintf(stderr, "alloc failure: could not allocate %zd bytes\n", s); } while(0)
 
 #define MALLOC(p, s, action) do { p = calloc(1, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
 #define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
@@ -62,11 +62,11 @@
 #define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
 
 #define RET_ERR_VOID(handle, err) do { (handle)->pm_errno = (err); \
-	_alpm_log(PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerror(err)); \
+	_alpm_log(handle, PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerror(err)); \
 	return; } while(0)
 
 #define RET_ERR(handle, err, ret) do { (handle)->pm_errno = (err); \
-	_alpm_log(PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerror(err)); \
+	_alpm_log(handle, PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerror(err)); \
 	return (ret); } while(0)
 
 #define DOUBLE_EQ(x, y) (fabs((x) - (y)) < DBL_EPSILON)

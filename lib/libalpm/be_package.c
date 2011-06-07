@@ -137,7 +137,7 @@ static struct pkg_operations *get_file_pkg_ops(void)
  *
  * @return 0 on success, -1 on error
  */
-static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
+static int parse_descfile(pmhandle_t *handle, struct archive *a, pmpkg_t *newpkg)
 {
 	char *ptr = NULL;
 	char *key = NULL;
@@ -159,7 +159,7 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 		ptr = line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
-			_alpm_log(PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
+			_alpm_log(handle, PM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
 								newpkg->name ? newpkg->name : "error", linenum);
 		} else {
 			key = _alpm_strtrim(key);
@@ -207,14 +207,14 @@ static int parse_descfile(struct archive *a, pmpkg_t *newpkg)
 			} else if(strcmp(key, "makepkgopt") == 0) {
 				/* not used atm */
 			} else {
-				_alpm_log(PM_LOG_DEBUG, "%s: unknown key '%s' in description file line %d\n",
+				_alpm_log(handle, PM_LOG_DEBUG, "%s: unknown key '%s' in description file line %d\n",
 									newpkg->name ? newpkg->name : "error", key, linenum);
 			}
 		}
 		line[0] = '\0';
 	}
 	if(ret != ARCHIVE_EOF) {
-		_alpm_log(PM_LOG_DEBUG, "error parsing package descfile\n");
+		_alpm_log(handle, PM_LOG_DEBUG, "error parsing package descfile\n");
 		return -1;
 	}
 
@@ -258,18 +258,18 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	}
 
 	/* first steps- validate the package file */
-	_alpm_log(PM_LOG_DEBUG, "md5sum: %s\n", md5sum);
+	_alpm_log(handle, PM_LOG_DEBUG, "md5sum: %s\n", md5sum);
 	if(md5sum) {
-		_alpm_log(PM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
+		_alpm_log(handle, PM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
 		if(_alpm_test_md5sum(pkgfile, md5sum) != 0) {
 			alpm_pkg_free(newpkg);
 			RET_ERR(handle, PM_ERR_PKG_INVALID, NULL);
 		}
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "base64_sig: %s\n", base64_sig);
+	_alpm_log(handle, PM_LOG_DEBUG, "base64_sig: %s\n", base64_sig);
 	if(check_sig != PM_PGP_VERIFY_NEVER) {
-		_alpm_log(PM_LOG_DEBUG, "checking signature for %s\n", pkgfile);
+		_alpm_log(handle, PM_LOG_DEBUG, "checking signature for %s\n", pkgfile);
 		ret = _alpm_gpgme_checksig(handle, pkgfile, base64_sig);
 		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
 				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
@@ -293,7 +293,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 		RET_ERR(handle, PM_ERR_PKG_OPEN, NULL);
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
+	_alpm_log(handle, PM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
 
 	/* If full is false, only read through the archive until we find our needed
 	 * metadata. If it is true, read through the entire archive, which serves
@@ -303,17 +303,17 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 
 		if(strcmp(entry_name, ".PKGINFO") == 0) {
 			/* parse the info file */
-			if(parse_descfile(archive, newpkg) != 0) {
-				_alpm_log(PM_LOG_ERROR, _("could not parse package description file in %s\n"),
+			if(parse_descfile(handle, archive, newpkg) != 0) {
+				_alpm_log(handle, PM_LOG_ERROR, _("could not parse package description file in %s\n"),
 						pkgfile);
 				goto pkg_invalid;
 			}
 			if(newpkg->name == NULL || strlen(newpkg->name) == 0) {
-				_alpm_log(PM_LOG_ERROR, _("missing package name in %s\n"), pkgfile);
+				_alpm_log(handle, PM_LOG_ERROR, _("missing package name in %s\n"), pkgfile);
 				goto pkg_invalid;
 			}
 			if(newpkg->version == NULL || strlen(newpkg->version) == 0) {
-				_alpm_log(PM_LOG_ERROR, _("missing package version in %s\n"), pkgfile);
+				_alpm_log(handle, PM_LOG_ERROR, _("missing package version in %s\n"), pkgfile);
 				goto pkg_invalid;
 			}
 			config = 1;
@@ -329,7 +329,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 		}
 
 		if(archive_read_data_skip(archive)) {
-			_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
+			_alpm_log(handle, PM_LOG_ERROR, _("error while reading package %s: %s\n"),
 					pkgfile, archive_error_string(archive));
 			handle->pm_errno = PM_ERR_LIBARCHIVE;
 			goto error;
@@ -342,14 +342,14 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	}
 
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occured */
-		_alpm_log(PM_LOG_ERROR, _("error while reading package %s: %s\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("error while reading package %s: %s\n"),
 				pkgfile, archive_error_string(archive));
 		handle->pm_errno = PM_ERR_LIBARCHIVE;
 		goto error;
 	}
 
 	if(!config) {
-		_alpm_log(PM_LOG_ERROR, _("missing package metadata in %s\n"), pkgfile);
+		_alpm_log(handle, PM_LOG_ERROR, _("missing package metadata in %s\n"), pkgfile);
 		goto pkg_invalid;
 	}
 
@@ -363,7 +363,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 
 	if(full) {
 		/* "checking for conflicts" requires a sorted list, ensure that here */
-		_alpm_log(PM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
+		_alpm_log(handle, PM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
 		newpkg->files = alpm_list_msort(newpkg->files, alpm_list_count(newpkg->files),
 				_alpm_str_cmp);
 		newpkg->infolevel = INFRQ_ALL;

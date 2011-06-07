@@ -124,7 +124,7 @@ static int gpgme_init(pmhandle_t *handle)
 	/* calling gpgme_check_version() returns the current version and runs
 	 * some internal library setup code */
 	version = gpgme_check_version(NULL);
-	_alpm_log(PM_LOG_DEBUG, "GPGME version: %s\n", version);
+	_alpm_log(handle, PM_LOG_DEBUG, "GPGME version: %s\n", version);
 	gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
 #ifdef LC_MESSAGES
 	gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
@@ -147,14 +147,14 @@ static int gpgme_init(pmhandle_t *handle)
 	CHECK_ERR();
 	err = gpgme_get_engine_info(&enginfo);
 	CHECK_ERR();
-	_alpm_log(PM_LOG_DEBUG, "GPGME engine info: file=%s, home=%s\n",
+	_alpm_log(handle, PM_LOG_DEBUG, "GPGME engine info: file=%s, home=%s\n",
 			enginfo->file_name, enginfo->home_dir);
 
 	init = 1;
 	return 0;
 
 error:
-	_alpm_log(PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
+	_alpm_log(handle, PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
 	RET_ERR(handle, PM_ERR_GPGME, 1);
 }
 
@@ -234,7 +234,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 		return -1;
 	}
 
-	_alpm_log(PM_LOG_DEBUG, "checking signature for %s\n", path);
+	_alpm_log(handle, PM_LOG_DEBUG, "checking signature for %s\n", path);
 
 	memset(&ctx, 0, sizeof(ctx));
 	memset(&sigdata, 0, sizeof(sigdata));
@@ -288,7 +288,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 			count++;
 			gpgsig = gpgsig->next;
 		}
-		_alpm_log(PM_LOG_ERROR, _("Unexpected number of signatures (%d)\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("Unexpected number of signatures (%d)\n"),
 				count);
 		ret = -1;
 		goto error;
@@ -297,42 +297,42 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 	{
 		alpm_list_t *summary_list, *summary;
 
-		_alpm_log(PM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
+		_alpm_log(handle, PM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
 		summary_list = gpgme_list_sigsum(gpgsig->summary);
 		for(summary = summary_list; summary; summary = summary->next) {
-			_alpm_log(PM_LOG_DEBUG, "summary: %s\n", (const char *)summary->data);
+			_alpm_log(handle, PM_LOG_DEBUG, "summary: %s\n", (const char *)summary->data);
 		}
 		alpm_list_free(summary_list);
-		_alpm_log(PM_LOG_DEBUG, "status: %s\n", gpgme_strerror(gpgsig->status));
-		_alpm_log(PM_LOG_DEBUG, "timestamp: %lu\n", gpgsig->timestamp);
-		_alpm_log(PM_LOG_DEBUG, "exp_timestamp: %lu\n", gpgsig->exp_timestamp);
-		_alpm_log(PM_LOG_DEBUG, "validity: %s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "status: %s\n", gpgme_strerror(gpgsig->status));
+		_alpm_log(handle, PM_LOG_DEBUG, "timestamp: %lu\n", gpgsig->timestamp);
+		_alpm_log(handle, PM_LOG_DEBUG, "exp_timestamp: %lu\n", gpgsig->exp_timestamp);
+		_alpm_log(handle, PM_LOG_DEBUG, "validity: %s\n",
 				gpgme_string_validity(gpgsig->validity));
-		_alpm_log(PM_LOG_DEBUG, "validity_reason: %s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "validity_reason: %s\n",
 				gpgme_strerror(gpgsig->validity_reason));
-		_alpm_log(PM_LOG_DEBUG, "pubkey algo: %s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "pubkey algo: %s\n",
 				gpgme_pubkey_algo_name(gpgsig->pubkey_algo));
-		_alpm_log(PM_LOG_DEBUG, "hash algo: %s\n",
+		_alpm_log(handle, PM_LOG_DEBUG, "hash algo: %s\n",
 				gpgme_hash_algo_name(gpgsig->hash_algo));
 	}
 
 	if(gpgsig->summary & GPGME_SIGSUM_VALID) {
 		/* good signature, continue */
-		_alpm_log(PM_LOG_DEBUG, _("File %s has a valid signature.\n"),
+		_alpm_log(handle, PM_LOG_DEBUG, _("File %s has a valid signature.\n"),
 				path);
 	} else if(gpgsig->summary & GPGME_SIGSUM_GREEN) {
 		/* 'green' signature, not sure what to do here */
-		_alpm_log(PM_LOG_WARNING, _("File %s has a green signature.\n"),
+		_alpm_log(handle, PM_LOG_WARNING, _("File %s has a green signature.\n"),
 				path);
 	} else if(gpgsig->summary & GPGME_SIGSUM_KEY_MISSING) {
 		handle->pm_errno = PM_ERR_SIG_UNKNOWN;
-		_alpm_log(PM_LOG_WARNING, _("File %s has a signature from an unknown key.\n"),
+		_alpm_log(handle, PM_LOG_WARNING, _("File %s has a signature from an unknown key.\n"),
 				path);
 		ret = -1;
 	} else {
 		/* we'll capture everything else here */
 		handle->pm_errno = PM_ERR_SIG_INVALID;
-		_alpm_log(PM_LOG_ERROR, _("File %s has an invalid signature.\n"),
+		_alpm_log(handle, PM_LOG_ERROR, _("File %s has an invalid signature.\n"),
 				path);
 		ret = 1;
 	}
@@ -350,7 +350,7 @@ error:
 	FREE(sigpath);
 	FREE(decoded_sigdata);
 	if(err != GPG_ERR_NO_ERROR) {
-		_alpm_log(PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
+		_alpm_log(handle, PM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
 		RET_ERR(handle, PM_ERR_GPGME, -1);
 	}
 	return ret;
@@ -371,7 +371,6 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
  */
 pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
 {
-
 	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
 		return db->pgp_verify;
 	} else {
