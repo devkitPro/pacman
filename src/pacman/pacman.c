@@ -263,7 +263,7 @@ static void setuseragent(void)
  */
 static void cleanup(int ret) {
 	/* free alpm library resources */
-	if(alpm_release(config->handle) == -1) {
+	if(config->handle && alpm_release(config->handle) == -1) {
 		pm_printf(PM_LOG_ERROR, "error releasing alpm library\n");
 	}
 
@@ -875,17 +875,17 @@ int main(int argc, char *argv[])
 
 	if(config->verbose > 0) {
 		alpm_list_t *i;
-		printf("Root      : %s\n", alpm_option_get_root());
+		printf("Root      : %s\n", alpm_option_get_root(config->handle));
 		printf("Conf File : %s\n", config->configfile);
-		printf("DB Path   : %s\n", alpm_option_get_dbpath());
+		printf("DB Path   : %s\n", alpm_option_get_dbpath(config->handle));
 		printf("Cache Dirs: ");
-		for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+		for(i = alpm_option_get_cachedirs(config->handle); i; i = alpm_list_next(i)) {
 			printf("%s  ", (char *)alpm_list_getdata(i));
 		}
 		printf("\n");
-		printf("Lock File : %s\n", alpm_option_get_lockfile());
-		printf("Log File  : %s\n", alpm_option_get_logfile());
-		printf("GPG Dir   : %s\n", alpm_option_get_signaturedir());
+		printf("Lock File : %s\n", alpm_option_get_lockfile(config->handle));
+		printf("Log File  : %s\n", alpm_option_get_logfile(config->handle));
+		printf("GPG Dir   : %s\n", alpm_option_get_signaturedir(config->handle));
 		list_display("Targets   :", pm_targets);
 	}
 

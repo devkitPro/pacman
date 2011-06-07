@@ -21,7 +21,8 @@
 
 #include "alpm.h"
 
-int _alpm_gpgme_checksig(const char *path, const char *base64_sig);
+int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
+		const char *base64_sig);
 pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db);
 
 #endif /* _ALPM_SIGNING_H */

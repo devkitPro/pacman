@@ -91,7 +91,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	ASSERT(db != NULL && db != db->handle->db_local, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	ASSERT(db->servers != NULL, RET_ERR(PM_ERR_SERVER_NONE, -1));
 
-	dbpath = alpm_option_get_dbpath();
+	dbpath = alpm_option_get_dbpath(db->handle);
 	len = strlen(dbpath) + 6;
 	MALLOC(syncpath, len, RET_ERR(PM_ERR_MEMORY, -1));
 	sprintf(syncpath, "%s%s", dbpath, "sync/");

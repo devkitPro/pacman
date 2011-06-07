@@ -265,7 +265,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 
 	fname = alpm_pkg_get_filename(newpkg);
 	ASSERT(fname != NULL, RET_ERR(PM_ERR_PKG_INVALID_NAME, -1));
-	fpath = _alpm_filecache_find(fname);
+	fpath = _alpm_filecache_find(newpkg->handle, fname);
 
 	if(fpath) {
 		FREE(fpath);
@@ -274,7 +274,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 		off_t dltsize;
 		off_t pkgsize = alpm_pkg_get_size(newpkg);
 
-		dltsize = _alpm_shortest_delta_path(
+		dltsize = _alpm_shortest_delta_path(newpkg->handle,
 			alpm_pkg_get_deltas(newpkg),
 			alpm_pkg_get_filename(newpkg),
 			&newpkg->delta_path);
@@ -577,15 +577,16 @@ static int endswith(const char *filename, const char *extension)
  * All intermediate files are deleted, leaving only the starting and
  * ending package files.
  *
- * @param trans the transaction
+ * @param handle the context handle
  *
  * @return 0 if all delta files were able to be applied, 1 otherwise.
  */
-static int apply_deltas(pmtrans_t *trans)
+static int apply_deltas(pmhandle_t *handle)
 {
 	alpm_list_t *i;
 	int ret = 0;
-	const char *cachedir = _alpm_filecache_setup();
+	const char *cachedir = _alpm_filecache_setup(handle);
+	pmtrans_t *trans = handle->trans;
 
 	for(i = trans->add; i; i = i->next) {
 		pmpkg_t *spkg = i->data;
@@ -602,10 +603,10 @@ static int apply_deltas(pmtrans_t *trans)
 			char command[PATH_MAX];
 			size_t len = 0;
 
-			delta = _alpm_filecache_find(d->delta);
+			delta = _alpm_filecache_find(handle, d->delta);
 			/* the initial package might be in a different cachedir */
 			if(dlts == delta_path) {
-				from = _alpm_filecache_find(d->from);
+				from = _alpm_filecache_find(handle, d->from);
 			} else {
 				/* len = cachedir len + from len + '/' + null */
 				len = strlen(cachedir) + strlen(d->from) + 2;
@@ -686,11 +687,12 @@ static int test_md5sum(pmtrans_t *trans, const char *filepath,
 	return ret;
 }
 
-static int validate_deltas(pmtrans_t *trans, alpm_list_t *deltas,
+static int validate_deltas(pmhandle_t *handle, alpm_list_t *deltas,
 		alpm_list_t **data)
 {
 	int errors = 0, ret = 0;
 	alpm_list_t *i;
+	pmtrans_t *trans = handle->trans;
 
 	if(!deltas) {
 		return 0;
@@ -702,7 +704,7 @@ static int validate_deltas(pmtrans_t *trans, alpm_list_t *deltas,
 	for(i = deltas; i; i = i->next) {
 		pmdelta_t *d = alpm_list_getdata(i);
 		const char *filename = alpm_delta_get_filename(d);
-		char *filepath = _alpm_filecache_find(filename);
+		char *filepath = _alpm_filecache_find(handle, filename);
 		const char *md5sum = alpm_delta_get_md5sum(d);
 
 		if(test_md5sum(trans, filepath, md5sum) != 0) {
@@ -719,7 +721,7 @@ static int validate_deltas(pmtrans_t *trans, alpm_list_t *deltas,
 
 	/* Use the deltas to generate the packages */
 	EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
-	ret = apply_deltas(trans);
+	ret = apply_deltas(handle);
 	EVENT(trans, PM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
 	return ret;
 }
@@ -731,7 +733,7 @@ static int download_files(pmhandle_t *handle, alpm_list_t **deltas)
 	alpm_list_t *files = NULL;
 	int errors = 0;
 
-	cachedir = _alpm_filecache_setup();
+	cachedir = _alpm_filecache_setup(handle);
 	handle->trans->state = STATE_DOWNLOADING;
 
 	/* Total progress - figure out the total download size if required to
@@ -844,7 +846,7 @@ int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data)
 		return -1;
 	}
 
-	if(validate_deltas(trans, deltas, data)) {
+	if(validate_deltas(handle, deltas, data)) {
 		alpm_list_free(deltas);
 		return -1;
 	}
@@ -870,7 +872,7 @@ int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data)
 		}
 
 		filename = alpm_pkg_get_filename(spkg);
-		filepath = _alpm_filecache_find(filename);
+		filepath = _alpm_filecache_find(handle, filename);
 		pmdb_t *sdb = alpm_pkg_get_db(spkg);
 		check_sig = _alpm_db_get_sigverify_level(sdb);
 

@@ -149,7 +149,7 @@ static alpm_list_t *check_arch(alpm_list_t *pkgs)
 	alpm_list_t *i;
 	alpm_list_t *invalid = NULL;
 
-	const char *arch = alpm_option_get_arch();
+	const char *arch = alpm_option_get_arch(handle);
 	if(!arch) {
 		return NULL;
 	}
@@ -291,9 +291,9 @@ int SYMEXPORT alpm_trans_release(void)
 	if(!nolock_flag) {
 		if(remove_lock(handle)) {
 			_alpm_log(PM_LOG_WARNING, _("could not remove lock file %s\n"),
-					alpm_option_get_lockfile());
+					alpm_option_get_lockfile(handle));
 			alpm_logaction(handle, "warning: could not remove lock file %s\n",
-					alpm_option_get_lockfile());
+					alpm_option_get_lockfile(handle));
 		}
 	}
 

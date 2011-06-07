@@ -33,6 +33,7 @@
 /* pacman */
 #include "package.h"
 #include "util.h"
+#include "conf.h"
 
 #define CLBUF_SIZE 4096
 
@@ -194,7 +195,7 @@ static const char *get_backup_file_status(const char *root,
 void dump_pkg_backups(pmpkg_t *pkg)
 {
 	alpm_list_t *i;
-	const char *root = alpm_option_get_root();
+	const char *root = alpm_option_get_root(config->handle);
 	printf(_("Backup Files:\n"));
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
@@ -227,7 +228,7 @@ void dump_pkg_files(pmpkg_t *pkg, int quiet)
 
 	pkgname = alpm_pkg_get_name(pkg);
 	pkgfiles = alpm_pkg_get_files(pkg);
-	root = alpm_option_get_root();
+	root = alpm_option_get_root(config->handle);
 
 	for(i = pkgfiles; i; i = alpm_list_next(i)) {
 		filestr = alpm_list_getdata(i);

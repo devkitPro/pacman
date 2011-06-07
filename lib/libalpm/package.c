@@ -65,7 +65,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(pmpkg_t *pkg)
 	/* We only inspect packages from sync repositories */
 	ASSERT(pkg->origin == PKG_FROM_SYNCDB, RET_ERR(PM_ERR_PKG_INVALID, -1));
 
-	fpath = _alpm_filecache_find(alpm_pkg_get_filename(pkg));
+	fpath = _alpm_filecache_find(pkg->handle, alpm_pkg_get_filename(pkg));
 
 	retval = _alpm_test_md5sum(fpath, alpm_pkg_get_md5sum(pkg));
 
@@ -341,7 +341,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 
 	if(pkg->origin == PKG_FROM_FILE) {
 		/* The sane option; search locally for things that require this. */
-		db = alpm_option_get_localdb();
+		db = alpm_option_get_localdb(pkg->handle);
 		find_requiredby(pkg, db, &reqs);
 	} else {
 		/* We have a DB package. if it is a local package, then we should

@@ -27,12 +27,13 @@
 
 /* pacman */
 #include "pacman.h"
+#include "conf.h"
 
 int pacman_deptest(alpm_list_t *targets)
 {
 	alpm_list_t *i;
 	alpm_list_t *deps = NULL;
-	pmdb_t *localdb = alpm_option_get_localdb();
+	pmdb_t *localdb = alpm_option_get_localdb(config->handle);
 
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *target = alpm_list_getdata(i);

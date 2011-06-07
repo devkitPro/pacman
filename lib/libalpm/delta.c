@@ -111,7 +111,7 @@ static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 	return vertices;
 }
 
-static void graph_init_size(alpm_list_t *vertices)
+static void graph_init_size(pmhandle_t *handle, alpm_list_t *vertices)
 {
 	alpm_list_t *i;
 
@@ -121,7 +121,7 @@ static void graph_init_size(alpm_list_t *vertices)
 		pmdelta_t *vdelta = v->data;
 
 		/* determine whether the delta file already exists */
-		fpath = _alpm_filecache_find(vdelta->delta);
+		fpath = _alpm_filecache_find(handle, vdelta->delta);
 		md5sum = alpm_compute_md5sum(fpath);
 		if(fpath && md5sum && strcmp(md5sum, vdelta->delta_md5) == 0) {
 			vdelta->download_size = 0;
@@ -130,7 +130,7 @@ static void graph_init_size(alpm_list_t *vertices)
 		FREE(md5sum);
 
 		/* determine whether a base 'from' file exists */
-		fpath = _alpm_filecache_find(vdelta->from);
+		fpath = _alpm_filecache_find(handle, vdelta->from);
 		if(fpath) {
 			v->weight = vdelta->download_size;
 		}
@@ -211,6 +211,7 @@ static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **
 /** Calculates the shortest path from one version to another.
  * The shortest path is defined as the path with the smallest combined
  * size, not the length of the path.
+ * @param handle the context handle
  * @param deltas the list of pmdelta_t * objects that a file has
  * @param to the file to start the search at
  * @param path the pointer to a list location where pmdelta_t * objects that
@@ -218,7 +219,7 @@ static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **
  * possible with the files available.
  * @return the size of the path stored, or LONG_MAX if path is unfindable
  */
-off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
+off_t _alpm_shortest_delta_path(pmhandle_t *handle, alpm_list_t *deltas,
 		const char *to, alpm_list_t **path)
 {
 	alpm_list_t *bestpath = NULL;
@@ -233,7 +234,7 @@ off_t _alpm_shortest_delta_path(alpm_list_t *deltas,
 	_alpm_log(PM_LOG_DEBUG, "started delta shortest-path search for '%s'\n", to);
 
 	vertices = graph_init(deltas, 0);
-	graph_init_size(vertices);
+	graph_init_size(handle, vertices);
 	dijkstra(vertices);
 	bestsize = shortest_path(vertices, to, &bestpath);
 

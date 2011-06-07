@@ -124,12 +124,12 @@ static int query_fileowner(alpm_list_t *targets)
 	/* Set up our root path buffer. We only need to copy the location of root in
 	 * once, then we can just overwrite whatever file was there on the previous
 	 * iteration. */
-	root = alpm_option_get_root();
+	root = alpm_option_get_root(config->handle);
 	strncpy(path, root, PATH_MAX - 1);
 	append = path + strlen(path);
 	max_length = PATH_MAX - (append - path) - 1;
 
-	db_local = alpm_option_get_localdb();
+	db_local = alpm_option_get_localdb(config->handle);
 
 	for(t = targets; t; t = alpm_list_next(t)) {
 		char *filename, *dname, *rpath;
@@ -240,7 +240,7 @@ static int query_search(alpm_list_t *targets)
 {
 	alpm_list_t *i, *searchlist;
 	int freelist;
-	pmdb_t *db_local = alpm_option_get_localdb();
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
 
 	/* if we have a targets list, search for packages matching it */
 	if(targets) {
@@ -299,7 +299,7 @@ static int query_group(alpm_list_t *targets)
 	alpm_list_t *i, *j;
 	char *grpname = NULL;
 	int ret = 0;
-	pmdb_t *db_local = alpm_option_get_localdb();
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
 
 	if(targets == NULL) {
 		for(j = alpm_db_get_grpcache(db_local); j; j = alpm_list_next(j)) {
@@ -342,7 +342,7 @@ static int is_foreign(pmpkg_t *pkg)
 {
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	alpm_list_t *j;
-	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
+	alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
 
 	int match = 0;
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
@@ -390,7 +390,8 @@ static int filter(pmpkg_t *pkg)
 		return 0;
 	}
 	/* check if this pkg is outdated */
-	if(config->op_q_upgrade && (alpm_sync_newversion(pkg, alpm_option_get_syncdbs()) == NULL)) {
+	if(config->op_q_upgrade && (alpm_sync_newversion(pkg,
+					alpm_option_get_syncdbs(config->handle)) == NULL)) {
 		return 0;
 	}
 	return 1;
@@ -406,7 +407,7 @@ static int check(pmpkg_t *pkg)
 	size_t rootlen;
 	char f[PATH_MAX];
 
-	root = alpm_option_get_root();
+	root = alpm_option_get_root(config->handle);
 	rootlen = strlen(root);
 	if(rootlen + 1 > PATH_MAX) {
 		/* we are in trouble here */
@@ -503,14 +504,14 @@ int pacman_query(alpm_list_t *targets)
 
 	if(config->op_q_foreign) {
 		/* ensure we have at least one valid sync db set up */
-		alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
+		alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
 		if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
 			pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
 			return 1;
 		}
 	}
 
-	db_local = alpm_option_get_localdb();
+	db_local = alpm_option_get_localdb(config->handle);
 
 	/* operations on all packages in the local DB
 	 * valid: no-op (plain -Q), list, info, check

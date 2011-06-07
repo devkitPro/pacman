@@ -421,6 +421,7 @@ static int setup_libalpm(void)
 {
 	int ret = 0;
 	enum _pmerrno_t err;
+	pmhandle_t *handle;
 
 	pm_printf(PM_LOG_DEBUG, "setup_libalpm called\n");
 
@@ -444,18 +445,19 @@ static int setup_libalpm(void)
 	}
 
 	/* initialize library */
-	config->handle = alpm_initialize(config->rootdir, config->dbpath, &err);
-	if(!config->handle) {
+	handle = alpm_initialize(config->rootdir, config->dbpath, &err);
+	if(!handle) {
 		pm_printf(PM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
 		        alpm_strerror(err));
 		return -1;
 	}
+	config->handle = handle;
 
-	alpm_option_set_logcb(cb_log);
-	alpm_option_set_dlcb(cb_dl_progress);
+	alpm_option_set_logcb(handle, cb_log);
+	alpm_option_set_dlcb(handle, cb_dl_progress);
 
 	config->logfile = config->logfile ? config->logfile : strdup(LOGFILE);
-	ret = alpm_option_set_logfile(config->logfile);
+	ret = alpm_option_set_logfile(handle, config->logfile);
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
 				config->logfile, alpm_strerrorlast());
@@ -465,7 +467,7 @@ static int setup_libalpm(void)
 	/* Set GnuPG's home directory.  This is not relative to rootdir, even if
 	 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
 	config->gpgdir = config->gpgdir ? config->gpgdir : strdup(GPGDIR);
-	ret = alpm_option_set_signaturedir(config->gpgdir);
+	ret = alpm_option_set_signaturedir(handle, config->gpgdir);
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
 				config->gpgdir, alpm_strerrorlast());
@@ -474,33 +476,33 @@ static int setup_libalpm(void)
 
 	/* add a default cachedir if one wasn't specified */
 	if(config->cachedirs == NULL) {
-		alpm_option_add_cachedir(CACHEDIR);
+		alpm_option_add_cachedir(handle, CACHEDIR);
 	} else {
-		alpm_option_set_cachedirs(config->cachedirs);
+		alpm_option_set_cachedirs(handle, config->cachedirs);
 	}
 
 	if(config->sigverify != PM_PGP_VERIFY_UNKNOWN) {
-		alpm_option_set_default_sigverify(config->sigverify);
+		alpm_option_set_default_sigverify(handle, config->sigverify);
 	}
 
 	if(config->xfercommand) {
-		alpm_option_set_fetchcb(download_with_xfercommand);
+		alpm_option_set_fetchcb(handle, download_with_xfercommand);
 	}
 
 	if(config->totaldownload) {
-		alpm_option_set_totaldlcb(cb_dl_total);
+		alpm_option_set_totaldlcb(handle, cb_dl_total);
 	}
 
-	alpm_option_set_arch(config->arch);
-	alpm_option_set_checkspace(config->checkspace);
-	alpm_option_set_usesyslog(config->usesyslog);
-	alpm_option_set_usedelta(config->usedelta);
-	alpm_option_set_default_sigverify(config->sigverify);
+	alpm_option_set_arch(handle, config->arch);
+	alpm_option_set_checkspace(handle, config->checkspace);
+	alpm_option_set_usesyslog(handle, config->usesyslog);
+	alpm_option_set_usedelta(handle, config->usedelta);
+	alpm_option_set_default_sigverify(handle, config->sigverify);
 
-	alpm_option_set_ignorepkgs(config->ignorepkg);
-	alpm_option_set_ignoregrps(config->ignoregrp);
-	alpm_option_set_noupgrades(config->noupgrade);
-	alpm_option_set_noextracts(config->noextract);
+	alpm_option_set_ignorepkgs(handle, config->ignorepkg);
+	alpm_option_set_ignoregrps(handle, config->ignoregrp);
+	alpm_option_set_noupgrades(handle, config->noupgrade);
+	alpm_option_set_noextracts(handle, config->noextract);
 
 	return 0;
 }

@@ -61,7 +61,7 @@ static int check_localdb_files(void)
 	int ret = 0;
 	DIR *dir;
 
-	dbpath = alpm_option_get_dbpath();
+	dbpath = alpm_option_get_dbpath(handle);
 	snprintf(path, sizeof(path), "%slocal", dbpath);
 	if(!(dir = opendir(path))) {
 		fprintf(stderr, "error : %s : %s\n", path, strerror(errno));
@@ -138,12 +138,7 @@ static int check_localdb(void) {
 		return ret;
 	}
 
-	db = alpm_option_get_localdb();
-	if(db == NULL) {
-		fprintf(stderr, "error: could not register 'local' database (%s)\n",
-				alpm_strerrorlast());
-		cleanup(EXIT_FAILURE);
-	}
+	db = alpm_option_get_localdb(handle);
 	pkglist = alpm_db_get_pkgcache(db);
 	ret += checkdeps(pkglist);
 	ret += checkconflicts(pkglist);
@@ -214,7 +209,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* let us get log messages from libalpm */
-	alpm_option_set_logcb(output_cb);
+	alpm_option_set_logcb(handle, output_cb);
 
 	if(!dbnames) {
 		ret = check_localdb();

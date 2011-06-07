@@ -51,7 +51,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 		return 1;
 	}
 
-	syncdbs = alpm_option_get_syncdbs();
+	syncdbs = alpm_option_get_syncdbs(config->handle);
 
 	rewinddir(dir);
 	/* step through the directory one file at a time */
@@ -125,7 +125,7 @@ static int sync_cleandb_all(void)
 	char newdbpath[PATH_MAX];
 	int ret = 0;
 
-	dbpath = alpm_option_get_dbpath();
+	dbpath = alpm_option_get_dbpath(config->handle);
 	printf(_("Database directory: %s\n"), dbpath);
 	if(!yesno(_("Do you want to remove unused repositories?"))) {
 		return 0;
@@ -145,11 +145,12 @@ static int sync_cleandb_all(void)
 static int sync_cleancache(int level)
 {
 	alpm_list_t *i;
-	alpm_list_t *sync_dbs = alpm_option_get_syncdbs();
-	pmdb_t *db_local = alpm_option_get_localdb();
+	alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_list_t *cachedirs = alpm_option_get_cachedirs(config->handle);
 	int ret = 0;
 
-	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+	for(i = cachedirs; i; i = alpm_list_next(i)) {
 		printf(_("Cache directory: %s\n"), (char *)alpm_list_getdata(i));
 	}
 
@@ -177,7 +178,7 @@ static int sync_cleancache(int level)
 		printf(_("removing all files from cache...\n"));
 	}
 
-	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+	for(i = cachedirs; i; i = alpm_list_next(i)) {
 		const char *cachedir = alpm_list_getdata(i);
 		DIR *dir = opendir(cachedir);
 		struct dirent *ent;
@@ -335,7 +336,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 	alpm_list_t *i, *j, *ret;
 	int freelist;
 	int found = 0;
-	pmdb_t *db_local = alpm_option_get_localdb();
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		pmdb_t *db = alpm_list_getdata(i);
@@ -532,7 +533,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ls = NULL;
-	pmdb_t *db_local = alpm_option_get_localdb();
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
@@ -587,7 +588,8 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 static alpm_list_t *syncfirst(void) {
 	alpm_list_t *i, *res = NULL;
-	pmdb_t *db_local = alpm_option_get_localdb();
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_list_t *syncdbs = alpm_option_get_syncdbs(config->handle);
 
 	for(i = config->syncfirst; i; i = alpm_list_next(i)) {
 		char *pkgname = alpm_list_getdata(i);
@@ -596,7 +598,7 @@ static alpm_list_t *syncfirst(void) {
 			continue;
 		}
 
-		if(alpm_sync_newversion(pkg, alpm_option_get_syncdbs())) {
+		if(alpm_sync_newversion(pkg, syncdbs)) {
 			res = alpm_list_add(res, strdup(pkgname));
 		}
 	}
@@ -607,7 +609,7 @@ static alpm_list_t *syncfirst(void) {
 static pmdb_t *get_db(const char *dbname)
 {
 	alpm_list_t *i;
-	for(i = alpm_option_get_syncdbs(); i; i = i->next) {
+	for(i = alpm_option_get_syncdbs(config->handle); i; i = i->next) {
 		pmdb_t *db = i->data;
 		if(strcmp(alpm_db_get_name(db), dbname) == 0) {
 			return db;
@@ -726,7 +728,7 @@ static int process_target(char *target)
 		alpm_list_free(dblist);
 	} else {
 		targname = targstring;
-		dblist = alpm_option_get_syncdbs();
+		dblist = alpm_option_get_syncdbs(config->handle);
 		ret = process_targname(dblist, targname);
 	}
 cleanup:
@@ -910,7 +912,7 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	/* ensure we have at least one valid sync db set up */
-	sync_dbs = alpm_option_get_syncdbs();
+	sync_dbs = alpm_option_get_syncdbs(config->handle);
 	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
 		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
 		return 1;

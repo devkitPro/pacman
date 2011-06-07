@@ -559,10 +559,11 @@ int _alpm_str_cmp(const void *s1, const void *s2)
 }
 
 /** Find a filename in a registered alpm cachedir.
+ * @param handle the context handle
  * @param filename name of file to find
  * @return malloced path of file, NULL if not found
  */
-char *_alpm_filecache_find(const char* filename)
+char *_alpm_filecache_find(pmhandle_t *handle, const char *filename)
 {
 	char path[PATH_MAX];
 	char *retpath;
@@ -570,7 +571,7 @@ char *_alpm_filecache_find(const char* filename)
 	struct stat buf;
 
 	/* Loop through the cache dirs until we find a matching file */
-	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+	for(i = alpm_option_get_cachedirs(handle); i; i = alpm_list_next(i)) {
 		snprintf(path, PATH_MAX, "%s%s", (char *)alpm_list_getdata(i),
 				filename);
 		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
@@ -585,16 +586,17 @@ char *_alpm_filecache_find(const char* filename)
 
 /** Check the alpm cachedirs for existance and find a writable one.
  * If no valid cache directory can be found, use /tmp.
+ * @param handle the context handle
  * @return pointer to a writable cache directory.
  */
-const char *_alpm_filecache_setup(void)
+const char *_alpm_filecache_setup(pmhandle_t *handle)
 {
 	struct stat buf;
 	alpm_list_t *i, *tmp;
 	char *cachedir;
 
 	/* Loop through the cache dirs until we find a writeable dir */
-	for(i = alpm_option_get_cachedirs(); i; i = alpm_list_next(i)) {
+	for(i = alpm_option_get_cachedirs(handle); i; i = alpm_list_next(i)) {
 		cachedir = alpm_list_getdata(i);
 		if(stat(cachedir, &buf) != 0) {
 			/* cache directory does not exist.... try creating it */
@@ -614,7 +616,7 @@ const char *_alpm_filecache_setup(void)
 
 	/* we didn't find a valid cache directory. use /tmp. */
 	tmp = alpm_list_add(NULL, "/tmp/");
-	alpm_option_set_cachedirs(tmp);
+	alpm_option_set_cachedirs(handle, tmp);
 	alpm_list_free(tmp);
 	_alpm_log(PM_LOG_DEBUG, "using cachedir: %s\n", "/tmp/");
 	_alpm_log(PM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));

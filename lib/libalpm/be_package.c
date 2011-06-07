@@ -270,7 +270,7 @@ pmpkg_t *_alpm_pkg_load_internal(const char *pkgfile, int full,
 	_alpm_log(PM_LOG_DEBUG, "base64_sig: %s\n", base64_sig);
 	if(check_sig != PM_PGP_VERIFY_NEVER) {
 		_alpm_log(PM_LOG_DEBUG, "checking signature for %s\n", pkgfile);
-		ret = _alpm_gpgme_checksig(pkgfile, base64_sig);
+		ret = _alpm_gpgme_checksig(handle, pkgfile, base64_sig);
 		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
 				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
 			RET_ERR(PM_ERR_SIG_INVALID, NULL);

@@ -34,7 +34,7 @@
 static int remove_target(const char *target)
 {
 	pmpkg_t *info;
-	pmdb_t *db_local = alpm_option_get_localdb();
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
 	alpm_list_t *p;
 
 	if((info = alpm_db_get_pkg(db_local, target)) != NULL) {

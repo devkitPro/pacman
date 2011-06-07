@@ -64,7 +64,8 @@ int trans_init(pmtransflag_t flags)
 				alpm_strerrorlast());
 		if(pm_errno == PM_ERR_HANDLE_LOCK) {
 			fprintf(stderr, _("  if you're sure a package manager is not already\n"
-						"  running, you can remove %s\n"), alpm_option_get_lockfile());
+						"  running, you can remove %s\n"),
+					alpm_option_get_lockfile(config->handle));
 		}
 		else if(pm_errno == PM_ERR_DB_VERSION) {
 			fprintf(stderr, _("  try running pacman-db-upgrade\n"));
@@ -654,7 +655,7 @@ static alpm_list_t *create_verbose_row(pmpkg_t *pkg, int install)
 	double size;
 	const char *label;
 	alpm_list_t *ret = NULL;
-	pmdb_t *ldb = alpm_option_get_localdb();
+	pmdb_t *ldb = alpm_option_get_localdb(config->handle);
 
 	/* a row consists of the package name, */
 	pm_asprintf(&str, "%s", alpm_pkg_get_name(pkg));
@@ -688,7 +689,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	const alpm_list_t *i;
 	off_t isize = 0, rsize = 0, dlsize = 0;
 	alpm_list_t *j, *lp, *header = NULL, *targets = NULL;
-	pmdb_t *db_local = alpm_option_get_localdb();
+	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
 
 	if(!pkgs) {
 		return;

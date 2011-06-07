@@ -127,10 +127,11 @@ typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
 		int force);
 
 /** Fetch a remote pkg.
+ * @param handle the context handle
  * @param url URL of the package to download
  * @return the downloaded filepath on success, NULL on error
  */
-char *alpm_fetch_pkgurl(const char *url);
+char *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url);
 
 /** @addtogroup alpm_api_options Options
  * Libalpm option getters and setters
@@ -138,67 +139,67 @@ char *alpm_fetch_pkgurl(const char *url);
  */
 
 /** Returns the callback used for logging. */
-alpm_cb_log alpm_option_get_logcb(void);
+alpm_cb_log alpm_option_get_logcb(pmhandle_t *handle);
 /** Sets the callback used for logging. */
-int alpm_option_set_logcb(alpm_cb_log cb);
+int alpm_option_set_logcb(pmhandle_t *handle, alpm_cb_log cb);
 
 /** Returns the callback used to report download progress. */
-alpm_cb_download alpm_option_get_dlcb(void);
+alpm_cb_download alpm_option_get_dlcb(pmhandle_t *handle);
 /** Sets the callback used to report download progress. */
-int alpm_option_set_dlcb(alpm_cb_download cb);
+int alpm_option_set_dlcb(pmhandle_t *handle, alpm_cb_download cb);
 
 /** Returns the downloading callback. */
-alpm_cb_fetch alpm_option_get_fetchcb(void);
+alpm_cb_fetch alpm_option_get_fetchcb(pmhandle_t *handle);
 /** Sets the downloading callback. */
-int alpm_option_set_fetchcb(alpm_cb_fetch cb);
+int alpm_option_set_fetchcb(pmhandle_t *handle, alpm_cb_fetch cb);
 
 /** Returns the callback used to report total download size. */
-alpm_cb_totaldl alpm_option_get_totaldlcb(void);
+alpm_cb_totaldl alpm_option_get_totaldlcb(pmhandle_t *handle);
 /** Sets the callback used to report total download size. */
-int alpm_option_set_totaldlcb(alpm_cb_totaldl cb);
+int alpm_option_set_totaldlcb(pmhandle_t *handle, alpm_cb_totaldl cb);
 
 /** Returns the root of the destination filesystem. Read-only. */
-const char *alpm_option_get_root(void);
+const char *alpm_option_get_root(pmhandle_t *handle);
 
 /** Returns the path to the database directory. Read-only. */
-const char *alpm_option_get_dbpath(void);
+const char *alpm_option_get_dbpath(pmhandle_t *handle);
 
 /** Get the name of the database lock file. Read-only. */
-const char *alpm_option_get_lockfile(void);
+const char *alpm_option_get_lockfile(pmhandle_t *handle);
 
 /** @name Accessors to the list of package cache directories.
  * @{
  */
-alpm_list_t *alpm_option_get_cachedirs(void);
-int alpm_option_set_cachedirs(alpm_list_t *cachedirs);
-int alpm_option_add_cachedir(const char *cachedir);
-int alpm_option_remove_cachedir(const char *cachedir);
+alpm_list_t *alpm_option_get_cachedirs(pmhandle_t *handle);
+int alpm_option_set_cachedirs(pmhandle_t *handle, alpm_list_t *cachedirs);
+int alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir);
+int alpm_option_remove_cachedir(pmhandle_t *handle, const char *cachedir);
 /** @} */
 
 /** Returns the logfile name. */
-const char *alpm_option_get_logfile(void);
+const char *alpm_option_get_logfile(pmhandle_t *handle);
 /** Sets the logfile name. */
-int alpm_option_set_logfile(const char *logfile);
+int alpm_option_set_logfile(pmhandle_t *handle, const char *logfile);
 
 /** Returns the signature directory path. */
-const char *alpm_option_get_signaturedir(void);
+const char *alpm_option_get_signaturedir(pmhandle_t *handle);
 /** Sets the signature directory path. */
-int alpm_option_set_signaturedir(const char *signaturedir);
+int alpm_option_set_signaturedir(pmhandle_t *handle, const char *signaturedir);
 
 /** Returns whether to use syslog (0 is FALSE, TRUE otherwise). */
-int alpm_option_get_usesyslog(void);
+int alpm_option_get_usesyslog(pmhandle_t *handle);
 /** Sets whether to use syslog (0 is FALSE, TRUE otherwise). */
-int alpm_option_set_usesyslog(int usesyslog);
+int alpm_option_set_usesyslog(pmhandle_t *handle, int usesyslog);
 
 /** @name Accessors to the list of no-upgrade files.
  * These functions modify the list of files which should
  * not be updated by package installation.
  * @{
  */
-alpm_list_t *alpm_option_get_noupgrades(void);
-int alpm_option_add_noupgrade(const char *pkg);
-int alpm_option_set_noupgrades(alpm_list_t *noupgrade);
-int alpm_option_remove_noupgrade(const char *pkg);
+alpm_list_t *alpm_option_get_noupgrades(pmhandle_t *handle);
+int alpm_option_add_noupgrade(pmhandle_t *handle, const char *pkg);
+int alpm_option_set_noupgrades(pmhandle_t *handle, alpm_list_t *noupgrade);
+int alpm_option_remove_noupgrade(pmhandle_t *handle, const char *pkg);
 /** @} */
 
 /** @name Accessors to the list of no-extract files.
@@ -207,10 +208,10 @@ int alpm_option_remove_noupgrade(const char *pkg);
  * not be upgraded by a sysupgrade operation.
  * @{
  */
-alpm_list_t *alpm_option_get_noextracts(void);
-int alpm_option_add_noextract(const char *pkg);
-int alpm_option_set_noextracts(alpm_list_t *noextract);
-int alpm_option_remove_noextract(const char *pkg);
+alpm_list_t *alpm_option_get_noextracts(pmhandle_t *handle);
+int alpm_option_add_noextract(pmhandle_t *handle, const char *pkg);
+int alpm_option_set_noextracts(pmhandle_t *handle, alpm_list_t *noextract);
+int alpm_option_remove_noextract(pmhandle_t *handle, const char *pkg);
 /** @} */
 
 /** @name Accessors to the list of ignored packages.
@@ -218,10 +219,10 @@ int alpm_option_remove_noextract(const char *pkg);
  * should be ignored by a sysupgrade.
  * @{
  */
-alpm_list_t *alpm_option_get_ignorepkgs(void);
-int alpm_option_add_ignorepkg(const char *pkg);
-int alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs);
-int alpm_option_remove_ignorepkg(const char *pkg);
+alpm_list_t *alpm_option_get_ignorepkgs(pmhandle_t *handle);
+int alpm_option_add_ignorepkg(pmhandle_t *handle, const char *pkg);
+int alpm_option_set_ignorepkgs(pmhandle_t *handle, alpm_list_t *ignorepkgs);
+int alpm_option_remove_ignorepkg(pmhandle_t *handle, const char *pkg);
 /** @} */
 
 /** @name Accessors to the list of ignored groups.
@@ -229,25 +230,25 @@ int alpm_option_remove_ignorepkg(const char *pkg);
  * should be ignored by a sysupgrade.
  * @{
  */
-alpm_list_t *alpm_option_get_ignoregrps(void);
-int alpm_option_add_ignoregrp(const char *grp);
-int alpm_option_set_ignoregrps(alpm_list_t *ignoregrps);
-int alpm_option_remove_ignoregrp(const char *grp);
+alpm_list_t *alpm_option_get_ignoregrps(pmhandle_t *handle);
+int alpm_option_add_ignoregrp(pmhandle_t *handle, const char *grp);
+int alpm_option_set_ignoregrps(pmhandle_t *handle, alpm_list_t *ignoregrps);
+int alpm_option_remove_ignoregrp(pmhandle_t *handle, const char *grp);
 /** @} */
 
 /** Returns the targeted architecture. */
-const char *alpm_option_get_arch(void);
+const char *alpm_option_get_arch(pmhandle_t *handle);
 /** Sets the targeted architecture. */
-int alpm_option_set_arch(const char *arch);
+int alpm_option_set_arch(pmhandle_t *handle, const char *arch);
 
-int alpm_option_get_usedelta(void);
-int alpm_option_set_usedelta(int usedelta);
+int alpm_option_get_usedelta(pmhandle_t *handle);
+int alpm_option_set_usedelta(pmhandle_t *handle, int usedelta);
 
-int alpm_option_get_checkspace(void);
-int alpm_option_set_checkspace(int checkspace);
+int alpm_option_get_checkspace(pmhandle_t *handle);
+int alpm_option_set_checkspace(pmhandle_t *handle, int checkspace);
 
-pgp_verify_t alpm_option_get_default_sigverify(void);
-int alpm_option_set_default_sigverify(pgp_verify_t level);
+pgp_verify_t alpm_option_get_default_sigverify(pmhandle_t *handle);
+int alpm_option_set_default_sigverify(pmhandle_t *handle, pgp_verify_t level);
 
 /** @} */
 
@@ -262,14 +263,14 @@ int alpm_option_set_default_sigverify(pgp_verify_t level);
  * libalpm functions.
  * @return a reference to the local database
  */
-pmdb_t *alpm_option_get_localdb(void);
+pmdb_t *alpm_option_get_localdb(pmhandle_t *handle);
 
 /** Get the list of sync databases.
  * Returns a list of pmdb_t structures, one for each registered
  * sync database.
  * @return a reference to an internal list of pmdb_t structures
  */
-alpm_list_t *alpm_option_get_syncdbs(void);
+alpm_list_t *alpm_option_get_syncdbs(pmhandle_t *handle);
 
 /** Register a sync database of packages.
  * @param treename the name of the sync repository

@@ -104,7 +104,7 @@ static alpm_list_t *gpgme_list_sigsum(gpgme_sigsum_t sigsum)
 	return summary;
 }
 
-static int gpgme_init(void)
+static int gpgme_init(pmhandle_t *handle)
 {
 	static int init = 0;
 	const char *version;
@@ -116,7 +116,7 @@ static int gpgme_init(void)
 		return 0;
 	}
 
-	if(!alpm_option_get_signaturedir()) {
+	if(!alpm_option_get_signaturedir(handle)) {
 		RET_ERR(PM_ERR_SIG_MISSINGDIR, 1);
 	}
 
@@ -142,7 +142,7 @@ static int gpgme_init(void)
 
 	/* set and check engine information */
 	err = gpgme_set_engine_info(GPGME_PROTOCOL_OpenPGP, NULL,
-			alpm_option_get_signaturedir());
+			alpm_option_get_signaturedir(handle));
 	CHECK_ERR();
 	err = gpgme_get_engine_info(&enginfo);
 	CHECK_ERR();
@@ -194,12 +194,14 @@ error:
 
 /**
  * Check the PGP signature for the given file.
+ * @param handle the context handle
  * @param path the full path to a file
  * @param base64_sig PGP signature data in base64 encoding; if NULL, expect a
  * signature file next to 'path'
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
  */
-int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
+int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
+		const char *base64_sig)
 {
 	int ret = 0;
 	gpgme_error_t err;
@@ -226,7 +228,7 @@ int _alpm_gpgme_checksig(const char *path, const char *base64_sig)
 		}
 	}
 
-	if(gpgme_init()) {
+	if(gpgme_init(handle)) {
 		/* pm_errno was set in gpgme_init() */
 		return -1;
 	}
@@ -372,7 +374,7 @@ pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
 	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
 		return db->pgp_verify;
 	} else {
-		return alpm_option_get_default_sigverify();
+		return alpm_option_get_default_sigverify(db->handle);
 	}
 }
 
@@ -385,7 +387,8 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return 0);
 
-	return _alpm_gpgme_checksig(alpm_pkg_get_filename(pkg), pkg->base64_sig);
+	return _alpm_gpgme_checksig(pkg->handle, alpm_pkg_get_filename(pkg),
+			pkg->base64_sig);
 }
 
 /**
@@ -397,7 +400,7 @@ int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
 {
 	ASSERT(db != NULL, return 0);
 
-	return _alpm_gpgme_checksig(_alpm_db_path(db), NULL);
+	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL);
 }
 
 /* vim: set ts=2 sw=2 noet: */

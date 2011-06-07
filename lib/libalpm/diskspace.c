@@ -226,7 +226,7 @@ static int calculate_installed_size(pmhandle_t *handle,
 
 		/* approximate space requirements for db entries */
 		if(filename[0] == '.') {
-			filename = alpm_option_get_dbpath();
+			filename = alpm_option_get_dbpath(handle);
 		}
 
 		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);

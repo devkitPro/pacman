@@ -90,210 +90,150 @@ void _alpm_handle_free(pmhandle_t *handle)
 
 }
 
-alpm_cb_log SYMEXPORT alpm_option_get_logcb()
+alpm_cb_log SYMEXPORT alpm_option_get_logcb(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->logcb;
 }
 
-alpm_cb_download SYMEXPORT alpm_option_get_dlcb()
+alpm_cb_download SYMEXPORT alpm_option_get_dlcb(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->dlcb;
 }
 
-alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb()
+alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->fetchcb;
 }
 
-alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb()
+alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->totaldlcb;
 }
 
-const char SYMEXPORT *alpm_option_get_root()
+const char SYMEXPORT *alpm_option_get_root(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->root;
 }
 
-const char SYMEXPORT *alpm_option_get_dbpath()
+const char SYMEXPORT *alpm_option_get_dbpath(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->dbpath;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_cachedirs()
+alpm_list_t SYMEXPORT *alpm_option_get_cachedirs(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->cachedirs;
 }
 
-const char SYMEXPORT *alpm_option_get_logfile()
+const char SYMEXPORT *alpm_option_get_logfile(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->logfile;
 }
 
-const char SYMEXPORT *alpm_option_get_lockfile()
+const char SYMEXPORT *alpm_option_get_lockfile(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->lockfile;
 }
 
-const char SYMEXPORT *alpm_option_get_signaturedir()
+const char SYMEXPORT *alpm_option_get_signaturedir(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->signaturedir;
 }
 
-int SYMEXPORT alpm_option_get_usesyslog()
+int SYMEXPORT alpm_option_get_usesyslog(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return -1;
-	}
+	ASSERT(handle != NULL, return -1);
 	return handle->usesyslog;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_noupgrades()
+alpm_list_t SYMEXPORT *alpm_option_get_noupgrades(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->noupgrade;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_noextracts()
+alpm_list_t SYMEXPORT *alpm_option_get_noextracts(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->noextract;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs()
+alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->ignorepkg;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps()
+alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->ignoregrp;
 }
 
-const char SYMEXPORT *alpm_option_get_arch()
+const char SYMEXPORT *alpm_option_get_arch(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->arch;
 }
 
-int SYMEXPORT alpm_option_get_usedelta()
+int SYMEXPORT alpm_option_get_usedelta(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return -1;
-	}
+	ASSERT(handle != NULL, return -1);
 	return handle->usedelta;
 }
 
-int SYMEXPORT alpm_option_get_checkspace()
+int SYMEXPORT alpm_option_get_checkspace(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return -1;
-	}
+	ASSERT(handle != NULL, return -1);
 	return handle->checkspace;
 }
 
-pmdb_t SYMEXPORT *alpm_option_get_localdb()
+pmdb_t SYMEXPORT *alpm_option_get_localdb(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->db_local;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_syncdbs()
+alpm_list_t SYMEXPORT *alpm_option_get_syncdbs(pmhandle_t *handle)
 {
-	if(handle == NULL) {
-		pm_errno = PM_ERR_HANDLE_NULL;
-		return NULL;
-	}
+	ASSERT(handle != NULL, return NULL);
 	return handle->dbs_sync;
 }
 
-int SYMEXPORT alpm_option_set_logcb(alpm_cb_log cb)
+int SYMEXPORT alpm_option_set_logcb(pmhandle_t *handle, alpm_cb_log cb)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->logcb = cb;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_dlcb(alpm_cb_download cb)
+int SYMEXPORT alpm_option_set_dlcb(pmhandle_t *handle, alpm_cb_download cb)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->dlcb = cb;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_fetchcb(alpm_cb_fetch cb)
+int SYMEXPORT alpm_option_set_fetchcb(pmhandle_t *handle, alpm_cb_fetch cb)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->fetchcb = cb;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_totaldlcb(alpm_cb_totaldl cb)
+int SYMEXPORT alpm_option_set_totaldlcb(pmhandle_t *handle, alpm_cb_totaldl cb)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->totaldlcb = cb;
 	return 0;
 }
@@ -344,11 +284,11 @@ enum _pmerrno_t _alpm_set_directory_option(const char *value,
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
+int SYMEXPORT alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir)
 {
 	char *newcachedir;
 
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(!cachedir) {
 		pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
@@ -362,15 +302,15 @@ int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
+int SYMEXPORT alpm_option_set_cachedirs(pmhandle_t *handle, alpm_list_t *cachedirs)
 {
 	alpm_list_t *i;
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(handle->cachedirs) {
 		FREELIST(handle->cachedirs);
 	}
 	for(i = cachedirs; i; i = i->next) {
-		int ret = alpm_option_add_cachedir(i->data);
+		int ret = alpm_option_add_cachedir(handle, i->data);
 		if(ret) {
 			return ret;
 		}
@@ -378,12 +318,12 @@ int SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_cachedir(const char *cachedir)
+int SYMEXPORT alpm_option_remove_cachedir(pmhandle_t *handle, const char *cachedir)
 {
 	char *vdata = NULL;
 	char *newcachedir;
 	size_t cachedirlen;
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	/* verify cachedir ends in a '/' */
 	cachedirlen = strlen(cachedir);
 	if(cachedir[cachedirlen-1] != '/') {
@@ -401,11 +341,11 @@ int SYMEXPORT alpm_option_remove_cachedir(const char *cachedir)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_logfile(const char *logfile)
+int SYMEXPORT alpm_option_set_logfile(pmhandle_t *handle, const char *logfile)
 {
 	char *oldlogfile = handle->logfile;
 
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(!logfile) {
 		pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
@@ -426,8 +366,9 @@ int SYMEXPORT alpm_option_set_logfile(const char *logfile)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_signaturedir(const char *signaturedir)
+int SYMEXPORT alpm_option_set_signaturedir(pmhandle_t *handle, const char *signaturedir)
 {
+	ASSERT(handle != NULL, return -1);
 	if(!signaturedir) {
 		pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
@@ -442,32 +383,32 @@ int SYMEXPORT alpm_option_set_signaturedir(const char *signaturedir)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_usesyslog(int usesyslog)
+int SYMEXPORT alpm_option_set_usesyslog(pmhandle_t *handle, int usesyslog)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->usesyslog = usesyslog;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_noupgrade(const char *pkg)
+int SYMEXPORT alpm_option_add_noupgrade(pmhandle_t *handle, const char *pkg)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_noupgrades(alpm_list_t *noupgrade)
+int SYMEXPORT alpm_option_set_noupgrades(pmhandle_t *handle, alpm_list_t *noupgrade)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(handle->noupgrade) FREELIST(handle->noupgrade);
 	handle->noupgrade = alpm_list_strdup(noupgrade);
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_noupgrade(const char *pkg)
+int SYMEXPORT alpm_option_remove_noupgrade(pmhandle_t *handle, const char *pkg)
 {
 	char *vdata = NULL;
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->noupgrade = alpm_list_remove_str(handle->noupgrade, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
@@ -476,25 +417,25 @@ int SYMEXPORT alpm_option_remove_noupgrade(const char *pkg)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_noextract(const char *pkg)
+int SYMEXPORT alpm_option_add_noextract(pmhandle_t *handle, const char *pkg)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_noextracts(alpm_list_t *noextract)
+int SYMEXPORT alpm_option_set_noextracts(pmhandle_t *handle, alpm_list_t *noextract)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(handle->noextract) FREELIST(handle->noextract);
 	handle->noextract = alpm_list_strdup(noextract);
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_noextract(const char *pkg)
+int SYMEXPORT alpm_option_remove_noextract(pmhandle_t *handle, const char *pkg)
 {
 	char *vdata = NULL;
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->noextract = alpm_list_remove_str(handle->noextract, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
@@ -503,25 +444,25 @@ int SYMEXPORT alpm_option_remove_noextract(const char *pkg)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_ignorepkg(const char *pkg)
+int SYMEXPORT alpm_option_add_ignorepkg(pmhandle_t *handle, const char *pkg)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
+int SYMEXPORT alpm_option_set_ignorepkgs(pmhandle_t *handle, alpm_list_t *ignorepkgs)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(handle->ignorepkg) FREELIST(handle->ignorepkg);
 	handle->ignorepkg = alpm_list_strdup(ignorepkgs);
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_ignorepkg(const char *pkg)
+int SYMEXPORT alpm_option_remove_ignorepkg(pmhandle_t *handle, const char *pkg)
 {
 	char *vdata = NULL;
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->ignorepkg = alpm_list_remove_str(handle->ignorepkg, pkg, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
@@ -530,25 +471,25 @@ int SYMEXPORT alpm_option_remove_ignorepkg(const char *pkg)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_ignoregrp(const char *grp)
+int SYMEXPORT alpm_option_add_ignoregrp(pmhandle_t *handle, const char *grp)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->ignoregrp = alpm_list_add(handle->ignoregrp, strdup(grp));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_ignoregrps(alpm_list_t *ignoregrps)
+int SYMEXPORT alpm_option_set_ignoregrps(pmhandle_t *handle, alpm_list_t *ignoregrps)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
 	handle->ignoregrp = alpm_list_strdup(ignoregrps);
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_ignoregrp(const char *grp)
+int SYMEXPORT alpm_option_remove_ignoregrp(pmhandle_t *handle, const char *grp)
 {
 	char *vdata = NULL;
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->ignoregrp = alpm_list_remove_str(handle->ignoregrp, grp, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
@@ -557,9 +498,9 @@ int SYMEXPORT alpm_option_remove_ignoregrp(const char *grp)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_arch(const char *arch)
+int SYMEXPORT alpm_option_set_arch(pmhandle_t *handle, const char *arch)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	if(handle->arch) FREE(handle->arch);
 	if(arch) {
 		handle->arch = strdup(arch);
@@ -569,31 +510,31 @@ int SYMEXPORT alpm_option_set_arch(const char *arch)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_usedelta(int usedelta)
+int SYMEXPORT alpm_option_set_usedelta(pmhandle_t *handle, int usedelta)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->usedelta = usedelta;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_checkspace(int checkspace)
+int SYMEXPORT alpm_option_set_checkspace(pmhandle_t *handle, int checkspace)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	handle->checkspace = checkspace;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_default_sigverify(pgp_verify_t level)
+int SYMEXPORT alpm_option_set_default_sigverify(pmhandle_t *handle, pgp_verify_t level)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
+	ASSERT(handle != NULL, return -1);
 	ASSERT(level != PM_PGP_VERIFY_UNKNOWN, RET_ERR(PM_ERR_WRONG_ARGS, -1));
 	handle->sigverify = level;
 	return 0;
 }
 
-pgp_verify_t SYMEXPORT alpm_option_get_default_sigverify()
+pgp_verify_t SYMEXPORT alpm_option_get_default_sigverify(pmhandle_t *handle)
 {
-	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, PM_PGP_VERIFY_UNKNOWN));
+	ASSERT(handle != NULL, return PM_PGP_VERIFY_UNKNOWN);
 	return handle->sigverify;
 }
 

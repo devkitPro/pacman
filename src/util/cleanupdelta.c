@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* let us get log messages from libalpm */
-	alpm_option_set_logcb(output_cb);
+	alpm_option_set_logcb(handle, output_cb);
 
 	checkdbs(dbpath,dbnames);
 	alpm_list_free(dbnames);

@@ -332,7 +332,7 @@ int _alpm_download(const char *url, const char *localpath,
 }
 
 /** Fetch a remote pkg. */
-char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
+char SYMEXPORT *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url)
 {
 	char *filepath;
 	const char *filename, *cachedir;
@@ -341,7 +341,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	filename = get_filename(url);
 
 	/* find a valid cache dir to download to */
-	cachedir = _alpm_filecache_setup();
+	cachedir = _alpm_filecache_setup(handle);
 
 	/* download the file */
 	ret = _alpm_download(url, cachedir, 0, 1, 0);
@@ -374,7 +374,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(const char *url)
 	}
 
 	/* we should be able to find the file the second time around */
-	filepath = _alpm_filecache_find(filename);
+	filepath = _alpm_filecache_find(handle, filename);
 	return filepath;
 }
 

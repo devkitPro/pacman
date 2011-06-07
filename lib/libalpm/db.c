@@ -360,7 +360,7 @@ const char *_alpm_db_path(pmdb_t *db)
 		const char *dbpath;
 		size_t pathsize;
 
-		dbpath = alpm_option_get_dbpath();
+		dbpath = alpm_option_get_dbpath(db->handle);
 		if(!dbpath) {
 			_alpm_log(PM_LOG_ERROR, _("database path is undefined\n"));
 			RET_ERR(PM_ERR_DB_OPEN, NULL);

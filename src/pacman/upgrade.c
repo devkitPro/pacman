@@ -42,7 +42,7 @@
 int pacman_upgrade(alpm_list_t *targets)
 {
 	alpm_list_t *i, *data = NULL;
-	pgp_verify_t check_sig = alpm_option_get_default_sigverify();
+	pgp_verify_t check_sig = alpm_option_get_default_sigverify(config->handle);
 	int retval = 0;
 
 	if(targets == NULL) {
@@ -54,7 +54,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	 */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		if(strstr(i->data, "://")) {
-			char *str = alpm_fetch_pkgurl(i->data);
+			char *str = alpm_fetch_pkgurl(config->handle, i->data);
 			if(str == NULL) {
 				pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
 						(char *)i->data, alpm_strerrorlast());

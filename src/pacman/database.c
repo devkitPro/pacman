@@ -63,7 +63,7 @@ int pacman_database(alpm_list_t *targets)
 		return 1;
 	}
 
-	db_local = alpm_option_get_localdb();
+	db_local = alpm_option_get_localdb(config->handle);
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *pkgname = i->data;
 		if(alpm_db_set_pkgreason(db_local, pkgname, reason) == -1) {
