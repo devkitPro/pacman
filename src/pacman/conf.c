@@ -508,32 +508,52 @@ static int setup_libalpm(void)
 }
 
 
-/* The real parseconfig. Called with a null section argument by the publicly
- * visible parseconfig so we can recall from within ourself on an include */
-static int _parseconfig(const char *file, int parse_options,
-		char **section, pmdb_t *db)
+/** The "real" parseconfig. Each "Include" directive will recall this method so
+ * recursion and stack depth are limited to 10 levels. The publicly visible
+ * parseconfig calls this with a NULL section argument so we can recall from
+ * within ourself on an include.
+ * @param file path to the config file
+ * @param section the current active section name; should be freed after all
+ * parsing is complete
+ * @param db the current active alpm database object
+ * @param parse_options whether to parse and call methods for the options
+ * section; if 0, parse and call methods for the repos sections
+ * @param depth the current recursion depth
+ **/
+static int _parseconfig(const char *file, char **section, pmdb_t *db,
+		int parse_options, int depth)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX];
 	int linenum = 0;
-	char *ptr;
 	int ret = 0;
+	const int max_depth = 10;
+
+	if(depth >= max_depth) {
+		pm_printf(PM_LOG_ERROR,
+				_("config parsing exceeded max recursion depth of %d.\n"), max_depth);
+		ret = 1;
+		goto cleanup;
+	}
 
 	pm_printf(PM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
 	if(fp == NULL) {
 		pm_printf(PM_LOG_ERROR, _("config file %s could not be read.\n"), file);
-		return 1;
+		ret = 1;
+		goto cleanup;
 	}
 
 	while(fgets(line, PATH_MAX, fp)) {
-		char *key, *value;
+		char *key, *value, *ptr;
+		size_t line_len;
 
 		linenum++;
 		strtrim(line);
+		line_len = strlen(line);
 
 		/* ignore whole line and end of line comments */
-		if(strlen(line) == 0 || line[0] == '#') {
+		if(line_len == 0 || line[0] == '#') {
 			continue;
 		}
 		if((ptr = strchr(line, '#'))) {
@@ -548,19 +568,18 @@ static int _parseconfig(const char *file, int parse_options,
 			goto cleanup;
 		}
 
-		if(line[0] == '[' && line[strlen(line)-1] == ']') {
+		if(line[0] == '[' && line[line_len - 1] == ']') {
 			char *name;
-			/* new config section, skip the '[' */
-			ptr = line;
-			ptr++;
-			name = strdup(ptr);
-			name[strlen(name)-1] = '\0';
-			if(!strlen(name)) {
+			/* only possibility here is a line == '[]' */
+			if(line_len <= 2) {
 				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
 						file, linenum);
 				ret = 1;
 				goto cleanup;
 			}
+			/* new config section, skip the '[' */
+			name = strdup(line + 1);
+			name[line_len - 2] = '\0';
 			pm_printf(PM_LOG_DEBUG, "config: new section '%s'\n", name);
 			/* if we are not looking at the options section, register a db */
 			if(!parse_options && strcmp(name, "options") != 0) {
@@ -634,7 +653,7 @@ static int _parseconfig(const char *file, int parse_options,
 					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(PM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
-						_parseconfig(globbuf.gl_pathv[gindex], parse_options, section, db);
+						_parseconfig(globbuf.gl_pathv[gindex], section, db, parse_options, depth++);
 					}
 				break;
 			}
@@ -690,7 +709,7 @@ cleanup:
 }
 
 /** Parse a configuration file.
- * @param file path to the config file.
+ * @param file path to the config file
  * @return 0 on success, non-zero on error
  */
 int parseconfig(const char *file)
@@ -703,7 +722,7 @@ int parseconfig(const char *file)
 
 	/* call the real parseconfig function with a null section & db argument */
 	pm_printf(PM_LOG_DEBUG, "parseconfig: options pass\n");
-	if((ret = _parseconfig(file, 1, &section, NULL))) {
+	if((ret = _parseconfig(file, &section, NULL, 1, 0))) {
 		free(section);
 		return ret;
 	}
@@ -714,7 +733,7 @@ int parseconfig(const char *file)
 	/* second pass, repo section parsing */
 	section = NULL;
 	pm_printf(PM_LOG_DEBUG, "parseconfig: repo pass\n");
-	return _parseconfig(file, 0, &section, NULL);
+	return _parseconfig(file, &section, NULL, 0, 0);
 	free(section);
 }
 
