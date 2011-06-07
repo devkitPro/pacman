@@ -30,9 +30,6 @@
 #include "util.h"
 #include "alpm.h"
 
-/* global handle variable */
-extern pmhandle_t *handle;
-
 /** \addtogroup alpm_log Logging Functions
  * @brief Functions to log using libalpm
  * @{

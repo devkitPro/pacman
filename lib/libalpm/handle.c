@@ -37,9 +37,6 @@
 #include "trans.h"
 #include "alpm.h"
 
-/* global var for handle (private to libalpm) */
-pmhandle_t *handle = NULL;
-
 pmhandle_t *_alpm_handle_new()
 {
 	pmhandle_t *handle;
@@ -87,7 +84,6 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->ignorepkg);
 	FREELIST(handle->ignoregrp);
 	FREE(handle);
-
 }
 
 alpm_cb_log SYMEXPORT alpm_option_get_logcb(pmhandle_t *handle)

@@ -34,9 +34,6 @@
 #include "log.h"
 #include "util.h"
 
-/* Globals */
-extern pmhandle_t *handle;
-
 /** \addtogroup alpm_interface Interface Functions
  * @brief Functions to initialize and release libalpm
  * @{
@@ -86,8 +83,6 @@ pmhandle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 	myhandle->curl = curl_easy_init();
 #endif
 
-	/* TODO temporary until global var removed */
-	handle = myhandle;
 	return myhandle;
 
 cleanup:
@@ -123,9 +118,6 @@ int SYMEXPORT alpm_release(pmhandle_t *myhandle)
 	}
 
 	_alpm_handle_free(myhandle);
-	myhandle = NULL;
-	/* TODO temporary until global var removed */
-	handle = NULL;
 
 #ifdef HAVE_LIBCURL
 	curl_global_cleanup();
