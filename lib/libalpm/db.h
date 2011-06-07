@@ -77,7 +77,8 @@ int _alpm_db_version(pmdb_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(pmhandle_t *handle);
-pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename);
+pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+		pgp_verify_t level);
 void _alpm_db_unregister(pmdb_t *db);
 
 /* be_*.c, backend specific calls */

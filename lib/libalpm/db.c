@@ -45,7 +45,8 @@
  */
 
 /** Register a sync database of packages. */
-pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename)
+pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+		pgp_verify_t check_sig)
 {
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return NULL);
@@ -54,7 +55,7 @@ pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename
 	/* Do not register a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, NULL));
 
-	return _alpm_db_register_sync(handle, treename);
+	return _alpm_db_register_sync(handle, treename, check_sig);
 }
 
 /* Helper function for alpm_db_unregister{_all} */

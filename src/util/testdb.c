@@ -151,7 +151,7 @@ static int check_syncdbs(alpm_list_t *dbnames) {
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
 		char *dbname = alpm_list_getdata(i);
-		db = alpm_db_register_sync(handle, dbname);
+		db = alpm_db_register_sync(handle, dbname, PM_PGP_VERIFY_OPTIONAL);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database (%s)\n",
 					alpm_strerror(alpm_errno(handle)));

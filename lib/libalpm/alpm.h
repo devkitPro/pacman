@@ -357,9 +357,12 @@ alpm_list_t *alpm_option_get_syncdbs(pmhandle_t *handle);
 /** Register a sync database of packages.
  * @param handle the context handle
  * @param treename the name of the sync repository
+ * @param check_sig what level of signature checking to perform on the
+ * database; note that this must be a '.sig' file type verification
  * @return a pmdb_t* on success (the value), NULL on error
  */
-pmdb_t *alpm_db_register_sync(pmhandle_t *handle, const char *treename);
+pmdb_t *alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+		pgp_verify_t check_sig);
 
 /** Unregister a package database.
  * @param db pointer to the package database to unregister

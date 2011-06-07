@@ -460,7 +460,7 @@ static int setup_libalpm(void)
 	ret = alpm_option_set_logfile(handle, config->logfile);
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
-				config->logfile, alpm_strerror(alpm_errno(config->handle)));
+				config->logfile, alpm_strerror(alpm_errno(handle)));
 		return ret;
 	}
 
@@ -470,7 +470,7 @@ static int setup_libalpm(void)
 	ret = alpm_option_set_gpgdir(handle, config->gpgdir);
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
-				config->gpgdir, alpm_strerror(alpm_errno(config->handle)));
+				config->gpgdir, alpm_strerror(alpm_errno(handle)));
 		return ret;
 	}
 
@@ -542,22 +542,12 @@ static int finish_section(struct section_t *section, int parse_options)
 	}
 
 	/* if we are not looking at options sections only, register a db */
-	db = alpm_db_register_sync(config->handle, section->name);
+	db = alpm_db_register_sync(config->handle, section->name, section->sigverify);
 	if(db == NULL) {
 		pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
 				section->name, alpm_strerror(alpm_errno(config->handle)));
 		ret = 1;
 		goto cleanup;
-	}
-
-	if(section->sigverify) {
-		if(alpm_db_set_pgp_verify(db, section->sigverify)) {
-			pm_printf(PM_LOG_ERROR,
-					_("could not set verify option for database '%s' (%s)\n"),
-					section->name, alpm_strerror(alpm_errno(config->handle)));
-			ret = 1;
-			goto cleanup;
-		}
 	}
 
 	for(i = section->servers; i; i = alpm_list_next(i)) {
