@@ -402,7 +402,7 @@ int SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
 {
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(handle->cachedirs) FREELIST(handle->cachedirs);
-	handle->cachedirs = cachedirs;
+	handle->cachedirs = alpm_list_strdup(cachedirs);
 	return 0;
 }
 
@@ -488,7 +488,7 @@ int SYMEXPORT alpm_option_set_noupgrades(alpm_list_t *noupgrade)
 {
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(handle->noupgrade) FREELIST(handle->noupgrade);
-	handle->noupgrade = noupgrade;
+	handle->noupgrade = alpm_list_strdup(noupgrade);
 	return 0;
 }
 
@@ -515,7 +515,7 @@ int SYMEXPORT alpm_option_set_noextracts(alpm_list_t *noextract)
 {
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(handle->noextract) FREELIST(handle->noextract);
-	handle->noextract = noextract;
+	handle->noextract = alpm_list_strdup(noextract);
 	return 0;
 }
 
@@ -542,7 +542,7 @@ int SYMEXPORT alpm_option_set_ignorepkgs(alpm_list_t *ignorepkgs)
 {
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(handle->ignorepkg) FREELIST(handle->ignorepkg);
-	handle->ignorepkg = ignorepkgs;
+	handle->ignorepkg = alpm_list_strdup(ignorepkgs);
 	return 0;
 }
 
@@ -569,7 +569,7 @@ int SYMEXPORT alpm_option_set_ignoregrps(alpm_list_t *ignoregrps)
 {
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
 	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
-	handle->ignoregrp = ignoregrps;
+	handle->ignoregrp = alpm_list_strdup(ignoregrps);
 	return 0;
 }
 
