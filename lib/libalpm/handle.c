@@ -400,9 +400,17 @@ int SYMEXPORT alpm_option_add_cachedir(const char *cachedir)
 
 int SYMEXPORT alpm_option_set_cachedirs(alpm_list_t *cachedirs)
 {
+	alpm_list_t *i;
 	ASSERT(handle != NULL, RET_ERR(PM_ERR_HANDLE_NULL, -1));
-	if(handle->cachedirs) FREELIST(handle->cachedirs);
-	handle->cachedirs = alpm_list_strdup(cachedirs);
+	if(handle->cachedirs) {
+		FREELIST(handle->cachedirs);
+	}
+	for(i = cachedirs; i; i = i->next) {
+		int ret = alpm_option_add_cachedir(i->data);
+		if(ret) {
+			return ret;
+		}
+	}
 	return 0;
 }
 
