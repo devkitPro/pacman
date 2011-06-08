@@ -21,7 +21,11 @@ EXTRA_DIST = \
 	pacman-optimize.sh.in \
 	pkgdelta.sh.in \
 	rankmirrors.sh.in \
-	repo-add.sh.in
+	repo-add.sh.in \
+	$(LIBRARY)
+
+LIBRARY = \
+	library/parse_options.sh
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS) *.tmp
@@ -47,6 +51,7 @@ edit = sed \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e 's|@SEDINPLACE[@]|$(SEDINPLACE)|g' \
 	-e 's|@DUPATH[@]|$(DUPATH)|g' \
+	-e 's|@SCRIPTNAME[@]|$@|g' \
 	-e 's|@configure_input[@]|Generated from $@.sh.in; do not edit by hand.|g'
 
 ## All the scripts depend on Makefile so that they are rebuilt when the
@@ -57,14 +62,14 @@ edit = sed \
 $(OURSCRIPTS): Makefile
 	@echo '    ' GEN $@;
 	@rm -f $@ $@.tmp
-	@test -f $(srcdir)/$@.sh.in && $(edit) $(srcdir)/$@.sh.in >$@.tmp || true
-	@test -f $(srcdir)/$@.py.in && $(edit) $(srcdir)/$@.py.in >$@.tmp || true
+	@test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@.tmp || true
+	@test -f $(srcdir)/$@.py.in && m4 -P -I $(srcdir) $(srcdir)/$@.py.in | $(edit) >$@.tmp || true
 	@test -f $@.tmp || false
 	@chmod +x $@.tmp
 	@chmod a-w $@.tmp
 	@mv $@.tmp $@
 
-makepkg: $(srcdir)/makepkg.sh.in
+makepkg: $(srcdir)/makepkg.sh.in $(srcdir)/library/parse_options.sh
 pacman-db-upgrade: $(srcdir)/pacman-db-upgrade.sh.in
 pacman-key: $(srcdir)/pacman-key.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
