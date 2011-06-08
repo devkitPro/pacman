@@ -507,20 +507,93 @@ static int setup_libalpm(void)
 	return 0;
 }
 
+/**
+ * Allows parsing in advance of an entire config section before we start
+ * calling library methods.
+ */
+struct section_t {
+	/* useful for all sections */
+	char *name;
+	int is_options;
+	/* db section option gathering */
+	pgp_verify_t sigverify;
+	alpm_list_t *servers;
+};
+
+/**
+ * Wrap up a section once we have reached the end of it. This should be called
+ * when a subsequent section is encountered, or when we have reached the end of
+ * the root config file. Once called, all existing saved config pieces on the
+ * section struct are freed.
+ * @param section the current parsed and saved section data
+ * @param parse_options whether we are parsing options or repo data
+ * @return 0 on success, 1 on failure
+ */
+static int finish_section(struct section_t *section, int parse_options)
+{
+	int ret = 0;
+	alpm_list_t *i;
+	pmdb_t *db;
+
+	pm_printf(PM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
+
+	/* parsing options (or nothing)- nothing to do except free the pieces */
+	if(!section->name || parse_options || section->is_options) {
+		goto cleanup;
+	}
+
+	/* if we are not looking at options sections only, register a db */
+	db = alpm_db_register_sync(config->handle, section->name);
+	if(db == NULL) {
+		pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
+				section->name, alpm_strerror(alpm_errno(config->handle)));
+		ret = 1;
+		goto cleanup;
+	}
+
+	if(section->sigverify) {
+		if(alpm_db_set_pgp_verify(db, section->sigverify)) {
+			pm_printf(PM_LOG_ERROR,
+					_("could not set verify option for database '%s' (%s)\n"),
+					section->name, alpm_strerror(alpm_errno(config->handle)));
+			ret = 1;
+			goto cleanup;
+		}
+	}
+
+	for(i = section->servers; i; i = alpm_list_next(i)) {
+		char *value = alpm_list_getdata(i);
+		if(_add_mirror(db, value) != 0) {
+			pm_printf(PM_LOG_ERROR,
+					_("could not add mirror '%s' to database '%s' (%s)\n"),
+					value, section->name, alpm_strerror(alpm_errno(config->handle)));
+			ret = 1;
+			goto cleanup;
+		}
+		free(value);
+	}
+
+cleanup:
+	alpm_list_free(section->servers);
+	section->servers = NULL;
+	section->sigverify = 0;
+	free(section->name);
+	section->name = NULL;
+	return ret;
+}
 
 /** The "real" parseconfig. Each "Include" directive will recall this method so
  * recursion and stack depth are limited to 10 levels. The publicly visible
  * parseconfig calls this with a NULL section argument so we can recall from
  * within ourself on an include.
  * @param file path to the config file
- * @param section the current active section name; should be freed after all
- * parsing is complete
- * @param db the current active alpm database object
+ * @param section the current active section
  * @param parse_options whether to parse and call methods for the options
  * section; if 0, parse and call methods for the repos sections
  * @param depth the current recursion depth
- **/
-static int _parseconfig(const char *file, char **section, pmdb_t *db,
+ * @return 0 on success, 1 on failure
+ */
+static int _parseconfig(const char *file, struct section_t *section,
 		int parse_options, int depth)
 {
 	FILE *fp = NULL;
@@ -560,14 +633,6 @@ static int _parseconfig(const char *file, char **section, pmdb_t *db,
 			*ptr = '\0';
 		}
 
-		/* sanity check */
-		if(parse_options && db) {
-			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: parsing options but have a database.\n"),
-						file, linenum);
-			ret = 1;
-			goto cleanup;
-		}
-
 		if(line[0] == '[' && line[line_len - 1] == ']') {
 			char *name;
 			/* only possibility here is a line == '[]' */
@@ -580,21 +645,14 @@ static int _parseconfig(const char *file, char **section, pmdb_t *db,
 			/* new config section, skip the '[' */
 			name = strdup(line + 1);
 			name[line_len - 2] = '\0';
+			/* we're at a new section; perform any post-actions for the prior */
+			if(finish_section(section, parse_options)) {
+				ret = 1;
+				goto cleanup;
+			}
 			pm_printf(PM_LOG_DEBUG, "config: new section '%s'\n", name);
-			/* if we are not looking at the options section, register a db */
-			if(!parse_options && strcmp(name, "options") != 0) {
-				db = alpm_db_register_sync(config->handle, name);
-				if(db == NULL) {
-					pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
-							name, alpm_strerror(alpm_errno(config->handle)));
-					ret = 1;
-					goto cleanup;
-				}
-			}
-			if(*section) {
-				free(*section);
-			}
-			*section = name;
+			section->name = name;
+			section->is_options = (strcmp(name, "options") == 0);
 			continue;
 		}
 
@@ -613,7 +671,7 @@ static int _parseconfig(const char *file, char **section, pmdb_t *db,
 			goto cleanup;
 		}
 		/* For each directive, compare to the camelcase string. */
-		if(*section == NULL) {
+		if(section->name == NULL) {
 			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
 					file, linenum);
 			ret = 1;
@@ -653,19 +711,19 @@ static int _parseconfig(const char *file, char **section, pmdb_t *db,
 					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(PM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
-						_parseconfig(globbuf.gl_pathv[gindex], section, db, parse_options, depth++);
+						_parseconfig(globbuf.gl_pathv[gindex], section, parse_options, depth + 1);
 					}
 				break;
 			}
 			globfree(&globbuf);
 			continue;
 		}
-		if(parse_options && strcmp(*section, "options") == 0) {
+		if(parse_options && section->is_options) {
 			/* we are either in options ... */
 			if((ret = _parse_options(key, value, file, linenum)) != 0) {
 				goto cleanup;
 			}
-		} else if (!parse_options && strcmp(*section, "options") != 0) {
+		} else if (!parse_options && !section->is_options) {
 			/* ... or in a repo section */
 			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
@@ -674,19 +732,11 @@ static int _parseconfig(const char *file, char **section, pmdb_t *db,
 					ret = 1;
 					goto cleanup;
 				}
-				if(_add_mirror(db, value) != 0) {
-					ret = 1;
-					goto cleanup;
-				}
+				section->servers = alpm_list_add(section->servers, strdup(value));
 			} else if(strcmp(key, "VerifySig") == 0) {
 				pgp_verify_t level = option_verifysig(value);
 				if(level != PM_PGP_VERIFY_UNKNOWN) {
-					ret = alpm_db_set_pgp_verify(db, level);
-					if(ret != 0) {
-						pm_printf(PM_LOG_ERROR, _("could not add set verify option for database '%s': %s (%s)\n"),
-								alpm_db_get_name(db), value, alpm_strerror(alpm_errno(config->handle)));
-						goto cleanup;
-					}
+					section->sigverify = level;
 				} else {
 					pm_printf(PM_LOG_ERROR,
 							_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
@@ -697,9 +747,13 @@ static int _parseconfig(const char *file, char **section, pmdb_t *db,
 			} else {
 				pm_printf(PM_LOG_WARNING,
 						_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
-						file, linenum, key, *section);
+						file, linenum, key, section->name);
 			}
 		}
+	}
+
+	if(depth == 0) {
+		ret = finish_section(section, parse_options);
 	}
 
 cleanup:
@@ -715,26 +769,23 @@ cleanup:
 int parseconfig(const char *file)
 {
 	int ret;
-	char *section = NULL;
+	struct section_t section;
+	memset(&section, 0, sizeof(struct section_t));
 	/* the config parse is a two-pass affair. We first parse the entire thing for
 	 * the [options] section so we can get all default and path options set.
 	 * Next, we go back and parse everything but [options]. */
 
 	/* call the real parseconfig function with a null section & db argument */
 	pm_printf(PM_LOG_DEBUG, "parseconfig: options pass\n");
-	if((ret = _parseconfig(file, &section, NULL, 1, 0))) {
-		free(section);
+	if((ret = _parseconfig(file, &section, 1, 0))) {
 		return ret;
 	}
-	free(section);
 	if((ret = setup_libalpm())) {
 		return ret;
 	}
 	/* second pass, repo section parsing */
-	section = NULL;
 	pm_printf(PM_LOG_DEBUG, "parseconfig: repo pass\n");
-	return _parseconfig(file, &section, NULL, 0, 0);
-	free(section);
+	return _parseconfig(file, &section, 0, 0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
