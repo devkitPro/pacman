@@ -498,6 +498,7 @@ static int sync_db_read(pmdb_t *db, struct archive *archive,
 		_alpm_log(PM_LOG_DEBUG, "unknown database file: %s\n", filename);
 	}
 
+	FREE(pkgname);
 	return 0;
 
 error:
