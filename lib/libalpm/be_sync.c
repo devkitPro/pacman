@@ -37,6 +37,34 @@
 #include "deps.h"
 #include "dload.h"
 
+static char *get_sync_dir(pmhandle_t *handle)
+{
+	const char *dbpath = alpm_option_get_dbpath(handle);
+	size_t len = strlen(dbpath) + 6;
+	char *syncpath;
+	struct stat buf;
+
+	MALLOC(syncpath, len, RET_ERR(handle, PM_ERR_MEMORY, NULL));
+	sprintf(syncpath, "%s%s", dbpath, "sync/");
+
+	if(stat(syncpath, &buf) != 0) {
+		_alpm_log(handle, PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
+				syncpath);
+		if(_alpm_makepath(syncpath) != 0) {
+			free(syncpath);
+			RET_ERR(handle, PM_ERR_SYSTEM, NULL);
+		}
+	} else if(!S_ISDIR(buf.st_mode)) {
+		_alpm_log(handle, PM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
+		if(unlink(syncpath) != 0 || _alpm_makepath(syncpath) != 0) {
+			free(syncpath);
+			RET_ERR(handle, PM_ERR_SYSTEM, NULL);
+		}
+	}
+
+	return syncpath;
+}
+
 /** Update a package database
  *
  * An update of the package database \a db will be attempted. Unless
@@ -79,10 +107,7 @@
 int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 {
 	char *syncpath;
-	const char *dbpath;
 	alpm_list_t *i;
-	struct stat buf;
-	size_t len;
 	int ret = -1;
 	mode_t oldmask;
 	pmhandle_t *handle;
@@ -94,29 +119,13 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	ASSERT(db != handle->db_local, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	ASSERT(db->servers != NULL, RET_ERR(handle, PM_ERR_SERVER_NONE, -1));
 
-	dbpath = alpm_option_get_dbpath(handle);
-	len = strlen(dbpath) + 6;
-	MALLOC(syncpath, len, RET_ERR(handle, PM_ERR_MEMORY, -1));
-	sprintf(syncpath, "%s%s", dbpath, "sync/");
-
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
 
-	if(stat(syncpath, &buf) != 0) {
-		_alpm_log(handle, PM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
-				syncpath);
-		if(_alpm_makepath(syncpath) != 0) {
-			free(syncpath);
-			RET_ERR(handle, PM_ERR_SYSTEM, -1);
-		}
-	} else if(!S_ISDIR(buf.st_mode)) {
-		_alpm_log(handle, PM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
-		if(unlink(syncpath) != 0 || _alpm_makepath(syncpath) != 0) {
-			free(syncpath);
-			RET_ERR(handle, PM_ERR_SYSTEM, -1);
-		}
+	syncpath = get_sync_dir(handle);
+	if(!syncpath) {
+		return -1;
 	}
-
 	check_sig = _alpm_db_get_sigverify_level(db);
 
 	for(i = db->servers; i; i = i->next) {
