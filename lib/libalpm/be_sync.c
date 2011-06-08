@@ -580,6 +580,7 @@ error:
 }
 
 struct db_operations sync_db_ops = {
+	.validate         = sync_db_validate,
 	.populate         = sync_db_populate,
 	.unregister       = _alpm_db_unregister,
 };

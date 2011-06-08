@@ -382,6 +382,14 @@ int alpm_db_unregister_all(alpm_handle_t *handle);
  */
 const char *alpm_db_get_name(const alpm_db_t *db);
 
+/** Check the validity of a database.
+ * This is most useful for sync databases and verifying signature status.
+ * If invalid, the handle error code will be set accordingly.
+ * @param db pointer to the package database
+ * @return 0 if valid, -1 if invalid (pm_errno is set accordingly)
+ */
+int alpm_db_get_valid(alpm_db_t *db);
+
 /** @name Accessors to the list of servers for a database.
  * @{
  */

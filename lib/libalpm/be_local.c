@@ -915,6 +915,7 @@ int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info)
 }
 
 struct db_operations local_db_ops = {
+	.validate         = local_db_validate,
 	.populate         = local_db_populate,
 	.unregister       = _alpm_db_unregister,
 };

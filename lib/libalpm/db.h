@@ -51,6 +51,7 @@ enum _alpm_dbstatus_t {
 };
 
 struct db_operations {
+	int (*validate) (alpm_db_t *);
 	int (*populate) (alpm_db_t *);
 	void (*unregister) (alpm_db_t *);
 };

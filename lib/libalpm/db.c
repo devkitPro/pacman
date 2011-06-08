@@ -219,6 +219,14 @@ const char SYMEXPORT *alpm_db_get_name(const alpm_db_t *db)
 	return db->treename;
 }
 
+/** Check the validity of a database. */
+int SYMEXPORT alpm_db_get_valid(alpm_db_t *db)
+{
+	ASSERT(db != NULL, return -1);
+	db->handle->pm_errno = 0;
+	return db->ops->validate(db);
+}
+
 /** Get a package entry from a package database. */
 alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 {
