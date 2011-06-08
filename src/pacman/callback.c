@@ -256,8 +256,12 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 {
 	switch(event) {
 		case PM_TRANS_CONV_INSTALL_IGNOREPKG:
-			*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
-							  alpm_pkg_get_name(data1));
+			if(!config->op_s_downloadonly) {
+				*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
+								  alpm_pkg_get_name(data1));
+			} else {
+				*response = 1;
+			}
 			break;
 		case PM_TRANS_CONV_REPLACE_PKG:
 			*response = yesno(_(":: Replace %s with %s/%s?"),
