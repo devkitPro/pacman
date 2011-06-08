@@ -783,22 +783,19 @@ static off_t pkg_get_size(pmpkg_t *pkg)
 
 static char *pkg_get_location(pmpkg_t *pkg)
 {
-	pmdb_t *db;
-	const char *dburl;
-	char *string;
+	alpm_list_t *servers;
+	char *string = NULL;
 	switch(config->op) {
 		case PM_OP_SYNC:
-			db = alpm_pkg_get_db(pkg);
-			dburl = alpm_db_get_url(db);
-			if(dburl) {
-				char *pkgurl = NULL;
-				pm_asprintf(&pkgurl, "%s/%s", dburl, alpm_pkg_get_filename(pkg));
-				return pkgurl;
+			servers = alpm_db_get_servers(alpm_pkg_get_db(pkg));
+			if(servers) {
+				pm_asprintf(&string, "%s/%s", alpm_list_getdata(servers),
+						alpm_pkg_get_filename(pkg));
+				return string;
 			}
 		case PM_OP_UPGRADE:
 			return strdup(alpm_pkg_get_filename(pkg));
 		default:
-			string = NULL;
 			pm_asprintf(&string, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 			return string;
 	}

@@ -231,20 +231,6 @@ const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 	return db->treename;
 }
 
-/** Get a download URL for the package database. */
-const char SYMEXPORT *alpm_db_get_url(const pmdb_t *db)
-{
-	char *url;
-
-	ASSERT(db != NULL, return NULL);
-	ASSERT(db->servers != NULL, return NULL);
-
-	url = (char *)db->servers->data;
-
-	return url;
-}
-
-
 /** Get a package entry from a package database. */
 pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 {

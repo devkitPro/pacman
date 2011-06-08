@@ -298,12 +298,6 @@ int alpm_db_unregister_all(pmhandle_t *handle);
  */
 const char *alpm_db_get_name(const pmdb_t *db);
 
-/** Get a download URL for the package database.
- * @param db pointer to the package database
- * @return a fully-specified download URL, NULL on error
- */
-const char *alpm_db_get_url(const pmdb_t *db);
-
 /** @name Accessors to the list of servers for a database.
  * @{
  */
