@@ -101,10 +101,18 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 		alpm_trans_cb_progress progress)
 {
 	pmtrans_t *trans;
+	alpm_list_t *i;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
+
+	for(i = handle->dbs_sync; i; i = i->next) {
+		const pmdb_t *db = i->data;
+		if(!(db->status & DB_STATUS_VALID)) {
+			RET_ERR(handle, PM_ERR_DB_INVALID, -1);
+		}
+	}
 
 	/* lock db */
 	if(!(flags & PM_TRANS_FLAG_NOLOCK)) {

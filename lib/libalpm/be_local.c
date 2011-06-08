@@ -321,6 +321,10 @@ static int local_db_validate(pmdb_t *db)
 	DIR *dbdir;
 	int ret = -1;
 
+	if(db->status & DB_STATUS_VALID) {
+		return 0;
+	}
+
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
 		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
@@ -329,6 +333,7 @@ static int local_db_validate(pmdb_t *db)
 	if(dbdir == NULL) {
 		if(errno == ENOENT) {
 			/* database dir doesn't exist yet */
+			db->status |= DB_STATUS_VALID;
 			return 0;
 		} else {
 			RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
@@ -354,6 +359,7 @@ static int local_db_validate(pmdb_t *db)
 		}
 	}
 	/* we found no depends file after full scan */
+	db->status |= DB_STATUS_VALID;
 	ret = 0;
 
 done:

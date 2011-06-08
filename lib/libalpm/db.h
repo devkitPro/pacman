@@ -43,6 +43,13 @@ typedef enum _pmdbinfrq_t {
 	INFRQ_ALL = 0x1F
 } pmdbinfrq_t;
 
+/** Database status. Bitflags. */
+enum _pmdbstatus_t {
+	DB_STATUS_VALID = (1 << 0),
+	DB_STATUS_PKGCACHE = (1 << 1),
+	DB_STATUS_GRPCACHE = (1 << 2)
+};
+
 struct db_operations {
 	int (*populate) (pmdb_t *);
 	void (*unregister) (pmdb_t *);
@@ -54,10 +61,10 @@ struct __pmdb_t {
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */
 	char *_path;
-	int pkgcache_loaded;
-	int grpcache_loaded;
 	/* also indicates whether we are RO or RW */
 	int is_local;
+	/* flags determining validity, loaded caches, etc. */
+	enum _pmdbstatus_t status;
 	pmpkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
@@ -72,7 +79,6 @@ pmdb_t *_alpm_db_new(const char *treename, int is_local);
 void _alpm_db_free(pmdb_t *db);
 const char *_alpm_db_path(pmdb_t *db);
 char *_alpm_db_sig_path(pmdb_t *db);
-int _alpm_db_version(pmdb_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
 pmdb_t *_alpm_db_register_local(pmhandle_t *handle);
@@ -88,7 +94,6 @@ int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info);
 
 /* cache bullshit */
 /* packages */
-int _alpm_db_load_pkgcache(pmdb_t *db);
 void _alpm_db_free_pkgcache(pmdb_t *db);
 int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
 int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
@@ -97,7 +102,6 @@ alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db);
 int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel);
 pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target);
 /* groups */
-int _alpm_db_load_grpcache(pmdb_t *db);
 void _alpm_db_free_grpcache(pmdb_t *db);
 alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db);
 pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target);

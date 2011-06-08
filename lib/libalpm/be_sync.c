@@ -69,9 +69,15 @@ static char *get_sync_dir(pmhandle_t *handle)
 
 static int sync_db_validate(pmdb_t *db)
 {
+	pgp_verify_t check_sig;
+
+	if(db->status & DB_STATUS_VALID) {
+		return 0;
+	}
+
 	/* this takes into account the default verification level if UNKNOWN
 	 * was assigned to this db */
-	pgp_verify_t check_sig = _alpm_db_get_sigverify_level(db);
+	check_sig = _alpm_db_get_sigverify_level(db);
 
 	if(check_sig != PM_PGP_VERIFY_NEVER) {
 		int ret;
@@ -83,6 +89,7 @@ static int sync_db_validate(pmdb_t *db)
 
 		/* we can skip any validation if the database doesn't exist */
 		if(access(dbpath, R_OK) != 0 && errno == ENOENT) {
+			goto valid;
 			return 0;
 		}
 
@@ -95,6 +102,8 @@ static int sync_db_validate(pmdb_t *db)
 		}
 	}
 
+valid:
+	db->status |= DB_STATUS_VALID;
 	return 0;
 }
 
@@ -215,6 +224,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
 
+	db->status &= ~DB_STATUS_VALID;
 	if(sync_db_validate(db)) {
 		/* pm_errno should be set */
 		ret = -1;
