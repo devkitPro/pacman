@@ -596,14 +596,10 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 	db->handle = handle;
 	db->siglevel = level;
 
-	if(sync_db_validate(db)) {
-		_alpm_db_free(db);
-		return NULL;
-	}
+	sync_db_validate(db);
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return db;
 }
-
 
 /* vim: set ts=2 sw=2 noet: */

@@ -315,6 +315,14 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		*data = NULL;
 	}
 
+	/* ensure all sync database are valid since we will be using them */
+	for(i = handle->dbs_sync; i; i = i->next) {
+		const alpm_db_t *db = i->data;
+		if(!(db->status & DB_STATUS_VALID)) {
+			RET_ERR(handle, ALPM_ERR_DB_INVALID, -1);
+		}
+	}
+
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		alpm_list_t *resolved = NULL; /* target list after resolvedeps */
 

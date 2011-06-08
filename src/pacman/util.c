@@ -49,9 +49,12 @@
 #include "callback.h"
 
 
-int trans_init(alpm_transflag_t flags)
+int trans_init(alpm_transflag_t flags, int check_valid)
 {
 	int ret;
+
+	check_syncdbs(0, check_valid);
+
 	if(config->print) {
 		ret = alpm_trans_init(config->handle, flags, NULL, NULL, NULL);
 	} else {
@@ -99,6 +102,31 @@ int needs_root(void)
 		default:
 			return 0;
 	}
+}
+
+int check_syncdbs(size_t need_repos, int check_valid)
+{
+	int ret = 0;
+	alpm_list_t *i;
+	alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
+
+	if(need_repos && sync_dbs == NULL) {
+		pm_printf(ALPM_LOG_ERROR, _("no usable package repositories configured.\n"));
+		return 1;
+	}
+
+	if(check_valid) {
+		/* ensure all known dbs are valid */
+		for(i = sync_dbs; i; i = alpm_list_next(i)) {
+			alpm_db_t *db = i->data;
+			if(alpm_db_get_valid(db)) {
+				pm_printf(ALPM_LOG_ERROR, _("database '%s' is not valid (%s)\n"),
+						alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));
+				ret = 1;
+			}
+		}
+	}
+	return ret;
 }
 
 /* discard unhandled input on the terminal's input buffer */

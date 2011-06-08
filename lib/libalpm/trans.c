@@ -53,18 +53,10 @@ int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags,
 		alpm_trans_cb_progress progress)
 {
 	alpm_trans_t *trans;
-	alpm_list_t *i;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(handle->trans == NULL, RET_ERR(handle, ALPM_ERR_TRANS_NOT_NULL, -1));
-
-	for(i = handle->dbs_sync; i; i = i->next) {
-		const alpm_db_t *db = i->data;
-		if(!(db->status & DB_STATUS_VALID)) {
-			RET_ERR(handle, ALPM_ERR_DB_INVALID, -1);
-		}
-	}
 
 	/* lock db */
 	if(!(flags & ALPM_TRANS_FLAG_NOLOCK)) {

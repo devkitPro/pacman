@@ -81,7 +81,7 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	/* Step 0: create a new transaction */
-	if(trans_init(config->flags) == -1) {
+	if(trans_init(config->flags, 0) == -1) {
 		return 1;
 	}
 

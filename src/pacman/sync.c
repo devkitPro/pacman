@@ -738,7 +738,7 @@ static int sync_trans(alpm_list_t *targets)
 	alpm_list_t *i;
 
 	/* Step 1: create a new transaction... */
-	if(trans_init(config->flags) == -1) {
+	if(trans_init(config->flags, 1) == -1) {
 		return 1;
 	}
 
@@ -885,7 +885,7 @@ int pacman_sync(alpm_list_t *targets)
 	if(config->op_s_clean) {
 		int ret = 0;
 
-		if(trans_init(0) == -1) {
+		if(trans_init(0, 0) == -1) {
 			return 1;
 		}
 
@@ -900,12 +900,11 @@ int pacman_sync(alpm_list_t *targets)
 		return ret;
 	}
 
-	/* ensure we have at least one valid sync db set up */
-	sync_dbs = alpm_option_get_syncdbs(config->handle);
-	if(sync_dbs == NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("no usable package repositories configured.\n"));
+	if(check_syncdbs(1, 0)) {
 		return 1;
 	}
+
+	sync_dbs = alpm_option_get_syncdbs(config->handle);
 
 	if(config->op_s_sync) {
 		/* grab a fresh package list */
@@ -914,6 +913,10 @@ int pacman_sync(alpm_list_t *targets)
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
 			return 1;
 		}
+	}
+
+	if(check_syncdbs(1, 1)) {
+		return 1;
 	}
 
 	/* search for a package */

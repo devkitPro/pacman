@@ -501,11 +501,8 @@ int pacman_query(alpm_list_t *targets)
 		return ret;
 	}
 
-	if(config->op_q_foreign) {
-		/* ensure we have at least one valid sync db set up */
-		alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
-		if(sync_dbs == NULL) {
-			pm_printf(ALPM_LOG_ERROR, _("no usable package repositories configured.\n"));
+	if(config->op_q_foreign || config->op_q_upgrade) {
+		if(check_syncdbs(1, 1)) {
 			return 1;
 		}
 	}

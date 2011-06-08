@@ -67,7 +67,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	/* Step 1: create a new transaction */
-	if(trans_init(config->flags) == -1) {
+	if(trans_init(config->flags, 1) == -1) {
 		return 1;
 	}
 

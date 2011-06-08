@@ -59,7 +59,7 @@ int pacman_database(alpm_list_t *targets)
 	}
 
 	/* Lock database */
-	if(trans_init(0) == -1) {
+	if(trans_init(0, 0) == -1) {
 		return 1;
 	}
 
