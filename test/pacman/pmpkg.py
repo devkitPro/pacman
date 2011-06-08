@@ -63,7 +63,7 @@ class pmpkg(object):
             "pre_remove": "",
             "post_remove": "",
             "pre_upgrade": "",
-            "post_upgrade": ""
+            "post_upgrade": "",
         }
 
     def __str__(self):
@@ -134,7 +134,7 @@ class pmpkg(object):
         util.mkfile(".PKGINFO", "\n".join(data))
 
         # .INSTALL
-        if len(self.install.values()) > 0:
+        if any(self.install.values()):
             util.mkinstallfile(".INSTALL", self.install)
 
         # safely create the dir
