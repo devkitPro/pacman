@@ -47,7 +47,7 @@ edit = sed \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e 's|@SEDINPLACE[@]|$(SEDINPLACE)|g' \
 	-e 's|@DUPATH[@]|$(DUPATH)|g' \
-	-e 's|@configure_input[@]|Generated from $@.in; do not edit by hand.|g'
+	-e 's|@configure_input[@]|Generated from $@.sh.in; do not edit by hand.|g'
 
 ## All the scripts depend on Makefile so that they are rebuilt when the
 ## prefix etc. changes. Use chmod -w to prevent people from editing the
