@@ -34,18 +34,7 @@ pmgraph_t *_alpm_graph_new(void)
 void _alpm_graph_free(void *data)
 {
 	pmgraph_t *graph = data;
-	/* make my children forget about me */
-	for(alpm_list_t *i = graph->children; i; i = i->next) {
-		pmgraph_t *child = i->data;
-		child->parent = NULL;
-	}
 	alpm_list_free(graph->children);
-	/* and make my parents forget about me too */
-	if(graph->parent) {
-		alpm_list_t *me = alpm_list_find_ptr(graph->parent->children, &data);
-		graph->parent->children = alpm_list_remove_item(graph->parent->children,
-				me);
-	}
 	free(graph);
 }
 
