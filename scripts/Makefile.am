@@ -66,7 +66,7 @@ $(OURSCRIPTS): Makefile
 
 makepkg: $(srcdir)/makepkg.sh.in
 pacman-db-upgrade: $(srcdir)/pacman-db-upgrade.sh.in
-pacman-key: ${srcdir}/pacman-key.sh.in
+pacman-key: $(srcdir)/pacman-key.sh.in
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
 pkgdelta: $(srcdir)/pkgdelta.sh.in
 rankmirrors: $(srcdir)/rankmirrors.sh.in
