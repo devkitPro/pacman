@@ -379,6 +379,20 @@ int _alpm_db_version(pmdb_t *db)
 	return db->ops->version(db);
 }
 
+char *_alpm_db_sig_path(pmdb_t *db)
+{
+	char *sigpath;
+	size_t len;
+	const char *dbfile = _alpm_db_path(db);
+	if(!db || !dbfile) {
+		return NULL;
+	}
+	len = strlen(dbfile) + strlen(".sig") + 1;
+	CALLOC(sigpath, len, sizeof(char), RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
+	sprintf(sigpath, "%s.sig", dbfile);
+	return sigpath;
+}
+
 int _alpm_db_cmp(const void *d1, const void *d2)
 {
 	pmdb_t *db1 = (pmdb_t *)d1;

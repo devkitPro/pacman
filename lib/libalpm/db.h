@@ -72,6 +72,7 @@ struct __pmdb_t {
 pmdb_t *_alpm_db_new(const char *treename, int is_local);
 void _alpm_db_free(pmdb_t *db);
 const char *_alpm_db_path(pmdb_t *db);
+char *_alpm_db_sig_path(pmdb_t *db);
 int _alpm_db_version(pmdb_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
