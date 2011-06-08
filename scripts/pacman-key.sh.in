@@ -87,12 +87,12 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 # 'key', 'equal sign' and 'value' can be surrounded by random whitespace
 # Usage: get_from "$file" "$key" # returns the value for the first matching key in the file
 get_from() {
-    while read key _ value; do
-        if [[ $key = $2 ]]; then
-            echo "$value"
-            break
-        fi
-    done < "$1"
+	while read key _ value; do
+		if [[ $key = $2 ]]; then
+			echo "$value"
+			break
+		fi
+	done < "$1"
 }
 
 reload_keyring() {
@@ -328,3 +328,5 @@ case "${command}" in
 		error "$(gettext "Unknown command:") $command"
 		usage; exit 1 ;;
 esac
+
+# vim: set ts=2 sw=2 noet:
