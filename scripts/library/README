@@ -1,0 +1,15 @@
+This folder contains code snippets that can be reused by multiple
+scripts.  A brief description of each file follows.
+
+output_format.sh:
+Provides basic output formatting functions with levels 'msg', 'msg2',
+'warning' and 'error'.  The 'msg' amd 'msg2' functions print to stdout
+and can be silenced by defining 'QUIET'.  The 'warning' and 'error'
+functions print to stderr with the appropriate prefix added to the
+message.
+
+parse_options.sh:
+A getopt replacement to avoids portability issues, in particular the
+lack of long option name support in the default getopt provided by some
+platforms.
+Usage: parse_option $SHORT_OPTS $LONG_OPTS "$@"
