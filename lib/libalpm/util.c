@@ -631,17 +631,18 @@ const char *_alpm_filecache_setup(void)
 int _alpm_lstat(const char *path, struct stat *buf)
 {
 	int ret;
-	char *newpath = strdup(path);
-	size_t len = strlen(newpath);
+	size_t len = strlen(path);
 
 	/* strip the trailing slash if one exists */
-	if(len != 0 && newpath[len - 1] == '/') {
-			newpath[len - 1] = '\0';
+	if(len != 0 && path[len - 1] == '/') {
+		char *newpath = strdup(path);
+		newpath[len - 1] = '\0';
+		ret = lstat(newpath, buf);
+		free(newpath);
+	} else {
+		ret = lstat(path, buf);
 	}
 
-	ret = lstat(newpath, buf);
-
-	FREE(newpath);
 	return ret;
 }
 
