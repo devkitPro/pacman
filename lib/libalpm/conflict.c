@@ -363,7 +363,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 	for(current = 0, i = upgrade; i; i = i->next, current++) {
 		alpm_list_t *k, *tmpfiles = NULL;
 		pmpkg_t *p1, *p2, *dbpkg;
-		char path[PATH_MAX+1];
+		char path[PATH_MAX];
 
 		p1 = i->data;
 		if(!p1) {
@@ -480,9 +480,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 			}
 
 			if(!resolved_conflict && dbpkg) {
-				char *rpath = calloc(PATH_MAX+1, sizeof(char));
+				char *rpath = calloc(PATH_MAX, sizeof(char));
 				if(!realpath(path, rpath)) {
-					FREE(rpath);
+					free(rpath);
 					continue;
 				}
 				char *filestr = rpath + strlen(handle->root);

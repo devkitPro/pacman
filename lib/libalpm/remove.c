@@ -186,7 +186,7 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 
 static int can_remove_file(pmhandle_t *handle, const char *path, alpm_list_t *skip)
 {
-	char file[PATH_MAX+1];
+	char file[PATH_MAX];
 
 	snprintf(file, PATH_MAX, "%s%s", handle->root, path);
 
@@ -215,7 +215,7 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
 		alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
-	char file[PATH_MAX+1];
+	char file[PATH_MAX];
 
 	snprintf(file, PATH_MAX, "%s%s", handle->root, filename);
 

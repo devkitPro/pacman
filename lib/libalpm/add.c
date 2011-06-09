@@ -466,7 +466,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 		size_t pkg_current, size_t pkg_count)
 {
 	int i, ret = 0, errors = 0;
-	char scriptlet[PATH_MAX+1];
+	char scriptlet[PATH_MAX];
 	int is_upgrade = 0;
 	pmpkg_t *oldpkg = NULL;
 	pmdb_t *db = handle->db_local;

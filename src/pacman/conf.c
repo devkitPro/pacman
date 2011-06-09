@@ -512,7 +512,7 @@ static int _parseconfig(const char *file, int parse_options,
 		char **section, pmdb_t *db)
 {
 	FILE *fp = NULL;
-	char line[PATH_MAX+1];
+	char line[PATH_MAX];
 	int linenum = 0;
 	char *ptr;
 	int ret = 0;

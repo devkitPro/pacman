@@ -40,7 +40,7 @@ static char *resolve_path(const char *file)
 {
 	char *str = NULL;
 
-	str = calloc(PATH_MAX + 1, sizeof(char));
+	str = calloc(PATH_MAX, sizeof(char));
 	if(!str) {
 		return NULL;
 	}

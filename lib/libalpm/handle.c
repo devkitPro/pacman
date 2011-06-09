@@ -328,7 +328,7 @@ enum _pmerrno_t _alpm_set_directory_option(const char *value,
 		if(stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 			return PM_ERR_NOT_A_DIR;
 		}
-		real = calloc(PATH_MAX + 1, sizeof(char));
+		real = calloc(PATH_MAX, sizeof(char));
 		if(!realpath(path, real)) {
 			free(real);
 			return PM_ERR_NOT_A_DIR;
