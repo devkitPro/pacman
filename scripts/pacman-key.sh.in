@@ -26,26 +26,7 @@ export TEXTDOMAINDIR='@localedir@'
 
 myver="@PACKAGE_VERSION@"
 
-msg() {
-	local mesg=$1; shift
-	printf "==> ${mesg}\n" "$@" >&1
-}
-
-msg2() {
-	(( QUIET )) && return
-	local mesg=$1; shift
-	printf "  -> ${mesg}\n" "$@" >&1
-}
-
-warning() {
-	local mesg=$1; shift
-	printf "==> $(gettext "WARNING:") ${mesg}\n" "$@" >&2
-}
-
-error() {
-	local mesg=$1; shift
-	printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
-}
+m4_include(library/output_format.sh)
 
 usage() {
 	printf "pacman-key (pacman) %s\n" ${myver}

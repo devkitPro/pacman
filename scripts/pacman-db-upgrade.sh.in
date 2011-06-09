@@ -28,15 +28,8 @@ myver='@PACKAGE_VERSION@'
 eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
 dbroot="${DBPath:-@localstatedir@/lib/pacman/}"
 
-msg() {
-	local mesg=$1; shift
-	printf "==> ${mesg}\n" "$@" >&2
-}
+m4_include(library/output_format.sh)
 
-error () {
-	local mesg=$1; shift
-	printf "==> ERROR: ${mesg}\n" "$@" >&2
-}
 usage() {
 	printf "pacman-db-upgrade (pacman) %s\n\n" "$myver"
 	printf "$(gettext "Usage: %s [pacman_db_root]")\n\n" "$0"

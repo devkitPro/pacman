@@ -25,6 +25,7 @@ EXTRA_DIST = \
 	$(LIBRARY)
 
 LIBRARY = \
+	library/output_format.sh \
 	library/parse_options.sh
 
 # Files that should be removed, but which Automake does not know.
@@ -69,13 +70,30 @@ $(OURSCRIPTS): Makefile
 	@chmod a-w $@.tmp
 	@mv $@.tmp $@
 
-makepkg: $(srcdir)/makepkg.sh.in $(srcdir)/library/parse_options.sh
-pacman-db-upgrade: $(srcdir)/pacman-db-upgrade.sh.in
-pacman-key: $(srcdir)/pacman-key.sh.in
+makepkg: \
+	$(srcdir)/makepkg.sh.in \
+	$(srcdir)/library/parse_options.sh
+
+pacman-db-upgrade: \
+	$(srcdir)/pacman-db-upgrade.sh.in \
+	$(srcdir)/library/output_format.sh
+
+pacman-key: \
+	$(srcdir)/pacman-key.sh.in \
+	$(srcdir)/library/output_format.sh
+
 pacman-optimize: $(srcdir)/pacman-optimize.sh.in
-pkgdelta: $(srcdir)/pkgdelta.sh.in
+
+pkgdelta: \
+	$(srcdir)/pkgdelta.sh.in \
+	$(srcdir)/library/output_format.sh
+
 rankmirrors: $(srcdir)/rankmirrors.sh.in
-repo-add: $(srcdir)/repo-add.sh.in
+
+repo-add: \
+	$(srcdir)/repo-add.sh.in \
+	$(srcdir)/library/output_format.sh
+
 repo-remove: $(srcdir)/repo-add.sh.in
 	rm -f repo-remove
 	$(LN_S) repo-add repo-remove
