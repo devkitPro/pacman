@@ -620,7 +620,7 @@ static pmdb_t *get_db(const char *dbname)
 
 static int process_pkg(pmpkg_t *pkg)
 {
-	int ret = alpm_add_pkg(pkg);
+	int ret = alpm_add_pkg(config->handle, pkg);
 
 	if(ret == -1) {
 		if(pm_errno == PM_ERR_TRANS_DUP_TARGET

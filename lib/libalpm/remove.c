@@ -44,14 +44,16 @@
 #include "deps.h"
 #include "handle.h"
 
-int SYMEXPORT alpm_remove_pkg(pmpkg_t *pkg)
+int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 {
 	pmtrans_t *trans;
 	const char *pkgname;
 
 	/* Sanity checks */
+	ASSERT(handle != NULL, return -1);
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	trans = pkg->handle->trans;
+	ASSERT(handle == pkg->handle, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED,
 			RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));

@@ -38,7 +38,7 @@ static int remove_target(const char *target)
 	alpm_list_t *p;
 
 	if((info = alpm_db_get_pkg(db_local, target)) != NULL) {
-		if(alpm_remove_pkg(info) == -1) {
+		if(alpm_remove_pkg(config->handle, info) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target, alpm_strerrorlast());
 			return -1;
 		}
@@ -53,7 +53,7 @@ static int remove_target(const char *target)
 	}
 	for(p = alpm_grp_get_pkgs(grp); p; p = alpm_list_next(p)) {
 		pmpkg_t *pkg = alpm_list_getdata(p);
-		if(alpm_remove_pkg(pkg) == -1) {
+		if(alpm_remove_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target, alpm_strerrorlast());
 			return -1;
 		}

@@ -867,16 +867,18 @@ int alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade);
 /** Add a package to the transaction.
  * If the package was loaded by alpm_pkg_load(), it will be freed upon
  * alpm_trans_release() invocation.
+ * @param handle the context handle
  * @param pkg the package to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_add_pkg(pmpkg_t *pkg);
+int alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg);
 
 /** Add a package removal action to the transaction.
+ * @param handle the context handle
  * @param pkg the package to uninstall
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_remove_pkg(pmpkg_t *pkg);
+int alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg);
 
 /** @} */
 

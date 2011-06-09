@@ -48,19 +48,20 @@
 #include "handle.h"
 
 /** Add a package to the transaction. */
-int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
+int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 {
 	const char *pkgname, *pkgver;
 	pmtrans_t *trans;
-	pmdb_t *db_local;
 	pmpkg_t *local;
 
 	/* Sanity checks */
+	ASSERT(handle != NULL, return -1);
 	ASSERT(pkg != NULL, RET_ERR(PM_ERR_WRONG_ARGS, -1));
-	trans = pkg->handle->trans;
+	ASSERT(handle == pkg->handle, RET_ERR(PM_ERR_WRONG_ARGS, -1));
+	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
-	db_local = pkg->handle->db_local;
+	ASSERT(trans->state == STATE_INITIALIZED,
+			RET_ERR(PM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	pkgname = pkg->name;
 	pkgver = pkg->version;
@@ -71,7 +72,7 @@ int SYMEXPORT alpm_add_pkg(pmpkg_t *pkg)
 		RET_ERR(PM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
-	local = _alpm_db_get_pkgfromcache(db_local, pkgname);
+	local = _alpm_db_get_pkgfromcache(handle->db_local, pkgname);
 	if(local) {
 		const char *localpkgname = alpm_pkg_get_name(local);
 		const char *localpkgver = alpm_pkg_get_version(local);
