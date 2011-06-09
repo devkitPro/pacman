@@ -39,18 +39,18 @@ For example, to store the base kernel version in a variable, use something
 similar to `$_basekernver`.
 
 *pkgname (array)*::
-	The name of the package or an array of names for split packages.
+	Either the name of the package or an array of names for split packages.
 	Because it will be used in the package filename, this has to be unix-friendly.
 	Members of the array are not allowed to start with hyphens.
 
 *pkgver*::
-	The version of the software as released from the author (e.g. '2.7.1').
+	The version of the software as released from the author (e.g., '2.7.1').
 	The variable is not allowed to contain colons or hyphens.
 
 *pkgrel*::
 	This is the release number specific to the Arch Linux release. This
 	allows package maintainers to make updates to the package's configure
-	flags, for example. This is typically (re)set to '1' for each new upstream
+	flags, for example. This is typically set to '1' for each new upstream
 	software release and incremented for intermediate PKGBUILD updates. The
 	variable is not allowed to contain hyphens.
 
@@ -75,7 +75,7 @@ similar to `$_basekernver`.
 	This field specifies the license(s) that apply to the package.
 	Commonly used licenses can be found in '/usr/share/licenses/common'. If you
 	see the package's license there, simply reference it in the license
-	field (e.g. `license=('GPL')`). If the package provides a license not
+	field (e.g., `license=('GPL')`). If the package provides a license not
 	available in '/usr/share/licenses/common', then you should include it
 	in the package itself and set `license=('custom')` or
 	`license=('custom:LicenseName')`. The license should be placed in
@@ -87,24 +87,24 @@ similar to `$_basekernver`.
 	Specifies a special install script that is to be included in the package.
 	This file should reside in the same directory as the PKGBUILD, and will
 	be copied into the package by makepkg. It does not need to be included
-	in the source array (e.g. `install=pkgname.install`).
+	in the source array (e.g., `install=pkgname.install`).
 
 *changelog*::
 	Specifies a changelog file that is to be included in the package.
 	This file should reside in the same directory as the PKGBUILD, and will
 	be copied into the package by makepkg. It does not need to be included
-	in the source array (e.g. `changelog=$pkgname.changelog`).
+	in the source array (e.g., `changelog=$pkgname.changelog`).
 
 *source (array)*::
 	An array of source files required to build the package. Source files
 	must either reside in the same directory as the PKGBUILD, or be a
 	fully-qualified URL that makepkg can use to download the file.
-	To make the PKGBUILD as useful as possible, use the $pkgname and $pkgver
+	To make the PKGBUILD as useful as possible, use the `$pkgname` and `$pkgver`
 	variables if possible when specifying the download location. Compressed files
 	will be extracted automatically unless found in
 	the noextract array described below.
 +
-It is also possible to overwrite the filename, which is helpful
+It is also possible to change the name of the downloaded file, which is helpful
 with weird URLs and for handling multiple source files with the same
 name. The syntax is: `source=('filename::url')`.
 
@@ -132,7 +132,7 @@ name. The syntax is: `source=('filename::url')`.
 	example, one could install all KDE packages by installing the 'kde' group.
 
 *arch (array)*::
-	Defines on which architectures the given package is available (e.g.
+	Defines on which architectures the given package is available (e.g.,
 	`arch=('i686' 'x86_64')`). Packages that contain no architecture specific
 	files should use arch=('any').
 
@@ -272,14 +272,14 @@ variables for use during the build and install process:
 	located, which is usually the output of `$(pwd)` when makepkg is started.
 
 *srcdir*::
-	This points to the directory where makepkg extracts to or copies to all source
+	This contains the directory where makepkg extracts, or copies, all source
 	files.
 
 *pkgdir*::
-	This points to the directory where makepkg bundles the installed package
+	This contains the directory where makepkg bundles the installed package
 	(this directory will become the root directory of your built package).
 
-If you create any variables on your own in the build function, it is
+If you create any variables of your own in the build function, it is
 recommended to use the bash `local` keyword to scope the variable to inside
 the build function.
 
@@ -371,7 +371,7 @@ makepkg supports building development versions of packages without having to
 manually update the pkgver in the PKGBUILD. This was formerly done using the
 separate utility 'versionpkg'. In order to utilize this functionality, your
 PKGBUILD must use correct variable names depending on the SCM being fetched
-from (e.g., "makepkg-git", "mplayer-svn").
+from (e.g., 'makepkg-git', 'mplayer-svn').
 
 *CVS*::
 	The generated pkgver will be the date the package is built.
