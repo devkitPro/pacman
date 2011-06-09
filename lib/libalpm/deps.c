@@ -565,7 +565,7 @@ static pmpkg_t *resolvedep(pmhandle_t *handle, pmdepend_t *dep,
 	for(i = dbs; i; i = i->next) {
 		pmpkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
 		if(pkg && _alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
-			if(_alpm_pkg_should_ignore(pkg)) {
+			if(_alpm_pkg_should_ignore(handle, pkg)) {
 				int install = 0;
 				if(prompt) {
 					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
@@ -587,7 +587,7 @@ static pmpkg_t *resolvedep(pmhandle_t *handle, pmdepend_t *dep,
 			pmpkg_t *pkg = j->data;
 			if(_alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
 			             !_alpm_pkg_find(excluding, pkg->name)) {
-				if(_alpm_pkg_should_ignore(pkg)) {
+				if(_alpm_pkg_should_ignore(handle, pkg)) {
 					int install = 0;
 					if(prompt) {
 						QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,

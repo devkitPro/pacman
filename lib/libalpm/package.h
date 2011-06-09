@@ -149,7 +149,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg);
 pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle);
-int _alpm_pkg_should_ignore(pmpkg_t *pkg);
+int _alpm_pkg_should_ignore(pmhandle_t *handle, pmpkg_t *pkg);
 
 #endif /* _ALPM_PACKAGE_H */
 

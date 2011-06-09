@@ -118,8 +118,8 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 					_alpm_log(handle, PM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
 								lpkg->name, lpkg->version, spkg->version);
 					/* check IgnorePkg/IgnoreGroup */
-					if(_alpm_pkg_should_ignore(spkg)
-							|| _alpm_pkg_should_ignore(lpkg)) {
+					if(_alpm_pkg_should_ignore(handle, spkg)
+							|| _alpm_pkg_should_ignore(handle, lpkg)) {
 						_alpm_log(handle, PM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
 								lpkg->name, lpkg->version, spkg->version);
 					} else {
@@ -130,8 +130,8 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 				} else if(cmp < 0) {
 					if(enable_downgrade) {
 						/* check IgnorePkg/IgnoreGroup */
-						if(_alpm_pkg_should_ignore(spkg)
-								|| _alpm_pkg_should_ignore(lpkg)) {
+						if(_alpm_pkg_should_ignore(handle, spkg)
+								|| _alpm_pkg_should_ignore(handle, lpkg)) {
 							_alpm_log(handle, PM_LOG_WARNING, _("%s: ignoring package downgrade (%s => %s)\n"),
 											lpkg->name, lpkg->version, spkg->version);
 						} else {
@@ -154,8 +154,8 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 					if(alpm_list_find_str(alpm_pkg_get_replaces(spkg), lpkg->name)) {
 						found = 1;
 						/* check IgnorePkg/IgnoreGroup */
-						if(_alpm_pkg_should_ignore(spkg)
-								|| _alpm_pkg_should_ignore(lpkg)) {
+						if(_alpm_pkg_should_ignore(handle, spkg)
+								|| _alpm_pkg_should_ignore(handle, lpkg)) {
 							_alpm_log(handle, PM_LOG_WARNING, _("ignoring package replacement (%s-%s => %s-%s)\n"),
 										lpkg->name, lpkg->version, spkg->name, spkg->version);
 							continue;
@@ -230,7 +230,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 			if(_alpm_pkg_find(ignorelist, alpm_pkg_get_name(pkg))) {
 				continue;
 			}
-			if(_alpm_pkg_should_ignore(pkg)) {
+			if(_alpm_pkg_should_ignore(db->handle, pkg)) {
 				ignorelist = alpm_list_add(ignorelist, pkg);
 				int install = 0;
 				QUESTION(db->handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
