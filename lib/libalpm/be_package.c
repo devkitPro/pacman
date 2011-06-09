@@ -92,8 +92,7 @@ static size_t _package_changelog_read(void *ptr, size_t size,
 	ssize_t sret = archive_read_data((struct archive *)fp, ptr, size);
 	/* Report error (negative values) */
 	if(sret < 0) {
-		pkg->handle->pm_errno = PM_ERR_LIBARCHIVE;
-		return 0;
+		RET_ERR(pkg->handle, PM_ERR_LIBARCHIVE, 0);
 	} else {
 		return (size_t)sret;
 	}

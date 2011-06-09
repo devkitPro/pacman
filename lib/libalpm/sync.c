@@ -275,7 +275,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 		off_t dltsize;
 		off_t pkgsize = alpm_pkg_get_size(newpkg);
 
-		dltsize = _alpm_shortest_delta_path(newpkg->handle,
+		dltsize = _alpm_shortest_delta_path(handle,
 			alpm_pkg_get_deltas(newpkg),
 			alpm_pkg_get_filename(newpkg),
 			&newpkg->delta_path);
