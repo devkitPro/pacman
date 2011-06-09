@@ -496,7 +496,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 
 		/* pre_upgrade scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(newpkg->handle, newpkg->origin_data.file,
+			_alpm_runscriptlet(handle, newpkg->origin_data.file,
 					"pre_upgrade", newpkg->version, oldpkg->version);
 		}
 	} else {
@@ -508,7 +508,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 
 		/* pre_install scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(newpkg->handle, newpkg->origin_data.file,
+			_alpm_runscriptlet(handle, newpkg->origin_data.file,
 					"pre_install", newpkg->version, NULL);
 		}
 	}
@@ -522,7 +522,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 
 	if(oldpkg) {
 		/* set up fake remove transaction */
-		if(_alpm_upgraderemove_package(newpkg->handle, oldpkg, newpkg) == -1) {
+		if(_alpm_upgraderemove_package(handle, oldpkg, newpkg) == -1) {
 			pm_errno = PM_ERR_TRANS_ABORT;
 			ret = -1;
 			goto cleanup;
@@ -618,7 +618,7 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 			}
 
 			/* extract the next file from the archive */
-			errors += extract_single_file(newpkg->handle, archive, entry, newpkg, oldpkg);
+			errors += extract_single_file(handle, archive, entry, newpkg, oldpkg);
 		}
 		archive_read_finish(archive);
 
@@ -676,11 +676,11 @@ static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
 	if(alpm_pkg_has_scriptlet(newpkg)
 			&& !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
 		if(is_upgrade) {
-			_alpm_runscriptlet(newpkg->handle, scriptlet, "post_upgrade",
+			_alpm_runscriptlet(handle, scriptlet, "post_upgrade",
 					alpm_pkg_get_version(newpkg),
 					oldpkg ? alpm_pkg_get_version(oldpkg) : NULL);
 		} else {
-			_alpm_runscriptlet(newpkg->handle, scriptlet, "post_install",
+			_alpm_runscriptlet(handle, scriptlet, "post_install",
 					alpm_pkg_get_version(newpkg), NULL);
 		}
 	}
