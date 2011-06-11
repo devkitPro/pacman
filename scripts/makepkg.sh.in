@@ -856,7 +856,7 @@ tidy_install() {
 	fi
 
 	if [[ $(check_option purge) = "y" && -n ${PURGE_TARGETS[*]} ]]; then
-		msg2 "$(gettext "Purging other files...")"
+		msg2 "$(gettext "Purging unwanted files...")"
 		local pt
 		for pt in "${PURGE_TARGETS[@]}"; do
 			if [[ ${pt} = ${pt//\/} ]]; then
