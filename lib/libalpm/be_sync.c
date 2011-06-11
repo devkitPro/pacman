@@ -181,7 +181,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(fileurl, len, "%s/%s.db", server, db->treename);
 
-		ret = _alpm_download(handle, fileurl, syncpath, force, 0, 0);
+		ret = _alpm_download(handle, fileurl, syncpath, NULL, force, 0, 0);
 
 		if(ret == 0 && (level & ALPM_SIG_DATABASE)) {
 			/* an existing sig file is no good at this point */
@@ -197,7 +197,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			/* if we downloaded a DB, we want the .sig from the same server */
 			snprintf(fileurl, len, "%s/%s.db.sig", server, db->treename);
 
-			sig_ret = _alpm_download(handle, fileurl, syncpath, 1, 0, errors_ok);
+			sig_ret = _alpm_download(handle, fileurl, syncpath, NULL, 1, 0, errors_ok);
 			/* errors_ok suppresses error messages, but not the return code */
 			sig_ret = errors_ok ? 0 : sig_ret;
 		}

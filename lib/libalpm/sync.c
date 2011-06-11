@@ -805,7 +805,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 					CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 					snprintf(fileurl, len, "%s/%s", server_url, filename);
 
-					ret = _alpm_download(handle, fileurl, cachedir, 0, 1, 0);
+					ret = _alpm_download(handle, fileurl, cachedir, NULL, 0, 1, 0);
 					FREE(fileurl);
 					if(ret != -1) {
 						break;

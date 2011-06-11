@@ -29,11 +29,12 @@
 struct fileinfo {
 	alpm_handle_t *handle;
 	const char *filename;
+	char *cd_filename;
 	double initial_size;
 };
 
 int _alpm_download(alpm_handle_t *handle, const char *url, const char *localpath,
-		int force, int allow_resume, int errors_ok);
+		char **final_file, int force, int allow_resume, int errors_ok);
 
 #endif /* _ALPM_DLOAD_H */
 
