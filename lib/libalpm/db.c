@@ -331,6 +331,7 @@ pmdb_t *_alpm_db_new(const char *treename, int is_local)
 	CALLOC(db, 1, sizeof(pmdb_t), RET_ERR(PM_ERR_MEMORY, NULL));
 	STRDUP(db->treename, treename, RET_ERR(PM_ERR_MEMORY, NULL));
 	db->is_local = is_local;
+	db->pgp_verify = PM_PGP_VERIFY_UNKNOWN;
 
 	return db;
 }
