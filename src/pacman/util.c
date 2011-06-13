@@ -107,7 +107,7 @@ int needs_root(void)
 static int flush_term_input(void) {
 #ifdef HAVE_TCFLUSH
 	if(isatty(fileno(stdin))) {
-		return(tcflush(fileno(stdin), TCIFLUSH));
+		return tcflush(fileno(stdin), TCIFLUSH);
 	}
 #endif
 
@@ -517,10 +517,10 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 	if(totalwidth > getcols(80)) {
 		fprintf(stderr, _("insufficient columns available for table display\n"));
 		FREELIST(formats);
-		return(NULL);
+		return NULL;
 	}
 
-	return(formats);
+	return formats;
 }
 
 /** Displays the list in table format
@@ -540,12 +540,12 @@ int table_display(const char *title, const alpm_list_t *header,
 	alpm_list_t *formats;
 
 	if(rows == NULL || header == NULL) {
-		return(0);
+		return 0;
 	}
 
 	formats = table_create_format(header, rows);
 	if(formats == NULL) {
-		return(-1);
+		return -1;
 	}
 
 	if(title != NULL) {
@@ -560,7 +560,7 @@ int table_display(const char *title, const alpm_list_t *header,
 	}
 
 	FREELIST(formats);
-	return(0);
+	return 0;
 }
 
 void list_display(const char *title, const alpm_list_t *list)
@@ -645,7 +645,7 @@ static alpm_list_t *create_verbose_header(int install)
 	pm_asprintf(&str, "%s", _("Size"));
 	res = alpm_list_add(res, str);
 
-	return(res);
+	return res;
 }
 
 /* returns package info as list of strings */
@@ -677,7 +677,7 @@ static alpm_list_t *create_verbose_row(pmpkg_t *pkg, int install)
 	pm_asprintf(&str, "%.2f %s", size, label);
 	ret = alpm_list_add(ret, str);
 
-	return(ret);
+	return ret;
 }
 
 /* prepare a list of pkgs to display */
@@ -838,7 +838,7 @@ double humanize_size(off_t bytes, const char target_unit, int long_labels,
 		*label = labels[index];
 	}
 
-	return(val);
+	return val;
 }
 
 void print_packages(const alpm_list_t *packages)
