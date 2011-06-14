@@ -46,3 +46,13 @@
    Memcheck:Value8
    fun:BN_mod_exp_mont_consttime
 }
+{
+   openssl-supp-load-compressions
+   Memcheck:Leak
+   fun:malloc
+   fun:CRYPTO_malloc
+   ...
+   fun:load_builtin_compressions
+   fun:SSL_COMP_get_compression_methods
+   fun:SSL_library_init
+}
