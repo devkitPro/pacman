@@ -50,7 +50,7 @@ int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	ASSERT(handle == pkg->handle, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	trans = handle->trans;

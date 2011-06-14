@@ -116,6 +116,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
 	handle = db->handle;
+	handle->pm_errno = 0;
 	ASSERT(db != handle->db_local, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	ASSERT(db->servers != NULL, RET_ERR(handle, PM_ERR_SERVER_NONE, -1));
 

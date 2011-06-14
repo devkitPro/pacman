@@ -214,6 +214,7 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
 alpm_list_t SYMEXPORT *alpm_checkconflicts(pmhandle_t *handle,
 		alpm_list_t *pkglist)
 {
+	CHECK_HANDLE(handle, return NULL);
 	return _alpm_innerconflicts(handle, pkglist);
 }
 

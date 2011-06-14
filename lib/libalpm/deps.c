@@ -273,6 +273,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmhandle_t *handle, alpm_list_t *pkglist,
 	alpm_list_t *baddeps = NULL;
 	int nodepversion;
 
+	CHECK_HANDLE(handle, return NULL);
+
 	targets = alpm_list_join(alpm_list_copy(remove), alpm_list_copy(upgrade));
 	for(i = pkglist; i; i = i->next) {
 		pmpkg_t *pkg = i->data;
@@ -657,7 +659,8 @@ pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(pmhandle_t *handle,
 	pmdepend_t *dep;
 	pmpkg_t *pkg;
 
-	ASSERT(dbs, return NULL);
+	CHECK_HANDLE(handle, return NULL);
+	ASSERT(dbs, RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL));
 
 	dep = _alpm_splitdep(depstring);
 	ASSERT(dep, return NULL);

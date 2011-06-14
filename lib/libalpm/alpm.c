@@ -104,7 +104,7 @@ int SYMEXPORT alpm_release(pmhandle_t *myhandle)
 	int ret = 0;
 	pmdb_t *db;
 
-	ASSERT(myhandle != NULL, return -1);
+	CHECK_HANDLE(myhandle, return -1);
 
 	/* close local database */
 	db = myhandle->db_local;

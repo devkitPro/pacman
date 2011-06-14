@@ -55,10 +55,11 @@
  */
 pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 {
-	ASSERT(pkg != NULL, return NULL);
-
 	alpm_list_t *i;
 	pmpkg_t *spkg = NULL;
+
+	ASSERT(pkg != NULL, return NULL);
+	pkg->handle->pm_errno = 0;
 
 	for(i = dbs_sync; !spkg && i; i = i->next) {
 		spkg = _alpm_db_get_pkgfromcache(i->data, alpm_pkg_get_name(pkg));
@@ -89,7 +90,7 @@ int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
 	pmdb_t *db_local;
 	alpm_list_t *dbs_sync;
 
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	trans = handle->trans;
 	db_local = handle->db_local;
 	dbs_sync = handle->dbs_sync;

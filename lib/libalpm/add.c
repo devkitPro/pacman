@@ -57,7 +57,7 @@ int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	pmpkg_t *local;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	ASSERT(handle == pkg->handle, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	trans = handle->trans;
@@ -715,11 +715,12 @@ int _alpm_upgrade_packages(pmhandle_t *handle)
 
 	/* loop through our package list adding/upgrading one at a time */
 	for(targ = trans->add; targ; targ = targ->next) {
+		pmpkg_t *newpkg = targ->data;
+
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			return ret;
 		}
 
-		pmpkg_t *newpkg = (pmpkg_t *)targ->data;
 		if(commit_single_pkg(handle, newpkg, pkg_current, pkg_count)) {
 			/* something screwed up on the commit, abort the trans */
 			trans->state = STATE_INTERRUPTED;

@@ -105,7 +105,7 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 	int db_version;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
 	/* lock db */
@@ -168,7 +168,7 @@ int SYMEXPORT alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	ASSERT(data != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 
 	trans = handle->trans;
@@ -212,7 +212,7 @@ int SYMEXPORT alpm_trans_commit(pmhandle_t *handle, alpm_list_t **data)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 
 	trans = handle->trans;
 
@@ -251,7 +251,7 @@ int SYMEXPORT alpm_trans_interrupt(pmhandle_t *handle)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 
 	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
@@ -269,7 +269,7 @@ int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
 	pmtrans_t *trans;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 
 	trans = handle->trans;
 	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
@@ -414,7 +414,7 @@ cleanup:
 pmtransflag_t SYMEXPORT alpm_trans_get_flags(pmhandle_t *handle)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	ASSERT(handle->trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 
 	return handle->trans->flags;
@@ -423,7 +423,7 @@ pmtransflag_t SYMEXPORT alpm_trans_get_flags(pmhandle_t *handle)
 alpm_list_t SYMEXPORT *alpm_trans_get_add(pmhandle_t *handle)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
+	CHECK_HANDLE(handle, return NULL);
 	ASSERT(handle->trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, NULL));
 
 	return handle->trans->add;
@@ -432,7 +432,7 @@ alpm_list_t SYMEXPORT *alpm_trans_get_add(pmhandle_t *handle)
 alpm_list_t SYMEXPORT *alpm_trans_get_remove(pmhandle_t *handle)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
+	CHECK_HANDLE(handle, return NULL);
 	ASSERT(handle->trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, NULL));
 
 	return handle->trans->remove;

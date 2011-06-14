@@ -386,7 +386,7 @@ error:
 int SYMEXPORT alpm_pkg_load(pmhandle_t *handle, const char *filename, int full,
 		pgp_verify_t check_sig, pmpkg_t **pkg)
 {
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 
 	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, check_sig);

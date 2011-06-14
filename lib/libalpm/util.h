@@ -71,6 +71,8 @@
 
 #define DOUBLE_EQ(x, y) (fabs((x) - (y)) < DBL_EPSILON)
 
+#define CHECK_HANDLE(handle, action) do { if(!(handle)) { action; } (handle)->pm_errno = 0; } while(0)
+
 /**
  * Used as a buffer/state holder for _alpm_archive_fgets().
  */

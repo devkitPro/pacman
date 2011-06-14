@@ -337,6 +337,8 @@ char SYMEXPORT *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url)
 	const char *filename, *cachedir;
 	int ret;
 
+	CHECK_HANDLE(handle, return NULL);
+
 	filename = get_filename(url);
 
 	/* find a valid cache dir to download to */

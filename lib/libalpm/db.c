@@ -48,7 +48,7 @@
 pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename)
 {
 	/* Sanity checks */
-	ASSERT(handle != NULL, return NULL);
+	CHECK_HANDLE(handle, return NULL);
 	ASSERT(treename != NULL && strlen(treename) != 0,
 			RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL));
 	/* Do not register a database if a transaction is on-going */
@@ -75,7 +75,7 @@ int SYMEXPORT alpm_db_unregister_all(pmhandle_t *handle)
 	pmdb_t *db;
 
 	/* Sanity checks */
-	ASSERT(handle != NULL, return -1);
+	CHECK_HANDLE(handle, return -1);
 	/* Do not unregister a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
@@ -99,6 +99,7 @@ int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 	ASSERT(db != NULL, return -1);
 	/* Do not unregister a database if a transaction is on-going */
 	handle = db->handle;
+	handle->pm_errno = 0;
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
 	if(db == handle->db_local) {
@@ -165,6 +166,7 @@ int SYMEXPORT alpm_db_add_server(pmdb_t *db, const char *url)
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
+	db->handle->pm_errno = 0;
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
@@ -190,6 +192,7 @@ int SYMEXPORT alpm_db_remove_server(pmdb_t *db, const char *url)
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
+	db->handle->pm_errno = 0;
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
@@ -216,6 +219,7 @@ int SYMEXPORT alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify)
 {
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
+	db->handle->pm_errno = 0;
 
 	db->pgp_verify = verify;
 	_alpm_log(db->handle, PM_LOG_DEBUG, "adding VerifySig option to database '%s': %d\n",
@@ -235,7 +239,9 @@ const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
 pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 {
 	ASSERT(db != NULL, return NULL);
-	ASSERT(name != NULL && strlen(name) != 0, return NULL);
+	db->handle->pm_errno = 0;
+	ASSERT(name != NULL && strlen(name) != 0,
+			RET_ERR(db->handle, PM_ERR_WRONG_ARGS, NULL));
 
 	return _alpm_db_get_pkgfromcache(db, name);
 }
@@ -244,6 +250,7 @@ pmpkg_t SYMEXPORT *alpm_db_get_pkg(pmdb_t *db, const char *name)
 alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 {
 	ASSERT(db != NULL, return NULL);
+	db->handle->pm_errno = 0;
 	return _alpm_db_get_pkgcache(db);
 }
 
@@ -251,7 +258,9 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(pmdb_t *db)
 pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 {
 	ASSERT(db != NULL, return NULL);
-	ASSERT(name != NULL && strlen(name) != 0, return NULL);
+	db->handle->pm_errno = 0;
+	ASSERT(name != NULL && strlen(name) != 0,
+			RET_ERR(db->handle, PM_ERR_WRONG_ARGS, NULL));
 
 	return _alpm_db_get_grpfromcache(db, name);
 }
@@ -260,6 +269,7 @@ pmgrp_t SYMEXPORT *alpm_db_readgrp(pmdb_t *db, const char *name)
 alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 {
 	ASSERT(db != NULL, return NULL);
+	db->handle->pm_errno = 0;
 
 	return _alpm_db_get_grpcache(db);
 }
@@ -268,6 +278,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_grpcache(pmdb_t *db)
 alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 {
 	ASSERT(db != NULL, return NULL);
+	db->handle->pm_errno = 0;
 
 	return _alpm_db_search(db, needles);
 }
@@ -276,6 +287,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason)
 {
 	ASSERT(db != NULL, return -1);
+	db->handle->pm_errno = 0;
 	/* TODO assert db == db_local ? shouldn't need a db param at all here... */
 	ASSERT(name != NULL, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
 

@@ -386,6 +386,7 @@ pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
 int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return 0);
+	pkg->handle->pm_errno = 0;
 
 	return _alpm_gpgme_checksig(pkg->handle, alpm_pkg_get_filename(pkg),
 			pkg->base64_sig);
@@ -399,6 +400,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
 {
 	ASSERT(db != NULL, return 0);
+	db->handle->pm_errno = 0;
 
 	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL);
 }
