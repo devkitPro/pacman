@@ -42,7 +42,7 @@
 		if(err != GPG_ERR_NO_ERROR) { goto error; } \
 	} while(0)
 
-static const char *gpgme_string_validity(gpgme_validity_t validity)
+static const char *string_validity(gpgme_validity_t validity)
 {
 	switch(validity) {
 		case GPGME_VALIDITY_UNKNOWN:
@@ -61,43 +61,42 @@ static const char *gpgme_string_validity(gpgme_validity_t validity)
 	return "???";
 }
 
-static alpm_list_t *sigsum_test_bit(gpgme_sigsum_t sigsum, alpm_list_t *summary,
+static void sigsum_test_bit(gpgme_sigsum_t sigsum, alpm_list_t **summary,
 		gpgme_sigsum_t bit, const char *value)
 {
 	if(sigsum & bit) {
-		summary = alpm_list_add(summary, (void *)value);
+		*summary = alpm_list_add(*summary, (void *)value);
 	}
-	return summary;
 }
 
-static alpm_list_t *gpgme_list_sigsum(gpgme_sigsum_t sigsum)
+static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
 {
 	alpm_list_t *summary = NULL;
 	/* The docs say this can be a bitmask...not sure I believe it, but we'll code
 	 * for it anyway and show all possible flags in the returned string. */
 
 	/* The signature is fully valid.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_VALID, "valid");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_VALID, "valid");
 	/* The signature is good.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_GREEN, "green");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_GREEN, "green");
 	/* The signature is bad.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_RED, "red");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_RED, "red");
 	/* One key has been revoked.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_KEY_REVOKED, "key revoked");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_KEY_REVOKED, "key revoked");
 	/* One key has expired.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_KEY_EXPIRED, "key expired");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_KEY_EXPIRED, "key expired");
 	/* The signature has expired.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_SIG_EXPIRED, "sig expired");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_SIG_EXPIRED, "sig expired");
 	/* Can't verify: key missing.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_KEY_MISSING, "key missing");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_KEY_MISSING, "key missing");
 	/* CRL not available.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_CRL_MISSING, "crl missing");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_CRL_MISSING, "crl missing");
 	/* Available CRL is too old.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_CRL_TOO_OLD, "crl too old");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_CRL_TOO_OLD, "crl too old");
 	/* A policy was not met.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_BAD_POLICY, "bad policy");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_BAD_POLICY, "bad policy");
 	/* A system error occured.  */
-	summary = sigsum_test_bit(sigsum, summary, GPGME_SIGSUM_SYS_ERROR, "sys error");
+	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_SYS_ERROR, "sys error");
 	/* Fallback case */
 	if(!sigsum) {
 		summary = alpm_list_add(summary, (void *)"(empty)");
@@ -105,10 +104,10 @@ static alpm_list_t *gpgme_list_sigsum(gpgme_sigsum_t sigsum)
 	return summary;
 }
 
-static int gpgme_init(pmhandle_t *handle)
+static int init_gpgme(pmhandle_t *handle)
 {
 	static int init = 0;
-	const char *version;
+	const char *version, *sigdir;
 	gpgme_error_t err;
 	gpgme_engine_info_t enginfo;
 
@@ -117,7 +116,8 @@ static int gpgme_init(pmhandle_t *handle)
 		return 0;
 	}
 
-	if(!alpm_option_get_signaturedir(handle)) {
+	sigdir = alpm_option_get_signaturedir(handle);
+	if(!sigdir) {
 		RET_ERR(handle, PM_ERR_SIG_MISSINGDIR, 1);
 	}
 
@@ -142,8 +142,7 @@ static int gpgme_init(pmhandle_t *handle)
 	CHECK_ERR();
 
 	/* set and check engine information */
-	err = gpgme_set_engine_info(GPGME_PROTOCOL_OpenPGP, NULL,
-			alpm_option_get_signaturedir(handle));
+	err = gpgme_set_engine_info(GPGME_PROTOCOL_OpenPGP, NULL, sigdir);
 	CHECK_ERR();
 	err = gpgme_get_engine_info(&enginfo);
 	CHECK_ERR();
@@ -194,12 +193,17 @@ error:
 }
 
 /**
- * Check the PGP signature for the given file.
+ * Check the PGP signature for the given file path.
+ * If base64_sig is provided, it will be used as the signature data after
+ * decoding. If base64_sig is NULL, expect a signature file next to path
+ * (e.g. "%s.sig"). The return value will be 0 if all checked signatures are
+ * valid, 1 if there was some sort of problem (but not necessarily rejection),
+ * and -1 if an error occurred while checking signatures. If 1 is returned,
+ * pm_errno should be checked to see why the signatures did not pass muster.
  * @param handle the context handle
  * @param path the full path to a file
- * @param base64_sig PGP signature data in base64 encoding; if NULL, expect a
- * signature file next to 'path'
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occured)
+ * @param base64_sig optional PGP signature data in base64 encoding
+ * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
 int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 		const char *base64_sig)
@@ -229,7 +233,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 		}
 	}
 
-	if(gpgme_init(handle)) {
+	if(init_gpgme(handle)) {
 		/* pm_errno was set in gpgme_init() */
 		return -1;
 	}
@@ -282,14 +286,8 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 	CHECK_ERR();
 	result = gpgme_op_verify_result(ctx);
 	gpgsig = result->signatures;
-	if(!gpgsig || gpgsig->next) {
-		int count = 0;
-		while(gpgsig) {
-			count++;
-			gpgsig = gpgsig->next;
-		}
-		_alpm_log(handle, PM_LOG_ERROR, _("Unexpected number of signatures (%d)\n"),
-				count);
+	if(!gpgsig) {
+		_alpm_log(handle, PM_LOG_DEBUG, "no signatures returned\n");
 		ret = -1;
 		goto error;
 	}
@@ -298,7 +296,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 		alpm_list_t *summary_list, *summary;
 
 		_alpm_log(handle, PM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
-		summary_list = gpgme_list_sigsum(gpgsig->summary);
+		summary_list = list_sigsum(gpgsig->summary);
 		for(summary = summary_list; summary; summary = summary->next) {
 			_alpm_log(handle, PM_LOG_DEBUG, "summary: %s\n", (const char *)summary->data);
 		}
@@ -307,7 +305,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
 		_alpm_log(handle, PM_LOG_DEBUG, "timestamp: %lu\n", gpgsig->timestamp);
 		_alpm_log(handle, PM_LOG_DEBUG, "exp_timestamp: %lu\n", gpgsig->exp_timestamp);
 		_alpm_log(handle, PM_LOG_DEBUG, "validity: %s\n",
-				gpgme_string_validity(gpgsig->validity));
+				string_validity(gpgsig->validity));
 		_alpm_log(handle, PM_LOG_DEBUG, "validity_reason: %s\n",
 				gpgme_strerror(gpgsig->validity_reason));
 		_alpm_log(handle, PM_LOG_DEBUG, "pubkey algo: %s\n",
@@ -385,7 +383,7 @@ pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
  */
 int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
 {
-	ASSERT(pkg != NULL, return 0);
+	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = 0;
 
 	return _alpm_gpgme_checksig(pkg->handle, alpm_pkg_get_filename(pkg),
@@ -399,7 +397,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
  */
 int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
 {
-	ASSERT(db != NULL, return 0);
+	ASSERT(db != NULL, return -1);
 	db->handle->pm_errno = 0;
 
 	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL);
