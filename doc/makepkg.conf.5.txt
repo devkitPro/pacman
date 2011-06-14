@@ -114,7 +114,7 @@ Options
 	Specify a key to use for gpg signing instead of the default key in the
 	keyring. Can be overridden with makepkg's `--key` option.
 
-**OPTIONS=(**strip !docs libtool emptydirs zipman**)**::
+**OPTIONS=(**strip docs libtool emptydirs zipman purge !upx**)**::
 	This array contains options that affect the default packaging. They are
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
 	shown here. All options should always be left in the array; to enable or
@@ -145,6 +145,10 @@ Options
 	*purge*;;
 		Remove files specified by the `PURGE_TARGETS` variable from the
 		package.
+
+	*upx*;;
+		Compress binary executable files using UPX.  Additional options
+		can be passed to UPX by specifying the `UPXFLAGS` variable.
 
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this
