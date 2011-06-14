@@ -42,7 +42,7 @@
 int trans_init(pmtransflag_t flags);
 int trans_release(void);
 int needs_root(void);
-int getcols(int def);
+int getcols(void);
 int rmrf(const char *path);
 const char *mbasename(const char *path);
 char *mdirname(const char *path);

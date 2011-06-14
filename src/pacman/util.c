@@ -117,20 +117,28 @@ static int flush_term_input(void) {
 }
 
 /* gets the current screen column width */
-int getcols(int def)
+int getcols()
 {
+	int termwidth = -1;
+	const int default_tty = 80;
+	const int default_notty = 0;
+
+	if(!isatty(fileno(stdout))) {
+		return default_notty;
+	}
+
 #ifdef TIOCGSIZE
 	struct ttysize win;
 	if(ioctl(1, TIOCGSIZE, &win) == 0) {
-		return win.ts_cols;
+		termwidth = win.ts_cols;
 	}
 #elif defined(TIOCGWINSZ)
 	struct winsize win;
 	if(ioctl(1, TIOCGWINSZ, &win) == 0) {
-		return win.ws_col;
+		termwidth = win.ws_col;
 	}
 #endif
-	return def;
+	return termwidth <= 0 ? default_tty : termwidth;
 }
 
 /* does the same thing as 'rm -rf' */
@@ -226,7 +234,7 @@ void indentprint(const char *str, int indent)
 	wchar_t *wcstr;
 	const wchar_t *p;
 	int len, cidx;
-	const int cols = getcols(0);
+	const int cols = getcols();
 
 	if(!str) {
 		return;
@@ -516,8 +524,8 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 	alpm_list_free(longest_strs);
 
 	/* return NULL if terminal is not wide enough */
-	if(totalwidth > getcols(80)) {
-		pm_fprintf(stderr, PM_LOG_WARNING, _("insufficient columns available for table display\n"));
+	if(totalwidth > getcols()) {
+		fprintf(stderr, _("insufficient columns available for table display\n"));
 		FREELIST(formats);
 		return NULL;
 	}
@@ -578,7 +586,7 @@ void list_display(const char *title, const alpm_list_t *list)
 	if(!list) {
 		printf("%s\n", _("None"));
 	} else {
-		const int maxcols = getcols(0);
+		const int maxcols = getcols();
 		int cols = len;
 		const char *str = alpm_list_getdata(list);
 		printf("%s", str);
