@@ -232,8 +232,9 @@ void indentprint(const char *str, int indent)
 		return;
 	}
 
-	/* if we're not a tty, print without indenting */
-	if(cols == 0) {
+	/* if we're not a tty, or our tty is not wide enough that wrapping even makes
+	 * sense, print without indenting */
+	if(cols == 0 || indent > cols) {
 		printf("%s", str);
 		return;
 	}
@@ -577,12 +578,16 @@ void list_display(const char *title, const alpm_list_t *list)
 	if(!list) {
 		printf("%s\n", _("None"));
 	} else {
-		int cols;
-		const int maxcols = getcols(80);
-		for(i = list, cols = len; i; i = alpm_list_next(i)) {
-			char *str = alpm_list_getdata(i);
+		const int maxcols = getcols(0);
+		int cols = len;
+		const char *str = alpm_list_getdata(list);
+		printf("%s", str);
+		cols += string_length(str);
+		for(i = alpm_list_next(list), cols = len; i; i = alpm_list_next(i)) {
+			const char *str = alpm_list_getdata(i);
 			int s = string_length(str);
-			if(cols + s + 2 >= maxcols) {
+			/* wrap only if we have enough usable column space */
+			if(maxcols > len && cols + s + 2 >= maxcols) {
 				int j;
 				cols = len;
 				printf("\n");
