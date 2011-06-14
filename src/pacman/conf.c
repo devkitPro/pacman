@@ -497,7 +497,6 @@ static int setup_libalpm(void)
 	alpm_option_set_checkspace(handle, config->checkspace);
 	alpm_option_set_usesyslog(handle, config->usesyslog);
 	alpm_option_set_usedelta(handle, config->usedelta);
-	alpm_option_set_default_sigverify(handle, config->sigverify);
 
 	alpm_option_set_ignorepkgs(handle, config->ignorepkg);
 	alpm_option_set_ignoregrps(handle, config->ignoregrp);
