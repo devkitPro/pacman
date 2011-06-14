@@ -192,13 +192,13 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 }
 
 static int can_remove_file(pmhandle_t *handle, const char *path,
-		alpm_list_t *skip)
+		alpm_list_t *skip_remove)
 {
 	char file[PATH_MAX];
 
 	snprintf(file, PATH_MAX, "%s%s", handle->root, path);
 
-	if(alpm_list_find_str(skip, file)) {
+	if(alpm_list_find_str(skip_remove, file)) {
 		/* return success because we will never actually remove this file */
 		return 1;
 	}
@@ -209,7 +209,7 @@ static int can_remove_file(pmhandle_t *handle, const char *path,
 			/* only return failure if the file ACTUALLY exists and we can't write to
 			 * it - ignore "chmod -w" simple permission failures */
 			_alpm_log(handle, PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
-			          file, strerror(errno));
+					file, strerror(errno));
 			return 0;
 		}
 	}
@@ -219,7 +219,7 @@ static int can_remove_file(pmhandle_t *handle, const char *path,
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
+static void unlink_file(pmhandle_t *handle, pmpkg_t *info, const char *filename,
 		alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
@@ -279,7 +279,7 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, char *filename,
 
 		if(unlink(file) == -1) {
 			_alpm_log(handle, PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
-								filename, strerror(errno));
+					filename, strerror(errno));
 		}
 	}
 }
