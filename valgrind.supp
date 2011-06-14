@@ -56,3 +56,25 @@
    fun:SSL_COMP_get_compression_methods
    fun:SSL_library_init
 }
+{
+   gpgme-static-get-engine-info
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:gpgme_get_engine_info
+}
+{
+   gpgme-static-set-engine-info
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_gpgme_set_engine_info
+   fun:gpgme_set_engine_info
+}
+{
+   gpgme-static-set-locale
+   Memcheck:Leak
+   fun:malloc
+   fun:strdup
+   fun:gpgme_set_locale
+}
