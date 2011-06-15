@@ -29,7 +29,7 @@ LIBRARY = \
 	library/parse_options.sh
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = $(bin_SCRIPTS) *.tmp
+MOSTLYCLEANFILES = $(bin_SCRIPTS)
 
 if USE_GIT_VERSION
 GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 --dirty | sed s/^v//')
@@ -62,13 +62,10 @@ edit = sed \
 # third 'test' line- make sure one of the two checks succeeded
 $(OURSCRIPTS): Makefile
 	@echo '    ' GEN $@;
-	@rm -f $@ $@.tmp
-	@test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@.tmp || true
-	@test -f $(srcdir)/$@.py.in && m4 -P -I $(srcdir) $(srcdir)/$@.py.in | $(edit) >$@.tmp || true
-	@test -f $@.tmp || false
-	@chmod +x $@.tmp
-	@chmod a-w $@.tmp
-	@mv $@.tmp $@
+	@rm -f $@
+	@test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
+	@chmod +x $@
+	@chmod a-w $@
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
