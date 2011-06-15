@@ -101,7 +101,7 @@ website: html
 pkgdatadir = ${datadir}/${PACKAGE}
 
 ASCIIDOC_OPTS = \
-	-f asciidoc.conf \
+	-f $(srcdir)/asciidoc.conf \
 	-a pacman_version="$(REAL_PACKAGE_VERSION)" \
 	-a pacman_date="`date +%Y-%m-%d`" \
 	-a pkgdatadir=$(pkgdatadir) \
@@ -112,11 +112,12 @@ A2X_OPTS = \
 	--no-xmllint \
 	-d manpage \
 	-f manpage \
-	--xsltproc-opts='-param man.endnotes.list.enabled 0 -param man.endnotes.are.numbered 0'
+	--xsltproc-opts='-param man.endnotes.list.enabled 0 -param man.endnotes.are.numbered 0' \
+	--destination-dir='./'
 
 # These rules are due to the includes and files of the asciidoc text
 $(ASCIIDOC_MANS): asciidoc.conf footer.txt
-	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS)" $@.txt
+	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@.xml" $(srcdir)/$@.txt
 
 %.html: %.txt
 	asciidoc $(ASCIIDOC_OPTS) $*.txt
