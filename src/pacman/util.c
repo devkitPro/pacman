@@ -831,7 +831,7 @@ double humanize_size(off_t bytes, const char target_unit, int long_labels,
 	for(index = 0; index < unitcount - 1; index++) {
 		if(target_unit != '\0' && shortlabels[index][0] == target_unit) {
 			break;
-		} else if(target_unit == '\0' && val <= 2048.0) {
+		} else if(target_unit == '\0' && val <= 2048.0 && val >= -2048.0) {
 			break;
 		}
 		val /= 1024.0;
