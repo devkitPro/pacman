@@ -517,7 +517,7 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 
 	/* return NULL if terminal is not wide enough */
 	if(totalwidth > getcols(80)) {
-		fprintf(stderr, _("insufficient columns available for table display\n"));
+		pm_fprintf(stderr, PM_LOG_WARNING, _("insufficient columns available for table display\n"));
 		FREELIST(formats);
 		return NULL;
 	}
