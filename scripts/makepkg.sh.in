@@ -188,6 +188,16 @@ trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 # 1) "filename::http://path/to/file"
 # 2) "http://path/to/file"
 
+enter_fakeroot() {
+	msg "$(gettext "Entering fakeroot environment...")"
+
+	if [[ -n $newpkgver ]]; then
+		fakeroot -- $0 --forcever $newpkgver -F "${ARGLIST[@]}" || exit $?
+	else
+		fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
+	fi
+}
+
 # Return the absolute filename of a source entry
 #
 # This function accepts a source entry or the already extracted filename of a
@@ -1214,23 +1224,6 @@ create_signature() {
 }
 
 create_srcpackage() {
-	cd "$startdir"
-
-	# Get back to our src directory so we can begin with sources.
-	mkdir -p "$srcdir"
-	chmod a-s "$srcdir"
-	cd "$srcdir"
-	if (( ! SKIPINTEG || SOURCEONLY == 2 )); then
-		download_sources
-	fi
-	if (( ! SKIPINTEG )); then
-		# We can only check checksums if we have all files.
-		check_checksums
-	else
-		warning "$(gettext "Skipping integrity checks.")"
-	fi
-	cd "$startdir"
-
 	msg "$(gettext "Creating source package...")"
 	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
 	mkdir "${srclinks}"/${pkgbase}
@@ -2006,6 +1999,12 @@ fi
 
 # Run the bare minimum in fakeroot
 if (( INFAKEROOT )); then
+	if (( SOURCEONLY )); then
+		create_srcpackage
+		msg "$(gettext "Leaving fakeroot environment.")"
+		exit 0 # $E_OK
+	fi
+
 	if (( ! SPLITPKG )); then
 		if (( ! PKGFUNC )); then
 			if (( ! REPKG )); then
@@ -2041,7 +2040,29 @@ if (( SOURCEONLY )); then
 		error "$(gettext "A source package has already been built. (use -f to overwrite)")"
 		exit 1
 	fi
-	create_srcpackage
+
+	# Get back to our src directory so we can begin with sources.
+	mkdir -p "$srcdir"
+	chmod a-s "$srcdir"
+	cd "$srcdir"
+	if (( ! SKIPINTEG || SOURCEONLY == 2 )); then
+		download_sources
+	fi
+	if (( ! SKIPINTEG )); then
+		# We can only check checksums if we have all files.
+		check_checksums
+	else
+		warning "$(gettext "Skipping integrity checks.")"
+	fi
+	cd "$startdir"
+
+	# if we are root or if fakeroot is not enabled, then we don't use it
+	if [[ $(check_buildenv fakeroot) != "y" ]] || (( EUID == 0 )); then
+		create_srcpackage
+	else
+		enter_fakeroot
+	fi
+
 	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date))"
 	exit 0
 fi
@@ -2158,13 +2179,7 @@ else
 			cd "$startdir"
 		fi
 
-		msg "$(gettext "Entering fakeroot environment...")"
-
-		if [[ -n $newpkgver ]]; then
-			fakeroot -- $0 --forcever $newpkgver -F "${ARGLIST[@]}" || exit $?
-		else
-			fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
-		fi
+		enter_fakeroot
 	fi
 fi
 
