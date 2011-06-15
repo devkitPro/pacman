@@ -110,6 +110,14 @@ Options
 	running in the DistCC cluster. In addition, you will want to modify your
 	`MAKEFLAGS`.
 
+**BUILDDIR=**"/path/to/folder"::
+	If this value is not set, packages will by default be built in
+	subdirectories of the directory that makepkg is called from.  This
+	option allows setting the build location to another folder.
+	Incorrect use of `$startdir` in a PKGBUILD may cause building with
+	this option to fail.
+
+
 **GPGKEY=**""::
 	Specify a key to use for gpg signing instead of the default key in the
 	keyring. Can be overridden with makepkg's `--key` option.

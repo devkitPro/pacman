@@ -41,8 +41,6 @@ myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
 BUILDSCRIPT='@BUILDSCRIPT@'
 startdir="$PWD"
-srcdir="$startdir/src"
-pkgdir="$startdir/pkg"
 
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge' 'upx')
 other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
@@ -1726,6 +1724,7 @@ done
 [[ -n ${PKGDEST} ]] && _PKGDEST=$(canonicalize_path ${PKGDEST})
 [[ -n ${SRCDEST} ]] && _SRCDEST=$(canonicalize_path ${SRCDEST})
 [[ -n ${SRCPKGDEST} ]] && _SRCPKGDEST=$(canonicalize_path ${SRCPKGDEST})
+[[ -n ${BUILDDIR} ]] && _BUILDDIR=$(canonicalize_path ${BUILDDIR})
 [[ -n ${PKGEXT} ]] && _PKGEXT=${PKGEXT}
 [[ -n ${SRCEXT} ]] && _SRCEXT=${SRCEXT}
 [[ -n ${GPGKEY} ]] && _GPGKEY=${GPGKEY}
@@ -1773,6 +1772,21 @@ fi
 readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
 
 # override settings with an environment variable for batch processing
+BUILDDIR=${_BUILDDIR:-$BUILDDIR}
+BUILDDIR=${BUILDDIR:-$startdir} #default to $startdir if undefined
+if [[ ! -d $BUILDDIR ]]; then
+	mkdir -p "$BUILDDIR" ||
+			error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
+	chmod a-s "$BUILDDIR"
+fi
+if [[ ! -w $BUILDDIR ]]; then
+	error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
+	plain "$(gettext "Aborting...")"
+	exit 1
+fi
+srcdir="$BUILDDIR/src"
+pkgdir="$BUILDDIR/pkg"
+
 PKGDEST=${_PKGDEST:-$PKGDEST}
 PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
 if [[ ! -w $PKGDEST ]]; then
