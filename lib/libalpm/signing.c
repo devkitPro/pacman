@@ -116,7 +116,7 @@ static int init_gpgme(pmhandle_t *handle)
 		return 0;
 	}
 
-	sigdir = alpm_option_get_signaturedir(handle);
+	sigdir = alpm_option_get_gpgdir(handle);
 	if(!sigdir) {
 		RET_ERR(handle, PM_ERR_SIG_MISSINGDIR, 1);
 	}

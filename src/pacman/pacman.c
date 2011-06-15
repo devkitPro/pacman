@@ -885,7 +885,7 @@ int main(int argc, char *argv[])
 		printf("\n");
 		printf("Lock File : %s\n", alpm_option_get_lockfile(config->handle));
 		printf("Log File  : %s\n", alpm_option_get_logfile(config->handle));
-		printf("GPG Dir   : %s\n", alpm_option_get_signaturedir(config->handle));
+		printf("GPG Dir   : %s\n", alpm_option_get_gpgdir(config->handle));
 		list_display("Targets   :", pm_targets);
 	}
 

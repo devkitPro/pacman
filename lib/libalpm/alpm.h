@@ -181,10 +181,10 @@ const char *alpm_option_get_logfile(pmhandle_t *handle);
 /** Sets the logfile name. */
 int alpm_option_set_logfile(pmhandle_t *handle, const char *logfile);
 
-/** Returns the signature directory path. */
-const char *alpm_option_get_signaturedir(pmhandle_t *handle);
-/** Sets the signature directory path. */
-int alpm_option_set_signaturedir(pmhandle_t *handle, const char *signaturedir);
+/** Returns the path to libalpm's GnuPG home directory. */
+const char *alpm_option_get_gpgdir(pmhandle_t *handle);
+/** Sets the path to libalpm's GnuPG home directory. */
+int alpm_option_set_gpgdir(pmhandle_t *handle, const char *gpgdir);
 
 /** Returns whether to use syslog (0 is FALSE, TRUE otherwise). */
 int alpm_option_get_usesyslog(pmhandle_t *handle);

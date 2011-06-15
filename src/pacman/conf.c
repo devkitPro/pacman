@@ -467,7 +467,7 @@ static int setup_libalpm(void)
 	/* Set GnuPG's home directory.  This is not relative to rootdir, even if
 	 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
 	config->gpgdir = config->gpgdir ? config->gpgdir : strdup(GPGDIR);
-	ret = alpm_option_set_signaturedir(handle, config->gpgdir);
+	ret = alpm_option_set_gpgdir(handle, config->gpgdir);
 	if(ret != 0) {
 		pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
 				config->gpgdir, alpm_strerror(alpm_errno(config->handle)));

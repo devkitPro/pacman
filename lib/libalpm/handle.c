@@ -77,7 +77,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
 	FREE(handle->arch);
-	FREE(handle->signaturedir);
+	FREE(handle->gpgdir);
 	FREELIST(handle->dbs_sync);
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
@@ -140,10 +140,10 @@ const char SYMEXPORT *alpm_option_get_lockfile(pmhandle_t *handle)
 	return handle->lockfile;
 }
 
-const char SYMEXPORT *alpm_option_get_signaturedir(pmhandle_t *handle)
+const char SYMEXPORT *alpm_option_get_gpgdir(pmhandle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
-	return handle->signaturedir;
+	return handle->gpgdir;
 }
 
 int SYMEXPORT alpm_option_get_usesyslog(pmhandle_t *handle)
@@ -362,20 +362,20 @@ int SYMEXPORT alpm_option_set_logfile(pmhandle_t *handle, const char *logfile)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_signaturedir(pmhandle_t *handle, const char *signaturedir)
+int SYMEXPORT alpm_option_set_gpgdir(pmhandle_t *handle, const char *gpgdir)
 {
 	CHECK_HANDLE(handle, return -1);
-	if(!signaturedir) {
+	if(!gpgdir) {
 		handle->pm_errno = PM_ERR_WRONG_ARGS;
 		return -1;
 	}
 
-	if(handle->signaturedir) {
-		FREE(handle->signaturedir);
+	if(handle->gpgdir) {
+		FREE(handle->gpgdir);
 	}
-	handle->signaturedir = strdup(signaturedir);
+	handle->gpgdir = strdup(gpgdir);
 
-	_alpm_log(handle, PM_LOG_DEBUG, "option 'signaturedir' = %s\n", handle->signaturedir);
+	_alpm_log(handle, PM_LOG_DEBUG, "option 'gpgdir' = %s\n", handle->gpgdir);
 	return 0;
 }
 
