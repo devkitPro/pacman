@@ -1048,7 +1048,7 @@ write_pkginfo() {
 			# check if the entry has been found by find_libdepends
 			# if not, it's unneeded; tell the user so he can remove it
 			if [[ ! $libdepends =~ (^|\s)${it}=.* ]]; then
-				error "$(gettext "Can't find library listed in \$depends: %s")" "$it"
+				error "$(gettext "Cannot find library listed in %s: %s")" "'depends'" "$it"
 				return 1
 			fi
 		else
@@ -1062,7 +1062,7 @@ write_pkginfo() {
 			# check if the entry has been found by find_libprovides
 			# if not, it's unneeded; tell the user so he can remove it
 			if [[ ! $libprovides =~ (^|\s)${it}=.* ]]; then
-				error "$(gettext "Can't find library listed in \$provides: %s")" "$it"
+				error "$(gettext "Cannot find library listed in %s: %s")" "'provides'" "$it"
 				return 1
 			fi
 		else
