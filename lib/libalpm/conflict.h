@@ -30,13 +30,6 @@ struct __pmconflict_t {
 	char *reason;
 };
 
-struct __pmfileconflict_t {
-	char *target;
-	pmfileconflicttype_t type;
-	char *file;
-	char *ctarget;
-};
-
 pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict);
 void _alpm_conflict_free(pmconflict_t *conflict);
 alpm_list_t *_alpm_innerconflicts(pmhandle_t *handle, alpm_list_t *packages);

@@ -50,7 +50,7 @@ extern "C" {
  */
 
 /**
- * Install reasons
+ * Install reasons.
  * Why the package was installed.
  */
 typedef enum _pmpkgreason_t {
@@ -59,6 +59,16 @@ typedef enum _pmpkgreason_t {
 	/** Installed as a dependency for another package. */
 	PM_PKG_REASON_DEPEND = 1
 } pmpkgreason_t;
+
+/**
+ * File conflict type.
+ * Whether the conflict results from a file existing on the filesystem, or with
+ * another target in the transaction.
+ */
+typedef enum _pmfileconflicttype_t {
+	PM_FILECONFLICT_TARGET = 1,
+	PM_FILECONFLICT_FILESYSTEM
+} pmfileconflicttype_t;
 
 /**
  * GPG signature verification options
@@ -83,7 +93,14 @@ typedef struct __pmtrans_t pmtrans_t;
 typedef struct __pmdepend_t pmdepend_t;
 typedef struct __pmdepmissing_t pmdepmissing_t;
 typedef struct __pmconflict_t pmconflict_t;
-typedef struct __pmfileconflict_t pmfileconflict_t;
+
+/** File conflict */
+typedef struct _pmfileconflict_t {
+	char *target;
+	pmfileconflicttype_t type;
+	char *file;
+	char *ctarget;
+} pmfileconflict_t;
 
 /*
  * Logging facilities
@@ -943,21 +960,6 @@ const char *alpm_dep_get_version(const pmdepend_t *dep);
 char *alpm_dep_compute_string(const pmdepend_t *dep);
 
 /** @} */
-
-/** @addtogroup alpm_api_fileconflicts File Conflicts Functions
- * Functions to manipulate file conflict information.
- * @{
- */
-
-typedef enum _pmfileconflicttype_t {
-	PM_FILECONFLICT_TARGET = 1,
-	PM_FILECONFLICT_FILESYSTEM
-} pmfileconflicttype_t;
-
-const char *alpm_fileconflict_get_target(pmfileconflict_t *conflict);
-pmfileconflicttype_t alpm_fileconflict_get_type(pmfileconflict_t *conflict);
-const char *alpm_fileconflict_get_file(pmfileconflict_t *conflict);
-const char *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict);
 
 /** @} */
 

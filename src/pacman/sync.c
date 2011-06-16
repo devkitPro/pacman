@@ -849,17 +849,14 @@ static int sync_trans(alpm_list_t *targets)
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmfileconflict_t *conflict = alpm_list_getdata(i);
-					switch(alpm_fileconflict_get_type(conflict)) {
+					switch(conflict->type) {
 						case PM_FILECONFLICT_TARGET:
 							printf(_("%s exists in both '%s' and '%s'\n"),
-									alpm_fileconflict_get_file(conflict),
-									alpm_fileconflict_get_target(conflict),
-									alpm_fileconflict_get_ctarget(conflict));
+									conflict->file, conflict->target, conflict->ctarget);
 							break;
 						case PM_FILECONFLICT_FILESYSTEM:
 							printf(_("%s: %s exists in filesystem\n"),
-									alpm_fileconflict_get_target(conflict),
-									alpm_fileconflict_get_file(conflict));
+									conflict->target, conflict->file);
 							break;
 					}
 				}
