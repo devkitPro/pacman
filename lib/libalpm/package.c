@@ -466,7 +466,9 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->optdepends = alpm_list_strdup(pkg->optdepends);
 	newpkg->conflicts  = alpm_list_strdup(pkg->conflicts);
 	newpkg->provides   = alpm_list_strdup(pkg->provides);
-	newpkg->deltas     = alpm_list_copy_data(pkg->deltas, sizeof(pmdelta_t));
+	for(i = pkg->deltas; i; i = alpm_list_next(i)) {
+		newpkg->deltas = alpm_list_add(newpkg->deltas, _alpm_delta_dup(i->data));
+	}
 
 	/* internal */
 	newpkg->infolevel = pkg->infolevel;

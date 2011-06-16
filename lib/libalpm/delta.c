@@ -314,11 +314,25 @@ pmdelta_t *_alpm_delta_parse(char *line)
 
 void _alpm_delta_free(pmdelta_t *delta)
 {
-	FREE(delta->from);
-	FREE(delta->to);
 	FREE(delta->delta);
 	FREE(delta->delta_md5);
+	FREE(delta->from);
+	FREE(delta->to);
 	FREE(delta);
+}
+
+pmdelta_t *_alpm_delta_dup(const pmdelta_t *delta)
+{
+	pmdelta_t *newdelta;
+	CALLOC(newdelta, 1, sizeof(pmdelta_t), return NULL);
+	STRDUP(newdelta->delta, delta->delta, return NULL);
+	STRDUP(newdelta->delta_md5, delta->delta_md5, return NULL);
+	STRDUP(newdelta->from, delta->from, return NULL);
+	STRDUP(newdelta->to, delta->to, return NULL);
+	newdelta->delta_size = delta->delta_size;
+	newdelta->download_size = delta->download_size;
+
+	return newdelta;
 }
 
 /* vim: set ts=2 sw=2 noet: */
