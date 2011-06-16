@@ -26,21 +26,6 @@
 
 #include "alpm.h"
 
-struct __pmdelta_t {
-	/** filename of the delta patch */
-	char *delta;
-	/** md5sum of the delta file */
-	char *delta_md5;
-	/** filename of the 'before' file */
-	char *from;
-	/** filename of the 'after' file */
-	char *to;
-	/** filesize of the delta file */
-	off_t delta_size;
-	/** download filesize of the delta file */
-	off_t download_size;
-};
-
 pmdelta_t *_alpm_delta_parse(char *line);
 void _alpm_delta_free(pmdelta_t *delta);
 off_t _alpm_shortest_delta_path(pmhandle_t *handle, alpm_list_t *deltas,

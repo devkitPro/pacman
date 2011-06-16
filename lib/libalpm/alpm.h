@@ -103,7 +103,6 @@ typedef enum _pgp_verify_t {
 typedef struct __pmhandle_t pmhandle_t;
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
-typedef struct __pmdelta_t pmdelta_t;
 typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmtrans_t pmtrans_t;
 
@@ -137,6 +136,22 @@ typedef struct _pmfileconflict_t {
 	char *file;
 	char *ctarget;
 } pmfileconflict_t;
+
+/** Package upgrade delta */
+typedef struct _pmdelta_t {
+	/** filename of the delta patch */
+	char *delta;
+	/** md5sum of the delta file */
+	char *delta_md5;
+	/** filename of the 'before' file */
+	char *from;
+	/** filename of the 'after' file */
+	char *to;
+	/** filesize of the delta file */
+	off_t delta_size;
+	/** download filesize of the delta file */
+	off_t download_size;
+} pmdelta_t;
 
 /*
  * Logging facilities
@@ -665,16 +680,6 @@ int alpm_pkg_check_pgp_signature(pmpkg_t *pkg);
 
 int alpm_db_check_pgp_signature(pmdb_t *db);
 int alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify);
-
-/*
- * Deltas
- */
-
-const char *alpm_delta_get_from(pmdelta_t *delta);
-const char *alpm_delta_get_to(pmdelta_t *delta);
-const char *alpm_delta_get_filename(pmdelta_t *delta);
-const char *alpm_delta_get_md5sum(pmdelta_t *delta);
-off_t alpm_delta_get_size(pmdelta_t *delta);
 
 /*
  * Groups

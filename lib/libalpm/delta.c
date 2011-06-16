@@ -34,43 +34,6 @@
 #include "log.h"
 #include "graph.h"
 
-/** \addtogroup alpm_deltas Delta Functions
- * @brief Functions to manipulate libalpm deltas
- * @{
- */
-
-const char SYMEXPORT *alpm_delta_get_from(pmdelta_t *delta)
-{
-	ASSERT(delta != NULL, return NULL);
-	return delta->from;
-}
-
-const char SYMEXPORT *alpm_delta_get_to(pmdelta_t *delta)
-{
-	ASSERT(delta != NULL, return NULL);
-	return delta->to;
-}
-
-const char SYMEXPORT *alpm_delta_get_filename(pmdelta_t *delta)
-{
-	ASSERT(delta != NULL, return NULL);
-	return delta->delta;
-}
-
-const char SYMEXPORT *alpm_delta_get_md5sum(pmdelta_t *delta)
-{
-	ASSERT(delta != NULL, return NULL);
-	return delta->delta_md5;
-}
-
-off_t SYMEXPORT alpm_delta_get_size(pmdelta_t *delta)
-{
-	ASSERT(delta != NULL, return -1);
-	return delta->delta_size;
-}
-
-/** @} */
-
 static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 {
 	alpm_list_t *i, *j;
@@ -279,6 +242,11 @@ static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota
 	return unused;
 }
 
+/** \addtogroup alpm_deltas Delta Functions
+ * @brief Functions to manipulate libalpm deltas
+ * @{
+ */
+
 alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(pmpkg_t *pkg)
 {
 	off_t pkgsize = alpm_pkg_get_size(pkg);
@@ -289,6 +257,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(pmpkg_t *pkg)
 	return unused;
 }
 
+/** @} */
 
 /** Parses the string representation of a pmdelta_t object.
  * This function assumes that the string is in the correct format.
