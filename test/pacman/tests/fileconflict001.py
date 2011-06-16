@@ -2,6 +2,7 @@ self.description = "Fileconflict with symlinks"
 
 lp = pmpkg("dummy")
 lp.files = ["dir/realdir/",
+            "dir/realdir/realfile",
             "dir/symdir -> realdir"]
 self.addpkg2db("local", lp)
 
@@ -18,5 +19,7 @@ self.args = "-U %s" % " ".join([p.filename() for p in p1, p2])
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("!PKG_EXIST=pkg1")
 self.addrule("!PKG_EXIST=pkg2")
+self.addrule("FILE_EXIST=dir/realdir/realfile")
+self.addrule("!FILE_EXIST=dir/realdir/file")
 
 self.expectfailure = True
