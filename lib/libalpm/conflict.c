@@ -385,7 +385,7 @@ static int dir_belongsto_pkg(const char *root, const char *dirpath,
 alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		alpm_list_t *upgrade, alpm_list_t *remove)
 {
-	alpm_list_t *i, *j, *conflicts = NULL;
+	alpm_list_t *i, *conflicts = NULL;
 	size_t numtargs = alpm_list_count(upgrade);
 	size_t current;
 	alpm_trans_t *trans = handle->trans;
@@ -399,14 +399,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	 * here as we do when we actually extract files in add.c with our 12
 	 * different cases. */
 	for(current = 0, i = upgrade; i; i = i->next, current++) {
-		alpm_list_t *k, *tmpfiles;
-		alpm_pkg_t *p1, *p2, *dbpkg;
-		char path[PATH_MAX];
-
-		p1 = i->data;
-		if(!p1) {
-			continue;
-		}
+		alpm_pkg_t *p1 = i->data;
+		alpm_list_t *j, *tmpfiles;
+		alpm_pkg_t *dbpkg;
 
 		int percent = (current * 100) / numtargs;
 		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", percent,
@@ -416,14 +411,13 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 								alpm_pkg_get_name(p1));
 		for(j = i->next; j; j = j->next) {
 			alpm_list_t *common_files;
-			p2 = j->data;
-			if(!p2) {
-				continue;
-			}
+			alpm_pkg_t *p2 = j->data;
 			common_files = filelist_operation(alpm_pkg_get_files(p1),
 					alpm_pkg_get_files(p2), INTERSECT);
 
 			if(common_files) {
+				alpm_list_t *k;
+				char path[PATH_MAX];
 				for(k = common_files; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)k->data);
 					conflicts = add_fileconflict(handle, conflicts,
@@ -459,12 +453,14 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		}
 
 		for(j = tmpfiles; j; j = j->next) {
-			struct stat lsbuf;
 			alpm_file_t *file = j->data;
 			const char *filestr = file->name;
 			const char *relative_path;
+			alpm_list_t *k;
 			/* have we acted on this conflict? */
 			int resolved_conflict = 0;
+			struct stat lsbuf;
+			char path[PATH_MAX];
 
 			snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
 
@@ -473,7 +469,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				continue;
 			}
 
-			if(path[strlen(path) - 1] == '/') {
+			if(S_ISDIR(file->mode)) {
 				struct stat sbuf;
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(handle, PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
@@ -500,15 +496,14 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				if(rempkg && _alpm_filelist_contains(alpm_pkg_get_files(rempkg),
 							relative_path)) {
 					_alpm_log(handle, PM_LOG_DEBUG,
-							"local file will be removed, not a conflict: %s\n",
-							relative_path);
+							"local file will be removed, not a conflict: %s\n", path);
 					resolved_conflict = 1;
 				}
 			}
 
 			/* Look at all the targets to see if file has changed hands */
 			for(k = upgrade; k && !resolved_conflict; k = k->next) {
-				p2 = k->data;
+				alpm_pkg_t *p2 = k->data;
 				if(!p2 || strcmp(p1->name, p2->name) == 0) {
 					continue;
 				}
@@ -522,8 +517,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					handle->trans->skip_remove =
 						alpm_list_add(handle->trans->skip_remove, strdup(filestr));
 					_alpm_log(handle, PM_LOG_DEBUG,
-							"file changed packages, adding to remove skiplist: %s\n",
-							filestr);
+							"file changed packages, adding to remove skiplist: %s\n", path);
 					resolved_conflict = 1;
 				}
 			}
