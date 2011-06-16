@@ -701,7 +701,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	ASSERT(filename != NULL, return NULL);
 
 	/* allocate 32 chars plus 1 for null */
-	md5sum = calloc(33, sizeof(char));
+	CALLOC(md5sum, 33, sizeof(char), return NULL);
 	/* defined above for OpenSSL, otherwise defined in md5.h */
 	ret = md5_file(filename, output);
 
@@ -714,7 +714,6 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 		/* sprintf is acceptable here because we know our output */
 		sprintf(md5sum +(i * 2), "%02x", output[i]);
 	}
-	md5sum[32] = '\0';
 
 	return md5sum;
 }
