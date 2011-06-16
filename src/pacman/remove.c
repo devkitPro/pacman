@@ -52,7 +52,7 @@ static int remove_target(const char *target)
 		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': target not found\n", target);
 		return -1;
 	}
-	for(p = alpm_grp_get_pkgs(grp); p; p = alpm_list_next(p)) {
+	for(p = grp->packages; p; p = alpm_list_next(p)) {
 		pmpkg_t *pkg = alpm_list_getdata(p);
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target,

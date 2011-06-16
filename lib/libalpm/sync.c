@@ -225,7 +225,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 		if(!grp)
 			continue;
 
-		for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
+		for(j = grp->packages; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 
 			if(_alpm_pkg_find(ignorelist, alpm_pkg_get_name(pkg))) {

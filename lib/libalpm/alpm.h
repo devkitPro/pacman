@@ -103,7 +103,6 @@ typedef enum _pgp_verify_t {
 typedef struct __pmhandle_t pmhandle_t;
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
-typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmtrans_t pmtrans_t;
 
 /** Dependency */
@@ -136,6 +135,14 @@ typedef struct _pmfileconflict_t {
 	char *file;
 	char *ctarget;
 } pmfileconflict_t;
+
+/** Package group */
+typedef struct _pmgrp_t {
+	/** group name */
+	char *name;
+	/** list of pmpkg_t packages */
+	alpm_list_t *packages;
+} pmgrp_t;
 
 /** Package upgrade delta */
 typedef struct _pmdelta_t {
@@ -684,8 +691,7 @@ int alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify);
 /*
  * Groups
  */
-const char *alpm_grp_get_name(const pmgrp_t *grp);
-alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
+
 alpm_list_t *alpm_find_grp_pkgs(alpm_list_t *dbs, const char *name);
 
 /*

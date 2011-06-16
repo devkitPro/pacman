@@ -52,16 +52,4 @@ void _alpm_grp_free(pmgrp_t *grp)
 	FREE(grp);
 }
 
-const char SYMEXPORT *alpm_grp_get_name(const pmgrp_t *grp)
-{
-	ASSERT(grp != NULL, return NULL);
-	return grp->name;
-}
-
-alpm_list_t SYMEXPORT *alpm_grp_get_pkgs(const pmgrp_t *grp)
-{
-	ASSERT(grp != NULL, return NULL);
-	return grp->packages;
-}
-
 /* vim: set ts=2 sw=2 noet: */
