@@ -21,6 +21,7 @@ self.args = "-U %s" % " ".join([p.filename() for p in p1, p2])
 
 self.filesystem = ["etc/profile"]
 
+self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=bash|1.0-2")
 self.addrule("PKG_VERSION=filesystem|1.0-2")
 self.addrule("!FILE_PACSAVE=etc/profile")

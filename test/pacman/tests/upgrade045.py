@@ -12,5 +12,6 @@ self.addpkg(p1)
 
 self.args = "-U %s" % p1.filename()
 
+self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=foo|1.0-2")
 self.addrule("FILE_EXIST=etc/foo.cfg")
