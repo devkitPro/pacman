@@ -200,7 +200,10 @@ static int parse_descfile(pmhandle_t *handle, struct archive *a, pmpkg_t *newpkg
 			} else if(strcmp(key, "provides") == 0) {
 				newpkg->provides = alpm_list_add(newpkg->provides, strdup(ptr));
 			} else if(strcmp(key, "backup") == 0) {
-				newpkg->backup = alpm_list_add(newpkg->backup, strdup(ptr));
+				pmbackup_t *backup;
+				CALLOC(backup, 1, sizeof(pmbackup_t), return -1);
+				STRDUP(backup->name, ptr, return -1);
+				newpkg->backup = alpm_list_add(newpkg->backup, backup);
 			} else if(strcmp(key, "force") == 0) {
 				/* deprecated, skip it */
 			} else if(strcmp(key, "makepkgopt") == 0) {

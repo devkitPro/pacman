@@ -625,9 +625,12 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				}
 			} else if(strcmp(line, "%BACKUP%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->backup = alpm_list_add(info->backup, linedup);
+					pmbackup_t *backup;
+					CALLOC(backup, 1, sizeof(pmbackup_t), goto error);
+					if(_alpm_split_backup(line, &backup)) {
+						goto error;
+					}
+					info->backup = alpm_list_add(info->backup, backup);
 				}
 			}
 		}
@@ -826,7 +829,8 @@ int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 		if(info->backup) {
 			fprintf(fp, "%%BACKUP%%\n");
 			for(lp = info->backup; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				pmbackup_t *backup = lp->data;
+				fprintf(fp, "%s\t%s\n", backup->name, backup->hash);
 			}
 			fprintf(fp, "\n");
 		}

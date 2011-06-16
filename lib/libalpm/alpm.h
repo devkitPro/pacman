@@ -160,6 +160,12 @@ typedef struct _pmdelta_t {
 	off_t download_size;
 } pmdelta_t;
 
+/** Local package or package file backup entry */
+typedef struct _pmbackup_t {
+	char *name;
+	char *hash;
+} pmbackup_t;
+
 /*
  * Logging facilities
  */

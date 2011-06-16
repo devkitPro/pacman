@@ -138,7 +138,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 	mode_t entrymode;
 	char filename[PATH_MAX]; /* the actual file we're extracting */
 	int needbackup = 0, notouch = 0;
-	char *hash_orig = NULL;
+	const char *hash_orig = NULL;
 	char *entryname_orig = NULL;
 	int errors = 0;
 
@@ -252,23 +252,26 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			if(alpm_list_find_str(handle->noupgrade, entryname)) {
 				notouch = 1;
 			} else {
+				pmbackup_t *backup;
 				/* go to the backup array and see if our conflict is there */
 				/* check newpkg first, so that adding backup files is retroactive */
-				if(alpm_list_find_str(alpm_pkg_get_backup(newpkg), entryname) != NULL) {
+				backup = _alpm_needbackup(entryname, alpm_pkg_get_backup(newpkg));
+				if(backup) {
 					needbackup = 1;
 				}
 
 				/* check oldpkg for a backup entry, store the hash if available */
 				if(oldpkg) {
-					hash_orig = _alpm_needbackup(entryname, alpm_pkg_get_backup(oldpkg));
-					if(hash_orig) {
+					backup = _alpm_needbackup(entryname, alpm_pkg_get_backup(oldpkg));
+					if(backup) {
+						hash_orig = backup->hash;
 						needbackup = 1;
 					}
 				}
 
 				/* if we force hash_orig to be non-NULL retroactive backup works */
 				if(needbackup && !hash_orig) {
-					STRDUP(hash_orig, "", RET_ERR(handle, PM_ERR_MEMORY, -1));
+					hash_orig = "";
 				}
 			}
 		}
@@ -290,7 +293,6 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 		ret = perform_extraction(handle, archive, entry, checkfile, entryname_orig);
 		if(ret == 1) {
 			/* error */
-			FREE(hash_orig);
 			FREE(entryname_orig);
 			return 1;
 		}
@@ -298,24 +300,17 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 		hash_local = alpm_compute_md5sum(filename);
 		hash_pkg = alpm_compute_md5sum(checkfile);
 
-		/* append the new md5 hash to it's respective entry
-		 * in newpkg's backup (it will be the new orginal) */
-		alpm_list_t *backups;
-		for(backups = alpm_pkg_get_backup(newpkg); backups;
-				backups = alpm_list_next(backups)) {
-			char *oldbackup = alpm_list_getdata(backups);
-			if(!oldbackup || strcmp(oldbackup, entryname_orig) != 0) {
+		/* update the md5 hash in newpkg's backup (it will be the new orginal) */
+		alpm_list_t *i;
+		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
+			pmbackup_t *backup = i->data;
+			char *newhash;
+			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;
 			}
-			char *backup = NULL;
-			/* length is tab char, null byte and MD5 (32 char) */
-			size_t backup_len = strlen(oldbackup) + 34;
-			MALLOC(backup, backup_len, RET_ERR(handle, PM_ERR_MEMORY, -1));
-
-			sprintf(backup, "%s\t%s", oldbackup, hash_pkg);
-			backup[backup_len-1] = '\0';
-			FREE(oldbackup);
-			backups->data = backup;
+			STRDUP(newhash, hash_pkg, RET_ERR(handle, PM_ERR_MEMORY, -1));
+			FREE(backup->hash);
+			backup->hash = newhash;
 		}
 
 		_alpm_log(handle, PM_LOG_DEBUG, "checking hashes for %s\n", entryname_orig);
@@ -409,7 +404,6 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 
 		FREE(hash_local);
 		FREE(hash_pkg);
-		FREE(hash_orig);
 	} else {
 		int ret;
 
@@ -439,26 +433,17 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 		}
 
 		/* calculate an hash if this is in newpkg's backup */
-		alpm_list_t *b;
-		for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
-			char *backup = NULL, *hash = NULL;
-			char *oldbackup = alpm_list_getdata(b);
-			/* length is tab char, null byte and MD5 (32 char) */
-			size_t backup_len = strlen(oldbackup) + 34;
-
-			if(!oldbackup || strcmp(oldbackup, entryname_orig) != 0) {
+		alpm_list_t *i;
+		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
+			pmbackup_t *backup = i->data;
+			char *newhash;
+			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;
 			}
-			_alpm_log(handle, PM_LOG_DEBUG, "appending backup entry for %s\n", filename);
-
-			hash = alpm_compute_md5sum(filename);
-			MALLOC(backup, backup_len, RET_ERR(handle, PM_ERR_MEMORY, -1));
-
-			sprintf(backup, "%s\t%s", oldbackup, hash);
-			backup[backup_len-1] = '\0';
-			FREE(hash);
-			FREE(oldbackup);
-			b->data = backup;
+			_alpm_log(handle, PM_LOG_DEBUG, "appending backup entry for %s\n", entryname_orig);
+			newhash = alpm_compute_md5sum(filename);
+			FREE(backup->hash);
+			backup->hash = newhash;
 		}
 	}
 	FREE(entryname_orig);

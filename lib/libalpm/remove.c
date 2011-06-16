@@ -254,16 +254,14 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, const char *filename,
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */
-		char *pkghash = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
-		if(pkghash) {
+		pmbackup_t *backup = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
+		if(backup) {
 			if(nosave) {
 				_alpm_log(handle, PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
-				FREE(pkghash);
 			} else {
 				char *filehash = alpm_compute_md5sum(file);
-				int cmp = filehash ? strcmp(filehash, pkghash) : 0;
+				int cmp = filehash ? strcmp(filehash, backup->hash) : 0;
 				FREE(filehash);
-				FREE(pkghash);
 				if(cmp != 0) {
 					char newpath[PATH_MAX];
 					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
@@ -309,20 +307,20 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 	/* old package backup list */
 	alpm_list_t *filelist = alpm_pkg_get_files(newpkg);
 	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
-		char *backup = _alpm_backup_file(b->data);
+		const pmbackup_t *backup = b->data;
 		/* safety check (fix the upgrade026 pactest) */
-		if(!alpm_list_find_str(filelist, backup)) {
-			FREE(backup);
+		if(!alpm_list_find_str(filelist, backup->name)) {
 			continue;
 		}
-		_alpm_log(handle, PM_LOG_DEBUG, "adding %s to the skip_remove array\n", backup);
-		skip_remove = alpm_list_add(skip_remove, backup);
+		_alpm_log(handle, PM_LOG_DEBUG, "adding %s to the skip_remove array\n",
+				backup->name);
+		skip_remove = alpm_list_add(skip_remove, strdup(backup->name));
 	}
 
 	for(lp = files; lp; lp = lp->next) {
 		if(!can_remove_file(handle, lp->data, skip_remove)) {
-			_alpm_log(handle, PM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
-					pkgname);
+			_alpm_log(handle, PM_LOG_DEBUG,
+					"not removing package '%s', can't remove all files\n", pkgname);
 			RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
 		}
 	}

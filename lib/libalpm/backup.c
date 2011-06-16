@@ -32,54 +32,33 @@
 #include "log.h"
 #include "util.h"
 
-/* split a backup string "file\thash" into two strings : file and hash */
-static int backup_split(const char *string, char **file, char **hash)
+/* split a backup string "file\thash" into the relevant components */
+int _alpm_split_backup(const char *string, pmbackup_t **backup)
 {
-	char *str = strdup(string);
-	char *ptr;
+	char *str, *ptr;
+
+	STRDUP(str, string, return -1);
 
 	/* tab delimiter */
 	ptr = strchr(str, '\t');
 	if(ptr == NULL) {
-		if(file) {
-			*file = str;
-		} else {
-			/* don't need our dup as the fname wasn't requested, so free it */
-			FREE(str);
-		}
+		(*backup)->name = str;
+		(*backup)->hash = NULL;
 		return 0;
 	}
 	*ptr = '\0';
 	ptr++;
 	/* now str points to the filename and ptr points to the hash */
-	if(file) {
-		*file = strdup(str);
-	}
-	if(hash) {
-		*hash = strdup(ptr);
-	}
+	STRDUP((*backup)->name, str, return -1);
+	STRDUP((*backup)->hash, ptr, return -1);
 	FREE(str);
-	return 1;
+	return 0;
 }
 
-char *_alpm_backup_file(const char *string)
-{
-	char *file = NULL;
-	backup_split(string, &file, NULL);
-	return file;
-}
-
-char *_alpm_backup_hash(const char *string)
-{
-	char *hash = NULL;
-	backup_split(string, NULL, &hash);
-	return hash;
-}
-
-/* Look for a filename in a pmpkg_t.backup list.  If we find it,
- * then we return the md5 hash (parsed from the same line)
+/* Look for a filename in a pmpkg_t.backup list. If we find it,
+ * then we return the full backup entry.
  */
-char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
+pmbackup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 {
 	const alpm_list_t *lp;
 
@@ -89,23 +68,32 @@ char *_alpm_needbackup(const char *file, const alpm_list_t *backup)
 
 	/* run through the backup list and parse out the hash for our file */
 	for(lp = backup; lp; lp = lp->next) {
-		char *filename = NULL;
-		char *hash = NULL;
+		pmbackup_t *backup = lp->data;
 
-		/* no hash found */
-		if(!backup_split((char *)lp->data, &filename, &hash)) {
-			FREE(filename);
-			continue;
+		if(strcmp(file, backup->name) == 0) {
+			return backup;
 		}
-		if(strcmp(file, filename) == 0) {
-			FREE(filename);
-			return hash;
-		}
-		FREE(filename);
-		FREE(hash);
 	}
 
 	return NULL;
+}
+
+void _alpm_backup_free(pmbackup_t *backup)
+{
+	free(backup->name);
+	free(backup->hash);
+	free(backup);
+}
+
+pmbackup_t *_alpm_backup_dup(const pmbackup_t *backup)
+{
+	pmbackup_t *newbackup;
+	CALLOC(newbackup, 1, sizeof(pmbackup_t), return NULL);
+
+	STRDUP(newbackup->name, backup->name, return NULL);
+	STRDUP(newbackup->hash, backup->hash, return NULL);
+
+	return newbackup;
 }
 
 /* vim: set ts=2 sw=2 noet: */

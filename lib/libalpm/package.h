@@ -30,6 +30,7 @@
 #include <time.h> /* time_t */
 
 #include "alpm.h"
+#include "backup.h"
 #include "db.h"
 #include "signing.h"
 

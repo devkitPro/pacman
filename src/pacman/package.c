@@ -151,12 +151,12 @@ void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra)
 }
 
 static const char *get_backup_file_status(const char *root,
-		const char *filename, const char *expected_md5)
+		const pmbackup_t *backup)
 {
 	char path[PATH_MAX];
 	const char *ret;
 
-	snprintf(path, PATH_MAX, "%s%s", root, filename);
+	snprintf(path, PATH_MAX, "%s%s", root, backup->name);
 
 	/* if we find the file, calculate checksums, otherwise it is missing */
 	if(access(path, R_OK) == 0) {
@@ -169,7 +169,7 @@ static const char *get_backup_file_status(const char *root,
 		}
 
 		/* if checksums don't match, file has been modified */
-		if(strcmp(md5sum, expected_md5) != 0) {
+		if(strcmp(md5sum, backup->hash) != 0) {
 			ret = "MODIFIED";
 		} else {
 			ret = "UNMODIFIED";
@@ -200,18 +200,13 @@ void dump_pkg_backups(pmpkg_t *pkg)
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
 		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
+			const pmbackup_t *backup = alpm_list_getdata(i);
 			const char *value;
-			char *str = strdup(alpm_list_getdata(i));
-			char *ptr = strchr(str, '\t');
-			if(ptr == NULL) {
-				free(str);
+			if(!backup->hash) {
 				continue;
 			}
-			*ptr = '\0';
-			ptr++;
-			value = get_backup_file_status(root, str, ptr);
-			printf("%s\t%s%s\n", value, root, str);
-			free(str);
+			value = get_backup_file_status(root, backup);
+			printf("%s\t%s%s\n", value, root, backup->name);
 		}
 	} else {
 		/* package had no backup files */

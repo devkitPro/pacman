@@ -459,7 +459,9 @@ pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg)
 	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
 	newpkg->groups     = alpm_list_strdup(pkg->groups);
 	newpkg->files      = alpm_list_strdup(pkg->files);
-	newpkg->backup     = alpm_list_strdup(pkg->backup);
+	for(i = pkg->backup; i; i = alpm_list_next(i)) {
+		newpkg->backup = alpm_list_add(newpkg->backup, _alpm_backup_dup(i->data));
+	}
 	for(i = pkg->depends; i; i = alpm_list_next(i)) {
 		newpkg->depends = alpm_list_add(newpkg->depends, _alpm_dep_dup(i->data));
 	}
@@ -507,7 +509,8 @@ void _alpm_pkg_free(pmpkg_t *pkg)
 	FREELIST(pkg->replaces);
 	FREELIST(pkg->groups);
 	FREELIST(pkg->files);
-	FREELIST(pkg->backup);
+	alpm_list_free_inner(pkg->backup, (alpm_list_fn_free)_alpm_backup_free);
+	alpm_list_free(pkg->backup);
 	alpm_list_free_inner(pkg->depends, (alpm_list_fn_free)_alpm_dep_free);
 	alpm_list_free(pkg->depends);
 	FREELIST(pkg->optdepends);
