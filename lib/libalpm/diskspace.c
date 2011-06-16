@@ -39,10 +39,6 @@
 #include <sys/types.h>
 #endif
 
-/* libarchive */
-#include <archive.h>
-#include <archive_entry.h>
-
 /* libalpm */
 #include "diskspace.h"
 #include "alpm_list.h"
@@ -189,39 +185,19 @@ static int calculate_removed_size(alpm_handle_t *handle,
 static int calculate_installed_size(alpm_handle_t *handle,
 		const alpm_list_t *mount_points, alpm_pkg_t *pkg)
 {
-	int ret=0;
-	struct archive *archive;
-	struct archive_entry *entry;
+	alpm_list_t *i;
 
-	if((archive = archive_read_new()) == NULL) {
-		handle->pm_errno = PM_ERR_LIBARCHIVE;
-		ret = -1;
-		goto cleanup;
-	}
-
-	archive_read_support_compression_all(archive);
-	archive_read_support_format_all(archive);
-
-	if(archive_read_open_filename(archive, pkg->origin_data.file,
-				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		handle->pm_errno = PM_ERR_PKG_OPEN;
-		ret = -1;
-		goto cleanup;
-	}
-
-	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
+	for(i = alpm_pkg_get_files(pkg); i; i = i->next) {
+		const alpm_file_t *file = i->data;
 		alpm_mountpoint_t *mp;
-		const char *filename;
-		mode_t mode;
 		char path[PATH_MAX];
 
-		filename = archive_entry_pathname(entry);
-		mode = archive_entry_mode(entry);
+		const char *filename = file->name;
 
 		/* libarchive reports these as zero size anyways */
 		/* NOTE: if we do start accounting for directory size, a dir matching a
 		 * mountpoint needs to be attributed to the parent, not the mountpoint. */
-		if(S_ISDIR(mode) || S_ISLNK(mode)) {
+		if(S_ISDIR(file->mode) || S_ISLNK(file->mode)) {
 			continue;
 		}
 
@@ -241,21 +217,11 @@ static int calculate_installed_size(alpm_handle_t *handle,
 
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		mp->blocks_needed +=
-			(archive_entry_size(entry) + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
+			(file->size + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
 		mp->used |= USED_INSTALL;
-
-		if(archive_read_data_skip(archive)) {
-			_alpm_log(handle, PM_LOG_ERROR, _("error while reading package %s: %s\n"),
-					pkg->name, archive_error_string(archive));
-			handle->pm_errno = PM_ERR_LIBARCHIVE;
-			break;
-		}
 	}
 
-	archive_read_finish(archive);
-
-cleanup:
-	return ret;
+	return 0;
 }
 
 int _alpm_check_diskspace(alpm_handle_t *handle)
