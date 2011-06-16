@@ -795,14 +795,14 @@ static int sync_trans(alpm_list_t *targets)
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
-					const char *package1 = alpm_conflict_get_package1(conflict);
-					const char *package2 = alpm_conflict_get_package2(conflict);
-					const char *reason = alpm_conflict_get_reason(conflict);
 					/* only print reason if it contains new information */
-					if(strcmp(package1, reason) == 0 || strcmp(package2, reason) == 0) {
-						printf(_(":: %s and %s are in conflict\n"), package1, package2);
+					if(strcmp(conflict->package1, conflict->reason) == 0 ||
+							strcmp(conflict->package2, conflict->reason) == 0) {
+						printf(_(":: %s and %s are in conflict\n"),
+								conflict->package1, conflict->package2);
 					} else {
-						printf(_(":: %s and %s are in conflict (%s)\n"), package1, package2, reason);
+						printf(_(":: %s and %s are in conflict (%s)\n"),
+								conflict->package1, conflict->package2, conflict->reason);
 					}
 				}
 				break;

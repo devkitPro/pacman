@@ -92,7 +92,13 @@ typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmtrans_t pmtrans_t;
 typedef struct __pmdepend_t pmdepend_t;
 typedef struct __pmdepmissing_t pmdepmissing_t;
-typedef struct __pmconflict_t pmconflict_t;
+
+/** Conflict */
+typedef struct _pmconflict_t {
+	char *package1;
+	char *package2;
+	char *reason;
+} pmconflict_t;
 
 /** File conflict */
 typedef struct _pmfileconflict_t {
@@ -927,10 +933,6 @@ pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
 const char *alpm_miss_get_causingpkg(const pmdepmissing_t *miss);
 
 alpm_list_t *alpm_checkconflicts(pmhandle_t *handle, alpm_list_t *pkglist);
-
-const char *alpm_conflict_get_package1(pmconflict_t *conflict);
-const char *alpm_conflict_get_package2(pmconflict_t *conflict);
-const char *alpm_conflict_get_reason(pmconflict_t *conflict);
 
 /** Returns the type of version constraint.
  * @param dep a dependency info structure
