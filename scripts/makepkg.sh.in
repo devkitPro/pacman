@@ -182,10 +182,6 @@ trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
-# a source entry can have two forms :
-# 1) "filename::http://path/to/file"
-# 2) "http://path/to/file"
-
 enter_fakeroot() {
 	msg "$(gettext "Entering fakeroot environment...")"
 
@@ -195,6 +191,11 @@ enter_fakeroot() {
 		fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
 	fi
 }
+
+
+# a source entry can have two forms :
+# 1) "filename::http://path/to/file"
+# 2) "http://path/to/file"
 
 # Return the absolute filename of a source entry
 #
