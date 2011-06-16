@@ -1877,7 +1877,7 @@ pkgdir="$BUILDDIR/pkg"
 
 PKGDEST=${_PKGDEST:-$PKGDEST}
 PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
-if [[ ! -w $PKGDEST ]]; then
+if (( ! (NOBUILD || GENINTEG) )) && [[ ! -w $PKGDEST ]]; then
 	error "$(gettext "You do not have write permission to store packages in %s.")" "$PKGDEST"
 	plain "$(gettext "Aborting...")"
 	exit 1
