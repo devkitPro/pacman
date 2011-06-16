@@ -139,6 +139,10 @@ struct __alpm_pkg_t {
 	struct pkg_operations *ops;
 };
 
+void _alpm_files_free(alpm_file_t *file);
+alpm_file_t *_alpm_files_dup(const alpm_file_t *file);
+int _alpm_files_cmp(const void *f1, const void *f2);
+
 alpm_pkg_t* _alpm_pkg_new(void);
 alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg);
 void _alpm_pkg_free(alpm_pkg_t *pkg);

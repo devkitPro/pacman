@@ -160,6 +160,13 @@ typedef struct _alpm_delta_t {
 	off_t download_size;
 } alpm_delta_t;
 
+/** File in a package */
+typedef struct _alpm_file_t {
+	char *name;
+	off_t size;
+	mode_t mode;
+} alpm_file_t;
+
 /** Local package or package file backup entry */
 typedef struct _alpm_backup_t {
 	char *name;

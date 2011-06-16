@@ -193,7 +193,8 @@ static int query_fileowner(alpm_list_t *targets)
 
 			for(j = alpm_pkg_get_files(info); j && !found; j = alpm_list_next(j)) {
 				char *ppath, *pdname;
-				const char *pkgfile = alpm_list_getdata(j);
+				const alpm_file_t *file = alpm_list_getdata(j);
+				const char *pkgfile = file->name;
 
 				/* avoid the costly resolve_path usage if the basenames don't match */
 				if(strcmp(mbasename(pkgfile), bname) != 0) {
@@ -416,7 +417,8 @@ static int check(alpm_pkg_t *pkg)
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	for(i = alpm_pkg_get_files(pkg); i; i = alpm_list_next(i)) {
 		struct stat st;
-		const char *path = alpm_list_getdata(i);
+		const alpm_file_t *file = alpm_list_getdata(i);
+		const char *path = file->name;
 
 		if(rootlen + 1 + strlen(path) > PATH_MAX) {
 			pm_fprintf(stderr, PM_LOG_WARNING, _("path too long: %s%s\n"), root, path);

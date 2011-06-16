@@ -151,14 +151,15 @@ static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
 static int calculate_removed_size(alpm_handle_t *handle,
 		const alpm_list_t *mount_points, alpm_pkg_t *pkg)
 {
-	alpm_list_t *file;
+	alpm_list_t *i;
 
 	alpm_list_t *files = alpm_pkg_get_files(pkg);
-	for(file = files; file; file = file->next) {
+	for(i = files; i; i = i->next) {
 		alpm_mountpoint_t *mp;
 		struct stat st;
 		char path[PATH_MAX];
-		const char *filename = file->data;
+		const alpm_file_t *file = i->data;
+		const char *filename = file->name;
 
 		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
 		_alpm_lstat(path, &st);

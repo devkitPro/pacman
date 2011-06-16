@@ -632,9 +632,11 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 			_alpm_strtrim(line);
 			if(strcmp(line, "%FILES%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->files = alpm_list_add(info->files, linedup);
+					alpm_file_t *file;
+					CALLOC(file, 1, sizeof(alpm_file_t), goto error);
+					STRDUP(file->name, line, goto error);
+					/* TODO: lstat file, get mode/size */
+					info->files = alpm_list_add(info->files, file);
 				}
 			} else if(strcmp(line, "%BACKUP%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
@@ -835,14 +837,15 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->files) {
 			fprintf(fp, "%%FILES%%\n");
 			for(lp = info->files; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				const alpm_file_t *file = lp->data;
+				fprintf(fp, "%s\n", file->name);
 			}
 			fprintf(fp, "\n");
 		}
 		if(info->backup) {
 			fprintf(fp, "%%BACKUP%%\n");
 			for(lp = info->backup; lp; lp = lp->next) {
-				alpm_backup_t *backup = lp->data;
+				const alpm_backup_t *backup = lp->data;
 				fprintf(fp, "%s\t%s\n", backup->name, backup->hash);
 			}
 			fprintf(fp, "\n");

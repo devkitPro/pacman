@@ -427,6 +427,33 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
 
 /** @} */
 
+void _alpm_files_free(alpm_file_t *file)
+{
+	free(file->name);
+	free(file);
+}
+
+alpm_file_t *_alpm_files_dup(const alpm_file_t *file)
+{
+	alpm_file_t *newfile;
+	CALLOC(newfile, 1, sizeof(alpm_file_t), return NULL);
+
+	STRDUP(newfile->name, file->name, return NULL);
+	newfile->size = file->size;
+	newfile->mode = file->mode;
+
+	return newfile;
+}
+
+/* Helper function for comparing files list entries
+ */
+int _alpm_files_cmp(const void *f1, const void *f2)
+{
+	const alpm_file_t *file1 = f1;
+	const alpm_file_t *file2 = f2;
+	return strcmp(file1->name, file2->name);
+}
+
 alpm_pkg_t *_alpm_pkg_new(void)
 {
 	alpm_pkg_t* pkg;
@@ -466,7 +493,9 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
 	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
 	newpkg->groups     = alpm_list_strdup(pkg->groups);
-	newpkg->files      = alpm_list_strdup(pkg->files);
+	for(i = pkg->files; i; i = alpm_list_next(i)) {
+		newpkg->files = alpm_list_add(newpkg->files, _alpm_files_dup(i->data));
+	}
 	for(i = pkg->backup; i; i = alpm_list_next(i)) {
 		newpkg->backup = alpm_list_add(newpkg->backup, _alpm_backup_dup(i->data));
 	}
@@ -516,7 +545,8 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	FREELIST(pkg->licenses);
 	FREELIST(pkg->replaces);
 	FREELIST(pkg->groups);
-	FREELIST(pkg->files);
+	alpm_list_free_inner(pkg->files, (alpm_list_fn_free)_alpm_files_free);
+	alpm_list_free(pkg->files);
 	alpm_list_free_inner(pkg->backup, (alpm_list_fn_free)_alpm_backup_free);
 	alpm_list_free(pkg->backup);
 	alpm_list_free_inner(pkg->depends, (alpm_list_fn_free)_alpm_dep_free);
@@ -566,8 +596,8 @@ int _alpm_pkg_compare_versions(alpm_pkg_t *spkg, alpm_pkg_t *localpkg)
  */
 int _alpm_pkg_cmp(const void *p1, const void *p2)
 {
-	alpm_pkg_t *pkg1 = (alpm_pkg_t *)p1;
-	alpm_pkg_t *pkg2 = (alpm_pkg_t *)p2;
+	const alpm_pkg_t *pkg1 = p1;
+	const alpm_pkg_t *pkg2 = p2;
 	return strcoll(pkg1->name, pkg2->name);
 }
 

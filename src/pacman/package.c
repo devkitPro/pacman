@@ -218,7 +218,7 @@ void dump_pkg_backups(alpm_pkg_t *pkg)
  */
 void dump_pkg_files(alpm_pkg_t *pkg, int quiet)
 {
-	const char *pkgname, *root, *filestr;
+	const char *pkgname, *root;
 	alpm_list_t *i, *pkgfiles;
 
 	pkgname = alpm_pkg_get_name(pkg);
@@ -226,11 +226,11 @@ void dump_pkg_files(alpm_pkg_t *pkg, int quiet)
 	root = alpm_option_get_root(config->handle);
 
 	for(i = pkgfiles; i; i = alpm_list_next(i)) {
-		filestr = alpm_list_getdata(i);
+		const alpm_file_t *file = alpm_list_getdata(i);
 		if(!quiet){
-			fprintf(stdout, "%s %s%s\n", pkgname, root, filestr);
+			fprintf(stdout, "%s %s%s\n", pkgname, root, file->name);
 		} else {
-			fprintf(stdout, "%s%s\n", root, filestr);
+			fprintf(stdout, "%s%s\n", root, file->name);
 		}
 	}
 

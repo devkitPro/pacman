@@ -43,6 +43,7 @@
 #include "db.h"
 #include "deps.h"
 #include "handle.h"
+#include "conflict.h"
 
 int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
@@ -191,25 +192,25 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-static int can_remove_file(alpm_handle_t *handle, const char *path,
+static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 		alpm_list_t *skip_remove)
 {
-	char file[PATH_MAX];
+	char filepath[PATH_MAX];
 
-	snprintf(file, PATH_MAX, "%s%s", handle->root, path);
+	snprintf(filepath, PATH_MAX, "%s%s", handle->root, file->name);
 
-	if(alpm_list_find_str(skip_remove, file)) {
+	if(alpm_list_find_str(skip_remove, filepath)) {
 		/* return success because we will never actually remove this file */
 		return 1;
 	}
 	/* If we fail write permissions due to a read-only filesystem, abort.
 	 * Assume all other possible failures are covered somewhere else */
-	if(access(file, W_OK) == -1) {
-		if(errno != EACCES && errno != ETXTBSY && access(file, F_OK) == 0) {
+	if(access(filepath, W_OK) == -1) {
+		if(errno != EACCES && errno != ETXTBSY && access(filepath, F_OK) == 0) {
 			/* only return failure if the file ACTUALLY exists and we can't write to
 			 * it - ignore "chmod -w" simple permission failures */
 			_alpm_log(handle, PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
-					file, strerror(errno));
+					filepath, strerror(errno));
 			return 0;
 		}
 	}
@@ -219,18 +220,18 @@ static int can_remove_file(alpm_handle_t *handle, const char *path,
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info, const char *filename,
-		alpm_list_t *skip_remove, int nosave)
+static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
+		const alpm_file_t *fileobj, alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
 	char file[PATH_MAX];
 
-	snprintf(file, PATH_MAX, "%s%s", handle->root, filename);
+	snprintf(file, PATH_MAX, "%s%s", handle->root, fileobj->name);
 
 	/* check the remove skip list before removing the file.
 	 * see the big comment block in db_find_fileconflicts() for an
 	 * explanation. */
-	if(alpm_list_find_str(skip_remove, filename)) {
+	if(alpm_list_find_str(skip_remove, fileobj->name)) {
 		_alpm_log(handle, PM_LOG_DEBUG, "%s is in skip_remove, skipping removal\n",
 				file);
 		return;
@@ -254,7 +255,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info, const char *fil
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */
-		alpm_backup_t *backup = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
+		alpm_backup_t *backup = _alpm_needbackup(fileobj->name, alpm_pkg_get_backup(info));
 		if(backup) {
 			if(nosave) {
 				_alpm_log(handle, PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
@@ -277,7 +278,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info, const char *fil
 
 		if(unlink(file) == -1) {
 			_alpm_log(handle, PM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
-					filename, strerror(errno));
+					file, strerror(errno));
 		}
 	}
 }
@@ -308,7 +309,7 @@ int _alpm_upgraderemove_package(alpm_handle_t *handle,
 	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 		const alpm_backup_t *backup = b->data;
 		/* safety check (fix the upgrade026 pactest) */
-		if(!alpm_list_find_str(filelist, backup->name)) {
+		if(!_alpm_filelist_contains(filelist, backup->name)) {
 			continue;
 		}
 		_alpm_log(handle, PM_LOG_DEBUG, "adding %s to the skip_remove array\n",
