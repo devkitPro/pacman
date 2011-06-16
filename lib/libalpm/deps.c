@@ -719,7 +719,7 @@ int _alpm_resolvedeps(pmhandle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
 
 		for(j = deps; j; j = j->next) {
 			pmdepmissing_t *miss = j->data;
-			pmdepend_t *missdep = alpm_miss_get_dep(miss);
+			pmdepend_t *missdep = miss->depend;
 			/* check if one of the packages in the [*packages] list already satisfies
 			 * this dependency */
 			if(find_dep_satisfier(*packages, missdep)) {
@@ -762,42 +762,6 @@ int _alpm_resolvedeps(pmhandle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
 	}
 	_alpm_log(handle, PM_LOG_DEBUG, "finished resolving dependencies\n");
 	return ret;
-}
-
-const char SYMEXPORT *alpm_miss_get_target(const pmdepmissing_t *miss)
-{
-	ASSERT(miss != NULL, return NULL);
-	return miss->target;
-}
-
-const char SYMEXPORT *alpm_miss_get_causingpkg(const pmdepmissing_t *miss)
-{
-	ASSERT(miss != NULL, return NULL);
-	return miss->causingpkg;
-}
-
-pmdepend_t SYMEXPORT *alpm_miss_get_dep(pmdepmissing_t *miss)
-{
-	ASSERT(miss != NULL, return NULL);
-	return miss->depend;
-}
-
-pmdepmod_t SYMEXPORT alpm_dep_get_mod(const pmdepend_t *dep)
-{
-	ASSERT(dep != NULL, return -1);
-	return dep->mod;
-}
-
-const char SYMEXPORT *alpm_dep_get_name(const pmdepend_t *dep)
-{
-	ASSERT(dep != NULL, return NULL);
-	return dep->name;
-}
-
-const char SYMEXPORT *alpm_dep_get_version(const pmdepend_t *dep)
-{
-	ASSERT(dep != NULL, return NULL);
-	return dep->version;
 }
 
 /** Reverse of splitdep; make a dep string from a pmdepend_t struct.

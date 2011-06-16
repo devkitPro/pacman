@@ -785,10 +785,8 @@ static int sync_trans(alpm_list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
-					pmdepend_t *dep = alpm_miss_get_dep(miss);
-					char *depstring = alpm_dep_compute_string(dep);
-					printf(_(":: %s: requires %s\n"), alpm_miss_get_target(miss),
-							depstring);
+					char *depstring = alpm_dep_compute_string(miss->depend);
+					printf(_(":: %s: requires %s\n"), miss->target, depstring);
 					free(depstring);
 				}
 				break;

@@ -290,7 +290,7 @@ static void walk_deps(pmpkg_t *pkg, int depth)
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
 		pmdepend_t *depend = alpm_list_getdata(i);
 		pmpkg_t *provider = alpm_find_satisfier(alpm_db_get_pkgcache(db_local),
-				alpm_dep_get_name(depend));
+				depend->name);
 
 		if(provider) {
 			const char *provname = alpm_pkg_get_name(provider);
@@ -299,15 +299,15 @@ static void walk_deps(pmpkg_t *pkg, int depth)
 				/* if we've already seen this package, don't print in "unique" output
 				 * and don't recurse */
 				if(!unique) {
-					print(alpm_pkg_get_name(pkg), provname, alpm_dep_get_name(depend), depth);
+					print(alpm_pkg_get_name(pkg), provname, depend->name, depth);
 				}
 			} else {
-				print(alpm_pkg_get_name(pkg), provname, alpm_dep_get_name(depend), depth);
+				print(alpm_pkg_get_name(pkg), provname, depend->name, depth);
 				walk_deps(provider, depth + 1);
 			}
 		} else {
 			/* unresolvable package */
-			print(alpm_pkg_get_name(pkg), NULL, alpm_dep_get_name(depend), depth);
+			print(alpm_pkg_get_name(pkg), NULL, depend->name, depth);
 		}
 	}
 }
