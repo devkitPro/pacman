@@ -977,7 +977,7 @@ find_libprovides() {
 			soarch=$(LC_ALL=C readelf -h "$filename" | sed -n 's/.*Class.*ELF\(32\|64\)/\1/p')
 			# get the string binaries link to: libfoo.so.1.2 -> libfoo.so.1
 			sofile=$(LC_ALL=C readelf -d "$filename" 2>/dev/null | sed -n 's/.*Library soname: \[\(.*\)\].*/\1/p')
-			[ -z "$sofile" ] && sofile="${$filename##*/}"
+			[ -z "$sofile" ] && sofile="${filename##*/}"
 
 			# extract the library name: libfoo.so
 			soname="${sofile%%\.so\.*}.so"
