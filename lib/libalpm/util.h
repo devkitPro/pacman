@@ -61,12 +61,14 @@
 
 #define ASSERT(cond, action) do { if(!(cond)) { action; } } while(0)
 
-#define RET_ERR_VOID(handle, err) do { (handle)->pm_errno = (err); \
+#define RET_ERR_VOID(handle, err) do { \
 	_alpm_log(handle, PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerror(err)); \
+	(handle)->pm_errno = (err); \
 	return; } while(0)
 
-#define RET_ERR(handle, err, ret) do { (handle)->pm_errno = (err); \
+#define RET_ERR(handle, err, ret) do { \
 	_alpm_log(handle, PM_LOG_DEBUG, "returning error %d from %s : %s\n", err, __func__, alpm_strerror(err)); \
+	(handle)->pm_errno = (err); \
 	return (ret); } while(0)
 
 #define DOUBLE_EQ(x, y) (fabs((x) - (y)) < DBL_EPSILON)
