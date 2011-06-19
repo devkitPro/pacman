@@ -311,6 +311,16 @@ cleanup:
 }
 #endif
 
+/** Download a file given by a URL to a local directory.
+ * Does not overwrite an existing file if the download fails.
+ * @param handle the context handle
+ * @param url the file's URL
+ * @param localpath the directory to save the file in
+ * @param force force download even if there is an up-to-date local copy
+ * @param allow_resume allow a partial download to be resumed
+ * @param errors_ok do not log errors (but still return them)
+ * @return 0 on success, -1 on error (pm_errno is set accordingly if errors_ok == 0)
+ */
 int _alpm_download(pmhandle_t *handle, const char *url, const char *localpath,
 		int force, int allow_resume, int errors_ok)
 {
