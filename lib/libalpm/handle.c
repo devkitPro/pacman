@@ -243,7 +243,7 @@ static char *canonicalize_path(const char *path) {
 	if(path[len - 1] != '/') {
 		len += 1;
 	}
-	new_path = calloc(len + 1, sizeof(char));
+	CALLOC(new_path, len + 1, sizeof(char), return NULL);
 	strncpy(new_path, path, len);
 	new_path[len - 1] = '/';
 	return new_path;
@@ -264,7 +264,7 @@ enum _pmerrno_t _alpm_set_directory_option(const char *value,
 		if(stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 			return PM_ERR_NOT_A_DIR;
 		}
-		real = calloc(PATH_MAX, sizeof(char));
+		CALLOC(real, PATH_MAX, sizeof(char), return PM_ERR_MEMORY);
 		if(!realpath(path, real)) {
 			free(real);
 			return PM_ERR_NOT_A_DIR;
@@ -325,7 +325,7 @@ int SYMEXPORT alpm_option_remove_cachedir(pmhandle_t *handle, const char *cached
 	if(cachedir[cachedirlen-1] != '/') {
 		cachedirlen += 1;
 	}
-	newcachedir = calloc(cachedirlen + 1, sizeof(char));
+	CALLOC(newcachedir, cachedirlen + 1, sizeof(char), return 0);
 	strncpy(newcachedir, cachedir, cachedirlen);
 	newcachedir[cachedirlen-1] = '/';
 	handle->cachedirs = alpm_list_remove_str(handle->cachedirs, newcachedir, &vdata);
