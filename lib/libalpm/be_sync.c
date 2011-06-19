@@ -1,5 +1,5 @@
 /*
- *  be_sync.c
+ *  be_sync.c : backend for sync databases
  *
  *  Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>

@@ -1,5 +1,5 @@
 /*
- *  be_local.c
+ *  be_local.c : backend for the local database
  *
  *  Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
