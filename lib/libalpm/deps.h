@@ -27,21 +27,6 @@
 #include "package.h"
 #include "alpm.h"
 
-/* Dependency */
-struct __pmdepend_t {
-	char *name;
-	char *version;
-	unsigned long name_hash;
-	pmdepmod_t mod;
-};
-
-/* Missing dependency */
-struct __pmdepmissing_t {
-	char *target;
-	pmdepend_t *depend;
-	char *causingpkg; /* this is used in case of remove dependency error only */
-};
-
 void _alpm_dep_free(pmdepend_t *dep);
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
 void _alpm_depmiss_free(pmdepmissing_t *miss);

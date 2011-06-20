@@ -304,14 +304,11 @@ static int query_group(alpm_list_t *targets)
 	if(targets == NULL) {
 		for(j = alpm_db_get_grpcache(db_local); j; j = alpm_list_next(j)) {
 			pmgrp_t *grp = alpm_list_getdata(j);
-			const alpm_list_t *p, *packages;
-			const char *grpname;
+			const alpm_list_t *p;
 
-			grpname = alpm_grp_get_name(grp);
-			packages = alpm_grp_get_pkgs(grp);
-
-			for(p = packages; p; p = alpm_list_next(p)) {
-				printf("%s %s\n", grpname, alpm_pkg_get_name(alpm_list_getdata(p)));
+			for(p = grp->packages; p; p = alpm_list_next(p)) {
+				pmpkg_t *pkg = alpm_list_getdata(p);
+				printf("%s %s\n", grp->name, alpm_pkg_get_name(pkg));
 			}
 		}
 	} else {
@@ -320,8 +317,8 @@ static int query_group(alpm_list_t *targets)
 			grpname = alpm_list_getdata(i);
 			grp = alpm_db_readgrp(db_local, grpname);
 			if(grp) {
-				const alpm_list_t *p, *packages = alpm_grp_get_pkgs(grp);
-				for(p = packages; p; p = alpm_list_next(p)) {
+				const alpm_list_t *p;
+				for(p = grp->packages; p; p = alpm_list_next(p)) {
 					if(!config->quiet) {
 						printf("%s %s\n", grpname,
 								alpm_pkg_get_name(alpm_list_getdata(p)));

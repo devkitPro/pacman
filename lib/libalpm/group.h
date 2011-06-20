@@ -22,13 +22,6 @@
 
 #include "alpm.h"
 
-struct __pmgrp_t {
-	/** group name */
-	char *name;
-	/** list of pmpkg_t packages */
-	alpm_list_t *packages;
-};
-
 pmgrp_t *_alpm_grp_new(const char *name);
 void _alpm_grp_free(pmgrp_t *grp);
 

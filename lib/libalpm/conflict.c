@@ -547,46 +547,4 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 	return conflicts;
 }
 
-const char SYMEXPORT *alpm_conflict_get_package1(pmconflict_t *conflict)
-{
-	ASSERT(conflict != NULL, return NULL);
-	return conflict->package1;
-}
-
-const char SYMEXPORT *alpm_conflict_get_package2(pmconflict_t *conflict)
-{
-	ASSERT(conflict != NULL, return NULL);
-	return conflict->package2;
-}
-
-const char SYMEXPORT *alpm_conflict_get_reason(pmconflict_t *conflict)
-{
-	ASSERT(conflict != NULL, return NULL);
-	return conflict->reason;
-}
-
-const char SYMEXPORT *alpm_fileconflict_get_target(pmfileconflict_t *conflict)
-{
-	ASSERT(conflict != NULL, return NULL);
-	return conflict->target;
-}
-
-pmfileconflicttype_t SYMEXPORT alpm_fileconflict_get_type(pmfileconflict_t *conflict)
-{
-	ASSERT(conflict != NULL, return -1);
-	return conflict->type;
-}
-
-const char SYMEXPORT *alpm_fileconflict_get_file(pmfileconflict_t *conflict)
-{
-	ASSERT(conflict != NULL, return NULL);
-	return conflict->file;
-}
-
-const char SYMEXPORT *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict)
-{
-	ASSERT(conflict != NULL, return NULL);
-	return conflict->ctarget;
-}
-
 /* vim: set ts=2 sw=2 noet: */

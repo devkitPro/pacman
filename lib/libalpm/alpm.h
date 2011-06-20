@@ -50,7 +50,7 @@ extern "C" {
  */
 
 /**
- * Install reasons
+ * Install reasons.
  * Why the package was installed.
  */
 typedef enum _pmpkgreason_t {
@@ -59,6 +59,32 @@ typedef enum _pmpkgreason_t {
 	/** Installed as a dependency for another package. */
 	PM_PKG_REASON_DEPEND = 1
 } pmpkgreason_t;
+
+/** Types of version constraints in dependency specs. */
+typedef enum _pmdepmod_t {
+  /** No version constraint */
+	PM_DEP_MOD_ANY = 1,
+  /** Test version equality (package=x.y.z) */
+	PM_DEP_MOD_EQ,
+  /** Test for at least a version (package>=x.y.z) */
+	PM_DEP_MOD_GE,
+  /** Test for at most a version (package<=x.y.z) */
+	PM_DEP_MOD_LE,
+  /** Test for greater than some version (package>x.y.z) */
+	PM_DEP_MOD_GT,
+  /** Test for less than some version (package<x.y.z) */
+	PM_DEP_MOD_LT
+} pmdepmod_t;
+
+/**
+ * File conflict type.
+ * Whether the conflict results from a file existing on the filesystem, or with
+ * another target in the transaction.
+ */
+typedef enum _pmfileconflicttype_t {
+	PM_FILECONFLICT_TARGET = 1,
+	PM_FILECONFLICT_FILESYSTEM
+} pmfileconflicttype_t;
 
 /**
  * GPG signature verification options
@@ -77,13 +103,62 @@ typedef enum _pgp_verify_t {
 typedef struct __pmhandle_t pmhandle_t;
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
-typedef struct __pmdelta_t pmdelta_t;
-typedef struct __pmgrp_t pmgrp_t;
 typedef struct __pmtrans_t pmtrans_t;
-typedef struct __pmdepend_t pmdepend_t;
-typedef struct __pmdepmissing_t pmdepmissing_t;
-typedef struct __pmconflict_t pmconflict_t;
-typedef struct __pmfileconflict_t pmfileconflict_t;
+
+/** Dependency */
+typedef struct _pmdepend_t {
+	char *name;
+	char *version;
+	unsigned long name_hash;
+	pmdepmod_t mod;
+} pmdepend_t;
+
+/** Missing dependency */
+typedef struct _pmdepmissing_t {
+	char *target;
+	pmdepend_t *depend;
+	/* this is used in case of remove dependency error only */
+	char *causingpkg;
+} pmdepmissing_t;
+
+/** Conflict */
+typedef struct _pmconflict_t {
+	char *package1;
+	char *package2;
+	char *reason;
+} pmconflict_t;
+
+/** File conflict */
+typedef struct _pmfileconflict_t {
+	char *target;
+	pmfileconflicttype_t type;
+	char *file;
+	char *ctarget;
+} pmfileconflict_t;
+
+/** Package group */
+typedef struct _pmgrp_t {
+	/** group name */
+	char *name;
+	/** list of pmpkg_t packages */
+	alpm_list_t *packages;
+} pmgrp_t;
+
+/** Package upgrade delta */
+typedef struct _pmdelta_t {
+	/** filename of the delta patch */
+	char *delta;
+	/** md5sum of the delta file */
+	char *delta_md5;
+	/** filename of the 'before' file */
+	char *from;
+	/** filename of the 'after' file */
+	char *to;
+	/** filesize of the delta file */
+	off_t delta_size;
+	/** download filesize of the delta file */
+	off_t download_size;
+} pmdelta_t;
 
 /*
  * Logging facilities
@@ -614,20 +689,9 @@ int alpm_db_check_pgp_signature(pmdb_t *db);
 int alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify);
 
 /*
- * Deltas
- */
-
-const char *alpm_delta_get_from(pmdelta_t *delta);
-const char *alpm_delta_get_to(pmdelta_t *delta);
-const char *alpm_delta_get_filename(pmdelta_t *delta);
-const char *alpm_delta_get_md5sum(pmdelta_t *delta);
-off_t alpm_delta_get_size(pmdelta_t *delta);
-
-/*
  * Groups
  */
-const char *alpm_grp_get_name(const pmgrp_t *grp);
-alpm_list_t *alpm_grp_get_pkgs(const pmgrp_t *grp);
+
 alpm_list_t *alpm_find_grp_pkgs(alpm_list_t *dbs, const char *name);
 
 /*
@@ -883,58 +947,13 @@ int alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg);
  * @{
  */
 
-/** Types of version constraints in dependency specs. */
-typedef enum _pmdepmod_t {
-  /** No version constraint */
-	PM_DEP_MOD_ANY = 1,
-  /** Test version equality (package=x.y.z) */
-	PM_DEP_MOD_EQ,
-  /** Test for at least a version (package>=x.y.z) */
-	PM_DEP_MOD_GE,
-  /** Test for at most a version (package<=x.y.z) */
-	PM_DEP_MOD_LE,
-  /** Test for greater than some version (package>x.y.z) */
-	PM_DEP_MOD_GT,
-  /** Test for less than some version (package<x.y.z) */
-	PM_DEP_MOD_LT
-} pmdepmod_t;
-
 alpm_list_t *alpm_checkdeps(pmhandle_t *handle, alpm_list_t *pkglist,
 		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps);
 pmpkg_t *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring);
 pmpkg_t *alpm_find_dbs_satisfier(pmhandle_t *handle,
 		alpm_list_t *dbs, const char *depstring);
 
-const char *alpm_miss_get_target(const pmdepmissing_t *miss);
-pmdepend_t *alpm_miss_get_dep(pmdepmissing_t *miss);
-const char *alpm_miss_get_causingpkg(const pmdepmissing_t *miss);
-
 alpm_list_t *alpm_checkconflicts(pmhandle_t *handle, alpm_list_t *pkglist);
-
-const char *alpm_conflict_get_package1(pmconflict_t *conflict);
-const char *alpm_conflict_get_package2(pmconflict_t *conflict);
-const char *alpm_conflict_get_reason(pmconflict_t *conflict);
-
-/** Returns the type of version constraint.
- * @param dep a dependency info structure
- * @return the type of version constraint (PM_DEP_MOD_ANY if no version
- * is specified).
- */
-pmdepmod_t alpm_dep_get_mod(const pmdepend_t *dep);
-
-/** Returns the package name of a dependency constraint.
- * @param dep a dependency info structure
- * @return a pointer to an internal string.
- */
-const char *alpm_dep_get_name(const pmdepend_t *dep);
-
-/** Returns the version specified by a dependency constraint.
- * The version information is returned as a string in the same format
- * as given by alpm_pkg_get_version().
- * @param dep a dependency info structure
- * @return a pointer to an internal string.
- */
-const char *alpm_dep_get_version(const pmdepend_t *dep);
 
 /** Returns a newly allocated string representing the dependency information.
  * @param dep a dependency info structure
@@ -943,21 +962,6 @@ const char *alpm_dep_get_version(const pmdepend_t *dep);
 char *alpm_dep_compute_string(const pmdepend_t *dep);
 
 /** @} */
-
-/** @addtogroup alpm_api_fileconflicts File Conflicts Functions
- * Functions to manipulate file conflict information.
- * @{
- */
-
-typedef enum _pmfileconflicttype_t {
-	PM_FILECONFLICT_TARGET = 1,
-	PM_FILECONFLICT_FILESYSTEM
-} pmfileconflicttype_t;
-
-const char *alpm_fileconflict_get_target(pmfileconflict_t *conflict);
-pmfileconflicttype_t alpm_fileconflict_get_type(pmfileconflict_t *conflict);
-const char *alpm_fileconflict_get_file(pmfileconflict_t *conflict);
-const char *alpm_fileconflict_get_ctarget(pmfileconflict_t *conflict);
 
 /** @} */
 

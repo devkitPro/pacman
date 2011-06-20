@@ -225,7 +225,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 		if(!grp)
 			continue;
 
-		for(j = alpm_grp_get_pkgs(grp); j; j = j->next) {
+		for(j = grp->packages; j; j = j->next) {
 			pmpkg_t *pkg = j->data;
 
 			if(_alpm_pkg_find(ignorelist, alpm_pkg_get_name(pkg))) {
@@ -705,13 +705,11 @@ static int validate_deltas(pmhandle_t *handle, alpm_list_t *deltas,
 
 	for(i = deltas; i; i = i->next) {
 		pmdelta_t *d = alpm_list_getdata(i);
-		const char *filename = alpm_delta_get_filename(d);
-		char *filepath = _alpm_filecache_find(handle, filename);
-		const char *md5sum = alpm_delta_get_md5sum(d);
+		char *filepath = _alpm_filecache_find(handle, d->delta);
 
-		if(test_md5sum(trans, filepath, md5sum) != 0) {
+		if(test_md5sum(trans, filepath, d->delta_md5) != 0) {
 			errors++;
-			*data = alpm_list_add(*data, strdup(filename));
+			*data = alpm_list_add(*data, strdup(d->delta));
 		}
 		FREE(filepath);
 	}

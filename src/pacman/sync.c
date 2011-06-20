@@ -409,7 +409,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 
 				if(grp) {
 					/* get names of packages in group */
-					for(k = alpm_grp_get_pkgs(grp); k; k = alpm_list_next(k)) {
+					for(k = grp->packages; k; k = alpm_list_next(k)) {
 						if(!config->quiet) {
 							printf("%s %s\n", grpname,
 									alpm_pkg_get_name(alpm_list_getdata(k)));
@@ -426,16 +426,15 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 
 			for(j = alpm_db_get_grpcache(db); j; j = alpm_list_next(j)) {
 				pmgrp_t *grp = alpm_list_getdata(j);
-				const char *grpname = alpm_grp_get_name(grp);
 
 				if(level > 1) {
-					for(k = alpm_grp_get_pkgs(grp); k; k = alpm_list_next(k)) {
-						printf("%s %s\n", grpname,
+					for(k = grp->packages; k; k = alpm_list_next(k)) {
+						printf("%s %s\n", grp->name,
 								alpm_pkg_get_name(alpm_list_getdata(k)));
 					}
 				} else {
 					/* print grp names only, no package names */
-					printf("%s\n", grpname);
+					printf("%s\n", grp->name);
 				}
 			}
 		}
@@ -785,24 +784,22 @@ static int sync_trans(alpm_list_t *targets)
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmdepmissing_t *miss = alpm_list_getdata(i);
-					pmdepend_t *dep = alpm_miss_get_dep(miss);
-					char *depstring = alpm_dep_compute_string(dep);
-					printf(_(":: %s: requires %s\n"), alpm_miss_get_target(miss),
-							depstring);
+					char *depstring = alpm_dep_compute_string(miss->depend);
+					printf(_(":: %s: requires %s\n"), miss->target, depstring);
 					free(depstring);
 				}
 				break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmconflict_t *conflict = alpm_list_getdata(i);
-					const char *package1 = alpm_conflict_get_package1(conflict);
-					const char *package2 = alpm_conflict_get_package2(conflict);
-					const char *reason = alpm_conflict_get_reason(conflict);
 					/* only print reason if it contains new information */
-					if(strcmp(package1, reason) == 0 || strcmp(package2, reason) == 0) {
-						printf(_(":: %s and %s are in conflict\n"), package1, package2);
+					if(strcmp(conflict->package1, conflict->reason) == 0 ||
+							strcmp(conflict->package2, conflict->reason) == 0) {
+						printf(_(":: %s and %s are in conflict\n"),
+								conflict->package1, conflict->package2);
 					} else {
-						printf(_(":: %s and %s are in conflict (%s)\n"), package1, package2, reason);
+						printf(_(":: %s and %s are in conflict (%s)\n"),
+								conflict->package1, conflict->package2, conflict->reason);
 					}
 				}
 				break;
@@ -849,17 +846,14 @@ static int sync_trans(alpm_list_t *targets)
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmfileconflict_t *conflict = alpm_list_getdata(i);
-					switch(alpm_fileconflict_get_type(conflict)) {
+					switch(conflict->type) {
 						case PM_FILECONFLICT_TARGET:
 							printf(_("%s exists in both '%s' and '%s'\n"),
-									alpm_fileconflict_get_file(conflict),
-									alpm_fileconflict_get_target(conflict),
-									alpm_fileconflict_get_ctarget(conflict));
+									conflict->file, conflict->target, conflict->ctarget);
 							break;
 						case PM_FILECONFLICT_FILESYSTEM:
 							printf(_("%s: %s exists in filesystem\n"),
-									alpm_fileconflict_get_target(conflict),
-									alpm_fileconflict_get_file(conflict));
+									conflict->target, conflict->file);
 							break;
 					}
 				}
