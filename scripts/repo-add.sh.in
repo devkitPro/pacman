@@ -578,9 +578,10 @@ if (( success )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 
 	case "$REPO_DB_FILE" in
-		*tar.gz)  TAR_OPT="z" ;;
-		*tar.bz2) TAR_OPT="j" ;;
-		*tar.xz)  TAR_OPT="J" ;;
+		*.tar.gz)  TAR_OPT="z" ;;
+		*.tar.bz2) TAR_OPT="j" ;;
+		*.tar.xz)  TAR_OPT="J" ;;
+		*.tar)     TAR_OPT="" ;;
 		*) warning "$(gettext "'%s' does not have a valid archive extension.")" \
 		"$REPO_DB_FILE" ;;
 	esac
@@ -603,7 +604,7 @@ if (( success )); then
 	[[ -f $REPO_DB_FILE.sig ]] && rm -f "$REPO_DB_FILE.sig"
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
 	[[ -f $tmpdir/$filename.sig ]] && mv "$tmpdir/$filename.sig" "$REPO_DB_FILE.sig"
-	dblink="${REPO_DB_FILE%.tar.*}"
+	dblink="${REPO_DB_FILE%.tar*}"
 	target=${REPO_DB_FILE##*/}
 	ln -sf "$target" "$dblink" 2>/dev/null || \
 		ln -f "$target" "$dblink" 2>/dev/null || \
