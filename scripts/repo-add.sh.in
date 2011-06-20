@@ -42,7 +42,7 @@ m4_include(library/output_format.sh)
 
 # print usage instructions
 usage() {
-	cmd="$(basename $0)"
+	cmd=${0##*/}
 	printf "%s (pacman) %s\n\n" "$cmd" "$myver"
 	if [[ $cmd == "repo-add" ]] ; then
 		printf "$(gettext "Usage: repo-add [options] <path-to-db> <package|delta> ...\n")"
@@ -74,7 +74,7 @@ See %s(8) for more details and descriptions of the available options.\n\n")" $cm
 }
 
 version() {
-	cmd="$(basename $0)"
+	cmd=${0##*/}
 	printf "%s (pacman) %s\n\n" "$cmd" "$myver"
 	printf "$(gettext "\
 Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\n\n\
@@ -301,7 +301,7 @@ db_write_entry()
 
 	# create desc entry
 	msg2 "$(gettext "Creating '%s' db entry...")" 'desc'
-	echo -e "%FILENAME%\n$(basename "$1")\n" >>desc
+	echo -e "%FILENAME%\n${1##*/}\n" >>desc
 	echo -e "%NAME%\n$pkgname\n" >>desc
 	[[ -n $pkgbase ]] && echo -e "%BASE%\n$pkgbase\n" >>desc
 	echo -e "%VERSION%\n$pkgver\n" >>desc
@@ -373,7 +373,7 @@ db_remove_entry() {
 			mv "$pkgentry/deltas" "$tmpdir/$pkgname.deltas"
 		fi
 		msg2 "$(gettext "Removing existing entry '%s'...")" \
-		"$(basename $pkgentry)"
+		"${pkgentry##*/}"
 		rm -rf $pkgentry
 		pkgentry=$(find_pkgentry $pkgname)
 	done
@@ -510,7 +510,7 @@ case "$1" in
 esac
 
 # figure out what program we are
-cmd="$(basename $0)"
+cmd=${0##*/}
 if [[ $cmd != "repo-add" && $cmd != "repo-remove" ]]; then
 	error "$(gettext "Invalid command name '%s' specified.")" "$cmd"
 	exit 1
@@ -585,7 +585,7 @@ if (( success )); then
 		"$REPO_DB_FILE" ;;
 	esac
 
-	filename=$(basename "$REPO_DB_FILE")
+	filename=${REPO_DB_FILE##*/}
 
 	pushd "$tmpdir" >/dev/null
 	if [[ -n $(ls) ]]; then
