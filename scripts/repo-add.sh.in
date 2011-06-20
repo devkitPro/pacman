@@ -382,6 +382,12 @@ db_remove_entry() {
 
 check_repo_db()
 {
+	# ensure the path to the DB exists
+	if [[ ! -d "${LOCKFILE%/*}" ]]; then
+		error "$(gettext "%s does not exist or is not a directory.")" "${LOCKFILE%/*}"
+		exit 1
+	fi
+
 	# check lock file
 	if ( set -o noclobber; echo "$$" > "$LOCKFILE") 2> /dev/null; then
 		CLEAN_LOCK=1
