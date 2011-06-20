@@ -19,6 +19,8 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+shopt -s extglob
+
 # gettext initialization
 export TEXTDOMAIN='pacman-scripts'
 export TEXTDOMAINDIR='@localedir@'
@@ -226,19 +228,14 @@ db_write_entry() {
 		_groups _licenses _replaces _depends _conflicts _provides _optdepends \
 		md5sum sha256sum pgpsig
 
-	local OLDIFS="$IFS"
-	# IFS (field separator) is only the newline character
-	IFS="
-"
-
 	# read info from the zipped package
 	local line var val
-	for line in $(bsdtar -xOqf "$pkgfile" .PKGINFO |
-			grep -v '^#' | sed 's|\(\w*\)\s*=\s*\(.*\)|\1 \2|'); do
-		# bash awesomeness here- var is always one word, val is everything else
-		var=${line%% *}
-		val=${line#* }
-		declare $var="$val"
+	while read -r line; do
+		[[ ${line:0:1} = '#' ]] && continue
+		IFS=' =' read -r var val < <(printf '%s\n' "$line")
+
+		# normalize whitespace with an extglob
+		declare "$var=${val//+([[:space:]])/ }"
 		case "$var" in
 			group)    _groups="$_groups$group\n" ;;
 			license)  _licenses="$_licenses$license\n" ;;
@@ -248,9 +245,7 @@ db_write_entry() {
 			provides) _provides="$_provides$provides\n" ;;
 			optdepend) _optdepends="$_optdepends$optdepend\n" ;;
 		esac
-	done
-
-	IFS=$OLDIFS
+	done< <(bsdtar -xOqf "$pkgfile" .PKGINFO)
 
 	csize=$(@SIZECMD@ "$pkgfile")
 
