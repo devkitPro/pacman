@@ -93,8 +93,7 @@ write_list_entry() {
 	fi
 }
 
-find_pkgentry()
-{
+find_pkgentry() {
 	local pkgname=$1
 	local pkgentry
 	for pkgentry in $tmpdir/$pkgname*; do
@@ -117,8 +116,7 @@ get_delta_pkgname() {
 
 # write a delta entry
 #   arg1 - path to delta file
-db_write_delta()
-{
+db_write_delta() {
 	deltafile="$1"
 	pkgname="$(get_delta_pkgname $deltafile)"
 
@@ -150,8 +148,7 @@ db_write_delta()
 
 # remove a delta entry
 #   arg1 - path to delta file
-db_remove_delta()
-{
+db_remove_delta() {
 	deltafile="$1"
 	filename=${deltafile##*/}
 	pkgname="$(get_delta_pkgname $deltafile)"
@@ -222,8 +219,7 @@ verify_signature() {
 
 # write an entry to the pacman database
 #   arg1 - path to package
-db_write_entry()
-{
+db_write_entry() {
 	# blank out all variables
 	local pkgfile="$1"
 	local pkgname pkgver pkgdesc csize size url arch builddate packager \
@@ -380,8 +376,7 @@ db_remove_entry() {
 	return $notfound
 } # end db_remove_entry
 
-check_repo_db()
-{
+check_repo_db() {
 	# ensure the path to the DB exists
 	if [[ ! -d "${LOCKFILE%/*}" ]]; then
 		error "$(gettext "%s does not exist or is not a directory.")" "${LOCKFILE%/*}"
@@ -428,8 +423,7 @@ check_repo_db()
 	fi
 }
 
-add()
-{
+add() {
 	if [[ ! -f $1 ]]; then
 		error "$(gettext "File '%s' not found.")" "$1"
 		return 1
@@ -460,8 +454,7 @@ add()
 	db_write_entry "$pkgfile"
 }
 
-remove()
-{
+remove() {
 	if [[ ${1##*.} == "delta" ]]; then
 		deltafile=$1
 		msg "$(gettext "Searching for delta '%s'...")" "$deltafile"
@@ -485,8 +478,7 @@ remove()
 	fi
 }
 
-trap_exit()
-{
+trap_exit() {
 	echo
 	error "$@"
 	exit 1
