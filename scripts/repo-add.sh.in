@@ -84,14 +84,16 @@ This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
-# write a list entry
+# format a metadata entry
 #		arg1 - Entry name
-#		arg2 - List
-#		arg3 - File to write to
-write_list_entry() {
-	if [[ -n $2 ]]; then
-		echo "%$1%" >>$3
-		echo -e $2 >>$3
+#		...  - value(s)
+format_entry() {
+	local field=$1; shift
+
+	if [[ $1 ]]; then
+		printf '%%%s%%\n' "$field"
+		printf '%s\n' "$@"
+		printf '\n'
 	fi
 }
 
@@ -224,8 +226,8 @@ verify_signature() {
 db_write_entry() {
 	# blank out all variables
 	local pkgfile="$1"
+	local -a _groups _licenses _replaces _depends _conflicts _provides _optdepends
 	local pkgname pkgver pkgdesc csize size url arch builddate packager \
-		_groups _licenses _replaces _depends _conflicts _provides _optdepends \
 		md5sum sha256sum pgpsig
 
 	# read info from the zipped package
@@ -237,13 +239,13 @@ db_write_entry() {
 		# normalize whitespace with an extglob
 		declare "$var=${val//+([[:space:]])/ }"
 		case "$var" in
-			group)    _groups="$_groups$group\n" ;;
-			license)  _licenses="$_licenses$license\n" ;;
-			replaces) _replaces="$_replaces$replaces\n" ;;
-			depend)   _depends="$_depends$depend\n" ;;
-			conflict) _conflicts="$_conflicts$conflict\n" ;;
-			provides) _provides="$_provides$provides\n" ;;
-			optdepend) _optdepends="$_optdepends$optdepend\n" ;;
+			group)     _groups+=("$group") ;;
+			license)   _licenses+=("$license") ;;
+			replaces)  _replaces+=("$replaces") ;;
+			depend)    _depends+=("$depend") ;;
+			conflict)  _conflicts+=("$conflict") ;;
+			provides)  _provides+=("$provides") ;;
+			optdepend) _optdepends+=("$optdepend") ;;
 		esac
 	done< <(bsdtar -xOqf "$pkgfile" .PKGINFO)
 
@@ -297,7 +299,7 @@ db_write_entry() {
 	[[ -n $pkgbase ]] && echo -e "%BASE%\n$pkgbase\n" >>desc
 	echo -e "%VERSION%\n$pkgver\n" >>desc
 	[[ -n $pkgdesc ]] && echo -e "%DESC%\n$pkgdesc\n" >>desc
-	write_list_entry "GROUPS" "$_groups" "desc"
+	format_entry "GROUPS" "${_groups[@]}" >>"desc"
 	[[ -n $csize ]] && echo -e "%CSIZE%\n$csize\n" >>desc
 	[[ -n $size ]] && echo -e "%ISIZE%\n$size\n" >>desc
 
@@ -309,20 +311,20 @@ db_write_entry() {
 	[[ -n $pgpsig ]] && echo -e "%PGPSIG%\n$pgpsig\n" >>desc
 
 	[[ -n $url ]] && echo -e "%URL%\n$url\n" >>desc
-	write_list_entry "LICENSE" "$_licenses" "desc"
+	format_entry "LICENSE" "${_licenses[@]}" >>"desc"
 	[[ -n $arch ]] && echo -e "%ARCH%\n$arch\n" >>desc
 	[[ -n $builddate ]] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
 	[[ -n $packager ]] && echo -e "%PACKAGER%\n$packager\n" >>desc
-	write_list_entry "REPLACES" "$_replaces" "desc"
+	format_entry "REPLACES" "${_replaces[@]}" >>"desc"
 
 	# create depends entry
 	msg2 "$(gettext "Creating '%s' db entry...")" 'depends'
-	# create the file even if it will remain empty
-	touch "depends"
-	write_list_entry "DEPENDS" "$_depends" "depends"
-	write_list_entry "CONFLICTS" "$_conflicts" "depends"
-	write_list_entry "PROVIDES" "$_provides" "depends"
-	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
+	{
+		format_entry "DEPENDS"    "${_depends[@]}"
+		format_entry "CONFLICTS"  "${_conflicts[@]}"
+		format_entry "PROVIDES"   "${_provides[@]}"
+		format_entry "OPTDEPENDS" "${_optdepends[@]}"
+	} >'depends'
 
 	popd >/dev/null
 	popd >/dev/null
