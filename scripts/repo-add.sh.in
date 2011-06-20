@@ -294,28 +294,30 @@ db_write_entry() {
 
 	# create desc entry
 	msg2 "$(gettext "Creating '%s' db entry...")" 'desc'
-	echo -e "%FILENAME%\n${1##*/}\n" >>desc
-	echo -e "%NAME%\n$pkgname\n" >>desc
-	[[ -n $pkgbase ]] && echo -e "%BASE%\n$pkgbase\n" >>desc
-	echo -e "%VERSION%\n$pkgver\n" >>desc
-	[[ -n $pkgdesc ]] && echo -e "%DESC%\n$pkgdesc\n" >>desc
-	format_entry "GROUPS" "${_groups[@]}" >>"desc"
-	[[ -n $csize ]] && echo -e "%CSIZE%\n$csize\n" >>desc
-	[[ -n $size ]] && echo -e "%ISIZE%\n$size\n" >>desc
+	{
+		format_entry "FILENAME"  "${1##*/}"
+		format_entry "NAME"      "$pkgname"
+		format_entry "BASE"      "$pkgbase"
+		format_entry "VERSION"   "$pkgver"
+		format_entry "DESC"      "$pkgdesc"
+		format_entry "GROUPS"    "${_groups[@]}"
+		format_entry "CSIZE"     "$csize"
+		format_entry "ISIZE"     "$size"
 
-	# add checksums
-	echo -e "%MD5SUM%\n$md5sum\n" >>desc
-	echo -e "%SHA256SUM%\n$sha256sum\n" >>desc
+		# add checksums
+		format_entry "MD5SUM"    "$md5sum"
+		format_entry "SHA256SUM" "$sha256sum"
 
-	# add PGP sig
-	[[ -n $pgpsig ]] && echo -e "%PGPSIG%\n$pgpsig\n" >>desc
+		# add PGP sig
+		format_entry "PGPSIG"    "$pgpsig"
 
-	[[ -n $url ]] && echo -e "%URL%\n$url\n" >>desc
-	format_entry "LICENSE" "${_licenses[@]}" >>"desc"
-	[[ -n $arch ]] && echo -e "%ARCH%\n$arch\n" >>desc
-	[[ -n $builddate ]] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
-	[[ -n $packager ]] && echo -e "%PACKAGER%\n$packager\n" >>desc
-	format_entry "REPLACES" "${_replaces[@]}" >>"desc"
+		format_entry "URL"       "$url"
+		format_entry "LICENSE"   "${_licenses[@]}"
+		format_entry "ARCH"      "$arch"
+		format_entry "BUILDDATE" "$builddate"
+		format_entry "PACKAGER"  "$packager"
+		format_entry "REPLACES"  "${_replaces[@]}"
+	} >'desc'
 
 	# create depends entry
 	msg2 "$(gettext "Creating '%s' db entry...")" 'depends'
