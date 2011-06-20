@@ -276,6 +276,9 @@ enum _pmerrno_t _alpm_set_directory_option(const char *value,
 		FREE(*storage);
 	}
 	*storage = canonicalize_path(path);
+	if(!*storage) {
+		return PM_ERR_MEMORY;
+	}
 	free(real);
 	return 0;
 }
@@ -285,14 +288,14 @@ int SYMEXPORT alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir)
 	char *newcachedir;
 
 	CHECK_HANDLE(handle, return -1);
-	if(!cachedir) {
-		handle->pm_errno = PM_ERR_WRONG_ARGS;
-		return -1;
-	}
+	ASSERT(cachedir != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	/* don't stat the cachedir yet, as it may not even be needed. we can
 	 * fail later if it is needed and the path is invalid. */
 
 	newcachedir = canonicalize_path(cachedir);
+	if(!newcachedir) {
+		RET_ERR(handle, PM_ERR_MEMORY, -1);
+	}
 	handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
 	_alpm_log(handle, PM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
 	return 0;
@@ -318,16 +321,13 @@ int SYMEXPORT alpm_option_remove_cachedir(pmhandle_t *handle, const char *cached
 {
 	char *vdata = NULL;
 	char *newcachedir;
-	size_t cachedirlen;
 	CHECK_HANDLE(handle, return -1);
-	/* verify cachedir ends in a '/' */
-	cachedirlen = strlen(cachedir);
-	if(cachedir[cachedirlen-1] != '/') {
-		cachedirlen += 1;
+	ASSERT(cachedir != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+
+	newcachedir = canonicalize_path(cachedir);
+	if(!newcachedir) {
+		RET_ERR(handle, PM_ERR_MEMORY, -1);
 	}
-	CALLOC(newcachedir, cachedirlen + 1, sizeof(char), return 0);
-	strncpy(newcachedir, cachedir, cachedirlen);
-	newcachedir[cachedirlen-1] = '/';
 	handle->cachedirs = alpm_list_remove_str(handle->cachedirs, newcachedir, &vdata);
 	FREE(newcachedir);
 	if(vdata != NULL) {
