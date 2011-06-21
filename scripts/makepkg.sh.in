@@ -622,11 +622,6 @@ generate_checksums() {
 check_checksums() {
 	(( ! ${#source[@]} )) && return 0
 
-	if ! type -p openssl >/dev/null; then
-		error "$(gettext "Cannot find openssl.")"
-		exit 1 # $E_MISSING_PROGRAM
-	fi
-
 	local correlation=0
 	local integ required
 	for integ in md5 sha1 sha256 sha384 sha512; do
@@ -1213,10 +1208,6 @@ create_signature() {
 	local ret=0
 	local filename="$1"
 	msg "$(gettext "Signing package...")"
-	if ! type -p gpg >/dev/null; then
-		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
-		exit 1 # $E_MISSING_PROGRAM
-	fi
 
 	local SIGNWITHKEY=""
 	if [[ -n $GPGKEY ]]; then
@@ -1454,6 +1445,45 @@ check_sanity() {
 			ret=1
 		fi
 	done
+
+	return $ret
+}
+
+check_software() {
+	# check for needed software
+	local ret=0
+
+	# fakeroot - building as non-root user
+	if [[ $(check_buildenv fakeroot) = "y" ]] && (( EUID > 0 )); then
+		if ! type -p fakeroot >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for building as non-root user.")" "fakeroot"
+			ret=1
+		fi
+	fi
+
+	# gpg - package signing
+	if [[ $SIGNPKG == 'y' || (-z "$SIGNPKG" && $(check_buildenv sign) == 'y') ]]; then
+		if ! type -p gpg >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for signing packages.")" "gpg"
+			ret=1
+		fi
+	fi
+
+	# openssl - checksum operations
+	if (( ! SKIPINTEG )); then
+		if ! type -p openssl >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for validating sourcefile checksums.")" "openssl"
+			ret=1
+		fi
+	fi
+
+	# upx - binary compression
+	if [[ $(check_option upx) == 'y' ]]; then
+		if ! type -p upx >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for compressing binaries.")" "upx"
+			ret=1
+		fi
+	fi
 
 	return $ret
 }
@@ -1860,13 +1890,7 @@ if (( ! INFAKEROOT )); then
 		error "$(gettext "The --asroot option is meant for the root user only.")"
 		plain "$(gettext "Please rerun makepkg without the --asroot flag.")"
 		exit 1 # $E_USER_ABORT
-	elif [[ $(check_buildenv fakeroot) = "y" ]] && (( EUID > 0 )); then
-		if ! type -p fakeroot >/dev/null; then
-			error "$(gettext "Fakeroot must be installed if using the 'fakeroot' option")"
-			plain "$(gettext "in the BUILDENV array in %s.")" "$MAKEPKG_CONF"
-			exit 1
-		fi
-	elif (( EUID > 0 )); then
+	elif (( EUID > 0 )) && [[ $(check_buildenv fakeroot) != "y" ]]; then
 		warning "$(gettext "Running makepkg as an unprivileged user will result in non-root")"
 		plain "$(gettext "ownership of the packaged files. Try using the fakeroot environment by")"
 		plain "$(gettext "placing 'fakeroot' in the BUILDENV array in %s.")" "$MAKEPKG_CONF"
@@ -1928,6 +1952,9 @@ fi
 
 # check the PKGBUILD for some basic requirements
 check_sanity || exit 1
+
+# check we have the software required to process the PKGBUILD
+check_sofware || exit 1
 
 # We need to run devel_update regardless of whether we are in the fakeroot
 # build process so that if the user runs makepkg --forcever manually, we
