@@ -221,6 +221,22 @@ verify_signature() {
 	fi
 }
 
+verify_repo_extension() {
+	local repofile=$1
+
+	case "$repofile" in
+		*.@(db|files).tar.gz)  TAR_OPT="z" ;;
+		*.@(db|files).tar.bz2) TAR_OPT="j" ;;
+		*.@(db|files).tar.xz)  TAR_OPT="J" ;;
+		*.@(db|files).tar)     TAR_OPT="" ;;
+		*) error "$(gettext "'%s' does not have a valid archive extension.")" \
+				"$repofile"
+			exit 1 ;;
+	esac
+
+	printf '%s' "$TAR_OPT"
+}
+
 # write an entry to the pacman database
 #   arg1 - path to package
 db_write_entry() {
@@ -571,8 +587,11 @@ while (( $# )); do
 	shift
 done
 
+
 REPO_DB_FILE=${args[0]}
 LOCKFILE=$REPO_DB_FILE.lck
+
+verify_repo_extension "$REPO_DB_FILE" >/dev/null
 check_repo_db
 
 for arg in "${args[@]:1}"; do
@@ -586,15 +605,7 @@ done
 if (( success )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 
-	case "$REPO_DB_FILE" in
-		*.tar.gz)  TAR_OPT="z" ;;
-		*.tar.bz2) TAR_OPT="j" ;;
-		*.tar.xz)  TAR_OPT="J" ;;
-		*.tar)     TAR_OPT="" ;;
-		*) warning "$(gettext "'%s' does not have a valid archive extension.")" \
-		"$REPO_DB_FILE" ;;
-	esac
-
+	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
 	filename=${REPO_DB_FILE##*/}
 
 	pushd "$tmpdir" >/dev/null
