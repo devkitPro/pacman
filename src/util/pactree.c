@@ -26,6 +26,8 @@
 #include <alpm.h>
 #include <alpm_list.h>
 
+#define LINE_MAX     512
+
 /* output */
 struct graph_style {
 	const char *provides;
@@ -85,7 +87,76 @@ int graphviz = 0;
 int max_depth = -1;
 int reverse = 0;
 int unique = 0;
+int searchsyncs = 0;
 const char *dbpath = DBPATH;
+
+static char *strtrim(char *str)
+{
+	char *pch = str;
+
+	if(str == NULL || *str == '\0') {
+		/* string is empty, so we're done. */
+		return str;
+	}
+
+	while(isspace((unsigned char)*pch)) {
+		pch++;
+	}
+	if(pch != str) {
+		memmove(str, pch, (strlen(pch) + 1));
+	}
+
+	/* check if there wasn't anything but whitespace in the string. */
+	if(*str == '\0') {
+		return str;
+	}
+
+	pch = (str + (strlen(str) - 1));
+	while(isspace((unsigned char)*pch)) {
+		pch--;
+	}
+	*++pch = '\0';
+
+	return str;
+}
+
+static int register_syncs(pmhandle_t *handle) {
+	FILE *fp;
+	char *ptr, *section = NULL;
+	char line[LINE_MAX];
+
+	fp = fopen(CONFFILE, "r");
+	if(!fp) {
+		return 1;
+	}
+
+	while(fgets(line, LINE_MAX, fp)) {
+		strtrim(line);
+
+		if(line[0] == '#' || !strlen(line)) {
+			continue;
+		}
+
+		if((ptr = strchr(line, '#'))) {
+			*ptr = '\0';
+			strtrim(line);
+		}
+
+		if(line[0] == '[' && line[strlen(line) - 1] == ']') {
+			free(section);
+			section = strndup(&line[1], strlen(line) - 2);
+
+			if(section && strcmp(section, "options") != 0) {
+				alpm_db_register_sync(handle, section, PM_PGP_VERIFY_OPTIONAL);
+			}
+		}
+	}
+
+	free(section);
+	fclose(fp);
+
+	return 0;
+}
 
 static int parse_options(int argc, char *argv[])
 {
@@ -100,11 +171,12 @@ static int parse_options(int argc, char *argv[])
 		{"help",    no_argument,          0, 'h'},
 		{"linear",  no_argument,          0, 'l'},
 		{"reverse", no_argument,          0, 'r'},
+		{"sync",    no_argument,          0, 'S'},
 		{"unique",  no_argument,          0, 'u'},
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "b:cd:ghlru", opts, &option_index))) {
+	while((opt = getopt_long(argc, argv, "b:cd:ghlrsu", opts, &option_index))) {
 		if(opt < 0) {
 			break;
 		}
@@ -132,6 +204,9 @@ static int parse_options(int argc, char *argv[])
 				break;
 			case 'r':
 				reverse = 1;
+				break;
+			case 's':
+				searchsyncs = 1;
 				break;
 			case 'u':
 				unique = 1;
@@ -161,6 +236,7 @@ static void usage(void)
 			"  -g, --graph          generate output for graphviz's dot\n"
 			"  -l, --linear         enable linear output\n"
 			"  -r, --reverse        show reverse dependencies\n"
+			"  -s, --sync           search sync DBs instead of local\n"
 			"  -u, --unique         show dependencies with no duplicates (implies -l)\n\n"
 			"  -h, --help           display this help message\n");
 }
@@ -324,7 +400,7 @@ static void walk_deps(alpm_list_t *dblist, pmpkg_t *pkg, int depth)
 
 int main(int argc, char *argv[])
 {
-	int ret = 0;
+	int freelist = 0, ret = 0;
 	enum _pmerrno_t err;
 	const char *target_name;
 	pmpkg_t *pkg;
@@ -344,7 +420,17 @@ int main(int argc, char *argv[])
 		goto finish;
 	}
 
-	dblist = alpm_list_add(dblist, alpm_option_get_localdb(handle));
+	if(searchsyncs) {
+		if(register_syncs(handle) != 0) {
+			fprintf(stderr, "error: failed to register sync DBs\n");
+			ret = 1;
+			goto finish;
+		}
+		dblist = alpm_option_get_syncdbs(handle);
+	} else {
+		dblist = alpm_list_add(dblist, alpm_option_get_localdb(handle));
+		freelist = 1;
+	}
 
 	/* we only care about the first non option arg for walking */
 	target_name = argv[optind];
@@ -366,7 +452,9 @@ int main(int argc, char *argv[])
 
 	print_end();
 
-	alpm_list_free(dblist);
+	if(freelist) {
+		alpm_list_free(dblist);
+	}
 
 finish:
 	cleanup();
