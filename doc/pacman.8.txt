@@ -13,7 +13,6 @@ Synopsis
 --------
 'pacman' <operation> [options] [targets]
 
-
 Description
 -----------
 Pacman is a package management utility that tracks installed packages on a Linux
@@ -69,13 +68,18 @@ Operations
 	interprets ">" as redirection to file.)
 +
 In addition to packages, groups can be specified as well. For example, if
-gnome is a defined package group, then `pacman -S gnome` will install every
-package in the gnome group, as well as the dependencies of those packages.
+gnome is a defined package group, then `pacman -S gnome` will provide a
+prompt allowing you to select which packages to install from a numbered list.
+The package selection is specified using a space separated list of package
+numbers. Sequential packages may be selected by specifying the first and last
+package numbers separated by a hyphen (`-`). Excluding packages is achieved by
+prefixing a number or range of numbers with a caret (`^`).
 +
 Packages that provide other packages are also handled. For example, `pacman -S
 foo` will first look for a foo package. If foo is not found, packages that
 provide the same functionality as foo will be searched for. If any package is
-found, it will be installed.
+found, it will be installed. A selection prompt is provided if multiple packages
+providing foo are found.
 +
 You can also use `pacman -Su` to upgrade all packages that are out of date. See
 <<SO,Sync Options>> below. When upgrading, pacman performs version comparison
