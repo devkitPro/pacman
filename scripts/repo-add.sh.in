@@ -377,9 +377,18 @@ db_remove_entry() {
 } # end db_remove_entry
 
 check_repo_db() {
+	local repodir
+
 	# ensure the path to the DB exists
-	if [[ ! -d "${LOCKFILE%/*}" ]]; then
-		error "$(gettext "%s does not exist or is not a directory.")" "${LOCKFILE%/*}"
+	if [[ "$LOCKFILE" == /* ]]; then
+		repodir=${LOCKFILE%/*}/
+	else
+		repodir=$PWD/$LOCKFILE
+		repodir=${repodir%/*}/
+	fi
+
+	if [[ ! -d "$repodir" ]]; then
+		error "$(gettext "%s does not exist or is not a directory.")" "$repodir"
 		exit 1
 	fi
 
