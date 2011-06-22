@@ -47,16 +47,6 @@ def vprint(msg):
 # Methods to generate files
 #
 
-def getfilename(name):
-    filename = name
-    if filename[-1] == "*":
-        filename = filename.rstrip("*")
-    if filename.find(" -> ") != -1:
-        filename, extra = filename.split(" -> ")
-    elif filename.find("|") != -1:
-        filename, extra = filename.split("|")
-    return filename
-
 def mkfile(name, data = ""):
     isdir = 0
     islink = 0

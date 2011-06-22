@@ -22,31 +22,6 @@ import tarfile
 import pmpkg
 import util
 
-def _mkfilelist(files):
-    """Generate a list of files from the list supplied as an argument.
-    
-    Each path is decomposed to generate the list of all directories leading
-    to the file.
-    
-    Example with 'usr/local/bin/dummy':
-    The resulting list will be
-        usr/
-        usr/local/
-        usr/local/bin/
-        usr/local/bin/dummy
-    """
-    file_set = set()
-    for f in files:
-        name = util.getfilename(f)
-        file_set.add(name)
-        while "/" in name:
-            name, tmp = name.rsplit("/", 1)
-            file_set.add(name + "/")
-    return sorted(file_set)
-
-def _mkbackuplist(backup):
-    return ["%s\t%s" % (util.getfilename(i), util.mkmd5sum(i)) for i in backup]
-
 def _getsection(fd):
     i = []
     while 1:
@@ -244,8 +219,8 @@ class pmdb(object):
         # files and install
         if self.is_local:
             data = []
-            make_section(data, "FILES", _mkfilelist(pkg.files))
-            make_section(data, "BACKUP", _mkbackuplist(pkg.backup))
+            make_section(data, "FILES", pkg.full_filelist())
+            make_section(data, "BACKUP", pkg.local_backup_entries())
             filename = os.path.join(path, "files")
             util.mkfile(filename, "\n".join(data))
 
