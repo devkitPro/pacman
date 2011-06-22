@@ -30,10 +30,10 @@ import util
 __author__ = "Aurelien FORET"
 __version__ = "0.4"
 
-def resolveBinPath(option, opt_str, value, parser):
+def resolve_binary_path(option, opt_str, value, parser):
     setattr(parser.values, option.dest, os.path.abspath(value))
 
-def globTests(option, opt_str, value, parser):
+def glob_tests(option, opt_str, value, parser):
     idx = 0
     globlist = []
 
@@ -46,8 +46,7 @@ def globTests(option, opt_str, value, parser):
     parser.rargs = parser.rargs[idx:]
     setattr(parser.values, option.dest, globlist)
 
-def createOptParser():
-    testcases = []
+def create_parser():
     usage = "usage: %prog [options] [[--test <path/to/testfile.py>] ...]"
     description = "Runs automated tests on the pacman binary. Tests are " \
             "described using an easy python syntax, and several can be " \
@@ -61,11 +60,11 @@ def createOptParser():
                       dest = "debug", default = 0,
                       help = "set debug level for pacman")
     parser.add_option("-p", "--pacman", action = "callback",
-                      callback = resolveBinPath, type = "string",
+                      callback = resolve_binary_path, type = "string",
                       dest = "bin", default = "pacman",
                       help = "specify location of the pacman binary")
     parser.add_option("-t", "--test", action = "callback",
-                      callback = globTests, dest = "testcases",
+                      callback = glob_tests, dest = "testcases",
                       help = "specify test case(s)")
     parser.add_option("--keep-root", action = "store_true",
                       dest = "keeproot", default = False,
@@ -89,7 +88,7 @@ if __name__ == "__main__":
     # instantiate env and parser objects 
     root_path = tempfile.mkdtemp()
     env = pmenv.pmenv(root=root_path)
-    opt_parser = createOptParser()
+    opt_parser = create_parser()
     (opts, args) = opt_parser.parse_args()
 
     # add parsed options to env object
@@ -113,13 +112,12 @@ if __name__ == "__main__":
     env.run()
     env.results()
 
-    if env.failed > 0:
-        print "pacman testing root saved: %s" % root_path
-        sys.exit(1)
-
     if not opts.keeproot:
         shutil.rmtree(root_path)
     else:
         print "pacman testing root saved: %s" % root_path
+
+    if env.failed > 0:
+        sys.exit(1)
 
 # vim: set ts=4 sw=4 et:

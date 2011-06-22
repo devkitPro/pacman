@@ -49,10 +49,7 @@ def vprint(msg):
 #
 
 def getfilename(name):
-    """
-    """
     filename = name
-    extra = ""
     if filename[-1] == "*":
         filename = filename.rstrip("*")
     if filename.find(" -> ") != -1:
@@ -62,8 +59,6 @@ def getfilename(name):
     return filename
 
 def mkfile(name, data = ""):
-    """
-    """
     isdir = 0
     islink = 0
     setperms = 0
@@ -108,8 +103,6 @@ def mkfile(name, data = ""):
             os.chmod(filename, int(perms, 8))
 
 def mkinstallfile(filename, install):
-    """
-    """
     data = []
     for key, value in install.iteritems():
         if value:
@@ -118,8 +111,6 @@ def mkinstallfile(filename, install):
     mkfile(filename, "\n".join(data))
 
 def mkcfgfile(filename, root, option, db):
-    """
-    """
     # Options
     data = ["[options]"]
     for key, value in option.iteritems():
@@ -147,8 +138,6 @@ def mkcfgfile(filename, root, option, db):
 #
 
 def getmd5sum(filename):
-    """
-    """
     if not os.path.isfile(filename):
         return ""
     fd = open(filename, "rb")
@@ -162,8 +151,6 @@ def getmd5sum(filename):
     return checksum.hexdigest()
 
 def mkmd5sum(data):
-    """
-    """
     checksum = hashlib.md5()
     checksum.update("%s\n" % data)
     return checksum.hexdigest()

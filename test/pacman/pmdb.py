@@ -40,7 +40,7 @@ def _mkfilelist(files):
         name = util.getfilename(f)
         file_set.add(name)
         while "/" in name:
-            [name, tmp] = name.rsplit("/", 1)
+            name, tmp = name.rsplit("/", 1)
             file_set.add(name + "/")
     return sorted(file_set)
 

@@ -17,7 +17,6 @@
 
 
 import os
-import os.path
 
 import pmtest
 
@@ -102,35 +101,39 @@ class pmenv(object):
                 tfailed.append(test)
 
         def _printtest(t):
-            success = test.result["success"]
-            fail = test.result["fail"]
-            rules = len(test.rules)
+            success = t.result["success"]
+            fail = t.result["fail"]
+            rules = len(t.rules)
             if fail == 0:
                 result = "[PASS]"
             else:
                 result = "[FAIL]"
             print result,
             print "%s Rules: OK = %2u  FAIL = %2u  SKIP = %2u" \
-                    % (test.testname.ljust(34), success, fail, \
+                    % (t.testname.ljust(34), success, fail, \
                        rules - (success + fail))
             if fail != 0:
                 # print test description if test failed
-                print "      ", test.description
+                print "      ", t.description
 
         print "=========="*8
         print "Results"
         print "----------"*8
         print " Passed:"
-        for test in tpassed: _printtest(test)
+        for test in tpassed:
+            _printtest(test)
         print "----------"*8
         print " Expected Failures:"
-        for test in texpectedfail: _printtest(test)
+        for test in texpectedfail:
+            _printtest(test)
         print "----------"*8
         print " Unexpected Passes:"
-        for test in tunexpectedpass: _printtest(test)
+        for test in tunexpectedpass:
+            _printtest(test)
         print "----------"*8
         print " Failed:"
-        for test in tfailed: _printtest(test)
+        for test in tfailed:
+            _printtest(test)
         print "----------"*8
 
         total = len(self.testcases)
@@ -141,8 +144,5 @@ class pmenv(object):
             print "Unexpected Pass  = %3u (%6.2f%%)" % (self.unexpectedpass, float(self.unexpectedpass) * 100 / total)
             print "Fail             = %3u (%6.2f%%)" % (self.failed, float(self.failed) * 100 / total)
         print ""
-
-if __name__ == "__main__":
-    pass
 
 # vim: set ts=4 sw=4 et:

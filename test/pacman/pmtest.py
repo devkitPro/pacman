@@ -17,7 +17,6 @@
 
 
 import os
-import os.path
 import shutil
 import stat
 import time
@@ -44,15 +43,11 @@ class pmtest(object):
                "root = %s" % (self.name, self.testname, self.root)
 
     def addpkg2db(self, treename, pkg):
-        """
-        """
         if not treename in self.db:
             self.db[treename] = pmdb.pmdb(treename, self.root)
         self.db[treename].pkgs.append(pkg)
 
     def addpkg(self, pkg):
-        """
-        """
         self.localpkgs.append(pkg)
 
     def findpkg(self, name, version, allow_local=False):
@@ -72,15 +67,10 @@ class pmtest(object):
         return None
 
     def addrule(self, rulename):
-        """
-        """
         rule = pmrule.pmrule(rulename)
         self.rules.append(rule)
 
     def load(self):
-        """
-        """
-
         # Reset test parameters
         self.result = {
             "success": 0,
@@ -111,9 +101,6 @@ class pmtest(object):
             raise IOError("file %s does not exist!" % self.name)
 
     def generate(self):
-        """
-        """
-
         print "==> Generating test environment"
 
         # Cleanup leftover files from a previous test session
@@ -206,9 +193,6 @@ class pmtest(object):
                 vprint("\t%s" % f.name)
 
     def run(self, pacman):
-        """
-        """
-
         if os.path.isfile(util.PM_LOCK):
             print "\tERROR: another pacman session is on-going -- skipping"
             return
@@ -274,9 +258,6 @@ class pmtest(object):
             print "\tERROR: pacman dumped a core file"
 
     def check(self):
-        """
-        """
-
         print "==> Checking rules"
 
         for i in self.rules:
