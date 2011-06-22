@@ -45,13 +45,9 @@ def _mkfilelist(files):
     return sorted(file_set)
 
 def _mkbackuplist(backup):
-    """
-    """
     return ["%s\t%s" % (util.getfilename(i), util.mkmd5sum(i)) for i in backup]
 
 def _getsection(fd):
-    """
-    """
     i = []
     while 1:
         line = fd.readline().strip("\n")
@@ -60,16 +56,16 @@ def _getsection(fd):
         i.append(line)
     return i
 
-def _mksection(title, data):
-    """
-    """
-    s = ""
-    if isinstance(data, list):
-        s = "\n".join(data)
+def make_section(data, title, values):
+    if not values:
+        return
+    data.append("%%%s%%" % title)
+    if isinstance(values, (list, tuple)):
+        data.extend(str(item) for item in values)
     else:
-        s = data
-    return "%%%s%%\n" \
-           "%s\n" % (title, s)
+        # just a single value
+        data.append(str(values))
+    data.append('\n')
 
 
 class pmdb(object):
@@ -82,15 +78,20 @@ class pmdb(object):
         self.option = {}
         if self.treename == "local":
             self.dbdir = os.path.join(root, util.PM_DBPATH, treename)
+            self.dbfile = None
+            self.is_local = True
         else:
             self.dbdir = os.path.join(root, util.PM_SYNCDBPATH, treename)
+            # TODO: we should be doing this, don't need a sync db dir
+            #self.dbdir = None
             self.dbfile = os.path.join(root, util.PM_SYNCDBPATH, treename + ".db")
+            self.is_local = False
 
     def __str__(self):
         return "%s" % self.treename
 
     def getverify(self):
-        for value in "Always","Never","Optional":
+        for value in ("Always", "Never", "Optional"):
             if value in self.treename:
                 return value
         return "Never"
@@ -151,9 +152,17 @@ class pmdb(object):
             elif line == "%PACKAGER%":
                 pkg.packager = fd.readline().strip("\n")
             elif line == "%REASON%":
-                pkg.reason = int(fd.readline().strip("\n"))
+                try:
+                    pkg.reason = int(fd.readline().strip("\n"))
+                except ValueError:
+                    pkg.reason = -1
+                    raise
             elif line == "%SIZE%" or line == "%CSIZE%":
-                pkg.size = int(fd.readline().strip("\n"))
+                try:
+                    pkg.size = int(fd.readline().strip("\n"))
+                except ValueError:
+                    pkg.size = -1
+                    raise
             elif line == "%MD5SUM%":
                 pkg.md5sum = fd.readline().strip("\n")
             elif line == "%PGPSIG%":
@@ -199,99 +208,57 @@ class pmdb(object):
     # db_write is used to add both 'local' and 'sync' db entries
     #
     def db_write(self, pkg):
-        """
-        """
         path = os.path.join(self.dbdir, pkg.fullname())
         util.mkdir(path)
 
-        # desc
-        # for local db entries: name, version, desc, groups, url, license,
-        #                       arch, builddate, installdate, packager,
-        #                       size, reason, depends, conflicts, provides
-        # for sync entries: name, version, desc, groups, csize, md5sum,
-        #                   replaces, force, depends, conflicts, provides
-        data = [_mksection("NAME", pkg.name)]
-        data.append(_mksection("VERSION", pkg.version))
-        if pkg.desc:
-            data.append(_mksection("DESC", pkg.desc))
-        if pkg.groups:
-            data.append(_mksection("GROUPS", pkg.groups))
-        if pkg.license:
-            data.append(_mksection("LICENSE", pkg.license))
-        if pkg.arch:
-            data.append(_mksection("ARCH", pkg.arch))
-        if pkg.builddate:
-            data.append(_mksection("BUILDDATE", pkg.builddate))
-        if pkg.packager:
-            data.append(_mksection("PACKAGER", pkg.packager))
-        if pkg.depends:
-            data.append(_mksection("DEPENDS", pkg.depends))
-        if pkg.optdepends:
-            data.append(_mksection("OPTDEPENDS", pkg.optdepends))
-        if pkg.conflicts:
-            data.append(_mksection("CONFLICTS", pkg.conflicts))
-        if pkg.provides:
-            data.append(_mksection("PROVIDES", pkg.provides))
-        if pkg.url:
-            data.append(_mksection("URL", pkg.url))
-        if self.treename == "local":
-            if pkg.installdate:
-                data.append(_mksection("INSTALLDATE", pkg.installdate))
-            if pkg.size:
-                data.append(_mksection("SIZE", pkg.size))
-            if pkg.reason:
-                data.append(_mksection("REASON", pkg.reason))
+        # desc/depends type entries
+        data = []
+        make_section(data, "NAME", pkg.name)
+        make_section(data, "VERSION", pkg.version)
+        make_section(data, "DESC", pkg.desc)
+        make_section(data, "GROUPS", pkg.groups)
+        make_section(data, "LICENSE", pkg.license)
+        make_section(data, "ARCH", pkg.arch)
+        make_section(data, "BUILDDATE", pkg.builddate)
+        make_section(data, "PACKAGER", pkg.packager)
+        make_section(data, "DEPENDS", pkg.depends)
+        make_section(data, "OPTDEPENDS", pkg.optdepends)
+        make_section(data, "CONFLICTS", pkg.conflicts)
+        make_section(data, "PROVIDES", pkg.provides)
+        make_section(data, "URL", pkg.url)
+        if self.is_local:
+            make_section(data, "INSTALLDATE", pkg.installdate)
+            make_section(data, "SIZE", pkg.size)
+            make_section(data, "REASON", pkg.reason)
         else:
-            data.append(_mksection("FILENAME", pkg.filename()))
-            if pkg.replaces:
-                data.append(_mksection("REPLACES", pkg.replaces))
-            if pkg.csize:
-                data.append(_mksection("CSIZE", pkg.csize))
-            if pkg.isize:
-                data.append(_mksection("ISIZE", pkg.isize))
-            if pkg.md5sum:
-                data.append(_mksection("MD5SUM", pkg.md5sum))
-            if pkg.pgpsig:
-                data.append(_mksection("PGPSIG", pkg.pgpsig))
-        if data:
-            data.append("")
+            make_section(data, "FILENAME", pkg.filename())
+            make_section(data, "REPLACES", pkg.replaces)
+            make_section(data, "CSIZE", pkg.csize)
+            make_section(data, "ISIZE", pkg.isize)
+            make_section(data, "MD5SUM", pkg.md5sum)
+            make_section(data, "PGPSIG", pkg.pgpsig)
+
         filename = os.path.join(path, "desc")
         util.mkfile(filename, "\n".join(data))
 
-        # files
-        # for local entries, fields are: files, backup
-        # for sync ones: none
-        if self.treename == "local":
+        # files and install
+        if self.is_local:
             data = []
-            if pkg.files:
-                data.append(_mksection("FILES", _mkfilelist(pkg.files)))
-            if pkg.backup:
-                data.append(_mksection("BACKUP", _mkbackuplist(pkg.backup)))
-            if data:
-                data.append("")
+            make_section(data, "FILES", _mkfilelist(pkg.files))
+            make_section(data, "BACKUP", _mkbackuplist(pkg.backup))
             filename = os.path.join(path, "files")
             util.mkfile(filename, "\n".join(data))
 
-        # install
-        if self.treename == "local":
-            empty = 1
-            for value in pkg.install.values():
-                if value:
-                    empty = 0
-            if not empty:
+            if any(pkg.install.values()):
                 filename = os.path.join(path, "install")
                 util.mkinstallfile(filename, pkg.install)
 
     def gensync(self):
-        """
-        """
-
         if not self.dbfile:
             return
         curdir = os.getcwd()
         os.chdir(self.dbdir)
 
-        # Generate database archive
         tar = tarfile.open(self.dbfile, "w:gz")
         for i in os.listdir("."):
             tar.add(i)
