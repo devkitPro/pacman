@@ -595,15 +595,9 @@ if (( success )); then
 	filename=${REPO_DB_FILE##*/}
 
 	pushd "$tmpdir" >/dev/null
-	if [[ -n $(ls) ]]; then
-		bsdtar -c${TAR_OPT}f "$filename" *
-	else
-		# we have no packages remaining? zip up some emptyness
-		warning "$(gettext "No packages remain, creating empty database.")"
-		bsdtar -c${TAR_OPT}f "$filename" -T /dev/null
-	fi
+	# strip the './' off filenames; this also allows us to tar an empty dir
+	bsdtar -s %^./%% -c${TAR_OPT}f "$REPO_DB_FILE" ./
 	create_signature "$filename"
-
 	popd >/dev/null
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
