@@ -232,9 +232,9 @@ class pmdb(object):
             data.append(_mksection("CONFLICTS", pkg.conflicts))
         if pkg.provides:
             data.append(_mksection("PROVIDES", pkg.provides))
+        if pkg.url:
+            data.append(_mksection("URL", pkg.url))
         if self.treename == "local":
-            if pkg.url:
-                data.append(_mksection("URL", pkg.url))
             if pkg.installdate:
                 data.append(_mksection("INSTALLDATE", pkg.installdate))
             if pkg.size:
@@ -247,6 +247,8 @@ class pmdb(object):
                 data.append(_mksection("REPLACES", pkg.replaces))
             if pkg.csize:
                 data.append(_mksection("CSIZE", pkg.csize))
+            if pkg.isize:
+                data.append(_mksection("ISIZE", pkg.isize))
             if pkg.md5sum:
                 data.append(_mksection("MD5SUM", pkg.md5sum))
             if pkg.pgpsig:

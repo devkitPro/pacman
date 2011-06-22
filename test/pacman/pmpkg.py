@@ -45,6 +45,7 @@ class pmpkg(object):
         self.packager = ""
         self.size = 0
         self.csize = 0
+        self.isize = 0
         self.reason = 0
         self.md5sum = ""      # sync only
         self.pgpsig = ""      # sync only
