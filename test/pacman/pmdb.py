@@ -72,15 +72,11 @@ class pmdb(object):
         return "Never"
 
     def getpkg(self, name):
-        """
-        """
         for pkg in self.pkgs:
             if name == pkg.name:
                 return pkg
 
     def db_read(self, name):
-        """
-        """
         path = self.dbdir
         if not os.path.isdir(path):
             return None
@@ -226,7 +222,7 @@ class pmdb(object):
 
             if any(pkg.install.values()):
                 filename = os.path.join(path, "install")
-                util.mkinstallfile(filename, pkg.install)
+                util.mkfile(filename, pkg.installfile())
 
     def gensync(self):
         if not self.dbfile:

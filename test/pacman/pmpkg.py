@@ -147,7 +147,7 @@ class pmpkg(object):
 
         # .INSTALL
         if any(self.install.values()):
-            util.mkinstallfile(".INSTALL", self.install)
+            util.mkfile(".INSTALL", self.installfile())
 
         # safely create the dir
         util.mkdir(os.path.dirname(self.path))
@@ -185,5 +185,13 @@ class pmpkg(object):
 
     def local_backup_entries(self):
         return ["%s\t%s" % (self.parse_filename(i), util.mkmd5sum(i)) for i in self.backup]
+
+    def installfile(self):
+        data = []
+        for key, value in self.install.iteritems():
+            if value:
+                data.append("%s() {\n%s\n}" % (key, value))
+
+        return "\n".join(data)
 
 # vim: set ts=4 sw=4 et:

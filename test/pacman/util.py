@@ -91,14 +91,6 @@ def mkfile(name, data = ""):
         if setperms:
             os.chmod(filename, int(perms, 8))
 
-def mkinstallfile(filename, install):
-    data = []
-    for key, value in install.iteritems():
-        if value:
-            data.append("%s() {\n%s\n}" % (key, value))
-            
-    mkfile(filename, "\n".join(data))
-
 def mkcfgfile(filename, root, option, db):
     # Options
     data = ["[options]"]
