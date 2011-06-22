@@ -760,9 +760,8 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 					&b->block_size, &offset);
 			b->block_offset = b->block;
 
-			/* error or end of archive with no data read, cleanup */
-			if(b->ret < ARCHIVE_OK ||
-					(b->block_size == 0 && b->ret == ARCHIVE_EOF)) {
+			/* error, cleanup */
+			if(b->ret < ARCHIVE_OK) {
 				goto cleanup;
 			}
 		}
@@ -779,19 +778,20 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 		/* allocate our buffer, or ensure our existing one is big enough */
 		if(!b->line) {
 			/* set the initial buffer to the read block_size */
-			CALLOC(b->line, b->block_size + 1, sizeof(char), return ENOMEM);
+			CALLOC(b->line, b->block_size + 1, sizeof(char), b->ret = -ENOMEM; goto cleanup);
 			b->line_size = b->block_size + 1;
 			b->line_offset = b->line;
 		} else {
 			size_t needed = (size_t)((b->line_offset - b->line)
 					+ (i - b->block_offset) + 1);
 			if(needed > b->max_line_size) {
-				return ERANGE;
+				b->ret = -ERANGE;
+				goto cleanup;
 			}
 			if(needed > b->line_size) {
 				/* need to realloc + copy data to fit total length */
 				char *new;
-				CALLOC(new, needed, sizeof(char), return ENOMEM);
+				CALLOC(new, needed, sizeof(char), b->ret = -ENOMEM; goto cleanup);
 				memcpy(new, b->line, b->line_size);
 				b->line_size = needed;
 				b->line_offset = new + (b->line_offset - b->line);
@@ -813,6 +813,12 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset += len;
 			b->block_offset = i;
+			/* there was no new data, return what is left; saved ARCHIVE_EOF will be
+			 * returned on next call */
+			if(len == 0) {
+				b->line_offset[0] = '\0';
+				return ARCHIVE_OK;
+			}
 		}
 	}
 
