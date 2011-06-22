@@ -40,15 +40,15 @@ not worried about any local translations being overwritten. The .tx/ directory
 is checked into the git repository so is preconfigured with the two project
 resources (See `tx status` output for a quick overview).
 
-    tx pull -f
-    poedit po/<mylang>.po
-    poedit lib/libalpm/po/<mylang>.po
-    tx push -t -l <mylang>
+	tx pull -f
+	poedit po/<mylang>.po
+	poedit lib/libalpm/po/<mylang>.po
+	tx push -t -l <mylang>
 
 Or to just push one of the two available resources:
 
-    tx push -r archlinux-pacman.pacman-pot -t -l fi
-    tx push -r archlinux-pacman.libalpm-pot -t -l fi
+	tx push -r archlinux-pacman.pacman-pot -t -l fi
+	tx push -r archlinux-pacman.libalpm-pot -t -l fi
 
 See the <<Notes,Notes>> section for additional hints on translating.
 
@@ -79,7 +79,7 @@ Incremental Updates
 If you have more advanced needs you will have to get a copy of the pacman
 repository.
 
-    git clone git://projects.archlinux.org/pacman.git pacman
+	git clone git://projects.archlinux.org/pacman.git pacman
 
 Next, you will need to run `./autogen.sh` and `./configure` in the base
 directory to generate the correct Makefiles. At this point, all necessary
@@ -91,11 +91,11 @@ We need to first update the main message catalog file. Navigate into either the
 work on first, and execute the following command.  If you are working in the
 `po/` tree, replace 'libalpm.pot' with 'pacman.pot':
 
-    make libalpm.pot-update
+	make libalpm.pot-update
 
 Next, update your specific language's translation file:
 
-    make <po file>-update
+	make <po file>-update
 
 At this point, you can do the translation. To submit your changes, either email
 the new `.po` file to the mailing-list with *[translation]* in the subject, or
@@ -104,7 +104,7 @@ submit a GIT-formatted patch (please do not include any `.pot` file changes).
 As a shortcut, all translation files (including `.pot` files) can be updated
 with the following command:
 
-    make update-po
+	make update-po
 
 Adding a New Language
 ~~~~~~~~~~~~~~~~~~~~~
@@ -133,16 +133,16 @@ msgid and msgstr 'variables' can be on as many lines as necessary. Line breaks
 are ignored- if you need a literal line break, use an `\n` in your string. The
 following two translations are equivalent:
 
-    msgstr "This is a test translation"
+	msgstr "This is a test translation"
 
-    msgstr ""
-    "This is a test translation"
+	msgstr ""
+	"This is a test translation"
 
 If you want to test the translation (for example, the frontend one):
 
-    rm *.gmo stamp-po
-    make
-    cp <lang code>.gmo /usr/share/locale/<lang code>/LC_MESSAGES/pacman.mo
+	rm *.gmo stamp-po
+	make
+	cp <lang code>.gmo /usr/share/locale/<lang code>/LC_MESSAGES/pacman.mo
 
 
 Translating Manpages
@@ -160,5 +160,5 @@ check there first before undergoing a translation effort to ensure you are not
 duplicating efforts.
 
 /////
-vim: set ts=2 sw=2 syntax=asciidoc et:
+vim:set ts=4 sw=4 syntax=asciidoc noet spell spelllang=en_us:
 /////
