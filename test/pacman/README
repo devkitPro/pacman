@@ -22,7 +22,7 @@ The following directory structure is used:
   - var/cache/pkg: sync packages cache
   - var/log/pactest.log: log file
   - var/pub: location for pseudo sync repositories
-  - tmp: hold all local package archives (to be used with pacman -A or -U)
+  - tmp: hold all local package archives (to be used with pacman -U)
  
 Note: the logfile is used to capture all pacman outputs.
 
@@ -34,7 +34,7 @@ Test case example:
 	           "usr/man/man1/dummy.1"]
 	self.addpkg(p)
 
-	self.args = "-A dummy-1.0-1.pkg.tar.gz"
+	self.args = "-U dummy-1.0-1.pkg.tar.gz"
 
 	self.addrule("PACMAN_RETCODE=0")
 	self.addrule("PKG_EXIST=dummy")
@@ -42,7 +42,7 @@ Test case example:
 		self.addrule("FILE_EXIST=%s" % f)
 
 Basically, the above test case will try to install a package (dummy-1.0-3), 
-including two files, from a local archive, by calling "pacman -A"
+including two files, from a local archive, by calling "pacman -U"
 Upon completion, it checks that:
   - pacman returned no error code,
   - a "dummy" entry exists in the "local" database
