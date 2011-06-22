@@ -70,17 +70,8 @@ parse_options() {
 	done
 
 	printf " --"
-	if [[ -n $unused_options ]]; then
-		for i in ${unused_options[@]}; do
-			printf ' %s' "$i"
-		done
-	fi
-	if [[ -n $1 ]]; then
-		while [[ -n $1 ]]; do
-			printf " '%s'" "${1}"
-			shift
-		done
-	fi
+	[[ $unused_options ]] && printf ' %s' "${unused_options[@]}"
+	[[ $1 ]] && printf " '%s'" "$@"
 	printf "\n"
 
 	return $ret
