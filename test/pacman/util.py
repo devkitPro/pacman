@@ -19,7 +19,6 @@
 import os
 import re
 import hashlib
-import stat
 
 
 # ALPM
@@ -155,18 +154,6 @@ def mkmd5sum(data):
     checksum.update("%s\n" % data)
     return checksum.hexdigest()
 
-
-#
-# Mtime helpers
-#
-
-def getmtime(filename):
-    """
-    """
-    if not os.path.exists(filename):
-        return None, None, None
-    st = os.lstat(filename)
-    return st[stat.ST_ATIME], st[stat.ST_MTIME], st[stat.ST_CTIME]
 
 #
 # Miscellaneous

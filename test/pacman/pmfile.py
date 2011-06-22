@@ -17,38 +17,44 @@
 
 
 import os
+import stat
 
 import util
 
-class pmfile(object):
+class PacmanFile(object):
     """File object
     """
 
     def __init__(self, root, name):
-        self.name = name
         self.root = root
+        self.name = name
         self.filename = os.path.join(self.root, self.name)
 
         self.checksum = util.getmd5sum(self.filename)
-        self.mtime = util.getmtime(self.filename)
+        self.mtime = self.getmtime()
 
     def __str__(self):
         return "%s (%s / %lu)" % (self.name, self.checksum, self.mtime)
 
+    def getmtime(self):
+        if not os.path.exists(self.filename):
+            return None, None
+        statbuf = os.lstat(self.filename)
+        return (statbuf[stat.ST_MTIME], statbuf[stat.ST_CTIME])
+
     def ismodified(self):
-        """
-        """
         checksum = util.getmd5sum(self.filename)
-        mtime = util.getmtime(self.filename)
+        mtime = self.getmtime()
 
         util.vprint("\tismodified(%s)" % self.name)
         util.vprint("\t\told: %s / %s" % (self.checksum, self.mtime))
         util.vprint("\t\tnew: %s / %s" % (checksum, mtime))
 
         if self.checksum != checksum \
-           or (self.mtime[1], self.mtime[2]) != (mtime[1], mtime[2]):
-            return 1
+                or self.mtime[0] != mtime[0] \
+                or self.mtime[1] != mtime[1]:
+            return True
 
-        return 0
+        return False
 
 # vim: set ts=4 sw=4 et:

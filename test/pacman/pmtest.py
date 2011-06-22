@@ -188,7 +188,7 @@ class pmtest(object):
         for roots, dirs, files in os.walk(self.root):
             for i in files:
                 filename = os.path.join(roots, i)
-                f = pmfile.pmfile(self.root, filename.replace(self.root + "/", ""))
+                f = pmfile.PacmanFile(self.root, filename.replace(self.root + "/", ""))
                 self.files.append(f)
                 vprint("\t%s" % f.name)
 
