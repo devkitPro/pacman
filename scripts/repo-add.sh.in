@@ -531,9 +531,10 @@ trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
 
+declare -a args
 success=0
 # parse arguments
-while [[ $# > 0 ]]; do
+while (( $# )); do
 	case "$1" in
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
@@ -564,19 +565,21 @@ while [[ $# > 0 ]]; do
 			VERIFY=1
 			;;
 		*)
-			if [[ -z $REPO_DB_FILE ]]; then
-				REPO_DB_FILE="$1"
-				LOCKFILE="$REPO_DB_FILE.lck"
-				check_repo_db
-			else
-				case "$cmd" in
-					repo-add) add $1 && success=1 ;;
-					repo-remove) remove $1 && success=1 ;;
-				esac
-			fi
+			args+=("$1")
 			;;
 	esac
 	shift
+done
+
+REPO_DB_FILE=${args[0]}
+LOCKFILE=$REPO_DB_FILE.lck
+check_repo_db
+
+for arg in "${args[@]:1}"; do
+	case "$cmd" in
+		repo-add) add "$arg" ;;
+		repo-remove) remove "$arg" ;;
+	esac && success=1
 done
 
 # if at least one operation was a success, re-zip database
