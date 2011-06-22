@@ -55,7 +55,7 @@ class pmtest(object):
         either sync databases or the local package collection. The local database
         is allowed to match if allow_local is True."""
         for db in self.db.itervalues():
-            if db.treename == "local" and not allow_local:
+            if db.is_local and not allow_local:
                 continue
             pkg = db.getpkg(name)
             if pkg and pkg.version == version:
@@ -110,7 +110,7 @@ class pmtest(object):
 
         # Create directory structure
         vprint("    Creating directory structure:")
-        dbdir = os.path.join(self.root, util.PM_DBPATH)
+        dbdir = os.path.join(self.root, util.PM_SYNCDBPATH)
         cachedir = os.path.join(self.root, util.PM_CACHEDIR)
         syncdir = os.path.join(self.root, util.SYNCREPO)
         tmpdir = os.path.join(self.root, util.TMPDIR)
@@ -146,25 +146,11 @@ class pmtest(object):
                 pkg.md5sum = util.getmd5sum(pkg.path)
                 pkg.csize = os.stat(pkg.path)[stat.ST_SIZE]
 
-        # Populating databases
-        vprint("    Populating databases")
-        for key, value in self.db.iteritems():
-            for pkg in value.pkgs:
-                vprint("\t%s/%s" % (key, pkg.fullname()))
-                if key == "local":
-                    pkg.installdate = time.ctime()
-                value.db_write(pkg)
-
         # Creating sync database archives
-        vprint("    Creating sync database archives")
+        vprint("    Creating databases")
         for key, value in self.db.iteritems():
-            if key == "local":
-                continue
             vprint("\t" + value.treename)
-            value.gensync()
-            serverpath = os.path.join(syncdir, value.treename)
-            util.mkdir(serverpath)
-            shutil.copy(value.dbfile, serverpath)
+            value.generate()
 
         # Filesystem
         vprint("    Populating file system")

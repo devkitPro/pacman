@@ -190,7 +190,7 @@ class pmpkg(object):
         data = []
         for key, value in self.install.iteritems():
             if value:
-                data.append("%s() {\n%s\n}" % (key, value))
+                data.append("%s() {\n%s\n}\n" % (key, value))
 
         return "\n".join(data)
 

@@ -17,6 +17,8 @@
 
 
 import os
+import shutil
+from StringIO import StringIO
 import tarfile
 
 import pmpkg
@@ -49,6 +51,7 @@ class pmdb(object):
 
     def __init__(self, treename, root):
         self.treename = treename
+        self.root = root
         self.pkgs = []
         self.option = {}
         if self.treename == "local":
@@ -56,9 +59,7 @@ class pmdb(object):
             self.dbfile = None
             self.is_local = True
         else:
-            self.dbdir = os.path.join(root, util.PM_SYNCDBPATH, treename)
-            # TODO: we should be doing this, don't need a sync db dir
-            #self.dbdir = None
+            self.dbdir = None
             self.dbfile = os.path.join(root, util.PM_SYNCDBPATH, treename + ".db")
             self.is_local = False
 
@@ -77,12 +78,11 @@ class pmdb(object):
                 return pkg
 
     def db_read(self, name):
-        path = self.dbdir
-        if not os.path.isdir(path):
+        if not self.dbdir or not os.path.isdir(self.dbdir):
             return None
 
         dbentry = ""
-        for roots, dirs, files in os.walk(path):
+        for roots, dirs, files in os.walk(self.dbdir):
             for i in dirs:
                 [pkgname, pkgver, pkgrel] = i.rsplit("-", 2)
                 if pkgname == name:
@@ -90,7 +90,7 @@ class pmdb(object):
                     break
         if not dbentry:
             return None
-        path = os.path.join(path, dbentry)
+        path = os.path.join(self.dbdir, dbentry)
 
         [pkgname, pkgver, pkgrel] = dbentry.rsplit("-", 2)
         pkg = pmpkg.pmpkg(pkgname, pkgver + "-" + pkgrel)
@@ -179,9 +179,7 @@ class pmdb(object):
     # db_write is used to add both 'local' and 'sync' db entries
     #
     def db_write(self, pkg):
-        path = os.path.join(self.dbdir, pkg.fullname())
-        util.mkdir(path)
-
+        entry = {}
         # desc/depends type entries
         data = []
         make_section(data, "NAME", pkg.name)
@@ -209,32 +207,48 @@ class pmdb(object):
             make_section(data, "MD5SUM", pkg.md5sum)
             make_section(data, "PGPSIG", pkg.pgpsig)
 
-        filename = os.path.join(path, "desc")
-        util.mkfile(filename, "\n".join(data))
+        entry["desc"] = "\n".join(data) + "\n"
 
         # files and install
         if self.is_local:
             data = []
             make_section(data, "FILES", pkg.full_filelist())
             make_section(data, "BACKUP", pkg.local_backup_entries())
-            filename = os.path.join(path, "files")
-            util.mkfile(filename, "\n".join(data))
+            entry["files"] = "\n".join(data) + "\n"
 
             if any(pkg.install.values()):
-                filename = os.path.join(path, "install")
-                util.mkfile(filename, pkg.installfile())
+                entry["install"] = pkg.installfile() + "\n"
 
-    def gensync(self):
-        if not self.dbfile:
-            return
-        curdir = os.getcwd()
-        os.chdir(self.dbdir)
+        return entry
 
-        tar = tarfile.open(self.dbfile, "w:gz")
-        for i in os.listdir("."):
-            tar.add(i)
-        tar.close()
+    def generate(self):
+        pkg_entries = [(pkg, self.db_write(pkg)) for pkg in self.pkgs]
 
-        os.chdir(curdir)
+        if self.dbdir:
+            for pkg, entry in pkg_entries:
+                path = os.path.join(self.dbdir, pkg.fullname())
+                util.mkdir(path)
+                for name, data in entry.iteritems():
+                    filename = os.path.join(path, name)
+                    util.mkfile(filename, data)
+
+        if self.dbfile:
+            tar = tarfile.open(self.dbfile, "w:gz")
+            for pkg, entry in pkg_entries:
+                # TODO: the addition of the directory is currently a
+                # requirement for successful reading of a DB by libalpm
+                info = tarfile.TarInfo(pkg.fullname())
+                info.type = tarfile.DIRTYPE
+                tar.addfile(info)
+                for name, data in entry.iteritems():
+                    filename = os.path.join(pkg.fullname(), name)
+                    info = tarfile.TarInfo(filename)
+                    info.size = len(data)
+                    tar.addfile(info, StringIO(data))
+            tar.close()
+            # TODO: this is a bit unnecessary considering only one test uses it
+            serverpath = os.path.join(self.root, util.SYNCREPO, self.treename)
+            util.mkdir(serverpath)
+            shutil.copy(self.dbfile, serverpath)
 
 # vim: set ts=4 sw=4 et:
