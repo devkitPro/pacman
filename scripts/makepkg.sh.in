@@ -822,9 +822,6 @@ run_build() {
 	if [[ $(check_buildenv distcc) = "y" && $(check_option distcc) != "n" ]]; then
 		[[ -d /usr/lib/distcc/bin ]] && export PATH="/usr/lib/distcc/bin:$PATH"
 		export DISTCC_HOSTS
-	elif [[ $(check_option distcc) = "n" ]]; then
-		# if it is not wanted, clear the makeflags too
-		MAKEFLAGS=""
 	fi
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
