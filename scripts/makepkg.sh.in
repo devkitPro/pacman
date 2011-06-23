@@ -1482,6 +1482,38 @@ check_software() {
 		fi
 	fi
 
+	# distcc - compilation with distcc
+	if [[ $(check_buildenv distcc) = "y" && $(check_option distcc) != "n" ]]; then
+		if ! type -p distcc >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for distributed compilation.")" "distcc"
+			ret=1
+		fi
+	fi
+
+	# ccache - compilation with ccache
+	if [[ $(check_buildenv ccache) = "y" && $(check_option ccache) != "n" ]]; then
+		if ! type -p ccache >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for compiler cache usage.")" "ccache"
+			ret=1
+		fi
+	fi
+
+	# strip - strip symbols from binaries/libraries
+	if [[ $(check_option strip) = "y" ]]; then
+		if ! type -p strip >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for object file stripping.")" "strip"
+			ret=1
+		fi
+	fi
+
+	# gzip - compressig man and info pages
+	if [[ $(check_option zipman) = "y" ]]; then
+		if ! type -p gzip >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for compressing man and info pages.")" "gzip"
+			ret=1
+		fi
+	fi
+
 	return $ret
 }
 
