@@ -502,7 +502,7 @@ int pacman_query(alpm_list_t *targets)
 	if(config->op_q_foreign) {
 		/* ensure we have at least one valid sync db set up */
 		alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
-		if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
+		if(sync_dbs == NULL) {
 			pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
 			return 1;
 		}

@@ -911,7 +911,7 @@ int pacman_sync(alpm_list_t *targets)
 
 	/* ensure we have at least one valid sync db set up */
 	sync_dbs = alpm_option_get_syncdbs(config->handle);
-	if(sync_dbs == NULL || alpm_list_count(sync_dbs) == 0) {
+	if(sync_dbs == NULL) {
 		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
 		return 1;
 	}

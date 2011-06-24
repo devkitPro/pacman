@@ -241,6 +241,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	struct archive_entry *entry;
 	pmpkg_t *newpkg = NULL;
 	struct stat st;
+	size_t files_count = 0;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL);
@@ -328,6 +329,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 		} else if(full) {
 			/* Keep track of all files for filelist generation */
 			newpkg->files = alpm_list_add(newpkg->files, strdup(entry_name));
+			files_count++;
 		}
 
 		if(archive_read_data_skip(archive)) {
@@ -366,8 +368,7 @@ pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
 	if(full) {
 		/* "checking for conflicts" requires a sorted list, ensure that here */
 		_alpm_log(handle, PM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
-		newpkg->files = alpm_list_msort(newpkg->files, alpm_list_count(newpkg->files),
-				_alpm_str_cmp);
+		newpkg->files = alpm_list_msort(newpkg->files, files_count, _alpm_str_cmp);
 		newpkg->infolevel = INFRQ_ALL;
 	} else {
 		/* get rid of any partial filelist we may have collected, it is invalid */
