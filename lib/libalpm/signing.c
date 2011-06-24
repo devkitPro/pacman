@@ -362,21 +362,6 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 #endif
 
 /**
- * Determines the necessity of checking for a valid PGP signature
- * @param db the sync database to query
- *
- * @return signature verification level
- */
-pgp_verify_t _alpm_db_get_sigverify_level(alpm_db_t *db)
-{
-	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
-		return db->pgp_verify;
-	} else {
-		return alpm_option_get_default_sigverify(db->handle);
-	}
-}
-
-/**
  * Check the PGP signature for the given package file.
  * @param pkg the package to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)

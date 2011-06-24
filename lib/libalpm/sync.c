@@ -874,7 +874,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		filename = alpm_pkg_get_filename(spkg);
 		filepath = _alpm_filecache_find(handle, filename);
 		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
-		check_sig = _alpm_db_get_sigverify_level(sdb);
+		check_sig = alpm_db_get_sigverify_level(sdb);
 
 		/* load the package file and replace pkgcache entry with it in the target list */
 		/* TODO: alpm_pkg_get_db() will not work on this target anymore */

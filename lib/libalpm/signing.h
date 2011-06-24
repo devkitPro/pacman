@@ -23,7 +23,6 @@
 
 int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		const char *base64_sig);
-pgp_verify_t _alpm_db_get_sigverify_level(alpm_db_t *db);
 
 #endif /* _ALPM_SIGNING_H */
 

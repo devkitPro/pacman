@@ -219,6 +219,17 @@ const char SYMEXPORT *alpm_db_get_name(const alpm_db_t *db)
 	return db->treename;
 }
 
+/** Get the signature verification level for a database. */
+pgp_verify_t SYMEXPORT alpm_db_get_sigverify_level(alpm_db_t *db)
+{
+	ASSERT(db != NULL, return -1);
+	if(db->pgp_verify == PM_PGP_VERIFY_UNKNOWN) {
+		return alpm_option_get_default_sigverify(db->handle);
+	} else {
+		return db->pgp_verify;
+	}
+}
+
 /** Check the validity of a database. */
 int SYMEXPORT alpm_db_get_valid(alpm_db_t *db)
 {

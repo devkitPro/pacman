@@ -77,7 +77,7 @@ static int sync_db_validate(alpm_db_t *db)
 
 	/* this takes into account the default verification level if UNKNOWN
 	 * was assigned to this db */
-	check_sig = _alpm_db_get_sigverify_level(db);
+	check_sig = alpm_db_get_sigverify_level(db);
 
 	if(check_sig != PM_PGP_VERIFY_NEVER) {
 		int ret;
@@ -166,7 +166,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
 
-	check_sig = _alpm_db_get_sigverify_level(db);
+	check_sig = alpm_db_get_sigverify_level(db);
 
 	/* attempt to grab a lock */
 	if(_alpm_handle_lock(handle)) {
