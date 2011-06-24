@@ -1,3 +1,5 @@
+SUBDIRS = po
+
 # paths set at make time
 conffile  = ${sysconfdir}/pacman.conf
 dbpath    = ${localstatedir}/lib/pacman/

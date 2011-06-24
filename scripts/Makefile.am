@@ -1,6 +1,8 @@
 # enforce that all scripts have a --help and --version option
 AUTOMAKE_OPTIONS = std-options
 
+SUBDIRS = po
+
 bin_SCRIPTS = \
 	$(OURSCRIPTS) \
 	repo-remove

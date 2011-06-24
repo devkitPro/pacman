@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:48-0500\n"
 "PO-Revision-Date: 2011-03-22 15:34+0000\n"
 "Last-Translator: ras0ir <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish <None>\n"
@@ -153,6 +153,10 @@ msgstr "%s içerisinde eksik paket bilgisi\n"
 msgid "removing invalid file: %s\n"
 msgstr "silinen geçersiz dosya: %s\n"
 
+#, fuzzy, c-format
+msgid "could not parse package '%s' description file from db '%s'\n"
+msgstr "%s içerisindeki paket açıklama dosyası ayrıştırılamadı\n"
+
 #, c-format
 msgid "database path is undefined\n"
 msgstr "veritabanı yolu belirtilmemiş\n"
@@ -216,18 +220,6 @@ msgstr "'%s' adresi geçersiz\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "%3$s hatası nedeniyle '%1$s' dosyası %2$s adresinden alınamadı\n"
-
-#, c-format
-msgid "resuming download of %s not possible; starting over\n"
-msgstr "%s için indirme işlemine devam edilemiyor, baştan başlanıyor\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "'%s' dosyasına yazılamıyor: %s\n"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s\n"
-msgstr "%s dosyası %s adresinden alınamadı\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -378,6 +370,18 @@ msgid "could not find repository for target"
 msgstr "hedef için depo bulunamadı"
 
 #, c-format
+msgid "signature directory not configured correctly"
+msgstr ""
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr ""
+
+#, c-format
+msgid "unknown PGP signature"
+msgstr ""
+
+#, c-format
 msgid "invalid or corrupted delta"
 msgstr "geçersiz ya da bozuk veri"
 
@@ -402,10 +406,6 @@ msgid "failed to retrieve some files"
 msgstr "bazı dosyalar alınamadı"
 
 #, c-format
-msgid "failed to copy some file"
-msgstr "bazı dosyalar kopyalanamadı"
-
-#, c-format
 msgid "invalid regular expression"
 msgstr "geçersiz düzenli ifade"
 
@@ -418,16 +418,16 @@ msgid "download library error"
 msgstr "indirme kütüphanesi hatası"
 
 #, c-format
+msgid "gpgme error"
+msgstr ""
+
+#, c-format
 msgid "error invoking external downloader"
 msgstr "harici indiriciyi çağırırken hata oluştu"
 
 #, c-format
 msgid "unexpected error"
 msgstr "beklenmedik hata"
-
-#, c-format
-msgid "database larger than maximum size\n"
-msgstr "veritabanı maksimum boyuttan daha büyük\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -549,3 +549,18 @@ msgstr "%s önbelleği yok, oluşturuluyor...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "paket önbelleği oluşturulamadı, /tmp kullanılacak\n"
+
+#~ msgid "resuming download of %s not possible; starting over\n"
+#~ msgstr "%s için indirme işlemine devam edilemiyor, baştan başlanıyor\n"
+
+#~ msgid "error writing to file '%s': %s\n"
+#~ msgstr "'%s' dosyasına yazılamıyor: %s\n"
+
+#~ msgid "failed retrieving file '%s' from %s\n"
+#~ msgstr "%s dosyası %s adresinden alınamadı\n"
+
+#~ msgid "failed to copy some file"
+#~ msgstr "bazı dosyalar kopyalanamadı"
+
+#~ msgid "database larger than maximum size\n"
+#~ msgstr "veritabanı maksimum boyuttan daha büyük\n"

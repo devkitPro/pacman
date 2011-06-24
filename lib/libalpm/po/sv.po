@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:48-0500\n"
 "PO-Revision-Date: 2011-03-22 15:34+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,6 +153,10 @@ msgstr "saknar metadata för paketet i %s\n"
 msgid "removing invalid file: %s\n"
 msgstr ""
 
+#, fuzzy, c-format
+msgid "could not parse package '%s' description file from db '%s'\n"
+msgstr "kunde inte analysera paketbeskrivningen i %s\n"
+
 #, c-format
 msgid "database path is undefined\n"
 msgstr "sökväg till databasen är odefinierad\n"
@@ -216,18 +220,6 @@ msgstr "url '%s' är ogiltigt\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "misslyckades hämta filen '%s' från %s : %s\n"
-
-#, c-format
-msgid "resuming download of %s not possible; starting over\n"
-msgstr "kan inte återuppta nerladdning av %s, börjar om\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "fel vid skrivning till filen '%s': %s\n"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s\n"
-msgstr "misslyckades hämta filen '%s' från %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -378,6 +370,18 @@ msgid "could not find repository for target"
 msgstr "givet förråd finns inte"
 
 #, c-format
+msgid "signature directory not configured correctly"
+msgstr ""
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr ""
+
+#, c-format
+msgid "unknown PGP signature"
+msgstr ""
+
+#, c-format
 msgid "invalid or corrupted delta"
 msgstr "ogiltig eller korrupt delta"
 
@@ -402,10 +406,6 @@ msgid "failed to retrieve some files"
 msgstr "misslyckades att hämta några filer"
 
 #, c-format
-msgid "failed to copy some file"
-msgstr ""
-
-#, c-format
 msgid "invalid regular expression"
 msgstr "ogiltigt vanligt uttryck"
 
@@ -418,16 +418,16 @@ msgid "download library error"
 msgstr "fel vid nerladdning av bibliotek"
 
 #, c-format
+msgid "gpgme error"
+msgstr ""
+
+#, c-format
 msgid "error invoking external downloader"
 msgstr "fel vid anrop av extern nerladdare"
 
 #, c-format
 msgid "unexpected error"
 msgstr "oväntat fel"
-
-#, c-format
-msgid "database larger than maximum size\n"
-msgstr ""
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -548,3 +548,12 @@ msgstr "ingen %s cache existerar, skapar...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "kunde inte skapa paket-cache, använder /tmp istället\n"
+
+#~ msgid "resuming download of %s not possible; starting over\n"
+#~ msgstr "kan inte återuppta nerladdning av %s, börjar om\n"
+
+#~ msgid "error writing to file '%s': %s\n"
+#~ msgstr "fel vid skrivning till filen '%s': %s\n"
+
+#~ msgid "failed retrieving file '%s' from %s\n"
+#~ msgstr "misslyckades hämta filen '%s' från %s\n"

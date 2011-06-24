@@ -133,7 +133,7 @@ AC_CHECK_PROGS([PYTHON], [python2.7 python2.6 python2.5 python2 python], [false]
 AC_PATH_PROGS([BASH_SHELL], [bash bash4 bash3], [false])
 
 # find installed gettext
-AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT([external], [need-ngettext])
 AM_GNU_GETTEXT_VERSION(0.13.1)
 
 AC_CHECK_LIB([m], [fabs], ,
@@ -373,11 +373,12 @@ AC_CONFIG_FILES([
 lib/libalpm/Makefile
 lib/libalpm/po/Makefile.in
 src/pacman/Makefile
+src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
+scripts/po/Makefile.in
 doc/Makefile
 etc/Makefile
-po/Makefile.in
 test/pacman/Makefile
 test/pacman/tests/Makefile
 test/util/Makefile

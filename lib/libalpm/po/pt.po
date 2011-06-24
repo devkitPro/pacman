@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:48-0500\n"
 "PO-Revision-Date: 2011-04-16 01:24+0000\n"
 "Last-Translator: ArchGalileu <omeuviolino@gmail.com>\n"
 "Language-Team: Portuguese <>\n"
@@ -154,6 +154,10 @@ msgstr "em falta metadados do pacote em %s\n"
 msgid "removing invalid file: %s\n"
 msgstr "a remover ficheiro inválido: %s\n"
 
+#, fuzzy, c-format
+msgid "could not parse package '%s' description file from db '%s'\n"
+msgstr "não foi possível interpretar o ficheiro de descrição do pacote em %s\n"
+
 #, c-format
 msgid "database path is undefined\n"
 msgstr "localização da base de dados não definida\n"
@@ -221,18 +225,6 @@ msgstr "url '%s' é inválida\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "falha ao obter ficheiro '%s' de %s : %s\n"
-
-#, c-format
-msgid "resuming download of %s not possible; starting over\n"
-msgstr "não foi possível retomar a descarga de %s; a reiniciar a descarga\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "erro ao escrever no ficheiro '%s': %s\n"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s\n"
-msgstr "falha ao obter o ficheiro '%s' de %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -383,6 +375,18 @@ msgid "could not find repository for target"
 msgstr "não foi possível encontrar o repositório para o pacote"
 
 #, c-format
+msgid "signature directory not configured correctly"
+msgstr ""
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr ""
+
+#, c-format
+msgid "unknown PGP signature"
+msgstr ""
+
+#, c-format
 msgid "invalid or corrupted delta"
 msgstr "delta inválido ou corrompido"
 
@@ -407,10 +411,6 @@ msgid "failed to retrieve some files"
 msgstr "falha ao descarregar alguns ficheiros"
 
 #, c-format
-msgid "failed to copy some file"
-msgstr "falhou ao copiar algum ficheiro"
-
-#, c-format
 msgid "invalid regular expression"
 msgstr "expressão regular inválida"
 
@@ -423,16 +423,16 @@ msgid "download library error"
 msgstr "erro na biblioteca de descargas"
 
 #, c-format
+msgid "gpgme error"
+msgstr ""
+
+#, c-format
 msgid "error invoking external downloader"
 msgstr "erro ao invocar o programa de descargas externo"
 
 #, c-format
 msgid "unexpected error"
 msgstr "erro inesperado"
-
-#, c-format
-msgid "database larger than maximum size\n"
-msgstr "a base de dados é maior que o tamanho máximo\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -554,3 +554,18 @@ msgstr "cache %s não existe, a criar...\n"
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr ""
 "não foi possível criar cache de pacotes, a usar /tmp como alternativa\n"
+
+#~ msgid "resuming download of %s not possible; starting over\n"
+#~ msgstr "não foi possível retomar a descarga de %s; a reiniciar a descarga\n"
+
+#~ msgid "error writing to file '%s': %s\n"
+#~ msgstr "erro ao escrever no ficheiro '%s': %s\n"
+
+#~ msgid "failed retrieving file '%s' from %s\n"
+#~ msgstr "falha ao obter o ficheiro '%s' de %s\n"
+
+#~ msgid "failed to copy some file"
+#~ msgstr "falhou ao copiar algum ficheiro"
+
+#~ msgid "database larger than maximum size\n"
+#~ msgstr "a base de dados é maior que o tamanho máximo\n"
