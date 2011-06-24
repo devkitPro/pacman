@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:56-0500\n"
+"POT-Creation-Date: 2011-06-23 22:23-0500\n"
 "PO-Revision-Date: 2011-05-11 14:51+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -639,6 +639,125 @@ msgstr ""
 msgid "Done."
 msgstr "Tehty."
 
+#, fuzzy
+msgid "Usage: %s [options] <command> [arguments]"
+msgstr "Käyttö: %s [valitsimet]"
+
+msgid "Manage pacman's list of trusted keys"
+msgstr ""
+
+msgid "Options must be placed before commands. The available options are:"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
+msgstr ""
+"  -p <tiedosto>    Käytä vaihtoehtoista käännösskriptiä ('%s':in sjaan)"
+
+msgid "The available commands are:"
+msgstr ""
+
+#, fuzzy
+msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+msgstr "  -p, --file <paketti>    etsi paketista pakettitietokannan sijaan\n"
+
+#, fuzzy
+msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgstr "  -p, --file <paketti>    etsi paketista pakettitietokannan sijaan\n"
+
+#, fuzzy
+msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgstr "  -p, --file <paketti>    etsi paketista pakettitietokannan sijaan\n"
+
+msgid ""
+"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help       Näytä tämä teksti"
+
+msgid "  -l, --list                List keys"
+msgstr ""
+
+#, fuzzy
+msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+msgstr "  -p, --file <paketti>    etsi paketista pakettitietokannan sijaan\n"
+
+msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
+msgstr ""
+
+msgid "  -u, --updatedb            Update the trustdb of pacman"
+msgstr ""
+
+msgid "  -V, --version             Show program version"
+msgstr ""
+
+msgid ""
+"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+msgstr ""
+
+msgid "  --reload                  Reload the default keys"
+msgstr ""
+
+#, fuzzy
+msgid "Verifying official keys file signature..."
+msgstr "Pyöritellään tietokantaa paikalleen..."
+
+#, fuzzy
+msgid "The signature of file %s is not valid."
+msgstr "Luodaan päivitettyä tietokantatiedostoa '%s'"
+
+#, fuzzy
+msgid "Verifying deprecated keys file signature..."
+msgstr "Pyöritellään tietokantaa paikalleen..."
+
+#, fuzzy
+msgid "Verifying deleted keys file signature..."
+msgstr "Pyöritellään tietokantaa paikalleen..."
+
+#, fuzzy
+msgid "Appending official keys..."
+msgstr "Lisätään %s tiedostoa..."
+
+msgid "Appending deprecated keys..."
+msgstr ""
+
+#, fuzzy
+msgid "Removing deleted keys from keyring..."
+msgstr "Poistetaan tyhjiä kansioita..."
+
+#, fuzzy
+msgid "Updating trust database..."
+msgstr "Siirretään tietokantaa levylle..."
+
+msgid "gnupg does not seem to be installed."
+msgstr ""
+
+msgid "pacman-key requires gnupg for most operations."
+msgstr ""
+
+msgid "pacman-key needs to be run as root."
+msgstr ""
+
+msgid "You need to specify at least one key identifier"
+msgstr ""
+
+msgid "You need to specify the keyserver and at least one key identifier"
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s doesn't exist"
+msgstr "%s tiedostoa (%s) ei ole olemassa."
+
+#, fuzzy
+msgid "Executing: %s "
+msgstr "Lähdetiedostoa %s puretaan ohjelmalla %s"
+
+msgid "Unknown command:"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
@@ -935,4 +1054,3 @@ msgstr "Yhtään pakettia ei ole jäljellä, luodaan tyhjä tietokanta."
 
 msgid "No packages modified, nothing to do."
 msgstr "Yhtään pakettia ei ole muokattu, ei ole mitään tehtävää jäljellä."
-

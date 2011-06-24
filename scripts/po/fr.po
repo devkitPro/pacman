@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:56-0500\n"
+"POT-Creation-Date: 2011-06-23 22:23-0500\n"
 "PO-Revision-Date: 2011-06-03 20:24+0000\n"
 "Last-Translator: remyoudompheng <remy@archlinux.org>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -645,6 +645,132 @@ msgstr "Le format de la base de données est antérieur à 3.5 - mise à jour...
 msgid "Done."
 msgstr "Effectuée."
 
+#, fuzzy
+msgid "Usage: %s [options] <command> [arguments]"
+msgstr "Utilisation: %s [options]"
+
+msgid "Manage pacman's list of trusted keys"
+msgstr ""
+
+msgid "Options must be placed before commands. The available options are:"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
+msgstr "  -p <file>        Utiliser un script alternatif (au lieu de '%s')"
+
+msgid "The available commands are:"
+msgstr ""
+
+#, fuzzy
+msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+msgstr ""
+"  -p, --file <paquet>      interroge le fichier <paquet> au lieu de la base "
+"de données\n"
+
+#, fuzzy
+msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgstr ""
+"  -p, --file <paquet>      interroge le fichier <paquet> au lieu de la base "
+"de données\n"
+
+#, fuzzy
+msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgstr ""
+"  -p, --file <paquet>      interroge le fichier <paquet> au lieu de la base "
+"de données\n"
+
+msgid ""
+"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help       Afficher cette aide"
+
+msgid "  -l, --list                List keys"
+msgstr ""
+
+#, fuzzy
+msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+msgstr ""
+"  -p, --file <paquet>      interroge le fichier <paquet> au lieu de la base "
+"de données\n"
+
+msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
+msgstr ""
+
+msgid "  -u, --updatedb            Update the trustdb of pacman"
+msgstr ""
+
+msgid "  -V, --version             Show program version"
+msgstr ""
+
+msgid ""
+"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+msgstr ""
+
+msgid "  --reload                  Reload the default keys"
+msgstr ""
+
+#, fuzzy
+msgid "Verifying official keys file signature..."
+msgstr "Mise en place de la base de données..."
+
+#, fuzzy
+msgid "The signature of file %s is not valid."
+msgstr "Création du nouveau fichier de dépôt '%s'"
+
+#, fuzzy
+msgid "Verifying deprecated keys file signature..."
+msgstr "Mise en place de la base de données..."
+
+#, fuzzy
+msgid "Verifying deleted keys file signature..."
+msgstr "Mise en place de la base de données..."
+
+#, fuzzy
+msgid "Appending official keys..."
+msgstr "Ajout du fichier %s..."
+
+msgid "Appending deprecated keys..."
+msgstr ""
+
+#, fuzzy
+msgid "Removing deleted keys from keyring..."
+msgstr "Suppression des répertoires vides... "
+
+#, fuzzy
+msgid "Updating trust database..."
+msgstr "Synchronisation de la base de données sur le disque..."
+
+msgid "gnupg does not seem to be installed."
+msgstr ""
+
+msgid "pacman-key requires gnupg for most operations."
+msgstr ""
+
+msgid "pacman-key needs to be run as root."
+msgstr ""
+
+msgid "You need to specify at least one key identifier"
+msgstr ""
+
+msgid "You need to specify the keyserver and at least one key identifier"
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s doesn't exist"
+msgstr "Le fichier %s (%s) n'existe pas."
+
+#, fuzzy
+msgid "Executing: %s "
+msgstr "Extraction de %s avec %s"
+
+msgid "Unknown command:"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
@@ -948,4 +1074,3 @@ msgstr "Plus de paquets, création d'un dépôt vide."
 
 msgid "No packages modified, nothing to do."
 msgstr "Aucun paquet modifié, il n'y a rien à faire."
-

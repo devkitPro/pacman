@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:56-0500\n"
+"POT-Creation-Date: 2011-06-23 22:23-0500\n"
 "PO-Revision-Date: 2011-04-10 16:14+0000\n"
 "Last-Translator: giovanni <giovanni@archlinux.org>\n"
 "Language-Team: Italian <None>\n"
@@ -646,6 +646,133 @@ msgstr ""
 msgid "Done."
 msgstr "Fatto."
 
+#, fuzzy
+msgid "Usage: %s [options] <command> [arguments]"
+msgstr "Uso:  %s [opzioni]"
+
+msgid "Manage pacman's list of trusted keys"
+msgstr ""
+
+msgid "Options must be placed before commands. The available options are:"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
+msgstr ""
+"  -p <file>        Usa uno script di build alternativo (invece di '%s')"
+
+msgid "The available commands are:"
+msgstr ""
+
+#, fuzzy
+msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+msgstr ""
+"  -p, --file <pacchetto> interroga un file del pacchetto invece del "
+"database\n"
+
+#, fuzzy
+msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgstr ""
+"  -p, --file <pacchetto> interroga un file del pacchetto invece del "
+"database\n"
+
+#, fuzzy
+msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgstr ""
+"  -p, --file <pacchetto> interroga un file del pacchetto invece del "
+"database\n"
+
+msgid ""
+"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help       Visualizza questo help"
+
+msgid "  -l, --list                List keys"
+msgstr ""
+
+#, fuzzy
+msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+msgstr ""
+"  -p, --file <pacchetto> interroga un file del pacchetto invece del "
+"database\n"
+
+msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
+msgstr ""
+
+msgid "  -u, --updatedb            Update the trustdb of pacman"
+msgstr ""
+
+msgid "  -V, --version             Show program version"
+msgstr ""
+
+msgid ""
+"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+msgstr ""
+
+msgid "  --reload                  Reload the default keys"
+msgstr ""
+
+#, fuzzy
+msgid "Verifying official keys file signature..."
+msgstr "Ottimizzazione del database in corso..."
+
+#, fuzzy
+msgid "The signature of file %s is not valid."
+msgstr "Creazione di un database aggiornato di '%s'"
+
+#, fuzzy
+msgid "Verifying deprecated keys file signature..."
+msgstr "Ottimizzazione del database in corso..."
+
+#, fuzzy
+msgid "Verifying deleted keys file signature..."
+msgstr "Ottimizzazione del database in corso..."
+
+#, fuzzy
+msgid "Appending official keys..."
+msgstr "Aggiunta del file %s in corso..."
+
+msgid "Appending deprecated keys..."
+msgstr ""
+
+#, fuzzy
+msgid "Removing deleted keys from keyring..."
+msgstr "Rimozione delle directory vuote in corso..."
+
+#, fuzzy
+msgid "Updating trust database..."
+msgstr "Sincronizzazione del database in corso..."
+
+msgid "gnupg does not seem to be installed."
+msgstr ""
+
+msgid "pacman-key requires gnupg for most operations."
+msgstr ""
+
+msgid "pacman-key needs to be run as root."
+msgstr ""
+
+msgid "You need to specify at least one key identifier"
+msgstr ""
+
+msgid "You need to specify the keyserver and at least one key identifier"
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s doesn't exist"
+msgstr "il file (%s) non esiste."
+
+#, fuzzy
+msgid "Executing: %s "
+msgstr "estrazione di %s con %s in corso... "
+
+msgid "Unknown command:"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
@@ -943,4 +1070,3 @@ msgstr "Non ci sono pacchetti, sto creando un database vuoto."
 
 msgid "No packages modified, nothing to do."
 msgstr "Non è stato modificato alcun pacchetto."
-

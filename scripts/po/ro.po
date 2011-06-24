@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:56-0500\n"
+"POT-Creation-Date: 2011-06-23 22:23-0500\n"
 "PO-Revision-Date: 2011-04-12 13:54+0000\n"
 "Last-Translator: wonder <ibiru@archlinux.org>\n"
 "Language-Team: Romanian <>\n"
@@ -638,6 +638,130 @@ msgstr "Formatul bazei de date este pre-3.5 - se actualizează..."
 msgid "Done."
 msgstr "Gata."
 
+#, fuzzy
+msgid "Usage: %s [options] <command> [arguments]"
+msgstr "Utilizare: %s [opțiuni]"
+
+msgid "Manage pacman's list of trusted keys"
+msgstr ""
+
+msgid "Options must be placed before commands. The available options are:"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
+msgstr ""
+"  -p <file>        Foloseşte un script de construire alternativ (în locul "
+"'%s')"
+
+msgid "The available commands are:"
+msgstr ""
+
+#, fuzzy
+msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+msgstr ""
+"  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
+
+#, fuzzy
+msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgstr ""
+"  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
+
+#, fuzzy
+msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgstr ""
+"  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
+
+msgid ""
+"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help       Acest ajutor"
+
+msgid "  -l, --list                List keys"
+msgstr ""
+
+#, fuzzy
+msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+msgstr ""
+"  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
+
+msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
+msgstr ""
+
+msgid "  -u, --updatedb            Update the trustdb of pacman"
+msgstr ""
+
+msgid "  -V, --version             Show program version"
+msgstr ""
+
+msgid ""
+"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+msgstr ""
+
+msgid "  --reload                  Reload the default keys"
+msgstr ""
+
+#, fuzzy
+msgid "Verifying official keys file signature..."
+msgstr "Se rotește baza de date în loc..."
+
+#, fuzzy
+msgid "The signature of file %s is not valid."
+msgstr "Se crează fișierul bază de date actualizat '%s'"
+
+#, fuzzy
+msgid "Verifying deprecated keys file signature..."
+msgstr "Se rotește baza de date în loc..."
+
+#, fuzzy
+msgid "Verifying deleted keys file signature..."
+msgstr "Se rotește baza de date în loc..."
+
+#, fuzzy
+msgid "Appending official keys..."
+msgstr "Se adaugă fișierul %s..."
+
+msgid "Appending deprecated keys..."
+msgstr ""
+
+#, fuzzy
+msgid "Removing deleted keys from keyring..."
+msgstr "Se elimină directoarele goale..."
+
+#, fuzzy
+msgid "Updating trust database..."
+msgstr "Se sincronizează baza de date pe disc..."
+
+msgid "gnupg does not seem to be installed."
+msgstr ""
+
+msgid "pacman-key requires gnupg for most operations."
+msgstr ""
+
+msgid "pacman-key needs to be run as root."
+msgstr ""
+
+msgid "You need to specify at least one key identifier"
+msgstr ""
+
+msgid "You need to specify the keyserver and at least one key identifier"
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s doesn't exist"
+msgstr "fișierul %s (%s) nu există."
+
+#, fuzzy
+msgid "Executing: %s "
+msgstr "Se extrage %s cu %s..."
+
+msgid "Unknown command:"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
@@ -934,4 +1058,3 @@ msgstr "Nu au rămas pachete, se crează bază de date goală."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nu sunt pachete modificate, nu e nimic de făcut."
-
