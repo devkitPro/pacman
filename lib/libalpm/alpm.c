@@ -70,7 +70,7 @@ pmhandle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 	snprintf(myhandle->lockfile, lockfilelen, "%s%s", myhandle->dbpath, lf);
 
 	if(_alpm_db_register_local(myhandle) == NULL) {
-		myerr = PM_ERR_DB_CREATE;
+		myerr = myhandle->pm_errno;
 		goto cleanup;
 	}
 

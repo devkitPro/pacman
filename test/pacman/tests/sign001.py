@@ -1,8 +1,8 @@
-self.description = "Add a signature to a package DB"
+self.description = "Add a bogus signature to a package DB"
 
 sp = pmpkg("pkg1")
 sp.pgpsig = "asdfasdfsdfasdfsdafasdfsdfasd"
-self.addpkg2db("sync+Always", sp)
+self.addpkg2db("sync+Optional", sp)
 
 self.args = "-Ss"
 

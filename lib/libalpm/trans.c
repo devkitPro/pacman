@@ -30,7 +30,6 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <limits.h>
-#include <fcntl.h>
 
 /* libalpm */
 #include "trans.h"
@@ -48,69 +47,28 @@
  * @{
  */
 
-/* Create a lock file */
-static int make_lock(pmhandle_t *handle)
-{
-	int fd;
-	char *dir, *ptr;
-
-	ASSERT(handle->lockfile != NULL, return -1);
-
-	/* create the dir of the lockfile first */
-	dir = strdup(handle->lockfile);
-	ptr = strrchr(dir, '/');
-	if(ptr) {
-		*ptr = '\0';
-	}
-	if(_alpm_makepath(dir)) {
-		FREE(dir);
-		return -1;
-	}
-	FREE(dir);
-
-	do {
-		fd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL, 0000);
-	} while(fd == -1 && errno == EINTR);
-	if(fd > 0) {
-		FILE *f = fdopen(fd, "w");
-		fprintf(f, "%ld\n", (long)getpid());
-		fflush(f);
-		fsync(fd);
-		handle->lckstream = f;
-		return 0;
-	}
-	return -1;
-}
-
-/* Remove a lock file */
-static int remove_lock(pmhandle_t *handle)
-{
-	if(handle->lckstream != NULL) {
-		fclose(handle->lckstream);
-		handle->lckstream = NULL;
-	}
-	if(unlink(handle->lockfile) == -1 && errno != ENOENT) {
-		return -1;
-	}
-	return 0;
-}
-
 /** Initialize the transaction. */
 int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 		alpm_trans_cb_event event, alpm_trans_cb_conv conv,
 		alpm_trans_cb_progress progress)
 {
 	pmtrans_t *trans;
-	const int required_db_version = 2;
-	int db_version;
+	alpm_list_t *i;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
+	for(i = handle->dbs_sync; i; i = i->next) {
+		const pmdb_t *db = i->data;
+		if(!(db->status & DB_STATUS_VALID)) {
+			RET_ERR(handle, PM_ERR_DB_INVALID, -1);
+		}
+	}
+
 	/* lock db */
 	if(!(flags & PM_TRANS_FLAG_NOLOCK)) {
-		if(make_lock(handle)) {
+		if(_alpm_handle_lock(handle)) {
 			RET_ERR(handle, PM_ERR_HANDLE_LOCK, -1);
 		}
 	}
@@ -121,16 +79,6 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 	trans->cb_conv = conv;
 	trans->cb_progress = progress;
 	trans->state = STATE_INITIALIZED;
-
-	/* check database version */
-	db_version = _alpm_db_version(handle->db_local);
-	if(db_version < required_db_version) {
-		_alpm_log(handle, PM_LOG_ERROR,
-				_("%s database version is too old\n"), handle->db_local->treename);
-		remove_lock(handle);
-		_alpm_trans_free(trans);
-		RET_ERR(handle, PM_ERR_DB_VERSION, -1);
-	}
 
 	handle->trans = trans;
 
@@ -282,7 +230,7 @@ int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
 
 	/* unlock db */
 	if(!nolock_flag) {
-		if(remove_lock(handle)) {
+		if(_alpm_handle_unlock(handle)) {
 			_alpm_log(handle, PM_LOG_WARNING, _("could not remove lock file %s\n"),
 					alpm_option_get_lockfile(handle));
 			alpm_logaction(handle, "warning: could not remove lock file %s\n",

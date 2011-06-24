@@ -20,7 +20,9 @@
 
 #include "config.h"
 
+#include <errno.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 /* libarchive */
 #include <archive.h>
@@ -65,32 +67,68 @@ static char *get_sync_dir(pmhandle_t *handle)
 	return syncpath;
 }
 
+static int sync_db_validate(pmdb_t *db)
+{
+	pgp_verify_t check_sig;
+
+	if(db->status & DB_STATUS_VALID) {
+		return 0;
+	}
+
+	/* this takes into account the default verification level if UNKNOWN
+	 * was assigned to this db */
+	check_sig = _alpm_db_get_sigverify_level(db);
+
+	if(check_sig != PM_PGP_VERIFY_NEVER) {
+		int ret;
+		const char *dbpath = _alpm_db_path(db);
+		if(!dbpath) {
+			/* pm_errno set in _alpm_db_path() */
+			return -1;
+		}
+
+		/* we can skip any validation if the database doesn't exist */
+		if(access(dbpath, R_OK) != 0 && errno == ENOENT) {
+			goto valid;
+			return 0;
+		}
+
+		_alpm_log(db->handle, PM_LOG_DEBUG, "checking signature for %s\n",
+				db->treename);
+		ret = _alpm_gpgme_checksig(db->handle, dbpath, NULL);
+		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
+				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
+			RET_ERR(db->handle, PM_ERR_SIG_INVALID, -1);
+		}
+	}
+
+valid:
+	db->status |= DB_STATUS_VALID;
+	return 0;
+}
+
 /** Update a package database
  *
  * An update of the package database \a db will be attempted. Unless
  * \a force is true, the update will only be performed if the remote
  * database was modified since the last update.
  *
- * A transaction is necessary for this operation, in order to obtain a
- * database lock. During this transaction the front-end will be informed
- * of the download progress of the database via the download callback.
+ * This operation requires a database lock, and will return an applicable error
+ * if the lock could not be obtained.
  *
  * Example:
  * @code
  * alpm_list_t *syncs = alpm_option_get_syncdbs();
- * if(alpm_trans_init(0, NULL, NULL, NULL) == 0) {
- *     for(i = syncs; i; i = alpm_list_next(i)) {
- *         pmdb_t *db = alpm_list_getdata(i);
- *         result = alpm_db_update(0, db);
- *         alpm_trans_release();
+ * for(i = syncs; i; i = alpm_list_next(i)) {
+ *     pmdb_t *db = alpm_list_getdata(i);
+ *     result = alpm_db_update(0, db);
  *
- *         if(result < 0) {
- *	           printf("Unable to update database: %s\n", alpm_strerrorlast());
- *         } else if(result == 1) {
- *             printf("Database already up to date\n");
- *         } else {
- *             printf("Database updated\n");
- *         }
+ *     if(result < 0) {
+ *	       printf("Unable to update database: %s\n", alpm_strerrorlast());
+ *     } else if(result == 1) {
+ *         printf("Database already up to date\n");
+ *     } else {
+ *         printf("Database updated\n");
  *     }
  * }
  * @endcode
@@ -120,14 +158,20 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	ASSERT(db != handle->db_local, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
 	ASSERT(db->servers != NULL, RET_ERR(handle, PM_ERR_SERVER_NONE, -1));
 
-	/* make sure we have a sane umask */
-	oldmask = umask(0022);
-
 	syncpath = get_sync_dir(handle);
 	if(!syncpath) {
 		return -1;
 	}
+
+	/* make sure we have a sane umask */
+	oldmask = umask(0022);
+
 	check_sig = _alpm_db_get_sigverify_level(db);
+
+	/* attempt to grab a lock */
+	if(_alpm_handle_lock(handle)) {
+		RET_ERR(handle, PM_ERR_HANDLE_LOCK, -1);
+	}
 
 	for(i = db->servers; i; i = i->next) {
 		const char *server = i->data;
@@ -144,6 +188,15 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 
 		if(ret == 0 && (check_sig == PM_PGP_VERIFY_ALWAYS ||
 					check_sig == PM_PGP_VERIFY_OPTIONAL)) {
+			/* an existing sig file is no good at this point */
+			char *sigpath = _alpm_db_sig_path(db);
+			if(!sigpath) {
+				ret = -1;
+				break;
+			}
+			unlink(sigpath);
+			free(sigpath);
+
 			int errors_ok = (check_sig == PM_PGP_VERIFY_OPTIONAL);
 			/* if we downloaded a DB, we want the .sig from the same server */
 			snprintf(fileurl, len, "%s/%s.db.sig", server, db->treename);
@@ -173,8 +226,18 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
 
+	db->status &= ~DB_STATUS_VALID;
+	if(sync_db_validate(db)) {
+		/* pm_errno should be set */
+		ret = -1;
+	}
+
 cleanup:
 
+	if(_alpm_handle_unlock(handle)) {
+		_alpm_log(handle, PM_LOG_WARNING, _("could not remove lock file %s\n"),
+				alpm_option_get_lockfile(handle));
+	}
 	free(syncpath);
 	umask(oldmask);
 	return ret;
@@ -512,18 +575,13 @@ error:
 	return -1;
 }
 
-static int sync_db_version(pmdb_t UNUSED *db)
-{
-	return 2;
-}
-
 struct db_operations sync_db_ops = {
 	.populate         = sync_db_populate,
 	.unregister       = _alpm_db_unregister,
-	.version          = sync_db_version,
 };
 
-pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename)
+pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+		pgp_verify_t level)
 {
 	pmdb_t *db;
 
@@ -535,6 +593,12 @@ pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename)
 	}
 	db->ops = &sync_db_ops;
 	db->handle = handle;
+	db->pgp_verify = level;
+
+	if(sync_db_validate(db)) {
+		_alpm_db_free(db);
+		return NULL;
+	}
 
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return db;

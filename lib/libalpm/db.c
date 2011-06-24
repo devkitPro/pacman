@@ -45,7 +45,8 @@
  */
 
 /** Register a sync database of packages. */
-pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename)
+pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+		pgp_verify_t check_sig)
 {
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return NULL);
@@ -54,7 +55,7 @@ pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename
 	/* Do not register a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, NULL));
 
-	return _alpm_db_register_sync(handle, treename);
+	return _alpm_db_register_sync(handle, treename, check_sig);
 }
 
 /* Helper function for alpm_db_unregister{_all} */
@@ -369,14 +370,6 @@ const char *_alpm_db_path(pmdb_t *db)
 	return db->_path;
 }
 
-int _alpm_db_version(pmdb_t *db)
-{
-	if(!db) {
-		return -1;
-	}
-	return db->ops->version(db);
-}
-
 char *_alpm_db_sig_path(pmdb_t *db)
 {
 	char *sigpath;
@@ -475,11 +468,8 @@ alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles)
 /* Returns a new package cache from db.
  * It frees the cache if it already exists.
  */
-int _alpm_db_load_pkgcache(pmdb_t *db)
+static int load_pkgcache(pmdb_t *db)
 {
-	if(db == NULL) {
-		return -1;
-	}
 	_alpm_db_free_pkgcache(db);
 
 	_alpm_log(db->handle, PM_LOG_DEBUG, "loading package cache for repository '%s'\n",
@@ -490,23 +480,23 @@ int _alpm_db_load_pkgcache(pmdb_t *db)
 		return -1;
 	}
 
-	db->pkgcache_loaded = 1;
+	db->status |= DB_STATUS_PKGCACHE;
 	return 0;
 }
 
 void _alpm_db_free_pkgcache(pmdb_t *db)
 {
-	if(db == NULL || !db->pkgcache_loaded) {
+	if(db == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
 		return;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "freeing package cache for repository '%s'\n",
-	                        db->treename);
+	_alpm_log(db->handle, PM_LOG_DEBUG,
+			"freeing package cache for repository '%s'\n", db->treename);
 
 	alpm_list_free_inner(_alpm_db_get_pkgcache(db),
 				(alpm_list_fn_free)_alpm_pkg_free);
 	_alpm_pkghash_free(db->pkgcache);
-	db->pkgcache_loaded = 0;
+	db->status &= ~DB_STATUS_PKGCACHE;
 
 	_alpm_db_free_grpcache(db);
 }
@@ -517,13 +507,12 @@ pmpkghash_t *_alpm_db_get_pkgcache_hash(pmdb_t *db)
 		return NULL;
 	}
 
-	if(!db->pkgcache_loaded) {
-		_alpm_db_load_pkgcache(db);
+	if(!(db->status & DB_STATUS_VALID)) {
+		RET_ERR(db->handle, PM_ERR_DB_INVALID, NULL);
 	}
 
-	/* hmmm, still NULL ?*/
-	if(!db->pkgcache) {
-		_alpm_log(db->handle, PM_LOG_DEBUG, "warning: pkgcache is NULL for db '%s'\n", db->treename);
+	if(!(db->status & DB_STATUS_PKGCACHE)) {
+		load_pkgcache(db);
 	}
 
 	return db->pkgcache;
@@ -545,7 +534,7 @@ int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg)
 {
 	pmpkg_t *newpkg;
 
-	if(db == NULL || !db->pkgcache_loaded || pkg == NULL) {
+	if(db == NULL || pkg == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
 		return -1;
 	}
 
@@ -567,7 +556,7 @@ int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg)
 {
 	pmpkg_t *data = NULL;
 
-	if(db == NULL || !db->pkgcache_loaded || pkg == NULL) {
+	if(db == NULL || pkg == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
 		return -1;
 	}
 
@@ -597,8 +586,6 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 
 	pmpkghash_t *pkgcache = _alpm_db_get_pkgcache_hash(db);
 	if(!pkgcache) {
-		_alpm_log(db->handle, PM_LOG_DEBUG, "warning: failed to get '%s' from NULL pkgcache\n",
-				target);
 		return NULL;
 	}
 
@@ -607,7 +594,7 @@ pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target)
 
 /* Returns a new group cache from db.
  */
-int _alpm_db_load_grpcache(pmdb_t *db)
+static int load_grpcache(pmdb_t *db)
 {
 	alpm_list_t *lp;
 
@@ -653,7 +640,7 @@ int _alpm_db_load_grpcache(pmdb_t *db)
 		}
 	}
 
-	db->grpcache_loaded = 1;
+	db->status |= DB_STATUS_GRPCACHE;
 	return 0;
 }
 
@@ -661,19 +648,19 @@ void _alpm_db_free_grpcache(pmdb_t *db)
 {
 	alpm_list_t *lg;
 
-	if(db == NULL || !db->grpcache_loaded) {
+	if(db == NULL || !(db->status & DB_STATUS_GRPCACHE)) {
 		return;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "freeing group cache for repository '%s'\n",
-	                        db->treename);
+	_alpm_log(db->handle, PM_LOG_DEBUG,
+			"freeing group cache for repository '%s'\n", db->treename);
 
 	for(lg = db->grpcache; lg; lg = lg->next) {
 		_alpm_grp_free(lg->data);
 		lg->data = NULL;
 	}
 	FREELIST(db->grpcache);
-	db->grpcache_loaded = 0;
+	db->status &= ~DB_STATUS_GRPCACHE;
 }
 
 alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
@@ -682,8 +669,12 @@ alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db)
 		return NULL;
 	}
 
-	if(!db->grpcache_loaded) {
-		_alpm_db_load_grpcache(db);
+	if(!(db->status & DB_STATUS_VALID)) {
+		RET_ERR(db->handle, PM_ERR_DB_INVALID, NULL);
+	}
+
+	if(!(db->status & DB_STATUS_GRPCACHE)) {
+		load_grpcache(db);
 	}
 
 	return db->grpcache;
