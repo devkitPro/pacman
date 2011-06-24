@@ -695,7 +695,6 @@ alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
 int alpm_pkg_check_pgp_signature(pmpkg_t *pkg);
 
 int alpm_db_check_pgp_signature(pmdb_t *db);
-int alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify);
 
 /*
  * Groups

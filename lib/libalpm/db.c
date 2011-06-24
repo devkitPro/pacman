@@ -211,23 +211,6 @@ int SYMEXPORT alpm_db_remove_server(pmdb_t *db, const char *url)
 
 	return 1;
 }
-/** Set the verify gpg signature option for a database.
- * @param db database pointer
- * @param verify enum pgp_verify_t
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int SYMEXPORT alpm_db_set_pgp_verify(pmdb_t *db, pgp_verify_t verify)
-{
-	/* Sanity checks */
-	ASSERT(db != NULL, return -1);
-	db->handle->pm_errno = 0;
-
-	db->pgp_verify = verify;
-	_alpm_log(db->handle, PM_LOG_DEBUG, "adding VerifySig option to database '%s': %d\n",
-			db->treename, verify);
-
-	return 0;
-}
 
 /** Get the name of a package database. */
 const char SYMEXPORT *alpm_db_get_name(const pmdb_t *db)
