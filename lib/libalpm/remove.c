@@ -287,7 +287,7 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 {
 	alpm_list_t *skip_remove, *b;
 	alpm_list_t *newfiles, *lp;
-	size_t filenum;
+	size_t filenum = 0;
 	alpm_list_t *files = alpm_pkg_get_files(oldpkg);
 	const char *pkgname = alpm_pkg_get_name(oldpkg);
 
@@ -323,9 +323,9 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 					"not removing package '%s', can't remove all files\n", pkgname);
 			RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
 		}
+		filenum++;
 	}
 
-	filenum = alpm_list_count(files);
 	_alpm_log(handle, PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 	/* iterate through the list backwards, unlinking files */
@@ -391,7 +391,7 @@ int _alpm_remove_packages(pmhandle_t *handle)
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
 			alpm_list_t *files = alpm_pkg_get_files(info);
 			alpm_list_t *newfiles;
-			size_t filenum;
+			size_t filenum = 0;
 
 			for(lp = files; lp; lp = lp->next) {
 				if(!can_remove_file(handle, lp->data, NULL)) {
@@ -399,9 +399,9 @@ int _alpm_remove_packages(pmhandle_t *handle)
 					          pkgname);
 					RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
 				}
+				filenum++;
 			}
 
-			filenum = alpm_list_count(files);
 			_alpm_log(handle, PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 			/* init progress bar */
