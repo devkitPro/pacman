@@ -283,10 +283,6 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	alpm_list_t *i;
 	int success = 0, ret;
 
-	if(trans_init(0) == -1) {
-		return 0;
-	}
-
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		pmdb_t *db = alpm_list_getdata(i);
 
@@ -302,9 +298,6 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 		}
 	}
 
-	if(trans_release() == -1) {
-		return 0;
-	}
 	/* We should always succeed if at least one DB was upgraded - we may possibly
 	 * fail later with unresolved deps, but that should be rare, and would be
 	 * expected
