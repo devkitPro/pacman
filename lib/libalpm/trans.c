@@ -30,7 +30,6 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <limits.h>
-#include <fcntl.h>
 
 /* libalpm */
 #include "trans.h"
@@ -47,53 +46,6 @@
  * @brief Functions to manipulate libalpm transactions
  * @{
  */
-
-/* Create a lock file */
-static int make_lock(pmhandle_t *handle)
-{
-	int fd;
-	char *dir, *ptr;
-
-	ASSERT(handle->lockfile != NULL, return -1);
-
-	/* create the dir of the lockfile first */
-	dir = strdup(handle->lockfile);
-	ptr = strrchr(dir, '/');
-	if(ptr) {
-		*ptr = '\0';
-	}
-	if(_alpm_makepath(dir)) {
-		FREE(dir);
-		return -1;
-	}
-	FREE(dir);
-
-	do {
-		fd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL, 0000);
-	} while(fd == -1 && errno == EINTR);
-	if(fd > 0) {
-		FILE *f = fdopen(fd, "w");
-		fprintf(f, "%ld\n", (long)getpid());
-		fflush(f);
-		fsync(fd);
-		handle->lckstream = f;
-		return 0;
-	}
-	return -1;
-}
-
-/* Remove a lock file */
-static int remove_lock(pmhandle_t *handle)
-{
-	if(handle->lckstream != NULL) {
-		fclose(handle->lckstream);
-		handle->lckstream = NULL;
-	}
-	if(unlink(handle->lockfile) == -1 && errno != ENOENT) {
-		return -1;
-	}
-	return 0;
-}
 
 /** Initialize the transaction. */
 int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
@@ -116,7 +68,7 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 
 	/* lock db */
 	if(!(flags & PM_TRANS_FLAG_NOLOCK)) {
-		if(make_lock(handle)) {
+		if(_alpm_handle_lock(handle)) {
 			RET_ERR(handle, PM_ERR_HANDLE_LOCK, -1);
 		}
 	}
@@ -278,7 +230,7 @@ int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
 
 	/* unlock db */
 	if(!nolock_flag) {
-		if(remove_lock(handle)) {
+		if(_alpm_handle_unlock(handle)) {
 			_alpm_log(handle, PM_LOG_WARNING, _("could not remove lock file %s\n"),
 					alpm_option_get_lockfile(handle));
 			alpm_logaction(handle, "warning: could not remove lock file %s\n",

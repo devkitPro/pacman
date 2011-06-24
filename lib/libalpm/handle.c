@@ -22,12 +22,14 @@
 
 #include "config.h"
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 #include <sys/types.h>
 #include <syslog.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
 /* libalpm */
 #include "handle.h"
@@ -85,6 +87,58 @@ void _alpm_handle_free(pmhandle_t *handle)
 	FREELIST(handle->ignoregrp);
 	FREE(handle);
 }
+
+/** Lock the database */
+int _alpm_handle_lock(pmhandle_t *handle)
+{
+	int fd;
+	char *dir, *ptr;
+
+	ASSERT(handle->lockfile != NULL, return -1);
+	ASSERT(handle->lckstream == NULL, return 0);
+
+	/* create the dir of the lockfile first */
+	dir = strdup(handle->lockfile);
+	ptr = strrchr(dir, '/');
+	if(ptr) {
+		*ptr = '\0';
+	}
+	if(_alpm_makepath(dir)) {
+		FREE(dir);
+		return -1;
+	}
+	FREE(dir);
+
+	do {
+		fd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL, 0000);
+	} while(fd == -1 && errno == EINTR);
+	if(fd > 0) {
+		FILE *f = fdopen(fd, "w");
+		fprintf(f, "%ld\n", (long)getpid());
+		fflush(f);
+		fsync(fd);
+		handle->lckstream = f;
+		return 0;
+	}
+	return -1;
+}
+
+/** Remove a lock file */
+int _alpm_handle_unlock(pmhandle_t *handle)
+{
+	ASSERT(handle->lockfile != NULL, return -1);
+	ASSERT(handle->lckstream != NULL, return 0);
+
+	if(handle->lckstream != NULL) {
+		fclose(handle->lckstream);
+		handle->lckstream = NULL;
+	}
+	if(unlink(handle->lockfile) && errno != ENOENT) {
+		return -1;
+	}
+	return 0;
+}
+
 
 alpm_cb_log SYMEXPORT alpm_option_get_logcb(pmhandle_t *handle)
 {
