@@ -373,11 +373,12 @@ AC_CONFIG_FILES([
 lib/libalpm/Makefile
 lib/libalpm/po/Makefile.in
 src/pacman/Makefile
+src/pacman/po/Makefile.in
 src/util/Makefile
 scripts/Makefile
+scripts/po/Makefile.in
 doc/Makefile
 etc/Makefile
-po/Makefile.in
 test/pacman/Makefile
 test/pacman/tests/Makefile
 test/util/Makefile
