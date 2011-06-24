@@ -26,12 +26,7 @@ rm -f test/pacman/*.pyc
 rm -f doc/html/*.html
 rm -f doc/man3/*.3
 
-rm -f po/{Makefile.in,Makefile}
-rm -f po/POTFILES
-rm -f po/stamp-po
-rm -f po/*.gmo
-
-rm -f lib/libalpm/po/{Makefile.in,Makefile}
-rm -f lib/libalpm/po/POTFILES
-rm -f lib/libalpm/po/stamp-po
-rm -f lib/libalpm/po/*.gmo
+rm -f {lib/libalpm,scripts,src/pacman}/po/{Makefile.in,Makefile}
+rm -f {lib/libalpm,scripts,src/pacman}/po/POTFILES
+rm -f {lib/libalpm,scripts,src/pacman}/po/stamp-po
+rm -f {lib/libalpm,scripts,src/pacman}/po/*.gmo
