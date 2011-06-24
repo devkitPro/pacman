@@ -20,6 +20,7 @@ import os
 import tempfile
 import stat
 import shutil
+from StringIO import StringIO
 import tarfile
 
 import util
@@ -66,6 +67,7 @@ class pmpkg(object):
             "pre_upgrade": "",
             "post_upgrade": "",
         }
+        self.path = None
 
     def __str__(self):
         s = ["%s" % self.fullname()]
@@ -106,16 +108,7 @@ class pmpkg(object):
         A package archive is generated in the location 'path', based on the data
         from the object.
         """
-        self.path = os.path.join(path, self.filename())
-
-        curdir = os.getcwd()
-        tmpdir = tempfile.mkdtemp()
-        os.chdir(tmpdir)
-
-        # Generate package file system
-        for f in self.files:
-            util.mkfile(f, f)
-            self.size += os.lstat(self.parse_filename(f))[stat.ST_SIZE]
+        archive_files = []
 
         # .PKGINFO
         data = ["pkgname = %s" % self.name]
@@ -143,23 +136,51 @@ class pmpkg(object):
             data.append("provides = %s" % i)
         for i in self.backup:
             data.append("backup = %s" % i)
-        util.mkfile(".PKGINFO", "\n".join(data))
+        data.append("\n")
+        archive_files.append((".PKGINFO", "\n".join(data)))
 
         # .INSTALL
         if any(self.install.values()):
-            util.mkfile(".INSTALL", self.installfile())
+            archive_files.append((".INSTALL", self.installfile()))
 
-        # safely create the dir
+        self.path = os.path.join(path, self.filename())
         util.mkdir(os.path.dirname(self.path))
 
-        # Generate package archive
+        # Generate package metadata
         tar = tarfile.open(self.path, "w:gz")
-        for i in os.listdir("."):
-            tar.add(i)
+        for name, data in archive_files:
+            info = tarfile.TarInfo(name)
+            info.size = len(data)
+            tar.addfile(info, StringIO(data))
+
+        # Generate package file system
+        for name in self.files:
+            fileinfo = util.getfileinfo(name)
+            info = tarfile.TarInfo(fileinfo["filename"])
+            if fileinfo["hasperms"]:
+                info.mode = fileinfo["perms"]
+            if fileinfo["isdir"]:
+                info.type = tarfile.DIRTYPE
+                tar.addfile(info)
+            elif fileinfo["islink"]:
+                info.type = tarfile.SYMTYPE
+                info.linkname = fileinfo["link"]
+                tar.addfile(info)
+            else:
+                # TODO wow what a hack, adding a newline to match mkfile?
+                filedata = name + "\n"
+                info.size = len(filedata)
+                tar.addfile(info, StringIO(filedata))
+
         tar.close()
 
-        os.chdir(curdir)
-        shutil.rmtree(tmpdir)
+    def install_package(self, root):
+        """Install the package in the given root."""
+        for f in self.files:
+            util.mkfile(root, f, f)
+            path = os.path.join(root, f)
+            if os.path.isfile(path):
+                os.utime(path, (355, 355))
 
     def full_filelist(self):
         """Generate a list of package files.

@@ -47,49 +47,63 @@ def vprint(msg):
 # Methods to generate files
 #
 
-def mkfile(name, data = ""):
-    isdir = 0
-    islink = 0
-    setperms = 0
-    filename = name
-    link = ""
-    perms = ""
-
+def getfileinfo(filename):
+    data = {
+        'changed': False,
+        'isdir': False,
+        'islink': False,
+        'link': None,
+        'hasperms': False,
+        'perms': None,
+    }
     if filename[-1] == "*":
+        data["changed"] = True
         filename = filename.rstrip("*")
     if filename.find(" -> ") != -1:
-        islink = 1
         filename, link = filename.split(" -> ")
+        data["islink"] = True
+        data["link"] = link
     elif filename.find("|") != -1:
-        setperms = 1
         filename, perms = filename.split("|")
+        data["hasperms"] = True
+        data["perms"] = int(perms, 8)
     if filename[-1] == "/":
-        isdir = 1
+        data["isdir"] = True
 
-    if isdir:
-        path = filename
-    else:
-        path = os.path.dirname(filename)
-    if path and not os.path.isdir(path):
-        os.makedirs(path, 0755)
+    data["filename"] = filename
+    return data
 
-    if isdir:
+def mkfile(base, name, data=""):
+    info = getfileinfo(name)
+    filename = info["filename"]
+
+    path = os.path.join(base, filename)
+    if info["isdir"]:
+        if not os.path.isdir(path):
+            os.makedirs(path, 0755)
         return
-    if islink:
-        curdir = os.getcwd()
-        if path:
-            os.chdir(path)
-        os.symlink(link, os.path.basename(filename))
-        os.chdir(curdir)
+
+    dir_path = os.path.dirname(path)
+    if dir_path and not os.path.isdir(dir_path):
+        os.makedirs(dir_path, 0755)
+
+    if info["islink"]:
+        os.symlink(info["link"], path)
     else:
-        fd = file(filename, "w")
-        if data:
-            fd.write(data)
-            if data[-1] != "\n":
-                fd.write("\n")
-        fd.close()
-        if setperms:
-            os.chmod(filename, int(perms, 8))
+        writedata(path, data)
+
+    if info["perms"]:
+        os.chmod(path, info["perms"])
+
+def writedata(filename, data):
+    if isinstance(data, list):
+        data = "\n".join(data)
+    fd = file(filename, "w")
+    if data:
+        fd.write(data)
+        if data[-1] != "\n":
+            fd.write("\n")
+    fd.close()
 
 def mkcfgfile(filename, root, option, db):
     # Options
@@ -111,7 +125,7 @@ def mkcfgfile(filename, root, option, db):
             for optkey, optval in value.option.iteritems():
                 data.extend(["%s = %s" % (optkey, j) for j in optval])
 
-    mkfile(os.path.join(root, filename), "\n".join(data))
+    mkfile(root, filename, "\n".join(data))
 
 
 #

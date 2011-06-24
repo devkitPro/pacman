@@ -156,16 +156,11 @@ class pmtest(object):
         vprint("    Populating file system")
         for pkg in self.db["local"].pkgs:
             vprint("\tinstalling %s" % pkg.fullname())
-            for f in pkg.files:
-                vprint("\t%s" % f)
-                path = os.path.join(self.root, f)
-                util.mkfile(path, f)
-                if os.path.isfile(path):
-                    os.utime(path, (355, 355))
+            pkg.install_package(self.root)
         for f in self.filesystem:
             vprint("\t%s" % f)
+            util.mkfile(self.root, f, f)
             path = os.path.join(self.root, f)
-            util.mkfile(path, f)
             if os.path.isfile(path):
                 os.utime(path, (355, 355))
 

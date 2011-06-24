@@ -229,8 +229,7 @@ class pmdb(object):
                 path = os.path.join(self.dbdir, pkg.fullname())
                 util.mkdir(path)
                 for name, data in entry.iteritems():
-                    filename = os.path.join(path, name)
-                    util.mkfile(filename, data)
+                    util.mkfile(path, name, data)
 
         if self.dbfile:
             tar = tarfile.open(self.dbfile, "w:gz")
