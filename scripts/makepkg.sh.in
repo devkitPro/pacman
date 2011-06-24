@@ -52,7 +52,6 @@ readonly -a packaging_options other_options splitpkg_overrides
 # Options
 ASROOT=0
 CLEANUP=0
-CLEANCACHE=0
 DEP_BIN=0
 FORCE=0
 INFAKEROOT=0
@@ -1661,7 +1660,6 @@ usage() {
 	echo "$(gettext "Options:")"
 	printf "$(gettext "  -A, --ignorearch Ignore incomplete %s field in %s")\n" "arch" "$BUILDSCRIPT"
 	echo "$(gettext "  -c, --clean      Clean up work files after build")"
-	echo "$(gettext "  -C, --cleancache Clean up source files from the cache")"
 	echo "$(gettext "  -d, --nodeps     Skip all dependency checks")"
 	printf "$(gettext "  -e, --noextract  Do not extract source files (use existing %s dir)")\n" "src/"
 	echo "$(gettext "  -f, --force      Overwrite existing package")"
@@ -1719,7 +1717,7 @@ ARGLIST=("$@")
 
 # Parse Command Line Options.
 OPT_SHORT="AcCdefFghiLmop:rRsV"
-OPT_LONG="allsource,asroot,ignorearch,check,clean,cleancache,nodeps"
+OPT_LONG="allsource,asroot,ignorearch,check,clean,nodeps"
 OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver"
 OPT_LONG+=",install,key:,log,nocolor,nobuild,nocheck,nosign,pkg:,rmdeps"
 OPT_LONG+=",repackage,skipinteg,sign,source,syncdeps,version,config:"
@@ -1744,7 +1742,6 @@ while true; do
 		--asroot)         ASROOT=1 ;;
 		-A|--ignorearch)  IGNOREARCH=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
-		-C|--cleancache)  CLEANCACHE=1 ;;
 		--check)          RUN_CHECK='y' ;;
 		--config)         shift; MAKEPKG_CONF=$1 ;;
 		-d|--nodeps)      NODEPS=1 ;;
@@ -1874,37 +1871,6 @@ if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
 	# The '\\0' is here to prevent gettext from thinking --holdver is an option
 	error "$(gettext "\\0%s and %s cannot both be specified" )" "--holdver" "--forcever"
 	exit 1
-fi
-
-if (( CLEANCACHE )); then
-	#fix flyspray feature request #5223
-	if [[ -n $SRCDEST && ! $SRCDEST -ef "${startdir}" ]]; then
-		msg "$(gettext "Cleaning up ALL files from %s.")" "$SRCDEST"
-		echo -n "$(gettext "    Are you sure you wish to do this? ")"
-		echo -n "$(gettext "[y/N]")"
-		read answer
-		answer=$(tr '[:lower:]' '[:upper:]' <<< "$answer")
-		if [[ $answer = $(gettext YES) || $answer = $(gettext Y) ]]; then
-			rm "$SRCDEST"/*
-			if (( $? )); then
-				error "$(gettext "Problem removing files; you may not have correct permissions in %s")" "$SRCDEST"
-				exit 1
-			else
-				# removal worked
-				msg "$(gettext "Source cache cleaned.")"
-				exit 0
-			fi
-		else
-			# answer = no
-			msg "$(gettext "No files have been removed.")"
-			exit 0
-		fi
-	else
-		# $SRCDEST is $startdir, two possibilities
-		error "$(gettext "Source destination must be defined in %s.")" "$MAKEPKG_CONF"
-		plain "$(gettext "In addition, please run %s outside of your cache directory.")" "makepkg -C"
-		exit 1
-	fi
 fi
 
 if (( ! INFAKEROOT )); then
