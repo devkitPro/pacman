@@ -391,6 +391,22 @@ db_remove_entry() {
 	return $notfound
 } # end db_remove_entry
 
+elephant() {
+	case $(( RANDOM % 2 )) in
+		0) printf '%s\n' "H4sIAL3qBE4CAyWLwQ3AMAgD/0xh5UPzYiFUMgjq7LUJsk7yIQNAQTAikFUDnqkr" \
+		                 "OQFOUm0Wd9pHCi13ONjBpVdqcWx+EdXVX4vXvGv5cgztB9+fJxZ7AAAA"
+		;;
+
+		1) printf '%s\n' "H4sIAJVWBU4CA21RMQ7DIBDbeYWrDgQJ7rZ+IA/IB05l69alcx5fc0ASVXUk4jOO" \
+		                 "7yAAUWtorygwJ4hlMii0YkJKKRKGvsMsiykl1SalvrMD1gUXyXRkGZPx5OPft81K" \
+		                 "tNAiAjyGjYO47h1JjizPkJrCWbK/4C+uLkT7bzpGc7CT9bmOzNSW5WLSO5vexjmH" \
+		                 "ZL9JFFZeAa0a2+lKjL2anpYfV+0Zx9LJ+/MC8nRayuDlSNy2rfAPibOzsiWHL0jL" \
+		                 "SsjFAQAA"
+		;;
+	esac | openssl base64 -d | gzip -d
+	exit 0
+}
+
 check_repo_db() {
 	local repodir
 
@@ -533,6 +549,11 @@ esac
 
 # figure out what program we are
 cmd=${0##*/}
+if [[ $cmd == "repo-elephant" ]]; then
+	elephant
+	exit 0
+fi
+
 if [[ $cmd != "repo-add" && $cmd != "repo-remove" ]]; then
 	error "$(gettext "Invalid command name '%s' specified.")" "$cmd"
 	exit 1

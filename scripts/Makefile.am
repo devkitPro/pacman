@@ -5,7 +5,8 @@ SUBDIRS = po
 
 bin_SCRIPTS = \
 	$(OURSCRIPTS) \
-	repo-remove
+	repo-remove \
+	repo-elephant
 
 OURSCRIPTS = \
 	makepkg \
@@ -96,5 +97,9 @@ repo-add: \
 repo-remove: $(srcdir)/repo-add.sh.in
 	rm -f repo-remove
 	$(LN_S) repo-add repo-remove
+
+repo-elephant: $(srcdir)/repo-add.sh.in
+	rm -f repo-elephant
+	$(LN_S) repo-add repo-elephant
 
 # vim:set ts=2 sw=2 noet:
