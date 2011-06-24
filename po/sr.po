@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-04-12 10:01+0000\n"
 "Last-Translator: Xabre <githzerai06@gmail.com>\n"
 "Language-Team: Serbian <None>\n"
@@ -161,6 +161,96 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "грешка у алокацији меморије: не могу да алоцирам %zd бајтова\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "не могу да одредим тренутну радну фасциклу\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "не могу да пређем у фасциклу преузимања %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "покрећем XferCommand: неуспело рачвање!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "не могу да променим фасциклу у %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "неисправна вредност за „CleanMethod“ : „%s“\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"фајл поставки %s, линија %d: директива „%s“ у одељку „%s“ није препозната.\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr "фајл поставки %s, линија %d: директиви „%s“ је потребна вредност.\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr "Мирор „%s“ садржи промењиву $arch, али архитектура није дефинисана.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "не могу да додам УРЛ сервера у базу „%s“: %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "грешка при учитавању библиотеке alpm (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "проблем при постављању дневника „%s“ (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "проблем при постављању корене фасцикле „%s“ (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "не могу да региструјем базу „%s“ (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "не могу да додам УРЛ сервера у базу „%s“: %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "не могу да додам УРЛ сервера у базу „%s“: %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "не могу да прочитам фајл поставки %s.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "фајл поставки %s, линија %d: погрешан назив одељка.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"фајл поставки %s, линија %d: синтаксна грешка у фајлу — недостаје кључ.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"фајл поставки %s, линија %d: све директиве морају припадати одељцима.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr "фајл поставки %s, линија %d: директиви „%s“ је потребна вредност.\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "нису назначени циљеви (употребите -h за помоћ)\n"
 
@@ -191,6 +281,10 @@ msgstr "Инсталиран као зависност другом пакету
 #, c-format
 msgid "Unknown"
 msgstr "Непознато"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Ризница          :"
 
 #, c-format
 msgid "Name           :"
@@ -236,16 +330,16 @@ msgstr "У сукобу са      :"
 msgid "Replaces       :"
 msgstr "Смењује          :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Вел. преузимања  : %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Вел. архиве    : %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Вел. инсталације: %6.2f K\n"
 
 #, c-format
@@ -287,10 +381,6 @@ msgstr "МД5 сума         :"
 #, c-format
 msgid "Description    :"
 msgstr "Опис             :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Ризница          :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -591,6 +681,10 @@ msgstr "      --config <путања> поставља алтернативни 
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          приказује поруке за исправљање грешака\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <путањa> поставља атернативни дневнички фајл\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <путањa> поставља атернативни дневнички фајл\n"
@@ -608,22 +702,6 @@ msgstr ""
 "                         под условима Гнуове Опште Јавне Лиценце.\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "проблем при постављању корене фасцикле „%s“ (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "проблем при постављању путање базе „%s“ (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "проблем при постављању дневника „%s“ (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "проблем при додавању фасцикле кеша „%s“ (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "„%s“ није исправан ниво излаза за исправљање грешака\n"
 
@@ -634,72 +712,6 @@ msgstr "може се задати само једна операција ист
 #, c-format
 msgid "invalid option\n"
 msgstr "неисправна опција\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "неисправна вредност за „CleanMethod“ : „%s“\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "не могу да одредим тренутну радну фасциклу\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "не могу да пређем у фасциклу преузимања %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "покрећем XferCommand: неуспело рачвање!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "не могу да променим фасциклу у %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-"фајл поставки %s, линија %d: директива „%s“ у одељку „%s“ није препозната.\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr "Мирор „%s“ садржи промењиву $arch, али архитектура није дефинисана.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "не могу да додам УРЛ сервера у базу „%s“: %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "не могу да прочитам фајл поставки %s.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "фајл поставки %s, линија %d: погрешан назив одељка.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "не могу да региструјем базу „%s“ (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"фајл поставки %s, линија %d: синтаксна грешка у фајлу — недостаје кључ.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"фајл поставки %s, линија %d: све директиве морају припадати одељцима.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "фајл поставки %s, линија %d: директиви „%s“ је потребна вредност.\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "грешка при учитавању библиотеке alpm (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -996,23 +1008,47 @@ msgid "None"
 msgstr "нема"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Циљеви (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Укупна величина преузимања :  %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Укупна величина инсталације:  %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "За уклањање (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Укупна величина преузимања :  %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Укупна величина инсталације:  %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Укупна величина преузимања :  %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Укупна величина уклоњеног:     %.2f MB\n"
 
 #, c-format
@@ -1095,6 +1131,9 @@ msgstr "ГРЕШКА:"
 
 msgid "Cleaning up..."
 msgstr "Чистим..."
+
+msgid "Entering fakeroot environment..."
+msgstr "Улазим у лажнокоренско окружење..."
 
 msgid "Unable to find source file %s."
 msgstr "Не могу да нађем изворни фајл %s."
@@ -1190,7 +1229,8 @@ msgstr "Поспремам инсталацију..."
 msgid "Removing doc files..."
 msgstr "Уклањам фајлове документације..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Уклањам друге фајлове..."
 
 msgid "Compressing man and info pages..."
@@ -1205,8 +1245,19 @@ msgstr "Уклањам либтулове .la фајлове..."
 msgid "Removing empty directories..."
 msgstr "Уклањам празне фасцикле..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Компресујем ман и инфо странице..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "не могу да приступим фасцикли кеша %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "Стварам .PKGINFO фајл..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Додајте линију лиценце у %s!"
@@ -1241,8 +1292,17 @@ msgstr "Неуспело прављење пакета."
 msgid "Failed to create symlink to package file."
 msgstr "Неуспело прављење симболичке везе ка фајлу пакета."
 
-msgid "Skipping integrity checks."
-msgstr "Прескачем провере интегритета."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Правим пакет..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Стварам ажурни фајл базе „%s“"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Неуспело прављење пакета."
 
 msgid "Creating source package..."
 msgstr "Правим пакет извора..."
@@ -1316,20 +1376,23 @@ msgstr "недостаје функција дељења за раздељени
 msgid "requested package %s is not provided in %s"
 msgstr "захтевани пакет %s није достављен у %s"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Утврђујем последњу %s ревизију..."
 
 msgid "Version found: %s"
 msgstr "Нађена верзија: %s"
-
-msgid "requires an argument"
-msgstr "захтева аргумент"
-
-msgid "unrecognized option"
-msgstr "непозната опција"
-
-msgid "invalid option"
-msgstr "неисправна опција"
 
 msgid "Usage: %s [options]"
 msgstr "Употреба: %s [опције]"
@@ -1360,7 +1423,8 @@ msgstr "  -f, --force      Преписује постојећи пакет"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Ствара провере интегритета фајлова извора"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Овај текст помоћи"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1409,11 +1473,23 @@ msgstr ""
 "  --holdver        Спречава аутоматску надоградњу верзија за развојне %s "
 "скрипте."
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck        Не покреће функцију check() унутар %s"
 
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         не инсталира поново већ ажурне пакете\n"
+
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <списак>   Гради само наведене пакете из раздељеног пакета"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr ""
@@ -1449,6 +1525,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s није пронађен."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "Немате дозволу уписа да би сачували пакете у %s. "
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Немате дозволу уписа да би сачували пакете у %s. "
@@ -1495,12 +1575,6 @@ msgstr "Опција --asroot је намењена искључиво коре�
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Покрените makepkg без заставице -asroot."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "Морате инсталирати fakeroot да би користили ту опцију"
-
-msgid "in the BUILDENV array in %s."
-msgstr "у BUILDENV одељку %s скрипте."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "Покретање makepkg као непривилегован корисник ће довести да некореног"
 
@@ -1526,6 +1600,9 @@ msgstr "%s не постоји."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s садржи знаке новог реда и не може бити учитан као извор."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Пакет је већ изграђен; инсталирам постојећи пакет..."
 
@@ -1542,20 +1619,23 @@ msgstr "Група пакета је већ изграђена. (употреб�
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr "Део групе пакета је већ изграђен. (употребите -f да би га преписали)"
 
+msgid "Leaving fakeroot environment."
+msgstr "Напуштам лажнокоренско окружење."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "Препакивање без употребе функције package() је превазиђено."
 
 msgid "File permissions may not be preserved."
 msgstr "Дозволе за фајл можда нису очуване."
 
-msgid "Leaving fakeroot environment."
-msgstr "Напуштам лажнокоренско окружење."
-
 msgid "Making package: %s"
 msgstr "Правим пакет: %s"
 
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr "Пакет извора је већ направљен. (употребите -f да би га преписали)"
+
+msgid "Skipping integrity checks."
+msgstr "Прескачем провере интегритета."
 
 msgid "Source package created: %s"
 msgstr "Направих пакет извора: %s"
@@ -1595,9 +1675,6 @@ msgstr "Извори су припремљени."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Уклањам постојећу /pkg фасциклу..."
-
-msgid "Entering fakeroot environment..."
-msgstr "Улазим у лажнокоренско окружење..."
 
 msgid "Finished making: %s"
 msgstr "Заврших градњу: %s"
@@ -1743,13 +1820,10 @@ msgstr "Не постоји фајл „%s“"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Не могу да нађем извршни фајл xdelta3! Да ли је xdelta3 инсталиран?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Употреба: repo-add [-d] [-f] [-q] <путања-до-базе> <пакет|делта> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr ""
-"Употреба: repo-remove [-q] <путања-до-базе> <име-пакета|делта> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1757,6 +1831,24 @@ msgid ""
 msgstr ""
 "repo-add ће ажурирати базу пакета читањем саваког фајла пакета\\nУ командној "
 "линији можете назначити и више фајлова.\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Опције:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Употребите заставицу -f/--files да би освежили базу заједно са уносима "
+"фајлова.\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr ""
+"Употреба: repo-remove [-q] <путања-до-базе> <име-пакета|делта> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1767,44 +1859,41 @@ msgstr ""
 "командној линији из задате базе ризнице. Можете\\nназначити и више пакета за "
 "уклањање одједном.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Употребите заставицу -q/--quiet да би минимизовали излаз на основне поруке, "
-"упозорења,\\нанд грешке.\\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Употребите заставицу -d/--delta да би аутоматски створили и додали фајл делте"
-"\\nпоређењем старог и новог пакета, уколико постоји стари фајл пакета\\n "
-"поред новог."
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-"Употребите заставицу -f/--files да би освежили базу заједно са уносима "
-"фајлова.\\n\\n"
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr "Пример:   repo-add /путања/до/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Пример:   repo-remove /путања/до/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"© 2006-2008 Арон Грифин (Aaron Griffin) <aaron@archlinux.org>.\\n© 2007-2008 "
-"Ден Мекги (Dan McGee) <dan@archlinux.org>.\\n\\nThis is free software; see "
-"the source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"© 2010-2011 Пакменов развојни тим <pacman-dev@archlinux.org>.\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Нема уноса базе за пакет „%s“."
@@ -1815,14 +1904,40 @@ msgstr "Додоајем унос „делте“: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Уклањам постојећи унос „%s“..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "Не могу да нађем извршни фајл xdelta3! Да ли је xdelta3 инсталиран?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Синхронизујем базу на диск..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Неуспело прављење пакета."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Ротирам базе на место..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "Рачунам мд5 суме за проверу..."
+
 msgid "An entry for '%s' already existed"
 msgstr "Унос за „%s“ је већ постојао"
 
 msgid "Creating '%s' db entry..."
 msgstr "Стварам унос базе „%s“..."
-
-msgid "Computing md5 checksums..."
-msgstr "Рачунам мд5 суме за проверу..."
 
 msgid "Old package file not found: %s"
 msgstr "Није нађен стари фајл пакета: %s"
@@ -1886,3 +2001,51 @@ msgstr "Није преостао ниједан пакет; правим пра
 
 msgid "No packages modified, nothing to do."
 msgstr "Нема измењених пакета; ништа за радити."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "проблем при постављању путање базе „%s“ (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "проблем при додавању фасцикле кеша „%s“ (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "захтева аргумент"
+
+#~ msgid "unrecognized option"
+#~ msgstr "непозната опција"
+
+#~ msgid "invalid option"
+#~ msgstr "неисправна опција"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "Морате инсталирати fakeroot да би користили ту опцију"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "у BUILDENV одељку %s скрипте."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "Употребите заставицу -q/--quiet да би минимизовали излаз на основне "
+#~ "поруке, упозорења,\\нанд грешке.\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Употребите заставицу -d/--delta да би аутоматски створили и додали фајл "
+#~ "делте\\nпоређењем старог и новог пакета, уколико постоји стари фајл пакета"
+#~ "\\n поред новог."
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "© 2006-2008 Арон Грифин (Aaron Griffin) <aaron@archlinux.org>.\\n© "
+#~ "2007-2008 Ден Мекги (Dan McGee) <dan@archlinux.org>.\\n\\nThis is free "
+#~ "software; see the source for copying conditions.\\nThere is NO WARRANTY, "
+#~ "to the extent permitted by law.\\n"

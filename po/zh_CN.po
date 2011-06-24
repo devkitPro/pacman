@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-06-04 02:50+0000\n"
 "Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/"
@@ -156,6 +156,93 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "内存分配失败：无法分配 %zd \n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "无法获取当前的工作目录\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "无法 chdir 到下载目录 %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "正在运行 XferCommand：分支失败！\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "无法改变目录到 %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "'CleanMethod' 设置的为无效值： '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr "配置文件 %s，第 %d 行：指令 '%s'(位于章节 '%s' 中) 无法识别。\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要赋值\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr "镜像 '%s' 包含有 $arch 参数，但没有定义架构。\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "初始化 alpm 库失败 (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "设定日志文件 '%s' (%s) 时出现问题\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "设置根目录'%s' (%s) 时出现问题 \n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "无法注册 '%s' 数据库 (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "无法读取配置文件 %s。\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "配置文件 %s，第 %d 行：坏的章节名字。\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr "配置文件 %s，第 %d 行：配置文件中语法错误－缺少关键字。\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr "配置文件 %s，第 %d 行：所有的命令必须属于同一章节。\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要赋值\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "没有指定目标 (使用 -h 获取帮助) \n"
 
@@ -186,6 +273,10 @@ msgstr "作为其他软件包的依赖关系安装"
 #, c-format
 msgid "Unknown"
 msgstr "未知的"
+
+#, c-format
+msgid "Repository     :"
+msgstr "软件库　："
 
 #, c-format
 msgid "Name           :"
@@ -231,16 +322,16 @@ msgstr "冲突与　　："
 msgid "Replaces       :"
 msgstr "取代　　　："
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "需下载大小： %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "压缩后大小： %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "安装后大小： %6.2f K\n"
 
 #, c-format
@@ -282,10 +373,6 @@ msgstr "MD5校验值："
 #, c-format
 msgid "Description    :"
 msgstr "描述　　　："
-
-#, c-format
-msgid "Repository     :"
-msgstr "软件库　："
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -558,6 +645,10 @@ msgstr "      --config <路径>  指定另外的配置文件\n"
 msgid "      --debug          display debug messages\n"
 msgstr "      -- debug        显示除错信息\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <路径> 指定另外的日志文件\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <路径> 指定另外的日志文件\n"
@@ -575,22 +666,6 @@ msgstr ""
 "                       自由分发\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "设置根目录'%s' (%s) 时出现问题 \n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "设置数据库路径 '%s' (%s) 时出现问题 \n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "设定日志文件 '%s' (%s) 时出现问题\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "添加缓存目录 '%s' (%s)时出现问题 \n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' 不是有效的调试级别\n"
 
@@ -601,69 +676,6 @@ msgstr "一次只能运行一个操作\n"
 #, c-format
 msgid "invalid option\n"
 msgstr "无效选项\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "'CleanMethod' 设置的为无效值： '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "无法获取当前的工作目录\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "无法 chdir 到下载目录 %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "正在运行 XferCommand：分支失败！\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "无法改变目录到 %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "配置文件 %s，第 %d 行：指令 '%s'(位于章节 '%s' 中) 无法识别。\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr "镜像 '%s' 包含有 $arch 参数，但没有定义架构。\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "无法读取配置文件 %s。\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "配置文件 %s，第 %d 行：坏的章节名字。\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "无法注册 '%s' 数据库 (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "配置文件 %s，第 %d 行：配置文件中语法错误－缺少关键字。\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "配置文件 %s，第 %d 行：所有的命令必须属于同一章节。\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要赋值\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "初始化 alpm 库失败 (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -956,23 +968,47 @@ msgid "None"
 msgstr "无"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "目标 (%d)："
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "全部下载大小:   %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "全部安装大小:  %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "删除 (%d)："
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "全部下载大小:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "全部安装大小:  %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "全部下载大小:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "全部删除大小:   %.2f MB\n"
 
 #, c-format
@@ -1055,6 +1091,9 @@ msgstr "错误："
 
 msgid "Cleaning up..."
 msgstr "正在清理..."
+
+msgid "Entering fakeroot environment..."
+msgstr "正在进入 fakeroot 环境..."
 
 msgid "Unable to find source file %s."
 msgstr "无法找到源文件 %s。"
@@ -1149,7 +1188,8 @@ msgstr "正在清理安装..."
 msgid "Removing doc files..."
 msgstr "正在删除 doc 文件..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "正在清除其他文件..."
 
 msgid "Compressing man and info pages..."
@@ -1164,8 +1204,19 @@ msgstr "正在删除 libtool .la 文件..."
 msgid "Removing empty directories..."
 msgstr "正在删除空目录..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "正在压缩 man 及 info 文档..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "无法访问缓存目录 %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "正在生成 .PKGINFO 文件..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "请添加软件许可证行到你的 %s！"
@@ -1200,8 +1251,17 @@ msgstr "无法创建软件包文件。"
 msgid "Failed to create symlink to package file."
 msgstr "创建软件包文件系统链接失败。"
 
-msgid "Skipping integrity checks."
-msgstr "正在跳过完整性检查。"
+#, fuzzy
+msgid "Signing package..."
+msgstr "正在创建软件包..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "正在生成更新的数据库文件 '%s'"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "无法创建软件包文件。"
 
 msgid "Creating source package..."
 msgstr "正在创建源码包..."
@@ -1275,20 +1335,23 @@ msgstr "拆分软件包 '%s' 缺少软件包功能"
 msgid "requested package %s is not provided in %s"
 msgstr "提供所需求的软件包 %s，在 %s 里没有"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "正在测定最新 %s 的修订..."
 
 msgid "Version found: %s"
 msgstr "找到版本：%s"
-
-msgid "requires an argument"
-msgstr "需要一个参数"
-
-msgid "unrecognized option"
-msgstr "不识别的选项"
-
-msgid "invalid option"
-msgstr "无效选项"
 
 msgid "Usage: %s [options]"
 msgstr "用法：%s [选项]"
@@ -1317,7 +1380,8 @@ msgstr "  -f, --force      覆盖现存的软件包"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   为源码文件生成完整性检查值"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       获得帮助"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1363,11 +1427,23 @@ msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr "  --holdver        防止开发 %ss 的自动版本碰撞"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck          不在 %s 中运行 check() 功能"
 
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         不重新安装已经为最新的软件包\n"
+
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <清单>     仅从分割软件包中创建清单中所列的软件包"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr "  --skipinteg      如缺少完整性检查值也继续"
@@ -1401,6 +1477,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s 未找到。"
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "你没有写入权限来保存软件包到 %s。"
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "你没有写入权限来保存软件包到 %s。"
@@ -1447,12 +1527,6 @@ msgstr "--asroot 选项仅针对 root (根用户) 。"
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "请不带 --asroot 参数再运行一次 makepkg。"
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "要使用 'fakeroot' 选项，必须安装 fakeroot"
-
-msgid "in the BUILDENV array in %s."
-msgstr "在 %s 的 BUILDENV 中。"
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "以非授权用户身份运行 makepkg 将导致"
 
@@ -1474,6 +1548,9 @@ msgstr "%s 不存在。"
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s 包含 CRLF 字符，无法取源。"
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
 
@@ -1490,20 +1567,23 @@ msgstr "已有一个编译好的软件包组。 (使用 -f 覆盖) "
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr "一部分软件包组已经编译完毕。 (使用 -f 覆盖) "
 
+msgid "Leaving fakeroot environment."
+msgstr "正在退出 fakeroot 环境。"
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "不使用 package() 功能来打包已经不再使用。"
 
 msgid "File permissions may not be preserved."
 msgstr "文件权限无法保留。"
 
-msgid "Leaving fakeroot environment."
-msgstr "正在退出 fakeroot 环境。"
-
 msgid "Making package: %s"
 msgstr "正在创建软件包：%s"
 
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr "已有一个编译好的源软件包。 (使用 -f 覆盖) "
+
+msgid "Skipping integrity checks."
+msgstr "正在跳过完整性检查。"
 
 msgid "Source package created: %s"
 msgstr "源代码包已创建：%s"
@@ -1543,9 +1623,6 @@ msgstr "源代码已就绪。"
 
 msgid "Removing existing pkg/ directory..."
 msgstr "正在删除现有的 pkg/ 目录..."
-
-msgid "Entering fakeroot environment..."
-msgstr "正在进入 fakeroot 环境..."
 
 msgid "Finished making: %s"
 msgstr "完成创建：%s"
@@ -1685,11 +1762,9 @@ msgstr "文件 '%s' 不存在"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "无法找到 xdelta 执行文件！是否已安装 xdelta3？"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "用法：repo-add [-d] [-f] [-q] <数据库路径> <软件包|增量包> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "用法：repo-remove·[-q]·<path-to-db>·<软件包名|delta增量包>·...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1697,6 +1772,21 @@ msgid ""
 msgstr ""
 "repo-add 通过读取一个软件包文件来更新软件包数据库。\\n可以在命令行中指定添加"
 "多个软件包\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "选项："
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr "使用 -f/--files 参数以更新包括文件条目的某个数据库。\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr "用法：repo-remove·[-q]·<path-to-db>·<软件包名|delta增量包>·...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1706,39 +1796,40 @@ msgstr ""
 "repo-remove 通过在指定软件包数据库中删除\\n在命令行中指定的软件包名来更新这个"
 "软件包数据库。\\n可以在命令行中指定删除多个软件包。\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"使用 -q/--quiet 参数可将输出最小化为基本信息，警告，\\n以及错误。\\n\\n"
 
-msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr ""
-"使用 -d/--delta 参数以自动创建并在旧条目\\n和新条目之间添加增量文件，如果能在"
-"新软件包文件\\n旁边找到旧的软件包文件的话。\\n\\n"
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr "  -p, --file <软件包> 从某个软件包而不是数据库查询\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr "使用 -f/--files 参数以更新包括文件条目的某个数据库。\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
+msgstr ""
 
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+#, fuzzy
+msgid ""
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr "例子：  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "例子：  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\nCopyright·(c)"
-"·2007-2008·Dan·McGee·<dan@archlinux.org>.\\n\\n这是一个自由软件；版权条款见源"
-"码。\\n在法律许可下，不承担任何担保责任。\\n"
+"版权所有 (c) 2010-2011 Pacman 开发团队 <pacman-dev@archlinux.org>.\\n本程序是"
+"自由软件；请参阅版权条款。\\n没有任何担保，在法律允许的范围内。\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "没有软件包 '%s' 的数据库条目。"
@@ -1749,14 +1840,40 @@ msgstr "正在添加 'deltas' 增量包条目：%s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "正在删除现有的条目 '%s'..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "无法找到 xdelta 执行文件！是否已安装 xdelta3？"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "正在同步数据库到磁盘..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "无法创建软件包文件。"
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "正在把数据库放置到位..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "正在计算 md5 校验值..."
+
 msgid "An entry for '%s' already existed"
 msgstr "已存在条目 '%s'"
 
 msgid "Creating '%s' db entry..."
 msgstr "正在创建 '%s' 数据库条目..."
-
-msgid "Computing md5 checksums..."
-msgstr "正在计算 md5 校验值..."
 
 msgid "Old package file not found: %s"
 msgstr "没有找到旧的软件包：%s"
@@ -1820,3 +1937,48 @@ msgstr "没有包含软件包，正在创建空数据库。"
 
 msgid "No packages modified, nothing to do."
 msgstr "没有软件包被修改，无事可做。"
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "设置数据库路径 '%s' (%s) 时出现问题 \n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "添加缓存目录 '%s' (%s)时出现问题 \n"
+
+#~ msgid "requires an argument"
+#~ msgstr "需要一个参数"
+
+#~ msgid "unrecognized option"
+#~ msgstr "不识别的选项"
+
+#~ msgid "invalid option"
+#~ msgstr "无效选项"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "要使用 'fakeroot' 选项，必须安装 fakeroot"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "在 %s 的 BUILDENV 中。"
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "使用 -q/--quiet 参数可将输出最小化为基本信息，警告，\\n以及错误。\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "使用 -d/--delta 参数以自动创建并在旧条目\\n和新条目之间添加增量文件，如果"
+#~ "能在新软件包文件\\n旁边找到旧的软件包文件的话。\\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2006 Aaron Griffin <aaron@archlinux.org>.\\nCopyright·(c)"
+#~ "·2007-2008·Dan·McGee·<dan@archlinux.org>.\\n\\n这是一个自由软件；版权条款"
+#~ "见源码。\\n在法律许可下，不承担任何担保责任。\\n"

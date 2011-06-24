@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:48-0500\n"
 "PO-Revision-Date: 2011-04-17 10:09+0000\n"
 "Last-Translator: jose1711 <jose1711@gmail.com>\n"
 "Language-Team: Slovak <None>\n"
@@ -153,6 +153,10 @@ msgstr "chýbaju metadáta balíčka v %s\n"
 msgid "removing invalid file: %s\n"
 msgstr "odstraňujem neplatný súbor: %s\n"
 
+#, fuzzy, c-format
+msgid "could not parse package '%s' description file from db '%s'\n"
+msgstr "nie je možné spracovať súbor s popisom balíčka v %s\n"
+
 #, c-format
 msgid "database path is undefined\n"
 msgstr "cesta k databáze nie je definovaná\n"
@@ -217,18 +221,6 @@ msgstr "URL '%s' je neplatná\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "chyba pri získavaní súboru '%s' z %s: %s\n"
-
-#, c-format
-msgid "resuming download of %s not possible; starting over\n"
-msgstr "nie je možné pokračovať v sťahovaní %s, začínam sťahovať od začiatku\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "chyba pri zápisu do súboru '%s': %s\n"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s\n"
-msgstr "zlyhalo získanie súboru '%s' z %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -379,6 +371,18 @@ msgid "could not find repository for target"
 msgstr "nie je možné nájsť repozitár cieľa"
 
 #, c-format
+msgid "signature directory not configured correctly"
+msgstr ""
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr ""
+
+#, c-format
+msgid "unknown PGP signature"
+msgstr ""
+
+#, c-format
 msgid "invalid or corrupted delta"
 msgstr "neplatný alebo poškodený delta rozdiel"
 
@@ -403,10 +407,6 @@ msgid "failed to retrieve some files"
 msgstr "chyba pri získavaní niektorých súborov"
 
 #, c-format
-msgid "failed to copy some file"
-msgstr "nepodarilo sa skopírovať súbor"
-
-#, c-format
 msgid "invalid regular expression"
 msgstr "neplatný regulárny výraz"
 
@@ -419,16 +419,16 @@ msgid "download library error"
 msgstr "chyba knižnice pre sťahovanie súborov"
 
 #, c-format
+msgid "gpgme error"
+msgstr ""
+
+#, c-format
 msgid "error invoking external downloader"
 msgstr "chyba volania externého programu pre sťahovanie súborov"
 
 #, c-format
 msgid "unexpected error"
 msgstr "neočakávaná chyba"
-
-#, c-format
-msgid "database larger than maximum size\n"
-msgstr "databáza väčšia ako maximálna veľkosť\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -549,3 +549,19 @@ msgstr "neexistuje cache %s, vytváram...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nie je možné vytvoriť cache balíčkov, použijem /tmp\n"
+
+#~ msgid "resuming download of %s not possible; starting over\n"
+#~ msgstr ""
+#~ "nie je možné pokračovať v sťahovaní %s, začínam sťahovať od začiatku\n"
+
+#~ msgid "error writing to file '%s': %s\n"
+#~ msgstr "chyba pri zápisu do súboru '%s': %s\n"
+
+#~ msgid "failed retrieving file '%s' from %s\n"
+#~ msgstr "zlyhalo získanie súboru '%s' z %s\n"
+
+#~ msgid "failed to copy some file"
+#~ msgstr "nepodarilo sa skopírovať súbor"
+
+#~ msgid "database larger than maximum size\n"
+#~ msgstr "databáza väčšia ako maximálna veľkosť\n"

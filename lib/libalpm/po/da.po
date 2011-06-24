@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:48-0500\n"
 "PO-Revision-Date: 2011-03-22 15:34+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Danish <None>\n"
@@ -153,6 +153,10 @@ msgstr "manglende pakkemetadata i %s\n"
 msgid "removing invalid file: %s\n"
 msgstr ""
 
+#, fuzzy, c-format
+msgid "could not parse package '%s' description file from db '%s'\n"
+msgstr "kunne ikke fortolke pakkebeskrivelsesfil i %s\n"
+
 #, c-format
 msgid "database path is undefined\n"
 msgstr "databasesti er udefineret\n"
@@ -216,18 +220,6 @@ msgstr "adressen »%s« er ugyldig\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "fejlede i indhentning af fil »%s« fra %s: %s\n"
-
-#, c-format
-msgid "resuming download of %s not possible; starting over\n"
-msgstr "det er ikke muligt at genoptage hentning af %s; starter forfra\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "fejl under skrivning til fil »%s«: %s\n"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s\n"
-msgstr "kunne ikke indhente fil »%s« fra %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -378,6 +370,18 @@ msgid "could not find repository for target"
 msgstr "kunne ikke finde arkiv for mål"
 
 #, c-format
+msgid "signature directory not configured correctly"
+msgstr ""
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr ""
+
+#, c-format
+msgid "unknown PGP signature"
+msgstr ""
+
+#, c-format
 msgid "invalid or corrupted delta"
 msgstr "ugyldig eller ødelagt delta"
 
@@ -402,10 +406,6 @@ msgid "failed to retrieve some files"
 msgstr "kunne ikke indhente nogle filer"
 
 #, c-format
-msgid "failed to copy some file"
-msgstr ""
-
-#, c-format
 msgid "invalid regular expression"
 msgstr "ugyldigt regulært udtryk"
 
@@ -418,16 +418,16 @@ msgid "download library error"
 msgstr "hent biblioteksfejl"
 
 #, c-format
+msgid "gpgme error"
+msgstr ""
+
+#, c-format
 msgid "error invoking external downloader"
 msgstr "fejl under opstart af ekstern hentningsprogram"
 
 #, c-format
 msgid "unexpected error"
 msgstr "uventet fejl"
-
-#, c-format
-msgid "database larger than maximum size\n"
-msgstr ""
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -548,3 +548,12 @@ msgstr "intet %s-mellemlager findes, opretter...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "kunne ikke oprette pakkemellemlager, bruger /tmp i steden for\n"
+
+#~ msgid "resuming download of %s not possible; starting over\n"
+#~ msgstr "det er ikke muligt at genoptage hentning af %s; starter forfra\n"
+
+#~ msgid "error writing to file '%s': %s\n"
+#~ msgstr "fejl under skrivning til fil »%s«: %s\n"
+
+#~ msgid "failed retrieving file '%s' from %s\n"
+#~ msgstr "kunne ikke indhente fil »%s« fra %s\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-05-11 14:51+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -163,6 +163,96 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc-virhe: %zd tavua ei voitu varata\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "nykyisen kansion sijaintia ei kyetty määrittämään\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "latauskansioon '%s' ei voitu siirtyä\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "XferCommand: haarauttaminen epäonnistui!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "ei voitu siirtyä kansioon %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "epäkelvollinen arvo avaimelle 'CleanMethod': '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"asetustiedosto %s rivillä %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr "asetustiedosto %s rivillä %d: direktiivi '%s' tarvitsee arvon\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr "Peilipalvelin '%s' sisältää $arch-muuttujan, jota ei ole määritetty.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "palvelimen osoitetta ei voitu lisätä tietokantaan '%s': %s(%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "alpm-kirjaston alustaminen epäonnistui (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "ongelma asetettaessa lokitiedostoa '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "ongelma asetettaessa juurikansiota '%s' (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "tietokannan '%s' rekisteroiminen epäonnistui (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "palvelimen osoitetta ei voitu lisätä tietokantaan '%s': %s(%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "palvelimen osoitetta ei voitu lisätä tietokantaan '%s': %s(%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "asetustiedostoa %s ei voitu lukea.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "asetustiedosto %s, sisältää viallisen osionimen rivillä: %d.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr "asetustiedosto %s, rivi %d: syntaksivirhe, avain puuttuu.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"asetustiedosto %s, rivi %d: Kaikkien asetusvalintojen tulee kuulua johonkin "
+"osioon.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr "asetustiedosto %s rivillä %d: direktiivi '%s' tarvitsee arvon\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "yhtään kohdetta ei ole määritelty (-h tulostaa ohjeen)\n"
 
@@ -193,6 +283,10 @@ msgstr "Asennettu riippuvuutena toiselle paketille"
 #, c-format
 msgid "Unknown"
 msgstr "Tuntematon"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Pakettivarasto          :"
 
 #, c-format
 msgid "Name           :"
@@ -238,16 +332,16 @@ msgstr "Ristiriidassa paketeille:"
 msgid "Replaces       :"
 msgstr "Korvaa paketit          :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Latauksen koko          : %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Pakattu koko            : %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Asennettu koko          : %6.2f K\n"
 
 #, c-format
@@ -289,10 +383,6 @@ msgstr "MD5-summa              :"
 #, c-format
 msgid "Description    :"
 msgstr "Kuvaus                  :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Pakettivarasto          :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -591,6 +681,10 @@ msgstr "      --config <polku>    määritä vaihtoehtoinen asetustiedosto\n"
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug             näytä ohjelmavirheiden viestit\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <polku>   määritä vaihtoehtoinen lokitiedosto\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <polku>   määritä vaihtoehtoinen lokitiedosto\n"
@@ -608,22 +702,6 @@ msgstr ""
 "                     General Public Licensen ehtojen mukaisesti.\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "ongelma asetettaessa juurikansiota '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "ongelma asetettaessa tietokantakansiota '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "ongelma asetettaessa lokitiedostoa '%s' (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "ongelma lisättäessä välimuistikansiota '%s' (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' ei ole kelvollinen debuggaustaso\n"
 
@@ -634,72 +712,6 @@ msgstr "vain yksi operaatio voidaan suorittaa kerralla\n"
 #, c-format
 msgid "invalid option\n"
 msgstr "epäkelvollinen valitsin\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "epäkelvollinen arvo avaimelle 'CleanMethod': '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "nykyisen kansion sijaintia ei kyetty määrittämään\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "latauskansioon '%s' ei voitu siirtyä\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "XferCommand: haarauttaminen epäonnistui!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "ei voitu siirtyä kansioon %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-"asetustiedosto %s rivillä %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr "Peilipalvelin '%s' sisältää $arch-muuttujan, jota ei ole määritetty.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "palvelimen osoitetta ei voitu lisätä tietokantaan '%s': %s(%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "asetustiedostoa %s ei voitu lukea.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "asetustiedosto %s, sisältää viallisen osionimen rivillä: %d.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "tietokannan '%s' rekisteroiminen epäonnistui (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "asetustiedosto %s, rivi %d: syntaksivirhe, avain puuttuu.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"asetustiedosto %s, rivi %d: Kaikkien asetusvalintojen tulee kuulua johonkin "
-"osioon.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "asetustiedosto %s rivillä %d: direktiivi '%s' tarvitsee arvon\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "alpm-kirjaston alustaminen epäonnistui (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -994,23 +1006,47 @@ msgid "None"
 msgstr "Ei ole"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "kohteet (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Yhteensä ladataan:   %.2f Mt\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Yhteensä asennetaan: %.2f Mt\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Poista (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Yhteensä ladataan:   %.2f Mt\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Yhteensä asennetaan: %.2f Mt\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Yhteensä ladataan:   %.2f Mt\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Tilaa vapautuu yhteensä: %.2f Mt\n"
 
 #, c-format
@@ -1093,6 +1129,9 @@ msgstr "VIRHE:"
 
 msgid "Cleaning up..."
 msgstr "Siivotaan..."
+
+msgid "Entering fakeroot environment..."
+msgstr "Siirrytään fakeroot-ympäristöön..."
 
 msgid "Unable to find source file %s."
 msgstr "Lähdetiedostoa %s ei löydy."
@@ -1188,7 +1227,8 @@ msgstr "Siistitään pakettia..."
 msgid "Removing doc files..."
 msgstr "Poistetaan doc-tiedostoja..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Puhdistetaan muita tiedostoja..."
 
 msgid "Compressing man and info pages..."
@@ -1203,8 +1243,19 @@ msgstr "Poistetaan libtool .la-tiedostoja..."
 msgid "Removing empty directories..."
 msgstr "Poistetaan tyhjiä kansioita..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Pakataan man- ja info-sivuja..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "välimuistikansion %s avaaminen epäonnistui\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "Luodaan .PKGINFO-tiedostoa..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Lisää lisenssirivi tiedostoosi %s!"
@@ -1239,8 +1290,17 @@ msgstr "Pakettitiedoston luominen epäonnistui."
 msgid "Failed to create symlink to package file."
 msgstr "Symbolisen linkin luominen pakettiin epäonnistui."
 
-msgid "Skipping integrity checks."
-msgstr "Ohitetaan pakettien virheellisyyden tarkistaminen."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Luodaan pakettia..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Luodaan päivitettyä tietokantatiedostoa '%s'"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Pakettitiedoston luominen epäonnistui."
 
 msgid "Creating source package..."
 msgstr "Luodaan lähdepakettia..."
@@ -1314,20 +1374,23 @@ msgstr "Jaetun paketin '%s' pakkausfunktio puuttuu"
 msgid "requested package %s is not provided in %s"
 msgstr "pyydettiin pakettia %s, mutta paketti %s ei sisällä sitä"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Etsitään uusinta %s-versiota..."
 
 msgid "Version found: %s"
 msgstr "Löydetty versio: %s"
-
-msgid "requires an argument"
-msgstr "vaatii parametrin"
-
-msgid "unrecognized option"
-msgstr "tunnistamaton valitsin"
-
-msgid "invalid option"
-msgstr "epäkelvollinen valitsin"
 
 msgid "Usage: %s [options]"
 msgstr "Käyttö: %s [valitsimet]"
@@ -1360,7 +1423,8 @@ msgstr "  -f, --force      Ylikirjoita olemassa oleva paketti"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Luo virheellisyyden tarkistussummat"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Näytä tämä teksti"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1413,11 +1477,23 @@ msgid ""
 msgstr ""
 "  --holdver        Estää automaattisen version muutoksen kehittämiseen %ss"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck        Älä suorita funktiota check() kohteessa %s"
 
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         älä uudelleenasenna paketteja\n"
+
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <lista>    Käännä vain listatut paketit jaetustapaketista"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr "  --skipinteg      Salli tarkistusummien puuttuminen"
@@ -1452,6 +1528,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s löytyi."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "Sinulla ei ole oikeuksia säilöä paketteja sijainnissa %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Sinulla ei ole oikeuksia säilöä paketteja sijainnissa %s."
@@ -1501,12 +1581,6 @@ msgstr "--asroot-valitsin on tarkoitettu vain ylläpitäjälle."
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Suorita makepkg uudelleen ilman --asroot-valitsinta."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "Jos tahdot käyttää 'fakeroot' valitsinta BUILDENV listassa"
-
-msgid "in the BUILDENV array in %s."
-msgstr "asetus tiedossa %s. Niin sinun tulee asentaa fakeroot järjestelmääsi."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "Makepkg:n suorittaminen peruskäyttäjänä johtaa siihen että"
 
@@ -1531,6 +1605,9 @@ msgstr "%s ei ole olemassa."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s sisältää CRLF-merkkejä eikä sitä voida siksi lukea."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Paketti on jo käännetty. Asennetaan valmista pakettia..."
 
@@ -1553,14 +1630,14 @@ msgstr ""
 "Osa pakettiryhmästä on jo käännetty. (käytä -f valitsinta kääntääksesi "
 "paketit uudelleen)"
 
+msgid "Leaving fakeroot environment."
+msgstr "Poistutaan fakeroot-ympäristöstä."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "Uudelleenpakkaaminen ilman pakkausfunktio package():ta on vanhentunut."
 
 msgid "File permissions may not be preserved."
 msgstr "Tiedostojen omistussuhteet saattavat kärsiä."
-
-msgid "Leaving fakeroot environment."
-msgstr "Poistutaan fakeroot-ympäristöstä."
 
 msgid "Making package: %s"
 msgstr "Käännetään pakettia: %s"
@@ -1569,6 +1646,9 @@ msgid "A source package has already been built. (use -f to overwrite)"
 msgstr ""
 "Lähdepaketti on jo luotu. (käytä -f valitsinta luodaksesi lähdepaketin "
 "uudelleen)"
+
+msgid "Skipping integrity checks."
+msgstr "Ohitetaan pakettien virheellisyyden tarkistaminen."
 
 msgid "Source package created: %s"
 msgstr "Luotiin lähdepaketti: %s"
@@ -1616,9 +1696,6 @@ msgstr "Lähdetiedostot ovat valmiita."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Poistetaan jo olemassaolevaa pkg/-kansiota..."
-
-msgid "Entering fakeroot environment..."
-msgstr "Siirrytään fakeroot-ympäristöön..."
 
 msgid "Finished making: %s"
 msgstr "Saatiin valmiiksi paketti: %s"
@@ -1768,13 +1845,10 @@ msgstr "Tiedostoa '%s' ei ole olemassa"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Xdelta3-ohjelmaa ei löydy! Onko xdelta3 asennettuna?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Käyttö: repo-add [-d] [-f] [-q] <tietokannan-sijainti> <paketti|delta> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr ""
-"Käyttö: repo-remove [-q] <tietokannan_sijainti> <paketinnimi|delta> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1782,6 +1856,24 @@ msgid ""
 msgstr ""
 "repo-add päivittää pakettitietokannan lukemalla pakettitiedoston."
 "\\nKomentorivillä voidaan määrittää useampia paketteja kerrallaan.\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Valitsimet:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Käytä -f/--files valitsinta päivittääksesi tietokannan sekä "
+"tiedostomerkinnät.\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr ""
+"Käyttö: repo-remove [-q] <tietokannan_sijainti> <paketinnimi|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1792,27 +1884,27 @@ msgstr ""
 "määriteltyjen pakettien nimet tietokannasta.\\n komentorivillä voidaan "
 "määrittää kerrallaan useampia paketteja.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
-msgstr "Käytä -q/--quiet valitsinta minimoidaksesi viestien määrän.\\n\\n"
-
-msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Käytä -d/--delta valitsinta luodaksesi automaattisesti deltan\\nvanhan ja "
-"uuden tietokantamerkinnän välille, jos sekä vanha\\nettä uusi paketti on "
-"saatavilla.\\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr "  -p, --file <paketti>    etsi paketista pakettitietokannan sijaan\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Käytä -f/--files valitsinta päivittääksesi tietokannan sekä "
-"tiedostomerkinnät.\\n\\n"
 
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+#, fuzzy
+msgid ""
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
 "Esimerkki:  repo-add /tieto/kannan/sijainti/repo.db.tar.gz pacman-3.0.0.pkg."
 "tar.gz"
@@ -1820,16 +1912,15 @@ msgstr ""
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Esimerkki: repo-remove /tieto/kannan/sijainti/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>."
-"\\ntekijänoikeudet (c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nTämä on "
-"ilmainen ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMinkäänlaisia "
-"takuita ei anneta lain rajoissa.\\n"
+"Tekijänoikeudet (c) 2010-2011 Pacmanin kehitystiimi <pacman-dev@archlinux."
+"org>.\\nTämä on ilmainen ohjelmisto; katso kopioimisehdot lähdekoodista."
+"\\nMitään takuita ei anneta, lain rajoissa.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Paketilla '%s' ei ole merkintää tietokannassa."
@@ -1840,14 +1931,40 @@ msgstr "Lisätään 'deltas'-merkintää: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Poistetaan pakettia '%s' tietokannasta..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "Xdelta3-ohjelmaa ei löydy! Onko xdelta3 asennettuna?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Siirretään tietokantaa levylle..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Pakettitiedoston luominen epäonnistui."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Pyöritellään tietokantaa paikalleen..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "Lasketaan md5-summia..."
+
 msgid "An entry for '%s' already existed"
 msgstr "Paketti '%s' on jo tietokannassa"
 
 msgid "Creating '%s' db entry..."
 msgstr "Luodaan tietokantamerkintää '%s'.."
-
-msgid "Computing md5 checksums..."
-msgstr "Lasketaan md5-summia..."
 
 msgid "Old package file not found: %s"
 msgstr "Vanhaa pakettia ei löydy: %s"
@@ -1912,3 +2029,50 @@ msgstr "Yhtään pakettia ei ole jäljellä, luodaan tyhjä tietokanta."
 
 msgid "No packages modified, nothing to do."
 msgstr "Yhtään pakettia ei ole muokattu, ei ole mitään tehtävää jäljellä."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "ongelma asetettaessa tietokantakansiota '%s' (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "ongelma lisättäessä välimuistikansiota '%s' (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "vaatii parametrin"
+
+#~ msgid "unrecognized option"
+#~ msgstr "tunnistamaton valitsin"
+
+#~ msgid "invalid option"
+#~ msgstr "epäkelvollinen valitsin"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "Jos tahdot käyttää 'fakeroot' valitsinta BUILDENV listassa"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr ""
+#~ "asetus tiedossa %s. Niin sinun tulee asentaa fakeroot järjestelmääsi."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr "Käytä -q/--quiet valitsinta minimoidaksesi viestien määrän.\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Käytä -d/--delta valitsinta luodaksesi automaattisesti deltan\\nvanhan ja "
+#~ "uuden tietokantamerkinnän välille, jos sekä vanha\\nettä uusi paketti on "
+#~ "saatavilla.\\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Tekijänoikeudet (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>."
+#~ "\\ntekijänoikeudet (c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nTämä "
+#~ "on ilmainen ohjelmisto; katso kopiointiehdot lähdekoodista."
+#~ "\\nMinkäänlaisia takuita ei anneta lain rajoissa.\\n"

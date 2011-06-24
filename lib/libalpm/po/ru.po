@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:48-0500\n"
 "PO-Revision-Date: 2011-04-13 14:50+0000\n"
 "Last-Translator: vdk <vdk@gmx.us>\n"
 "Language-Team: Russian <None>\n"
@@ -156,6 +156,10 @@ msgstr "отсутствуют метаданные пакета в %s\n"
 msgid "removing invalid file: %s\n"
 msgstr "удаляется ошибочный файл: %s\n"
 
+#, fuzzy, c-format
+msgid "could not parse package '%s' description file from db '%s'\n"
+msgstr "не удалось проанализировать файл с описанием пакета в %s\n"
+
 #, c-format
 msgid "database path is undefined\n"
 msgstr "путь к базе данных не определён\n"
@@ -221,18 +225,6 @@ msgstr "ссылка '%s' некорректна\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не удалось получить файл '%s' из %s : %s\n"
-
-#, c-format
-msgid "resuming download of %s not possible; starting over\n"
-msgstr "не удалось продолжить закачку %s; начинаю заново\n"
-
-#, c-format
-msgid "error writing to file '%s': %s\n"
-msgstr "ошибка записи в файл '%s': %s\n"
-
-#, c-format
-msgid "failed retrieving file '%s' from %s\n"
-msgstr "не удалось получить файл '%s' из %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -383,6 +375,18 @@ msgid "could not find repository for target"
 msgstr "не удалось репозиторий для цели"
 
 #, c-format
+msgid "signature directory not configured correctly"
+msgstr ""
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr ""
+
+#, c-format
+msgid "unknown PGP signature"
+msgstr ""
+
+#, c-format
 msgid "invalid or corrupted delta"
 msgstr "ошибка или повреждение в дельте"
 
@@ -407,10 +411,6 @@ msgid "failed to retrieve some files"
 msgstr "не удалось получить некоторые файлы"
 
 #, c-format
-msgid "failed to copy some file"
-msgstr "не удалось скопировать некоторые файлы"
-
-#, c-format
 msgid "invalid regular expression"
 msgstr "неверное регулярное выражение"
 
@@ -423,16 +423,16 @@ msgid "download library error"
 msgstr "ошибка в библиотеке загрузки"
 
 #, c-format
+msgid "gpgme error"
+msgstr ""
+
+#, c-format
 msgid "error invoking external downloader"
 msgstr "ошибка вызова внешнего менеджера загрузки"
 
 #, c-format
 msgid "unexpected error"
 msgstr "непредвиденная ошибка"
-
-#, c-format
-msgid "database larger than maximum size\n"
-msgstr "база данных больше максимального размера\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -553,3 +553,18 @@ msgstr "кэш %s не существует, создается...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "не удалось создать кэш пакетов, будет использован /tmp\n"
+
+#~ msgid "resuming download of %s not possible; starting over\n"
+#~ msgstr "не удалось продолжить закачку %s; начинаю заново\n"
+
+#~ msgid "error writing to file '%s': %s\n"
+#~ msgstr "ошибка записи в файл '%s': %s\n"
+
+#~ msgid "failed retrieving file '%s' from %s\n"
+#~ msgstr "не удалось получить файл '%s' из %s\n"
+
+#~ msgid "failed to copy some file"
+#~ msgstr "не удалось скопировать некоторые файлы"
+
+#~ msgid "database larger than maximum size\n"
+#~ msgstr "база данных больше максимального размера\n"

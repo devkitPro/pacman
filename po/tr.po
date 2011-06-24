@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-04-06 08:03+0000\n"
 "Last-Translator: tarakbumba <tarakbumba@gmail.com>\n"
 "Language-Team: Turkish <None>\n"
@@ -158,6 +158,98 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "hafıza tahsisi hatası: %zd bayt tahsis edilemedi\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "mevcut çalışma dizini alınamadı\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "indirme dizini %s dizinine geçilemedi\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "%s dizinine geçilemedi (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "'CleanMethod' için geçersiz değer : '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr "ayar dosyası %s, satır %d: '%s' direktifi '%s' bölümü için geçersiz.\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr ""
+"yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+"'%s' yansısı $arch değişkenini barındırıyor, fakat mimari belirtilmedi.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "sunucu adresi '%s' veritabanına eklenemedi: %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "alpm kütüphanesi başlatılamadı (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "kayıt dosyasını '%s' (%s) ayarlama sorunu\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "kök dizinini '%s' (%s) ayarlama sorunu\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "veritabanı (%s) kaydedilemedi (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "sunucu adresi '%s' veritabanına eklenemedi: %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "sunucu adresi '%s' veritabanına eklenemedi: %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "ayar dosyası %s okunamadı.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "ayar dosyası %s, satır %d: hatalı bölüm adı.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"ayar dosyası %s, satır %d: ayar dosyasında söz dizimi hatası- eksik "
+"anahtar.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr "ayar dosyası %s, satır %d: Tüm direktifler bir bölüme ait olmalı.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr ""
+"yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "hedef belirtilmedi (yardım için -h kullanın)\n"
 
@@ -188,6 +280,10 @@ msgstr "Başka bir paketin bağımlılığı olarak kurulmuş"
 #, c-format
 msgid "Unknown"
 msgstr "Bilinmiyor"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Depo                       :"
 
 #, c-format
 msgid "Name           :"
@@ -233,16 +329,16 @@ msgstr "Çakıştığı Paket(ler)       :"
 msgid "Replaces       :"
 msgstr "Değiştirdiği Paket(ler)    :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "İndirme Boyutu             : %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Sıkıştırılmış Boyutu       : %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Kapladığı Alan             : %6.2f K\n"
 
 #, c-format
@@ -284,10 +380,6 @@ msgstr "MD5 Çıktısı                :"
 #, c-format
 msgid "Description    :"
 msgstr "Açıklama                   :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Depo                       :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -588,6 +680,10 @@ msgstr "      --config <yol>   farklı bir ayar dosyası seç\n"
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          hata ayıklama çıktılarını göster\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <yol>  farklı bir kayıt dosyası seç\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <yol>  farklı bir kayıt dosyası seç\n"
@@ -605,22 +701,6 @@ msgstr ""
 "                       uymak şartıyla özgürce dağıtılabilir.\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "kök dizinini '%s' (%s) ayarlama sorunu\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "veritabanı yolunu '%s' (%s) ayarlama sorunu\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "kayıt dosyasını '%s' (%s) ayarlama sorunu\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "önbellek dizinini '%s' (%s) ekleme sorunu\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' geçerli bir hata ayıklama seviyesi değil\n"
 
@@ -631,73 +711,6 @@ msgstr "her seferinde yalnızca bir işlem yapılabilir\n"
 #, c-format
 msgid "invalid option\n"
 msgstr "hatalı seçenek\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "'CleanMethod' için geçersiz değer : '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "mevcut çalışma dizini alınamadı\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "indirme dizini %s dizinine geçilemedi\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "%s dizinine geçilemedi (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "ayar dosyası %s, satır %d: '%s' direktifi '%s' bölümü için geçersiz.\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-"'%s' yansısı $arch değişkenini barındırıyor, fakat mimari belirtilmedi.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "sunucu adresi '%s' veritabanına eklenemedi: %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "ayar dosyası %s okunamadı.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "ayar dosyası %s, satır %d: hatalı bölüm adı.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "veritabanı (%s) kaydedilemedi (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"ayar dosyası %s, satır %d: ayar dosyasında söz dizimi hatası- eksik "
-"anahtar.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "ayar dosyası %s, satır %d: Tüm direktifler bir bölüme ait olmalı.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-"yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "alpm kütüphanesi başlatılamadı (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -990,23 +1003,47 @@ msgid "None"
 msgstr "Hiçbiri"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Hedefler (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Toplam İndirme Boyutu:    %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Toplam Kurulacak Boyut:   %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Kaldır (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Toplam İndirme Boyutu:    %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Toplam Kurulacak Boyut:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Toplam İndirme Boyutu:    %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Toplam Kaldırılacak Boyut:   %.2f MB\n"
 
 #, c-format
@@ -1089,6 +1126,9 @@ msgstr "HATA:"
 
 msgid "Cleaning up..."
 msgstr "Temizleniyor..."
+
+msgid "Entering fakeroot environment..."
+msgstr "fakeroot ortamına giriliyor..."
 
 msgid "Unable to find source file %s."
 msgstr "Kaynak dosya (%s) bulunamadı."
@@ -1185,7 +1225,8 @@ msgstr "Kurulum düzenleniyor..."
 msgid "Removing doc files..."
 msgstr "Döküman dosyaları kaldırılıyor..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Diğer dosyalar siliniyor..."
 
 msgid "Compressing man and info pages..."
@@ -1202,8 +1243,19 @@ msgstr "libtool .la dosyaları kaldırılıyor..."
 msgid "Removing empty directories..."
 msgstr "Boş dizinler kaldırılıyor..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Kılavuz ve bilgi sayfaları sıkıştırılıyor..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "%s önbellek dizinine ulaşılamadı\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr ".PKGINFO dosyası oluşturuluyor..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Lütfen %s dosyanıza bir lisans satırı ekleyin!"
@@ -1238,8 +1290,17 @@ msgstr "Paket oluşturulamadı."
 msgid "Failed to create symlink to package file."
 msgstr "Paket dosyasına sembolik bağ oluşturulamadı."
 
-msgid "Skipping integrity checks."
-msgstr "Bütünlük kontrolleri atlanıyor."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Paket oluşturuluyor..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Güncellenmiş veritabanı dosyası '%s' oluşturuluyor"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Paket oluşturulamadı."
 
 msgid "Creating source package..."
 msgstr "Kaynak paketi oluşturuluyor..."
@@ -1313,20 +1374,23 @@ msgstr "ayrılmış '%s' paketi için eksik paket fonksiyonu"
 msgid "requested package %s is not provided in %s"
 msgstr "istenen %s paketi %s tarafından sağlanmıyor "
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Son %s sürümü belirleniyor..."
 
 msgid "Version found: %s"
 msgstr "Değişiklik numarası olarak %s bulundu"
-
-msgid "requires an argument"
-msgstr "bir parametre gerektirir"
-
-msgid "unrecognized option"
-msgstr "bilinmeyen seçenek"
-
-msgid "invalid option"
-msgstr "geçersiz seçenek"
 
 msgid "Usage: %s [options]"
 msgstr "Kullanım: %s [seçenekler]"
@@ -1356,7 +1420,8 @@ msgstr "  -f, --force      Mevcut paketlerin üstüne yaz"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Kaynak dosyaları için bütünlük kontrolleri oluştur"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Bu yardım seçeneklerini görüntüle"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1408,12 +1473,24 @@ msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr "  --holdver        %s için sürümü sabit tut"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr " --nocheck        %s içerisinde check() fonksiyonunu kullanma"
+
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         güncel paketleri tekrar yükleme\n"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Paket grubundan sadece listedeki ayrılmış paketleri derle "
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr "  --skipinteg  Bütünlük kontrolü başarısız olsa bile devam et"
@@ -1450,6 +1527,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s bulunamadı."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "Paketleri %s dizininde saklamak için yazma izniniz yok."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Paketleri %s dizininde saklamak için yazma izniniz yok."
@@ -1503,12 +1584,6 @@ msgid "Please rerun makepkg without the --asroot flag."
 msgstr ""
 "Lütfen makepkg komutunu --asroot parametresi olmadan tekrar çalıştırın."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "'fakeroot' seçeneğini kullanabilmek istiyorsanız"
-
-msgid "in the BUILDENV array in %s."
-msgstr "%s içerisindeki BUILDENV dizisinde Fakeroot tanımlanmış olmalı."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "makepkg komutunu sıradan kullanıcı haklarıyla çalıştırmanız"
 
@@ -1534,6 +1609,9 @@ msgstr "%s mevcut değil."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s CRLF karakterleri barındırıyor ve kaynak olarak kullanılamıyor."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
 
@@ -1551,6 +1629,9 @@ msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr ""
 "Paket grubunun bir kısmı zaten derlenmiş. (üzerine yazmak için -f kullanın)"
 
+msgid "Leaving fakeroot environment."
+msgstr "fakeroot ortamından çıkılıyor."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr ""
 "package() fonksiyonu kullanılmadan tekrar paketleme desteklenmemektedir."
@@ -1558,14 +1639,14 @@ msgstr ""
 msgid "File permissions may not be preserved."
 msgstr "Dosya izinleri korunmayabilir."
 
-msgid "Leaving fakeroot environment."
-msgstr "fakeroot ortamından çıkılıyor."
-
 msgid "Making package: %s"
 msgstr "%s paketi oluşturuluyor"
 
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr "Bir kaynak paket zaten derlenmiş. (üzerine yazmak için -f kullanın)"
+
+msgid "Skipping integrity checks."
+msgstr "Bütünlük kontrolleri atlanıyor."
 
 msgid "Source package created: %s"
 msgstr "Kaynak paketi oluşturuldu: %s"
@@ -1613,9 +1694,6 @@ msgstr "Kaynak kodları hazır."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Mevcut pkg/ dizini siliniyor..."
-
-msgid "Entering fakeroot environment..."
-msgstr "fakeroot ortamına giriliyor..."
 
 msgid "Finished making: %s"
 msgstr "%s paketinin derlenmesi tamamlandı"
@@ -1761,13 +1839,10 @@ msgstr "'%s' dosyası bulunamadı"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "xdelta3 ikili dosyası bulunamıyor! Sisteminizde xdelta3 kurulu mu?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Kullanım: repo-add [-d] [-f] [-q] <veritabanı-dosyası> <paket|delta> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr ""
-"Kullanım: repo-remove [-q] <veritabani-yolu> <paket-adi|fark> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1775,6 +1850,24 @@ msgid ""
 msgstr ""
 "repo-add komutu, bir paket dosyasını okuyarak paket veritabanını günceller."
 "\\nBirden fazla paket, komut satırında tanımlanabilir.\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Seçenekler:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Veritabanını dosyalarla birlikte güncellemek için -f/--files parametresini "
+"kullanın.\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr ""
+"Kullanım: repo-remove [-q] <veritabani-yolu> <paket-adi|fark> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1785,44 +1878,42 @@ msgstr ""
 "\\nadını depo veritabanından silerek günceller. Komut satırında silinecek "
 "\\nbirden fazla paket tanımlanabilir.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Uyarıları, mesajları ve hataları gizlemek için -q/--quiet parametresini"
-"\\nkullanın.\\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Eski girdi ile yeni girdi arasındaki farklılıklardan bir delta paketi "
-"oluşturmak\\niçin -d/--delta parametresini kullanın.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-"Veritabanını dosyalarla birlikte güncellemek için -f/--files parametresini "
-"kullanın.\\n\\n"
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
 "Örnek:  repo-add /depo/dosyasinin/yolu/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Örnek:  repo-remove /depo/dosyasinin/yolu/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>. \\n\\nBu bir özgür yazılım "
-"projesidir, kopyalama şartları için kaynak koduna bakınız.\\nMevcut yasalar "
-"kapsamında da hiçbir GARANTİSİ YOKTUR.\\n"
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "'%s' paketi için veritabanı girdisi yok."
@@ -1833,14 +1924,40 @@ msgstr "'deltas' girdisi ekleniyor: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Mevcut '%s' kaydı kaldırılıyor..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "xdelta3 ikili dosyası bulunamıyor! Sisteminizde xdelta3 kurulu mu?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Veritabanı disk ile senkronize ediliyor..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Paket oluşturulamadı."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Veritabanı dönüştürülüyor..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "md5 bütünlük kontrolleri hesaplanıyor..."
+
 msgid "An entry for '%s' already existed"
 msgstr "'%s' için zaten bir kayıt bulunuyor"
 
 msgid "Creating '%s' db entry..."
 msgstr "'%s' veritabanı girdisi oluşturuluyor..."
-
-msgid "Computing md5 checksums..."
-msgstr "md5 bütünlük kontrolleri hesaplanıyor..."
 
 msgid "Old package file not found: %s"
 msgstr "Eski paket dosyası bulunamadı: %s"
@@ -1905,3 +2022,50 @@ msgstr "Hiç paket kalmadı, boş veritabanı yaratılıyor."
 
 msgid "No packages modified, nothing to do."
 msgstr "Hiç bir pakette değişiklik yapılmadı, çıkılıyor."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "veritabanı yolunu '%s' (%s) ayarlama sorunu\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "önbellek dizinini '%s' (%s) ekleme sorunu\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "bir parametre gerektirir"
+
+#~ msgid "unrecognized option"
+#~ msgstr "bilinmeyen seçenek"
+
+#~ msgid "invalid option"
+#~ msgstr "geçersiz seçenek"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "'fakeroot' seçeneğini kullanabilmek istiyorsanız"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "%s içerisindeki BUILDENV dizisinde Fakeroot tanımlanmış olmalı."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "Uyarıları, mesajları ve hataları gizlemek için -q/--quiet parametresini"
+#~ "\\nkullanın.\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Eski girdi ile yeni girdi arasındaki farklılıklardan bir delta paketi "
+#~ "oluşturmak\\niçin -d/--delta parametresini kullanın.\\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>. \\n\\nBu bir özgür yazılım "
+#~ "projesidir, kopyalama şartları için kaynak koduna bakınız.\\nMevcut "
+#~ "yasalar kapsamında da hiçbir GARANTİSİ YOKTUR.\\n"

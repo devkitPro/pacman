@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-04-01 02:37+0000\n"
 "Last-Translator: Traumness <traumness@gmail.com>\n"
 "Language-Team: Spanish (Castilian) <>\n"
@@ -159,6 +159,105 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "error en malloc: no se pudo reservar %zd bytes\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "no se puede acceder al directorio actual de trabajo\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "no se pudo cambiar al directorio de descargas %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "ejecutando XferCommand: ¡falló la creación del proceso!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "No se pudo cambiar directorio a %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "valor no válido para 'CleanMethod' : '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"archivo de configuración %s, linea %d: directiva '%s' en sección '%s' no "
+"reconocida.\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr ""
+"archivo de configuración %s, linea %d: directiva '%s' necesita un valor\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+"El mirror '%s' contiene la variable $arch, pero no hay una arquitectura "
+"definida.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr ""
+"no se pudo añadir la URL del servidor a la base de datos '%s': %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "fallo al iniciar la biblioteca alpm (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "error al establecer logfile '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "error al definir el directorio raíz '%s' (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "no se pudo registrar la base de datos '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr ""
+"no se pudo añadir la URL del servidor a la base de datos '%s': %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr ""
+"no se pudo añadir la URL del servidor a la base de datos '%s': %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "el archivo de configuración %s no se ha podido leer.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "archivo de configuración %s, línea %d: nombre de sección erróneo.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"archivo de configuración %s, línea %d: error de sintaxis - falta la clave.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"archivo de configuración %s, línea %d: Todas las directivas deben pertenecer "
+"a una sección.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr ""
+"archivo de configuración %s, linea %d: directiva '%s' necesita un valor\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "no se especificaron objetivos (use -h para ayuda)\n"
 
@@ -192,6 +291,10 @@ msgstr "Instalado como dependencia de otro paquete"
 #, c-format
 msgid "Unknown"
 msgstr "Desconocido"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Repositorio       :"
 
 #, c-format
 msgid "Name           :"
@@ -237,16 +340,16 @@ msgstr "En conflicto con    :"
 msgid "Replaces       :"
 msgstr "Reemplaza a         :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Tamaño de descarga: %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Tamaño comprimido : %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Tamaño instalado  : %6.2f K\n"
 
 #, c-format
@@ -288,10 +391,6 @@ msgstr "Suma MD5          :"
 #, c-format
 msgid "Description    :"
 msgstr "Descripción       :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Repositorio       :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -631,6 +730,10 @@ msgstr ""
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          muestra mensajes de depuración\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <ruta> define un archivo de registro alternativo\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <ruta> define un archivo de registro alternativo\n"
@@ -649,22 +752,6 @@ msgstr ""
 "License\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "error al definir el directorio raíz '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "error al establecer el dbpath '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "error al establecer logfile '%s' (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "error al añadir el directorio de caché '%s' (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' no es un nivel de depuración válido\n"
 
@@ -675,78 +762,6 @@ msgstr "sólo una operación puede utilizarse a la vez\n"
 #, c-format
 msgid "invalid option\n"
 msgstr "opción no válida\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "valor no válido para 'CleanMethod' : '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "no se puede acceder al directorio actual de trabajo\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "no se pudo cambiar al directorio de descargas %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "ejecutando XferCommand: ¡falló la creación del proceso!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "No se pudo cambiar directorio a %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-"archivo de configuración %s, linea %d: directiva '%s' en sección '%s' no "
-"reconocida.\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-"El mirror '%s' contiene la variable $arch, pero no hay una arquitectura "
-"definida.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr ""
-"no se pudo añadir la URL del servidor a la base de datos '%s': %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "el archivo de configuración %s no se ha podido leer.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "archivo de configuración %s, línea %d: nombre de sección erróneo.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "no se pudo registrar la base de datos '%s' (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"archivo de configuración %s, línea %d: error de sintaxis - falta la clave.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"archivo de configuración %s, línea %d: Todas las directivas deben pertenecer "
-"a una sección.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-"archivo de configuración %s, linea %d: directiva '%s' necesita un valor\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "fallo al iniciar la biblioteca alpm (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -1041,23 +1056,47 @@ msgid "None"
 msgstr "Nada"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Objetivos (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Tamaño total de descarga:   %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Tamaño total instalado:   %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Se quitará (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Tamaño total de descarga:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Tamaño total instalado:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Tamaño total de descarga:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Tamaño total eliminado:   %.2f MB\n"
 
 #, c-format
@@ -1140,6 +1179,9 @@ msgstr "ERROR:"
 
 msgid "Cleaning up..."
 msgstr "Limpiando..."
+
+msgid "Entering fakeroot environment..."
+msgstr "Entrando a un entorno fakeroot..."
 
 msgid "Unable to find source file %s."
 msgstr "No se puede abrir el archivo fuente %s."
@@ -1236,7 +1278,8 @@ msgstr "Limpiando la instalación..."
 msgid "Removing doc files..."
 msgstr "Quitando los archivos doc..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Eliminando otros archivos..."
 
 msgid "Compressing man and info pages..."
@@ -1251,8 +1294,19 @@ msgstr "Eliminando archivos .la de libtool..."
 msgid "Removing empty directories..."
 msgstr "Quitando directorios vacíos... "
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Comprimiendo las páginas man e info..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "no se pudo acceder al directorio de la caché %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "Generando el archivo .PKGINFO..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Por favor, ¡añada una línea de licencia a su %s!"
@@ -1287,8 +1341,17 @@ msgstr "Error al crear el paquete."
 msgid "Failed to create symlink to package file."
 msgstr "Error al crear un enlace simbólico al paquete."
 
-msgid "Skipping integrity checks."
-msgstr "Saltando la verificación de dependencias."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Creando el paquete..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Creado un archivo de base de datos actualizada '%s'"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Error al crear el paquete."
 
 msgid "Creating source package..."
 msgstr "Creando paquete fuente..."
@@ -1365,20 +1428,23 @@ msgstr "falta una función para el paquete dividido '%s'"
 msgid "requested package %s is not provided in %s"
 msgstr "el paquete solicitado %s no se provee con %s"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Determinando ultima revisión de %s..."
 
 msgid "Version found: %s"
 msgstr "Versión encontrada: %s"
-
-msgid "requires an argument"
-msgstr "necesita un argumento"
-
-msgid "unrecognized option"
-msgstr "opción no reconocida"
-
-msgid "invalid option"
-msgstr "opción no válida"
 
 msgid "Usage: %s [options]"
 msgstr "Uso: %s [opciones]"
@@ -1409,7 +1475,8 @@ msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
 "  -g, --geninteg   Generar verificaciones de integridad para los fuentes"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Esta ayuda"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1463,13 +1530,25 @@ msgstr ""
 "  --holdver        Previene automáticamente el incremento de versión para "
 "desarrollo %ss"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck        No ejecutar la función check() en %s"
+
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         no reinstala paquetes que están actualizados\n"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <lista>    Sólo compila los paquetes listados desde un paquete "
 "dividido"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr ""
@@ -1510,6 +1589,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "no fue encontrado %s."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "No tiene permisos de escritura para guardar las descargas en %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "No tiene permisos de escritura para guardar las descargas en %s."
@@ -1558,12 +1641,6 @@ msgstr "La opción --asroot está pensada sólo para el usuario root."
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Por favor, vuelva a ejecutar makepkg sin la opción --asroot."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "Fakeroot debe ser instalado si se usa la opción 'fakeroot'"
-
-msgid "in the BUILDENV array in %s."
-msgstr "en la línea BUILDENV en %s."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr ""
 "Ejecutar makepkg como un usuario sin privilegios resultará en unos paquetes"
@@ -1588,6 +1665,9 @@ msgstr "%s no existe."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s contiene caracteres CRLF y no se pudo obtener las fuentes."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "El paquete ya ha sido compilado, instalando el paquete preexistente..."
 
@@ -1606,20 +1686,23 @@ msgstr "Un paquete ya ha sido compilado. (Use -f para sobreescribir)"
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr "Parte del grupo ya ha sido compilado. (Use -f para sobreescribir)"
 
+msgid "Leaving fakeroot environment."
+msgstr "Saliendo del entorno fakeroot."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "Reempaquetar sin el uso de la función package() está obsoleto."
 
 msgid "File permissions may not be preserved."
 msgstr "Puede que no se preserven los permisos del archivo."
 
-msgid "Leaving fakeroot environment."
-msgstr "Saliendo del entorno fakeroot."
-
 msgid "Making package: %s"
 msgstr "Creando el paquete: %s"
 
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr "Un paquete ya ha sido compilado. (Use -f para sobreescribir)"
+
+msgid "Skipping integrity checks."
+msgstr "Saltando la verificación de dependencias."
 
 msgid "Source package created: %s"
 msgstr "Paquete fuente creado: %s"
@@ -1660,9 +1743,6 @@ msgstr "Las fuentes están listas."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Eliminando el directorio pkg/ existente..."
-
-msgid "Entering fakeroot environment..."
-msgstr "Entrando a un entorno fakeroot..."
 
 msgid "Finished making: %s"
 msgstr "Terminado haciendo: %s"
@@ -1810,12 +1890,9 @@ msgstr "El archivo '%s' no existe"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "¡No se pudo encontrar el binario xdelta3! ¿xdelta3 está instalado?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Uso: repo-add [-d] [-f] [-q] <ruta-a-bd> <paquete|diferencial> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr ""
-"Uso: repo-remove [-q] <ruta-a-bd> <nombre_de_paquete|diferencial> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1824,6 +1901,24 @@ msgstr ""
 "repo-add actualizará la base de datos leyendo un archivo de paquetes."
 "\\nPueden especificarse varios paquetes para añadir en la linea de comandos."
 "\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Opciones:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Usa la opción -f/--files para actualizar una base de datos incluyendo "
+"entradas de los archivos.\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr ""
+"Uso: repo-remove [-q] <ruta-a-bd> <nombre_de_paquete|diferencial> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1834,44 +1929,43 @@ msgstr ""
 "\\nespecificado en la línea de comandos. Varios paquetes\\n pueden "
 "eliminarse especificándolos en la línea de comandos.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Usa la opción -q/--quiet para minimizar la salida a mensajes básicos, alertas"
-"\\ny errores.\\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr ""
+"  -p, --file <paquete> consulta un archivo de paquetes en lugar de la base "
+"de datos\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Usa la opción -d/--delta para automáticamente generar y agregar un archivo "
-"diferencial\\nentre la entrada vieja y la nueva, si el paquete viejo se "
-"encuentra\\njunto al nuevo.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-"Usa la opción -f/--files para actualizar una base de datos incluyendo "
-"entradas de los archivos.\\n\\n"
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr "Ejemplo: repo-add /ruta/al/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Ejemplo: repo-remove /ruta/al/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>. \\nCopyright "
-"(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nEsto es software libre, "
-"ver los fuentes para condiciones de copia.\\nNO HAY GARANTÍA, al grado "
-"permitido por la ley.\\n"
+"Copyright (c) 2010-2011 Equipo de Desarrollo Pacman <pacman-dev@archlinux."
+"org>.\\nEste software es libre; mira las fuentes para condiciones de copias."
+"\\nNo tiene GARANTÍA, en la medida permitida por la ley.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "No hay registros en la base de datos para el paquete '%s'."
@@ -1882,14 +1976,40 @@ msgstr "Agregando entradas 'diferenciales': %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Quitando la entrada existente '%s'..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "¡No se pudo encontrar el binario xdelta3! ¿xdelta3 está instalado?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Sincronizando la base de datos al disco..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Error al crear el paquete."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Rotando el sitio de la base de datos..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "Calculando sumas de comprobación md5..."
+
 msgid "An entry for '%s' already existed"
 msgstr "Una entrada para '%s' ya existía"
 
 msgid "Creating '%s' db entry..."
 msgstr "Creando entradas en la bd de '%s'"
-
-msgid "Computing md5 checksums..."
-msgstr "Calculando sumas de comprobación md5..."
 
 msgid "Old package file not found: %s"
 msgstr "Antiguo archivo de paquete no encontrado: %s"
@@ -1953,3 +2073,51 @@ msgstr "No quedan paquetes, creando una base de datos vacía."
 
 msgid "No packages modified, nothing to do."
 msgstr "No se modificaron paquetes, nada que hacer."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "error al establecer el dbpath '%s' (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "error al añadir el directorio de caché '%s' (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "necesita un argumento"
+
+#~ msgid "unrecognized option"
+#~ msgstr "opción no reconocida"
+
+#~ msgid "invalid option"
+#~ msgstr "opción no válida"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "Fakeroot debe ser instalado si se usa la opción 'fakeroot'"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "en la línea BUILDENV en %s."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "Usa la opción -q/--quiet para minimizar la salida a mensajes básicos, "
+#~ "alertas\\ny errores.\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Usa la opción -d/--delta para automáticamente generar y agregar un "
+#~ "archivo diferencial\\nentre la entrada vieja y la nueva, si el paquete "
+#~ "viejo se encuentra\\njunto al nuevo.\\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>. \\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nEsto es software libre, "
+#~ "ver los fuentes para condiciones de copia.\\nNO HAY GARANTÍA, al grado "
+#~ "permitido por la ley.\\n"

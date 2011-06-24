@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-04-12 10:54+0000\n"
 "Last-Translator: hseara <hseara@gmail.com>\n"
 "Language-Team: Catalan <None>\n"
@@ -158,6 +158,106 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "fallada d'assignació de memòria: no es poden assignar %zd bytes\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "no s'ha pogut obtenir l'actual directori de treball\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "no es pot canviar al directori de baixades %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "execució XferCommand: ha fallat la bifurcació!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "valor invàlid per «CleanMethod» : «%s»\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"fitxer de configuració %s, línia %d: directiva '%s' en la secció '%s' no "
+"reconeguda.\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr ""
+"fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+"El mirall «%s» conté la variable $arch, però no s'ha definit cap "
+"arquitectura.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr ""
+"no es pot afegir l'URL del servidor a la base de dades «%s» : %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "ha fallat en iniciar la llibreria alpm (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "problema en establir el fitxer de registre «%s» (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "problema en establir el directori arrel «%s» (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "no es pot registrar «%s» base de dades (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr ""
+"no es pot afegir l'URL del servidor a la base de dades «%s» : %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr ""
+"no es pot afegir l'URL del servidor a la base de dades «%s» : %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "no es pot llegir el fitxer de configuració %s.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "fitxer de configuració %s, línia %d: nom de secció incorrecte.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"fitxer de configuració %s, línia %d: error de sintaxi en el fitxer de "
+"configuració- falta una clau.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"fitxer de configuració %s, línia %d: totes les directives han de pertànyer a "
+"una secció.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr ""
+"fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "no s'ha especificat cap objectiu (useu -h per ajuda)\n"
 
@@ -190,6 +290,10 @@ msgstr "Instal·lat com a dependència d'una altre paquet"
 #, c-format
 msgid "Unknown"
 msgstr "Desconegut"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Repositori     :"
 
 #, c-format
 msgid "Name           :"
@@ -235,16 +339,16 @@ msgstr "Conflictes amb :"
 msgid "Replaces       :"
 msgstr "Substitueix    :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Mida de la baixada: %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Mida comprimida: %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Mida instal.   : %6.2f K\n"
 
 #, c-format
@@ -286,10 +390,6 @@ msgstr "Suma MS5       :"
 #, c-format
 msgid "Description    :"
 msgstr "Descripció     :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Repositori     :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -611,6 +711,10 @@ msgstr ""
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          mostra missatges de depuració\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <ruta> estableix un fitxer de registre alternatiu\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <ruta> estableix un fitxer de registre alternatiu\n"
@@ -628,22 +732,6 @@ msgstr ""
 "                       els termes de la llicència pública general de GNU.\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "problema en establir el directori arrel «%s» (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "problema en establir la ruta de la base de dades «%s» (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "problema en establir el fitxer de registre «%s» (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "problema en afegir directori de memòria cau «%s» (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "«%s» no és un nivell de depuració vàlid\n"
 
@@ -654,79 +742,6 @@ msgstr "només es pot usar una operació alhora\n"
 #, c-format
 msgid "invalid option\n"
 msgstr "opció no vàlida\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "valor invàlid per «CleanMethod» : «%s»\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "no s'ha pogut obtenir l'actual directori de treball\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "no es pot canviar al directori de baixades %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "execució XferCommand: ha fallat la bifurcació!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-"fitxer de configuració %s, línia %d: directiva '%s' en la secció '%s' no "
-"reconeguda.\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-"El mirall «%s» conté la variable $arch, però no s'ha definit cap "
-"arquitectura.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr ""
-"no es pot afegir l'URL del servidor a la base de dades «%s» : %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "no es pot llegir el fitxer de configuració %s.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "fitxer de configuració %s, línia %d: nom de secció incorrecte.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "no es pot registrar «%s» base de dades (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"fitxer de configuració %s, línia %d: error de sintaxi en el fitxer de "
-"configuració- falta una clau.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"fitxer de configuració %s, línia %d: totes les directives han de pertànyer a "
-"una secció.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-"fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "ha fallat en iniciar la llibreria alpm (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -1022,23 +1037,47 @@ msgid "None"
 msgstr "Cap"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Objectius (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Mida total baixada:     %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Mida total instal·lada: %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Elimino (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Mida total baixada:     %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Mida total instal·lada: %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Mida total baixada:     %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Mida total eliminada:  %.2f MB\n"
 
 #, c-format
@@ -1121,6 +1160,9 @@ msgstr "ERROR:"
 
 msgid "Cleaning up..."
 msgstr "S'està netejant..."
+
+msgid "Entering fakeroot environment..."
+msgstr "S'està entrant en l'entorn fakeroot..."
 
 msgid "Unable to find source file %s."
 msgstr "No s'ha pogut trobar el fitxer de codi font %s."
@@ -1217,7 +1259,8 @@ msgstr "S'està netejant la instal·lació..."
 msgid "Removing doc files..."
 msgstr "S'estan eliminant els fitxers doc..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "S'estan purgant altres fitxers..."
 
 msgid "Compressing man and info pages..."
@@ -1234,8 +1277,19 @@ msgstr "S'estan eliminant els fitxers .la de libtool..."
 msgid "Removing empty directories..."
 msgstr "S'estan eliminant els directoris buits..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "S'està comprimint el manual i les pàgines d'informació..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "no es pot accedir al directori de memòria cau %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "S'està generant el fitxer .PKGINFO..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Si us plau, afegiu una línia de llicència al vostre %s!"
@@ -1270,8 +1324,17 @@ msgstr "Ha fallat en crear el fitxer de paquet."
 msgid "Failed to create symlink to package file."
 msgstr "Ha fallat en crear l'enllaç simbòlic al fitxer de paquet."
 
-msgid "Skipping integrity checks."
-msgstr "S'està ometent la comprovació de la integritat."
+#, fuzzy
+msgid "Signing package..."
+msgstr "S'està creant el paquet..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "S'està creant el fitxer de base de dades actualitzada «%s»"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Ha fallat en crear el fitxer de paquet."
 
 msgid "Creating source package..."
 msgstr "S'està creant el paquet de codi font..."
@@ -1347,20 +1410,23 @@ msgstr "falta la funció del paquet pel paquet dividit «%s»"
 msgid "requested package %s is not provided in %s"
 msgstr "el paquet sol·licitat %s no és proporcionat a %s"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Determinant la darrera revisió %s..."
 
 msgid "Version found: %s"
 msgstr "S'ha trobat la versió: %s"
-
-msgid "requires an argument"
-msgstr "requereix un argument"
-
-msgid "unrecognized option"
-msgstr "opció no reconeguda"
-
-msgid "invalid option"
-msgstr "opció invàlida"
 
 msgid "Usage: %s [options]"
 msgstr "Sintaxi: %s (opcions)"
@@ -1392,7 +1458,8 @@ msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
 "  -g, --geninteg   Genera comprovacions de la integritat pels fitxers font"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Aquesta ajuda"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1450,12 +1517,24 @@ msgstr ""
 "  --holdver        Prevé increment automàtic de la versió en el "
 "desenvolupament %ss"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck        No execució de la funció check() en %s"
+
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         no reinstal·la paquets al dia\n"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Construeix només els paquets llistats d'un paquet dividit"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr ""
@@ -1493,6 +1572,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "no s'ha trobat %s"
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "No teniu permisos d'escriptura per emmagatzemar paquets a %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "No teniu permisos d'escriptura per emmagatzemar paquets a %s."
@@ -1541,12 +1624,6 @@ msgstr "L'opció --asroot està pensada només per a l'usuari root."
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Si us plau, executeu makepkg sense l'indicador --asroot."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "S'ha d'instal·lar fakeroot si esteu usant l'opció 'fakeroot'"
-
-msgid "in the BUILDENV array in %s."
-msgstr "en la cadena BUILDENV en %s."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "L'execució de makepkg com a usuari sense privilegis resulta en que els"
 
@@ -1568,6 +1645,9 @@ msgstr "%s no existeix."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s conté caràcters CRLF i no es pot afegir a les fonts."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Un paquet ja s'ha construït, s'està instal·lant el paquet existent..."
 
@@ -1587,14 +1667,14 @@ msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr ""
 "Part del grup de paquets ja s'ha construït. (useu -f per sobreescriure'ls)"
 
+msgid "Leaving fakeroot environment."
+msgstr "S'està sortint de l'entorn fakeroot."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "És obsolet reempaquetar sense usar la funció package()."
 
 msgid "File permissions may not be preserved."
 msgstr "No es poden preservar els permisos del fitxer."
-
-msgid "Leaving fakeroot environment."
-msgstr "S'està sortint de l'entorn fakeroot."
 
 msgid "Making package: %s"
 msgstr "S'està fent el paquet: %s"
@@ -1602,6 +1682,9 @@ msgstr "S'està fent el paquet: %s"
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr ""
 "Ja s'ha construït un paquet de codi font. (useu -f per sobreescriure'l)"
+
+msgid "Skipping integrity checks."
+msgstr "S'està ometent la comprovació de la integritat."
 
 msgid "Source package created: %s"
 msgstr "Paquet de codi font creat: %s"
@@ -1645,9 +1728,6 @@ msgstr "Les fonts estan preparades."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "S'està eliminant el directori pkg/ existent..."
-
-msgid "Entering fakeroot environment..."
-msgstr "S'està entrant en l'entorn fakeroot..."
 
 msgid "Finished making: %s"
 msgstr "S'ha acabat de fer: %s"
@@ -1798,12 +1878,10 @@ msgstr "L'arxiu '%s' no existeix"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "No es pot trobar el binari xdelta3! Està instal·lat xdelta3?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Ús: reposició afegeix [-d] [-f] [-q] <path-to-db><package|delta> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "Sintaxi: repo-remove [-q] <ruta-a-la-bd> <nomdepaquet|delta> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1812,6 +1890,23 @@ msgstr ""
 "repo-add actualitza una base de dades de paquets llegint un fitxer de paquet."
 "\\nEs poden especificar múltiples paquets a afegir en la línia d'ordres.\\n"
 "\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Opcions:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Utilitzeu l'indicador -f/--files per actualitzar una base de dades "
+"conjuntament amb les entrades d'arxiu. \\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr "Sintaxi: repo-remove [-q] <ruta-a-la-bd> <nomdepaquet|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1823,44 +1918,43 @@ msgstr ""
 "donada.\\nEs poden especificar múltiples paquets a eliminar en la línia "
 "d'ordres.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Utilitzeu l'indicador -q/--quiet per reduir al mínim la producció de "
-"missatges,\\n advertències, i errors. \\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr ""
+"  -p, --file <paquet>  consulta un fitxer de paquet enlloc de la base de "
+"dades\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Utilitzeu l'indicador -d/--delta per generar i afegir de forma automàtica\\n "
-"un arxiu delta entre la nova entrada i l'antiga, si l'antic fitxer del "
-"paquet es troba\\n al costat del nou. \\n\\n"
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-"Utilitzeu l'indicador -f/--files per actualitzar una base de dades "
-"conjuntament amb les entrades d'arxiu. \\n\\n"
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr "Exemple:  repo-add /ruta/a/repo.bd.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Exemple:  repo-remove /ruta/a/repo.bd.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nAquest és un programari "
-"lliure; mireu el codi font per les condicions de còpia.\\nNO hi ha cap "
-"GARANTIA ampliada a la permesa per la llei.\\n"
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nAquest es un programa lliure; consulteu el codi font per a les condicions "
+"de còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "No existeix cap base de dades amb entrades referents al paquet '%s'."
@@ -1871,14 +1965,40 @@ msgstr "Afegint entrada 'deltas':%s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "S'està eliminant l'entrada existent «%s»..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "No es pot trobar el binari xdelta3! Està instal·lat xdelta3?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "S'està sincronitzant la base de dades al disc..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Ha fallat en crear el fitxer de paquet."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "S'està rotant la base de dades en l'emplaçament..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "S'estan computant les sumes de comprovació md5"
+
 msgid "An entry for '%s' already existed"
 msgstr "Ja existeix una entrada per «%s»"
 
 msgid "Creating '%s' db entry..."
 msgstr "Creant entrada base de dades '%s'..."
-
-msgid "Computing md5 checksums..."
-msgstr "S'estan computant les sumes de comprovació md5"
 
 msgid "Old package file not found: %s"
 msgstr "Antic arxiu del paquet no trobat: %s"
@@ -1944,3 +2064,51 @@ msgstr "No queda cap paquet, s'està creant una base de dades buida."
 
 msgid "No packages modified, nothing to do."
 msgstr "No s'ha modificat cap paquet, res a fer."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "problema en establir la ruta de la base de dades «%s» (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "problema en afegir directori de memòria cau «%s» (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "requereix un argument"
+
+#~ msgid "unrecognized option"
+#~ msgstr "opció no reconeguda"
+
+#~ msgid "invalid option"
+#~ msgstr "opció invàlida"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "S'ha d'instal·lar fakeroot si esteu usant l'opció 'fakeroot'"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "en la cadena BUILDENV en %s."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "Utilitzeu l'indicador -q/--quiet per reduir al mínim la producció de "
+#~ "missatges,\\n advertències, i errors. \\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Utilitzeu l'indicador -d/--delta per generar i afegir de forma automàtica"
+#~ "\\n un arxiu delta entre la nova entrada i l'antiga, si l'antic fitxer "
+#~ "del paquet es troba\\n al costat del nou. \\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nAquest és un programari "
+#~ "lliure; mireu el codi font per les condicions de còpia.\\nNO hi ha cap "
+#~ "GARANTIA ampliada a la permesa per la llei.\\n"

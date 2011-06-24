@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-03-28 02:39+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,6 +154,98 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc misslyckande: kunde inte allokera %zd bytes\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr ""
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "kunde inte chdir till nerladdningskatalogen% s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "vid körning av XferCommand: delning misslyckades!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "ogiltigt värde för 'CleanMethod' : '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr ""
+"konfigurationsfil %s, rad %d: Alla direktiv måste tillhöra en sektion.\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+"Adressen '%s' innehålle $arch-variabeln, men ingen arkitektur är definerad.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "kunde inte lägga till serverns URL till databasen '%s': %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "misslyckades att initialisera alpm bibliotek (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "problem med att ange loggfil '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "problem med att ange rootdir '%s' (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "kunde inte registrera '%s' databas (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "kunde inte lägga till serverns URL till databasen '%s': %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "kunde inte lägga till serverns URL till databasen '%s': %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "konfigurationsfilen %s kunde inte läsas\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "konfigurationsfil %s, rad %d: ogiltigt sektionsnamn.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"konfigurationsfil %s, rad %d: syntax fel i konfigurationsfil- saknar "
+"nyckel.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"konfigurationsfil %s, rad %d: Alla direktiv måste tillhöra en sektion.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr ""
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "inga mål angedda (använd -h för hjälp)\n"
 
@@ -184,6 +276,10 @@ msgstr "Installerad som beroende till ett annat paket"
 #, c-format
 msgid "Unknown"
 msgstr "Okänd"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Förråd         :"
 
 #, c-format
 msgid "Name           :"
@@ -229,16 +325,16 @@ msgstr "Strider Mot    :"
 msgid "Replaces       :"
 msgstr "Ersätter       :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Storlek att ladda ner  : %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Komprimerad Storlek: %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Installerad Storlek : %6.2f K\n"
 
 #, c-format
@@ -280,10 +376,6 @@ msgstr "MD5 Summa      :"
 #, c-format
 msgid "Description    :"
 msgstr "Beskrivning    :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Förråd         :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -582,6 +674,10 @@ msgstr "      --config <path>  ange en alternativ konfigurationsfil\n"
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          visa felsöknings meddelanden\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <path> ange en alternativ loggfil\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <path> ange en alternativ loggfil\n"
@@ -599,22 +695,6 @@ msgstr ""
 "                       villkoren angivna i GNU General Public License.\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "problem med att ange rootdir '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "problem med att ange dbpath '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "problem med att ange loggfil '%s' (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "problem med att lägga till cachedir '%s' (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' är inte en giltig felsökningsnivå\n"
 
@@ -625,73 +705,6 @@ msgstr "enbart en operation kan användas på samma gång\n"
 #, c-format
 msgid "invalid option\n"
 msgstr ""
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "ogiltigt värde för 'CleanMethod' : '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr ""
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "kunde inte chdir till nerladdningskatalogen% s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "vid körning av XferCommand: delning misslyckades!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-"Adressen '%s' innehålle $arch-variabeln, men ingen arkitektur är definerad.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "kunde inte lägga till serverns URL till databasen '%s': %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "konfigurationsfilen %s kunde inte läsas\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "konfigurationsfil %s, rad %d: ogiltigt sektionsnamn.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "kunde inte registrera '%s' databas (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"konfigurationsfil %s, rad %d: syntax fel i konfigurationsfil- saknar "
-"nyckel.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"konfigurationsfil %s, rad %d: Alla direktiv måste tillhöra en sektion.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "misslyckades att initialisera alpm bibliotek (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -986,23 +999,47 @@ msgid "None"
 msgstr "Ingen"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Mål (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Totalt Nerladdad Storlek:    %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Totalt Installerad Storlek:  %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Ta bort (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Totalt Nerladdad Storlek:    %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Totalt Installerad Storlek:  %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Totalt Nerladdad Storlek:    %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Totalt Bortagen Storlek:    %.2f MB\n"
 
 #, c-format
@@ -1085,6 +1122,9 @@ msgstr "FEL: "
 
 msgid "Cleaning up..."
 msgstr "Städar upp..."
+
+msgid "Entering fakeroot environment..."
+msgstr "Påbörjar en fakeroot miljö..."
 
 msgid "Unable to find source file %s."
 msgstr "Kunde inte hitta källkodsfil %s."
@@ -1179,7 +1219,8 @@ msgstr "Städar upp efter installationen..."
 msgid "Removing doc files..."
 msgstr "Tar bort doc filer..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Rensar andra filer..."
 
 msgid "Compressing man and info pages..."
@@ -1194,8 +1235,19 @@ msgstr "Tar bort libtool .la filer..."
 msgid "Removing empty directories..."
 msgstr "Tar bort tomma katalaoger..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Komprimerar man och info sidor..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "kunde inte få tillgång till cachekatalogen %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "Genererar .PKGINFO fil..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Var vänlig och lägg till en licens rad i din %s!"
@@ -1230,8 +1282,17 @@ msgstr "Misslyckades att skapa paketfil."
 msgid "Failed to create symlink to package file."
 msgstr "Misslyckades att symbolisk länk till paketfil."
 
-msgid "Skipping integrity checks."
-msgstr "Hoppar över integritetskontroll."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Skapar paket..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Skapar uppdaterad databasfil '%s'"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Misslyckades att skapa paketfil."
 
 msgid "Creating source package..."
 msgstr "Skapar källpaket"
@@ -1305,20 +1366,23 @@ msgstr "saknar paketfunktion för att dela paket '%s'"
 msgid "requested package %s is not provided in %s"
 msgstr "efterfrågat paket %s finns ej i %s"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr ""
 
 msgid "Version found: %s"
 msgstr "Version hittad: %s"
-
-msgid "requires an argument"
-msgstr "kräver ett argument"
-
-msgid "unrecognized option"
-msgstr "okänt alternativ"
-
-msgid "invalid option"
-msgstr "ogiltigt alternativ"
 
 msgid "Usage: %s [options]"
 msgstr "Användning: %s [alternativ]"
@@ -1348,7 +1412,8 @@ msgstr "  -f, --force      Skriv över existerande paket"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Generera integritetskontroller för källkodsfiler"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Den här hjälpen"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1397,11 +1462,23 @@ msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr ""
 
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         ominstallera inte paket som är aktuella\n"
+
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "    --pkg <list>        Bygg endast listade paket från ett delat paket"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr "      --skipinteg  Misslyckas inte när integritetskontroller saknas"
@@ -1438,6 +1515,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "% hittades inte."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "Du har inte skrivrättigheter för att spara paket i %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Du har inte skrivrättigheter för att spara paket i %s."
@@ -1486,13 +1567,6 @@ msgstr "Alternativet --asroot är menat för root-användaren enbart."
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Var vänlig och kör om makepkg utan flaggan --asroot."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr ""
-"Fakeroot måste vara installerad för att kunna använda alternativet 'fakeroot'"
-
-msgid "in the BUILDENV array in %s."
-msgstr "i BUILDENV raden i %s."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr ""
 "Att köra makepkg som en ej privilegierad användare resulterar i att root"
@@ -1516,6 +1590,9 @@ msgstr "%s existerar inte."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s innehåller CRLF tecken och kan inte källas"
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Ett paket har redan blivit byggt, installerar existerande paket..."
 
@@ -1534,14 +1611,14 @@ msgstr ""
 "En del av paketgruppen har redan blivit byggd. (använd -f för att skriva "
 "över)"
 
+msgid "Leaving fakeroot environment."
+msgstr "Lämnar fakeroot miljö."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "Ompaketering utan att använda en package()-funktion är föråldrat."
 
 msgid "File permissions may not be preserved."
 msgstr "Filrättigheterna kanske inte bevaras."
-
-msgid "Leaving fakeroot environment."
-msgstr "Lämnar fakeroot miljö."
 
 msgid "Making package: %s"
 msgstr "Skapar paket: %s"
@@ -1549,6 +1626,9 @@ msgstr "Skapar paket: %s"
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr ""
 "Ett källkodspaket har redan blivit byggt, (använd -f för att skriva över)"
+
+msgid "Skipping integrity checks."
+msgstr "Hoppar över integritetskontroll."
 
 msgid "Source package created: %s"
 msgstr "Källkodspaket skapat: %s"
@@ -1594,9 +1674,6 @@ msgstr "Källor är redo."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Tar bort existerande pkg/ katalog...."
-
-msgid "Entering fakeroot environment..."
-msgstr "Påbörjar en fakeroot miljö..."
 
 msgid "Finished making: %s"
 msgstr "Kompilering klar: %s"
@@ -1733,10 +1810,8 @@ msgstr ""
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Kan inte gitta xdelta3 binär! Är xdelta3 installerat?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
-msgstr ""
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Användning: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
@@ -1746,6 +1821,21 @@ msgid ""
 msgstr ""
 "repo-add kommer uppdatera en paketdatabas genom att läsa en paketfil.\\nAtt "
 "lägga till flera paket kan specifieras via kommandotolken.\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Alternativ: "
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr ""
+"Användning: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1757,32 +1847,37 @@ msgstr ""
 "förrådsdatabasen. Flera\\npaket att tas bort kan anges via kommandotolken.\\n"
 "\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
+msgstr ""
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr "Exempel:  repo-add /sökväg/till/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Exampel:  repo-remove /sökväg/till/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
 "Copyright (c) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
 "2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nDet här är fri mjukvara: "
@@ -1798,14 +1893,40 @@ msgstr ""
 msgid "Removing existing entry '%s'..."
 msgstr "Tar bort existerande inlägg '%s'..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "Kan inte gitta xdelta3 binär! Är xdelta3 installerat?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Synkroniserar databas till disk..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Misslyckades att skapa paketfil."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Roterar databasen på plats..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "Beräknar md5 kontrollsummor..."
+
 msgid "An entry for '%s' already existed"
 msgstr "Ett inlägg för '%s' existerade redan"
 
 msgid "Creating '%s' db entry..."
 msgstr ""
-
-msgid "Computing md5 checksums..."
-msgstr "Beräknar md5 kontrollsummor..."
 
 msgid "Old package file not found: %s"
 msgstr ""
@@ -1869,3 +1990,26 @@ msgstr "Inga paket finns kvar, skapar en tom databas."
 
 msgid "No packages modified, nothing to do."
 msgstr "Inga paket modifierade, ingenting att göra."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "problem med att ange dbpath '%s' (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "problem med att lägga till cachedir '%s' (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "kräver ett argument"
+
+#~ msgid "unrecognized option"
+#~ msgstr "okänt alternativ"
+
+#~ msgid "invalid option"
+#~ msgstr "ogiltigt alternativ"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr ""
+#~ "Fakeroot måste vara installerad för att kunna använda alternativet "
+#~ "'fakeroot'"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "i BUILDENV raden i %s."

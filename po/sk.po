@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-04-22 15:26+0000\n"
 "Last-Translator: jose1711 <jose1711@gmail.com>\n"
 "Language-Team: Slovak <None>\n"
@@ -162,6 +162,100 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc zlyhal: nie je možné alokovať %zd bytov\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "nepodarilo sa zistiť aktuálny pracovný adresár\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "nie je možné sa prepnúť do adresára pre sťahovanie %s)\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "spustenie XferCommand: bolo neúspešné!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "nepodarilo sa zmeniť adresár na %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "chybná hodnota pre 'CleanMethod': '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"konfiguračný súbor %s, riadok %d: direktíva '%s' v sekcii '%s' nebola "
+"rozpoznaná.\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr "konfiguračný súbor %s, riadok %d: direktíva '%s' vyžaduje hodnotu\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+"Zrkadlo '%s' obsahuje premennú $arch, ale nebola definovaná architektúra.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "nebolo možné pridať URL servera k databáze '%s': %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "zlyhala inicializácia knižnice alpm (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "problém s nastavením log súboru '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "problém s nastavením koreňového adresára '%s' (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "nie je možné zaregistrovať databázu '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "nebolo možné pridať URL servera k databáze '%s': %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "nebolo možné pridať URL servera k databáze '%s': %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "konfiguračný súbor %s nie je možné prečítať.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "konfiguračný súbor %s, riadok %d: chybné meno sekcie.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"konfiguračný súbor %s, riadok %d: chybná syntax konfiguračného súboru, chýba "
+"kľúč.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"konfiguračný súbor %s, riadok %d: Všetky položky konfigurácie musia patriť "
+"do nejakej sekcie.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr "konfiguračný súbor %s, riadok %d: direktíva '%s' vyžaduje hodnotu\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "nie sú špecifikované ciele (použite -h pre nápovedu)\n"
 
@@ -193,6 +287,10 @@ msgstr "Nainštalovaný ako závislosť iného balíčka"
 #, c-format
 msgid "Unknown"
 msgstr "Neznámy"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Repozitár      :"
 
 #, c-format
 msgid "Name           :"
@@ -238,16 +336,16 @@ msgstr "Konfliktný s   :"
 msgid "Replaces       :"
 msgstr "Nahrádza       :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Stiahnutá veľ. : %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Zbalená veľ.   : %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Veľ. inštalácie: %6.2f K\n"
 
 #, c-format
@@ -289,10 +387,6 @@ msgstr "MD5 súčet      :"
 #, c-format
 msgid "Description    :"
 msgstr "Popis          :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Repozitár      :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -593,6 +687,10 @@ msgstr "      --config <path>  nastaviť cestu ku konfiguračnému súboru\n"
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          zobraziť ladiace správy\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <path  nastaviť cestu k log súboru\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <path  nastaviť cestu k log súboru\n"
@@ -610,22 +708,6 @@ msgstr ""
 "                       licenciou GNU GPL (General Public License).\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "problém s nastavením koreňového adresára '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "problém s nastavením cesty k databázi '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "problém s nastavením log súboru '%s' (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "problém pri pridaní adresára s cache '%s' (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' nie je platná ladiaca úroveň\n"
 
@@ -636,76 +718,6 @@ msgstr "súčasne je možné spustiť len jednu operáciu\n"
 #, c-format
 msgid "invalid option\n"
 msgstr "neplatná voľba\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "chybná hodnota pre 'CleanMethod': '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "nepodarilo sa zistiť aktuálny pracovný adresár\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "nie je možné sa prepnúť do adresára pre sťahovanie %s)\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "spustenie XferCommand: bolo neúspešné!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "nepodarilo sa zmeniť adresár na %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-"konfiguračný súbor %s, riadok %d: direktíva '%s' v sekcii '%s' nebola "
-"rozpoznaná.\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-"Zrkadlo '%s' obsahuje premennú $arch, ale nebola definovaná architektúra.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "nebolo možné pridať URL servera k databáze '%s': %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "konfiguračný súbor %s nie je možné prečítať.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "konfiguračný súbor %s, riadok %d: chybné meno sekcie.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "nie je možné zaregistrovať databázu '%s' (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"konfiguračný súbor %s, riadok %d: chybná syntax konfiguračného súboru, chýba "
-"kľúč.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"konfiguračný súbor %s, riadok %d: Všetky položky konfigurácie musia patriť "
-"do nejakej sekcie.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "konfiguračný súbor %s, riadok %d: direktíva '%s' vyžaduje hodnotu\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "zlyhala inicializácia knižnice alpm (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -1001,23 +1013,47 @@ msgid "None"
 msgstr "Nič"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Ciele (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Celková veľkosť sťahovania:   %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Celková veľkosť inštalácie:   %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Odstrániť (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Celková veľkosť sťahovania:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Celková veľkosť inštalácie:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Celková veľkosť sťahovania:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Celková uvoľnená veľkosť:    %.2f MB\n"
 
 #, c-format
@@ -1100,6 +1136,9 @@ msgstr "CHYBA:"
 
 msgid "Cleaning up..."
 msgstr "Prebieha čistenie..."
+
+msgid "Entering fakeroot environment..."
+msgstr "Vstupujem do fakeroot prostredia..."
 
 msgid "Unable to find source file %s."
 msgstr "Nepodarilo sa nájsť zdrojový súbor %s."
@@ -1195,7 +1234,8 @@ msgstr "Upratujem po inštalácii..."
 msgid "Removing doc files..."
 msgstr "Odstraňujem doc súbory..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Odstraňujem ďalšie súbory..."
 
 msgid "Compressing man and info pages..."
@@ -1211,8 +1251,19 @@ msgstr "Odstraňujem libtool .la súbory..."
 msgid "Removing empty directories..."
 msgstr "Odstraňujem prázdne adresáre..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Komprimujem man a info stránky..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "nie je možné pristupovať k adresáru s cache %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "Vytváram .PKGINFO súbor..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Prosím, pridajte informáciu o licencii do vášho %s!"
@@ -1247,8 +1298,17 @@ msgstr "Chyba pri vytváraní balíčku."
 msgid "Failed to create symlink to package file."
 msgstr "Chyba pri vytváraní symbolického odkazu na súbor balíčku."
 
-msgid "Skipping integrity checks."
-msgstr "Preskakujem kontrolu integrity."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Vytváram balíček..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Vytváram aktualizovaný súbor databáze '%s'"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Chyba pri vytváraní balíčku."
 
 msgid "Creating source package..."
 msgstr "Vytváram zdrojový balíček..."
@@ -1322,20 +1382,23 @@ msgstr "chýba funkcia balíčka pre rozdelenie balíčka '%s'"
 msgid "requested package %s is not provided in %s"
 msgstr "požadovaný balíček %s nie je poskytovaný balíčkom %s"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Zisťujem poslednú revíziu %s..."
 
 msgid "Version found: %s"
 msgstr "Nájdená verzia: %s"
-
-msgid "requires an argument"
-msgstr "vyžaduje argument"
-
-msgid "unrecognized option"
-msgstr "neznáma voľba"
-
-msgid "invalid option"
-msgstr "neplatná voľba"
 
 msgid "Usage: %s [options]"
 msgstr "Použitie: %s [voľby]"
@@ -1366,7 +1429,8 @@ msgstr "  -f, --force      Prepísať existujúci balíček"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Vygenerovať kontrolné súčty zdrojových súborov"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Táto nápoveda"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1416,12 +1480,24 @@ msgid ""
 msgstr ""
 "  --holdver        Zabrániť automatickému zisteniu verzie pre vývojové %sy"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck        Nespúšťať funkciu check() v %s"
+
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         potlačit inštaláciu aktuálnych balíčkov\n"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Zostaviť len vymenované balíčky z rozdeleného balíčka"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr "  --skipinteg      Neskončiť, ak nie sú k dispozícii kontrolné súčty"
@@ -1456,6 +1532,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s nebol nájdený."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "Nemáte právo na zápis kvôli uloženiu stiahnutých balíčkov do %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Nemáte právo na zápis kvôli uloženiu stiahnutých balíčkov do %s."
@@ -1503,12 +1583,6 @@ msgstr "Voľba --asroot je určená len pre užívateľa root."
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Prosím, spustite makepkg znova bez voľby --asroot."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "Ak chcete použiť voľbu 'fakeroot', musíte nainštalovať fakeroot"
-
-msgid "in the BUILDENV array in %s."
-msgstr "v poli BUILDENV v %s."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "Spustenie makepkg pod neprivilegovaným užívateľom môže mať za následok"
 
@@ -1531,6 +1605,9 @@ msgstr "%s neexistuje."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s obsahuje CRLF znaky a nemôže byť použitý."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je už zostavený, inštalujem existujúci balíček..."
 
@@ -1547,20 +1624,23 @@ msgstr "Skupina balíčkov je už zostavená. (použite -f pre prepísanie)"
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr "Časť skupiny balíčkov je už zostavená. (použite -f pre prepísanie)"
 
+msgid "Leaving fakeroot environment."
+msgstr "Opúšťam prostredie fakeroot."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "Znovuzabalenie bez použitia funkcie package() nie je podporované."
 
 msgid "File permissions may not be preserved."
 msgstr "Prístupové práva súborov nemusia byť zachované."
 
-msgid "Leaving fakeroot environment."
-msgstr "Opúšťam prostredie fakeroot."
-
 msgid "Making package: %s"
 msgstr "Vytváram balíček: %s"
 
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr "Zdrojový balíček je už zostavený. (použite -f pre prepísanie)"
+
+msgid "Skipping integrity checks."
+msgstr "Preskakujem kontrolu integrity."
 
 msgid "Source package created: %s"
 msgstr "Zdrojový balíček vytvorený: %s"
@@ -1600,9 +1680,6 @@ msgstr "Zdroje sú pripravené."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Odstraňujem existujúci adresár pkg/..."
-
-msgid "Entering fakeroot environment..."
-msgstr "Vstupujem do fakeroot prostredia..."
 
 msgid "Finished making: %s"
 msgstr "Dokončené vytváranie: %s"
@@ -1747,12 +1824,10 @@ msgstr "Súbor '%s' neexistuje"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Nepodarilo sa nájsť príkaz xdelta3! Je xdelta3 nainštalovaný?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Použitie: repo-add [-d] [-f] [-q] <cesta-k-db> <balíček|delta rozdiel> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "Použitie: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1760,6 +1835,23 @@ msgid ""
 msgstr ""
 "repo-add aktualizuje databázu balíčkov pomocou čítania súboru balíčku.\\nNa "
 "príkazovom riadku môže byť uvedených viac balíčkov pre pridanie.\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Voľby:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Použite prepínač -f/--files pre aktualizciu databáze vrátane záznamov o "
+"súboroch.\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr "Použitie: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1770,44 +1862,42 @@ msgstr ""
 "\\nuvedeného na príkazovom riadku z danej databázy. Na príkazovom riadku "
 "môže byť\\nuvedených viac balíčkov pre odstránenie.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Použite prepínač -q/--quiet pre obmedzenie výstupu na základné hlášky, "
-"varovania,\\na chyby.\\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr "  -p, --file <package> otázka na súbor balíčku miesto na databázu\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Použite prepínač -d/--delta pre automatické vygenerovanie a pridanie delta "
-"rozdielu\\nmedzi starým a novým balíčkom, ak je nájdená staršia verzia"
-"\\npridávaného balíčku.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-"Použite prepínač -f/--files pre aktualizciu databáze vrátane záznamov o "
-"súboroch.\\n\\n"
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr "Príklad:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Príklad:  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\\n"
-"Toto je slobodný software; viac o podmienkach použitia nájdete\\nv zdrojovom "
-"kóde. Zo zákona nie sú poskytované ŽIADNE ZÁRUKY.\\n"
+"Copyright (c) 2006-2011 Pacman Tím vývojárov <pacman-dev@archlinux.org>."
+"\\nToto je slobodný software; podmienky kopírovania nájdete v zdrojových "
+"súboroch\\nNa software sa nevzťahuje ŽIADNA ZÁRUKA. v rozsahu povoleného "
+"zákonom.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "V databáze neexistuje záznam o balíčku '%s'."
@@ -1818,14 +1908,40 @@ msgstr "Pridávam 'delta' záznam: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Odstraňujem existujúci záznam '%s'..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "Nepodarilo sa nájsť príkaz xdelta3! Je xdelta3 nainštalovaný?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Databáza sa synchronizuje na disk..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Chyba pri vytváraní balíčku."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Vymieňajú sa databáze..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "Počítam kontrolný MD5 súčet..."
+
 msgid "An entry for '%s' already existed"
 msgstr "Záznam pre '%s' už existuje"
 
 msgid "Creating '%s' db entry..."
 msgstr "Vytváram db záznam '%s'..."
-
-msgid "Computing md5 checksums..."
-msgstr "Počítam kontrolný MD5 súčet..."
 
 msgid "Old package file not found: %s"
 msgstr "Staršia verzia balíčku nebol nájdená: %s"
@@ -1889,3 +2005,51 @@ msgstr "Nezostali žiadne balíčky, vytváram prázdnu databázu."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nebol zmenený žiaden balíček, nie je čo robiť."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "problém s nastavením cesty k databázi '%s' (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "problém pri pridaní adresára s cache '%s' (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "vyžaduje argument"
+
+#~ msgid "unrecognized option"
+#~ msgstr "neznáma voľba"
+
+#~ msgid "invalid option"
+#~ msgstr "neplatná voľba"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "Ak chcete použiť voľbu 'fakeroot', musíte nainštalovať fakeroot"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "v poli BUILDENV v %s."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "Použite prepínač -q/--quiet pre obmedzenie výstupu na základné hlášky, "
+#~ "varovania,\\na chyby.\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Použite prepínač -d/--delta pre automatické vygenerovanie a pridanie "
+#~ "delta rozdielu\\nmedzi starým a novým balíčkom, ak je nájdená staršia "
+#~ "verzia\\npridávaného balíčku.\\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\\n"
+#~ "Toto je slobodný software; viac o podmienkach použitia nájdete\\nv "
+#~ "zdrojovom kóde. Zo zákona nie sú poskytované ŽIADNE ZÁRUKY.\\n"

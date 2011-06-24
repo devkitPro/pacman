@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-04-13 16:07+0000\n"
 "Last-Translator: vdk <vdk@gmx.us>\n"
 "Language-Team: Russian <None>\n"
@@ -160,6 +160,99 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "ошибка malloc: невозможно выделить %zd байт\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "не удалось получить текущий рабочий каталог\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "не удалось перейти в каталог %s\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "запуск XferCommand: fork failed!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "не удалось изменить рабочий каталог на %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "неверное значение для 'CleanMethod' : '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr ""
+"конфигурационный файл %s, строка %d: все директивы должны находиться в "
+"секциях.\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+"Зеркало '%s' содержит переменную $arch, но архитектура не определена.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "не удалось инициализировать библиотеку alpm (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "не удалось использовать файл журнала '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "не удалось установить корневой каталог '%s' (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "не удалось зарегистрировать базу данных '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "не удалось прочитать конфигурационный файл %s.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "конфигурационный файл %s, строка %d: неверное название секции.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"конфигурационный файл %s, строка %d: синтаксическая ошибка - пропущен ключ.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"конфигурационный файл %s, строка %d: все директивы должны находиться в "
+"секциях.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr ""
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "не задано целей (для справки используйте -h)\n"
 
@@ -190,6 +283,10 @@ msgstr "Установлен как зависимость другого пак
 #, c-format
 msgid "Unknown"
 msgstr "Неизвестно"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Репозиторий           :"
 
 #, c-format
 msgid "Name           :"
@@ -235,16 +332,16 @@ msgstr "Конфликтует с         :"
 msgid "Replaces       :"
 msgstr "Заменяет              :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Будет загружено       : %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Размер архива         : %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Размер установленного : %6.2f K\n"
 
 #, c-format
@@ -286,10 +383,6 @@ msgstr "MD5-сумма             :"
 #, c-format
 msgid "Description    :"
 msgstr "Описание              :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Репозиторий           :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -593,6 +686,10 @@ msgstr ""
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          показывать отладочные сообщения\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <путь> использовать альтернативный файл журнала\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <путь> использовать альтернативный файл журнала\n"
@@ -610,22 +707,6 @@ msgstr ""
 "                       на условиях GNU General Public License\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "не удалось установить корневой каталог '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "не удалось установить путь к базе данных '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "не удалось использовать файл журнала '%s' (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "не удалось добавить каталог для кэша '%s' (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' - неверный уровень отладки\n"
 
@@ -636,73 +717,6 @@ msgstr "одновременно может выполняться только 
 #, c-format
 msgid "invalid option\n"
 msgstr "несуществующий параметр\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "неверное значение для 'CleanMethod' : '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "не удалось получить текущий рабочий каталог\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "не удалось перейти в каталог %s\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "запуск XferCommand: fork failed!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "не удалось изменить рабочий каталог на %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-"Зеркало '%s' содержит переменную $arch, но архитектура не определена.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "не удалось прочитать конфигурационный файл %s.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "конфигурационный файл %s, строка %d: неверное название секции.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "не удалось зарегистрировать базу данных '%s' (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"конфигурационный файл %s, строка %d: синтаксическая ошибка - пропущен ключ.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"конфигурационный файл %s, строка %d: все директивы должны находиться в "
-"секциях.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "не удалось инициализировать библиотеку alpm (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -1002,23 +1016,47 @@ msgid "None"
 msgstr "Нет"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Цели (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Размер загружаемых файлов:   %.2f МБ\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Размер устанавливаемых файлов:   %.2f МБ\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Удалить (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Размер загружаемых файлов:   %.2f МБ\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Размер устанавливаемых файлов:   %.2f МБ\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Размер загружаемых файлов:   %.2f МБ\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Размер удаляемых файлов:   %.2f МБ\n"
 
 #, c-format
@@ -1101,6 +1139,9 @@ msgstr "ОШИБКА:"
 
 msgid "Cleaning up..."
 msgstr "Очистка... "
+
+msgid "Entering fakeroot environment..."
+msgstr "Вход в fakeroot окружение..."
 
 msgid "Unable to find source file %s."
 msgstr "Не удалось найти исходный файл %s."
@@ -1197,7 +1238,8 @@ msgstr "Очистка..."
 msgid "Removing doc files..."
 msgstr "Удаление файлов документации... "
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Очистка других файлов..."
 
 msgid "Compressing man and info pages..."
@@ -1212,8 +1254,19 @@ msgstr "Удаление файлов libtool .la ..."
 msgid "Removing empty directories..."
 msgstr "Удаление пустых каталогов..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Сжатие страниц man и info..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "нет доступа к каталогу для кэша %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "Создание файла .PKGINFO..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Добавьте строку с указанием лицензии в ваш %s!"
@@ -1248,8 +1301,17 @@ msgstr "Не удалось создать файл пакета."
 msgid "Failed to create symlink to package file."
 msgstr "Не удалось создать символическую ссылку на файл пакета."
 
-msgid "Skipping integrity checks."
-msgstr "Пропуск проверки зависимостей."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Создание пакета... "
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Создание обновленного файла базы данных %s"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Не удалось создать файл пакета."
 
 msgid "Creating source package..."
 msgstr "Создание пакета с исходным кодом..."
@@ -1323,20 +1385,23 @@ msgstr "пропущена функция для разделения пакет
 msgid "requested package %s is not provided in %s"
 msgstr "требуемый пакет %s не предоставляется %s"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Определяется последняя версия в %s..."
 
 msgid "Version found: %s"
 msgstr "Найдена версия: %s"
-
-msgid "requires an argument"
-msgstr "требуется аргумент"
-
-msgid "unrecognized option"
-msgstr "нераспознанный параметр"
-
-msgid "invalid option"
-msgstr "недопустимый параметр"
 
 msgid "Usage: %s [options]"
 msgstr "Использование: %s [параметры]"
@@ -1369,7 +1434,8 @@ msgstr ""
 "  -g, --geninteg   Посчитать контрольные суммы для проверки целостности "
 "исходных файлов"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Эта помощь"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1422,12 +1488,24 @@ msgstr ""
 "  --holdver        Предотвратить автоматическое повышение версий для пакетов "
 "в разработке %ss"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck        Не выполнять функцию check() в %s"
+
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         обновлять только устаревшие пакеты\n"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <список>     Собрать только указанные пакеты из разделённого пакета"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr ""
@@ -1466,6 +1544,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s не найден."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "У вас нет прав на запись, чтобы сохранять пакеты в %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "У вас нет прав на запись, чтобы сохранять пакеты в %s."
@@ -1514,12 +1596,6 @@ msgstr "Параметр --asroot имеет значение только дл�
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Перезапустите makepkg без флага --asroot."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "Fakeroot должен быть установлен, если используется параметр 'fakeroot'"
-
-msgid "in the BUILDENV array in %s."
-msgstr "в массиве BUILDENV в %s."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr ""
 "Запуск makepkg от непривилегированного пользователя приведет к созданию"
@@ -1544,6 +1620,9 @@ msgstr "%s не существует."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s содержит CRLF символы и не может быть включен."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Пакет уже собран, устанавливается существующий пакет..."
 
@@ -1560,6 +1639,9 @@ msgstr "Группа пакетов уже собрана. (используйт
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr "Часть группы пакетов собрана. (используйте -f для перезаписи)"
 
+msgid "Leaving fakeroot environment."
+msgstr "Выход из окружения fakeroot."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr ""
 "Перепаковка без использования функции package() устарела и не рекомендуется "
@@ -1568,14 +1650,14 @@ msgstr ""
 msgid "File permissions may not be preserved."
 msgstr "Права доступа к файлам могут быть не сохранены."
 
-msgid "Leaving fakeroot environment."
-msgstr "Выход из окружения fakeroot."
-
 msgid "Making package: %s"
 msgstr "Сборка пакета: %s"
 
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr "Пакет исходных кодов уже собран. (используйте -f для перезаписи)"
+
+msgid "Skipping integrity checks."
+msgstr "Пропуск проверки зависимостей."
 
 msgid "Source package created: %s"
 msgstr "Создан пакет с исходным кодом: %s"
@@ -1615,9 +1697,6 @@ msgstr "Исходные файлы готовы."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Удаление существующего каталога pkg/ ..."
-
-msgid "Entering fakeroot environment..."
-msgstr "Вход в fakeroot окружение..."
 
 msgid "Finished making: %s"
 msgstr "Сборка завершена: %s"
@@ -1767,12 +1846,10 @@ msgstr "Файл '%s' не существует"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Не удалось найти бинарный файл xdelta3!"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Используйте: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "Применение: repo-remove [-q] <путь-к-БД> <имя_пакета|дельта> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1780,6 +1857,23 @@ msgid ""
 msgstr ""
 "repo-add обновит базу данных пакетов, прочитав информацию из файла пакета."
 "\\nУкажите несколько пакетов в командной строке, чтобы добавить их все.\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Параметры:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Используйте флаг -f/--files для обновления базы данных, включая записи о "
+"файлах.\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr "Применение: repo-remove [-q] <путь-к-БД> <имя_пакета|дельта> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1790,45 +1884,44 @@ msgstr ""
 "командной строке из указанной базы данных. Можете указать сразу\\nнесколько "
 "пакетов для удаления в командной строке.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Используйте флаг -q/--quiet для минимизации вывода основных сообщений, "
-"предупреждений ,\\nи ошибок.\\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr ""
+"  -p, --file <пакет>   извлечь информацию из файла пакета, а не из базы "
+"данных\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Используйте параметр -d/--delta для автоматического создания и добавления "
-"файлов различия\\nмежду старой и новой версией, если найден предыдущий файл."
-"\\n\\n"
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-"Используйте флаг -f/--files для обновления базы данных, включая записи о "
-"файлах.\\n\\n"
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
 "Пример:  repo-add /путь/к/репозиторию.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Пример:  repo-remove /путь/к/репозиторию.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (C) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\nЭто свободное программное "
-"обеспечение; посмотрите условия копирования в исходном коде.\\nНо НЕТ "
-"ГАРАНТИИ, что они не противоречат с законом."
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nЭто свободное программное обеспечение; посмотрите условия копирования в "
+"исходном коде.\\n\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Нет записи в базы данных для пакета '%s'."
@@ -1839,14 +1932,40 @@ msgstr "Добавляется запись 'дельта' : %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Удаление существующей записи '%s'..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "Не удалось найти бинарный файл xdelta3!"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Синхронизация базы данных..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Не удалось создать файл пакета."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Возвращение базы данных на место..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "Вычисление контрольной md5-суммы..."
+
 msgid "An entry for '%s' already existed"
 msgstr "Запись для '%s' уже существует"
 
 msgid "Creating '%s' db entry..."
 msgstr "Создание записи '%s' в БД..."
-
-msgid "Computing md5 checksums..."
-msgstr "Вычисление контрольной md5-суммы..."
 
 msgid "Old package file not found: %s"
 msgstr "Файл старого пакета не найден: %s"
@@ -1910,3 +2029,52 @@ msgstr "Не осталось пакетов, создание пустой ба
 
 msgid "No packages modified, nothing to do."
 msgstr "Пакеты не изменялись, делать нечего."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "не удалось установить путь к базе данных '%s' (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "не удалось добавить каталог для кэша '%s' (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "требуется аргумент"
+
+#~ msgid "unrecognized option"
+#~ msgstr "нераспознанный параметр"
+
+#~ msgid "invalid option"
+#~ msgstr "недопустимый параметр"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr ""
+#~ "Fakeroot должен быть установлен, если используется параметр 'fakeroot'"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "в массиве BUILDENV в %s."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "Используйте флаг -q/--quiet для минимизации вывода основных сообщений, "
+#~ "предупреждений ,\\nи ошибок.\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Используйте параметр -d/--delta для автоматического создания и добавления "
+#~ "файлов различия\\nмежду старой и новой версией, если найден предыдущий "
+#~ "файл.\\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(C) 2007-2008 Dan McGee <dan@archlinux.org>.\\nЭто свободное программное "
+#~ "обеспечение; посмотрите условия копирования в исходном коде.\\nНо НЕТ "
+#~ "ГАРАНТИИ, что они не противоречат с законом."

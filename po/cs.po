@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: 2011-04-16 05:54+0000\n"
 "Last-Translator: vogo <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Czech <None>\n"
@@ -162,6 +162,102 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc selhal: nelze alokovat %zd bytů\n"
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr "nepodařilo získat aktuální pracovní adresář\n"
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr "nelze se přesunout do adresáře pro stahování (%s)\n"
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr "spuštění XferCommand selhalo!\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "nepodařilo se změnit adresář na %s (%s)\n"
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr "chybná hodnota pro 'CleanMethod': '%s'\n"
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"konfigurační soubor %s, řádek %d: direktiva '%s' v sekci '%s' nebyla "
+"rozpoznána.\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr ""
+"konfigurační soubor %s, řádek %d: direktiva '%s' vyžaduje zadanou hodnotu\n"
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+"Zrcadlo '%s' obsahuje proměnnou $arch, ale architektura nebyla definována.\n"
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr "nelze přidat URL serveru k databázi '%s': %s (%s)\n"
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr "selhala inicializace knihovny alpm (%s)\n"
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr "problém s nastavením log souboru '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr "problém s nastavením kořenového adresáře '%s' (%s)\n"
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "nelze zaregistrovat databázi '%s' (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr "nelze přidat URL serveru k databázi '%s': %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "nelze přidat URL serveru k databázi '%s': %s (%s)\n"
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr "konfigurační soubor %s nelze přečíst.\n"
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr "konfigurační soubor %s, řádek %d: chybné jméno sekce.\n"
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+"konfigurační soubor %s, řádek %d: chybná syntaxe konfiguračního souboru, "
+"chybí hodnota.\n"
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"konfigurační soubor %s, řádek %d: Všechny direktivy musí náležet nějaké "
+"sekci.\n"
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr ""
+"konfigurační soubor %s, řádek %d: direktiva '%s' vyžaduje zadanou hodnotu\n"
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "nejsou specifikovány cíle (použijte -h pro nápovědu)\n"
 
@@ -192,6 +288,10 @@ msgstr "Nainstalován jako závislost jiného balíčku"
 #, c-format
 msgid "Unknown"
 msgstr "Neznámý"
+
+#, c-format
+msgid "Repository     :"
+msgstr "Repozitář      :"
 
 #, c-format
 msgid "Name           :"
@@ -237,16 +337,16 @@ msgstr "Konfliktní s   :"
 msgid "Replaces       :"
 msgstr "Nahrazuje      :"
 
-#, c-format
-msgid "Download Size  : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Download Size  : %6.2f %s\n"
 msgstr "Stažená vel.   : %6.2f K\n"
 
-#, c-format
-msgid "Compressed Size: %6.2f K\n"
+#, fuzzy, c-format
+msgid "Compressed Size: %6.2f %s\n"
 msgstr "Zabalená vel.  : %6.2f K\n"
 
-#, c-format
-msgid "Installed Size : %6.2f K\n"
+#, fuzzy, c-format
+msgid "Installed Size : %6.2f %s\n"
 msgstr "Vel. instalace : %6.2f K\n"
 
 #, c-format
@@ -288,10 +388,6 @@ msgstr "MD5 součet     :"
 #, c-format
 msgid "Description    :"
 msgstr "Popis          :"
-
-#, c-format
-msgid "Repository     :"
-msgstr "Repozitář      :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -591,6 +687,10 @@ msgstr "      --config <path>  nastavit cestu ke konfiguračnímu souboru\n"
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          zobrazit ladící zprávy\n"
 
+#, fuzzy, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr "      --logfile <path> nastavit cestu k log souboru\n"
+
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <path> nastavit cestu k log souboru\n"
@@ -609,22 +709,6 @@ msgstr ""
 "License).\n"
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr "problém s nastavením kořenového adresáře '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr "problém s nastavením cesty k databázi '%s' (%s)\n"
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr "problém s nastavením log souboru '%s' (%s)\n"
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr "problém při přidání adresáře s mezipamětí '%s' (%s)\n"
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' není validní ladící úroveň\n"
 
@@ -635,77 +719,6 @@ msgstr "současně lze spustit jen jednu operaci\n"
 #, c-format
 msgid "invalid option\n"
 msgstr "neplatný přepínač\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "chybná hodnota pro 'CleanMethod': '%s'\n"
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr "nepodařilo získat aktuální pracovní adresář\n"
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr "nelze se přesunout do adresáře pro stahování (%s)\n"
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr "spuštění XferCommand selhalo!\n"
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "nepodařilo se změnit adresář na %s (%s)\n"
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-"konfigurační soubor %s, řádek %d: direktiva '%s' v sekci '%s' nebyla "
-"rozpoznána.\n"
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-"Zrcadlo '%s' obsahuje proměnnou $arch, ale architektura nebyla definována.\n"
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "nelze přidat URL serveru k databázi '%s': %s (%s)\n"
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr "konfigurační soubor %s nelze přečíst.\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "konfigurační soubor %s, řádek %d: chybné jméno sekce.\n"
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "nelze zaregistrovat databázi '%s' (%s)\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"konfigurační soubor %s, řádek %d: chybná syntaxe konfiguračního souboru, "
-"chybí hodnota.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"konfigurační soubor %s, řádek %d: Všechny direktivy musí náležet nějaké "
-"sekci.\n"
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-"konfigurační soubor %s, řádek %d: direktiva '%s' vyžaduje zadanou hodnotu\n"
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
-msgstr "selhala inicializace knihovny alpm (%s)\n"
 
 #, c-format
 msgid "buffer overflow detected in arg parsing\n"
@@ -1000,23 +1013,47 @@ msgid "None"
 msgstr "Nic"
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
 msgstr "Cíle (%d):"
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr "Celková velikost stahování:   %.2f MB\n"
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
-msgstr "Celková velikost instalace:   %.2f MB\n"
 
 #, c-format
 msgid "Remove (%d):"
 msgstr "Odstranit (%d):"
 
-#, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+#, fuzzy, c-format
+msgid "Total Download Size:    %.2f %s\n"
+msgstr "Celková velikost stahování:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr "Celková velikost instalace:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Celková velikost stahování:   %.2f MB\n"
+
+#, fuzzy, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr "Celková uvolněná velikost:    %.2f MB\n"
 
 #, c-format
@@ -1099,6 +1136,9 @@ msgstr "CHYBA:"
 
 msgid "Cleaning up..."
 msgstr "Probíhá vyčištění..."
+
+msgid "Entering fakeroot environment..."
+msgstr "Vstupuje se do fakeroot prostředí..."
 
 msgid "Unable to find source file %s."
 msgstr "Nepodařilo se nalézt zdrojový soubor %s."
@@ -1194,7 +1234,8 @@ msgstr "Uklízí se instalace..."
 msgid "Removing doc files..."
 msgstr "Odstraňují se doc soubory..."
 
-msgid "Purging other files..."
+#, fuzzy
+msgid "Purging unwanted files..."
 msgstr "Odstraňují se další soubory..."
 
 msgid "Compressing man and info pages..."
@@ -1210,8 +1251,19 @@ msgstr "Odstraňují se libtool .la soubory..."
 msgid "Removing empty directories..."
 msgstr "Odstraňují se prázdné adresáře..."
 
+#, fuzzy
+msgid "Compressing binaries with %s..."
+msgstr "Komprimují se man a info stránky..."
+
+#, fuzzy
+msgid "Could not compress binary : %s"
+msgstr "nelze přistoupit k adresáři s mezipamětí %s\n"
+
 msgid "Generating .PKGINFO file..."
 msgstr "Vytváří se .PKGINFO soubor..."
+
+msgid "Cannot find library listed in %s: %s"
+msgstr ""
 
 msgid "Please add a license line to your %s!"
 msgstr "Přidejte, prosím, informace o licenci do vašeho %s!"
@@ -1246,8 +1298,17 @@ msgstr "Selhalo vytvoření balíčku."
 msgid "Failed to create symlink to package file."
 msgstr "Selhalo vytváření symbolického odkazu na soubor balíčku."
 
-msgid "Skipping integrity checks."
-msgstr "Přeskakuje se kontrola integrity."
+#, fuzzy
+msgid "Signing package..."
+msgstr "Vytváří se balíček..."
+
+#, fuzzy
+msgid "Created signature file %s."
+msgstr "Vytváří se aktualizovaný soubor databáze '%s'"
+
+#, fuzzy
+msgid "Failed to sign package file."
+msgstr "Selhalo vytvoření balíčku."
 
 msgid "Creating source package..."
 msgstr "Vytváří se zdrojový balíček..."
@@ -1321,20 +1382,23 @@ msgstr "chybí funkce balíčku pro rozdělení balíčku '%s'"
 msgid "requested package %s is not provided in %s"
 msgstr "požadovaný balíček %s není poskytovaný balíčkem %s"
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr "Určuje se poslední revize %s..."
 
 msgid "Version found: %s"
 msgstr "Nalezena verze: %s"
-
-msgid "requires an argument"
-msgstr "vyžaduje argument"
-
-msgid "unrecognized option"
-msgstr "neznámá volba"
-
-msgid "invalid option"
-msgstr "neplaná volba"
 
 msgid "Usage: %s [options]"
 msgstr "Použití: %s [volby]"
@@ -1364,7 +1428,8 @@ msgstr "  -f, --force      Přepsat existující balíček"
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Vygenerovat kontrolní součty zdrojových souborů"
 
-msgid "  -h, --help       This help"
+#, fuzzy
+msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Vypsat nápovědu"
 
 msgid "  -i, --install    Install package after successful build"
@@ -1414,12 +1479,24 @@ msgid ""
 msgstr ""
 "  --holdver        Zabrání automatickému zjištění verze pro vývojové %ss"
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr "  --nocheck        Nespouštět funkci check() v %s"
+
+#, fuzzy
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "      --needed         potlačit instalaci aktuálních balíčků\n"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Sestavit jen vyjmenované balíčky z rozděleného balíčku"
+
+msgid "  --sign           Sign the resulting package with gpg"
+msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
 msgstr ""
@@ -1455,6 +1532,10 @@ msgstr ""
 
 msgid "%s not found."
 msgstr "%s nebyl nalezen."
+
+#, fuzzy
+msgid "You do not have write permission to create packages in %s."
+msgstr "Nemáte práva zápisu k uložení stažených balíčků do %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Nemáte práva zápisu k uložení stažených balíčků do %s."
@@ -1501,12 +1582,6 @@ msgstr "Volba --asroot je určena jen pro uživatele root."
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr "Spusťte, prosím, makepkg znovu bez volby --asroot."
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr "Nainstalujte si fakeroot, pokud chcete používat volbu 'fakeroot'"
-
-msgid "in the BUILDENV array in %s."
-msgstr "v poli BUILDENV v %s."
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr "Spuštění makepkg jako neprivilegovaný uživatel může mít za následek"
 
@@ -1529,6 +1604,9 @@ msgstr "%s neexistuje."
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr "%s obsahuje CRLF znaky a nemůže být použit."
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je již sestaven, instaluje se existující balíček..."
 
@@ -1545,20 +1623,23 @@ msgstr "Skupina balíčků je již sestavena. (použijte -f pro přepsání)"
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr "Část skupiny balíčků je již sestavena. (použijte -f pro přepsání)"
 
+msgid "Leaving fakeroot environment."
+msgstr "Opouští se prostředí fakeroot."
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr "Znovu-zabalení bez použití funkce package() je zavrženo."
 
 msgid "File permissions may not be preserved."
 msgstr "Přístupová práva souborů nemusí být zachována."
 
-msgid "Leaving fakeroot environment."
-msgstr "Opouští se prostředí fakeroot."
-
 msgid "Making package: %s"
 msgstr "Vytváří se balíček: %s"
 
 msgid "A source package has already been built. (use -f to overwrite)"
 msgstr "Zdrojový balíček je již sestaven. (použijte -f pro přepsání)"
+
+msgid "Skipping integrity checks."
+msgstr "Přeskakuje se kontrola integrity."
 
 msgid "Source package created: %s"
 msgstr "Zdrojový balíček vytvořen: %s"
@@ -1598,9 +1679,6 @@ msgstr "Zdroje jsou připraveny."
 
 msgid "Removing existing pkg/ directory..."
 msgstr "Odstraňuje se existující adresář pkg/..."
-
-msgid "Entering fakeroot environment..."
-msgstr "Vstupuje se do fakeroot prostředí..."
 
 msgid "Finished making: %s"
 msgstr "Dokončeno vytváření: %s"
@@ -1744,12 +1822,10 @@ msgstr "Soubor '%s' neexistuje"
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Nelze nalézt příkaz xdelta3! Je xdelta3 nainstalován?"
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
+#, fuzzy
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Použití: repo-add [-d] [-f] [-q] <cesta-k-databázi><balíček|delta> ...\\n"
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr "Použití: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1757,6 +1833,23 @@ msgid ""
 msgstr ""
 "repo-add aktualizuje databázi balíčků pomocí čtení souboru balíčku.\\nNa "
 "příkazové řádce může být uvedeno více balíčků pro přidání.\\n\\n"
+
+#, fuzzy
+msgid "Options:\\n"
+msgstr "Volby:"
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"Použijte -f/--files přepínač k aktualizaci databáze včetně záznamů o "
+"souborech.\\n\\n"
+
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgstr "Použití: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1767,44 +1860,41 @@ msgstr ""
 "\\nuvedeného na příkazové řádce z dané databáze. Na příkazové řádce může být"
 "\\nuvedeno více balíčků pro odebrání.\\n\\n"
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
-"Použijte -q/--quiet přepínač, k minimalizaci výstupu na základní zprávy, "
-"varování,\\na chyby.\\n\\n"
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
+
+msgid "  -v, --verify      verify database's signature before update\\n"
+msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
-"Použijte -d/--delta přepínač k automatickému generování a přidání delta "
-"rozdílů\\nmezi starými a novými soubory, v případě, že starý balíček "
-"neexistuje,\\nvloží se nový.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-"Použijte -f/--files přepínač k aktualizaci databáze včetně záznamů o "
-"souborech.\\n\\n"
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr "Příklad:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Příklad:  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\\n"
-"Toto je svobodný software; více o podmínkách použití naleznete\\nve "
-"zdrojovém kódu.Ze zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY.\\n"
+"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nToto je svobodný software; vizte zdrojový kód pro podmínky kopírování."
+"\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Žádné záznamy v databázi pro balíček '%s'."
@@ -1815,14 +1905,40 @@ msgstr "Přidávají se záznamy o delta rozdílech: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Odstraňuje se existující záznam '%s'..."
 
+#, fuzzy
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "Nelze nalézt příkaz xdelta3! Je xdelta3 nainstalován?"
+
+#, fuzzy
+msgid "Signing database..."
+msgstr "Databáze se synchronizuje na disk..."
+
+#, fuzzy
+msgid "Failed to sign package database."
+msgstr "Selhalo vytvoření balíčku."
+
+#, fuzzy
+msgid "Verifying database signature..."
+msgstr "Vyměňují se databáze..."
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+#, fuzzy
+msgid "Computing checksums..."
+msgstr "Počítá se kontrolní MD5 součet..."
+
 msgid "An entry for '%s' already existed"
 msgstr "Záznam pro '%s' již existuje"
 
 msgid "Creating '%s' db entry..."
 msgstr "Vytváření záznamu databáze '%s'..."
-
-msgid "Computing md5 checksums..."
-msgstr "Počítá se kontrolní MD5 součet..."
 
 msgid "Old package file not found: %s"
 msgstr "Starý soubor balíčku nebyl nalezen: %s"
@@ -1886,3 +2002,51 @@ msgstr "Nezůstaly žádné balíčky, vytváří se prázdná databáze."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nebyl změněn žádný balíček, není co dělat."
+
+#~ msgid "problem setting dbpath '%s' (%s)\n"
+#~ msgstr "problém s nastavením cesty k databázi '%s' (%s)\n"
+
+#~ msgid "problem adding cachedir '%s' (%s)\n"
+#~ msgstr "problém při přidání adresáře s mezipamětí '%s' (%s)\n"
+
+#~ msgid "requires an argument"
+#~ msgstr "vyžaduje argument"
+
+#~ msgid "unrecognized option"
+#~ msgstr "neznámá volba"
+
+#~ msgid "invalid option"
+#~ msgstr "neplaná volba"
+
+#~ msgid "Fakeroot must be installed if using the 'fakeroot' option"
+#~ msgstr "Nainstalujte si fakeroot, pokud chcete používat volbu 'fakeroot'"
+
+#~ msgid "in the BUILDENV array in %s."
+#~ msgstr "v poli BUILDENV v %s."
+
+#~ msgid ""
+#~ "Use the -q/--quiet flag to minimize output to basic messages, warnings,"
+#~ "\\nand errors.\\n\\n"
+#~ msgstr ""
+#~ "Použijte -q/--quiet přepínač, k minimalizaci výstupu na základní zprávy, "
+#~ "varování,\\na chyby.\\n\\n"
+
+#~ msgid ""
+#~ "Use the -d/--delta flag to automatically generate and add a delta file"
+#~ "\\nbetween the old entry and the new one, if the old package file is found"
+#~ "\\nnext to the new one.\\n\\n"
+#~ msgstr ""
+#~ "Použijte -d/--delta přepínač k automatickému generování a přidání delta "
+#~ "rozdílů\\nmezi starými a novými soubory, v případě, že starý balíček "
+#~ "neexistuje,\\nvloží se nový.\\n\\n"
+
+#~ msgid ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; "
+#~ "see the source for copying conditions.\\nThere is NO WARRANTY, to the "
+#~ "extent permitted by law.\\n"
+#~ msgstr ""
+#~ "Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright "
+#~ "(c) 2007-2008 Dan McGee <dan@archlinux.org>.\\n\\\n"
+#~ "Toto je svobodný software; více o podmínkách použití naleznete\\nve "
+#~ "zdrojovém kódu.Ze zákona nejsou poskytovány ŽÁDNÉ ZÁRUKY.\\n"

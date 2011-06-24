@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pacman 3.5.2\n"
+"Project-Id-Version: pacman 3.5.3\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-04-18 11:23-0500\n"
+"POT-Creation-Date: 2011-06-23 21:47-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,6 +155,93 @@ msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr ""
 
 #, c-format
+msgid "could not get current working directory\n"
+msgstr ""
+
+#, c-format
+msgid "could not chdir to download directory %s\n"
+msgstr ""
+
+#, c-format
+msgid "running XferCommand: fork failed!\n"
+msgstr ""
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "invalid value for 'CleanMethod' : '%s'\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"The mirror '%s' contains the $arch variable, but no Architecture is "
+"defined.\n"
+msgstr ""
+
+#, c-format
+msgid "could not add server URL to database '%s': %s (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "failed to initialize alpm library (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "problem setting logfile '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not set verify option for database '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s could not be read.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s, line %d: bad section name.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+
+#, c-format
+msgid "config file %s, line %d: directive '%s' needs a value\n"
+msgstr ""
+
+#, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr ""
 
@@ -184,6 +271,10 @@ msgstr ""
 
 #, c-format
 msgid "Unknown"
+msgstr ""
+
+#, c-format
+msgid "Repository     :"
 msgstr ""
 
 #, c-format
@@ -231,15 +322,15 @@ msgid "Replaces       :"
 msgstr ""
 
 #, c-format
-msgid "Download Size  : %6.2f K\n"
+msgid "Download Size  : %6.2f %s\n"
 msgstr ""
 
 #, c-format
-msgid "Compressed Size: %6.2f K\n"
+msgid "Compressed Size: %6.2f %s\n"
 msgstr ""
 
 #, c-format
-msgid "Installed Size : %6.2f K\n"
+msgid "Installed Size : %6.2f %s\n"
 msgstr ""
 
 #, c-format
@@ -280,10 +371,6 @@ msgstr ""
 
 #, c-format
 msgid "Description    :"
-msgstr ""
-
-#, c-format
-msgid "Repository     :"
 msgstr ""
 
 #, c-format
@@ -549,6 +636,10 @@ msgid "      --debug          display debug messages\n"
 msgstr ""
 
 #, c-format
+msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
+msgstr ""
+
+#, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr ""
 
@@ -563,22 +654,6 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "problem setting rootdir '%s' (%s)\n"
-msgstr ""
-
-#, c-format
-msgid "problem setting dbpath '%s' (%s)\n"
-msgstr ""
-
-#, c-format
-msgid "problem setting logfile '%s' (%s)\n"
-msgstr ""
-
-#, c-format
-msgid "problem adding cachedir '%s' (%s)\n"
-msgstr ""
-
-#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr ""
 
@@ -588,69 +663,6 @@ msgstr ""
 
 #, c-format
 msgid "invalid option\n"
-msgstr ""
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr ""
-
-#, c-format
-msgid "could not get current working directory\n"
-msgstr ""
-
-#, c-format
-msgid "could not chdir to download directory %s\n"
-msgstr ""
-
-#, c-format
-msgid "running XferCommand: fork failed!\n"
-msgstr ""
-
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
-msgstr ""
-
-#, c-format
-msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr ""
-
-#, c-format
-msgid "config file %s could not be read.\n"
-msgstr ""
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr ""
-
-#, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr ""
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-
-#, c-format
-msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
 msgstr ""
 
 #, c-format
@@ -942,15 +954,27 @@ msgid "None"
 msgstr ""
 
 #, c-format
+msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Name"
+msgstr ""
+
+#, c-format
+msgid "Old Version"
+msgstr ""
+
+#, c-format
+msgid "New Version"
+msgstr ""
+
+#, c-format
+msgid "Size"
+msgstr ""
+
+#, c-format
 msgid "Targets (%d):"
-msgstr ""
-
-#, c-format
-msgid "Total Download Size:    %.2f MB\n"
-msgstr ""
-
-#, c-format
-msgid "Total Installed Size:   %.2f MB\n"
 msgstr ""
 
 #, c-format
@@ -958,7 +982,19 @@ msgid "Remove (%d):"
 msgstr ""
 
 #, c-format
-msgid "Total Removed Size:   %.2f MB\n"
+msgid "Total Download Size:    %.2f %s\n"
+msgstr ""
+
+#, c-format
+msgid "Total Installed Size:   %.2f %s\n"
+msgstr ""
+
+#, c-format
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr ""
+
+#, c-format
+msgid "Total Removed Size:   %.2f %s\n"
 msgstr ""
 
 #, c-format
@@ -1040,6 +1076,9 @@ msgid "ERROR:"
 msgstr ""
 
 msgid "Cleaning up..."
+msgstr ""
+
+msgid "Entering fakeroot environment..."
 msgstr ""
 
 msgid "Unable to find source file %s."
@@ -1135,7 +1174,7 @@ msgstr ""
 msgid "Removing doc files..."
 msgstr ""
 
-msgid "Purging other files..."
+msgid "Purging unwanted files..."
 msgstr ""
 
 msgid "Compressing man and info pages..."
@@ -1150,7 +1189,16 @@ msgstr ""
 msgid "Removing empty directories..."
 msgstr ""
 
+msgid "Compressing binaries with %s..."
+msgstr ""
+
+msgid "Could not compress binary : %s"
+msgstr ""
+
 msgid "Generating .PKGINFO file..."
+msgstr ""
+
+msgid "Cannot find library listed in %s: %s"
 msgstr ""
 
 msgid "Please add a license line to your %s!"
@@ -1186,7 +1234,13 @@ msgstr ""
 msgid "Failed to create symlink to package file."
 msgstr ""
 
-msgid "Skipping integrity checks."
+msgid "Signing package..."
+msgstr ""
+
+msgid "Created signature file %s."
+msgstr ""
+
+msgid "Failed to sign package file."
 msgstr ""
 
 msgid "Creating source package..."
@@ -1261,19 +1315,22 @@ msgstr ""
 msgid "requested package %s is not provided in %s"
 msgstr ""
 
+msgid "Cannot find the %s binary required for building as non-root user."
+msgstr ""
+
+msgid "Cannot find the %s binary required for signing packages."
+msgstr ""
+
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
 msgid "Determining latest %s revision..."
 msgstr ""
 
 msgid "Version found: %s"
-msgstr ""
-
-msgid "requires an argument"
-msgstr ""
-
-msgid "unrecognized option"
-msgstr ""
-
-msgid "invalid option"
 msgstr ""
 
 msgid "Usage: %s [options]"
@@ -1303,7 +1360,7 @@ msgstr ""
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
 
-msgid "  -h, --help       This help"
+msgid "  -h, --help       Show this help message and exit"
 msgstr ""
 
 msgid "  -i, --install    Install package after successful build"
@@ -1349,10 +1406,21 @@ msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
 
+msgid ""
+"  --key <key>      Specify a key to use for gpg signing instead of the "
+"default"
+msgstr ""
+
 msgid "  --nocheck        Do not run the check() function in the %s"
 msgstr ""
 
+msgid "  --nosign         Do not create a signature for the package"
+msgstr ""
+
 msgid "  --pkg <list>     Only build listed packages from a split package"
+msgstr ""
+
+msgid "  --sign           Sign the resulting package with gpg"
 msgstr ""
 
 msgid "  --skipinteg      Do not fail when integrity checks are missing"
@@ -1383,6 +1451,9 @@ msgid ""
 msgstr ""
 
 msgid "%s not found."
+msgstr ""
+
+msgid "You do not have write permission to create packages in %s."
 msgstr ""
 
 msgid "You do not have write permission to store packages in %s."
@@ -1430,12 +1501,6 @@ msgstr ""
 msgid "Please rerun makepkg without the --asroot flag."
 msgstr ""
 
-msgid "Fakeroot must be installed if using the 'fakeroot' option"
-msgstr ""
-
-msgid "in the BUILDENV array in %s."
-msgstr ""
-
 msgid "Running makepkg as an unprivileged user will result in non-root"
 msgstr ""
 
@@ -1457,6 +1522,9 @@ msgstr ""
 msgid "%s contains CRLF characters and cannot be sourced."
 msgstr ""
 
+msgid "There is no key in your keyring."
+msgstr ""
+
 msgid "A package has already been built, installing existing package..."
 msgstr ""
 
@@ -1473,19 +1541,22 @@ msgstr ""
 msgid "Part of the package group has already been built. (use -f to overwrite)"
 msgstr ""
 
+msgid "Leaving fakeroot environment."
+msgstr ""
+
 msgid "Repackaging without the use of a package() function is deprecated."
 msgstr ""
 
 msgid "File permissions may not be preserved."
 msgstr ""
 
-msgid "Leaving fakeroot environment."
-msgstr ""
-
 msgid "Making package: %s"
 msgstr ""
 
 msgid "A source package has already been built. (use -f to overwrite)"
+msgstr ""
+
+msgid "Skipping integrity checks."
 msgstr ""
 
 msgid "Source package created: %s"
@@ -1525,9 +1596,6 @@ msgid "Sources are ready."
 msgstr ""
 
 msgid "Removing existing pkg/ directory..."
-msgstr ""
-
-msgid "Entering fakeroot environment..."
 msgstr ""
 
 msgid "Finished making: %s"
@@ -1657,15 +1725,24 @@ msgstr ""
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr ""
 
-msgid "Usage: repo-add [-d] [-f] [-q] <path-to-db> <package|delta> ...\\n"
-msgstr ""
-
-msgid "Usage: repo-remove [-q] <path-to-db> <packagename|delta> ...\\n\\n"
+msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n\\n"
+msgstr ""
+
+msgid "Options:\\n"
+msgstr ""
+
+msgid "  -d, --delta       generate and add delta for package update\\n"
+msgstr ""
+
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
 
 msgid ""
@@ -1674,32 +1751,34 @@ msgid ""
 "\\npackages to remove can be specified on the command line.\\n\\n"
 msgstr ""
 
-msgid ""
-"Use the -q/--quiet flag to minimize output to basic messages, warnings,"
-"\\nand errors.\\n\\n"
+msgid "  -q, --quiet       minimize output\\n"
+msgstr ""
+
+msgid "  -s, --sign        sign database with GnuPG after update\\n"
+msgstr ""
+
+msgid "  -k, --key <key>   use the specified key to sign the database\\n"
+msgstr ""
+
+msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
 
 msgid ""
-"Use the -d/--delta flag to automatically generate and add a delta file"
-"\\nbetween the old entry and the new one, if the old package file is found"
-"\\nnext to the new one.\\n\\n"
+"\\nSee %s(8) for more details and descriptions of the available options.\\n"
+"\\n"
 msgstr ""
 
 msgid ""
-"Use the -f/--files flag to update a database including file entries.\\n\\n"
-msgstr ""
-
-msgid "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr ""
 
 msgid ""
-"Copyright (C) 2006-2008 Aaron Griffin <aaron@archlinux.org>.\\nCopyright (c) "
-"2007-2008 Dan McGee <dan@archlinux.org>.\\n\\nThis is free software; see the "
-"source for copying conditions.\\nThere is NO WARRANTY, to the extent "
-"permitted by law.\\n"
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
 
 msgid "No database entry for package '%s'."
@@ -1711,13 +1790,34 @@ msgstr ""
 msgid "Removing existing entry '%s'..."
 msgstr ""
 
+msgid "Cannot find the gpg binary! Is gnupg installed?"
+msgstr ""
+
+msgid "Signing database..."
+msgstr ""
+
+msgid "Failed to sign package database."
+msgstr ""
+
+msgid "Verifying database signature..."
+msgstr ""
+
+msgid "No existing signature found, skipping verification."
+msgstr ""
+
+msgid "Database signature file verified."
+msgstr ""
+
+msgid "Database signature was NOT valid!"
+msgstr ""
+
+msgid "Computing checksums..."
+msgstr ""
+
 msgid "An entry for '%s' already existed"
 msgstr ""
 
 msgid "Creating '%s' db entry..."
-msgstr ""
-
-msgid "Computing md5 checksums..."
 msgstr ""
 
 msgid "Old package file not found: %s"
