@@ -177,7 +177,7 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 	return realsize;
 }
 
-static int curl_download_internal(alpm_handle_t *handle, const char *url,
+static int curl_download_internal(alpm_handle_t *handle, struct dload_payload *payload,
 		const char *localpath, char **final_file, int force, int allow_resume,
 		int errors_ok)
 {
@@ -197,10 +197,10 @@ static int curl_download_internal(alpm_handle_t *handle, const char *url,
 
 	dlfile.handle = handle;
 	dlfile.initial_size = 0.0;
-	dlfile.filename = get_filename(url);
+	dlfile.filename = payload->filename ? payload->filename : get_filename(payload->fileurl);
 	dlfile.cd_filename = NULL;
-	if(!dlfile.filename || curl_gethost(url, hostname) != 0) {
-		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), url);
+	if(!dlfile.filename || curl_gethost(payload->fileurl, hostname) != 0) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
 		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}
 
@@ -238,7 +238,7 @@ static int curl_download_internal(alpm_handle_t *handle, const char *url,
 	/* the curl_easy handle is initialized with the alpm handle, so we only need
 	 * to reset the curl handle set parameters for each time it's used. */
 	curl_easy_reset(handle->curl);
-	curl_easy_setopt(handle->curl, CURLOPT_URL, url);
+	curl_easy_setopt(handle->curl, CURLOPT_URL, payload->fileurl);
 	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
 	curl_easy_setopt(handle->curl, CURLOPT_ERRORBUFFER, error_buffer);
 	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
@@ -251,6 +251,10 @@ static int curl_download_internal(alpm_handle_t *handle, const char *url,
 	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_TIME, 10L);
 	curl_easy_setopt(handle->curl, CURLOPT_HEADERFUNCTION, parse_headers);
 	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, &dlfile);
+
+	if(payload->max_size) {
+		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE, payload->max_size);
+	}
 
 	useragent = getenv("HTTP_USER_AGENT");
 	if(useragent != NULL) {
@@ -407,18 +411,19 @@ cleanup:
  * @param errors_ok do not log errors (but still return them)
  * @return 0 on success, -1 on error (pm_errno is set accordingly if errors_ok == 0)
  */
-int _alpm_download(alpm_handle_t *handle, const char *url, const char *localpath,
-		char **final_file, int force, int allow_resume, int errors_ok)
+int _alpm_download(alpm_handle_t *handle, struct dload_payload *payload,
+		const char *localpath, char **final_file, int force, int allow_resume,
+		int errors_ok)
 {
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
-		return curl_download_internal(handle, url, localpath, final_file, force,
+		return curl_download_internal(handle, payload, localpath, final_file, force,
 				allow_resume, errors_ok);
 #else
 		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
 	} else {
-		int ret = handle->fetchcb(url, localpath, force);
+		int ret = handle->fetchcb(payload->fileurl, localpath, force);
 		if(ret == -1 && !errors_ok) {
 			RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
 		}
@@ -432,6 +437,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 	char *filepath;
 	const char *cachedir;
 	char *final_file = NULL;
+	struct dload_payload *payload;
 	int ret;
 
 	CHECK_HANDLE(handle, return NULL);
@@ -439,8 +445,11 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 	/* find a valid cache dir to download to */
 	cachedir = _alpm_filecache_setup(handle);
 
+	CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+	payload->fileurl = strdup(url);
+
 	/* download the file */
-	ret = _alpm_download(handle, url, cachedir, &final_file, 0, 1, 0);
+	ret = _alpm_download(handle, payload, cachedir, &final_file, 0, 1, 0);
 	if(ret == -1) {
 		_alpm_log(handle, ALPM_LOG_WARNING, _("failed to download %s\n"), url);
 		return NULL;
@@ -449,32 +458,44 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 
 	/* attempt to download the signature */
 	if(ret == 0 && (handle->siglevel & ALPM_SIG_PACKAGE)) {
-		char *sig_url;
 		char *sig_final_file = NULL;
 		size_t len;
 		int errors_ok = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
+		struct dload_payload *sig_payload;
 
+		CALLOC(sig_payload, 1, sizeof(*sig_payload), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		len = strlen(url) + 5;
-		CALLOC(sig_url, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		snprintf(sig_url, len, "%s.sig", url);
+		CALLOC(sig_payload->fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		snprintf(sig_payload->fileurl, len, "%s.sig", url);
+		sig_payload->max_size = 1024 * 16;
 
-		ret = _alpm_download(handle, sig_url, cachedir, &sig_final_file, 1, 0, errors_ok);
+		ret = _alpm_download(handle, sig_payload, cachedir, &sig_final_file, 1, 0, errors_ok);
 		if(ret == -1 && !errors_ok) {
-			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to download %s\n"), sig_url);
+			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to download %s\n"), sig_payload->fileurl);
 			/* Warn now, but don't return NULL. We will fail later during package
 			 * load time. */
 		} else if(ret == 0) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "successfully downloaded %s\n", sig_url);
+			_alpm_log(handle, ALPM_LOG_DEBUG, "successfully downloaded %s\n", sig_payload->fileurl);
 		}
-		FREE(sig_url);
 		FREE(sig_final_file);
+		_alpm_dload_payload_free(sig_payload);
 	}
 
 	/* we should be able to find the file the second time around */
 	filepath = _alpm_filecache_find(handle, final_file);
 	FREE(final_file);
+	_alpm_dload_payload_free(payload);
 
 	return filepath;
+}
+
+void _alpm_dload_payload_free(struct dload_payload *payload) {
+	struct dload_payload *load = (struct dload_payload *)payload;
+
+	ASSERT(load, return);
+
+	FREE(load->fileurl);
+	FREE(load);
 }
 
 /* vim: set ts=2 sw=2 noet: */
