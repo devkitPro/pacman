@@ -332,10 +332,8 @@ static int sync_db_populate(pmdb_t *db)
 			/* we have desc, depends or deltas - parse it */
 			if(sync_db_read(db, archive, entry, pkg) != 0) {
 				_alpm_log(db->handle, PM_LOG_ERROR,
-						_("could not parse package '%s' description file from db '%s'\n"),
-						pkg->name, db->treename);
-				_alpm_pkg_free(pkg);
-				pkg = NULL;
+						_("could not parse package description file '%s' from db '%s'\n"),
+						archive_entry_pathname(entry), db->treename);
 				continue;
 			}
 		}
