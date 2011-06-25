@@ -1449,6 +1449,13 @@ check_software() {
 	# check for needed software
 	local ret=0
 
+	# check for sudo if we will need it during makepkg execution
+	if (( ! ( ASROOT || INFAKEROOT ) && ( DEP_BIN || RMDEPS || INSTALL ) )); then
+		if ! type -p sudo >/dev/null; then
+			warning "$(gettext "Sudo can not be found. Will use su to acquire root privileges.")"
+		fi
+	fi
+
 	# fakeroot - building as non-root user
 	if [[ $(check_buildenv fakeroot) = "y" ]] && (( EUID > 0 )); then
 		if ! type -p fakeroot >/dev/null; then
@@ -1895,13 +1902,6 @@ else
 	if [[ -z $FAKEROOTKEY ]]; then
 		error "$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
 		exit 1 # TODO: error code
-	fi
-fi
-
-# check for sudo if we will need it during makepkg execution
-if (( ! ( ASROOT || INFAKEROOT ) && ( DEP_BIN || RMDEPS || INSTALL ) )); then
-	if ! type -p sudo >/dev/null; then
-		warning "$(gettext "Sudo can not be found. Will use su to acquire root privileges.")"
 	fi
 fi
 
