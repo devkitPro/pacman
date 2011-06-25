@@ -1538,30 +1538,48 @@ devel_check() {
 		# This will only be used on the first call to makepkg; subsequent
 		# calls to makepkg via fakeroot will explicitly pass the version
 		# number to avoid having to determine the version number twice.
-		# Also do a brief check to make sure we have the VCS tool available.
+		# Also do a check to make sure we have the VCS tool available.
 		oldpkgver=$pkgver
 		if [[ -n ${_darcstrunk} && -n ${_darcsmod} ]] ; then
-			type -p darcs >/dev/null || return 0
+			if ! type -p darcs >/dev/null; then
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "darcs" "darcs"
+				return 0
+			fi
 			msg "$(gettext "Determining latest %s revision...")" 'darcs'
 			newpkgver=$(date +%Y%m%d)
 		elif [[ -n ${_cvsroot} && -n ${_cvsmod} ]] ; then
-			type -p cvs >/dev/null || return 0
+			if ! type -p cvs >/dev/null; then
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "cvs" "cvs"
+				return 0
+			fi
 			msg "$(gettext "Determining latest %s revision...")" 'cvs'
 			newpkgver=$(date +%Y%m%d)
 		elif [[ -n ${_gitroot} && -n ${_gitname} ]] ; then
-			type -p git >/dev/null || return 0
+			if ! type -p git >/dev/null; then
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "git "git"
+				return 0
+			fi
 			msg "$(gettext "Determining latest %s revision...")" 'git'
 			newpkgver=$(date +%Y%m%d)
 		elif [[ -n ${_svntrunk} && -n ${_svnmod} ]] ; then
-			type -p svn >/dev/null || return 0
+			if ! type -p svn >/dev/null; then
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "svn" "svn"
+				return 0
+			fi
 			msg "$(gettext "Determining latest %s revision...")" 'svn'
 			newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
 		elif [[ -n ${_bzrtrunk} && -n ${_bzrmod} ]] ; then
-			type -p bzr >/dev/null || return 0
+			if ! type -p bzr >/dev/null; then
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "bzr" bzr"
+				return 0
+			fi
 			msg "$(gettext "Determining latest %s revision...")" 'bzr'
 			newpkgver=$(bzr revno ${_bzrtrunk})
 		elif [[ -n ${_hgroot} && -n ${_hgrepo} ]] ; then
-			type -p hg >/dev/null || return 0
+			if ! type -p hg >/dev/null; then
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "hg" "hg"
+				return 0
+			fi
 			msg "$(gettext "Determining latest %s revision...")" 'hg'
 			if [[ -d ./src/$_hgrepo ]] ; then
 				cd ./src/$_hgrepo
