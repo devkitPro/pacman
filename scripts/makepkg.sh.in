@@ -509,7 +509,8 @@ download_sources() {
 		local file=$(get_filepath "$netfile" || true)
 		if [[ -n "$file" ]]; then
 			msg2 "$(gettext "Found %s")" "${file##*/}"
-			ln -sf "$file" "$srcdir/"
+			rm -f "$srcdir/$file"
+			ln -s "$file" "$srcdir/"
 			continue
 		fi
 
@@ -877,8 +878,8 @@ tidy_install() {
 				# update symlinks to this manpage
 				find ${MAN_DIRS[@]} -lname "$file" 2>/dev/null |
 				while read link ; do
-					rm -f "$link"
-					ln -sf "${file}.gz" "${link}.gz"
+					rm -f "$link" "${link}.gz"
+					ln -s "${file}.gz" "${link}.gz"
 				done
 
 				# check file still exists (potentially already compressed due to hardlink)
@@ -1087,7 +1088,8 @@ create_package() {
 	fi
 
 	if (( ! ret )) && [[ ! "$PKGDEST" -ef "${startdir}" ]]; then
-		ln -sf "${pkg_file}" "${pkg_file/$PKGDEST/$startdir}"
+		rm -f "${pkg_file/$PKGDEST/$startdir}"
+		ln -s "${pkg_file}" "${pkg_file/$PKGDEST/$startdir}"
 		ret=$?
 	fi
 
@@ -1169,7 +1171,8 @@ create_srcpackage() {
 	fi
 
 	if (( ! ret )) && [[ ! "$SRCPKGDEST" -ef "${startdir}" ]]; then
-		ln -sf "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
+		rm -f "${pkg_file/$SRCPKGDEST/$startdir}"
+		ln -s "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
 		ret=$?
 	fi
 

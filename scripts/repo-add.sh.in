@@ -525,8 +525,9 @@ if (( success )); then
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
 	dblink="${REPO_DB_FILE%.tar.*}"
 	target=${REPO_DB_FILE##*/}
-	ln -sf "$target" "$dblink" 2>/dev/null || \
-		ln -f "$target" "$dblink" 2>/dev/null || \
+	rm -f "$dblink"
+	ln -s "$target" "$dblink" 2>/dev/null || \
+		ln "$target" "$dblink" 2>/dev/null || \
 		cp "$REPO_DB_FILE" "$dblink"
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
