@@ -233,7 +233,7 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
  */
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		int full, const char *md5sum, const char *base64_sig,
-		pgp_verify_t check_sig)
+		alpm_siglevel_t level)
 {
 	int ret;
 	int config = 0;
@@ -271,14 +271,12 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "base64_sig: %s\n", base64_sig);
-	if(check_sig != PM_PGP_VERIFY_NEVER) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "checking signature for %s\n", pkgfile);
-		ret = _alpm_gpgme_checksig(handle, pkgfile, base64_sig);
-		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
-				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
-			alpm_pkg_free(newpkg);
-			RET_ERR(handle, ALPM_ERR_SIG_INVALID, NULL);
-		}
+	if(level & ALPM_SIG_PACKAGE &&
+			_alpm_check_pgp_helper(handle, pkgfile, base64_sig,
+				level & ALPM_SIG_PACKAGE_OPTIONAL, level & ALPM_SIG_PACKAGE_MARGINAL_OK,
+				level & ALPM_SIG_PACKAGE_UNKNOWN_OK, ALPM_ERR_PKG_INVALID_SIG)) {
+		_alpm_pkg_free(newpkg);
+		return NULL;
 	}
 
 	/* next- try to create an archive object to read in the package */
@@ -396,12 +394,12 @@ error:
 }
 
 int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
-		pgp_verify_t check_sig, alpm_pkg_t **pkg)
+		alpm_siglevel_t level, alpm_pkg_t **pkg)
 {
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, check_sig);
+	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, level);
 	if(*pkg == NULL) {
 		/* pm_errno is set by pkg_load */
 		return -1;

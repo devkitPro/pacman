@@ -71,7 +71,7 @@ typedef struct __config_t {
 	unsigned short noask;
 	unsigned int ask;
 	alpm_transflag_t flags;
-	pgp_verify_t sigverify;
+	alpm_siglevel_t siglevel;
 
 	/* conf file options */
 	/* I Love Candy! */

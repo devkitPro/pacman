@@ -551,7 +551,7 @@ int pacman_query(alpm_list_t *targets)
 		char *strname = alpm_list_getdata(i);
 
 		if(config->op_q_isfile) {
-			alpm_pkg_load(config->handle, strname, 1, PM_PGP_VERIFY_OPTIONAL, &pkg);
+			alpm_pkg_load(config->handle, strname, 1, 0, &pkg);
 		} else {
 			pkg = alpm_db_get_pkg(db_local, strname);
 		}

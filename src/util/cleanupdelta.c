@@ -71,11 +71,12 @@ static void checkdbs(const char *dbpath, alpm_list_t *dbnames) {
 	char syncdbpath[PATH_MAX];
 	alpm_db_t *db = NULL;
 	alpm_list_t *i;
+	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
 		char *dbname = alpm_list_getdata(i);
 		snprintf(syncdbpath, PATH_MAX, "%s/sync/%s", dbpath, dbname);
-		db = alpm_db_register_sync(handle, dbname, PM_PGP_VERIFY_OPTIONAL);
+		db = alpm_db_register_sync(handle, dbname, level);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database (%s)\n",
 					alpm_strerror(alpm_errno(handle)));

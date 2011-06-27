@@ -45,8 +45,8 @@
  */
 
 /** Register a sync database of packages. */
-alpm_db_t SYMEXPORT *alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
-		pgp_verify_t check_sig)
+alpm_db_t SYMEXPORT *alpm_db_register_sync(alpm_handle_t *handle,
+		const char *treename, alpm_siglevel_t level)
 {
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return NULL);
@@ -55,7 +55,7 @@ alpm_db_t SYMEXPORT *alpm_db_register_sync(alpm_handle_t *handle, const char *tr
 	/* Do not register a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(handle, ALPM_ERR_TRANS_NOT_NULL, NULL));
 
-	return _alpm_db_register_sync(handle, treename, check_sig);
+	return _alpm_db_register_sync(handle, treename, level);
 }
 
 /* Helper function for alpm_db_unregister{_all} */
@@ -220,13 +220,13 @@ const char SYMEXPORT *alpm_db_get_name(const alpm_db_t *db)
 }
 
 /** Get the signature verification level for a database. */
-pgp_verify_t SYMEXPORT alpm_db_get_sigverify_level(alpm_db_t *db)
+alpm_siglevel_t SYMEXPORT alpm_db_get_siglevel(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
-	if(db->pgp_verify == PM_PGP_VERIFY_UNKNOWN) {
-		return alpm_option_get_default_sigverify(db->handle);
+	if(db->siglevel & ALPM_SIG_USE_DEFAULT) {
+		return alpm_option_get_default_siglevel(db->handle);
 	} else {
-		return db->pgp_verify;
+		return db->siglevel;
 	}
 }
 
@@ -323,7 +323,7 @@ alpm_db_t *_alpm_db_new(const char *treename, int is_local)
 	CALLOC(db, 1, sizeof(alpm_db_t), return NULL);
 	STRDUP(db->treename, treename, return NULL);
 	db->is_local = is_local;
-	db->pgp_verify = PM_PGP_VERIFY_UNKNOWN;
+	db->siglevel = 0;
 
 	return db;
 }

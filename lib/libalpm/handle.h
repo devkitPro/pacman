@@ -69,7 +69,7 @@ struct __alpm_handle_t {
 	char *arch;              /* Architecture of packages we should allow */
 	int usedelta;            /* Download deltas if possible */
 	int checkspace;          /* Check disk space before installing */
-	pgp_verify_t sigverify;  /* Default signature verification level */
+	alpm_siglevel_t siglevel;   /* Default signature verification level */
 
 	/* error code */
 	enum _alpm_errno_t pm_errno;

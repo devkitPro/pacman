@@ -72,6 +72,8 @@ const char SYMEXPORT *alpm_strerror(enum _alpm_errno_t err)
 			return _("could not find database");
 		case ALPM_ERR_DB_INVALID:
 			return _("invalid or corrupted database");
+		case ALPM_ERR_DB_INVALID_SIG:
+			return _("invalid or corrupted database (PGP signature)");
 		case ALPM_ERR_DB_VERSION:
 			return _("database is incorrect version");
 		case ALPM_ERR_DB_WRITE:
@@ -106,7 +108,9 @@ const char SYMEXPORT *alpm_strerror(enum _alpm_errno_t err)
 		case ALPM_ERR_PKG_IGNORED:
 			return _("operation cancelled due to ignorepkg");
 		case ALPM_ERR_PKG_INVALID:
-			return _("invalid or corrupted package");
+			return _("invalid or corrupted package (checksum)");
+		case ALPM_ERR_PKG_INVALID_SIG:
+			return _("invalid or corrupted package (PGP signature)");
 		case ALPM_ERR_PKG_OPEN:
 			return _("cannot open package file");
 		case ALPM_ERR_PKG_CANT_REMOVE:
@@ -118,12 +122,10 @@ const char SYMEXPORT *alpm_strerror(enum _alpm_errno_t err)
 		case ALPM_ERR_PKG_REPO_NOT_FOUND:
 			return _("could not find repository for target");
 		/* Signatures */
-		case ALPM_ERR_SIG_MISSINGDIR:
-			return _("signature directory not configured correctly");
+		case ALPM_ERR_SIG_MISSING:
+			return _("missing PGP signature");
 		case ALPM_ERR_SIG_INVALID:
 			return _("invalid PGP signature");
-		case ALPM_ERR_SIG_UNKNOWN:
-			return _("unknown PGP signature");
 		/* Deltas */
 		case ALPM_ERR_DLT_INVALID:
 			return _("invalid or corrupted delta");

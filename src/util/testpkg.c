@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 	alpm_handle_t *handle;
 	enum _alpm_errno_t err;
 	alpm_pkg_t *pkg = NULL;
+	const alpm_siglevel_t level = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL;
 
 	if(argc != 2) {
 		fprintf(stderr, "usage: %s <package file>\n", BASENAME);
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
 	/* let us get log messages from libalpm */
 	alpm_option_set_logcb(handle, output_cb);
 
-	if(alpm_pkg_load(handle, argv[1], 1, PM_PGP_VERIFY_OPTIONAL, &pkg) == -1
+	if(alpm_pkg_load(handle, argv[1], 1, level, &pkg) == -1
 			|| pkg == NULL) {
 		err = alpm_errno(handle);
 		switch(err) {

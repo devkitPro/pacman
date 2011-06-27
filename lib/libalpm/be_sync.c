@@ -69,7 +69,7 @@ static char *get_sync_dir(alpm_handle_t *handle)
 
 static int sync_db_validate(alpm_db_t *db)
 {
-	pgp_verify_t check_sig;
+	alpm_siglevel_t level;
 
 	if(db->status & DB_STATUS_VALID) {
 		return 0;
@@ -77,10 +77,9 @@ static int sync_db_validate(alpm_db_t *db)
 
 	/* this takes into account the default verification level if UNKNOWN
 	 * was assigned to this db */
-	check_sig = alpm_db_get_sigverify_level(db);
+	level = alpm_db_get_siglevel(db);
 
-	if(check_sig != PM_PGP_VERIFY_NEVER) {
-		int ret;
+	if(level & ALPM_SIG_DATABASE) {
 		const char *dbpath = _alpm_db_path(db);
 		if(!dbpath) {
 			/* pm_errno set in _alpm_db_path() */
@@ -93,12 +92,10 @@ static int sync_db_validate(alpm_db_t *db)
 			return 0;
 		}
 
-		_alpm_log(db->handle, ALPM_LOG_DEBUG, "checking signature for %s\n",
-				db->treename);
-		ret = _alpm_gpgme_checksig(db->handle, dbpath, NULL);
-		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
-				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
-			RET_ERR(db->handle, ALPM_ERR_SIG_INVALID, -1);
+		if(_alpm_check_pgp_helper(db->handle, dbpath, NULL,
+					level & ALPM_SIG_DATABASE_OPTIONAL, level & ALPM_SIG_DATABASE_MARGINAL_OK,
+					level & ALPM_SIG_DATABASE_UNKNOWN_OK, ALPM_ERR_DB_INVALID_SIG)) {
+			return 1;
 		}
 	}
 
@@ -149,7 +146,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	int ret = -1;
 	mode_t oldmask;
 	alpm_handle_t *handle;
-	pgp_verify_t check_sig;
+	alpm_siglevel_t level;
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
@@ -166,7 +163,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
 
-	check_sig = alpm_db_get_sigverify_level(db);
+	level = alpm_db_get_siglevel(db);
 
 	/* attempt to grab a lock */
 	if(_alpm_handle_lock(handle)) {
@@ -186,8 +183,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 		ret = _alpm_download(handle, fileurl, syncpath, force, 0, 0);
 
-		if(ret == 0 && (check_sig == PM_PGP_VERIFY_ALWAYS ||
-					check_sig == PM_PGP_VERIFY_OPTIONAL)) {
+		if(ret == 0 && (level & ALPM_SIG_DATABASE)) {
 			/* an existing sig file is no good at this point */
 			char *sigpath = _alpm_db_sig_path(db);
 			if(!sigpath) {
@@ -197,7 +193,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			unlink(sigpath);
 			free(sigpath);
 
-			int errors_ok = (check_sig == PM_PGP_VERIFY_OPTIONAL);
+			int errors_ok = (level & ALPM_SIG_DATABASE_OPTIONAL);
 			/* if we downloaded a DB, we want the .sig from the same server */
 			snprintf(fileurl, len, "%s/%s.db.sig", server, db->treename);
 
@@ -586,7 +582,7 @@ struct db_operations sync_db_ops = {
 };
 
 alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
-		pgp_verify_t level)
+		alpm_siglevel_t level)
 {
 	alpm_db_t *db;
 
@@ -598,7 +594,7 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 	}
 	db->ops = &sync_db_ops;
 	db->handle = handle;
-	db->pgp_verify = level;
+	db->siglevel = level;
 
 	if(sync_db_validate(db)) {
 		_alpm_db_free(db);

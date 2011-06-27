@@ -863,7 +863,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		int percent = (current * 100) / numtargs;
 		const char *filename;
 		char *filepath;
-		pgp_verify_t check_sig;
+		alpm_siglevel_t level;
 
 		PROGRESS(trans, ALPM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
 				numtargs, current);
@@ -874,7 +874,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		filename = alpm_pkg_get_filename(spkg);
 		filepath = _alpm_filecache_find(handle, filename);
 		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
-		check_sig = alpm_db_get_sigverify_level(sdb);
+		level = alpm_db_get_siglevel(sdb);
 
 		/* load the package file and replace pkgcache entry with it in the target list */
 		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
@@ -882,7 +882,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 				"replacing pkgcache entry with package file for target %s\n",
 				spkg->name);
 		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1, spkg->md5sum,
-				spkg->base64_sig, check_sig);
+				spkg->base64_sig, level);
 		if(!pkgfile) {
 			errors++;
 			*data = alpm_list_add(*data, strdup(filename));

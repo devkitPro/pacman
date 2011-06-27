@@ -52,7 +52,7 @@ config_t *config_new(void)
 	newconfig->op = PM_OP_MAIN;
 	newconfig->logmask = ALPM_LOG_ERROR | ALPM_LOG_WARNING;
 	newconfig->configfile = strdup(CONFFILE);
-	newconfig->sigverify = PM_PGP_VERIFY_UNKNOWN;
+	newconfig->siglevel = ALPM_SIG_USE_DEFAULT;
 
 	return newconfig;
 }
@@ -222,17 +222,18 @@ int config_set_arch(const char *arch)
 	return 0;
 }
 
-static pgp_verify_t option_verifysig(const char *value)
+static alpm_siglevel_t option_verifysig(const char *value)
 {
-	pgp_verify_t level;
+	alpm_siglevel_t level;
 	if(strcmp(value, "Always") == 0) {
-		level = PM_PGP_VERIFY_ALWAYS;
+		level = ALPM_SIG_PACKAGE | ALPM_SIG_DATABASE;
 	} else if(strcmp(value, "Optional") == 0) {
-		level = PM_PGP_VERIFY_OPTIONAL;
+		level = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
+			ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 	} else if(strcmp(value, "Never") == 0) {
-		level = PM_PGP_VERIFY_NEVER;
+		level = 0;
 	} else {
-		level = PM_PGP_VERIFY_UNKNOWN;
+		return -1;
 	}
 	pm_printf(ALPM_LOG_DEBUG, "config: VerifySig = %s (%d)\n", value, level);
 	return level;
@@ -359,9 +360,9 @@ static int _parse_options(const char *key, char *value,
 			}
 			FREELIST(methods);
 		} else if(strcmp(key, "VerifySig") == 0) {
-			pgp_verify_t level = option_verifysig(value);
-			if(level != PM_PGP_VERIFY_UNKNOWN) {
-				config->sigverify = level;
+			alpm_siglevel_t level = option_verifysig(value);
+			if(level != -1) {
+				config->siglevel = level;
 			} else {
 				pm_printf(ALPM_LOG_ERROR,
 						_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
@@ -484,8 +485,8 @@ static int setup_libalpm(void)
 		alpm_option_set_cachedirs(handle, config->cachedirs);
 	}
 
-	if(config->sigverify != PM_PGP_VERIFY_UNKNOWN) {
-		alpm_option_set_default_sigverify(handle, config->sigverify);
+	if(config->siglevel != ALPM_SIG_USE_DEFAULT) {
+		alpm_option_set_default_siglevel(handle, config->siglevel);
 	}
 
 	if(config->xfercommand) {
@@ -518,7 +519,7 @@ struct section_t {
 	char *name;
 	int is_options;
 	/* db section option gathering */
-	pgp_verify_t sigverify;
+	alpm_siglevel_t siglevel;
 	alpm_list_t *servers;
 };
 
@@ -545,7 +546,7 @@ static int finish_section(struct section_t *section, int parse_options)
 	}
 
 	/* if we are not looking at options sections only, register a db */
-	db = alpm_db_register_sync(config->handle, section->name, section->sigverify);
+	db = alpm_db_register_sync(config->handle, section->name, section->siglevel);
 	if(db == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
 				section->name, alpm_strerror(alpm_errno(config->handle)));
@@ -568,7 +569,7 @@ static int finish_section(struct section_t *section, int parse_options)
 cleanup:
 	alpm_list_free(section->servers);
 	section->servers = NULL;
-	section->sigverify = 0;
+	section->siglevel = ALPM_SIG_USE_DEFAULT;
 	free(section->name);
 	section->name = NULL;
 	return ret;
@@ -726,9 +727,9 @@ static int _parseconfig(const char *file, struct section_t *section,
 				}
 				section->servers = alpm_list_add(section->servers, strdup(value));
 			} else if(strcmp(key, "VerifySig") == 0) {
-				pgp_verify_t level = option_verifysig(value);
-				if(level != PM_PGP_VERIFY_UNKNOWN) {
-					section->sigverify = level;
+				alpm_siglevel_t level = option_verifysig(value);
+				if(level != -1) {
+					section->siglevel = level;
 				} else {
 					pm_printf(ALPM_LOG_ERROR,
 							_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
@@ -763,6 +764,7 @@ int parseconfig(const char *file)
 	int ret;
 	struct section_t section;
 	memset(&section, 0, sizeof(struct section_t));
+	section.siglevel = ALPM_SIG_USE_DEFAULT;
 	/* the config parse is a two-pass affair. We first parse the entire thing for
 	 * the [options] section so we can get all default and path options set.
 	 * Next, we go back and parse everything but [options]. */

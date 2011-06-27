@@ -363,11 +363,10 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 	_alpm_log(handle, ALPM_LOG_DEBUG, "successfully downloaded %s\n", url);
 
 	/* attempt to download the signature */
-	if(ret == 0 && (handle->sigverify == PM_PGP_VERIFY_ALWAYS ||
-				handle->sigverify == PM_PGP_VERIFY_OPTIONAL)) {
+	if(ret == 0 && (handle->siglevel & ALPM_SIG_PACKAGE)) {
 		char *sig_url;
 		size_t len;
-		int errors_ok = (handle->sigverify == PM_PGP_VERIFY_OPTIONAL);
+		int errors_ok = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
 
 		len = strlen(url) + 5;
 		CALLOC(sig_url, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));

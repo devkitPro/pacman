@@ -124,6 +124,7 @@ static int register_syncs(void) {
 	FILE *fp;
 	char *ptr, *section = NULL;
 	char line[LINE_MAX];
+	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
 	fp = fopen(CONFFILE, "r");
 	if(!fp) {
@@ -147,7 +148,7 @@ static int register_syncs(void) {
 			section = strndup(&line[1], strlen(line) - 2);
 
 			if(section && strcmp(section, "options") != 0) {
-				alpm_db_register_sync(handle, section, PM_PGP_VERIFY_OPTIONAL);
+				alpm_db_register_sync(handle, section, level);
 			}
 		}
 	}

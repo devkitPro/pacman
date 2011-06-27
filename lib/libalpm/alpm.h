@@ -87,14 +87,31 @@ typedef enum _alpm_fileconflicttype_t {
 } alpm_fileconflicttype_t;
 
 /**
- * GPG signature verification options
+ * PGP signature verification options
  */
-typedef enum _pgp_verify_t {
-	PM_PGP_VERIFY_UNKNOWN,
-	PM_PGP_VERIFY_NEVER,
-	PM_PGP_VERIFY_OPTIONAL,
-	PM_PGP_VERIFY_ALWAYS
-} pgp_verify_t;
+typedef enum _alpm_siglevel_t {
+	ALPM_SIG_PACKAGE = (1 << 0),
+	ALPM_SIG_PACKAGE_OPTIONAL = (1 << 1),
+	ALPM_SIG_PACKAGE_MARGINAL_OK = (1 << 2),
+	ALPM_SIG_PACKAGE_UNKNOWN_OK = (1 << 3),
+
+	ALPM_SIG_DATABASE = (1 << 10),
+	ALPM_SIG_DATABASE_OPTIONAL = (1 << 11),
+	ALPM_SIG_DATABASE_MARGINAL_OK = (1 << 12),
+	ALPM_SIG_DATABASE_UNKNOWN_OK = (1 << 13),
+
+	ALPM_SIG_USE_DEFAULT = (1 << 31)
+} alpm_siglevel_t;
+
+/**
+ * PGP signature verification return codes
+ */
+typedef enum _alpm_sigstatus_t {
+	ALPM_SIGSTATUS_VALID = 0,
+	ALPM_SIGSTATUS_MARGINAL,
+	ALPM_SIGSTATUS_UNKNOWN,
+	ALPM_SIGSTATUS_BAD
+} alpm_sigstatus_t;
 
 /*
  * Structures
@@ -172,6 +189,15 @@ typedef struct _alpm_backup_t {
 	char *name;
 	char *hash;
 } alpm_backup_t;
+
+/** Signature result. Contains the number of signatures found and pointers to
+ * arrays containing key and status info. All contained arrays have size
+ * #count.*/
+typedef struct _alpm_sigresult_t {
+	int count;
+	alpm_sigstatus_t *status;
+	char **uid;
+} alpm_sigresult_t;
 
 /*
  * Logging facilities
@@ -335,8 +361,8 @@ int alpm_option_set_usedelta(alpm_handle_t *handle, int usedelta);
 int alpm_option_get_checkspace(alpm_handle_t *handle);
 int alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace);
 
-pgp_verify_t alpm_option_get_default_sigverify(alpm_handle_t *handle);
-int alpm_option_set_default_sigverify(alpm_handle_t *handle, pgp_verify_t level);
+alpm_siglevel_t alpm_option_get_default_siglevel(alpm_handle_t *handle);
+int alpm_option_set_default_siglevel(alpm_handle_t *handle, alpm_siglevel_t level);
 
 /** @} */
 
@@ -364,12 +390,12 @@ alpm_list_t *alpm_option_get_syncdbs(alpm_handle_t *handle);
 /** Register a sync database of packages.
  * @param handle the context handle
  * @param treename the name of the sync repository
- * @param check_sig what level of signature checking to perform on the
+ * @param level what level of signature checking to perform on the
  * database; note that this must be a '.sig' file type verification
- * @return a alpm_db_t* on success (the value), NULL on error
+ * @return an alpm_db_t* on success (the value), NULL on error
  */
 alpm_db_t *alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
-		pgp_verify_t check_sig);
+		alpm_siglevel_t level);
 
 /** Unregister a package database.
  * @param db pointer to the package database to unregister
@@ -391,11 +417,11 @@ const char *alpm_db_get_name(const alpm_db_t *db);
 
 /** Get the signature verification level for a database.
  * Will return the default verification level if this database is set up
- * with PM_PGP_VERIFY_UNKNOWN.
+ * with ALPM_SIG_USE_DEFAULT.
  * @param db pointer to the package database
  * @return the signature verification level
  */
-pgp_verify_t alpm_db_get_sigverify_level(alpm_db_t *db);
+alpm_siglevel_t alpm_db_get_siglevel(alpm_db_t *db);
 
 /** Check the validity of a database.
  * This is most useful for sync databases and verifying signature status.
@@ -473,13 +499,13 @@ int alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgreason_t reas
  * @param filename location of the package tarball
  * @param full whether to stop the load after metadata is read or continue
  * through the full archive
- * @param check_sig what level of package signature checking to perform on the
+ * @param level what level of package signature checking to perform on the
  * package; note that this must be a '.sig' file type verification
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
-		pgp_verify_t check_sig, alpm_pkg_t **pkg);
+		alpm_siglevel_t, alpm_pkg_t **pkg);
 
 /** Free a package.
  * @param pkg package pointer to free
@@ -715,9 +741,9 @@ alpm_list_t *alpm_pkg_unused_deltas(alpm_pkg_t *pkg);
  * Signatures
  */
 
-int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg);
+int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_sigresult_t *result);
 
-int alpm_db_check_pgp_signature(alpm_db_t *db);
+int alpm_db_check_pgp_signature(alpm_db_t *db, alpm_sigresult_t *result);
 
 /*
  * Groups
@@ -1025,6 +1051,7 @@ enum _alpm_errno_t {
 	ALPM_ERR_DB_NOT_NULL,
 	ALPM_ERR_DB_NOT_FOUND,
 	ALPM_ERR_DB_INVALID,
+	ALPM_ERR_DB_INVALID_SIG,
 	ALPM_ERR_DB_VERSION,
 	ALPM_ERR_DB_WRITE,
 	ALPM_ERR_DB_REMOVE,
@@ -1044,15 +1071,15 @@ enum _alpm_errno_t {
 	ALPM_ERR_PKG_NOT_FOUND,
 	ALPM_ERR_PKG_IGNORED,
 	ALPM_ERR_PKG_INVALID,
+	ALPM_ERR_PKG_INVALID_SIG,
 	ALPM_ERR_PKG_OPEN,
 	ALPM_ERR_PKG_CANT_REMOVE,
 	ALPM_ERR_PKG_INVALID_NAME,
 	ALPM_ERR_PKG_INVALID_ARCH,
 	ALPM_ERR_PKG_REPO_NOT_FOUND,
 	/* Signatures */
-	ALPM_ERR_SIG_MISSINGDIR,
+	ALPM_ERR_SIG_MISSING,
 	ALPM_ERR_SIG_INVALID,
-	ALPM_ERR_SIG_UNKNOWN,
 	/* Deltas */
 	ALPM_ERR_DLT_INVALID,
 	ALPM_ERR_DLT_PATCHFAILED,
