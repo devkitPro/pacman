@@ -433,7 +433,6 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 
 		/* declarations for second check */
 		struct stat lsbuf, sbuf;
-		char *filestr = NULL;
 
 		/* CHECK 2: check every target against the filesystem */
 		_alpm_log(PM_LOG_DEBUG, "searching for filesystem conflicts: %s\n", p1->name);
@@ -452,7 +451,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 		}
 
 		for(j = tmpfiles; j; j = j->next) {
-			filestr = j->data;
+			const char *filestr = j->data, *relative_path;
+			/* have we acted on this conflict? */
+			int resolved_conflict = 0;
 
 			snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
 
@@ -471,16 +472,22 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 							"%s is a symlink to a dir, hopefully not a conflict\n", path);
 					continue;
 				}
+				/* if we made it to here, we want all subsequent path comparisons to
+				 * not include the trailing slash. This allows things like file ->
+				 * directory replacements. */
+				path[strlen(path) - 1] = '\0';
 			}
-			_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
-			int resolved_conflict = 0; /* have we acted on this conflict? */
+			_alpm_log(PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
+			relative_path = path + strlen(handle->root);
 
 			/* Check remove list (will we remove the conflicting local file?) */
 			for(k = remove; k && !resolved_conflict; k = k->next) {
 				pmpkg_t *rempkg = k->data;
-				if(rempkg && alpm_list_find_str(alpm_pkg_get_files(rempkg), filestr)) {
-					_alpm_log(PM_LOG_DEBUG, "local file will be removed, not a conflict: %s\n", filestr);
+				if(alpm_list_find_str(alpm_pkg_get_files(rempkg), relative_path)) {
+					_alpm_log(PM_LOG_DEBUG,
+							"local file will be removed, not a conflict: %s\n",
+							relative_path);
 					resolved_conflict = 1;
 				}
 			}
@@ -498,8 +505,11 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 					/* skip removal of file, but not add. this will prevent a second
 					 * package from removing the file when it was already installed
 					 * by its new owner (whether the file is in backup array or not */
-					trans->skip_remove = alpm_list_add(trans->skip_remove, strdup(filestr));
-					_alpm_log(PM_LOG_DEBUG, "file changed packages, adding to remove skiplist: %s\n", filestr);
+					trans->skip_remove = alpm_list_add(trans->skip_remove,
+							strdup(filestr));
+					_alpm_log(PM_LOG_DEBUG,
+							"file changed packages, adding to remove skiplist: %s\n",
+							filestr);
 					resolved_conflict = 1;
 				}
 			}
