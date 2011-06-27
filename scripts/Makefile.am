@@ -82,7 +82,9 @@ pacman-key: \
 	$(srcdir)/pacman-key.sh.in \
 	$(srcdir)/library/output_format.sh
 
-pacman-optimize: $(srcdir)/pacman-optimize.sh.in
+pacman-optimize: \
+	$(srcdir)/pacman-optimize.sh.in \
+	$(srcdir)/library/output_format.sh
 
 pkgdelta: \
 	$(srcdir)/pkgdelta.sh.in \

@@ -29,15 +29,7 @@ myver='@PACKAGE_VERSION@'
 eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
 dbroot="${DBPath:-@localstatedir@/lib/pacman/}"
 
-msg() {
-	local mesg=$1; shift
-	printf "==> ${mesg}\n" "$@" >&2
-}
-
-error () {
-	local mesg=$1; shift
-	printf "==> ERROR: ${mesg}\n" "$@" >&2
-}
+m4_include(library/output_format.sh)
 
 usage() {
 	printf "pacman-optimize (pacman) %s\n\n" "$myver"
@@ -122,7 +114,7 @@ fi
 touch "$lockfile"
 
 workdir=$(mktemp -d /tmp/pacman-optimize.XXXXXXXXXX) ||
-	die_r "$(gettext "ERROR: Can not create temp directory for database building.")\n" >&2
+	die_r "$(gettext "Can not create temp directory for database building.")\n" >&2
 
 # step 1: sum the old db
 msg "$(gettext "MD5sum'ing the old database...")"
