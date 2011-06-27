@@ -296,14 +296,14 @@ static alpm_list_t *chk_filedifference(alpm_list_t *filesA, alpm_list_t *filesB)
 	return(ret);
 }
 
-/* Adds pmfileconflict_t to a conflicts list. Pass the conflicts list, type (either
- * PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file string, and either
- * two package names or one package name and NULL. This is a wrapper for former
- * functionality that was done inline.
+/* Adds pmfileconflict_t to a conflicts list. Pass the conflicts list, type
+ * (either PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file
+ * string, and either two package names or one package name and NULL. This is
+ * a wrapper for former functionality that was done inline.
  */
 static alpm_list_t *add_fileconflict(alpm_list_t *conflicts,
                     pmfileconflicttype_t type, const char *filestr,
-                    const char* name1, const char* name2)
+                    const char *name1, const char *name2)
 {
 	pmfileconflict_t *conflict;
 	MALLOC(conflict, sizeof(pmfileconflict_t), RET_ERR(PM_ERR_MEMORY, NULL));
@@ -334,7 +334,7 @@ void _alpm_fileconflict_free(pmfileconflict_t *conflict)
 	FREE(conflict);
 }
 
-static int dir_belongsto_pkg(char *dirpath, pmpkg_t *pkg)
+static int dir_belongsto_pkg(const char *dirpath, pmpkg_t *pkg)
 {
 	struct dirent *ent = NULL;
 	struct stat sbuf;
@@ -462,7 +462,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 			}
 			stat(path, &sbuf);
 
-			if(path[strlen(path)-1] == '/') {
+			if(path[strlen(path) - 1] == '/') {
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
 					continue;
@@ -518,19 +518,19 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmdb_t *db, pmtrans_t *trans,
 
 			if(!resolved_conflict && dbpkg) {
 				char *rpath = calloc(PATH_MAX+1, sizeof(char));
+				const char *relative_rpath;
 				if(!realpath(path, rpath)) {
-					FREE(rpath);
+					free(rpath);
 					continue;
 				}
-				char *filestr = rpath + strlen(handle->root);
-				if(alpm_list_find_str(alpm_pkg_get_files(dbpkg),filestr)) {
+				relative_rpath = rpath + strlen(handle->root);
+				if(alpm_list_find_str(alpm_pkg_get_files(dbpkg), relative_rpath)) {
 					resolved_conflict = 1;
 				}
 				free(rpath);
 			}
 
 			if(!resolved_conflict) {
-				_alpm_log(PM_LOG_DEBUG, "file found in conflict: %s\n", path);
 				conflicts = add_fileconflict(conflicts, PM_FILECONFLICT_FILESYSTEM,
 						path, p1->name, NULL);
 			}
