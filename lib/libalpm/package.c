@@ -379,9 +379,9 @@ static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)
 
 	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
 		pmpkg_t *cachepkg = i->data;
-		alpm_list_t *i;
-		for(i = alpm_pkg_get_depends(cachepkg); i; i = i->next) {
-			if(_alpm_depcmp(pkg, i->data)) {
+		alpm_list_t *j;
+		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
+			if(_alpm_depcmp(pkg, j->data)) {
 				const char *cachepkgname = cachepkg->name;
 				if(alpm_list_find_str(*reqs, cachepkgname) == NULL) {
 					*reqs = alpm_list_add(*reqs, strdup(cachepkgname));

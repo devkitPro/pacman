@@ -166,7 +166,6 @@ int pacman_upgrade(alpm_list_t *targets)
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 				alpm_strerror(err));
 		switch(err) {
-			alpm_list_t *i;
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					pmfileconflict_t *conflict = alpm_list_getdata(i);

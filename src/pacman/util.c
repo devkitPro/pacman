@@ -589,7 +589,7 @@ void list_display(const char *title, const alpm_list_t *list)
 		printf("%s", str);
 		cols += string_length(str);
 		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
-			const char *str = alpm_list_getdata(i);
+			str = alpm_list_getdata(i);
 			int s = string_length(str);
 			/* wrap only if we have enough usable column space */
 			if(maxcols > len && cols + s + 2 >= maxcols) {

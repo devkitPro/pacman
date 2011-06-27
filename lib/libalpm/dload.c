@@ -137,12 +137,12 @@ static int curl_gethost(const char *url, char *buffer)
 	return 0;
 }
 
-static int utimes_long(const char *path, long time)
+static int utimes_long(const char *path, long seconds)
 {
-	if(time != -1) {
+	if(seconds != -1) {
 		struct timeval tv[2];
 		memset(&tv, 0, sizeof(tv));
-		tv[0].tv_sec = tv[1].tv_sec = time;
+		tv[0].tv_sec = tv[1].tv_sec = seconds;
 		return utimes(path, tv);
 	}
 	return 0;

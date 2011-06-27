@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
 	if(alpm_pkg_load(handle, argv[1], 1, PM_PGP_VERIFY_OPTIONAL, &pkg) == -1
 			|| pkg == NULL) {
-		enum _pmerrno_t err = alpm_errno(handle);
+		err = alpm_errno(handle);
 		switch(err) {
 			case PM_ERR_PKG_OPEN:
 				printf("Cannot open the given file.\n");

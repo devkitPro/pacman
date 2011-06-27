@@ -262,7 +262,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 	alpm_list_t *mount_points, *i;
 	alpm_mountpoint_t *root_mp;
 	size_t replaces = 0, current = 0, numtargs;
-	int abort = 0;
+	int error = 0;
 	alpm_list_t *targ;
 	pmtrans_t *trans = handle->trans;
 
@@ -323,7 +323,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 		if(data->used && data->read_only) {
 			_alpm_log(handle, PM_LOG_ERROR, _("Partition %s is mounted read only\n"),
 					data->mount_dir);
-			abort = 1;
+			error = 1;
 		} else if(data->used & USED_INSTALL) {
 			/* cushion is roughly min(5% capacity, 20MiB) */
 			long fivepc = ((long)data->fsp.f_blocks / 20) + 1;
@@ -338,7 +338,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 				_alpm_log(handle, PM_LOG_ERROR, _("Partition %s too full: %ld blocks needed, %ld blocks free\n"),
 						data->mount_dir, data->max_blocks_needed + cushion,
 						(unsigned long)data->fsp.f_bfree);
-				abort = 1;
+				error = 1;
 			}
 		}
 	}
@@ -349,7 +349,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 	}
 	FREELIST(mount_points);
 
-	if(abort) {
+	if(error) {
 		RET_ERR(handle, PM_ERR_DISK_SPACE, -1);
 	}
 

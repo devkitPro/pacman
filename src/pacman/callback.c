@@ -623,14 +623,14 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	/* if padwid is < 0, we need to trim the string so padwid = 0 */
 	if(padwid < 0) {
 		int i = filenamelen - 3;
-		wchar_t *p = wcfname;
+		wchar_t *wcp = wcfname;
 		/* grab the max number of char columns we can fill */
-		while(i > 0 && wcwidth(*p) < i) {
-			i -= wcwidth(*p);
-			p++;
+		while(i > 0 && wcwidth(*wcp) < i) {
+			i -= wcwidth(*wcp);
+			wcp++;
 		}
 		/* then add the ellipsis and fill out any extra padding */
-		wcscpy(p, L"...");
+		wcscpy(wcp, L"...");
 		padwid = i;
 
 	}

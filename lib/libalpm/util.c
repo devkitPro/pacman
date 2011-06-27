@@ -299,13 +299,13 @@ int _alpm_unpack(pmhandle_t *handle, const char *archive, const char *prefix,
 
 		/* If specific files were requested, skip entries that don't match. */
 		if(list) {
-			char *prefix = strdup(entryname);
+			char *entry_prefix = strdup(entryname);
 			char *p = strstr(prefix,"/");
 			if(p) {
 				*(p+1) = '\0';
 			}
-			char *found = alpm_list_find_str(list, prefix);
-			free(prefix);
+			char *found = alpm_list_find_str(list, entry_prefix);
+			free(entry_prefix);
 			if(!found) {
 				if(archive_read_data_skip(_archive) != ARCHIVE_OK) {
 					ret = 1;
@@ -487,22 +487,22 @@ int _alpm_run_chroot(pmhandle_t *handle, const char *path, char *const argv[])
 	} else {
 		/* this code runs for the parent only (wait on the child) */
 		int status;
-		FILE *pipe;
+		FILE *pipe_file;
 
 		close(pipefd[1]);
-		pipe = fdopen(pipefd[0], "r");
-		if(pipe == NULL) {
+		pipe_file = fdopen(pipefd[0], "r");
+		if(pipe_file == NULL) {
 			close(pipefd[0]);
 			retval = 1;
 		} else {
-			while(!feof(pipe)) {
+			while(!feof(pipe_file)) {
 				char line[PATH_MAX];
-				if(fgets(line, PATH_MAX, pipe) == NULL)
+				if(fgets(line, PATH_MAX, pipe_file) == NULL)
 					break;
 				alpm_logaction(handle, "%s", line);
 				EVENT(handle->trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
 			}
-			fclose(pipe);
+			fclose(pipe_file);
 		}
 
 		while(waitpid(pid, &status, 0) == -1) {
