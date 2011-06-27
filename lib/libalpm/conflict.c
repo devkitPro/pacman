@@ -275,10 +275,10 @@ static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
 	return ret;
 }
 
-/* Adds pmfileconflict_t to a conflicts list. Pass the conflicts list, type (either
- * PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file string, and either
- * two package names or one package name and NULL. This is a wrapper for former
- * functionality that was done inline.
+/* Adds pmfileconflict_t to a conflicts list. Pass the conflicts list, type
+ * (either PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file
+ * string, and either two package names or one package name and NULL. This is
+ * a wrapper for former functionality that was done inline.
  */
 static alpm_list_t *add_fileconflict(pmhandle_t *handle,
 		alpm_list_t *conflicts, pmfileconflicttype_t type, const char *filestr,
@@ -440,7 +440,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 
 		for(j = tmpfiles; j; j = j->next) {
 			struct stat lsbuf;
-			const char *filestr = j->data;
+			const char *filestr = j->data, *relative_path;
+			/* have we acted on this conflict? */
+			int resolved_conflict = 0;
 
 			snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
 
@@ -449,7 +451,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 				continue;
 			}
 
-			if(path[strlen(path)-1] == '/') {
+			if(path[strlen(path) - 1] == '/') {
 				struct stat sbuf;
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(handle, PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
@@ -461,17 +463,22 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 							"%s is a symlink to a dir, hopefully not a conflict\n", path);
 					continue;
 				}
+				/* if we made it to here, we want all subsequent path comparisons to
+				 * not include the trailing slash. This allows things like file ->
+				 * directory replacements. */
+				path[strlen(path) - 1] = '\0';
 			}
-			_alpm_log(handle, PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
-			int resolved_conflict = 0; /* have we acted on this conflict? */
+			_alpm_log(handle, PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
+			relative_path = path + strlen(handle->root);
 
 			/* Check remove list (will we remove the conflicting local file?) */
 			for(k = remove; k && !resolved_conflict; k = k->next) {
 				pmpkg_t *rempkg = k->data;
-				if(rempkg && alpm_list_find_str(alpm_pkg_get_files(rempkg), filestr)) {
+				if(alpm_list_find_str(alpm_pkg_get_files(rempkg), relative_path)) {
 					_alpm_log(handle, PM_LOG_DEBUG,
-							"local file will be removed, not a conflict: %s\n", filestr);
+							"local file will be removed, not a conflict: %s\n",
+							relative_path);
 					resolved_conflict = 1;
 				}
 			}
@@ -492,7 +499,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 					handle->trans->skip_remove =
 						alpm_list_add(handle->trans->skip_remove, strdup(filestr));
 					_alpm_log(handle, PM_LOG_DEBUG,
-							"file changed packages, adding to remove skiplist: %s\n", filestr);
+							"file changed packages, adding to remove skiplist: %s\n",
+							filestr);
 					resolved_conflict = 1;
 				}
 			}
@@ -512,12 +520,13 @@ alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
 
 			if(!resolved_conflict && dbpkg) {
 				char *rpath = calloc(PATH_MAX, sizeof(char));
+				const char *relative_rpath;
 				if(!realpath(path, rpath)) {
 					free(rpath);
 					continue;
 				}
-				char *filestr = rpath + strlen(handle->root);
-				if(alpm_list_find_str(alpm_pkg_get_files(dbpkg), filestr)) {
+				relative_rpath = rpath + strlen(handle->root);
+				if(alpm_list_find_str(alpm_pkg_get_files(dbpkg), relative_rpath)) {
 					resolved_conflict = 1;
 				}
 				free(rpath);
