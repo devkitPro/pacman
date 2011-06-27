@@ -19,6 +19,8 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+shopt -s extglob
+
 # gettext initialization
 export TEXTDOMAIN='pacman-scripts'
 export TEXTDOMAINDIR='@localedir@'
@@ -82,14 +84,16 @@ This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
-# write a list entry
+# format a metadata entry
 #		arg1 - Entry name
-#		arg2 - List
-#		arg3 - File to write to
-write_list_entry() {
-	if [[ -n $2 ]]; then
-		echo "%$1%" >>$3
-		echo -e $2 >>$3
+#		...  - value(s)
+format_entry() {
+	local field=$1; shift
+
+	if [[ $1 ]]; then
+		printf '%%%s%%\n' "$field"
+		printf '%s\n' "$@"
+		printf '\n'
 	fi
 }
 
@@ -217,40 +221,49 @@ verify_signature() {
 	fi
 }
 
+verify_repo_extension() {
+	local repofile=$1
+
+	case "$repofile" in
+		*.@(db|files).tar.gz)  TAR_OPT="z" ;;
+		*.@(db|files).tar.bz2) TAR_OPT="j" ;;
+		*.@(db|files).tar.xz)  TAR_OPT="J" ;;
+		*.@(db|files).tar)     TAR_OPT="" ;;
+		*) error "$(gettext "'%s' does not have a valid archive extension.")" \
+				"$repofile"
+			exit 1 ;;
+	esac
+
+	printf '%s' "$TAR_OPT"
+}
+
 # write an entry to the pacman database
 #   arg1 - path to package
 db_write_entry() {
 	# blank out all variables
 	local pkgfile="$1"
+	local -a _groups _licenses _replaces _depends _conflicts _provides _optdepends
 	local pkgname pkgver pkgdesc csize size url arch builddate packager \
-		_groups _licenses _replaces _depends _conflicts _provides _optdepends \
 		md5sum sha256sum pgpsig
-
-	local OLDIFS="$IFS"
-	# IFS (field separator) is only the newline character
-	IFS="
-"
 
 	# read info from the zipped package
 	local line var val
-	for line in $(bsdtar -xOqf "$pkgfile" .PKGINFO |
-			grep -v '^#' | sed 's|\(\w*\)\s*=\s*\(.*\)|\1 \2|'); do
-		# bash awesomeness here- var is always one word, val is everything else
-		var=${line%% *}
-		val=${line#* }
-		declare $var="$val"
-		case "$var" in
-			group)    _groups="$_groups$group\n" ;;
-			license)  _licenses="$_licenses$license\n" ;;
-			replaces) _replaces="$_replaces$replaces\n" ;;
-			depend)   _depends="$_depends$depend\n" ;;
-			conflict) _conflicts="$_conflicts$conflict\n" ;;
-			provides) _provides="$_provides$provides\n" ;;
-			optdepend) _optdepends="$_optdepends$optdepend\n" ;;
-		esac
-	done
+	while read -r line; do
+		[[ ${line:0:1} = '#' ]] && continue
+		IFS=' =' read -r var val < <(printf '%s\n' "$line")
 
-	IFS=$OLDIFS
+		# normalize whitespace with an extglob
+		declare "$var=${val//+([[:space:]])/ }"
+		case "$var" in
+			group)     _groups+=("$group") ;;
+			license)   _licenses+=("$license") ;;
+			replaces)  _replaces+=("$replaces") ;;
+			depend)    _depends+=("$depend") ;;
+			conflict)  _conflicts+=("$conflict") ;;
+			provides)  _provides+=("$provides") ;;
+			optdepend) _optdepends+=("$optdepend") ;;
+		esac
+	done< <(bsdtar -xOqf "$pkgfile" .PKGINFO)
 
 	csize=$(@SIZECMD@ "$pkgfile")
 
@@ -297,37 +310,39 @@ db_write_entry() {
 
 	# create desc entry
 	msg2 "$(gettext "Creating '%s' db entry...")" 'desc'
-	echo -e "%FILENAME%\n${1##*/}\n" >>desc
-	echo -e "%NAME%\n$pkgname\n" >>desc
-	[[ -n $pkgbase ]] && echo -e "%BASE%\n$pkgbase\n" >>desc
-	echo -e "%VERSION%\n$pkgver\n" >>desc
-	[[ -n $pkgdesc ]] && echo -e "%DESC%\n$pkgdesc\n" >>desc
-	write_list_entry "GROUPS" "$_groups" "desc"
-	[[ -n $csize ]] && echo -e "%CSIZE%\n$csize\n" >>desc
-	[[ -n $size ]] && echo -e "%ISIZE%\n$size\n" >>desc
+	{
+		format_entry "FILENAME"  "${1##*/}"
+		format_entry "NAME"      "$pkgname"
+		format_entry "BASE"      "$pkgbase"
+		format_entry "VERSION"   "$pkgver"
+		format_entry "DESC"      "$pkgdesc"
+		format_entry "GROUPS"    "${_groups[@]}"
+		format_entry "CSIZE"     "$csize"
+		format_entry "ISIZE"     "$size"
 
-	# add checksums
-	echo -e "%MD5SUM%\n$md5sum\n" >>desc
-	echo -e "%SHA256SUM%\n$sha256sum\n" >>desc
+		# add checksums
+		format_entry "MD5SUM"    "$md5sum"
+		format_entry "SHA256SUM" "$sha256sum"
 
-	# add PGP sig
-	[[ -n $pgpsig ]] && echo -e "%PGPSIG%\n$pgpsig\n" >>desc
+		# add PGP sig
+		format_entry "PGPSIG"    "$pgpsig"
 
-	[[ -n $url ]] && echo -e "%URL%\n$url\n" >>desc
-	write_list_entry "LICENSE" "$_licenses" "desc"
-	[[ -n $arch ]] && echo -e "%ARCH%\n$arch\n" >>desc
-	[[ -n $builddate ]] && echo -e "%BUILDDATE%\n$builddate\n" >>desc
-	[[ -n $packager ]] && echo -e "%PACKAGER%\n$packager\n" >>desc
-	write_list_entry "REPLACES" "$_replaces" "desc"
+		format_entry "URL"       "$url"
+		format_entry "LICENSE"   "${_licenses[@]}"
+		format_entry "ARCH"      "$arch"
+		format_entry "BUILDDATE" "$builddate"
+		format_entry "PACKAGER"  "$packager"
+		format_entry "REPLACES"  "${_replaces[@]}"
+	} >'desc'
 
 	# create depends entry
 	msg2 "$(gettext "Creating '%s' db entry...")" 'depends'
-	# create the file even if it will remain empty
-	touch "depends"
-	write_list_entry "DEPENDS" "$_depends" "depends"
-	write_list_entry "CONFLICTS" "$_conflicts" "depends"
-	write_list_entry "PROVIDES" "$_provides" "depends"
-	write_list_entry "OPTDEPENDS" "$_optdepends" "depends"
+	{
+		format_entry "DEPENDS"    "${_depends[@]}"
+		format_entry "CONFLICTS"  "${_conflicts[@]}"
+		format_entry "PROVIDES"   "${_provides[@]}"
+		format_entry "OPTDEPENDS" "${_optdepends[@]}"
+	} >'depends'
 
 	popd >/dev/null
 	popd >/dev/null
@@ -375,6 +390,22 @@ db_remove_entry() {
 	done
 	return $notfound
 } # end db_remove_entry
+
+elephant() {
+	case $(( RANDOM % 2 )) in
+		0) printf '%s\n' "H4sIAL3qBE4CAyWLwQ3AMAgD/0xh5UPzYiFUMgjq7LUJsk7yIQNAQTAikFUDnqkr" \
+		                 "OQFOUm0Wd9pHCi13ONjBpVdqcWx+EdXVX4vXvGv5cgztB9+fJxZ7AAAA"
+		;;
+
+		1) printf '%s\n' "H4sIAJVWBU4CA21RMQ7DIBDbeYWrDgQJ7rZ+IA/IB05l69alcx5fc0ASVXUk4jOO" \
+		                 "7yAAUWtorygwJ4hlMii0YkJKKRKGvsMsiykl1SalvrMD1gUXyXRkGZPx5OPft81K" \
+		                 "tNAiAjyGjYO47h1JjizPkJrCWbK/4C+uLkT7bzpGc7CT9bmOzNSW5WLSO5vexjmH" \
+		                 "ZL9JFFZeAa0a2+lKjL2anpYfV+0Zx9LJ+/MC8nRayuDlSNy2rfAPibOzsiWHL0jL" \
+		                 "SsjFAQAA"
+		;;
+	esac | openssl base64 -d | gzip -d
+	exit 0
+}
 
 check_repo_db() {
 	local repodir
@@ -518,6 +549,11 @@ esac
 
 # figure out what program we are
 cmd=${0##*/}
+if [[ $cmd == "repo-elephant" ]]; then
+	elephant
+	exit 0
+fi
+
 if [[ $cmd != "repo-add" && $cmd != "repo-remove" ]]; then
 	error "$(gettext "Invalid command name '%s' specified.")" "$cmd"
 	exit 1
@@ -532,9 +568,10 @@ trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
 
+declare -a args
 success=0
 # parse arguments
-while [[ $# > 0 ]]; do
+while (( $# )); do
 	case "$1" in
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
@@ -565,46 +602,37 @@ while [[ $# > 0 ]]; do
 			VERIFY=1
 			;;
 		*)
-			if [[ -z $REPO_DB_FILE ]]; then
-				REPO_DB_FILE="$1"
-				LOCKFILE="$REPO_DB_FILE.lck"
-				check_repo_db
-			else
-				case "$cmd" in
-					repo-add) add $1 && success=1 ;;
-					repo-remove) remove $1 && success=1 ;;
-				esac
-			fi
+			args+=("$1")
 			;;
 	esac
 	shift
+done
+
+
+REPO_DB_FILE=${args[0]}
+LOCKFILE=$REPO_DB_FILE.lck
+
+verify_repo_extension "$REPO_DB_FILE" >/dev/null
+check_repo_db
+
+for arg in "${args[@]:1}"; do
+	case "$cmd" in
+		repo-add) add "$arg" ;;
+		repo-remove) remove "$arg" ;;
+	esac && success=1
 done
 
 # if at least one operation was a success, re-zip database
 if (( success )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 
-	case "$REPO_DB_FILE" in
-		*.tar.gz)  TAR_OPT="z" ;;
-		*.tar.bz2) TAR_OPT="j" ;;
-		*.tar.xz)  TAR_OPT="J" ;;
-		*.tar)     TAR_OPT="" ;;
-		*) warning "$(gettext "'%s' does not have a valid archive extension.")" \
-		"$REPO_DB_FILE" ;;
-	esac
-
+	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
 	filename=${REPO_DB_FILE##*/}
 
 	pushd "$tmpdir" >/dev/null
-	if [[ -n $(ls) ]]; then
-		bsdtar -c${TAR_OPT}f "$filename" *
-	else
-		# we have no packages remaining? zip up some emptyness
-		warning "$(gettext "No packages remain, creating empty database.")"
-		bsdtar -c${TAR_OPT}f "$filename" -T /dev/null
-	fi
+	# strip the './' off filenames; this also allows us to tar an empty dir
+	bsdtar -s %^./%% -c${TAR_OPT}f "$REPO_DB_FILE" ./
 	create_signature "$filename"
-
 	popd >/dev/null
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
