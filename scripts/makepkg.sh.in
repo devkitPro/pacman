@@ -1562,7 +1562,7 @@ devel_check() {
 			newpkgver=$(date +%Y%m%d)
 		elif [[ -n ${_gitroot} && -n ${_gitname} ]] ; then
 			if ! type -p git >/dev/null; then
-				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "git "git"
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "git" "git"
 				return 0
 			fi
 			msg "$(gettext "Determining latest %s revision...")" 'git'
@@ -1576,7 +1576,7 @@ devel_check() {
 			newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
 		elif [[ -n ${_bzrtrunk} && -n ${_bzrmod} ]] ; then
 			if ! type -p bzr >/dev/null; then
-				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "bzr" bzr"
+				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "bzr" "bzr"
 				return 0
 			fi
 			msg "$(gettext "Determining latest %s revision...")" 'bzr'
