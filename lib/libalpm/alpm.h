@@ -145,7 +145,7 @@ typedef struct _alpm_group_t {
 } alpm_group_t;
 
 /** Package upgrade delta */
-typedef struct _pmdelta_t {
+typedef struct _alpm_delta_t {
 	/** filename of the delta patch */
 	char *delta;
 	/** md5sum of the delta file */
@@ -158,7 +158,7 @@ typedef struct _pmdelta_t {
 	off_t delta_size;
 	/** download filesize of the delta file */
 	off_t download_size;
-} pmdelta_t;
+} alpm_delta_t;
 
 /** Local package or package file backup entry */
 typedef struct _pmbackup_t {

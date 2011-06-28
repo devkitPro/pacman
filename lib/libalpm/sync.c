@@ -600,7 +600,7 @@ static int apply_deltas(alpm_handle_t *handle)
 		}
 
 		for(dlts = delta_path; dlts; dlts = dlts->next) {
-			pmdelta_t *d = dlts->data;
+			alpm_delta_t *d = dlts->data;
 			char *delta, *from, *to;
 			char command[PATH_MAX];
 			size_t len = 0;
@@ -704,7 +704,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 	EVENT(trans, PM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
 
 	for(i = deltas; i; i = i->next) {
-		pmdelta_t *d = alpm_list_getdata(i);
+		alpm_delta_t *d = alpm_list_getdata(i);
 		char *filepath = _alpm_filecache_find(handle, d->delta);
 
 		if(test_md5sum(trans, filepath, d->delta_md5) != 0) {
@@ -766,7 +766,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 					/* using deltas */
 					alpm_list_t *dlts;
 					for(dlts = delta_path; dlts; dlts = dlts->next) {
-						pmdelta_t *delta = dlts->data;
+						alpm_delta_t *delta = dlts->data;
 						if(delta->download_size != 0) {
 							files = alpm_list_add(files, strdup(delta->delta));
 						}
