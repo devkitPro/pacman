@@ -348,7 +348,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(pmhandle_t *handle, alpm_list_t *pkglist,
 	return baddeps;
 }
 
-static int dep_vercmp(const char *version1, pmdepmod_t mod,
+static int dep_vercmp(const char *version1, alpm_depmod_t mod,
 		const char *version2)
 {
 	int equal = 0;

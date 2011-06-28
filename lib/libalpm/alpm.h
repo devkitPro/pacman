@@ -61,7 +61,7 @@ typedef enum _alpm_pkgreason_t {
 } alpm_pkgreason_t;
 
 /** Types of version constraints in dependency specs. */
-typedef enum _pmdepmod_t {
+typedef enum _alpm_depmod_t {
   /** No version constraint */
 	PM_DEP_MOD_ANY = 1,
   /** Test version equality (package=x.y.z) */
@@ -74,7 +74,7 @@ typedef enum _pmdepmod_t {
 	PM_DEP_MOD_GT,
   /** Test for less than some version (package<x.y.z) */
 	PM_DEP_MOD_LT
-} pmdepmod_t;
+} alpm_depmod_t;
 
 /**
  * File conflict type.
@@ -110,7 +110,7 @@ typedef struct _pmdepend_t {
 	char *name;
 	char *version;
 	unsigned long name_hash;
-	pmdepmod_t mod;
+	alpm_depmod_t mod;
 } pmdepend_t;
 
 /** Missing dependency */
