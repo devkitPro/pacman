@@ -37,14 +37,14 @@
 #include "handle.h"
 #include "trans.h"
 
-void _alpm_dep_free(pmdepend_t *dep)
+void _alpm_dep_free(alpm_depend_t *dep)
 {
 	FREE(dep->name);
 	FREE(dep->version);
 	FREE(dep);
 }
 
-static pmdepmissing_t *depmiss_new(const char *target, pmdepend_t *dep,
+static pmdepmissing_t *depmiss_new(const char *target, alpm_depend_t *dep,
 		const char *causingpkg)
 {
 	pmdepmissing_t *miss;
@@ -208,10 +208,10 @@ static int no_dep_version(alpm_handle_t *handle)
 	return flags != -1 && (flags & PM_TRANS_FLAG_NODEPVERSION);
 }
 
-static pmdepend_t *filtered_depend(pmdepend_t *dep, int nodepversion)
+static alpm_depend_t *filtered_depend(alpm_depend_t *dep, int nodepversion)
 {
 	if(nodepversion) {
-		pmdepend_t *newdep = _alpm_dep_dup(dep);
+		alpm_depend_t *newdep = _alpm_dep_dup(dep);
 		ASSERT(newdep, return dep);
 		newdep->mod = PM_DEP_MOD_ANY;
 		dep = newdep;
@@ -219,14 +219,14 @@ static pmdepend_t *filtered_depend(pmdepend_t *dep, int nodepversion)
 	return dep;
 }
 
-static void release_filtered_depend(pmdepend_t *dep, int nodepversion)
+static void release_filtered_depend(alpm_depend_t *dep, int nodepversion)
 {
 	if(nodepversion) {
 		free(dep);
 	}
 }
 
-static alpm_pkg_t *find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
+static alpm_pkg_t *find_dep_satisfier(alpm_list_t *pkgs, alpm_depend_t *dep)
 {
 	alpm_list_t *i;
 
@@ -247,7 +247,7 @@ static alpm_pkg_t *find_dep_satisfier(alpm_list_t *pkgs, pmdepend_t *dep)
  */
 alpm_pkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 {
-	pmdepend_t *dep = _alpm_splitdep(depstring);
+	alpm_depend_t *dep = _alpm_splitdep(depstring);
 	if(!dep) {
 		return NULL;
 	}
@@ -295,7 +295,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 				alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
 
 		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
-			pmdepend_t *depend = j->data;
+			alpm_depend_t *depend = j->data;
 			depend = filtered_depend(depend, nodepversion);
 			/* 1. we check the upgrade list */
 			/* 2. we check database for untouched satisfying packages */
@@ -320,7 +320,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 		for(i = dblist; i; i = i->next) {
 			alpm_pkg_t *lp = i->data;
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
-				pmdepend_t *depend = j->data;
+				alpm_depend_t *depend = j->data;
 				depend = filtered_depend(depend, nodepversion);
 				alpm_pkg_t *causingpkg = find_dep_satisfier(modified, depend);
 				/* we won't break this depend, if it is already broken, we ignore it */
@@ -369,7 +369,7 @@ static int dep_vercmp(const char *version1, alpm_depmod_t mod,
 	return equal;
 }
 
-int _alpm_depcmp(alpm_pkg_t *pkg, pmdepend_t *dep)
+int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 {
 	alpm_list_t *i;
 	int satisfy = 0;
@@ -411,16 +411,16 @@ int _alpm_depcmp(alpm_pkg_t *pkg, pmdepend_t *dep)
 	return satisfy;
 }
 
-pmdepend_t *_alpm_splitdep(const char *depstring)
+alpm_depend_t *_alpm_splitdep(const char *depstring)
 {
-	pmdepend_t *depend;
+	alpm_depend_t *depend;
 	const char *ptr, *version = NULL;
 
 	if(depstring == NULL) {
 		return NULL;
 	}
 
-	CALLOC(depend, 1, sizeof(pmdepend_t), return NULL);
+	CALLOC(depend, 1, sizeof(alpm_depend_t), return NULL);
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
@@ -455,10 +455,10 @@ pmdepend_t *_alpm_splitdep(const char *depstring)
 	return depend;
 }
 
-pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
+alpm_depend_t *_alpm_dep_dup(const alpm_depend_t *dep)
 {
-	pmdepend_t *newdep;
-	CALLOC(newdep, 1, sizeof(pmdepend_t), return NULL);
+	alpm_depend_t *newdep;
+	CALLOC(newdep, 1, sizeof(alpm_depend_t), return NULL);
 
 	STRDUP(newdep->name, dep->name, return NULL);
 	newdep->name_hash = dep->name_hash;
@@ -554,7 +554,7 @@ void _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
  *        an error code without prompting
  * @return the resolved package
  **/
-static alpm_pkg_t *resolvedep(alpm_handle_t *handle, pmdepend_t *dep,
+static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 		alpm_list_t *dbs, alpm_list_t *excluding, int prompt)
 {
 	alpm_list_t *i, *j;
@@ -656,7 +656,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, pmdepend_t *dep,
 alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
 		alpm_list_t *dbs, const char *depstring)
 {
-	pmdepend_t *dep;
+	alpm_depend_t *dep;
 	alpm_pkg_t *pkg;
 
 	CHECK_HANDLE(handle, return NULL);
@@ -719,7 +719,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 
 		for(j = deps; j; j = j->next) {
 			pmdepmissing_t *miss = j->data;
-			pmdepend_t *missdep = miss->depend;
+			alpm_depend_t *missdep = miss->depend;
 			/* check if one of the packages in the [*packages] list already satisfies
 			 * this dependency */
 			if(find_dep_satisfier(*packages, missdep)) {
@@ -764,12 +764,12 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 	return ret;
 }
 
-/** Reverse of splitdep; make a dep string from a pmdepend_t struct.
+/** Reverse of splitdep; make a dep string from a alpm_depend_t struct.
  * The string must be freed!
  * @param dep the depend to turn into a string
  * @return a string-formatted dependency with operator if necessary
  */
-char SYMEXPORT *alpm_dep_compute_string(const pmdepend_t *dep)
+char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 {
 	const char *name, *opr, *ver;
 	char *str;

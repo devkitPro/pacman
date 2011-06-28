@@ -375,7 +375,7 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
 	walked = alpm_list_add(walked, (void *)alpm_pkg_get_name(pkg));
 
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
-		pmdepend_t *depend = alpm_list_getdata(i);
+		alpm_depend_t *depend = alpm_list_getdata(i);
 		alpm_pkg_t *provider = alpm_find_dbs_satisfier(handle, dblist, depend->name);
 
 		if(provider) {

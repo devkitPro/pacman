@@ -145,7 +145,7 @@ static void check_conflict(alpm_handle_t *handle,
 		for(j = alpm_pkg_get_conflicts(pkg1); j; j = j->next) {
 			const char *conflict = j->data;
 			alpm_list_t *k;
-			pmdepend_t *parsed_conflict = _alpm_splitdep(conflict);
+			alpm_depend_t *parsed_conflict = _alpm_splitdep(conflict);
 
 			for(k = list2; k; k = k->next) {
 				alpm_pkg_t *pkg2 = k->data;

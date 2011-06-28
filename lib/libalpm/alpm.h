@@ -106,17 +106,17 @@ typedef struct __alpm_pkg_t alpm_pkg_t;
 typedef struct __alpm_trans_t alpm_trans_t;
 
 /** Dependency */
-typedef struct _pmdepend_t {
+typedef struct _alpm_depend_t {
 	char *name;
 	char *version;
 	unsigned long name_hash;
 	alpm_depmod_t mod;
-} pmdepend_t;
+} alpm_depend_t;
 
 /** Missing dependency */
 typedef struct _pmdepmissing_t {
 	char *target;
-	pmdepend_t *depend;
+	alpm_depend_t *depend;
 	/* this is used in case of remove dependency error only */
 	char *causingpkg;
 } pmdepmissing_t;
@@ -581,9 +581,9 @@ alpm_list_t *alpm_pkg_get_licenses(alpm_pkg_t *pkg);
  */
 alpm_list_t *alpm_pkg_get_groups(alpm_pkg_t *pkg);
 
-/** Returns the list of package dependencies as pmdepend_t.
+/** Returns the list of package dependencies as alpm_depend_t.
  * @param pkg a pointer to package
- * @return a reference to an internal list of pmdepend_t structures.
+ * @return a reference to an internal list of alpm_depend_t structures.
  */
 alpm_list_t *alpm_pkg_get_depends(alpm_pkg_t *pkg);
 
@@ -967,7 +967,7 @@ alpm_list_t *alpm_checkconflicts(alpm_handle_t *handle, alpm_list_t *pkglist);
  * @param dep a dependency info structure
  * @return a formatted string, e.g. "glibc>=2.12"
  */
-char *alpm_dep_compute_string(const pmdepend_t *dep);
+char *alpm_dep_compute_string(const alpm_depend_t *dep);
 
 /** @} */
 

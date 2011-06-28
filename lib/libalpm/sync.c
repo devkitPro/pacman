@@ -419,8 +419,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 					conflict->package1, conflict->package2);
 
 			/* if sync1 provides sync2, we remove sync2 from the targets, and vice versa */
-			pmdepend_t *dep1 = _alpm_splitdep(conflict->package1);
-			pmdepend_t *dep2 = _alpm_splitdep(conflict->package2);
+			alpm_depend_t *dep1 = _alpm_splitdep(conflict->package1);
+			alpm_depend_t *dep2 = _alpm_splitdep(conflict->package2);
 			if(_alpm_depcmp(sync1, dep2)) {
 				rsync = sync2;
 				sync = sync1;

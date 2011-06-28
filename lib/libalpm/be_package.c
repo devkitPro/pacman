@@ -189,7 +189,7 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 				/* size in the raw package is uncompressed (installed) size */
 				newpkg->isize = atol(ptr);
 			} else if(strcmp(key, "depend") == 0) {
-				pmdepend_t *dep = _alpm_splitdep(ptr);
+				alpm_depend_t *dep = _alpm_splitdep(ptr);
 				newpkg->depends = alpm_list_add(newpkg->depends, dep);
 			} else if(strcmp(key, "optdepend") == 0) {
 				newpkg->optdepends = alpm_list_add(newpkg->optdepends, strdup(ptr));

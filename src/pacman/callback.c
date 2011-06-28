@@ -312,7 +312,7 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			{
 				alpm_list_t *providers = (alpm_list_t *)data1;
 				int count = alpm_list_count(providers);
-				char *depstring = alpm_dep_compute_string((pmdepend_t *)data2);
+				char *depstring = alpm_dep_compute_string((alpm_depend_t *)data2);
 				printf(_(":: There are %d providers available for %s:\n"), count,
 						depstring);
 				free(depstring);

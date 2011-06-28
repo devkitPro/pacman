@@ -83,7 +83,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 
 	/* turn depends list into a text list */
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
-		pmdepend_t *dep = (pmdepend_t *)alpm_list_getdata(i);
+		alpm_depend_t *dep = (alpm_depend_t *)alpm_list_getdata(i);
 		depstrings = alpm_list_add(depstrings, alpm_dep_compute_string(dep));
 	}
 

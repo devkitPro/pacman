@@ -639,7 +639,7 @@ int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, pmdbinfrq_t inforeq)
 				}
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					pmdepend_t *dep = _alpm_splitdep(line);
+					alpm_depend_t *dep = _alpm_splitdep(line);
 					info->depends = alpm_list_add(info->depends, dep);
 				}
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
