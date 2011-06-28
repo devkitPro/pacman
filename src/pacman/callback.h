@@ -32,7 +32,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
                    void *data3, int *response);
 
 /* callback to handle display of transaction progress */
-void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
+void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
                    size_t howmany, size_t remain);
 
 /* callback to handle receipt of total download value */

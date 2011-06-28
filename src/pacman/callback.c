@@ -343,7 +343,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 }
 
 /* callback to handle display of transaction progress */
-void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
+void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
                        size_t howmany, size_t current)
 {
 	/* size of line to allocate for text printing (e.g. not progressbar) */

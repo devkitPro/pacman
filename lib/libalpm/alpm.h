@@ -843,14 +843,14 @@ typedef enum _alpm_transconv_t {
 } alpm_transconv_t;
 
 /** Transaction Progress */
-typedef enum _pmtransprog_t {
+typedef enum _alpm_transprog_t {
 	PM_TRANS_PROGRESS_ADD_START,
 	PM_TRANS_PROGRESS_UPGRADE_START,
 	PM_TRANS_PROGRESS_REMOVE_START,
 	PM_TRANS_PROGRESS_CONFLICTS_START,
 	PM_TRANS_PROGRESS_DISKSPACE_START,
 	PM_TRANS_PROGRESS_INTEGRITY_START,
-} pmtransprog_t;
+} alpm_transprog_t;
 
 /** Transaction Event callback */
 typedef void (*alpm_trans_cb_event)(alpm_transevt_t, void *, void *);
@@ -860,7 +860,7 @@ typedef void (*alpm_trans_cb_conv)(alpm_transconv_t, void *, void *,
                                    void *, int *);
 
 /** Transaction Progress callback */
-typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t, size_t);
+typedef void (*alpm_trans_cb_progress)(alpm_transprog_t, const char *, int, size_t, size_t);
 
 /** Returns the bitfield of flags for the current transaction.
  * @param handle the context handle
