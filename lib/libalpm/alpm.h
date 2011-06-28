@@ -754,7 +754,7 @@ typedef enum _alpm_transflag_t {
 /** Transaction events.
  * NULL parameters are passed to in all events unless specified otherwise.
  */
-typedef enum _pmtransevt_t {
+typedef enum _alpm_transevt_t {
 	/** Dependencies will be computed for a package. */
 	PM_TRANS_EVT_CHECKDEPS_START = 1,
 	/** Dependencies were computed for a package. */
@@ -829,7 +829,7 @@ typedef enum _pmtransevt_t {
 	PM_TRANS_EVT_DISKSPACE_START,
 	/** Disk space usage was computed for a package */
 	PM_TRANS_EVT_DISKSPACE_DONE,
-} pmtransevt_t;
+} alpm_transevt_t;
 
 /** Transaction Conversations (ie, questions) */
 typedef enum _pmtransconv_t {
@@ -853,7 +853,7 @@ typedef enum _pmtransprog_t {
 } pmtransprog_t;
 
 /** Transaction Event callback */
-typedef void (*alpm_trans_cb_event)(pmtransevt_t, void *, void *);
+typedef void (*alpm_trans_cb_event)(alpm_transevt_t, void *, void *);
 
 /** Transaction Conversation callback */
 typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,

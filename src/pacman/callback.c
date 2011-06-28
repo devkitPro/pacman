@@ -153,7 +153,7 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 
 
 /* callback to handle messages/notifications from libalpm transactions */
-void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
+void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2)
 {
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:

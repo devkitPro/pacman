@@ -25,7 +25,7 @@
 #include <alpm.h>
 
 /* callback to handle messages/notifications from libalpm transactions */
-void cb_trans_evt(pmtransevt_t event, void *data1, void *data2);
+void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2);
 
 /* callback to handle questions from libalpm transactions (yes/no) */
 void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
