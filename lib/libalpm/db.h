@@ -33,7 +33,7 @@
 #include "signing.h"
 
 /* Database entries */
-typedef enum _pmdbinfrq_t {
+typedef enum _alpm_dbinfrq_t {
 	INFRQ_BASE = 1,
 	INFRQ_DESC = (1 << 1),
 	INFRQ_FILES = (1 << 2),
@@ -41,7 +41,7 @@ typedef enum _pmdbinfrq_t {
 	INFRQ_DSIZE = (1 << 4),
 	/* ALL should be info stored in the package or database */
 	INFRQ_ALL = 0x1F
-} pmdbinfrq_t;
+} alpm_dbinfrq_t;
 
 /** Database status. Bitflags. */
 enum _pmdbstatus_t {
@@ -87,9 +87,9 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 void _alpm_db_unregister(alpm_db_t *db);
 
 /* be_*.c, backend specific calls */
-int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
 int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info);
-int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
 int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info);
 
 /* cache bullshit */
@@ -99,7 +99,7 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg);
 int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg);
 alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db);
 alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db);
-int _alpm_db_ensure_pkgcache(alpm_db_t *db, pmdbinfrq_t infolevel);
+int _alpm_db_ensure_pkgcache(alpm_db_t *db, alpm_dbinfrq_t infolevel);
 alpm_pkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target);
 /* groups */
 void _alpm_db_free_grpcache(alpm_db_t *db);

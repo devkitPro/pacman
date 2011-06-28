@@ -498,7 +498,7 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 }
 
 
-int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
@@ -742,7 +742,7 @@ int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info)
 	return retval;
 }
 
-int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];

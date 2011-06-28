@@ -111,7 +111,7 @@ struct __alpm_pkg_t {
 	int scriptlet;
 
 	alpm_pkgreason_t reason;
-	pmdbinfrq_t infolevel;
+	alpm_dbinfrq_t infolevel;
 	alpm_pkgfrom_t origin;
 	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
 	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
