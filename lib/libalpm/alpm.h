@@ -81,10 +81,10 @@ typedef enum _alpm_depmod_t {
  * Whether the conflict results from a file existing on the filesystem, or with
  * another target in the transaction.
  */
-typedef enum _pmfileconflicttype_t {
+typedef enum _alpm_fileconflicttype_t {
 	PM_FILECONFLICT_TARGET = 1,
 	PM_FILECONFLICT_FILESYSTEM
-} pmfileconflicttype_t;
+} alpm_fileconflicttype_t;
 
 /**
  * GPG signature verification options
@@ -131,7 +131,7 @@ typedef struct _pmconflict_t {
 /** File conflict */
 typedef struct _pmfileconflict_t {
 	char *target;
-	pmfileconflicttype_t type;
+	alpm_fileconflicttype_t type;
 	char *file;
 	char *ctarget;
 } pmfileconflict_t;

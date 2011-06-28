@@ -281,7 +281,7 @@ static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
  * a wrapper for former functionality that was done inline.
  */
 static alpm_list_t *add_fileconflict(pmhandle_t *handle,
-		alpm_list_t *conflicts, pmfileconflicttype_t type, const char *filestr,
+		alpm_list_t *conflicts, alpm_fileconflicttype_t type, const char *filestr,
 		const char *name1, const char *name2)
 {
 	pmfileconflict_t *conflict;
