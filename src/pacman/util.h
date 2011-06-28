@@ -66,11 +66,11 @@ int select_question(int count);
 int multiselect_question(char *array, int count);
 int yesno(char *fmt, ...);
 int noyes(char *fmt, ...);
-int pm_printf(pmloglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
-int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...) __attribute__((format(printf,3,4)));
+int pm_printf(alpm_loglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
+int pm_fprintf(FILE *stream, alpm_loglevel_t level, const char *format, ...) __attribute__((format(printf,3,4)));
 int pm_asprintf(char **string, const char *format, ...);
-int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
-int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
+int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
+int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 
 #ifndef HAVE_STRNDUP
 char *strndup(const char *s, size_t n);

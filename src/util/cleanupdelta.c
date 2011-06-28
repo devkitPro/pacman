@@ -39,7 +39,7 @@ static void cleanup(int signum) {
 	exit(signum);
 }
 
-static void output_cb(pmloglevel_t level, const char *fmt, va_list args)
+static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 {
 	if(strlen(fmt)) {
 		switch(level) {

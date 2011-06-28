@@ -1194,7 +1194,7 @@ int noyes(char *fmt, ...)
 	return ret;
 }
 
-int pm_printf(pmloglevel_t level, const char *format, ...)
+int pm_printf(alpm_loglevel_t level, const char *format, ...)
 {
 	int ret;
 	va_list args;
@@ -1207,7 +1207,7 @@ int pm_printf(pmloglevel_t level, const char *format, ...)
 	return ret;
 }
 
-int pm_fprintf(FILE *stream, pmloglevel_t level, const char *format, ...)
+int pm_fprintf(FILE *stream, alpm_loglevel_t level, const char *format, ...)
 {
 	int ret;
 	va_list args;
@@ -1236,7 +1236,7 @@ int pm_asprintf(char **string, const char *format, ...)
 	return ret;
 }
 
-int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list args)
+int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_list args)
 {
 	int ret = 0;
 	char *msg = NULL;
@@ -1272,7 +1272,7 @@ int pm_vasprintf(char **string, pmloglevel_t level, const char *format, va_list 
 	return ret;
 }
 
-int pm_vfprintf(FILE *stream, pmloglevel_t level, const char *format, va_list args)
+int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list args)
 {
 	int ret = 0;
 
