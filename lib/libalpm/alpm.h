@@ -114,12 +114,12 @@ typedef struct _alpm_depend_t {
 } alpm_depend_t;
 
 /** Missing dependency */
-typedef struct _pmdepmissing_t {
+typedef struct _alpm_depmissing_t {
 	char *target;
 	alpm_depend_t *depend;
 	/* this is used in case of remove dependency error only */
 	char *causingpkg;
-} pmdepmissing_t;
+} alpm_depmissing_t;
 
 /** Conflict */
 typedef struct _pmconflict_t {
@@ -895,7 +895,7 @@ int alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
 /** Prepare a transaction.
  * @param handle the context handle
  * @param data the address of an alpm_list where a list
- * of pmdepmissing_t objects is dumped (conflicting packages)
+ * of alpm_depmissing_t objects is dumped (conflicting packages)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data);

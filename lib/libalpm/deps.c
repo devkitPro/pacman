@@ -44,12 +44,12 @@ void _alpm_dep_free(alpm_depend_t *dep)
 	FREE(dep);
 }
 
-static pmdepmissing_t *depmiss_new(const char *target, alpm_depend_t *dep,
+static alpm_depmissing_t *depmiss_new(const char *target, alpm_depend_t *dep,
 		const char *causingpkg)
 {
-	pmdepmissing_t *miss;
+	alpm_depmissing_t *miss;
 
-	MALLOC(miss, sizeof(pmdepmissing_t), return NULL);
+	MALLOC(miss, sizeof(alpm_depmissing_t), return NULL);
 
 	STRDUP(miss->target, target, return NULL);
 	miss->depend = _alpm_dep_dup(dep);
@@ -58,7 +58,7 @@ static pmdepmissing_t *depmiss_new(const char *target, alpm_depend_t *dep,
 	return miss;
 }
 
-void _alpm_depmiss_free(pmdepmissing_t *miss)
+void _alpm_depmiss_free(alpm_depmissing_t *miss)
 {
 	_alpm_dep_free(miss->depend);
 	FREE(miss->target);
@@ -263,7 +263,7 @@ alpm_pkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstri
  * @param remove an alpm_list_t* of packages to be removed
  * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
  * @param reversedeps handles the backward dependencies
- * @return an alpm_list_t* of pmdepmissing_t pointers.
+ * @return an alpm_list_t* of alpm_depmissing_t pointers.
  */
 alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglist,
 		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps)
@@ -302,7 +302,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 			if(!find_dep_satisfier(upgrade, depend) &&
 			   !find_dep_satisfier(dblist, depend)) {
 				/* Unsatisfied dependency in the upgrade list */
-				pmdepmissing_t *miss;
+				alpm_depmissing_t *miss;
 				char *missdepstring = alpm_dep_compute_string(depend);
 				_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
@@ -329,7 +329,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 				if(causingpkg &&
 				   !find_dep_satisfier(upgrade, depend) &&
 				   !find_dep_satisfier(dblist, depend)) {
-					pmdepmissing_t *miss;
+					alpm_depmissing_t *miss;
 					char *missdepstring = alpm_dep_compute_string(depend);
 					_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
@@ -718,7 +718,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 		alpm_list_free(targ);
 
 		for(j = deps; j; j = j->next) {
-			pmdepmissing_t *miss = j->data;
+			alpm_depmissing_t *miss = j->data;
 			alpm_depend_t *missdep = miss->depend;
 			/* check if one of the packages in the [*packages] list already satisfies
 			 * this dependency */

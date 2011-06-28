@@ -106,7 +106,7 @@ int pacman_upgrade(alpm_list_t *targets)
 				break;
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
+					alpm_depmissing_t *miss = alpm_list_getdata(i);
 					char *depstring = alpm_dep_compute_string(miss->depend);
 
 					/* TODO indicate if the error was a virtual package or not:

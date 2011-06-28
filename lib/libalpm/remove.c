@@ -77,7 +77,7 @@ static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 	while(lp) {
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
-			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
+			alpm_depmissing_t *miss = (alpm_depmissing_t *)i->data;
 			alpm_pkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
 				if(!_alpm_pkg_find(trans->remove, alpm_pkg_get_name(info))) {
@@ -105,7 +105,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 	while(lp != NULL) {
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
-			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
+			alpm_depmissing_t *miss = (alpm_depmissing_t *)i->data;
 			void *vpkg;
 			alpm_pkg_t *pkg = _alpm_pkg_find(trans->remove, miss->causingpkg);
 			if(pkg == NULL) {
@@ -129,7 +129,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 
 /** Transaction preparation for remove actions.
  * This functions takes a pointer to a alpm_list_t which will be
- * filled with a list of pmdepmissing_t* objects representing
+ * filled with a list of alpm_depmissing_t* objects representing
  * the packages blocking the transaction.
  * @param handle the context handle
  * @param data a pointer to an alpm_list_t* to fill

@@ -114,7 +114,7 @@ int pacman_remove(alpm_list_t *targets)
 				break;
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
+					alpm_depmissing_t *miss = alpm_list_getdata(i);
 					char *depstring = alpm_dep_compute_string(miss->depend);
 					printf(_(":: %s: requires %s\n"), miss->target, depstring);
 					free(depstring);
