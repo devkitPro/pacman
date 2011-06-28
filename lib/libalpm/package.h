@@ -58,7 +58,7 @@ struct pkg_operations {
 	const char *(*get_arch) (pmpkg_t *);
 	off_t (*get_size) (pmpkg_t *);
 	off_t (*get_isize) (pmpkg_t *);
-	pmpkgreason_t (*get_reason) (pmpkg_t *);
+	alpm_pkgreason_t (*get_reason) (pmpkg_t *);
 	int (*has_scriptlet) (pmpkg_t *);
 
 	alpm_list_t *(*get_licenses) (pmpkg_t *);
@@ -110,7 +110,7 @@ struct __pmpkg_t {
 
 	int scriptlet;
 
-	pmpkgreason_t reason;
+	alpm_pkgreason_t reason;
 	pmdbinfrq_t infolevel;
 	pmpkgfrom_t origin;
 	/* origin == PKG_FROM_FILE, use pkg->origin_data.file

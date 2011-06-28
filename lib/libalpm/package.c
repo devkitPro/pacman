@@ -95,7 +95,7 @@ static const char *_pkg_get_md5sum(pmpkg_t *pkg)      { return pkg->md5sum; }
 static const char *_pkg_get_arch(pmpkg_t *pkg)        { return pkg->arch; }
 static off_t _pkg_get_size(pmpkg_t *pkg)              { return pkg->size; }
 static off_t _pkg_get_isize(pmpkg_t *pkg)             { return pkg->isize; }
-static pmpkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
+static alpm_pkgreason_t _pkg_get_reason(pmpkg_t *pkg)    { return pkg->reason; }
 static int _pkg_has_scriptlet(pmpkg_t *pkg)           { return pkg->scriptlet; }
 
 static alpm_list_t *_pkg_get_licenses(pmpkg_t *pkg)   { return pkg->licenses; }
@@ -246,7 +246,7 @@ off_t SYMEXPORT alpm_pkg_get_isize(pmpkg_t *pkg)
 	return pkg->ops->get_isize(pkg);
 }
 
-pmpkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
+alpm_pkgreason_t SYMEXPORT alpm_pkg_get_reason(pmpkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = 0;

@@ -53,12 +53,12 @@ extern "C" {
  * Install reasons.
  * Why the package was installed.
  */
-typedef enum _pmpkgreason_t {
+typedef enum _alpm_pkgreason_t {
 	/** Explicitly requested by the user. */
 	PM_PKG_REASON_EXPLICIT = 0,
 	/** Installed as a dependency for another package. */
 	PM_PKG_REASON_DEPEND = 1
-} pmpkgreason_t;
+} alpm_pkgreason_t;
 
 /** Types of version constraints in dependency specs. */
 typedef enum _pmdepmod_t {
@@ -432,7 +432,7 @@ alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
  * @param reason the new install reason
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason);
+int alpm_db_set_pkgreason(pmdb_t *db, const char *name, alpm_pkgreason_t reason);
 
 /** @} */
 
@@ -567,7 +567,7 @@ off_t alpm_pkg_get_isize(pmpkg_t *pkg);
  * @param pkg a pointer to package
  * @return an enum member giving the install reason.
  */
-pmpkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg);
+alpm_pkgreason_t alpm_pkg_get_reason(pmpkg_t *pkg);
 
 /** Returns the list of package licenses.
  * @param pkg a pointer to package

@@ -268,7 +268,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(pmdb_t *db, const alpm_list_t* needles)
 }
 
 /** Set install reason for a package in db. */
-int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, pmpkgreason_t reason)
+int SYMEXPORT alpm_db_set_pkgreason(pmdb_t *db, const char *name, alpm_pkgreason_t reason)
 {
 	ASSERT(db != NULL, return -1);
 	db->handle->pm_errno = 0;

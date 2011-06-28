@@ -115,7 +115,7 @@ static off_t _cache_get_isize(pmpkg_t *pkg)
 	return pkg->isize;
 }
 
-static pmpkgreason_t _cache_get_reason(pmpkg_t *pkg)
+static alpm_pkgreason_t _cache_get_reason(pmpkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->reason;
@@ -618,7 +618,7 @@ int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 				if(fgets(line, sizeof(line), fp) == NULL) {
 					goto error;
 				}
-				info->reason = (pmpkgreason_t)atol(_alpm_strtrim(line));
+				info->reason = (alpm_pkgreason_t)atol(_alpm_strtrim(line));
 			} else if(strcmp(line, "%SIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
