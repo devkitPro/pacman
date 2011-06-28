@@ -983,7 +983,7 @@ char *alpm_compute_md5sum(const char *name);
 /** @addtogroup alpm_api_errors Error Codes
  * @{
  */
-enum _pmerrno_t {
+enum _alpm_errno_t {
 	PM_ERR_MEMORY = 1,
 	PM_ERR_SYSTEM,
 	PM_ERR_BADPERMS,
@@ -1048,16 +1048,16 @@ enum _pmerrno_t {
 };
 
 /** Returns the current error code from the handle. */
-enum _pmerrno_t alpm_errno(alpm_handle_t *handle);
+enum _alpm_errno_t alpm_errno(alpm_handle_t *handle);
 
 /** Returns the string corresponding to an error number. */
-const char *alpm_strerror(enum _pmerrno_t err);
+const char *alpm_strerror(enum _alpm_errno_t err);
 
 /* End of alpm_api_errors */
 /** @} */
 
 alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
-		enum _pmerrno_t *err);
+		enum _alpm_errno_t *err);
 int alpm_release(alpm_handle_t *handle);
 const char *alpm_version(void);
 

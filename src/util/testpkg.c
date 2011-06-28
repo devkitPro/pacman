@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 {
 	int retval = 1; /* default = false */
 	alpm_handle_t *handle;
-	enum _pmerrno_t err;
+	enum _alpm_errno_t err;
 	alpm_pkg_t *pkg = NULL;
 
 	if(argc != 2) {

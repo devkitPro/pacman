@@ -615,7 +615,7 @@ static int process_pkg(alpm_pkg_t *pkg)
 	int ret = alpm_add_pkg(config->handle, pkg);
 
 	if(ret == -1) {
-		enum _pmerrno_t err = alpm_errno(config->handle);
+		enum _alpm_errno_t err = alpm_errno(config->handle);
 		if(err == PM_ERR_TRANS_DUP_TARGET
 				|| err == PM_ERR_PKG_IGNORED) {
 			/* just skip duplicate or ignored targets */
@@ -763,7 +763,7 @@ static int sync_trans(alpm_list_t *targets)
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
-		enum _pmerrno_t err = alpm_errno(config->handle);
+		enum _alpm_errno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
@@ -830,7 +830,7 @@ static int sync_trans(alpm_list_t *targets)
 	}
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
-		enum _pmerrno_t err = alpm_errno(config->handle);
+		enum _alpm_errno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {

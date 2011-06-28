@@ -401,7 +401,7 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
 int main(int argc, char *argv[])
 {
 	int freelist = 0, ret = 0;
-	enum _pmerrno_t err;
+	enum _alpm_errno_t err;
 	const char *target_name;
 	alpm_pkg_t *pkg;
 	alpm_list_t *dblist = NULL;

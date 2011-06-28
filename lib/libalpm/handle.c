@@ -303,7 +303,7 @@ static char *canonicalize_path(const char *path) {
 	return new_path;
 }
 
-enum _pmerrno_t _alpm_set_directory_option(const char *value,
+enum _alpm_errno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist)
  {
 	struct stat st;

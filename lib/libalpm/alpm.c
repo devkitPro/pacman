@@ -47,9 +47,9 @@
  * @return a context handle on success, NULL on error, err will be set if provided
  */
 alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
-		enum _pmerrno_t *err)
+		enum _alpm_errno_t *err)
 {
-	enum _pmerrno_t myerr;
+	enum _alpm_errno_t myerr;
 	const char *lf = "db.lck";
 	size_t lockfilelen;
 	alpm_handle_t *myhandle = _alpm_handle_new();

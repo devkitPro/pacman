@@ -96,7 +96,7 @@ static void usage(void) {
 int main(int argc, char *argv[])
 {
 	const char *dbpath = DBPATH;
-	enum _pmerrno_t err;
+	enum _alpm_errno_t err;
 	int a = 1;
 	alpm_list_t *dbnames = NULL;
 

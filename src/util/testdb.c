@@ -180,7 +180,7 @@ static void usage(void) {
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	enum _pmerrno_t err;
+	enum _alpm_errno_t err;
 	const char *dbpath = DBPATH;
 	int a = 1;
 	alpm_list_t *dbnames = NULL;
