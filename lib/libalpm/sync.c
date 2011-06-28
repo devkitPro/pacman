@@ -220,7 +220,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 
 	for(i = dbs; i; i = i->next) {
 		alpm_db_t *db = i->data;
-		pmgrp_t *grp = alpm_db_readgrp(db, name);
+		alpm_group_t *grp = alpm_db_readgrp(db, name);
 
 		if(!grp)
 			continue;

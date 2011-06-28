@@ -239,7 +239,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(alpm_db_t *db)
 }
 
 /** Get a group entry from a package database. */
-pmgrp_t SYMEXPORT *alpm_db_readgrp(alpm_db_t *db, const char *name)
+alpm_group_t SYMEXPORT *alpm_db_readgrp(alpm_db_t *db, const char *name)
 {
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
@@ -595,7 +595,7 @@ static int load_grpcache(alpm_db_t *db)
 		for(i = alpm_pkg_get_groups(pkg); i; i = i->next) {
 			const char *grpname = i->data;
 			alpm_list_t *j;
-			pmgrp_t *grp = NULL;
+			alpm_group_t *grp = NULL;
 			int found = 0;
 
 			/* first look through the group cache for a group with this name */
@@ -663,7 +663,7 @@ alpm_list_t *_alpm_db_get_grpcache(alpm_db_t *db)
 	return db->grpcache;
 }
 
-pmgrp_t *_alpm_db_get_grpfromcache(alpm_db_t *db, const char *target)
+alpm_group_t *_alpm_db_get_grpfromcache(alpm_db_t *db, const char *target)
 {
 	alpm_list_t *i;
 
@@ -672,7 +672,7 @@ pmgrp_t *_alpm_db_get_grpfromcache(alpm_db_t *db, const char *target)
 	}
 
 	for(i = _alpm_db_get_grpcache(db); i; i = i->next) {
-		pmgrp_t *info = i->data;
+		alpm_group_t *info = i->data;
 
 		if(strcmp(info->name, target) == 0) {
 			return info;

@@ -303,7 +303,7 @@ static int query_group(alpm_list_t *targets)
 
 	if(targets == NULL) {
 		for(j = alpm_db_get_grpcache(db_local); j; j = alpm_list_next(j)) {
-			pmgrp_t *grp = alpm_list_getdata(j);
+			alpm_group_t *grp = alpm_list_getdata(j);
 			const alpm_list_t *p;
 
 			for(p = grp->packages; p; p = alpm_list_next(p)) {
@@ -313,7 +313,7 @@ static int query_group(alpm_list_t *targets)
 		}
 	} else {
 		for(i = targets; i; i = alpm_list_next(i)) {
-			pmgrp_t *grp;
+			alpm_group_t *grp;
 			grpname = alpm_list_getdata(i);
 			grp = alpm_db_readgrp(db_local, grpname);
 			if(grp) {

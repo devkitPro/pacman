@@ -137,12 +137,12 @@ typedef struct _alpm_fileconflict_t {
 } alpm_fileconflict_t;
 
 /** Package group */
-typedef struct _pmgrp_t {
+typedef struct _alpm_group_t {
 	/** group name */
 	char *name;
 	/** list of alpm_pkg_t packages */
 	alpm_list_t *packages;
-} pmgrp_t;
+} alpm_group_t;
 
 /** Package upgrade delta */
 typedef struct _pmdelta_t {
@@ -411,7 +411,7 @@ alpm_list_t *alpm_db_get_pkgcache(alpm_db_t *db);
  * @param name of the group
  * @return the groups entry on success, NULL on error
  */
-pmgrp_t *alpm_db_readgrp(alpm_db_t *db, const char *name);
+alpm_group_t *alpm_db_readgrp(alpm_db_t *db, const char *name);
 
 /** Get the group cache of a package database.
  * @param db pointer to the package database to get the group from

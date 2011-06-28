@@ -398,7 +398,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 			const char *grpname = alpm_list_getdata(i);
 			for(j = syncs; j; j = alpm_list_next(j)) {
 				alpm_db_t *db = alpm_list_getdata(j);
-				pmgrp_t *grp = alpm_db_readgrp(db, grpname);
+				alpm_group_t *grp = alpm_db_readgrp(db, grpname);
 
 				if(grp) {
 					/* get names of packages in group */
@@ -418,7 +418,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 			alpm_db_t *db = alpm_list_getdata(i);
 
 			for(j = alpm_db_get_grpcache(db); j; j = alpm_list_next(j)) {
-				pmgrp_t *grp = alpm_list_getdata(j);
+				alpm_group_t *grp = alpm_list_getdata(j);
 
 				if(level > 1) {
 					for(k = grp->packages; k; k = alpm_list_next(k)) {
