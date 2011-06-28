@@ -264,7 +264,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 	size_t replaces = 0, current = 0, numtargs;
 	int error = 0;
 	alpm_list_t *targ;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	numtargs = alpm_list_count(trans->add);
 	mount_points = mount_point_list(handle);

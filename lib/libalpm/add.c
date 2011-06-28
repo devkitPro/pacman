@@ -53,7 +53,7 @@
 int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname, *pkgver;
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 	alpm_pkg_t *local;
 
 	/* Sanity checks */
@@ -458,7 +458,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	int is_upgrade = 0;
 	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
 			_alpm_db_path(db), alpm_pkg_get_name(newpkg),
@@ -689,7 +689,7 @@ int _alpm_upgrade_packages(alpm_handle_t *handle)
 	size_t pkg_count, pkg_current;
 	int skip_ldconfig = 0, ret = 0;
 	alpm_list_t *targ;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	if(trans->add == NULL) {
 		return 0;

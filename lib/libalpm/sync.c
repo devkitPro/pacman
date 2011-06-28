@@ -86,7 +86,7 @@ alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_syn
 int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 {
 	alpm_list_t *i, *j, *k;
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 	alpm_db_t *db_local;
 	alpm_list_t *dbs_sync;
 
@@ -309,7 +309,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	alpm_list_t *unresolvable = NULL;
 	alpm_list_t *remove = NULL;
 	int ret = 0;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	if(data) {
 		*data = NULL;
@@ -588,7 +588,7 @@ static int apply_deltas(alpm_handle_t *handle)
 	alpm_list_t *i;
 	int ret = 0;
 	const char *cachedir = _alpm_filecache_setup(handle);
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	for(i = trans->add; i; i = i->next) {
 		alpm_pkg_t *spkg = i->data;
@@ -673,7 +673,7 @@ static int apply_deltas(alpm_handle_t *handle)
  *
  * @return 0 if the md5sum matched, 1 if not, -1 in case of errors
  */
-static int test_md5sum(pmtrans_t *trans, const char *filepath,
+static int test_md5sum(alpm_trans_t *trans, const char *filepath,
 		const char *md5sum)
 {
 	int ret = _alpm_test_md5sum(filepath, md5sum);
@@ -694,7 +694,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 {
 	int errors = 0, ret = 0;
 	alpm_list_t *i;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	if(!deltas) {
 		return 0;
@@ -839,7 +839,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	alpm_list_t *deltas = NULL;
 	size_t numtargs, current = 0, replaces = 0;
 	int errors;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	if(download_files(handle, &deltas)) {
 		alpm_list_free(deltas);

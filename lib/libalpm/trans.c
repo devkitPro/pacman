@@ -52,7 +52,7 @@ int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
 		alpm_trans_cb_event event, alpm_trans_cb_conv conv,
 		alpm_trans_cb_progress progress)
 {
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 	alpm_list_t *i;
 
 	/* Sanity checks */
@@ -73,7 +73,7 @@ int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
 		}
 	}
 
-	CALLOC(trans, 1, sizeof(pmtrans_t), RET_ERR(handle, PM_ERR_MEMORY, -1));
+	CALLOC(trans, 1, sizeof(alpm_trans_t), RET_ERR(handle, PM_ERR_MEMORY, -1));
 	trans->flags = flags;
 	trans->cb_event = event;
 	trans->cb_conv = conv;
@@ -113,7 +113,7 @@ static alpm_list_t *check_arch(alpm_handle_t *handle, alpm_list_t *pkgs)
 /** Prepare a transaction. */
 int SYMEXPORT alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -157,7 +157,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data)
 /** Commit a transaction. */
 int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 {
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -196,7 +196,7 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 /** Interrupt a transaction. */
 int SYMEXPORT alpm_trans_interrupt(alpm_handle_t *handle)
 {
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -214,7 +214,7 @@ int SYMEXPORT alpm_trans_interrupt(alpm_handle_t *handle)
 /** Release a transaction. */
 int SYMEXPORT alpm_trans_release(alpm_handle_t *handle)
 {
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -243,7 +243,7 @@ int SYMEXPORT alpm_trans_release(alpm_handle_t *handle)
 
 /** @} */
 
-void _alpm_trans_free(pmtrans_t *trans)
+void _alpm_trans_free(alpm_trans_t *trans)
 {
 	if(trans == NULL) {
 		return;

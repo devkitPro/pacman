@@ -368,7 +368,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	alpm_list_t *i, *j, *conflicts = NULL;
 	size_t numtargs = alpm_list_count(upgrade);
 	size_t current;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	if(!upgrade) {
 		return NULL;

@@ -103,7 +103,7 @@ typedef enum _pgp_verify_t {
 typedef struct __alpm_handle_t alpm_handle_t;
 typedef struct __alpm_db_t alpm_db_t;
 typedef struct __alpm_pkg_t alpm_pkg_t;
-typedef struct __pmtrans_t pmtrans_t;
+typedef struct __alpm_trans_t alpm_trans_t;
 
 /** Dependency */
 typedef struct _pmdepend_t {

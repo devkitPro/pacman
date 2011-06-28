@@ -36,7 +36,7 @@ typedef enum _pmtransstate_t {
 } pmtransstate_t;
 
 /* Transaction */
-struct __pmtrans_t {
+struct __alpm_trans_t {
 	pmtransflag_t flags;
 	pmtransstate_t state;
 	alpm_list_t *add;      /* list of (alpm_pkg_t *) */
@@ -66,8 +66,8 @@ do { \
 	} \
 } while(0)
 
-void _alpm_trans_free(pmtrans_t *trans);
-int _alpm_trans_init(pmtrans_t *trans, pmtransflag_t flags,
+void _alpm_trans_free(alpm_trans_t *trans);
+int _alpm_trans_init(alpm_trans_t *trans, pmtransflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress);
 int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,

@@ -36,7 +36,7 @@ struct __alpm_handle_t {
 	alpm_list_t *dbs_sync;  /* List of (alpm_db_t *) */
 	FILE *logstream;        /* log file stream pointer */
 	FILE *lckstream;        /* lock file stream pointer if one exists */
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 #ifdef HAVE_LIBCURL
 	/* libcurl handle */

@@ -47,7 +47,7 @@
 int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname;
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -72,7 +72,7 @@ int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 {
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	while(lp) {
 		alpm_list_t *i;
@@ -99,7 +99,7 @@ static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 
 static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 {
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	/* Remove needed packages (which break dependencies) from target list */
 	while(lp != NULL) {
@@ -137,7 +137,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *lp;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 	alpm_db_t *db = handle->db_local;
 
 	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
@@ -358,7 +358,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 	alpm_pkg_t *info;
 	alpm_list_t *targ, *lp;
 	size_t pkg_count;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	pkg_count = alpm_list_count(trans->remove);
 
