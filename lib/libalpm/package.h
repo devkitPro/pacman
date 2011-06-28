@@ -34,11 +34,11 @@
 #include "db.h"
 #include "signing.h"
 
-typedef enum _pmpkgfrom_t {
+typedef enum _alpm_pkgfrom_t {
 	PKG_FROM_FILE = 1,
 	PKG_FROM_LOCALDB,
 	PKG_FROM_SYNCDB
-} pmpkgfrom_t;
+} alpm_pkgfrom_t;
 
 /** Package operations struct. This struct contains function pointers to
  * all methods used to access data in a package to allow for things such
@@ -112,7 +112,7 @@ struct __alpm_pkg_t {
 
 	alpm_pkgreason_t reason;
 	pmdbinfrq_t infolevel;
-	pmpkgfrom_t origin;
+	alpm_pkgfrom_t origin;
 	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
 	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
 	union {
