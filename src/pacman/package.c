@@ -151,7 +151,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 }
 
 static const char *get_backup_file_status(const char *root,
-		const pmbackup_t *backup)
+		const alpm_backup_t *backup)
 {
 	char path[PATH_MAX];
 	const char *ret;
@@ -200,7 +200,7 @@ void dump_pkg_backups(alpm_pkg_t *pkg)
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
 		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
-			const pmbackup_t *backup = alpm_list_getdata(i);
+			const alpm_backup_t *backup = alpm_list_getdata(i);
 			const char *value;
 			if(!backup->hash) {
 				continue;

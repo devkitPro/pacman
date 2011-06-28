@@ -254,7 +254,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info, const char *fil
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */
-		pmbackup_t *backup = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
+		alpm_backup_t *backup = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
 		if(backup) {
 			if(nosave) {
 				_alpm_log(handle, PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
@@ -307,7 +307,7 @@ int _alpm_upgraderemove_package(alpm_handle_t *handle,
 	/* old package backup list */
 	alpm_list_t *filelist = alpm_pkg_get_files(newpkg);
 	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
-		const pmbackup_t *backup = b->data;
+		const alpm_backup_t *backup = b->data;
 		/* safety check (fix the upgrade026 pactest) */
 		if(!alpm_list_find_str(filelist, backup->name)) {
 			continue;

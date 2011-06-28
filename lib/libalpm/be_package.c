@@ -200,8 +200,8 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 			} else if(strcmp(key, "provides") == 0) {
 				newpkg->provides = alpm_list_add(newpkg->provides, strdup(ptr));
 			} else if(strcmp(key, "backup") == 0) {
-				pmbackup_t *backup;
-				CALLOC(backup, 1, sizeof(pmbackup_t), return -1);
+				alpm_backup_t *backup;
+				CALLOC(backup, 1, sizeof(alpm_backup_t), return -1);
 				STRDUP(backup->name, ptr, return -1);
 				newpkg->backup = alpm_list_add(newpkg->backup, backup);
 			} else if(strcmp(key, "force") == 0) {

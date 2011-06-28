@@ -252,7 +252,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			if(alpm_list_find_str(handle->noupgrade, entryname)) {
 				notouch = 1;
 			} else {
-				pmbackup_t *backup;
+				alpm_backup_t *backup;
 				/* go to the backup array and see if our conflict is there */
 				/* check newpkg first, so that adding backup files is retroactive */
 				backup = _alpm_needbackup(entryname, alpm_pkg_get_backup(newpkg));
@@ -303,7 +303,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		/* update the md5 hash in newpkg's backup (it will be the new orginal) */
 		alpm_list_t *i;
 		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
-			pmbackup_t *backup = i->data;
+			alpm_backup_t *backup = i->data;
 			char *newhash;
 			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;
@@ -435,7 +435,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		/* calculate an hash if this is in newpkg's backup */
 		alpm_list_t *i;
 		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
-			pmbackup_t *backup = i->data;
+			alpm_backup_t *backup = i->data;
 			char *newhash;
 			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;

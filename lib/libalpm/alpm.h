@@ -161,10 +161,10 @@ typedef struct _alpm_delta_t {
 } alpm_delta_t;
 
 /** Local package or package file backup entry */
-typedef struct _pmbackup_t {
+typedef struct _alpm_backup_t {
 	char *name;
 	char *hash;
-} pmbackup_t;
+} alpm_backup_t;
 
 /*
  * Logging facilities
