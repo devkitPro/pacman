@@ -65,7 +65,7 @@ void _alpm_conflict_free(alpm_conflict_t *conflict)
 alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 {
 	alpm_conflict_t *newconflict;
-	CALLOC(newconflict, 1, sizeof(alpm_conflict_t), );
+	CALLOC(newconflict, 1, sizeof(alpm_conflict_t), return NULL);
 
 	STRDUP(newconflict->package1, conflict->package1, return NULL);
 	STRDUP(newconflict->package2, conflict->package2, return NULL);

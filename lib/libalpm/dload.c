@@ -162,7 +162,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 	char hostname[256];
 	char error_buffer[CURL_ERROR_SIZE];
 	struct stat st;
-	long timecond, remote_time;
+	long timecond, remote_time = -1;
 	double remote_size, bytes_dl;
 	struct sigaction sig_pipe[2], sig_int[2];
 	struct fileinfo dlfile;

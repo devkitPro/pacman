@@ -257,6 +257,8 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				/* check newpkg first, so that adding backup files is retroactive */
 				backup = _alpm_needbackup(entryname, alpm_pkg_get_backup(newpkg));
 				if(backup) {
+					/* if we force hash_orig to be non-NULL retroactive backup works */
+					hash_orig = "";
 					needbackup = 1;
 				}
 
@@ -267,11 +269,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 						hash_orig = backup->hash;
 						needbackup = 1;
 					}
-				}
-
-				/* if we force hash_orig to be non-NULL retroactive backup works */
-				if(needbackup && !hash_orig) {
-					hash_orig = "";
 				}
 			}
 		}
@@ -319,7 +316,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		_alpm_log(handle, PM_LOG_DEBUG, "original: %s\n", hash_orig);
 
 		if(!oldpkg) {
-			if(strcmp(hash_local, hash_pkg) != 0) {
+			if(hash_local && hash_pkg && strcmp(hash_local, hash_pkg) != 0) {
 				/* looks like we have a local file that has a different hash as the
 				 * file in the package, move it to a .pacorig */
 				char newpath[PATH_MAX];
@@ -352,9 +349,9 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		} else if(hash_orig) {
 			/* the fun part */
 
-			if(strcmp(hash_orig, hash_local) == 0) {
+			if(hash_local && strcmp(hash_orig, hash_local) == 0) {
 				/* installed file has NOT been changed by user */
-				if(strcmp(hash_orig, hash_pkg) != 0) {
+				if(hash_pkg && strcmp(hash_orig, hash_pkg) != 0) {
 					_alpm_log(handle, PM_LOG_DEBUG, "action: installing new file: %s\n",
 							entryname_orig);
 
@@ -366,18 +363,18 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 						errors++;
 					}
 				} else {
-					/* there's no sense in installing the same file twice, install
-					 * ONLY is the original and package hashes differ */
+					/* no sense in installing the same file twice, install
+					 * ONLY if the original and package hashes differ */
 					_alpm_log(handle, PM_LOG_DEBUG, "action: leaving existing file in place\n");
 					unlink(checkfile);
 				}
-			} else if(strcmp(hash_orig, hash_pkg) == 0) {
+			} else if(hash_pkg && strcmp(hash_orig, hash_pkg) == 0) {
 				/* originally installed file and new file are the same - this
 				 * implies the case above failed - i.e. the file was changed by a
 				 * user */
 				_alpm_log(handle, PM_LOG_DEBUG, "action: leaving existing file in place\n");
 				unlink(checkfile);
-			} else if(strcmp(hash_local, hash_pkg) == 0) {
+			} else if(hash_local && hash_pkg && strcmp(hash_local, hash_pkg) == 0) {
 				/* this would be magical.  The above two cases failed, but the
 				 * user changes just so happened to make the new file exactly the
 				 * same as the one in the package... skip it */
@@ -459,6 +456,8 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
 	alpm_trans_t *trans = handle->trans;
+
+	ASSERT(trans != NULL, return -1);
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
 			_alpm_db_path(db), alpm_pkg_get_name(newpkg),

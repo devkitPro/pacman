@@ -721,15 +721,18 @@ static void cl_to_log(int argc, char* argv[])
 {
 	size_t size = 0;
 	int i;
-	for(i = 0; i<argc; i++) {
+	for(i = 0; i < argc; i++) {
 		size += strlen(argv[i]) + 1;
+	}
+	if(!size) {
+		return;
 	}
 	char *cl_text = malloc(size);
 	if(!cl_text) {
 		return;
 	}
 	char *p = cl_text;
-	for(i = 0; i<argc-1; i++) {
+	for(i = 0; i < argc - 1; i++) {
 		strcpy(p, argv[i]);
 		p += strlen(argv[i]);
 		*p++ = ' ';

@@ -40,7 +40,7 @@ int _alpm_split_backup(const char *string, alpm_backup_t **backup)
 	STRDUP(str, string, return -1);
 
 	/* tab delimiter */
-	ptr = strchr(str, '\t');
+	ptr = str ? strchr(str, '\t') : NULL;
 	if(ptr == NULL) {
 		(*backup)->name = str;
 		(*backup)->hash = NULL;
