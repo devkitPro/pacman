@@ -25,16 +25,16 @@
 
 #include "alpm_list.h"
 
-typedef struct __pmgraph_t {
+typedef struct __alpm_graph_t {
 	char state; /* 0: untouched, -1: entered, other: leaving time */
 	off_t weight; /* weight of the node */
 	void *data;
-	struct __pmgraph_t *parent; /* where did we come from? */
+	struct __alpm_graph_t *parent; /* where did we come from? */
 	alpm_list_t *children;
 	alpm_list_t *childptr; /* points to a child in children list */
-} pmgraph_t;
+} alpm_graph_t;
 
-pmgraph_t *_alpm_graph_new(void);
+alpm_graph_t *_alpm_graph_new(void);
 void _alpm_graph_free(void *data);
 
 #endif /* _ALPM_GRAPH_H */
