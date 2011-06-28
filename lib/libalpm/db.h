@@ -44,7 +44,7 @@ typedef enum _alpm_dbinfrq_t {
 } alpm_dbinfrq_t;
 
 /** Database status. Bitflags. */
-enum _pmdbstatus_t {
+enum _alpm_dbstatus_t {
 	DB_STATUS_VALID = (1 << 0),
 	DB_STATUS_PKGCACHE = (1 << 1),
 	DB_STATUS_GRPCACHE = (1 << 2)
@@ -64,7 +64,7 @@ struct __alpm_db_t {
 	/* also indicates whether we are RO or RW */
 	int is_local;
 	/* flags determining validity, loaded caches, etc. */
-	enum _pmdbstatus_t status;
+	enum _alpm_dbstatus_t status;
 	alpm_pkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
