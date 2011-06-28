@@ -49,7 +49,7 @@
 #include "callback.h"
 
 
-int trans_init(pmtransflag_t flags)
+int trans_init(alpm_transflag_t flags)
 {
 	int ret;
 	if(config->print) {

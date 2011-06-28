@@ -39,7 +39,7 @@
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_SEC 0.2f
 
-int trans_init(pmtransflag_t flags);
+int trans_init(alpm_transflag_t flags);
 int trans_release(void);
 int needs_root(void);
 int getcols(void);

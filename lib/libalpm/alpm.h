@@ -714,7 +714,7 @@ alpm_pkg_t *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
  */
 
 /** Transaction flags */
-typedef enum _pmtransflag_t {
+typedef enum _alpm_transflag_t {
 	/** Ignore dependency checks. */
 	PM_TRANS_FLAG_NODEPS = 1,
 	/** Ignore file conflicts and overwrite files. */
@@ -749,7 +749,7 @@ typedef enum _pmtransflag_t {
 	PM_TRANS_FLAG_RECURSEALL = (1 << 16),
 	/** Do not lock the database during the operation. */
 	PM_TRANS_FLAG_NOLOCK = (1 << 17)
-} pmtransflag_t;
+} alpm_transflag_t;
 
 /** Transaction events.
  * NULL parameters are passed to in all events unless specified otherwise.
@@ -866,7 +866,7 @@ typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t,
  * @param handle the context handle
  * @return the bitfield of transaction flags
  */
-pmtransflag_t alpm_trans_get_flags(alpm_handle_t *handle);
+alpm_transflag_t alpm_trans_get_flags(alpm_handle_t *handle);
 
 /** Returns a list of packages added by the transaction.
  * @param handle the context handle
@@ -888,7 +888,7 @@ alpm_list_t * alpm_trans_get_remove(alpm_handle_t *handle);
  * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
+int alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);
 

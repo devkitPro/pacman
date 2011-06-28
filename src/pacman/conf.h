@@ -70,7 +70,7 @@ typedef struct __config_t {
 	unsigned short group;
 	unsigned short noask;
 	unsigned int ask;
-	pmtransflag_t flags;
+	alpm_transflag_t flags;
 	pgp_verify_t sigverify;
 
 	/* conf file options */

@@ -48,7 +48,7 @@
  */
 
 /** Initialize the transaction. */
-int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
+int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags,
 		alpm_trans_cb_event event, alpm_trans_cb_conv conv,
 		alpm_trans_cb_progress progress)
 {
@@ -359,7 +359,7 @@ cleanup:
 	return retval;
 }
 
-pmtransflag_t SYMEXPORT alpm_trans_get_flags(alpm_handle_t *handle)
+alpm_transflag_t SYMEXPORT alpm_trans_get_flags(alpm_handle_t *handle)
 {
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
