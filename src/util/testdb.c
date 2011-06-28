@@ -118,7 +118,7 @@ static int checkconflicts(alpm_list_t *pkglist)
 	/* check conflicts */
 	data = alpm_checkconflicts(handle, pkglist);
 	for(i = data; i; i = i->next) {
-		pmconflict_t *conflict = alpm_list_getdata(i);
+		alpm_conflict_t *conflict = alpm_list_getdata(i);
 		printf("%s conflicts with %s\n",
 				conflict->package1, conflict->package2);
 		ret++;

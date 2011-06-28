@@ -40,12 +40,12 @@
 #include "log.h"
 #include "deps.h"
 
-static pmconflict_t *conflict_new(const char *package1, const char *package2,
+static alpm_conflict_t *conflict_new(const char *package1, const char *package2,
 		const char *reason)
 {
-	pmconflict_t *conflict;
+	alpm_conflict_t *conflict;
 
-	MALLOC(conflict, sizeof(pmconflict_t), return NULL);
+	MALLOC(conflict, sizeof(alpm_conflict_t), return NULL);
 
 	STRDUP(conflict->package1, package1, return NULL);
 	STRDUP(conflict->package2, package2, return NULL);
@@ -54,7 +54,7 @@ static pmconflict_t *conflict_new(const char *package1, const char *package2,
 	return conflict;
 }
 
-void _alpm_conflict_free(pmconflict_t *conflict)
+void _alpm_conflict_free(alpm_conflict_t *conflict)
 {
 	FREE(conflict->package2);
 	FREE(conflict->package1);
@@ -62,10 +62,10 @@ void _alpm_conflict_free(pmconflict_t *conflict)
 	FREE(conflict);
 }
 
-pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict)
+alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 {
-	pmconflict_t *newconflict;
-	CALLOC(newconflict, 1, sizeof(pmconflict_t), );
+	alpm_conflict_t *newconflict;
+	CALLOC(newconflict, 1, sizeof(alpm_conflict_t), );
 
 	STRDUP(newconflict->package1, conflict->package1, return NULL);
 	STRDUP(newconflict->package2, conflict->package2, return NULL);
@@ -74,14 +74,14 @@ pmconflict_t *_alpm_conflict_dup(const pmconflict_t *conflict)
 	return newconflict;
 }
 
-static int conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
+static int conflict_isin(alpm_conflict_t *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *i;
 	const char *npkg1 = needle->package1;
 	const char *npkg2 = needle->package2;
 
 	for(i = haystack; i; i = i->next) {
-		pmconflict_t *conflict = i->data;
+		alpm_conflict_t *conflict = i->data;
 		const char *cpkg1 = conflict->package1;
 		const char *cpkg2 = conflict->package2;
 		if((strcmp(cpkg1, npkg1) == 0  && strcmp(cpkg2, npkg2) == 0)
@@ -103,7 +103,7 @@ static int conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
 static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
 		const char *pkg1, const char *pkg2, const char *reason)
 {
-	pmconflict_t *conflict = conflict_new(pkg1, pkg2, reason);
+	alpm_conflict_t *conflict = conflict_new(pkg1, pkg2, reason);
 	if(!conflict) {
 		return -1;
 	}
@@ -209,7 +209,7 @@ alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages)
  *
  * @param handle the context handle
  * @param pkglist the list of packages to check
- * @return an alpm_list_t of pmconflict_t
+ * @return an alpm_list_t of alpm_conflict_t
  */
 alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_handle_t *handle,
 		alpm_list_t *pkglist)

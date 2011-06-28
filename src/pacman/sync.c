@@ -783,7 +783,7 @@ static int sync_trans(alpm_list_t *targets)
 				break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmconflict_t *conflict = alpm_list_getdata(i);
+					alpm_conflict_t *conflict = alpm_list_getdata(i);
 					/* only print reason if it contains new information */
 					if(strcmp(conflict->package1, conflict->reason) == 0 ||
 							strcmp(conflict->package2, conflict->reason) == 0) {

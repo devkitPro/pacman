@@ -405,7 +405,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		deps = _alpm_innerconflicts(handle, trans->add);
 
 		for(i = deps; i; i = i->next) {
-			pmconflict_t *conflict = i->data;
+			alpm_conflict_t *conflict = i->data;
 			alpm_pkg_t *rsync, *sync, *sync1, *sync2;
 
 			/* have we already removed one of the conflicting targets? */
@@ -432,7 +432,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				handle->pm_errno = PM_ERR_CONFLICTING_DEPS;
 				ret = -1;
 				if(data) {
-					pmconflict_t *newconflict = _alpm_conflict_dup(conflict);
+					alpm_conflict_t *newconflict = _alpm_conflict_dup(conflict);
 					if(newconflict) {
 						*data = alpm_list_add(*data, newconflict);
 					}
@@ -464,7 +464,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		deps = _alpm_outerconflicts(handle->db_local, trans->add);
 
 		for(i = deps; i; i = i->next) {
-			pmconflict_t *conflict = i->data;
+			alpm_conflict_t *conflict = i->data;
 
 			/* if conflict->package2 (the local package) is not elected for removal,
 			   we ask the user */
@@ -496,7 +496,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				handle->pm_errno = PM_ERR_CONFLICTING_DEPS;
 				ret = -1;
 				if(data) {
-					pmconflict_t *newconflict = _alpm_conflict_dup(conflict);
+					alpm_conflict_t *newconflict = _alpm_conflict_dup(conflict);
 					if(newconflict) {
 						*data = alpm_list_add(*data, newconflict);
 					}

@@ -122,11 +122,11 @@ typedef struct _alpm_depmissing_t {
 } alpm_depmissing_t;
 
 /** Conflict */
-typedef struct _pmconflict_t {
+typedef struct _alpm_conflict_t {
 	char *package1;
 	char *package2;
 	char *reason;
-} pmconflict_t;
+} alpm_conflict_t;
 
 /** File conflict */
 typedef struct _pmfileconflict_t {
