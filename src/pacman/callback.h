@@ -28,7 +28,7 @@
 void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2);
 
 /* callback to handle questions from libalpm transactions (yes/no) */
-void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
+void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
                    void *data3, int *response);
 
 /* callback to handle display of transaction progress */

@@ -832,7 +832,7 @@ typedef enum _alpm_transevt_t {
 } alpm_transevt_t;
 
 /** Transaction Conversations (ie, questions) */
-typedef enum _pmtransconv_t {
+typedef enum _alpm_transconv_t {
 	PM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
 	PM_TRANS_CONV_REPLACE_PKG = (1 << 1),
 	PM_TRANS_CONV_CONFLICT_PKG = (1 << 2),
@@ -840,7 +840,7 @@ typedef enum _pmtransconv_t {
 	PM_TRANS_CONV_LOCAL_NEWER = (1 << 4),
 	PM_TRANS_CONV_REMOVE_PKGS = (1 << 5),
 	PM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
-} pmtransconv_t;
+} alpm_transconv_t;
 
 /** Transaction Progress */
 typedef enum _pmtransprog_t {
@@ -856,7 +856,7 @@ typedef enum _pmtransprog_t {
 typedef void (*alpm_trans_cb_event)(alpm_transevt_t, void *, void *);
 
 /** Transaction Conversation callback */
-typedef void (*alpm_trans_cb_conv)(pmtransconv_t, void *, void *,
+typedef void (*alpm_trans_cb_conv)(alpm_transconv_t, void *, void *,
                                    void *, int *);
 
 /** Transaction Progress callback */

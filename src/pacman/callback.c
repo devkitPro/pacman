@@ -251,7 +251,7 @@ void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2)
 
 /* callback to handle questions from libalpm transactions (yes/no) */
 /* TODO this is one of the worst ever functions written. void *data ? wtf */
-void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
+void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
 	switch(event) {
