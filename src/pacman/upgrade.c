@@ -74,7 +74,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
-		pmpkg_t *pkg;
+		alpm_pkg_t *pkg;
 
 		if(alpm_pkg_load(config->handle, targ, 1, check_sig, &pkg) != 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",

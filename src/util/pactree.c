@@ -316,9 +316,9 @@ static void print_end(void)
 	}
 }
 
-static pmpkg_t *get_pkg_from_dbs(alpm_list_t *dbs, const char *needle) {
+static alpm_pkg_t *get_pkg_from_dbs(alpm_list_t *dbs, const char *needle) {
 	alpm_list_t *i;
-	pmpkg_t *ret;
+	alpm_pkg_t *ret;
 
 	for(i = dbs; i; i = alpm_list_next(i)) {
 		ret = alpm_db_get_pkg(alpm_list_getdata(i), needle);
@@ -332,7 +332,7 @@ static pmpkg_t *get_pkg_from_dbs(alpm_list_t *dbs, const char *needle) {
 /**
  * walk dependencies in reverse, showing packages which require the target
  */
-static void walk_reverse_deps(alpm_list_t *dblist, pmpkg_t *pkg, int depth)
+static void walk_reverse_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
 {
 	alpm_list_t *required_by, *i;
 
@@ -364,7 +364,7 @@ static void walk_reverse_deps(alpm_list_t *dblist, pmpkg_t *pkg, int depth)
 /**
  * walk dependencies, showing dependencies of the target
  */
-static void walk_deps(alpm_list_t *dblist, pmpkg_t *pkg, int depth)
+static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
 {
 	alpm_list_t *i;
 
@@ -376,7 +376,7 @@ static void walk_deps(alpm_list_t *dblist, pmpkg_t *pkg, int depth)
 
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
 		pmdepend_t *depend = alpm_list_getdata(i);
-		pmpkg_t *provider = alpm_find_dbs_satisfier(handle, dblist, depend->name);
+		alpm_pkg_t *provider = alpm_find_dbs_satisfier(handle, dblist, depend->name);
 
 		if(provider) {
 			const char *provname = alpm_pkg_get_name(provider);
@@ -403,7 +403,7 @@ int main(int argc, char *argv[])
 	int freelist = 0, ret = 0;
 	enum _pmerrno_t err;
 	const char *target_name;
-	pmpkg_t *pkg;
+	alpm_pkg_t *pkg;
 	alpm_list_t *dblist = NULL;
 
 	if(parse_options(argc, argv) != 0) {

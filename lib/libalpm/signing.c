@@ -381,7 +381,7 @@ pgp_verify_t _alpm_db_get_sigverify_level(alpm_db_t *db)
  * @param pkg the package to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
-int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = 0;

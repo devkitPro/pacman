@@ -95,7 +95,7 @@ static alpm_list_t *check_arch(alpm_handle_t *handle, alpm_list_t *pkgs)
 		return NULL;
 	}
 	for(i = pkgs; i; i = i->next) {
-		pmpkg_t *pkg = i->data;
+		alpm_pkg_t *pkg = i->data;
 		const char *pkgarch = alpm_pkg_get_arch(pkg);
 		if(pkgarch && strcmp(pkgarch, arch) && strcmp(pkgarch, "any")) {
 			char *string;

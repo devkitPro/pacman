@@ -33,7 +33,7 @@
 
 static int remove_target(const char *target)
 {
-	pmpkg_t *info;
+	alpm_pkg_t *info;
 	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 	alpm_list_t *p;
 
@@ -53,7 +53,7 @@ static int remove_target(const char *target)
 		return -1;
 	}
 	for(p = grp->packages; p; p = alpm_list_next(p)) {
-		pmpkg_t *pkg = alpm_list_getdata(p);
+		alpm_pkg_t *pkg = alpm_list_getdata(p);
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
@@ -131,7 +131,7 @@ int pacman_remove(alpm_list_t *targets)
 	/* Search for holdpkg in target list */
 	int holdpkg = 0;
 	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
-		pmpkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
 		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
 			pm_printf(PM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
 							alpm_pkg_get_name(pkg));

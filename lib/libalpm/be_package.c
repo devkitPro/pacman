@@ -43,7 +43,7 @@
  * @param pkg the package (file) to read the changelog
  * @return a 'file stream' to the package changelog
  */
-static void *_package_changelog_open(pmpkg_t *pkg)
+static void *_package_changelog_open(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
 
@@ -87,7 +87,7 @@ static void *_package_changelog_open(pmpkg_t *pkg)
  * @return the number of characters read, or 0 if there is no more data
  */
 static size_t _package_changelog_read(void *ptr, size_t size,
-		const pmpkg_t UNUSED *pkg, const void *fp)
+		const alpm_pkg_t UNUSED *pkg, const void *fp)
 {
 	ssize_t sret = archive_read_data((struct archive *)fp, ptr, size);
 	/* Report error (negative values) */
@@ -105,7 +105,7 @@ static size_t _package_changelog_read(void *ptr, size_t size,
  * @param fp a 'file stream' to the package changelog
  * @return whether closing the package changelog stream was successful
  */
-static int _package_changelog_close(const pmpkg_t UNUSED *pkg, void *fp)
+static int _package_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 {
 	return archive_read_finish((struct archive *)fp);
 }
@@ -130,13 +130,13 @@ static struct pkg_operations *get_file_pkg_ops(void)
 }
 
 /**
- * Parses the package description file for a package into a pmpkg_t struct.
+ * Parses the package description file for a package into a alpm_pkg_t struct.
  * @param archive the archive to read from, pointed at the .PKGINFO entry
- * @param newpkg an empty pmpkg_t struct to fill with package info
+ * @param newpkg an empty alpm_pkg_t struct to fill with package info
  *
  * @return 0 on success, -1 on error
  */
-static int parse_descfile(alpm_handle_t *handle, struct archive *a, pmpkg_t *newpkg)
+static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *newpkg)
 {
 	char *ptr = NULL;
 	char *key = NULL;
@@ -224,14 +224,14 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, pmpkg_t *new
 }
 
 /**
- * Load a package and create the corresponding pmpkg_t struct.
+ * Load a package and create the corresponding alpm_pkg_t struct.
  * @param handle the context handle
  * @param pkgfile path to the package file
  * @param full whether to stop the load after metadata is read or continue
  *             through the full archive
- * @return An information filled pmpkg_t struct
+ * @return An information filled alpm_pkg_t struct
  */
-pmpkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
+alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		int full, const char *md5sum, const char *base64_sig,
 		pgp_verify_t check_sig)
 {
@@ -239,7 +239,7 @@ pmpkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	int config = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
-	pmpkg_t *newpkg = NULL;
+	alpm_pkg_t *newpkg = NULL;
 	struct stat st;
 	size_t files_count = 0;
 
@@ -388,7 +388,7 @@ error:
 }
 
 int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
-		pgp_verify_t check_sig, pmpkg_t **pkg)
+		pgp_verify_t check_sig, alpm_pkg_t **pkg)
 {
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));

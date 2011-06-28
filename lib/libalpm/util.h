@@ -28,7 +28,7 @@
 
 #include "alpm_list.h"
 #include "alpm.h"
-#include "package.h" /* pmpkg_t */
+#include "package.h" /* alpm_pkg_t */
 #include "handle.h" /* alpm_handle_t */
 
 #include <stdio.h>

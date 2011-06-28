@@ -53,10 +53,10 @@
 /** Check for new version of pkg in sync repos
  * (only the first occurrence is considered in sync)
  */
-pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
+alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i;
-	pmpkg_t *spkg = NULL;
+	alpm_pkg_t *spkg = NULL;
 
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = 0;
@@ -99,7 +99,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 
 	_alpm_log(handle, PM_LOG_DEBUG, "checking for package upgrades\n");
 	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
-		pmpkg_t *lpkg = i->data;
+		alpm_pkg_t *lpkg = i->data;
 
 		if(_alpm_pkg_find(trans->add, lpkg->name)) {
 			_alpm_log(handle, PM_LOG_DEBUG, "%s is already in the target list -- skipping\n", lpkg->name);
@@ -111,7 +111,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 		for(j = dbs_sync; j; j = j->next) {
 			alpm_db_t *sdb = j->data;
 			/* Check sdb */
-			pmpkg_t *spkg = _alpm_db_get_pkgfromcache(sdb, lpkg->name);
+			alpm_pkg_t *spkg = _alpm_db_get_pkgfromcache(sdb, lpkg->name);
 			if(spkg) {
 				/* 1. literal was found in sdb */
 				int cmp = _alpm_pkg_compare_versions(spkg, lpkg);
@@ -170,7 +170,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 
 						/* If spkg is already in the target list, we append lpkg to spkg's
 						 * removes list */
-						pmpkg_t *tpkg = _alpm_pkg_find(trans->add, spkg->name);
+						alpm_pkg_t *tpkg = _alpm_pkg_find(trans->add, spkg->name);
 						if(tpkg) {
 							/* sanity check, multiple repos can contain spkg->name */
 							if(tpkg->origin_data.db != sdb) {
@@ -211,7 +211,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
  * IgnorePkg is also handled.
  * @param dbs the list of alpm_db_t *
  * @pram name the name of the group
- * @return the list of pmpkg_t * (caller is responsible for alpm_list_free)
+ * @return the list of alpm_pkg_t * (caller is responsible for alpm_list_free)
  */
 alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 		const char *name)
@@ -226,7 +226,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 			continue;
 
 		for(j = grp->packages; j; j = j->next) {
-			pmpkg_t *pkg = j->data;
+			alpm_pkg_t *pkg = j->data;
 
 			if(_alpm_pkg_find(ignorelist, alpm_pkg_get_name(pkg))) {
 				continue;
@@ -252,7 +252,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
  * package.
  * @param newpkg the new package to upgrade to
  */
-static int compute_download_size(pmpkg_t *newpkg)
+static int compute_download_size(alpm_pkg_t *newpkg)
 {
 	const char *fname;
 	char *fpath;
@@ -325,7 +325,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 		/* build remove list for resolvedeps */
 		for(i = trans->add; i; i = i->next) {
-			pmpkg_t *spkg = i->data;
+			alpm_pkg_t *spkg = i->data;
 			for(j = spkg->removes; j; j = j->next) {
 				remove = alpm_list_add(remove, j->data);
 			}
@@ -339,7 +339,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		/* Resolve packages in the transaction one at a time, in addition
 		   building up a list of packages which could not be resolved. */
 		for(i = trans->add; i; i = i->next) {
-			pmpkg_t *pkg = i->data;
+			alpm_pkg_t *pkg = i->data;
 			if(_alpm_resolvedeps(handle, localpkgs, pkg, trans->add,
 						&resolved, remove, data) == -1) {
 				unresolvable = alpm_list_add(unresolvable, pkg);
@@ -376,7 +376,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 		/* Set DEPEND reason for pulled packages */
 		for(i = resolved; i; i = i->next) {
-			pmpkg_t *pkg = i->data;
+			alpm_pkg_t *pkg = i->data;
 			if(!_alpm_pkg_find(trans->add, pkg->name)) {
 				pkg->reason = PM_PKG_REASON_DEPEND;
 			}
@@ -406,7 +406,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 		for(i = deps; i; i = i->next) {
 			pmconflict_t *conflict = i->data;
-			pmpkg_t *rsync, *sync, *sync1, *sync2;
+			alpm_pkg_t *rsync, *sync, *sync1, *sync2;
 
 			/* have we already removed one of the conflicting targets? */
 			sync1 = _alpm_pkg_find(trans->add, conflict->package1);
@@ -470,7 +470,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			   we ask the user */
 			int found = 0;
 			for(j = trans->add; j && !found; j = j->next) {
-				pmpkg_t *spkg = j->data;
+				alpm_pkg_t *spkg = j->data;
 				if(_alpm_pkg_find(spkg->removes, conflict->package2)) {
 					found = 1;
 				}
@@ -482,8 +482,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			_alpm_log(handle, PM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
 					conflict->package1, conflict->package2);
 
-			pmpkg_t *sync = _alpm_pkg_find(trans->add, conflict->package1);
-			pmpkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
+			alpm_pkg_t *sync = _alpm_pkg_find(trans->add, conflict->package1);
+			alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
 			int doremove = 0;
 			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
 							conflict->package2, conflict->reason, &doremove);
@@ -513,9 +513,9 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 	/* Build trans->remove list */
 	for(i = trans->add; i; i = i->next) {
-		pmpkg_t *spkg = i->data;
+		alpm_pkg_t *spkg = i->data;
 		for(j = spkg->removes; j; j = j->next) {
-			pmpkg_t *rpkg = j->data;
+			alpm_pkg_t *rpkg = j->data;
 			if(!_alpm_pkg_find(trans->remove, rpkg->name)) {
 				_alpm_log(handle, PM_LOG_DEBUG, "adding '%s' to remove list\n", rpkg->name);
 				trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(rpkg));
@@ -541,7 +541,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 	for(i = trans->add; i; i = i->next) {
 		/* update download size field */
-		pmpkg_t *spkg = i->data;
+		alpm_pkg_t *spkg = i->data;
 		if(compute_download_size(spkg) != 0) {
 			ret = -1;
 			goto cleanup;
@@ -560,7 +560,7 @@ cleanup:
  * @param newpkg the new package to upgrade to
  * @return the size of the download
  */
-off_t SYMEXPORT alpm_pkg_download_size(pmpkg_t *newpkg)
+off_t SYMEXPORT alpm_pkg_download_size(alpm_pkg_t *newpkg)
 {
 	if(!(newpkg->infolevel & INFRQ_DSIZE)) {
 		compute_download_size(newpkg);
@@ -591,7 +591,7 @@ static int apply_deltas(alpm_handle_t *handle)
 	pmtrans_t *trans = handle->trans;
 
 	for(i = trans->add; i; i = i->next) {
-		pmpkg_t *spkg = i->data;
+		alpm_pkg_t *spkg = i->data;
 		alpm_list_t *delta_path = spkg->delta_path;
 		alpm_list_t *dlts = NULL;
 
@@ -743,7 +743,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 		off_t total_size = (off_t)0;
 		/* sum up the download size for each package and store total */
 		for(i = handle->trans->add; i; i = i->next) {
-			pmpkg_t *spkg = i->data;
+			alpm_pkg_t *spkg = i->data;
 			total_size += spkg->download_size;
 		}
 		handle->totaldlcb(total_size);
@@ -754,7 +754,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 		alpm_db_t *current = i->data;
 
 		for(j = handle->trans->add; j; j = j->next) {
-			pmpkg_t *spkg = j->data;
+			alpm_pkg_t *spkg = j->data;
 
 			if(spkg->origin != PKG_FROM_FILE && current == spkg->origin_data.db) {
 				const char *fname = NULL;
@@ -821,7 +821,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 	}
 
 	for(j = handle->trans->add; j; j = j->next) {
-		pmpkg_t *pkg = j->data;
+		alpm_pkg_t *pkg = j->data;
 		pkg->infolevel &= ~INFRQ_DSIZE;
 		pkg->download_size = 0;
 	}
@@ -859,7 +859,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	errors = 0;
 
 	for(i = trans->add; i; i = i->next, current++) {
-		pmpkg_t *spkg = i->data;
+		alpm_pkg_t *spkg = i->data;
 		int percent = (current * 100) / numtargs;
 		const char *filename;
 		char *filepath;
@@ -881,7 +881,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		_alpm_log(handle, PM_LOG_DEBUG,
 				"replacing pkgcache entry with package file for target %s\n",
 				spkg->name);
-		pmpkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1, spkg->md5sum,
+		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1, spkg->md5sum,
 				spkg->base64_sig, check_sig);
 		if(!pkgfile) {
 			errors++;

@@ -50,11 +50,11 @@
 #include "handle.h"
 
 /** Add a package to the transaction. */
-int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, pmpkg_t *pkg)
+int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname, *pkgver;
 	pmtrans_t *trans;
-	pmpkg_t *local;
+	alpm_pkg_t *local;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -132,7 +132,7 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 }
 
 static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
-		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg)
+		struct archive_entry *entry, alpm_pkg_t *newpkg, alpm_pkg_t *oldpkg)
 {
 	const char *entryname;
 	mode_t entrymode;
@@ -450,13 +450,13 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	return errors;
 }
 
-static int commit_single_pkg(alpm_handle_t *handle, pmpkg_t *newpkg,
+static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		size_t pkg_current, size_t pkg_count)
 {
 	int i, ret = 0, errors = 0;
 	char scriptlet[PATH_MAX];
 	int is_upgrade = 0;
-	pmpkg_t *oldpkg = NULL;
+	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
 	pmtrans_t *trans = handle->trans;
 
@@ -465,7 +465,7 @@ static int commit_single_pkg(alpm_handle_t *handle, pmpkg_t *newpkg,
 			alpm_pkg_get_version(newpkg));
 
 	/* see if this is an upgrade. if so, remove the old package first */
-	pmpkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
+	alpm_pkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
 	if(local) {
 		is_upgrade = 1;
 
@@ -700,7 +700,7 @@ int _alpm_upgrade_packages(alpm_handle_t *handle)
 
 	/* loop through our package list adding/upgrading one at a time */
 	for(targ = trans->add; targ; targ = targ->next) {
-		pmpkg_t *newpkg = targ->data;
+		alpm_pkg_t *newpkg = targ->data;
 
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			return ret;

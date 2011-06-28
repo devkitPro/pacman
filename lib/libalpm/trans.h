@@ -39,8 +39,8 @@ typedef enum _pmtransstate_t {
 struct __pmtrans_t {
 	pmtransflag_t flags;
 	pmtransstate_t state;
-	alpm_list_t *add;      /* list of (pmpkg_t *) */
-	alpm_list_t *remove;      /* list of (pmpkg_t *) */
+	alpm_list_t *add;      /* list of (alpm_pkg_t *) */
+	alpm_list_t *remove;      /* list of (alpm_pkg_t *) */
 	alpm_list_t *skip_remove;   /* list of (char *) */
 	alpm_trans_cb_event cb_event;
 	alpm_trans_cb_conv cb_conv;

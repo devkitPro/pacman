@@ -245,14 +245,14 @@ cleanup:
 
 /* Forward decl so I don't reorganize the whole file right now */
 static int sync_db_read(alpm_db_t *db, struct archive *archive,
-		struct archive_entry *entry, pmpkg_t **likely_pkg);
+		struct archive_entry *entry, alpm_pkg_t **likely_pkg);
 
-static pmpkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
-		const char **entry_filename, pmpkg_t *likely_pkg)
+static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
+		const char **entry_filename, alpm_pkg_t *likely_pkg)
 {
 	char *pkgname = NULL, *pkgver = NULL;
 	unsigned long pkgname_hash;
-	pmpkg_t *pkg;
+	alpm_pkg_t *pkg;
 
 	/* get package and db file names */
 	if(entry_filename) {
@@ -368,7 +368,7 @@ static int sync_db_populate(alpm_db_t *db)
 	struct stat buf;
 	struct archive *archive;
 	struct archive_entry *entry;
-	pmpkg_t *pkg = NULL;
+	alpm_pkg_t *pkg = NULL;
 
 	if((archive = archive_read_new()) == NULL) {
 		RET_ERR(db->handle, PM_ERR_LIBARCHIVE, -1);
@@ -452,10 +452,10 @@ static int sync_db_populate(alpm_db_t *db)
 } while(1) /* note the while(1) and not (0) */
 
 static int sync_db_read(alpm_db_t *db, struct archive *archive,
-		struct archive_entry *entry, pmpkg_t **likely_pkg)
+		struct archive_entry *entry, alpm_pkg_t **likely_pkg)
 {
 	const char *entryname, *filename;
-	pmpkg_t *pkg;
+	alpm_pkg_t *pkg;
 	struct archive_read_buffer buf;
 
 	entryname = archive_entry_pathname(entry);

@@ -55,85 +55,85 @@
  * initialized.
  */
 
-static const char *_cache_get_filename(pmpkg_t *pkg)
+static const char *_cache_get_filename(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->filename;
 }
 
-static const char *_cache_get_desc(pmpkg_t *pkg)
+static const char *_cache_get_desc(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->desc;
 }
 
-static const char *_cache_get_url(pmpkg_t *pkg)
+static const char *_cache_get_url(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->url;
 }
 
-static time_t _cache_get_builddate(pmpkg_t *pkg)
+static time_t _cache_get_builddate(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->builddate;
 }
 
-static time_t _cache_get_installdate(pmpkg_t *pkg)
+static time_t _cache_get_installdate(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->installdate;
 }
 
-static const char *_cache_get_packager(pmpkg_t *pkg)
+static const char *_cache_get_packager(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->packager;
 }
 
-static const char *_cache_get_md5sum(pmpkg_t *pkg)
+static const char *_cache_get_md5sum(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->md5sum;
 }
 
-static const char *_cache_get_arch(pmpkg_t *pkg)
+static const char *_cache_get_arch(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->arch;
 }
 
-static off_t _cache_get_size(pmpkg_t *pkg)
+static off_t _cache_get_size(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->size;
 }
 
-static off_t _cache_get_isize(pmpkg_t *pkg)
+static off_t _cache_get_isize(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->isize;
 }
 
-static alpm_pkgreason_t _cache_get_reason(pmpkg_t *pkg)
+static alpm_pkgreason_t _cache_get_reason(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->reason;
 }
 
-static alpm_list_t *_cache_get_licenses(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_licenses(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->licenses;
 }
 
-static alpm_list_t *_cache_get_groups(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_groups(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->groups;
 }
 
-static int _cache_has_scriptlet(pmpkg_t *pkg)
+static int _cache_has_scriptlet(alpm_pkg_t *pkg)
 {
 	if(!(pkg->infolevel & INFRQ_SCRIPTLET)) {
 		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
@@ -141,43 +141,43 @@ static int _cache_has_scriptlet(pmpkg_t *pkg)
 	return pkg->scriptlet;
 }
 
-static alpm_list_t *_cache_get_depends(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_depends(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->depends;
 }
 
-static alpm_list_t *_cache_get_optdepends(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_optdepends(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->optdepends;
 }
 
-static alpm_list_t *_cache_get_conflicts(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_conflicts(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->conflicts;
 }
 
-static alpm_list_t *_cache_get_provides(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_provides(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->provides;
 }
 
-static alpm_list_t *_cache_get_replaces(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_replaces(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
 	return pkg->replaces;
 }
 
 /* local packages can not have deltas */
-static alpm_list_t *_cache_get_deltas(pmpkg_t UNUSED *pkg)
+static alpm_list_t *_cache_get_deltas(alpm_pkg_t UNUSED *pkg)
 {
 	return NULL;
 }
 
-static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_files(alpm_pkg_t *pkg)
 {
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
@@ -186,7 +186,7 @@ static alpm_list_t *_cache_get_files(pmpkg_t *pkg)
 	return pkg->files;
 }
 
-static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
+static alpm_list_t *_cache_get_backup(alpm_pkg_t *pkg)
 {
 	if(pkg->origin == PKG_FROM_LOCALDB
 		 && !(pkg->infolevel & INFRQ_FILES)) {
@@ -201,7 +201,7 @@ static alpm_list_t *_cache_get_backup(pmpkg_t *pkg)
  * @param pkg the package (from db) to read the changelog
  * @return a 'file stream' to the package changelog
  */
-static void *_cache_changelog_open(pmpkg_t *pkg)
+static void *_cache_changelog_open(alpm_pkg_t *pkg)
 {
 	char clfile[PATH_MAX];
 	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
@@ -222,7 +222,7 @@ static void *_cache_changelog_open(pmpkg_t *pkg)
  * @return the number of characters read, or 0 if there is no more data
  */
 static size_t _cache_changelog_read(void *ptr, size_t size,
-		const pmpkg_t UNUSED *pkg, const void *fp)
+		const alpm_pkg_t UNUSED *pkg, const void *fp)
 {
 	return fread(ptr, 1, size, (FILE *)fp);
 }
@@ -234,7 +234,7 @@ static size_t _cache_changelog_read(void *ptr, size_t size,
  * @param fp a 'file stream' to the package changelog
  * @return whether closing the package changelog stream was successful
  */
-static int _cache_changelog_close(const pmpkg_t UNUSED *pkg, void *fp)
+static int _cache_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 {
 	return fclose((FILE *)fp);
 }
@@ -424,7 +424,7 @@ static int local_db_populate(alpm_db_t *db)
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
 
-		pmpkg_t *pkg;
+		alpm_pkg_t *pkg;
 
 		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
 			continue;
@@ -484,7 +484,7 @@ static int local_db_populate(alpm_db_t *db)
 }
 
 /* Note: the return value must be freed by the caller */
-static char *get_pkgpath(alpm_db_t *db, pmpkg_t *info)
+static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 {
 	size_t len;
 	char *pkgpath;
@@ -498,7 +498,7 @@ static char *get_pkgpath(alpm_db_t *db, pmpkg_t *info)
 }
 
 
-int _alpm_local_db_read(alpm_db_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
@@ -718,7 +718,7 @@ error:
 	return -1;
 }
 
-int _alpm_local_db_prepare(alpm_db_t *db, pmpkg_t *info)
+int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info)
 {
 	mode_t oldmask;
 	int retval = 0;
@@ -742,7 +742,7 @@ int _alpm_local_db_prepare(alpm_db_t *db, pmpkg_t *info)
 	return retval;
 }
 
-int _alpm_local_db_write(alpm_db_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
@@ -910,7 +910,7 @@ cleanup:
 	return retval;
 }
 
-int _alpm_local_db_remove(alpm_db_t *db, pmpkg_t *info)
+int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info)
 {
 	int ret = 0;
 	char *pkgpath = NULL;

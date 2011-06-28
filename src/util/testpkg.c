@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	int retval = 1; /* default = false */
 	alpm_handle_t *handle;
 	enum _pmerrno_t err;
-	pmpkg_t *pkg = NULL;
+	alpm_pkg_t *pkg = NULL;
 
 	if(argc != 2) {
 		fprintf(stderr, "usage: %s <package file>\n", BASENAME);

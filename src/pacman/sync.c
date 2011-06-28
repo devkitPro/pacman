@@ -196,7 +196,7 @@ static int sync_cleancache(int level)
 			char path[PATH_MAX];
 			size_t pathlen;
 			int delete = 1;
-			pmpkg_t *localpkg = NULL, *pkg = NULL;
+			alpm_pkg_t *localpkg = NULL, *pkg = NULL;
 			const char *local_name, *local_version;
 
 			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
@@ -308,11 +308,11 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	return (success > 0);
 }
 
-static void print_installed(alpm_db_t *db_local, pmpkg_t *pkg)
+static void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg)
 {
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	const char *pkgver = alpm_pkg_get_version(pkg);
-	pmpkg_t *lpkg = alpm_db_get_pkg(db_local, pkgname);
+	alpm_pkg_t *lpkg = alpm_db_get_pkg(db_local, pkgname);
 	if(lpkg) {
 		const char *lpkgver = alpm_pkg_get_version(lpkg);
 		if(strcmp(lpkgver,pkgver) == 0) {
@@ -348,7 +348,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 		}
 		for(j = ret; j; j = alpm_list_next(j)) {
 			alpm_list_t *grp;
-			pmpkg_t *pkg = alpm_list_getdata(j);
+			alpm_pkg_t *pkg = alpm_list_getdata(j);
 
 			if(!config->quiet) {
 				printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
@@ -471,7 +471,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 
 				for(k = alpm_db_get_pkgcache(db); k; k = alpm_list_next(k)) {
-					pmpkg_t *pkg = alpm_list_getdata(k);
+					alpm_pkg_t *pkg = alpm_list_getdata(k);
 
 					if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
 						dump_pkg_full(pkg, PKG_FROM_SYNCDB, config->op_s_info > 1);
@@ -492,7 +492,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					alpm_db_t *db = alpm_list_getdata(j);
 
 					for(k = alpm_db_get_pkgcache(db); k; k = alpm_list_next(k)) {
-						pmpkg_t *pkg = alpm_list_getdata(k);
+						alpm_pkg_t *pkg = alpm_list_getdata(k);
 
 						if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
 							dump_pkg_full(pkg, PKG_FROM_SYNCDB, config->op_s_info > 1);
@@ -513,7 +513,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 			alpm_db_t *db = alpm_list_getdata(i);
 
 			for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
-				pmpkg_t *pkg = alpm_list_getdata(j);
+				alpm_pkg_t *pkg = alpm_list_getdata(j);
 				dump_pkg_full(pkg, PKG_FROM_SYNCDB, config->op_s_info > 1);
 			}
 		}
@@ -558,7 +558,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 		alpm_db_t *db = alpm_list_getdata(i);
 
 		for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
-			pmpkg_t *pkg = alpm_list_getdata(j);
+			alpm_pkg_t *pkg = alpm_list_getdata(j);
 
 			if(!config->quiet) {
 				printf("%s %s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
@@ -585,7 +585,7 @@ static alpm_list_t *syncfirst(void) {
 
 	for(i = config->syncfirst; i; i = alpm_list_next(i)) {
 		char *pkgname = alpm_list_getdata(i);
-		pmpkg_t *pkg = alpm_db_get_pkg(db_local, pkgname);
+		alpm_pkg_t *pkg = alpm_db_get_pkg(db_local, pkgname);
 		if(pkg == NULL) {
 			continue;
 		}
@@ -610,7 +610,7 @@ static alpm_db_t *get_db(const char *dbname)
 	return NULL;
 }
 
-static int process_pkg(pmpkg_t *pkg)
+static int process_pkg(alpm_pkg_t *pkg)
 {
 	int ret = alpm_add_pkg(config->handle, pkg);
 
@@ -653,7 +653,7 @@ static int process_group(alpm_list_t *dbs, char *group)
 		for(i = pkgs; i; i = alpm_list_next(i)) {
 			if(array[n++] == 0)
 				continue;
-			pmpkg_t *pkg = alpm_list_getdata(i);
+			alpm_pkg_t *pkg = alpm_list_getdata(i);
 
 			if(process_pkg(pkg) == 1) {
 				ret = 1;
@@ -663,7 +663,7 @@ static int process_group(alpm_list_t *dbs, char *group)
 		}
 	} else {
 		for(i = pkgs; i; i = alpm_list_next(i)) {
-			pmpkg_t *pkg = alpm_list_getdata(i);
+			alpm_pkg_t *pkg = alpm_list_getdata(i);
 
 			if(process_pkg(pkg) == 1) {
 				ret = 1;
@@ -678,7 +678,7 @@ cleanup:
 
 static int process_targname(alpm_list_t *dblist, char *targname)
 {
-	pmpkg_t *pkg = alpm_find_dbs_satisfier(config->handle, dblist, targname);
+	alpm_pkg_t *pkg = alpm_find_dbs_satisfier(config->handle, dblist, targname);
 
 	/* #FS#23342 - skip ignored packages when user says no */
 	if(alpm_errno(config->handle) == PM_ERR_PKG_IGNORED) {

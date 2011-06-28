@@ -220,7 +220,7 @@ const char SYMEXPORT *alpm_db_get_name(const alpm_db_t *db)
 }
 
 /** Get a package entry from a package database. */
-pmpkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
+alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 {
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
@@ -275,7 +275,7 @@ int SYMEXPORT alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgrea
 	/* TODO assert db == db_local ? shouldn't need a db param at all here... */
 	ASSERT(name != NULL, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
 
-	pmpkg_t *pkg = _alpm_db_get_pkgfromcache(db, name);
+	alpm_pkg_t *pkg = _alpm_db_get_pkgfromcache(db, name);
 	if(pkg == NULL) {
 		RET_ERR(db->handle, PM_ERR_PKG_NOT_FOUND, -1);
 	}
@@ -397,7 +397,7 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 		}
 
 		for(j = list; j; j = j->next) {
-			pmpkg_t *pkg = j->data;
+			alpm_pkg_t *pkg = j->data;
 			const char *matched = NULL;
 			const char *name = alpm_pkg_get_name(pkg);
 			const char *desc = alpm_pkg_get_desc(pkg);
@@ -513,9 +513,9 @@ alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db)
 }
 
 /* "duplicate" pkg then add it to pkgcache */
-int _alpm_db_add_pkgincache(alpm_db_t *db, pmpkg_t *pkg)
+int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 {
-	pmpkg_t *newpkg;
+	alpm_pkg_t *newpkg;
 
 	if(db == NULL || pkg == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
 		return -1;
@@ -535,9 +535,9 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, pmpkg_t *pkg)
 	return 0;
 }
 
-int _alpm_db_remove_pkgfromcache(alpm_db_t *db, pmpkg_t *pkg)
+int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg)
 {
-	pmpkg_t *data = NULL;
+	alpm_pkg_t *data = NULL;
 
 	if(db == NULL || pkg == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
 		return -1;
@@ -561,7 +561,7 @@ int _alpm_db_remove_pkgfromcache(alpm_db_t *db, pmpkg_t *pkg)
 	return 0;
 }
 
-pmpkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target)
+alpm_pkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target)
 {
 	if(db == NULL) {
 		return NULL;
@@ -590,7 +590,7 @@ static int load_grpcache(alpm_db_t *db)
 
 	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
 		const alpm_list_t *i;
-		pmpkg_t *pkg = lp->data;
+		alpm_pkg_t *pkg = lp->data;
 
 		for(i = alpm_pkg_get_groups(pkg); i; i = i->next) {
 			const char *grpname = i->data;

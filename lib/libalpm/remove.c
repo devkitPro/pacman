@@ -44,7 +44,7 @@
 #include "deps.h"
 #include "handle.h"
 
-int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, pmpkg_t *pkg)
+int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname;
 	pmtrans_t *trans;
@@ -78,7 +78,7 @@ static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
 			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
-			pmpkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
+			alpm_pkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
 				if(!_alpm_pkg_find(trans->remove, alpm_pkg_get_name(info))) {
 					_alpm_log(handle, PM_LOG_DEBUG, "pulling %s in target list\n",
@@ -107,7 +107,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 		for(i = lp; i; i = i->next) {
 			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
 			void *vpkg;
-			pmpkg_t *pkg = _alpm_pkg_find(trans->remove, miss->causingpkg);
+			alpm_pkg_t *pkg = _alpm_pkg_find(trans->remove, miss->causingpkg);
 			if(pkg == NULL) {
 				continue;
 			}
@@ -219,7 +219,7 @@ static int can_remove_file(alpm_handle_t *handle, const char *path,
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(alpm_handle_t *handle, pmpkg_t *info, const char *filename,
+static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info, const char *filename,
 		alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
@@ -283,7 +283,7 @@ static void unlink_file(alpm_handle_t *handle, pmpkg_t *info, const char *filena
 }
 
 int _alpm_upgraderemove_package(alpm_handle_t *handle,
-		pmpkg_t *oldpkg, pmpkg_t *newpkg)
+		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 {
 	alpm_list_t *skip_remove, *b;
 	alpm_list_t *newfiles, *lp;
@@ -355,7 +355,7 @@ db:
 
 int _alpm_remove_packages(alpm_handle_t *handle)
 {
-	pmpkg_t *info;
+	alpm_pkg_t *info;
 	alpm_list_t *targ, *lp;
 	size_t pkg_count;
 	pmtrans_t *trans = handle->trans;
@@ -365,7 +365,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 	for(targ = trans->remove; targ; targ = targ->next) {
 		int position = 0;
 		char scriptlet[PATH_MAX];
-		info = (pmpkg_t *)targ->data;
+		info = (alpm_pkg_t *)targ->data;
 		const char *pkgname = NULL;
 		size_t targcount = alpm_list_count(targ);
 

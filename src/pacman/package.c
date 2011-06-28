@@ -45,7 +45,7 @@
  * @param from the type of package we are dealing with
  * @param extra should we show extra information
  */
-void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra)
+void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 {
 	const char *reason;
 	time_t bdate, idate;
@@ -192,7 +192,7 @@ static const char *get_backup_file_status(const char *root,
 
 /* Display list of backup files and their modification states
  */
-void dump_pkg_backups(pmpkg_t *pkg)
+void dump_pkg_backups(alpm_pkg_t *pkg)
 {
 	alpm_list_t *i;
 	const char *root = alpm_option_get_root(config->handle);
@@ -216,7 +216,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 
 /* List all files contained in a package
  */
-void dump_pkg_files(pmpkg_t *pkg, int quiet)
+void dump_pkg_files(alpm_pkg_t *pkg, int quiet)
 {
 	const char *pkgname, *root, *filestr;
 	alpm_list_t *i, *pkgfiles;
@@ -239,7 +239,7 @@ void dump_pkg_files(pmpkg_t *pkg, int quiet)
 
 /* Display the changelog of a package
  */
-void dump_pkg_changelog(pmpkg_t *pkg)
+void dump_pkg_changelog(alpm_pkg_t *pkg)
 {
 	void *fp = NULL;
 

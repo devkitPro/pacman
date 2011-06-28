@@ -138,7 +138,7 @@ static void check_conflict(alpm_handle_t *handle,
 		return;
 	}
 	for(i = list1; i; i = i->next) {
-		pmpkg_t *pkg1 = i->data;
+		alpm_pkg_t *pkg1 = i->data;
 		const char *pkg1name = alpm_pkg_get_name(pkg1);
 		alpm_list_t *j;
 
@@ -148,7 +148,7 @@ static void check_conflict(alpm_handle_t *handle,
 			pmdepend_t *parsed_conflict = _alpm_splitdep(conflict);
 
 			for(k = list2; k; k = k->next) {
-				pmpkg_t *pkg2 = k->data;
+				alpm_pkg_t *pkg2 = k->data;
 				const char *pkg2name = alpm_pkg_get_name(pkg2);
 
 				if(strcmp(pkg1name, pkg2name) == 0) {
@@ -315,7 +315,7 @@ void _alpm_fileconflict_free(pmfileconflict_t *conflict)
 }
 
 static int dir_belongsto_pkg(const char *root, const char *dirpath,
-		pmpkg_t *pkg)
+		alpm_pkg_t *pkg)
 {
 	struct dirent *ent = NULL;
 	struct stat sbuf;
@@ -380,7 +380,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	 * different cases. */
 	for(current = 0, i = upgrade; i; i = i->next, current++) {
 		alpm_list_t *k, *tmpfiles;
-		pmpkg_t *p1, *p2, *dbpkg;
+		alpm_pkg_t *p1, *p2, *dbpkg;
 		char path[PATH_MAX];
 
 		p1 = i->data;
@@ -474,7 +474,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			/* Check remove list (will we remove the conflicting local file?) */
 			for(k = remove; k && !resolved_conflict; k = k->next) {
-				pmpkg_t *rempkg = k->data;
+				alpm_pkg_t *rempkg = k->data;
 				if(alpm_list_find_str(alpm_pkg_get_files(rempkg), relative_path)) {
 					_alpm_log(handle, PM_LOG_DEBUG,
 							"local file will be removed, not a conflict: %s\n",
@@ -489,7 +489,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				if(!p2 || strcmp(p1->name, p2->name) == 0) {
 					continue;
 				}
-				pmpkg_t *localp2 = _alpm_db_get_pkgfromcache(handle->db_local, p2->name);
+				alpm_pkg_t *localp2 = _alpm_db_get_pkgfromcache(handle->db_local, p2->name);
 
 				/* localp2->files will be removed (target conflicts are handled by CHECK 1) */
 				if(localp2 && alpm_list_find_str(alpm_pkg_get_files(localp2), filestr)) {

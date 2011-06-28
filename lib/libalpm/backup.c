@@ -55,7 +55,7 @@ int _alpm_split_backup(const char *string, pmbackup_t **backup)
 	return 0;
 }
 
-/* Look for a filename in a pmpkg_t.backup list. If we find it,
+/* Look for a filename in a alpm_pkg_t.backup list. If we find it,
  * then we return the full backup entry.
  */
 pmbackup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list)

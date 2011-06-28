@@ -29,11 +29,11 @@ enum pkg_from {
 	PKG_FROM_SYNCDB
 };
 
-void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra);
+void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra);
 
-void dump_pkg_backups(pmpkg_t *pkg);
-void dump_pkg_files(pmpkg_t *pkg, int quiet);
-void dump_pkg_changelog(pmpkg_t *pkg);
+void dump_pkg_backups(alpm_pkg_t *pkg);
+void dump_pkg_files(alpm_pkg_t *pkg, int quiet);
+void dump_pkg_changelog(alpm_pkg_t *pkg);
 
 #endif /* _PM_PACKAGE_H */
 

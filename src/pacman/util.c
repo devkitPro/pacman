@@ -660,7 +660,7 @@ static alpm_list_t *create_verbose_header(int install)
 }
 
 /* returns package info as list of strings */
-static alpm_list_t *create_verbose_row(pmpkg_t *pkg, int install)
+static alpm_list_t *create_verbose_row(alpm_pkg_t *pkg, int install)
 {
 	char *str;
 	double size;
@@ -674,7 +674,7 @@ static alpm_list_t *create_verbose_row(pmpkg_t *pkg, int install)
 
 	/* old and new versions */
 	if(install) {
-		pmpkg_t *oldpkg = alpm_db_get_pkg(ldb, alpm_pkg_get_name(pkg));
+		alpm_pkg_t *oldpkg = alpm_db_get_pkg(ldb, alpm_pkg_get_name(pkg));
 		pm_asprintf(&str, "%s",
 				oldpkg != NULL ? alpm_pkg_get_version(oldpkg) : "");
 		ret = alpm_list_add(ret, str);
@@ -708,10 +708,10 @@ void display_targets(const alpm_list_t *pkgs, int install)
 
 	/* gather pkg infos */
 	for(i = pkgs; i; i = alpm_list_next(i)) {
-		pmpkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
 
 		if(install) {
-			pmpkg_t *lpkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(pkg));
+			alpm_pkg_t *lpkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(pkg));
 			dlsize += alpm_pkg_download_size(pkg);
 			if(lpkg) {
 				/* add up size of all removed packages */
@@ -779,7 +779,7 @@ out:
 	free(str);
 }
 
-static off_t pkg_get_size(pmpkg_t *pkg)
+static off_t pkg_get_size(alpm_pkg_t *pkg)
 {
 	switch(config->op) {
 		case PM_OP_SYNC:
@@ -791,7 +791,7 @@ static off_t pkg_get_size(pmpkg_t *pkg)
 	}
 }
 
-static char *pkg_get_location(pmpkg_t *pkg)
+static char *pkg_get_location(alpm_pkg_t *pkg)
 {
 	alpm_list_t *servers;
 	char *string = NULL;
@@ -856,7 +856,7 @@ void print_packages(const alpm_list_t *packages)
 		config->print_format = strdup("%l");
 	}
 	for(i = packages; i; i = alpm_list_next(i)) {
-		pmpkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
 		char *string = strdup(config->print_format);
 		char *temp = string;
 		/* %n : pkgname */
@@ -910,7 +910,7 @@ int str_cmp(const void *s1, const void *s2)
 	return strcmp(s1, s2);
 }
 
-void display_new_optdepends(pmpkg_t *oldpkg, pmpkg_t *newpkg)
+void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 {
 	alpm_list_t *old = alpm_pkg_get_optdepends(oldpkg);
 	alpm_list_t *new = alpm_pkg_get_optdepends(newpkg);
@@ -922,7 +922,7 @@ void display_new_optdepends(pmpkg_t *oldpkg, pmpkg_t *newpkg)
 	alpm_list_free(optdeps);
 }
 
-void display_optdepends(pmpkg_t *pkg)
+void display_optdepends(alpm_pkg_t *pkg)
 {
 	alpm_list_t *optdeps = alpm_pkg_get_optdepends(pkg);
 	if(optdeps) {
@@ -949,7 +949,7 @@ void select_display(const alpm_list_t *pkglist)
 	const char *dbname = NULL;
 
 	for (i = pkglist; i; i = i->next) {
-		pmpkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
 		alpm_db_t *db = alpm_pkg_get_db(pkg);
 
 		if(!dbname)
