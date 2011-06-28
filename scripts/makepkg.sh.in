@@ -509,7 +509,7 @@ download_sources() {
 		local file=$(get_filepath "$netfile" || true)
 		if [[ -n "$file" ]]; then
 			msg2 "$(gettext "Found %s")" "${file##*/}"
-			rm -f "$srcdir/$file"
+			rm -f "$srcdir/${file##*/}"
 			ln -s "$file" "$srcdir/"
 			continue
 		fi
