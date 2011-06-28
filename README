@@ -73,8 +73,8 @@ The following options are read-only, having ONLY alpm_option_get_* functions:
 
 * lockfile: The file used for locking the database
   (Default: <dbpath>/db.lck)
-* localdb: A pmdb_t structure for the local (installed) database
-* syncdbs: A list of pmdb_t structures to which pacman can sync from.
+* localdb: A alpm_db_t structure for the local (installed) database
+* syncdbs: A list of alpm_db_t structures to which pacman can sync from.
 
 The following options are write-only, having ONLY alpm_option_set_* functions:
 
