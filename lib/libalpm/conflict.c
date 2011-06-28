@@ -275,7 +275,7 @@ static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
 	return ret;
 }
 
-/* Adds pmfileconflict_t to a conflicts list. Pass the conflicts list, type
+/* Adds alpm_fileconflict_t to a conflicts list. Pass the conflicts list, type
  * (either PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file
  * string, and either two package names or one package name and NULL. This is
  * a wrapper for former functionality that was done inline.
@@ -284,8 +284,8 @@ static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 		alpm_list_t *conflicts, alpm_fileconflicttype_t type, const char *filestr,
 		const char *name1, const char *name2)
 {
-	pmfileconflict_t *conflict;
-	MALLOC(conflict, sizeof(pmfileconflict_t), goto error);
+	alpm_fileconflict_t *conflict;
+	MALLOC(conflict, sizeof(alpm_fileconflict_t), goto error);
 
 	conflict->type = type;
 	STRDUP(conflict->target, name1, goto error);
@@ -306,7 +306,7 @@ error:
 	RET_ERR(handle, PM_ERR_MEMORY, conflicts);
 }
 
-void _alpm_fileconflict_free(pmfileconflict_t *conflict)
+void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 {
 	FREE(conflict->ctarget);
 	FREE(conflict->file);

@@ -129,12 +129,12 @@ typedef struct _alpm_conflict_t {
 } alpm_conflict_t;
 
 /** File conflict */
-typedef struct _pmfileconflict_t {
+typedef struct _alpm_fileconflict_t {
 	char *target;
 	alpm_fileconflicttype_t type;
 	char *file;
 	char *ctarget;
-} pmfileconflict_t;
+} alpm_fileconflict_t;
 
 /** Package group */
 typedef struct _pmgrp_t {

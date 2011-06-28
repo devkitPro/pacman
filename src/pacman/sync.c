@@ -836,7 +836,7 @@ static int sync_trans(alpm_list_t *targets)
 		switch(err) {
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmfileconflict_t *conflict = alpm_list_getdata(i);
+					alpm_fileconflict_t *conflict = alpm_list_getdata(i);
 					switch(conflict->type) {
 						case PM_FILECONFLICT_TARGET:
 							printf(_("%s exists in both '%s' and '%s'\n"),
