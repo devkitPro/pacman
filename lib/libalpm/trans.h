@@ -25,7 +25,7 @@
 
 #include "alpm.h"
 
-typedef enum _pmtransstate_t {
+typedef enum _alpm_transstate_t {
 	STATE_IDLE = 0,
 	STATE_INITIALIZED,
 	STATE_PREPARED,
@@ -33,12 +33,12 @@ typedef enum _pmtransstate_t {
 	STATE_COMMITING,
 	STATE_COMMITED,
 	STATE_INTERRUPTED
-} pmtransstate_t;
+} alpm_transstate_t;
 
 /* Transaction */
 struct __alpm_trans_t {
 	alpm_transflag_t flags;
-	pmtransstate_t state;
+	alpm_transstate_t state;
 	alpm_list_t *add;      /* list of (alpm_pkg_t *) */
 	alpm_list_t *remove;      /* list of (alpm_pkg_t *) */
 	alpm_list_t *skip_remove;   /* list of (char *) */
