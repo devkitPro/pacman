@@ -273,7 +273,7 @@ static struct pkg_operations local_pkg_ops = {
 	.changelog_close = _cache_changelog_close,
 };
 
-static int checkdbdir(pmdb_t *db)
+static int checkdbdir(alpm_db_t *db)
 {
 	struct stat buf;
 	const char *path = _alpm_db_path(db);
@@ -314,7 +314,7 @@ static int is_dir(const char *path, struct dirent *entry)
 	return 0;
 }
 
-static int local_db_validate(pmdb_t *db)
+static int local_db_validate(alpm_db_t *db)
 {
 	struct dirent *ent = NULL;
 	const char *dbpath;
@@ -370,7 +370,7 @@ done:
 	return ret;
 }
 
-static int local_db_populate(pmdb_t *db)
+static int local_db_populate(alpm_db_t *db)
 {
 	size_t est_count;
 	int count = 0;
@@ -484,7 +484,7 @@ static int local_db_populate(pmdb_t *db)
 }
 
 /* Note: the return value must be freed by the caller */
-static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
+static char *get_pkgpath(alpm_db_t *db, pmpkg_t *info)
 {
 	size_t len;
 	char *pkgpath;
@@ -498,7 +498,7 @@ static char *get_pkgpath(pmdb_t *db, pmpkg_t *info)
 }
 
 
-int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_read(alpm_db_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
@@ -718,7 +718,7 @@ error:
 	return -1;
 }
 
-int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info)
+int _alpm_local_db_prepare(alpm_db_t *db, pmpkg_t *info)
 {
 	mode_t oldmask;
 	int retval = 0;
@@ -742,7 +742,7 @@ int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info)
 	return retval;
 }
 
-int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
+int _alpm_local_db_write(alpm_db_t *db, pmpkg_t *info, pmdbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
@@ -910,7 +910,7 @@ cleanup:
 	return retval;
 }
 
-int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info)
+int _alpm_local_db_remove(alpm_db_t *db, pmpkg_t *info)
 {
 	int ret = 0;
 	char *pkgpath = NULL;
@@ -930,9 +930,9 @@ struct db_operations local_db_ops = {
 	.unregister       = _alpm_db_unregister,
 };
 
-pmdb_t *_alpm_db_register_local(alpm_handle_t *handle)
+alpm_db_t *_alpm_db_register_local(alpm_handle_t *handle)
 {
-	pmdb_t *db;
+	alpm_db_t *db;
 
 	_alpm_log(handle, PM_LOG_DEBUG, "registering local database\n");
 

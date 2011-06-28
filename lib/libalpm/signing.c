@@ -367,7 +367,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
  *
  * @return signature verification level
  */
-pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
+pgp_verify_t _alpm_db_get_sigverify_level(alpm_db_t *db)
 {
 	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
 		return db->pgp_verify;
@@ -395,7 +395,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
  * @param db the database to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
-int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
+int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
 	db->handle->pm_errno = 0;

@@ -40,7 +40,7 @@
 int pacman_database(alpm_list_t *targets)
 {
 	alpm_list_t *i;
-	pmdb_t *db_local;
+	alpm_db_t *db_local;
 	int retval = 0;
 	alpm_pkgreason_t reason;
 

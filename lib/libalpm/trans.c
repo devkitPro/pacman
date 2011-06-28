@@ -60,7 +60,7 @@ int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
 	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
 
 	for(i = handle->dbs_sync; i; i = i->next) {
-		const pmdb_t *db = i->data;
+		const alpm_db_t *db = i->data;
 		if(!(db->status & DB_STATUS_VALID)) {
 			RET_ERR(handle, PM_ERR_DB_INVALID, -1);
 		}

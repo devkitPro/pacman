@@ -138,7 +138,7 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *lp;
 	pmtrans_t *trans = handle->trans;
-	pmdb_t *db = handle->db_local;
+	alpm_db_t *db = handle->db_local;
 
 	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
 		_alpm_log(handle, PM_LOG_DEBUG, "finding removable dependencies\n");

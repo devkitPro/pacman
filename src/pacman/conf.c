@@ -378,7 +378,7 @@ static int _parse_options(const char *key, char *value,
 	return 0;
 }
 
-static int _add_mirror(pmdb_t *db, char *value)
+static int _add_mirror(alpm_db_t *db, char *value)
 {
 	const char *dbname = alpm_db_get_name(db);
 	/* let's attempt a replacement for the current repo */
@@ -535,7 +535,7 @@ static int finish_section(struct section_t *section, int parse_options)
 {
 	int ret = 0;
 	alpm_list_t *i;
-	pmdb_t *db;
+	alpm_db_t *db;
 
 	pm_printf(PM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
 

@@ -323,7 +323,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_backup(pmpkg_t *pkg)
 	return pkg->ops->get_backup(pkg);
 }
 
-pmdb_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
+alpm_db_t SYMEXPORT *alpm_pkg_get_db(pmpkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(pkg != NULL, return NULL);
@@ -372,7 +372,7 @@ int SYMEXPORT alpm_pkg_has_scriptlet(pmpkg_t *pkg)
 	return pkg->ops->has_scriptlet(pkg);
 }
 
-static void find_requiredby(pmpkg_t *pkg, pmdb_t *db, alpm_list_t **reqs)
+static void find_requiredby(pmpkg_t *pkg, alpm_db_t *db, alpm_list_t **reqs)
 {
 	const alpm_list_t *i;
 	pkg->handle->pm_errno = 0;
@@ -396,7 +396,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(pmpkg_t *pkg)
 {
 	const alpm_list_t *i;
 	alpm_list_t *reqs = NULL;
-	pmdb_t *db;
+	alpm_db_t *db;
 
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = 0;

@@ -101,7 +101,7 @@ typedef enum _pgp_verify_t {
  */
 
 typedef struct __alpm_handle_t alpm_handle_t;
-typedef struct __pmdb_t pmdb_t;
+typedef struct __alpm_db_t alpm_db_t;
 typedef struct __pmpkg_t pmpkg_t;
 typedef struct __pmtrans_t pmtrans_t;
 
@@ -344,13 +344,13 @@ int alpm_option_set_default_sigverify(alpm_handle_t *handle, pgp_verify_t level)
  * libalpm functions.
  * @return a reference to the local database
  */
-pmdb_t *alpm_option_get_localdb(alpm_handle_t *handle);
+alpm_db_t *alpm_option_get_localdb(alpm_handle_t *handle);
 
 /** Get the list of sync databases.
- * Returns a list of pmdb_t structures, one for each registered
+ * Returns a list of alpm_db_t structures, one for each registered
  * sync database.
  * @param handle the context handle
- * @return a reference to an internal list of pmdb_t structures
+ * @return a reference to an internal list of alpm_db_t structures
  */
 alpm_list_t *alpm_option_get_syncdbs(alpm_handle_t *handle);
 
@@ -359,16 +359,16 @@ alpm_list_t *alpm_option_get_syncdbs(alpm_handle_t *handle);
  * @param treename the name of the sync repository
  * @param check_sig what level of signature checking to perform on the
  * database; note that this must be a '.sig' file type verification
- * @return a pmdb_t* on success (the value), NULL on error
+ * @return a alpm_db_t* on success (the value), NULL on error
  */
-pmdb_t *alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
+alpm_db_t *alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t check_sig);
 
 /** Unregister a package database.
  * @param db pointer to the package database to unregister
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_unregister(pmdb_t *db);
+int alpm_db_unregister(alpm_db_t *db);
 
 /** Unregister all package databases.
  * @param handle the context handle
@@ -380,51 +380,51 @@ int alpm_db_unregister_all(alpm_handle_t *handle);
  * @param db pointer to the package database
  * @return the name of the package database, NULL on error
  */
-const char *alpm_db_get_name(const pmdb_t *db);
+const char *alpm_db_get_name(const alpm_db_t *db);
 
 /** @name Accessors to the list of servers for a database.
  * @{
  */
-alpm_list_t *alpm_db_get_servers(const pmdb_t *db);
-int alpm_db_set_servers(pmdb_t *db, alpm_list_t *servers);
-int alpm_db_add_server(pmdb_t *db, const char *url);
-int alpm_db_remove_server(pmdb_t *db, const char *url);
+alpm_list_t *alpm_db_get_servers(const alpm_db_t *db);
+int alpm_db_set_servers(alpm_db_t *db, alpm_list_t *servers);
+int alpm_db_add_server(alpm_db_t *db, const char *url);
+int alpm_db_remove_server(alpm_db_t *db, const char *url);
 /** @} */
 
-int alpm_db_update(int level, pmdb_t *db);
+int alpm_db_update(int level, alpm_db_t *db);
 
 /** Get a package entry from a package database.
  * @param db pointer to the package database to get the package from
  * @param name of the package
  * @return the package entry on success, NULL on error
  */
-pmpkg_t *alpm_db_get_pkg(pmdb_t *db, const char *name);
+pmpkg_t *alpm_db_get_pkg(alpm_db_t *db, const char *name);
 
 /** Get the package cache of a package database.
  * @param db pointer to the package database to get the package from
  * @return the list of packages on success, NULL on error
  */
-alpm_list_t *alpm_db_get_pkgcache(pmdb_t *db);
+alpm_list_t *alpm_db_get_pkgcache(alpm_db_t *db);
 
 /** Get a group entry from a package database.
  * @param db pointer to the package database to get the group from
  * @param name of the group
  * @return the groups entry on success, NULL on error
  */
-pmgrp_t *alpm_db_readgrp(pmdb_t *db, const char *name);
+pmgrp_t *alpm_db_readgrp(alpm_db_t *db, const char *name);
 
 /** Get the group cache of a package database.
  * @param db pointer to the package database to get the group from
  * @return the list of groups on success, NULL on error
  */
-alpm_list_t *alpm_db_get_grpcache(pmdb_t *db);
+alpm_list_t *alpm_db_get_grpcache(alpm_db_t *db);
 
 /** Searches a database with regular expressions.
  * @param db pointer to the package database to search in
  * @param needles a list of regular expressions to search for
  * @return the list of packages matching all regular expressions on success, NULL on error
  */
-alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
+alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t* needles);
 
 /** Set install reason for a package in db.
  * @param db pointer to the package database
@@ -432,7 +432,7 @@ alpm_list_t *alpm_db_search(pmdb_t *db, const alpm_list_t* needles);
  * @param reason the new install reason
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_set_pkgreason(pmdb_t *db, const char *name, alpm_pkgreason_t reason);
+int alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgreason_t reason);
 
 /** @} */
 
@@ -635,12 +635,12 @@ alpm_list_t *alpm_pkg_get_files(pmpkg_t *pkg);
 alpm_list_t *alpm_pkg_get_backup(pmpkg_t *pkg);
 
 /** Returns the database containing pkg.
- * Returns a pointer to the pmdb_t structure the package is
+ * Returns a pointer to the alpm_db_t structure the package is
  * originating from, or NULL if the package was loaded from a file.
  * @param pkg a pointer to package
  * @return a pointer to the DB containing pkg, or NULL.
  */
-pmdb_t *alpm_pkg_get_db(pmpkg_t *pkg);
+alpm_db_t *alpm_pkg_get_db(pmpkg_t *pkg);
 
 /* End of pmpkg_t accessors */
 /* @} */
@@ -694,7 +694,7 @@ alpm_list_t *alpm_pkg_unused_deltas(pmpkg_t *pkg);
 
 int alpm_pkg_check_pgp_signature(pmpkg_t *pkg);
 
-int alpm_db_check_pgp_signature(pmdb_t *db);
+int alpm_db_check_pgp_signature(alpm_db_t *db);
 
 /*
  * Groups

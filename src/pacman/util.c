@@ -666,7 +666,7 @@ static alpm_list_t *create_verbose_row(pmpkg_t *pkg, int install)
 	double size;
 	const char *label;
 	alpm_list_t *ret = NULL;
-	pmdb_t *ldb = alpm_option_get_localdb(config->handle);
+	alpm_db_t *ldb = alpm_option_get_localdb(config->handle);
 
 	/* a row consists of the package name, */
 	pm_asprintf(&str, "%s", alpm_pkg_get_name(pkg));
@@ -700,7 +700,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	const alpm_list_t *i;
 	off_t isize = 0, rsize = 0, dlsize = 0;
 	alpm_list_t *j, *lp, *header = NULL, *targets = NULL;
-	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 
 	if(!pkgs) {
 		return;
@@ -882,7 +882,7 @@ void print_packages(const alpm_list_t *packages)
 		/* %r : repo */
 		if(strstr(temp,"%r")) {
 			const char *repo = "local";
-			pmdb_t *db = alpm_pkg_get_db(pkg);
+			alpm_db_t *db = alpm_pkg_get_db(pkg);
 			if(db) {
 				repo = alpm_db_get_name(db);
 			}
@@ -950,7 +950,7 @@ void select_display(const alpm_list_t *pkglist)
 
 	for (i = pkglist; i; i = i->next) {
 		pmpkg_t *pkg = alpm_list_getdata(i);
-		pmdb_t *db = alpm_pkg_get_db(pkg);
+		alpm_db_t *db = alpm_pkg_get_db(pkg);
 
 		if(!dbname)
 			dbname = alpm_db_get_name(db);

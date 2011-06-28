@@ -102,7 +102,7 @@ cleanup:
 int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 {
 	int ret = 0;
-	pmdb_t *db;
+	alpm_db_t *db;
 
 	CHECK_HANDLE(myhandle, return -1);
 

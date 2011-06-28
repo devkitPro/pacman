@@ -457,7 +457,7 @@ static int commit_single_pkg(alpm_handle_t *handle, pmpkg_t *newpkg,
 	char scriptlet[PATH_MAX];
 	int is_upgrade = 0;
 	pmpkg_t *oldpkg = NULL;
-	pmdb_t *db = handle->db_local;
+	alpm_db_t *db = handle->db_local;
 	pmtrans_t *trans = handle->trans;
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",

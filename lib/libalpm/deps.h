@@ -31,7 +31,7 @@ void _alpm_dep_free(pmdepend_t *dep);
 pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
 void _alpm_depmiss_free(pmdepmissing_t *miss);
 alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle, alpm_list_t *targets, int reverse);
-void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);
+void _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit);
 int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
 		alpm_list_t *preferred, alpm_list_t **packages, alpm_list_t *remove,
 		alpm_list_t **data);

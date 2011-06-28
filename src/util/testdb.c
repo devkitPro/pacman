@@ -129,7 +129,7 @@ static int checkconflicts(alpm_list_t *pkglist)
 
 static int check_localdb(void) {
 	int ret = 0;
-	pmdb_t *db = NULL;
+	alpm_db_t *db = NULL;
 	alpm_list_t *pkglist;
 
 	ret = check_localdb_files();
@@ -146,7 +146,7 @@ static int check_localdb(void) {
 
 static int check_syncdbs(alpm_list_t *dbnames) {
 	int ret = 0;
-	pmdb_t *db = NULL;
+	alpm_db_t *db = NULL;
 	alpm_list_t *i, *pkglist, *syncpkglist = NULL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {

@@ -87,7 +87,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 {
 	alpm_list_t *i, *j, *k;
 	pmtrans_t *trans;
-	pmdb_t *db_local;
+	alpm_db_t *db_local;
 	alpm_list_t *dbs_sync;
 
 	CHECK_HANDLE(handle, return -1);
@@ -109,7 +109,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 		/* Search for literal then replacers in each sync database.
 		 * If found, don't check other databases */
 		for(j = dbs_sync; j; j = j->next) {
-			pmdb_t *sdb = j->data;
+			alpm_db_t *sdb = j->data;
 			/* Check sdb */
 			pmpkg_t *spkg = _alpm_db_get_pkgfromcache(sdb, lpkg->name);
 			if(spkg) {
@@ -209,7 +209,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 /** Find group members across a list of databases.
  * If a member exists in several databases, only the first database is used.
  * IgnorePkg is also handled.
- * @param dbs the list of pmdb_t *
+ * @param dbs the list of alpm_db_t *
  * @pram name the name of the group
  * @return the list of pmpkg_t * (caller is responsible for alpm_list_free)
  */
@@ -219,7 +219,7 @@ alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
 	alpm_list_t *i, *j, *pkgs = NULL, *ignorelist = NULL;
 
 	for(i = dbs; i; i = i->next) {
-		pmdb_t *db = i->data;
+		alpm_db_t *db = i->data;
 		pmgrp_t *grp = alpm_db_readgrp(db, name);
 
 		if(!grp)
@@ -751,7 +751,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 
 	/* group sync records by repository and download */
 	for(i = handle->dbs_sync; i; i = i->next) {
-		pmdb_t *current = i->data;
+		alpm_db_t *current = i->data;
 
 		for(j = handle->trans->add; j; j = j->next) {
 			pmpkg_t *spkg = j->data;
@@ -873,7 +873,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 		filename = alpm_pkg_get_filename(spkg);
 		filepath = _alpm_filecache_find(handle, filename);
-		pmdb_t *sdb = alpm_pkg_get_db(spkg);
+		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
 		check_sig = _alpm_db_get_sigverify_level(sdb);
 
 		/* load the package file and replace pkgcache entry with it in the target list */

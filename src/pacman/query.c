@@ -113,7 +113,7 @@ static int query_fileowner(alpm_list_t *targets)
 	char *append;
 	size_t max_length;
 	alpm_list_t *t;
-	pmdb_t *db_local;
+	alpm_db_t *db_local;
 
 	/* This code is here for safety only */
 	if(targets == NULL) {
@@ -240,7 +240,7 @@ static int query_search(alpm_list_t *targets)
 {
 	alpm_list_t *i, *searchlist;
 	int freelist;
-	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 
 	/* if we have a targets list, search for packages matching it */
 	if(targets) {
@@ -299,7 +299,7 @@ static int query_group(alpm_list_t *targets)
 	alpm_list_t *i, *j;
 	char *grpname = NULL;
 	int ret = 0;
-	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 
 	if(targets == NULL) {
 		for(j = alpm_db_get_grpcache(db_local); j; j = alpm_list_next(j)) {
@@ -343,7 +343,7 @@ static int is_foreign(pmpkg_t *pkg)
 
 	int match = 0;
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
-		pmdb_t *db = alpm_list_getdata(j);
+		alpm_db_t *db = alpm_list_getdata(j);
 		pmpkg_t *findpkg = alpm_db_get_pkg(db, pkgname);
 		if(findpkg) {
 			match = 1;
@@ -483,7 +483,7 @@ int pacman_query(alpm_list_t *targets)
 	int match = 0;
 	alpm_list_t *i;
 	pmpkg_t *pkg = NULL;
-	pmdb_t *db_local;
+	alpm_db_t *db_local;
 
 	/* First: operations that do not require targets */
 

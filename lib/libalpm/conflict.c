@@ -184,7 +184,7 @@ alpm_list_t *_alpm_innerconflicts(alpm_handle_t *handle, alpm_list_t *packages)
  * In case of conflict the package1 field of pmdepconflict_t contains
  * the target package, package2 field contains the local package
  */
-alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
+alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
 

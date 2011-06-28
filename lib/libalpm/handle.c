@@ -248,7 +248,7 @@ int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
 	return handle->checkspace;
 }
 
-pmdb_t SYMEXPORT *alpm_option_get_localdb(alpm_handle_t *handle)
+alpm_db_t SYMEXPORT *alpm_option_get_localdb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->db_local;

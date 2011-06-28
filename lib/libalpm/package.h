@@ -116,7 +116,7 @@ struct __pmpkg_t {
 	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
 	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
 	union {
-		pmdb_t *db;
+		alpm_db_t *db;
 		char *file;
 	} origin_data;
 	alpm_handle_t *handle;

@@ -472,7 +472,7 @@ pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep)
  * targets and a db is safe to remove. We do NOT remove it if it is in the
  * target list, or if if the package was explictly installed and
  * include_explicit == 0 */
-static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
+static int can_remove_package(alpm_db_t *db, pmpkg_t *pkg, alpm_list_t *targets,
 		int include_explicit)
 {
 	alpm_list_t *i;
@@ -518,7 +518,7 @@ static int can_remove_package(pmdb_t *db, pmpkg_t *pkg, alpm_list_t *targets,
  * @param *targs pointer to a list of packages
  * @param include_explicit if 0, explicitly installed packages are not included
  */
-void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
+void _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
 {
 	alpm_list_t *i, *j;
 
@@ -649,7 +649,7 @@ static pmpkg_t *resolvedep(alpm_handle_t *handle, pmdepend_t *dep,
  * providers. The first satisfier found is returned.
  * The dependency can include versions with depmod operators.
  * @param handle the context handle
- * @param dbs an alpm_list_t* of pmdb_t where the satisfier will be searched
+ * @param dbs an alpm_list_t* of alpm_db_t where the satisfier will be searched
  * @param depstring package or provision name, versioned or not
  * @return a pmpkg_t* satisfying depstring
  */

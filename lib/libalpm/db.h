@@ -51,12 +51,12 @@ enum _pmdbstatus_t {
 };
 
 struct db_operations {
-	int (*populate) (pmdb_t *);
-	void (*unregister) (pmdb_t *);
+	int (*populate) (alpm_db_t *);
+	void (*unregister) (alpm_db_t *);
 };
 
 /* Database */
-struct __pmdb_t {
+struct __alpm_db_t {
 	alpm_handle_t *handle;
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */
@@ -75,36 +75,36 @@ struct __pmdb_t {
 
 
 /* db.c, database general calls */
-pmdb_t *_alpm_db_new(const char *treename, int is_local);
-void _alpm_db_free(pmdb_t *db);
-const char *_alpm_db_path(pmdb_t *db);
-char *_alpm_db_sig_path(pmdb_t *db);
+alpm_db_t *_alpm_db_new(const char *treename, int is_local);
+void _alpm_db_free(alpm_db_t *db);
+const char *_alpm_db_path(alpm_db_t *db);
+char *_alpm_db_sig_path(alpm_db_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
-alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
-pmdb_t *_alpm_db_register_local(alpm_handle_t *handle);
-pmdb_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
+alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
+alpm_db_t *_alpm_db_register_local(alpm_handle_t *handle);
+alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t level);
-void _alpm_db_unregister(pmdb_t *db);
+void _alpm_db_unregister(alpm_db_t *db);
 
 /* be_*.c, backend specific calls */
-int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
-int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info);
-int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
-int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info);
+int _alpm_local_db_read(alpm_db_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_local_db_prepare(alpm_db_t *db, pmpkg_t *info);
+int _alpm_local_db_write(alpm_db_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
+int _alpm_local_db_remove(alpm_db_t *db, pmpkg_t *info);
 
 /* cache bullshit */
 /* packages */
-void _alpm_db_free_pkgcache(pmdb_t *db);
-int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
-int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
-pmpkghash_t *_alpm_db_get_pkgcache_hash(pmdb_t *db);
-alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db);
-int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel);
-pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target);
+void _alpm_db_free_pkgcache(alpm_db_t *db);
+int _alpm_db_add_pkgincache(alpm_db_t *db, pmpkg_t *pkg);
+int _alpm_db_remove_pkgfromcache(alpm_db_t *db, pmpkg_t *pkg);
+pmpkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db);
+alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db);
+int _alpm_db_ensure_pkgcache(alpm_db_t *db, pmdbinfrq_t infolevel);
+pmpkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target);
 /* groups */
-void _alpm_db_free_grpcache(pmdb_t *db);
-alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db);
-pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target);
+void _alpm_db_free_grpcache(alpm_db_t *db);
+alpm_list_t *_alpm_db_get_grpcache(alpm_db_t *db);
+pmgrp_t *_alpm_db_get_grpfromcache(alpm_db_t *db, const char *target);
 
 #endif /* _ALPM_DB_H */
 

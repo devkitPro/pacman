@@ -67,7 +67,7 @@ static char *get_sync_dir(alpm_handle_t *handle)
 	return syncpath;
 }
 
-static int sync_db_validate(pmdb_t *db)
+static int sync_db_validate(alpm_db_t *db)
 {
 	pgp_verify_t check_sig;
 
@@ -120,7 +120,7 @@ valid:
  * @code
  * alpm_list_t *syncs = alpm_option_get_syncdbs();
  * for(i = syncs; i; i = alpm_list_next(i)) {
- *     pmdb_t *db = alpm_list_getdata(i);
+ *     alpm_db_t *db = alpm_list_getdata(i);
  *     result = alpm_db_update(0, db);
  *
  *     if(result < 0) {
@@ -142,7 +142,7 @@ valid:
  * @return 0 on success, -1 on error (pm_errno is set accordingly), 1 if up to
  * to date
  */
-int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
+int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 {
 	char *syncpath;
 	alpm_list_t *i;
@@ -244,10 +244,10 @@ cleanup:
 }
 
 /* Forward decl so I don't reorganize the whole file right now */
-static int sync_db_read(pmdb_t *db, struct archive *archive,
+static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		struct archive_entry *entry, pmpkg_t **likely_pkg);
 
-static pmpkg_t *load_pkg_for_entry(pmdb_t *db, const char *entryname,
+static pmpkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 		const char **entry_filename, pmpkg_t *likely_pkg)
 {
 	char *pkgname = NULL, *pkgver = NULL;
@@ -360,7 +360,7 @@ static size_t estimate_package_count(struct stat *st, struct archive *archive)
 	return (size_t)((st->st_size / per_package) + 1);
 }
 
-static int sync_db_populate(pmdb_t *db)
+static int sync_db_populate(alpm_db_t *db)
 {
 	const char *dbpath;
 	size_t est_count;
@@ -451,7 +451,7 @@ static int sync_db_populate(pmdb_t *db)
 	f = alpm_list_add(f, linedup); \
 } while(1) /* note the while(1) and not (0) */
 
-static int sync_db_read(pmdb_t *db, struct archive *archive,
+static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		struct archive_entry *entry, pmpkg_t **likely_pkg)
 {
 	const char *entryname, *filename;
@@ -584,10 +584,10 @@ struct db_operations sync_db_ops = {
 	.unregister       = _alpm_db_unregister,
 };
 
-pmdb_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
+alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t level)
 {
-	pmdb_t *db;
+	alpm_db_t *db;
 
 	_alpm_log(handle, PM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 

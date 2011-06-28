@@ -32,8 +32,8 @@
 
 struct __alpm_handle_t {
 	/* internal usage */
-	pmdb_t *db_local;       /* local db pointer */
-	alpm_list_t *dbs_sync;  /* List of (pmdb_t *) */
+	alpm_db_t *db_local;       /* local db pointer */
+	alpm_list_t *dbs_sync;  /* List of (alpm_db_t *) */
 	FILE *logstream;        /* log file stream pointer */
 	FILE *lckstream;        /* lock file stream pointer if one exists */
 	pmtrans_t *trans;

@@ -69,7 +69,7 @@ static void checkpkgs(alpm_list_t *pkglist)
 
 static void checkdbs(const char *dbpath, alpm_list_t *dbnames) {
 	char syncdbpath[PATH_MAX];
-	pmdb_t *db = NULL;
+	alpm_db_t *db = NULL;
 	alpm_list_t *i;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
