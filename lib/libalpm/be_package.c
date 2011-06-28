@@ -136,7 +136,7 @@ static struct pkg_operations *get_file_pkg_ops(void)
  *
  * @return 0 on success, -1 on error
  */
-static int parse_descfile(pmhandle_t *handle, struct archive *a, pmpkg_t *newpkg)
+static int parse_descfile(alpm_handle_t *handle, struct archive *a, pmpkg_t *newpkg)
 {
 	char *ptr = NULL;
 	char *key = NULL;
@@ -231,7 +231,7 @@ static int parse_descfile(pmhandle_t *handle, struct archive *a, pmpkg_t *newpkg
  *             through the full archive
  * @return An information filled pmpkg_t struct
  */
-pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
+pmpkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		int full, const char *md5sum, const char *base64_sig,
 		pgp_verify_t check_sig)
 {
@@ -387,7 +387,7 @@ error:
 	return NULL;
 }
 
-int SYMEXPORT alpm_pkg_load(pmhandle_t *handle, const char *filename, int full,
+int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
 		pgp_verify_t check_sig, pmpkg_t **pkg)
 {
 	CHECK_HANDLE(handle, return -1);

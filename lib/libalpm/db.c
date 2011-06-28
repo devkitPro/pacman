@@ -45,7 +45,7 @@
  */
 
 /** Register a sync database of packages. */
-pmdb_t SYMEXPORT *alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+pmdb_t SYMEXPORT *alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t check_sig)
 {
 	/* Sanity checks */
@@ -70,7 +70,7 @@ void _alpm_db_unregister(pmdb_t *db)
 }
 
 /** Unregister all package databases. */
-int SYMEXPORT alpm_db_unregister_all(pmhandle_t *handle)
+int SYMEXPORT alpm_db_unregister_all(alpm_handle_t *handle)
 {
 	alpm_list_t *i;
 	pmdb_t *db;
@@ -94,7 +94,7 @@ int SYMEXPORT alpm_db_unregister_all(pmhandle_t *handle)
 int SYMEXPORT alpm_db_unregister(pmdb_t *db)
 {
 	int found = 0;
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);

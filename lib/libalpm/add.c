@@ -50,7 +50,7 @@
 #include "handle.h"
 
 /** Add a package to the transaction. */
-int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
+int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, pmpkg_t *pkg)
 {
 	const char *pkgname, *pkgver;
 	pmtrans_t *trans;
@@ -106,7 +106,7 @@ int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	return 0;
 }
 
-static int perform_extraction(pmhandle_t *handle, struct archive *archive,
+static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, const char *filename, const char *origname)
 {
 	int ret;
@@ -131,7 +131,7 @@ static int perform_extraction(pmhandle_t *handle, struct archive *archive,
 	return 0;
 }
 
-static int extract_single_file(pmhandle_t *handle, struct archive *archive,
+static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg)
 {
 	const char *entryname;
@@ -450,7 +450,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 	return errors;
 }
 
-static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
+static int commit_single_pkg(alpm_handle_t *handle, pmpkg_t *newpkg,
 		size_t pkg_current, size_t pkg_count)
 {
 	int i, ret = 0, errors = 0;
@@ -684,7 +684,7 @@ cleanup:
 	return ret;
 }
 
-int _alpm_upgrade_packages(pmhandle_t *handle)
+int _alpm_upgrade_packages(alpm_handle_t *handle)
 {
 	size_t pkg_count, pkg_current;
 	int skip_ldconfig = 0, ret = 0;

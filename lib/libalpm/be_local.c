@@ -930,7 +930,7 @@ struct db_operations local_db_ops = {
 	.unregister       = _alpm_db_unregister,
 };
 
-pmdb_t *_alpm_db_register_local(pmhandle_t *handle)
+pmdb_t *_alpm_db_register_local(alpm_handle_t *handle)
 {
 	pmdb_t *db;
 

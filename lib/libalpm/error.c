@@ -29,7 +29,7 @@
 #include "alpm.h"
 #include "handle.h"
 
-enum _pmerrno_t SYMEXPORT alpm_errno(pmhandle_t *handle)
+enum _pmerrno_t SYMEXPORT alpm_errno(alpm_handle_t *handle)
 {
 	return handle->pm_errno;
 }

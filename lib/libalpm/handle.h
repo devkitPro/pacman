@@ -30,7 +30,7 @@
 #include <curl/curl.h>
 #endif
 
-struct __pmhandle_t {
+struct __alpm_handle_t {
 	/* internal usage */
 	pmdb_t *db_local;       /* local db pointer */
 	alpm_list_t *dbs_sync;  /* List of (pmdb_t *) */
@@ -75,11 +75,11 @@ struct __pmhandle_t {
 	enum _pmerrno_t pm_errno;
 };
 
-pmhandle_t *_alpm_handle_new(void);
-void _alpm_handle_free(pmhandle_t *handle);
+alpm_handle_t *_alpm_handle_new(void);
+void _alpm_handle_free(alpm_handle_t *handle);
 
-int _alpm_handle_lock(pmhandle_t *handle);
-int _alpm_handle_unlock(pmhandle_t *handle);
+int _alpm_handle_lock(alpm_handle_t *handle);
+int _alpm_handle_unlock(alpm_handle_t *handle);
 
 enum _pmerrno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist);

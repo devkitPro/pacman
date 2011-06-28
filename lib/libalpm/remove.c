@@ -44,7 +44,7 @@
 #include "deps.h"
 #include "handle.h"
 
-int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
+int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, pmpkg_t *pkg)
 {
 	const char *pkgname;
 	pmtrans_t *trans;
@@ -70,7 +70,7 @@ int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	return 0;
 }
 
-static void remove_prepare_cascade(pmhandle_t *handle, alpm_list_t *lp)
+static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 {
 	pmtrans_t *trans = handle->trans;
 
@@ -97,7 +97,7 @@ static void remove_prepare_cascade(pmhandle_t *handle, alpm_list_t *lp)
 	}
 }
 
-static void remove_prepare_keep_needed(pmhandle_t *handle, alpm_list_t *lp)
+static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 {
 	pmtrans_t *trans = handle->trans;
 
@@ -134,7 +134,7 @@ static void remove_prepare_keep_needed(pmhandle_t *handle, alpm_list_t *lp)
  * @param handle the context handle
  * @param data a pointer to an alpm_list_t* to fill
  */
-int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
+int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *lp;
 	pmtrans_t *trans = handle->trans;
@@ -191,7 +191,7 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-static int can_remove_file(pmhandle_t *handle, const char *path,
+static int can_remove_file(alpm_handle_t *handle, const char *path,
 		alpm_list_t *skip_remove)
 {
 	char file[PATH_MAX];
@@ -219,7 +219,7 @@ static int can_remove_file(pmhandle_t *handle, const char *path,
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(pmhandle_t *handle, pmpkg_t *info, const char *filename,
+static void unlink_file(alpm_handle_t *handle, pmpkg_t *info, const char *filename,
 		alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
@@ -282,7 +282,7 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, const char *filename,
 	}
 }
 
-int _alpm_upgraderemove_package(pmhandle_t *handle,
+int _alpm_upgraderemove_package(alpm_handle_t *handle,
 		pmpkg_t *oldpkg, pmpkg_t *newpkg)
 {
 	alpm_list_t *skip_remove, *b;
@@ -353,7 +353,7 @@ db:
 	return 0;
 }
 
-int _alpm_remove_packages(pmhandle_t *handle)
+int _alpm_remove_packages(alpm_handle_t *handle)
 {
 	pmpkg_t *info;
 	alpm_list_t *targ, *lp;

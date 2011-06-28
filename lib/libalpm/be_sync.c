@@ -39,7 +39,7 @@
 #include "deps.h"
 #include "dload.h"
 
-static char *get_sync_dir(pmhandle_t *handle)
+static char *get_sync_dir(alpm_handle_t *handle)
 {
 	const char *dbpath = alpm_option_get_dbpath(handle);
 	size_t len = strlen(dbpath) + 6;
@@ -148,7 +148,7 @@ int SYMEXPORT alpm_db_update(int force, pmdb_t *db)
 	alpm_list_t *i;
 	int ret = -1;
 	mode_t oldmask;
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 	pgp_verify_t check_sig;
 
 	/* Sanity checks */
@@ -584,7 +584,7 @@ struct db_operations sync_db_ops = {
 	.unregister       = _alpm_db_unregister,
 };
 
-pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+pmdb_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t level)
 {
 	pmdb_t *db;

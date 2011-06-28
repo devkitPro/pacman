@@ -22,7 +22,7 @@
 
 #include "alpm.h"
 
-void _alpm_log(pmhandle_t *handle, pmloglevel_t flag,
+void _alpm_log(alpm_handle_t *handle, pmloglevel_t flag,
 		const char *fmt, ...) __attribute__((format(printf,3,4)));
 
 #endif /* _ALPM_LOG_H */

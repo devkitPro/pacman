@@ -100,7 +100,7 @@ typedef enum _pgp_verify_t {
  * Structures
  */
 
-typedef struct __pmhandle_t pmhandle_t;
+typedef struct __alpm_handle_t alpm_handle_t;
 typedef struct __pmdb_t pmdb_t;
 typedef struct __pmpkg_t pmpkg_t;
 typedef struct __pmtrans_t pmtrans_t;
@@ -181,7 +181,7 @@ typedef enum _pmloglevel_t {
 } pmloglevel_t;
 
 typedef void (*alpm_cb_log)(pmloglevel_t, const char *, va_list);
-int alpm_logaction(pmhandle_t *handle, const char *fmt, ...);
+int alpm_logaction(alpm_handle_t *handle, const char *fmt, ...);
 
 /*
  * Downloading
@@ -212,7 +212,7 @@ typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
  * @param url URL of the package to download
  * @return the downloaded filepath on success, NULL on error
  */
-char *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url);
+char *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url);
 
 /** @addtogroup alpm_api_options Options
  * Libalpm option getters and setters
@@ -220,67 +220,67 @@ char *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url);
  */
 
 /** Returns the callback used for logging. */
-alpm_cb_log alpm_option_get_logcb(pmhandle_t *handle);
+alpm_cb_log alpm_option_get_logcb(alpm_handle_t *handle);
 /** Sets the callback used for logging. */
-int alpm_option_set_logcb(pmhandle_t *handle, alpm_cb_log cb);
+int alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb);
 
 /** Returns the callback used to report download progress. */
-alpm_cb_download alpm_option_get_dlcb(pmhandle_t *handle);
+alpm_cb_download alpm_option_get_dlcb(alpm_handle_t *handle);
 /** Sets the callback used to report download progress. */
-int alpm_option_set_dlcb(pmhandle_t *handle, alpm_cb_download cb);
+int alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb);
 
 /** Returns the downloading callback. */
-alpm_cb_fetch alpm_option_get_fetchcb(pmhandle_t *handle);
+alpm_cb_fetch alpm_option_get_fetchcb(alpm_handle_t *handle);
 /** Sets the downloading callback. */
-int alpm_option_set_fetchcb(pmhandle_t *handle, alpm_cb_fetch cb);
+int alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb);
 
 /** Returns the callback used to report total download size. */
-alpm_cb_totaldl alpm_option_get_totaldlcb(pmhandle_t *handle);
+alpm_cb_totaldl alpm_option_get_totaldlcb(alpm_handle_t *handle);
 /** Sets the callback used to report total download size. */
-int alpm_option_set_totaldlcb(pmhandle_t *handle, alpm_cb_totaldl cb);
+int alpm_option_set_totaldlcb(alpm_handle_t *handle, alpm_cb_totaldl cb);
 
 /** Returns the root of the destination filesystem. Read-only. */
-const char *alpm_option_get_root(pmhandle_t *handle);
+const char *alpm_option_get_root(alpm_handle_t *handle);
 
 /** Returns the path to the database directory. Read-only. */
-const char *alpm_option_get_dbpath(pmhandle_t *handle);
+const char *alpm_option_get_dbpath(alpm_handle_t *handle);
 
 /** Get the name of the database lock file. Read-only. */
-const char *alpm_option_get_lockfile(pmhandle_t *handle);
+const char *alpm_option_get_lockfile(alpm_handle_t *handle);
 
 /** @name Accessors to the list of package cache directories.
  * @{
  */
-alpm_list_t *alpm_option_get_cachedirs(pmhandle_t *handle);
-int alpm_option_set_cachedirs(pmhandle_t *handle, alpm_list_t *cachedirs);
-int alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir);
-int alpm_option_remove_cachedir(pmhandle_t *handle, const char *cachedir);
+alpm_list_t *alpm_option_get_cachedirs(alpm_handle_t *handle);
+int alpm_option_set_cachedirs(alpm_handle_t *handle, alpm_list_t *cachedirs);
+int alpm_option_add_cachedir(alpm_handle_t *handle, const char *cachedir);
+int alpm_option_remove_cachedir(alpm_handle_t *handle, const char *cachedir);
 /** @} */
 
 /** Returns the logfile name. */
-const char *alpm_option_get_logfile(pmhandle_t *handle);
+const char *alpm_option_get_logfile(alpm_handle_t *handle);
 /** Sets the logfile name. */
-int alpm_option_set_logfile(pmhandle_t *handle, const char *logfile);
+int alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile);
 
 /** Returns the path to libalpm's GnuPG home directory. */
-const char *alpm_option_get_gpgdir(pmhandle_t *handle);
+const char *alpm_option_get_gpgdir(alpm_handle_t *handle);
 /** Sets the path to libalpm's GnuPG home directory. */
-int alpm_option_set_gpgdir(pmhandle_t *handle, const char *gpgdir);
+int alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir);
 
 /** Returns whether to use syslog (0 is FALSE, TRUE otherwise). */
-int alpm_option_get_usesyslog(pmhandle_t *handle);
+int alpm_option_get_usesyslog(alpm_handle_t *handle);
 /** Sets whether to use syslog (0 is FALSE, TRUE otherwise). */
-int alpm_option_set_usesyslog(pmhandle_t *handle, int usesyslog);
+int alpm_option_set_usesyslog(alpm_handle_t *handle, int usesyslog);
 
 /** @name Accessors to the list of no-upgrade files.
  * These functions modify the list of files which should
  * not be updated by package installation.
  * @{
  */
-alpm_list_t *alpm_option_get_noupgrades(pmhandle_t *handle);
-int alpm_option_add_noupgrade(pmhandle_t *handle, const char *pkg);
-int alpm_option_set_noupgrades(pmhandle_t *handle, alpm_list_t *noupgrade);
-int alpm_option_remove_noupgrade(pmhandle_t *handle, const char *pkg);
+alpm_list_t *alpm_option_get_noupgrades(alpm_handle_t *handle);
+int alpm_option_add_noupgrade(alpm_handle_t *handle, const char *pkg);
+int alpm_option_set_noupgrades(alpm_handle_t *handle, alpm_list_t *noupgrade);
+int alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *pkg);
 /** @} */
 
 /** @name Accessors to the list of no-extract files.
@@ -289,10 +289,10 @@ int alpm_option_remove_noupgrade(pmhandle_t *handle, const char *pkg);
  * not be upgraded by a sysupgrade operation.
  * @{
  */
-alpm_list_t *alpm_option_get_noextracts(pmhandle_t *handle);
-int alpm_option_add_noextract(pmhandle_t *handle, const char *pkg);
-int alpm_option_set_noextracts(pmhandle_t *handle, alpm_list_t *noextract);
-int alpm_option_remove_noextract(pmhandle_t *handle, const char *pkg);
+alpm_list_t *alpm_option_get_noextracts(alpm_handle_t *handle);
+int alpm_option_add_noextract(alpm_handle_t *handle, const char *pkg);
+int alpm_option_set_noextracts(alpm_handle_t *handle, alpm_list_t *noextract);
+int alpm_option_remove_noextract(alpm_handle_t *handle, const char *pkg);
 /** @} */
 
 /** @name Accessors to the list of ignored packages.
@@ -300,10 +300,10 @@ int alpm_option_remove_noextract(pmhandle_t *handle, const char *pkg);
  * should be ignored by a sysupgrade.
  * @{
  */
-alpm_list_t *alpm_option_get_ignorepkgs(pmhandle_t *handle);
-int alpm_option_add_ignorepkg(pmhandle_t *handle, const char *pkg);
-int alpm_option_set_ignorepkgs(pmhandle_t *handle, alpm_list_t *ignorepkgs);
-int alpm_option_remove_ignorepkg(pmhandle_t *handle, const char *pkg);
+alpm_list_t *alpm_option_get_ignorepkgs(alpm_handle_t *handle);
+int alpm_option_add_ignorepkg(alpm_handle_t *handle, const char *pkg);
+int alpm_option_set_ignorepkgs(alpm_handle_t *handle, alpm_list_t *ignorepkgs);
+int alpm_option_remove_ignorepkg(alpm_handle_t *handle, const char *pkg);
 /** @} */
 
 /** @name Accessors to the list of ignored groups.
@@ -311,25 +311,25 @@ int alpm_option_remove_ignorepkg(pmhandle_t *handle, const char *pkg);
  * should be ignored by a sysupgrade.
  * @{
  */
-alpm_list_t *alpm_option_get_ignoregrps(pmhandle_t *handle);
-int alpm_option_add_ignoregrp(pmhandle_t *handle, const char *grp);
-int alpm_option_set_ignoregrps(pmhandle_t *handle, alpm_list_t *ignoregrps);
-int alpm_option_remove_ignoregrp(pmhandle_t *handle, const char *grp);
+alpm_list_t *alpm_option_get_ignoregrps(alpm_handle_t *handle);
+int alpm_option_add_ignoregrp(alpm_handle_t *handle, const char *grp);
+int alpm_option_set_ignoregrps(alpm_handle_t *handle, alpm_list_t *ignoregrps);
+int alpm_option_remove_ignoregrp(alpm_handle_t *handle, const char *grp);
 /** @} */
 
 /** Returns the targeted architecture. */
-const char *alpm_option_get_arch(pmhandle_t *handle);
+const char *alpm_option_get_arch(alpm_handle_t *handle);
 /** Sets the targeted architecture. */
-int alpm_option_set_arch(pmhandle_t *handle, const char *arch);
+int alpm_option_set_arch(alpm_handle_t *handle, const char *arch);
 
-int alpm_option_get_usedelta(pmhandle_t *handle);
-int alpm_option_set_usedelta(pmhandle_t *handle, int usedelta);
+int alpm_option_get_usedelta(alpm_handle_t *handle);
+int alpm_option_set_usedelta(alpm_handle_t *handle, int usedelta);
 
-int alpm_option_get_checkspace(pmhandle_t *handle);
-int alpm_option_set_checkspace(pmhandle_t *handle, int checkspace);
+int alpm_option_get_checkspace(alpm_handle_t *handle);
+int alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace);
 
-pgp_verify_t alpm_option_get_default_sigverify(pmhandle_t *handle);
-int alpm_option_set_default_sigverify(pmhandle_t *handle, pgp_verify_t level);
+pgp_verify_t alpm_option_get_default_sigverify(alpm_handle_t *handle);
+int alpm_option_set_default_sigverify(alpm_handle_t *handle, pgp_verify_t level);
 
 /** @} */
 
@@ -344,7 +344,7 @@ int alpm_option_set_default_sigverify(pmhandle_t *handle, pgp_verify_t level);
  * libalpm functions.
  * @return a reference to the local database
  */
-pmdb_t *alpm_option_get_localdb(pmhandle_t *handle);
+pmdb_t *alpm_option_get_localdb(alpm_handle_t *handle);
 
 /** Get the list of sync databases.
  * Returns a list of pmdb_t structures, one for each registered
@@ -352,7 +352,7 @@ pmdb_t *alpm_option_get_localdb(pmhandle_t *handle);
  * @param handle the context handle
  * @return a reference to an internal list of pmdb_t structures
  */
-alpm_list_t *alpm_option_get_syncdbs(pmhandle_t *handle);
+alpm_list_t *alpm_option_get_syncdbs(alpm_handle_t *handle);
 
 /** Register a sync database of packages.
  * @param handle the context handle
@@ -361,7 +361,7 @@ alpm_list_t *alpm_option_get_syncdbs(pmhandle_t *handle);
  * database; note that this must be a '.sig' file type verification
  * @return a pmdb_t* on success (the value), NULL on error
  */
-pmdb_t *alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+pmdb_t *alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t check_sig);
 
 /** Unregister a package database.
@@ -374,7 +374,7 @@ int alpm_db_unregister(pmdb_t *db);
  * @param handle the context handle
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_unregister_all(pmhandle_t *handle);
+int alpm_db_unregister_all(alpm_handle_t *handle);
 
 /** Get the name of a package database.
  * @param db pointer to the package database
@@ -455,7 +455,7 @@ int alpm_db_set_pkgreason(pmdb_t *db, const char *name, alpm_pkgreason_t reason)
  * @param pkg address of the package pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_pkg_load(pmhandle_t *handle, const char *filename, int full,
+int alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
 		pgp_verify_t check_sig, pmpkg_t **pkg);
 
 /** Free a package.
@@ -866,19 +866,19 @@ typedef void (*alpm_trans_cb_progress)(pmtransprog_t, const char *, int, size_t,
  * @param handle the context handle
  * @return the bitfield of transaction flags
  */
-pmtransflag_t alpm_trans_get_flags(pmhandle_t *handle);
+pmtransflag_t alpm_trans_get_flags(alpm_handle_t *handle);
 
 /** Returns a list of packages added by the transaction.
  * @param handle the context handle
  * @return a list of pmpkg_t structures
  */
-alpm_list_t * alpm_trans_get_add(pmhandle_t *handle);
+alpm_list_t * alpm_trans_get_add(alpm_handle_t *handle);
 
 /** Returns the list of packages removed by the transaction.
  * @param handle the context handle
  * @return a list of pmpkg_t structures
  */
-alpm_list_t * alpm_trans_get_remove(pmhandle_t *handle);
+alpm_list_t * alpm_trans_get_remove(alpm_handle_t *handle);
 
 /** Initialize the transaction.
  * @param handle the context handle
@@ -888,7 +888,7 @@ alpm_list_t * alpm_trans_get_remove(pmhandle_t *handle);
  * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
+int alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
                     alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
                     alpm_trans_cb_progress cb_progress);
 
@@ -898,7 +898,7 @@ int alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
  * of pmdepmissing_t objects is dumped (conflicting packages)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data);
+int alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data);
 
 /** Commit a transaction.
  * @param handle the context handle
@@ -906,19 +906,19 @@ int alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data);
  * of an error can be dumped (ie. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_commit(pmhandle_t *handle, alpm_list_t **data);
+int alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data);
 
 /** Interrupt a transaction.
  * @param handle the context handle
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_interrupt(pmhandle_t *handle);
+int alpm_trans_interrupt(alpm_handle_t *handle);
 
 /** Release a transaction.
  * @param handle the context handle
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_release(pmhandle_t *handle);
+int alpm_trans_release(alpm_handle_t *handle);
 /** @} */
 
 /** @name Common Transactions */
@@ -929,7 +929,7 @@ int alpm_trans_release(pmhandle_t *handle);
  * @param enable_downgrade allow downgrading of packages if the remote version is lower
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade);
+int alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade);
 
 /** Add a package to the transaction.
  * If the package was loaded by alpm_pkg_load(), it will be freed upon
@@ -938,14 +938,14 @@ int alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade);
  * @param pkg the package to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg);
+int alpm_add_pkg(alpm_handle_t *handle, pmpkg_t *pkg);
 
 /** Add a package removal action to the transaction.
  * @param handle the context handle
  * @param pkg the package to uninstall
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg);
+int alpm_remove_pkg(alpm_handle_t *handle, pmpkg_t *pkg);
 
 /** @} */
 
@@ -955,13 +955,13 @@ int alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg);
  * @{
  */
 
-alpm_list_t *alpm_checkdeps(pmhandle_t *handle, alpm_list_t *pkglist,
+alpm_list_t *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglist,
 		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps);
 pmpkg_t *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring);
-pmpkg_t *alpm_find_dbs_satisfier(pmhandle_t *handle,
+pmpkg_t *alpm_find_dbs_satisfier(alpm_handle_t *handle,
 		alpm_list_t *dbs, const char *depstring);
 
-alpm_list_t *alpm_checkconflicts(pmhandle_t *handle, alpm_list_t *pkglist);
+alpm_list_t *alpm_checkconflicts(alpm_handle_t *handle, alpm_list_t *pkglist);
 
 /** Returns a newly allocated string representing the dependency information.
  * @param dep a dependency info structure
@@ -1048,7 +1048,7 @@ enum _pmerrno_t {
 };
 
 /** Returns the current error code from the handle. */
-enum _pmerrno_t alpm_errno(pmhandle_t *handle);
+enum _pmerrno_t alpm_errno(alpm_handle_t *handle);
 
 /** Returns the string corresponding to an error number. */
 const char *alpm_strerror(enum _pmerrno_t err);
@@ -1056,9 +1056,9 @@ const char *alpm_strerror(enum _pmerrno_t err);
 /* End of alpm_api_errors */
 /** @} */
 
-pmhandle_t *alpm_initialize(const char *root, const char *dbpath,
+alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
 		enum _pmerrno_t *err);
-int alpm_release(pmhandle_t *handle);
+int alpm_release(alpm_handle_t *handle);
 const char *alpm_version(void);
 
 /* End of alpm_api */

@@ -92,7 +92,7 @@ typedef struct __config_t {
 	char *xfercommand;
 
 	/* our connection to libalpm */
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 } config_t;
 
 /* Operations */

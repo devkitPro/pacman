@@ -29,7 +29,7 @@
 
 #define BASENAME "cleanupdelta"
 
-pmhandle_t *handle = NULL;
+alpm_handle_t *handle = NULL;
 
 static void cleanup(int signum) {
 	if(handle && alpm_release(handle) == -1) {

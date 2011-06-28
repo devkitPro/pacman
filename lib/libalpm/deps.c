@@ -126,7 +126,7 @@ static alpm_list_t *dep_graph_init(alpm_list_t *targets)
  * This function returns the new alpm_list_t* target list.
  *
  */
-alpm_list_t *_alpm_sortbydeps(pmhandle_t *handle,
+alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 		alpm_list_t *targets, int reverse)
 {
 	alpm_list_t *newtargs = NULL;
@@ -202,7 +202,7 @@ alpm_list_t *_alpm_sortbydeps(pmhandle_t *handle,
 	return newtargs;
 }
 
-static int no_dep_version(pmhandle_t *handle)
+static int no_dep_version(alpm_handle_t *handle)
 {
 	int flags = alpm_trans_get_flags(handle);
 	return flags != -1 && (flags & PM_TRANS_FLAG_NODEPVERSION);
@@ -265,7 +265,7 @@ pmpkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
  * @param reversedeps handles the backward dependencies
  * @return an alpm_list_t* of pmdepmissing_t pointers.
  */
-alpm_list_t SYMEXPORT *alpm_checkdeps(pmhandle_t *handle, alpm_list_t *pkglist,
+alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglist,
 		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps)
 {
 	alpm_list_t *i, *j;
@@ -554,7 +554,7 @@ void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit)
  *        an error code without prompting
  * @return the resolved package
  **/
-static pmpkg_t *resolvedep(pmhandle_t *handle, pmdepend_t *dep,
+static pmpkg_t *resolvedep(alpm_handle_t *handle, pmdepend_t *dep,
 		alpm_list_t *dbs, alpm_list_t *excluding, int prompt)
 {
 	alpm_list_t *i, *j;
@@ -653,7 +653,7 @@ static pmpkg_t *resolvedep(pmhandle_t *handle, pmdepend_t *dep,
  * @param depstring package or provision name, versioned or not
  * @return a pmpkg_t* satisfying depstring
  */
-pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(pmhandle_t *handle,
+pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
 		alpm_list_t *dbs, const char *depstring)
 {
 	pmdepend_t *dep;
@@ -689,7 +689,7 @@ pmpkg_t SYMEXPORT *alpm_find_dbs_satisfier(pmhandle_t *handle,
  *         unresolvable dependency, in which case the [*packages] list will be
  *         unmodified by this function
  */
-int _alpm_resolvedeps(pmhandle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
+int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
                       alpm_list_t *preferred, alpm_list_t **packages,
                       alpm_list_t *remove, alpm_list_t **data)
 {

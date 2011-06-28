@@ -83,7 +83,7 @@ pmpkg_t SYMEXPORT *alpm_sync_newversion(pmpkg_t *pkg, alpm_list_t *dbs_sync)
 }
 
 /** Search for packages to upgrade and add them to the transaction. */
-int SYMEXPORT alpm_sync_sysupgrade(pmhandle_t *handle, int enable_downgrade)
+int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 {
 	alpm_list_t *i, *j, *k;
 	pmtrans_t *trans;
@@ -257,7 +257,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	const char *fname;
 	char *fpath;
 	off_t size = 0;
-	pmhandle_t *handle = newpkg->handle;
+	alpm_handle_t *handle = newpkg->handle;
 
 	if(newpkg->origin != PKG_FROM_SYNCDB) {
 		newpkg->infolevel |= INFRQ_DSIZE;
@@ -302,7 +302,7 @@ static int compute_download_size(pmpkg_t *newpkg)
 	return 0;
 }
 
-int _alpm_sync_prepare(pmhandle_t *handle, alpm_list_t **data)
+int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *deps = NULL;
@@ -583,7 +583,7 @@ static int endswith(const char *filename, const char *extension)
  *
  * @return 0 if all delta files were able to be applied, 1 otherwise.
  */
-static int apply_deltas(pmhandle_t *handle)
+static int apply_deltas(alpm_handle_t *handle)
 {
 	alpm_list_t *i;
 	int ret = 0;
@@ -689,7 +689,7 @@ static int test_md5sum(pmtrans_t *trans, const char *filepath,
 	return ret;
 }
 
-static int validate_deltas(pmhandle_t *handle, alpm_list_t *deltas,
+static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 		alpm_list_t **data)
 {
 	int errors = 0, ret = 0;
@@ -726,7 +726,7 @@ static int validate_deltas(pmhandle_t *handle, alpm_list_t *deltas,
 	return ret;
 }
 
-static int download_files(pmhandle_t *handle, alpm_list_t **deltas)
+static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 {
 	const char *cachedir;
 	alpm_list_t *i, *j;
@@ -833,7 +833,7 @@ static int download_files(pmhandle_t *handle, alpm_list_t **deltas)
 	return 0;
 }
 
-int _alpm_sync_commit(pmhandle_t *handle, alpm_list_t **data)
+int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *i;
 	alpm_list_t *deltas = NULL;

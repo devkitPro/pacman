@@ -48,7 +48,7 @@
  */
 
 /** Initialize the transaction. */
-int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
+int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, pmtransflag_t flags,
 		alpm_trans_cb_event event, alpm_trans_cb_conv conv,
 		alpm_trans_cb_progress progress)
 {
@@ -85,7 +85,7 @@ int SYMEXPORT alpm_trans_init(pmhandle_t *handle, pmtransflag_t flags,
 	return 0;
 }
 
-static alpm_list_t *check_arch(pmhandle_t *handle, alpm_list_t *pkgs)
+static alpm_list_t *check_arch(alpm_handle_t *handle, alpm_list_t *pkgs)
 {
 	alpm_list_t *i;
 	alpm_list_t *invalid = NULL;
@@ -111,7 +111,7 @@ static alpm_list_t *check_arch(pmhandle_t *handle, alpm_list_t *pkgs)
 }
 
 /** Prepare a transaction. */
-int SYMEXPORT alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data)
+int SYMEXPORT alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
 	pmtrans_t *trans;
 
@@ -155,7 +155,7 @@ int SYMEXPORT alpm_trans_prepare(pmhandle_t *handle, alpm_list_t **data)
 }
 
 /** Commit a transaction. */
-int SYMEXPORT alpm_trans_commit(pmhandle_t *handle, alpm_list_t **data)
+int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 {
 	pmtrans_t *trans;
 
@@ -194,7 +194,7 @@ int SYMEXPORT alpm_trans_commit(pmhandle_t *handle, alpm_list_t **data)
 }
 
 /** Interrupt a transaction. */
-int SYMEXPORT alpm_trans_interrupt(pmhandle_t *handle)
+int SYMEXPORT alpm_trans_interrupt(alpm_handle_t *handle)
 {
 	pmtrans_t *trans;
 
@@ -212,7 +212,7 @@ int SYMEXPORT alpm_trans_interrupt(pmhandle_t *handle)
 }
 
 /** Release a transaction. */
-int SYMEXPORT alpm_trans_release(pmhandle_t *handle)
+int SYMEXPORT alpm_trans_release(alpm_handle_t *handle)
 {
 	pmtrans_t *trans;
 
@@ -285,7 +285,7 @@ static int grep(const char *fn, const char *needle)
 	return 0;
 }
 
-int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
+int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 		const char *script, const char *ver, const char *oldver)
 {
 	char scriptfn[PATH_MAX];
@@ -359,7 +359,7 @@ cleanup:
 	return retval;
 }
 
-pmtransflag_t SYMEXPORT alpm_trans_get_flags(pmhandle_t *handle)
+pmtransflag_t SYMEXPORT alpm_trans_get_flags(alpm_handle_t *handle)
 {
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -368,7 +368,7 @@ pmtransflag_t SYMEXPORT alpm_trans_get_flags(pmhandle_t *handle)
 	return handle->trans->flags;
 }
 
-alpm_list_t SYMEXPORT *alpm_trans_get_add(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_trans_get_add(alpm_handle_t *handle)
 {
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return NULL);
@@ -377,7 +377,7 @@ alpm_list_t SYMEXPORT *alpm_trans_get_add(pmhandle_t *handle)
 	return handle->trans->add;
 }
 
-alpm_list_t SYMEXPORT *alpm_trans_get_remove(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_trans_get_remove(alpm_handle_t *handle)
 {
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return NULL);

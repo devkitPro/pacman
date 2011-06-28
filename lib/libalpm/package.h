@@ -119,7 +119,7 @@ struct __pmpkg_t {
 		pmdb_t *db;
 		char *file;
 	} origin_data;
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;
@@ -143,14 +143,14 @@ void _alpm_pkg_free(pmpkg_t *pkg);
 void _alpm_pkg_free_trans(pmpkg_t *pkg);
 
 
-pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
+pmpkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		int full, const char *md5sum, const char *base64_sig,
 		pgp_verify_t check_sig);
 
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg);
 pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle);
-int _alpm_pkg_should_ignore(pmhandle_t *handle, pmpkg_t *pkg);
+int _alpm_pkg_should_ignore(alpm_handle_t *handle, pmpkg_t *pkg);
 
 #endif /* _ALPM_PACKAGE_H */
 

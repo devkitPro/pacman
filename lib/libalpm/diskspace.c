@@ -59,7 +59,7 @@ static int mount_point_cmp(const void *p1, const void *p2)
 	return -strcmp(mp1->mount_dir, mp2->mount_dir);
 }
 
-static alpm_list_t *mount_point_list(pmhandle_t *handle)
+static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points = NULL, *ptr;
 	alpm_mountpoint_t *mp;
@@ -148,7 +148,7 @@ static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
 	return NULL;
 }
 
-static int calculate_removed_size(pmhandle_t *handle,
+static int calculate_removed_size(alpm_handle_t *handle,
 		const alpm_list_t *mount_points, pmpkg_t *pkg)
 {
 	alpm_list_t *file;
@@ -185,7 +185,7 @@ static int calculate_removed_size(pmhandle_t *handle,
 	return 0;
 }
 
-static int calculate_installed_size(pmhandle_t *handle,
+static int calculate_installed_size(alpm_handle_t *handle,
 		const alpm_list_t *mount_points, pmpkg_t *pkg)
 {
 	int ret=0;
@@ -257,7 +257,7 @@ cleanup:
 	return ret;
 }
 
-int _alpm_check_diskspace(pmhandle_t *handle)
+int _alpm_check_diskspace(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points, *i;
 	alpm_mountpoint_t *root_mp;

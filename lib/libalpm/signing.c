@@ -104,7 +104,7 @@ static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
 	return summary;
 }
 
-static int init_gpgme(pmhandle_t *handle)
+static int init_gpgme(alpm_handle_t *handle)
 {
 	static int init = 0;
 	const char *version, *sigdir;
@@ -205,7 +205,7 @@ error:
  * @param base64_sig optional PGP signature data in base64 encoding
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
-int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
+int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		const char *base64_sig)
 {
 	int ret = 0;
@@ -354,7 +354,7 @@ error:
 	return ret;
 }
 #else
-int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
+int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		const char *base64_sig)
 {
 	return -1;

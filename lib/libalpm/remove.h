@@ -24,10 +24,10 @@
 #include "alpm_list.h"
 #include "trans.h"
 
-int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data);
-int _alpm_remove_packages(pmhandle_t *handle);
+int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data);
+int _alpm_remove_packages(alpm_handle_t *handle);
 
-int _alpm_upgraderemove_package(pmhandle_t *handle,
+int _alpm_upgraderemove_package(alpm_handle_t *handle,
 		pmpkg_t *oldpkg, pmpkg_t *newpkg);
 
 #endif /* _ALPM_REMOVE_H */

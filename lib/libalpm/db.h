@@ -57,7 +57,7 @@ struct db_operations {
 
 /* Database */
 struct __pmdb_t {
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */
 	char *_path;
@@ -81,8 +81,8 @@ const char *_alpm_db_path(pmdb_t *db);
 char *_alpm_db_sig_path(pmdb_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
-pmdb_t *_alpm_db_register_local(pmhandle_t *handle);
-pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+pmdb_t *_alpm_db_register_local(alpm_handle_t *handle);
+pmdb_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t level);
 void _alpm_db_unregister(pmdb_t *db);
 

@@ -39,18 +39,18 @@
 #include "trans.h"
 #include "alpm.h"
 
-pmhandle_t *_alpm_handle_new()
+alpm_handle_t *_alpm_handle_new()
 {
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 
-	CALLOC(handle, 1, sizeof(pmhandle_t), return NULL);
+	CALLOC(handle, 1, sizeof(alpm_handle_t), return NULL);
 
 	handle->sigverify = PM_PGP_VERIFY_OPTIONAL;
 
 	return handle;
 }
 
-void _alpm_handle_free(pmhandle_t *handle)
+void _alpm_handle_free(alpm_handle_t *handle)
 {
 	if(handle == NULL) {
 		return;
@@ -89,7 +89,7 @@ void _alpm_handle_free(pmhandle_t *handle)
 }
 
 /** Lock the database */
-int _alpm_handle_lock(pmhandle_t *handle)
+int _alpm_handle_lock(alpm_handle_t *handle)
 {
 	int fd;
 	char *dir, *ptr;
@@ -124,7 +124,7 @@ int _alpm_handle_lock(pmhandle_t *handle)
 }
 
 /** Remove a lock file */
-int _alpm_handle_unlock(pmhandle_t *handle)
+int _alpm_handle_unlock(alpm_handle_t *handle)
 {
 	ASSERT(handle->lockfile != NULL, return -1);
 	ASSERT(handle->lckstream != NULL, return 0);
@@ -140,148 +140,148 @@ int _alpm_handle_unlock(pmhandle_t *handle)
 }
 
 
-alpm_cb_log SYMEXPORT alpm_option_get_logcb(pmhandle_t *handle)
+alpm_cb_log SYMEXPORT alpm_option_get_logcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->logcb;
 }
 
-alpm_cb_download SYMEXPORT alpm_option_get_dlcb(pmhandle_t *handle)
+alpm_cb_download SYMEXPORT alpm_option_get_dlcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->dlcb;
 }
 
-alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb(pmhandle_t *handle)
+alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->fetchcb;
 }
 
-alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb(pmhandle_t *handle)
+alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->totaldlcb;
 }
 
-const char SYMEXPORT *alpm_option_get_root(pmhandle_t *handle)
+const char SYMEXPORT *alpm_option_get_root(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->root;
 }
 
-const char SYMEXPORT *alpm_option_get_dbpath(pmhandle_t *handle)
+const char SYMEXPORT *alpm_option_get_dbpath(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->dbpath;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_cachedirs(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_cachedirs(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->cachedirs;
 }
 
-const char SYMEXPORT *alpm_option_get_logfile(pmhandle_t *handle)
+const char SYMEXPORT *alpm_option_get_logfile(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->logfile;
 }
 
-const char SYMEXPORT *alpm_option_get_lockfile(pmhandle_t *handle)
+const char SYMEXPORT *alpm_option_get_lockfile(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->lockfile;
 }
 
-const char SYMEXPORT *alpm_option_get_gpgdir(pmhandle_t *handle)
+const char SYMEXPORT *alpm_option_get_gpgdir(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->gpgdir;
 }
 
-int SYMEXPORT alpm_option_get_usesyslog(pmhandle_t *handle)
+int SYMEXPORT alpm_option_get_usesyslog(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	return handle->usesyslog;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_noupgrades(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_noupgrades(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->noupgrade;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_noextracts(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_noextracts(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->noextract;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->ignorepkg;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->ignoregrp;
 }
 
-const char SYMEXPORT *alpm_option_get_arch(pmhandle_t *handle)
+const char SYMEXPORT *alpm_option_get_arch(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->arch;
 }
 
-int SYMEXPORT alpm_option_get_usedelta(pmhandle_t *handle)
+int SYMEXPORT alpm_option_get_usedelta(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	return handle->usedelta;
 }
 
-int SYMEXPORT alpm_option_get_checkspace(pmhandle_t *handle)
+int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	return handle->checkspace;
 }
 
-pmdb_t SYMEXPORT *alpm_option_get_localdb(pmhandle_t *handle)
+pmdb_t SYMEXPORT *alpm_option_get_localdb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->db_local;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_syncdbs(pmhandle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_syncdbs(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->dbs_sync;
 }
 
-int SYMEXPORT alpm_option_set_logcb(pmhandle_t *handle, alpm_cb_log cb)
+int SYMEXPORT alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->logcb = cb;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_dlcb(pmhandle_t *handle, alpm_cb_download cb)
+int SYMEXPORT alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->dlcb = cb;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_fetchcb(pmhandle_t *handle, alpm_cb_fetch cb)
+int SYMEXPORT alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->fetchcb = cb;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_totaldlcb(pmhandle_t *handle, alpm_cb_totaldl cb)
+int SYMEXPORT alpm_option_set_totaldlcb(alpm_handle_t *handle, alpm_cb_totaldl cb)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->totaldlcb = cb;
@@ -337,7 +337,7 @@ enum _pmerrno_t _alpm_set_directory_option(const char *value,
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir)
+int SYMEXPORT alpm_option_add_cachedir(alpm_handle_t *handle, const char *cachedir)
 {
 	char *newcachedir;
 
@@ -355,7 +355,7 @@ int SYMEXPORT alpm_option_add_cachedir(pmhandle_t *handle, const char *cachedir)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_cachedirs(pmhandle_t *handle, alpm_list_t *cachedirs)
+int SYMEXPORT alpm_option_set_cachedirs(alpm_handle_t *handle, alpm_list_t *cachedirs)
 {
 	alpm_list_t *i;
 	CHECK_HANDLE(handle, return -1);
@@ -371,7 +371,7 @@ int SYMEXPORT alpm_option_set_cachedirs(pmhandle_t *handle, alpm_list_t *cachedi
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_cachedir(pmhandle_t *handle, const char *cachedir)
+int SYMEXPORT alpm_option_remove_cachedir(alpm_handle_t *handle, const char *cachedir)
 {
 	char *vdata = NULL;
 	char *newcachedir;
@@ -391,7 +391,7 @@ int SYMEXPORT alpm_option_remove_cachedir(pmhandle_t *handle, const char *cached
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_logfile(pmhandle_t *handle, const char *logfile)
+int SYMEXPORT alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile)
 {
 	char *oldlogfile = handle->logfile;
 
@@ -416,7 +416,7 @@ int SYMEXPORT alpm_option_set_logfile(pmhandle_t *handle, const char *logfile)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_gpgdir(pmhandle_t *handle, const char *gpgdir)
+int SYMEXPORT alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(!gpgdir) {
@@ -433,21 +433,21 @@ int SYMEXPORT alpm_option_set_gpgdir(pmhandle_t *handle, const char *gpgdir)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_usesyslog(pmhandle_t *handle, int usesyslog)
+int SYMEXPORT alpm_option_set_usesyslog(alpm_handle_t *handle, int usesyslog)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->usesyslog = usesyslog;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_noupgrade(pmhandle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_add_noupgrade(alpm_handle_t *handle, const char *pkg)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_noupgrades(pmhandle_t *handle, alpm_list_t *noupgrade)
+int SYMEXPORT alpm_option_set_noupgrades(alpm_handle_t *handle, alpm_list_t *noupgrade)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->noupgrade) FREELIST(handle->noupgrade);
@@ -455,7 +455,7 @@ int SYMEXPORT alpm_option_set_noupgrades(pmhandle_t *handle, alpm_list_t *noupgr
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_noupgrade(pmhandle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *pkg)
 {
 	char *vdata = NULL;
 	CHECK_HANDLE(handle, return -1);
@@ -467,14 +467,14 @@ int SYMEXPORT alpm_option_remove_noupgrade(pmhandle_t *handle, const char *pkg)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_noextract(pmhandle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_add_noextract(alpm_handle_t *handle, const char *pkg)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_noextracts(pmhandle_t *handle, alpm_list_t *noextract)
+int SYMEXPORT alpm_option_set_noextracts(alpm_handle_t *handle, alpm_list_t *noextract)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->noextract) FREELIST(handle->noextract);
@@ -482,7 +482,7 @@ int SYMEXPORT alpm_option_set_noextracts(pmhandle_t *handle, alpm_list_t *noextr
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_noextract(pmhandle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_remove_noextract(alpm_handle_t *handle, const char *pkg)
 {
 	char *vdata = NULL;
 	CHECK_HANDLE(handle, return -1);
@@ -494,14 +494,14 @@ int SYMEXPORT alpm_option_remove_noextract(pmhandle_t *handle, const char *pkg)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_ignorepkg(pmhandle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_add_ignorepkg(alpm_handle_t *handle, const char *pkg)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_ignorepkgs(pmhandle_t *handle, alpm_list_t *ignorepkgs)
+int SYMEXPORT alpm_option_set_ignorepkgs(alpm_handle_t *handle, alpm_list_t *ignorepkgs)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->ignorepkg) FREELIST(handle->ignorepkg);
@@ -509,7 +509,7 @@ int SYMEXPORT alpm_option_set_ignorepkgs(pmhandle_t *handle, alpm_list_t *ignore
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_ignorepkg(pmhandle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_remove_ignorepkg(alpm_handle_t *handle, const char *pkg)
 {
 	char *vdata = NULL;
 	CHECK_HANDLE(handle, return -1);
@@ -521,14 +521,14 @@ int SYMEXPORT alpm_option_remove_ignorepkg(pmhandle_t *handle, const char *pkg)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_ignoregrp(pmhandle_t *handle, const char *grp)
+int SYMEXPORT alpm_option_add_ignoregrp(alpm_handle_t *handle, const char *grp)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->ignoregrp = alpm_list_add(handle->ignoregrp, strdup(grp));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_ignoregrps(pmhandle_t *handle, alpm_list_t *ignoregrps)
+int SYMEXPORT alpm_option_set_ignoregrps(alpm_handle_t *handle, alpm_list_t *ignoregrps)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
@@ -536,7 +536,7 @@ int SYMEXPORT alpm_option_set_ignoregrps(pmhandle_t *handle, alpm_list_t *ignore
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_ignoregrp(pmhandle_t *handle, const char *grp)
+int SYMEXPORT alpm_option_remove_ignoregrp(alpm_handle_t *handle, const char *grp)
 {
 	char *vdata = NULL;
 	CHECK_HANDLE(handle, return -1);
@@ -548,7 +548,7 @@ int SYMEXPORT alpm_option_remove_ignoregrp(pmhandle_t *handle, const char *grp)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_arch(pmhandle_t *handle, const char *arch)
+int SYMEXPORT alpm_option_set_arch(alpm_handle_t *handle, const char *arch)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->arch) FREE(handle->arch);
@@ -560,21 +560,21 @@ int SYMEXPORT alpm_option_set_arch(pmhandle_t *handle, const char *arch)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_usedelta(pmhandle_t *handle, int usedelta)
+int SYMEXPORT alpm_option_set_usedelta(alpm_handle_t *handle, int usedelta)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->usedelta = usedelta;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_checkspace(pmhandle_t *handle, int checkspace)
+int SYMEXPORT alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->checkspace = checkspace;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_default_sigverify(pmhandle_t *handle, pgp_verify_t level)
+int SYMEXPORT alpm_option_set_default_sigverify(alpm_handle_t *handle, pgp_verify_t level)
 {
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(level != PM_PGP_VERIFY_UNKNOWN, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
@@ -582,7 +582,7 @@ int SYMEXPORT alpm_option_set_default_sigverify(pmhandle_t *handle, pgp_verify_t
 	return 0;
 }
 
-pgp_verify_t SYMEXPORT alpm_option_get_default_sigverify(pmhandle_t *handle)
+pgp_verify_t SYMEXPORT alpm_option_get_default_sigverify(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return PM_PGP_VERIFY_UNKNOWN);
 	return handle->sigverify;

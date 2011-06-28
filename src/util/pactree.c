@@ -76,7 +76,7 @@ static struct color_choices no_color = {
 };
 
 /* globals */
-pmhandle_t *handle = NULL;
+alpm_handle_t *handle = NULL;
 alpm_list_t *walked = NULL;
 alpm_list_t *provisions = NULL;
 

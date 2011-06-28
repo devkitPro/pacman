@@ -40,7 +40,7 @@ static void output_cb(pmloglevel_t level, const char *fmt, va_list args)
 int main(int argc, char *argv[])
 {
 	int retval = 1; /* default = false */
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 	enum _pmerrno_t err;
 	pmpkg_t *pkg = NULL;
 

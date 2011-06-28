@@ -78,7 +78,7 @@ static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 	return vertices;
 }
 
-static void graph_init_size(pmhandle_t *handle, alpm_list_t *vertices)
+static void graph_init_size(alpm_handle_t *handle, alpm_list_t *vertices)
 {
 	alpm_list_t *i;
 
@@ -186,7 +186,7 @@ static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **
  * possible with the files available.
  * @return the size of the path stored, or LONG_MAX if path is unfindable
  */
-off_t _alpm_shortest_delta_path(pmhandle_t *handle, alpm_list_t *deltas,
+off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,
 		const char *to, alpm_list_t **path)
 {
 	alpm_list_t *bestpath = NULL;

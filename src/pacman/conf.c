@@ -421,7 +421,7 @@ static int setup_libalpm(void)
 {
 	int ret = 0;
 	enum _pmerrno_t err;
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 
 	pm_printf(PM_LOG_DEBUG, "setup_libalpm called\n");
 

@@ -100,7 +100,7 @@ static int conflict_isin(pmconflict_t *needle, alpm_list_t *haystack)
  * @param pkg2 package causing conflict
  * @param reason reason for this conflict
  */
-static int add_conflict(pmhandle_t *handle, alpm_list_t **baddeps,
+static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
 		const char *pkg1, const char *pkg2, const char *reason)
 {
 	pmconflict_t *conflict = conflict_new(pkg1, pkg2, reason);
@@ -129,7 +129,7 @@ static int add_conflict(pmhandle_t *handle, alpm_list_t **baddeps,
  * @param baddeps list to store conflicts
  * @param order if >= 0 the conflict order is preserved, if < 0 it's reversed
  */
-static void check_conflict(pmhandle_t *handle,
+static void check_conflict(alpm_handle_t *handle,
 		alpm_list_t *list1, alpm_list_t *list2,
 		alpm_list_t **baddeps, int order) {
 	alpm_list_t *i;
@@ -170,7 +170,7 @@ static void check_conflict(pmhandle_t *handle,
 }
 
 /* Check for inter-conflicts */
-alpm_list_t *_alpm_innerconflicts(pmhandle_t *handle, alpm_list_t *packages)
+alpm_list_t *_alpm_innerconflicts(alpm_handle_t *handle, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
 
@@ -211,7 +211,7 @@ alpm_list_t *_alpm_outerconflicts(pmdb_t *db, alpm_list_t *packages)
  * @param pkglist the list of packages to check
  * @return an alpm_list_t of pmconflict_t
  */
-alpm_list_t SYMEXPORT *alpm_checkconflicts(pmhandle_t *handle,
+alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_handle_t *handle,
 		alpm_list_t *pkglist)
 {
 	CHECK_HANDLE(handle, return NULL);
@@ -280,7 +280,7 @@ static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
  * string, and either two package names or one package name and NULL. This is
  * a wrapper for former functionality that was done inline.
  */
-static alpm_list_t *add_fileconflict(pmhandle_t *handle,
+static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 		alpm_list_t *conflicts, alpm_fileconflicttype_t type, const char *filestr,
 		const char *name1, const char *name2)
 {
@@ -362,7 +362,7 @@ static int dir_belongsto_pkg(const char *root, const char *dirpath,
 /* Find file conflicts that may occur during the transaction with two checks:
  * 1: check every target against every target
  * 2: check every target against the filesystem */
-alpm_list_t *_alpm_db_find_fileconflicts(pmhandle_t *handle,
+alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		alpm_list_t *upgrade, alpm_list_t *remove)
 {
 	alpm_list_t *i, *j, *conflicts = NULL;
