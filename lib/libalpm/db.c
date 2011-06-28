@@ -484,7 +484,7 @@ void _alpm_db_free_pkgcache(alpm_db_t *db)
 	_alpm_db_free_grpcache(db);
 }
 
-pmpkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db)
+alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db)
 {
 	if(db == NULL) {
 		return NULL;
@@ -503,7 +503,7 @@ pmpkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db)
 
 alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db)
 {
-	pmpkghash_t *hash = _alpm_db_get_pkgcache_hash(db);
+	alpm_pkghash_t *hash = _alpm_db_get_pkgcache_hash(db);
 
 	if(hash == NULL) {
 		return NULL;
@@ -567,7 +567,7 @@ alpm_pkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target)
 		return NULL;
 	}
 
-	pmpkghash_t *pkgcache = _alpm_db_get_pkgcache_hash(db);
+	alpm_pkghash_t *pkgcache = _alpm_db_get_pkgcache_hash(db);
 	if(!pkgcache) {
 		return NULL;
 	}

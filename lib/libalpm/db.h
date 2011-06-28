@@ -65,7 +65,7 @@ struct __alpm_db_t {
 	int is_local;
 	/* flags determining validity, loaded caches, etc. */
 	enum _pmdbstatus_t status;
-	pmpkghash_t *pkgcache;
+	alpm_pkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
 	pgp_verify_t pgp_verify;
@@ -97,7 +97,7 @@ int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info);
 void _alpm_db_free_pkgcache(alpm_db_t *db);
 int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg);
 int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg);
-pmpkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db);
+alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db);
 alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db);
 int _alpm_db_ensure_pkgcache(alpm_db_t *db, pmdbinfrq_t infolevel);
 alpm_pkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target);
