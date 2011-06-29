@@ -1829,8 +1829,9 @@ else
 	exit 1 # $E_CONFIG_ERROR
 fi
 
-# Source user-specific makepkg.conf overrides
-if [[ -r ~/.makepkg.conf ]]; then
+# Source user-specific makepkg.conf overrides, but only if no override config
+# file was specified
+if [[ $MAKEPKG_CONF = "$confdir/makepkg.conf" && -r ~/.makepkg.conf ]]; then
 	source ~/.makepkg.conf
 fi
 
