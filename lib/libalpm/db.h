@@ -102,9 +102,9 @@ alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db);
 int _alpm_db_ensure_pkgcache(alpm_db_t *db, alpm_dbinfrq_t infolevel);
 alpm_pkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target);
 /* groups */
-void _alpm_db_free_grpcache(alpm_db_t *db);
+void _alpm_db_free_groupcache(alpm_db_t *db);
 alpm_list_t *_alpm_db_get_groupcache(alpm_db_t *db);
-alpm_group_t *_alpm_db_get_grpfromcache(alpm_db_t *db, const char *target);
+alpm_group_t *_alpm_db_get_groupfromcache(alpm_db_t *db, const char *target);
 
 #endif /* _ALPM_DB_H */
 

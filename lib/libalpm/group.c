@@ -30,7 +30,7 @@
 #include "log.h"
 #include "alpm.h"
 
-alpm_group_t *_alpm_grp_new(const char *name)
+alpm_group_t *_alpm_group_new(const char *name)
 {
 	alpm_group_t* grp;
 
@@ -40,7 +40,7 @@ alpm_group_t *_alpm_grp_new(const char *name)
 	return grp;
 }
 
-void _alpm_grp_free(alpm_group_t *grp)
+void _alpm_group_free(alpm_group_t *grp)
 {
 	if(grp == NULL) {
 		return;

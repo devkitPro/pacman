@@ -246,7 +246,7 @@ alpm_group_t SYMEXPORT *alpm_db_readgroup(alpm_db_t *db, const char *name)
 	ASSERT(name != NULL && strlen(name) != 0,
 			RET_ERR(db->handle, PM_ERR_WRONG_ARGS, NULL));
 
-	return _alpm_db_get_grpfromcache(db, name);
+	return _alpm_db_get_groupfromcache(db, name);
 }
 
 /** Get the group cache of a package database. */
@@ -481,7 +481,7 @@ void _alpm_db_free_pkgcache(alpm_db_t *db)
 	_alpm_pkghash_free(db->pkgcache);
 	db->status &= ~DB_STATUS_PKGCACHE;
 
-	_alpm_db_free_grpcache(db);
+	_alpm_db_free_groupcache(db);
 }
 
 alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db)
@@ -530,7 +530,7 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 						alpm_pkg_get_name(newpkg), db->treename);
 	db->pkgcache = _alpm_pkghash_add_sorted(db->pkgcache, newpkg);
 
-	_alpm_db_free_grpcache(db);
+	_alpm_db_free_groupcache(db);
 
 	return 0;
 }
@@ -556,7 +556,7 @@ int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg)
 
 	_alpm_pkg_free(data);
 
-	_alpm_db_free_grpcache(db);
+	_alpm_db_free_groupcache(db);
 
 	return 0;
 }
@@ -613,9 +613,9 @@ static int load_grpcache(alpm_db_t *db)
 				continue;
 			}
 			/* we didn't find the group, so create a new one with this name */
-			grp = _alpm_grp_new(grpname);
+			grp = _alpm_group_new(grpname);
 			if(!grp) {
-				_alpm_db_free_grpcache(db);
+				_alpm_db_free_groupcache(db);
 				return -1;
 			}
 			grp->packages = alpm_list_add(grp->packages, pkg);
@@ -627,7 +627,7 @@ static int load_grpcache(alpm_db_t *db)
 	return 0;
 }
 
-void _alpm_db_free_grpcache(alpm_db_t *db)
+void _alpm_db_free_groupcache(alpm_db_t *db)
 {
 	alpm_list_t *lg;
 
@@ -639,7 +639,7 @@ void _alpm_db_free_grpcache(alpm_db_t *db)
 			"freeing group cache for repository '%s'\n", db->treename);
 
 	for(lg = db->grpcache; lg; lg = lg->next) {
-		_alpm_grp_free(lg->data);
+		_alpm_group_free(lg->data);
 		lg->data = NULL;
 	}
 	FREELIST(db->grpcache);
@@ -663,7 +663,7 @@ alpm_list_t *_alpm_db_get_groupcache(alpm_db_t *db)
 	return db->grpcache;
 }
 
-alpm_group_t *_alpm_db_get_grpfromcache(alpm_db_t *db, const char *target)
+alpm_group_t *_alpm_db_get_groupfromcache(alpm_db_t *db, const char *target)
 {
 	alpm_list_t *i;
 
