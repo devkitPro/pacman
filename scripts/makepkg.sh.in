@@ -2008,9 +2008,7 @@ if [[ -n "${PKGLIST[@]}" ]]; then
 fi
 
 # check if gpg signature is to be created and if signing key is valid
-if [[ -z "$SIGNPKG" && $(check_buildenv sign) == 'y' ]]; then
-  SIGNPKG='y'
-fi
+[[ -z $SIGNPKG ]] && SIGNPKG=$(check_buildenv sign)
 if [[ $SIGNPKG == 'y' ]]; then
 	if ! gpg --list-key ${GPGKEY} &>/dev/null; then
 		if [[ ! -z $GPGKEY ]]; then
