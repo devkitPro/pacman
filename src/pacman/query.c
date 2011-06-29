@@ -302,7 +302,7 @@ static int query_group(alpm_list_t *targets)
 	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 
 	if(targets == NULL) {
-		for(j = alpm_db_get_grpcache(db_local); j; j = alpm_list_next(j)) {
+		for(j = alpm_db_get_groupcache(db_local); j; j = alpm_list_next(j)) {
 			alpm_group_t *grp = alpm_list_getdata(j);
 			const alpm_list_t *p;
 
@@ -315,7 +315,7 @@ static int query_group(alpm_list_t *targets)
 		for(i = targets; i; i = alpm_list_next(i)) {
 			alpm_group_t *grp;
 			grpname = alpm_list_getdata(i);
-			grp = alpm_db_readgrp(db_local, grpname);
+			grp = alpm_db_readgroup(db_local, grpname);
 			if(grp) {
 				const alpm_list_t *p;
 				for(p = grp->packages; p; p = alpm_list_next(p)) {

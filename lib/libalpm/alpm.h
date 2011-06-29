@@ -311,10 +311,10 @@ int alpm_option_remove_ignorepkg(alpm_handle_t *handle, const char *pkg);
  * should be ignored by a sysupgrade.
  * @{
  */
-alpm_list_t *alpm_option_get_ignoregrps(alpm_handle_t *handle);
-int alpm_option_add_ignoregrp(alpm_handle_t *handle, const char *grp);
-int alpm_option_set_ignoregrps(alpm_handle_t *handle, alpm_list_t *ignoregrps);
-int alpm_option_remove_ignoregrp(alpm_handle_t *handle, const char *grp);
+alpm_list_t *alpm_option_get_ignoregroups(alpm_handle_t *handle);
+int alpm_option_add_ignoregroup(alpm_handle_t *handle, const char *grp);
+int alpm_option_set_ignoregroups(alpm_handle_t *handle, alpm_list_t *ignoregrps);
+int alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *grp);
 /** @} */
 
 /** Returns the targeted architecture. */
@@ -411,13 +411,13 @@ alpm_list_t *alpm_db_get_pkgcache(alpm_db_t *db);
  * @param name of the group
  * @return the groups entry on success, NULL on error
  */
-alpm_group_t *alpm_db_readgrp(alpm_db_t *db, const char *name);
+alpm_group_t *alpm_db_readgroup(alpm_db_t *db, const char *name);
 
 /** Get the group cache of a package database.
  * @param db pointer to the package database to get the group from
  * @return the list of groups on success, NULL on error
  */
-alpm_list_t *alpm_db_get_grpcache(alpm_db_t *db);
+alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
 
 /** Searches a database with regular expressions.
  * @param db pointer to the package database to search in
@@ -700,7 +700,7 @@ int alpm_db_check_pgp_signature(alpm_db_t *db);
  * Groups
  */
 
-alpm_list_t *alpm_find_grp_pkgs(alpm_list_t *dbs, const char *name);
+alpm_list_t *alpm_find_group_pkgs(alpm_list_t *dbs, const char *name);
 
 /*
  * Sync

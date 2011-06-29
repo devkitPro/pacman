@@ -224,7 +224,7 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs(alpm_handle_t *handle)
 	return handle->ignorepkg;
 }
 
-alpm_list_t SYMEXPORT *alpm_option_get_ignoregrps(alpm_handle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_ignoregroups(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->ignoregrp;
@@ -521,14 +521,14 @@ int SYMEXPORT alpm_option_remove_ignorepkg(alpm_handle_t *handle, const char *pk
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_ignoregrp(alpm_handle_t *handle, const char *grp)
+int SYMEXPORT alpm_option_add_ignoregroup(alpm_handle_t *handle, const char *grp)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->ignoregrp = alpm_list_add(handle->ignoregrp, strdup(grp));
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_ignoregrps(alpm_handle_t *handle, alpm_list_t *ignoregrps)
+int SYMEXPORT alpm_option_set_ignoregroups(alpm_handle_t *handle, alpm_list_t *ignoregrps)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
@@ -536,7 +536,7 @@ int SYMEXPORT alpm_option_set_ignoregrps(alpm_handle_t *handle, alpm_list_t *ign
 	return 0;
 }
 
-int SYMEXPORT alpm_option_remove_ignoregrp(alpm_handle_t *handle, const char *grp)
+int SYMEXPORT alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *grp)
 {
 	char *vdata = NULL;
 	CHECK_HANDLE(handle, return -1);

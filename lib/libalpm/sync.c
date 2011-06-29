@@ -213,14 +213,14 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
  * @pram name the name of the group
  * @return the list of alpm_pkg_t * (caller is responsible for alpm_list_free)
  */
-alpm_list_t SYMEXPORT *alpm_find_grp_pkgs(alpm_list_t *dbs,
+alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 		const char *name)
 {
 	alpm_list_t *i, *j, *pkgs = NULL, *ignorelist = NULL;
 
 	for(i = dbs; i; i = i->next) {
 		alpm_db_t *db = i->data;
-		alpm_group_t *grp = alpm_db_readgrp(db, name);
+		alpm_group_t *grp = alpm_db_readgroup(db, name);
 
 		if(!grp)
 			continue;

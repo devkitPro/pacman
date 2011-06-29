@@ -239,7 +239,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(alpm_db_t *db)
 }
 
 /** Get a group entry from a package database. */
-alpm_group_t SYMEXPORT *alpm_db_readgrp(alpm_db_t *db, const char *name)
+alpm_group_t SYMEXPORT *alpm_db_readgroup(alpm_db_t *db, const char *name)
 {
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
@@ -250,12 +250,12 @@ alpm_group_t SYMEXPORT *alpm_db_readgrp(alpm_db_t *db, const char *name)
 }
 
 /** Get the group cache of a package database. */
-alpm_list_t SYMEXPORT *alpm_db_get_grpcache(alpm_db_t *db)
+alpm_list_t SYMEXPORT *alpm_db_get_groupcache(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
 
-	return _alpm_db_get_grpcache(db);
+	return _alpm_db_get_groupcache(db);
 }
 
 /** Searches a database. */
@@ -646,7 +646,7 @@ void _alpm_db_free_grpcache(alpm_db_t *db)
 	db->status &= ~DB_STATUS_GRPCACHE;
 }
 
-alpm_list_t *_alpm_db_get_grpcache(alpm_db_t *db)
+alpm_list_t *_alpm_db_get_groupcache(alpm_db_t *db)
 {
 	if(db == NULL) {
 		return NULL;
@@ -671,7 +671,7 @@ alpm_group_t *_alpm_db_get_grpfromcache(alpm_db_t *db, const char *target)
 		return NULL;
 	}
 
-	for(i = _alpm_db_get_grpcache(db); i; i = i->next) {
+	for(i = _alpm_db_get_groupcache(db); i; i = i->next) {
 		alpm_group_t *info = i->data;
 
 		if(strcmp(info->name, target) == 0) {

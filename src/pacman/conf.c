@@ -502,7 +502,7 @@ static int setup_libalpm(void)
 	alpm_option_set_usedelta(handle, config->usedelta);
 
 	alpm_option_set_ignorepkgs(handle, config->ignorepkg);
-	alpm_option_set_ignoregrps(handle, config->ignoregrp);
+	alpm_option_set_ignoregroups(handle, config->ignoregrp);
 	alpm_option_set_noupgrades(handle, config->noupgrade);
 	alpm_option_set_noextracts(handle, config->noextract);
 

@@ -47,7 +47,7 @@ static int remove_target(const char *target)
 	}
 
 		/* fallback to group */
-	alpm_group_t *grp = alpm_db_readgrp(db_local, target);
+	alpm_group_t *grp = alpm_db_readgroup(db_local, target);
 	if(grp == NULL) {
 		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': target not found\n", target);
 		return -1;
