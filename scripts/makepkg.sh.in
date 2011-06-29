@@ -284,7 +284,7 @@ check_option() {
 #          ? - not found
 ##
 check_buildenv() {
-	echo $(in_opt_array "$1" ${BUILDENV[@]})
+	in_opt_array "$1" ${BUILDENV[@]}
 }
 
 
