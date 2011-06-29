@@ -1134,7 +1134,7 @@ create_package() {
 
 	# check for changelog/install files
 	for i in 'changelog/.CHANGELOG' 'install/.INSTALL'; do
-		IFS='/' read -r orig dest <<< "$i"
+		IFS='/' read -r orig dest < <(printf '%s\n' "$i")
 
 		if [[ -n ${!orig} ]]; then
 			msg2 "$(gettext "Adding %s file...")" "$orig"
