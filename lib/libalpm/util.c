@@ -300,7 +300,7 @@ int _alpm_unpack(pmhandle_t *handle, const char *archive, const char *prefix,
 		/* If specific files were requested, skip entries that don't match. */
 		if(list) {
 			char *entry_prefix = strdup(entryname);
-			char *p = strstr(prefix,"/");
+			char *p = strstr(entry_prefix,"/");
 			if(p) {
 				*(p+1) = '\0';
 			}
