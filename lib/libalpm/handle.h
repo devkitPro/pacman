@@ -62,7 +62,7 @@ struct __alpm_handle_t {
 	alpm_list_t *noupgrade;   /* List of packages NOT to be upgraded */
 	alpm_list_t *noextract;   /* List of files NOT to extract */
 	alpm_list_t *ignorepkg;   /* List of packages to ignore */
-	alpm_list_t *ignoregrp;   /* List of groups to ignore */
+	alpm_list_t *ignoregroup; /* List of groups to ignore */
 
 	/* options */
 	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */

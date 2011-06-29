@@ -84,7 +84,7 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
 	FREELIST(handle->ignorepkg);
-	FREELIST(handle->ignoregrp);
+	FREELIST(handle->ignoregroup);
 	FREE(handle);
 }
 
@@ -227,7 +227,7 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignorepkgs(alpm_handle_t *handle)
 alpm_list_t SYMEXPORT *alpm_option_get_ignoregroups(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
-	return handle->ignoregrp;
+	return handle->ignoregroup;
 }
 
 const char SYMEXPORT *alpm_option_get_arch(alpm_handle_t *handle)
@@ -524,15 +524,15 @@ int SYMEXPORT alpm_option_remove_ignorepkg(alpm_handle_t *handle, const char *pk
 int SYMEXPORT alpm_option_add_ignoregroup(alpm_handle_t *handle, const char *grp)
 {
 	CHECK_HANDLE(handle, return -1);
-	handle->ignoregrp = alpm_list_add(handle->ignoregrp, strdup(grp));
+	handle->ignoregroup = alpm_list_add(handle->ignoregroup, strdup(grp));
 	return 0;
 }
 
 int SYMEXPORT alpm_option_set_ignoregroups(alpm_handle_t *handle, alpm_list_t *ignoregrps)
 {
 	CHECK_HANDLE(handle, return -1);
-	if(handle->ignoregrp) FREELIST(handle->ignoregrp);
-	handle->ignoregrp = alpm_list_strdup(ignoregrps);
+	if(handle->ignoregroup) FREELIST(handle->ignoregroup);
+	handle->ignoregroup = alpm_list_strdup(ignoregrps);
 	return 0;
 }
 
@@ -540,7 +540,7 @@ int SYMEXPORT alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *
 {
 	char *vdata = NULL;
 	CHECK_HANDLE(handle, return -1);
-	handle->ignoregrp = alpm_list_remove_str(handle->ignoregrp, grp, &vdata);
+	handle->ignoregroup = alpm_list_remove_str(handle->ignoregroup, grp, &vdata);
 	if(vdata != NULL) {
 		FREE(vdata);
 		return 1;

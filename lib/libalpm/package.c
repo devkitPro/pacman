@@ -598,7 +598,7 @@ alpm_pkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 /** Test if a package should be ignored.
  *
  * Checks if the package is ignored via IgnorePkg, or if the package is
- * in a group ignored via IgnoreGrp.
+ * in a group ignored via IgnoreGroup.
  *
  * @param handle the context handle
  * @param pkg the package to test
@@ -615,7 +615,7 @@ int _alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	}
 
 	/* next see if the package is in a group that is ignored */
-	for(groups = handle->ignoregrp; groups; groups = alpm_list_next(groups)) {
+	for(groups = handle->ignoregroup; groups; groups = alpm_list_next(groups)) {
 		char *grp = (char *)alpm_list_getdata(groups);
 		if(alpm_list_find_str(alpm_pkg_get_groups(pkg), grp)) {
 			return 1;
