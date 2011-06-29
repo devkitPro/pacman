@@ -100,7 +100,7 @@ format_entry() {
 find_pkgentry() {
 	local pkgname=$1
 	local pkgentry
-	for pkgentry in $tmpdir/$pkgname*; do
+	for pkgentry in $tmpdir/tree/$pkgname*; do
 		name=${pkgentry##*/}
 		if [[ ${name%-*-*} = $pkgname ]]; then
 			echo $pkgentry
@@ -285,7 +285,7 @@ db_write_entry() {
 		return 1
 	fi
 
-	pushd "$tmpdir" >/dev/null
+	pushd "$tmpdir/tree" >/dev/null
 	if [[ -d $pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 	else
@@ -350,7 +350,7 @@ db_write_entry() {
 	# create files file if wanted
 	if (( WITHFILES )); then
 		msg2 "$(gettext "Creating '%s' db entry...")" 'files'
-		local files_path="$tmpdir/$pkgname-$pkgver/files"
+		local files_path="$tmpdir/tree/$pkgname-$pkgver/files"
 		echo "%FILES%" >$files_path
 		bsdtar --exclude='^.*' -tf "$pkgfile" >>$files_path
 	fi
@@ -381,7 +381,7 @@ db_remove_entry() {
 	while [[ -n $pkgentry ]]; do
 		notfound=0
 		if [[ -f $pkgentry/deltas ]]; then
-			mv "$pkgentry/deltas" "$tmpdir/$pkgname.deltas"
+			mv "$pkgentry/deltas" "$tmpdir/tree/$pkgname.deltas"
 		fi
 		msg2 "$(gettext "Removing existing entry '%s'...")" \
 		"${pkgentry##*/}"
@@ -443,7 +443,7 @@ check_repo_db() {
 		fi
 		verify_signature "$REPO_DB_FILE"
 		msg "$(gettext "Extracting database to a temporary location...")"
-		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir"
+		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir/tree"
 	else
 		case "$cmd" in
 			repo-remove)
@@ -509,7 +509,7 @@ remove() {
 	msg "$(gettext "Searching for package '%s'...")" "$pkgname"
 
 	if db_remove_entry "$pkgname"; then
-		rm -f "$tmpdir/$pkgname.deltas"
+		rm -f "$tmpdir/tree/$pkgname.deltas"
 		return 0
 	else
 		error "$(gettext "Package matching '%s' not found.")" "$pkgname"
@@ -561,6 +561,7 @@ fi
 tmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
 	error "$(gettext "Cannot create temp directory for database building.")"; \
 	exit 1)
+mkdir $tmpdir/tree
 
 trap 'clean_up' EXIT
 trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
@@ -628,11 +629,12 @@ if (( success )); then
 	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
 	filename=${REPO_DB_FILE##*/}
 
-	pushd "$tmpdir" >/dev/null
+	pushd "$tmpdir/tree" >/dev/null
 	# strip the './' off filenames; this also allows us to tar an empty dir
-	bsdtar -s %^./%% -c${TAR_OPT}f "$REPO_DB_FILE" ./
-	create_signature "$filename"
+	bsdtar -s '%^./\?%%' -c${TAR_OPT}f "$tmpdir/$filename" ./
 	popd >/dev/null
+
+	create_signature "$tmpdir/$filename"
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
 	[[ -f $REPO_DB_FILE.sig ]] && rm -f "$REPO_DB_FILE.sig"
