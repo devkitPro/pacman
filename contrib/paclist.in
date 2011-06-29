@@ -1,7 +1,8 @@
-#!/usr/bin/perl
+#!/bin/bash
 # paclist - List all packages installed from a given repo
 #
 # Copyright (C) 2008 Dan McGee <dpmcgee@gmail.com>
+# Copyright (C) 2011 Dave Reisner <dreisner@archlinux.org>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,73 +17,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use strict;
-use warnings;
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='/usr/share/locale'
 
-my $progname = "paclist";
-my $version = "1.0";
-
-if ($#ARGV != 0 || $ARGV[0] eq "--help" || $ARGV[0] eq "-h") {
-	print "$progname - List all packages installed from a given repo\n";
-	print "Usage:   $progname <repo>\n";
-	print "Example: $progname testing\n";
-	if ($#ARGV != 0) {
-		exit 1;
+# determine whether we have gettext; make it a no-op if we do not
+if ! type gettext &>/dev/null; then
+	gettext() {
+		echo "$@"
 	}
-	exit 0;
-}
+fi
 
-if ( $ARGV[0] eq "--version" || $ARGV[0] eq "-v") {
-	print "$progname version $version\n";
-	print "Copyright (C) 2008 Dan McGee\n";
-	exit 0;
-}
+if [[ -z $1 ]]; then
+	printf '%s - List all packages installed from a given repo\n' "${0##*/}"
+	printf 'Usage:   %s <repo>\n' "${0##*/}"
+	printf 'Example: %s testing\n' "${0##*/}"
+	exit 1
+fi
 
-# This hash table will be used to store pairs of ('name version', count) from
-# the return of both pacman -Sl <repo> and pacman -Q output. We then check to
-# see if a value was added twice (count = 2)- if so, we will print that package
-# as it is both in the repo we queried and installed on our local system.
-my %packages = ();
-my $output;
+printf -v installed '[%s]' "$(gettext installed)"
+pacman -Sl $1 | awk -v i="$installed" '$NF == i { print $2,$3 }'
 
-$output = `pacman -Sl $ARGV[0]`;
-if ($? != 0) {
-	exit 1;
-}
-my @sync = split(/\n/, $output);
-# sample output from pacman -Sl:
-# testing foobar 1.0-1
-foreach $_ (@sync) {
-	my @info = split(/ /);
-	# we only want to store 'foobar 1.0-1' in our hash table
-	my $pkg = $info[1] . " " . $info[2];
-	$packages{$pkg}++;
-}
+# exit with pacman's return value, not awk's
+exit ${PIPESTATUS[0]}
 
-$output = `pacman -Q`;
-if ($? != 0) {
-	exit 1;
-}
-# sample output from pacman -Q:
-# foobar 1.0-1
-my @local = split(/\n/, $output);
-foreach $_ (@local) {
-	# store 'foobar 1.0-1' in our hash table
-	$packages{$_}++;
-}
-
-# run comparison check- if value was added twice, it was in the intersection
-my @intersection;
-foreach $_ (keys %packages) {
-	if ($packages{$_} == 2) {
-		push @{ \@intersection }, $_;
-	}
-}
-
-# print our intersection, and bask in the glory and speed of perl
-@intersection = sort @intersection;
-foreach $_ (@intersection) {
-	print $_ . "\n";
-}
-
-#vim: set noet:
+# vim: set ts=2 sw=2 noet:
