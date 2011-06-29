@@ -87,7 +87,6 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 void _alpm_db_unregister(alpm_db_t *db);
 
 /* be_*.c, backend specific calls */
-int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
 int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info);
 int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
 int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info);

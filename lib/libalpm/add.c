@@ -470,9 +470,6 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 		/* we'll need to save some record for backup checks later */
 		oldpkg = _alpm_pkg_dup(local);
-		/* make sure all infos are loaded because the database entry
-		 * will be removed soon */
-		_alpm_local_db_read(oldpkg->origin_data.db, oldpkg, INFRQ_ALL);
 
 		EVENT(trans, PM_TRANS_EVT_UPGRADE_START, newpkg, oldpkg);
 		_alpm_log(handle, PM_LOG_DEBUG, "upgrading package %s-%s\n",

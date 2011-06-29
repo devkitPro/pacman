@@ -76,6 +76,8 @@ struct pkg_operations {
 	size_t (*changelog_read) (void *, size_t, const alpm_pkg_t *, const void *);
 	int (*changelog_close) (const alpm_pkg_t *, void *);
 
+	int (*force_load) (alpm_pkg_t *);
+
 	/* still to add:
 	 * checkmd5sum() ?
 	 * compute_requiredby()

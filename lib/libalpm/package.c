@@ -126,6 +126,8 @@ static int _pkg_changelog_close(const alpm_pkg_t UNUSED *pkg,
 	return EOF;
 }
 
+static int _pkg_force_load(alpm_pkg_t UNUSED *pkg) { return 0; }
+
 /** The standard package operations struct. Get fields directly from the
  * struct itself with no abstraction layer or any type of lazy loading.
  */
@@ -157,6 +159,8 @@ struct pkg_operations default_pkg_ops = {
 	.changelog_open  = _pkg_changelog_open,
 	.changelog_read  = _pkg_changelog_read,
 	.changelog_close = _pkg_changelog_close,
+
+	.force_load      = _pkg_force_load,
 };
 
 /* Public functions for getting package information. These functions
@@ -436,6 +440,10 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 {
 	alpm_pkg_t *newpkg;
 	alpm_list_t *i;
+
+	if(pkg->ops->force_load(pkg)) {
+		return NULL;
+	}
 
 	CALLOC(newpkg, 1, sizeof(alpm_pkg_t), goto cleanup);
 

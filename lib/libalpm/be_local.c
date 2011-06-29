@@ -41,10 +41,12 @@
 #include "package.h"
 #include "deps.h"
 
+static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
+
 #define LAZY_LOAD(info, errret) \
 	do { \
-		if(pkg->origin != PKG_FROM_FILE && !(pkg->infolevel & info)) { \
-			_alpm_local_db_read(pkg->origin_data.db, pkg, info); \
+		if(!(pkg->infolevel & info)) { \
+			local_db_read(pkg, info); \
 		} \
 	} while(0)
 
@@ -135,9 +137,7 @@ static alpm_list_t *_cache_get_groups(alpm_pkg_t *pkg)
 
 static int _cache_has_scriptlet(alpm_pkg_t *pkg)
 {
-	if(!(pkg->infolevel & INFRQ_SCRIPTLET)) {
-		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_SCRIPTLET);
-	}
+	LAZY_LOAD(INFRQ_SCRIPTLET, NULL);
 	return pkg->scriptlet;
 }
 
@@ -179,19 +179,13 @@ static alpm_list_t *_cache_get_deltas(alpm_pkg_t UNUSED *pkg)
 
 static alpm_list_t *_cache_get_files(alpm_pkg_t *pkg)
 {
-	if(pkg->origin == PKG_FROM_LOCALDB
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
-	}
+	LAZY_LOAD(INFRQ_FILES, NULL);
 	return pkg->files;
 }
 
 static alpm_list_t *_cache_get_backup(alpm_pkg_t *pkg)
 {
-	if(pkg->origin == PKG_FROM_LOCALDB
-		 && !(pkg->infolevel & INFRQ_FILES)) {
-		_alpm_local_db_read(pkg->origin_data.db, pkg, INFRQ_FILES);
-	}
+	LAZY_LOAD(INFRQ_FILES, NULL);
 	return pkg->backup;
 }
 
@@ -239,6 +233,11 @@ static int _cache_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 	return fclose((FILE *)fp);
 }
 
+static int _cache_force_load(alpm_pkg_t *pkg)
+{
+	return local_db_read(pkg, INFRQ_ALL);
+}
+
 
 /** The local database operations struct. Get package fields through
  * lazy accessor methods that handle any backend loading and caching
@@ -271,6 +270,8 @@ static struct pkg_operations local_pkg_ops = {
 	.changelog_open  = _cache_changelog_open,
 	.changelog_read  = _cache_changelog_read,
 	.changelog_close = _cache_changelog_close,
+
+	.force_load      = _cache_force_load,
 };
 
 static int checkdbdir(alpm_db_t *db)
@@ -460,7 +461,7 @@ static int local_db_populate(alpm_db_t *db)
 		pkg->handle = db->handle;
 
 		/* explicitly read with only 'BASE' data, accessors will handle the rest */
-		if(_alpm_local_db_read(db, pkg, INFRQ_BASE) == -1) {
+		if(local_db_read(pkg, INFRQ_BASE) == -1) {
 			_alpm_log(db->handle, PM_LOG_ERROR, _("corrupted database entry '%s'\n"), name);
 			_alpm_pkg_free(pkg);
 			continue;
@@ -498,25 +499,13 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 }
 
 
-int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
+static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char path[PATH_MAX];
 	char line[1024];
 	char *pkgpath = NULL;
-
-	if(info == NULL || info->name == NULL || info->version == NULL) {
-		_alpm_log(db->handle, PM_LOG_DEBUG,
-				"invalid package entry provided to _alpm_local_db_read, skipping\n");
-		return -1;
-	}
-
-	if(info->origin != PKG_FROM_LOCALDB) {
-		_alpm_log(db->handle, PM_LOG_DEBUG,
-				"request to read info for a non-local package '%s', skipping...\n",
-				info->name);
-		return -1;
-	}
+	alpm_db_t *db = info->origin_data.db;
 
 	/* bitmask logic here:
 	 * infolevel: 00001111
