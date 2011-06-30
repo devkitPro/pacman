@@ -316,7 +316,7 @@ static void handler(int signum)
 		/* output a newline to be sure we clear any line we may be on */
 		xwrite(out, "\n", 1);
 	}
-	cleanup(signum);
+	cleanup(128 + signum);
 }
 
 #define check_optarg() if(!optarg) { return 1; }
