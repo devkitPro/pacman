@@ -136,7 +136,6 @@ class pmpkg(object):
             data.append("provides = %s" % i)
         for i in self.backup:
             data.append("backup = %s" % i)
-        data.append("\n")
         archive_files.append((".PKGINFO", "\n".join(data)))
 
         # .INSTALL

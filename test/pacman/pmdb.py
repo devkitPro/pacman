@@ -207,17 +207,17 @@ class pmdb(object):
             make_section(data, "MD5SUM", pkg.md5sum)
             make_section(data, "PGPSIG", pkg.pgpsig)
 
-        entry["desc"] = "\n".join(data) + "\n"
+        entry["desc"] = "\n".join(data)
 
         # files and install
         if self.is_local:
             data = []
             make_section(data, "FILES", pkg.full_filelist())
             make_section(data, "BACKUP", pkg.local_backup_entries())
-            entry["files"] = "\n".join(data) + "\n"
+            entry["files"] = "\n".join(data)
 
             if any(pkg.install.values()):
-                entry["install"] = pkg.installfile() + "\n"
+                entry["install"] = pkg.installfile()
 
         return entry
 
