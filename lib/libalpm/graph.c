@@ -23,17 +23,17 @@
 #include "util.h"
 #include "log.h"
 
-pmgraph_t *_alpm_graph_new(void)
+alpm_graph_t *_alpm_graph_new(void)
 {
-	pmgraph_t *graph = NULL;
+	alpm_graph_t *graph = NULL;
 
-	CALLOC(graph, 1, sizeof(pmgraph_t), return NULL);
+	CALLOC(graph, 1, sizeof(alpm_graph_t), return NULL);
 	return graph;
 }
 
 void _alpm_graph_free(void *data)
 {
-	pmgraph_t *graph = data;
+	alpm_graph_t *graph = data;
 	alpm_list_free(graph->children);
 	free(graph);
 }

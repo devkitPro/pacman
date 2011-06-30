@@ -24,7 +24,7 @@
 
 #define BASENAME "testpkg"
 
-static void output_cb(pmloglevel_t level, const char *fmt, va_list args)
+static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 {
 	if(fmt[0] == '\0') {
 		return;
@@ -40,9 +40,9 @@ static void output_cb(pmloglevel_t level, const char *fmt, va_list args)
 int main(int argc, char *argv[])
 {
 	int retval = 1; /* default = false */
-	pmhandle_t *handle;
-	enum _pmerrno_t err;
-	pmpkg_t *pkg = NULL;
+	alpm_handle_t *handle;
+	enum _alpm_errno_t err;
+	alpm_pkg_t *pkg = NULL;
 
 	if(argc != 2) {
 		fprintf(stderr, "usage: %s <package file>\n", BASENAME);

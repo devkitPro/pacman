@@ -33,7 +33,7 @@
 #include "util.h"
 
 /* split a backup string "file\thash" into the relevant components */
-int _alpm_split_backup(const char *string, pmbackup_t **backup)
+int _alpm_split_backup(const char *string, alpm_backup_t **backup)
 {
 	char *str, *ptr;
 
@@ -55,10 +55,10 @@ int _alpm_split_backup(const char *string, pmbackup_t **backup)
 	return 0;
 }
 
-/* Look for a filename in a pmpkg_t.backup list. If we find it,
+/* Look for a filename in a alpm_pkg_t.backup list. If we find it,
  * then we return the full backup entry.
  */
-pmbackup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list)
+alpm_backup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list)
 {
 	const alpm_list_t *lp;
 
@@ -68,7 +68,7 @@ pmbackup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list)
 
 	/* run through the backup list and parse out the hash for our file */
 	for(lp = backup_list; lp; lp = lp->next) {
-		pmbackup_t *backup = lp->data;
+		alpm_backup_t *backup = lp->data;
 
 		if(strcmp(file, backup->name) == 0) {
 			return backup;
@@ -78,17 +78,17 @@ pmbackup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list)
 	return NULL;
 }
 
-void _alpm_backup_free(pmbackup_t *backup)
+void _alpm_backup_free(alpm_backup_t *backup)
 {
 	free(backup->name);
 	free(backup->hash);
 	free(backup);
 }
 
-pmbackup_t *_alpm_backup_dup(const pmbackup_t *backup)
+alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup)
 {
-	pmbackup_t *newbackup;
-	CALLOC(newbackup, 1, sizeof(pmbackup_t), return NULL);
+	alpm_backup_t *newbackup;
+	CALLOC(newbackup, 1, sizeof(alpm_backup_t), return NULL);
 
 	STRDUP(newbackup->name, backup->name, return NULL);
 	STRDUP(newbackup->hash, backup->hash, return NULL);

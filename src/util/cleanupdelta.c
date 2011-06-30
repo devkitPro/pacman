@@ -29,7 +29,7 @@
 
 #define BASENAME "cleanupdelta"
 
-pmhandle_t *handle = NULL;
+alpm_handle_t *handle = NULL;
 
 static void cleanup(int signum) {
 	if(handle && alpm_release(handle) == -1) {
@@ -39,7 +39,7 @@ static void cleanup(int signum) {
 	exit(signum);
 }
 
-static void output_cb(pmloglevel_t level, const char *fmt, va_list args)
+static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 {
 	if(strlen(fmt)) {
 		switch(level) {
@@ -57,7 +57,7 @@ static void checkpkgs(alpm_list_t *pkglist)
 {
 	alpm_list_t *i, *j;
 	for(i = pkglist; i; i = alpm_list_next(i)) {
-		pmpkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
 		alpm_list_t *unused = alpm_pkg_unused_deltas(pkg);
 		for(j = unused; j; j = alpm_list_next(j)) {
 			char *delta = alpm_list_getdata(j);
@@ -69,7 +69,7 @@ static void checkpkgs(alpm_list_t *pkglist)
 
 static void checkdbs(const char *dbpath, alpm_list_t *dbnames) {
 	char syncdbpath[PATH_MAX];
-	pmdb_t *db = NULL;
+	alpm_db_t *db = NULL;
 	alpm_list_t *i;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
@@ -96,7 +96,7 @@ static void usage(void) {
 int main(int argc, char *argv[])
 {
 	const char *dbpath = DBPATH;
-	enum _pmerrno_t err;
+	enum _alpm_errno_t err;
 	int a = 1;
 	alpm_list_t *dbnames = NULL;
 

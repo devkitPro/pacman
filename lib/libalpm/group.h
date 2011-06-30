@@ -22,8 +22,8 @@
 
 #include "alpm.h"
 
-pmgrp_t *_alpm_grp_new(const char *name);
-void _alpm_grp_free(pmgrp_t *grp);
+alpm_group_t *_alpm_group_new(const char *name);
+void _alpm_group_free(alpm_group_t *grp);
 
 #endif /* _ALPM_GROUP_H */
 

@@ -153,7 +153,7 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 
 
 /* callback to handle messages/notifications from libalpm transactions */
-void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
+void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2)
 {
 	switch(event) {
 		case PM_TRANS_EVT_CHECKDEPS_START:
@@ -251,7 +251,7 @@ void cb_trans_evt(pmtransevt_t event, void *data1, void *data2)
 
 /* callback to handle questions from libalpm transactions (yes/no) */
 /* TODO this is one of the worst ever functions written. void *data ? wtf */
-void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
+void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
 	switch(event) {
@@ -312,7 +312,7 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 			{
 				alpm_list_t *providers = (alpm_list_t *)data1;
 				int count = alpm_list_count(providers);
-				char *depstring = alpm_dep_compute_string((pmdepend_t *)data2);
+				char *depstring = alpm_dep_compute_string((alpm_depend_t *)data2);
 				printf(_(":: There are %d providers available for %s:\n"), count,
 						depstring);
 				free(depstring);
@@ -343,7 +343,7 @@ void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
 }
 
 /* callback to handle display of transaction progress */
-void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
+void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
                        size_t howmany, size_t current)
 {
 	/* size of line to allocate for text printing (e.g. not progressbar) */
@@ -655,7 +655,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 }
 
 /* Callback to handle notifications from the library */
-void cb_log(pmloglevel_t level, const char *fmt, va_list args)
+void cb_log(alpm_loglevel_t level, const char *fmt, va_list args)
 {
 	if(!fmt || strlen(fmt) == 0) {
 		return;

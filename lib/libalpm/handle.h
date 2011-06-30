@@ -30,13 +30,13 @@
 #include <curl/curl.h>
 #endif
 
-struct __pmhandle_t {
+struct __alpm_handle_t {
 	/* internal usage */
-	pmdb_t *db_local;       /* local db pointer */
-	alpm_list_t *dbs_sync;  /* List of (pmdb_t *) */
+	alpm_db_t *db_local;       /* local db pointer */
+	alpm_list_t *dbs_sync;  /* List of (alpm_db_t *) */
 	FILE *logstream;        /* log file stream pointer */
 	FILE *lckstream;        /* lock file stream pointer if one exists */
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 #ifdef HAVE_LIBCURL
 	/* libcurl handle */
@@ -62,7 +62,7 @@ struct __pmhandle_t {
 	alpm_list_t *noupgrade;   /* List of packages NOT to be upgraded */
 	alpm_list_t *noextract;   /* List of files NOT to extract */
 	alpm_list_t *ignorepkg;   /* List of packages to ignore */
-	alpm_list_t *ignoregrp;   /* List of groups to ignore */
+	alpm_list_t *ignoregroup; /* List of groups to ignore */
 
 	/* options */
 	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */
@@ -72,16 +72,16 @@ struct __pmhandle_t {
 	pgp_verify_t sigverify;  /* Default signature verification level */
 
 	/* error code */
-	enum _pmerrno_t pm_errno;
+	enum _alpm_errno_t pm_errno;
 };
 
-pmhandle_t *_alpm_handle_new(void);
-void _alpm_handle_free(pmhandle_t *handle);
+alpm_handle_t *_alpm_handle_new(void);
+void _alpm_handle_free(alpm_handle_t *handle);
 
-int _alpm_handle_lock(pmhandle_t *handle);
-int _alpm_handle_unlock(pmhandle_t *handle);
+int _alpm_handle_lock(alpm_handle_t *handle);
+int _alpm_handle_unlock(alpm_handle_t *handle);
 
-enum _pmerrno_t _alpm_set_directory_option(const char *value,
+enum _alpm_errno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist);
 
 #endif /* _ALPM_HANDLE_H */

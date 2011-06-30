@@ -30,17 +30,17 @@
 #include "log.h"
 #include "alpm.h"
 
-pmgrp_t *_alpm_grp_new(const char *name)
+alpm_group_t *_alpm_group_new(const char *name)
 {
-	pmgrp_t* grp;
+	alpm_group_t* grp;
 
-	CALLOC(grp, 1, sizeof(pmgrp_t), return NULL);
+	CALLOC(grp, 1, sizeof(alpm_group_t), return NULL);
 	STRDUP(grp->name, name, free(grp); return NULL);
 
 	return grp;
 }
 
-void _alpm_grp_free(pmgrp_t *grp)
+void _alpm_group_free(alpm_group_t *grp)
 {
 	if(grp == NULL) {
 		return;

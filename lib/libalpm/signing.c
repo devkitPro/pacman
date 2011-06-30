@@ -104,7 +104,7 @@ static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
 	return summary;
 }
 
-static int init_gpgme(pmhandle_t *handle)
+static int init_gpgme(alpm_handle_t *handle)
 {
 	static int init = 0;
 	const char *version, *sigdir;
@@ -205,7 +205,7 @@ error:
  * @param base64_sig optional PGP signature data in base64 encoding
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
-int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
+int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		const char *base64_sig)
 {
 	int ret = 0;
@@ -354,7 +354,7 @@ error:
 	return ret;
 }
 #else
-int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
+int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		const char *base64_sig)
 {
 	return -1;
@@ -367,7 +367,7 @@ int _alpm_gpgme_checksig(pmhandle_t *handle, const char *path,
  *
  * @return signature verification level
  */
-pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
+pgp_verify_t _alpm_db_get_sigverify_level(alpm_db_t *db)
 {
 	if(db->pgp_verify != PM_PGP_VERIFY_UNKNOWN) {
 		return db->pgp_verify;
@@ -381,7 +381,7 @@ pgp_verify_t _alpm_db_get_sigverify_level(pmdb_t *db)
  * @param pkg the package to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
-int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
+int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = 0;
@@ -395,7 +395,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(pmpkg_t *pkg)
  * @param db the database to check
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
-int SYMEXPORT alpm_db_check_pgp_signature(pmdb_t *db)
+int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
 	db->handle->pm_errno = 0;

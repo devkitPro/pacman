@@ -44,10 +44,10 @@
 #include "deps.h"
 #include "handle.h"
 
-int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
+int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname;
-	pmtrans_t *trans;
+	alpm_trans_t *trans;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -70,15 +70,15 @@ int SYMEXPORT alpm_remove_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	return 0;
 }
 
-static void remove_prepare_cascade(pmhandle_t *handle, alpm_list_t *lp)
+static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 {
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	while(lp) {
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
-			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
-			pmpkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
+			alpm_depmissing_t *miss = (alpm_depmissing_t *)i->data;
+			alpm_pkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
 				if(!_alpm_pkg_find(trans->remove, alpm_pkg_get_name(info))) {
 					_alpm_log(handle, PM_LOG_DEBUG, "pulling %s in target list\n",
@@ -97,17 +97,17 @@ static void remove_prepare_cascade(pmhandle_t *handle, alpm_list_t *lp)
 	}
 }
 
-static void remove_prepare_keep_needed(pmhandle_t *handle, alpm_list_t *lp)
+static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 {
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	/* Remove needed packages (which break dependencies) from target list */
 	while(lp != NULL) {
 		alpm_list_t *i;
 		for(i = lp; i; i = i->next) {
-			pmdepmissing_t *miss = (pmdepmissing_t *)i->data;
+			alpm_depmissing_t *miss = (alpm_depmissing_t *)i->data;
 			void *vpkg;
-			pmpkg_t *pkg = _alpm_pkg_find(trans->remove, miss->causingpkg);
+			alpm_pkg_t *pkg = _alpm_pkg_find(trans->remove, miss->causingpkg);
 			if(pkg == NULL) {
 				continue;
 			}
@@ -129,16 +129,16 @@ static void remove_prepare_keep_needed(pmhandle_t *handle, alpm_list_t *lp)
 
 /** Transaction preparation for remove actions.
  * This functions takes a pointer to a alpm_list_t which will be
- * filled with a list of pmdepmissing_t* objects representing
+ * filled with a list of alpm_depmissing_t* objects representing
  * the packages blocking the transaction.
  * @param handle the context handle
  * @param data a pointer to an alpm_list_t* to fill
  */
-int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
+int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *lp;
-	pmtrans_t *trans = handle->trans;
-	pmdb_t *db = handle->db_local;
+	alpm_trans_t *trans = handle->trans;
+	alpm_db_t *db = handle->db_local;
 
 	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
 		_alpm_log(handle, PM_LOG_DEBUG, "finding removable dependencies\n");
@@ -191,7 +191,7 @@ int _alpm_remove_prepare(pmhandle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-static int can_remove_file(pmhandle_t *handle, const char *path,
+static int can_remove_file(alpm_handle_t *handle, const char *path,
 		alpm_list_t *skip_remove)
 {
 	char file[PATH_MAX];
@@ -219,7 +219,7 @@ static int can_remove_file(pmhandle_t *handle, const char *path,
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(pmhandle_t *handle, pmpkg_t *info, const char *filename,
+static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info, const char *filename,
 		alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
@@ -254,7 +254,7 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, const char *filename,
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */
-		pmbackup_t *backup = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
+		alpm_backup_t *backup = _alpm_needbackup(filename, alpm_pkg_get_backup(info));
 		if(backup) {
 			if(nosave) {
 				_alpm_log(handle, PM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
@@ -282,8 +282,8 @@ static void unlink_file(pmhandle_t *handle, pmpkg_t *info, const char *filename,
 	}
 }
 
-int _alpm_upgraderemove_package(pmhandle_t *handle,
-		pmpkg_t *oldpkg, pmpkg_t *newpkg)
+int _alpm_upgraderemove_package(alpm_handle_t *handle,
+		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 {
 	alpm_list_t *skip_remove, *b;
 	alpm_list_t *newfiles, *lp;
@@ -307,7 +307,7 @@ int _alpm_upgraderemove_package(pmhandle_t *handle,
 	/* old package backup list */
 	alpm_list_t *filelist = alpm_pkg_get_files(newpkg);
 	for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
-		const pmbackup_t *backup = b->data;
+		const alpm_backup_t *backup = b->data;
 		/* safety check (fix the upgrade026 pactest) */
 		if(!alpm_list_find_str(filelist, backup->name)) {
 			continue;
@@ -353,19 +353,19 @@ db:
 	return 0;
 }
 
-int _alpm_remove_packages(pmhandle_t *handle)
+int _alpm_remove_packages(alpm_handle_t *handle)
 {
-	pmpkg_t *info;
+	alpm_pkg_t *info;
 	alpm_list_t *targ, *lp;
 	size_t pkg_count;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	pkg_count = alpm_list_count(trans->remove);
 
 	for(targ = trans->remove; targ; targ = targ->next) {
 		int position = 0;
 		char scriptlet[PATH_MAX];
-		info = (pmpkg_t *)targ->data;
+		info = (alpm_pkg_t *)targ->data;
 		const char *pkgname = NULL;
 		size_t targcount = alpm_list_count(targ);
 

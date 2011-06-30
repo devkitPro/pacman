@@ -26,10 +26,10 @@
 
 #include "alpm.h"
 
-pmdelta_t *_alpm_delta_parse(char *line);
-void _alpm_delta_free(pmdelta_t *delta);
-pmdelta_t *_alpm_delta_dup(const pmdelta_t *delta);
-off_t _alpm_shortest_delta_path(pmhandle_t *handle, alpm_list_t *deltas,
+alpm_delta_t *_alpm_delta_parse(char *line);
+void _alpm_delta_free(alpm_delta_t *delta);
+alpm_delta_t *_alpm_delta_dup(const alpm_delta_t *delta);
+off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,
 		const char *to, alpm_list_t **path);
 
 /* max percent of package size to download deltas */

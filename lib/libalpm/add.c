@@ -50,11 +50,11 @@
 #include "handle.h"
 
 /** Add a package to the transaction. */
-int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
+int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname, *pkgver;
-	pmtrans_t *trans;
-	pmpkg_t *local;
+	alpm_trans_t *trans;
+	alpm_pkg_t *local;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -106,7 +106,7 @@ int SYMEXPORT alpm_add_pkg(pmhandle_t *handle, pmpkg_t *pkg)
 	return 0;
 }
 
-static int perform_extraction(pmhandle_t *handle, struct archive *archive,
+static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, const char *filename, const char *origname)
 {
 	int ret;
@@ -131,8 +131,8 @@ static int perform_extraction(pmhandle_t *handle, struct archive *archive,
 	return 0;
 }
 
-static int extract_single_file(pmhandle_t *handle, struct archive *archive,
-		struct archive_entry *entry, pmpkg_t *newpkg, pmpkg_t *oldpkg)
+static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
+		struct archive_entry *entry, alpm_pkg_t *newpkg, alpm_pkg_t *oldpkg)
 {
 	const char *entryname;
 	mode_t entrymode;
@@ -252,7 +252,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 			if(alpm_list_find_str(handle->noupgrade, entryname)) {
 				notouch = 1;
 			} else {
-				pmbackup_t *backup;
+				alpm_backup_t *backup;
 				/* go to the backup array and see if our conflict is there */
 				/* check newpkg first, so that adding backup files is retroactive */
 				backup = _alpm_needbackup(entryname, alpm_pkg_get_backup(newpkg));
@@ -303,7 +303,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 		/* update the md5 hash in newpkg's backup (it will be the new orginal) */
 		alpm_list_t *i;
 		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
-			pmbackup_t *backup = i->data;
+			alpm_backup_t *backup = i->data;
 			char *newhash;
 			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;
@@ -435,7 +435,7 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 		/* calculate an hash if this is in newpkg's backup */
 		alpm_list_t *i;
 		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
-			pmbackup_t *backup = i->data;
+			alpm_backup_t *backup = i->data;
 			char *newhash;
 			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;
@@ -450,22 +450,22 @@ static int extract_single_file(pmhandle_t *handle, struct archive *archive,
 	return errors;
 }
 
-static int commit_single_pkg(pmhandle_t *handle, pmpkg_t *newpkg,
+static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		size_t pkg_current, size_t pkg_count)
 {
 	int i, ret = 0, errors = 0;
 	char scriptlet[PATH_MAX];
 	int is_upgrade = 0;
-	pmpkg_t *oldpkg = NULL;
-	pmdb_t *db = handle->db_local;
-	pmtrans_t *trans = handle->trans;
+	alpm_pkg_t *oldpkg = NULL;
+	alpm_db_t *db = handle->db_local;
+	alpm_trans_t *trans = handle->trans;
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
 			_alpm_db_path(db), alpm_pkg_get_name(newpkg),
 			alpm_pkg_get_version(newpkg));
 
 	/* see if this is an upgrade. if so, remove the old package first */
-	pmpkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
+	alpm_pkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
 	if(local) {
 		is_upgrade = 1;
 
@@ -684,12 +684,12 @@ cleanup:
 	return ret;
 }
 
-int _alpm_upgrade_packages(pmhandle_t *handle)
+int _alpm_upgrade_packages(alpm_handle_t *handle)
 {
 	size_t pkg_count, pkg_current;
 	int skip_ldconfig = 0, ret = 0;
 	alpm_list_t *targ;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	if(trans->add == NULL) {
 		return 0;
@@ -700,7 +700,7 @@ int _alpm_upgrade_packages(pmhandle_t *handle)
 
 	/* loop through our package list adding/upgrading one at a time */
 	for(targ = trans->add; targ; targ = targ->next) {
-		pmpkg_t *newpkg = targ->data;
+		alpm_pkg_t *newpkg = targ->data;
 
 		if(handle->trans->state == STATE_INTERRUPTED) {
 			return ret;

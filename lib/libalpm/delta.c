@@ -40,12 +40,12 @@ static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 	alpm_list_t *vertices = NULL;
 	/* create the vertices */
 	for(i = deltas; i; i = i->next) {
-		pmgraph_t *v = _alpm_graph_new();
+		alpm_graph_t *v = _alpm_graph_new();
 		if(!v) {
 			alpm_list_free(vertices);
 			return NULL;
 		}
-		pmdelta_t *vdelta = i->data;
+		alpm_delta_t *vdelta = i->data;
 		vdelta->download_size = vdelta->delta_size;
 		v->weight = LONG_MAX;
 		v->data = vdelta;
@@ -54,12 +54,12 @@ static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 
 	/* compute the edges */
 	for(i = vertices; i; i = i->next) {
-		pmgraph_t *v_i = i->data;
-		pmdelta_t *d_i = v_i->data;
+		alpm_graph_t *v_i = i->data;
+		alpm_delta_t *d_i = v_i->data;
 		/* loop a second time so we make all possible comparisons */
 		for(j = vertices; j; j = j->next) {
-			pmgraph_t *v_j = j->data;
-			pmdelta_t *d_j = v_j->data;
+			alpm_graph_t *v_j = j->data;
+			alpm_delta_t *d_j = v_j->data;
 			/* We want to create a delta tree like the following:
 			 *          1_to_2
 			 *            |
@@ -78,14 +78,14 @@ static alpm_list_t *graph_init(alpm_list_t *deltas, int reverse)
 	return vertices;
 }
 
-static void graph_init_size(pmhandle_t *handle, alpm_list_t *vertices)
+static void graph_init_size(alpm_handle_t *handle, alpm_list_t *vertices)
 {
 	alpm_list_t *i;
 
 	for(i = vertices; i; i = i->next) {
 		char *fpath, *md5sum;
-		pmgraph_t *v = i->data;
-		pmdelta_t *vdelta = v->data;
+		alpm_graph_t *v = i->data;
+		alpm_delta_t *vdelta = v->data;
 
 		/* determine whether the delta file already exists */
 		fpath = _alpm_filecache_find(handle, vdelta->delta);
@@ -109,12 +109,12 @@ static void graph_init_size(pmhandle_t *handle, alpm_list_t *vertices)
 static void dijkstra(alpm_list_t *vertices)
 {
 	alpm_list_t *i;
-	pmgraph_t *v;
+	alpm_graph_t *v;
 	while(1) {
 		v = NULL;
 		/* find the smallest vertice not visited yet */
 		for(i = vertices; i; i = i->next) {
-			pmgraph_t *v_i = i->data;
+			alpm_graph_t *v_i = i->data;
 
 			if(v_i->state == -1) {
 				continue;
@@ -132,8 +132,8 @@ static void dijkstra(alpm_list_t *vertices)
 
 		v->childptr = v->children;
 		while(v->childptr) {
-			pmgraph_t *v_c = v->childptr->data;
-			pmdelta_t *d_c = v_c->data;
+			alpm_graph_t *v_c = v->childptr->data;
+			alpm_delta_t *d_c = v_c->data;
 			if(v_c->weight > v->weight + d_c->download_size) {
 				v_c->weight = v->weight + d_c->download_size;
 				v_c->parent = v;
@@ -148,13 +148,13 @@ static void dijkstra(alpm_list_t *vertices)
 static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **path)
 {
 	alpm_list_t *i;
-	pmgraph_t *v = NULL;
+	alpm_graph_t *v = NULL;
 	off_t bestsize = 0;
 	alpm_list_t *rpath = NULL;
 
 	for(i = vertices; i; i = i->next) {
-		pmgraph_t *v_i = i->data;
-		pmdelta_t *d_i = v_i->data;
+		alpm_graph_t *v_i = i->data;
+		alpm_delta_t *d_i = v_i->data;
 
 		if(strcmp(d_i->to, to) == 0) {
 			if(v == NULL || v_i->weight < v->weight) {
@@ -165,7 +165,7 @@ static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **
 	}
 
 	while(v != NULL) {
-		pmdelta_t *vdelta = v->data;
+		alpm_delta_t *vdelta = v->data;
 		rpath = alpm_list_add(rpath, vdelta);
 		v = v->parent;
 	}
@@ -179,14 +179,14 @@ static off_t shortest_path(alpm_list_t *vertices, const char *to, alpm_list_t **
  * The shortest path is defined as the path with the smallest combined
  * size, not the length of the path.
  * @param handle the context handle
- * @param deltas the list of pmdelta_t * objects that a file has
+ * @param deltas the list of alpm_delta_t * objects that a file has
  * @param to the file to start the search at
- * @param path the pointer to a list location where pmdelta_t * objects that
+ * @param path the pointer to a list location where alpm_delta_t * objects that
  * have the smallest size are placed. NULL is set if there is no path
  * possible with the files available.
  * @return the size of the path stored, or LONG_MAX if path is unfindable
  */
-off_t _alpm_shortest_delta_path(pmhandle_t *handle, alpm_list_t *deltas,
+off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,
 		const char *to, alpm_list_t **path)
 {
 	alpm_list_t *bestpath = NULL;
@@ -222,8 +222,8 @@ static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota
 	vertices = graph_init(deltas, 1);
 
 	for(i = vertices; i; i = i->next) {
-		pmgraph_t *v = i->data;
-		pmdelta_t *vdelta = v->data;
+		alpm_graph_t *v = i->data;
+		alpm_delta_t *vdelta = v->data;
 		if(strcmp(vdelta->to, to) == 0)
 		{
 			v->weight = vdelta->download_size;
@@ -231,8 +231,8 @@ static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota
 	}
 	dijkstra(vertices);
 	for(i = vertices; i; i = i->next) {
-		pmgraph_t *v = i->data;
-		pmdelta_t *vdelta = v->data;
+		alpm_graph_t *v = i->data;
+		alpm_delta_t *vdelta = v->data;
 		if(v->weight > quota) {
 			unused = alpm_list_add(unused, vdelta->delta);
 		}
@@ -247,7 +247,7 @@ static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota
  * @{
  */
 
-alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(pmpkg_t *pkg)
+alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(alpm_pkg_t *pkg)
 {
 	off_t pkgsize = alpm_pkg_get_size(pkg);
 	alpm_list_t *unused = find_unused(
@@ -259,17 +259,17 @@ alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(pmpkg_t *pkg)
 
 /** @} */
 
-/** Parses the string representation of a pmdelta_t object.
+/** Parses the string representation of a alpm_delta_t object.
  * This function assumes that the string is in the correct format.
  * This format is as follows:
  * $deltafile $deltamd5 $deltasize $oldfile $newfile
  * @param line the string to parse
- * @return A pointer to the new pmdelta_t object
+ * @return A pointer to the new alpm_delta_t object
  */
 /* TODO this does not really belong here, but in a parsing lib */
-pmdelta_t *_alpm_delta_parse(char *line)
+alpm_delta_t *_alpm_delta_parse(char *line)
 {
-	pmdelta_t *delta;
+	alpm_delta_t *delta;
 	char *tmp = line, *tmp2;
 	regex_t reg;
 
@@ -284,7 +284,7 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	}
 	regfree(&reg);
 
-	CALLOC(delta, 1, sizeof(pmdelta_t), return NULL);
+	CALLOC(delta, 1, sizeof(alpm_delta_t), return NULL);
 
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
@@ -312,7 +312,7 @@ pmdelta_t *_alpm_delta_parse(char *line)
 	return delta;
 }
 
-void _alpm_delta_free(pmdelta_t *delta)
+void _alpm_delta_free(alpm_delta_t *delta)
 {
 	FREE(delta->delta);
 	FREE(delta->delta_md5);
@@ -321,10 +321,10 @@ void _alpm_delta_free(pmdelta_t *delta)
 	FREE(delta);
 }
 
-pmdelta_t *_alpm_delta_dup(const pmdelta_t *delta)
+alpm_delta_t *_alpm_delta_dup(const alpm_delta_t *delta)
 {
-	pmdelta_t *newdelta;
-	CALLOC(newdelta, 1, sizeof(pmdelta_t), return NULL);
+	alpm_delta_t *newdelta;
+	CALLOC(newdelta, 1, sizeof(alpm_delta_t), return NULL);
 	STRDUP(newdelta->delta, delta->delta, return NULL);
 	STRDUP(newdelta->delta_md5, delta->delta_md5, return NULL);
 	STRDUP(newdelta->from, delta->from, return NULL);

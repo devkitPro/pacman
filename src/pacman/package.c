@@ -45,7 +45,7 @@
  * @param from the type of package we are dealing with
  * @param extra should we show extra information
  */
-void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra)
+void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 {
 	const char *reason;
 	time_t bdate, idate;
@@ -83,7 +83,7 @@ void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra)
 
 	/* turn depends list into a text list */
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
-		pmdepend_t *dep = (pmdepend_t *)alpm_list_getdata(i);
+		alpm_depend_t *dep = (alpm_depend_t *)alpm_list_getdata(i);
 		depstrings = alpm_list_add(depstrings, alpm_dep_compute_string(dep));
 	}
 
@@ -151,7 +151,7 @@ void dump_pkg_full(pmpkg_t *pkg, enum pkg_from from, int extra)
 }
 
 static const char *get_backup_file_status(const char *root,
-		const pmbackup_t *backup)
+		const alpm_backup_t *backup)
 {
 	char path[PATH_MAX];
 	const char *ret;
@@ -192,7 +192,7 @@ static const char *get_backup_file_status(const char *root,
 
 /* Display list of backup files and their modification states
  */
-void dump_pkg_backups(pmpkg_t *pkg)
+void dump_pkg_backups(alpm_pkg_t *pkg)
 {
 	alpm_list_t *i;
 	const char *root = alpm_option_get_root(config->handle);
@@ -200,7 +200,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
 		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
-			const pmbackup_t *backup = alpm_list_getdata(i);
+			const alpm_backup_t *backup = alpm_list_getdata(i);
 			const char *value;
 			if(!backup->hash) {
 				continue;
@@ -216,7 +216,7 @@ void dump_pkg_backups(pmpkg_t *pkg)
 
 /* List all files contained in a package
  */
-void dump_pkg_files(pmpkg_t *pkg, int quiet)
+void dump_pkg_files(alpm_pkg_t *pkg, int quiet)
 {
 	const char *pkgname, *root, *filestr;
 	alpm_list_t *i, *pkgfiles;
@@ -239,7 +239,7 @@ void dump_pkg_files(pmpkg_t *pkg, int quiet)
 
 /* Display the changelog of a package
  */
-void dump_pkg_changelog(pmpkg_t *pkg)
+void dump_pkg_changelog(alpm_pkg_t *pkg)
 {
 	void *fp = NULL;
 

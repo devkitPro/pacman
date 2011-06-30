@@ -33,8 +33,8 @@
 
 static int remove_target(const char *target)
 {
-	pmpkg_t *info;
-	pmdb_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_pkg_t *info;
+	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 	alpm_list_t *p;
 
 	if((info = alpm_db_get_pkg(db_local, target)) != NULL) {
@@ -47,13 +47,13 @@ static int remove_target(const char *target)
 	}
 
 		/* fallback to group */
-	pmgrp_t *grp = alpm_db_readgrp(db_local, target);
+	alpm_group_t *grp = alpm_db_readgroup(db_local, target);
 	if(grp == NULL) {
 		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': target not found\n", target);
 		return -1;
 	}
 	for(p = grp->packages; p; p = alpm_list_next(p)) {
-		pmpkg_t *pkg = alpm_list_getdata(p);
+		alpm_pkg_t *pkg = alpm_list_getdata(p);
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
@@ -102,7 +102,7 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
-		enum _pmerrno_t err = alpm_errno(config->handle);
+		enum _alpm_errno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
@@ -114,7 +114,7 @@ int pacman_remove(alpm_list_t *targets)
 				break;
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
+					alpm_depmissing_t *miss = alpm_list_getdata(i);
 					char *depstring = alpm_dep_compute_string(miss->depend);
 					printf(_(":: %s: requires %s\n"), miss->target, depstring);
 					free(depstring);
@@ -131,7 +131,7 @@ int pacman_remove(alpm_list_t *targets)
 	/* Search for holdpkg in target list */
 	int holdpkg = 0;
 	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
-		pmpkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
 		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
 			pm_printf(PM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
 							alpm_pkg_get_name(pkg));

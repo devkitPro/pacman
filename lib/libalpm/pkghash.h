@@ -27,12 +27,12 @@
 
 
 /**
- * @brief A hash table for holding pmpkg_t objects.
+ * @brief A hash table for holding alpm_pkg_t objects.
  *
  * A combination of a hash table and a list, allowing for fast look-up
  * by package name but also iteration over the packages.
  */
-struct __pmpkghash_t {
+struct __alpm_pkghash_t {
 	/** data held by the hash table */
 	alpm_list_t **hash_table;
 	/** number of buckets in hash table */
@@ -43,17 +43,17 @@ struct __pmpkghash_t {
 	alpm_list_t *list;
 };
 
-typedef struct __pmpkghash_t pmpkghash_t;
+typedef struct __alpm_pkghash_t alpm_pkghash_t;
 
-pmpkghash_t *_alpm_pkghash_create(size_t size);
+alpm_pkghash_t *_alpm_pkghash_create(size_t size);
 
-pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg);
-pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg);
-pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg, pmpkg_t **data);
+alpm_pkghash_t *_alpm_pkghash_add(alpm_pkghash_t *hash, alpm_pkg_t *pkg);
+alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t *hash, alpm_pkg_t *pkg);
+alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg, alpm_pkg_t **data);
 
-void _alpm_pkghash_free(pmpkghash_t *hash);
+void _alpm_pkghash_free(alpm_pkghash_t *hash);
 
-pmpkg_t *_alpm_pkghash_find(pmpkghash_t *hash, const char *name);
+alpm_pkg_t *_alpm_pkghash_find(alpm_pkghash_t *hash, const char *name);
 
 #define MAX_HASH_LOAD 0.7
 

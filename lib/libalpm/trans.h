@@ -25,7 +25,7 @@
 
 #include "alpm.h"
 
-typedef enum _pmtransstate_t {
+typedef enum _alpm_transstate_t {
 	STATE_IDLE = 0,
 	STATE_INITIALIZED,
 	STATE_PREPARED,
@@ -33,14 +33,14 @@ typedef enum _pmtransstate_t {
 	STATE_COMMITING,
 	STATE_COMMITED,
 	STATE_INTERRUPTED
-} pmtransstate_t;
+} alpm_transstate_t;
 
 /* Transaction */
-struct __pmtrans_t {
-	pmtransflag_t flags;
-	pmtransstate_t state;
-	alpm_list_t *add;      /* list of (pmpkg_t *) */
-	alpm_list_t *remove;      /* list of (pmpkg_t *) */
+struct __alpm_trans_t {
+	alpm_transflag_t flags;
+	alpm_transstate_t state;
+	alpm_list_t *add;      /* list of (alpm_pkg_t *) */
+	alpm_list_t *remove;      /* list of (alpm_pkg_t *) */
 	alpm_list_t *skip_remove;   /* list of (char *) */
 	alpm_trans_cb_event cb_event;
 	alpm_trans_cb_conv cb_conv;
@@ -66,11 +66,11 @@ do { \
 	} \
 } while(0)
 
-void _alpm_trans_free(pmtrans_t *trans);
-int _alpm_trans_init(pmtrans_t *trans, pmtransflag_t flags,
+void _alpm_trans_free(alpm_trans_t *trans);
+int _alpm_trans_init(alpm_trans_t *trans, alpm_transflag_t flags,
                      alpm_trans_cb_event event, alpm_trans_cb_conv conv,
                      alpm_trans_cb_progress progress);
-int _alpm_runscriptlet(pmhandle_t *handle, const char *installfn,
+int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 		const char *script, const char *ver, const char *oldver);
 
 #endif /* _ALPM_TRANS_H */

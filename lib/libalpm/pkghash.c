@@ -51,12 +51,12 @@ static const size_t prime_list[] =
 };
 
 /* Allocate a hash table with at least "size" buckets */
-pmpkghash_t *_alpm_pkghash_create(size_t size)
+alpm_pkghash_t *_alpm_pkghash_create(size_t size)
 {
-	pmpkghash_t *hash = NULL;
+	alpm_pkghash_t *hash = NULL;
 	size_t i, loopsize;
 
-	CALLOC(hash, 1, sizeof(pmpkghash_t), return NULL);
+	CALLOC(hash, 1, sizeof(alpm_pkghash_t), return NULL);
 
 	loopsize = sizeof(prime_list) / sizeof(*prime_list);
 	for(i = 0; i < loopsize; i++) {
@@ -78,7 +78,7 @@ pmpkghash_t *_alpm_pkghash_create(size_t size)
 	return hash;
 }
 
-static size_t get_hash_position(unsigned long name_hash, pmpkghash_t *hash)
+static size_t get_hash_position(unsigned long name_hash, alpm_pkghash_t *hash)
 {
 	size_t position;
 
@@ -93,9 +93,9 @@ static size_t get_hash_position(unsigned long name_hash, pmpkghash_t *hash)
 }
 
 /* Expand the hash table size to the next increment and rebin the entries */
-static pmpkghash_t *rehash(pmpkghash_t *oldhash)
+static alpm_pkghash_t *rehash(alpm_pkghash_t *oldhash)
 {
-	pmpkghash_t *newhash;
+	alpm_pkghash_t *newhash;
 	size_t newsize, position, i;
 
 	/* Hash tables will need resized in two cases:
@@ -128,7 +128,7 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 
 	for(i = 0; i < oldhash->buckets; i++) {
 		if(oldhash->hash_table[i] != NULL) {
-			pmpkg_t *package = oldhash->hash_table[i]->data;
+			alpm_pkg_t *package = oldhash->hash_table[i]->data;
 
 			position = get_hash_position(package->name_hash, newhash);
 
@@ -144,7 +144,7 @@ static pmpkghash_t *rehash(pmpkghash_t *oldhash)
 	return newhash;
 }
 
-static pmpkghash_t *pkghash_add_pkg(pmpkghash_t *hash, pmpkg_t *pkg, int sorted)
+static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t *hash, alpm_pkg_t *pkg, int sorted)
 {
 	alpm_list_t *ptr;
 	size_t position;
@@ -179,17 +179,17 @@ static pmpkghash_t *pkghash_add_pkg(pmpkghash_t *hash, pmpkg_t *pkg, int sorted)
 	return hash;
 }
 
-pmpkghash_t *_alpm_pkghash_add(pmpkghash_t *hash, pmpkg_t *pkg)
+alpm_pkghash_t *_alpm_pkghash_add(alpm_pkghash_t *hash, alpm_pkg_t *pkg)
 {
 	return pkghash_add_pkg(hash, pkg, 0);
 }
 
-pmpkghash_t *_alpm_pkghash_add_sorted(pmpkghash_t *hash, pmpkg_t *pkg)
+alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t *hash, alpm_pkg_t *pkg)
 {
 	return pkghash_add_pkg(hash, pkg, 1);
 }
 
-static size_t move_one_entry(pmpkghash_t *hash, size_t start, size_t end)
+static size_t move_one_entry(alpm_pkghash_t *hash, size_t start, size_t end)
 {
 	/* Iterate backwards from 'end' to 'start', seeing if any of the items
 	 * would hash to 'start'. If we find one, we move it there and break.  If
@@ -200,7 +200,7 @@ static size_t move_one_entry(pmpkghash_t *hash, size_t start, size_t end)
 	 * 'start' we can stop this madness. */
 	while(end != start) {
 		alpm_list_t *i = hash->hash_table[end];
-		pmpkg_t *info = i->data;
+		alpm_pkg_t *info = i->data;
 		size_t new_position = get_hash_position(info->name_hash, hash);
 
 		if(new_position == start) {
@@ -226,8 +226,8 @@ static size_t move_one_entry(pmpkghash_t *hash, size_t start, size_t end)
  *
  * @return the resultant hash
  */
-pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
-		pmpkg_t **data)
+alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
+		alpm_pkg_t **data)
 {
 	alpm_list_t *i;
 	size_t position;
@@ -242,7 +242,7 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
 
 	position = pkg->name_hash % hash->buckets;
 	while((i = hash->hash_table[position]) != NULL) {
-		pmpkg_t *info = i->data;
+		alpm_pkg_t *info = i->data;
 
 		if(info->name_hash == pkg->name_hash &&
 					strcmp(info->name, pkg->name) == 0) {
@@ -283,7 +283,7 @@ pmpkghash_t *_alpm_pkghash_remove(pmpkghash_t *hash, pmpkg_t *pkg,
 	return hash;
 }
 
-void _alpm_pkghash_free(pmpkghash_t *hash)
+void _alpm_pkghash_free(alpm_pkghash_t *hash)
 {
 	size_t i;
 	if(hash != NULL) {
@@ -295,7 +295,7 @@ void _alpm_pkghash_free(pmpkghash_t *hash)
 	free(hash);
 }
 
-pmpkg_t *_alpm_pkghash_find(pmpkghash_t *hash, const char *name)
+alpm_pkg_t *_alpm_pkghash_find(alpm_pkghash_t *hash, const char *name)
 {
 	alpm_list_t *lp;
 	unsigned long name_hash;
@@ -310,7 +310,7 @@ pmpkg_t *_alpm_pkghash_find(pmpkghash_t *hash, const char *name)
 	position = name_hash % hash->buckets;
 
 	while((lp = hash->hash_table[position]) != NULL) {
-		pmpkg_t *info = lp->data;
+		alpm_pkg_t *info = lp->data;
 
 		if(info->name_hash == name_hash && strcmp(info->name, name) == 0) {
 			return info;

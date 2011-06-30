@@ -46,13 +46,13 @@
  * @param err an optional variable to hold any error return codes
  * @return a context handle on success, NULL on error, err will be set if provided
  */
-pmhandle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
-		enum _pmerrno_t *err)
+alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
+		enum _alpm_errno_t *err)
 {
-	enum _pmerrno_t myerr;
+	enum _alpm_errno_t myerr;
 	const char *lf = "db.lck";
 	size_t lockfilelen;
-	pmhandle_t *myhandle = _alpm_handle_new();
+	alpm_handle_t *myhandle = _alpm_handle_new();
 
 	if(myhandle == NULL) {
 		myerr = PM_ERR_MEMORY;
@@ -99,10 +99,10 @@ cleanup:
  * @param handle the context handle
  * @return 0 on success, -1 on error
  */
-int SYMEXPORT alpm_release(pmhandle_t *myhandle)
+int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 {
 	int ret = 0;
-	pmdb_t *db;
+	alpm_db_t *db;
 
 	CHECK_HANDLE(myhandle, return -1);
 

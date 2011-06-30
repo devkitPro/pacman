@@ -218,7 +218,7 @@ char *_alpm_strtrim(char *str)
  * @param filename a file within the archive to unpack
  * @return 0 on success, 1 on failure
  */
-int _alpm_unpack_single(pmhandle_t *handle, const char *archive,
+int _alpm_unpack_single(alpm_handle_t *handle, const char *archive,
 		const char *prefix, const char *filename)
 {
 	alpm_list_t *list = NULL;
@@ -243,7 +243,7 @@ int _alpm_unpack_single(pmhandle_t *handle, const char *archive,
  *
  * @return 0 on success, 1 on failure
  */
-int _alpm_unpack(pmhandle_t *handle, const char *archive, const char *prefix,
+int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 		alpm_list_t *list, int breakfirst)
 {
 	int ret = 0;
@@ -388,7 +388,7 @@ int _alpm_rmrf(const char *path)
 	return 0;
 }
 
-int _alpm_logaction(pmhandle_t *handle, const char *fmt, va_list args)
+int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
 {
 	int ret = 0;
 
@@ -419,7 +419,7 @@ int _alpm_logaction(pmhandle_t *handle, const char *fmt, va_list args)
 	return ret;
 }
 
-int _alpm_run_chroot(pmhandle_t *handle, const char *path, char *const argv[])
+int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[])
 {
 	char cwd[PATH_MAX];
 	pid_t pid;
@@ -536,7 +536,7 @@ cleanup:
 	return retval;
 }
 
-int _alpm_ldconfig(pmhandle_t *handle)
+int _alpm_ldconfig(alpm_handle_t *handle)
 {
 	char line[PATH_MAX];
 
@@ -566,7 +566,7 @@ int _alpm_str_cmp(const void *s1, const void *s2)
  * @param filename name of file to find
  * @return malloced path of file, NULL if not found
  */
-char *_alpm_filecache_find(pmhandle_t *handle, const char *filename)
+char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 {
 	char path[PATH_MAX];
 	char *retpath;
@@ -592,7 +592,7 @@ char *_alpm_filecache_find(pmhandle_t *handle, const char *filename)
  * @param handle the context handle
  * @return pointer to a writable cache directory.
  */
-const char *_alpm_filecache_setup(pmhandle_t *handle)
+const char *_alpm_filecache_setup(alpm_handle_t *handle)
 {
 	struct stat buf;
 	alpm_list_t *i, *tmp;

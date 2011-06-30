@@ -34,11 +34,11 @@
 #include "db.h"
 #include "signing.h"
 
-typedef enum _pmpkgfrom_t {
+typedef enum _alpm_pkgfrom_t {
 	PKG_FROM_FILE = 1,
 	PKG_FROM_LOCALDB,
 	PKG_FROM_SYNCDB
-} pmpkgfrom_t;
+} alpm_pkgfrom_t;
 
 /** Package operations struct. This struct contains function pointers to
  * all methods used to access data in a package to allow for things such
@@ -48,33 +48,33 @@ typedef enum _pmpkgfrom_t {
  * defined default_pkg_ops struct to work just fine for their needs.
  */
 struct pkg_operations {
-	const char *(*get_filename) (pmpkg_t *);
-	const char *(*get_desc) (pmpkg_t *);
-	const char *(*get_url) (pmpkg_t *);
-	time_t (*get_builddate) (pmpkg_t *);
-	time_t (*get_installdate) (pmpkg_t *);
-	const char *(*get_packager) (pmpkg_t *);
-	const char *(*get_md5sum) (pmpkg_t *);
-	const char *(*get_arch) (pmpkg_t *);
-	off_t (*get_size) (pmpkg_t *);
-	off_t (*get_isize) (pmpkg_t *);
-	pmpkgreason_t (*get_reason) (pmpkg_t *);
-	int (*has_scriptlet) (pmpkg_t *);
+	const char *(*get_filename) (alpm_pkg_t *);
+	const char *(*get_desc) (alpm_pkg_t *);
+	const char *(*get_url) (alpm_pkg_t *);
+	time_t (*get_builddate) (alpm_pkg_t *);
+	time_t (*get_installdate) (alpm_pkg_t *);
+	const char *(*get_packager) (alpm_pkg_t *);
+	const char *(*get_md5sum) (alpm_pkg_t *);
+	const char *(*get_arch) (alpm_pkg_t *);
+	off_t (*get_size) (alpm_pkg_t *);
+	off_t (*get_isize) (alpm_pkg_t *);
+	alpm_pkgreason_t (*get_reason) (alpm_pkg_t *);
+	int (*has_scriptlet) (alpm_pkg_t *);
 
-	alpm_list_t *(*get_licenses) (pmpkg_t *);
-	alpm_list_t *(*get_groups) (pmpkg_t *);
-	alpm_list_t *(*get_depends) (pmpkg_t *);
-	alpm_list_t *(*get_optdepends) (pmpkg_t *);
-	alpm_list_t *(*get_conflicts) (pmpkg_t *);
-	alpm_list_t *(*get_provides) (pmpkg_t *);
-	alpm_list_t *(*get_replaces) (pmpkg_t *);
-	alpm_list_t *(*get_deltas) (pmpkg_t *);
-	alpm_list_t *(*get_files) (pmpkg_t *);
-	alpm_list_t *(*get_backup) (pmpkg_t *);
+	alpm_list_t *(*get_licenses) (alpm_pkg_t *);
+	alpm_list_t *(*get_groups) (alpm_pkg_t *);
+	alpm_list_t *(*get_depends) (alpm_pkg_t *);
+	alpm_list_t *(*get_optdepends) (alpm_pkg_t *);
+	alpm_list_t *(*get_conflicts) (alpm_pkg_t *);
+	alpm_list_t *(*get_provides) (alpm_pkg_t *);
+	alpm_list_t *(*get_replaces) (alpm_pkg_t *);
+	alpm_list_t *(*get_deltas) (alpm_pkg_t *);
+	alpm_list_t *(*get_files) (alpm_pkg_t *);
+	alpm_list_t *(*get_backup) (alpm_pkg_t *);
 
-	void *(*changelog_open) (pmpkg_t *);
-	size_t (*changelog_read) (void *, size_t, const pmpkg_t *, const void *);
-	int (*changelog_close) (const pmpkg_t *, void *);
+	void *(*changelog_open) (alpm_pkg_t *);
+	size_t (*changelog_read) (void *, size_t, const alpm_pkg_t *, const void *);
+	int (*changelog_close) (const alpm_pkg_t *, void *);
 
 	/* still to add:
 	 * checkmd5sum() ?
@@ -89,7 +89,7 @@ struct pkg_operations {
  */
 extern struct pkg_operations default_pkg_ops;
 
-struct __pmpkg_t {
+struct __alpm_pkg_t {
 	unsigned long name_hash;
 	char *filename;
 	char *name;
@@ -110,16 +110,16 @@ struct __pmpkg_t {
 
 	int scriptlet;
 
-	pmpkgreason_t reason;
-	pmdbinfrq_t infolevel;
-	pmpkgfrom_t origin;
+	alpm_pkgreason_t reason;
+	alpm_dbinfrq_t infolevel;
+	alpm_pkgfrom_t origin;
 	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
 	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
 	union {
-		pmdb_t *db;
+		alpm_db_t *db;
 		char *file;
 	} origin_data;
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;
@@ -137,20 +137,20 @@ struct __pmpkg_t {
 	struct pkg_operations *ops;
 };
 
-pmpkg_t* _alpm_pkg_new(void);
-pmpkg_t *_alpm_pkg_dup(pmpkg_t *pkg);
-void _alpm_pkg_free(pmpkg_t *pkg);
-void _alpm_pkg_free_trans(pmpkg_t *pkg);
+alpm_pkg_t* _alpm_pkg_new(void);
+alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg);
+void _alpm_pkg_free(alpm_pkg_t *pkg);
+void _alpm_pkg_free_trans(alpm_pkg_t *pkg);
 
 
-pmpkg_t *_alpm_pkg_load_internal(pmhandle_t *handle, const char *pkgfile,
+alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		int full, const char *md5sum, const char *base64_sig,
 		pgp_verify_t check_sig);
 
 int _alpm_pkg_cmp(const void *p1, const void *p2);
-int _alpm_pkg_compare_versions(pmpkg_t *local_pkg, pmpkg_t *pkg);
-pmpkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle);
-int _alpm_pkg_should_ignore(pmhandle_t *handle, pmpkg_t *pkg);
+int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
+alpm_pkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle);
+int _alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg);
 
 #endif /* _ALPM_PACKAGE_H */
 

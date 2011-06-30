@@ -149,7 +149,7 @@ static int utimes_long(const char *path, long seconds)
 }
 
 
-static int curl_download_internal(pmhandle_t *handle,
+static int curl_download_internal(alpm_handle_t *handle,
 		const char *url, const char *localpath,
 		int force, int allow_resume, int errors_ok)
 {
@@ -321,7 +321,7 @@ cleanup:
  * @param errors_ok do not log errors (but still return them)
  * @return 0 on success, -1 on error (pm_errno is set accordingly if errors_ok == 0)
  */
-int _alpm_download(pmhandle_t *handle, const char *url, const char *localpath,
+int _alpm_download(alpm_handle_t *handle, const char *url, const char *localpath,
 		int force, int allow_resume, int errors_ok)
 {
 	if(handle->fetchcb == NULL) {
@@ -341,7 +341,7 @@ int _alpm_download(pmhandle_t *handle, const char *url, const char *localpath,
 }
 
 /** Fetch a remote pkg. */
-char SYMEXPORT *alpm_fetch_pkgurl(pmhandle_t *handle, const char *url)
+char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 {
 	char *filepath;
 	const char *filename, *cachedir;

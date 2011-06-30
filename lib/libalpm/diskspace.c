@@ -59,7 +59,7 @@ static int mount_point_cmp(const void *p1, const void *p2)
 	return -strcmp(mp1->mount_dir, mp2->mount_dir);
 }
 
-static alpm_list_t *mount_point_list(pmhandle_t *handle)
+static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points = NULL, *ptr;
 	alpm_mountpoint_t *mp;
@@ -148,8 +148,8 @@ static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
 	return NULL;
 }
 
-static int calculate_removed_size(pmhandle_t *handle,
-		const alpm_list_t *mount_points, pmpkg_t *pkg)
+static int calculate_removed_size(alpm_handle_t *handle,
+		const alpm_list_t *mount_points, alpm_pkg_t *pkg)
 {
 	alpm_list_t *file;
 
@@ -185,8 +185,8 @@ static int calculate_removed_size(pmhandle_t *handle,
 	return 0;
 }
 
-static int calculate_installed_size(pmhandle_t *handle,
-		const alpm_list_t *mount_points, pmpkg_t *pkg)
+static int calculate_installed_size(alpm_handle_t *handle,
+		const alpm_list_t *mount_points, alpm_pkg_t *pkg)
 {
 	int ret=0;
 	struct archive *archive;
@@ -257,14 +257,14 @@ cleanup:
 	return ret;
 }
 
-int _alpm_check_diskspace(pmhandle_t *handle)
+int _alpm_check_diskspace(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points, *i;
 	alpm_mountpoint_t *root_mp;
 	size_t replaces = 0, current = 0, numtargs;
 	int error = 0;
 	alpm_list_t *targ;
-	pmtrans_t *trans = handle->trans;
+	alpm_trans_t *trans = handle->trans;
 
 	numtargs = alpm_list_count(trans->add);
 	mount_points = mount_point_list(handle);
@@ -283,7 +283,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 	if(replaces) {
 		numtargs += replaces;
 		for(targ = trans->remove; targ; targ = targ->next, current++) {
-			pmpkg_t *local_pkg;
+			alpm_pkg_t *local_pkg;
 			int percent = (current * 100) / numtargs;
 			PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 					numtargs, current);
@@ -294,7 +294,7 @@ int _alpm_check_diskspace(pmhandle_t *handle)
 	}
 
 	for(targ = trans->add; targ; targ = targ->next, current++) {
-		pmpkg_t *pkg, *local_pkg;
+		alpm_pkg_t *pkg, *local_pkg;
 		int percent = (current * 100) / numtargs;
 		PROGRESS(trans, PM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 				numtargs, current);

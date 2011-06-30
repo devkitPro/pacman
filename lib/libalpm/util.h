@@ -28,8 +28,8 @@
 
 #include "alpm_list.h"
 #include "alpm.h"
-#include "package.h" /* pmpkg_t */
-#include "handle.h" /* pmhandle_t */
+#include "package.h" /* alpm_pkg_t */
+#include "handle.h" /* alpm_handle_t */
 
 #include <stdio.h>
 #include <string.h>
@@ -95,17 +95,17 @@ int _alpm_makepath(const char *path);
 int _alpm_makepath_mode(const char *path, mode_t mode);
 int _alpm_copyfile(const char *src, const char *dest);
 char *_alpm_strtrim(char *str);
-int _alpm_unpack_single(pmhandle_t *handle, const char *archive,
+int _alpm_unpack_single(alpm_handle_t *handle, const char *archive,
 		const char *prefix, const char *filename);
-int _alpm_unpack(pmhandle_t *handle, const char *archive, const char *prefix,
+int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 		alpm_list_t *list, int breakfirst);
 int _alpm_rmrf(const char *path);
-int _alpm_logaction(pmhandle_t *handle, const char *fmt, va_list args);
-int _alpm_run_chroot(pmhandle_t *handle, const char *path, char *const argv[]);
-int _alpm_ldconfig(pmhandle_t *handle);
+int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args);
+int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]);
+int _alpm_ldconfig(alpm_handle_t *handle);
 int _alpm_str_cmp(const void *s1, const void *s2);
-char *_alpm_filecache_find(pmhandle_t *handle, const char *filename);
-const char *_alpm_filecache_setup(pmhandle_t *handle);
+char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename);
+const char *_alpm_filecache_setup(alpm_handle_t *handle);
 int _alpm_lstat(const char *path, struct stat *buf);
 int _alpm_test_md5sum(const char *filepath, const char *md5sum);
 int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b);

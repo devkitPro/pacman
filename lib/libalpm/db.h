@@ -33,7 +33,7 @@
 #include "signing.h"
 
 /* Database entries */
-typedef enum _pmdbinfrq_t {
+typedef enum _alpm_dbinfrq_t {
 	INFRQ_BASE = 1,
 	INFRQ_DESC = (1 << 1),
 	INFRQ_FILES = (1 << 2),
@@ -41,31 +41,31 @@ typedef enum _pmdbinfrq_t {
 	INFRQ_DSIZE = (1 << 4),
 	/* ALL should be info stored in the package or database */
 	INFRQ_ALL = 0x1F
-} pmdbinfrq_t;
+} alpm_dbinfrq_t;
 
 /** Database status. Bitflags. */
-enum _pmdbstatus_t {
+enum _alpm_dbstatus_t {
 	DB_STATUS_VALID = (1 << 0),
 	DB_STATUS_PKGCACHE = (1 << 1),
 	DB_STATUS_GRPCACHE = (1 << 2)
 };
 
 struct db_operations {
-	int (*populate) (pmdb_t *);
-	void (*unregister) (pmdb_t *);
+	int (*populate) (alpm_db_t *);
+	void (*unregister) (alpm_db_t *);
 };
 
 /* Database */
-struct __pmdb_t {
-	pmhandle_t *handle;
+struct __alpm_db_t {
+	alpm_handle_t *handle;
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */
 	char *_path;
 	/* also indicates whether we are RO or RW */
 	int is_local;
 	/* flags determining validity, loaded caches, etc. */
-	enum _pmdbstatus_t status;
-	pmpkghash_t *pkgcache;
+	enum _alpm_dbstatus_t status;
+	alpm_pkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
 	pgp_verify_t pgp_verify;
@@ -75,36 +75,36 @@ struct __pmdb_t {
 
 
 /* db.c, database general calls */
-pmdb_t *_alpm_db_new(const char *treename, int is_local);
-void _alpm_db_free(pmdb_t *db);
-const char *_alpm_db_path(pmdb_t *db);
-char *_alpm_db_sig_path(pmdb_t *db);
+alpm_db_t *_alpm_db_new(const char *treename, int is_local);
+void _alpm_db_free(alpm_db_t *db);
+const char *_alpm_db_path(alpm_db_t *db);
+char *_alpm_db_sig_path(alpm_db_t *db);
 int _alpm_db_cmp(const void *d1, const void *d2);
-alpm_list_t *_alpm_db_search(pmdb_t *db, const alpm_list_t *needles);
-pmdb_t *_alpm_db_register_local(pmhandle_t *handle);
-pmdb_t *_alpm_db_register_sync(pmhandle_t *handle, const char *treename,
+alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
+alpm_db_t *_alpm_db_register_local(alpm_handle_t *handle);
+alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 		pgp_verify_t level);
-void _alpm_db_unregister(pmdb_t *db);
+void _alpm_db_unregister(alpm_db_t *db);
 
 /* be_*.c, backend specific calls */
-int _alpm_local_db_read(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
-int _alpm_local_db_prepare(pmdb_t *db, pmpkg_t *info);
-int _alpm_local_db_write(pmdb_t *db, pmpkg_t *info, pmdbinfrq_t inforeq);
-int _alpm_local_db_remove(pmdb_t *db, pmpkg_t *info);
+int _alpm_local_db_read(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
+int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info);
+int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
+int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info);
 
 /* cache bullshit */
 /* packages */
-void _alpm_db_free_pkgcache(pmdb_t *db);
-int _alpm_db_add_pkgincache(pmdb_t *db, pmpkg_t *pkg);
-int _alpm_db_remove_pkgfromcache(pmdb_t *db, pmpkg_t *pkg);
-pmpkghash_t *_alpm_db_get_pkgcache_hash(pmdb_t *db);
-alpm_list_t *_alpm_db_get_pkgcache(pmdb_t *db);
-int _alpm_db_ensure_pkgcache(pmdb_t *db, pmdbinfrq_t infolevel);
-pmpkg_t *_alpm_db_get_pkgfromcache(pmdb_t *db, const char *target);
+void _alpm_db_free_pkgcache(alpm_db_t *db);
+int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg);
+int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg);
+alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db);
+alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db);
+int _alpm_db_ensure_pkgcache(alpm_db_t *db, alpm_dbinfrq_t infolevel);
+alpm_pkg_t *_alpm_db_get_pkgfromcache(alpm_db_t *db, const char *target);
 /* groups */
-void _alpm_db_free_grpcache(pmdb_t *db);
-alpm_list_t *_alpm_db_get_grpcache(pmdb_t *db);
-pmgrp_t *_alpm_db_get_grpfromcache(pmdb_t *db, const char *target);
+void _alpm_db_free_groupcache(alpm_db_t *db);
+alpm_list_t *_alpm_db_get_groupcache(alpm_db_t *db);
+alpm_group_t *_alpm_db_get_groupfromcache(alpm_db_t *db, const char *target);
 
 #endif /* _ALPM_DB_H */
 

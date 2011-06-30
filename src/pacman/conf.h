@@ -70,7 +70,7 @@ typedef struct __config_t {
 	unsigned short group;
 	unsigned short noask;
 	unsigned int ask;
-	pmtransflag_t flags;
+	alpm_transflag_t flags;
 	pgp_verify_t sigverify;
 
 	/* conf file options */
@@ -92,7 +92,7 @@ typedef struct __config_t {
 	char *xfercommand;
 
 	/* our connection to libalpm */
-	pmhandle_t *handle;
+	alpm_handle_t *handle;
 } config_t;
 
 /* Operations */

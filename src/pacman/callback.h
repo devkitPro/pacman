@@ -25,14 +25,14 @@
 #include <alpm.h>
 
 /* callback to handle messages/notifications from libalpm transactions */
-void cb_trans_evt(pmtransevt_t event, void *data1, void *data2);
+void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2);
 
 /* callback to handle questions from libalpm transactions (yes/no) */
-void cb_trans_conv(pmtransconv_t event, void *data1, void *data2,
+void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
                    void *data3, int *response);
 
 /* callback to handle display of transaction progress */
-void cb_trans_progress(pmtransprog_t event, const char *pkgname, int percent,
+void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
                    size_t howmany, size_t remain);
 
 /* callback to handle receipt of total download value */
@@ -41,7 +41,7 @@ void cb_dl_total(off_t total);
 void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total);
 
 /* callback to handle messages/notifications from pacman library */
-void cb_log(pmloglevel_t level, const char *fmt, va_list args);
+void cb_log(alpm_loglevel_t level, const char *fmt, va_list args);
 
 #endif /* _PM_CALLBACK_H */
 

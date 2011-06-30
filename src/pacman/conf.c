@@ -378,7 +378,7 @@ static int _parse_options(const char *key, char *value,
 	return 0;
 }
 
-static int _add_mirror(pmdb_t *db, char *value)
+static int _add_mirror(alpm_db_t *db, char *value)
 {
 	const char *dbname = alpm_db_get_name(db);
 	/* let's attempt a replacement for the current repo */
@@ -420,8 +420,8 @@ static int _add_mirror(pmdb_t *db, char *value)
 static int setup_libalpm(void)
 {
 	int ret = 0;
-	enum _pmerrno_t err;
-	pmhandle_t *handle;
+	enum _alpm_errno_t err;
+	alpm_handle_t *handle;
 
 	pm_printf(PM_LOG_DEBUG, "setup_libalpm called\n");
 
@@ -502,7 +502,7 @@ static int setup_libalpm(void)
 	alpm_option_set_usedelta(handle, config->usedelta);
 
 	alpm_option_set_ignorepkgs(handle, config->ignorepkg);
-	alpm_option_set_ignoregrps(handle, config->ignoregrp);
+	alpm_option_set_ignoregroups(handle, config->ignoregrp);
 	alpm_option_set_noupgrades(handle, config->noupgrade);
 	alpm_option_set_noextracts(handle, config->noextract);
 
@@ -535,7 +535,7 @@ static int finish_section(struct section_t *section, int parse_options)
 {
 	int ret = 0;
 	alpm_list_t *i;
-	pmdb_t *db;
+	alpm_db_t *db;
 
 	pm_printf(PM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
 

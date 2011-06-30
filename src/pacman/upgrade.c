@@ -74,7 +74,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
-		pmpkg_t *pkg;
+		alpm_pkg_t *pkg;
 
 		if(alpm_pkg_load(config->handle, targ, 1, check_sig, &pkg) != 0) {
 			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
@@ -94,7 +94,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	/* TODO: No, compute nothing. This is stupid. */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
-		enum _pmerrno_t err = alpm_errno(config->handle);
+		enum _alpm_errno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
@@ -106,7 +106,7 @@ int pacman_upgrade(alpm_list_t *targets)
 				break;
 			case PM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmdepmissing_t *miss = alpm_list_getdata(i);
+					alpm_depmissing_t *miss = alpm_list_getdata(i);
 					char *depstring = alpm_dep_compute_string(miss->depend);
 
 					/* TODO indicate if the error was a virtual package or not:
@@ -118,7 +118,7 @@ int pacman_upgrade(alpm_list_t *targets)
 				break;
 			case PM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmconflict_t *conflict = alpm_list_getdata(i);
+					alpm_conflict_t *conflict = alpm_list_getdata(i);
 					if(strcmp(conflict->package1, conflict->reason) == 0 ||
 							strcmp(conflict->package2, conflict->reason) == 0) {
 						printf(_(":: %s and %s are in conflict\n"),
@@ -162,13 +162,13 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
-		enum _pmerrno_t err = alpm_errno(config->handle);
+		enum _alpm_errno_t err = alpm_errno(config->handle);
 		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 				alpm_strerror(err));
 		switch(err) {
 			case PM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					pmfileconflict_t *conflict = alpm_list_getdata(i);
+					alpm_fileconflict_t *conflict = alpm_list_getdata(i);
 					switch(conflict->type) {
 						case PM_FILECONFLICT_TARGET:
 							printf(_("%s exists in both '%s' and '%s'\n"),

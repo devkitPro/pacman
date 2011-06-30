@@ -31,7 +31,7 @@
 
 #define BASENAME "testdb"
 
-pmhandle_t *handle = NULL;
+alpm_handle_t *handle = NULL;
 
 static void cleanup(int signum) {
 	if(handle && alpm_release(handle) == -1) {
@@ -41,7 +41,7 @@ static void cleanup(int signum) {
 	exit(signum);
 }
 
-static void output_cb(pmloglevel_t level, const char *fmt, va_list args)
+static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 {
 	if(strlen(fmt)) {
 		switch(level) {
@@ -100,7 +100,7 @@ static int checkdeps(alpm_list_t *pkglist)
 	/* check dependencies */
 	data = alpm_checkdeps(handle, pkglist, NULL, pkglist, 0);
 	for(i = data; i; i = alpm_list_next(i)) {
-		pmdepmissing_t *miss = alpm_list_getdata(i);
+		alpm_depmissing_t *miss = alpm_list_getdata(i);
 		char *depstring = alpm_dep_compute_string(miss->depend);
 		printf("missing dependency for %s : %s\n", miss->target,
 				depstring);
@@ -118,7 +118,7 @@ static int checkconflicts(alpm_list_t *pkglist)
 	/* check conflicts */
 	data = alpm_checkconflicts(handle, pkglist);
 	for(i = data; i; i = i->next) {
-		pmconflict_t *conflict = alpm_list_getdata(i);
+		alpm_conflict_t *conflict = alpm_list_getdata(i);
 		printf("%s conflicts with %s\n",
 				conflict->package1, conflict->package2);
 		ret++;
@@ -129,7 +129,7 @@ static int checkconflicts(alpm_list_t *pkglist)
 
 static int check_localdb(void) {
 	int ret = 0;
-	pmdb_t *db = NULL;
+	alpm_db_t *db = NULL;
 	alpm_list_t *pkglist;
 
 	ret = check_localdb_files();
@@ -146,7 +146,7 @@ static int check_localdb(void) {
 
 static int check_syncdbs(alpm_list_t *dbnames) {
 	int ret = 0;
-	pmdb_t *db = NULL;
+	alpm_db_t *db = NULL;
 	alpm_list_t *i, *pkglist, *syncpkglist = NULL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
@@ -180,7 +180,7 @@ static void usage(void) {
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	enum _pmerrno_t err;
+	enum _alpm_errno_t err;
 	const char *dbpath = DBPATH;
 	int a = 1;
 	alpm_list_t *dbnames = NULL;

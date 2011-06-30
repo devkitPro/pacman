@@ -40,9 +40,9 @@
 int pacman_database(alpm_list_t *targets)
 {
 	alpm_list_t *i;
-	pmdb_t *db_local;
+	alpm_db_t *db_local;
 	int retval = 0;
-	pmpkgreason_t reason;
+	alpm_pkgreason_t reason;
 
 	if(targets == NULL) {
 		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));

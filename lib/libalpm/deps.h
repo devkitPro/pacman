@@ -27,16 +27,16 @@
 #include "package.h"
 #include "alpm.h"
 
-void _alpm_dep_free(pmdepend_t *dep);
-pmdepend_t *_alpm_dep_dup(const pmdepend_t *dep);
-void _alpm_depmiss_free(pmdepmissing_t *miss);
-alpm_list_t *_alpm_sortbydeps(pmhandle_t *handle, alpm_list_t *targets, int reverse);
-void _alpm_recursedeps(pmdb_t *db, alpm_list_t *targs, int include_explicit);
-int _alpm_resolvedeps(pmhandle_t *handle, alpm_list_t *localpkgs, pmpkg_t *pkg,
+void _alpm_dep_free(alpm_depend_t *dep);
+alpm_depend_t *_alpm_dep_dup(const alpm_depend_t *dep);
+void _alpm_depmiss_free(alpm_depmissing_t *miss);
+alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle, alpm_list_t *targets, int reverse);
+void _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit);
+int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t *pkg,
 		alpm_list_t *preferred, alpm_list_t **packages, alpm_list_t *remove,
 		alpm_list_t **data);
-pmdepend_t *_alpm_splitdep(const char *depstring);
-int _alpm_depcmp(pmpkg_t *pkg, pmdepend_t *dep);
+alpm_depend_t *_alpm_splitdep(const char *depstring);
+int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep);
 
 #endif /* _ALPM_DEPS_H */
 

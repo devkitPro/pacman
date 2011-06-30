@@ -23,10 +23,10 @@
 #include "alpm_list.h"
 #include "alpm.h"
 
-int _alpm_split_backup(const char *string, pmbackup_t **backup);
-pmbackup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list);
-void _alpm_backup_free(pmbackup_t *backup);
-pmbackup_t *_alpm_backup_dup(const pmbackup_t *backup);
+int _alpm_split_backup(const char *string, alpm_backup_t **backup);
+alpm_backup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list);
+void _alpm_backup_free(alpm_backup_t *backup);
+alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup);
 
 #endif /* _ALPM_BACKUP_H */
 
