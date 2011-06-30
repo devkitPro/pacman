@@ -117,6 +117,7 @@ int SYMEXPORT alpm_release(pmhandle_t *myhandle)
 		ret = -1;
 	}
 
+	_alpm_handle_unlock(myhandle);
 	_alpm_handle_free(myhandle);
 
 #ifdef HAVE_LIBCURL
