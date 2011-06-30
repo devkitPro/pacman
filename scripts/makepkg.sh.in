@@ -284,7 +284,7 @@ check_option() {
 #          ? - not found
 ##
 check_buildenv() {
-	echo $(in_opt_array "$1" ${BUILDENV[@]})
+	in_opt_array "$1" ${BUILDENV[@]}
 }
 
 
@@ -1134,7 +1134,7 @@ create_package() {
 
 	# check for changelog/install files
 	for i in 'changelog/.CHANGELOG' 'install/.INSTALL'; do
-		IFS='/' read -r orig dest <<< "$i"
+		IFS='/' read -r orig dest < <(printf '%s\n' "$i")
 
 		if [[ -n ${!orig} ]]; then
 			msg2 "$(gettext "Adding %s file...")" "$orig"
@@ -2009,9 +2009,7 @@ if [[ -n "${PKGLIST[@]}" ]]; then
 fi
 
 # check if gpg signature is to be created and if signing key is valid
-if [[ -z "$SIGNPKG" && $(check_buildenv sign) == 'y' ]]; then
-  SIGNPKG='y'
-fi
+[[ -z $SIGNPKG ]] && SIGNPKG=$(check_buildenv sign)
 if [[ $SIGNPKG == 'y' ]]; then
 	if ! gpg --list-key ${GPGKEY} &>/dev/null; then
 		if [[ ! -z $GPGKEY ]]; then
