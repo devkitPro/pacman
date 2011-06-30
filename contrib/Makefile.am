@@ -27,7 +27,7 @@ MOSTLYCLEANFILES = $(OURSCRIPTS) $(OURFILES) *.tmp
 edit = sed \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
-	-e 's|@BASH_SHELL[@]|$(BASH_SHELL)|g'
+	-e '1s|!/bin/bash|!$(BASH_SHELL)|g'
 
 $(OURSCRIPTS): Makefile
 	@echo '    ' GEN $@;
