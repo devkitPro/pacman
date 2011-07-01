@@ -381,22 +381,22 @@ void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
 
 	/* set text of message to display */
 	switch (event) {
-		case PM_TRANS_PROGRESS_ADD_START:
+		case ALPM_TRANS_PROGRESS_ADD_START:
 			opr = _("installing");
 			break;
-		case PM_TRANS_PROGRESS_UPGRADE_START:
+		case ALPM_TRANS_PROGRESS_UPGRADE_START:
 			opr = _("upgrading");
 			break;
-		case PM_TRANS_PROGRESS_REMOVE_START:
+		case ALPM_TRANS_PROGRESS_REMOVE_START:
 			opr = _("removing");
 			break;
-		case PM_TRANS_PROGRESS_CONFLICTS_START:
+		case ALPM_TRANS_PROGRESS_CONFLICTS_START:
 			opr = _("checking for file conflicts");
 			break;
-		case PM_TRANS_PROGRESS_DISKSPACE_START:
+		case ALPM_TRANS_PROGRESS_DISKSPACE_START:
 			opr = _("checking available disk space");
 			break;
-		case PM_TRANS_PROGRESS_INTEGRITY_START:
+		case ALPM_TRANS_PROGRESS_INTEGRITY_START:
 			opr = _("checking package integrity");
 			break;
 		default:

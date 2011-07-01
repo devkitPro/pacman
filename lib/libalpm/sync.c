@@ -865,7 +865,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		char *filepath;
 		pgp_verify_t check_sig;
 
-		PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
+		PROGRESS(trans, ALPM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
 				numtargs, current);
 		if(spkg->origin == PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
@@ -895,7 +895,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
 	}
 
-	PROGRESS(trans, PM_TRANS_PROGRESS_INTEGRITY_START, "", 100,
+	PROGRESS(trans, ALPM_TRANS_PROGRESS_INTEGRITY_START, "", 100,
 			numtargs, current);
 	EVENT(trans, ALPM_TRANS_EVT_INTEGRITY_DONE, NULL, NULL);
 

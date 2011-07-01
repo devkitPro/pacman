@@ -389,7 +389,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		}
 
 		int percent = (current * 100) / numtargs;
-		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", percent,
+		PROGRESS(trans, ALPM_TRANS_PROGRESS_CONFLICTS_START, "", percent,
 		         numtargs, current);
 		/* CHECK 1: check every target against every target */
 		_alpm_log(handle, ALPM_LOG_DEBUG, "searching for file conflicts: %s\n",
@@ -550,7 +550,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			FREELIST(tmpfiles);
 		}
 	}
-	PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", 100,
+	PROGRESS(trans, ALPM_TRANS_PROGRESS_CONFLICTS_START, "", 100,
 			numtargs, current);
 
 	return conflicts;

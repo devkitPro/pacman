@@ -405,7 +405,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 			_alpm_log(handle, ALPM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 			/* init progress bar */
-			PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name, 0,
+			PROGRESS(trans, ALPM_TRANS_PROGRESS_REMOVE_START, info->name, 0,
 					pkg_count, (pkg_count - targcount + 1));
 
 			/* iterate through the list backwards, unlinking files */
@@ -416,7 +416,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 
 				/* update progress bar after each file */
 				percent = (position * 100) / filenum;
-				PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, info->name,
+				PROGRESS(trans, ALPM_TRANS_PROGRESS_REMOVE_START, info->name,
 						percent, pkg_count, (pkg_count - targcount + 1));
 				position++;
 			}
@@ -424,7 +424,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 		}
 
 		/* set progress to 100% after we finish unlinking files */
-		PROGRESS(trans, PM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
+		PROGRESS(trans, ALPM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
 		         pkg_count, (pkg_count - targcount + 1));
 
 		/* run the post-remove script if it exists  */
