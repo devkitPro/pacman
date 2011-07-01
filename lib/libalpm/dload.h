@@ -34,16 +34,19 @@ struct fileinfo {
 };
 
 struct dload_payload {
+	alpm_handle_t *handle;
 	char *filename;
 	char *fileurl;
 	long max_size;
+	int force;
+	int allow_resume;
+	int errors_ok;
 };
 
 void _alpm_dload_payload_free(struct dload_payload *payload);
 
-int _alpm_download(alpm_handle_t *handle, struct dload_payload *payload,
-		const char *localpath, char **final_file, int force, int allow_resume,
-		int errors_ok);
+int _alpm_download(struct dload_payload *payload, const char *localpath,
+		char **final_file);
 
 #endif /* _ALPM_DLOAD_H */
 

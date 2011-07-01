@@ -185,8 +185,10 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		len = strlen(server) + strlen(db->treename) + 9;
 		CALLOC(payload->fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(payload->fileurl, len, "%s/%s.db", server, db->treename);
+		payload->handle = handle;
+		payload->force = force;
 
-		ret = _alpm_download(handle, payload, syncpath, NULL, force, 0, 0);
+		ret = _alpm_download(payload, syncpath, NULL);
 
 		if(ret == 0 && (level & ALPM_SIG_DATABASE)) {
 			/* an existing sig file is no good at this point */
@@ -198,16 +200,18 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			unlink(sigpath);
 			free(sigpath);
 
-			int errors_ok = (level & ALPM_SIG_DATABASE_OPTIONAL);
 			/* if we downloaded a DB, we want the .sig from the same server */
 			snprintf(payload->fileurl, len, "%s/%s.db.sig", server, db->treename);
+			payload->handle = handle;
+			payload->force = 1;
+			payload->errors_ok = (level & ALPM_SIG_DATABASE_OPTIONAL);
 
 			/* set hard upper limit of 16KiB */
 			payload->max_size = 16 * 1024;
 
-			sig_ret = _alpm_download(handle, payload, syncpath, NULL, 1, 0, errors_ok);
+			sig_ret = _alpm_download(payload, syncpath, NULL);
 			/* errors_ok suppresses error messages, but not the return code */
-			sig_ret = errors_ok ? 0 : sig_ret;
+			sig_ret = payload->errors_ok ? 0 : sig_ret;
 		}
 
 		_alpm_dload_payload_free(payload);

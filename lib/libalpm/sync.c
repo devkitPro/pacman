@@ -812,8 +812,10 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 					len = strlen(server_url) + strlen(payload->filename) + 2;
 					CALLOC(payload->fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 					snprintf(payload->fileurl, len, "%s/%s", server_url, payload->filename);
+					payload->handle = handle;
+					payload->allow_resume = 1;
 
-					ret = _alpm_download(handle, payload, cachedir, NULL, 0, 1, 0);
+					ret = _alpm_download(payload, cachedir, NULL);
 					if(ret != -1) {
 						break;
 					}
