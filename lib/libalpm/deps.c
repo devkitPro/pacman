@@ -213,7 +213,7 @@ static alpm_depend_t *filtered_depend(alpm_depend_t *dep, int nodepversion)
 	if(nodepversion) {
 		alpm_depend_t *newdep = _alpm_dep_dup(dep);
 		ASSERT(newdep, return dep);
-		newdep->mod = PM_DEP_MOD_ANY;
+		newdep->mod = ALPM_DEP_MOD_ANY;
 		dep = newdep;
 	}
 	return dep;
@@ -353,16 +353,16 @@ static int dep_vercmp(const char *version1, alpm_depmod_t mod,
 {
 	int equal = 0;
 
-	if(mod == PM_DEP_MOD_ANY) {
+	if(mod == ALPM_DEP_MOD_ANY) {
 		equal = 1;
 	} else {
 		int cmp = alpm_pkg_vercmp(version1, version2);
 		switch(mod) {
-			case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
-			case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
-			case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
-			case PM_DEP_MOD_LT: equal = (cmp < 0); break;
-			case PM_DEP_MOD_GT: equal = (cmp > 0); break;
+			case ALPM_DEP_MOD_EQ: equal = (cmp == 0); break;
+			case ALPM_DEP_MOD_GE: equal = (cmp >= 0); break;
+			case ALPM_DEP_MOD_LE: equal = (cmp <= 0); break;
+			case ALPM_DEP_MOD_LT: equal = (cmp < 0); break;
+			case ALPM_DEP_MOD_GT: equal = (cmp > 0); break;
 			default: equal = 1; break;
 		}
 	}
@@ -392,7 +392,7 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 		const char *provver = strchr(provision, '=');
 
 		if(provver == NULL) { /* no provision version */
-			satisfy = (dep->mod == PM_DEP_MOD_ANY
+			satisfy = (dep->mod == ALPM_DEP_MOD_ANY
 					&& strcmp(provision, dep->name) == 0);
 		} else {
 			/* This is a bit tricker than the old code for performance reasons. To
@@ -425,24 +425,24 @@ alpm_depend_t *_alpm_splitdep(const char *depstring)
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
 	if((ptr = strstr(depstring, ">="))) {
-		depend->mod = PM_DEP_MOD_GE;
+		depend->mod = ALPM_DEP_MOD_GE;
 		version = ptr + 2;
 	} else if((ptr = strstr(depstring, "<="))) {
-		depend->mod = PM_DEP_MOD_LE;
+		depend->mod = ALPM_DEP_MOD_LE;
 		version = ptr + 2;
 	} else if((ptr = strstr(depstring, "="))) {
 		/* Note: we must do =,<,> checks after <=, >= checks */
-		depend->mod = PM_DEP_MOD_EQ;
+		depend->mod = ALPM_DEP_MOD_EQ;
 		version = ptr + 1;
 	} else if((ptr = strstr(depstring, "<"))) {
-		depend->mod = PM_DEP_MOD_LT;
+		depend->mod = ALPM_DEP_MOD_LT;
 		version = ptr + 1;
 	} else if((ptr = strstr(depstring, ">"))) {
-		depend->mod = PM_DEP_MOD_GT;
+		depend->mod = ALPM_DEP_MOD_GT;
 		version = ptr + 1;
 	} else {
 		/* no version specified, leave version and ptr NULL */
-		depend->mod = PM_DEP_MOD_ANY;
+		depend->mod = ALPM_DEP_MOD_ANY;
 	}
 
 	/* copy the right parts to the right places */
@@ -784,22 +784,22 @@ char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 	}
 
 	switch(dep->mod) {
-		case PM_DEP_MOD_ANY:
+		case ALPM_DEP_MOD_ANY:
 			opr = "";
 			break;
-		case PM_DEP_MOD_GE:
+		case ALPM_DEP_MOD_GE:
 			opr = ">=";
 			break;
-		case PM_DEP_MOD_LE:
+		case ALPM_DEP_MOD_LE:
 			opr = "<=";
 			break;
-		case PM_DEP_MOD_EQ:
+		case ALPM_DEP_MOD_EQ:
 			opr = "=";
 			break;
-		case PM_DEP_MOD_LT:
+		case ALPM_DEP_MOD_LT:
 			opr = "<";
 			break;
-		case PM_DEP_MOD_GT:
+		case ALPM_DEP_MOD_GT:
 			opr = ">";
 			break;
 		default:
@@ -807,14 +807,14 @@ char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 			break;
 	}
 
-	if(dep->mod != PM_DEP_MOD_ANY && dep->version) {
+	if(dep->mod != ALPM_DEP_MOD_ANY && dep->version) {
 		ver = dep->version;
 	} else {
 		ver = "";
 	}
 
 	/* we can always compute len and print the string like this because opr
-	 * and ver will be empty when PM_DEP_MOD_ANY is the depend type. the
+	 * and ver will be empty when ALPM_DEP_MOD_ANY is the depend type. the
 	 * reassignments above also ensure we do not do a strlen(NULL). */
 	len = strlen(name) + strlen(opr) + strlen(ver) + 1;
 	MALLOC(str, len, return NULL);

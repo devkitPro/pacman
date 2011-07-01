@@ -63,17 +63,17 @@ typedef enum _alpm_pkgreason_t {
 /** Types of version constraints in dependency specs. */
 typedef enum _alpm_depmod_t {
   /** No version constraint */
-	PM_DEP_MOD_ANY = 1,
+	ALPM_DEP_MOD_ANY = 1,
   /** Test version equality (package=x.y.z) */
-	PM_DEP_MOD_EQ,
+	ALPM_DEP_MOD_EQ,
   /** Test for at least a version (package>=x.y.z) */
-	PM_DEP_MOD_GE,
+	ALPM_DEP_MOD_GE,
   /** Test for at most a version (package<=x.y.z) */
-	PM_DEP_MOD_LE,
+	ALPM_DEP_MOD_LE,
   /** Test for greater than some version (package>x.y.z) */
-	PM_DEP_MOD_GT,
+	ALPM_DEP_MOD_GT,
   /** Test for less than some version (package<x.y.z) */
-	PM_DEP_MOD_LT
+	ALPM_DEP_MOD_LT
 } alpm_depmod_t;
 
 /**
