@@ -39,7 +39,7 @@
 
 #if HAVE_LIBGPGME
 #define CHECK_ERR(void) do { \
-		if(err != GPG_ERR_NO_ERROR) { goto error; } \
+		if(gpg_err_code(err) != GPG_ERR_NO_ERROR) { goto error; } \
 	} while(0)
 
 static const char *string_validity(gpgme_validity_t validity)
@@ -383,7 +383,7 @@ error:
 	}
 	FREE(sigpath);
 	FREE(decoded_sigdata);
-	if(err != GPG_ERR_NO_ERROR) {
+	if(gpg_err_code(err) != GPG_ERR_NO_ERROR) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
 		RET_ERR(handle, ALPM_ERR_GPGME, -1);
 	}
