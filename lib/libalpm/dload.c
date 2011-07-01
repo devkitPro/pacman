@@ -172,7 +172,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 	dlfile.filename = get_filename(url);
 	if(!dlfile.filename || curl_gethost(url, hostname) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), url);
-		RET_ERR(handle, PM_ERR_SERVER_BAD_URL, -1);
+		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}
 
 	destfile = get_fullpath(localpath, dlfile.filename, "");
@@ -248,7 +248,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 		goto cleanup;
 	} else if(handle->curlerr != CURLE_OK) {
 		if(!errors_ok) {
-			handle->pm_errno = PM_ERR_LIBCURL;
+			handle->pm_errno = ALPM_ERR_LIBCURL;
 			_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
 					dlfile.filename, hostname, error_buffer);
 		} else {
@@ -278,7 +278,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 	 * as actually being transferred during curl_easy_perform() */
 	if(!DOUBLE_EQ(remote_size, -1) && !DOUBLE_EQ(bytes_dl, -1) &&
 			!DOUBLE_EQ(bytes_dl, remote_size)) {
-		handle->pm_errno = PM_ERR_RETRIEVE;
+		handle->pm_errno = ALPM_ERR_RETRIEVE;
 		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				dlfile.filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		goto cleanup;
@@ -329,12 +329,12 @@ int _alpm_download(alpm_handle_t *handle, const char *url, const char *localpath
 		return curl_download_internal(handle, url, localpath,
 				force, allow_resume, errors_ok);
 #else
-		RET_ERR(handle, PM_ERR_EXTERNAL_DOWNLOAD, -1);
+		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
 	} else {
 		int ret = handle->fetchcb(url, localpath, force);
 		if(ret == -1 && !errors_ok) {
-			RET_ERR(handle, PM_ERR_EXTERNAL_DOWNLOAD, -1);
+			RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
 		}
 		return ret;
 	}
@@ -370,7 +370,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 		int errors_ok = (handle->sigverify == PM_PGP_VERIFY_OPTIONAL);
 
 		len = strlen(url) + 5;
-		CALLOC(sig_url, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, NULL));
+		CALLOC(sig_url, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		snprintf(sig_url, len, "%s.sig", url);
 
 		ret = _alpm_download(handle, sig_url, cachedir, 1, 0, errors_ok);

@@ -637,9 +637,9 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	}
 
 	if(ignored) { /* resolvedeps will override these */
-		handle->pm_errno = PM_ERR_PKG_IGNORED;
+		handle->pm_errno = ALPM_ERR_PKG_IGNORED;
 	} else {
-		handle->pm_errno = PM_ERR_PKG_NOT_FOUND;
+		handle->pm_errno = ALPM_ERR_PKG_NOT_FOUND;
 	}
 	return NULL;
 }
@@ -660,7 +660,7 @@ alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
 	alpm_pkg_t *pkg;
 
 	CHECK_HANDLE(handle, return NULL);
-	ASSERT(dbs, RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL));
+	ASSERT(dbs, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
 
 	dep = _alpm_splitdep(depstring);
 	ASSERT(dep, return NULL);
@@ -734,7 +734,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 				spkg = resolvedep(handle, missdep, handle->dbs_sync, *packages, 0);
 			}
 			if(!spkg) {
-				handle->pm_errno = PM_ERR_UNSATISFIED_DEPS;
+				handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
 				_alpm_log(handle, ALPM_LOG_WARNING,
 						_("cannot resolve \"%s\", a dependency of \"%s\"\n"),

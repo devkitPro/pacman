@@ -51,17 +51,17 @@ int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
-	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle == pkg->handle, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle == pkg->handle, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, ALPM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED,
-			RET_ERR(handle, PM_ERR_TRANS_NOT_INITIALIZED, -1));
+			RET_ERR(handle, ALPM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	pkgname = pkg->name;
 
 	if(_alpm_pkg_find(trans->remove, pkgname)) {
-		RET_ERR(handle, PM_ERR_TRANS_DUP_TARGET, -1);
+		RET_ERR(handle, ALPM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s to the transaction remove list\n",
@@ -166,7 +166,7 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 					alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
 					alpm_list_free(lp);
 				}
-				RET_ERR(handle, PM_ERR_UNSATISFIED_DEPS, -1);
+				RET_ERR(handle, ALPM_ERR_UNSATISFIED_DEPS, -1);
 			}
 		}
 	}
@@ -321,7 +321,7 @@ int _alpm_upgraderemove_package(alpm_handle_t *handle,
 		if(!can_remove_file(handle, lp->data, skip_remove)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"not removing package '%s', can't remove all files\n", pkgname);
-			RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
+			RET_ERR(handle, ALPM_ERR_PKG_CANT_REMOVE, -1);
 		}
 		filenum++;
 	}
@@ -397,7 +397,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 				if(!can_remove_file(handle, lp->data, NULL)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "not removing package '%s', can't remove all files\n",
 					          pkgname);
-					RET_ERR(handle, PM_ERR_PKG_CANT_REMOVE, -1);
+					RET_ERR(handle, ALPM_ERR_PKG_CANT_REMOVE, -1);
 				}
 				filenum++;
 			}

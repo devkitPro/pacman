@@ -52,7 +52,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 	const char *pkgfile = pkg->origin_data.file;
 
 	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(pkg->handle, PM_ERR_LIBARCHIVE, NULL);
+		RET_ERR(pkg->handle, ALPM_ERR_LIBARCHIVE, NULL);
 	}
 
 	archive_read_support_compression_all(archive);
@@ -60,7 +60,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 
 	if(archive_read_open_filename(archive, pkgfile,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		RET_ERR(pkg->handle, PM_ERR_PKG_OPEN, NULL);
+		RET_ERR(pkg->handle, ALPM_ERR_PKG_OPEN, NULL);
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
@@ -92,7 +92,7 @@ static size_t _package_changelog_read(void *ptr, size_t size,
 	ssize_t sret = archive_read_data((struct archive *)fp, ptr, size);
 	/* Report error (negative values) */
 	if(sret < 0) {
-		RET_ERR(pkg->handle, PM_ERR_LIBARCHIVE, 0);
+		RET_ERR(pkg->handle, ALPM_ERR_LIBARCHIVE, 0);
 	} else {
 		return (size_t)sret;
 	}
@@ -244,20 +244,20 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	size_t files_count = 0;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
-		RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL);
+		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL);
 	}
 
 	/* attempt to stat the package file, ensure it exists */
 	if(stat(pkgfile, &st) == 0) {
 		newpkg = _alpm_pkg_new();
 		if(newpkg == NULL) {
-			RET_ERR(handle, PM_ERR_MEMORY, NULL);
+			RET_ERR(handle, ALPM_ERR_MEMORY, NULL);
 		}
 		newpkg->filename = strdup(pkgfile);
 		newpkg->size = st.st_size;
 	} else {
 		/* couldn't stat the pkgfile, return an error */
-		RET_ERR(handle, PM_ERR_PKG_OPEN, NULL);
+		RET_ERR(handle, ALPM_ERR_PKG_OPEN, NULL);
 	}
 
 	/* first steps- validate the package file */
@@ -266,7 +266,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
 		if(_alpm_test_md5sum(pkgfile, md5sum) != 0) {
 			alpm_pkg_free(newpkg);
-			RET_ERR(handle, PM_ERR_PKG_INVALID, NULL);
+			RET_ERR(handle, ALPM_ERR_PKG_INVALID, NULL);
 		}
 	}
 
@@ -277,14 +277,14 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
 				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
 			alpm_pkg_free(newpkg);
-			RET_ERR(handle, PM_ERR_SIG_INVALID, NULL);
+			RET_ERR(handle, ALPM_ERR_SIG_INVALID, NULL);
 		}
 	}
 
 	/* next- try to create an archive object to read in the package */
 	if((archive = archive_read_new()) == NULL) {
 		alpm_pkg_free(newpkg);
-		RET_ERR(handle, PM_ERR_LIBARCHIVE, NULL);
+		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, NULL);
 	}
 
 	archive_read_support_compression_all(archive);
@@ -293,7 +293,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	if(archive_read_open_filename(archive, pkgfile,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		alpm_pkg_free(newpkg);
-		RET_ERR(handle, PM_ERR_PKG_OPEN, NULL);
+		RET_ERR(handle, ALPM_ERR_PKG_OPEN, NULL);
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
@@ -335,7 +335,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading package %s: %s\n"),
 					pkgfile, archive_error_string(archive));
-			handle->pm_errno = PM_ERR_LIBARCHIVE;
+			handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 			goto error;
 		}
 
@@ -348,7 +348,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occured */
 		_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading package %s: %s\n"),
 				pkgfile, archive_error_string(archive));
-		handle->pm_errno = PM_ERR_LIBARCHIVE;
+		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 		goto error;
 	}
 
@@ -379,7 +379,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	return newpkg;
 
 pkg_invalid:
-	handle->pm_errno = PM_ERR_PKG_INVALID;
+	handle->pm_errno = ALPM_ERR_PKG_INVALID;
 error:
 	_alpm_pkg_free(newpkg);
 	archive_read_finish(archive);
@@ -391,7 +391,7 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 		pgp_verify_t check_sig, alpm_pkg_t **pkg)
 {
 	CHECK_HANDLE(handle, return -1);
-	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, check_sig);
 	if(*pkg == NULL) {

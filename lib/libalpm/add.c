@@ -58,12 +58,12 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
-	ASSERT(pkg != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
-	ASSERT(handle == pkg->handle, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT(handle == pkg->handle, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, ALPM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED,
-			RET_ERR(handle, PM_ERR_TRANS_NOT_INITIALIZED, -1));
+			RET_ERR(handle, ALPM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	pkgname = pkg->name;
 	pkgver = pkg->version;
@@ -71,7 +71,7 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	_alpm_log(handle, ALPM_LOG_DEBUG, "adding package '%s'\n", pkgname);
 
 	if(_alpm_pkg_find(trans->add, pkgname)) {
-		RET_ERR(handle, PM_ERR_TRANS_DUP_TARGET, -1);
+		RET_ERR(handle, ALPM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
 	local = _alpm_db_get_pkgfromcache(handle->db_local, pkgname);
@@ -278,7 +278,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 
 	/* we need access to the original entryname later after calls to
 	 * archive_entry_set_pathname(), so we need to dupe it and free() later */
-	STRDUP(entryname_orig, entryname, RET_ERR(handle, PM_ERR_MEMORY, -1));
+	STRDUP(entryname_orig, entryname, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
 	if(needbackup) {
 		char checkfile[PATH_MAX];
@@ -305,7 +305,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;
 			}
-			STRDUP(newhash, hash_pkg, RET_ERR(handle, PM_ERR_MEMORY, -1));
+			STRDUP(newhash, hash_pkg, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 			FREE(backup->hash);
 			backup->hash = newhash;
 		}
@@ -507,7 +507,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	if(oldpkg) {
 		/* set up fake remove transaction */
 		if(_alpm_upgraderemove_package(handle, oldpkg, newpkg) == -1) {
-			handle->pm_errno = PM_ERR_TRANS_ABORT;
+			handle->pm_errno = ALPM_ERR_TRANS_ABORT;
 			ret = -1;
 			goto cleanup;
 		}
@@ -518,7 +518,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	if(_alpm_local_db_prepare(db, newpkg)) {
 		alpm_logaction(handle, "error: could not create database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
-		handle->pm_errno = PM_ERR_DB_WRITE;
+		handle->pm_errno = ALPM_ERR_DB_WRITE;
 		ret = -1;
 		goto cleanup;
 	}
@@ -532,7 +532,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "extracting files\n");
 
 		if((archive = archive_read_new()) == NULL) {
-			handle->pm_errno = PM_ERR_LIBARCHIVE;
+			handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 			ret = -1;
 			goto cleanup;
 		}
@@ -543,7 +543,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "archive: %s\n", newpkg->origin_data.file);
 		if(archive_read_open_filename(archive, newpkg->origin_data.file,
 					ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-			handle->pm_errno = PM_ERR_PKG_OPEN;
+			handle->pm_errno = ALPM_ERR_PKG_OPEN;
 			ret = -1;
 			goto cleanup;
 		}
@@ -638,7 +638,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
 		alpm_logaction(handle, "error: could not update database entry %s-%s\n",
 				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
-		handle->pm_errno = PM_ERR_DB_WRITE;
+		handle->pm_errno = ALPM_ERR_DB_WRITE;
 		ret = -1;
 		goto cleanup;
 	}
@@ -705,7 +705,7 @@ int _alpm_upgrade_packages(alpm_handle_t *handle)
 		if(commit_single_pkg(handle, newpkg, pkg_current, pkg_count)) {
 			/* something screwed up on the commit, abort the trans */
 			trans->state = STATE_INTERRUPTED;
-			handle->pm_errno = PM_ERR_TRANS_ABORT;
+			handle->pm_errno = ALPM_ERR_TRANS_ABORT;
 			/* running ldconfig at this point could possibly screw system */
 			skip_ldconfig = 1;
 			ret = -1;

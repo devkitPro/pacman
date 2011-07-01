@@ -254,7 +254,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 	int restore_cwd = 0;
 
 	if((_archive = archive_read_new()) == NULL) {
-		RET_ERR(handle, PM_ERR_LIBARCHIVE, 1);
+		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, 1);
 	}
 
 	archive_read_support_compression_all(_archive);
@@ -264,7 +264,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), archive,
 				archive_error_string(_archive));
-		RET_ERR(handle, PM_ERR_PKG_OPEN, 1);
+		RET_ERR(handle, ALPM_ERR_PKG_OPEN, 1);
 	}
 
 	oldmask = umask(0022);

@@ -94,8 +94,8 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 	trans = handle->trans;
 	db_local = handle->db_local;
 	dbs_sync = handle->dbs_sync;
-	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
-	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(handle, PM_ERR_TRANS_NOT_INITIALIZED, -1));
+	ASSERT(trans != NULL, RET_ERR(handle, ALPM_ERR_TRANS_NULL, -1));
+	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(handle, ALPM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "checking for package upgrades\n");
 	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
@@ -266,7 +266,7 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 	}
 
 	fname = alpm_pkg_get_filename(newpkg);
-	ASSERT(fname != NULL, RET_ERR(handle, PM_ERR_PKG_INVALID_NAME, -1));
+	ASSERT(fname != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
 	fpath = _alpm_filecache_find(handle, fname);
 
 	if(fpath) {
@@ -429,7 +429,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				sync = sync2;
 			} else {
 				_alpm_log(handle, ALPM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
-				handle->pm_errno = PM_ERR_CONFLICTING_DEPS;
+				handle->pm_errno = ALPM_ERR_CONFLICTING_DEPS;
 				ret = -1;
 				if(data) {
 					alpm_conflict_t *newconflict = _alpm_conflict_dup(conflict);
@@ -493,7 +493,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				sync->removes = alpm_list_add(sync->removes, local);
 			} else { /* abort */
 				_alpm_log(handle, ALPM_LOG_ERROR, _("unresolvable package conflicts detected\n"));
-				handle->pm_errno = PM_ERR_CONFLICTING_DEPS;
+				handle->pm_errno = ALPM_ERR_CONFLICTING_DEPS;
 				ret = -1;
 				if(data) {
 					alpm_conflict_t *newconflict = _alpm_conflict_dup(conflict);
@@ -528,7 +528,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		deps = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
 				trans->remove, trans->add, 1);
 		if(deps) {
-			handle->pm_errno = PM_ERR_UNSATISFIED_DEPS;
+			handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
 			ret = -1;
 			if(data) {
 				*data = deps;
@@ -612,11 +612,11 @@ static int apply_deltas(alpm_handle_t *handle)
 			} else {
 				/* len = cachedir len + from len + '/' + null */
 				len = strlen(cachedir) + strlen(d->from) + 2;
-				CALLOC(from, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, 1));
+				CALLOC(from, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, 1));
 				snprintf(from, len, "%s/%s", cachedir, d->from);
 			}
 			len = strlen(cachedir) + strlen(d->to) + 2;
-			CALLOC(to, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, 1));
+			CALLOC(to, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, 1));
 			snprintf(to, len, "%s/%s", cachedir, d->to);
 
 			/* build the patch command */
@@ -652,7 +652,7 @@ static int apply_deltas(alpm_handle_t *handle)
 			if(retval != 0) {
 				/* one delta failed for this package, cancel the remaining ones */
 				EVENT(trans, ALPM_TRANS_EVT_DELTA_PATCH_FAILED, NULL, NULL);
-				handle->pm_errno = PM_ERR_DLT_PATCHFAILED;
+				handle->pm_errno = ALPM_ERR_DLT_PATCHFAILED;
 				ret = 1;
 				break;
 			}
@@ -714,7 +714,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 		FREE(filepath);
 	}
 	if(errors) {
-		handle->pm_errno = PM_ERR_DLT_INVALID;
+		handle->pm_errno = ALPM_ERR_DLT_INVALID;
 		return -1;
 	}
 	EVENT(trans, ALPM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
@@ -760,7 +760,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 				const char *fname = NULL;
 
 				fname = alpm_pkg_get_filename(spkg);
-				ASSERT(fname != NULL, RET_ERR(handle, PM_ERR_PKG_INVALID_NAME, -1));
+				ASSERT(fname != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
 				alpm_list_t *delta_path = spkg->delta_path;
 				if(delta_path) {
 					/* using deltas */
@@ -794,7 +794,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 
 					/* print server + filename into a buffer */
 					len = strlen(server_url) + strlen(filename) + 2;
-					CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, -1));
+					CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 					snprintf(fileurl, len, "%s/%s", server_url, filename);
 
 					ret = _alpm_download(handle, fileurl, cachedir, 0, 1, 0);
@@ -813,7 +813,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);
 				if(handle->pm_errno == 0) {
-					handle->pm_errno = PM_ERR_RETRIEVE;
+					handle->pm_errno = ALPM_ERR_RETRIEVE;
 				}
 				return -1;
 			}
@@ -901,7 +901,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 
 	if(errors) {
-		RET_ERR(handle, PM_ERR_PKG_INVALID, -1);
+		RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
 	}
 
 	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
@@ -926,7 +926,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 				alpm_list_free_inner(conflict, (alpm_list_fn_free)_alpm_fileconflict_free);
 				alpm_list_free(conflict);
 			}
-			RET_ERR(handle, PM_ERR_FILE_CONFLICTS, -1);
+			RET_ERR(handle, ALPM_ERR_FILE_CONFLICTS, -1);
 		}
 
 		EVENT(trans, ALPM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);

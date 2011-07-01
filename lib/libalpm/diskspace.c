@@ -87,7 +87,7 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 			continue;
 		}
 
-		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, PM_ERR_MEMORY, NULL));
+		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), &fsp, sizeof(struct statvfs));
@@ -108,7 +108,7 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	}
 
 	for(; entries-- > 0; fsp++) {
-		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(PM_ERR_MEMORY, NULL));
+		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(fsp->f_mntonname);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
@@ -193,7 +193,7 @@ static int calculate_installed_size(alpm_handle_t *handle,
 	struct archive_entry *entry;
 
 	if((archive = archive_read_new()) == NULL) {
-		handle->pm_errno = PM_ERR_LIBARCHIVE;
+		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 		ret = -1;
 		goto cleanup;
 	}
@@ -203,7 +203,7 @@ static int calculate_installed_size(alpm_handle_t *handle,
 
 	if(archive_read_open_filename(archive, pkg->origin_data.file,
 				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
-		handle->pm_errno = PM_ERR_PKG_OPEN;
+		handle->pm_errno = ALPM_ERR_PKG_OPEN;
 		ret = -1;
 		goto cleanup;
 	}
@@ -246,7 +246,7 @@ static int calculate_installed_size(alpm_handle_t *handle,
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading package %s: %s\n"),
 					pkg->name, archive_error_string(archive));
-			handle->pm_errno = PM_ERR_LIBARCHIVE;
+			handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 			break;
 		}
 	}
@@ -350,7 +350,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 	FREELIST(mount_points);
 
 	if(error) {
-		RET_ERR(handle, PM_ERR_DISK_SPACE, -1);
+		RET_ERR(handle, ALPM_ERR_DISK_SPACE, -1);
 	}
 
 	return 0;

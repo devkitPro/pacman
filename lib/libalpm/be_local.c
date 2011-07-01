@@ -283,12 +283,12 @@ static int checkdbdir(alpm_db_t *db)
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
 				path);
 		if(_alpm_makepath(path) != 0) {
-			RET_ERR(db->handle, PM_ERR_SYSTEM, -1);
+			RET_ERR(db->handle, ALPM_ERR_SYSTEM, -1);
 		}
 	} else if(!S_ISDIR(buf.st_mode)) {
 		_alpm_log(db->handle, ALPM_LOG_WARNING, _("removing invalid database: %s\n"), path);
 		if(unlink(path) != 0 || _alpm_makepath(path) != 0) {
-			RET_ERR(db->handle, PM_ERR_SYSTEM, -1);
+			RET_ERR(db->handle, ALPM_ERR_SYSTEM, -1);
 		}
 	}
 	return 0;
@@ -328,7 +328,7 @@ static int local_db_validate(alpm_db_t *db)
 
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
-		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 	}
 	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
@@ -337,7 +337,7 @@ static int local_db_validate(alpm_db_t *db)
 			db->status |= DB_STATUS_VALID;
 			return 0;
 		} else {
-			RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
+			RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 		}
 	}
 
@@ -355,7 +355,7 @@ static int local_db_validate(alpm_db_t *db)
 		snprintf(path, PATH_MAX, "%s%s/depends", dbpath, name);
 		if(access(path, F_OK) == 0) {
 			/* we found a depends file- bail */
-			db->handle->pm_errno = PM_ERR_DB_VERSION;
+			db->handle->pm_errno = ALPM_ERR_DB_VERSION;
 			goto done;
 		}
 	}
@@ -392,10 +392,10 @@ static int local_db_populate(alpm_db_t *db)
 			/* no database existing yet is not an error */
 			return 0;
 		}
-		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 	}
 	if(fstat(dirfd(dbdir), &buf) != 0) {
-		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 	}
 	if(buf.st_nlink >= 2) {
 		est_count = buf.st_nlink;
@@ -419,7 +419,7 @@ static int local_db_populate(alpm_db_t *db)
 	db->pkgcache = _alpm_pkghash_create(est_count * 2);
 	if(db->pkgcache == NULL){
 		closedir(dbdir);
-		RET_ERR(db->handle, PM_ERR_MEMORY, -1);
+		RET_ERR(db->handle, ALPM_ERR_MEMORY, -1);
 	}
 
 	while((ent = readdir(dbdir)) != NULL) {
@@ -437,7 +437,7 @@ static int local_db_populate(alpm_db_t *db)
 		pkg = _alpm_pkg_new();
 		if(pkg == NULL) {
 			closedir(dbdir);
-			RET_ERR(db->handle, PM_ERR_MEMORY, -1);
+			RET_ERR(db->handle, ALPM_ERR_MEMORY, -1);
 		}
 		/* split the db entry name */
 		if(_alpm_splitname(name, &(pkg->name), &(pkg->version),
@@ -493,7 +493,7 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 
 	dbpath = _alpm_db_path(db);
 	len = strlen(dbpath) + strlen(info->name) + strlen(info->version) + 3;
-	MALLOC(pkgpath, len, RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
+	MALLOC(pkgpath, len, RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
 	sprintf(pkgpath, "%s%s-%s/", dbpath, info->name, info->version);
 	return pkgpath;
 }
@@ -928,7 +928,7 @@ alpm_db_t *_alpm_db_register_local(alpm_handle_t *handle)
 
 	db = _alpm_db_new("local", 1);
 	if(db == NULL) {
-		handle->pm_errno = PM_ERR_DB_CREATE;
+		handle->pm_errno = ALPM_ERR_DB_CREATE;
 		return NULL;
 	}
 	db->ops = &local_db_ops;

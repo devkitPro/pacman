@@ -449,7 +449,7 @@ static int setup_libalpm(void)
 	if(!handle) {
 		pm_printf(ALPM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
 		        alpm_strerror(err));
-		if(err == PM_ERR_DB_VERSION) {
+		if(err == ALPM_ERR_DB_VERSION) {
 			pm_printf(ALPM_LOG_ERROR, _("  try running pacman-db-upgrade\n"));
 		}
 		return -1;

@@ -46,7 +46,7 @@ static char *get_sync_dir(alpm_handle_t *handle)
 	char *syncpath;
 	struct stat buf;
 
-	MALLOC(syncpath, len, RET_ERR(handle, PM_ERR_MEMORY, NULL));
+	MALLOC(syncpath, len, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 	sprintf(syncpath, "%s%s", dbpath, "sync/");
 
 	if(stat(syncpath, &buf) != 0) {
@@ -54,13 +54,13 @@ static char *get_sync_dir(alpm_handle_t *handle)
 				syncpath);
 		if(_alpm_makepath(syncpath) != 0) {
 			free(syncpath);
-			RET_ERR(handle, PM_ERR_SYSTEM, NULL);
+			RET_ERR(handle, ALPM_ERR_SYSTEM, NULL);
 		}
 	} else if(!S_ISDIR(buf.st_mode)) {
 		_alpm_log(handle, ALPM_LOG_WARNING, _("removing invalid file: %s\n"), syncpath);
 		if(unlink(syncpath) != 0 || _alpm_makepath(syncpath) != 0) {
 			free(syncpath);
-			RET_ERR(handle, PM_ERR_SYSTEM, NULL);
+			RET_ERR(handle, ALPM_ERR_SYSTEM, NULL);
 		}
 	}
 
@@ -98,7 +98,7 @@ static int sync_db_validate(alpm_db_t *db)
 		ret = _alpm_gpgme_checksig(db->handle, dbpath, NULL);
 		if((check_sig == PM_PGP_VERIFY_ALWAYS && ret != 0) ||
 				(check_sig == PM_PGP_VERIFY_OPTIONAL && ret == 1)) {
-			RET_ERR(db->handle, PM_ERR_SIG_INVALID, -1);
+			RET_ERR(db->handle, ALPM_ERR_SIG_INVALID, -1);
 		}
 	}
 
@@ -155,8 +155,8 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	ASSERT(db != NULL, return -1);
 	handle = db->handle;
 	handle->pm_errno = 0;
-	ASSERT(db != handle->db_local, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
-	ASSERT(db->servers != NULL, RET_ERR(handle, PM_ERR_SERVER_NONE, -1));
+	ASSERT(db != handle->db_local, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT(db->servers != NULL, RET_ERR(handle, ALPM_ERR_SERVER_NONE, -1));
 
 	syncpath = get_sync_dir(handle);
 	if(!syncpath) {
@@ -170,7 +170,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 	/* attempt to grab a lock */
 	if(_alpm_handle_lock(handle)) {
-		RET_ERR(handle, PM_ERR_HANDLE_LOCK, -1);
+		RET_ERR(handle, ALPM_ERR_HANDLE_LOCK, -1);
 	}
 
 	for(i = db->servers; i; i = i->next) {
@@ -181,7 +181,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 		/* print server + filename into a buffer (leave space for .sig) */
 		len = strlen(server) + strlen(db->treename) + 9;
-		CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, PM_ERR_MEMORY, -1));
+		CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(fileurl, len, "%s/%s.db", server, db->treename);
 
 		ret = _alpm_download(handle, fileurl, syncpath, force, 0, 0);
@@ -277,7 +277,7 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 	if(pkg == NULL) {
 		pkg = _alpm_pkg_new();
 		if(pkg == NULL) {
-			RET_ERR(db->handle, PM_ERR_MEMORY, NULL);
+			RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL);
 		}
 
 		pkg->name = pkgname;
@@ -371,7 +371,7 @@ static int sync_db_populate(alpm_db_t *db)
 	alpm_pkg_t *pkg = NULL;
 
 	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(db->handle, PM_ERR_LIBARCHIVE, -1);
+		RET_ERR(db->handle, ALPM_ERR_LIBARCHIVE, -1);
 	}
 
 	archive_read_support_compression_all(archive);
@@ -390,17 +390,17 @@ static int sync_db_populate(alpm_db_t *db)
 		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
 				archive_error_string(archive));
 		archive_read_finish(archive);
-		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 	}
 	if(stat(dbpath, &buf) != 0) {
-		RET_ERR(db->handle, PM_ERR_DB_OPEN, -1);
+		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 	}
 	est_count = estimate_package_count(&buf, archive);
 
 	/* initialize hash at 66% full */
 	db->pkgcache = _alpm_pkghash_create(est_count * 3 / 2);
 	if(db->pkgcache == NULL) {
-		RET_ERR(db->handle, PM_ERR_MEMORY, -1);
+		RET_ERR(db->handle, ALPM_ERR_MEMORY, -1);
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
@@ -594,7 +594,7 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 
 	db = _alpm_db_new(treename, 0);
 	if(db == NULL) {
-		RET_ERR(handle, PM_ERR_DB_CREATE, NULL);
+		RET_ERR(handle, ALPM_ERR_DB_CREATE, NULL);
 	}
 	db->ops = &sync_db_ops;
 	db->handle = handle;

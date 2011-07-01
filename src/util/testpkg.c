@@ -62,11 +62,11 @@ int main(int argc, char *argv[])
 			|| pkg == NULL) {
 		err = alpm_errno(handle);
 		switch(err) {
-			case PM_ERR_PKG_OPEN:
+			case ALPM_ERR_PKG_OPEN:
 				printf("Cannot open the given file.\n");
 				break;
-			case PM_ERR_LIBARCHIVE:
-			case PM_ERR_PKG_INVALID:
+			case ALPM_ERR_LIBARCHIVE:
+			case ALPM_ERR_PKG_INVALID:
 				printf("Package is invalid.\n");
 				break;
 			default:

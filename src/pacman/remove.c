@@ -106,13 +106,13 @@ int pacman_remove(alpm_list_t *targets)
 		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
-			case PM_ERR_PKG_INVALID_ARCH:
+			case ALPM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
 					char *pkg = alpm_list_getdata(i);
 					printf(_(":: package %s does not have a valid architecture\n"), pkg);
 				}
 				break;
-			case PM_ERR_UNSATISFIED_DEPS:
+			case ALPM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_depmissing_t *miss = alpm_list_getdata(i);
 					char *depstring = alpm_dep_compute_string(miss->depend);

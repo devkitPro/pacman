@@ -303,7 +303,7 @@ static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 	return conflicts;
 
 error:
-	RET_ERR(handle, PM_ERR_MEMORY, conflicts);
+	RET_ERR(handle, ALPM_ERR_MEMORY, conflicts);
 }
 
 void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
@@ -409,7 +409,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					conflicts = add_fileconflict(handle, conflicts,
 							ALPM_FILECONFLICT_TARGET, path,
 							alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
-					if(handle->pm_errno == PM_ERR_MEMORY) {
+					if(handle->pm_errno == ALPM_ERR_MEMORY) {
 						FREELIST(conflicts);
 						FREELIST(common_files);
 						return NULL;
@@ -535,7 +535,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			if(!resolved_conflict) {
 				conflicts = add_fileconflict(handle, conflicts,
 						ALPM_FILECONFLICT_FILESYSTEM, path, p1->name, NULL);
-				if(handle->pm_errno == PM_ERR_MEMORY) {
+				if(handle->pm_errno == ALPM_ERR_MEMORY) {
 					FREELIST(conflicts);
 					if(dbpkg) {
 						/* only freed if it was generated from filelist_operation() */
