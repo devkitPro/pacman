@@ -78,7 +78,7 @@ static void inthandler(int UNUSED signum)
 static int curl_progress(void *file, double dltotal, double dlnow,
 		double UNUSED ultotal, double UNUSED ulnow)
 {
-	struct fileinfo *dlfile = (struct fileinfo *)file;
+	struct dload_payload *payload = (struct dload_payload *)file;
 	double current_size, total_size;
 
 	/* SIGINT sent, abort by alerting curl */
@@ -87,12 +87,12 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 	}
 
 	/* none of what follows matters if the front end has no callback */
-	if(dlfile->handle->dlcb == NULL) {
+	if(payload->handle->dlcb == NULL) {
 		return 0;
 	}
 
-	current_size = dlfile->initial_size + dlnow;
-	total_size = dlfile->initial_size + dltotal;
+	current_size = payload->initial_size + dlnow;
+	total_size = payload->initial_size + dltotal;
 
 	if(DOUBLE_EQ(dltotal, 0) || DOUBLE_EQ(prevprogress, total_size)) {
 		return 0;
@@ -101,10 +101,10 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 	/* initialize the progress bar here to avoid displaying it when
 	 * a repo is up to date and nothing gets downloaded */
 	if(DOUBLE_EQ(prevprogress, 0)) {
-		dlfile->handle->dlcb(dlfile->filename, 0, (long)dltotal);
+		payload->handle->dlcb(payload->filename, 0, (long)dltotal);
 	}
 
-	dlfile->handle->dlcb(dlfile->filename, (long)current_size, (long)total_size);
+	payload->handle->dlcb(payload->filename, (long)current_size, (long)total_size);
 
 	prevprogress = current_size;
 
@@ -152,7 +152,7 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 	const char *fptr, *endptr = NULL;
 	const char * const cd_header = "Content-Disposition:";
 	const char * const fn_key = "filename=";
-	struct fileinfo **dlfile = (struct fileinfo**)user;
+	struct dload_payload *payload = (struct dload_payload *)user;
 
 	if(_alpm_raw_ncmp(cd_header, ptr, strlen(cd_header)) == 0) {
 		if((fptr = strstr(ptr, fn_key))) {
@@ -169,8 +169,8 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 				endptr--;
 			}
 
-			STRNDUP((*dlfile)->cd_filename, fptr, endptr - fptr + 1,
-					RET_ERR((*dlfile)->handle, ALPM_ERR_MEMORY, realsize));
+			STRNDUP(payload->cd_filename, fptr, endptr - fptr + 1,
+					RET_ERR(payload->handle, ALPM_ERR_MEMORY, realsize));
 		}
 	}
 
@@ -192,22 +192,20 @@ static int curl_download_internal(struct dload_payload *payload,
 	long timecond, remote_time = -1;
 	double remote_size, bytes_dl;
 	struct sigaction sig_pipe[2], sig_int[2];
-	struct fileinfo dlfile;
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
 
-	dlfile.handle = handle;
-	dlfile.initial_size = 0.0;
-	dlfile.filename = payload->filename ? payload->filename : get_filename(payload->fileurl);
-	dlfile.cd_filename = NULL;
-	if(!dlfile.filename || curl_gethost(payload->fileurl, hostname) != 0) {
+	if(!payload->filename) {
+		payload->filename = get_filename(payload->fileurl);
+	}
+	if(!payload->filename || curl_gethost(payload->fileurl, hostname) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
 		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}
 
-	if(strlen(dlfile.filename) > 0 && strcmp(dlfile.filename, ".sig") != 0) {
-		destfile = get_fullpath(localpath, dlfile.filename, "");
-		tempfile = get_fullpath(localpath, dlfile.filename, ".part");
+	if(strlen(payload->filename) > 0 && strcmp(payload->filename, ".sig") != 0) {
+		destfile = get_fullpath(localpath, payload->filename, "");
+		tempfile = get_fullpath(localpath, payload->filename, ".part");
 		if(!destfile || !tempfile) {
 			goto cleanup;
 		}
@@ -231,7 +229,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		}
 		/* localf now points to our alpmtmp.XXXXXX */
 		STRDUP(tempfile, randpath, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		dlfile.filename = strrchr(randpath, '/') + 1;
+		payload->filename = strrchr(randpath, '/') + 1;
 	}
 
 	error_buffer[0] = '\0';
@@ -247,11 +245,11 @@ static int curl_download_internal(struct dload_payload *payload,
 	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
 	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
-	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void *)&dlfile);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void *)payload);
 	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
 	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_TIME, 10L);
 	curl_easy_setopt(handle->curl, CURLOPT_HEADERFUNCTION, parse_headers);
-	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, &dlfile);
+	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, (void *)payload);
 
 	if(payload->max_size) {
 		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE, payload->max_size);
@@ -271,7 +269,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		open_mode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation\n");
-		dlfile.initial_size = (double)st.st_size;
+		payload->initial_size = (double)st.st_size;
 	}
 
 	if(localf == NULL) {
@@ -311,10 +309,10 @@ static int curl_download_internal(struct dload_payload *payload,
 		if(!payload->errors_ok) {
 			handle->pm_errno = ALPM_ERR_LIBCURL;
 			_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-					dlfile.filename, hostname, error_buffer);
+					payload->filename, hostname, error_buffer);
 		} else {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
-					dlfile.filename, hostname, error_buffer);
+					payload->filename, hostname, error_buffer);
 		}
 		unlink(tempfile);
 		goto cleanup;
@@ -342,14 +340,14 @@ static int curl_download_internal(struct dload_payload *payload,
 			!DOUBLE_EQ(bytes_dl, remote_size)) {
 		handle->pm_errno = ALPM_ERR_RETRIEVE;
 		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
-				dlfile.filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
+				payload->filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		goto cleanup;
 	}
 
-	if(dlfile.cd_filename) {
+	if(payload->cd_filename) {
 		/* content-disposition header has a better name for our file */
 		free(destfile);
-		destfile = get_fullpath(localpath, dlfile.cd_filename, "");
+		destfile = get_fullpath(localpath, payload->cd_filename, "");
 	} else {
 		const char *effective_filename = strrchr(effective_url, '/');
 		if(effective_filename) {
@@ -387,7 +385,6 @@ cleanup:
 
 	FREE(tempfile);
 	FREE(destfile);
-	FREE(dlfile.cd_filename);
 
 	/* restore the old signal handlers */
 	sigaction(SIGINT, &sig_int[OLD], NULL);
@@ -495,6 +492,7 @@ void _alpm_dload_payload_free(struct dload_payload *payload) {
 	ASSERT(load, return);
 
 	FREE(load->fileurl);
+	FREE(load->cd_filename);
 	FREE(load);
 }
 

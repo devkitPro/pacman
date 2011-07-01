@@ -25,18 +25,12 @@
 
 #include <time.h>
 
-/* internal structure for communicating with curl progress callback */
-struct fileinfo {
+struct dload_payload {
 	alpm_handle_t *handle;
 	const char *filename;
 	char *cd_filename;
-	double initial_size;
-};
-
-struct dload_payload {
-	alpm_handle_t *handle;
-	char *filename;
 	char *fileurl;
+	double initial_size;
 	long max_size;
 	int force;
 	int allow_resume;
