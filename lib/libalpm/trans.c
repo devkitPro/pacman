@@ -67,7 +67,7 @@ int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags,
 	}
 
 	/* lock db */
-	if(!(flags & PM_TRANS_FLAG_NOLOCK)) {
+	if(!(flags & ALPM_TRANS_FLAG_NOLOCK)) {
 		if(_alpm_handle_lock(handle)) {
 			RET_ERR(handle, PM_ERR_HANDLE_LOCK, -1);
 		}
@@ -167,7 +167,7 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_PREPARED, RET_ERR(handle, PM_ERR_TRANS_NOT_PREPARED, -1));
 
-	ASSERT(!(trans->flags & PM_TRANS_FLAG_NOLOCK), RET_ERR(handle, PM_ERR_TRANS_NOT_LOCKED, -1));
+	ASSERT(!(trans->flags & ALPM_TRANS_FLAG_NOLOCK), RET_ERR(handle, PM_ERR_TRANS_NOT_LOCKED, -1));
 
 	/* If there's nothing to do, return without complaining */
 	if(trans->add == NULL && trans->remove == NULL) {
@@ -223,7 +223,7 @@ int SYMEXPORT alpm_trans_release(alpm_handle_t *handle)
 	ASSERT(trans != NULL, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state != STATE_IDLE, RET_ERR(handle, PM_ERR_TRANS_NULL, -1));
 
-	int nolock_flag = trans->flags & PM_TRANS_FLAG_NOLOCK;
+	int nolock_flag = trans->flags & ALPM_TRANS_FLAG_NOLOCK;
 
 	_alpm_trans_free(trans);
 	handle->trans = NULL;

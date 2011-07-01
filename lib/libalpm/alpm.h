@@ -732,39 +732,39 @@ alpm_pkg_t *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
 /** Transaction flags */
 typedef enum _alpm_transflag_t {
 	/** Ignore dependency checks. */
-	PM_TRANS_FLAG_NODEPS = 1,
+	ALPM_TRANS_FLAG_NODEPS = 1,
 	/** Ignore file conflicts and overwrite files. */
-	PM_TRANS_FLAG_FORCE = (1 << 1),
+	ALPM_TRANS_FLAG_FORCE = (1 << 1),
 	/** Delete files even if they are tagged as backup. */
-	PM_TRANS_FLAG_NOSAVE = (1 << 2),
+	ALPM_TRANS_FLAG_NOSAVE = (1 << 2),
 	/** Ignore version numbers when checking dependencies. */
-	PM_TRANS_FLAG_NODEPVERSION = (1 << 3),
+	ALPM_TRANS_FLAG_NODEPVERSION = (1 << 3),
 	/** Remove also any packages depending on a package being removed. */
-	PM_TRANS_FLAG_CASCADE = (1 << 4),
+	ALPM_TRANS_FLAG_CASCADE = (1 << 4),
 	/** Remove packages and their unneeded deps (not explicitly installed). */
-	PM_TRANS_FLAG_RECURSE = (1 << 5),
+	ALPM_TRANS_FLAG_RECURSE = (1 << 5),
 	/** Modify database but do not commit changes to the filesystem. */
-	PM_TRANS_FLAG_DBONLY = (1 << 6),
+	ALPM_TRANS_FLAG_DBONLY = (1 << 6),
 	/* (1 << 7) flag can go here */
 	/** Use ALPM_PKG_REASON_DEPEND when installing packages. */
-	PM_TRANS_FLAG_ALLDEPS = (1 << 8),
+	ALPM_TRANS_FLAG_ALLDEPS = (1 << 8),
 	/** Only download packages and do not actually install. */
-	PM_TRANS_FLAG_DOWNLOADONLY = (1 << 9),
+	ALPM_TRANS_FLAG_DOWNLOADONLY = (1 << 9),
 	/** Do not execute install scriptlets after installing. */
-	PM_TRANS_FLAG_NOSCRIPTLET = (1 << 10),
+	ALPM_TRANS_FLAG_NOSCRIPTLET = (1 << 10),
 	/** Ignore dependency conflicts. */
-	PM_TRANS_FLAG_NOCONFLICTS = (1 << 11),
+	ALPM_TRANS_FLAG_NOCONFLICTS = (1 << 11),
 	/* (1 << 12) flag can go here */
 	/** Do not install a package if it is already installed and up to date. */
-	PM_TRANS_FLAG_NEEDED = (1 << 13),
+	ALPM_TRANS_FLAG_NEEDED = (1 << 13),
 	/** Use ALPM_PKG_REASON_EXPLICIT when installing packages. */
-	PM_TRANS_FLAG_ALLEXPLICIT = (1 << 14),
+	ALPM_TRANS_FLAG_ALLEXPLICIT = (1 << 14),
 	/** Do not remove a package if it is needed by another one. */
-	PM_TRANS_FLAG_UNNEEDED = (1 << 15),
-	/** Remove also explicitly installed unneeded deps (use with PM_TRANS_FLAG_RECURSE). */
-	PM_TRANS_FLAG_RECURSEALL = (1 << 16),
+	ALPM_TRANS_FLAG_UNNEEDED = (1 << 15),
+	/** Remove also explicitly installed unneeded deps (use with ALPM_TRANS_FLAG_RECURSE). */
+	ALPM_TRANS_FLAG_RECURSEALL = (1 << 16),
 	/** Do not lock the database during the operation. */
-	PM_TRANS_FLAG_NOLOCK = (1 << 17)
+	ALPM_TRANS_FLAG_NOLOCK = (1 << 17)
 } alpm_transflag_t;
 
 /** Transaction events.

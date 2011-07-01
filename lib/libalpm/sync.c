@@ -315,7 +315,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		*data = NULL;
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		alpm_list_t *resolved = NULL; /* target list after resolvedeps */
 
 		/* Build up list by repeatedly resolving each transaction package */
@@ -394,7 +394,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		EVENT(trans, PM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_NOCONFLICTS)) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_NOCONFLICTS)) {
 		/* check for inter-conflicts and whatnot */
 		EVENT(trans, PM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
 
@@ -523,7 +523,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		}
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking dependencies\n");
 		deps = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
 				trans->remove, trans->add, 1);
@@ -904,7 +904,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		RET_ERR(handle, PM_ERR_PKG_INVALID, -1);
 	}
 
-	if(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY) {
+	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
 		return 0;
 	}
 
@@ -913,7 +913,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	replaces = alpm_list_count(trans->remove);
 
 	/* fileconflict check */
-	if(!(trans->flags & PM_TRANS_FLAG_FORCE)) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_FORCE)) {
 		EVENT(trans, PM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for file conflicts\n");

@@ -749,7 +749,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	if(install) {
 		size = humanize_size(dlsize, 'M', 1, &label);
 		printf(_("Total Download Size:    %.2f %s\n"), size, label);
-		if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
+		if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY)) {
 			size = humanize_size(isize, 'M', 1, &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
 			/* only show this net value if different from raw installed size */

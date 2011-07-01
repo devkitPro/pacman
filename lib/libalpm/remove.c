@@ -140,22 +140,22 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	alpm_trans_t *trans = handle->trans;
 	alpm_db_t *db = handle->db_local;
 
-	if((trans->flags & PM_TRANS_FLAG_RECURSE) && !(trans->flags & PM_TRANS_FLAG_CASCADE)) {
+	if((trans->flags & ALPM_TRANS_FLAG_RECURSE) && !(trans->flags & ALPM_TRANS_FLAG_CASCADE)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "finding removable dependencies\n");
 		_alpm_recursedeps(db, trans->remove,
-				trans->flags & PM_TRANS_FLAG_RECURSEALL);
+				trans->flags & ALPM_TRANS_FLAG_RECURSEALL);
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(db), trans->remove, NULL, 1);
 		if(lp != NULL) {
 
-			if(trans->flags & PM_TRANS_FLAG_CASCADE) {
+			if(trans->flags & ALPM_TRANS_FLAG_CASCADE) {
 				remove_prepare_cascade(handle, lp);
-			} else if(trans->flags & PM_TRANS_FLAG_UNNEEDED) {
+			} else if(trans->flags & ALPM_TRANS_FLAG_UNNEEDED) {
 				/* Remove needed packages (which would break dependencies)
 				 * from target list */
 				remove_prepare_keep_needed(handle, lp);
@@ -179,12 +179,12 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	trans->remove = lp;
 
 	/* -Rcs == -Rc then -Rs */
-	if((trans->flags & PM_TRANS_FLAG_CASCADE) && (trans->flags & PM_TRANS_FLAG_RECURSE)) {
+	if((trans->flags & ALPM_TRANS_FLAG_CASCADE) && (trans->flags & ALPM_TRANS_FLAG_RECURSE)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "finding removable dependencies\n");
-		_alpm_recursedeps(db, trans->remove, trans->flags & PM_TRANS_FLAG_RECURSEALL);
+		_alpm_recursedeps(db, trans->remove, trans->flags & ALPM_TRANS_FLAG_RECURSEALL);
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_NODEPS)) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
@@ -294,7 +294,7 @@ int _alpm_upgraderemove_package(alpm_handle_t *handle,
 	_alpm_log(handle, ALPM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 			oldpkg->name, oldpkg->version);
 
-	if(handle->trans->flags & PM_TRANS_FLAG_DBONLY) {
+	if(handle->trans->flags & ALPM_TRANS_FLAG_DBONLY) {
 		goto db;
 	}
 
@@ -383,12 +383,12 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 				pkgname, alpm_pkg_get_version(info));
 
 		/* run the pre-remove scriptlet if it exists  */
-		if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+		if(alpm_pkg_has_scriptlet(info) && !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 			_alpm_runscriptlet(handle, scriptlet, "pre_remove",
 					alpm_pkg_get_version(info), NULL);
 		}
 
-		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
+		if(!(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
 			alpm_list_t *files = alpm_pkg_get_files(info);
 			alpm_list_t *newfiles;
 			size_t filenum = 0;
@@ -412,7 +412,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 			newfiles = alpm_list_reverse(files);
 			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
 				int percent;
-				unlink_file(handle, info, lp->data, NULL, trans->flags & PM_TRANS_FLAG_NOSAVE);
+				unlink_file(handle, info, lp->data, NULL, trans->flags & ALPM_TRANS_FLAG_NOSAVE);
 
 				/* update progress bar after each file */
 				percent = (position * 100) / filenum;
@@ -428,7 +428,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 		         pkg_count, (pkg_count - targcount + 1));
 
 		/* run the post-remove script if it exists  */
-		if(alpm_pkg_has_scriptlet(info) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+		if(alpm_pkg_has_scriptlet(info) && !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 			_alpm_runscriptlet(handle, scriptlet, "post_remove",
 					alpm_pkg_get_version(info), NULL);
 		}

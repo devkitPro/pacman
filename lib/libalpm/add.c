@@ -81,12 +81,12 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 		int cmp = _alpm_pkg_compare_versions(pkg, local);
 
 		if(cmp == 0) {
-			if(trans->flags & PM_TRANS_FLAG_NEEDED) {
+			if(trans->flags & ALPM_TRANS_FLAG_NEEDED) {
 				/* with the NEEDED flag, packages up to date are not reinstalled */
 				_alpm_log(handle, ALPM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
 						localpkgname, localpkgver);
 				return 0;
-			} else if(!(trans->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
+			} else if(!(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY)) {
 				_alpm_log(handle, ALPM_LOG_WARNING, _("%s-%s is up to date -- reinstalling\n"),
 						localpkgname, localpkgver);
 			}
@@ -415,7 +415,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			_alpm_log(handle, ALPM_LOG_DEBUG, "extracting %s\n", filename);
 		}
 
-		if(handle->trans->flags & PM_TRANS_FLAG_FORCE) {
+		if(handle->trans->flags & ALPM_TRANS_FLAG_FORCE) {
 			/* if FORCE was used, unlink() each file (whether it's there
 			 * or not) before extracting. This prevents the old "Text file busy"
 			 * error that crops up if forcing a glibc or pacman upgrade. */
@@ -479,7 +479,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		newpkg->reason = alpm_pkg_get_reason(oldpkg);
 
 		/* pre_upgrade scriptlet */
-		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 			_alpm_runscriptlet(handle, newpkg->origin_data.file,
 					"pre_upgrade", newpkg->version, oldpkg->version);
 		}
@@ -491,16 +491,16 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				newpkg->name, newpkg->version);
 
 		/* pre_install scriptlet */
-		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 			_alpm_runscriptlet(handle, newpkg->origin_data.file,
 					"pre_install", newpkg->version, NULL);
 		}
 	}
 
 	/* we override any pre-set reason if we have alldeps or allexplicit set */
-	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
+	if(trans->flags & ALPM_TRANS_FLAG_ALLDEPS) {
 		newpkg->reason = ALPM_PKG_REASON_DEPEND;
-	} else if(trans->flags & PM_TRANS_FLAG_ALLEXPLICIT) {
+	} else if(trans->flags & ALPM_TRANS_FLAG_ALLEXPLICIT) {
 		newpkg->reason = ALPM_PKG_REASON_EXPLICIT;
 	}
 
@@ -523,7 +523,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		goto cleanup;
 	}
 
-	if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
 		struct archive *archive;
 		struct archive_entry *entry;
 		char cwd[PATH_MAX] = "";
@@ -658,7 +658,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 	/* run the post-install script if it exists  */
 	if(alpm_pkg_has_scriptlet(newpkg)
-			&& !(trans->flags & PM_TRANS_FLAG_NOSCRIPTLET)) {
+			&& !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 		if(is_upgrade) {
 			_alpm_runscriptlet(handle, scriptlet, "post_upgrade",
 					alpm_pkg_get_version(newpkg),

@@ -950,7 +950,7 @@ int pacman_sync(alpm_list_t *targets)
 	}
 
 	alpm_list_t *targs = alpm_list_strdup(targets);
-	if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY) && !config->print) {
+	if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) && !config->print) {
 		/* check for newer versions of packages to be upgraded first */
 		alpm_list_t *packages = syncfirst();
 		if(packages) {

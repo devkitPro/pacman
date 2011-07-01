@@ -49,9 +49,9 @@ int pacman_database(alpm_list_t *targets)
 		return 1;
 	}
 
-	if(config->flags & PM_TRANS_FLAG_ALLDEPS) { /* --asdeps */
+	if(config->flags & ALPM_TRANS_FLAG_ALLDEPS) { /* --asdeps */
 		reason = ALPM_PKG_REASON_DEPEND;
-	} else if(config->flags & PM_TRANS_FLAG_ALLEXPLICIT) { /* --asexplicit */
+	} else if(config->flags & ALPM_TRANS_FLAG_ALLEXPLICIT) { /* --asexplicit */
 		reason = ALPM_PKG_REASON_EXPLICIT;
 	} else {
 		pm_printf(ALPM_LOG_ERROR, _("no install reason specified (use -h for help)\n"));

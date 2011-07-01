@@ -445,8 +445,8 @@ static int parsearg_global(int opt)
 static int parsearg_database(int opt)
 {
 	switch(opt) {
-		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
+		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
 		default: return 1;
 	}
 	return 0;
@@ -479,15 +479,15 @@ static int parsearg_trans(int opt)
 {
 	switch(opt) {
 		case 'd':
-			if(config->flags & PM_TRANS_FLAG_NODEPVERSION) {
-				config->flags |= PM_TRANS_FLAG_NODEPS;
+			if(config->flags & ALPM_TRANS_FLAG_NODEPVERSION) {
+				config->flags |= ALPM_TRANS_FLAG_NODEPS;
 			} else {
-				config->flags |= PM_TRANS_FLAG_NODEPVERSION;
+				config->flags |= ALPM_TRANS_FLAG_NODEPVERSION;
 			}
 			break;
-		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+		case 'k': config->flags |= ALPM_TRANS_FLAG_DBONLY; break;
 		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+		case OP_NOSCRIPTLET: config->flags |= ALPM_TRANS_FLAG_NOSCRIPTLET; break;
 		case 'p': config->print = 1; break;
 		case OP_PRINTFORMAT:
 			check_optarg();
@@ -503,16 +503,16 @@ static int parsearg_remove(int opt)
 	if(parsearg_trans(opt) == 0)
 		return 0;
 	switch(opt) {
-		case 'c': config->flags |= PM_TRANS_FLAG_CASCADE; break;
-		case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
+		case 'c': config->flags |= ALPM_TRANS_FLAG_CASCADE; break;
+		case 'n': config->flags |= ALPM_TRANS_FLAG_NOSAVE; break;
 		case 's':
-			if(config->flags & PM_TRANS_FLAG_RECURSE) {
-				config->flags |= PM_TRANS_FLAG_RECURSEALL;
+			if(config->flags & ALPM_TRANS_FLAG_RECURSE) {
+				config->flags |= ALPM_TRANS_FLAG_RECURSEALL;
 			} else {
-				config->flags |= PM_TRANS_FLAG_RECURSE;
+				config->flags |= ALPM_TRANS_FLAG_RECURSE;
 			}
 			break;
-		case 'u': config->flags |= PM_TRANS_FLAG_UNNEEDED; break;
+		case 'u': config->flags |= ALPM_TRANS_FLAG_UNNEEDED; break;
 		default: return 1;
 	}
 	return 0;
@@ -524,9 +524,9 @@ static int parsearg_upgrade(int opt)
 	if(parsearg_trans(opt) == 0)
 		return 0;
 	switch(opt) {
-		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
-		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
+		case 'f': config->flags |= ALPM_TRANS_FLAG_FORCE; break;
+		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
 		case OP_IGNORE:
 			parsearg_util_addlist(&(config->ignorepkg));
 			break;
@@ -543,7 +543,7 @@ static int parsearg_sync(int opt)
 	if(parsearg_upgrade(opt) == 0)
 		return 0;
 	switch(opt) {
-		case OP_NEEDED: config->flags |= PM_TRANS_FLAG_NEEDED; break;
+		case OP_NEEDED: config->flags |= ALPM_TRANS_FLAG_NEEDED; break;
 		case 'c': (config->op_s_clean)++; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_s_info)++; break;
@@ -553,8 +553,8 @@ static int parsearg_sync(int opt)
 		case 'u': (config->op_s_upgrade)++; break;
 		case 'w':
 			config->op_s_downloadonly = 1;
-			config->flags |= PM_TRANS_FLAG_DOWNLOADONLY;
-			config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
+			config->flags |= ALPM_TRANS_FLAG_DOWNLOADONLY;
+			config->flags |= ALPM_TRANS_FLAG_NOCONFLICTS;
 			break;
 		case 'y': (config->op_s_sync)++; break;
 		default: return 1;
@@ -862,8 +862,8 @@ int main(int argc, char *argv[])
 	/* set up the print operations */
 	if(config->print && !config->op_s_clean) {
 		config->noconfirm = 1;
-		config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
-		config->flags |= PM_TRANS_FLAG_NOLOCK;
+		config->flags |= ALPM_TRANS_FLAG_NOCONFLICTS;
+		config->flags |= ALPM_TRANS_FLAG_NOLOCK;
 		/* Display only errors */
 		config->logmask &= ~ALPM_LOG_WARNING;
 	}
