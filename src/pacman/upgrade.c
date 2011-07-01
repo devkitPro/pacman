@@ -170,11 +170,11 @@ int pacman_upgrade(alpm_list_t *targets)
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_fileconflict_t *conflict = alpm_list_getdata(i);
 					switch(conflict->type) {
-						case PM_FILECONFLICT_TARGET:
+						case ALPM_FILECONFLICT_TARGET:
 							printf(_("%s exists in both '%s' and '%s'\n"),
 									conflict->file, conflict->target, conflict->ctarget);
 							break;
-						case PM_FILECONFLICT_FILESYSTEM:
+						case ALPM_FILECONFLICT_FILESYSTEM:
 							printf(_("%s: %s exists in filesystem\n"),
 									conflict->target, conflict->file);
 							break;

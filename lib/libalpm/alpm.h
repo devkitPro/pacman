@@ -82,8 +82,8 @@ typedef enum _alpm_depmod_t {
  * another target in the transaction.
  */
 typedef enum _alpm_fileconflicttype_t {
-	PM_FILECONFLICT_TARGET = 1,
-	PM_FILECONFLICT_FILESYSTEM
+	ALPM_FILECONFLICT_TARGET = 1,
+	ALPM_FILECONFLICT_FILESYSTEM
 } alpm_fileconflicttype_t;
 
 /**

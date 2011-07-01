@@ -276,7 +276,7 @@ static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
 }
 
 /* Adds alpm_fileconflict_t to a conflicts list. Pass the conflicts list, type
- * (either PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file
+ * (either ALPM_FILECONFLICT_TARGET or ALPM_FILECONFLICT_FILESYSTEM), a file
  * string, and either two package names or one package name and NULL. This is
  * a wrapper for former functionality that was done inline.
  */
@@ -407,7 +407,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				for(k = common_files; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)k->data);
 					conflicts = add_fileconflict(handle, conflicts,
-							PM_FILECONFLICT_TARGET, path,
+							ALPM_FILECONFLICT_TARGET, path,
 							alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
 					if(handle->pm_errno == PM_ERR_MEMORY) {
 						FREELIST(conflicts);
@@ -534,7 +534,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			if(!resolved_conflict) {
 				conflicts = add_fileconflict(handle, conflicts,
-						PM_FILECONFLICT_FILESYSTEM, path, p1->name, NULL);
+						ALPM_FILECONFLICT_FILESYSTEM, path, p1->name, NULL);
 				if(handle->pm_errno == PM_ERR_MEMORY) {
 					FREELIST(conflicts);
 					if(dbpkg) {
