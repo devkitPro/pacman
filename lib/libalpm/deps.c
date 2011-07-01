@@ -138,7 +138,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 		return NULL;
 	}
 
-	_alpm_log(handle, PM_LOG_DEBUG, "started sorting dependencies\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "started sorting dependencies\n");
 
 	vertices = dep_graph_init(targets);
 
@@ -161,13 +161,13 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 				alpm_pkg_t *childpkg = nextchild->data;
 				const char *message;
 
-				_alpm_log(handle, PM_LOG_WARNING, _("dependency cycle detected:\n"));
+				_alpm_log(handle, ALPM_LOG_WARNING, _("dependency cycle detected:\n"));
 				if(reverse) {
 					message =_("%s will be removed after its %s dependency\n");
 				} else {
 					message =_("%s will be installed before its %s dependency\n");
 				}
-				_alpm_log(handle, PM_LOG_WARNING, message, vertexpkg->name, childpkg->name);
+				_alpm_log(handle, ALPM_LOG_WARNING, message, vertexpkg->name, childpkg->name);
 			}
 		}
 		if(!found) {
@@ -186,7 +186,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 		}
 	}
 
-	_alpm_log(handle, PM_LOG_DEBUG, "sorting dependencies finished\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "sorting dependencies finished\n");
 
 	if(reverse) {
 		/* reverse the order */
@@ -291,7 +291,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 	/* look for unsatisfied dependencies of the upgrade list */
 	for(i = upgrade; i; i = i->next) {
 		alpm_pkg_t *tp = i->data;
-		_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
+		_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: package %s-%s\n",
 				alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
 
 		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
@@ -304,7 +304,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 				/* Unsatisfied dependency in the upgrade list */
 				alpm_depmissing_t *miss;
 				char *missdepstring = alpm_dep_compute_string(depend);
-				_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
+				_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
 				miss = depmiss_new(alpm_pkg_get_name(tp), depend, NULL);
@@ -331,7 +331,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 				   !find_dep_satisfier(dblist, depend)) {
 					alpm_depmissing_t *miss;
 					char *missdepstring = alpm_dep_compute_string(depend);
-					_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
+					_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
 					free(missdepstring);
 					miss = depmiss_new(lp->name, depend, alpm_pkg_get_name(causingpkg));
@@ -484,7 +484,7 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg, alpm_list_t *targe
 	if(!include_explicit) {
 		/* see if it was explicitly installed */
 		if(alpm_pkg_get_reason(pkg) == ALPM_PKG_REASON_EXPLICIT) {
-			_alpm_log(db->handle, PM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
+			_alpm_log(db->handle, ALPM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
 					alpm_pkg_get_name(pkg));
 			return 0;
 		}
@@ -532,7 +532,7 @@ void _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
 			alpm_pkg_t *deppkg = j->data;
 			if(_alpm_dep_edge(pkg, deppkg)
 					&& can_remove_package(db, deppkg, targs, include_explicit)) {
-				_alpm_log(db->handle, PM_LOG_DEBUG, "adding '%s' to the targets\n",
+				_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding '%s' to the targets\n",
 						alpm_pkg_get_name(deppkg));
 				/* add it to the target list */
 				targs = alpm_list_add(targs, _alpm_pkg_dup(deppkg));
@@ -573,7 +573,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 							 NULL, NULL, &install);
 				} else {
-					_alpm_log(handle, PM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
+					_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
 				}
 				if(!install) {
 					ignored = 1;
@@ -595,14 +595,14 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 						QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,
 									pkg, NULL, NULL, &install);
 					} else {
-						_alpm_log(handle, PM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
+						_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
 					}
 					if(!install) {
 						ignored = 1;
 						continue;
 					}
 				}
-				_alpm_log(handle, PM_LOG_DEBUG, "provider found (%s provides %s)\n",
+				_alpm_log(handle, ALPM_LOG_DEBUG, "provider found (%s provides %s)\n",
 						pkg->name, dep->name);
 				providers = alpm_list_add(providers, pkg);
 				/* keep looking for other providers in the all dbs */
@@ -710,7 +710,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 	   on that list */
 	*packages = alpm_list_add(*packages, pkg);
 
-	_alpm_log(handle, PM_LOG_DEBUG, "started resolving dependencies\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "started resolving dependencies\n");
 	for(i = alpm_list_last(*packages); i; i = i->next) {
 		alpm_pkg_t *tpkg = i->data;
 		targ = alpm_list_add(NULL, tpkg);
@@ -736,7 +736,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 			if(!spkg) {
 				handle->pm_errno = PM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
-				_alpm_log(handle, PM_LOG_WARNING,
+				_alpm_log(handle, ALPM_LOG_WARNING,
 						_("cannot resolve \"%s\", a dependency of \"%s\"\n"),
 						missdepstring, tpkg->name);
 				free(missdepstring);
@@ -745,7 +745,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 				}
 				ret = -1;
 			} else {
-				_alpm_log(handle, PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
+				_alpm_log(handle, ALPM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 						alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
 				*packages = alpm_list_add(*packages, spkg);
 				_alpm_depmiss_free(miss);
@@ -760,7 +760,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 	} else {
 		alpm_list_free(packages_copy);
 	}
-	_alpm_log(handle, PM_LOG_DEBUG, "finished resolving dependencies\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "finished resolving dependencies\n");
 	return ret;
 }
 

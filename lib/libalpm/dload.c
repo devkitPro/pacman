@@ -171,7 +171,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 	dlfile.initial_size = 0.0;
 	dlfile.filename = get_filename(url);
 	if(!dlfile.filename || curl_gethost(url, hostname) != 0) {
-		_alpm_log(handle, PM_LOG_ERROR, _("url '%s' is invalid\n"), url);
+		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), url);
 		RET_ERR(handle, PM_ERR_SERVER_BAD_URL, -1);
 	}
 
@@ -211,7 +211,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 		/* a previous partial download exists, resume from end of file. */
 		open_mode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
-		_alpm_log(handle, PM_LOG_DEBUG, "tempfile found, attempting continuation");
+		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation");
 		dlfile.initial_size = (double)st.st_size;
 	}
 
@@ -249,10 +249,10 @@ static int curl_download_internal(alpm_handle_t *handle,
 	} else if(handle->curlerr != CURLE_OK) {
 		if(!errors_ok) {
 			handle->pm_errno = PM_ERR_LIBCURL;
-			_alpm_log(handle, PM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+			_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
 					dlfile.filename, hostname, error_buffer);
 		} else {
-			_alpm_log(handle, PM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
+			_alpm_log(handle, ALPM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
 					dlfile.filename, hostname, error_buffer);
 		}
 		unlink(tempfile);
@@ -279,7 +279,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 	if(!DOUBLE_EQ(remote_size, -1) && !DOUBLE_EQ(bytes_dl, -1) &&
 			!DOUBLE_EQ(bytes_dl, remote_size)) {
 		handle->pm_errno = PM_ERR_RETRIEVE;
-		_alpm_log(handle, PM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
+		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				dlfile.filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		goto cleanup;
 	}
@@ -357,10 +357,10 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 	/* download the file */
 	ret = _alpm_download(handle, url, cachedir, 0, 1, 0);
 	if(ret == -1) {
-		_alpm_log(handle, PM_LOG_WARNING, _("failed to download %s\n"), url);
+		_alpm_log(handle, ALPM_LOG_WARNING, _("failed to download %s\n"), url);
 		return NULL;
 	}
-	_alpm_log(handle, PM_LOG_DEBUG, "successfully downloaded %s\n", url);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "successfully downloaded %s\n", url);
 
 	/* attempt to download the signature */
 	if(ret == 0 && (handle->sigverify == PM_PGP_VERIFY_ALWAYS ||
@@ -375,11 +375,11 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 
 		ret = _alpm_download(handle, sig_url, cachedir, 1, 0, errors_ok);
 		if(ret == -1 && !errors_ok) {
-			_alpm_log(handle, PM_LOG_WARNING, _("failed to download %s\n"), sig_url);
+			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to download %s\n"), sig_url);
 			/* Warn now, but don't return NULL. We will fail later during package
 			 * load time. */
 		} else if(ret == 0) {
-			_alpm_log(handle, PM_LOG_DEBUG, "successfully downloaded %s\n", sig_url);
+			_alpm_log(handle, ALPM_LOG_DEBUG, "successfully downloaded %s\n", sig_url);
 		}
 		FREE(sig_url);
 	}

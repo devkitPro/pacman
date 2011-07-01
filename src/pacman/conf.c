@@ -43,14 +43,14 @@ config_t *config_new(void)
 {
 	config_t *newconfig = calloc(1, sizeof(config_t));
 	if(!newconfig) {
-			pm_fprintf(stderr, PM_LOG_ERROR,
+			pm_fprintf(stderr, ALPM_LOG_ERROR,
 					_("malloc failure: could not allocate %zd bytes\n"),
 					sizeof(config_t));
 			return NULL;
 	}
 	/* defaults which may get overridden later */
 	newconfig->op = PM_OP_MAIN;
-	newconfig->logmask = PM_LOG_ERROR | PM_LOG_WARNING;
+	newconfig->logmask = ALPM_LOG_ERROR | ALPM_LOG_WARNING;
 	newconfig->configfile = strdup(CONFFILE);
 	newconfig->sigverify = PM_PGP_VERIFY_UNKNOWN;
 
@@ -159,27 +159,27 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 
 	/* save the cwd so we can restore it later */
 	if(getcwd(cwd, PATH_MAX) == NULL) {
-		pm_printf(PM_LOG_ERROR, _("could not get current working directory\n"));
+		pm_printf(ALPM_LOG_ERROR, _("could not get current working directory\n"));
 	} else {
 		restore_cwd = 1;
 	}
 
 	/* cwd to the download directory */
 	if(chdir(localpath)) {
-		pm_printf(PM_LOG_WARNING, _("could not chdir to download directory %s\n"), localpath);
+		pm_printf(ALPM_LOG_WARNING, _("could not chdir to download directory %s\n"), localpath);
 		ret = -1;
 		goto cleanup;
 	}
 	/* execute the parsed command via /bin/sh -c */
-	pm_printf(PM_LOG_DEBUG, "running command: %s\n", parsedcmd);
+	pm_printf(ALPM_LOG_DEBUG, "running command: %s\n", parsedcmd);
 	retval = system(parsedcmd);
 
 	if(retval == -1) {
-		pm_printf(PM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
+		pm_printf(ALPM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
 		ret = -1;
 	} else if(retval != 0) {
 		/* download failed */
-		pm_printf(PM_LOG_DEBUG, "XferCommand command returned non-zero status "
+		pm_printf(ALPM_LOG_DEBUG, "XferCommand command returned non-zero status "
 				"code (%d)\n", retval);
 		ret = -1;
 	} else {
@@ -193,7 +193,7 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 cleanup:
 	/* restore the old cwd if we have it */
 	if(restore_cwd && chdir(cwd) != 0) {
-		pm_printf(PM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
 				cwd, strerror(errno));
 	}
 
@@ -218,7 +218,7 @@ int config_set_arch(const char *arch)
 	} else {
 		config->arch = strdup(arch);
 	}
-	pm_printf(PM_LOG_DEBUG, "config: arch: %s\n", config->arch);
+	pm_printf(ALPM_LOG_DEBUG, "config: arch: %s\n", config->arch);
 	return 0;
 }
 
@@ -234,7 +234,7 @@ static pgp_verify_t option_verifysig(const char *value)
 	} else {
 		level = PM_PGP_VERIFY_UNKNOWN;
 	}
-	pm_printf(PM_LOG_DEBUG, "config: VerifySig = %s (%d)\n", value, level);
+	pm_printf(ALPM_LOG_DEBUG, "config: VerifySig = %s (%d)\n", value, level);
 	return level;
 }
 
@@ -247,7 +247,7 @@ static int process_cleanmethods(alpm_list_t *values) {
 		} else if(strcmp(value, "KeepCurrent") == 0) {
 			config->cleanmethod |= PM_CLEAN_KEEPCUR;
 		} else {
-			pm_printf(PM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"),
+			pm_printf(ALPM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"),
 					value);
 			return 1;
 		}
@@ -270,12 +270,12 @@ static void setrepeatingoption(char *ptr, const char *option,
 	while((q = strchr(ptr, ' '))) {
 		*q = '\0';
 		*list = alpm_list_add(*list, strdup(ptr));
-		pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
+		pm_printf(ALPM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
 		ptr = q;
 		ptr++;
 	}
 	*list = alpm_list_add(*list, strdup(ptr));
-	pm_printf(PM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
+	pm_printf(ALPM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
 }
 
 static int _parse_options(const char *key, char *value,
@@ -285,23 +285,23 @@ static int _parse_options(const char *key, char *value,
 		/* options without settings */
 		if(strcmp(key, "UseSyslog") == 0) {
 			config->usesyslog = 1;
-			pm_printf(PM_LOG_DEBUG, "config: usesyslog\n");
+			pm_printf(ALPM_LOG_DEBUG, "config: usesyslog\n");
 		} else if(strcmp(key, "ILoveCandy") == 0) {
 			config->chomp = 1;
-			pm_printf(PM_LOG_DEBUG, "config: chomp\n");
+			pm_printf(ALPM_LOG_DEBUG, "config: chomp\n");
 		} else if(strcmp(key, "VerbosePkgLists") == 0) {
 			config->verbosepkglists = 1;
-			pm_printf(PM_LOG_DEBUG, "config: verbosepkglists\n");
+			pm_printf(ALPM_LOG_DEBUG, "config: verbosepkglists\n");
 		} else if(strcmp(key, "UseDelta") == 0) {
 			config->usedelta = 1;
-			pm_printf(PM_LOG_DEBUG, "config: usedelta\n");
+			pm_printf(ALPM_LOG_DEBUG, "config: usedelta\n");
 		} else if(strcmp(key, "TotalDownload") == 0) {
 			config->totaldownload = 1;
-			pm_printf(PM_LOG_DEBUG, "config: totaldownload\n");
+			pm_printf(ALPM_LOG_DEBUG, "config: totaldownload\n");
 		} else if(strcmp(key, "CheckSpace") == 0) {
 			config->checkspace = 1;
 		} else {
-			pm_printf(PM_LOG_WARNING,
+			pm_printf(ALPM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
 					file, linenum, key, "options");
 		}
@@ -329,27 +329,27 @@ static int _parse_options(const char *key, char *value,
 			/* don't overwrite a path specified on the command line */
 			if(!config->dbpath) {
 				config->dbpath = strdup(value);
-				pm_printf(PM_LOG_DEBUG, "config: dbpath: %s\n", value);
+				pm_printf(ALPM_LOG_DEBUG, "config: dbpath: %s\n", value);
 			}
 		} else if(strcmp(key, "RootDir") == 0) {
 			/* don't overwrite a path specified on the command line */
 			if(!config->rootdir) {
 				config->rootdir = strdup(value);
-				pm_printf(PM_LOG_DEBUG, "config: rootdir: %s\n", value);
+				pm_printf(ALPM_LOG_DEBUG, "config: rootdir: %s\n", value);
 			}
 		} else if(strcmp(key, "GPGDir") == 0) {
 			if(!config->gpgdir) {
 				config->gpgdir = strdup(value);
-				pm_printf(PM_LOG_DEBUG, "config: gpgdir: %s\n", value);
+				pm_printf(ALPM_LOG_DEBUG, "config: gpgdir: %s\n", value);
 			}
 		} else if(strcmp(key, "LogFile") == 0) {
 			if(!config->logfile) {
 				config->logfile = strdup(value);
-				pm_printf(PM_LOG_DEBUG, "config: logfile: %s\n", value);
+				pm_printf(ALPM_LOG_DEBUG, "config: logfile: %s\n", value);
 			}
 		} else if(strcmp(key, "XferCommand") == 0) {
 			config->xfercommand = strdup(value);
-			pm_printf(PM_LOG_DEBUG, "config: xfercommand: %s\n", value);
+			pm_printf(ALPM_LOG_DEBUG, "config: xfercommand: %s\n", value);
 		} else if(strcmp(key, "CleanMethod") == 0) {
 			alpm_list_t *methods = NULL;
 			setrepeatingoption(value, "CleanMethod", &methods);
@@ -363,13 +363,13 @@ static int _parse_options(const char *key, char *value,
 			if(level != PM_PGP_VERIFY_UNKNOWN) {
 				config->sigverify = level;
 			} else {
-				pm_printf(PM_LOG_ERROR,
+				pm_printf(ALPM_LOG_ERROR,
 						_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
 						file, linenum, key, value);
 				return 1;
 			}
 		} else {
-			pm_printf(PM_LOG_WARNING,
+			pm_printf(ALPM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
 					file, linenum, key, "options");
 		}
@@ -392,7 +392,7 @@ static int _add_mirror(alpm_db_t *db, char *value)
 	} else {
 		if(strstr(temp, "$arch")) {
 			free(temp);
-			pm_printf(PM_LOG_ERROR, _("The mirror '%s' contains the $arch"
+			pm_printf(ALPM_LOG_ERROR, _("The mirror '%s' contains the $arch"
 						" variable, but no Architecture is defined.\n"), value);
 			return 1;
 		}
@@ -401,7 +401,7 @@ static int _add_mirror(alpm_db_t *db, char *value)
 
 	if(alpm_db_add_server(db, server) != 0) {
 		/* pm_errno is set by alpm_db_setserver */
-		pm_printf(PM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
 				dbname, server, alpm_strerror(alpm_errno(config->handle)));
 		free(server);
 		return 1;
@@ -423,7 +423,7 @@ static int setup_libalpm(void)
 	enum _alpm_errno_t err;
 	alpm_handle_t *handle;
 
-	pm_printf(PM_LOG_DEBUG, "setup_libalpm called\n");
+	pm_printf(ALPM_LOG_DEBUG, "setup_libalpm called\n");
 
 	/* Configure root path first. If it is set and dbpath/logfile were not
 	 * set, then set those as well to reside under the root. */
@@ -447,10 +447,10 @@ static int setup_libalpm(void)
 	/* initialize library */
 	handle = alpm_initialize(config->rootdir, config->dbpath, &err);
 	if(!handle) {
-		pm_printf(PM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("failed to initialize alpm library (%s)\n"),
 		        alpm_strerror(err));
 		if(err == PM_ERR_DB_VERSION) {
-			pm_printf(PM_LOG_ERROR, _("  try running pacman-db-upgrade\n"));
+			pm_printf(ALPM_LOG_ERROR, _("  try running pacman-db-upgrade\n"));
 		}
 		return -1;
 	}
@@ -462,7 +462,7 @@ static int setup_libalpm(void)
 	config->logfile = config->logfile ? config->logfile : strdup(LOGFILE);
 	ret = alpm_option_set_logfile(handle, config->logfile);
 	if(ret != 0) {
-		pm_printf(PM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
 				config->logfile, alpm_strerror(alpm_errno(handle)));
 		return ret;
 	}
@@ -472,7 +472,7 @@ static int setup_libalpm(void)
 	config->gpgdir = config->gpgdir ? config->gpgdir : strdup(GPGDIR);
 	ret = alpm_option_set_gpgdir(handle, config->gpgdir);
 	if(ret != 0) {
-		pm_printf(PM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
 				config->gpgdir, alpm_strerror(alpm_errno(handle)));
 		return ret;
 	}
@@ -537,7 +537,7 @@ static int finish_section(struct section_t *section, int parse_options)
 	alpm_list_t *i;
 	alpm_db_t *db;
 
-	pm_printf(PM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
+	pm_printf(ALPM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
 
 	/* parsing options (or nothing)- nothing to do except free the pieces */
 	if(!section->name || parse_options || section->is_options) {
@@ -547,7 +547,7 @@ static int finish_section(struct section_t *section, int parse_options)
 	/* if we are not looking at options sections only, register a db */
 	db = alpm_db_register_sync(config->handle, section->name, section->sigverify);
 	if(db == NULL) {
-		pm_printf(PM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
 				section->name, alpm_strerror(alpm_errno(config->handle)));
 		ret = 1;
 		goto cleanup;
@@ -556,7 +556,7 @@ static int finish_section(struct section_t *section, int parse_options)
 	for(i = section->servers; i; i = alpm_list_next(i)) {
 		char *value = alpm_list_getdata(i);
 		if(_add_mirror(db, value) != 0) {
-			pm_printf(PM_LOG_ERROR,
+			pm_printf(ALPM_LOG_ERROR,
 					_("could not add mirror '%s' to database '%s' (%s)\n"),
 					value, section->name, alpm_strerror(alpm_errno(config->handle)));
 			ret = 1;
@@ -595,16 +595,16 @@ static int _parseconfig(const char *file, struct section_t *section,
 	const int max_depth = 10;
 
 	if(depth >= max_depth) {
-		pm_printf(PM_LOG_ERROR,
+		pm_printf(ALPM_LOG_ERROR,
 				_("config parsing exceeded max recursion depth of %d.\n"), max_depth);
 		ret = 1;
 		goto cleanup;
 	}
 
-	pm_printf(PM_LOG_DEBUG, "config: attempting to read file %s\n", file);
+	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
 	if(fp == NULL) {
-		pm_printf(PM_LOG_ERROR, _("config file %s could not be read.\n"), file);
+		pm_printf(ALPM_LOG_ERROR, _("config file %s could not be read.\n"), file);
 		ret = 1;
 		goto cleanup;
 	}
@@ -629,7 +629,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 			char *name;
 			/* only possibility here is a line == '[]' */
 			if(line_len <= 2) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
+				pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
 						file, linenum);
 				ret = 1;
 				goto cleanup;
@@ -642,7 +642,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 				ret = 1;
 				goto cleanup;
 			}
-			pm_printf(PM_LOG_DEBUG, "config: new section '%s'\n", name);
+			pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
 			section->name = name;
 			section->is_options = (strcmp(name, "options") == 0);
 			continue;
@@ -657,14 +657,14 @@ static int _parseconfig(const char *file, struct section_t *section,
 		strtrim(value);
 
 		if(key == NULL) {
-			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
+			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
 					file, linenum);
 			ret = 1;
 			goto cleanup;
 		}
 		/* For each directive, compare to the camelcase string. */
 		if(section->name == NULL) {
-			pm_printf(PM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
+			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
 					file, linenum);
 			ret = 1;
 			goto cleanup;
@@ -676,7 +676,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 			size_t gindex;
 
 			if(value == NULL) {
-				pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
+				pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
 						file, linenum, key);
 				ret = 1;
 				goto cleanup;
@@ -685,23 +685,23 @@ static int _parseconfig(const char *file, struct section_t *section,
 			globret = glob(value, GLOB_NOCHECK, NULL, &globbuf);
 			switch(globret) {
 				case GLOB_NOSPACE:
-					pm_printf(PM_LOG_DEBUG,
+					pm_printf(ALPM_LOG_DEBUG,
 							"config file %s, line %d: include globbing out of space\n",
 							file, linenum);
 				break;
 				case GLOB_ABORTED:
-					pm_printf(PM_LOG_DEBUG,
+					pm_printf(ALPM_LOG_DEBUG,
 							"config file %s, line %d: include globbing read error for %s\n",
 							file, linenum, value);
 				break;
 				case GLOB_NOMATCH:
-					pm_printf(PM_LOG_DEBUG,
+					pm_printf(ALPM_LOG_DEBUG,
 							"config file %s, line %d: no include found for %s\n",
 							file, linenum, value);
 				break;
 				default:
 					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
-						pm_printf(PM_LOG_DEBUG, "config file %s, line %d: including %s\n",
+						pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
 						_parseconfig(globbuf.gl_pathv[gindex], section, parse_options, depth + 1);
 					}
@@ -719,7 +719,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 			/* ... or in a repo section */
 			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
-					pm_printf(PM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
+					pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
 							file, linenum, key);
 					ret = 1;
 					goto cleanup;
@@ -730,14 +730,14 @@ static int _parseconfig(const char *file, struct section_t *section,
 				if(level != PM_PGP_VERIFY_UNKNOWN) {
 					section->sigverify = level;
 				} else {
-					pm_printf(PM_LOG_ERROR,
+					pm_printf(ALPM_LOG_ERROR,
 							_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
 							file, linenum, key, value);
 					ret = 1;
 					goto cleanup;
 				}
 			} else {
-				pm_printf(PM_LOG_WARNING,
+				pm_printf(ALPM_LOG_WARNING,
 						_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
 						file, linenum, key, section->name);
 			}
@@ -750,7 +750,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 
 cleanup:
 	fclose(fp);
-	pm_printf(PM_LOG_DEBUG, "config: finished parsing %s\n", file);
+	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return ret;
 }
 
@@ -768,7 +768,7 @@ int parseconfig(const char *file)
 	 * Next, we go back and parse everything but [options]. */
 
 	/* call the real parseconfig function with a null section & db argument */
-	pm_printf(PM_LOG_DEBUG, "parseconfig: options pass\n");
+	pm_printf(ALPM_LOG_DEBUG, "parseconfig: options pass\n");
 	if((ret = _parseconfig(file, &section, 1, 0))) {
 		return ret;
 	}
@@ -776,7 +776,7 @@ int parseconfig(const char *file)
 		return ret;
 	}
 	/* second pass, repo section parsing */
-	pm_printf(PM_LOG_DEBUG, "parseconfig: repo pass\n");
+	pm_printf(ALPM_LOG_DEBUG, "parseconfig: repo pass\n");
 	return _parseconfig(file, &section, 0, 0);
 }
 

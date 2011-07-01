@@ -45,7 +45,7 @@ int pacman_database(alpm_list_t *targets)
 	alpm_pkgreason_t reason;
 
 	if(targets == NULL) {
-		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return 1;
 	}
 
@@ -54,7 +54,7 @@ int pacman_database(alpm_list_t *targets)
 	} else if(config->flags & PM_TRANS_FLAG_ALLEXPLICIT) { /* --asexplicit */
 		reason = ALPM_PKG_REASON_EXPLICIT;
 	} else {
-		pm_printf(PM_LOG_ERROR, _("no install reason specified (use -h for help)\n"));
+		pm_printf(ALPM_LOG_ERROR, _("no install reason specified (use -h for help)\n"));
 		return 1;
 	}
 
@@ -67,7 +67,7 @@ int pacman_database(alpm_list_t *targets)
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *pkgname = i->data;
 		if(alpm_db_set_pkgreason(db_local, pkgname, reason) == -1) {
-			pm_printf(PM_LOG_ERROR, _("could not set install reason for package %s (%s)\n"),
+			pm_printf(ALPM_LOG_ERROR, _("could not set install reason for package %s (%s)\n"),
 							pkgname, alpm_strerror(alpm_errno(config->handle)));
 			retval = 1;
 		} else {

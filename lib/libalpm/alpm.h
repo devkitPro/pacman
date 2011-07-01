@@ -174,10 +174,10 @@ typedef struct _alpm_backup_t {
  * Logging Levels
  */
 typedef enum _alpm_loglevel_t {
-	PM_LOG_ERROR    = 1,
-	PM_LOG_WARNING  = (1 << 1),
-	PM_LOG_DEBUG    = (1 << 2),
-	PM_LOG_FUNCTION = (1 << 3)
+	ALPM_LOG_ERROR    = 1,
+	ALPM_LOG_WARNING  = (1 << 1),
+	ALPM_LOG_DEBUG    = (1 << 2),
+	ALPM_LOG_FUNCTION = (1 << 3)
 } alpm_loglevel_t;
 
 typedef void (*alpm_cb_log)(alpm_loglevel_t, const char *, va_list);

@@ -351,7 +351,7 @@ int SYMEXPORT alpm_option_add_cachedir(alpm_handle_t *handle, const char *cached
 		RET_ERR(handle, PM_ERR_MEMORY, -1);
 	}
 	handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
-	_alpm_log(handle, PM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
 	return 0;
 }
 
@@ -412,7 +412,7 @@ int SYMEXPORT alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile
 		fclose(handle->logstream);
 		handle->logstream = NULL;
 	}
-	_alpm_log(handle, PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
 	return 0;
 }
 
@@ -429,7 +429,7 @@ int SYMEXPORT alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir)
 	}
 	handle->gpgdir = strdup(gpgdir);
 
-	_alpm_log(handle, PM_LOG_DEBUG, "option 'gpgdir' = %s\n", handle->gpgdir);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'gpgdir' = %s\n", handle->gpgdir);
 	return 0;
 }
 

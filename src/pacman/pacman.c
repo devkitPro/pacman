@@ -264,7 +264,7 @@ static void setuseragent(void)
 static void cleanup(int ret) {
 	/* free alpm library resources */
 	if(config->handle && alpm_release(config->handle) == -1) {
-		pm_printf(PM_LOG_ERROR, "error releasing alpm library\n");
+		pm_printf(ALPM_LOG_ERROR, "error releasing alpm library\n");
 	}
 
 	/* free memory */
@@ -408,17 +408,17 @@ static int parsearg_global(int opt)
 				unsigned short debug = (unsigned short)atoi(optarg);
 				switch(debug) {
 					case 2:
-						config->logmask |= PM_LOG_FUNCTION; /* fall through */
+						config->logmask |= ALPM_LOG_FUNCTION; /* fall through */
 					case 1:
-						config->logmask |= PM_LOG_DEBUG;
+						config->logmask |= ALPM_LOG_DEBUG;
 						break;
 					default:
-						pm_printf(PM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
+						pm_printf(ALPM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
 								optarg);
 						return 1;
 				}
 			} else {
-				config->logmask |= PM_LOG_DEBUG;
+				config->logmask |= ALPM_LOG_DEBUG;
 			}
 			/* progress bars get wonky with debug on, shut them off */
 			config->noprogressbar = 1;
@@ -645,7 +645,7 @@ static int parseargs(int argc, char *argv[])
 	}
 
 	if(config->op == 0) {
-		pm_printf(PM_LOG_ERROR, _("only one operation may be used at a time\n"));
+		pm_printf(ALPM_LOG_ERROR, _("only one operation may be used at a time\n"));
 		return 1;
 	}
 	if(config->help) {
@@ -701,7 +701,7 @@ static int parseargs(int argc, char *argv[])
 		result = parsearg_global(opt);
 		if(result != 0) {
 			/* global option parsing failed, abort */
-			pm_printf(PM_LOG_ERROR, _("invalid option\n"));
+			pm_printf(ALPM_LOG_ERROR, _("invalid option\n"));
 			return result;
 		}
 	}
@@ -833,7 +833,7 @@ int main(int argc, char *argv[])
 		}
 		/* check for buffer overflow */
 		if(i >= PATH_MAX) {
-			pm_printf(PM_LOG_ERROR, _("buffer overflow detected in arg parsing\n"));
+			pm_printf(ALPM_LOG_ERROR, _("buffer overflow detected in arg parsing\n"));
 			cleanup(EXIT_FAILURE);
 		}
 
@@ -843,7 +843,7 @@ int main(int argc, char *argv[])
 			pm_targets = alpm_list_add(pm_targets, strdup(line));
 		}
 		if(!freopen(ctermid(NULL), "r", stdin)) {
-			pm_printf(PM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
+			pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
 					strerror(errno));
 		}
 	}
@@ -865,13 +865,13 @@ int main(int argc, char *argv[])
 		config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
 		config->flags |= PM_TRANS_FLAG_NOLOCK;
 		/* Display only errors */
-		config->logmask &= ~PM_LOG_WARNING;
+		config->logmask &= ~ALPM_LOG_WARNING;
 	}
 
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0 && needs_root()) {
-		pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
+		pm_printf(ALPM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
 		cleanup(EXIT_FAILURE);
 	}
 #endif
@@ -918,7 +918,7 @@ int main(int argc, char *argv[])
 			ret = pacman_deptest(pm_targets);
 			break;
 		default:
-			pm_printf(PM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
+			pm_printf(ALPM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
 			ret = EXIT_FAILURE;
 	}
 

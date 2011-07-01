@@ -46,7 +46,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	int retval = 0;
 
 	if(targets == NULL) {
-		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return 1;
 	}
 
@@ -56,7 +56,7 @@ int pacman_upgrade(alpm_list_t *targets)
 		if(strstr(i->data, "://")) {
 			char *str = alpm_fetch_pkgurl(config->handle, i->data);
 			if(str == NULL) {
-				pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
+				pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
 						(char *)i->data, alpm_strerror(alpm_errno(config->handle)));
 				return 1;
 			} else {
@@ -77,13 +77,13 @@ int pacman_upgrade(alpm_list_t *targets)
 		alpm_pkg_t *pkg;
 
 		if(alpm_pkg_load(config->handle, targ, 1, check_sig, &pkg) != 0) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
+			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
 			trans_release();
 			return 1;
 		}
 		if(alpm_add_pkg(config->handle, pkg) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n",
+			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
 			alpm_pkg_free(pkg);
 			trans_release();
@@ -95,7 +95,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* TODO: No, compute nothing. This is stupid. */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
 			case PM_ERR_PKG_INVALID_ARCH:
@@ -163,7 +163,7 @@ int pacman_upgrade(alpm_list_t *targets)
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 				alpm_strerror(err));
 		switch(err) {
 			case PM_ERR_FILE_CONFLICTS:
