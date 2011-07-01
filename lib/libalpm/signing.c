@@ -310,6 +310,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 			gpgsig = gpgsig->next, sigcount++) {
 		alpm_list_t *summary_list, *summary;
 		alpm_sigstatus_t status;
+		gpgme_key_t key;
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
 		summary_list = list_sigsum(gpgsig->summary);
@@ -449,8 +450,7 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		}
 	}
 
-	free(result.status);
-	free(result.uid);
+	alpm_sigresult_cleanup(&result);
 	return ret;
 }
 
@@ -483,6 +483,24 @@ int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
 	db->handle->pm_errno = 0;
 
 	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL, result);
+}
+
+int SYMEXPORT alpm_sigresult_cleanup(alpm_sigresult_t *result)
+{
+	ASSERT(result != NULL, return -1);
+	/* Because it is likely result is on the stack, uid and status may have bogus
+	 * values in the struct. Only look at them if count is greater than 0. */
+	if(result->count > 0) {
+		free(result->status);
+		if(result->uid) {
+			int i;
+			for(i = 0; i < result->count; i++) {
+				free(result->uid[i]);
+			}
+			free(result->uid);
+		}
+	}
+	return 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */

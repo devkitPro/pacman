@@ -56,6 +56,7 @@ double humanize_size(off_t bytes, const char target_unit, int long_labels, const
 int table_display(const char *title, const alpm_list_t *header, const alpm_list_t *rows);
 void list_display(const char *title, const alpm_list_t *list);
 void list_display_linebreak(const char *title, const alpm_list_t *list);
+void signature_display(const char *title, alpm_sigresult_t *result);
 void display_targets(const alpm_list_t *pkgs, int install);
 int str_cmp(const void *s1, const void *s2);
 void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg);

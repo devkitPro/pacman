@@ -613,7 +613,6 @@ void list_display(const char *title, const alpm_list_t *list)
 
 void list_display_linebreak(const char *title, const alpm_list_t *list)
 {
-	const alpm_list_t *i;
 	int len = 0;
 
 	if(title) {
@@ -624,6 +623,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 	if(!list) {
 		printf("%s\n", _("None"));
 	} else {
+		const alpm_list_t *i;
 		/* Print the first element */
 		indentprint((const char *) alpm_list_getdata(list), len);
 		printf("\n");
@@ -634,6 +634,52 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 				printf(" ");
 			}
 			indentprint((const char *) alpm_list_getdata(i), len);
+			printf("\n");
+		}
+	}
+}
+
+void signature_display(const char *title, alpm_sigresult_t *result)
+{
+	int len = 0;
+
+	if(title) {
+		len = string_length(title) + 1;
+		printf("%s ", title);
+	}
+	if(result->count == 0) {
+		printf(_("None"));
+	} else {
+		int i;
+		for(i = 0; i < result->count; i++) {
+			char sigline[PATH_MAX];
+			const char *validity, *name;
+			/* Don't re-indent the first result */
+			if(i != 0) {
+				int j;
+				for(j = 1; j <= len; j++) {
+					printf(" ");
+				}
+			}
+			switch(result->status[i]) {
+				case ALPM_SIGSTATUS_VALID:
+					validity = _("Valid signature");
+					break;
+				case ALPM_SIGSTATUS_MARGINAL:
+					validity = _("Marginal signature");
+					break;
+				case ALPM_SIGSTATUS_UNKNOWN:
+					validity = _("Unknown signature");
+					break;
+				case ALPM_SIGSTATUS_BAD:
+					validity = _("Invalid signature");
+					break;
+				default:
+					validity = _("Signature error");
+			}
+			name = result->uid[i] ? result->uid[i] : _("<Key Unknown>");
+			snprintf(sigline, PATH_MAX, _("%s from \"%s\""), validity, name);
+			indentprint(sigline, len);
 			printf("\n");
 		}
 	}

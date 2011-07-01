@@ -136,6 +136,17 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 	if(from == PKG_FROM_SYNCDB) {
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg));
 	}
+	if(from == PKG_FROM_FILE) {
+		alpm_sigresult_t result;
+		int err = alpm_pkg_check_pgp_signature(pkg, &result);
+		if(err) {
+			string_display(_("Signatures     :"),
+					alpm_strerror(alpm_errno(config->handle)));
+		} else {
+			signature_display(_("Signatures     :"), &result);
+		}
+		alpm_sigresult_cleanup(&result);
+	}
 	string_display(_("Description    :"), alpm_pkg_get_desc(pkg));
 
 	/* Print additional package info if info flag passed more than once */

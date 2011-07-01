@@ -745,6 +745,8 @@ int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_sigresult_t *result);
 
 int alpm_db_check_pgp_signature(alpm_db_t *db, alpm_sigresult_t *result);
 
+int alpm_sigresult_cleanup(alpm_sigresult_t *result);
+
 /*
  * Groups
  */
