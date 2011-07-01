@@ -182,8 +182,8 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 												lpkg->name, tpkg->name);
 							tpkg->removes = alpm_list_add(tpkg->removes, lpkg);
 							/* check the to-be-replaced package's reason field */
-							if(alpm_pkg_get_reason(lpkg) == PM_PKG_REASON_EXPLICIT) {
-								tpkg->reason = PM_PKG_REASON_EXPLICIT;
+							if(alpm_pkg_get_reason(lpkg) == ALPM_PKG_REASON_EXPLICIT) {
+								tpkg->reason = ALPM_PKG_REASON_EXPLICIT;
 							}
 						} else {
 							/* add spkg to the target list */
@@ -378,7 +378,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		for(i = resolved; i; i = i->next) {
 			alpm_pkg_t *pkg = i->data;
 			if(!_alpm_pkg_find(trans->add, pkg->name)) {
-				pkg->reason = PM_PKG_REASON_DEPEND;
+				pkg->reason = ALPM_PKG_REASON_DEPEND;
 			}
 		}
 

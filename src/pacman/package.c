@@ -70,10 +70,10 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 	}
 
 	switch((long)alpm_pkg_get_reason(pkg)) {
-		case PM_PKG_REASON_EXPLICIT:
+		case ALPM_PKG_REASON_EXPLICIT:
 			reason = _("Explicitly installed");
 			break;
-		case PM_PKG_REASON_DEPEND:
+		case ALPM_PKG_REASON_DEPEND:
 			reason = _("Installed as a dependency for another package");
 			break;
 		default:

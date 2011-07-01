@@ -483,7 +483,7 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg, alpm_list_t *targe
 
 	if(!include_explicit) {
 		/* see if it was explicitly installed */
-		if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
+		if(alpm_pkg_get_reason(pkg) == ALPM_PKG_REASON_EXPLICIT) {
 			_alpm_log(db->handle, PM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
 					alpm_pkg_get_name(pkg));
 			return 0;

@@ -98,7 +98,7 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	}
 
 	/* add the package to the transaction */
-	pkg->reason = PM_PKG_REASON_EXPLICIT;
+	pkg->reason = ALPM_PKG_REASON_EXPLICIT;
 	_alpm_log(handle, PM_LOG_DEBUG, "adding package %s-%s to the transaction add list\n",
 						pkgname, pkgver);
 	trans->add = alpm_list_add(trans->add, pkg);
@@ -499,9 +499,9 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 	/* we override any pre-set reason if we have alldeps or allexplicit set */
 	if(trans->flags & PM_TRANS_FLAG_ALLDEPS) {
-		newpkg->reason = PM_PKG_REASON_DEPEND;
+		newpkg->reason = ALPM_PKG_REASON_DEPEND;
 	} else if(trans->flags & PM_TRANS_FLAG_ALLEXPLICIT) {
-		newpkg->reason = PM_PKG_REASON_EXPLICIT;
+		newpkg->reason = ALPM_PKG_REASON_EXPLICIT;
 	}
 
 	if(oldpkg) {

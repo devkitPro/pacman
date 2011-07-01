@@ -370,12 +370,12 @@ static int filter(alpm_pkg_t *pkg)
 {
 	/* check if this package was explicitly installed */
 	if(config->op_q_explicit &&
-			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_EXPLICIT) {
+			alpm_pkg_get_reason(pkg) != ALPM_PKG_REASON_EXPLICIT) {
 		return 0;
 	}
 	/* check if this package was installed as a dependency */
 	if(config->op_q_deps &&
-			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_DEPEND) {
+			alpm_pkg_get_reason(pkg) != ALPM_PKG_REASON_DEPEND) {
 		return 0;
 	}
 	/* check if this pkg isn't in a sync DB */

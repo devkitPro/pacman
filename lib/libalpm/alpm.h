@@ -55,9 +55,9 @@ extern "C" {
  */
 typedef enum _alpm_pkgreason_t {
 	/** Explicitly requested by the user. */
-	PM_PKG_REASON_EXPLICIT = 0,
+	ALPM_PKG_REASON_EXPLICIT = 0,
 	/** Installed as a dependency for another package. */
-	PM_PKG_REASON_DEPEND = 1
+	ALPM_PKG_REASON_DEPEND = 1
 } alpm_pkgreason_t;
 
 /** Types of version constraints in dependency specs. */
@@ -746,7 +746,7 @@ typedef enum _alpm_transflag_t {
 	/** Modify database but do not commit changes to the filesystem. */
 	PM_TRANS_FLAG_DBONLY = (1 << 6),
 	/* (1 << 7) flag can go here */
-	/** Use PM_PKG_REASON_DEPEND when installing packages. */
+	/** Use ALPM_PKG_REASON_DEPEND when installing packages. */
 	PM_TRANS_FLAG_ALLDEPS = (1 << 8),
 	/** Only download packages and do not actually install. */
 	PM_TRANS_FLAG_DOWNLOADONLY = (1 << 9),
@@ -757,7 +757,7 @@ typedef enum _alpm_transflag_t {
 	/* (1 << 12) flag can go here */
 	/** Do not install a package if it is already installed and up to date. */
 	PM_TRANS_FLAG_NEEDED = (1 << 13),
-	/** Use PM_PKG_REASON_EXPLICIT when installing packages. */
+	/** Use ALPM_PKG_REASON_EXPLICIT when installing packages. */
 	PM_TRANS_FLAG_ALLEXPLICIT = (1 << 14),
 	/** Do not remove a package if it is needed by another one. */
 	PM_TRANS_FLAG_UNNEEDED = (1 << 15),
