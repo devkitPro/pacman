@@ -255,7 +255,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
 	switch(event) {
-		case PM_TRANS_CONV_INSTALL_IGNOREPKG:
+		case ALPM_TRANS_CONV_INSTALL_IGNOREPKG:
 			if(!config->op_s_downloadonly) {
 				*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
 								  alpm_pkg_get_name(data1));
@@ -263,13 +263,13 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				*response = 1;
 			}
 			break;
-		case PM_TRANS_CONV_REPLACE_PKG:
+		case ALPM_TRANS_CONV_REPLACE_PKG:
 			*response = yesno(_(":: Replace %s with %s/%s?"),
 					alpm_pkg_get_name(data1),
 					(char *)data3,
 					alpm_pkg_get_name(data2));
 			break;
-		case PM_TRANS_CONV_CONFLICT_PKG:
+		case ALPM_TRANS_CONV_CONFLICT_PKG:
 			/* data parameters: target package, local package, conflict (strings) */
 			/* print conflict only if it contains new information */
 			if(strcmp(data1, data3) == 0 || strcmp(data2, data3) == 0) {
@@ -285,7 +285,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 						(char *)data2);
 			}
 			break;
-		case PM_TRANS_CONV_REMOVE_PKGS:
+		case ALPM_TRANS_CONV_REMOVE_PKGS:
 			{
 				alpm_list_t *unresolved = (alpm_list_t *) data1;
 				alpm_list_t *namelist = NULL, *i;
@@ -308,7 +308,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				alpm_list_free(namelist);
 			}
 			break;
-		case PM_TRANS_CONV_SELECT_PROVIDER:
+		case ALPM_TRANS_CONV_SELECT_PROVIDER:
 			{
 				alpm_list_t *providers = (alpm_list_t *)data1;
 				int count = alpm_list_count(providers);
@@ -320,7 +320,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				*response = select_question(count);
 			}
 			break;
-		case PM_TRANS_CONV_LOCAL_NEWER:
+		case ALPM_TRANS_CONV_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
 				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway?"),
 						alpm_pkg_get_name(data1),
@@ -329,7 +329,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				*response = 1;
 			}
 			break;
-		case PM_TRANS_CONV_CORRUPTED_PKG:
+		case ALPM_TRANS_CONV_CORRUPTED_PKG:
 			*response = yesno(_(":: File %s is corrupted. Do you want to delete it?"),
 					(char *)data1);
 			break;

@@ -849,13 +849,13 @@ typedef enum _alpm_transevt_t {
 
 /** Transaction Conversations (ie, questions) */
 typedef enum _alpm_transconv_t {
-	PM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
-	PM_TRANS_CONV_REPLACE_PKG = (1 << 1),
-	PM_TRANS_CONV_CONFLICT_PKG = (1 << 2),
-	PM_TRANS_CONV_CORRUPTED_PKG = (1 << 3),
-	PM_TRANS_CONV_LOCAL_NEWER = (1 << 4),
-	PM_TRANS_CONV_REMOVE_PKGS = (1 << 5),
-	PM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
+	ALPM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
+	ALPM_TRANS_CONV_REPLACE_PKG = (1 << 1),
+	ALPM_TRANS_CONV_CONFLICT_PKG = (1 << 2),
+	ALPM_TRANS_CONV_CORRUPTED_PKG = (1 << 3),
+	ALPM_TRANS_CONV_LOCAL_NEWER = (1 << 4),
+	ALPM_TRANS_CONV_REMOVE_PKGS = (1 << 5),
+	ALPM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
 } alpm_transconv_t;
 
 /** Transaction Progress */

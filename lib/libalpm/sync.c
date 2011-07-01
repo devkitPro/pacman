@@ -163,7 +163,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 						}
 
 						int doreplace = 0;
-						QUESTION(trans, PM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, sdb->treename, &doreplace);
+						QUESTION(trans, ALPM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, sdb->treename, &doreplace);
 						if(!doreplace) {
 							continue;
 						}
@@ -234,7 +234,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 			if(_alpm_pkg_should_ignore(db->handle, pkg)) {
 				ignorelist = alpm_list_add(ignorelist, pkg);
 				int install = 0;
-				QUESTION(db->handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+				QUESTION(db->handle->trans, ALPM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 						NULL, NULL, &install);
 				if(!install)
 					continue;
@@ -353,7 +353,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
 			int remove_unresolvable = 0;
-			QUESTION(trans, PM_TRANS_CONV_REMOVE_PKGS, unresolvable,
+			QUESTION(trans, ALPM_TRANS_CONV_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
 			if(remove_unresolvable) {
 				/* User wants to remove the unresolvable packages from the
@@ -485,7 +485,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			alpm_pkg_t *sync = _alpm_pkg_find(trans->add, conflict->package1);
 			alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
 			int doremove = 0;
-			QUESTION(trans, PM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
+			QUESTION(trans, ALPM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
 							conflict->package2, conflict->reason, &doremove);
 			if(doremove) {
 				/* append to the removes list */
@@ -679,7 +679,7 @@ static int test_md5sum(alpm_trans_t *trans, const char *filepath,
 	int ret = _alpm_test_md5sum(filepath, md5sum);
 	if(ret == 1) {
 		int doremove = 0;
-		QUESTION(trans, PM_TRANS_CONV_CORRUPTED_PKG, (char *)filepath,
+		QUESTION(trans, ALPM_TRANS_CONV_CORRUPTED_PKG, (char *)filepath,
 				NULL, NULL, &doremove);
 		if(doremove) {
 			unlink(filepath);
