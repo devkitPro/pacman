@@ -147,7 +147,7 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
-		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
+		EVENT(trans, ALPM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(db), trans->remove, NULL, 1);
@@ -185,7 +185,7 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
-		EVENT(trans, PM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
+		EVENT(trans, ALPM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
 	return 0;
@@ -378,7 +378,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
 				_alpm_db_path(handle->db_local), pkgname, alpm_pkg_get_version(info));
 
-		EVENT(trans, PM_TRANS_EVT_REMOVE_START, info, NULL);
+		EVENT(trans, ALPM_TRANS_EVT_REMOVE_START, info, NULL);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing package %s-%s\n",
 				pkgname, alpm_pkg_get_version(info));
 
@@ -446,7 +446,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 			          pkgname);
 		}
 
-		EVENT(trans, PM_TRANS_EVT_REMOVE_DONE, info, NULL);
+		EVENT(trans, ALPM_TRANS_EVT_REMOVE_DONE, info, NULL);
 	}
 
 	/* run ldconfig if it exists */

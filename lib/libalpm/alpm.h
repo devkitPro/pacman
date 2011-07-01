@@ -772,79 +772,79 @@ typedef enum _alpm_transflag_t {
  */
 typedef enum _alpm_transevt_t {
 	/** Dependencies will be computed for a package. */
-	PM_TRANS_EVT_CHECKDEPS_START = 1,
+	ALPM_TRANS_EVT_CHECKDEPS_START = 1,
 	/** Dependencies were computed for a package. */
-	PM_TRANS_EVT_CHECKDEPS_DONE,
+	ALPM_TRANS_EVT_CHECKDEPS_DONE,
 	/** File conflicts will be computed for a package. */
-	PM_TRANS_EVT_FILECONFLICTS_START,
+	ALPM_TRANS_EVT_FILECONFLICTS_START,
 	/** File conflicts were computed for a package. */
-	PM_TRANS_EVT_FILECONFLICTS_DONE,
+	ALPM_TRANS_EVT_FILECONFLICTS_DONE,
 	/** Dependencies will be resolved for target package. */
-	PM_TRANS_EVT_RESOLVEDEPS_START,
+	ALPM_TRANS_EVT_RESOLVEDEPS_START,
 	/** Dependencies were resolved for target package. */
-	PM_TRANS_EVT_RESOLVEDEPS_DONE,
+	ALPM_TRANS_EVT_RESOLVEDEPS_DONE,
 	/** Inter-conflicts will be checked for target package. */
-	PM_TRANS_EVT_INTERCONFLICTS_START,
+	ALPM_TRANS_EVT_INTERCONFLICTS_START,
 	/** Inter-conflicts were checked for target package. */
-	PM_TRANS_EVT_INTERCONFLICTS_DONE,
+	ALPM_TRANS_EVT_INTERCONFLICTS_DONE,
 	/** Package will be installed.
 	 * A pointer to the target package is passed to the callback.
 	 */
-	PM_TRANS_EVT_ADD_START,
+	ALPM_TRANS_EVT_ADD_START,
 	/** Package was installed.
 	 * A pointer to the new package is passed to the callback.
 	 */
-	PM_TRANS_EVT_ADD_DONE,
+	ALPM_TRANS_EVT_ADD_DONE,
 	/** Package will be removed.
 	 * A pointer to the target package is passed to the callback.
 	 */
-	PM_TRANS_EVT_REMOVE_START,
+	ALPM_TRANS_EVT_REMOVE_START,
 	/** Package was removed.
 	 * A pointer to the removed package is passed to the callback.
 	 */
-	PM_TRANS_EVT_REMOVE_DONE,
+	ALPM_TRANS_EVT_REMOVE_DONE,
 	/** Package will be upgraded.
 	 * A pointer to the upgraded package is passed to the callback.
 	 */
-	PM_TRANS_EVT_UPGRADE_START,
+	ALPM_TRANS_EVT_UPGRADE_START,
 	/** Package was upgraded.
 	 * A pointer to the new package, and a pointer to the old package is passed
 	 * to the callback, respectively.
 	 */
-	PM_TRANS_EVT_UPGRADE_DONE,
+	ALPM_TRANS_EVT_UPGRADE_DONE,
 	/** Target package's integrity will be checked. */
-	PM_TRANS_EVT_INTEGRITY_START,
+	ALPM_TRANS_EVT_INTEGRITY_START,
 	/** Target package's integrity was checked. */
-	PM_TRANS_EVT_INTEGRITY_DONE,
+	ALPM_TRANS_EVT_INTEGRITY_DONE,
 	/** Target deltas's integrity will be checked. */
-	PM_TRANS_EVT_DELTA_INTEGRITY_START,
+	ALPM_TRANS_EVT_DELTA_INTEGRITY_START,
 	/** Target delta's integrity was checked. */
-	PM_TRANS_EVT_DELTA_INTEGRITY_DONE,
+	ALPM_TRANS_EVT_DELTA_INTEGRITY_DONE,
 	/** Deltas will be applied to packages. */
-	PM_TRANS_EVT_DELTA_PATCHES_START,
+	ALPM_TRANS_EVT_DELTA_PATCHES_START,
 	/** Deltas were applied to packages. */
-	PM_TRANS_EVT_DELTA_PATCHES_DONE,
+	ALPM_TRANS_EVT_DELTA_PATCHES_DONE,
 	/** Delta patch will be applied to target package.
 	 * The filename of the package and the filename of the patch is passed to the
 	 * callback.
 	 */
-	PM_TRANS_EVT_DELTA_PATCH_START,
+	ALPM_TRANS_EVT_DELTA_PATCH_START,
 	/** Delta patch was applied to target package. */
-	PM_TRANS_EVT_DELTA_PATCH_DONE,
+	ALPM_TRANS_EVT_DELTA_PATCH_DONE,
 	/** Delta patch failed to apply to target package. */
-	PM_TRANS_EVT_DELTA_PATCH_FAILED,
+	ALPM_TRANS_EVT_DELTA_PATCH_FAILED,
 	/** Scriptlet has printed information.
 	 * A line of text is passed to the callback.
 	 */
-	PM_TRANS_EVT_SCRIPTLET_INFO,
+	ALPM_TRANS_EVT_SCRIPTLET_INFO,
 	/** Files will be downloaded from a repository.
 	 * The repository's tree name is passed to the callback.
 	 */
-	PM_TRANS_EVT_RETRIEVE_START,
+	ALPM_TRANS_EVT_RETRIEVE_START,
 	/** Disk space usage will be computed for a package */
-	PM_TRANS_EVT_DISKSPACE_START,
+	ALPM_TRANS_EVT_DISKSPACE_START,
 	/** Disk space usage was computed for a package */
-	PM_TRANS_EVT_DISKSPACE_DONE,
+	ALPM_TRANS_EVT_DISKSPACE_DONE,
 } alpm_transevt_t;
 
 /** Transaction Conversations (ie, questions) */

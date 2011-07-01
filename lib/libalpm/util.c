@@ -500,7 +500,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 				if(fgets(line, PATH_MAX, pipe_file) == NULL)
 					break;
 				alpm_logaction(handle, "%s", line);
-				EVENT(handle->trans, PM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
+				EVENT(handle->trans, ALPM_TRANS_EVT_SCRIPTLET_INFO, line, NULL);
 			}
 			fclose(pipe_file);
 		}

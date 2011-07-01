@@ -471,7 +471,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		/* we'll need to save some record for backup checks later */
 		oldpkg = _alpm_pkg_dup(local);
 
-		EVENT(trans, PM_TRANS_EVT_UPGRADE_START, newpkg, oldpkg);
+		EVENT(trans, ALPM_TRANS_EVT_UPGRADE_START, newpkg, oldpkg);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "upgrading package %s-%s\n",
 				newpkg->name, newpkg->version);
 
@@ -486,7 +486,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	} else {
 		is_upgrade = 0;
 
-		EVENT(trans, PM_TRANS_EVT_ADD_START, newpkg, NULL);
+		EVENT(trans, ALPM_TRANS_EVT_ADD_START, newpkg, NULL);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s-%s\n",
 				newpkg->name, newpkg->version);
 
@@ -670,9 +670,9 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	}
 
 	if(is_upgrade) {
-		EVENT(trans, PM_TRANS_EVT_UPGRADE_DONE, newpkg, oldpkg);
+		EVENT(trans, ALPM_TRANS_EVT_UPGRADE_DONE, newpkg, oldpkg);
 	} else {
-		EVENT(trans, PM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
+		EVENT(trans, ALPM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
 	}
 
 cleanup:
