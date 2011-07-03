@@ -269,22 +269,20 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps)
 {
 	alpm_list_t *i, *j;
-	alpm_list_t *targets, *dblist = NULL, *modified = NULL;
+	alpm_list_t *dblist = NULL, *modified = NULL;
 	alpm_list_t *baddeps = NULL;
 	int nodepversion;
 
 	CHECK_HANDLE(handle, return NULL);
 
-	targets = alpm_list_join(alpm_list_copy(remove), alpm_list_copy(upgrade));
 	for(i = pkglist; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
-		if(_alpm_pkg_find(targets, pkg->name)) {
+		if(_alpm_pkg_find(remove, pkg->name) || _alpm_pkg_find(upgrade, pkg->name)) {
 			modified = alpm_list_add(modified, pkg);
 		} else {
 			dblist = alpm_list_add(dblist, pkg);
 		}
 	}
-	alpm_list_free(targets);
 
 	nodepversion = no_dep_version(handle);
 
