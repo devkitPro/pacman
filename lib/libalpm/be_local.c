@@ -498,6 +498,23 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 	return pkgpath;
 }
 
+#define READ_NEXT() do { \
+	if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
+	_alpm_strtrim(line); \
+} while(0)
+
+#define READ_AND_STORE(f) do { \
+	READ_NEXT(); \
+	STRDUP(f, line, goto error); \
+} while(0)
+
+#define READ_AND_STORE_ALL(f) do { \
+	char *linedup; \
+	READ_NEXT(); \
+	if(strlen(line) == 0) break; \
+	STRDUP(linedup, line, goto error); \
+	f = alpm_list_add(f, linedup); \
+} while(1) /* note the while(1) and not (0) */
 
 static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 {
@@ -539,116 +556,65 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 			goto error;
 		}
 		while(!feof(fp)) {
-			if(fgets(line, sizeof(line), fp) == NULL) {
-				break;
-			}
-			_alpm_strtrim(line);
+			READ_NEXT();
 			if(strcmp(line, "%NAME%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				if(strcmp(_alpm_strtrim(line), info->name) != 0) {
+				READ_NEXT();
+				if(strcmp(line, info->name) != 0) {
 					_alpm_log(db->handle, PM_LOG_ERROR, _("%s database is inconsistent: name "
 								"mismatch on package %s\n"), db->treename, info->name);
 				}
 			} else if(strcmp(line, "%VERSION%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				if(strcmp(_alpm_strtrim(line), info->version) != 0) {
+				READ_NEXT();
+				if(strcmp(line, info->version) != 0) {
 					_alpm_log(db->handle, PM_LOG_ERROR, _("%s database is inconsistent: version "
 								"mismatch on package %s\n"), db->treename, info->name);
 				}
 			} else if(strcmp(line, "%DESC%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->desc, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(info->desc);
 			} else if(strcmp(line, "%GROUPS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->groups = alpm_list_add(info->groups, linedup);
-				}
+				READ_AND_STORE_ALL(info->groups);
 			} else if(strcmp(line, "%URL%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->url, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(info->url);
 			} else if(strcmp(line, "%LICENSE%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->licenses = alpm_list_add(info->licenses, linedup);
-				}
+				READ_AND_STORE_ALL(info->licenses);
 			} else if(strcmp(line, "%ARCH%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->arch, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(info->arch);
 			} else if(strcmp(line, "%BUILDDATE%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				_alpm_strtrim(line);
+				READ_NEXT();
 				info->builddate = _alpm_parsedate(line);
 			} else if(strcmp(line, "%INSTALLDATE%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				_alpm_strtrim(line);
+				READ_NEXT();
 				info->installdate = _alpm_parsedate(line);
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				STRDUP(info->packager, _alpm_strtrim(line), goto error);
+				READ_AND_STORE(info->packager);
 			} else if(strcmp(line, "%REASON%") == 0) {
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				info->reason = (alpm_pkgreason_t)atol(_alpm_strtrim(line));
+				READ_NEXT();
+				info->reason = (alpm_pkgreason_t)atol(line);
 			} else if(strcmp(line, "%SIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
 				 *       is currently only used in sync databases, and SIZE is
 				 *       only used in local databases.
 				 */
-				if(fgets(line, sizeof(line), fp) == NULL) {
-					goto error;
-				}
-				info->size = atol(_alpm_strtrim(line));
+				READ_NEXT();
+				info->size = atol(line);
 				/* also store this value to isize */
 				info->isize = info->size;
 			} else if(strcmp(line, "%REPLACES%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->replaces = alpm_list_add(info->replaces, linedup);
-				}
+				READ_AND_STORE_ALL(info->replaces);
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					alpm_depend_t *dep = _alpm_splitdep(line);
-					info->depends = alpm_list_add(info->depends, dep);
+				/* Different than the rest because of the _alpm_splitdep call. */
+				while(1) {
+					READ_NEXT();
+					if(strlen(line) == 0) break;
+					info->depends = alpm_list_add(info->depends, _alpm_splitdep(line));
 				}
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->optdepends = alpm_list_add(info->optdepends, linedup);
-				}
+				READ_AND_STORE_ALL(info->optdepends);
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->conflicts = alpm_list_add(info->conflicts, linedup);
-				}
+				READ_AND_STORE_ALL(info->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					char *linedup;
-					STRDUP(linedup, line, goto error);
-					info->provides = alpm_list_add(info->provides, linedup);
-				}
+				READ_AND_STORE_ALL(info->provides);
 			}
 		}
 		fclose(fp);
