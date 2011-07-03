@@ -113,6 +113,8 @@ int _alpm_splitname(const char *target, char **name, char **version,
 		unsigned long *name_hash);
 unsigned long _alpm_hash_sdbm(const char *str);
 long _alpm_parsedate(const char *line);
+int _alpm_raw_cmp(const char *first, const char *second);
+int _alpm_raw_ncmp(const char *first, const char *second, size_t max);
 
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);
