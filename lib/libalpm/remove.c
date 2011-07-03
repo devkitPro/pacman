@@ -285,8 +285,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info, const char *fil
 int _alpm_upgraderemove_package(alpm_handle_t *handle,
 		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 {
-	alpm_list_t *skip_remove, *b;
-	alpm_list_t *newfiles, *lp;
+	alpm_list_t *skip_remove, *b, *lp;
 	size_t filenum = 0;
 	alpm_list_t *files = alpm_pkg_get_files(oldpkg);
 	const char *pkgname = alpm_pkg_get_name(oldpkg);
@@ -329,11 +328,9 @@ int _alpm_upgraderemove_package(alpm_handle_t *handle,
 	_alpm_log(handle, PM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 	/* iterate through the list backwards, unlinking files */
-	newfiles = alpm_list_reverse(files);
-	for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
+	for(lp = alpm_list_last(files); lp; lp = alpm_list_previous(files, lp)) {
 		unlink_file(handle, oldpkg, lp->data, skip_remove, 0);
 	}
-	alpm_list_free(newfiles);
 	FREELIST(skip_remove);
 
 db:
@@ -390,7 +387,6 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 
 		if(!(trans->flags & PM_TRANS_FLAG_DBONLY)) {
 			alpm_list_t *files = alpm_pkg_get_files(info);
-			alpm_list_t *newfiles;
 			size_t filenum = 0;
 
 			for(lp = files; lp; lp = lp->next) {
@@ -409,8 +405,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 					pkg_count, (pkg_count - targcount + 1));
 
 			/* iterate through the list backwards, unlinking files */
-			newfiles = alpm_list_reverse(files);
-			for(lp = newfiles; lp; lp = alpm_list_next(lp)) {
+			for(lp = alpm_list_last(files); lp; lp = alpm_list_previous(files, lp)) {
 				int percent;
 				unlink_file(handle, info, lp->data, NULL, trans->flags & PM_TRANS_FLAG_NOSAVE);
 
@@ -420,7 +415,6 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 						percent, pkg_count, (pkg_count - targcount + 1));
 				position++;
 			}
-			alpm_list_free(newfiles);
 		}
 
 		/* set progress to 100% after we finish unlinking files */
