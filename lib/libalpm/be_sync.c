@@ -433,19 +433,19 @@ static int sync_db_populate(alpm_db_t *db)
 	return count;
 }
 
-#define READ_NEXT(s) do { \
+#define READ_NEXT() do { \
 	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
-	s = _alpm_strtrim(buf.line); \
+	line = _alpm_strtrim(buf.line); \
 } while(0)
 
 #define READ_AND_STORE(f) do { \
-	READ_NEXT(line); \
+	READ_NEXT(); \
 	STRDUP(f, line, goto error); \
 } while(0)
 
 #define READ_AND_STORE_ALL(f) do { \
 	char *linedup; \
-	READ_NEXT(line); \
+	READ_NEXT(); \
 	if(strlen(line) == 0) break; \
 	STRDUP(linedup, line, goto error); \
 	f = alpm_list_add(f, linedup); \
@@ -488,13 +488,13 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			char *line = _alpm_strtrim(buf.line);
 
 			if(strcmp(line, "%NAME%") == 0) {
-				READ_NEXT(line);
+				READ_NEXT();
 				if(strcmp(line, pkg->name) != 0) {
 					_alpm_log(db->handle, PM_LOG_ERROR, _("%s database is inconsistent: name "
 								"mismatch on package %s\n"), db->treename, pkg->name);
 				}
 			} else if(strcmp(line, "%VERSION%") == 0) {
-				READ_NEXT(line);
+				READ_NEXT();
 				if(strcmp(line, pkg->version) != 0) {
 					_alpm_log(db->handle, PM_LOG_ERROR, _("%s database is inconsistent: version "
 								"mismatch on package %s\n"), db->treename, pkg->name);
@@ -512,7 +512,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			} else if(strcmp(line, "%ARCH%") == 0) {
 				READ_AND_STORE(pkg->arch);
 			} else if(strcmp(line, "%BUILDDATE%") == 0) {
-				READ_NEXT(line);
+				READ_NEXT();
 				pkg->builddate = _alpm_parsedate(line);
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
 				READ_AND_STORE(pkg->packager);
@@ -521,20 +521,20 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				 * pkginfo_t struct. This can be done b/c CSIZE is currently only used
 				 * in sync databases, and SIZE is only used in local databases.
 				 */
-				READ_NEXT(line);
+				READ_NEXT();
 				pkg->size = atol(line);
 				/* also store this value to isize if isize is unset */
 				if(pkg->isize == 0) {
 					pkg->isize = pkg->size;
 				}
 			} else if(strcmp(line, "%ISIZE%") == 0) {
-				READ_NEXT(line);
+				READ_NEXT();
 				pkg->isize = atol(line);
 			} else if(strcmp(line, "%MD5SUM%") == 0) {
 				READ_AND_STORE(pkg->md5sum);
 			} else if(strcmp(line, "%SHA256SUM%") == 0) {
 				/* we don't do anything with this value right now */
-				READ_NEXT(line);
+				READ_NEXT();
 			} else if(strcmp(line, "%PGPSIG%") == 0) {
 				READ_AND_STORE(pkg->base64_sig);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
@@ -542,7 +542,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				/* Different than the rest because of the _alpm_splitdep call. */
 				while(1) {
-					READ_NEXT(line);
+					READ_NEXT();
 					if(strlen(line) == 0) break;
 					pkg->depends = alpm_list_add(pkg->depends, _alpm_splitdep(line));
 				}
@@ -555,7 +555,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			} else if(strcmp(line, "%DELTAS%") == 0) {
 				/* Different than the rest because of the _alpm_delta_parse call. */
 				while(1) {
-					READ_NEXT(line);
+					READ_NEXT();
 					if(strlen(line) == 0) break;
 					pkg->deltas = alpm_list_add(pkg->deltas, _alpm_delta_parse(line));
 				}
