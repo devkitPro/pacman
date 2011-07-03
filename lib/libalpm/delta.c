@@ -198,14 +198,14 @@ off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,
 		return bestsize;
 	}
 
-	_alpm_log(handle, PM_LOG_DEBUG, "started delta shortest-path search for '%s'\n", to);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "started delta shortest-path search for '%s'\n", to);
 
 	vertices = graph_init(deltas, 0);
 	graph_init_size(handle, vertices);
 	dijkstra(vertices);
 	bestsize = shortest_path(vertices, to, &bestpath);
 
-	_alpm_log(handle, PM_LOG_DEBUG, "delta shortest-path search complete : '%jd'\n", (intmax_t)bestsize);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "delta shortest-path search complete : '%jd'\n", (intmax_t)bestsize);
 
 	alpm_list_free_inner(vertices, _alpm_graph_free);
 	alpm_list_free(vertices);

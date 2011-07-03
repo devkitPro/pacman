@@ -38,120 +38,120 @@ const char SYMEXPORT *alpm_strerror(enum _alpm_errno_t err)
 {
 	switch(err) {
 		/* System */
-		case PM_ERR_MEMORY:
+		case ALPM_ERR_MEMORY:
 			return _("out of memory!");
-		case PM_ERR_SYSTEM:
+		case ALPM_ERR_SYSTEM:
 			return _("unexpected system error");
-		case PM_ERR_BADPERMS:
+		case ALPM_ERR_BADPERMS:
 			return _("insufficient privileges");
-		case PM_ERR_NOT_A_FILE:
+		case ALPM_ERR_NOT_A_FILE:
 			return _("could not find or read file");
-		case PM_ERR_NOT_A_DIR:
+		case ALPM_ERR_NOT_A_DIR:
 			return _("could not find or read directory");
-		case PM_ERR_WRONG_ARGS:
+		case ALPM_ERR_WRONG_ARGS:
 			return _("wrong or NULL argument passed");
-		case PM_ERR_DISK_SPACE:
+		case ALPM_ERR_DISK_SPACE:
 			return _("not enough free disk space");
 		/* Interface */
-		case PM_ERR_HANDLE_NULL:
+		case ALPM_ERR_HANDLE_NULL:
 			return _("library not initialized");
-		case PM_ERR_HANDLE_NOT_NULL:
+		case ALPM_ERR_HANDLE_NOT_NULL:
 			return _("library already initialized");
-		case PM_ERR_HANDLE_LOCK:
+		case ALPM_ERR_HANDLE_LOCK:
 			return _("unable to lock database");
 		/* Databases */
-		case PM_ERR_DB_OPEN:
+		case ALPM_ERR_DB_OPEN:
 			return _("could not open database");
-		case PM_ERR_DB_CREATE:
+		case ALPM_ERR_DB_CREATE:
 			return _("could not create database");
-		case PM_ERR_DB_NULL:
+		case ALPM_ERR_DB_NULL:
 			return _("database not initialized");
-		case PM_ERR_DB_NOT_NULL:
+		case ALPM_ERR_DB_NOT_NULL:
 			return _("database already registered");
-		case PM_ERR_DB_NOT_FOUND:
+		case ALPM_ERR_DB_NOT_FOUND:
 			return _("could not find database");
-		case PM_ERR_DB_INVALID:
+		case ALPM_ERR_DB_INVALID:
 			return _("invalid or corrupted database");
-		case PM_ERR_DB_VERSION:
+		case ALPM_ERR_DB_VERSION:
 			return _("database is incorrect version");
-		case PM_ERR_DB_WRITE:
+		case ALPM_ERR_DB_WRITE:
 			return _("could not update database");
-		case PM_ERR_DB_REMOVE:
+		case ALPM_ERR_DB_REMOVE:
 			return _("could not remove database entry");
 		/* Servers */
-		case PM_ERR_SERVER_BAD_URL:
+		case ALPM_ERR_SERVER_BAD_URL:
 			return _("invalid url for server");
-		case PM_ERR_SERVER_NONE:
+		case ALPM_ERR_SERVER_NONE:
 			return _("no servers configured for repository");
 		/* Transactions */
-		case PM_ERR_TRANS_NOT_NULL:
+		case ALPM_ERR_TRANS_NOT_NULL:
 			return _("transaction already initialized");
-		case PM_ERR_TRANS_NULL:
+		case ALPM_ERR_TRANS_NULL:
 			return _("transaction not initialized");
-		case PM_ERR_TRANS_DUP_TARGET:
+		case ALPM_ERR_TRANS_DUP_TARGET:
 			return _("duplicate target");
-		case PM_ERR_TRANS_NOT_INITIALIZED:
+		case ALPM_ERR_TRANS_NOT_INITIALIZED:
 			return _("transaction not initialized");
-		case PM_ERR_TRANS_NOT_PREPARED:
+		case ALPM_ERR_TRANS_NOT_PREPARED:
 			return _("transaction not prepared");
-		case PM_ERR_TRANS_ABORT:
+		case ALPM_ERR_TRANS_ABORT:
 			return _("transaction aborted");
-		case PM_ERR_TRANS_TYPE:
+		case ALPM_ERR_TRANS_TYPE:
 			return _("operation not compatible with the transaction type");
-		case PM_ERR_TRANS_NOT_LOCKED:
+		case ALPM_ERR_TRANS_NOT_LOCKED:
 			return _("transaction commit attempt when database is not locked");
 		/* Packages */
-		case PM_ERR_PKG_NOT_FOUND:
+		case ALPM_ERR_PKG_NOT_FOUND:
 			return _("could not find or read package");
-		case PM_ERR_PKG_IGNORED:
+		case ALPM_ERR_PKG_IGNORED:
 			return _("operation cancelled due to ignorepkg");
-		case PM_ERR_PKG_INVALID:
+		case ALPM_ERR_PKG_INVALID:
 			return _("invalid or corrupted package");
-		case PM_ERR_PKG_OPEN:
+		case ALPM_ERR_PKG_OPEN:
 			return _("cannot open package file");
-		case PM_ERR_PKG_CANT_REMOVE:
+		case ALPM_ERR_PKG_CANT_REMOVE:
 			return _("cannot remove all files for package");
-		case PM_ERR_PKG_INVALID_NAME:
+		case ALPM_ERR_PKG_INVALID_NAME:
 			return _("package filename is not valid");
-		case PM_ERR_PKG_INVALID_ARCH:
+		case ALPM_ERR_PKG_INVALID_ARCH:
 			return _("package architecture is not valid");
-		case PM_ERR_PKG_REPO_NOT_FOUND:
+		case ALPM_ERR_PKG_REPO_NOT_FOUND:
 			return _("could not find repository for target");
 		/* Signatures */
-		case PM_ERR_SIG_MISSINGDIR:
+		case ALPM_ERR_SIG_MISSINGDIR:
 			return _("signature directory not configured correctly");
-		case PM_ERR_SIG_INVALID:
+		case ALPM_ERR_SIG_INVALID:
 			return _("invalid PGP signature");
-		case PM_ERR_SIG_UNKNOWN:
+		case ALPM_ERR_SIG_UNKNOWN:
 			return _("unknown PGP signature");
 		/* Deltas */
-		case PM_ERR_DLT_INVALID:
+		case ALPM_ERR_DLT_INVALID:
 			return _("invalid or corrupted delta");
-		case PM_ERR_DLT_PATCHFAILED:
+		case ALPM_ERR_DLT_PATCHFAILED:
 			return _("delta patch failed");
 		/* Dependencies */
-		case PM_ERR_UNSATISFIED_DEPS:
+		case ALPM_ERR_UNSATISFIED_DEPS:
 			return _("could not satisfy dependencies");
-		case PM_ERR_CONFLICTING_DEPS:
+		case ALPM_ERR_CONFLICTING_DEPS:
 			return _("conflicting dependencies");
-		case PM_ERR_FILE_CONFLICTS:
+		case ALPM_ERR_FILE_CONFLICTS:
 			return _("conflicting files");
 		/* Miscellaenous */
-		case PM_ERR_RETRIEVE:
+		case ALPM_ERR_RETRIEVE:
 			return _("failed to retrieve some files");
-		case PM_ERR_INVALID_REGEX:
+		case ALPM_ERR_INVALID_REGEX:
 			return _("invalid regular expression");
 		/* Errors from external libraries- our own wrapper error */
-		case PM_ERR_LIBARCHIVE:
+		case ALPM_ERR_LIBARCHIVE:
 			/* it would be nice to use archive_error_string() here, but that
 			 * requires the archive struct, so we can't. Just use a generic
 			 * error string instead. */
 			return _("libarchive error");
-		case PM_ERR_LIBCURL:
+		case ALPM_ERR_LIBCURL:
 			return _("download library error");
-		case PM_ERR_GPGME:
+		case ALPM_ERR_GPGME:
 			return _("gpgme error");
-		case PM_ERR_EXTERNAL_DOWNLOAD:
+		case ALPM_ERR_EXTERNAL_DOWNLOAD:
 			return _("error invoking external downloader");
 		/* Unknown error! */
 		default:

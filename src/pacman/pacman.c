@@ -264,7 +264,7 @@ static void setuseragent(void)
 static void cleanup(int ret) {
 	/* free alpm library resources */
 	if(config->handle && alpm_release(config->handle) == -1) {
-		pm_printf(PM_LOG_ERROR, "error releasing alpm library\n");
+		pm_printf(ALPM_LOG_ERROR, "error releasing alpm library\n");
 	}
 
 	/* free memory */
@@ -408,17 +408,17 @@ static int parsearg_global(int opt)
 				unsigned short debug = (unsigned short)atoi(optarg);
 				switch(debug) {
 					case 2:
-						config->logmask |= PM_LOG_FUNCTION; /* fall through */
+						config->logmask |= ALPM_LOG_FUNCTION; /* fall through */
 					case 1:
-						config->logmask |= PM_LOG_DEBUG;
+						config->logmask |= ALPM_LOG_DEBUG;
 						break;
 					default:
-						pm_printf(PM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
+						pm_printf(ALPM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
 								optarg);
 						return 1;
 				}
 			} else {
-				config->logmask |= PM_LOG_DEBUG;
+				config->logmask |= ALPM_LOG_DEBUG;
 			}
 			/* progress bars get wonky with debug on, shut them off */
 			config->noprogressbar = 1;
@@ -445,8 +445,8 @@ static int parsearg_global(int opt)
 static int parsearg_database(int opt)
 {
 	switch(opt) {
-		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
+		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
 		default: return 1;
 	}
 	return 0;
@@ -479,15 +479,15 @@ static int parsearg_trans(int opt)
 {
 	switch(opt) {
 		case 'd':
-			if(config->flags & PM_TRANS_FLAG_NODEPVERSION) {
-				config->flags |= PM_TRANS_FLAG_NODEPS;
+			if(config->flags & ALPM_TRANS_FLAG_NODEPVERSION) {
+				config->flags |= ALPM_TRANS_FLAG_NODEPS;
 			} else {
-				config->flags |= PM_TRANS_FLAG_NODEPVERSION;
+				config->flags |= ALPM_TRANS_FLAG_NODEPVERSION;
 			}
 			break;
-		case 'k': config->flags |= PM_TRANS_FLAG_DBONLY; break;
+		case 'k': config->flags |= ALPM_TRANS_FLAG_DBONLY; break;
 		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-		case OP_NOSCRIPTLET: config->flags |= PM_TRANS_FLAG_NOSCRIPTLET; break;
+		case OP_NOSCRIPTLET: config->flags |= ALPM_TRANS_FLAG_NOSCRIPTLET; break;
 		case 'p': config->print = 1; break;
 		case OP_PRINTFORMAT:
 			check_optarg();
@@ -503,16 +503,16 @@ static int parsearg_remove(int opt)
 	if(parsearg_trans(opt) == 0)
 		return 0;
 	switch(opt) {
-		case 'c': config->flags |= PM_TRANS_FLAG_CASCADE; break;
-		case 'n': config->flags |= PM_TRANS_FLAG_NOSAVE; break;
+		case 'c': config->flags |= ALPM_TRANS_FLAG_CASCADE; break;
+		case 'n': config->flags |= ALPM_TRANS_FLAG_NOSAVE; break;
 		case 's':
-			if(config->flags & PM_TRANS_FLAG_RECURSE) {
-				config->flags |= PM_TRANS_FLAG_RECURSEALL;
+			if(config->flags & ALPM_TRANS_FLAG_RECURSE) {
+				config->flags |= ALPM_TRANS_FLAG_RECURSEALL;
 			} else {
-				config->flags |= PM_TRANS_FLAG_RECURSE;
+				config->flags |= ALPM_TRANS_FLAG_RECURSE;
 			}
 			break;
-		case 'u': config->flags |= PM_TRANS_FLAG_UNNEEDED; break;
+		case 'u': config->flags |= ALPM_TRANS_FLAG_UNNEEDED; break;
 		default: return 1;
 	}
 	return 0;
@@ -524,9 +524,9 @@ static int parsearg_upgrade(int opt)
 	if(parsearg_trans(opt) == 0)
 		return 0;
 	switch(opt) {
-		case 'f': config->flags |= PM_TRANS_FLAG_FORCE; break;
-		case OP_ASDEPS: config->flags |= PM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= PM_TRANS_FLAG_ALLEXPLICIT; break;
+		case 'f': config->flags |= ALPM_TRANS_FLAG_FORCE; break;
+		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
+		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
 		case OP_IGNORE:
 			parsearg_util_addlist(&(config->ignorepkg));
 			break;
@@ -543,7 +543,7 @@ static int parsearg_sync(int opt)
 	if(parsearg_upgrade(opt) == 0)
 		return 0;
 	switch(opt) {
-		case OP_NEEDED: config->flags |= PM_TRANS_FLAG_NEEDED; break;
+		case OP_NEEDED: config->flags |= ALPM_TRANS_FLAG_NEEDED; break;
 		case 'c': (config->op_s_clean)++; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_s_info)++; break;
@@ -553,8 +553,8 @@ static int parsearg_sync(int opt)
 		case 'u': (config->op_s_upgrade)++; break;
 		case 'w':
 			config->op_s_downloadonly = 1;
-			config->flags |= PM_TRANS_FLAG_DOWNLOADONLY;
-			config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
+			config->flags |= ALPM_TRANS_FLAG_DOWNLOADONLY;
+			config->flags |= ALPM_TRANS_FLAG_NOCONFLICTS;
 			break;
 		case 'y': (config->op_s_sync)++; break;
 		default: return 1;
@@ -645,7 +645,7 @@ static int parseargs(int argc, char *argv[])
 	}
 
 	if(config->op == 0) {
-		pm_printf(PM_LOG_ERROR, _("only one operation may be used at a time\n"));
+		pm_printf(ALPM_LOG_ERROR, _("only one operation may be used at a time\n"));
 		return 1;
 	}
 	if(config->help) {
@@ -701,7 +701,7 @@ static int parseargs(int argc, char *argv[])
 		result = parsearg_global(opt);
 		if(result != 0) {
 			/* global option parsing failed, abort */
-			pm_printf(PM_LOG_ERROR, _("invalid option\n"));
+			pm_printf(ALPM_LOG_ERROR, _("invalid option\n"));
 			return result;
 		}
 	}
@@ -833,7 +833,7 @@ int main(int argc, char *argv[])
 		}
 		/* check for buffer overflow */
 		if(i >= PATH_MAX) {
-			pm_printf(PM_LOG_ERROR, _("buffer overflow detected in arg parsing\n"));
+			pm_printf(ALPM_LOG_ERROR, _("buffer overflow detected in arg parsing\n"));
 			cleanup(EXIT_FAILURE);
 		}
 
@@ -843,7 +843,7 @@ int main(int argc, char *argv[])
 			pm_targets = alpm_list_add(pm_targets, strdup(line));
 		}
 		if(!freopen(ctermid(NULL), "r", stdin)) {
-			pm_printf(PM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
+			pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
 					strerror(errno));
 		}
 	}
@@ -862,16 +862,16 @@ int main(int argc, char *argv[])
 	/* set up the print operations */
 	if(config->print && !config->op_s_clean) {
 		config->noconfirm = 1;
-		config->flags |= PM_TRANS_FLAG_NOCONFLICTS;
-		config->flags |= PM_TRANS_FLAG_NOLOCK;
+		config->flags |= ALPM_TRANS_FLAG_NOCONFLICTS;
+		config->flags |= ALPM_TRANS_FLAG_NOLOCK;
 		/* Display only errors */
-		config->logmask &= ~PM_LOG_WARNING;
+		config->logmask &= ~ALPM_LOG_WARNING;
 	}
 
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0 && needs_root()) {
-		pm_printf(PM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
+		pm_printf(ALPM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
 		cleanup(EXIT_FAILURE);
 	}
 #endif
@@ -918,7 +918,7 @@ int main(int argc, char *argv[])
 			ret = pacman_deptest(pm_targets);
 			break;
 		default:
-			pm_printf(PM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
+			pm_printf(ALPM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
 			ret = EXIT_FAILURE;
 	}
 

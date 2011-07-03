@@ -30,8 +30,8 @@ static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 		return;
 	}
 	switch(level) {
-		case PM_LOG_ERROR: printf("error: "); break;
-		case PM_LOG_WARNING: printf("warning: "); break;
+		case ALPM_LOG_ERROR: printf("error: "); break;
+		case ALPM_LOG_WARNING: printf("warning: "); break;
 		default: return; /* skip other messages */
 	}
 	vprintf(fmt, args);
@@ -62,11 +62,11 @@ int main(int argc, char *argv[])
 			|| pkg == NULL) {
 		err = alpm_errno(handle);
 		switch(err) {
-			case PM_ERR_PKG_OPEN:
+			case ALPM_ERR_PKG_OPEN:
 				printf("Cannot open the given file.\n");
 				break;
-			case PM_ERR_LIBARCHIVE:
-			case PM_ERR_PKG_INVALID:
+			case ALPM_ERR_LIBARCHIVE:
+			case ALPM_ERR_PKG_INVALID:
 				printf("Package is invalid.\n");
 				break;
 			default:

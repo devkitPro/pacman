@@ -138,7 +138,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 		return NULL;
 	}
 
-	_alpm_log(handle, PM_LOG_DEBUG, "started sorting dependencies\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "started sorting dependencies\n");
 
 	vertices = dep_graph_init(targets);
 
@@ -161,13 +161,13 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 				alpm_pkg_t *childpkg = nextchild->data;
 				const char *message;
 
-				_alpm_log(handle, PM_LOG_WARNING, _("dependency cycle detected:\n"));
+				_alpm_log(handle, ALPM_LOG_WARNING, _("dependency cycle detected:\n"));
 				if(reverse) {
 					message =_("%s will be removed after its %s dependency\n");
 				} else {
 					message =_("%s will be installed before its %s dependency\n");
 				}
-				_alpm_log(handle, PM_LOG_WARNING, message, vertexpkg->name, childpkg->name);
+				_alpm_log(handle, ALPM_LOG_WARNING, message, vertexpkg->name, childpkg->name);
 			}
 		}
 		if(!found) {
@@ -186,7 +186,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 		}
 	}
 
-	_alpm_log(handle, PM_LOG_DEBUG, "sorting dependencies finished\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "sorting dependencies finished\n");
 
 	if(reverse) {
 		/* reverse the order */
@@ -205,7 +205,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 static int no_dep_version(alpm_handle_t *handle)
 {
 	int flags = alpm_trans_get_flags(handle);
-	return flags != -1 && (flags & PM_TRANS_FLAG_NODEPVERSION);
+	return flags != -1 && (flags & ALPM_TRANS_FLAG_NODEPVERSION);
 }
 
 static alpm_depend_t *filtered_depend(alpm_depend_t *dep, int nodepversion)
@@ -213,7 +213,7 @@ static alpm_depend_t *filtered_depend(alpm_depend_t *dep, int nodepversion)
 	if(nodepversion) {
 		alpm_depend_t *newdep = _alpm_dep_dup(dep);
 		ASSERT(newdep, return dep);
-		newdep->mod = PM_DEP_MOD_ANY;
+		newdep->mod = ALPM_DEP_MOD_ANY;
 		dep = newdep;
 	}
 	return dep;
@@ -289,7 +289,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 	/* look for unsatisfied dependencies of the upgrade list */
 	for(i = upgrade; i; i = i->next) {
 		alpm_pkg_t *tp = i->data;
-		_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: package %s-%s\n",
+		_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: package %s-%s\n",
 				alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
 
 		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
@@ -302,7 +302,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 				/* Unsatisfied dependency in the upgrade list */
 				alpm_depmissing_t *miss;
 				char *missdepstring = alpm_dep_compute_string(depend);
-				_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
+				_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
 						missdepstring, alpm_pkg_get_name(tp));
 				free(missdepstring);
 				miss = depmiss_new(alpm_pkg_get_name(tp), depend, NULL);
@@ -329,7 +329,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 				   !find_dep_satisfier(dblist, depend)) {
 					alpm_depmissing_t *miss;
 					char *missdepstring = alpm_dep_compute_string(depend);
-					_alpm_log(handle, PM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
+					_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
 							missdepstring, alpm_pkg_get_name(lp));
 					free(missdepstring);
 					miss = depmiss_new(lp->name, depend, alpm_pkg_get_name(causingpkg));
@@ -351,16 +351,16 @@ static int dep_vercmp(const char *version1, alpm_depmod_t mod,
 {
 	int equal = 0;
 
-	if(mod == PM_DEP_MOD_ANY) {
+	if(mod == ALPM_DEP_MOD_ANY) {
 		equal = 1;
 	} else {
 		int cmp = alpm_pkg_vercmp(version1, version2);
 		switch(mod) {
-			case PM_DEP_MOD_EQ: equal = (cmp == 0); break;
-			case PM_DEP_MOD_GE: equal = (cmp >= 0); break;
-			case PM_DEP_MOD_LE: equal = (cmp <= 0); break;
-			case PM_DEP_MOD_LT: equal = (cmp < 0); break;
-			case PM_DEP_MOD_GT: equal = (cmp > 0); break;
+			case ALPM_DEP_MOD_EQ: equal = (cmp == 0); break;
+			case ALPM_DEP_MOD_GE: equal = (cmp >= 0); break;
+			case ALPM_DEP_MOD_LE: equal = (cmp <= 0); break;
+			case ALPM_DEP_MOD_LT: equal = (cmp < 0); break;
+			case ALPM_DEP_MOD_GT: equal = (cmp > 0); break;
 			default: equal = 1; break;
 		}
 	}
@@ -390,7 +390,7 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 		const char *provver = strchr(provision, '=');
 
 		if(provver == NULL) { /* no provision version */
-			satisfy = (dep->mod == PM_DEP_MOD_ANY
+			satisfy = (dep->mod == ALPM_DEP_MOD_ANY
 					&& strcmp(provision, dep->name) == 0);
 		} else {
 			/* This is a bit tricker than the old code for performance reasons. To
@@ -423,24 +423,24 @@ alpm_depend_t *_alpm_splitdep(const char *depstring)
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
 	if((ptr = strstr(depstring, ">="))) {
-		depend->mod = PM_DEP_MOD_GE;
+		depend->mod = ALPM_DEP_MOD_GE;
 		version = ptr + 2;
 	} else if((ptr = strstr(depstring, "<="))) {
-		depend->mod = PM_DEP_MOD_LE;
+		depend->mod = ALPM_DEP_MOD_LE;
 		version = ptr + 2;
 	} else if((ptr = strstr(depstring, "="))) {
 		/* Note: we must do =,<,> checks after <=, >= checks */
-		depend->mod = PM_DEP_MOD_EQ;
+		depend->mod = ALPM_DEP_MOD_EQ;
 		version = ptr + 1;
 	} else if((ptr = strstr(depstring, "<"))) {
-		depend->mod = PM_DEP_MOD_LT;
+		depend->mod = ALPM_DEP_MOD_LT;
 		version = ptr + 1;
 	} else if((ptr = strstr(depstring, ">"))) {
-		depend->mod = PM_DEP_MOD_GT;
+		depend->mod = ALPM_DEP_MOD_GT;
 		version = ptr + 1;
 	} else {
 		/* no version specified, leave version and ptr NULL */
-		depend->mod = PM_DEP_MOD_ANY;
+		depend->mod = ALPM_DEP_MOD_ANY;
 	}
 
 	/* copy the right parts to the right places */
@@ -481,8 +481,8 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg, alpm_list_t *targe
 
 	if(!include_explicit) {
 		/* see if it was explicitly installed */
-		if(alpm_pkg_get_reason(pkg) == PM_PKG_REASON_EXPLICIT) {
-			_alpm_log(db->handle, PM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
+		if(alpm_pkg_get_reason(pkg) == ALPM_PKG_REASON_EXPLICIT) {
+			_alpm_log(db->handle, ALPM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
 					alpm_pkg_get_name(pkg));
 			return 0;
 		}
@@ -530,7 +530,7 @@ void _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
 			alpm_pkg_t *deppkg = j->data;
 			if(_alpm_dep_edge(pkg, deppkg)
 					&& can_remove_package(db, deppkg, targs, include_explicit)) {
-				_alpm_log(db->handle, PM_LOG_DEBUG, "adding '%s' to the targets\n",
+				_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding '%s' to the targets\n",
 						alpm_pkg_get_name(deppkg));
 				/* add it to the target list */
 				targs = alpm_list_add(targs, _alpm_pkg_dup(deppkg));
@@ -568,10 +568,10 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 			if(_alpm_pkg_should_ignore(handle, pkg)) {
 				int install = 0;
 				if(prompt) {
-					QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+					QUESTION(handle->trans, ALPM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 							 NULL, NULL, &install);
 				} else {
-					_alpm_log(handle, PM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
+					_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
 				}
 				if(!install) {
 					ignored = 1;
@@ -590,17 +590,17 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 				if(_alpm_pkg_should_ignore(handle, pkg)) {
 					int install = 0;
 					if(prompt) {
-						QUESTION(handle->trans, PM_TRANS_CONV_INSTALL_IGNOREPKG,
+						QUESTION(handle->trans, ALPM_TRANS_CONV_INSTALL_IGNOREPKG,
 									pkg, NULL, NULL, &install);
 					} else {
-						_alpm_log(handle, PM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
+						_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
 					}
 					if(!install) {
 						ignored = 1;
 						continue;
 					}
 				}
-				_alpm_log(handle, PM_LOG_DEBUG, "provider found (%s provides %s)\n",
+				_alpm_log(handle, ALPM_LOG_DEBUG, "provider found (%s provides %s)\n",
 						pkg->name, dep->name);
 				providers = alpm_list_add(providers, pkg);
 				/* keep looking for other providers in the all dbs */
@@ -622,7 +622,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 		int index = 0;
 		if(count > 1) {
 			/* if there is more than one provider, we ask the user */
-			QUESTION(handle->trans, PM_TRANS_CONV_SELECT_PROVIDER,
+			QUESTION(handle->trans, ALPM_TRANS_CONV_SELECT_PROVIDER,
 					providers, dep, NULL, &index);
 		}
 		if(index >= 0 && index < count) {
@@ -635,9 +635,9 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	}
 
 	if(ignored) { /* resolvedeps will override these */
-		handle->pm_errno = PM_ERR_PKG_IGNORED;
+		handle->pm_errno = ALPM_ERR_PKG_IGNORED;
 	} else {
-		handle->pm_errno = PM_ERR_PKG_NOT_FOUND;
+		handle->pm_errno = ALPM_ERR_PKG_NOT_FOUND;
 	}
 	return NULL;
 }
@@ -658,7 +658,7 @@ alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
 	alpm_pkg_t *pkg;
 
 	CHECK_HANDLE(handle, return NULL);
-	ASSERT(dbs, RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL));
+	ASSERT(dbs, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
 
 	dep = _alpm_splitdep(depstring);
 	ASSERT(dep, return NULL);
@@ -708,7 +708,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 	   on that list */
 	*packages = alpm_list_add(*packages, pkg);
 
-	_alpm_log(handle, PM_LOG_DEBUG, "started resolving dependencies\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "started resolving dependencies\n");
 	for(i = alpm_list_last(*packages); i; i = i->next) {
 		alpm_pkg_t *tpkg = i->data;
 		targ = alpm_list_add(NULL, tpkg);
@@ -732,9 +732,9 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 				spkg = resolvedep(handle, missdep, handle->dbs_sync, *packages, 0);
 			}
 			if(!spkg) {
-				handle->pm_errno = PM_ERR_UNSATISFIED_DEPS;
+				handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
 				char *missdepstring = alpm_dep_compute_string(missdep);
-				_alpm_log(handle, PM_LOG_WARNING,
+				_alpm_log(handle, ALPM_LOG_WARNING,
 						_("cannot resolve \"%s\", a dependency of \"%s\"\n"),
 						missdepstring, tpkg->name);
 				free(missdepstring);
@@ -743,7 +743,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 				}
 				ret = -1;
 			} else {
-				_alpm_log(handle, PM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
+				_alpm_log(handle, ALPM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
 						alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
 				*packages = alpm_list_add(*packages, spkg);
 				_alpm_depmiss_free(miss);
@@ -758,7 +758,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 	} else {
 		alpm_list_free(packages_copy);
 	}
-	_alpm_log(handle, PM_LOG_DEBUG, "finished resolving dependencies\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "finished resolving dependencies\n");
 	return ret;
 }
 
@@ -782,22 +782,22 @@ char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 	}
 
 	switch(dep->mod) {
-		case PM_DEP_MOD_ANY:
+		case ALPM_DEP_MOD_ANY:
 			opr = "";
 			break;
-		case PM_DEP_MOD_GE:
+		case ALPM_DEP_MOD_GE:
 			opr = ">=";
 			break;
-		case PM_DEP_MOD_LE:
+		case ALPM_DEP_MOD_LE:
 			opr = "<=";
 			break;
-		case PM_DEP_MOD_EQ:
+		case ALPM_DEP_MOD_EQ:
 			opr = "=";
 			break;
-		case PM_DEP_MOD_LT:
+		case ALPM_DEP_MOD_LT:
 			opr = "<";
 			break;
-		case PM_DEP_MOD_GT:
+		case ALPM_DEP_MOD_GT:
 			opr = ">";
 			break;
 		default:
@@ -805,14 +805,14 @@ char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 			break;
 	}
 
-	if(dep->mod != PM_DEP_MOD_ANY && dep->version) {
+	if(dep->mod != ALPM_DEP_MOD_ANY && dep->version) {
 		ver = dep->version;
 	} else {
 		ver = "";
 	}
 
 	/* we can always compute len and print the string like this because opr
-	 * and ver will be empty when PM_DEP_MOD_ANY is the depend type. the
+	 * and ver will be empty when ALPM_DEP_MOD_ANY is the depend type. the
 	 * reassignments above also ensure we do not do a strlen(NULL). */
 	len = strlen(name) + strlen(opr) + strlen(ver) + 1;
 	MALLOC(str, len, return NULL);

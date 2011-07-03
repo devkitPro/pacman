@@ -55,7 +55,7 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 	alpm_handle_t *myhandle = _alpm_handle_new();
 
 	if(myhandle == NULL) {
-		myerr = PM_ERR_MEMORY;
+		myerr = ALPM_ERR_MEMORY;
 		goto cleanup;
 	}
 	if((myerr = _alpm_set_directory_option(root, &(myhandle->root), 1))) {

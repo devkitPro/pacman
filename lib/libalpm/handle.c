@@ -312,16 +312,16 @@ enum _alpm_errno_t _alpm_set_directory_option(const char *value,
 
 	path = value;
 	if(!path) {
-		return PM_ERR_WRONG_ARGS;
+		return ALPM_ERR_WRONG_ARGS;
 	}
 	if(must_exist) {
 		if(stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
-			return PM_ERR_NOT_A_DIR;
+			return ALPM_ERR_NOT_A_DIR;
 		}
-		CALLOC(real, PATH_MAX, sizeof(char), return PM_ERR_MEMORY);
+		CALLOC(real, PATH_MAX, sizeof(char), return ALPM_ERR_MEMORY);
 		if(!realpath(path, real)) {
 			free(real);
-			return PM_ERR_NOT_A_DIR;
+			return ALPM_ERR_NOT_A_DIR;
 		}
 		path = real;
 	}
@@ -331,7 +331,7 @@ enum _alpm_errno_t _alpm_set_directory_option(const char *value,
 	}
 	*storage = canonicalize_path(path);
 	if(!*storage) {
-		return PM_ERR_MEMORY;
+		return ALPM_ERR_MEMORY;
 	}
 	free(real);
 	return 0;
@@ -342,16 +342,16 @@ int SYMEXPORT alpm_option_add_cachedir(alpm_handle_t *handle, const char *cached
 	char *newcachedir;
 
 	CHECK_HANDLE(handle, return -1);
-	ASSERT(cachedir != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(cachedir != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	/* don't stat the cachedir yet, as it may not even be needed. we can
 	 * fail later if it is needed and the path is invalid. */
 
 	newcachedir = canonicalize_path(cachedir);
 	if(!newcachedir) {
-		RET_ERR(handle, PM_ERR_MEMORY, -1);
+		RET_ERR(handle, ALPM_ERR_MEMORY, -1);
 	}
 	handle->cachedirs = alpm_list_add(handle->cachedirs, newcachedir);
-	_alpm_log(handle, PM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'cachedir' = %s\n", newcachedir);
 	return 0;
 }
 
@@ -376,11 +376,11 @@ int SYMEXPORT alpm_option_remove_cachedir(alpm_handle_t *handle, const char *cac
 	char *vdata = NULL;
 	char *newcachedir;
 	CHECK_HANDLE(handle, return -1);
-	ASSERT(cachedir != NULL, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(cachedir != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newcachedir = canonicalize_path(cachedir);
 	if(!newcachedir) {
-		RET_ERR(handle, PM_ERR_MEMORY, -1);
+		RET_ERR(handle, ALPM_ERR_MEMORY, -1);
 	}
 	handle->cachedirs = alpm_list_remove_str(handle->cachedirs, newcachedir, &vdata);
 	FREE(newcachedir);
@@ -397,7 +397,7 @@ int SYMEXPORT alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile
 
 	CHECK_HANDLE(handle, return -1);
 	if(!logfile) {
-		handle->pm_errno = PM_ERR_WRONG_ARGS;
+		handle->pm_errno = ALPM_ERR_WRONG_ARGS;
 		return -1;
 	}
 
@@ -412,7 +412,7 @@ int SYMEXPORT alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile
 		fclose(handle->logstream);
 		handle->logstream = NULL;
 	}
-	_alpm_log(handle, PM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'logfile' = %s\n", handle->logfile);
 	return 0;
 }
 
@@ -420,7 +420,7 @@ int SYMEXPORT alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(!gpgdir) {
-		handle->pm_errno = PM_ERR_WRONG_ARGS;
+		handle->pm_errno = ALPM_ERR_WRONG_ARGS;
 		return -1;
 	}
 
@@ -429,7 +429,7 @@ int SYMEXPORT alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir)
 	}
 	handle->gpgdir = strdup(gpgdir);
 
-	_alpm_log(handle, PM_LOG_DEBUG, "option 'gpgdir' = %s\n", handle->gpgdir);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'gpgdir' = %s\n", handle->gpgdir);
 	return 0;
 }
 
@@ -577,7 +577,7 @@ int SYMEXPORT alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace)
 int SYMEXPORT alpm_option_set_default_sigverify(alpm_handle_t *handle, pgp_verify_t level)
 {
 	CHECK_HANDLE(handle, return -1);
-	ASSERT(level != PM_PGP_VERIFY_UNKNOWN, RET_ERR(handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(level != PM_PGP_VERIFY_UNKNOWN, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	handle->sigverify = level;
 	return 0;
 }

@@ -108,7 +108,7 @@ static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
 	if(!conflict) {
 		return -1;
 	}
-	_alpm_log(handle, PM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
+	_alpm_log(handle, ALPM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
 			pkg1, pkg2, reason);
 	if(!conflict_isin(conflict, *baddeps)) {
 		*baddeps = alpm_list_add(*baddeps, conflict);
@@ -175,7 +175,7 @@ alpm_list_t *_alpm_innerconflicts(alpm_handle_t *handle, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
 
-	_alpm_log(handle, PM_LOG_DEBUG, "check targets vs targets\n");
+	_alpm_log(handle, ALPM_LOG_DEBUG, "check targets vs targets\n");
 	check_conflict(handle, packages, packages, &baddeps, 0);
 
 	return baddeps;
@@ -197,9 +197,9 @@ alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages)
 			packages, _alpm_pkg_cmp);
 
 	/* two checks to be done here for conflicts */
-	_alpm_log(db->handle, PM_LOG_DEBUG, "check targets vs db\n");
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "check targets vs db\n");
 	check_conflict(db->handle, packages, dblist, &baddeps, 1);
-	_alpm_log(db->handle, PM_LOG_DEBUG, "check db vs targets\n");
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "check db vs targets\n");
 	check_conflict(db->handle, dblist, packages, &baddeps, -1);
 
 	alpm_list_free(dblist);
@@ -281,7 +281,7 @@ static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
 }
 
 /* Adds alpm_fileconflict_t to a conflicts list. Pass the conflicts list, type
- * (either PM_FILECONFLICT_TARGET or PM_FILECONFLICT_FILESYSTEM), a file
+ * (either ALPM_FILECONFLICT_TARGET or ALPM_FILECONFLICT_FILESYSTEM), a file
  * string, and either two package names or one package name and NULL. This is
  * a wrapper for former functionality that was done inline.
  */
@@ -302,13 +302,13 @@ static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 	}
 
 	conflicts = alpm_list_add(conflicts, conflict);
-	_alpm_log(handle, PM_LOG_DEBUG, "found file conflict %s, packages %s and %s\n",
+	_alpm_log(handle, ALPM_LOG_DEBUG, "found file conflict %s, packages %s and %s\n",
 	          filestr, name1, name2 ? name2 : "(filesystem)");
 
 	return conflicts;
 
 error:
-	RET_ERR(handle, PM_ERR_MEMORY, conflicts);
+	RET_ERR(handle, ALPM_ERR_MEMORY, conflicts);
 }
 
 void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
@@ -404,10 +404,10 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		alpm_pkg_t *dbpkg;
 
 		int percent = (current * 100) / numtargs;
-		PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", percent,
+		PROGRESS(trans, ALPM_TRANS_PROGRESS_CONFLICTS_START, "", percent,
 		         numtargs, current);
 		/* CHECK 1: check every target against every target */
-		_alpm_log(handle, PM_LOG_DEBUG, "searching for file conflicts: %s\n",
+		_alpm_log(handle, ALPM_LOG_DEBUG, "searching for file conflicts: %s\n",
 								alpm_pkg_get_name(p1));
 		for(j = i->next; j; j = j->next) {
 			alpm_list_t *common_files;
@@ -421,9 +421,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				for(k = common_files; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)k->data);
 					conflicts = add_fileconflict(handle, conflicts,
-							PM_FILECONFLICT_TARGET, path,
+							ALPM_FILECONFLICT_TARGET, path,
 							alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
-					if(handle->pm_errno == PM_ERR_MEMORY) {
+					if(handle->pm_errno == ALPM_ERR_MEMORY) {
 						FREELIST(conflicts);
 						FREELIST(common_files);
 						return NULL;
@@ -434,7 +434,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		}
 
 		/* CHECK 2: check every target against the filesystem */
-		_alpm_log(handle, PM_LOG_DEBUG, "searching for filesystem conflicts: %s\n",
+		_alpm_log(handle, ALPM_LOG_DEBUG, "searching for filesystem conflicts: %s\n",
 				p1->name);
 		dbpkg = _alpm_db_get_pkgfromcache(handle->db_local, p1->name);
 
@@ -472,12 +472,12 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			if(S_ISDIR(file->mode)) {
 				struct stat sbuf;
 				if(S_ISDIR(lsbuf.st_mode)) {
-					_alpm_log(handle, PM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
+					_alpm_log(handle, ALPM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
 					continue;
 				}
 				stat(path, &sbuf);
 				if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(sbuf.st_mode)) {
-					_alpm_log(handle, PM_LOG_DEBUG,
+					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"%s is a symlink to a dir, hopefully not a conflict\n", path);
 					continue;
 				}
@@ -487,7 +487,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				path[strlen(path) - 1] = '\0';
 			}
 
-			_alpm_log(handle, PM_LOG_DEBUG, "checking possible conflict: %s\n", path);
+			_alpm_log(handle, ALPM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 			relative_path = path + strlen(handle->root);
 
 			/* Check remove list (will we remove the conflicting local file?) */
@@ -495,7 +495,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				alpm_pkg_t *rempkg = k->data;
 				if(rempkg && _alpm_filelist_contains(alpm_pkg_get_files(rempkg),
 							relative_path)) {
-					_alpm_log(handle, PM_LOG_DEBUG,
+					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"local file will be removed, not a conflict: %s\n", path);
 					resolved_conflict = 1;
 				}
@@ -516,7 +516,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					 * by its new owner (whether the file is in backup array or not */
 					handle->trans->skip_remove =
 						alpm_list_add(handle->trans->skip_remove, strdup(filestr));
-					_alpm_log(handle, PM_LOG_DEBUG,
+					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"file changed packages, adding to remove skiplist: %s\n", path);
 					resolved_conflict = 1;
 				}
@@ -527,7 +527,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				char *dir = malloc(strlen(filestr) + 2);
 				sprintf(dir, "%s/", filestr);
 				if(_alpm_filelist_contains(alpm_pkg_get_files(dbpkg), dir)) {
-					_alpm_log(handle, PM_LOG_DEBUG,
+					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"check if all files in %s belongs to %s\n",
 							dir, dbpkg->name);
 					resolved_conflict = dir_belongsto_pkg(handle->root, filestr, dbpkg);
@@ -551,8 +551,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			if(!resolved_conflict) {
 				conflicts = add_fileconflict(handle, conflicts,
-						PM_FILECONFLICT_FILESYSTEM, path, p1->name, NULL);
-				if(handle->pm_errno == PM_ERR_MEMORY) {
+						ALPM_FILECONFLICT_FILESYSTEM, path, p1->name, NULL);
+				if(handle->pm_errno == ALPM_ERR_MEMORY) {
 					FREELIST(conflicts);
 					if(dbpkg) {
 						/* only freed if it was generated from filelist_operation() */
@@ -567,7 +567,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			alpm_list_free(tmpfiles);
 		}
 	}
-	PROGRESS(trans, PM_TRANS_PROGRESS_CONFLICTS_START, "", 100,
+	PROGRESS(trans, ALPM_TRANS_PROGRESS_CONFLICTS_START, "", 100,
 			numtargs, current);
 
 	return conflicts;

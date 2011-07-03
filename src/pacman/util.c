@@ -61,9 +61,9 @@ int trans_init(alpm_transflag_t flags)
 
 	if(ret == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to init transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to init transaction (%s)\n"),
 				alpm_strerror(err));
-		if(err == PM_ERR_HANDLE_LOCK) {
+		if(err == ALPM_ERR_HANDLE_LOCK) {
 			fprintf(stderr, _("  if you're sure a package manager is not already\n"
 						"  running, you can remove %s\n"),
 					alpm_option_get_lockfile(config->handle));
@@ -77,7 +77,7 @@ int trans_init(alpm_transflag_t flags)
 int trans_release(void)
 {
 	if(alpm_trans_release(config->handle) == -1) {
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to release transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to release transaction (%s)\n"),
 				alpm_strerror(alpm_errno(config->handle)));
 		return -1;
 	}
@@ -749,7 +749,7 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	if(install) {
 		size = humanize_size(dlsize, 'M', 1, &label);
 		printf(_("Total Download Size:    %.2f %s\n"), size, label);
-		if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY)) {
+		if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY)) {
 			size = humanize_size(isize, 'M', 1, &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
 			/* only show this net value if different from raw installed size */
@@ -1228,7 +1228,7 @@ int pm_asprintf(char **string, const char *format, ...)
 	/* print the message using va_arg list */
 	va_start(args, format);
 	if(vasprintf(string, format, args) == -1) {
-		pm_fprintf(stderr, PM_LOG_ERROR,  _("failed to allocate string\n"));
+		pm_fprintf(stderr, ALPM_LOG_ERROR,  _("failed to allocate string\n"));
 		ret = -1;
 	}
 	va_end(args);
@@ -1251,16 +1251,16 @@ int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_li
 
 	/* print a prefix to the message */
 	switch(level) {
-		case PM_LOG_ERROR:
+		case ALPM_LOG_ERROR:
 			pm_asprintf(string, _("error: %s"), msg);
 			break;
-		case PM_LOG_WARNING:
+		case ALPM_LOG_WARNING:
 			pm_asprintf(string, _("warning: %s"), msg);
 			break;
-		case PM_LOG_DEBUG:
+		case ALPM_LOG_DEBUG:
 			pm_asprintf(string, "debug: %s", msg);
 			break;
-		case PM_LOG_FUNCTION:
+		case ALPM_LOG_FUNCTION:
 			pm_asprintf(string, "function: %s", msg);
 			break;
 		default:
@@ -1283,7 +1283,7 @@ int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list
 
 #if defined(PACMAN_DEBUG)
 	/* If debug is on, we'll timestamp the output */
-	if(config->logmask & PM_LOG_DEBUG) {
+	if(config->logmask & ALPM_LOG_DEBUG) {
 		time_t t;
 		struct tm *tmp;
 		char timestr[10] = {0};
@@ -1299,16 +1299,16 @@ int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list
 
 	/* print a prefix to the message */
 	switch(level) {
-		case PM_LOG_ERROR:
+		case ALPM_LOG_ERROR:
 			fprintf(stream, _("error: "));
 			break;
-		case PM_LOG_WARNING:
+		case ALPM_LOG_WARNING:
 			fprintf(stream, _("warning: "));
 			break;
-		case PM_LOG_DEBUG:
+		case ALPM_LOG_DEBUG:
 			fprintf(stream, "debug: ");
 			break;
-		case PM_LOG_FUNCTION:
+		case ALPM_LOG_FUNCTION:
 			fprintf(stream, "function: ");
 			break;
 		default:

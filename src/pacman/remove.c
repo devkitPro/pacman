@@ -39,7 +39,7 @@ static int remove_target(const char *target)
 
 	if((info = alpm_db_get_pkg(db_local, target)) != NULL) {
 		if(alpm_remove_pkg(config->handle, info) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target,
+			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
 			return -1;
 		}
@@ -49,13 +49,13 @@ static int remove_target(const char *target)
 		/* fallback to group */
 	alpm_group_t *grp = alpm_db_readgroup(db_local, target);
 	if(grp == NULL) {
-		pm_fprintf(stderr, PM_LOG_ERROR, "'%s': target not found\n", target);
+		pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': target not found\n", target);
 		return -1;
 	}
 	for(p = grp->packages; p; p = alpm_list_next(p)) {
 		alpm_pkg_t *pkg = alpm_list_getdata(p);
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", target,
+			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
 			return -1;
 		}
@@ -76,7 +76,7 @@ int pacman_remove(alpm_list_t *targets)
 	alpm_list_t *i, *data = NULL;
 
 	if(targets == NULL) {
-		pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return 1;
 	}
 
@@ -103,16 +103,16 @@ int pacman_remove(alpm_list_t *targets)
 	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
-			case PM_ERR_PKG_INVALID_ARCH:
+			case ALPM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
 					char *pkg = alpm_list_getdata(i);
 					printf(_(":: package %s does not have a valid architecture\n"), pkg);
 				}
 				break;
-			case PM_ERR_UNSATISFIED_DEPS:
+			case ALPM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_depmissing_t *miss = alpm_list_getdata(i);
 					char *depstring = alpm_dep_compute_string(miss->depend);
@@ -133,7 +133,7 @@ int pacman_remove(alpm_list_t *targets)
 	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
 		alpm_pkg_t *pkg = alpm_list_getdata(i);
 		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
-			pm_printf(PM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
+			pm_printf(ALPM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
 							alpm_pkg_get_name(pkg));
 			holdpkg = 1;
 		}
@@ -164,7 +164,7 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerror(alpm_errno(config->handle)));
 		retval = 1;
 	}

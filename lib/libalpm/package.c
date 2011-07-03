@@ -65,7 +65,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
 	pkg->handle->pm_errno = 0;
 	/* We only inspect packages from sync repositories */
 	ASSERT(pkg->origin == PKG_FROM_SYNCDB,
-			RET_ERR(pkg->handle, PM_ERR_WRONG_ARGS, -1));
+			RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	fpath = _alpm_filecache_find(pkg->handle, alpm_pkg_get_filename(pkg));
 
@@ -74,7 +74,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
 	if(retval == 0) {
 		return 0;
 	} else if(retval == 1) {
-		pkg->handle->pm_errno = PM_ERR_PKG_INVALID;
+		pkg->handle->pm_errno = ALPM_ERR_PKG_INVALID;
 		retval = -1;
 	}
 

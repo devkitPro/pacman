@@ -47,7 +47,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 
 	dir = opendir(dbpath);
 	if(dir == NULL) {
-		pm_fprintf(stderr, PM_LOG_ERROR, _("could not access database directory\n"));
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("could not access database directory\n"));
 		return 1;
 	}
 
@@ -82,7 +82,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 		len = strlen(path);
 		if(S_ISDIR(buf.st_mode) || strcmp(path + len - 3, ".db") != 0) {
 			if(rmrf(path)) {
-				pm_fprintf(stderr, PM_LOG_ERROR,
+				pm_fprintf(stderr, ALPM_LOG_ERROR,
 					_("could not remove %s\n"), path);
 				closedir(dir);
 				return 1;
@@ -108,7 +108,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 			}
 
 			if(rmrf(path)) {
-				pm_fprintf(stderr, PM_LOG_ERROR,
+				pm_fprintf(stderr, ALPM_LOG_ERROR,
 					_("could not remove %s\n"), path);
 				closedir(dir);
 				return 1;
@@ -184,7 +184,7 @@ static int sync_cleancache(int level)
 		struct dirent *ent;
 
 		if(dir == NULL) {
-			pm_fprintf(stderr, PM_LOG_ERROR,
+			pm_fprintf(stderr, ALPM_LOG_ERROR,
 					_("could not access cache directory %s\n"), cachedir);
 			ret++;
 			continue;
@@ -240,7 +240,7 @@ static int sync_cleancache(int level)
 				if(pkg != NULL && alpm_pkg_vercmp(local_version,
 							alpm_pkg_get_version(pkg)) == 0) {
 					/* package was found in local DB and version matches, keep it */
-					pm_printf(PM_LOG_DEBUG, "pkg %s-%s found in local db\n",
+					pm_printf(ALPM_LOG_DEBUG, "pkg %s-%s found in local db\n",
 							local_name, local_version);
 					delete = 0;
 				}
@@ -254,7 +254,7 @@ static int sync_cleancache(int level)
 					if(pkg != NULL && alpm_pkg_vercmp(local_version,
 								alpm_pkg_get_version(pkg)) == 0) {
 						/* package was found in a sync DB and version matches, keep it */
-						pm_printf(PM_LOG_DEBUG, "pkg %s-%s found in sync db\n",
+						pm_printf(ALPM_LOG_DEBUG, "pkg %s-%s found in sync db\n",
 								local_name, local_version);
 						delete = 0;
 					}
@@ -288,7 +288,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 
 		ret = alpm_db_update((level < 2 ? 0 : 1), db);
 		if(ret < 0) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("failed to update %s (%s)\n"),
+			pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to update %s (%s)\n"),
 					alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));
 		} else if(ret == 1) {
 			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
@@ -303,7 +303,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	 * expected
 	 */
 	if(!success) {
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to synchronize any databases\n"));
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to synchronize any databases\n"));
 	}
 	return (success > 0);
 }
@@ -465,7 +465,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 
 				if(!db) {
-					pm_fprintf(stderr, PM_LOG_ERROR,
+					pm_fprintf(stderr, ALPM_LOG_ERROR,
 						_("repository '%s' does not exist\n"), repo);
 					return 1;
 				}
@@ -481,7 +481,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 				}
 
 				if(!foundpkg) {
-					pm_fprintf(stderr, PM_LOG_ERROR,
+					pm_fprintf(stderr, ALPM_LOG_ERROR,
 						_("package '%s' was not found in repository '%s'\n"), pkgstr, repo);
 					ret++;
 				}
@@ -502,7 +502,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 					}
 				}
 				if(!foundpkg) {
-					pm_fprintf(stderr, PM_LOG_ERROR,
+					pm_fprintf(stderr, ALPM_LOG_ERROR,
 						_("package '%s' was not found\n"), pkgstr);
 					ret++;
 				}
@@ -542,7 +542,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 			}
 
 			if(db == NULL) {
-				pm_fprintf(stderr, PM_LOG_ERROR,
+				pm_fprintf(stderr, ALPM_LOG_ERROR,
 					_("repository \"%s\" was not found.\n"),repo);
 				alpm_list_free(ls);
 				return 1;
@@ -616,13 +616,13 @@ static int process_pkg(alpm_pkg_t *pkg)
 
 	if(ret == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		if(err == PM_ERR_TRANS_DUP_TARGET
-				|| err == PM_ERR_PKG_IGNORED) {
+		if(err == ALPM_ERR_TRANS_DUP_TARGET
+				|| err == ALPM_ERR_PKG_IGNORED) {
 			/* just skip duplicate or ignored targets */
-			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
+			pm_printf(ALPM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
 			return 0;
 		} else {
-			pm_fprintf(stderr, PM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
+			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
 					alpm_strerror(err));
 			return 1;
 		}
@@ -638,7 +638,7 @@ static int process_group(alpm_list_t *dbs, char *group)
 	int count = alpm_list_count(pkgs);
 
 	if(!count) {
-		pm_fprintf(stderr, PM_LOG_ERROR, _("target not found: %s\n"), group);
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("target not found: %s\n"), group);
 		return 1;
 	}
 
@@ -681,8 +681,8 @@ static int process_targname(alpm_list_t *dblist, char *targname)
 	alpm_pkg_t *pkg = alpm_find_dbs_satisfier(config->handle, dblist, targname);
 
 	/* #FS#23342 - skip ignored packages when user says no */
-	if(alpm_errno(config->handle) == PM_ERR_PKG_IGNORED) {
-			pm_printf(PM_LOG_WARNING, _("skipping target: %s\n"), targname);
+	if(alpm_errno(config->handle) == ALPM_ERR_PKG_IGNORED) {
+			pm_printf(ALPM_LOG_WARNING, _("skipping target: %s\n"), targname);
 			/* TODO how to do this, we shouldn't be fucking with it from the frontend */
 			/* pm_errno = 0; */
 			return 0;
@@ -712,7 +712,7 @@ static int process_target(char *target)
 		dbname = targstring;
 		db = get_db(dbname);
 		if(!db) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("database not found: %s\n"),
+			pm_fprintf(stderr, ALPM_LOG_ERROR, _("database not found: %s\n"),
 					dbname);
 			ret = 1;
 			goto cleanup;
@@ -755,7 +755,7 @@ static int sync_trans(alpm_list_t *targets)
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction(config->handle, "starting full system upgrade\n");
 		if(alpm_sync_sysupgrade(config->handle, config->op_s_upgrade >= 2) == -1) {
-			pm_fprintf(stderr, PM_LOG_ERROR, "%s\n", alpm_strerror(alpm_errno(config->handle)));
+			pm_fprintf(stderr, ALPM_LOG_ERROR, "%s\n", alpm_strerror(alpm_errno(config->handle)));
 			retval = 1;
 			goto cleanup;
 		}
@@ -764,16 +764,16 @@ static int sync_trans(alpm_list_t *targets)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
-			case PM_ERR_PKG_INVALID_ARCH:
+			case ALPM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
 					char *pkg = alpm_list_getdata(i);
 					printf(_(":: package %s does not have a valid architecture\n"), pkg);
 				}
 				break;
-			case PM_ERR_UNSATISFIED_DEPS:
+			case ALPM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_depmissing_t *miss = alpm_list_getdata(i);
 					char *depstring = alpm_dep_compute_string(miss->depend);
@@ -781,7 +781,7 @@ static int sync_trans(alpm_list_t *targets)
 					free(depstring);
 				}
 				break;
-			case PM_ERR_CONFLICTING_DEPS:
+			case ALPM_ERR_CONFLICTING_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_conflict_t *conflict = alpm_list_getdata(i);
 					/* only print reason if it contains new information */
@@ -831,26 +831,26 @@ static int sync_trans(alpm_list_t *targets)
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, PM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
-			case PM_ERR_FILE_CONFLICTS:
+			case ALPM_ERR_FILE_CONFLICTS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_fileconflict_t *conflict = alpm_list_getdata(i);
 					switch(conflict->type) {
-						case PM_FILECONFLICT_TARGET:
+						case ALPM_FILECONFLICT_TARGET:
 							printf(_("%s exists in both '%s' and '%s'\n"),
 									conflict->file, conflict->target, conflict->ctarget);
 							break;
-						case PM_FILECONFLICT_FILESYSTEM:
+						case ALPM_FILECONFLICT_FILESYSTEM:
 							printf(_("%s: %s exists in filesystem\n"),
 									conflict->target, conflict->file);
 							break;
 					}
 				}
 				break;
-			case PM_ERR_PKG_INVALID:
-			case PM_ERR_DLT_INVALID:
+			case ALPM_ERR_PKG_INVALID:
+			case ALPM_ERR_DLT_INVALID:
 				for(i = data; i; i = alpm_list_next(i)) {
 					char *filename = alpm_list_getdata(i);
 					printf(_("%s is invalid or corrupted\n"), filename);
@@ -903,7 +903,7 @@ int pacman_sync(alpm_list_t *targets)
 	/* ensure we have at least one valid sync db set up */
 	sync_dbs = alpm_option_get_syncdbs(config->handle);
 	if(sync_dbs == NULL) {
-		pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
+		pm_printf(ALPM_LOG_ERROR, _("no usable package repositories configured.\n"));
 		return 1;
 	}
 
@@ -944,13 +944,13 @@ int pacman_sync(alpm_list_t *targets)
 		} else {
 			/* don't proceed here unless we have an operation that doesn't require a
 			 * target list */
-			pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+			pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 			return 1;
 		}
 	}
 
 	alpm_list_t *targs = alpm_list_strdup(targets);
-	if(!(config->flags & PM_TRANS_FLAG_DOWNLOADONLY) && !config->print) {
+	if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) && !config->print) {
 		/* check for newer versions of packages to be upgraded first */
 		alpm_list_t *packages = syncfirst();
 		if(packages) {
@@ -971,7 +971,7 @@ int pacman_sync(alpm_list_t *targets)
 				}
 				printf("\n");
 			} else {
-				pm_printf(PM_LOG_DEBUG, "skipping SyncFirst dialog\n");
+				pm_printf(ALPM_LOG_DEBUG, "skipping SyncFirst dialog\n");
 				FREELIST(packages);
 			}
 		}

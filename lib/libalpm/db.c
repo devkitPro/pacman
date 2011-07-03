@@ -51,9 +51,9 @@ alpm_db_t SYMEXPORT *alpm_db_register_sync(alpm_handle_t *handle, const char *tr
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return NULL);
 	ASSERT(treename != NULL && strlen(treename) != 0,
-			RET_ERR(handle, PM_ERR_WRONG_ARGS, NULL));
+			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
 	/* Do not register a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, NULL));
+	ASSERT(handle->trans == NULL, RET_ERR(handle, ALPM_ERR_TRANS_NOT_NULL, NULL));
 
 	return _alpm_db_register_sync(handle, treename, check_sig);
 }
@@ -65,7 +65,7 @@ void _alpm_db_unregister(alpm_db_t *db)
 		return;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "unregistering database '%s'\n", db->treename);
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "unregistering database '%s'\n", db->treename);
 	_alpm_db_free(db);
 }
 
@@ -78,7 +78,7 @@ int SYMEXPORT alpm_db_unregister_all(alpm_handle_t *handle)
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
 	/* Do not unregister a database if a transaction is on-going */
-	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
+	ASSERT(handle->trans == NULL, RET_ERR(handle, ALPM_ERR_TRANS_NOT_NULL, -1));
 
 	/* unregister all sync dbs */
 	for(i = handle->dbs_sync; i; i = i->next) {
@@ -101,7 +101,7 @@ int SYMEXPORT alpm_db_unregister(alpm_db_t *db)
 	/* Do not unregister a database if a transaction is on-going */
 	handle = db->handle;
 	handle->pm_errno = 0;
-	ASSERT(handle->trans == NULL, RET_ERR(handle, PM_ERR_TRANS_NOT_NULL, -1));
+	ASSERT(handle->trans == NULL, RET_ERR(handle, ALPM_ERR_TRANS_NOT_NULL, -1));
 
 	if(db == handle->db_local) {
 		handle->db_local = NULL;
@@ -120,7 +120,7 @@ int SYMEXPORT alpm_db_unregister(alpm_db_t *db)
 	}
 
 	if(!found) {
-		RET_ERR(handle, PM_ERR_DB_NOT_FOUND, -1);
+		RET_ERR(handle, ALPM_ERR_DB_NOT_FOUND, -1);
 	}
 
 	db->ops->unregister(db);
@@ -168,14 +168,14 @@ int SYMEXPORT alpm_db_add_server(alpm_db_t *db, const char *url)
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
 	db->handle->pm_errno = 0;
-	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
 	if(!newurl) {
 		return -1;
 	}
 	db->servers = alpm_list_add(db->servers, newurl);
-	_alpm_log(db->handle, PM_LOG_DEBUG, "adding new server URL to database '%s': %s\n",
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding new server URL to database '%s': %s\n",
 			db->treename, newurl);
 
 	return 0;
@@ -194,7 +194,7 @@ int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
 	db->handle->pm_errno = 0;
-	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
 	if(!newurl) {
@@ -203,7 +203,7 @@ int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 	db->servers = alpm_list_remove_str(db->servers, newurl, &vdata);
 	free(newurl);
 	if(vdata) {
-		_alpm_log(db->handle, PM_LOG_DEBUG, "removed server URL from database '%s': %s\n",
+		_alpm_log(db->handle, ALPM_LOG_DEBUG, "removed server URL from database '%s': %s\n",
 				db->treename, newurl);
 		free(vdata);
 		return 0;
@@ -244,7 +244,7 @@ alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
 	ASSERT(name != NULL && strlen(name) != 0,
-			RET_ERR(db->handle, PM_ERR_WRONG_ARGS, NULL));
+			RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, NULL));
 
 	return _alpm_db_get_pkgfromcache(db, name);
 }
@@ -263,7 +263,7 @@ alpm_group_t SYMEXPORT *alpm_db_readgroup(alpm_db_t *db, const char *name)
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
 	ASSERT(name != NULL && strlen(name) != 0,
-			RET_ERR(db->handle, PM_ERR_WRONG_ARGS, NULL));
+			RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, NULL));
 
 	return _alpm_db_get_groupfromcache(db, name);
 }
@@ -292,14 +292,14 @@ int SYMEXPORT alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgrea
 	ASSERT(db != NULL, return -1);
 	db->handle->pm_errno = 0;
 	/* TODO assert db == db_local ? shouldn't need a db param at all here... */
-	ASSERT(name != NULL, RET_ERR(db->handle, PM_ERR_WRONG_ARGS, -1));
+	ASSERT(name != NULL, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	alpm_pkg_t *pkg = _alpm_db_get_pkgfromcache(db, name);
 	if(pkg == NULL) {
-		RET_ERR(db->handle, PM_ERR_PKG_NOT_FOUND, -1);
+		RET_ERR(db->handle, ALPM_ERR_PKG_NOT_FOUND, -1);
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "setting install reason %u for %s/%s\n", reason, db->treename, name);
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "setting install reason %u for %s/%s\n", reason, db->treename, name);
 	if(alpm_pkg_get_reason(pkg) == reason) {
 		/* we are done */
 		return 0;
@@ -308,7 +308,7 @@ int SYMEXPORT alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgrea
 	pkg->reason = reason;
 	/* write DESC */
 	if(_alpm_local_db_write(db, pkg, INFRQ_DESC)) {
-		RET_ERR(db->handle, PM_ERR_DB_WRITE, -1);
+		RET_ERR(db->handle, ALPM_ERR_DB_WRITE, -1);
 	}
 
 	return 0;
@@ -352,21 +352,21 @@ const char *_alpm_db_path(alpm_db_t *db)
 
 		dbpath = alpm_option_get_dbpath(db->handle);
 		if(!dbpath) {
-			_alpm_log(db->handle, PM_LOG_ERROR, _("database path is undefined\n"));
-			RET_ERR(db->handle, PM_ERR_DB_OPEN, NULL);
+			_alpm_log(db->handle, ALPM_LOG_ERROR, _("database path is undefined\n"));
+			RET_ERR(db->handle, ALPM_ERR_DB_OPEN, NULL);
 		}
 
 		if(db->is_local) {
 			pathsize = strlen(dbpath) + strlen(db->treename) + 2;
-			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
+			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
 			sprintf(db->_path, "%s%s/", dbpath, db->treename);
 		} else {
 			pathsize = strlen(dbpath) + 5 + strlen(db->treename) + 4;
-			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
+			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
 			/* all sync DBs now reside in the sync/ subdir of the dbpath */
 			sprintf(db->_path, "%ssync/%s.db", dbpath, db->treename);
 		}
-		_alpm_log(db->handle, PM_LOG_DEBUG, "database path for tree %s set to %s\n",
+		_alpm_log(db->handle, ALPM_LOG_DEBUG, "database path for tree %s set to %s\n",
 				db->treename, db->_path);
 	}
 	return db->_path;
@@ -381,7 +381,7 @@ char *_alpm_db_sig_path(alpm_db_t *db)
 		return NULL;
 	}
 	len = strlen(dbfile) + strlen(".sig") + 1;
-	CALLOC(sigpath, len, sizeof(char), RET_ERR(db->handle, PM_ERR_MEMORY, NULL));
+	CALLOC(sigpath, len, sizeof(char), RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
 	sprintf(sigpath, "%s.sig", dbfile);
 	return sigpath;
 }
@@ -409,10 +409,10 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 		}
 		ret = NULL;
 		targ = i->data;
-		_alpm_log(db->handle, PM_LOG_DEBUG, "searching for target '%s'\n", targ);
+		_alpm_log(db->handle, ALPM_LOG_DEBUG, "searching for target '%s'\n", targ);
 
 		if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
-			RET_ERR(db->handle, PM_ERR_INVALID_REGEX, NULL);
+			RET_ERR(db->handle, ALPM_ERR_INVALID_REGEX, NULL);
 		}
 
 		for(j = list; j; j = j->next) {
@@ -451,7 +451,7 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 			}
 
 			if(matched != NULL) {
-				_alpm_log(db->handle, PM_LOG_DEBUG, "    search target '%s' matched '%s'\n",
+				_alpm_log(db->handle, ALPM_LOG_DEBUG, "    search target '%s' matched '%s'\n",
 				          targ, matched);
 				ret = alpm_list_add(ret, pkg);
 			}
@@ -474,10 +474,10 @@ static int load_pkgcache(alpm_db_t *db)
 {
 	_alpm_db_free_pkgcache(db);
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "loading package cache for repository '%s'\n",
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "loading package cache for repository '%s'\n",
 			db->treename);
 	if(db->ops->populate(db) == -1) {
-		_alpm_log(db->handle, PM_LOG_DEBUG,
+		_alpm_log(db->handle, ALPM_LOG_DEBUG,
 				"failed to load package cache for repository '%s'\n", db->treename);
 		return -1;
 	}
@@ -492,7 +492,7 @@ void _alpm_db_free_pkgcache(alpm_db_t *db)
 		return;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG,
+	_alpm_log(db->handle, ALPM_LOG_DEBUG,
 			"freeing package cache for repository '%s'\n", db->treename);
 
 	alpm_list_free_inner(_alpm_db_get_pkgcache(db),
@@ -510,7 +510,7 @@ alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db)
 	}
 
 	if(!(db->status & DB_STATUS_VALID)) {
-		RET_ERR(db->handle, PM_ERR_DB_INVALID, NULL);
+		RET_ERR(db->handle, ALPM_ERR_DB_INVALID, NULL);
 	}
 
 	if(!(db->status & DB_STATUS_PKGCACHE)) {
@@ -545,7 +545,7 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 		return -1;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
 						alpm_pkg_get_name(newpkg), db->treename);
 	db->pkgcache = _alpm_pkghash_add_sorted(db->pkgcache, newpkg);
 
@@ -562,13 +562,13 @@ int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg)
 		return -1;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "removing entry '%s' from '%s' cache\n",
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "removing entry '%s' from '%s' cache\n",
 						alpm_pkg_get_name(pkg), db->treename);
 
 	db->pkgcache = _alpm_pkghash_remove(db->pkgcache, pkg, &data);
 	if(data == NULL) {
 		/* package not found */
-		_alpm_log(db->handle, PM_LOG_DEBUG, "cannot remove entry '%s' from '%s' cache: not found\n",
+		_alpm_log(db->handle, ALPM_LOG_DEBUG, "cannot remove entry '%s' from '%s' cache: not found\n",
 							alpm_pkg_get_name(pkg), db->treename);
 		return -1;
 	}
@@ -604,7 +604,7 @@ static int load_grpcache(alpm_db_t *db)
 		return -1;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG, "loading group cache for repository '%s'\n",
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "loading group cache for repository '%s'\n",
 			db->treename);
 
 	for(lp = _alpm_db_get_pkgcache(db); lp; lp = lp->next) {
@@ -654,7 +654,7 @@ void _alpm_db_free_groupcache(alpm_db_t *db)
 		return;
 	}
 
-	_alpm_log(db->handle, PM_LOG_DEBUG,
+	_alpm_log(db->handle, ALPM_LOG_DEBUG,
 			"freeing group cache for repository '%s'\n", db->treename);
 
 	for(lg = db->grpcache; lg; lg = lg->next) {
@@ -672,7 +672,7 @@ alpm_list_t *_alpm_db_get_groupcache(alpm_db_t *db)
 	}
 
 	if(!(db->status & DB_STATUS_VALID)) {
-		RET_ERR(db->handle, PM_ERR_DB_INVALID, NULL);
+		RET_ERR(db->handle, ALPM_ERR_DB_INVALID, NULL);
 	}
 
 	if(!(db->status & DB_STATUS_GRPCACHE)) {

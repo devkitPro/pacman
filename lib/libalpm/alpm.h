@@ -55,25 +55,25 @@ extern "C" {
  */
 typedef enum _alpm_pkgreason_t {
 	/** Explicitly requested by the user. */
-	PM_PKG_REASON_EXPLICIT = 0,
+	ALPM_PKG_REASON_EXPLICIT = 0,
 	/** Installed as a dependency for another package. */
-	PM_PKG_REASON_DEPEND = 1
+	ALPM_PKG_REASON_DEPEND = 1
 } alpm_pkgreason_t;
 
 /** Types of version constraints in dependency specs. */
 typedef enum _alpm_depmod_t {
   /** No version constraint */
-	PM_DEP_MOD_ANY = 1,
+	ALPM_DEP_MOD_ANY = 1,
   /** Test version equality (package=x.y.z) */
-	PM_DEP_MOD_EQ,
+	ALPM_DEP_MOD_EQ,
   /** Test for at least a version (package>=x.y.z) */
-	PM_DEP_MOD_GE,
+	ALPM_DEP_MOD_GE,
   /** Test for at most a version (package<=x.y.z) */
-	PM_DEP_MOD_LE,
+	ALPM_DEP_MOD_LE,
   /** Test for greater than some version (package>x.y.z) */
-	PM_DEP_MOD_GT,
+	ALPM_DEP_MOD_GT,
   /** Test for less than some version (package<x.y.z) */
-	PM_DEP_MOD_LT
+	ALPM_DEP_MOD_LT
 } alpm_depmod_t;
 
 /**
@@ -82,8 +82,8 @@ typedef enum _alpm_depmod_t {
  * another target in the transaction.
  */
 typedef enum _alpm_fileconflicttype_t {
-	PM_FILECONFLICT_TARGET = 1,
-	PM_FILECONFLICT_FILESYSTEM
+	ALPM_FILECONFLICT_TARGET = 1,
+	ALPM_FILECONFLICT_FILESYSTEM
 } alpm_fileconflicttype_t;
 
 /**
@@ -181,10 +181,10 @@ typedef struct _alpm_backup_t {
  * Logging Levels
  */
 typedef enum _alpm_loglevel_t {
-	PM_LOG_ERROR    = 1,
-	PM_LOG_WARNING  = (1 << 1),
-	PM_LOG_DEBUG    = (1 << 2),
-	PM_LOG_FUNCTION = (1 << 3)
+	ALPM_LOG_ERROR    = 1,
+	ALPM_LOG_WARNING  = (1 << 1),
+	ALPM_LOG_DEBUG    = (1 << 2),
+	ALPM_LOG_FUNCTION = (1 << 3)
 } alpm_loglevel_t;
 
 typedef void (*alpm_cb_log)(alpm_loglevel_t, const char *, va_list);
@@ -739,39 +739,39 @@ alpm_pkg_t *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
 /** Transaction flags */
 typedef enum _alpm_transflag_t {
 	/** Ignore dependency checks. */
-	PM_TRANS_FLAG_NODEPS = 1,
+	ALPM_TRANS_FLAG_NODEPS = 1,
 	/** Ignore file conflicts and overwrite files. */
-	PM_TRANS_FLAG_FORCE = (1 << 1),
+	ALPM_TRANS_FLAG_FORCE = (1 << 1),
 	/** Delete files even if they are tagged as backup. */
-	PM_TRANS_FLAG_NOSAVE = (1 << 2),
+	ALPM_TRANS_FLAG_NOSAVE = (1 << 2),
 	/** Ignore version numbers when checking dependencies. */
-	PM_TRANS_FLAG_NODEPVERSION = (1 << 3),
+	ALPM_TRANS_FLAG_NODEPVERSION = (1 << 3),
 	/** Remove also any packages depending on a package being removed. */
-	PM_TRANS_FLAG_CASCADE = (1 << 4),
+	ALPM_TRANS_FLAG_CASCADE = (1 << 4),
 	/** Remove packages and their unneeded deps (not explicitly installed). */
-	PM_TRANS_FLAG_RECURSE = (1 << 5),
+	ALPM_TRANS_FLAG_RECURSE = (1 << 5),
 	/** Modify database but do not commit changes to the filesystem. */
-	PM_TRANS_FLAG_DBONLY = (1 << 6),
+	ALPM_TRANS_FLAG_DBONLY = (1 << 6),
 	/* (1 << 7) flag can go here */
-	/** Use PM_PKG_REASON_DEPEND when installing packages. */
-	PM_TRANS_FLAG_ALLDEPS = (1 << 8),
+	/** Use ALPM_PKG_REASON_DEPEND when installing packages. */
+	ALPM_TRANS_FLAG_ALLDEPS = (1 << 8),
 	/** Only download packages and do not actually install. */
-	PM_TRANS_FLAG_DOWNLOADONLY = (1 << 9),
+	ALPM_TRANS_FLAG_DOWNLOADONLY = (1 << 9),
 	/** Do not execute install scriptlets after installing. */
-	PM_TRANS_FLAG_NOSCRIPTLET = (1 << 10),
+	ALPM_TRANS_FLAG_NOSCRIPTLET = (1 << 10),
 	/** Ignore dependency conflicts. */
-	PM_TRANS_FLAG_NOCONFLICTS = (1 << 11),
+	ALPM_TRANS_FLAG_NOCONFLICTS = (1 << 11),
 	/* (1 << 12) flag can go here */
 	/** Do not install a package if it is already installed and up to date. */
-	PM_TRANS_FLAG_NEEDED = (1 << 13),
-	/** Use PM_PKG_REASON_EXPLICIT when installing packages. */
-	PM_TRANS_FLAG_ALLEXPLICIT = (1 << 14),
+	ALPM_TRANS_FLAG_NEEDED = (1 << 13),
+	/** Use ALPM_PKG_REASON_EXPLICIT when installing packages. */
+	ALPM_TRANS_FLAG_ALLEXPLICIT = (1 << 14),
 	/** Do not remove a package if it is needed by another one. */
-	PM_TRANS_FLAG_UNNEEDED = (1 << 15),
-	/** Remove also explicitly installed unneeded deps (use with PM_TRANS_FLAG_RECURSE). */
-	PM_TRANS_FLAG_RECURSEALL = (1 << 16),
+	ALPM_TRANS_FLAG_UNNEEDED = (1 << 15),
+	/** Remove also explicitly installed unneeded deps (use with ALPM_TRANS_FLAG_RECURSE). */
+	ALPM_TRANS_FLAG_RECURSEALL = (1 << 16),
 	/** Do not lock the database during the operation. */
-	PM_TRANS_FLAG_NOLOCK = (1 << 17)
+	ALPM_TRANS_FLAG_NOLOCK = (1 << 17)
 } alpm_transflag_t;
 
 /** Transaction events.
@@ -779,100 +779,100 @@ typedef enum _alpm_transflag_t {
  */
 typedef enum _alpm_transevt_t {
 	/** Dependencies will be computed for a package. */
-	PM_TRANS_EVT_CHECKDEPS_START = 1,
+	ALPM_TRANS_EVT_CHECKDEPS_START = 1,
 	/** Dependencies were computed for a package. */
-	PM_TRANS_EVT_CHECKDEPS_DONE,
+	ALPM_TRANS_EVT_CHECKDEPS_DONE,
 	/** File conflicts will be computed for a package. */
-	PM_TRANS_EVT_FILECONFLICTS_START,
+	ALPM_TRANS_EVT_FILECONFLICTS_START,
 	/** File conflicts were computed for a package. */
-	PM_TRANS_EVT_FILECONFLICTS_DONE,
+	ALPM_TRANS_EVT_FILECONFLICTS_DONE,
 	/** Dependencies will be resolved for target package. */
-	PM_TRANS_EVT_RESOLVEDEPS_START,
+	ALPM_TRANS_EVT_RESOLVEDEPS_START,
 	/** Dependencies were resolved for target package. */
-	PM_TRANS_EVT_RESOLVEDEPS_DONE,
+	ALPM_TRANS_EVT_RESOLVEDEPS_DONE,
 	/** Inter-conflicts will be checked for target package. */
-	PM_TRANS_EVT_INTERCONFLICTS_START,
+	ALPM_TRANS_EVT_INTERCONFLICTS_START,
 	/** Inter-conflicts were checked for target package. */
-	PM_TRANS_EVT_INTERCONFLICTS_DONE,
+	ALPM_TRANS_EVT_INTERCONFLICTS_DONE,
 	/** Package will be installed.
 	 * A pointer to the target package is passed to the callback.
 	 */
-	PM_TRANS_EVT_ADD_START,
+	ALPM_TRANS_EVT_ADD_START,
 	/** Package was installed.
 	 * A pointer to the new package is passed to the callback.
 	 */
-	PM_TRANS_EVT_ADD_DONE,
+	ALPM_TRANS_EVT_ADD_DONE,
 	/** Package will be removed.
 	 * A pointer to the target package is passed to the callback.
 	 */
-	PM_TRANS_EVT_REMOVE_START,
+	ALPM_TRANS_EVT_REMOVE_START,
 	/** Package was removed.
 	 * A pointer to the removed package is passed to the callback.
 	 */
-	PM_TRANS_EVT_REMOVE_DONE,
+	ALPM_TRANS_EVT_REMOVE_DONE,
 	/** Package will be upgraded.
 	 * A pointer to the upgraded package is passed to the callback.
 	 */
-	PM_TRANS_EVT_UPGRADE_START,
+	ALPM_TRANS_EVT_UPGRADE_START,
 	/** Package was upgraded.
 	 * A pointer to the new package, and a pointer to the old package is passed
 	 * to the callback, respectively.
 	 */
-	PM_TRANS_EVT_UPGRADE_DONE,
+	ALPM_TRANS_EVT_UPGRADE_DONE,
 	/** Target package's integrity will be checked. */
-	PM_TRANS_EVT_INTEGRITY_START,
+	ALPM_TRANS_EVT_INTEGRITY_START,
 	/** Target package's integrity was checked. */
-	PM_TRANS_EVT_INTEGRITY_DONE,
+	ALPM_TRANS_EVT_INTEGRITY_DONE,
 	/** Target deltas's integrity will be checked. */
-	PM_TRANS_EVT_DELTA_INTEGRITY_START,
+	ALPM_TRANS_EVT_DELTA_INTEGRITY_START,
 	/** Target delta's integrity was checked. */
-	PM_TRANS_EVT_DELTA_INTEGRITY_DONE,
+	ALPM_TRANS_EVT_DELTA_INTEGRITY_DONE,
 	/** Deltas will be applied to packages. */
-	PM_TRANS_EVT_DELTA_PATCHES_START,
+	ALPM_TRANS_EVT_DELTA_PATCHES_START,
 	/** Deltas were applied to packages. */
-	PM_TRANS_EVT_DELTA_PATCHES_DONE,
+	ALPM_TRANS_EVT_DELTA_PATCHES_DONE,
 	/** Delta patch will be applied to target package.
 	 * The filename of the package and the filename of the patch is passed to the
 	 * callback.
 	 */
-	PM_TRANS_EVT_DELTA_PATCH_START,
+	ALPM_TRANS_EVT_DELTA_PATCH_START,
 	/** Delta patch was applied to target package. */
-	PM_TRANS_EVT_DELTA_PATCH_DONE,
+	ALPM_TRANS_EVT_DELTA_PATCH_DONE,
 	/** Delta patch failed to apply to target package. */
-	PM_TRANS_EVT_DELTA_PATCH_FAILED,
+	ALPM_TRANS_EVT_DELTA_PATCH_FAILED,
 	/** Scriptlet has printed information.
 	 * A line of text is passed to the callback.
 	 */
-	PM_TRANS_EVT_SCRIPTLET_INFO,
+	ALPM_TRANS_EVT_SCRIPTLET_INFO,
 	/** Files will be downloaded from a repository.
 	 * The repository's tree name is passed to the callback.
 	 */
-	PM_TRANS_EVT_RETRIEVE_START,
+	ALPM_TRANS_EVT_RETRIEVE_START,
 	/** Disk space usage will be computed for a package */
-	PM_TRANS_EVT_DISKSPACE_START,
+	ALPM_TRANS_EVT_DISKSPACE_START,
 	/** Disk space usage was computed for a package */
-	PM_TRANS_EVT_DISKSPACE_DONE,
+	ALPM_TRANS_EVT_DISKSPACE_DONE,
 } alpm_transevt_t;
 
 /** Transaction Conversations (ie, questions) */
 typedef enum _alpm_transconv_t {
-	PM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
-	PM_TRANS_CONV_REPLACE_PKG = (1 << 1),
-	PM_TRANS_CONV_CONFLICT_PKG = (1 << 2),
-	PM_TRANS_CONV_CORRUPTED_PKG = (1 << 3),
-	PM_TRANS_CONV_LOCAL_NEWER = (1 << 4),
-	PM_TRANS_CONV_REMOVE_PKGS = (1 << 5),
-	PM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
+	ALPM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
+	ALPM_TRANS_CONV_REPLACE_PKG = (1 << 1),
+	ALPM_TRANS_CONV_CONFLICT_PKG = (1 << 2),
+	ALPM_TRANS_CONV_CORRUPTED_PKG = (1 << 3),
+	ALPM_TRANS_CONV_LOCAL_NEWER = (1 << 4),
+	ALPM_TRANS_CONV_REMOVE_PKGS = (1 << 5),
+	ALPM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
 } alpm_transconv_t;
 
 /** Transaction Progress */
 typedef enum _alpm_transprog_t {
-	PM_TRANS_PROGRESS_ADD_START,
-	PM_TRANS_PROGRESS_UPGRADE_START,
-	PM_TRANS_PROGRESS_REMOVE_START,
-	PM_TRANS_PROGRESS_CONFLICTS_START,
-	PM_TRANS_PROGRESS_DISKSPACE_START,
-	PM_TRANS_PROGRESS_INTEGRITY_START,
+	ALPM_TRANS_PROGRESS_ADD_START,
+	ALPM_TRANS_PROGRESS_UPGRADE_START,
+	ALPM_TRANS_PROGRESS_REMOVE_START,
+	ALPM_TRANS_PROGRESS_CONFLICTS_START,
+	ALPM_TRANS_PROGRESS_DISKSPACE_START,
+	ALPM_TRANS_PROGRESS_INTEGRITY_START,
 } alpm_transprog_t;
 
 /** Transaction Event callback */
@@ -1007,67 +1007,67 @@ char *alpm_compute_md5sum(const char *name);
  * @{
  */
 enum _alpm_errno_t {
-	PM_ERR_MEMORY = 1,
-	PM_ERR_SYSTEM,
-	PM_ERR_BADPERMS,
-	PM_ERR_NOT_A_FILE,
-	PM_ERR_NOT_A_DIR,
-	PM_ERR_WRONG_ARGS,
-	PM_ERR_DISK_SPACE,
+	ALPM_ERR_MEMORY = 1,
+	ALPM_ERR_SYSTEM,
+	ALPM_ERR_BADPERMS,
+	ALPM_ERR_NOT_A_FILE,
+	ALPM_ERR_NOT_A_DIR,
+	ALPM_ERR_WRONG_ARGS,
+	ALPM_ERR_DISK_SPACE,
 	/* Interface */
-	PM_ERR_HANDLE_NULL,
-	PM_ERR_HANDLE_NOT_NULL,
-	PM_ERR_HANDLE_LOCK,
+	ALPM_ERR_HANDLE_NULL,
+	ALPM_ERR_HANDLE_NOT_NULL,
+	ALPM_ERR_HANDLE_LOCK,
 	/* Databases */
-	PM_ERR_DB_OPEN,
-	PM_ERR_DB_CREATE,
-	PM_ERR_DB_NULL,
-	PM_ERR_DB_NOT_NULL,
-	PM_ERR_DB_NOT_FOUND,
-	PM_ERR_DB_INVALID,
-	PM_ERR_DB_VERSION,
-	PM_ERR_DB_WRITE,
-	PM_ERR_DB_REMOVE,
+	ALPM_ERR_DB_OPEN,
+	ALPM_ERR_DB_CREATE,
+	ALPM_ERR_DB_NULL,
+	ALPM_ERR_DB_NOT_NULL,
+	ALPM_ERR_DB_NOT_FOUND,
+	ALPM_ERR_DB_INVALID,
+	ALPM_ERR_DB_VERSION,
+	ALPM_ERR_DB_WRITE,
+	ALPM_ERR_DB_REMOVE,
 	/* Servers */
-	PM_ERR_SERVER_BAD_URL,
-	PM_ERR_SERVER_NONE,
+	ALPM_ERR_SERVER_BAD_URL,
+	ALPM_ERR_SERVER_NONE,
 	/* Transactions */
-	PM_ERR_TRANS_NOT_NULL,
-	PM_ERR_TRANS_NULL,
-	PM_ERR_TRANS_DUP_TARGET,
-	PM_ERR_TRANS_NOT_INITIALIZED,
-	PM_ERR_TRANS_NOT_PREPARED,
-	PM_ERR_TRANS_ABORT,
-	PM_ERR_TRANS_TYPE,
-	PM_ERR_TRANS_NOT_LOCKED,
+	ALPM_ERR_TRANS_NOT_NULL,
+	ALPM_ERR_TRANS_NULL,
+	ALPM_ERR_TRANS_DUP_TARGET,
+	ALPM_ERR_TRANS_NOT_INITIALIZED,
+	ALPM_ERR_TRANS_NOT_PREPARED,
+	ALPM_ERR_TRANS_ABORT,
+	ALPM_ERR_TRANS_TYPE,
+	ALPM_ERR_TRANS_NOT_LOCKED,
 	/* Packages */
-	PM_ERR_PKG_NOT_FOUND,
-	PM_ERR_PKG_IGNORED,
-	PM_ERR_PKG_INVALID,
-	PM_ERR_PKG_OPEN,
-	PM_ERR_PKG_CANT_REMOVE,
-	PM_ERR_PKG_INVALID_NAME,
-	PM_ERR_PKG_INVALID_ARCH,
-	PM_ERR_PKG_REPO_NOT_FOUND,
+	ALPM_ERR_PKG_NOT_FOUND,
+	ALPM_ERR_PKG_IGNORED,
+	ALPM_ERR_PKG_INVALID,
+	ALPM_ERR_PKG_OPEN,
+	ALPM_ERR_PKG_CANT_REMOVE,
+	ALPM_ERR_PKG_INVALID_NAME,
+	ALPM_ERR_PKG_INVALID_ARCH,
+	ALPM_ERR_PKG_REPO_NOT_FOUND,
 	/* Signatures */
-	PM_ERR_SIG_MISSINGDIR,
-	PM_ERR_SIG_INVALID,
-	PM_ERR_SIG_UNKNOWN,
+	ALPM_ERR_SIG_MISSINGDIR,
+	ALPM_ERR_SIG_INVALID,
+	ALPM_ERR_SIG_UNKNOWN,
 	/* Deltas */
-	PM_ERR_DLT_INVALID,
-	PM_ERR_DLT_PATCHFAILED,
+	ALPM_ERR_DLT_INVALID,
+	ALPM_ERR_DLT_PATCHFAILED,
 	/* Dependencies */
-	PM_ERR_UNSATISFIED_DEPS,
-	PM_ERR_CONFLICTING_DEPS,
-	PM_ERR_FILE_CONFLICTS,
+	ALPM_ERR_UNSATISFIED_DEPS,
+	ALPM_ERR_CONFLICTING_DEPS,
+	ALPM_ERR_FILE_CONFLICTS,
 	/* Misc */
-	PM_ERR_RETRIEVE,
-	PM_ERR_INVALID_REGEX,
+	ALPM_ERR_RETRIEVE,
+	ALPM_ERR_INVALID_REGEX,
 	/* External library errors */
-	PM_ERR_LIBARCHIVE,
-	PM_ERR_LIBCURL,
-	PM_ERR_EXTERNAL_DOWNLOAD,
-	PM_ERR_GPGME
+	ALPM_ERR_LIBARCHIVE,
+	ALPM_ERR_LIBCURL,
+	ALPM_ERR_EXTERNAL_DOWNLOAD,
+	ALPM_ERR_GPGME
 };
 
 /** Returns the current error code from the handle. */

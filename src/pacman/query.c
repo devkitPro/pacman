@@ -117,7 +117,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 	/* This code is here for safety only */
 	if(targets == NULL) {
-		pm_fprintf(stderr, PM_LOG_ERROR, _("no file was specified for --owns\n"));
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("no file was specified for --owns\n"));
 		return 1;
 	}
 
@@ -144,14 +144,14 @@ static int query_fileowner(alpm_list_t *targets)
 			/*  if it is not a path but a program name, then check in PATH */
 			if(strchr(filename, '/') == NULL) {
 				if(search_path(&filename, &buf) == -1) {
-					pm_fprintf(stderr, PM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),
+					pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),
 							filename, strerror(errno));
 					ret++;
 					free(filename);
 					continue;
 				}
 			} else {
-				pm_fprintf(stderr, PM_LOG_ERROR, _("failed to read file '%s': %s\n"),
+				pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to read file '%s': %s\n"),
 						filename, strerror(errno));
 				ret++;
 				free(filename);
@@ -160,7 +160,7 @@ static int query_fileowner(alpm_list_t *targets)
 		}
 
 		if(S_ISDIR(buf.st_mode)) {
-			pm_fprintf(stderr, PM_LOG_ERROR,
+			pm_fprintf(stderr, ALPM_LOG_ERROR,
 				_("cannot determine ownership of directory '%s'\n"), filename);
 			ret++;
 			free(filename);
@@ -176,7 +176,7 @@ static int query_fileowner(alpm_list_t *targets)
 			rpath = resolve_path(dname);
 
 			if(!rpath) {
-				pm_fprintf(stderr, PM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
+				pm_fprintf(stderr, ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
 						filename, strerror(errno));
 				free(filename);
 				free(dname);
@@ -209,7 +209,7 @@ static int query_fileowner(alpm_list_t *targets)
 				}
 
 				if(strlen(pkgfile) > max_length) {
-					pm_fprintf(stderr, PM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
+					pm_fprintf(stderr, ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
 				}
 				/* concatenate our file and the root path */
 				strcpy(append, pkgfile);
@@ -226,7 +226,7 @@ static int query_fileowner(alpm_list_t *targets)
 			}
 		}
 		if(!found) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("No package owns %s\n"), filename);
+			pm_fprintf(stderr, ALPM_LOG_ERROR, _("No package owns %s\n"), filename);
 			ret++;
 		}
 		free(filename);
@@ -328,7 +328,7 @@ static int query_group(alpm_list_t *targets)
 					}
 				}
 			} else {
-				pm_fprintf(stderr, PM_LOG_ERROR, _("group \"%s\" was not found\n"), grpname);
+				pm_fprintf(stderr, ALPM_LOG_ERROR, _("group \"%s\" was not found\n"), grpname);
 				ret++;
 			}
 		}
@@ -371,12 +371,12 @@ static int filter(alpm_pkg_t *pkg)
 {
 	/* check if this package was explicitly installed */
 	if(config->op_q_explicit &&
-			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_EXPLICIT) {
+			alpm_pkg_get_reason(pkg) != ALPM_PKG_REASON_EXPLICIT) {
 		return 0;
 	}
 	/* check if this package was installed as a dependency */
 	if(config->op_q_deps &&
-			alpm_pkg_get_reason(pkg) != PM_PKG_REASON_DEPEND) {
+			alpm_pkg_get_reason(pkg) != ALPM_PKG_REASON_DEPEND) {
 		return 0;
 	}
 	/* check if this pkg isn't in a sync DB */
@@ -409,7 +409,7 @@ static int check(alpm_pkg_t *pkg)
 	rootlen = strlen(root);
 	if(rootlen + 1 > PATH_MAX) {
 		/* we are in trouble here */
-		pm_fprintf(stderr, PM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
 		return 1;
 	}
 	strcpy(f, root);
@@ -421,7 +421,7 @@ static int check(alpm_pkg_t *pkg)
 		const char *path = file->name;
 
 		if(rootlen + 1 + strlen(path) > PATH_MAX) {
-			pm_fprintf(stderr, PM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
+			pm_fprintf(stderr, ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
 			continue;
 		}
 		strcpy(f + rootlen, path);
@@ -431,7 +431,7 @@ static int check(alpm_pkg_t *pkg)
 			if(config->quiet) {
 				printf("%s %s\n", pkgname, f);
 			} else {
-				pm_printf(PM_LOG_WARNING, "%s: %s (%s)\n",
+				pm_printf(ALPM_LOG_WARNING, "%s: %s (%s)\n",
 						pkgname, f, strerror(errno));
 			}
 			errors++;
@@ -505,7 +505,7 @@ int pacman_query(alpm_list_t *targets)
 		/* ensure we have at least one valid sync db set up */
 		alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
 		if(sync_dbs == NULL) {
-			pm_printf(PM_LOG_ERROR, _("no usable package repositories configured.\n"));
+			pm_printf(ALPM_LOG_ERROR, _("no usable package repositories configured.\n"));
 			return 1;
 		}
 	}
@@ -517,7 +517,7 @@ int pacman_query(alpm_list_t *targets)
 	 * invalid: isfile, owns */
 	if(targets == NULL) {
 		if(config->op_q_isfile || config->op_q_owns) {
-			pm_printf(PM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+			pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 			return 1;
 		}
 
@@ -557,7 +557,7 @@ int pacman_query(alpm_list_t *targets)
 		}
 
 		if(pkg == NULL) {
-			pm_fprintf(stderr, PM_LOG_ERROR, _("package \"%s\" not found\n"), strname);
+			pm_fprintf(stderr, ALPM_LOG_ERROR, _("package \"%s\" not found\n"), strname);
 			ret = 1;
 			continue;
 		}
