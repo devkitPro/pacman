@@ -507,22 +507,6 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 /* Accessors */
 
 /**
- * @brief Get the first element of a list.
- *
- * @param list the list
- *
- * @return the first element in the list
- */
-inline alpm_list_t SYMEXPORT *alpm_list_first(const alpm_list_t *list)
-{
-	if(list) {
-		return (alpm_list_t *)list;
-	} else {
-		return NULL;
-	}
-}
-
-/**
  * @brief Return nth element from list (starting from 0).
  *
  * @param list the list

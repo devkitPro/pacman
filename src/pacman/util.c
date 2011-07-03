@@ -841,7 +841,7 @@ out:
 	/* cleanup */
 	if(config->verbosepkglists) {
 		/* targets is a list of lists of strings, free inner lists here */
-		for(j = alpm_list_first(targets); j; j = alpm_list_next(j)) {
+		for(j = targets; j; j = alpm_list_next(j)) {
 			lp = alpm_list_getdata(j);
 			FREELIST(lp);
 		}
