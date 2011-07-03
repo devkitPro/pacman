@@ -211,7 +211,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 		/* a previous partial download exists, resume from end of file. */
 		open_mode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
-		_alpm_log(handle, PM_LOG_DEBUG, "tempfile found, attempting continuation");
+		_alpm_log(handle, PM_LOG_DEBUG, "tempfile found, attempting continuation\n");
 		dlfile.initial_size = (double)st.st_size;
 	}
 
