@@ -642,7 +642,11 @@ if (( success )); then
 	create_signature "$tmpdir/$filename"
 
 	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
-	[[ -f $REPO_DB_FILE.sig ]] && rm -f "$REPO_DB_FILE.sig"
+	if [[ -f $REPO_DB_FILE.sig ]]; then
+		mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
+	else
+		rm -f "$REPO_DB_FILE.old.sig"
+	fi
 	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
 	[[ -f $tmpdir/$filename.sig ]] && mv "$tmpdir/$filename.sig" "$REPO_DB_FILE.sig"
 	dblink="${REPO_DB_FILE%.tar*}"
