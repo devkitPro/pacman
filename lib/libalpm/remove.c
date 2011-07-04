@@ -329,7 +329,7 @@ int _alpm_upgraderemove_package(alpm_handle_t *handle,
 	_alpm_log(handle, ALPM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
 
 	/* iterate through the list backwards, unlinking files */
-	for(lp = alpm_list_last(files); lp; lp = alpm_list_previous(files, lp)) {
+	for(lp = alpm_list_last(files); lp; lp = alpm_list_previous(lp)) {
 		unlink_file(handle, oldpkg, lp->data, skip_remove, 0);
 	}
 	FREELIST(skip_remove);
@@ -406,7 +406,7 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 					pkg_count, (pkg_count - targcount + 1));
 
 			/* iterate through the list backwards, unlinking files */
-			for(lp = alpm_list_last(files); lp; lp = alpm_list_previous(files, lp)) {
+			for(lp = alpm_list_last(files); lp; lp = alpm_list_previous(lp)) {
 				int percent;
 				unlink_file(handle, info, lp->data, NULL, trans->flags & ALPM_TRANS_FLAG_NOSAVE);
 
