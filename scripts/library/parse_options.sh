@@ -25,7 +25,7 @@ parse_options() {
 							shift
 							printf " '%s'" "$1"
 						else
-							printf "@SCRIPTNAME@: $(gettext "option %s requires an argument")" "'$1'" >&2
+							printf "@SCRIPTNAME@: $(gettext "option %s requires an argument\n")" "'$1'" >&2
 							ret=1
 						fi
 					fi
@@ -50,7 +50,7 @@ parse_options() {
 								shift
 								printf " '%s'" "${1}"
 							else
-								printf "@SCRIPTNAME@: $(gettext "option %s requires an argument")" "'-${1:i:1}'" >&2
+								printf "@SCRIPTNAME@: $(gettext "option %s requires an argument\n")" "'-${1:i:1}'" >&2
 								ret=1
 							fi
 						fi
