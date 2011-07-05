@@ -50,7 +50,7 @@ usage() {
 	echo
 	echo "$(gettext "Options:")"
 	echo "$(gettext "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)")"
-	echo "$(gettext "  -d, --del <keyid(s)>      Remove the specified keyids")"
+	echo "$(gettext "  -d, --delete <keyid(s)>   Remove the specified keyids")"
 	echo "$(gettext "  -e, --export <keyid(s)>   Export the specified keyids")"
 	echo "$(gettext "  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids")"
 	echo "$(gettext "  -h, --help                Show this help message and exit")"
@@ -210,7 +210,7 @@ if ! type gettext &>/dev/null; then
 fi
 
 OPT_SHORT="a::d:e:f::hlr:t:uV"
-OPT_LONG="add::,config:,del:,export:,finger::,gpgdir:,help,list"
+OPT_LONG="add::,config:,delete:,export:,finger::,gpgdir:,help,list"
 OPT_LONG+=",receive:,reload,trust:,updatedb,version"
 if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
@@ -227,7 +227,7 @@ while true; do
 	case "$1" in
 		-a|--add)         ADD=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYFILES=($1) ;;
 		--config)         shift; CONFIG=$1 ;;
-		-d|--del)         DELETE=1; shift; KEYIDS=($1) ;;
+		-d|--delete)      DELETE=1; shift; KEYIDS=($1) ;;
 		-e|--export)      EXPORT=1; shift; KEYIDS=($1) ;;
 		-f|--finger)      FINGER=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		--gpgdir)         shift; PACMAN_KEYRING_DIR=$1 ;;
