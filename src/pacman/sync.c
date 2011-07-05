@@ -443,32 +443,27 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
-			int foundpkg = 0;
+			const char *target = alpm_list_getdata(i);
+			char *name = strdup(target);
+			char *repo, *pkgstr;
+			int foundpkg = 0, founddb = 0;
 
-			char target[512]; /* TODO is this enough space? */
-			char *repo = NULL, *pkgstr = NULL;
-
-			strncpy(target, i->data, 512);
-			pkgstr = strchr(target, '/');
+			pkgstr = strchr(name, '/');
 			if(pkgstr) {
-				alpm_db_t *db = NULL;
-				repo = target;
+				repo = name;
 				*pkgstr = '\0';
 				++pkgstr;
+			} else {
+				repo = NULL;
+				pkgstr = name;
+			}
 
-				for(j = syncs; j; j = alpm_list_next(j)) {
-					db = alpm_list_getdata(j);
-					if(strcmp(repo, alpm_db_get_name(db)) == 0) {
-						break;
-					}
-					db = NULL;
+			for(j = syncs; j; j = alpm_list_next(j)) {
+				alpm_db_t *db = alpm_list_getdata(j);
+				if(repo && strcmp(repo, alpm_db_get_name(db)) != 0) {
+					continue;
 				}
-
-				if(!db) {
-					pm_fprintf(stderr, ALPM_LOG_ERROR,
-						_("repository '%s' does not exist\n"), repo);
-					return 1;
-				}
+				founddb = 1;
 
 				for(k = alpm_db_get_pkgcache(db); k; k = alpm_list_next(k)) {
 					alpm_pkg_t *pkg = alpm_list_getdata(k);
@@ -479,34 +474,19 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 						break;
 					}
 				}
-
-				if(!foundpkg) {
-					pm_fprintf(stderr, ALPM_LOG_ERROR,
-						_("package '%s' was not found in repository '%s'\n"), pkgstr, repo);
-					ret++;
-				}
-			} else {
-				pkgstr = target;
-
-				for(j = syncs; j; j = alpm_list_next(j)) {
-					alpm_db_t *db = alpm_list_getdata(j);
-
-					for(k = alpm_db_get_pkgcache(db); k; k = alpm_list_next(k)) {
-						alpm_pkg_t *pkg = alpm_list_getdata(k);
-
-						if(strcmp(alpm_pkg_get_name(pkg), pkgstr) == 0) {
-							dump_pkg_full(pkg, PKG_FROM_SYNCDB, config->op_s_info > 1);
-							foundpkg = 1;
-							break;
-						}
-					}
-				}
-				if(!foundpkg) {
-					pm_fprintf(stderr, ALPM_LOG_ERROR,
-						_("package '%s' was not found\n"), pkgstr);
-					ret++;
-				}
 			}
+
+			if(!founddb) {
+				pm_fprintf(stderr, ALPM_LOG_ERROR,
+						_("repository '%s' does not exist\n"), repo);
+				ret++;
+			}
+			if(!foundpkg) {
+				pm_fprintf(stderr, ALPM_LOG_ERROR,
+						_("package '%s' was not found\n"), target);
+				ret++;
+			}
+			free(name);
 		}
 	} else {
 		for(i = syncs; i; i = alpm_list_next(i)) {
@@ -630,7 +610,7 @@ static int process_pkg(alpm_pkg_t *pkg)
 	return 0;
 }
 
-static int process_group(alpm_list_t *dbs, char *group)
+static int process_group(alpm_list_t *dbs, const char *group)
 {
 	int ret = 0;
 	alpm_list_t *i;
@@ -676,7 +656,7 @@ cleanup:
 	return ret;
 }
 
-static int process_targname(alpm_list_t *dblist, char *targname)
+static int process_targname(alpm_list_t *dblist, const char *targname)
 {
 	alpm_pkg_t *pkg = alpm_find_dbs_satisfier(config->handle, dblist, targname);
 
@@ -695,7 +675,7 @@ static int process_targname(alpm_list_t *dblist, char *targname)
 	return process_group(dblist, targname);
 }
 
-static int process_target(char *target)
+static int process_target(const char *target)
 {
 	/* process targets */
 	char *targstring = strdup(target);
