@@ -28,7 +28,6 @@ myver="@PACKAGE_VERSION@"
 
 # Options
 ADD=0
-ADVANCED=0
 DELETE=0
 EXPORT=0
 FINGER=0
@@ -60,7 +59,6 @@ usage() {
 	echo "$(gettext "  -t, --trust <keyid(s)>    Set the trust level of the given keyids")"
 	echo "$(gettext "  -u, --updatedb            Update the trustdb of pacman")"
 	echo "$(gettext "  -V, --version             Show program version")"
-	echo "$(gettext "  --adv <params>            Use pacman's keyring with advanced gpg commands")"
 	echo "$(gettext "  --config <file>           Use an alternate config file")"
 	printf "$(gettext "                                    (instead of '%s')")\n" "@sysconfdir@/pacman.conf"
 	echo "$(gettext "  --gpgdir <dir>            Set an alternate directory for gnupg")"
@@ -212,7 +210,7 @@ if ! type gettext &>/dev/null; then
 fi
 
 OPT_SHORT="a::d:e:f::hlr:t:uV"
-OPT_LONG="add::,adv:,config:,del:,export:,finger::,gpgdir:,help,list"
+OPT_LONG="add::,config:,del:,export:,finger::,gpgdir:,help,list"
 OPT_LONG+=",receive:,reload,trust:,updatedb,version"
 if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
@@ -228,7 +226,6 @@ fi
 while true; do
 	case "$1" in
 		-a|--add)         ADD=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYFILES=($1) ;;
-		--adv)            ADVANCED=1; shift; ARGUMENTS=($1) ;;
 		--config)         shift; CONFIG=$1 ;;
 		-d|--del)         DELETE=1; shift; KEYIDS=($1) ;;
 		-e|--export)      EXPORT=1; shift; KEYIDS=($1) ;;
@@ -255,7 +252,7 @@ if ! type -p gpg >/dev/null; then
 	exit 1
 fi
 
-if (( (ADD || ADVANCED || DELETE || RECEIVE || RELOAD || TRUST || UPDATEDB) && EUID != 0 )); then
+if (( (ADD || DELETE || RECEIVE || RELOAD || TRUST || UPDATEDB) && EUID != 0 )); then
 	error "$(gettext "%s needs to be run as root for this operation.")" "pacman-key"
 	exit 1
 fi
@@ -287,12 +284,6 @@ GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
 (( LIST )) && ${GPG_PACMAN} --batch --list-sigs "${KEYIDS[@]}"
 (( RELOAD )) && reload_keyring
 (( UPDATEDB )) && ${GPG_PACMAN} --batch --check-trustdb
-
-if (( ADVANCED )); then
-	msg "$(gettext "Executing: %s %s")" "${GPG_PACMAN}" "${ARGUMENTS[@]}"
-	${GPG_PACMAN} "${ARGUMENTS[@]}" || ret=$?
-	exit $ret
-fi
 
 if (( RECEIVE )); then
 	if [[ -z ${KEYIDS[@]} ]]; then
