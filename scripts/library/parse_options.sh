@@ -20,15 +20,20 @@ parse_options() {
 					local needsargument=0
 
 					[[ ${match} = ${1:2}: ]] && needsargument=1
-					[[ ${match} = ${1:2}:: && -n $2 && ${2:0:1} != "-" ]]  && needsargument=1
+					[[ ${match} = ${1:2}:: && -n $2 && ${2:0:1} != "-" ]] && needsargument=1
 
 					if (( ! needsargument )); then
 						printf ' %s' "$1"
 					else
 						if [[ -n $2 ]]; then
-							printf ' %s' "$1"
+							printf ' %s ' "$1"
 							shift
-							printf " '%s'" "$1"
+							printf "'%q" "$1"
+							while [[ -n $2 && ${2:0:1} != "-" ]]; do
+								shift
+								printf " %q" "$1"
+							done
+							printf "'"
 						else
 							printf "@SCRIPTNAME@: $(gettext "option %s requires an argument\n")" "'$1'" >&2
 							ret=1
@@ -55,13 +60,24 @@ parse_options() {
 						printf ' -%s' "${1:i:1}"
 					else
 						if [[ -n ${1:$i+1} ]]; then
-							printf ' -%s' "${1:i:1}"
-							printf " '%s'" "${1:$i+1}"
+							printf ' -%s ' "${1:i:1}"
+							printf "'%q" "${1:$i+1}"
+							while [[ -n $2 && ${2:0:1} != "-" ]]; do
+								shift
+								printf " %q" "$1"
+							done
+							printf "'"
 						else
 							if [[ -n $2 ]]; then
-								printf ' -%s' "${1:i:1}"
+								printf ' -%s ' "${1:i:1}"
 								shift
-								printf " '%s'" "${1}"
+								printf "'%q" "$1"
+								while [[ -n $2 && ${2:0:1} != "-" ]]; do
+									shift
+									printf " %q" "$1"
+								done
+								printf "'"
+
 							else
 								printf "@SCRIPTNAME@: $(gettext "option %s requires an argument\n")" "'-${1:i:1}'" >&2
 								ret=1
