@@ -33,7 +33,7 @@ usage() {
 	echo
 	printf "$(gettext "Usage: %s [options] <command> [arguments]")\n" $(basename $0)
 	echo
-	echo "$(gettext "Manage pacman's list of trusted keys")"
+	printf "$(gettext "Manage pacman\'s list of trusted keys")\n"
 	echo
 	echo "$(gettext "Options must be placed before commands. The available options are:")"
 	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$CONFIG"
