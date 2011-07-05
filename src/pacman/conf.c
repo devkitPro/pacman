@@ -750,7 +750,9 @@ static int _parseconfig(const char *file, struct section_t *section,
 	}
 
 cleanup:
-	fclose(fp);
+	if (fp) {
+		fclose(fp);
+	}
 	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return ret;
 }
