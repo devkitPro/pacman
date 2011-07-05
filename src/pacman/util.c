@@ -389,22 +389,21 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	 * x "size difference between replace and needle" */
 	newsz = strlen(str) + 1 +
 		alpm_list_count(list) * (replacesz - needlesz);
-	newstr = malloc(newsz);
+	newstr = calloc(newsz, sizeof(char));
 	if(!newstr) {
 		return NULL;
 	}
-	*newstr = '\0';
 
 	p = str;
 	newp = newstr;
 	for(i = list; i; i = alpm_list_next(i)) {
 		q = alpm_list_getdata(i);
-		if(q > p){
+		if(q > p) {
 			/* add chars between this occurence and last occurence, if any */
-			strncpy(newp, p, (size_t)(q - p));
+			memcpy(newp, p, (size_t)(q - p));
 			newp += q - p;
 		}
-		strncpy(newp, replace, replacesz);
+		memcpy(newp, replace, replacesz);
 		newp += replacesz;
 		p = q + needlesz;
 	}
@@ -413,9 +412,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	if(*p) {
 		/* add the rest of 'p' */
 		strcpy(newp, p);
-		newp += strlen(p);
 	}
-	*newp = '\0';
 
 	return newstr;
 }

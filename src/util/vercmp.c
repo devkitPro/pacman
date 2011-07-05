@@ -20,7 +20,7 @@
 
 #include <stdlib.h>
 #include <stdio.h> /* printf */
-#include <string.h> /* strncpy */
+#include <string.h>
 
 #define BASENAME "vercmp"
 

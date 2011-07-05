@@ -110,8 +110,7 @@ static int query_fileowner(alpm_list_t *targets)
 	int ret = 0;
 	char path[PATH_MAX];
 	const char *root;
-	char *append;
-	size_t max_length;
+	size_t rootlen;
 	alpm_list_t *t;
 	alpm_db_t *db_local;
 
@@ -125,9 +124,13 @@ static int query_fileowner(alpm_list_t *targets)
 	 * once, then we can just overwrite whatever file was there on the previous
 	 * iteration. */
 	root = alpm_option_get_root(config->handle);
-	strncpy(path, root, PATH_MAX - 1);
-	append = path + strlen(path);
-	max_length = PATH_MAX - (append - path) - 1;
+	rootlen = strlen(root);
+	if(rootlen + 1 > PATH_MAX) {
+		/* we are in trouble here */
+		pm_fprintf(stderr, ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
+		return 1;
+	}
+	strcpy(path, root);
 
 	db_local = alpm_option_get_localdb(config->handle);
 
@@ -208,11 +211,11 @@ static int query_fileowner(alpm_list_t *targets)
 					continue;
 				}
 
-				if(strlen(pkgfile) > max_length) {
+				if(rootlen + 1 + strlen(pkgfile) > PATH_MAX) {
 					pm_fprintf(stderr, ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
 				}
 				/* concatenate our file and the root path */
-				strcpy(append, pkgfile);
+				strcpy(path + rootlen, pkgfile);
 
 				pdname = mdirname(path);
 				ppath = resolve_path(pdname);

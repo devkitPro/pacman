@@ -299,7 +299,7 @@ static char *canonicalize_path(const char *path) {
 		len += 1;
 	}
 	CALLOC(new_path, len + 1, sizeof(char), return NULL);
-	strncpy(new_path, path, len);
+	strcpy(new_path, path);
 	new_path[len - 1] = '/';
 	return new_path;
 }
