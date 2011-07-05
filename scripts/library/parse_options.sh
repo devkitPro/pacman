@@ -17,7 +17,12 @@ parse_options() {
 					fi
 				done
 				if [[ -n $match ]]; then
-					if [[ ${1:2} = $match ]]; then
+					local needsargument=0
+
+					[[ ${match} = ${1:2}: ]] && needsargument=1
+					[[ ${match} = ${1:2}:: && -n $2 && ${2:0:1} != "-" ]]  && needsargument=1
+
+					if (( ! needsargument )); then
 						printf ' %s' "$1"
 					else
 						if [[ -n $2 ]]; then
@@ -40,7 +45,15 @@ parse_options() {
 		elif [[ ${1:0:1} = '-' ]]; then
 			for ((i=1; i<${#1}; i++)); do
 				if [[ $short_options =~ ${1:i:1} ]]; then
-					if [[ $short_options =~ ${1:i:1}: ]]; then
+					local needsargument=0
+
+					[[ $short_options =~ ${1:i:1}: && ! $short_options =~ ${1:i:1}:: ]] && needsargument=1
+					[[ $short_options =~ ${1:i:1}:: && \
+						( -n ${1:$i+1} || ( -n $2 && ${2:0:1} != "-" ) ) ]] && needsargument=1
+
+					if (( ! needsargument )); then
+						printf ' -%s' "${1:i:1}"
+					else
 						if [[ -n ${1:$i+1} ]]; then
 							printf ' -%s' "${1:i:1}"
 							printf " '%s'" "${1:$i+1}"
@@ -55,8 +68,6 @@ parse_options() {
 							fi
 						fi
 						break
-					else
-						printf ' -%s' "${1:i:1}"
 					fi
 				else
 					echo "@SCRIPTNAME@: $(gettext "unrecognized option") '-${1:i:1}'" >&2
