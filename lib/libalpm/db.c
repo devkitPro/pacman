@@ -489,6 +489,25 @@ static int load_pkgcache(alpm_db_t *db)
 	return 0;
 }
 
+static void free_groupcache(alpm_db_t *db)
+{
+	alpm_list_t *lg;
+
+	if(db == NULL || !(db->status & DB_STATUS_GRPCACHE)) {
+		return;
+	}
+
+	_alpm_log(db->handle, ALPM_LOG_DEBUG,
+			"freeing group cache for repository '%s'\n", db->treename);
+
+	for(lg = db->grpcache; lg; lg = lg->next) {
+		_alpm_group_free(lg->data);
+		lg->data = NULL;
+	}
+	FREELIST(db->grpcache);
+	db->status &= ~DB_STATUS_GRPCACHE;
+}
+
 void _alpm_db_free_pkgcache(alpm_db_t *db)
 {
 	if(db == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
@@ -503,7 +522,7 @@ void _alpm_db_free_pkgcache(alpm_db_t *db)
 	_alpm_pkghash_free(db->pkgcache);
 	db->status &= ~DB_STATUS_PKGCACHE;
 
-	_alpm_db_free_groupcache(db);
+	free_groupcache(db);
 }
 
 alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db)
@@ -552,7 +571,7 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 						alpm_pkg_get_name(newpkg), db->treename);
 	db->pkgcache = _alpm_pkghash_add_sorted(db->pkgcache, newpkg);
 
-	_alpm_db_free_groupcache(db);
+	free_groupcache(db);
 
 	return 0;
 }
@@ -578,7 +597,7 @@ int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg)
 
 	_alpm_pkg_free(data);
 
-	_alpm_db_free_groupcache(db);
+	free_groupcache(db);
 
 	return 0;
 }
@@ -637,7 +656,7 @@ static int load_grpcache(alpm_db_t *db)
 			/* we didn't find the group, so create a new one with this name */
 			grp = _alpm_group_new(grpname);
 			if(!grp) {
-				_alpm_db_free_groupcache(db);
+				free_groupcache(db);
 				return -1;
 			}
 			grp->packages = alpm_list_add(grp->packages, pkg);
@@ -647,25 +666,6 @@ static int load_grpcache(alpm_db_t *db)
 
 	db->status |= DB_STATUS_GRPCACHE;
 	return 0;
-}
-
-void _alpm_db_free_groupcache(alpm_db_t *db)
-{
-	alpm_list_t *lg;
-
-	if(db == NULL || !(db->status & DB_STATUS_GRPCACHE)) {
-		return;
-	}
-
-	_alpm_log(db->handle, ALPM_LOG_DEBUG,
-			"freeing group cache for repository '%s'\n", db->treename);
-
-	for(lg = db->grpcache; lg; lg = lg->next) {
-		_alpm_group_free(lg->data);
-		lg->data = NULL;
-	}
-	FREELIST(db->grpcache);
-	db->status &= ~DB_STATUS_GRPCACHE;
 }
 
 alpm_list_t *_alpm_db_get_groupcache(alpm_db_t *db)
