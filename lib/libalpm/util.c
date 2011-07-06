@@ -959,6 +959,53 @@ long _alpm_parsedate(const char *line)
 	return atol(line);
 }
 
+/**
+ * Wrapper around access() which takes a dir and file argument
+ * separately and generates an appropriate error message.
+ * If dir is NULL file will be treated as the whole path.
+ * @param handle an alpm handle
+ * @param dir directory path ending with and slash
+ * @param file filename
+ * @param amode access mode as described in access()
+ * @return int value returned by access()
+ */
+
+int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int amode)
+{
+	size_t len = 0;
+	int ret = 0;
+
+	if (dir) {
+		char *check_path;
+
+		len = strlen(dir) + strlen(file) + 1;
+		CALLOC(check_path, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+		snprintf(check_path, len, "%s%s", dir, file);
+
+		ret = access(check_path, amode);
+		free(check_path);
+	} else {
+		dir = "";
+		ret = access(file, amode);
+	}
+
+	if(ret != 0) {
+		if (amode & R_OK) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" is not readable: %s\n"), dir, file, strerror(errno));
+		}
+		if (amode & W_OK) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" is not writable: %s\n"), dir, file, strerror(errno));
+		}
+		if (amode & X_OK) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" is not executable: %s\n"), dir, file, strerror(errno));
+		}
+		if (amode == F_OK) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" does not exist: %s\n"), dir, file, strerror(errno));
+		}
+	}
+	return ret;
+}
+
 #ifndef HAVE_STRNDUP
 /* A quick and dirty implementation derived from glibc */
 static size_t strnlen(const char *s, size_t max)

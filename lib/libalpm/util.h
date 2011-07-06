@@ -116,6 +116,7 @@ unsigned long _alpm_hash_sdbm(const char *str);
 long _alpm_parsedate(const char *line);
 int _alpm_raw_cmp(const char *first, const char *second);
 int _alpm_raw_ncmp(const char *first, const char *second, size_t max);
+int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int amode);
 
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);
