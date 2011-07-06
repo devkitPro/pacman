@@ -27,6 +27,8 @@
 
 #include <stdlib.h>
 
+#include "util.h"
+
 /* Portable, consistent toupper (remember EBCDIC). Do not use toupper() because
 	 its behavior is altered by the current locale. */
 static char raw_toupper(char in)
