@@ -13,6 +13,7 @@ EXTRA_DIST = \
 	PKGBUILD.vim \
 	bacman.in \
 	bash_completion.in \
+	paclog-pkglist \
 	pacdiff.in \
 	paclist.in \
 	pacscripts.in \
