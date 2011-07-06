@@ -241,12 +241,17 @@ int SYMEXPORT alpm_db_get_valid(alpm_db_t *db)
 /** Get a package entry from a package database. */
 alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 {
+	alpm_pkg_t *pkg;
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
 	ASSERT(name != NULL && strlen(name) != 0,
 			RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, NULL));
 
-	return _alpm_db_get_pkgfromcache(db, name);
+	pkg = _alpm_db_get_pkgfromcache(db, name);
+	if(!pkg) {
+		RET_ERR(db->handle, ALPM_ERR_PKG_NOT_FOUND, NULL);
+	}
+	return pkg;
 }
 
 /** Get the package cache of a package database. */
@@ -287,19 +292,18 @@ alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t* needles)
 }
 
 /** Set install reason for a package in db. */
-int SYMEXPORT alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgreason_t reason)
+int SYMEXPORT alpm_db_set_pkgreason(alpm_handle_t *handle, alpm_pkg_t *pkg,
+		alpm_pkgreason_t reason)
 {
-	ASSERT(db != NULL, return -1);
-	db->handle->pm_errno = 0;
-	/* TODO assert db == db_local ? shouldn't need a db param at all here... */
-	ASSERT(name != NULL, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
+	CHECK_HANDLE(handle, return -1);
+	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg->origin == PKG_FROM_LOCALDB,
+			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT(pkg->origin_data.db == handle->db_local,
+			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	alpm_pkg_t *pkg = _alpm_db_get_pkgfromcache(db, name);
-	if(pkg == NULL) {
-		RET_ERR(db->handle, ALPM_ERR_PKG_NOT_FOUND, -1);
-	}
-
-	_alpm_log(db->handle, ALPM_LOG_DEBUG, "setting install reason %u for %s/%s\n", reason, db->treename, name);
+	_alpm_log(handle, ALPM_LOG_DEBUG,
+			"setting install reason %u for %s\n", reason, pkg->name);
 	if(alpm_pkg_get_reason(pkg) == reason) {
 		/* we are done */
 		return 0;
@@ -307,8 +311,8 @@ int SYMEXPORT alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgrea
 	/* set reason (in pkgcache) */
 	pkg->reason = reason;
 	/* write DESC */
-	if(_alpm_local_db_write(db, pkg, INFRQ_DESC)) {
-		RET_ERR(db->handle, ALPM_ERR_DB_WRITE, -1);
+	if(_alpm_local_db_write(handle->db_local, pkg, INFRQ_DESC)) {
+		RET_ERR(handle, ALPM_ERR_DB_WRITE, -1);
 	}
 
 	return 0;

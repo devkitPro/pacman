@@ -476,12 +476,13 @@ alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
 alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t* needles);
 
 /** Set install reason for a package in db.
- * @param db pointer to the package database
- * @param name the name of the package
+ * @param handle the context handle
+ * @param pkg the package to update
  * @param reason the new install reason
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_db_set_pkgreason(alpm_db_t *db, const char *name, alpm_pkgreason_t reason);
+int alpm_db_set_pkgreason(alpm_handle_t *handle, alpm_pkg_t *pkg,
+		alpm_pkgreason_t reason);
 
 /** @} */
 
