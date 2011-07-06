@@ -266,7 +266,7 @@ use here. The function is run in `bash -e` mode, meaning any command that exits
 with a non-zero status will cause the function to exit. Be sure any exotic
 commands used are covered by `makedepends`.
 
-All of the above variables such as `pkgname` and `pkgver` are available for use
+All of the above variables such as `$pkgname` and `$pkgver` are available for use
 in the build function. In addition, makepkg defines the following three
 variables for use during the build and install process:
 
@@ -332,31 +332,37 @@ Pacman has the ability to store and execute a package-specific script when it
 installs, removes, or upgrades a package. This allows a package to configure
 itself after installation and perform an opposite action upon removal.
 
-The exact time the script is run varies with each operation:
+The exact time the script is run varies with each operation, and should be
+self-explanatory. Note that during an upgrade operation, none of the install
+or remove scripts will be called.
+
+Scripts are passed either one or two ``full version strings'', where a full
+version string is either 'pkgver-pkgrel' or 'epoch:pkgver-pkgrel' if epoch is
+non-zero.
 
 *pre_install*::
-	script is run right before files are extracted. One argument is passed:
-	new package version.
+	Run right before files are extracted. One argument is passed:
+	new package full version string.
 
 *post_install*::
-	script is run right after files are extracted. One argument is passed:
-	new package version.
+	Run right after files are extracted. One argument is passed:
+	new package full version string.
 
 *pre_upgrade*::
-	script is run right before files are extracted. Two arguments are passed
-	in the following order: new package version, old package version.
+	Run right before files are extracted. Two arguments are passed in this
+	order: new package full version string, old package full version string.
 
 *post_upgrade*::
-	script is run after files are extracted. Two arguments are passed
-	in the following order: new package version, old package version.
+	Run after files are extracted. Two arguments are passed in this order:
+	new package full version string, old package full version string.
 
 *pre_remove*::
-	script is run right before files are removed. One argument is passed:
-	old package version.
+	Run right before files are removed. One argument is passed:
+	old package full version string.
 
 *post_remove*::
-	script is run right after files are removed. One argument is passed:
-	old package version.
+	Run right after files are removed. One argument is passed:
+	old package full version string.
 
 To use this feature, create a file such as 'pkgname.install' and put it in the
 same directory as the PKGBUILD script. Then use the install directive:
