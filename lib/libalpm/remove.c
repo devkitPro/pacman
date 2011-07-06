@@ -205,7 +205,7 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 	}
 	/* If we fail write permissions due to a read-only filesystem, abort.
 	 * Assume all other possible failures are covered somewhere else */
-	if(access(filepath, W_OK) == -1) {
+	if(_alpm_access(handle, NULL, filepath, W_OK) == -1) {
 		if(errno != EACCES && errno != ETXTBSY && access(filepath, F_OK) == 0) {
 			/* only return failure if the file ACTUALLY exists and we can't write to
 			 * it - ignore "chmod -w" simple permission failures */

@@ -288,8 +288,7 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 	int clean_tmpdir = 0;
 	int retval = 0;
 
-	if(access(installfn, R_OK)) {
-		/* not found */
+	if(_alpm_access(handle, NULL, installfn, R_OK) != 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "scriptlet '%s' not found\n", installfn);
 		return 0;
 	}

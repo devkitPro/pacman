@@ -225,7 +225,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	unsigned char *decoded_sigdata = NULL;
 	FILE *file = NULL, *sigfile = NULL;
 
-	if(!path || access(path, R_OK) != 0) {
+	if(!path || _alpm_access(handle, NULL, path, R_OK) != 0) {
 		RET_ERR(handle, ALPM_ERR_NOT_A_FILE, -1);
 	}
 
@@ -239,7 +239,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		CALLOC(sigpath, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(sigpath, len, "%s.sig", path);
 
-		if(!access(sigpath, R_OK) == 0) {
+		if(!_alpm_access(handle, NULL, sigpath, R_OK) == 0) {
 			/* sigcount is 0 */
 		}
 	}
