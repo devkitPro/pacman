@@ -118,6 +118,12 @@ static int init_gpgme(alpm_handle_t *handle)
 
 	sigdir = alpm_option_get_gpgdir(handle);
 
+	if (_alpm_access(handle, sigdir, "pubring.gpg", R_OK)
+			|| _alpm_access(handle, sigdir, "trustdb.gpg", R_OK)) {
+		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
+		_alpm_log(handle, ALPM_LOG_DEBUG, "Signature verification will fail!\n");
+	}
+
 	/* calling gpgme_check_version() returns the current version and runs
 	 * some internal library setup code */
 	version = gpgme_check_version(NULL);
