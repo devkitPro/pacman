@@ -506,7 +506,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 	if(oldpkg) {
 		/* set up fake remove transaction */
-		if(_alpm_upgraderemove_package(handle, oldpkg, newpkg) == -1) {
+		if(_alpm_remove_single_package(handle, oldpkg, newpkg, 0, 0) == -1) {
 			handle->pm_errno = ALPM_ERR_TRANS_ABORT;
 			ret = -1;
 			goto cleanup;
