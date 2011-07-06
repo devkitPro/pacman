@@ -57,6 +57,7 @@ FORCE=0
 INFAKEROOT=0
 GENINTEG=0
 SKIPINTEG=0
+SKIPPGPCHECK=0
 INSTALL=0
 NOBUILD=0
 NODEPS=0
@@ -335,6 +336,16 @@ in_array() {
 		[[ $item = $needle ]] && return 0 # Found
 	done
 	return 1 # Not Found
+}
+
+source_has_signatures(){
+	local file
+	for file in "${source[@]}"; do
+		if [[ $file =~ .*(sig|asc) ]]; then
+			return 0
+		fi
+	done
+	return 1
 }
 
 get_downloadclient() {
@@ -681,6 +692,74 @@ check_checksums() {
 	if (( ! correlation )); then
 		error "$(gettext "Integrity checks are missing.")"
 		exit 1 # TODO: error code
+	fi
+}
+
+check_pgpsigs() {
+	(( SKIPPGPCHECK )) && return 0
+	! source_has_signatures && return 0
+
+	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
+
+	local file
+	local warning=0
+	local errors=0
+	local statusfile=$(mktemp)
+
+	for file in "${source[@]}"; do
+		file="$(get_filename "$file")"
+		if [[ ! $file =~ .*(sig|asc) ]]; then
+			continue
+		fi
+
+		echo -n "    ${file%.*} ... " >&2
+
+		if ! file="$(get_filepath "$file")"; then
+			echo "$(gettext "SIGNATURE NOT FOUND")" >&2
+			errors=1
+			continue
+		fi
+
+		if ! sourcefile="$(get_filepath "${file%.*}")"; then
+			echo "$(gettext "SOURCE FILE NOT FOUND")" >&2
+			errors=1
+			continue
+		fi
+
+		if ! gpg --quiet --batch --status-file "$statusfile" --verify "$file" "$sourcefile" 2> /dev/null; then
+			if grep "NO_PUBKEY" "$statusfile" > /dev/null; then
+				echo "$(gettext "Warning: Unknown public key") $(awk '/NO_PUBKEY/ {print $3}' $statusfile)" >&2
+				warnings=1
+			else
+				echo "$(gettext "FAILED")" >&2
+				errors=1
+			fi
+		else
+			if grep "REVKEYSIG" "$statusfile" > /dev/null; then
+				echo "$(gettext "Passed")" "-" "$(gettext "Warning: the key has been revoked.")" >&2
+				errors=1
+			elif grep "EXPSIG" "$statusfile" > /dev/null; then
+				echo "$(gettext "Passed")" "-" "$(gettext "Warning: the signature has expired.")" >&2
+				warnings=1
+			elif grep "EXPKEYSIG" "$statusfile" > /dev/null; then
+				echo "$(gettext "Passed")" "-" "$(gettext  "Warning: the key has expired.")" >&2
+				warnings=1
+			else
+				echo $(gettext "Passed") >&2
+			fi
+		fi
+	done
+
+	rm -f "$statusfile"
+
+	if (( errors )); then
+		error "$(gettext "One or more PGP signatures could not be verified!")"
+		exit 1
+	fi
+
+	if (( warnings )); then
+		warning "$(gettext "Warnings have occurred while verifying the signatures.")"
+		plain "$(gettext "Please make sure you really trust them.")"
 	fi
 }
 
@@ -1515,6 +1594,14 @@ check_software() {
 		fi
 	fi
 
+	# gpg - source verification
+	if (( ! SKIPPGPCHECK )) && [[ source_has_signatures ]]; then
+		if ! type -p gpg >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for verifying source files.")" "gpg"
+			ret=1
+		fi
+	fi
+
 	# openssl - checksum operations
 	if (( ! SKIPINTEG )); then
 		if ! type -p openssl >/dev/null; then
@@ -1752,6 +1839,7 @@ usage() {
 	echo "$(gettext "  --pkg <list>     Only build listed packages from a split package")"
 	printf "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
 	echo "$(gettext "  --skipinteg      Do not fail when integrity checks are missing")"
+	echo "$(gettext "  --skippgpcheck   Do not verify source files with pgp signatures")"
 	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
 	echo
 	printf "$(gettext "These options can be passed to %s:")\n" "pacman"
@@ -1786,9 +1874,9 @@ ARGLIST=("$@")
 # Parse Command Line Options.
 OPT_SHORT="AcdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,check,clean,nodeps"
-OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver"
+OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver,skippgpcheck"
 OPT_LONG+=",install,key:,log,nocolor,nobuild,nocheck,nosign,pkg:,rmdeps"
-OPT_LONG+=",repackage,skipinteg,sign,source,syncdeps,version,config:"
+OPT_LONG+=",repackage,skipinteg,skippgpcheck,sign,source,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG+=",noconfirm,noprogressbar"
 if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
@@ -1830,6 +1918,7 @@ while true; do
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--skipinteg)      SKIPINTEG=1 ;;
+		--skippgpcheck)   SKIPPGPCHECK=1;;
 		--sign)           SIGNPKG='y' ;;
 		--source)         SOURCEONLY=1 ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
@@ -2156,6 +2245,7 @@ if (( SOURCEONLY )); then
 	if (( ! SKIPINTEG )); then
 		# We can only check checksums if we have all files.
 		check_checksums
+		check_pgpsigs
 	else
 		warning "$(gettext "Skipping integrity checks.")"
 	fi
@@ -2234,6 +2324,7 @@ else
 	download_sources
 	if (( ! SKIPINTEG )); then
 		check_checksums
+		check_pgpsigs
 	else
 		warning "$(gettext "Skipping integrity checks.")"
 	fi
