@@ -172,16 +172,23 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 	for(i = db->servers; i; i = i->next) {
 		const char *server = i->data;
-		char *fileurl;
+		struct dload_payload *payload;
 		size_t len;
 		int sig_ret = 0;
 
+		CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+
+		/* set hard upper limit of 25MiB */
+		payload->max_size = 25 * 1024 * 1024;
+
 		/* print server + filename into a buffer (leave space for .sig) */
 		len = strlen(server) + strlen(db->treename) + 9;
-		CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		snprintf(fileurl, len, "%s/%s.db", server, db->treename);
+		CALLOC(payload->fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+		snprintf(payload->fileurl, len, "%s/%s.db", server, db->treename);
+		payload->handle = handle;
+		payload->force = force;
 
-		ret = _alpm_download(handle, fileurl, syncpath, force, 0, 0);
+		ret = _alpm_download(payload, syncpath, NULL);
 
 		if(ret == 0 && (level & ALPM_SIG_DATABASE)) {
 			/* an existing sig file is no good at this point */
@@ -193,16 +200,21 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			unlink(sigpath);
 			free(sigpath);
 
-			int errors_ok = (level & ALPM_SIG_DATABASE_OPTIONAL);
 			/* if we downloaded a DB, we want the .sig from the same server */
-			snprintf(fileurl, len, "%s/%s.db.sig", server, db->treename);
+			snprintf(payload->fileurl, len, "%s/%s.db.sig", server, db->treename);
+			payload->handle = handle;
+			payload->force = 1;
+			payload->errors_ok = (level & ALPM_SIG_DATABASE_OPTIONAL);
 
-			sig_ret = _alpm_download(handle, fileurl, syncpath, 1, 0, errors_ok);
+			/* set hard upper limit of 16KiB */
+			payload->max_size = 16 * 1024;
+
+			sig_ret = _alpm_download(payload, syncpath, NULL);
 			/* errors_ok suppresses error messages, but not the return code */
-			sig_ret = errors_ok ? 0 : sig_ret;
+			sig_ret = payload->errors_ok ? 0 : sig_ret;
 		}
 
-		FREE(fileurl);
+		_alpm_dload_payload_free(payload);
 		if(ret != -1 && sig_ret != -1) {
 			break;
 		}

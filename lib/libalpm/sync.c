@@ -765,10 +765,6 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 			alpm_pkg_t *spkg = j->data;
 
 			if(spkg->origin != PKG_FROM_FILE && current == spkg->origin_data.db) {
-				const char *fname = NULL;
-
-				fname = alpm_pkg_get_filename(spkg);
-				ASSERT(fname != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
 				alpm_list_t *delta_path = spkg->delta_path;
 				if(delta_path) {
 					/* using deltas */
@@ -776,14 +772,27 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 					for(dlts = delta_path; dlts; dlts = dlts->next) {
 						alpm_delta_t *delta = dlts->data;
 						if(delta->download_size != 0) {
-							files = alpm_list_add(files, strdup(delta->delta));
+							struct dload_payload *dpayload;
+
+							CALLOC(dpayload, 1, sizeof(*dpayload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+							STRDUP(dpayload->filename, delta->delta, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+							dpayload->max_size = delta->download_size;
+
+							files = alpm_list_add(files, dpayload);
 						}
 						/* keep a list of all the delta files for md5sums */
 						*deltas = alpm_list_add(*deltas, delta);
 					}
 
 				} else if(spkg->download_size != 0) {
-					files = alpm_list_add(files, strdup(fname));
+					struct dload_payload *payload;
+
+					ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
+					CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+					STRDUP(payload->filename, spkg->filename, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+					payload->max_size = alpm_pkg_get_size(spkg);
+
+					files = alpm_list_add(files, payload);
 				}
 
 			}
@@ -792,21 +801,21 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 		if(files) {
 			EVENT(handle->trans, ALPM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
 			for(j = files; j; j = j->next) {
-				const char *filename = j->data;
+				struct dload_payload *payload = j->data;
 				alpm_list_t *server;
 				int ret = -1;
 				for(server = current->servers; server; server = server->next) {
 					const char *server_url = server->data;
-					char *fileurl;
 					size_t len;
 
 					/* print server + filename into a buffer */
-					len = strlen(server_url) + strlen(filename) + 2;
-					CALLOC(fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-					snprintf(fileurl, len, "%s/%s", server_url, filename);
+					len = strlen(server_url) + strlen(payload->filename) + 2;
+					CALLOC(payload->fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+					snprintf(payload->fileurl, len, "%s/%s", server_url, payload->filename);
+					payload->handle = handle;
+					payload->allow_resume = 1;
 
-					ret = _alpm_download(handle, fileurl, cachedir, 0, 1, 0);
-					FREE(fileurl);
+					ret = _alpm_download(payload, cachedir, NULL);
 					if(ret != -1) {
 						break;
 					}
@@ -816,7 +825,9 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 				}
 			}
 
-			FREELIST(files);
+			alpm_list_free_inner(files, (alpm_list_fn_free)_alpm_dload_payload_free);
+			alpm_list_free(files);
+			files = NULL;
 			if(errors) {
 				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 						current->treename);

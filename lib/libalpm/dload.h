@@ -25,15 +25,22 @@
 
 #include <time.h>
 
-/* internal structure for communicating with curl progress callback */
-struct fileinfo {
+struct dload_payload {
 	alpm_handle_t *handle;
 	const char *filename;
+	char *cd_filename;
+	char *fileurl;
 	double initial_size;
+	long max_size;
+	int force;
+	int allow_resume;
+	int errors_ok;
 };
 
-int _alpm_download(alpm_handle_t *handle, const char *url, const char *localpath,
-		int force, int allow_resume, int errors_ok);
+void _alpm_dload_payload_free(struct dload_payload *payload);
+
+int _alpm_download(struct dload_payload *payload, const char *localpath,
+		char **final_file);
 
 #endif /* _ALPM_DLOAD_H */
 
