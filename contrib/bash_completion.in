@@ -31,11 +31,11 @@ _makepkg() {
   local cur opts prev
   COMPREPLY=()
   _get_comp_words_by_ref cur prev
-  if [[ $cur = -* && ! $prev =~ ^-(-(cleancache|config|help)$|\w*[Chp]) ]]; then
-    opts=('allsource asroot clean cleancache config force geninteg help holdver
+  if [[ $cur = -* && ! $prev =~ ^-(-(config|help)$|\w*[Chp]) ]]; then
+    opts=('allsource asroot clean config force geninteg help holdver
            ignorearch install log nobuild nocolor noconfirm nodeps noextract
            noprogressbar pkg repackage rmdeps skipinteg source syncdeps'
-          'A C L R c d e f g h i m o p r s')
+          'A L R c d e f g h i m o p r s')
     _arch_ptr2comp opts
   fi
   true
