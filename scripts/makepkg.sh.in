@@ -1756,9 +1756,7 @@ OPT_LONG+=",install,key:,log,nocolor,nobuild,nocheck,nosign,pkg:,rmdeps"
 OPT_LONG+=",repackage,skipinteg,sign,source,syncdeps,version,config:"
 # Pacman Options
 OPT_LONG+=",noconfirm,noprogressbar"
-OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@" || echo 'PARSE_OPTIONS FAILED')"
-if [[ $OPT_TEMP = *'PARSE_OPTIONS FAILED'* ]]; then
-	# This is a small hack to stop the script bailing with 'set -e'
+if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
 eval set -- "$OPT_TEMP"
