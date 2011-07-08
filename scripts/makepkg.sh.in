@@ -319,7 +319,6 @@ in_opt_array() {
 ##
 in_array() {
 	local needle=$1; shift
-	[[ -z $1 ]] && return 1 # Not Found
 	local item
 	for item in "$@"; do
 		[[ $item = $needle ]] && return 0 # Found
