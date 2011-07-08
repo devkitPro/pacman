@@ -33,7 +33,8 @@
 
 alpm_handle_t *handle = NULL;
 
-static void cleanup(int signum) {
+static void cleanup(int signum)
+{
 	if(handle && alpm_release(handle) == -1) {
 		fprintf(stderr, "error releasing alpm\n");
 	}
@@ -127,7 +128,8 @@ static int checkconflicts(alpm_list_t *pkglist)
 	return ret;
 }
 
-static int check_localdb(void) {
+static int check_localdb(void)
+{
 	int ret = 0;
 	alpm_db_t *db = NULL;
 	alpm_list_t *pkglist;
@@ -144,7 +146,8 @@ static int check_localdb(void) {
 	return ret;
 }
 
-static int check_syncdbs(alpm_list_t *dbnames) {
+static int check_syncdbs(alpm_list_t *dbnames)
+{
 	int ret = 0;
 	alpm_db_t *db = NULL;
 	alpm_list_t *i, *pkglist, *syncpkglist = NULL;
@@ -169,7 +172,8 @@ cleanup:
 	return ret;
 }
 
-static void usage(void) {
+static void usage(void)
+{
 	fprintf(stderr, "usage:\n");
 	fprintf(stderr,
 			"\t%s [-b <pacman db>]                : check the local database\n", BASENAME);
