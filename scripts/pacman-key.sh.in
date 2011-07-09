@@ -76,17 +76,19 @@ This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
-# Read provided file and search for values matching the given key
-# The contents of the file are expected to be in this format: key = value
-# 'key', 'equal sign' and 'value' can be surrounded by random whitespace
-# Usage: get_from "$file" "$key" # returns the value for the first matching key in the file
+# read the config file "$1" which has key=value pairs, and return the key which
+# matches "$2". the equals sign between pairs may be surrounded by any amount
+# of whitespace.
 get_from() {
-	while read key _ value; do
-		if [[ $key = $2 ]]; then
-			echo "$value"
-			break
+	while IFS='=' read -r key value; do
+		[[ -z $key || ${key:0:1} = '#' ]] && continue
+
+		if [[ ${key%% *} = "$2" && -n ${value##* } ]]; then
+			echo "${value##* }"
+			return 0
 		fi
 	done < "$1"
+	return 1
 }
 
 verify_keyring_input() {
