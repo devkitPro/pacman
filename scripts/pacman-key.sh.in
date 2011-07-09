@@ -308,6 +308,22 @@ PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-@sysconfdir@/pacman.d/gnupg}
 
 GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
 
+# check only a single operation has been given
+numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + LIST + RECEIVE + RELOAD + UPDATEBD ))
+
+if (( ! numopt )); then
+	error "$(gettext "No operations specified")"
+	echo
+	usage
+	exit 1
+fi
+
+if (( numopt != 1 )); then
+	error "$(gettext "Multiple operations specified")"
+	printf "$(gettext "Please run %s with each operation separately\n")" "pacman-key"
+	exit 1
+fi
+
 
 (( ADD )) && ${GPG_PACMAN} --quiet --batch --import "${KEYFILES[@]}"
 (( DELETE )) && ${GPG_PACMAN} --quiet --batch --delete-key --yes "${KEYIDS[@]}"
