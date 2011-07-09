@@ -87,6 +87,37 @@ get_from() {
 	done < "$1"
 }
 
+verify_keyring_input() {
+	local ret=0;
+
+	# Verify signatures of related files, if they exist
+	if [[ -r "${ADDED_KEYS}" ]]; then
+		msg "$(gettext "Verifying official keys file signature...")"
+		if ! ${GPG_PACMAN} --verify "${ADDED_KEYS}.sig" &>/dev/null; then
+			error "$(gettext "The signature of file %s is not valid.")" "${ADDED_KEYS}"
+			ret=1
+		fi
+	fi
+
+	if [[ -r "${DEPRECATED_KEYS}" ]]; then
+		msg "$(gettext "Verifying deprecated keys file signature...")"
+		if ! ${GPG_PACMAN} --verify "${DEPRECATED_KEYS}.sig" &>/dev/null; then
+			error "$(gettext "The signature of file %s is not valid.")" "${DEPRECATED_KEYS}"
+			ret=1
+		fi
+	fi
+
+	if [[ -r "${REMOVED_KEYS}" ]]; then
+		msg "$(gettext "Verifying deleted keys file signature...")"
+		if ! ${GPG_PACMAN} --verify "${REMOVED_KEYS}.sig" &>/dev/null; then
+			error "$(gettext "The signature of file %s is not valid.")" "${REMOVED_KEYS}"
+			ret=1
+		fi
+	fi
+
+	return errors
+}
+
 reload_keyring() {
 	local PACMAN_SHARE_DIR='@prefix@/share/pacman'
 	local GPG_NOKEYRING="gpg --batch --quiet --ignore-time-conflict --no-options --no-default-keyring --homedir ${PACMAN_KEYRING_DIR}"
@@ -105,30 +136,7 @@ reload_keyring() {
 	# It is a textual list of values that gpg recogniezes as identifiers for keys.
 	local REMOVED_KEYS="${PACMAN_SHARE_DIR}/removedkeys"
 
-	# Verify signatures of related files, if they exist
-	if [[ -r "${ADDED_KEYS}" ]]; then
-		msg "$(gettext "Verifying official keys file signature...")"
-		if ! ${GPG_PACMAN} --verify "${ADDED_KEYS}.sig" &>/dev/null; then
-			error "$(gettext "The signature of file %s is not valid.")" "${ADDED_KEYS}"
-			exit 1
-		fi
-	fi
-
-	if [[ -r "${DEPRECATED_KEYS}" ]]; then
-		msg "$(gettext "Verifying deprecated keys file signature...")"
-		if ! ${GPG_PACMAN} --verify "${DEPRECATED_KEYS}.sig" &>/dev/null; then
-			error "$(gettext "The signature of file %s is not valid.")" "${DEPRECATED_KEYS}"
-			exit 1
-		fi
-	fi
-
-	if [[ -r "${REMOVED_KEYS}" ]]; then
-		msg "$(gettext "Verifying deleted keys file signature...")"
-		if ! ${GPG_PACMAN} --verify "${REMOVED_KEYS}.sig" &>/dev/null; then
-			error "$(gettext "The signature of file %s is not valid.")" "${REMOVED_KEYS}"
-			exit 1
-		fi
-	fi
+	verify_keyring_input || exit 1
 
 	# Read the key ids to an array. The conversion from whatever is inside the file
 	# to key ids is important, because key ids are the only guarantee of identification
