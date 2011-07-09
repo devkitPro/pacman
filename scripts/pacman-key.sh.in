@@ -202,6 +202,30 @@ reload_keyring() {
 	${GPG_PACMAN} --batch --check-trustdb
 }
 
+receive_keys() {
+	if [[ -z ${KEYIDS[@]} ]]; then
+		error "$(gettext "You need to specify the keyserver and at least one key identifier")"
+		exit 1
+	fi
+	${GPG_PACMAN} --keyserver "$KEYSERVER" --recv-keys "${KEYIDS[@]}"
+}
+
+edit_keys() {
+	local errors=0;
+	for key in ${KEYIDS[@]}; do
+		# Verify if the key exists in pacman's keyring
+		if ! ${GPG_PACMAN} --list-keys "$key" &>/dev/null; then
+			error "$(gettext "The key identified by %s does not exist")" "$key"
+			errors=1;
+		fi
+	done
+	(( errors )) && exit 1;
+
+	for key in ${KEYIDS[@]}; do
+		${GPG_PACMAN} --edit-key "$key"
+	done
+}
+
 # PROGRAM START
 if ! type gettext &>/dev/null; then
 	gettext() {
@@ -279,31 +303,12 @@ GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
 
 (( ADD )) && ${GPG_PACMAN} --quiet --batch --import "${KEYFILES[@]}"
 (( DELETE )) && ${GPG_PACMAN} --quiet --batch --delete-key --yes "${KEYIDS[@]}"
+(( EDITKEY )) && edit_keys
 (( EXPORT )) && ${GPG_PACMAN} --armor --export "${KEYIDS[@]}"
 (( FINGER )) && ${GPG_PACMAN} --batch --fingerprint "${KEYIDS[@]}"
 (( LIST )) && ${GPG_PACMAN} --batch --list-sigs "${KEYIDS[@]}"
+(( RECEIVE )) && receive_keys
 (( RELOAD )) && reload_keyring
 (( UPDATEDB )) && ${GPG_PACMAN} --batch --check-trustdb
-
-if (( RECEIVE )); then
-	if [[ -z ${KEYIDS[@]} ]]; then
-		error "$(gettext "You need to specify the keyserver and at least one key identifier")"
-		exit 1
-	fi
-	${GPG_PACMAN} --keyserver "$KEYSERVER" --recv-keys "${KEYIDS[@]}"
-fi
-
-if (( EDITKEY )); then
-		for key in ${KEYIDS[@]}; do
-			# Verify if the key exists in pacman's keyring
-			if ${GPG_PACMAN} --list-keys "$key" &>/dev/null; then
-				${GPG_PACMAN} --edit-key "$key"
-			else
-				error "$(gettext "The key identified by %s does not exist")" "$key"
-				exit 1
-			fi
-			shift
-		done
-fi
 
 # vim: set ts=2 sw=2 noet:
