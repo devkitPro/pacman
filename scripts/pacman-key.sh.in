@@ -300,11 +300,9 @@ if [[ ! -r "${CONFIG}" ]]; then
 	exit 1
 fi
 
-# Get GPGDIR from pacman.conf iff not specified on command line
-if [[ -z PACMAN_KEYRING_DIR && GPGDIR="$(get_from "$CONFIG" "GPGDir")" == 0 ]]; then
-	PACMAN_KEYRING_DIR="${GPGDIR}"
-fi
-PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-@sysconfdir@/pacman.d/gnupg}
+# if PACMAN_KEYRING_DIR isn't assigned, try to get it from the config
+# file, falling back on a hard default
+PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-$(get_from "$CONFIG" "GPGDir" || echo "@sysconfdir@/pacman.d/gnupg")}
 
 # Try to create $PACMAN_KEYRING_DIR if non-existent
 # Check for simple existence rather than for a directory as someone may want
