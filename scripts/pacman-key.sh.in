@@ -112,6 +112,25 @@ initialize() {
 	fi
 }
 
+check_keyring() {
+	if [[ ! -r ${PACMAN_KEYRING_DIR}/pubring.gpg || \
+			! -r ${PACMAN_KEYRING_DIR}/secring.gpg || \
+			! -r ${PACMAN_KEYRING_DIR}/trustdb.gpg ]]; then
+		error "$(gettext "You do not have sufficient permissions to read the %s keyring...")" "pacman"
+		msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
+		exit 1
+	fi
+
+	if (( (EXPORT || FINGER || LIST || VERIFY) && EUID != 0 )); then
+		if ! grep -w -q "lock-never" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
+			error "$(gettext "You do not have sufficient permissions to run this command...")"
+			msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
+			exit 1
+		fi
+	fi
+
+}
+
 verify_keyring_input() {
 	local ret=0;
 
@@ -344,6 +363,7 @@ if (( numopt != 1 )); then
 	exit 1
 fi
 
+(( ! INIT )) && check_keyring
 
 (( ADD )) && ${GPG_PACMAN} --quiet --batch --import "${KEYFILES[@]}"
 (( DELETE )) && ${GPG_PACMAN} --quiet --batch --delete-key --yes "${KEYIDS[@]}"
