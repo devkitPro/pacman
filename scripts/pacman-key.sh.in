@@ -32,6 +32,7 @@ DELETE=0
 EDITKEY=0
 EXPORT=0
 FINGER=0
+INIT=0
 LIST=0
 RECEIVE=0
 RELOAD=0
@@ -65,6 +66,7 @@ usage() {
 	echo "$(gettext "  --edit-key <keyid(s)>     Present a menu for key management task on keyids")"
 	echo "$(gettext "  --gpgdir <dir>            Set an alternate directory for gnupg")"
 	printf "$(gettext "                                    (instead of '%s')")\n" "@sysconfdir@/pacman.d/gnupg"
+	echo "$(gettest "  --init                    Ensure the keyring is properly initialized")"
 	echo "$(gettext "  --reload                  Reload the default keys")"
 }
 
@@ -89,6 +91,25 @@ get_from() {
 		fi
 	done < "$1"
 	return 1
+}
+
+initialize() {
+	# Check for simple existence rather than for a directory as someone
+	# may want to use a symlink here
+	[[ -e ${PACMAN_KEYRING_DIR} ]] || mkdir -p -m 755 "${PACMAN_KEYRING_DIR}"
+
+	# keyring files
+	[[ -f ${PACMAN_KEYRING_DIR}/pubring.gpg ]] || touch ${PACMAN_KEYRING_DIR}/pubring.gpg
+	[[ -f ${PACMAN_KEYRING_DIR}/secring.gpg ]] || touch ${PACMAN_KEYRING_DIR}/secring.gpg
+	[[ -f ${PACMAN_KEYRING_DIR}/trustdb.gpg ]] || ${GPG_PACMAN} --update-trustdb
+	chmod 644 ${PACMAN_KEYRING_DIR}/{{pub,sec}ring,trustdb}.gpg
+
+	# gpg.conf
+	[[ ! -f ${PACMAN_KEYRING_DIR}/gpg.conf ]] || touch  ${PACMAN_KEYRING_DIR}/gpg.conf
+	chmod 644 ${PACMAN_KEYRING_DIR}/gpg.conf
+	if ! grep -w -q "lock-never" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
+		echo "lock-never" >> ${PACMAN_KEYRING_DIR}/gpg.conf
+	fi
 }
 
 verify_keyring_input() {
@@ -247,7 +268,7 @@ fi
 
 OPT_SHORT="a::d:e:f::hlr:uv:V"
 OPT_LONG="add::,config:,delete:,edit-key:,export::,finger::,gpgdir:"
-OPT_LONG+=",help,list,receive:,reload,updatedb,verify:,version"
+OPT_LONG+=",help,init,list,receive:,reload,updatedb,verify:,version"
 if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
@@ -268,6 +289,7 @@ while true; do
 		-e|--export)      EXPORT=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		-f|--finger)      FINGER=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		--gpgdir)         shift; PACMAN_KEYRING_DIR=$1 ;;
+		--init)           INIT=1 ;;
 		-l|--list)        LIST=1 ;;
 		-r|--receive)     RECEIVE=1; shift; KEYSERVER="${1[0]}"; KEYIDS=("${1[@]:1}") ;;
 		--reload)         RELOAD=1 ;;
@@ -289,7 +311,7 @@ if ! type -p gpg >/dev/null; then
 	exit 1
 fi
 
-if (( (ADD || DELETE || EDITKEY || RECEIVE || RELOAD || UPDATEDB) && EUID != 0 )); then
+if (( (ADD || DELETE || EDITKEY || INIT || RECEIVE || RELOAD || UPDATEDB) && EUID != 0 )); then
 	error "$(gettext "%s needs to be run as root for this operation.")" "pacman-key"
 	exit 1
 fi
@@ -304,15 +326,10 @@ fi
 # file, falling back on a hard default
 PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-$(get_from "$CONFIG" "GPGDir" || echo "@sysconfdir@/pacman.d/gnupg")}
 
-# Try to create $PACMAN_KEYRING_DIR if non-existent
-# Check for simple existence rather than for a directory as someone may want
-# to use a symlink here
-[[ -e ${PACMAN_KEYRING_DIR} ]] || mkdir -p -m 755 "${PACMAN_KEYRING_DIR}"
-
 GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
 
 # check only a single operation has been given
-numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + LIST + RECEIVE + RELOAD + UPDATEBD + VERIFY ))
+numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + INIT + LIST + RECEIVE + RELOAD + UPDATEBD + VERIFY ))
 
 if (( ! numopt )); then
 	error "$(gettext "No operations specified")"
@@ -333,6 +350,7 @@ fi
 (( EDITKEY )) && edit_keys
 (( EXPORT )) && ${GPG_PACMAN} --armor --export "${KEYIDS[@]}"
 (( FINGER )) && ${GPG_PACMAN} --batch --fingerprint "${KEYIDS[@]}"
+(( INIT )) && initialize
 (( LIST )) && ${GPG_PACMAN} --batch --list-sigs "${KEYIDS[@]}"
 (( RECEIVE )) && receive_keys
 (( RELOAD )) && reload_keyring
