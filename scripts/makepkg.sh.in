@@ -1535,8 +1535,8 @@ devel_check() {
 
 	# Do not update pkgver if --holdver is set, when building a source package, repackaging,
 	# reading PKGBUILD from pipe (-f), or if we cannot write to the file (-w)
-	if (( HOLDVER || SOURCEONLY || REPKG )) \
-		            || [[ ! -f $BUILDFILE || ! -w $BUILDFILE ]]; then
+	if (( HOLDVER || SOURCEONLY || REPKG )) ||
+		[[ ! -f $BUILDFILE || ! -w $BUILDFILE || $BUILDFILE = /dev/stdin ]]; then
 		return
 	fi
 
