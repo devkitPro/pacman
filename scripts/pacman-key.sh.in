@@ -105,7 +105,7 @@ initialize() {
 	chmod 644 ${PACMAN_KEYRING_DIR}/{{pub,sec}ring,trustdb}.gpg
 
 	# gpg.conf
-	[[ ! -f ${PACMAN_KEYRING_DIR}/gpg.conf ]] || touch  ${PACMAN_KEYRING_DIR}/gpg.conf
+	[[ -f ${PACMAN_KEYRING_DIR}/gpg.conf ]] || touch  ${PACMAN_KEYRING_DIR}/gpg.conf
 	chmod 644 ${PACMAN_KEYRING_DIR}/gpg.conf
 	if ! grep -w -q "lock-never" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
 		echo "lock-never" >> ${PACMAN_KEYRING_DIR}/gpg.conf
