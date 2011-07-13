@@ -690,7 +690,7 @@ void cb_log(alpm_loglevel_t level, const char *fmt, va_list args)
 			output = alpm_list_add(output, string);
 		}
 	} else {
-		pm_vfprintf(stdout, level, fmt, args);
+		pm_vfprintf(stderr, level, fmt, args);
 	}
 }
 
