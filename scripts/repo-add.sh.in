@@ -228,6 +228,7 @@ verify_repo_extension() {
 		*.@(db|files).tar.gz)  TAR_OPT="z" ;;
 		*.@(db|files).tar.bz2) TAR_OPT="j" ;;
 		*.@(db|files).tar.xz)  TAR_OPT="J" ;;
+		*.@(db|files).tar.Z)   TAR_OPT="Z" ;;
 		*.@(db|files).tar)     TAR_OPT="" ;;
 		*) error "$(gettext "'%s' does not have a valid archive extension.")" \
 				"$repofile"

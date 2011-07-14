@@ -225,11 +225,12 @@ directory with these packages so pacman can find it when run with '\--refresh'.
 
 The above command will generate a compressed database named
 '/home/pkgs/custom.db.tar.gz'. Note that the database must be of the form
-'\{treename\}.db.tar.gz', where '\{treename\}' is the name of the section defined in
-the configuration file. That's it! Now configure your custom section in the
-configuration file as shown in the config example above. Pacman will now use your
-package repository. If you add new packages to the repository, remember to
-re-generate the database and use pacman's '\--refresh' option.
+'\{treename\}.db.tar.{ext}', where '\{treename\}' is the name of the section
+defined in the configuration file and '\{ext\}' is a valid compression type as
+documented in linkman:repo-add[8]. That's it! Now configure your custom section
+in the configuration file as shown in the config example above. Pacman will now
+use your package repository. If you add new packages to the repository,
+remember to re-generate the database and use pacman's '\--refresh' option.
 
 For more information on the repo-add command, see ``repo-add \--help'' or
 linkman:repo-add[8].

@@ -1152,6 +1152,7 @@ create_package() {
 		*tar.gz)  EXT=${PKGEXT%.gz} ;;
 		*tar.bz2) EXT=${PKGEXT%.bz2} ;;
 		*tar.xz)  EXT=${PKGEXT%.xz} ;;
+		*tar.Z)   EXT=${PKGEXT%.Z} ;;
 		*tar)     EXT=${PKGEXT} ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$PKGEXT" ; EXT=$PKGEXT ;;
@@ -1174,6 +1175,7 @@ create_package() {
 	    *tar.gz)  gzip -c -f -n ;;
 	    *tar.bz2) bzip2 -c -f ;;
 	    *tar.xz)  xz -c -z - ;;
+	    *tar.Z)   compress -c -f ;;
 	    *tar)     cat ;;
 	esac > "${pkg_file}" || ret=$?
 
