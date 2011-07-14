@@ -255,7 +255,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */
-		alpm_backup_t *backup = _alpm_needbackup(fileobj->name, alpm_pkg_get_backup(info));
+		alpm_backup_t *backup = _alpm_needbackup(fileobj->name, info);
 		if(backup) {
 			if(nosave) {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);

@@ -255,7 +255,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				alpm_backup_t *backup;
 				/* go to the backup array and see if our conflict is there */
 				/* check newpkg first, so that adding backup files is retroactive */
-				backup = _alpm_needbackup(entryname, alpm_pkg_get_backup(newpkg));
+				backup = _alpm_needbackup(entryname, newpkg);
 				if(backup) {
 					/* if we force hash_orig to be non-NULL retroactive backup works */
 					hash_orig = "";
@@ -264,7 +264,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 
 				/* check oldpkg for a backup entry, store the hash if available */
 				if(oldpkg) {
-					backup = _alpm_needbackup(entryname, alpm_pkg_get_backup(oldpkg));
+					backup = _alpm_needbackup(entryname, oldpkg);
 					if(backup) {
 						hash_orig = backup->hash;
 						needbackup = 1;

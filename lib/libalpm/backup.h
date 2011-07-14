@@ -24,7 +24,7 @@
 #include "alpm.h"
 
 int _alpm_split_backup(const char *string, alpm_backup_t **backup);
-alpm_backup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list);
+alpm_backup_t *_alpm_needbackup(const char *file, alpm_pkg_t *pkg);
 void _alpm_backup_free(alpm_backup_t *backup);
 alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup);
 

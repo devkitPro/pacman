@@ -1,4 +1,4 @@
-self.description = "FS#8156"
+self.description = "FS#8156- conflict between directory and incoming symlink"
 
 p1 = pmpkg("pkg1")
 p1.files = ["test/",

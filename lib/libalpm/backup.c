@@ -58,16 +58,15 @@ int _alpm_split_backup(const char *string, alpm_backup_t **backup)
 /* Look for a filename in a alpm_pkg_t.backup list. If we find it,
  * then we return the full backup entry.
  */
-alpm_backup_t *_alpm_needbackup(const char *file, const alpm_list_t *backup_list)
+alpm_backup_t *_alpm_needbackup(const char *file, alpm_pkg_t *pkg)
 {
 	const alpm_list_t *lp;
 
-	if(file == NULL || backup_list == NULL) {
+	if(file == NULL || pkg == NULL) {
 		return NULL;
 	}
 
-	/* run through the backup list and parse out the hash for our file */
-	for(lp = backup_list; lp; lp = lp->next) {
+	for(lp = alpm_pkg_get_backup(pkg); lp; lp = lp->next) {
 		alpm_backup_t *backup = lp->data;
 
 		if(strcmp(file, backup->name) == 0) {

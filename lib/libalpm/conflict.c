@@ -549,6 +549,22 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				free(rpath);
 			}
 
+			/* is the file unowned and in the backup list of the new package? */
+			if(!resolved_conflict && _alpm_needbackup(filestr, p1)) {
+				alpm_list_t *local_pkgs = _alpm_db_get_pkgcache(handle->db_local);
+				int found = 0;
+				for(k = local_pkgs; k && !found; k = k->next) {
+					if(_alpm_filelist_contains(alpm_pkg_get_files(k->data), filestr)) {
+							found = 1;
+					}
+				}
+				if(!found) {
+					_alpm_log(handle, ALPM_LOG_DEBUG,
+							"file was unowned but in new backup list: %s\n", path);
+					resolved_conflict = 1;
+				}
+			}
+
 			if(!resolved_conflict) {
 				conflicts = add_fileconflict(handle, conflicts,
 						ALPM_FILECONFLICT_FILESYSTEM, path, p1->name, NULL);
