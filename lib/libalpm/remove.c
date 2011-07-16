@@ -232,8 +232,8 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 	 * see the big comment block in db_find_fileconflicts() for an
 	 * explanation. */
 	if(alpm_list_find_str(skip_remove, fileobj->name)) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "%s is in skip_remove, skipping removal\n",
-				file);
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"%s is in skip_remove, skipping removal\n", file);
 		return;
 	}
 
@@ -247,11 +247,44 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 	}
 
 	if(S_ISDIR(buf.st_mode)) {
-		if(rmdir(file)) {
-			/* this is okay, other packages are probably using it (like /usr) */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "keeping directory %s\n", file);
+		ssize_t files = _alpm_files_in_directory(handle, file, 0);
+		/* if we have files, no need to remove the directory */
+		if(files > 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "keeping directory %s (contains files)\n",
+					file);
+		} else if(files < 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"keeping directory %s (could not count files)\n", file);
 		} else {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "removing directory %s\n", file);
+			/* one last check- does any other package own this file? */
+			alpm_list_t *local, *local_pkgs;
+			int found = 0;
+			local_pkgs = _alpm_db_get_pkgcache(handle->db_local);
+			for(local = local_pkgs; local && !found; local = local->next) {
+				alpm_pkg_t *local_pkg = local->data;
+				alpm_list_t *files;
+
+				/* we duplicated the package when we put it in the removal list, so we
+				 * so we can't use direct pointer comparison here. */
+				if(_alpm_pkg_cmp(info, local_pkg) == 0) {
+					continue;
+				}
+				files = alpm_pkg_get_files(local_pkg);
+				if(_alpm_filelist_contains(files, fileobj->name)) {
+					_alpm_log(handle, ALPM_LOG_DEBUG,
+							"keeping directory %s (owned by %s)\n", file, local_pkg->name);
+					found = 1;
+				}
+			}
+			if(!found) {
+				if(rmdir(file)) {
+					_alpm_log(handle, ALPM_LOG_DEBUG,
+							"directory removal of %s failed: %s\n", file, strerror(errno));
+				} else {
+					_alpm_log(handle, ALPM_LOG_DEBUG,
+							"removed directory %s (no remaining owners)\n", file);
+				}
+			}
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */

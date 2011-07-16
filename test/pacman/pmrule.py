@@ -146,6 +146,14 @@ class pmrule(object):
             else:
                 print "FILE rule '%s' not found" % case
                 success = -1
+        elif kind == "DIR":
+            filename = os.path.join(test.root, key)
+            if case == "EXIST":
+                if not os.path.isdir(filename):
+                    success = 0
+            else:
+                print "DIR rule '%s' not found" % case
+                success = -1
         elif kind == "LINK":
             filename = os.path.join(test.root, key)
             if case == "EXIST":

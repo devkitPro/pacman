@@ -100,6 +100,7 @@ int _alpm_unpack_single(alpm_handle_t *handle, const char *archive,
 int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 		alpm_list_t *list, int breakfirst);
 int _alpm_rmrf(const char *path);
+ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path, int full_count);
 int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args);
 int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]);
 int _alpm_ldconfig(alpm_handle_t *handle);

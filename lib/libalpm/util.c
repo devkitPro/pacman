@@ -388,6 +388,48 @@ int _alpm_rmrf(const char *path)
 	return 0;
 }
 
+/**
+ * Determine if there are files in a directory
+ * @param handle the context handle
+ * @param path the full absolute directory path
+ * @param full_count whether to return an exact count of files
+ * @return a file count if full_count is != 0, else >0 if directory has
+ * contents, 0 if no contents, and -1 on error
+ */
+ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path,
+		int full_count)
+{
+	ssize_t files = 0;
+	struct dirent *ent;
+	DIR *dir = opendir(path);
+
+	if(!dir) {
+		if(errno == ENOTDIR) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "%s was not a directory\n", path);
+		} else {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "could not read directory %s\n",
+					path);
+		}
+		return -1;
+	}
+	while((ent = readdir(dir)) != NULL) {
+		const char *name = ent->d_name;
+
+		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
+			continue;
+		}
+
+		files++;
+
+		if(!full_count) {
+			break;
+		}
+	}
+
+	closedir(dir);
+	return files;
+}
+
 int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
 {
 	int ret = 0;
