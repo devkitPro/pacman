@@ -85,10 +85,13 @@ Options
 	using "`makepkg -g >> PKGBUILD`".
 
 *--skipinteg*::
-	Do not perform any integrity checks, just print a warning instead.
+	Do not perform any integrity checks (checksum and PGP) on source files.
+
+*\--skipchecksums*::
+	Do not verify checksums of source files.
 
 *\--skippgpcheck*::
-	Do not verify PGP signatures of the source files.
+	Do not verify PGP signatures of source files.
 
 *-h, \--help*::
 	Output syntax and command line options.

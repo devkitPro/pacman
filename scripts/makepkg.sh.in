@@ -56,7 +56,7 @@ DEP_BIN=0
 FORCE=0
 INFAKEROOT=0
 GENINTEG=0
-SKIPINTEG=0
+SKIPCHECKSUMS=0
 SKIPPGPCHECK=0
 INSTALL=0
 NOBUILD=0
@@ -641,6 +641,7 @@ generate_checksums() {
 }
 
 check_checksums() {
+	(( SKIPCHECKSUMS )) && return 0
 	(( ! ${#source[@]} )) && return 0
 
 	local correlation=0
@@ -1603,7 +1604,7 @@ check_software() {
 	fi
 
 	# openssl - checksum operations
-	if (( ! SKIPINTEG )); then
+	if (( ! SKIPCHECKSUMS )); then
 		if ! type -p openssl >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for validating sourcefile checksums.")" "openssl"
 			ret=1
@@ -1838,7 +1839,8 @@ usage() {
 	echo "$(gettext "  --nosign         Do not create a signature for the package")"
 	echo "$(gettext "  --pkg <list>     Only build listed packages from a split package")"
 	printf "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
-	echo "$(gettext "  --skipinteg      Do not fail when integrity checks are missing")"
+	echo "$(gettext "  --skipchecksums  Do not verify checksums of the source files")"
+	echo "$(gettext "  --skipinteg      Do not perform any verification checks on source files")"
 	echo "$(gettext "  --skippgpcheck   Do not verify source files with pgp signatures")"
 	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
 	echo
@@ -1876,7 +1878,9 @@ OPT_SHORT="AcdefFghiLmop:rRsV"
 OPT_LONG="allsource,asroot,ignorearch,check,clean,nodeps"
 OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver,skippgpcheck"
 OPT_LONG+=",install,key:,log,nocolor,nobuild,nocheck,nosign,pkg:,rmdeps"
-OPT_LONG+=",repackage,skipinteg,skippgpcheck,sign,source,syncdeps,version,config:"
+OPT_LONG+=",repackage,skipchecksums,skipinteg,skippgpcheck,sign,source,syncdeps"
+OPT_LONG+=",version,config:"
+
 # Pacman Options
 OPT_LONG+=",noconfirm,noprogressbar"
 if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
@@ -1917,7 +1921,8 @@ while true; do
 		--pkg)            shift; PKGLIST=($1) ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
-		--skipinteg)      SKIPINTEG=1 ;;
+		--skipchecksums)  SKIPCHECKSUMS=1 ;;
+		--skipinteg)      SKIPCHECKSUMS=1; SKIPPGPCHECK=1 ;;
 		--skippgpcheck)   SKIPPGPCHECK=1;;
 		--sign)           SIGNPKG='y' ;;
 		--source)         SOURCEONLY=1 ;;
@@ -2239,15 +2244,22 @@ if (( SOURCEONLY )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd "$srcdir"
-	if (( ! SKIPINTEG || SOURCEONLY == 2 )); then
+	if ( (( ! SKIPCHECKSUMS )) || \
+			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ) || \
+			(( SOURCEONLY == 2 )); then
 		download_sources
 	fi
-	if (( ! SKIPINTEG )); then
-		# We can only check checksums if we have all files.
+	if (( SKIPCHECKSUMS && SKIPPGPCHECK )); then
+		warning "$(gettext "Skipping all source file integrity checks.")"
+	elif (( SKIPCHECKSUMS )); then
+		warning "$(gettext "Skipping verification of source file checksums.")"
+		check_pgpsigs
+	elif (( SKIPPGPCHECK )); then
+		warning "$(gettext "Skipping verification of source file PGP signatures.")"
+		check_checksums
+	else
 		check_checksums
 		check_pgpsigs
-	else
-		warning "$(gettext "Skipping integrity checks.")"
 	fi
 	cd "$startdir"
 
@@ -2322,11 +2334,17 @@ elif (( REPKG )); then
 	fi
 else
 	download_sources
-	if (( ! SKIPINTEG )); then
+	if (( SKIPCHECKSUMS && SKIPPGPCHECK )); then
+		warning "$(gettext "Skipping all source file integrity checks.")"
+	elif (( SKIPCHECKSUMS )); then
+		warning "$(gettext "Skipping verification of source file checksums.")"
+		check_pgpsigs
+	elif (( SKIPPGPCHECK )); then
+		warning "$(gettext "Skipping verification of source file PGP signatures.")"
+		check_checksums
+	else
 		check_checksums
 		check_pgpsigs
-	else
-		warning "$(gettext "Skipping integrity checks.")"
 	fi
 	extract_sources
 fi
