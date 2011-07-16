@@ -398,9 +398,13 @@ ${PACKAGE_NAME}:
     localstatedir          : $(eval echo ${localstatedir})
        database dir        : $(eval echo ${localstatedir})/lib/pacman/
        cache dir           : $(eval echo ${localstatedir})/cache/pacman/pkg/
+
     compiler               : ${CC}
+    preprocessor flags     : ${CPPFLAGS}
     compiler flags         : ${CFLAGS}
     defines                : ${DEFS}
+    library flags          : ${LIBS}
+    linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
     Architecture flags     : ${CARCHFLAGS}
