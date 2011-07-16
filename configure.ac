@@ -125,10 +125,12 @@ AC_ARG_ENABLE(git-version,
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC_C99
+AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
+AC_PROG_RANLIB
 AC_CHECK_PROGS([PYTHON], [python2.7 python2.6 python2.5 python2 python], [false])
 AC_PATH_PROGS([BASH_SHELL], [bash bash4 bash3], [false])
 
@@ -170,17 +172,19 @@ AS_IF([test "x$with_gpgme" != "xno"],
 AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$with_gpgme" = "xyes"])
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h glob.h libintl.h locale.h mntent.h string.h \
-                  sys/ioctl.h sys/mount.h sys/param.h sys/statvfs.h \
-                  sys/time.h sys/types.h sys/ucred.h syslog.h termios.h \
-                  wchar.h])
+AC_CHECK_HEADERS([fcntl.h float.h glob.h libintl.h limits.h locale.h \
+                  mntent.h stddef.h string.h sys/ioctl.h sys/mount.h \
+                  sys/param.h sys/statvfs.h sys/time.h sys/types.h \
+                  sys/ucred.h syslog.h termios.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
+AC_TYPE_INT64_T
 AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
 AC_STRUCT_TM
 AC_TYPE_UID_T
 AC_STRUCT_DIRENT_D_TYPE
@@ -190,10 +194,14 @@ PATH_MAX_DEFINED
 AC_FUNC_FORK
 AC_FUNC_GETMNTENT
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
+AC_FUNC_MALLOC
 AC_FUNC_MKTIME
-AC_CHECK_FUNCS([geteuid getmntinfo realpath regcomp strcasecmp \
-                strndup strrchr strsep swprintf tcflush \
-                wcwidth uname])
+AC_FUNC_STRCOLL
+AC_CHECK_FUNCS([dup2 getcwd geteuid getmntinfo gettimeofday memmove memset \
+                mkdir realpath regcomp rmdir setenv setlocale strcasecmp \
+                strchr strcspn strdup strerror strndup strrchr strsep strstr \
+                strtol swprintf tcflush wcwidth uname])
+
 # For the diskspace code
 FS_STATS_TYPE
 AC_CHECK_MEMBERS([struct statvfs.f_flag],,,[[#include <sys/statvfs.h>]])
