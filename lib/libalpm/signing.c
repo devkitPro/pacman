@@ -391,8 +391,8 @@ error:
 	return ret;
 }
 #else
-int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
-		const char *base64_sig)
+int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
+		const char UNUSED *base64_sig, alpm_sigresult_t UNUSED *result)
 {
 	return -1;
 }
