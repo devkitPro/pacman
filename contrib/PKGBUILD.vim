@@ -13,6 +13,7 @@ elseif exists("b:current_syntax")
 endif
 
 let b:main_syntax = "sh"
+let b:is_bash = 1
 runtime! syntax/sh.vim
 
 " case on
@@ -105,6 +106,11 @@ syn region pbMakedependsGroup start=/^makedepends=(/ end=/)/ contains=pb_k_maked
 syn keyword pb_k_optdepends optdepends contained
 syn match pbValidOptdepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
 syn region pbOptdependsGroup start=/^optdepends=(/ end=/)/ contains=pb_k_optdepends,pbValidOptdepends,shDoubleQuote,shSingleQuote
+
+" checkdepends
+syn keyword pb_k_ckdepends ckdepends contained
+syn match pbValidCkdepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
+syn region pbCkdependsGroup start=/^checkdepends=(/ end=/)/ contains=pb_k_ckdepends,pbValidCkdepends,shDoubleQuote,shSingleQuote
 
 " conflicts
 syn keyword pb_k_conflicts conflicts contained
@@ -228,6 +234,7 @@ hi def link pbIllegalArch Error
 hi def link pb_k_groups pbKeywords
 hi def link pb_k_makedepends pbKeywords
 hi def link pb_k_optdepends pbKeywords
+hi def link pb_k_ckdepends pbKeywords
 hi def link pb_k_depends pbKeywords
 hi def link pb_k_replaces pbKeywords
 hi def link pb_k_conflicts pbKeywords
