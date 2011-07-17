@@ -604,10 +604,17 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	eta_m = eta_s / 60;
 	eta_s -= eta_m * 60;
 
-	fname = strdup(filename);
+	/* allocate length+1 (plus null) in case we need to exchange .db for .sig */
+	fname = calloc(1, strlen(filename) + 2);
+	strcpy(fname, filename);
 	/* strip package or DB extension for cleaner look */
 	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db"))) {
-			*p = '\0';
+		*p = '\0';
+
+		/* tack on a .sig suffix for signatures */
+		if((p = strstr(filename, ".sig"))) {
+			strcat(fname, ".sig");
+		}
 	}
 	/* In order to deal with characters from all locales, we have to worry
 	 * about wide characters and their column widths. A lot of stuff is
