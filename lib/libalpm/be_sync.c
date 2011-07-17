@@ -566,7 +566,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				READ_AND_SPLITDEP(pkg->depends);
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
-				READ_AND_STORE_ALL(pkg->optdepends);
+				READ_AND_SPLITDEP(pkg->optdepends);
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
 				READ_AND_SPLITDEP(pkg->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {

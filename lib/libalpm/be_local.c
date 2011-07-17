@@ -611,7 +611,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
 				READ_AND_SPLITDEP(info->depends);
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
-				READ_AND_STORE_ALL(info->optdepends);
+				READ_AND_SPLITDEP(info->optdepends);
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
 				READ_AND_SPLITDEP(info->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
@@ -829,7 +829,9 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->optdepends) {
 			fputs("%OPTDEPENDS%\n", fp);
 			for(lp = info->optdepends; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				char *optstring = alpm_dep_compute_string(lp->data);
+				fprintf(fp, "%s\n", optstring);
+				free(optstring);
 			}
 			fprintf(fp, "\n");
 		}

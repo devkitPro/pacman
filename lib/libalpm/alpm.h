@@ -820,7 +820,7 @@ alpm_list_t *alpm_pkg_get_depends(alpm_pkg_t *pkg);
 
 /** Returns the list of package optional dependencies.
  * @param pkg a pointer to package
- * @return a reference to an internal list of strings.
+ * @return a reference to an internal list of alpm_depend_t structures.
  */
 alpm_list_t *alpm_pkg_get_optdepends(alpm_pkg_t *pkg);
 

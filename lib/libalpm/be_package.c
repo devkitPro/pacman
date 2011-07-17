@@ -36,7 +36,7 @@
 #include "log.h"
 #include "handle.h"
 #include "package.h"
-#include "deps.h" /* _alpm_splitdep */
+#include "deps.h"
 
 struct package_changelog {
 	struct archive *archive;
@@ -214,7 +214,8 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 				alpm_depend_t *dep = _alpm_splitdep(ptr);
 				newpkg->depends = alpm_list_add(newpkg->depends, dep);
 			} else if(strcmp(key, "optdepend") == 0) {
-				newpkg->optdepends = alpm_list_add(newpkg->optdepends, strdup(ptr));
+				alpm_depend_t *optdep = _alpm_splitdep(ptr);
+				newpkg->optdepends = alpm_list_add(newpkg->optdepends, optdep);
 			} else if(strcmp(key, "conflict") == 0) {
 				alpm_depend_t *conflict = _alpm_splitdep(ptr);
 				newpkg->conflicts = alpm_list_add(newpkg->conflicts, conflict);
