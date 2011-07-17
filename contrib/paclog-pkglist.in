@@ -1,4 +1,4 @@
-#!/bin/awk -f
+#!/bin/bash
 #
 # paclog-pkglist - Parse a log file into a list of currently installed packages
 #
@@ -17,14 +17,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-BEGIN {
-  if (ARGC < 2) {
-    printf "usage:   log2pkglist <pacman log>\n"
-    printf "example: log2pkglist /var/log/pacman.log\n"
-    exit
-  }
-}
+export TEXTDOMAIN='pacman'
+export TEXTDOMAINDIR='/usr/share/locale'
+declare logfile=${1:-@localstatedir@/log/pacman.log}
 
+if [[ $1 ]]; then
+  if [[ $1 = -@(h|-help) ]]; then
+    printf 'usage:   %s [pacman log]\n' "${0##*/}"
+    printf 'example: %s @localstatedir@/log/pacman.log\n' "${0##*/}"
+    printf '\ndefaults to: @localstatedir@/log/pacman.log\n'
+    exit 0
+  elif [[ ! -e $logfile ]]; then
+    printf $"target not found: %s\n" "$1"
+    exit 1
+  fi
+fi
+
+<"$logfile" awk '
 {
   action  = $3
   pkgname = $4
@@ -54,4 +63,6 @@ END {
       printf "%s %s\n",i,pkg[i]
     }
   }
-}
+}' | sort
+
+# vim: set ts=2 sw=2 noet:

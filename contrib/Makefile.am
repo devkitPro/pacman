@@ -2,6 +2,7 @@ OURSCRIPTS = \
 	bacman \
 	pacdiff \
 	paclist \
+	paclog-pkglist \
 	pacscripts \
 	pacsearch
 
@@ -13,7 +14,7 @@ EXTRA_DIST = \
 	PKGBUILD.vim \
 	bacman.in \
 	bash_completion.in \
-	paclog-pkglist \
+	paclog-pkglist.in \
 	pacdiff.in \
 	paclist.in \
 	pacscripts.in \
@@ -51,6 +52,7 @@ bacman: $(srcdir)/bacman.in
 bash_completion: $(srcdir)/bash_completion.in
 pacdiff: $(srcdir)/pacdiff.in
 paclist: $(srcdir)/paclist.in
+paclog-pkglist: $(srcdir)/paclog-pkglist.in
 pacscripts: $(srcdir)/pacscripts.in
 pacsearch: $(srcdir)/pacsearch.in
 pactree: $(srcdir)/pactree.in
