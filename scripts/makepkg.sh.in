@@ -678,7 +678,7 @@ extract_sources() {
 	local netfile
 	for netfile in "${source[@]}"; do
 		local file=$(get_filename "$netfile")
-		if in_array "$file" ${noextract[@]}; then
+		if in_array "$file" "${noextract[@]}"; then
 			#skip source files in the noextract=() array
 			#  these are marked explicitly to NOT be extracted
 			continue
