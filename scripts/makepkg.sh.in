@@ -764,6 +764,21 @@ check_pgpsigs() {
 	fi
 }
 
+check_source_integrity() {
+	if (( SKIPCHECKSUMS && SKIPPGPCHECK )); then
+		warning "$(gettext "Skipping all source file integrity checks.")"
+	elif (( SKIPCHECKSUMS )); then
+		warning "$(gettext "Skipping verification of source file checksums.")"
+		check_pgpsigs
+	elif (( SKIPPGPCHECK )); then
+		warning "$(gettext "Skipping verification of source file PGP signatures.")"
+		check_checksums
+	else
+		check_checksums
+		check_pgpsigs
+	fi
+}
+
 extract_sources() {
 	msg "$(gettext "Extracting Sources...")"
 	local netfile
@@ -2249,18 +2264,7 @@ if (( SOURCEONLY )); then
 			(( SOURCEONLY == 2 )); then
 		download_sources
 	fi
-	if (( SKIPCHECKSUMS && SKIPPGPCHECK )); then
-		warning "$(gettext "Skipping all source file integrity checks.")"
-	elif (( SKIPCHECKSUMS )); then
-		warning "$(gettext "Skipping verification of source file checksums.")"
-		check_pgpsigs
-	elif (( SKIPPGPCHECK )); then
-		warning "$(gettext "Skipping verification of source file PGP signatures.")"
-		check_checksums
-	else
-		check_checksums
-		check_pgpsigs
-	fi
+	check_source_integrity
 	cd "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
@@ -2334,18 +2338,7 @@ elif (( REPKG )); then
 	fi
 else
 	download_sources
-	if (( SKIPCHECKSUMS && SKIPPGPCHECK )); then
-		warning "$(gettext "Skipping all source file integrity checks.")"
-	elif (( SKIPCHECKSUMS )); then
-		warning "$(gettext "Skipping verification of source file checksums.")"
-		check_pgpsigs
-	elif (( SKIPPGPCHECK )); then
-		warning "$(gettext "Skipping verification of source file PGP signatures.")"
-		check_checksums
-	else
-		check_checksums
-		check_pgpsigs
-	fi
+	check_source_integrity
 	extract_sources
 fi
 
