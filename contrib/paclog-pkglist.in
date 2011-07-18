@@ -22,47 +22,47 @@ export TEXTDOMAINDIR='/usr/share/locale'
 declare logfile=${1:-@localstatedir@/log/pacman.log}
 
 if [[ $1 ]]; then
-  if [[ $1 = -@(h|-help) ]]; then
-    printf 'usage:   %s [pacman log]\n' "${0##*/}"
-    printf 'example: %s @localstatedir@/log/pacman.log\n' "${0##*/}"
-    printf '\ndefaults to: @localstatedir@/log/pacman.log\n'
-    exit 0
-  elif [[ ! -e $logfile ]]; then
-    printf $"target not found: %s\n" "$1"
-    exit 1
-  fi
+	if [[ $1 = -@(h|-help) ]]; then
+		printf 'usage:   %s [pacman log]\n' "${0##*/}"
+		printf 'example: %s @localstatedir@/log/pacman.log\n' "${0##*/}"
+		printf '\ndefaults to: @localstatedir@/log/pacman.log\n'
+		exit 0
+	elif [[ ! -e $logfile ]]; then
+		printf $"target not found: %s\n" "$1"
+		exit 1
+	fi
 fi
 
 <"$logfile" awk '
 {
-  action  = $3
-  pkgname = $4
-  pkgver  = $5
-  upgver  = $7
+	action  = $3
+	pkgname = $4
+	pkgver  = $5
+	upgver  = $7
 }
 
 NF == 5 && action == "installed" {
-  gsub(/[()]/, "", pkgver)
-  pkg[pkgname] = pkgver
-  next
+	gsub(/[()]/, "", pkgver)
+	pkg[pkgname] = pkgver
+	next
 }
 
 NF == 7 && action == "upgraded" {
-  sub(/\)/, "", upgver)
-  pkg[pkgname] = upgver
-  next
+	sub(/\)/, "", upgver)
+	pkg[pkgname] = upgver
+	next
 }
 
 NF == 5 && action == "removed" {
-  pkg[pkgname] = -1
+	pkg[pkgname] = -1
 }
 
 END {
-  for (i in pkg) {
-    if (pkg[i] != -1) {
-      printf "%s %s\n",i,pkg[i]
-    }
-  }
+	for (i in pkg) {
+		if (pkg[i] != -1) {
+			printf "%s %s\n",i,pkg[i]
+		}
+	}
 }' | sort
 
 # vim: set ts=2 sw=2 noet:
