@@ -45,8 +45,10 @@ alpm_handle_t *_alpm_handle_new()
 
 	CALLOC(handle, 1, sizeof(alpm_handle_t), return NULL);
 
+#ifdef HAVE_LIBGPGME
 	handle->siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
 		ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
+#endif
 
 	return handle;
 }
@@ -579,7 +581,13 @@ int SYMEXPORT alpm_option_set_default_siglevel(alpm_handle_t *handle,
 		alpm_siglevel_t level)
 {
 	CHECK_HANDLE(handle, return -1);
+#ifdef HAVE_LIBGPGME
 	handle->siglevel = level;
+#else
+	if(level != 0 && level != ALPM_SIG_USE_DEFAULT) {
+		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+	}
+#endif
 	return 0;
 }
 

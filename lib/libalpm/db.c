@@ -327,7 +327,6 @@ alpm_db_t *_alpm_db_new(const char *treename, int is_local)
 	CALLOC(db, 1, sizeof(alpm_db_t), return NULL);
 	STRDUP(db->treename, treename, return NULL);
 	db->is_local = is_local;
-	db->siglevel = 0;
 
 	return db;
 }
