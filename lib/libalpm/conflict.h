@@ -33,8 +33,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 void _alpm_fileconflict_free(alpm_fileconflict_t *conflict);
 
-const alpm_file_t *_alpm_filelist_contains(const alpm_list_t *haystack,
-		const char *needle);
+const alpm_file_t *_alpm_filelist_contains(alpm_filelist_t *filelist,
+		const char *name);
 
 #endif /* _ALPM_CONFLICT_H */
 

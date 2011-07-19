@@ -229,22 +229,22 @@ static const int INTERSECT = 1;
  *   DIFFERENCE - a difference operation is performed. filesA - filesB.
  *   INTERSECT - an intersection operation is performed. filesA & filesB.
  */
-static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
-		int operation)
+static alpm_list_t *filelist_operation(alpm_filelist_t *filesA,
+		alpm_filelist_t *filesB, int operation)
 {
 	alpm_list_t *ret = NULL;
-	alpm_list_t *pA = filesA, *pB = filesB;
+	size_t ctrA = 0, ctrB = 0;
 
-	while(pA && pB) {
-		alpm_file_t *fileA = pA->data;
-		alpm_file_t *fileB = pB->data;
+	while(ctrA < filesA->count && ctrB < filesB->count) {
+		alpm_file_t *fileA = filesA->files + ctrA;
+		alpm_file_t *fileB = filesB->files + ctrB;
 		const char *strA = fileA->name;
 		const char *strB = fileB->name;
 		/* skip directories, we don't care about them */
 		if(strA[strlen(strA)-1] == '/') {
-			pA = pA->next;
+			ctrA++;
 		} else if(strB[strlen(strB)-1] == '/') {
-			pB = pB->next;
+			ctrB++;
 		} else {
 			int cmp = strcmp(strA, strB);
 			if(cmp < 0) {
@@ -252,29 +252,29 @@ static alpm_list_t *filelist_operation(alpm_list_t *filesA, alpm_list_t *filesB,
 					/* item only in filesA, qualifies as a difference */
 					ret = alpm_list_add(ret, fileA);
 				}
-				pA = pA->next;
+				ctrA++;
 			} else if(cmp > 0) {
-				pB = pB->next;
+				ctrB++;
 			} else {
 				if(operation == INTERSECT) {
 					/* item in both, qualifies as an intersect */
 					ret = alpm_list_add(ret, fileA);
 				}
-				pA = pA->next;
-				pB = pB->next;
+				ctrA++;
+				ctrB++;
 			}
 	  }
 	}
 
 	/* if doing a difference, ensure we have completely emptied pA */
-	while(operation == DIFFERENCE && pA) {
-		alpm_file_t *fileA = pA->data;
+	while(operation == DIFFERENCE && ctrA < filesA->count) {
+		alpm_file_t *fileA = filesA->files + ctrA;
 		const char *strA = fileA->name;
 		/* skip directories */
 		if(strA[strlen(strA)-1] != '/') {
 			ret = alpm_list_add(ret, fileA);
 		}
-		pA = pA->next;
+		ctrA++;
 	}
 
 	return ret;
@@ -319,16 +319,16 @@ void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 	FREE(conflict);
 }
 
-const alpm_file_t *_alpm_filelist_contains(const alpm_list_t *haystack,
-		const char *needle)
+const alpm_file_t *_alpm_filelist_contains(alpm_filelist_t *filelist,
+		const char *name)
 {
-	const alpm_list_t *lp = haystack;
-	while(lp) {
-		const alpm_file_t *file = lp->data;
-		if(strcmp(file->name, needle) == 0) {
+	size_t i;
+	const alpm_file_t *file = filelist->files;
+	for(i = 0; i < filelist->count; i++) {
+		if(strcmp(file->name, name) == 0) {
 			return file;
 		}
-		lp = lp->next;
+		file++;
 	}
 	return NULL;
 }
@@ -400,8 +400,10 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	 * different cases. */
 	for(current = 0, i = upgrade; i; i = i->next, current++) {
 		alpm_pkg_t *p1 = i->data;
-		alpm_list_t *j, *tmpfiles;
+		alpm_list_t *j;
+		alpm_filelist_t tmpfiles;
 		alpm_pkg_t *dbpkg;
+		size_t filenum;
 
 		int percent = (current * 100) / numtargs;
 		PROGRESS(trans, ALPM_TRANS_PROGRESS_CONFLICTS_START, "", percent,
@@ -444,16 +446,21 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		 * that the former list needs to be freed while the latter list should NOT
 		 * be freed. */
 		if(dbpkg) {
+			alpm_list_t *difference;
 			/* older ver of package currently installed */
-			tmpfiles = filelist_operation(alpm_pkg_get_files(p1),
+			difference = filelist_operation(alpm_pkg_get_files(p1),
 					alpm_pkg_get_files(dbpkg), DIFFERENCE);
+			tmpfiles.count = alpm_list_count(difference);
+			tmpfiles.files = alpm_list_to_array(difference, tmpfiles.count,
+					sizeof(alpm_file_t));
+			alpm_list_free(difference);
 		} else {
 			/* no version of package currently installed */
-			tmpfiles = alpm_pkg_get_files(p1);
+			tmpfiles = *alpm_pkg_get_files(p1);
 		}
 
-		for(j = tmpfiles; j; j = j->next) {
-			alpm_file_t *file = j->data;
+		for(filenum = 0; filenum < tmpfiles.count; filenum++) {
+			alpm_file_t *file = tmpfiles.files + filenum;
 			const char *filestr = file->name;
 			const char *relative_path;
 			alpm_list_t *k;
@@ -572,7 +579,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					FREELIST(conflicts);
 					if(dbpkg) {
 						/* only freed if it was generated from filelist_operation() */
-						alpm_list_free(tmpfiles);
+						free(tmpfiles.files);
 					}
 					return NULL;
 				}
@@ -580,7 +587,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		}
 		if(dbpkg) {
 			/* only freed if it was generated from filelist_operation() */
-			alpm_list_free(tmpfiles);
+			free(tmpfiles.files);
 		}
 	}
 	PROGRESS(trans, ALPM_TRANS_PROGRESS_CONFLICTS_START, "", 100,

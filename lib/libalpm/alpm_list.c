@@ -749,6 +749,38 @@ alpm_list_t SYMEXPORT *alpm_list_diff(const alpm_list_t *lhs,
 	return ret;
 }
 
+/**
+ * @brief Copy a list and data into a standard C array of fixed length.
+ * Note that the data elements are shallow copied so any contained pointers
+ * will point to the original data.
+ *
+ * @param list the list to copy
+ * @param n    the size of the list
+ * @param size the size of each data element
+ *
+ * @return an array version of the original list, data copied as well
+ */
+void SYMEXPORT *alpm_list_to_array(const alpm_list_t *list, size_t n,
+		size_t size)
+{
+	size_t i;
+	const alpm_list_t *item;
+	char *array;
+
+	if(n == 0) {
+		return NULL;
+	}
+
+	array = calloc(n, size);
+	if(array == NULL) {
+		return NULL;
+	}
+	for(i = 0, item = list; i < n && item; i++, item = item->next) {
+		memcpy(array + i * size, item->data, size);
+	}
+	return array;
+}
+
 /** @} */
 
 /* vim: set ts=2 sw=2 noet: */

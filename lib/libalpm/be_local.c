@@ -177,10 +177,10 @@ static alpm_list_t *_cache_get_deltas(alpm_pkg_t UNUSED *pkg)
 	return NULL;
 }
 
-static alpm_list_t *_cache_get_files(alpm_pkg_t *pkg)
+static alpm_filelist_t *_cache_get_files(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_FILES, NULL);
-	return pkg->files;
+	return &(pkg->files);
 }
 
 static alpm_list_t *_cache_get_backup(alpm_pkg_t *pkg)
@@ -631,13 +631,35 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		while(fgets(line, sizeof(line), fp)) {
 			_alpm_strtrim(line);
 			if(strcmp(line, "%FILES%") == 0) {
+				size_t files_count = 0, files_size = 0;
+				alpm_file_t *files = NULL;
+
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
-					alpm_file_t *file;
-					CALLOC(file, 1, sizeof(alpm_file_t), goto error);
-					STRDUP(file->name, line, goto error);
+					if(files_count >= files_size) {
+						size_t old_size = files_size;
+						if(files_size == 0) {
+							files_size = 8;
+						} else {
+							files_size *= 2;
+						}
+						files = realloc(files, sizeof(alpm_file_t) * files_size);
+						if(!files) {
+							ALLOC_FAIL(sizeof(alpm_file_t) * files_size);
+							goto error;
+						}
+						/* ensure all new memory is zeroed out, in both the initial
+						 * allocation and later reallocs */
+						memset(files + old_size, 0,
+								sizeof(alpm_file_t) * (files_size - old_size));
+					}
+					STRDUP(files[files_count].name, line, goto error);
 					/* TODO: lstat file, get mode/size */
-					info->files = alpm_list_add(info->files, file);
+					files_count++;
 				}
+				/* attempt to hand back any memory we don't need */
+				files = realloc(files, sizeof(alpm_file_t) * files_count);
+				info->files.count = files_count;
+				info->files.files = files;
 			} else if(strcmp(line, "%BACKUP%") == 0) {
 				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
 					alpm_backup_t *backup;
@@ -834,10 +856,11 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 			retval = -1;
 			goto cleanup;
 		}
-		if(info->files) {
+		if(info->files.count) {
+			size_t i;
 			fprintf(fp, "%%FILES%%\n");
-			for(lp = info->files; lp; lp = lp->next) {
-				const alpm_file_t *file = lp->data;
+			for(i = 0; i < info->files.count; i++) {
+				const alpm_file_t *file = info->files.files + i;
 				fprintf(fp, "%s\n", file->name);
 			}
 			fprintf(fp, "\n");

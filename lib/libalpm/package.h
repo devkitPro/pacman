@@ -69,7 +69,7 @@ struct pkg_operations {
 	alpm_list_t *(*get_provides) (alpm_pkg_t *);
 	alpm_list_t *(*get_replaces) (alpm_pkg_t *);
 	alpm_list_t *(*get_deltas) (alpm_pkg_t *);
-	alpm_list_t *(*get_files) (alpm_pkg_t *);
+	alpm_filelist_t *(*get_files) (alpm_pkg_t *);
 	alpm_list_t *(*get_backup) (alpm_pkg_t *);
 
 	void *(*changelog_open) (alpm_pkg_t *);
@@ -126,7 +126,6 @@ struct __alpm_pkg_t {
 	alpm_list_t *licenses;
 	alpm_list_t *replaces;
 	alpm_list_t *groups;
-	alpm_list_t *files;
 	alpm_list_t *backup;
 	alpm_list_t *depends;
 	alpm_list_t *optdepends;
@@ -137,10 +136,11 @@ struct __alpm_pkg_t {
 	alpm_list_t *removes; /* in transaction targets only */
 
 	struct pkg_operations *ops;
+
+	alpm_filelist_t files;
 };
 
-void _alpm_files_free(alpm_file_t *file);
-alpm_file_t *_alpm_files_dup(const alpm_file_t *file);
+alpm_file_t *_alpm_file_copy(alpm_file_t *dest, const alpm_file_t *src);
 int _alpm_files_cmp(const void *f1, const void *f2);
 
 alpm_pkg_t* _alpm_pkg_new(void);

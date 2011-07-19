@@ -147,14 +147,18 @@ static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
 static int calculate_removed_size(alpm_handle_t *handle,
 		const alpm_list_t *mount_points, alpm_pkg_t *pkg)
 {
-	alpm_list_t *i;
+	size_t i;
+	alpm_filelist_t *filelist = alpm_pkg_get_files(pkg);
 
-	alpm_list_t *files = alpm_pkg_get_files(pkg);
-	for(i = files; i; i = i->next) {
+	if(!filelist->count) {
+		return 0;
+	}
+
+	for(i = 0; i < filelist->count; i++) {
+		const alpm_file_t *file = filelist->files + i;
 		alpm_mountpoint_t *mp;
 		struct stat st;
 		char path[PATH_MAX];
-		const alpm_file_t *file = i->data;
 		const char *filename = file->name;
 
 		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
@@ -185,13 +189,17 @@ static int calculate_removed_size(alpm_handle_t *handle,
 static int calculate_installed_size(alpm_handle_t *handle,
 		const alpm_list_t *mount_points, alpm_pkg_t *pkg)
 {
-	alpm_list_t *i;
+	size_t i;
+	alpm_filelist_t *filelist = alpm_pkg_get_files(pkg);
 
-	for(i = alpm_pkg_get_files(pkg); i; i = i->next) {
-		const alpm_file_t *file = i->data;
+	if(!filelist->count) {
+		return 0;
+	}
+
+	for(i = 0; i < filelist->count; i++) {
+		const alpm_file_t *file = filelist->files + i;
 		alpm_mountpoint_t *mp;
 		char path[PATH_MAX];
-
 		const char *filename = file->name;
 
 		/* libarchive reports these as zero size anyways */

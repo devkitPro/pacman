@@ -262,15 +262,15 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 			local_pkgs = _alpm_db_get_pkgcache(handle->db_local);
 			for(local = local_pkgs; local && !found; local = local->next) {
 				alpm_pkg_t *local_pkg = local->data;
-				alpm_list_t *files;
+				alpm_filelist_t *filelist;
 
 				/* we duplicated the package when we put it in the removal list, so we
 				 * so we can't use direct pointer comparison here. */
 				if(_alpm_pkg_cmp(info, local_pkg) == 0) {
 					continue;
 				}
-				files = alpm_pkg_get_files(local_pkg);
-				if(_alpm_filelist_contains(files, fileobj->name)) {
+				filelist = alpm_pkg_get_files(local_pkg);
+				if(_alpm_filelist_contains(filelist, fileobj->name)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"keeping directory %s (owned by %s)\n", file, local_pkg->name);
 					found = 1;
@@ -320,11 +320,13 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg,
 		size_t targ_count, size_t pkg_count)
 {
-	alpm_list_t *files, *skip_remove, *lp;
+	alpm_list_t *skip_remove;
 	size_t filenum = 0, position = 0;
 	const char *pkgname = oldpkg->name;
 	const char *pkgver = oldpkg->version;
+	alpm_filelist_t *filelist;
 	char scriptlet[PATH_MAX];
+	size_t i;
 
 	if(newpkg) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing old package first (%s-%s)\n",
@@ -349,7 +351,8 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 	}
 
 	if(newpkg) {
-		alpm_list_t *newfiles, *b;
+		alpm_filelist_t *newfiles;
+		alpm_list_t *b;
 		skip_remove = alpm_list_join(
 				alpm_list_strdup(handle->trans->skip_remove),
 				alpm_list_strdup(handle->noupgrade));
@@ -371,9 +374,10 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		skip_remove = alpm_list_strdup(handle->trans->skip_remove);
 	}
 
-	files = alpm_pkg_get_files(oldpkg);
-	for(lp = files; lp; lp = lp->next) {
-		if(!can_remove_file(handle, lp->data, skip_remove)) {
+	filelist = alpm_pkg_get_files(oldpkg);
+	for(i = 0; i < filelist->count; i++) {
+		alpm_file_t *file = filelist->files + i;
+		if(!can_remove_file(handle, file, skip_remove)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"not removing package '%s', can't remove all files\n", pkgname);
 			RET_ERR(handle, ALPM_ERR_PKG_CANT_REMOVE, -1);
@@ -390,9 +394,10 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 	}
 
 	/* iterate through the list backwards, unlinking files */
-	for(lp = alpm_list_last(files); lp; lp = alpm_list_previous(lp)) {
+	for(i = filelist->count; i > 0; i--) {
+		alpm_file_t *file = filelist->files + i - 1;
 		int percent;
-		unlink_file(handle, oldpkg, lp->data, skip_remove,
+		unlink_file(handle, oldpkg, file, skip_remove,
 				handle->trans->flags & ALPM_TRANS_FLAG_NOSAVE);
 
 		if(!newpkg) {

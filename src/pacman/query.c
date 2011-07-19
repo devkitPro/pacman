@@ -191,12 +191,13 @@ static int query_fileowner(alpm_list_t *targets)
 		free(dname);
 
 		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
-			alpm_list_t *j;
 			alpm_pkg_t *info = alpm_list_getdata(i);
+			alpm_filelist_t *filelist = alpm_pkg_get_files(info);
+			size_t i;
 
-			for(j = alpm_pkg_get_files(info); j && !found; j = alpm_list_next(j)) {
+			for(i = 0; i < filelist->count; i++) {
+				const alpm_file_t *file = filelist->files + i;
 				char *ppath, *pdname;
-				const alpm_file_t *file = alpm_list_getdata(j);
 				const char *pkgfile = file->name;
 
 				/* avoid the costly resolve_path usage if the basenames don't match */
@@ -402,11 +403,12 @@ static int filter(alpm_pkg_t *pkg)
  * loop through files to check if they exist. */
 static int check(alpm_pkg_t *pkg)
 {
-	alpm_list_t *i;
-	const char *root;
+	const char *root, *pkgname;
 	int allfiles = 0, errors = 0;
 	size_t rootlen;
 	char f[PATH_MAX];
+	alpm_filelist_t *filelist;
+	size_t i;
 
 	root = alpm_option_get_root(config->handle);
 	rootlen = strlen(root);
@@ -417,10 +419,11 @@ static int check(alpm_pkg_t *pkg)
 	}
 	strcpy(f, root);
 
-	const char *pkgname = alpm_pkg_get_name(pkg);
-	for(i = alpm_pkg_get_files(pkg); i; i = alpm_list_next(i)) {
+	pkgname = alpm_pkg_get_name(pkg);
+	filelist = alpm_pkg_get_files(pkg);
+	for(i = 0; i < filelist->count; i++) {
+		const alpm_file_t *file = filelist->files + i;
 		struct stat st;
-		const alpm_file_t *file = alpm_list_getdata(i);
 		const char *path = file->name;
 
 		if(rootlen + 1 + strlen(path) > PATH_MAX) {

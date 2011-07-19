@@ -223,6 +223,53 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 	return 0;
 }
 
+static void files_merge(alpm_file_t a[], alpm_file_t b[], alpm_file_t c[],
+		size_t m, size_t n)
+{
+	size_t i = 0, j = 0, k = 0;
+	while(i < m && j < n) {
+		if(strcmp(a[i].name, b[j].name) < 0) {
+			c[k++] = a[i++];
+		} else {
+			c[k++] = b[j++];
+		}
+	}
+	while(i < m) {
+		c[k++] = a[i++];
+	}
+	while(j < n) {
+		c[k++] = b[j++];
+	}
+}
+
+static alpm_file_t *files_msort(alpm_file_t *files, size_t n)
+{
+	alpm_file_t *work;
+	size_t blocksize = 1;
+
+	CALLOC(work, n, sizeof(alpm_file_t), return NULL);
+
+	for(blocksize = 1; blocksize < n; blocksize *= 2) {
+		size_t i, max_extent = 0;
+		for(i = 0; i < n - blocksize; i += 2 * blocksize) {
+			/* this limits our actual merge to the length of the array, since we will
+			 * not likely be a perfect power of two. */
+			size_t right_blocksize = blocksize;
+			if(i + blocksize * 2 > n) {
+				right_blocksize = n - i - blocksize;
+			}
+			files_merge(files + i, files + i + blocksize, work + i,
+					blocksize, right_blocksize);
+			max_extent = i + blocksize + right_blocksize;
+		}
+		/* ensure we only copy what we actually touched on this merge pass,
+		 * no more, no less */
+		memcpy(files, work, max_extent * sizeof(alpm_file_t));
+	}
+	free(work);
+	return files;
+}
+
 /**
  * Load a package and create the corresponding alpm_pkg_t struct.
  * @param handle the context handle
@@ -241,7 +288,8 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	struct archive_entry *entry;
 	alpm_pkg_t *newpkg = NULL;
 	struct stat st;
-	size_t files_count = 0;
+	size_t files_count = 0, files_size = 0;
+	alpm_file_t *files = NULL;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL);
@@ -326,12 +374,26 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 			 * already been handled (for future possibilities) */
 		} else if(full) {
 			/* Keep track of all files for filelist generation */
-			alpm_file_t *file;
-			CALLOC(file, 1, sizeof(alpm_file_t), goto error);
-			STRDUP(file->name, entry_name, goto error);
-			file->size = archive_entry_size(entry);
-			file->mode = archive_entry_mode(entry);
-			newpkg->files = alpm_list_add(newpkg->files, file);
+			if(files_count >= files_size) {
+				size_t old_size = files_size;
+				if(files_size == 0) {
+					files_size = 4;
+				} else {
+					files_size *= 2;
+				}
+				files = realloc(files, sizeof(alpm_file_t) * files_size);
+				if(!files) {
+					ALLOC_FAIL(sizeof(alpm_file_t) * files_size);
+					goto error;
+				}
+				/* ensure all new memory is zeroed out, in both the initial
+				 * allocation and later reallocs */
+				memset(files + old_size, 0,
+						sizeof(alpm_file_t) * (files_size - old_size));
+			}
+			STRDUP(files[files_count].name, entry_name, goto error);
+			files[files_count].size = archive_entry_size(entry);
+			files[files_count].mode = archive_entry_mode(entry);
 			files_count++;
 		}
 
@@ -369,16 +431,14 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	newpkg->handle = handle;
 
 	if(full) {
+		/* attempt to hand back any memory we don't need */
+		files = realloc(files, sizeof(alpm_file_t) * files_count);
 		/* "checking for conflicts" requires a sorted list, ensure that here */
 		_alpm_log(handle, ALPM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
-		newpkg->files = alpm_list_msort(newpkg->files, files_count,
-				_alpm_files_cmp);
+		newpkg->files.files = files_msort(files, files_count);
+		newpkg->files.count = files_count;
 		newpkg->infolevel = INFRQ_ALL;
 	} else {
-		/* get rid of any partial filelist we may have collected, it is invalid */
-		alpm_list_free_inner(newpkg->files, (alpm_list_fn_free)_alpm_files_free);
-		alpm_list_free(newpkg->files);
-		newpkg->files = NULL;
 		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC;
 	}
 

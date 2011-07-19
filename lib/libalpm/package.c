@@ -106,7 +106,7 @@ static alpm_list_t *_pkg_get_conflicts(alpm_pkg_t *pkg)  { return pkg->conflicts
 static alpm_list_t *_pkg_get_provides(alpm_pkg_t *pkg)   { return pkg->provides; }
 static alpm_list_t *_pkg_get_replaces(alpm_pkg_t *pkg)   { return pkg->replaces; }
 static alpm_list_t *_pkg_get_deltas(alpm_pkg_t *pkg)     { return pkg->deltas; }
-static alpm_list_t *_pkg_get_files(alpm_pkg_t *pkg)      { return pkg->files; }
+static alpm_filelist_t *_pkg_get_files(alpm_pkg_t *pkg)  { return &(pkg->files); }
 static alpm_list_t *_pkg_get_backup(alpm_pkg_t *pkg)     { return pkg->backup; }
 
 static void *_pkg_changelog_open(alpm_pkg_t UNUSED *pkg)
@@ -313,7 +313,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_deltas(alpm_pkg_t *pkg)
 	return pkg->ops->get_deltas(pkg);
 }
 
-alpm_list_t SYMEXPORT *alpm_pkg_get_files(alpm_pkg_t *pkg)
+alpm_filelist_t SYMEXPORT *alpm_pkg_get_files(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = 0;
@@ -427,22 +427,14 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
 
 /** @} */
 
-void _alpm_files_free(alpm_file_t *file)
+alpm_file_t *_alpm_file_copy(alpm_file_t *dest,
+		const alpm_file_t *src)
 {
-	free(file->name);
-	free(file);
-}
+	STRDUP(dest->name, src->name, return NULL);
+	dest->size = src->size;
+	dest->mode = src->mode;
 
-alpm_file_t *_alpm_files_dup(const alpm_file_t *file)
-{
-	alpm_file_t *newfile;
-	CALLOC(newfile, 1, sizeof(alpm_file_t), return NULL);
-
-	STRDUP(newfile->name, file->name, return NULL);
-	newfile->size = file->size;
-	newfile->mode = file->mode;
-
-	return newfile;
+	return dest;
 }
 
 /* Helper function for comparing files list entries
@@ -493,8 +485,17 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
 	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
 	newpkg->groups     = alpm_list_strdup(pkg->groups);
-	for(i = pkg->files; i; i = alpm_list_next(i)) {
-		newpkg->files = alpm_list_add(newpkg->files, _alpm_files_dup(i->data));
+	if(pkg->files.count) {
+		size_t filenum;
+		size_t len = sizeof(alpm_file_t) * pkg->files.count;
+		MALLOC(newpkg->files.files, len, goto cleanup);
+		for(filenum = 0; filenum < pkg->files.count; filenum++) {
+			if(!_alpm_file_copy(newpkg->files.files + filenum,
+						pkg->files.files + filenum)) {
+				goto cleanup;
+			}
+		}
+		newpkg->files.count = pkg->files.count;
 	}
 	for(i = pkg->backup; i; i = alpm_list_next(i)) {
 		newpkg->backup = alpm_list_add(newpkg->backup, _alpm_backup_dup(i->data));
@@ -545,8 +546,13 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	FREELIST(pkg->licenses);
 	FREELIST(pkg->replaces);
 	FREELIST(pkg->groups);
-	alpm_list_free_inner(pkg->files, (alpm_list_fn_free)_alpm_files_free);
-	alpm_list_free(pkg->files);
+	if(pkg->files.count) {
+		size_t i;
+		for(i = 0; i < pkg->files.count; i++) {
+			free(pkg->files.files[i].name);
+		}
+		free(pkg->files.files);
+	}
 	alpm_list_free_inner(pkg->backup, (alpm_list_fn_free)_alpm_backup_free);
 	alpm_list_free(pkg->backup);
 	alpm_list_free_inner(pkg->depends, (alpm_list_fn_free)_alpm_dep_free);

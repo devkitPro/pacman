@@ -184,6 +184,12 @@ typedef struct _alpm_file_t {
 	mode_t mode;
 } alpm_file_t;
 
+/** Package filelist container */
+typedef struct _alpm_filelist_t {
+	size_t count;
+	alpm_file_t *files;
+} alpm_filelist_t;
+
 /** Local package or package file backup entry */
 typedef struct _alpm_backup_t {
 	char *name;
@@ -671,9 +677,10 @@ alpm_list_t *alpm_pkg_get_replaces(alpm_pkg_t *pkg);
  * The filenames are relative to the install root,
  * and do not include leading slashes.
  * @param pkg a pointer to package
- * @return a reference to an internal list of strings.
+ * @return a pointer to a filelist object containing a count and an array of
+ * package file objects
  */
-alpm_list_t *alpm_pkg_get_files(alpm_pkg_t *pkg);
+alpm_filelist_t *alpm_pkg_get_files(alpm_pkg_t *pkg);
 
 /** Returns the list of files backed up when installing pkg.
  * The elements of the returned list have the form
