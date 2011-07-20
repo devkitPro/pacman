@@ -350,18 +350,17 @@ GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
 # check only a single operation has been given
 numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + INIT + LIST + RECEIVE + RELOAD + UPDATEDB + VERIFY ))
 
-if (( ! numopt )); then
-	error "$(gettext "No operations specified")"
-	echo
-	usage
-	exit 1
-fi
-
-if (( numopt != 1 )); then
-	error "$(gettext "Multiple operations specified")"
-	printf "$(gettext "Please run %s with each operation separately\n")" "pacman-key"
-	exit 1
-fi
+case $numopt in
+	0)
+		error "$(gettext "no operation specified (use -h for help)")"
+		exit 1
+		;;
+	[!1])
+		error "$(gettext "Multiple operations specified")"
+		printf "$(gettext "Please run %s with each operation separately\n")" "pacman-key"
+		exit 1
+		;;
+esac
 
 (( ! INIT )) && check_keyring
 
