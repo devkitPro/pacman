@@ -348,7 +348,7 @@ PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-$(get_from "$CONFIG" "GPGDir" || echo "
 GPG_PACMAN="gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning"
 
 # check only a single operation has been given
-numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + INIT + LIST + RECEIVE + RELOAD + UPDATEBD + VERIFY ))
+numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + INIT + LIST + RECEIVE + RELOAD + UPDATEDB + VERIFY ))
 
 if (( ! numopt )); then
 	error "$(gettext "No operations specified")"
