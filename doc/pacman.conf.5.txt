@@ -156,6 +156,10 @@ Options
 	packages are only cleaned if not installed locally and not present in any
 	known sync database.
 
+*SigLevel =* ...::
+	Set the default signature verification level. For more information, see
+	<<SC,Package and Database Signature Checking>> below.
+
 *UseSyslog*::
 	Log action messages through syslog(). This will insert log entries into
 	+{localstatedir}/log/messages+ or equivalent.
@@ -193,26 +197,98 @@ contain a file that lists the servers for that repository.
 
 --------
 [core]
-# use this repository first
-Server = ftp://ftp.archlinux.org/core/os/arch
+# use this server first
+Server = ftp://ftp.archlinux.org/$repo/os/$arch
 # next use servers as defined in the mirrorlist below
 Include = {sysconfdir}/pacman.d/mirrorlist
---------
-
-During parsing, pacman will define the `$repo` variable to the name of the
-current section. This is often utilized in files specified using the 'Include'
-directive so all repositories can use the same mirrorfile. pacman also defines
-the `$arch` variable to the value of `Architecture`, so the same mirrorfile can
-even be used for different architectures.
-
---------
-Server = ftp://ftp.archlinux.org/$repo/os/$arch
 --------
 
 The order of repositories in the configuration files matters; repositories
 listed first will take precedence over those listed later in the file when
 packages in two repositories have identical names, regardless of version
 number.
+
+*Include =* path::
+	Include another config file. This file can include repositories or
+	general configuration options. Wildcards in the specified paths will get
+	expanded based on linkman:glob[7] rules.
+
+*Server =* url::
+	A full URL to a location where the database, packages, and signatures (if
+	available) for this repository can be found.
++
+During parsing, pacman will define the `$repo` variable to the name of the
+current section. This is often utilized in files specified using the 'Include'
+directive so all repositories can use the same mirrorfile. pacman also defines
+the `$arch` variable to the value of `Architecture`, so the same mirrorfile can
+even be used for different architectures.
+
+*SigLevel =* ...::
+	Set the signature verification level for this repository. For more
+	information, see <<SC,Package and Database Signature Checking>> below.
+
+Package and Database Signature Checking
+---------------------------------------
+The 'SigLevel' directive is valid in both the `[options]` and repository
+sections. If used in `[options]`, it sets a default value for any repository
+that does not provide the setting.
+
+If set to *Never*, no signature checking will take place.
+If set to *Optional* , signatures will be checked when present, but unsigned
+databases and packages will also be accepted.
+If set to *Required*, signatures will be required on all packages and
+databases.
+
+Alternatively, you can get more fine-grained control by combining some of
+the options and prefixes described below. All options in a config file are
+processed in top-to-bottom, left-to-right fashion, where later options override
+and/or supplement earlier ones. If 'SigLevel' is specified in a repository
+section, the starting value is that from the `[options]` section, or the
+built-in system default as shown below if not specified.
+
+The options are split into two main groups, described below. Terms used such as
+``marginally trusted'' are terms used by GnuPG, for more information please
+consult linkman:gpg[1].
+
+When to Check::
+	These options control if and when signature checks should take place.
+
+	*Never*;;
+		All signature checking is suppressed, even if signatures are present.
+
+	*Optional* (default);;
+		Signatures are checked if present; absence of a signature is not an
+		error. An invalid signature is a fatal error, as is a signature from a
+		key not in the keyring.
+
+	*Required*;;
+		Signatures are required; absence of a signature or an invalid signature
+		is a fatal error, as is a signature from a key not in the keyring.
+
+What is Allowed::
+	These options control what signatures are viewed as permissible. Note that
+	neither of these options allows acceptance of invalid or expired
+	signatures, or those from revoked keys.
+
+	*TrustedOnly* (default);;
+		If a signature is checked, it must be in the keyring and fully trusted;
+		marginal trust does not meet this criteria.
+
+	*TrustAll*;;
+		If a signature is checked, it must be in the keyring, but is not
+		required to be assigned a trust level (e.g., unknown or marginal
+		trust).
+
+Options in both groups can additionally be prefixed with either *Package* or
+*Database*, which will cause it to only take effect on the specified object
+type. For example, `PackageTrustAll` would allow marginal and unknown trust
+level signatures for packages.
+
+The built-in default is the following:
+
+--------
+SigLevel = Optional TrustedOnly
+--------
 
 Using Your Own Repository
 -------------------------
