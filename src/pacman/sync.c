@@ -820,8 +820,7 @@ int sync_prepare_execute(void)
 		goto cleanup;
 	}
 
-	display_targets(alpm_trans_get_remove(config->handle), 0);
-	display_targets(alpm_trans_get_add(config->handle), 1);
+	display_targets();
 	printf("\n");
 
 	int confirm;

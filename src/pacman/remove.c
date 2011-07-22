@@ -156,7 +156,7 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	/* print targets and ask user confirmation */
-	display_targets(pkglist, 0);
+	display_targets();
 	printf("\n");
 	if(yesno(_("Do you want to remove these packages?")) == 0) {
 		retval = 1;

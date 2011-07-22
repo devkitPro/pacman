@@ -39,6 +39,11 @@
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_SEC 0.2f
 
+typedef struct _pm_target_t {
+	alpm_pkg_t *remove;
+	alpm_pkg_t *install;
+} pm_target_t;
+
 void trans_init_error(void);
 int trans_init(alpm_transflag_t flags, int check_valid);
 int trans_release(void);
@@ -59,7 +64,7 @@ int table_display(const char *title, const alpm_list_t *header, const alpm_list_
 void list_display(const char *title, const alpm_list_t *list);
 void list_display_linebreak(const char *title, const alpm_list_t *list);
 void signature_display(const char *title, alpm_siglist_t *siglist);
-void display_targets(const alpm_list_t *pkgs, int install);
+void display_targets(void);
 int str_cmp(const void *s1, const void *s2);
 void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg);
 void display_optdepends(alpm_pkg_t *pkg);

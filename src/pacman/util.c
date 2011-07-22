@@ -744,7 +744,7 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 }
 
 /* creates a header row for use with table_display */
-static alpm_list_t *create_verbose_header(int install)
+static alpm_list_t *create_verbose_header(void)
 {
 	alpm_list_t *res = NULL;
 	char *str;
@@ -753,10 +753,8 @@ static alpm_list_t *create_verbose_header(int install)
 	res = alpm_list_add(res, str);
 	str = _("Old Version");
 	res = alpm_list_add(res, str);
-	if(install) {
-		str = _("New Version");
-		res = alpm_list_add(res, str);
-	}
+	str = _("New Version");
+	res = alpm_list_add(res, str);
 	str = _("Size");
 	res = alpm_list_add(res, str);
 
@@ -764,123 +762,167 @@ static alpm_list_t *create_verbose_header(int install)
 }
 
 /* returns package info as list of strings */
-static alpm_list_t *create_verbose_row(alpm_pkg_t *pkg, int install)
+static alpm_list_t *create_verbose_row(pm_target_t *target)
 {
 	char *str;
-	double size;
+	off_t size = 0;
+	double human_size;
 	const char *label;
 	alpm_list_t *ret = NULL;
-	alpm_db_t *ldb = alpm_option_get_localdb(config->handle);
 
 	/* a row consists of the package name, */
-	pm_asprintf(&str, "%s", alpm_pkg_get_name(pkg));
+	if(target->install) {
+		pm_asprintf(&str, "%s", alpm_pkg_get_name(target->install));
+	} else {
+		pm_asprintf(&str, "%s", alpm_pkg_get_name(target->remove));
+	}
 	ret = alpm_list_add(ret, str);
 
 	/* old and new versions */
-	if(install) {
-		alpm_pkg_t *oldpkg = alpm_db_get_pkg(ldb, alpm_pkg_get_name(pkg));
-		pm_asprintf(&str, "%s",
-				oldpkg != NULL ? alpm_pkg_get_version(oldpkg) : "");
-		ret = alpm_list_add(ret, str);
-	}
+	pm_asprintf(&str, "%s",
+			target->remove != NULL ? alpm_pkg_get_version(target->remove) : "");
+	ret = alpm_list_add(ret, str);
 
-	pm_asprintf(&str, "%s", alpm_pkg_get_version(pkg));
+	pm_asprintf(&str, "%s",
+			target->install != NULL ? alpm_pkg_get_version(target->install) : "");
 	ret = alpm_list_add(ret, str);
 
 	/* and size */
-	size = humanize_size(alpm_pkg_get_size(pkg), 'M', &label);
-	pm_asprintf(&str, "%.2f %s", size, label);
+	size -= target->remove ? alpm_pkg_get_isize(target->remove) : 0;
+	size += target->install ? alpm_pkg_get_isize(target->install) : 0;
+	human_size = humanize_size(size, 'M', &label);
+	pm_asprintf(&str, "%.2f %s", human_size, label);
 	ret = alpm_list_add(ret, str);
 
 	return ret;
 }
 
 /* prepare a list of pkgs to display */
-void display_targets(const alpm_list_t *pkgs, int install)
+static void _display_targets(alpm_list_t *targets)
 {
 	char *str;
-	const char *title, *label;
+	const char *label;
 	double size;
-	const alpm_list_t *i;
 	off_t isize = 0, rsize = 0, dlsize = 0;
-	alpm_list_t *j, *lp, *header = NULL, *targets = NULL;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_list_t *i, *header = NULL, *rows = NULL;
 
-	if(!pkgs) {
+	if(!targets) {
 		return;
 	}
 
-	/* gather pkg infos */
-	for(i = pkgs; i; i = alpm_list_next(i)) {
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+	/* gather package info */
+	for(i = targets; i; i = alpm_list_next(i)) {
+		pm_target_t *target = alpm_list_getdata(i);
 
-		if(install) {
-			alpm_pkg_t *lpkg = alpm_db_get_pkg(db_local, alpm_pkg_get_name(pkg));
-			dlsize += alpm_pkg_download_size(pkg);
-			if(lpkg) {
-				/* add up size of all removed packages */
-				rsize += alpm_pkg_get_isize(lpkg);
-			}
+		if(target->install) {
+			dlsize += alpm_pkg_download_size(target->install);
+			isize += alpm_pkg_get_isize(target->install);
 		}
-		isize += alpm_pkg_get_isize(pkg);
+		if(target->remove) {
+			/* add up size of all removed packages */
+			rsize += alpm_pkg_get_isize(target->remove);
+		}
 
 		if(config->verbosepkglists) {
-			targets = alpm_list_add(targets, create_verbose_row(pkg, install));
+			rows = alpm_list_add(rows, create_verbose_row(target));
 		} else {
-			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(pkg),
-					alpm_pkg_get_version(pkg));
-			targets = alpm_list_add(targets, str);
+			if(target->install) {
+				pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
+						alpm_pkg_get_version(target->install));
+			} else {
+				pm_asprintf(&str, "%s-%s [removal]", alpm_pkg_get_name(target->remove),
+						alpm_pkg_get_version(target->remove));
+			}
+			rows = alpm_list_add(rows, str);
 		}
 	}
 
 	/* print to screen */
-	title = install ? _("Targets (%d):") : _("Remove (%d):");
-	pm_asprintf(&str, title, alpm_list_count(pkgs));
+	pm_asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
 
 	printf("\n");
 	if(config->verbosepkglists) {
-		header = create_verbose_header(install);
-		if(table_display(str, header, targets) != 0) {
+		header = create_verbose_header();
+		if(table_display(str, header, rows) != 0) {
 			config->verbosepkglists = 0;
-			display_targets(pkgs, install);
+			_display_targets(targets);
 			goto out;
 		}
 	} else {
-		list_display(str, targets);
+		list_display(str, rows);
 	}
 	printf("\n");
 
-	if(install) {
+	if(dlsize > 0) {
 		size = humanize_size(dlsize, 'M', &label);
 		printf(_("Total Download Size:    %.2f %s\n"), size, label);
-		if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY)) {
+	}
+	if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY)) {
+		if(isize > 0) {
 			size = humanize_size(isize, 'M', &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
-			/* only show this net value if different from raw installed size */
-			if(rsize > 0) {
-				size = humanize_size(isize - rsize, 'M', &label);
-				printf(_("Net Upgrade Size:       %.2f %s\n"), size, label);
-			}
 		}
-	} else {
-		size = humanize_size(isize, 'M', &label);
-		printf(_("Total Removed Size:   %.2f %s\n"), size, label);
+		if(rsize > 0) {
+			size = humanize_size(rsize, 'M', &label);
+			printf(_("Total Removed Size:     %.2f %s\n"), size, label);
+		}
+		/* only show this net value if different from raw installed size */
+		if(isize > 0 && rsize > 0) {
+			size = humanize_size(isize - rsize, 'M', &label);
+			printf(_("Net Upgrade Size:       %.2f %s\n"), size, label);
+		}
 	}
 
 out:
 	/* cleanup */
 	if(config->verbosepkglists) {
-		/* targets is a list of lists of strings, free inner lists here */
-		for(j = targets; j; j = alpm_list_next(j)) {
-			lp = alpm_list_getdata(j);
+		/* rows is a list of lists of strings, free inner lists here */
+		for(i = rows; i; i = alpm_list_next(i)) {
+			alpm_list_t *lp = alpm_list_getdata(i);
 			FREELIST(lp);
 		}
-		alpm_list_free(targets);
 		alpm_list_free(header);
 	} else {
-		FREELIST(targets);
+		FREELIST(rows);
 	}
 	free(str);
+}
+
+static int target_cmp(const void *p1, const void *p2)
+{
+	const pm_target_t *targ1 = p1;
+	const pm_target_t *targ2 = p2;
+	const char *name1 = targ1->install ?
+		alpm_pkg_get_name(targ1->install) : alpm_pkg_get_name(targ1->remove);
+	const char *name2 = targ2->install ?
+		alpm_pkg_get_name(targ2->install) : alpm_pkg_get_name(targ2->remove);
+	return strcmp(name1, name2);
+}
+
+void display_targets(void)
+{
+	alpm_list_t *i, *targets = NULL;
+	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+
+	for(i = alpm_trans_get_add(config->handle); i; i = alpm_list_next(i)) {
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		pm_target_t *targ = calloc(1, sizeof(pm_target_t));
+		if(!targ) return;
+		targ->install = pkg;
+		targ->remove = alpm_db_get_pkg(db_local, alpm_pkg_get_name(pkg));
+		targets = alpm_list_add(targets, targ);
+	}
+	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
+		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		pm_target_t *targ = calloc(1, sizeof(pm_target_t));
+		if(!targ) return;
+		targ->remove = pkg;
+		targets = alpm_list_add(targets, targ);
+	}
+
+	targets = alpm_list_msort(targets, alpm_list_count(targets), target_cmp);
+	_display_targets(targets);
+	FREELIST(targets);
 }
 
 static off_t pkg_get_size(alpm_pkg_t *pkg)
