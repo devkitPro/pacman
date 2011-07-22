@@ -1343,12 +1343,14 @@ check_sanity() {
 		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgbase"
 		ret=1
 	fi
-	if [[ $pkgver =~ [:-] ]]; then
-		error "$(gettext "%s is not allowed to contain colons or hyphens.")" "pkgver"
+
+	if [[ $pkgver =~ [[:space:]:-] ]]; then
+		error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
 		ret=1
 	fi
-	if [[ $pkgrel != ${pkgrel//-/} ]]; then
-		error "$(gettext "%s is not allowed to contain hyphens.")" "pkgrel"
+
+	if [[ $pkgrel =~ [[:space:]-] ]]; then
+		error "$(gettext "%s is not allowed to contain hyphens or whitespace.")" "pkgrel"
 		ret=1
 	fi
 
