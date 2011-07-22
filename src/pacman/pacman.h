@@ -32,6 +32,7 @@ int pacman_query(alpm_list_t *targets);
 int pacman_remove(alpm_list_t *targets);
 /* sync.c */
 int pacman_sync(alpm_list_t *targets);
+int sync_prepare_execute(void);
 /* upgrade.c */
 int pacman_upgrade(alpm_list_t *targets);
 

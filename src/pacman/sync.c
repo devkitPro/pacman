@@ -712,9 +712,6 @@ cleanup:
 
 static int sync_trans(alpm_list_t *targets)
 {
-	int retval = 0;
-	alpm_list_t *data = NULL;
-	alpm_list_t *packages = NULL;
 	alpm_list_t *i;
 
 	/* Step 1: create a new transaction... */
@@ -726,8 +723,8 @@ static int sync_trans(alpm_list_t *targets)
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		if(process_target(targ) == 1) {
-			retval = 1;
-			goto cleanup;
+			trans_release();
+			return 1;
 		}
 	}
 
@@ -736,10 +733,18 @@ static int sync_trans(alpm_list_t *targets)
 		alpm_logaction(config->handle, "starting full system upgrade\n");
 		if(alpm_sync_sysupgrade(config->handle, config->op_s_upgrade >= 2) == -1) {
 			pm_fprintf(stderr, ALPM_LOG_ERROR, "%s\n", alpm_strerror(alpm_errno(config->handle)));
-			retval = 1;
-			goto cleanup;
+			trans_release();
+			return 1;
 		}
 	}
+
+	return sync_prepare_execute();
+}
+
+int sync_prepare_execute(void)
+{
+	alpm_list_t *i, *packages, *data = NULL;
+	int retval = 0;
 
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
