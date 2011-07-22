@@ -222,21 +222,94 @@ int config_set_arch(const char *arch)
 	return 0;
 }
 
-static alpm_siglevel_t option_verifysig(const char *value)
+/**
+ * Parse a signature verification level line.
+ * @param values the list of parsed option values
+ * @param storage location to store the derived signature level; any existing
+ * value here is used as a starting point
+ * @return 0 on success, 1 on any parsing error
+ */
+static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
 {
-	alpm_siglevel_t level;
-	if(strcmp(value, "Always") == 0) {
-		level = ALPM_SIG_PACKAGE | ALPM_SIG_DATABASE;
-	} else if(strcmp(value, "Optional") == 0) {
-		level = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
-			ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
-	} else if(strcmp(value, "Never") == 0) {
-		level = 0;
-	} else {
-		return -1;
+	alpm_siglevel_t level = *storage;
+	alpm_list_t *i;
+	int ret = 0;
+
+	/* Collapse the option names into a single bitmasked value */
+	for(i = values; i; i = alpm_list_next(i)) {
+		const char *original = i->data, *value;
+		int package = 0, database = 0;
+
+		if (strncmp(original, "Package", strlen("Package")) == 0) {
+			/* only packages are affected, don't flip flags for databases */
+			value = original + strlen("Package");
+			package = 1;
+		} else if (strncmp(original, "Database", strlen("Database")) == 0) {
+			/* only databases are affected, don't flip flags for packages */
+			value = original + strlen("Database");
+			database = 1;
+		} else {
+			/* no prefix, so anything found will affect both packages and dbs */
+			value = original;
+			package = database = 1;
+		}
+
+		/* now parse out and store actual flag if it is valid */
+		if(strcmp(value, "Never") == 0) {
+			if(package) {
+				level &= ~ALPM_SIG_PACKAGE;
+			}
+			if(database) {
+				level &= ~ALPM_SIG_DATABASE;
+			}
+		} else if(strcmp(value, "Optional") == 0) {
+			if(package) {
+				level |= ALPM_SIG_PACKAGE;
+				level |= ALPM_SIG_PACKAGE_OPTIONAL;
+			}
+			if(database) {
+				level |= ALPM_SIG_DATABASE;
+				level |= ALPM_SIG_DATABASE_OPTIONAL;
+			}
+		} else if(strcmp(value, "Required") == 0) {
+			if(package) {
+				level |= ALPM_SIG_PACKAGE;
+				level &= ~ALPM_SIG_PACKAGE_OPTIONAL;
+			}
+			if(database) {
+				level |= ALPM_SIG_DATABASE;
+				level &= ~ALPM_SIG_DATABASE_OPTIONAL;
+			}
+		} else if(strcmp(value, "TrustedOnly") == 0) {
+			if(package) {
+				level &= ~ALPM_SIG_PACKAGE_MARGINAL_OK;
+				level &= ~ALPM_SIG_PACKAGE_UNKNOWN_OK;
+			}
+			if(database) {
+				level &= ~ALPM_SIG_DATABASE_MARGINAL_OK;
+				level &= ~ALPM_SIG_DATABASE_UNKNOWN_OK;
+			}
+		} else if(strcmp(value, "TrustAll") == 0) {
+			if(package) {
+				level |= ALPM_SIG_PACKAGE_MARGINAL_OK;
+				level |= ALPM_SIG_PACKAGE_UNKNOWN_OK;
+			}
+			if(database) {
+				level |= ALPM_SIG_DATABASE_MARGINAL_OK;
+				level |= ALPM_SIG_DATABASE_UNKNOWN_OK;
+			}
+		} else {
+			pm_printf(ALPM_LOG_ERROR, _("invalid value for 'SigLevel' : '%s'\n"),
+					original);
+			ret = 1;
+		}
+		level &= ~ALPM_SIG_USE_DEFAULT;
 	}
-	pm_printf(ALPM_LOG_DEBUG, "config: VerifySig = %s (%d)\n", value, level);
-	return level;
+
+	if(!ret) {
+		*storage = level;
+	}
+	return ret;
 }
 
 static int process_cleanmethods(alpm_list_t *values) {
@@ -359,16 +432,14 @@ static int _parse_options(const char *key, char *value,
 				return 1;
 			}
 			FREELIST(methods);
-		} else if(strcmp(key, "VerifySig") == 0) {
-			alpm_siglevel_t level = option_verifysig(value);
-			if(level != -1) {
-				config->siglevel = level;
-			} else {
-				pm_printf(ALPM_LOG_ERROR,
-						_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
-						file, linenum, key, value);
+		} else if(strcmp(key, "SigLevel") == 0) {
+			alpm_list_t *values = NULL;
+			setrepeatingoption(value, "SigLevel", &values);
+			if(process_siglevel(values, &(config->siglevel))) {
+				FREELIST(values);
 				return 1;
 			}
+			FREELIST(values);
 		} else {
 			pm_printf(ALPM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
@@ -726,16 +797,19 @@ static int _parseconfig(const char *file, struct section_t *section,
 					goto cleanup;
 				}
 				section->servers = alpm_list_add(section->servers, strdup(value));
-			} else if(strcmp(key, "VerifySig") == 0) {
-				alpm_siglevel_t level = option_verifysig(value);
-				if(level != -1) {
-					section->siglevel = level;
-				} else {
-					pm_printf(ALPM_LOG_ERROR,
-							_("config file %s, line %d: directive '%s' has invalid value '%s'\n"),
-							file, linenum, key, value);
-					ret = 1;
-					goto cleanup;
+			} else if(strcmp(key, "SigLevel") == 0) {
+				alpm_list_t *values = NULL;
+				setrepeatingoption(value, "SigLevel", &values);
+				if(values) {
+					if(section->siglevel == ALPM_SIG_USE_DEFAULT) {
+						section->siglevel = config->siglevel;
+					}
+					if(process_siglevel(values, &(section->siglevel))) {
+						FREELIST(values);
+						ret = 1;
+						goto cleanup;
+					}
+					FREELIST(values);
 				}
 			} else {
 				pm_printf(ALPM_LOG_WARNING,

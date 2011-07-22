@@ -118,7 +118,7 @@ def mkcfgfile(filename, root, option, db):
         if key != "local":
             value = db[key]
             data.append("[%s]\n" \
-                    "VerifySig = %s\n" \
+                    "SigLevel = %s\n" \
                     "Server = file://%s" \
                      % (value.treename, value.getverify(), \
                         os.path.join(root, SYNCREPO, value.treename)))
