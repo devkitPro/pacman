@@ -140,8 +140,7 @@ clean_up() {
 		msg "$(gettext "Cleaning up...")"
 		rm -rf "$pkgdir" "$srcdir"
 		if [[ -n $pkgbase ]]; then
-			# TODO: this wasn't properly fixed in commit 2020e629
-			local fullver=$(get_full_version $epoch $pkgver $pkgrel)
+			local fullver=$(get_full_version)
 			# Can't do this unless the BUILDSCRIPT has been sourced.
 			if (( BUILDFUNC )); then
 				rm -f "${pkgbase}-${fullver}-${CARCH}-build.log"*
@@ -236,15 +235,27 @@ get_url() {
 }
 
 ##
-#  usage : get_full_version( $epoch, $pkgver, $pkgrel )
+#  usage : get_full_version( [$pkgname] )
 # return : full version spec, including epoch (if necessary), pkgver, pkgrel
 ##
 get_full_version() {
-	if [[ $1 -eq 0 ]]; then
-		# zero epoch case, don't include it in version
-		echo $2-$3
+	if [[ -z $1 ]]; then
+		if (( ! $epoch )); then
+			echo $pkgver-$pkgrel
+		else
+			echo $epoch:$pkgver-$pkgrel
+		fi
 	else
-		echo $1:$2-$3
+		for i in pkgver pkgrel epoch; do
+			local indirect="${i}_override"
+			eval $(declare -f package_$1 | sed -n "s/\(^[[:space:]]*$i=\)/${i}_override=/p")
+			[[ -z ${!indirect} ]] && eval "${indirect}=\${${i}}"
+		done
+		if (( ! $epoch_override )); then
+			echo $pkgver_override-$pkgrel_override
+		else
+			echo $epoch_override:$pkgver_override-$pkgrel_override
+		fi
 	fi
 }
 
@@ -779,7 +790,7 @@ run_function() {
 	local ret=0
 	local restoretrap
 	if (( LOGGING )); then
-		local fullver=$(get_full_version $epoch $pkgver $pkgrel)
+		local fullver=$(get_full_version)
 		local BUILDLOG="${startdir}/${pkgbase}-${fullver}-${CARCH}-$pkgfunc.log"
 		if [[ -f $BUILDLOG ]]; then
 			local i=1
@@ -1013,7 +1024,7 @@ write_pkginfo() {
 	echo "# $(LC_ALL=C date -u)"
 	echo "pkgname = $1"
 	(( SPLITPKG )) && echo pkgbase = $pkgbase
-	echo "pkgver = $(get_full_version $epoch $pkgver $pkgrel)"
+	echo "pkgver = $(get_full_version)"
 	echo "pkgdesc = $pkgdesc"
 	echo "url = $url"
 	echo "builddate = $builddate"
@@ -1157,7 +1168,7 @@ create_package() {
 		"$PKGEXT" ; EXT=$PKGEXT ;;
 	esac
 
-	local fullver=$(get_full_version $epoch $pkgver $pkgrel)
+	local fullver=$(get_full_version)
 	local pkg_file="$PKGDEST/${nameofpkg}-${fullver}-${PKGARCH}${PKGEXT}"
 	local ret=0
 
@@ -1270,7 +1281,7 @@ create_srcpackage() {
 		"$SRCEXT" ;;
 	esac
 
-	local fullver=$(get_full_version $epoch $pkgver $pkgrel)
+	local fullver=$(get_full_version)
 	local pkg_file="$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
 
 	# tar it up
@@ -1306,8 +1317,7 @@ install_package() {
 
 	local fullver pkg pkglist
 	for pkg in ${pkgname[@]}; do
-		# TODO: this wasn't properly fixed in commit 2020e629
-		fullver=$(get_full_version $epoch $pkgver $pkgrel)
+		fullver=$(get_full_version $pkg)
 		if [[ -f $PKGDEST/${pkg}-${fullver}-${CARCH}${PKGEXT} ]]; then
 			pkglist+=" $PKGDEST/${pkg}-${fullver}-${CARCH}${PKGEXT}"
 		else
@@ -2048,7 +2058,7 @@ fi
 
 
 if (( ! SPLITPKG )); then
-	fullver=$(get_full_version $epoch $pkgver $pkgrel)
+	fullver=$(get_full_version)
 	if [[ -f $PKGDEST/${pkgname}-${fullver}-${CARCH}${PKGEXT} \
 	     || -f $PKGDEST/${pkgname}-${fullver}-any${PKGEXT} ]] \
 			 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
@@ -2065,8 +2075,7 @@ else
 	allpkgbuilt=1
 	somepkgbuilt=0
 	for pkg in ${pkgname[@]}; do
-		# TODO: this wasn't properly fixed in commit 2020e629
-		fullver=$(get_full_version $epoch $pkgver $pkgrel)
+		fullver=$(get_full_version $pkg)
 		if [[ -f $PKGDEST/${pkg}-${fullver}-${CARCH}${PKGEXT} \
 		     || -f $PKGDEST/${pkg}-${fullver}-any${PKGEXT} ]]; then
 			somepkgbuilt=1
@@ -2126,7 +2135,7 @@ if (( INFAKEROOT )); then
 	exit 0 # $E_OK
 fi
 
-fullver=$(get_full_version $epoch $pkgver $pkgrel)
+fullver=$(get_full_version)
 msg "$(gettext "Making package: %s")" "$pkgbase $fullver ($(date))"
 
 # if we are creating a source-only package, go no further
@@ -2279,7 +2288,7 @@ else
 	fi
 fi
 
-fullver=$(get_full_version $epoch $pkgver $pkgrel)
+fullver=$(get_full_version)
 msg "$(gettext "Finished making: %s")" "$pkgbase $fullver ($(date))"
 
 install_package
