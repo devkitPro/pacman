@@ -678,7 +678,7 @@ void signature_display(const char *title, alpm_sigresult_t *result)
 		int i;
 		for(i = 0; i < result->count; i++) {
 			char sigline[PATH_MAX];
-			const char *validity, *name;
+			const char *status, *validity, *name;
 			/* Don't re-indent the first result */
 			if(i != 0) {
 				int j;
@@ -688,22 +688,42 @@ void signature_display(const char *title, alpm_sigresult_t *result)
 			}
 			switch(result->status[i]) {
 				case ALPM_SIGSTATUS_VALID:
-					validity = _("Valid signature");
+					status = _("Valid");
 					break;
-				case ALPM_SIGSTATUS_MARGINAL:
-					validity = _("Marginal signature");
+				case ALPM_SIGSTATUS_KEY_EXPIRED:
+					status = _("Key expired");
 					break;
-				case ALPM_SIGSTATUS_UNKNOWN:
-					validity = _("Unknown signature");
+				case ALPM_SIGSTATUS_SIG_EXPIRED:
+					status = _("Expired");
 					break;
-				case ALPM_SIGSTATUS_BAD:
-					validity = _("Invalid signature");
+				case ALPM_SIGSTATUS_INVALID:
+					status = _("Invalid");
+					break;
+				case ALPM_SIGSTATUS_KEY_UNKNOWN:
+					status = _("Key unknown");
 					break;
 				default:
-					validity = _("Signature error");
+					status = _("Signature error");
+					break;
 			}
-			name = result->uid[i] ? result->uid[i] : _("<Key Unknown>");
-			snprintf(sigline, PATH_MAX, _("%s from \"%s\""), validity, name);
+			switch(result->validity[i]) {
+				case ALPM_SIGVALIDITY_FULL:
+					validity = _("fully trusted");
+					break;
+				case ALPM_SIGVALIDITY_MARGINAL:
+					validity = _("marginal trusted");
+					break;
+				case ALPM_SIGVALIDITY_NEVER:
+					validity = _("never trusted");
+					break;
+				case ALPM_SIGVALIDITY_UNKNOWN:
+				default:
+					validity = _("unknown trust");
+					break;
+			}
+			name = result->uid[i] ? result->uid[i] : _("{Key Unknown}");
+			snprintf(sigline, PATH_MAX, _("%s, %s from \"%s\""),
+					status, validity, name);
 			indentprint(sigline, len);
 			printf("\n");
 		}

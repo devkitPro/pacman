@@ -104,14 +104,25 @@ typedef enum _alpm_siglevel_t {
 } alpm_siglevel_t;
 
 /**
- * PGP signature verification return codes
+ * PGP signature verification status return codes
  */
 typedef enum _alpm_sigstatus_t {
-	ALPM_SIGSTATUS_VALID = 0,
-	ALPM_SIGSTATUS_MARGINAL,
-	ALPM_SIGSTATUS_UNKNOWN,
-	ALPM_SIGSTATUS_BAD
+	ALPM_SIGSTATUS_VALID,
+	ALPM_SIGSTATUS_KEY_EXPIRED,
+	ALPM_SIGSTATUS_SIG_EXPIRED,
+	ALPM_SIGSTATUS_KEY_UNKNOWN,
+	ALPM_SIGSTATUS_INVALID
 } alpm_sigstatus_t;
+
+/**
+ * PGP signature verification status return codes
+ */
+typedef enum _alpm_sigvalidity_t {
+	ALPM_SIGVALIDITY_FULL,
+	ALPM_SIGVALIDITY_MARGINAL,
+	ALPM_SIGVALIDITY_NEVER,
+	ALPM_SIGVALIDITY_UNKNOWN
+} alpm_sigvalidity_t;
 
 /*
  * Structures
@@ -202,6 +213,7 @@ typedef struct _alpm_backup_t {
 typedef struct _alpm_sigresult_t {
 	int count;
 	alpm_sigstatus_t *status;
+	alpm_sigvalidity_t *validity;
 	char **uid;
 } alpm_sigresult_t;
 

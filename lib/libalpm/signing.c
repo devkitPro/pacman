@@ -305,8 +305,9 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	_alpm_log(handle, ALPM_LOG_DEBUG, "%d signatures returned\n", sigcount);
 
 	result->status = calloc(sigcount, sizeof(alpm_sigstatus_t));
+	result->validity = calloc(sigcount, sizeof(alpm_sigvalidity_t));
 	result->uid = calloc(sigcount, sizeof(char*));
-	if(!result->status || !result->uid) {
+	if(!result->status || !result->validity || !result->uid) {
 		handle->pm_errno = ALPM_ERR_MEMORY;
 		goto error;
 	}
@@ -316,6 +317,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 			gpgsig = gpgsig->next, sigcount++) {
 		alpm_list_t *summary_list, *summary;
 		alpm_sigstatus_t status;
+		alpm_sigvalidity_t validity;
 		gpgme_key_t key;
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
@@ -335,6 +337,8 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		if(gpg_err_code(err) == GPG_ERR_EOF) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
 			err = GPG_ERR_NO_ERROR;
+			STRDUP(result->uid[sigcount], gpgsig->fpr,
+					handle->pm_errno = ALPM_ERR_MEMORY; goto error);
 		} else {
 			CHECK_ERR();
 			if(key->uids) {
@@ -346,34 +350,52 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 			gpgme_key_unref(key);
 		}
 
-		if(gpgsig->summary & GPGME_SIGSUM_VALID) {
-			/* definite good signature */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "result: valid signature\n");
-			status = ALPM_SIGSTATUS_VALID;
-		} else if(gpgsig->summary & GPGME_SIGSUM_GREEN) {
-			/* good signature */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "result: green signature\n");
-			status = ALPM_SIGSTATUS_VALID;
-		} else if(gpgsig->summary & GPGME_SIGSUM_RED) {
-			/* definite bad signature, error */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "result: red signature\n");
-			status = ALPM_SIGSTATUS_BAD;
-		} else if(gpgsig->summary & GPGME_SIGSUM_KEY_MISSING) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "result: signature from unknown key\n");
-			status = ALPM_SIGSTATUS_UNKNOWN;
-		} else if(gpgsig->summary & GPGME_SIGSUM_KEY_EXPIRED) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "result: key expired\n");
-			status = ALPM_SIGSTATUS_BAD;
-		} else if(gpgsig->summary & GPGME_SIGSUM_SIG_EXPIRED) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "result: signature expired\n");
-			status = ALPM_SIGSTATUS_BAD;
+		switch(gpg_err_code(gpgsig->status)) {
+			/* good cases */
+			case GPG_ERR_NO_ERROR:
+				status = ALPM_SIGSTATUS_VALID;
+				break;
+			case GPG_ERR_KEY_EXPIRED:
+				status = ALPM_SIGSTATUS_KEY_EXPIRED;
+				break;
+			/* bad cases */
+			case GPG_ERR_SIG_EXPIRED:
+				status = ALPM_SIGSTATUS_SIG_EXPIRED;
+				break;
+			case GPG_ERR_NO_PUBKEY:
+				status = ALPM_SIGSTATUS_KEY_UNKNOWN;
+				break;
+			case GPG_ERR_BAD_SIGNATURE:
+			default:
+				status = ALPM_SIGSTATUS_INVALID;
+				break;
+		}
+
+		if(status == ALPM_SIGSTATUS_VALID
+				|| status == ALPM_SIGSTATUS_KEY_EXPIRED) {
+			switch(gpgsig->validity) {
+				case GPGME_VALIDITY_ULTIMATE:
+				case GPGME_VALIDITY_FULL:
+					validity = ALPM_SIGVALIDITY_FULL;
+					break;
+				case GPGME_VALIDITY_MARGINAL:
+					validity = ALPM_SIGVALIDITY_MARGINAL;
+					break;
+				case GPGME_VALIDITY_NEVER:
+					validity = ALPM_SIGVALIDITY_NEVER;
+					break;
+				case GPGME_VALIDITY_UNKNOWN:
+				case GPGME_VALIDITY_UNDEFINED:
+				default:
+					validity = ALPM_SIGVALIDITY_UNKNOWN;
+					break;
+			}
 		} else {
-			/* we'll capture everything else here */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "result: invalid signature\n");
-			status = ALPM_SIGSTATUS_BAD;
+			validity = ALPM_SIGVALIDITY_NEVER;
 		}
 
 		result->status[sigcount] = status;
+		result->validity[sigcount] = validity;
 	}
 
 	ret = 0;
@@ -429,30 +451,44 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		/* ret will already be -1 */
 	} else {
 		int num;
-		for(num = 0; num < result.count; num++) {
-			/* fallthrough in this case block is on purpose. if one allows unknown
-			 * signatures, then a marginal signature should be allowed as well, and
-			 * if neither of these are allowed we fall all the way through to bad. */
+		for(num = 0; !ret && num < result.count; num++) {
 			switch(result.status[num]) {
 				case ALPM_SIGSTATUS_VALID:
+				case ALPM_SIGSTATUS_KEY_EXPIRED:
 					_alpm_log(handle, ALPM_LOG_DEBUG, "signature is valid\n");
+					switch(result.validity[num]) {
+						case ALPM_SIGVALIDITY_FULL:
+							_alpm_log(handle, ALPM_LOG_DEBUG, "signature is fully trusted\n");
+							break;
+						case ALPM_SIGVALIDITY_MARGINAL:
+							_alpm_log(handle, ALPM_LOG_DEBUG, "signature is marginal trust\n");
+							if(!marginal) {
+								ret = -1;
+							}
+							break;
+						case ALPM_SIGVALIDITY_UNKNOWN:
+							_alpm_log(handle, ALPM_LOG_DEBUG, "signature is unknown trust\n");
+							if(!unknown) {
+								ret = -1;
+							}
+							break;
+						case ALPM_SIGVALIDITY_NEVER:
+							_alpm_log(handle, ALPM_LOG_DEBUG, "signature should never be trusted\n");
+							ret = -1;
+							break;
+					}
 					break;
-				case ALPM_SIGSTATUS_MARGINAL:
-					if(marginal) {
-						_alpm_log(handle, ALPM_LOG_DEBUG, "allowing marginal signature\n");
-						break;
-					}
-				case ALPM_SIGSTATUS_UNKNOWN:
-					if(unknown) {
-						_alpm_log(handle, ALPM_LOG_DEBUG, "allowing unknown signature\n");
-						break;
-					}
-				case ALPM_SIGSTATUS_BAD:
-				default:
-					_alpm_log(handle, ALPM_LOG_DEBUG, "signature is invalid\n");
-					handle->pm_errno = invalid_err;
+				case ALPM_SIGSTATUS_SIG_EXPIRED:
+				case ALPM_SIGSTATUS_KEY_UNKNOWN:
+				case ALPM_SIGSTATUS_INVALID:
+					_alpm_log(handle, ALPM_LOG_DEBUG, "signature is not valid\n");
 					ret = -1;
+					break;
 			}
+		}
+
+		if(ret) {
+			handle->pm_errno = invalid_err;
 		}
 	}
 
