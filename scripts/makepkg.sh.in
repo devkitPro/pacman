@@ -1376,6 +1376,21 @@ check_sanity() {
 		fi
 	fi
 
+	if (( ${#pkgname[@]} > 1 )); then
+		for i in ${pkgname[@]}; do
+			local arch_list=""
+			eval $(declare -f package_${i} | sed -n 's/\(^[[:space:]]*arch=\)/arch_list=/p')
+			if [[ ${arch_list[@]} && ${arch_list} != 'any' ]]; then
+				if ! in_array $CARCH ${arch_list[@]}; then
+					if (( ! IGNOREARCH )); then
+						error "$(gettext "%s is not available for the '%s' architecture.")" "$i" "$CARCH"
+						ret=1
+					fi
+				fi
+			fi
+		done
+	fi
+
 	local provides_list=()
 	eval $(awk '/^[[:space:]]*provides=/,/\)/' "$BUILDFILE" | \
 		sed -e "s/provides=/provides_list+=/" -e "s/#.*//" -e 's/\\$//')
