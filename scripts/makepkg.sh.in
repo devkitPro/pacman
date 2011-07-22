@@ -1344,15 +1344,21 @@ check_sanity() {
 		ret=1
 	fi
 
-	if [[ $pkgver =~ [[:space:]:-] ]]; then
-		error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
-		ret=1
-	fi
+	awk -F'=' '/^[[:space:]]*pkgver=/ { $1=""; print $0 }' "$BUILDFILE" |
+	while read i _; do
+		if [[ $i =~ [[:space:]:-] ]]; then
+			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
+			return 1
+		fi
+	done || ret=1
 
-	if [[ $pkgrel =~ [[:space:]-] ]]; then
-		error "$(gettext "%s is not allowed to contain hyphens or whitespace.")" "pkgrel"
-		ret=1
-	fi
+	awk -F'=' '/^[[:space:]]*pkgrel=/ { $1=""; print $0 }' "$BUILDFILE" |
+	while read i _; do
+		if [[ $i =~ [[:space:]-] ]]; then
+			error "$(gettext "%s is not allowed to contain hyphens or whitespace.")" "pkgrel"
+			return 1
+		fi
+	done || ret=1
 
 	if [[ ! $epoch =~ ^[0-9]*$ ]]; then
 		error "$(gettext "%s must be an integer.")" "epoch"
