@@ -308,6 +308,7 @@ static int download_internal(const char *url, const char *localpath,
 		_alpm_log(PM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
 				tempfile, destfile, strerror(errno));
 		ret = -1;
+		goto cleanup;
 	}
 	ret = 0;
 
