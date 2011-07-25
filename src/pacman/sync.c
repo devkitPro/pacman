@@ -644,7 +644,15 @@ static int process_group(alpm_list_t *dbs, char *group)
 				group);
 		select_display(pkgs);
 		char *array = malloc(count);
-		multiselect_question(array, count);
+		if(!array) {
+			ret = 1;
+			goto cleanup;
+		}
+		if(multiselect_question(array, count)) {
+			ret = 1;
+			free(array);
+			goto cleanup;
+		}
 		int n = 0;
 		for(i = pkgs; i; i = alpm_list_next(i)) {
 			if(array[n++] == 0)
@@ -657,6 +665,7 @@ static int process_group(alpm_list_t *dbs, char *group)
 				goto cleanup;
 			}
 		}
+		free(array);
 	} else {
 		for(i = pkgs; i; i = alpm_list_next(i)) {
 			pmpkg_t *pkg = alpm_list_getdata(i);

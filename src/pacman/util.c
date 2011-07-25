@@ -796,8 +796,9 @@ static int multiselect_parse(char *array, int count, char *response)
 
 int multiselect_question(char *array, int count)
 {
-	char response[64];
+	char *response, *lastchar;
 	FILE *stream;
+	size_t response_len = 64;
 
 	if(config->noconfirm) {
 		stream = stdout;
@@ -806,19 +807,45 @@ int multiselect_question(char *array, int count)
 		stream = stderr;
 	}
 
+	response = malloc(response_len);
+	if(!response) {
+		return -1;
+	}
+	lastchar = response + response_len - 1;
+	/* sentinel byte to later see if we filled up the entire string */
+	*lastchar = 1;
+
 	while(1) {
 		memset(array, 1, count);
 
 		fprintf(stream, "\n");
 		fprintf(stream, _("Enter a selection (default=all)"));
 		fprintf(stream,	": ");
+		fflush(stream);
 
 		if(config->noconfirm) {
 			fprintf(stream, "\n");
 			break;
 		}
 
-		if(fgets(response, sizeof(response), stdin)) {
+		if(fgets(response, response_len, stdin)) {
+			const size_t response_incr = 64;
+			/* handle buffer not being large enough to read full line case */
+			while(*lastchar == '\0' && lastchar[-1] != '\n') {
+				response_len += response_incr;
+				response = realloc(response, response_len);
+				if(!response) {
+					return -1;
+				}
+				lastchar = response + response_len - 1;
+				/* sentinel byte */
+				*lastchar = 1;
+				if(fgets(response + response_len - response_incr - 1,
+							response_incr + 1, stdin) == 0) {
+					free(response);
+					return -1;
+				}
+			}
 			strtrim(response);
 			if(strlen(response) > 0) {
 				if(multiselect_parse(array, count, response) == -1) {
@@ -826,9 +853,14 @@ int multiselect_question(char *array, int count)
 					continue;
 				}
 			}
+			break;
+		} else {
+			free(response);
+			return -1;
 		}
-		break;
 	}
+
+	free(response);
 	return(0);
 }
 
