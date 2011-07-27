@@ -1,5 +1,6 @@
 OURSCRIPTS = \
 	bacman \
+	paccache \
 	pacdiff \
 	paclist \
 	paclog-pkglist \
@@ -14,6 +15,7 @@ EXTRA_DIST = \
 	PKGBUILD.vim \
 	bacman.in \
 	bash_completion.in \
+	paccache.in \
 	paclog-pkglist.in \
 	pacdiff.in \
 	paclist.in \
@@ -29,6 +31,7 @@ MOSTLYCLEANFILES = $(OURSCRIPTS) $(OURFILES) *.tmp
 edit = sed \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
+	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e '1s|!/bin/bash|!$(BASH_SHELL)|g'
 
 $(OURSCRIPTS): Makefile
@@ -50,6 +53,7 @@ all-am: $(OURSCRIPTS) $(OURFILES)
 
 bacman: $(srcdir)/bacman.in
 bash_completion: $(srcdir)/bash_completion.in
+paccache: $(srcdir)/paccache.in
 pacdiff: $(srcdir)/pacdiff.in
 paclist: $(srcdir)/paclist.in
 paclog-pkglist: $(srcdir)/paclog-pkglist.in
