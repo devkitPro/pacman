@@ -111,6 +111,8 @@ if ($#querypkgs >= 0) {
 foreach $_ (@querypkgs) {
 	# we grab 4 fields here: repo, name/ver, installed, and desc
 	my @pkgfields = /^(.*?)\/(.*?) ?(\[.*\])?\n(.*)$/s;
+	# skip any non-matching line
+	next if not defined $pkgfields[1];
 	# since installed is optional, we should fill it in if necessary
 	$pkgfields[2] = "" if not defined $pkgfields[2];
 	# check if the package was listed in the sync out
