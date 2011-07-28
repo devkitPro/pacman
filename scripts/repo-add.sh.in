@@ -609,8 +609,12 @@ while (( $# )); do
 	shift
 done
 
-
 REPO_DB_FILE=${args[0]}
+if [[ -z $REPO_DB_FILE ]]; then
+	usage
+	exit 1
+fi
+
 LOCKFILE=$REPO_DB_FILE.lck
 
 verify_repo_extension "$REPO_DB_FILE" >/dev/null
