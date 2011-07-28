@@ -20,7 +20,6 @@
 #
 
 # bash options
-set -o nounset
 set -o errexit
 
 # gettext initialization
@@ -130,7 +129,7 @@ esac
 
 if (( $# != 2 )); then
 	usage
-	exit 0
+	exit 1
 fi
 
 if [[ ! -f $1 ]]; then
