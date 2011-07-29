@@ -42,6 +42,7 @@
 typedef struct _pm_target_t {
 	alpm_pkg_t *remove;
 	alpm_pkg_t *install;
+	int is_explicit;
 } pm_target_t;
 
 void trans_init_error(void);

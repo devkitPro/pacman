@@ -68,6 +68,9 @@ int config_free(config_t *oldconfig)
 		return -1;
 	}
 
+	alpm_list_free(oldconfig->explicit_adds);
+	alpm_list_free(oldconfig->explicit_removes);
+
 	FREELIST(oldconfig->holdpkg);
 	FREELIST(oldconfig->syncfirst);
 	FREELIST(oldconfig->ignorepkg);
@@ -84,7 +87,6 @@ int config_free(config_t *oldconfig)
 	free(oldconfig->print_format);
 	free(oldconfig->arch);
 	free(oldconfig);
-	oldconfig = NULL;
 
 	return 0;
 }

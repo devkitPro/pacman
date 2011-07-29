@@ -892,11 +892,23 @@ static int target_cmp(const void *p1, const void *p2)
 {
 	const pm_target_t *targ1 = p1;
 	const pm_target_t *targ2 = p2;
+	/* explicit are always sorted after implicit (e.g. deps, pulled targets) */
+	if(targ1->is_explicit != targ2->is_explicit) {
+		return targ1->is_explicit > targ2->is_explicit;
+	}
 	const char *name1 = targ1->install ?
 		alpm_pkg_get_name(targ1->install) : alpm_pkg_get_name(targ1->remove);
 	const char *name2 = targ2->install ?
 		alpm_pkg_get_name(targ2->install) : alpm_pkg_get_name(targ2->remove);
 	return strcmp(name1, name2);
+}
+
+static int pkg_cmp(const void *p1, const void *p2)
+{
+	/* explicit cast due to (un)necessary removal of const */
+	alpm_pkg_t *pkg1 = (alpm_pkg_t *)p1;
+	alpm_pkg_t *pkg2 = (alpm_pkg_t *)p2;
+	return strcmp(alpm_pkg_get_name(pkg1), alpm_pkg_get_name(pkg2));
 }
 
 void display_targets(void)
@@ -910,6 +922,9 @@ void display_targets(void)
 		if(!targ) return;
 		targ->install = pkg;
 		targ->remove = alpm_db_get_pkg(db_local, alpm_pkg_get_name(pkg));
+		if(alpm_list_find(config->explicit_adds, pkg, pkg_cmp)) {
+			targ->is_explicit = 1;
+		}
 		targets = alpm_list_add(targets, targ);
 	}
 	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
@@ -917,6 +932,9 @@ void display_targets(void)
 		pm_target_t *targ = calloc(1, sizeof(pm_target_t));
 		if(!targ) return;
 		targ->remove = pkg;
+		if(alpm_list_find(config->explicit_removes, pkg, pkg_cmp)) {
+			targ->is_explicit = 1;
+		}
 		targets = alpm_list_add(targets, targ);
 	}
 

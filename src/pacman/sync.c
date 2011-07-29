@@ -612,6 +612,7 @@ static int process_pkg(alpm_pkg_t *pkg)
 			return 1;
 		}
 	}
+	config->explicit_adds = alpm_list_add(config->explicit_adds, pkg);
 	return 0;
 }
 

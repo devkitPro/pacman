@@ -93,6 +93,9 @@ typedef struct __config_t {
 
 	/* our connection to libalpm */
 	alpm_handle_t *handle;
+
+	alpm_list_t *explicit_adds;
+	alpm_list_t *explicit_removes;
 } config_t;
 
 /* Operations */

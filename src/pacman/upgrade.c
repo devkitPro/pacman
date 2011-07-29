@@ -89,6 +89,7 @@ int pacman_upgrade(alpm_list_t *targets)
 			trans_release();
 			return 1;
 		}
+		config->explicit_adds = alpm_list_add(config->explicit_adds, pkg);
 	}
 
 	/* now that targets are resolved, we can hand it all off to the sync code */

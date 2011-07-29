@@ -33,16 +33,17 @@
 
 static int remove_target(const char *target)
 {
-	alpm_pkg_t *info;
+	alpm_pkg_t *pkg;
 	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 	alpm_list_t *p;
 
-	if((info = alpm_db_get_pkg(db_local, target)) != NULL) {
-		if(alpm_remove_pkg(config->handle, info) == -1) {
+	if((pkg = alpm_db_get_pkg(db_local, target)) != NULL) {
+		if(alpm_remove_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
 			return -1;
 		}
+		config->explicit_removes = alpm_list_add(config->explicit_removes, pkg);
 		return 0;
 	}
 
@@ -53,12 +54,13 @@ static int remove_target(const char *target)
 		return -1;
 	}
 	for(p = grp->packages; p; p = alpm_list_next(p)) {
-		alpm_pkg_t *pkg = alpm_list_getdata(p);
+		pkg = alpm_list_getdata(p);
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
 			return -1;
 		}
+		config->explicit_removes = alpm_list_add(config->explicit_removes, pkg);
 	}
 	return 0;
 }
