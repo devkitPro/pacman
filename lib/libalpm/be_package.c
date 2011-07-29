@@ -436,9 +436,9 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
 		newpkg->files.files = files_msort(files, files_count);
 		newpkg->files.count = files_count;
-		newpkg->infolevel = INFRQ_ALL;
+		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_FILES | INFRQ_SCRIPTLET;
 	} else {
-		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC;
+		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_SCRIPTLET;
 	}
 
 	return newpkg;

@@ -533,6 +533,13 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		/* already loaded all of this info, do nothing */
 		return 0;
 	}
+
+	if(info->infolevel & INFRQ_ERROR) {
+		/* We've encountered an error loading this package before. Don't attempt
+		 * repeated reloads, just give up. */
+		return -1;
+	}
+
 	_alpm_log(db->handle, ALPM_LOG_FUNCTION, "loading package data for %s : level=0x%x\n",
 			info->name, inforeq);
 
@@ -619,6 +626,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		}
 		fclose(fp);
 		fp = NULL;
+		info->infolevel |= INFRQ_DESC;
 	}
 
 	/* FILES */
@@ -673,6 +681,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		}
 		fclose(fp);
 		fp = NULL;
+		info->infolevel |= INFRQ_FILES;
 	}
 
 	/* INSTALL */
@@ -681,15 +690,14 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		if(access(path, F_OK) == 0) {
 			info->scriptlet = 1;
 		}
+		info->infolevel |= INFRQ_SCRIPTLET;
 	}
-
-	/* internal */
-	info->infolevel |= inforeq;
 
 	free(pkgpath);
 	return 0;
 
 error:
+	info->infolevel |= INFRQ_ERROR;
 	free(pkgpath);
 	if(fp) {
 		fclose(fp);

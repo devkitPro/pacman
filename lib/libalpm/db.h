@@ -40,7 +40,8 @@ typedef enum _alpm_dbinfrq_t {
 	INFRQ_SCRIPTLET = (1 << 3),
 	INFRQ_DSIZE = (1 << 4),
 	/* ALL should be info stored in the package or database */
-	INFRQ_ALL = 0x1F
+	INFRQ_ALL = 0x1F,
+	INFRQ_ERROR = (1 << 31)
 } alpm_dbinfrq_t;
 
 /** Database status. Bitflags. */
