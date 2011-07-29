@@ -42,7 +42,7 @@ class pmrule(object):
         [testname, args] = self.rule.split("=")
         if testname[0] == "!":
             self.false = 1
-            testname = testname.lstrip("!")
+            testname = testname[1:]
         [kind, case] = testname.split("_")
         if "|" in args:
             [key, value] = args.split("|", 1)

@@ -207,6 +207,26 @@ char *_alpm_strtrim(char *str)
 	return str;
 }
 
+/**
+ * Trim trailing newline from a string (if one exists).
+ * @param str a single line of text
+ * @return the length of the trimmed string
+ */
+size_t _alpm_strip_newline(char *str)
+{
+	size_t len;
+	if(str == '\0') {
+		return 0;
+	}
+	len = strlen(str);
+	while(str[len - 1] == '\n') {
+		len--;
+	}
+	str[len] = '\0';
+
+	return len;
+}
+
 /* Compression functions */
 
 /**

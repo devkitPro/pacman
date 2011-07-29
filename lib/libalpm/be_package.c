@@ -149,13 +149,13 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 
 	/* loop until we reach EOF or other error */
 	while((ret = _alpm_archive_fgets(a, &buf)) == ARCHIVE_OK) {
-		char *line = _alpm_strtrim(buf.line);
+		size_t len = _alpm_strip_newline(buf.line);
 
 		linenum++;
-		if(strlen(line) == 0 || line[0] == '#') {
+		if(len == 0 || buf.line[0] == '#') {
 			continue;
 		}
-		ptr = line;
+		ptr = buf.line;
 		key = strsep(&ptr, "=");
 		if(key == NULL || ptr == NULL) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
@@ -213,7 +213,6 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 									newpkg->name ? newpkg->name : "error", key, linenum);
 			}
 		}
-		line[0] = '\0';
 	}
 	if(ret != ARCHIVE_EOF) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "error parsing package descfile\n");

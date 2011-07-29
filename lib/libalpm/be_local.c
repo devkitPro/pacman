@@ -500,7 +500,7 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 
 #define READ_NEXT() do { \
 	if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
-	_alpm_strtrim(line); \
+	_alpm_strip_newline(line); \
 } while(0)
 
 #define READ_AND_STORE(f) do { \
@@ -510,8 +510,8 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 
 #define READ_AND_STORE_ALL(f) do { \
 	char *linedup; \
-	READ_NEXT(); \
-	if(strlen(line) == 0) break; \
+	if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
+	if(_alpm_strip_newline(line) == 0) break; \
 	STRDUP(linedup, line, goto error); \
 	f = alpm_list_add(f, linedup); \
 } while(1) /* note the while(1) and not (0) */
@@ -629,12 +629,12 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 			goto error;
 		}
 		while(fgets(line, sizeof(line), fp)) {
-			_alpm_strtrim(line);
+			_alpm_strip_newline(line);
 			if(strcmp(line, "%FILES%") == 0) {
 				size_t files_count = 0, files_size = 0;
 				alpm_file_t *files = NULL;
 
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && _alpm_strip_newline(line)) {
 					if(files_count >= files_size) {
 						size_t old_size = files_size;
 						if(files_size == 0) {
@@ -661,7 +661,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				info->files.count = files_count;
 				info->files.files = files;
 			} else if(strcmp(line, "%BACKUP%") == 0) {
-				while(fgets(line, sizeof(line), fp) && strlen(_alpm_strtrim(line))) {
+				while(fgets(line, sizeof(line), fp) && _alpm_strip_newline(line)) {
 					alpm_backup_t *backup;
 					CALLOC(backup, 1, sizeof(alpm_backup_t), goto error);
 					if(_alpm_split_backup(line, &backup)) {

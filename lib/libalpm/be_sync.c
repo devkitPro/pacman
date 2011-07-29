@@ -443,7 +443,8 @@ static int sync_db_populate(alpm_db_t *db)
 
 #define READ_NEXT() do { \
 	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
-	line = _alpm_strtrim(buf.line); \
+	line = buf.line; \
+	_alpm_strip_newline(line); \
 } while(0)
 
 #define READ_AND_STORE(f) do { \
@@ -453,9 +454,9 @@ static int sync_db_populate(alpm_db_t *db)
 
 #define READ_AND_STORE_ALL(f) do { \
 	char *linedup; \
-	READ_NEXT(); \
-	if(strlen(line) == 0) break; \
-	STRDUP(linedup, line, goto error); \
+	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
+	if(_alpm_strip_newline(buf.line) == 0) break; \
+	STRDUP(linedup, buf.line, goto error); \
 	f = alpm_list_add(f, linedup); \
 } while(1) /* note the while(1) and not (0) */
 
@@ -493,7 +494,8 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			|| strcmp(filename, "deltas") == 0) {
 		int ret;
 		while((ret = _alpm_archive_fgets(archive, &buf)) == ARCHIVE_OK) {
-			char *line = _alpm_strtrim(buf.line);
+			char *line = buf.line;
+			_alpm_strip_newline(line);
 
 			if(strcmp(line, "%NAME%") == 0) {
 				READ_NEXT();

@@ -95,6 +95,7 @@ int _alpm_makepath(const char *path);
 int _alpm_makepath_mode(const char *path, mode_t mode);
 int _alpm_copyfile(const char *src, const char *dest);
 char *_alpm_strtrim(char *str);
+size_t _alpm_strip_newline(char *str);
 int _alpm_unpack_single(alpm_handle_t *handle, const char *archive,
 		const char *prefix, const char *filename);
 int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
