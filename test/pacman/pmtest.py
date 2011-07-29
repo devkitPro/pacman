@@ -17,8 +17,10 @@
 
 
 import os
+import shlex
 import shutil
 import stat
+import subprocess
 import time
 
 import pmrule
@@ -181,7 +183,7 @@ class pmtest(object):
         print "==> Running test"
         vprint("\tpacman %s" % self.args)
 
-        cmd = [""]
+        cmd = []
         if os.geteuid() != 0:
             fakeroot = util.which("fakeroot")
             if not fakeroot:
@@ -194,41 +196,39 @@ class pmtest(object):
                 cmd.append("fakechroot")
 
         if pacman["gdb"]:
-            cmd.append("libtool execute gdb --args")
+            cmd.extend(["libtool", "execute", "gdb", "--args"])
         if pacman["valgrind"]:
-            cmd.append("valgrind -q --tool=memcheck --leak-check=full --show-reachable=yes --suppressions=%s/valgrind.supp" % os.getcwd())
-        cmd.append("\"%s\" --config=\"%s\" --root=\"%s\" --dbpath=\"%s\" --cachedir=\"%s\"" \
-                   % (pacman["bin"],
-                       os.path.join(self.root, util.PACCONF),
-                       self.root,
-                       os.path.join(self.root, util.PM_DBPATH),
-                       os.path.join(self.root, util.PM_CACHEDIR)))
+            cmd.extend(["libtool", "execute", "valgrind", "-q",
+                "--tool=memcheck", "--leak-check=full",
+                "--show-reachable=yes", "--suppressions=%s/valgrind.supp" % os.getcwd()])
+        cmd.extend([pacman["bin"],
+            "--config", os.path.join(self.root, util.PACCONF),
+            "--root", self.root,
+            "--dbpath", os.path.join(self.root, util.PM_DBPATH),
+            "--cachedir", os.path.join(self.root, util.PM_CACHEDIR)])
         if not pacman["manual-confirm"]:
             cmd.append("--noconfirm")
         if pacman["debug"]:
             cmd.append("--debug=%s" % pacman["debug"])
-        cmd.append("%s" % self.args)
-        if not pacman["gdb"] and not pacman["valgrind"] and not pacman["nolog"]: 
-            cmd.append(">\"%s\" 2>&1" % os.path.join(self.root, util.LOGFILE))
+        cmd.extend(shlex.split(self.args))
+        if not (pacman["gdb"] or pacman["valgrind"] or pacman["nolog"]):
+            output = open(os.path.join(self.root, util.LOGFILE), 'w')
+        else:
+            output = None
         vprint("\trunning: %s" % " ".join(cmd))
 
         # Change to the tmp dir before running pacman, so that local package
         # archives are made available more easily.
-        curdir = os.getcwd()
-        tmpdir = os.path.join(self.root, util.TMPDIR)
-        os.chdir(tmpdir)
-
         time_start = time.time()
-        self.retcode = os.system(" ".join(cmd))
+        self.retcode = subprocess.call(cmd, stdout=output, stderr=output,
+                cwd=os.path.join(self.root, util.TMPDIR))
         time_end = time.time()
-        vprint("\ttime elapsed: %ds" % (time_end - time_start))
+        vprint("\ttime elapsed: %.2fs" % (time_end - time_start))
 
-        if self.retcode == None:
-            self.retcode = 0
-        else:
-            self.retcode /= 256
+        if output:
+            output.close()
+
         vprint("\tretcode = %s" % self.retcode)
-        os.chdir(curdir)
 
         # Check if the lock is still there
         if os.path.isfile(util.PM_LOCK):
