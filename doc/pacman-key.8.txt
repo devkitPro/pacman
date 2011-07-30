@@ -71,8 +71,11 @@ Options
 	Ensure the keyring is properly initialized and has the required access
 	permissions.
 
-*-l, \--list*::
-	Equivalent to --list-sigs from GnuPG.
+*-l, \--list-keys* [keyid(s)]::
+	Lists all or specified keys from the public keyring.
+
+*--list-sigs* [keyid(s)]::
+	Same as --list-keys, but the signatures are listed too.
 
 *-r, \--receive* <keyserver> <keyid(s)>::
 	Fetch the specified keyids from the specified key server URL.
