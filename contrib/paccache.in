@@ -87,9 +87,7 @@ pkgfilter() {
 		while (getline < "/dev/stdin") {
 			parse_filename($0)
 		}
-	}
 
-	END {
 		for (pkglist in packages) {
 			# idx[1,2] = idx[pkgname,arch]
 			split(pkglist, idx, SUBSEP)
@@ -110,10 +108,11 @@ pkgfilter() {
 size_to_human() {
 	awk -v size="$1" '
 	BEGIN {
-		suffix[1] = "KiB"
-		suffix[2] = "MiB"
-		suffix[3] = "GiB"
-		suffix[4] = "TiB"
+		suffix[1] = "B"
+		suffix[2] = "KiB"
+		suffix[3] = "MiB"
+		suffix[4] = "GiB"
+		suffix[5] = "TiB"
 		count = 1
 
 		while (size > 1024) {
@@ -142,7 +141,7 @@ runcmd() {
 }
 
 summarize() {
-	local -i filecount=$#
+	local -i filecount=$1; shift
 	local seenarch= seen= arch= name=
 	local -r pkg_re='(.+)-[^-]+-[0-9]+-([^.]+)\.pkg.*'
 
@@ -166,13 +165,12 @@ summarize() {
 					printf "%s$delim" "$pkg"
 				fi
 			done < <(printf '%s\n' "$@" | sort -V)
-			printf '\n' >&2
 		fi
-
 		printf -v output 'finished dry run: %d candidates' "$filecount"
 	fi
 
-  msg "$output (diskspace saved: %s)" "$(size_to_human "$totalsaved")"
+	printf '\n' >&2
+	msg "$output (diskspace saved: %s)" "$(size_to_human "$totalsaved")"
 }
 
 usage() {
@@ -204,7 +202,7 @@ EOF
 }
 
 if (( ! UID )); then
-	error "Bad dog, no biscuit. You will be prompted for privilege escalation."
+	error "Do not run this script as root. You will be prompted for privilege escalation."
 	exit 42
 fi
 
@@ -277,8 +275,19 @@ if (( ! ${#candidates[*]} )); then
 	exit 1
 fi
 
+# grab this prior to signature scavenging
+pkgcount=${#candidates[*]}
+
+# copy the list, merging in any found sigs
+for cand in "${candidates[@]}"; do
+  candtemp+=("$cand")
+  [[ -f $cand.sig ]] && candtemp+=("$cand.sig")
+done
+candidates=("${candtemp[@]}")
+unset candtemp
+
 # do this before we destroy anything
-totalsaved=$(@SIZECMD@ "${candidates[@]}" | awk '{ sum = $1 } END { print sum }')
+totalsaved=$(@SIZECMD@ "${candidates[@]}" | awk '{ sum += $1 } END { print sum }')
 
 # crush. kill. destroy.
 (( verbose )) && cmdopts+=(-v)
@@ -288,4 +297,4 @@ elif (( move )); then
 	runcmd mv "${cmdopts[@]}" "${candidates[@]}" "$movedir"
 fi
 
-summarize "${candidates[@]}"
+summarize "$pkgcount" "${candidates[@]}"
