@@ -184,10 +184,14 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 		ret = -1;
 	} else {
 		/* download was successful */
-		if(usepart) {
-			rename(tempfile, destfile);
-		}
 		ret = 0;
+		if(usepart) {
+			if(rename(tempfile, destfile)) {
+				pm_printf(ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+						tempfile, destfile, strerror(errno));
+				ret = -1;
+			}
+		}
 	}
 
 cleanup:

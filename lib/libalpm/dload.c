@@ -373,8 +373,11 @@ cleanup:
 	}
 
 	if(ret == 0) {
-		rename(tempfile, destfile);
-		if(final_file) {
+		if(rename(tempfile, destfile)) {
+			_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+					tempfile, destfile, strerror(errno));
+			ret = -1;
+		} else if(final_file) {
 			*final_file = strdup(strrchr(destfile, '/') + 1);
 		}
 	}

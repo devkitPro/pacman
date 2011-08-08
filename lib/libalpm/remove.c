@@ -220,7 +220,7 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
+static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 		const alpm_file_t *fileobj, alpm_list_t *skip_remove, int nosave)
 {
 	struct stat buf;
@@ -234,7 +234,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 	if(alpm_list_find_str(skip_remove, fileobj->name)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				"%s is in skip_remove, skipping removal\n", file);
-		return;
+		return 1;
 	}
 
 	/* we want to do a lstat here, and not a _alpm_lstat.
@@ -243,7 +243,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 	 * actual symlink */
 	if(lstat(file, &buf)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "file %s does not exist\n", file);
-		return;
+		return 1;
 	}
 
 	if(S_ISDIR(buf.st_mode)) {
@@ -280,6 +280,7 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 				if(rmdir(file)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"directory removal of %s failed: %s\n", file, strerror(errno));
+					return -1;
 				} else {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"removed directory %s (no remaining owners)\n", file);
@@ -299,10 +300,16 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 				if(cmp != 0) {
 					char newpath[PATH_MAX];
 					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
-					rename(file, newpath);
+					if(rename(file, newpath)) {
+						_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+								file, newpath, strerror(errno));
+						alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
+								file, newpath, strerror(errno));
+						return -1;
+					}
 					_alpm_log(handle, ALPM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
 					alpm_logaction(handle, "warning: %s saved as %s\n", file, newpath);
-					return;
+					return 0;
 				}
 			}
 		}
@@ -310,10 +317,14 @@ static void unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "unlinking %s\n", file);
 
 		if(unlink(file) == -1) {
-			_alpm_log(handle, ALPM_LOG_ERROR, _("cannot remove file '%s': %s\n"),
+			_alpm_log(handle, ALPM_LOG_ERROR, _("cannot remove %s (%s)\n"),
 					file, strerror(errno));
+			alpm_logaction(handle, "error: cannot remove %s (%s)\n",
+					file, strerror(errno));
+			return -1;
 		}
 	}
+	return 0;
 }
 
 int _alpm_remove_single_package(alpm_handle_t *handle,
@@ -397,6 +408,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 	for(i = filelist->count; i > 0; i--) {
 		alpm_file_t *file = filelist->files + i - 1;
 		int percent;
+		/* TODO: check return code and handle accordingly */
 		unlink_file(handle, oldpkg, file, skip_remove,
 				handle->trans->flags & ALPM_TRANS_FLAG_NOSAVE);
 
