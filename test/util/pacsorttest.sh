@@ -1,0 +1,103 @@
+#!/bin/bash
+#
+# pacsorttest - a test suite for pacsort
+#
+#   Copyright (c) 2011 by Dan McGee <dan@archlinux.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# default binary if one was not specified as $1
+bin='pacsort'
+# holds counts of tests
+total=0
+failure=0
+
+# args:
+# runtest input expected test_description optional_opts
+runtest() {
+	# run the test
+	diff -u <(printf "$1" | $bin $4) <(printf "$2")
+	if [[ $? -ne 0 ]]; then
+		echo "FAILURE: $3"
+		((failure++))
+	fi
+	((total++))
+}
+
+# use first arg as our binary if specified
+[[ -n "$1" ]] && bin="$1"
+
+if ! type -p "$bin"; then
+	echo "pacsort binary ($bin) could not be located"
+	exit 1
+fi
+
+echo "Beginning pacsort tests"
+
+# BEGIN TESTS
+
+in="1\n2\n3\n4\n"
+runtest $in $in "already ordered"
+
+in="4\n2\n3\n1\n"
+ex="1\n2\n3\n4\n"
+runtest $in $ex "easy reordering"
+
+in="1\n2\n3\n4"
+ex="1\n2\n3\n4\n"
+runtest $in $ex "add trailing newline"
+
+in="1\n2\n4\n3"
+ex="1\n2\n3\n4\n"
+runtest $in $ex "add trailing newline"
+
+in="1.0-1\n1.0\n1.0-2\n1.0\n"
+runtest $in $in "stable sort"
+
+# generate some long input/expected for the next few tests
+declare normal reverse names_normal names_reverse
+for ((i=1; i<600; i++)); do
+	normal="${normal}${i}\n"
+	reverse="${reverse}$((600 - ${i}))\n"
+	fields="${fields}colA bogus$((600 - ${i})) ${i}\n"
+	fields_reverse="${fields_reverse}colA bogus${i} $((600 - ${i}))\n"
+	separator="${separator}colA|bogus$((600 - ${i}))|${i}\n"
+	separator_reverse="${separator_reverse}colA|bogus${i}|$((600 - ${i}))\n"
+done
+
+runtest $normal $normal "really long input"
+runtest $reverse $normal "really long input"
+runtest $reverse $reverse "really long input, reversed" "-r"
+runtest $normal $reverse "really long input, reversed" "-r"
+
+runtest "$fields" "$fields" "really long input, sort key" "-k3"
+runtest "$fields_reverse" "$fields" "really long input, sort key" "-k3"
+runtest "$fields_reverse" "$fields_reverse" "really long input, sort key, reversed" "-k 3 -r"
+runtest "$fields" "$fields_reverse" "really long input, sort key, reversed" "-k 3 -r"
+
+runtest "$separator" "$separator" "really long input, sort key, separator" "-k3 -t|"
+runtest "$separator_reverse" "$separator" "really long input, sort key, separator" "-k3 -t|"
+runtest "$separator_reverse" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
+runtest "$separator" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
+
+#END TESTS
+
+echo
+if [[ $failure -eq 0 ]]; then
+	echo "All $total tests successful"
+	exit 0
+fi
+
+echo "$failure of $total tests failed"
+exit 1

@@ -1,4 +1,5 @@
 check_SCRIPTS = \
+	pacsorttest.sh \
 	vercmptest.sh
 
 noinst_SCRIPTS = $(check_SCRIPTS)
