@@ -573,7 +573,7 @@ static int parseargs(int argc, char *argv[])
 	int option_index = 0;
 	int result;
 	const char *optstring = "DQRSTUVb:cdefghiklmnopqr:stuvwy";
-	static struct option opts[] =
+	static const struct option opts[] =
 	{
 		{"database",   no_argument,       0, 'D'},
 		{"query",      no_argument,       0, 'Q'},

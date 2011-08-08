@@ -164,7 +164,7 @@ static int parse_options(int argc, char *argv[])
 	int opt, option_index = 0;
 	char *endptr = NULL;
 
-	static struct option opts[] = {
+	static const struct option opts[] = {
 		{"dbpath",  required_argument,    0, 'b'},
 		{"color",   no_argument,          0, 'c'},
 		{"depth",   required_argument,    0, 'd'},
