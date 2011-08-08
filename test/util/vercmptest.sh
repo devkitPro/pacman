@@ -36,7 +36,7 @@ pass() {
 fail() {
 	echo "test: ver1: $1 ver2: $2 ret: $3 expected: $4"
 	echo "  ==> FAILURE"
-	failure=$(expr $failure + 1)
+	((failure++))
 }
 
 # args:
@@ -45,22 +45,22 @@ runtest() {
 	# run the test
 	ret=$($bin $1 $2)
 	func='pass'
-	[ $ret -eq $3 ] || func='fail'
+	[[ -n $ret && $ret -eq $3 ]] || func='fail'
 	$func $1 $2 $ret $3
-	total=$(expr $total + 1)
+	((total++))
 	# and run its mirror case just to be sure
 	reverse=0
-	[ $3 -eq 1 ] && reverse=-1
-	[ $3 -eq -1 ] && reverse=1
+	[[ $3 -eq 1 ]] && reverse=-1
+	[[ $3 -eq -1 ]] && reverse=1
 	ret=$($bin $2 $1)
 	func='pass'
-	[ $ret -eq $reverse ] || func='fail'
+	[[ -n $ret && $ret -eq $reverse ]] || func='fail'
 	$func $2 $1 $ret $reverse
-	total=$(expr $total + 1)
+	((total++))
 }
 
 # use first arg as our binary if specified
-[ -n "$1" ] && bin="$1"
+[[ -n "$1" ]] && bin="$1"
 
 if ! type -p "$bin"; then
 	echo "vercmp binary ($bin) could not be located"
@@ -140,7 +140,7 @@ runtest 1:1.1    1.1   1
 #END TESTS
 
 echo
-if [ $failure -eq 0 ]; then
+if [[ $failure -eq 0 ]]; then
 	echo "All $total tests successful"
 	exit 0
 fi
