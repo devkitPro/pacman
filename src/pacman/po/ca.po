@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-12 10:54+0000\n"
 "Last-Translator: hseara <hseara@gmail.com>\n"
 "Language-Team: Catalan <None>\n"
@@ -169,9 +169,17 @@ msgstr "no es pot canviar al directori de baixades %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "execució XferCommand: ha fallat la bifurcació!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "valor invàlid per «CleanMethod» : «%s»\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -183,11 +191,6 @@ msgid ""
 msgstr ""
 "fitxer de configuració %s, línia %d: directiva '%s' en la secció '%s' no "
 "reconeguda.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr ""
-"fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
 
 #, c-format
 msgid ""
@@ -207,6 +210,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "ha fallat en iniciar la llibreria alpm (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  proveu d'executar pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problema en establir el fitxer de registre «%s» (%s)\n"
 
@@ -217,11 +224,6 @@ msgstr "problema en establir el directori arrel «%s» (%s)\n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "no es pot registrar «%s» base de dades (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr ""
-"no es pot afegir l'URL del servidor a la base de dades «%s» : %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -386,6 +388,10 @@ msgstr "No"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "Suma MS5       :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Llicències     :"
 
 #, c-format
 msgid "Description    :"
@@ -769,6 +775,10 @@ msgid "no file was specified for --owns\n"
 msgstr "no s'ha especificat cap fitxer per --owns\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "ruta d'accés massa llarga:%s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "ha fallat en trobar «%s» a la variable PATH: %s\n"
 
@@ -783,10 +793,6 @@ msgstr "no s'ha pogut determinar la propietat del directori '%s'\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "no es pot determinar la ruta real per «%s»: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "ruta d'accés massa llarga:%s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -807,10 +813,6 @@ msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
 msgstr[0] "Falta %d fitxer\n"
 msgstr[1] "Falten %d fitxers\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "no s'ha configurat cap repositori de paquets usable.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -933,10 +935,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "el repositori «%s» no existeix\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "no s'ha trobat el paquet «%s» en el repositori '%s'\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "no s'ha trobat el paquet «%s»\n"
 
@@ -1025,12 +1023,16 @@ msgstr ""
 "  en execució, podeu eliminar %s\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  proveu d'executar pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "ha fallat en alliberar la transacció (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "no s'ha configurat cap repositori de paquets usable.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "base de dades no trobada: %s\n"
 
 #, c-format
 msgid "None"
@@ -1038,6 +1040,54 @@ msgstr "Cap"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Desconegut"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Desconegut"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Desconegut"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1152,3 +1202,15 @@ msgstr "error: "
 msgid "warning: "
 msgstr "avís: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr ""
+#~ "fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr ""
+#~ "no es pot afegir l'URL del servidor a la base de dades «%s» : %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "no s'ha trobat el paquet «%s» en el repositori '%s'\n"

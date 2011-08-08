@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-06 08:03+0000\n"
 "Last-Translator: tarakbumba <tarakbumba@gmail.com>\n"
 "Language-Team: Turkish <None>\n"
@@ -169,9 +169,17 @@ msgstr "indirme dizini %s dizinine geçilemedi\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "%s dizinine geçilemedi (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "%s dizinine geçilemedi (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "'CleanMethod' için geçersiz değer : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -181,11 +189,6 @@ msgstr "'CleanMethod' için geçersiz değer : '%s'\n"
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "ayar dosyası %s, satır %d: '%s' direktifi '%s' bölümü için geçersiz.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr ""
-"yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
 
 #, c-format
 msgid ""
@@ -203,6 +206,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "alpm kütüphanesi başlatılamadı (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr " pacman-db-upgrade çalıştırmayı deneyin\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "kayıt dosyasını '%s' (%s) ayarlama sorunu\n"
 
@@ -213,10 +220,6 @@ msgstr "kök dizinini '%s' (%s) ayarlama sorunu\n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "veritabanı (%s) kaydedilemedi (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "sunucu adresi '%s' veritabanına eklenemedi: %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -376,6 +379,10 @@ msgstr "Hayır"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5 Çıktısı                :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Lisanslar                  :"
 
 #, c-format
 msgid "Description    :"
@@ -737,6 +744,10 @@ msgid "no file was specified for --owns\n"
 msgstr "--owns parametresi için herhangi bir dosya belirtilmedi\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "dosya yolu çok uzun: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "'%s' PATH içinde bulunamadı: %s\n"
 
@@ -751,10 +762,6 @@ msgstr "'%s' dizininin sahipliği belirlenemedi\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "'%s' için gerçek yol belirlenemedi: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "dosya yolu çok uzun: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -773,10 +780,6 @@ msgstr[0] "%s: %d toplam dosya, "
 msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
 msgstr[0] "%d kayıp dosya\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "kullanılabilir bir paket deposu tanımlanmamış.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -899,10 +902,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "'%s' deposu mevcut değil\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "'%s' paketi '%s' deposunda bulunamadı\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "'%s' paketi bulunamadı\n"
 
@@ -991,12 +990,16 @@ msgstr ""
 "  %s dosyasını silebilirsiniz.\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr " pacman-db-upgrade çalıştırmayı deneyin\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "işlem gerçekleştirilemedi (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "kullanılabilir bir paket deposu tanımlanmamış.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "veritabanı bulunamadı: %s\n"
 
 #, c-format
 msgid "None"
@@ -1004,6 +1007,54 @@ msgstr "Hiçbiri"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Bilinmiyor"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Bilinmiyor"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Bilinmiyor"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1118,3 +1169,14 @@ msgstr "hata: "
 msgid "warning: "
 msgstr "uyarı: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr ""
+#~ "yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "sunucu adresi '%s' veritabanına eklenemedi: %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "'%s' paketi '%s' deposunda bulunamadı\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-12 10:01+0000\n"
 "Last-Translator: Xabre <githzerai06@gmail.com>\n"
 "Language-Team: Serbian <None>\n"
@@ -172,9 +172,17 @@ msgstr "не могу да пређем у фасциклу преузимања
 msgid "running XferCommand: fork failed!\n"
 msgstr "покрећем XferCommand: неуспело рачвање!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "не могу да променим фасциклу у %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "не могу да променим фасциклу у %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "неисправна вредност за „CleanMethod“ : „%s“\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -185,10 +193,6 @@ msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
 "фајл поставки %s, линија %d: директива „%s“ у одељку „%s“ није препозната.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr "фајл поставки %s, линија %d: директиви „%s“ је потребна вредност.\n"
 
 #, c-format
 msgid ""
@@ -205,6 +209,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "грешка при учитавању библиотеке alpm (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  покушајте са покретањем pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "проблем при постављању дневника „%s“ (%s)\n"
 
@@ -215,10 +223,6 @@ msgstr "проблем при постављању корене фасцикле
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "не могу да региструјем базу „%s“ (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "не могу да додам УРЛ сервера у базу „%s“: %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -377,6 +381,10 @@ msgstr "нема"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "МД5 сума         :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Лиценце          :"
 
 #, c-format
 msgid "Description    :"
@@ -738,6 +746,10 @@ msgid "no file was specified for --owns\n"
 msgstr "није одређен фајл за --owns\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "предуга путања: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "не могу да нађем „%s“ у путањи: %s\n"
 
@@ -752,10 +764,6 @@ msgstr "не могу да одредим власништво над фасци
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "не могу да утврдим стварну путању за „%s“: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "предуга путања: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -778,10 +786,6 @@ msgid_plural "%d missing files\n"
 msgstr[0] "%d недостајући фајл\n"
 msgstr[1] "%d недостајућа фајла\n"
 msgstr[2] "%d недостајућих фајова\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "нису подешене употребљиве ризнице пакета.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -904,10 +908,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "не постоји ризница „%s“\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "не постоји пакет „%s“ у ризници „%s“\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "није нађен пакет „%s“\n"
 
@@ -996,12 +996,16 @@ msgstr ""
 "  покренут, можете уклонити %s\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  покушајте са покретањем pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "грешка при отпуштању преноса (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "нису подешене употребљиве ризнице пакета.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "база није нађена: %s\n"
 
 #, c-format
 msgid "None"
@@ -1009,6 +1013,54 @@ msgstr "нема"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Непознато"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Непознато"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Непознато"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1123,3 +1175,13 @@ msgstr "грешка: "
 msgid "warning: "
 msgstr "упозорење: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr "фајл поставки %s, линија %d: директиви „%s“ је потребна вредност.\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "не могу да додам УРЛ сервера у базу „%s“: %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "не постоји пакет „%s“ у ризници „%s“\n"

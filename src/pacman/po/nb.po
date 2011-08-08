@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-12 09:21+0000\n"
 "Last-Translator: Jonhoo <jon@thesquareplanet.com>\n"
 "Language-Team: Norwegian Bokmål <None>\n"
@@ -171,9 +171,17 @@ msgstr "kunne ikke chdir til nedlastingsmappe %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "kjører XferCommand: splitting feilet\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "kunne ikke endre mappe til %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kunne ikke endre mappe til %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "invalid verdi for 'CleanMethod' : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -185,10 +193,6 @@ msgid ""
 msgstr ""
 "konfigurasjonsfil %s, linje %d: direktiv '%s' i seksjon '%s' ikke "
 "gjenkjent.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' trenger en verdi\n"
 
 #, c-format
 msgid ""
@@ -207,6 +211,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "feilet under initialisering av alpm-biblioteket (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  prøv å kjøre pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problem under initiering av loggfil '%s' (%s)\n"
 
@@ -217,10 +225,6 @@ msgstr "problem under bytte av rot-mappe '%s' (%s)\n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "kunne ikke registrere '%s'-databasen (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "kunne ikke legge til server-URL til database '%s' %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -380,6 +384,10 @@ msgstr "Nei"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5 Sum       :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Lisenser       :"
 
 #, c-format
 msgid "Description    :"
@@ -739,6 +747,10 @@ msgid "no file was specified for --owns\n"
 msgstr "ingen fil ble spesifisert for --owns\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "stien er for lang: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "fant ikke '%s' i PATH: %s\n"
 
@@ -753,10 +765,6 @@ msgstr "kunne ikke avgjøre eierskapet til mappen '%s'\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "kunne ikke bestemme reell mappe for '%s' : %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "stien er for lang: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -777,10 +785,6 @@ msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
 msgstr[0] "%d manglende fil\n"
 msgstr[1] "%d manglende filer\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "ingen brukbare pakkebrønner konfigurert.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -903,10 +907,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "pakkebrønn '%s' finnes ikke\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "pakke '%s' ble ikke funnet i pakkebrønn '%s'\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "pakke '%s' ble ikke funnet\n"
 
@@ -995,12 +995,16 @@ msgstr ""
 "   kan du fjerne %s\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  prøv å kjøre pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "feilet å løse ut transaksjon (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "ingen brukbare pakkebrønner konfigurert.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "databasen ble ikke funnet: %s\n"
 
 #, c-format
 msgid "None"
@@ -1008,6 +1012,54 @@ msgstr "Ingen"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Ukjent"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Ukjent"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Ukjent"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1122,3 +1174,13 @@ msgstr "feil: "
 msgid "warning: "
 msgstr "advarsel: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' trenger en verdi\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "kunne ikke legge til server-URL til database '%s' %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "pakke '%s' ble ikke funnet i pakkebrønn '%s'\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:48-0500\n"
+"POT-Creation-Date: 2011-08-08 17:12-0500\n"
 "PO-Revision-Date: 2011-03-22 15:34+0000\n"
 "Last-Translator: wonder <ibiru@archlinux.org>\n"
 "Language-Team: Romanian <>\n"
@@ -159,8 +159,12 @@ msgstr "lipsă metadate pentru pachet în %s\n"
 msgid "removing invalid file: %s\n"
 msgstr "se elimină fișierul nevalid: %s\n"
 
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "nu poate fi eliminat fișierul de blocare %s\n"
+
 #, fuzzy, c-format
-msgid "could not parse package '%s' description file from db '%s'\n"
+msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "nu a putut fi analizat fișierul de descriere a pachetului în %s\n"
 
 #, c-format
@@ -223,6 +227,10 @@ msgstr "disc"
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "URL '%s' este nevalid\n"
+
+#, fuzzy, c-format
+msgid "failed to create temporary file for download\n"
+msgstr "eșec în obținerea unor fișiere din %s\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -296,6 +304,14 @@ msgstr "bază de date deja înregistrată"
 msgid "could not find database"
 msgstr "nu poate fi găsită baza de date"
 
+#, fuzzy, c-format
+msgid "invalid or corrupted database"
+msgstr "delta invalid sau corupt"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted database (PGP signature)"
+msgstr "pachet nevalid sau corupt"
+
 #, c-format
 msgid "database is incorrect version"
 msgstr "versiunea bazei de date este incorectă"
@@ -352,8 +368,12 @@ msgstr "pachetul nu poate fi găsit sau citit"
 msgid "operation cancelled due to ignorepkg"
 msgstr "operație abandonată datorită ignorepkg"
 
-#, c-format
-msgid "invalid or corrupted package"
+#, fuzzy, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "pachet nevalid sau corupt"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted package (PGP signature)"
 msgstr "pachet nevalid sau corupt"
 
 #, c-format
@@ -377,15 +397,11 @@ msgid "could not find repository for target"
 msgstr "depozitul pentru țintă nu poate fi găsit"
 
 #, c-format
-msgid "signature directory not configured correctly"
+msgid "missing PGP signature"
 msgstr ""
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
-
-#, c-format
-msgid "unknown PGP signature"
 msgstr ""
 
 #, c-format
@@ -448,6 +464,10 @@ msgstr "se elimină '%s' din lista țintă\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "nu poate fi eliminat fișierul '%s': %s\n"
 
+#, fuzzy, c-format
+msgid "cannot remove %s (%s)\n"
+msgstr "nu poate fi eliminat fișierul '%s': %s\n"
+
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "nu se poate elimina intrarea în baza de date %s-%s\n"
@@ -501,14 +521,6 @@ msgid "could not commit transaction\n"
 msgstr "nu poate fi efectuată tranzacția\n"
 
 #, c-format
-msgid "%s database version is too old\n"
-msgstr "versiunea %s a bazei de date e prea veche\n"
-
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "nu poate fi eliminat fișierul de blocare %s\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "nu poate fi creat directorul temp\n"
 
@@ -555,6 +567,9 @@ msgstr "nu există cache %s, se crează...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nu se poate crea cache pachet, se folosește /tmp în schimb\n"
+
+#~ msgid "%s database version is too old\n"
+#~ msgstr "versiunea %s a bazei de date e prea veche\n"
 
 #~ msgid "resuming download of %s not possible; starting over\n"
 #~ msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:48-0500\n"
+"POT-Creation-Date: 2011-08-08 17:12-0500\n"
 "PO-Revision-Date: 2011-04-08 16:42+0000\n"
 "Last-Translator: nous <nous@archlinux.us>\n"
 "Language-Team: Greek <None>\n"
@@ -153,8 +153,12 @@ msgstr "απόντα μετα-δεδομένα πακέτου στο %s\n"
 msgid "removing invalid file: %s\n"
 msgstr "διαγραφή άκυρου αρχείου: %s\n"
 
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "αδυναμία διαγραφής αρχείου κλειδώματος %s\n"
+
 #, fuzzy, c-format
-msgid "could not parse package '%s' description file from db '%s'\n"
+msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "αδυναμία ανάλυσης αρχείου περιγραφής πακέτου στο %s\n"
 
 #, c-format
@@ -216,6 +220,10 @@ msgstr "δίσκο"
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "άκυρη διεύθυνση '%s'\n"
+
+#, fuzzy, c-format
+msgid "failed to create temporary file for download\n"
+msgstr "αποτυχία λήψεως κάποιων αρχείων από %s\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -289,6 +297,14 @@ msgstr "βάση ήδη εκκινηθείσα"
 msgid "could not find database"
 msgstr "αδυναμία εύρεσης βάσης"
 
+#, fuzzy, c-format
+msgid "invalid or corrupted database"
+msgstr "άκυρο ή κατεστραμμένο delta"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted database (PGP signature)"
+msgstr "άκυρο ή κατεστραμμένο πακέτο"
+
 #, c-format
 msgid "database is incorrect version"
 msgstr "εσφαλμένη έκδοση βάσης"
@@ -345,8 +361,12 @@ msgstr "αδυναμία εύρεσης ή ανάγνωσης πακέτου"
 msgid "operation cancelled due to ignorepkg"
 msgstr "ακύρωση λειτουργίας λόγω ignorepkg"
 
-#, c-format
-msgid "invalid or corrupted package"
+#, fuzzy, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "άκυρο ή κατεστραμμένο πακέτο"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted package (PGP signature)"
 msgstr "άκυρο ή κατεστραμμένο πακέτο"
 
 #, c-format
@@ -370,15 +390,11 @@ msgid "could not find repository for target"
 msgstr "αδυναμία εύρεσης αποθήκης για διεκπεραίωση"
 
 #, c-format
-msgid "signature directory not configured correctly"
+msgid "missing PGP signature"
 msgstr ""
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
-
-#, c-format
-msgid "unknown PGP signature"
 msgstr ""
 
 #, c-format
@@ -441,6 +457,10 @@ msgstr "αφαίρεση του %s από λίστα διεκπεραίωσης\
 msgid "cannot remove file '%s': %s\n"
 msgstr "αδυναμία διαγραφής αρχείου '%s': %s\n"
 
+#, fuzzy, c-format
+msgid "cannot remove %s (%s)\n"
+msgstr "αδυναμία διαγραφής αρχείου '%s': %s\n"
+
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "αδυναμία διαγραφής εγγραφής βάσης %s-%s\n"
@@ -495,14 +515,6 @@ msgid "could not commit transaction\n"
 msgstr "αδυναμία διεκπεραίωσης\n"
 
 #, c-format
-msgid "%s database version is too old\n"
-msgstr "πολύ παλιά έκδοση βάσης %s\n"
-
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "αδυναμία διαγραφής αρχείου κλειδώματος %s\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "αδυναμία δημιουργίας προσωρινού καταλόγου\n"
 
@@ -549,6 +561,9 @@ msgstr "δημιουργία κρύπτης %s...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "αδυναμία δημιουργίας κρύπτης πακέτων, χρήση /tmp\n"
+
+#~ msgid "%s database version is too old\n"
+#~ msgstr "πολύ παλιά έκδοση βάσης %s\n"
 
 #~ msgid "resuming download of %s not possible; starting over\n"
 #~ msgstr "συνέχιση λήψης %s αδύνατη, επανεκκίνηση\n"

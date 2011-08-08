@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-05-11 14:51+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -174,9 +174,17 @@ msgstr "latauskansioon '%s' ei voitu siirtyä\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand: haarauttaminen epäonnistui!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "ei voitu siirtyä kansioon %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "ei voitu siirtyä kansioon %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "epäkelvollinen arvo avaimelle 'CleanMethod': '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -187,10 +195,6 @@ msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
 "asetustiedosto %s rivillä %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr "asetustiedosto %s rivillä %d: direktiivi '%s' tarvitsee arvon\n"
 
 #, c-format
 msgid ""
@@ -207,6 +211,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "alpm-kirjaston alustaminen epäonnistui (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  yritä pacman-db-upgrade scriptin suorittamista\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "ongelma asetettaessa lokitiedostoa '%s' (%s)\n"
 
@@ -217,10 +225,6 @@ msgstr "ongelma asetettaessa juurikansiota '%s' (%s)\n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "tietokannan '%s' rekisteroiminen epäonnistui (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "palvelimen osoitetta ei voitu lisätä tietokantaan '%s': %s(%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -379,6 +383,10 @@ msgstr "Ei"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5-summa              :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Lisenssi               :"
 
 #, c-format
 msgid "Description    :"
@@ -738,6 +746,10 @@ msgid "no file was specified for --owns\n"
 msgstr "valitsimelle --owns ei annettu tiedostoa\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "polku on liian pitkä: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "Ohjelmaa '%s' ei löydy PATH-sijainneista: %s\n"
 
@@ -752,10 +764,6 @@ msgstr "kansion '%s' omistussuhteita ei voida määrittää\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "kohteen '%s' todellisen sijainnin selvittäminen epäonnistui: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "polku on liian pitkä: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -776,10 +784,6 @@ msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
 msgstr[0] "%d puuttuva tiedosto\n"
 msgstr[1] "%d puuttuvaa tiedostoa\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "yhtään kunnollista pakettivarastoa ei ole määritelty.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -902,10 +906,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "pakettivarastoa '%s' ei ole olemassa\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "pakettia '%s' ei löydy pakettivarastosta '%s'\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "pakettia '%s' ei löydy\n"
 
@@ -994,12 +994,16 @@ msgstr ""
 "  käynnissä, niin voit poistaa tiedoston %s\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  yritä pacman-db-upgrade scriptin suorittamista\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "latauksen vapauttaminen epäonnistui (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "yhtään kunnollista pakettivarastoa ei ole määritelty.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "tietokantaa ei löydy: %s\n"
 
 #, c-format
 msgid "None"
@@ -1007,6 +1011,54 @@ msgstr "Ei ole"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Tuntematon"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Tuntematon"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Tuntematon"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1121,3 +1173,13 @@ msgstr "virhe: "
 msgid "warning: "
 msgstr "varoitus: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr "asetustiedosto %s rivillä %d: direktiivi '%s' tarvitsee arvon\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "palvelimen osoitetta ei voitu lisätä tietokantaan '%s': %s(%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "pakettia '%s' ei löydy pakettivarastosta '%s'\n"

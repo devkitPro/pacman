@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-16 05:54+0000\n"
 "Last-Translator: vogo <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Czech <None>\n"
@@ -173,9 +173,17 @@ msgstr "nelze se přesunout do adresáře pro stahování (%s)\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "spuštění XferCommand selhalo!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "nepodařilo se změnit adresář na %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nepodařilo se změnit adresář na %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "chybná hodnota pro 'CleanMethod': '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -187,11 +195,6 @@ msgid ""
 msgstr ""
 "konfigurační soubor %s, řádek %d: direktiva '%s' v sekci '%s' nebyla "
 "rozpoznána.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr ""
-"konfigurační soubor %s, řádek %d: direktiva '%s' vyžaduje zadanou hodnotu\n"
 
 #, c-format
 msgid ""
@@ -209,6 +212,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "selhala inicializace knihovny alpm (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "    zkuste spustit pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problém s nastavením log souboru '%s' (%s)\n"
 
@@ -219,10 +226,6 @@ msgstr "problém s nastavením kořenového adresáře '%s' (%s)\n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "nelze zaregistrovat databázi '%s' (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "nelze přidat URL serveru k databázi '%s': %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -384,6 +387,10 @@ msgstr "Ne"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5 součet     :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Licence        :"
 
 #, c-format
 msgid "Description    :"
@@ -745,6 +752,10 @@ msgid "no file was specified for --owns\n"
 msgstr "nebyl určen soubor pro --owns\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "cesta je příliš dlouhá: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "nepodařilo se nalézt '%s' v PATH: %s\n"
 
@@ -759,10 +770,6 @@ msgstr "nepodařilo se určit vlastníka adresáře '%s'\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nelze určit skutečnou cestu pro '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "cesta je příliš dlouhá: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -785,10 +792,6 @@ msgid_plural "%d missing files\n"
 msgstr[0] "%d chybějící soubor\n"
 msgstr[1] "%d chybějící soubory\n"
 msgstr[2] "%d chybějících souborů\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "nejsou nastaveny žádné použitelné repozitáře.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -911,10 +914,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "repozitář '%s' neexistuje\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "balíček '%s' nebyl nalezen v repozitáři '%s'\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "balíček '%s' nebyl nalezen\n"
 
@@ -1001,12 +1000,16 @@ msgstr ""
 "  můžete odstranit %s\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "    zkuste spustit pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "selhalo dokončení transakce (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "nejsou nastaveny žádné použitelné repozitáře.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "databáze nebyla nalezen: %s\n"
 
 #, c-format
 msgid "None"
@@ -1014,6 +1017,54 @@ msgstr "Nic"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Neznámý"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Neznámý"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Neznámý"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1128,3 +1179,15 @@ msgstr "chyba: "
 msgid "warning: "
 msgstr "varování: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr ""
+#~ "konfigurační soubor %s, řádek %d: direktiva '%s' vyžaduje zadanou "
+#~ "hodnotu\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "nelze přidat URL serveru k databázi '%s': %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "balíček '%s' nebyl nalezen v repozitáři '%s'\n"

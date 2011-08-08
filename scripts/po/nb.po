@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-12 09:21+0000\n"
 "Last-Translator: Jonhoo <jon@thesquareplanet.com>\n"
 "Language-Team: Norwegian Bokmål <None>\n"
@@ -26,7 +26,8 @@ msgstr "FEIL:"
 msgid "Cleaning up..."
 msgstr "Rydder opp ..."
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "Går inn i fakeroot-miljøet ..."
 
 msgid "Unable to find source file %s."
@@ -74,8 +75,8 @@ msgstr "Feil oppstod under nedlasting av %s"
 msgid "Generating checksums for source files..."
 msgstr "Genererer sjekksummer for kildefiler ..."
 
-msgid "Cannot find openssl."
-msgstr "Kan ikke finne openssl."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Ugyldig integritetsalgoritme '%s' spesifisert."
@@ -100,6 +101,49 @@ msgstr "Integritetstester (%s) har forskjellig lengde enn de i kilden."
 
 msgid "Integrity checks are missing."
 msgstr "Integritetssjekker mangler."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Validerer kildefiler med %s ..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "IKKE FUNNET"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "IKKE FUNNET"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Hopper over integritetssjekk."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Pakker ut kilder ..."
@@ -132,8 +176,9 @@ msgstr "Komprimener manual- og informasjonssider ..."
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Fjerner unødvendige symboler fra binær- og katalogfiler..."
 
-msgid "Removing libtool .la files..."
-msgstr "Fjerner libtool .la-filer"
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Fjerner dokument-filer ..."
 
 msgid "Removing empty directories..."
 msgstr "Fjerner tomme mapper ..."
@@ -146,7 +191,8 @@ msgstr "Komprimener manual- og informasjonssider ..."
 msgid "Could not compress binary : %s"
 msgstr "kunne ikke lese cache mappen %s\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr "Genererer en .PKGINFO-fil ..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -155,16 +201,19 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Vennligst legg til en license-linje til din %s!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "Eksempel for GPL-lisensiert programvare: license=('GPL')."
 
-msgid "Backup entry file not in package : %s"
+#, fuzzy
+msgid "%s entry file not in package : %s"
 msgstr "Sikkerhetskopidirektiv ikke funnet i pakke : %s"
 
 msgid "Package contains reference to %s"
 msgstr "Pakken inneholder referanser til %s"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Mangler pkg/-mappe"
 
 msgid "Creating package..."
@@ -215,10 +264,12 @@ msgstr "Feilet å lage pakkefil for kilde."
 msgid "Failed to create symlink to source package file."
 msgstr "Kunne ikke opprette symbolsk lenke til pakkefil."
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "Installerer pakke %s med %s -U..."
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "Installerer %s pakkegruppe med %s -U..."
 
 msgid "Failed to install built package(s)."
@@ -230,10 +281,12 @@ msgstr "%s tillates ikke å være tom."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s kan ikke starte med en bindestrek."
 
-msgid "%s is not allowed to contain colons or hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s kan ikke inneholde kolon eller bindestreker."
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s kan ikke inneholde bindestreker."
 
 msgid "%s must be an integer."
@@ -245,29 +298,39 @@ msgstr "%s er ikke tilgjengelig for '%s'-arkitekturen."
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Legg merke til at mange pakker trenger en linje lagt til deres %s"
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "sånn som arch=('%s')."
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Provides-listen kan ikke inneholde operatortegn som (< eller >)."
 
-msgid "Backup entry should not contain leading slash : %s"
+#, fuzzy
+msgid "%s entry should not contain leading slash : %s"
 msgstr "Sikkerhetskopidirektiv kan ikke begynne med / : %s"
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "Ugyldig syntaks for optdepend : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "%s fil (%s) finnes ikke."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "options-listen inneholder ukjent alternativ '%s'"
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "manglende pakkefunksjon for splittet pakke '%s'"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "ønsket pakke %s tilbys ikke av %s"
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr "Fant ikke sudo. Bruker su for å få rot-rettigheter."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -275,10 +338,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "Komprimener manual- og informasjonssider ..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -293,19 +375,18 @@ msgstr "Bruk: %s [options]"
 msgid "Options:"
 msgstr "Alternativer:"
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch  Ignorer et ikke komplett arch-felt i %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Rydd opp arbeidsfiler etter bygging av pakke"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Rydd opp kildefiler fra cachen"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Hopp over alle avhengighetstester"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Ikke pakke ut kildefiler (bruk eksisterende src/-mappe)"
 
@@ -344,7 +425,8 @@ msgstr ""
 "  -R, --repackage  Pakker pakkens innhold på nytt uten å utføre hele "
 "prosessen fra begynnelsen"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Installér manglende avhengigheter med pacman"
 
 msgid ""
@@ -353,10 +435,12 @@ msgid ""
 msgstr ""
 "  --allsource      Opprett en .tar fil med kun kildekode og nedlastede kilder"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr "      --asroot     Tillater makepkg å kjøre som rot-bruker"
 
-msgid "  --check          Run the check() function in the %s"
+#, fuzzy
+msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Kjør check() funksjonen i %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -369,12 +453,13 @@ msgstr ""
 "  --holdver        Forhindre automatisk versjonsoppdatering for utvikling "
 "%ser"
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
-msgstr ""
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+#, fuzzy
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Ikke kjør check() funksjonen i %s"
 
 #, fuzzy
@@ -384,17 +469,28 @@ msgstr "      --needed         ikke reinstaller pakker som er oppdaterte\n"
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <liste>     Bygg kun oppgitte pakker fra en delt pakke"
 
-msgid "  --sign           Sign the resulting package with gpg"
-msgstr ""
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "      --needed         ikke reinstaller pakker som er oppdaterte\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr "  -g, --geninteg   Generer integritetstester for kildefiler"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Ikke avbryt selv om integritetstester mangler"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr "  --source         Generér en .tar fil med kildekode, men uten kilder"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "Disse alternativene kan gis til pacman:"
 
 msgid ""
@@ -406,7 +502,8 @@ msgstr ""
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "      --noprogressbar  Ikke vis framdrift under nedlasting av filer "
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Hvis -p ikke er spesifisert vil makepkg se etter '%s'"
 
 msgid ""
@@ -433,81 +530,59 @@ msgstr "Du har ikke skriverettigheter til å lagre pakker i %s."
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Du har ikke skriverettigheter til å lagre nedlastinger i %s."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0--holdver og --forcever kan ikke brukes samtidig"
 
-msgid "Cleaning up ALL files from %s."
-msgstr "Rydder opp ALLE filer fra %s."
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Er du sikker på at du vil gjøre dette? "
-
-msgid "[y/N]"
-msgstr "[j/N]"
-
-msgid "YES"
-msgstr "JA"
-
-msgid "Y"
-msgstr "J"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr ""
-"Problem oppstod under fjerning av filer. Det kan hende du ikke har "
-"nødvendige  rettigheter i %s"
-
-msgid "Source cache cleaned."
-msgstr "Mellomlagring av kilder er ryddet opp."
-
-msgid "No files have been removed."
-msgstr "Ingen filer har blitt fjernet."
-
-msgid "Source destination must be defined in %s."
-msgstr "Mål for kilden må være spesifisert i %s."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr ""
-"I tillegg, vennligst kjøre makepkg -C på utsiden av mellomlagringsmappen."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "Å kjøre makepkg som rot-bruker er en DÅRLIG idé, og kan forårsake"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "permanent, og katastrofal skade til ditt system. Hvis du"
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr ""
 "ønsker å bruke rot-brukeren, vennligst bruk \"--asroot\"- alternativet."
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "\"--asroot\"-alternativet er kun beregnet for rot-brukeren."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr "Vennligst kjør makepkg på nytt uten \"--asroot\"-alternativet."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr ""
 "Å kjøre makepkg som en bruker uten forhøyede rettigheter vil resultere i en "
 "ikke-rot"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr "eierskap av de pakkede filene. Prøv å bruk fakeroot-miljøet ved å"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr "plassere 'fakeroot' BUILDENV-listen i %s."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
 "Ikke bruk '-F'-alternativet. Dette alternativet er kun beregnet på makepkg."
-
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr "Fant ikke sudo. Bruker su for å få rot-rettigheter."
 
 msgid "%s does not exist."
 msgstr "%s finnes ikke."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s inneholder CRLF-tegn og kan ikke brukes som kildefil."
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "%s finnes ikke eller er ikke en mappe."
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -515,7 +590,8 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "En pakke har allerede blitt bygd, installerer eksisterende pakke ..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "En pakke har allerede blitt bygd. (bruk -f for å overskrive)"
 
 msgid ""
@@ -523,17 +599,21 @@ msgid ""
 msgstr ""
 "Pakkegruppen har allerede blitt bygd, installerer eksisterende pakker ..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Pakkegruppen har allerede blitt bygd. (bruk -f for å overskrive)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Deler av pakkegruppen har allerede blitt bygd. (bruk -f for å overskrive)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "Går ut av fakeroot-miljøet."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr "Ompakking uten bruk av package() funksjonen er ikke lengre støttet."
 
 msgid "File permissions may not be preserved."
@@ -542,11 +622,9 @@ msgstr "Filerettigheter blir muligens ikke beholdt."
 msgid "Making package: %s"
 msgstr "Lager pakke: %s"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "En kildepakke har allerede blitt bygget (brukt -f for å overskrive)"
-
-msgid "Skipping integrity checks."
-msgstr "Hopper over integritetssjekk."
 
 msgid "Source package created: %s"
 msgstr "Kildepakke laget: %s"
@@ -563,16 +641,20 @@ msgstr "Sjekker avhengigheter som trengs under bygging..."
 msgid "Could not resolve all dependencies."
 msgstr "Kunne ikke avgjøre alle avhengigheter."
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr "%s ble ikke funnet i PATH; hopper over avhengighetstester."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr "Hopper over innhenting av kilder -- bruker eksisterende src/-mappe"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr "Hopper over kildens integritetstest -- bruker eksisterende src/-mappe"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr "Hopper over utpakking av kilder  -- bruker eksisterende src/-mappe"
 
 msgid "The source directory is empty, there is nothing to build!"
@@ -584,7 +666,8 @@ msgstr "Pakke-mappen er tom, det er ingenting å pakke om!"
 msgid "Sources are ready."
 msgstr "Kildene er klare."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Fjerner eksisterende pkg/-mappe ..."
 
 msgid "Finished making: %s"
@@ -620,22 +703,7 @@ msgstr "Database fra før versjon 3.5 funnet - oppgraderer..."
 msgid "Done."
 msgstr "Ferdig."
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Bruk: %s [options]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr "  -p <fil>        Bruk alternativt oppsettsscript (istedenfor '%s')"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -643,11 +711,11 @@ msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
 msgid ""
@@ -658,28 +726,68 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Denne hjelpen"
 
-msgid "  -l, --list                List keys"
-msgstr ""
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr "  -p, --file <pakke> etterspør en pakkefil isteden for databasen\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr ""
+"  --config <fil>  Bruk en alternativ konfigurasjonsfil (istedenfor '%s')"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr "  -p <fil>        Bruk alternativt oppsettsscript (istedenfor '%s')"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Du har ikke skriverettigheter til å lagre pakker i %s."
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Du har ikke skriverettigheter til å lagre pakker i %s."
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -712,30 +820,30 @@ msgstr "Fjerner tomme mapper ..."
 msgid "Updating trust database..."
 msgstr "Synkroniserer database til disk ..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "%s fil (%s) finnes ikke."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "Pakker ut %s med %s"
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "Pakkebrønnfil '%s' ble ikke funnet."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -765,8 +873,9 @@ msgstr "diff-verktøyet ble ikke funnet. Vennligst installér diffutils."
 msgid "You must have correct permissions to optimize the database."
 msgstr "Du må ha korrekte tillatelser for å optimisere databasen."
 
-msgid "ERROR: Can not create temp directory for database building."
-msgstr "FEIL: Kan ikke lage midlertidig mappe for database-bygging."
+#, fuzzy
+msgid "Can not create temp directory for database building."
+msgstr "Kan ikke opprette midlertidig mappe for database-bygging."
 
 msgid "MD5sum'ing the old database..."
 msgstr "MD5sum-er den gamle databasen ..."
@@ -954,6 +1063,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' har ikke en gyldig arkiv-suffix."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "Kalkulerer md5-sjekksummer ..."
@@ -1018,11 +1130,67 @@ msgstr "Kan ikke opprette midlertidig mappe for database-bygging."
 msgid "Creating updated database file '%s'"
 msgstr "Oppretter oppdatert databasefil '%s'"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' har ikke en gyldig arkiv-suffix."
-
 msgid "No packages remain, creating empty database."
 msgstr "Ingen pakker gjenstår, oppretter tom database."
 
 msgid "No packages modified, nothing to do."
 msgstr "Ingen pakker modifisert, ingenting å gjøre."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "Kan ikke finne openssl."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "Fjerner libtool .la-filer"
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Rydd opp kildefiler fra cachen"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "Rydder opp ALLE filer fra %s."
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Er du sikker på at du vil gjøre dette? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[j/N]"
+
+#~ msgid "YES"
+#~ msgstr "JA"
+
+#~ msgid "Y"
+#~ msgstr "J"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr ""
+#~ "Problem oppstod under fjerning av filer. Det kan hende du ikke har "
+#~ "nødvendige  rettigheter i %s"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "Mellomlagring av kilder er ryddet opp."
+
+#~ msgid "No files have been removed."
+#~ msgstr "Ingen filer har blitt fjernet."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "Mål for kilden må være spesifisert i %s."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr ""
+#~ "I tillegg, vennligst kjøre makepkg -C på utsiden av mellomlagringsmappen."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Bruk: %s [options]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "Pakker ut %s med %s"
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr "FEIL: Kan ikke lage midlertidig mappe for database-bygging."

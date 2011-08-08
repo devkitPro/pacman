@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:48-0500\n"
+"POT-Creation-Date: 2011-08-08 17:12-0500\n"
 "PO-Revision-Date: 2011-04-17 10:09+0000\n"
 "Last-Translator: jose1711 <jose1711@gmail.com>\n"
 "Language-Team: Slovak <None>\n"
@@ -153,8 +153,12 @@ msgstr "chýbaju metadáta balíčka v %s\n"
 msgid "removing invalid file: %s\n"
 msgstr "odstraňujem neplatný súbor: %s\n"
 
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "nie je možné odstrániť zamykací súbor %s\n"
+
 #, fuzzy, c-format
-msgid "could not parse package '%s' description file from db '%s'\n"
+msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "nie je možné spracovať súbor s popisom balíčka v %s\n"
 
 #, c-format
@@ -217,6 +221,10 @@ msgstr "disk"
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "URL '%s' je neplatná\n"
+
+#, fuzzy, c-format
+msgid "failed to create temporary file for download\n"
+msgstr "chyba pri získavaní niektorých súborov z %s\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -290,6 +298,14 @@ msgstr "databáza je už zaregistrovaná"
 msgid "could not find database"
 msgstr "nemožno nájsť databázu"
 
+#, fuzzy, c-format
+msgid "invalid or corrupted database"
+msgstr "neplatný alebo poškodený delta rozdiel"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted database (PGP signature)"
+msgstr "neplatný alebo poškodený balíček"
+
 #, c-format
 msgid "database is incorrect version"
 msgstr "databáza má nesprávnu verziu"
@@ -346,8 +362,12 @@ msgstr "nie je možné nájsť alebo prečítať balíček"
 msgid "operation cancelled due to ignorepkg"
 msgstr "operácia bola zrušená kvôli ignorovanému balíčku"
 
-#, c-format
-msgid "invalid or corrupted package"
+#, fuzzy, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "neplatný alebo poškodený balíček"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted package (PGP signature)"
 msgstr "neplatný alebo poškodený balíček"
 
 #, c-format
@@ -371,15 +391,11 @@ msgid "could not find repository for target"
 msgstr "nie je možné nájsť repozitár cieľa"
 
 #, c-format
-msgid "signature directory not configured correctly"
+msgid "missing PGP signature"
 msgstr ""
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
-
-#, c-format
-msgid "unknown PGP signature"
 msgstr ""
 
 #, c-format
@@ -442,6 +458,10 @@ msgstr "'%s' odstránený zo zoznamu cieľov\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "nie je možné odstrániť súbor '%s': %s\n"
 
+#, fuzzy, c-format
+msgid "cannot remove %s (%s)\n"
+msgstr "nie je možné odstrániť súbor '%s': %s\n"
+
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "nie je možné odstrániť záznam databáze %s-%s\n"
@@ -495,14 +515,6 @@ msgid "could not commit transaction\n"
 msgstr "nie je možné uskutočniť transakciu\n"
 
 #, c-format
-msgid "%s database version is too old\n"
-msgstr "verzia databáze %s je príliš stará\n"
-
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "nie je možné odstrániť zamykací súbor %s\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "nie je možné vytvoriť dočasný adresár\n"
 
@@ -549,6 +561,9 @@ msgstr "neexistuje cache %s, vytváram...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "nie je možné vytvoriť cache balíčkov, použijem /tmp\n"
+
+#~ msgid "%s database version is too old\n"
+#~ msgstr "verzia databáze %s je príliš stará\n"
 
 #~ msgid "resuming download of %s not possible; starting over\n"
 #~ msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-12 13:54+0000\n"
 "Last-Translator: wonder <ibiru@archlinux.org>\n"
 "Language-Team: Romanian <>\n"
@@ -174,11 +174,21 @@ msgstr "nu se poate schimba directorul la directorul de descărcare %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "se rulează XferCommand: fork eșuat!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr ""
+"nu s-a putut intra în directorul %s (%s)\n"
+"\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr ""
 "nu s-a putut intra în directorul %s (%s)\n"
 "\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "valoare nevalidă pentru 'CleanMethod' : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -190,11 +200,6 @@ msgid ""
 msgstr ""
 "fișierul de configurare %s, linia %d: directiva '%s' din secțiunea '%s' "
 "nerecunoscută.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr ""
-"fișierul de configurare %s, linia %d: directiva '%s' necesită o valoare\n"
 
 #, c-format
 msgid ""
@@ -213,6 +218,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "eșec la inițializarea bibliotecii alpm (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  încercați să lansați pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problemă la setarea logfile '%s' (%s)\n"
 
@@ -223,10 +232,6 @@ msgstr "problemă la setarea rootdir '%s' (%s)\n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "nu se poate înregistra '%s' database (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "nu poate fi adăugat URL-ul serverului la baza de date '%s': %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -392,6 +397,10 @@ msgstr "Nu"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "Suma MD5            :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Licențe            :"
 
 #, c-format
 msgid "Description    :"
@@ -770,6 +779,10 @@ msgid "no file was specified for --owns\n"
 msgstr "nu este specificat niciun fișier pentru --owns\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "cale prea lungă: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "eșec la căutarea '%s' în PATH: %s\n"
 
@@ -784,10 +797,6 @@ msgstr "nu s-a putut determina cine deține directorul '%s'\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nu poate fi determinată calea reală pentru '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "cale prea lungă: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -812,10 +821,6 @@ msgid_plural "%d missing files\n"
 msgstr[0] "%d fișier lipsă\n"
 msgstr[1] "%d fișiere lipsă\n"
 msgstr[2] "%d fișiere lipsă\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "nu sunt configurate depozite de pachete utilizabile.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -940,10 +945,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "depozitul '%s' nu există\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "pachetul '%s' nu a fost găsit în depozitul '%s'\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "pachetul '%s' nu a fost găsit\n"
 
@@ -1034,12 +1035,16 @@ msgstr ""
 "  nu este activ, atunci eliminați %s\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  încercați să lansați pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "eșec la realizarea tranzacției (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "nu sunt configurate depozite de pachete utilizabile.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "nu s-a găsit baza de date: %s\n"
 
 #, c-format
 msgid "None"
@@ -1047,6 +1052,54 @@ msgstr "Niciunul"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Necunoscut"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Necunoscut"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Necunoscut"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1161,3 +1214,15 @@ msgstr "eroare: "
 msgid "warning: "
 msgstr "avertisment: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr ""
+#~ "fișierul de configurare %s, linia %d: directiva '%s' necesită o valoare\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr ""
+#~ "nu poate fi adăugat URL-ul serverului la baza de date '%s': %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "pachetul '%s' nu a fost găsit în depozitul '%s'\n"

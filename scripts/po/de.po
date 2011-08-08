@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-28 09:05+0000\n"
 "Last-Translator: Mineo <themineo+transifex@googlemail.com>\n"
 "Language-Team: German <None>\n"
@@ -26,7 +26,8 @@ msgstr "FEHLER:"
 msgid "Cleaning up..."
 msgstr "Räume auf... "
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "Betrete fakeroot-Umgebung ..."
 
 msgid "Unable to find source file %s."
@@ -75,8 +76,8 @@ msgstr "Fehler beim Download von %s"
 msgid "Generating checksums for source files..."
 msgstr "Erstelle Prüfsummen für Quell-Dateien..."
 
-msgid "Cannot find openssl."
-msgstr "Kann openssl nicht finden."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Ungültiger Integritäts-Algorithmus '%s' spezifiziert."
@@ -103,6 +104,49 @@ msgstr ""
 
 msgid "Integrity checks are missing."
 msgstr "Integritäts-Prüfungen fehlen."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Überprüfe Gültigkeit der Quell-Dateien mit %s..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "NICHT GEFUNDEN"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "NICHT GEFUNDEN"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Überspringe Integritäts-Prüfungen."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Entpacke Quellen..."
@@ -135,8 +179,9 @@ msgstr "Komprimiere Man-Pages und Info-Seiten..."
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Entferne unnötige Symbole aus Binär-Dateien und Bibliotheken..."
 
-msgid "Removing libtool .la files..."
-msgstr "Entferne libtool .la Dateien..."
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Entferne doc-Dateien... "
 
 msgid "Removing empty directories..."
 msgstr "Entferne leere Verzeichnisse... "
@@ -149,7 +194,8 @@ msgstr "Komprimiere Man-Pages und Info-Seiten..."
 msgid "Could not compress binary : %s"
 msgstr "Konnte nicht auf Puffer-Verzeichnis %s zugreifen\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr "Erstelle .PKGINFO-Datei..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -158,16 +204,19 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Bitte fügen Sie eine Lizenz-Zeile zu Ihrer %s hinzu!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "Beispiel für Software unter der GPL: license=('GPL')."
 
-msgid "Backup entry file not in package : %s"
+#, fuzzy
+msgid "%s entry file not in package : %s"
 msgstr "Backup-Eintrags-Datei nicht im Paket: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Paket enthält einen Verweis auf %s"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Fehlendes pkg/-Verzeichnis."
 
 msgid "Creating package..."
@@ -218,10 +267,12 @@ msgstr "Konnte Quell-Paket nicht erstellen."
 msgid "Failed to create symlink to source package file."
 msgstr "Erstellung des Symlinks zur Quell-Paket-Datei fehlgeschlagen."
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "Installiere Paket %s mit %s -U... "
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "Installiere Paket-Gruppe %s mit %s -U..."
 
 msgid "Failed to install built package(s)."
@@ -233,10 +284,12 @@ msgstr "%s darf nicht leer sein."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s darf nicht mit einem Bindestrich beginnen."
 
-msgid "%s is not allowed to contain colons or hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s darf keine Doppelpunkte oder Bindestriche enthalten."
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s darf keine Bindestriche enthalten."
 
 msgid "%s must be an integer."
@@ -250,32 +303,44 @@ msgstr ""
 "Beachten Sie, dass bei vielen Paketen eine Zeile zu %s hinzugefügt werden "
 "muss."
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "so wie arch=('%s')"
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr ""
 "Der Array 'provides' darf keine Vergleichs-Operatoren wie (< oder >) "
 "enthalten."
 
-msgid "Backup entry should not contain leading slash : %s"
+#, fuzzy
+msgid "%s entry should not contain leading slash : %s"
 msgstr ""
 "Der Backup-Eintrag sollte keinen anführenden Schrägstrich enthalten: %s"
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "Ungültige Syntax für optdend : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "Datei %s (%s) existiert nicht."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "Die gesetzten Optionen enthalten die unbekannte Option '%s'."
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "Fehlende Paket-Funktion für das getrennte Paket '%s'"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "Erforderliches Paket %s wird nicht von %s bereitgestellt"
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr ""
+"Sudo kann nicht gefunden werden. Werde su benutzen, um Root-Rechte zu "
+"erhalten."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -283,10 +348,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "Komprimiere Man-Pages und Info-Seiten..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -301,19 +385,18 @@ msgstr "Verwendung: %s [Optionen]"
 msgid "Options:"
 msgstr "Optionen:"
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignoriere unvollständiges Arch-Feld in %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Säubere Arbeitsverzeichnisse nach dem Build"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Säubere Quell-Dateien aus dem Puffer"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps         Überspringt alle Abhängigkeitsprüfungen"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Entpacke keine Quell-Dateien (verwende bestehendes src/ "
 "Verzeichnis)"
@@ -354,7 +437,8 @@ msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 "  -R, --repackage  Packe den Inhalt des Paketes neu, ohne etwas zu bauen"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Installiere fehlende Abhängigkeiten mit Pacman"
 
 msgid ""
@@ -364,10 +448,12 @@ msgstr ""
 "  --allsource      Erstellt einen Tarball nur der heruntergeladenen Quellen "
 "einschließlich der heruntergeladenen Quellen"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Erlaubt makepkg, als Root-Nutzer laufen"
 
-msgid "  --check          Run the check() function in the %s"
+#, fuzzy
+msgid "  --check          Run the %s function in the %s"
 msgstr "  --check        Starte die check()-Funktion in %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -381,12 +467,14 @@ msgstr ""
 "  --holdver        Verhindert die automatische Erhöhung der Versionsnummer "
 "für die Entwickler-Version %ss"
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+#, fuzzy
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck       Unterdrückt die check()-Funktion in %s"
 
 #, fuzzy
@@ -399,11 +487,22 @@ msgstr ""
 "  --pkg <list>     Nur die angeführten Pakete von einem gesplitteten Paket "
 "bauen"
 
-msgid "  --sign           Sign the resulting package with gpg"
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
 msgstr ""
+"      --needed         aktuelle Pakete werden nicht nochmals installiert\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr "  -g, --geninteg   Erstelle Integritäts-Prüfung für Quell-Dateien"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Nicht abbrechen, wenn die Integritäts-Prüfung fehlt"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
@@ -411,7 +510,8 @@ msgstr ""
 "  --source         Erstellt einen Quell-Tarball ohne die heruntergeladenen "
 "Quellen"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "Diese Optionen können an pacman weitergegeben werden:"
 
 msgid ""
@@ -425,7 +525,8 @@ msgstr ""
 "  --noprogressbar  Keine Fortschrittsanzeige anzeigen, wenn Dateien "
 "heruntergeladen werden"
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Wenn -p nicht spezifiziert ist, wird makepkg nach '%s' suchen"
 
 msgid ""
@@ -452,85 +553,60 @@ msgstr "Sie haben keine Schreib-Berechtigung, um Pakete in %s zu lagern."
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Sie haben keine Schreib-Berechtigung, um Downloads in %s zu lagern."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr ""
 "\\0--holdver und --forcever können nicht beide gleichzeitig benutzt werden"
 
-msgid "Cleaning up ALL files from %s."
-msgstr "Räume ALLE Dateien aus %s."
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Sind Sie sicher, dass Sie dies tun möchten? "
-
-msgid "[y/N]"
-msgstr "[j/N]"
-
-msgid "YES"
-msgstr "JA"
-
-msgid "Y"
-msgstr "J"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr ""
-"Problem beim Entfernen von Dateien; vielleicht haben Sie nicht die nötigen "
-"Berechtigungen für %s"
-
-msgid "Source cache cleaned."
-msgstr "Quell-Puffer gesäubert."
-
-msgid "No files have been removed."
-msgstr "Keine Dateien wurden entfernt."
-
-msgid "Source destination must be defined in %s."
-msgstr "Der Zielpfad der Quelle muss in %s definiert werden."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr ""
-"Zusätzlich lassen Sie bitte makepkg -C außerhalb ihres Puffer-Verzeichnisses "
-"laufen."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "Makepkg als Root laufen zu lassen, ist eine SCHLECHTE"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "Idee, die dauerhaften Schaden auf Ihrem System anrichten kann."
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr "Möchten Sie dies als Root tun, benutzen Sie bitte die Option --asroot."
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "Die Option --asroot ist nur für den Root-Benutzer gedacht."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr "Bitte starten Sie makepkg erneut, jedoch ohne --asroot."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr ""
 "Lässt man makepkg als normaler Nutzer laufen, werden die gepackten Dateien"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr "nicht Root gehören. Nutzen Sie die fakeroot-Umgebung, indem Sie"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr "Setze 'fakeroot' im BUILDENV-Array von %s."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
 "Benutzen Sie nicht die Option '-F'. Diese Option ist nur für die Verwendung "
 "durch makepkg gedacht."
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
-"Sudo kann nicht gefunden werden. Werde su benutzen, um Root-Rechte zu "
-"erhalten."
-
 msgid "%s does not exist."
 msgstr "%s existiert nicht."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr ""
 "%s enthält CRLF-Zeichen und kann nicht auf Quellen zurückgeführt werden."
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "%s existiert nicht oder ist kein Verzeichnis"
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -538,7 +614,8 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "Es wurde bereits ein Paket gebaut, installiere existierendes Paket..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Es wurde bereits ein Paket gebaut. (Benutzen Sie -f zum Überschreiben)"
 
 msgid ""
@@ -546,19 +623,23 @@ msgid ""
 msgstr ""
 "Die Paket-Gruppe wurde bereits gebaut, installiere existierende Pakete..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Die Paket-Gruppe wurde bereits gebaut. (Benutzen Sie -f zum Überschreiben)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Ein Teil der Paket-Gruppe wurde bereits gebaut. (Benutzen Sie -f zum "
 "Überschreiben)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "Verlasse fakeroot-Umgebung."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr ""
 "Die Neupaketierung sollte nicht ohne Verwendung der package()-Funktion "
 "erfolgen."
@@ -569,12 +650,10 @@ msgstr "Die Datei-Berechtigungen werden vielleicht nicht erhalten."
 msgid "Making package: %s"
 msgstr "Erstelle Paket: %s"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "Es wurde bereits ein Quell-Paket gebaut. (Benutzen Sie -f zum Überschreiben)"
-
-msgid "Skipping integrity checks."
-msgstr "Überspringe Integritäts-Prüfungen."
 
 msgid "Source package created: %s"
 msgstr "Quell-Paket erstellt: %s"
@@ -591,18 +670,22 @@ msgstr "Prüfe Buildtime-Abhängigkeiten..."
 msgid "Could not resolve all dependencies."
 msgstr "Konnte nicht alle Abhängigkeiten auflösen."
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr "%s wurde nicht in PATH gefunden; überspringe Abhängigkeits-Prüfungen."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
 "Überspringe Abholen der Quellen        -- verwende bestehenden src/ Baum"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr ""
 "Überspringe Integritäts-Prüfung der Quellen -- verwende bestehenden src/ Baum"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr ""
 "Überspringe Entpacken der Quellen       -- verwende bestehenden src/ Baum"
 
@@ -615,7 +698,8 @@ msgstr "Das Paket-Verzeichnis ist leer, es kann nichts neu gepackt werden!"
 msgid "Sources are ready."
 msgstr "Quellen sind fertig."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Entferne existierendes pkg/ Verzeichnis ..."
 
 msgid "Finished making: %s"
@@ -653,23 +737,7 @@ msgstr "Prä-3.5 Datenbankformat entdeckt - aktualisiere..."
 msgid "Done."
 msgstr "Fertig."
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Verwendung: %s [Optionen]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr ""
-"  -p <Datei>        Ein alternatives Build-Skript (statt '%s') verwenden"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -678,12 +746,12 @@ msgstr ""
 "  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr ""
 "  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr ""
 "  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
@@ -695,29 +763,73 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Diese Hilfe"
 
-msgid "  -l, --list                List keys"
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
 msgstr ""
+"  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr ""
 "  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr ""
+"  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr ""
+"  --config <Datei> Eine alternative Konfigurations-Datei (statt '%s') "
+"verwenden"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr ""
+"  -p <Datei>        Ein alternatives Build-Skript (statt '%s') verwenden"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Sie haben keine Schreib-Berechtigung, um Pakete in %s zu lagern."
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Sie haben keine Schreib-Berechtigung, um Pakete in %s zu lagern."
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -750,30 +862,30 @@ msgstr "Entferne leere Verzeichnisse... "
 msgid "Updating trust database..."
 msgstr "Synchronisiere Datenbank mit Festplatte..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "Datei %s (%s) existiert nicht."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "Entpacke %s mit %s "
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "Repositorium \"%s\" wurde nicht gefunden."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -806,10 +918,9 @@ msgid "You must have correct permissions to optimize the database."
 msgstr ""
 "Sie müssen über die nötigen Rechte verfügen, um die Datenbank zu optimieren."
 
-msgid "ERROR: Can not create temp directory for database building."
-msgstr ""
-"FEHLER: Konnte kein temporäres Verzeichnis für den Aufbau der Datenbank "
-"erstellen."
+#, fuzzy
+msgid "Can not create temp directory for database building."
+msgstr "Kann kein temporäres Verzeichnis zum Aufbau der Datenbank erstellen."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Errechne MD5-Summe der alten Datenbank..."
@@ -1001,6 +1112,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' hat keine gültige Archiv-Endung."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "Errechne MD5-Prüfsummen..."
@@ -1065,11 +1179,70 @@ msgstr "Kann kein temporäres Verzeichnis zum Aufbau der Datenbank erstellen."
 msgid "Creating updated database file '%s'"
 msgstr "Erstelle aktualisierte Datenbank-Datei '%s'"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' hat keine gültige Archiv-Endung."
-
 msgid "No packages remain, creating empty database."
 msgstr "Keine Pakete mehr vorhanden, erstelle leere Datenbank."
 
 msgid "No packages modified, nothing to do."
 msgstr "Keine Pakete modifiziert, ich kann nichts machen."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "Kann openssl nicht finden."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "Entferne libtool .la Dateien..."
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Säubere Quell-Dateien aus dem Puffer"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "Räume ALLE Dateien aus %s."
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Sind Sie sicher, dass Sie dies tun möchten? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[j/N]"
+
+#~ msgid "YES"
+#~ msgstr "JA"
+
+#~ msgid "Y"
+#~ msgstr "J"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr ""
+#~ "Problem beim Entfernen von Dateien; vielleicht haben Sie nicht die "
+#~ "nötigen Berechtigungen für %s"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "Quell-Puffer gesäubert."
+
+#~ msgid "No files have been removed."
+#~ msgstr "Keine Dateien wurden entfernt."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "Der Zielpfad der Quelle muss in %s definiert werden."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr ""
+#~ "Zusätzlich lassen Sie bitte makepkg -C außerhalb ihres Puffer-"
+#~ "Verzeichnisses laufen."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Verwendung: %s [Optionen]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "Entpacke %s mit %s "
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr ""
+#~ "FEHLER: Konnte kein temporäres Verzeichnis für den Aufbau der Datenbank "
+#~ "erstellen."

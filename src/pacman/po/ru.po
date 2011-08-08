@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-13 16:07+0000\n"
 "Last-Translator: vdk <vdk@gmx.us>\n"
 "Language-Team: Russian <None>\n"
@@ -171,9 +171,17 @@ msgstr "не удалось перейти в каталог %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "запуск XferCommand: fork failed!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "не удалось изменить рабочий каталог на %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "не удалось изменить рабочий каталог на %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "неверное значение для 'CleanMethod' : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -183,12 +191,6 @@ msgstr "неверное значение для 'CleanMethod' : '%s'\n"
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr ""
-"конфигурационный файл %s, строка %d: все директивы должны находиться в "
-"секциях.\n"
 
 #, c-format
 msgid ""
@@ -206,6 +208,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "не удалось инициализировать библиотеку alpm (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  попробуйте запустить pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "не удалось использовать файл журнала '%s' (%s)\n"
 
@@ -216,10 +222,6 @@ msgstr "не удалось установить корневой каталог
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "не удалось зарегистрировать базу данных '%s' (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -379,6 +381,10 @@ msgstr "No"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5-сумма             :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Лицензии              :"
 
 #, c-format
 msgid "Description    :"
@@ -744,6 +750,10 @@ msgid "no file was specified for --owns\n"
 msgstr "не был указан файл для --owns\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "путь слишком длинный: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "не удалось найти '%s' в PATH: %s\n"
 
@@ -758,10 +768,6 @@ msgstr "не удалось установить владельца катало
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "не удалось определить настоящий путь для '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "путь слишком длинный: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -784,10 +790,6 @@ msgid_plural "%d missing files\n"
 msgstr[0] "%d отсутствующий файл\n"
 msgstr[1] "%d отсутствующие файлы\n"
 msgstr[2] "%d отсутствующие файлы\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "ни один репозиторий не сконфигурирован должным образом.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -910,10 +912,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "репозиторий '%s' не существует\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "пакет '%s' не найден в репозитории '%s'\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "пакет '%s' не найден\n"
 
@@ -1004,12 +1002,16 @@ msgstr ""
 "  удалить %s\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  попробуйте запустить pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "не удалось продолжить запрос (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "ни один репозиторий не сконфигурирован должным образом.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "база данных не найдена: %s\n"
 
 #, c-format
 msgid "None"
@@ -1017,6 +1019,54 @@ msgstr "Нет"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Неизвестно"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Неизвестно"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Неизвестно"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1131,3 +1181,15 @@ msgstr "ошибка: "
 msgid "warning: "
 msgstr "предупреждение: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr ""
+#~ "конфигурационный файл %s, строка %d: все директивы должны находиться в "
+#~ "секциях.\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "пакет '%s' не найден в репозитории '%s'\n"

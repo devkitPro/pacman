@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-03-28 02:39+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Kazakh <None>\n"
@@ -167,9 +167,17 @@ msgstr "%s жүктеме бумасына өту мүмкін емес\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand орындау: үрдісті жасау сәтсіз аяқталды!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "%s бумасына өту мүмкін емес (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "%s бумасына өту мүмкін емес (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "'CleanMethod' үшін мәні қате : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -179,12 +187,6 @@ msgstr "'CleanMethod' үшін мәні қате : '%s'\n"
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr ""
-"баптаулар файлы %s, жол %d: бар директивалар секциялардың ішінде болуы "
-"керек.\n"
 
 #, c-format
 msgid ""
@@ -203,6 +205,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "alpm жинағын іске қосу мүмкін емес (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  pacman-db-upgrade жөнелтіп көріңіз\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "'%s' лог-файлын қолдану қатесі (%s)\n"
 
@@ -213,10 +219,6 @@ msgstr "'%s' түбірлік буманы орнатуда қате кетті 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "'%s' (%s) дерекқорын тіркеу мүмкін емес\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "'%s' дерекқорына сервер адресін қосу мүмкін емес: %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -375,6 +377,10 @@ msgstr "Жоқ"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5 сомасы            :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Лицензиясы            :"
 
 #, c-format
 msgid "Description    :"
@@ -735,6 +741,10 @@ msgid "no file was specified for --owns\n"
 msgstr "--owns үшін файл көрсетілмеді\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "жол тым ұзын: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "'%s' нәрсесі PATH жерінен табылмады: %s\n"
 
@@ -749,10 +759,6 @@ msgstr "'%s' бумасының иесін анықтау мүмкін емес\
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "'%s' үшін шын жолды анықтау мүмкін емес: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "жол тым ұзын: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -771,10 +777,6 @@ msgstr[0] "%s: барлығы %d файл, "
 msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
 msgstr[0] "%d файл жоқ\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "бірде-бір репозиторий тиісті түрде бапталмаған.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -897,10 +899,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "'%s' репозиторийі жоқ болып тұр\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "'%s' дестесі '%s' репозиторийден табылмады\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "'%s' дестесі табылмады\n"
 
@@ -989,12 +987,16 @@ msgstr ""
 "  %s өшіре аласыз\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  pacman-db-upgrade жөнелтіп көріңіз\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "әрекетті босату сәтсіз (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "бірде-бір репозиторий тиісті түрде бапталмаған.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "дерекқор табылмады: %s\n"
 
 #, c-format
 msgid "None"
@@ -1002,6 +1004,54 @@ msgstr "Көрсетілмеген"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Белгісіз"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Белгісіз"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Белгісіз"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1116,3 +1166,15 @@ msgstr "қате: "
 msgid "warning: "
 msgstr "ескерту: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr ""
+#~ "баптаулар файлы %s, жол %d: бар директивалар секциялардың ішінде болуы "
+#~ "керек.\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "'%s' дерекқорына сервер адресін қосу мүмкін емес: %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "'%s' дестесі '%s' репозиторийден табылмады\n"

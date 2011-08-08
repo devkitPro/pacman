@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-12 13:54+0000\n"
 "Last-Translator: wonder <ibiru@archlinux.org>\n"
 "Language-Team: Romanian <>\n"
@@ -27,7 +27,8 @@ msgstr "EROARE:"
 msgid "Cleaning up..."
 msgstr "Se curăță..."
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "Se intră in mediul fakeroot..."
 
 msgid "Unable to find source file %s."
@@ -75,8 +76,8 @@ msgstr "Eșec în timpul descărcării %s"
 msgid "Generating checksums for source files..."
 msgstr "Se generează sumele de control pentru fișierele sursă..."
 
-msgid "Cannot find openssl."
-msgstr "Nu se poate găsi openssl."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Algoritmul de integritate '%s' specificat este nevalid."
@@ -102,6 +103,49 @@ msgstr ""
 
 msgid "Integrity checks are missing."
 msgstr "Verificările de integritate lipsesc."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Se validează fișierele sursă cu %s..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "NU SE GĂSEȘTE"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "NU SE GĂSEȘTE"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Se trece peste verificările de integritate."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Se extrag sursele..."
@@ -135,8 +179,9 @@ msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr ""
 "Se elimină simbolurile de depanare din fișierele binare și biblioteci..."
 
-msgid "Removing libtool .la files..."
-msgstr "Se elimină fișierele .la ale libtool..."
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Se elimină fișierele doc..."
 
 msgid "Removing empty directories..."
 msgstr "Se elimină directoarele goale..."
@@ -149,7 +194,8 @@ msgstr "Se comprimă paginile man și info..."
 msgid "Could not compress binary : %s"
 msgstr "nu poate fi accesat directorul cache %s\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr "Se generează fișierul .PKGINFO..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -158,16 +204,19 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Vă rugăm să adăugați o linie de licență la %s dvs!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "Exemplu pentru software sub licența GPL: license=('GPL')"
 
-msgid "Backup entry file not in package : %s"
+#, fuzzy
+msgid "%s entry file not in package : %s"
 msgstr "Fișierul din câmpul backup nu e în pachet: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Pachetul conține referințe către %s"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Directorul pkg/ lipsește."
 
 msgid "Creating package..."
@@ -218,10 +267,12 @@ msgstr "Eșec la crearea fișierului sursă."
 msgid "Failed to create symlink to source package file."
 msgstr "Nu s-a reușit crearea unui symlink către pachetul sursă."
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "Se instalează pachetul %s cu %s -U..."
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "Se instalează grupul de pachete %s cu %s -U..."
 
 msgid "Failed to install built package(s)."
@@ -233,11 +284,13 @@ msgstr "%s nu este permis să fie gol."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s nu este permis să înceapă cu cratimă."
 
-msgid "%s is not allowed to contain colons or hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr ""
 "%s nu este permis să conțină simbolurile \"două puncte\" și \"cratimă\""
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s nu este permis să conțină cratime."
 
 msgid "%s must be an integer."
@@ -250,29 +303,40 @@ msgid "Note that many packages may need a line added to their %s"
 msgstr ""
 "Notați faptul că multe pachete pot avea nevoie de o linie adăugata la %s lor"
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "precum arch=('%s')."
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Câmpul provides nu poate conține operatori de comparație (< sau >)."
 
-msgid "Backup entry should not contain leading slash : %s"
+#, fuzzy
+msgid "%s entry should not contain leading slash : %s"
 msgstr "Intrarea backup nu ar trebui să conțină slash-ul de la început: %s"
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "valoare nevalidă pentru opdepend : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "fișierul %s (%s) nu există."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "câmpul options conține opțiunea necunoscută '%s'"
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "lipsește funcție pachet pentru pachetul divizat '%s'"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "pachetul %s cerut nu este prevăzut în %s"
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr ""
+"Sudo nu poate fi găsit. Se va folosi su pentru a dobândi privilegii root."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -280,10 +344,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "Se comprimă paginile man și info..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -298,19 +381,18 @@ msgstr "Utilizare: %s [opțiuni]"
 msgid "Options:"
 msgstr "Opţiuni:"
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignoră câmp arch incomplet în %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Curăță fișierele de lucru după construire"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Curăță fișierele sursă din cache"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Sari peste toate verificările de dependențe"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Nu extrage fișiere sursă (folosește dir src/ existent)"
 
@@ -353,7 +435,8 @@ msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 "  -R, --repackage  Reîmpachetează conținutul pachetului fără reconstruire"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Instalează dependențele lipsă cu pacman"
 
 msgid ""
@@ -362,10 +445,12 @@ msgid ""
 msgstr ""
 "  --allsource      Generează o arhivă doar-sursă incluzând sursele descărcate"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot       Permite ca makepkg să ruleze ca root"
 
-msgid "  --check          Run the check() function in the %s"
+#, fuzzy
+msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Execută funcția check() în %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -378,12 +463,14 @@ msgstr ""
 "  --holdver        Previne incrementarea automată a versiunii pentru %s în "
 "dezvoltare."
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+#, fuzzy
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Nu execută funcția check() în %s"
 
 #, fuzzy
@@ -394,18 +481,30 @@ msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <listă>     Construiește doar pachetele listate dintr-un pachet split"
 
-msgid "  --sign           Sign the resulting package with gpg"
-msgstr ""
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "      --needed         nu reinstala pachetele actualizate\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr ""
+"  -g, --geninteg   Generează verificări de integritate pentru fișierele sursă"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Nu eșuează când verificările de integritate lipsesc"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
 "  --source         Generează o arhivă doar-sursă fără sursele descărcate"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "Aceste opțiuni pot fi furnizate catre pacman:"
 
 msgid ""
@@ -415,7 +514,8 @@ msgstr "  --noconfirm      Nu cere confirmare când se rezolvă dependențele"
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Nu arată bara de progres când se descarcă fişiere"
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Dacă -p nu este specificat, makepkg va căuta după '%s'"
 
 msgid ""
@@ -442,79 +542,57 @@ msgstr "Nu aveți permisiune de scriere pentru a stoca pachete în %s."
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Nu aveți permisiune de scriere pentru a stoca descărcări în %s."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0--holdver și --forcever nu se pot fi ambele specificate."
 
-msgid "Cleaning up ALL files from %s."
-msgstr "Se curăță TOATE fișierele din %s."
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Sunteți sigur că doriți asta? "
-
-msgid "[y/N]"
-msgstr "[d/N]"
-
-msgid "YES"
-msgstr "DA"
-
-msgid "Y"
-msgstr "D"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr ""
-"Problemă la eliminarea fișierelor; probabil nu aveți permisiunile corecte în "
-"%s"
-
-msgid "Source cache cleaned."
-msgstr "Cache sursă curățat."
-
-msgid "No files have been removed."
-msgstr "Niciun fișier nu a fost eliminat."
-
-msgid "Source destination must be defined in %s."
-msgstr "Destinația sursei trebuie definită în %s."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "În plus, vă rugăm executați makepkg -C în afara directorului cache."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "Executarea makepkg ca root este o idee PROASTĂ și poate cauza"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "distrugeri permanente, catastrofale în sistemul dvs. Dacă"
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr "doriți să executați ca root, vă rugăm să folosiți opțiunea --asroot."
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "Opţiunea --asroot este menită doar utilizatorului root."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr "Vă rugăm re-executați makepkg fără marcajul --asroot."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr "Rularea makepkg ca utilizator neprivilegiat va duce la un proprietar"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr ""
 "non-root al fișierelor pachet. Încercați să folosiți mediul fakeroot prin"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr "plasarea 'fakeroot' în câmpul BUILDENV în %s."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
 "Nu folosiți opțiunea '-F'. Această opțiune este doar pentru uzul makepkg."
-
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
-"Sudo nu poate fi găsit. Se va folosi su pentru a dobândi privilegii root."
 
 msgid "%s does not exist."
 msgstr "%s nu există."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s conține caractere CRLF și nu poate fi dat sursă."
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "%s nu există sau nu este un director."
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -522,7 +600,8 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "Un pachet a fost deja construit, se instalează pachetul existent..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Un pachet a fost deja construit. (folosiţi -f pentru a suprascrie)"
 
 msgid ""
@@ -530,19 +609,23 @@ msgid ""
 msgstr ""
 "Grupul de pachete a fost deja construit, se instalează pachetele existente..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Grupul de pachete a fost deja construit. (folosiţi -f pentru a suprascrie)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Parte din grupul de pachete a fost deja construit. (folosiţi -f pentru a "
 "suprascrie)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "Se părăsește mediul fakeroot."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr "Reîmpachetarea fără a folosi funcția package() nu mai este posibilă."
 
 msgid "File permissions may not be preserved."
@@ -551,12 +634,10 @@ msgstr "Permisiunile fișierului e posibil să nu fie conservate."
 msgid "Making package: %s"
 msgstr "Se face pachetul: %s"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "Un pachet sursă a fost deja construit. (folosiţi -f pentru a suprascrie)"
-
-msgid "Skipping integrity checks."
-msgstr "Se trece peste verificările de integritate."
 
 msgid "Source package created: %s"
 msgstr "Pachet sursă creat: %s"
@@ -573,19 +654,23 @@ msgstr "Se verifică dependențele necesare pentru compilare..."
 msgid "Could not resolve all dependencies."
 msgstr "Nu pot fi rezolvate toate dependențele."
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr "%s nu a fost găsit în PATH; se trece peste verificarea dependențelor."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
 "Se trece peste obținerea sursei      -- se foloseşte ramura src/ existentă"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr ""
 "Se trece peste verificarea integrității sursei -- se folosește ramura src/ "
 "existentă"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr ""
 "Se trece peste extragerea sursei     -- se folosește ramura src/ existentă"
 
@@ -598,7 +683,8 @@ msgstr "Directorul pachetului este gol, nu este nimic de reîmpachetat!"
 msgid "Sources are ready."
 msgstr "Sursele sunt pregătite."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Se elimină directorul pkg/..."
 
 msgid "Finished making: %s"
@@ -638,24 +724,7 @@ msgstr "Formatul bazei de date este pre-3.5 - se actualizează..."
 msgid "Done."
 msgstr "Gata."
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Utilizare: %s [opțiuni]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr ""
-"  -p <file>        Foloseşte un script de construire alternativ (în locul "
-"'%s')"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -664,12 +733,12 @@ msgstr ""
 "  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr ""
 "  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr ""
 "  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
 
@@ -681,29 +750,73 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Acest ajutor"
 
-msgid "  -l, --list                List keys"
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
 msgstr ""
+"  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr ""
 "  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr ""
+"  -p, --file <pachet> interoghează un fișier pachet în locul bazei de date\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr ""
+"  --config <fișier>  Folosește un fișier config alternativ (în locul '%s')"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr ""
+"  -p <file>        Foloseşte un script de construire alternativ (în locul "
+"'%s')"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Nu aveți permisiune de scriere pentru a stoca pachete în %s."
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Nu aveți permisiune de scriere pentru a stoca pachete în %s."
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -736,30 +849,30 @@ msgstr "Se elimină directoarele goale..."
 msgid "Updating trust database..."
 msgstr "Se sincronizează baza de date pe disc..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "fișierul %s (%s) nu există."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "Se extrage %s cu %s..."
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "Fișierul depozit '%s' nu a fost găsit."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -792,9 +905,9 @@ msgid "You must have correct permissions to optimize the database."
 msgstr ""
 "Trebuie să aveți permisiunile corespunzătoare pentru a optimiza baza de date."
 
-msgid "ERROR: Can not create temp directory for database building."
-msgstr ""
-"EROARE: Nu poate fi creat directorul temp pentru construirea bazei de date."
+#, fuzzy
+msgid "Can not create temp directory for database building."
+msgstr "Nu poate fi creat directorul temp pentru construirea bazei de date."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Se calc. sumele MD5 pentru vechea bază de date..."
@@ -986,6 +1099,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' nu are o extensie de arhivă validă."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "Se calculează sumele de control md5..."
@@ -1050,11 +1166,68 @@ msgstr "Nu poate fi creat directorul temp pentru construirea bazei de date."
 msgid "Creating updated database file '%s'"
 msgstr "Se crează fișierul bază de date actualizat '%s'"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' nu are o extensie de arhivă validă."
-
 msgid "No packages remain, creating empty database."
 msgstr "Nu au rămas pachete, se crează bază de date goală."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nu sunt pachete modificate, nu e nimic de făcut."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "Nu se poate găsi openssl."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "Se elimină fișierele .la ale libtool..."
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Curăță fișierele sursă din cache"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "Se curăță TOATE fișierele din %s."
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Sunteți sigur că doriți asta? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[d/N]"
+
+#~ msgid "YES"
+#~ msgstr "DA"
+
+#~ msgid "Y"
+#~ msgstr "D"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr ""
+#~ "Problemă la eliminarea fișierelor; probabil nu aveți permisiunile corecte "
+#~ "în %s"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "Cache sursă curățat."
+
+#~ msgid "No files have been removed."
+#~ msgstr "Niciun fișier nu a fost eliminat."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "Destinația sursei trebuie definită în %s."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr "În plus, vă rugăm executați makepkg -C în afara directorului cache."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Utilizare: %s [opțiuni]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "Se extrage %s cu %s..."
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr ""
+#~ "EROARE: Nu poate fi creat directorul temp pentru construirea bazei de "
+#~ "date."

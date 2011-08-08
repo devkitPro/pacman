@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-03-28 02:39+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,8 @@ msgstr "FEL: "
 msgid "Cleaning up..."
 msgstr "Städar upp..."
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "Påbörjar en fakeroot miljö..."
 
 msgid "Unable to find source file %s."
@@ -74,8 +75,8 @@ msgstr "Misslyckande vid nerladdning av %s"
 msgid "Generating checksums for source files..."
 msgstr "Generera kontrollsummor för källfiler."
 
-msgid "Cannot find openssl."
-msgstr "Kan inte gitta openssl."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Ogiltig integritets algoritm '%s' angiven"
@@ -100,6 +101,49 @@ msgstr "Integritetskontrollen (%s) skiljer sig i storlek från källkodsraden"
 
 msgid "Integrity checks are missing."
 msgstr "Integritetskontroller saknas."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Validerar källfiler med %s..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "HITTADES INTE"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "HITTADES INTE"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Hoppar över integritetskontroll."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Extraherar Källor..."
@@ -132,8 +176,9 @@ msgstr "Komprimerar man och info sidor..."
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Tar bort onödiga symboler från binärer och bibliotek..."
 
-msgid "Removing libtool .la files..."
-msgstr "Tar bort libtool .la filer..."
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Tar bort doc filer..."
 
 msgid "Removing empty directories..."
 msgstr "Tar bort tomma katalaoger..."
@@ -146,7 +191,8 @@ msgstr "Komprimerar man och info sidor..."
 msgid "Could not compress binary : %s"
 msgstr "kunde inte få tillgång till cachekatalogen %s\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr "Genererar .PKGINFO fil..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -155,16 +201,18 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Var vänlig och lägg till en licens rad i din %s!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "Exempel för GPL licenserad mjukvara: license=('GPL')."
 
-msgid "Backup entry file not in package : %s"
+msgid "%s entry file not in package : %s"
 msgstr ""
 
 msgid "Package contains reference to %s"
 msgstr "Paketet innehåller referens till %s"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Saknar pkg/ katalog"
 
 msgid "Creating package..."
@@ -215,10 +263,12 @@ msgstr "Misslyckades att skapa källkodsfil."
 msgid "Failed to create symlink to source package file."
 msgstr ""
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "Installerar paket %s med %s -U... "
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "Installerar paketgruppen %s med %s -U..."
 
 msgid "Failed to install built package(s)."
@@ -230,10 +280,12 @@ msgstr "%s får inte att vara tom."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s får inte börja med ett bindestreck"
 
-msgid "%s is not allowed to contain colons or hyphens."
-msgstr ""
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
+msgstr "%s får inte innehålla bindestreck."
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s får inte innehålla bindestreck."
 
 msgid "%s must be an integer."
@@ -245,29 +297,38 @@ msgstr "%s är inte tillgänglig för arkitekturen '%s'."
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Notera att många paket kan behöva lägga till en rad i deras %s"
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "som arch=('%s')."
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Provides raden kan inte innehålla jämförande (< eller >) tecken"
 
-msgid "Backup entry should not contain leading slash : %s"
+msgid "%s entry should not contain leading slash : %s"
 msgstr ""
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "Fel syntax för optdepend : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "Filen %s (%s) existerar inte."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "options raden innehåller okända parametrar '%s'"
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "saknar paketfunktion för att dela paket '%s'"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "efterfrågat paket %s finns ej i %s"
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr "Sudo kunde inte hittas, använder su för att få root-rättigheter."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -275,10 +336,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "Komprimerar man och info sidor..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -293,19 +373,18 @@ msgstr "Användning: %s [alternativ]"
 msgid "Options:"
 msgstr "Alternativ: "
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignorera ej komplett arch fält i %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Rensa upp arbetsfiler efter skapandet av paket"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Rensa upp källkodsfiler från cachen"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Hoppa över alla beroendekontroller"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Extrahera inte källkodsfiler (använd existerande src/ dir)"
 
@@ -341,7 +420,8 @@ msgstr "  -r, --rmdeps     Ta bort installerade beroenden efter lyckat bygge"
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Packa om innehållet i paketet utan att bygga om"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Installera saknade beroende med pacman"
 
 msgid ""
@@ -351,10 +431,11 @@ msgstr ""
 "      --allsource  Generera en tarball innehållandes enbart nerladdade "
 "källkodsfiler"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr "      --asroot     Tillåt makepkg att köras som root"
 
-msgid "  --check          Run the check() function in the %s"
+msgid "  --check          Run the %s function in the %s"
 msgstr ""
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -365,12 +446,12 @@ msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
-msgstr ""
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr ""
 
 #, fuzzy
@@ -380,11 +461,21 @@ msgstr "      --needed         ominstallera inte paket som är aktuella\n"
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "    --pkg <list>        Bygg endast listade paket från ett delat paket"
 
-msgid "  --sign           Sign the resulting package with gpg"
-msgstr ""
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "      --needed         ominstallera inte paket som är aktuella\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr "  -g, --geninteg   Generera integritetskontroller för källkodsfiler"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr "      --skipinteg  Misslyckas inte när integritetskontroller saknas"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
@@ -392,7 +483,8 @@ msgstr ""
 "      --source     Generera en tarball med enbart källkod utan nerladdade "
 "källkodsfiler"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "Dessa argument kan skickas till pacman:"
 
 msgid ""
@@ -406,7 +498,8 @@ msgstr ""
 "      --noprogressbar  Visa inte en förloppsindikator vid nerladdning av "
 "filer"
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Om -p inte är specifierad, så kommer makepkg leta efter '%s'"
 
 msgid ""
@@ -429,78 +522,57 @@ msgstr "Du har inte skrivrättigheter för att spara paket i %s."
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Du har inte skrivrättigheter för att spara nerladdningar i %s."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0--holdver och --forcever kan inte båda användas"
 
-msgid "Cleaning up ALL files from %s."
-msgstr "Rensar upp ALLA filer från %s"
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Är du säker att du vill göra det här? "
-
-msgid "[y/N]"
-msgstr "[y/N]"
-
-msgid "YES"
-msgstr "YES"
-
-msgid "Y"
-msgstr "Y"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr ""
-"Problem vid bortagning av filer: du kanske inte har korrekta filrättigheter "
-"i %s"
-
-msgid "Source cache cleaned."
-msgstr "Källkods cache rensad"
-
-msgid "No files have been removed."
-msgstr "Inga filer har blivit borttagna."
-
-msgid "Source destination must be defined in %s."
-msgstr "Källdestination måste anges i %s."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "Utöver detta, var vänlig och kör makepkg -C utanför din cachekatalog."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "Att köra makepkg som root är en DÅLIG ide och kan orsaka"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "permanent, katastrofal skada till ditt system. Om du"
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr "vill köra som root, var vänlig använd --asroot"
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "Alternativet --asroot är menat för root-användaren enbart."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr "Var vänlig och kör om makepkg utan flaggan --asroot."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr ""
 "Att köra makepkg som en ej privilegierad användare resulterar i att root"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr "inte äger paketfilerna. Försök att använda fakeroot variabeln genom"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr "att placera 'fakeroot' i BUILDENV raden i %s."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
 "Använd inte flaggan '-F'. Detta argument är enbart för användning av makepkg."
-
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr "Sudo kunde inte hittas, använder su för att få root-rättigheter."
 
 msgid "%s does not exist."
 msgstr "%s existerar inte."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s innehåller CRLF tecken och kan inte källas"
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "%s existerar inte eller är inte en katalog."
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -508,25 +580,30 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "Ett paket har redan blivit byggt, installerar existerande paket..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Ett paket har redan blivit byggt, (använd -f för att skriva över)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Paketgruppen har redan blivit byggd, installerar existerande paket..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Paketgruppen har redan blivit byggd. (använd -f för att skriva över)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "En del av paketgruppen har redan blivit byggd. (använd -f för att skriva "
 "över)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "Lämnar fakeroot miljö."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr "Ompaketering utan att använda en package()-funktion är föråldrat."
 
 msgid "File permissions may not be preserved."
@@ -535,12 +612,10 @@ msgstr "Filrättigheterna kanske inte bevaras."
 msgid "Making package: %s"
 msgstr "Skapar paket: %s"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "Ett källkodspaket har redan blivit byggt, (använd -f för att skriva över)"
-
-msgid "Skipping integrity checks."
-msgstr "Hoppar över integritetskontroll."
 
 msgid "Source package created: %s"
 msgstr "Källkodspaket skapat: %s"
@@ -557,20 +632,24 @@ msgstr ""
 msgid "Could not resolve all dependencies."
 msgstr "Kan inte lösa alla beroenden."
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr "%s hittades inte i PATH; hoppar över kontroll av beroenden."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
 "Hoppar över hämtning av källkod              -- använder existerande src/ "
 "träd"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr ""
 "Hoppar över integritetskontroll av källkod   -- använder existerande src/ "
 "träd"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr ""
 "Hoppar över extrahering av källkod           -- använder existerande src/ "
 "träd"
@@ -584,7 +663,8 @@ msgstr "Paket katalogen är tom, det finns inget att paketera om!"
 msgid "Sources are ready."
 msgstr "Källor är redo."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Tar bort existerande pkg/ katalog...."
 
 msgid "Finished making: %s"
@@ -617,22 +697,7 @@ msgstr ""
 msgid "Done."
 msgstr ""
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Användning: %s [alternativ]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr "  -p <file> Använd ett alternativt byggskript (istället för '%s')"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -640,11 +705,11 @@ msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
 
 msgid ""
@@ -655,28 +720,68 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Den här hjälpen"
 
-msgid "  -l, --list                List keys"
-msgstr ""
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr "  -p, --file <paket> fråga en paketfil istället för databasen\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr ""
+"  --config <file> Använd en alternativ konfigurationsfil (istället för '%s')"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr "  -p <file> Använd ett alternativt byggskript (istället för '%s')"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Du har inte skrivrättigheter för att spara paket i %s."
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Du har inte skrivrättigheter för att spara paket i %s."
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -708,30 +813,30 @@ msgstr "Tar bort tomma katalaoger..."
 msgid "Updating trust database..."
 msgstr "Synkroniserar databas till disk..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "Filen %s (%s) existerar inte."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "Extraherar %s med %s"
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "Förrådsfilen '%s' hittades inte."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -762,8 +867,9 @@ msgstr "verktyget diff hittades inte, var vänlig och installera diffutils."
 msgid "You must have correct permissions to optimize the database."
 msgstr "Du måste ha korrekta rättigheter för att optimera databasen."
 
-msgid "ERROR: Can not create temp directory for database building."
-msgstr "FEL: Kan inte skapa en temporär katalog för databas hantering."
+#, fuzzy
+msgid "Can not create temp directory for database building."
+msgstr "Kan inte skapa temporär katalog för att bygga databasen."
 
 msgid "MD5sum'ing the old database..."
 msgstr "MD5summerar den gamla databasen..."
@@ -947,6 +1053,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' har inte ett giltigt suffix för arkiv."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "Beräknar md5 kontrollsummor..."
@@ -1011,11 +1120,67 @@ msgstr "Kan inte skapa temporär katalog för att bygga databasen."
 msgid "Creating updated database file '%s'"
 msgstr "Skapar uppdaterad databasfil '%s'"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' har inte ett giltigt suffix för arkiv."
-
 msgid "No packages remain, creating empty database."
 msgstr "Inga paket finns kvar, skapar en tom databas."
 
 msgid "No packages modified, nothing to do."
 msgstr "Inga paket modifierade, ingenting att göra."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "Kan inte gitta openssl."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "Tar bort libtool .la filer..."
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Rensa upp källkodsfiler från cachen"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "Rensar upp ALLA filer från %s"
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Är du säker att du vill göra det här? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[y/N]"
+
+#~ msgid "YES"
+#~ msgstr "YES"
+
+#~ msgid "Y"
+#~ msgstr "Y"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr ""
+#~ "Problem vid bortagning av filer: du kanske inte har korrekta "
+#~ "filrättigheter i %s"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "Källkods cache rensad"
+
+#~ msgid "No files have been removed."
+#~ msgstr "Inga filer har blivit borttagna."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "Källdestination måste anges i %s."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr ""
+#~ "Utöver detta, var vänlig och kör makepkg -C utanför din cachekatalog."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Användning: %s [alternativ]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "Extraherar %s med %s"
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr "FEL: Kan inte skapa en temporär katalog för databas hantering."

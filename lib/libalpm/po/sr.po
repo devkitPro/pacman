@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:48-0500\n"
+"POT-Creation-Date: 2011-08-08 17:12-0500\n"
 "PO-Revision-Date: 2011-03-22 15:34+0000\n"
 "Last-Translator: Xabre <githzerai06@gmail.com>\n"
 "Language-Team: Serbian <None>\n"
@@ -154,8 +154,12 @@ msgstr "недостају метаподаци пакета %s\n"
 msgid "removing invalid file: %s\n"
 msgstr "уклањам неисправан фајл: %s\n"
 
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "не могу да уклоним фајл браве %s\n"
+
 #, fuzzy, c-format
-msgid "could not parse package '%s' description file from db '%s'\n"
+msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "не могу да обрадим фајл описа пакета у %s\n"
 
 #, c-format
@@ -218,6 +222,10 @@ msgstr "диск"
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "„%s“ је нисправан урл\n"
+
+#, fuzzy, c-format
+msgid "failed to create temporary file for download\n"
+msgstr "неуспешно преузимање неких фајлова са %s\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -291,6 +299,14 @@ msgstr "база је већ регистрована"
 msgid "could not find database"
 msgstr "не могу да нађем базу"
 
+#, fuzzy, c-format
+msgid "invalid or corrupted database"
+msgstr "неисправна или покварена делта"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted database (PGP signature)"
+msgstr "неисправан или покварен пакет"
+
 #, c-format
 msgid "database is incorrect version"
 msgstr "погрешна верзија базе"
@@ -347,8 +363,12 @@ msgstr "не могу да нађем или прочитам пакет"
 msgid "operation cancelled due to ignorepkg"
 msgstr "радња је отказана због игнорисаног пакета"
 
-#, c-format
-msgid "invalid or corrupted package"
+#, fuzzy, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "неисправан или покварен пакет"
+
+#, fuzzy, c-format
+msgid "invalid or corrupted package (PGP signature)"
 msgstr "неисправан или покварен пакет"
 
 #, c-format
@@ -372,15 +392,11 @@ msgid "could not find repository for target"
 msgstr "не могу да нађем ризницу циља"
 
 #, c-format
-msgid "signature directory not configured correctly"
+msgid "missing PGP signature"
 msgstr ""
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
-
-#, c-format
-msgid "unknown PGP signature"
 msgstr ""
 
 #, c-format
@@ -443,6 +459,10 @@ msgstr "уклањам %s са списка циљева\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "не могу да уклоним фајл „%s“: %s\n"
 
+#, fuzzy, c-format
+msgid "cannot remove %s (%s)\n"
+msgstr "не могу да уклоним фајл „%s“: %s\n"
+
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "не могу да уклоним унос базе %s — %s\n"
@@ -496,14 +516,6 @@ msgid "could not commit transaction\n"
 msgstr "не могу да обавим пренос\n"
 
 #, c-format
-msgid "%s database version is too old\n"
-msgstr "верзија базе %s је застарела\n"
-
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "не могу да уклоним фајл браве %s\n"
-
-#, c-format
 msgid "could not create temp directory\n"
 msgstr "не могу да направим привремену фасциклу\n"
 
@@ -550,6 +562,9 @@ msgstr "не постоји кеш за %s; правим....\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "не могу да направим кеш пакета; користим /tmp као замену\n"
+
+#~ msgid "%s database version is too old\n"
+#~ msgstr "верзија базе %s је застарела\n"
 
 #~ msgid "resuming download of %s not possible; starting over\n"
 #~ msgstr "настављање преузимања %s није могуће: започињем изнова\n"

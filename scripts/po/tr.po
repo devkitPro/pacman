@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-06 08:03+0000\n"
 "Last-Translator: tarakbumba <tarakbumba@gmail.com>\n"
 "Language-Team: Turkish <None>\n"
@@ -26,7 +26,8 @@ msgstr "HATA:"
 msgid "Cleaning up..."
 msgstr "Temizleniyor..."
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "fakeroot ortamına giriliyor..."
 
 msgid "Unable to find source file %s."
@@ -74,8 +75,8 @@ msgstr "%s indirilirken hata oluştu"
 msgid "Generating checksums for source files..."
 msgstr "Kaynak kodları için bütünlük kontrolleri oluşturuluyor..."
 
-msgid "Cannot find openssl."
-msgstr "openssl bulunamadı."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Geçersiz bütünlük algoritması '%s' tanımlanmış."
@@ -102,6 +103,49 @@ msgstr ""
 
 msgid "Integrity checks are missing."
 msgstr "Bütünlük kontrolü kayıp ya da eksik."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Kaynak dosyaları %s ile doğrulanıyor..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "BULUNAMADI"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "BULUNAMADI"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Bütünlük kontrolleri atlanıyor."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Kaynak Kodları Açılıyor..."
@@ -136,8 +180,9 @@ msgstr ""
 "İkilik dosyalardan ve kütüphanelerden gereksiz ayıklama sembolleri "
 "ayıklanıyor..."
 
-msgid "Removing libtool .la files..."
-msgstr "libtool .la dosyaları kaldırılıyor..."
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Döküman dosyaları kaldırılıyor..."
 
 msgid "Removing empty directories..."
 msgstr "Boş dizinler kaldırılıyor..."
@@ -150,7 +195,8 @@ msgstr "Kılavuz ve bilgi sayfaları sıkıştırılıyor..."
 msgid "Could not compress binary : %s"
 msgstr "%s önbellek dizinine ulaşılamadı\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr ".PKGINFO dosyası oluşturuluyor..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -159,16 +205,19 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Lütfen %s dosyanıza bir lisans satırı ekleyin!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "GPL ile lisanslanmış yazılımlar için örnek: license=('GPL')."
 
-msgid "Backup entry file not in package : %s"
+#, fuzzy
+msgid "%s entry file not in package : %s"
 msgstr "Yedek girdi dosyası paket içerisinde değil: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Paket %s için referans barındırıyor"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Kayıp pkg/ dizini."
 
 msgid "Creating package..."
@@ -219,10 +268,12 @@ msgstr "Kaynak paketi oluşturulamadı."
 msgid "Failed to create symlink to source package file."
 msgstr "Kaynak paket dosyasına sembolik bağ oluşturulamadı."
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "Paket %s %s -U ile kuruluyor..."
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "%s paket grubu %s -U ile kuruluyor..."
 
 msgid "Failed to install built package(s)."
@@ -234,10 +285,12 @@ msgstr "%s boş olamaz."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s, '-' (tire) işareti ile başlayamaz."
 
-msgid "%s is not allowed to contain colons or hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s içerisinde virgül ve tire kullanılamaz."
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s, '-' (tire) işaretini içeremez."
 
 msgid "%s must be an integer."
@@ -249,29 +302,39 @@ msgstr "%s, '%s' mimarisi için uygun değildir."
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Bir çok paketin %s kısmına bir satır eklenmesi gerekebilir"
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "arch=('%s') gibi."
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Sağladıkları kısmı karşılaştırma karakterleri (< veya >) barındıramaz."
 
-msgid "Backup entry should not contain leading slash : %s"
+#, fuzzy
+msgid "%s entry should not contain leading slash : %s"
 msgstr "Yedek girdisi slash karakteri içermemelidir : %s "
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "optdepend için geçersiz sözdizimi : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "%s dosyası (%s) mevcut değil."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "seçenekler dizisi bilinmeyen '%s' seçeneğini içeriyor"
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "ayrılmış '%s' paketi için eksik paket fonksiyonu"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "istenen %s paketi %s tarafından sağlanmıyor "
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr "Sudo bulunamadı. Yetki almak için su kullanılacak."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -279,10 +342,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "Kılavuz ve bilgi sayfaları sıkıştırılıyor..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -297,19 +379,18 @@ msgstr "Kullanım: %s [seçenekler]"
 msgid "Options:"
 msgstr "Seçenekler:"
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch %s içindeki eksik mimari alanını gözardı et"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Derlenme sonrası oluşan dosyaları temizle"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Kaynak paketlerini önbellekten sil"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Tüm bağımlılık kontrollerini atla"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Kaynak dosyalarını açma (mevcut src/ dizinini kullan)"
 
@@ -347,7 +428,8 @@ msgstr ""
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Derleme yapmadan yeniden paketle"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Eksik bağımlılıkları pacman ile kur"
 
 msgid ""
@@ -357,12 +439,14 @@ msgstr ""
 "  --allsource      İndirilmiş arşivlerle birlikte sadece kaynak barındıran "
 "bir arşiv oluştur"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr ""
 "  --asroot     makepkg komutunun yönetici haklarıyla çalıştırılmasına izin "
 "ver"
 
-msgid "  --check          Run the check() function in the %s"
+#, fuzzy
+msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          %s içerisinde check() fonksiyonunu çalıştır"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -372,12 +456,13 @@ msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr "  --holdver        %s için sürümü sabit tut"
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
-msgstr ""
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+#, fuzzy
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr " --nocheck        %s içerisinde check() fonksiyonunu kullanma"
 
 #, fuzzy
@@ -388,11 +473,21 @@ msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Paket grubundan sadece listedeki ayrılmış paketleri derle "
 
-msgid "  --sign           Sign the resulting package with gpg"
-msgstr ""
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "      --needed         güncel paketleri tekrar yükleme\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr "  -g, --geninteg   Kaynak dosyaları için bütünlük kontrolleri oluştur"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg  Bütünlük kontrolü başarısız olsa bile devam et"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
@@ -400,7 +495,8 @@ msgstr ""
 "  --source     Paketi derlemek yerine inşa dosyalarını barındıran "
 "sıkıştırılmış tar arşivi oluştur"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "pacman'e şu parametreler geçilebilir:"
 
 msgid ""
@@ -410,7 +506,8 @@ msgstr "  --noconfirm       Bağımlılıklar çözümlenirken onay isteme"
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar   Dosyalar indirilirken durum çubuğu gösterme"
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Eğer -p kullanılmamışsa, makepkg '%s' dosyasını arayacaktır"
 
 msgid ""
@@ -439,83 +536,63 @@ msgstr ""
 "İndirilenleri %s dizininde saklayabilmenizi sağlayacak izinlere sahip "
 "değilsiniz."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0--holdver ve --forcever birlikte kullanılamazlar"
 
-msgid "Cleaning up ALL files from %s."
-msgstr "%s içerisindeki tüm dosyalar temizleniyor."
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Bunu yapmak istediğinize emin misiniz? "
-
-msgid "[y/N]"
-msgstr "[e/H]"
-
-msgid "YES"
-msgstr "EVET"
-
-msgid "Y"
-msgstr "E"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr ""
-"Dosyalar kaldırılamadı; %s için gerekli izinlere sahip olmayabilirsiniz"
-
-msgid "Source cache cleaned."
-msgstr "Kaynak önbelleği temizlendi."
-
-msgid "No files have been removed."
-msgstr "Hiçbir dosya kaldırılamadı."
-
-msgid "Source destination must be defined in %s."
-msgstr "Kaynak konumu %s içerisinde tanımlanmalıdır."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "Ayrıca, lütfen önbellek dizininizin dışında makepkg -C komutunu verin."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "makepkg komutunu yönetici haklarıyla kullanmak kötü bir fikirdir ve"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr ""
 "sisteminizde kalıcı, baş ağrıtacak problemler yaratabilir. Eğer yine de"
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr ""
 "yönetici haklarıyla kullanmak istiyorsanız lütfen --asroot seçeneğini "
 "kullanınız."
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "Sadece root kullanıcısı --asroot seçeneğini kullanabilir."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr ""
 "Lütfen makepkg komutunu --asroot parametresi olmadan tekrar çalıştırın."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr "makepkg komutunu sıradan kullanıcı haklarıyla çalıştırmanız"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr ""
 "paket dosyalarının, root olmayan sahiplik bilgisiyle oluşturulmasına sebep "
 "olur. Bunun yerine"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr "%s içerisinde BUILDENV dizisine 'fakeroot' yerleştiriliyor."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
 "'-F' seçeneğini kullanmayın. Bu seçenek yalnızca makepkg'nin kullanımı "
 "içindir."
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr "Sudo bulunamadı. Yetki almak için su kullanılacak."
-
 msgid "%s does not exist."
 msgstr "%s mevcut değil."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s CRLF karakterleri barındırıyor ve kaynak olarak kullanılamıyor."
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "%s bulunamadı ya da bir dizin değil."
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -523,24 +600,29 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Bir paket zaten derlenmiş. (üzerine yazmak için -f kullanın)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Paket grubu zaten derlenmiş, var olan paketler kuruluyor..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Paket grubu zaten derlenmiş. (üzerine yazmak için -f kullanın)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Paket grubunun bir kısmı zaten derlenmiş. (üzerine yazmak için -f kullanın)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "fakeroot ortamından çıkılıyor."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr ""
 "package() fonksiyonu kullanılmadan tekrar paketleme desteklenmemektedir."
 
@@ -550,11 +632,9 @@ msgstr "Dosya izinleri korunmayabilir."
 msgid "Making package: %s"
 msgstr "%s paketi oluşturuluyor"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Bir kaynak paket zaten derlenmiş. (üzerine yazmak için -f kullanın)"
-
-msgid "Skipping integrity checks."
-msgstr "Bütünlük kontrolleri atlanıyor."
 
 msgid "Source package created: %s"
 msgstr "Kaynak paketi oluşturuldu: %s"
@@ -571,22 +651,26 @@ msgstr "Derleme bağımlılıkları denetleniyor..."
 msgid "Could not resolve all dependencies."
 msgstr "Bazı bağımlılıklar çözülemedi."
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr ""
 "PATH değişkeni çerçevesinde %s komutuna rastlanmadı; bağımlılık kontrolü "
 "atlanıyor."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
 "Kaynak kodlarının indirilmesi atlanıyor        -- varolan src/ dizin yapısı "
 "kullanılıyor"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr ""
 "Kaynak kodlarının bütünlük kontrolleri atlanıyor -- varolan src/ dizin "
 "yapısı kullanılıyor"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr ""
 "Kaynak kodlarının açılması atlanıyor       -- varolan src/ dizin yapısı "
 "kullanılıyor"
@@ -600,7 +684,8 @@ msgstr "Paket dizini boş; yeniden paketlenecek bir şey yok!"
 msgid "Sources are ready."
 msgstr "Kaynak kodları hazır."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Mevcut pkg/ dizini siliniyor..."
 
 msgid "Finished making: %s"
@@ -636,22 +721,7 @@ msgstr "3.5 sürümü öncesi veritabanı biçimi algılandı - yükseltiliyor..
 msgid "Done."
 msgstr "Tamamlandı."
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Kullanım: %s [seçenekler]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr "  -p <dosya>  '%s' yerine farklı bir derleme betiği kullan"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -659,11 +729,11 @@ msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
 msgid ""
@@ -674,28 +744,67 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Bu yardım seçeneklerini görüntüle"
 
-msgid "  -l, --list                List keys"
-msgstr ""
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr "  --config <dosya> '%s' yerine farklı bir yapılandırma dosyası kullan"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr "  -p <dosya>  '%s' yerine farklı bir derleme betiği kullan"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Paketleri %s dizininde saklamak için yazma izniniz yok."
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Paketleri %s dizininde saklamak için yazma izniniz yok."
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -728,30 +837,30 @@ msgstr "Boş dizinler kaldırılıyor..."
 msgid "Updating trust database..."
 msgstr "Veritabanı disk ile senkronize ediliyor..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "%s dosyası (%s) mevcut değil."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "%s ile %s açılıyor"
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "'%s' depo dosyası bulunamadı."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -782,8 +891,10 @@ msgstr "diff komutu bulunamadı, lütfen diffutils paketini kurun."
 msgid "You must have correct permissions to optimize the database."
 msgstr "Veritabanını optimize etmek için doğru haklara sahip olmalısınız."
 
-msgid "ERROR: Can not create temp directory for database building."
-msgstr "HATA: Veritabanı oluşturmak için geçici dizin oluşturulamadı."
+#, fuzzy
+msgid "Can not create temp directory for database building."
+msgstr ""
+"Veritabanı oluşturulması için gerekli olan geçici dizin oluşturulamadı."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Eski veritabanına ait MD5SUM oluşturuluyor..."
@@ -975,6 +1086,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' geçerli bir arşiv uzantısına sahip değil."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "md5 bütünlük kontrolleri hesaplanıyor..."
@@ -1040,11 +1154,66 @@ msgstr ""
 msgid "Creating updated database file '%s'"
 msgstr "Güncellenmiş veritabanı dosyası '%s' oluşturuluyor"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' geçerli bir arşiv uzantısına sahip değil."
-
 msgid "No packages remain, creating empty database."
 msgstr "Hiç paket kalmadı, boş veritabanı yaratılıyor."
 
 msgid "No packages modified, nothing to do."
 msgstr "Hiç bir pakette değişiklik yapılmadı, çıkılıyor."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "openssl bulunamadı."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "libtool .la dosyaları kaldırılıyor..."
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Kaynak paketlerini önbellekten sil"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "%s içerisindeki tüm dosyalar temizleniyor."
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Bunu yapmak istediğinize emin misiniz? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[e/H]"
+
+#~ msgid "YES"
+#~ msgstr "EVET"
+
+#~ msgid "Y"
+#~ msgstr "E"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr ""
+#~ "Dosyalar kaldırılamadı; %s için gerekli izinlere sahip olmayabilirsiniz"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "Kaynak önbelleği temizlendi."
+
+#~ msgid "No files have been removed."
+#~ msgstr "Hiçbir dosya kaldırılamadı."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "Kaynak konumu %s içerisinde tanımlanmalıdır."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr ""
+#~ "Ayrıca, lütfen önbellek dizininizin dışında makepkg -C komutunu verin."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Kullanım: %s [seçenekler]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "%s ile %s açılıyor"
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr "HATA: Veritabanı oluşturmak için geçici dizin oluşturulamadı."

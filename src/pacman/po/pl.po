@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-05 05:39+0000\n"
 "Last-Translator: Barthalion <barthalion@gmail.com>\n"
 "Language-Team: Polish <None>\n"
@@ -174,9 +174,17 @@ msgstr "nie udało się zmienić katalogu na katalog pobierania %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "uruchamianie XferCommand: fork nieudany!\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "nie można zmienić katalogu na %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nie można zmienić katalogu na %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "zła wartość dla 'CleanMethod' : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -188,10 +196,6 @@ msgid ""
 msgstr ""
 "plik konfiguracyjny %s, linia %d: dyrektywa '%s' w sekcji '%s' nie "
 "rozpoznana.\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr "plik konfiguracyjny %s, linia %d: wymagana wartość w dyrektywie '%s'\n"
 
 #, c-format
 msgid ""
@@ -210,6 +214,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "nie udało się zainicjować biblioteki alpm (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  spróbuj uruchomić pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problem przy ustawianiu logfile '%s' (%s)\n"
 
@@ -220,10 +228,6 @@ msgstr "problem przy ustawianiu rootdir '%s' (%s)\n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "nie udało się zarejestrować bazy danych '%s' (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "nie można dodać URL serwera do bazy danych '%s': %s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -381,6 +385,10 @@ msgstr "Nie"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "Suma MD5       :"
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "Licencja       :"
 
 #, c-format
 msgid "Description    :"
@@ -751,6 +759,10 @@ msgid "no file was specified for --owns\n"
 msgstr "nie podano pliku dla --owns\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "za długa ścieżka: %s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "nie udało się znaleźć '%s' w PATH: %s\n"
 
@@ -765,10 +777,6 @@ msgstr "nie można określić właściciela katalogu '%s'\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nie można ustalić pełnej ścieżki dla '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "za długa ścieżka: %s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -791,10 +799,6 @@ msgid_plural "%d missing files\n"
 msgstr[0] "%d brakujący plik\n"
 msgstr[1] "%d brakujące pliki\n"
 msgstr[2] "%d brakujących plików\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "nie skonfigurowano używalnych repozytoriów.\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -917,10 +921,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "repozytorium '%s' nie istnieje\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "pakiet '%s' nie został odnaleziony w repozytorium '%s'\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "pakiet '%s' nie został odnaleziony\n"
 
@@ -1009,12 +1009,16 @@ msgstr ""
 "  już uruchomiony, możesz usunąć %s.\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  spróbuj uruchomić pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "nie udało się wyswobodzić transakcji (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "nie skonfigurowano używalnych repozytoriów.\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "nie znaleziono bazy danych: %s\n"
 
 #, c-format
 msgid "None"
@@ -1022,6 +1026,54 @@ msgstr "Żadnych"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "Nieznane"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "Nieznane"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "Nieznane"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1136,3 +1188,14 @@ msgstr "błąd:  "
 msgid "warning: "
 msgstr "ostrzeżenie: "
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr ""
+#~ "plik konfiguracyjny %s, linia %d: wymagana wartość w dyrektywie '%s'\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "nie można dodać URL serwera do bazy danych '%s': %s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "pakiet '%s' nie został odnaleziony w repozytorium '%s'\n"

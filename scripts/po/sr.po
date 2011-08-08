@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-12 10:01+0000\n"
 "Last-Translator: Xabre <githzerai06@gmail.com>\n"
 "Language-Team: Serbian <None>\n"
@@ -27,7 +27,8 @@ msgstr "ГРЕШКА:"
 msgid "Cleaning up..."
 msgstr "Чистим..."
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "Улазим у лажнокоренско окружење..."
 
 msgid "Unable to find source file %s."
@@ -75,8 +76,8 @@ msgstr "Грешка при преузимању %s"
 msgid "Generating checksums for source files..."
 msgstr "Стварам суму за проверу изворних фајлова... "
 
-msgid "Cannot find openssl."
-msgstr "Не могу да нађем опенссл."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Назначен је несиправан алгоритам провере исправности „%s“."
@@ -102,6 +103,49 @@ msgstr ""
 
 msgid "Integrity checks are missing."
 msgstr "Недостају провере интегритета."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Проверавам исправност фајлова извора путем %s..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "НИЈЕ НАЂЕН"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "НИЈЕ НАЂЕН"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Прескачем провере интегритета."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Распакујем изворе..."
@@ -134,8 +178,9 @@ msgstr "Компресујем ман и инфо странице..."
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Уклањам непотребне симболе из бинарних фајлова и библиотека..."
 
-msgid "Removing libtool .la files..."
-msgstr "Уклањам либтулове .la фајлове..."
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Уклањам фајлове документације..."
 
 msgid "Removing empty directories..."
 msgstr "Уклањам празне фасцикле..."
@@ -148,7 +193,8 @@ msgstr "Компресујем ман и инфо странице..."
 msgid "Could not compress binary : %s"
 msgstr "не могу да приступим фасцикли кеша %s\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr "Стварам .PKGINFO фајл..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -157,16 +203,19 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Додајте линију лиценце у %s!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "Пример за софтвер под ОЈЛом: license=('GPL')."
 
-msgid "Backup entry file not in package : %s"
+#, fuzzy
+msgid "%s entry file not in package : %s"
 msgstr "Фајл уноса резерве није у пакету: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Пакет садржи референцу ка %s"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Недостаје pkg/ фасцикла."
 
 msgid "Creating package..."
@@ -217,10 +266,12 @@ msgstr "Неуспело прављење фајла пакета извора."
 msgid "Failed to create symlink to source package file."
 msgstr "Неуспело прављење симболичке везе ка фајлу пакета извора."
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "Инсталирам пакет %s помоћу %s -U..."
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "Инсталирам групу пакета помоћу %s -U..."
 
 msgid "Failed to install built package(s)."
@@ -232,10 +283,12 @@ msgstr "%s не сме бити празно."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s не сме почињати цртицом."
 
-msgid "%s is not allowed to contain colons or hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s не сме садржати колоне или цртице."
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s не сме садржати цртице."
 
 msgid "%s must be an integer."
@@ -247,29 +300,40 @@ msgstr "%s није доступан за архитектуру „%s“."
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Имајте у виду да је многим пакетима неопходна линија у фајлу %s"
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "попут arch=('%s')."
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Одељак достављених не сме садржати оператере поређења (< or >)."
 
-msgid "Backup entry should not contain leading slash : %s"
+#, fuzzy
+msgid "%s entry should not contain leading slash : %s"
 msgstr "Унос резерве не сме садржати уводну косу црту: %s"
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "Неисправна синтакса за опционе зависности: „%s“"
 
 msgid "%s file (%s) does not exist."
 msgstr "фајл %s (%s) не постоји."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "област опција садржи непознату опцију „%s“"
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "недостаје функција дељења за раздељени пакет „%s“"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "захтевани пакет %s није достављен у %s"
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr ""
+"Не могу да пронађем sudo. Користићу su за добијање коерних привилегија."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -277,10 +341,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "Компресујем ман и инфо странице..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -295,19 +378,18 @@ msgstr "Употреба: %s [опције]"
 msgid "Options:"
 msgstr "Опције:"
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Игнорише непотпуно поље архитектуре у %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Уклања радне фајлове након градње"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Уклања фалове извора из кеша"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Прескаче све провере зависности"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Не распакује фајлове извора (користи постојећу src/ "
 "фасциклу)"
@@ -345,7 +427,8 @@ msgstr "  -r, --rmdeps     Уклања инсталиране зависнос�
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Препакује садржај пакета без поновне градње"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Инсталира недостајуће зависности путем пакмена"
 
 msgid ""
@@ -353,10 +436,12 @@ msgid ""
 "sources"
 msgstr "  --allsource      Ствара  архиву извора укључујући и преузете изворе"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot        Дозвољава кореном кориснику да покрене makepkg"
 
-msgid "  --check          Run the check() function in the %s"
+#, fuzzy
+msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Покреће функцију check() унутар %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -368,12 +453,13 @@ msgstr ""
 "  --holdver        Спречава аутоматску надоградњу верзија за развојне %s "
 "скрипте."
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
-msgstr ""
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+#, fuzzy
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Не покреће функцију check() унутар %s"
 
 #, fuzzy
@@ -383,18 +469,29 @@ msgstr "      --needed         не инсталира поново већ аж�
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <списак>   Гради само наведене пакете из раздељеног пакета"
 
-msgid "  --sign           Sign the resulting package with gpg"
-msgstr ""
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "      --needed         не инсталира поново већ ажурне пакете\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr "  -g, --geninteg   Ствара провере интегритета фајлова извора"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr ""
 "  --skipinteg      Не пријављује грешку уколико недостају провере интегритета"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr "  --source         Ствара архиву извора без преузимања извора"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "Следеће опције могу бити прослеђене пакмену:"
 
 msgid ""
@@ -404,7 +501,8 @@ msgstr "  --noconfirm      Не тражи потврде при разреша�
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Не приказује траку напретка при преузимању фајлова"
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Уколико је назначено -p makepkg ће тражити „%s“"
 
 msgid ""
@@ -431,78 +529,58 @@ msgstr "Немате дозволу уписа да би сачували пак
 msgid "You do not have write permission to store downloads in %s."
 msgstr "немате дозволу уписа да би сачували преузимања у %s."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0--holdver и --forcever не могу бити назначени истовремено"
 
-msgid "Cleaning up ALL files from %s."
-msgstr "Уклањам СВЕ фајлове из %s."
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Да ли сте сигурни да желите ово да урадите? "
-
-msgid "[y/N]"
-msgstr "[д/Н]"
-
-msgid "YES"
-msgstr "ДА"
-
-msgid "Y"
-msgstr "Д"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr "Проблем при уклањању фајлова; немате одговарајуће дозволе у %s"
-
-msgid "Source cache cleaned."
-msgstr "Кеш извора је очишћен."
-
-msgid "No files have been removed."
-msgstr "Ниједан фајл није уклоњен."
-
-msgid "Source destination must be defined in %s."
-msgstr "Локација извора мора бити дефинисана у %s."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "Уз то, покрените makepkg -C ван ваше фасцикле кеша."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "Покретање makepkg као корени корисник је ЛОШЕ и може довести"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "до трајне, катастрофалне штете по ваш систем. Уколико"
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr "желите да покренете као корени, користите опцију --asroot."
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "Опција --asroot је намењена искључиво кореном кориснику."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr "Покрените makepkg без заставице -asroot."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr "Покретање makepkg као непривилегован корисник ће довести да некореног"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr ""
 "власништва над фајловима пакета. Пробајте са употребом лажнокоренског "
 "окружења"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr "додавањем „fakeroot“ у BUILDENV одељак %s скрипте."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
 "Не употребљавајте опцију „-F“. Она је намењена само за употребу са makepkg."
-
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
-"Не могу да пронађем sudo. Користићу su за добијање коерних привилегија."
 
 msgid "%s does not exist."
 msgstr "%s не постоји."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s садржи знаке новог реда и не може бити учитан као извор."
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "%s не постоји или није у фасцикли."
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -510,23 +588,28 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "Пакет је већ изграђен; инсталирам постојећи пакет..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Пакет је већ изграђен. (употребите -f да би га преписали)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Група пакета је већ изграђена; инсталирам постојеће пакете..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Група пакета је већ изграђена. (употребите -f да би је преписали)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr "Део групе пакета је већ изграђен. (употребите -f да би га преписали)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "Напуштам лажнокоренско окружење."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr "Препакивање без употребе функције package() је превазиђено."
 
 msgid "File permissions may not be preserved."
@@ -535,11 +618,9 @@ msgstr "Дозволе за фајл можда нису очуване."
 msgid "Making package: %s"
 msgstr "Правим пакет: %s"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Пакет извора је већ направљен. (употребите -f да би га преписали)"
-
-msgid "Skipping integrity checks."
-msgstr "Прескачем провере интегритета."
 
 msgid "Source package created: %s"
 msgstr "Направих пакет извора: %s"
@@ -556,16 +637,20 @@ msgstr "Проверавам зависности градње..."
 msgid "Could not resolve all dependencies."
 msgstr "Не могу да разрешим све зависности"
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr "%s није нађен у путањи; прескачем провере зависности."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr "Прескачем добављање извора       -- користим постојеће /src стабло"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr "Прескачем проверу унтегритета извора -- користим постојеће /src стабло"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr "Прескачем распакивање извора    -- користим постојеће /src стабло"
 
 msgid "The source directory is empty, there is nothing to build!"
@@ -577,7 +662,8 @@ msgstr "Фасцикла пакета је празна, нема се шта п
 msgid "Sources are ready."
 msgstr "Извори су припремљени."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Уклањам постојећу /pkg фасциклу..."
 
 msgid "Finished making: %s"
@@ -614,23 +700,7 @@ msgstr "Нађена је база у пре-3.5 формату — надогр
 msgid "Done."
 msgstr "Готово."
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Употреба: %s [опције]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr ""
-"  -p <фајл>        Користи алтернативну инсталациону скрипту (уместо „%s“)"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -638,11 +708,11 @@ msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
 
 msgid ""
@@ -653,28 +723,68 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Овај текст помоћи"
 
-msgid "  -l, --list                List keys"
-msgstr ""
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr "  --config <фајл>  Користи алтернативни фајл поставки (уместо „%s“)"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr ""
+"  -p <фајл>        Користи алтернативну инсталациону скрипту (уместо „%s“)"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Немате дозволу уписа да би сачували пакете у %s. "
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Немате дозволу уписа да би сачували пакете у %s. "
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -707,30 +817,30 @@ msgstr "Уклањам празне фасцикле..."
 msgid "Updating trust database..."
 msgstr "Синхронизујем базу на диск..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "фајл %s (%s) не постоји."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "Распакујем %s помоћу %s"
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "Није нађен фајл ризнице „%s“."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -761,8 +871,9 @@ msgstr "Није нађена алатка diff, инсталирајте diffut
 msgid "You must have correct permissions to optimize the database."
 msgstr "Морате имати одговарајуће дозволе за оптимизовање базе."
 
-msgid "ERROR: Can not create temp directory for database building."
-msgstr "ГРЕШКА: не могу да направим привремену фасциклу за градњу базе."
+#, fuzzy
+msgid "Can not create temp directory for database building."
+msgstr "Не могу да направим привремену фасциклу за градњу базе."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Правим мд5 суме старе базе..."
@@ -952,6 +1063,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "%s нема исправну екстензију архиве."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "Рачунам мд5 суме за проверу..."
@@ -1016,11 +1130,64 @@ msgstr "Не могу да направим привремену фасцикл�
 msgid "Creating updated database file '%s'"
 msgstr "Стварам ажурни фајл базе „%s“"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "%s нема исправну екстензију архиве."
-
 msgid "No packages remain, creating empty database."
 msgstr "Није преостао ниједан пакет; правим празну базу."
 
 msgid "No packages modified, nothing to do."
 msgstr "Нема измењених пакета; ништа за радити."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "Не могу да нађем опенссл."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "Уклањам либтулове .la фајлове..."
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Уклања фалове извора из кеша"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "Уклањам СВЕ фајлове из %s."
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Да ли сте сигурни да желите ово да урадите? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[д/Н]"
+
+#~ msgid "YES"
+#~ msgstr "ДА"
+
+#~ msgid "Y"
+#~ msgstr "Д"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr "Проблем при уклањању фајлова; немате одговарајуће дозволе у %s"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "Кеш извора је очишћен."
+
+#~ msgid "No files have been removed."
+#~ msgstr "Ниједан фајл није уклоњен."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "Локација извора мора бити дефинисана у %s."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr "Уз то, покрените makepkg -C ван ваше фасцикле кеша."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Употреба: %s [опције]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "Распакујем %s помоћу %s"
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr "ГРЕШКА: не могу да направим привремену фасциклу за градњу базе."

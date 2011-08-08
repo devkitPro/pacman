@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-16 05:54+0000\n"
 "Last-Translator: vogo <vojtech.gondzala@gmail.com>\n"
 "Language-Team: Czech <None>\n"
@@ -26,7 +26,8 @@ msgstr "CHYBA:"
 msgid "Cleaning up..."
 msgstr "Probíhá vyčištění..."
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "Vstupuje se do fakeroot prostředí..."
 
 msgid "Unable to find source file %s."
@@ -75,8 +76,8 @@ msgstr "Selhalo stažení %s"
 msgid "Generating checksums for source files..."
 msgstr "Generují se kontrolní součty zdrojových souborů..."
 
-msgid "Cannot find openssl."
-msgstr "Nelze nalézt openssl."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Zadán chybný algoritmus '%s' pro kontrolu integrity."
@@ -101,6 +102,49 @@ msgstr "Kontrolní součty (%s) nesouhlasí s velikostí pole zdrojů."
 
 msgid "Integrity checks are missing."
 msgstr "Kontrolní součty nebyly nalezeny."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Kontrola zdrojových souborů pomocí %s..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "NENALEZEN"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "NENALEZEN"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Přeskakuje se kontrola integrity."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Rozbalují se zdrojové soubory..."
@@ -134,8 +178,9 @@ msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr ""
 "Odstraňují se nepotřebné ladící informace z binárních souborů a knihoven..."
 
-msgid "Removing libtool .la files..."
-msgstr "Odstraňují se libtool .la soubory..."
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Odstraňují se doc soubory..."
 
 msgid "Removing empty directories..."
 msgstr "Odstraňují se prázdné adresáře..."
@@ -148,7 +193,8 @@ msgstr "Komprimují se man a info stránky..."
 msgid "Could not compress binary : %s"
 msgstr "nelze přistoupit k adresáři s mezipamětí %s\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr "Vytváří se .PKGINFO soubor..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -157,16 +203,19 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Přidejte, prosím, informace o licenci do vašeho %s!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "Například pro GPL software: license=('GPL')."
 
-msgid "Backup entry file not in package : %s"
+#, fuzzy
+msgid "%s entry file not in package : %s"
 msgstr "Zálohovaný soubor není obsažen v balíčku: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Balíček obsahuje odkaz na %s"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Chybí pkg/ adresář."
 
 msgid "Creating package..."
@@ -217,10 +266,12 @@ msgstr "Selhalo vytváření zdrojového balíčku."
 msgid "Failed to create symlink to source package file."
 msgstr "Nepodařilo se vytvořit symbolický odkaz na soubor zdrojového balíčku."
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "Instaluje se balíček %s pomocí %s -U..."
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "Instaluje se skupina balíčků %s pomocí %s -U..."
 
 msgid "Failed to install built package(s)."
@@ -232,10 +283,12 @@ msgstr "%s nemůže být prázdné."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s nemůže začínat pomlčkou."
 
-msgid "%s is not allowed to contain colons or hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s nesmí obsahovat dvojtečky nebo pomlčky."
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s nemůže obsahovat pomlčky."
 
 msgid "%s must be an integer."
@@ -247,29 +300,39 @@ msgstr "%s není dostupný pro architekturu '%s'."
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Všimněte si, že mnohé balíčky potřebují přidat řádek do %s,"
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "který vypadá takto: arch=('%s')."
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Pole Provides nemůže obsahovat operátory porovnání (< nebo >)."
 
-msgid "Backup entry should not contain leading slash : %s"
+#, fuzzy
+msgid "%s entry should not contain leading slash : %s"
 msgstr "Zálohovaný soubor by neměl obsahovat počáteční lomítko: %s"
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "Chybná syntaxe pro volitelné závislosti: '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "Instalační skript %s (%s) neexistuje."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "seznam voleb obsahuje neznámou volbu '%s'"
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "chybí funkce balíčku pro rozdělení balíčku '%s'"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "požadovaný balíček %s není poskytovaný balíčkem %s"
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr "Sudo nebylo nalezeno. K získání práv roota bude použito su."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -277,10 +340,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "Komprimují se man a info stránky..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -295,19 +377,18 @@ msgstr "Použití: %s [volby]"
 msgid "Options:"
 msgstr "Volby:"
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignorovat nekompletní pole arch v %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Odstranit pracovní soubory po sestavení"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Odstranit zdrojové soubory v mezipaměti"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Přeskočit všechny kontroly závislostí"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Nerozbalovat zdrojové soubory (použít existující src/)"
 
@@ -344,7 +425,8 @@ msgstr ""
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Znovu zabalit obsah balícku bez sestavení"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Nainstalovat chybějící závislosti pomocí pacman"
 
 msgid ""
@@ -353,10 +435,12 @@ msgid ""
 msgstr ""
 "  --allsource      Vytvořit zdrojový archiv, včetně stahovaných souborů"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Spustit makepkg pod uživatelem root"
 
-msgid "  --check          Run the check() function in the %s"
+#, fuzzy
+msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Spustí funkci check() v %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -368,12 +452,13 @@ msgid ""
 msgstr ""
 "  --holdver        Zabrání automatickému zjištění verze pro vývojové %ss"
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
-msgstr ""
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+#, fuzzy
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Nespouštět funkci check() v %s"
 
 #, fuzzy
@@ -384,18 +469,29 @@ msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Sestavit jen vyjmenované balíčky z rozděleného balíčku"
 
-msgid "  --sign           Sign the resulting package with gpg"
-msgstr ""
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "      --needed         potlačit instalaci aktuálních balíčků\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr "  -g, --geninteg   Vygenerovat kontrolní součty zdrojových souborů"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr ""
 "  --skipinteg      Neskončit, pokud nejsou k dispozici kontrolní součty"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr "  --source         Vytvořit zdrojový archiv, bez stahovaných souborů"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "Tyto volby se předají pacmanovi:"
 
 msgid ""
@@ -405,7 +501,8 @@ msgstr "  --noconfirm      Nedotazovat se na potvrzení"
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Nezobrazovat průběh stahování souborů"
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Když není zadáno -p, makepkg bude hledat '%s'"
 
 msgid ""
@@ -432,75 +529,56 @@ msgstr "Nemáte práva zápisu k uložení stažených balíčků do %s."
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Nemáte práva zápisu k uložení stažených souborů do %s."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0--holdver a --forcever nemohou být zadány současně"
 
-msgid "Cleaning up ALL files from %s."
-msgstr "Odstranit VŠECHNY soubory z %s."
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Jste si jisti, že to chcete udělat? "
-
-msgid "[y/N]"
-msgstr "[a/N]"
-
-msgid "YES"
-msgstr "ANO"
-
-msgid "Y"
-msgstr "A"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr "Problém s odstraněním souborů, možná nemáte správná oprávnění v %s"
-
-msgid "Source cache cleaned."
-msgstr "Mezipaměť zdrojových souborů vyčištěna."
-
-msgid "No files have been removed."
-msgstr "Žádné soubory nebyly odstraněny."
-
-msgid "Source destination must be defined in %s."
-msgstr "V %s musí být specifikováno umístění zdrojových souborů."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr "Dodatek: spusťte makepkg -C mino váš adresář s mezipamětí."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "Spouštění makepkg jako root je ŠPATNÝ nápad a může způsobit"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "trvalé a katastrofální poškození vašeho systému. Pokud"
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr "jej chcete spustit jako root, použijte volbu --asroot."
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "Volba --asroot je určena jen pro uživatele root."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr "Spusťte, prosím, makepkg znovu bez volby --asroot."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr "Spuštění makepkg jako neprivilegovaný uživatel může mít za následek"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr ""
 "vlastnění souborů v balíčku někým jiným než rootem. Používejte fakeroot"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr "prostředí, přidáním 'fakeroot' do BUILDENV pole v %s."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Nepoužívejte volbu '-F'. Tato volba je použitelná jen pro makepkg."
-
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr "Sudo nebylo nalezeno. K získání práv roota bude použito su."
 
 msgid "%s does not exist."
 msgstr "%s neexistuje."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s obsahuje CRLF znaky a nemůže být použit."
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "%s neexistuje, nebo není adresář."
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -508,23 +586,28 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je již sestaven, instaluje se existující balíček..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Balíček je již sestaven. (použijte -f pro přepsání)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Skupina balíčků je již sestavena, instalují se existující balíčky..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Skupina balíčků je již sestavena. (použijte -f pro přepsání)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr "Část skupiny balíčků je již sestavena. (použijte -f pro přepsání)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "Opouští se prostředí fakeroot."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr "Znovu-zabalení bez použití funkce package() je zavrženo."
 
 msgid "File permissions may not be preserved."
@@ -533,11 +616,9 @@ msgstr "Přístupová práva souborů nemusí být zachována."
 msgid "Making package: %s"
 msgstr "Vytváří se balíček: %s"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Zdrojový balíček je již sestaven. (použijte -f pro přepsání)"
-
-msgid "Skipping integrity checks."
-msgstr "Přeskakuje se kontrola integrity."
 
 msgid "Source package created: %s"
 msgstr "Zdrojový balíček vytvořen: %s"
@@ -554,16 +635,20 @@ msgstr "Kontrola buildtime závislostí..."
 msgid "Could not resolve all dependencies."
 msgstr "Nelze vyřešit všechny závislosti."
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr "%s nebyl nalezen v PATH, přeskakuje se kontrola závislostí."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr "Neprovádí se hledání zdrojů       -- používá se existující src/ strom"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr "Neprovádí se kontrola integrity   -- používá se existující src/ strom"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr "Neprovádí se rozbalení zdrojů   -- používá se existující src/ strom"
 
 msgid "The source directory is empty, there is nothing to build!"
@@ -575,7 +660,8 @@ msgstr "Adresář s balíčkem je prázdný, není nic k opětovnému zabalení!
 msgid "Sources are ready."
 msgstr "Zdroje jsou připraveny."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Odstraňuje se existující adresář pkg/..."
 
 msgid "Finished making: %s"
@@ -611,22 +697,7 @@ msgstr "Zjištěn formát databáze před verzí 3.5 - aktualizuje se..."
 msgid "Done."
 msgstr "Hotovo."
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Použití: %s [volby]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr "  -p <file>        Použít alternativní build skript (namísto '%s')"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -634,11 +705,11 @@ msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
 
 msgid ""
@@ -649,28 +720,68 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Vypsat nápovědu"
 
-msgid "  -l, --list                List keys"
-msgstr ""
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr "  -p, --file <package> dotaz na soubor balíčku místo na databázi\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr ""
+"  --config <file>  Použít alternativní konfigurační soubor (namísto '%s')"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr "  -p <file>        Použít alternativní build skript (namísto '%s')"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Nemáte práva zápisu k uložení stažených balíčků do %s."
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Nemáte práva zápisu k uložení stažených balíčků do %s."
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -703,30 +814,30 @@ msgstr "Odstraňují se prázdné adresáře..."
 msgid "Updating trust database..."
 msgstr "Databáze se synchronizuje na disk..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "Instalační skript %s (%s) neexistuje."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "Rozbaluje se %s pomocí %s"
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "Repozitář \"%s\" nebyl nalezen."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -756,8 +867,9 @@ msgstr "diff nebyl nalezen, prosím nainstalujte diffutils."
 msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mít správná oprávnění k optimalizaci databáze."
 
-msgid "ERROR: Can not create temp directory for database building."
-msgstr "CHYBA: Nelze vytvořit dočasný adresář pro sestavení databáze."
+#, fuzzy
+msgid "Can not create temp directory for database building."
+msgstr "Nelze vytvořit dočasný adresář pro sestavení databáze."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Počítá se MD5 součtu staré databáze..."
@@ -946,6 +1058,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' nemá platnou příponu archivu."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "Počítá se kontrolní MD5 součet..."
@@ -1010,11 +1125,64 @@ msgstr "Nelze vytvořit dočasný adresář pro sestavení databáze."
 msgid "Creating updated database file '%s'"
 msgstr "Vytváří se aktualizovaný soubor databáze '%s'"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' nemá platnou příponu archivu."
-
 msgid "No packages remain, creating empty database."
 msgstr "Nezůstaly žádné balíčky, vytváří se prázdná databáze."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nebyl změněn žádný balíček, není co dělat."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "Nelze nalézt openssl."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "Odstraňují se libtool .la soubory..."
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Odstranit zdrojové soubory v mezipaměti"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "Odstranit VŠECHNY soubory z %s."
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Jste si jisti, že to chcete udělat? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[a/N]"
+
+#~ msgid "YES"
+#~ msgstr "ANO"
+
+#~ msgid "Y"
+#~ msgstr "A"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr "Problém s odstraněním souborů, možná nemáte správná oprávnění v %s"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "Mezipaměť zdrojových souborů vyčištěna."
+
+#~ msgid "No files have been removed."
+#~ msgstr "Žádné soubory nebyly odstraněny."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "V %s musí být specifikováno umístění zdrojových souborů."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr "Dodatek: spusťte makepkg -C mino váš adresář s mezipamětí."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Použití: %s [volby]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "Rozbaluje se %s pomocí %s"
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr "CHYBA: Nelze vytvořit dočasný adresář pro sestavení databáze."

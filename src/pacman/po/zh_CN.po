@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 21:59-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-06-04 02:50+0000\n"
 "Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/"
@@ -167,9 +167,17 @@ msgstr "无法 chdir 到下载目录 %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "正在运行 XferCommand：分支失败！\n"
 
+#, fuzzy, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "无法改变目录到 %s (%s)\n"
+
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "无法改变目录到 %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "invalid value for 'SigLevel' : '%s'\n"
+msgstr "'CleanMethod' 设置的为无效值： '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -179,10 +187,6 @@ msgstr "'CleanMethod' 设置的为无效值： '%s'\n"
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "配置文件 %s，第 %d 行：指令 '%s'(位于章节 '%s' 中) 无法识别。\n"
-
-#, fuzzy, c-format
-msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要赋值\n"
 
 #, c-format
 msgid ""
@@ -199,6 +203,10 @@ msgid "failed to initialize alpm library (%s)\n"
 msgstr "初始化 alpm 库失败 (%s)\n"
 
 #, c-format
+msgid "  try running pacman-db-upgrade\n"
+msgstr "  请尝试运行 pacman-db-upgrade\n"
+
+#, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "设定日志文件 '%s' (%s) 时出现问题\n"
 
@@ -209,10 +217,6 @@ msgstr "设置根目录'%s' (%s) 时出现问题 \n"
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "无法注册 '%s' 数据库 (%s)\n"
-
-#, fuzzy, c-format
-msgid "could not set verify option for database '%s' (%s)\n"
-msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
 
 #, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -369,6 +373,10 @@ msgstr "否"
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5校验值："
+
+#, fuzzy, c-format
+msgid "Signatures     :"
+msgstr "软件许可　："
 
 #, c-format
 msgid "Description    :"
@@ -702,6 +710,10 @@ msgid "no file was specified for --owns\n"
 msgstr "错误：没有为 --owns 指定文件\n"
 
 #, c-format
+msgid "path too long: %s%s\n"
+msgstr "路径过长：%s%s\n"
+
+#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "无法找到 '%s' (在路径：%s 中)\n"
 
@@ -716,10 +728,6 @@ msgstr "无法测定目录 '%s' 的所属权\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "无法确定 '%s' 的真实路径：%s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "路径过长：%s%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -738,10 +746,6 @@ msgstr[0] "%s: 共 %d 个文件。"
 msgid "%d missing file\n"
 msgid_plural "%d missing files\n"
 msgstr[0] "共 %d 个缺失文件\n"
-
-#, c-format
-msgid "no usable package repositories configured.\n"
-msgstr "没有设置可用的软件包库。\n"
 
 #, c-format
 msgid "package \"%s\" not found\n"
@@ -864,10 +868,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "软件库 '%s' 不存在\n"
 
 #, c-format
-msgid "package '%s' was not found in repository '%s'\n"
-msgstr "软件包 '%s' 没有在 '%s' 软件库里找到\n"
-
-#, c-format
 msgid "package '%s' was not found\n"
 msgstr "软件包 '%s' 未找到\n"
 
@@ -956,12 +956,16 @@ msgstr ""
 "  你可以删除 %s。\n"
 
 #, c-format
-msgid "  try running pacman-db-upgrade\n"
-msgstr "  请尝试运行 pacman-db-upgrade\n"
-
-#, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "无法释放事务处理 (%s)\n"
+
+#, c-format
+msgid "no usable package repositories configured.\n"
+msgstr "没有设置可用的软件包库。\n"
+
+#, fuzzy, c-format
+msgid "database '%s' is not valid (%s)\n"
+msgstr "未找到数据库：%s\n"
 
 #, c-format
 msgid "None"
@@ -969,6 +973,54 @@ msgstr "无"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
+msgstr ""
+
+#, c-format
+msgid "Valid"
+msgstr ""
+
+#, c-format
+msgid "Key expired"
+msgstr ""
+
+#, c-format
+msgid "Expired"
+msgstr ""
+
+#, c-format
+msgid "Invalid"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Key unknown"
+msgstr "未知的"
+
+#, c-format
+msgid "Signature error"
+msgstr ""
+
+#, c-format
+msgid "fully trusted"
+msgstr ""
+
+#, c-format
+msgid "marginal trusted"
+msgstr ""
+
+#, c-format
+msgid "never trusted"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unknown trust"
+msgstr "未知的"
+
+#, fuzzy, c-format
+msgid "{Key Unknown}"
+msgstr "未知的"
+
+#, c-format
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
@@ -1083,3 +1135,13 @@ msgstr "错误："
 msgid "warning: "
 msgstr "警告："
 
+#, fuzzy
+#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
+#~ msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要赋值\n"
+
+#, fuzzy
+#~ msgid "could not set verify option for database '%s' (%s)\n"
+#~ msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
+
+#~ msgid "package '%s' was not found in repository '%s'\n"
+#~ msgstr "软件包 '%s' 没有在 '%s' 软件库里找到\n"

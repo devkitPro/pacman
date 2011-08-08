@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-06-23 22:23-0500\n"
+"POT-Creation-Date: 2011-08-08 17:07-0500\n"
 "PO-Revision-Date: 2011-04-16 17:39+0000\n"
 "Last-Translator: ngaba <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian <None>\n"
@@ -26,7 +26,8 @@ msgstr "HIBA:"
 msgid "Cleaning up..."
 msgstr "Tisztítás..."
 
-msgid "Entering fakeroot environment..."
+#, fuzzy
+msgid "Entering %s environment..."
 msgstr "Belépés a fakeroot környezetbe..."
 
 msgid "Unable to find source file %s."
@@ -74,8 +75,8 @@ msgstr "Hiba %s letöltése közben"
 msgid "Generating checksums for source files..."
 msgstr "A forrás fájlok ellenőrzőösszegeinek generálása...."
 
-msgid "Cannot find openssl."
-msgstr "Az openssl nem található."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Érvénytelen integritás algoritmust megadva: '%s'."
@@ -100,6 +101,49 @@ msgstr "Az integritás ellenőrzések (%s) méretben különböznek a forrás t�
 
 msgid "Integrity checks are missing."
 msgstr "Az integritás ellenőrzések hiányoznak."
+
+#, fuzzy
+msgid "Verifying source file signatures with %s..."
+msgstr "Forrásfájlok eredetiségének ellenőrzése ezzel: %s..."
+
+#, fuzzy
+msgid "SIGNATURE NOT FOUND"
+msgstr "NEM TALÁLHATÓ"
+
+#, fuzzy
+msgid "SOURCE FILE NOT FOUND"
+msgstr "NEM TALÁLHATÓ"
+
+msgid "Warning: Unknown public key"
+msgstr ""
+
+msgid "Warning: the key has been revoked."
+msgstr ""
+
+msgid "Warning: the signature has expired."
+msgstr ""
+
+msgid "Warning: the key has expired."
+msgstr ""
+
+msgid "One or more PGP signatures could not be verified!"
+msgstr ""
+
+msgid "Warnings have occurred while verifying the signatures."
+msgstr ""
+
+msgid "Please make sure you really trust them."
+msgstr ""
+
+#, fuzzy
+msgid "Skipping all source file integrity checks."
+msgstr "Integritás-ellenőrzések kihagyása."
+
+msgid "Skipping verification of source file checksums."
+msgstr ""
+
+msgid "Skipping verification of source file PGP signatures."
+msgstr ""
 
 msgid "Extracting Sources..."
 msgstr "Források kitömörítése..."
@@ -132,8 +176,9 @@ msgstr "A man és info oldalak tömörítése..."
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Hibakereső szimbólumok kivétele a binárisokból és könyvtárakból..."
 
-msgid "Removing libtool .la files..."
-msgstr "A libtool .la fájlok eltávolítása..."
+#, fuzzy
+msgid "Removing %s files..."
+msgstr "Doc fájlok eltávolítása..."
 
 msgid "Removing empty directories..."
 msgstr "Üres könyvtárak eltávolítása..."
@@ -146,7 +191,8 @@ msgstr "A man és info oldalak tömörítése..."
 msgid "Could not compress binary : %s"
 msgstr "nem sikerült elérni a %s gyorsítótár-könyvtárat\n"
 
-msgid "Generating .PKGINFO file..."
+#, fuzzy
+msgid "Generating %s file..."
 msgstr ".PKGINFO fájl generálása..."
 
 msgid "Cannot find library listed in %s: %s"
@@ -155,16 +201,19 @@ msgstr ""
 msgid "Please add a license line to your %s!"
 msgstr "Kérem adjon license sort a %s -jéhez!"
 
-msgid "Example for GPL'ed software: license=('GPL')."
+#, fuzzy
+msgid "Example for GPL'ed software: %s."
 msgstr "GPL-es szoftverekhez példa: license=('GPL')."
 
-msgid "Backup entry file not in package : %s"
+#, fuzzy
+msgid "%s entry file not in package : %s"
 msgstr "Backup bejegyzés-fájl nincs a csomagban : %s"
 
 msgid "Package contains reference to %s"
 msgstr "A csomag hivatkozik a %s-ra"
 
-msgid "Missing pkg/ directory."
+#, fuzzy
+msgid "Missing %s directory."
 msgstr "Hiányzó pkg/ könyvtár."
 
 msgid "Creating package..."
@@ -216,10 +265,12 @@ msgid "Failed to create symlink to source package file."
 msgstr ""
 "Nem sikerült létrehozni a forrás-csomagfájlra mutató szimbolikus linket."
 
-msgid "Installing package %s with %s -U..."
+#, fuzzy
+msgid "Installing package %s with %s..."
 msgstr "A(z) %s csomag telepítése a %s -U paranccsal..."
 
-msgid "Installing %s package group with %s -U..."
+#, fuzzy
+msgid "Installing %s package group with %s..."
 msgstr "A(z) %s csomag-csoport telepítése a %s -U paranccsal..."
 
 msgid "Failed to install built package(s)."
@@ -231,10 +282,12 @@ msgstr "%s nem lehet üres."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s nem kezdődhet kötőjellel."
 
-msgid "%s is not allowed to contain colons or hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s nem tartalmazhat kettőspontot és kötőjelet."
 
-msgid "%s is not allowed to contain hyphens."
+#, fuzzy
+msgid "%s is not allowed to contain hyphens or whitespace."
 msgstr "%s nem tartalmazhat kötőjeleket."
 
 msgid "%s must be an integer."
@@ -248,30 +301,42 @@ msgstr ""
 "Vegye figyelembe, hogy sok csomagnak szüksége lehet egy sor hozzáadására a "
 "%s-ben"
 
-msgid "such as arch=('%s')."
+#, fuzzy
+msgid "such as %s."
 msgstr "például arch=('%s')."
 
-msgid "Provides array cannot contain comparison (< or >) operators."
+#, fuzzy
+msgid "%s array cannot contain comparison (< or >) operators."
 msgstr ""
 "A Provides tömb nem tartalmazhat összehasonlító (< vagy >) operátorokat."
 
-msgid "Backup entry should not contain leading slash : %s"
+#, fuzzy
+msgid "%s entry should not contain leading slash : %s"
 msgstr "A backup bejegyzésnek nem kell kezdő /-t tartalmaznia : %s"
 
-msgid "Invalid syntax for optdepend : '%s'"
+#, fuzzy
+msgid "Invalid syntax for %s : '%s'"
 msgstr "Hibás optdepend szintaxis : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "A(z) %s fájl (%s) nem létezik."
 
-msgid "options array contains unknown option '%s'"
+#, fuzzy
+msgid "%s array contains unknown option '%s'"
 msgstr "Az options tömb ismeretlen '%s' opciót tartalmaz."
 
-msgid "missing package function for split package '%s'"
+#, fuzzy
+msgid "Missing %s function for split package '%s'"
 msgstr "hiányzó csomag funkció a(z) '%s' osztott csomaghoz"
 
-msgid "requested package %s is not provided in %s"
+#, fuzzy
+msgid "Requested package %s is not provided in %s"
 msgstr "az igényelt %s csomagot nem szolgáltatja a %s"
+
+msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgstr ""
+"Nem található sudo, ezért su-t fogok használni a root privilégiumok "
+"megszerzéséhez."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -279,10 +344,29 @@ msgstr ""
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 
+msgid "Cannot find the %s binary required for verifying source files."
+msgstr ""
+
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
 
 msgid "Cannot find the %s binary required for compressing binaries."
+msgstr ""
+
+msgid "Cannot find the %s binary required for distributed compilation."
+msgstr ""
+
+msgid "Cannot find the %s binary required for compiler cache usage."
+msgstr ""
+
+msgid "Cannot find the %s binary required for object file stripping."
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find the %s binary required for compressing man and info pages."
+msgstr "A man és info oldalak tömörítése..."
+
+msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
 
 msgid "Determining latest %s revision..."
@@ -297,20 +381,19 @@ msgstr "Használat: %s [opciók]"
 msgid "Options:"
 msgstr "Opciók:"
 
-msgid "  -A, --ignorearch Ignore incomplete arch field in %s"
+#, fuzzy
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr ""
 "  -A, --ingorearch A hiányos arch mező figyelmen kívül hagyása a %s-ben"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Munkafájlok tisztítása fordítás után"
 
-msgid "  -C, --cleancache Clean up source files from the cache"
-msgstr "  -C, --cleancache Forrásfájlok takarítása a gyorsítótárból"
-
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Minden függőségellenőrzés kihagyása"
 
-msgid "  -e, --noextract  Do not extract source files (use existing src/ dir)"
+#, fuzzy
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Ne tömörítse ki a forrásfájlokat (használja a létező src/ "
 "könyvtárat)"
@@ -351,7 +434,8 @@ msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 "  -R, --repackage  A csomag tartalmának újracsomagolása újrafordítás nélkül"
 
-msgid "  -s, --syncdeps   Install missing dependencies with pacman"
+#, fuzzy
+msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   A hiányzó függőségek telepítése pacman-nal"
 
 msgid ""
@@ -361,11 +445,13 @@ msgstr ""
 "  --allsource      Csak forrás tarball generálása a letöltött forrásokkal "
 "együtt"
 
-msgid "  --asroot         Allow makepkg to run as root user"
+#, fuzzy
+msgid "  --asroot         Allow %s to run as root user"
 msgstr ""
 "  --asroot         A makepkg futtatásának engedélyezése root felhasználóként"
 
-msgid "  --check          Run the check() function in the %s"
+#, fuzzy
+msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          A check() függvény futtatása a %s-ben"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
@@ -379,12 +465,15 @@ msgstr ""
 "  --holdver        Az automatikus verziószámnövelés kikapcsolása a "
 "fejlesztői %s-ekhez"
 
+#, fuzzy
 msgid ""
-"  --key <key>      Specify a key to use for gpg signing instead of the "
-"default"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
+"helyett\n"
 
-msgid "  --nocheck        Do not run the check() function in the %s"
+#, fuzzy
+msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Ne futassa a check() függvényt a %s-ben"
 
 #, fuzzy
@@ -396,18 +485,30 @@ msgstr ""
 "  --pkg <list>     Csak a felsorolt csomagok elkészítése osztott csomag "
 "esetén"
 
-msgid "  --sign           Sign the resulting package with gpg"
-msgstr ""
+#, fuzzy
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "      --needed         ne telepítse újra a naprakész csomagokat\n"
 
-msgid "  --skipinteg      Do not fail when integrity checks are missing"
+#, fuzzy
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr ""
+"  -g, --geninteg   Integritás ellenőrzések generálása a forrásfájlokhoz"
+
+#, fuzzy
+msgid ""
+"  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Ne álljon le, ha az ellenőrző összegek hiányoznak"
+
+msgid "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr ""
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
 msgstr ""
 "  --source         Csak forrás tarball generálása a letöltött források nélkül"
 
-msgid "These options can be passed to pacman:"
+#, fuzzy
+msgid "These options can be passed to %s:"
 msgstr "Ezen opciókat lehet átadni a pacman-nak:"
 
 msgid ""
@@ -418,7 +519,8 @@ msgstr ""
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Ne mutasson folyamatsávot a fájlok letöltése közben"
 
-msgid "If -p is not specified, makepkg will look for '%s'"
+#, fuzzy
+msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Ha a -p nincs megadva, a makepkg a '%s'-et fogja keresni"
 
 msgid ""
@@ -445,82 +547,57 @@ msgstr "Nincs írási jogosultsága ahhoz, hogy itt tároljon letöltéseket: %s
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Nincs írási jogosultsága ahhoz, hogy itt tároljon letöltéseket: %s."
 
-msgid "\\0--holdver and --forcever cannot both be specified"
+#, fuzzy
+msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0--holdver és --forcever nem adható meg egyszerre"
 
-msgid "Cleaning up ALL files from %s."
-msgstr "MINDEN fájl takaítása %s -ből."
-
-msgid "    Are you sure you wish to do this? "
-msgstr "    Biztos benne, hogy ezt kívánja tenni? "
-
-msgid "[y/N]"
-msgstr "[i/N]"
-
-msgid "YES"
-msgstr "IGEN"
-
-msgid "Y"
-msgstr "I"
-
-msgid "Problem removing files; you may not have correct permissions in %s"
-msgstr ""
-"Probléma a fájlok eltávolítása közben; lehet, hogy nincs megfelelő "
-"jogosultsága %s -ben"
-
-msgid "Source cache cleaned."
-msgstr "A forrás gyorsítótár kitakarítva."
-
-msgid "No files have been removed."
-msgstr "Nem került fájl eltávolításra."
-
-msgid "Source destination must be defined in %s."
-msgstr "A forrás állomást meg kell adni %s -ben."
-
-msgid "In addition, please run makepkg -C outside of your cache directory."
-msgstr ""
-"Ezenkívül, kérem futtassa a makepkg -C parancsot a gyorsítótár könyvtáron "
-"kívül."
-
-msgid "Running makepkg as root is a BAD idea and can cause"
+#, fuzzy
+msgid "Running %s as root is a BAD idea and can cause"
 msgstr "A makepkg root-ként való futtatása ROSSZ ötlet, és"
 
 msgid "permanent, catastrophic damage to your system. If you"
 msgstr "maradandó, katasztrofális sérülést tud okozni az Ön rendszerének."
 
-msgid "wish to run as root, please use the --asroot option."
+#, fuzzy
+msgid "wish to run as root, please use the %s option."
 msgstr "Ha root-ként kívánja futtatna, kérem használja az --asroot opciót."
 
-msgid "The --asroot option is meant for the root user only."
+#, fuzzy
+msgid "The %s option is meant for the root user only."
 msgstr "Az --asroot opció a root felhasználónak lett szánva."
 
-msgid "Please rerun makepkg without the --asroot flag."
+#, fuzzy
+msgid "Please rerun %s without the %s flag."
 msgstr "Kérem futtassa újra a makepkg -t az --asrool opció nélkül."
 
-msgid "Running makepkg as an unprivileged user will result in non-root"
+#, fuzzy
+msgid "Running %s as an unprivileged user will result in non-root"
 msgstr "A makepkg nem jogosult felhasználóként való futtatása a csomagolt"
 
-msgid "ownership of the packaged files. Try using the fakeroot environment by"
+#, fuzzy
+msgid "ownership of the packaged files. Try using the %s environment by"
 msgstr ""
 "fájlok nem-root tulajdonúságát fogja eredményezni. Próbálja meg a fakeroot"
 
-msgid "placing 'fakeroot' in the BUILDENV array in %s."
+#, fuzzy
+msgid "placing %s in the %s array in %s."
 msgstr ""
 "környezetet használni, a 'fakeroot' opció %s BUILDENV tömbjébe helyezésével."
 
-msgid "Do not use the '-F' option. This option is only for use by makepkg."
+#, fuzzy
+msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Ne hasnzálja a '-F' opciót. Ezt az opciót csak a makepkg használhatja."
-
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr ""
-"Nem található sudo, ezért su-t fogok használni a root privilégiumok "
-"megszerzéséhez."
 
 msgid "%s does not exist."
 msgstr "%s nem létezik."
 
-msgid "%s contains CRLF characters and cannot be sourced."
+#, fuzzy
+msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s CRLF karaktereket tartalmaz, és nem lehet betölteni."
+
+#, fuzzy
+msgid "The key %s does not exist in your keyring."
+msgstr "A %s nem létezik vagy nem egy könyvtár."
 
 msgid "There is no key in your keyring."
 msgstr ""
@@ -528,26 +605,31 @@ msgstr ""
 msgid "A package has already been built, installing existing package..."
 msgstr "Egy csomag már le lett fordítva, létező csomag telepítése..."
 
-msgid "A package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Egy csomag már le lett fordítva. (használja a -f -et a felülíráshoz)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "A csomagcsoport már le lett fordítva, létező csomagok telepítése..."
 
-msgid "The package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "The package group has already been built. (use %s to overwrite)"
 msgstr ""
 "A csomagcsoport már le lett fordítva. (használja a -f -et a felülíráshoz)"
 
-msgid "Part of the package group has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "A csomagcsoport egy része már le lett fordítva. (használja a -f -et a "
 "felülíráshoz)"
 
-msgid "Leaving fakeroot environment."
+#, fuzzy
+msgid "Leaving %s environment."
 msgstr "A fakeroot környezet elhagyása."
 
-msgid "Repackaging without the use of a package() function is deprecated."
+#, fuzzy
+msgid "Repackaging without the use of a %s function is deprecated."
 msgstr "A package() függvény használata nélküli újracsomagolás nem javasolt."
 
 msgid "File permissions may not be preserved."
@@ -556,12 +638,10 @@ msgstr "Lehetséges, hogy a fájl-jogosultságok nem lesznek megőrizve."
 msgid "Making package: %s"
 msgstr "Csomag készítése: %s"
 
-msgid "A source package has already been built. (use -f to overwrite)"
+#, fuzzy
+msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "A forráscsomag már el lett készítve. (használja a -f -et a felülíráshoz)"
-
-msgid "Skipping integrity checks."
-msgstr "Integritás-ellenőrzések kihagyása."
 
 msgid "Source package created: %s"
 msgstr "Forráscsomag létrehozva: %s"
@@ -578,17 +658,21 @@ msgstr "Fordítási függőségek ellenőrzése..."
 msgid "Could not resolve all dependencies."
 msgstr "Nem sikerült teljesíteni az összes függőséget."
 
-msgid "%s was not found in PATH; skipping dependency checks."
+#, fuzzy
+msgid "%s was not found in %s; skipping dependency checks."
 msgstr "%s található a PATH-ban; függőség ellenőrzések kihagyása."
 
-msgid "Skipping source retrieval        -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr "Források letöltésének kihagyása        -- létező src/ fa használata"
 
-msgid "Skipping source integrity checks -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr ""
 "Források integritás ellenőrzésének kihagyása -- létező src/ fa használata"
 
-msgid "Skipping source extraction       -- using existing src/ tree"
+#, fuzzy
+msgid "Skipping source extraction       -- using existing %s tree"
 msgstr "Források kitömörítésének kihagyása       -- létező src/ fa használata"
 
 msgid "The source directory is empty, there is nothing to build!"
@@ -600,7 +684,8 @@ msgstr "A csomag könyvtár üres, nincs mit csomagolni!"
 msgid "Sources are ready."
 msgstr "A források készen állnak."
 
-msgid "Removing existing pkg/ directory..."
+#, fuzzy
+msgid "Removing existing %s directory..."
 msgstr "Létező pkg/ könyvtár eltávolítása..."
 
 msgid "Finished making: %s"
@@ -638,23 +723,7 @@ msgstr "3.5 verzió előtti adatbázist észleltem - frissítés..."
 msgid "Done."
 msgstr "Kész."
 
-#, fuzzy
-msgid "Usage: %s [options] <command> [arguments]"
-msgstr "Használat: %s [opciók]"
-
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
-
-msgid "Options must be placed before commands. The available options are:"
-msgstr ""
-
-#, fuzzy
-msgid ""
-"  --gpgdir         Set an alternate directory for gnupg (instead of '%s')"
-msgstr ""
-"  -p <file>        Alternatív fordító szkript használata ('%s' helyett)"
-
-msgid "The available commands are:"
 msgstr ""
 
 #, fuzzy
@@ -664,13 +733,13 @@ msgstr ""
 "helyett\n"
 
 #, fuzzy
-msgid "  -d, --del <keyid(s)>      Remove the specified keyids"
+msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr ""
 "  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
 "helyett\n"
 
 #, fuzzy
-msgid "  -e, --export <keyid(s)>   Export the specified keyids"
+msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr ""
 "  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
 "helyett\n"
@@ -683,8 +752,11 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Ez a segítség"
 
-msgid "  -l, --list                List keys"
+#, fuzzy
+msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
 msgstr ""
+"  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
+"helyett\n"
 
 #, fuzzy
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
@@ -692,21 +764,64 @@ msgstr ""
 "  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
 "helyett\n"
 
-msgid "  -t, --trust <keyid(s)>    Set the trust level of the given keyids"
-msgstr ""
-
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+
+#, fuzzy
+msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+msgstr ""
+"  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
+"helyett\n"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
 
+#, fuzzy
+msgid "  --config <file>           Use an alternate config file"
+msgstr ""
+"  --config <file>  Használjon egy alternatív konfiguráció fájlt ('%s' "
+"helyett)"
+
+msgid "                                    (instead of '%s')"
+msgstr ""
+
 msgid ""
-"  --adv <params>            Use pacman's keyring with advanced gpg commands"
+"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+msgstr ""
+
+#, fuzzy
+msgid "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr ""
+"  -p <file>        Alternatív fordító szkript használata ('%s' helyett)"
+
+msgid ""
+"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgstr ""
+
+msgid ""
+"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
+"(s)"
+msgstr ""
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+
+msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
 
 msgid "  --reload                  Reload the default keys"
 msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to read the %s keyring..."
+msgstr "Nincs írási jogosultsága ahhoz, hogy itt tároljon letöltéseket: %s."
+
+msgid "Use '%s' to correct the keyring permissions."
+msgstr ""
+
+#, fuzzy
+msgid "You do not have sufficient permissions to run this command..."
+msgstr "Nincs írási jogosultsága ahhoz, hogy itt tároljon letöltéseket: %s."
 
 #, fuzzy
 msgid "Verifying official keys file signature..."
@@ -739,30 +854,30 @@ msgstr "Üres könyvtárak eltávolítása..."
 msgid "Updating trust database..."
 msgstr "Adatbázis szinkronizálása a lemezre..."
 
-msgid "gnupg does not seem to be installed."
-msgstr ""
-
-msgid "pacman-key requires gnupg for most operations."
-msgstr ""
-
-msgid "pacman-key needs to be run as root."
-msgstr ""
-
-msgid "You need to specify at least one key identifier"
-msgstr ""
-
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
 
 #, fuzzy
-msgid "The key identified by %s doesn't exist"
+msgid "The key identified by %s does not exist"
 msgstr "A(z) %s fájl (%s) nem létezik."
 
-#, fuzzy
-msgid "Executing: %s "
-msgstr "%s kitömörítése a %s programmal"
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr ""
 
-msgid "Unknown command:"
+msgid "%s needs to be run as root for this operation."
+msgstr ""
+
+#, fuzzy
+msgid "%s configuation file '%s' not found."
+msgstr "A '%s' tároló fájl nem található."
+
+msgid "no operation specified (use -h for help)"
+msgstr ""
+
+msgid "Multiple operations specified"
+msgstr ""
+
+msgid "Please run %s with each operation separately\\n"
 msgstr ""
 
 msgid ""
@@ -794,10 +909,10 @@ msgid "You must have correct permissions to optimize the database."
 msgstr ""
 "Megfelelő jogosultságai kell, hogy legyenek az adatbázis optimalizálásához."
 
-msgid "ERROR: Can not create temp directory for database building."
+#, fuzzy
+msgid "Can not create temp directory for database building."
 msgstr ""
-"HIBA: Nem sikerült létrehozni az ideiglenes könyvtárat az adatbázis "
-"építéshez."
+"Nem sikerült létrehozni az ideiglenes könyvtárat az adatbázis építéséhez."
 
 msgid "MD5sum'ing the old database..."
 msgstr "A régi adatbázis MD5summolása..."
@@ -990,6 +1105,9 @@ msgstr ""
 msgid "Database signature was NOT valid!"
 msgstr ""
 
+msgid "'%s' does not have a valid archive extension."
+msgstr "'%s' nem érvényes archívum kiterjesztésű."
+
 #, fuzzy
 msgid "Computing checksums..."
 msgstr "Md5 összegek számolása..."
@@ -1055,11 +1173,70 @@ msgstr ""
 msgid "Creating updated database file '%s'"
 msgstr "Frissített adatbázis fájl '%s' létrehozása"
 
-msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' nem érvényes archívum kiterjesztésű."
-
 msgid "No packages remain, creating empty database."
 msgstr "Nem maradt csomag, üres adatbázis létrehozása."
 
 msgid "No packages modified, nothing to do."
 msgstr "Nem módosultak csomagok, nincs mit tenni."
+
+msgid "option %s requires an argument\\n"
+msgstr ""
+
+msgid "unrecognized option"
+msgstr ""
+
+#~ msgid "Cannot find openssl."
+#~ msgstr "Az openssl nem található."
+
+#~ msgid "Removing libtool .la files..."
+#~ msgstr "A libtool .la fájlok eltávolítása..."
+
+#~ msgid "  -C, --cleancache Clean up source files from the cache"
+#~ msgstr "  -C, --cleancache Forrásfájlok takarítása a gyorsítótárból"
+
+#~ msgid "Cleaning up ALL files from %s."
+#~ msgstr "MINDEN fájl takaítása %s -ből."
+
+#~ msgid "    Are you sure you wish to do this? "
+#~ msgstr "    Biztos benne, hogy ezt kívánja tenni? "
+
+#~ msgid "[y/N]"
+#~ msgstr "[i/N]"
+
+#~ msgid "YES"
+#~ msgstr "IGEN"
+
+#~ msgid "Y"
+#~ msgstr "I"
+
+#~ msgid "Problem removing files; you may not have correct permissions in %s"
+#~ msgstr ""
+#~ "Probléma a fájlok eltávolítása közben; lehet, hogy nincs megfelelő "
+#~ "jogosultsága %s -ben"
+
+#~ msgid "Source cache cleaned."
+#~ msgstr "A forrás gyorsítótár kitakarítva."
+
+#~ msgid "No files have been removed."
+#~ msgstr "Nem került fájl eltávolításra."
+
+#~ msgid "Source destination must be defined in %s."
+#~ msgstr "A forrás állomást meg kell adni %s -ben."
+
+#~ msgid "In addition, please run makepkg -C outside of your cache directory."
+#~ msgstr ""
+#~ "Ezenkívül, kérem futtassa a makepkg -C parancsot a gyorsítótár könyvtáron "
+#~ "kívül."
+
+#, fuzzy
+#~ msgid "Usage: %s [options] <command> [arguments]"
+#~ msgstr "Használat: %s [opciók]"
+
+#, fuzzy
+#~ msgid "Executing: %s "
+#~ msgstr "%s kitömörítése a %s programmal"
+
+#~ msgid "ERROR: Can not create temp directory for database building."
+#~ msgstr ""
+#~ "HIBA: Nem sikerült létrehozni az ideiglenes könyvtárat az adatbázis "
+#~ "építéshez."
