@@ -1011,16 +1011,20 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 
 	if(ret != 0) {
 		if (amode & R_OK) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" is not readable: %s\n"), dir, file, strerror(errno));
+			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" is not readable: %s\n",
+					dir, file, strerror(errno));
 		}
 		if (amode & W_OK) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" is not writable: %s\n"), dir, file, strerror(errno));
+			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" is not writable: %s\n",
+					dir, file, strerror(errno));
 		}
 		if (amode & X_OK) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" is not executable: %s\n"), dir, file, strerror(errno));
+			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" is not executable: %s\n",
+					dir, file, strerror(errno));
 		}
 		if (amode == F_OK) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, _("\"%s%s\" does not exist: %s\n"), dir, file, strerror(errno));
+			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" does not exist: %s\n",
+					dir, file, strerror(errno));
 		}
 	}
 	return ret;
