@@ -241,7 +241,7 @@ get_url() {
 ##
 get_full_version() {
 	if [[ -z $1 ]]; then
-		if (( ! $epoch )); then
+		if [[ $epoch ]] && (( ! $epoch )); then
 			echo $pkgver-$pkgrel
 		else
 			echo $epoch:$pkgver-$pkgrel
