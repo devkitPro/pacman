@@ -64,11 +64,11 @@ usage() {
 	echo "$(gettext "  -u, --updatedb            Update the trustdb of pacman")"
 	echo "$(gettext "  -v, --verify <signature>  Verify the file specified by the signature")"
 	echo "$(gettext "  -V, --version             Show program version")"
-	echo "$(gettext "  --config <file>           Use an alternate config file")"
-	printf "$(gettext "                                    (instead of '%s')")\n" "@sysconfdir@/pacman.conf"
+	printf "$(gettext "  --config <file>           Use an alternate config file (instead of\n\
+                            '%s')")\n" "@sysconfdir@/pacman.conf"
 	echo "$(gettext "  --edit-key <keyid(s)>     Present a menu for key management task on keyids")"
-	echo "$(gettext "  --gpgdir <dir>            Set an alternate directory for gnupg")"
-	printf "$(gettext "                                    (instead of '%s')")\n" "@sysconfdir@/pacman.d/gnupg"
+	printf "$(gettext "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\n\
+                            of '%s')")\n" "@sysconfdir@/pacman.d/gnupg"
 	echo "$(gettext "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)")"
 	echo "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")"
 	echo "$(gettext "  --init                    Ensure the keyring is properly initialized")"
@@ -375,7 +375,7 @@ fi
 
 CONFIG=${CONFIG:-@sysconfdir@/pacman.conf}
 if [[ ! -r "${CONFIG}" ]]; then
-	error "$(gettext "%s configuation file '%s' not found.")" "pacman" "$CONFIG"
+	error "$(gettext "%s configuration file '%s' not found.")" "pacman" "$CONFIG"
 	exit 1
 fi
 

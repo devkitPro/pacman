@@ -176,7 +176,7 @@ db_remove_delta() {
 
 check_gpg() {
 	if ! type -p gpg >/dev/null; then
-		error "$(gettext "Cannot find the gpg binary! Is gnupg installed?")"
+		error "$(gettext "Cannot find the gpg binary! Is GnuPG installed?")"
 		exit 1 # $E_MISSING_PROGRAM
 	fi
 }

@@ -729,7 +729,7 @@ check_pgpsigs() {
 
 		if ! gpg --quiet --batch --status-file "$statusfile" --verify "$file" "$sourcefile" 2> /dev/null; then
 			if grep "NO_PUBKEY" "$statusfile" > /dev/null; then
-				echo "$(gettext "Warning: Unknown public key") $(awk '/NO_PUBKEY/ {print $3}' $statusfile)" >&2
+				warning "$(gettext "Unknown public key") $(awk '/NO_PUBKEY/ {print $3}' $statusfile)" >&2
 				warnings=1
 			else
 				echo "$(gettext "FAILED")" >&2
@@ -1856,7 +1856,7 @@ usage() {
 	printf "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
 	echo "$(gettext "  --skipchecksums  Do not verify checksums of the source files")"
 	echo "$(gettext "  --skipinteg      Do not perform any verification checks on source files")"
-	echo "$(gettext "  --skippgpcheck   Do not verify source files with pgp signatures")"
+	echo "$(gettext "  --skippgpcheck   Do not verify source files with PGP signatures")"
 	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
 	echo
 	printf "$(gettext "These options can be passed to %s:")\n" "pacman"
@@ -2052,19 +2052,19 @@ fi
 if (( ! INFAKEROOT )); then
 	if (( EUID == 0 && ! ASROOT )); then
 		# Warn those who like to live dangerously.
-		error "$(gettext "Running %s as root is a BAD idea and can cause")" "makepkg"
-		plain "$(gettext "permanent, catastrophic damage to your system. If you")"
-		plain "$(gettext "wish to run as root, please use the %s option.")" "--asroot"
+		error "$(gettext "Running %s as root is a BAD idea and can cause permanent,\n\
+catastrophic damage to your system. If you wish to run as root, please\n\
+use the %s option.")" "makepkg" "--asroot"
 		exit 1 # $E_USER_ABORT
 	elif (( EUID > 0 && ASROOT )); then
 		# Warn those who try to use the --asroot option when they are not root
-		error "$(gettext "The %s option is meant for the root user only.")" "--asroot"
-		plain "$(gettext "Please rerun %s without the %s flag.")" "makepkg" "--asroot"
+		error "$(gettext "The %s option is meant for the root user only. Please\n\
+rerun %s without the %s flag.")" "--asroot" "makepkg" "--asroot"
 		exit 1 # $E_USER_ABORT
 	elif (( EUID > 0 )) && [[ $(check_buildenv fakeroot) != "y" ]]; then
-		warning "$(gettext "Running %s as an unprivileged user will result in non-root")" "makepkg"
-		plain "$(gettext "ownership of the packaged files. Try using the %s environment by")" "fakeroot"
-		plain "$(gettext "placing %s in the %s array in %s.")" "'fakeroot'" "BUILDENV" "$MAKEPKG_CONF"
+		warning "$(gettext "Running %s as an unprivileged user will result in non-root\n\
+ownership of the packaged files. Try using the %s environment by\n\
+placing %s in the %s array in %s.")" "makepkg" "fakeroot" "'fakeroot'" "BUILDENV" "$MAKEPKG_CONF"
 		sleep 1
 	fi
 else
