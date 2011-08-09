@@ -41,15 +41,17 @@
 #include "log.h"
 #include "deps.h"
 
-static alpm_conflict_t *conflict_new(const char *package1, const char *package2,
+static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 		const char *reason)
 {
 	alpm_conflict_t *conflict;
 
 	MALLOC(conflict, sizeof(alpm_conflict_t), return NULL);
 
-	STRDUP(conflict->package1, package1, return NULL);
-	STRDUP(conflict->package2, package2, return NULL);
+	conflict->package1_hash = pkg1->name_hash;
+	conflict->package2_hash = pkg2->name_hash;
+	STRDUP(conflict->package1, pkg1->name, return NULL);
+	STRDUP(conflict->package2, pkg2->name, return NULL);
 	STRDUP(conflict->reason, reason, return NULL);
 
 	return conflict;
@@ -68,6 +70,8 @@ alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 	alpm_conflict_t *newconflict;
 	CALLOC(newconflict, 1, sizeof(alpm_conflict_t), return NULL);
 
+	newconflict->package1_hash = conflict->package1_hash;
+	newconflict->package2_hash = conflict->package2_hash;
 	STRDUP(newconflict->package1, conflict->package1, return NULL);
 	STRDUP(newconflict->package2, conflict->package2, return NULL);
 	STRDUP(newconflict->reason, conflict->reason, return NULL);
@@ -78,15 +82,12 @@ alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 static int conflict_isin(alpm_conflict_t *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *i;
-	const char *npkg1 = needle->package1;
-	const char *npkg2 = needle->package2;
-
 	for(i = haystack; i; i = i->next) {
 		alpm_conflict_t *conflict = i->data;
-		const char *cpkg1 = conflict->package1;
-		const char *cpkg2 = conflict->package2;
-		if((strcmp(cpkg1, npkg1) == 0  && strcmp(cpkg2, npkg2) == 0)
-				|| (strcmp(cpkg1, npkg2) == 0 && strcmp(cpkg2, npkg1) == 0)) {
+		if(needle->package1_hash == conflict->package1_hash
+				&& needle->package2_hash == conflict->package2_hash
+				&& strcmp(needle->package1, conflict->package1) == 0
+				&& strcmp(needle->package2, conflict->package2) == 0) {
 			return 1;
 		}
 	}
@@ -102,14 +103,14 @@ static int conflict_isin(alpm_conflict_t *needle, alpm_list_t *haystack)
  * @param reason reason for this conflict
  */
 static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
-		const char *pkg1, const char *pkg2, const char *reason)
+		alpm_pkg_t *pkg1, alpm_pkg_t *pkg2, const char *reason)
 {
 	alpm_conflict_t *conflict = conflict_new(pkg1, pkg2, reason);
 	if(!conflict) {
 		return -1;
 	}
 	_alpm_log(handle, ALPM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
-			pkg1, pkg2, reason);
+			pkg1->name, pkg2->name, reason);
 	if(!conflict_isin(conflict, *baddeps)) {
 		*baddeps = alpm_list_add(*baddeps, conflict);
 	} else {
@@ -140,7 +141,6 @@ static void check_conflict(alpm_handle_t *handle,
 	}
 	for(i = list1; i; i = i->next) {
 		alpm_pkg_t *pkg1 = i->data;
-		const char *pkg1name = alpm_pkg_get_name(pkg1);
 		alpm_list_t *j;
 
 		for(j = alpm_pkg_get_conflicts(pkg1); j; j = j->next) {
@@ -150,18 +150,18 @@ static void check_conflict(alpm_handle_t *handle,
 
 			for(k = list2; k; k = k->next) {
 				alpm_pkg_t *pkg2 = k->data;
-				const char *pkg2name = alpm_pkg_get_name(pkg2);
 
-				if(strcmp(pkg1name, pkg2name) == 0) {
+				if(pkg1->name_hash == pkg2->name_hash
+						&& strcmp(pkg1->name, pkg2->name) == 0) {
 					/* skip the package we're currently processing */
 					continue;
 				}
 
 				if(_alpm_depcmp(pkg2, parsed_conflict)) {
 					if(order >= 0) {
-						add_conflict(handle, baddeps, pkg1name, pkg2name, conflict);
+						add_conflict(handle, baddeps, pkg1, pkg2, conflict);
 					} else {
-						add_conflict(handle, baddeps, pkg2name, pkg1name, conflict);
+						add_conflict(handle, baddeps, pkg2, pkg1, conflict);
 					}
 				}
 			}

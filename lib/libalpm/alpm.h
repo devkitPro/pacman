@@ -151,6 +151,8 @@ typedef struct _alpm_depmissing_t {
 
 /** Conflict */
 typedef struct _alpm_conflict_t {
+	unsigned long package1_hash;
+	unsigned long package2_hash;
 	char *package1;
 	char *package2;
 	char *reason;
