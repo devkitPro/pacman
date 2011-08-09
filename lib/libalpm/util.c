@@ -219,7 +219,7 @@ size_t _alpm_strip_newline(char *str)
 		return 0;
 	}
 	len = strlen(str);
-	while(str[len - 1] == '\n') {
+	while(len > 0 && str[len - 1] == '\n') {
 		len--;
 	}
 	str[len] = '\0';
