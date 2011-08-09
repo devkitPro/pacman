@@ -677,24 +677,18 @@ static int apply_deltas(alpm_handle_t *handle)
  *
  * @param trans the transaction
  * @param filename the absolute path of the file to test
- * @param md5sum the expected md5sum of the file
  *
- * @return 0 if the md5sum matched, 1 if not, -1 in case of errors
+ * @return 1 if file was removed, 0 otherwise
  */
-static int test_md5sum(alpm_trans_t *trans, const char *filepath,
-		const char *md5sum)
+static int prompt_to_delete(alpm_trans_t *trans, const char *filepath)
 {
-	int ret = _alpm_test_md5sum(filepath, md5sum);
-	if(ret == 1) {
-		int doremove = 0;
-		QUESTION(trans, ALPM_TRANS_CONV_CORRUPTED_PKG, (char *)filepath,
-				NULL, NULL, &doremove);
-		if(doremove) {
-			unlink(filepath);
-		}
+	int doremove = 0;
+	QUESTION(trans, ALPM_TRANS_CONV_CORRUPTED_PKG, (char *)filepath,
+			NULL, NULL, &doremove);
+	if(doremove) {
+		unlink(filepath);
 	}
-
-	return ret;
+	return doremove;
 }
 
 static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
@@ -715,7 +709,9 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 		alpm_delta_t *d = alpm_list_getdata(i);
 		char *filepath = _alpm_filecache_find(handle, d->delta);
 
-		if(test_md5sum(trans, filepath, d->delta_md5) != 0) {
+		ret = _alpm_test_md5sum(filepath, d->delta_md5);
+		if(ret != 0) {
+			prompt_to_delete(trans, filepath);
 			errors++;
 			*data = alpm_list_add(*data, strdup(d->delta));
 		}
@@ -903,6 +899,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1, spkg->md5sum,
 				spkg->base64_sig, level);
 		if(!pkgfile) {
+			prompt_to_delete(trans, filepath);
 			errors++;
 			*data = alpm_list_add(*data, strdup(filename));
 			FREE(filepath);
@@ -920,7 +917,10 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 
 	if(errors) {
-		RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
+		if(!handle->pm_errno) {
+			RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
+		}
+		return -1;
 	}
 
 	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {

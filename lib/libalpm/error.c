@@ -108,6 +108,8 @@ const char SYMEXPORT *alpm_strerror(enum _alpm_errno_t err)
 		case ALPM_ERR_PKG_IGNORED:
 			return _("operation cancelled due to ignorepkg");
 		case ALPM_ERR_PKG_INVALID:
+			return _("invalid or corrupted package");
+		case ALPM_ERR_PKG_INVALID_CHECKSUM:
 			return _("invalid or corrupted package (checksum)");
 		case ALPM_ERR_PKG_INVALID_SIG:
 			return _("invalid or corrupted package (PGP signature)");

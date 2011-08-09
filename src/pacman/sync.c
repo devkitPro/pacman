@@ -844,9 +844,11 @@ int sync_prepare_execute(void)
 				}
 				break;
 			case ALPM_ERR_PKG_INVALID:
+			case ALPM_ERR_PKG_INVALID_CHECKSUM:
+			case ALPM_ERR_PKG_INVALID_SIG:
 			case ALPM_ERR_DLT_INVALID:
 				for(i = data; i; i = alpm_list_next(i)) {
-					char *filename = alpm_list_getdata(i);
+					const char *filename = alpm_list_getdata(i);
 					printf(_("%s is invalid or corrupted\n"), filename);
 				}
 				break;

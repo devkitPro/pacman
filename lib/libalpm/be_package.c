@@ -313,7 +313,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
 		if(_alpm_test_md5sum(pkgfile, md5sum) != 0) {
 			alpm_pkg_free(newpkg);
-			RET_ERR(handle, ALPM_ERR_PKG_INVALID, NULL);
+			RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, NULL);
 		}
 	}
 
