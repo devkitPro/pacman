@@ -155,7 +155,7 @@ typedef struct _alpm_conflict_t {
 	unsigned long package2_hash;
 	char *package1;
 	char *package2;
-	char *reason;
+	alpm_depend_t *reason;
 } alpm_conflict_t;
 
 /** File conflict */
@@ -670,15 +670,15 @@ alpm_list_t *alpm_pkg_get_depends(alpm_pkg_t *pkg);
  */
 alpm_list_t *alpm_pkg_get_optdepends(alpm_pkg_t *pkg);
 
-/** Returns the list of package names conflicting with pkg.
+/** Returns the list of packages conflicting with pkg.
  * @param pkg a pointer to package
- * @return a reference to an internal list of strings.
+ * @return a reference to an internal list of alpm_depend_t structures.
  */
 alpm_list_t *alpm_pkg_get_conflicts(alpm_pkg_t *pkg);
 
-/** Returns the list of package names provided by pkg.
+/** Returns the list of packages provided by pkg.
  * @param pkg a pointer to package
- * @return a reference to an internal list of strings.
+ * @return a reference to an internal list of alpm_depend_t structures.
  */
 alpm_list_t *alpm_pkg_get_provides(alpm_pkg_t *pkg);
 
@@ -690,7 +690,7 @@ alpm_list_t *alpm_pkg_get_deltas(alpm_pkg_t *pkg);
 
 /** Returns the list of packages to be replaced by pkg.
  * @param pkg a pointer to package
- * @return a reference to an internal list of strings.
+ * @return a reference to an internal list of alpm_depend_t structures.
  */
 alpm_list_t *alpm_pkg_get_replaces(alpm_pkg_t *pkg);
 

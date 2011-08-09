@@ -384,25 +384,19 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 		}
 	}
 
-	/* check provisions, format : "name=version" */
+	/* check provisions, name and version if available */
 	for(i = alpm_pkg_get_provides(pkg); i && !satisfy; i = i->next) {
-		const char *provision = i->data;
-		const char *provver = strchr(provision, '=');
+		alpm_depend_t *provision = i->data;
 
-		if(provver == NULL) { /* no provision version */
-			satisfy = (dep->mod == ALPM_DEP_MOD_ANY
-					&& strcmp(provision, dep->name) == 0);
-		} else {
-			/* This is a bit tricker than the old code for performance reasons. To
-			 * prevent the need to copy and duplicate strings, strncmp only the name
-			 * portion if they are the same length, since there is a version and
-			 * operator in play here. Cast is to silence sign conversion warning;
-			 * we know provver >= provision if we are here. */
-			size_t namelen = (size_t)(provver - provision);
-			provver += 1;
-			satisfy = (strlen(dep->name) == namelen
-					&& strncmp(provision, dep->name, namelen) == 0
-					&& dep_vercmp(provver, dep->mod, dep->version));
+		if(dep->mod == ALPM_DEP_MOD_ANY) {
+			/* any version will satisfy the requirement */
+			satisfy = (provision->name_hash == dep->name_hash
+					&& strcmp(provision->name, dep->name) == 0);
+		} else if (provision->mod == ALPM_DEP_MOD_EQ) {
+			/* provision specifies a version, so try it out */
+			satisfy = (provision->name_hash == dep->name_hash
+					&& strcmp(provision->name, dep->name) == 0
+					&& dep_vercmp(provision->version, dep->mod, dep->version));
 		}
 	}
 

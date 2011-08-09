@@ -437,7 +437,8 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 			if(!matched) {
 				/* check provides */
 				for(k = alpm_pkg_get_provides(pkg); k; k = k->next) {
-					if(regexec(&reg, k->data, 0, 0, 0) == 0) {
+					alpm_depend_t *provide = k->data;
+					if(regexec(&reg, provide->name, 0, 0, 0) == 0) {
 						matched = k->data;
 						break;
 					}

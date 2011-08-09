@@ -42,7 +42,7 @@
 #include "deps.h"
 
 static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
-		const char *reason)
+		alpm_depend_t *reason)
 {
 	alpm_conflict_t *conflict;
 
@@ -52,7 +52,7 @@ static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 	conflict->package2_hash = pkg2->name_hash;
 	STRDUP(conflict->package1, pkg1->name, return NULL);
 	STRDUP(conflict->package2, pkg2->name, return NULL);
-	STRDUP(conflict->reason, reason, return NULL);
+	conflict->reason = reason;
 
 	return conflict;
 }
@@ -61,7 +61,6 @@ void _alpm_conflict_free(alpm_conflict_t *conflict)
 {
 	FREE(conflict->package2);
 	FREE(conflict->package1);
-	FREE(conflict->reason);
 	FREE(conflict);
 }
 
@@ -74,7 +73,7 @@ alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 	newconflict->package2_hash = conflict->package2_hash;
 	STRDUP(newconflict->package1, conflict->package1, return NULL);
 	STRDUP(newconflict->package2, conflict->package2, return NULL);
-	STRDUP(newconflict->reason, conflict->reason, return NULL);
+	newconflict->reason = conflict->reason;
 
 	return newconflict;
 }
@@ -103,16 +102,18 @@ static int conflict_isin(alpm_conflict_t *needle, alpm_list_t *haystack)
  * @param reason reason for this conflict
  */
 static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
-		alpm_pkg_t *pkg1, alpm_pkg_t *pkg2, const char *reason)
+		alpm_pkg_t *pkg1, alpm_pkg_t *pkg2, alpm_depend_t *reason)
 {
 	alpm_conflict_t *conflict = conflict_new(pkg1, pkg2, reason);
 	if(!conflict) {
 		return -1;
 	}
-	_alpm_log(handle, ALPM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
-			pkg1->name, pkg2->name, reason);
 	if(!conflict_isin(conflict, *baddeps)) {
+		char *conflict_str = alpm_dep_compute_string(reason);
 		*baddeps = alpm_list_add(*baddeps, conflict);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "package %s conflicts with %s (by %s)\n",
+				pkg1->name, pkg2->name, conflict_str);
+		free(conflict_str);
 	} else {
 		_alpm_conflict_free(conflict);
 	}
@@ -144,9 +145,8 @@ static void check_conflict(alpm_handle_t *handle,
 		alpm_list_t *j;
 
 		for(j = alpm_pkg_get_conflicts(pkg1); j; j = j->next) {
-			const char *conflict = j->data;
+			alpm_depend_t *conflict = j->data;
 			alpm_list_t *k;
-			alpm_depend_t *parsed_conflict = _alpm_splitdep(conflict);
 
 			for(k = list2; k; k = k->next) {
 				alpm_pkg_t *pkg2 = k->data;
@@ -157,7 +157,7 @@ static void check_conflict(alpm_handle_t *handle,
 					continue;
 				}
 
-				if(_alpm_depcmp(pkg2, parsed_conflict)) {
+				if(_alpm_depcmp(pkg2, conflict)) {
 					if(order >= 0) {
 						add_conflict(handle, baddeps, pkg1, pkg2, conflict);
 					} else {
@@ -165,7 +165,6 @@ static void check_conflict(alpm_handle_t *handle,
 					}
 				}
 			}
-			_alpm_dep_free(parsed_conflict);
 		}
 	}
 }

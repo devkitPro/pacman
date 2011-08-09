@@ -509,6 +509,12 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 	f = alpm_list_add(f, linedup); \
 } while(1) /* note the while(1) and not (0) */
 
+#define READ_AND_SPLITDEP(f) do { \
+	if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
+	if(_alpm_strip_newline(line) == 0) break; \
+	f = alpm_list_add(f, _alpm_splitdep(line)); \
+} while(1) /* note the while(1) and not (0) */
+
 static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
@@ -601,20 +607,15 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				/* also store this value to isize */
 				info->isize = info->size;
 			} else if(strcmp(line, "%REPLACES%") == 0) {
-				READ_AND_STORE_ALL(info->replaces);
+				READ_AND_SPLITDEP(info->replaces);
 			} else if(strcmp(line, "%DEPENDS%") == 0) {
-				/* Different than the rest because of the _alpm_splitdep call. */
-				while(1) {
-					READ_NEXT();
-					if(strlen(line) == 0) break;
-					info->depends = alpm_list_add(info->depends, _alpm_splitdep(line));
-				}
+				READ_AND_SPLITDEP(info->depends);
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
 				READ_AND_STORE_ALL(info->optdepends);
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
-				READ_AND_STORE_ALL(info->conflicts);
+				READ_AND_SPLITDEP(info->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
-				READ_AND_STORE_ALL(info->provides);
+				READ_AND_SPLITDEP(info->provides);
 			}
 		}
 		fclose(fp);
@@ -771,7 +772,9 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->replaces) {
 			fputs("%REPLACES%\n", fp);
 			for(lp = info->replaces; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				char *depstring = alpm_dep_compute_string(lp->data);
+				fprintf(fp, "%s\n", depstring);
+				free(depstring);
 			}
 			fprintf(fp, "\n");
 		}
@@ -830,14 +833,18 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->conflicts) {
 			fputs("%CONFLICTS%\n", fp);
 			for(lp = info->conflicts; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				char *depstring = alpm_dep_compute_string(lp->data);
+				fprintf(fp, "%s\n", depstring);
+				free(depstring);
 			}
 			fprintf(fp, "\n");
 		}
 		if(info->provides) {
 			fputs("%PROVIDES%\n", fp);
 			for(lp = info->provides; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				char *depstring = alpm_dep_compute_string(lp->data);
+				fprintf(fp, "%s\n", depstring);
+				free(depstring);
 			}
 			fprintf(fp, "\n");
 		}

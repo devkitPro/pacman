@@ -496,7 +496,9 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 	newpkg->reason = pkg->reason;
 
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
-	newpkg->replaces   = alpm_list_strdup(pkg->replaces);
+	for(i = pkg->replaces; i; i = alpm_list_next(i)) {
+		newpkg->replaces = alpm_list_add(newpkg->replaces, _alpm_dep_dup(i->data));
+	}
 	newpkg->groups     = alpm_list_strdup(pkg->groups);
 	if(pkg->files.count) {
 		size_t filenum;
@@ -517,8 +519,12 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 		newpkg->depends = alpm_list_add(newpkg->depends, _alpm_dep_dup(i->data));
 	}
 	newpkg->optdepends = alpm_list_strdup(pkg->optdepends);
-	newpkg->conflicts  = alpm_list_strdup(pkg->conflicts);
-	newpkg->provides   = alpm_list_strdup(pkg->provides);
+	for(i = pkg->conflicts; i; i = alpm_list_next(i)) {
+		newpkg->conflicts = alpm_list_add(newpkg->conflicts, _alpm_dep_dup(i->data));
+	}
+	for(i = pkg->provides; i; i = alpm_list_next(i)) {
+		newpkg->provides = alpm_list_add(newpkg->provides, _alpm_dep_dup(i->data));
+	}
 	for(i = pkg->deltas; i; i = alpm_list_next(i)) {
 		newpkg->deltas = alpm_list_add(newpkg->deltas, _alpm_delta_dup(i->data));
 	}
@@ -557,8 +563,10 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	FREE(pkg->sha256sum);
 	FREE(pkg->base64_sig);
 	FREE(pkg->arch);
+
 	FREELIST(pkg->licenses);
-	FREELIST(pkg->replaces);
+	alpm_list_free_inner(pkg->replaces, (alpm_list_fn_free)_alpm_dep_free);
+	alpm_list_free(pkg->replaces);
 	FREELIST(pkg->groups);
 	if(pkg->files.count) {
 		size_t i;
@@ -572,8 +580,10 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	alpm_list_free_inner(pkg->depends, (alpm_list_fn_free)_alpm_dep_free);
 	alpm_list_free(pkg->depends);
 	FREELIST(pkg->optdepends);
-	FREELIST(pkg->conflicts);
-	FREELIST(pkg->provides);
+	alpm_list_free_inner(pkg->conflicts, (alpm_list_fn_free)_alpm_dep_free);
+	alpm_list_free(pkg->conflicts);
+	alpm_list_free_inner(pkg->provides, (alpm_list_fn_free)_alpm_dep_free);
+	alpm_list_free(pkg->provides);
 	alpm_list_free_inner(pkg->deltas, (alpm_list_fn_free)_alpm_delta_free);
 	alpm_list_free(pkg->deltas);
 	alpm_list_free(pkg->delta_path);

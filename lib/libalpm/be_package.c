@@ -194,11 +194,14 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 			} else if(strcmp(key, "optdepend") == 0) {
 				newpkg->optdepends = alpm_list_add(newpkg->optdepends, strdup(ptr));
 			} else if(strcmp(key, "conflict") == 0) {
-				newpkg->conflicts = alpm_list_add(newpkg->conflicts, strdup(ptr));
+				alpm_depend_t *conflict = _alpm_splitdep(ptr);
+				newpkg->conflicts = alpm_list_add(newpkg->conflicts, conflict);
 			} else if(strcmp(key, "replaces") == 0) {
-				newpkg->replaces = alpm_list_add(newpkg->replaces, strdup(ptr));
+				alpm_depend_t *replace = _alpm_splitdep(ptr);
+				newpkg->replaces = alpm_list_add(newpkg->replaces, replace);
 			} else if(strcmp(key, "provides") == 0) {
-				newpkg->provides = alpm_list_add(newpkg->provides, strdup(ptr));
+				alpm_depend_t *provide = _alpm_splitdep(ptr);
+				newpkg->provides = alpm_list_add(newpkg->provides, provide);
 			} else if(strcmp(key, "backup") == 0) {
 				alpm_backup_t *backup;
 				CALLOC(backup, 1, sizeof(alpm_backup_t), return -1);

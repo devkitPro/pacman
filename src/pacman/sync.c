@@ -779,13 +779,14 @@ int sync_prepare_execute(void)
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_conflict_t *conflict = alpm_list_getdata(i);
 					/* only print reason if it contains new information */
-					if(strcmp(conflict->package1, conflict->reason) == 0 ||
-							strcmp(conflict->package2, conflict->reason) == 0) {
+					if(conflict->reason->mod == ALPM_DEP_MOD_ANY) {
 						printf(_(":: %s and %s are in conflict\n"),
 								conflict->package1, conflict->package2);
 					} else {
+						char *reason = alpm_dep_compute_string(conflict->reason);
 						printf(_(":: %s and %s are in conflict (%s)\n"),
-								conflict->package1, conflict->package2, conflict->reason);
+								conflict->package1, conflict->package2, reason);
+						free(reason);
 					}
 				}
 				break;

@@ -37,6 +37,22 @@
 
 #define CLBUF_SIZE 4096
 
+/** Turn a depends list into a text list.
+ * @param deps a list with items of type alpm_depend_t
+ * @return a string list, must be freed
+ */
+static void deplist_display(const char *title,
+		alpm_list_t *deps)
+{
+	alpm_list_t *i, *text = NULL;
+	for(i = deps; i; i = alpm_list_next(i)) {
+		alpm_depend_t *dep = alpm_list_getdata(i);
+		text = alpm_list_add(text, alpm_dep_compute_string(dep));
+	}
+	list_display(title, text);
+	FREELIST(text);
+}
+
 /**
  * Display the details of a package.
  * Extra information entails 'required by' info for sync packages and backup
@@ -52,8 +68,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 	char bdatestr[50] = "", idatestr[50] = "";
 	const char *label;
 	double size;
-	const alpm_list_t *i;
-	alpm_list_t *requiredby = NULL, *depstrings = NULL;
+	alpm_list_t *requiredby = NULL;
 
 	if(pkg == NULL) {
 		return;
@@ -81,12 +96,6 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 			break;
 	}
 
-	/* turn depends list into a text list */
-	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
-		alpm_depend_t *dep = (alpm_depend_t *)alpm_list_getdata(i);
-		depstrings = alpm_list_add(depstrings, alpm_dep_compute_string(dep));
-	}
-
 	if(extra || from == PKG_FROM_LOCALDB) {
 		/* compute this here so we don't get a pause in the middle of output */
 		requiredby = alpm_pkg_compute_requiredby(pkg);
@@ -102,14 +111,14 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 	string_display(_("URL            :"), alpm_pkg_get_url(pkg));
 	list_display(_("Licenses       :"), alpm_pkg_get_licenses(pkg));
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
-	list_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
-	list_display(_("Depends On     :"), depstrings);
+	deplist_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
+	deplist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
 	list_display_linebreak(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
 	if(extra || from == PKG_FROM_LOCALDB) {
 		list_display(_("Required By    :"), requiredby);
 	}
-	list_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
-	list_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
+	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
+	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 
 	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 1, &label);
 	if(from == PKG_FROM_SYNCDB) {
@@ -162,7 +171,6 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 	/* final newline to separate packages */
 	printf("\n");
 
-	FREELIST(depstrings);
 	FREELIST(requiredby);
 }
 

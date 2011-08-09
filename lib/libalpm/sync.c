@@ -150,14 +150,11 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 				for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
 					spkg = k->data;
 					for(l = alpm_pkg_get_replaces(spkg); l; l = l->next) {
-						const char *replace = l->data;
-						alpm_depend_t *parsed_replace = _alpm_splitdep(replace);
-						if(_alpm_depcmp(lpkg, parsed_replace)) {
+						alpm_depend_t *replace = l->data;
+						if(_alpm_depcmp(lpkg, replace)) {
 							found = 1;
-							_alpm_dep_free(parsed_replace);
 							break;
 						}
-						_alpm_dep_free(parsed_replace);
 					}
 					if(found) {
 						/* check IgnorePkg/IgnoreGroup */
