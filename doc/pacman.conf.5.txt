@@ -233,11 +233,11 @@ The 'SigLevel' directive is valid in both the `[options]` and repository
 sections. If used in `[options]`, it sets a default value for any repository
 that does not provide the setting.
 
-If set to *Never*, no signature checking will take place.
-If set to *Optional* , signatures will be checked when present, but unsigned
-databases and packages will also be accepted.
-If set to *Required*, signatures will be required on all packages and
-databases.
+* If set to *Never*, no signature checking will take place.
+* If set to *Optional* , signatures will be checked when present, but unsigned
+  databases and packages will also be accepted.
+* If set to *Required*, signatures will be required on all packages and
+  databases.
 
 Alternatively, you can get more fine-grained control by combining some of
 the options and prefixes described below. All options in a config file are
