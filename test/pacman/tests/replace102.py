@@ -1,27 +1,25 @@
-self.description = "Replace a package with a file in 'backup' (local modified)"
-# FS#24543
+self.description = "Sysupgrade with a versioned replacement, original stays"
 
-lp = pmpkg("dummy")
-lp.files = ["etc/dummy.conf*", "bin/dummy"]
-lp.backup = ["etc/dummy.conf"]
-self.addpkg2db("local", lp)
+sp1 = pmpkg("python2-yaml", "5-1")
+sp1.replaces = ["python-yaml<5"]
+sp1.conflicts = ["python-yaml<5"]
+sp1.files = ["lib/python2/file"]
+self.addpkg2db("sync", sp1)
 
-sp = pmpkg("replacement")
-sp.replaces = ["dummy"]
-sp.files = ["etc/dummy.conf", "bin/dummy*"]
-sp.backup = ["etc/dummy.conf"]
-self.addpkg2db("sync", sp)
+# the python3 version
+sp2 = pmpkg("python-yaml", "5-1")
+sp2.files = ["lib/python3/file"]
+self.addpkg2db("sync", sp2)
+
+lp1 = pmpkg("python-yaml", "4-1")
+lp1.files = ["lib/python2/file"]
+self.addpkg2db("local", lp1)
 
 self.args = "-Su"
 
-self.addrule("!PKG_EXIST=dummy")
-self.addrule("PKG_EXIST=replacement")
-
-self.addrule("FILE_EXIST=etc/dummy.conf")
-self.addrule("!FILE_MODIFIED=etc/dummy.conf")
-self.addrule("!FILE_PACNEW=etc/dummy.conf")
-self.addrule("!FILE_PACSAVE=etc/dummy.conf")
-
-self.addrule("FILE_EXIST=bin/dummy")
+self.addrule("PACMAN_RETCODE=0")
+self.addrule("!PKG_EXIST=python-yaml")
+self.addrule("PKG_VERSION=python2-yaml|5-1")
+self.addrule("FILE_EXIST=lib/python2/file")
 
 self.expectfailure = True
