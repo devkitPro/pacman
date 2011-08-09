@@ -85,20 +85,16 @@ alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_syn
 /** Search for packages to upgrade and add them to the transaction. */
 int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 {
-	alpm_list_t *i, *j, *k;
+	alpm_list_t *i, *j;
 	alpm_trans_t *trans;
-	alpm_db_t *db_local;
-	alpm_list_t *dbs_sync;
 
 	CHECK_HANDLE(handle, return -1);
 	trans = handle->trans;
-	db_local = handle->db_local;
-	dbs_sync = handle->dbs_sync;
 	ASSERT(trans != NULL, RET_ERR(handle, ALPM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_INITIALIZED, RET_ERR(handle, ALPM_ERR_TRANS_NOT_INITIALIZED, -1));
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "checking for package upgrades\n");
-	for(i = _alpm_db_get_pkgcache(db_local); i; i = i->next) {
+	for(i = _alpm_db_get_pkgcache(handle->db_local); i; i = i->next) {
 		alpm_pkg_t *lpkg = i->data;
 
 		if(_alpm_pkg_find(trans->add, lpkg->name)) {
@@ -108,7 +104,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 
 		/* Search for literal then replacers in each sync database.
 		 * If found, don't check other databases */
-		for(j = dbs_sync; j; j = j->next) {
+		for(j = handle->dbs_sync; j; j = j->next) {
 			alpm_db_t *sdb = j->data;
 			/* Check sdb */
 			alpm_pkg_t *spkg = _alpm_db_get_pkgfromcache(sdb, lpkg->name);
@@ -150,10 +146,20 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 			} else {
 				/* 2. search for replacers in sdb */
 				int found = 0;
+				alpm_list_t *k, *l;
 				for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
 					spkg = k->data;
-					if(alpm_list_find_str(alpm_pkg_get_replaces(spkg), lpkg->name)) {
-						found = 1;
+					for(l = alpm_pkg_get_replaces(spkg); l; l = l->next) {
+						const char *replace = l->data;
+						alpm_depend_t *parsed_replace = _alpm_splitdep(replace);
+						if(_alpm_depcmp(lpkg, parsed_replace)) {
+							found = 1;
+							_alpm_dep_free(parsed_replace);
+							break;
+						}
+						_alpm_dep_free(parsed_replace);
+					}
+					if(found) {
 						/* check IgnorePkg/IgnoreGroup */
 						if(_alpm_pkg_should_ignore(handle, spkg)
 								|| _alpm_pkg_should_ignore(handle, lpkg)) {
@@ -197,7 +203,8 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 					}
 				}
 				if(found) {
-					break; /* jump to next local package */
+					/* jump to next local package */
+					break;
 				}
 			}
 		}
