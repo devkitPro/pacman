@@ -1,16 +1,19 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Paulo Santos <paulo.r.santos@sapo.pt>, 2011.
+# Gaspar Santos <omeuviolino@gmail.com>, 2011.
+# Dan McGee <dpmcgee@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-08 17:07-0500\n"
-"PO-Revision-Date: 2011-04-16 12:23+0000\n"
-"Last-Translator: ArchGalileu <omeuviolino@gmail.com>\n"
-"Language-Team: Portuguese <>\n"
+"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"Language-Team: Portuguese (http://www.transifex.net/projects/p/archlinux-"
+"pacman/team/pt/)\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,8 +126,10 @@ msgid ":: %s-%s: local version is newer. Upgrade anyway?"
 msgstr ""
 ":: %s-%s: a versão local é mais recente. Deseja actualizar mesmo assim?"
 
-#, c-format
-msgid ":: File %s is corrupted. Do you want to delete it?"
+#, fuzzy, c-format
+msgid ""
+":: File %s is corrupted (%s).\n"
+"Do you want to delete it?"
 msgstr ":: O ficheiro %s está corrompido. Deseja excluí-lo?"
 
 #, c-format
@@ -171,17 +176,17 @@ msgstr "não foi possível enviar um chdir ao diretório de download %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "a executar XferCommand: erro no fork!\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "não foi possível mudar para a directoria %s (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "não foi possível mudar para a directoria %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr "valor inválido para 'CleanMethod' : '%s'\n"
+msgstr ""
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -216,17 +221,17 @@ msgstr "  tente executar pacman-db-upgrade\n"
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problema ao configurar logfile '%s' (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr "problema ao configurar rootdir '%s' (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "não foi possível registrar a base de dados '%s' (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "não foi possível registrar a URL da base de dados '%s': %s (%s)\n"
+msgstr ""
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
@@ -337,17 +342,17 @@ msgstr "Conflitos com                :"
 msgid "Replaces       :"
 msgstr "Substitui                        :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr "Tamanho da Descarga : %6.2f K\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr "Tamanho Comprimido   : %6.2f K\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr "Tamanho Instalado       : %6.2f K\n"
+msgstr ""
 
 #, c-format
 msgid "Packager       :"
@@ -385,9 +390,9 @@ msgstr "Não"
 msgid "MD5 Sum        :"
 msgstr "Soma MD5                      :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures     :"
-msgstr "Licenças                        :"
+msgstr ""
 
 #, c-format
 msgid "Description    :"
@@ -732,9 +737,9 @@ msgstr ""
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug                    mostrar mensagens de debug\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --logfile <path>      definir um ficheiro de log alternativo\n"
+msgstr ""
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -1045,9 +1050,9 @@ msgid "no usable package repositories configured.\n"
 msgstr ""
 "nenhum repositório de pacotes utilizável foi configurado corretamente.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr "base de dados não encontrada: %s\n"
+msgstr ""
 
 #, c-format
 msgid "None"
@@ -1073,9 +1078,9 @@ msgstr ""
 msgid "Invalid"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Key unknown"
-msgstr "Desconhecido"
+msgstr ""
 
 #, c-format
 msgid "Signature error"
@@ -1093,13 +1098,13 @@ msgstr ""
 msgid "never trusted"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "unknown trust"
-msgstr "Desconhecido"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "{Key Unknown}"
-msgstr "Desconhecido"
+msgstr ""
 
 #, c-format
 msgid "%s, %s from \"%s\""
@@ -1129,21 +1134,21 @@ msgstr "Alvos (%d):"
 msgid "Remove (%d):"
 msgstr "Remover (%d):"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr "Tamanho Total da Descarga:   %.2f MB\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr "Tamanho Total da Instalação:   %.2f MB\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr "Tamanho Total da Descarga:   %.2f MB\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr "Tamanho total dos pacotes a remover:   %.2f MB\n"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1216,14 +1221,3 @@ msgstr "erro: "
 #, c-format
 msgid "warning: "
 msgstr "atenção: "
-
-#, fuzzy
-#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-#~ msgstr "no ficheiro de configuração %s, linha %d: '%s' necessita um valor\n"
-
-#, fuzzy
-#~ msgid "could not set verify option for database '%s' (%s)\n"
-#~ msgstr "não foi possível registrar a URL da base de dados '%s': %s (%s)\n"
-
-#~ msgid "package '%s' was not found in repository '%s'\n"
-#~ msgstr "pacote '%s' não foi encontrado no repositório '%s'\n"

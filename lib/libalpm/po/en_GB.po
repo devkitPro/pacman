@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Dan McGee <dpmcgee@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-08 17:12-0500\n"
-"PO-Revision-Date: 2011-03-22 15:34+0000\n"
+"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"PO-Revision-Date: 2011-08-09 01:00+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en_GB\n"
@@ -157,9 +157,9 @@ msgstr "removing invalid file: %s\n"
 msgid "could not remove lock file %s\n"
 msgstr "could not remove lock file %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr "could not parse package description file in %s\n"
+msgstr "could not parse package description file '%s' from db '%s'\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -221,9 +221,9 @@ msgstr "disk"
 msgid "url '%s' is invalid\n"
 msgstr "URL '%s' is invalid\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "failed to retrieve some files from %s\n"
+msgstr "failed to create temporary file for download\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -297,13 +297,13 @@ msgstr "database already registered"
 msgid "could not find database"
 msgstr "could not find database"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid or corrupted database"
-msgstr "invalid or corrupted delta"
+msgstr "invalid or corrupted database"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr "invalid or corrupted package"
+msgstr "invalid or corrupted database (PGP signature)"
 
 #, c-format
 msgid "database is incorrect version"
@@ -362,12 +362,16 @@ msgid "operation cancelled due to ignorepkg"
 msgstr "operation cancelled due to ignorepkg"
 
 #, fuzzy, c-format
-msgid "invalid or corrupted package (checksum)"
-msgstr "invalid or corrupted package"
+msgid "invalid or corrupted package"
+msgstr "invalid or corrupted database"
 
-#, fuzzy, c-format
+#, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "invalid or corrupted package (checksum)"
+
+#, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr "invalid or corrupted package"
+msgstr "invalid or corrupted package (PGP signature)"
 
 #, c-format
 msgid "cannot open package file"
@@ -391,11 +395,11 @@ msgstr "could not find repository for target"
 
 #, c-format
 msgid "missing PGP signature"
-msgstr ""
+msgstr "missing PGP signature"
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
+msgstr "invalid PGP signature"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -435,7 +439,7 @@ msgstr "download library error"
 
 #, c-format
 msgid "gpgme error"
-msgstr ""
+msgstr "gpgme error"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -457,9 +461,9 @@ msgstr "removing %s from target list\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "cannot remove file '%s': %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr "cannot remove file '%s': %s\n"
+msgstr "cannot remove %s (%s)\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
@@ -560,21 +564,3 @@ msgstr "no %s cache exists, creating...\n"
 #, c-format
 msgid "couldn't create package cache, using /tmp instead\n"
 msgstr "couldn't create package cache, using /tmp instead\n"
-
-#~ msgid "%s database version is too old\n"
-#~ msgstr "%s database version is too old\n"
-
-#~ msgid "resuming download of %s not possible; starting over\n"
-#~ msgstr "resuming download of %s not possible; starting over\n"
-
-#~ msgid "error writing to file '%s': %s\n"
-#~ msgstr "error writing to file '%s': %s\n"
-
-#~ msgid "failed retrieving file '%s' from %s\n"
-#~ msgstr "failed retrieving file '%s' from %s\n"
-
-#~ msgid "failed to copy some file"
-#~ msgstr "failed to copy some file"
-
-#~ msgid "database larger than maximum size\n"
-#~ msgstr "database larger than maximum size\n"

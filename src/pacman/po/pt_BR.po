@@ -1,16 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Sandro  <sandrossv@hotmail.com>, 2011.
+# ambaratti <ambaratti.listas@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-08 17:07-0500\n"
-"PO-Revision-Date: 2011-04-12 02:31+0000\n"
-"Last-Translator: ambaratti <ambaratti.listas@gmail.com>\n"
-"Language-Team: Portuguese (Brazilian) <None>\n"
+"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"PO-Revision-Date: 2011-08-09 04:12+0000\n"
+"Last-Translator: sandrossv <sandrossv@hotmail.com>\n"
+"Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/"
+"archlinux-pacman/team/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,8 +123,10 @@ msgstr ":: Existem %d provedores disponíveis para %s:\n"
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
 msgstr ":: %s-%s: a versão local é mais recente. Deseja atualizar assim mesmo?"
 
-#, c-format
-msgid ":: File %s is corrupted. Do you want to delete it?"
+#, fuzzy, c-format
+msgid ""
+":: File %s is corrupted (%s).\n"
+"Do you want to delete it?"
 msgstr ":: Arquivo %s está corrompido. Deseja apagá-lo?"
 
 #, c-format
@@ -169,17 +173,17 @@ msgstr "não foi possível mudar para (chdir) o diretório de download %s\n"
 msgid "running XferCommand: fork failed!\n"
 msgstr "executando XferCommand: o fork falhou!\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "não foi possível mudar para o diretório %s (%s)\n"
+msgstr "Não foi possível renomear %s para %s (%s)\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "não foi possível mudar para o diretório %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr "valor inválido para 'CleanMethod' : '%s'\n"
+msgstr "valor inválido para 'SigLevel': '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -217,22 +221,24 @@ msgstr "    tente executar pacman-db-upgrade\n"
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problema ao configurar logfile '%s' (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr "problema ao configurar rootdir '%s' (%s)\n"
+msgstr "problema na configuração de gpgdir '%s' (%s)\n"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "não foi possível registrar a base de dados '%s' (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
 msgstr ""
-"não foi possível adicionar a URL do servidor à base de dados '%s': %s (%s)\n"
+"Não foi possível adicionar o espelho '%s' para o banco de dados '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"a análise de configuração ultrapassou a profundidade\n"
+"máxima de recursão de %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -342,17 +348,17 @@ msgstr "Conflita Com         :"
 msgid "Replaces       :"
 msgstr "Substitui            :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr "Tamanho do Download  : %6.2f K\n"
+msgstr "Tamanho do Download  : %6.2f %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr "Tamanho Compactado   : %6.2f K\n"
+msgstr "Tamanho Comprimido : %6.2f %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr "Tamanho Instalado    : %6.2f K\n"
+msgstr "Tamanho Instalado : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -390,9 +396,9 @@ msgstr "Não"
 msgid "MD5 Sum        :"
 msgstr "Soma MD5             :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures     :"
-msgstr "Licenças             :"
+msgstr "Assinaturas:"
 
 #, c-format
 msgid "Description    :"
@@ -717,9 +723,9 @@ msgstr ""
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug         mostra mensagens de debug\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --logfile <caminho> define um arquivo de log alternativo\n"
+msgstr "--gpgdir <path> definir um diretório alternativo para GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -1029,9 +1035,9 @@ msgstr "falha ao liberar a transação (%s)\n"
 msgid "no usable package repositories configured.\n"
 msgstr "nenhum repositório de pacotes utilizável foi configurado.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr "base de dados não encontrada: %s\n"
+msgstr "'%s' banco de dados não é válida (%s)\n"
 
 #, c-format
 msgid "None"
@@ -1057,9 +1063,9 @@ msgstr ""
 msgid "Invalid"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Key unknown"
-msgstr "Desconhecido"
+msgstr ""
 
 #, c-format
 msgid "Signature error"
@@ -1077,13 +1083,13 @@ msgstr ""
 msgid "never trusted"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "unknown trust"
-msgstr "Desconhecido"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "{Key Unknown}"
-msgstr "Desconhecido"
+msgstr ""
 
 #, c-format
 msgid "%s, %s from \"%s\""
@@ -1113,21 +1119,21 @@ msgstr "Alvos (%d):"
 msgid "Remove (%d):"
 msgstr "Remover (%d):"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr "Tamanho Total do Download:   %.2f MB\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr "Tamanho Total da Instalação:   %.2f MB\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr "Tamanho Total do Download:   %.2f MB\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr "Tamanho Total dos Pacotes a Remover:   %.2f MB\n"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1200,17 +1206,3 @@ msgstr "erro: "
 #, c-format
 msgid "warning: "
 msgstr "atenção: "
-
-#, fuzzy
-#~ msgid "config file %s, line %d: directive '%s' has invalid value '%s'\n"
-#~ msgstr ""
-#~ "arquivo de configuração %s, linha %d: diretiva '%s' precisa de um valor\n"
-
-#, fuzzy
-#~ msgid "could not set verify option for database '%s' (%s)\n"
-#~ msgstr ""
-#~ "não foi possível adicionar a URL do servidor à base de dados '%s': %s "
-#~ "(%s)\n"
-
-#~ msgid "package '%s' was not found in repository '%s'\n"
-#~ msgstr "pacote '%s' não foi encontrado no repositório '%s'\n"
