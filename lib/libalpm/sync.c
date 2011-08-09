@@ -677,14 +677,16 @@ static int apply_deltas(alpm_handle_t *handle)
  *
  * @param trans the transaction
  * @param filename the absolute path of the file to test
+ * @param reason an error code indicating the reason for package invalidity
  *
  * @return 1 if file was removed, 0 otherwise
  */
-static int prompt_to_delete(alpm_trans_t *trans, const char *filepath)
+static int prompt_to_delete(alpm_trans_t *trans, const char *filepath,
+		enum _alpm_errno_t reason)
 {
 	int doremove = 0;
 	QUESTION(trans, ALPM_TRANS_CONV_CORRUPTED_PKG, (char *)filepath,
-			NULL, NULL, &doremove);
+			&reason, NULL, &doremove);
 	if(doremove) {
 		unlink(filepath);
 	}
@@ -711,7 +713,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 
 		ret = _alpm_test_md5sum(filepath, d->delta_md5);
 		if(ret != 0) {
-			prompt_to_delete(trans, filepath);
+			prompt_to_delete(trans, filepath, ALPM_ERR_DLT_INVALID);
 			errors++;
 			*data = alpm_list_add(*data, strdup(d->delta));
 		}
@@ -899,7 +901,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1, spkg->md5sum,
 				spkg->base64_sig, level);
 		if(!pkgfile) {
-			prompt_to_delete(trans, filepath);
+			prompt_to_delete(trans, filepath, handle->pm_errno);
 			errors++;
 			*data = alpm_list_add(*data, strdup(filename));
 			FREE(filepath);

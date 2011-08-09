@@ -330,8 +330,10 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 			}
 			break;
 		case ALPM_TRANS_CONV_CORRUPTED_PKG:
-			*response = yesno(_(":: File %s is corrupted. Do you want to delete it?"),
-					(char *)data1);
+			*response = yesno(_(":: File %s is corrupted (%s).\n"
+						"Do you want to delete it?"),
+					(char *)data1,
+					alpm_strerror(*(enum _alpm_errno_t *)data2));
 			break;
 	}
 	if(config->noask) {
