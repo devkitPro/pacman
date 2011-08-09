@@ -58,6 +58,8 @@ class pmdb(object):
             self.dbdir = os.path.join(root, util.PM_DBPATH, treename)
             self.dbfile = None
             self.is_local = True
+            self.read_dircache = None
+            self.read_pkgcache = {}
         else:
             self.dbdir = None
             self.dbfile = os.path.join(root, util.PM_SYNCDBPATH, treename + ".db")
@@ -81,20 +83,24 @@ class pmdb(object):
         if not self.dbdir or not os.path.isdir(self.dbdir):
             return None
 
-        dbentry = ""
-        for roots, dirs, files in os.walk(self.dbdir):
-            for i in dirs:
-                [pkgname, pkgver, pkgrel] = i.rsplit("-", 2)
-                if pkgname == name:
-                    dbentry = i
-                    break
-        if not dbentry:
+        dbentry = None
+        if self.read_dircache is None:
+            self.read_dircache = os.listdir(self.dbdir)
+        for entry in self.read_dircache:
+            [pkgname, pkgver, pkgrel] = entry.rsplit("-", 2)
+            if pkgname == name:
+                dbentry = entry
+                break
+        if dbentry is None:
             return None
-        path = os.path.join(self.dbdir, dbentry)
 
-        [pkgname, pkgver, pkgrel] = dbentry.rsplit("-", 2)
+        if pkgname in self.read_pkgcache:
+            return self.read_pkgcache[pkgname]
+
         pkg = pmpkg.pmpkg(pkgname, pkgver + "-" + pkgrel)
+        self.read_pkgcache[pkgname] = pkg
 
+        path = os.path.join(self.dbdir, dbentry)
         # desc
         filename = os.path.join(path, "desc")
         if not os.path.isfile(filename):
