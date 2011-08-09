@@ -42,6 +42,9 @@
 #include "util.h"
 #include "handle.h"
 
+#ifdef HAVE_LIBCURL
+static double prevprogress; /* last download amount */
+
 static const char *get_filename(const char *url)
 {
 	char *filename = strrchr(url, '/');
@@ -50,9 +53,6 @@ static const char *get_filename(const char *url)
 	}
 	return filename;
 }
-
-#ifdef HAVE_LIBCURL
-static double prevprogress; /* last download amount */
 
 static char *get_fullpath(const char *path, const char *filename,
 		const char *suffix)
