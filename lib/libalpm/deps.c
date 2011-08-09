@@ -373,8 +373,7 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 	int satisfy = 0;
 
 	/* check (pkg->name, pkg->version) */
-	if(pkg->name_hash && dep->name_hash
-			&& pkg->name_hash != dep->name_hash) {
+	if(pkg->name_hash != dep->name_hash) {
 		/* skip more expensive checks */
 	} else {
 		satisfy = (strcmp(pkg->name, dep->name) == 0

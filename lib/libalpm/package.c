@@ -625,8 +625,7 @@ alpm_pkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 		alpm_pkg_t *info = lp->data;
 
 		if(info) {
-			/* a zero hash will cause a fall-through just in case */
-			if(info->name_hash && info->name_hash != needle_hash) {
+			if(info->name_hash != needle_hash) {
 				continue;
 			}
 
