@@ -27,6 +27,7 @@
 #include <sys/types.h> /* off_t */
 #include <unistd.h>
 #include <wchar.h>
+#include <limits.h> /* UINT_MAX */
 
 #include <alpm.h>
 
@@ -568,10 +569,13 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;
 		diff_usec = current_time.tv_usec - initial_time.tv_usec;
 		timediff = diff_sec + (diff_usec / 1000000.0);
-		rate = xfered / timediff;
-
-		/* round elapsed time to the nearest second */
-		eta_s = (int)(timediff + 0.5);
+		if(timediff > 0.0) {
+			rate = xfered / timediff;
+			/* round elapsed time to the nearest second */
+			eta_s = (unsigned int)(timediff + 0.5);
+		} else {
+			eta_s = 0;
+		}
 	} else {
 		/* compute current average values */
 		timediff = get_update_timediff(0);
@@ -583,12 +587,20 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		rate = (xfered - xfered_last) / timediff;
 		/* average rate to reduce jumpiness */
 		rate = (rate + 2 * rate_last) / 3;
-		eta_s = (total - xfered) / rate;
+		if(rate > 0.0) {
+			eta_s = (total - xfered) / rate;
+		} else {
+			eta_s = UINT_MAX;
+		}
 		rate_last = rate;
 		xfered_last = xfered;
 	}
 
-	file_percent = (file_xfered * 100) / file_total;
+	if(file_total) {
+		file_percent = (file_xfered * 100) / file_total;
+	} else {
+		file_percent = 100;
+	}
 
 	if(totaldownload) {
 		total_percent = ((list_xfered + file_xfered) * 100) /
@@ -648,6 +660,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	xfered_human = humanize_size(xfered, '\0', 0, &xfered_label);
 
 	/* 1 space + filenamelen + 1 space + 7 for size + 1 + 7 for rate + 2 for /s + 1 space + 8 for eta */
+	/* TODO: if eta_h > 99, formatting gets all messed up */
 	printf(" %ls%-*s %6.1f%s %#6.1f%s/s %02u:%02u:%02u", wcfname,
 			padwid, "", xfered_human, xfered_label, rate_human, rate_label,
 			eta_h, eta_m, eta_s);
