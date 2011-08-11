@@ -242,36 +242,8 @@ AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)
 
-# Check for architecture, used in default makepkg.conf
-case "${host}" in
-	i686-*)
-		CARCH="i686"
-		;;
-	x86_64-*)
-		CARCH="x86_64"
-		;;
-	ia64-*)
-		CARCH="ia64"
-		;;
-	sparc-*)
-		CARCH="sparc"
-		;;
-	ppc-* | powerpc-*)
-		CARCH="ppc"
-		;;
-	i386-*)
-		CARCH="i386"
-		;;
-	arm-*)
-		CARCH="arm"
-		;;
-	*)
-		AC_MSG_WARN([[Your architecture is unknown for makepkg.conf, consider adding it to configure.ac]])
-		CARCH="unknown"
-		;;
-esac
-
-# Now do some things common to all architectures
+# Variables plugged into makepkg.conf
+CARCH="${host%%-*}"
 CHOST="${host}"
 AC_SUBST(CARCH)
 AC_SUBST(CHOST)
