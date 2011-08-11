@@ -708,13 +708,13 @@ void signature_display(const char *title, alpm_sigresult_t *result)
 			}
 			switch(result->validity[i]) {
 				case ALPM_SIGVALIDITY_FULL:
-					validity = _("fully trusted");
+					validity = _("full trust");
 					break;
 				case ALPM_SIGVALIDITY_MARGINAL:
-					validity = _("marginal trusted");
+					validity = _("marginal trust");
 					break;
 				case ALPM_SIGVALIDITY_NEVER:
-					validity = _("never trusted");
+					validity = _("never trust");
 					break;
 				case ALPM_SIGVALIDITY_UNKNOWN:
 				default:
