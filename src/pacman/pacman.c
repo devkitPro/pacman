@@ -189,7 +189,7 @@ static void usage(int op, const char * const myname)
 				/* pass through */
 			case PM_OP_REMOVE:
 				addlist(_("  -d, --nodeps         skip dependency version checks (-dd to skip all checks)\n"));
-				addlist(_("  -k, --dbonly         only modify database entries, not package files\n"));
+				addlist(_("      --dbonly         only modify database entries, not package files\n"));
 				addlist(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 				addlist(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
 				addlist(_("      --print          print the targets instead of performing the operation\n"));
@@ -488,7 +488,7 @@ static int parsearg_trans(int opt)
 				config->flags |= ALPM_TRANS_FLAG_NODEPVERSION;
 			}
 			break;
-		case 'k': config->flags |= ALPM_TRANS_FLAG_DBONLY; break;
+		case OP_DBONLY: config->flags |= ALPM_TRANS_FLAG_DBONLY; break;
 		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
 		case OP_NOSCRIPTLET: config->flags |= ALPM_TRANS_FLAG_NOSCRIPTLET; break;
 		case 'p': config->print = 1; break;
@@ -600,7 +600,6 @@ static int parseargs(int argc, char *argv[])
 		{"groups",     no_argument,       0, 'g'},
 		{"help",       no_argument,       0, 'h'},
 		{"info",       no_argument,       0, 'i'},
-		{"dbonly",     no_argument,       0, 'k'},
 		{"check",      no_argument,       0, 'k'},
 		{"list",       no_argument,       0, 'l'},
 		{"foreign",    no_argument,       0, 'm'},
@@ -636,6 +635,7 @@ static int parseargs(int argc, char *argv[])
 		{"print-format", required_argument, 0, OP_PRINTFORMAT},
 		{"gpgdir",     required_argument, 0, OP_GPGDIR},
 		{"recursive",  no_argument,       0, OP_RECURSIVE},
+		{"dbonly",     no_argument,       0, OP_DBONLY},
 		{0, 0, 0, 0}
 	};
 
