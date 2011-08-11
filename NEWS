@@ -1,5 +1,14 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+3.5.4         - fix display of lists on non-TTYs and other output fixes
+              - fix group selection entry for large inputs (FS#24253)
+              - fix divide by zero when downloading zero length files
+              - flush terminal input before reading response (FS#20538)
+              - allow files to be replaced by directories (FS#24904)
+              - makepkg: fix filenames with spaces and noextract (FS#25100)
+              - scripts: remove ln -f option for POSIX compliance (FS#24893)
+              - various small documentation updates
+              - minor translation updates: de, fi
 3.5.3         - segfault when creating lock in non-existent dir (FS#24292)
               - segfault when uninstalling broken backed-up symlink (FS#24230)
               - --print should not enable --noconfirm (FS#24287)
