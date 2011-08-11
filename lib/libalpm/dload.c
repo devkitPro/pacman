@@ -302,6 +302,9 @@ static int curl_download_internal(struct dload_payload *payload,
 	/* perform transfer */
 	handle->curlerr = curl_easy_perform(handle->curl);
 
+	/* immediately unhook the progress callback */
+	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 1L);
+
 	/* was it a success? */
 	if(handle->curlerr == CURLE_ABORTED_BY_CALLBACK) {
 		goto cleanup;
