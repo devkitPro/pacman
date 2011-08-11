@@ -1,7 +1,12 @@
 /*
  *  RFC 1321 compliant MD5 implementation
  *
- *  Copyright (C) 2006-2007  Christophe Devine
+ *  Copyright (C) 2006-2010, Brainspark B.V.
+ *
+ *  This file is part of PolarSSL (http://www.polarssl.org)
+ *  Lead Maintainer: Paul Bakker <polarssl_maintainer at polarssl.org>
+ *
+ *  All rights reserved.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,29 +29,19 @@
 /*
  *  Pacman Notes:
  *
- *  Taken from the XySSL project at www.xyssl.org under terms of the
- *  GPL. This is from version 0.9 of the library, and has been modified
+ *  Taken from the PolarSSL project at http://polarssl.org under terms of the
+ *  GPL. This is from version 1.0.0 of the library, and has been modified
  *  as following, which may be helpful for future updates:
- *  * remove "xyssl/config.h" include
- *  * change include from "xyssl/md5.h" to "md5.h"
+ *  * remove "polarssl/config.h" include
+ *  * change include from "polarssl/sha2.h" to "sha2.h"
  *  * removal of HMAC code
  *  * removal of SELF_TEST code
- *  * removal of ipad and opad from the md5_context struct in md5.h
- *  * change of md5_file prototype from
- *        int md5_file( char *path, unsigned char *output )
- *      to
- *        int md5_file( const char *path, unsigned char *output )
- *  * use a dynamically-allocated buffer in md5_file, and increase the size
- *    for performance reasons
- *  * various static/inline changes
- *
- *  NOTE: XySSL has been renamed to PolarSSL, which is available at
- *  www.polarssl.org. If we update, we should get it from there.
+ *  * removal of ipad and opad from the md5_context struct in sha2.h
+ *  * increase the size of buffer for performance reasons
+ *  * various static changes
  */
 
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "md5.h"
 
@@ -76,7 +71,7 @@
 /*
  * MD5 context setup
  */
-static inline void md5_starts( md5_context *ctx )
+static void md5_starts( md5_context *ctx )
 {
     ctx->total[0] = 0;
     ctx->total[1] = 0;
@@ -87,7 +82,7 @@ static inline void md5_starts( md5_context *ctx )
     ctx->state[3] = 0x10325476;
 }
 
-static inline void md5_process( md5_context *ctx, unsigned char data[64] )
+static void md5_process( md5_context *ctx, const unsigned char data[64] )
 {
     unsigned long X[16], A, B, C, D;
 
@@ -161,7 +156,7 @@ static inline void md5_process( md5_context *ctx, unsigned char data[64] )
     P( B, C, D, A, 12, 20, 0x8D2A4C8A );
 
 #undef F
-
+    
 #define F(x,y,z) (x ^ y ^ z)
 
     P( A, B, C, D,  5,  4, 0xFFFA3942 );
@@ -213,9 +208,9 @@ static inline void md5_process( md5_context *ctx, unsigned char data[64] )
 /*
  * MD5 process buffer
  */
-static inline void md5_update( md5_context *ctx, unsigned char *input, int ilen )
+static void md5_update( md5_context *ctx, const unsigned char *input, size_t ilen )
 {
-    int fill;
+    size_t fill;
     unsigned long left;
 
     if( ilen <= 0 )
@@ -224,7 +219,7 @@ static inline void md5_update( md5_context *ctx, unsigned char *input, int ilen 
     left = ctx->total[0] & 0x3F;
     fill = 64 - left;
 
-    ctx->total[0] += ilen;
+    ctx->total[0] += (unsigned long) ilen;
     ctx->total[0] &= 0xFFFFFFFF;
 
     if( ctx->total[0] < (unsigned long) ilen )
@@ -254,7 +249,7 @@ static inline void md5_update( md5_context *ctx, unsigned char *input, int ilen 
     }
 }
 
-static unsigned char md5_padding[64] =
+static const unsigned char md5_padding[64] =
 {
  0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -265,7 +260,7 @@ static unsigned char md5_padding[64] =
 /*
  * MD5 final digest
  */
-static inline void md5_finish( md5_context *ctx, unsigned char output[16] )
+static void md5_finish( md5_context *ctx, unsigned char output[16] )
 {
     unsigned long last, padn;
     unsigned long high, low;
@@ -293,7 +288,7 @@ static inline void md5_finish( md5_context *ctx, unsigned char output[16] )
 /*
  * output = MD5( input buffer )
  */
-void md5( unsigned char *input, int ilen, unsigned char output[16] )
+void md5( const unsigned char *input, size_t ilen, unsigned char output[16] )
 {
     md5_context ctx;
 
@@ -312,25 +307,19 @@ int md5_file( const char *path, unsigned char output[16] )
     FILE *f;
     size_t n;
     md5_context ctx;
-    unsigned char *buf;
+    unsigned char buf[4096];
 
-    if( ( buf = calloc(8192, sizeof(unsigned char)) ) == NULL )
+    if( ( f = fopen( path, "rb" ) ) == NULL )
         return( 1 );
-
-    if( ( f = fopen( path, "rb" ) ) == NULL ) {
-        free( buf );
-        return( 1 );
-    }
 
     md5_starts( &ctx );
 
     while( ( n = fread( buf, 1, sizeof( buf ), f ) ) > 0 )
-        md5_update( &ctx, buf, (int) n );
+        md5_update( &ctx, buf, n );
 
     md5_finish( &ctx, output );
 
     memset( &ctx, 0, sizeof( md5_context ) );
-    free( buf );
 
     if( ferror( f ) != 0 )
     {

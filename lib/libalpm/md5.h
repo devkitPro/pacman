@@ -1,7 +1,12 @@
 /*
  *  RFC 1321 compliant MD5 implementation
  *
- *  Copyright (C) 2006-2007  Christophe Devine
+ *  Copyright (C) 2006-2010, Brainspark B.V.
+ *
+ *  This file is part of PolarSSL (http://www.polarssl.org)
+ *  Lead Maintainer: Paul Bakker <polarssl_maintainer at polarssl.org>
+ *
+ *  All rights reserved.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,9 +21,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #ifndef _MD5_H
 #define _MD5_H
+
+#include <string.h>
 
 /**
  * \brief          MD5 context structure
@@ -38,7 +44,7 @@ md5_context;
  * \param ilen     length of the input data
  * \param output   MD5 checksum result
  */
-void md5( unsigned char *input, int ilen, unsigned char output[16] );
+void md5( const unsigned char *input, size_t ilen, unsigned char output[16] );
 
 /**
  * \brief          Output = MD5( file contents )
