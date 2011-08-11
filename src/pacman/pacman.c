@@ -165,6 +165,7 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			addlist(_("  -y, --refresh        download fresh package databases from the server\n"));
 			addlist(_("      --needed         don't reinstall up to date packages\n"));
+			addlist(_("      --recursive      reinstall all dependencies of target packages\n"));
 		} else if(op == PM_OP_DATABASE) {
 			printf("%s:  %s {-D --database} <%s> <%s>\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -506,6 +507,9 @@ static int parsearg_remove(int opt)
 		case 'c': config->flags |= ALPM_TRANS_FLAG_CASCADE; break;
 		case 'n': config->flags |= ALPM_TRANS_FLAG_NOSAVE; break;
 		case 's':
+		case OP_RECURSIVE:
+			/* 's' is the legacy flag here, but since recursive is used in -S without
+			 * a shortopt, we need to do funky tricks */
 			if(config->flags & ALPM_TRANS_FLAG_RECURSE) {
 				config->flags |= ALPM_TRANS_FLAG_RECURSEALL;
 			} else {
@@ -544,6 +548,7 @@ static int parsearg_sync(int opt)
 		return 0;
 	switch(opt) {
 		case OP_NEEDED: config->flags |= ALPM_TRANS_FLAG_NEEDED; break;
+		case OP_RECURSIVE: config->flags |= ALPM_TRANS_FLAG_RECURSE; break;
 		case 'c': (config->op_s_clean)++; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_s_info)++; break;
@@ -603,7 +608,6 @@ static int parseargs(int argc, char *argv[])
 		{"print",      no_argument,       0, 'p'},
 		{"quiet",      no_argument,       0, 'q'},
 		{"root",       required_argument, 0, 'r'},
-		{"recursive",  no_argument,       0, 's'},
 		{"search",     no_argument,       0, 's'},
 		{"unrequired", no_argument,       0, 't'},
 		{"upgrades",   no_argument,       0, 'u'},
@@ -612,6 +616,7 @@ static int parseargs(int argc, char *argv[])
 		{"verbose",    no_argument,       0, 'v'},
 		{"downloadonly", no_argument,     0, 'w'},
 		{"refresh",    no_argument,       0, 'y'},
+
 		{"noconfirm",  no_argument,       0, OP_NOCONFIRM},
 		{"config",     required_argument, 0, OP_CONFIG},
 		{"ignore",     required_argument, 0, OP_IGNORE},
@@ -628,6 +633,7 @@ static int parseargs(int argc, char *argv[])
 		{"arch",       required_argument, 0, OP_ARCH},
 		{"print-format", required_argument, 0, OP_PRINTFORMAT},
 		{"gpgdir",     required_argument, 0, OP_GPGDIR},
+		{"recursive",  no_argument,       0, OP_RECURSIVE},
 		{0, 0, 0, 0}
 	};
 

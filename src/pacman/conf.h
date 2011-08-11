@@ -123,7 +123,8 @@ enum {
 	OP_ASEXPLICIT,
 	OP_ARCH,
 	OP_PRINTFORMAT,
-	OP_GPGDIR
+	OP_GPGDIR,
+	OP_RECURSIVE
 };
 
 /* clean method */
