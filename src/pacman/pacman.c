@@ -134,6 +134,8 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -u, --unneeded       remove unneeded packages\n"));
 		} else if(op == PM_OP_UPGRADE) {
 			printf("%s:  %s {-U --upgrade} [%s] <%s>\n", str_usg, myname, str_opt, str_file);
+			addlist(_("      --needed         do not reinstall up to date packages\n"));
+			addlist(_("      --recursive      reinstall all dependencies of target packages\n"));
 			printf("%s:\n", str_opt);
 		} else if(op == PM_OP_QUERY) {
 			printf("%s:  %s {-Q --query} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
@@ -164,7 +166,7 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"));
 			addlist(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			addlist(_("  -y, --refresh        download fresh package databases from the server\n"));
-			addlist(_("      --needed         don't reinstall up to date packages\n"));
+			addlist(_("      --needed         do not reinstall up to date packages\n"));
 			addlist(_("      --recursive      reinstall all dependencies of target packages\n"));
 		} else if(op == PM_OP_DATABASE) {
 			printf("%s:  %s {-D --database} <%s> <%s>\n", str_usg, myname, str_opt, str_pkg);
@@ -531,6 +533,8 @@ static int parsearg_upgrade(int opt)
 		case 'f': config->flags |= ALPM_TRANS_FLAG_FORCE; break;
 		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
 		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
+		case OP_NEEDED: config->flags |= ALPM_TRANS_FLAG_NEEDED; break;
+		case OP_RECURSIVE: config->flags |= ALPM_TRANS_FLAG_RECURSE; break;
 		case OP_IGNORE:
 			parsearg_util_addlist(&(config->ignorepkg));
 			break;
@@ -547,8 +551,6 @@ static int parsearg_sync(int opt)
 	if(parsearg_upgrade(opt) == 0)
 		return 0;
 	switch(opt) {
-		case OP_NEEDED: config->flags |= ALPM_TRANS_FLAG_NEEDED; break;
-		case OP_RECURSIVE: config->flags |= ALPM_TRANS_FLAG_RECURSE; break;
 		case 'c': (config->op_s_clean)++; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_s_info)++; break;
