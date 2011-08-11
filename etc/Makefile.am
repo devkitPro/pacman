@@ -19,7 +19,6 @@ edit = sed \
 	-e 's|@CARCH[@]|$(CARCH)|g' \
 	-e 's|@CHOST[@]|$(CHOST)|g' \
 	-e 's|@ARCHSWITCH[@]|$(ARCHSWITCH)|g' \
-	-e 's|@CARCHFLAGS[@]|$(CARCHFLAGS)|g' \
 	-e 's|@ROOTDIR[@]|$(ROOTDIR)|g'
 
 $(dist_sysconf_DATA): Makefile

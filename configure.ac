@@ -243,47 +243,37 @@ AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)
 
 # Check for architecture, used in default makepkg.conf
-# (Note single space left after CARCHFLAGS)
 case "${host}" in
 	i686-*)
 		CARCH="i686"
-		CARCHFLAGS="-march=i686 "
 		;;
 	x86_64-*)
 		CARCH="x86_64"
-		CARCHFLAGS="-march=x86-64 "
 		;;
 	ia64-*)
 		CARCH="ia64"
-		CARCHFLAGS="-march=ia64 "
 		;;
 	sparc-*)
 		CARCH="sparc"
-		CARCHFLAGS="-mcpu=v9 "
 		;;
 	ppc-* | powerpc-*)
 		CARCH="ppc"
-		CARCHFLAGS="-mcpu=750 "
 		;;
 	i386-*)
 		CARCH="i386"
-		CARCHFLAGS="-march=i386 "
 		;;
 	arm-*)
 		CARCH="arm"
-		CARCHFLAGS="-march=armv4 "
 		;;
 	*)
 		AC_MSG_WARN([[Your architecture is unknown for makepkg.conf, consider adding it to configure.ac]])
 		CARCH="unknown"
-		CARCHFLAGS=""
 		;;
 esac
 
 # Now do some things common to all architectures
 CHOST="${host}"
 AC_SUBST(CARCH)
-AC_SUBST(CARCHFLAGS)
 AC_SUBST(CHOST)
 
 # Check for documentation support and status
@@ -407,7 +397,6 @@ ${PACKAGE_NAME}:
     linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
-    Architecture flags     : ${CARCHFLAGS}
     Host Type              : ${CHOST}
     Filesize command       : ${SIZECMD}
     In-place sed command   : ${SEDINPLACE}

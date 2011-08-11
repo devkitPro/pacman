@@ -26,11 +26,9 @@ DLAGENTS=('ftp::/usr/bin/curl -fC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %
 CARCH="@CARCH@"
 CHOST="@CHOST@"
 
-#-- Exclusive: will only run on @CARCH@
-# -march (or -mcpu) builds exclusively for an architecture
-# -mtune optimizes for an architecture, but builds for whole processor family
-CFLAGS="@CARCHFLAGS@-mtune=generic -O2 -pipe"
-CXXFLAGS="@CARCHFLAGS@-mtune=generic -O2 -pipe"
+#-- Compiler and Linker Flags
+#CFLAGS="-O2 -pipe"
+#CXXFLAGS="-O2 -pipe"
 #LDFLAGS=""
 #-- Make Flags: change this for DistCC/SMP systems
 #MAKEFLAGS="-j2"
