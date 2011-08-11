@@ -33,6 +33,9 @@ _pacman_opts_common=(
 _pacman_opts_pkgfile=(
 	'-d[Skip dependency checks]'
 	'-f[Overwrite conflicting files]'
+	'--dbonly[Only remove database entry, do not remove files]'
+	'--needed[Do not reinstall up to date packages]'
+	'--recursive[Reinstall all dependencies of target packages]'
 	'*:package file:_files -g "*.pkg.tar.*(.)"'
 )
 
@@ -62,9 +65,9 @@ _pacman_opts_query_modifiers=(
 _pacman_opts_remove=(
 	'-c[Remove all dependent packages]'
 	'-d[Skip dependency checks]'
-	'-k[Only remove database entry, do not remove files]'
 	'-n[Remove protected configuration files]'
 	'-s[Remove dependencies not required by other packages]'
+	'--dbonly[Only remove database entry, do not remove files]'
 	'*:installed package:_pacman_completions_installed_packages'
 )
 
@@ -74,6 +77,9 @@ _pacman_opts_sync_actions=(
 	'*-cc[Remove all packages from cache]:*:clean:->sync_clean'
 	'-g[View all members of a package group]:*:package groups:->sync_group'
 	'-s[Search package names and descriptions]:*:search text:->sync_search'
+	'--dbonly[Only remove database entry, do not remove files]'
+	'--needed[Do not reinstall up to date packages]'
+	'--recursive[Reinstall all dependencies of target packages]'
 )
 
 # options for passing to _arguments: options for --sync command
