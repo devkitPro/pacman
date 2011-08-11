@@ -46,8 +46,10 @@
 
 #ifdef HAVE_LIBSSL
 #include <openssl/md5.h>
+#include <openssl/sha.h>
 #else
 #include "md5.h"
+#include "sha2.h"
 #endif
 
 /* libalpm */
@@ -747,6 +749,53 @@ static int md5_file(const char *path, unsigned char output[16])
 	fclose(f);
 	return 0;
 }
+
+/* third param is so we match the PolarSSL definition */
+static int sha2_file(const char *path, unsigned char output[32], int is224)
+{
+	FILE *f;
+	size_t n;
+	SHA256_CTX ctx;
+	unsigned char *buf;
+
+	CALLOC(buf, 8192, sizeof(unsigned char), return 1);
+
+	if((f = fopen(path, "rb")) == NULL) {
+		free(buf);
+		return 1;
+	}
+
+	if(is224) {
+		SHA224_Init(&ctx);
+	} else {
+		SHA256_Init(&ctx);
+	}
+
+	while((n = fread(buf, 1, sizeof(buf), f)) > 0) {
+		if(is224) {
+			SHA224_Update(&ctx, buf, n);
+		} else {
+			SHA256_Update(&ctx, buf, n);
+		}
+	}
+
+	if(is224) {
+		SHA224_Final(output, &ctx);
+	} else {
+		SHA256_Final(output, &ctx);
+	}
+
+	memset(&ctx, 0, sizeof(SHA256_CTX));
+	free(buf);
+
+	if(ferror(f) != 0) {
+		fclose(f);
+		return 2;
+	}
+
+	fclose(f);
+	return 0;
+}
 #endif
 
 /** Get the md5 sum of file.
@@ -797,6 +846,37 @@ int _alpm_test_md5sum(const char *filepath, const char *md5sum)
 
 	FREE(md5sum2);
 	return ret;
+}
+
+/** Get the sha256 sum of file.
+ * @param filename name of the file
+ * @return the checksum on success, NULL on error
+ * @addtogroup alpm_misc
+ */
+char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
+{
+	unsigned char output[32];
+	char *sha256sum;
+	int ret, i;
+
+	ASSERT(filename != NULL, return NULL);
+
+	/* allocate 64 chars plus 1 for null */
+	CALLOC(sha256sum, 65, sizeof(char), return NULL);
+	/* defined above for OpenSSL, otherwise defined in sha2.h */
+	ret = sha2_file(filename, output, 0);
+
+	if(ret > 0) {
+		return NULL;
+	}
+
+	/* Convert the result to something readable */
+	for (i = 0; i < 32; i++) {
+		/* sprintf is acceptable here because we know our output */
+		sprintf(sha256sum +(i * 2), "%02x", output[i]);
+	}
+
+	return sha256sum;
 }
 
 /* Note: does NOT handle sparse files on purpose for speed. */

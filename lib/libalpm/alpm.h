@@ -1058,6 +1058,7 @@ char *alpm_dep_compute_string(const alpm_depend_t *dep);
 
 /* checksums */
 char *alpm_compute_md5sum(const char *name);
+char *alpm_compute_sha256sum(const char *filename);
 
 /** @addtogroup alpm_api_errors Error Codes
  * @{
