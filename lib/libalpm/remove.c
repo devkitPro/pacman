@@ -141,7 +141,8 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	alpm_trans_t *trans = handle->trans;
 	alpm_db_t *db = handle->db_local;
 
-	if((trans->flags & ALPM_TRANS_FLAG_RECURSE) && !(trans->flags & ALPM_TRANS_FLAG_CASCADE)) {
+	if((trans->flags & ALPM_TRANS_FLAG_RECURSE)
+			&& !(trans->flags & ALPM_TRANS_FLAG_CASCADE)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "finding removable dependencies\n");
 		_alpm_recursedeps(db, trans->remove,
 				trans->flags & ALPM_TRANS_FLAG_RECURSEALL);
@@ -180,7 +181,8 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	trans->remove = lp;
 
 	/* -Rcs == -Rc then -Rs */
-	if((trans->flags & ALPM_TRANS_FLAG_CASCADE) && (trans->flags & ALPM_TRANS_FLAG_RECURSE)) {
+	if((trans->flags & ALPM_TRANS_FLAG_CASCADE)
+			&& (trans->flags & ALPM_TRANS_FLAG_RECURSE)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "finding removable dependencies\n");
 		_alpm_recursedeps(db, trans->remove, trans->flags & ALPM_TRANS_FLAG_RECURSEALL);
 	}

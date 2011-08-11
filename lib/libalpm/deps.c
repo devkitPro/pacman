@@ -265,8 +265,9 @@ alpm_pkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstri
  * @param reversedeps handles the backward dependencies
  * @return an alpm_list_t* of alpm_depmissing_t pointers.
  */
-alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglist,
-		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps)
+alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
+		alpm_list_t *pkglist, alpm_list_t *remove, alpm_list_t *upgrade,
+		int reversedeps)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *dblist = NULL, *modified = NULL;
@@ -290,7 +291,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 	for(i = upgrade; i; i = i->next) {
 		alpm_pkg_t *tp = i->data;
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: package %s-%s\n",
-				alpm_pkg_get_name(tp), alpm_pkg_get_version(tp));
+				tp->name, tp->version);
 
 		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 			alpm_depend_t *depend = j->data;
@@ -298,14 +299,14 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 			/* 1. we check the upgrade list */
 			/* 2. we check database for untouched satisfying packages */
 			if(!find_dep_satisfier(upgrade, depend) &&
-			   !find_dep_satisfier(dblist, depend)) {
+					!find_dep_satisfier(dblist, depend)) {
 				/* Unsatisfied dependency in the upgrade list */
 				alpm_depmissing_t *miss;
 				char *missdepstring = alpm_dep_compute_string(depend);
 				_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: missing dependency '%s' for package '%s'\n",
-						missdepstring, alpm_pkg_get_name(tp));
+						missdepstring, tp->name);
 				free(missdepstring);
-				miss = depmiss_new(alpm_pkg_get_name(tp), depend, NULL);
+				miss = depmiss_new(tp->name, depend, NULL);
 				baddeps = alpm_list_add(baddeps, miss);
 			}
 			release_filtered_depend(depend, nodepversion);
@@ -330,9 +331,9 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglis
 					alpm_depmissing_t *miss;
 					char *missdepstring = alpm_dep_compute_string(depend);
 					_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",
-							missdepstring, alpm_pkg_get_name(lp));
+							missdepstring, lp->name);
 					free(missdepstring);
-					miss = depmiss_new(lp->name, depend, alpm_pkg_get_name(causingpkg));
+					miss = depmiss_new(lp->name, depend, causingpkg->name);
 					baddeps = alpm_list_add(baddeps, miss);
 				}
 				release_filtered_depend(depend, nodepversion);
@@ -469,20 +470,20 @@ alpm_depend_t *_alpm_dep_dup(const alpm_depend_t *dep)
  * targets and a db is safe to remove. We do NOT remove it if it is in the
  * target list, or if if the package was explictly installed and
  * include_explicit == 0 */
-static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg, alpm_list_t *targets,
-		int include_explicit)
+static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
+		alpm_list_t *targets, int include_explicit)
 {
 	alpm_list_t *i;
 
-	if(_alpm_pkg_find(targets, alpm_pkg_get_name(pkg))) {
+	if(_alpm_pkg_find(targets, pkg->name)) {
 		return 0;
 	}
 
 	if(!include_explicit) {
 		/* see if it was explicitly installed */
 		if(alpm_pkg_get_reason(pkg) == ALPM_PKG_REASON_EXPLICIT) {
-			_alpm_log(db->handle, ALPM_LOG_DEBUG, "excluding %s -- explicitly installed\n",
-					alpm_pkg_get_name(pkg));
+			_alpm_log(db->handle, ALPM_LOG_DEBUG,
+					"excluding %s -- explicitly installed\n", pkg->name);
 			return 0;
 		}
 	}
@@ -530,7 +531,7 @@ void _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
 			if(_alpm_dep_edge(pkg, deppkg)
 					&& can_remove_package(db, deppkg, targs, include_explicit)) {
 				_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding '%s' to the targets\n",
-						alpm_pkg_get_name(deppkg));
+						deppkg->name);
 				/* add it to the target list */
 				targs = alpm_list_add(targs, _alpm_pkg_dup(deppkg));
 			}
@@ -686,9 +687,9 @@ alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
  *         unresolvable dependency, in which case the [*packages] list will be
  *         unmodified by this function
  */
-int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t *pkg,
-                      alpm_list_t *preferred, alpm_list_t **packages,
-                      alpm_list_t *remove, alpm_list_t **data)
+int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
+		alpm_pkg_t *pkg, alpm_list_t *preferred, alpm_list_t **packages,
+		alpm_list_t *remove, alpm_list_t **data)
 {
 	int ret = 0;
 	alpm_list_t *i, *j;
@@ -742,8 +743,9 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs, alpm_pkg_t 
 				}
 				ret = -1;
 			} else {
-				_alpm_log(handle, ALPM_LOG_DEBUG, "pulling dependency %s (needed by %s)\n",
-						alpm_pkg_get_name(spkg), alpm_pkg_get_name(tpkg));
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"pulling dependency %s (needed by %s)\n",
+						spkg->name, tpkg->name);
 				*packages = alpm_list_add(*packages, spkg);
 				_alpm_depmiss_free(miss);
 			}
