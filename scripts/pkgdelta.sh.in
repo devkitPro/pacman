@@ -124,7 +124,9 @@ create_xdelta()
 }
 
 case "$1" in
-	-q|--quiet) QUIET=1; shift ;;
+	-h|--help)    usage; exit 0 ;;
+	-V|--version) version; exit 0 ;;
+	-q|--quiet)   QUIET=1; shift ;;
 esac
 
 if (( $# != 2 )); then
