@@ -490,13 +490,11 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 }
 
 void _alpm_dload_payload_free(struct dload_payload *payload) {
-	struct dload_payload *load = (struct dload_payload *)payload;
+	ASSERT(payload, return);
 
-	ASSERT(load, return);
-
-	FREE(load->fileurl);
-	FREE(load->cd_filename);
-	FREE(load);
+	FREE(payload->fileurl);
+	FREE(payload->cd_filename);
+	FREE(payload);
 }
 
 /* vim: set ts=2 sw=2 noet: */
