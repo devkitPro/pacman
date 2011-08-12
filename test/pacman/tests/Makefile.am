@@ -12,7 +12,7 @@ CLEANFILES = $(CONFTESTS)
 
 #### Taken from the autoconf scripts Makefile.am ####
 edit = sed \
-  -e 's|@LIBS[@]|$(LIBS)|g' \
+  -e 's|@LIBCURL[@]|$(LIBCURL)|g' \
   -e 's|@configure_input[@]|Generated from $@.in; do not edit by hand.|g'
 
 
