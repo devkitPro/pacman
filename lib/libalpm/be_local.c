@@ -93,18 +93,6 @@ static const char *_cache_get_packager(alpm_pkg_t *pkg)
 	return pkg->packager;
 }
 
-static const char *_cache_get_md5sum(alpm_pkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->md5sum;
-}
-
-static const char *_cache_get_sha256sum(alpm_pkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->sha256sum;
-}
-
 static const char *_cache_get_arch(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
@@ -256,8 +244,6 @@ static struct pkg_operations local_pkg_ops = {
 	.get_builddate   = _cache_get_builddate,
 	.get_installdate = _cache_get_installdate,
 	.get_packager    = _cache_get_packager,
-	.get_md5sum      = _cache_get_md5sum,
-	.get_sha256sum   = _cache_get_sha256sum,
 	.get_arch        = _cache_get_arch,
 	.get_size        = _cache_get_size,
 	.get_isize       = _cache_get_isize,
