@@ -306,19 +306,27 @@ static int curl_download_internal(struct dload_payload *payload,
 	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 1L);
 
 	/* was it a success? */
-	if(handle->curlerr == CURLE_ABORTED_BY_CALLBACK) {
-		goto cleanup;
-	} else if(handle->curlerr != CURLE_OK) {
-		if(!payload->errors_ok) {
-			handle->pm_errno = ALPM_ERR_LIBCURL;
-			_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-					payload->filename, hostname, error_buffer);
-		} else {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
-					payload->filename, hostname, error_buffer);
-		}
-		unlink(tempfile);
-		goto cleanup;
+	switch(handle->curlerr) {
+		case CURLE_OK:
+			break;
+		case CURLE_ABORTED_BY_CALLBACK:
+			goto cleanup;
+		case CURLE_OPERATION_TIMEDOUT:
+			dload_interrupted = 1;
+			/* fallthrough */
+		default:
+			if(!payload->errors_ok) {
+				handle->pm_errno = ALPM_ERR_LIBCURL;
+				_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+						payload->filename, hostname, error_buffer);
+				if(!dload_interrupted) {
+					unlink(tempfile);
+				}
+			} else {
+				_alpm_log(handle, ALPM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
+						payload->filename, hostname, error_buffer);
+			}
+			goto cleanup;
 	}
 
 	/* retrieve info about the state of the transfer */
