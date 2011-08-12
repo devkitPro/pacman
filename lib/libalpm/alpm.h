@@ -609,11 +609,18 @@ time_t alpm_pkg_get_installdate(alpm_pkg_t *pkg);
 const char *alpm_pkg_get_packager(alpm_pkg_t *pkg);
 
 /** Returns the package's MD5 checksum as a string.
- * The returned string is a sequence of lowercase hexadecimal digits.
+ * The returned string is a sequence of 32 lowercase hexadecimal digits.
  * @param pkg a pointer to package
  * @return a reference to an internal string
  */
 const char *alpm_pkg_get_md5sum(alpm_pkg_t *pkg);
+
+/** Returns the package's SHA256 checksum as a string.
+ * The returned string is a sequence of 64 lowercase hexadecimal digits.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
+const char *alpm_pkg_get_sha256sum(alpm_pkg_t *pkg);
 
 /** Returns the architecture for which the package was built.
  * @param pkg a pointer to package

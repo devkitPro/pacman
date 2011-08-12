@@ -55,6 +55,7 @@ struct pkg_operations {
 	time_t (*get_installdate) (alpm_pkg_t *);
 	const char *(*get_packager) (alpm_pkg_t *);
 	const char *(*get_md5sum) (alpm_pkg_t *);
+	const char *(*get_sha256sum) (alpm_pkg_t *);
 	const char *(*get_arch) (alpm_pkg_t *);
 	off_t (*get_size) (alpm_pkg_t *);
 	off_t (*get_isize) (alpm_pkg_t *);
@@ -100,6 +101,7 @@ struct __alpm_pkg_t {
 	char *url;
 	char *packager;
 	char *md5sum;
+	char *sha256sum;
 	char *base64_sig;
 	char *arch;
 

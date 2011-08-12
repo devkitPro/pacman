@@ -92,6 +92,7 @@ static time_t _pkg_get_builddate(alpm_pkg_t *pkg)        { return pkg->builddate
 static time_t _pkg_get_installdate(alpm_pkg_t *pkg)      { return pkg->installdate; }
 static const char *_pkg_get_packager(alpm_pkg_t *pkg)    { return pkg->packager; }
 static const char *_pkg_get_md5sum(alpm_pkg_t *pkg)      { return pkg->md5sum; }
+static const char *_pkg_get_sha256sum(alpm_pkg_t *pkg)   { return pkg->sha256sum; }
 static const char *_pkg_get_arch(alpm_pkg_t *pkg)        { return pkg->arch; }
 static off_t _pkg_get_size(alpm_pkg_t *pkg)              { return pkg->size; }
 static off_t _pkg_get_isize(alpm_pkg_t *pkg)             { return pkg->isize; }
@@ -139,6 +140,7 @@ struct pkg_operations default_pkg_ops = {
 	.get_installdate = _pkg_get_installdate,
 	.get_packager    = _pkg_get_packager,
 	.get_md5sum      = _pkg_get_md5sum,
+	.get_sha256sum   = _pkg_get_sha256sum,
 	.get_arch        = _pkg_get_arch,
 	.get_size        = _pkg_get_size,
 	.get_isize       = _pkg_get_isize,
@@ -227,6 +229,13 @@ const char SYMEXPORT *alpm_pkg_get_md5sum(alpm_pkg_t *pkg)
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = 0;
 	return pkg->ops->get_md5sum(pkg);
+}
+
+const char SYMEXPORT *alpm_pkg_get_sha256sum(alpm_pkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return NULL);
+	pkg->handle->pm_errno = 0;
+	return pkg->ops->get_sha256sum(pkg);
 }
 
 const char SYMEXPORT *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg)
@@ -483,6 +492,7 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 	newpkg->installdate = pkg->installdate;
 	STRDUP(newpkg->packager, pkg->packager, goto cleanup);
 	STRDUP(newpkg->md5sum, pkg->md5sum, goto cleanup);
+	STRDUP(newpkg->sha256sum, pkg->md5sum, goto cleanup);
 	STRDUP(newpkg->arch, pkg->arch, goto cleanup);
 	newpkg->size = pkg->size;
 	newpkg->isize = pkg->isize;
@@ -548,6 +558,7 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	FREE(pkg->url);
 	FREE(pkg->packager);
 	FREE(pkg->md5sum);
+	FREE(pkg->sha256sum);
 	FREE(pkg->base64_sig);
 	FREE(pkg->arch);
 	FREELIST(pkg->licenses);
