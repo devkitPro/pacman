@@ -165,12 +165,14 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 								|| _alpm_pkg_should_ignore(handle, lpkg)) {
 							_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package replacement (%s-%s => %s-%s)\n"),
 										lpkg->name, lpkg->version, spkg->name, spkg->version);
+							found = 0;
 							continue;
 						}
 
 						int doreplace = 0;
 						QUESTION(trans, ALPM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, sdb->treename, &doreplace);
 						if(!doreplace) {
+							found = 0;
 							continue;
 						}
 
@@ -182,6 +184,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 							if(tpkg->origin_data.db != sdb) {
 								_alpm_log(handle, ALPM_LOG_WARNING, _("cannot replace %s by %s\n"),
 													lpkg->name, spkg->name);
+								found = 0;
 								continue;
 							}
 							_alpm_log(handle, ALPM_LOG_DEBUG, "appending %s to the removes list of %s\n",
