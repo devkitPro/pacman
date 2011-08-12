@@ -4,9 +4,7 @@ AUTOMAKE_OPTIONS = std-options
 SUBDIRS = po
 
 bin_SCRIPTS = \
-	$(OURSCRIPTS) \
-	repo-remove \
-	repo-elephant
+	$(OURSCRIPTS)
 
 OURSCRIPTS = \
 	makepkg \
@@ -104,5 +102,19 @@ repo-remove: $(srcdir)/repo-add.sh.in
 repo-elephant: $(srcdir)/repo-add.sh.in
 	rm -f repo-elephant
 	$(LN_S) repo-add repo-elephant
+
+install-data-hook:
+	cd $(DESTDIR)$(bindir) && \
+		( $(LN_S) repo-add repo-elephant || \
+		ln repo-add repo-elephant || \
+		cp repo-add repo-elephant )
+	cd $(DESTDIR)$(bindir) && \
+		( $(LN_S) repo-add repo-remove || \
+		ln repo-add repo-remove || \
+		cp repo-add repo-remove )
+
+uninstall-hook:
+	cd $(DESTDIR)$(bindir) && \
+		$(RM) repo-remove repo-elephant
 
 # vim:set ts=2 sw=2 noet:

@@ -76,7 +76,7 @@ REAL_PACKAGE_VERSION = $(PACKAGE_VERSION)
 endif
 
 man_MANS =
-dist_man_MANS = $(ASCIIDOC_MANS) repo-remove.8
+dist_man_MANS = $(ASCIIDOC_MANS)
 
 if USE_DOXYGEN
 man_MANS += $(DOXYGEN_MANS)
@@ -150,5 +150,14 @@ libalpm.3 libalpm.3.html: libalpm.3.txt
 repo-remove.8: repo-add.8
 	rm -f repo-remove.8
 	$(LN_S) repo-add.8 repo-remove.8
+
+install-data-hook:
+	cd $(DESTDIR)$(mandir)/man8 && \
+		( $(LN_S) repo-add.8 repo-remove.8 || \
+		ln repo-add.8 repo-remove.8 || \
+		cp repo-add.8 repo-remove.8 )
+
+uninstall-hook:
+	$(RM) $(DESTDIR)$(mandir)/man8/repo-remove.8
 
 # vim:set ts=2 sw=2 noet:
