@@ -69,7 +69,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
 
 	fpath = _alpm_filecache_find(pkg->handle, alpm_pkg_get_filename(pkg));
 
-	retval = _alpm_test_md5sum(fpath, alpm_pkg_get_md5sum(pkg));
+	retval = _alpm_test_checksum(fpath, pkg->md5sum, ALPM_CSUM_MD5);
 
 	if(retval == 0) {
 		return 0;

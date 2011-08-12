@@ -829,25 +829,6 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	return md5sum;
 }
 
-int _alpm_test_md5sum(const char *filepath, const char *md5sum)
-{
-	char *md5sum2;
-	int ret;
-
-	md5sum2 = alpm_compute_md5sum(filepath);
-
-	if(md5sum == NULL || md5sum2 == NULL) {
-		ret = -1;
-	} else if(strcmp(md5sum, md5sum2) != 0) {
-		ret = 1;
-	} else {
-		ret = 0;
-	}
-
-	FREE(md5sum2);
-	return ret;
-}
-
 /** Get the sha256 sum of file.
  * @param filename name of the file
  * @return the checksum on success, NULL on error
@@ -877,6 +858,32 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 	}
 
 	return sha256sum;
+}
+
+int _alpm_test_checksum(const char *filepath, const char *expected,
+		enum _alpm_csum type)
+{
+	char *computed;
+	int ret;
+
+	if(type == ALPM_CSUM_MD5) {
+		computed = alpm_compute_md5sum(filepath);
+	} else if(type == ALPM_CSUM_SHA256) {
+		computed = alpm_compute_sha256sum(filepath);
+	} else {
+		return -1;
+	}
+
+	if(expected == NULL || computed == NULL) {
+		ret = -1;
+	} else if(strcmp(expected, computed) != 0) {
+		ret = 1;
+	} else {
+		ret = 0;
+	}
+
+	FREE(computed);
+	return ret;
 }
 
 /* Note: does NOT handle sparse files on purpose for speed. */

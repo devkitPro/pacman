@@ -274,11 +274,15 @@ static alpm_file_t *files_msort(alpm_file_t *files, size_t n)
  * @param handle the context handle
  * @param pkgfile path to the package file
  * @param full whether to stop the load after metadata is read or continue
- *             through the full archive
+ * through the full archive
+ * @param md5sum the expected md5sum of the package file if known
+ * @param sha256sum the expected sha256sum of the package file if known
+ * @param base64_sig the encoded signature of the package file if known
+ * @param level the required level of signature verification
  * @return An information filled alpm_pkg_t struct
  */
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
-		int full, const char *md5sum, const char *base64_sig,
+		int full, const char *md5sum, const char *sha256sum, const char *base64_sig,
 		alpm_siglevel_t level)
 {
 	int ret;
@@ -311,7 +315,16 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	_alpm_log(handle, ALPM_LOG_DEBUG, "md5sum: %s\n", md5sum);
 	if(md5sum) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
-		if(_alpm_test_md5sum(pkgfile, md5sum) != 0) {
+		if(_alpm_test_checksum(pkgfile, md5sum, ALPM_CSUM_MD5) != 0) {
+			alpm_pkg_free(newpkg);
+			RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, NULL);
+		}
+	}
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, "sha256sum: %s\n", sha256sum);
+	if(sha256sum) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "checking sha256sum for %s\n", pkgfile);
+		if(_alpm_test_checksum(pkgfile, sha256sum, ALPM_CSUM_SHA256) != 0) {
 			alpm_pkg_free(newpkg);
 			RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, NULL);
 		}
@@ -458,7 +471,7 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, level);
+	*pkg = _alpm_pkg_load_internal(handle, filename, full, NULL, NULL, NULL, level);
 	if(*pkg == NULL) {
 		/* pm_errno is set by pkg_load */
 		return -1;

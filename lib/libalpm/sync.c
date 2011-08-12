@@ -721,7 +721,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 		alpm_delta_t *d = alpm_list_getdata(i);
 		char *filepath = _alpm_filecache_find(handle, d->delta);
 
-		ret = _alpm_test_md5sum(filepath, d->delta_md5);
+		ret = _alpm_test_checksum(filepath, d->delta_md5, ALPM_CSUM_MD5);
 		if(ret != 0) {
 			prompt_to_delete(trans, filepath, ALPM_ERR_DLT_INVALID);
 			errors++;
@@ -909,7 +909,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 				"replacing pkgcache entry with package file for target %s\n",
 				spkg->name);
 		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1, spkg->md5sum,
-				spkg->base64_sig, level);
+				spkg->sha256sum, spkg->base64_sig, level);
 		if(!pkgfile) {
 			prompt_to_delete(trans, filepath, handle->pm_errno);
 			errors++;
