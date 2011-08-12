@@ -193,10 +193,10 @@ static int query_fileowner(alpm_list_t *targets)
 		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
 			alpm_pkg_t *info = alpm_list_getdata(i);
 			alpm_filelist_t *filelist = alpm_pkg_get_files(info);
-			size_t i;
+			size_t j;
 
-			for(i = 0; i < filelist->count; i++) {
-				const alpm_file_t *file = filelist->files + i;
+			for(j = 0; j < filelist->count; j++) {
+				const alpm_file_t *file = filelist->files + j;
 				char *ppath, *pdname;
 				const char *pkgfile = file->name;
 
