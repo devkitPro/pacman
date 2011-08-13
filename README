@@ -365,3 +365,77 @@ API CHANGES BETWEEN 3.4 AND 3.5
    PM_TRANS_FLAG_NODEPVERSION, PM_TRANS_EVT_DISKSPACE_START,
    PM_TRANS_EVT_DISKSPACE_DONE, PM_TRANS_CONV_SELECT_PROVIDER,
    PM_TRANS_PROGRESS_DISKSPACE_START, PM_TRANS_PROGRESS_INTEGRITY_START
+
+API CHANGES BETWEEN 3.5 AND 4.0
+===============================
+
+[REMOVED]
+- error codes:
+    PM_ERR_LIBFETCH, PM_ERR_WRITE
+- alpm_option_set_root(), alpm_option_set_dbpath()
+- alpm_list_first()
+- alpm_grp_get_name(), alpm_grp_get_pkgs()
+- alpm_delta_get_from(), alpm_delta_get_to(), alpm_delta_get_filename(),
+    alpm_delta_get_md5sum(), alpm_delta_get_size()
+- alpm_miss_get_target(), alpm_miss_get_dep(), alpm_miss_get_causingpkg()
+- alpm_dep_get_mod(), alpm_dep_get_name(), alpm_dep_get_version()
+- alpm_conflict_get_package1(), alpm_conflict_get_package2(),
+    alpm_conflict_get_reason()
+- alpm_fileconflict_get_target(), alpm_fileconflict_get_type(),
+    alpm_fileconflict_get_file(), alpm_fileconflict_get_ctarget()
+- alpm_db_get_url()
+
+[CHANGED]
+- PM_ prefixes for enum values are now ALPM_
+- pm prefixes for structs and enums are now alpm_
+- alpm_initialize now has parameters: char *root, char *dbpath,
+    _alpm_errno_t *err and returns an alpm_handle_t struct.
+- alpm_release now takes an alpm_handle_t *.
+- alpm_db_register_sync() now requires a extra parameter of a alpm_siglevel_t.
+- alpm_pkg_load() now requires an extra parameter of an alpm_siglevel_t
+- alpm_db_setserver() replaced by alpm_db_set_servers(), alpm_db_add_server(),
+    alpm_db_remove_server()
+- many functions now require a first parameter of an alpm_handle_t *:
+  - alpm_option_get_*
+  - alpm_option_set_*
+  - alpm_option_add_*
+  - alpm_option_remove_*
+  - alpm_trans_*
+  - alpm_add_pkg
+  - alpm_checkconflicts
+  - alpm_checkdeps
+  - alpm_db_register_sync
+  - alpm_db_set_pkgreason
+  - alpm_db_unregister_all
+  - alpm_fetch_pkgurl
+  - alpm_find_dbs_satisfier
+  - alpm_logaction
+  - alpm_pkg_load
+  - alpm_release
+  - alpm_remove_pkg
+  - alpm_sync_sysupgrade
+- several structs are no longer opaque
+  - alpm_conflict_t
+  - alpm_delta_t
+  - alpm_depend_t
+  - alpm_depmissing_t
+  - alpm_depmod_t
+  - alpm_fileconflict_t
+  - alpm_group_t
+  - alpm_pkg_reason_t
+
+[ADDED]
+- package signing functions:
+    alpm_option_get_default_siglevel(), alpm_option_set_default_siglevel(),
+    alpm_option_get_gpgdir(), alpm_option_set_gpgdir(), alpm_db_get_siglevel(),
+    alpm_sigresult_cleanup(), alpm_db_check_pgp_signature(), alpm_pkg_check_pgp_signature()
+- list functions:
+    alpm_list_to_array(), alpm_list_previous()
+- structs:
+    alpm_backup_t, alpm_file_t, alpm_filelist_t
+- enums:
+    alpm_siglevel_t, alpm_sigstatus_t, alpm_sigvalidity_t
+- error codes:
+    ALPM_ERR_DB_INVALID, ALPM_ERR_DB_INVALID_SIG, ALPM_ERR_GPGME,
+    ALPM_ERR_PKG_INVALID_CHECKSUM, ALPM_ERR_PKG_INVALID_SIG, ALPM_ERR_SIG_INVALID,
+    ALPM_ERR_SIG_MISSING
