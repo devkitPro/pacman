@@ -945,13 +945,13 @@ alpm_transflag_t alpm_trans_get_flags(alpm_handle_t *handle);
  * @param handle the context handle
  * @return a list of alpm_pkg_t structures
  */
-alpm_list_t * alpm_trans_get_add(alpm_handle_t *handle);
+alpm_list_t *alpm_trans_get_add(alpm_handle_t *handle);
 
 /** Returns the list of packages removed by the transaction.
  * @param handle the context handle
  * @return a list of alpm_pkg_t structures
  */
-alpm_list_t * alpm_trans_get_remove(alpm_handle_t *handle);
+alpm_list_t *alpm_trans_get_remove(alpm_handle_t *handle);
 
 /** Initialize the transaction.
  * @param handle the context handle
