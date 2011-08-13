@@ -277,6 +277,7 @@ db_write_entry() {
 
 	# compute base64'd PGP signature
 	if [[ -f "$pkgfile.sig" ]]; then
+		msg2 "$(gettext "Adding package signature...")"
 		pgpsig=$(openssl base64 -in "$pkgfile.sig" | tr -d '\n')
 	fi
 
