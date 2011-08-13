@@ -1018,11 +1018,11 @@ tidy_install() {
 		find . -type f -perm -u+w 2>/dev/null | while read binary ; do
 			case "$(file -bi "$binary")" in
 				*application/x-sharedlib*)  # Libraries (.so)
-					/usr/bin/strip $STRIP_SHARED "$binary";;
+					strip $STRIP_SHARED "$binary";;
 				*application/x-archive*)    # Libraries (.a)
-					/usr/bin/strip $STRIP_STATIC "$binary";;
+					strip $STRIP_STATIC "$binary";;
 				*application/x-executable*) # Binaries
-					/usr/bin/strip $STRIP_BINARIES "$binary";;
+					strip $STRIP_BINARIES "$binary";;
 			esac
 		done
 	fi
