@@ -135,6 +135,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 
 	if(from == PKG_FROM_SYNCDB) {
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg));
+		string_display(_("Signatures     :"), alpm_pkg_get_base64_sig(pkg) ? _("Yes") : _("No"));
 	}
 	if(from == PKG_FROM_FILE) {
 		alpm_sigresult_t result;

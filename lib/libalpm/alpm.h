@@ -713,6 +713,12 @@ alpm_list_t *alpm_pkg_get_backup(alpm_pkg_t *pkg);
  */
 alpm_db_t *alpm_pkg_get_db(alpm_pkg_t *pkg);
 
+/** Retuns the base64 encoded package signature.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
+const char *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg);
+
 /* End of alpm_pkg_t accessors */
 /* @} */
 

@@ -229,6 +229,13 @@ const char SYMEXPORT *alpm_pkg_get_md5sum(alpm_pkg_t *pkg)
 	return pkg->ops->get_md5sum(pkg);
 }
 
+const char SYMEXPORT *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return NULL);
+	pkg->handle->pm_errno = 0;
+	return pkg->base64_sig;
+}
+
 const char SYMEXPORT *alpm_pkg_get_arch(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
