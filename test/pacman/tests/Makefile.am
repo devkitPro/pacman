@@ -18,7 +18,7 @@ edit = sed \
 
 $(CONFTESTS): Makefile
 	@echo '    ' GEN $@;
-	@rm -f $@ $@.tmp
+	@$(RM) $@ $@.tmp
 	@test -f $(srcdir)/$@.in && $(edit) $(srcdir)/$@.in >$@.tmp || true
 	@test -f $@.tmp || false
 	@chmod a-w $@.tmp

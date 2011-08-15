@@ -23,7 +23,7 @@ edit = sed \
 
 $(dist_sysconf_DATA): Makefile
 	@echo '    ' GEN $@;
-	@rm -f $@ $@.tmp
+	@$(RM) $@ $@.tmp
 	@$(edit) `test -f ./$@.in || echo $(srcdir)/`$@.in >$@.tmp
 	@mv $@.tmp $@
 

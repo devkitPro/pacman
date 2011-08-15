@@ -63,7 +63,7 @@ edit = sed \
 # third 'test' line- make sure one of the two checks succeeded
 $(OURSCRIPTS): Makefile
 	@echo '    ' GEN $@;
-	@rm -f $@
+	@$(RM) $@
 	@test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
 	@chmod +x $@
 	@chmod a-w $@
@@ -96,11 +96,11 @@ repo-add: \
 	$(srcdir)/library/output_format.sh
 
 repo-remove: $(srcdir)/repo-add.sh.in
-	rm -f repo-remove
+	$(RM) repo-remove
 	$(LN_S) repo-add repo-remove
 
 repo-elephant: $(srcdir)/repo-add.sh.in
-	rm -f repo-elephant
+	$(RM) repo-elephant
 	$(LN_S) repo-add repo-elephant
 
 install-data-hook:

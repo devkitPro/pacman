@@ -36,7 +36,7 @@ edit = sed \
 
 $(OURSCRIPTS): Makefile
 	@echo '    ' GEN $@;
-	@rm -f $@ $@.tmp
+	@$(RM) $@ $@.tmp
 	@$(edit) $(srcdir)/$@.in >$@.tmp
 	@chmod +x $@.tmp
 	@chmod a-w $@.tmp
@@ -44,7 +44,7 @@ $(OURSCRIPTS): Makefile
 
 $(OURFILES): Makefile
 	@echo '    ' GEN $@;
-	@rm -f $@ $@.tmp
+	@$(RM) $@ $@.tmp
 	@$(edit) $(srcdir)/$@.in >$@.tmp
 	@chmod a-w $@.tmp
 	@mv $@.tmp $@

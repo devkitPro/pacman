@@ -148,7 +148,7 @@ pacman.conf.5 pacman.conf.5.html: pacman.conf.5.txt
 libalpm.3 libalpm.3.html: libalpm.3.txt
 # this one is just a symlink
 repo-remove.8: repo-add.8
-	rm -f repo-remove.8
+	$(RM) repo-remove.8
 	$(LN_S) repo-add.8 repo-remove.8
 
 install-data-hook:
