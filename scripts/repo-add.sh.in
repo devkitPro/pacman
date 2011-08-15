@@ -266,6 +266,24 @@ db_write_entry() {
 		esac
 	done< <(bsdtar -xOqf "$pkgfile" .PKGINFO)
 
+	# ensure $pkgname and $pkgver variables were found
+	if [[ -z $pkgname || -z $pkgver ]]; then
+		error "$(gettext "Invalid package file '%s'.")" "$pkgfile"
+		return 1
+	fi
+
+	if [[ -d $tmpdir/tree/$pkgname-$pkgver ]]; then
+		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
+	else
+		if (( DELTA )); then
+			pkgentry=$(find_pkgentry $pkgname)
+			if [[ -n $pkgentry ]]; then
+				local oldfilename=$(grep -A1 FILENAME $pkgentry/desc | tail -n1)
+				local oldfile="$(dirname $1)/$oldfilename"
+			fi
+		fi
+	fi
+
 	csize=$(@SIZECMD@ "$pkgfile")
 
 	# compute checksums
@@ -281,29 +299,11 @@ db_write_entry() {
 		pgpsig=$(openssl base64 -in "$pkgfile.sig" | tr -d '\n')
 	fi
 
-	# ensure $pkgname and $pkgver variables were found
-	if [[ -z $pkgname || -z $pkgver ]]; then
-		error "$(gettext "Invalid package file '%s'.")" "$pkgfile"
-		return 1
-	fi
-
-	pushd "$tmpdir/tree" >/dev/null
-	if [[ -d $pkgname-$pkgver ]]; then
-		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
-	else
-		if (( DELTA )); then
-			pkgentry=$(find_pkgentry $pkgname)
-			if [[ -n $pkgentry ]]; then
-				local oldfilename=$(grep -A1 FILENAME $pkgentry/desc | tail -n1)
-				local oldfile="$(dirname $1)/$oldfilename"
-			fi
-		fi
-	fi
-
 	# remove an existing entry if it exists, ignore failures
 	db_remove_entry "$pkgname"
 
 	# create package directory
+	pushd "$tmpdir/tree" >/dev/null
 	mkdir "$pkgname-$pkgver"
 	pushd "$pkgname-$pkgver" >/dev/null
 
