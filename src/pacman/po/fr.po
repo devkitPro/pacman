@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-09 15:51-0500\n"
-"PO-Revision-Date: 2011-08-08 22:35+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-08-14 20:27+0000\n"
+"Last-Translator: Vysserk3 <vysserk3@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fr/)\n"
 "Language: fr\n"
@@ -126,11 +126,13 @@ msgid ":: %s-%s: local version is newer. Upgrade anyway?"
 msgstr ""
 ":: %s-%s: la version locale est plus récente. Mettre à jour tout de même ?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ":: L'archive %s est corrompue. Voulez-vous l'effacer ?"
+msgstr ""
+":: Le fichier %s est corrompu (%s).\n"
+"Voulez vous le supprimer ?"
 
 #, c-format
 msgid "installing"
@@ -178,7 +180,7 @@ msgstr "exécution de XferCommand: le fork a échoué !\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "impossible de renommer %s en %s (%s)\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -186,7 +188,7 @@ msgstr "impossible d'aller dans le répertoire %s (%s)\n"
 
 #, c-format
 msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr ""
+msgstr "valeur invalide pour 'SigLevel' : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -227,7 +229,7 @@ msgstr "problème en définissant le chemin du fichier de log '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "problème en définissant le chemin du répertoire de gpg '%s' (%s)\n"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -235,11 +237,12 @@ msgstr "l'enregistrement de la base de données '%s' a échoué (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "impossible d'ajouter le mirroir '%s' à la base de données '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"l'analyse de la configuration a dépassé de %d le nombre max de récursions.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -348,15 +351,15 @@ msgstr "Remplace              :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Taille du téléchargement :  %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Taille compressé: %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Taille installé : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -396,7 +399,7 @@ msgstr "somme MD5             :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Signatures\t  :"
 
 #, c-format
 msgid "Description    :"
@@ -727,6 +730,7 @@ msgstr "      --debug              affiche les messages de débogage\n"
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr ""
+"     --gpgdir <path>   spécifie le chemin du dossier personnel pour GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -1039,7 +1043,7 @@ msgstr "aucun dépôt de paquets utilisable n'a été défini.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "la base de donnée '%s' n'est pas valide (%s)\n"
 
 #, c-format
 msgid "None"
@@ -1047,71 +1051,71 @@ msgstr "--"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "nombre de colonnes disponible insuffisant pour afficher la table\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Valide"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Clé expirée"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Expiré"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Invalide"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Clé inconnue"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Erreur de signature"
 
 #, c-format
 msgid "fully trusted"
-msgstr ""
+msgstr "confiance complète"
 
 #, c-format
 msgid "marginal trusted"
-msgstr ""
+msgstr "confiance partielle"
 
 #, c-format
 msgid "never trusted"
-msgstr ""
+msgstr "jamais confiance"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "confiance inconnue"
 
 #, c-format
 msgid "{Key Unknown}"
-msgstr ""
+msgstr "{Clé inconnue}"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s de \"%s\""
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Ancienne Version"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Nouvelle Version"
 
 #, c-format
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1123,19 +1127,19 @@ msgstr "Suppression (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Taille totale de téléchargement: \t%.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Taille totale installé:\t\t%.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Taille de mise à jour nette:\t%.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Taille totale supprimée:\t%.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

@@ -2,13 +2,15 @@
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
+# Andrea Scarpino <andrea@archlinux.org>, 2011.
+# Giovanni Scafora <giovanni@archlinux.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-09 15:51-0500\n"
-"PO-Revision-Date: 2011-08-08 22:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-08-13 10:08+0000\n"
+"Last-Translator: bash <andrea@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/it/)\n"
 "Language: it\n"
@@ -27,10 +29,10 @@ msgid "Cleaning up..."
 msgstr "Pulizia in corso..."
 
 msgid "Entering %s environment..."
-msgstr ""
+msgstr "Entro nell'ambiente %s..."
 
 msgid "Unable to find source file %s."
-msgstr "Impossibile trovare il sorgente del file %s."
+msgstr "Impossibile trovare il file sorgente %s."
 
 msgid "Aborting..."
 msgstr "L'operazione sta per essere interrotta..."
@@ -77,9 +79,11 @@ msgstr "Generazione dei checksum dei sorgenti in corso..."
 
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr ""
+"Impossibile trovare l'eseguibile di %s richiesto per generare i controlli di "
+"integrità."
 
 msgid "Invalid integrity algorithm '%s' specified."
-msgstr "L'algoritmo dell'integrità di '%s' specificato non è valido."
+msgstr "L'algoritmo d'integrità '%s' specificato non è valido."
 
 msgid "Validating source files with %s..."
 msgstr "Validazione dei file sorgenti con %s in corso..."
@@ -98,56 +102,56 @@ msgstr "Uno o più file non hanno superato il controllo di validità!"
 
 msgid "Integrity checks (%s) differ in size from the source array."
 msgstr ""
-"I controlli dell'integrità (%s) differiscono in dimensione dall'array del "
+"I controlli d'integrità (%s) differiscono in dimensione dall'array del "
 "sorgente."
 
 msgid "Integrity checks are missing."
-msgstr "Mancano i controlli dell'integrità."
+msgstr "Mancano i controlli d'integrità."
 
 msgid "Verifying source file signatures with %s..."
-msgstr ""
+msgstr "Validazione delle firme dei file sorgenti con %s in corso..."
 
 msgid "SIGNATURE NOT FOUND"
-msgstr ""
+msgstr "FIRMA NON TROVATA"
 
 msgid "SOURCE FILE NOT FOUND"
-msgstr ""
+msgstr "FILE SORGENTE NON TROVATO"
 
 msgid "Unknown public key"
-msgstr ""
+msgstr "Chiave pubblica sconosciuta"
 
 msgid "Warning: the key has been revoked."
-msgstr ""
+msgstr "Attenzione: la chiave è stata revocata."
 
 msgid "Warning: the signature has expired."
-msgstr ""
+msgstr "Attenzione: la firma è scaduta."
 
 msgid "Warning: the key has expired."
-msgstr ""
+msgstr "Attenzione: la chiave è scaduta."
 
 msgid "One or more PGP signatures could not be verified!"
-msgstr ""
+msgstr "Una o più firme PGP non possono essere verificate!"
 
 msgid "Warnings have occurred while verifying the signatures."
-msgstr ""
+msgstr "Si sono verificati dei problemi durante la verifica delle firme."
 
 msgid "Please make sure you really trust them."
 msgstr ""
 
 msgid "Skipping all source file integrity checks."
-msgstr ""
+msgstr "I controlli sull'integrità saranno ignorati."
 
 msgid "Skipping verification of source file checksums."
-msgstr ""
+msgstr "I controlli dell'integrità dei file sorgenti saranno ignorati."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr ""
+msgstr "Sto ignorando la verifica delle firme PGP."
 
 msgid "Extracting Sources..."
 msgstr "Estrazione dei sorgenti in corso..."
 
 msgid "Extracting %s with %s"
-msgstr "estrazione di %s con %s in corso... "
+msgstr "Estrazione di %s con %s in corso..."
 
 msgid "Failed to extract %s"
 msgstr "Impossibile estrarre %s"
@@ -165,7 +169,7 @@ msgid "Removing doc files..."
 msgstr "Rimozione dei file doc in corso..."
 
 msgid "Purging unwanted files..."
-msgstr ""
+msgstr "Eliminazione dei file indesiderati in corso..."
 
 msgid "Compressing man and info pages..."
 msgstr "Compressione delle pagine man ed info in corso..."
@@ -175,28 +179,28 @@ msgstr ""
 "Rimozione dei simboli non necessari dai binari e dalle librerie in corso..."
 
 msgid "Removing %s files..."
-msgstr ""
+msgstr "Rimozione dei %s file in corso..."
 
 msgid "Removing empty directories..."
 msgstr "Rimozione delle directory vuote in corso..."
 
 msgid "Compressing binaries with %s..."
-msgstr ""
+msgstr "Compressione degli eseguibili con %s in corso..."
 
 msgid "Could not compress binary : %s"
-msgstr ""
+msgstr "Impossibile eseguire la compressione dell'eseguibile : %s"
 
 msgid "Generating %s file..."
-msgstr ""
+msgstr "Generazione del file %s in corso..."
 
 msgid "Cannot find library listed in %s: %s"
-msgstr ""
+msgstr "Impossibile trovare la libreria presente in %s: %s"
 
 msgid "Please add a license line to your %s!"
 msgstr "Aggiungi il campo license al tuo %s!"
 
 msgid "Example for GPL'ed software: %s."
-msgstr ""
+msgstr "Esempio per un programma con licenza GPL: %s."
 
 msgid "%s entry file not in package : %s"
 msgstr ""
@@ -205,7 +209,7 @@ msgid "Package contains reference to %s"
 msgstr "Il pacchetto contiene dei riferimenti a %s"
 
 msgid "Missing %s directory."
-msgstr ""
+msgstr "Directory %s mancante."
 
 msgid "Creating package..."
 msgstr "Creazione del pacchetto in corso..."
@@ -226,13 +230,13 @@ msgid "Failed to create symlink to package file."
 msgstr "Impossibile creare il link simbolico al file del pacchetto."
 
 msgid "Signing package..."
-msgstr ""
+msgstr "Firma dei pacchetti in corso..."
 
 msgid "Created signature file %s."
-msgstr ""
+msgstr "Firma per il file %s creata."
 
 msgid "Failed to sign package file."
-msgstr ""
+msgstr "Impossibile firmare il pacchetto."
 
 msgid "Creating source package..."
 msgstr "Creazione del pacchetto in corso..."
@@ -254,10 +258,10 @@ msgstr ""
 "Impossibile creare un link simbolico al file del pacchetto del sorgente."
 
 msgid "Installing package %s with %s..."
-msgstr ""
+msgstr "Installazione del pacchetto %s con %s in corso..."
 
 msgid "Installing %s package group with %s..."
-msgstr ""
+msgstr "Installazione del gruppo di pacchetti %s con %s in corso..."
 
 msgid "Failed to install built package(s)."
 msgstr "Impossibile installare il pacchetto creato."
@@ -269,10 +273,10 @@ msgid "%s is not allowed to start with a hyphen."
 msgstr "%s non può iniziare con un trattino."
 
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr ""
+msgstr "%s non può contenere due punti, trattini o spazi."
 
 msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr ""
+msgstr "%s non può contenere trattini o spazi."
 
 msgid "%s must be an integer."
 msgstr "%s deve essere un intero."
@@ -286,28 +290,28 @@ msgstr ""
 "loro %s"
 
 msgid "such as %s."
-msgstr ""
+msgstr "come %s."
 
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr ""
+msgstr "l'array %s non può contenere gli operatori di confronto (< o >)."
 
 msgid "%s entry should not contain leading slash : %s"
-msgstr ""
+msgstr "la voce %s non dovrebbe contenere slash : %s"
 
 msgid "Invalid syntax for %s : '%s'"
-msgstr ""
+msgstr "Sintassi invalida per %s : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "il file (%s) non esiste."
 
 msgid "%s array contains unknown option '%s'"
-msgstr ""
+msgstr "l'array %s contiene un'opzione sconosciuta '%s'"
 
 msgid "Missing %s function for split package '%s'"
-msgstr ""
+msgstr "Manca la funzione %s del pacchetto '%s'"
 
 msgid "Requested package %s is not provided in %s"
-msgstr ""
+msgstr "Il pacchetto richiesto %s non è fornito da %s "
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
@@ -315,33 +319,47 @@ msgstr ""
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
+"Impossibile trovare l'eseguibile di %s richiesto per compilare come utente "
+"non root."
 
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
+"Impossibile trovare l'eseguibile di %s richiesto per firmare i pacchetti."
 
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr ""
+"Impossibile trovare l'eseguibile di %s richiesto per verificare i file "
+"sorgenti."
 
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
+"Impossibile trovare l'eseguibile di %s richiesto per verificare l'integrità "
+"dei file sorgenti."
 
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr ""
+"Impossibile trovare l'eseguibile di %s richiesto per comprimere gli "
+"eseguibili."
 
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr ""
+"Impossibile trovare il binario %s richiesto per la compilazione distribuita."
 
 msgid "Cannot find the %s binary required for compiler cache usage."
-msgstr ""
+msgstr "Impossibile trovare il binario %s richiesto per l'uso della cache."
 
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr ""
+msgstr "Impossibile trovare il binario %s richiesto per lo stripping dei file."
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
+"Impossibile trovare il binario %s richiesto per comprimere le pagine delle "
+"info e dei manuali."
 
 msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
+"Impossibile trovare il binario %s richiesto per determinare l'ultima "
+"revisione di %s."
 
 msgid "Determining latest %s revision..."
 msgstr "Determinazione dell'ultima revisione di %s in corso..."
@@ -356,7 +374,7 @@ msgid "Options:"
 msgstr "Opzioni:"
 
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
-msgstr ""
+msgstr "  -A, --ignorearch Ignora il campo incompleto di %s in %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Ripulisce i sorgenti dopo la compilazione"
@@ -365,16 +383,16 @@ msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Ignora tutti i controlli sulle dipendenze"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr ""
+msgstr "  -e, --noextract  Non estrae i sorgenti (usa la dir esistente %s)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Sovrascrive i pacchetti esistenti"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
-msgstr "  -g, --geninteg   Genera i controlli dell'integrità dei sorgenti"
+msgstr "  -g, --geninteg   Genera i controlli d'integrità dei sorgenti"
 
 msgid "  -h, --help       Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help       Mostra questo messaggio di aiuto ed esce"
 
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Installa il pacchetto dopo la compilazione"
@@ -402,7 +420,7 @@ msgstr ""
 "  -R, --repackage  Ricrea il contenuto del pacchetto senza ricompilarlo"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
-msgstr ""
+msgstr "  -s, --syncdeps   Installa le dipendenze mancanti con %s"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -411,10 +429,10 @@ msgstr ""
 "  --allsource      Genera solo un archivio che include i sorgenti scaricati"
 
 msgid "  --asroot         Allow %s to run as root user"
-msgstr ""
+msgstr "  --asroot         Consente a %s di avviarsi da utente root"
 
 msgid "  --check          Run the %s function in the %s"
-msgstr ""
+msgstr "  --check          Avvia la funzione %s nel %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
@@ -429,12 +447,14 @@ msgstr ""
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  --key <key>      Specifica una chiave da usare per firmare %s invece di "
+"quella di default"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
-msgstr ""
+msgstr "  --nocheck        Non avvia la funzione %s nel %s"
 
 msgid "  --nosign         Do not create a signature for the package"
-msgstr ""
+msgstr "  --nosign         Non crea una firma per il pacchetto"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
@@ -442,17 +462,18 @@ msgstr ""
 "splittato"
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr ""
+msgstr "  --sign           Firma il pacchetto risultante con %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr ""
+msgstr "  --skipchecksums  Non verifica l'integrità dei file"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr ""
+"  --skipinteg      Non effettua nessuna verifica per il controllo dei file"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr ""
+msgstr "  --skippgpcheck   Non verifica i file con le firme PGP"
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
@@ -460,7 +481,7 @@ msgstr ""
 "  --source         Genera solo un archivio che esclude i sorgenti scaricati"
 
 msgid "These options can be passed to %s:"
-msgstr ""
+msgstr "Queste opzioni possono essere passate a %s:"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -474,7 +495,7 @@ msgstr ""
 "dei file"
 
 msgid "If %s is not specified, %s will look for '%s'"
-msgstr ""
+msgstr "Se %s non è stato specificato, %s cercherà '%s'"
 
 msgid ""
 "Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
@@ -491,7 +512,7 @@ msgid "%s not found."
 msgstr "Impossibile trovare %s."
 
 msgid "You do not have write permission to create packages in %s."
-msgstr ""
+msgstr "Non si dispone dei permessi in scrittura per creare i pacchetti in %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr ""
@@ -501,18 +522,23 @@ msgid "You do not have write permission to store downloads in %s."
 msgstr "Non si dispone dei permessi in scrittura per salvare i download in %s."
 
 msgid "\\0%s and %s cannot both be specified"
-msgstr ""
+msgstr "\\0%s e %s non possono essere entrambi specificati"
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
 msgstr ""
+"Avviare %s da root è una CATTIVA idea e può causare permanenti e"
+"\\ncatastrofici danni al tuo sistema. Se desideri avviarlo da root, \\nusa "
+"l'opzione %s."
 
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
 "%s flag."
 msgstr ""
+"L'opzione %s deve essere usata solo dall'utente root. \\nRiavvia %s senza "
+"l'opzione %s."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
@@ -521,19 +547,19 @@ msgid ""
 msgstr ""
 
 msgid "Do not use the %s option. This option is only for use by %s."
-msgstr ""
+msgstr "Non usare l'opzione %s. Questa opzione si usa solo con %s."
 
 msgid "%s does not exist."
 msgstr "%s non esiste."
 
 msgid "%s contains %s characters and cannot be sourced."
-msgstr ""
+msgstr "%s contiene caratteri %s e non può essere utilizzato."
 
 msgid "The key %s does not exist in your keyring."
-msgstr ""
+msgstr "La chiave %s non esiste nel tuo portachiavi."
 
 msgid "There is no key in your keyring."
-msgstr ""
+msgstr "Non c'è nessuna chiave nel tuo portachiavi."
 
 msgid "A package has already been built, installing existing package..."
 msgstr ""
@@ -541,7 +567,7 @@ msgstr ""
 "corso..."
 
 msgid "A package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Un pacchetto è già stato compilato. (usa %s per sovrascrivere)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
@@ -551,15 +577,18 @@ msgstr ""
 
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr ""
+"Il gruppo del pacchetto è già stato compilato. (usa %s per sovrascrivere)"
 
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
+"Parte del gruppo del pacchetto è già stato compilato. (usa %s per "
+"sovrascrivere)"
 
 msgid "Leaving %s environment."
-msgstr ""
+msgstr "Uscita dall'ambiente di %s."
 
 msgid "Repackaging without the use of a %s function is deprecated."
-msgstr ""
+msgstr "La ripacchettizzazione senza l'uso di una funzione %s è deprecata."
 
 msgid "File permissions may not be preserved."
 msgstr "I permessi del file potrebbero non essere preservati."
@@ -568,7 +597,7 @@ msgid "Making package: %s"
 msgstr "Creazione del pacchetto: %s"
 
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Già è stato creato un pacchetto. (usa %s per sovrascrivere)"
 
 msgid "Source package created: %s"
 msgstr "Il pacchetto è stato creato: %s"
@@ -587,6 +616,7 @@ msgstr "Impossibile risolvere tutte le dipendenze."
 
 msgid "%s was not found in %s; skipping dependency checks."
 msgstr ""
+"%s non è stato trovato in %s; il controllo delle dipendenze sarà ignorato."
 
 msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
@@ -607,7 +637,7 @@ msgid "Sources are ready."
 msgstr "I sorgenti sono pronti."
 
 msgid "Removing existing %s directory..."
-msgstr ""
+msgstr "Rimozione dell'esistente directory %s in corso..."
 
 msgid "Finished making: %s"
 msgstr "Compilazione terminata: %s"
@@ -647,7 +677,7 @@ msgid "Done."
 msgstr "Fatto."
 
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
+msgstr "Gestisce la lista delle chiavi attendibili di pacman"
 
 msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr ""
@@ -680,12 +710,10 @@ msgstr ""
 msgid "  -V, --version             Show program version"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
-"  --config <file>  Usa un file di configurazione alternativo (invece di '%s')"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
@@ -759,9 +787,8 @@ msgstr ""
 msgid "%s needs to be run as root for this operation."
 msgstr ""
 
-#, fuzzy
 msgid "%s configuration file '%s' not found."
-msgstr "Impossibile trovare il file del repository '%s'."
+msgstr ""
 
 msgid "no operation specified (use -h for help)"
 msgstr ""
@@ -897,7 +924,7 @@ msgstr ""
 "comando.\\n\\n"
 
 msgid "Options:\\n"
-msgstr ""
+msgstr "Opzioni:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
@@ -957,33 +984,32 @@ msgstr "Aggiunta della voce 'deltas' : %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Rimozione della voce esistente '%s' in corso..."
 
-#, fuzzy
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr "Impossibile trovare il binario di xdelta3! xdelta3 è installato?"
+msgstr "Impossibile trovare il programma gpg! GnuPG è stato installato?"
 
 msgid "Signing database..."
-msgstr ""
+msgstr "Firma del database in corso..."
 
 msgid "Failed to sign package database."
-msgstr ""
+msgstr "Impossibile firmare il database del pacchetto."
 
 msgid "Verifying database signature..."
-msgstr ""
+msgstr "Verifica della firma del database in corso..."
 
 msgid "No existing signature found, skipping verification."
 msgstr ""
 
 msgid "Database signature file verified."
-msgstr ""
+msgstr "La firma del database è stata verificata."
 
 msgid "Database signature was NOT valid!"
-msgstr ""
+msgstr "La firma del database NON era valida!"
 
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' non è una valida estensione di un archivio."
 
 msgid "Computing checksums..."
-msgstr ""
+msgstr "Calcolo dei controlli dell'integrità in corso..."
 
 msgid "An entry for '%s' already existed"
 msgstr "Già esiste una voce per '%s'"
@@ -1013,7 +1039,7 @@ msgid "Repository file '%s' could not be created."
 msgstr "Il file del repository '%s' potrebbe non essere creato."
 
 msgid "File '%s' not found."
-msgstr "Impossibile trovare il file '%s'"
+msgstr "Impossibile trovare il file '%s'."
 
 msgid "Adding delta '%s'"
 msgstr "Sto aggiungendo il delta '%s'"
@@ -1052,10 +1078,7 @@ msgid "No packages modified, nothing to do."
 msgstr "Non è stato modificato alcun pacchetto."
 
 msgid "option %s requires an argument\\n"
-msgstr ""
+msgstr "l'opzione %s richiede un argomento\\n"
 
 msgid "unrecognized option"
-msgstr ""
-
-#~ msgid "permanent, catastrophic damage to your system. If you"
-#~ msgstr "danni permanenti e catastrofici al tuo sistema. Se"
+msgstr "opzione sconosciuta"

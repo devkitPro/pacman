@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-09 15:51-0500\n"
-"PO-Revision-Date: 2011-08-08 22:35+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-08-12 21:34+0000\n"
+"Last-Translator: z0id <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/ro/)\n"
 "Language: ro\n"
@@ -129,11 +129,13 @@ msgstr ":: Există %d pachete care furnizează %s:\n"
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
 msgstr ":: %s-%s: versiunea locală este mai nouă. Actualizează oricum?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ":: Fișierul %s este corupt. Vreți să fie șters?"
+msgstr ""
+":: Fișierul %s este corupt (%s).\n"
+"Dorești să îl ștergi?"
 
 #, c-format
 msgid "installing"
@@ -181,7 +183,7 @@ msgstr "se rulează XferCommand: fork eșuat!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "nu se poate redenumi %s în %s (%s)\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -191,7 +193,7 @@ msgstr ""
 
 #, c-format
 msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr ""
+msgstr "valoare nevalidă pentru 'SigLevel' : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -209,7 +211,7 @@ msgid ""
 "The mirror '%s' contains the $arch variable, but no Architecture is "
 "defined.\n"
 msgstr ""
-"Mirror-ul '%s' conține variabila $arch dar nicio architectură nu este "
+"Oglinda '%s' conține variabila $arch dar nicio architectură nu este "
 "definită.\n"
 
 #, c-format
@@ -230,7 +232,7 @@ msgstr "problemă la setarea logfile '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "problemă la setarea gpgdir ca '%s' (%s)\n"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -238,11 +240,12 @@ msgstr "nu se poate înregistra '%s' database (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "nu se poate adăuga oglinda '%s' la baza de date '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"parcurgerea configurării a depășit adâncimea max de recursivitate %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -355,15 +358,15 @@ msgstr "Înlocuiește        :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Mărimea Descărcării : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Mărime Comprimat    : %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Mărime Instalat     : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -403,7 +406,7 @@ msgstr "Suma MD5            :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Semnături           :"
 
 #, c-format
 msgid "Description    :"
@@ -727,7 +730,7 @@ msgstr "      --debug         afișează mesaje de depanare\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "      --gpgdir <cale>  setează un director alternativ pentru GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -831,7 +834,7 @@ msgstr "pachetul \"%s\" nu a fost găsit\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
-msgstr "eșec în pregătirea tranzacției (%s)\n"
+msgstr "eșec la pregătirea tranzacției (%s)\n"
 
 #, c-format
 msgid ":: package %s does not have a valid architecture\n"
@@ -1027,7 +1030,7 @@ msgstr ""
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
-msgstr "eșec la initializarea tranzacției (%s)\n"
+msgstr "eșec la inițializarea tranzacției (%s)\n"
 
 #, c-format
 msgid ""
@@ -1047,7 +1050,7 @@ msgstr "nu sunt configurate depozite de pachete utilizabile.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "baza de date '%s' este nevalidă (%s)\n"
 
 #, c-format
 msgid "None"
@@ -1055,71 +1058,71 @@ msgstr "Niciunul"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "coloane insuficiente pentru afișarea tabelului\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Valid"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Cheie expirată"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Expirat"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Nevalid"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Cheie necunoscută"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Eroare de semnătură"
 
 #, c-format
 msgid "fully trusted"
-msgstr ""
+msgstr "încredere totală"
 
 #, c-format
 msgid "marginal trusted"
-msgstr ""
+msgstr "încredere marginală"
 
 #, c-format
 msgid "never trusted"
-msgstr ""
+msgstr "încredere nulă"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "încredere necunoscută"
 
 #, c-format
 msgid "{Key Unknown}"
-msgstr ""
+msgstr "{Cheie necunoscută}"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s din \"%s\""
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Nume"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Versiune precedentă"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Versiune nouă"
 
 #, c-format
 msgid "Size"
-msgstr ""
+msgstr "Mărime"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1131,19 +1134,19 @@ msgstr "Elimină (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Mărimea totală a descărcării: %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Mărimea totală a instalării:  %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Mărimea netă a actualizării:  %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Mărimea totală a eliminării:  %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

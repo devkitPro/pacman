@@ -2,13 +2,14 @@
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
+# Atilla Öntaş <tarakbumba@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-09 15:51-0500\n"
-"PO-Revision-Date: 2011-08-08 22:38+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-08-14 23:42+0000\n"
+"Last-Translator: tarakbumba <tarakbumba@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/tr/)\n"
 "Language: tr\n"
@@ -27,7 +28,7 @@ msgid "Cleaning up..."
 msgstr "Temizleniyor..."
 
 msgid "Entering %s environment..."
-msgstr ""
+msgstr "%s ortamına giriliyor..."
 
 msgid "Unable to find source file %s."
 msgstr "Kaynak dosya (%s) bulunamadı."
@@ -76,6 +77,8 @@ msgstr "Kaynak kodları için bütünlük kontrolleri oluşturuluyor..."
 
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr ""
+"Kaynak dosya bütünlük doğrulamalarının üretimi için gerekli %s ikili dosyası "
+"bulunamıyor."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Geçersiz bütünlük algoritması '%s' tanımlanmış."
@@ -104,43 +107,43 @@ msgid "Integrity checks are missing."
 msgstr "Bütünlük kontrolü kayıp ya da eksik."
 
 msgid "Verifying source file signatures with %s..."
-msgstr ""
+msgstr "Kaynak dosya imzaları %s ile doğrulanıyor..."
 
 msgid "SIGNATURE NOT FOUND"
-msgstr ""
+msgstr "İMZA BULUNAMADI"
 
 msgid "SOURCE FILE NOT FOUND"
-msgstr ""
+msgstr "KAYNAK DOSYA BULUNAMADI"
 
 msgid "Unknown public key"
 msgstr ""
 
 msgid "Warning: the key has been revoked."
-msgstr ""
+msgstr "Uyarı: anahtar geri alındı."
 
 msgid "Warning: the signature has expired."
-msgstr ""
+msgstr "Uyarı: imza geçerlilik süresi dolmuş,"
 
 msgid "Warning: the key has expired."
-msgstr ""
+msgstr "Uyarı: anahtar geçerlilik süresi dolmuş,"
 
 msgid "One or more PGP signatures could not be verified!"
-msgstr ""
+msgstr "Bir veya daha fazla PGP imzası doğrulanamıyor!"
 
 msgid "Warnings have occurred while verifying the signatures."
-msgstr ""
+msgstr "İmzalar doğrulanırken uyarılar gerçekleşti."
 
 msgid "Please make sure you really trust them."
-msgstr ""
+msgstr "Lütfen, onlara gerçekten güvendiğinizden emin olun."
 
 msgid "Skipping all source file integrity checks."
-msgstr ""
+msgstr "Tüm kaynak dosya bütünlük doğrulamaları atlanıyor."
 
 msgid "Skipping verification of source file checksums."
-msgstr ""
+msgstr "Kaynak dosya denetimleri atlanıyor."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr ""
+msgstr "Kaynak dosya PGP imza doğrulamaları atlanıyor."
 
 msgid "Extracting Sources..."
 msgstr "Kaynak Kodları Açılıyor..."
@@ -164,7 +167,7 @@ msgid "Removing doc files..."
 msgstr "Döküman dosyaları kaldırılıyor..."
 
 msgid "Purging unwanted files..."
-msgstr ""
+msgstr "İstenmeyen dosyalar kaldırılıyor..."
 
 msgid "Compressing man and info pages..."
 msgstr "Kılavuz ve bilgi sayfaları sıkıştırılıyor..."
@@ -175,37 +178,37 @@ msgstr ""
 "ayıklanıyor..."
 
 msgid "Removing %s files..."
-msgstr ""
+msgstr "%s dosyaları kaldırılıyor..."
 
 msgid "Removing empty directories..."
 msgstr "Boş dizinler kaldırılıyor..."
 
 msgid "Compressing binaries with %s..."
-msgstr ""
+msgstr "İkili dosyalar %s ile sıkıştırılıyor..."
 
 msgid "Could not compress binary : %s"
-msgstr ""
+msgstr "İkili dosya sıkıştırılamıyor: %s"
 
 msgid "Generating %s file..."
-msgstr ""
+msgstr "%s dosyası üretiliyor..."
 
 msgid "Cannot find library listed in %s: %s"
-msgstr ""
+msgstr "%s içinde olması gereken kütüphane bulunamıyor: %s"
 
 msgid "Please add a license line to your %s!"
 msgstr "Lütfen %s dosyanıza bir lisans satırı ekleyin!"
 
 msgid "Example for GPL'ed software: %s."
-msgstr ""
+msgstr "GPL lisanslı yazılım örneği: %s."
 
 msgid "%s entry file not in package : %s"
-msgstr ""
+msgstr "%s girdi dosyası paket içinde değil: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Paket %s için referans barındırıyor"
 
 msgid "Missing %s directory."
-msgstr ""
+msgstr "Kayıp %s dizini."
 
 msgid "Creating package..."
 msgstr "Paket oluşturuluyor..."
@@ -226,10 +229,10 @@ msgid "Failed to create symlink to package file."
 msgstr "Paket dosyasına sembolik bağ oluşturulamadı."
 
 msgid "Signing package..."
-msgstr ""
+msgstr "Paket imzalanıyor,,,"
 
 msgid "Created signature file %s."
-msgstr ""
+msgstr "%s imza dosyası oluşturuldu."
 
 msgid "Failed to sign package file."
 msgstr ""
@@ -662,11 +665,10 @@ msgstr ""
 msgid "  -V, --version             Show program version"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
-msgstr "  --config <dosya> '%s' yerine farklı bir yapılandırma dosyası kullan"
+msgstr ""
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
@@ -740,9 +742,8 @@ msgstr ""
 msgid "%s needs to be run as root for this operation."
 msgstr ""
 
-#, fuzzy
 msgid "%s configuration file '%s' not found."
-msgstr "'%s' depo dosyası bulunamadı."
+msgstr ""
 
 msgid "no operation specified (use -h for help)"
 msgstr ""
@@ -934,9 +935,8 @@ msgstr "'deltas' girdisi ekleniyor: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Mevcut '%s' kaydı kaldırılıyor..."
 
-#, fuzzy
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr "xdelta3 ikili dosyası bulunamıyor! Sisteminizde xdelta3 kurulu mu?"
+msgstr ""
 
 msgid "Signing database..."
 msgstr ""
@@ -1034,7 +1034,3 @@ msgstr ""
 
 msgid "unrecognized option"
 msgstr ""
-
-#~ msgid "permanent, catastrophic damage to your system. If you"
-#~ msgstr ""
-#~ "sisteminizde kalıcı, baş ağrıtacak problemler yaratabilir. Eğer yine de"
