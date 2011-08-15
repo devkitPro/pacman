@@ -168,20 +168,21 @@ error:
  * @return 0 on success, 1 on failure to properly decode
  */
 static int decode_signature(const char *base64_data,
-		unsigned char **data, int *data_len) {
+		unsigned char **data, size_t *data_len) {
 	unsigned char *usline;
-	int len;
+	size_t len;
 
 	len = strlen(base64_data);
 	usline = (unsigned char *)base64_data;
-	int ret, destlen = 0;
+	int ret;
+	size_t destlen = 0;
 	/* get the necessary size for the buffer by passing 0 */
 	ret = base64_decode(NULL, &destlen, usline, len);
 	if(ret != 0 && ret != POLARSSL_ERR_BASE64_BUFFER_TOO_SMALL) {
 		goto error;
 	}
 	/* alloc our memory and repeat the call to decode */
-	MALLOC(*data, (size_t)destlen, goto error);
+	MALLOC(*data, destlen, goto error);
 	ret = base64_decode(*data, &destlen, usline, len);
 	if(ret != 0) {
 		goto error;
@@ -270,7 +271,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	/* next create data object for the signature */
 	if(base64_sig) {
 		/* memory-based, we loaded it from a sync DB */
-		int data_len;
+		size_t data_len;
 		int decode_ret = decode_signature(base64_sig,
 				&decoded_sigdata, &data_len);
 		if(decode_ret) {
