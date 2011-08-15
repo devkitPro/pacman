@@ -80,8 +80,12 @@ Options
 *-r, \--receive* <keyserver> <keyid(s)>::
 	Fetch the specified keyids from the specified key server URL.
 
-*\--reload*::
-	Reloads the keys from the keyring package.
+*\--populate* [<keyring(s)>]::
+	Reload the default keys from the (optionally provided) keyrings in
+	+{pkgdatadir}/keyrings+. Each keyring is provided in a file foo.gpg that
+	contains the keys for the foo keyring. Optionally the file foo-revoked
+	contains a list of revoked key IDs for that keyring. These files are
+	required to be signed (detached) by a trusted PGP key.
 
 *-u, \--updatedb*::
 	Equivalent to \--check-trustdb in GnuPG.
