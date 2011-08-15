@@ -104,7 +104,7 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	}
 
 	for(; entries-- > 0; fsp++) {
-		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(ALPM_ERR_MEMORY, NULL));
+		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(fsp->f_mntonname);
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
