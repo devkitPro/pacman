@@ -145,9 +145,9 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 				break;
 			} else {
 				/* 2. search for replacers in sdb */
-				int found = 0;
 				alpm_list_t *k, *l;
 				for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
+					int found = 0;
 					spkg = k->data;
 					for(l = alpm_pkg_get_replaces(spkg); l; l = l->next) {
 						alpm_depend_t *replace = l->data;
@@ -160,16 +160,15 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 						/* check IgnorePkg/IgnoreGroup */
 						if(_alpm_pkg_should_ignore(handle, spkg)
 								|| _alpm_pkg_should_ignore(handle, lpkg)) {
-							_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package replacement (%s-%s => %s-%s)\n"),
-										lpkg->name, lpkg->version, spkg->name, spkg->version);
-							found = 0;
+							_alpm_log(handle, ALPM_LOG_WARNING,
+									_("ignoring package replacement (%s-%s => %s-%s)\n"),
+									lpkg->name, lpkg->version, spkg->name, spkg->version);
 							continue;
 						}
 
 						int doreplace = 0;
 						QUESTION(trans, ALPM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, sdb->treename, &doreplace);
 						if(!doreplace) {
-							found = 0;
 							continue;
 						}
 
@@ -181,7 +180,6 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 							if(tpkg->origin_data.db != sdb) {
 								_alpm_log(handle, ALPM_LOG_WARNING, _("cannot replace %s by %s\n"),
 													lpkg->name, spkg->name);
-								found = 0;
 								continue;
 							}
 							_alpm_log(handle, ALPM_LOG_DEBUG, "appending %s to the removes list of %s\n",
@@ -201,10 +199,6 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 							trans->add = alpm_list_add(trans->add, spkg);
 						}
 					}
-				}
-				if(found) {
-					/* jump to next local package */
-					break;
 				}
 			}
 		}
