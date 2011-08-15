@@ -169,22 +169,12 @@ error:
  */
 static int decode_signature(const char *base64_data,
 		unsigned char **data, size_t *data_len) {
-	unsigned char *usline;
-	size_t len;
-
-	len = strlen(base64_data);
-	usline = (unsigned char *)base64_data;
-	int ret;
-	size_t destlen = 0;
-	/* get the necessary size for the buffer by passing 0 */
-	ret = base64_decode(NULL, &destlen, usline, len);
-	if(ret != 0 && ret != POLARSSL_ERR_BASE64_BUFFER_TOO_SMALL) {
-		goto error;
-	}
-	/* alloc our memory and repeat the call to decode */
+	size_t len = strlen(base64_data);
+	unsigned char *usline = (unsigned char *)base64_data;
+	/* reasonable allocation of expected length is 3/4 of encoded length */
+	size_t destlen = len * 3 / 4;
 	MALLOC(*data, destlen, goto error);
-	ret = base64_decode(*data, &destlen, usline, len);
-	if(ret != 0) {
+	if(base64_decode(*data, &destlen, usline, len)) {
 		goto error;
 	}
 	*data_len = destlen;
