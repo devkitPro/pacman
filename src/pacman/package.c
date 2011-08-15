@@ -136,12 +136,15 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 	if(from == PKG_FROM_SYNCDB) {
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg));
 		string_display(_("SHA256 Sum     :"), alpm_pkg_get_sha256sum(pkg));
-		string_display(_("Signatures     :"), alpm_pkg_get_base64_sig(pkg) ? _("Yes") : _("No"));
+		string_display(_("Signatures     :"),
+				alpm_pkg_get_base64_sig(pkg) ? _("Yes") : _("None"));
 	}
 	if(from == PKG_FROM_FILE) {
 		alpm_sigresult_t result;
 		int err = alpm_pkg_check_pgp_signature(pkg, &result);
-		if(err) {
+		if(err && alpm_errno(config->handle) == ALPM_ERR_SIG_MISSING) {
+			string_display(_("Signatures     :"), _("None"));
+		} else if(err) {
 			string_display(_("Signatures     :"),
 					alpm_strerror(alpm_errno(config->handle)));
 		} else {
