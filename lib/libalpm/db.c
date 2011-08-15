@@ -375,20 +375,6 @@ const char *_alpm_db_path(alpm_db_t *db)
 	return db->_path;
 }
 
-char *_alpm_db_sig_path(alpm_db_t *db)
-{
-	char *sigpath;
-	size_t len;
-	const char *dbfile = _alpm_db_path(db);
-	if(!db || !dbfile) {
-		return NULL;
-	}
-	len = strlen(dbfile) + strlen(".sig") + 1;
-	CALLOC(sigpath, len, sizeof(char), RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
-	sprintf(sigpath, "%s.sig", dbfile);
-	return sigpath;
-}
-
 int _alpm_db_cmp(const void *d1, const void *d2)
 {
 	alpm_db_t *db1 = (alpm_db_t *)d1;

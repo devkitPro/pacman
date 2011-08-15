@@ -288,8 +288,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		int full, const char *md5sum, const char *sha256sum, const char *base64_sig,
 		alpm_siglevel_t level)
 {
-	int ret;
-	int config = 0;
+	int ret, skip_checksums, config = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
 	alpm_pkg_t *newpkg = NULL;
@@ -314,9 +313,22 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		RET_ERR(handle, ALPM_ERR_PKG_OPEN, NULL);
 	}
 
-	/* first steps- validate the package file */
+	/* can we get away with skipping checksums? */
+	skip_checksums = 0;
+	if(level & ALPM_SIG_PACKAGE) {
+		if(base64_sig) {
+			skip_checksums = 1;
+		} else {
+			char *sigpath = _alpm_sigpath(handle, pkgfile);
+			if(sigpath && !_alpm_access(handle, NULL, sigpath, R_OK)) {
+				skip_checksums = 1;
+			}
+			free(sigpath);
+		}
+	}
+
 	_alpm_log(handle, ALPM_LOG_DEBUG, "md5sum: %s\n", md5sum);
-	if(md5sum) {
+	if(!skip_checksums && md5sum && !sha256sum) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
 		if(_alpm_test_checksum(pkgfile, md5sum, ALPM_CSUM_MD5) != 0) {
 			alpm_pkg_free(newpkg);
@@ -325,7 +337,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "sha256sum: %s\n", sha256sum);
-	if(sha256sum) {
+	if(!skip_checksums && sha256sum) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking sha256sum for %s\n", pkgfile);
 		if(_alpm_test_checksum(pkgfile, sha256sum, ALPM_CSUM_SHA256) != 0) {
 			alpm_pkg_free(newpkg);

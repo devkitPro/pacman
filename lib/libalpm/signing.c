@@ -186,6 +186,28 @@ error:
 	return 1;
 }
 
+
+/**
+ * Form a signature path given a file path.
+ * Caller must free the result.
+ * @param handle the context handle
+ * @param path the full path to a file
+ * @return the path with '.sig' appended, NULL on errors
+ */
+char *_alpm_sigpath(alpm_handle_t *handle, const char *path)
+{
+	char *sigpath;
+	size_t len;
+
+	if(!path) {
+		return NULL;
+	}
+	len = strlen(path) + 5;
+	CALLOC(sigpath, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+	sprintf(sigpath, "%s.sig", path);
+	return sigpath;
+}
+
 /**
  * Check the PGP signature for the given file path.
  * If base64_sig is provided, it will be used as the signature data after
@@ -226,13 +248,9 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	result->count = 0;
 
 	if(!base64_sig) {
-		size_t len = strlen(path) + 5;
-		CALLOC(sigpath, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		snprintf(sigpath, len, "%s.sig", path);
-
-		if(!_alpm_access(handle, NULL, sigpath, R_OK) == 0) {
-			/* sigcount is 0 */
-		}
+		sigpath = _alpm_sigpath(handle, path);
+		/* this will just help debugging */
+		_alpm_access(handle, NULL, sigpath, R_OK);
 	}
 
 	if(init_gpgme(handle)) {
@@ -274,6 +292,8 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		/* file-based, it is on disk */
 		sigfile = fopen(sigpath, "rb");
 		if(sigfile == NULL) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "sig path %s could not be opened\n",
+					sigpath);
 			handle->pm_errno = ALPM_ERR_SIG_MISSING;
 			goto error;
 		}

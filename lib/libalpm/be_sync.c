@@ -192,7 +192,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 		if(ret == 0 && (level & ALPM_SIG_DATABASE)) {
 			/* an existing sig file is no good at this point */
-			char *sigpath = _alpm_db_sig_path(db);
+			char *sigpath = _alpm_sigpath(handle, _alpm_db_path(db));
 			if(!sigpath) {
 				ret = -1;
 				break;
