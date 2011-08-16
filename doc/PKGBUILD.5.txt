@@ -117,7 +117,7 @@ name. The syntax is: `source=('filename::url')`.
 	This array contains an MD5 hash for every source file specified in the
 	source array (in the same order). makepkg will use this to verify source
 	file integrity during subsequent builds. To easily generate md5sums, run
-	``makepkg -g >> PKGBUILD''. If desired, move the md5sums line to an
+	`makepkg -g >> PKGBUILD`. If desired, move the md5sums line to an
 	appropriate location.
 
 *sha1sums, sha256sums, sha384sums, sha512sums (arrays)*::
@@ -134,7 +134,7 @@ name. The syntax is: `source=('filename::url')`.
 *arch (array)*::
 	Defines on which architectures the given package is available (e.g.,
 	`arch=('i686' 'x86_64')`). Packages that contain no architecture specific
-	files should use arch=('any').
+	files should use `arch=('any')`.
 
 *backup (array)*::
 	An array of filenames, without preceding slashes, that
@@ -146,9 +146,9 @@ name. The syntax is: `source=('filename::url')`.
 	An array of packages this package depends on to run. Entries in
 	this list should be surrounded with single quotes and contain at least
 	the package name. Entries can also include a version requirement of the
-	form 'name<>version', where <> is one of five comparisons: >= (greater
-	than or equal to), <= (less than or equal to), = (equal to), > (greater
-	than), or < (less than).
+	form 'name<>version', where `<>` is one of five comparisons: `>=` (greater
+	than or equal to), `<=` (less than or equal to), `=` (equal to), `>`
+	(greater than), or `<` (less than).
 +
 If the dependency name appears to be a library (ends with .so), makepkg will
 try to find a binary that depends on the library in the built package and
@@ -187,7 +187,7 @@ disables auto detection.
 	depend on 'cron' rather than 'dcron OR fcron'.
 	Versioned provisions are also possible, in the 'name=version' format.
 	For example, dcron can provide 'cron=2.0' to satisfy the 'cron>=2.0'
-	dependency of other packages. Provisions involving the '>' and '<'
+	dependency of other packages. Provisions involving the `>` and `<`
 	operators are invalid as only specific versions of a package may be
 	provided.
 +
