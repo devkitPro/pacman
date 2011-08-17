@@ -261,7 +261,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
 	}
 
-	if(!payload->allow_resume && !payload->force && stat(destfile, &st) == 0) {
+	if(!payload->allow_resume && !payload->force && destfile && stat(destfile, &st) == 0) {
 		/* start from scratch, but only download if our local is out of date. */
 		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
