@@ -9,7 +9,7 @@ versions = (
 )
 
 pkgvers = [(n, versions[n]) for n in range(len(versions))]
-for k, v in pkgvers: 
+for k, v in pkgvers:
 	sp = pmpkg("pkg_%d" % k, v)
 	self.addpkg2db("sync", sp)
 

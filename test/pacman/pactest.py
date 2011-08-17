@@ -3,7 +3,7 @@
 #  pactest : run automated testing on the pacman binary
 #
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
-# 
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
@@ -83,9 +83,9 @@ def create_parser():
                       help = "do not use --noconfirm for pacman calls")
     return parser
 
- 
+
 if __name__ == "__main__":
-    # instantiate env and parser objects 
+    # instantiate env and parser objects
     root_path = tempfile.mkdtemp()
     env = pmenv.pmenv(root=root_path)
     opt_parser = create_parser()

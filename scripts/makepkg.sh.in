@@ -439,8 +439,8 @@ check_deps() {
 	local ret=0
 	local pmout
 	pmout=$(run_pacman -T "$@") || ret=$?
-	set -E 
-	
+	set -E
+
 	if (( ret == 127 )); then #unresolved deps
 		echo "$pmout"
 	elif (( ret )); then
@@ -1531,7 +1531,7 @@ check_sanity() {
 	done
 
 	for i in 'changelog' 'install'; do
-		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE") 
+		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE")
 		local file
 		for file in $filelist; do
 			# evaluate any bash variables used

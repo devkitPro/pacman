@@ -1,7 +1,7 @@
 #! /usr/bin/python
 #
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
-# 
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
@@ -27,7 +27,7 @@ import util
 
 class pmpkg(object):
     """Package object.
-    
+
     Object holding data from an Arch Linux package.
     """
 
@@ -79,14 +79,14 @@ class pmpkg(object):
 
     def fullname(self):
         """Long name of a package.
-        
+
         Returns a string formatted as follows: "pkgname-pkgver".
         """
         return "%s-%s" % (self.name, self.version)
 
     def filename(self):
         """File name of a package, including its extension.
-        
+
         Returns a string formatted as follows: "pkgname-pkgver.PKG_EXT_PKG".
         """
         return "%s%s" % (self.fullname(), util.PM_EXT_PKG)
@@ -104,7 +104,7 @@ class pmpkg(object):
 
     def makepkg(self, path):
         """Creates an Arch Linux package archive.
-        
+
         A package archive is generated in the location 'path', based on the data
         from the object.
         """
