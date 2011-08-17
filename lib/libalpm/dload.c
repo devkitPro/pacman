@@ -362,7 +362,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		destfile = get_fullpath(localpath, payload->cd_filename, "");
 	} else {
 		const char *effective_filename = strrchr(effective_url, '/');
-		if(effective_filename) {
+		if(effective_filename && strlen(effective_filename) > 2) {
 			effective_filename++;
 
 			/* if destfile was never set, we wrote to a tempfile. even if destfile is
