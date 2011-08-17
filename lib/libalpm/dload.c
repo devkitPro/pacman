@@ -194,6 +194,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	struct sigaction sig_pipe[2], sig_int[2];
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
+	handle->pm_errno = 0;
 
 	if(!payload->filename) {
 		payload->filename = get_filename(payload->fileurl);

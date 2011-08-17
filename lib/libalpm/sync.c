@@ -738,11 +738,10 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 	const char *cachedir;
 	alpm_list_t *i, *j;
 	alpm_list_t *files = NULL;
-	enum _alpm_errno_t errsv = 0;
+	int errors = 0;
 
 	cachedir = _alpm_filecache_setup(handle);
 	handle->trans->state = STATE_DOWNLOADING;
-	handle->pm_errno = 0;
 
 	/* Total progress - figure out the total download size if required to
 	 * pass to the callback. This function is called once, and it is up to the
@@ -821,9 +820,9 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 					}
 				}
 				if(ret == -1) {
+					errors++;
 					_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
 							current->treename);
-					errsv = ALPM_ERR_RETRIEVE;
 				}
 			}
 
@@ -844,13 +843,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 		handle->totaldlcb(0);
 	}
 
-	/* set errno accordingly. an error occuring in the downloader itself will
-	 * take precedence over a general retrieval error */
-	if(handle->pm_errno == 0) {
-		handle->pm_errno = errsv;
-	}
-
-	return handle->pm_errno > 0 ? -1 : 0;
+	return errors;
 }
 
 int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
