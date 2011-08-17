@@ -186,28 +186,6 @@ error:
 	return 1;
 }
 
-
-/**
- * Form a signature path given a file path.
- * Caller must free the result.
- * @param handle the context handle
- * @param path the full path to a file
- * @return the path with '.sig' appended, NULL on errors
- */
-char *_alpm_sigpath(alpm_handle_t *handle, const char *path)
-{
-	char *sigpath;
-	size_t len;
-
-	if(!path) {
-		return NULL;
-	}
-	len = strlen(path) + 5;
-	CALLOC(sigpath, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-	sprintf(sigpath, "%s.sig", path);
-	return sigpath;
-}
-
 /**
  * Check the PGP signature for the given file path.
  * If base64_sig is provided, it will be used as the signature data after
@@ -436,6 +414,27 @@ int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
 	return -1;
 }
 #endif
+
+/**
+ * Form a signature path given a file path.
+ * Caller must free the result.
+ * @param handle the context handle
+ * @param path the full path to a file
+ * @return the path with '.sig' appended, NULL on errors
+ */
+char *_alpm_sigpath(alpm_handle_t *handle, const char *path)
+{
+	char *sigpath;
+	size_t len;
+
+	if(!path) {
+		return NULL;
+	}
+	len = strlen(path) + 5;
+	CALLOC(sigpath, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+	sprintf(sigpath, "%s.sig", path);
+	return sigpath;
+}
 
 int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		const char *base64_sig, int optional, int marginal, int unknown,
