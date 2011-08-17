@@ -180,7 +180,7 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 static int curl_download_internal(struct dload_payload *payload,
 		const char *localpath, char **final_file)
 {
-	int ret = -1, should_unlink = 0;
+	int ret = -1, should_unlink = !payload->allow_resume;
 	FILE *localf = NULL;
 	const char *useragent;
 	const char *open_mode = "wb";
@@ -313,16 +313,12 @@ static int curl_download_internal(struct dload_payload *payload,
 		case CURLE_ABORTED_BY_CALLBACK:
 			goto cleanup;
 		case CURLE_OPERATION_TIMEDOUT:
-			dload_interrupted = 1;
 			/* fallthrough */
 		default:
 			if(!payload->errors_ok) {
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
 						payload->filename, hostname, error_buffer);
-				if(!dload_interrupted) {
-					unlink(tempfile);
-				}
 			} else {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
 						payload->filename, hostname, error_buffer);
@@ -398,7 +394,7 @@ cleanup:
 		}
 	}
 
-	if(dload_interrupted && should_unlink) {
+	if((ret == -1 || dload_interrupted) && should_unlink) {
 		unlink(tempfile);
 	}
 
