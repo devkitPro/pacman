@@ -368,20 +368,23 @@ static int dep_vercmp(const char *version1, alpm_depmod_t mod,
 	return equal;
 }
 
+int _alpm_depcmp_literal(alpm_pkg_t *pkg, alpm_depend_t *dep)
+{
+	if(pkg->name_hash != dep->name_hash
+			|| strcmp(pkg->name, dep->name) != 0) {
+		/* skip more expensive checks */
+		return 0;
+	}
+	return dep_vercmp(pkg->version, dep->mod, dep->version);
+}
+
 int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 {
 	alpm_list_t *i;
-	int satisfy = 0;
+	int satisfy = _alpm_depcmp_literal(pkg, dep);
 
-	/* check (pkg->name, pkg->version) */
-	if(pkg->name_hash != dep->name_hash) {
-		/* skip more expensive checks */
-	} else {
-		satisfy = (strcmp(pkg->name, dep->name) == 0
-				&& dep_vercmp(pkg->version, dep->mod, dep->version));
-		if(satisfy) {
-			return satisfy;
-		}
+	if(satisfy) {
+		return satisfy;
 	}
 
 	/* check provisions, name and version if available */
