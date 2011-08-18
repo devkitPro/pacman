@@ -180,7 +180,7 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 static int curl_download_internal(struct dload_payload *payload,
 		const char *localpath, char **final_file)
 {
-	int ret = -1, should_unlink = !payload->allow_resume;
+	int ret = -1;
 	FILE *localf = NULL;
 	const char *useragent;
 	const char *open_mode = "wb";
@@ -217,7 +217,7 @@ static int curl_download_internal(struct dload_payload *payload,
 
 		/* we can't support resuming this kind of download, so a partial transfer
 		 * will be destroyed */
-		should_unlink = 1;
+		payload->unlink_on_fail = 1;
 
 		/* create a random filename, which is opened with O_EXCL */
 		snprintf(randpath, PATH_MAX, "%salpmtmp.XXXXXX", localpath);
@@ -312,8 +312,6 @@ static int curl_download_internal(struct dload_payload *payload,
 			break;
 		case CURLE_ABORTED_BY_CALLBACK:
 			goto cleanup;
-		case CURLE_OPERATION_TIMEDOUT:
-			/* fallthrough */
 		default:
 			if(!payload->errors_ok) {
 				handle->pm_errno = ALPM_ERR_LIBCURL;
@@ -396,7 +394,7 @@ cleanup:
 		}
 	}
 
-	if((ret == -1 || dload_interrupted) && should_unlink && tempfile) {
+	if((ret == -1 || dload_interrupted) && payload->unlink_on_fail && tempfile) {
 		unlink(tempfile);
 	}
 

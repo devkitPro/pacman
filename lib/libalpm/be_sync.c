@@ -197,6 +197,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		snprintf(payload->fileurl, len, "%s/%s.db", server, db->treename);
 		payload->handle = handle;
 		payload->force = force;
+		payload->unlink_on_fail = 1;
 
 		ret = _alpm_download(payload, syncpath, NULL);
 
