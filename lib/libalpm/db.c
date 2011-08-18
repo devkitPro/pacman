@@ -326,7 +326,11 @@ alpm_db_t *_alpm_db_new(const char *treename, int is_local)
 
 	CALLOC(db, 1, sizeof(alpm_db_t), return NULL);
 	STRDUP(db->treename, treename, return NULL);
-	db->is_local = is_local;
+	if(is_local) {
+		db->status |= DB_STATUS_LOCAL;
+	} else {
+		db->status &= ~DB_STATUS_LOCAL;
+	}
 
 	return db;
 }
@@ -359,7 +363,7 @@ const char *_alpm_db_path(alpm_db_t *db)
 			RET_ERR(db->handle, ALPM_ERR_DB_OPEN, NULL);
 		}
 
-		if(db->is_local) {
+		if(db->status & DB_STATUS_LOCAL) {
 			pathsize = strlen(dbpath) + strlen(db->treename) + 2;
 			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
 			sprintf(db->_path, "%s%s/", dbpath, db->treename);

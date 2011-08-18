@@ -47,8 +47,13 @@ typedef enum _alpm_dbinfrq_t {
 /** Database status. Bitflags. */
 enum _alpm_dbstatus_t {
 	DB_STATUS_VALID = (1 << 0),
-	DB_STATUS_PKGCACHE = (1 << 1),
-	DB_STATUS_GRPCACHE = (1 << 2)
+	DB_STATUS_INVALID = (1 << 1),
+	DB_STATUS_EXISTS = (1 << 2),
+	DB_STATUS_MISSING = (1 << 3),
+
+	DB_STATUS_LOCAL = (1 << 10),
+	DB_STATUS_PKGCACHE = (1 << 11),
+	DB_STATUS_GRPCACHE = (1 << 12)
 };
 
 struct db_operations {
@@ -63,16 +68,13 @@ struct __alpm_db_t {
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */
 	char *_path;
-	/* also indicates whether we are RO or RW */
-	int is_local;
-	/* flags determining validity, loaded caches, etc. */
-	enum _alpm_dbstatus_t status;
 	alpm_pkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
-	alpm_siglevel_t siglevel;
-
 	struct db_operations *ops;
+	/* flags determining validity, local, loaded caches, etc. */
+	enum _alpm_dbstatus_t status;
+	alpm_siglevel_t siglevel;
 };
 
 

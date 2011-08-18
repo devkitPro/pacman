@@ -318,6 +318,9 @@ static int local_db_validate(alpm_db_t *db)
 	if(db->status & DB_STATUS_VALID) {
 		return 0;
 	}
+	if(db->status & DB_STATUS_INVALID) {
+		return -1;
+	}
 
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
@@ -328,11 +331,16 @@ static int local_db_validate(alpm_db_t *db)
 		if(errno == ENOENT) {
 			/* database dir doesn't exist yet */
 			db->status |= DB_STATUS_VALID;
+			db->status &= ~DB_STATUS_INVALID;
+			db->status &= ~DB_STATUS_EXISTS;
+			db->status |= DB_STATUS_MISSING;
 			return 0;
 		} else {
 			RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 		}
 	}
+	db->status |= DB_STATUS_EXISTS;
+	db->status &= ~DB_STATUS_MISSING;
 
 	while((ent = readdir(dbdir)) != NULL) {
 		const char *name = ent->d_name;
@@ -348,12 +356,15 @@ static int local_db_validate(alpm_db_t *db)
 		snprintf(path, PATH_MAX, "%s%s/depends", dbpath, name);
 		if(access(path, F_OK) == 0) {
 			/* we found a depends file- bail */
+			db->status &= ~DB_STATUS_VALID;
+			db->status |= DB_STATUS_INVALID;
 			db->handle->pm_errno = ALPM_ERR_DB_VERSION;
 			goto done;
 		}
 	}
 	/* we found no depends file after full scan */
 	db->status |= DB_STATUS_VALID;
+	db->status &= ~DB_STATUS_INVALID;
 	ret = 0;
 
 done:
@@ -373,6 +384,11 @@ static int local_db_populate(alpm_db_t *db)
 	const char *dbpath;
 	DIR *dbdir;
 
+	if(db->status & DB_STATUS_INVALID) {
+		RET_ERR(db->handle, ALPM_ERR_DB_INVALID, -1);
+	}
+	/* note: DB_STATUS_MISSING is not fatal for local database */
+
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
 		/* pm_errno set in _alpm_db_path() */
@@ -383,6 +399,8 @@ static int local_db_populate(alpm_db_t *db)
 	if(dbdir == NULL) {
 		if(errno == ENOENT) {
 			/* no database existing yet is not an error */
+			db->status &= ~DB_STATUS_EXISTS;
+			db->status |= DB_STATUS_MISSING;
 			return 0;
 		}
 		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
@@ -390,6 +408,8 @@ static int local_db_populate(alpm_db_t *db)
 	if(fstat(dirfd(dbdir), &buf) != 0) {
 		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 	}
+	db->status |= DB_STATUS_EXISTS;
+	db->status &= ~DB_STATUS_MISSING;
 	if(buf.st_nlink >= 2) {
 		est_count = buf.st_nlink;
 	} else {

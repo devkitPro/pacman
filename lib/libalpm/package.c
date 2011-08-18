@@ -424,7 +424,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
 		/* We have a DB package. if it is a local package, then we should
 		 * only search the local DB; else search all known sync databases. */
 		db = pkg->origin_data.db;
-		if(db->is_local) {
+		if(db->status & DB_STATUS_LOCAL) {
 			find_requiredby(pkg, db, &reqs);
 		} else {
 			for(i = pkg->handle->dbs_sync; i; i = i->next) {

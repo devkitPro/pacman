@@ -70,28 +70,37 @@ static char *get_sync_dir(alpm_handle_t *handle)
 static int sync_db_validate(alpm_db_t *db)
 {
 	alpm_siglevel_t level;
+	const char *dbpath;
 
-	if(db->status & DB_STATUS_VALID) {
+	if(db->status & DB_STATUS_VALID || db->status & DB_STATUS_MISSING) {
 		return 0;
 	}
+	if(db->status & DB_STATUS_INVALID) {
+		return -1;
+	}
+
+	dbpath = _alpm_db_path(db);
+	if(!dbpath) {
+		/* pm_errno set in _alpm_db_path() */
+		return -1;
+	}
+
+	/* we can skip any validation if the database doesn't exist */
+	if(access(dbpath, R_OK) != 0 && errno == ENOENT) {
+		db->status &= ~DB_STATUS_EXISTS;
+		db->status |= DB_STATUS_MISSING;
+		_alpm_log(db->handle, ALPM_LOG_WARNING,
+				"database file for '%s' does not exist\n", db->treename);
+		goto valid;
+	}
+	db->status |= DB_STATUS_EXISTS;
+	db->status &= ~DB_STATUS_MISSING;
 
 	/* this takes into account the default verification level if UNKNOWN
 	 * was assigned to this db */
 	level = alpm_db_get_siglevel(db);
 
 	if(level & ALPM_SIG_DATABASE) {
-		const char *dbpath = _alpm_db_path(db);
-		if(!dbpath) {
-			/* pm_errno set in _alpm_db_path() */
-			return -1;
-		}
-
-		/* we can skip any validation if the database doesn't exist */
-		if(access(dbpath, R_OK) != 0 && errno == ENOENT) {
-			goto valid;
-			return 0;
-		}
-
 		if(_alpm_check_pgp_helper(db->handle, dbpath, NULL,
 					level & ALPM_SIG_DATABASE_OPTIONAL, level & ALPM_SIG_DATABASE_MARGINAL_OK,
 					level & ALPM_SIG_DATABASE_UNKNOWN_OK, ALPM_ERR_DB_INVALID_SIG)) {
@@ -101,6 +110,7 @@ static int sync_db_validate(alpm_db_t *db)
 
 valid:
 	db->status |= DB_STATUS_VALID;
+	db->status &= ~DB_STATUS_INVALID;
 	return 0;
 }
 
@@ -234,7 +244,12 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	/* Cache needs to be rebuilt */
 	_alpm_db_free_pkgcache(db);
 
+	/* clear all status flags regarding validity/existence */
 	db->status &= ~DB_STATUS_VALID;
+	db->status &= ~DB_STATUS_INVALID;
+	db->status &= ~DB_STATUS_EXISTS;
+	db->status &= ~DB_STATUS_MISSING;
+
 	if(sync_db_validate(db)) {
 		/* pm_errno should be set */
 		ret = -1;
@@ -377,6 +392,13 @@ static int sync_db_populate(alpm_db_t *db)
 	struct archive *archive;
 	struct archive_entry *entry;
 	alpm_pkg_t *pkg = NULL;
+
+	if(db->status & DB_STATUS_INVALID) {
+		RET_ERR(db->handle, ALPM_ERR_DB_INVALID, -1);
+	}
+	if(db->status & DB_STATUS_MISSING) {
+		RET_ERR(db->handle, ALPM_ERR_DB_NOT_FOUND, -1);
+	}
 
 	if((archive = archive_read_new()) == NULL) {
 		RET_ERR(db->handle, ALPM_ERR_LIBARCHIVE, -1);

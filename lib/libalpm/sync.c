@@ -319,8 +319,11 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	/* ensure all sync database are valid since we will be using them */
 	for(i = handle->dbs_sync; i; i = i->next) {
 		const alpm_db_t *db = i->data;
-		if(!(db->status & DB_STATUS_VALID)) {
+		if(db->status & DB_STATUS_INVALID) {
 			RET_ERR(handle, ALPM_ERR_DB_INVALID, -1);
+		}
+		if(db->status & DB_STATUS_MISSING) {
+			RET_ERR(handle, ALPM_ERR_DB_NOT_FOUND, -1);
 		}
 	}
 
