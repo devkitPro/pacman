@@ -178,18 +178,19 @@ disables auto detection.
 *conflicts (array)*::
 	An array of packages that will conflict with this package (i.e. they
 	cannot both be installed at the same time). This directive follows the
-	same format as depends. Versioned conflicts are also supported.
+	same format as depends. Versioned conflicts are supported using the
+	operators as described in `depends`.
 
 *provides (array)*::
 	An array of ``virtual provisions'' this package provides. This allows
 	a package to provide dependencies other than its own package name. For
 	example, the dcron package can provide 'cron', which allows packages to
 	depend on 'cron' rather than 'dcron OR fcron'.
-	Versioned provisions are also possible, in the 'name=version' format.
-	For example, dcron can provide 'cron=2.0' to satisfy the 'cron>=2.0'
-	dependency of other packages. Provisions involving the `>` and `<`
-	operators are invalid as only specific versions of a package may be
-	provided.
++
+Versioned provisions are also possible, in the 'name=version' format. For
+example, dcron can provide 'cron=2.0' to satisfy the 'cron>=2.0' dependency of
+other packages. Provisions involving the `>` and `<` operators are invalid as
+only specific versions of a package may be provided.
 +
 If the provision name appears to be a library (ends with .so), makepkg will
 try to find the library in the built package and append the correct
@@ -199,9 +200,11 @@ version. Appending the version yourself disables auto detection.
 	An array of packages this package should replace. This can be used
 	to handle renamed/combined packages. For example, if the 'j2re' package
 	is renamed to 'jre', this directive allows future upgrades to continue
-	as expected even though the package has moved. Sysupgrade is currently
-	the only pacman operation that utilizes this field, a normal sync will
-	not use its value.
+	as expected even though the package has moved. Versioned replaces are
+	supported using the operators as described in `depends`.
++
+Sysupgrade is currently the only pacman operation that utilizes this field.
+A normal sync or upgrade will not use its value.
 
 *options (array)*::
 	This array allows you to override some of makepkg's default behavior
