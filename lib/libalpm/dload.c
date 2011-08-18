@@ -396,7 +396,7 @@ cleanup:
 		}
 	}
 
-	if((ret == -1 || dload_interrupted) && should_unlink) {
+	if((ret == -1 || dload_interrupted) && should_unlink && tempfile) {
 		unlink(tempfile);
 	}
 
