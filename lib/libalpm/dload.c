@@ -189,7 +189,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	char hostname[256];
 	char error_buffer[CURL_ERROR_SIZE];
 	struct stat st;
-	long timecond, remote_time = -1;
+	long timecond, respcode = 0, remote_time = -1;
 	double remote_size, bytes_dl;
 	struct sigaction sig_pipe[2], sig_int[2];
 	/* shortcut to our handle within the payload */
@@ -309,6 +309,12 @@ static int curl_download_internal(struct dload_payload *payload,
 	/* was it a success? */
 	switch(handle->curlerr) {
 		case CURLE_OK:
+			/* get http/ftp response code */
+			curl_easy_getinfo(handle->curl, CURLINFO_RESPONSE_CODE, &respcode);
+			if(respcode >=400) {
+				payload->unlink_on_fail = 1;
+				goto cleanup;
+			}
 			break;
 		case CURLE_ABORTED_BY_CALLBACK:
 			goto cleanup;
