@@ -81,6 +81,45 @@ alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_syn
 	return NULL;
 }
 
+static int check_literal(alpm_handle_t *handle, alpm_pkg_t *lpkg,
+		alpm_pkg_t *spkg, int enable_downgrade)
+{
+	/* 1. literal was found in sdb */
+	int cmp = _alpm_pkg_compare_versions(spkg, lpkg);
+	if(cmp > 0) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
+				lpkg->name, lpkg->version, spkg->version);
+		/* check IgnorePkg/IgnoreGroup */
+		if(_alpm_pkg_should_ignore(handle, spkg)
+				|| _alpm_pkg_should_ignore(handle, lpkg)) {
+			_alpm_log(handle, ALPM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
+					lpkg->name, lpkg->version, spkg->version);
+		} else {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
+					spkg->name, spkg->version);
+			return 1;
+		}
+	} else if(cmp < 0) {
+		if(enable_downgrade) {
+			/* check IgnorePkg/IgnoreGroup */
+			if(_alpm_pkg_should_ignore(handle, spkg)
+					|| _alpm_pkg_should_ignore(handle, lpkg)) {
+				_alpm_log(handle, ALPM_LOG_WARNING, _("%s: ignoring package downgrade (%s => %s)\n"),
+						lpkg->name, lpkg->version, spkg->version);
+			} else {
+				_alpm_log(handle, ALPM_LOG_WARNING, _("%s: downgrading from version %s to version %s\n"),
+						lpkg->name, lpkg->version, spkg->version);
+				return 1;
+			}
+		} else {
+			alpm_db_t *sdb = alpm_pkg_get_db(spkg);
+			_alpm_log(handle, ALPM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)\n"),
+					lpkg->name, lpkg->version, sdb->treename, spkg->version);
+		}
+	}
+	return 0;
+}
+
 /** Search for packages to upgrade and add them to the transaction. */
 int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 {
@@ -101,50 +140,24 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 			continue;
 		}
 
-		/* Search for literal then replacers in each sync database.
-		 * If found, don't check other databases */
+		/* Search for literal then replacers in each sync database. */
 		for(j = handle->dbs_sync; j; j = j->next) {
 			alpm_db_t *sdb = j->data;
 			/* Check sdb */
 			alpm_pkg_t *spkg = _alpm_db_get_pkgfromcache(sdb, lpkg->name);
+			int literal_upgrade = 0;
 			if(spkg) {
-				/* 1. literal was found in sdb */
-				int cmp = _alpm_pkg_compare_versions(spkg, lpkg);
-				if(cmp > 0) {
-					_alpm_log(handle, ALPM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
-								lpkg->name, lpkg->version, spkg->version);
-					/* check IgnorePkg/IgnoreGroup */
-					if(_alpm_pkg_should_ignore(handle, spkg)
-							|| _alpm_pkg_should_ignore(handle, lpkg)) {
-						_alpm_log(handle, ALPM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
-								lpkg->name, lpkg->version, spkg->version);
-					} else {
-						_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
-												spkg->name, spkg->version);
-						trans->add = alpm_list_add(trans->add, spkg);
-					}
-				} else if(cmp < 0) {
-					if(enable_downgrade) {
-						/* check IgnorePkg/IgnoreGroup */
-						if(_alpm_pkg_should_ignore(handle, spkg)
-								|| _alpm_pkg_should_ignore(handle, lpkg)) {
-							_alpm_log(handle, ALPM_LOG_WARNING, _("%s: ignoring package downgrade (%s => %s)\n"),
-											lpkg->name, lpkg->version, spkg->version);
-						} else {
-							_alpm_log(handle, ALPM_LOG_WARNING, _("%s: downgrading from version %s to version %s\n"),
-											lpkg->name, lpkg->version, spkg->version);
-							trans->add = alpm_list_add(trans->add, spkg);
-						}
-					} else {
-						_alpm_log(handle, ALPM_LOG_WARNING, _("%s: local (%s) is newer than %s (%s)\n"),
-								lpkg->name, lpkg->version, sdb->treename, spkg->version);
-					}
+				literal_upgrade = check_literal(handle, lpkg, spkg, enable_downgrade);
+				if(literal_upgrade) {
+					trans->add = alpm_list_add(trans->add, spkg);
 				}
 				/* jump to next local package */
 				break;
 			} else {
 				/* 2. search for replacers in sdb */
 				alpm_list_t *k, *l;
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"searching for replacements for %s\n", lpkg->name);
 				for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
 					int found = 0;
 					spkg = k->data;
