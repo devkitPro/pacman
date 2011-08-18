@@ -409,7 +409,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		         numtargs, current);
 		/* CHECK 1: check every target against every target */
 		_alpm_log(handle, ALPM_LOG_DEBUG, "searching for file conflicts: %s\n",
-								alpm_pkg_get_name(p1));
+				p1->name);
 		for(j = i->next; j; j = j->next) {
 			alpm_list_t *common_files;
 			alpm_pkg_t *p2 = j->data;
@@ -422,8 +422,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				for(k = common_files; k; k = k->next) {
 					snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)k->data);
 					conflicts = add_fileconflict(handle, conflicts,
-							ALPM_FILECONFLICT_TARGET, path,
-							alpm_pkg_get_name(p1), alpm_pkg_get_name(p2));
+							ALPM_FILECONFLICT_TARGET, path, p1->name, p2->name);
 					if(handle->pm_errno == ALPM_ERR_MEMORY) {
 						FREELIST(conflicts);
 						FREELIST(common_files);

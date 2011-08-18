@@ -411,7 +411,7 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 		for(j = list; j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
 			const char *matched = NULL;
-			const char *name = alpm_pkg_get_name(pkg);
+			const char *name = pkg->name;
 			const char *desc = alpm_pkg_get_desc(pkg);
 
 			/* check name as regex AND as plain text */
@@ -559,7 +559,7 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 	}
 
 	_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
-						alpm_pkg_get_name(newpkg), db->treename);
+						newpkg->name, db->treename);
 	db->pkgcache = _alpm_pkghash_add_sorted(db->pkgcache, newpkg);
 
 	free_groupcache(db);
@@ -576,13 +576,13 @@ int _alpm_db_remove_pkgfromcache(alpm_db_t *db, alpm_pkg_t *pkg)
 	}
 
 	_alpm_log(db->handle, ALPM_LOG_DEBUG, "removing entry '%s' from '%s' cache\n",
-						alpm_pkg_get_name(pkg), db->treename);
+						pkg->name, db->treename);
 
 	db->pkgcache = _alpm_pkghash_remove(db->pkgcache, pkg, &data);
 	if(data == NULL) {
 		/* package not found */
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "cannot remove entry '%s' from '%s' cache: not found\n",
-							alpm_pkg_get_name(pkg), db->treename);
+							pkg->name, db->treename);
 		return -1;
 	}
 

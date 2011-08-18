@@ -62,20 +62,19 @@ alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_syn
 	pkg->handle->pm_errno = 0;
 
 	for(i = dbs_sync; !spkg && i; i = i->next) {
-		spkg = _alpm_db_get_pkgfromcache(i->data, alpm_pkg_get_name(pkg));
+		spkg = _alpm_db_get_pkgfromcache(i->data, pkg->name);
 	}
 
 	if(spkg == NULL) {
 		_alpm_log(pkg->handle, ALPM_LOG_DEBUG, "'%s' not found in sync db => no upgrade\n",
-				alpm_pkg_get_name(pkg));
+				pkg->name);
 		return NULL;
 	}
 
 	/* compare versions and see if spkg is an upgrade */
 	if(_alpm_pkg_compare_versions(spkg, pkg) > 0) {
 		_alpm_log(pkg->handle, ALPM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
-					alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg),
-					alpm_pkg_get_version(spkg));
+					pkg->name, pkg->version, spkg->version);
 		return spkg;
 	}
 	/* spkg is not an upgrade */
@@ -229,7 +228,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 		for(j = grp->packages; j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
 
-			if(_alpm_pkg_find(ignorelist, alpm_pkg_get_name(pkg))) {
+			if(_alpm_pkg_find(ignorelist, pkg->name)) {
 				continue;
 			}
 			if(_alpm_pkg_should_ignore(db->handle, pkg)) {
@@ -240,7 +239,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 				if(!install)
 					continue;
 			}
-			if(!_alpm_pkg_find(pkgs, alpm_pkg_get_name(pkg))) {
+			if(!_alpm_pkg_find(pkgs, pkg->name)) {
 				pkgs = alpm_list_add(pkgs, pkg);
 			}
 		}
@@ -296,7 +295,7 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "setting download size %jd for pkg %s\n",
-			(intmax_t)size, alpm_pkg_get_name(newpkg));
+			(intmax_t)size, newpkg->name);
 
 	newpkg->infolevel |= INFRQ_DSIZE;
 	newpkg->download_size = size;

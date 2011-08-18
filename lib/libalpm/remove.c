@@ -81,9 +81,9 @@ static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 			alpm_depmissing_t *miss = i->data;
 			alpm_pkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
-				if(!_alpm_pkg_find(trans->remove, alpm_pkg_get_name(info))) {
+				if(!_alpm_pkg_find(trans->remove, info->name)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "pulling %s in target list\n",
-							alpm_pkg_get_name(info));
+							info->name);
 					trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(info));
 				}
 			} else {
@@ -117,7 +117,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 			pkg = vpkg;
 			if(pkg) {
 				_alpm_log(handle, ALPM_LOG_WARNING, _("removing %s from target list\n"),
-						alpm_pkg_get_name(pkg));
+						pkg->name);
 				_alpm_pkg_free(pkg);
 			}
 		}

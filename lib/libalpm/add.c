@@ -76,8 +76,8 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	local = _alpm_db_get_pkgfromcache(handle->db_local, pkgname);
 	if(local) {
-		const char *localpkgname = alpm_pkg_get_name(local);
-		const char *localpkgver = alpm_pkg_get_version(local);
+		const char *localpkgname = local->name;
+		const char *localpkgver = local->version;
 		int cmp = _alpm_pkg_compare_versions(pkg, local);
 
 		if(cmp == 0) {
@@ -460,8 +460,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	ASSERT(trans != NULL, return -1);
 
 	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
-			_alpm_db_path(db), alpm_pkg_get_name(newpkg),
-			alpm_pkg_get_version(newpkg));
+			_alpm_db_path(db), newpkg->name, newpkg->version);
 
 	/* see if this is an upgrade. if so, remove the old package first */
 	alpm_pkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
@@ -517,7 +516,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	   changelog/install script installation (FS#12263) */
 	if(_alpm_local_db_prepare(db, newpkg)) {
 		alpm_logaction(handle, "error: could not create database entry %s-%s\n",
-				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
+				newpkg->name, newpkg->version);
 		handle->pm_errno = ALPM_ERR_DB_WRITE;
 		ret = -1;
 		goto cleanup;
@@ -566,10 +565,10 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		/* call PROGRESS once with 0 percent, as we sort-of skip that here */
 		if(is_upgrade) {
 			PROGRESS(trans, ALPM_TRANS_PROGRESS_UPGRADE_START,
-					alpm_pkg_get_name(newpkg), 0, pkg_count, pkg_current);
+					newpkg->name, 0, pkg_count, pkg_current);
 		} else {
 			PROGRESS(trans, ALPM_TRANS_PROGRESS_ADD_START,
-					alpm_pkg_get_name(newpkg), 0, pkg_count, pkg_current);
+					newpkg->name, 0, pkg_count, pkg_current);
 		}
 
 		for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
@@ -593,12 +592,10 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 			if(is_upgrade) {
 				PROGRESS(trans, ALPM_TRANS_PROGRESS_UPGRADE_START,
-						alpm_pkg_get_name(newpkg), percent, pkg_count,
-						pkg_current);
+						newpkg->name, percent, pkg_count, pkg_current);
 			} else {
 				PROGRESS(trans, ALPM_TRANS_PROGRESS_ADD_START,
-						alpm_pkg_get_name(newpkg), percent, pkg_count,
-						pkg_current);
+						newpkg->name, percent, pkg_count, pkg_current);
 			}
 
 			/* extract the next file from the archive */
@@ -635,9 +632,9 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 	if(_alpm_local_db_write(db, newpkg, INFRQ_ALL)) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not update database entry %s-%s\n"),
-				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
+				newpkg->name, newpkg->version);
 		alpm_logaction(handle, "error: could not update database entry %s-%s\n",
-				alpm_pkg_get_name(newpkg), alpm_pkg_get_version(newpkg));
+				newpkg->name, newpkg->version);
 		handle->pm_errno = ALPM_ERR_DB_WRITE;
 		ret = -1;
 		goto cleanup;
@@ -645,15 +642,15 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 	if(_alpm_db_add_pkgincache(db, newpkg) == -1) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not add entry '%s' in cache\n"),
-				alpm_pkg_get_name(newpkg));
+				newpkg->name);
 	}
 
 	if(is_upgrade) {
 		PROGRESS(trans, ALPM_TRANS_PROGRESS_UPGRADE_START,
-				alpm_pkg_get_name(newpkg), 100, pkg_count, pkg_current);
+				newpkg->name, 100, pkg_count, pkg_current);
 	} else {
 		PROGRESS(trans, ALPM_TRANS_PROGRESS_ADD_START,
-				alpm_pkg_get_name(newpkg), 100, pkg_count, pkg_current);
+				newpkg->name, 100, pkg_count, pkg_current);
 	}
 
 	/* run the post-install script if it exists  */
@@ -661,11 +658,10 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			&& !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 		if(is_upgrade) {
 			_alpm_runscriptlet(handle, scriptlet, "post_upgrade",
-					alpm_pkg_get_version(newpkg),
-					oldpkg ? alpm_pkg_get_version(oldpkg) : NULL);
+					newpkg->version, oldpkg ? oldpkg->version : NULL);
 		} else {
 			_alpm_runscriptlet(handle, scriptlet, "post_install",
-					alpm_pkg_get_version(newpkg), NULL);
+					newpkg->version, NULL);
 		}
 	}
 

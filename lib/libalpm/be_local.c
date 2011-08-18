@@ -192,11 +192,10 @@ static alpm_list_t *_cache_get_backup(alpm_pkg_t *pkg)
 static void *_cache_changelog_open(alpm_pkg_t *pkg)
 {
 	char clfile[PATH_MAX];
+	alpm_db_t *db = alpm_pkg_get_db(pkg);
 	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
 			alpm_option_get_dbpath(pkg->handle),
-			alpm_db_get_name(alpm_pkg_get_db(pkg)),
-			alpm_pkg_get_name(pkg),
-			alpm_pkg_get_version(pkg));
+			db->treename, pkg->name, pkg->version);
 	return fopen(clfile, "r");
 }
 

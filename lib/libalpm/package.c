@@ -618,8 +618,7 @@ void _alpm_pkg_free_trans(alpm_pkg_t *pkg)
 /* Is spkg an upgrade for localpkg? */
 int _alpm_pkg_compare_versions(alpm_pkg_t *spkg, alpm_pkg_t *localpkg)
 {
-	return alpm_pkg_vercmp(alpm_pkg_get_version(spkg),
-			alpm_pkg_get_version(localpkg));
+	return alpm_pkg_vercmp(spkg->version, localpkg->version);
 }
 
 /* Helper function for comparing packages
@@ -677,7 +676,7 @@ int _alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	alpm_list_t *groups = NULL;
 
 	/* first see if the package is ignored */
-	if(alpm_list_find_str(handle->ignorepkg, alpm_pkg_get_name(pkg))) {
+	if(alpm_list_find_str(handle->ignorepkg, pkg->name)) {
 		return 1;
 	}
 

@@ -91,8 +91,8 @@ static alpm_list_t *check_arch(alpm_handle_t *handle, alpm_list_t *pkgs)
 		const char *pkgarch = alpm_pkg_get_arch(pkg);
 		if(pkgarch && strcmp(pkgarch, arch) && strcmp(pkgarch, "any")) {
 			char *string;
-			const char *pkgname = alpm_pkg_get_name(pkg);
-			const char *pkgver = alpm_pkg_get_version(pkg);
+			const char *pkgname = pkg->name;
+			const char *pkgver = pkg->version;
 			size_t len = strlen(pkgname) + strlen(pkgver) + strlen(pkgarch) + 3;
 			MALLOC(string, len, RET_ERR(handle, ALPM_ERR_MEMORY, invalid));
 			sprintf(string, "%s-%s-%s", pkgname, pkgver, pkgarch);
