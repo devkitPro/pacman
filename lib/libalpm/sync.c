@@ -120,6 +120,75 @@ static int check_literal(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 	return 0;
 }
 
+static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
+		alpm_db_t *sdb)
+{
+	/* 2. search for replacers in sdb */
+	alpm_list_t *replacers = NULL;
+	alpm_list_t *k;
+	_alpm_log(handle, ALPM_LOG_DEBUG,
+			"searching for replacements for %s\n", lpkg->name);
+	for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
+		int found = 0;
+		alpm_pkg_t *spkg = k->data;
+		alpm_list_t *l;
+		for(l = alpm_pkg_get_replaces(spkg); l; l = l->next) {
+			alpm_depend_t *replace = l->data;
+			if(_alpm_depcmp(lpkg, replace)) {
+				found = 1;
+				break;
+			}
+		}
+		if(found) {
+			int doreplace = 0;
+			alpm_pkg_t *tpkg;
+			/* check IgnorePkg/IgnoreGroup */
+			if(_alpm_pkg_should_ignore(handle, spkg)
+					|| _alpm_pkg_should_ignore(handle, lpkg)) {
+				_alpm_log(handle, ALPM_LOG_WARNING,
+						_("ignoring package replacement (%s-%s => %s-%s)\n"),
+						lpkg->name, lpkg->version, spkg->name, spkg->version);
+				continue;
+			}
+
+			QUESTION(handle->trans, ALPM_TRANS_CONV_REPLACE_PKG, lpkg, spkg,
+					sdb->treename, &doreplace);
+			if(!doreplace) {
+				continue;
+			}
+
+			/* If spkg is already in the target list, we append lpkg to spkg's
+			 * removes list */
+			tpkg = _alpm_pkg_find(handle->trans->add, spkg->name);
+			if(tpkg) {
+				/* sanity check, multiple repos can contain spkg->name */
+				if(tpkg->origin_data.db != sdb) {
+					_alpm_log(handle, ALPM_LOG_WARNING, _("cannot replace %s by %s\n"),
+							lpkg->name, spkg->name);
+					continue;
+				}
+				_alpm_log(handle, ALPM_LOG_DEBUG, "appending %s to the removes list of %s\n",
+						lpkg->name, tpkg->name);
+				tpkg->removes = alpm_list_add(tpkg->removes, lpkg);
+				/* check the to-be-replaced package's reason field */
+				if(alpm_pkg_get_reason(lpkg) == ALPM_PKG_REASON_EXPLICIT) {
+					tpkg->reason = ALPM_PKG_REASON_EXPLICIT;
+				}
+			} else {
+				/* add spkg to the target list */
+				/* copy over reason */
+				spkg->reason = alpm_pkg_get_reason(lpkg);
+				spkg->removes = alpm_list_add(NULL, lpkg);
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"adding package %s-%s to the transaction targets\n",
+						spkg->name, spkg->version);
+				replacers = alpm_list_add(replacers, spkg);
+			}
+		}
+	}
+	return replacers;
+}
+
 /** Search for packages to upgrade and add them to the transaction. */
 int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 {
@@ -154,63 +223,10 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 				/* jump to next local package */
 				break;
 			} else {
-				/* 2. search for replacers in sdb */
-				alpm_list_t *k, *l;
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"searching for replacements for %s\n", lpkg->name);
-				for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
-					int found = 0;
-					spkg = k->data;
-					for(l = alpm_pkg_get_replaces(spkg); l; l = l->next) {
-						alpm_depend_t *replace = l->data;
-						if(_alpm_depcmp(lpkg, replace)) {
-							found = 1;
-							break;
-						}
-					}
-					if(found) {
-						/* check IgnorePkg/IgnoreGroup */
-						if(_alpm_pkg_should_ignore(handle, spkg)
-								|| _alpm_pkg_should_ignore(handle, lpkg)) {
-							_alpm_log(handle, ALPM_LOG_WARNING,
-									_("ignoring package replacement (%s-%s => %s-%s)\n"),
-									lpkg->name, lpkg->version, spkg->name, spkg->version);
-							continue;
-						}
-
-						int doreplace = 0;
-						QUESTION(trans, ALPM_TRANS_CONV_REPLACE_PKG, lpkg, spkg, sdb->treename, &doreplace);
-						if(!doreplace) {
-							continue;
-						}
-
-						/* If spkg is already in the target list, we append lpkg to spkg's
-						 * removes list */
-						alpm_pkg_t *tpkg = _alpm_pkg_find(trans->add, spkg->name);
-						if(tpkg) {
-							/* sanity check, multiple repos can contain spkg->name */
-							if(tpkg->origin_data.db != sdb) {
-								_alpm_log(handle, ALPM_LOG_WARNING, _("cannot replace %s by %s\n"),
-													lpkg->name, spkg->name);
-								continue;
-							}
-							_alpm_log(handle, ALPM_LOG_DEBUG, "appending %s to the removes list of %s\n",
-												lpkg->name, tpkg->name);
-							tpkg->removes = alpm_list_add(tpkg->removes, lpkg);
-							/* check the to-be-replaced package's reason field */
-							if(alpm_pkg_get_reason(lpkg) == ALPM_PKG_REASON_EXPLICIT) {
-								tpkg->reason = ALPM_PKG_REASON_EXPLICIT;
-							}
-						} else {
-							/* add spkg to the target list */
-							/* copy over reason */
-							spkg->reason = alpm_pkg_get_reason(lpkg);
-							spkg->removes = alpm_list_add(NULL, lpkg);
-							_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s-%s to the transaction targets\n",
-													spkg->name, spkg->version);
-							trans->add = alpm_list_add(trans->add, spkg);
-						}
-					}
+				alpm_list_t *replacers;
+				replacers = check_replacers(handle, lpkg, sdb);
+				if(replacers) {
+					trans->add = alpm_list_join(trans->add, replacers);
 				}
 			}
 		}
