@@ -638,7 +638,7 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 	struct stat buf;
 
 	/* Loop through the cache dirs until we find a matching file */
-	for(i = alpm_option_get_cachedirs(handle); i; i = alpm_list_next(i)) {
+	for(i = alpm_option_get_cachedirs(handle); i; i = i->next) {
 		snprintf(path, PATH_MAX, "%s%s", (char *)alpm_list_getdata(i),
 				filename);
 		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
@@ -663,7 +663,7 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 	char *cachedir;
 
 	/* Loop through the cache dirs until we find a writeable dir */
-	for(i = alpm_option_get_cachedirs(handle); i; i = alpm_list_next(i)) {
+	for(i = alpm_option_get_cachedirs(handle); i; i = i->next) {
 		cachedir = alpm_list_getdata(i);
 		if(stat(cachedir, &buf) != 0) {
 			/* cache directory does not exist.... try creating it */

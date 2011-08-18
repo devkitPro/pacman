@@ -496,7 +496,7 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 	newpkg->reason = pkg->reason;
 
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
-	for(i = pkg->replaces; i; i = alpm_list_next(i)) {
+	for(i = pkg->replaces; i; i = i->next) {
 		newpkg->replaces = alpm_list_add(newpkg->replaces, _alpm_dep_dup(i->data));
 	}
 	newpkg->groups     = alpm_list_strdup(pkg->groups);
@@ -512,20 +512,20 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 		}
 		newpkg->files.count = pkg->files.count;
 	}
-	for(i = pkg->backup; i; i = alpm_list_next(i)) {
+	for(i = pkg->backup; i; i = i->next) {
 		newpkg->backup = alpm_list_add(newpkg->backup, _alpm_backup_dup(i->data));
 	}
-	for(i = pkg->depends; i; i = alpm_list_next(i)) {
+	for(i = pkg->depends; i; i = i->next) {
 		newpkg->depends = alpm_list_add(newpkg->depends, _alpm_dep_dup(i->data));
 	}
 	newpkg->optdepends = alpm_list_strdup(pkg->optdepends);
-	for(i = pkg->conflicts; i; i = alpm_list_next(i)) {
+	for(i = pkg->conflicts; i; i = i->next) {
 		newpkg->conflicts = alpm_list_add(newpkg->conflicts, _alpm_dep_dup(i->data));
 	}
-	for(i = pkg->provides; i; i = alpm_list_next(i)) {
+	for(i = pkg->provides; i; i = i->next) {
 		newpkg->provides = alpm_list_add(newpkg->provides, _alpm_dep_dup(i->data));
 	}
-	for(i = pkg->deltas; i; i = alpm_list_next(i)) {
+	for(i = pkg->deltas; i; i = i->next) {
 		newpkg->deltas = alpm_list_add(newpkg->deltas, _alpm_delta_dup(i->data));
 	}
 
@@ -681,7 +681,7 @@ int _alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	}
 
 	/* next see if the package is in a group that is ignored */
-	for(groups = handle->ignoregroup; groups; groups = alpm_list_next(groups)) {
+	for(groups = handle->ignoregroup; groups; groups = groups->next) {
 		char *grp = (char *)alpm_list_getdata(groups);
 		if(alpm_list_find_str(alpm_pkg_get_groups(pkg), grp)) {
 			return 1;

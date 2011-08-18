@@ -230,7 +230,7 @@ static alpm_pkg_t *find_dep_satisfier(alpm_list_t *pkgs, alpm_depend_t *dep)
 {
 	alpm_list_t *i;
 
-	for(i = pkgs; i; i = alpm_list_next(i)) {
+	for(i = pkgs; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
 		if(_alpm_depcmp(pkg, dep)) {
 			return pkg;

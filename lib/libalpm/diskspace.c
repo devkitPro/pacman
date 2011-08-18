@@ -282,7 +282,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 		}
 		calculate_installed_size(handle, mount_points, pkg);
 
-		for(i = mount_points; i; i = alpm_list_next(i)) {
+		for(i = mount_points; i; i = i->next) {
 			alpm_mountpoint_t *data = i->data;
 			if(data->blocks_needed > data->max_blocks_needed) {
 				data->max_blocks_needed = data->blocks_needed;
@@ -293,7 +293,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 	PROGRESS(trans, ALPM_TRANS_PROGRESS_DISKSPACE_START, "", 100,
 			numtargs, current);
 
-	for(i = mount_points; i; i = alpm_list_next(i)) {
+	for(i = mount_points; i; i = i->next) {
 		alpm_mountpoint_t *data = i->data;
 		if(data->used && data->read_only) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("Partition %s is mounted read only\n"),
@@ -318,7 +318,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 		}
 	}
 
-	for(i = mount_points; i; i = alpm_list_next(i)) {
+	for(i = mount_points; i; i = i->next) {
 		alpm_mountpoint_t *data = i->data;
 		FREE(data->mount_dir);
 	}
