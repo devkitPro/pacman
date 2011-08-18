@@ -17,5 +17,3 @@ self.args = "-Su"
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=util-linux-git")
 self.addrule("!PKG_EXIST=util-linux")
-
-self.expectfailure = True

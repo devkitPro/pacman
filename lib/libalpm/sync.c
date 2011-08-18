@@ -134,7 +134,8 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 		alpm_list_t *l;
 		for(l = alpm_pkg_get_replaces(spkg); l; l = l->next) {
 			alpm_depend_t *replace = l->data;
-			if(_alpm_depcmp(lpkg, replace)) {
+			/* we only want to consider literal matches at this point. */
+			if(_alpm_depcmp_literal(lpkg, replace)) {
 				found = 1;
 				break;
 			}
