@@ -138,19 +138,19 @@ Options
 	dependencies are not found, pacman will try to resolve them. If
 	successful, the missing packages will be downloaded and installed.
 
+*-S, \--source*::
+	Do not actually build the package, but build a source-only tarball that
+	does not include sources that can be fetched via a download URL. This is
+	useful for passing a single tarball to another program such as a chroot,
+	remote builder, or a tarball upload. Because integrity checks are verified,
+	all source files of the package need to be present or downloadable.
+
 *\--allsource*::
 	Do not actually build the package, but build a source-only tarball that
 	includes all sources, including those that are normally download via
 	makepkg. This is useful for passing a single tarball to another program
 	such as a chroot or remote builder. It will also satisfy requirements of
 	the GPL when distributing binary packages.
-
-*\--source*::
-	Do not actually build the package, but build a source-only tarball that
-	does not include sources that can be fetched via a download URL. This is
-	useful for passing a single tarball to another program such as a chroot,
-	remote builder, or a tarball upload. Because integrity checks are verified,
-	all source files of the package need to be present or downloadable.
 
 *\--pkg <list>*::
 	Only build listed packages from a split package.

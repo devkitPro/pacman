@@ -1844,6 +1844,7 @@ usage() {
 	echo "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")"
 	echo "$(gettext "  -R, --repackage  Repackage contents of the package without rebuilding")"
 	printf "$(gettext "  -s, --syncdeps   Install missing dependencies with %s")\n" "pacman"
+	echo "$(gettext "  -S, --source     Generate a source-only tarball without downloaded sources")"
 	echo "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")"
 	printf "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
 	printf "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
@@ -1857,7 +1858,6 @@ usage() {
 	echo "$(gettext "  --skipchecksums  Do not verify checksums of the source files")"
 	echo "$(gettext "  --skipinteg      Do not perform any verification checks on source files")"
 	echo "$(gettext "  --skippgpcheck   Do not verify source files with PGP signatures")"
-	echo "$(gettext "  --source         Generate a source-only tarball without downloaded sources")"
 	echo
 	printf "$(gettext "These options can be passed to %s:")\n" "pacman"
 	echo
@@ -1889,7 +1889,7 @@ fi
 ARGLIST=("$@")
 
 # Parse Command Line Options.
-OPT_SHORT="AcdefFghiLmop:rRsV"
+OPT_SHORT="AcdefFghiLmop:rRsSV"
 OPT_LONG="allsource,asroot,ignorearch,check,clean,nodeps"
 OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver,skippgpcheck"
 OPT_LONG+=",install,key:,log,nocolor,nobuild,nocheck,nosign,pkg:,rmdeps"
@@ -1940,8 +1940,8 @@ while true; do
 		--skipinteg)      SKIPCHECKSUMS=1; SKIPPGPCHECK=1 ;;
 		--skippgpcheck)   SKIPPGPCHECK=1;;
 		--sign)           SIGNPKG='y' ;;
-		--source)         SOURCEONLY=1 ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
+		-S|--source)      SOURCEONLY=1 ;;
 
 		-h|--help)        usage; exit 0 ;; # E_OK
 		-V|--version)     version; exit 0 ;; # E_OK
