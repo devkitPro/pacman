@@ -387,10 +387,12 @@ cleanup:
 						tempfile, destfile, strerror(errno));
 				ret = -1;
 			} else if(final_file) {
-				*final_file = strdup(strrchr(destfile, '/') + 1);
+				STRDUP(*final_file, strrchr(destfile, '/') + 1,
+						RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 			}
 		} else if(final_file) {
-			*final_file = strdup(strrchr(tempfile, '/') + 1);
+			STRDUP(*final_file, strrchr(tempfile, '/') + 1,
+					RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		}
 	}
 
@@ -457,7 +459,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 
 	CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 	payload->handle = handle;
-	payload->fileurl = strdup(url);
+	STRDUP(payload->fileurl, url, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 	payload->allow_resume = 1;
 
 	/* download the file */
