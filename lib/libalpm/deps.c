@@ -561,14 +561,16 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
 		alpm_pkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
-		if(pkg && _alpm_depcmp(pkg, dep) && !_alpm_pkg_find(excluding, pkg->name)) {
+		if(pkg && _alpm_depcmp_literal(pkg, dep)
+				&& !_alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(handle, pkg)) {
 				int install = 0;
 				if(prompt) {
 					QUESTION(handle->trans, ALPM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 							 NULL, NULL, &install);
 				} else {
-					_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
+					_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"),
+							pkg->name, pkg->version);
 				}
 				if(!install) {
 					ignored = 1;
@@ -582,15 +584,18 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	for(i = dbs; i; i = i->next) {
 		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
-			if(_alpm_depcmp(pkg, dep) && strcmp(pkg->name, dep->name) != 0 &&
-			             !_alpm_pkg_find(excluding, pkg->name)) {
+			/* with hash != hash, we can even skip the strcmp() as we know they can't
+			 * possibly be the same string */
+			if(pkg->name_hash != dep->name_hash && _alpm_depcmp(pkg, dep)
+					&& !_alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(handle, pkg)) {
 					int install = 0;
 					if(prompt) {
 						QUESTION(handle->trans, ALPM_TRANS_CONV_INSTALL_IGNOREPKG,
 									pkg, NULL, NULL, &install);
 					} else {
-						_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"), pkg->name, pkg->version);
+						_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"),
+								pkg->name, pkg->version);
 					}
 					if(!install) {
 						ignored = 1;
