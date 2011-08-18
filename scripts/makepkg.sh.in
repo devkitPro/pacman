@@ -250,7 +250,7 @@ get_full_version() {
 		for i in pkgver pkgrel epoch; do
 			local indirect="${i}_override"
 			eval $(declare -f package_$1 | sed -n "s/\(^[[:space:]]*$i=\)/${i}_override=/p")
-			[[ -z ${!indirect} ]] && eval "${indirect}=\${${i}}"
+			[[ -z ${!indirect} ]] && eval ${indirect}=\"${!i}\"
 		done
 		if (( ! $epoch_override )); then
 			echo $pkgver_override-$pkgrel_override
@@ -1358,7 +1358,7 @@ create_srcpackage() {
 		local file
 		for file in $filelist; do
 			# evaluate any bash variables used
-			eval file=${file}
+			eval file=\"${file}\"
 			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
 				msg2 "$(gettext "Adding %s file (%s)...")" "$i" "${file}"
 				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
@@ -1451,7 +1451,7 @@ check_sanity() {
 
 	awk -F'=' '/^[[:space:]]*pkgver=/ { $1=""; print $0 }' "$BUILDFILE" |
 	while read i _; do
-		eval i="$i"
+		eval i=\"$i\"
 		if [[ $i =~ [[:space:]:-] ]]; then
 			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
 			return 1
@@ -1460,7 +1460,7 @@ check_sanity() {
 
 	awk -F'=' '/^[[:space:]]*pkgrel=/ { $1=""; print $0 }' "$BUILDFILE" |
 	while read i _; do
-		eval i="$i"
+		eval i=\"$i\"
 		if [[ $i =~ [[:space:]-] ]]; then
 			error "$(gettext "%s is not allowed to contain hyphens or whitespace.")" "pkgrel"
 			return 1
@@ -1469,7 +1469,7 @@ check_sanity() {
 
 	awk -F'=' '/^[[:space:]]*epoch=/ { $1=""; print $0 }' "$BUILDFILE" |
 	while read i _; do
-		eval i="$i"
+		eval i=\"$i\"
 		if [[ ! $i =~ ^[0-9]*$ ]]; then
 			error "$(gettext "%s must be an integer.")" "epoch"
 			return 1
@@ -1538,7 +1538,7 @@ check_sanity() {
 		local file
 		for file in $filelist; do
 			# evaluate any bash variables used
-			eval file=${file}
+			eval file=\"${file}\"
 			if [[ ! -f $file ]]; then
 				error "$(gettext "%s file (%s) does not exist.")" "$i" "$file"
 				ret=1
