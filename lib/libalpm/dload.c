@@ -450,6 +450,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 	int ret;
 
 	CHECK_HANDLE(handle, return NULL);
+	ASSERT(url, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
 
 	/* find a valid cache dir to download to */
 	cachedir = _alpm_filecache_setup(handle);
