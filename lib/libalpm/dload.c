@@ -66,8 +66,6 @@ static char *get_fullpath(const char *path, const char *filename,
 	return filepath;
 }
 
-enum sighandlers { OLD = 0, NEW = 1 };
-
 static int dload_interrupted;
 static void inthandler(int UNUSED signum)
 {
@@ -222,6 +220,25 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	}
 }
 
+static struct sigaction mask_signal(int signal, void (*handler)(int))
+{
+	struct sigaction newaction, origaction;
+
+	newaction.sa_handler = handler;
+	sigemptyset(&newaction.sa_mask);
+	newaction.sa_flags = 0;
+
+	sigaction(signal, NULL, &origaction);
+	sigaction(signal, &newaction, NULL);
+
+	return origaction;
+}
+
+static void unmask_signal(int signal, struct sigaction sa)
+{
+	sigaction(signal, &sa, NULL);
+}
+
 static int curl_download_internal(struct dload_payload *payload,
 		const char *localpath, char **final_file)
 {
@@ -234,7 +251,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	struct stat st;
 	long timecond, respcode = 0, remote_time = -1;
 	double remote_size, bytes_dl;
-	struct sigaction sig_pipe[2], sig_int[2];
+	struct sigaction orig_sig_pipe, orig_sig_int;
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
 	handle->pm_errno = 0;
@@ -291,18 +308,8 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
 	 * something along those lines. Store the old signal handler first. */
-	sig_pipe[NEW].sa_handler = SIG_IGN;
-	sigemptyset(&sig_pipe[NEW].sa_mask);
-	sig_pipe[NEW].sa_flags = 0;
-	sigaction(SIGPIPE, NULL, &sig_pipe[OLD]);
-	sigaction(SIGPIPE, &sig_pipe[NEW], NULL);
-
-	dload_interrupted = 0;
-	sig_int[NEW].sa_handler = &inthandler;
-	sigemptyset(&sig_int[NEW].sa_mask);
-	sig_int[NEW].sa_flags = 0;
-	sigaction(SIGINT, NULL, &sig_int[OLD]);
-	sigaction(SIGINT, &sig_int[NEW], NULL);
+	orig_sig_pipe = mask_signal(SIGPIPE, SIG_IGN);
+	orig_sig_int = mask_signal(SIGINT, &inthandler);
 
 	/* Progress 0 - initialize */
 	prevprogress = 0;
@@ -418,8 +425,8 @@ cleanup:
 	}
 
 	/* restore the old signal handlers */
-	sigaction(SIGINT, &sig_int[OLD], NULL);
-	sigaction(SIGPIPE, &sig_pipe[OLD], NULL);
+	unmask_signal(SIGINT, orig_sig_int);
+	unmask_signal(SIGPIPE, orig_sig_pipe);
 	/* if we were interrupted, trip the old handler */
 	if(dload_interrupted) {
 		raise(SIGINT);
