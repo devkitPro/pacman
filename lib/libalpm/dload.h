@@ -28,6 +28,7 @@
 struct dload_payload {
 	alpm_handle_t *handle;
 	const char *remote_name;
+	const char *tempfile_openmode;
 	char *tempfile_name;
 	char *destfile_name;
 	char *content_disp_name;

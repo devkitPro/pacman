@@ -182,7 +182,6 @@ static int curl_download_internal(struct dload_payload *payload,
 	int ret = -1;
 	FILE *localf = NULL;
 	const char *useragent;
-	const char *open_mode = "wb";
 	char *effective_url;
 	/* RFC1123 states applications should support this length */
 	char hostname[256];
@@ -195,6 +194,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	alpm_handle_t *handle = payload->handle;
 	handle->pm_errno = 0;
 
+	payload->tempfile_openmode = "wb";
 	if(!payload->remote_name) {
 		payload->remote_name = get_filename(payload->fileurl);
 	}
@@ -220,7 +220,8 @@ static int curl_download_internal(struct dload_payload *payload,
 
 		/* create a random filename, which is opened with O_EXCL */
 		snprintf(randpath, PATH_MAX, "%salpmtmp.XXXXXX", localpath);
-		if((fd = mkstemp(randpath)) == -1 || !(localf = fdopen(fd, open_mode))) {
+		if((fd = mkstemp(randpath)) == -1 ||
+				!(localf = fdopen(fd, payload->tempfile_openmode))) {
 			unlink(randpath);
 			close(fd);
 			_alpm_log(handle, ALPM_LOG_ERROR,
@@ -267,14 +268,14 @@ static int curl_download_internal(struct dload_payload *payload,
 		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
 	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
 		/* a previous partial download exists, resume from end of file. */
-		open_mode = "ab";
+		payload->tempfile_openmode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation\n");
 		payload->initial_size = (double)st.st_size;
 	}
 
 	if(localf == NULL) {
-		localf = fopen(payload->tempfile_name, open_mode);
+		localf = fopen(payload->tempfile_name, payload->tempfile_openmode);
 		if(localf == NULL) {
 			goto cleanup;
 		}
