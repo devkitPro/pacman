@@ -638,7 +638,7 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 	struct stat buf;
 
 	/* Loop through the cache dirs until we find a matching file */
-	for(i = alpm_option_get_cachedirs(handle); i; i = i->next) {
+	for(i = handle->cachedirs; i; i = i->next) {
 		snprintf(path, PATH_MAX, "%s%s", (char *)alpm_list_getdata(i),
 				filename);
 		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
@@ -659,11 +659,11 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 const char *_alpm_filecache_setup(alpm_handle_t *handle)
 {
 	struct stat buf;
-	alpm_list_t *i, *tmp;
-	char *cachedir;
+	alpm_list_t *i;
+	char *cachedir, *tmpdir;
 
-	/* Loop through the cache dirs until we find a writeable dir */
-	for(i = alpm_option_get_cachedirs(handle); i; i = i->next) {
+	/* Loop through the cache dirs until we find a usable directory */
+	for(i = handle->cachedirs; i; i = i->next) {
 		cachedir = alpm_list_getdata(i);
 		if(stat(cachedir, &buf) != 0) {
 			/* cache directory does not exist.... try creating it */
@@ -673,21 +673,35 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 				_alpm_log(handle, ALPM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
 				return cachedir;
 			}
-		} else if(S_ISDIR(buf.st_mode) && (buf.st_mode & S_IWUSR)) {
+		} else if(!S_ISDIR(buf.st_mode)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"skipping cachedir, not a directory: %s\n", cachedir);
+		} else if(access(cachedir, W_OK) != 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"skipping cachedir, not writable: %s\n", cachedir);
+		} else if(!(buf.st_mode & (S_IWUSR | S_IWGRP | S_IWOTH))) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"skipping cachedir, no write bits set: %s\n", cachedir);
+		} else {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
 			return cachedir;
-		} else {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "skipping cachedir: %s\n", cachedir);
 		}
 	}
 
-	/* we didn't find a valid cache directory. use /tmp. */
-	tmp = alpm_list_add(NULL, "/tmp/");
-	alpm_option_set_cachedirs(handle, tmp);
-	alpm_list_free(tmp);
-	_alpm_log(handle, ALPM_LOG_DEBUG, "using cachedir: %s\n", "/tmp/");
-	_alpm_log(handle, ALPM_LOG_WARNING, _("couldn't create package cache, using /tmp instead\n"));
-	return "/tmp/";
+	/* we didn't find a valid cache directory. use TMPDIR or /tmp. */
+	if((tmpdir = getenv("TMPDIR")) && stat(tmpdir, &buf) && S_ISDIR(buf.st_mode)) {
+		/* TMPDIR was good, we can use it */
+	} else {
+		tmpdir = "/tmp";
+	}
+	i = alpm_list_add(NULL, tmpdir);
+	alpm_option_set_cachedirs(handle, i);
+	alpm_list_free(i);
+	cachedir = handle->cachedirs->data;
+	_alpm_log(handle, ALPM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
+	_alpm_log(handle, ALPM_LOG_WARNING,
+			_("couldn't find or create package cache, using %s instead\n"), cachedir);
+	return cachedir;
 }
 
 /** lstat wrapper that treats /path/dirsymlink/ the same as /path/dirsymlink.
