@@ -183,7 +183,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	FILE *localf = NULL;
 	const char *useragent;
 	const char *open_mode = "wb";
-	char *destfile = NULL, *tempfile = NULL, *effective_url;
+	char *effective_url;
 	/* RFC1123 states applications should support this length */
 	char hostname[256];
 	char error_buffer[CURL_ERROR_SIZE];
@@ -204,9 +204,9 @@ static int curl_download_internal(struct dload_payload *payload,
 	}
 
 	if(strlen(payload->remote_name) > 0 && strcmp(payload->remote_name, ".sig") != 0) {
-		destfile = get_fullpath(localpath, payload->remote_name, "");
-		tempfile = get_fullpath(localpath, payload->remote_name, ".part");
-		if(!destfile || !tempfile) {
+		payload->destfile_name = get_fullpath(localpath, payload->remote_name, "");
+		payload->tempfile_name = get_fullpath(localpath, payload->remote_name, ".part");
+		if(!payload->destfile_name || !payload->tempfile_name) {
 			goto cleanup;
 		}
 	} else {
@@ -228,7 +228,7 @@ static int curl_download_internal(struct dload_payload *payload,
 			goto cleanup;
 		}
 		/* localf now points to our alpmtmp.XXXXXX */
-		STRDUP(tempfile, randpath, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+		STRDUP(payload->tempfile_name, randpath, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		payload->remote_name = strrchr(randpath, '/') + 1;
 	}
 
@@ -260,11 +260,12 @@ static int curl_download_internal(struct dload_payload *payload,
 		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
 	}
 
-	if(!payload->allow_resume && !payload->force && destfile && stat(destfile, &st) == 0) {
+	if(!payload->allow_resume && !payload->force && payload->destfile_name &&
+			stat(payload->destfile_name, &st) == 0) {
 		/* start from scratch, but only download if our local is out of date. */
 		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
-	} else if(stat(tempfile, &st) == 0 && payload->allow_resume) {
+	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
 		/* a previous partial download exists, resume from end of file. */
 		open_mode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
@@ -273,7 +274,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	}
 
 	if(localf == NULL) {
-		localf = fopen(tempfile, open_mode);
+		localf = fopen(payload->tempfile_name, open_mode);
 		if(localf == NULL) {
 			goto cleanup;
 		}
@@ -319,7 +320,7 @@ static int curl_download_internal(struct dload_payload *payload,
 			goto cleanup;
 		default:
 			/* delete zero length downloads */
-			if(stat(tempfile, &st) == 0 && st.st_size == 0) {
+			if(stat(payload->tempfile_name, &st) == 0 && st.st_size == 0) {
 				payload->unlink_on_fail = 1;
 			}
 			if(!payload->errors_ok) {
@@ -344,7 +345,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	 * clean up the 0 byte .part file that's left behind. */
 	if(timecond == 1 && DOUBLE_EQ(bytes_dl, 0)) {
 		ret = 1;
-		unlink(tempfile);
+		unlink(payload->tempfile_name);
 		goto cleanup;
 	}
 
@@ -361,8 +362,8 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	if(payload->cd_filename) {
 		/* content-disposition header has a better name for our file */
-		free(destfile);
-		destfile = get_fullpath(localpath, payload->cd_filename, "");
+		free(payload->destfile_name);
+		payload->destfile_name = get_fullpath(localpath, payload->cd_filename, "");
 	} else {
 		const char *effective_filename = strrchr(effective_url, '/');
 		if(effective_filename && strlen(effective_filename) > 2) {
@@ -372,9 +373,10 @@ static int curl_download_internal(struct dload_payload *payload,
 			 * set, we may have followed some redirects and the effective url may
 			 * have a better suggestion as to what to name our file. in either case,
 			 * refactor destfile to this newly derived name. */
-			if(!destfile || strcmp(effective_filename, strrchr(destfile, '/') + 1) != 0) {
-				free(destfile);
-				destfile = get_fullpath(localpath, effective_filename, "");
+			if(!payload->destfile_name || strcmp(effective_filename,
+						strrchr(payload->destfile_name, '/') + 1) != 0) {
+				free(payload->destfile_name);
+				payload->destfile_name = get_fullpath(localpath, effective_filename, "");
 			}
 		}
 	}
@@ -384,16 +386,16 @@ static int curl_download_internal(struct dload_payload *payload,
 cleanup:
 	if(localf != NULL) {
 		fclose(localf);
-		utimes_long(tempfile, remote_time);
+		utimes_long(payload->tempfile_name, remote_time);
 	}
 
 	if(ret == 0) {
-		const char *realname = tempfile;
-		if (destfile) {
-			realname = destfile;
-			if(rename(tempfile, destfile)) {
+		const char *realname = payload->tempfile_name;
+		if(payload->destfile_name) {
+			realname = payload->destfile_name;
+			if(rename(payload->tempfile_name, payload->destfile_name)) {
 				_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
-						tempfile, destfile, strerror(errno));
+						payload->tempfile_name, payload->destfile_name, strerror(errno));
 				ret = -1;
 			}
 		}
@@ -403,12 +405,10 @@ cleanup:
 		}
 	}
 
-	if((ret == -1 || dload_interrupted) && payload->unlink_on_fail && tempfile) {
-		unlink(tempfile);
+	if((ret == -1 || dload_interrupted) && payload->unlink_on_fail &&
+			payload->tempfile_name) {
+		unlink(payload->tempfile_name);
 	}
-
-	FREE(tempfile);
-	FREE(destfile);
 
 	/* restore the old signal handlers */
 	sigaction(SIGINT, &sig_int[OLD], NULL);
@@ -516,7 +516,10 @@ void _alpm_dload_payload_free(struct dload_payload *payload) {
 
 	FREE(payload->fileurl);
 	FREE(payload->cd_filename);
+	FREE(payload->tempfile_name);
+	FREE(payload->destfile_name);
 	FREE(payload);
+
 }
 
 /* vim: set ts=2 sw=2 noet: */
