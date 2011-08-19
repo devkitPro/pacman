@@ -527,7 +527,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
 			int doremove = 0;
 			QUESTION(trans, ALPM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
-							conflict->package2, conflict->reason, &doremove);
+							conflict->package2, conflict->reason->name, &doremove);
 			if(doremove) {
 				/* append to the removes list */
 				_alpm_log(handle, ALPM_LOG_DEBUG, "electing '%s' for removal\n", conflict->package2);
