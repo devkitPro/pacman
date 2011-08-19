@@ -176,16 +176,61 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 	return realsize;
 }
 
+static void curl_set_handle_opts(struct dload_payload *payload,
+		char *error_buffer)
+{
+	alpm_handle_t *handle = payload->handle;
+	const char *useragent = getenv("HTTP_USER_AGENT");
+	struct stat st;
+
+	/* the curl_easy handle is initialized with the alpm handle, so we only need
+	 * to reset the curl handle set parameters for each time it's used. */
+	curl_easy_reset(handle->curl);
+	curl_easy_setopt(handle->curl, CURLOPT_URL, payload->fileurl);
+	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_ERRORBUFFER, error_buffer);
+	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
+	curl_easy_setopt(handle->curl, CURLOPT_FILETIME, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
+	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
+	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void *)payload);
+	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
+	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_TIME, 10L);
+	curl_easy_setopt(handle->curl, CURLOPT_HEADERFUNCTION, parse_headers);
+	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, (void *)payload);
+
+	if(payload->max_size) {
+		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE, payload->max_size);
+	}
+
+	if(useragent != NULL) {
+		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
+	}
+
+	if(!payload->allow_resume && !payload->force && payload->destfile_name &&
+			stat(payload->destfile_name, &st) == 0) {
+		/* start from scratch, but only download if our local is out of date. */
+		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
+		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
+	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
+		/* a previous partial download exists, resume from end of file. */
+		payload->tempfile_openmode = "ab";
+		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation\n");
+		payload->initial_size = (double)st.st_size;
+	}
+}
+
 static int curl_download_internal(struct dload_payload *payload,
 		const char *localpath, char **final_file)
 {
 	int ret = -1;
 	FILE *localf = NULL;
-	const char *useragent;
 	char *effective_url;
 	/* RFC1123 states applications should support this length */
 	char hostname[256];
-	char error_buffer[CURL_ERROR_SIZE];
+	char error_buffer[CURL_ERROR_SIZE] = {0};
 	struct stat st;
 	long timecond, respcode = 0, remote_time = -1;
 	double remote_size, bytes_dl;
@@ -233,46 +278,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		payload->remote_name = strrchr(randpath, '/') + 1;
 	}
 
-	error_buffer[0] = '\0';
-
-	/* the curl_easy handle is initialized with the alpm handle, so we only need
-	 * to reset the curl handle set parameters for each time it's used. */
-	curl_easy_reset(handle->curl);
-	curl_easy_setopt(handle->curl, CURLOPT_URL, payload->fileurl);
-	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
-	curl_easy_setopt(handle->curl, CURLOPT_ERRORBUFFER, error_buffer);
-	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
-	curl_easy_setopt(handle->curl, CURLOPT_FILETIME, 1L);
-	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
-	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
-	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
-	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void *)payload);
-	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
-	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_TIME, 10L);
-	curl_easy_setopt(handle->curl, CURLOPT_HEADERFUNCTION, parse_headers);
-	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, (void *)payload);
-
-	if(payload->max_size) {
-		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE, payload->max_size);
-	}
-
-	useragent = getenv("HTTP_USER_AGENT");
-	if(useragent != NULL) {
-		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
-	}
-
-	if(!payload->allow_resume && !payload->force && payload->destfile_name &&
-			stat(payload->destfile_name, &st) == 0) {
-		/* start from scratch, but only download if our local is out of date. */
-		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
-		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
-	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
-		/* a previous partial download exists, resume from end of file. */
-		payload->tempfile_openmode = "ab";
-		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
-		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation\n");
-		payload->initial_size = (double)st.st_size;
-	}
+	curl_set_handle_opts(payload, error_buffer);
 
 	if(localf == NULL) {
 		localf = fopen(payload->tempfile_name, payload->tempfile_openmode);
