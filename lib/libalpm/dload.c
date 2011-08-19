@@ -239,6 +239,30 @@ static void unmask_signal(int signal, struct sigaction sa)
 	sigaction(signal, &sa, NULL);
 }
 
+static FILE *create_tempfile(struct dload_payload *payload, const char *localpath)
+{
+	int fd;
+	FILE *fp;
+	char randpath[PATH_MAX];
+	alpm_handle_t *handle = payload->handle;
+
+	/* create a random filename, which is opened with O_EXCL */
+	snprintf(randpath, PATH_MAX, "%salpmtmp.XXXXXX", localpath);
+	if((fd = mkstemp(randpath)) == -1 ||
+			!(fp = fdopen(fd, payload->tempfile_openmode))) {
+		unlink(randpath);
+		close(fd);
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("failed to create temporary file for download\n"));
+		return NULL;
+	}
+	/* fp now points to our alpmtmp.XXXXXX */
+	STRDUP(payload->tempfile_name, randpath, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+	payload->remote_name = strrchr(randpath, '/') + 1;
+
+	return fp;
+}
+
 static int curl_download_internal(struct dload_payload *payload,
 		const char *localpath, char **final_file)
 {
@@ -272,27 +296,14 @@ static int curl_download_internal(struct dload_payload *payload,
 			goto cleanup;
 		}
 	} else {
-		/* URL isn't to a file and ended with a slash */
-		int fd;
-		char randpath[PATH_MAX];
-
-		/* we can't support resuming this kind of download, so a partial transfer
-		 * will be destroyed */
+		/* URL doesn't contain a filename, so make a tempfile. We can't support
+		 * resuming this kind of download; partial transfers will be destroyed */
 		payload->unlink_on_fail = 1;
 
-		/* create a random filename, which is opened with O_EXCL */
-		snprintf(randpath, PATH_MAX, "%salpmtmp.XXXXXX", localpath);
-		if((fd = mkstemp(randpath)) == -1 ||
-				!(localf = fdopen(fd, payload->tempfile_openmode))) {
-			unlink(randpath);
-			close(fd);
-			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("failed to create temporary file for download\n"));
+		localf = create_tempfile(payload, localpath);
+		if(localf == NULL) {
 			goto cleanup;
 		}
-		/* localf now points to our alpmtmp.XXXXXX */
-		STRDUP(payload->tempfile_name, randpath, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		payload->remote_name = strrchr(randpath, '/') + 1;
 	}
 
 	curl_set_handle_opts(payload, error_buffer);
