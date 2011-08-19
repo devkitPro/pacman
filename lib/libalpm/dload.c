@@ -319,6 +319,10 @@ static int curl_download_internal(struct dload_payload *payload,
 		case CURLE_ABORTED_BY_CALLBACK:
 			goto cleanup;
 		default:
+			/* delete zero length downloads */
+			if(stat(tempfile, &st) == 0 && st.st_size == 0) {
+				payload->unlink_on_fail = 1;
+			}
 			if(!payload->errors_ok) {
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
