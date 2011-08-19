@@ -101,10 +101,10 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 	/* initialize the progress bar here to avoid displaying it when
 	 * a repo is up to date and nothing gets downloaded */
 	if(DOUBLE_EQ(prevprogress, 0)) {
-		payload->handle->dlcb(payload->filename, 0, (long)dltotal);
+		payload->handle->dlcb(payload->remote_name, 0, (long)dltotal);
 	}
 
-	payload->handle->dlcb(payload->filename, (long)current_size, (long)total_size);
+	payload->handle->dlcb(payload->remote_name, (long)current_size, (long)total_size);
 
 	prevprogress = current_size;
 
@@ -196,17 +196,17 @@ static int curl_download_internal(struct dload_payload *payload,
 	alpm_handle_t *handle = payload->handle;
 	handle->pm_errno = 0;
 
-	if(!payload->filename) {
-		payload->filename = get_filename(payload->fileurl);
+	if(!payload->remote_name) {
+		payload->remote_name = get_filename(payload->fileurl);
 	}
-	if(!payload->filename || curl_gethost(payload->fileurl, hostname) != 0) {
+	if(!payload->remote_name || curl_gethost(payload->fileurl, hostname) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
 		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}
 
-	if(strlen(payload->filename) > 0 && strcmp(payload->filename, ".sig") != 0) {
-		destfile = get_fullpath(localpath, payload->filename, "");
-		tempfile = get_fullpath(localpath, payload->filename, ".part");
+	if(strlen(payload->remote_name) > 0 && strcmp(payload->remote_name, ".sig") != 0) {
+		destfile = get_fullpath(localpath, payload->remote_name, "");
+		tempfile = get_fullpath(localpath, payload->remote_name, ".part");
 		if(!destfile || !tempfile) {
 			goto cleanup;
 		}
@@ -230,7 +230,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		}
 		/* localf now points to our alpmtmp.XXXXXX */
 		STRDUP(tempfile, randpath, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		payload->filename = strrchr(randpath, '/') + 1;
+		payload->remote_name = strrchr(randpath, '/') + 1;
 	}
 
 	error_buffer[0] = '\0';
@@ -322,10 +322,10 @@ static int curl_download_internal(struct dload_payload *payload,
 			if(!payload->errors_ok) {
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
-						payload->filename, hostname, error_buffer);
+						payload->remote_name, hostname, error_buffer);
 			} else {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
-						payload->filename, hostname, error_buffer);
+						payload->remote_name, hostname, error_buffer);
 			}
 			goto cleanup;
 	}
@@ -352,7 +352,7 @@ static int curl_download_internal(struct dload_payload *payload,
 			!DOUBLE_EQ(bytes_dl, remote_size)) {
 		handle->pm_errno = ALPM_ERR_RETRIEVE;
 		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
-				payload->filename, (intmax_t)bytes_dl, (intmax_t)remote_size);
+				payload->remote_name, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		goto cleanup;
 	}
 

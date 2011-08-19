@@ -27,7 +27,7 @@
 
 struct dload_payload {
 	alpm_handle_t *handle;
-	const char *filename;
+	const char *remote_name;
 	char *cd_filename;
 	char *fileurl;
 	double initial_size;
