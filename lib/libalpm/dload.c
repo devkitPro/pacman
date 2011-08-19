@@ -66,7 +66,6 @@ static char *get_fullpath(const char *path, const char *filename,
 	return filepath;
 }
 
-#define check_stop() if(dload_interrupted) { ret = -1; goto cleanup; }
 enum sighandlers { OLD = 0, NEW = 1 };
 
 static int dload_interrupted;
