@@ -553,8 +553,7 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 		return -1;
 	}
 
-	newpkg = _alpm_pkg_dup(pkg);
-	if(newpkg == NULL) {
+	if(_alpm_pkg_dup(pkg, &newpkg)) {
 		return -1;
 	}
 

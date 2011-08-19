@@ -558,8 +558,12 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		for(j = spkg->removes; j; j = j->next) {
 			alpm_pkg_t *rpkg = j->data;
 			if(!_alpm_pkg_find(trans->remove, rpkg->name)) {
+				alpm_pkg_t *copy;
 				_alpm_log(handle, ALPM_LOG_DEBUG, "adding '%s' to remove list\n", rpkg->name);
-				trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(rpkg));
+				if(_alpm_pkg_dup(rpkg, &copy) == -1) {
+					return -1;
+				}
+				trans->remove = alpm_list_add(trans->remove, copy);
 			}
 		}
 	}

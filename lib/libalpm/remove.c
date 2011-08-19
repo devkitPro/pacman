@@ -49,6 +49,7 @@ int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname;
 	alpm_trans_t *trans;
+	alpm_pkg_t *copy;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -67,11 +68,14 @@ int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s to the transaction remove list\n",
 			pkgname);
-	trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(pkg));
+	if(_alpm_pkg_dup(pkg, &copy) == -1) {
+		return -1;
+	}
+	trans->remove = alpm_list_add(trans->remove, copy);
 	return 0;
 }
 
-static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
+static int remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 {
 	alpm_trans_t *trans = handle->trans;
 
@@ -81,14 +85,18 @@ static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 			alpm_depmissing_t *miss = i->data;
 			alpm_pkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
+				alpm_pkg_t *copy;
 				if(!_alpm_pkg_find(trans->remove, info->name)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "pulling %s in target list\n",
 							info->name);
-					trans->remove = alpm_list_add(trans->remove, _alpm_pkg_dup(info));
+					if(_alpm_pkg_dup(info, &copy) == -1) {
+						return -1;
+					}
+					trans->remove = alpm_list_add(trans->remove, copy);
 				}
 			} else {
-				_alpm_log(handle, ALPM_LOG_ERROR, _("could not find %s in database -- skipping\n"),
-									miss->target);
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("could not find %s in database -- skipping\n"), miss->target);
 			}
 		}
 		alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
@@ -96,6 +104,7 @@ static void remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
 				trans->remove, NULL, 1);
 	}
+	return 0;
 }
 
 static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
@@ -134,6 +143,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
  * the packages blocking the transaction.
  * @param handle the context handle
  * @param data a pointer to an alpm_list_t* to fill
+ * @return 0 on success, -1 on error
  */
 int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
@@ -144,8 +154,10 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	if((trans->flags & ALPM_TRANS_FLAG_RECURSE)
 			&& !(trans->flags & ALPM_TRANS_FLAG_CASCADE)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "finding removable dependencies\n");
-		_alpm_recursedeps(db, trans->remove,
-				trans->flags & ALPM_TRANS_FLAG_RECURSEALL);
+		if(_alpm_recursedeps(db, trans->remove,
+				trans->flags & ALPM_TRANS_FLAG_RECURSEALL)) {
+			return -1;
+		}
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
@@ -156,7 +168,9 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		if(lp != NULL) {
 
 			if(trans->flags & ALPM_TRANS_FLAG_CASCADE) {
-				remove_prepare_cascade(handle, lp);
+				if(remove_prepare_cascade(handle, lp)) {
+					return -1;
+				}
 			} else if(trans->flags & ALPM_TRANS_FLAG_UNNEEDED) {
 				/* Remove needed packages (which would break dependencies)
 				 * from target list */
@@ -184,7 +198,10 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	if((trans->flags & ALPM_TRANS_FLAG_CASCADE)
 			&& (trans->flags & ALPM_TRANS_FLAG_RECURSE)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "finding removable dependencies\n");
-		_alpm_recursedeps(db, trans->remove, trans->flags & ALPM_TRANS_FLAG_RECURSEALL);
+		if(_alpm_recursedeps(db, trans->remove,
+					trans->flags & ALPM_TRANS_FLAG_RECURSEALL)) {
+			return -1;
+		}
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {

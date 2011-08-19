@@ -468,19 +468,22 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		is_upgrade = 1;
 
 		/* we'll need to save some record for backup checks later */
-		oldpkg = _alpm_pkg_dup(local);
+		if(_alpm_pkg_dup(local, &oldpkg) == -1) {
+			ret = -1;
+			goto cleanup;
+		}
 
-		EVENT(trans, ALPM_TRANS_EVT_UPGRADE_START, newpkg, oldpkg);
+		EVENT(trans, ALPM_TRANS_EVT_UPGRADE_START, newpkg, local);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "upgrading package %s-%s\n",
 				newpkg->name, newpkg->version);
 
 		/* copy over the install reason */
-		newpkg->reason = alpm_pkg_get_reason(oldpkg);
+		newpkg->reason = alpm_pkg_get_reason(local);
 
 		/* pre_upgrade scriptlet */
 		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 			_alpm_runscriptlet(handle, newpkg->origin_data.file,
-					"pre_upgrade", newpkg->version, oldpkg->version);
+					"pre_upgrade", newpkg->version, local->version);
 		}
 	} else {
 		is_upgrade = 0;

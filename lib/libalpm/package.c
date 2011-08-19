@@ -467,13 +467,32 @@ alpm_pkg_t *_alpm_pkg_new(void)
 	return pkg;
 }
 
-alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
+/**
+ * Duplicate a package data struct.
+ * @param pkg the package to duplicate
+ * @param new_ptr location to store duplicated package pointer
+ * @return 0 on success, -1 on fatal error, 1 on non-fatal error
+ */
+int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 {
 	alpm_pkg_t *newpkg;
 	alpm_list_t *i;
+	int ret = 0;
+
+	if(!pkg || !pkg->handle) {
+		return -1;
+	}
+
+	if(!new_ptr) {
+		RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1);
+	}
 
 	if(pkg->ops->force_load(pkg)) {
-		return NULL;
+		_alpm_log(pkg->handle, ALPM_LOG_WARNING,
+				_("could not fully load metadata for package %s-%s\n"),
+				pkg->name, pkg->version);
+		ret = 1;
+		pkg->handle->pm_errno = ALPM_ERR_PKG_INVALID;
 	}
 
 	CALLOC(newpkg, 1, sizeof(alpm_pkg_t), goto cleanup);
@@ -540,11 +559,12 @@ alpm_pkg_t *_alpm_pkg_dup(alpm_pkg_t *pkg)
 	newpkg->ops = pkg->ops;
 	newpkg->handle = pkg->handle;
 
-	return newpkg;
+	*new_ptr = newpkg;
+	return ret;
 
 cleanup:
 	_alpm_pkg_free(newpkg);
-	return NULL;
+	RET_ERR(pkg->handle, ALPM_ERR_MEMORY, -1);
 }
 
 void _alpm_pkg_free(alpm_pkg_t *pkg)
