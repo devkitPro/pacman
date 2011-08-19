@@ -385,17 +385,17 @@ cleanup:
 	}
 
 	if(ret == 0) {
+		const char *realname = tempfile;
 		if (destfile) {
+			realname = destfile;
 			if(rename(tempfile, destfile)) {
 				_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
 						tempfile, destfile, strerror(errno));
 				ret = -1;
-			} else if(final_file) {
-				STRDUP(*final_file, strrchr(destfile, '/') + 1,
-						RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 			}
-		} else if(final_file) {
-			STRDUP(*final_file, strrchr(tempfile, '/') + 1,
+		}
+		if(ret != -1 && final_file) {
+			STRDUP(*final_file, strrchr(realname, '/') + 1,
 					RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		}
 	}
