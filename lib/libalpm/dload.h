@@ -30,7 +30,7 @@ struct dload_payload {
 	const char *remote_name;
 	char *tempfile_name;
 	char *destfile_name;
-	char *cd_filename;
+	char *content_disp_name;
 	char *fileurl;
 	double initial_size;
 	long max_size;

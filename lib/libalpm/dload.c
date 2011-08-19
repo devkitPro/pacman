@@ -168,7 +168,7 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 				endptr--;
 			}
 
-			STRNDUP(payload->cd_filename, fptr, endptr - fptr + 1,
+			STRNDUP(payload->content_disp_name, fptr, endptr - fptr + 1,
 					RET_ERR(payload->handle, ALPM_ERR_MEMORY, realsize));
 		}
 	}
@@ -360,10 +360,10 @@ static int curl_download_internal(struct dload_payload *payload,
 		goto cleanup;
 	}
 
-	if(payload->cd_filename) {
+	if(payload->content_disp_name) {
 		/* content-disposition header has a better name for our file */
 		free(payload->destfile_name);
-		payload->destfile_name = get_fullpath(localpath, payload->cd_filename, "");
+		payload->destfile_name = get_fullpath(localpath, payload->content_disp_name, "");
 	} else {
 		const char *effective_filename = strrchr(effective_url, '/');
 		if(effective_filename && strlen(effective_filename) > 2) {
@@ -515,7 +515,7 @@ void _alpm_dload_payload_free(struct dload_payload *payload) {
 	ASSERT(payload, return);
 
 	FREE(payload->fileurl);
-	FREE(payload->cd_filename);
+	FREE(payload->content_disp_name);
 	FREE(payload->tempfile_name);
 	FREE(payload->destfile_name);
 	FREE(payload);
