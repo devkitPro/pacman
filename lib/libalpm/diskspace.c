@@ -211,7 +211,7 @@ static int calculate_installed_size(alpm_handle_t *handle,
 
 		/* approximate space requirements for db entries */
 		if(filename[0] == '.') {
-			filename = alpm_option_get_dbpath(handle);
+			filename = handle->dbpath;
 		}
 
 		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);

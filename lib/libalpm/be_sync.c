@@ -41,13 +41,12 @@
 
 static char *get_sync_dir(alpm_handle_t *handle)
 {
-	const char *dbpath = alpm_option_get_dbpath(handle);
-	size_t len = strlen(dbpath) + 6;
+	size_t len = strlen(handle->dbpath) + 6;
 	char *syncpath;
 	struct stat buf;
 
 	MALLOC(syncpath, len, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-	sprintf(syncpath, "%s%s", dbpath, "sync/");
+	sprintf(syncpath, "%s%s", handle->dbpath, "sync/");
 
 	if(stat(syncpath, &buf) != 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",
@@ -260,7 +259,7 @@ cleanup:
 
 	if(_alpm_handle_unlock(handle)) {
 		_alpm_log(handle, ALPM_LOG_WARNING, _("could not remove lock file %s\n"),
-				alpm_option_get_lockfile(handle));
+				handle->lockfile);
 	}
 	free(syncpath);
 	umask(oldmask);

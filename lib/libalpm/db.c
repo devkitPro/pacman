@@ -224,7 +224,7 @@ alpm_siglevel_t SYMEXPORT alpm_db_get_siglevel(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
 	if(db->siglevel & ALPM_SIG_USE_DEFAULT) {
-		return alpm_option_get_default_siglevel(db->handle);
+		return db->handle->siglevel;
 	} else {
 		return db->siglevel;
 	}
@@ -357,7 +357,7 @@ const char *_alpm_db_path(alpm_db_t *db)
 		const char *dbpath;
 		size_t pathsize;
 
-		dbpath = alpm_option_get_dbpath(db->handle);
+		dbpath = db->handle->dbpath;
 		if(!dbpath) {
 			_alpm_log(db->handle, ALPM_LOG_ERROR, _("database path is undefined\n"));
 			RET_ERR(db->handle, ALPM_ERR_DB_OPEN, NULL);

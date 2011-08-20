@@ -116,7 +116,7 @@ static int init_gpgme(alpm_handle_t *handle)
 		return 0;
 	}
 
-	sigdir = alpm_option_get_gpgdir(handle);
+	sigdir = handle->gpgdir;
 
 	if (_alpm_access(handle, sigdir, "pubring.gpg", R_OK)
 			|| _alpm_access(handle, sigdir, "trustdb.gpg", R_OK)) {

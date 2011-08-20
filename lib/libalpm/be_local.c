@@ -194,8 +194,7 @@ static void *_cache_changelog_open(alpm_pkg_t *pkg)
 	char clfile[PATH_MAX];
 	alpm_db_t *db = alpm_pkg_get_db(pkg);
 	snprintf(clfile, PATH_MAX, "%s/%s/%s-%s/changelog",
-			alpm_option_get_dbpath(pkg->handle),
-			db->treename, pkg->name, pkg->version);
+			pkg->handle->dbpath, db->treename, pkg->name, pkg->version);
 	return fopen(clfile, "r");
 }
 
