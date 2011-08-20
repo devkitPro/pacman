@@ -1416,7 +1416,7 @@ int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list
 		strftime(timestr, 9, "%H:%M:%S", tmp);
 		timestr[8] = '\0';
 
-		printf("[%s] ", timestr);
+		fprintf(stream, "[%s] ", timestr);
 	}
 #endif
 
