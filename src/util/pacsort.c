@@ -158,8 +158,8 @@ static void list_free(struct list_t *list)
 			free(list->list[i]);
 		}
 		free(list->list);
-		free(list);
 	}
+	free(list);
 }
 
 static char *explode(struct buffer_t *buffer, struct list_t *list)
