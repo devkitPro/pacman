@@ -383,9 +383,9 @@ int main(int argc, char *argv[])
 		for(i = 0; i < list->count; i++) {
 			printf("%s%c", list->list[i], linedelim);
 		}
-		list_free(list);
 	}
 
+	list_free(list);
 	buffer_free(buffer);
 
 	return 0;
