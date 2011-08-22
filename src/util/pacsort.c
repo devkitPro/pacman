@@ -103,7 +103,7 @@ static struct list_t *list_new(size_t initial_size)
 		return NULL;
 	}
 
-	list->list = calloc(initial_size, sizeof(char **));
+	list->list = calloc(initial_size, sizeof(char *));
 	if(!list->list) {
 		free(list);
 		return NULL;
@@ -117,7 +117,7 @@ static struct list_t *list_new(size_t initial_size)
 static int list_grow(struct list_t *list)
 {
 	size_t newsz = list->maxcount * 2.5;
-	list->list = realloc(list->list, newsz * sizeof(char*));
+	list->list = realloc(list->list, newsz * sizeof(char *));
 	if(!list->list) {
 		return 1;
 	}
