@@ -220,18 +220,17 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	}
 }
 
-static struct sigaction mask_signal(int signal, void (*handler)(int))
+static void mask_signal(int signal, void (*handler)(int),
+		struct sigaction *origaction)
 {
-	struct sigaction newaction, origaction;
+	struct sigaction newaction;
 
 	newaction.sa_handler = handler;
 	sigemptyset(&newaction.sa_mask);
 	newaction.sa_flags = 0;
 
-	sigaction(signal, NULL, &origaction);
+	sigaction(signal, NULL, origaction);
 	sigaction(signal, &newaction, NULL);
-
-	return origaction;
 }
 
 static void unmask_signal(int signal, struct sigaction sa)
@@ -319,8 +318,8 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
 	 * something along those lines. Store the old signal handler first. */
-	orig_sig_pipe = mask_signal(SIGPIPE, SIG_IGN);
-	orig_sig_int = mask_signal(SIGINT, &inthandler);
+	mask_signal(SIGPIPE, SIG_IGN, &orig_sig_pipe);
+	mask_signal(SIGINT, &inthandler, &orig_sig_int);
 
 	/* Progress 0 - initialize */
 	prevprogress = 0;
