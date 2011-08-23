@@ -232,17 +232,15 @@ populate_keyring() {
 		fi
 	done
 
-	# List of keys that must be kept installed, even if in the list of keys to be removed
-	local HOLD_KEYS="$(get_from "$CONFIG" "HoldKeys")"
-
-	# Remove the keys that must be kept from the set of keys that should be removed
-	if [[ -n ${HOLD_KEYS} ]]; then
-		for key in ${HOLD_KEYS}; do
+	# Read list of keys that must be kept installed and remove them from the list
+	# of keys to be removed
+	if [[ -f "${PACMAN_KEYRING_DIR}/holdkeys" ]]; then
+		while read key; do
 			key_id="$("${GPG_PACMAN[@]}" --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5)"
 			if [[ -n "${removed_ids[$key_id]}" ]]; then
 				unset removed_ids[$key_id]
 			fi
-		done
+		done < "${PACMAN_KEYRING_DIR}/holdkeys"
 	fi
 
 	# Remove the keys not marked to keep

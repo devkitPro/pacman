@@ -101,12 +101,16 @@ A distribution or other repository provided may want to provide a set of valid
 PGP keys used in the signing of its packages and repository databases that can
 be readily imported into the pacman keyring.  This is achieved by providing a
 PGP keyring file `foo.gpg` that contains the keys for the foo keyring in the
-directory +{pkgdatadir}/keyrings+.  Optionally the file `foo-revoked` can be
+directory +{pkgdatadir}/keyrings+. Optionally the file `foo-revoked` can be
 provided containing a list of revoked key IDs for that keyring. These files are
 required to be signed (detached) by a trusted PGP key that the user must
-manually import to the pacman keyring.  This prevents a potentially malicious
+manually import to the pacman keyring. This prevents a potentially malicious
 repository adding keys to the pacman keyring without the users knowledge.
 
+A key being marked as revoked always takes priority over the key being added to
+the pacman keyring, regardless of the keyring it is provided in. To prevent a
+key from being revoked when using --populate, its ID can be listed in
++{sysconfdir}/pacman.d/gnupg/holdkeys+.
 
 See Also
 --------
