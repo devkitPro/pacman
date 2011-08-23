@@ -563,6 +563,9 @@ static int setup_libalpm(void)
 	if(config->siglevel != ALPM_SIG_USE_DEFAULT) {
 		alpm_option_set_default_siglevel(handle, config->siglevel);
 	}
+	/* retrieve the set or default siglevel from the backend at this point;
+	 * this way all future DB settings base their setting off this value */
+	config->siglevel = alpm_option_get_default_siglevel(handle);
 
 	if(config->xfercommand) {
 		alpm_option_set_fetchcb(handle, download_with_xfercommand);
