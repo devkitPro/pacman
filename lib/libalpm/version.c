@@ -98,8 +98,8 @@ static int rpmvercmp(const char *a, const char *b)
 	str1 = strdup(a);
 	str2 = strdup(b);
 
-	one = str1;
-	two = str2;
+	one = ptr1 = str1;
+	two = ptr2 = str2;
 
 	/* loop through each version segment of str1 and str2 and compare them */
 	while (*one && *two) {
@@ -108,6 +108,11 @@ static int rpmvercmp(const char *a, const char *b)
 
 		/* If we ran to the end of either, we are finished with the loop */
 		if (!(*one && *two)) break;
+
+		/* If the separator lengths were different, we are also finished */
+		if ((one - ptr1) != (two - ptr2)) {
+			return (one - ptr1) < (two - ptr2) ? -1 : 1;
+		}
 
 		ptr1 = one;
 		ptr2 = two;

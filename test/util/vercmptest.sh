@@ -118,6 +118,12 @@ runtest 1.5.1    1.5.b   1
 runtest 1.5.b-1  1.5.b   0
 runtest 1.5-1    1.5.b  -1
 
+# same/similar content, differing separators
+runtest 2.0    2_0     0
+runtest 2.0_a  2_0.a   0
+runtest 2.0a   2.0.a  -1
+runtest 2___a  2_a     1
+
 # epoch included version comparisons
 runtest 0:1.0    0:1.0   0
 runtest 0:1.0    0:1.1  -1
