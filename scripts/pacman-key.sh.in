@@ -199,7 +199,16 @@ populate_keyring() {
 	local key
 	local key_id
 
-	# Read the key ids to an array. The conversion from whatever is inside the file
+	# Add keys from requested keyrings
+	for keyring in ${KEYRINGIDS[@]}; do
+		msg "$(gettext "Appending keys from %s.gpg...")" "$keyring"
+		local add_keys="$("${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
+		for key_id in ${add_keys}; do
+			"${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --export "${key_id}" | "${GPG_PACMAN[@]}" --import
+		done
+	done
+
+	# Read the revoked key IDs to an array. The conversion from whatever is inside the file
 	# to key ids is important, because key ids are the only guarantee of identification
 	# for the keys.
 	local -A removed_ids
@@ -235,18 +244,6 @@ populate_keyring() {
 			fi
 		done
 	fi
-
-	# Add keys from requested keyrings
-	for keyring in ${KEYRINGIDS[@]}; do
-		msg "$(gettext "Appending keys from %s.gpg...")" "$keyring"
-		local add_keys="$("${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
-		for key_id in ${add_keys}; do
-			# There is no point in adding a key that will be deleted right after
-			if [[ -z "${removed_ids[$key_id]}" ]]; then
-				"${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --export "${key_id}" | "${GPG_PACMAN[@]}" --import
-			fi
-		done
-	done
 
 	# Remove the keys not marked to keep
 	if (( ${#removed_ids[@]} > 0 )); then
