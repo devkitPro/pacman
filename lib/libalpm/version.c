@@ -102,12 +102,12 @@ static int rpmvercmp(const char *a, const char *b)
 	two = str2;
 
 	/* loop through each version segment of str1 and str2 and compare them */
-	while(*one && *two) {
-		while(*one && !isalnum((int)*one)) one++;
-		while(*two && !isalnum((int)*two)) two++;
+	while (*one && *two) {
+		while (*one && !isalnum((int)*one)) one++;
+		while (*two && !isalnum((int)*two)) two++;
 
 		/* If we ran to the end of either, we are finished with the loop */
-		if(!(*one && *two)) break;
+		if (!(*one && *two)) break;
 
 		ptr1 = one;
 		ptr2 = two;
@@ -115,13 +115,13 @@ static int rpmvercmp(const char *a, const char *b)
 		/* grab first completely alpha or completely numeric segment */
 		/* leave one and two pointing to the start of the alpha or numeric */
 		/* segment and walk ptr1 and ptr2 to end of segment */
-		if(isdigit((int)*ptr1)) {
-			while(*ptr1 && isdigit((int)*ptr1)) ptr1++;
-			while(*ptr2 && isdigit((int)*ptr2)) ptr2++;
+		if (isdigit((int)*ptr1)) {
+			while (*ptr1 && isdigit((int)*ptr1)) ptr1++;
+			while (*ptr2 && isdigit((int)*ptr2)) ptr2++;
 			isnum = 1;
 		} else {
-			while(*ptr1 && isalpha((int)*ptr1)) ptr1++;
-			while(*ptr2 && isalpha((int)*ptr2)) ptr2++;
+			while (*ptr1 && isalpha((int)*ptr1)) ptr1++;
+			while (*ptr2 && isalpha((int)*ptr2)) ptr2++;
 			isnum = 0;
 		}
 
