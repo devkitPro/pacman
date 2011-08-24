@@ -149,17 +149,17 @@ void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
 				alpm_pkg_get_base64_sig(pkg) ? _("Yes") : _("None"));
 	}
 	if(from == PKG_FROM_FILE) {
-		alpm_sigresult_t result;
-		int err = alpm_pkg_check_pgp_signature(pkg, &result);
+		alpm_siglist_t siglist;
+		int err = alpm_pkg_check_pgp_signature(pkg, &siglist);
 		if(err && alpm_errno(config->handle) == ALPM_ERR_SIG_MISSING) {
 			string_display(_("Signatures     :"), _("None"));
 		} else if(err) {
 			string_display(_("Signatures     :"),
 					alpm_strerror(alpm_errno(config->handle)));
 		} else {
-			signature_display(_("Signatures     :"), &result);
+			signature_display(_("Signatures     :"), &siglist);
 		}
-		alpm_sigresult_cleanup(&result);
+		alpm_siglist_cleanup(&siglist);
 	}
 	string_display(_("Description    :"), alpm_pkg_get_desc(pkg));
 

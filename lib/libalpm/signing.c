@@ -196,16 +196,16 @@ error:
  * The return value will be 0 if nothing abnormal happened during the signature
  * check, and -1 if an error occurred while checking signatures or if a
  * signature could not be found; pm_errno will be set. Note that "abnormal"
- * does not include a failed signature; the value in #result should be checked
+ * does not include a failed signature; the value in #siglist should be checked
  * to determine if the signature(s) are good.
  * @param handle the context handle
  * @param path the full path to a file
  * @param base64_sig optional PGP signature data in base64 encoding
- * @result
+ * @param siglist a pointer to storage for signature results
  * @return 0 in normal cases, -1 if the something failed in the check process
  */
 int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
-		const char *base64_sig, alpm_sigresult_t *result)
+		const char *base64_sig, alpm_siglist_t *siglist)
 {
 	int ret = -1, sigcount;
 	gpgme_error_t err;
@@ -221,10 +221,10 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		RET_ERR(handle, ALPM_ERR_NOT_A_FILE, -1);
 	}
 
-	if(!result) {
+	if(!siglist) {
 		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
 	}
-	result->count = 0;
+	siglist->count = 0;
 
 	if(!base64_sig) {
 		sigpath = _alpm_sigpath(handle, path);
@@ -294,14 +294,9 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 			gpgsig; gpgsig = gpgsig->next, sigcount++);
 	_alpm_log(handle, ALPM_LOG_DEBUG, "%d signatures returned\n", sigcount);
 
-	result->status = calloc(sigcount, sizeof(alpm_sigstatus_t));
-	result->validity = calloc(sigcount, sizeof(alpm_sigvalidity_t));
-	result->uid = calloc(sigcount, sizeof(char*));
-	if(!result->status || !result->validity || !result->uid) {
-		handle->pm_errno = ALPM_ERR_MEMORY;
-		goto error;
-	}
-	result->count = sigcount;
+	CALLOC(siglist->results, sigcount, sizeof(alpm_sigresult_t),
+			handle->pm_errno = ALPM_ERR_MEMORY; goto error);
+	siglist->count = sigcount;
 
 	for(gpgsig = verify_result->signatures, sigcount = 0; gpgsig;
 			gpgsig = gpgsig->next, sigcount++) {
@@ -309,6 +304,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		alpm_sigstatus_t status;
 		alpm_sigvalidity_t validity;
 		gpgme_key_t key;
+		alpm_sigresult_t *result;
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "fingerprint: %s\n", gpgsig->fpr);
 		summary_list = list_sigsum(gpgsig->summary);
@@ -323,21 +319,26 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				string_validity(gpgsig->validity),
 				gpgme_strerror(gpgsig->validity_reason));
 
+		result = siglist->results + sigcount;
 		err = gpgme_get_key(ctx, gpgsig->fpr, &key, 0);
 		if(gpg_err_code(err) == GPG_ERR_EOF) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
 			err = GPG_ERR_NO_ERROR;
-			STRDUP(result->uid[sigcount], gpgsig->fpr,
+			/* we dupe the fpr in this case since we have no key to point at */
+			STRDUP(result->key.fingerprint, gpgsig->fpr,
 					handle->pm_errno = ALPM_ERR_MEMORY; goto error);
 		} else {
 			CHECK_ERR();
 			if(key->uids) {
-				const char *uid = key->uids->uid;
-				STRDUP(result->uid[sigcount], uid,
-						handle->pm_errno = ALPM_ERR_MEMORY; goto error);
-				_alpm_log(handle, ALPM_LOG_DEBUG, "key user: %s\n", uid);
+				result->key.data = key;
+				result->key.fingerprint = key->subkeys->fpr;
+				result->key.uid = key->uids->uid;
+				result->key.name = key->uids->name;
+				result->key.email = key->uids->email;
+				result->key.created = key->subkeys->timestamp;
+				result->key.expires = key->subkeys->expires;
+				_alpm_log(handle, ALPM_LOG_DEBUG, "key user: %s\n", key->uids->uid);
 			}
-			gpgme_key_unref(key);
 		}
 
 		switch(gpg_err_code(gpgsig->status)) {
@@ -379,8 +380,8 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				break;
 		}
 
-		result->status[sigcount] = status;
-		result->validity[sigcount] = validity;
+		result->status = status;
+		result->validity = validity;
 	}
 
 	ret = 0;
@@ -435,13 +436,13 @@ char *_alpm_sigpath(alpm_handle_t *handle, const char *path)
 int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		const char *base64_sig, int optional, int marginal, int unknown)
 {
-	alpm_sigresult_t result;
+	alpm_siglist_t siglist;
 	int ret;
 
-	memset(&result, 0, sizeof(result));
+	memset(&siglist, 0, sizeof(alpm_siglist_t));
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "checking signatures for %s\n", path);
-	ret = _alpm_gpgme_checksig(handle, path, base64_sig, &result);
+	ret = _alpm_gpgme_checksig(handle, path, base64_sig, &siglist);
 	if(ret && handle->pm_errno == ALPM_ERR_SIG_MISSING) {
 		if(optional) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "missing optional signature\n");
@@ -455,13 +456,13 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "signature check failed\n");
 		/* ret will already be -1 */
 	} else {
-		int num;
-		for(num = 0; !ret && num < result.count; num++) {
-			switch(result.status[num]) {
+		size_t num;
+		for(num = 0; !ret && num < siglist.count; num++) {
+			switch(siglist.results[num].status) {
 				case ALPM_SIGSTATUS_VALID:
 				case ALPM_SIGSTATUS_KEY_EXPIRED:
 					_alpm_log(handle, ALPM_LOG_DEBUG, "signature is valid\n");
-					switch(result.validity[num]) {
+					switch(siglist.results[num].validity) {
 						case ALPM_SIGVALIDITY_FULL:
 							_alpm_log(handle, ALPM_LOG_DEBUG, "signature is fully trusted\n");
 							break;
@@ -493,7 +494,7 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		}
 	}
 
-	alpm_sigresult_cleanup(&result);
+	alpm_siglist_cleanup(&siglist);
 	return ret;
 }
 
@@ -503,14 +504,14 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
 int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
-		alpm_sigresult_t *result)
+		alpm_siglist_t *siglist)
 {
 	ASSERT(pkg != NULL, return -1);
-	ASSERT(result != NULL, RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT(siglist != NULL, RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
 	pkg->handle->pm_errno = 0;
 
 	return _alpm_gpgme_checksig(pkg->handle, alpm_pkg_get_filename(pkg),
-			pkg->base64_sig, result);
+			pkg->base64_sig, siglist);
 }
 
 /**
@@ -519,31 +520,29 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
 int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
-		alpm_sigresult_t *result)
+		alpm_siglist_t *siglist)
 {
 	ASSERT(db != NULL, return -1);
-	ASSERT(result != NULL, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT(siglist != NULL, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 	db->handle->pm_errno = 0;
 
-	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL, result);
+	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL, siglist);
 }
 
-int SYMEXPORT alpm_sigresult_cleanup(alpm_sigresult_t *result)
+int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 {
-	ASSERT(result != NULL, return -1);
-	/* Because it is likely result is on the stack, uid and status may have bogus
-	 * values in the struct. Only look at them if count is greater than 0. */
-	if(result->count > 0) {
-		free(result->status);
-		free(result->validity);
-		if(result->uid) {
-			int i;
-			for(i = 0; i < result->count; i++) {
-				free(result->uid[i]);
-			}
-			free(result->uid);
+	ASSERT(siglist != NULL, return -1);
+	size_t num;
+	for(num = 0; num < siglist->count; num++) {
+		alpm_sigresult_t *result = siglist->results + num;
+		if(result->key.data) {
+			gpgme_key_unref(result->key.data);
+		} else {
+			free(result->key.fingerprint);
 		}
 	}
+	FREE(siglist->results);
+	siglist->count = 0;
 	return 0;
 }
 

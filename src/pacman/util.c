@@ -669,7 +669,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 	}
 }
 
-void signature_display(const char *title, alpm_sigresult_t *result)
+void signature_display(const char *title, alpm_siglist_t *siglist)
 {
 	int len = 0;
 
@@ -677,13 +677,14 @@ void signature_display(const char *title, alpm_sigresult_t *result)
 		len = string_length(title) + 1;
 		printf("%s ", title);
 	}
-	if(result->count == 0) {
+	if(siglist->count == 0) {
 		printf(_("None"));
 	} else {
-		int i;
-		for(i = 0; i < result->count; i++) {
+		size_t i;
+		for(i = 0; i < siglist->count; i++) {
 			char sigline[PATH_MAX];
 			const char *status, *validity, *name;
+			alpm_sigresult_t *result = siglist->results + i;
 			/* Don't re-indent the first result */
 			if(i != 0) {
 				int j;
@@ -691,7 +692,7 @@ void signature_display(const char *title, alpm_sigresult_t *result)
 					printf(" ");
 				}
 			}
-			switch(result->status[i]) {
+			switch(result->status) {
 				case ALPM_SIGSTATUS_VALID:
 					status = _("Valid");
 					break;
@@ -711,7 +712,7 @@ void signature_display(const char *title, alpm_sigresult_t *result)
 					status = _("Signature error");
 					break;
 			}
-			switch(result->validity[i]) {
+			switch(result->validity) {
 				case ALPM_SIGVALIDITY_FULL:
 					validity = _("full trust");
 					break;
@@ -726,7 +727,7 @@ void signature_display(const char *title, alpm_sigresult_t *result)
 					validity = _("unknown trust");
 					break;
 			}
-			name = result->uid[i] ? result->uid[i] : _("{Key Unknown}");
+			name = result->key.uid ? result->key.uid : result->key.fingerprint;
 			snprintf(sigline, PATH_MAX, _("%s, %s from \"%s\""),
 					status, validity, name);
 			indentprint(sigline, len);

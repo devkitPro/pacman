@@ -209,15 +209,29 @@ typedef struct _alpm_backup_t {
 	char *hash;
 } alpm_backup_t;
 
+typedef struct _alpm_pgpkey_t {
+	void *data;
+	char *fingerprint;
+	char *uid;
+	char *name;
+	char *email;
+	time_t created;
+	time_t expires;
+} alpm_pgpkey_t;
+
 /** Signature result. Contains the number of signatures found and pointers to
  * arrays containing key and status info. All contained arrays have size
  * #count.*/
 typedef struct _alpm_sigresult_t {
-	int count;
-	alpm_sigstatus_t *status;
-	alpm_sigvalidity_t *validity;
-	char **uid;
+	alpm_pgpkey_t key;
+	alpm_sigstatus_t status;
+	alpm_sigvalidity_t validity;
 } alpm_sigresult_t;
+
+typedef struct _alpm_siglist_t {
+	size_t count;
+	alpm_sigresult_t *results;
+} alpm_siglist_t;
 
 /*
  * Logging facilities
@@ -776,11 +790,11 @@ alpm_list_t *alpm_pkg_unused_deltas(alpm_pkg_t *pkg);
  * Signatures
  */
 
-int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_sigresult_t *result);
+int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_siglist_t *siglist);
 
-int alpm_db_check_pgp_signature(alpm_db_t *db, alpm_sigresult_t *result);
+int alpm_db_check_pgp_signature(alpm_db_t *db, alpm_siglist_t *siglist);
 
-int alpm_sigresult_cleanup(alpm_sigresult_t *result);
+int alpm_siglist_cleanup(alpm_siglist_t *siglist);
 
 /*
  * Groups
