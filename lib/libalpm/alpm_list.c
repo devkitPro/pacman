@@ -206,12 +206,18 @@ alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
  */
 alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp fn)
 {
-	alpm_list_t *newlist, *lp;
+	alpm_list_t *newlist, *lp, *tail_ptr, *left_tail_ptr, *right_tail_ptr;
 
-	if(left == NULL)
+	if(left == NULL) {
 		return right;
-	if(right == NULL)
+	}
+	if(right == NULL) {
 		return left;
+	}
+
+	/* Save tail node pointers for future use */
+	left_tail_ptr = left->prev;
+	right_tail_ptr = right->prev;
 
 	if(fn(left->data, right->data) <= 0) {
 		newlist = left;
@@ -242,19 +248,18 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
 	if(left != NULL) {
 		lp->next = left;
 		left->prev = lp;
+		tail_ptr = left_tail_ptr;
 	}
 	else if(right != NULL) {
 		lp->next = right;
 		right->prev = lp;
+		tail_ptr = right_tail_ptr;
+	}
+	else {
+		tail_ptr = lp;
 	}
 
-	/* Find our tail pointer
-	 * TODO maintain this in the algorithm itself */
-	lp = newlist;
-	while(lp && lp->next) {
-		lp = lp->next;
-	}
-	newlist->prev = lp;
+	newlist->prev = tail_ptr;
 
 	return newlist;
 }
