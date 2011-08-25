@@ -109,7 +109,8 @@ initialize() {
 	[[ -f ${PACMAN_KEYRING_DIR}/pubring.gpg ]] || touch ${PACMAN_KEYRING_DIR}/pubring.gpg
 	[[ -f ${PACMAN_KEYRING_DIR}/secring.gpg ]] || touch ${PACMAN_KEYRING_DIR}/secring.gpg
 	[[ -f ${PACMAN_KEYRING_DIR}/trustdb.gpg ]] || "${GPG_PACMAN[@]}" --update-trustdb
-	chmod 644 ${PACMAN_KEYRING_DIR}/{{pub,sec}ring,trustdb}.gpg
+	chmod 644 ${PACMAN_KEYRING_DIR}/{pubring,trustdb}.gpg
+	chmod 600 ${PACMAN_KEYRING_DIR}/secring.gpg
 
 	# gpg.conf
 	[[ -f ${PACMAN_KEYRING_DIR}/gpg.conf ]] || touch  ${PACMAN_KEYRING_DIR}/gpg.conf
@@ -121,7 +122,6 @@ initialize() {
 
 check_keyring() {
 	if [[ ! -r ${PACMAN_KEYRING_DIR}/pubring.gpg || \
-			! -r ${PACMAN_KEYRING_DIR}/secring.gpg || \
 			! -r ${PACMAN_KEYRING_DIR}/trustdb.gpg ]]; then
 		error "$(gettext "You do not have sufficient permissions to read the %s keyring...")" "pacman"
 		msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
@@ -129,7 +129,7 @@ check_keyring() {
 	fi
 
 	if (( (EXPORT || FINGER || LIST || VERIFY) && EUID != 0 )); then
-		if ! grep -w -q "lock-never" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
+		if ! grep -q "^[[:space:]]*lock-never[[:space:]]*$" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
 			error "$(gettext "You do not have sufficient permissions to run this command...")"
 			msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
 			exit 1
