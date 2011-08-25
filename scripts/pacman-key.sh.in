@@ -100,6 +100,25 @@ get_from() {
 	return 1
 }
 
+generate_master_key() {
+	# Generate the master key, which will be in both pubring and secring
+	"${GPG_PACMAN[@]}" --gen-key --batch <<EOF
+%echo Generating pacman keychain master key...
+Key-Type: RSA
+Key-Length: 2048
+Key-Usage: sign
+Name-Real: Pacman Keychain Master Key
+Name-Email: pacman@localhost
+Expire-Date: 0
+%commit
+%echo Done
+EOF
+}
+
+secret_keys_available() {
+	"${GPG_PACMAN[@]}" -K --with-colons | wc -l
+}
+
 # Adds the given gpg.conf option if it is not present in the file.
 # Note that if we find it commented out, we won't add the option.
 # args: $1 conffile, $2 option-name, $3 (optional) option-value
@@ -135,6 +154,12 @@ initialize() {
 	add_gpg_conf_option "$conffile" 'no-permission-warning'
 	add_gpg_conf_option "$conffile" 'lock-never'
 	add_gpg_conf_option "$conffile" 'keyserver' 'hkp://keys.gnupg.net'
+
+	# set up a private signing key (if none available)
+	if [[ $(secret_keys_available) -lt 1 ]]; then
+		generate_master_key
+		UPDATEDB=1
+	fi
 }
 
 check_keyring() {
