@@ -663,12 +663,12 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	}
 
-	rate_human = humanize_size((off_t)rate, '\0', 0, &rate_label);
-	xfered_human = humanize_size(xfered, '\0', 1, &xfered_label);
+	rate_human = humanize_size((off_t)rate, '\0', &rate_label);
+	xfered_human = humanize_size(xfered, '\0', &xfered_label);
 
 	printf(" %ls%-*s ", wcfname, padwid, "");
-	printf("%6.1f %3s  %4.f%s/s ",
-			xfered_human, xfered_label, rate_human, rate_label);
+	printf("%6.1f %3s  %4.f%c/s ",
+			xfered_human, xfered_label, rate_human, rate_label[0]);
 	if(eta_h == 0) {
 		printf("%02u:%02u", eta_m, eta_s);
 	} else if(eta_h < 100) {

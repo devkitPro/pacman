@@ -775,7 +775,7 @@ static alpm_list_t *create_verbose_row(alpm_pkg_t *pkg, int install)
 	ret = alpm_list_add(ret, str);
 
 	/* and size */
-	size = humanize_size(alpm_pkg_get_size(pkg), 'M', 1, &label);
+	size = humanize_size(alpm_pkg_get_size(pkg), 'M', &label);
 	pm_asprintf(&str, "%.2f %s", size, label);
 	ret = alpm_list_add(ret, str);
 
@@ -838,19 +838,19 @@ void display_targets(const alpm_list_t *pkgs, int install)
 	printf("\n");
 
 	if(install) {
-		size = humanize_size(dlsize, 'M', 1, &label);
+		size = humanize_size(dlsize, 'M', &label);
 		printf(_("Total Download Size:    %.2f %s\n"), size, label);
 		if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY)) {
-			size = humanize_size(isize, 'M', 1, &label);
+			size = humanize_size(isize, 'M', &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
 			/* only show this net value if different from raw installed size */
 			if(rsize > 0) {
-				size = humanize_size(isize - rsize, 'M', 1, &label);
+				size = humanize_size(isize - rsize, 'M', &label);
 				printf(_("Net Upgrade Size:       %.2f %s\n"), size, label);
 			}
 		}
 	} else {
-		size = humanize_size(isize, 'M', 1, &label);
+		size = humanize_size(isize, 'M', &label);
 		printf(_("Total Removed Size:   %.2f %s\n"), size, label);
 	}
 
@@ -913,21 +913,17 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
  *
  * @return the size in the appropriate unit
  */
-double humanize_size(off_t bytes, const char target_unit, int long_labels,
-		const char **label)
+double humanize_size(off_t bytes, const char target_unit, const char **label)
 {
-	static const char *shortlabels[] = {"B", "K", "M", "G",
-		"T", "P", "E", "Z", "Y"};
-	static const char *longlabels[] = {"B", "KiB", "MiB", "GiB",
+	static const char *labels[] = {"B", "KiB", "MiB", "GiB",
 		"TiB", "PiB", "EiB", "ZiB", "YiB"};
-	static const int unitcount = sizeof(shortlabels) / sizeof(shortlabels[0]);
+	static const int unitcount = sizeof(labels) / sizeof(labels[0]);
 
-	const char **labels = long_labels ? longlabels : shortlabels;
 	double val = (double)bytes;
 	int index;
 
 	for(index = 0; index < unitcount - 1; index++) {
-		if(target_unit != '\0' && shortlabels[index][0] == target_unit) {
+		if(target_unit != '\0' && labels[index][0] == target_unit) {
 			break;
 		} else if(target_unit == '\0' && val <= 2048.0 && val >= -2048.0) {
 			break;
