@@ -521,9 +521,6 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	if(infolen < 50) {
 		infolen = 50;
 	}
-	/* explanation of magic 28 number at the end */
-	filenamelen = infolen - 28;
-
 	/* only use TotalDownload if enabled and we have a callback value */
 	if(config->totaldownload && list_total) {
 		/* sanity check */
@@ -630,6 +627,16 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 			strcat(fname, ".sig");
 		}
 	}
+
+	/* 1 space + filenamelen + 1 space + 6 for size + 1 space + 3 for label +
+	 * + 2 spaces + 4 for rate  + 1 for label + 2 for /s + 1 space +
+	 * 8 for eta, gives us the magic 26 */
+	filenamelen = infolen - 30;
+	/* see printf() code, we omit 'HH:' in these conditions */
+	if(eta_h == 0 || eta_h >= 100) {
+		filenamelen += 3;
+	}
+
 	/* In order to deal with characters from all locales, we have to worry
 	 * about wide characters and their column widths. A lot of stuff is
 	 * done here to figure out the actual number of screen columns used
@@ -657,13 +664,18 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	}
 
 	rate_human = humanize_size((off_t)rate, '\0', 0, &rate_label);
-	xfered_human = humanize_size(xfered, '\0', 0, &xfered_label);
+	xfered_human = humanize_size(xfered, '\0', 1, &xfered_label);
 
-	/* 1 space + filenamelen + 1 space + 7 for size + 1 + 7 for rate + 2 for /s + 1 space + 8 for eta */
-	/* TODO: if eta_h > 99, formatting gets all messed up */
-	printf(" %ls%-*s %6.1f%s %#6.1f%s/s %02u:%02u:%02u", wcfname,
-			padwid, "", xfered_human, xfered_label, rate_human, rate_label,
-			eta_h, eta_m, eta_s);
+	printf(" %ls%-*s ", wcfname, padwid, "");
+	printf("%6.1f %3s  %4.f%s/s ",
+			xfered_human, xfered_label, rate_human, rate_label);
+	if(eta_h == 0) {
+		printf("%02u:%02u", eta_m, eta_s);
+	} else if(eta_h < 100) {
+		printf("%02u:%02u:%02u", eta_h, eta_m, eta_s);
+	} else {
+		printf("--:--");
+	}
 
 	free(fname);
 	free(wcfname);
