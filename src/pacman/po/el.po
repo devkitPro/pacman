@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"POT-Creation-Date: 2011-08-15 16:09-0500\n"
 "PO-Revision-Date: 2011-08-15 00:08+0000\n"
 "Last-Translator: nous <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -385,9 +385,17 @@ msgstr "Όχι"
 msgid "MD5 Sum        :"
 msgstr "Άθροισμα MD5           :"
 
+#, fuzzy, c-format
+msgid "SHA256 Sum     :"
+msgstr "Άθροισμα MD5           :"
+
 #, c-format
 msgid "Signatures     :"
 msgstr "Υπογραφές            :"
+
+#, c-format
+msgid "None"
+msgstr "Ουδέν"
 
 #, c-format
 msgid "Description    :"
@@ -463,6 +471,14 @@ msgstr ""
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --uneeded              κατάργηση αχρείαστων πακέτων\n"
+
+#, fuzzy, c-format
+msgid "      --needed         do not reinstall up to date packages\n"
+msgstr "      --needed               μη επανεγκατάσταση ενημερωμένων πακέτων\n"
+
+#, fuzzy, c-format
+msgid "      --recursive      reinstall all dependencies of target packages\n"
+msgstr "      --needed               μη επανεγκατάσταση ενημερωμένων πακέτων\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -588,10 +604,6 @@ msgstr ""
 "διακομιστή\n"
 
 #, c-format
-msgid "      --needed         don't reinstall up to date packages\n"
-msgstr "      --needed               μη επανεγκατάσταση ενημερωμένων πακέτων\n"
-
-#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr ""
 "      --asdeps               σήμανση πακέτων ως μη-ρητώς εγκατεστημένων\n"
@@ -640,9 +652,9 @@ msgstr ""
 "  -d, --nodeps               παράλειψη ελέγχου έκδοσης εξαρτήσεων (-dd "
 "παράλειψη όλων των ελέγχων)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --dbonly         only modify database entries, not package files\n"
+"      --dbonly         only modify database entries, not package files\n"
 msgstr ""
 "  -k, --dbonly               τροποποίηση μόνο εγγραφών βάσης, όχι πακέτων\n"
 
@@ -1017,10 +1029,6 @@ msgid "database '%s' is not valid (%s)\n"
 msgstr "μη έγκυρη βάση'%s' (%s)\n"
 
 #, c-format
-msgid "None"
-msgstr "Ουδέν"
-
-#, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "ανεπαρκής αριθμός στηλών για προβολή πίνακα\n"
 
@@ -1048,16 +1056,16 @@ msgstr "Άγνωστο κλειδί"
 msgid "Signature error"
 msgstr "Σφάλμα υπογραφής"
 
-#, c-format
-msgid "fully trusted"
+#, fuzzy, c-format
+msgid "full trust"
 msgstr "πλήρους εμπιστοσύνης"
 
-#, c-format
-msgid "marginal trusted"
+#, fuzzy, c-format
+msgid "marginal trust"
 msgstr "οριακής εμπιστοσύνης"
 
-#, c-format
-msgid "never trusted"
+#, fuzzy, c-format
+msgid "never trust"
 msgstr "μηδενικής εμπιστοσύνης"
 
 #, c-format

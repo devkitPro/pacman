@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-09 15:51-0500\n"
-"PO-Revision-Date: 2011-08-14 12:40+0000\n"
+"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"PO-Revision-Date: 2011-08-25 13:26+0000\n"
 "Last-Translator: jakob <jakob.matthes@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/de/)\n"
@@ -437,7 +437,7 @@ msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Erlaube %s, als Root-Benutzer zu laufen"
 
 msgid "  --check          Run the %s function in the %s"
-msgstr ""
+msgstr "  --check          Führe die Funktion %s in %s aus"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
@@ -453,12 +453,14 @@ msgstr ""
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  --key <key>      Lege einen Schlüssel für das Signieren von %s fest, "
+"anstatt den Standardschlüssel zu verwenden"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
-msgstr ""
+msgstr "  --nocheck        Führe nicht die Funktion %s in %s aus"
 
 msgid "  --nosign         Do not create a signature for the package"
-msgstr ""
+msgstr "  --nosign         Erzeuge keine Signatur für das Paket"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
@@ -466,17 +468,19 @@ msgstr ""
 "bauen"
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr ""
+msgstr "  --sign           Signiere das erzeugte Paket mit %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr ""
+msgstr "  --skipchecksums  Verifiziere nicht die Prüfsummen der Quelldateien"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
-msgstr ""
+msgstr "  --skipinteg      Führe keinerlei Überprüfungen der Quell-Dateien aus"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr ""
+"  --skippgpcheck   Überprüfe nicht die Quell-Dateien an Hand der PGP-"
+"Signaturen"
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
@@ -525,27 +529,37 @@ msgid "You do not have write permission to store downloads in %s."
 msgstr "Sie haben keine Schreib-Berechtigung, um Downloads in %s zu lagern."
 
 msgid "\\0%s and %s cannot both be specified"
-msgstr ""
+msgstr "\\0%s und %s können nicht beide festgelegt sein."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
 msgstr ""
+"%s als root laufen zu lassen, ist eine SCHLECHTE Idee und kann dauerhaften "
+"Schaden auf Ihrem System anrichten. Möchten Sie dies als root tun, benutzen "
+"Sie bitte die Option %s."
 
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
 "%s flag."
 msgstr ""
+"Die Option %s ist nur für den root-Benutzer gedacht. Bitte führen Sie %s "
+"ohne die Option %s erneut aus."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
 msgstr ""
+"Wird %s als unprivilegierter Benutzer ausgeführt, führt dies zu nicht-root "
+"Besitzrechten der Paket-Dateien. Versuchen Sie die Umgebung %s zu benutzen, "
+"indem Sie %s in das Array %s in %s aufnehmen."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
+"Verwenden Sie nicht die Option %s. Diese Option ist nur für die Verwendung "
+"durch %s."
 
 msgid "%s does not exist."
 msgstr "%s existiert nicht."
@@ -610,6 +624,7 @@ msgstr "Konnte nicht alle Abhängigkeiten auflösen."
 
 msgid "%s was not found in %s; skipping dependency checks."
 msgstr ""
+"%s wurde nicht in %s gefunden; überspringe Abhängigkeits-Überprüfungen."
 
 msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
@@ -633,7 +648,7 @@ msgid "Sources are ready."
 msgstr "Quellen sind fertig."
 
 msgid "Removing existing %s directory..."
-msgstr ""
+msgstr "Entferne existierendes %s Verzeichnis..."
 
 msgid "Finished making: %s"
 msgstr "Beendete make: %s"
@@ -675,31 +690,42 @@ msgstr ""
 
 msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [<file(s)>]     Füge die angegebenen Schlüssel hinzu (leer für "
+"stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr ""
+msgstr "  -d, --delete <keyid(s)>   Lösche die angegebene Schlüssel-Kennungen"
 
 msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr ""
+"  -e, --export [<keyid(s)>] Exportie die angegebenen oder alle Schlüssel-"
+"Kennungen"
 
 msgid ""
 "  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [<keyid(s)>] Liste alle Fingerabdrücke der angegebenen oder "
+"aller Schlüssel-Kennungen auf"
 
 msgid "  -h, --help                Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help                Zeige diesen Hilfe und beende"
 
 msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
 msgstr ""
+"  -l, --list-keys [<keyid(s)>] Liste die angegebenen oder alle Schlüssel auf"
 
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
 msgstr ""
+"  -r, --receive <keyserver> <keyid(s)> Hole die angegebenen Schlüssel-"
+"Kennungen"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+"  -u, --updatedb            Aktualisiere die Trust-Datenbank von Pacman"
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
 msgstr ""
+"  -v, --verify <signature>  Überprüfe die angegebene Datei mit der Signatur"
 
 msgid "  -V, --version             Show program version"
 msgstr ""
@@ -708,27 +734,38 @@ msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
+"  --config <file>           Benutze eine alternative Konfigurationsdatei (an "
+"Stelle von\\n                            '%s')"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
 msgstr ""
+"  --edit-key <keyid(s)>     Zeige eine Menü für das Schlüssel-Management"
 
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
+"  --gpgdir <dir>            Setze ein alternatives Verzeichnis für GnuPG (an "
+"Stelle\\n                            von '%s')"
 
 msgid ""
 "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
 msgstr ""
+"  --import <dir(s)>         Importiere pubring.gpg und trustdb.gpg aus den "
+"Verzeichnissen dir(s)"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
 "(s)"
 msgstr ""
+"  --import-trustdb <dir(s)> Importiere Trust-Werte von trustdb.gpg aus den "
+"Verzeichnissen dir(s)"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
+"  --init                    Stellen Sie sicher, dass der Schlüsselbund "
+"richtig initialisiert ist"
 
 msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
 msgstr ""
@@ -738,6 +775,7 @@ msgstr ""
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr ""
+"Sie haben nicht ausreichende Berechtigungen um den Schlüsselbund %s zu lesen."
 
 msgid "Use '%s' to correct the keyring permissions."
 msgstr ""
@@ -747,16 +785,16 @@ msgid "You do not have sufficient permissions to run this command..."
 msgstr "Sie haben ungenügende Berechtigungen, um diesen Befehl auszuführen..."
 
 msgid "Verifying official keys file signature..."
-msgstr ""
+msgstr "Überprüfe Signatur der offiziellen Schlüssel..."
 
 msgid "The signature of file %s is not valid."
 msgstr "Die Signatur der Datei %s ist ungütig."
 
 msgid "Verifying deprecated keys file signature..."
-msgstr ""
+msgstr "Überprüfe Signatur der veralteten Schlüssel..."
 
 msgid "Verifying deleted keys file signature..."
-msgstr ""
+msgstr "Überprüfe Signatur der gelöschten Schlüssel..."
 
 msgid "Appending official keys..."
 msgstr "Hänge offizielle Schlüssel an..."
@@ -772,28 +810,30 @@ msgstr "Aktualisiere Trust-Datenbank"
 
 msgid "You need to specify the keyserver and at least one key identifier"
 msgstr ""
+"Sie müssen den Schlüssel-Server und mindestens eine Schlüsselkennung "
+"festlegen"
 
 msgid "The key identified by %s does not exist"
-msgstr ""
+msgstr "Der Schlüssel mit der Kennung %s existiert nicht"
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Kan das Programm %s nicht finden, das für alle %s Operationen benötigt wird."
 
 msgid "%s needs to be run as root for this operation."
-msgstr ""
+msgstr "%s muss für diese Operation als root ausgeführt werden."
 
 msgid "%s configuration file '%s' not found."
-msgstr ""
+msgstr "%s Konfigurationsdatei '%s' nicht gefunden."
 
 msgid "no operation specified (use -h for help)"
-msgstr ""
+msgstr "keine Operation angegeben (benutzen Sie -h für die Hilfe)"
 
 msgid "Multiple operations specified"
-msgstr ""
+msgstr "mehrere Operationen angegeben"
 
 msgid "Please run %s with each operation separately\\n"
-msgstr ""
+msgstr "Bitte führen Sie %s einzeln mit jeder Operation aus\\n"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -944,7 +984,7 @@ msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr ""
+msgstr "  -s, --sign       signiere Datenbank mit GnuPG nach dem Update\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
@@ -1004,11 +1044,14 @@ msgstr "Datenbanksignatur ist NICHT gültig!"
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' hat keine gültige Archiv-Endung."
 
+msgid "An entry for '%s' already existed"
+msgstr "Ein Eintrag für '%s' existierte bereits"
+
 msgid "Computing checksums..."
 msgstr "Berechne Prüfsumme..."
 
-msgid "An entry for '%s' already existed"
-msgstr "Ein Eintrag für '%s' existierte bereits"
+msgid "Adding package signature..."
+msgstr "Füge Paket-Signatur hinzu..."
 
 msgid "Creating '%s' db entry..."
 msgstr "Erstelle '%s' Datenbank-Eintrag"

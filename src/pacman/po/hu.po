@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"POT-Creation-Date: 2011-08-15 16:09-0500\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.net/projects/p/archlinux-"
@@ -385,9 +385,17 @@ msgstr "Nem"
 msgid "MD5 Sum        :"
 msgstr "MD5 Sum         :"
 
+#, fuzzy, c-format
+msgid "SHA256 Sum     :"
+msgstr "MD5 Sum         :"
+
 #, c-format
 msgid "Signatures     :"
 msgstr ""
+
+#, c-format
+msgid "None"
+msgstr "Nincs"
 
 #, c-format
 msgid "Description    :"
@@ -465,6 +473,14 @@ msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr ""
 "  -u, --unneeded       a megmaradó csomagok által igényelt csomagok "
 "kihagyása\n"
+
+#, fuzzy, c-format
+msgid "      --needed         do not reinstall up to date packages\n"
+msgstr "      --needed         ne telepítse újra a naprakész csomagokat\n"
+
+#, fuzzy, c-format
+msgid "      --recursive      reinstall all dependencies of target packages\n"
+msgstr "      --needed         ne telepítse újra a naprakész csomagokat\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -585,10 +601,6 @@ msgid ""
 msgstr "  -y, --refresh        friss csomagadatbázis letöltése a szerverről\n"
 
 #, c-format
-msgid "      --needed         don't reinstall up to date packages\n"
-msgstr "      --needed         ne telepítse újra a naprakész csomagokat\n"
-
-#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr ""
 "      --asdeps         csomagok megjelölése függőségként telepítettként\n"
@@ -634,9 +646,9 @@ msgstr ""
 "  -d, --nodeps         függőségverzió-ellenőrzések kihagyása\n"
 "                       (-dd: minden függőség-ellenőrzés kihagyása)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --dbonly         only modify database entries, not package files\n"
+"      --dbonly         only modify database entries, not package files\n"
 msgstr ""
 "  -k, --dbonly         csak az adatbázis-bejegyzéseket módosítsa, a fájlokat "
 "ne\n"
@@ -1015,10 +1027,6 @@ msgid "database '%s' is not valid (%s)\n"
 msgstr ""
 
 #, c-format
-msgid "None"
-msgstr "Nincs"
-
-#, c-format
 msgid "insufficient columns available for table display\n"
 msgstr ""
 
@@ -1047,15 +1055,15 @@ msgid "Signature error"
 msgstr ""
 
 #, c-format
-msgid "fully trusted"
+msgid "full trust"
 msgstr ""
 
 #, c-format
-msgid "marginal trusted"
+msgid "marginal trust"
 msgstr ""
 
 #, c-format
-msgid "never trusted"
+msgid "never trust"
 msgstr ""
 
 #, c-format

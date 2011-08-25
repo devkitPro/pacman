@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"POT-Creation-Date: 2011-08-15 16:09-0500\n"
 "PO-Revision-Date: 2011-08-09 01:00+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -382,9 +382,17 @@ msgstr "No"
 msgid "MD5 Sum        :"
 msgstr "MD5 Sum        :"
 
+#, fuzzy, c-format
+msgid "SHA256 Sum     :"
+msgstr "MD5 Sum        :"
+
 #, c-format
 msgid "Signatures     :"
 msgstr "Signatures     :"
+
+#, c-format
+msgid "None"
+msgstr "None"
 
 #, c-format
 msgid "Description    :"
@@ -459,6 +467,14 @@ msgstr ""
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded       remove unneeded packages\n"
+
+#, fuzzy, c-format
+msgid "      --needed         do not reinstall up to date packages\n"
+msgstr "      --needed         don't reinstall up to date packages\n"
+
+#, fuzzy, c-format
+msgid "      --recursive      reinstall all dependencies of target packages\n"
+msgstr "      --needed         don't reinstall up to date packages\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -577,10 +593,6 @@ msgstr ""
 "  -y, --refresh        download fresh package databases from the server\n"
 
 #, c-format
-msgid "      --needed         don't reinstall up to date packages\n"
-msgstr "      --needed         don't reinstall up to date packages\n"
-
-#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr "      --asdeps         mark packages as non-explicitly installed\n"
 
@@ -624,9 +636,9 @@ msgstr ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --dbonly         only modify database entries, not package files\n"
+"      --dbonly         only modify database entries, not package files\n"
 msgstr ""
 "  -k, --dbonly         only modify database entries, not package files\n"
 
@@ -1003,10 +1015,6 @@ msgid "database '%s' is not valid (%s)\n"
 msgstr "database '%s' is not valid (%s)\n"
 
 #, c-format
-msgid "None"
-msgstr "None"
-
-#, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "insufficient columns available for table display\n"
 
@@ -1034,16 +1042,16 @@ msgstr "Key unknown"
 msgid "Signature error"
 msgstr "Signature error"
 
-#, c-format
-msgid "fully trusted"
+#, fuzzy, c-format
+msgid "full trust"
 msgstr "fully trusted"
 
-#, c-format
-msgid "marginal trusted"
+#, fuzzy, c-format
+msgid "marginal trust"
 msgstr "marginal trusted"
 
-#, c-format
-msgid "never trusted"
+#, fuzzy, c-format
+msgid "never trust"
 msgstr "never trusted"
 
 #, c-format

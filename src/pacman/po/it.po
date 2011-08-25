@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"POT-Creation-Date: 2011-08-15 16:09-0500\n"
 "PO-Revision-Date: 2011-08-13 09:44+0000\n"
 "Last-Translator: bash <andrea@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -403,9 +403,17 @@ msgstr "No"
 msgid "MD5 Sum        :"
 msgstr "Somma MD5      :"
 
+#, fuzzy, c-format
+msgid "SHA256 Sum     :"
+msgstr "Somma MD5      :"
+
 #, c-format
 msgid "Signatures     :"
 msgstr "Firme     :"
+
+#, c-format
+msgid "None"
+msgstr "Nessuno"
 
 #, c-format
 msgid "Description    :"
@@ -481,6 +489,14 @@ msgstr ""
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded       rimuove i pacchetti non necessari\n"
+
+#, fuzzy, c-format
+msgid "      --needed         do not reinstall up to date packages\n"
+msgstr "      --needed         non reinstalla i pacchetti aggiornati\n"
+
+#, fuzzy, c-format
+msgid "      --recursive      reinstall all dependencies of target packages\n"
+msgstr "      --needed         non reinstalla i pacchetti aggiornati\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -608,10 +624,6 @@ msgstr ""
 "pacchetti\n"
 
 #, c-format
-msgid "      --needed         don't reinstall up to date packages\n"
-msgstr "      --needed         non reinstalla i pacchetti aggiornati\n"
-
-#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr ""
 "      --asdeps         marca i pacchetti come non esplicitamente installati\n"
@@ -660,9 +672,9 @@ msgstr ""
 "  -d, --nodeps         salta il controllo sulle versioni delle dipendenze (-"
 "dd salta tutti i controlli)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --dbonly         only modify database entries, not package files\n"
+"      --dbonly         only modify database entries, not package files\n"
 msgstr ""
 "  -k, --dbonly         modifica solo le voci del database, non i file del "
 "pacchetto\n"
@@ -1043,10 +1055,6 @@ msgid "database '%s' is not valid (%s)\n"
 msgstr "il database '%s' non è valido (%s)\n"
 
 #, c-format
-msgid "None"
-msgstr "Nessuno"
-
-#, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "colonne disponibili insufficienti per visualizzare la tabella\n"
 
@@ -1074,16 +1082,16 @@ msgstr "Chiave sconosciuta"
 msgid "Signature error"
 msgstr "Errore firma"
 
-#, c-format
-msgid "fully trusted"
+#, fuzzy, c-format
+msgid "full trust"
 msgstr "completamente attendibile"
 
-#, c-format
-msgid "marginal trusted"
+#, fuzzy, c-format
+msgid "marginal trust"
 msgstr "poco attendibile"
 
-#, c-format
-msgid "never trusted"
+#, fuzzy, c-format
+msgid "never trust"
 msgstr "non attendibile"
 
 #, c-format

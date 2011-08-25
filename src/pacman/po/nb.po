@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-09 15:51-0500\n"
+"POT-Creation-Date: 2011-08-15 16:09-0500\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.net/projects/p/"
@@ -388,9 +388,17 @@ msgstr "Nei"
 msgid "MD5 Sum        :"
 msgstr "MD5 Sum       :"
 
+#, fuzzy, c-format
+msgid "SHA256 Sum     :"
+msgstr "MD5 Sum       :"
+
 #, c-format
 msgid "Signatures     :"
 msgstr ""
+
+#, c-format
+msgid "None"
+msgstr "Ingen"
 
 #, c-format
 msgid "Description    :"
@@ -465,6 +473,14 @@ msgstr ""
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded       fjern unødvendige pakker\n"
+
+#, fuzzy, c-format
+msgid "      --needed         do not reinstall up to date packages\n"
+msgstr "      --needed         ikke reinstaller pakker som er oppdaterte\n"
+
+#, fuzzy, c-format
+msgid "      --recursive      reinstall all dependencies of target packages\n"
+msgstr "      --needed         ikke reinstaller pakker som er oppdaterte\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -583,10 +599,6 @@ msgid ""
 msgstr "  -y, --refresh     laster ned nye pakkedatabaser fra serveren\n"
 
 #, c-format
-msgid "      --needed         don't reinstall up to date packages\n"
-msgstr "      --needed         ikke reinstaller pakker som er oppdaterte\n"
-
-#, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr "      --asdeps         marker pakker som ikke eksplisitt installert\n"
 
@@ -633,9 +645,9 @@ msgstr ""
 "  -d, --nodeps         hopp over versjonssjekk for avhengigheter (-dd for å "
 "hoppe over all sjekker)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --dbonly         only modify database entries, not package files\n"
+"      --dbonly         only modify database entries, not package files\n"
 msgstr "  -k, --dbonly         bare endre databasedata, ikke pakkefilene\n"
 
 #, c-format
@@ -1010,10 +1022,6 @@ msgid "database '%s' is not valid (%s)\n"
 msgstr ""
 
 #, c-format
-msgid "None"
-msgstr "Ingen"
-
-#, c-format
 msgid "insufficient columns available for table display\n"
 msgstr ""
 
@@ -1042,15 +1050,15 @@ msgid "Signature error"
 msgstr ""
 
 #, c-format
-msgid "fully trusted"
+msgid "full trust"
 msgstr ""
 
 #, c-format
-msgid "marginal trusted"
+msgid "marginal trust"
 msgstr ""
 
 #, c-format
-msgid "never trusted"
+msgid "never trust"
 msgstr ""
 
 #, c-format
