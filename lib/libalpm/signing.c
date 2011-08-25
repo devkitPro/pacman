@@ -539,6 +539,7 @@ int SYMEXPORT alpm_sigresult_cleanup(alpm_sigresult_t *result)
 	 * values in the struct. Only look at them if count is greater than 0. */
 	if(result->count > 0) {
 		free(result->status);
+		free(result->validity);
 		if(result->uid) {
 			int i;
 			for(i = 0; i < result->count; i++) {
