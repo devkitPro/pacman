@@ -43,7 +43,7 @@
 #include "handle.h"
 
 #ifdef HAVE_LIBCURL
-static double prevprogress; /* last download amount */
+static off_t prevprogress; /* last download amount */
 
 static const char *get_filename(const char *url)
 {
@@ -76,7 +76,7 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 		double UNUSED ultotal, double UNUSED ulnow)
 {
 	struct dload_payload *payload = (struct dload_payload *)file;
-	double current_size, total_size;
+	off_t current_size, total_size;
 
 	/* SIGINT sent, abort by alerting curl */
 	if(dload_interrupted) {
@@ -88,20 +88,20 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 		return 0;
 	}
 
-	current_size = payload->initial_size + dlnow;
-	total_size = payload->initial_size + dltotal;
+	current_size = payload->initial_size + (off_t)dlnow;
+	total_size = payload->initial_size + (off_t)dltotal;
 
-	if(DOUBLE_EQ(dltotal, 0) || DOUBLE_EQ(prevprogress, total_size)) {
+	if(DOUBLE_EQ(dltotal, 0.0) || prevprogress == total_size) {
 		return 0;
 	}
 
 	/* initialize the progress bar here to avoid displaying it when
 	 * a repo is up to date and nothing gets downloaded */
-	if(DOUBLE_EQ(prevprogress, 0)) {
-		payload->handle->dlcb(payload->remote_name, 0, (long)dltotal);
+	if(prevprogress == 0) {
+		payload->handle->dlcb(payload->remote_name, 0, (off_t)dltotal);
 	}
 
-	payload->handle->dlcb(payload->remote_name, (long)current_size, (long)total_size);
+	payload->handle->dlcb(payload->remote_name, current_size, total_size);
 
 	prevprogress = current_size;
 
@@ -216,7 +216,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 		payload->tempfile_openmode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation\n");
-		payload->initial_size = (double)st.st_size;
+		payload->initial_size = st.st_size;
 	}
 }
 

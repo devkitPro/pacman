@@ -33,8 +33,8 @@ struct dload_payload {
 	char *destfile_name;
 	char *content_disp_name;
 	char *fileurl;
-	double initial_size;
-	long max_size;
+	off_t initial_size;
+	off_t max_size;
 	int force;
 	int allow_resume;
 	int errors_ok;
