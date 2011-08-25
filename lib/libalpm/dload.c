@@ -83,12 +83,18 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 		return 1;
 	}
 
+	current_size = payload->initial_size + (off_t)dlnow;
+
+	/* is our filesize still under any set limit? */
+	if(payload->max_size && current_size > payload->max_size) {
+		return 1;
+	}
+
 	/* none of what follows matters if the front end has no callback */
 	if(payload->handle->dlcb == NULL) {
 		return 0;
 	}
 
-	current_size = payload->initial_size + (off_t)dlnow;
 	total_size = payload->initial_size + (off_t)dltotal;
 
 	if(DOUBLE_EQ(dltotal, 0.0) || prevprogress == total_size) {
@@ -341,6 +347,15 @@ static int curl_download_internal(struct dload_payload *payload,
 			}
 			break;
 		case CURLE_ABORTED_BY_CALLBACK:
+			/* two cases here- interrupted by user, or we exceeded max file size. */
+			if(!dload_interrupted) {
+				handle->curlerr = CURLE_FILESIZE_EXCEEDED;
+				handle->pm_errno = ALPM_ERR_LIBCURL;
+				/* the hardcoded 'size exceeded' message is same as libcurl's normal */
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("failed retrieving file '%s' from %s : %s\n"),
+						payload->remote_name, hostname, "Maximum file size exceeded");
+			}
 			goto cleanup;
 		default:
 			/* delete zero length downloads */
@@ -349,10 +364,12 @@ static int curl_download_internal(struct dload_payload *payload,
 			}
 			if(!payload->errors_ok) {
 				handle->pm_errno = ALPM_ERR_LIBCURL;
-				_alpm_log(handle, ALPM_LOG_ERROR, _("failed retrieving file '%s' from %s : %s\n"),
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("failed retrieving file '%s' from %s : %s\n"),
 						payload->remote_name, hostname, error_buffer);
 			} else {
-				_alpm_log(handle, ALPM_LOG_DEBUG, "failed retrieving file '%s' from %s : %s\n",
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"failed retrieving file '%s' from %s : %s\n",
 						payload->remote_name, hostname, error_buffer);
 			}
 			goto cleanup;
