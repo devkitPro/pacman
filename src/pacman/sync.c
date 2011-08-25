@@ -672,8 +672,6 @@ static int process_targname(alpm_list_t *dblist, const char *targname)
 	/* #FS#23342 - skip ignored packages when user says no */
 	if(alpm_errno(config->handle) == ALPM_ERR_PKG_IGNORED) {
 			pm_printf(ALPM_LOG_WARNING, _("skipping target: %s\n"), targname);
-			/* TODO how to do this, we shouldn't be fucking with it from the frontend */
-			/* pm_errno = 0; */
 			return 0;
 	}
 
@@ -693,7 +691,7 @@ static int process_target(const char *target)
 	int ret = 0;
 	alpm_list_t *dblist = NULL;
 
-	if(targname) {
+	if(targname && targname != targstring) {
 		alpm_db_t *db = NULL;
 
 		*targname = '\0';
@@ -716,6 +714,11 @@ static int process_target(const char *target)
 	}
 cleanup:
 	free(targstring);
+	if(ret && access(target, R_OK) == 0) {
+		pm_fprintf(stderr, ALPM_LOG_WARNING,
+				_("'%s' is a file, did you mean %s instead of %s?"),
+				target, "-U/--upgrade", "-S/--sync");
+	}
 	return ret;
 }
 
