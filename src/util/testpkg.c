@@ -63,6 +63,9 @@ int main(int argc, char *argv[])
 			|| pkg == NULL) {
 		err = alpm_errno(handle);
 		switch(err) {
+			case ALPM_ERR_PKG_NOT_FOUND:
+				printf("Cannot find the given file.\n");
+				break;
 			case ALPM_ERR_PKG_OPEN:
 				printf("Cannot open the given file.\n");
 				break;

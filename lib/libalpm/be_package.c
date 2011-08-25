@@ -308,7 +308,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		newpkg->size = st.st_size;
 	} else {
 		/* couldn't stat the pkgfile, return an error */
-		RET_ERR(handle, ALPM_ERR_PKG_OPEN, NULL);
+		RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, NULL);
 	}
 
 	/* can we get away with skipping checksums? */

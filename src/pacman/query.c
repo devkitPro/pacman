@@ -332,7 +332,7 @@ static int query_group(alpm_list_t *targets)
 					}
 				}
 			} else {
-				pm_fprintf(stderr, ALPM_LOG_ERROR, _("group \"%s\" was not found\n"), grpname);
+				pm_fprintf(stderr, ALPM_LOG_ERROR, _("group '%s' was not found\n"), grpname);
 				ret++;
 			}
 		}
@@ -560,7 +560,17 @@ int pacman_query(alpm_list_t *targets)
 		}
 
 		if(pkg == NULL) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, _("package \"%s\" not found\n"), strname);
+			switch(alpm_errno(config->handle)) {
+				case ALPM_ERR_PKG_NOT_FOUND:
+					pm_fprintf(stderr, ALPM_LOG_ERROR,
+							_("package '%s' was not found\n"), strname);
+					break;
+				default:
+					pm_fprintf(stderr, ALPM_LOG_ERROR,
+							_("could not load package '%s': %s\n"), strname,
+							alpm_strerror(alpm_errno(config->handle)));
+					break;
+			}
 			ret = 1;
 			continue;
 		}
