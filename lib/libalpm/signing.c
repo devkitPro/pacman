@@ -337,7 +337,8 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				result->key.email = key->uids->email;
 				result->key.created = key->subkeys->timestamp;
 				result->key.expires = key->subkeys->expires;
-				_alpm_log(handle, ALPM_LOG_DEBUG, "key user: %s\n", key->uids->uid);
+				_alpm_log(handle, ALPM_LOG_DEBUG, "key: %s, %s, owner_trust %s\n",
+						key->subkeys->fpr, key->uids->uid, string_validity(key->owner_trust));
 			}
 		}
 
