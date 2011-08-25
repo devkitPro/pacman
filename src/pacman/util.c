@@ -342,7 +342,12 @@ char *strtrim(char *str)
 		pch++;
 	}
 	if(pch != str) {
-		memmove(str, pch, (strlen(pch) + 1));
+		size_t len = strlen(pch);
+		if(len) {
+			memmove(str, pch, len + 1);
+		} else {
+			*str = '\0';
+		}
 	}
 
 	/* check if there wasn't anything but whitespace in the string. */
