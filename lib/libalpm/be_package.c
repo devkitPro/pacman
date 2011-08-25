@@ -349,7 +349,8 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	if(level & ALPM_SIG_PACKAGE &&
 			_alpm_check_pgp_helper(handle, pkgfile, base64_sig,
 				level & ALPM_SIG_PACKAGE_OPTIONAL, level & ALPM_SIG_PACKAGE_MARGINAL_OK,
-				level & ALPM_SIG_PACKAGE_UNKNOWN_OK, ALPM_ERR_PKG_INVALID_SIG)) {
+				level & ALPM_SIG_PACKAGE_UNKNOWN_OK)) {
+		handle->pm_errno = ALPM_ERR_PKG_INVALID_SIG;
 		_alpm_pkg_free(newpkg);
 		return NULL;
 	}

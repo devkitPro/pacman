@@ -102,7 +102,8 @@ static int sync_db_validate(alpm_db_t *db)
 	if(level & ALPM_SIG_DATABASE) {
 		if(_alpm_check_pgp_helper(db->handle, dbpath, NULL,
 					level & ALPM_SIG_DATABASE_OPTIONAL, level & ALPM_SIG_DATABASE_MARGINAL_OK,
-					level & ALPM_SIG_DATABASE_UNKNOWN_OK, ALPM_ERR_DB_INVALID_SIG)) {
+					level & ALPM_SIG_DATABASE_UNKNOWN_OK)) {
+			db->handle->pm_errno = ALPM_ERR_DB_INVALID_SIG;
 			return 1;
 		}
 	}
