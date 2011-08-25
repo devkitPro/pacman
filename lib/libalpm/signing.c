@@ -360,27 +360,22 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				break;
 		}
 
-		if(status == ALPM_SIGSTATUS_VALID
-				|| status == ALPM_SIGSTATUS_KEY_EXPIRED) {
-			switch(gpgsig->validity) {
-				case GPGME_VALIDITY_ULTIMATE:
-				case GPGME_VALIDITY_FULL:
-					validity = ALPM_SIGVALIDITY_FULL;
-					break;
-				case GPGME_VALIDITY_MARGINAL:
-					validity = ALPM_SIGVALIDITY_MARGINAL;
-					break;
-				case GPGME_VALIDITY_NEVER:
-					validity = ALPM_SIGVALIDITY_NEVER;
-					break;
-				case GPGME_VALIDITY_UNKNOWN:
-				case GPGME_VALIDITY_UNDEFINED:
-				default:
-					validity = ALPM_SIGVALIDITY_UNKNOWN;
-					break;
-			}
-		} else {
-			validity = ALPM_SIGVALIDITY_NEVER;
+		switch(gpgsig->validity) {
+			case GPGME_VALIDITY_ULTIMATE:
+			case GPGME_VALIDITY_FULL:
+				validity = ALPM_SIGVALIDITY_FULL;
+				break;
+			case GPGME_VALIDITY_MARGINAL:
+				validity = ALPM_SIGVALIDITY_MARGINAL;
+				break;
+			case GPGME_VALIDITY_NEVER:
+				validity = ALPM_SIGVALIDITY_NEVER;
+				break;
+			case GPGME_VALIDITY_UNKNOWN:
+			case GPGME_VALIDITY_UNDEFINED:
+			default:
+				validity = ALPM_SIGVALIDITY_UNKNOWN;
+				break;
 		}
 
 		result->status[sigcount] = status;
