@@ -150,8 +150,7 @@ void _alpm_pkg_free_trans(alpm_pkg_t *pkg);
 
 
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
-		int full, const char *md5sum, const char *sha256sum, const char *base64_sig,
-		alpm_siglevel_t level);
+		alpm_pkg_t *syncpkg, int full, alpm_siglevel_t level);
 
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
