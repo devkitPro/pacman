@@ -916,8 +916,10 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
 double humanize_size(off_t bytes, const char target_unit, int long_labels,
 		const char **label)
 {
-	static const char *shortlabels[] = {"B", "K", "M", "G", "T", "P"};
-	static const char *longlabels[] = {"B", "KiB", "MiB", "GiB", "TiB", "PiB"};
+	static const char *shortlabels[] = {"B", "K", "M", "G",
+		"T", "P", "E", "Z", "Y"};
+	static const char *longlabels[] = {"B", "KiB", "MiB", "GiB",
+		"TiB", "PiB", "EiB", "ZiB", "YiB"};
 	static const int unitcount = sizeof(shortlabels) / sizeof(shortlabels[0]);
 
 	const char **labels = long_labels ? longlabels : shortlabels;
