@@ -49,19 +49,19 @@ struct __alpm_trans_t {
 
 #define EVENT(t, e, d1, d2) \
 do { \
-	if((t) && (t)->cb_event) { \
+	if((t)->cb_event) { \
 		(t)->cb_event(e, d1, d2); \
 	} \
 } while(0)
 #define QUESTION(t, q, d1, d2, d3, r) \
 do { \
-	if((t) && (t)->cb_conv) { \
+	if((t)->cb_conv) { \
 		(t)->cb_conv(q, d1, d2, d3, r); \
 	} \
 } while(0)
 #define PROGRESS(t, e, p, per, h, r) \
 do { \
-	if((t) && (t)->cb_progress) { \
+	if((t)->cb_progress) { \
 		(t)->cb_progress(e, p, per, h, r); \
 	} \
 } while(0)
