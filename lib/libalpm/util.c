@@ -836,6 +836,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	ret = md5_file(filename, output);
 
 	if(ret > 0) {
+		free(md5sum);
 		return NULL;
 	}
 
@@ -867,6 +868,7 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 	ret = sha2_file(filename, output, 0);
 
 	if(ret > 0) {
+		free(sha256sum);
 		return NULL;
 	}
 
