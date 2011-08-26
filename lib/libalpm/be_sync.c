@@ -177,6 +177,8 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 	/* attempt to grab a lock */
 	if(_alpm_handle_lock(handle)) {
+		free(syncpath);
+		umask(oldmask);
 		RET_ERR(handle, ALPM_ERR_HANDLE_LOCK, -1);
 	}
 
