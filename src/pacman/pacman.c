@@ -385,7 +385,7 @@ static int parsearg_global(int opt)
 	switch(opt) {
 		case OP_ARCH:
 			check_optarg();
-			config_set_arch(strdup(optarg));
+			config_set_arch(optarg);
 			break;
 		case OP_ASK:
 			check_optarg();
