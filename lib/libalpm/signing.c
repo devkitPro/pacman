@@ -175,6 +175,7 @@ static int decode_signature(const char *base64_data,
 	size_t destlen = len * 3 / 4;
 	MALLOC(*data, destlen, goto error);
 	if(base64_decode(*data, &destlen, usline, len)) {
+		free(*data);
 		goto error;
 	}
 	*data_len = destlen;
