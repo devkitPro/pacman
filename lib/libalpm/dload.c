@@ -205,7 +205,8 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, (void *)payload);
 
 	if(payload->max_size) {
-		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE, payload->max_size);
+		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE_LARGE,
+				(curl_off_t)payload->max_size);
 	}
 
 	if(useragent != NULL) {
@@ -220,7 +221,8 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
 		/* a previous partial download exists, resume from end of file. */
 		payload->tempfile_openmode = "ab";
-		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM, (long)st.st_size);
+		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM_LARGE,
+				(curl_off_t)st.st_size);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation\n");
 		payload->initial_size = st.st_size;
 	}
