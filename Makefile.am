@@ -22,7 +22,7 @@ dist_pkgdata_DATA = \
 
 # run the pactest test suite and vercmp tests
 check-local: test/pacman test/util src/pacman src/util
-	$(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
+	LC_ALL=C $(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
 		--test $(top_srcdir)/test/pacman/tests/*.py \
 		-p $(top_builddir)/src/pacman/pacman
 	$(SH) $(top_srcdir)/test/util/pacsorttest.sh \
