@@ -894,7 +894,8 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *i;
 	alpm_list_t *deltas = NULL;
-	size_t numtargs, current = 0, replaces = 0;
+	size_t numtargs, current, replaces = 0;
+	size_t current_bytes, total_bytes;
 	int errors;
 	alpm_trans_t *trans = handle->trans;
 
@@ -909,18 +910,31 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	}
 	alpm_list_free(deltas);
 
+	/* get the total size of all packages so we can adjust the progress bar more
+	 * realistically if there are small and huge packages involved */
+	current = total_bytes = 0;
+	for(i = trans->add; i; i = i->next, current++) {
+		alpm_pkg_t *spkg = i->data;
+		if(spkg->origin != PKG_FROM_FILE) {
+			total_bytes += alpm_pkg_get_size(spkg);
+		}
+	}
+	/* this can only happen maliciously */
+	total_bytes = total_bytes ? total_bytes : 1;
+
 	/* Check integrity of packages */
 	numtargs = alpm_list_count(trans->add);
 	EVENT(trans, ALPM_TRANS_EVT_INTEGRITY_START, NULL, NULL);
 
+	current = current_bytes = 0;
 	errors = 0;
 
 	for(i = trans->add; i; i = i->next, current++) {
 		alpm_pkg_t *spkg = i->data;
-		int percent = (current * 100) / numtargs;
 		const char *filename;
 		char *filepath;
 		alpm_siglevel_t level;
+		int percent = (int)(((double)current_bytes / total_bytes) * 100);
 
 		PROGRESS(trans, ALPM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
 				numtargs, current);
@@ -928,6 +942,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
 
+		current_bytes += alpm_pkg_get_size(spkg);
 		filename = alpm_pkg_get_filename(spkg);
 		filepath = _alpm_filecache_find(handle, filename);
 		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
