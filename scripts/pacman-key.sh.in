@@ -37,8 +37,8 @@ IMPORT_TRUSTDB=0
 INIT=0
 LISTKEYS=0
 LISTSIGS=0
+POPULATE=0
 RECEIVE=0
-RELOAD=0
 UPDATEDB=0
 VERIFY=0
 
@@ -73,7 +73,8 @@ usage() {
 	echo "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")"
 	echo "$(gettext "  --init                    Ensure the keyring is properly initialized")"
 	echo "$(gettext "  --list-sigs [<keyid(s)>]  List keys and their signatures")"
-	echo "$(gettext "  --reload                  Reload the default keys")"
+	printf "$(gettext "  --populate [<keyring(s)]  Reload the default keys from the (given) keyrings\n\
+                            in '%s'")\n" "@pkgdatadir@/keyrings"
 }
 
 version() {
@@ -99,7 +100,22 @@ get_from() {
 	return 1
 }
 
+# Adds the given gpg.conf option if it is not present in the file.
+# Note that if we find it commented out, we won't add the option.
+# args: $1 conffile, $2 option-name, $3 (optional) option-value
+add_gpg_conf_option() {
+	local confline
+	# looking for the option 'bare', only leading spaces or # chars allowed,
+	# followed by at least one space and any other text or the end of line.
+	if ! grep -q "^[[:space:]#]*$2\([[:space:]].*\)*$" "$1" &>/dev/null; then
+		confline="$2"
+		[[ -n $3 ]] && confline="$2 $3"
+		echo "$confline" >> "$1"
+	fi
+}
+
 initialize() {
+	local conffile
 	# Check for simple existence rather than for a directory as someone
 	# may want to use a symlink here
 	[[ -e ${PACMAN_KEYRING_DIR} ]] || mkdir -p -m 755 "${PACMAN_KEYRING_DIR}"
@@ -108,19 +124,21 @@ initialize() {
 	[[ -f ${PACMAN_KEYRING_DIR}/pubring.gpg ]] || touch ${PACMAN_KEYRING_DIR}/pubring.gpg
 	[[ -f ${PACMAN_KEYRING_DIR}/secring.gpg ]] || touch ${PACMAN_KEYRING_DIR}/secring.gpg
 	[[ -f ${PACMAN_KEYRING_DIR}/trustdb.gpg ]] || "${GPG_PACMAN[@]}" --update-trustdb
-	chmod 644 ${PACMAN_KEYRING_DIR}/{{pub,sec}ring,trustdb}.gpg
+	chmod 644 ${PACMAN_KEYRING_DIR}/{pubring,trustdb}.gpg
+	chmod 600 ${PACMAN_KEYRING_DIR}/secring.gpg
 
 	# gpg.conf
-	[[ -f ${PACMAN_KEYRING_DIR}/gpg.conf ]] || touch  ${PACMAN_KEYRING_DIR}/gpg.conf
-	chmod 644 ${PACMAN_KEYRING_DIR}/gpg.conf
-	if ! grep -w -q "lock-never" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
-		echo "lock-never" >> ${PACMAN_KEYRING_DIR}/gpg.conf
-	fi
+	conffile="${PACMAN_KEYRING_DIR}/gpg.conf"
+	[[ -f $conffile ]] || touch "$conffile"
+	chmod 644 "$conffile"
+	add_gpg_conf_option "$conffile" 'no-greeting'
+	add_gpg_conf_option "$conffile" 'no-permission-warning'
+	add_gpg_conf_option "$conffile" 'lock-never'
+	add_gpg_conf_option "$conffile" 'keyserver' 'hkp://keys.gnupg.net'
 }
 
 check_keyring() {
 	if [[ ! -r ${PACMAN_KEYRING_DIR}/pubring.gpg || \
-			! -r ${PACMAN_KEYRING_DIR}/secring.gpg || \
 			! -r ${PACMAN_KEYRING_DIR}/trustdb.gpg ]]; then
 		error "$(gettext "You do not have sufficient permissions to read the %s keyring...")" "pacman"
 		msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
@@ -128,7 +146,7 @@ check_keyring() {
 	fi
 
 	if (( (EXPORT || FINGER || LIST || VERIFY) && EUID != 0 )); then
-		if ! grep -w -q "lock-never" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
+		if ! grep -q "^[[:space:]]*lock-never[[:space:]]*$" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
 			error "$(gettext "You do not have sufficient permissions to run this command...")"
 			msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
 			exit 1
@@ -139,125 +157,117 @@ check_keyring() {
 
 verify_keyring_input() {
 	local ret=0;
+	local KEYRING_IMPORT_DIR='@pkgdatadir@/keyrings'
 
-	# Verify signatures of related files, if they exist
-	if [[ -r "${ADDED_KEYS}" ]]; then
-		msg "$(gettext "Verifying official keys file signature...")"
-		if ! "${GPG_PACMAN[@]}" --verify "${ADDED_KEYS}.sig" &>/dev/null; then
+	# Verify signatures of keyring files and association revocation files if they exist
+	msg "$(gettext "Verifying keyring file signatures...")"
+	local keyring
+	for keyring in ${KEYRINGIDS[@]}; do
+		if ! "${GPG_PACMAN[@]}" --verify "${KEYRING_IMPORT_DIR}/${keyring}.gpg.sig" &>/dev/null; then
 			error "$(gettext "The signature of file %s is not valid.")" "${ADDED_KEYS}"
 			ret=1
 		fi
-	fi
 
-	if [[ -r "${DEPRECATED_KEYS}" ]]; then
-		msg "$(gettext "Verifying deprecated keys file signature...")"
-		if ! "${GPG_PACMAN[@]}" --verify "${DEPRECATED_KEYS}.sig" &>/dev/null; then
-			error "$(gettext "The signature of file %s is not valid.")" "${DEPRECATED_KEYS}"
-			ret=1
+		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
+			if ! "${GPG_PACMAN[@]}" --verify "${KEYRING_IMPORT_DIR}/${keyring}-revoked.sig" &>/dev/null; then
+				error "$(gettext "The signature of file %s is not valid.")" "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
+				ret=1
+			fi
 		fi
-	fi
-
-	if [[ -r "${REMOVED_KEYS}" ]]; then
-		msg "$(gettext "Verifying deleted keys file signature...")"
-		if ! "${GPG_PACMAN[@]}" --verify "${REMOVED_KEYS}.sig" &>/dev/null; then
-			error "$(gettext "The signature of file %s is not valid.")" "${REMOVED_KEYS}"
-			ret=1
-		fi
-	fi
+	done
 
 	return $ret
 }
 
-reload_keyring() {
-	local PACMAN_SHARE_DIR='@prefix@/share/pacman'
-	local GPG_NOKEYRING=(gpg --batch --quiet --ignore-time-conflict --no-options --no-default-keyring --homedir ${PACMAN_KEYRING_DIR})
+populate_keyring() {
+	local KEYRING_IMPORT_DIR='@pkgdatadir@/keyrings'
+	local GPG_NOKEYRING=(gpg --batch --quiet --ignore-time-conflict --no-options --no-default-keyring --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning)
+
+	local keyring
+	local ret=0
+	if [[ -z ${KEYRINGIDS[@]} ]]; then
+		# get list of all available keyrings
+		shopt -s nullglob
+		KEYRINGIDS=("$KEYRING_IMPORT_DIR"/*.gpg)
+		shopt -u nullglob
+		KEYRINGIDS=("${KEYRINGIDS[@]##*/}")
+		KEYRINGIDS=("${KEYRINGIDS[@]%.gpg}")
+		if [[ -z ${KEYRINGIDS[@]} ]]; then
+			error "$(gettext "No keyring files exist in %s.")" "$KEYRING_IMPORT_DIR"
+			ret=1
+		fi
+	else
+		# verify listed keyrings exist
+		for keyring in ${KEYRINGIDS[@]}; do
+			if [[ ! -f "$KEYRING_IMPORT_DIR/$keyring.gpg" ]]; then
+				error "$(gettext "The keyring file %s does not exist.")" "$KEYRING_IMPORT_DIR/$keyring.gpg"
+				ret=1
+			fi
+		done
+	fi
+
+	if (( ret )); then
+		exit 1
+	fi
+
+	verify_keyring_input || exit 1
 
 	# Variable used for iterating on keyrings
 	local key
 	local key_id
 
-	# Keyring with keys to be added to the keyring
-	local ADDED_KEYS="${PACMAN_SHARE_DIR}/addedkeys.gpg"
+	# Add keys from requested keyrings
+	for keyring in ${KEYRINGIDS[@]}; do
+		msg "$(gettext "Appending keys from %s.gpg...")" "$keyring"
+		local add_keys="$("${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
+		for key_id in ${add_keys}; do
+			"${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --export "${key_id}" | "${GPG_PACMAN[@]}" --import
+		done
+	done
 
-	# Keyring with keys that were deprecated and will eventually be deleted
-	local DEPRECATED_KEYS="${PACMAN_SHARE_DIR}/deprecatedkeys.gpg"
-
-	# List of keys removed from the keyring. This file is not a keyring, unlike the others.
-	# It is a textual list of values that gpg recogniezes as identifiers for keys.
-	local REMOVED_KEYS="${PACMAN_SHARE_DIR}/removedkeys"
-
-	verify_keyring_input || exit 1
-
-	# Read the key ids to an array. The conversion from whatever is inside the file
+	# Read the revoked key IDs to an array. The conversion from whatever is inside the file
 	# to key ids is important, because key ids are the only guarantee of identification
 	# for the keys.
 	local -A removed_ids
-	if [[ -r "${REMOVED_KEYS}" ]]; then
-		while read key; do
-			local key_values name
-			key_values="$("${GPG_PACMAN[@]}" --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5,10 --output-delimiter=' ')"
-			if [[ -n $key_values ]]; then
-				# The first word is the key_id
-				key_id="${key_values%% *}"
-				# the rest if the name of the owner
-				name="${key_values#* }"
-				if [[ -n ${key_id} ]]; then
-					# Mark this key to be deleted
-					removed_ids[$key_id]="$name"
+	for keyring in ${KEYRINGIDS[@]}; do
+		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
+			while read key; do
+				local key_values name
+				# extract key ID (field 5) and the name of owner (field 10)
+				key_values="$("${GPG_PACMAN[@]}" --quiet --with-colons --list-key "${key}" 2>/dev/null | grep ^pub | cut -d: -f5,10 --output-delimiter=' ')"
+				if [[ -n $key_values ]]; then
+					# The first word is the key_id
+					key_id="${key_values%% *}"
+					# the rest is the name of the owner
+					name="${key_values#* }"
+					if [[ -n ${key_id} ]]; then
+						# Mark this key to be deleted
+						removed_ids[$key_id]="$name"
+					fi
 				fi
-			fi
-		done < "${REMOVED_KEYS}"
-	fi
+			done < "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
+		fi
+	done
 
-	# List of keys that must be kept installed, even if in the list of keys to be removed
-	local HOLD_KEYS="$(get_from "$CONFIG" "HoldKeys")"
-
-	# Remove the keys that must be kept from the set of keys that should be removed
-	if [[ -n ${HOLD_KEYS} ]]; then
-		for key in ${HOLD_KEYS}; do
+	# Read list of keys that must be kept installed and remove them from the list
+	# of keys to be removed
+	if [[ -f "${PACMAN_KEYRING_DIR}/holdkeys" ]]; then
+		while read key; do
 			key_id="$("${GPG_PACMAN[@]}" --quiet --with-colons --list-key "${key}" | grep ^pub | cut -d: -f5)"
 			if [[ -n "${removed_ids[$key_id]}" ]]; then
 				unset removed_ids[$key_id]
 			fi
-		done
-	fi
-
-	# Add keys from the current set of keys from pacman-keyring package. The web of trust will
-	# be updated automatically.
-	if [[ -r "${ADDED_KEYS}" ]]; then
-		msg "$(gettext "Appending official keys...")"
-		local add_keys="$("${GPG_NOKEYRING[@]}" --keyring "${ADDED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
-		for key_id in ${add_keys}; do
-			# There is no point in adding a key that will be deleted right after
-			if [[ -z "${removed_ids[$key_id]}" ]]; then
-				"${GPG_NOKEYRING[@]}" --keyring "${ADDED_KEYS}" --export "${key_id}" | "${GPG_PACMAN[@]}" --import
-			fi
-		done
-	fi
-
-	if [[ -r "${DEPRECATED_KEYS}" ]]; then
-		msg "$(gettext "Appending deprecated keys...")"
-		local add_keys="$("${GPG_NOKEYRING[@]}" --keyring "${DEPRECATED_KEYS}" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
-		for key_id in ${add_keys}; do
-			# There is no point in adding a key that will be deleted right after
-			if [[ -z "${removed_ids[$key_id]}" ]]; then
-				"${GPG_NOKEYRING[@]}" --keyring "${DEPRECATED_KEYS}" --export "${key_id}" | "${GPG_PACMAN[@]}" --import
-			fi
-		done
+		done < "${PACMAN_KEYRING_DIR}/holdkeys"
 	fi
 
 	# Remove the keys not marked to keep
 	if (( ${#removed_ids[@]} > 0 )); then
-		msg "$(gettext "Removing deleted keys from keyring...")"
+		msg "$(gettext "Removing revoked keys from keyring...")"
 		for key_id in "${!removed_ids[@]}"; do
 			echo "  removing key $key_id - ${removed_ids[$key_id]}"
 			"${GPG_PACMAN[@]}" --quiet --batch --yes --delete-key "${key_id}"
 		done
 	fi
-
-	# Update trustdb, just to be sure
-	msg "$(gettext "Updating trust database...")"
-	"${GPG_PACMAN[@]}" --batch --check-trustdb
 }
 
 receive_keys() {
@@ -321,8 +331,8 @@ fi
 
 OPT_SHORT="a::d:e:f::hl::r:uv:V"
 OPT_LONG="add::,config:,delete:,edit-key:,export::,finger::,gpgdir:"
-OPT_LONG+=",help,import:,import-trustdb:,init,list-keys::,list-sigs::,,receive:"
-OPT_LONG+=",reload,updatedb,verify:,version"
+OPT_LONG+=",help,import:,import-trustdb:,init,list-keys::,list-sigs::"
+OPT_LONG+=",populate::,receive:,updatedb,verify:,version"
 if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
@@ -336,20 +346,20 @@ fi
 
 while true; do
 	case "$1" in
-		-a|--add)         ADD=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYFILES=($1) ;;
+		-a|--add)         ADD=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYFILES=($1); UPDATEDB=1 ;;
 		--config)         shift; CONFIG=$1 ;;
-		-d|--delete)      DELETE=1; shift; KEYIDS=($1) ;;
-		--edit-key)       EDITKEY=1; shift; KEYIDS=($1) ;;
+		-d|--delete)      DELETE=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
+		--edit-key)       EDITKEY=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
 		-e|--export)      EXPORT=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		-f|--finger)      FINGER=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		--gpgdir)         shift; PACMAN_KEYRING_DIR=$1 ;;
-		--import)         IMPORT=1; shift; IMPORT_DIRS=($1) ;;
-		--import-trustdb) IMPORT_TRUSTDB=1; shift; IMPORT_DIRS=($1) ;;
+		--import)         IMPORT=1; shift; IMPORT_DIRS=($1); UPDATEDB=1 ;;
+		--import-trustdb) IMPORT_TRUSTDB=1; shift; IMPORT_DIRS=($1); UPDATEDB=1 ;;
 		--init)           INIT=1 ;;
 		-l|--list-keys)   LISTKEYS=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		--list-sigs)      LISTSIGS=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
-		-r|--receive)     RECEIVE=1; shift; TMP=($1); KEYSERVER=${TMP[0]}; KEYIDS=(${TMP[@]:1}); unset TMP;;
-		--reload)         RELOAD=1 ;;
+		--populate)       POPULATE=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYRINGIDS=($1); UPDATEDB=1 ;;
+		-r|--receive)     RECEIVE=1; shift; TMP=($1); KEYSERVER=${TMP[0]}; KEYIDS=(${TMP[@]:1}); unset TMP; UPDATEDB=1 ;;
 		-u|--updatedb)    UPDATEDB=1 ;;
 		-v|--verify)      VERIFY=1; shift; SIGNATURE=$1 ;;
 
@@ -368,7 +378,7 @@ if ! type -p gpg >/dev/null; then
 	exit 1
 fi
 
-if (( (ADD || DELETE || EDITKEY || IMPORT || IMPORT_TRUSTDB || INIT || RECEIVE || RELOAD || UPDATEDB) && EUID != 0 )); then
+if (( (ADD || DELETE || EDITKEY || IMPORT || IMPORT_TRUSTDB || INIT || POPULATE || RECEIVE || UPDATEDB) && EUID != 0 )); then
 	error "$(gettext "%s needs to be run as root for this operation.")" "pacman-key"
 	exit 1
 fi
@@ -387,7 +397,7 @@ GPG_PACMAN=(gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning)
 
 # check only a single operation has been given
 numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + IMPORT + IMPORT_TRUSTDB +
-		INIT + LISTKEYS + LISTSIGS + RECEIVE + RELOAD + UPDATEDB + VERIFY ))
+		INIT + LISTKEYS + LISTSIGS + POPULATE + RECEIVE + UPDATEDB + VERIFY ))
 
 case $numopt in
 	0)
@@ -413,9 +423,10 @@ esac
 (( INIT )) && initialize
 (( LISTKEYS )) && "${GPG_PACMAN[@]}" --batch --list-keys "${KEYIDS[@]}"
 (( LISTSIGS )) && "${GPG_PACMAN[@]}" --batch --list-sigs "${KEYIDS[@]}"
+(( POPULATE )) && populate_keyring
 (( RECEIVE )) && receive_keys
-(( RELOAD )) && reload_keyring
-(( UPDATEDB )) && "${GPG_PACMAN[@]}" --batch --check-trustdb
 (( VERIFY )) && "${GPG_PACMAN[@]}" --verify $SIGNATURE
+
+(( UPDATEDB )) && "${GPG_PACMAN[@]}" --batch --check-trustdb
 
 # vim: set ts=2 sw=2 noet:
