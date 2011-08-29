@@ -43,9 +43,6 @@ static off_t list_xfered = 0.0;
 static off_t list_total = 0.0;
 static struct timeval initial_time;
 
-/* transaction progress bar */
-static int prevpercent = 0; /* for less progressbar output */
-
 /* delayed output during progress bar */
 static int on_progress = 0;
 static alpm_list_t *output = NULL;
@@ -349,6 +346,8 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
                        size_t howmany, size_t current)
 {
+	static int prevpercent;
+	static size_t prevcurrent;
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	int infolen;
 	int digits, textlen;
@@ -373,14 +372,18 @@ void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
 			return;
 		}
 	} else {
-		if(!pkgname || percent == prevpercent || get_update_timediff(0) < UPDATE_SPEED_SEC) {
+		if(current != prevcurrent) {
+			/* update always */
+		} else if(!pkgname || percent == prevpercent ||
+				get_update_timediff(0) < UPDATE_SPEED_SEC) {
 			/* only update the progress bar when we have a package name, the
-			 * percentage has changed, and it has been long enough.  */
+			 * percentage has changed, and it has been long enough. */
 			return;
 		}
 	}
 
 	prevpercent = percent;
+	prevcurrent = current;
 
 	/* set text of message to display */
 	switch (event) {
