@@ -619,7 +619,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				READ_AND_STORE(info->packager);
 			} else if(strcmp(line, "%REASON%") == 0) {
 				READ_NEXT();
-				info->reason = (alpm_pkgreason_t)atol(line);
+				info->reason = (alpm_pkgreason_t)atoi(line);
 			} else if(strcmp(line, "%SIZE%") == 0) {
 				/* NOTE: the CSIZE and SIZE fields both share the "size" field
 				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
@@ -627,7 +627,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				 *       only used in local databases.
 				 */
 				READ_NEXT();
-				info->size = atol(line);
+				info->size = _alpm_strtoofft(line);
 				/* also store this value to isize */
 				info->isize = info->size;
 			} else if(strcmp(line, "%REPLACES%") == 0) {

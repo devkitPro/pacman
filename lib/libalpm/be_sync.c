@@ -566,14 +566,14 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				 * in sync databases, and SIZE is only used in local databases.
 				 */
 				READ_NEXT();
-				pkg->size = atol(line);
+				pkg->size = _alpm_strtoofft(line);
 				/* also store this value to isize if isize is unset */
 				if(pkg->isize == 0) {
 					pkg->isize = pkg->size;
 				}
 			} else if(strcmp(line, "%ISIZE%") == 0) {
 				READ_NEXT();
-				pkg->isize = atol(line);
+				pkg->isize = _alpm_strtoofft(line);
 			} else if(strcmp(line, "%MD5SUM%") == 0) {
 				READ_AND_STORE(pkg->md5sum);
 			} else if(strcmp(line, "%SHA256SUM%") == 0) {

@@ -1074,6 +1074,31 @@ unsigned long _alpm_hash_sdbm(const char *str)
 	return hash;
 }
 
+off_t _alpm_strtoofft(const char *line)
+{
+	char *end;
+	unsigned long long result;
+	errno = 0;
+
+	/* we are trying to parse bare numbers only, no leading anything */
+	if(line[0] < '1' || line[0] > '9') {
+		return (off_t)-1;
+	}
+	result = strtoull(line, &end, 10);
+	if (result == 0 && end == line) {
+		/* line was not a number */
+		return (off_t)-1;
+	} else if (result == ULLONG_MAX && errno == ERANGE) {
+		/* line does not fit in unsigned long long */
+		return (off_t)-1;
+	} else if (*end) {
+		/* line began with a number but has junk left over at the end */
+		return (off_t)-1;
+	}
+
+	return (off_t)result;
+}
+
 long _alpm_parsedate(const char *line)
 {
 	if(isalpha((unsigned char)line[0])) {

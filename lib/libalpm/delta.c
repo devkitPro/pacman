@@ -299,7 +299,7 @@ alpm_delta_t *_alpm_delta_parse(char *line)
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');
 	*(tmp++) = '\0';
-	delta->delta_size = atol(tmp2);
+	delta->delta_size = _alpm_strtoofft(tmp2);
 
 	tmp2 = tmp;
 	tmp = strchr(tmp, ' ');

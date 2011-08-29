@@ -119,6 +119,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b);
 int _alpm_splitname(const char *target, char **name, char **version,
 		unsigned long *name_hash);
 unsigned long _alpm_hash_sdbm(const char *str);
+off_t _alpm_strtoofft(const char *line);
 long _alpm_parsedate(const char *line);
 int _alpm_raw_cmp(const char *first, const char *second);
 int _alpm_raw_ncmp(const char *first, const char *second, size_t max);
