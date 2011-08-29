@@ -460,9 +460,9 @@ static int display(alpm_pkg_t *pkg)
 
 	if(config->op_q_info) {
 		if(config->op_q_isfile) {
-			dump_pkg_full(pkg, PKG_FROM_FILE, 0);
+			dump_pkg_full(pkg, 0);
 		} else {
-			dump_pkg_full(pkg, PKG_FROM_LOCALDB, config->op_q_info > 1);
+			dump_pkg_full(pkg, config->op_q_info > 1);
 		}
 	}
 	if(config->op_q_list) {

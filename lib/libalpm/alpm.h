@@ -598,6 +598,11 @@ const char *alpm_pkg_get_name(alpm_pkg_t *pkg);
  */
 const char *alpm_pkg_get_version(alpm_pkg_t *pkg);
 
+/** Returns the origin of the package.
+ * @return a #alpm_pkgfrom_t constant, -1 on error
+ */
+alpm_pkgfrom_t alpm_pkg_get_origin(alpm_pkg_t *pkg);
+
 /** Returns the package description.
  * @param pkg a pointer to package
  * @return a reference to an internal string

@@ -61,7 +61,7 @@ static void deplist_display(const char *title,
  * @param from the type of package we are dealing with
  * @param extra should we show extra information
  */
-void dump_pkg_full(alpm_pkg_t *pkg, alpm_pkgfrom_t from, int extra)
+void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 {
 	const char *reason;
 	time_t bdate, idate;
@@ -69,10 +69,9 @@ void dump_pkg_full(alpm_pkg_t *pkg, alpm_pkgfrom_t from, int extra)
 	const char *label;
 	double size;
 	alpm_list_t *requiredby = NULL;
+	alpm_pkgfrom_t from;
 
-	if(pkg == NULL) {
-		return;
-	}
+	from = alpm_pkg_get_origin(pkg);
 
 	/* set variables here, do all output below */
 	bdate = alpm_pkg_get_builddate(pkg);

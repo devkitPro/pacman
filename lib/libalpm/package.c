@@ -185,6 +185,13 @@ const char SYMEXPORT *alpm_pkg_get_version(alpm_pkg_t *pkg)
 	return pkg->version;
 }
 
+alpm_pkgfrom_t SYMEXPORT alpm_pkg_get_origin(alpm_pkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return -1);
+	pkg->handle->pm_errno = 0;
+	return pkg->origin;
+}
+
 const char SYMEXPORT *alpm_pkg_get_desc(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
