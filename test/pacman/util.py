@@ -20,6 +20,7 @@ import os
 import re
 import hashlib
 
+SELFPATH    = os.path.abspath(os.path.dirname(__file__))
 
 # ALPM
 PM_ROOT     = "/"

@@ -119,13 +119,18 @@ class pmtest(object):
         logdir = os.path.join(self.root, os.path.dirname(util.LOGFILE))
         etcdir = os.path.join(self.root, os.path.dirname(util.PACCONF))
         bindir = os.path.join(self.root, "bin")
-        sys_dirs = [dbdir, cachedir, syncdir, tmpdir, logdir, etcdir, bindir]
+        sbindir = os.path.join(self.root, "sbin")
+        sys_dirs = [dbdir, cachedir, syncdir, tmpdir, logdir, etcdir, bindir, sbindir]
         for sys_dir in sys_dirs:
             if not os.path.isdir(sys_dir):
                 vprint("\t%s" % sys_dir[len(self.root)+1:])
                 os.makedirs(sys_dir, 0755)
         # Only the dynamically linked binary is needed for fakechroot
         shutil.copy("/bin/sh", bindir)
+        shutil.copy(os.path.join(util.SELFPATH, "ldconfig.stub"),
+            os.path.join(sbindir, "ldconfig"))
+        ld_so_conf = open(os.path.join(etcdir, "ld.so.conf"), "w")
+        ld_so_conf.close()
 
         # Configuration file
         vprint("    Creating configuration file")
