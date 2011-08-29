@@ -410,30 +410,36 @@ alpm_depend_t *_alpm_splitdep(const char *depstring)
 {
 	alpm_depend_t *depend;
 	const char *ptr, *version = NULL;
+	size_t deplen;
 
 	if(depstring == NULL) {
 		return NULL;
 	}
 
 	CALLOC(depend, 1, sizeof(alpm_depend_t), return NULL);
+	deplen = strlen(depstring);
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
-	if((ptr = strstr(depstring, ">="))) {
-		depend->mod = ALPM_DEP_MOD_GE;
-		version = ptr + 2;
-	} else if((ptr = strstr(depstring, "<="))) {
-		depend->mod = ALPM_DEP_MOD_LE;
-		version = ptr + 2;
-	} else if((ptr = strstr(depstring, "="))) {
+	if((ptr = memchr(depstring, '<', deplen))) {
+		if(ptr[1] == '=') {
+			depend->mod = ALPM_DEP_MOD_LE;
+			version = ptr + 2;
+		} else {
+			depend->mod = ALPM_DEP_MOD_LT;
+			version = ptr + 1;
+		}
+	} else if((ptr = memchr(depstring, '>', deplen))) {
+		if(ptr[1] == '=') {
+			depend->mod = ALPM_DEP_MOD_GE;
+			version = ptr + 2;
+		} else {
+			depend->mod = ALPM_DEP_MOD_GT;
+			version = ptr + 1;
+		}
+	} else if((ptr = memchr(depstring, '=', deplen))) {
 		/* Note: we must do =,<,> checks after <=, >= checks */
 		depend->mod = ALPM_DEP_MOD_EQ;
-		version = ptr + 1;
-	} else if((ptr = strstr(depstring, "<"))) {
-		depend->mod = ALPM_DEP_MOD_LT;
-		version = ptr + 1;
-	} else if((ptr = strstr(depstring, ">"))) {
-		depend->mod = ALPM_DEP_MOD_GT;
 		version = ptr + 1;
 	} else {
 		/* no version specified, leave version and ptr NULL */
