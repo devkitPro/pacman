@@ -441,7 +441,11 @@ alpm_depend_t *_alpm_splitdep(const char *depstring)
 	}
 
 	/* copy the right parts to the right places */
-	STRNDUP(depend->name, depstring, ptr - depstring, return NULL);
+	if(ptr) {
+		STRNDUP(depend->name, depstring, ptr - depstring, return NULL);
+	} else {
+		STRDUP(depend->name, depstring, return NULL);
+	}
 	depend->name_hash = _alpm_hash_sdbm(depend->name);
 	if(version) {
 		STRDUP(depend->version, version, return NULL);
