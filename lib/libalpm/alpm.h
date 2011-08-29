@@ -60,6 +60,12 @@ typedef enum _alpm_pkgreason_t {
 	ALPM_PKG_REASON_DEPEND = 1
 } alpm_pkgreason_t;
 
+typedef enum _alpm_pkgfrom_t {
+	PKG_FROM_FILE = 1,
+	PKG_FROM_LOCALDB,
+	PKG_FROM_SYNCDB
+} alpm_pkgfrom_t;
+
 /** Types of version constraints in dependency specs. */
 typedef enum _alpm_depmod_t {
   /** No version constraint */

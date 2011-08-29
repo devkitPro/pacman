@@ -22,14 +22,7 @@
 
 #include <alpm.h>
 
-/* TODO it would be nice if we didn't duplicate a backend type */
-enum pkg_from {
-	PKG_FROM_FILE = 1,
-	PKG_FROM_LOCALDB,
-	PKG_FROM_SYNCDB
-};
-
-void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra);
+void dump_pkg_full(alpm_pkg_t *pkg, alpm_pkgfrom_t from, int extra);
 
 void dump_pkg_backups(alpm_pkg_t *pkg);
 void dump_pkg_files(alpm_pkg_t *pkg, int quiet);

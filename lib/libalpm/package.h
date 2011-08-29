@@ -34,12 +34,6 @@
 #include "db.h"
 #include "signing.h"
 
-typedef enum _alpm_pkgfrom_t {
-	PKG_FROM_FILE = 1,
-	PKG_FROM_LOCALDB,
-	PKG_FROM_SYNCDB
-} alpm_pkgfrom_t;
-
 /** Package operations struct. This struct contains function pointers to
  * all methods used to access data in a package to allow for things such
  * as lazy package intialization (such as used by the file backend). Each

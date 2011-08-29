@@ -61,7 +61,7 @@ static void deplist_display(const char *title,
  * @param from the type of package we are dealing with
  * @param extra should we show extra information
  */
-void dump_pkg_full(alpm_pkg_t *pkg, enum pkg_from from, int extra)
+void dump_pkg_full(alpm_pkg_t *pkg, alpm_pkgfrom_t from, int extra)
 {
 	const char *reason;
 	time_t bdate, idate;
