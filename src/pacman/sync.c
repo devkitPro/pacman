@@ -304,6 +304,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	 */
 	if(!success) {
 		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to synchronize any databases\n"));
+		trans_init_error();
 	}
 	return (success > 0);
 }

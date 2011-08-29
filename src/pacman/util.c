@@ -63,18 +63,22 @@ int trans_init(alpm_transflag_t flags, int check_valid)
 	}
 
 	if(ret == -1) {
-		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to init transaction (%s)\n"),
-				alpm_strerror(err));
-		if(err == ALPM_ERR_HANDLE_LOCK) {
-			fprintf(stderr, _("  if you're sure a package manager is not already\n"
-						"  running, you can remove %s\n"),
-					alpm_option_get_lockfile(config->handle));
-		}
-
+		trans_init_error();
 		return -1;
 	}
 	return 0;
+}
+
+void trans_init_error(void)
+{
+	enum _alpm_errno_t err = alpm_errno(config->handle);
+	pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to init transaction (%s)\n"),
+			alpm_strerror(err));
+	if(err == ALPM_ERR_HANDLE_LOCK) {
+		fprintf(stderr, _("  if you're sure a package manager is not already\n"
+					"  running, you can remove %s\n"),
+				alpm_option_get_lockfile(config->handle));
+	}
 }
 
 int trans_release(void)

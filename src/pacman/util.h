@@ -39,6 +39,7 @@
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_SEC 0.2f
 
+void trans_init_error(void);
 int trans_init(alpm_transflag_t flags, int check_valid);
 int trans_release(void);
 int needs_root(void);
