@@ -396,13 +396,16 @@ PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-$(get_from "$CONFIG" "GPGDir" || echo "
 GPG_PACMAN=(gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning)
 
 # check only a single operation has been given
+# don't include UPDATEDB in here as other opts can induce it
 numopt=$(( ADD + DELETE + EDITKEY + EXPORT + FINGER + IMPORT + IMPORT_TRUSTDB +
-		INIT + LISTKEYS + LISTSIGS + POPULATE + RECEIVE + UPDATEDB + VERIFY ))
+		INIT + LISTKEYS + LISTSIGS + POPULATE + RECEIVE + VERIFY ))
 
 case $numopt in
 	0)
-		error "$(gettext "no operation specified (use -h for help)")"
-		exit 1
+		if (( ! UPDATEDB )); then
+			error "$(gettext "no operation specified (use -h for help)")"
+			exit 1
+		fi
 		;;
 	[!1])
 		error "$(gettext "Multiple operations specified")"
@@ -427,6 +430,9 @@ esac
 (( RECEIVE )) && receive_keys
 (( VERIFY )) && "${GPG_PACMAN[@]}" --verify $SIGNATURE
 
-(( UPDATEDB )) && "${GPG_PACMAN[@]}" --batch --check-trustdb
+if (( UPDATEDB )); then
+	msg "$(gettext "Updating trust database...")"
+	"${GPG_PACMAN[@]}" --batch --check-trustdb
+fi
 
 # vim: set ts=2 sw=2 noet:
