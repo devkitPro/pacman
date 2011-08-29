@@ -132,10 +132,9 @@ int _alpm_handle_unlock(alpm_handle_t *handle)
 	ASSERT(handle->lockfile != NULL, return -1);
 	ASSERT(handle->lckstream != NULL, return 0);
 
-	if(handle->lckstream != NULL) {
-		fclose(handle->lckstream);
-		handle->lckstream = NULL;
-	}
+	fclose(handle->lckstream);
+	handle->lckstream = NULL;
+
 	if(unlink(handle->lockfile) && errno != ENOENT) {
 		return -1;
 	}
