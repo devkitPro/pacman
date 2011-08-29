@@ -580,7 +580,13 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 			goto error;
 		}
 		while(!feof(fp)) {
-			READ_NEXT();
+			if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) {
+				goto error;
+			}
+			if(_alpm_strip_newline(line) == 0) {
+				/* length of stripped line was zero */
+				continue;
+			}
 			if(strcmp(line, "%NAME%") == 0) {
 				READ_NEXT();
 				if(strcmp(line, info->name) != 0) {

@@ -526,7 +526,10 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		int ret;
 		while((ret = _alpm_archive_fgets(archive, &buf)) == ARCHIVE_OK) {
 			char *line = buf.line;
-			_alpm_strip_newline(line);
+			if(_alpm_strip_newline(line) == 0) {
+				/* length of stripped line was zero */
+				continue;
+			}
 
 			if(strcmp(line, "%NAME%") == 0) {
 				READ_NEXT();
