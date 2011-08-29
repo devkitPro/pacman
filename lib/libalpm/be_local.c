@@ -750,7 +750,7 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 	int retval = 0;
 	char *pkgpath = NULL;
 
-	if(db == NULL || info == NULL) {
+	if(db == NULL || info == NULL || !(db->status & DB_STATUS_LOCAL)) {
 		return -1;
 	}
 
@@ -758,10 +758,6 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
-
-	if(strcmp(db->treename, "local") != 0) {
-		return -1;
-	}
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
