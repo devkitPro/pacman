@@ -618,22 +618,26 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	eta_m = eta_s / 60;
 	eta_s -= eta_m * 60;
 
-	/* allocate length+1 (plus null) in case we need to exchange .db for .sig */
-	fname = calloc(1, strlen(filename) + 2);
-	strcpy(fname, filename);
+	len = strlen(filename);
+	fname = malloc(len + 1);
+	memcpy(fname, filename, len);
 	/* strip package or DB extension for cleaner look */
 	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db"))) {
-		*p = '\0';
-
 		/* tack on a .sig suffix for signatures */
-		if((p = strstr(filename, ".sig"))) {
-			strcat(fname, ".sig");
+		if(memcmp(&filename[len - 4], ".sig", 4) == 0) {
+			memcpy(p, ".sig", 4);
+
+			/* adjust length for later calculations */
+			len = p - fname + 4;
+		} else {
+			len = p - fname;
 		}
 	}
+	fname[len] = '\0';
 
 	/* 1 space + filenamelen + 1 space + 6 for size + 1 space + 3 for label +
 	 * + 2 spaces + 4 for rate  + 1 for label + 2 for /s + 1 space +
-	 * 8 for eta, gives us the magic 26 */
+	 * 8 for eta, gives us the magic 30 */
 	filenamelen = infolen - 30;
 	/* see printf() code, we omit 'HH:' in these conditions */
 	if(eta_h == 0 || eta_h >= 100) {
@@ -646,8 +650,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	 * by the output, and then pad it accordingly so we fill the terminal.
 	 */
 	/* len = filename len + null */
-	len = strlen(filename) + 1;
-	wcfname = calloc(len, sizeof(wchar_t));
+	wcfname = calloc(len + 1, sizeof(wchar_t));
 	wclen = mbstowcs(wcfname, fname, len);
 	wcwid = wcswidth(wcfname, wclen);
 	padwid = filenamelen - wcwid;
