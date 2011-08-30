@@ -129,7 +129,7 @@ static int list_grow(struct list_t *list)
 
 static int list_add(struct list_t *list, char *name)
 {
-	if(!list|!name) {
+	if(!list || !name) {
 		return 1;
 	}
 
