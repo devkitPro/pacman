@@ -1354,16 +1354,15 @@ create_srcpackage() {
 
 	local i
 	for i in 'changelog' 'install'; do
-		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE")
 		local file
-		for file in $filelist; do
+		while read -r file; do
 			# evaluate any bash variables used
 			eval file=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$file")\"
 			if [[ ! -f "${srclinks}/${pkgbase}/$file" ]]; then
 				msg2 "$(gettext "Adding %s file (%s)...")" "$i" "${file}"
 				ln -s "${startdir}/$file" "${srclinks}/${pkgbase}/"
 			fi
-		done
+		done < <(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE")
 	done
 
 	local TAR_OPT
@@ -1534,16 +1533,15 @@ check_sanity() {
 	done
 
 	for i in 'changelog' 'install'; do
-		local filelist=$(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE")
 		local file
-		for file in $filelist; do
+		while read -r file; do
 			# evaluate any bash variables used
 			eval file=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$file")\"
 			if [[ ! -f $file ]]; then
 				error "$(gettext "%s file (%s) does not exist.")" "$i" "$file"
 				ret=1
 			fi
-		done
+		done < <(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE")
 	done
 
 	local valid_options=1
