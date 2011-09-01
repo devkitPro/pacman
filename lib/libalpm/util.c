@@ -1099,7 +1099,7 @@ off_t _alpm_strtoofft(const char *line)
 	return (off_t)result;
 }
 
-long _alpm_parsedate(const char *line)
+time_t _alpm_parsedate(const char *line)
 {
 	if(isalpha((unsigned char)line[0])) {
 		/* initialize to null in case of failure */
@@ -1109,7 +1109,7 @@ long _alpm_parsedate(const char *line)
 		setlocale(LC_TIME, "");
 		return mktime(&tmp_tm);
 	}
-	return atol(line);
+	return (time_t)atol(line);
 }
 
 /**
