@@ -341,7 +341,7 @@ in_array() {
 source_has_signatures(){
 	local file
 	for file in "${source[@]}"; do
-		if [[ $file =~ .*(sig|asc) ]]; then
+		if [[ $file =~ \.(sig|asc)$ ]]; then
 			return 0
 		fi
 	done
@@ -709,7 +709,7 @@ check_pgpsigs() {
 
 	for file in "${source[@]}"; do
 		file="$(get_filename "$file")"
-		if [[ ! $file =~ .*(sig|asc) ]]; then
+		if [[ ! $file =~ \.(sig|asc)$ ]]; then
 			continue
 		fi
 
