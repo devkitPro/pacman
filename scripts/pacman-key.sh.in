@@ -74,6 +74,7 @@ usage() {
 	echo "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")"
 	echo "$(gettext "  --init                    Ensure the keyring is properly initialized")"
 	echo "$(gettext "  --list-sigs [<keyid(s)>]  List keys and their signatures")"
+	echo "$(gettext "  --lsign-key <keyid>       Locally sign the specified keyid")"
 	printf "$(gettext "  --populate [<keyring(s)]  Reload the default keys from the (given) keyrings\n\
                             in '%s'")\n" "@pkgdatadir@/keyrings"
 }
