@@ -172,10 +172,10 @@ alpm_cb_event SYMEXPORT alpm_option_get_eventcb(alpm_handle_t *handle)
 	return handle->eventcb;
 }
 
-alpm_cb_conv SYMEXPORT alpm_option_get_convcb(alpm_handle_t *handle)
+alpm_cb_question SYMEXPORT alpm_option_get_questioncb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
-	return handle->convcb;
+	return handle->questioncb;
 }
 
 alpm_cb_progress SYMEXPORT alpm_option_get_progresscb(alpm_handle_t *handle)
@@ -315,10 +315,10 @@ int SYMEXPORT alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_convcb(alpm_handle_t *handle, alpm_cb_conv cb)
+int SYMEXPORT alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb)
 {
 	CHECK_HANDLE(handle, return -1);
-	handle->convcb = cb;
+	handle->questioncb = cb;
 	return 0;
 }
 

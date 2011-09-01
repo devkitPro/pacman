@@ -534,9 +534,9 @@ static int setup_libalpm(void)
 
 	alpm_option_set_logcb(handle, cb_log);
 	alpm_option_set_dlcb(handle, cb_dl_progress);
-	alpm_option_set_eventcb(handle, cb_trans_evt);
-	alpm_option_set_convcb(handle, cb_trans_conv);
-	alpm_option_set_progresscb(handle, cb_trans_progress);
+	alpm_option_set_eventcb(handle, cb_event);
+	alpm_option_set_questioncb(handle, cb_question);
+	alpm_option_set_progresscb(handle, cb_progress);
 
 	config->logfile = config->logfile ? config->logfile : strdup(LOGFILE);
 	ret = alpm_option_set_logfile(handle, config->logfile);

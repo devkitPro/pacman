@@ -24,15 +24,15 @@
 
 #include <alpm.h>
 
-/* callback to handle messages/notifications from libalpm transactions */
-void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2);
+/* callback to handle messages/notifications from libalpm */
+void cb_event(alpm_event_t event, void *data1, void *data2);
 
-/* callback to handle questions from libalpm transactions (yes/no) */
-void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
+/* callback to handle questions from libalpm (yes/no) */
+void cb_question(alpm_question_t event, void *data1, void *data2,
                    void *data3, int *response);
 
-/* callback to handle display of transaction progress */
-void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
+/* callback to handle display of progress */
+void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
                    size_t howmany, size_t remain);
 
 /* callback to handle receipt of total download value */

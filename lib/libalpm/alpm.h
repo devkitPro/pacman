@@ -256,6 +256,116 @@ typedef enum _alpm_loglevel_t {
 typedef void (*alpm_cb_log)(alpm_loglevel_t, const char *, va_list);
 int alpm_logaction(alpm_handle_t *handle, const char *fmt, ...);
 
+/** Events.
+ * NULL parameters are passed to in all events unless specified otherwise.
+ */
+typedef enum _alpm_event_t {
+	/** Dependencies will be computed for a package. */
+	ALPM_EVENT_CHECKDEPS_START = 1,
+	/** Dependencies were computed for a package. */
+	ALPM_EVENT_CHECKDEPS_DONE,
+	/** File conflicts will be computed for a package. */
+	ALPM_EVENT_FILECONFLICTS_START,
+	/** File conflicts were computed for a package. */
+	ALPM_EVENT_FILECONFLICTS_DONE,
+	/** Dependencies will be resolved for target package. */
+	ALPM_EVENT_RESOLVEDEPS_START,
+	/** Dependencies were resolved for target package. */
+	ALPM_EVENT_RESOLVEDEPS_DONE,
+	/** Inter-conflicts will be checked for target package. */
+	ALPM_EVENT_INTERCONFLICTS_START,
+	/** Inter-conflicts were checked for target package. */
+	ALPM_EVENT_INTERCONFLICTS_DONE,
+	/** Package will be installed.
+	 * A pointer to the target package is passed to the callback.
+	 */
+	ALPM_EVENT_ADD_START,
+	/** Package was installed.
+	 * A pointer to the new package is passed to the callback.
+	 */
+	ALPM_EVENT_ADD_DONE,
+	/** Package will be removed.
+	 * A pointer to the target package is passed to the callback.
+	 */
+	ALPM_EVENT_REMOVE_START,
+	/** Package was removed.
+	 * A pointer to the removed package is passed to the callback.
+	 */
+	ALPM_EVENT_REMOVE_DONE,
+	/** Package will be upgraded.
+	 * A pointer to the upgraded package is passed to the callback.
+	 */
+	ALPM_EVENT_UPGRADE_START,
+	/** Package was upgraded.
+	 * A pointer to the new package, and a pointer to the old package is passed
+	 * to the callback, respectively.
+	 */
+	ALPM_EVENT_UPGRADE_DONE,
+	/** Target package's integrity will be checked. */
+	ALPM_EVENT_INTEGRITY_START,
+	/** Target package's integrity was checked. */
+	ALPM_EVENT_INTEGRITY_DONE,
+	/** Target deltas's integrity will be checked. */
+	ALPM_EVENT_DELTA_INTEGRITY_START,
+	/** Target delta's integrity was checked. */
+	ALPM_EVENT_DELTA_INTEGRITY_DONE,
+	/** Deltas will be applied to packages. */
+	ALPM_EVENT_DELTA_PATCHES_START,
+	/** Deltas were applied to packages. */
+	ALPM_EVENT_DELTA_PATCHES_DONE,
+	/** Delta patch will be applied to target package.
+	 * The filename of the package and the filename of the patch is passed to the
+	 * callback.
+	 */
+	ALPM_EVENT_DELTA_PATCH_START,
+	/** Delta patch was applied to target package. */
+	ALPM_EVENT_DELTA_PATCH_DONE,
+	/** Delta patch failed to apply to target package. */
+	ALPM_EVENT_DELTA_PATCH_FAILED,
+	/** Scriptlet has printed information.
+	 * A line of text is passed to the callback.
+	 */
+	ALPM_EVENT_SCRIPTLET_INFO,
+	/** Files will be downloaded from a repository.
+	 * The repository's tree name is passed to the callback.
+	 */
+	ALPM_EVENT_RETRIEVE_START,
+	/** Disk space usage will be computed for a package */
+	ALPM_EVENT_DISKSPACE_START,
+	/** Disk space usage was computed for a package */
+	ALPM_EVENT_DISKSPACE_DONE,
+} alpm_event_t;
+
+/** Event callback */
+typedef void (*alpm_cb_event)(alpm_event_t, void *, void *);
+
+/** Questions */
+typedef enum _alpm_question_t {
+	ALPM_QUESTION_INSTALL_IGNOREPKG = 1,
+	ALPM_QUESTION_REPLACE_PKG = (1 << 1),
+	ALPM_QUESTION_CONFLICT_PKG = (1 << 2),
+	ALPM_QUESTION_CORRUPTED_PKG = (1 << 3),
+	ALPM_QUESTION_LOCAL_NEWER = (1 << 4),
+	ALPM_QUESTION_REMOVE_PKGS = (1 << 5),
+	ALPM_QUESTION_SELECT_PROVIDER = (1 << 6),
+} alpm_question_t;
+
+/** Question callback */
+typedef void (*alpm_cb_question)(alpm_question_t, void *, void *, void *, int *);
+
+/** Progress */
+typedef enum _alpm_progress_t {
+	ALPM_PROGRESS_ADD_START,
+	ALPM_PROGRESS_UPGRADE_START,
+	ALPM_PROGRESS_REMOVE_START,
+	ALPM_PROGRESS_CONFLICTS_START,
+	ALPM_PROGRESS_DISKSPACE_START,
+	ALPM_PROGRESS_INTEGRITY_START,
+} alpm_progress_t;
+
+/** Progress callback */
+typedef void (*alpm_cb_progress)(alpm_progress_t, const char *, int, size_t, size_t);
+
 /*
  * Downloading
  */
@@ -311,6 +421,21 @@ int alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb);
 alpm_cb_totaldl alpm_option_get_totaldlcb(alpm_handle_t *handle);
 /** Sets the callback used to report total download size. */
 int alpm_option_set_totaldlcb(alpm_handle_t *handle, alpm_cb_totaldl cb);
+
+/** Returns the callback used for events. */
+alpm_cb_event alpm_option_get_eventcb(alpm_handle_t *handle);
+/** Sets the callback used for events. */
+int alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb);
+
+/** Returns the callback used for questions. */
+alpm_cb_question alpm_option_get_questioncb(alpm_handle_t *handle);
+/** Sets the callback used for questions. */
+int alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb);
+
+/** Returns the callback used for operation progress. */
+alpm_cb_progress alpm_option_get_progresscb(alpm_handle_t *handle);
+/** Sets the callback used for operation progress. */
+int alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb);
 
 /** Returns the root of the destination filesystem. Read-only. */
 const char *alpm_option_get_root(alpm_handle_t *handle);
@@ -862,131 +987,6 @@ typedef enum _alpm_transflag_t {
 	/** Do not lock the database during the operation. */
 	ALPM_TRANS_FLAG_NOLOCK = (1 << 17)
 } alpm_transflag_t;
-
-/** Events.
- * NULL parameters are passed to in all events unless specified otherwise.
- */
-typedef enum _alpm_transevt_t {
-	/** Dependencies will be computed for a package. */
-	ALPM_TRANS_EVT_CHECKDEPS_START = 1,
-	/** Dependencies were computed for a package. */
-	ALPM_TRANS_EVT_CHECKDEPS_DONE,
-	/** File conflicts will be computed for a package. */
-	ALPM_TRANS_EVT_FILECONFLICTS_START,
-	/** File conflicts were computed for a package. */
-	ALPM_TRANS_EVT_FILECONFLICTS_DONE,
-	/** Dependencies will be resolved for target package. */
-	ALPM_TRANS_EVT_RESOLVEDEPS_START,
-	/** Dependencies were resolved for target package. */
-	ALPM_TRANS_EVT_RESOLVEDEPS_DONE,
-	/** Inter-conflicts will be checked for target package. */
-	ALPM_TRANS_EVT_INTERCONFLICTS_START,
-	/** Inter-conflicts were checked for target package. */
-	ALPM_TRANS_EVT_INTERCONFLICTS_DONE,
-	/** Package will be installed.
-	 * A pointer to the target package is passed to the callback.
-	 */
-	ALPM_TRANS_EVT_ADD_START,
-	/** Package was installed.
-	 * A pointer to the new package is passed to the callback.
-	 */
-	ALPM_TRANS_EVT_ADD_DONE,
-	/** Package will be removed.
-	 * A pointer to the target package is passed to the callback.
-	 */
-	ALPM_TRANS_EVT_REMOVE_START,
-	/** Package was removed.
-	 * A pointer to the removed package is passed to the callback.
-	 */
-	ALPM_TRANS_EVT_REMOVE_DONE,
-	/** Package will be upgraded.
-	 * A pointer to the upgraded package is passed to the callback.
-	 */
-	ALPM_TRANS_EVT_UPGRADE_START,
-	/** Package was upgraded.
-	 * A pointer to the new package, and a pointer to the old package is passed
-	 * to the callback, respectively.
-	 */
-	ALPM_TRANS_EVT_UPGRADE_DONE,
-	/** Target package's integrity will be checked. */
-	ALPM_TRANS_EVT_INTEGRITY_START,
-	/** Target package's integrity was checked. */
-	ALPM_TRANS_EVT_INTEGRITY_DONE,
-	/** Target deltas's integrity will be checked. */
-	ALPM_TRANS_EVT_DELTA_INTEGRITY_START,
-	/** Target delta's integrity was checked. */
-	ALPM_TRANS_EVT_DELTA_INTEGRITY_DONE,
-	/** Deltas will be applied to packages. */
-	ALPM_TRANS_EVT_DELTA_PATCHES_START,
-	/** Deltas were applied to packages. */
-	ALPM_TRANS_EVT_DELTA_PATCHES_DONE,
-	/** Delta patch will be applied to target package.
-	 * The filename of the package and the filename of the patch is passed to the
-	 * callback.
-	 */
-	ALPM_TRANS_EVT_DELTA_PATCH_START,
-	/** Delta patch was applied to target package. */
-	ALPM_TRANS_EVT_DELTA_PATCH_DONE,
-	/** Delta patch failed to apply to target package. */
-	ALPM_TRANS_EVT_DELTA_PATCH_FAILED,
-	/** Scriptlet has printed information.
-	 * A line of text is passed to the callback.
-	 */
-	ALPM_TRANS_EVT_SCRIPTLET_INFO,
-	/** Files will be downloaded from a repository.
-	 * The repository's tree name is passed to the callback.
-	 */
-	ALPM_TRANS_EVT_RETRIEVE_START,
-	/** Disk space usage will be computed for a package */
-	ALPM_TRANS_EVT_DISKSPACE_START,
-	/** Disk space usage was computed for a package */
-	ALPM_TRANS_EVT_DISKSPACE_DONE,
-} alpm_transevt_t;
-
-/** Conversations (ie, questions) */
-typedef enum _alpm_transconv_t {
-	ALPM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
-	ALPM_TRANS_CONV_REPLACE_PKG = (1 << 1),
-	ALPM_TRANS_CONV_CONFLICT_PKG = (1 << 2),
-	ALPM_TRANS_CONV_CORRUPTED_PKG = (1 << 3),
-	ALPM_TRANS_CONV_LOCAL_NEWER = (1 << 4),
-	ALPM_TRANS_CONV_REMOVE_PKGS = (1 << 5),
-	ALPM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
-} alpm_transconv_t;
-
-/** Progress */
-typedef enum _alpm_transprog_t {
-	ALPM_TRANS_PROGRESS_ADD_START,
-	ALPM_TRANS_PROGRESS_UPGRADE_START,
-	ALPM_TRANS_PROGRESS_REMOVE_START,
-	ALPM_TRANS_PROGRESS_CONFLICTS_START,
-	ALPM_TRANS_PROGRESS_DISKSPACE_START,
-	ALPM_TRANS_PROGRESS_INTEGRITY_START,
-} alpm_transprog_t;
-
-/** Event callback */
-typedef void (*alpm_cb_event)(alpm_transevt_t, void *, void *);
-
-/** Conversation callback */
-typedef void (*alpm_cb_conv)(alpm_transconv_t, void *, void *, void *, int *);
-
-/** Progress callback */
-typedef void (*alpm_cb_progress)(alpm_transprog_t, const char *, int, size_t, size_t);
-
-/** Returns the callback used for events. */
-alpm_cb_event alpm_option_get_eventcb(alpm_handle_t *handle);
-/** Sets the callback used for events. */
-int alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb);
-
-/** Returns the callback used for conversations (questions). */
-alpm_cb_conv alpm_option_get_convcb(alpm_handle_t *handle);
-/** Sets the callback used for conversations (questions). */
-int alpm_option_set_convcb(alpm_handle_t *handle, alpm_cb_conv cb);
-
-/** Returns the callback used for operation progress. */
-alpm_cb_progress alpm_option_get_progresscb(alpm_handle_t *handle);
-/** Sets the callback used for operation progress. */
-int alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb);
 
 /** Returns the bitfield of flags for the current transaction.
  * @param handle the context handle

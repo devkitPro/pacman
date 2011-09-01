@@ -38,8 +38,8 @@ do { \
 } while(0)
 #define QUESTION(h, q, d1, d2, d3, r) \
 do { \
-	if((h)->convcb) { \
-		(h)->convcb(q, d1, d2, d3, r); \
+	if((h)->questioncb) { \
+		(h)->questioncb(q, d1, d2, d3, r); \
 	} \
 } while(0)
 #define PROGRESS(h, e, p, per, n, r) \
@@ -69,7 +69,7 @@ struct __alpm_handle_t {
 	alpm_cb_totaldl totaldlcb;  /* Total download callback function */
 	alpm_cb_fetch fetchcb;  /* Download file callback function */
 	alpm_cb_event eventcb;
-	alpm_cb_conv convcb;
+	alpm_cb_question questioncb;
 	alpm_cb_progress progresscb;
 
 	/* filesystem paths */

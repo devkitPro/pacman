@@ -151,99 +151,99 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 
 
 /* callback to handle messages/notifications from libalpm transactions */
-void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2)
+void cb_event(alpm_event_t event, void *data1, void *data2)
 {
 	if(config->print) {
 		return;
 	}
 	switch(event) {
-		case ALPM_TRANS_EVT_CHECKDEPS_START:
+		case ALPM_EVENT_CHECKDEPS_START:
 		  printf(_("checking dependencies...\n"));
 			break;
-		case ALPM_TRANS_EVT_FILECONFLICTS_START:
+		case ALPM_EVENT_FILECONFLICTS_START:
 			if(config->noprogressbar) {
 				printf(_("checking for file conflicts...\n"));
 			}
 			break;
-		case ALPM_TRANS_EVT_RESOLVEDEPS_START:
+		case ALPM_EVENT_RESOLVEDEPS_START:
 			printf(_("resolving dependencies...\n"));
 			break;
-		case ALPM_TRANS_EVT_INTERCONFLICTS_START:
+		case ALPM_EVENT_INTERCONFLICTS_START:
 			printf(_("looking for inter-conflicts...\n"));
 			break;
-		case ALPM_TRANS_EVT_ADD_START:
+		case ALPM_EVENT_ADD_START:
 			if(config->noprogressbar) {
 				printf(_("installing %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
-		case ALPM_TRANS_EVT_ADD_DONE:
+		case ALPM_EVENT_ADD_DONE:
 			alpm_logaction(config->handle, "installed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			display_optdepends(data1);
 			break;
-		case ALPM_TRANS_EVT_REMOVE_START:
+		case ALPM_EVENT_REMOVE_START:
 			if(config->noprogressbar) {
 			printf(_("removing %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
-		case ALPM_TRANS_EVT_REMOVE_DONE:
+		case ALPM_EVENT_REMOVE_DONE:
 			alpm_logaction(config->handle, "removed %s (%s)\n",
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data1));
 			break;
-		case ALPM_TRANS_EVT_UPGRADE_START:
+		case ALPM_EVENT_UPGRADE_START:
 			if(config->noprogressbar) {
 				printf(_("upgrading %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
-		case ALPM_TRANS_EVT_UPGRADE_DONE:
+		case ALPM_EVENT_UPGRADE_DONE:
 			alpm_logaction(config->handle, "upgraded %s (%s -> %s)\n",
 			         (char *)alpm_pkg_get_name(data1),
 			         (char *)alpm_pkg_get_version(data2),
 			         (char *)alpm_pkg_get_version(data1));
 			display_new_optdepends(data2,data1);
 			break;
-		case ALPM_TRANS_EVT_INTEGRITY_START:
+		case ALPM_EVENT_INTEGRITY_START:
 			if(config->noprogressbar) {
 				printf(_("checking package integrity...\n"));
 			}
 			break;
-		case ALPM_TRANS_EVT_DELTA_INTEGRITY_START:
+		case ALPM_EVENT_DELTA_INTEGRITY_START:
 			printf(_("checking delta integrity...\n"));
 			break;
-		case ALPM_TRANS_EVT_DELTA_PATCHES_START:
+		case ALPM_EVENT_DELTA_PATCHES_START:
 			printf(_("applying deltas...\n"));
 			break;
-		case ALPM_TRANS_EVT_DELTA_PATCH_START:
+		case ALPM_EVENT_DELTA_PATCH_START:
 			printf(_("generating %s with %s... "), (char *)data1, (char *)data2);
 			break;
-		case ALPM_TRANS_EVT_DELTA_PATCH_DONE:
+		case ALPM_EVENT_DELTA_PATCH_DONE:
 			printf(_("success!\n"));
 			break;
-		case ALPM_TRANS_EVT_DELTA_PATCH_FAILED:
+		case ALPM_EVENT_DELTA_PATCH_FAILED:
 			printf(_("failed.\n"));
 			break;
-		case ALPM_TRANS_EVT_SCRIPTLET_INFO:
+		case ALPM_EVENT_SCRIPTLET_INFO:
 			printf("%s", (char *)data1);
 			break;
-		case ALPM_TRANS_EVT_RETRIEVE_START:
+		case ALPM_EVENT_RETRIEVE_START:
 			printf(_(":: Retrieving packages from %s...\n"), (char *)data1);
 			break;
-		case ALPM_TRANS_EVT_DISKSPACE_START:
+		case ALPM_EVENT_DISKSPACE_START:
 			if(config->noprogressbar) {
 				printf(_("checking available disk space...\n"));
 			}
 			break;
 		/* all the simple done events, with fallthrough for each */
-		case ALPM_TRANS_EVT_FILECONFLICTS_DONE:
-		case ALPM_TRANS_EVT_CHECKDEPS_DONE:
-		case ALPM_TRANS_EVT_RESOLVEDEPS_DONE:
-		case ALPM_TRANS_EVT_INTERCONFLICTS_DONE:
-		case ALPM_TRANS_EVT_INTEGRITY_DONE:
-		case ALPM_TRANS_EVT_DELTA_INTEGRITY_DONE:
-		case ALPM_TRANS_EVT_DELTA_PATCHES_DONE:
-		case ALPM_TRANS_EVT_DISKSPACE_DONE:
+		case ALPM_EVENT_FILECONFLICTS_DONE:
+		case ALPM_EVENT_CHECKDEPS_DONE:
+		case ALPM_EVENT_RESOLVEDEPS_DONE:
+		case ALPM_EVENT_INTERCONFLICTS_DONE:
+		case ALPM_EVENT_INTEGRITY_DONE:
+		case ALPM_EVENT_DELTA_INTEGRITY_DONE:
+		case ALPM_EVENT_DELTA_PATCHES_DONE:
+		case ALPM_EVENT_DISKSPACE_DONE:
 			/* nothing */
 			break;
 	}
@@ -252,14 +252,14 @@ void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2)
 
 /* callback to handle questions from libalpm transactions (yes/no) */
 /* TODO this is one of the worst ever functions written. void *data ? wtf */
-void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
+void cb_question(alpm_question_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
 	if(config->print) {
 		return;
 	}
 	switch(event) {
-		case ALPM_TRANS_CONV_INSTALL_IGNOREPKG:
+		case ALPM_QUESTION_INSTALL_IGNOREPKG:
 			if(!config->op_s_downloadonly) {
 				*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
 								  alpm_pkg_get_name(data1));
@@ -267,13 +267,13 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				*response = 1;
 			}
 			break;
-		case ALPM_TRANS_CONV_REPLACE_PKG:
+		case ALPM_QUESTION_REPLACE_PKG:
 			*response = yesno(_(":: Replace %s with %s/%s?"),
 					alpm_pkg_get_name(data1),
 					(char *)data3,
 					alpm_pkg_get_name(data2));
 			break;
-		case ALPM_TRANS_CONV_CONFLICT_PKG:
+		case ALPM_QUESTION_CONFLICT_PKG:
 			/* data parameters: target package, local package, conflict (strings) */
 			/* print conflict only if it contains new information */
 			if(strcmp(data1, data3) == 0 || strcmp(data2, data3) == 0) {
@@ -289,7 +289,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 						(char *)data2);
 			}
 			break;
-		case ALPM_TRANS_CONV_REMOVE_PKGS:
+		case ALPM_QUESTION_REMOVE_PKGS:
 			{
 				alpm_list_t *unresolved = (alpm_list_t *) data1;
 				alpm_list_t *namelist = NULL, *i;
@@ -312,7 +312,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				alpm_list_free(namelist);
 			}
 			break;
-		case ALPM_TRANS_CONV_SELECT_PROVIDER:
+		case ALPM_QUESTION_SELECT_PROVIDER:
 			{
 				alpm_list_t *providers = (alpm_list_t *)data1;
 				int count = alpm_list_count(providers);
@@ -324,7 +324,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				*response = select_question(count);
 			}
 			break;
-		case ALPM_TRANS_CONV_LOCAL_NEWER:
+		case ALPM_QUESTION_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
 				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway?"),
 						alpm_pkg_get_name(data1),
@@ -333,7 +333,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 				*response = 1;
 			}
 			break;
-		case ALPM_TRANS_CONV_CORRUPTED_PKG:
+		case ALPM_QUESTION_CORRUPTED_PKG:
 			*response = yesno(_(":: File %s is corrupted (%s).\n"
 						"Do you want to delete it?"),
 					(char *)data1,
@@ -349,7 +349,7 @@ void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
 }
 
 /* callback to handle display of transaction progress */
-void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
+void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
                        size_t howmany, size_t current)
 {
 	static int prevpercent;
@@ -393,22 +393,22 @@ void cb_trans_progress(alpm_transprog_t event, const char *pkgname, int percent,
 
 	/* set text of message to display */
 	switch (event) {
-		case ALPM_TRANS_PROGRESS_ADD_START:
+		case ALPM_PROGRESS_ADD_START:
 			opr = _("installing");
 			break;
-		case ALPM_TRANS_PROGRESS_UPGRADE_START:
+		case ALPM_PROGRESS_UPGRADE_START:
 			opr = _("upgrading");
 			break;
-		case ALPM_TRANS_PROGRESS_REMOVE_START:
+		case ALPM_PROGRESS_REMOVE_START:
 			opr = _("removing");
 			break;
-		case ALPM_TRANS_PROGRESS_CONFLICTS_START:
+		case ALPM_PROGRESS_CONFLICTS_START:
 			opr = _("checking for file conflicts");
 			break;
-		case ALPM_TRANS_PROGRESS_DISKSPACE_START:
+		case ALPM_PROGRESS_DISKSPACE_START:
 			opr = _("checking available disk space");
 			break;
-		case ALPM_TRANS_PROGRESS_INTEGRITY_START:
+		case ALPM_PROGRESS_INTEGRITY_START:
 			opr = _("checking package integrity");
 			break;
 		default:

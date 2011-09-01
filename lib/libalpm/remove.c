@@ -161,7 +161,7 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
-		EVENT(handle, ALPM_TRANS_EVT_CHECKDEPS_START, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_CHECKDEPS_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(db), trans->remove, NULL, 1);
@@ -205,7 +205,7 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
-		EVENT(handle, ALPM_TRANS_EVT_CHECKDEPS_DONE, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_CHECKDEPS_DONE, NULL, NULL);
 	}
 
 	return 0;
@@ -362,7 +362,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 				pkgname, pkgver);
 	} else {
-		EVENT(handle, ALPM_TRANS_EVT_REMOVE_START, oldpkg, NULL);
+		EVENT(handle, ALPM_EVENT_REMOVE_START, oldpkg, NULL);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing package %s-%s\n",
 				pkgname, pkgver);
 
@@ -419,7 +419,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 
 	if(!newpkg) {
 		/* init progress bar, but only on true remove transactions */
-		PROGRESS(handle, ALPM_TRANS_PROGRESS_REMOVE_START, pkgname, 0,
+		PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, pkgname, 0,
 				pkg_count, targ_count);
 	}
 
@@ -434,7 +434,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		if(!newpkg) {
 			/* update progress bar after each file */
 			percent = (position * 100) / filenum;
-			PROGRESS(handle, ALPM_TRANS_PROGRESS_REMOVE_START, pkgname,
+			PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, pkgname,
 					percent, pkg_count, targ_count);
 		}
 		position++;
@@ -443,7 +443,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 
 	if(!newpkg) {
 		/* set progress to 100% after we finish unlinking files */
-		PROGRESS(handle, ALPM_TRANS_PROGRESS_REMOVE_START, pkgname, 100,
+		PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, pkgname, 100,
 				pkg_count, targ_count);
 
 		/* run the post-remove script if it exists  */
@@ -469,7 +469,7 @@ db:
 
 	if(!newpkg) {
 		/* TODO: awesome! we're passing invalid pointers. */
-		EVENT(handle, ALPM_TRANS_EVT_REMOVE_DONE, oldpkg, NULL);
+		EVENT(handle, ALPM_EVENT_REMOVE_DONE, oldpkg, NULL);
 	}
 
 	return 0;

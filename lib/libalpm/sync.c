@@ -152,7 +152,7 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 				continue;
 			}
 
-			QUESTION(handle, ALPM_TRANS_CONV_REPLACE_PKG, lpkg, spkg,
+			QUESTION(handle, ALPM_QUESTION_REPLACE_PKG, lpkg, spkg,
 					sdb->treename, &doreplace);
 			if(!doreplace) {
 				continue;
@@ -264,7 +264,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 			if(_alpm_pkg_should_ignore(db->handle, pkg)) {
 				ignorelist = alpm_list_add(ignorelist, pkg);
 				int install = 0;
-				QUESTION(db->handle, ALPM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+				QUESTION(db->handle, ALPM_QUESTION_INSTALL_IGNOREPKG, pkg,
 						NULL, NULL, &install);
 				if(!install)
 					continue;
@@ -360,7 +360,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 		/* Build up list by repeatedly resolving each transaction package */
 		/* Resolve targets dependencies */
-		EVENT(handle, ALPM_TRANS_EVT_RESOLVEDEPS_START, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_RESOLVEDEPS_START, NULL, NULL);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "resolving target's dependencies\n");
 
 		/* build remove list for resolvedeps */
@@ -393,7 +393,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
 			int remove_unresolvable = 0;
-			QUESTION(handle, ALPM_TRANS_CONV_REMOVE_PKGS, unresolvable,
+			QUESTION(handle, ALPM_QUESTION_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
 			if(remove_unresolvable) {
 				/* User wants to remove the unresolvable packages from the
@@ -431,12 +431,12 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		trans->add = _alpm_sortbydeps(handle, resolved, 0);
 		alpm_list_free(resolved);
 
-		EVENT(handle, ALPM_TRANS_EVT_RESOLVEDEPS_DONE, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_RESOLVEDEPS_DONE, NULL, NULL);
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NOCONFLICTS)) {
 		/* check for inter-conflicts and whatnot */
-		EVENT(handle, ALPM_TRANS_EVT_INTERCONFLICTS_START, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_INTERCONFLICTS_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for conflicts\n");
 
@@ -525,7 +525,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			alpm_pkg_t *sync = _alpm_pkg_find(trans->add, conflict->package1);
 			alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
 			int doremove = 0;
-			QUESTION(handle, ALPM_TRANS_CONV_CONFLICT_PKG, conflict->package1,
+			QUESTION(handle, ALPM_QUESTION_CONFLICT_PKG, conflict->package1,
 							conflict->package2, conflict->reason->name, &doremove);
 			if(doremove) {
 				/* append to the removes list */
@@ -546,7 +546,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				goto cleanup;
 			}
 		}
-		EVENT(handle, ALPM_TRANS_EVT_INTERCONFLICTS_DONE, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_INTERCONFLICTS_DONE, NULL, NULL);
 		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
 		alpm_list_free(deps);
 	}
@@ -646,7 +646,7 @@ static int apply_deltas(alpm_handle_t *handle)
 		if(!deltas_found) {
 			/* only show this if we actually have deltas to apply, and it is before
 			 * the very first one */
-			EVENT(handle, ALPM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
+			EVENT(handle, ALPM_EVENT_DELTA_PATCHES_START, NULL, NULL);
 			deltas_found = 1;
 		}
 
@@ -680,11 +680,11 @@ static int apply_deltas(alpm_handle_t *handle)
 
 			_alpm_log(handle, ALPM_LOG_DEBUG, "command: %s\n", command);
 
-			EVENT(handle, ALPM_TRANS_EVT_DELTA_PATCH_START, d->to, d->delta);
+			EVENT(handle, ALPM_EVENT_DELTA_PATCH_START, d->to, d->delta);
 
 			int retval = system(command);
 			if(retval == 0) {
-				EVENT(handle, ALPM_TRANS_EVT_DELTA_PATCH_DONE, NULL, NULL);
+				EVENT(handle, ALPM_EVENT_DELTA_PATCH_DONE, NULL, NULL);
 
 				/* delete the delta file */
 				unlink(delta);
@@ -702,7 +702,7 @@ static int apply_deltas(alpm_handle_t *handle)
 
 			if(retval != 0) {
 				/* one delta failed for this package, cancel the remaining ones */
-				EVENT(handle, ALPM_TRANS_EVT_DELTA_PATCH_FAILED, NULL, NULL);
+				EVENT(handle, ALPM_EVENT_DELTA_PATCH_FAILED, NULL, NULL);
 				handle->pm_errno = ALPM_ERR_DLT_PATCHFAILED;
 				ret = 1;
 				break;
@@ -710,7 +710,7 @@ static int apply_deltas(alpm_handle_t *handle)
 		}
 	}
 	if(deltas_found) {
-		EVENT(handle, ALPM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_DELTA_PATCHES_DONE, NULL, NULL);
 	}
 
 	return ret;
@@ -728,7 +728,7 @@ static int prompt_to_delete(alpm_handle_t *handle, const char *filepath,
 		enum _alpm_errno_t reason)
 {
 	int doremove = 0;
-	QUESTION(handle, ALPM_TRANS_CONV_CORRUPTED_PKG, (char *)filepath,
+	QUESTION(handle, ALPM_QUESTION_CORRUPTED_PKG, (char *)filepath,
 			&reason, NULL, &doremove);
 	if(doremove) {
 		unlink(filepath);
@@ -747,7 +747,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 	}
 
 	/* Check integrity of deltas */
-	EVENT(handle, ALPM_TRANS_EVT_DELTA_INTEGRITY_START, NULL, NULL);
+	EVENT(handle, ALPM_EVENT_DELTA_INTEGRITY_START, NULL, NULL);
 
 	for(i = deltas; i; i = i->next) {
 		alpm_delta_t *d = alpm_list_getdata(i);
@@ -840,7 +840,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 		}
 
 		if(files) {
-			EVENT(handle, ALPM_TRANS_EVT_RETRIEVE_START, current->treename, NULL);
+			EVENT(handle, ALPM_EVENT_RETRIEVE_START, current->treename, NULL);
 			for(j = files; j; j = j->next) {
 				struct dload_payload *payload = j->data;
 				alpm_list_t *server;
@@ -927,7 +927,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 	/* Check integrity of packages */
 	numtargs = alpm_list_count(trans->add);
-	EVENT(handle, ALPM_TRANS_EVT_INTEGRITY_START, NULL, NULL);
+	EVENT(handle, ALPM_EVENT_INTEGRITY_START, NULL, NULL);
 
 	current = current_bytes = 0;
 	errors = 0;
@@ -939,7 +939,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		alpm_siglevel_t level;
 		int percent = (int)(((double)current_bytes / total_bytes) * 100);
 
-		PROGRESS(handle, ALPM_TRANS_PROGRESS_INTEGRITY_START, "", percent,
+		PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", percent,
 				numtargs, current);
 		if(spkg->origin == PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
@@ -970,9 +970,9 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
 	}
 
-	PROGRESS(handle, ALPM_TRANS_PROGRESS_INTEGRITY_START, "", 100,
+	PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", 100,
 			numtargs, current);
-	EVENT(handle, ALPM_TRANS_EVT_INTEGRITY_DONE, NULL, NULL);
+	EVENT(handle, ALPM_EVENT_INTEGRITY_DONE, NULL, NULL);
 
 
 	if(errors) {
@@ -992,7 +992,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 	/* fileconflict check */
 	if(!(trans->flags & ALPM_TRANS_FLAG_FORCE)) {
-		EVENT(handle, ALPM_TRANS_EVT_FILECONFLICTS_START, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for file conflicts\n");
 		alpm_list_t *conflict = _alpm_db_find_fileconflicts(handle,
@@ -1007,12 +1007,12 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 			RET_ERR(handle, ALPM_ERR_FILE_CONFLICTS, -1);
 		}
 
-		EVENT(handle, ALPM_TRANS_EVT_FILECONFLICTS_DONE, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_FILECONFLICTS_DONE, NULL, NULL);
 	}
 
 	/* check available disk space */
 	if(handle->checkspace) {
-		EVENT(handle, ALPM_TRANS_EVT_DISKSPACE_START, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_DISKSPACE_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking available disk space\n");
 		if(_alpm_check_diskspace(handle) == -1) {
@@ -1020,7 +1020,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 			return -1;
 		}
 
-		EVENT(handle, ALPM_TRANS_EVT_DISKSPACE_DONE, NULL, NULL);
+		EVENT(handle, ALPM_EVENT_DISKSPACE_DONE, NULL, NULL);
 	}
 
 	/* remove conflicting and to-be-replaced packages */
