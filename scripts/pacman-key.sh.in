@@ -35,6 +35,7 @@ FINGER=0
 IMPORT=0
 IMPORT_TRUSTDB=0
 INIT=0
+KEYSERVER=''
 LISTKEYS=0
 LISTSIGS=0
 LSIGNKEY=0
@@ -42,6 +43,8 @@ POPULATE=0
 RECEIVE=0
 UPDATEDB=0
 VERIFY=0
+
+DEFAULT_KEYSERVER='hkp://keys.gnupg.net'
 
 m4_include(library/output_format.sh)
 
@@ -61,7 +64,7 @@ usage() {
 	echo "$(gettext "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids")"
 	echo "$(gettext "  -h, --help                Show this help message and exit")"
 	echo "$(gettext "  -l, --list-keys [keyid(s)] List the specified or all keys")"
-	echo "$(gettext "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids")"
+	echo "$(gettext "  -r, --recv-keys <keyid(s)> Fetch the specified keyids")"
 	echo "$(gettext "  -u, --updatedb            Update the trustdb of pacman")"
 	echo "$(gettext "  -v, --verify <signature>  Verify the file specified by the signature")"
 	echo "$(gettext "  -V, --version             Show program version")"
@@ -73,6 +76,7 @@ usage() {
 	echo "$(gettext "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)")"
 	echo "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")"
 	echo "$(gettext "  --init                    Ensure the keyring is properly initialized")"
+	echo "$(gettext "  --keyserver               Specify a keyserver to use if necessary")"
 	echo "$(gettext "  --list-sigs [keyid(s)]    List keys and their signatures")"
 	echo "$(gettext "  --lsign-key <keyid>       Locally sign the specified keyid")"
 	printf "$(gettext "  --populate [keyring(s)] Reload the default keys from the (given) keyrings\n\
@@ -136,7 +140,7 @@ add_gpg_conf_option() {
 }
 
 initialize() {
-	local conffile
+	local conffile keyserv
 	# Check for simple existence rather than for a directory as someone
 	# may want to use a symlink here
 	[[ -e ${PACMAN_KEYRING_DIR} ]] || mkdir -p -m 755 "${PACMAN_KEYRING_DIR}"
@@ -155,7 +159,8 @@ initialize() {
 	add_gpg_conf_option "$conffile" 'no-greeting'
 	add_gpg_conf_option "$conffile" 'no-permission-warning'
 	add_gpg_conf_option "$conffile" 'lock-never'
-	add_gpg_conf_option "$conffile" 'keyserver' 'hkp://keys.gnupg.net'
+	keyserv=${KEYSERVER:-$DEFAULT_KEYSERVER}
+	add_gpg_conf_option "$conffile" 'keyserver' "$keyserv"
 
 	# set up a private signing key (if none available)
 	if [[ $(secret_keys_available) -lt 1 ]]; then
@@ -304,14 +309,6 @@ populate_keyring() {
 	fi
 }
 
-receive_keys() {
-	if [[ -z ${KEYIDS[@]} ]]; then
-		error "$(gettext "You need to specify the keyserver and at least one key identifier")"
-		exit 1
-	fi
-	"${GPG_PACMAN[@]}" --keyserver "$KEYSERVER" --recv-keys "${KEYIDS[@]}"
-}
-
 edit_keys() {
 	local errors=0;
 	for key in ${KEYIDS[@]}; do
@@ -365,8 +362,8 @@ fi
 
 OPT_SHORT="a::d:e:f::hl::r:uv:V"
 OPT_LONG="add::,config:,delete:,edit-key:,export::,finger::,gpgdir:"
-OPT_LONG+=",help,import:,import-trustdb:,init,list-keys::,list-sigs::"
-OPT_LONG+=",lsign-key:,populate::,receive:,updatedb,verify:,version"
+OPT_LONG+=",help,import:,import-trustdb:,init,keyserver:,list-keys::,list-sigs::"
+OPT_LONG+=",lsign-key:,populate::,recv-keys:,updatedb,verify:,version"
 if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
@@ -390,11 +387,12 @@ while true; do
 		--import)         IMPORT=1; shift; IMPORT_DIRS=($1); UPDATEDB=1 ;;
 		--import-trustdb) IMPORT_TRUSTDB=1; shift; IMPORT_DIRS=($1); UPDATEDB=1 ;;
 		--init)           INIT=1 ;;
+		--keyserver)      shift; KEYSERVER=$1 ;;
 		-l|--list-keys)   LISTKEYS=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		--list-sigs)      LISTSIGS=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
 		--lsign-key)      LSIGNKEY=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
 		--populate)       POPULATE=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYRINGIDS=($1); UPDATEDB=1 ;;
-		-r|--receive)     RECEIVE=1; shift; TMP=($1); KEYSERVER=${TMP[0]}; KEYIDS=(${TMP[@]:1}); unset TMP; UPDATEDB=1 ;;
+		-r|--recv-keys)   RECEIVE=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
 		-u|--updatedb)    UPDATEDB=1 ;;
 		-v|--verify)      VERIFY=1; shift; SIGNATURE=$1 ;;
 
@@ -429,6 +427,9 @@ fi
 PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-$(get_from "$CONFIG" "GPGDir" || echo "@sysconfdir@/pacman.d/gnupg")}
 
 GPG_PACMAN=(gpg --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning)
+if [[ -n ${KEYSERVER} ]]; then
+	GPG_PACMAN+=(--keyserver ${KEYSERVER})
+fi
 
 # check only a single operation has been given
 # don't include UPDATEDB in here as other opts can induce it
@@ -464,7 +465,7 @@ esac
 # TODO: we can't do --batch on lsign until we figure out --command-fd
 (( LSIGNKEY )) && "${GPG_PACMAN[@]}" --lsign-key "${KEYIDS[@]}"
 (( POPULATE )) && populate_keyring
-(( RECEIVE )) && receive_keys
+(( RECEIVE )) && "${GPG_PACMAN[@]}" --recv-keys "${KEYIDS[@]}"
 (( VERIFY )) && "${GPG_PACMAN[@]}" --verify $SIGNATURE
 
 if (( UPDATEDB )); then
