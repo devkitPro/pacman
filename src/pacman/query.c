@@ -25,6 +25,7 @@
 #include <limits.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <errno.h>
 
 #include <alpm.h>
@@ -564,6 +565,11 @@ int pacman_query(alpm_list_t *targets)
 				case ALPM_ERR_PKG_NOT_FOUND:
 					pm_fprintf(stderr, ALPM_LOG_ERROR,
 							_("package '%s' was not found\n"), strname);
+					if(!config->op_q_isfile && access(strname, R_OK) == 0) {
+						pm_fprintf(stderr, ALPM_LOG_WARNING,
+								_("'%s' is a file, you might want to use %s."),
+								strname, "-p/--file");
+					}
 					break;
 				default:
 					pm_fprintf(stderr, ALPM_LOG_ERROR,
