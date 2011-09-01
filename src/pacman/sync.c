@@ -804,7 +804,9 @@ int sync_prepare_execute(void)
 	packages = alpm_trans_get_add(config->handle);
 	if(packages == NULL) {
 		/* nothing to do: just exit without complaining */
-		printf(_(" there is nothing to do\n"));
+		if(!config->print) {
+			printf(_(" there is nothing to do\n"));
+		}
 		goto cleanup;
 	}
 
