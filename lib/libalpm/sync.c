@@ -630,7 +630,7 @@ static int endswith(const char *filename, const char *extension)
 static int apply_deltas(alpm_handle_t *handle)
 {
 	alpm_list_t *i;
-	int ret = 0;
+	int deltas_found = 0, ret = 0;
 	const char *cachedir = _alpm_filecache_setup(handle);
 	alpm_trans_t *trans = handle->trans;
 
@@ -641,6 +641,13 @@ static int apply_deltas(alpm_handle_t *handle)
 
 		if(!delta_path) {
 			continue;
+		}
+
+		if(!deltas_found) {
+			/* only show this if we actually have deltas to apply, and it is before
+			 * the very first one */
+			EVENT(trans, ALPM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
+			deltas_found = 1;
 		}
 
 		for(dlts = delta_path; dlts; dlts = dlts->next) {
@@ -702,6 +709,9 @@ static int apply_deltas(alpm_handle_t *handle)
 			}
 		}
 	}
+	if(deltas_found) {
+		EVENT(trans, ALPM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
+	}
 
 	return ret;
 }
@@ -732,7 +742,7 @@ static int prompt_to_delete(alpm_trans_t *trans, const char *filepath,
 static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 		alpm_list_t **data)
 {
-	int errors = 0, ret = 0;
+	int errors = 0;
 	alpm_list_t *i;
 	alpm_trans_t *trans = handle->trans;
 
@@ -747,8 +757,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 		alpm_delta_t *d = alpm_list_getdata(i);
 		char *filepath = _alpm_filecache_find(handle, d->delta);
 
-		ret = _alpm_test_checksum(filepath, d->delta_md5, ALPM_CSUM_MD5);
-		if(ret != 0) {
+		if(_alpm_test_checksum(filepath, d->delta_md5, ALPM_CSUM_MD5)) {
 			prompt_to_delete(trans, filepath, ALPM_ERR_DLT_INVALID);
 			errors++;
 			*data = alpm_list_add(*data, strdup(d->delta));
@@ -759,13 +768,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 		handle->pm_errno = ALPM_ERR_DLT_INVALID;
 		return -1;
 	}
-	EVENT(trans, ALPM_TRANS_EVT_DELTA_INTEGRITY_DONE, NULL, NULL);
-
-	/* Use the deltas to generate the packages */
-	EVENT(trans, ALPM_TRANS_EVT_DELTA_PATCHES_START, NULL, NULL);
-	ret = apply_deltas(handle);
-	EVENT(trans, ALPM_TRANS_EVT_DELTA_PATCHES_DONE, NULL, NULL);
-	return ret;
+	return 0;
 }
 
 static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
@@ -908,6 +911,11 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		return -1;
 	}
 	alpm_list_free(deltas);
+
+	/* Use the deltas to generate the packages */
+	if(apply_deltas(handle)) {
+		return -1;
+	}
 
 	/* get the total size of all packages so we can adjust the progress bar more
 	 * realistically if there are small and huge packages involved */
