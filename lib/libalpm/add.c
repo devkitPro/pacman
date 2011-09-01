@@ -473,7 +473,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			goto cleanup;
 		}
 
-		EVENT(trans, ALPM_TRANS_EVT_UPGRADE_START, newpkg, local);
+		EVENT(handle, ALPM_TRANS_EVT_UPGRADE_START, newpkg, local);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "upgrading package %s-%s\n",
 				newpkg->name, newpkg->version);
 
@@ -488,7 +488,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	} else {
 		is_upgrade = 0;
 
-		EVENT(trans, ALPM_TRANS_EVT_ADD_START, newpkg, NULL);
+		EVENT(handle, ALPM_TRANS_EVT_ADD_START, newpkg, NULL);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s-%s\n",
 				newpkg->name, newpkg->version);
 
@@ -567,10 +567,10 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 		/* call PROGRESS once with 0 percent, as we sort-of skip that here */
 		if(is_upgrade) {
-			PROGRESS(trans, ALPM_TRANS_PROGRESS_UPGRADE_START,
+			PROGRESS(handle, ALPM_TRANS_PROGRESS_UPGRADE_START,
 					newpkg->name, 0, pkg_count, pkg_current);
 		} else {
-			PROGRESS(trans, ALPM_TRANS_PROGRESS_ADD_START,
+			PROGRESS(handle, ALPM_TRANS_PROGRESS_ADD_START,
 					newpkg->name, 0, pkg_count, pkg_current);
 		}
 
@@ -594,10 +594,10 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			}
 
 			if(is_upgrade) {
-				PROGRESS(trans, ALPM_TRANS_PROGRESS_UPGRADE_START,
+				PROGRESS(handle, ALPM_TRANS_PROGRESS_UPGRADE_START,
 						newpkg->name, percent, pkg_count, pkg_current);
 			} else {
-				PROGRESS(trans, ALPM_TRANS_PROGRESS_ADD_START,
+				PROGRESS(handle, ALPM_TRANS_PROGRESS_ADD_START,
 						newpkg->name, percent, pkg_count, pkg_current);
 			}
 
@@ -649,10 +649,10 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	}
 
 	if(is_upgrade) {
-		PROGRESS(trans, ALPM_TRANS_PROGRESS_UPGRADE_START,
+		PROGRESS(handle, ALPM_TRANS_PROGRESS_UPGRADE_START,
 				newpkg->name, 100, pkg_count, pkg_current);
 	} else {
-		PROGRESS(trans, ALPM_TRANS_PROGRESS_ADD_START,
+		PROGRESS(handle, ALPM_TRANS_PROGRESS_ADD_START,
 				newpkg->name, 100, pkg_count, pkg_current);
 	}
 
@@ -669,9 +669,9 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	}
 
 	if(is_upgrade) {
-		EVENT(trans, ALPM_TRANS_EVT_UPGRADE_DONE, newpkg, oldpkg);
+		EVENT(handle, ALPM_TRANS_EVT_UPGRADE_DONE, newpkg, oldpkg);
 	} else {
-		EVENT(trans, ALPM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
+		EVENT(handle, ALPM_TRANS_EVT_ADD_DONE, newpkg, oldpkg);
 	}
 
 cleanup:

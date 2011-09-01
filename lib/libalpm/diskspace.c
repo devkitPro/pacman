@@ -260,7 +260,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 		for(targ = trans->remove; targ; targ = targ->next, current++) {
 			alpm_pkg_t *local_pkg;
 			int percent = (current * 100) / numtargs;
-			PROGRESS(trans, ALPM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
+			PROGRESS(handle, ALPM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 					numtargs, current);
 
 			local_pkg = targ->data;
@@ -271,7 +271,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 	for(targ = trans->add; targ; targ = targ->next, current++) {
 		alpm_pkg_t *pkg, *local_pkg;
 		int percent = (current * 100) / numtargs;
-		PROGRESS(trans, ALPM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
+		PROGRESS(handle, ALPM_TRANS_PROGRESS_DISKSPACE_START, "", percent,
 				numtargs, current);
 
 		pkg = targ->data;
@@ -290,7 +290,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 		}
 	}
 
-	PROGRESS(trans, ALPM_TRANS_PROGRESS_DISKSPACE_START, "", 100,
+	PROGRESS(handle, ALPM_TRANS_PROGRESS_DISKSPACE_START, "", 100,
 			numtargs, current);
 
 	for(i = mount_points; i; i = i->next) {

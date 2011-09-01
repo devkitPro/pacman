@@ -55,13 +55,7 @@ int trans_init(alpm_transflag_t flags, int check_valid)
 
 	check_syncdbs(0, check_valid);
 
-	if(config->print) {
-		ret = alpm_trans_init(config->handle, flags, NULL, NULL, NULL);
-	} else {
-		ret = alpm_trans_init(config->handle, flags, cb_trans_evt, cb_trans_conv,
-				cb_trans_progress);
-	}
-
+	ret = alpm_trans_init(config->handle, flags);
 	if(ret == -1) {
 		trans_init_error();
 		return -1;

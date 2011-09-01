@@ -166,6 +166,24 @@ alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb(alpm_handle_t *handle)
 	return handle->totaldlcb;
 }
 
+alpm_cb_event SYMEXPORT alpm_option_get_eventcb(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->eventcb;
+}
+
+alpm_cb_conv SYMEXPORT alpm_option_get_convcb(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->convcb;
+}
+
+alpm_cb_progress SYMEXPORT alpm_option_get_progresscb(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->progresscb;
+}
+
 const char SYMEXPORT *alpm_option_get_root(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
@@ -287,6 +305,27 @@ int SYMEXPORT alpm_option_set_totaldlcb(alpm_handle_t *handle, alpm_cb_totaldl c
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->totaldlcb = cb;
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb)
+{
+	CHECK_HANDLE(handle, return -1);
+	handle->eventcb = cb;
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_convcb(alpm_handle_t *handle, alpm_cb_conv cb)
+{
+	CHECK_HANDLE(handle, return -1);
+	handle->convcb = cb;
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb)
+{
+	CHECK_HANDLE(handle, return -1);
+	handle->progresscb = cb;
 	return 0;
 }
 

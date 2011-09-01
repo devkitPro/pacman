@@ -48,9 +48,7 @@
  */
 
 /** Initialize the transaction. */
-int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags,
-		alpm_trans_cb_event event, alpm_trans_cb_conv conv,
-		alpm_trans_cb_progress progress)
+int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags)
 {
 	alpm_trans_t *trans;
 
@@ -67,9 +65,6 @@ int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags,
 
 	CALLOC(trans, 1, sizeof(alpm_trans_t), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	trans->flags = flags;
-	trans->cb_event = event;
-	trans->cb_conv = conv;
-	trans->cb_progress = progress;
 	trans->state = STATE_INITIALIZED;
 
 	handle->trans = trans;

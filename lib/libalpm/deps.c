@@ -582,7 +582,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 			if(_alpm_pkg_should_ignore(handle, pkg)) {
 				int install = 0;
 				if(prompt) {
-					QUESTION(handle->trans, ALPM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
+					QUESTION(handle, ALPM_TRANS_CONV_INSTALL_IGNOREPKG, pkg,
 							 NULL, NULL, &install);
 				} else {
 					_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"),
@@ -607,7 +607,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 				if(_alpm_pkg_should_ignore(handle, pkg)) {
 					int install = 0;
 					if(prompt) {
-						QUESTION(handle->trans, ALPM_TRANS_CONV_INSTALL_IGNOREPKG,
+						QUESTION(handle, ALPM_TRANS_CONV_INSTALL_IGNOREPKG,
 									pkg, NULL, NULL, &install);
 					} else {
 						_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"),
@@ -640,7 +640,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 		int index = 0;
 		if(count > 1) {
 			/* if there is more than one provider, we ask the user */
-			QUESTION(handle->trans, ALPM_TRANS_CONV_SELECT_PROVIDER,
+			QUESTION(handle, ALPM_TRANS_CONV_SELECT_PROVIDER,
 					providers, dep, NULL, &index);
 		}
 		if(index >= 0 && index < count) {

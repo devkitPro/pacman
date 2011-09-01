@@ -863,7 +863,7 @@ typedef enum _alpm_transflag_t {
 	ALPM_TRANS_FLAG_NOLOCK = (1 << 17)
 } alpm_transflag_t;
 
-/** Transaction events.
+/** Events.
  * NULL parameters are passed to in all events unless specified otherwise.
  */
 typedef enum _alpm_transevt_t {
@@ -943,7 +943,7 @@ typedef enum _alpm_transevt_t {
 	ALPM_TRANS_EVT_DISKSPACE_DONE,
 } alpm_transevt_t;
 
-/** Transaction Conversations (ie, questions) */
+/** Conversations (ie, questions) */
 typedef enum _alpm_transconv_t {
 	ALPM_TRANS_CONV_INSTALL_IGNOREPKG = 1,
 	ALPM_TRANS_CONV_REPLACE_PKG = (1 << 1),
@@ -954,7 +954,7 @@ typedef enum _alpm_transconv_t {
 	ALPM_TRANS_CONV_SELECT_PROVIDER = (1 << 6),
 } alpm_transconv_t;
 
-/** Transaction Progress */
+/** Progress */
 typedef enum _alpm_transprog_t {
 	ALPM_TRANS_PROGRESS_ADD_START,
 	ALPM_TRANS_PROGRESS_UPGRADE_START,
@@ -964,15 +964,29 @@ typedef enum _alpm_transprog_t {
 	ALPM_TRANS_PROGRESS_INTEGRITY_START,
 } alpm_transprog_t;
 
-/** Transaction Event callback */
-typedef void (*alpm_trans_cb_event)(alpm_transevt_t, void *, void *);
+/** Event callback */
+typedef void (*alpm_cb_event)(alpm_transevt_t, void *, void *);
 
-/** Transaction Conversation callback */
-typedef void (*alpm_trans_cb_conv)(alpm_transconv_t, void *, void *,
-                                   void *, int *);
+/** Conversation callback */
+typedef void (*alpm_cb_conv)(alpm_transconv_t, void *, void *, void *, int *);
 
-/** Transaction Progress callback */
-typedef void (*alpm_trans_cb_progress)(alpm_transprog_t, const char *, int, size_t, size_t);
+/** Progress callback */
+typedef void (*alpm_cb_progress)(alpm_transprog_t, const char *, int, size_t, size_t);
+
+/** Returns the callback used for events. */
+alpm_cb_event alpm_option_get_eventcb(alpm_handle_t *handle);
+/** Sets the callback used for events. */
+int alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb);
+
+/** Returns the callback used for conversations (questions). */
+alpm_cb_conv alpm_option_get_convcb(alpm_handle_t *handle);
+/** Sets the callback used for conversations (questions). */
+int alpm_option_set_convcb(alpm_handle_t *handle, alpm_cb_conv cb);
+
+/** Returns the callback used for operation progress. */
+alpm_cb_progress alpm_option_get_progresscb(alpm_handle_t *handle);
+/** Sets the callback used for operation progress. */
+int alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb);
 
 /** Returns the bitfield of flags for the current transaction.
  * @param handle the context handle
@@ -995,14 +1009,9 @@ alpm_list_t *alpm_trans_get_remove(alpm_handle_t *handle);
 /** Initialize the transaction.
  * @param handle the context handle
  * @param flags flags of the transaction (like nodeps, etc)
- * @param event event callback function pointer
- * @param conv question callback function pointer
- * @param progress progress callback function pointer
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags,
-                    alpm_trans_cb_event cb_event, alpm_trans_cb_conv conv,
-                    alpm_trans_cb_progress cb_progress);
+int alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags);
 
 /** Prepare a transaction.
  * @param handle the context handle

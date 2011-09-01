@@ -153,6 +153,9 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 /* callback to handle messages/notifications from libalpm transactions */
 void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2)
 {
+	if(config->print) {
+		return;
+	}
 	switch(event) {
 		case ALPM_TRANS_EVT_CHECKDEPS_START:
 		  printf(_("checking dependencies...\n"));
@@ -252,6 +255,9 @@ void cb_trans_evt(alpm_transevt_t event, void *data1, void *data2)
 void cb_trans_conv(alpm_transconv_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
+	if(config->print) {
+		return;
+	}
 	switch(event) {
 		case ALPM_TRANS_CONV_INSTALL_IGNOREPKG:
 			if(!config->op_s_downloadonly) {

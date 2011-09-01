@@ -42,34 +42,10 @@ struct __alpm_trans_t {
 	alpm_list_t *add;      /* list of (alpm_pkg_t *) */
 	alpm_list_t *remove;      /* list of (alpm_pkg_t *) */
 	alpm_list_t *skip_remove;   /* list of (char *) */
-	alpm_trans_cb_event cb_event;
-	alpm_trans_cb_conv cb_conv;
-	alpm_trans_cb_progress cb_progress;
 };
 
-#define EVENT(t, e, d1, d2) \
-do { \
-	if((t)->cb_event) { \
-		(t)->cb_event(e, d1, d2); \
-	} \
-} while(0)
-#define QUESTION(t, q, d1, d2, d3, r) \
-do { \
-	if((t)->cb_conv) { \
-		(t)->cb_conv(q, d1, d2, d3, r); \
-	} \
-} while(0)
-#define PROGRESS(t, e, p, per, h, r) \
-do { \
-	if((t)->cb_progress) { \
-		(t)->cb_progress(e, p, per, h, r); \
-	} \
-} while(0)
-
 void _alpm_trans_free(alpm_trans_t *trans);
-int _alpm_trans_init(alpm_trans_t *trans, alpm_transflag_t flags,
-                     alpm_trans_cb_event event, alpm_trans_cb_conv conv,
-                     alpm_trans_cb_progress progress);
+int _alpm_trans_init(alpm_trans_t *trans, alpm_transflag_t flags);
 int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 		const char *script, const char *ver, const char *oldver);
 
