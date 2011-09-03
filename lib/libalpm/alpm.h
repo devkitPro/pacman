@@ -653,7 +653,8 @@ const char *alpm_pkg_get_sha256sum(alpm_pkg_t *pkg);
  */
 const char *alpm_pkg_get_arch(alpm_pkg_t *pkg);
 
-/** Returns the size of the package.
+/** Returns the size of the package. This is only available for sync database
+ * packages and package files, not those loaded from the local database.
  * @param pkg a pointer to package
  * @return the size of the package in bytes.
  */

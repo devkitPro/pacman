@@ -92,7 +92,6 @@ static time_t _pkg_get_builddate(alpm_pkg_t *pkg)        { return pkg->builddate
 static time_t _pkg_get_installdate(alpm_pkg_t *pkg)      { return pkg->installdate; }
 static const char *_pkg_get_packager(alpm_pkg_t *pkg)    { return pkg->packager; }
 static const char *_pkg_get_arch(alpm_pkg_t *pkg)        { return pkg->arch; }
-static off_t _pkg_get_size(alpm_pkg_t *pkg)              { return pkg->size; }
 static off_t _pkg_get_isize(alpm_pkg_t *pkg)             { return pkg->isize; }
 static alpm_pkgreason_t _pkg_get_reason(alpm_pkg_t *pkg)    { return pkg->reason; }
 static int _pkg_has_scriptlet(alpm_pkg_t *pkg)           { return pkg->scriptlet; }
@@ -138,7 +137,6 @@ struct pkg_operations default_pkg_ops = {
 	.get_installdate = _pkg_get_installdate,
 	.get_packager    = _pkg_get_packager,
 	.get_arch        = _pkg_get_arch,
-	.get_size        = _pkg_get_size,
 	.get_isize       = _pkg_get_isize,
 	.get_reason      = _pkg_get_reason,
 	.has_scriptlet   = _pkg_has_scriptlet,
@@ -258,8 +256,7 @@ const char SYMEXPORT *alpm_pkg_get_arch(alpm_pkg_t *pkg)
 off_t SYMEXPORT alpm_pkg_get_size(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
-	pkg->handle->pm_errno = 0;
-	return pkg->ops->get_size(pkg);
+	return pkg->size;
 }
 
 off_t SYMEXPORT alpm_pkg_get_isize(alpm_pkg_t *pkg)

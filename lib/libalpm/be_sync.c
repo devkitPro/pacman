@@ -561,16 +561,8 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			} else if(strcmp(line, "%PACKAGER%") == 0) {
 				READ_AND_STORE(pkg->packager);
 			} else if(strcmp(line, "%CSIZE%") == 0) {
-				/* Note: the CSIZE and SIZE fields both share the "size" field in the
-				 * pkginfo_t struct. This can be done b/c CSIZE is currently only used
-				 * in sync databases, and SIZE is only used in local databases.
-				 */
 				READ_NEXT();
 				pkg->size = _alpm_strtoofft(line);
-				/* also store this value to isize if isize is unset */
-				if(pkg->isize == 0) {
-					pkg->isize = pkg->size;
-				}
 			} else if(strcmp(line, "%ISIZE%") == 0) {
 				READ_NEXT();
 				pkg->isize = _alpm_strtoofft(line);

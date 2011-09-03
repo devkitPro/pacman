@@ -49,7 +49,6 @@ struct pkg_operations {
 	time_t (*get_installdate) (alpm_pkg_t *);
 	const char *(*get_packager) (alpm_pkg_t *);
 	const char *(*get_arch) (alpm_pkg_t *);
-	off_t (*get_size) (alpm_pkg_t *);
 	off_t (*get_isize) (alpm_pkg_t *);
 	alpm_pkgreason_t (*get_reason) (alpm_pkg_t *);
 	int (*has_scriptlet) (alpm_pkg_t *);

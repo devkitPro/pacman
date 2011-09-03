@@ -99,12 +99,6 @@ static const char *_cache_get_arch(alpm_pkg_t *pkg)
 	return pkg->arch;
 }
 
-static off_t _cache_get_size(alpm_pkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, -1);
-	return pkg->size;
-}
-
 static off_t _cache_get_isize(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
@@ -243,7 +237,6 @@ static struct pkg_operations local_pkg_ops = {
 	.get_installdate = _cache_get_installdate,
 	.get_packager    = _cache_get_packager,
 	.get_arch        = _cache_get_arch,
-	.get_size        = _cache_get_size,
 	.get_isize       = _cache_get_isize,
 	.get_reason      = _cache_get_reason,
 	.has_scriptlet   = _cache_has_scriptlet,
@@ -621,15 +614,8 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				READ_NEXT();
 				info->reason = (alpm_pkgreason_t)atoi(line);
 			} else if(strcmp(line, "%SIZE%") == 0) {
-				/* NOTE: the CSIZE and SIZE fields both share the "size" field
-				 *       in the pkginfo_t struct.  This can be done b/c CSIZE
-				 *       is currently only used in sync databases, and SIZE is
-				 *       only used in local databases.
-				 */
 				READ_NEXT();
-				info->size = _alpm_strtoofft(line);
-				/* also store this value to isize */
-				info->isize = info->size;
+				info->isize = _alpm_strtoofft(line);
 			} else if(strcmp(line, "%REPLACES%") == 0) {
 				READ_AND_SPLITDEP(info->replaces);
 			} else if(strcmp(line, "%DEPENDS%") == 0) {

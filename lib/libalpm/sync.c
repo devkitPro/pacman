@@ -304,24 +304,23 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 		size = 0;
 	} else if(handle->usedelta) {
 		off_t dltsize;
-		off_t pkgsize = alpm_pkg_get_size(newpkg);
 
 		dltsize = _alpm_shortest_delta_path(handle,
 			alpm_pkg_get_deltas(newpkg),
 			alpm_pkg_get_filename(newpkg),
 			&newpkg->delta_path);
 
-		if(newpkg->delta_path && (dltsize < pkgsize * MAX_DELTA_RATIO)) {
+		if(newpkg->delta_path && (dltsize < newpkg->size * MAX_DELTA_RATIO)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "using delta size\n");
 			size = dltsize;
 		} else {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "using package size\n");
-			size = alpm_pkg_get_size(newpkg);
+			size = newpkg->size;
 			alpm_list_free(newpkg->delta_path);
 			newpkg->delta_path = NULL;
 		}
 	} else {
-		size = alpm_pkg_get_size(newpkg);
+		size = newpkg->size;
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "setting download size %jd for pkg %s\n",
@@ -833,7 +832,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 					ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
 					CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 					STRDUP(payload->remote_name, spkg->filename, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-					payload->max_size = alpm_pkg_get_size(spkg);
+					payload->max_size = spkg->size;
 
 					files = alpm_list_add(files, payload);
 				}
@@ -916,7 +915,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	for(i = trans->add; i; i = i->next, current++) {
 		alpm_pkg_t *spkg = i->data;
 		if(spkg->origin != PKG_FROM_FILE) {
-			total_bytes += alpm_pkg_get_size(spkg);
+			total_bytes += spkg->size;
 		}
 	}
 	/* this can only happen maliciously */
@@ -942,7 +941,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
 
-		current_bytes += alpm_pkg_get_size(spkg);
+		current_bytes += spkg->size;
 		filename = alpm_pkg_get_filename(spkg);
 		filepath = _alpm_filecache_find(handle, filename);
 		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
