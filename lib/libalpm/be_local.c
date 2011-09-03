@@ -57,12 +57,6 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
  * initialized.
  */
 
-static const char *_cache_get_filename(alpm_pkg_t *pkg)
-{
-	LAZY_LOAD(INFRQ_DESC, NULL);
-	return pkg->filename;
-}
-
 static const char *_cache_get_desc(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
@@ -159,12 +153,6 @@ static alpm_list_t *_cache_get_replaces(alpm_pkg_t *pkg)
 	return pkg->replaces;
 }
 
-/* local packages can not have deltas */
-static alpm_list_t *_cache_get_deltas(alpm_pkg_t UNUSED *pkg)
-{
-	return NULL;
-}
-
 static alpm_filelist_t *_cache_get_files(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_FILES, NULL);
@@ -230,7 +218,6 @@ static int _cache_force_load(alpm_pkg_t *pkg)
  * logic.
  */
 static struct pkg_operations local_pkg_ops = {
-	.get_filename    = _cache_get_filename,
 	.get_desc        = _cache_get_desc,
 	.get_url         = _cache_get_url,
 	.get_builddate   = _cache_get_builddate,
@@ -247,7 +234,6 @@ static struct pkg_operations local_pkg_ops = {
 	.get_conflicts   = _cache_get_conflicts,
 	.get_provides    = _cache_get_provides,
 	.get_replaces    = _cache_get_replaces,
-	.get_deltas      = _cache_get_deltas,
 	.get_files       = _cache_get_files,
 	.get_backup      = _cache_get_backup,
 

@@ -250,10 +250,7 @@ static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota
 alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
-	return find_unused(
-			alpm_pkg_get_deltas(pkg),
-			alpm_pkg_get_filename(pkg),
-			pkg->size * MAX_DELTA_RATIO);
+	return find_unused(pkg->deltas, pkg->filename, pkg->size * MAX_DELTA_RATIO);
 }
 
 /** @} */

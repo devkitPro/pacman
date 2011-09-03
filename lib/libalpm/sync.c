@@ -284,7 +284,6 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
  */
 static int compute_download_size(alpm_pkg_t *newpkg)
 {
-	const char *fname;
 	char *fpath;
 	off_t size = 0;
 	alpm_handle_t *handle = newpkg->handle;
@@ -295,9 +294,8 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 		return 0;
 	}
 
-	fname = alpm_pkg_get_filename(newpkg);
-	ASSERT(fname != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
-	fpath = _alpm_filecache_find(handle, fname);
+	ASSERT(newpkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
+	fpath = _alpm_filecache_find(handle, newpkg->filename);
 
 	if(fpath) {
 		FREE(fpath);
@@ -305,10 +303,8 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 	} else if(handle->usedelta) {
 		off_t dltsize;
 
-		dltsize = _alpm_shortest_delta_path(handle,
-			alpm_pkg_get_deltas(newpkg),
-			alpm_pkg_get_filename(newpkg),
-			&newpkg->delta_path);
+		dltsize = _alpm_shortest_delta_path(handle, newpkg->deltas,
+				newpkg->filename, &newpkg->delta_path);
 
 		if(newpkg->delta_path && (dltsize < newpkg->size * MAX_DELTA_RATIO)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "using delta size\n");
@@ -934,7 +930,6 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 	for(i = trans->add; i; i = i->next, current++) {
 		alpm_pkg_t *spkg = i->data;
-		const char *filename;
 		char *filepath;
 		alpm_siglevel_t level;
 		int percent = (int)(((double)current_bytes / total_bytes) * 100);
@@ -946,8 +941,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		}
 
 		current_bytes += spkg->size;
-		filename = alpm_pkg_get_filename(spkg);
-		filepath = _alpm_filecache_find(handle, filename);
+		filepath = _alpm_filecache_find(handle, spkg->filename);
 		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
 		level = alpm_db_get_siglevel(sdb);
 
@@ -960,7 +954,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		if(!pkgfile) {
 			prompt_to_delete(handle, filepath, handle->pm_errno);
 			errors++;
-			*data = alpm_list_add(*data, strdup(filename));
+			*data = alpm_list_add(*data, strdup(spkg->filename));
 			FREE(filepath);
 			continue;
 		}

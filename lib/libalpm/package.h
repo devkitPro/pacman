@@ -42,7 +42,6 @@
  * defined default_pkg_ops struct to work just fine for their needs.
  */
 struct pkg_operations {
-	const char *(*get_filename) (alpm_pkg_t *);
 	const char *(*get_desc) (alpm_pkg_t *);
 	const char *(*get_url) (alpm_pkg_t *);
 	time_t (*get_builddate) (alpm_pkg_t *);
@@ -60,7 +59,6 @@ struct pkg_operations {
 	alpm_list_t *(*get_conflicts) (alpm_pkg_t *);
 	alpm_list_t *(*get_provides) (alpm_pkg_t *);
 	alpm_list_t *(*get_replaces) (alpm_pkg_t *);
-	alpm_list_t *(*get_deltas) (alpm_pkg_t *);
 	alpm_filelist_t *(*get_files) (alpm_pkg_t *);
 	alpm_list_t *(*get_backup) (alpm_pkg_t *);
 
@@ -69,11 +67,6 @@ struct pkg_operations {
 	int (*changelog_close) (const alpm_pkg_t *, void *);
 
 	int (*force_load) (alpm_pkg_t *);
-
-	/* still to add:
-	 * checkmd5sum() ?
-	 * compute_requiredby()
-	 */
 };
 
 /** The standard package operations struct. get fields directly from the

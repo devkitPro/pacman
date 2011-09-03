@@ -67,7 +67,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
 	ASSERT(pkg->origin == PKG_FROM_SYNCDB,
 			RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	fpath = _alpm_filecache_find(pkg->handle, alpm_pkg_get_filename(pkg));
+	fpath = _alpm_filecache_find(pkg->handle, pkg->filename);
 
 	retval = _alpm_test_checksum(fpath, pkg->md5sum, ALPM_CSUM_MD5);
 
@@ -85,7 +85,6 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
  * backend logic that needs lazy access, such as the local database through
  * a lazy-load cache. However, the defaults will work just fine for fully-
  * populated package structures. */
-static const char *_pkg_get_filename(alpm_pkg_t *pkg)    { return pkg->filename; }
 static const char *_pkg_get_desc(alpm_pkg_t *pkg)        { return pkg->desc; }
 static const char *_pkg_get_url(alpm_pkg_t *pkg)         { return pkg->url; }
 static time_t _pkg_get_builddate(alpm_pkg_t *pkg)        { return pkg->builddate; }
@@ -103,7 +102,6 @@ static alpm_list_t *_pkg_get_optdepends(alpm_pkg_t *pkg) { return pkg->optdepend
 static alpm_list_t *_pkg_get_conflicts(alpm_pkg_t *pkg)  { return pkg->conflicts; }
 static alpm_list_t *_pkg_get_provides(alpm_pkg_t *pkg)   { return pkg->provides; }
 static alpm_list_t *_pkg_get_replaces(alpm_pkg_t *pkg)   { return pkg->replaces; }
-static alpm_list_t *_pkg_get_deltas(alpm_pkg_t *pkg)     { return pkg->deltas; }
 static alpm_filelist_t *_pkg_get_files(alpm_pkg_t *pkg)  { return &(pkg->files); }
 static alpm_list_t *_pkg_get_backup(alpm_pkg_t *pkg)     { return pkg->backup; }
 
@@ -130,7 +128,6 @@ static int _pkg_force_load(alpm_pkg_t UNUSED *pkg) { return 0; }
  * struct itself with no abstraction layer or any type of lazy loading.
  */
 struct pkg_operations default_pkg_ops = {
-	.get_filename    = _pkg_get_filename,
 	.get_desc        = _pkg_get_desc,
 	.get_url         = _pkg_get_url,
 	.get_builddate   = _pkg_get_builddate,
@@ -148,7 +145,6 @@ struct pkg_operations default_pkg_ops = {
 	.get_conflicts   = _pkg_get_conflicts,
 	.get_provides    = _pkg_get_provides,
 	.get_replaces    = _pkg_get_replaces,
-	.get_deltas      = _pkg_get_deltas,
 	.get_files       = _pkg_get_files,
 	.get_backup      = _pkg_get_backup,
 
@@ -166,7 +162,7 @@ const char SYMEXPORT *alpm_pkg_get_filename(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = 0;
-	return pkg->ops->get_filename(pkg);
+	return pkg->filename;
 }
 
 const char SYMEXPORT *alpm_pkg_get_name(alpm_pkg_t *pkg)
@@ -256,6 +252,7 @@ const char SYMEXPORT *alpm_pkg_get_arch(alpm_pkg_t *pkg)
 off_t SYMEXPORT alpm_pkg_get_size(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
+	pkg->handle->pm_errno = 0;
 	return pkg->size;
 }
 
@@ -326,7 +323,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_deltas(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = 0;
-	return pkg->ops->get_deltas(pkg);
+	return pkg->deltas;
 }
 
 alpm_filelist_t SYMEXPORT *alpm_pkg_get_files(alpm_pkg_t *pkg)

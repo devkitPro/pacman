@@ -511,7 +511,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
 	ASSERT(siglist != NULL, RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
 	pkg->handle->pm_errno = 0;
 
-	return _alpm_gpgme_checksig(pkg->handle, alpm_pkg_get_filename(pkg),
+	return _alpm_gpgme_checksig(pkg->handle, pkg->filename,
 			pkg->base64_sig, siglist);
 }
 
