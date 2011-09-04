@@ -704,7 +704,7 @@ check_pgpsigs() {
 
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
-	local file
+	local file pubkey
 	local warning=0
 	local errors=0
 	local statusfile=$(mktemp)
@@ -715,40 +715,42 @@ check_pgpsigs() {
 			continue
 		fi
 
-		echo -n "    ${file%.*} ... " >&2
+		printf "    %s ... " "${file%.*}" >&2
 
 		if ! file="$(get_filepath "$file")"; then
-			echo "$(gettext "SIGNATURE NOT FOUND")" >&2
+			printf '%s\n' "$(gettext "SIGNATURE NOT FOUND")" >&2
 			errors=1
 			continue
 		fi
 
 		if ! sourcefile="$(get_filepath "${file%.*}")"; then
-			echo "$(gettext "SOURCE FILE NOT FOUND")" >&2
+			printf '%s\n' "$(gettext "SOURCE FILE NOT FOUND")" >&2
 			errors=1
 			continue
 		fi
 
 		if ! gpg --quiet --batch --status-file "$statusfile" --verify "$file" "$sourcefile" 2> /dev/null; then
-			if grep "NO_PUBKEY" "$statusfile" > /dev/null; then
-				warning "$(gettext "Unknown public key") $(awk '/NO_PUBKEY/ {print $3}' $statusfile)" >&2
+			printf '%s' "$(gettext "FAILED")" >&2
+			if ! pubkey=$(awk '/NO_PUBKEY/ { print $3; exit 1; }' "$statusfile"); then
+				printf ' (%s)' "$(gettext "unknown public key") $pubkey" >&2
 				warnings=1
 			else
-				echo "$(gettext "FAILED")" >&2
 				errors=1
 			fi
+			printf '\n' >&2
 		else
-			if grep "REVKEYSIG" "$statusfile" > /dev/null; then
-				echo "$(gettext "Passed")" "-" "$(gettext "Warning: the key has been revoked.")" >&2
+			if grep -q "REVKEYSIG" "$statusfile"; then
+				printf '%s (%s)\n' "$(gettext "FAILED")" "$(gettext "the key has been revoked.")" >&2
 				errors=1
-			elif grep "EXPSIG" "$statusfile" > /dev/null; then
-				echo "$(gettext "Passed")" "-" "$(gettext "Warning: the signature has expired.")" >&2
-				warnings=1
-			elif grep "EXPKEYSIG" "$statusfile" > /dev/null; then
-				echo "$(gettext "Passed")" "-" "$(gettext  "Warning: the key has expired.")" >&2
-				warnings=1
 			else
-				echo $(gettext "Passed") >&2
+				printf '%s' "$(gettext "Passed")" >&2
+				if grep -q "EXPSIG" "$statusfile"; then
+					printf ' (%s)\n' "$(gettext "WARNING:") $(gettext "the signature has expired.")" >&2
+					warnings=1
+				elif grep -q "EXPKEYSIG" "$statusfile"; then
+					printf ' (%s)\n' "$(gettext "WARNING:") $(gettext "the key has expired.")" >&2
+					warnings=1
+				fi
 			fi
 		fi
 	done
