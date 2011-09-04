@@ -92,7 +92,8 @@ getfetchurl() {
 
 # This exists to remove the need for a separate interrupt function
 finaloutput() {
-	IFS=$'\n' sortedarray=( $(LC_COLLATE=C printf "%s\n" "${timesarray[@]}" | sort) )
+	IFS=$'\n' read -r -d '' -a sortedarray < \
+		<(printf '%s\n' "${timesarray[@]}" | LC_COLLATE=C sort)
 
 	# Final output for mirrorfile
 	numiterator="0"
