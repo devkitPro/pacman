@@ -81,6 +81,8 @@ FORCE_VER=""
 
 PACMAN_OPTS=
 
+shopt -s extglob
+
 ### SUBROUTINES ###
 
 plain() {
@@ -341,7 +343,7 @@ in_array() {
 source_has_signatures(){
 	local file
 	for file in "${source[@]}"; do
-		if [[ $file =~ \.(sig|asc)$ ]]; then
+		if [[ $file = *.@(sig|asc) ]]; then
 			return 0
 		fi
 	done
@@ -420,7 +422,7 @@ download_file() {
 run_pacman() {
 	local cmd
 	printf -v cmd "%q " "$PACMAN" $PACMAN_OPTS "$@"
-	if (( ! ASROOT )) && [[ ! $1 =~ ^-(T|Qq)$ ]]; then
+	if (( ! ASROOT )) && [[ ! $1 = -@(T|Qq) ]]; then
 		if type -p sudo >/dev/null; then
 			cmd="sudo $cmd"
 		else
@@ -709,7 +711,7 @@ check_pgpsigs() {
 
 	for file in "${source[@]}"; do
 		file="$(get_filename "$file")"
-		if [[ ! $file =~ \.(sig|asc)$ ]]; then
+		if [[ ! $file = *.@(sig|asc) ]]; then
 			continue
 		fi
 
@@ -1449,7 +1451,7 @@ check_sanity() {
 	awk -F'=' '/^[[:space:]]*pkgver=/ { $1=""; print $0 }' "$BUILDFILE" |
 	while read -r i; do
 		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$i")\"
-		if [[ $i =~ [[:space:]:-] ]]; then
+		if [[ $i = *[[:space:]:-]* ]]; then
 			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
 			return 1
 		fi
@@ -1458,7 +1460,7 @@ check_sanity() {
 	awk -F'=' '/^[[:space:]]*pkgrel=/ { $1=""; print $0 }' "$BUILDFILE" |
 	while read -r i; do
 		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$i")\"
-		if [[ $i =~ [[:space:]-] ]]; then
+		if [[ $i = *[[:space:]-]* ]]; then
 			error "$(gettext "%s is not allowed to contain hyphens or whitespace.")" "pkgrel"
 			return 1
 		fi
@@ -1467,7 +1469,7 @@ check_sanity() {
 	awk -F'=' '/^[[:space:]]*epoch=/ { $1=""; print $0 }' "$BUILDFILE" |
 	while read -r i; do
 		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$i")\"
-		if [[ ! $i =~ ^[0-9]*$ ]]; then
+		if [[ $i != *([[:digit:]]) ]]; then
 			error "$(gettext "%s must be an integer.")" "epoch"
 			return 1
 		fi
@@ -1524,7 +1526,7 @@ check_sanity() {
 		sed -e "s/optdepends=/optdepends_list+=/" -e "s/#.*//" -e 's/\\$//')
 	for i in "${optdepends_list[@]}"; do
 		local pkg=${i%%:*}
-		if [[ ! $pkg =~ ^[[:alnum:]\>\<\=\.\+\_\-]+$ ]]; then
+		if [[ $pkg != +([[:alnum:]><=.+_-]) ]]; then
 			error "$(gettext "Invalid syntax for %s : '%s'")" "optdepend" "$i"
 			ret=1
 		fi
