@@ -699,10 +699,8 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 	} else {
 		tmpdir = "/tmp";
 	}
-	i = alpm_list_add(NULL, tmpdir);
-	alpm_option_set_cachedirs(handle, i);
-	alpm_list_free(i);
-	cachedir = handle->cachedirs->data;
+	alpm_option_add_cachedir(handle, tmpdir);
+	cachedir = handle->cachedirs->prev->data;
 	_alpm_log(handle, ALPM_LOG_DEBUG, "using cachedir: %s\n", cachedir);
 	_alpm_log(handle, ALPM_LOG_WARNING,
 			_("couldn't find or create package cache, using %s instead\n"), cachedir);
