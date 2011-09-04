@@ -188,7 +188,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	struct stat st;
 
 	/* the curl_easy handle is initialized with the alpm handle, so we only need
-	 * to reset the curl handle set parameters for each time it's used. */
+	 * to reset the handle's parameters for each time it's used. */
 	curl_easy_reset(handle->curl);
 	curl_easy_setopt(handle->curl, CURLOPT_URL, payload->fileurl);
 	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
@@ -204,7 +204,10 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	curl_easy_setopt(handle->curl, CURLOPT_HEADERFUNCTION, parse_headers);
 	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, (void *)payload);
 
+	_alpm_log(handle, ALPM_LOG_DEBUG, "url: %s\n", payload->fileurl);
+
 	if(payload->max_size) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "maxsize: %ld\n", payload->max_size);
 		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE_LARGE,
 				(curl_off_t)payload->max_size);
 	}
@@ -218,12 +221,15 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 		/* start from scratch, but only download if our local is out of date. */
 		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"using time condition: %lu\n", (long)st.st_mtime);
 	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
 		/* a previous partial download exists, resume from end of file. */
 		payload->tempfile_openmode = "ab";
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM_LARGE,
 				(curl_off_t)st.st_size);
-		_alpm_log(handle, ALPM_LOG_DEBUG, "tempfile found, attempting continuation\n");
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"tempfile found, attempting continuation from %jd bytes\n", st.st_size);
 		payload->initial_size = st.st_size;
 	}
 }
@@ -322,6 +328,10 @@ static int curl_download_internal(struct dload_payload *payload,
 		}
 	}
 
+	_alpm_log(handle, ALPM_LOG_DEBUG,
+			"opened tempfile for download: %s (%s)\n", payload->tempfile_name,
+			payload->tempfile_openmode);
+
 	curl_easy_setopt(handle->curl, CURLOPT_WRITEDATA, localf);
 
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
@@ -387,6 +397,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	/* time condition was met and we didn't download anything. we need to
 	 * clean up the 0 byte .part file that's left behind. */
 	if(timecond == 1 && DOUBLE_EQ(bytes_dl, 0)) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "file met time condition\n");
 		ret = 1;
 		unlink(payload->tempfile_name);
 		goto cleanup;
