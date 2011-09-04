@@ -66,10 +66,15 @@ static char *get_fullpath(const char *path, const char *filename,
 	return filepath;
 }
 
+enum {
+	ABORT_SIGINT = 1,
+	ABORT_OVER_MAXFILESIZE
+};
+
 static int dload_interrupted;
 static void inthandler(int UNUSED signum)
 {
-	dload_interrupted = 1;
+	dload_interrupted = ABORT_SIGINT;
 }
 
 static int curl_progress(void *file, double dltotal, double dlnow,
@@ -87,6 +92,7 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 
 	/* is our filesize still under any set limit? */
 	if(payload->max_size && current_size > payload->max_size) {
+		dload_interrupted = ABORT_OVER_MAXFILESIZE;
 		return 1;
 	}
 
@@ -359,8 +365,8 @@ static int curl_download_internal(struct dload_payload *payload,
 			}
 			break;
 		case CURLE_ABORTED_BY_CALLBACK:
-			/* two cases here- interrupted by user, or we exceeded max file size. */
-			if(!dload_interrupted) {
+			/* handle the interrupt accordingly */
+			if(dload_interrupted == ABORT_OVER_MAXFILESIZE) {
 				handle->curlerr = CURLE_FILESIZE_EXCEEDED;
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				/* the hardcoded 'size exceeded' message is same as libcurl's normal */
