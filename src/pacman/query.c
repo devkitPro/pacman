@@ -567,7 +567,7 @@ int pacman_query(alpm_list_t *targets)
 							_("package '%s' was not found\n"), strname);
 					if(!config->op_q_isfile && access(strname, R_OK) == 0) {
 						pm_fprintf(stderr, ALPM_LOG_WARNING,
-								_("'%s' is a file, you might want to use %s."),
+								_("'%s' is a file, you might want to use %s.\n"),
 								strname, "-p/--file");
 					}
 					break;

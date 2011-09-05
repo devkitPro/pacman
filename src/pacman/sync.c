@@ -717,7 +717,7 @@ cleanup:
 	free(targstring);
 	if(ret && access(target, R_OK) == 0) {
 		pm_fprintf(stderr, ALPM_LOG_WARNING,
-				_("'%s' is a file, did you mean %s instead of %s?"),
+				_("'%s' is a file, did you mean %s instead of %s?\n"),
 				target, "-U/--upgrade", "-S/--sync");
 	}
 	return ret;
