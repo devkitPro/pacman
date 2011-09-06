@@ -995,10 +995,8 @@ tidy_install() {
 					# find hard links and remove them
 					#   the '|| true' part keeps the script from bailing if find returned an
 					#   error, such as when one of the man directories doesn't exist
-					hardlinks="$(find ${MAN_DIRS[@]} \! -name "$file" -samefile "$manpage" 2>/dev/null)" || true
-					for hl in ${hardlinks}; do
-						rm -f "${hl}";
-					done
+					find "${MAN_DIRS[@]}" \! -name "$file" -samefile "$manpage" \
+						-exec rm -f {} \; 2>/dev/null || true
 					# compress the original
 					gzip -9 "$manpage"
 					# recreate hard links removed earlier
