@@ -864,14 +864,12 @@ run_function() {
 
 	# clear user-specified buildflags if requested
 	if [[ $(check_option buildflags) = "n" ]]; then
-		CFLAGS=""
-		CXXFLAGS=""
-		LDFLAGS=""
+		unset CFLAGS CXXFLAGS LDFLAGS
 	fi
 
 	# clear user-specified makeflags if requested
 	if [[ $(check_option makeflags) = "n" ]]; then
-		MAKEFLAGS=""
+		unset MAKEFLAGS
 	fi
 
 	msg "$(gettext "Starting %s()...")" "$pkgfunc"
