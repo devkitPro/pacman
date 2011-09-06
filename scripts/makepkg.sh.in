@@ -1614,7 +1614,7 @@ check_software() {
 	fi
 
 	# gpg - source verification
-	if (( ! SKIPPGPCHECK )) && [[ source_has_signatures ]]; then
+	if (( ! SKIPPGPCHECK )) && source_has_signatures; then
 		if ! type -p gpg >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for verifying source files.")" "gpg"
 			ret=1
