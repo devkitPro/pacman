@@ -1448,8 +1448,8 @@ check_sanity() {
 		ret=1
 	fi
 
-	awk -F'=' '/^[[:space:]]*pkgver=/ { $1=""; print $0 }' "$BUILDFILE" |
-	while read -r i; do
+	awk -F'=' '$1 ~ /^[[:space:]]*pkgver$/' "$BUILDFILE" |
+	while IFS='=' read -r _ i; do
 		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$i")\"
 		if [[ $i = *[[:space:]:-]* ]]; then
 			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
@@ -1457,8 +1457,8 @@ check_sanity() {
 		fi
 	done || ret=1
 
-	awk -F'=' '/^[[:space:]]*pkgrel=/ { $1=""; print $0 }' "$BUILDFILE" |
-	while read -r i; do
+	awk -F'=' '$1 ~ /^[[:space:]]*pkgrel$/' "$BUILDFILE" |
+	while IFS='=' read -r _ i; do
 		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$i")\"
 		if [[ $i = *[[:space:]-]* ]]; then
 			error "$(gettext "%s is not allowed to contain hyphens or whitespace.")" "pkgrel"
@@ -1466,8 +1466,8 @@ check_sanity() {
 		fi
 	done || ret=1
 
-	awk -F'=' '/^[[:space:]]*epoch=/ { $1=""; print $0 }' "$BUILDFILE" |
-	while read -r i; do
+	awk -F'=' '$1 ~ /^[[:space:]]*epoch$/' "$BUILDFILE" |
+	while IFS='=' read -r _ i; do
 		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$i")\"
 		if [[ $i != *([[:digit:]]) ]]; then
 			error "$(gettext "%s must be an integer.")" "epoch"
