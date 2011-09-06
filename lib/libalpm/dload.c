@@ -213,7 +213,8 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	_alpm_log(handle, ALPM_LOG_DEBUG, "url: %s\n", payload->fileurl);
 
 	if(payload->max_size) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "maxsize: %ld\n", payload->max_size);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "maxsize: %jd\n",
+				(intmax_t)payload->max_size);
 		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE_LARGE,
 				(curl_off_t)payload->max_size);
 	}
@@ -235,7 +236,8 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM_LARGE,
 				(curl_off_t)st.st_size);
 		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"tempfile found, attempting continuation from %jd bytes\n", st.st_size);
+				"tempfile found, attempting continuation from %jd bytes\n",
+				(intmax_t)st.st_size);
 		payload->initial_size = st.st_size;
 	}
 }
