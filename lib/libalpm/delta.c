@@ -89,12 +89,28 @@ static void graph_init_size(alpm_handle_t *handle, alpm_list_t *vertices)
 
 		/* determine whether the delta file already exists */
 		fpath = _alpm_filecache_find(handle, vdelta->delta);
-		md5sum = alpm_compute_md5sum(fpath);
-		if(fpath && md5sum && strcmp(md5sum, vdelta->delta_md5) == 0) {
-			vdelta->download_size = 0;
+		if(fpath) {
+			md5sum = alpm_compute_md5sum(fpath);
+			if(md5sum && strcmp(md5sum, vdelta->delta_md5) == 0) {
+				vdelta->download_size = 0;
+			}
+			FREE(md5sum);
+			FREE(fpath);
+		} else {
+			char *fnamepart;
+			CALLOC(fnamepart, strlen(vdelta->delta) + 6, sizeof(char), return);
+			sprintf(fnamepart, "%s.part", vdelta->delta);
+			fpath = _alpm_filecache_find(handle, fnamepart);
+			if(fpath) {
+				struct stat st;
+				if(stat(fpath, &st) == 0) {
+					vdelta->download_size = vdelta->delta_size - st.st_size;
+					vdelta->download_size = vdelta->download_size < 0 ? 0 : vdelta->download_size;
+				}
+				FREE(fpath);
+			}
+			FREE(fnamepart);
 		}
-		FREE(fpath);
-		FREE(md5sum);
 
 		/* determine whether a base 'from' file exists */
 		fpath = _alpm_filecache_find(handle, vdelta->from);
