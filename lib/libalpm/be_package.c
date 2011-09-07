@@ -286,7 +286,7 @@ static alpm_file_t *files_msort(alpm_file_t *files, size_t n)
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		alpm_pkg_t *syncpkg, int full, alpm_siglevel_t level)
 {
-	int ret, use_sig, config = 0;
+	int ret, has_sig, config = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
 	alpm_pkg_t *newpkg = NULL;
@@ -312,20 +312,20 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 	}
 
 	/* can we get away with skipping checksums? */
-	use_sig = 0;
+	has_sig = 0;
 	if(level & ALPM_SIG_PACKAGE) {
 		if(syncpkg && syncpkg->base64_sig) {
-			use_sig = 1;
+			has_sig = 1;
 		} else {
 			char *sigpath = _alpm_sigpath(handle, pkgfile);
 			if(sigpath && !_alpm_access(handle, NULL, sigpath, R_OK)) {
-				use_sig = 1;
+				has_sig = 1;
 			}
 			free(sigpath);
 		}
 	}
 
-	if(syncpkg && !use_sig) {
+	if(syncpkg && !has_sig) {
 		if(syncpkg->md5sum && !syncpkg->sha256sum) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "md5sum: %s\n", syncpkg->md5sum);
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
@@ -345,7 +345,8 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		}
 	}
 
-	if(use_sig) {
+	/* even if we don't have a sig, run the check code if level tells us to */
+	if(has_sig || level & ALPM_SIG_PACKAGE) {
 		const char *sig = syncpkg ? syncpkg->base64_sig : NULL;
 		_alpm_log(handle, ALPM_LOG_DEBUG, "sig data: %s\n", sig ? sig : "<from .sig>");
 		if(_alpm_check_pgp_helper(handle, pkgfile, sig,
