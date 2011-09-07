@@ -1109,6 +1109,10 @@ off_t _alpm_strtoofft(const char *line)
 
 time_t _alpm_parsedate(const char *line)
 {
+	char *end;
+	long long result;
+	errno = 0;
+
 	if(isalpha((unsigned char)line[0])) {
 		/* initialize to null in case of failure */
 		struct tm tmp_tm;
@@ -1118,7 +1122,22 @@ time_t _alpm_parsedate(const char *line)
 		setlocale(LC_TIME, "");
 		return mktime(&tmp_tm);
 	}
-	return (time_t)atol(line);
+
+	result = strtoll(line, &end, 10);
+	if (result == 0 && end == line) {
+		/* line was not a number */
+		errno = EINVAL;
+		return (time_t)0;
+	} else if (errno == ERANGE) {
+		/* line does not fit in long long */
+		return (time_t)0;
+	} else if (*end) {
+		/* line began with a number but has junk left over at the end */
+		errno = EINVAL;
+		return (time_t)0;
+	}
+
+	return (time_t)result;
 }
 
 /**
