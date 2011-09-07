@@ -284,7 +284,8 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
  */
 static int compute_download_size(alpm_pkg_t *newpkg)
 {
-	char *fpath;
+	const char *fname;
+	char *fpath, *fnamepart = NULL;
 	off_t size = 0;
 	alpm_handle_t *handle = newpkg->handle;
 
@@ -295,11 +296,26 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 	}
 
 	ASSERT(newpkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
-	fpath = _alpm_filecache_find(handle, newpkg->filename);
+	fname = newpkg->filename;
+	fpath = _alpm_filecache_find(handle, fname);
 
+	/* downloaded file exists, so there's nothing to grab */
 	if(fpath) {
-		FREE(fpath);
 		size = 0;
+		goto finish;
+	}
+
+	CALLOC(fnamepart, strlen(fname) + 6, sizeof(char), return -1);
+	sprintf(fnamepart, "%s.part", fname);
+	fpath = _alpm_filecache_find(handle, fnamepart);
+	if(fpath) {
+		struct stat st;
+		if(stat(fpath, &st) == 0) {
+			/* subtract the size of the .part file */
+			_alpm_log(handle, ALPM_LOG_DEBUG, "using (package - .part) size\n");
+			size = newpkg->size - st.st_size;
+			size = size < 0 ? 0 : size;
+		}
 	} else if(handle->usedelta) {
 		off_t dltsize;
 
@@ -319,11 +335,16 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 		size = newpkg->size;
 	}
 
+finish:
 	_alpm_log(handle, ALPM_LOG_DEBUG, "setting download size %jd for pkg %s\n",
 			(intmax_t)size, newpkg->name);
 
 	newpkg->infolevel |= INFRQ_DSIZE;
 	newpkg->download_size = size;
+
+	FREE(fpath);
+	FREE(fnamepart);
+
 	return 0;
 }
 
