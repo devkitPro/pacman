@@ -35,7 +35,6 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stddef.h> /* size_t */
-#include <time.h>
 #include <sys/stat.h> /* struct stat */
 #include <archive.h> /* struct archive */
 #include <math.h> /* fabs */
@@ -120,7 +119,7 @@ int _alpm_splitname(const char *target, char **name, char **version,
 		unsigned long *name_hash);
 unsigned long _alpm_hash_sdbm(const char *str);
 off_t _alpm_strtoofft(const char *line);
-time_t _alpm_parsedate(const char *line);
+alpm_time_t _alpm_parsedate(const char *line);
 int _alpm_raw_cmp(const char *first, const char *second);
 int _alpm_raw_ncmp(const char *first, const char *second, size_t max);
 int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int amode);

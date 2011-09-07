@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <errno.h>
+#include <time.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -74,11 +75,11 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	from = alpm_pkg_get_origin(pkg);
 
 	/* set variables here, do all output below */
-	bdate = alpm_pkg_get_builddate(pkg);
+	bdate = (time_t)alpm_pkg_get_builddate(pkg);
 	if(bdate) {
 		strftime(bdatestr, 50, "%c", localtime(&bdate));
 	}
-	idate = alpm_pkg_get_installdate(pkg);
+	idate = (time_t)alpm_pkg_get_installdate(pkg);
 	if(idate) {
 		strftime(idatestr, 50, "%c", localtime(&idate));
 	}

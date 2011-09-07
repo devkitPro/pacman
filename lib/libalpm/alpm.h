@@ -27,9 +27,9 @@
 extern "C" {
 #endif
 
-#include <sys/types.h> /* for off_t */
-#include <time.h> /* for time_t */
-#include <stdarg.h> /* for va_list */
+#include <inttypes.h>  /* int64_t */
+#include <sys/types.h> /* off_t */
+#include <stdarg.h>    /* va_list */
 
 #include <alpm_list.h>
 
@@ -43,6 +43,8 @@ extern "C" {
  * The libalpm Public API
  * @{
  */
+
+typedef int64_t alpm_time_t;
 
 /*
  * Enumerations
@@ -222,8 +224,8 @@ typedef struct _alpm_pgpkey_t {
 	char *uid;
 	char *name;
 	char *email;
-	time_t created;
-	time_t expires;
+	alpm_time_t created;
+	alpm_time_t expires;
 } alpm_pgpkey_t;
 
 /** Signature result. Contains the key, status, and validity of a given
@@ -754,13 +756,13 @@ const char *alpm_pkg_get_url(alpm_pkg_t *pkg);
  * @param pkg a pointer to package
  * @return the timestamp of the build time
  */
-time_t alpm_pkg_get_builddate(alpm_pkg_t *pkg);
+alpm_time_t alpm_pkg_get_builddate(alpm_pkg_t *pkg);
 
 /** Returns the install timestamp of the package.
  * @param pkg a pointer to package
  * @return the timestamp of the install time
  */
-time_t alpm_pkg_get_installdate(alpm_pkg_t *pkg);
+alpm_time_t alpm_pkg_get_installdate(alpm_pkg_t *pkg);
 
 /** Returns the packager's name.
  * @param pkg a pointer to package

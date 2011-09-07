@@ -87,12 +87,12 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
  * populated package structures. */
 static const char *_pkg_get_desc(alpm_pkg_t *pkg)        { return pkg->desc; }
 static const char *_pkg_get_url(alpm_pkg_t *pkg)         { return pkg->url; }
-static time_t _pkg_get_builddate(alpm_pkg_t *pkg)        { return pkg->builddate; }
-static time_t _pkg_get_installdate(alpm_pkg_t *pkg)      { return pkg->installdate; }
+static alpm_time_t _pkg_get_builddate(alpm_pkg_t *pkg)   { return pkg->builddate; }
+static alpm_time_t _pkg_get_installdate(alpm_pkg_t *pkg) { return pkg->installdate; }
 static const char *_pkg_get_packager(alpm_pkg_t *pkg)    { return pkg->packager; }
 static const char *_pkg_get_arch(alpm_pkg_t *pkg)        { return pkg->arch; }
 static off_t _pkg_get_isize(alpm_pkg_t *pkg)             { return pkg->isize; }
-static alpm_pkgreason_t _pkg_get_reason(alpm_pkg_t *pkg)    { return pkg->reason; }
+static alpm_pkgreason_t _pkg_get_reason(alpm_pkg_t *pkg) { return pkg->reason; }
 static int _pkg_has_scriptlet(alpm_pkg_t *pkg)           { return pkg->scriptlet; }
 
 static alpm_list_t *_pkg_get_licenses(alpm_pkg_t *pkg)   { return pkg->licenses; }
@@ -200,14 +200,14 @@ const char SYMEXPORT *alpm_pkg_get_url(alpm_pkg_t *pkg)
 	return pkg->ops->get_url(pkg);
 }
 
-time_t SYMEXPORT alpm_pkg_get_builddate(alpm_pkg_t *pkg)
+alpm_time_t SYMEXPORT alpm_pkg_get_builddate(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = 0;
 	return pkg->ops->get_builddate(pkg);
 }
 
-time_t SYMEXPORT alpm_pkg_get_installdate(alpm_pkg_t *pkg)
+alpm_time_t SYMEXPORT alpm_pkg_get_installdate(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = 0;

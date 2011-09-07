@@ -22,8 +22,6 @@
 #ifndef _ALPM_DB_H
 #define _ALPM_DB_H
 
-#include <time.h>
-
 /* libarchive */
 #include <archive.h>
 #include <archive_entry.h>

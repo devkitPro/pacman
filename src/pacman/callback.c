@@ -25,6 +25,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <sys/types.h> /* off_t */
+#include <time.h>
 #include <unistd.h>
 #include <wchar.h>
 #include <limits.h> /* UINT_MAX */

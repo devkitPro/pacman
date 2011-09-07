@@ -23,8 +23,6 @@
 #include "alpm_list.h"
 #include "alpm.h"
 
-#include <time.h>
-
 struct dload_payload {
 	alpm_handle_t *handle;
 	const char *tempfile_openmode;

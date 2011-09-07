@@ -27,7 +27,6 @@
 #include "config.h" /* ensure off_t is correct length */
 
 #include <sys/types.h> /* off_t */
-#include <time.h> /* time_t */
 
 #include "alpm.h"
 #include "backup.h"
@@ -44,8 +43,8 @@
 struct pkg_operations {
 	const char *(*get_desc) (alpm_pkg_t *);
 	const char *(*get_url) (alpm_pkg_t *);
-	time_t (*get_builddate) (alpm_pkg_t *);
-	time_t (*get_installdate) (alpm_pkg_t *);
+	alpm_time_t (*get_builddate) (alpm_pkg_t *);
+	alpm_time_t (*get_installdate) (alpm_pkg_t *);
 	const char *(*get_packager) (alpm_pkg_t *);
 	const char *(*get_arch) (alpm_pkg_t *);
 	off_t (*get_isize) (alpm_pkg_t *);
@@ -89,8 +88,8 @@ struct __alpm_pkg_t {
 	char *base64_sig;
 	char *arch;
 
-	time_t builddate;
-	time_t installdate;
+	alpm_time_t builddate;
+	alpm_time_t installdate;
 
 	off_t size;
 	off_t isize;

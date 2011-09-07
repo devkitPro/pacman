@@ -28,7 +28,6 @@
 #include <stdint.h> /* intmax_t */
 #include <sys/stat.h>
 #include <dirent.h>
-#include <time.h>
 #include <limits.h> /* PATH_MAX */
 
 /* libalpm */
@@ -69,13 +68,13 @@ static const char *_cache_get_url(alpm_pkg_t *pkg)
 	return pkg->url;
 }
 
-static time_t _cache_get_builddate(alpm_pkg_t *pkg)
+static alpm_time_t _cache_get_builddate(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->builddate;
 }
 
-static time_t _cache_get_installdate(alpm_pkg_t *pkg)
+static alpm_time_t _cache_get_installdate(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, 0);
 	return pkg->installdate;
@@ -794,11 +793,11 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		}
 		if(info->builddate) {
 			fprintf(fp, "%%BUILDDATE%%\n"
-							"%ld\n\n", info->builddate);
+							"%jd\n\n", (intmax_t)info->builddate);
 		}
 		if(info->installdate) {
 			fprintf(fp, "%%INSTALLDATE%%\n"
-							"%ld\n\n", info->installdate);
+							"%jd\n\n", (intmax_t)info->installdate);
 		}
 		if(info->packager) {
 			fprintf(fp, "%%PACKAGER%%\n"
