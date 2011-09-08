@@ -75,6 +75,7 @@ int pacman_upgrade(alpm_list_t *targets)
 		char *targ = alpm_list_getdata(i);
 		alpm_pkg_t *pkg;
 
+		printf(_("loading packages...\n"));
 		if(alpm_pkg_load(config->handle, targ, 1, level, &pkg) != 0) {
 			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
