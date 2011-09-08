@@ -251,7 +251,8 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 	if(root_mp == NULL) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not determine root mount point %s\n"),
 				handle->root);
-		return -1;
+		error = 1;
+		goto finish;
 	}
 
 	replaces = alpm_list_count(trans->remove);
@@ -319,6 +320,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 		}
 	}
 
+finish:
 	for(i = mount_points; i; i = i->next) {
 		alpm_mountpoint_t *data = i->data;
 		FREE(data->mount_dir);
