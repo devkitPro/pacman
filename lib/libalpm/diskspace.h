@@ -26,6 +26,9 @@
 #if defined(HAVE_SYS_STATVFS_H)
 #include <sys/statvfs.h>
 #endif
+#if defined(HAVE_SYS_TYPES_H)
+#include <sys/types.h>
+#endif
 
 #include "alpm.h"
 
@@ -39,8 +42,8 @@ typedef struct __alpm_mountpoint_t {
 	char *mount_dir;
 	size_t mount_dir_len;
 	/* storage for additional disk usage calculations */
-	long blocks_needed;
-	long max_blocks_needed;
+	blkcnt_t blocks_needed;
+	blkcnt_t max_blocks_needed;
 	enum mount_used_level used;
 	int read_only;
 	FSSTATSTYPE fsp;

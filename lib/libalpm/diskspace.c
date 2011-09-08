@@ -179,7 +179,7 @@ static int calculate_removed_size(alpm_handle_t *handle,
 
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		mp->blocks_needed -=
-			(st.st_size + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
+			(st.st_size + mp->fsp.f_bsize - 1) / mp->fsp.f_bsize;
 		mp->used |= USED_REMOVE;
 	}
 
@@ -225,7 +225,7 @@ static int calculate_installed_size(alpm_handle_t *handle,
 
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		mp->blocks_needed +=
-			(file->size + mp->fsp.f_bsize - 1l) / mp->fsp.f_bsize;
+			(file->size + mp->fsp.f_bsize - 1) / mp->fsp.f_bsize;
 		mp->used |= USED_INSTALL;
 	}
 
@@ -301,18 +301,19 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 			error = 1;
 		} else if(data->used & USED_INSTALL) {
 			/* cushion is roughly min(5% capacity, 20MiB) */
-			long fivepc = ((long)data->fsp.f_blocks / 20) + 1;
-			long twentymb = (20 * 1024 * 1024 / (long)data->fsp.f_bsize) + 1;
-			long cushion = fivepc < twentymb ? fivepc : twentymb;
+			fsblkcnt_t fivepc = (data->fsp.f_blocks / 20) + 1;
+			fsblkcnt_t twentymb = (20 * 1024 * 1024 / data->fsp.f_bsize) + 1;
+			fsblkcnt_t cushion = fivepc < twentymb ? fivepc : twentymb;
+			blkcnt_t needed = data->max_blocks_needed + cushion;
 
-			_alpm_log(handle, ALPM_LOG_DEBUG, "partition %s, needed %ld, cushion %ld, free %ld\n",
-					data->mount_dir, data->max_blocks_needed, cushion,
-					(unsigned long)data->fsp.f_bfree);
-			if(data->max_blocks_needed + cushion >= 0 &&
-			   (unsigned long)(data->max_blocks_needed + cushion) > data->fsp.f_bfree) {
-				_alpm_log(handle, ALPM_LOG_ERROR, _("Partition %s too full: %ld blocks needed, %ld blocks free\n"),
-						data->mount_dir, data->max_blocks_needed + cushion,
-						(unsigned long)data->fsp.f_bfree);
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"partition %s, needed %jd, cushion %ju, free %ju\n",
+					data->mount_dir, (intmax_t)data->max_blocks_needed,
+					(uintmax_t)cushion, (uintmax_t)data->fsp.f_bfree);
+			if(needed >= 0 && (fsblkcnt_t)needed > data->fsp.f_bfree) {
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("Partition %s too full: %jd blocks needed, %jd blocks free\n"),
+						data->mount_dir, (intmax_t)needed, (uintmax_t)data->fsp.f_bfree);
 				error = 1;
 			}
 		}
