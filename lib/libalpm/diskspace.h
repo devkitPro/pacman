@@ -50,6 +50,8 @@ typedef struct __alpm_mountpoint_t {
 } alpm_mountpoint_t;
 
 int _alpm_check_diskspace(alpm_handle_t *handle);
+int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
+		size_t num_files, off_t *file_sizes);
 
 #endif /* _ALPM_DISKSPACE_H */
 

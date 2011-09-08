@@ -253,6 +253,55 @@ static int check_mountpoint(alpm_handle_t *handle, alpm_mountpoint_t *mp)
 	return 0;
 }
 
+int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
+		size_t num_files, off_t *file_sizes)
+{
+	alpm_list_t *i, *mount_points;
+	alpm_mountpoint_t *cachedir_mp;
+	size_t j;
+	int error = 0;
+
+	mount_points = mount_point_list(handle);
+	if(mount_points == NULL) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not determine filesystem mount points\n"));
+		return -1;
+	}
+
+	cachedir_mp = match_mount_point(mount_points, cachedir);
+	if(cachedir == NULL) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not determine cachedir mount point %s\n"),
+				cachedir);
+		error = 1;
+		goto finish;
+	}
+
+	/* there's no need to check for a R/O mounted filesystem here, as
+	 * _alpm_filecache_setup will never give us a non-writable directory */
+
+	/* round up the size of each file to the nearest block and accumulate */
+	for(j = 0; j < num_files; j++) {
+		cachedir_mp->max_blocks_needed += (file_sizes[j] + cachedir_mp->fsp.f_bsize + 1) /
+			cachedir_mp->fsp.f_bsize;
+	}
+
+	if(check_mountpoint(handle, cachedir_mp)) {
+		error = 1;
+	}
+
+finish:
+	for(i = mount_points; i; i = i->next) {
+		alpm_mountpoint_t *data = i->data;
+		FREE(data->mount_dir);
+	}
+	FREELIST(mount_points);
+
+	if(error) {
+		RET_ERR(handle, ALPM_ERR_DISK_SPACE, -1);
+	}
+
+	return 0;
+}
+
 int _alpm_check_diskspace(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points, *i;
