@@ -83,7 +83,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		strftime(idatestr, 50, "%c", localtime(&idate));
 	}
 
-	switch((long)alpm_pkg_get_reason(pkg)) {
+	switch(alpm_pkg_get_reason(pkg)) {
 		case ALPM_PKG_REASON_EXPLICIT:
 			reason = _("Explicitly installed");
 			break;
