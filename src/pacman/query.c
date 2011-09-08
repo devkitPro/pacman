@@ -22,6 +22,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <limits.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -405,7 +406,7 @@ static int filter(alpm_pkg_t *pkg)
 static int check(alpm_pkg_t *pkg)
 {
 	const char *root, *pkgname;
-	int allfiles = 0, errors = 0;
+	size_t errors = 0;
 	size_t rootlen;
 	char f[PATH_MAX];
 	alpm_filelist_t *filelist;
@@ -432,7 +433,6 @@ static int check(alpm_pkg_t *pkg)
 			continue;
 		}
 		strcpy(f + rootlen, path);
-		allfiles++;
 		/* use lstat to prevent errors from symlinks */
 		if(lstat(f, &st) != 0) {
 			if(config->quiet) {
@@ -446,10 +446,10 @@ static int check(alpm_pkg_t *pkg)
 	}
 
 	if(!config->quiet) {
-		printf(_n("%s: %d total file, ", "%s: %d total files, ",
-					(unsigned long)allfiles), pkgname, allfiles);
-		printf(_n("%d missing file\n", "%d missing files\n",
-					(unsigned long)errors), errors);
+		printf(_n("%s: %jd total file, ", "%s: %jd total files, ",
+					(unsigned long)filelist->count), pkgname, (intmax_t)filelist->count);
+		printf(_n("%jd missing file\n", "%jd missing files\n",
+					(unsigned long)errors), (intmax_t)errors);
 	}
 
 	return (errors != 0 ? 1 : 0);
