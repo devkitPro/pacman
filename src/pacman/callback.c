@@ -37,11 +37,8 @@
 #include "conf.h"
 
 /* download progress bar */
-static double rate_last;
-static off_t xfered_last;
 static off_t list_xfered = 0.0;
 static off_t list_total = 0.0;
-static struct timeval initial_time;
 
 /* delayed output during progress bar */
 static int on_progress = 0;
@@ -501,6 +498,9 @@ void cb_dl_total(off_t total)
 /* callback to handle display of download progress */
 void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 {
+	static double rate_last;
+	static off_t xfered_last;
+	static struct timeval initial_time;
 	int infolen;
 	int filenamelen;
 	char *fname, *p;
