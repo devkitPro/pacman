@@ -121,7 +121,7 @@ size_to_human() {
 		}
 
 		sizestr = sprintf("%.2f", size)
-		sub(/.?0+$/, "", sizestr)
+		sub(/\.?0+$/, "", sizestr)
 		printf("%s %s", sizestr, suffix[count])
 	}'
 }
