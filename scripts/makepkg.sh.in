@@ -474,11 +474,13 @@ handle_deps() {
 	fi
 
 	# we might need the new system environment
-	# avoid triggering the ERR trap
+	# avoid triggering the ERR trap and exiting
+	set +e
 	local restoretrap=$(trap -p ERR)
 	trap - ERR
 	source /etc/profile &>/dev/null
 	eval $restoretrap
+	set -e
 
 	return $R_DEPS_SATISFIED
 }
