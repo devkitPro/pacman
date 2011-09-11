@@ -209,6 +209,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_TIME, 10L);
 	curl_easy_setopt(handle->curl, CURLOPT_HEADERFUNCTION, parse_headers);
 	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, (void *)payload);
+	curl_easy_setopt(handle->curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "url: %s\n", payload->fileurl);
 
