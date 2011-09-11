@@ -123,7 +123,7 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 static int curl_gethost(const char *url, char *buffer)
 {
 	size_t hostlen;
-	char *p;
+	char *p, *q;
 
 	if(strncmp(url, "file://", 7) == 0) {
 		strcpy(buffer, _("disk"));
@@ -134,6 +134,14 @@ static int curl_gethost(const char *url, char *buffer)
 		}
 		p += 2; /* jump over the found // */
 		hostlen = strcspn(p, "/");
+
+		/* there might be a user:pass@ on the URL. hide it. */
+		q = memrchr(p, '@', hostlen);
+		if(q) {
+			hostlen -= q - p + 1;
+			p = q + 1;
+		}
+
 		if(hostlen > 255) {
 			/* buffer overflow imminent */
 			return 1;
