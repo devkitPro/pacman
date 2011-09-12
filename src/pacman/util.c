@@ -740,15 +740,15 @@ static alpm_list_t *create_verbose_header(int install)
 	alpm_list_t *res = NULL;
 	char *str;
 
-	pm_asprintf(&str, "%s", _("Name"));
+	str = _("Name");
 	res = alpm_list_add(res, str);
-	pm_asprintf(&str, "%s", _("Old Version"));
+	str = _("Old Version");
 	res = alpm_list_add(res, str);
 	if(install) {
-		pm_asprintf(&str, "%s", _("New Version"));
+		str = _("New Version");
 		res = alpm_list_add(res, str);
 	}
-	pm_asprintf(&str, "%s", _("Size"));
+	str = _("Size");
 	res = alpm_list_add(res, str);
 
 	return res;
@@ -867,7 +867,7 @@ out:
 			FREELIST(lp);
 		}
 		alpm_list_free(targets);
-		FREELIST(header);
+		alpm_list_free(header);
 	} else {
 		FREELIST(targets);
 	}
