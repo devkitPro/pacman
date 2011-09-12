@@ -1539,7 +1539,7 @@ check_sanity() {
 		while read -r file; do
 			# evaluate any bash variables used
 			eval file=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$file")\"
-			if [[ ! -f $file ]]; then
+			if [[ $file && ! -f $file ]]; then
 				error "$(gettext "%s file (%s) does not exist.")" "$i" "$file"
 				ret=1
 			fi
