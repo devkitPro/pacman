@@ -192,7 +192,7 @@ static void usage(int op, const char * const myname)
 				addlist(_("      --dbonly         only modify database entries, not package files\n"));
 				addlist(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 				addlist(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
-				addlist(_("      --print          print the targets instead of performing the operation\n"));
+				addlist(_("  -p, --print          print the targets instead of performing the operation\n"));
 				addlist(_("      --print-format <string>\n"
 				          "                       specify how the targets should be printed\n"));
 				break;
