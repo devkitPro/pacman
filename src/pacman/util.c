@@ -744,7 +744,7 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 }
 
 /* creates a header row for use with table_display */
-static alpm_list_t *create_verbose_header(void)
+static alpm_list_t *create_verbose_header(int dl_size)
 {
 	alpm_list_t *res = NULL;
 	char *str;
@@ -755,14 +755,18 @@ static alpm_list_t *create_verbose_header(void)
 	res = alpm_list_add(res, str);
 	str = _("New Version");
 	res = alpm_list_add(res, str);
-	str = _("Size");
+	str = _("Net Change");
 	res = alpm_list_add(res, str);
+	if(dl_size) {
+		str = _("Download Size");
+		res = alpm_list_add(res, str);
+	}
 
 	return res;
 }
 
 /* returns package info as list of strings */
-static alpm_list_t *create_verbose_row(pm_target_t *target)
+static alpm_list_t *create_verbose_row(pm_target_t *target, int dl_size)
 {
 	char *str;
 	off_t size = 0;
@@ -794,6 +798,17 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	pm_asprintf(&str, "%.2f %s", human_size, label);
 	ret = alpm_list_add(ret, str);
 
+	if(dl_size) {
+		size = target->install ? alpm_pkg_download_size(target->install) : 0;
+		human_size = humanize_size(size, 'M', &label);
+		if(size != 0) {
+			pm_asprintf(&str, "%.2f %s", human_size, label);
+		} else {
+			str = strdup("");
+		}
+		ret = alpm_list_add(ret, str);
+	}
+
 	return ret;
 }
 
@@ -805,6 +820,7 @@ static void _display_targets(alpm_list_t *targets)
 	double size;
 	off_t isize = 0, rsize = 0, dlsize = 0;
 	alpm_list_t *i, *header = NULL, *rows = NULL;
+	int show_dl_size = config->op == PM_OP_SYNC;
 
 	if(!targets) {
 		return;
@@ -824,7 +840,7 @@ static void _display_targets(alpm_list_t *targets)
 		}
 
 		if(config->verbosepkglists) {
-			rows = alpm_list_add(rows, create_verbose_row(target));
+			rows = alpm_list_add(rows, create_verbose_row(target, show_dl_size));
 		} else {
 			if(target->install) {
 				pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
@@ -842,7 +858,7 @@ static void _display_targets(alpm_list_t *targets)
 
 	printf("\n");
 	if(config->verbosepkglists) {
-		header = create_verbose_header();
+		header = create_verbose_header(show_dl_size);
 		if(table_display(str, header, rows) != 0) {
 			config->verbosepkglists = 0;
 			_display_targets(targets);
