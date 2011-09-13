@@ -106,10 +106,12 @@ repo-elephant: $(srcdir)/repo-add.sh.in
 
 install-data-hook:
 	cd $(DESTDIR)$(bindir) && \
+		$(RM) repo-elephant && \
 		( $(LN_S) repo-add repo-elephant || \
 		ln repo-add repo-elephant || \
 		cp repo-add repo-elephant )
 	cd $(DESTDIR)$(bindir) && \
+		$(RM) repo-remove && \
 		( $(LN_S) repo-add repo-remove || \
 		ln repo-add repo-remove || \
 		cp repo-add repo-remove )

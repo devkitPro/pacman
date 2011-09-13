@@ -153,6 +153,7 @@ repo-remove.8: repo-add.8
 
 install-data-hook:
 	cd $(DESTDIR)$(mandir)/man8 && \
+		$(RM) repo-remove.8 && \
 		( $(LN_S) repo-add.8 repo-remove.8 || \
 		ln repo-add.8 repo-remove.8 || \
 		cp repo-add.8 repo-remove.8 )
