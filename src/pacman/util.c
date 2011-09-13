@@ -459,7 +459,7 @@ static size_t string_length(const char *s)
 	int len;
 	wchar_t *wcstr;
 
-	if(!s) {
+	if(!s || s[0] == '\0') {
 		return 0;
 	}
 	/* len goes from # bytes -> # chars -> # cols */
@@ -506,47 +506,53 @@ static void table_print_line(const alpm_list_t *line,
 static alpm_list_t *table_create_format(const alpm_list_t *header,
 		const alpm_list_t *rows)
 {
-	alpm_list_t *longest_str, *longest_strs = NULL;
 	alpm_list_t *formats = NULL;
-	const alpm_list_t *i, *row, *cell;
-	char *str, *formatstr;
+	const alpm_list_t *i;
 	const unsigned short padding = 2;
-	size_t colwidth, totalwidth = 0;
-	size_t curcol = 0;
+	size_t curcol, totalcols, totalwidth = 0;
+	size_t *colwidths;
 
+	totalcols = alpm_list_count(header);
+	colwidths = malloc(totalcols * sizeof(size_t));
+	if(!colwidths) {
+		return NULL;
+	}
 	/* header determines column count and initial values of longest_strs */
-	for(i = header; i; i = alpm_list_next(i)) {
-		longest_strs = alpm_list_add(longest_strs, alpm_list_getdata(i));
+	for(i = header, curcol = 0; i; i = alpm_list_next(i), curcol++) {
+		colwidths[curcol] = string_length(alpm_list_getdata(i));
 	}
 
 	/* now find the longest string in each column */
-	for(longest_str = longest_strs; longest_str;
-			longest_str = alpm_list_next(longest_str), curcol++) {
-		for(i = rows; i; i = alpm_list_next(i)) {
-			row = alpm_list_getdata(i);
-			cell = alpm_list_nth(row, curcol);
-			str = alpm_list_getdata(cell);
+	for(i = rows; i; i = alpm_list_next(i)) {
+		/* grab first column of each row and iterate through columns */
+		const alpm_list_t *j = alpm_list_getdata(i);
+		for(curcol = 0; j; j = alpm_list_next(j), curcol++) {
+			char *str = alpm_list_getdata(j);
+			size_t str_len = string_length(str);
 
-			if(strlen(str) > strlen(alpm_list_getdata(longest_str))) {
-				longest_str->data = str;
+			if(str_len > colwidths[curcol]) {
+				fprintf(stderr, "replace width: %zd (%zd -> %zd) %s\n",
+						curcol, colwidths[curcol], str_len, str);
+				colwidths[curcol] = str_len;
 			}
 		}
 	}
 
 	/* now use the column width info to generate format strings */
-	for(i = longest_strs; i; i = alpm_list_next(i)) {
+	for(curcol = 0; curcol < totalcols; curcol++) {
 		const char *display;
-		colwidth = string_length(alpm_list_getdata(i)) + padding;
+		char *formatstr;
+		size_t colwidth = colwidths[curcol] + padding;
 		totalwidth += colwidth;
 
 		/* right align the last column for a cleaner table display */
-		display = (alpm_list_next(i) != NULL) ? "%%-%ds" : "%%%ds";
+		display = (curcol + 1 < totalcols) ? "%%-%ds" : "%%%ds";
 		pm_asprintf(&formatstr, display, colwidth);
 
 		formats = alpm_list_add(formats, formatstr);
 	}
 
-	alpm_list_free(longest_strs);
+	free(colwidths);
 
 	/* return NULL if terminal is not wide enough */
 	if(totalwidth > getcols()) {
