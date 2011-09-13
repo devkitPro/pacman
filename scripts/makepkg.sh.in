@@ -742,18 +742,19 @@ check_pgpsigs() {
 			printf '\n' >&2
 		else
 			if grep -q "REVKEYSIG" "$statusfile"; then
-				printf '%s (%s)\n' "$(gettext "FAILED")" "$(gettext "the key has been revoked.")" >&2
+				printf '%s (%s)' "$(gettext "FAILED")" "$(gettext "the key has been revoked.")" >&2
 				errors=1
 			else
 				printf '%s' "$(gettext "Passed")" >&2
 				if grep -q "EXPSIG" "$statusfile"; then
-					printf ' (%s)\n' "$(gettext "WARNING:") $(gettext "the signature has expired.")" >&2
+					printf ' (%s)' "$(gettext "WARNING:") $(gettext "the signature has expired.")" >&2
 					warnings=1
 				elif grep -q "EXPKEYSIG" "$statusfile"; then
-					printf ' (%s)\n' "$(gettext "WARNING:") $(gettext "the key has expired.")" >&2
+					printf ' (%s)' "$(gettext "WARNING:") $(gettext "the key has expired.")" >&2
 					warnings=1
 				fi
 			fi
+			printf '\n' >&2
 		fi
 	done
 
