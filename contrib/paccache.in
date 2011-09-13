@@ -95,10 +95,8 @@ pkgfilter() {
 			# enforce architecture match if specified
 			if (!scanarch || scanarch == idx[2]) {
 				count = split(packages[idx[1], idx[2]], pkgs, SUBSEP)
-				if (count > keep) {
-					for(i = 1; i <= count - keep; i++) {
-						print pkgs[i]
-					}
+				for(i = 1; i <= count - keep; i++) {
+					print pkgs[i]
 				}
 			}
 		}
