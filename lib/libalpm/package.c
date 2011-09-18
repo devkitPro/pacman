@@ -111,7 +111,7 @@ static void *_pkg_changelog_open(alpm_pkg_t UNUSED *pkg)
 }
 
 static size_t _pkg_changelog_read(void UNUSED *ptr, size_t UNUSED size,
-		const alpm_pkg_t UNUSED *pkg, const UNUSED void *fp)
+		const alpm_pkg_t UNUSED *pkg, UNUSED void *fp)
 {
 	return 0;
 }
@@ -360,7 +360,7 @@ void SYMEXPORT *alpm_pkg_changelog_open(alpm_pkg_t *pkg)
 
 /** Read data from an open changelog 'file stream'. */
 size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
-		const alpm_pkg_t *pkg, const void *fp)
+		const alpm_pkg_t *pkg, void *fp)
 {
 	ASSERT(pkg != NULL, return 0);
 	pkg->handle->pm_errno = 0;

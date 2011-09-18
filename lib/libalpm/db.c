@@ -381,8 +381,8 @@ const char *_alpm_db_path(alpm_db_t *db)
 
 int _alpm_db_cmp(const void *d1, const void *d2)
 {
-	alpm_db_t *db1 = (alpm_db_t *)d1;
-	alpm_db_t *db2 = (alpm_db_t *)d2;
+	const alpm_db_t *db1 = d1;
+	const alpm_db_t *db2 = d2;
 	return strcmp(db1->treename, db2->treename);
 }
 

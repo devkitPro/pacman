@@ -63,7 +63,7 @@ struct pkg_operations {
 	alpm_list_t *(*get_backup) (alpm_pkg_t *);
 
 	void *(*changelog_open) (alpm_pkg_t *);
-	size_t (*changelog_read) (void *, size_t, const alpm_pkg_t *, const void *);
+	size_t (*changelog_read) (void *, size_t, const alpm_pkg_t *, void *);
 	int (*changelog_close) (const alpm_pkg_t *, void *);
 
 	int (*force_load) (alpm_pkg_t *);

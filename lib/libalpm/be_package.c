@@ -87,7 +87,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
  * @return the number of characters read, or 0 if there is no more data
  */
 static size_t _package_changelog_read(void *ptr, size_t size,
-		const alpm_pkg_t UNUSED *pkg, const void *fp)
+		const alpm_pkg_t UNUSED *pkg, void *fp)
 {
 	ssize_t sret = archive_read_data((struct archive *)fp, ptr, size);
 	/* Report error (negative values) */

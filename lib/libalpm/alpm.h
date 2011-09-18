@@ -899,7 +899,7 @@ void *alpm_pkg_changelog_open(alpm_pkg_t *pkg);
  * error occurred.
  */
 size_t alpm_pkg_changelog_read(void *ptr, size_t size,
-		const alpm_pkg_t *pkg, const void *fp);
+		const alpm_pkg_t *pkg, void *fp);
 
 int alpm_pkg_changelog_close(const alpm_pkg_t *pkg, void *fp);
 
