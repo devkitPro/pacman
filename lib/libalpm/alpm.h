@@ -901,8 +901,6 @@ void *alpm_pkg_changelog_open(alpm_pkg_t *pkg);
 size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 		const alpm_pkg_t *pkg, const void *fp);
 
-/*int alpm_pkg_changelog_feof(const alpm_pkg_t *pkg, void *fp);*/
-
 int alpm_pkg_changelog_close(const alpm_pkg_t *pkg, void *fp);
 
 /** Returns whether the package has an install scriptlet.

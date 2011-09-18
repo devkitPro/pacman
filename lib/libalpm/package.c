@@ -367,13 +367,6 @@ size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 	return pkg->ops->changelog_read(ptr, size, pkg, fp);
 }
 
-/*
-int SYMEXPORT alpm_pkg_changelog_feof(const alpm_pkg_t *pkg, void *fp)
-{
-	return pkg->ops->changelog_feof(pkg, fp);
-}
-*/
-
 /** Close a package changelog for reading. */
 int SYMEXPORT alpm_pkg_changelog_close(const alpm_pkg_t *pkg, void *fp)
 {
