@@ -1101,7 +1101,8 @@ time_t _alpm_parsedate(const char *line)
 {
 	if(isalpha((unsigned char)line[0])) {
 		/* initialize to null in case of failure */
-		struct tm tmp_tm = { 0 };
+		struct tm tmp_tm;
+		memset(&tmp_tm, 0, sizeof(struct tm));
 		setlocale(LC_TIME, "C");
 		strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
 		setlocale(LC_TIME, "");
