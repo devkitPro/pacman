@@ -500,14 +500,18 @@ static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info)
 
 #define READ_AND_STORE_ALL(f) do { \
 	char *linedup; \
-	if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
+	if(fgets(line, sizeof(line), fp) == NULL) {\
+		if(!feof(fp)) goto error; else break; \
+	} \
 	if(_alpm_strip_newline(line) == 0) break; \
 	STRDUP(linedup, line, goto error); \
 	f = alpm_list_add(f, linedup); \
 } while(1) /* note the while(1) and not (0) */
 
 #define READ_AND_SPLITDEP(f) do { \
-	if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
+	if(fgets(line, sizeof(line), fp) == NULL) {\
+		if(!feof(fp)) goto error; else break; \
+	} \
 	if(_alpm_strip_newline(line) == 0) break; \
 	f = alpm_list_add(f, _alpm_splitdep(line)); \
 } while(1) /* note the while(1) and not (0) */
