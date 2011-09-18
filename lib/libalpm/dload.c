@@ -135,9 +135,15 @@ static int curl_gethost(const char *url, char *buffer)
 		p += 2; /* jump over the found // */
 		hostlen = strcspn(p, "/");
 
-		/* there might be a user:pass@ on the URL. hide it. */
-		q = memrchr(p, '@', hostlen);
-		if(q) {
+		/* there might be a user:pass@ on the URL. hide it. avoid using memrchr()
+		 * for portability concerns. */
+		q = p + hostlen;
+		while(--q > p) {
+			if(*q == '@') {
+				break;
+			}
+		}
+		if(*q == '@' && p != q) {
 			hostlen -= q - p + 1;
 			p = q + 1;
 		}
