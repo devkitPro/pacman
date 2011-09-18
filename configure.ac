@@ -225,7 +225,7 @@ STRIP_STATIC="--strip-debug"
 case "${host_os}" in
 	*bsd*)
 		SIZECMD="stat -L -f %z"
-		SEDINPLACE="sed -i ''"
+		SEDINPLACE="sed -i \"\""
 		;;
 	cygwin*)
 		host_os_cygwin=yes
