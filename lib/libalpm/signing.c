@@ -407,7 +407,7 @@ error:
 }
 #else
 int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
-		const char UNUSED *base64_sig, alpm_sigresult_t UNUSED *result)
+		const char UNUSED *base64_sig, alpm_siglist_t UNUSED *siglist)
 {
 	return -1;
 }
@@ -537,7 +537,9 @@ int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 	for(num = 0; num < siglist->count; num++) {
 		alpm_sigresult_t *result = siglist->results + num;
 		if(result->key.data) {
+#if HAVE_LIBGPGME
 			gpgme_key_unref(result->key.data);
+#endif
 		} else {
 			free(result->key.fingerprint);
 		}
