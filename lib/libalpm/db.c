@@ -508,9 +508,11 @@ void _alpm_db_free_pkgcache(alpm_db_t *db)
 	_alpm_log(db->handle, ALPM_LOG_DEBUG,
 			"freeing package cache for repository '%s'\n", db->treename);
 
-	alpm_list_free_inner(_alpm_db_get_pkgcache(db),
+	if(db->pkgcache) {
+		alpm_list_free_inner(db->pkgcache->list,
 				(alpm_list_fn_free)_alpm_pkg_free);
-	_alpm_pkghash_free(db->pkgcache);
+		_alpm_pkghash_free(db->pkgcache);
+	}
 	db->status &= ~DB_STATUS_PKGCACHE;
 
 	free_groupcache(db);
