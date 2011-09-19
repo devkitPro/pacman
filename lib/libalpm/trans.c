@@ -280,7 +280,6 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 	char tmpdir[PATH_MAX];
 	char *argv[] = { "sh", "-c", cmdline, NULL };
 	char *scriptpath;
-	int clean_tmpdir = 0;
 	int retval = 0;
 
 	if(_alpm_access(handle, NULL, installfn, R_OK) != 0) {
@@ -297,8 +296,6 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 	if(mkdtemp(tmpdir) == NULL) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not create temp directory\n"));
 		return 1;
-	} else {
-		clean_tmpdir = 1;
 	}
 
 	/* either extract or copy the scriptlet */
@@ -317,13 +314,13 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 		goto cleanup;
 	}
 
-	/* chop off the root so we can find the tmpdir in the chroot */
-	scriptpath = scriptfn + strlen(handle->root) - 1;
-
 	if(!grep(scriptfn, script)) {
 		/* script not found in scriptlet file */
 		goto cleanup;
 	}
+
+	/* chop off the root so we can find the tmpdir in the chroot */
+	scriptpath = scriptfn + strlen(handle->root) - 1;
 
 	if(oldver) {
 		snprintf(cmdline, PATH_MAX, ". %s; %s %s %s",
@@ -338,7 +335,7 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 	retval = _alpm_run_chroot(handle, "/bin/sh", argv);
 
 cleanup:
-	if(clean_tmpdir && _alpm_rmrf(tmpdir)) {
+	if(_alpm_rmrf(tmpdir)) {
 		_alpm_log(handle, ALPM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
 	}
 
