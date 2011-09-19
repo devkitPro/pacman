@@ -216,12 +216,12 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 {
 	char filepath[PATH_MAX];
 
-	snprintf(filepath, PATH_MAX, "%s%s", handle->root, file->name);
-
-	if(alpm_list_find_str(skip_remove, filepath)) {
+	if(alpm_list_find_str(skip_remove, file->name)) {
 		/* return success because we will never actually remove this file */
 		return 1;
 	}
+
+	snprintf(filepath, PATH_MAX, "%s%s", handle->root, file->name);
 	/* If we fail write permissions due to a read-only filesystem, abort.
 	 * Assume all other possible failures are covered somewhere else */
 	if(_alpm_access(handle, NULL, filepath, W_OK) == -1) {
