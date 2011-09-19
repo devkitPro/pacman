@@ -25,6 +25,7 @@
 #include <time.h>
 #include <string.h>
 #include <limits.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -528,8 +529,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	if(!(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
 		struct archive *archive;
 		struct archive_entry *entry;
-		char cwd[PATH_MAX] = "";
-		int restore_cwd = 0;
+		int cwdfd;
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "extracting files\n");
 
@@ -551,10 +551,11 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		}
 
 		/* save the cwd so we can restore it later */
-		if(getcwd(cwd, PATH_MAX) == NULL) {
+		do {
+			cwdfd = open(".", O_RDONLY);
+		} while(cwdfd == -1 && errno == EINTR);
+		if(cwdfd < 0) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
-		} else {
-			restore_cwd = 1;
 		}
 
 		/* libarchive requires this for extracting hard links */
@@ -607,8 +608,12 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		archive_read_finish(archive);
 
 		/* restore the old cwd if we have it */
-		if(restore_cwd && chdir(cwd) != 0) {
-			_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
+		if(cwdfd >= 0) {
+			if(fchdir(cwdfd) != 0) {
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("could not restore working directory (%s)\n"), strerror(errno));
+			}
+			close(cwdfd);
 		}
 
 		if(errors) {

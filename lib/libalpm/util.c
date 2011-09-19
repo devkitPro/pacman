@@ -31,6 +31,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <dirent.h>
+#include <fcntl.h>
 #include <time.h>
 #include <syslog.h>
 #include <errno.h>
@@ -277,8 +278,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 	mode_t oldmask;
 	struct archive *_archive;
 	struct archive_entry *entry;
-	char cwd[PATH_MAX];
-	int restore_cwd = 0;
+	int cwdfd;
 
 	if((_archive = archive_read_new()) == NULL) {
 		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, 1);
@@ -297,10 +297,11 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 	oldmask = umask(0022);
 
 	/* save the cwd so we can restore it later */
-	if(getcwd(cwd, PATH_MAX) == NULL) {
+	do {
+		cwdfd = open(".", O_RDONLY);
+	} while(cwdfd == -1 && errno == EINTR);
+	if(cwdfd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
-	} else {
-		restore_cwd = 1;
 	}
 
 	/* just in case our cwd was removed in the upgrade operation */
@@ -365,10 +366,14 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 cleanup:
 	umask(oldmask);
 	archive_read_finish(_archive);
-	if(restore_cwd && chdir(cwd) != 0) {
-		_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
-				cwd, strerror(errno));
+	if(cwdfd >= 0) {
+		if(fchdir(cwdfd) != 0) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("could not restore working directory (%s)\n"), strerror(errno));
+		}
+		close(cwdfd);
 	}
+
 	return ret;
 }
 
@@ -490,17 +495,16 @@ int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
 
 int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[])
 {
-	char cwd[PATH_MAX];
 	pid_t pid;
-	int pipefd[2];
-	int restore_cwd = 0;
+	int pipefd[2], cwdfd;
 	int retval = 0;
 
 	/* save the cwd so we can restore it later */
-	if(getcwd(cwd, PATH_MAX) == NULL) {
+	do {
+		cwdfd = open(".", O_RDONLY);
+	} while(cwdfd == -1 && errno == EINTR);
+	if(cwdfd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
-	} else {
-		restore_cwd = 1;
 	}
 
 	/* just in case our cwd was removed in the upgrade operation */
@@ -598,8 +602,12 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 	}
 
 cleanup:
-	if(restore_cwd && chdir(cwd) != 0) {
-		_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"), cwd, strerror(errno));
+	if(cwdfd >= 0) {
+		if(fchdir(cwdfd) != 0) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("could not restore working directory (%s)\n"), strerror(errno));
+		}
+		close(cwdfd);
 	}
 
 	return retval;

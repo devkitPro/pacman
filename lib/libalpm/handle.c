@@ -115,7 +115,7 @@ int _alpm_handle_lock(alpm_handle_t *handle)
 	do {
 		fd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL, 0000);
 	} while(fd == -1 && errno == EINTR);
-	if(fd > 0) {
+	if(fd >= 0) {
 		FILE *f = fdopen(fd, "w");
 		fprintf(f, "%ld\n", (long)getpid());
 		fflush(f);
