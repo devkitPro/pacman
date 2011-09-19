@@ -475,7 +475,7 @@ db:
 	return 0;
 }
 
-int _alpm_remove_packages(alpm_handle_t *handle)
+int _alpm_remove_packages(alpm_handle_t *handle, int run_ldconfig)
 {
 	alpm_list_t *targ;
 	size_t pkg_count, targ_count;
@@ -489,23 +489,25 @@ int _alpm_remove_packages(alpm_handle_t *handle)
 		alpm_pkg_t *pkg = targ->data;
 
 		if(trans->state == STATE_INTERRUPTED) {
-			return 0;
+			return ret;
 		}
 
 		if(_alpm_remove_single_package(handle, pkg, NULL,
 					targ_count, pkg_count) == -1) {
 			handle->pm_errno = ALPM_ERR_TRANS_ABORT;
+			/* running ldconfig at this point could possibly screw system */
+			run_ldconfig = 0;
 			ret = -1;
-			goto cleanup;
 		}
 
 		targ_count++;
 	}
 
-	/* run ldconfig if it exists */
-	_alpm_ldconfig(handle);
+	if(run_ldconfig) {
+		/* run ldconfig if it exists */
+		_alpm_ldconfig(handle);
+	}
 
-cleanup:
 	return ret;
 }
 

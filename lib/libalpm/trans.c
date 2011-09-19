@@ -164,7 +164,7 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 	trans->state = STATE_COMMITING;
 
 	if(trans->add == NULL) {
-		if(_alpm_remove_packages(handle) == -1) {
+		if(_alpm_remove_packages(handle, 1) == -1) {
 			/* pm_errno is set by _alpm_remove_commit() */
 			return -1;
 		}

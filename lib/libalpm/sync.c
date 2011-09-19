@@ -1042,7 +1042,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	if(replaces) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing conflicting and to-be-replaced packages\n");
 		/* we want the frontend to be aware of commit details */
-		if(_alpm_remove_packages(handle) == -1) {
+		if(_alpm_remove_packages(handle, 0) == -1) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not commit removal transaction\n"));
 			return -1;
 		}
