@@ -644,7 +644,8 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 					providers, dep, NULL, &index);
 		}
 		if(index >= 0 && index < count) {
-			alpm_pkg_t *pkg = alpm_list_getdata(alpm_list_nth(providers, index));
+			alpm_list_t *nth = alpm_list_nth(providers, index);
+			alpm_pkg_t *pkg = nth->data;
 			alpm_list_free(providers);
 			return pkg;
 		}

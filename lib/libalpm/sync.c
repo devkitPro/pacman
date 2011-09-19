@@ -767,7 +767,7 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 	EVENT(handle, ALPM_EVENT_DELTA_INTEGRITY_START, NULL, NULL);
 
 	for(i = deltas; i; i = i->next) {
-		alpm_delta_t *d = alpm_list_getdata(i);
+		alpm_delta_t *d = i->data;
 		char *filepath = _alpm_filecache_find(handle, d->delta);
 
 		if(_alpm_test_checksum(filepath, d->delta_md5, ALPM_CSUM_MD5)) {

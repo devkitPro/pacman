@@ -652,7 +652,7 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 
 	/* Loop through the cache dirs until we find a matching file */
 	for(i = handle->cachedirs; i; i = i->next) {
-		snprintf(path, PATH_MAX, "%s%s", (char *)alpm_list_getdata(i),
+		snprintf(path, PATH_MAX, "%s%s", (char *)i->data,
 				filename);
 		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
 			retpath = strdup(path);
@@ -677,7 +677,7 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 
 	/* Loop through the cache dirs until we find a usable directory */
 	for(i = handle->cachedirs; i; i = i->next) {
-		cachedir = alpm_list_getdata(i);
+		cachedir = i->data;
 		if(stat(cachedir, &buf) != 0) {
 			/* cache directory does not exist.... try creating it */
 			_alpm_log(handle, ALPM_LOG_WARNING, _("no %s cache exists, creating...\n"),
