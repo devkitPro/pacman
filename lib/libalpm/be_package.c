@@ -287,6 +287,7 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 		alpm_siglist_t **sigdata)
 {
 	int has_sig;
+	handle->pm_errno = 0;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);

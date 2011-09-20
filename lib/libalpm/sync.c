@@ -909,42 +909,47 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 	return errors;
 }
 
-static int check_validity(alpm_handle_t *handle, alpm_list_t **data,
+static int check_validity(alpm_handle_t *handle,
 		size_t total, size_t total_bytes)
 {
+	struct validity {
+		alpm_pkg_t *pkg;
+		char *path;
+		alpm_siglist_t *siglist;
+		alpm_siglevel_t level;
+		enum _alpm_errno_t error;
+	};
 	size_t current = 0, current_bytes = 0;
-	int errors = 0;
-	alpm_list_t *i;
+	alpm_list_t *i, *errors = NULL;
 
 	/* Check integrity of packages */
 	EVENT(handle, ALPM_EVENT_INTEGRITY_START, NULL, NULL);
 
 	for(i = handle->trans->add; i; i = i->next, current++) {
-		alpm_pkg_t *spkg = i->data;
-		char *filepath;
-		alpm_siglevel_t level;
-		alpm_siglist_t *siglist = NULL;
+		struct validity v = { i->data, NULL, NULL, 0, 0 };
 		int percent = (int)(((double)current_bytes / total_bytes) * 100);
 
 		PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", percent,
 				total, current);
-		if(spkg->origin == PKG_FROM_FILE) {
+		if(v.pkg->origin == PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
 
-		current_bytes += spkg->size;
-		filepath = _alpm_filecache_find(handle, spkg->filename);
-		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
-		level = alpm_db_get_siglevel(sdb);
+		current_bytes += v.pkg->size;
+		v.path = _alpm_filecache_find(handle, v.pkg->filename);
+		v.level = alpm_db_get_siglevel(alpm_pkg_get_db(v.pkg));
 
-		if(_alpm_pkg_validate_internal(handle, filepath, spkg, level, &siglist) == -1) {
-			prompt_to_delete(handle, filepath, handle->pm_errno);
-			errors++;
-			*data = alpm_list_add(*data, strdup(spkg->filename));
+		if(_alpm_pkg_validate_internal(handle, v.path, v.pkg,
+					v.level, &v.siglist) == -1) {
+			v.error = handle->pm_errno;
+			struct validity *invalid = malloc(sizeof(struct validity));
+			memcpy(invalid, &v, sizeof(struct validity));
+			errors = alpm_list_add(errors, invalid);
+		} else {
+			alpm_siglist_cleanup(v.siglist);
+			free(v.siglist);
+			free(v.path);
 		}
-		alpm_siglist_cleanup(siglist);
-		free(siglist);
-		free(filepath);
 	}
 
 	PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", 100,
@@ -952,10 +957,33 @@ static int check_validity(alpm_handle_t *handle, alpm_list_t **data,
 	EVENT(handle, ALPM_EVENT_INTEGRITY_DONE, NULL, NULL);
 
 	if(errors) {
-		if(!handle->pm_errno) {
-			RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
+		int tryagain = 0;
+		for(i = errors; i; i = i->next) {
+			struct validity *v = i->data;
+			if(v->error == ALPM_ERR_PKG_INVALID_SIG) {
+				int retry = _alpm_process_siglist(handle, v->pkg->name, v->siglist,
+						v->level & ALPM_SIG_PACKAGE_OPTIONAL,
+						v->level & ALPM_SIG_PACKAGE_MARGINAL_OK,
+						v->level & ALPM_SIG_PACKAGE_UNKNOWN_OK);
+				tryagain += retry;
+			} else if(v->error == ALPM_ERR_PKG_INVALID_CHECKSUM) {
+				prompt_to_delete(handle, v->path, v->error);
+			}
+			alpm_siglist_cleanup(v->siglist);
+			free(v->siglist);
+			free(v->path);
+			free(v);
 		}
-		return -1;
+		alpm_list_free(errors);
+
+		if(tryagain == 0) {
+			if(!handle->pm_errno) {
+				RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
+			}
+			return -1;
+		}
+		/* we were told at least once we can try again */
+		return 1;
 	}
 
 	return 0;
@@ -1051,8 +1079,14 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	/* this can only happen maliciously */
 	total_bytes = total_bytes ? total_bytes : 1;
 
-	if(check_validity(handle, data, total, total_bytes)) {
-		return -1;
+	/* this one is special: -1 is failure, 1 is retry, 0 is success */
+	while(1) {
+		int ret = check_validity(handle, total, total_bytes);
+		if(ret == 0) {
+			break;
+		} else if(ret < 0) {
+			return -1;
+		}
 	}
 
 	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
