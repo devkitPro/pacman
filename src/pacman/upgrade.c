@@ -70,12 +70,12 @@ int pacman_upgrade(alpm_list_t *targets)
 		return 1;
 	}
 
+	printf(_("loading packages...\n"));
 	/* add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *targ = alpm_list_getdata(i);
 		alpm_pkg_t *pkg;
 
-		printf(_("loading packages...\n"));
 		if(alpm_pkg_load(config->handle, targ, 1, level, &pkg) != 0) {
 			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
