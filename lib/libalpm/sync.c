@@ -753,11 +753,9 @@ static int prompt_to_delete(alpm_handle_t *handle, const char *filepath,
 	return doremove;
 }
 
-static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
-		alpm_list_t **data)
+static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas)
 {
-	int errors = 0;
-	alpm_list_t *i;
+	alpm_list_t *i, *errors = NULL;
 
 	if(!deltas) {
 		return 0;
@@ -765,19 +763,25 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas,
 
 	/* Check integrity of deltas */
 	EVENT(handle, ALPM_EVENT_DELTA_INTEGRITY_START, NULL, NULL);
-
 	for(i = deltas; i; i = i->next) {
 		alpm_delta_t *d = i->data;
 		char *filepath = _alpm_filecache_find(handle, d->delta);
 
 		if(_alpm_test_checksum(filepath, d->delta_md5, ALPM_CSUM_MD5)) {
-			prompt_to_delete(handle, filepath, ALPM_ERR_DLT_INVALID);
-			errors++;
-			*data = alpm_list_add(*data, strdup(d->delta));
+			errors = alpm_list_add(errors, filepath);
+		} else {
+			FREE(filepath);
 		}
-		FREE(filepath);
 	}
+	EVENT(handle, ALPM_EVENT_DELTA_INTEGRITY_DONE, NULL, NULL);
+
 	if(errors) {
+		for(i = errors; i; i = i->next) {
+			char *filepath = i->data;
+			prompt_to_delete(handle, filepath, ALPM_ERR_DLT_INVALID);
+			FREE(filepath);
+		}
+		alpm_list_free(errors);
 		handle->pm_errno = ALPM_ERR_DLT_INVALID;
 		return -1;
 	}
@@ -1024,7 +1028,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		return -1;
 	}
 
-	if(validate_deltas(handle, deltas, data)) {
+	if(validate_deltas(handle, deltas)) {
 		alpm_list_free(deltas);
 		return -1;
 	}
