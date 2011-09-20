@@ -330,13 +330,18 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 	/* even if we don't have a sig, run the check code if level tells us to */
 	if(has_sig || level & ALPM_SIG_PACKAGE) {
 		const char *sig = syncpkg ? syncpkg->base64_sig : NULL;
+		alpm_siglist_t *siglist;
 		_alpm_log(handle, ALPM_LOG_DEBUG, "sig data: %s\n", sig ? sig : "<from .sig>");
 		if(_alpm_check_pgp_helper(handle, pkgfile, sig,
 					level & ALPM_SIG_PACKAGE_OPTIONAL, level & ALPM_SIG_PACKAGE_MARGINAL_OK,
-					level & ALPM_SIG_PACKAGE_UNKNOWN_OK)) {
+					level & ALPM_SIG_PACKAGE_UNKNOWN_OK, &siglist)) {
 			handle->pm_errno = ALPM_ERR_PKG_INVALID_SIG;
+			alpm_siglist_cleanup(siglist);
+			free(siglist);
 			return -1;
 		}
+		alpm_siglist_cleanup(siglist);
+		free(siglist);
 	}
 
 	return 0;
