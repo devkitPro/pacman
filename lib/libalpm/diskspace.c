@@ -232,6 +232,27 @@ static int calculate_installed_size(alpm_handle_t *handle,
 	return 0;
 }
 
+static int check_mountpoint(alpm_handle_t *handle, alpm_mountpoint_t *mp)
+{
+	/* cushion is roughly min(5% capacity, 20MiB) */
+	fsblkcnt_t fivepc = (mp->fsp.f_blocks / 20) + 1;
+	fsblkcnt_t twentymb = (20 * 1024 * 1024 / mp->fsp.f_bsize) + 1;
+	fsblkcnt_t cushion = fivepc < twentymb ? fivepc : twentymb;
+	blkcnt_t needed = mp->max_blocks_needed + cushion;
+
+	_alpm_log(handle, ALPM_LOG_DEBUG,
+			"partition %s, needed %jd, cushion %ju, free %ju\n",
+			mp->mount_dir, (intmax_t)mp->max_blocks_needed,
+			(uintmax_t)cushion, (uintmax_t)mp->fsp.f_bfree);
+	if(needed >= 0 && (fsblkcnt_t)needed > mp->fsp.f_bfree) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("Partition %s too full: %jd blocks needed, %jd blocks free\n"),
+				mp->mount_dir, (intmax_t)needed, (uintmax_t)mp->fsp.f_bfree);
+		return 1;
+	}
+	return 0;
+}
+
 int _alpm_check_diskspace(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points, *i;
@@ -300,23 +321,8 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 			_alpm_log(handle, ALPM_LOG_ERROR, _("Partition %s is mounted read only\n"),
 					data->mount_dir);
 			error = 1;
-		} else if(data->used & USED_INSTALL) {
-			/* cushion is roughly min(5% capacity, 20MiB) */
-			fsblkcnt_t fivepc = (data->fsp.f_blocks / 20) + 1;
-			fsblkcnt_t twentymb = (20 * 1024 * 1024 / data->fsp.f_bsize) + 1;
-			fsblkcnt_t cushion = fivepc < twentymb ? fivepc : twentymb;
-			blkcnt_t needed = data->max_blocks_needed + cushion;
-
-			_alpm_log(handle, ALPM_LOG_DEBUG,
-					"partition %s, needed %jd, cushion %ju, free %ju\n",
-					data->mount_dir, (intmax_t)data->max_blocks_needed,
-					(uintmax_t)cushion, (uintmax_t)data->fsp.f_bfree);
-			if(needed >= 0 && (fsblkcnt_t)needed > data->fsp.f_bfree) {
-				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("Partition %s too full: %jd blocks needed, %jd blocks free\n"),
-						data->mount_dir, (intmax_t)needed, (uintmax_t)data->fsp.f_bfree);
-				error = 1;
-			}
+		} else if(data->used & USED_INSTALL && check_mountpoint(handle, data)) {
+			error = 1;
 		}
 	}
 
