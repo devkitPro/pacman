@@ -342,6 +342,15 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 					(char *)data1,
 					alpm_strerror(*(enum _alpm_errno_t *)data2));
 			break;
+		case ALPM_QUESTION_IMPORT_KEY:
+			{
+				alpm_pgpkey_t *key = data1;
+				char created[12];
+				strftime(created, 12, "%Y-%m-%d", localtime(&(key->created)));
+				*response = yesno(_(":: Import PGP key %s, \"%s\", created %s?"),
+						key->fingerprint, key->uid, created);
+			}
+			break;
 	}
 	if(config->noask) {
 		if(config->ask & event) {

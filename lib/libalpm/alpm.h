@@ -352,6 +352,7 @@ typedef enum _alpm_question_t {
 	ALPM_QUESTION_LOCAL_NEWER = (1 << 4),
 	ALPM_QUESTION_REMOVE_PKGS = (1 << 5),
 	ALPM_QUESTION_SELECT_PROVIDER = (1 << 6),
+	ALPM_QUESTION_IMPORT_KEY = (1 << 7)
 } alpm_question_t;
 
 /** Question callback */
