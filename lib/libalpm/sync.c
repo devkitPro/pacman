@@ -905,51 +905,17 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 	return errors;
 }
 
-int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
+static int check_validity(alpm_handle_t *handle, alpm_list_t **data,
+		size_t total, size_t total_bytes)
 {
+	size_t current = 0, current_bytes = 0;
+	int errors = 0;
 	alpm_list_t *i;
-	alpm_list_t *deltas = NULL;
-	size_t numtargs, current, replaces = 0;
-	size_t current_bytes, total_bytes;
-	int errors;
-	alpm_trans_t *trans = handle->trans;
-
-	if(download_files(handle, &deltas)) {
-		alpm_list_free(deltas);
-		return -1;
-	}
-
-	if(validate_deltas(handle, deltas, data)) {
-		alpm_list_free(deltas);
-		return -1;
-	}
-	alpm_list_free(deltas);
-
-	/* Use the deltas to generate the packages */
-	if(apply_deltas(handle)) {
-		return -1;
-	}
-
-	/* get the total size of all packages so we can adjust the progress bar more
-	 * realistically if there are small and huge packages involved */
-	current = total_bytes = 0;
-	for(i = trans->add; i; i = i->next, current++) {
-		alpm_pkg_t *spkg = i->data;
-		if(spkg->origin != PKG_FROM_FILE) {
-			total_bytes += spkg->size;
-		}
-	}
-	/* this can only happen maliciously */
-	total_bytes = total_bytes ? total_bytes : 1;
 
 	/* Check integrity of packages */
-	numtargs = alpm_list_count(trans->add);
 	EVENT(handle, ALPM_EVENT_INTEGRITY_START, NULL, NULL);
 
-	current = current_bytes = 0;
-	errors = 0;
-
-	for(i = trans->add; i; i = i->next, current++) {
+	for(i = handle->trans->add; i; i = i->next, current++) {
 		alpm_pkg_t *spkg = i->data;
 		char *filepath;
 		alpm_siglevel_t level;
@@ -957,7 +923,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		int percent = (int)(((double)current_bytes / total_bytes) * 100);
 
 		PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", percent,
-				numtargs, current);
+				total, current);
 		if(spkg->origin == PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
@@ -978,7 +944,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", 100,
-			numtargs, current);
+			total, current);
 	EVENT(handle, ALPM_EVENT_INTEGRITY_DONE, NULL, NULL);
 
 	if(errors) {
@@ -988,24 +954,26 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		return -1;
 	}
 
-	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
-		return 0;
-	}
+	return 0;
+}
+
+static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
+		size_t total, size_t total_bytes)
+{
+	size_t current = 0, current_bytes = 0;
+	int errors = 0;
+	alpm_list_t *i;
 
 	/* load packages from disk now that they are known-valid */
-	numtargs = alpm_list_count(trans->add);
 	EVENT(handle, ALPM_EVENT_LOAD_START, NULL, NULL);
 
-	current = current_bytes = 0;
-	errors = 0;
-
-	for(i = trans->add; i; i = i->next, current++) {
+	for(i = handle->trans->add; i; i = i->next, current++) {
 		alpm_pkg_t *spkg = i->data;
 		char *filepath;
 		int percent = (int)(((double)current_bytes / total_bytes) * 100);
 
 		PROGRESS(handle, ALPM_PROGRESS_LOAD_START, "", percent,
-				numtargs, current);
+				total, current);
 		if(spkg->origin == PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
@@ -1032,7 +1000,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	PROGRESS(handle, ALPM_PROGRESS_LOAD_START, "", 100,
-			numtargs, current);
+			total, current);
 	EVENT(handle, ALPM_EVENT_LOAD_DONE, NULL, NULL);
 
 	if(errors) {
@@ -1042,9 +1010,56 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		return -1;
 	}
 
-	trans->state = STATE_COMMITING;
+	return 0;
+}
 
-	replaces = alpm_list_count(trans->remove);
+int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
+{
+	alpm_list_t *i, *deltas = NULL;
+	size_t total = 0, total_bytes = 0;
+	alpm_trans_t *trans = handle->trans;
+
+	if(download_files(handle, &deltas)) {
+		alpm_list_free(deltas);
+		return -1;
+	}
+
+	if(validate_deltas(handle, deltas, data)) {
+		alpm_list_free(deltas);
+		return -1;
+	}
+	alpm_list_free(deltas);
+
+	/* Use the deltas to generate the packages */
+	if(apply_deltas(handle)) {
+		return -1;
+	}
+
+	/* get the total size of all packages so we can adjust the progress bar more
+	 * realistically if there are small and huge packages involved */
+	for(i = trans->add; i; i = i->next) {
+		alpm_pkg_t *spkg = i->data;
+		if(spkg->origin != PKG_FROM_FILE) {
+			total_bytes += spkg->size;
+		}
+		total++;
+	}
+	/* this can only happen maliciously */
+	total_bytes = total_bytes ? total_bytes : 1;
+
+	if(check_validity(handle, data, total, total_bytes)) {
+		return -1;
+	}
+
+	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
+		return 0;
+	}
+
+	if(load_packages(handle, data, total, total_bytes)) {
+		return -1;
+	}
+
+	trans->state = STATE_COMMITING;
 
 	/* fileconflict check */
 	if(!(trans->flags & ALPM_TRANS_FLAG_FORCE)) {
@@ -1080,7 +1095,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	/* remove conflicting and to-be-replaced packages */
-	if(replaces) {
+	if(trans->remove) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing conflicting and to-be-replaced packages\n");
 		/* we want the frontend to be aware of commit details */
 		if(_alpm_remove_packages(handle, 0) == -1) {
