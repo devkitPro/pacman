@@ -135,8 +135,10 @@ void _alpm_pkg_free(alpm_pkg_t *pkg);
 void _alpm_pkg_free_trans(alpm_pkg_t *pkg);
 
 
-alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
-		alpm_pkg_t *syncpkg, int full, alpm_siglevel_t level);
+int _alpm_pkg_validate_internal(alpm_handle_t *handle,
+		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level);
+alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
+		const char *pkgfile, int full);
 
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);

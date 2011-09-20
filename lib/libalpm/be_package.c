@@ -273,20 +273,86 @@ static alpm_file_t *files_msort(alpm_file_t *files, size_t n)
 }
 
 /**
- * Load a package and create the corresponding alpm_pkg_t struct.
+ * Validate a package.
  * @param handle the context handle
  * @param pkgfile path to the package file
  * @param syncpkg package object to load verification data from (md5sum,
  * sha256sum, and/or base64 signature)
+ * @param level the required level of signature verification
+ * @return 0 if package is fully valid, -1 and pm_errno otherwise
+ */
+int _alpm_pkg_validate_internal(alpm_handle_t *handle,
+		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level)
+{
+	int has_sig;
+
+	if(pkgfile == NULL || strlen(pkgfile) == 0) {
+		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+	}
+
+	/* attempt to access the package file, ensure it exists */
+	if(access(pkgfile, R_OK) != 0) {
+		RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, -1);
+	}
+
+	/* can we get away with skipping checksums? */
+	has_sig = 0;
+	if(level & ALPM_SIG_PACKAGE) {
+		if(syncpkg && syncpkg->base64_sig) {
+			has_sig = 1;
+		} else {
+			char *sigpath = _alpm_sigpath(handle, pkgfile);
+			if(sigpath && !_alpm_access(handle, NULL, sigpath, R_OK)) {
+				has_sig = 1;
+			}
+			free(sigpath);
+		}
+	}
+
+	if(syncpkg && !has_sig) {
+		if(syncpkg->md5sum && !syncpkg->sha256sum) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "md5sum: %s\n", syncpkg->md5sum);
+			_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
+			if(_alpm_test_checksum(pkgfile, syncpkg->md5sum, ALPM_CSUM_MD5) != 0) {
+				RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, -1);
+			}
+		}
+
+		if(syncpkg->sha256sum) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "sha256sum: %s\n", syncpkg->sha256sum);
+			_alpm_log(handle, ALPM_LOG_DEBUG, "checking sha256sum for %s\n", pkgfile);
+			if(_alpm_test_checksum(pkgfile, syncpkg->sha256sum, ALPM_CSUM_SHA256) != 0) {
+				RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, -1);
+			}
+		}
+	}
+
+	/* even if we don't have a sig, run the check code if level tells us to */
+	if(has_sig || level & ALPM_SIG_PACKAGE) {
+		const char *sig = syncpkg ? syncpkg->base64_sig : NULL;
+		_alpm_log(handle, ALPM_LOG_DEBUG, "sig data: %s\n", sig ? sig : "<from .sig>");
+		if(_alpm_check_pgp_helper(handle, pkgfile, sig,
+					level & ALPM_SIG_PACKAGE_OPTIONAL, level & ALPM_SIG_PACKAGE_MARGINAL_OK,
+					level & ALPM_SIG_PACKAGE_UNKNOWN_OK)) {
+			handle->pm_errno = ALPM_ERR_PKG_INVALID_SIG;
+			return -1;
+		}
+	}
+
+	return 0;
+}
+
+/**
+ * Load a package and create the corresponding alpm_pkg_t struct.
+ * @param handle the context handle
+ * @param pkgfile path to the package file
  * @param full whether to stop the load after metadata is read or continue
  * through the full archive
- * @param level the required level of signature verification
- * @return An information filled alpm_pkg_t struct
  */
-alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
-		alpm_pkg_t *syncpkg, int full, alpm_siglevel_t level)
+alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
+		const char *pkgfile, int full)
 {
-	int ret, has_sig, config = 0;
+	int ret, config = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
 	alpm_pkg_t *newpkg = NULL;
@@ -311,54 +377,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle, const char *pkgfile,
 		RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, NULL);
 	}
 
-	/* can we get away with skipping checksums? */
-	has_sig = 0;
-	if(level & ALPM_SIG_PACKAGE) {
-		if(syncpkg && syncpkg->base64_sig) {
-			has_sig = 1;
-		} else {
-			char *sigpath = _alpm_sigpath(handle, pkgfile);
-			if(sigpath && !_alpm_access(handle, NULL, sigpath, R_OK)) {
-				has_sig = 1;
-			}
-			free(sigpath);
-		}
-	}
-
-	if(syncpkg && !has_sig) {
-		if(syncpkg->md5sum && !syncpkg->sha256sum) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "md5sum: %s\n", syncpkg->md5sum);
-			_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
-			if(_alpm_test_checksum(pkgfile, syncpkg->md5sum, ALPM_CSUM_MD5) != 0) {
-				alpm_pkg_free(newpkg);
-				RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, NULL);
-			}
-		}
-
-		if(syncpkg->sha256sum) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "sha256sum: %s\n", syncpkg->sha256sum);
-			_alpm_log(handle, ALPM_LOG_DEBUG, "checking sha256sum for %s\n", pkgfile);
-			if(_alpm_test_checksum(pkgfile, syncpkg->sha256sum, ALPM_CSUM_SHA256) != 0) {
-				alpm_pkg_free(newpkg);
-				RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, NULL);
-			}
-		}
-	}
-
-	/* even if we don't have a sig, run the check code if level tells us to */
-	if(has_sig || level & ALPM_SIG_PACKAGE) {
-		const char *sig = syncpkg ? syncpkg->base64_sig : NULL;
-		_alpm_log(handle, ALPM_LOG_DEBUG, "sig data: %s\n", sig ? sig : "<from .sig>");
-		if(_alpm_check_pgp_helper(handle, pkgfile, sig,
-					level & ALPM_SIG_PACKAGE_OPTIONAL, level & ALPM_SIG_PACKAGE_MARGINAL_OK,
-					level & ALPM_SIG_PACKAGE_UNKNOWN_OK)) {
-			handle->pm_errno = ALPM_ERR_PKG_INVALID_SIG;
-			_alpm_pkg_free(newpkg);
-			return NULL;
-		}
-	}
-
-	/* next- try to create an archive object to read in the package */
+	/* try to create an archive object to read in the package */
 	if((archive = archive_read_new()) == NULL) {
 		alpm_pkg_free(newpkg);
 		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, NULL);
@@ -490,7 +509,11 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	*pkg = _alpm_pkg_load_internal(handle, filename, NULL, full, level);
+	if(_alpm_pkg_validate_internal(handle, filename, NULL, level) == -1) {
+		/* pm_errno is set by pkg_validate */
+		return -1;
+	}
+	*pkg = _alpm_pkg_load_internal(handle, filename, full);
 	if(*pkg == NULL) {
 		/* pm_errno is set by pkg_load */
 		return -1;

@@ -971,9 +971,15 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				"replacing pkgcache entry with package file for target %s\n",
 				spkg->name);
-		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, spkg, 1, level);
-		if(!pkgfile) {
+		if(_alpm_pkg_validate_internal(handle, filepath, spkg, level) == -1) {
 			prompt_to_delete(handle, filepath, handle->pm_errno);
+			errors++;
+			*data = alpm_list_add(*data, strdup(spkg->filename));
+			FREE(filepath);
+			continue;
+		}
+		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1);
+		if(!pkgfile) {
 			errors++;
 			*data = alpm_list_add(*data, strdup(spkg->filename));
 			FREE(filepath);
