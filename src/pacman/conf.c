@@ -23,10 +23,12 @@
 #include <errno.h>
 #include <glob.h>
 #include <limits.h>
+#include <fcntl.h> /* open */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h> /* strdup */
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <sys/utsname.h> /* uname */
 #include <unistd.h>
 
@@ -118,13 +120,11 @@ static char *get_tempfile(const char *path, const char *filename) {
 /** External fetch callback */
 static int download_with_xfercommand(const char *url, const char *localpath,
 		int force) {
-	int ret = 0;
-	int retval;
+	int ret = 0, retval;
 	int usepart = 0;
+	int cwdfd;
 	struct stat st;
 	char *parsedcmd,*tempcmd;
-	char cwd[PATH_MAX];
-	int restore_cwd = 0;
 	char *destfile, *tempfile, *filename;
 
 	if(!config->xfercommand) {
@@ -158,10 +158,11 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 	free(tempcmd);
 
 	/* save the cwd so we can restore it later */
-	if(getcwd(cwd, PATH_MAX) == NULL) {
+	do {
+		cwdfd = open(".", O_RDONLY);
+	} while(cwdfd == -1 && errno == EINTR);
+	if(cwdfd < 0) {
 		pm_printf(ALPM_LOG_ERROR, _("could not get current working directory\n"));
-	} else {
-		restore_cwd = 1;
 	}
 
 	/* cwd to the download directory */
@@ -196,9 +197,12 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 
 cleanup:
 	/* restore the old cwd if we have it */
-	if(restore_cwd && chdir(cwd) != 0) {
-		pm_printf(ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
-				cwd, strerror(errno));
+	if(cwdfd >= 0) {
+		if(fchdir(cwdfd) != 0) {
+			pm_printf(ALPM_LOG_ERROR, _("could not restore working directory (%s)\n"),
+					strerror(errno));
+		}
+		close(cwdfd);
 	}
 
 	if(ret == -1) {
