@@ -134,9 +134,9 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr);
 void _alpm_pkg_free(alpm_pkg_t *pkg);
 void _alpm_pkg_free_trans(alpm_pkg_t *pkg);
 
-
 int _alpm_pkg_validate_internal(alpm_handle_t *handle,
-		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level);
+		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level,
+		alpm_siglist_t **sigdata);
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		const char *pkgfile, int full);
 

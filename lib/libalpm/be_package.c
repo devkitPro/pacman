@@ -279,10 +279,12 @@ static alpm_file_t *files_msort(alpm_file_t *files, size_t n)
  * @param syncpkg package object to load verification data from (md5sum,
  * sha256sum, and/or base64 signature)
  * @param level the required level of signature verification
+ * @param sigdata signature data from the package to pass back
  * @return 0 if package is fully valid, -1 and pm_errno otherwise
  */
 int _alpm_pkg_validate_internal(alpm_handle_t *handle,
-		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level)
+		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level,
+		alpm_siglist_t **sigdata)
 {
 	int has_sig;
 
@@ -330,18 +332,13 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 	/* even if we don't have a sig, run the check code if level tells us to */
 	if(has_sig || level & ALPM_SIG_PACKAGE) {
 		const char *sig = syncpkg ? syncpkg->base64_sig : NULL;
-		alpm_siglist_t *siglist;
 		_alpm_log(handle, ALPM_LOG_DEBUG, "sig data: %s\n", sig ? sig : "<from .sig>");
 		if(_alpm_check_pgp_helper(handle, pkgfile, sig,
 					level & ALPM_SIG_PACKAGE_OPTIONAL, level & ALPM_SIG_PACKAGE_MARGINAL_OK,
-					level & ALPM_SIG_PACKAGE_UNKNOWN_OK, &siglist)) {
+					level & ALPM_SIG_PACKAGE_UNKNOWN_OK, sigdata)) {
 			handle->pm_errno = ALPM_ERR_PKG_INVALID_SIG;
-			alpm_siglist_cleanup(siglist);
-			free(siglist);
 			return -1;
 		}
-		alpm_siglist_cleanup(siglist);
-		free(siglist);
 	}
 
 	return 0;
@@ -514,7 +511,7 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	if(_alpm_pkg_validate_internal(handle, filename, NULL, level) == -1) {
+	if(_alpm_pkg_validate_internal(handle, filename, NULL, level, NULL) == -1) {
 		/* pm_errno is set by pkg_validate */
 		return -1;
 	}

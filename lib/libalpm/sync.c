@@ -953,6 +953,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		alpm_pkg_t *spkg = i->data;
 		char *filepath;
 		alpm_siglevel_t level;
+		alpm_siglist_t *siglist = NULL;
 		int percent = (int)(((double)current_bytes / total_bytes) * 100);
 
 		PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", percent,
@@ -966,14 +967,14 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
 		level = alpm_db_get_siglevel(sdb);
 
-		if(_alpm_pkg_validate_internal(handle, filepath, spkg, level) == -1) {
+		if(_alpm_pkg_validate_internal(handle, filepath, spkg, level, &siglist) == -1) {
 			prompt_to_delete(handle, filepath, handle->pm_errno);
 			errors++;
 			*data = alpm_list_add(*data, strdup(spkg->filename));
-			FREE(filepath);
-			continue;
 		}
-		FREE(filepath);
+		alpm_siglist_cleanup(siglist);
+		free(siglist);
+		free(filepath);
 	}
 
 	PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", 100,
@@ -1021,10 +1022,10 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		if(!pkgfile) {
 			errors++;
 			*data = alpm_list_add(*data, strdup(spkg->filename));
-			FREE(filepath);
+			free(filepath);
 			continue;
 		}
-		FREE(filepath);
+		free(filepath);
 		pkgfile->reason = spkg->reason; /* copy over install reason */
 		i->data = pkgfile;
 		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
