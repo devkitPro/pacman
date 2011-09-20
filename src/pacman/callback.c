@@ -206,6 +206,11 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 				printf(_("checking package integrity...\n"));
 			}
 			break;
+		case ALPM_EVENT_LOAD_START:
+			if(config->noprogressbar) {
+				printf(_("loading package files...\n"));
+			}
+			break;
 		case ALPM_EVENT_DELTA_INTEGRITY_START:
 			printf(_("checking delta integrity...\n"));
 			break;
@@ -238,6 +243,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 		case ALPM_EVENT_RESOLVEDEPS_DONE:
 		case ALPM_EVENT_INTERCONFLICTS_DONE:
 		case ALPM_EVENT_INTEGRITY_DONE:
+		case ALPM_EVENT_LOAD_DONE:
 		case ALPM_EVENT_DELTA_INTEGRITY_DONE:
 		case ALPM_EVENT_DELTA_PATCHES_DONE:
 		case ALPM_EVENT_DISKSPACE_DONE:
@@ -407,6 +413,9 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 			break;
 		case ALPM_PROGRESS_INTEGRITY_START:
 			opr = _("checking package integrity");
+			break;
+		case ALPM_PROGRESS_LOAD_START:
+			opr = _("loading package files");
 			break;
 		default:
 			return;

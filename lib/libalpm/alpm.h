@@ -305,6 +305,10 @@ typedef enum _alpm_event_t {
 	ALPM_EVENT_INTEGRITY_START,
 	/** Target package's integrity was checked. */
 	ALPM_EVENT_INTEGRITY_DONE,
+	/** Target package will be loaded. */
+	ALPM_EVENT_LOAD_START,
+	/** Target package is finished loading. */
+	ALPM_EVENT_LOAD_DONE,
 	/** Target deltas's integrity will be checked. */
 	ALPM_EVENT_DELTA_INTEGRITY_START,
 	/** Target delta's integrity was checked. */
@@ -361,6 +365,7 @@ typedef enum _alpm_progress_t {
 	ALPM_PROGRESS_CONFLICTS_START,
 	ALPM_PROGRESS_DISKSPACE_START,
 	ALPM_PROGRESS_INTEGRITY_START,
+	ALPM_PROGRESS_LOAD_START,
 } alpm_progress_t;
 
 /** Progress callback */

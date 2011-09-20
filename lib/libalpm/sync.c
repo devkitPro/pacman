@@ -966,11 +966,6 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		alpm_db_t *sdb = alpm_pkg_get_db(spkg);
 		level = alpm_db_get_siglevel(sdb);
 
-		/* load the package file and replace pkgcache entry with it in the target list */
-		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
-		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"replacing pkgcache entry with package file for target %s\n",
-				spkg->name);
 		if(_alpm_pkg_validate_internal(handle, filepath, spkg, level) == -1) {
 			prompt_to_delete(handle, filepath, handle->pm_errno);
 			errors++;
@@ -978,6 +973,50 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 			FREE(filepath);
 			continue;
 		}
+		FREE(filepath);
+	}
+
+	PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", 100,
+			numtargs, current);
+	EVENT(handle, ALPM_EVENT_INTEGRITY_DONE, NULL, NULL);
+
+	if(errors) {
+		if(!handle->pm_errno) {
+			RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
+		}
+		return -1;
+	}
+
+	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
+		return 0;
+	}
+
+	/* load packages from disk now that they are known-valid */
+	numtargs = alpm_list_count(trans->add);
+	EVENT(handle, ALPM_EVENT_LOAD_START, NULL, NULL);
+
+	current = current_bytes = 0;
+	errors = 0;
+
+	for(i = trans->add; i; i = i->next, current++) {
+		alpm_pkg_t *spkg = i->data;
+		char *filepath;
+		int percent = (int)(((double)current_bytes / total_bytes) * 100);
+
+		PROGRESS(handle, ALPM_PROGRESS_LOAD_START, "", percent,
+				numtargs, current);
+		if(spkg->origin == PKG_FROM_FILE) {
+			continue; /* pkg_load() has been already called, this package is valid */
+		}
+
+		current_bytes += spkg->size;
+		filepath = _alpm_filecache_find(handle, spkg->filename);
+
+		/* load the package file and replace pkgcache entry with it in the target list */
+		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"replacing pkgcache entry with package file for target %s\n",
+				spkg->name);
 		alpm_pkg_t *pkgfile =_alpm_pkg_load_internal(handle, filepath, 1);
 		if(!pkgfile) {
 			errors++;
@@ -991,20 +1030,15 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
 	}
 
-	PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", 100,
+	PROGRESS(handle, ALPM_PROGRESS_LOAD_START, "", 100,
 			numtargs, current);
-	EVENT(handle, ALPM_EVENT_INTEGRITY_DONE, NULL, NULL);
-
+	EVENT(handle, ALPM_EVENT_LOAD_DONE, NULL, NULL);
 
 	if(errors) {
 		if(!handle->pm_errno) {
 			RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
 		}
 		return -1;
-	}
-
-	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
-		return 0;
 	}
 
 	trans->state = STATE_COMMITING;
