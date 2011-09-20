@@ -680,8 +680,9 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 	} else {
 		size_t i;
 		for(i = 0; i < siglist->count; i++) {
-			char sigline[PATH_MAX];
+			char *sigline;
 			const char *status, *validity, *name;
+			int ret;
 			alpm_sigresult_t *result = siglist->results + i;
 			/* Don't re-indent the first result */
 			if(i != 0) {
@@ -726,10 +727,15 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 					break;
 			}
 			name = result->key.uid ? result->key.uid : result->key.fingerprint;
-			snprintf(sigline, PATH_MAX, _("%s, %s from \"%s\""),
+			ret = pm_asprintf(&sigline, _("%s, %s from \"%s\""),
 					status, validity, name);
+			if(ret < 1) {
+				pm_fprintf(stderr, ALPM_LOG_ERROR,  _("failed to allocate string\n"));
+				continue;
+			}
 			indentprint(sigline, len);
 			printf("\n");
+			free(sigline);
 		}
 	}
 }

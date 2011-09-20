@@ -821,13 +821,13 @@ int main(int argc, char *argv[])
 
 	/* we support reading targets from stdin if a cmdline parameter is '-' */
 	if(!isatty(fileno(stdin)) && alpm_list_find_str(pm_targets, "-")) {
-		char line[PATH_MAX];
-		int i = 0;
+		size_t current_size = PATH_MAX, i = 0;
+		char *line = malloc(current_size);
 
 		/* remove the '-' from the list */
 		pm_targets = alpm_list_remove_str(pm_targets, "-", NULL);
 
-		while(i < PATH_MAX && (line[i] = (char)fgetc(stdin)) != EOF) {
+		while((line[i] = (char)fgetc(stdin)) != EOF) {
 			if(isspace((unsigned char)line[i])) {
 				/* avoid adding zero length arg when multiple spaces separate args */
 				if(i > 0) {
@@ -837,11 +837,23 @@ int main(int argc, char *argv[])
 				}
 			} else {
 				i++;
+				/* we may be at the end of our allocated buffer now */
+				if(i >= current_size) {
+					char *new = realloc(line, current_size * 2);
+					if(new) {
+						line = new;
+						current_size *= 2;
+					} else {
+						free(line);
+						line = NULL;
+						break;
+					}
+				}
 			}
 		}
-		/* check for buffer overflow */
-		if(i >= PATH_MAX) {
-			pm_printf(ALPM_LOG_ERROR, _("buffer overflow detected in arg parsing\n"));
+		/* check for memory exhaustion */
+		if(!line) {
+			pm_printf(ALPM_LOG_ERROR, _("memory exhausted in argument parsing\n"));
 			cleanup(EXIT_FAILURE);
 		}
 
@@ -850,6 +862,7 @@ int main(int argc, char *argv[])
 			line[i] = '\0';
 			pm_targets = alpm_list_add(pm_targets, strdup(line));
 		}
+		free(line);
 		if(!freopen(ctermid(NULL), "r", stdin)) {
 			pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
 					strerror(errno));

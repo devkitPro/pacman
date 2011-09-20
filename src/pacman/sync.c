@@ -122,7 +122,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 static int sync_cleandb_all(void)
 {
 	const char *dbpath;
-	char newdbpath[PATH_MAX];
+	char *newdbpath;
 	int ret = 0;
 
 	dbpath = alpm_option_get_dbpath(config->handle);
@@ -135,8 +135,12 @@ static int sync_cleandb_all(void)
 	 * only the unused sync dbs in dbpath/sync/ */
 	ret += sync_cleandb(dbpath, 0);
 
-	sprintf(newdbpath, "%s%s", dbpath, "sync/");
+	if(asprintf(&newdbpath, "%s%s", dbpath, "sync/") < 0) {
+		ret += 1;
+		return ret;
+	}
 	ret += sync_cleandb(newdbpath, 1);
+	free(newdbpath);
 
 	printf(_("Database directory cleaned up\n"));
 	return ret;
