@@ -507,6 +507,69 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 	return ret;
 }
 
+int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
+		alpm_siglist_t *siglist, int optional, int marginal, int unknown)
+{
+	size_t i;
+	int retry = 0;
+
+	if(!optional && siglist->count == 0) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("%s: missing required signature\n"), identifier);
+	}
+
+	for(i = 0; i < siglist->count; i++) {
+		alpm_sigresult_t *result = siglist->results + i;
+		const char *name = result->key.uid ? result->key.uid : result->key.fingerprint;
+		switch(result->status) {
+			case ALPM_SIGSTATUS_VALID:
+			case ALPM_SIGSTATUS_KEY_EXPIRED:
+				switch(result->validity) {
+					case ALPM_SIGVALIDITY_FULL:
+						break;
+					case ALPM_SIGVALIDITY_MARGINAL:
+						if(!marginal) {
+							_alpm_log(handle, ALPM_LOG_ERROR,
+									_("%s: signature from \"%s\" is marginal trust\n"),
+									identifier, name);
+						}
+						break;
+					case ALPM_SIGVALIDITY_UNKNOWN:
+						if(!unknown) {
+							_alpm_log(handle, ALPM_LOG_ERROR,
+									_("%s: signature from \"%s\" is unknown trust\n"),
+									identifier, name);
+						}
+						break;
+					case ALPM_SIGVALIDITY_NEVER:
+						_alpm_log(handle, ALPM_LOG_ERROR,
+								_("%s: signature from \"%s\" should never be trusted\n"),
+								identifier, name);
+						break;
+				}
+				break;
+			case ALPM_SIGSTATUS_KEY_UNKNOWN:
+				/* TODO import key here */
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("%s: key \"%s\" is unknown\n"),
+						identifier, name);
+				break;
+			case ALPM_SIGSTATUS_SIG_EXPIRED:
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("%s: signature from \"%s\" is expired\n"),
+						identifier, name);
+				break;
+			case ALPM_SIGSTATUS_INVALID:
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("%s: signature from \"%s\" is invalid\n"),
+						identifier, name);
+				break;
+		}
+	}
+
+	return retry;
+}
+
 /**
  * Check the PGP signature for the given package file.
  * @param pkg the package to check

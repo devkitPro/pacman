@@ -24,9 +24,12 @@
 char *_alpm_sigpath(alpm_handle_t *handle, const char *path);
 int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		const char *base64_sig, alpm_siglist_t *result);
+
 int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		const char *base64_sig, int optional, int marginal, int unknown,
 		alpm_siglist_t **sigdata);
+int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
+		alpm_siglist_t *siglist, int optional, int marginal, int unknown);
 
 #endif /* _ALPM_SIGNING_H */
 

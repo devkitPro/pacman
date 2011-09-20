@@ -70,7 +70,6 @@ static int sync_db_validate(alpm_db_t *db)
 {
 	alpm_siglevel_t level;
 	const char *dbpath;
-	alpm_siglist_t *siglist;
 
 	if(db->status & DB_STATUS_VALID || db->status & DB_STATUS_MISSING) {
 		return 0;
@@ -101,16 +100,26 @@ static int sync_db_validate(alpm_db_t *db)
 	level = alpm_db_get_siglevel(db);
 
 	if(level & ALPM_SIG_DATABASE) {
-		if(_alpm_check_pgp_helper(db->handle, dbpath, NULL,
+		int retry, ret;
+		do {
+			retry = 0;
+			alpm_siglist_t *siglist;
+			ret = _alpm_check_pgp_helper(db->handle, dbpath, NULL,
 					level & ALPM_SIG_DATABASE_OPTIONAL, level & ALPM_SIG_DATABASE_MARGINAL_OK,
-					level & ALPM_SIG_DATABASE_UNKNOWN_OK, &siglist)) {
-			db->handle->pm_errno = ALPM_ERR_DB_INVALID_SIG;
+					level & ALPM_SIG_DATABASE_UNKNOWN_OK, &siglist);
+			if(ret) {
+				retry = _alpm_process_siglist(db->handle, db->treename, siglist,
+						level & ALPM_SIG_DATABASE_OPTIONAL, level & ALPM_SIG_DATABASE_MARGINAL_OK,
+						level & ALPM_SIG_DATABASE_UNKNOWN_OK);
+			}
 			alpm_siglist_cleanup(siglist);
 			free(siglist);
+		} while(retry);
+
+		if(ret) {
+			db->handle->pm_errno = ALPM_ERR_DB_INVALID_SIG;
 			return 1;
 		}
-		alpm_siglist_cleanup(siglist);
-		free(siglist);
 	}
 
 valid:
