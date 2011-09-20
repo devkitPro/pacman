@@ -22,7 +22,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h> /* PATH_MAX */
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -67,20 +66,18 @@ static void checkpkgs(alpm_list_t *pkglist)
 	}
 }
 
-static void checkdbs(const char *dbpath, alpm_list_t *dbnames) {
-	char syncdbpath[PATH_MAX];
+static void checkdbs(alpm_list_t *dbnames) {
 	alpm_db_t *db = NULL;
 	alpm_list_t *i;
 	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
-		char *dbname = alpm_list_getdata(i);
-		snprintf(syncdbpath, PATH_MAX, "%s/sync/%s", dbpath, dbname);
+		const char *dbname = alpm_list_getdata(i);
 		db = alpm_db_register_sync(handle, dbname, level);
 		if(db == NULL) {
-			fprintf(stderr, "error: could not register sync database (%s)\n",
-					alpm_strerror(alpm_errno(handle)));
-			return;
+			fprintf(stderr, "error: could not register sync database '%s' (%s)\n",
+					dbname, alpm_strerror(alpm_errno(handle)));
+			continue;
 		}
 		checkpkgs(alpm_db_get_pkgcache(db));
 	}
@@ -130,7 +127,7 @@ int main(int argc, char *argv[])
 	/* let us get log messages from libalpm */
 	alpm_option_set_logcb(handle, output_cb);
 
-	checkdbs(dbpath,dbnames);
+	checkdbs(dbnames);
 	alpm_list_free(dbnames);
 
 	cleanup(0);
