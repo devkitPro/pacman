@@ -179,6 +179,127 @@ error:
 }
 
 /**
+ * Determine if we have a key is known in our local keyring.
+ * @param handle the context handle
+ * @param fpr the fingerprint key ID to look up
+ * @return 1 if key is known, 0 if key is unknown, -1 on error
+ */
+static int key_in_keychain(alpm_handle_t *handle, const char *fpr)
+{
+	gpgme_error_t err;
+	gpgme_ctx_t ctx;
+	gpgme_key_t key;
+	int ret = -1;
+
+	memset(&ctx, 0, sizeof(ctx));
+	err = gpgme_new(&ctx);
+	CHECK_ERR();
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, "looking up key %s locally\n", fpr);
+
+	err = gpgme_get_key(ctx, fpr, &key, 0);
+	if(gpg_err_code(err) == GPG_ERR_EOF) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
+		ret = 0;
+	} else if(gpg_err_code(err) == GPG_ERR_NO_ERROR) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup success, key exists\n");
+		ret = 1;
+	} else {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
+	}
+
+error:
+	gpgme_key_unref(key);
+	gpgme_release(ctx);
+	return ret;
+}
+
+/**
+ * Search for a GPG key in a remote location.
+ * This requires GPGME to call the gpg binary and have a keyserver previously
+ * defined in a gpg.conf configuration file.
+ * @param handle the context handle
+ * @param fpr the fingerprint key ID to look up
+ * @param pgpkey storage location for the given key if found
+ * @return 0 on success, 1 on error or key not found
+ */
+static int key_search(alpm_handle_t *handle, const char *fpr,
+		alpm_pgpkey_t *pgpkey)
+{
+	gpgme_error_t err;
+	gpgme_ctx_t ctx;
+	gpgme_keylist_mode_t mode;
+	gpgme_key_t key;
+
+	memset(&ctx, 0, sizeof(ctx));
+	err = gpgme_new(&ctx);
+	CHECK_ERR();
+
+	mode = gpgme_get_keylist_mode(ctx);
+	/* using LOCAL and EXTERN together doesn't work for GPG 1.X. Ugh. */
+	mode &= ~GPGME_KEYLIST_MODE_LOCAL;
+	mode |= GPGME_KEYLIST_MODE_EXTERN;
+	err = gpgme_set_keylist_mode(ctx, mode);
+	CHECK_ERR();
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, "looking up key %s remotely\n", fpr);
+
+	err = gpgme_get_key(ctx, fpr, &key, 0);
+	if(gpg_err_code(err) == GPG_ERR_EOF) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
+	} else if(gpg_err_code(err) != GPG_ERR_NO_ERROR) {
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"gpg error: %s\n", gpgme_strerror(err));
+		CHECK_ERR();
+	}
+
+	/* should only get here if key actually exists */
+	pgpkey->data = key;
+	if(key->subkeys->fpr) {
+		pgpkey->fingerprint = key->subkeys->fpr;
+	} else if(key->subkeys->keyid) {
+		pgpkey->fingerprint = key->subkeys->keyid;
+	}
+	pgpkey->uid = key->uids->uid;
+	pgpkey->name = key->uids->name;
+	pgpkey->email = key->uids->email;
+	pgpkey->created = key->subkeys->timestamp;
+	pgpkey->expires = key->subkeys->expires;
+
+error:
+	gpgme_release(ctx);
+	return gpg_err_code(err) == GPG_ERR_NO_ERROR;
+}
+
+/**
+ * Import a key into the local keyring.
+ * @param handle the context handle
+ * @param key the key to import, likely retrieved from #key_search
+ * @return 0 on success, 1 on error
+ */
+static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
+{
+	gpgme_error_t err;
+	gpgme_ctx_t ctx;
+	gpgme_key_t keys[2];
+
+	memset(&ctx, 0, sizeof(ctx));
+	err = gpgme_new(&ctx);
+	CHECK_ERR();
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, "importing key\n");
+
+	keys[0] = key->data;
+	keys[1] = NULL;
+	err = gpgme_op_import_keys(ctx, keys);
+	CHECK_ERR();
+
+error:
+	gpgme_release(ctx);
+	return gpg_err_code(err) != GPG_ERR_NO_ERROR;
+}
+
+/**
  * Decode a loaded signature in base64 form.
  * @param base64_data the signature to attempt to decode
  * @param data the decoded data; must be freed by the caller
@@ -567,6 +688,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 	for(i = 0; i < siglist->count; i++) {
 		alpm_sigresult_t *result = siglist->results + i;
 		const char *name = result->key.uid ? result->key.uid : result->key.fingerprint;
+		int answer;
 		switch(result->status) {
 			case ALPM_SIGSTATUS_VALID:
 			case ALPM_SIGSTATUS_KEY_EXPIRED:
@@ -578,6 +700,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 							_alpm_log(handle, ALPM_LOG_ERROR,
 									_("%s: signature from \"%s\" is marginal trust\n"),
 									identifier, name);
+							/* QUESTION(handle, ALPM_QUESTION_EDIT_KEY_TRUST, &result->key, NULL, NULL, &answer); */
 						}
 						break;
 					case ALPM_SIGVALIDITY_UNKNOWN:
@@ -585,6 +708,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 							_alpm_log(handle, ALPM_LOG_ERROR,
 									_("%s: signature from \"%s\" is unknown trust\n"),
 									identifier, name);
+							/* QUESTION(handle, ALPM_QUESTION_EDIT_KEY_TRUST, &result->key, NULL, NULL, &answer); */
 						}
 						break;
 					case ALPM_SIGVALIDITY_NEVER:
@@ -595,15 +719,35 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 				}
 				break;
 			case ALPM_SIGSTATUS_KEY_UNKNOWN:
-				/* TODO import key here */
+				/* ensure this key is still actually unknown; we may have imported it
+				 * on an earlier call to this function. */
+				if(key_in_keychain(handle, result->key.fingerprint) == 1) {
+					break;
+				}
 				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("%s: key \"%s\" is unknown\n"),
-						identifier, name);
+						_("%s: key \"%s\" is unknown\n"), identifier, name);
+				{
+					alpm_pgpkey_t fetch_key;
+					memset(&fetch_key, 0, sizeof(fetch_key));
+
+					if(key_search(handle, result->key.fingerprint, &fetch_key)) {
+						_alpm_log(handle, ALPM_LOG_DEBUG,
+								"unknown key, found %s on keyserver\n", fetch_key.uid);
+						QUESTION(handle, ALPM_QUESTION_IMPORT_KEY,
+								&fetch_key, NULL, NULL, &answer);
+						if(answer && !key_import(handle, &fetch_key)) {
+							retry = 1;
+						}
+					} else {
+						_alpm_log(handle, ALPM_LOG_DEBUG,
+								"key could not be looked up remotely\n");
+					}
+					gpgme_key_unref(fetch_key.data);
+				}
 				break;
 			case ALPM_SIGSTATUS_SIG_EXPIRED:
 				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("%s: signature from \"%s\" is expired\n"),
-						identifier, name);
+						_("%s: signature from \"%s\" is expired\n"), identifier, name);
 				break;
 			case ALPM_SIGSTATUS_INVALID:
 				_alpm_log(handle, ALPM_LOG_ERROR,
