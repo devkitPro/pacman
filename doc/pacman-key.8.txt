@@ -110,18 +110,27 @@ Options
 
 Providing a Keyring for Import
 ------------------------------
-A distribution or other repository provided may want to provide a set of valid
+A distribution or other repository provided may want to provide a set of
 PGP keys used in the signing of its packages and repository databases that can
-be readily imported into the pacman keyring.  This is achieved by providing a
+be readily imported into the pacman keyring. This is achieved by providing a
 PGP keyring file `foo.gpg` that contains the keys for the foo keyring in the
-directory +{pkgdatadir}/keyrings+. Optionally the file `foo-revoked` can be
-provided containing a list of revoked key IDs for that keyring. These files are
-required to be signed (detached) by a trusted PGP key that the user must
-manually import to the pacman keyring. This prevents a potentially malicious
-repository adding keys to the pacman keyring without the users knowledge.
+directory +{pkgdatadir}/keyrings+.
 
-A key being marked as revoked always takes priority over the key being added to
-the pacman keyring, regardless of the keyring it is provided in.
+Optionally, the file `foo-trusted` can be provided containing a list of trusted
+key IDs for that keyring. This file will inform the user which keys a user
+needs to verify and sign to build a local web of trust.
+
+Also optionally, the file `foo-revoked` can be provided containing a list of
+revoked key IDs for that keyring. Revoked is defined as "no longer valid for
+any signing", so should be used with prudence. A key being marked as revoked
+will be disabled in the keyring and no longer treated as valid, so this always
+takes priority over it's trusted state in any other keyring.
+
+All files are required to be signed (detached) by a trusted PGP key that the
+user must manually import to the pacman keyring. This prevents a potentially
+malicious repository adding keys to the pacman keyring without the users
+knowledge.
+
 
 See Also
 --------
