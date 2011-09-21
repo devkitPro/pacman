@@ -238,9 +238,12 @@ int config_set_arch(const char *arch)
  * @param values the list of parsed option values
  * @param storage location to store the derived signature level; any existing
  * value here is used as a starting point
+ * @param file path to the config file
+ * @param linenum current line number in file
  * @return 0 on success, 1 on any parsing error
  */
-static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
+static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
+		const char *file, int linenum)
 {
 	alpm_siglevel_t level = *storage;
 	alpm_list_t *i;
@@ -310,8 +313,9 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
 				level |= ALPM_SIG_DATABASE_UNKNOWN_OK;
 			}
 		} else {
-			pm_printf(ALPM_LOG_ERROR, _("invalid value for '%s' : '%s'\n"),
-					"SigLevel", original);
+			pm_printf(ALPM_LOG_ERROR,
+					_("config file %s, line %d: invalid value for '%s' : '%s'\n"),
+					file, linenum, "SigLevel", original);
 			ret = 1;
 		}
 		level &= ~ALPM_SIG_USE_DEFAULT;
@@ -320,8 +324,9 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
 	/* ensure we have sig checking ability and are actually turning it on */
 	if(!(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) &&
 			level & (ALPM_SIG_PACKAGE | ALPM_SIG_DATABASE)) {
-		pm_printf(ALPM_LOG_ERROR, _("'%s' option invalid, no signature support\n"),
-				"SigLevel");
+		pm_printf(ALPM_LOG_ERROR,
+				_("config file %s, line %d: '%s' option invalid, no signature support\n"),
+				file, linenum, "SigLevel");
 		ret = 1;
 	}
 
@@ -331,7 +336,9 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
 	return ret;
 }
 
-static int process_cleanmethods(alpm_list_t *values) {
+static int process_cleanmethods(alpm_list_t *values,
+		const char *file, int linenum)
+{
 	alpm_list_t *i;
 	for(i = values; i; i = alpm_list_next(i)) {
 		const char *value = i->data;
@@ -340,8 +347,9 @@ static int process_cleanmethods(alpm_list_t *values) {
 		} else if(strcmp(value, "KeepCurrent") == 0) {
 			config->cleanmethod |= PM_CLEAN_KEEPCUR;
 		} else {
-			pm_printf(ALPM_LOG_ERROR, _("invalid value for '%s' : '%s'\n"),
-					"CleanMethod", value);
+			pm_printf(ALPM_LOG_ERROR,
+					_("config file %s, line %d: invalid value for '%s' : '%s'\n"),
+					file, linenum, "CleanMethod", value);
 			return 1;
 		}
 	}
@@ -446,7 +454,7 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "CleanMethod") == 0) {
 			alpm_list_t *methods = NULL;
 			setrepeatingoption(value, "CleanMethod", &methods);
-			if(process_cleanmethods(methods)) {
+			if(process_cleanmethods(methods, file, linenum)) {
 				FREELIST(methods);
 				return 1;
 			}
@@ -454,7 +462,7 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "SigLevel") == 0) {
 			alpm_list_t *values = NULL;
 			setrepeatingoption(value, "SigLevel", &values);
-			if(process_siglevel(values, &(config->siglevel))) {
+			if(process_siglevel(values, &config->siglevel, file, linenum)) {
 				FREELIST(values);
 				return 1;
 			}
@@ -484,7 +492,7 @@ static int _add_mirror(alpm_db_t *db, char *value)
 		if(strstr(temp, "$arch")) {
 			free(temp);
 			pm_printf(ALPM_LOG_ERROR,
-					_("The mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"),
+					_("mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"),
 					value, "$arch", "Architecture");
 			return 1;
 		}
@@ -825,7 +833,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 					if(section->siglevel == ALPM_SIG_USE_DEFAULT) {
 						section->siglevel = config->siglevel;
 					}
-					if(process_siglevel(values, &(section->siglevel))) {
+					if(process_siglevel(values, &section->siglevel, file, linenum)) {
 						FREELIST(values);
 						ret = 1;
 						goto cleanup;
