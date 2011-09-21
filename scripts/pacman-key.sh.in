@@ -232,7 +232,6 @@ verify_keyring_input() {
 
 populate_keyring() {
 	local KEYRING_IMPORT_DIR='@pkgdatadir@/keyrings'
-	local GPG_NOKEYRING=(gpg --batch --quiet --ignore-time-conflict --no-options --no-default-keyring --homedir ${PACMAN_KEYRING_DIR} --no-permission-warning)
 
 	local keyring
 	local ret=0
@@ -270,10 +269,7 @@ populate_keyring() {
 	# Add keys from requested keyrings
 	for keyring in "${KEYRINGIDS[@]}"; do
 		msg "$(gettext "Appending keys from %s.gpg...")" "$keyring"
-		local add_keys="$("${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
-		for key_id in ${add_keys}; do
-			"${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --export "${key_id}" | "${GPG_PACMAN[@]}" --import
-		done
+		"${GPG_PACMAN[@]}" --import "${KEYRING_IMPORT_DIR}/${keyring}.gpg"
 	done
 
 	# Read the revoked key IDs to an array. The conversion from whatever is inside the file
