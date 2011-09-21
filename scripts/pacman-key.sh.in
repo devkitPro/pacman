@@ -464,8 +464,9 @@ esac
 (( INIT )) && initialize
 (( LISTKEYS )) && "${GPG_PACMAN[@]}" --batch --list-keys "${KEYIDS[@]}"
 (( LISTSIGS )) && "${GPG_PACMAN[@]}" --batch --list-sigs "${KEYIDS[@]}"
-# TODO: we can't do --batch on lsign until we figure out --command-fd
-(( LSIGNKEY )) && "${GPG_PACMAN[@]}" --lsign-key "${KEYIDS[@]}"
+if (( LSIGNKEY )); then
+	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${KEYIDS[@]}" 2>/dev/null
+fi
 (( POPULATE )) && populate_keyring
 (( RECEIVE )) && "${GPG_PACMAN[@]}" --recv-keys "${KEYIDS[@]}"
 (( REFRESH )) && "${GPG_PACMAN[@]}" --refresh-keys "${KEYIDS[@]}"
