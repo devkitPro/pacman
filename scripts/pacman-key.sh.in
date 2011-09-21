@@ -202,16 +202,24 @@ verify_keyring_input() {
 
 	# Verify signatures of keyring files and association revocation files if they exist
 	msg "$(gettext "Verifying keyring file signatures...")"
-	local keyring
+	local keyring keyfile
 	for keyring in "${KEYRINGIDS[@]}"; do
-		if ! "${GPG_PACMAN[@]}" --verify "${KEYRING_IMPORT_DIR}/${keyring}.gpg.sig" &>/dev/null; then
-			error "$(gettext "The signature of file %s is not valid.")" "${keyring}.gpg"
+		keyfile="${KEYRING_IMPORT_DIR}/${keyring}.gpg"
+		if [[ ! -f "${keyfile}.sig" ]]; then
+			error "$(gettext "File %s is unsigned, cannot continue.")" "${keyfile}"
+			ret=1
+		elif ! "${GPG_PACMAN[@]}" --verify "${keyfile}.sig" &>/dev/null; then
+			error "$(gettext "The signature of file %s is not valid.")" "${keyfile}"
 			ret=1
 		fi
 
-		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
-			if ! "${GPG_PACMAN[@]}" --verify "${KEYRING_IMPORT_DIR}/${keyring}-revoked.sig" &>/dev/null; then
-				error "$(gettext "The signature of file %s is not valid.")" "${keyring}-revoked"
+		keyfile="${KEYRING_IMPORT_DIR}/${keyring}-revoked"
+		if [[ -f "${keyfile}" ]]; then
+			if [[ ! -f "${keyfile}.sig" ]]; then
+				error "$(gettext "File %s is unsigned, cannot continue.")" "${keyfile}"
+				ret=1
+			elif ! "${GPG_PACMAN[@]}" --verify "${keyfile}.sig" &>/dev/null; then
+				error "$(gettext "The signature of file %s is not valid.")" "${keyfile}"
 				ret=1
 			fi
 		fi
