@@ -310,8 +310,8 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
 				level |= ALPM_SIG_DATABASE_UNKNOWN_OK;
 			}
 		} else {
-			pm_printf(ALPM_LOG_ERROR, _("invalid value for 'SigLevel' : '%s'\n"),
-					original);
+			pm_printf(ALPM_LOG_ERROR, _("invalid value for '%s' : '%s'\n"),
+					"SigLevel", original);
 			ret = 1;
 		}
 		level &= ~ALPM_SIG_USE_DEFAULT;
@@ -320,7 +320,8 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
 	/* ensure we have sig checking ability and are actually turning it on */
 	if(!(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) &&
 			level & (ALPM_SIG_PACKAGE | ALPM_SIG_DATABASE)) {
-		pm_printf(ALPM_LOG_ERROR, _("'SigLevel' option invalid, no signature support\n"));
+		pm_printf(ALPM_LOG_ERROR, _("'%s' option invalid, no signature support\n"),
+				"SigLevel");
 		ret = 1;
 	}
 
@@ -339,8 +340,8 @@ static int process_cleanmethods(alpm_list_t *values) {
 		} else if(strcmp(value, "KeepCurrent") == 0) {
 			config->cleanmethod |= PM_CLEAN_KEEPCUR;
 		} else {
-			pm_printf(ALPM_LOG_ERROR, _("invalid value for 'CleanMethod' : '%s'\n"),
-					value);
+			pm_printf(ALPM_LOG_ERROR, _("invalid value for '%s' : '%s'\n"),
+					"CleanMethod", value);
 			return 1;
 		}
 	}
@@ -482,8 +483,9 @@ static int _add_mirror(alpm_db_t *db, char *value)
 	} else {
 		if(strstr(temp, "$arch")) {
 			free(temp);
-			pm_printf(ALPM_LOG_ERROR, _("The mirror '%s' contains the $arch"
-						" variable, but no Architecture is defined.\n"), value);
+			pm_printf(ALPM_LOG_ERROR,
+					_("The mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"),
+					value, "$arch", "Architecture");
 			return 1;
 		}
 		server = temp;
