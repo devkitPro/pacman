@@ -54,8 +54,10 @@ config_t *config_new(void)
 	newconfig->op = PM_OP_MAIN;
 	newconfig->logmask = ALPM_LOG_ERROR | ALPM_LOG_WARNING;
 	newconfig->configfile = strdup(CONFFILE);
-	newconfig->siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
-		ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
+	if(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) {
+		newconfig->siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
+			ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
+	}
 
 	return newconfig;
 }
@@ -313,6 +315,13 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage)
 			ret = 1;
 		}
 		level &= ~ALPM_SIG_USE_DEFAULT;
+	}
+
+	/* ensure we have sig checking ability and are actually turning it on */
+	if(!(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) &&
+			level & (ALPM_SIG_PACKAGE | ALPM_SIG_DATABASE)) {
+		pm_printf(ALPM_LOG_ERROR, _("'SigLevel' option invalid, no signature support\n"));
+		ret = 1;
 	}
 
 	if(!ret) {
