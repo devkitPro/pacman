@@ -80,7 +80,7 @@ usage() {
 	echo "$(gettext "  --keyserver               Specify a keyserver to use if necessary")"
 	echo "$(gettext "  --list-sigs [keyid(s)]    List keys and their signatures")"
 	echo "$(gettext "  --lsign-key <keyid>       Locally sign the specified keyid")"
-	printf "$(gettext "  --populate [keyring(s)] Reload the default keys from the (given) keyrings\n\
+	printf "$(gettext "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings\n\
                             in '%s'")\n" "@pkgdatadir@/keyrings"
 	echo "$(gettext "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver")"
 }
@@ -205,13 +205,13 @@ verify_keyring_input() {
 	local keyring
 	for keyring in "${KEYRINGIDS[@]}"; do
 		if ! "${GPG_PACMAN[@]}" --verify "${KEYRING_IMPORT_DIR}/${keyring}.gpg.sig" &>/dev/null; then
-			error "$(gettext "The signature of file %s is not valid.")" "${ADDED_KEYS}"
+			error "$(gettext "The signature of file %s is not valid.")" "${keyring}.gpg"
 			ret=1
 		fi
 
 		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
 			if ! "${GPG_PACMAN[@]}" --verify "${KEYRING_IMPORT_DIR}/${keyring}-revoked.sig" &>/dev/null; then
-				error "$(gettext "The signature of file %s is not valid.")" "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
+				error "$(gettext "The signature of file %s is not valid.")" "${keyring}-revoked"
 				ret=1
 			fi
 		fi
