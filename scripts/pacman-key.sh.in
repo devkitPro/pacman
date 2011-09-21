@@ -288,18 +288,6 @@ populate_keyring() {
 		fi
 	done
 
-	# Read list of keys that must be kept installed and remove them from the list
-	# of keys to be removed
-	if [[ -f "${PACMAN_KEYRING_DIR}/holdkeys" ]]; then
-		while read key; do
-			key_id="$("${GPG_PACMAN[@]}" --quiet --with-colons --list-key "${key}" 2>/dev/null | grep ^pub | cut -d: -f5)"
-			if [[ -n "${revoked_ids[$key_id]}" ]]; then
-				unset revoked_ids[$key_id]
-			fi
-		done < "${PACMAN_KEYRING_DIR}/holdkeys"
-	fi
-
-	# Remove the keys not marked to keep
 	if (( ${#revoked_ids[@]} > 0 )); then
 		msg "$(gettext "Disabling revoked keys in keyring...")"
 		for key_id in "${!revoked_ids[@]}"; do
