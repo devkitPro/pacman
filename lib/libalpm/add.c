@@ -584,9 +584,6 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				 * (missing metadata sizes) */
 				int64_t pos = archive_position_compressed(archive);
 				percent = (pos * 100) / newpkg->size;
-				_alpm_log(handle, ALPM_LOG_DEBUG, "decompression progress: "
-						"%d%% (%"PRId64" / %jd)\n",
-						percent, pos, (intmax_t)newpkg->size);
 				if(percent >= 100) {
 					percent = 100;
 				}
