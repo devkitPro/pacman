@@ -707,6 +707,9 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 				case ALPM_SIGSTATUS_KEY_UNKNOWN:
 					status = _("Key unknown");
 					break;
+				case ALPM_SIGSTATUS_KEY_DISABLED:
+					status = _("Key disabled");
+					break;
 				default:
 					status = _("Signature error");
 					break;

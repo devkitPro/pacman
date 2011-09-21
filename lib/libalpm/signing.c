@@ -476,8 +476,10 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				result->key.email = key->uids->email;
 				result->key.created = key->subkeys->timestamp;
 				result->key.expires = key->subkeys->expires;
-				_alpm_log(handle, ALPM_LOG_DEBUG, "key: %s, %s, owner_trust %s\n",
-						key->subkeys->fpr, key->uids->uid, string_validity(key->owner_trust));
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"key: %s, %s, owner_trust %s, disabled %d\n",
+						key->subkeys->fpr, key->uids->uid,
+						string_validity(key->owner_trust), key->disabled);
 			}
 		}
 
@@ -500,6 +502,10 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 			default:
 				status = ALPM_SIGSTATUS_INVALID;
 				break;
+		}
+		/* special case: key disabled is not returned in above status code */
+		if(result->key.data && key->disabled) {
+			status = ALPM_SIGSTATUS_KEY_DISABLED;
 		}
 
 		switch(gpgsig->validity) {
@@ -642,6 +648,7 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 					break;
 				case ALPM_SIGSTATUS_SIG_EXPIRED:
 				case ALPM_SIGSTATUS_KEY_UNKNOWN:
+				case ALPM_SIGSTATUS_KEY_DISABLED:
 				case ALPM_SIGSTATUS_INVALID:
 					_alpm_log(handle, ALPM_LOG_DEBUG, "signature is not valid\n");
 					ret = -1;
@@ -744,6 +751,10 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 					}
 					gpgme_key_unref(fetch_key.data);
 				}
+				break;
+			case ALPM_SIGSTATUS_KEY_DISABLED:
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("%s: key \"%s\" is disabled\n"), identifier, name);
 				break;
 			case ALPM_SIGSTATUS_SIG_EXPIRED:
 				_alpm_log(handle, ALPM_LOG_ERROR,
