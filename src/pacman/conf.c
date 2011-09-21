@@ -591,6 +591,8 @@ static int setup_libalpm(void)
 
 	if(config->xfercommand) {
 		alpm_option_set_fetchcb(handle, download_with_xfercommand);
+	} else if(!(alpm_capabilities() & ALPM_CAPABILITY_DOWNLOADER)) {
+		pm_printf(ALPM_LOG_WARNING, _("no '%s' configured"), "XferCommand");
 	}
 
 	if(config->totaldownload) {
