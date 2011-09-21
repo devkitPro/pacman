@@ -1186,7 +1186,15 @@ const char *alpm_strerror(enum _alpm_errno_t err);
 alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
 		enum _alpm_errno_t *err);
 int alpm_release(alpm_handle_t *handle);
+
+enum alpm_caps {
+	ALPM_CAPABILITY_NLS = (1 << 0),
+	ALPM_CAPABILITY_DOWNLOADER = (1 << 1),
+	ALPM_CAPABILITY_SIGNATURES = (1 << 2)
+};
+
 const char *alpm_version(void);
+enum alpm_caps alpm_capabilities(void);
 
 /* End of alpm_api */
 /** @} */

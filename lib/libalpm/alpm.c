@@ -133,9 +133,30 @@ int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
  * @brief Various libalpm functions
  */
 
-/* Get the version of library */
-const char SYMEXPORT *alpm_version(void) {
+/** Get the version of library.
+ * @return the library version, e.g. "6.0.4"
+ * */
+const char SYMEXPORT *alpm_version(void)
+{
 	return LIB_VERSION;
+}
+
+/** Get the capabilities of the library.
+ * @return a bitmask of the capabilities
+ * */
+enum alpm_caps SYMEXPORT alpm_capabilities(void)
+{
+	return 0
+#ifdef ENABLE_NLS
+		| ALPM_CAPABILITY_NLS
+#endif
+#ifdef HAVE_LIBCURL
+		| ALPM_CAPABILITY_DOWNLOADER
+#endif
+#ifdef HAVE_LIBGPGME
+		| ALPM_CAPABILITY_SIGNATURES
+#endif
+		| 0;
 }
 
 /* vim: set ts=2 sw=2 noet: */
