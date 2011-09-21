@@ -39,16 +39,11 @@
 #include "trans.h"
 #include "alpm.h"
 
-alpm_handle_t *_alpm_handle_new()
+alpm_handle_t *_alpm_handle_new(void)
 {
 	alpm_handle_t *handle;
 
 	CALLOC(handle, 1, sizeof(alpm_handle_t), return NULL);
-
-#ifdef HAVE_LIBGPGME
-	handle->siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
-		ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
-#endif
 
 	return handle;
 }
