@@ -205,20 +205,22 @@ verify_keyring_input() {
 	local keyring keyfile
 	for keyring in "${KEYRINGIDS[@]}"; do
 		keyfile="${KEYRING_IMPORT_DIR}/${keyring}.gpg"
+		msg2 "$(gettext "Verifying %s...")" "${keyfile}"
 		if [[ ! -f "${keyfile}.sig" ]]; then
 			error "$(gettext "File %s is unsigned, cannot continue.")" "${keyfile}"
 			ret=1
-		elif ! "${GPG_PACMAN[@]}" --verify "${keyfile}.sig" &>/dev/null; then
+		elif ! "${GPG_PACMAN[@]}" --verify "${keyfile}.sig"; then
 			error "$(gettext "The signature of file %s is not valid.")" "${keyfile}"
 			ret=1
 		fi
 
 		keyfile="${KEYRING_IMPORT_DIR}/${keyring}-revoked"
 		if [[ -f "${keyfile}" ]]; then
+			msg2 "$(gettext "Verifying %s...")" "${keyfile}"
 			if [[ ! -f "${keyfile}.sig" ]]; then
 				error "$(gettext "File %s is unsigned, cannot continue.")" "${keyfile}"
 				ret=1
-			elif ! "${GPG_PACMAN[@]}" --verify "${keyfile}.sig" &>/dev/null; then
+			elif ! "${GPG_PACMAN[@]}" --verify "${keyfile}.sig"; then
 				error "$(gettext "The signature of file %s is not valid.")" "${keyfile}"
 				ret=1
 			fi
