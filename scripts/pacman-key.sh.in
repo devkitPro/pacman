@@ -203,7 +203,7 @@ verify_keyring_input() {
 	# Verify signatures of keyring files and association revocation files if they exist
 	msg "$(gettext "Verifying keyring file signatures...")"
 	local keyring
-	for keyring in ${KEYRINGIDS[@]}; do
+	for keyring in "${KEYRINGIDS[@]}"; do
 		if ! "${GPG_PACMAN[@]}" --verify "${KEYRING_IMPORT_DIR}/${keyring}.gpg.sig" &>/dev/null; then
 			error "$(gettext "The signature of file %s is not valid.")" "${ADDED_KEYS}"
 			ret=1
@@ -239,7 +239,7 @@ populate_keyring() {
 		fi
 	else
 		# verify listed keyrings exist
-		for keyring in ${KEYRINGIDS[@]}; do
+		for keyring in "${KEYRINGIDS[@]}"; do
 			if [[ ! -f "$KEYRING_IMPORT_DIR/$keyring.gpg" ]]; then
 				error "$(gettext "The keyring file %s does not exist.")" "$KEYRING_IMPORT_DIR/$keyring.gpg"
 				ret=1
@@ -258,7 +258,7 @@ populate_keyring() {
 	local key_id
 
 	# Add keys from requested keyrings
-	for keyring in ${KEYRINGIDS[@]}; do
+	for keyring in "${KEYRINGIDS[@]}"; do
 		msg "$(gettext "Appending keys from %s.gpg...")" "$keyring"
 		local add_keys="$("${GPG_NOKEYRING[@]}" --keyring "${KEYRING_IMPORT_DIR}/${keyring}.gpg" --with-colons --list-keys | grep ^pub | cut -d: -f5)"
 		for key_id in ${add_keys}; do
@@ -270,7 +270,7 @@ populate_keyring() {
 	# to key ids is important, because key ids are the only guarantee of identification
 	# for the keys.
 	local -A removed_ids
-	for keyring in ${KEYRINGIDS[@]}; do
+	for keyring in "${KEYRINGIDS[@]}"; do
 		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
 			while read key; do
 				local key_values name
@@ -313,7 +313,7 @@ populate_keyring() {
 
 edit_keys() {
 	local errors=0;
-	for key in ${KEYIDS[@]}; do
+	for key in "${KEYIDS[@]}"; do
 		# Verify if the key exists in pacman's keyring
 		if ! "${GPG_PACMAN[@]}" --list-keys "$key" &>/dev/null; then
 			error "$(gettext "The key identified by %s does not exist")" "$key"
@@ -322,7 +322,7 @@ edit_keys() {
 	done
 	(( errors )) && exit 1;
 
-	for key in ${KEYIDS[@]}; do
+	for key in "${KEYIDS[@]}"; do
 		"${GPG_PACMAN[@]}" --edit-key "$key"
 	done
 }
