@@ -42,6 +42,12 @@
 		if(gpg_err_code(err) != GPG_ERR_NO_ERROR) { goto error; } \
 	} while(0)
 
+/**
+ * Return a statically allocated validity string based on the GPGME validity
+ * code. This is mainly for debug purposes and is not translated.
+ * @param validity a validity code returned by GPGME
+ * @return a string such as "marginal"
+ */
 static const char *string_validity(gpgme_validity_t validity)
 {
 	switch(validity) {
@@ -69,6 +75,12 @@ static void sigsum_test_bit(gpgme_sigsum_t sigsum, alpm_list_t **summary,
 	}
 }
 
+/**
+ * Calculate a set of strings to represent the given GPGME signature summary
+ * value. This is a bitmask so you may get any number of strings back.
+ * @param sigsum a GPGME signature summary bitmask
+ * @return the list of signature summary strings
+ */
 static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
 {
 	alpm_list_t *summary = NULL;
@@ -104,6 +116,12 @@ static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
 	return summary;
 }
 
+/**
+ * Initialize the GPGME library.
+ * This can be safely called multiple times; however it is not thread-safe.
+ * @param handle the context handle
+ * @return 0 on success, 1 on error
+ */
 static int init_gpgme(alpm_handle_t *handle)
 {
 	static int init = 0;
@@ -434,6 +452,20 @@ char *_alpm_sigpath(alpm_handle_t *handle, const char *path)
 	return sigpath;
 }
 
+/**
+ * Helper for checking the PGP signature for the given file path.
+ * This wraps #_alpm_gpgme_checksig in a slightly friendlier manner to simplify
+ * handling of optional signatures and marginal/unknown trust levels and
+ * handling the correct error code return values.
+ * @param handle the context handle
+ * @param path the full path to a file
+ * @param base64_sig optional PGP signature data in base64 encoding
+ * @param optional whether signatures are optional (e.g., missing OK)
+ * @param marginal whether signatures with marginal trust are acceptable
+ * @param unknown whether signatures with unknown trust are acceptable
+ * @param sigdata a pointer to storage for signature results
+ * @return 0 on success, -1 on error (consult pm_errno or sigdata)
+ */
 int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 		const char *base64_sig, int optional, int marginal, int unknown,
 		alpm_siglist_t **sigdata)
@@ -507,6 +539,20 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 	return ret;
 }
 
+/**
+ * Examine a signature result list and take any appropriate or necessary
+ * actions. This may include asking the user to import a key or simply printing
+ * helpful failure messages so the user can take action out of band.
+ * @param handle the context handle
+ * @param identifier a friendly name for the signed resource; usually a
+ * database or package name
+ * @param siglist a pointer to storage for signature results
+ * @param optional whether signatures are optional (e.g., missing OK)
+ * @param marginal whether signatures with marginal trust are acceptable
+ * @param unknown whether signatures with unknown trust are acceptable
+ * @return 0 if all signatures are OK, -1 on errors, 1 if we should retry the
+ * validation process
+ */
 int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 		alpm_siglist_t *siglist, int optional, int marginal, int unknown)
 {
@@ -573,6 +619,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 /**
  * Check the PGP signature for the given package file.
  * @param pkg the package to check
+ * @param siglist a pointer to storage for signature results
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
 int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
@@ -589,6 +636,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
 /**
  * Check the PGP signature for the given database.
  * @param db the database to check
+ * @param siglist a pointer to storage for signature results
  * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
  */
 int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
@@ -601,6 +649,13 @@ int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
 	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL, siglist);
 }
 
+/**
+ * Clean up and free a signature result list.
+ * Note that this does not free the #alpm_siglist_t object itself in case that
+ * was allocated on the stack; this is the responsibility of the caller.
+ * @param siglist a pointer to storage for signature results
+ * @return 0 on success, -1 on error
+ */
 int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 {
 	ASSERT(siglist != NULL, return -1);
