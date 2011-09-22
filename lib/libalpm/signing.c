@@ -120,7 +120,7 @@ static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
  * Initialize the GPGME library.
  * This can be safely called multiple times; however it is not thread-safe.
  * @param handle the context handle
- * @return 0 on success, 1 on error
+ * @return 0 on success, -1 on error
  */
 static int init_gpgme(alpm_handle_t *handle)
 {
@@ -175,7 +175,7 @@ static int init_gpgme(alpm_handle_t *handle)
 
 error:
 	_alpm_log(handle, ALPM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
-	RET_ERR(handle, ALPM_ERR_GPGME, 1);
+	RET_ERR(handle, ALPM_ERR_GPGME, -1);
 }
 
 /**
@@ -221,7 +221,7 @@ error:
  * @param handle the context handle
  * @param fpr the fingerprint key ID to look up
  * @param pgpkey storage location for the given key if found
- * @return 0 on success, 1 on error or key not found
+ * @return 1 on success, 0 on key not found, -1 on error
  */
 static int key_search(alpm_handle_t *handle, const char *fpr,
 		alpm_pgpkey_t *pgpkey)
@@ -230,6 +230,7 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	gpgme_ctx_t ctx;
 	gpgme_keylist_mode_t mode;
 	gpgme_key_t key;
+	int ret = -1;
 
 	memset(&ctx, 0, sizeof(ctx));
 	err = gpgme_new(&ctx);
@@ -247,10 +248,11 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	err = gpgme_get_key(ctx, fpr, &key, 0);
 	if(gpg_err_code(err) == GPG_ERR_EOF) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
+		ret = 0;
+		goto error;
 	} else if(gpg_err_code(err) != GPG_ERR_NO_ERROR) {
-		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"gpg error: %s\n", gpgme_strerror(err));
-		CHECK_ERR();
+		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
+		goto error;
 	}
 
 	/* should only get here if key actually exists */
@@ -265,23 +267,25 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	pgpkey->email = key->uids->email;
 	pgpkey->created = key->subkeys->timestamp;
 	pgpkey->expires = key->subkeys->expires;
+	ret = 1;
 
 error:
 	gpgme_release(ctx);
-	return gpg_err_code(err) == GPG_ERR_NO_ERROR;
+	return ret;
 }
 
 /**
  * Import a key into the local keyring.
  * @param handle the context handle
  * @param key the key to import, likely retrieved from #key_search
- * @return 0 on success, 1 on error
+ * @return 0 on success, -1 on error
  */
 static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
 {
 	gpgme_error_t err;
 	gpgme_ctx_t ctx;
 	gpgme_key_t keys[2];
+	int ret = -1;
 
 	memset(&ctx, 0, sizeof(ctx));
 	err = gpgme_new(&ctx);
@@ -293,10 +297,11 @@ static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
 	keys[1] = NULL;
 	err = gpgme_op_import_keys(ctx, keys);
 	CHECK_ERR();
+	ret = 0;
 
 error:
 	gpgme_release(ctx);
-	return gpg_err_code(err) != GPG_ERR_NO_ERROR;
+	return ret;
 }
 
 /**
@@ -304,7 +309,7 @@ error:
  * @param base64_data the signature to attempt to decode
  * @param data the decoded data; must be freed by the caller
  * @param data_len the length of the returned data
- * @return 0 on success, 1 on failure to properly decode
+ * @return 0 on success, -1 on failure to properly decode
  */
 static int decode_signature(const char *base64_data,
 		unsigned char **data, size_t *data_len) {
@@ -323,7 +328,7 @@ static int decode_signature(const char *base64_data,
 error:
 	*data = NULL;
 	*data_len = 0;
-	return 1;
+	return -1;
 }
 
 /**
@@ -737,7 +742,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 					alpm_pgpkey_t fetch_key;
 					memset(&fetch_key, 0, sizeof(fetch_key));
 
-					if(key_search(handle, result->key.fingerprint, &fetch_key)) {
+					if(key_search(handle, result->key.fingerprint, &fetch_key) == 1) {
 						_alpm_log(handle, ALPM_LOG_DEBUG,
 								"unknown key, found %s on keyserver\n", fetch_key.uid);
 						QUESTION(handle, ALPM_QUESTION_IMPORT_KEY,
