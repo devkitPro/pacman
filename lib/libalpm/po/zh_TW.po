@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-18 16:47+0000\n"
 "Last-Translator: dlin <dlin.tw@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/"
@@ -82,6 +82,10 @@ msgstr "無法得到當前的工作目錄\n"
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "無法更改目錄到 %1$s (%2$s)\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "無法得到當前的工作目錄\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -213,8 +217,8 @@ msgstr ""
 "分區 %s 爲只讀\n"
 "\n"
 
-#, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "分區 %s 無可用空間：需要 %ld 盤區，可用 %ld 盤區\n"
 
 #, c-format
@@ -222,12 +226,12 @@ msgid "disk"
 msgstr "硬盤"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "url '%s' 無效\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "無法建立下載暫存檔\\n\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' 無效\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -453,6 +457,10 @@ msgstr "調用外部下載程序時出錯"
 msgid "unexpected error"
 msgstr "未預期的錯誤"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "無法找到或讀取軟件包"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "無法在數據庫中找到 %s -- 跳過\n"
@@ -565,6 +573,6 @@ msgstr "命令未能被正確執行\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "沒有 %s 緩存存在，正在創建...\n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "無法創建軟件包緩存，正在使用 /tmp 代替\n"

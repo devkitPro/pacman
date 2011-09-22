@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:33-0500\n"
 "PO-Revision-Date: 2011-08-16 12:47+0000\n"
 "Last-Translator: z0id <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
@@ -116,16 +116,20 @@ msgstr "SEMNĂTURĂ NEGĂSITĂ"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "FIȘIER SURSĂ NEGĂSIT"
 
-msgid "Unknown public key"
+#, fuzzy
+msgid "unknown public key"
 msgstr "Cheie publică necunoscută"
 
-msgid "Warning: the key has been revoked."
+#, fuzzy
+msgid "the key has been revoked."
 msgstr "Avertisment: cheia a fost revocată."
 
-msgid "Warning: the signature has expired."
+#, fuzzy
+msgid "the signature has expired."
 msgstr "Avertisment: semnătura a expirat."
 
-msgid "Warning: the key has expired."
+#, fuzzy
+msgid "the key has expired."
 msgstr "Avertisment: cheia a expirat."
 
 msgid "One or more PGP signatures could not be verified!"
@@ -420,6 +424,12 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Instalează dependențele lipsă cu %s"
 
+#, fuzzy
+msgid ""
+"  -S, --source     Generate a source-only tarball without downloaded sources"
+msgstr ""
+"  --source         Generează o arhivă doar-sursă fără sursele descărcate"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -470,11 +480,6 @@ msgstr "  --skipinteg      Nu efectua vreo verificare asupra fișierelor sursă"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Nu verifica fișierele sursă cu semnături PGP"
-
-msgid ""
-"  --source         Generate a source-only tarball without downloaded sources"
-msgstr ""
-"  --source         Generează o arhivă doar-sursă fără sursele descărcate"
 
 msgid "These options can be passed to %s:"
 msgstr "Aceste opțiuni pot fi promovate la %s:"
@@ -673,19 +678,22 @@ msgstr "Gata."
 msgid "Manage pacman's list of trusted keys"
 msgstr "Administrează lista de chei de încredere a pacman"
 
-msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+#, fuzzy
+msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
 "  -a, --add [<fișier(e)>]     Adaugă cheile specificate (gol pentru stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -d, --delete <(IDcheie)>   Șterge ID-urile specificate"
 
-msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
 "  -e, --export [<IDcheie>] Exportă ID-urile specificate sau toate IDurile"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
 "  -f, --finger [<IDcheie>] Enumeră amprentele pentru ID-urile specificate "
 "sau toate ID-urile"
@@ -693,11 +701,13 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Arată acest mesaj de asistență și ieși"
 
-msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
 "  -l, --list-keys [<IDcheie>] Enumeră ID-urile specificate sau toate ID-urile"
 
-msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 msgstr "  -r, --receive <server-de-chei> <IDcheie> Preia ID-urile specificate"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
@@ -747,11 +757,27 @@ msgstr ""
 "  --init                    Asigurare la inițializarea corectă a inelului de "
 "chei"
 
-msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
+msgid "  --keyserver               Specify a keyserver to use if necessary"
+msgstr ""
+
+#, fuzzy
+msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
 msgstr "  --list-sigs [<IDcheie>]  Enumeră cheile și semnăturile lor"
 
-msgid "  --reload                  Reload the default keys"
-msgstr "  --reload                  Reîncarcă cheile implicite"
+#, fuzzy
+msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+msgstr "  -d, --delete <(IDcheie)>   Șterge ID-urile specificate"
+
+msgid ""
+"  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
+msgstr ""
+"  -l, --list-keys [<IDcheie>] Enumeră ID-urile specificate sau toate ID-urile"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr "Nu ai suficiente permisiuni pentru a citi inelul de chei %s..."
@@ -762,33 +788,51 @@ msgstr "Folosește '%s' pentru a corecta permisiunile inelului de chei."
 msgid "You do not have sufficient permissions to run this command..."
 msgstr "Nu ai suficiente permisiuni pentru a executa această comandă..."
 
-msgid "Verifying official keys file signature..."
-msgstr "Se verifică semnătura oficială a fișierelor cheie..."
+msgid "There is no secret key available to sign with."
+msgstr ""
+
+msgid "Use '%s' to generate a default secret key."
+msgstr ""
+
+#, fuzzy
+msgid "Verifying %s..."
+msgstr "Se adaugă %s..."
+
+msgid "File %s is unsigned, cannot continue."
+msgstr ""
 
 msgid "The signature of file %s is not valid."
 msgstr "Semnătura fișierului %s este nevalidă."
 
-msgid "Verifying deprecated keys file signature..."
-msgstr "Se verifică semnăturile învechite ale fișierelor cheie..."
-
-msgid "Verifying deleted keys file signature..."
+#, fuzzy
+msgid "Verifying keyring file signatures..."
 msgstr "Se verifică semnăturile fișierelor cheie șterse..."
 
-msgid "Appending official keys..."
+msgid "No keyring files exist in %s."
+msgstr ""
+
+#, fuzzy
+msgid "The keyring file %s does not exist."
+msgstr "Cheia identificată de %s nu există."
+
+#, fuzzy
+msgid "Appending keys from %s.gpg..."
 msgstr "Se atașează cheile oficiale..."
 
-msgid "Appending deprecated keys..."
-msgstr "Se atașează cheile învechite..."
-
-msgid "Removing deleted keys from keyring..."
+#, fuzzy
+msgid "Locally signing trusted keys in keyring..."
 msgstr "Se elimină cheile șterse din inelul de chei..."
 
-msgid "Updating trust database..."
-msgstr "Se actualizează baza de date cu valorile de încredere..."
-
-msgid "You need to specify the keyserver and at least one key identifier"
+msgid "Locally signing key %s..."
 msgstr ""
-"Trebuie să specifici serverul de chei și cel puțin un identificator de cheie"
+
+#, fuzzy
+msgid "Disabling revoked keys in keyring..."
+msgstr "Se elimină cheile șterse din inelul de chei..."
+
+#, fuzzy
+msgid "Disabling key %s..."
+msgstr "Se arhivează %s..."
 
 msgid "The key identified by %s does not exist"
 msgstr "Cheia identificată de %s nu există."
@@ -810,6 +854,9 @@ msgstr "Multiple operațiuni specificate"
 
 msgid "Please run %s with each operation separately\\n"
 msgstr "Te rugăm să execuți %s cu fiecare operațiune separat\\n"
+
+msgid "Updating trust database..."
+msgstr "Se actualizează baza de date cu valorile de încredere..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -1107,3 +1154,20 @@ msgstr "opțiunea %s necesită un argument\\n"
 
 msgid "unrecognized option"
 msgstr "opțiune nerecunoscută"
+
+#~ msgid "  --reload                  Reload the default keys"
+#~ msgstr "  --reload                  Reîncarcă cheile implicite"
+
+#~ msgid "Verifying official keys file signature..."
+#~ msgstr "Se verifică semnătura oficială a fișierelor cheie..."
+
+#~ msgid "Verifying deprecated keys file signature..."
+#~ msgstr "Se verifică semnăturile învechite ale fișierelor cheie..."
+
+#~ msgid "Appending deprecated keys..."
+#~ msgstr "Se atașează cheile învechite..."
+
+#~ msgid "You need to specify the keyserver and at least one key identifier"
+#~ msgstr ""
+#~ "Trebuie să specifici serverul de chei și cel puțin un identificator de "
+#~ "cheie"

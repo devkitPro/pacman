@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-15 21:10+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -50,6 +50,10 @@ msgstr "s'està actualitzant %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "s'està comprovant la integritat dels paquets...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "s'està comprovant la integritat dels paquets...\n"
 
 #, c-format
@@ -116,8 +120,8 @@ msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Vols saltar aquest paquet en aquesta actualització?"
 msgstr[1] "Vols saltar aquests paquets en aquesta actualització?"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: Hi ha %d proveïdors disponibles per %s:\n"
 
 #, c-format
@@ -128,6 +132,10 @@ msgstr ":: %s-%s: la versió local és més nova. Actualitzo igualment?"
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
+msgstr ""
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
 msgstr ""
 
 #, c-format
@@ -155,6 +163,10 @@ msgid "checking package integrity"
 msgstr "comprovant la integritat del paquet"
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "s'està baixant %s...\n"
 
@@ -178,17 +190,18 @@ msgstr "execució XferCommand: ha fallat la bifurcació!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr ""
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "no s'ha pogut obtenir l'actual directori de treball\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr ""
+"fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "valor invàlid per «CleanMethod» : «%s»\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "fitxer de configuració %s, línia %d: nom de secció incorrecte.\n"
 
 #, c-format
 msgid ""
@@ -197,10 +210,8 @@ msgstr ""
 "fitxer de configuració %s, línia %d: directiva '%s' en la secció '%s' no "
 "reconeguda.\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "El mirall «%s» conté la variable $arch, però no s'ha definit cap "
 "arquitectura.\n"
@@ -224,6 +235,10 @@ msgstr "problema en establir el fitxer de registre «%s» (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "no '%s' configured"
 msgstr ""
 
 #, c-format
@@ -680,9 +695,9 @@ msgid ""
 msgstr ""
 "      --noscriptlet    no executa l'scriptlet d'instal·lació si existeix\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
 "      --print          imprimir el objectius in comptes d'executar "
@@ -762,8 +777,8 @@ msgstr "només es pot usar una operació alhora\n"
 msgid "invalid option\n"
 msgstr "opció no vàlida\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr ""
 "desbordament de memòria detectat en l'anàlisi i interpolació dels arguments\n"
 
@@ -811,25 +826,33 @@ msgstr "no es pot determinar la ruta real per «%s»: %s\n"
 msgid "No package owns %s\n"
 msgstr "Cap paquet conté %s\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "no s'ha trobat el grup \"%s\"\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %d fitxer en total, "
 msgstr[1] "%s: %d fitxers en total, "
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "Falta %d fitxer\n"
 msgstr[1] "Falten %d fitxers\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "no s'ha trobat el paquet \"%s\"\n"
+msgid "package '%s' was not found\n"
+msgstr "no s'ha trobat el paquet «%s»\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "no s'ha pogut establir el motiu d'instal·lació del paquet %s (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -948,10 +971,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "el repositori «%s» no existeix\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "no s'ha trobat el paquet «%s»\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "no s'ha trobat el repositori \"%s\".\n"
 
@@ -970,6 +989,10 @@ msgstr ":: Hi ha %d membres en el grup %s:\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "base de dades no trobada: %s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1023,6 +1046,10 @@ msgstr ""
 ":: Voleu cancel·lar l'operació actual i\n"
 ":: actualitzar primer aquests paquets?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "s'està baixant %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "ha fallat en iniciar la transacció (%s)\n"
@@ -1072,6 +1099,10 @@ msgid "Key unknown"
 msgstr ""
 
 #, c-format
+msgid "Key disabled"
+msgstr ""
+
+#, c-format
 msgid "Signature error"
 msgstr ""
 
@@ -1092,12 +1123,12 @@ msgid "unknown trust"
 msgstr ""
 
 #, c-format
-msgid "{Key Unknown}"
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
-msgid "%s, %s from \"%s\""
-msgstr ""
+msgid "failed to allocate string\n"
+msgstr "No s'ha pogut assignar memòria a la cadena de caràcters\n"
 
 #, c-format
 msgid "Name"
@@ -1192,10 +1223,6 @@ msgid "NO"
 msgstr "NO"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "No s'ha pogut assignar memòria a la cadena de caràcters\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "error: %s"
 
@@ -1210,3 +1237,12 @@ msgstr "error: "
 #, c-format
 msgid "warning: "
 msgstr "avís: "
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "valor invàlid per «CleanMethod» : «%s»\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "no s'ha trobat el paquet \"%s\"\n"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-15 21:33+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -53,6 +53,10 @@ msgstr "päivitetään pakettia %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "tarkistetaan pakettien virheettömyyttä...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "tarkistetaan pakettien virheettömyyttä...\n"
 
 #, c-format
@@ -123,8 +127,8 @@ msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Tahdotko ohittaa yllä olevan paketin päivittämisen?"
 msgstr[1] "Tahdotko ohittaa yllä olevien pakettien päivittämisen?"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: %d tarjoajaa kohteelle %s:\n"
 
 #, c-format
@@ -138,6 +142,10 @@ msgid ""
 msgstr ""
 ":: Tiedosto %s on vahingoittunut (%s).\n"
 "Haluatko poistaa sen?"
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -164,6 +172,10 @@ msgid "checking package integrity"
 msgstr "tarkastetaan pakettien virheettömyyttä"
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "ladataan pakettia %s...\n"
 
@@ -187,17 +199,17 @@ msgstr "XferCommand: haarauttaminen epäonnistui!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr "tiedoston %s nimeksi ei voitu muuttaa %s (%s)\n"
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "ei voitu siirtyä kansioon %s (%s)\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "nykyisen kansion sijaintia ei kyetty määrittämään\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr "virheellinen arvo SigLevel-kentässä: \"%s\"\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
+msgstr "asetustiedosto %s rivillä %d: direktiivi '%s' tarvitsee arvon\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "epäkelvollinen arvo avaimelle 'CleanMethod': '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "asetustiedosto %s, sisältää viallisen osionimen rivillä: %d.\n"
 
 #, c-format
 msgid ""
@@ -205,10 +217,8 @@ msgid ""
 msgstr ""
 "asetustiedosto %s rivillä %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "Peilipalvelin '%s' sisältää $arch-muuttujan, jota ei ole määritetty.\n"
 
 #, c-format
@@ -230,6 +240,10 @@ msgstr "ongelma asetettaessa lokitiedostoa \"%s\" (%s)\n"
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "ongelma asetettaessa gpg-kansiota \"%s\" (%s)\n"
+
+#, c-format
+msgid "no '%s' configured"
+msgstr ""
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -675,9 +689,9 @@ msgstr ""
 "      --noscriplet        älä suorita asennusskriptiä, jos sellainen on "
 "olemassa\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "      --print          listaa paketit, mutta älä suorita operaatiota\n"
 
@@ -751,8 +765,8 @@ msgstr "vain yksi operaatio voidaan suorittaa kerralla\n"
 msgid "invalid option\n"
 msgstr "epäkelvollinen valitsin\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr "puskurin ylivuotovirhe valitsimia jäsennettäessä\n"
 
 #, c-format
@@ -799,25 +813,33 @@ msgstr "kohteen '%s' todellisen sijainnin selvittäminen epäonnistui: %s\n"
 msgid "No package owns %s\n"
 msgstr "Tiedosto %s ei ole minkään paketin omistuksessa\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "ryhmää '%s' ei löydy\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: yhteensä  %d tiedosto, "
 msgstr[1] "%s: yhteensä  %d tiedostoa, "
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "%d puuttuva tiedosto\n"
 msgstr[1] "%d puuttuvaa tiedostoa\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
+msgid "package '%s' was not found\n"
 msgstr "pakettia '%s' ei löydy\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "paketin %s asennusyytä ei voitu asettaa (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -936,10 +958,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "pakettivarastoa '%s' ei ole olemassa\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "pakettia '%s' ei löydy\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "pakettivarastoa '%s' ei löydy.\n"
 
@@ -958,6 +976,10 @@ msgstr ":: %d jäsentä ryhmässä %s:\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "tietokantaa ei löydy: %s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1011,6 +1033,10 @@ msgstr ""
 ":: Tahdotko peruuttaa nykyisen operaation\n"
 ":: ja päivittää nämä paketit nyt?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "ladataan pakettia %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "latauksen alustaminen epäonnistui (%s)\n"
@@ -1059,6 +1085,10 @@ msgstr "Virheellinen"
 msgid "Key unknown"
 msgstr "Avain tuntematon"
 
+#, fuzzy, c-format
+msgid "Key disabled"
+msgstr "Avain vanhentunut"
+
 #, c-format
 msgid "Signature error"
 msgstr "Allekirjoitusvirhe"
@@ -1080,12 +1110,12 @@ msgid "unknown trust"
 msgstr "tuntematon luottotaso"
 
 #, c-format
-msgid "{Key Unknown}"
-msgstr "{Tuntematon avain}"
-
-#, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s käyttäjältä \"%s\""
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "merkkijonoa ei voitu varata\n"
 
 #, c-format
 msgid "Name"
@@ -1180,10 +1210,6 @@ msgid "NO"
 msgstr "EI"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "merkkijonoa ei voitu varata\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "virhe: %s"
 
@@ -1198,3 +1224,18 @@ msgstr "virhe: "
 #, c-format
 msgid "warning: "
 msgstr "varoitus: "
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr "ei voitu siirtyä kansioon %s (%s)\n"
+
+#~ msgid "invalid value for 'SigLevel' : '%s'\n"
+#~ msgstr "virheellinen arvo SigLevel-kentässä: \"%s\"\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "epäkelvollinen arvo avaimelle 'CleanMethod': '%s'\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "pakettia '%s' ei löydy\n"
+
+#~ msgid "{Key Unknown}"
+#~ msgstr "{Tuntematon avain}"

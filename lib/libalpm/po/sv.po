@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-09 21:02+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -81,6 +81,10 @@ msgstr "kunde inte hitta nuvarande sökväg\n"
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kunde inte byta katalog till %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "kunde inte hitta nuvarande sökväg\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -211,7 +215,7 @@ msgid "Partition %s is mounted read only\n"
 msgstr ""
 
 #, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr ""
 
 #, c-format
@@ -219,12 +223,12 @@ msgid "disk"
 msgstr "disk"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "url '%s' är ogiltigt\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr ""
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' är ogiltigt\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -450,6 +454,10 @@ msgstr "fel vid anrop av extern nerladdare"
 msgid "unexpected error"
 msgstr "oväntat fel"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "kunde inte hitta eller förbereda paket"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "kunde inte hitta %s i databasen -- hoppar över\n"
@@ -562,6 +570,6 @@ msgstr "kommando misslyckades att exekveras korrekt\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "ingen %s cache existerar, skapar...\n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kunde inte skapa paket-cache, använder /tmp istället\n"

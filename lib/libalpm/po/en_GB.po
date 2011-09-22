@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-09 21:08+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,6 +81,10 @@ msgstr "could not get current working directory\n"
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "could not change directory to %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "could not get current working directory\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -210,8 +214,8 @@ msgstr "could not determine root mount point %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Partition %s is mounted read only\n"
 
-#, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "Partition %s too full: %ld blocks needed, %ld blocks free\n"
 
 #, c-format
@@ -219,12 +223,12 @@ msgid "disk"
 msgstr "disk"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "URL '%s' is invalid\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "failed to create temporary file for download\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "URL '%s' is invalid\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -450,6 +454,10 @@ msgstr "error invoking external downloader"
 msgid "unexpected error"
 msgstr "unexpected error"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "could not find or read package"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "could not find %s in database -- skipping\n"
@@ -562,6 +570,6 @@ msgstr "command failed to execute correctly\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "no %s cache exists, creating...\n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "couldn't create package cache, using /tmp instead\n"

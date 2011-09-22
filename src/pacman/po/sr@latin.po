@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-15 21:10+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.net/projects/p/"
@@ -50,6 +50,10 @@ msgstr "nadograđujem %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "proveravam integritet paketa...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "proveravam integritet paketa...\n"
 
 #, c-format
@@ -118,8 +122,8 @@ msgstr[0] "Želite li da preskočite navedeni paket tokom ove nadogradnje?"
 msgstr[1] "Želite li da preskočite navedene pakete tokom ove nadogradnje?"
 msgstr[2] "Želite li da preskočite navedene pakete tokom ove nadogradnje?"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: Postoje/i %d snadbevača za %s:\n"
 
 #, c-format
@@ -130,6 +134,10 @@ msgstr ":: %s-%s: lokalna verzija je novija. Svejedno nadograditi?  "
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
+msgstr ""
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
 msgstr ""
 
 #, c-format
@@ -157,6 +165,10 @@ msgid "checking package integrity"
 msgstr "proveravam integritet paketa"
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "preuzimam %s...\n"
 
@@ -180,17 +192,17 @@ msgstr "pokrećem XferCommand: neuspelo račvanje!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr ""
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "ne mogu da promenim fasciklu u %s (%s)\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "ne mogu da odredim trenutnu radnu fasciklu\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr ""
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
+msgstr "fajl postavki %s, linija %d: direktivi „%s“ je potrebna vrednost.\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "neispravna vrednost za „CleanMethod“ : „%s“\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "fajl postavki %s, linija %d: pogrešan naziv odeljka.\n"
 
 #, c-format
 msgid ""
@@ -198,10 +210,8 @@ msgid ""
 msgstr ""
 "fajl postavki %s, linija %d: direktiva „%s“ u odeljku „%s“ nije prepoznata.\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "Miror „%s“ sadrži promenjivu $arch, ali arhitektura nije definisana.\n"
 
 #, c-format
@@ -222,6 +232,10 @@ msgstr "problem pri postavljanju dnevnika „%s“ (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "no '%s' configured"
 msgstr ""
 
 #, c-format
@@ -664,9 +678,9 @@ msgid ""
 msgstr ""
 "      --noscriptlet    ne izvršava instalacionu skriptu ukoliko postoji\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "      --print          štampa ciljeve umesto izvršavanja operacije\n"
 
@@ -739,8 +753,8 @@ msgstr "može se zadati samo jedna operacija istovremeno\n"
 msgid "invalid option\n"
 msgstr "neispravna opcija\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr "Otkriven preliv međuspremnika pri obradi argumenta\n"
 
 #, c-format
@@ -787,27 +801,35 @@ msgstr "ne mogu da utvrdim stvarnu putanju za „%s“: %s\n"
 msgid "No package owns %s\n"
 msgstr "Nijedan paket ne sadrži %s\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "nije nađena grupa „%s“\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: ukupno %d fajl, "
 msgstr[1] "%s: ukupno %d fajla, "
 msgstr[2] "%s: ukupno %d fajlova, "
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "%d nedostajući fajl\n"
 msgstr[1] "%d nedostajuća fajla\n"
 msgstr[2] "%d nedostajućih fajova\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "nije pronađen paket „%s“\n"
+msgid "package '%s' was not found\n"
+msgstr "nije nađen paket „%s“\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "ne mogu da postavim razlog instalacije paketa za %s (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -926,10 +948,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "ne postoji riznica „%s“\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "nije nađen paket „%s“\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "nije nađena riznica „%s“.\n"
 
@@ -948,6 +966,10 @@ msgstr ":: Ima %d članova u grupi %s:\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "baza nije nađena: %s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1001,6 +1023,10 @@ msgstr ""
 ":: Želite li da otkažete trenutnu operaciju\n"
 ":: i nadogradite ove pakete odmah?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "preuzimam %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "neuspelo započinjanje prenosa (%s)\n"
@@ -1050,6 +1076,10 @@ msgid "Key unknown"
 msgstr ""
 
 #, c-format
+msgid "Key disabled"
+msgstr ""
+
+#, c-format
 msgid "Signature error"
 msgstr ""
 
@@ -1070,12 +1100,12 @@ msgid "unknown trust"
 msgstr ""
 
 #, c-format
-msgid "{Key Unknown}"
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
-msgid "%s, %s from \"%s\""
-msgstr ""
+msgid "failed to allocate string\n"
+msgstr "neuspelo alociranje niske\n"
 
 #, c-format
 msgid "Name"
@@ -1170,10 +1200,6 @@ msgid "NO"
 msgstr "NE"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "neuspelo alociranje niske\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "greška: %s"
 
@@ -1188,3 +1214,12 @@ msgstr "greška: "
 #, c-format
 msgid "warning: "
 msgstr "upozorenje: "
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr "ne mogu da promenim fasciklu u %s (%s)\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "neispravna vrednost za „CleanMethod“ : „%s“\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "nije pronađen paket „%s“\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:33-0500\n"
 "PO-Revision-Date: 2011-08-26 13:24+0000\n"
 "Last-Translator: jakob <jakob.matthes@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -117,16 +117,20 @@ msgstr "SIGNATUR NICHT GEFUNDEN"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "QUELL-DATEI NICHT GEFUNDEN"
 
-msgid "Unknown public key"
+#, fuzzy
+msgid "unknown public key"
 msgstr "Unbekannter öffentlicher Schlüssel"
 
-msgid "Warning: the key has been revoked."
+#, fuzzy
+msgid "the key has been revoked."
 msgstr "Warnung: Der Schlüssel wurde widerrufen."
 
-msgid "Warning: the signature has expired."
+#, fuzzy
+msgid "the signature has expired."
 msgstr "Warnung: Die Signatur ist abgelaufen."
 
-msgid "Warning: the key has expired."
+#, fuzzy
+msgid "the key has expired."
 msgstr "Warnung: Der Schlüssel ist abgelaufen."
 
 msgid "One or more PGP signatures could not be verified!"
@@ -427,6 +431,13 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Installiere fehlende Abhängigkeiten mit %s"
 
+#, fuzzy
+msgid ""
+"  -S, --source     Generate a source-only tarball without downloaded sources"
+msgstr ""
+"  --source         Erstellt einen Quell-Tarball ohne die heruntergeladenen "
+"Quellen"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -482,12 +493,6 @@ msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr ""
 "  --skippgpcheck   Überprüfe nicht die Quell-Dateien an Hand der PGP-"
 "Signaturen"
-
-msgid ""
-"  --source         Generate a source-only tarball without downloaded sources"
-msgstr ""
-"  --source         Erstellt einen Quell-Tarball ohne die heruntergeladenen "
-"Quellen"
 
 msgid "These options can be passed to %s:"
 msgstr "Diese Optionen können an %s übergeben werden:"
@@ -689,7 +694,8 @@ msgstr "Fertig."
 msgid "Manage pacman's list of trusted keys"
 msgstr "Verwaltet die Liste der Trusted-Keys von pacman"
 
-msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+#, fuzzy
+msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
 "  -a, --add [<file(s)>]     Füge die angegebenen Schlüssel hinzu (leer für "
 "stdin)"
@@ -697,13 +703,15 @@ msgstr ""
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   Lösche die angegebene Schlüssel-Kennungen"
 
-msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
 "  -e, --export [<keyid(s)>] Exportie die angegebenen oder alle Schlüssel-"
 "Kennungen"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
 "  -f, --finger [<keyid(s)>] Liste alle Fingerabdrücke der angegebenen oder "
 "aller Schlüssel-Kennungen auf"
@@ -711,11 +719,13 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Zeige diesen Hilfe und beende"
 
-msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
 "  -l, --list-keys [<keyid(s)>] Liste die angegebenen oder alle Schlüssel auf"
 
-msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 msgstr ""
 "  -r, --receive <keyserver> <keyid(s)> Hole die angegebenen Schlüssel-"
 "Kennungen"
@@ -768,11 +778,27 @@ msgstr ""
 "  --init                    Stellen Sie sicher, dass der Schlüsselbund "
 "richtig initialisiert ist"
 
-msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
+msgid "  --keyserver               Specify a keyserver to use if necessary"
+msgstr ""
+
+#, fuzzy
+msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
 msgstr "  --list-sigs [<keyid(s)>]  Liste Schlüssel und ihre Signaturen auf"
 
-msgid "  --reload                  Reload the default keys"
-msgstr "  --reload                  Lade die Standard-Schlüssel erneut"
+#, fuzzy
+msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+msgstr "  -d, --delete <keyid(s)>   Lösche die angegebene Schlüssel-Kennungen"
+
+msgid ""
+"  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
+msgstr ""
+"  -l, --list-keys [<keyid(s)>] Liste die angegebenen oder alle Schlüssel auf"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr ""
@@ -785,34 +811,51 @@ msgstr ""
 msgid "You do not have sufficient permissions to run this command..."
 msgstr "Sie haben ungenügende Berechtigungen, um diesen Befehl auszuführen..."
 
-msgid "Verifying official keys file signature..."
-msgstr "Überprüfe Signatur der offiziellen Schlüssel..."
+msgid "There is no secret key available to sign with."
+msgstr ""
+
+msgid "Use '%s' to generate a default secret key."
+msgstr ""
+
+#, fuzzy
+msgid "Verifying %s..."
+msgstr "Füge %s hinzu ... "
+
+msgid "File %s is unsigned, cannot continue."
+msgstr ""
 
 msgid "The signature of file %s is not valid."
 msgstr "Die Signatur der Datei %s ist ungütig."
 
-msgid "Verifying deprecated keys file signature..."
-msgstr "Überprüfe Signatur der veralteten Schlüssel..."
-
-msgid "Verifying deleted keys file signature..."
+#, fuzzy
+msgid "Verifying keyring file signatures..."
 msgstr "Überprüfe Signatur der gelöschten Schlüssel..."
 
-msgid "Appending official keys..."
+msgid "No keyring files exist in %s."
+msgstr ""
+
+#, fuzzy
+msgid "The keyring file %s does not exist."
+msgstr "Der Schlüssel mit der Kennung %s existiert nicht"
+
+#, fuzzy
+msgid "Appending keys from %s.gpg..."
 msgstr "Hänge offizielle Schlüssel an..."
 
-msgid "Appending deprecated keys..."
-msgstr "Hänge veraltete Schlüssel an..."
-
-msgid "Removing deleted keys from keyring..."
+#, fuzzy
+msgid "Locally signing trusted keys in keyring..."
 msgstr "Entferne gelöschte Schlüssel aus dem Schlüsselbund..."
 
-msgid "Updating trust database..."
-msgstr "Aktualisiere Trust-Datenbank"
-
-msgid "You need to specify the keyserver and at least one key identifier"
+msgid "Locally signing key %s..."
 msgstr ""
-"Sie müssen den Schlüssel-Server und mindestens eine Schlüsselkennung "
-"festlegen"
+
+#, fuzzy
+msgid "Disabling revoked keys in keyring..."
+msgstr "Entferne gelöschte Schlüssel aus dem Schlüsselbund..."
+
+#, fuzzy
+msgid "Disabling key %s..."
+msgstr "Erstelle Tarball aus %s..."
 
 msgid "The key identified by %s does not exist"
 msgstr "Der Schlüssel mit der Kennung %s existiert nicht"
@@ -835,6 +878,9 @@ msgstr "mehrere Operationen angegeben"
 
 msgid "Please run %s with each operation separately\\n"
 msgstr "Bitte führen Sie %s einzeln mit jeder Operation aus\\n"
+
+msgid "Updating trust database..."
+msgstr "Aktualisiere Trust-Datenbank"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -1132,3 +1178,20 @@ msgstr "Option %s benötigt ein Argument\\n"
 
 msgid "unrecognized option"
 msgstr "unbekannte Option"
+
+#~ msgid "  --reload                  Reload the default keys"
+#~ msgstr "  --reload                  Lade die Standard-Schlüssel erneut"
+
+#~ msgid "Verifying official keys file signature..."
+#~ msgstr "Überprüfe Signatur der offiziellen Schlüssel..."
+
+#~ msgid "Verifying deprecated keys file signature..."
+#~ msgstr "Überprüfe Signatur der veralteten Schlüssel..."
+
+#~ msgid "Appending deprecated keys..."
+#~ msgstr "Hänge veraltete Schlüssel an..."
+
+#~ msgid "You need to specify the keyserver and at least one key identifier"
+#~ msgstr ""
+#~ "Sie müssen den Schlüssel-Server und mindestens eine Schlüsselkennung "
+#~ "festlegen"

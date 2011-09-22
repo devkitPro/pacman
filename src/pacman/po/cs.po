@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-15 21:10+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -50,6 +50,10 @@ msgstr "aktualizuje se %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "kontroluje se integrita balíčků...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "kontroluje se integrita balíčků...\n"
 
 #, c-format
@@ -120,8 +124,8 @@ msgstr[0] "Chcete přeskočit na výše uvedený balíček pro tuto aktualizaci?
 msgstr[1] "Chcete přeskočit na výše uvedené balíčky pro tuto aktualizaci?"
 msgstr[2] "Chcete přeskočit na výše uvedené balíčky pro tuto aktualizaci?"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: %d balíčků poskytuje %s:\n"
 
 #, c-format
@@ -132,6 +136,10 @@ msgstr ":: %s-%s: lokální verze je novější. Přesto aktualizovat?"
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
+msgstr ""
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
 msgstr ""
 
 #, c-format
@@ -159,6 +167,10 @@ msgid "checking package integrity"
 msgstr "kontrola integrity balíčků"
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "stahuje se %s...\n"
 
@@ -182,17 +194,18 @@ msgstr "spuštění XferCommand selhalo!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr ""
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "nepodařilo se změnit adresář na %s (%s)\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "nepodařilo získat aktuální pracovní adresář\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr ""
+"konfigurační soubor %s, řádek %d: direktiva '%s' vyžaduje zadanou hodnotu\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "chybná hodnota pro 'CleanMethod': '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "konfigurační soubor %s, řádek %d: chybné jméno sekce.\n"
 
 #, c-format
 msgid ""
@@ -201,10 +214,8 @@ msgstr ""
 "konfigurační soubor %s, řádek %d: direktiva '%s' v sekci '%s' nebyla "
 "rozpoznána.\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "Zrcadlo '%s' obsahuje proměnnou $arch, ale architektura nebyla definována.\n"
 
@@ -226,6 +237,10 @@ msgstr "problém s nastavením log souboru '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "no '%s' configured"
 msgstr ""
 
 #, c-format
@@ -667,9 +682,9 @@ msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "      --noscriptlet    nespouštět instalační skripty\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "      --print          vypíše cíle místo spuštění operace\n"
 
@@ -742,8 +757,8 @@ msgstr "současně lze spustit jen jednu operaci\n"
 msgid "invalid option\n"
 msgstr "neplatný přepínač\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr "při zpracování argumentů došlo k přetečení zásobníku\n"
 
 #, c-format
@@ -790,27 +805,35 @@ msgstr "nelze určit skutečnou cestu pro '%s': %s\n"
 msgid "No package owns %s\n"
 msgstr "Žádný balíček nevlastní %s\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "skupina \"%s\" nebyla nalezena\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: celkem %d soubor, "
 msgstr[1] "%s: celkem %d souborů, "
 msgstr[2] "%s: celkem %d souborů, "
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "%d chybějící soubor\n"
 msgstr[1] "%d chybějící soubory\n"
 msgstr[2] "%d chybějících souborů\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "balíček \"%s\" nebyl nalezen\n"
+msgid "package '%s' was not found\n"
+msgstr "balíček '%s' nebyl nalezen\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "nepodařilo se nastavit důvod instalace balíčku %s (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -929,10 +952,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "repozitář '%s' neexistuje\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "balíček '%s' nebyl nalezen\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "repozitář \"%s\" nebyl nalezen.\n"
 
@@ -951,6 +970,10 @@ msgstr ":: %d členů ve skupině %s:\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "databáze nebyla nalezen: %s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1002,6 +1025,10 @@ msgid ""
 ":: and upgrade these packages now?"
 msgstr ":: Chcete zrušit současnou operaci a aktualizovat tyto balíčky?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "stahuje se %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "selhala příprava transakce (%s)\n"
@@ -1051,6 +1078,10 @@ msgid "Key unknown"
 msgstr ""
 
 #, c-format
+msgid "Key disabled"
+msgstr ""
+
+#, c-format
 msgid "Signature error"
 msgstr ""
 
@@ -1071,12 +1102,12 @@ msgid "unknown trust"
 msgstr ""
 
 #, c-format
-msgid "{Key Unknown}"
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
-msgid "%s, %s from \"%s\""
-msgstr ""
+msgid "failed to allocate string\n"
+msgstr "Nepodařilo se alokovat řetězec\n"
 
 #, c-format
 msgid "Name"
@@ -1171,10 +1202,6 @@ msgid "NO"
 msgstr "NE"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "Nepodařilo se alokovat řetězec\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "chyba: %s"
 
@@ -1189,3 +1216,12 @@ msgstr "chyba: "
 #, c-format
 msgid "warning: "
 msgstr "varování: "
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr "nepodařilo se změnit adresář na %s (%s)\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "chybná hodnota pro 'CleanMethod': '%s'\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "balíček \"%s\" nebyl nalezen\n"

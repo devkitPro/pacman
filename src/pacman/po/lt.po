@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-22 05:56+0000\n"
 "Last-Translator: gymka_ltu <gymka@mail.ru>\n"
 "Language-Team: Lithuanian (http://www.transifex.net/projects/p/archlinux-"
@@ -49,6 +49,10 @@ msgstr "atnaujinama %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "tikrinamas paketo vientisumas...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "tikrinamas paketo vientisumas...\n"
 
 #, c-format
@@ -116,8 +120,8 @@ msgstr[0] "Ar norite praleisti šį paketą šiam atnaujinimui?"
 msgstr[1] "Ar norite praleisti šiuos paketus šiam atnaujinimui?"
 msgstr[2] "Ar norite praleisti šiuos paketus šiam atnaujinimui?"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: Yra %d tiekėjai kurie turi %s:\n"
 
 #, c-format
@@ -131,6 +135,10 @@ msgid ""
 msgstr ""
 ":: Failas %s yra sugadintas (%s).\n"
 "Ar nori jį ištrinti?"
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -157,6 +165,10 @@ msgid "checking package integrity"
 msgstr "tikrinamas paketo vientisumas"
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "parsiunčiama %s...\n"
 
@@ -180,17 +192,18 @@ msgstr "vykdant XferCommand: fork nepavyko!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr "negaliu pervadint %s į %s (%s)\n"
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "negaliu pereit į %s (%s) katalogą\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "negaliu pasiekt dabartinio katalogo\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr "'SigLevel' klaidinga reikšmė : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
+msgstr ""
+"konfigūracijos failas %s, eilutė %d: direktyva '%s' turi turėt reikšmę\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "'CleanMethod' klaidinga reikšmė : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "konfigūracijos failas %s, eilutė %d: blogas skyriaus vardas.\n"
 
 #, c-format
 msgid ""
@@ -199,10 +212,8 @@ msgstr ""
 "konfigūracijos failas %s, eilutė %d: direktyva '%s' sekcijoj '%s' "
 "neatpažinta.\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "Veidrodis '%s' turi $arch kintamąjį, bet nenurodyta architektūra.\n"
 
 #, c-format
@@ -224,6 +235,10 @@ msgstr "nepavyko nustatyt log failo '%s' (%s)\n"
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "nepavyko nustatyt gpgdir '%s' (%s)\n"
+
+#, c-format
+msgid "no '%s' configured"
+msgstr ""
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -664,9 +679,9 @@ msgid ""
 msgstr ""
 "      --noscriptlet    nevykdyti diegimo scenarijaus jei toks egzistuoja\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "      --print          nevykdyti užduoties, parodyti objektus\n"
 
@@ -739,8 +754,8 @@ msgstr "vienu metu tik viena komanda\n"
 msgid "invalid option\n"
 msgstr "neteisinga pasirinktis\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr "apdorojant arg aptiktas buferio perpildymas\n"
 
 #, c-format
@@ -787,27 +802,35 @@ msgstr "negaliu nustatyti tikro kelio '%s': %s\n"
 msgid "No package owns %s\n"
 msgstr "%s nepriklauso jokiam paketui\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "grupė \"%s\" nerasta\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: išviso %d failas,"
 msgstr[1] "%s: išviso %d failų,"
 msgstr[2] "%s: išviso %d failų,"
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "%d nėra failo\n"
 msgstr[1] "%d nėra failų\n"
 msgstr[2] "%d nėra failų\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "paketas \"%s\" nerastas\n"
+msgid "package '%s' was not found\n"
+msgstr "paketas '%s' nerastas\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "negaliu nustatyt įdiegimo priežasties paketui %s (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -926,10 +949,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "saugykla '%s' neegzistuoja\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "paketas '%s' nerastas\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "saugykla \"%s\" nerasta.\n"
 
@@ -948,6 +967,10 @@ msgstr ":: Grupėje %d yra %s narių:\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "duomenų bazė nerasta: %s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1001,6 +1024,10 @@ msgstr ""
 ":: Ar norite atšaukti dabartinę užduotį\n"
 ":: ir atnaujinti šiuos paketus dabar?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "parsiunčiama %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "nepavyko pradėti perdavimo (%s)\n"
@@ -1049,6 +1076,10 @@ msgstr "Netinkamas"
 msgid "Key unknown"
 msgstr "Nežinomas raktas"
 
+#, fuzzy, c-format
+msgid "Key disabled"
+msgstr "Pasibaigęs raktas"
+
 #, c-format
 msgid "Signature error"
 msgstr "Parašo klaida"
@@ -1070,12 +1101,12 @@ msgid "unknown trust"
 msgstr "nežinomas pasitikėjimas"
 
 #, c-format
-msgid "{Key Unknown}"
-msgstr "{Nežinomas raktas}"
-
-#, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s iš \"%s\""
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "nepavyko rasti eilutės\n"
 
 #, c-format
 msgid "Name"
@@ -1170,10 +1201,6 @@ msgid "NO"
 msgstr "NE"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "nepavyko rasti eilutės\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "klaida: %s"
 
@@ -1188,3 +1215,18 @@ msgstr "klaida:"
 #, c-format
 msgid "warning: "
 msgstr "įspėjimas:"
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr "negaliu pereit į %s (%s) katalogą\n"
+
+#~ msgid "invalid value for 'SigLevel' : '%s'\n"
+#~ msgstr "'SigLevel' klaidinga reikšmė : '%s'\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "'CleanMethod' klaidinga reikšmė : '%s'\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "paketas \"%s\" nerastas\n"
+
+#~ msgid "{Key Unknown}"
+#~ msgstr "{Nežinomas raktas}"

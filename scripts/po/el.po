@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:33-0500\n"
 "PO-Revision-Date: 2011-08-16 21:51+0000\n"
 "Last-Translator: nous <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -114,16 +114,20 @@ msgstr "ΔΕΝ ΒΡΕΘΗΚΕ ΥΠΟΓΡΑΦΗ"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "ΔΕΝ ΒΡΕΘΗΚΕ ΠΗΓΑΙΟ ΑΡΧΕΙΟ"
 
-msgid "Unknown public key"
+#, fuzzy
+msgid "unknown public key"
 msgstr "Άγνωστο δημόσιο κλειδί"
 
-msgid "Warning: the key has been revoked."
+#, fuzzy
+msgid "the key has been revoked."
 msgstr "Προσοχή: το κλειδί έχει ανακληθεί."
 
-msgid "Warning: the signature has expired."
+#, fuzzy
+msgid "the signature has expired."
 msgstr "Προσοχή: η υπογραφή έχει λήξει."
 
-msgid "Warning: the key has expired."
+#, fuzzy
+msgid "the key has expired."
 msgstr "Προσοχή: το κλειδί έχει λήξει."
 
 msgid "One or more PGP signatures could not be verified!"
@@ -412,6 +416,12 @@ msgstr "  -R, --repackage  Ανασύνθεση πακέτου χωρίς ανα
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Εγκατάσταση απουσών εξαρτήσεων με %s"
 
+#, fuzzy
+msgid ""
+"  -S, --source     Generate a source-only tarball without downloaded sources"
+msgstr ""
+"  --source         Δημιουργία πηγαίου αρχείου tar χωρίς τις ληφθείσες πηγές"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -459,11 +469,6 @@ msgstr "  --skipinteg      Χωρίς κανέναν έλεγχο επικύρω
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Χωρίς επικύρωση υπογραφών PGP πηγαίων αρχείων"
-
-msgid ""
-"  --source         Generate a source-only tarball without downloaded sources"
-msgstr ""
-"  --source         Δημιουργία πηγαίου αρχείου tar χωρίς τις ληφθείσες πηγές"
 
 msgid "These options can be passed to %s:"
 msgstr "Οι εξής επιλογές αναγνωρίζονται από τον %s:"
@@ -655,18 +660,21 @@ msgstr "Πέρας."
 msgid "Manage pacman's list of trusted keys"
 msgstr "Διαχείριση λίστας έμπιστων κλειδιών του pacman"
 
-msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+#, fuzzy
+msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
 "  -a, --add [<file(s)>]     Προσθήκη καθορισμένων κλειδιών (κενό για stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   Κατάργηση καθορισμένων keyids"
 
-msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr "  -e, --export [<keyid(s)>] Εξαγωγή καθορισμένων ή όλων των keyids"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
 "  -f, --finger [<keyid(s)>] Εμφάνιση αποτυπώματος καθορισμένων ή όλων των "
 "keyids"
@@ -674,11 +682,13 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Εμφάνιση αυτού του μηνύματος και έξοδος"
 
-msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
 "  -l, --list-keys [<keyid(s)>] Εμφάνιση καθορισμένων ή όλων των κλειδιών"
 
-msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 msgstr "  -r, --receive <keyserver> <keyid(s)> Λήψη των καθορισμένων κλειδιών"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
@@ -726,11 +736,27 @@ msgstr ""
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr "  --init                    Εξασφάλιση αρχικοποίησης κλειδοθήκης"
 
-msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
+msgid "  --keyserver               Specify a keyserver to use if necessary"
+msgstr ""
+
+#, fuzzy
+msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
 msgstr "  --list-sigs [<keyid(s)>]  Εμφάνιση κλειδιών και υπογραφών"
 
-msgid "  --reload                  Reload the default keys"
-msgstr "  --reload                  Ανανέωση προεπιλεγμένων κλειδιών"
+#, fuzzy
+msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+msgstr "  -d, --delete <keyid(s)>   Κατάργηση καθορισμένων keyids"
+
+msgid ""
+"  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
+msgstr ""
+"  -l, --list-keys [<keyid(s)>] Εμφάνιση καθορισμένων ή όλων των κλειδιών"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr "Ανεπαρκή δικαιώματα ανάγνωσης κλειδοθήκης %s..."
@@ -741,34 +767,51 @@ msgstr "Τρέξε το '%s' για ρύθμιση των αδειών της κ
 msgid "You do not have sufficient permissions to run this command..."
 msgstr "Ανεπαρκή δικαιώματα για εκτέλεση αυτής της εντολής..."
 
-msgid "Verifying official keys file signature..."
-msgstr "Επικύρωση επίσημης υπογραφής αρχείου κλειδιών..."
+msgid "There is no secret key available to sign with."
+msgstr ""
+
+msgid "Use '%s' to generate a default secret key."
+msgstr ""
+
+#, fuzzy
+msgid "Verifying %s..."
+msgstr "Προσθήκη %s..."
+
+msgid "File %s is unsigned, cannot continue."
+msgstr ""
 
 msgid "The signature of file %s is not valid."
 msgstr "Η υπογραφή του %s δεν είναι έγκυρη."
 
-msgid "Verifying deprecated keys file signature..."
-msgstr "Επικύρωση παρωχημένης υπογραφής αρχείου κλειδιών..."
-
-msgid "Verifying deleted keys file signature..."
+#, fuzzy
+msgid "Verifying keyring file signatures..."
 msgstr "Επικύρωση διαγραφείσας υπογραφής αρχείου κλειδιών..."
 
-msgid "Appending official keys..."
+msgid "No keyring files exist in %s."
+msgstr ""
+
+#, fuzzy
+msgid "The keyring file %s does not exist."
+msgstr "Το αναγνωριστικό κλειδιού %s δεν υπάρχει"
+
+#, fuzzy
+msgid "Appending keys from %s.gpg..."
 msgstr "Προσάρτηση επίσημων κλειδιών..."
 
-msgid "Appending deprecated keys..."
-msgstr "Προσάρτηση παρωχημένων κλειδιών..."
-
-msgid "Removing deleted keys from keyring..."
+#, fuzzy
+msgid "Locally signing trusted keys in keyring..."
 msgstr "Κατάργηση διαγραφέντων κλειδιών από κλειδοθήκη..."
 
-msgid "Updating trust database..."
-msgstr "Ενημέρωση βάσης εμπιστοσύνης..."
-
-msgid "You need to specify the keyserver and at least one key identifier"
+msgid "Locally signing key %s..."
 msgstr ""
-"Απαιτείται ο καθορισμός του διακομιστή κλειδιών και τουλάχιστον ενός "
-"αναγνωριστικού κλειδιού"
+
+#, fuzzy
+msgid "Disabling revoked keys in keyring..."
+msgstr "Κατάργηση διαγραφέντων κλειδιών από κλειδοθήκη..."
+
+#, fuzzy
+msgid "Disabling key %s..."
+msgstr "Δημιουργία tar από %s..."
 
 msgid "The key identified by %s does not exist"
 msgstr "Το αναγνωριστικό κλειδιού %s δεν υπάρχει"
@@ -791,6 +834,9 @@ msgstr "Ζητήθηκαν πολλαπλές λειτουργίες"
 
 msgid "Please run %s with each operation separately\\n"
 msgstr "Τρέξε τον %s για κάθε λειτουργία ξεχωριστά.\\n"
+
+msgid "Updating trust database..."
+msgstr "Ενημέρωση βάσης εμπιστοσύνης..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -1084,3 +1130,20 @@ msgstr "η επιλογή %s απαιτεί όρισμα\\n"
 
 msgid "unrecognized option"
 msgstr "άγνωστη επιλογή"
+
+#~ msgid "  --reload                  Reload the default keys"
+#~ msgstr "  --reload                  Ανανέωση προεπιλεγμένων κλειδιών"
+
+#~ msgid "Verifying official keys file signature..."
+#~ msgstr "Επικύρωση επίσημης υπογραφής αρχείου κλειδιών..."
+
+#~ msgid "Verifying deprecated keys file signature..."
+#~ msgstr "Επικύρωση παρωχημένης υπογραφής αρχείου κλειδιών..."
+
+#~ msgid "Appending deprecated keys..."
+#~ msgstr "Προσάρτηση παρωχημένων κλειδιών..."
+
+#~ msgid "You need to specify the keyserver and at least one key identifier"
+#~ msgstr ""
+#~ "Απαιτείται ο καθορισμός του διακομιστή κλειδιών και τουλάχιστον ενός "
+#~ "αναγνωριστικού κλειδιού"

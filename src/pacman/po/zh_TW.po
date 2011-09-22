@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-25 21:03+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/"
@@ -49,6 +49,10 @@ msgstr "正在升級 %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "正在檢查軟件包完整性...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "正在檢查軟件包完整性...\n"
 
 #, c-format
@@ -110,8 +114,8 @@ msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "您想在本次更新中跳過上述軟件包嗎？"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: 有 %d 個軟件包均可提供 %s ：\n"
 
 #, c-format
@@ -125,6 +129,10 @@ msgid ""
 msgstr ""
 "::  %s 檔案毀損(%s).\n"
 "你要刪除它嗎?"
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -149,6 +157,10 @@ msgstr "正在檢查可用硬盤空間"
 #, c-format
 msgid "checking package integrity"
 msgstr "正在檢查軟件包完整性"
+
+#, c-format
+msgid "loading package files"
+msgstr ""
 
 #, c-format
 msgid "downloading %s...\n"
@@ -176,27 +188,25 @@ msgstr ""
 "不能將 %s 重命名為 %s (%s)\n"
 "\n"
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "無法改變目錄到 %s (%s)\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "無法獲取當前的工作目錄\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr "無效的 'SigLevel':'%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
+msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要賦值\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "'CleanMethod' 設置的爲無效值： '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "配置文件 %s，第 %d 行：壞的章節名字。\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "配置文件 %s，第 %d 行：指令 '%s'(位於章節 '%s' 中) 無法識別。\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "鏡像 '%s' 包含有 $arch 參數，但沒有定義架構。\n"
 
 #, c-format
@@ -220,10 +230,14 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "設定 gpgdir '%s' 發生問題 (%s)\n"
 
 #, c-format
+msgid "no '%s' configured"
+msgstr ""
+
+#, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "無法註冊 '%s' 數據庫 (%s)\n"
 
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
 msgstr "無法添加鏡射網站 '%s' 到資料庫 (%s)\n"
 
@@ -634,9 +648,9 @@ msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "      --noscriptlet    不執行安裝小腳本\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "      --print          打印本目標而不是執行本操作\n"
 
@@ -708,8 +722,8 @@ msgstr "一次只能運行一個操作\n"
 msgid "invalid option\n"
 msgstr "無效選項\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr "參數解析時探測到緩存溢出\n"
 
 #, c-format
@@ -756,23 +770,31 @@ msgstr "無法確定 '%s' 的真實路徑：%s\n"
 msgid "No package owns %s\n"
 msgstr "沒有軟件包擁有 %s\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "未找到 \"%s\" 組\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: 共 %d 個文件。"
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "共 %d 個缺失文件\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "軟件包 \"%s\" 未找到\n"
+msgid "package '%s' was not found\n"
+msgstr "軟件包 '%s' 未找到\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "無法爲軟件包 %s 指定安裝原因 (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -891,10 +913,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "軟件庫 '%s' 不存在\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "軟件包 '%s' 未找到\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "軟件庫 \"%s\" 未找到\n"
 
@@ -913,6 +931,10 @@ msgstr ":: 共有 %d 組員在組 %s 中：\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "未找到數據庫：%s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -966,6 +988,10 @@ msgstr ""
 ":: 打算取消當前操作\n"
 ":: 並馬上安裝這些軟件包嗎？ "
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "正在下載 %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "無法初始化事務處理 (%s)\n"
@@ -1014,6 +1040,10 @@ msgstr "不合法"
 msgid "Key unknown"
 msgstr "未知的鑰匙"
 
+#, fuzzy, c-format
+msgid "Key disabled"
+msgstr "鑰匙已過期"
+
 #, c-format
 msgid "Signature error"
 msgstr "數位簽章錯誤"
@@ -1035,12 +1065,12 @@ msgid "unknown trust"
 msgstr "未知的信任"
 
 #, c-format
-msgid "{Key Unknown}"
-msgstr "{未知的鑰匙}"
-
-#, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s 從 \"%s\""
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "無法分配字符串\n"
 
 #, c-format
 msgid "Name"
@@ -1135,10 +1165,6 @@ msgid "NO"
 msgstr "否"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "無法分配字符串\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "錯誤：%s"
 
@@ -1153,3 +1179,18 @@ msgstr "錯誤："
 #, c-format
 msgid "warning: "
 msgstr "警告："
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr "無法改變目錄到 %s (%s)\n"
+
+#~ msgid "invalid value for 'SigLevel' : '%s'\n"
+#~ msgstr "無效的 'SigLevel':'%s'\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "'CleanMethod' 設置的爲無效值： '%s'\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "軟件包 \"%s\" 未找到\n"
+
+#~ msgid "{Key Unknown}"
+#~ msgstr "{未知的鑰匙}"

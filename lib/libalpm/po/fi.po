@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-15 20:31+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -87,6 +87,10 @@ msgstr "nykyisen kansion sijaintia ei voitu määrittää\n"
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "ei voitu vaihtaa kansioon %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "nykyisen kansion sijaintia ei voitu määrittää\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -216,8 +220,8 @@ msgstr "juuren %s liitospistettä ei voitu selvittää\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Osio %s on liitetty vain lukutilassa\n"
 
-#, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "osio %s on liian täynnä: %ld lohkoa tarvitaan, %ld lohkoa vapaana\n"
 
 #, c-format
@@ -225,12 +229,12 @@ msgid "disk"
 msgstr "levy"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "osoite '%s' on virheellinen\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "väliaikaistiedoston luonti lataamista varten epäonnistui\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "osoite '%s' on virheellinen\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -456,6 +460,10 @@ msgstr "virhe kutsuttaessa ulkoista latausohjelmaa"
 msgid "unexpected error"
 msgstr "odottamaton virhe"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "pakettia ei löytynyt tai voitu lukea"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "%s ei löytynyt tietokannasta -- ohitetaan\n"
@@ -570,6 +578,6 @@ msgstr "komento päättyi virheeseen\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "välimuistia %s ei ole olemassa, luodaan...\n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "pakettivälimuistia ei voitu luoda, käytetään /tmp:tä sen sijasta\n"

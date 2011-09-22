@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-22 15:52+0000\n"
 "Last-Translator: gymka_ltu <gymka@mail.ru>\n"
 "Language-Team: Lithuanian (http://www.transifex.net/projects/p/archlinux-"
@@ -83,6 +83,10 @@ msgstr "nepavyko nustatyt dabartinio aplanko\n"
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nepavyko pakeist aplanko į %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "nepavyko nustatyt dabartinio aplanko\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -214,8 +218,8 @@ msgstr "nepavyko nustatyt šakninio prijungimo taško %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Skirsnis %s prijungtas tik skaitymui\n"
 
-#, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "Skirsnis %s perpildytas: reikia %ld blokų, laisvi %ld\n"
 
 #, c-format
@@ -223,12 +227,12 @@ msgid "disk"
 msgstr "diskas"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "neteisingas url '%s'\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "nepavyko sukurti laikino failo parsiuntimui\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "neteisingas url '%s'\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -454,6 +458,10 @@ msgstr "klaida iškviečiant išorinį parsiuntėją"
 msgid "unexpected error"
 msgstr "netikėta klaida"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "nepavyko rasti ar perskaityti paketo"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "duomenų bazėj nepavyko rasti %s -- praleidžiama\n"
@@ -566,6 +574,6 @@ msgstr "nepavyko teisingai įvykdyti komandos\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "%s podėlis neegzistuoja, kuriamas...\n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "nepavyko sukurti paketo podėlio. vietoj jo naudojama /tmp\n"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-11 22:23+0000\n"
 "Last-Translator: jakob <jakob.matthes@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -83,6 +83,10 @@ msgstr "Konnte aktuelles Arbeitsverzeichnis nicht ermitteln\n"
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "Konnte nicht zu Verzeichnis %s wechseln (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "Konnte aktuelles Arbeitsverzeichnis nicht ermitteln\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -217,8 +221,8 @@ msgstr "Konnte den Root-Einhängepunkt %s nicht ermitteln\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Die Partition %s ist so eingehängt, daß sie nur gelesen werden kann\n"
 
-#, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr ""
 "Partition %s überfüllt: %ld Blöcke werden benötigt, %ld Blöcke sind frei\n"
 
@@ -227,12 +231,12 @@ msgid "disk"
 msgstr "Platte"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "URL '%s' ist ungültig\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "Konnte temporäre Datei für den Download nicht anlegen\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "URL '%s' ist ungültig\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -459,6 +463,10 @@ msgstr "Fehler beim Aufruf eines externen Downloaders"
 msgid "unexpected error"
 msgstr "Unerwarteter Fehler"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "Konnte Paket nicht finden oder lesen"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "Konnte %s nicht in Datenbank finden -- Überspringe\n"
@@ -571,6 +579,6 @@ msgstr "Befehl konnte nicht korrekt ausgeführt werden\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "Es existiert kein %s-Puffer. Erstelle... \n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "Konnte Paketpuffer nicht erstellen, benutze stattdessen /tmp\n"

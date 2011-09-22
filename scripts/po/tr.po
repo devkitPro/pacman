@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:33-0500\n"
 "PO-Revision-Date: 2011-08-15 21:10+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -116,16 +116,19 @@ msgstr "İMZA BULUNAMADI"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "KAYNAK DOSYA BULUNAMADI"
 
-msgid "Unknown public key"
+msgid "unknown public key"
 msgstr ""
 
-msgid "Warning: the key has been revoked."
+#, fuzzy
+msgid "the key has been revoked."
 msgstr "Uyarı: anahtar geri alındı."
 
-msgid "Warning: the signature has expired."
+#, fuzzy
+msgid "the signature has expired."
 msgstr "Uyarı: imza geçerlilik süresi dolmuş,"
 
-msgid "Warning: the key has expired."
+#, fuzzy
+msgid "the key has expired."
 msgstr "Uyarı: anahtar geçerlilik süresi dolmuş,"
 
 msgid "One or more PGP signatures could not be verified!"
@@ -403,6 +406,13 @@ msgstr "  -R, --repackage  Derleme yapmadan yeniden paketle"
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr ""
 
+#, fuzzy
+msgid ""
+"  -S, --source     Generate a source-only tarball without downloaded sources"
+msgstr ""
+"  --source     Paketi derlemek yerine inşa dosyalarını barındıran "
+"sıkıştırılmış tar arşivi oluştur"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -449,12 +459,6 @@ msgstr ""
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr ""
-
-msgid ""
-"  --source         Generate a source-only tarball without downloaded sources"
-msgstr ""
-"  --source     Paketi derlemek yerine inşa dosyalarını barındıran "
-"sıkıştırılmış tar arşivi oluştur"
 
 msgid "These options can be passed to %s:"
 msgstr ""
@@ -635,26 +639,26 @@ msgstr "Tamamlandı."
 msgid "Manage pacman's list of trusted keys"
 msgstr ""
 
-msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr ""
 
-msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
+msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
 
 msgid ""
-"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr ""
 
-msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
 
-msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 msgstr ""
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
@@ -692,10 +696,22 @@ msgstr ""
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
 
-msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
+msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
 
-msgid "  --reload                  Reload the default keys"
+msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
+msgstr ""
+
+msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+msgstr ""
+
+msgid ""
+"  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+
+msgid ""
+"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
@@ -707,32 +723,48 @@ msgstr ""
 msgid "You do not have sufficient permissions to run this command..."
 msgstr ""
 
-msgid "Verifying official keys file signature..."
+msgid "There is no secret key available to sign with."
+msgstr ""
+
+msgid "Use '%s' to generate a default secret key."
+msgstr ""
+
+#, fuzzy
+msgid "Verifying %s..."
+msgstr "%s ekleniyor..."
+
+msgid "File %s is unsigned, cannot continue."
 msgstr ""
 
 msgid "The signature of file %s is not valid."
 msgstr ""
 
-msgid "Verifying deprecated keys file signature..."
+#, fuzzy
+msgid "Verifying keyring file signatures..."
+msgstr "Kaynak dosya imzaları %s ile doğrulanıyor..."
+
+msgid "No keyring files exist in %s."
 msgstr ""
 
-msgid "Verifying deleted keys file signature..."
+#, fuzzy
+msgid "The keyring file %s does not exist."
+msgstr "%s dosyası (%s) mevcut değil."
+
+msgid "Appending keys from %s.gpg..."
 msgstr ""
 
-msgid "Appending official keys..."
+msgid "Locally signing trusted keys in keyring..."
 msgstr ""
 
-msgid "Appending deprecated keys..."
+msgid "Locally signing key %s..."
 msgstr ""
 
-msgid "Removing deleted keys from keyring..."
+msgid "Disabling revoked keys in keyring..."
 msgstr ""
 
-msgid "Updating trust database..."
-msgstr ""
-
-msgid "You need to specify the keyserver and at least one key identifier"
-msgstr ""
+#, fuzzy
+msgid "Disabling key %s..."
+msgstr "%s sıkıştırılıyor..."
 
 msgid "The key identified by %s does not exist"
 msgstr ""
@@ -753,6 +785,9 @@ msgid "Multiple operations specified"
 msgstr ""
 
 msgid "Please run %s with each operation separately\\n"
+msgstr ""
+
+msgid "Updating trust database..."
 msgstr ""
 
 msgid ""

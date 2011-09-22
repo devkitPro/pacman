@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-15 21:10+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -50,6 +50,10 @@ msgstr "aktualizowanie %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "sprawdzanie spójności pakietów...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "sprawdzanie spójności pakietów...\n"
 
 #, c-format
@@ -120,8 +124,8 @@ msgstr[0] "Czy chcesz pominąć powyższy pakiet przy aktualizacji?"
 msgstr[1] "Czy chcesz pominąć powyższe pakiety przy aktualizacji?"
 msgstr[2] "Czy chcesz pominąć powyższe pakiety przy aktualizacji?"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: Jest dostępnych %d dostawców dla %s:\n"
 
 #, c-format
@@ -132,6 +136,10 @@ msgstr ":: %s-%s: lokalna wersja jest nowsza. Aktualizować pomimo tego?"
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
+msgstr ""
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
 msgstr ""
 
 #, c-format
@@ -159,6 +167,10 @@ msgid "checking package integrity"
 msgstr "sprawdzanie spójności pakietów"
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "pobieram %s...\n"
 
@@ -182,17 +194,17 @@ msgstr "uruchamianie XferCommand: fork nieudany!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr ""
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr "nie można zmienić katalogu na %s (%s)\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "nie można odnaleźć bieżącego katalogu roboczego\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr ""
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
+msgstr "plik konfiguracyjny %s, linia %d: wymagana wartość w dyrektywie '%s'\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "zła wartość dla 'CleanMethod' : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "plik konfiguracyjny %s, linia %d: zła nazwa sekcji.\n"
 
 #, c-format
 msgid ""
@@ -201,10 +213,8 @@ msgstr ""
 "plik konfiguracyjny %s, linia %d: dyrektywa '%s' w sekcji '%s' nie "
 "rozpoznana.\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "Serwer lustrzany '%s' zawiera zmienną $arch, ale brak zdefiniowanej "
 "architektury.\n"
@@ -227,6 +237,10 @@ msgstr "problem przy ustawianiu logfile '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "no '%s' configured"
 msgstr ""
 
 #, c-format
@@ -672,9 +686,9 @@ msgid ""
 msgstr ""
 "      --noscriptlet    nie wykonuje skryptu instalacyjnego jeśli istnieje\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
 "      --print          wypisz tylko cele, bez przeprowadzania operacji\n"
@@ -748,8 +762,8 @@ msgstr "tylko jedna operacja może być użyta na raz\n"
 msgid "invalid option\n"
 msgstr "nieprawidłowa opcja\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr "przepełnienie bufora wykryte przy parsowaniu argumentów\n"
 
 #, c-format
@@ -796,27 +810,35 @@ msgstr "nie można ustalić pełnej ścieżki dla '%s': %s\n"
 msgid "No package owns %s\n"
 msgstr "Żaden pakiet nie jest właścicielem %s\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "grupa \"%s\" nie została znaleziona\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %d plik, "
 msgstr[1] "%s: %d pliki, "
 msgstr[2] "%s: %d plików, "
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "%d brakujący plik\n"
 msgstr[1] "%d brakujące pliki\n"
 msgstr[2] "%d brakujących plików\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "pakiet \"%s\" nie został odnaleziony\n"
+msgid "package '%s' was not found\n"
+msgstr "pakiet '%s' nie został odnaleziony\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "nie można ustawić powodu instalacji pakietu %s (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -935,10 +957,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "repozytorium '%s' nie istnieje\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "pakiet '%s' nie został odnaleziony\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "repozytorium \"%s\" nie zostało znalezione.\n"
 
@@ -957,6 +975,10 @@ msgstr ":: Jest %d pakietów w grupie %s:\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "nie znaleziono bazy danych: %s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1010,6 +1032,10 @@ msgstr ""
 ":: Czy chcesz anulować obecną operację\n"
 ":: i zaktualizować te pakiety teraz?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "pobieram %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "nie udało się zainicjować transakcji (%s)\n"
@@ -1059,6 +1085,10 @@ msgid "Key unknown"
 msgstr ""
 
 #, c-format
+msgid "Key disabled"
+msgstr ""
+
+#, c-format
 msgid "Signature error"
 msgstr ""
 
@@ -1079,12 +1109,12 @@ msgid "unknown trust"
 msgstr ""
 
 #, c-format
-msgid "{Key Unknown}"
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
-msgid "%s, %s from \"%s\""
-msgstr ""
+msgid "failed to allocate string\n"
+msgstr "nie można wyznaczyć łańcucha\n"
 
 #, c-format
 msgid "Name"
@@ -1179,10 +1209,6 @@ msgid "NO"
 msgstr "NIE"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "nie można wyznaczyć łańcucha\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "błąd: %s"
 
@@ -1197,3 +1223,12 @@ msgstr "błąd:  "
 #, c-format
 msgid "warning: "
 msgstr "ostrzeżenie: "
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr "nie można zmienić katalogu na %s (%s)\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "zła wartość dla 'CleanMethod' : '%s'\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "pakiet \"%s\" nie został odnaleziony\n"

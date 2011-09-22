@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:33-0500\n"
 "PO-Revision-Date: 2011-08-24 06:02+0000\n"
 "Last-Translator: gymka_ltu <gymka@mail.ru>\n"
 "Language-Team: Lithuanian (http://www.transifex.net/projects/p/archlinux-"
@@ -116,16 +116,20 @@ msgstr "PARAŠAS NERASTAS"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "PRADINIO KODO FAILAS NERASTAS"
 
-msgid "Unknown public key"
+#, fuzzy
+msgid "unknown public key"
 msgstr "Nežinomas viešas raktas"
 
-msgid "Warning: the key has been revoked."
+#, fuzzy
+msgid "the key has been revoked."
 msgstr "Įspėjimas: raktas buvo atšauktas."
 
-msgid "Warning: the signature has expired."
+#, fuzzy
+msgid "the signature has expired."
 msgstr "Įspėjimas: parašas pasibaigęs."
 
-msgid "Warning: the key has expired."
+#, fuzzy
+msgid "the key has expired."
 msgstr "Įspėjimas: raktas pasibaigė."
 
 msgid "One or more PGP signatures could not be verified!"
@@ -419,6 +423,13 @@ msgstr "  -R, --repackage  Perpakuoti paketo turinį neperkuriant"
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Įdiegti trūkstamas priklausomybes su %s"
 
+#, fuzzy
+msgid ""
+"  -S, --source     Generate a source-only tarball without downloaded sources"
+msgstr ""
+"  --source         Sukurti tik-pradinio kodo tarball be parsiųstų pradinio "
+"kodo failų"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -468,12 +479,6 @@ msgstr "  --skipinteg      Nevykdyti jokių tikrinimų pradinio kodo failams"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Netikrinti pradinio kodo failų PGP parašų"
-
-msgid ""
-"  --source         Generate a source-only tarball without downloaded sources"
-msgstr ""
-"  --source         Sukurti tik-pradinio kodo tarball be parsiųstų pradinio "
-"kodo failų"
 
 msgid "These options can be passed to %s:"
 msgstr "Šios pasirinktys gali būt pateiktos %s:"
@@ -664,18 +669,21 @@ msgstr "Baigta."
 msgid "Manage pacman's list of trusted keys"
 msgstr "Pacman'o patikimų raktų sąrašo tvarkymas."
 
-msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+#, fuzzy
+msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
 "  -a, --add [<failą(-us)>]     Pridėti nurodytus raktus (tuščias stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   Pašalinti nurodytus keyids"
 
-msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr "  -e, --export [<keyid(s)>] Eksportuoti nurodytus ar visus keyids"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
 "  -f, --finger [<keyid(s)>] Išvardinti fingerprint nurodytiems arba visiem "
 "keyid"
@@ -683,10 +691,12 @@ msgstr ""
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Parodyti šį pagalbos pranešimą ir išeiti"
 
-msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr "  -l, --list-keys [<keyid(s)>] Išvardinti nurodytus ar visus raktus"
 
-msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 msgstr "  -r, --receive <keyserver> <keyid(s)> Gauti nurodytus keyids"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
@@ -733,11 +743,26 @@ msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
 "  --init                    Užtikrinti jog raktų saugykla tinkamai inicijuota"
 
-msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
+msgid "  --keyserver               Specify a keyserver to use if necessary"
+msgstr ""
+
+#, fuzzy
+msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
 msgstr "  --list-sigs [<keyid(s)>]  Išvardinti raktus ir jų parašus"
 
-msgid "  --reload                  Reload the default keys"
-msgstr "  --reload                  Perkrauti numatytuosius raktus"
+#, fuzzy
+msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+msgstr "  -d, --delete <keyid(s)>   Pašalinti nurodytus keyids"
+
+msgid ""
+"  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
+msgstr "  -l, --list-keys [<keyid(s)>] Išvardinti nurodytus ar visus raktus"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr "Neturi reikiamų teisių peržiūrėti %s raktų saugyklą..."
@@ -748,32 +773,51 @@ msgstr "Naudok %s ištaisyti raktų saugyklos teises."
 msgid "You do not have sufficient permissions to run this command..."
 msgstr "Neturi reikiamų teisių peržiūrėti vykdyti šią komandą..."
 
-msgid "Verifying official keys file signature..."
-msgstr "Tikrinami oficialaus raktų failo parašai..."
+msgid "There is no secret key available to sign with."
+msgstr ""
+
+msgid "Use '%s' to generate a default secret key."
+msgstr ""
+
+#, fuzzy
+msgid "Verifying %s..."
+msgstr "Pridedama %s..."
+
+msgid "File %s is unsigned, cannot continue."
+msgstr ""
 
 msgid "The signature of file %s is not valid."
 msgstr "%s failo parašai netinkami."
 
-msgid "Verifying deprecated keys file signature..."
-msgstr "Tikrinami pasenusių raktų failo parašai..."
-
-msgid "Verifying deleted keys file signature..."
+#, fuzzy
+msgid "Verifying keyring file signatures..."
 msgstr "Tikrinami ištrintų raktų failo parašai..."
 
-msgid "Appending official keys..."
+msgid "No keyring files exist in %s."
+msgstr ""
+
+#, fuzzy
+msgid "The keyring file %s does not exist."
+msgstr "%s atpažintas raktas neegzistuoja"
+
+#, fuzzy
+msgid "Appending keys from %s.gpg..."
 msgstr "Įrašomi oficialūs raktai..."
 
-msgid "Appending deprecated keys..."
-msgstr "Įrašomi pasenę raktai..."
-
-msgid "Removing deleted keys from keyring..."
+#, fuzzy
+msgid "Locally signing trusted keys in keyring..."
 msgstr "Šalinami ištrinti raktai iš raktų saugyklos..."
 
-msgid "Updating trust database..."
-msgstr "Atnaujinama patikima duomenų bazė..."
+msgid "Locally signing key %s..."
+msgstr ""
 
-msgid "You need to specify the keyserver and at least one key identifier"
-msgstr "Turi nurodyti raktų serverį ir bent vieną raktų identifikatorių"
+#, fuzzy
+msgid "Disabling revoked keys in keyring..."
+msgstr "Šalinami ištrinti raktai iš raktų saugyklos..."
+
+#, fuzzy
+msgid "Disabling key %s..."
+msgstr "Kuriamas archyvas %s..."
 
 msgid "The key identified by %s does not exist"
 msgstr "%s atpažintas raktas neegzistuoja"
@@ -795,6 +839,9 @@ msgstr "Nurodytos kelios užduotys"
 
 msgid "Please run %s with each operation separately\\n"
 msgstr "Prašau vykdyti %s su kiekviena komanda atskirai\\n"
+
+msgid "Updating trust database..."
+msgstr "Atnaujinama patikima duomenų bazė..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -1087,3 +1134,18 @@ msgstr "pasirinktis %s reikalauja argumento\\n"
 
 msgid "unrecognized option"
 msgstr "neatpažinta pasirinktis"
+
+#~ msgid "  --reload                  Reload the default keys"
+#~ msgstr "  --reload                  Perkrauti numatytuosius raktus"
+
+#~ msgid "Verifying official keys file signature..."
+#~ msgstr "Tikrinami oficialaus raktų failo parašai..."
+
+#~ msgid "Verifying deprecated keys file signature..."
+#~ msgstr "Tikrinami pasenusių raktų failo parašai..."
+
+#~ msgid "Appending deprecated keys..."
+#~ msgstr "Įrašomi pasenę raktai..."
+
+#~ msgid "You need to specify the keyserver and at least one key identifier"
+#~ msgstr "Turi nurodyti raktų serverį ir bent vieną raktų identifikatorių"

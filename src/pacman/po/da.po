@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-15 21:10+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/archlinux-pacman/"
@@ -49,6 +49,10 @@ msgstr "opgraderer %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "tjekker pakkeintegritet...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "tjekker pakkeintegritet...\n"
 
 #, c-format
@@ -112,7 +116,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #, c-format
-msgid ":: There are %d providers available for %s:\n"
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ""
 
 #, c-format
@@ -123,6 +127,10 @@ msgstr ":: %s-%s: lokal version er nyere. Opgrader alligevel?"
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
+msgstr ""
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
 msgstr ""
 
 #, c-format
@@ -150,6 +158,10 @@ msgid "checking package integrity"
 msgstr ""
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "henter %s...\n"
 
@@ -173,27 +185,25 @@ msgstr "udfører XferCommand: Forgrening mislykkedes!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr ""
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
-msgstr ""
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "kunne ikke ændre mappe (chdir) til overførelsesmappe %s\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr ""
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
+msgstr "konfigurationsfil %s, linje %d: Ugyldigt afsnitsnavn.\n"
 
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "ugyldig værdi for »CleanMethod«: »%s«\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "konfigurationsfil %s, linje %d: Ugyldigt afsnitsnavn.\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "Spejlet »%s« indeholder variablen $arch, men ingen arkitektur er defineret.\n"
 
@@ -215,6 +225,10 @@ msgstr "problem med angivelse af logfil  »%s« (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
+msgstr ""
+
+#, c-format
+msgid "no '%s' configured"
 msgstr ""
 
 #, c-format
@@ -652,11 +666,11 @@ msgid ""
 msgstr ""
 "      --noscriptlet    kør ikke installationsskriplet hvis en sådan findes\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr ""
+msgstr "  -i, --info           vis pakkeinformation\n"
 
 #, c-format
 msgid ""
@@ -728,7 +742,7 @@ msgid "invalid option\n"
 msgstr ""
 
 #, c-format
-msgid "buffer overflow detected in arg parsing\n"
+msgid "memory exhausted in argument parsing\n"
 msgstr ""
 
 #, c-format
@@ -776,25 +790,33 @@ msgstr "kan ikke bestemme reel sti for »%s«: %s\n"
 msgid "No package owns %s\n"
 msgstr "Ingen pakke ejer %s\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "gruppe »%s« blev ikke fundet\n"
 
 #, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] ""
 msgstr[1] ""
 
 #, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] ""
 msgstr[1] ""
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "pakke »%s« er ikke fundet\n"
+msgid "package '%s' was not found\n"
+msgstr "pakke »%s« blev ikke fundet\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr "kunne ikke tilføje serveradresse til database »%s«: %s (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -913,10 +935,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "arkiv »%s« findes ikke\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "pakke »%s« blev ikke fundet\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "arkiv »%s« blev ikke fundet.\n"
 
@@ -934,6 +952,10 @@ msgstr ""
 
 #, c-format
 msgid "database not found: %s\n"
+msgstr ""
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr ""
 
 #, c-format
@@ -988,6 +1010,10 @@ msgstr ""
 ":: Ønsker du at afbryde den aktuelle handling\n"
 ":: og opgradere disse pakker nu?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "henter %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "kunne ikke initialisere transaktion (%s)\n"
@@ -1037,6 +1063,10 @@ msgid "Key unknown"
 msgstr ""
 
 #, c-format
+msgid "Key disabled"
+msgstr ""
+
+#, c-format
 msgid "Signature error"
 msgstr ""
 
@@ -1057,11 +1087,11 @@ msgid "unknown trust"
 msgstr ""
 
 #, c-format
-msgid "{Key Unknown}"
+msgid "%s, %s from \"%s\""
 msgstr ""
 
 #, c-format
-msgid "%s, %s from \"%s\""
+msgid "failed to allocate string\n"
 msgstr ""
 
 #, c-format
@@ -1157,10 +1187,6 @@ msgid "NO"
 msgstr "NEJ"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr ""
-
-#, c-format
 msgid "error: %s"
 msgstr "fejl: %s"
 
@@ -1175,3 +1201,9 @@ msgstr "fejl: "
 #, c-format
 msgid "warning: "
 msgstr "advarsel: "
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "ugyldig værdi for »CleanMethod«: »%s«\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "pakke »%s« er ikke fundet\n"

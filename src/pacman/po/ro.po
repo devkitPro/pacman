@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-16 12:50+0000\n"
 "Last-Translator: z0id <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
@@ -52,6 +52,10 @@ msgstr "se actualizează %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
+msgstr "se verifică integritatea pachetului...\n"
+
+#, fuzzy, c-format
+msgid "loading package files...\n"
 msgstr "se verifică integritatea pachetului...\n"
 
 #, c-format
@@ -122,8 +126,8 @@ msgstr[0] "Dorești omiterea pachetului de mai sus pentru această actualizare?"
 msgstr[1] "Dorești omiterea pachetelor de mai sus pentru această actualizare?"
 msgstr[2] "Dorești omiterea pachetului de mai sus pentru această actualizare?"
 
-#, c-format
-msgid ":: There are %d providers available for %s:\n"
+#, fuzzy, c-format
+msgid ":: There are %zd providers available for %s:\n"
 msgstr ":: Există %d pachete care furnizează %s:\n"
 
 #, c-format
@@ -137,6 +141,10 @@ msgid ""
 msgstr ""
 ":: Fișierul %s este corupt (%s).\n"
 "Dorești să îl ștergi?"
+
+#, c-format
+msgid ":: Import PGP key %s, \"%s\", created %s?"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -163,6 +171,10 @@ msgid "checking package integrity"
 msgstr "se verifică integritatea pachetului"
 
 #, c-format
+msgid "loading package files"
+msgstr ""
+
+#, c-format
 msgid "downloading %s...\n"
 msgstr "se descarcă %s...\n"
 
@@ -186,19 +198,18 @@ msgstr "se rulează XferCommand: fork eșuat!\n"
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nu se poate redenumi %s în %s (%s)\n"
 
-#, c-format
-msgid "could not change directory to %s (%s)\n"
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "nu s-a putut determina directorul de lucru curent\n"
+
+#, fuzzy, c-format
+msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr ""
-"nu s-a putut intra în directorul %s (%s)\n"
-"\n"
+"fișierul de configurare %s, linia %d: directiva '%s' necesită o valoare\n"
 
-#, c-format
-msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr "valoare nevalidă pentru 'SigLevel' : '%s'\n"
-
-#, c-format
-msgid "invalid value for 'CleanMethod' : '%s'\n"
-msgstr "valoare nevalidă pentru 'CleanMethod' : '%s'\n"
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
+msgstr "fișierul de configurare %s, linia %d: nume de secțiune greșit.\n"
 
 #, c-format
 msgid ""
@@ -207,10 +218,8 @@ msgstr ""
 "fișierul de configurare %s, linia %d: directiva '%s' din secțiunea '%s' "
 "nerecunoscută.\n"
 
-#, c-format
-msgid ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+#, fuzzy, c-format
+msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "Oglinda '%s' conține variabila $arch dar nicio architectură nu este "
 "definită.\n"
@@ -234,6 +243,10 @@ msgstr "problemă la setarea logfile '%s' (%s)\n"
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problemă la setarea gpgdir ca '%s' (%s)\n"
+
+#, c-format
+msgid "no '%s' configured"
+msgstr ""
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -697,9 +710,9 @@ msgstr ""
 "      --noscriptlet    nu executa scriptlet-ul de instalare dacă există deja "
 "unul\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"      --print          print the targets instead of performing the "
+"  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
 "      --print          afișeaza țintele în loc de a efectua operațiunea\n"
@@ -774,8 +787,8 @@ msgstr "doar o operațiune poate fi utilizată în același timp\n"
 msgid "invalid option\n"
 msgstr "opțiune nevalidă\n"
 
-#, c-format
-msgid "buffer overflow detected in arg parsing\n"
+#, fuzzy, c-format
+msgid "memory exhausted in argument parsing\n"
 msgstr "buffer supraplin detectat în procesarea arg\n"
 
 #, c-format
@@ -824,27 +837,36 @@ msgstr ""
 "Niciun pachet nu deține %s\n"
 "\n"
 
-#, c-format
-msgid "group \"%s\" was not found\n"
+#, fuzzy, c-format
+msgid "group '%s' was not found\n"
 msgstr "grupul \"%s\" nu a fost găsit\n"
 
-#, c-format
-msgid "%s: %d total file, "
-msgid_plural "%s: %d total files, "
+#, fuzzy, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %d fișier în total. "
 msgstr[1] "%s: %d fișiere în total. "
 msgstr[2] "%s: %d fișiere în total. "
 
-#, c-format
-msgid "%d missing file\n"
-msgid_plural "%d missing files\n"
+#, fuzzy, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
 msgstr[0] "%d fișier lipsă\n"
 msgstr[1] "%d fișiere lipsă\n"
 msgstr[2] "%d fișiere lipsă\n"
 
 #, c-format
-msgid "package \"%s\" not found\n"
-msgstr "pachetul \"%s\" nu a fost găsit\n"
+msgid "package '%s' was not found\n"
+msgstr "pachetul '%s' nu a fost găsit\n"
+
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "could not load package '%s': %s\n"
+msgstr ""
+"nu s-a putut seta motivul pentru care a fost instalat pachetul %s (%s)\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -965,10 +987,6 @@ msgid "repository '%s' does not exist\n"
 msgstr "depozitul '%s' nu există\n"
 
 #, c-format
-msgid "package '%s' was not found\n"
-msgstr "pachetul '%s' nu a fost găsit\n"
-
-#, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "depozitul \"%s\" nu a fost găsit.\n"
 
@@ -987,6 +1005,10 @@ msgstr ":: Există %d membri în grupul %s:\n"
 #, c-format
 msgid "database not found: %s\n"
 msgstr "nu s-a găsit baza de date: %s\n"
+
+#, c-format
+msgid "'%s' is a file, did you mean %s instead of %s?\n"
+msgstr ""
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1042,6 +1064,10 @@ msgstr ""
 ":: Vreți să întrerupeți operațiunea curentă\n"
 ":: și să actualizați aceste pachete acum?"
 
+#, fuzzy, c-format
+msgid "loading packages...\n"
+msgstr "se descarcă %s...\n"
+
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "eșec la inițializarea tranzacției (%s)\n"
@@ -1090,6 +1116,10 @@ msgstr "Nevalid"
 msgid "Key unknown"
 msgstr "Cheie necunoscută"
 
+#, fuzzy, c-format
+msgid "Key disabled"
+msgstr "Cheie expirată"
+
 #, c-format
 msgid "Signature error"
 msgstr "Eroare de semnătură"
@@ -1111,12 +1141,12 @@ msgid "unknown trust"
 msgstr "încredere necunoscută"
 
 #, c-format
-msgid "{Key Unknown}"
-msgstr "{Cheie necunoscută}"
-
-#, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s din \"%s\""
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "Eșuare la alocarea șirului\n"
 
 #, c-format
 msgid "Name"
@@ -1211,10 +1241,6 @@ msgid "NO"
 msgstr "NU"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "Eșuare la alocarea șirului\n"
-
-#, c-format
 msgid "error: %s"
 msgstr "eroare: %s"
 
@@ -1229,3 +1255,20 @@ msgstr "eroare: "
 #, c-format
 msgid "warning: "
 msgstr "avertisment: "
+
+#~ msgid "could not change directory to %s (%s)\n"
+#~ msgstr ""
+#~ "nu s-a putut intra în directorul %s (%s)\n"
+#~ "\n"
+
+#~ msgid "invalid value for 'SigLevel' : '%s'\n"
+#~ msgstr "valoare nevalidă pentru 'SigLevel' : '%s'\n"
+
+#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
+#~ msgstr "valoare nevalidă pentru 'CleanMethod' : '%s'\n"
+
+#~ msgid "package \"%s\" not found\n"
+#~ msgstr "pachetul \"%s\" nu a fost găsit\n"
+
+#~ msgid "{Key Unknown}"
+#~ msgstr "{Cheie necunoscută}"

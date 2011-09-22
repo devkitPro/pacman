@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-08-10 13:54+0000\n"
 "Last-Translator: z0id <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
@@ -88,6 +88,10 @@ msgid "could not change directory to %s (%s)\n"
 msgstr ""
 "nu s-a putut intra în directorul %s (%s)\n"
 "\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "nu s-a putut determina directorul de lucru curent\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -223,8 +227,8 @@ msgstr "nu s-a putut determina locul de montare al partiției root %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "partiția %s este montată numai citire\n"
 
-#, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "Partiția %s e plină: %ld blocuri necesare, %ld blocuri disponibile\n"
 
 #, c-format
@@ -232,12 +236,12 @@ msgid "disk"
 msgstr "disc"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "URL '%s' este nevalid\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "eșec la crearea fișierului temporar pentru descărcare\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "URL '%s' este nevalid\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -463,6 +467,10 @@ msgstr "eroare la invocarea descărcătorului extern"
 msgid "unexpected error"
 msgstr "eroare neașteptată"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "pachetul nu poate fi găsit sau citit"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "nu poate fi găsit %s în baza de date -- se omite\n"
@@ -575,6 +583,6 @@ msgstr "executarea corectă a comenzii a eșuat\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "nu există cache %s, se crează...\n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "nu se poate crea cache pachet, se folosește /tmp în schimb\n"

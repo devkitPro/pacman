@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-08-15 16:09-0500\n"
+"POT-Creation-Date: 2011-09-22 11:32-0500\n"
 "PO-Revision-Date: 2011-09-02 18:19+0000\n"
 "Last-Translator: neiko <neikokz+tsfx@gmail.com>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/"
@@ -85,6 +85,10 @@ msgstr "no se pudo obtener el directorio de trabajo actual\n"
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "no se pudo cambiar el directorio a %s (%s)\n"
+
+#, fuzzy, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "no se pudo obtener el directorio de trabajo actual\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -222,8 +226,8 @@ msgstr "no se pudo determinar el punto de montaje de la raiz %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "La partición %s está montada como sólo lectura\n"
 
-#, c-format
-msgid "Partition %s too full: %ld blocks needed, %ld blocks free\n"
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr ""
 "La partición %s está muy llena: %ld bloques necesarios, %ld bloques "
 "disponibles\n"
@@ -233,12 +237,12 @@ msgid "disk"
 msgstr "disco"
 
 #, c-format
-msgid "url '%s' is invalid\n"
-msgstr "la dirección %s no es válida\n"
-
-#, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "error al crear un archivo temporal para la descarga\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "la dirección %s no es válida\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
@@ -465,6 +469,10 @@ msgstr "error invocando el descargador externo"
 msgid "unexpected error"
 msgstr "error inesperado"
 
+#, fuzzy, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "no se pudo encontrar o leer el paquete"
+
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "no se pudo encontrar %s en la base de datos -- saltando\n"
@@ -579,6 +587,6 @@ msgstr "el comando falló al ejecutarse\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "no existe la caché %s, creando...\n"
 
-#, c-format
-msgid "couldn't create package cache, using /tmp instead\n"
+#, fuzzy, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "no se pudo crear la cache de paquetes, usando /tmp en su lugar\n"
