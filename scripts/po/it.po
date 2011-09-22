@@ -2,6 +2,7 @@
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
+# Translators:
 # Andrea Scarpino <andrea@archlinux.org>, 2011.
 # Giovanni Scafora <giovanni@archlinux.org>, 2011.
 msgid ""
@@ -9,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-15 16:09-0500\n"
-"PO-Revision-Date: 2011-08-13 10:08+0000\n"
-"Last-Translator: bash <andrea@archlinux.org>\n"
+"PO-Revision-Date: 2011-09-07 02:22+0000\n"
+"Last-Translator: giovanni <giovanni@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/it/)\n"
 "Language: it\n"
@@ -136,7 +137,7 @@ msgid "Warnings have occurred while verifying the signatures."
 msgstr "Si sono verificati dei problemi durante la verifica delle firme."
 
 msgid "Please make sure you really trust them."
-msgstr ""
+msgstr "Assicurati di conoscerli veramente."
 
 msgid "Skipping all source file integrity checks."
 msgstr "I controlli sull'integrità saranno ignorati."
@@ -203,7 +204,7 @@ msgid "Example for GPL'ed software: %s."
 msgstr "Esempio per un programma con licenza GPL: %s."
 
 msgid "%s entry file not in package : %s"
-msgstr ""
+msgstr "La voce del backup %s non è nel pacchetto : %s"
 
 msgid "Package contains reference to %s"
 msgstr "Il pacchetto contiene dei riferimenti a %s"
@@ -545,6 +546,9 @@ msgid ""
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
 msgstr ""
+"Avviando %s con un utente senza privilegi, otterrai dei file pacchettizzati "
+"in modo errato. Prova ad utilizzare l'ambiente di %s,\\n mettendo %s "
+"nell'array %s in %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Non usare l'opzione %s. Questa opzione si usa solo con %s."
@@ -620,12 +624,18 @@ msgstr ""
 
 msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
+"Il recupero dei sorgenti è stato ignorato        -- utilizzo la directory "
+"esistente %s"
 
 msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr ""
+"I controlli sull'integrità dei sorgenti sono stati ignorati -- utilizzo la "
+"directory esistente %s"
 
 msgid "Skipping source extraction       -- using existing %s tree"
 msgstr ""
+"L'estrazione dei sorgenti è stata ignorata       -- utilizzo la directory "
+"esistente %s"
 
 msgid "The source directory is empty, there is nothing to build!"
 msgstr "La directory dei sorgenti è vuota, non c'è nulla da compilare!"
@@ -681,123 +691,141 @@ msgstr "Gestisce la lista delle chiavi attendibili di pacman"
 
 msgid "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [<file(s)>]     Aggiunge la chiave specificata (vuota per stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr ""
+msgstr "  -d, --delete <keyid(s)>   Rimuove le keyid specificate"
 
 msgid "  -e, --export [<keyid(s)>] Export the specified or all keyids"
 msgstr ""
+"  -e, --export [<keyid(s)>] Esporta la chiave specificata o tutte le keyids"
 
 msgid ""
 "  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [<keyid(s)>] Elenca le impronte digitali delle keyid "
+"specificate o di tutte"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr ""
+"  -h, --help                Mostra questo messaggio di help message ed esce"
 
 msgid "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
 msgstr ""
+"  -l, --list-keys [<keyid(s)>] Elenca le chiavi specificate o tutte le chiavi"
 
 msgid "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
-msgstr ""
+msgstr "  -r, --receive <keyserver> <keyid(s)> Preleva le keyids specificate"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr ""
+msgstr "  -u, --updatedb            Aggiorna il database di pacman"
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
-msgstr ""
+msgstr "  -v, --verify <signature>  Verifica il file specificato dalla firma"
 
 msgid "  -V, --version             Show program version"
-msgstr ""
+msgstr "  -V, --version             Mostra la versione del programma"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
+"  --config <file>           Usa un file di configurazione alternativo "
+"(invece di\\n                            '%s')"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
 msgstr ""
+"  --edit-key <keyid(s)>     Presenta un menu per la gestione delle chiavi"
 
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
+"  --gpgdir <dir>            Imposta una directory alternativa per GnuPG "
+"(invece\\n                            di '%s')"
 
 msgid ""
 "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
 msgstr ""
+"  --import <dir(s)>         Importa pubring.gpg e trustdb.gpg dalla(e) "
+"directory"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
 "(s)"
 msgstr ""
+"  --import-trustdb <dir(s)> Importa i valori dell'ownertrust da trustdb.gpg "
+"nella(e) directory"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
+"  --init                    Assicura che il keyring sia inizializzato "
+"correttamente"
 
 msgid "  --list-sigs [<keyid(s)>]  List keys and their signatures"
-msgstr ""
+msgstr "  --list-sigs [<keyid(s)>]  Elenca le chiavi e le rispettive firme"
 
 msgid "  --reload                  Reload the default keys"
-msgstr ""
+msgstr "  --reload                  Ricarica le chiavi di default"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
-msgstr ""
+msgstr "Non hai permessi sufficienti per leggere il keyring di %s..."
 
 msgid "Use '%s' to correct the keyring permissions."
-msgstr ""
+msgstr "Usa '%s' per correggere i permessi del keyring."
 
 msgid "You do not have sufficient permissions to run this command..."
-msgstr ""
+msgstr "Non hai permessi sufficienti per avviare questo comando..."
 
 msgid "Verifying official keys file signature..."
-msgstr ""
+msgstr "Verifica della firma delle chiavi ufficiali in corso..."
 
 msgid "The signature of file %s is not valid."
-msgstr ""
+msgstr "La firma del file %s non è valida."
 
 msgid "Verifying deprecated keys file signature..."
-msgstr ""
+msgstr "Verifica della firma delle chiavi deprecate in corso..."
 
 msgid "Verifying deleted keys file signature..."
-msgstr ""
+msgstr "Verifica della firma delle chiavi eliminate in corso..."
 
 msgid "Appending official keys..."
-msgstr ""
+msgstr "Aggiunta delle chiavi ufficiali in corso..."
 
 msgid "Appending deprecated keys..."
-msgstr ""
+msgstr "Aggiunta delle chiavi deprecate in corso..."
 
 msgid "Removing deleted keys from keyring..."
-msgstr ""
+msgstr "Rimozione delle chiavi eliminate dal keyring in corso..."
 
 msgid "Updating trust database..."
-msgstr ""
+msgstr "Aggiornamento del database in corso..."
 
 msgid "You need to specify the keyserver and at least one key identifier"
-msgstr ""
+msgstr "Devi specificare il keyserver ed almeno un identificatore della chiave"
 
 msgid "The key identified by %s does not exist"
-msgstr ""
+msgstr "La chiave identificata da %s non esiste"
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
+"Impossibile trovare il binario di %s richiesto per tutte le operazioni di %s."
 
 msgid "%s needs to be run as root for this operation."
-msgstr ""
+msgstr "Per questa operazione %s necessita di essere avviato da root."
 
 msgid "%s configuration file '%s' not found."
-msgstr ""
+msgstr "Impossibile trovare il file di configurazione '%s' di %s."
 
 msgid "no operation specified (use -h for help)"
-msgstr ""
+msgstr "nessuna operazione è stata specificata (usa -h per un aiuto)"
 
 msgid "Multiple operations specified"
-msgstr ""
+msgstr "Sono state specificate operazioni multiple"
 
 msgid "Please run %s with each operation separately\\n"
-msgstr ""
+msgstr "Avviare separatamente %s per ciascuna operazione\\n"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -829,7 +857,7 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Bisogna avere i giusti permessi per ottimizzare il database."
 
 msgid "Can not create temp directory for database building."
-msgstr ""
+msgstr "Impossibile creare la directory temp per costruire il database."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Calcolo della somma MD5 del vecchio database in corso..."
@@ -913,7 +941,7 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Impossibile trovare il binario di xdelta3! xdelta3 è installato?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr ""
+msgstr "Uso: repo-add [opzioni] <path-del-db> <pacchetto|delta> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -928,12 +956,15 @@ msgstr "Opzioni:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
+"  -d, --delta       genera ed aggiunge il delta per l'aggiornamento del "
+"pacchetto\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr ""
+msgstr "  -f, --files       aggiorna la lista dei file del database\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
+"Uso: repo-remove [opzioni] <path-del-db> <nomepacchetto|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -942,38 +973,48 @@ msgid ""
 msgstr ""
 "repo-remove aggiornerà un database, rimuovendo il nome del pacchetto"
 "\\nspecificato dalla linea di comando dal database del repo dato. La"
-"\\nrimozione di pacchetti multipli può essere specificata dalla linea di "
+"\\nrimozione dei pacchetti multipli può essere specificata dalla linea di "
 "comando.\\n\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
-msgstr ""
+msgstr "  -q, --quiet       minimizza l'output\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr ""
+"  -s, --sign        firma il database con GnuPG dopo l'aggiornamento\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
+"  -k, --key <key>   usa la chiave specificata per firmare il database\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
+"  -v, --verify      verifica la firma del database prima dell'aggiornamento"
+"\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 "\\n"
 msgstr ""
+"\\nVedi %s(8) per maggiori dettagli e descrizioni delle opzioni disponibili."
+"\\n\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
+"Esempio:  repo-add /path/di/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
-msgstr "Esempio:  repo-remove /path/to/repo.db.tar.gz kernel26"
+msgstr "Esempio:  repo-remove /path/di/repo.db.tar.gz kernel26"
 
 msgid ""
 "Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Non è stata trovata nessuna voce del database per il pacchetto '%s'."
@@ -998,6 +1039,8 @@ msgstr "Verifica della firma del database in corso..."
 
 msgid "No existing signature found, skipping verification."
 msgstr ""
+"Non è stata trovata una firma esistente, il processo di verifica sarà "
+"ignorato."
 
 msgid "Database signature file verified."
 msgstr "La firma del database è stata verificata."
@@ -1014,9 +1057,8 @@ msgstr "Già esiste una voce per '%s'"
 msgid "Computing checksums..."
 msgstr "Calcolo dei controlli dell'integrità in corso..."
 
-#, fuzzy
 msgid "Adding package signature..."
-msgstr "Aggiunta del pacchetto '%s'"
+msgstr "Aggiunta della firma del pacchetto in corso..."
 
 msgid "Creating '%s' db entry..."
 msgstr "Creazione della voce del db '%s' in corso..."

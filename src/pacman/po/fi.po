@@ -2,17 +2,19 @@
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Larso <larso@gmx.com>, 2011.
-# Jesse Jaara <jesse.jaara@gmail.com>, 2011.
+# Translators:
 # apuasi <kaannokset.hellberg@gmail.com>, 2011.
 # Dan McGee <dpmcgee@gmail.com>, 2011.
+# Jesse Jaara <jesse.jaara@gmail.com>, 2011.
+# Larso <larso@gmx.com>, 2011.
+# Lasse Liehu <lasse.liehu@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-15 16:09-0500\n"
-"PO-Revision-Date: 2011-08-11 21:12+0000\n"
-"Last-Translator: Huulivoide <jesse.jaara@gmail.com>\n"
+"PO-Revision-Date: 2011-08-15 21:33+0000\n"
+"Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fi/)\n"
 "Language: fi\n"
@@ -134,6 +136,8 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: Tiedosto %s on vahingoittunut (%s).\n"
+"Haluatko poistaa sen?"
 
 #, c-format
 msgid "installing"
@@ -181,7 +185,7 @@ msgstr "XferCommand: haarauttaminen epäonnistui!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "tiedoston %s nimeksi ei voitu muuttaa %s (%s)\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -189,7 +193,7 @@ msgstr "ei voitu siirtyä kansioon %s (%s)\n"
 
 #, c-format
 msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr ""
+msgstr "virheellinen arvo SigLevel-kentässä: \"%s\"\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -221,11 +225,11 @@ msgstr "  yritä pacman-db-upgrade scriptin suorittamista\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr "ongelma asetettaessa lokitiedostoa '%s' (%s)\n"
+msgstr "ongelma asetettaessa lokitiedostoa \"%s\" (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "ongelma asetettaessa gpg-kansiota \"%s\" (%s)\n"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -233,11 +237,11 @@ msgstr "tietokannan '%s' rekisteroiminen epäonnistui (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "ei voitu lisätä peilipalvelinta \"%s\" tietokantaan \"%s\" (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "asetusten jäsentäminen ylitti rekursion enimmäissyvyyden (%d).\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -319,7 +323,7 @@ msgstr "Ryhmät                  :"
 
 #, c-format
 msgid "Provides       :"
-msgstr ""
+msgstr "Tarjoaa        :"
 
 #, c-format
 msgid "Depends On     :"
@@ -343,15 +347,15 @@ msgstr "Korvaa paketit          :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Ladattava koko : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Koko pakattuna : %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Koko asennettuna : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -389,13 +393,13 @@ msgstr "Ei"
 msgid "MD5 Sum        :"
 msgstr "MD5-summa              :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum     :"
-msgstr "MD5-summa              :"
+msgstr "SHA256-summa     :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Allekirjoitukset :"
 
 #, c-format
 msgid "None"
@@ -468,18 +472,23 @@ msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
+"  -s, --recursive      poista tarpeettomat riippuvuuden\n"
+"                       (-ss poista myös itsenäisesti asennetut "
+"riippuvuudet)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded       poista tarpeettomat paketit\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed         älä uudelleenasenna paketteja\n"
+msgstr ""
+"      --needed         älä asenna ajan tasalla olevia pakatteja uudelleen\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr "      --needed         älä uudelleenasenna paketteja\n"
+msgstr ""
+"      --recursive      asenna kaikki kohdepakettien riippuvuudet uudelleen\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -591,7 +600,8 @@ msgstr ""
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   lataa paketit mutta älä asenna/päivitä mitään\n"
+msgstr ""
+"  -w, --downloadonly   lataa paketit, mutta älä asenna/päivitä mitään\n"
 
 #, c-format
 msgid ""
@@ -642,12 +652,15 @@ msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr ""
+"  -d, --nodeps         ohita riippuvuustarkastukset (-dd ohittaa kaikki "
+"tarkastukset)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
-"  -k, --dbonly         muokkaa vain tietokantaa, älä paketin tiedostoja\n"
+"      --dbonly         tee muutokset vain tietokantamerkintöihin, ei "
+"paketteihin\n"
 
 #, c-format
 msgid ""
@@ -708,7 +721,7 @@ msgstr "      --debug             näytä ohjelmavirheiden viestit\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "      --gpgdir <polku>   määritä vaihtoehtoinen kotikansio GnuPG:lle\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -1020,75 +1033,75 @@ msgstr "yhtään kunnollista pakettivarastoa ei ole määritelty.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "tietokanta '%s' ei ole kelvollinen (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "ei tarpeeksi leveyttä taulukon näyttämiseen\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Kelvollinen"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Avain vanhentunut"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Vanhentunut"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Virheellinen"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Avain tuntematon"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Allekirjoitusvirhe"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "täysi luotto"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "vähäinen luotto"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "ei luottoa"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "tuntematon luottotaso"
 
 #, c-format
 msgid "{Key Unknown}"
-msgstr ""
+msgstr "{Tuntematon avain}"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s käyttäjältä \"%s\""
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Vanha version"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Uusi versio"
 
 #, c-format
 msgid "Size"
-msgstr ""
+msgstr "Koko"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1100,19 +1113,19 @@ msgstr "Poista (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Yhteensä ladataan:    %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Yhteensä asennetaan:   %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Yhteensä päivitetään:       %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Yhteensä poistetaan:   %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

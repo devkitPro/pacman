@@ -2,12 +2,13 @@
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-15 16:09-0500\n"
-"PO-Revision-Date: 2011-08-09 01:00+0000\n"
+"PO-Revision-Date: 2011-08-15 21:10+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en_GB\n"
@@ -110,9 +111,8 @@ msgstr "SIGNATURE NOT FOUND"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "SOURCE FILE NOT FOUND"
 
-#, fuzzy
 msgid "Unknown public key"
-msgstr "Warning: Unknown public key"
+msgstr "Unknown public key"
 
 msgid "Warning: the key has been revoked."
 msgstr "Warning: the key has been revoked."
@@ -443,9 +443,8 @@ msgid ""
 msgstr ""
 "  --skipinteg      Do not perform any verification checks on source files"
 
-#, fuzzy
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr "  --skippgpcheck   Do not verify source files with pgp signatures"
+msgstr "  --skippgpcheck   Do not verify source files with PGP signatures"
 
 msgid ""
 "  --source         Generate a source-only tarball without downloaded sources"
@@ -497,18 +496,25 @@ msgid ""
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
 msgstr ""
+"Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
+"damage to your system. If you wish to run as root, please\\nuse the %s "
+"option."
 
-#, fuzzy
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
 "%s flag."
-msgstr "The %s option is meant for the root user only."
+msgstr ""
+"The %s option is meant for the root user only. Please\\nrerun %s without the "
+"%s flag."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
 msgstr ""
+"Running %s as an unprivileged user will result in non-root\\nownership of "
+"the packaged files. Try using the %s environment by\\nplacing %s in the %s "
+"array in %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Do not use the %s option. This option is only for use by %s."
@@ -665,22 +671,24 @@ msgstr "  -v, --verify <signature>  Verify the file specified by the signature"
 msgid "  -V, --version             Show program version"
 msgstr "  -V, --version             Show program version"
 
-#, fuzzy
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
-msgstr "  --config <file>  Use an alternate config file (instead of '%s')"
+msgstr ""
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
 msgstr ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
 
-#, fuzzy
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
-msgstr "  --gpgdir <dir>            Set an alternate directory for gnupg"
+msgstr ""
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
 
 msgid ""
 "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
@@ -748,9 +756,8 @@ msgstr "Cannot find the %s binary required for all %s operations."
 msgid "%s needs to be run as root for this operation."
 msgstr "%s needs to be run as root for this operation."
 
-#, fuzzy
 msgid "%s configuration file '%s' not found."
-msgstr "%s configuation file '%s' not found."
+msgstr "%s configuration file '%s' not found."
 
 msgid "no operation specified (use -h for help)"
 msgstr "no operation specified (use -h for help)"
@@ -948,9 +955,8 @@ msgstr "Adding 'deltas' entry : %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Removing existing entry '%s'..."
 
-#, fuzzy
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr "Cannot find the gpg binary! Is gnupg installed?"
+msgstr "Cannot find the gpg binary! Is GnuPG installed?"
 
 msgid "Signing database..."
 msgstr "Signing database..."
@@ -979,9 +985,8 @@ msgstr "An entry for '%s' already existed"
 msgid "Computing checksums..."
 msgstr "Computing checksums..."
 
-#, fuzzy
 msgid "Adding package signature..."
-msgstr "Adding package '%s'"
+msgstr ""
 
 msgid "Creating '%s' db entry..."
 msgstr "Creating '%s' db entry..."
@@ -1051,30 +1056,3 @@ msgstr "option %s requires an argument\\n"
 
 msgid "unrecognized option"
 msgstr "unrecognised option"
-
-#~ msgid "Running %s as root is a BAD idea and can cause"
-#~ msgstr "Running %s as root is a BAD idea and can cause"
-
-#~ msgid "permanent, catastrophic damage to your system. If you"
-#~ msgstr "permanent, catastrophic damage to your system. If you"
-
-#~ msgid "wish to run as root, please use the %s option."
-#~ msgstr "wish to run as root, please use the %s option."
-
-#~ msgid "Please rerun %s without the %s flag."
-#~ msgstr "Please rerun %s without the %s flag."
-
-#~ msgid "Running %s as an unprivileged user will result in non-root"
-#~ msgstr "Running %s as an unprivileged user will result in non-root"
-
-#~ msgid "ownership of the packaged files. Try using the %s environment by"
-#~ msgstr "ownership of the packaged files. Try using the %s environment by"
-
-#~ msgid "placing %s in the %s array in %s."
-#~ msgstr "placing %s in the %s array in %s."
-
-#~ msgid "  --config <file>           Use an alternate config file"
-#~ msgstr "  --config <file>           Use an alternate config file"
-
-#~ msgid "                                    (instead of '%s')"
-#~ msgstr "                                    (instead of '%s')"

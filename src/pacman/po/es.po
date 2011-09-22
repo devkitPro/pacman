@@ -2,17 +2,18 @@
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
 #
-# neiko <neikokz+tsfx@gmail.com>, 2011.
+# Translators:
+# Angel Velasquez <angvp@archlinux.org>, 2011.
 # j3nnn1 <jcmm986@gmail.com>, 2011.
 # Juan Antonio Cánovas Pérez <traumness@gmail.com>, 2011.
-# Angel Velasquez <angvp@archlinux.org>, 2011.
+# neiko <neikokz+tsfx@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-08-15 16:09-0500\n"
-"PO-Revision-Date: 2011-08-08 22:35+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-09-02 18:26+0000\n"
+"Last-Translator: neiko <neikokz+tsfx@gmail.com>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/es/)\n"
 "Language: es\n"
@@ -71,7 +72,7 @@ msgstr "¡éxito!\n"
 
 #, c-format
 msgid "failed.\n"
-msgstr "falló.\n"
+msgstr "error.\n"
 
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
@@ -119,18 +120,20 @@ msgstr[1] "¿Quiere omitir los siguientes paquetes para esta actualización?"
 
 #, c-format
 msgid ":: There are %d providers available for %s:\n"
-msgstr ":: Existen %d proveedores disponibles para %s:\n"
+msgstr ":: Hay %d proveedores disponibles para %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
 msgstr ""
 ":: %s-%s: la versión local es más reciente. ¿Actualizar de todas formas?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ":: El archivo %s está dañado. ¿Desea eliminarlo?"
+msgstr ""
+":: El archivo %s está dañado (%s).\n"
+"¿Quiere eliminarlo?"
 
 #, c-format
 msgid "installing"
@@ -178,15 +181,15 @@ msgstr "ejecutando XferCommand: ¡falló la creación del proceso!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "error al renombrar %s a %s (%s)\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr "No se pudo cambiar directorio a %s (%s)\n"
+msgstr "error al cambiar de directorio a %s (%s)\n"
 
 #, c-format
 msgid "invalid value for 'SigLevel' : '%s'\n"
-msgstr ""
+msgstr "valor no válido para 'SigLevel' : '%s'\n"
 
 #, c-format
 msgid "invalid value for 'CleanMethod' : '%s'\n"
@@ -226,7 +229,7 @@ msgstr "error al establecer logfile '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "error al establecer gpgdir '%s' (%s)\n"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -234,11 +237,13 @@ msgstr "no se pudo registrar la base de datos '%s' (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "error al añadir el mirror '%s' a la base de datos '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"la lectura del archivo de configuración excedió la profundidad de recursión "
+"máxima: %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -349,15 +354,15 @@ msgstr "Reemplaza a         :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Descarga       : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Comprimido     : %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Instalado      : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -395,13 +400,13 @@ msgstr "No"
 msgid "MD5 Sum        :"
 msgstr "Suma MD5          :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum     :"
-msgstr "Suma MD5          :"
+msgstr "Suma SHA256       :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Firmas            :"
 
 #, c-format
 msgid "None"
@@ -484,13 +489,14 @@ msgstr ""
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded       elimina los paquetes que no son necesarios\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed         no reinstala paquetes que están actualizados\n"
+msgstr "      --needed         no reinstalar paquetes actualizados\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr "      --needed         no reinstala paquetes que están actualizados\n"
+msgstr ""
+"      --recursive      reinstalar todas las dependencias de los objetivos\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -682,13 +688,13 @@ msgstr ""
 "  -d, --nodeps         se salta la(s) comprobación(es) de versión de las "
 "dependencias (-dd para saltarlas todas)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
-"  -k, --dbonly         solo modificar entradas de la base de datos, no "
-"archivos del paquete\n"
-"\n"
+"      --dbonly         sólo modificar las entradas de la base de datos, no "
+"los\n"
+"                       paquetes en sí\n"
 
 #, c-format
 msgid ""
@@ -756,6 +762,8 @@ msgstr "      --debug          muestra mensajes de depuración\n"
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr ""
+"      --gpgdir <ruta>  configurar un directorio de inicio diferente para "
+"GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -1068,75 +1076,75 @@ msgstr "no hay ningún repositorio de paquetes configurado.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "la base de datos '%s' no es válida (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "no hay columnas suficientes para mostrar la tabla\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Válido"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "La clave caducó"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Caducó"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "No válido"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Clave desconocida"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Error en la firma"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "confiar siempre"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "confianza dudosa"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "nunca confiar"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "confianza desconocida"
 
 #, c-format
 msgid "{Key Unknown}"
-msgstr ""
+msgstr "{Clave desconocida}"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s desde \"%s\""
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Versión antigua"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Versión nueva"
 
 #, c-format
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1148,19 +1156,19 @@ msgstr "Se quitará (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Tamaño de descarga:     %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Tamaño instalado:       %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Tamaño a actualizar:    %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Tamaño a eliminar:    %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1216,7 +1224,7 @@ msgstr "NO"
 
 #, c-format
 msgid "failed to allocate string\n"
-msgstr "Error al asignar espacio a la cadena\n"
+msgstr "error al asignar espacio para la cadena\n"
 
 #, c-format
 msgid "error: %s"
@@ -1224,7 +1232,7 @@ msgstr "error: %s"
 
 #, c-format
 msgid "warning: %s"
-msgstr "precaución: %s"
+msgstr "atención: %s"
 
 #, c-format
 msgid "error: "
@@ -1232,4 +1240,4 @@ msgstr "error: "
 
 #, c-format
 msgid "warning: "
-msgstr "precaución: "
+msgstr "atención: "
