@@ -226,15 +226,18 @@ typedef struct _alpm_pgpkey_t {
 	time_t expires;
 } alpm_pgpkey_t;
 
-/** Signature result. Contains the number of signatures found and pointers to
- * arrays containing key and status info. All contained arrays have size
- * #count.*/
+/** Signature result. Contains the key, status, and validity of a given
+ * signature.
+ */
 typedef struct _alpm_sigresult_t {
 	alpm_pgpkey_t key;
 	alpm_sigstatus_t status;
 	alpm_sigvalidity_t validity;
 } alpm_sigresult_t;
 
+/** Signature list. Contains the number of signatures found and a pointer to an
+ * array of results.  The array is of size count.
+ */
 typedef struct _alpm_siglist_t {
 	size_t count;
 	alpm_sigresult_t *results;
@@ -678,7 +681,7 @@ int alpm_db_set_pkgreason(alpm_handle_t *handle, alpm_pkg_t *pkg,
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
-		alpm_siglevel_t, alpm_pkg_t **pkg);
+		alpm_siglevel_t level, alpm_pkg_t **pkg);
 
 /** Free a package.
  * @param pkg package pointer to free
@@ -731,7 +734,7 @@ const char *alpm_pkg_get_name(alpm_pkg_t *pkg);
 const char *alpm_pkg_get_version(alpm_pkg_t *pkg);
 
 /** Returns the origin of the package.
- * @return a #alpm_pkgfrom_t constant, -1 on error
+ * @return an alpm_pkgfrom_t constant, -1 on error
  */
 alpm_pkgfrom_t alpm_pkg_get_origin(alpm_pkg_t *pkg);
 

@@ -548,7 +548,6 @@ inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
  * @brief Get the previous element of a list.
  *
  * @param list the list head
- * @param node the list node
  *
  * @return the previous element, or NULL when no previous element exist
  */

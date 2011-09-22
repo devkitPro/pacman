@@ -96,7 +96,7 @@ cleanup:
 /** Release the library.  This should be the last alpm call you make.
  * After this returns, handle should be considered invalid and cannot be reused
  * in any way.
- * @param handle the context handle
+ * @param myhandle the context handle
  * @return 0 on success, -1 on error
  */
 int SYMEXPORT alpm_release(alpm_handle_t *myhandle)

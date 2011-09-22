@@ -358,7 +358,7 @@ error:
  * The return value will be 0 if nothing abnormal happened during the signature
  * check, and -1 if an error occurred while checking signatures or if a
  * signature could not be found; pm_errno will be set. Note that "abnormal"
- * does not include a failed signature; the value in #siglist should be checked
+ * does not include a failed signature; the value in siglist should be checked
  * to determine if the signature(s) are good.
  * @param handle the context handle
  * @param path the full path to a file
@@ -841,7 +841,7 @@ int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
 
 /**
  * Clean up and free a signature result list.
- * Note that this does not free the #alpm_siglist_t object itself in case that
+ * Note that this does not free the siglist object itself in case that
  * was allocated on the stack; this is the responsibility of the caller.
  * @param siglist a pointer to storage for signature results
  * @return 0 on success, -1 on error

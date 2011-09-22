@@ -693,6 +693,7 @@ alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
  * @param handle the context handle
  * @param localpkgs is the list of local packages
  * @param pkg is the package to resolve
+ * @param preferred packages to prefer when resolving
  * @param packages is a pointer to a list of packages which will be
  *        searched first for any dependency packages needed to complete the
  *        resolve, and to which will be added any [pkg] and all of its
