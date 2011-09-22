@@ -615,7 +615,10 @@ int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 			free(result->key.fingerprint);
 		}
 	}
-	FREE(siglist->results);
+	if(siglist->count) {
+		free(siglist->results);
+	}
+	siglist->results = NULL;
 	siglist->count = 0;
 	return 0;
 }
