@@ -75,6 +75,7 @@ static int sync_db_validate(alpm_db_t *db)
 		return 0;
 	}
 	if(db->status & DB_STATUS_INVALID) {
+		db->handle->pm_errno = ALPM_ERR_DB_INVALID_SIG;
 		return -1;
 	}
 
@@ -117,6 +118,8 @@ static int sync_db_validate(alpm_db_t *db)
 		} while(retry);
 
 		if(ret) {
+			db->status &= ~DB_STATUS_VALID;
+			db->status |= DB_STATUS_INVALID;
 			db->handle->pm_errno = ALPM_ERR_DB_INVALID_SIG;
 			return 1;
 		}
