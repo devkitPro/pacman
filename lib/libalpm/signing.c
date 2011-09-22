@@ -136,7 +136,7 @@ static int init_gpgme(alpm_handle_t *handle)
 
 	sigdir = handle->gpgdir;
 
-	if (_alpm_access(handle, sigdir, "pubring.gpg", R_OK)
+	if(_alpm_access(handle, sigdir, "pubring.gpg", R_OK)
 			|| _alpm_access(handle, sigdir, "trustdb.gpg", R_OK)) {
 		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
 		_alpm_log(handle, ALPM_LOG_DEBUG, "Signature verification will fail!\n");
@@ -285,7 +285,14 @@ static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
 	gpgme_error_t err;
 	gpgme_ctx_t ctx;
 	gpgme_key_t keys[2];
+	gpgme_import_result_t result;
 	int ret = -1;
+
+	if(_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
+		/* no chance of import succeeding if pubring isn't writable */
+		_alpm_log(handle, ALPM_LOG_ERROR, _("keyring is not writable\n"));
+		return -1;
+	}
 
 	memset(&ctx, 0, sizeof(ctx));
 	err = gpgme_new(&ctx);
@@ -297,7 +304,18 @@ static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
 	keys[1] = NULL;
 	err = gpgme_op_import_keys(ctx, keys);
 	CHECK_ERR();
-	ret = 0;
+	result = gpgme_op_import_result(ctx);
+	CHECK_ERR();
+	/* we know we tried to import exactly one key, so check for this */
+	if(result->considered != 1 || !result->imports) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "could not import key, 0 results\n");
+		ret = -1;
+	} else if(result->imports->result != GPG_ERR_NO_ERROR) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
+		ret = -1;
+	} else {
+		ret = 0;
+	}
 
 error:
 	gpgme_release(ctx);
@@ -745,10 +763,22 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 					if(key_search(handle, result->key.fingerprint, &fetch_key) == 1) {
 						_alpm_log(handle, ALPM_LOG_DEBUG,
 								"unknown key, found %s on keyserver\n", fetch_key.uid);
-						QUESTION(handle, ALPM_QUESTION_IMPORT_KEY,
-								&fetch_key, NULL, NULL, &answer);
-						if(answer && !key_import(handle, &fetch_key)) {
-							retry = 1;
+						if(!_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
+							QUESTION(handle, ALPM_QUESTION_IMPORT_KEY,
+									&fetch_key, NULL, NULL, &answer);
+							if(answer) {
+								if(key_import(handle, &fetch_key) == 0) {
+									retry = 1;
+								} else {
+									_alpm_log(handle, ALPM_LOG_ERROR,
+											_("key \"%s\" could not be imported\n"), fetch_key.uid);
+								}
+							}
+						} else {
+							/* keyring directory was not writable, so we don't even try */
+							_alpm_log(handle, ALPM_LOG_WARNING,
+									_("key %s, \"%s\" found on keyserver, keyring is not writable\n"),
+									fetch_key.fingerprint, fetch_key.uid);
 						}
 					} else {
 						_alpm_log(handle, ALPM_LOG_DEBUG,
