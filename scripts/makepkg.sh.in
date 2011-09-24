@@ -1134,7 +1134,7 @@ write_pkginfo() {
 	[[ $license ]]    && printf "license = %s\n"   "${license[@]}"
 	[[ $replaces ]]   && printf "replaces = %s\n"  "${replaces[@]}"
 	[[ $groups ]]     && printf "group = %s\n"     "${groups[@]}"
-	[[ $optdepends ]] && printf "optdepend = %s\n" "${optdepends[@]}"
+	[[ $optdepends ]] && printf "optdepend = %s\n" "${optdepends[@]//+([[:space:]])/ }"
 	[[ $conflicts ]]  && printf "conflict = %s\n"  "${conflicts[@]}"
 	[[ $backup ]]     && printf "backup = %s\n"    "${backup[@]}"
 
