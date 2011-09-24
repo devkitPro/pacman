@@ -1529,8 +1529,8 @@ check_sanity() {
 	eval $(awk '/^[[:space:]]*optdepends=\(/,/\)[[:space:]]*(#.*)?$/' "$BUILDFILE" | \
 		sed -e "s/optdepends=/optdepends_list+=/" -e "s/#.*//" -e 's/\\$//')
 	for i in "${optdepends_list[@]}"; do
-		local pkg=${i%%:*}
-		if [[ $pkg != +([[:alnum:]><=.+_-]) ]]; then
+		local pkg=${i%%:[[:space:]]*}
+		if [[ $pkg != +([[:alnum:]><=.+_-:]) ]]; then
 			error "$(gettext "Invalid syntax for %s : '%s'")" "optdepend" "$i"
 			ret=1
 		fi
