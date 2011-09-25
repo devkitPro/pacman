@@ -27,6 +27,21 @@ _arch_incomp() {
   local r="\s-(-${1#* }\s|\w*${1% *})"; [[ $COMP_LINE =~ $r ]]
 }
 
+_pacman_key() {
+  local cur opts prev
+  COMPREPLY=()
+  _get_comp_words_by_ref cur prev
+  if [[ $cur = -* &&
+      $prev != -@(a|-add|c|-config|g|-gpgdir|h|-help|import?(-trustdb)) ]]; then
+    opts=('add delete export finger help list-keys recv-keys updatedb verify version
+           config edit-key gpgdir import import-trustdb init keyserver list-sigs
+           lsign-key populate refresh-keys'
+          'a d e f h l r u v V')
+    _arch_ptr2comp opts
+  fi
+  true
+}
+
 _makepkg() {
   local cur opts prev
   COMPREPLY=()
@@ -109,5 +124,6 @@ else
 fi
 
 complete -F _makepkg -o default makepkg
+complete -F _pacman_key -o default pacman-key
 
 # ex:et ts=2 sw=2 ft=sh
