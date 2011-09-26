@@ -276,30 +276,29 @@ static alpm_list_t *filelist_operation(alpm_filelist_t *filesA,
 	return ret;
 }
 
-/* Adds alpm_fileconflict_t to a conflicts list. Pass the conflicts list, type
- * (either ALPM_FILECONFLICT_TARGET or ALPM_FILECONFLICT_FILESYSTEM), a file
- * string, and either two package names or one package name and NULL. This is
- * a wrapper for former functionality that was done inline.
+/* Adds alpm_fileconflict_t to a conflicts list. Pass the conflicts list, the
+ * conflicting file path, and either two packages or one package and NULL.
  */
 static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
-		alpm_list_t *conflicts, alpm_fileconflicttype_t type, const char *filestr,
-		const char *name1, const char *name2)
+		alpm_list_t *conflicts, const char *filestr,
+		alpm_pkg_t *pkg1, alpm_pkg_t *pkg2)
 {
 	alpm_fileconflict_t *conflict;
 	MALLOC(conflict, sizeof(alpm_fileconflict_t), goto error);
 
-	conflict->type = type;
-	STRDUP(conflict->target, name1, goto error);
+	STRDUP(conflict->target, pkg1->name, goto error);
 	STRDUP(conflict->file, filestr, goto error);
-	if(name2) {
-		STRDUP(conflict->ctarget, name2, goto error);
+	if(pkg2) {
+		conflict->type = ALPM_FILECONFLICT_TARGET;
+		STRDUP(conflict->ctarget, pkg2->name, goto error);
 	} else {
+		conflict->type = ALPM_FILECONFLICT_FILESYSTEM;
 		STRDUP(conflict->ctarget, "", goto error);
 	}
 
 	conflicts = alpm_list_add(conflicts, conflict);
 	_alpm_log(handle, ALPM_LOG_DEBUG, "found file conflict %s, packages %s and %s\n",
-	          filestr, name1, name2 ? name2 : "(filesystem)");
+	          filestr, pkg1->name, pkg2 ? pkg2->name : "(filesystem)");
 
 	return conflicts;
 
@@ -416,9 +415,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				alpm_list_t *k;
 				char path[PATH_MAX];
 				for(k = common_files; k; k = k->next) {
-					snprintf(path, PATH_MAX, "%s%s", handle->root, (char *)k->data);
-					conflicts = add_fileconflict(handle, conflicts,
-							ALPM_FILECONFLICT_TARGET, path, p1->name, p2->name);
+					alpm_file_t *file = k->data;
+					snprintf(path, PATH_MAX, "%s%s", handle->root, file->name);
+					conflicts = add_fileconflict(handle, conflicts, path, p1, p2);
 					if(handle->pm_errno == ALPM_ERR_MEMORY) {
 						FREELIST(conflicts);
 						FREELIST(common_files);
@@ -567,8 +566,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			}
 
 			if(!resolved_conflict) {
-				conflicts = add_fileconflict(handle, conflicts,
-						ALPM_FILECONFLICT_FILESYSTEM, path, p1->name, NULL);
+				conflicts = add_fileconflict(handle, conflicts, path, p1, NULL);
 				if(handle->pm_errno == ALPM_ERR_MEMORY) {
 					FREELIST(conflicts);
 					if(dbpkg) {
