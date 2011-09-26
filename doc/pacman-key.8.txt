@@ -118,8 +118,10 @@ PGP keyring file `foo.gpg` that contains the keys for the foo keyring in the
 directory +{pkgdatadir}/keyrings+.
 
 Optionally, the file `foo-trusted` can be provided containing a list of trusted
-key IDs for that keyring. This file will inform the user which keys a user
-needs to verify and sign to build a local web of trust.
+key IDs for that keyring. This is a file in a format compatible with 'gpg
+\--export-ownertrust' output. This file will inform the user which keys a user
+needs to verify and sign to build a local web of trust, in addition to
+assigning provided owner trust values.
 
 Also optionally, the file `foo-revoked` can be provided containing a list of
 revoked key IDs for that keyring. Revoked is defined as "no longer valid for
