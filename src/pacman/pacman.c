@@ -760,7 +760,8 @@ static void cl_to_log(int argc, char* argv[])
  */
 int main(int argc, char *argv[])
 {
-	int i, ret = 0;
+	int ret = 0;
+	size_t i;
 	struct sigaction new_action, old_action;
 	const int signals[] = { SIGHUP, SIGINT, SIGTERM, SIGSEGV };
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
