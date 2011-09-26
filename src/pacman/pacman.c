@@ -299,26 +299,29 @@ static void handler(int signum)
 {
 	int out = fileno(stdout);
 	int err = fileno(stderr);
+	const char *msg;
 	if(signum == SIGSEGV) {
-		const char *msg1 = "error: segmentation fault\n";
-		const char *msg2 = "Internal pacman error: Segmentation fault.\n"
+		msg = "\nerror: segmentation fault\n"
 			"Please submit a full bug report with --debug if appropriate.\n";
-		/* write a error message to out, the rest to err */
-		xwrite(out, msg1, strlen(msg1));
-		xwrite(err, msg2, strlen(msg2));
+		xwrite(err, msg, strlen(msg));
 		exit(signum);
-	} else if(signum == SIGINT) {
-		const char *msg = "\nInterrupt signal received\n";
+	} else if(signum == SIGINT || signum == SIGHUP) {
+		if(signum == SIGINT) {
+			msg = "\nInterrupt signal received\n";
+		} else {
+			msg = "\nHangup signal received\n";
+		}
 		xwrite(err, msg, strlen(msg));
 		if(alpm_trans_interrupt(config->handle) == 0) {
 			/* a transaction is being interrupted, don't exit pacman yet. */
 			return;
 		}
-		/* no commiting transaction, we can release it now and then exit pacman */
-		alpm_trans_release(config->handle);
-		/* output a newline to be sure we clear any line we may be on */
-		xwrite(out, "\n", 1);
 	}
+	/* SIGINT: no commiting transaction, release it now and then exit pacman
+	 * SIGHUP, SIGTERM: release no matter what */
+	alpm_trans_release(config->handle);
+	/* output a newline to be sure we clear any line we may be on */
+	xwrite(out, "\n", 1);
 	cleanup(128 + signum);
 }
 
@@ -757,8 +760,9 @@ static void cl_to_log(int argc, char* argv[])
  */
 int main(int argc, char *argv[])
 {
-	int ret = 0;
+	int i, ret = 0;
 	struct sigaction new_action, old_action;
+	const int signals[] = { SIGHUP, SIGINT, SIGTERM, SIGSEGV };
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* geteuid undefined in CYGWIN */
 	uid_t myuid = geteuid();
@@ -775,17 +779,13 @@ int main(int argc, char *argv[])
 	sigemptyset(&new_action.sa_mask);
 	new_action.sa_flags = 0;
 
-	sigaction(SIGINT, NULL, &old_action);
-	if(old_action.sa_handler != SIG_IGN) {
-		sigaction(SIGINT, &new_action, NULL);
-	}
-	sigaction(SIGTERM, NULL, &old_action);
-	if(old_action.sa_handler != SIG_IGN) {
-		sigaction(SIGTERM, &new_action, NULL);
-	}
-	sigaction(SIGSEGV, NULL, &old_action);
-	if(old_action.sa_handler != SIG_IGN) {
-		sigaction(SIGSEGV, &new_action, NULL);
+	/* assign our handler to any signals we care about */
+	for(i = 0; i < sizeof(signals) / sizeof(signals[0]); i++) {
+		int signal = signals[i];
+		sigaction(signal, NULL, &old_action);
+		if(old_action.sa_handler != SIG_IGN) {
+			sigaction(signal, &new_action, NULL);
+		}
 	}
 
 	/* i18n init */
