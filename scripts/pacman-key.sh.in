@@ -174,14 +174,14 @@ initialize() {
 check_keyring() {
 	if [[ ! -r ${PACMAN_KEYRING_DIR}/pubring.gpg || \
 			! -r ${PACMAN_KEYRING_DIR}/trustdb.gpg ]]; then
-		error "$(gettext "You do not have sufficient permissions to read the %s keyring...")" "pacman"
+		error "$(gettext "You do not have sufficient permissions to read the %s keyring.")" "pacman"
 		msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
 		exit 1
 	fi
 
 	if (( (EXPORT || FINGER || LIST || VERIFY) && EUID != 0 )); then
 		if ! grep -q "^[[:space:]]*lock-never[[:space:]]*$" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
-			error "$(gettext "You do not have sufficient permissions to run this command...")"
+			error "$(gettext "You do not have sufficient permissions to run this command.")"
 			msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
 			exit 1
 		fi
@@ -327,7 +327,7 @@ edit_keys() {
 	for key in "${KEYIDS[@]}"; do
 		# Verify if the key exists in pacman's keyring
 		if ! "${GPG_PACMAN[@]}" --list-keys "$key" &>/dev/null; then
-			error "$(gettext "The key identified by %s does not exist")" "$key"
+			error "$(gettext "The key identified by %s does not exist.")" "$key"
 			errors=1;
 		fi
 	done
@@ -459,8 +459,8 @@ case $numopt in
 		fi
 		;;
 	[!1])
-		error "$(gettext "Multiple operations specified")"
-		printf "$(gettext "Please run %s with each operation separately\n")" "pacman-key"
+		error "$(gettext "Multiple operations specified.")"
+		msg "$(gettext "Please run %s with each operation separately.")" "pacman-key"
 		exit 1
 		;;
 esac
