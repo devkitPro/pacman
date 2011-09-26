@@ -61,11 +61,12 @@ Options
 	Output syntax and command line options.
 
 *\--import* <dir(s)>::
-	Adds keys from pubring.gpg into pacman's keyring and imports ownertrust
-	values from trustdb.gpg in the specified directories.
+	Imports keys from `pubring.gpg` into the public keyring from the specified
+	directories.
 
-*\--import-dirs* <dir(s)> ::
-	Imports ownertrust values from trustdb.gpg in the specified directories.
+*\--import-trustdb* <dir(s)> ::
+	Imports ownertrust values from `trustdb.gpg` into the shared trust database
+	from the specified directories.
 
 *\--init*::
 	Ensure the keyring is properly initialized and has the required access

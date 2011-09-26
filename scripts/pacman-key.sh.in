@@ -74,7 +74,7 @@ usage() {
 	echo "$(gettext "  --edit-key <keyid(s)>     Present a menu for key management task on keyids")"
 	printf "$(gettext "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\n\
                             of '%s')")\n" "@sysconfdir@/pacman.d/gnupg"
-	echo "$(gettext "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)")"
+	echo "$(gettext "  --import <dir(s)>         Imports pubring.gpg from dir(s)")"
 	echo "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")"
 	echo "$(gettext "  --init                    Ensure the keyring is properly initialized")"
 	echo "$(gettext "  --keyserver               Specify a keyserver to use if necessary")"
@@ -343,30 +343,23 @@ edit_keys() {
 
 import_trustdb() {
 	local importdir
-	local trustdb=$(mktemp)
-	"${GPG_PACMAN[@]}" --export-ownertrust > ${trustdb}
 
 	for importdir in "${IMPORT_DIRS[@]}"; do
 		if [[ -f "${importdir}/trustdb.gpg" ]]; then
-			gpg --homedir "${importdir}" --export-ownertrust >> ${trustdb}
+			gpg --homedir "${importdir}" --export-ownertrust | \
+				"${GPG_PACMAN[@]}" --import-ownertrust -
 		fi
 	done
-
-	"${GPG_PACMAN[@]}" --import-ownertrust ${trustdb}
-	rm -f ${trustdb}
 }
 
 import() {
 	local importdir
 
-	# Imports public keys, then import trustdbs
 	for importdir in "${IMPORT_DIRS[@]}"; do
 		if [[ -f "${importdir}/pubring.gpg" ]]; then
 			"${GPG_PACMAN[@]}" --quiet --batch --import "${importdir}/pubring.gpg"
 		fi
 	done
-
-	import_trustdb
 }
 
 # PROGRAM START
