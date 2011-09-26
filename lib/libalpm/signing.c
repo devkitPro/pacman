@@ -626,7 +626,6 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 	CALLOC(siglist, 1, sizeof(alpm_siglist_t),
 			RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
-	_alpm_log(handle, ALPM_LOG_DEBUG, "checking signatures for %s\n", path);
 	ret = _alpm_gpgme_checksig(handle, path, base64_sig, siglist);
 	if(ret && handle->pm_errno == ALPM_ERR_SIG_MISSING) {
 		if(optional) {
