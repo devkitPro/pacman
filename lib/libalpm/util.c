@@ -918,16 +918,16 @@ int _alpm_test_checksum(const char *filepath, const char *expected,
 /* Note: does NOT handle sparse files on purpose for speed. */
 int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 {
-	char *i = NULL;
-	int64_t offset;
-	int done = 0;
-
 	/* ensure we start populating our line buffer at the beginning */
 	b->line_offset = b->line;
 
 	while(1) {
+		size_t block_remaining;
+		char *eol;
+
 		/* have we processed this entire block? */
 		if(b->block + b->block_size == b->block_offset) {
+			int64_t offset;
 			if(b->ret == ARCHIVE_EOF) {
 				/* reached end of archive on the last read, now we are out of data */
 				goto cleanup;
@@ -937,20 +937,20 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			b->ret = archive_read_data_block(a, (void *)&b->block,
 					&b->block_size, &offset);
 			b->block_offset = b->block;
+			block_remaining = b->block_size;
 
 			/* error, cleanup */
 			if(b->ret < ARCHIVE_OK) {
 				goto cleanup;
 			}
+		} else {
+			block_remaining = b->block + b->block_size - b->block_offset;
 		}
 
-		/* loop through the block looking for EOL characters */
-		for(i = b->block_offset; i < (b->block + b->block_size); i++) {
-			/* check if read value was null or newline */
-			if(*i == '\0' || *i == '\n') {
-				done = 1;
-				break;
-			}
+		/* look through the block looking for EOL characters */
+		eol = memchr(b->block_offset, '\n', block_remaining);
+		if(!eol) {
+			eol = memchr(b->block_offset, '\0', block_remaining);
 		}
 
 		/* allocate our buffer, or ensure our existing one is big enough */
@@ -960,8 +960,8 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			b->line_size = b->block_size + 1;
 			b->line_offset = b->line;
 		} else {
-			size_t needed = (size_t)((b->line_offset - b->line)
-					+ (i - b->block_offset) + 1);
+			size_t new = eol ? (eol - b->block_offset) : block_remaining;
+			size_t needed = (size_t)((b->line_offset - b->line) + new + 1);
 			if(needed > b->max_line_size) {
 				b->ret = -ERANGE;
 				goto cleanup;
@@ -978,11 +978,11 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			}
 		}
 
-		if(done) {
-			size_t len = (size_t)(i - b->block_offset);
+		if(eol) {
+			size_t len = (size_t)(eol - b->block_offset);
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset[len] = '\0';
-			b->block_offset = ++i;
+			b->block_offset = eol + 1;
 			/* this is the main return point; from here you can read b->line */
 			return ARCHIVE_OK;
 		} else {
@@ -990,7 +990,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			size_t len = (size_t)(b->block + b->block_size - b->block_offset);
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset += len;
-			b->block_offset = i;
+			b->block_offset = b->block + b->block_size;
 			/* there was no new data, return what is left; saved ARCHIVE_EOF will be
 			 * returned on next call */
 			if(len == 0) {
