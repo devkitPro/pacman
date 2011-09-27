@@ -159,19 +159,19 @@ static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t *hash, alpm_pkg_t *pkg, in
 
 	position = get_hash_position(pkg->name_hash, hash);
 
-	ptr = calloc(1, sizeof(alpm_list_t));
+	ptr = malloc(sizeof(alpm_list_t));
 	if(ptr == NULL) {
 		return hash;
 	}
 
 	ptr->data = pkg;
-	ptr->next = NULL;
 	ptr->prev = ptr;
+	ptr->next = NULL;
 
 	hash->hash_table[position] = ptr;
-	if(!sorted){
+	if(!sorted) {
 		hash->list = alpm_list_join(hash->list, ptr);
-	}else{
+	} else {
 		hash->list = alpm_list_mmerge(hash->list, ptr, _alpm_pkg_cmp);
 	}
 

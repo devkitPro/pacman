@@ -89,7 +89,7 @@ alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 {
 	alpm_list_t *ptr, *lp;
 
-	ptr = calloc(1, sizeof(alpm_list_t));
+	ptr = malloc(sizeof(alpm_list_t));
 	if(ptr == NULL) {
 		return list;
 	}
@@ -127,7 +127,7 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 	} else {
 		alpm_list_t *add = NULL, *prev = NULL, *next = list;
 
-		add = calloc(1, sizeof(alpm_list_t));
+		add = malloc(sizeof(alpm_list_t));
 		if(add == NULL) {
 			return list;
 		}
@@ -470,7 +470,7 @@ alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list,
 	const alpm_list_t *lp = list;
 	alpm_list_t *newlist = NULL;
 	while(lp) {
-		void *newdata = calloc(1, size);
+		void *newdata = malloc(size);
 		if(newdata) {
 			memcpy(newdata, lp->data, size);
 			newlist = alpm_list_add(newlist, newdata);
@@ -775,7 +775,7 @@ void SYMEXPORT *alpm_list_to_array(const alpm_list_t *list, size_t n,
 		return NULL;
 	}
 
-	array = calloc(n, size);
+	array = malloc(n * size);
 	if(array == NULL) {
 		return NULL;
 	}
