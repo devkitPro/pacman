@@ -573,13 +573,18 @@ error:
 	}
 	return ret;
 }
-#else
+
+#else  /* HAVE_LIBGPGME */
+static int key_in_keychain(alpm_handle_t UNUSED *handle, const char UNUSED *fpr)
+{
+	return -1;
+}
 int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
 		const char UNUSED *base64_sig, alpm_siglist_t UNUSED *siglist)
 {
 	return -1;
 }
-#endif
+#endif /* HAVE_LIBGPGME */
 
 /**
  * Form a signature path given a file path.
@@ -717,7 +722,6 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 	for(i = 0; i < siglist->count; i++) {
 		alpm_sigresult_t *result = siglist->results + i;
 		const char *name = result->key.uid ? result->key.uid : result->key.fingerprint;
-		int answer;
 		switch(result->status) {
 			case ALPM_SIGSTATUS_VALID:
 			case ALPM_SIGSTATUS_KEY_EXPIRED:
@@ -755,7 +759,9 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 				}
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("%s: key \"%s\" is unknown\n"), identifier, name);
+#ifdef HAVE_LIBGPGME
 				{
+					int answer;
 					alpm_pgpkey_t fetch_key;
 					memset(&fetch_key, 0, sizeof(fetch_key));
 
@@ -785,6 +791,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 					}
 					gpgme_key_unref(fetch_key.data);
 				}
+#endif
 				break;
 			case ALPM_SIGSTATUS_KEY_DISABLED:
 				_alpm_log(handle, ALPM_LOG_ERROR,
