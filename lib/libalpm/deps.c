@@ -409,14 +409,14 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 alpm_depend_t *_alpm_splitdep(const char *depstring)
 {
 	alpm_depend_t *depend;
-	const char *ptr, *version = NULL;
+	const char *ptr, *version;
 	size_t deplen;
 
 	if(depstring == NULL) {
 		return NULL;
 	}
 
-	CALLOC(depend, 1, sizeof(alpm_depend_t), return NULL);
+	MALLOC(depend, sizeof(alpm_depend_t), return NULL);
 	deplen = strlen(depstring);
 
 	/* Find a version comparator if one exists. If it does, set the type and
@@ -442,8 +442,10 @@ alpm_depend_t *_alpm_splitdep(const char *depstring)
 		depend->mod = ALPM_DEP_MOD_EQ;
 		version = ptr + 1;
 	} else {
-		/* no version specified, leave version and ptr NULL */
+		/* no version specified, leave ptr NULL and set version to NULL */
 		depend->mod = ALPM_DEP_MOD_ANY;
+		depend->version = NULL;
+		version = NULL;
 	}
 
 	/* copy the right parts to the right places */
