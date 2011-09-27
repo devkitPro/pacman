@@ -454,11 +454,8 @@ static int sync_db_populate(alpm_db_t *db)
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
-		const struct stat *st;
-
-		st = archive_entry_stat(entry);
-
-		if(S_ISDIR(st->st_mode)) {
+		mode_t mode = archive_entry_mode(entry);
+		if(S_ISDIR(mode)) {
 			continue;
 		} else {
 			/* we have desc, depends or deltas - parse it */
