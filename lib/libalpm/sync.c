@@ -815,14 +815,6 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 	for(i = handle->dbs_sync; i; i = i->next) {
 		alpm_db_t *current = i->data;
 
-		if(!current->servers) {
-			handle->pm_errno = ALPM_ERR_SERVER_NONE;
-			_alpm_log(handle, ALPM_LOG_ERROR, "%s: %s\n",
-					alpm_strerror(handle->pm_errno), current->treename);
-			errors++;
-			continue;
-		}
-
 		for(j = handle->trans->add; j; j = j->next) {
 			alpm_pkg_t *spkg = j->data;
 
@@ -861,6 +853,14 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 		}
 
 		if(files) {
+			if(!current->servers) {
+				handle->pm_errno = ALPM_ERR_SERVER_NONE;
+				_alpm_log(handle, ALPM_LOG_ERROR, "%s: %s\n",
+						alpm_strerror(handle->pm_errno), current->treename);
+				errors++;
+				continue;
+			}
+
 			EVENT(handle, ALPM_EVENT_RETRIEVE_START, current->treename, NULL);
 			for(j = files; j; j = j->next) {
 				struct dload_payload *payload = j->data;
