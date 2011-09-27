@@ -1530,7 +1530,8 @@ check_sanity() {
 		sed -e "s/optdepends=/optdepends_list+=/" -e "s/#.*//" -e 's/\\$//')
 	for i in "${optdepends_list[@]}"; do
 		local pkg=${i%%:[[:space:]]*}
-		if [[ $pkg != +([[:alnum:]><=.+_-:]) ]]; then
+		# the '-' character _must_ be first or last in the character range
+		if [[ $pkg != +([-[:alnum:]><=.+_:]) ]]; then
 			error "$(gettext "Invalid syntax for %s : '%s'")" "optdepend" "$i"
 			ret=1
 		fi
