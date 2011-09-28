@@ -39,8 +39,9 @@ typedef enum _alpm_transstate_t {
 struct __alpm_trans_t {
 	alpm_transflag_t flags;
 	alpm_transstate_t state;
-	alpm_list_t *add;      /* list of (alpm_pkg_t *) */
-	alpm_list_t *remove;      /* list of (alpm_pkg_t *) */
+	alpm_list_t *unresolvable;  /* list of (alpm_pkg_t *) */
+	alpm_list_t *add;           /* list of (alpm_pkg_t *) */
+	alpm_list_t *remove;        /* list of (alpm_pkg_t *) */
 	alpm_list_t *skip_remove;   /* list of (char *) */
 };
 

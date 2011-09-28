@@ -236,6 +236,9 @@ void _alpm_trans_free(alpm_trans_t *trans)
 		return;
 	}
 
+	alpm_list_free_inner(trans->unresolvable,
+			(alpm_list_fn_free)_alpm_pkg_free_trans);
+	alpm_list_free(trans->unresolvable);
 	alpm_list_free_inner(trans->add, (alpm_list_fn_free)_alpm_pkg_free_trans);
 	alpm_list_free(trans->add);
 	alpm_list_free_inner(trans->remove, (alpm_list_fn_free)_alpm_pkg_free);

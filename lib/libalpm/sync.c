@@ -439,9 +439,11 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			}
 		}
 
-		/* Unresolvable packages will be removed from the target list, so
-		   we free the transaction specific fields */
-		alpm_list_free_inner(unresolvable, (alpm_list_fn_free)_alpm_pkg_free_trans);
+		/* Unresolvable packages will be removed from the target list; set these
+		 * aside in the transaction as a list we won't operate on. If we free them
+		 * before the end of the transaction, we may kill pointers the frontend
+		 * holds to package objects. */
+		trans->unresolvable = unresolvable;
 
 		/* re-order w.r.t. dependencies */
 		alpm_list_free(trans->add);
@@ -508,7 +510,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 					_("removing '%s' from target list because it conflicts with '%s'\n"),
 					rsync->name, sync->name);
 			trans->add = alpm_list_remove(trans->add, rsync, _alpm_pkg_cmp, NULL);
-			_alpm_pkg_free_trans(rsync); /* rsync is not transaction target anymore */
+			/* rsync is not a transaction target anymore */
+			trans->unresolvable = alpm_list_add(trans->unresolvable, rsync);
 			continue;
 		}
 
@@ -610,7 +613,6 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 cleanup:
-	alpm_list_free(unresolvable);
 	alpm_list_free(remove);
 
 	return ret;
@@ -1026,9 +1028,12 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 			continue;
 		}
 		free(filepath);
-		pkgfile->reason = spkg->reason; /* copy over install reason */
+		/* copy over the install reason */
+		pkgfile->reason = spkg->reason;
 		i->data = pkgfile;
-		_alpm_pkg_free_trans(spkg); /* spkg has been removed from the target list */
+		/* spkg has been removed from the target list, so we can free the
+		 * sync-specific fields */
+		_alpm_pkg_free_trans(spkg);
 	}
 
 	PROGRESS(handle, ALPM_PROGRESS_LOAD_START, "", 100,
