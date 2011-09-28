@@ -817,13 +817,13 @@ static alpm_list_t *create_verbose_row(pm_target_t *target, int dl_size)
 }
 
 /* prepare a list of pkgs to display */
-static void _display_targets(alpm_list_t *targets)
+static void _display_targets(alpm_list_t *targets, int verbose)
 {
 	char *str;
 	const char *label;
 	double size;
 	off_t isize = 0, rsize = 0, dlsize = 0;
-	alpm_list_t *i, *header = NULL, *rows = NULL;
+	alpm_list_t *i, *rows = NULL, *names = NULL;
 	int show_dl_size = config->op == PM_OP_SYNC;
 
 	if(!targets) {
@@ -843,35 +843,42 @@ static void _display_targets(alpm_list_t *targets)
 			rsize += alpm_pkg_get_isize(target->remove);
 		}
 
-		if(config->verbosepkglists) {
-			rows = alpm_list_add(rows, create_verbose_row(target, show_dl_size));
+		/* form data for both verbose and non-verbose display */
+		rows = alpm_list_add(rows, create_verbose_row(target, show_dl_size));
+		if(target->install) {
+			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
+					alpm_pkg_get_version(target->install));
 		} else {
-			if(target->install) {
-				pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
-						alpm_pkg_get_version(target->install));
-			} else {
-				pm_asprintf(&str, "%s-%s [removal]", alpm_pkg_get_name(target->remove),
-						alpm_pkg_get_version(target->remove));
-			}
-			rows = alpm_list_add(rows, str);
+			pm_asprintf(&str, "%s-%s [removal]", alpm_pkg_get_name(target->remove),
+					alpm_pkg_get_version(target->remove));
 		}
+		names = alpm_list_add(names, str);
 	}
 
 	/* print to screen */
 	pm_asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
 
 	printf("\n");
-	if(config->verbosepkglists) {
-		header = create_verbose_header(show_dl_size);
+	if(verbose) {
+		alpm_list_t *header = create_verbose_header(show_dl_size);
 		if(table_display(str, header, rows) != 0) {
-			config->verbosepkglists = 0;
-			_display_targets(targets);
-			goto out;
+			/* fallback to list display if table wouldn't fit */
+			list_display(str, names);
 		}
+		alpm_list_free(header);
 	} else {
-		list_display(str, rows);
+		list_display(str, names);
 	}
 	printf("\n");
+
+	/* rows is a list of lists of strings, free inner lists here */
+	for(i = rows; i; i = alpm_list_next(i)) {
+		alpm_list_t *lp = alpm_list_getdata(i);
+		FREELIST(lp);
+	}
+	alpm_list_free(rows);
+	FREELIST(names);
+	free(str);
 
 	if(dlsize > 0 || config->op_s_downloadonly) {
 		size = humanize_size(dlsize, 'M', &label);
@@ -892,20 +899,6 @@ static void _display_targets(alpm_list_t *targets)
 			printf(_("Net Upgrade Size:       %.2f %s\n"), size, label);
 		}
 	}
-
-out:
-	/* cleanup */
-	if(config->verbosepkglists) {
-		/* rows is a list of lists of strings, free inner lists here */
-		for(i = rows; i; i = alpm_list_next(i)) {
-			alpm_list_t *lp = alpm_list_getdata(i);
-			FREELIST(lp);
-		}
-		alpm_list_free(header);
-	} else {
-		FREELIST(rows);
-	}
-	free(str);
 }
 
 static int target_cmp(const void *p1, const void *p2)
@@ -959,7 +952,7 @@ void display_targets(void)
 	}
 
 	targets = alpm_list_msort(targets, alpm_list_count(targets), target_cmp);
-	_display_targets(targets);
+	_display_targets(targets, config->verbosepkglists);
 	FREELIST(targets);
 }
 
