@@ -376,7 +376,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		/* run the pre-remove scriptlet if it exists  */
 		if(alpm_pkg_has_scriptlet(oldpkg) &&
 				!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle, scriptlet, "pre_remove", pkgver, NULL);
+			_alpm_runscriptlet(handle, scriptlet, "pre_remove", pkgver, NULL, 0);
 		}
 	}
 
@@ -453,7 +453,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		/* run the post-remove script if it exists  */
 		if(alpm_pkg_has_scriptlet(oldpkg) &&
 				!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle, scriptlet, "post_remove", pkgver, NULL);
+			_alpm_runscriptlet(handle, scriptlet, "post_remove", pkgver, NULL, 0);
 		}
 	}
 

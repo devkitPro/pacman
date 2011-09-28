@@ -452,16 +452,12 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		size_t pkg_current, size_t pkg_count)
 {
 	int i, ret = 0, errors = 0;
-	char scriptlet[PATH_MAX];
-	int is_upgrade = 0;
+	int is_upgrade;
 	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
 	alpm_trans_t *trans = handle->trans;
 
 	ASSERT(trans != NULL, return -1);
-
-	snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
-			_alpm_db_path(db), newpkg->name, newpkg->version);
 
 	/* see if this is an upgrade. if so, remove the old package first */
 	alpm_pkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
@@ -474,30 +470,23 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			goto cleanup;
 		}
 
-		EVENT(handle, ALPM_EVENT_UPGRADE_START, newpkg, local);
-		_alpm_log(handle, ALPM_LOG_DEBUG, "upgrading package %s-%s\n",
-				newpkg->name, newpkg->version);
-
 		/* copy over the install reason */
 		newpkg->reason = alpm_pkg_get_reason(local);
 
-		/* pre_upgrade scriptlet */
-		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle, newpkg->origin_data.file,
-					"pre_upgrade", newpkg->version, local->version);
-		}
+		EVENT(handle, ALPM_EVENT_UPGRADE_START, newpkg, local);
 	} else {
 		is_upgrade = 0;
-
 		EVENT(handle, ALPM_EVENT_ADD_START, newpkg, NULL);
-		_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s-%s\n",
-				newpkg->name, newpkg->version);
+	}
 
-		/* pre_install scriptlet */
-		if(alpm_pkg_has_scriptlet(newpkg) && !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
-			_alpm_runscriptlet(handle, newpkg->origin_data.file,
-					"pre_install", newpkg->version, NULL);
-		}
+	_alpm_log(handle, ALPM_LOG_DEBUG, "%s package %s-%s\n",
+			is_upgrade ? "upgrading" : "adding", newpkg->name, newpkg->version);
+		/* pre_install/pre_upgrade scriptlet */
+	if(alpm_pkg_has_scriptlet(newpkg) &&
+			!(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
+		const char *scriptlet_name = is_upgrade ? "pre_upgrade" : "pre_install";
+		_alpm_runscriptlet(handle, newpkg->origin_data.file,
+				scriptlet_name, newpkg->version, NULL, 1);
 	}
 
 	/* we override any pre-set reason if we have alldeps or allexplicit set */
@@ -661,13 +650,14 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	/* run the post-install script if it exists  */
 	if(alpm_pkg_has_scriptlet(newpkg)
 			&& !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
-		if(is_upgrade) {
-			_alpm_runscriptlet(handle, scriptlet, "post_upgrade",
-					newpkg->version, oldpkg ? oldpkg->version : NULL);
-		} else {
-			_alpm_runscriptlet(handle, scriptlet, "post_install",
-					newpkg->version, NULL);
-		}
+		char scriptlet[PATH_MAX];
+		const char *scriptlet_name;
+		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
+				_alpm_db_path(db), newpkg->name, newpkg->version);
+		scriptlet_name = is_upgrade ? "post_upgrade" : "post_install";
+
+		_alpm_runscriptlet(handle, scriptlet, scriptlet_name,
+				newpkg->version, oldpkg ? oldpkg->version : NULL, 0);
 	}
 
 	if(is_upgrade) {

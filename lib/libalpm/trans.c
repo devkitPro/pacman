@@ -275,40 +275,50 @@ static int grep(const char *fn, const char *needle)
 	return 0;
 }
 
-int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
-		const char *script, const char *ver, const char *oldver)
+int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
+		const char *script, const char *ver, const char *oldver, int is_archive)
 {
-	char scriptfn[PATH_MAX];
 	char cmdline[PATH_MAX];
-	char tmpdir[PATH_MAX];
 	char *argv[] = { "sh", "-c", cmdline, NULL };
-	char *scriptpath;
+	char *tmpdir, *scriptfn = NULL, *scriptpath;
 	int retval = 0;
+	size_t len;
 
-	if(_alpm_access(handle, NULL, installfn, R_OK) != 0) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "scriptlet '%s' not found\n", installfn);
+	if(_alpm_access(handle, NULL, filepath, R_OK) != 0) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "scriptlet '%s' not found\n", filepath);
 		return 0;
 	}
 
-	/* creates a directory in $root/tmp/ for copying/extracting the scriptlet */
-	snprintf(tmpdir, PATH_MAX, "%stmp/", handle->root);
+	if(!is_archive && !grep(filepath, script)) {
+		/* script not found in scriptlet file; we can only short-circuit this early
+		 * if it is an actual scriptlet file and not an archive.  */
+		return 0;
+	}
+
+	/* create a directory in $root/tmp/ for copying/extracting the scriptlet */
+	len = strlen(handle->root) + strlen("tmp/alpm_XXXXXX") + 1;
+	MALLOC(tmpdir, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+	snprintf(tmpdir, len, "%stmp/", handle->root);
 	if(access(tmpdir, F_OK) != 0) {
 		_alpm_makepath_mode(tmpdir, 01777);
 	}
-	snprintf(tmpdir, PATH_MAX, "%stmp/alpm_XXXXXX", handle->root);
+	snprintf(tmpdir, len, "%stmp/alpm_XXXXXX", handle->root);
 	if(mkdtemp(tmpdir) == NULL) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not create temp directory\n"));
+		free(tmpdir);
 		return 1;
 	}
 
 	/* either extract or copy the scriptlet */
-	snprintf(scriptfn, PATH_MAX, "%s/.INSTALL", tmpdir);
-	if(strcmp(script, "pre_upgrade") == 0 || strcmp(script, "pre_install") == 0) {
-		if(_alpm_unpack_single(handle, installfn, tmpdir, ".INSTALL")) {
+	len += strlen("/.INSTALL");
+	MALLOC(scriptfn, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+	snprintf(scriptfn, len, "%s/.INSTALL", tmpdir);
+	if(is_archive) {
+		if(_alpm_unpack_single(handle, filepath, tmpdir, ".INSTALL")) {
 			retval = 1;
 		}
 	} else {
-		if(_alpm_copyfile(installfn, scriptfn)) {
+		if(_alpm_copyfile(filepath, scriptfn)) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not copy tempfile to %s (%s)\n"), scriptfn, strerror(errno));
 			retval = 1;
 		}
@@ -317,8 +327,8 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 		goto cleanup;
 	}
 
-	if(!grep(scriptfn, script)) {
-		/* script not found in scriptlet file */
+	if(is_archive && !grep(scriptfn, script)) {
+		/* script not found in extracted scriptlet file */
 		goto cleanup;
 	}
 
@@ -338,10 +348,17 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *installfn,
 	retval = _alpm_run_chroot(handle, "/bin/sh", argv);
 
 cleanup:
-	if(_alpm_rmrf(tmpdir)) {
-		_alpm_log(handle, ALPM_LOG_WARNING, _("could not remove tmpdir %s\n"), tmpdir);
+	if(scriptfn && unlink(scriptfn)) {
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("could not remove %s\n"), scriptfn);
+	}
+	if(rmdir(tmpdir)) {
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("could not remove tmpdir %s\n"), tmpdir);
 	}
 
+	free(scriptfn);
+	free(tmpdir);
 	return retval;
 }
 
