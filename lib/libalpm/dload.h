@@ -39,6 +39,7 @@ struct dload_payload {
 	int allow_resume;
 	int errors_ok;
 	int unlink_on_fail;
+	CURLcode curlerr;       /* last error produced by curl */
 };
 
 void _alpm_dload_payload_free(struct dload_payload *payload);

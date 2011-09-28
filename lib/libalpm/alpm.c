@@ -78,11 +78,6 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 	bindtextdomain("libalpm", LOCALEDIR);
 #endif
 
-#ifdef HAVE_LIBCURL
-	curl_global_init(CURL_GLOBAL_SSL);
-	myhandle->curl = curl_easy_init();
-#endif
-
 	return myhandle;
 
 cleanup:

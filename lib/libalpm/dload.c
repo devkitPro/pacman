@@ -66,6 +66,15 @@ static char *get_fullpath(const char *path, const char *filename,
 	return filepath;
 }
 
+static CURL *get_libcurl_handle(alpm_handle_t *handle)
+{
+	if(!handle->curl) {
+		curl_global_init(CURL_GLOBAL_SSL);
+		handle->curl = curl_easy_init();
+	}
+	return handle->curl;
+}
+
 enum {
 	ABORT_SIGINT = 1,
 	ABORT_OVER_MAXFILESIZE
@@ -201,7 +210,7 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 }
 
 static void curl_set_handle_opts(struct dload_payload *payload,
-		char *error_buffer)
+		CURL *curl, char *error_buffer)
 {
 	alpm_handle_t *handle = payload->handle;
 	const char *useragent = getenv("HTTP_USER_AGENT");
@@ -209,47 +218,46 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 
 	/* the curl_easy handle is initialized with the alpm handle, so we only need
 	 * to reset the handle's parameters for each time it's used. */
-	curl_easy_reset(handle->curl);
-	curl_easy_setopt(handle->curl, CURLOPT_URL, payload->fileurl);
-	curl_easy_setopt(handle->curl, CURLOPT_FAILONERROR, 1L);
-	curl_easy_setopt(handle->curl, CURLOPT_ERRORBUFFER, error_buffer);
-	curl_easy_setopt(handle->curl, CURLOPT_CONNECTTIMEOUT, 10L);
-	curl_easy_setopt(handle->curl, CURLOPT_FILETIME, 1L);
-	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 0L);
-	curl_easy_setopt(handle->curl, CURLOPT_FOLLOWLOCATION, 1L);
-	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
-	curl_easy_setopt(handle->curl, CURLOPT_PROGRESSDATA, (void *)payload);
-	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
-	curl_easy_setopt(handle->curl, CURLOPT_LOW_SPEED_TIME, 10L);
-	curl_easy_setopt(handle->curl, CURLOPT_HEADERFUNCTION, parse_headers);
-	curl_easy_setopt(handle->curl, CURLOPT_WRITEHEADER, (void *)payload);
-	curl_easy_setopt(handle->curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
+	curl_easy_reset(curl);
+	curl_easy_setopt(curl, CURLOPT_URL, payload->fileurl);
+	curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, error_buffer);
+	curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10L);
+	curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
+	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
+	curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, (void *)payload);
+	curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
+	curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 10L);
+	curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, parse_headers);
+	curl_easy_setopt(curl, CURLOPT_WRITEHEADER, (void *)payload);
+	curl_easy_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "url: %s\n", payload->fileurl);
 
 	if(payload->max_size) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "maxsize: %jd\n",
 				(intmax_t)payload->max_size);
-		curl_easy_setopt(handle->curl, CURLOPT_MAXFILESIZE_LARGE,
+		curl_easy_setopt(curl, CURLOPT_MAXFILESIZE_LARGE,
 				(curl_off_t)payload->max_size);
 	}
 
 	if(useragent != NULL) {
-		curl_easy_setopt(handle->curl, CURLOPT_USERAGENT, useragent);
+		curl_easy_setopt(curl, CURLOPT_USERAGENT, useragent);
 	}
 
 	if(!payload->allow_resume && !payload->force && payload->destfile_name &&
 			stat(payload->destfile_name, &st) == 0) {
 		/* start from scratch, but only download if our local is out of date. */
-		curl_easy_setopt(handle->curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
-		curl_easy_setopt(handle->curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
+		curl_easy_setopt(curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
+		curl_easy_setopt(curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				"using time condition: %lu\n", (long)st.st_mtime);
 	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
 		/* a previous partial download exists, resume from end of file. */
 		payload->tempfile_openmode = "ab";
-		curl_easy_setopt(handle->curl, CURLOPT_RESUME_FROM_LARGE,
-				(curl_off_t)st.st_size);
+		curl_easy_setopt(curl, CURLOPT_RESUME_FROM_LARGE, (curl_off_t)st.st_size);
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				"tempfile found, attempting continuation from %jd bytes\n",
 				(intmax_t)st.st_size);
@@ -319,6 +327,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	struct sigaction orig_sig_pipe, orig_sig_int;
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
+	CURL *curl = get_libcurl_handle(handle);
 	handle->pm_errno = 0;
 
 	payload->tempfile_openmode = "wb";
@@ -347,7 +356,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		}
 	}
 
-	curl_set_handle_opts(payload, error_buffer);
+	curl_set_handle_opts(payload, curl, error_buffer);
 
 	if(localf == NULL) {
 		localf = fopen(payload->tempfile_name, payload->tempfile_openmode);
@@ -360,7 +369,7 @@ static int curl_download_internal(struct dload_payload *payload,
 			"opened tempfile for download: %s (%s)\n", payload->tempfile_name,
 			payload->tempfile_openmode);
 
-	curl_easy_setopt(handle->curl, CURLOPT_WRITEDATA, localf);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, localf);
 
 	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
 	 * something along those lines. Store the old signal handler first. */
@@ -371,16 +380,16 @@ static int curl_download_internal(struct dload_payload *payload,
 	prevprogress = 0;
 
 	/* perform transfer */
-	handle->curlerr = curl_easy_perform(handle->curl);
+	payload->curlerr = curl_easy_perform(curl);
 
 	/* immediately unhook the progress callback */
-	curl_easy_setopt(handle->curl, CURLOPT_NOPROGRESS, 1L);
+	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
 
 	/* was it a success? */
-	switch(handle->curlerr) {
+	switch(payload->curlerr) {
 		case CURLE_OK:
 			/* get http/ftp response code */
-			curl_easy_getinfo(handle->curl, CURLINFO_RESPONSE_CODE, &respcode);
+			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &respcode);
 			if(respcode >=400) {
 				payload->unlink_on_fail = 1;
 				goto cleanup;
@@ -389,7 +398,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		case CURLE_ABORTED_BY_CALLBACK:
 			/* handle the interrupt accordingly */
 			if(dload_interrupted == ABORT_OVER_MAXFILESIZE) {
-				handle->curlerr = CURLE_FILESIZE_EXCEEDED;
+				payload->curlerr = CURLE_FILESIZE_EXCEEDED;
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				/* the hardcoded 'size exceeded' message is same as libcurl's normal */
 				_alpm_log(handle, ALPM_LOG_ERROR,
@@ -416,11 +425,11 @@ static int curl_download_internal(struct dload_payload *payload,
 	}
 
 	/* retrieve info about the state of the transfer */
-	curl_easy_getinfo(handle->curl, CURLINFO_FILETIME, &remote_time);
-	curl_easy_getinfo(handle->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
-	curl_easy_getinfo(handle->curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
-	curl_easy_getinfo(handle->curl, CURLINFO_CONDITION_UNMET, &timecond);
-	curl_easy_getinfo(handle->curl, CURLINFO_EFFECTIVE_URL, &effective_url);
+	curl_easy_getinfo(curl, CURLINFO_FILETIME, &remote_time);
+	curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
+	curl_easy_getinfo(curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
+	curl_easy_getinfo(curl, CURLINFO_CONDITION_UNMET, &timecond);
+	curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &effective_url);
 
 	/* time condition was met and we didn't download anything. we need to
 	 * clean up the 0 byte .part file that's left behind. */
