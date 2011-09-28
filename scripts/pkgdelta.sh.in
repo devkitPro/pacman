@@ -93,17 +93,17 @@ create_xdelta()
 	newver="$pkgver"
 	newarch="$arch"
 
-	if [[ $oldname != $newname ]]; then
+	if [[ $oldname != "$newname" ]]; then
 		error "$(gettext "The package names don't match : '%s' and '%s'")" "$oldname" "$newname"
 		return 1
 	fi
 
-	if [[ $oldarch != $newarch ]]; then
+	if [[ $oldarch != "$newarch" ]]; then
 		error "$(gettext "The package architectures don't match : '%s' and '%s'")" "$oldarch" "$newarch"
 		return 1
 	fi
 
-	if [[ $oldver == $newver ]]; then
+	if [[ $oldver == "$newver" ]]; then
 		error "$(gettext "Both packages have the same version : '%s'")" "$newver"
 		return 1
 	fi
