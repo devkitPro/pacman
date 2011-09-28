@@ -641,7 +641,7 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 {
 	const alpm_pkg_t *pkg1 = p1;
 	const alpm_pkg_t *pkg2 = p2;
-	return strcoll(pkg1->name, pkg2->name);
+	return strcmp(pkg1->name, pkg2->name);
 }
 
 /* Test for existence of a package in a alpm_list_t*
