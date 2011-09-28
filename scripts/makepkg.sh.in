@@ -414,7 +414,7 @@ download_file() {
 	fi
 
 	# rename the temporary download file to the final destination
-	if [[ $dlfile != $file ]]; then
+	if [[ $dlfile != "$file" ]]; then
 		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$file"
 	fi
 }
@@ -1509,7 +1509,7 @@ check_sanity() {
 	eval $(awk '/^[[:space:]]*provides=/,/\)/' "$BUILDFILE" | \
 		sed -e "s/provides=/provides_list+=/" -e "s/#.*//" -e 's/\\$//')
 	for i in ${provides_list[@]}; do
-		if [[ $i != ${i//</} || $i != ${i//>/} ]]; then
+		if [[ $i == *['<>']* ]]; then
 			error "$(gettext "%s array cannot contain comparison (< or >) operators.")" "provides"
 			ret=1
 		fi
@@ -1767,7 +1767,7 @@ devel_update() {
 	#  _foo=pkgver
 	#
 	if [[ -n $newpkgver ]]; then
-		if [[ $newpkgver != $pkgver ]]; then
+		if [[ $newpkgver != "$pkgver" ]]; then
 			if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
 				@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
 				@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
