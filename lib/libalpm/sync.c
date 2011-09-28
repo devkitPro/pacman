@@ -891,9 +891,8 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 				}
 			}
 
-			alpm_list_free_inner(files, (alpm_list_fn_free)_alpm_dload_payload_free);
-			alpm_list_free(files);
-			files = NULL;
+			alpm_list_free_inner(files, (alpm_list_fn_free)_alpm_dload_payload_reset);
+			FREELIST(files);
 		}
 	}
 

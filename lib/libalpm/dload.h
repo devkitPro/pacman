@@ -42,7 +42,7 @@ struct dload_payload {
 	CURLcode curlerr;       /* last error produced by curl */
 };
 
-void _alpm_dload_payload_free(struct dload_payload *payload);
+void _alpm_dload_payload_reset(struct dload_payload *payload);
 
 int _alpm_download(struct dload_payload *payload, const char *localpath,
 		char **final_file);
