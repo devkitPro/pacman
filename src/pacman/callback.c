@@ -375,7 +375,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcstr;
 
-	const int cols = getcols();
+	const unsigned short cols = getcols();
 
 	if(config->noprogressbar || cols == 0) {
 		return;
@@ -534,7 +534,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	const char *rate_label, *xfered_label;
 	int file_percent = 0, total_percent = 0;
 
-	const int cols = getcols();
+	const unsigned short cols = getcols();
 
 	if(config->noprogressbar || cols == 0 || file_total == -1) {
 		if(file_xfered == 0) {

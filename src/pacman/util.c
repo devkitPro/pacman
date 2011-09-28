@@ -140,11 +140,11 @@ static int flush_term_input(void) {
 }
 
 /* gets the current screen column width */
-int getcols()
+unsigned short getcols(void)
 {
-	int termwidth = -1;
-	const int default_tty = 80;
-	const int default_notty = 0;
+	const unsigned short default_tty = 80;
+	const unsigned short default_notty = 0;
+	unsigned short termwidth = 0;
 
 	if(!isatty(fileno(stdout))) {
 		return default_notty;
@@ -161,7 +161,7 @@ int getcols()
 		termwidth = win.ws_col;
 	}
 #endif
-	return termwidth <= 0 ? default_tty : termwidth;
+	return termwidth == 0 ? default_tty : termwidth;
 }
 
 /* does the same thing as 'rm -rf' */
@@ -252,12 +252,12 @@ char *mdirname(const char *path)
 
 /* output a string, but wrap words properly with a specified indentation
  */
-void indentprint(const char *str, int indent)
+void indentprint(const char *str, size_t indent)
 {
 	wchar_t *wcstr;
 	const wchar_t *p;
 	int len, cidx;
-	const int cols = getcols();
+	const unsigned short cols = getcols();
 
 	if(!str) {
 		return;
@@ -297,7 +297,7 @@ void indentprint(const char *str, int indent)
 			}
 			if(len > (cols - cidx - 1)) {
 				/* wrap to a newline and reindent */
-				printf("\n%-*s", indent, "");
+				printf("\n%-*s", (int)indent, "");
 				cidx = indent;
 			} else {
 				printf(" ");
@@ -454,7 +454,7 @@ alpm_list_t *strsplit(const char *str, const char splitchar)
 	return list;
 }
 
-static int string_length(const char *s)
+static size_t string_length(const char *s)
 {
 	int len;
 	wchar_t *wcstr;
@@ -481,7 +481,7 @@ void string_display(const char *title, const char *string)
 		printf(_("None"));
 	} else {
 		/* compute the length of title + a space */
-		int len = string_length(title) + 1;
+		size_t len = string_length(title) + 1;
 		indentprint(string, len);
 	}
 	printf("\n");
@@ -510,9 +510,9 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 	alpm_list_t *formats = NULL;
 	const alpm_list_t *i, *row, *cell;
 	char *str, *formatstr;
-	const int padding = 2;
-	int colwidth, totalwidth = 0;
-	int curcol = 0;
+	const unsigned short padding = 2;
+	size_t colwidth, totalwidth = 0;
+	size_t curcol = 0;
 
 	/* header determines column count and initial values of longest_strs */
 	for(i = header; i; i = alpm_list_next(i)) {
@@ -601,7 +601,7 @@ int table_display(const char *title, const alpm_list_t *header,
 void list_display(const char *title, const alpm_list_t *list)
 {
 	const alpm_list_t *i;
-	int len = 0;
+	size_t len = 0;
 
 	if(title) {
 		len = string_length(title) + 1;
@@ -611,17 +611,17 @@ void list_display(const char *title, const alpm_list_t *list)
 	if(!list) {
 		printf("%s\n", _("None"));
 	} else {
-		const int maxcols = getcols();
-		int cols = len;
+		const unsigned short maxcols = getcols();
+		size_t cols = len;
 		const char *str = alpm_list_getdata(list);
 		printf("%s", str);
 		cols += string_length(str);
 		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
 			str = alpm_list_getdata(i);
-			int s = string_length(str);
+			size_t s = string_length(str);
 			/* wrap only if we have enough usable column space */
 			if(maxcols > len && cols + s + 2 >= maxcols) {
-				int j;
+				size_t j;
 				cols = len;
 				printf("\n");
 				for (j = 1; j <= len; j++) {
@@ -641,7 +641,7 @@ void list_display(const char *title, const alpm_list_t *list)
 
 void list_display_linebreak(const char *title, const alpm_list_t *list)
 {
-	int len = 0;
+	size_t len = 0;
 
 	if(title) {
 		len = string_length(title) + 1;
@@ -657,7 +657,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 		printf("\n");
 		/* Print the rest */
 		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
-			int j;
+			size_t j;
 			for(j = 1; j <= len; j++) {
 				printf(" ");
 			}
@@ -669,7 +669,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 
 void signature_display(const char *title, alpm_siglist_t *siglist)
 {
-	int len = 0;
+	size_t len = 0;
 
 	if(title) {
 		len = string_length(title) + 1;
@@ -686,7 +686,7 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 			alpm_sigresult_t *result = siglist->results + i;
 			/* Don't re-indent the first result */
 			if(i != 0) {
-				int j;
+				size_t j;
 				for(j = 1; j <= len; j++) {
 					printf(" ");
 				}
