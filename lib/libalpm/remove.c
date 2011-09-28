@@ -317,17 +317,21 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 				int cmp = filehash ? strcmp(filehash, backup->hash) : 0;
 				FREE(filehash);
 				if(cmp != 0) {
-					char newpath[PATH_MAX];
-					snprintf(newpath, PATH_MAX, "%s.pacsave", file);
+					char *newpath;
+					size_t len = strlen(file) + 8 + 1;
+					MALLOC(newpath, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+					snprintf(newpath, len, "%s.pacsave", file);
 					if(rename(file, newpath)) {
 						_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
 								file, newpath, strerror(errno));
 						alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
 								file, newpath, strerror(errno));
+						free(newpath);
 						return -1;
 					}
 					_alpm_log(handle, ALPM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
 					alpm_logaction(handle, "warning: %s saved as %s\n", file, newpath);
+					free(newpath);
 					return 0;
 				}
 			}
