@@ -531,8 +531,6 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 			size_t str_len = string_length(str);
 
 			if(str_len > colwidths[curcol]) {
-				fprintf(stderr, "replace width: %zd (%zd -> %zd) %s\n",
-						curcol, colwidths[curcol], str_len, str);
 				colwidths[curcol] = str_len;
 			}
 		}
