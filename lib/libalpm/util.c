@@ -741,6 +741,8 @@ int _alpm_lstat(const char *path, struct stat *buf)
 }
 
 #ifdef HAVE_LIBSSL
+#define BUFFER_SIZE 8192
+
 static int md5_file(const char *path, unsigned char output[16])
 {
 	FILE *f;
@@ -748,7 +750,7 @@ static int md5_file(const char *path, unsigned char output[16])
 	MD5_CTX ctx;
 	unsigned char *buf;
 
-	CALLOC(buf, 8192, sizeof(unsigned char), return 1);
+	CALLOC(buf, BUFFER_SIZE, sizeof(unsigned char), return 1);
 
 	if((f = fopen(path, "rb")) == NULL) {
 		free(buf);
@@ -757,7 +759,7 @@ static int md5_file(const char *path, unsigned char output[16])
 
 	MD5_Init(&ctx);
 
-	while((n = fread(buf, 1, sizeof(buf), f)) > 0) {
+	while((n = fread(buf, 1, BUFFER_SIZE, f)) > 0) {
 		MD5_Update(&ctx, buf, n);
 	}
 
@@ -783,7 +785,7 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 	SHA256_CTX ctx;
 	unsigned char *buf;
 
-	CALLOC(buf, 8192, sizeof(unsigned char), return 1);
+	CALLOC(buf, BUFFER_SIZE, sizeof(unsigned char), return 1);
 
 	if((f = fopen(path, "rb")) == NULL) {
 		free(buf);
@@ -796,7 +798,7 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 		SHA256_Init(&ctx);
 	}
 
-	while((n = fread(buf, 1, sizeof(buf), f)) > 0) {
+	while((n = fread(buf, 1, BUFFER_SIZE, f)) > 0) {
 		if(is224) {
 			SHA224_Update(&ctx, buf, n);
 		} else {
