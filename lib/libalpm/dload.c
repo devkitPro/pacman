@@ -60,7 +60,7 @@ static char *get_fullpath(const char *path, const char *filename,
 	char *filepath;
 	/* len = localpath len + filename len + suffix len + null */
 	size_t len = strlen(path) + strlen(filename) + strlen(suffix) + 1;
-	CALLOC(filepath, len, sizeof(char), return NULL);
+	MALLOC(filepath, len, return NULL);
 	snprintf(filepath, len, "%s%s%s", path, filename, suffix);
 
 	return filepath;
@@ -279,22 +279,27 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 {
 	int fd;
 	FILE *fp;
-	char randpath[PATH_MAX];
-	alpm_handle_t *handle = payload->handle;
+	char *randpath;
+	size_t len;
 
 	/* create a random filename, which is opened with O_EXCL */
-	snprintf(randpath, PATH_MAX, "%salpmtmp.XXXXXX", localpath);
+	len = strlen(localpath) + 14 + 1;
+	MALLOC(randpath, len, RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
+	snprintf(randpath, len, "%salpmtmp.XXXXXX", localpath);
 	if((fd = mkstemp(randpath)) == -1 ||
 			!(fp = fdopen(fd, payload->tempfile_openmode))) {
 		unlink(randpath);
 		close(fd);
-		_alpm_log(handle, ALPM_LOG_ERROR,
+		_alpm_log(payload->handle, ALPM_LOG_ERROR,
 				_("failed to create temporary file for download\n"));
 		return NULL;
 	}
 	/* fp now points to our alpmtmp.XXXXXX */
-	STRDUP(payload->tempfile_name, randpath, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-	payload->remote_name = strrchr(randpath, '/') + 1;
+	free(payload->tempfile_name);
+	payload->tempfile_name = randpath;
+	free(payload->remote_name);
+	STRDUP(payload->remote_name, strrchr(randpath, '/') + 1,
+			RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
 
 	return fp;
 }
@@ -318,7 +323,7 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	payload->tempfile_openmode = "wb";
 	if(!payload->remote_name) {
-		payload->remote_name = get_filename(payload->fileurl);
+		payload->remote_name = strdup(get_filename(payload->fileurl));
 	}
 	if(!payload->remote_name || curl_gethost(payload->fileurl, hostname) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
@@ -591,10 +596,11 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 void _alpm_dload_payload_free(struct dload_payload *payload) {
 	ASSERT(payload, return);
 
-	FREE(payload->fileurl);
-	FREE(payload->content_disp_name);
+	FREE(payload->remote_name);
 	FREE(payload->tempfile_name);
 	FREE(payload->destfile_name);
+	FREE(payload->content_disp_name);
+	FREE(payload->fileurl);
 	FREE(payload);
 
 }

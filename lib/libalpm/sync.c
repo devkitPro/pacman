@@ -872,7 +872,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 
 					/* print server + filename into a buffer */
 					len = strlen(server_url) + strlen(payload->remote_name) + 2;
-					CALLOC(payload->fileurl, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+					MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 					snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
 					payload->handle = handle;
 					payload->allow_resume = 1;
