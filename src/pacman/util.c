@@ -875,11 +875,11 @@ static void _display_targets(alpm_list_t *targets)
 	}
 	printf("\n");
 
-	if(dlsize > 0) {
+	if(dlsize > 0 || config->op_s_downloadonly) {
 		size = humanize_size(dlsize, 'M', &label);
 		printf(_("Total Download Size:    %.2f %s\n"), size, label);
 	}
-	if(!(config->flags & ALPM_TRANS_FLAG_DOWNLOADONLY)) {
+	if(!config->op_s_downloadonly) {
 		if(isize > 0) {
 			size = humanize_size(isize, 'M', &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
