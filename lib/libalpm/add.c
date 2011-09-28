@@ -650,14 +650,12 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	/* run the post-install script if it exists  */
 	if(alpm_pkg_has_scriptlet(newpkg)
 			&& !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
-		char scriptlet[PATH_MAX];
-		const char *scriptlet_name;
-		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
-				_alpm_db_path(db), newpkg->name, newpkg->version);
-		scriptlet_name = is_upgrade ? "post_upgrade" : "post_install";
+		char *scriptlet = _alpm_local_db_pkgpath(db, newpkg, "install");
+		const char *scriptlet_name = is_upgrade ? "post_upgrade" : "post_install";
 
 		_alpm_runscriptlet(handle, scriptlet, scriptlet_name,
 				newpkg->version, oldpkg ? oldpkg->version : NULL, 0);
+		free(scriptlet);
 	}
 
 	if(is_upgrade) {

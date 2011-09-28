@@ -93,6 +93,7 @@ void _alpm_db_unregister(alpm_db_t *db);
 int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info);
 int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
 int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info);
+char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info, const char *filename);
 
 /* cache bullshit */
 /* packages */

@@ -359,7 +359,6 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 	const char *pkgname = oldpkg->name;
 	const char *pkgver = oldpkg->version;
 	alpm_filelist_t *filelist;
-	char scriptlet[PATH_MAX];
 	size_t i;
 
 	if(newpkg) {
@@ -370,13 +369,13 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing package %s-%s\n",
 				pkgname, pkgver);
 
-		snprintf(scriptlet, PATH_MAX, "%s%s-%s/install",
-				_alpm_db_path(handle->db_local), pkgname, pkgver);
-
 		/* run the pre-remove scriptlet if it exists  */
 		if(alpm_pkg_has_scriptlet(oldpkg) &&
 				!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
+			char *scriptlet = _alpm_local_db_pkgpath(handle->db_local,
+					oldpkg, "install");
 			_alpm_runscriptlet(handle, scriptlet, "pre_remove", pkgver, NULL, 0);
+			free(scriptlet);
 		}
 	}
 
@@ -453,7 +452,10 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		/* run the post-remove script if it exists  */
 		if(alpm_pkg_has_scriptlet(oldpkg) &&
 				!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
+			char *scriptlet = _alpm_local_db_pkgpath(handle->db_local,
+					oldpkg, "install");
 			_alpm_runscriptlet(handle, scriptlet, "post_remove", pkgver, NULL, 0);
+			free(scriptlet);
 		}
 	}
 

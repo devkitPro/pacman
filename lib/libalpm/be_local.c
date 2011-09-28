@@ -475,7 +475,7 @@ static int local_db_populate(alpm_db_t *db)
 }
 
 /* Note: the return value must be freed by the caller */
-static char *get_pkgpath(alpm_db_t *db, alpm_pkg_t *info, const char *filename)
+char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info, const char *filename)
 {
 	size_t len;
 	char *pkgpath;
@@ -544,7 +544,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 	_alpm_log(db->handle, ALPM_LOG_FUNCTION, "loading package data for %s : level=0x%x\n",
 			info->name, inforeq);
 
-	pkgpath = get_pkgpath(db, info, NULL);
+	pkgpath = _alpm_local_db_pkgpath(db, info, NULL);
 	if(!pkgpath || access(pkgpath, F_OK)) {
 		/* directory doesn't exist or can't be opened */
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'\n",
@@ -558,7 +558,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC && !(info->infolevel & INFRQ_DESC)) {
-		char *path = get_pkgpath(db, info, "desc");
+		char *path = _alpm_local_db_pkgpath(db, info, "desc");
 		if(!path || (fp = fopen(path, "r")) == NULL) {
 			_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			free(path);
@@ -628,7 +628,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 
 	/* FILES */
 	if(inforeq & INFRQ_FILES && !(info->infolevel & INFRQ_FILES)) {
-		char *path = get_pkgpath(db, info, "files");
+		char *path = _alpm_local_db_pkgpath(db, info, "files");
 		if(!path || (fp = fopen(path, "r")) == NULL) {
 			_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), path, strerror(errno));
 			free(path);
@@ -685,7 +685,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 
 	/* INSTALL */
 	if(inforeq & INFRQ_SCRIPTLET && !(info->infolevel & INFRQ_SCRIPTLET)) {
-		char *path = get_pkgpath(db, info, "install");
+		char *path = _alpm_local_db_pkgpath(db, info, "install");
 		if(access(path, F_OK) == 0) {
 			info->scriptlet = 1;
 		}
@@ -714,7 +714,7 @@ int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info)
 	}
 
 	oldmask = umask(0000);
-	pkgpath = get_pkgpath(db, info, NULL);
+	pkgpath = _alpm_local_db_pkgpath(db, info, NULL);
 
 	if((retval = mkdir(pkgpath, 0755)) != 0) {
 		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not create directory %s: %s\n"),
@@ -746,7 +746,7 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		char *path;
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "writing %s-%s DESC information back to db\n",
 				info->name, info->version);
-		path = get_pkgpath(db, info, "desc");
+		path = _alpm_local_db_pkgpath(db, info, "desc");
 		if(!path || (fp = fopen(path, "w")) == NULL) {
 			_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"),
 					path, strerror(errno));
@@ -857,7 +857,7 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		char *path;
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
 				info->name, info->version);
-		path = get_pkgpath(db, info, "files");
+		path = _alpm_local_db_pkgpath(db, info, "files");
 		if(!path || (fp = fopen(path, "w")) == NULL) {
 			_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"),
 					path, strerror(errno));
@@ -903,8 +903,9 @@ cleanup:
 int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info)
 {
 	int ret = 0;
-	char *pkgpath = get_pkgpath(db, info, NULL);
+	char *pkgpath = _alpm_local_db_pkgpath(db, info, NULL);
 
+	/* TODO explicit file removes and then an rmdir? */
 	ret = _alpm_rmrf(pkgpath);
 	free(pkgpath);
 	if(ret != 0) {
