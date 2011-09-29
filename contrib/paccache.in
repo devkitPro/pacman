@@ -153,7 +153,7 @@ summarize() {
 			while read -r pkg; do
 				if (( verbose >= 3 )); then
 					[[ $pkg =~ $pkg_re ]] && name=${BASH_REMATCH[1]} arch=${BASH_REMATCH[2]}
-					if [[ -z $seen || $seenarch != $arch || $seen != $name ]]; then
+					if [[ -z $seen || $seenarch != "$arch" || $seen != "$name" ]]; then
 						printf '%s (%s):\n' "$name" "$arch"
 					fi
 					printf '  %s\n' "$pkg"
