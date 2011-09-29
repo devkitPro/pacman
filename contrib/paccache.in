@@ -21,8 +21,8 @@
 shopt -s extglob
 
 declare -a candidates=() cmdopts=() whitelist=() blacklist=()
-declare -i delete=0 dryrun=0 filecount=0 keep=3 move=0 totalsaved=0
-declare    cachedir=@localstatedir@/cache/pacman/pkg delim=$'\n' movedir= scanarch=
+declare -i delete=0 dryrun=0 filecount=0 move=0 totalsaved=0
+declare    cachedir=@localstatedir@/cache/pacman/pkg delim=$'\n' keep=3 movedir= scanarch=
 
 msg() {
 	local mesg=$1; shift
@@ -220,8 +220,10 @@ while getopts ':a:c:dfhi:k:m:rsuvz' opt; do
 			 blacklist+=("${ign[@]}")
 			unset i ign ;;
 		k) keep=$OPTARG
-			if [[ $keep != $OPTARG ]] || (( keep < 0 )); then
+			if [[ -z $keep || -n ${keep//[0-9]/} ]]; then
 				die 'argument to option -k must be a non-negative integer'
+			else
+				keep=$(( 10#$keep ))
 			fi ;;
 		m) move=1 movedir=$OPTARG ;;
 		r) delete=1 ;;
