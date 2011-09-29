@@ -848,6 +848,9 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 		if(target->install) {
 			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
 					alpm_pkg_get_version(target->install));
+		} else if(isize == 0) {
+			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->remove),
+					alpm_pkg_get_version(target->remove));
 		} else {
 			pm_asprintf(&str, "%s-%s [removal]", alpm_pkg_get_name(target->remove),
 					alpm_pkg_get_version(target->remove));
