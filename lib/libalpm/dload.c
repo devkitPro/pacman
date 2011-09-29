@@ -43,8 +43,6 @@
 #include "handle.h"
 
 #ifdef HAVE_LIBCURL
-static off_t prevprogress; /* last download amount */
-
 static const char *get_filename(const char *url)
 {
 	char *filename = strrchr(url, '/');
@@ -112,19 +110,19 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 
 	total_size = payload->initial_size + (off_t)dltotal;
 
-	if(DOUBLE_EQ(dltotal, 0.0) || prevprogress == total_size) {
+	if(DOUBLE_EQ(dltotal, 0.0) || payload->prevprogress == total_size) {
 		return 0;
 	}
 
 	/* initialize the progress bar here to avoid displaying it when
 	 * a repo is up to date and nothing gets downloaded */
-	if(prevprogress == 0) {
+	if(payload->prevprogress == 0) {
 		payload->handle->dlcb(payload->remote_name, 0, (off_t)dltotal);
 	}
 
 	payload->handle->dlcb(payload->remote_name, current_size, total_size);
 
-	prevprogress = current_size;
+	payload->prevprogress = current_size;
 
 	return 0;
 }
@@ -375,9 +373,6 @@ static int curl_download_internal(struct dload_payload *payload,
 	 * something along those lines. Store the old signal handler first. */
 	mask_signal(SIGPIPE, SIG_IGN, &orig_sig_pipe);
 	mask_signal(SIGINT, &inthandler, &orig_sig_int);
-
-	/* Progress 0 - initialize */
-	prevprogress = 0;
 
 	/* perform transfer */
 	payload->curlerr = curl_easy_perform(curl);

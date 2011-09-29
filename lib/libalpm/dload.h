@@ -35,6 +35,7 @@ struct dload_payload {
 	char *fileurl;
 	off_t initial_size;
 	off_t max_size;
+	off_t prevprogress;
 	int force;
 	int allow_resume;
 	int errors_ok;
