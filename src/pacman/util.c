@@ -892,7 +892,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 			size = humanize_size(isize, 'M', &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
 		}
-		if(rsize > 0) {
+		if(rsize > 0 && isize == 0) {
 			size = humanize_size(rsize, 'M', &label);
 			printf(_("Total Removed Size:     %.2f %s\n"), size, label);
 		}
