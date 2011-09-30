@@ -1337,6 +1337,7 @@ create_signature() {
 }
 
 create_srcpackage() {
+	local ret=0
 	msg "$(gettext "Creating source package...")"
 	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
 	mkdir "${srclinks}"/${pkgbase}
@@ -1374,6 +1375,7 @@ create_srcpackage() {
 		*tar.gz)  TAR_OPT="z" ;;
 		*tar.bz2) TAR_OPT="j" ;;
 		*tar.xz)  TAR_OPT="J" ;;
+		*tar.Z)   TAR_OPT="Z" ;;
 		*tar)     TAR_OPT=""  ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$SRCEXT" ;;
@@ -1390,7 +1392,7 @@ create_srcpackage() {
 		exit 1 # TODO: error code
 	fi
 
-	if (( ! ret )) && [[ ! "$SRCPKGDEST" -ef "${startdir}" ]]; then
+	if [[ ! "$SRCPKGDEST" -ef "${startdir}" ]]; then
 		rm -f "${pkg_file/$SRCPKGDEST/$startdir}"
 		ln -s "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
 		ret=$?
