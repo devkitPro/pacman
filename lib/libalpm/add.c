@@ -157,8 +157,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	entryname = archive_entry_pathname(entry);
 	entrymode = archive_entry_mode(entry);
 
-	memset(filename, 0, PATH_MAX); /* just to be sure */
-
 	if(strcmp(entryname, ".INSTALL") == 0) {
 		/* the install script goes inside the db */
 		snprintf(filename, PATH_MAX, "%s%s-%s/install",
@@ -293,17 +291,18 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	STRDUP(entryname_orig, entryname, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
 	if(needbackup) {
-		char checkfile[PATH_MAX];
+		char *checkfile;
 		char *hash_local = NULL, *hash_pkg = NULL;
-		int ret;
+		size_t len;
 
-		snprintf(checkfile, PATH_MAX, "%s.paccheck", filename);
+		len = strlen(filename) + 10;
+		MALLOC(checkfile, len,
+				errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
+		snprintf(checkfile, len, "%s.paccheck", filename);
 
-		ret = perform_extraction(handle, archive, entry, checkfile, entryname_orig);
-		if(ret == 1) {
-			/* error */
-			FREE(entryname_orig);
-			return 1;
+		if(perform_extraction(handle, archive, entry, checkfile, entryname_orig)) {
+			errors++;
+			goto needbackup_cleanup;
 		}
 
 		hash_local = alpm_compute_md5sum(filename);
@@ -331,8 +330,11 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			if(hash_local && hash_pkg && strcmp(hash_local, hash_pkg) != 0) {
 				/* looks like we have a local file that has a different hash as the
 				 * file in the package, move it to a .pacorig */
-				char newpath[PATH_MAX];
-				snprintf(newpath, PATH_MAX, "%s.pacorig", filename);
+				char *newpath;
+				size_t newlen = strlen(filename) + 9;
+				MALLOC(newpath, newlen,
+						errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
+				snprintf(newpath, newlen, "%s.pacorig", filename);
 
 				/* move the existing file to the "pacorig" */
 				if(try_rename(handle, filename, newpath)) {
@@ -347,6 +349,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 						alpm_logaction(handle, "warning: %s saved as %s\n", filename, newpath);
 					}
 				}
+				free(newpath);
 			} else {
 				/* local file is identical to pkg one, so just remove pkg one */
 				unlink(checkfile);
@@ -382,10 +385,13 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				_alpm_log(handle, ALPM_LOG_DEBUG, "action: leaving existing file in place\n");
 				unlink(checkfile);
 			} else {
-				char newpath[PATH_MAX];
+				char *newpath;
+				size_t newlen = strlen(filename) + 8;
 				_alpm_log(handle, ALPM_LOG_DEBUG, "action: keeping current file and installing"
 						" new one with .pacnew ending\n");
-				snprintf(newpath, PATH_MAX, "%s.pacnew", filename);
+				MALLOC(newpath, newlen,
+						errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
+				snprintf(newpath, newlen, "%s.pacnew", filename);
 				if(try_rename(handle, checkfile, newpath)) {
 					errors++;
 				} else {
@@ -394,14 +400,15 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					alpm_logaction(handle, "warning: %s installed as %s\n",
 							filename, newpath);
 				}
+				free(newpath);
 			}
 		}
 
-		FREE(hash_local);
-		FREE(hash_pkg);
+needbackup_cleanup:
+		free(checkfile);
+		free(hash_local);
+		free(hash_pkg);
 	} else {
-		int ret;
-
 		/* we didn't need a backup */
 		if(notouch) {
 			/* change the path to a .pacnew extension */
@@ -420,11 +427,11 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			unlink(filename);
 		}
 
-		ret = perform_extraction(handle, archive, entry, filename, entryname_orig);
-		if(ret == 1) {
+		if(perform_extraction(handle, archive, entry, filename, entryname_orig)) {
 			/* error */
-			FREE(entryname_orig);
-			return 1;
+			free(entryname_orig);
+			errors++;
+			return errors;
 		}
 
 		/* calculate an hash if this is in newpkg's backup */
@@ -441,7 +448,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			backup->hash = newhash;
 		}
 	}
-	FREE(entryname_orig);
+	free(entryname_orig);
 	return errors;
 }
 
