@@ -131,6 +131,18 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 	return 0;
 }
 
+static int try_rename(alpm_handle_t *handle, const char *src, const char *dest)
+{
+	if(rename(src, dest)) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
+				src, dest, strerror(errno));
+		alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
+				src, dest, strerror(errno));
+		return 1;
+	}
+	return 0;
+}
+
 static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, alpm_pkg_t *newpkg, alpm_pkg_t *oldpkg)
 {
@@ -323,19 +335,12 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				snprintf(newpath, PATH_MAX, "%s.pacorig", filename);
 
 				/* move the existing file to the "pacorig" */
-				if(rename(filename, newpath)) {
-					_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
-							filename, newpath, strerror(errno));
-					alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
-							filename, newpath, strerror(errno));
+				if(try_rename(handle, filename, newpath)) {
+						errors++;
 					errors++;
 				} else {
 					/* rename the file we extracted to the real name */
-					if(rename(checkfile, filename)) {
-						_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
-								checkfile, filename, strerror(errno));
-						alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
-								checkfile, filename, strerror(errno));
+					if(try_rename(handle, checkfile, filename)) {
 						errors++;
 					} else {
 						_alpm_log(handle, ALPM_LOG_WARNING, _("%s saved as %s\n"), filename, newpath);
@@ -355,11 +360,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
 							entryname_orig);
 
-					if(rename(checkfile, filename)) {
-						_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
-								checkfile, filename, strerror(errno));
-						alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
-								checkfile, filename, strerror(errno));
+					if(try_rename(handle, checkfile, filename)) {
 						errors++;
 					}
 				} else {
@@ -385,11 +386,8 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				_alpm_log(handle, ALPM_LOG_DEBUG, "action: keeping current file and installing"
 						" new one with .pacnew ending\n");
 				snprintf(newpath, PATH_MAX, "%s.pacnew", filename);
-				if(rename(checkfile, newpath)) {
-					_alpm_log(handle, ALPM_LOG_ERROR, _("could not install %s as %s (%s)\n"),
-							filename, newpath, strerror(errno));
-					alpm_logaction(handle, "error: could not install %s as %s (%s)\n",
-							filename, newpath, strerror(errno));
+				if(try_rename(handle, checkfile, newpath)) {
+					errors++;
 				} else {
 					_alpm_log(handle, ALPM_LOG_WARNING, _("%s installed as %s\n"),
 							filename, newpath);
