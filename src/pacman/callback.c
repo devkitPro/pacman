@@ -228,7 +228,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			printf(_("failed.\n"));
 			break;
 		case ALPM_EVENT_SCRIPTLET_INFO:
-			printf("%s", (char *)data1);
+			fputs((const char *)data1, stdout);
 			break;
 		case ALPM_EVENT_RETRIEVE_START:
 			printf(_(":: Retrieving packages from %s...\n"), (char *)data1);
@@ -495,7 +495,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 		alpm_list_t *i = NULL;
 		on_progress = 0;
 		for(i = output; i; i = i->next) {
-			printf("%s", (char *)i->data);
+			fputs((const char *)i->data, stdout);
 		}
 		fflush(stdout);
 		FREELIST(output);

@@ -359,22 +359,22 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 				printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
 							 alpm_pkg_get_version(pkg));
 			} else {
-				printf("%s", alpm_pkg_get_name(pkg));
+				fputs(alpm_pkg_get_name(pkg), stdout);
 			}
 
 			if(!config->quiet) {
 				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 					alpm_list_t *k;
-					printf(" (");
+					fputs(" (", stdout);
 					for(k = grp; k; k = alpm_list_next(k)) {
 						const char *group = k->data;
-						printf("%s", group);
+						fputs(group, stdout);
 						if(alpm_list_next(k)) {
 							/* only print a spacer if there are more groups */
-							printf(" ");
+							putchar(' ');
 						}
 					}
-					printf(")");
+					putchar(')');
 				}
 
 				print_installed(db_local, pkg);

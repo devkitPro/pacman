@@ -266,7 +266,7 @@ void indentprint(const char *str, size_t indent)
 	/* if we're not a tty, or our tty is not wide enough that wrapping even makes
 	 * sense, print without indenting */
 	if(cols == 0 || indent > cols) {
-		printf("%s", str);
+		fputs(str, stdout);
 		return;
 	}
 
@@ -623,7 +623,7 @@ void list_display(const char *title, const alpm_list_t *list)
 		const unsigned short maxcols = getcols();
 		size_t cols = len;
 		const char *str = list->data;
-		printf("%s", str);
+		fputs(str, stdout);
 		cols += string_length(str);
 		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
 			str = i->data;
@@ -641,10 +641,10 @@ void list_display(const char *title, const alpm_list_t *list)
 				printf("  ");
 				cols += 2;
 			}
-			printf("%s", str);
+			fputs(str, stdout);
 			cols += s;
 		}
-		printf("\n");
+		putchar('\n');
 	}
 }
 

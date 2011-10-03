@@ -252,11 +252,16 @@ void dump_pkg_files(alpm_pkg_t *pkg, int quiet)
 
 	for(i = 0; i < pkgfiles->count; i++) {
 		const alpm_file_t *file = pkgfiles->files + i;
+		/* Regular: '<pkgname> <root><filepath>\n'
+		 * Quiet  : '<root><filepath>\n'
+		 */
 		if(!quiet) {
-			fprintf(stdout, "%s %s%s\n", pkgname, root, file->name);
-		} else {
-			fprintf(stdout, "%s%s\n", root, file->name);
+			fputs(pkgname, stdout);
+			putchar(' ');
 		}
+		fputs(root, stdout);
+		fputs(file->name, stdout);
+		putchar('\n');
 	}
 
 	fflush(stdout);
@@ -281,10 +286,10 @@ void dump_pkg_changelog(alpm_pkg_t *pkg)
 				/* if we hit the end of the file, we need to add a null terminator */
 				*(buf + ret) = '\0';
 			}
-			printf("%s", buf);
+			fputs(buf, stdout);
 		}
 		alpm_pkg_changelog_close(pkg, fp);
-		printf("\n");
+		putchar('\n');
 	}
 }
 

@@ -208,7 +208,7 @@ static void usage(int op, const char * const myname)
 	}
 	list = alpm_list_msort(list, alpm_list_count(list), options_cmp);
 	for (i = list; i; i = alpm_list_next(i)) {
-		printf("%s", (const char *)i->data);
+		fputs((const char *)i->data, stdout);
 	}
 	alpm_list_free(list);
 #undef addlist
