@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-06 16:45+0000\n"
+"PO-Revision-Date: 2011-09-29 10:50+0000\n"
 "Last-Translator: rafaelff1 <rafael.f.f1@gmail.com>\n"
 "Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/pt_BR/)\n"
@@ -86,9 +86,9 @@ msgstr "não foi possível obter o diretório de trabalho atual\n"
 msgid "could not change directory to %s (%s)\n"
 msgstr "não foi possível mudar para o diretório %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "não foi possível obter o diretório de trabalho atual\n"
+msgstr "Falha em recuperar diretório de trabalho (%s)\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -171,7 +171,7 @@ msgstr "não foi possível remover o arquivo de trava %s\n"
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr ""
-"não foi possível analisar arquivo de descrição de pacote '%s' do banco de "
+"não foi possível analisar arquivo de descrição de pacote '%s' da base de "
 "dados '%s'\n"
 
 #, c-format
@@ -224,10 +224,10 @@ msgstr "não foi possível determinar o ponto de montagem da raiz %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Partição %s está montada somente para leitura\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr ""
-"A partição %s está cheia: %ld bloco(s) necessário(s), %ld bloco(s) livre(s)\n"
+"Partição %s está cheia: %jd blocos necessários, %jd blocos disponíveis\n"
 
 #, c-format
 msgid "disk"
@@ -315,11 +315,11 @@ msgstr "não foi possível encontrar a base de dados"
 
 #, c-format
 msgid "invalid or corrupted database"
-msgstr "banco de dados inválido ou corrompido"
+msgstr "base de dados inválida ou corrompida"
 
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr "banco de dados inválido ou corrompido (assinatura PGP)"
+msgstr "base de dados inválida ou corrompida (assinatura PGP)"
 
 #, c-format
 msgid "database is incorrect version"
@@ -465,9 +465,9 @@ msgstr "erro ao chamar o programa de download externo"
 msgid "unexpected error"
 msgstr "erro inesperado"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "não foi possível ler ou escrever o pacote"
+msgstr "falha em carregar completamente os metadados para o pacote %s-%s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -581,6 +581,7 @@ msgstr "comando não executado corretamente\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "cache %s não existe, criando...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "não foi possível criar cache de pacotes, usando /tmp em seu lugar\n"
+msgstr ""
+"falha em encontrar ou criar cache do pacote, usando %s em substituição.\n"

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-08-31 19:49+0000\n"
+"PO-Revision-Date: 2011-09-27 16:48+0000\n"
 "Last-Translator: Wiseacre <ted.korostiled@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/uk/)\n"
@@ -56,9 +56,9 @@ msgstr "оновлення %s...\n"
 msgid "checking package integrity...\n"
 msgstr "перевіряння цілісності пакунків…\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "loading package files...\n"
-msgstr "перевіряння цілісності пакунків…\n"
+msgstr "завантаження файлів пакунка…\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -128,9 +128,9 @@ msgstr[0] "Пропустити верхній пакунок для цього 
 msgstr[1] "Пропустити верхні пакунки для цього оновлення?"
 msgstr[2] "Пропустити верхні пакунки для цього оновлення?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ":: %d забезпечень доступно для %s:\n"
+msgstr ":: Доступно %zd постачальників для %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -146,7 +146,7 @@ msgstr ""
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Імпортувати ключ PGP %s, «%s», створивши %s?"
 
 #, c-format
 msgid "installing"
@@ -174,7 +174,7 @@ msgstr "перевіряння цілісності пакунків"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "завантаження файлів пакунка"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -200,17 +200,19 @@ msgstr "виконання XferCommand: не вдалось зробити fork!
 msgid "could not rename %s to %s (%s)\n"
 msgstr "неможливо перейменувати %s на %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "неможливо досягнути до поточного робочого каталогу\n"
+msgstr "неможливо відновити робочий каталог (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr "файл налаштувань %s, рядок %d: каталог «%s» потребує значення\n"
+msgstr "файл налаштувань %s, рядок %d: недійсне значення для «%s» : «%s»\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "файл налаштувань %s, рядок %d: погана назва секції.\n"
+msgstr ""
+"файл налаштувань %s, рядок %d: недійсний параметр «%s», без підтримування "
+"підписів\n"
 
 #, c-format
 msgid ""
@@ -218,9 +220,9 @@ msgid ""
 msgstr ""
 "файл налаштувань %s, рядок %d: каталог «%s» у секції «%s» не розпізнано.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "Дзеркало «%s» містить змінну $arch, але архітектуру не визначено\n"
+msgstr "дзеркало «%s» містить змінну «%s», але не визначено «%s».\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -246,7 +248,7 @@ msgstr "проблемне налаштування gpgdir «%s» (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "не налаштовано «%s»"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -694,11 +696,11 @@ msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "      --noscriptlet    не виконувати скрипт встановлення, якщо він є\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "      --print          показати цілі замість виконання операцій\n"
+msgstr "-p, --print показати цілі замість виконання роботи\n"
 
 #, c-format
 msgid ""
@@ -773,9 +775,9 @@ msgstr "тільки одна операція може використовув
 msgid "invalid option\n"
 msgstr "неправильний параметр\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr "Переривання буфера виявлено у розпізнанні arg\n"
+msgstr "вичерпано пам'ять у аналізуванні аргументу\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -821,23 +823,23 @@ msgstr "неможливо визначити справжній шлях до �
 msgid "No package owns %s\n"
 msgstr "Жоден пакунок не є власником %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "group '%s' was not found\n"
-msgstr "групу\"«%s» не знайдено\n"
+msgstr "групу «%s» не знайдено\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %d загальний файл, "
-msgstr[1] "%s: %d загальних файла, "
-msgstr[2] "%s: %d загальний файлів, "
+msgstr[0] "%s: %jd загальний файл, "
+msgstr[1] "%s: %jd загальних файла, "
+msgstr[2] "%s: %jd загальних файлів, "
 
-#, fuzzy, c-format
+#, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] "бракує %d файла\n"
-msgstr[1] "бракує %d файлів\n"
-msgstr[2] "бракує %d файлів\n"
+msgstr[0] "бракує %jd файл\n"
+msgstr[1] "бракує %jd файла\n"
+msgstr[2] "бракує %jd файлів\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -845,11 +847,11 @@ msgstr "пакунок «%s» не знайдено\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "«%s» — файл, можливо, ви хотіли скористатись %s.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not load package '%s': %s\n"
-msgstr "неможливо вказати причини встановлення для пакунка %s (%s)\n"
+msgstr "неможливо завантажити пакунок «%s»: %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -991,7 +993,7 @@ msgstr "Базу даних не знайдено: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "«%s» — файл, може, ви мали на увазі %s, а не %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1045,9 +1047,9 @@ msgstr ""
 ":: Бажаєте скасувати операцію\n"
 ":: та оновити ці пакунки зараз?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "loading packages...\n"
-msgstr "звантаження %s...\n"
+msgstr "завантаження пакунків…\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1097,9 +1099,9 @@ msgstr "Неправильний"
 msgid "Key unknown"
 msgstr "Невідомий ключ"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Key disabled"
-msgstr "Ключ утрати силу"
+msgstr "Ключ вимкнено"
 
 #, c-format
 msgid "Signature error"
@@ -1236,18 +1238,3 @@ msgstr "помилка: "
 #, c-format
 msgid "warning: "
 msgstr "попередження: "
-
-#~ msgid "could not change directory to %s (%s)\n"
-#~ msgstr "неможливо змінити каталог на %s (%s)\n"
-
-#~ msgid "invalid value for 'SigLevel' : '%s'\n"
-#~ msgstr "неправильне значення для «SigLevel» : «%s»\n"
-
-#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
-#~ msgstr "неправильне значення для «CleanMethod» : «%s»\n"
-
-#~ msgid "package \"%s\" not found\n"
-#~ msgstr "пакунок «%s» не знайдено\n"
-
-#~ msgid "{Key Unknown}"
-#~ msgstr "{Невідомий ключ}"

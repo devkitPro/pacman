@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-08-15 21:10+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-10-02 12:53+0000\n"
+"Last-Translator: ras0ir <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/tr/)\n"
 "Language: tr\n"
@@ -52,9 +52,9 @@ msgstr "%s güncelleniyor...\n"
 msgid "checking package integrity...\n"
 msgstr "paket bütünlüğü doğrulanıyor...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "loading package files...\n"
-msgstr "paket bütünlüğü doğrulanıyor...\n"
+msgstr "paket dosyaları yükleniyor...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -119,9 +119,9 @@ msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Bu yükseltme için yukarıdaki paketleri atlamak istiyor musunuz?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ":: %d adet sağlayıcı paket %s için kullanılabilir:\n"
+msgstr ":: Toplam %zd sağlayıcı %s için mevcut:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -133,10 +133,14 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: %s dosyası bozuk (%s).\n"
+"Silinmesini istiyor musunuz?"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
 msgstr ""
+"::  %s, \"%s\" tarafından imzalanan, %s tarihinde oluşturulan PGP anahtarını "
+"içeri aktarmak istiyor musunuz?"
 
 #, c-format
 msgid "installing"
@@ -164,7 +168,7 @@ msgstr "paket bütünlüğü kontrol ediliyor"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "paket dosyaları yükleniyor"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -188,30 +192,29 @@ msgstr "XferCommand çalıştırılıyor: çatallanma başarısız!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "%s ismi %s olarak değiştirilemedi (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "mevcut çalışma dizini alınamadı\n"
+msgstr "çalışma dizini geri konulamadı (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
-"yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
+msgstr "%s yapılandırma dosyası, satır %d: '%s' için geçersiz değer: '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "ayar dosyası %s, satır %d: hatalı bölüm adı.\n"
+msgstr ""
+"%s yapılandırma dosyası, satır %d: '%s' seçeneği geçersiz, imza desteği yok\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "ayar dosyası %s, satır %d: '%s' direktifi '%s' bölümü için geçersiz.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
-"'%s' yansısı $arch değişkenini barındırıyor, fakat mimari belirtilmedi.\n"
+msgstr "'%s' yansısı '%s' değişkenini içeriyor fakat '%s' tanımlı değil.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -231,11 +234,11 @@ msgstr "kayıt dosyasını '%s' (%s) ayarlama sorunu\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "'%s' gpg dizini ayarlanırken sorun oluştu (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "herhangi bir '%s' yapılandırılmamış"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -243,11 +246,13 @@ msgstr "veritabanı (%s) kaydedilemedi (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "'%s' yansısı '%s' veritabanına eklenemedi (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"yapılandırma yorumlaması izin verilen maksimum çözümleme değeri olan %d  "
+"değerini aştı.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -354,15 +359,15 @@ msgstr "Değiştirdiği Paket(ler)    :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "İndirme Boyutu  : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Sıkıştırılmış Boyut: %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Kurulan Boyut : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -402,11 +407,11 @@ msgstr "MD5 Çıktısı                :"
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "SHA256 Özeti                :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "İmzalar     :"
 
 #, c-format
 msgid "None"
@@ -481,7 +486,7 @@ msgid ""
 msgstr ""
 "  -s, --recursive      gereksiz bağımlılıkları\n"
 "kaldır\n"
-"                       (-ss includes explicitly installed dependencies)\n"
+"                       (-ss doğrudan kurulmuş bağımlılıkları da içerir)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -489,11 +494,12 @@ msgstr "  -u, --unneeded       gereksiz paketleri kaldır\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr ""
+msgstr "      --needed         güncel paketleri tekrar yükleme\n"
 
 #, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
 msgstr ""
+"      --recursive      hedef paketlerin tüm bağımlılıklarını yeniden kur\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -664,6 +670,8 @@ msgstr ""
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
+"      --dbonly         sadece veritabanı girdilerini değiştir, paket "
+"dosyalarını değiştirme\n"
 
 #, c-format
 msgid ""
@@ -675,13 +683,12 @@ msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "      --noscriptlet    kurulum betiği varsa çalıştırma\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          işlemi gerçekleştirmek yerine hedefleri ekrana "
-"yazdır\n"
+"  -p, --print          işlem gerçekleştirmek yerine hedefleri görüntüle\n"
 
 #, c-format
 msgid ""
@@ -721,7 +728,7 @@ msgstr "      --debug          hata ayıklama çıktılarını göster\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "      --gpgdir <yol>  GnuPG için alternatif ev dizini belirt\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -751,9 +758,9 @@ msgstr "her seferinde yalnızca bir işlem yapılabilir\n"
 msgid "invalid option\n"
 msgstr "hatalı seçenek\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr "veri işlenirken hafıza taşması meydana geldi\n"
+msgstr "parametre okunurken hafıza doldu\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -799,19 +806,19 @@ msgstr "'%s' için gerçek yol belirlenemedi: %s\n"
 msgid "No package owns %s\n"
 msgstr "%s hiçbir paket tarafından sahiplenilmiyor\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "group '%s' was not found\n"
-msgstr "\"%s\" grubu bulunamadı\n"
+msgstr "'%s' grubu bulunamadı\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %d toplam dosya, "
+msgstr[0] "%s: %jd toplam dosya, "
 
-#, fuzzy, c-format
+#, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] "%d kayıp dosya\n"
+msgstr[0] "%jd kayıp dosya\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -819,11 +826,11 @@ msgstr "'%s' paketi bulunamadı\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' bir dosya, %s kullanmak isteyebilirsiniz.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not load package '%s': %s\n"
-msgstr "%s paketi için kurulum sebebi ayarlanamadı (%s)\n"
+msgstr "'%s' paketi yüklenemedi: %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -963,7 +970,7 @@ msgstr "veritabanı bulunamadı: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%1$s' bir dosya, %3$s yerine %2$s mi demek istediniz?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1017,9 +1024,9 @@ msgstr ""
 ":: Yürütülen işlemi şimdi durdurup\n"
 ":: yeni sürümün yüklenmesini ister misiniz?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "loading packages...\n"
-msgstr "%s indiriliyor...\n"
+msgstr "paketler yükleniyor...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1043,59 +1050,59 @@ msgstr "kullanılabilir bir paket deposu tanımlanmamış.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "'%s' veritabanı geçerli değil (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "tablo görünümü için yetersiz sütunlar var\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Geçerli"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Anahtarın süresi dolmuş"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Süresi dolmuş"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Geçersiz"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Anahtar bilinmiyor"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Anahtar etkin değil"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "İmza hatası"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "tam güvenilir"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "güvenilir sayılır"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "asla güvenilmez"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "bilinmeyen"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s \"%s\" tarafından"
 
 #, c-format
 msgid "failed to allocate string\n"
@@ -1103,19 +1110,19 @@ msgstr "dizgi tahsis edilemedi\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "İsim"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Eski Sürüm"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Yeni Sürüm"
 
 #, c-format
 msgid "Size"
-msgstr ""
+msgstr "Boyut"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1127,19 +1134,19 @@ msgstr "Kaldır (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Toplam İndirme Boyutu:    %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Toplam Kaplayacağı Alan:   %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Net Güncelleme Boyutu:       %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Toplam Silinecek Alan:   %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1208,12 +1215,3 @@ msgstr "hata: "
 #, c-format
 msgid "warning: "
 msgstr "uyarı: "
-
-#~ msgid "could not change directory to %s (%s)\n"
-#~ msgstr "%s dizinine geçilemedi (%s)\n"
-
-#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
-#~ msgstr "'CleanMethod' için geçersiz değer : '%s'\n"
-
-#~ msgid "package \"%s\" not found\n"
-#~ msgstr "\"%s\" paketi bulunamadı\n"

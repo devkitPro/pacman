@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-06 05:55+0000\n"
+"PO-Revision-Date: 2011-09-23 09:48+0000\n"
 "Last-Translator: jiehong <ma.jiehong@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fr/)\n"
@@ -85,9 +85,9 @@ msgstr "déterminer le répertoire courant a échoué\n"
 msgid "could not change directory to %s (%s)\n"
 msgstr "changer de répertoire vers %s a échoué (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "déterminer le répertoire courant a échoué\n"
+msgstr "Impossible de restaurer le répertoire de travail (%s)\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -221,11 +221,9 @@ msgstr "impossible de déterminer le point de montage de la racine %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "La partition %s est en lecture seule\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
-"La partition %s n'a pas assez d'espace libre : besoin de %ld blocs mais "
-"seulement %ld libres\n"
+msgstr "La partition %s est pleine : %jd blocs nécessaires, %jd blocs libres\n"
 
 #, c-format
 msgid "disk"
@@ -465,9 +463,11 @@ msgstr "erreur en invoquant le client externe de téléchargement"
 msgid "unexpected error"
 msgstr "erreur non prévue"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "impossible de trouver ou de lire le paquet"
+msgstr ""
+"Les métadonnées pour le paquet %s-%s n'ont pas pu êtres totalement "
+"chargées.\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -581,6 +581,8 @@ msgstr "la commande n'a pas pu être exécutée correctement\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "le cache %s n'existe pas, création…\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "n'a pas pu créer le cache de paquets, /tmp sera utilisé à la place\n"
+msgstr ""
+"Impossible de trouver ou de créer le cache des paquets, utilisation de %s à "
+"la place\n"

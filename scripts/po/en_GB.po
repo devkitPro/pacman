@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-08-15 21:10+0000\n"
+"PO-Revision-Date: 2011-09-23 14:05+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en_GB\n"
@@ -111,21 +111,17 @@ msgstr "SIGNATURE NOT FOUND"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "SOURCE FILE NOT FOUND"
 
-#, fuzzy
 msgid "unknown public key"
-msgstr "Unknown public key"
+msgstr "unknown public key"
 
-#, fuzzy
 msgid "the key has been revoked."
-msgstr "Warning: the key has been revoked."
+msgstr "the key has been revoked."
 
-#, fuzzy
 msgid "the signature has expired."
-msgstr "Warning: the signature has expired."
+msgstr "the signature has expired."
 
-#, fuzzy
 msgid "the key has expired."
-msgstr "Warning: the key has expired."
+msgstr "the key has expired."
 
 msgid "One or more PGP signatures could not be verified!"
 msgstr "One or more PGP signatures could not be verified!"
@@ -401,11 +397,10 @@ msgstr ""
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Install missing dependencies with %s"
 
-#, fuzzy
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"  --source         Generate a source-only tarball without downloaded sources"
+"  -S, --source     Generate a source-only tarball without downloaded sources"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -644,33 +639,28 @@ msgstr "Done."
 msgid "Manage pacman's list of trusted keys"
 msgstr "Manage pacman's list of trusted keys"
 
-#, fuzzy
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
-msgstr "  -a, --add [<file(s)>]     Add the specified keys (empty for stdin)"
+msgstr "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   Remove the specified keyids"
 
-#, fuzzy
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
-msgstr "  -e, --export [<keyid(s)>] Export the specified or all keyids"
+msgstr "  -e, --export [keyid(s)]   Export the specified or all keyids"
 
-#, fuzzy
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger [<keyid(s)>] List fingerprint for specified or all keyids"
+"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Show this help message and exit"
 
-#, fuzzy
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
-msgstr "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgstr "  -l, --list-keys [keyid(s)] List the specified or all keys"
 
-#, fuzzy
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr "  -r, --receive <keyserver> <keyid(s)> Fetch the specified keyids"
+msgstr "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            Update the trustdb of pacman"
@@ -716,25 +706,25 @@ msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr "  --init                    Ensure the keyring is properly initialised"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr ""
+msgstr "  --keyserver               Specify a keyserver to use if necessary"
 
-#, fuzzy
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr "  --list-sigs [<keyid(s)>]  List keys and their signatures"
+msgstr "  --list-sigs [keyid(s)]    List keys and their signatures"
 
-#, fuzzy
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr "  -d, --delete <keyid(s)>   Remove the specified keyids"
+msgstr "  --lsign-key <keyid>       Locally sign the specified keyid"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
 
-#, fuzzy
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
-msgstr "  -l, --list-keys [<keyid(s)>] List the specified or all keys"
+msgstr ""
+"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr "You do not have sufficient permissions to read the %s keyring..."
@@ -746,50 +736,43 @@ msgid "You do not have sufficient permissions to run this command..."
 msgstr "You do not have sufficient permissions to run this command..."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "There is no secret key available to sign with."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Use '%s' to generate a default secret key."
 
-#, fuzzy
 msgid "Verifying %s..."
-msgstr "Adding %s..."
+msgstr "Verifying %s..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "File %s is unsigned, cannot continue."
 
 msgid "The signature of file %s is not valid."
 msgstr "The signature of file %s is not valid."
 
-#, fuzzy
 msgid "Verifying keyring file signatures..."
-msgstr "Verifying deleted keys file signature..."
+msgstr "Verifying keyring file signatures..."
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "No keyring files exist in %s."
 
-#, fuzzy
 msgid "The keyring file %s does not exist."
-msgstr "The key identified by %s does not exist"
+msgstr "The keyring file %s does not exist."
 
-#, fuzzy
 msgid "Appending keys from %s.gpg..."
-msgstr "Appending official keys..."
+msgstr "Appending keys from %s.gpg..."
 
-#, fuzzy
 msgid "Locally signing trusted keys in keyring..."
-msgstr "Removing deleted keys from keyring..."
+msgstr "Locally signing trusted keys in keyring..."
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Locally signing key %s..."
 
-#, fuzzy
 msgid "Disabling revoked keys in keyring..."
-msgstr "Removing deleted keys from keyring..."
+msgstr "Disabling revoked keys in keyring..."
 
-#, fuzzy
 msgid "Disabling key %s..."
-msgstr "Tar'ing up %s..."
+msgstr "Disabling key %s..."
 
 msgid "The key identified by %s does not exist"
 msgstr "The key identified by %s does not exist"
@@ -1033,7 +1016,7 @@ msgid "Computing checksums..."
 msgstr "Computing checksums..."
 
 msgid "Adding package signature..."
-msgstr ""
+msgstr "Adding package signature..."
 
 msgid "Creating '%s' db entry..."
 msgstr "Creating '%s' db entry..."
@@ -1103,18 +1086,3 @@ msgstr "option %s requires an argument\\n"
 
 msgid "unrecognized option"
 msgstr "unrecognised option"
-
-#~ msgid "  --reload                  Reload the default keys"
-#~ msgstr "  --reload                  Reload the default keys"
-
-#~ msgid "Verifying official keys file signature..."
-#~ msgstr "Verifying official keys file signature..."
-
-#~ msgid "Verifying deprecated keys file signature..."
-#~ msgstr "Verifying deprecated keys file signature..."
-
-#~ msgid "Appending deprecated keys..."
-#~ msgstr "Appending deprecated keys..."
-
-#~ msgid "You need to specify the keyserver and at least one key identifier"
-#~ msgstr "You need to specify the keyserver and at least one key identifier"

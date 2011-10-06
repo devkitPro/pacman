@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-08-15 21:10+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-10-03 19:19+0000\n"
+"Last-Translator: knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/uk/)\n"
 "Language: uk\n"
@@ -29,7 +30,7 @@ msgid "Cleaning up..."
 msgstr "Очищення..."
 
 msgid "Entering %s environment..."
-msgstr ""
+msgstr "Входжу в середовище %s"
 
 msgid "Unable to find source file %s."
 msgstr "Неможливо знайти вихідний файл %s."
@@ -78,6 +79,8 @@ msgstr "Генерування контрольних сум для вихідн
 
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr ""
+"Не можу знайти бінарний файл %s, необхідний для генерації контрольної суми "
+"джерельного файлу."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Вказано невірний алгоритм цілісності '%s'."
@@ -104,43 +107,43 @@ msgid "Integrity checks are missing."
 msgstr "Перевірки цілісності відсутні."
 
 msgid "Verifying source file signatures with %s..."
-msgstr ""
+msgstr "Перевірка підпису джерельного файлу з %s..."
 
 msgid "SIGNATURE NOT FOUND"
-msgstr ""
+msgstr "ПІДПИС НЕ ЗНАЙДЕНО"
 
 msgid "SOURCE FILE NOT FOUND"
-msgstr ""
+msgstr "ДЖЕРЕЛЬНИЙ ФАЙЛ НЕ ЗНАЙДЕНО"
 
 msgid "unknown public key"
-msgstr ""
+msgstr "невідомий публічний ключ"
 
 msgid "the key has been revoked."
-msgstr ""
+msgstr "ключ був відкликаний."
 
 msgid "the signature has expired."
-msgstr ""
+msgstr "час підпису закінчився."
 
 msgid "the key has expired."
-msgstr ""
+msgstr "час дії ключа закінчився."
 
 msgid "One or more PGP signatures could not be verified!"
-msgstr ""
+msgstr "Один або кілька PGP-підписів неможливо перевірити!"
 
 msgid "Warnings have occurred while verifying the signatures."
-msgstr ""
+msgstr "Виникли попередження при перевірці підписів."
 
 msgid "Please make sure you really trust them."
-msgstr ""
+msgstr "Будь ласка, переконайтеся, що Ви дійсно довіряєте їм."
 
 msgid "Skipping all source file integrity checks."
-msgstr ""
+msgstr "Пропускаю всі перевірки цілісності джерельних файлів."
 
 msgid "Skipping verification of source file checksums."
-msgstr ""
+msgstr "Пропуск перевірки контрольної суми вихідного файлу."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr ""
+msgstr "Пропуск перевірки PGP підпису джерельного файлу."
 
 msgid "Extracting Sources..."
 msgstr "Розпаковування файлів..."
@@ -152,7 +155,7 @@ msgid "Failed to extract %s"
 msgstr "Не вдалося розпакувати %s"
 
 msgid "A failure occurred in %s()."
-msgstr ""
+msgstr "Стався збій у %s()."
 
 msgid "Starting %s()..."
 msgstr "Початок %s()..."
@@ -164,7 +167,7 @@ msgid "Removing doc files..."
 msgstr "Вилучення файлів doc..."
 
 msgid "Purging unwanted files..."
-msgstr ""
+msgstr "Очищення непотрібних файлів..."
 
 msgid "Compressing man and info pages..."
 msgstr "Стиснення сторінок man/info..."
@@ -173,43 +176,43 @@ msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Вилучення непотрібних символів з бінарних файлів та бібліотек..."
 
 msgid "Removing %s files..."
-msgstr ""
+msgstr "Видалення %s файлів..."
 
 msgid "Removing empty directories..."
 msgstr "Вилучення порожніх каталогів..."
 
 msgid "Compressing binaries with %s..."
-msgstr ""
+msgstr "Компресія бінарників з %s..."
 
 msgid "Could not compress binary : %s"
-msgstr ""
+msgstr "Не вдалося стиснути бінарний файл: %s."
 
 msgid "Generating %s file..."
-msgstr ""
+msgstr "Створюю файл %s..."
 
 msgid "Cannot find library listed in %s: %s"
-msgstr ""
+msgstr "Не можу знайти бібліотеки, згадані в %s: %s"
 
 msgid "Please add a license line to your %s!"
 msgstr "Будь-ласка, додайте рядок ліцензії до вашого %s!"
 
 msgid "Example for GPL'ed software: %s."
-msgstr ""
+msgstr "Приклад для софту з ліцензією GPL: %s."
 
 msgid "%s entry file not in package : %s"
-msgstr ""
+msgstr "Вхідний файл %s не міститься в пакунку: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Пакунок не містить згадки про %s"
 
 msgid "Missing %s directory."
-msgstr ""
+msgstr "Пропущено теку %s"
 
 msgid "Creating package..."
 msgstr "Створення пакунка..."
 
 msgid "Adding %s file..."
-msgstr ""
+msgstr "Додаю файл %s..."
 
 msgid "Compressing package..."
 msgstr "Стиснення пакунка..."
@@ -224,13 +227,13 @@ msgid "Failed to create symlink to package file."
 msgstr "Не вдалося створити посилання на файл пакунку."
 
 msgid "Signing package..."
-msgstr ""
+msgstr "Підписання пакету ..."
 
 msgid "Created signature file %s."
-msgstr ""
+msgstr "Створюю файл підпису %s."
 
 msgid "Failed to sign package file."
-msgstr ""
+msgstr "Не вдалося підписати файл пакунку."
 
 msgid "Creating source package..."
 msgstr "Створення пакунку вихідних файлів..."
@@ -248,13 +251,13 @@ msgid "Failed to create source package file."
 msgstr "Не вдалося створити файл вихідного пакунку."
 
 msgid "Failed to create symlink to source package file."
-msgstr ""
+msgstr "Не вдалося створити символічне посилання на вихідний файл пакунку."
 
 msgid "Installing package %s with %s..."
-msgstr ""
+msgstr "Встановлюю фай пакунку %s з %s..."
 
 msgid "Installing %s package group with %s..."
-msgstr ""
+msgstr "Встановлюю групу пакунків %s з %s..."
 
 msgid "Failed to install built package(s)."
 msgstr "Не вдалося встановити зібрані пакунки."
@@ -266,13 +269,13 @@ msgid "%s is not allowed to start with a hyphen."
 msgstr "%s не повинен починатися з дефіса."
 
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr ""
+msgstr "%s не дозволяє містити двокрапки, тире або пробіли."
 
 msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr ""
+msgstr "%s не дозволяє містити двокрапки або пробіли."
 
 msgid "%s must be an integer."
-msgstr ""
+msgstr "%s повинно бути цілим числом."
 
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s немає для архітектури '%s'."
@@ -281,28 +284,28 @@ msgid "Note that many packages may need a line added to their %s"
 msgstr "Зверніть увагу, що багато пакунків потребують додання рядка до їх %s"
 
 msgid "such as %s."
-msgstr ""
+msgstr "таким як %s."
 
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr ""
+msgstr "Масив %s не дозволяє містити оператори порівняння (< або >)."
 
 msgid "%s entry should not contain leading slash : %s"
-msgstr ""
+msgstr "Запис %s не повинен містити слеш: %s."
 
 msgid "Invalid syntax for %s : '%s'"
-msgstr ""
+msgstr "Невірний синтаксис для %s: '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "файл %s (%s) не існує."
 
 msgid "%s array contains unknown option '%s'"
-msgstr ""
+msgstr "Масив %s містить невідомі опції '%s'"
 
 msgid "Missing %s function for split package '%s'"
-msgstr ""
+msgstr "Відсутня функція %s для поділу пакунка '%s'"
 
 msgid "Requested package %s is not provided in %s"
-msgstr ""
+msgstr "Шуканий пакунок %s не міститься в %s."
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
@@ -310,37 +313,43 @@ msgstr ""
 "su."
 
 msgid "Cannot find the %s binary required for building as non-root user."
-msgstr ""
+msgstr "Не можу знайти бінарник %s для будови від імені не супер-користувача."
 
 msgid "Cannot find the %s binary required for signing packages."
-msgstr ""
+msgstr "Не можу знайти бінарник %s, який вимагається для підписання пакунків."
 
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr ""
+msgstr "Не можу знайти бінарник %s, потрібний для перевірки джерельних файлів."
 
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
+"Не можу знайти бінарник %s, потрібний для перевірки контрольних сум "
+"джерельних файлів."
 
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr ""
+msgstr "Не можу знайти бінарник %s, потрібний для стиснення бінарних файлів."
 
 msgid "Cannot find the %s binary required for distributed compilation."
-msgstr ""
+msgstr "Не можу знайти бінарник %s, потрібний для розподіленої компіляції."
 
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
+"Не можу знайти бінарник %s, потрібний для використання кешу компілятором."
 
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr ""
+msgstr "Не можу знайти бінарник %s, потрібний для зачистки об'єктних файлів."
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
+"Не можу знайти бінарник %s, потрібний для стиснення довідки man і сторінок "
+"інформації."
 
 msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
+"Не можу знайти бінарник %s, потрібний для визначення останньої ревізії %s."
 
 msgid "Determining latest %s revision..."
-msgstr ""
+msgstr "Визначення останнього перегляду %s..."
 
 msgid "Version found: %s"
 msgstr "Знайдена версія: %s"
@@ -352,7 +361,7 @@ msgid "Options:"
 msgstr "Опції:"
 
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
-msgstr ""
+msgstr "  -A, --ignorearch Ігнорувати незаповнене поле %s у %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Очистити робочі файли після збірки"
@@ -362,6 +371,8 @@ msgstr "  -d, --nodeps     Пропускати всі перевірки зал
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
+"  -e, --noextract  Не розпаковувати джерельні файли (використати існуючу "
+"теку %s)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Перезаписати існуючий пакунок"
@@ -370,7 +381,7 @@ msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Згенерувати перевірки цілісності вихідних файлів"
 
 msgid "  -h, --help       Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help       Показати це повідомлення і вийти"
 
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Встановити пакунок після успішного збирання"
@@ -397,13 +408,13 @@ msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Перепакувати вміст пакунка без збирання"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
-msgstr ""
+msgstr "  -s, --syncdeps   Встановити пропущені залежності з %s"
 
-#, fuzzy
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"  --source         Генерувати пакунок вихідного коду, крім завантаженого"
+"  -S, --source     Згенерувати архів tar тільки з вихідними файлами без "
+"завантажених джерельних файлів"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -412,10 +423,10 @@ msgstr ""
 "  --allsource      Генерувати пакунок вихідного коду, включно із завантаженим"
 
 msgid "  --asroot         Allow %s to run as root user"
-msgstr ""
+msgstr "  --asroot         Дозволити запускати %s від імені суперкористувача"
 
 msgid "  --check          Run the %s function in the %s"
-msgstr ""
+msgstr "  --check          Запустити функцію %s в %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
@@ -424,36 +435,40 @@ msgstr ""
 msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
+"  --holdver        Надавати перевагу версії вказаній в пакунку замість "
+"версії в ревізії %ss"
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  --key <key>      Визначити ключ для використання для підпису %s замість "
+"типового ключа"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
-msgstr ""
+msgstr "  --nocheck        Не запускати функцію %s в %s"
 
 msgid "  --nosign         Do not create a signature for the package"
-msgstr ""
+msgstr "  --nosign         Не створювати підпис для пакунку"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Тільки зібрати вказані пакунки з розділеного пакунку"
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr ""
+msgstr "  --sign           Підписати вихідний пакунок з %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr ""
+msgstr "  --skipchecksums  Не перевіряти контрольну суму джерельних файлів"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
-msgstr ""
+msgstr "  --skipinteg      Не проводити жодної перевірки джерельних файлів"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr ""
+msgstr "  --skippgpcheck   Не перевіряти джерельні файли з підписами PGP"
 
 msgid "These options can be passed to %s:"
-msgstr ""
+msgstr "Ці параметри можуть бути передані до %s:"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -466,7 +481,7 @@ msgstr ""
 "файлів"
 
 msgid "If %s is not specified, %s will look for '%s'"
-msgstr ""
+msgstr "Якщо %s не вказано, %s буде шукати '%s'"
 
 msgid ""
 "Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
@@ -474,12 +489,17 @@ msgid ""
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Права застережено (c) 2006-2011 Pacman Development Team <pacman-"
+"dev@archlinux.org>.\\nПрава застережено (C) 2002-2006 Judd Vinet "
+"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
+"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by law."
+"\\n"
 
 msgid "%s not found."
 msgstr "%s не знайдено."
 
 msgid "You do not have write permission to create packages in %s."
-msgstr ""
+msgstr "У Вас немає прав на запис для створення пакетів в %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "У вас немає прав для того, щоб зберегти пакунки в %s."
@@ -488,61 +508,72 @@ msgid "You do not have write permission to store downloads in %s."
 msgstr "У вас немає прав для того, щоб зберегти завантаження в %s."
 
 msgid "\\0%s and %s cannot both be specified"
-msgstr ""
+msgstr "\\0%s і %s неможливо визначити"
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
 msgstr ""
+"Запуск %s з привілеями суперкористувача це ДУЖЕ ПОГАНА ІДЕЯ і може "
+"спричинити невідворотну,\\nкатастрофічну шкоду Вашій системі. Якщо Ви все "
+"таки бажаєте запустити від імені суперкористувача,\\nвикористайте параметр "
+"%s."
 
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
 "%s flag."
 msgstr ""
+"Параметр %s призначений тільки для суперкористувача. \\nПерезапустіть %s без "
+"вказівника %s."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
 msgstr ""
+"Запуск %s як непривілейований користувач може поміняти права доступу"
+"\\nфайлів пакунку. Спробуйте використати середовище %s \\nпоміщаючи %s в "
+"масив %s в %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr ""
+"Не використовуйте опцію %s. Ця опція доступна тільки для використання в %s."
 
 msgid "%s does not exist."
 msgstr "%s не існує."
 
 msgid "%s contains %s characters and cannot be sourced."
-msgstr ""
+msgstr "%s містить %s символи і не може бути отриманий."
 
 msgid "The key %s does not exist in your keyring."
-msgstr ""
+msgstr "Ключ %s не існує у Вашій зв’язці ключів."
 
 msgid "There is no key in your keyring."
-msgstr ""
+msgstr "Немає ключа у Вашій зв’язці ключів."
 
 msgid "A package has already been built, installing existing package..."
 msgstr "Пакунок уже був зібраний, встановлення існуючого пакунку..."
 
 msgid "A package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Пакет вже побудований. (Використайте %s для перезапису)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Група пакунків уже була зібрана, встановлення існуючих пакунків..."
 
 msgid "The package group has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Група пакунків вже побудована (використайте %s для перезапису)"
 
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
+"Частина групи пакпакунків вже побудовано. (Використовуєте %s для перезапису)"
 
 msgid "Leaving %s environment."
-msgstr ""
+msgstr "Залишаю середовище %s."
 
 msgid "Repackaging without the use of a %s function is deprecated."
-msgstr ""
+msgstr "Перепакування без використання функції %s є застарілим."
 
 msgid "File permissions may not be preserved."
 msgstr "Права доступу до файлів можуть бути не збережені."
@@ -551,7 +582,7 @@ msgid "Making package: %s"
 msgstr "Створення пакунка: %s"
 
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Вихідний пакунок вже побудований (використайте %s для перезапису)"
 
 msgid "Source package created: %s"
 msgstr "Вихідний пакунок створено: %s"
@@ -560,25 +591,30 @@ msgid "Skipping dependency checks."
 msgstr "Пропуск перевірок залежностей."
 
 msgid "Checking runtime dependencies..."
-msgstr ""
+msgstr "Перевірка залежностей запуску..."
 
 msgid "Checking buildtime dependencies..."
-msgstr ""
+msgstr "Перевірка залежностей для створення пакунку..."
 
 msgid "Could not resolve all dependencies."
 msgstr "Неможливо розв'язати усі залежності."
 
 msgid "%s was not found in %s; skipping dependency checks."
-msgstr ""
+msgstr "%s не знайдено в %s; пропускаю перевірку залежностей."
 
 msgid "Skipping source retrieval        -- using existing %s tree"
 msgstr ""
+"Пропускаю отримання джерельних файлів        -- використання існуючого "
+"дерева %s"
 
 msgid "Skipping source integrity checks -- using existing %s tree"
 msgstr ""
+"Пропуск перевірки цілісність джерела -- використання існуючого дерева %s."
 
 msgid "Skipping source extraction       -- using existing %s tree"
 msgstr ""
+"Пропускаю розпаковування джерельних файлів       -- використовую існуюче "
+"дерево %s"
 
 msgid "The source directory is empty, there is nothing to build!"
 msgstr "Каталог пакунка порожній, нема нічого для збирання!"
@@ -590,7 +626,7 @@ msgid "Sources are ready."
 msgstr "Вихідні файли готові."
 
 msgid "Removing existing %s directory..."
-msgstr ""
+msgstr "Видалення існуючої теки %s..."
 
 msgid "Finished making: %s"
 msgstr "Закінчено створення: %s"
@@ -603,177 +639,203 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Всі права застережено (c) 2010-2011 Pacman Development Team <pacman-"
+"dev@archlinux.org>.\\nThis is free software; see the source for copying "
+"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s не існує, або не є каталогом."
 
 msgid "%s is not a pacman database directory."
-msgstr ""
+msgstr "%s не є текою бази даних pacman."
 
 msgid "You must have correct permissions to upgrade the database."
-msgstr ""
+msgstr "Ви повинні мати відповідні дозволи для оновлення бази даних."
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr "Знайдений lock-файл. Поки Pacman працює - виконання неможливе."
 
 msgid "Pre-3.5 database format detected - upgrading..."
-msgstr ""
+msgstr "Виявлено перед-3.5 формат бази даних  - модернізація..."
 
 msgid "Done."
-msgstr ""
+msgstr "Зроблено."
 
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
+msgstr "Управління списком довірених ключів pacman"
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [файл(и)]       Додати вказані ключі (залишити пустим для "
+"вхідного потоку)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr ""
+msgstr "  -d, --delete <keyid(s)>   Вилучити вказані keyids"
 
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
+"  -e, --export [ідентифікатор_ключа(ів)]   Експорт вказаних або всіх ключів "
+"з таким ідентифікатором"
 
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [ідентифікатор_ключа(ів)]   Список відбитків для вказаних або "
+"всіх ключів з таким ідентифікатором"
 
 msgid "  -h, --help                Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help                Показати це повідомлення і вийти"
 
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
+"  -l, --list-keys  [ідентифікатор_ключа(ів)] Список вказаних або всіх ключів"
 
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 msgstr ""
+"  -r, --recv-keys <ідентифікатор_ключа(ів)> Отримати вказані ключі з таким "
+"ідентифікатором"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr ""
+msgstr "  -u, --updatedb            Оновити базу даних pacman’а"
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
-msgstr ""
+msgstr "  -v, --verify <підпис>  Перевірити файл визначений через підпис"
 
 msgid "  -V, --version             Show program version"
-msgstr ""
+msgstr "  -V, --version             Показати версію програми"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
+"  --config <file>           Використати альтернативний файл кнфігурації "
+"(замість\\n                            '%s')"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
 msgstr ""
+"  --edit-key <id ключа(ів)>     Показати меню для керування ключем з таким id"
 
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
+"  --gpgdir <dir>            Встановити альтернативну теку для GnuPG (замість"
+"\\n                            '%s')"
 
 msgid ""
 "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
 msgstr ""
+"  --import <тека(и)>         Імпортувати pubring.gpg і trustdb.gpg з теки"
+"(тек)"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
 "(s)"
 msgstr ""
+"  --import-trustdb <тека(и)> Імпортувати довірених власників з trustdb.gpg в "
+"теці(теках)"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
+"  --init                    Впевнитися що зв’язка ключів правильно "
+"ініціалізована"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr ""
+msgstr "  --keyserver               Вкажіть сервер ключів, якщо потрібно"
 
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr ""
+msgstr "  --list-sigs [ідентифікатор_ключа(ів)]    Список ключів і їх підписів"
 
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
 msgstr ""
+"  --lsign-key <ідентифікатор_ключа>       Локально підписати вказаний ключ з "
+"таким ідентифікатором"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [зв’язка(и)]   Перезавантажити типові ключі з (заданих) зв’язок"
+"\\n                            в '%s'"
 
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
+"  --refresh-keys [ідентифікатор_ключа(ів)] Оновити вказані або всі ключі з "
+"сервера ключів"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
-msgstr ""
+msgstr "У Вас немає достатньо прав для читання зв’язки ключів %s...."
 
 msgid "Use '%s' to correct the keyring permissions."
-msgstr ""
+msgstr "Використайте '%s' для виправлення прав доступу до зв’язки ключів."
 
 msgid "You do not have sufficient permissions to run this command..."
-msgstr ""
+msgstr "У Вас немає достатніх прав для виконання цієї команди ..."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Немає секретного ключа для підпису."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Використайте '%s' для створення типового секретного ключа."
 
-#, fuzzy
 msgid "Verifying %s..."
-msgstr "Долучення %s..."
+msgstr "Перевіряю %s..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "Файл %s не підписано, не можу продовжувати."
 
 msgid "The signature of file %s is not valid."
-msgstr ""
+msgstr "Підпис файлу %s є неприпустимим."
 
 msgid "Verifying keyring file signatures..."
-msgstr ""
+msgstr "Перевірка підпис файлу зв’язки ключів..."
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "Жодного файлу зв’язки ключів не існує в %s."
 
-#, fuzzy
 msgid "The keyring file %s does not exist."
-msgstr "файл %s (%s) не існує."
+msgstr "Файл зв’язки ключів %s не існує."
 
 msgid "Appending keys from %s.gpg..."
-msgstr ""
+msgstr "Додаю ключі з %s.gpg..."
 
 msgid "Locally signing trusted keys in keyring..."
-msgstr ""
+msgstr "Локально підписані довірені ключі у зв’язці..."
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Локально підписаний ключ %s..."
 
 msgid "Disabling revoked keys in keyring..."
-msgstr ""
+msgstr "Відключення скасованих ключів у зв’язці..."
 
-#, fuzzy
 msgid "Disabling key %s..."
-msgstr "Пакування %s..."
+msgstr "Відключення ключа %s..."
 
 msgid "The key identified by %s does not exist"
-msgstr ""
+msgstr "Ключ визначений через %s не існує"
 
 msgid "Cannot find the %s binary required for all %s operations."
-msgstr ""
+msgstr "Не можу знайти бінарник %s, який вимагається для всіх операцій %s."
 
 msgid "%s needs to be run as root for this operation."
-msgstr ""
+msgstr "%s повинен мати права суперкористувача для цієї операції."
 
 msgid "%s configuration file '%s' not found."
-msgstr ""
+msgstr "Файл конфігурації %s для '%s' не знайдено."
 
 msgid "no operation specified (use -h for help)"
-msgstr ""
+msgstr "не вказано операцію (використовуйте -h для довідки)"
 
 msgid "Multiple operations specified"
-msgstr ""
+msgstr "Вказано кілька операцій"
 
 msgid "Please run %s with each operation separately\\n"
-msgstr ""
+msgstr "Запустіть %s окремо з кожною операцією\\n"
 
 msgid "Updating trust database..."
-msgstr ""
+msgstr "Оновлення довірчої бази даних..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -803,7 +865,7 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Ви повинні мати коректні права, щоб оптимізувати базу даних."
 
 msgid "Can not create temp directory for database building."
-msgstr ""
+msgstr "Не можу створити тимчасову директорію для побудови бази даних."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Підрахунок суми MD5 старої бази даних..."
@@ -836,51 +898,58 @@ msgid "Finished. Your pacman database has been optimized."
 msgstr "Закінчено. Базу даних пакунків оптимізовано."
 
 msgid "Usage: pkgdelta [-q] <package1> <package2>\\n"
-msgstr ""
+msgstr "Використання: pkgdelta [-q] <пакунок1><пакунок2> \\n"
 
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
 msgstr ""
+"<span class=\"whitespace other\" title=\"Tab\">»</span>pkgdelta створить "
+"дельта-файл між двома пакетами.\\nЦей дельта-файл можна буде додати до бази "
+"даних за допомогою repo-add.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
-msgstr ""
+msgstr "Приклад:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
+"Всі права застережено (C) 2009 Ксавьє Чантри <shiningxc@gmail.com> . \\n "
+"\\nЦе є вільним програмним забезпеченням; перегляньте джерело для умов "
+"копіювання\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Невірний файл пакунка '%s'."
 
 msgid "The package names don't match : '%s' and '%s'"
-msgstr ""
+msgstr "Назви пакунків не відповідають один одному: '%s' і '%s'"
 
 msgid "The package architectures don't match : '%s' and '%s'"
-msgstr ""
+msgstr "Архітектури пакетів не співпадають: '%s' і '%s'"
 
 msgid "Both packages have the same version : '%s'"
-msgstr ""
+msgstr "Обидва пакунки мають ту саму версію: '%s'"
 
 msgid "Generating delta from version %s to version %s"
-msgstr ""
+msgstr "Генерую дельта з версії %s до версії %s"
 
 msgid "Delta could not be created."
-msgstr ""
+msgstr "Дельта не може бути створена."
 
 msgid "Generated delta : '%s'"
-msgstr ""
+msgstr "Згенеровано дельту: '%s'"
 
 msgid "File '%s' does not exist"
-msgstr ""
+msgstr "Файл '%s' не існує"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Неможливо знайти бінарний файл xdelta3! Чи xdelta3 встановлено?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
+"Використання: repo-add [параметри] <шлях-до-бази> <пакунок|дельта> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -890,16 +959,18 @@ msgstr ""
 "командному рядку може бути вказано кілька пакунків.\\n\\n"
 
 msgid "Options:\\n"
-msgstr ""
+msgstr "Опції:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
-msgstr ""
+msgstr "  -d, --delta       генерує і додає дельту для оновлення пакунка\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr ""
+msgstr "  -f, --files       оновлює список файлів бази дани\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
+"Використання: repo-remove [параметри] <шлях-до-бази> <назва пакунку|"
+"дельта> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -911,25 +982,27 @@ msgstr ""
 "бути вказано кілька пакунків.\\n\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
-msgstr ""
+msgstr "  -q, --quiet       зменшує вихідну інформацію\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr ""
+msgstr "  -s, --sign        підписати базу даних з GnuPG після оновлення\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
+"  -k, --key <ключ>   використати вибраний ключ для підпису бази даних\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr ""
+msgstr "  -v, --verify      перевірити підпис бази даних перед оновленням\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 "\\n"
-msgstr ""
+msgstr "\\nПерегляньте %s(8) для деталей і описів доступних параметрів.\\n\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
+"Приклад:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Приклад:  repo-remove /path/to/repo.db.tar.gz kernel26"
@@ -939,36 +1012,39 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Всі права застережено (c) 2006-2011 Команда розробників pacman <pacman-"
+"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
+"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "No database entry for package '%s'."
-msgstr ""
+msgstr "Немає запису в базі даних про пакунок: '%s'."
 
 msgid "Adding 'deltas' entry : %s -> %s"
-msgstr ""
+msgstr "Дадаю запис 'дельт' : %s -> %s"
 
 msgid "Removing existing entry '%s'..."
 msgstr "Вилучення існуючого запису '%s'..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr ""
+msgstr "Не можу знайти бінарник gpg! Чи GnuPG встановлено?"
 
 msgid "Signing database..."
-msgstr ""
+msgstr "Підписання бази даних..."
 
 msgid "Failed to sign package database."
-msgstr ""
+msgstr "Не вдалося підписати базу даних пакунків."
 
 msgid "Verifying database signature..."
-msgstr ""
+msgstr "Перевірка підписів бази даних..."
 
 msgid "No existing signature found, skipping verification."
-msgstr ""
+msgstr "Не знайдено існуючого підпису, пропускаю перевірку."
 
 msgid "Database signature file verified."
-msgstr ""
+msgstr "Підпис бази даних перевірено."
 
 msgid "Database signature was NOT valid!"
-msgstr ""
+msgstr "База даних підписів НЕ дійсна!"
 
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' не має вірного розширення архіву."
@@ -977,16 +1053,16 @@ msgid "An entry for '%s' already existed"
 msgstr "Запис для '%s' вже існував"
 
 msgid "Computing checksums..."
-msgstr ""
+msgstr "Обчислюю контрольні суми..."
 
 msgid "Adding package signature..."
-msgstr ""
+msgstr "Додаю підпис пакунку..."
 
 msgid "Creating '%s' db entry..."
-msgstr ""
+msgstr "Створюю запис '%s' в базі даних..."
 
 msgid "Old package file not found: %s"
-msgstr ""
+msgstr "Старий файл пакунку не знайдений: %s."
 
 msgid "Failed to acquire lockfile: %s."
 msgstr "Не вдалося отримати файл замкнення: %s."
@@ -1046,7 +1122,7 @@ msgid "No packages modified, nothing to do."
 msgstr "Жодні пакунки не були змінені, нема що робити."
 
 msgid "option %s requires an argument\\n"
-msgstr ""
+msgstr "параметр %s вимагає аргументу\\n"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "нерозпізнаний параметр"

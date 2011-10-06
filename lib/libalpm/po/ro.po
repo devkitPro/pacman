@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-08-10 13:54+0000\n"
+"PO-Revision-Date: 2011-10-04 18:06+0000\n"
 "Last-Translator: z0id <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/ro/)\n"
@@ -89,9 +89,9 @@ msgstr ""
 "nu s-a putut intra în directorul %s (%s)\n"
 "\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "nu s-a putut determina directorul de lucru curent\n"
+msgstr "nu s-a putut reveni la directorul de lucru curent (%s)\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -227,9 +227,9 @@ msgstr "nu s-a putut determina locul de montare al partiției root %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "partiția %s este montată numai citire\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Partiția %s e plină: %ld blocuri necesare, %ld blocuri disponibile\n"
+msgstr "Partiția %s prea plină: %jd blocuri necesare,%jd blocuri libere\n"
 
 #, c-format
 msgid "disk"
@@ -467,9 +467,9 @@ msgstr "eroare la invocarea descărcătorului extern"
 msgid "unexpected error"
 msgstr "eroare neașteptată"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "pachetul nu poate fi găsit sau citit"
+msgstr "nu s-au putut încărca complet metadatele pentru pachetul %s-%s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -583,6 +583,7 @@ msgstr "executarea corectă a comenzii a eșuat\n"
 msgid "no %s cache exists, creating...\n"
 msgstr "nu există cache %s, se crează...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "nu se poate crea cache pachet, se folosește /tmp în schimb\n"
+msgstr ""
+"nu s-a putut găsi sau creea cache pentru pachet; se folosește %s în schimb.\n"

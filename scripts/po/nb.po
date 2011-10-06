@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Jon Gjengset <jon@thesquareplanet.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-08-15 21:10+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-09-25 20:12+0000\n"
+"Last-Translator: Jonhoo <jon@thesquareplanet.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/nb/)\n"
 "Language: nb\n"
@@ -28,7 +29,7 @@ msgid "Cleaning up..."
 msgstr "Rydder opp ..."
 
 msgid "Entering %s environment..."
-msgstr ""
+msgstr "Går inn i %s miljøet..."
 
 msgid "Unable to find source file %s."
 msgstr "Fant ikke kildefilen %s."
@@ -77,6 +78,8 @@ msgstr "Genererer sjekksummer for kildefiler ..."
 
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr ""
+"Kunne ikke finne binærfilen %s som behøves for å generere sjekksummer for "
+"kildefiler."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Ugyldig integritetsalgoritme '%s' spesifisert."
@@ -103,43 +106,43 @@ msgid "Integrity checks are missing."
 msgstr "Integritetssjekker mangler."
 
 msgid "Verifying source file signatures with %s..."
-msgstr ""
+msgstr "Verifiserer kildefilsignaturer med %s..."
 
 msgid "SIGNATURE NOT FOUND"
-msgstr ""
+msgstr "SIGNATUR IKKE FUNNET"
 
 msgid "SOURCE FILE NOT FOUND"
-msgstr ""
+msgstr "KILDEFIL IKKE FUNNET"
 
 msgid "unknown public key"
-msgstr ""
+msgstr "ukjent offentlig nøkkel"
 
 msgid "the key has been revoked."
-msgstr ""
+msgstr "nøkkelen har blitt ugyldiggjort."
 
 msgid "the signature has expired."
-msgstr ""
+msgstr "signaturen har utløpt."
 
 msgid "the key has expired."
-msgstr ""
+msgstr "nøkkelen har utløpt."
 
 msgid "One or more PGP signatures could not be verified!"
-msgstr ""
+msgstr "En eller flere PGP signaturer kunne ikke verifiseres!"
 
 msgid "Warnings have occurred while verifying the signatures."
-msgstr ""
+msgstr "Feil har oppstått under verifiseringen av signaturene."
 
 msgid "Please make sure you really trust them."
-msgstr ""
+msgstr "Vennligst bekreft at du virkelig stoler på dem."
 
 msgid "Skipping all source file integrity checks."
-msgstr ""
+msgstr "Hopper over integritetstester for kildefiler."
 
 msgid "Skipping verification of source file checksums."
-msgstr ""
+msgstr "Hopper over verifisering av sjekksummer for kildefiler."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr ""
+msgstr "Hopper over verifiseringen av PGP signaturer på kildefiler."
 
 msgid "Extracting Sources..."
 msgstr "Pakker ut kilder ..."
@@ -163,7 +166,7 @@ msgid "Removing doc files..."
 msgstr "Fjerner dokument-filer ..."
 
 msgid "Purging unwanted files..."
-msgstr ""
+msgstr "Fjerner uønskede filer..."
 
 msgid "Compressing man and info pages..."
 msgstr "Komprimener manual- og informasjonssider ..."
@@ -172,37 +175,37 @@ msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Fjerner unødvendige symboler fra binær- og katalogfiler..."
 
 msgid "Removing %s files..."
-msgstr ""
+msgstr "Fjerner %s filer..."
 
 msgid "Removing empty directories..."
 msgstr "Fjerner tomme mapper ..."
 
 msgid "Compressing binaries with %s..."
-msgstr ""
+msgstr "Komprimerer binærfiler med %s..."
 
 msgid "Could not compress binary : %s"
-msgstr ""
+msgstr "Kunne ikke komprimere binærfil : %s"
 
 msgid "Generating %s file..."
-msgstr ""
+msgstr "Genererer %s fil..."
 
 msgid "Cannot find library listed in %s: %s"
-msgstr ""
+msgstr "Kunne ikke finne biblioteket listet i %s: %s"
 
 msgid "Please add a license line to your %s!"
 msgstr "Vennligst legg til en license-linje til din %s!"
 
 msgid "Example for GPL'ed software: %s."
-msgstr ""
+msgstr "Eksempel for GPL lisensiert programvare: %s."
 
 msgid "%s entry file not in package : %s"
-msgstr ""
+msgstr "%s oppføring ikke funnet i pakke: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Pakken inneholder referanser til %s"
 
 msgid "Missing %s directory."
-msgstr ""
+msgstr "Mangler %s mappen."
 
 msgid "Creating package..."
 msgstr "Lager pakke ..."
@@ -223,13 +226,13 @@ msgid "Failed to create symlink to package file."
 msgstr "Klarte ikke lage symbolsk lenke til pakkefilen."
 
 msgid "Signing package..."
-msgstr ""
+msgstr "Signerer pakke..."
 
 msgid "Created signature file %s."
-msgstr ""
+msgstr "Opprettet signaturfil %s."
 
 msgid "Failed to sign package file."
-msgstr ""
+msgstr "Kunne ikke signere pakkefil."
 
 msgid "Creating source package..."
 msgstr "Lager kildepakke ..."
@@ -250,10 +253,10 @@ msgid "Failed to create symlink to source package file."
 msgstr "Kunne ikke opprette symbolsk lenke til pakkefil."
 
 msgid "Installing package %s with %s..."
-msgstr ""
+msgstr "Installerer pakke %s med %s..."
 
 msgid "Installing %s package group with %s..."
-msgstr ""
+msgstr "Installerer pakkegruppen %s med %s..."
 
 msgid "Failed to install built package(s)."
 msgstr "Feilet å installere pakke(r) som er bygd."
@@ -265,10 +268,10 @@ msgid "%s is not allowed to start with a hyphen."
 msgstr "%s kan ikke starte med en bindestrek."
 
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr ""
+msgstr "%s kan ikke inneholde kolon, bindestreker eller mellomrom."
 
 msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr ""
+msgstr "%s kan ikke inneholde bindestreker eller mellomrom."
 
 msgid "%s must be an integer."
 msgstr "%s må være et helt tall."
@@ -280,61 +283,68 @@ msgid "Note that many packages may need a line added to their %s"
 msgstr "Legg merke til at mange pakker trenger en linje lagt til deres %s"
 
 msgid "such as %s."
-msgstr ""
+msgstr "slik som %s."
 
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr ""
+msgstr "%s listen kan ikke inneholde sammenligningsoperatorer (< eller >)"
 
 msgid "%s entry should not contain leading slash : %s"
-msgstr ""
+msgstr "%s oppføringen bør ikke inneholde en ledende skråstrek: %s"
 
 msgid "Invalid syntax for %s : '%s'"
-msgstr ""
+msgstr "Ugyldig syntaks for %s: '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "%s fil (%s) finnes ikke."
 
 msgid "%s array contains unknown option '%s'"
-msgstr ""
+msgstr "%s listen inneholder en ukjent oppføring '%s'"
 
 msgid "Missing %s function for split package '%s'"
-msgstr ""
+msgstr "Mangler %s funksjon for splitting av pakken '%s'"
 
 msgid "Requested package %s is not provided in %s"
-msgstr ""
+msgstr "Den forespurte pakken %s er ikke tilbudt av %s"
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr "Fant ikke sudo. Bruker su for å få rot-rettigheter."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
+"Kunne ikke finne %s programmet som trengs for å bygge pakker som en ikke-"
+"root bruker."
 
 msgid "Cannot find the %s binary required for signing packages."
-msgstr ""
+msgstr "Kunne ikke finne %s programmet som trengs for å signere pakker."
 
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr ""
+msgstr "Kunne ikke finne %s programmet som trengs for å verifisere kildefiler."
 
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
+"Kunne ikke finne %s programmet som trengs for å verifisere sjekksummer på "
+"kildefiler."
 
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr ""
+msgstr "Kunne ikke finne %s programmet som trengs for å komprimere binærfiler."
 
 msgid "Cannot find the %s binary required for distributed compilation."
-msgstr ""
+msgstr "Kunne ikke finne %s programmet som trengs for distribuert kompilering."
 
 msgid "Cannot find the %s binary required for compiler cache usage."
-msgstr ""
+msgstr "Kunne ikke finne %s programmet som trengs for kompilasjonsmellomlager."
 
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr ""
+msgstr "Kunne ikke finne %s programmet som trengs for å rense objektfiler."
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
+"Kunne ikke finne %s programmet som trengs for å komprimere manual- og "
+"infosider."
 
 msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
+"Kunne ikke finne %s programmet som trengs for å avgjøre siste %s revisjon."
 
 msgid "Determining latest %s revision..."
 msgstr "Avgjøre siste %s versjon..."
@@ -349,7 +359,7 @@ msgid "Options:"
 msgstr "Alternativer:"
 
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
-msgstr ""
+msgstr "  -A, --ignorearch Overse ufullstendig %s felt i %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Rydd opp arbeidsfiler etter bygging av pakke"
@@ -358,7 +368,7 @@ msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Hopp over alle avhengighetstester"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr ""
+msgstr "  -e, --noextract  Ikke pakk ut kildefiler (bruk eksiterende %s mappe)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Skriv over eksisterende pakke"
@@ -367,7 +377,7 @@ msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Generer integritetstester for kildefiler"
 
 msgid "  -h, --help       Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help       Vis denne hjelpebeskjeden og avslutt"
 
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Installerer pakken etter en vellykket bygging"
@@ -395,12 +405,11 @@ msgstr ""
 "prosessen fra begynnelsen"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
-msgstr ""
+msgstr "  -s, --syncdeps   Installér manglende avhengigheter med %s"
 
-#, fuzzy
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr "  --source         Generér en .tar fil med kildekode, men uten kilder"
+msgstr "  -S, --source     Generér en .tar fil med kildekode, men uten kilder"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -409,10 +418,10 @@ msgstr ""
 "  --allsource      Opprett en .tar fil med kun kildekode og nedlastede kilder"
 
 msgid "  --asroot         Allow %s to run as root user"
-msgstr ""
+msgstr "  --asroot         Tillat %s å kjøre som rotbrukeren"
 
 msgid "  --check          Run the %s function in the %s"
-msgstr ""
+msgstr "  --check          Kjør %s funksjonen i %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
@@ -427,31 +436,33 @@ msgstr ""
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  --key <key>      Oppgi nøkkelen som skal brukes for %s signering i stedet "
+"for standardnøkkelen"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
-msgstr ""
+msgstr "  --nocheck        Ikke kjør %s funksjonen i %s"
 
 msgid "  --nosign         Do not create a signature for the package"
-msgstr ""
+msgstr "  --nosign         Ikke opprett en signatur for pakken"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <liste>     Bygg kun oppgitte pakker fra en delt pakke"
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr ""
+msgstr "  --sign           Signér den ferdige pakken med %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr ""
+msgstr "  --skipchecksums  Ikke verifiser sjekksummer for kildefiler"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
-msgstr ""
+msgstr "  --skipinteg      Ikke utfør noen verifisering av kildefiler"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr ""
+msgstr "  --skippgpcheck   Ikke verifiser kildefiler med PGP signaturer"
 
 msgid "These options can be passed to %s:"
-msgstr ""
+msgstr "Disse valgene kan gies til %s:"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -463,7 +474,7 @@ msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "      --noprogressbar  Ikke vis framdrift under nedlasting av filer "
 
 msgid "If %s is not specified, %s will look for '%s'"
-msgstr ""
+msgstr "Dersom %s ikke spesifiseres vil %s se etter '%s'"
 
 msgid ""
 "Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
@@ -480,7 +491,7 @@ msgid "%s not found."
 msgstr "%s ikke funnet."
 
 msgid "You do not have write permission to create packages in %s."
-msgstr ""
+msgstr "Du har ikke skrivetillatelse til å opprette en pakke i %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Du har ikke skriverettigheter til å lagre pakker i %s."
@@ -489,45 +500,53 @@ msgid "You do not have write permission to store downloads in %s."
 msgstr "Du har ikke skriverettigheter til å lagre nedlastinger i %s."
 
 msgid "\\0%s and %s cannot both be specified"
-msgstr ""
+msgstr "\\0%s og %s kan ikke brukes samtidig"
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
 msgstr ""
+"Kjøring av %s som rotbrukeren er en DÅRLIG idé, og kan forårsake permanent,"
+"\\nog betraktelig skade til systemet. Dersom du ønsker å kjøre dette som "
+"rotbrukeren,\\nbruk %s alternativet."
 
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
 "%s flag."
 msgstr ""
+"%s alternativet er kun men for rotbrukeren.\\nVennligst kjør %s igjen uten "
+"%s."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
 msgstr ""
+"Kjøring av %s som en upriviligert bruker vil lede til ikke-rot\\neierskap av "
+"de pakkede filene. Prøv å bruke %s miljøvariablen ved\\nå erstatte %s i %s "
+"listen fra %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
-msgstr ""
+msgstr "Ikke bruk %s alternativet. Dette valget er kun til bruk for %s."
 
 msgid "%s does not exist."
 msgstr "%s finnes ikke."
 
 msgid "%s contains %s characters and cannot be sourced."
-msgstr ""
+msgstr "%s inneholder %s tegn og kan ikke brukes som kildefil."
 
 msgid "The key %s does not exist in your keyring."
-msgstr ""
+msgstr "Nøkkelen %s eksisterer ikke i din nøkkelring."
 
 msgid "There is no key in your keyring."
-msgstr ""
+msgstr "Det finnes ingen nøkkel i din nøkkelring."
 
 msgid "A package has already been built, installing existing package..."
 msgstr "En pakke har allerede blitt bygd, installerer eksisterende pakke ..."
 
 msgid "A package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "En pakke har alt blitt bygget. (bruk %s for å overskrive)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
@@ -535,16 +554,16 @@ msgstr ""
 "Pakkegruppen har allerede blitt bygd, installerer eksisterende pakker ..."
 
 msgid "The package group has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Pakkegruppen har alt blitt bygget. (bruk %s for å overskrive)"
 
 msgid "Part of the package group has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Deler av pakkegruppen har alt blitt bygget. (bruk %s for å overskrive)"
 
 msgid "Leaving %s environment."
-msgstr ""
+msgstr "Forlater %s miljøet."
 
 msgid "Repackaging without the use of a %s function is deprecated."
-msgstr ""
+msgstr "Ompakking uten bruk av %s funksjonen er ikke lengre støttet."
 
 msgid "File permissions may not be preserved."
 msgstr "Filerettigheter blir muligens ikke beholdt."
@@ -553,7 +572,7 @@ msgid "Making package: %s"
 msgstr "Lager pakke: %s"
 
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "En kildepakke har alt blitt bygget (bruk %s for å overskrive)"
 
 msgid "Source package created: %s"
 msgstr "Kildepakke laget: %s"
@@ -571,16 +590,16 @@ msgid "Could not resolve all dependencies."
 msgstr "Kunne ikke avgjøre alle avhengigheter."
 
 msgid "%s was not found in %s; skipping dependency checks."
-msgstr ""
+msgstr "%s ble ikke funnet i %s; hopper over avhengighetssjekker."
 
 msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr ""
+msgstr "Hopper over kildenedlasting        -- bruker eksisterende %s tre"
 
 msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr ""
+msgstr "Hopper over integritetstester -- bruker eksisterende %s tre"
 
 msgid "Skipping source extraction       -- using existing %s tree"
-msgstr ""
+msgstr "Hopper over kildeutpakking       -- bruker eksisterende %s tre"
 
 msgid "The source directory is empty, there is nothing to build!"
 msgstr "Kilde-mappen er tom, det er ingenting å bygge!"
@@ -592,7 +611,7 @@ msgid "Sources are ready."
 msgstr "Kildene er klare."
 
 msgid "Removing existing %s directory..."
-msgstr ""
+msgstr "Fjerner eksisterende %s mappe..."
 
 msgid "Finished making: %s"
 msgstr "Ferdig å bygge: %s"
@@ -628,157 +647,171 @@ msgid "Done."
 msgstr "Ferdig."
 
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
+msgstr "Administrér pacmans liste over betrodde nøkler."
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
-msgstr ""
+msgstr "  -a, --add [fil(er)]       Legg til de gitte nøklene (tomt for stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr ""
+msgstr "  -d, --delete <nøkkelid(er)>   Fjern de oppgitte nøklene"
 
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
-msgstr ""
+msgstr "  -e, --export [nøkkelid(er)]   Eksportér de gitte eller alle nøkler"
 
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [nøkkelid(er)]   Vis fingeravtrykkene for de gitte eller alle "
+"nøkler"
 
 msgid "  -h, --help                Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help                Vis denne hjelpebeskjeden og avslutt"
 
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
-msgstr ""
+msgstr "  -l, --list-keys [nøkkelid(er)] Vis de gitte eller alle nøkler"
 
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr ""
+msgstr "  -r, --recv-keys <nøkkelid(er)> Hent de gitte nøklene"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr ""
+msgstr "  -u, --updatedb            Oppdatér pacmans list over betrodde kilder"
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
-msgstr ""
+msgstr "  -v, --verify <signatur>  Verifiser filen oppgitt i signaturen"
 
 msgid "  -V, --version             Show program version"
-msgstr ""
+msgstr "  -V, --version             Vis programversjon"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
+"  --config <fil>           Bruk en alternative konfig-file (istedenfor"
+"\\n                            '%s')"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
 msgstr ""
+"  --edit-key <nøkkelid(er)>     Vis en meny for administrasjon av nøkkel ider"
 
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
+"  --gpgdir <mappe>            Sett en alternativ mappe for GnuPG (istedenfor"
+"\\n                            '%s')"
 
 msgid ""
 "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
 msgstr ""
+"  --import <mappe(r)>         Importér pubring.gpg og trustdb.gpg fra mappen"
+"(e)"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
 "(s)"
 msgstr ""
+"  --import-trustdb <mappe(r)> Importér ownertrust verdier fra trustdb.gpg i "
+"mappen(e)"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr ""
+msgstr "  --init                    Bekreft at nøkkelringen er riktig satt opp"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
+"  --keyserver               Oppgit nøkkelserveren som skal brukes om "
+"nødvendig"
 
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr ""
+msgstr "  --list-sigs [nøkkelid(er)]    Vis nøkler og deres signaturer"
 
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr ""
+msgstr "  --lsign-key <nøkkelid>       Signér den gitte nøklen lokalt"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [nøkkelring(er)]   Last inn standardnøkler på nytt fra (de "
+"gitte)\\n                            nøkkelringene i '%s'"
 
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
+"  --refresh-keys [nøkkelid(er)] Oppdatér de gitte eller alle nøklene fra en "
+"nøkkelserver"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
-msgstr ""
+msgstr "Du har ikke tilgang til å lese nøkkelringen %s..."
 
 msgid "Use '%s' to correct the keyring permissions."
-msgstr ""
+msgstr "Bruk '%s' for å reparere nøkkelringtillatelsene."
 
 msgid "You do not have sufficient permissions to run this command..."
-msgstr ""
+msgstr "Du har ikke tilgang til å kjøre denne kommandoen."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Det finnes ingen privat nøkkel som kan signeres med."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Benytt '%s' for å generere en standard privat nøkkel."
 
-#, fuzzy
 msgid "Verifying %s..."
-msgstr "Legger til %s ..."
+msgstr "Verifiserer %s..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "Filen %s er usignert, kan ikke fortsette."
 
 msgid "The signature of file %s is not valid."
-msgstr ""
+msgstr "Filsignaturen til %s er ikke gyldig."
 
 msgid "Verifying keyring file signatures..."
-msgstr ""
+msgstr "Verifiserer filsignaturer..."
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "Ingen nøkkelring eksisterer i %s."
 
-#, fuzzy
 msgid "The keyring file %s does not exist."
-msgstr "%s fil (%s) finnes ikke."
+msgstr "Nøkkelringfilen %s finnes ikke."
 
 msgid "Appending keys from %s.gpg..."
-msgstr ""
+msgstr "Legger til nøkler fra %s.gpg..."
 
 msgid "Locally signing trusted keys in keyring..."
-msgstr ""
+msgstr "Signerer betrodde nøkler lokalt i nøkkelringen..."
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Signerer nøkkelen %s lokalt..."
 
 msgid "Disabling revoked keys in keyring..."
-msgstr ""
+msgstr "Deaktiverer ugyldiggjorte nøkler i nøkkelringen..."
 
-#, fuzzy
 msgid "Disabling key %s..."
-msgstr "Tar-er opp %s ..."
+msgstr "Deaktiverer nøkkelen %s..."
 
 msgid "The key identified by %s does not exist"
-msgstr ""
+msgstr "Nøkkelen identifisert ved %s eksisterer ikke"
 
 msgid "Cannot find the %s binary required for all %s operations."
-msgstr ""
+msgstr "Kunne ikke finne programmet %s som trengs for alle %s operasjoner."
 
 msgid "%s needs to be run as root for this operation."
-msgstr ""
+msgstr "%s må kjøres som rotbrukeren for denne operasjonen."
 
 msgid "%s configuration file '%s' not found."
-msgstr ""
+msgstr "%s konfigurasjonsfilen '%s' ble ikke funnet."
 
 msgid "no operation specified (use -h for help)"
-msgstr ""
+msgstr "ingen oppgave oppgitt (bruk -h for hjelp)"
 
 msgid "Multiple operations specified"
-msgstr ""
+msgstr "Flere oppgaver oppgitt"
 
 msgid "Please run %s with each operation separately\\n"
-msgstr ""
+msgstr "Vennligst kjør %s med hver oppgave for seg\\n"
 
 msgid "Updating trust database..."
-msgstr ""
+msgstr "Oppdaterer listen over betrodde kilder..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -808,7 +841,7 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Du må ha korrekte tillatelser for å optimisere databasen."
 
 msgid "Can not create temp directory for database building."
-msgstr ""
+msgstr "Kunne ikke opprette midlertidig mappe for databaseoppbygging."
 
 msgid "MD5sum'ing the old database..."
 msgstr "MD5sum-er den gamle databasen ..."
@@ -890,7 +923,7 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Kan ikke finne xdelta3-programmet! Er xdelta3 installert?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr ""
+msgstr "Bruk: repo-add [alternativer] <sti-til-db> <pakke|endring> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -900,16 +933,18 @@ msgstr ""
 "pakker kan leses inn på én gang på kommandolinja.\\n\\n"
 
 msgid "Options:\\n"
-msgstr ""
+msgstr "Alternativer:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
+"  -d, --delta       generér og legg til endring for pakkeoppdatering\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr ""
+msgstr "  -f, --files       oppdatér databasens filliste\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
+"Bruk: repo-remove [alternativer] <sti-til-db> <pakkenavn|endring> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -921,25 +956,29 @@ msgstr ""
 "leses inn på én gang."
 
 msgid "  -q, --quiet       minimize output\\n"
-msgstr ""
+msgstr "  -q, --quiet       minimér utskrift\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr ""
+msgstr "  -s, --sign        signér database med GnuPG etter oppdatering\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
+"  -k, --key <nøkkel>   benytt den gitte nøkkelen for å signere databasen\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr ""
+msgstr "  -v, --verify      bekreft databasens signatur før oppdatering\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 "\\n"
 msgstr ""
+"\\nSe %s(8) for ytterligere detaljer og beskrivelser av tilgjengelige "
+"atlernativer.\\n\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
+"Eksempel:  repo-add /sti/til/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Eksempel: repo-remove /vei/til/repo.db.tar.gz kernel26"
@@ -949,6 +988,9 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nDette er gratis programvare; se kildekoden for kopieringsvilkår.\\nDet "
+"gis INGEN GARANNTI så langt det tillates av lovgivningen.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Ingen databaseoppføring for pakke '%s'."
@@ -960,25 +1002,25 @@ msgid "Removing existing entry '%s'..."
 msgstr "Fjerner eksisterende element '%s' ..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr ""
+msgstr "Finner ikke gpg programmet! Er GnuPG installert?"
 
 msgid "Signing database..."
-msgstr ""
+msgstr "Signerer database..."
 
 msgid "Failed to sign package database."
-msgstr ""
+msgstr "Kunne ikke signere database."
 
 msgid "Verifying database signature..."
-msgstr ""
+msgstr "Verifiserer databasesignatur..."
 
 msgid "No existing signature found, skipping verification."
-msgstr ""
+msgstr "Ingen eksisterende signatur funnet, hopper over verifisering."
 
 msgid "Database signature file verified."
-msgstr ""
+msgstr "Databasesiganturen ble verifisert."
 
 msgid "Database signature was NOT valid!"
-msgstr ""
+msgstr "Databasesignaturen er IKKE gyldig!"
 
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' har ikke en gyldig arkiv-suffix."
@@ -987,10 +1029,10 @@ msgid "An entry for '%s' already existed"
 msgstr "Et element for '%s' finnes allerede"
 
 msgid "Computing checksums..."
-msgstr ""
+msgstr "Kalkulerer sjekksummer..."
 
 msgid "Adding package signature..."
-msgstr ""
+msgstr "Legger til pakkesignatur..."
 
 msgid "Creating '%s' db entry..."
 msgstr "Oppretter '%s' databaseoppføring..."
@@ -1056,7 +1098,7 @@ msgid "No packages modified, nothing to do."
 msgstr "Ingen pakker modifisert, ingenting å gjøre."
 
 msgid "option %s requires an argument\\n"
-msgstr ""
+msgstr "alternativet %s krever en parameter\\n"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "ukjent alternativ"

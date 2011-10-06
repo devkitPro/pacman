@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-09-06 18:14+0000\n"
+"PO-Revision-Date: 2011-09-29 10:53+0000\n"
 "Last-Translator: rafaelff1 <rafael.f.f1@gmail.com>\n"
 "Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/pt_BR/)\n"
@@ -115,21 +115,17 @@ msgstr "ASSINATURA NÃO ENCONTRADA"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "ARQUIVO FONTE NÃO ENCONTRADO"
 
-#, fuzzy
 msgid "unknown public key"
-msgstr "Chave pública desconhecida"
+msgstr "chave pública desconhecida"
 
-#, fuzzy
 msgid "the key has been revoked."
-msgstr "Aviso: a chave foi revogada."
+msgstr "a chave foi revolgada."
 
-#, fuzzy
 msgid "the signature has expired."
-msgstr "Aviso: a assinatura expirou."
+msgstr "a assinatura já expirou."
 
-#, fuzzy
 msgid "the key has expired."
-msgstr "Aviso: a chave expirou!"
+msgstr "a chave já expirou."
 
 msgid "One or more PGP signatures could not be verified!"
 msgstr "Uma ou mais assinaturas PGP não puderam ser verificadas!"
@@ -177,8 +173,7 @@ msgid "Compressing man and info pages..."
 msgstr "Comprimindo páginas de man e info..."
 
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr ""
-"Removendo símbolos de debug desnecessários dos binários e bibliotecas..."
+msgstr "Removendo símbolos desnecessários dos binários e bibliotecas..."
 
 msgid "Removing %s files..."
 msgstr "Removendo arquivos %s..."
@@ -283,11 +278,11 @@ msgid "%s must be an integer."
 msgstr "%s tem que ser um inteiro."
 
 msgid "%s is not available for the '%s' architecture."
-msgstr "%s não está disponível para a arquitetura '%s'."
+msgstr "%s não está disponível para a arquitetura \"%s\"."
 
 msgid "Note that many packages may need a line added to their %s"
 msgstr ""
-"Note que muitos pacotes podem precisar de uma linha adicionada aos seus %s"
+"Note que muitos pacotes podem precisar de uma linha adicionada a seus %s"
 
 msgid "such as %s."
 msgstr "como %s."
@@ -375,10 +370,10 @@ msgid "Version found: %s"
 msgstr "Versão encontrada: %s"
 
 msgid "Usage: %s [options]"
-msgstr "Uso: %s [opções]"
+msgstr "uso: %s [opções]"
 
 msgid "Options:"
-msgstr "Opções:"
+msgstr "opções:"
 
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignora campo %s incompleto no %s"
@@ -391,8 +386,7 @@ msgstr "  -d, --nodeps     Ignora todas as verificações de dependência"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
-"  -e, --noextract  Não extraia os arquivos fontes (usa diretório %s "
-"existente)"
+"  -e, --noextract  Não extrai os arquivos fontes (usa diretório %s existente)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Sobrescrever pacote existente"
@@ -418,14 +412,14 @@ msgstr "  -o, --nobuild    Apenas baixa e extrai os arquivos"
 
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
-"  -p <arquivo> Usa um script de empacotamento alternativo (ao invés de \"%s"
-"\")"
+"  -p <arquivo>     Usa um script de empacotamento alternativo (ao invés\n"
+"                   de \"%s\")"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps     Remove dependências instaladas após uma compilação bem-"
-"sucedida"
+"  -r, --rmdeps     Remove dependências instaladas após uma compilação\n"
+"                   bem-sucedida"
 
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Reempacota o conteúdo do pacote sem recompilar"
@@ -433,18 +427,16 @@ msgstr "  -R, --repackage  Reempacota o conteúdo do pacote sem recompilar"
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Instala dependências faltando com %s"
 
-#, fuzzy
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr ""
-"  --source     Gera um tarball somente com os fontes sem os fontes baixados"
+msgstr "  -S, --source     Gera um tarball de fontes sem as fontes baixadas"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource     Gera um tarball somente com os fontes, incluindo os "
-"que foram baixados"
+"      --allsource  Gera um tarball somente com os fontes, incluindo os que\n"
+"                   foram baixados"
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Permite %s ser executado como usuário root"
@@ -454,20 +446,22 @@ msgstr "  --check          Executa a função %s no %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
-"  --config <arquivo> Usa um arquivo de configuração alternativo (ao invés de "
-"\"%s\")"
+"  --config <arquivo>\n"
+"                   Usa um arquivo de configuração alternativo (ao invés\n"
+"                   de \"%s\")"
 
 msgid ""
 "  --holdver        Prevent automatic version bumping for development %ss"
 msgstr ""
 "  --holdver        Evita atualização automática de versão para "
-"desenvolvimento %ss"
+"desenvolvimento\n"
+"                   %ss"
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
-"  --key <chave>  Especifica uma chave para ser usada na assinatura %s ao "
-"invés do padrão"
+"  --key <chave>    Especifica uma chave para ser usada na assinatura %s ao\n"
+"                   invés do padrão"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Não executa a função %s no %s"
@@ -477,7 +471,7 @@ msgstr "  --nosign         Não cria uma assinatura para o pacote"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
-"  --pkg <lista>     Compila apenas os pacotes listados de um pacote dividido"
+"  --pkg <lista>    Compila apenas os pacotes listados de um pacote dividido"
 
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Assina o pacote resultante com %s"
@@ -504,7 +498,7 @@ msgstr ""
 "  --noprogressbar  Não mostra a barra de progresso enquanto baixa os arquivos"
 
 msgid "If %s is not specified, %s will look for '%s'"
-msgstr "Se %s não for especificado, %s vai procurar por \"%s\""
+msgstr "Se %s não for especificada, %s vai procurar por \"%s\""
 
 msgid ""
 "Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
@@ -683,117 +677,114 @@ msgid "Done."
 msgstr "Feito."
 
 msgid "Manage pacman's list of trusted keys"
-msgstr "Gerenciar lista de chaves confiadas do pacman"
+msgstr "Gerencia lista de chaves confiáveis do pacman"
 
-#, fuzzy
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
-"  -a, --add [<arquivo(s)>]     Adiciona as chaves especificadas (vazio para "
-"utilizar stdin)"
+"  -a, --add [arquivo(s)]     Adiciona as chaves especificadas (vazio p/ "
+"stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr "  -d, --delete <id-chave(s)>   Remove a(s) id-chave(s) especificada(s)"
+msgstr "  -d, --delete <id-chave(s)> Remove as id-chaves especificadas"
 
-#, fuzzy
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
-"  -e, --export [<id-chave(s)>] Exporta a(s) id-chave(s) especificada(s) ou "
-"todas"
+"  -e, --export [id-chave(s)] Exporta as id-chaves especificadas ou todas"
 
-#, fuzzy
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger [<id-chave(s)>] Lista impressão digital para a(s) id-chave(s) "
-"especificada(s) ou para todas"
+"  -f, --finger [id-chave(s)] Lista impressão digital para as id-chaves\n"
+"                             especificadas ou todas"
 
 msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help                Exibe essa mensagem de ajuda e sai"
+msgstr "  -h, --help                 Exibe essa mensagem de ajuda e sai"
 
-#, fuzzy
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
-"  -l, --list-keys [<id-chave(s)>] Lista a(s) chave(s) especificada(s) ou "
-"todas"
+"  -l, --list-keys [id-chave(s)]\n"
+"                             Lista as chaves especificadas ou todas"
 
-#, fuzzy
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
 msgstr ""
-"  -r, --receive <keyserver> <id-chave(s)> Busca a(s) id-chave(s) especificada"
-"(s)"
+"  -r, --recv-keys <id-chave(s)>\n"
+"                             Busca as id-chaves especificadas"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
-"  -u, --updatedb            Atualiza o banco de dados de confianças do pacman"
+"  -u, --updatedb             Atualiza a base de dados de confiáveis do pacman"
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
 msgstr ""
 "  -v, --verify <assinatura>  Verifica o arquivo especificado pela assinatura"
 
 msgid "  -V, --version             Show program version"
-msgstr "  -V, --version             Exibe versão do programa"
+msgstr "  -V, --version              Exibe versão do programa"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
-"  --config <arquivo> Usa um arquivo de configuração alternativo (ao invés "
-"de\n"
-"                            \"%s\")"
+"  --config <arquivo>         Usa um arquivo de configuração alternativo (ao\n"
+"                             invés de \"%s\")"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
 msgstr ""
-"  --edit-key <id-chave(s)>     Exibe um menu para tarefa de gestão das "
-"chaves na(s) id-chave(s)"
+"  --edit-key <id-chave(s)>   Exibe um menu para a tarefa de gestão das "
+"chaves\n"
+"                             com id-chave(s)"
 
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
-"  --gpgdir <dir>            Define um diretório alternativo para GnuPG "
-"\\n                            (invés de \"%s\")"
+"  --gpgdir <diretório>       Define um diretório alternativo para GnuPG\n"
+"                             (invés de \"%s\")"
 
 msgid ""
 "  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
 msgstr ""
-"  --import <dir(s)>         Importa pubring.gpg e trustdb.gpg a partir dos "
-"dir(s)"
+"  --import <diretório(s)>    Importa pubring.gpg e trustdb.gpg a partir dos\n"
+"                             diretório(s)"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
 "(s)"
 msgstr ""
-"  --import-trustdb <dir(s)> Importa atributos de ownertrust do trustdb.gpg "
-"em dir(s)"
+"  --import-trustdb <dir(s)>  Importa atributos de ownertrust do trustdb.gpg "
+"em\n"
+"                             diretório(s)"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init                    Garanta que o chaveiro está inicializado "
-"corretamente"
+"  --init                     Garante que o chaveiro está inicializado\n"
+"                             corretamente"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
+"  --keyserver                Especifica um keyserver para usar se necessário"
 
-#, fuzzy
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr "  --list-sigs [<id-chave(s)>]  Lista chaves e suas assinaturas"
+msgstr "  --list-sigs [id-chave(s)]  Lista chaves e suas assinaturas"
 
-#, fuzzy
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr "  -d, --delete <id-chave(s)>   Remove a(s) id-chave(s) especificada(s)"
+msgstr "  --lsign-key <id-chave>     Assina localmente a id-chave especificada"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [chaveiro(s)]   Recarrega as chaves padrões dos (dados) "
+"chaveiros\n"
+"                             em \"%s\""
 
-#, fuzzy
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
-"  -l, --list-keys [<id-chave(s)>] Lista a(s) chave(s) especificada(s) ou "
-"todas"
+"  --refresh-keys [id-chave(s)]\n"
+"                             Atualiza chaves especificadas, ou todas, de um\n"
+"                             keyserver"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr "Você não tem permissão suficiente para ler o chaveiro %s..."
@@ -805,50 +796,43 @@ msgid "You do not have sufficient permissions to run this command..."
 msgstr "Você não tem permissão suficiente para executar este comando..."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Não há chave secreta disponível para assinar com."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Use \"%s\" para gerar uma chave secreta padrão."
 
-#, fuzzy
 msgid "Verifying %s..."
-msgstr "Adicionando %s..."
+msgstr "Verificando %s..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "Arquivo %s não está assinado, não é possível continuar"
 
 msgid "The signature of file %s is not valid."
 msgstr "A assinatura do arquivo %s não é válida."
 
-#, fuzzy
 msgid "Verifying keyring file signatures..."
-msgstr "Verificando assinatura de arquivo de chaves deletadas..."
+msgstr "Verificando assinaturas de arquivo de chaveiro..."
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "Não existe arquivos de chaveiro em %s."
 
-#, fuzzy
 msgid "The keyring file %s does not exist."
-msgstr "A chave identificada por %s não existe"
+msgstr "O arquivo de chaveiro %s não existe."
 
-#, fuzzy
 msgid "Appending keys from %s.gpg..."
-msgstr "Anexando chaves oficiais..."
+msgstr "Anexando chaves de %s.gpg..."
 
-#, fuzzy
 msgid "Locally signing trusted keys in keyring..."
-msgstr "Removendo chaves deletadas do chaveiro..."
+msgstr "Assinando localmente chaves confiáveis no chaveiro..."
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Assinando localmente a chave %s..."
 
-#, fuzzy
 msgid "Disabling revoked keys in keyring..."
-msgstr "Removendo chaves deletadas do chaveiro..."
+msgstr "Desabilitando chaves revogadas no chaveiro..."
 
-#, fuzzy
 msgid "Disabling key %s..."
-msgstr "Gerando tarball de %s..."
+msgstr "Desabilitando chave %s..."
 
 msgid "The key identified by %s does not exist"
 msgstr "A chave identificada por %s não existe"
@@ -873,15 +857,15 @@ msgid "Please run %s with each operation separately\\n"
 msgstr "Favor execute %s com cada operação separada\\n"
 
 msgid "Updating trust database..."
-msgstr "Atualizando banco de dados de confiança..."
+msgstr "Atualizando base de dados de confiança..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
 "pacman-optimize é um pequeno hack que deve melhorar a performance\\ndo "
-"pacman quando está lendo/escrevendo em sua base de dados baseada no sistema "
-"de arquivos\\n\\n"
+"pacman quando está lendo/escrevendo em sua base de dados baseada\n"
+"no sistema de arquivos\\n\\n"
 
 msgid ""
 "Because pacman uses many small files to keep track of packages,\\nthere is a "
@@ -891,12 +875,12 @@ msgid ""
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
 msgstr ""
-"Devido ao fato do pacman usar muitos arquivos pequenos para gerenciar os "
-"pacotes,\\nhá uma tendência desses arquivos se tornarem fragmentados com o "
+"Devido ao fato do pacman usar muitos arquivos pequenos para gerenciar os"
+"\\npacotes, há uma tendência desses arquivos se tornarem fragmentados com o "
 "tempo.\\nEste script tenta realocar esses arquivos pequenos em um único "
 "local contínuo\\nno seu disco rígido. O resultado é que o disco deverá ser "
-"capaz de ler os arquivos \\nmais rápido, já que a cabeça do disco não "
-"precisará se mover tanto pela sua superfície.\\n"
+"capaz de ler os\\narquivos mais rápido, já que a cabeça do disco não "
+"precisará se mover tanto\\npela sua superfície.\\n"
 
 msgid "diff tool was not found, please install diffutils."
 msgstr "ferramenta diff não foi encontrada, por favor instale diffutils."
@@ -950,7 +934,7 @@ msgstr ""
 "pode então ser adicionado à base de dados usando repo-add.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
-msgstr "Examplo:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
+msgstr "Exemplo:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
@@ -962,16 +946,16 @@ msgstr ""
 "GARANTIA, na extensão permitida pela lei.\\n"
 
 msgid "Invalid package file '%s'."
-msgstr "Arquivo de pacote inválido '%s'."
+msgstr "Arquivo de pacote inválido \"%s\"."
 
 msgid "The package names don't match : '%s' and '%s'"
-msgstr "Os nomes dos pacotes não coincidem: '%s' e '%s'"
+msgstr "Os nomes dos pacotes não coincidem: \"%s\" e \"%s\""
 
 msgid "The package architectures don't match : '%s' and '%s'"
-msgstr "As arquiteturas dos pacotes não coincidem: '%s' e '%s'"
+msgstr "As arquiteturas dos pacotes não coincidem: \"%s\" e \"%s\""
 
 msgid "Both packages have the same version : '%s'"
-msgstr "Os pacotes tem a mesma versão: '%s'"
+msgstr "Os pacotes tem a mesma versão: \"%s\""
 
 msgid "Generating delta from version %s to version %s"
 msgstr "Gerando o delta da versão %s para a versão %s"
@@ -980,10 +964,10 @@ msgid "Delta could not be created."
 msgstr "O delta não pode ser criado."
 
 msgid "Generated delta : '%s'"
-msgstr "Delta gerado: '%s'"
+msgstr "Delta gerado: \"%s\""
 
 msgid "File '%s' does not exist"
-msgstr "O arquivo '%s' não existe"
+msgstr "O arquivo \"%s\" não existe"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr ""
@@ -1005,10 +989,10 @@ msgstr "Opções:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
-"  -d, --delta       geraa e adiciona delta para atualização de pacote\\n"
+"  -d, --delta        gera e adiciona delta para atualização de pacote\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr "  -f, --files       atualiza lista de arquivos da base de dados\\n"
+msgstr "  -f, --files        atualiza lista de arquivos da base de dados\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
@@ -1019,34 +1003,32 @@ msgid ""
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n\\n"
 msgstr ""
-"repo-remove irá atualizar uma base de dados de pacotes removendo o nome do "
-"pacote\\nespecificado na linha de comando da base de dados de repositório "
-"fornecida. Múltiplos\\npacotes a serem removidos podem ser especificados na "
-"linha de comando.\\n\\n"
+"repo-remove irá atualizar uma base de dados de pacotes removendo o nome do\n"
+"pacote especificado na linha de comando da base de dados de repositório"
+"\\nfornecida. Múltiplos pacotes a serem removidos podem ser especificados na"
+"\\nlinha de comando.\\n\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
-msgstr "  -q, --quiet       minimiza mensagens de saída\\n"
+msgstr "  -q, --quiet        minimiza mensagens de saída\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr ""
-"  -s, --sign        assina base de dados com GnuPG depois de atualizar\\n"
+"  -s, --sign         assina base de dados com GnuPG depois de atualizar\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
-"  -k, --key <chave>   usa a chave especificada para assinar a base de dados"
-"\\n"
+"  -k, --key <chave>  usa a chave especificada para assinar a base de dados\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
-"  -v, --verify      verifica assinatura da base de dados antes de atualizar"
+"  -v, --verify       verifica assinatura da base de dados antes de atualizar"
 "\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 "\\n"
 msgstr ""
-"\\nVeja %s(8) para maiores detalhes e descrições das opções disponíveis.\\n"
-"\\n"
+"\\nVeja %s(8) para mais detalhes e descrições das opções disponíveis.\\n\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
@@ -1055,7 +1037,7 @@ msgstr ""
 "gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
-msgstr "Exemplo: repo-remove /caminho/para/repositorio.db.tar.gz kernel26"
+msgstr "Exemplo:  repo-remove /caminho/para/repositorio.db.tar.gz kernel26"
 
 msgid ""
 "Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
@@ -1096,10 +1078,10 @@ msgid "Database signature was NOT valid!"
 msgstr "Assinatura da base de dados NÃO é válida!"
 
 msgid "'%s' does not have a valid archive extension."
-msgstr "'%s' não possui uma extensão de arquivo de compactação válida."
+msgstr "\"%s\" não possui uma extensão de arquivo de compactação válida."
 
 msgid "An entry for '%s' already existed"
-msgstr "Uma entrada para '%s' já existe"
+msgstr "Uma entrada para \"%s\" já existe"
 
 msgid "Computing checksums..."
 msgstr "Computando checksums..."
@@ -1108,7 +1090,7 @@ msgid "Adding package signature..."
 msgstr "Adicionando assinatura de pacote..."
 
 msgid "Creating '%s' db entry..."
-msgstr "Criando registro '%s' da base de dados..."
+msgstr "Criando registro \"%s\" da base de dados..."
 
 msgid "Old package file not found: %s"
 msgstr "Arquivo de pacotes antigo não encontrado: %s"
@@ -1120,7 +1102,8 @@ msgid "Held by process %s"
 msgstr "Contido pelo processo %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
-msgstr "Arquivo de repositório '%s' não é uma base de dados válida do pacman."
+msgstr ""
+"Arquivo de repositório \"%s\" não é uma base de dados válida do pacman."
 
 msgid "Extracting database to a temporary location..."
 msgstr "Extraindo base de dados para um local temporário..."
@@ -1163,7 +1146,7 @@ msgstr ""
 "Não foi possível criar diretório temporário para compilação da base de dados."
 
 msgid "Creating updated database file '%s'"
-msgstr "Criando arquivo atualizado da base de dados '%s'"
+msgstr "Criando arquivo atualizado da base de dados \"%s\""
 
 msgid "No packages remain, creating empty database."
 msgstr "Nenhum pacote restante, criando base de dados vazia."
@@ -1176,20 +1159,3 @@ msgstr "opção %s requer um argumento\\n"
 
 msgid "unrecognized option"
 msgstr "opção não reconhecida"
-
-#~ msgid "  --reload                  Reload the default keys"
-#~ msgstr "  --reload                  Recarrega as chaves padrões"
-
-#~ msgid "Verifying official keys file signature..."
-#~ msgstr "Verificando assinatura de arquivo de chaves oficiais..."
-
-#~ msgid "Verifying deprecated keys file signature..."
-#~ msgstr "Verificando assinatura de arquivo de chaves obsoletas..."
-
-#~ msgid "Appending deprecated keys..."
-#~ msgstr "Anexando chaves obsoletas..."
-
-#~ msgid "You need to specify the keyserver and at least one key identifier"
-#~ msgstr ""
-#~ "Você precisa especificar o keyserver e pelo menos uma chave de "
-#~ "identificação"

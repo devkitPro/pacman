@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-09-01 12:42+0000\n"
+"PO-Revision-Date: 2011-09-24 12:21+0000\n"
 "Last-Translator: jiehong <ma.jiehong@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fr/)\n"
@@ -117,21 +117,17 @@ msgstr "SIGNATURE INTROUVABLE"
 msgid "SOURCE FILE NOT FOUND"
 msgstr "FICHIER SOURCE INTROUVABLE"
 
-#, fuzzy
 msgid "unknown public key"
 msgstr "Clef publique inconnue"
 
-#, fuzzy
 msgid "the key has been revoked."
-msgstr "Attention : la clef a été révoqué."
+msgstr "la clef a été révoqué."
 
-#, fuzzy
 msgid "the signature has expired."
-msgstr "Attention : la signature a expiré."
+msgstr "la signature a expiré."
 
-#, fuzzy
 msgid "the key has expired."
-msgstr "Attention : la clef a expiré."
+msgstr "la clef a expiré."
 
 msgid "One or more PGP signatures could not be verified!"
 msgstr "Une ou plusieurs signatures PGP n'ont pas pu être vérifiées."
@@ -437,11 +433,11 @@ msgstr "  -R, --repackage  Recréer le paquet sans re-compiler"
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Installer les dépendances manquantes avec %s"
 
-#, fuzzy
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"  --source         Générer une archive source sans les sources téléchargées"
+"  -S, --source     Génère une archive (tarball) source sans les sources "
+"téléchargées"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -710,43 +706,36 @@ msgstr "Effectué(e)."
 msgid "Manage pacman's list of trusted keys"
 msgstr "Gérer la liste des clefs de confiance de pacman"
 
-#, fuzzy
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
-"  -a, --add [<file(s)>]     Ajouter les clefs spécifiées dans les fichiers "
-"file(s)  (vide pour stdin)"
+"  -a, --add [file(s)]       Ajoute les clefs spécifiées dans le(s) fichier"
+"(s) « file(s) » (vide pour utiliser l'entrée standard (stdin))"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr ""
 "  -d, --delete <keyid(s)>   Suppression des identidés des clefs spécifiées"
 
-#, fuzzy
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
-"  -e, --export [<keyid(s)>] Exportation des identités des clefs spécifiées "
-"ou de toutes les identités."
+"  -e, --export [keyid(s)]   Exporte les identités des clefs spécifiées ou "
+"toutes les identités."
 
-#, fuzzy
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger [<keyid(s)>] Liste des empreintes des identités des clefs "
-"spécifiées ou de toutes les identités."
+"  -f, --finger [keyid(s)]   Liste les empreintes des identités des clefs "
+"spécifiés ou de toutes les identités"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Afficher ce message d'aide et quitte"
 
-#, fuzzy
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
-"  -l, --list-keys [<keyid(s)>] Liste des clefs spécifiées ou de toutes les "
-"clefs."
+"  -l, --list-keys [keyid(s)] Liste de toutes les clefs ou seulement de "
+"celles spécifiées"
 
-#, fuzzy
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr ""
-"  -r, --receive <keyserver> <keyid(s)> Récupére les identités des clefs "
-"spécifiées"
+msgstr "  -r, --recv-keys <keyid(s)> Récupère les clefs spécifiées"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
@@ -799,27 +788,29 @@ msgstr ""
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
+"  --keyserver               Spécifier un serveur de clefs à utiliser en cas "
+"de nécessité"
 
-#, fuzzy
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr "  --list-sigs [<keyid(s)>]  Liste les clefs et leurs signatures"
+msgstr "  --list-sigs [keyid(s)]    Liste des clefs et de leurs signatures"
 
-#, fuzzy
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
 msgstr ""
-"  -d, --delete <keyid(s)>   Suppression des identidés des clefs spécifiées"
+"  --lsign-key <keyid>       Signer les identités des clefs spécifiées "
+"localement"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
 
-#, fuzzy
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
-"  -l, --list-keys [<keyid(s)>] Liste des clefs spécifiées ou de toutes les "
-"clefs."
+"  --refresh-keys [keyid(s)] Mise à jours de toutes les identités des clefs "
+"(ou uniquement de celles spécifiées) depuis un serveur de clefs"
 
 msgid "You do not have sufficient permissions to read the %s keyring..."
 msgstr "Vous n'avez pas les droits suffisants pour lire le porte-clefs %s…"
@@ -831,50 +822,43 @@ msgid "You do not have sufficient permissions to run this command..."
 msgstr "Vous n'avez pas les droits suffisants pour lancer cette commande…"
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Aucune clef secrète n'est disponible pour la signature. "
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Utiliser « %s » pour générer un clef secrète par defaut."
 
-#, fuzzy
 msgid "Verifying %s..."
-msgstr "Ajoute %s..."
+msgstr "Vérification de %s…"
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "Le fichier %s n'est pas signé, abandon."
 
 msgid "The signature of file %s is not valid."
 msgstr "La signature du fichier %s n'est pas valide."
 
-#, fuzzy
 msgid "Verifying keyring file signatures..."
-msgstr "Vérification de la signature des fichiers de clefs supprimés…"
+msgstr "Vérification des signatures du fichier du porte-clefs…"
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "Aucun fichier de porte-clefs n'existe dans %s."
 
-#, fuzzy
 msgid "The keyring file %s does not exist."
-msgstr "La clef idenditifiée par %s n'existe pas"
+msgstr "Le fichier de porte-clefs %s n'existe pas."
 
-#, fuzzy
 msgid "Appending keys from %s.gpg..."
-msgstr "Reception des clefs officielles…"
+msgstr "Ajout des clefs depuis %s.gpg…"
 
-#, fuzzy
 msgid "Locally signing trusted keys in keyring..."
-msgstr "Suppression des clefs supprimées du porte-clefs…"
+msgstr "Signature locale des clefs de confiance dans le porte-clefs…"
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Signature locale de la clef %s…"
 
-#, fuzzy
 msgid "Disabling revoked keys in keyring..."
-msgstr "Suppression des clefs supprimées du porte-clefs…"
+msgstr "Désactivation des clefs révoquées du porte-clefs…"
 
-#, fuzzy
 msgid "Disabling key %s..."
-msgstr "Archive %s... "
+msgstr "Désactivation de la clef %s…"
 
 msgid "The key identified by %s does not exist"
 msgstr "La clef idenditifiée par %s n'existe pas"
@@ -1214,20 +1198,3 @@ msgstr "L'option %s a besoin d'un argument\\n"
 
 msgid "unrecognized option"
 msgstr "Option non reconnue"
-
-#~ msgid "  --reload                  Reload the default keys"
-#~ msgstr "  --reload                  Recharge les clefs par defaut"
-
-#~ msgid "Verifying official keys file signature..."
-#~ msgstr "Vérification de la signature du fichier de clefs officielles…"
-
-#~ msgid "Verifying deprecated keys file signature..."
-#~ msgstr "Vérification de la signature de fichier de clefs obsolètes…"
-
-#~ msgid "Appending deprecated keys..."
-#~ msgstr "Réception des clefs obsolètes…"
-
-#~ msgid "You need to specify the keyserver and at least one key identifier"
-#~ msgstr ""
-#~ "Vous devez indiquer le serveur de clefs ainsi qu'un identifiant de clefs "
-#~ "(minimum)"

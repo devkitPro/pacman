@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-08-15 21:10+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-09-25 20:27+0000\n"
+"Last-Translator: Jonhoo <jon@thesquareplanet.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/nb/)\n"
 "Language: nb\n"
@@ -51,9 +51,9 @@ msgstr "oppgraderer %s ...\n"
 msgid "checking package integrity...\n"
 msgstr "sjekker pakkens integritet ...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "loading package files...\n"
-msgstr "sjekker pakkens integritet ...\n"
+msgstr "laster pakkefiler...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -121,9 +121,9 @@ msgstr[0] ""
 msgstr[1] ""
 "Ønsker du å hoppe over de overnevnte pakkene i denne oppgraderingen?"
 
-#, fuzzy, c-format
+#, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ":: %d tilbydere av %s er tilgjengelig:\n"
+msgstr ":: Det finnes %zd tilbydere for %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -134,10 +134,12 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: Filen %s er korrupt (%s).\n"
+"Ønsker du å slette den?"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Importér PGP nøkkel %s, \"%s\", opprettet %s?"
 
 #, c-format
 msgid "installing"
@@ -165,7 +167,7 @@ msgstr "sjekker pakkeintegritet"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "laster pakkefiler"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -189,19 +191,21 @@ msgstr "kjører XferCommand: splitting feilet\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "kunne ikke flytte %s til %s (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "kunne ikke avgjøre arbeidsmappe\n"
+msgstr "kunne ikke gjenopprette arbeidsmappe (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' trenger en verdi\n"
+msgstr "konfigurasjonsfil %s, linje %d: ugyldig verdig for '%s': '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "konfigurasjonsfil %s, linje %d: ugyldig seksjonsnavn.\n"
+msgstr ""
+"konfigurasjonsfil %s, linje %d: alternativ '%s' er ugyldig, ingen "
+"signaturstøtte\n"
 
 #, c-format
 msgid ""
@@ -210,11 +214,10 @@ msgstr ""
 "konfigurasjonsfil %s, linje %d: direktiv '%s' i seksjon '%s' ikke "
 "gjenkjent.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
-"The mirror '%s' contains the $arch variable, but no Architecture is "
-"defined.\n"
+"pakkebrønnen '%s' inneholder variablen '%s', men ingen '%s' er definert.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -234,11 +237,11 @@ msgstr "problem under initiering av loggfil '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "en problem oppstod ved setting av gpgdir '%s' (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "ingen '%s' er konfigurert"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -246,11 +249,11 @@ msgstr "kunne ikke registrere '%s'-databasen (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "kunne ikke legge til pakkebrønn '%s' til '%s' databasen (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "tolking av konfigurasjon overgikk øvre rekursjonsgrense på %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -357,15 +360,15 @@ msgstr "Erstatter   :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Nedlastingsstørrelse  : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Komprimert størrelse: %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Installert størrelse : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -405,11 +408,11 @@ msgstr "MD5 Sum       :"
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "SHA256 Sum     :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Signaturer     :"
 
 #, c-format
 msgid "None"
@@ -491,11 +494,12 @@ msgstr "  -u, --unneeded       fjern unødvendige pakker\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr ""
+msgstr "      --needed         ikke reinstallér pakker som er oppdaterte\n"
 
 #, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
 msgstr ""
+"      --recursive      reinstallér alle avhengigheter for valgte pakker\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -664,6 +668,7 @@ msgstr ""
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
+"      --dbonly         bare endre databaseoppføringer, ikke pakkefiler\n"
 
 #, c-format
 msgid ""
@@ -675,12 +680,13 @@ msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "    --noscriptlet     ikke kjør install-scriptet hvis det eksisterer\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"      --print          skriv ut målene istedenfor å utføre handlingen\n"
+"  -p, --print          skriv ut valgte pakker istedenfor å utføre "
+"operasjonen\n"
 
 #, c-format
 msgid ""
@@ -722,7 +728,7 @@ msgstr "      --debug          viser feilsøkingsbeskjeder\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "      --gpgdir <sti>  set en alternativ hjemmemappe for GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -752,9 +758,9 @@ msgstr "kun én operasjon kan bli brukt av gangen\n"
 msgid "invalid option\n"
 msgstr "ugyldig valg\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr "bufferoverflyt oppdaget i gitte argumenter\n"
+msgstr "minne fyllt under parametertolkning\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -800,21 +806,21 @@ msgstr "kunne ikke bestemme reell mappe for '%s' : %s\n"
 msgid "No package owns %s\n"
 msgstr "Ingen pakke eier %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "group '%s' was not found\n"
-msgstr "gruppe \"%s\" ble ikke funnet\n"
+msgstr "gruppen '%s' ble ikke funnet\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %d fil "
-msgstr[1] "%s: %d filer, "
+msgstr[0] "%s: %jd fil, "
+msgstr[1] "%s: %jd filer, "
 
-#, fuzzy, c-format
+#, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] "%d manglende fil\n"
-msgstr[1] "%d manglende filer\n"
+msgstr[0] "%jd manglende fil\n"
+msgstr[1] "%jd manglende filer\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -822,11 +828,11 @@ msgstr "pakke '%s' ble ikke funnet\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' er en fil, det er mulig du heller vil bruke %s.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not load package '%s': %s\n"
-msgstr "kunne ikke sette installasjonstype for pakke %s (%s)\n"
+msgstr "kunne ikke laste pakke '%s': %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -966,7 +972,7 @@ msgstr "databasen ble ikke funnet: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' er en fil, mente du %s istedenfor %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1020,9 +1026,9 @@ msgstr ""
 ":: Vil du avslutte nåværende operasjon\n"
 ":: og oppgradere disse pakkene nå?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "loading packages...\n"
-msgstr "laster ned %s ...\n"
+msgstr "laster pakker...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1046,59 +1052,59 @@ msgstr "ingen brukbare pakkebrønner konfigurert.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "databasen '%s' er ikke gyldig (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "utilstrekkelig antall kolonner tilgjengelig for tabellvisning\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Gyldig"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Nøkkel utløpt"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Utløpt"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Ugyldig"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Ukjent nøkkel"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Nøkkel deaktivert"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Signaturfei"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "full tiltro"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "begrenset tiltro"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "aldri stol på"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "ukjent tiltro"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s fra \"%s\""
 
 #, c-format
 msgid "failed to allocate string\n"
@@ -1106,19 +1112,19 @@ msgstr "klarte ikke å tilegne tekstlinje\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Gammel versjon"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Ny versjon"
 
 #, c-format
 msgid "Size"
-msgstr ""
+msgstr "Størrelse"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1130,19 +1136,19 @@ msgstr "Fjern (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Total nedlastingsstørrelse:    %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Total installasjonsstørrelse:   %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Netto oppgraderingsstørrelse:       %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Totalt fjernet:   %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1211,12 +1217,3 @@ msgstr "feil: "
 #, c-format
 msgid "warning: "
 msgstr "advarsel: "
-
-#~ msgid "could not change directory to %s (%s)\n"
-#~ msgstr "kunne ikke endre mappe til %s (%s)\n"
-
-#~ msgid "invalid value for 'CleanMethod' : '%s'\n"
-#~ msgstr "invalid verdi for 'CleanMethod' : '%s'\n"
-
-#~ msgid "package \"%s\" not found\n"
-#~ msgstr "pakke \"%s\" ikke funnet\n"
