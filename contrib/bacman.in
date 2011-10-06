@@ -93,8 +93,8 @@ pkg_dest="${PKGDEST:-$PWD}"
 pkg_pkger=${PACKAGER:-'Unknown Packager'}
 
 pkg_name="$1"
-pkg_dir="$(echo $pac_db/$pkg_name-[0-9]*)"
-pkg_namver="${pkg_dir##*/}"
+pkg_dir=("$pac_db/$pkg_name"-+([^-])-+([0-9]))
+pkg_namver=("${pkg_dir[@]##*/}")
 
 #
 # Checks everything is in place
@@ -104,8 +104,16 @@ if [[ ! -d $pac_db ]]; then
 	exit 1
 fi
 
+if (( ${#pkg_dir[@]} != 1 )); then
+	printf "ERROR: %d entries for package %s found in pacman database\n" \
+		${#pkg_dir[@]} "${pkg_name}"
+	printf "%s\n" "${pkg_dir[@]}"
+	exit 1
+fi
+
 if [[ ! -d $pkg_dir ]]; then
-	echo "ERROR: package ${pkg_name} not found in pacman database"
+	printf "ERROR: package %s is found in pacman database,\n" "${pkg_name}"
+	printf "       but \`%s' is not a directory\n" "${pkg_dir}"
 	exit 1
 fi
 
