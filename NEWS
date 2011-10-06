@@ -1,5 +1,76 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+4.0.0         - well-integrated and powerful signed packages and databases
+                support in pacman, the library, and scripts (FS#5331)
+              - over 800 commits to pacman.git since 3.5.4 release
+              - many code cleanup commits across library/binaries/scripts
+              - many performance improvement commits across library/binaries
+              - add new -S --recursive operation to upgrade a full dep chain
+              - report upgrade size on sync operations (FS#12566)
+              - early terminal input is flushed before question prompts
+              - remove duplicate code shared in sync and upgrade operations
+              - remove ShowSize; replaced with VerbosePkgLists (FS#15772)
+              - print callback (warning, error) messages to stderr (FS#25099)
+              - download progress callback has more room for filenames
+              - fix selection entry for long values (FS#25253)
+              - make config parsing two-pass process, enhance error messages
+              - print helpful tips on -Qi <filename> or -S <filename>
+              - replace libfetch with libcurl for backend download library
+                - timeout when mirror is not responding (FS#15369)
+                - full HTTPS protocol support (FS#22435)
+                - support of non-traditional/redirected URLs (FS#22645)
+                - ensure downloads are only resumed if appropriate (FS#23803)
+              - only remove empty directories if no remaining owner (FS#25141)
+              - better cache directory choosing and honor $TMPDIR (FS#25435)
+              - replaces are parsed as dependency-style strings (FS#23410)
+              - split package verification and load stages
+              - sync database reading refactor for performance
+              - filelists now have a dedicated type with metadata
+              - diskspace check no longer requires iterating package archives
+              - update and add checksum routines from PolarSSL
+              - validate sync database sha256sum if available
+              - correctly parse sizes in database > 2GiB
+              - API: several type renames from pm* to alpm_* prefix
+              - API: several enum constant renames from PM to ALPM_* prefix
+              - API: several types are now public exposed structs
+              - API: handle is no longer a single global variable
+              - API: more changes than can be mentioned here, see README
+              - much improved API documentation for use by Doxygen
+              - pactest: several performance/checking improvements
+              - scripts:
+                - refactor some common components into shared bash library
+                - split translations into pacman-scripts catalog (FS#15148)
+              - makepkg:
+                - allow signing packages after creation
+                - allow verifying source file signatures (FS#20448)
+                - support UPX compression of executables (FS#17213)
+                - allow usage of an alternate build directory (FS#22308)
+                - cleancache option has been removed; use shell instead
+                - improved variable sanity checking (FS#16004)
+                - better handling of package extensions (.tar.Z or invalid)
+                - allow PKGEXT/SRCEXT environment overrides (FS#19860)
+                - only check for writable PKGDEST if necessary (FS#24735)
+                - check_software function exits early if missing req'd binaries
+                - do source packaging in fakeroot (FS#24330)
+                - be more POSIX-compatible in use of `ln` (FS#24893)
+                - handle spaces with filenames in noextract (FS#25100)
+              - pacman-key: new keyring management tool for signed data
+              - pacsort: new utility, sort version numbers as pacman does
+              - pactree: support sync databases with -s option
+              - pkgdelta: add a manpage
+              - repo-add:
+                - handle and include package signatures in databases
+                - verify database signature before modification
+                - sign database after creation/modification
+                - general script cleanup and bash-ification
+                - add sha256sums to database (FS#23103)
+              - contrib/bacman: code cleanups and small bug fixes
+              - contrib/bash_completion: updates for new options/commands
+              - contrib/paccache: new, pacman cache cleanup script
+              - contrib/paclist: rewrite using bash
+              - contrib/paclog-pkglist: new, recover from missing local DB
+              - documentation: extensive updates to all manpages
+              - translations: extensive updates, new languages: lt, zh_TW
 3.5.4         - fix display of lists on non-TTYs and other output fixes
               - fix group selection entry for large inputs (FS#24253)
               - fix divide by zero when downloading zero length files
