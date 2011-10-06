@@ -400,7 +400,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	p = str;
 	newp = newstr;
 	for(i = list; i; i = alpm_list_next(i)) {
-		q = alpm_list_getdata(i);
+		q = i->data;
 		if(q > p) {
 			/* add chars between this occurence and last occurence, if any */
 			memcpy(newp, p, (size_t)(q - p));
@@ -494,7 +494,7 @@ static void table_print_line(const alpm_list_t *line,
 	const alpm_list_t *curcell = line;
 
 	while(curcell && curformat) {
-		printf(alpm_list_getdata(curformat), alpm_list_getdata(curcell));
+		printf(curformat->data, curcell->data);
 		curcell = alpm_list_next(curcell);
 		curformat = alpm_list_next(curformat);
 	}
@@ -519,15 +519,15 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 	}
 	/* header determines column count and initial values of longest_strs */
 	for(i = header, curcol = 0; i; i = alpm_list_next(i), curcol++) {
-		colwidths[curcol] = string_length(alpm_list_getdata(i));
+		colwidths[curcol] = string_length(i->data);
 	}
 
 	/* now find the longest string in each column */
 	for(i = rows; i; i = alpm_list_next(i)) {
 		/* grab first column of each row and iterate through columns */
-		const alpm_list_t *j = alpm_list_getdata(i);
+		const alpm_list_t *j = i->data;
 		for(curcol = 0; j; j = alpm_list_next(j), curcol++) {
-			char *str = alpm_list_getdata(j);
+			const char *str = j->data;
 			size_t str_len = string_length(str);
 
 			if(str_len > colwidths[curcol]) {
@@ -595,7 +595,7 @@ int table_display(const char *title, const alpm_list_t *header,
 	printf("\n");
 
 	for(i = rows; i; i = alpm_list_next(i)) {
-		table_print_line(alpm_list_getdata(i), formats);
+		table_print_line(i->data, formats);
 	}
 
 	FREELIST(formats);
@@ -617,11 +617,11 @@ void list_display(const char *title, const alpm_list_t *list)
 	} else {
 		const unsigned short maxcols = getcols();
 		size_t cols = len;
-		const char *str = alpm_list_getdata(list);
+		const char *str = list->data;
 		printf("%s", str);
 		cols += string_length(str);
 		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
-			str = alpm_list_getdata(i);
+			str = i->data;
 			size_t s = string_length(str);
 			/* wrap only if we have enough usable column space */
 			if(maxcols > len && cols + s + 2 >= maxcols) {
@@ -657,7 +657,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 	} else {
 		const alpm_list_t *i;
 		/* Print the first element */
-		indentprint((const char *) alpm_list_getdata(list), len);
+		indentprint((const char *)list->data, len);
 		printf("\n");
 		/* Print the rest */
 		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
@@ -665,7 +665,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 			for(j = 1; j <= len; j++) {
 				printf(" ");
 			}
-			indentprint((const char *) alpm_list_getdata(i), len);
+			indentprint((const char *)i->data, len);
 			printf("\n");
 		}
 	}
@@ -832,7 +832,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 
 	/* gather package info */
 	for(i = targets; i; i = alpm_list_next(i)) {
-		pm_target_t *target = alpm_list_getdata(i);
+		pm_target_t *target = i->data;
 
 		if(target->install) {
 			dlsize += alpm_pkg_download_size(target->install);
@@ -876,7 +876,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 
 	/* rows is a list of lists of strings, free inner lists here */
 	for(i = rows; i; i = alpm_list_next(i)) {
-		alpm_list_t *lp = alpm_list_getdata(i);
+		alpm_list_t *lp = i->data;
 		FREELIST(lp);
 	}
 	alpm_list_free(rows);
@@ -933,7 +933,7 @@ void display_targets(void)
 	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 
 	for(i = alpm_trans_get_add(config->handle); i; i = alpm_list_next(i)) {
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = i->data;
 		pm_target_t *targ = calloc(1, sizeof(pm_target_t));
 		if(!targ) return;
 		targ->install = pkg;
@@ -944,7 +944,7 @@ void display_targets(void)
 		targets = alpm_list_add(targets, targ);
 	}
 	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = i->data;
 		pm_target_t *targ = calloc(1, sizeof(pm_target_t));
 		if(!targ) return;
 		targ->remove = pkg;
@@ -979,7 +979,7 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
 		case PM_OP_SYNC:
 			servers = alpm_db_get_servers(alpm_pkg_get_db(pkg));
 			if(servers) {
-				pm_asprintf(&string, "%s/%s", alpm_list_getdata(servers),
+				pm_asprintf(&string, "%s/%s", servers->data,
 						alpm_pkg_get_filename(pkg));
 				return string;
 			}
@@ -1034,7 +1034,7 @@ void print_packages(const alpm_list_t *packages)
 		config->print_format = strdup("%l");
 	}
 	for(i = packages; i; i = alpm_list_next(i)) {
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = i->data;
 		char *string = strdup(config->print_format);
 		char *temp = string;
 		/* %n : pkgname */
@@ -1127,7 +1127,7 @@ void select_display(const alpm_list_t *pkglist)
 	const char *dbname = NULL;
 
 	for (i = pkglist; i; i = i->next) {
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = i->data;
 		alpm_db_t *db = alpm_pkg_get_db(pkg);
 
 		if(!dbname)

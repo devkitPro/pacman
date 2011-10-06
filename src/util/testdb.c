@@ -101,7 +101,7 @@ static int checkdeps(alpm_list_t *pkglist)
 	/* check dependencies */
 	data = alpm_checkdeps(handle, pkglist, NULL, pkglist, 0);
 	for(i = data; i; i = alpm_list_next(i)) {
-		alpm_depmissing_t *miss = alpm_list_getdata(i);
+		alpm_depmissing_t *miss = i->data;
 		char *depstring = alpm_dep_compute_string(miss->depend);
 		printf("missing dependency for %s : %s\n", miss->target,
 				depstring);
@@ -119,7 +119,7 @@ static int checkconflicts(alpm_list_t *pkglist)
 	/* check conflicts */
 	data = alpm_checkconflicts(handle, pkglist);
 	for(i = data; i; i = i->next) {
-		alpm_conflict_t *conflict = alpm_list_getdata(i);
+		alpm_conflict_t *conflict = i->data;
 		printf("%s conflicts with %s\n",
 				conflict->package1, conflict->package2);
 		ret++;
@@ -154,7 +154,7 @@ static int check_syncdbs(alpm_list_t *dbnames)
 	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
-		char *dbname = alpm_list_getdata(i);
+		const char *dbname = i->data;
 		db = alpm_db_register_sync(handle, dbname, level);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database (%s)\n",

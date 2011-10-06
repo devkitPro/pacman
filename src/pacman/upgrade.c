@@ -73,7 +73,7 @@ int pacman_upgrade(alpm_list_t *targets)
 	printf(_("loading packages...\n"));
 	/* add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
-		char *targ = alpm_list_getdata(i);
+		const char *targ = i->data;
 		alpm_pkg_t *pkg;
 
 		if(alpm_pkg_load(config->handle, targ, 1, level, &pkg) != 0) {

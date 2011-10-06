@@ -659,7 +659,7 @@ static int finish_section(struct section_t *section, int parse_options)
 	}
 
 	for(i = section->servers; i; i = alpm_list_next(i)) {
-		char *value = alpm_list_getdata(i);
+		char *value = i->data;
 		if(_add_mirror(db, value) != 0) {
 			pm_printf(ALPM_LOG_ERROR,
 					_("could not add mirror '%s' to database '%s' (%s)\n"),

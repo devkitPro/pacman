@@ -363,7 +363,7 @@ static alpm_pkg_t *get_pkg_from_dbs(alpm_list_t *dbs, const char *needle) {
 	alpm_pkg_t *ret;
 
 	for(i = dbs; i; i = alpm_list_next(i)) {
-		ret = alpm_db_get_pkg(alpm_list_getdata(i), needle);
+		ret = alpm_db_get_pkg(i->data, needle);
 		if(ret) {
 			return ret;
 		}
@@ -386,7 +386,7 @@ static void walk_reverse_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
 	required_by = alpm_pkg_compute_requiredby(pkg);
 
 	for(i = required_by; i; i = alpm_list_next(i)) {
-		const char *pkgname = alpm_list_getdata(i);
+		const char *pkgname = i->data;
 
 		if(alpm_list_find_str(walked, pkgname)) {
 			/* if we've already seen this package, don't print in "unique" output
@@ -417,7 +417,7 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
 	walked = alpm_list_add(walked, (void *)alpm_pkg_get_name(pkg));
 
 	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
-		alpm_depend_t *depend = alpm_list_getdata(i);
+		alpm_depend_t *depend = i->data;
 		alpm_pkg_t *provider = alpm_find_dbs_satisfier(handle, dblist, depend->name);
 
 		if(provider) {

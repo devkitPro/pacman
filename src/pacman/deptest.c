@@ -36,7 +36,7 @@ int pacman_deptest(alpm_list_t *targets)
 	alpm_db_t *localdb = alpm_option_get_localdb(config->handle);
 
 	for(i = targets; i; i = alpm_list_next(i)) {
-		char *target = alpm_list_getdata(i);
+		char *target = i->data;
 
 		if(!alpm_find_satisfier(alpm_db_get_pkgcache(localdb), target)) {
 			deps = alpm_list_add(deps, target);
@@ -48,7 +48,7 @@ int pacman_deptest(alpm_list_t *targets)
 	}
 
 	for(i = deps; i; i = alpm_list_next(i)) {
-		const char *dep = alpm_list_getdata(i);
+		const char *dep = i->data;
 
 		printf("%s\n", dep);
 	}

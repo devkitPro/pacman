@@ -576,19 +576,6 @@ alpm_list_t SYMEXPORT *alpm_list_last(const alpm_list_t *list)
 	}
 }
 
-/**
- * @brief Get the data member of a list node.
- *
- * @param node the list node
- *
- * @return the contained data, or NULL if none
- */
-void SYMEXPORT *alpm_list_getdata(const alpm_list_t *node)
-{
-	if(node == NULL) return NULL;
-	return node->data;
-}
-
 /* Misc */
 
 /**

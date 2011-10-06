@@ -56,10 +56,10 @@ static void checkpkgs(alpm_list_t *pkglist)
 {
 	alpm_list_t *i, *j;
 	for(i = pkglist; i; i = alpm_list_next(i)) {
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = i->data;
 		alpm_list_t *unused = alpm_pkg_unused_deltas(pkg);
 		for(j = unused; j; j = alpm_list_next(j)) {
-			char *delta = alpm_list_getdata(j);
+			const char *delta = j->data;
 			printf("%s\n", delta);
 		}
 		alpm_list_free(unused);
@@ -72,7 +72,7 @@ static void checkdbs(alpm_list_t *dbnames) {
 	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
-		const char *dbname = alpm_list_getdata(i);
+		const char *dbname = i->data;
 		db = alpm_db_register_sync(handle, dbname, level);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database '%s' (%s)\n",

@@ -211,7 +211,7 @@ static void usage(int op, const char * const myname)
 	}
 	list = alpm_list_msort(list, alpm_list_count(list), options_cmp);
 	for (i = list; i; i = alpm_list_next(i)) {
-		printf("%s", (char *)alpm_list_getdata(i));
+		printf("%s", (const char *)i->data);
 	}
 	alpm_list_free(list);
 #undef addlist
@@ -905,7 +905,7 @@ int main(int argc, char *argv[])
 		printf("DB Path   : %s\n", alpm_option_get_dbpath(config->handle));
 		printf("Cache Dirs: ");
 		for(i = alpm_option_get_cachedirs(config->handle); i; i = alpm_list_next(i)) {
-			printf("%s  ", (char *)alpm_list_getdata(i));
+			printf("%s  ", (const char *)i->data);
 		}
 		printf("\n");
 		printf("Lock File : %s\n", alpm_option_get_lockfile(config->handle));

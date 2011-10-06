@@ -71,7 +71,6 @@ alpm_list_t *alpm_list_nth(const alpm_list_t *list, size_t n);
 alpm_list_t *alpm_list_next(const alpm_list_t *list);
 alpm_list_t *alpm_list_previous(const alpm_list_t *list);
 alpm_list_t *alpm_list_last(const alpm_list_t *list);
-void *alpm_list_getdata(const alpm_list_t *entry);
 
 /* misc */
 size_t alpm_list_count(const alpm_list_t *list);

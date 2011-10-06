@@ -47,7 +47,7 @@ static void deplist_display(const char *title,
 {
 	alpm_list_t *i, *text = NULL;
 	for(i = deps; i; i = alpm_list_next(i)) {
-		alpm_depend_t *dep = alpm_list_getdata(i);
+		alpm_depend_t *dep = i->data;
 		text = alpm_list_add(text, alpm_dep_compute_string(dep));
 	}
 	list_display(title, text);
@@ -224,7 +224,7 @@ void dump_pkg_backups(alpm_pkg_t *pkg)
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
 		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
-			const alpm_backup_t *backup = alpm_list_getdata(i);
+			const alpm_backup_t *backup = i->data;
 			const char *value;
 			if(!backup->hash) {
 				continue;

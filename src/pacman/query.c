@@ -143,7 +143,7 @@ static int query_fileowner(alpm_list_t *targets)
 		alpm_list_t *i;
 		int found = 0;
 
-		filename = strdup(alpm_list_getdata(t));
+		filename = strdup(t->data);
 
 		if(lstat(filename, &buf) == -1) {
 			/*  if it is not a path but a program name, then check in PATH */
@@ -193,7 +193,7 @@ static int query_fileowner(alpm_list_t *targets)
 		free(dname);
 
 		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
-			alpm_pkg_t *info = alpm_list_getdata(i);
+			alpm_pkg_t *info = i->data;
 			alpm_filelist_t *filelist = alpm_pkg_get_files(info);
 			size_t j;
 
@@ -263,7 +263,7 @@ static int query_search(alpm_list_t *targets)
 
 	for(i = searchlist; i; i = alpm_list_next(i)) {
 		alpm_list_t *grp;
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = i->data;
 
 		if(!config->quiet) {
 			printf("local/%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
@@ -277,7 +277,7 @@ static int query_search(alpm_list_t *targets)
 				alpm_list_t *k;
 				printf(" (");
 				for(k = grp; k; k = alpm_list_next(k)) {
-					const char *group = alpm_list_getdata(k);
+					const char *group = k->data;
 					printf("%s", group);
 					if(alpm_list_next(k)) {
 						/* only print a spacer if there are more groups */
@@ -304,33 +304,33 @@ static int query_search(alpm_list_t *targets)
 static int query_group(alpm_list_t *targets)
 {
 	alpm_list_t *i, *j;
-	char *grpname = NULL;
+	const char *grpname = NULL;
 	int ret = 0;
 	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
 
 	if(targets == NULL) {
 		for(j = alpm_db_get_groupcache(db_local); j; j = alpm_list_next(j)) {
-			alpm_group_t *grp = alpm_list_getdata(j);
+			alpm_group_t *grp = j->data;
 			const alpm_list_t *p;
 
 			for(p = grp->packages; p; p = alpm_list_next(p)) {
-				alpm_pkg_t *pkg = alpm_list_getdata(p);
+				alpm_pkg_t *pkg = p->data;
 				printf("%s %s\n", grp->name, alpm_pkg_get_name(pkg));
 			}
 		}
 	} else {
 		for(i = targets; i; i = alpm_list_next(i)) {
 			alpm_group_t *grp;
-			grpname = alpm_list_getdata(i);
+			grpname = i->data;
 			grp = alpm_db_readgroup(db_local, grpname);
 			if(grp) {
 				const alpm_list_t *p;
 				for(p = grp->packages; p; p = alpm_list_next(p)) {
 					if(!config->quiet) {
 						printf("%s %s\n", grpname,
-								alpm_pkg_get_name(alpm_list_getdata(p)));
+								alpm_pkg_get_name(p->data));
 					} else {
-						printf("%s\n", alpm_pkg_get_name(alpm_list_getdata(p)));
+						printf("%s\n", alpm_pkg_get_name(p->data));
 					}
 				}
 			} else {
@@ -350,7 +350,7 @@ static int is_foreign(alpm_pkg_t *pkg)
 
 	int match = 0;
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
-		alpm_db_t *db = alpm_list_getdata(j);
+		alpm_db_t *db = j->data;
 		alpm_pkg_t *findpkg = alpm_db_get_pkg(db, pkgname);
 		if(findpkg) {
 			match = 1;
@@ -526,7 +526,7 @@ int pacman_query(alpm_list_t *targets)
 		}
 
 		for(i = alpm_db_get_pkgcache(db_local); i; i = alpm_list_next(i)) {
-			pkg = alpm_list_getdata(i);
+			pkg = i->data;
 			if(filter(pkg)) {
 				int value = display(pkg);
 				if(value != 0) {
@@ -552,7 +552,7 @@ int pacman_query(alpm_list_t *targets)
 	/* operations on named packages in the local DB
 	 * valid: no-op (plain -Q), list, info, check */
 	for(i = targets; i; i = alpm_list_next(i)) {
-		char *strname = alpm_list_getdata(i);
+		const char *strname = i->data;
 
 		if(config->op_q_isfile) {
 			alpm_pkg_load(config->handle, strname, 1, 0, &pkg);

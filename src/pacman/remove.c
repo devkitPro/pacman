@@ -54,7 +54,7 @@ static int remove_target(const char *target)
 		return -1;
 	}
 	for(p = grp->packages; p; p = alpm_list_next(p)) {
-		pkg = alpm_list_getdata(p);
+		pkg = p->data;
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
 			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
@@ -89,7 +89,7 @@ int pacman_remove(alpm_list_t *targets)
 
 	/* Step 1: add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
-		char *target = alpm_list_getdata(i);
+		char *target = i->data;
 		char *targ = strchr(target, '/');
 		if(targ && strncmp(target, "local", 5) == 0) {
 			targ++;
@@ -110,13 +110,13 @@ int pacman_remove(alpm_list_t *targets)
 		switch(err) {
 			case ALPM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
-					char *pkg = alpm_list_getdata(i);
+					const char *pkg = i->data;
 					printf(_(":: package %s does not have a valid architecture\n"), pkg);
 				}
 				break;
 			case ALPM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					alpm_depmissing_t *miss = alpm_list_getdata(i);
+					alpm_depmissing_t *miss = i->data;
 					char *depstring = alpm_dep_compute_string(miss->depend);
 					printf(_(":: %s: requires %s\n"), miss->target, depstring);
 					free(depstring);
@@ -133,7 +133,7 @@ int pacman_remove(alpm_list_t *targets)
 	/* Search for holdpkg in target list */
 	int holdpkg = 0;
 	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
-		alpm_pkg_t *pkg = alpm_list_getdata(i);
+		alpm_pkg_t *pkg = i->data;
 		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
 			pm_printf(ALPM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
 							alpm_pkg_get_name(pkg));
