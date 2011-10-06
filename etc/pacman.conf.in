@@ -17,8 +17,8 @@
 HoldPkg     = pacman glibc
 # If upgrades are available for these packages they will be asked for first
 SyncFirst   = pacman
-#XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
 #XferCommand = /usr/bin/curl -C - -f %u > %o
+#XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
 #CleanMethod = KeepInstalled
 Architecture = auto
 
@@ -29,11 +29,11 @@ Architecture = auto
 #NoUpgrade   =
 #NoExtract   =
 
-# Misc options (all disabled by default)
+# Misc options
 #UseSyslog
 #UseDelta
 #TotalDownload
-#CheckSpace
+CheckSpace
 #VerbosePkgLists
 
 # PGP signature checking
