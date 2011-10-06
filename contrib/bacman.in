@@ -265,15 +265,6 @@ chmod 644 "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
 #
 echo "Generating the package..."
 
-case "$PKGEXT" in
-	*tar.gz)  EXT=${PKGEXT%.gz} ;;
-	*tar.bz2) EXT=${PKGEXT%.bz2} ;;
-	*tar.xz)  EXT=${PKGEXT%.xz} ;;
-	*tar)     EXT=${PKGEXT} ;;
-	*) echo "WARNING: '%s' is not a valid archive extension." \
-	"$PKGEXT" ; EXT=$PKGEXT ;;
-esac
-
 pkg_file="$pkg_dest/$pkg_namver-$pkg_arch${PKGEXT}"
 ret=0
 
@@ -284,7 +275,10 @@ case "$PKGEXT" in
 	*tar.gz)  gzip -c -f -n ;;
 	*tar.bz2) bzip2 -c -f ;;
 	*tar.xz)  xz -c -z - ;;
+	*tar.Z)   compress -c -f ;;
 	*tar)     cat ;;
+	*) echo "WARNING: '%s' is not a valid archive extension." \
+	"$PKGEXT" >&2; cat ;;
 esac > "${pkg_file}"; ret=$?
 
 if (( ret )); then
