@@ -36,4 +36,9 @@ install-data-local:
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 
+update-po:
+	$(MAKE) -C lib/libalpm/po update-po
+	$(MAKE) -C scripts/po update-po
+	$(MAKE) -C src/pacman/po update-po
+
 # vim:set ts=2 sw=2 noet:
