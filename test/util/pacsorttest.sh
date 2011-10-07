@@ -40,10 +40,11 @@ runtest() {
 
 if ! type -p "$bin"; then
 	echo "pacsort binary ($bin) could not be located"
+	echo
 	exit 1
 fi
 
-echo "Beginning pacsort tests"
+echo "Running pacsort tests..."
 
 # BEGIN TESTS
 
@@ -93,11 +94,12 @@ runtest "$separator" "$separator_reverse" "really long input, sort key, separato
 
 #END TESTS
 
-echo
 if [[ $failure -eq 0 ]]; then
 	echo "All $total tests successful"
+	echo
 	exit 0
 fi
 
 echo "$failure of $total tests failed"
+echo
 exit 1
