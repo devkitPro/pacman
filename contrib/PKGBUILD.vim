@@ -220,6 +220,9 @@ hi def link pb_k_pkgrel pbKeywords
 hi def link pbIllegalPkgdesc Error
 hi def link pb_k_desc pbKeywords
 
+hi def link pbIllegalEpoch Error
+hi def link pb_k_epoch pbKeywords
+
 hi def link pbIllegalUrl Error
 hi def link pb_k_url pbKeywords
 
