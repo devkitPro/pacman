@@ -162,6 +162,7 @@ static int register_syncs(void) {
 
 	fp = fopen(configfile, "r");
 	if(!fp) {
+		fprintf(stderr, "error: config file %s could not be read\n", configfile);
 		return 1;
 	}
 
@@ -463,7 +464,6 @@ int main(int argc, char *argv[])
 
 	if(searchsyncs) {
 		if(register_syncs() != 0) {
-			fprintf(stderr, "error: failed to register sync DBs\n");
 			ret = 1;
 			goto finish;
 		}
