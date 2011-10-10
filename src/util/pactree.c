@@ -76,6 +76,11 @@ static struct color_choices no_color = {
 	""
 };
 
+/* long operations */
+enum {
+	OP_CONFIG = 1000
+};
+
 /* globals */
 alpm_handle_t *handle = NULL;
 alpm_list_t *walked = NULL;
@@ -90,6 +95,7 @@ int reverse = 0;
 int unique = 0;
 int searchsyncs = 0;
 const char *dbpath = DBPATH;
+const char *configfile = CONFFILE;
 
 #ifndef HAVE_STRNDUP
 /* A quick and dirty implementation derived from glibc */
@@ -154,7 +160,7 @@ static int register_syncs(void) {
 	char line[LINE_MAX];
 	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
-	fp = fopen(CONFFILE, "r");
+	fp = fopen(configfile, "r");
 	if(!fp) {
 		return 1;
 	}
@@ -202,6 +208,8 @@ static int parse_options(int argc, char *argv[])
 		{"reverse", no_argument,          0, 'r'},
 		{"sync",    no_argument,          0, 'S'},
 		{"unique",  no_argument,          0, 'u'},
+
+		{"config",  required_argument,    0, OP_CONFIG},
 		{0, 0, 0, 0}
 	};
 
@@ -211,6 +219,9 @@ static int parse_options(int argc, char *argv[])
 		}
 
 		switch(opt) {
+			case OP_CONFIG:
+				configfile = optarg;
+				break;
 			case 'b':
 				dbpath = optarg;
 				break;
@@ -263,11 +274,12 @@ static void usage(void)
 			"  -c, --color          colorize output\n"
 			"  -d, --depth <#>      limit the depth of recursion\n"
 			"  -g, --graph          generate output for graphviz's dot\n"
+			"  -h, --help           display this help message\n"
 			"  -l, --linear         enable linear output\n"
 			"  -r, --reverse        show reverse dependencies\n"
 			"  -s, --sync           search sync DBs instead of local\n"
-			"  -u, --unique         show dependencies with no duplicates (implies -l)\n\n"
-			"  -h, --help           display this help message\n");
+			"  -u, --unique         show dependencies with no duplicates (implies -l)\n"
+			"      --config <path>  set an alternate configuration file\n");
 }
 
 static void cleanup(void)
