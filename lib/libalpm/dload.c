@@ -377,8 +377,11 @@ static int curl_download_internal(struct dload_payload *payload,
 	/* perform transfer */
 	payload->curlerr = curl_easy_perform(curl);
 
-	/* immediately unhook the progress callback */
+	/* disconnect relationships from the curl handle for things that might go out
+	 * of scope, but could still be touched on connection teardown.  This really
+	 * only applies to FTP transfers. See FS#26327 for an example. */
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
+	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, (char *)NULL);
 
 	/* was it a success? */
 	switch(payload->curlerr) {
