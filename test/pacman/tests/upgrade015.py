@@ -6,7 +6,7 @@ self.addpkg(p)
 
 self.filesystem = ["etc/dummy.conf"]
 
-self.args = "-Uf %s" % p.filename()
+self.args = "-U --force %s" % p.filename()
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=dummy")

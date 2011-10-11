@@ -32,8 +32,8 @@ _pacman_opts_common=(
 # options for passing to _arguments: options for --upgrade commands
 _pacman_opts_pkgfile=(
 	'-d[Skip dependency checks]'
-	'-f[Overwrite conflicting files]'
 	'--dbonly[Only remove database entry, do not remove files]'
+	'--force[Overwrite conflicting files]'
 	'--needed[Do not reinstall up to date packages]'
 	'--recursive[Reinstall all dependencies of target packages]'
 	'*:package file:_files -g "*.pkg.tar.*(.)"'
@@ -85,7 +85,6 @@ _pacman_opts_sync_actions=(
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_modifiers=(
 	'-d[Skip dependency checks]'
-	'-f[Overwrite conflicting files]'
 	'-i[View package information]'
 	'-l[List all packages in a repository]'
 	'-p[Print download URIs for each package to be installed]'
@@ -98,6 +97,7 @@ _pacman_opts_sync_modifiers=(
 		_pacman_completions_all_groups'
 	'--asdeps[Install packages as non-explicitly installed]'
 	'--asexplicit[Install packages as explicitly installed]'
+	'--force[Overwrite conflicting files]'
 )
 
 # handles --help subcommand

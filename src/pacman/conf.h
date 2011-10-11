@@ -128,7 +128,8 @@ enum {
 	OP_PRINTFORMAT,
 	OP_GPGDIR,
 	OP_RECURSIVE,
-	OP_DBONLY
+	OP_DBONLY,
+	OP_FORCE
 };
 
 /* clean method */

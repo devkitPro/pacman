@@ -177,7 +177,7 @@ static void usage(int op, const char * const myname)
 		switch(op) {
 			case PM_OP_SYNC:
 			case PM_OP_UPGRADE:
-				addlist(_("  -f, --force          force install, overwrite conflicting files\n"));
+				addlist(_("      --force          force install, overwrite conflicting files\n"));
 				addlist(_("      --asdeps         install packages as non-explicitly installed\n"));
 				addlist(_("      --asexplicit     install packages as explicitly installed\n"));
 				addlist(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
@@ -530,7 +530,7 @@ static int parsearg_upgrade(int opt)
 	if(parsearg_trans(opt) == 0)
 		return 0;
 	switch(opt) {
-		case 'f': config->flags |= ALPM_TRANS_FLAG_FORCE; break;
+		case OP_FORCE: config->flags |= ALPM_TRANS_FLAG_FORCE; break;
 		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
 		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
 		case OP_NEEDED: config->flags |= ALPM_TRANS_FLAG_NEEDED; break;
@@ -596,7 +596,6 @@ static int parseargs(int argc, char *argv[])
 		{"nodeps",     no_argument,       0, 'd'},
 		{"deps",       no_argument,       0, 'd'},
 		{"explicit",   no_argument,       0, 'e'},
-		{"force",      no_argument,       0, 'f'},
 		{"groups",     no_argument,       0, 'g'},
 		{"help",       no_argument,       0, 'h'},
 		{"info",       no_argument,       0, 'i'},
@@ -622,6 +621,7 @@ static int parseargs(int argc, char *argv[])
 		{"config",     required_argument, 0, OP_CONFIG},
 		{"ignore",     required_argument, 0, OP_IGNORE},
 		{"debug",      optional_argument, 0, OP_DEBUG},
+		{"force",      no_argument,       0, OP_FORCE},
 		{"noprogressbar", no_argument,    0, OP_NOPROGRESSBAR},
 		{"noscriptlet", no_argument,      0, OP_NOSCRIPTLET},
 		{"ask",        required_argument, 0, OP_ASK},
