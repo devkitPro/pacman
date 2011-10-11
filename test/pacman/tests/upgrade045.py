@@ -1,4 +1,4 @@
-self.description = "FS#9235"
+self.description = "FS#9235, backup file is broken symlink"
 
 lp = pmpkg("foo")
 lp.files = ["etc/foo.cfg -> etc/foo.cfg"]
