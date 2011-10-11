@@ -107,6 +107,10 @@ similar to `$_basekernver`.
 It is also possible to change the name of the downloaded file, which is helpful
 with weird URLs and for handling multiple source files with the same
 name. The syntax is: `source=('filename::url')`.
++
+Files in the source array with extensions `.sig` or `.asc` are recognized by
+makepkg as PGP signatures and will be automatically used to verify the integrity
+of the corresponding source file.
 
 *noextract (array)*::
 	An array of filenames corresponding to those from the source array. Files
