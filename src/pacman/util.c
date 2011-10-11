@@ -488,34 +488,47 @@ void string_display(const char *title, const char *string)
 }
 
 static void table_print_line(const alpm_list_t *line,
-		const alpm_list_t *formats)
+		size_t colcount, size_t *widths)
 {
-	const alpm_list_t *curformat = formats;
-	const alpm_list_t *curcell = line;
+	size_t i;
+	const alpm_list_t *curcell;
 
-	while(curcell && curformat) {
-		printf(alpm_list_getdata(curformat), alpm_list_getdata(curcell));
-		curcell = alpm_list_next(curcell);
-		curformat = alpm_list_next(curformat);
+	for(i = 0, curcell = line; curcell && i < colcount;
+			i++, curcell = alpm_list_next(curcell)) {
+		const char *value = curcell->data;
+		size_t len = string_length(value);
+		/* silly printf requires padding size to be an int */
+		int padding = (int)widths[i] - (int)len;
+		if(padding < 0) {
+			padding = 0;
+		}
+		/* left-align all but the last column */
+		if(i + 1 < colcount) {
+			printf("%s%*s", value, padding, "");
+		} else {
+			printf("%*s%s", padding, "", value);
+		}
 	}
 
 	printf("\n");
 }
 
-/* creates format strings by checking max cell lengths in cols */
-static alpm_list_t *table_create_format(const alpm_list_t *header,
-		const alpm_list_t *rows)
+/* find the max string width of each column */
+static size_t table_calc_widths(const alpm_list_t *header,
+		const alpm_list_t *rows, size_t totalcols, size_t **widths)
 {
-	alpm_list_t *formats = NULL;
 	const alpm_list_t *i;
 	const unsigned short padding = 2;
-	size_t curcol, totalcols, totalwidth = 0;
+	size_t curcol, totalwidth = 0;
 	size_t *colwidths;
 
-	totalcols = alpm_list_count(header);
+	if(totalcols <= 0) {
+		return 0;
+	}
+
 	colwidths = malloc(totalcols * sizeof(size_t));
 	if(!colwidths) {
-		return NULL;
+		return 0;
 	}
 	/* header determines column count and initial values of longest_strs */
 	for(i = header, curcol = 0; i; i = alpm_list_next(i), curcol++) {
@@ -536,30 +549,16 @@ static alpm_list_t *table_create_format(const alpm_list_t *header,
 		}
 	}
 
-	/* now use the column width info to generate format strings */
-	for(curcol = 0; curcol < totalcols; curcol++) {
-		const char *display;
-		char *formatstr;
-		size_t colwidth = colwidths[curcol] + padding;
-		totalwidth += colwidth;
-
-		/* right align the last column for a cleaner table display */
-		display = (curcol + 1 < totalcols) ? "%%-%ds" : "%%%ds";
-		pm_asprintf(&formatstr, display, colwidth);
-
-		formats = alpm_list_add(formats, formatstr);
+	for(i = header, curcol = 0; i; i = alpm_list_next(i), curcol++) {
+		/* pad everything but the last column */
+		if(curcol + 1 < totalcols) {
+			colwidths[curcol] += padding;
+		}
+		totalwidth += colwidths[curcol];
 	}
 
-	free(colwidths);
-
-	/* return NULL if terminal is not wide enough */
-	if(totalwidth > getcols()) {
-		fprintf(stderr, _("insufficient columns available for table display\n"));
-		FREELIST(formats);
-		return NULL;
-	}
-
-	return formats;
+	*widths = colwidths;
+	return totalwidth;
 }
 
 /** Displays the list in table format
@@ -576,14 +575,20 @@ int table_display(const char *title, const alpm_list_t *header,
 		const alpm_list_t *rows)
 {
 	const alpm_list_t *i;
-	alpm_list_t *formats;
+	size_t *widths = NULL, totalcols, totalwidth;
 
 	if(rows == NULL || header == NULL) {
 		return 0;
 	}
 
-	formats = table_create_format(header, rows);
-	if(formats == NULL) {
+	totalcols = alpm_list_count(header);
+	totalwidth = table_calc_widths(header, rows, totalcols, &widths);
+	/* return -1 if terminal is not wide enough */
+	if(totalwidth > getcols()) {
+		fprintf(stderr, _("insufficient columns available for table display\n"));
+		return -1;
+	}
+	if(!totalwidth || !widths) {
 		return -1;
 	}
 
@@ -591,14 +596,14 @@ int table_display(const char *title, const alpm_list_t *header,
 		printf("%s\n\n", title);
 	}
 
-	table_print_line(header, formats);
+	table_print_line(header, totalcols, widths);
 	printf("\n");
 
 	for(i = rows; i; i = alpm_list_next(i)) {
-		table_print_line(alpm_list_getdata(i), formats);
+		table_print_line(alpm_list_getdata(i), totalcols, widths);
 	}
 
-	FREELIST(formats);
+	free(widths);
 	return 0;
 }
 
