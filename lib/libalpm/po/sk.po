@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Dušan Lago <dusan.lago@gmail.com>, 2011.
+#   <jose1711@gmail.com>, 2011.
 # jose1711 <jose1711@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:35-0500\n"
+"PO-Revision-Date: 2011-10-08 19:38+0000\n"
+"Last-Translator: jose1711 <jose1711@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sk/)\n"
 "Language: sk\n"
@@ -85,7 +87,7 @@ msgstr "nie je možné prepnúť sa do adresára %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nie je možné obnoviť pracovný adresár (%s)\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -165,7 +167,7 @@ msgstr "nie je možné odstrániť zamykací súbor %s\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr ""
+msgstr "nie je možné nájsť súbor s popisom balíčku '%s' z databázy '%s'\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -217,7 +219,7 @@ msgstr "Partícia %s je pripojená iba v režime na čítanie\n"
 
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
+msgstr "Oddiel %s je plný:  bloky %jd sú potrebné, bloky %jd sú k dispozícií\n"
 
 #, c-format
 msgid "disk"
@@ -225,7 +227,7 @@ msgstr "disk"
 
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr ""
+msgstr "chyba pri vytváraní dočasného súboru pre sťahovanie\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
@@ -305,11 +307,11 @@ msgstr "nemožno nájsť databázu"
 
 #, c-format
 msgid "invalid or corrupted database"
-msgstr ""
+msgstr "neplatná alebo poškodená databáza"
 
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr ""
+msgstr "neplatná alebo poškodená databáza (PGP podpis)"
 
 #, c-format
 msgid "database is incorrect version"
@@ -369,15 +371,15 @@ msgstr "operácia bola zrušená kvôli ignorovanému balíčku"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr ""
+msgstr "neplatný alebo poškodený balíček"
 
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr ""
+msgstr "neplatný alebo poškodený balíček (kontrolný súčet)"
 
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr ""
+msgstr "neplatný alebo poškodený balíček (PGP podpis)"
 
 #, c-format
 msgid "cannot open package file"
@@ -401,11 +403,11 @@ msgstr "nie je možné nájsť repozitár cieľa"
 
 #, c-format
 msgid "missing PGP signature"
-msgstr ""
+msgstr "chýba PGP podpis"
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
+msgstr "neplatný PGP podpis"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -445,7 +447,7 @@ msgstr "chyba knižnice pre sťahovanie súborov"
 
 #, c-format
 msgid "gpgme error"
-msgstr ""
+msgstr "chyba v gpgme"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -457,7 +459,7 @@ msgstr "neočakávaná chyba"
 
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr ""
+msgstr "nie je možné poriadne načítať metadata pre balíček %s-%s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -473,7 +475,7 @@ msgstr "nie je možné odstrániť súbor '%s': %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr ""
+msgstr "nie je možné vymazať %s (%s)\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
@@ -536,6 +538,10 @@ msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nie je možné skopírovať dočasný súbor do %s (%s)\n"
 
 #, c-format
+msgid "could not remove %s\n"
+msgstr "%s nie je možné vymazať\n"
+
+#, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nie je možné odstrániť dočasný adresár %s\n"
 
@@ -574,3 +580,5 @@ msgstr "neexistuje cache %s, vytváram...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
+"nie je možné nájsť alebo vytvoriť cache pre balíček,  miesto toho sa používa "
+"%s\n"

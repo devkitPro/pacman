@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:35-0500\n"
+"PO-Revision-Date: 2011-10-08 09:10+0000\n"
+"Last-Translator: Barthalion <barthalion@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/pl/)\n"
 "Language: pl\n"
@@ -45,7 +45,7 @@ msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
-"Różne prawa dla %s\n"
+"Różne uprawnienia dla katalogu dla %s\n"
 "system plików: %o pakiet: %o\n"
 
 #, c-format
@@ -86,7 +86,7 @@ msgstr "nie udało się zmienić katalogu na %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nie można powrócić do katalogu roboczego (%s)\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -138,7 +138,7 @@ msgstr "nie można stworzyć katalogu %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "nie udało się przeczytać opisu pliku w %s\n"
+msgstr "nie udało się odczytać pliku opisowego w %s\n"
 
 #, c-format
 msgid "missing package name in %s\n"
@@ -166,7 +166,7 @@ msgstr "nie udało się usunąć pliku blokującego %s\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr ""
+msgstr "nie można odczytać pliku opisowego pakietu '%s' z bazy '%s'\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -178,7 +178,7 @@ msgstr "wykryto cykl zależności:\n"
 
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s zostanie usunięta po zależniościach %s\n"
+msgstr "%s zostanie usunięta po zależnościach %s\n"
 
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
@@ -218,7 +218,7 @@ msgstr "Partycja %s jest zamontowana tylko do odczytu\n"
 
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
+msgstr "Partycja %s jest zbyt pełna: potrzebne jest %jd bloków, %jd wolnych\n"
 
 #, c-format
 msgid "disk"
@@ -226,7 +226,7 @@ msgstr "dysk"
 
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr ""
+msgstr "nie udało się stworzyć tymczasowego pliku pobierania\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
@@ -266,7 +266,7 @@ msgstr "nie udało się znaleźć bądź odczytać katalogu"
 
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "Dany został błędny bądź ZEROWY argument"
+msgstr "Dany został błędny bądź pusty argument"
 
 #, c-format
 msgid "not enough free disk space"
@@ -306,11 +306,11 @@ msgstr "nie udało się odnaleźć bazy danych"
 
 #, c-format
 msgid "invalid or corrupted database"
-msgstr ""
+msgstr "Niepoprawna lub uszkodzona baza danych"
 
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr ""
+msgstr "Niepoprawna lub uszkodzona baza danych (podpis PGP)"
 
 #, c-format
 msgid "database is incorrect version"
@@ -370,15 +370,15 @@ msgstr "operacja anulowana przez ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr ""
+msgstr "Niepoprawny lub uszkodzony pakiet"
 
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr ""
+msgstr "Niepoprawny lub uszkodzony pakiet (suma kontrolna)"
 
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr ""
+msgstr "Niepoprawny lub uszkodzony pakiet (podpis PGP)"
 
 #, c-format
 msgid "cannot open package file"
@@ -402,11 +402,11 @@ msgstr "nie mogę znaleźć repozytorium dla celu"
 
 #, c-format
 msgid "missing PGP signature"
-msgstr ""
+msgstr "brakujący podpis PGP"
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
+msgstr "niepoprawny podpis PGP"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -446,7 +446,7 @@ msgstr "błąd pobierania biblioteki"
 
 #, c-format
 msgid "gpgme error"
-msgstr ""
+msgstr "błąd gpgme"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -459,7 +459,7 @@ msgstr "niespodziewany błąd"
 
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr ""
+msgstr "nie można w pełni załadować metadanych dla pakietu %s-%s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -475,7 +475,7 @@ msgstr "nie udało się usunąć pliku '%s': %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr ""
+msgstr "nie można usunąć %s (%s)\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
@@ -523,11 +523,11 @@ msgstr "nie udało się pobrać niektórych plików z %s\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "nie udało się wykonać tranzakcji usuwania\n"
+msgstr "nie udało się wykonać transakcji usuwania\n"
 
 #, c-format
 msgid "could not commit transaction\n"
-msgstr "nie udało się wykonać tranzakcji\n"
+msgstr "nie udało się wykonać transakcji\n"
 
 #, c-format
 msgid "could not create temp directory\n"
@@ -536,6 +536,10 @@ msgstr "nie udało się stworzyć katalogu tymczasowego\n"
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nie udało się skopiować pliku tymczasowego do %s (%s)\n"
+
+#, c-format
+msgid "could not remove %s\n"
+msgstr "nie można usunąć %s\n"
 
 #, c-format
 msgid "could not remove tmpdir %s\n"
@@ -576,3 +580,5 @@ msgstr "brak pamięci podręcznej dla %s, tworzenie...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
+"nie można odnaleźć lub stworzyć pamięci podręcznej pakietu, używam %s w "
+"zamian\n"

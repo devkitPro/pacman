@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:33-0500\n"
+"PO-Revision-Date: 2011-10-07 13:47+0000\n"
+"Last-Translator: giovanni <giovanni@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/it/)\n"
 "Language: it\n"
@@ -119,16 +119,16 @@ msgid "SOURCE FILE NOT FOUND"
 msgstr "FILE SORGENTE NON TROVATO"
 
 msgid "unknown public key"
-msgstr ""
+msgstr "chiave pubblica sconosciuta"
 
 msgid "the key has been revoked."
-msgstr ""
+msgstr "la chiave è stata revocata."
 
 msgid "the signature has expired."
-msgstr ""
+msgstr "la firma è scaduta."
 
 msgid "the key has expired."
-msgstr ""
+msgstr "la chiave è scaduta."
 
 msgid "One or more PGP signatures could not be verified!"
 msgstr "Una o più firme PGP non possono essere verificate!"
@@ -425,7 +425,7 @@ msgstr "  -s, --syncdeps   Installa le dipendenze mancanti con %s"
 
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr ""
+msgstr "  -S, --source     Genera il tarball senza scaricare i sorgenti"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -690,16 +690,20 @@ msgstr "Gestisce la lista delle chiavi attendibili di pacman"
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [file(s)]       Aggiunge la chiave specificata (vuoto per stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   Rimuove le keyid specificate"
 
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
+"  -e, --export [keyid(s)]   Esporta la chiave specificata o tutti i keyids"
 
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [keyid(s)]   Elenca i fingerprint di tutti o dei keyids "
+"specificati"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr ""
@@ -707,9 +711,10 @@ msgstr ""
 
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
+"  -l, --list-keys [keyid(s)] Elenca tutte le chiavi o quella specificata"
 
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr ""
+msgstr "  -r, --recv-keys <keyid(s)> Preleva i keyids specificati"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            Aggiorna il database di pacman"
@@ -739,11 +744,8 @@ msgstr ""
 "  --gpgdir <dir>            Imposta una directory alternativa per GnuPG "
 "(invece\\n                            di '%s')"
 
-msgid ""
-"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
-msgstr ""
-"  --import <dir(s)>         Importa pubring.gpg e trustdb.gpg dalla(e) "
-"directory"
+msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
+msgstr "  --import <dir(s)>         Importa pubring.gpg da dir(s)"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
@@ -759,72 +761,81 @@ msgstr ""
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
+"  --keyserver               Se necessario, specifica un keyserver da "
+"utilizzare"
 
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr ""
+msgstr "  --list-sigs [keyid(s)]    Elenca le chiavi e le rispettive firme"
 
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr ""
+msgstr "  --lsign-key <keyid>       Firma localmente il keyid specificato"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [keyring(s)]   Ricarica le chiavi di default dai (specificati) "
+"keyrings\\n                            in '%s'"
 
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
+"  --refresh-keys [keyid(s)] Aggiorna la chiave specificata o tutte le chiavi "
+"da keyserver"
 
-msgid "You do not have sufficient permissions to read the %s keyring..."
-msgstr "Non hai permessi sufficienti per leggere il keyring di %s..."
+msgid "You do not have sufficient permissions to read the %s keyring."
+msgstr "Non hai permessi sufficienti per leggere il keyring %s."
 
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Usa '%s' per correggere i permessi del keyring."
 
-msgid "You do not have sufficient permissions to run this command..."
-msgstr "Non hai permessi sufficienti per avviare questo comando..."
+msgid "You do not have sufficient permissions to run this command."
+msgstr "Non hai permessi sufficienti per avviare questo comando."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Non c'è nessuna chiave segreta disponibile per firmare."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Usa '%s' per generare una chiave segreta di default."
 
 msgid "Verifying %s..."
-msgstr ""
+msgstr "Verifica di %s in corso..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "Il file %s non è firmato, impossibile continuare."
 
 msgid "The signature of file %s is not valid."
 msgstr "La firma del file %s non è valida."
 
 msgid "Verifying keyring file signatures..."
-msgstr ""
+msgstr "Verifica del keyring delle firme dei file in corso..."
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "Non esiste nessun file di keyring in %s."
 
 msgid "The keyring file %s does not exist."
-msgstr ""
+msgstr "Il file di keyring %s non esiste."
 
 msgid "Appending keys from %s.gpg..."
-msgstr ""
+msgstr "Aggiunta delle chiavi da %s.gpg in corso..."
 
 msgid "Locally signing trusted keys in keyring..."
-msgstr ""
+msgstr "Sto firmando localmente le chiavi verificate nel keyring..."
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Sto firmando localmente la chiave %s..."
+
+msgid "Importing owner trust values..."
+msgstr "Sto importando i valori..."
 
 msgid "Disabling revoked keys in keyring..."
-msgstr ""
+msgstr "Disabilitazione delle chiavi revocate nel keyring in corso..."
 
 msgid "Disabling key %s..."
-msgstr ""
+msgstr "Disabilitazione della chiave %s in corso..."
 
-msgid "The key identified by %s does not exist"
-msgstr "La chiave identificata da %s non esiste"
+msgid "The key identified by %s does not exist."
+msgstr "La chiave identificata da %s non esiste."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -839,11 +850,11 @@ msgstr "Impossibile trovare il file di configurazione '%s' di %s."
 msgid "no operation specified (use -h for help)"
 msgstr "nessuna operazione è stata specificata (usa -h per un aiuto)"
 
-msgid "Multiple operations specified"
-msgstr "Sono state specificate operazioni multiple"
+msgid "Multiple operations specified."
+msgstr "Operazioni multiple specificate."
 
-msgid "Please run %s with each operation separately\\n"
-msgstr "Avviare separatamente %s per ciascuna operazione\\n"
+msgid "Please run %s with each operation separately."
+msgstr "Si prega di avviare %s separatamente per ciascuna operazione."
 
 msgid "Updating trust database..."
 msgstr "Aggiornamento del database in corso..."

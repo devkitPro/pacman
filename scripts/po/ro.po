@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:33-0500\n"
+"PO-Revision-Date: 2011-10-06 19:08+0000\n"
+"Last-Translator: z0id <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/ro/)\n"
 "Language: ro\n"
@@ -117,16 +117,16 @@ msgid "SOURCE FILE NOT FOUND"
 msgstr "FIȘIER SURSĂ NEGĂSIT"
 
 msgid "unknown public key"
-msgstr ""
+msgstr "cheie publică necunoscută"
 
 msgid "the key has been revoked."
-msgstr ""
+msgstr "cheia a fost revocată."
 
 msgid "the signature has expired."
-msgstr ""
+msgstr "semnătura a expirat."
 
 msgid "the key has expired."
-msgstr ""
+msgstr "cheia a expirat."
 
 msgid "One or more PGP signatures could not be verified!"
 msgstr "Una sau mai multe semnături PGP nu au putut fi verificate!"
@@ -423,6 +423,7 @@ msgstr "  -s, --syncdeps   Instalează dependențele lipsă cu %s"
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
+"  -S, --source     Generează o arhivă doar-sursă fără sursele descărcate"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -449,7 +450,7 @@ msgstr ""
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
-"  --key <key>      Specifică o cheie pentru semnarea %s în loc de implicit."
+"  --key <cheie>      Specifică o cheie pentru semnarea %s în loc de implicit."
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Nu executa funcția  %s în %s"
@@ -674,25 +675,28 @@ msgstr "Administrează lista de chei de încredere a pacman"
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [fișier(e)]       Adaugă cheile specificate (gol pentru stdin)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr "  -d, --delete <(IDcheie)>   Șterge ID-urile specificate"
 
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
-msgstr ""
+msgstr "  -e, --export [IDcheie]   Exportă cheile specificate sau toate"
 
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [IDcheie]   Afișează amprenta pentru cheile specificate sau "
+"toate"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Arată acest mesaj de asistență și ieși"
 
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
-msgstr ""
+msgstr "  -l, --list-keys [IDcheie] Enumeră cheile specificate sau toate"
 
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr ""
+msgstr "  -r, --recv-keys <IDcheie> Obține cheile specificate"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb           Actualizează baza trustdb a pacman"
@@ -723,11 +727,9 @@ msgstr ""
 "  --gpgdir <dir>            Alege un director alternativ pentru GnuPG (în "
 "loc de\\n                            of '%s')"
 
-msgid ""
-"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
+msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
 msgstr ""
-"  --import <director(oare)>         Importă pubring.gpg și trustdb.gpg din "
-"director(oare)"
+"  --import <director>         Importă pubring.gpg din directorul specificat."
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
@@ -743,71 +745,79 @@ msgstr ""
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
+"  --keyserver               Specifică un server de chei, dacă e necesar"
 
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr ""
+msgstr "  --list-sigs [IDcheie]    Enumeră cheile și semnăturile lor"
 
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr ""
+msgstr "  --lsign-key <IDcheie>       Semnează local cheile specificate"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [inel de chei]   Reîncarcă cheile implicite din inelul de chei"
+"\\n       (specificat) în '%s'"
 
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
+"  --refresh-keys [IDcheie] Actualizează cheile specificate sau toate cheile "
+"de la un server de chei."
 
-msgid "You do not have sufficient permissions to read the %s keyring..."
-msgstr "Nu ai suficiente permisiuni pentru a citi inelul de chei %s..."
+msgid "You do not have sufficient permissions to read the %s keyring."
+msgstr "Nu ai suficiente permisiuni pentru a citi inelul de chei %s."
 
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Folosește '%s' pentru a corecta permisiunile inelului de chei."
 
-msgid "You do not have sufficient permissions to run this command..."
-msgstr "Nu ai suficiente permisiuni pentru a executa această comandă..."
+msgid "You do not have sufficient permissions to run this command."
+msgstr "Nu ai suficiente permisiuni pentru a executa această comandă."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Nu există nicio cheie secretă cu care să semnez."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Folosește '%s' pentru a genera o cheie secretă implicită."
 
 msgid "Verifying %s..."
-msgstr ""
+msgstr "Se verifică %s..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "Fișierul %s nu este semnat, nu se poate continua."
 
 msgid "The signature of file %s is not valid."
 msgstr "Semnătura fișierului %s este nevalidă."
 
 msgid "Verifying keyring file signatures..."
-msgstr ""
+msgstr "Se verifică semnăturile din inelul de chei..."
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "Nu există niciun fișier inel de chei în %s."
 
 msgid "The keyring file %s does not exist."
-msgstr ""
+msgstr "Fișierul inel de chei %s nu există."
 
 msgid "Appending keys from %s.gpg..."
-msgstr ""
+msgstr "Se adaugă cheile din %s.gpg..."
 
 msgid "Locally signing trusted keys in keyring..."
-msgstr ""
+msgstr "Se semnează local cheile de încredere din inelul de chei..."
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Se semnează local cheia %s..."
+
+msgid "Importing owner trust values..."
+msgstr "Se importă valorile de încredere ale deținătorului..."
 
 msgid "Disabling revoked keys in keyring..."
-msgstr ""
+msgstr "Se dezactivează în inelul de chei cheile revocate."
 
 msgid "Disabling key %s..."
-msgstr ""
+msgstr "Se dezactivează cheia %s..."
 
-msgid "The key identified by %s does not exist"
+msgid "The key identified by %s does not exist."
 msgstr "Cheia identificată de %s nu există."
 
 msgid "Cannot find the %s binary required for all %s operations."
@@ -822,11 +832,11 @@ msgstr "Fișierul de configurare al %s, '%s' nu a fost găsit."
 msgid "no operation specified (use -h for help)"
 msgstr "nicio operație specificată (folosește -h pentru asistență)"
 
-msgid "Multiple operations specified"
-msgstr "Multiple operațiuni specificate"
+msgid "Multiple operations specified."
+msgstr "Multiple operații specificate."
 
-msgid "Please run %s with each operation separately\\n"
-msgstr "Te rugăm să execuți %s cu fiecare operațiune separat\\n"
+msgid "Please run %s with each operation separately."
+msgstr "Vă rugăm executați %s cu fiecare operație separat."
 
 msgid "Updating trust database..."
 msgstr "Se actualizează baza de date cu valorile de încredere..."

@@ -6,14 +6,15 @@
 # Angel Velasquez <angvp@archlinux.org>, 2011.
 # j3nnn1 <jcmm986@gmail.com>, 2011.
 # Juan Antonio Cánovas Pérez <traumness@gmail.com>, 2011.
+#   <juantascon@gmail.com>, 2011.
 # neiko <neikokz+tsfx@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:36-0500\n"
+"PO-Revision-Date: 2011-10-07 06:27+0000\n"
+"Last-Translator: angvp <angvp@archlinux.org>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/es/)\n"
 "Language: es\n"
@@ -56,7 +57,7 @@ msgstr "verificando la integridad de los paquetes...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "cargandos los archivos del paquete...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -124,7 +125,7 @@ msgstr[1] "¿Quiere omitir los siguientes paquetes para esta actualización?"
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: Existen %zd proveedores disponibles para %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -141,7 +142,7 @@ msgstr ""
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Importar la llave PGP %s, \"%s\", creada %s?"
 
 #, c-format
 msgid "installing"
@@ -169,7 +170,7 @@ msgstr "verificando la integridad de los paquetes"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "cargandos los archivos del paquete..."
 
 #, c-format
 msgid "downloading %s...\n"
@@ -197,15 +198,18 @@ msgstr "error al renombrar %s a %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "no se puede restaurar el directorio de trabajo (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr ""
+"archivo de configuración %s, línea %d: valor incorrecto para '%s' : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"archivo de configuración %s, línea %d: '%s' opción inválida, no existe "
+"soporte de firma\n"
 
 #, c-format
 msgid ""
@@ -216,7 +220,7 @@ msgstr ""
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "espejo '%s' contiene la variable '%s', pero '%s' no está definido.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -225,7 +229,7 @@ msgstr ""
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
-msgstr "fallo al iniciar la biblioteca alpm (%s)\n"
+msgstr "falló al iniciar la biblioteca alpm (%s)\n"
 
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
@@ -241,7 +245,7 @@ msgstr "error al establecer gpgdir '%s' (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "'%s' no está configurado"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -726,6 +730,8 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"  -p, --print          iimprimir los objetivos en lugar de realizar la "
+"operación\n"
 
 #, c-format
 msgid ""
@@ -806,7 +812,7 @@ msgstr "opción no válida\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "se acaba la memoria en el análisis de argumentos\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -854,19 +860,19 @@ msgstr "Ningún paquete posee %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "el grupo '%s' no se ha encontrado\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: %jd archivo total, "
+msgstr[1] "%s: %jd archivos totales, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd archivo no encontrado\n"
+msgstr[1] "%jd archivos no encontrados\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -874,11 +880,11 @@ msgstr "el paquete '%s' no fue encontrado\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' es un archivo, quizá quiera usar %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "No se puede cargar el paquete '%s': '%s'\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -1018,7 +1024,7 @@ msgstr "base de datos no encontrada: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' es un archivo, quizo decir %s en lugar de %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1074,7 +1080,7 @@ msgstr ""
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "cargando paquetes...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1126,7 +1132,7 @@ msgstr "Clave desconocida"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Llave deshabilitada"
 
 #, c-format
 msgid "Signature error"
@@ -1169,16 +1175,16 @@ msgid "New Version"
 msgstr "Versión nueva"
 
 #, c-format
-msgid "Size"
-msgstr "Tamaño"
+msgid "Net Change"
+msgstr "Cambio en la red"
+
+#, c-format
+msgid "Download Size"
+msgstr "Tamaño de la descarga"
 
 #, c-format
 msgid "Targets (%d):"
 msgstr "Objetivos (%d):"
-
-#, c-format
-msgid "Remove (%d):"
-msgstr "Se quitará (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
@@ -1189,12 +1195,12 @@ msgid "Total Installed Size:   %.2f %s\n"
 msgstr "Tamaño instalado:       %.2f %s\n"
 
 #, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr "Tamaño a actualizar:    %.2f %s\n"
+msgid "Total Removed Size:     %.2f %s\n"
+msgstr "Tamaño total removido:     %.2f %s\n"
 
 #, c-format
-msgid "Total Removed Size:   %.2f %s\n"
-msgstr "Tamaño a eliminar:    %.2f %s\n"
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Tamaño a actualizar:    %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

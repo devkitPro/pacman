@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# György Balló <ballogy@freestart.hu>, 2011.
 # ngaba <ngaba@bibl.u-szeged.hu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:36-0500\n"
+"PO-Revision-Date: 2011-10-08 10:08+0000\n"
+"Last-Translator: Citybusz <ballogy@freestart.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/hu/)\n"
 "Language: hu\n"
@@ -53,7 +54,7 @@ msgstr "csomagok integritásának ellenőrzése...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "csomagfájlok betöltése...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -69,7 +70,7 @@ msgstr "%s létrehozása %s segítségével... "
 
 #, c-format
 msgid "success!\n"
-msgstr "sikeres.\n"
+msgstr "sikeres!\n"
 
 #, c-format
 msgid "failed.\n"
@@ -77,7 +78,7 @@ msgstr "sikertelen.\n"
 
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
-msgstr ":: Csomagok letöltése a(z) %s repóból...\n"
+msgstr ":: Csomagok letöltése a(z) %s tárolóból...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
@@ -93,11 +94,12 @@ msgstr ":: Lecseréli %s-t erre: %s/%s?"
 
 #, c-format
 msgid ":: %s and %s are in conflict. Remove %s?"
-msgstr ":: A(z) %s és a(z) %s ütközik egymással. Eltávolítja a %s-t?"
+msgstr ":: A(z) %s és a(z) %s ütközik egymással. Eltávolítja a(z) %s csomagot?"
 
 #, c-format
 msgid ":: %s and %s are in conflict (%s). Remove %s?"
-msgstr ":: A(z) %s és a(z) %s ütközik egymással (%s). Eltávolítja a %s-t?"
+msgstr ""
+":: A(z) %s és a(z) %s ütközik egymással (%s). Eltávolítja a(z) %s csomagot?"
 
 #, c-format
 msgid ""
@@ -107,20 +109,20 @@ msgid_plural ""
 ":: The following packages cannot be upgraded due to unresolvable "
 "dependencies:\n"
 msgstr[0] ""
-":: az alábbi csomagot nem lehet telepíteni feloldhatatlan függőségek miatt:\n"
+":: Az alábbi csomagot nem lehet telepíteni feloldhatatlan függőségek miatt:\n"
 msgstr[1] ""
-":: az alábbi csomagokat nem lehet telepíteni feloldhatatlan függőségek "
+":: Az alábbi csomagokat nem lehet telepíteni feloldhatatlan függőségek "
 "miatt:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
-msgstr[0] "Mellőzzük a fenti csomag telepítését?"
-msgstr[1] "Mellőzzük a fenti csomagok telepítését?"
+msgstr[0] "Mellőzzük a fenti csomag telepítését ennél a frissítésnél?"
+msgstr[1] "Mellőzzük a fenti csomagok telepítését ennél a frissítésnél?"
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: %zd csomag szolgáltatja a %s csomagot:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -131,10 +133,12 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: A %s fájl sérült (%s).\n"
+"Szeretné törölni?"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Importálja ezt a PGP kulcsot: %s, \"%s\", ami ekkor készült: %s?"
 
 #, c-format
 msgid "installing"
@@ -162,7 +166,7 @@ msgstr "csomagok integritásának ellenőrzése"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "csomagfájlok betöltése"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -174,31 +178,33 @@ msgstr "malloc hiba: nem sikerült %zd bájtot lefoglalni\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "nem sikerült megállapítani az aktuális könyvtárat\n"
+msgstr "nem sikerült megállapítani az aktuális munkakönyvtárat\n"
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "nem sikerült belépni a %s letöltési könytárba\n"
+msgstr "nem sikerült belépni a %s letöltési könyvtárba\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr "XferCommand futtatása: sikertelen fork!\n"
+msgstr "XferCommand futtatása: sikertelen indítás!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "%s nem nevezhető át erre: %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nem sikerült visszalépni a munkakönyvárba (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
+msgstr "%s konfigurációs fájl, %d. sor: érvénytelen érték ehhez: '%s' : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"%s konfigurációs fájl, %d. sor: a(z) '%s' opció érvénytelen, nincs aláírás-"
+"támogatás\n"
 
 #, c-format
 msgid ""
@@ -209,7 +215,7 @@ msgstr ""
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "'%s' tükör tartalmazza a '%s' változót, de nincs '%s' meghatározva.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -221,7 +227,7 @@ msgstr "nem sikerült inicializálni az alpm könyvtárat (%s)\n"
 
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
-msgstr "  próbálkozz a pacman-db-upgrade futtatásával\n"
+msgstr "  próbálja meg a pacman-db-upgrade futtatását\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
@@ -229,11 +235,11 @@ msgstr "hiba történt a(z) '%s' naplófájl beállítása során (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "probléma a '%s' gpgdir beállítása során (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "nincs '%s' beállítva"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -241,11 +247,12 @@ msgstr "nem sikerült regisztrálni a(z) '%s' adatbázist (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "nem sikerült hozzáadni a(z) '%s' tükröt a(z) '%s' adatbázishoz (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"a beállítás értelmezése meghaladta a maximális %d rekurzív mélységet.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -305,7 +312,7 @@ msgstr "Ismeretlen"
 
 #, c-format
 msgid "Repository     :"
-msgstr "Repó            :"
+msgstr "Tároló          :"
 
 #, c-format
 msgid "Name           :"
@@ -353,15 +360,15 @@ msgstr "Lecseréli       :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Letöltött méret : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Tömörített méret: %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Telepített méret: %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -401,11 +408,11 @@ msgstr "MD5 Sum         :"
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "SHA256 Sum      :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Aláírások       :"
 
 #, c-format
 msgid "None"
@@ -417,7 +424,7 @@ msgstr "Leírás          :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
-msgstr "nem sikerült a(z) %s ellenőrző összegének számítása\n"
+msgstr "nem sikerült a(z) %s ellenőrzőösszegének számítása\n"
 
 #, c-format
 msgid "Backup Files:\n"
@@ -467,7 +474,7 @@ msgstr ""
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
-"  -c, --cascade        a csomagok és az őket igénylő csomagok eltávolítása\n"
+"  -c, --cascade        csomagok és az azokat igénylő csomagok eltávolítása\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -485,16 +492,17 @@ msgstr ""
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr ""
-"  -u, --unneeded       a megmaradó csomagok által igényelt csomagok "
-"kihagyása\n"
+"  -u, --unneeded       más csomag által nem igényelt csomagok eltávolítása\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
 msgstr ""
+"      --needed         a naprakész csomagok ne legyenek újratelepítve\n"
 
 #, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
 msgstr ""
+"      --recursive      a célcsomagok összes függőségének újratelepítése\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -539,8 +547,8 @@ msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        a távoli repókban nem talált csomagok listázása "
-"[szűrő]\n"
+"  -m, --foreign        a tárolókban nem található telepített\n"
+"                       csomagok listázása [szűrő]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -549,27 +557,26 @@ msgstr "  -o, --owns <fájl>    a <fájl>-t tartalmazó csomag lekérdezése\n"
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file <csomag>  a <csomag> csomagfájl lekérdezése az adatbázis "
-"helyett\n"
+"  -p, --file <csomag>  egy csomagfájl lekérdezése az adatbázis helyett\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr ""
-"  -q, --quiet          kevesebb információ mutatása lekérdezésnél és "
-"keresésnél\n"
+"  -q, --quiet          kevesebb információ megjelenítése\n"
+"                       lekérdezésnél és keresésnél\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> keresés a telepített csomagok között\n"
+msgstr "  -s, --search <regex> keresés a helyileg telepített csomagok között\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr ""
-"  -t, --unrequired     a többi csomag által nem igényelt csomagok listázása "
-"[sz]\n"
+"  -t, --unrequired     más csomag által nem igényelt csomagok listázása "
+"[szűrő]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -580,7 +587,7 @@ msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr ""
-"  -c, --clean          a régi csomagok törlése a gyorsítótárkönyvtárból\n"
+"  -c, --clean          a régi csomagok törlése a gyorsítótár-könyvtárból\n"
 "                       (használja a '-cc'-t az összeshez)\n"
 
 #, c-format
@@ -589,19 +596,19 @@ msgstr "  -i, --info           csomaginformációk megtekintése\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <repó>    egy repó csomagjainak listázása\n"
+msgstr "  -l, --list <tároló>  egy tároló csomagjainak listázása\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex> keresés a távoli csomagadatbázisokban\n"
+msgstr "  -s, --search <regex> keresés a távoli tárolókban\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     az elavult csomagok frissítése (-uu: ill. "
-"downgradelése)\n"
+"  -u, --sysupgrade     telepített csomagok frissítése\n"
+"                       (-uu: visszafejlesztés engedélyezése)\n"
 
 #, c-format
 msgid ""
@@ -612,7 +619,8 @@ msgstr "  -w, --downloadonly   csak letöltés, de nem telepít/frissít semmit\
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        friss csomagadatbázis letöltése a szerverről\n"
+msgstr ""
+"  -y, --refresh        friss csomagadatbázisok letöltése a szerverről\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
@@ -642,7 +650,8 @@ msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignore <csom.> csomagfrissítés mellőzése (többször is használható)\n"
+"      --ignore <csomag>\n"
+"                       csomagfrissítés mellőzése (többször is használható)\n"
 
 #, c-format
 msgid ""
@@ -658,12 +667,13 @@ msgid ""
 "checks)\n"
 msgstr ""
 "  -d, --nodeps         függőségverzió-ellenőrzések kihagyása\n"
-"                       (-dd: minden függőség-ellenőrzés kihagyása)\n"
+"                       (-dd: minden függőségellenőrzés kihagyása)\n"
 
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
+"      --dbonly         csak adatbázis-bejegyzést módosítson, csomagfájlt ne\n"
 
 #, c-format
 msgid ""
@@ -674,13 +684,14 @@ msgstr ""
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    ne futtassa az install szkripteket\n"
+msgstr "      --noscriptlet    ne futtassa az install szkripteket, ha van\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"  -p, --print          célok kiírása a műveletek végrehajtása helyett\n"
 
 #, c-format
 msgid ""
@@ -692,7 +703,9 @@ msgstr ""
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <útv.>  alternatív adatbáziskönyvtár beállítása\n"
+msgstr ""
+"  -b, --dbpath <útvonal>\n"
+"                       alternatív adatbáziskönyvtár beállítása\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -710,11 +723,14 @@ msgstr "      --arch <arch>    alternatív architektúra beállítása\n"
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
-"      --cachedir <kvt> alternatív csomaggyorsítótár-könyvtár beállítása\n"
+"      --cachedir <könyvtár> \n"
+"                       alternatív csomaggyorsítótár-könyvtár beállítása\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <útv.>  alternatív konfigurációs fájl beállítása\n"
+msgstr ""
+"      --config <útvonal>\n"
+"                       alternatív konfigurációs fájl beállítása\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
@@ -723,10 +739,14 @@ msgstr "      --debug          hibakeresési üzenetek megjelenítése\n"
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr ""
+"      --gpgdir <útvonal>\n"
+"                       alternatív saját könyvtár beállítása a GnuPG-hez\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <útv.> alternatív logfájl beállítása\n"
+msgstr ""
+"      --logfile <útvonal>\n"
+"                       alternatív naplófájl beállítása\n"
 
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
@@ -754,7 +774,7 @@ msgstr "érvénytelen opció\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "a memória kimerült az argumentum értelmezésében\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -774,7 +794,7 @@ msgstr "a %s fájlt a %s %s tartalmazza\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
-msgstr "nincs megadva fájl a --owns számára\n"
+msgstr "nincs megadva fájl az --owns számára\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -790,7 +810,7 @@ msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
 
 #, c-format
 msgid "cannot determine ownership of directory '%s'\n"
-msgstr "a '%s' könyvtár tulajdonos-csomagját nem lehet megállapítani\n"
+msgstr "a '%s' könyvtár tulajdonoscsomagját nem lehet megállapítani\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
@@ -802,19 +822,19 @@ msgstr "Egyik csomag sem tartalmazza a következőt: %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "a(z) '%s' csoport nem található\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: %jd fájl összesen, "
+msgstr[1] "%s: %jd fájl összesen, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd hiányzó fájl\n"
+msgstr[1] "%jd hiányzó fájl\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -822,11 +842,11 @@ msgstr "a(z) '%s' csomag nem található\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' egy fájl, valószínűleg a %s opciót szeretné használni.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "a(z) '%s' csomag nem tölthető be: %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -834,7 +854,7 @@ msgstr "nem sikerült előkészíteni a tranzakciót (%s)\n"
 
 #, c-format
 msgid ":: package %s does not have a valid architecture\n"
-msgstr ":: a(z) %s csomagnak nincs érvényes architektúra-definíciója\n"
+msgstr ":: a(z) %s csomaghoz nincs érvényes architektúra definiálva\n"
 
 #, c-format
 msgid ":: %s: requires %s\n"
@@ -842,12 +862,11 @@ msgstr ":: %s: igényli a következőt: %s\n"
 
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
-msgstr "%s HoldPkgnak lett jelölve.\n"
+msgstr "%s HoldPkg-nak lett jelölve.\n"
 
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr ""
-"HoldPkg csomagot találtam a cél listában. Biztos benne, hogy folytatja?"
+msgstr "HoldPkg csomag található a céllistában. Szeretné folytatni?"
 
 #, c-format
 msgid " there is nothing to do\n"
@@ -863,11 +882,11 @@ msgstr "nem sikerült végrehajtani a tranzakciót (%s)\n"
 
 #, c-format
 msgid "could not access database directory\n"
-msgstr "nem sikerült elérni az adatbáziskönyvtárt\n"
+msgstr "nem sikerült elérni az adatbáziskönyvtárat\n"
 
 #, c-format
 msgid "could not remove %s\n"
-msgstr "nem sikerült eltávolítani a(z) %s-t\n"
+msgstr "nem sikerült eltávolítani a következőt: %s\n"
 
 #, c-format
 msgid "Do you want to remove %s?"
@@ -879,7 +898,7 @@ msgstr "Adatbáziskönyvtár: %s\n"
 
 #, c-format
 msgid "Do you want to remove unused repositories?"
-msgstr "El kívánja távolítani a nem használt repókat?"
+msgstr "El kívánja távolítani a nem használt tárolókat?"
 
 #, c-format
 msgid "Database directory cleaned up\n"
@@ -887,7 +906,7 @@ msgstr "Adatbáziskönyvtár kitakarítva\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
-msgstr "Gyorsítótár könyvtár: %s\n"
+msgstr "Gyorsítótár könyvtára: %s\n"
 
 #, c-format
 msgid "Packages to keep:\n"
@@ -895,11 +914,11 @@ msgstr "Megtartandó csomagok:\n"
 
 #, c-format
 msgid "  All locally installed packages\n"
-msgstr "  Az összes telepített csomag\n"
+msgstr "  Az összes helyileg telepített csomag\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr "  A távoli repókban megtalálható összes csomag\n"
+msgstr "  A jelenlegi adatbázisban megtalálható összes csomag\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -943,11 +962,11 @@ msgstr "telepítve"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
-msgstr "hiba: a(z) '%s' repó nem létezik\n"
+msgstr "hiba: a(z) '%s' tároló nem létezik\n"
 
 #, c-format
 msgid "repository \"%s\" was not found.\n"
-msgstr "a(z) \"%s\" repó nem található.\n"
+msgstr "a(z) \"%s\" tároló nem található.\n"
 
 #, c-format
 msgid "skipping target: %s\n"
@@ -967,7 +986,7 @@ msgstr "az adatbázis nem található: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "A(z) '%s' egy fájl. Az %s opcióra gondolt a %s helyett?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -975,11 +994,11 @@ msgstr ":: Teljes rendszerfrissítés indítása...\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict\n"
-msgstr ":: a(z) %s és a(z) %s ütközik egymással\n"
+msgstr ":: A(z) %s és a(z) %s ütközik egymással\n"
 
 #, c-format
 msgid ":: %s and %s are in conflict (%s)\n"
-msgstr ":: a(z) %s és a(z) %s ütközik egymással (%s)\n"
+msgstr ":: A(z) %s és a(z) %s ütközik egymással (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
@@ -991,7 +1010,7 @@ msgstr "Kezdődhet a telepítés?"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
-msgstr "%s létezik ebben: '%s' és ebben: '%s'\n"
+msgstr "%s létezik a(z) '%s' és a(z) '%s' csomagban is\n"
 
 #, c-format
 msgid "%s: %s exists in filesystem\n"
@@ -1018,12 +1037,12 @@ msgid ""
 ":: Do you want to cancel the current operation\n"
 ":: and upgrade these packages now?"
 msgstr ""
-":: Megszakítja a jelenlegi jelenlegi műveletet,\n"
+":: Megszakítja a jelenlegi műveletet,\n"
 ":: és telepíti ezeket a csomagokat most?"
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "csomagok betöltése...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1043,107 +1062,107 @@ msgstr "nem sikerült lezárni a tranzakciót (%s)\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
-msgstr "egyetlen használható csomagrepó sincs beállítva.\n"
+msgstr "egyetlen használható csomagtároló sincs beállítva.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "a(z) '%s' adatbázis nem érvényes (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "hiányzó oszlopok érhetők el a táblázatos nézethez\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Érvényes"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "A kulcs lejárt"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Lejárt"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Érvénytelen"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "A kulcs ismeretlen"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "A kulcs letiltva"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Aláírás hiba"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "teljes bizalom"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "kismértékű bizalom"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "nincs bizalom"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "ismeretlen bizalom"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s innen: \"%s\""
 
 #, c-format
 msgid "failed to allocate string\n"
-msgstr "nem sikerült a string elhelyezése\n"
+msgstr "nem sikerült lefoglalni a karakterláncot\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Régi verzió"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Új verzió"
 
 #, c-format
-msgid "Size"
-msgstr ""
+msgid "Net Change"
+msgstr "Hálózati átvitel"
+
+#, c-format
+msgid "Download Size"
+msgstr "Letöltési méret"
 
 #, c-format
 msgid "Targets (%d):"
 msgstr "Célok (%d):"
 
 #, c-format
-msgid "Remove (%d):"
-msgstr "Eltávolítás (%d):"
-
-#, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Teljes letöltési méret:    %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Teljes telepített méret:   %.2f %s\n"
+
+#, c-format
+msgid "Total Removed Size:     %.2f %s\n"
+msgstr "Teljes eltávolított méret: %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
-
-#, c-format
-msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Hálózati frissítés mérete: %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1155,7 +1174,7 @@ msgstr "A(z) %s csomag opcionális függőségei:\n"
 
 #, c-format
 msgid "Repository %s\n"
-msgstr "%s repó\n"
+msgstr "%s tároló\n"
 
 #, c-format
 msgid "Invalid value: %d is not between %d and %d\n"

@@ -6,15 +6,16 @@
 # apuasi <kaannokset.hellberg@gmail.com>, 2011.
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # Jesse Jaara <jesse.jaara@gmail.com>, 2011.
+#   <larso@gmx.com>, 2011.
 # Larso <larso@gmx.com>, 2011.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:36-0500\n"
+"PO-Revision-Date: 2011-10-06 21:16+0000\n"
+"Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fi/)\n"
 "Language: fi\n"
@@ -57,7 +58,7 @@ msgstr "tarkistetaan pakettien virheettömyyttä...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "ladataan paketteja...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -129,7 +130,7 @@ msgstr[1] "Tahdotko ohittaa yllä olevien pakettien päivittämisen?"
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: %zd pakettia tarjoaa paketin %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -145,7 +146,7 @@ msgstr ""
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Tuodaanko PGP-avain %s, \"%s\", luotu %s?"
 
 #, c-format
 msgid "installing"
@@ -173,7 +174,7 @@ msgstr "tarkastetaan pakettien virheettömyyttä"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "ladataan paketteja"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -201,15 +202,17 @@ msgstr "tiedoston %s nimeksi ei voitu muuttaa %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "ei voitu palauttaa työhakemistoa (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
+msgstr "asetustiedosto %s, rivi %d: virheellinen '%s'-arvo : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"asetustiedosto %s, rivi %d: virheellinen valinta '%s', ei "
+"allekirjoitustukea\n"
 
 #, c-format
 msgid ""
@@ -220,6 +223,8 @@ msgstr ""
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
+"peilipalvelimen '%s' asetuksissa on '%s'-muuttuja, mutta arvoa '%s' ei ole "
+"määritetty.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -243,7 +248,7 @@ msgstr "ongelma asetettaessa gpg-kansiota \"%s\" (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "'%s' ei ole asetettu"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -694,6 +699,7 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"  -p, --print          tulosta kohteet toiminnon suorittamisen sijasta\n"
 
 #, c-format
 msgid ""
@@ -767,7 +773,7 @@ msgstr "epäkelvollinen valitsin\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "muisti kulutettiin loppuun parametrien jäsennyksessä\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -815,19 +821,19 @@ msgstr "Tiedosto %s ei ole minkään paketin omistuksessa\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "ryhmää '%s' ei löytynyt\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: yhteensä %jd tiedosto, "
+msgstr[1] "%s: yhteensä %jd tiedostoa, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd puuttuva tiedosto\n"
+msgstr[1] "%jd puuttuvaa tiedostoa\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -835,11 +841,11 @@ msgstr "pakettia '%s' ei löydy\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' on tiedosto. Haluat ehkä käyttää komentoa %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "pakettia '%s' ei voitu ladata: %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -979,7 +985,7 @@ msgstr "tietokantaa ei löydy: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' on tiedosto. Tarkoititko komentoa %s komennon %s sijasta?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1035,7 +1041,7 @@ msgstr ""
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "ladataan paketteja...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1087,7 +1093,7 @@ msgstr "Avain tuntematon"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Avain poissa käytöstä"
 
 #, c-format
 msgid "Signature error"
@@ -1130,16 +1136,16 @@ msgid "New Version"
 msgstr "Uusi versio"
 
 #, c-format
-msgid "Size"
-msgstr "Koko"
+msgid "Net Change"
+msgstr "Nettomuutos"
+
+#, c-format
+msgid "Download Size"
+msgstr "Ladattava koko"
 
 #, c-format
 msgid "Targets (%d):"
 msgstr "kohteet (%d):"
-
-#, c-format
-msgid "Remove (%d):"
-msgstr "Poista (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
@@ -1150,12 +1156,12 @@ msgid "Total Installed Size:   %.2f %s\n"
 msgstr "Yhteensä asennetaan:   %.2f %s\n"
 
 #, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr "Yhteensä päivitetään:       %.2f %s\n"
+msgid "Total Removed Size:     %.2f %s\n"
+msgstr "Yhteensä poistetaan:   %.2f %s\n"
 
 #, c-format
-msgid "Total Removed Size:   %.2f %s\n"
-msgstr "Yhteensä poistetaan:   %.2f %s\n"
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Yhteensä päivitetään:       %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

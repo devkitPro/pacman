@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:36-0500\n"
+"PO-Revision-Date: 2011-10-08 09:11+0000\n"
+"Last-Translator: Barthalion <barthalion@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/pl/)\n"
 "Language: pl\n"
@@ -54,7 +54,7 @@ msgstr "sprawdzanie spójności pakietów...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "wczytywanie plików pakietu...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -126,7 +126,7 @@ msgstr[2] "Czy chcesz pominąć powyższe pakiety przy aktualizacji?"
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: Dostępnych jest %zd dostawców dla %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -137,6 +137,8 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: Plik %s jest uszkodzony (%s).\n"
+"Czy chcesz go usunąć?"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
@@ -168,7 +170,7 @@ msgstr "sprawdzanie spójności pakietów"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "wczytywanie plików pakietu"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -192,11 +194,11 @@ msgstr "uruchamianie XferCommand: fork nieudany!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "nie można zmienić nazwy z %s na %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nie udało się przywrócić katalogu roboczego (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
@@ -216,6 +218,7 @@ msgstr ""
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
+"serwer lustrzany '%s' zawiera zmienną '%s', ale %s nie został zdefiniowany.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -247,7 +250,7 @@ msgstr "nie udało się zarejestrować bazy danych '%s' (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "nie udało się dodać serwera lustrzanego '%s' do bazy '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
@@ -356,15 +359,15 @@ msgstr "Zastępuje      :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Rozmiar do pobrania:  %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Rozmiar skompresowany:  %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Rozmiar po instalacji:  %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -404,7 +407,7 @@ msgstr "Suma MD5       :"
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "Suma kontrolna SHA256: "
 
 #, c-format
 msgid "Signatures     :"
@@ -749,7 +752,7 @@ msgstr ""
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' nie jest ważnym poziomem odpluskwiania\n"
+msgstr "'%s' nie jest poprawnym poziomem odpluskwiania\n"
 
 #, c-format
 msgid "only one operation may be used at a time\n"
@@ -809,7 +812,7 @@ msgstr "Żaden pakiet nie jest właścicielem %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "grupa '%s\" nie została znaleziona\n"
 
 #, c-format
 msgid "%s: %jd total file, "
@@ -1031,7 +1034,7 @@ msgstr ""
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "wczytywanie pakietów...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1055,11 +1058,11 @@ msgstr "nie skonfigurowano używalnych repozytoriów.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "baza danych '%s' jest niepoprawna (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "Niewystarczająca szerokość okna, aby wyświetlić tabelę\n"
 
 #, c-format
 msgid "Valid"
@@ -1087,7 +1090,7 @@ msgstr ""
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Błąd podpisu"
 
 #, c-format
 msgid "full trust"
@@ -1115,42 +1118,42 @@ msgstr "nie można wyznaczyć łańcucha\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Nazwa"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Poprzednia wersja"
 
 #, c-format
 msgid "New Version"
+msgstr "Nowa wersja"
+
+#, c-format
+msgid "Net Change"
 msgstr ""
 
 #, c-format
-msgid "Size"
-msgstr ""
+msgid "Download Size"
+msgstr "Rozmiar do pobrania"
 
 #, c-format
 msgid "Targets (%d):"
 msgstr "Cele (%d):"
 
 #, c-format
-msgid "Remove (%d):"
-msgstr "Usunąć (%d):"
-
-#, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Całkowity rozmiar do pobrania: %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Całkowity rozmiar po instalacji: %.2f %s\n"
+
+#, c-format
+msgid "Total Removed Size:     %.2f %s\n"
+msgstr "Całkowity rozmiar do usunięcia: %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
-
-#, c-format
-msgid "Total Removed Size:   %.2f %s\n"
 msgstr ""
 
 #, c-format

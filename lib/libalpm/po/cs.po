@@ -5,14 +5,15 @@
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # David Kolibáč <david@kolibac.cz>, 2011.
+#   <markotahal@gmail.com>, 2011.
 # Vojtěch Gondžala <vojtech.gondzala@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:35-0500\n"
+"PO-Revision-Date: 2011-10-08 09:20+0000\n"
+"Last-Translator: mmm <markotahal@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/cs/)\n"
 "Language: cs\n"
@@ -87,7 +88,7 @@ msgstr "nelze změnit adresář na %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nelze obnovit pracovní adresář ('%s')\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -167,7 +168,7 @@ msgstr "nelze odstranit zamykací soubor %s\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr ""
+msgstr "nelze načíst soubor s popisem balíčku '%s' z databáze '%s'\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -219,7 +220,7 @@ msgstr "Diskový oddíl %s je připojen jen pro čtení\n"
 
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
+msgstr "Oddíl '%s' je plný: je potřeba %jd bloků, ale k dispozici je jen %jd\n"
 
 #, c-format
 msgid "disk"
@@ -227,7 +228,7 @@ msgstr "disk"
 
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr ""
+msgstr "nepodařilo se vytvořit dočasný soubor pro stahování\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
@@ -307,11 +308,11 @@ msgstr "nelze nalézt databázi"
 
 #, c-format
 msgid "invalid or corrupted database"
-msgstr ""
+msgstr "neplatná nebo poškozená databáze"
 
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr ""
+msgstr "neplatná nebo poškozená databáze (PGP podpisy)"
 
 #, c-format
 msgid "database is incorrect version"
@@ -371,15 +372,15 @@ msgstr "operace byla zrušena kvůli ignorovanému balíčku"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr ""
+msgstr "neplatný nebo poškozený balíček"
 
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr ""
+msgstr "neplatná nebo poškozená databáze (kontrolní součty)"
 
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr ""
+msgstr "neplatný nebo poškozený balíček (PGP podpis)"
 
 #, c-format
 msgid "cannot open package file"
@@ -403,11 +404,11 @@ msgstr "nelze nalézt repositář cíle"
 
 #, c-format
 msgid "missing PGP signature"
-msgstr ""
+msgstr "chybějící podpis PGP"
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
+msgstr "neplatný podpis PGP"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -447,7 +448,7 @@ msgstr "chyba knihovny pro stahování souborů"
 
 #, c-format
 msgid "gpgme error"
-msgstr ""
+msgstr "chyba v gpgme"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -459,7 +460,7 @@ msgstr "neočekávaná chyba"
 
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr ""
+msgstr "nelze pořádně načíst metadata pro balícek %s-%s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -475,7 +476,7 @@ msgstr "nelze odstranit soubor '%s': %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr ""
+msgstr "nelze odstranit '%s' ('%s')\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
@@ -538,6 +539,10 @@ msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nelze zkopírovat dočasný soubor do %s (%s)\n"
 
 #, c-format
+msgid "could not remove %s\n"
+msgstr "nelze odstranit %s\n"
+
+#, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nelze odstranit dočasný adresář %s\n"
 
@@ -576,3 +581,4 @@ msgstr "neexistuje mezipaměť %s, vytváří se...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
+"nepodařilo se najít nebo vytvořit cache pro balíčky, používám místo toho %s\n"

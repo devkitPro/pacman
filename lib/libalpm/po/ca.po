@@ -5,12 +5,13 @@
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # Hector Mtz-Seara <hseara@gmail.com>, 2011.
+#   <jpreales@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
+"POT-Creation-Date: 2011-10-05 22:35-0500\n"
+"PO-Revision-Date: 2011-10-11 14:03+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/ca/)\n"
@@ -86,7 +87,7 @@ msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "no s'ha pogut restaurar el directori de treball (%s)\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -138,7 +139,7 @@ msgstr "no s'ha pogut crear el directori %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "no s'ha pogut analitzar el fitxers de descripció de paquet en %s\n"
+msgstr "no s'ha pogut analitzar el fitxer de descripció de paquet en %s\n"
 
 #, c-format
 msgid "missing package name in %s\n"
@@ -167,6 +168,8 @@ msgstr "no s'ha pogut eliminar el fitxer de bloqueig %s\n"
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr ""
+"no s'ha pogut analitzar el fitxer de descripció de paquet '%s' de la base de "
+"dades '%s'\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -219,6 +222,8 @@ msgstr "La partició %s està muntat només en mode lectura\n"
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr ""
+"La partició %s està molt plena: nombre de blocs requerits %jd, nombre de "
+"blocs lliures %jd\n"
 
 #, c-format
 msgid "disk"
@@ -226,7 +231,7 @@ msgstr "disc"
 
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr ""
+msgstr "ha fallat en crear un arxiu temporal per la baixada\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
@@ -306,11 +311,11 @@ msgstr "no s'ha pogut trobar la base de dades"
 
 #, c-format
 msgid "invalid or corrupted database"
-msgstr ""
+msgstr "base de dades invàlida o corrupta"
 
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr ""
+msgstr "base de dades invàlida o corrupta (signatura PGP)"
 
 #, c-format
 msgid "database is incorrect version"
@@ -371,15 +376,15 @@ msgstr "operació cancel·lada degut a ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr ""
+msgstr "paquet invàlid o corrupte"
 
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr ""
+msgstr "base de dades invàlida o corrupta (checksum)"
 
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr ""
+msgstr "paquet invàlid o corrupte (signatura PGP)"
 
 #, c-format
 msgid "cannot open package file"
@@ -403,11 +408,11 @@ msgstr "no s'ha pogut trobar el repositori per l'objectiu"
 
 #, c-format
 msgid "missing PGP signature"
-msgstr ""
+msgstr "falta signatura PGP"
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
+msgstr "signatura PGP invàlida"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -447,7 +452,7 @@ msgstr "error de la llibreria de baixades"
 
 #, c-format
 msgid "gpgme error"
-msgstr ""
+msgstr "error de gpgme"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -459,7 +464,7 @@ msgstr "error inesperat"
 
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr ""
+msgstr "no s'ha pogut carregar completament les metadades pel paquet %s-%s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -475,7 +480,7 @@ msgstr "no s'ha pogut eliminar el fitxer '%s': %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr ""
+msgstr "no es pot eliminar %s (%s)\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
@@ -540,6 +545,10 @@ msgid "could not copy tempfile to %s (%s)\n"
 msgstr "no s'ha pogut copiar el fitxer temporal a %s (%s)\n"
 
 #, c-format
+msgid "could not remove %s\n"
+msgstr "no s'ha pogut eliminar %s\n"
+
+#, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "no s'ha pogut eliminar el directori temporal %s\n"
 
@@ -557,7 +566,7 @@ msgstr "no s'ha pogut canviar el directori arrel (%s)\n"
 
 #, c-format
 msgid "call to execv failed (%s)\n"
-msgstr "la crida a execve ha fallat (%s)\n"
+msgstr "la crida a execv ha fallat (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
@@ -578,3 +587,4 @@ msgstr "no existeix memòria cau %s, s'està creant...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
+"no s'ha trobat o creat packet de memòria cau, usant alternativaent %s\n"

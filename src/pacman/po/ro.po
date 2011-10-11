@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-10-04 18:10+0000\n"
+"POT-Creation-Date: 2011-10-05 22:36-0500\n"
+"PO-Revision-Date: 2011-10-06 17:43+0000\n"
 "Last-Translator: z0id <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/ro/)\n"
@@ -144,7 +144,7 @@ msgstr ""
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Importă cheia PGP %s, \"%s\", creată %s?"
 
 #, c-format
 msgid "installing"
@@ -172,7 +172,7 @@ msgstr "se verifică integritatea pachetului"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "se încarcă fișierele pachet"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -200,15 +200,18 @@ msgstr "nu se poate redenumi %s în %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nu s-a putut restabili directorul de lucru curent (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr ""
+"fișierul de configurare %s, linia %d: valoare nevalidă pentru '%s' : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"fișierul de configurare %s, linia %d: opțiunea '%s' nevalidă, fără suport "
+"pentru semnătură\n"
 
 #, c-format
 msgid ""
@@ -219,7 +222,7 @@ msgstr ""
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -243,7 +246,7 @@ msgstr "problemă la setarea gpgdir ca '%s' (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "niciun '%s' configurat"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -712,6 +715,7 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"  -p, --print          afișează țintele în loc de a efectua operaținea\n"
 
 #, c-format
 msgid ""
@@ -785,7 +789,7 @@ msgstr "opțiune nevalidă\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "memorie epuizată în parsarea argumentelor\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -836,20 +840,22 @@ msgstr ""
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr ""
+"grupul '%s' nu a fost găsit\n"
+"\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s: %jd fișier în total, "
+msgstr[1] "%s: %jd fișiere în total, "
+msgstr[2] "%s: %jd fișiere în total, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd fișier lipsă\n"
+msgstr[1] "%jd fișiere lipsă\n"
+msgstr[2] "%jd fișiere lipsă\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -857,11 +863,11 @@ msgstr "pachetul '%s' nu a fost găsit\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' e un fișier, probabil vrei să folosești %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "nu s-a putut încărca pachetul '%s': %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -1003,7 +1009,7 @@ msgstr "nu s-a găsit baza de date: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' e un fișier, ai vrut %s în loc de %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1061,7 +1067,7 @@ msgstr ""
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "se încarcă pachetele...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1113,7 +1119,7 @@ msgstr "Cheie necunoscută"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Cheie dezactivată"
 
 #, c-format
 msgid "Signature error"
@@ -1156,16 +1162,16 @@ msgid "New Version"
 msgstr "Versiune nouă"
 
 #, c-format
-msgid "Size"
-msgstr "Mărime"
+msgid "Net Change"
+msgstr "Schimbare Netă"
+
+#, c-format
+msgid "Download Size"
+msgstr "Mărimea Descărcării"
 
 #, c-format
 msgid "Targets (%d):"
 msgstr "Ținte (%d):"
-
-#, c-format
-msgid "Remove (%d):"
-msgstr "Elimină (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
@@ -1176,12 +1182,12 @@ msgid "Total Installed Size:   %.2f %s\n"
 msgstr "Mărimea totală a instalării:  %.2f %s\n"
 
 #, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr "Mărimea netă a actualizării:  %.2f %s\n"
+msgid "Total Removed Size:     %.2f %s\n"
+msgstr "Mărimea totală a eliminării: %.2f %s\n"
 
 #, c-format
-msgid "Total Removed Size:   %.2f %s\n"
-msgstr "Mărimea totală a eliminării:  %.2f %s\n"
+msgid "Net Upgrade Size:       %.2f %s\n"
+msgstr "Mărimea netă a actualizării:  %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

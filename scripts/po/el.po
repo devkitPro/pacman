@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:33-0500\n"
-"PO-Revision-Date: 2011-09-29 21:37+0000\n"
+"POT-Creation-Date: 2011-10-05 22:33-0500\n"
+"PO-Revision-Date: 2011-10-11 00:26+0000\n"
 "Last-Translator: nous <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/el/)\n"
@@ -30,7 +30,7 @@ msgid "Cleaning up..."
 msgstr "Αποκατάσταση..."
 
 msgid "Entering %s environment..."
-msgstr "Είσχώρηση σε περιβάλλον %s..."
+msgstr "Εισχώρηση σε περιβάλλον %s..."
 
 msgid "Unable to find source file %s."
 msgstr "Αδυναμία εύρεσης πηγαίου αρχείου %s."
@@ -453,7 +453,7 @@ msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <list>     Δημιουργία πακέτων λίστας από διαιρεμένο πακέτο"
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr "  --sign           Υπογραφή δημιουργηθέντος πακέτου με %s"
+msgstr "  --sign                    Υπογραφή δημιουργηθέντος πακέτου με %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  Χωρίς επικύρωση αθροισμάτων ελέγχου πηγαίων αρχείων"
@@ -709,11 +709,8 @@ msgstr ""
 "  --gpgdir <dir>            Ορισμός εναλλακτικού καταλόγου GnuPG (αντί του "
 "'%s')"
 
-msgid ""
-"  --import <dir(s)>         Imports pubring.gpg and trustdb.gpg from dir(s)"
-msgstr ""
-"  --import <dir(s)>         Εισαγωγή των pubring.gpg και trustdb.gpg από "
-"κατάλογο"
+msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
+msgstr "  --import <dir(s)>         Εισαγωγή pubring.gpg από κατάλογο(-ους)"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
@@ -744,17 +741,17 @@ msgstr ""
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
-"  --refresh-keys [keyid(s)] Ενημέρωση καθορισμένων ή όλων των κλειρδιών από "
+"  --refresh-keys [keyid(s)] Ενημέρωση καθορισμένων ή όλων των κλειδιών από "
 "διακομιστή"
 
-msgid "You do not have sufficient permissions to read the %s keyring..."
-msgstr "Ανεπαρκή δικαιώματα ανάγνωσης κλειδοθήκης %s..."
+msgid "You do not have sufficient permissions to read the %s keyring."
+msgstr "Ανεπαρκή δικαιώματα ανάγνωσης κλειδούχου %s."
 
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Τρέξε το '%s' για ρύθμιση των αδειών της κλειδοθήκης."
 
-msgid "You do not have sufficient permissions to run this command..."
-msgstr "Ανεπαρκή δικαιώματα για εκτέλεση αυτής της εντολής..."
+msgid "You do not have sufficient permissions to run this command."
+msgstr "Ανεπαρκή δικαιώματα εκτέλεσης εντολής."
 
 msgid "There is no secret key available to sign with."
 msgstr "Μη διαθέσιμο κρυφό κλειδί για υπογραφή."
@@ -789,14 +786,17 @@ msgstr "Τοπική υπογραφή έμπιστων κλειδιών στην
 msgid "Locally signing key %s..."
 msgstr "Τοπική υπογραφή κλειδιού %s"
 
+msgid "Importing owner trust values..."
+msgstr "Εισαγωγή τιμών εμπιστοσύνης ιδιοκτήτη..."
+
 msgid "Disabling revoked keys in keyring..."
 msgstr "Απενεργοποίηση ανακληθέντων κλειδιών στην κλειδοθήκη..."
 
 msgid "Disabling key %s..."
 msgstr "Απενεργοποίηση κλειδιού %s..."
 
-msgid "The key identified by %s does not exist"
-msgstr "Το αναγνωριστικό κλειδιού %s δεν υπάρχει"
+msgid "The key identified by %s does not exist."
+msgstr "Κλειδί που προσδιορίζεται από %s δεν υπάρχει."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -811,11 +811,11 @@ msgstr "Το αρχείο ρυθμίσεων '%s' του %s δεν βρέθηκ�
 msgid "no operation specified (use -h for help)"
 msgstr "Ακαθόριστη λειτουργία (δώσε -h για βοήθεια)"
 
-msgid "Multiple operations specified"
-msgstr "Ζητήθηκαν πολλαπλές λειτουργίες"
+msgid "Multiple operations specified."
+msgstr "Ορίσθηκαν πολλαπλές διεργασίες."
 
-msgid "Please run %s with each operation separately\\n"
-msgstr "Τρέξε τον %s για κάθε λειτουργία ξεχωριστά.\\n"
+msgid "Please run %s with each operation separately."
+msgstr "Τρέξε τον %s με κάθε διεργασία χωριστά."
 
 msgid "Updating trust database..."
 msgstr "Ενημέρωση βάσης εμπιστοσύνης..."

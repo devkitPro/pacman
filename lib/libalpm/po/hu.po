@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# György Balló <ballogy@freestart.hu>, 2011.
 # ngaba <ngaba@bibl.u-szeged.hu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:35-0500\n"
+"PO-Revision-Date: 2011-10-08 10:04+0000\n"
+"Last-Translator: Citybusz <ballogy@freestart.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/hu/)\n"
 "Language: hu\n"
@@ -33,27 +34,27 @@ msgstr "visszatérés egy régebbi %s verzióhoz (%s => %s)\n"
 
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
-msgstr "figyelmeztetés a %s kicsomagolása közben (%s)\n"
+msgstr "figyelmeztetés a(z) %s kibontása közben (%s)\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "nem sikerült kicsomagolni: %s (%s)\n"
+msgstr "nem sikerült kibontani: %s (%s)\n"
 
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
-"eltérő könyvtár-jogosultságok: %s\n"
+"eltérő könyvtárjogosultságok: %s\n"
 "fájlrendszer: %o  csomag: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "kicsomagolás: nem írok felül könyvtárat a %s fájllal\n"
+msgstr "kibontás: nem írok felül könyvtárat a %s fájllal\n"
 
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
-msgstr "kicsomagolás: %s szimbolikus link nem könyvtárra mutat\n"
+msgstr "kibontás: %s szimbolikus link nem könyvtárra mutat\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -73,7 +74,7 @@ msgstr "%s %s néven lett telepítve\n"
 
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
-msgstr "%s kicsomagolása %s.pacnew néven\n"
+msgstr "%s kibontása %s.pacnew néven\n"
 
 #, c-format
 msgid "could not get current working directory\n"
@@ -85,7 +86,7 @@ msgstr "nem sikerült a könyvtárváltás ide: %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nem sikerült visszalépni a munkakönyvárba (%s)\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
@@ -97,11 +98,11 @@ msgstr "hiba történt a(z) %s telepítése közben\n"
 
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr "nem sikerült a(z) %s-%s adatbázisbejegyzés frissítése\n"
+msgstr "nem sikerült a(z) %s-%s adatbázis-bejegyzés frissítése\n"
 
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr "sikertelen a '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
+msgstr "nem sikerült a(z) '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
@@ -109,7 +110,7 @@ msgstr "hibás adatbázis eltávolítása: %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "hibás név a '%s' adatbázis-bejegyzés számára\n"
+msgstr "hibás név a(z) '%s' adatbázis-bejegyzés számára\n"
 
 #, c-format
 msgid "duplicated database entry '%s'\n"
@@ -161,11 +162,13 @@ msgstr "hibás fájl eltávolítása: %s\n"
 
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "nem sikerült a zároló fájl (%s) eltávolítása\n"
+msgstr "nem sikerült a zárolófájl (%s) eltávolítása\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr ""
+"nem sikerült értelmezni a(z) '%s' csomagleíró fájlját a(z) '%s' "
+"adatbázisból\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -218,14 +221,15 @@ msgstr "A %s partíció csak olvashatóként van csatolva\n"
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr ""
+"A %s partíció túlságosan tele van: %jd blokk szükséges, %jd blokk szabad\n"
 
 #, c-format
 msgid "disk"
-msgstr "diszk"
+msgstr "lemez"
 
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr ""
+msgstr "nem sikerült létrehozni ideiglenes fájlt a letöltéshez\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
@@ -249,7 +253,7 @@ msgstr "elfogyott a memória!"
 
 #, c-format
 msgid "unexpected system error"
-msgstr "nemvárt hiba"
+msgstr "nem várt hiba"
 
 #, c-format
 msgid "insufficient privileges"
@@ -273,11 +277,11 @@ msgstr "nincs elég szabad lemezterület"
 
 #, c-format
 msgid "library not initialized"
-msgstr "a könyvtár nem inicializált"
+msgstr "a függvénytár nem inicializált"
 
 #, c-format
 msgid "library already initialized"
-msgstr "a könyvtár már inicializált"
+msgstr "a függvénytár már inicializált"
 
 #, c-format
 msgid "unable to lock database"
@@ -305,11 +309,11 @@ msgstr "nem található az adatbázis"
 
 #, c-format
 msgid "invalid or corrupted database"
-msgstr ""
+msgstr "érvénytelen vagy sérült adatbázis"
 
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr ""
+msgstr "hibás vagy sérült adatbázis (PGP aláírás)"
 
 #, c-format
 msgid "database is incorrect version"
@@ -317,7 +321,7 @@ msgstr "hibás verziójú az adatbázis"
 
 #, c-format
 msgid "could not update database"
-msgstr "nem sikerült megnyitni az adatbázist"
+msgstr "nem sikerült frissíteni az adatbázist"
 
 #, c-format
 msgid "could not remove database entry"
@@ -329,7 +333,7 @@ msgstr "hibás szerver-URL"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr "a repóhoz nincs szerver beállítva"
+msgstr "a tárolóhoz nincs szerver beállítva"
 
 #, c-format
 msgid "transaction already initialized"
@@ -357,7 +361,7 @@ msgstr "a művelet nem egyeztethető össze a jelenlegi tranzakciótípussal"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr "tranzakció végrehajtási kísérlet nem zárolt adatbázis mellett"
+msgstr "tranzakció-végrehajtási kísérlet nem zárolt adatbázis mellett"
 
 #, c-format
 msgid "could not find or read package"
@@ -365,19 +369,19 @@ msgstr "nem található vagy nem olvasható a csomag"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr "művelet megszakítva ignorepkg miatt"
+msgstr "a művelet megszakítva ignorepkg miatt"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr ""
+msgstr "hibás vagy sérült csomag"
 
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr ""
+msgstr "hibás vagy sérült csomag (ellenőrzőösszeg)"
 
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr ""
+msgstr "hibás vagy sérült csomag (PGP aláírás)"
 
 #, c-format
 msgid "cannot open package file"
@@ -385,7 +389,7 @@ msgstr "nem sikerült megnyitni a csomagfájlt"
 
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "nem sikerült eltávolítani a csomag összes fájlját"
+msgstr "nem távolítható el a csomag összes fájlja"
 
 #, c-format
 msgid "package filename is not valid"
@@ -393,19 +397,19 @@ msgstr "érvénytelen csomagnév"
 
 #, c-format
 msgid "package architecture is not valid"
-msgstr "érvénytelen csomag-architektúra"
+msgstr "érvénytelen csomagarchitektúra"
 
 #, c-format
 msgid "could not find repository for target"
-msgstr "nem található repó a célcsomaghoz"
+msgstr "nem található tároló a célcsomaghoz"
 
 #, c-format
 msgid "missing PGP signature"
-msgstr ""
+msgstr "hiányzó PGP aláírás"
 
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
+msgstr "érvénytelen PGP aláírás"
 
 #, c-format
 msgid "invalid or corrupted delta"
@@ -413,7 +417,7 @@ msgstr "hibás vagy sérült delta"
 
 #, c-format
 msgid "delta patch failed"
-msgstr "delta patchelés sikertelen"
+msgstr "delta foltozás sikertelen"
 
 #, c-format
 msgid "could not satisfy dependencies"
@@ -441,11 +445,11 @@ msgstr "libarchive hiba"
 
 #, c-format
 msgid "download library error"
-msgstr "letöltőkönyvtár hiba"
+msgstr "letöltőfüggvénytár hiba"
 
 #, c-format
 msgid "gpgme error"
-msgstr ""
+msgstr "gpgme hiba"
 
 #, c-format
 msgid "error invoking external downloader"
@@ -453,19 +457,20 @@ msgstr "hiba a külső letöltő meghívásakor"
 
 #, c-format
 msgid "unexpected error"
-msgstr "nemvárt hiba"
+msgstr "nem várt hiba"
 
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr ""
+"nem sikerült teljesen betölteni az információs fájlt a(z) %s-%s csomaghoz\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "nem található a(z) %s az adatbázisban -- kihagyás\n"
+msgstr "nem található %s az adatbázisban -- kihagyás\n"
 
 #, c-format
 msgid "removing %s from target list\n"
-msgstr "%s eltávolítása a cél listából\n"
+msgstr "%s eltávolítása a céllistából\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
@@ -473,7 +478,7 @@ msgstr "nem sikerült eltávolítani a '%s' fájlt : %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr ""
+msgstr "%s nem távolítható el (%s)\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
@@ -489,19 +494,19 @@ msgstr "%s: csomagfrissítés kihagyása (%s => %s)\n"
 
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: csomag downgrade kihagyása (%s => %s)\n"
+msgstr "%s: csomag visszafejlesztésének kihagyása (%s => %s)\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr "%s: visszatérés a %s verióról a régebbi %s verzióhoz\n"
+msgstr "%s: visszatérés a(z) %s verzióról a régebbi %s verzióhoz\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: a helyi (%s) újabb, mint %s (%s)\n"
+msgstr "%s: a helyi (%s) újabb, mint a(z) %s (%s)\n"
 
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "csomag-lecserélés kihagyása (%s-%s => %s-%s)\n"
+msgstr "csomaglecserélés kihagyása (%s-%s => %s-%s)\n"
 
 #, c-format
 msgid "cannot replace %s by %s\n"
@@ -536,20 +541,24 @@ msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nem sikerült az ideiglenes fájlt ide másolni: %s (%s)\n"
 
 #, c-format
+msgid "could not remove %s\n"
+msgstr "%s nem távolítható el\n"
+
+#, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nem sikerült eltávolítani a %s ideiglenes könyvtárat\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
-msgstr "nem sikerült a pipe létrehozása (%s)\n"
+msgstr "nem sikerült az adatcsatorna létrehozása (%s)\n"
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
-msgstr "nem sikerült forkolni egy új folyamatot (%s)\n"
+msgstr "nem sikerült indítani egy új folyamatot (%s)\n"
 
 #, c-format
 msgid "could not change the root directory (%s)\n"
-msgstr "nem sikerült a chroot (%s)\n"
+msgstr "nem sikerült gyökérkönyvtárat váltani (%s)\n"
 
 #, c-format
 msgid "call to execv failed (%s)\n"
@@ -557,20 +566,22 @@ msgstr "sikertelen execv hívás (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
-msgstr "waitpid hívás sikertelen (%s)\n"
+msgstr "sikertelen waitpid hívás (%s)\n"
 
 #, c-format
 msgid "could not open pipe (%s)\n"
-msgstr "nem sikerült a pipe megnyitása (%s)\n"
+msgstr "nem sikerült az adatcsatorna megnyitása (%s)\n"
 
 #, c-format
 msgid "command failed to execute correctly\n"
-msgstr "a parancs nem futott le sikeresen\n"
+msgstr "a parancs nem futott le helyesen\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "nem létezik a(z) %s gyorsítótár. létrehozás...\n"
+msgstr "nem létezik a(z) %s gyorsítótár, létrehozás...\n"
 
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
+"nem található vagy nem hozható létre a csomaggyorsítótár, a %s könyvtárat "
+"használom helyette\n"

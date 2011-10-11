@@ -4,14 +4,16 @@
 #
 # Translators:
 # David Kolibáč <david@kolibac.cz>, 2011.
+# Marek Otahal <markotahalREMOVETHIS@gmail.com>, 2011.
+#   <markotahal@gmail.com>, 2011.
 # Vojtěch Gondžala <vojtech.gondzala@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:36-0500\n"
+"PO-Revision-Date: 2011-10-08 09:21+0000\n"
+"Last-Translator: mmm <markotahal@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/cs/)\n"
 "Language: cs\n"
@@ -22,7 +24,7 @@ msgstr ""
 
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "kontrolují se závislosti...\n"
+msgstr "kontrola závislostí...\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
@@ -54,7 +56,7 @@ msgstr "kontroluje se integrita balíčků...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "načítání souborů balíčků...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -126,7 +128,7 @@ msgstr[2] "Chcete přeskočit na výše uvedené balíčky pro tuto aktualizaci?
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: Existují %zd balíčky poskytující %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -137,10 +139,12 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: Soubor %s je poškozen (%s).\n"
+"Odstranit ho? "
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Importovat PGP klíč %s, \"%s\", vytvořený %s?"
 
 #, c-format
 msgid "installing"
@@ -168,7 +172,7 @@ msgstr "kontrola integrity balíčků"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "načítání balíčku"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -192,19 +196,21 @@ msgstr "spuštění XferCommand selhalo!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "nelze přejmenovat %s na %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nelze obnovit pracovní adresář (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
+msgstr "konfigurační soubor %s, řádka %d: neplatná hodnota pro '%s' : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"konfigurační soubor %s, řádka %d: volba '%s' není platná, chybí podpora pro "
+"podepisování\n"
 
 #, c-format
 msgid ""
@@ -215,7 +221,7 @@ msgstr ""
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "zrcadlo '%s' obsahuje proměnnou '%s', ale '%s' není definována.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -235,11 +241,11 @@ msgstr "problém s nastavením log souboru '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "chyba při nastavování gpgdir '%s' (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "'%s' není nastaveno"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -247,11 +253,11 @@ msgstr "nelze zaregistrovat databázi '%s' (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "nelze přidat mirror '%s' do databáze '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "načítaní konfigurace přesáhlo maximální hloubku rekurze %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -360,15 +366,15 @@ msgstr "Nahrazuje      :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Ke stažení  : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Velikost po kompresi: %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Velikost po instalaci : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -408,11 +414,11 @@ msgstr "MD5 součet     :"
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "SHA256 součet     :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Podpisy     :"
 
 #, c-format
 msgid "None"
@@ -495,10 +501,12 @@ msgstr "  -u, --unneeded       odstraní nepotřebné závislosti\n"
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
 msgstr ""
+"      --needed      nepřeinstalovávát balíčky, které jsou stále aktuální\n"
 
 #, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
 msgstr ""
+"     --recursive     přeinstaluje všechny závyslosti cílových balíčků\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -668,7 +676,7 @@ msgstr ""
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
-msgstr ""
+msgstr "     --dbonly        upraví pouze záznamy v databázi, ne balíčky\n"
 
 #, c-format
 msgid ""
@@ -685,6 +693,7 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"   -p, --print          pouze vypíše cíle, neprovede skutečnou operaci\n"
 
 #, c-format
 msgid ""
@@ -724,7 +733,7 @@ msgstr "      --debug          zobrazit ladící zprávy\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "     --gpgdir <cesta>  nastaví vlastní výchozí složku pro GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -757,7 +766,7 @@ msgstr "neplatný přepínač\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "při načítání parametrů došlo k vyčerpání paměti\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -805,21 +814,21 @@ msgstr "Žádný balíček nevlastní %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "skupina '%s' nebyla nalezena\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s: %jd soubor. "
+msgstr[1] "%s: %jd souborů celkem. "
+msgstr[2] "%s: %jd souborů celkem. "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd chybějící soubor\n"
+msgstr[1] "%jd chybějící soubory\n"
+msgstr[2] "%jd chybějící soubory\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -827,11 +836,11 @@ msgstr "balíček '%s' nebyl nalezen\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' je soubor, možná byste chtěli použít %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "Nelze načíst balíček '%s': %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -971,7 +980,7 @@ msgstr "databáze nebyla nalezen: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' je soubor, mysleli jste %s místo %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1025,7 +1034,7 @@ msgstr ":: Chcete zrušit současnou operaci a aktualizovat tyto balíčky?"
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "načítání balíčků...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1049,59 +1058,59 @@ msgstr "nejsou nastaveny žádné použitelné repozitáře.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "databáze '%s' je neplatná (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "nedostatečný počet sloupců pro zobrazení tabulky\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Platný"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Platnost klíče vypršela"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Prošlý"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Neplatný"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Neznámý klíč"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Klíč zakázán"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Chyba v podpisu"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "plná důvěra"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "částečná důvěra"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "žádná důvěra"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "úroveň důvěry: neznámý"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s od \"%s\""
 
 #, c-format
 msgid "failed to allocate string\n"
@@ -1109,43 +1118,43 @@ msgstr "Nepodařilo se alokovat řetězec\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Jméno"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Předchozí verze"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Nová verze"
 
 #, c-format
-msgid "Size"
-msgstr ""
+msgid "Net Change"
+msgstr "Změna (zhruba)"
+
+#, c-format
+msgid "Download Size"
+msgstr "Velikost ke stažení"
 
 #, c-format
 msgid "Targets (%d):"
 msgstr "Cíle (%d):"
 
 #, c-format
-msgid "Remove (%d):"
-msgstr "Odstranit (%d):"
-
-#, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Celková velikost ke stažení:      %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Celková velikost po instalaci:     %.2f %s\n"
+
+#, c-format
+msgid "Total Removed Size:     %.2f %s\n"
+msgstr "Celkem odstraněno:    %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
-
-#, c-format
-msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Odhadovaná velikost upgradu:     %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

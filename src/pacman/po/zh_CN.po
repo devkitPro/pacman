@@ -6,13 +6,14 @@
 # leonfeng <rainofchaos@gmail.com>, 2011.
 #   <rainofchaos@gmail.com>, 2011.
 # 甘 露 <rhythm.gan@gmail.com>, 2011.
+# 甘露 <rhythm.gan@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-09-22 11:32-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-10-05 22:36-0500\n"
+"PO-Revision-Date: 2011-10-06 04:50+0000\n"
+"Last-Translator: ganlu <rhythm.gan@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -55,7 +56,7 @@ msgstr "正在检查软件包完整性...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "正在加载软件包文件...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -118,7 +119,7 @@ msgstr[0] "您想在本次更新中跳过上述软件包吗？"
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: 共有 %zd 个软件包可提供 %s ：\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -129,10 +130,12 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: 文件 %s 已损坏 (%s).\n"
+"打算删除吗？"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: 导入 PGP 密匙 %s，\"%s\"，创建 %s 吗？"
 
 #, c-format
 msgid "installing"
@@ -160,7 +163,7 @@ msgstr "正在检查软件包完整性"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "正在加载软件包文件"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -184,19 +187,19 @@ msgstr "正在运行 XferCommand：分支失败！\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "无法重命名 %s 为 %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "无法恢复工作目录 (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
+msgstr "配置文件 %s，第 %d 行：无有效值 '%s'：'%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr ""
+msgstr "配置文件 %s，第 %d 行：'%s' 选项无效，无签名支持\n"
 
 #, c-format
 msgid ""
@@ -205,7 +208,7 @@ msgstr "配置文件 %s，第 %d 行：指令 '%s'(位于章节 '%s' 中) 无法
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "镜像 '%s' 包含可变参数 '%s' ，但是没有定义 '%s'。\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -225,11 +228,11 @@ msgstr "设定日志文件 '%s' (%s) 时出现问题\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "设定 gpgdir '%s' 时出现问题 (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "没有配置 '%s' "
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -237,11 +240,11 @@ msgstr "无法注册 '%s' 数据库 (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "无法添加 '%s' 镜像到数据库 '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "配置解析时超过最大 %d 的递归深度。\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -297,7 +300,7 @@ msgstr "未知的"
 
 #, c-format
 msgid "Repository     :"
-msgstr "软件库　："
+msgstr "软件库　　："
 
 #, c-format
 msgid "Name           :"
@@ -345,15 +348,15 @@ msgstr "取代　　　："
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "下载大小：%6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "压缩后大小：%6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "安装后大小：%6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -393,11 +396,11 @@ msgstr "MD5校验值："
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "SHA256 校验值："
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "签名："
 
 #, c-format
 msgid "None"
@@ -478,11 +481,11 @@ msgstr "  -u, --unneeded       删除不需要的软件包\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr ""
+msgstr "      --needed         不重新安装已是最新的软件包\n"
 
 #, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr ""
+msgstr "      --recursive      重新安装目标软件包的所有依赖关系\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -628,7 +631,7 @@ msgstr "-d, --nodeps         跳过依赖关系的版本检查 (-dd 跳过所有
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
-msgstr ""
+msgstr "      --dbonly         仅修改数据库条目，而非软件包文件\n"
 
 #, c-format
 msgid ""
@@ -644,7 +647,7 @@ msgstr "      --noscriptlet    不执行安装小脚本\n"
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr ""
+msgstr "  -p, --print          打印目标而不是执行操作\n"
 
 #, c-format
 msgid ""
@@ -684,7 +687,7 @@ msgstr "      -- debug        显示除错信息\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "      --gpgdir <路径>  设定 GnuPG 的其他主目录\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -716,7 +719,7 @@ msgstr "无效选项\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "参数解析时内存耗尽\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -764,17 +767,17 @@ msgstr "没有软件包拥有 %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "软件组 '%s' 未找到\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
+msgstr[0] "%s: %jd 全部文件。"
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
+msgstr[0] "%jd 缺失文件\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -782,11 +785,11 @@ msgstr "软件包 '%s' 未找到\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' 是一个文件，您可能打算使用 %s。\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "无法加载软件包 '%s': %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -810,7 +813,7 @@ msgstr "在目标清单中发现 HoldPkg 指定的软件包。你确定要继续
 
 #, c-format
 msgid " there is nothing to do\n"
-msgstr "已无事可做\n"
+msgstr "今日无事可做\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -862,7 +865,7 @@ msgstr "  所有目前同步数据库的软件包\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
-msgstr "您想从缓存中删除全部其他软件包吗？"
+msgstr "您想从缓存中删除所有其他的软件包吗？"
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -926,7 +929,7 @@ msgstr "未找到数据库：%s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' 是一个文件，您是否想要 %s 而不是 %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -982,7 +985,7 @@ msgstr ""
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "正在加载软件包...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1006,59 +1009,59 @@ msgstr "没有设置可用的软件包库。\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "数据库 '%s' 无效 (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "栏数不足以使用表格显示视图\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "有效"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "密匙已过期"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "已过期"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "无效"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "未知密匙"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "已禁用密匙"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "签名错误"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "完全信任"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "有限信任"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "永不信任"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "未知信任"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s，%s 来自 \"%s\""
 
 #, c-format
 msgid "failed to allocate string\n"
@@ -1066,43 +1069,43 @@ msgstr "无法分配字符串\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "名字"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "旧版本"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "新版本"
 
 #, c-format
-msgid "Size"
-msgstr ""
+msgid "Net Change"
+msgstr "净变化"
+
+#, c-format
+msgid "Download Size"
+msgstr "下载大小"
 
 #, c-format
 msgid "Targets (%d):"
 msgstr "目标 (%d)："
 
 #, c-format
-msgid "Remove (%d):"
-msgstr "删除 (%d)："
-
-#, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "全部下载大小：%.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "全部安装大小：%.2f %s\n"
+
+#, c-format
+msgid "Total Removed Size:     %.2f %s\n"
+msgstr "全部删除大小：%.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
-
-#, c-format
-msgid "Total Removed Size:   %.2f %s\n"
-msgstr ""
+msgstr "净更新大小：%.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
