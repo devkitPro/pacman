@@ -25,6 +25,7 @@ VERSION         DESCRIPTION
               - replaces are parsed as dependency-style strings (FS#23410)
               - split package verification and load stages
               - sync database reading refactor for performance
+              - use a larger buffer for package checksum validation
               - filelists now have a dedicated type with metadata
               - diskspace check no longer requires iterating package archives
               - update and add checksum routines from PolarSSL
@@ -54,6 +55,7 @@ VERSION         DESCRIPTION
                 - do source packaging in fakeroot (FS#24330)
                 - be more POSIX-compatible in use of `ln` (FS#24893)
                 - handle spaces with filenames in noextract (FS#25100)
+                - allow epoch-versioned optdepends
               - pacman-key: new keyring management tool for signed data
               - pacsort: new utility, sort version numbers as pacman does
               - pactree: support sync databases with -s option
