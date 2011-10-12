@@ -140,6 +140,9 @@ static int init_gpgme(alpm_handle_t *handle)
 			|| _alpm_access(handle, sigdir, "trustdb.gpg", R_OK)) {
 		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
 		_alpm_log(handle, ALPM_LOG_DEBUG, "Signature verification will fail!\n");
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("Public keyring not found; have you run '%s'?\n"),
+				"pacman-key --init");
 	}
 
 	/* calling gpgme_check_version() returns the current version and runs
