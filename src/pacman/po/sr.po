@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-10-05 22:36-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2011-10-11 17:15+0000\n"
+"Last-Translator: Xabre <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sr/)\n"
 "Language: sr\n"
@@ -55,7 +55,7 @@ msgstr "проверавам интегритет пакета...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "учитавам фајлове пакета...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
@@ -125,7 +125,7 @@ msgstr[2] "Желите ли да прескочите наведене паке
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: Доступно је %zd достављача за %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -135,11 +135,11 @@ msgstr ":: %s-%s: локална верзија је новија. Свејед�
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ""
+msgstr ":: Фајл %s је неисправан (%s).Желуте ли да га обришете?"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Увести ПГП кључ %s, „%s“, направљен %s?"
 
 #, c-format
 msgid "installing"
@@ -167,7 +167,7 @@ msgstr "проверавам интегритет пакета"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "учитавам фајлове пакета"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -191,19 +191,21 @@ msgstr "покрећем XferCommand: неуспело рачвање!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "не могу да преименујем %s у %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "не могу да повратим радну фасциклу (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
+msgstr "фајл поставки %s, линија %d: неисправна вредност за „%s“ : „%s“\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"фајл поставки %s, линија %d: опција „%s“ је неисправна, нема подршке за "
+"потписе\n"
 
 #, c-format
 msgid ""
@@ -213,7 +215,7 @@ msgstr ""
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "мирор „%s“ садржи промењиву „%s“, али нема дефинисано „%s“.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -233,11 +235,11 @@ msgstr "проблем при постављању дневника „%s“ (%s
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "проблем при постављању гпг фасцикле „%s“ (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "„%s“ није дефинисано"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -245,11 +247,12 @@ msgstr "не могу да региструјем базу „%s“ (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "не могу да додам мирор „%s“ у базу „%s“ (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"при обради фајла поставки премашена је максимална дубина рекурзије од %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -347,7 +350,7 @@ msgstr "Захтева га       :"
 
 #, c-format
 msgid "Conflicts With :"
-msgstr "У сукобу са      :"
+msgstr "Сукобљавања      :"
 
 #, c-format
 msgid "Replaces       :"
@@ -355,15 +358,15 @@ msgstr "Смењује          :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Величина преузимања  : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Величина архиве: %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Величина инсталације: %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -403,11 +406,11 @@ msgstr "МД5 сума         :"
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "SHA256 сума      :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Потписи          :"
 
 #, c-format
 msgid "None"
@@ -488,11 +491,12 @@ msgstr "  -u, --unneeded       уклања непотребне пакете\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr ""
+msgstr "      --needed         ажурне пакете не инсталирај поново\n"
 
 #, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
 msgstr ""
+"      --recursive      поново инсталирај све зависности циљаног пакета\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -598,7 +602,7 @@ msgstr ""
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"   -u, --sysupgrade     надограђује инсталиране пакете (-uu дозвољава "
+"  -u, --sysupgrade     надограђује инсталиране пакете (-uu дозвољава "
 "разградњу)\n"
 
 #, c-format
@@ -664,7 +668,7 @@ msgstr ""
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
-msgstr ""
+msgstr "      --dbonly         измени само уносе у бази, не и фајлове пакета\n"
 
 #, c-format
 msgid ""
@@ -682,7 +686,7 @@ msgstr ""
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr ""
+msgstr "  -p, --print          штампај циљеве уместо извршавања операције\n"
 
 #, c-format
 msgid ""
@@ -723,6 +727,7 @@ msgstr "      --debug          приказује поруке за исправ
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr ""
+"      --gpgdir <путања>  постави алтернативну домаћу фасциклу за GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -754,7 +759,7 @@ msgstr "неисправна опција\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "у обради аргумента је исцрпљена меморија\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -802,21 +807,21 @@ msgstr "Ниједан пакет не садржи %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "група „%s“ није нађена\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s: укупно %jd фајл, "
+msgstr[1] "%s: укупно %jd фајла, "
+msgstr[2] "%s: укупно %jd фалова, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd фајл недостаје\n"
+msgstr[1] "%jd фајла недостају\n"
+msgstr[2] "%jd фајлова недостаје\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -824,11 +829,11 @@ msgstr "није нађен пакет „%s“\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "„%s“ је фајл, можда вам треба %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "не могу да учитам пакет „%s“: %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -968,7 +973,7 @@ msgstr "база није нађена: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "„%s“ је фајл, д али сте мислили на %s уместо %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1024,7 +1029,7 @@ msgstr ""
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "учитавам пакете...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1048,59 +1053,59 @@ msgstr "нису подешене употребљиве ризнице паке
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "база „%s“ није исправна („%s“)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "нема довољно колона за приказ табеле\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "исправан"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "кључ је истекао"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "истекао"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "неисправан"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "непознат кључ"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "онемогућен кључ"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Грешка потписа"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "потпуно поверење"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "маргинално поверење"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "нема поверење"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "непознато поверење"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s од „%s“"
 
 #, c-format
 msgid "failed to allocate string\n"
@@ -1108,23 +1113,23 @@ msgstr "неуспело алоцирање ниске\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Стара верзија"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Нова верзија"
 
 #, c-format
 msgid "Net Change"
-msgstr ""
+msgstr "Нето измена"
 
 #, c-format
 msgid "Download Size"
-msgstr ""
+msgstr "Величина преузимања"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1132,19 +1137,19 @@ msgstr "Циљеви (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Укупна величина преузимања: %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Укупна величина инсталације: %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:     %.2f %s\n"
-msgstr ""
+msgstr "Укупна величина уклоњеног: %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Нето величина надоградње: %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1213,6 +1218,3 @@ msgstr "грешка: "
 #, c-format
 msgid "warning: "
 msgstr "упозорење: "
-
-#~ msgid "Remove (%d):"
-#~ msgstr "За уклањање (%d):"
