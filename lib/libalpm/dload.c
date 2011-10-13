@@ -127,13 +127,14 @@ static int curl_progress(void *file, double dltotal, double dlnow,
 	return 0;
 }
 
-static int curl_gethost(const char *url, char *buffer)
+static int curl_gethost(const char *url, char *buffer, size_t buf_len)
 {
 	size_t hostlen;
 	char *p, *q;
 
 	if(strncmp(url, "file://", 7) == 0) {
-		strcpy(buffer, _("disk"));
+		p = _("disk");
+		hostlen = strlen(p);
 	} else {
 		p = strstr(url, "//");
 		if(!p) {
@@ -154,13 +155,14 @@ static int curl_gethost(const char *url, char *buffer)
 			hostlen -= q - p + 1;
 			p = q + 1;
 		}
-
-		if(hostlen > 255) {
-			/* buffer overflow imminent */
-			return 1;
-		}
-		snprintf(buffer, hostlen + 1, "%s", p);
 	}
+
+	if(hostlen > buf_len - 1) {
+		/* buffer overflow imminent */
+		return 1;
+	}
+	memcpy(buffer, p, hostlen);
+	buffer[hostlen] = '\0';
 
 	return 0;
 }
@@ -310,14 +312,16 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 	return fp;
 }
 
+/* RFC1123 states applications should support this length */
+#define HOSTNAME_SIZE 256
+
 static int curl_download_internal(struct dload_payload *payload,
 		const char *localpath, char **final_file)
 {
 	int ret = -1;
 	FILE *localf = NULL;
 	char *effective_url;
-	/* RFC1123 states applications should support this length */
-	char hostname[256];
+	char hostname[HOSTNAME_SIZE];
 	char error_buffer[CURL_ERROR_SIZE] = {0};
 	struct stat st;
 	long timecond, respcode = 0, remote_time = -1;
@@ -332,7 +336,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	if(!payload->remote_name) {
 		payload->remote_name = strdup(get_filename(payload->fileurl));
 	}
-	if(!payload->remote_name || curl_gethost(payload->fileurl, hostname) != 0) {
+	if(!payload->remote_name || curl_gethost(payload->fileurl, hostname, sizeof(hostname)) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
 		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}
