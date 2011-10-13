@@ -520,13 +520,19 @@ remove() {
 }
 
 trap_exit() {
+	# unhook all traps to avoid race conditions
+	trap '' EXIT TERM HUP QUIT INT ERR
+
 	echo
 	error "$@"
-	exit 1
+	clean_up 1
 }
 
 clean_up() {
-	local exit_code=$?
+	local exit_code=${1:-$?}
+
+	# unhook all traps to avoid race conditions
+	trap '' EXIT TERM HUP QUIT INT ERR
 
 	[[ -d $tmpdir ]] && rm -rf "$tmpdir"
 	(( CLEAN_LOCK )) && [[ -f $LOCKFILE ]] && rm -f "$LOCKFILE"
