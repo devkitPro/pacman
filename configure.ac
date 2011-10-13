@@ -295,8 +295,6 @@ AC_MSG_CHECKING(for debug mode request)
 if test "x$debug" = "xyes" ; then
 	AC_MSG_RESULT(yes)
 	AC_DEFINE([PACMAN_DEBUG], , [Enable debug code])
-	# Check for mcheck
-	AC_CHECK_HEADERS([mcheck.h])
 	# Check for -fstack-protector availability
 	GCC_STACK_PROTECT_LIB
 	GCC_STACK_PROTECT_CC

@@ -39,9 +39,6 @@
 #include <sys/utsname.h> /* uname */
 #include <locale.h> /* setlocale */
 #include <errno.h>
-#if defined(PACMAN_DEBUG) && defined(HAVE_MCHECK_H)
-#include <mcheck.h> /* debug tracing (mtrace) */
-#endif
 
 /* alpm */
 #include <alpm.h>
@@ -767,11 +764,6 @@ int main(int argc, char *argv[])
 #if defined(HAVE_GETEUID) && !defined(CYGWIN)
 	/* geteuid undefined in CYGWIN */
 	uid_t myuid = geteuid();
-#endif
-
-#if defined(PACMAN_DEBUG) && defined(HAVE_MCHECK_H)
-	/*setenv("MALLOC_TRACE","pacman.mtrace", 0);*/
-	mtrace();
 #endif
 
 	/* Set signal handlers */
