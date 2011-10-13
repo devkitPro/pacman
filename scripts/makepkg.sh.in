@@ -179,7 +179,9 @@ clean_up() {
 ##
 set -E
 trap 'clean_up' 0
-trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
+for signal in TERM HUP QUIT; do
+	trap "trap_exit \"$(gettext "%s signal caught. Exiting...")\" \"$signal\"" "$signal"
+done
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 

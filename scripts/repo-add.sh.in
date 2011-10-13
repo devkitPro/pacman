@@ -572,9 +572,11 @@ tmpdir=$(mktemp -d /tmp/repo-tools.XXXXXXXXXX) || (\
 mkdir $tmpdir/tree
 
 trap 'clean_up' EXIT
-trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
+for signal in TERM HUP QUIT; do
+	trap "trap_exit \"$(gettext "%s signal caught. Exiting...")\" \"$signal\"" "$signal"
+done
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
-trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
+trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
 declare -a args
 success=0
