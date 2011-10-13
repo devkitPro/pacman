@@ -174,17 +174,6 @@ clean_up() {
 }
 
 
-##
-# Signal Traps
-##
-set -E
-trap 'clean_up' 0
-for signal in TERM HUP QUIT; do
-	trap "trap_exit \"$(gettext "%s signal caught. Exiting...")\" \"$signal\"" "$signal"
-done
-trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
-trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
-
 enter_fakeroot() {
 	msg "$(gettext "Entering %s environment...")" "fakeroot"
 
@@ -1955,6 +1944,15 @@ while true; do
 	esac
 	shift
 done
+
+# setup signal traps
+trap 'clean_up' 0
+for signal in TERM HUP QUIT; do
+	trap "trap_exit \"$(gettext "%s signal caught. Exiting...")\" \"$signal\"" "$signal"
+done
+trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
+trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
+set -E
 
 # preserve environment variables and canonicalize path
 [[ -n ${PKGDEST} ]] && _PKGDEST=$(canonicalize_path ${PKGDEST})
