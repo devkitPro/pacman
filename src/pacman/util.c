@@ -1043,19 +1043,19 @@ void print_packages(const alpm_list_t *packages)
 		char *string = strdup(config->print_format);
 		char *temp = string;
 		/* %n : pkgname */
-		if(strstr(temp,"%n")) {
+		if(strstr(temp, "%n")) {
 			string = strreplace(temp, "%n", alpm_pkg_get_name(pkg));
 			free(temp);
 			temp = string;
 		}
 		/* %v : pkgver */
-		if(strstr(temp,"%v")) {
+		if(strstr(temp, "%v")) {
 			string = strreplace(temp, "%v", alpm_pkg_get_version(pkg));
 			free(temp);
 			temp = string;
 		}
 		/* %l : location */
-		if(strstr(temp,"%l")) {
+		if(strstr(temp, "%l")) {
 			char *pkgloc = pkg_get_location(pkg);
 			string = strreplace(temp, "%l", pkgloc);
 			free(pkgloc);
@@ -1063,7 +1063,7 @@ void print_packages(const alpm_list_t *packages)
 			temp = string;
 		}
 		/* %r : repo */
-		if(strstr(temp,"%r")) {
+		if(strstr(temp, "%r")) {
 			const char *repo = "local";
 			alpm_db_t *db = alpm_pkg_get_db(pkg);
 			if(db) {
@@ -1074,7 +1074,7 @@ void print_packages(const alpm_list_t *packages)
 			temp = string;
 		}
 		/* %s : size */
-		if(strstr(temp,"%s")) {
+		if(strstr(temp, "%s")) {
 			char *size;
 			pm_asprintf(&size, "%jd", (intmax_t)pkg_get_size(pkg));
 			string = strreplace(temp, "%s", size);
