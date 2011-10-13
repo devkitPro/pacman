@@ -1,6 +1,8 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
-4.0.1         - Ensure VerbosePkgList table display supports multibyte chars
+4.0.1         - ensure VerbosePkgList table display supports multibyte chars
+              - add guidance message for users when public keyring not found
+              - repo-add: fix race condition around lock file removal
 4.0.0         - well-integrated and powerful signed packages and databases
                 support in pacman, the library, and scripts (FS#5331)
               - over 800 commits to pacman.git since 3.5.4 release
@@ -45,6 +47,7 @@ VERSION         DESCRIPTION
               - makepkg:
                 - allow signing packages after creation
                 - allow verifying source file signatures (FS#20448)
+                - add auto-versioned libdepends/libprovides support
                 - support UPX compression of executables (FS#17213)
                 - allow usage of an alternate build directory (FS#22308)
                 - cleancache option has been removed; use shell instead
