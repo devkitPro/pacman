@@ -96,41 +96,41 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	}
 
 	if(hashlen > 0) {
-		printf(" [");
+		fputs(" [", stdout);
 		for(i = hashlen; i > 0; --i) {
 			/* if special progress bar enabled */
 			if(config->chomp) {
 				if(i > hashlen - hash) {
-					printf("-");
+					putchar('-');
 				} else if(i == hashlen - hash) {
 					if(lasthash == hash) {
 						if(mouth) {
-							printf("\033[1;33mC\033[m");
+							fputs("\033[1;33mC\033[m", stdout);
 						} else {
-							printf("\033[1;33mc\033[m");
+							fputs("\033[1;33mc\033[m", stdout);
 						}
 					} else {
 						lasthash = hash;
 						mouth = mouth == 1 ? 0 : 1;
 						if(mouth) {
-							printf("\033[1;33mC\033[m");
+							fputs("\033[1;33mC\033[m", stdout);
 						} else {
-							printf("\033[1;33mc\033[m");
+							fputs("\033[1;33mc\033[m", stdout);
 						}
 					}
-				} else if(i%3 == 0) {
-					printf("\033[0;37mo\033[m");
+				} else if(i % 3 == 0) {
+					fputs("\033[0;37mo\033[m", stdout);
 				} else {
-					printf("\033[0;37m \033[m");
+					fputs("\033[0;37m \033[m", stdout);
 				}
 			} /* else regular progress bar */
 			else if(i > hashlen - hash) {
-				printf("#");
+				putchar('#');
 			} else {
-				printf("-");
+				putchar('-');
 			}
 		}
-		printf("]");
+		putchar(']');
 	}
 	/* print display percent after progress bar */
 	/* 5 = 1 space + 3 digits + 1 % */
@@ -139,9 +139,9 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	}
 
 	if(bar_percent == 100) {
-		printf("\n");
+		putchar('\n');
 	} else {
-		printf("\r");
+		putchar('\r');
 	}
 	fflush(stdout);
 }
@@ -712,7 +712,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	} else if(eta_h < 100) {
 		printf("%02u:%02u:%02u", eta_h, eta_m, eta_s);
 	} else {
-		printf("--:--");
+		fputs("--:--", stdout);
 	}
 
 	free(fname);
