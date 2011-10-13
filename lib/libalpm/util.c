@@ -960,7 +960,9 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			b->line_size = b->block_size + 1;
 			b->line_offset = b->line;
 		} else {
-			size_t new = eol ? (eol - b->block_offset) : block_remaining;
+			/* note: we know eol > b->block_offset and b->line_offset > b->line,
+			 * so we know the result is unsigned and can fit in size_t */
+			size_t new = eol ? (size_t)(eol - b->block_offset) : block_remaining;
 			size_t needed = (size_t)((b->line_offset - b->line) + new + 1);
 			if(needed > b->max_line_size) {
 				b->ret = -ERANGE;

@@ -347,7 +347,8 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			{
 				alpm_pgpkey_t *key = data1;
 				char created[12];
-				strftime(created, 12, "%Y-%m-%d", localtime(&(key->created)));
+				time_t time = (time_t)key->created;
+				strftime(created, 12, "%Y-%m-%d", localtime(&time));
 				*response = yesno(_(":: Import PGP key %s, \"%s\", created %s?"),
 						key->fingerprint, key->uid, created);
 			}
