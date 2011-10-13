@@ -520,13 +520,19 @@ remove() {
 }
 
 trap_exit() {
+	# unhook all traps to avoid race conditions
+	trap '' EXIT TERM HUP QUIT INT ERR
+
 	echo
 	error "$@"
-	exit 1
+	clean_up 1
 }
 
 clean_up() {
-	local exit_code=$?
+	local exit_code=${1:-$?}
+
+	# unhook all traps to avoid race conditions
+	trap '' EXIT TERM HUP QUIT INT ERR
 
 	[[ -d $tmpdir ]] && rm -rf "$tmpdir"
 	(( CLEAN_LOCK )) && [[ -f $LOCKFILE ]] && rm -f "$LOCKFILE"
@@ -566,9 +572,11 @@ tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/repo-tools.XXXXXXXXXX") || (\
 mkdir $tmpdir/tree
 
 trap 'clean_up' EXIT
-trap 'trap_exit "$(gettext "TERM signal caught. Exiting...")"' TERM HUP QUIT
+for signal in TERM HUP QUIT; do
+	trap "trap_exit \"$(gettext "%s signal caught. Exiting...")\" \"$signal\"" "$signal"
+done
 trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
-trap 'trap_exit "$(gettext "An unknown error has occured. Exiting...")"' ERR
+trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
 declare -a args
 success=0

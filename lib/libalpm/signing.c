@@ -140,6 +140,9 @@ static int init_gpgme(alpm_handle_t *handle)
 			|| _alpm_access(handle, sigdir, "trustdb.gpg", R_OK)) {
 		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
 		_alpm_log(handle, ALPM_LOG_DEBUG, "Signature verification will fail!\n");
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("Public keyring not found; have you run '%s'?\n"),
+				"pacman-key --init");
 	}
 
 	/* calling gpgme_check_version() returns the current version and runs
@@ -370,7 +373,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		const char *base64_sig, alpm_siglist_t *siglist)
 {
 	int ret = -1, sigcount;
-	gpgme_error_t err;
+	gpgme_error_t err = 0;
 	gpgme_ctx_t ctx;
 	gpgme_data_t filedata, sigdata;
 	gpgme_verify_result_t verify_result;
@@ -394,9 +397,27 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		_alpm_access(handle, NULL, sigpath, R_OK);
 	}
 
+	/* does the file we are verifying exist? */
+	file = fopen(path, "rb");
+	if(file == NULL) {
+		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
+		goto error;
+	}
+
+	/* does the sig file exist (if we didn't get the data directly)? */
+	if(!base64_sig) {
+		sigfile = fopen(sigpath, "rb");
+		if(sigfile == NULL) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "sig path %s could not be opened\n",
+					sigpath);
+			handle->pm_errno = ALPM_ERR_SIG_MISSING;
+			goto error;
+		}
+	}
+
 	if(init_gpgme(handle)) {
 		/* pm_errno was set in gpgme_init() */
-		return -1;
+		goto error;
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "checking signature for %s\n", path);
@@ -409,11 +430,6 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	CHECK_ERR();
 
 	/* create our necessary data objects to verify the signature */
-	file = fopen(path, "rb");
-	if(file == NULL) {
-		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
-		goto error;
-	}
 	err = gpgme_data_new_from_stream(&filedata, file);
 	CHECK_ERR();
 
@@ -425,19 +441,12 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				&decoded_sigdata, &data_len);
 		if(decode_ret) {
 			handle->pm_errno = ALPM_ERR_SIG_INVALID;
-			goto error;
+			goto gpg_error;
 		}
 		err = gpgme_data_new_from_mem(&sigdata,
 				(char *)decoded_sigdata, data_len, 0);
 	} else {
 		/* file-based, it is on disk */
-		sigfile = fopen(sigpath, "rb");
-		if(sigfile == NULL) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "sig path %s could not be opened\n",
-					sigpath);
-			handle->pm_errno = ALPM_ERR_SIG_MISSING;
-			goto error;
-		}
 		err = gpgme_data_new_from_stream(&sigdata, sigfile);
 	}
 	CHECK_ERR();
@@ -450,14 +459,14 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	if(!verify_result || !verify_result->signatures) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "no signatures returned\n");
 		handle->pm_errno = ALPM_ERR_SIG_MISSING;
-		goto error;
+		goto gpg_error;
 	}
 	for(gpgsig = verify_result->signatures, sigcount = 0;
 			gpgsig; gpgsig = gpgsig->next, sigcount++);
 	_alpm_log(handle, ALPM_LOG_DEBUG, "%d signatures returned\n", sigcount);
 
 	CALLOC(siglist->results, sigcount, sizeof(alpm_sigresult_t),
-			handle->pm_errno = ALPM_ERR_MEMORY; goto error);
+			handle->pm_errno = ALPM_ERR_MEMORY; goto gpg_error);
 	siglist->count = sigcount;
 
 	for(gpgsig = verify_result->signatures, sigcount = 0; gpgsig;
@@ -488,7 +497,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 			err = GPG_ERR_NO_ERROR;
 			/* we dupe the fpr in this case since we have no key to point at */
 			STRDUP(result->key.fingerprint, gpgsig->fpr,
-					handle->pm_errno = ALPM_ERR_MEMORY; goto error);
+					handle->pm_errno = ALPM_ERR_MEMORY; goto gpg_error);
 		} else {
 			CHECK_ERR();
 			if(key->uids) {
@@ -555,10 +564,12 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 
 	ret = 0;
 
-error:
+gpg_error:
 	gpgme_data_release(sigdata);
 	gpgme_data_release(filedata);
 	gpgme_release(ctx);
+
+error:
 	if(sigfile) {
 		fclose(sigfile);
 	}
