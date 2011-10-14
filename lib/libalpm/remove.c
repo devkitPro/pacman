@@ -239,8 +239,9 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 
 /* Helper function for iterating through a package's file and deleting them
  * Used by _alpm_remove_commit. */
-static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
-		const alpm_file_t *fileobj, alpm_list_t *skip_remove, int nosave)
+static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
+		alpm_pkg_t *newpkg, const alpm_file_t *fileobj, alpm_list_t *skip_remove,
+		int nosave)
 {
 	struct stat buf;
 	char file[PATH_MAX];
@@ -274,6 +275,10 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 		} else if(files < 0) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"keeping directory %s (could not count files)\n", file);
+		} else if(newpkg && _alpm_filelist_contains(alpm_pkg_get_files(newpkg),
+					fileobj->name)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"keeping directory %s (in new package)\n", file);
 		} else {
 			/* one last check- does any other package own this file? */
 			alpm_list_t *local, *local_pkgs;
@@ -285,7 +290,8 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 
 				/* we duplicated the package when we put it in the removal list, so we
 				 * so we can't use direct pointer comparison here. */
-				if(_alpm_pkg_cmp(info, local_pkg) == 0) {
+				if(oldpkg->name_hash == local_pkg->name_hash
+						&& strcmp(oldpkg->name, local_pkg->name) == 0) {
 					continue;
 				}
 				filelist = alpm_pkg_get_files(local_pkg);
@@ -308,7 +314,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *info,
 		}
 	} else {
 		/* if the file needs backup and has been modified, back it up to .pacsave */
-		alpm_backup_t *backup = _alpm_needbackup(fileobj->name, info);
+		alpm_backup_t *backup = _alpm_needbackup(fileobj->name, oldpkg);
 		if(backup) {
 			if(nosave) {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "transaction is set to NOSAVE, not backing up '%s'\n", file);
@@ -431,7 +437,7 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		alpm_file_t *file = filelist->files + i - 1;
 		int percent;
 		/* TODO: check return code and handle accordingly */
-		unlink_file(handle, oldpkg, file, skip_remove,
+		unlink_file(handle, oldpkg, newpkg, file, skip_remove,
 				handle->trans->flags & ALPM_TRANS_FLAG_NOSAVE);
 
 		if(!newpkg) {
