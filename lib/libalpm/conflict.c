@@ -318,12 +318,16 @@ const alpm_file_t *_alpm_filelist_contains(alpm_filelist_t *filelist,
 		const char *name)
 {
 	size_t i;
-	const alpm_file_t *file = filelist->files;
-	for(i = 0; i < filelist->count; i++) {
+	const alpm_file_t *file;
+
+	if(!filelist) {
+		return NULL;
+	}
+
+	for(file = filelist->files, i = 0; i < filelist->count; file++, i++) {
 		if(strcmp(file->name, name) == 0) {
 			return file;
 		}
-		file++;
 	}
 	return NULL;
 }
