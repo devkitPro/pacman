@@ -41,6 +41,7 @@ HTML_DOCS = \
 
 EXTRA_DIST = \
 	asciidoc.conf \
+	asciidoc-override.css \
 	pacman.8.txt \
 	makepkg.8.txt \
 	repo-add.8.txt \
@@ -91,8 +92,9 @@ html: $(HTML_DOCS)
 
 website: html
 	bsdtar czf website.tar.gz $(HTML_DOCS) \
+		asciidoc-override.css \
 		-C /etc/asciidoc/stylesheets/ \
-		asciidoc.css asciidoc-manpage.css \
+		asciidoc.css \
 		-C /etc/asciidoc/javascripts/ \
 		asciidoc.js \
 		-C /etc/asciidoc/ \
@@ -116,7 +118,7 @@ A2X_OPTS = \
 	--destination-dir='./'
 
 # These rules are due to the includes and files of the asciidoc text
-$(ASCIIDOC_MANS): asciidoc.conf footer.txt
+$(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile
 	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@.xml" $(srcdir)/$@.txt
 
 %.html: %.txt
@@ -128,9 +130,9 @@ HACKING.html: ../HACKING
 	dos2unix $@
 
 # Customizations for certain HTML docs
-$(HTML_MANPAGES): asciidoc.conf footer.txt
-$(HTML_OTHER): asciidoc.conf
-%.html: ASCIIDOC_OPTS += -a linkcss -a toc -a icons
+$(HTML_MANPAGES): asciidoc.conf footer.txt Makefile
+$(HTML_OTHER): asciidoc.conf Makefile
+%.html: ASCIIDOC_OPTS += -a linkcss -a toc -a icons -a max-width=960px -a stylesheet=asciidoc-override.css
 %.8.html: ASCIIDOC_OPTS += -d manpage
 %.5.html: ASCIIDOC_OPTS += -d manpage
 %.3.html: ASCIIDOC_OPTS += -d manpage
