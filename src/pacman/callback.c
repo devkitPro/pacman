@@ -231,7 +231,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			fputs((const char *)data1, stdout);
 			break;
 		case ALPM_EVENT_RETRIEVE_START:
-			printf(_(":: Retrieving packages from %s...\n"), (char *)data1);
+			printf(_(":: Retrieving packages ...\n"));
 			break;
 		case ALPM_EVENT_DISKSPACE_START:
 			if(config->noprogressbar) {

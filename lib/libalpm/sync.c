@@ -790,11 +790,64 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas)
 	return 0;
 }
 
+static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t **deltas)
+{
+	alpm_list_t *i;
+	alpm_handle_t *handle = repo->handle;
+
+	for(i = handle->trans->add; i; i = i->next) {
+		alpm_pkg_t *spkg = i->data;
+
+		if(spkg->origin != PKG_FROM_FILE && repo == spkg->origin_data.db) {
+			alpm_list_t *delta_path = spkg->delta_path;
+
+			if(!repo->servers) {
+				handle->pm_errno = ALPM_ERR_SERVER_NONE;
+				_alpm_log(handle, ALPM_LOG_ERROR, "%s: %s\n",
+						alpm_strerror(handle->pm_errno), repo->treename);
+				return 1;
+			}
+
+			if(delta_path) {
+				/* using deltas */
+				alpm_list_t *dlts;
+				for(dlts = delta_path; dlts; dlts = dlts->next) {
+					alpm_delta_t *delta = dlts->data;
+					if(delta->download_size != 0) {
+						struct dload_payload *dpayload;
+
+						CALLOC(dpayload, 1, sizeof(*dpayload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+						STRDUP(dpayload->remote_name, delta->delta, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+						dpayload->max_size = delta->download_size;
+						dpayload->servers = repo->servers;
+
+						*files = alpm_list_add(*files, dpayload);
+					}
+					/* keep a list of all the delta files for md5sums */
+					*deltas = alpm_list_add(*deltas, delta);
+				}
+
+			} else if(spkg->download_size != 0) {
+				struct dload_payload *payload;
+
+				ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
+				CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+				STRDUP(payload->remote_name, spkg->filename, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+				payload->max_size = spkg->size;
+				payload->servers = repo->servers;
+
+				*files = alpm_list_add(*files, payload);
+			}
+		}
+	}
+
+	return 0;
+}
+
 static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 {
 	const char *cachedir;
-	alpm_list_t *i, *j;
-	alpm_list_t *files = NULL;
+	alpm_list_t *i, *files = NULL;
 	int errors = 0;
 
 	cachedir = _alpm_filecache_setup(handle);
@@ -813,93 +866,45 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 		handle->totaldlcb(total_size);
 	}
 
-	/* group sync records by repository and download */
 	for(i = handle->dbs_sync; i; i = i->next) {
-		alpm_db_t *current = i->data;
-
-		for(j = handle->trans->add; j; j = j->next) {
-			alpm_pkg_t *spkg = j->data;
-
-			if(spkg->origin != PKG_FROM_FILE && current == spkg->origin_data.db) {
-				alpm_list_t *delta_path = spkg->delta_path;
-				if(delta_path) {
-					/* using deltas */
-					alpm_list_t *dlts;
-					for(dlts = delta_path; dlts; dlts = dlts->next) {
-						alpm_delta_t *delta = dlts->data;
-						if(delta->download_size != 0) {
-							struct dload_payload *dpayload;
-
-							CALLOC(dpayload, 1, sizeof(*dpayload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-							STRDUP(dpayload->remote_name, delta->delta, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-							dpayload->max_size = delta->download_size;
-							dpayload->servers = current->servers;
-
-							files = alpm_list_add(files, dpayload);
-						}
-						/* keep a list of all the delta files for md5sums */
-						*deltas = alpm_list_add(*deltas, delta);
-					}
-
-				} else if(spkg->download_size != 0) {
-					struct dload_payload *payload;
-
-					ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
-					CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-					STRDUP(payload->remote_name, spkg->filename, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-					payload->max_size = spkg->size;
-					payload->servers = current->servers;
-
-					files = alpm_list_add(files, payload);
-				}
-
-			}
-		}
-
-		if(files) {
-			if(!current->servers) {
-				handle->pm_errno = ALPM_ERR_SERVER_NONE;
-				_alpm_log(handle, ALPM_LOG_ERROR, "%s: %s\n",
-						alpm_strerror(handle->pm_errno), current->treename);
-				errors++;
-				continue;
-			}
-
-			EVENT(handle, ALPM_EVENT_RETRIEVE_START, current->treename, NULL);
-			for(j = files; j; j = j->next) {
-				struct dload_payload *payload = j->data;
-				alpm_list_t *server;
-				int ret = -1;
-				for(server = current->servers; server; server = server->next) {
-					const char *server_url = server->data;
-					size_t len;
-
-					/* print server + filename into a buffer */
-					len = strlen(server_url) + strlen(payload->remote_name) + 2;
-					MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-					snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
-					payload->handle = handle;
-					payload->allow_resume = 1;
-
-					ret = _alpm_download(payload, cachedir, NULL);
-					if(ret != -1) {
-						break;
-					}
-				}
-				if(ret == -1) {
-					errors++;
-					_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files from %s\n"),
-							current->treename);
-				}
-			}
-
-			alpm_list_free_inner(files, (alpm_list_fn_free)_alpm_dload_payload_reset);
-			FREELIST(files);
-		}
+		errors += find_dl_candidates(i->data, &files, deltas);
 	}
 
-	for(j = handle->trans->add; j; j = j->next) {
-		alpm_pkg_t *pkg = j->data;
+	if(files) {
+		EVENT(handle, ALPM_EVENT_RETRIEVE_START, NULL, NULL);
+		for(i = files; i; i = i->next) {
+			struct dload_payload *payload = i->data;
+			const alpm_list_t *server;
+			int ret = -1;
+
+			for(server = payload->servers; server; server = server->next) {
+				const char *server_url = server->data;
+				size_t len;
+
+				/* print server + filename into a buffer */
+				len = strlen(server_url) + strlen(payload->remote_name) + 2;
+				MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+				snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
+				payload->handle = handle;
+				payload->allow_resume = 1;
+
+				ret = _alpm_download(payload, cachedir, NULL);
+				if(ret != -1) {
+					break;
+				}
+			}
+			if(ret == -1) {
+				errors++;
+				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
+			}
+		}
+
+		alpm_list_free_inner(files, (alpm_list_fn_free)_alpm_dload_payload_reset);
+		FREELIST(files);
+	}
+
+	for(i = handle->trans->add; i; i = i->next) {
+		alpm_pkg_t *pkg = i->data;
 		pkg->infolevel &= ~INFRQ_DSIZE;
 		pkg->download_size = 0;
 	}
