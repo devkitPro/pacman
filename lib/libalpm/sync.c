@@ -875,6 +875,31 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 	}
 
 	if(files) {
+		/* check for necessary disk space for download */
+		if(handle->checkspace) {
+			off_t *file_sizes;
+			size_t idx, num_files;
+			int ret;
+
+			_alpm_log(handle, ALPM_LOG_DEBUG, "checking available disk space for download\n");
+
+			num_files = alpm_list_count(files);
+			CALLOC(file_sizes, num_files, sizeof(off_t), goto finish);
+
+			for(i = files, idx = 0; i; i = i->next, idx++) {
+				const struct dload_payload *payload = i->data;
+				file_sizes[idx] = payload->max_size;
+			}
+
+			ret = _alpm_check_downloadspace(handle, cachedir, num_files, file_sizes);
+			free(file_sizes);
+
+			if(ret != 0) {
+				errors++;
+				goto finish;
+			}
+		}
+
 		EVENT(handle, ALPM_EVENT_RETRIEVE_START, NULL, NULL);
 		for(i = files; i; i = i->next) {
 			struct dload_payload *payload = i->data;
@@ -902,7 +927,10 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
 			}
 		}
+	}
 
+finish:
+	if(files) {
 		alpm_list_free_inner(files, (alpm_list_fn_free)_alpm_dload_payload_reset);
 		FREELIST(files);
 	}
