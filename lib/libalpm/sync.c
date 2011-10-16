@@ -848,6 +848,30 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 	return 0;
 }
 
+static int download_single_file(alpm_handle_t *handle, struct dload_payload *payload,
+		const char *cachedir)
+{
+	const alpm_list_t *server;
+
+	for(server = payload->servers; server; server = server->next) {
+		const char *server_url = server->data;
+		size_t len;
+
+		/* print server + filename into a buffer */
+		len = strlen(server_url) + strlen(payload->remote_name) + 2;
+		MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+		snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
+		payload->handle = handle;
+		payload->allow_resume = 1;
+
+		if(_alpm_download(payload, cachedir, NULL) != -1) {
+			return 0;
+		}
+	}
+
+	return -1;
+}
+
 static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 {
 	const char *cachedir;
@@ -902,27 +926,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 
 		EVENT(handle, ALPM_EVENT_RETRIEVE_START, NULL, NULL);
 		for(i = files; i; i = i->next) {
-			struct dload_payload *payload = i->data;
-			const alpm_list_t *server;
-			int ret = -1;
-
-			for(server = payload->servers; server; server = server->next) {
-				const char *server_url = server->data;
-				size_t len;
-
-				/* print server + filename into a buffer */
-				len = strlen(server_url) + strlen(payload->remote_name) + 2;
-				MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-				snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
-				payload->handle = handle;
-				payload->allow_resume = 1;
-
-				ret = _alpm_download(payload, cachedir, NULL);
-				if(ret != -1) {
-					break;
-				}
-			}
-			if(ret == -1) {
+			if(download_single_file(handle, i->data, cachedir) == -1) {
 				errors++;
 				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
 			}
