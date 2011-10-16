@@ -785,7 +785,12 @@ static alpm_list_t *create_verbose_row(pm_target_t *target, int dl_size)
 
 	/* a row consists of the package name, */
 	if(target->install) {
-		pm_asprintf(&str, "%s", alpm_pkg_get_name(target->install));
+		const alpm_db_t *db = alpm_pkg_get_db(target->install);
+		if(db) {
+			pm_asprintf(&str, "%s/%s", alpm_db_get_name(db), alpm_pkg_get_name(target->install));
+		} else {
+			pm_asprintf(&str, "%s", alpm_pkg_get_name(target->install));
+		}
 	} else {
 		pm_asprintf(&str, "%s", alpm_pkg_get_name(target->remove));
 	}
