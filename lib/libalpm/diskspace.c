@@ -55,6 +55,17 @@ static int mount_point_cmp(const void *p1, const void *p2)
 	return -strcmp(mp1->mount_dir, mp2->mount_dir);
 }
 
+static void mount_point_list_free(alpm_list_t *mount_points)
+{
+	alpm_list_t *i;
+
+	for(i = mount_points; i; i = i->next) {
+		alpm_mountpoint_t *data = i->data;
+		FREE(data->mount_dir);
+	}
+	FREELIST(mount_points);
+}
+
 static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points = NULL, *ptr;
@@ -256,7 +267,7 @@ static int check_mountpoint(alpm_handle_t *handle, alpm_mountpoint_t *mp)
 int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 		size_t num_files, off_t *file_sizes)
 {
-	alpm_list_t *i, *mount_points;
+	alpm_list_t *mount_points;
 	alpm_mountpoint_t *cachedir_mp;
 	size_t j;
 	int error = 0;
@@ -289,11 +300,7 @@ int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 	}
 
 finish:
-	for(i = mount_points; i; i = i->next) {
-		alpm_mountpoint_t *data = i->data;
-		FREE(data->mount_dir);
-	}
-	FREELIST(mount_points);
+	mount_point_list_free(mount_points);
 
 	if(error) {
 		RET_ERR(handle, ALPM_ERR_DISK_SPACE, -1);
@@ -376,11 +383,7 @@ int _alpm_check_diskspace(alpm_handle_t *handle)
 	}
 
 finish:
-	for(i = mount_points; i; i = i->next) {
-		alpm_mountpoint_t *data = i->data;
-		FREE(data->mount_dir);
-	}
-	FREELIST(mount_points);
+	mount_point_list_free(mount_points);
 
 	if(error) {
 		RET_ERR(handle, ALPM_ERR_DISK_SPACE, -1);
