@@ -585,7 +585,8 @@ int table_display(const char *title, const alpm_list_t *header,
 	totalwidth = table_calc_widths(header, rows, totalcols, &widths);
 	/* return -1 if terminal is not wide enough */
 	if(totalwidth > getcols()) {
-		fprintf(stderr, _("insufficient columns available for table display\n"));
+		pm_fprintf(stderr, ALPM_LOG_WARNING,
+				_("insufficient columns available for table display\n"));
 		return -1;
 	}
 	if(!totalwidth || !widths) {
