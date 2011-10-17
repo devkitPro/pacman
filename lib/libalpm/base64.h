@@ -30,6 +30,7 @@
 #define POLARSSL_ERR_BASE64_BUFFER_TOO_SMALL               -0x0010  /**< Output buffer too small. */
 #define POLARSSL_ERR_BASE64_INVALID_CHARACTER              -0x0012  /**< Invalid character in input. */
 
+#if 0
 /**
  * \brief          Encode a buffer into base64 format
  *
@@ -47,6 +48,7 @@
  */
 int base64_encode( unsigned char *dst, size_t *dlen,
                    const unsigned char *src, size_t slen );
+#endif
 
 /**
  * \brief          Decode a base64-formatted buffer

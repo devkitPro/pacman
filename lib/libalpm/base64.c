@@ -62,6 +62,7 @@ static const unsigned char base64_dec_map[128] =
      49,  50,  51, 127, 127, 127, 127, 127
 };
 
+#if 0
 /*
  * Encode a buffer into base64 format
  */
@@ -124,6 +125,7 @@ int base64_encode( unsigned char *dst, size_t *dlen,
 
     return( 0 );
 }
+#endif
 
 /*
  * Decode a base64-formatted buffer
