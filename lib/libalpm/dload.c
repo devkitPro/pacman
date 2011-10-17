@@ -178,6 +178,14 @@ static int utimes_long(const char *path, long seconds)
 	return 0;
 }
 
+/* prefix to avoid possible future clash with getumask(3) */
+static mode_t _getumask(void)
+{
+	mode_t mask = umask(0);
+	umask(mask);
+	return mask;
+}
+
 static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 {
 	size_t realsize = size * nmemb;
@@ -295,9 +303,12 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 	MALLOC(randpath, len, RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
 	snprintf(randpath, len, "%salpmtmp.XXXXXX", localpath);
 	if((fd = mkstemp(randpath)) == -1 ||
+			fchmod(fd, ~(_getumask()) & 0666) ||
 			!(fp = fdopen(fd, payload->tempfile_openmode))) {
 		unlink(randpath);
-		close(fd);
+		if(fd >= 0) {
+			close(fd);
+		}
 		_alpm_log(payload->handle, ALPM_LOG_ERROR,
 				_("failed to create temporary file for download\n"));
 		return NULL;
