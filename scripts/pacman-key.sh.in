@@ -166,6 +166,7 @@ initialize() {
 	add_gpg_conf_option "$conffile" 'lock-never'
 	keyserv=${KEYSERVER:-$DEFAULT_KEYSERVER}
 	add_gpg_conf_option "$conffile" 'keyserver' "$keyserv"
+	add_gpg_conf_option "$conffile" 'keyserver-options' 'timeout=10'
 
 	# set up a private signing key (if none available)
 	if [[ $(secret_keys_available) -lt 1 ]]; then
