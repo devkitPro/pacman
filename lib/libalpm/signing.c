@@ -797,8 +797,8 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 									fetch_key.fingerprint, fetch_key.uid);
 						}
 					} else {
-						_alpm_log(handle, ALPM_LOG_DEBUG,
-								"key could not be looked up remotely\n");
+						_alpm_log(handle, ALPM_LOG_ERROR,
+								_("key \"%s\" could not be looked up remotely\n"), name);
 					}
 					gpgme_key_unref(fetch_key.data);
 				}
