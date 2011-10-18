@@ -270,6 +270,8 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	pgpkey->email = key->uids->email;
 	pgpkey->created = key->subkeys->timestamp;
 	pgpkey->expires = key->subkeys->expires;
+	pgpkey->length = key->subkeys->length;
+	pgpkey->revoked = key->subkeys->revoked;
 	ret = 1;
 
 error:

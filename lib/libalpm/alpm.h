@@ -226,6 +226,8 @@ typedef struct _alpm_pgpkey_t {
 	char *email;
 	alpm_time_t created;
 	alpm_time_t expires;
+	unsigned int length;
+	unsigned int revoked;
 } alpm_pgpkey_t;
 
 /** Signature result. Contains the key, status, and validity of a given
