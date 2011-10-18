@@ -288,6 +288,7 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 	char *fpath, *fnamepart = NULL;
 	off_t size = 0;
 	alpm_handle_t *handle = newpkg->handle;
+	int ret = 0;
 
 	if(newpkg->origin != PKG_FROM_SYNCDB) {
 		newpkg->infolevel |= INFRQ_DSIZE;
@@ -316,6 +317,9 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 			size = newpkg->size - st.st_size;
 			size = size < 0 ? 0 : size;
 		}
+
+		/* tell the caller that we have a partial */
+		ret = 1;
 	} else if(handle->usedelta) {
 		off_t dltsize;
 
@@ -345,7 +349,7 @@ finish:
 	FREE(fpath);
 	FREE(fnamepart);
 
-	return 0;
+	return ret;
 }
 
 int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
@@ -606,7 +610,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	for(i = trans->add; i; i = i->next) {
 		/* update download size field */
 		alpm_pkg_t *spkg = i->data;
-		if(compute_download_size(spkg) != 0) {
+		if(compute_download_size(spkg) < 0) {
 			ret = -1;
 			goto cleanup;
 		}
