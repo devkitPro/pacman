@@ -129,6 +129,10 @@ AC_ARG_ENABLE(git-version,
 		[enable use of git version in version string if available]),
 	[wantgitver=$enableval], [wantgitver=no])
 
+# Enable large file support if available (must be enabled before
+# testing compilation against gpgme).
+AC_SYS_LARGEFILE
+
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC_C99
@@ -168,14 +172,42 @@ AM_CONDITIONAL([HAVE_LIBSSL], [test "x$with_openssl" = "xyes"])
 # Check for gpgme
 AC_MSG_CHECKING(whether to link with libgpgme)
 AS_IF([test "x$with_gpgme" != "xno"],
-	[AC_MSG_RESULT(yes)
-	AC_CHECK_LIB([gpgme], [gpgme_check_version], ,
-	[if test "x$with_gpgme" != "xcheck"; then
-		AC_MSG_FAILURE([--with-ggpme was given, but -lgpgme was not found])
-	fi],
-	[-lgpgme])
-	with_gpgme=$ac_cv_lib_gpgme_gpgme_check_version],
-	AC_MSG_RESULT(no))
+	[AC_MSG_RESULT([yes])],
+	[AC_MSG_RESULT([no])])
+
+require_gpgme=no
+AS_IF([test "x$with_gpgme" != "xno"],
+	[AS_IF([test "x$with_gpgme" = "xyes"],
+		[require_gpgme=yes])
+	AM_PATH_GPGME([],
+		[LIBS_save="$LIBS"
+		CPPFLAGS_save="$CPPFLAGS"
+		CFLAGS_save="$CFLAGS"
+
+		LIBS="$LIBS $GPGME_LIBS"
+		CPPFLAGS="$CPPFLAGS $GPGME_CPPFLAGS"
+		CFLAGS="$CFLAGS $GPGME_CFLAGS"
+
+		AC_MSG_CHECKING([for sane gpgme])
+		AC_LINK_IFELSE(
+			[AC_LANG_PROGRAM(
+				[[#include <gpgme.h>]],
+				[[const char *ver;
+ver = gpgme_check_version("1.2.4");]])],
+			[AC_MSG_RESULT([yes])
+			with_gpgme=yes
+			AC_DEFINE([HAVE_LIBGPGME], [1], [Define if gpgme should be used to provide GPG signature support.])],
+			[AC_MSG_RESULT([no])
+			with_gpgme=no
+			LIBS="$LIBS_save"
+			CPPFLAGS="$CPPFLAGS_save"
+			CFLAGS="$CFLAGS_save"])],
+		[with_gpgme=no])])
+AS_IF([test "x$with_gpgme" != "xyes"],
+	[AS_IF([test "x$require_gpgme" = "xyes"],
+		[AC_MSG_FAILURE([--with-gpgme was given, but gpgme was not found])])
+	with_gpgme=no])
+
 AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$with_gpgme" = "xyes"])
 
 # Checks for header files.
@@ -217,9 +249,6 @@ FS_STATS_TYPE
 AC_CHECK_MEMBERS([struct statvfs.f_flag],,,[[#include <sys/statvfs.h>]])
 AC_CHECK_MEMBERS([struct statfs.f_flags],,,[[#include <sys/param.h>
                   #include <sys/mount.h>]])
-
-# Enable large file support if available
-AC_SYS_LARGEFILE
 
 # Check if we can use symbol visibility support in GCC
 GCC_VISIBILITY_CC
