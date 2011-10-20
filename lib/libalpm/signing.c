@@ -272,6 +272,26 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	pgpkey->expires = key->subkeys->expires;
 	pgpkey->length = key->subkeys->length;
 	pgpkey->revoked = key->subkeys->revoked;
+
+	switch (key->subkeys->pubkey_algo) {
+		case GPGME_PK_RSA:
+		case GPGME_PK_RSA_E:
+		case GPGME_PK_RSA_S:
+			pgpkey->pubkey_algo = 'R';
+			break;
+
+		case GPGME_PK_DSA:
+			pgpkey->pubkey_algo = 'D';
+			break;
+
+		case GPGME_PK_ELG_E:
+		case GPGME_PK_ELG:
+		case GPGME_PK_ECDSA:
+		case GPGME_PK_ECDH:
+			pgpkey->pubkey_algo = 'E';
+			break;
+	}
+
 	ret = 1;
 
 error:

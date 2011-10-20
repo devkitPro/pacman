@@ -350,11 +350,13 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 				const char *revoked = "";
 				time_t time = (time_t)key->created;
 				strftime(created, 12, "%Y-%m-%d", localtime(&time));
+
 				if (key->revoked) {
 					revoked = " (revoked)";
 				}
-				*response = yesno(_(":: Import PGP key %d/%s, \"%s\", created: %s%s?"),
-						key->length, key->fingerprint, key->uid, created, revoked);
+
+				*response = yesno(_(":: Import PGP key %d%c/%s, \"%s\", created: %s%s?"),
+						key->length, key->pubkey_algo, key->fingerprint, key->uid, created, revoked);
 			}
 			break;
 	}
