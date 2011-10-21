@@ -55,7 +55,7 @@ int pacman_upgrade(alpm_list_t *targets)
 		if(strstr(i->data, "://")) {
 			char *str = alpm_fetch_pkgurl(config->handle, i->data);
 			if(str == NULL) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
+				pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
 						(char *)i->data, alpm_strerror(alpm_errno(config->handle)));
 				return 1;
 			} else {
@@ -77,13 +77,13 @@ int pacman_upgrade(alpm_list_t *targets)
 		alpm_pkg_t *pkg;
 
 		if(alpm_pkg_load(config->handle, targ, 1, level, &pkg) != 0) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
+			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
 			trans_release();
 			return 1;
 		}
 		if(alpm_add_pkg(config->handle, pkg) == -1) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n",
+			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
 			alpm_pkg_free(pkg);
 			trans_release();
