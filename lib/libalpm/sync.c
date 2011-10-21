@@ -790,6 +790,18 @@ static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas)
 	return 0;
 }
 
+static struct dload_payload *build_payload(alpm_handle_t *handle,
+		const char *filename, size_t size, alpm_list_t *servers)
+{
+		struct dload_payload *payload;
+
+		CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		STRDUP(payload->remote_name, filename, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		payload->max_size = size;
+		payload->servers = servers;
+		return payload;
+}
+
 static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t **deltas)
 {
 	alpm_list_t *i;
@@ -814,14 +826,10 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 				for(dlts = delta_path; dlts; dlts = dlts->next) {
 					alpm_delta_t *delta = dlts->data;
 					if(delta->download_size != 0) {
-						struct dload_payload *dpayload;
-
-						CALLOC(dpayload, 1, sizeof(*dpayload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-						STRDUP(dpayload->remote_name, delta->delta, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-						dpayload->max_size = delta->download_size;
-						dpayload->servers = repo->servers;
-
-						*files = alpm_list_add(*files, dpayload);
+						struct dload_payload *payload = build_payload(
+								handle, delta->delta, delta->download_size, repo->servers);
+						ASSERT(payload, return -1);
+						*files = alpm_list_add(*files, payload);
 					}
 					/* keep a list of all the delta files for md5sums */
 					*deltas = alpm_list_add(*deltas, delta);
@@ -829,13 +837,9 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 
 			} else if(spkg->download_size != 0) {
 				struct dload_payload *payload;
-
 				ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
-				CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-				STRDUP(payload->remote_name, spkg->filename, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-				payload->max_size = spkg->size;
-				payload->servers = repo->servers;
-
+				payload = build_payload(handle, spkg->filename, spkg->size, repo->servers);
+				ASSERT(payload, return -1);
 				*files = alpm_list_add(*files, payload);
 			}
 		}
