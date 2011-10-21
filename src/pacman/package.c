@@ -252,9 +252,9 @@ void dump_pkg_files(alpm_pkg_t *pkg, int quiet)
 	for(i = 0; i < pkgfiles->count; i++) {
 		const alpm_file_t *file = pkgfiles->files + i;
 		if(!quiet) {
-			fprintf(stdout, "%s %s%s\n", pkgname, root, file->name);
+			printf("%s %s%s\n", pkgname, root, file->name);
 		} else {
-			fprintf(stdout, "%s%s\n", root, file->name);
+			printf("%s%s\n", root, file->name);
 		}
 	}
 

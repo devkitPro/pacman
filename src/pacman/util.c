@@ -1158,14 +1158,15 @@ static int parseindex(char *s, int *val, int min, int max)
 	int n = strtol(s, &endptr, 10);
 	if(*endptr == '\0') {
 		if(n < min || n > max) {
-			fprintf(stderr, _("Invalid value: %d is not between %d and %d\n"),
+			pm_printf(ALPM_LOG_ERROR,
+					_("invalid value: %d is not between %d and %d\n"),
 					n, min, max);
 			return -1;
 		}
 		*val = n;
 		return 0;
 	} else {
-		fprintf(stderr, _("Invalid number: %s\n"), s);
+		pm_printf(ALPM_LOG_ERROR, _("invalid number: %s\n"), s);
 		return -1;
 	}
 }
