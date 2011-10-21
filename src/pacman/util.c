@@ -1417,7 +1417,7 @@ int pm_printf(alpm_loglevel_t level, const char *format, ...)
 
 	/* print the message using va_arg list */
 	va_start(args, format);
-	ret = pm_vfprintf(stdout, level, format, args);
+	ret = pm_vfprintf(stderr, level, format, args);
 	va_end(args);
 
 	return ret;
