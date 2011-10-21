@@ -487,52 +487,86 @@ void string_display(const char *title, const char *string)
 	printf("\n");
 }
 
-static void table_print_line(const alpm_list_t *line,
-		size_t colcount, size_t *widths)
+static void table_print_line(const alpm_list_t *line, short col_padding,
+		size_t colcount, size_t *widths, int *has_data)
 {
-	size_t i;
+	size_t i, lastcol = 0;
+	int need_padding = 0;
 	const alpm_list_t *curcell;
+
+	for(i = colcount; i > 0; i--) {
+		if(has_data[i - 1]) {
+			lastcol = i - 1;
+			break;
+		}
+	}
 
 	for(i = 0, curcell = line; curcell && i < colcount;
 			i++, curcell = alpm_list_next(curcell)) {
-		const char *value = curcell->data;
-		size_t len = string_length(value);
+		const char *value;
+		int cell_padding;
+
+		if(!has_data[i]) {
+			continue;
+		}
+
+		value = curcell->data;
 		/* silly printf requires padding size to be an int */
-		int padding = (int)widths[i] - (int)len;
-		if(padding < 0) {
-			padding = 0;
+		cell_padding = (int)widths[i] - (int)string_length(value);
+		if(cell_padding < 0) {
+			cell_padding = 0;
+		}
+		if(need_padding) {
+			printf("%*s", col_padding, "");
 		}
 		/* left-align all but the last column */
-		if(i + 1 < colcount) {
-			printf("%s%*s", value, padding, "");
+		if(i != lastcol) {
+			printf("%s%*s", value, cell_padding, "");
 		} else {
-			printf("%*s%s", padding, "", value);
+			printf("%*s%s", cell_padding, "", value);
 		}
+		need_padding = 1;
 	}
 
 	printf("\n");
 }
 
-/* find the max string width of each column */
+
+
+/**
+ * Find the max string width of each column. Also determines whether values
+ * exist in the column and sets the value in has_data accordingly.
+ * @param header a list of header strings
+ * @param rows a list of lists of rows as strings
+ * @param padding the amount of padding between columns
+ * @param totalcols the total number of columns in the header and each row
+ * @param widths a pointer to store width data
+ * @param has_data a pointer to store whether column has data
+ *
+ * @return the total width of the table; 0 on failure
+ */
 static size_t table_calc_widths(const alpm_list_t *header,
-		const alpm_list_t *rows, size_t totalcols, size_t **widths)
+		const alpm_list_t *rows, short padding, size_t totalcols,
+		size_t **widths, int **has_data)
 {
 	const alpm_list_t *i;
-	const unsigned short padding = 2;
-	size_t curcol, totalwidth = 0;
+	size_t curcol, totalwidth = 0, usefulcols = 0;
 	size_t *colwidths;
+	int *coldata;
 
 	if(totalcols <= 0) {
 		return 0;
 	}
 
 	colwidths = malloc(totalcols * sizeof(size_t));
-	if(!colwidths) {
+	coldata = calloc(totalcols, sizeof(int));
+	if(!colwidths || !coldata) {
 		return 0;
 	}
 	/* header determines column count and initial values of longest_strs */
 	for(i = header, curcol = 0; i; i = alpm_list_next(i), curcol++) {
 		colwidths[curcol] = string_length(i->data);
+		/* note: header does not determine whether column has data */
 	}
 
 	/* now find the longest string in each column */
@@ -546,18 +580,27 @@ static size_t table_calc_widths(const alpm_list_t *header,
 			if(str_len > colwidths[curcol]) {
 				colwidths[curcol] = str_len;
 			}
+			if(str_len > 0) {
+				coldata[curcol] = 1;
+			}
 		}
 	}
 
 	for(i = header, curcol = 0; i; i = alpm_list_next(i), curcol++) {
-		/* pad everything but the last column */
-		if(curcol + 1 < totalcols) {
-			colwidths[curcol] += padding;
+		/* only include columns that have data */
+		if(coldata[curcol]) {
+			usefulcols++;
+			totalwidth += colwidths[curcol];
 		}
-		totalwidth += colwidths[curcol];
+	}
+
+	/* add padding between columns */
+	if(usefulcols > 0) {
+		totalwidth += padding * (usefulcols - 1);
 	}
 
 	*widths = colwidths;
+	*has_data = coldata;
 	return totalwidth;
 }
 
@@ -574,21 +617,24 @@ static size_t table_calc_widths(const alpm_list_t *header,
 int table_display(const char *title, const alpm_list_t *header,
 		const alpm_list_t *rows)
 {
+	const unsigned short padding = 2;
 	const alpm_list_t *i;
 	size_t *widths = NULL, totalcols, totalwidth;
+	int *has_data = NULL;
 
 	if(rows == NULL || header == NULL) {
 		return 0;
 	}
 
 	totalcols = alpm_list_count(header);
-	totalwidth = table_calc_widths(header, rows, totalcols, &widths);
+	totalwidth = table_calc_widths(header, rows, padding, totalcols,
+			&widths, &has_data);
 	/* return -1 if terminal is not wide enough */
 	if(totalwidth > getcols()) {
 		fprintf(stderr, _("insufficient columns available for table display\n"));
 		return -1;
 	}
-	if(!totalwidth || !widths) {
+	if(!totalwidth || !widths || !has_data) {
 		return -1;
 	}
 
@@ -596,14 +642,15 @@ int table_display(const char *title, const alpm_list_t *header,
 		printf("%s\n\n", title);
 	}
 
-	table_print_line(header, totalcols, widths);
+	table_print_line(header, padding, totalcols, widths, has_data);
 	printf("\n");
 
 	for(i = rows; i; i = alpm_list_next(i)) {
-		table_print_line(i->data, totalcols, widths);
+		table_print_line(i->data, padding, totalcols, widths, has_data);
 	}
 
 	free(widths);
+	free(has_data);
 	return 0;
 }
 
