@@ -345,9 +345,10 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	payload->tempfile_openmode = "wb";
 	if(!payload->remote_name) {
-		payload->remote_name = strdup(get_filename(payload->fileurl));
+		STRDUP(payload->remote_name, get_filename(payload->fileurl),
+				RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	}
-	if(!payload->remote_name || curl_gethost(payload->fileurl, hostname, sizeof(hostname)) != 0) {
+	if(curl_gethost(payload->fileurl, hostname, sizeof(hostname)) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
 		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}
