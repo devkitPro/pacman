@@ -47,7 +47,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 
 	dir = opendir(dbpath);
 	if(dir == NULL) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("could not access database directory\n"));
+		pm_printf(ALPM_LOG_ERROR, _("could not access database directory\n"));
 		return 1;
 	}
 
@@ -82,7 +82,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 		len = strlen(path);
 		if(S_ISDIR(buf.st_mode) || strcmp(path + len - 3, ".db") != 0) {
 			if(rmrf(path)) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR,
+				pm_printf(ALPM_LOG_ERROR,
 					_("could not remove %s\n"), path);
 				closedir(dir);
 				return 1;
@@ -108,7 +108,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 			}
 
 			if(rmrf(path)) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR,
+				pm_printf(ALPM_LOG_ERROR,
 					_("could not remove %s\n"), path);
 				closedir(dir);
 				return 1;
@@ -188,7 +188,7 @@ static int sync_cleancache(int level)
 		struct dirent *ent;
 
 		if(dir == NULL) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR,
+			pm_printf(ALPM_LOG_ERROR,
 					_("could not access cache directory %s\n"), cachedir);
 			ret++;
 			continue;
@@ -292,7 +292,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 
 		ret = alpm_db_update((level < 2 ? 0 : 1), db);
 		if(ret < 0) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to update %s (%s)\n"),
+			pm_printf(ALPM_LOG_ERROR, _("failed to update %s (%s)\n"),
 					alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));
 		} else if(ret == 1) {
 			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
@@ -307,7 +307,7 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	 * expected
 	 */
 	if(!success) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to synchronize any databases\n"));
+		pm_printf(ALPM_LOG_ERROR, _("failed to synchronize any databases\n"));
 		trans_init_error();
 	}
 	return (success > 0);
@@ -482,12 +482,12 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 			}
 
 			if(!founddb) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR,
+				pm_printf(ALPM_LOG_ERROR,
 						_("repository '%s' does not exist\n"), repo);
 				ret++;
 			}
 			if(!foundpkg) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR,
+				pm_printf(ALPM_LOG_ERROR,
 						_("package '%s' was not found\n"), target);
 				ret++;
 			}
@@ -527,7 +527,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 			}
 
 			if(db == NULL) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR,
+				pm_printf(ALPM_LOG_ERROR,
 					_("repository \"%s\" was not found.\n"),repo);
 				alpm_list_free(ls);
 				return 1;
@@ -607,7 +607,7 @@ static int process_pkg(alpm_pkg_t *pkg)
 			pm_printf(ALPM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
 			return 0;
 		} else {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
+			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
 					alpm_strerror(err));
 			return 1;
 		}
@@ -624,7 +624,7 @@ static int process_group(alpm_list_t *dbs, const char *group)
 	int count = alpm_list_count(pkgs);
 
 	if(!count) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("target not found: %s\n"), group);
+		pm_printf(ALPM_LOG_ERROR, _("target not found: %s\n"), group);
 		return 1;
 	}
 
@@ -705,7 +705,7 @@ static int process_target(const char *target)
 		dbname = targstring;
 		db = get_db(dbname);
 		if(!db) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, _("database not found: %s\n"),
+			pm_printf(ALPM_LOG_ERROR, _("database not found: %s\n"),
 					dbname);
 			ret = 1;
 			goto cleanup;
@@ -721,7 +721,7 @@ static int process_target(const char *target)
 cleanup:
 	free(targstring);
 	if(ret && access(target, R_OK) == 0) {
-		pm_fprintf(stderr, ALPM_LOG_WARNING,
+		pm_printf(ALPM_LOG_WARNING,
 				_("'%s' is a file, did you mean %s instead of %s?\n"),
 				target, "-U/--upgrade", "-S/--sync");
 	}
@@ -750,7 +750,7 @@ static int sync_trans(alpm_list_t *targets)
 		printf(_(":: Starting full system upgrade...\n"));
 		alpm_logaction(config->handle, "starting full system upgrade\n");
 		if(alpm_sync_sysupgrade(config->handle, config->op_s_upgrade >= 2) == -1) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, "%s\n", alpm_strerror(alpm_errno(config->handle)));
+			pm_printf(ALPM_LOG_ERROR, "%s\n", alpm_strerror(alpm_errno(config->handle)));
 			trans_release();
 			return 1;
 		}
@@ -767,7 +767,7 @@ int sync_prepare_execute(void)
 	/* Step 2: "compute" the transaction based on targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
 			case ALPM_ERR_PKG_INVALID_ARCH:
@@ -836,7 +836,7 @@ int sync_prepare_execute(void)
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
 			case ALPM_ERR_FILE_CONFLICTS:

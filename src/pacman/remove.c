@@ -39,7 +39,7 @@ static int remove_target(const char *target)
 
 	if((pkg = alpm_db_get_pkg(db_local, target)) != NULL) {
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", target,
+			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
 			return -1;
 		}
@@ -50,13 +50,13 @@ static int remove_target(const char *target)
 		/* fallback to group */
 	alpm_group_t *grp = alpm_db_readgroup(db_local, target);
 	if(grp == NULL) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': target not found\n", target);
+		pm_printf(ALPM_LOG_ERROR, "'%s': target not found\n", target);
 		return -1;
 	}
 	for(p = grp->packages; p; p = alpm_list_next(p)) {
 		pkg = p->data;
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, "'%s': %s\n", target,
+			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n", target,
 					alpm_strerror(alpm_errno(config->handle)));
 			return -1;
 		}
@@ -105,7 +105,7 @@ int pacman_remove(alpm_list_t *targets)
 	/* Step 2: prepare the transaction based on its type, targets and flags */
 	if(alpm_trans_prepare(config->handle, &data) == -1) {
 		enum _alpm_errno_t err = alpm_errno(config->handle);
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("failed to prepare transaction (%s)\n"),
 		        alpm_strerror(err));
 		switch(err) {
 			case ALPM_ERR_PKG_INVALID_ARCH:
@@ -166,7 +166,7 @@ int pacman_remove(alpm_list_t *targets)
 	}
 
 	if(alpm_trans_commit(config->handle, &data) == -1) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),
 		        alpm_strerror(alpm_errno(config->handle)));
 		retval = 1;
 	}

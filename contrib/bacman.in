@@ -93,7 +93,7 @@ pkg_dest="${PKGDEST:-$PWD}"
 pkg_pkger=${PACKAGER:-'Unknown Packager'}
 
 pkg_name="$1"
-pkg_dir=("$pac_db/$pkg_name"-+([^-])-+([0-9]))
+pkg_dir=("$pac_db/$pkg_name"-+([^-])-+([^-]))
 pkg_namver=("${pkg_dir[@]##*/}")
 
 #

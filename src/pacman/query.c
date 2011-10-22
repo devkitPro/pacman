@@ -118,7 +118,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 	/* This code is here for safety only */
 	if(targets == NULL) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("no file was specified for --owns\n"));
+		pm_printf(ALPM_LOG_ERROR, _("no file was specified for --owns\n"));
 		return 1;
 	}
 
@@ -129,7 +129,7 @@ static int query_fileowner(alpm_list_t *targets)
 	rootlen = strlen(root);
 	if(rootlen + 1 > PATH_MAX) {
 		/* we are in trouble here */
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
+		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
 		return 1;
 	}
 	strcpy(path, root);
@@ -149,14 +149,14 @@ static int query_fileowner(alpm_list_t *targets)
 			/*  if it is not a path but a program name, then check in PATH */
 			if(strchr(filename, '/') == NULL) {
 				if(search_path(&filename, &buf) == -1) {
-					pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),
+					pm_printf(ALPM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),
 							filename, strerror(errno));
 					ret++;
 					free(filename);
 					continue;
 				}
 			} else {
-				pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to read file '%s': %s\n"),
+				pm_printf(ALPM_LOG_ERROR, _("failed to read file '%s': %s\n"),
 						filename, strerror(errno));
 				ret++;
 				free(filename);
@@ -165,7 +165,7 @@ static int query_fileowner(alpm_list_t *targets)
 		}
 
 		if(S_ISDIR(buf.st_mode)) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR,
+			pm_printf(ALPM_LOG_ERROR,
 				_("cannot determine ownership of directory '%s'\n"), filename);
 			ret++;
 			free(filename);
@@ -181,7 +181,7 @@ static int query_fileowner(alpm_list_t *targets)
 			rpath = resolve_path(dname);
 
 			if(!rpath) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
+				pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
 						filename, strerror(errno));
 				free(filename);
 				free(dname);
@@ -215,7 +215,7 @@ static int query_fileowner(alpm_list_t *targets)
 				}
 
 				if(rootlen + 1 + strlen(pkgfile) > PATH_MAX) {
-					pm_fprintf(stderr, ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
+					pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
 				}
 				/* concatenate our file and the root path */
 				strcpy(path + rootlen, pkgfile);
@@ -232,7 +232,7 @@ static int query_fileowner(alpm_list_t *targets)
 			}
 		}
 		if(!found) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR, _("No package owns %s\n"), filename);
+			pm_printf(ALPM_LOG_ERROR, _("No package owns %s\n"), filename);
 			ret++;
 		}
 		free(filename);
@@ -334,7 +334,7 @@ static int query_group(alpm_list_t *targets)
 					}
 				}
 			} else {
-				pm_fprintf(stderr, ALPM_LOG_ERROR, _("group '%s' was not found\n"), grpname);
+				pm_printf(ALPM_LOG_ERROR, _("group '%s' was not found\n"), grpname);
 				ret++;
 			}
 		}
@@ -416,7 +416,7 @@ static int check(alpm_pkg_t *pkg)
 	rootlen = strlen(root);
 	if(rootlen + 1 > PATH_MAX) {
 		/* we are in trouble here */
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
+		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
 		return 1;
 	}
 	strcpy(f, root);
@@ -429,7 +429,7 @@ static int check(alpm_pkg_t *pkg)
 		const char *path = file->name;
 
 		if(rootlen + 1 + strlen(path) > PATH_MAX) {
-			pm_fprintf(stderr, ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
+			pm_printf(ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
 			continue;
 		}
 		strcpy(f + rootlen, path);
@@ -563,16 +563,16 @@ int pacman_query(alpm_list_t *targets)
 		if(pkg == NULL) {
 			switch(alpm_errno(config->handle)) {
 				case ALPM_ERR_PKG_NOT_FOUND:
-					pm_fprintf(stderr, ALPM_LOG_ERROR,
+					pm_printf(ALPM_LOG_ERROR,
 							_("package '%s' was not found\n"), strname);
 					if(!config->op_q_isfile && access(strname, R_OK) == 0) {
-						pm_fprintf(stderr, ALPM_LOG_WARNING,
+						pm_printf(ALPM_LOG_WARNING,
 								_("'%s' is a file, you might want to use %s.\n"),
 								strname, "-p/--file");
 					}
 					break;
 				default:
-					pm_fprintf(stderr, ALPM_LOG_ERROR,
+					pm_printf(ALPM_LOG_ERROR,
 							_("could not load package '%s': %s\n"), strname,
 							alpm_strerror(alpm_errno(config->handle)));
 					break;

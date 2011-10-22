@@ -66,7 +66,7 @@ int trans_init(alpm_transflag_t flags, int check_valid)
 void trans_init_error(void)
 {
 	enum _alpm_errno_t err = alpm_errno(config->handle);
-	pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to init transaction (%s)\n"),
+	pm_printf(ALPM_LOG_ERROR, _("failed to init transaction (%s)\n"),
 			alpm_strerror(err));
 	if(err == ALPM_ERR_HANDLE_LOCK) {
 		fprintf(stderr, _("  if you're sure a package manager is not already\n"
@@ -78,7 +78,7 @@ void trans_init_error(void)
 int trans_release(void)
 {
 	if(alpm_trans_release(config->handle) == -1) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("failed to release transaction (%s)\n"),
+		pm_printf(ALPM_LOG_ERROR, _("failed to release transaction (%s)\n"),
 				alpm_strerror(alpm_errno(config->handle)));
 		return -1;
 	}
@@ -631,7 +631,8 @@ int table_display(const char *title, const alpm_list_t *header,
 			&widths, &has_data);
 	/* return -1 if terminal is not wide enough */
 	if(totalwidth > getcols()) {
-		fprintf(stderr, _("insufficient columns available for table display\n"));
+		pm_printf(ALPM_LOG_WARNING,
+				_("insufficient columns available for table display\n"));
 		return -1;
 	}
 	if(!totalwidth || !widths || !has_data) {
@@ -789,7 +790,7 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 			ret = pm_asprintf(&sigline, _("%s, %s from \"%s\""),
 					status, validity, name);
 			if(ret == -1) {
-				pm_fprintf(stderr, ALPM_LOG_ERROR,  _("failed to allocate string\n"));
+				pm_printf(ALPM_LOG_ERROR,  _("failed to allocate string\n"));
 				continue;
 			}
 			indentprint(sigline, len);
@@ -1209,14 +1210,15 @@ static int parseindex(char *s, int *val, int min, int max)
 	int n = strtol(s, &endptr, 10);
 	if(*endptr == '\0') {
 		if(n < min || n > max) {
-			fprintf(stderr, _("Invalid value: %d is not between %d and %d\n"),
+			pm_printf(ALPM_LOG_ERROR,
+					_("invalid value: %d is not between %d and %d\n"),
 					n, min, max);
 			return -1;
 		}
 		*val = n;
 		return 0;
 	} else {
-		fprintf(stderr, _("Invalid number: %s\n"), s);
+		pm_printf(ALPM_LOG_ERROR, _("invalid number: %s\n"), s);
 		return -1;
 	}
 }
@@ -1468,20 +1470,7 @@ int pm_printf(alpm_loglevel_t level, const char *format, ...)
 
 	/* print the message using va_arg list */
 	va_start(args, format);
-	ret = pm_vfprintf(stdout, level, format, args);
-	va_end(args);
-
-	return ret;
-}
-
-int pm_fprintf(FILE *stream, alpm_loglevel_t level, const char *format, ...)
-{
-	int ret;
-	va_list args;
-
-	/* print the message using va_arg list */
-	va_start(args, format);
-	ret = pm_vfprintf(stream, level, format, args);
+	ret = pm_vfprintf(stderr, level, format, args);
 	va_end(args);
 
 	return ret;
@@ -1495,7 +1484,7 @@ int pm_asprintf(char **string, const char *format, ...)
 	/* print the message using va_arg list */
 	va_start(args, format);
 	if(vasprintf(string, format, args) == -1) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR,  _("failed to allocate string\n"));
+		pm_printf(ALPM_LOG_ERROR,  _("failed to allocate string\n"));
 		ret = -1;
 	}
 	va_end(args);

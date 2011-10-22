@@ -187,7 +187,7 @@ static const char *get_backup_file_status(const char *root,
 		char *md5sum = alpm_compute_md5sum(path);
 
 		if(md5sum == NULL) {
-			pm_fprintf(stderr, ALPM_LOG_ERROR,
+			pm_printf(ALPM_LOG_ERROR,
 					_("could not calculate checksums for %s\n"), path);
 			return NULL;
 		}
@@ -274,7 +274,7 @@ void dump_pkg_changelog(alpm_pkg_t *pkg)
 	void *fp = NULL;
 
 	if((fp = alpm_pkg_changelog_open(pkg)) == NULL) {
-		pm_fprintf(stderr, ALPM_LOG_ERROR, _("no changelog available for '%s'.\n"),
+		pm_printf(ALPM_LOG_ERROR, _("no changelog available for '%s'.\n"),
 				alpm_pkg_get_name(pkg));
 		return;
 	} else {
