@@ -5800,9 +5800,12 @@ func_mode_link ()
 	arg=$func_stripname_result
 	;;
 
-      -Wl,--as-needed|-Wl,--no-as-needed)
-	deplibs="$deplibs $arg"
-	continue
+      -Wl,*--as-needed*)
+	deplibs="$deplibs $wl--as-needed"
+	;;
+
+      -Wl,*--no-as-needed*)
+	deplibs="$deplibs $wl--no-as-needed"
 	;;
 
       -Wl,*)
