@@ -392,8 +392,15 @@ static int curl_download_internal(struct dload_payload *payload,
 		case CURLE_OK:
 			/* get http/ftp response code */
 			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &respcode);
+			_alpm_log(handle, ALPM_LOG_DEBUG, "response code: %ld\n", respcode);
 			if(respcode >= 400) {
 				payload->unlink_on_fail = 1;
+				/* non-translated message is same as libcurl */
+				snprintf(error_buffer, sizeof(error_buffer),
+						"The requested URL returned error: %ld", respcode);
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("failed retrieving file '%s' from %s : %s\n"),
+						payload->remote_name, hostname, error_buffer);
 				goto cleanup;
 			}
 			break;
@@ -402,15 +409,16 @@ static int curl_download_internal(struct dload_payload *payload,
 			if(dload_interrupted == ABORT_OVER_MAXFILESIZE) {
 				payload->curlerr = CURLE_FILESIZE_EXCEEDED;
 				handle->pm_errno = ALPM_ERR_LIBCURL;
-				/* the hardcoded 'size exceeded' message is same as libcurl's normal */
+				/* use the 'size exceeded' message from libcurl */
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("failed retrieving file '%s' from %s : %s\n"),
-						payload->remote_name, hostname, "Maximum file size exceeded");
+						payload->remote_name, hostname,
+						curl_easy_strerror(CURLE_FILESIZE_EXCEEDED));
 			}
 			goto cleanup;
 		default:
 			/* delete zero length downloads */
-			if(stat(payload->tempfile_name, &st) == 0 && st.st_size == 0) {
+			if(fstat(fileno(localf), &st) == 0 && st.st_size == 0) {
 				payload->unlink_on_fail = 1;
 			}
 			if(!payload->errors_ok) {
