@@ -3,7 +3,7 @@ self.description = "Fileconflict with symlinks (klibc case)"
 lp = pmpkg("pkg")
 lp.files = ["dir/realdir/",
             "dir/symdir -> realdir",
-	    "dir/realdir/file"]
+            "dir/realdir/file"]
 self.addpkg2db("local", lp)
 
 p = pmpkg("pkg", "1.0-2")
