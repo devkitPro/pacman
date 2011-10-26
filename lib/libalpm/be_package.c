@@ -482,17 +482,19 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	newpkg->origin_data.file = strdup(pkgfile);
 	newpkg->ops = get_file_pkg_ops();
 	newpkg->handle = handle;
+	newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_SCRIPTLET;
 
 	if(full) {
-		/* attempt to hand back any memory we don't need */
-		files = realloc(files, sizeof(alpm_file_t) * files_count);
-		/* "checking for conflicts" requires a sorted list, ensure that here */
-		_alpm_log(handle, ALPM_LOG_DEBUG, "sorting package filelist for %s\n", pkgfile);
-		newpkg->files.files = files_msort(files, files_count);
+		if(files) {
+			/* attempt to hand back any memory we don't need */
+			files = realloc(files, sizeof(alpm_file_t) * files_count);
+			/* "checking for conflicts" requires a sorted list, ensure that here */
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"sorting package filelist for %s\n", pkgfile);
+			newpkg->files.files = files_msort(files, files_count);
+		}
 		newpkg->files.count = files_count;
-		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_FILES | INFRQ_SCRIPTLET;
-	} else {
-		newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_SCRIPTLET;
+		newpkg->infolevel |= INFRQ_FILES;
 	}
 
 	return newpkg;
