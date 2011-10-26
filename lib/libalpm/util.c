@@ -160,12 +160,10 @@ int _alpm_copyfile(const char *src, const char *dest)
 		}
 	}
 
-	/* chmod dest to permissions of src, as long as it is not a symlink */
+	/* chmod dest to permissions of src */
 	struct stat statbuf;
-	if(!stat(src, &statbuf)) {
-		if(! S_ISLNK(statbuf.st_mode)) {
-			fchmod(fileno(out), statbuf.st_mode);
-		}
+	if(!fstat(fileno(in), &statbuf)) {
+		fchmod(fileno(out), statbuf.st_mode);
 	} else {
 		/* stat was unsuccessful */
 		ret = 1;
@@ -313,17 +311,10 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 	}
 
 	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
-		const struct stat *st;
-		const char *entryname; /* the name of the file in the archive */
+		const char *entryname;
+		mode_t mode;
 
-		st = archive_entry_stat(entry);
 		entryname = archive_entry_pathname(entry);
-
-		if(S_ISREG(st->st_mode)) {
-			archive_entry_set_perm(entry, 0644);
-		} else if(S_ISDIR(st->st_mode)) {
-			archive_entry_set_perm(entry, 0755);
-		}
 
 		/* If specific files were requested, skip entries that don't match. */
 		if(list) {
@@ -343,6 +334,13 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 			} else {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "extracting: %s\n", entryname);
 			}
+		}
+
+		mode = archive_entry_mode(entry);
+		if(S_ISREG(mode)) {
+			archive_entry_set_perm(entry, 0644);
+		} else if(S_ISDIR(mode)) {
+			archive_entry_set_perm(entry, 0755);
 		}
 
 		/* Extract the archive entry. */
@@ -555,6 +553,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 		}
 		umask(0022);
 		execv(path, argv);
+		/* execv only returns if there was an error */
 		fprintf(stderr, _("call to execv failed (%s)\n"), strerror(errno));
 		exit(1);
 	} else {
