@@ -21,7 +21,9 @@
 #include "config.h"
 
 #include <errno.h>
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <unistd.h>
 
 /* libarchive */
@@ -212,6 +214,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 		/* print server + filename into a buffer */
 		len = strlen(server) + strlen(db->treename) + 5;
+		/* TODO fix leak syncpath and umask unset */
 		MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(payload.fileurl, len, "%s/%s.db", server, db->treename);
 		payload.handle = handle;
@@ -234,6 +237,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			/* if we downloaded a DB, we want the .sig from the same server */
 			/* print server + filename into a buffer (leave space for .sig) */
 			len = strlen(server) + strlen(db->treename) + 9;
+			/* TODO fix leak syncpath and umask unset */
 			MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 			snprintf(payload.fileurl, len, "%s/%s.db.sig", server, db->treename);
 			payload.handle = handle;
@@ -411,7 +415,7 @@ static int sync_db_populate(alpm_db_t *db)
 {
 	const char *dbpath;
 	size_t est_count;
-	int count = 0;
+	int count = -1, fd;
 	struct stat buf;
 	struct archive *archive;
 	struct archive_entry *entry;
@@ -423,6 +427,11 @@ static int sync_db_populate(alpm_db_t *db)
 	if(db->status & DB_STATUS_MISSING) {
 		RET_ERR(db->handle, ALPM_ERR_DB_NOT_FOUND, -1);
 	}
+	dbpath = _alpm_db_path(db);
+	if(!dbpath) {
+		/* pm_errno set in _alpm_db_path() */
+		return -1;
+	}
 
 	if((archive = archive_read_new()) == NULL) {
 		RET_ERR(db->handle, ALPM_ERR_LIBARCHIVE, -1);
@@ -431,30 +440,28 @@ static int sync_db_populate(alpm_db_t *db)
 	archive_read_support_compression_all(archive);
 	archive_read_support_format_all(archive);
 
-	dbpath = _alpm_db_path(db);
-	if(!dbpath) {
-		/* pm_errno set in _alpm_db_path() */
-		return -1;
-	}
-
-	_alpm_log(db->handle, ALPM_LOG_DEBUG, "opening database archive %s\n", dbpath);
-
-	if(archive_read_open_filename(archive, dbpath,
+	_alpm_log(db->handle, ALPM_LOG_DEBUG,
+			"opening database archive %s\n", dbpath);
+	OPEN(fd, dbpath, O_RDONLY);
+	if(fd < 0 || archive_read_open_fd(archive, fd,
 				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
-				archive_error_string(archive));
-		archive_read_finish(archive);
-		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
+		const char *err = fd < 0 ? strerror(errno) : archive_error_string(archive);
+		_alpm_log(db->handle, ALPM_LOG_ERROR,
+				_("could not open file %s: %s\n"), dbpath, err);
+		db->handle->pm_errno = ALPM_ERR_DB_OPEN;
+		goto cleanup;
 	}
-	if(stat(dbpath, &buf) != 0) {
-		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
+	if(fstat(fd, &buf) != 0) {
+		db->handle->pm_errno = ALPM_ERR_DB_OPEN;
+		goto cleanup;
 	}
 	est_count = estimate_package_count(&buf, archive);
 
 	/* initialize hash at 66% full */
 	db->pkgcache = _alpm_pkghash_create(est_count * 3 / 2);
 	if(db->pkgcache == NULL) {
-		RET_ERR(db->handle, ALPM_ERR_MEMORY, -1);
+		db->handle->pm_errno = ALPM_ERR_MEMORY;
+		goto cleanup;
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
@@ -473,14 +480,19 @@ static int sync_db_populate(alpm_db_t *db)
 	}
 
 	count = alpm_list_count(db->pkgcache->list);
-
 	if(count > 0) {
-		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
+		db->pkgcache->list = alpm_list_msort(db->pkgcache->list,
+				(size_t)count, _alpm_pkg_cmp);
 	}
-	archive_read_finish(archive);
-	_alpm_log(db->handle, ALPM_LOG_DEBUG, "added %d packages to package cache for db '%s'\n",
+	_alpm_log(db->handle, ALPM_LOG_DEBUG,
+			"added %d packages to package cache for db '%s'\n",
 			count, db->treename);
 
+cleanup:
+	archive_read_finish(archive);
+	if(fd >= 0) {
+		CLOSE(fd);
+	}
 	return count;
 }
 

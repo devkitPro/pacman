@@ -23,6 +23,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 /* libarchive */
 #include <archive.h>
@@ -355,7 +358,7 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		const char *pkgfile, int full)
 {
-	int ret, config = 0;
+	int ret, fd, config = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
 	alpm_pkg_t *newpkg = NULL;
@@ -367,33 +370,40 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL);
 	}
 
-	/* attempt to stat the package file, ensure it exists */
-	if(stat(pkgfile, &st) == 0) {
-		newpkg = _alpm_pkg_new();
-		if(newpkg == NULL) {
-			RET_ERR(handle, ALPM_ERR_MEMORY, NULL);
-		}
-		newpkg->filename = strdup(pkgfile);
-		newpkg->size = st.st_size;
-	} else {
-		/* couldn't stat the pkgfile, return an error */
-		RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, NULL);
-	}
-
 	/* try to create an archive object to read in the package */
 	if((archive = archive_read_new()) == NULL) {
-		alpm_pkg_free(newpkg);
 		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, NULL);
 	}
 
 	archive_read_support_compression_all(archive);
 	archive_read_support_format_all(archive);
 
-	if(archive_read_open_filename(archive, pkgfile,
+	OPEN(fd, pkgfile, O_RDONLY);
+	if(fd < 0 || archive_read_open_fd(archive, fd,
 				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-		alpm_pkg_free(newpkg);
-		RET_ERR(handle, ALPM_ERR_PKG_OPEN, NULL);
+		const char *err = fd < 0 ? strerror(errno) : archive_error_string(archive);
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("could not open file %s: %s\n"), pkgfile, err);
+		if(fd < 0 && errno == ENOENT) {
+			handle->pm_errno = ALPM_ERR_PKG_NOT_FOUND;
+		} else {
+			handle->pm_errno = ALPM_ERR_PKG_OPEN;
+		}
+		goto error;
 	}
+
+	newpkg = _alpm_pkg_new();
+	if(newpkg == NULL) {
+		handle->pm_errno = ALPM_ERR_MEMORY;
+		goto error;
+	}
+	if(fstat(fd, &st) != 0) {
+		handle->pm_errno = ALPM_ERR_PKG_OPEN;
+		goto error;
+	}
+	STRDUP(newpkg->filename, pkgfile,
+			handle->pm_errno = ALPM_ERR_MEMORY; goto error);
+	newpkg->size = st.st_size;
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
 
@@ -476,6 +486,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	}
 
 	archive_read_finish(archive);
+	CLOSE(fd);
 
 	/* internal fields for package struct */
 	newpkg->origin = PKG_FROM_FILE;
@@ -504,6 +515,9 @@ pkg_invalid:
 error:
 	_alpm_pkg_free(newpkg);
 	archive_read_finish(archive);
+	if(fd >= 0) {
+		CLOSE(fd);
+	}
 
 	return NULL;
 }
