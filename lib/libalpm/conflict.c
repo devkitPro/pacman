@@ -469,16 +469,18 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				continue;
 			}
 
+			_alpm_log(handle, ALPM_LOG_DEBUG, "checking possible conflict: %s\n", path);
+
 			if(S_ISDIR(file->mode)) {
 				struct stat sbuf;
 				if(S_ISDIR(lsbuf.st_mode)) {
-					_alpm_log(handle, ALPM_LOG_DEBUG, "%s is a directory, not a conflict\n", path);
+					_alpm_log(handle, ALPM_LOG_DEBUG, "file is a directory, not a conflict\n");
 					continue;
 				}
 				stat(path, &sbuf);
 				if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(sbuf.st_mode)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"%s is a symlink to a dir, hopefully not a conflict\n", path);
+							"file is a symlink to a dir, hopefully not a conflict\n");
 					continue;
 				}
 				/* if we made it to here, we want all subsequent path comparisons to
@@ -487,7 +489,6 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				path[strlen(path) - 1] = '\0';
 			}
 
-			_alpm_log(handle, ALPM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 			relative_path = path + strlen(handle->root);
 
 			/* Check remove list (will we remove the conflicting local file?) */
@@ -496,7 +497,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				if(rempkg && _alpm_filelist_contains(alpm_pkg_get_files(rempkg),
 							relative_path)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"local file will be removed, not a conflict: %s\n", path);
+							"local file will be removed, not a conflict\n");
 					resolved_conflict = 1;
 				}
 			}
@@ -517,7 +518,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					handle->trans->skip_remove =
 						alpm_list_add(handle->trans->skip_remove, strdup(filestr));
 					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"file changed packages, adding to remove skiplist: %s\n", path);
+							"file changed packages, adding to remove skiplist\n");
 					resolved_conflict = 1;
 				}
 			}
@@ -535,16 +536,20 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				free(dir);
 			}
 
-			if(!resolved_conflict && dbpkg) {
+			/* check if a component of the filepath was a link. canonicalize the path
+			 * and look for it in the old package. note that the actual file under
+			 * consideration cannot itself be a link, as it might be unowned- path
+			 * components can be safely checked as all directories are "unowned". */
+			if(!resolved_conflict && dbpkg && !S_ISLNK(lsbuf.st_mode)) {
 				char *rpath = calloc(PATH_MAX, sizeof(char));
 				const char *relative_rpath;
-				if(!realpath(path, rpath)) {
-					free(rpath);
-					continue;
-				}
-				relative_rpath = rpath + strlen(handle->root);
-				if(_alpm_filelist_contains(alpm_pkg_get_files(dbpkg), relative_rpath)) {
-					resolved_conflict = 1;
+				if(realpath(path, rpath)) {
+					relative_rpath = rpath + strlen(handle->root);
+					if(_alpm_filelist_contains(alpm_pkg_get_files(dbpkg), relative_rpath)) {
+						_alpm_log(handle, ALPM_LOG_DEBUG,
+								"package contained the resolved realpath\n");
+						resolved_conflict = 1;
+					}
 				}
 				free(rpath);
 			}
@@ -560,7 +565,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				}
 				if(!found) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"file was unowned but in new backup list: %s\n", path);
+							"file was unowned but in new backup list\n");
 					resolved_conflict = 1;
 				}
 			}

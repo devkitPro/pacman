@@ -22,5 +22,3 @@ self.addrule("FILE_EXIST=usr/bin/otherprog")
 self.addrule("FILE_TYPE=usr/bin/myprog|file")
 self.addrule("FILE_TYPE=usr/bin/myprogsuffix|link")
 self.addrule("FILE_TYPE=usr/bin/otherprog|file")
-
-self.expectfailure = True
