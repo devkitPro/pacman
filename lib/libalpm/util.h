@@ -54,7 +54,7 @@
 #define ALLOC_FAIL(s) do { fprintf(stderr, "alloc failure: could not allocate %zd bytes\n", s); } while(0)
 
 #define MALLOC(p, s, action) do { p = malloc(s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
-#define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
+#define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { ALLOC_FAIL(l * s); action; } } while(0)
 /* This strdup macro is NULL safe- copying NULL will yield NULL */
 #define STRDUP(r, s, action) do { if(s != NULL) { r = strdup(s); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
 #define STRNDUP(r, s, l, action) do { if(s != NULL) { r = strndup(s, l); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
