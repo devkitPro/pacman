@@ -24,20 +24,14 @@
 
 #include "config.h"
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <dirent.h>
-#include <fcntl.h>
 #include <time.h>
 #include <syslog.h>
 #include <errno.h>
 #include <limits.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/wait.h>
 #include <locale.h> /* setlocale */
 
@@ -293,9 +287,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 	oldmask = umask(0022);
 
 	/* save the cwd so we can restore it later */
-	do {
-		cwdfd = open(".", O_RDONLY);
-	} while(cwdfd == -1 && errno == EINTR);
+	OPEN(cwdfd, ".", O_RDONLY);
 	if(cwdfd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
 	}
@@ -367,7 +359,7 @@ cleanup:
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("could not restore working directory (%s)\n"), strerror(errno));
 		}
-		close(cwdfd);
+		CLOSE(cwdfd);
 	}
 
 	return ret;
@@ -496,9 +488,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 	int retval = 0;
 
 	/* save the cwd so we can restore it later */
-	do {
-		cwdfd = open(".", O_RDONLY);
-	} while(cwdfd == -1 && errno == EINTR);
+	OPEN(cwdfd, ".", O_RDONLY);
 	if(cwdfd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
 	}
@@ -532,12 +522,12 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 
 	if(pid == 0) {
 		/* this code runs for the child only (the actual chroot/exec) */
-		close(1);
-		close(2);
+		CLOSE(1);
+		CLOSE(2);
 		while(dup2(pipefd[1], 1) == -1 && errno == EINTR);
 		while(dup2(pipefd[1], 2) == -1 && errno == EINTR);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		CLOSE(pipefd[0]);
+		CLOSE(pipefd[1]);
 
 		/* use fprintf instead of _alpm_log to send output through the parent */
 		if(chroot(handle->root) != 0) {
@@ -559,10 +549,10 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 		int status;
 		FILE *pipe_file;
 
-		close(pipefd[1]);
+		CLOSE(pipefd[1]);
 		pipe_file = fdopen(pipefd[0], "r");
 		if(pipe_file == NULL) {
-			close(pipefd[0]);
+			CLOSE(pipefd[0]);
 			retval = 1;
 		} else {
 			while(!feof(pipe_file)) {
@@ -604,7 +594,7 @@ cleanup:
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("could not restore working directory (%s)\n"), strerror(errno));
 		}
-		close(cwdfd);
+		CLOSE(cwdfd);
 	}
 
 	return retval;

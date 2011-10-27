@@ -35,10 +35,13 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stddef.h> /* size_t */
+#include <sys/types.h>
 #include <sys/stat.h> /* struct stat */
-#include <archive.h> /* struct archive */
 #include <math.h> /* fabs */
 #include <float.h> /* DBL_EPSILON */
+#include <fcntl.h> /* open, close */
+
+#include <archive.h> /* struct archive */
 
 #ifdef ENABLE_NLS
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
@@ -80,6 +83,13 @@
 #else
 #define ALPM_BUFFER_SIZE 8192
 #endif
+
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
+
+#define OPEN(fd, path, flags) do { fd = open(path, flags | O_BINARY); } while(fd == -1 && errno == EINTR)
+#define CLOSE(fd) do { int ret; do { ret = close(fd); } while(ret == -1 && errno == EINTR); } while(0)
 
 /**
  * Used as a buffer/state holder for _alpm_archive_fgets().

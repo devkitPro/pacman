@@ -306,9 +306,7 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 			fchmod(fd, ~(_getumask()) & 0666) ||
 			!(fp = fdopen(fd, payload->tempfile_openmode))) {
 		unlink(randpath);
-		if(fd >= 0) {
-			close(fd);
-		}
+		CLOSE(fd);
 		_alpm_log(payload->handle, ALPM_LOG_ERROR,
 				_("failed to create temporary file for download\n"));
 		return NULL;

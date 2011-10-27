@@ -547,9 +547,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		}
 
 		/* save the cwd so we can restore it later */
-		do {
-			cwdfd = open(".", O_RDONLY);
-		} while(cwdfd == -1 && errno == EINTR);
+		OPEN(cwdfd, ".", O_RDONLY);
 		if(cwdfd < 0) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
 		}
@@ -606,7 +604,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("could not restore working directory (%s)\n"), strerror(errno));
 			}
-			close(cwdfd);
+			CLOSE(cwdfd);
 		}
 
 		if(errors) {
