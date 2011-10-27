@@ -816,6 +816,8 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 }
 #endif
 
+static const char *hex_digits = "0123456789abcdef";
+
 /** Get the md5 sum of file.
  * @param filename name of the file
  * @return the checksum on success, NULL on error
@@ -829,8 +831,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 
 	ASSERT(filename != NULL, return NULL);
 
-	/* allocate 32 chars plus 1 for null */
-	CALLOC(md5sum, 33, sizeof(char), return NULL);
+	MALLOC(md5sum, (size_t)33, return NULL);
 	/* defined above for OpenSSL, otherwise defined in md5.h */
 	ret = md5_file(filename, output);
 
@@ -841,10 +842,12 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 
 	/* Convert the result to something readable */
 	for (i = 0; i < 16; i++) {
-		/* sprintf is acceptable here because we know our output */
-		sprintf(md5sum +(i * 2), "%02x", output[i]);
+		int pos = i * 2;
+		/* high 4 bits are first digit, low 4 are second */
+		md5sum[pos] = hex_digits[output[i] >> 4];
+		md5sum[pos + 1] = hex_digits[output[i] & 0x0f];
 	}
-
+	md5sum[32] = '\0';
 	return md5sum;
 }
 
@@ -861,8 +864,7 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 
 	ASSERT(filename != NULL, return NULL);
 
-	/* allocate 64 chars plus 1 for null */
-	CALLOC(sha256sum, 65, sizeof(char), return NULL);
+	MALLOC(sha256sum, (size_t)65, return NULL);
 	/* defined above for OpenSSL, otherwise defined in sha2.h */
 	ret = sha2_file(filename, output, 0);
 
@@ -873,10 +875,12 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 
 	/* Convert the result to something readable */
 	for (i = 0; i < 32; i++) {
-		/* sprintf is acceptable here because we know our output */
-		sprintf(sha256sum +(i * 2), "%02x", output[i]);
+		int pos = i * 2;
+		/* high 4 bits are first digit, low 4 are second */
+		sha256sum[pos] = hex_digits[output[i] >> 4];
+		sha256sum[pos + 1] = hex_digits[output[i] & 0x0f];
 	}
-
+	sha256sum[64] = '\0';
 	return sha256sum;
 }
 
