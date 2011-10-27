@@ -59,7 +59,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 	archive_read_support_format_all(archive);
 
 	if(archive_read_open_filename(archive, pkgfile,
-				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
 		RET_ERR(pkg->handle, ALPM_ERR_PKG_OPEN, NULL);
 	}
 
@@ -390,7 +390,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	archive_read_support_format_all(archive);
 
 	if(archive_read_open_filename(archive, pkgfile,
-				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
 		alpm_pkg_free(newpkg);
 		RET_ERR(handle, ALPM_ERR_PKG_OPEN, NULL);
 	}
