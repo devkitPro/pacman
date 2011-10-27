@@ -125,46 +125,50 @@ int _alpm_makepath_mode(const char *path, mode_t mode)
 
 int _alpm_copyfile(const char *src, const char *dest)
 {
-	FILE *in, *out;
-	size_t len;
 	char *buf;
-	int ret = 0;
+	int in, out, ret = 1;
+	ssize_t nread;
+	struct stat st;
 
-	in = fopen(src, "rb");
-	if(in == NULL) {
-		return 1;
-	}
-	out = fopen(dest, "wb");
-	if(out == NULL) {
-		fclose(in);
-		return 1;
+	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, return 1);
+
+	OPEN(in, src, O_RDONLY);
+	do {
+		out = open(dest, O_WRONLY | O_CREAT, 0000);
+	} while(out == -1 && errno == EINTR);
+	if(in < 0 || out < 0) {
+		goto cleanup;
 	}
 
-	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, ret = 1; goto cleanup);
+	if(fstat(in, &st) || fchmod(out, st.st_mode)) {
+		goto cleanup;
+	}
 
 	/* do the actual file copy */
-	while((len = fread(buf, 1, ALPM_BUFFER_SIZE, in))) {
-		size_t nwritten = 0;
-		nwritten = fwrite(buf, 1, len, out);
-		if((nwritten != len) || ferror(out)) {
-			ret = -1;
-			goto cleanup;
+	while((nread = read(in, buf, ALPM_BUFFER_SIZE)) > 0 || errno == EINTR) {
+		ssize_t nwrite = 0;
+		if(nread < 0) {
+			continue;
 		}
+		do {
+			nwrite = write(out, buf + nwrite, nread);
+			if(nwrite >= 0) {
+				nread -= nwrite;
+			} else if(errno != EINTR) {
+				goto cleanup;
+			}
+		} while(nread > 0);
 	}
-
-	/* chmod dest to permissions of src */
-	struct stat statbuf;
-	if(!fstat(fileno(in), &statbuf)) {
-		fchmod(fileno(out), statbuf.st_mode);
-	} else {
-		/* stat was unsuccessful */
-		ret = 1;
-	}
+	ret = 0;
 
 cleanup:
-	fclose(in);
-	fclose(out);
 	free(buf);
+	if(in >= 0) {
+		CLOSE(in);
+	}
+	if(out >= 0) {
+		CLOSE(out);
+	}
 	return ret;
 }
 
@@ -730,49 +734,51 @@ int _alpm_lstat(const char *path, struct stat *buf)
 #ifdef HAVE_LIBSSL
 static int md5_file(const char *path, unsigned char output[16])
 {
-	FILE *f;
-	size_t n;
 	MD5_CTX ctx;
 	unsigned char *buf;
+	ssize_t n;
+	int fd;
 
-	CALLOC(buf, ALPM_BUFFER_SIZE, sizeof(unsigned char), return 1);
+	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, return 1);
 
-	if((f = fopen(path, "rb")) == NULL) {
+	OPEN(fd, path, O_RDONLY);
+	if(fd < 0) {
 		free(buf);
 		return 1;
 	}
 
 	MD5_Init(&ctx);
 
-	while((n = fread(buf, 1, ALPM_BUFFER_SIZE, f)) > 0) {
+	while((n = read(fd, buf, ALPM_BUFFER_SIZE)) > 0 || errno == EINTR) {
+		if(n < 0) {
+			continue;
+		}
 		MD5_Update(&ctx, buf, n);
 	}
 
-	MD5_Final(output, &ctx);
-
-	memset(&ctx, 0, sizeof(MD5_CTX));
+	CLOSE(fd);
 	free(buf);
 
-	if(ferror(f) != 0) {
-		fclose(f);
+	if(n < 0) {
 		return 2;
 	}
 
-	fclose(f);
+	MD5_Final(output, &ctx);
 	return 0;
 }
 
 /* third param is so we match the PolarSSL definition */
 static int sha2_file(const char *path, unsigned char output[32], int is224)
 {
-	FILE *f;
-	size_t n;
 	SHA256_CTX ctx;
 	unsigned char *buf;
+	ssize_t n;
+	int fd;
 
-	CALLOC(buf, ALPM_BUFFER_SIZE, sizeof(unsigned char), return 1);
+	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, return 1);
 
-	if((f = fopen(path, "rb")) == NULL) {
+	OPEN(fd, path, O_RDONLY);
+	if(fd < 0) {
 		free(buf);
 		return 1;
 	}
@@ -783,7 +789,10 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 		SHA256_Init(&ctx);
 	}
 
-	while((n = fread(buf, 1, ALPM_BUFFER_SIZE, f)) > 0) {
+	while((n = read(fd, buf, ALPM_BUFFER_SIZE)) > 0 || errno == EINTR) {
+		if(n < 0) {
+			continue;
+		}
 		if(is224) {
 			SHA224_Update(&ctx, buf, n);
 		} else {
@@ -791,21 +800,18 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 		}
 	}
 
+	CLOSE(fd);
+	free(buf);
+
+	if(n < 0) {
+		return 2;
+	}
+
 	if(is224) {
 		SHA224_Final(output, &ctx);
 	} else {
 		SHA256_Final(output, &ctx);
 	}
-
-	memset(&ctx, 0, sizeof(SHA256_CTX));
-	free(buf);
-
-	if(ferror(f) != 0) {
-		fclose(f);
-		return 2;
-	}
-
-	fclose(f);
 	return 0;
 }
 #endif
