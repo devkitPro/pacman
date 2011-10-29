@@ -341,7 +341,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			*response = yesno(_(":: File %s is corrupted (%s).\n"
 						"Do you want to delete it?"),
 					(char *)data1,
-					alpm_strerror(*(enum _alpm_errno_t *)data2));
+					alpm_strerror(*(alpm_errno_t *)data2));
 			break;
 		case ALPM_QUESTION_IMPORT_KEY:
 			{

@@ -65,7 +65,7 @@ int trans_init(alpm_transflag_t flags, int check_valid)
 
 void trans_init_error(void)
 {
-	enum _alpm_errno_t err = alpm_errno(config->handle);
+	alpm_errno_t err = alpm_errno(config->handle);
 	pm_printf(ALPM_LOG_ERROR, _("failed to init transaction (%s)\n"),
 			alpm_strerror(err));
 	if(err == ALPM_ERR_HANDLE_LOCK) {

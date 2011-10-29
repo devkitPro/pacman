@@ -748,7 +748,7 @@ static int apply_deltas(alpm_handle_t *handle)
  * @return 1 if file was removed, 0 otherwise
  */
 static int prompt_to_delete(alpm_handle_t *handle, const char *filepath,
-		enum _alpm_errno_t reason)
+		alpm_errno_t reason)
 {
 	int doremove = 0;
 	QUESTION(handle, ALPM_QUESTION_CORRUPTED_PKG, (char *)filepath,
@@ -965,7 +965,7 @@ static int check_validity(alpm_handle_t *handle,
 		char *path;
 		alpm_siglist_t *siglist;
 		alpm_siglevel_t level;
-		enum _alpm_errno_t error;
+		alpm_errno_t error;
 	};
 	size_t current = 0, current_bytes = 0;
 	alpm_list_t *i, *errors = NULL;

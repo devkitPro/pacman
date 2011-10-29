@@ -1115,7 +1115,7 @@ char *alpm_compute_sha256sum(const char *filename);
 /** @addtogroup alpm_api_errors Error Codes
  * @{
  */
-enum _alpm_errno_t {
+typedef enum _alpm_errno_t {
 	ALPM_ERR_MEMORY = 1,
 	ALPM_ERR_SYSTEM,
 	ALPM_ERR_BADPERMS,
@@ -1179,19 +1179,19 @@ enum _alpm_errno_t {
 	ALPM_ERR_LIBCURL,
 	ALPM_ERR_EXTERNAL_DOWNLOAD,
 	ALPM_ERR_GPGME
-};
+} alpm_errno_t;
 
 /** Returns the current error code from the handle. */
-enum _alpm_errno_t alpm_errno(alpm_handle_t *handle);
+alpm_errno_t alpm_errno(alpm_handle_t *handle);
 
 /** Returns the string corresponding to an error number. */
-const char *alpm_strerror(enum _alpm_errno_t err);
+const char *alpm_strerror(alpm_errno_t err);
 
 /* End of alpm_api_errors */
 /** @} */
 
 alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
-		enum _alpm_errno_t *err);
+		alpm_errno_t *err);
 int alpm_release(alpm_handle_t *handle);
 
 enum alpm_caps {

@@ -525,7 +525,7 @@ static int _add_mirror(alpm_db_t *db, char *value)
 static int setup_libalpm(void)
 {
 	int ret = 0;
-	enum _alpm_errno_t err;
+	alpm_errno_t err;
 	alpm_handle_t *handle;
 
 	pm_printf(ALPM_LOG_DEBUG, "setup_libalpm called\n");

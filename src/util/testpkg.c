@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 {
 	int retval = 1; /* default = false */
 	alpm_handle_t *handle;
-	enum _alpm_errno_t err;
+	alpm_errno_t err;
 	alpm_pkg_t *pkg = NULL;
 	const alpm_siglevel_t level = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL;
 

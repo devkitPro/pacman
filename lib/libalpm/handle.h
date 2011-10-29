@@ -93,7 +93,7 @@ struct __alpm_handle_t {
 	alpm_siglevel_t siglevel;   /* Default signature verification level */
 
 	/* error code */
-	enum _alpm_errno_t pm_errno;
+	alpm_errno_t pm_errno;
 };
 
 alpm_handle_t *_alpm_handle_new(void);
@@ -102,7 +102,7 @@ void _alpm_handle_free(alpm_handle_t *handle);
 int _alpm_handle_lock(alpm_handle_t *handle);
 int _alpm_handle_unlock(alpm_handle_t *handle);
 
-enum _alpm_errno_t _alpm_set_directory_option(const char *value,
+alpm_errno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist);
 
 #endif /* _ALPM_HANDLE_H */

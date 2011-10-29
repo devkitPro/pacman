@@ -29,12 +29,12 @@
 #include "alpm.h"
 #include "handle.h"
 
-enum _alpm_errno_t SYMEXPORT alpm_errno(alpm_handle_t *handle)
+alpm_errno_t SYMEXPORT alpm_errno(alpm_handle_t *handle)
 {
 	return handle->pm_errno;
 }
 
-const char SYMEXPORT *alpm_strerror(enum _alpm_errno_t err)
+const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 {
 	switch(err) {
 		/* System */
