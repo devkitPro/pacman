@@ -690,14 +690,14 @@ int _alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	alpm_list_t *groups = NULL;
 
 	/* first see if the package is ignored */
-	if(alpm_list_find_str(handle->ignorepkg, pkg->name)) {
+	if(alpm_list_find(handle->ignorepkg, pkg->name, _alpm_fnmatch)) {
 		return 1;
 	}
 
 	/* next see if the package is in a group that is ignored */
 	for(groups = alpm_pkg_get_groups(pkg); groups; groups = groups->next) {
 		char *grp = groups->data;
-		if(alpm_list_find_str(handle->ignoregroup, grp)) {
+		if(alpm_list_find(handle->ignoregroup, grp, _alpm_fnmatch)) {
 			return 1;
 		}
 	}

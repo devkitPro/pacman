@@ -34,6 +34,7 @@
 #include <limits.h>
 #include <sys/wait.h>
 #include <locale.h> /* setlocale */
+#include <fnmatch.h>
 
 /* libarchive */
 #include <archive.h>
@@ -1186,6 +1187,11 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 		}
 	}
 	return ret;
+}
+
+int _alpm_fnmatch(const void *pattern, const void *string)
+{
+	return fnmatch(pattern, string, 0);
 }
 
 #ifndef HAVE_STRNDUP

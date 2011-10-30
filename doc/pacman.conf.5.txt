@@ -90,7 +90,7 @@ Options
 
 *IgnorePkg =* package ...::
 	Instructs pacman to ignore any upgrades for this package when performing
-	a '\--sysupgrade'.
+	a '\--sysupgrade'. Shell-style glob patterns are allowed.
 
 *SyncFirst =* package ...::
 	Instructs pacman to check for newer version of these packages before any
@@ -103,7 +103,8 @@ Options
 
 *IgnoreGroup =* group ...::
 	Instructs pacman to ignore any upgrades for all packages in this
-	group when performing a '\--sysupgrade'.
+	group when performing a '\--sysupgrade'. Shell-style glob patterns are
+	allowed.
 
 *Include =* path::
 	Include another config file. This file can include repositories or
@@ -134,7 +135,8 @@ Options
 	a package install/upgrade, and the new files will be installed with a
 	'.pacnew' extension.
 	These files refer to files in the package archive, so do not include the
-	leading slash (the RootDir) when specifying them.
+	leading slash (the RootDir) when specifying them. Shell-style glob patterns
+	are allowed.
 
 *NoExtract =* file ...::
 	All files listed with a `NoExtract` directive will never be extracted from
@@ -143,7 +145,8 @@ Options
 	'index.php', then you would not want the 'index.html' file to be extracted
 	from the 'apache' package.
 	These files refer to files in the package archive, so do not include the
-	leading slash (the RootDir) when specifying them.
+	leading slash (the RootDir) when specifying them. Shell-style glob patterns
+	are allowed.
 
 *CleanMethod =* KeepInstalled &| KeepCurrent::
 	If set to `KeepInstalled` (the default), the '-Sc' operation will clean
