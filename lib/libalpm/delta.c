@@ -282,14 +282,17 @@ alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(alpm_pkg_t *pkg)
 alpm_delta_t *_alpm_delta_parse(char *line)
 {
 	alpm_delta_t *delta;
-	char *tmp = line, *tmp2;
+	char *tmp;
+	const int num_matches = 6;
+	size_t len;
 	regex_t reg;
+	regmatch_t pmatch[num_matches];
 
 	regcomp(&reg,
-			"^[^[:space:]]* [[:xdigit:]]{32} [[:digit:]]*"
-			" [^[:space:]]* [^[:space:]]*$",
-			REG_EXTENDED | REG_NOSUB | REG_NEWLINE);
-	if(regexec(&reg, line, 0, 0, 0) != 0) {
+			"^([^[:space:]]*) ([[:xdigit:]]{32}) ([[:digit:]]*)"
+			" ([^[:space:]]*) ([^[:space:]]*)$",
+			REG_EXTENDED | REG_NEWLINE);
+	if(regexec(&reg, line, num_matches, pmatch, 0) != 0) {
 		/* delta line is invalid, return NULL */
 		regfree(&reg);
 		return NULL;
@@ -298,28 +301,22 @@ alpm_delta_t *_alpm_delta_parse(char *line)
 
 	CALLOC(delta, 1, sizeof(alpm_delta_t), return NULL);
 
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
-	STRDUP(delta->delta, tmp2, return NULL);
+	/* start at index 1 -- match 0 is the entire match */
+	len = pmatch[1].rm_eo - pmatch[1].rm_so;
+	STRNDUP(tmp, &line[pmatch[1].rm_so], len, return NULL);
 
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
-	STRDUP(delta->delta_md5, tmp2, return NULL);
+	len = pmatch[2].rm_eo - pmatch[2].rm_so;
+	STRNDUP(delta->delta_md5, &line[pmatch[2].rm_so], len, return NULL);
 
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
-	delta->delta_size = _alpm_strtoofft(tmp2);
+	len = pmatch[3].rm_eo - pmatch[3].rm_so;
+	STRNDUP(tmp, &line[pmatch[3].rm_so], len, return NULL);
+	delta->delta_size = _alpm_strtoofft(tmp);
 
-	tmp2 = tmp;
-	tmp = strchr(tmp, ' ');
-	*(tmp++) = '\0';
-	STRDUP(delta->from, tmp2, return NULL);
+	len = pmatch[4].rm_eo - pmatch[4].rm_so;
+	STRNDUP(delta->from, &line[pmatch[4].rm_so], len, return NULL);
 
-	tmp2 = tmp;
-	STRDUP(delta->to, tmp2, return NULL);
+	len = pmatch[5].rm_eo - pmatch[5].rm_so;
+	STRNDUP(delta->to, &line[pmatch[5].rm_so], len, return NULL);
 
 	return delta;
 }
