@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <fnmatch.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -30,6 +31,11 @@
 #include "pacman.h"
 #include "util.h"
 #include "conf.h"
+
+static int fnmatch_cmp(const void *pattern, const void *string)
+{
+	return fnmatch(pattern, string, 0);
+}
 
 static int remove_target(const char *target)
 {
@@ -134,7 +140,7 @@ int pacman_remove(alpm_list_t *targets)
 	int holdpkg = 0;
 	for(i = alpm_trans_get_remove(config->handle); i; i = alpm_list_next(i)) {
 		alpm_pkg_t *pkg = i->data;
-		if(alpm_list_find_str(config->holdpkg, alpm_pkg_get_name(pkg))) {
+		if(alpm_list_find(config->holdpkg, alpm_pkg_get_name(pkg), fnmatch_cmp)) {
 			pm_printf(ALPM_LOG_WARNING, _("%s is designated as a HoldPkg.\n"),
 							alpm_pkg_get_name(pkg));
 			holdpkg = 1;

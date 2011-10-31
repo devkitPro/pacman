@@ -86,7 +86,8 @@ Options
 
 *HoldPkg =* package ...::
 	If a user tries to '\--remove' a package that's listed in `HoldPkg`,
-	pacman will ask for confirmation before proceeding.
+	pacman will ask for confirmation before proceeding. Shell-style glob
+	patterns are allowed.
 
 *IgnorePkg =* package ...::
 	Instructs pacman to ignore any upgrades for this package when performing
