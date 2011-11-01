@@ -1962,6 +1962,7 @@ set -E
 [[ -n ${PKGEXT} ]] && _PKGEXT=${PKGEXT}
 [[ -n ${SRCEXT} ]] && _SRCEXT=${SRCEXT}
 [[ -n ${GPGKEY} ]] && _GPGKEY=${GPGKEY}
+[[ -n ${PACKAGER} ]] && _PACKAGER=${PACKAGER}
 
 # default config is makepkg.conf
 MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
@@ -2044,6 +2045,7 @@ SRCPKGDEST=${SRCPKGDEST:-$startdir} #default to $startdir if undefined
 PKGEXT=${_PKGEXT:-$PKGEXT}
 SRCEXT=${_SRCEXT:-$SRCEXT}
 GPGKEY=${_GPGKEY:-$GPGKEY}
+PACKAGER=${_PACKAGER:-$PACKAGER}
 
 if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
 	# The '\\0' is here to prevent gettext from thinking --holdver is an option
