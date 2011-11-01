@@ -129,8 +129,6 @@ int _alpm_makepath_mode(const char *path, mode_t mode)
 	return ret;
 }
 
-#define CPBUFSIZE 8 * 1024
-
 int _alpm_copyfile(const char *src, const char *dest)
 {
 	FILE *in, *out;
@@ -148,10 +146,10 @@ int _alpm_copyfile(const char *src, const char *dest)
 		return 1;
 	}
 
-	CALLOC(buf, (size_t)CPBUFSIZE, (size_t)1, ret = 1; goto cleanup;);
+	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, ret = 1; goto cleanup);
 
 	/* do the actual file copy */
-	while((len = fread(buf, 1, CPBUFSIZE, in))) {
+	while((len = fread(buf, 1, ALPM_BUFFER_SIZE, in))) {
 		size_t nwritten = 0;
 		nwritten = fwrite(buf, 1, len, out);
 		if((nwritten != len) || ferror(out)) {
@@ -172,7 +170,7 @@ int _alpm_copyfile(const char *src, const char *dest)
 cleanup:
 	fclose(in);
 	fclose(out);
-	FREE(buf);
+	free(buf);
 	return ret;
 }
 
@@ -286,7 +284,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 	archive_read_support_format_all(_archive);
 
 	if(archive_read_open_filename(_archive, archive,
-				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), archive,
 				archive_error_string(_archive));
 		RET_ERR(handle, ALPM_ERR_PKG_OPEN, 1);
@@ -740,8 +738,6 @@ int _alpm_lstat(const char *path, struct stat *buf)
 }
 
 #ifdef HAVE_LIBSSL
-#define BUFFER_SIZE 8192
-
 static int md5_file(const char *path, unsigned char output[16])
 {
 	FILE *f;
@@ -749,7 +745,7 @@ static int md5_file(const char *path, unsigned char output[16])
 	MD5_CTX ctx;
 	unsigned char *buf;
 
-	CALLOC(buf, BUFFER_SIZE, sizeof(unsigned char), return 1);
+	CALLOC(buf, ALPM_BUFFER_SIZE, sizeof(unsigned char), return 1);
 
 	if((f = fopen(path, "rb")) == NULL) {
 		free(buf);
@@ -758,7 +754,7 @@ static int md5_file(const char *path, unsigned char output[16])
 
 	MD5_Init(&ctx);
 
-	while((n = fread(buf, 1, BUFFER_SIZE, f)) > 0) {
+	while((n = fread(buf, 1, ALPM_BUFFER_SIZE, f)) > 0) {
 		MD5_Update(&ctx, buf, n);
 	}
 
@@ -784,7 +780,7 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 	SHA256_CTX ctx;
 	unsigned char *buf;
 
-	CALLOC(buf, BUFFER_SIZE, sizeof(unsigned char), return 1);
+	CALLOC(buf, ALPM_BUFFER_SIZE, sizeof(unsigned char), return 1);
 
 	if((f = fopen(path, "rb")) == NULL) {
 		free(buf);
@@ -797,7 +793,7 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 		SHA256_Init(&ctx);
 	}
 
-	while((n = fread(buf, 1, BUFFER_SIZE, f)) > 0) {
+	while((n = fread(buf, 1, ALPM_BUFFER_SIZE, f)) > 0) {
 		if(is224) {
 			SHA224_Update(&ctx, buf, n);
 		} else {

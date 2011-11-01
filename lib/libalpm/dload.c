@@ -178,6 +178,14 @@ static int utimes_long(const char *path, long seconds)
 	return 0;
 }
 
+/* prefix to avoid possible future clash with getumask(3) */
+static mode_t _getumask(void)
+{
+	mode_t mask = umask(0);
+	umask(mask);
+	return mask;
+}
+
 static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 {
 	size_t realsize = size * nmemb;
@@ -295,9 +303,12 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 	MALLOC(randpath, len, RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
 	snprintf(randpath, len, "%salpmtmp.XXXXXX", localpath);
 	if((fd = mkstemp(randpath)) == -1 ||
+			fchmod(fd, ~(_getumask()) & 0666) ||
 			!(fp = fdopen(fd, payload->tempfile_openmode))) {
 		unlink(randpath);
-		close(fd);
+		if(fd >= 0) {
+			close(fd);
+		}
 		_alpm_log(payload->handle, ALPM_LOG_ERROR,
 				_("failed to create temporary file for download\n"));
 		return NULL;
@@ -334,9 +345,10 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	payload->tempfile_openmode = "wb";
 	if(!payload->remote_name) {
-		payload->remote_name = strdup(get_filename(payload->fileurl));
+		STRDUP(payload->remote_name, get_filename(payload->fileurl),
+				RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	}
-	if(!payload->remote_name || curl_gethost(payload->fileurl, hostname, sizeof(hostname)) != 0) {
+	if(curl_gethost(payload->fileurl, hostname, sizeof(hostname)) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
 		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}

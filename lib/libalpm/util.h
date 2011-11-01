@@ -74,6 +74,13 @@
 
 #define CHECK_HANDLE(handle, action) do { if(!(handle)) { action; } (handle)->pm_errno = 0; } while(0)
 
+/** Standard buffer size used throughout the library. */
+#ifdef BUFSIZ
+#define ALPM_BUFFER_SIZE BUFSIZ
+#else
+#define ALPM_BUFFER_SIZE 8192
+#endif
+
 /**
  * Used as a buffer/state holder for _alpm_archive_fgets().
  */

@@ -460,6 +460,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
 	alpm_trans_t *trans = handle->trans;
+	const char *pkgfile;
 
 	ASSERT(trans != NULL, return -1);
 
@@ -483,13 +484,15 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		EVENT(handle, ALPM_EVENT_ADD_START, newpkg, NULL);
 	}
 
+	pkgfile = newpkg->origin_data.file;
+
 	_alpm_log(handle, ALPM_LOG_DEBUG, "%s package %s-%s\n",
 			is_upgrade ? "upgrading" : "adding", newpkg->name, newpkg->version);
 		/* pre_install/pre_upgrade scriptlet */
 	if(alpm_pkg_has_scriptlet(newpkg) &&
 			!(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 		const char *scriptlet_name = is_upgrade ? "pre_upgrade" : "pre_install";
-		_alpm_runscriptlet(handle, newpkg->origin_data.file,
+		_alpm_runscriptlet(handle, pkgfile,
 				scriptlet_name, newpkg->version, NULL, 1);
 	}
 
@@ -535,9 +538,9 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		archive_read_support_compression_all(archive);
 		archive_read_support_format_all(archive);
 
-		_alpm_log(handle, ALPM_LOG_DEBUG, "archive: %s\n", newpkg->origin_data.file);
-		if(archive_read_open_filename(archive, newpkg->origin_data.file,
-					ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "archive: %s\n", pkgfile);
+		if(archive_read_open_filename(archive, pkgfile,
+					ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
 			handle->pm_errno = ALPM_ERR_PKG_OPEN;
 			ret = -1;
 			goto cleanup;

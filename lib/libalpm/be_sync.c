@@ -440,7 +440,7 @@ static int sync_db_populate(alpm_db_t *db)
 	_alpm_log(db->handle, ALPM_LOG_DEBUG, "opening database archive %s\n", dbpath);
 
 	if(archive_read_open_filename(archive, dbpath,
-				ARCHIVE_DEFAULT_BYTES_PER_BLOCK) != ARCHIVE_OK) {
+				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
 		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), dbpath,
 				archive_error_string(archive));
 		archive_read_finish(archive);
