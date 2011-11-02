@@ -221,7 +221,7 @@ char *_alpm_strtrim(char *str)
 size_t _alpm_strip_newline(char *str)
 {
 	size_t len;
-	if(str == '\0') {
+	if(*str == '\0') {
 		return 0;
 	}
 	len = strlen(str);
