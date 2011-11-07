@@ -699,8 +699,11 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	xfered_human = humanize_size(xfered, '\0', &xfered_label);
 
 	printf(" %ls%-*s ", wcfname, padwid, "");
-	/* We will show 1.6M/s, 11.6M/s, but 116K/s and 1116K/s */
-	if(rate_human < 100.0) {
+	/* We will show 1.62M/s, 11.6M/s, but 116K/s and 1116K/s */
+	if(rate_human < 9.995) {
+		printf("%6.1f %3s  %4.2f%c/s ",
+				xfered_human, xfered_label, rate_human, rate_label[0]);
+	} else if(rate_human < 99.95) {
 		printf("%6.1f %3s  %4.1f%c/s ",
 				xfered_human, xfered_label, rate_human, rate_label[0]);
 	} else {
