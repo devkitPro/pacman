@@ -465,8 +465,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			int resolved_conflict = 0;
 			struct stat lsbuf;
 			char path[PATH_MAX];
+			size_t pathlen;
 
-			snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
+			pathlen = snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
 
 			/* stat the file - if it exists, do some checks */
 			if(_alpm_lstat(path, &lsbuf) != 0) {
@@ -490,7 +491,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				/* if we made it to here, we want all subsequent path comparisons to
 				 * not include the trailing slash. This allows things like file ->
 				 * directory replacements. */
-				path[strlen(path) - 1] = '\0';
+				path[pathlen - 1] = '\0';
 			}
 
 			relative_path = path + strlen(handle->root);
