@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-10-05 22:33-0500\n"
-"PO-Revision-Date: 2011-10-07 21:32+0000\n"
-"Last-Translator: Larso <larso@gmx.com>\n"
+"POT-Creation-Date: 2011-11-13 21:47-0600\n"
+"PO-Revision-Date: 2011-11-14 03:57+0000\n"
+"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fi/)\n"
 "Language: fi\n"
@@ -106,7 +106,7 @@ msgid "Integrity checks are missing."
 msgstr "Tarkistussummat puuttuvat."
 
 msgid "Verifying source file signatures with %s..."
-msgstr ""
+msgstr "Tarkastetaan lähdetiedostojen allekirjoituksia %s menetelmällä..."
 
 msgid "SIGNATURE NOT FOUND"
 msgstr "ALLEKIRJOITUSTA EI LÖYDY"
@@ -115,22 +115,22 @@ msgid "SOURCE FILE NOT FOUND"
 msgstr "LÄHDETIEDOSTOA EI LÖYDY"
 
 msgid "unknown public key"
-msgstr ""
+msgstr "julkista avainta ei tunnisteta"
 
 msgid "the key has been revoked."
-msgstr ""
+msgstr "avain on mitätöity."
 
 msgid "the signature has expired."
-msgstr ""
+msgstr "allekirjoitus on vanhentunut."
 
 msgid "the key has expired."
-msgstr ""
+msgstr "avain on vanhentunut."
 
 msgid "One or more PGP signatures could not be verified!"
-msgstr ""
+msgstr "Yhtä tai useampaa PGP allekirjoitusta ei voitu tarkastaa!"
 
 msgid "Warnings have occurred while verifying the signatures."
-msgstr ""
+msgstr "Allekirjoituksia tarkastettaessa tapahtui virhe."
 
 msgid "Please make sure you really trust them."
 msgstr "Varmista, että todella luotat heihin."
@@ -139,10 +139,10 @@ msgid "Skipping all source file integrity checks."
 msgstr "Ohitetaan lähdetiedostojen virheellisyyden tarkistaminen."
 
 msgid "Skipping verification of source file checksums."
-msgstr ""
+msgstr "Lähdetiedostojen tarkastussummia ei tarkasteta."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr ""
+msgstr "Lähdetiedostojen PGP allekirjoituksia ei tarkasteta."
 
 msgid "Extracting Sources..."
 msgstr "Puretaan lähdetiedostoja..."
@@ -181,7 +181,7 @@ msgid "Removing empty directories..."
 msgstr "Poistetaan tyhjiä kansioita..."
 
 msgid "Compressing binaries with %s..."
-msgstr ""
+msgstr "Pakataan binääri tiedsotoja %sllä..."
 
 msgid "Could not compress binary : %s"
 msgstr "Ohjelmaa ei voitu pakata : %s"
@@ -229,10 +229,10 @@ msgid "Signing package..."
 msgstr "Allekirjoitetaan pakettia..."
 
 msgid "Created signature file %s."
-msgstr ""
+msgstr "Luotiin allekirjoutus tiedosto %s."
 
 msgid "Failed to sign package file."
-msgstr ""
+msgstr "Paketin allekirjoitus epäonnistui."
 
 msgid "Creating source package..."
 msgstr "Luodaan lähdepakettia..."
@@ -253,10 +253,10 @@ msgid "Failed to create symlink to source package file."
 msgstr "Symbolisen linkin luominen lähdetiedostoon epäonnistui."
 
 msgid "Installing package %s with %s..."
-msgstr ""
+msgstr "Asennetaan paketti %s komennolla %s..."
 
 msgid "Installing %s package group with %s..."
-msgstr ""
+msgstr "Asennetaan paketti ryhmää %s komennolla %s..."
 
 msgid "Failed to install built package(s)."
 msgstr "Käännettyjen pakettien asentaminen epäonnistui."
@@ -286,7 +286,7 @@ msgid "such as %s."
 msgstr "esim. %s."
 
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr ""
+msgstr "%s kenttä ei saa sisältää < tai > operaattoreita."
 
 msgid "%s entry should not contain leading slash : %s"
 msgstr ""
@@ -298,10 +298,10 @@ msgid "%s file (%s) does not exist."
 msgstr "%s tiedostoa (%s) ei ole olemassa."
 
 msgid "%s array contains unknown option '%s'"
-msgstr ""
+msgstr "Kentässä %s on tuntematon valitsin '%s'."
 
 msgid "Missing %s function for split package '%s'"
-msgstr ""
+msgstr "Funktio %s puuttuu jaetusta paketista '%s'"
 
 msgid "Requested package %s is not provided in %s"
 msgstr ""
@@ -356,7 +356,7 @@ msgid "Options:"
 msgstr "Valitsimet:"
 
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
-msgstr ""
+msgstr "  -A, --ignorearch Älä huomioi %s määrritteitä %sissa"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Siivoa käännöstiedostot kääntämisen jälkeen"
@@ -366,6 +366,8 @@ msgstr "  -d, --nodeps     Ohita riippuvuustarkastukset"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
+"  -e, --noextract  Älä pura lähdetiedostoja (käytt'' olemassa olevaa %s "
+"kansiota)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Ylikirjoita olemassa oleva paketti"
@@ -374,7 +376,7 @@ msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Luo virheellisyyden tarkistussummat"
 
 msgid "  -h, --help       Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help       Näytä tämä ohje"
 
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Asenna paketti kääntämisen jälkeen"
@@ -405,7 +407,7 @@ msgstr "  -s, --syncdeps   Asenna puuttuvat riippuvuudet %s-ohjelmalla"
 
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr ""
+msgstr "  -S, --source     Luo lähdepaketti, ilman ladattuja lähdetiedostoja"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -416,7 +418,7 @@ msgstr ""
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr ""
-"  --asroot          Salli %s-ohjelman suorittaminen ylläpitäjän oikeuksilla"
+"  --asroot         Salli %s-ohjelman suorittaminen ylläpitäjän oikeuksilla"
 
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Suorita funktio %s kohteessa %s"
@@ -433,28 +435,29 @@ msgstr ""
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
+"  --key <avain>    Määrritä paketin allekirjoittamiseen käytettävä %s avain"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Älä suorita funktiota %s kohteessa %s"
 
 msgid "  --nosign         Do not create a signature for the package"
-msgstr ""
+msgstr "  --nosign         Älä allekirjoita pakettia"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <lista>    Käännä vain listatut paketit jaetustapaketista"
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr ""
+msgstr "  --sign           Allekirjoita paketti %s ohjelmalla"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr ""
+msgstr "  --skipchecksums  Ohita tarkastussummat"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
-msgstr ""
+msgstr "  --skipinteg      Älä tarkasta lähdetiedostoja ollenkaan"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr ""
+msgstr "  --skippgpcheck   Älä tarkasta lähdetiedostojen PGP allekirjoituksia"
 
 msgid "These options can be passed to %s:"
 msgstr "Seuraavat valitsimet voidaan antaa %s-ohjelmalle:"
@@ -464,7 +467,7 @@ msgid ""
 msgstr "  --noconfirm      Älä kysy vahvistusta riippuvuuksia setvittäessä"
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr "  --noprogressbar   Älä näytä edistymispalkkia tiedostoja ladattaessa"
+msgstr "  --noprogressbar  Älä näytä edistymispalkkia tiedostoja ladattaessa"
 
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr ""
@@ -479,6 +482,15 @@ msgstr ""
 "org>.\\nTekijänoikeudet (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n"
 "\\nTämä on ilmainen ohjelmisto; katso kopioimisehdot lähdekoodista.\\nMitään "
 "takuita ei anneta, lain rajoissa.\\n"
+
+msgid "%s signal caught. Exiting..."
+msgstr "%s signaali vastaanotettu. Lopetetaan..."
+
+msgid "Aborted by user! Exiting..."
+msgstr ""
+
+msgid "An unknown error has occurred. Exiting..."
+msgstr ""
 
 msgid "%s not found."
 msgstr "%s löytyi."
@@ -644,81 +656,100 @@ msgid "Done."
 msgstr "Tehty."
 
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
+msgstr "Hallitse pacmanin tietokantaa luotetuista avaimista"
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [tiedosto(t)]       Lisää luetellut avaimet (tyhjäksi jätettynä "
+"luetaan stdin:istä)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr ""
+msgstr "  -d, --delete <avain-id(t)>    Poista luetellut avaimet"
 
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
-msgstr ""
+msgstr "  -e, --export [avain-id(t)]    Vie luetellut avaimet"
 
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [avain-id(t)]    Listaa lueteltujen avainten sormenjäljet"
 
 msgid "  -h, --help                Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help                    Näyttää tämän ohjeen"
 
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
-msgstr ""
+msgstr "  -l, --list-keys [avain-id(t)] Listaa luetellut avaimet"
 
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr ""
+msgstr "  -r, --recv-keys <avain-id(t)> Noutaa luetellut avaimet"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr ""
+msgstr "  -u, --updatedb                Päivittää pacmanin trustdb tietokannan"
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
 msgstr ""
+"  -v, --verify <allekirjoitus>  Tarkastaa allekirjoitteen määrrittämän "
+"tiedoston"
 
 msgid "  -V, --version             Show program version"
-msgstr ""
+msgstr "  -V, --version                 Kertoo ohjelman version"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
+"  --config <tiedosto>           Käytä omavalintaista asetustiedostoa "
+"(tiedoston\\n                                '%s' sijaan)"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
-msgstr ""
+msgstr "  --edit-key <avain-id(t)>      Avaa avaimen hallinta valikkon"
 
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
+"  --gpgdir <kansio>             Käytä omavalintaista GnuPG kansiota (kansion"
+"\\n                                '%s' sijaan)"
 
 msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
 msgstr ""
+"  --import <kansio(t)>          Lisää pubring.gpg tiedstojen sisällöt "
+"kansioista"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
 "(s)"
 msgstr ""
+"  --import-trustdb <kansio(t)>  Lisää omistajien turvaluokitukset trustdb."
+"gpg tiedostoista"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr ""
+msgstr "  --init                        Varmistaa että avainnippu on alustettu"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr ""
+msgstr "  --keyserver                   Määrittää käytettävän avainpalvelimen"
 
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
 msgstr ""
+"  --list-sigs [avain-id(t)]     Listaa avaimet ja niiden allekirjoitukset"
 
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr ""
+msgstr "  --lsign-key <avain-id>        Allekirjoitaa avaimen paikallisesti"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [avainnippu(t)]    Lataa oletusavaimet uudelleen listatuista "
+"tai \\n                                '%s' tiedoston sisältämistä "
+"avainnipuista"
 
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
+"  --refresh-keys [avain-id(s)]  Päivitää annetut tai kaikki avaimet "
+"avainpalvelimelta"
 
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr ""
@@ -800,7 +831,7 @@ msgid ""
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
 "pacman-optimize on pikkuinen skripti, jonka tarkoituksena\\non kohentaa "
-"pacmanin suorituskykyä,\\nluettaessa ja kirjoitettaessa sen tietokantaa.\\n"
+"pacmanin suorituskykyä,\\nluettaessa ja kirjoitettaessa sen tietokantaan.\\n"
 "\\n"
 
 msgid ""
@@ -907,6 +938,7 @@ msgstr "Xdelta3-ohjelmaa ei löydy! Onko xdelta3 asennettuna?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
+"Käyttö: repo-add [valitsimet] <tietokannan-sijainti> <paketti|delta> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -919,10 +951,10 @@ msgid "Options:\\n"
 msgstr "Valitsimet:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
-msgstr ""
+msgstr "  -d, --delta       luo ja lisää delta paketti\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr ""
+msgstr "  -f, --files       päivitä tietokannan tiedostolistaus\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
@@ -939,21 +971,24 @@ msgstr ""
 "määrittää kerrallaan useampia paketteja.\\n\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
-msgstr ""
+msgstr "  -q, --quiet       minimoi viestien määrä\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr ""
+msgstr "  -s, --sign        allekirjoita tietokanta GnuGP:llä\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
+"  -k, --key <avain> käytä annettua avainta tietokannan allekirjoittamiseen\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
+"  -v, --verify      tarkasta tietokannan allekirjoitus, ennen päivittämistä"
+"\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 "\\n"
-msgstr ""
+msgstr "\\nLisätietoja kaivatessasi onsltoi man sivua %s(8).\\n\\n "
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
@@ -992,16 +1027,16 @@ msgid "Failed to sign package database."
 msgstr "Pakettitietokannan allekirjoittaminen epäonnistui."
 
 msgid "Verifying database signature..."
-msgstr ""
+msgstr "Tarkastetaan tietokannan allekirjoitusta..."
 
 msgid "No existing signature found, skipping verification."
-msgstr ""
+msgstr "Tietokantaa ei ole allekirjoitettu, ohitetaan tarkastus."
 
 msgid "Database signature file verified."
-msgstr ""
+msgstr "Tietokannan allekirjoitus on tarkastettu."
 
 msgid "Database signature was NOT valid!"
-msgstr ""
+msgstr "Tietokannan allekirjoite oli VIRHEELLINEN!"
 
 msgid "'%s' does not have a valid archive extension."
 msgstr "kohteella '%s' ei ole kelvollista arkistopäätettä."
@@ -1013,7 +1048,7 @@ msgid "Computing checksums..."
 msgstr "Lasketaan tarkistussummia..."
 
 msgid "Adding package signature..."
-msgstr ""
+msgstr "Lisätään paketin allekirjoitusta..."
 
 msgid "Creating '%s' db entry..."
 msgstr "Luodaan tietokantamerkintää '%s'.."
@@ -1080,7 +1115,7 @@ msgid "No packages modified, nothing to do."
 msgstr "Yhtään pakettia ei ole muokattu, ei ole mitään tehtävää jäljellä."
 
 msgid "option %s requires an argument\\n"
-msgstr ""
+msgstr "valitsen %s tarvitsee myös parametrin\\n"
 
 msgid "unrecognized option"
-msgstr ""
+msgstr "tunnistamaton valitsin"
