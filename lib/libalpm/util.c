@@ -233,6 +233,64 @@ size_t _alpm_strip_newline(char *str)
 /* Compression functions */
 
 /**
+ * Open an archive for reading and perform the necessary boilerplate.
+ * This takes care of creating the libarchive 'archive' struct, setting up
+ * compression and format options, opening a file descriptor, setting up the
+ * buffer size, and performing a stat on the path once opened.
+ * @param handle the context handle
+ * @param path the path of the archive to open
+ * @param buf space for a stat buffer for the given path
+ * @param archive pointer to place the created archive object
+ * @param error error code to set on failure to open archive
+ * @return -1 on failure, >=0 file descriptor on success
+ */
+int _alpm_open_archive(alpm_handle_t *handle, const char *path,
+		struct stat *buf, struct archive **archive, alpm_errno_t error)
+{
+	int fd;
+	size_t bufsize = ALPM_BUFFER_SIZE;
+
+	if((*archive = archive_read_new()) == NULL) {
+		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, -1);
+	}
+
+	archive_read_support_compression_all(*archive);
+	archive_read_support_format_all(*archive);
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, "opening archive %s\n", path);
+	OPEN(fd, path, O_RDONLY);
+	if(fd < 0) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("could not open file %s: %s\n"), path, strerror(errno));
+		archive_read_finish(*archive);
+		RET_ERR(handle, error, -1);
+	}
+
+	if(fstat(fd, buf) != 0) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("could not stat file %s: %s\n"), path, strerror(errno));
+		archive_read_finish(*archive);
+		CLOSE(fd);
+		RET_ERR(handle, error, -1);
+	}
+#ifdef HAVE_STRUCT_STAT_ST_BLKSIZE
+	if(buf->st_blksize > ALPM_BUFFER_SIZE) {
+		bufsize = buf->st_blksize;
+	}
+#endif
+
+	if(archive_read_open_fd(*archive, fd, bufsize) != ARCHIVE_OK) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"),
+				path, archive_error_string(*archive));
+		archive_read_finish(*archive);
+		CLOSE(fd);
+		RET_ERR(handle, error, -1);
+	}
+
+	return fd;
+}
+
+/**
  * @brief Unpack a specific file in an archive.
  *
  * @param handle the context handle
@@ -259,34 +317,26 @@ int _alpm_unpack_single(alpm_handle_t *handle, const char *archive,
  * @brief Unpack a list of files in an archive.
  *
  * @param handle the context handle
- * @param archive the archive to unpack
+ * @param path the archive to unpack
  * @param prefix where to extract the files
  * @param list a list of files within the archive to unpack or NULL for all
  * @param breakfirst break after the first entry found
  *
  * @return 0 on success, 1 on failure
  */
-int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
+int _alpm_unpack(alpm_handle_t *handle, const char *path, const char *prefix,
 		alpm_list_t *list, int breakfirst)
 {
 	int ret = 0;
 	mode_t oldmask;
-	struct archive *_archive;
+	struct archive *archive;
 	struct archive_entry *entry;
-	int cwdfd;
+	struct stat buf;
+	int fd, cwdfd;
 
-	if((_archive = archive_read_new()) == NULL) {
-		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, 1);
-	}
-
-	archive_read_support_compression_all(_archive);
-	archive_read_support_format_all(_archive);
-
-	if(archive_read_open_filename(_archive, archive,
-				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"), archive,
-				archive_error_string(_archive));
-		RET_ERR(handle, ALPM_ERR_PKG_OPEN, 1);
+	fd = _alpm_open_archive(handle, path, &buf, &archive, ALPM_ERR_PKG_OPEN);
+	if(fd < 0) {
+		return 1;
 	}
 
 	oldmask = umask(0022);
@@ -305,7 +355,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 		goto cleanup;
 	}
 
-	while(archive_read_next_header(_archive, &entry) == ARCHIVE_OK) {
+	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 		const char *entryname;
 		mode_t mode;
 
@@ -321,7 +371,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 			char *found = alpm_list_find_str(list, entry_prefix);
 			free(entry_prefix);
 			if(!found) {
-				if(archive_read_data_skip(_archive) != ARCHIVE_OK) {
+				if(archive_read_data_skip(archive) != ARCHIVE_OK) {
 					ret = 1;
 					goto cleanup;
 				}
@@ -339,14 +389,14 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 		}
 
 		/* Extract the archive entry. */
-		int readret = archive_read_extract(_archive, entry, 0);
+		int readret = archive_read_extract(archive, entry, 0);
 		if(readret == ARCHIVE_WARN) {
 			/* operation succeeded but a non-critical error was encountered */
 			_alpm_log(handle, ALPM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
-					entryname, archive_error_string(_archive));
+					entryname, archive_error_string(archive));
 		} else if(readret != ARCHIVE_OK) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not extract %s (%s)\n"),
-					entryname, archive_error_string(_archive));
+					entryname, archive_error_string(archive));
 			ret = 1;
 			goto cleanup;
 		}
@@ -358,7 +408,8 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 
 cleanup:
 	umask(oldmask);
-	archive_read_finish(_archive);
+	archive_read_finish(archive);
+	CLOSE(fd);
 	if(cwdfd >= 0) {
 		if(fchdir(cwdfd) != 0) {
 			_alpm_log(handle, ALPM_LOG_ERROR,

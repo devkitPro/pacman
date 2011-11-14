@@ -433,26 +433,9 @@ static int sync_db_populate(alpm_db_t *db)
 		return -1;
 	}
 
-	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(db->handle, ALPM_ERR_LIBARCHIVE, -1);
-	}
-
-	archive_read_support_compression_all(archive);
-	archive_read_support_format_all(archive);
-
-	_alpm_log(db->handle, ALPM_LOG_DEBUG,
-			"opening database archive %s\n", dbpath);
-	OPEN(fd, dbpath, O_RDONLY);
-	if(fd < 0 || archive_read_open_fd(archive, fd,
-				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-		const char *err = fd < 0 ? strerror(errno) : archive_error_string(archive);
-		_alpm_log(db->handle, ALPM_LOG_ERROR,
-				_("could not open file %s: %s\n"), dbpath, err);
-		db->handle->pm_errno = ALPM_ERR_DB_OPEN;
-		goto cleanup;
-	}
-	if(fstat(fd, &buf) != 0) {
-		db->handle->pm_errno = ALPM_ERR_DB_OPEN;
+	fd = _alpm_open_archive(db->handle, dbpath, &buf,
+			&archive, ALPM_ERR_DB_OPEN);
+	if(fd < 0) {
 		goto cleanup;
 	}
 	est_count = estimate_package_count(&buf, archive);

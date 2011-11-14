@@ -201,6 +201,7 @@ AC_CHECK_FUNCS([dup2 getcwd geteuid getmntinfo gettimeofday memmove memset \
                 mkdir realpath regcomp rmdir setenv setlocale strcasecmp \
                 strchr strcspn strdup strerror strndup strrchr strsep strstr \
                 strtol swprintf tcflush wcwidth uname])
+AC_CHECK_MEMBERS([struct stat.st_blksize],,,[[#include <sys/stat.h>]])
 
 # For the diskspace code
 FS_STATS_TYPE

@@ -525,23 +525,14 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	if(!(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
 		struct archive *archive;
 		struct archive_entry *entry;
-		int cwdfd;
+		struct stat buf;
+		int fd, cwdfd;
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "extracting files\n");
 
-		if((archive = archive_read_new()) == NULL) {
-			handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-			ret = -1;
-			goto cleanup;
-		}
-
-		archive_read_support_compression_all(archive);
-		archive_read_support_format_all(archive);
-
-		_alpm_log(handle, ALPM_LOG_DEBUG, "archive: %s\n", pkgfile);
-		if(archive_read_open_filename(archive, pkgfile,
-					ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-			handle->pm_errno = ALPM_ERR_PKG_OPEN;
+		fd = _alpm_open_archive(db->handle, pkgfile, &buf,
+				&archive, ALPM_ERR_PKG_OPEN);
+		if(fd < 0) {
 			ret = -1;
 			goto cleanup;
 		}
@@ -556,6 +547,8 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		if(chdir(handle->root) != 0) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
 					handle->root, strerror(errno));
+			archive_read_finish(archive);
+			CLOSE(fd);
 			ret = -1;
 			goto cleanup;
 		}
@@ -597,6 +590,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			errors += extract_single_file(handle, archive, entry, newpkg, oldpkg);
 		}
 		archive_read_finish(archive);
+		CLOSE(fd);
 
 		/* restore the old cwd if we have it */
 		if(cwdfd >= 0) {

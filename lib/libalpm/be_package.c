@@ -40,6 +40,11 @@
 #include "package.h"
 #include "deps.h" /* _alpm_splitdep */
 
+struct package_changelog {
+	struct archive *archive;
+	int fd;
+};
+
 /**
  * Open a package changelog for reading. Similar to fopen in functionality,
  * except that the returned 'file stream' is from an archive.
@@ -50,31 +55,38 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
 
-	struct archive *archive = NULL;
+	struct package_changelog *changelog;
+	struct archive *archive;
 	struct archive_entry *entry;
 	const char *pkgfile = pkg->origin_data.file;
+	struct stat buf;
+	int fd;
 
-	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(pkg->handle, ALPM_ERR_LIBARCHIVE, NULL);
-	}
-
-	archive_read_support_compression_all(archive);
-	archive_read_support_format_all(archive);
-
-	if(archive_read_open_filename(archive, pkgfile,
-				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-		RET_ERR(pkg->handle, ALPM_ERR_PKG_OPEN, NULL);
+	fd = _alpm_open_archive(pkg->handle, pkgfile, &buf,
+			&archive, ALPM_ERR_PKG_OPEN);
+	if(fd < 0) {
+		return NULL;
 	}
 
 	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 		const char *entry_name = archive_entry_pathname(entry);
 
 		if(strcmp(entry_name, ".CHANGELOG") == 0) {
-			return archive;
+			changelog = malloc(sizeof(struct package_changelog));
+			if(!changelog) {
+				pkg->handle->pm_errno = ALPM_ERR_MEMORY;
+				archive_read_finish(archive);
+				CLOSE(fd);
+				return NULL;
+			}
+			changelog->archive = archive;
+			changelog->fd = fd;
+			return changelog;
 		}
 	}
 	/* we didn't find a changelog */
 	archive_read_finish(archive);
+	CLOSE(fd);
 	errno = ENOENT;
 
 	return NULL;
@@ -92,7 +104,8 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 static size_t _package_changelog_read(void *ptr, size_t size,
 		const alpm_pkg_t UNUSED *pkg, void *fp)
 {
-	ssize_t sret = archive_read_data((struct archive *)fp, ptr, size);
+	struct package_changelog *changelog = fp;
+	ssize_t sret = archive_read_data(changelog->archive, ptr, size);
 	/* Report error (negative values) */
 	if(sret < 0) {
 		RET_ERR(pkg->handle, ALPM_ERR_LIBARCHIVE, 0);
@@ -110,7 +123,12 @@ static size_t _package_changelog_read(void *ptr, size_t size,
  */
 static int _package_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 {
-	return archive_read_finish((struct archive *)fp);
+	int ret;
+	struct package_changelog *changelog = fp;
+	ret = archive_read_finish(changelog->archive);
+	CLOSE(changelog->fd);
+	free(changelog);
+	return ret;
 }
 
 /** Package file operations struct accessor. We implement this as a method
@@ -370,24 +388,10 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL);
 	}
 
-	/* try to create an archive object to read in the package */
-	if((archive = archive_read_new()) == NULL) {
-		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, NULL);
-	}
-
-	archive_read_support_compression_all(archive);
-	archive_read_support_format_all(archive);
-
-	OPEN(fd, pkgfile, O_RDONLY);
-	if(fd < 0 || archive_read_open_fd(archive, fd,
-				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-		const char *err = fd < 0 ? strerror(errno) : archive_error_string(archive);
-		_alpm_log(handle, ALPM_LOG_ERROR,
-				_("could not open file %s: %s\n"), pkgfile, err);
-		if(fd < 0 && errno == ENOENT) {
+	fd = _alpm_open_archive(handle, pkgfile, &st, &archive, ALPM_ERR_PKG_OPEN);
+	if(fd < 0) {
+		if(errno == ENOENT) {
 			handle->pm_errno = ALPM_ERR_PKG_NOT_FOUND;
-		} else {
-			handle->pm_errno = ALPM_ERR_PKG_OPEN;
 		}
 		goto error;
 	}
@@ -395,10 +399,6 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	newpkg = _alpm_pkg_new();
 	if(newpkg == NULL) {
 		handle->pm_errno = ALPM_ERR_MEMORY;
-		goto error;
-	}
-	if(fstat(fd, &st) != 0) {
-		handle->pm_errno = ALPM_ERR_PKG_OPEN;
 		goto error;
 	}
 	STRDUP(newpkg->filename, pkgfile,
