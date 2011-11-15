@@ -11,7 +11,7 @@
 DLAGENTS=('ftp::/usr/bin/curl -fC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u'
           'http::/usr/bin/curl -fLC - --retry 3 --retry-delay 3 -o %o %u'
           'https::/usr/bin/curl -fLC - --retry 3 --retry-delay 3 -o %o %u'
-          'rsync::/usr/bin/rsync -z %u %o'
+          'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
 
 # Other common tools:
