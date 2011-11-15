@@ -357,7 +357,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	alpm_list_t *i, *j;
 	alpm_list_t *deps = NULL;
 	alpm_list_t *unresolvable = NULL;
-	alpm_list_t *remove = NULL;
+	size_t from_sync = 0;
 	int ret = 0;
 	alpm_trans_t *trans = handle->trans;
 
@@ -365,19 +365,27 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		*data = NULL;
 	}
 
-	/* ensure all sync database are valid since we will be using them */
+	for(i = trans->add; i; i = i->next) {
+		alpm_pkg_t *spkg = i->data;
+		from_sync += (spkg->origin == PKG_FROM_SYNCDB);
+	}
+
+	/* ensure all sync database are valid if we will be using them */
 	for(i = handle->dbs_sync; i; i = i->next) {
 		const alpm_db_t *db = i->data;
 		if(db->status & DB_STATUS_INVALID) {
 			RET_ERR(handle, ALPM_ERR_DB_INVALID, -1);
 		}
-		if(db->status & DB_STATUS_MISSING) {
+		/* missing databases are not allowed if we have sync targets */
+		if(from_sync && db->status & DB_STATUS_MISSING) {
 			RET_ERR(handle, ALPM_ERR_DB_NOT_FOUND, -1);
 		}
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
-		alpm_list_t *resolved = NULL; /* target list after resolvedeps */
+		alpm_list_t *resolved = NULL;
+		alpm_list_t *remove = NULL;
+		alpm_list_t *localpkgs;
 
 		/* Build up list by repeatedly resolving each transaction package */
 		/* Resolve targets dependencies */
@@ -394,7 +402,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 		/* Compute the fake local database for resolvedeps (partial fix for the
 		 * phonon/qt issue) */
-		alpm_list_t *localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(handle->db_local),
+		localpkgs = alpm_list_diff(_alpm_db_get_pkgcache(handle->db_local),
 				trans->add, _alpm_pkg_cmp);
 
 		/* Resolve packages in the transaction one at a time, in addition
@@ -409,11 +417,13 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			   dependencies not already on the list */
 		}
 		alpm_list_free(localpkgs);
+		alpm_list_free(remove);
 
 		/* If there were unresolvable top-level packages, prompt the user to
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
 			int remove_unresolvable = 0;
+			enum _alpm_errno_t saved_err = handle->pm_errno;
 			QUESTION(handle, ALPM_QUESTION_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
 			if(remove_unresolvable) {
@@ -421,14 +431,15 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				   transaction. The packages will be removed from the actual
 				   transaction when the transaction packages are replaced with a
 				   dependency-reordered list below */
-				handle->pm_errno = 0; /* pm_errno was set by resolvedeps */
+				handle->pm_errno = 0;
 				if(data) {
 					alpm_list_free_inner(*data, (alpm_list_fn_free)_alpm_depmiss_free);
 					alpm_list_free(*data);
 					*data = NULL;
 				}
 			} else {
-				/* pm_errno is set by resolvedeps */
+				/* pm_errno was set by resolvedeps, callback may have overwrote it */
+				handle->pm_errno = saved_err;
 				alpm_list_free(resolved);
 				ret = -1;
 				goto cleanup;
@@ -617,8 +628,6 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 cleanup:
-	alpm_list_free(remove);
-
 	return ret;
 }
 

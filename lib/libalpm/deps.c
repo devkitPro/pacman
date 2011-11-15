@@ -631,7 +631,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	/* first check if one provider is already installed locally */
 	for(i = providers; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
-		if(_alpm_pkghash_find(_alpm_db_get_pkgcache_hash(handle->db_local), pkg->name)) {
+		if(_alpm_db_get_pkgfromcache(handle->db_local, pkg->name)) {
 			alpm_list_free(providers);
 			return pkg;
 		}
