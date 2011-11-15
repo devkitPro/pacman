@@ -197,9 +197,9 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			break;
 		case ALPM_EVENT_UPGRADE_DONE:
 			alpm_logaction(config->handle, "upgraded %s (%s -> %s)\n",
-			         (char *)alpm_pkg_get_name(data1),
-			         (char *)alpm_pkg_get_version(data2),
-			         (char *)alpm_pkg_get_version(data1));
+			         alpm_pkg_get_name(data1),
+			         alpm_pkg_get_version(data2),
+			         alpm_pkg_get_version(data1));
 			display_new_optdepends(data2,data1);
 			break;
 		case ALPM_EVENT_INTEGRITY_START:
@@ -295,7 +295,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			break;
 		case ALPM_QUESTION_REMOVE_PKGS:
 			{
-				alpm_list_t *unresolved = (alpm_list_t *) data1;
+				alpm_list_t *unresolved = data1;
 				alpm_list_t *namelist = NULL, *i;
 				size_t count = 0;
 				for (i = unresolved; i; i = i->next) {
@@ -318,7 +318,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			break;
 		case ALPM_QUESTION_SELECT_PROVIDER:
 			{
-				alpm_list_t *providers = (alpm_list_t *)data1;
+				alpm_list_t *providers = data1;
 				size_t count = alpm_list_count(providers);
 				char *depstring = alpm_dep_compute_string((alpm_depend_t *)data2);
 				printf(_(":: There are %zd providers available for %s:\n"), count,
