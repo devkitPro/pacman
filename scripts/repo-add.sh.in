@@ -411,13 +411,8 @@ elephant() {
 check_repo_db() {
 	local repodir
 
-	# ensure the path to the DB exists
-	if [[ "$LOCKFILE" == /* ]]; then
-		repodir=${LOCKFILE%/*}/
-	else
-		repodir=$PWD/$LOCKFILE
-		repodir=${repodir%/*}/
-	fi
+	# ensure the path to the DB exists; $LOCKFILE is always an absolute path
+	repodir=${LOCKFILE%/*}/
 
 	if [[ ! -d "$repodir" ]]; then
 		error "$(gettext "%s does not exist or is not a directory.")" "$repodir"
@@ -624,7 +619,11 @@ if [[ -z $REPO_DB_FILE ]]; then
 	exit 1
 fi
 
-LOCKFILE=$REPO_DB_FILE.lck
+if [[ $REPO_DB_FILE == /* ]]; then
+	LOCKFILE=$REPO_DB_FILE.lck
+else
+	LOCKFILE=$PWD/$REPO_DB_FILE.lck
+fi
 
 verify_repo_extension "$REPO_DB_FILE" >/dev/null
 check_repo_db
