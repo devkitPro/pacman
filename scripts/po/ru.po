@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Ivan Yurasov <vdk@gmx.us>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-10-05 22:33-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-11-13 21:47-0600\n"
+"PO-Revision-Date: 2011-11-14 08:43+0000\n"
+"Last-Translator: vdk <vdk@gmx.us>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/ru/)\n"
 "Language: ru\n"
@@ -77,7 +78,7 @@ msgid "Generating checksums for source files..."
 msgstr "Подсчитываются контрольные суммы исходных файлов..."
 
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
-msgstr ""
+msgstr "Невозможно найти %s (требуется для генерации контрольных сумм)."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Указан неверный алгоритм '%s'."
@@ -106,16 +107,16 @@ msgid "Integrity checks are missing."
 msgstr "Проверки целостности не выполняются."
 
 msgid "Verifying source file signatures with %s..."
-msgstr ""
+msgstr "Проверка подписей исходных файлов с помощью %s..."
 
 msgid "SIGNATURE NOT FOUND"
-msgstr ""
+msgstr "ПОДПИСЬ НЕ НАЙДЕНА"
 
 msgid "SOURCE FILE NOT FOUND"
-msgstr ""
+msgstr "ИСХОДНЫЕ ФАЙЛЫ НЕ НАЙДЕНЫ"
 
 msgid "unknown public key"
-msgstr ""
+msgstr "неизвестный открытый ключ"
 
 msgid "the key has been revoked."
 msgstr ""
@@ -127,22 +128,22 @@ msgid "the key has expired."
 msgstr ""
 
 msgid "One or more PGP signatures could not be verified!"
-msgstr ""
+msgstr "Одна или более PGP подписей не может быть проверена!"
 
 msgid "Warnings have occurred while verifying the signatures."
-msgstr ""
+msgstr "В процессе проверки подписей возникли предупреждения."
 
 msgid "Please make sure you really trust them."
 msgstr ""
 
 msgid "Skipping all source file integrity checks."
-msgstr ""
+msgstr "Пропуск всех проверок контрольных сумм."
 
 msgid "Skipping verification of source file checksums."
-msgstr ""
+msgstr "Пропуск провероки контрольных сумм исходных файлов."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr ""
+msgstr "Пропуск провероки PGP подписей исходных файлов."
 
 msgid "Extracting Sources..."
 msgstr "Распаковка исходных файлов..."
@@ -166,7 +167,7 @@ msgid "Removing doc files..."
 msgstr "Удаление файлов документации... "
 
 msgid "Purging unwanted files..."
-msgstr ""
+msgstr "Удаление ненужных файлов..."
 
 msgid "Compressing man and info pages..."
 msgstr "Сжатие страниц man и info..."
@@ -175,28 +176,28 @@ msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Удаление отладочной информации из бинарных файлов и библиотек..."
 
 msgid "Removing %s files..."
-msgstr ""
+msgstr "Удаление %s файлов..."
 
 msgid "Removing empty directories..."
 msgstr "Удаление пустых каталогов..."
 
 msgid "Compressing binaries with %s..."
-msgstr ""
+msgstr "Сжатие бинарных файлов с помощью %s..."
 
 msgid "Could not compress binary : %s"
-msgstr ""
+msgstr "Не удалось сжать бинарные фалйлы: %s"
 
 msgid "Generating %s file..."
-msgstr ""
+msgstr "Создание файла %s..."
 
 msgid "Cannot find library listed in %s: %s"
-msgstr ""
+msgstr "Не удалось найти библиотеку указанную в %s: %s"
 
 msgid "Please add a license line to your %s!"
 msgstr "Добавьте строку с указанием лицензии в ваш %s!"
 
 msgid "Example for GPL'ed software: %s."
-msgstr ""
+msgstr "Пример для софта под лицензией GPL: %s."
 
 msgid "%s entry file not in package : %s"
 msgstr ""
@@ -226,13 +227,13 @@ msgid "Failed to create symlink to package file."
 msgstr "Не удалось создать символическую ссылку на файл пакета."
 
 msgid "Signing package..."
-msgstr ""
+msgstr "Создание подписи для пакета..."
 
 msgid "Created signature file %s."
-msgstr ""
+msgstr "Создание файла с подписью %s."
 
 msgid "Failed to sign package file."
-msgstr ""
+msgstr "Ошибка при подписании файла."
 
 msgid "Creating source package..."
 msgstr "Создание пакета с исходным кодом..."
@@ -253,10 +254,10 @@ msgid "Failed to create symlink to source package file."
 msgstr "Ошибка создания символической ссылки на исходный файл пакета."
 
 msgid "Installing package %s with %s..."
-msgstr ""
+msgstr "Установка пакета %s с %s..."
 
 msgid "Installing %s package group with %s..."
-msgstr ""
+msgstr "Установка группы пакетов %s c %s..."
 
 msgid "Failed to install built package(s)."
 msgstr "Не удалось установить собранные пакеты."
@@ -268,10 +269,10 @@ msgid "%s is not allowed to start with a hyphen."
 msgstr "%s не должен начинаться с дефиса."
 
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr ""
+msgstr "%s не должно содержать двоеточий или дефисов."
 
 msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr ""
+msgstr "в %s дефисы не допускаются."
 
 msgid "%s must be an integer."
 msgstr "%s должно быть целым числом"
@@ -283,7 +284,7 @@ msgid "Note that many packages may need a line added to their %s"
 msgstr "Имейте ввиду, что многим пакетам в %s может понадобиться"
 
 msgid "such as %s."
-msgstr ""
+msgstr "строка вида arch=('%s')."
 
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr ""
@@ -481,6 +482,15 @@ msgstr ""
 "коде.\\nНа него не даётся НИКАКИХ ГАРАНТИЙ, в той степени, в которой это "
 "разрешено законом.\\n"
 
+msgid "%s signal caught. Exiting..."
+msgstr "Принят сигнал %s. Выходим..."
+
+msgid "Aborted by user! Exiting..."
+msgstr "Отменено пользователейм! Выходим..."
+
+msgid "An unknown error has occurred. Exiting..."
+msgstr "Произошла неизвестная ошибка. Выходим..."
+
 msgid "%s not found."
 msgstr "%s не найден."
 
@@ -526,26 +536,26 @@ msgid "The key %s does not exist in your keyring."
 msgstr ""
 
 msgid "There is no key in your keyring."
-msgstr ""
+msgstr "Нет ключа в Вашей связке."
 
 msgid "A package has already been built, installing existing package..."
 msgstr "Пакет уже собран, устанавливается существующий пакет..."
 
 msgid "A package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Пакет уже собран. (используйте %s для перезаписи)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Группа пакетов уже собрана, установка существующих..."
 
 msgid "The package group has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Группа пакетов уже собрана. (используйте %s для перезаписи)"
 
 msgid "Part of the package group has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Часть группы пакетов уже собрана. (используйте %s для перезаписи)"
 
 msgid "Leaving %s environment."
-msgstr ""
+msgstr "Выход из окружения %s."
 
 msgid "Repackaging without the use of a %s function is deprecated."
 msgstr ""
@@ -638,6 +648,8 @@ msgstr ""
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [file(s)]       Добавить указанные ключи (для чтения из stdin "
+"ничего не указывайте)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
 msgstr ""
@@ -656,7 +668,7 @@ msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
 
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr ""
+msgstr "  -r, --recv-keys <keyid(s)> Получить указанный(е) ключи"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
@@ -693,7 +705,7 @@ msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr ""
+msgstr "  --keyserver               Указать сервер ключей, если необходимо"
 
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
 msgstr ""
@@ -710,25 +722,23 @@ msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
 
-#, fuzzy
 msgid "You do not have sufficient permissions to read the %s keyring."
-msgstr "У вас нет прав на запись, чтобы сохранять пакеты в %s."
+msgstr "У вас нет достаточных полномочий для чтения ключей %s."
 
 msgid "Use '%s' to correct the keyring permissions."
 msgstr ""
 
-#, fuzzy
 msgid "You do not have sufficient permissions to run this command."
-msgstr "У вас нет прав на запись, чтобы сохранять пакеты в %s."
+msgstr "У вас нет достаточных полномочий чтобы запустить такую комманду."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Нет доступных закрытых ключей для подписания ими."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Использовать '%s' для генерации закрытого ключа."
 
 msgid "Verifying %s..."
-msgstr ""
+msgstr "Проверка %s..."
 
 msgid "File %s is unsigned, cannot continue."
 msgstr ""
@@ -743,10 +753,10 @@ msgid "No keyring files exist in %s."
 msgstr ""
 
 msgid "The keyring file %s does not exist."
-msgstr ""
+msgstr "Файл с ключами %s отсутсвует."
 
 msgid "Appending keys from %s.gpg..."
-msgstr ""
+msgstr "Добавление ключей из файла %s.gpg..."
 
 msgid "Locally signing trusted keys in keyring..."
 msgstr ""
@@ -761,11 +771,10 @@ msgid "Disabling revoked keys in keyring..."
 msgstr ""
 
 msgid "Disabling key %s..."
-msgstr ""
+msgstr "Блокировка ключа %s..."
 
-#, fuzzy
 msgid "The key identified by %s does not exist."
-msgstr "%s файл (%s) не существует."
+msgstr ""
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -780,7 +789,7 @@ msgid "no operation specified (use -h for help)"
 msgstr ""
 
 msgid "Multiple operations specified."
-msgstr ""
+msgstr "Указанно несколько операций"
 
 msgid "Please run %s with each operation separately."
 msgstr ""
@@ -972,7 +981,7 @@ msgid "Removing existing entry '%s'..."
 msgstr "Удаление существующей записи '%s'..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr ""
+msgstr "Не найден gpg! Установлен пакет GnuPG?"
 
 msgid "Signing database..."
 msgstr ""

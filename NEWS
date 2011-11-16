@@ -1,8 +1,18 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
 4.0.1         - ensure VerbosePkgList table display supports multibyte chars
+              - always use stderr for warning/error messages (FS#26555)
               - add guidance message for users when public keyring not found
+              - fix edge case in download progress bar rounding (FS#26853)
+              - ensure downloads started as tempfiles have correct umask
+              - ensure unowned symlinks are not overwritten incorrectly
+              - update libtool files and update fix for -Wl,-as-needed
+              - fix build when using --disable-static (FS#26652)
+              - pacman-key: add a keyserver timeout value in --init
               - repo-add: fix race condition around lock file removal
+              - makepkg: accept changelog= or install= without a value
+              - makepkg: handle PGP signatures with a .sign extension
+              - makepkg: delay attachment of signal traps (FS#26196)
 4.0.0         - well-integrated and powerful signed packages and databases
                 support in pacman, the library, and scripts (FS#5331)
               - over 800 commits to pacman.git since 3.5.4 release

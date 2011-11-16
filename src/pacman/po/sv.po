@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-10-05 22:36-0500\n"
-"PO-Revision-Date: 2011-09-22 16:37+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2011-11-13 21:47-0600\n"
+"PO-Revision-Date: 2011-11-15 15:43+0000\n"
+"Last-Translator: Gazpachian <f.halldal@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sv/)\n"
 "Language: sv\n"
@@ -46,19 +46,19 @@ msgstr "raderar %s...\n"
 
 #, c-format
 msgid "upgrading %s...\n"
-msgstr "ppgraderar %s...\n"
+msgstr "uppgraderar %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
-msgstr "kontrollerar paket intigritet...\n"
+msgstr "kontrollerar paketintegritet...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "laddar paketfiler...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "kontrollerar ändrings integritet...\n"
+msgstr "kontrollerar ändringsintegritet...\n"
 
 #, c-format
 msgid "applying deltas...\n"
@@ -82,7 +82,7 @@ msgstr ":: Hämtar paket från %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "kontrollerar tillgängligt hårddisk utrymme...\n"
+msgstr "kontrollerar tillgängligt hårddiskutrymme...\n"
 
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -120,7 +120,7 @@ msgstr[1] "Vill du hoppa över ovanstående paket för denna uppgradering?<"
 
 #, c-format
 msgid ":: There are %zd providers available for %s:\n"
-msgstr ""
+msgstr ":: Det finns %zd utgivare tillgängliga för %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
@@ -131,10 +131,12 @@ msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+":: Filen %s är korrumperad (%s).\n"
+"Vill du ta bort den?"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
-msgstr ""
+msgstr ":: Importera PGP-nyckel %s, \"%s\", skapad %s?"
 
 #, c-format
 msgid "installing"
@@ -158,11 +160,11 @@ msgstr "kontrollerar tillgängligt filutrymme"
 
 #, c-format
 msgid "checking package integrity"
-msgstr "kontrollerar paket intigritet"
+msgstr "kontrollerar paketintegritet"
 
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "laddar paketfiler"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -174,11 +176,11 @@ msgstr "malloc fel: kunde inte allokera %zd bytes\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr ""
+msgstr "Kunde ej återställa arbetskatalogen\n"
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "kunde inte chdir till nerladdningskatalogen% s\n"
+msgstr "kunde inte chdir till nerladdningskatalogen %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
@@ -186,28 +188,30 @@ msgstr "vid körning av XferCommand: delning misslyckades!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "kunde ej byta namn på %s till %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "Kunde ej återställa arbetskatalogen (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
+msgstr "konfigurationsfil %s, rad %d: ogiltigt värde för '%s' : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr ""
+msgstr "konfigurationsfil %s, rad %d: val '%s' ogiltigt, inget signaturstöd\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
+"konfigurationsfil %s, rad %d: känner ej igen direktiv '%s' i sektion '%s'.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
+"spegeln '%s' innehåller variabeln '%s', men ingen/t '%s' är definerad/t.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -219,7 +223,7 @@ msgstr "misslyckades att initialisera alpm bibliotek (%s)\n"
 
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
-msgstr ""
+msgstr "försök att köra pacman-db-upgrade\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
@@ -227,11 +231,11 @@ msgstr "problem med att ange loggfil '%s' (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "problem att ställa in gpgdir '%s' (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr ""
+msgstr "ingen/t '%s' konfigurerad/t"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
@@ -239,11 +243,11 @@ msgstr "kunde inte registrera '%s' databas (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "kunde ej lägga till spegel '%s' till databasen '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "Konfigureringsparsning överskred högsta rekursionsdjup hos %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
@@ -256,8 +260,7 @@ msgstr "konfigurationsfil %s, rad %d: ogiltigt sektionsnamn.\n"
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
-"konfigurationsfil %s, rad %d: syntax fel i konfigurationsfil- saknar "
-"nyckel.\n"
+"konfigurationsfil %s, rad %d: syntaxfel i konfigurationsfil- saknar nyckel.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
@@ -266,7 +269,7 @@ msgstr ""
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
+msgstr "konfigurationsfil %s, rad %d: direktiv '%s' behöver ett värde\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -274,25 +277,25 @@ msgstr "inga mål specifierade (använd -h för hjälp)\n"
 
 #, c-format
 msgid "no install reason specified (use -h for help)\n"
-msgstr "ingen installerings anledning specifierad (använd -h för hjälp)\n"
+msgstr "ingen installationsanledning specifierad (använd -h för hjälp)\n"
 
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
-msgstr "kunde inte sätta installations anledning för paketet %s (%s)\n"
+msgstr "kunde inte sätta installationsanledning för paketet %s (%s)\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
 msgstr ""
-"%s: installations anledning har blivit satt till 'installerad som beroende'\n"
+"%s: installationsanledning har blivit satt till 'installerad som beroende'\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
-"%s: installations anledning har blivit satt till 'explicit installerad\n"
+"%s: installationsanledning har blivit satt till 'uttryckligt installerad\n"
 
 #, c-format
 msgid "Explicitly installed"
-msgstr "Explicit installerad"
+msgstr "Uttryckligt installerad"
 
 #, c-format
 msgid "Installed as a dependency for another package"
@@ -304,7 +307,7 @@ msgstr "Okänd"
 
 #, c-format
 msgid "Repository     :"
-msgstr "Förvar          :"
+msgstr "Centralkatalog          :"
 
 #, c-format
 msgid "Name           :"
@@ -328,7 +331,7 @@ msgstr "Grupper         :"
 
 #, c-format
 msgid "Provides       :"
-msgstr "Tillhandhåller  :"
+msgstr "Tillhandahåller  :"
 
 #, c-format
 msgid "Depends On     :"
@@ -352,15 +355,15 @@ msgstr "Ersätter        :"
 
 #, c-format
 msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+msgstr "Hämtningsstorlek : %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr ""
+msgstr "Komprimerad storlek: %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+msgstr "Installerad storlek: %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
@@ -372,19 +375,19 @@ msgstr "Arkitektur      :"
 
 #, c-format
 msgid "Build Date     :"
-msgstr "Byggnads datum  :"
+msgstr "Byggnadsdatum  :"
 
 #, c-format
 msgid "Install Date   :"
-msgstr "Installations datum :"
+msgstr "Installationsdatum :"
 
 #, c-format
 msgid "Install Reason :"
-msgstr "Installations orsak :"
+msgstr "Installationsorsak :"
 
 #, c-format
 msgid "Install Script :"
-msgstr "Installations script"
+msgstr "Installationsscript :"
 
 #, c-format
 msgid "Yes"
@@ -400,11 +403,11 @@ msgstr "MD5 summa       :"
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr ""
+msgstr "SHA256 Summa     :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Signaturer     :"
 
 #, c-format
 msgid "None"
@@ -470,7 +473,7 @@ msgstr ""
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
-msgstr "  -n, --nosave           radera konfigurations filer\n"
+msgstr "  -n, --nosave           radera konfigurationsfiler\n"
 
 #, c-format
 msgid ""
@@ -478,19 +481,19 @@ msgid ""
 "                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
 "  -s, --recursive       radera ej behövda beroenden\n"
-"                        (-ss inkluderar explicit installerade beroenden)\n"
+"                        (-ss inkluderar uttryckligt installerade beroenden)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr ""
+msgstr "  -u, --unneeded       ta bort ej behövda paket\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr ""
+msgstr "      --needed         ominstallera ej fullt uppdaterade paket\n"
 
 #, c-format
 msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr ""
+msgstr "      --recursive      ominstallera alla beroenden till målpaketen\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -504,7 +507,8 @@ msgstr ""
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       visa utryckligt installerade paket [filtrera]\n"
+msgstr ""
+"  -e, --explicit       visa uttryckligt installerade paket [filtrera]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
@@ -654,11 +658,13 @@ msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr ""
+"  -d, --nodeps         hoppa över beroendeversionskontroll (-dd för att "
+"hoppa över alla kontroller)\n"
 
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
-msgstr ""
+msgstr "      --dbonly         modifiera enbart databasinlägg, ej paketfiler\n"
 
 #, c-format
 msgid ""
@@ -679,6 +685,8 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"  -p, --print          skriv ut målen istället för att genomföra "
+"operationen\n"
 
 #, c-format
 msgid ""
@@ -718,7 +726,7 @@ msgstr "      --debug          visa felsöknings meddelanden\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "      --gpgdir <sökväg>  ange en alternativ hemkatalog för GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -746,15 +754,15 @@ msgstr "enbart en operation kan användas på samma gång\n"
 
 #, c-format
 msgid "invalid option\n"
-msgstr ""
+msgstr "ogiltigt val\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "slut på minne vid argumentparsning\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
-msgstr ""
+msgstr "misslyckades att återöppna stdin för läsning: (%s)\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -774,7 +782,7 @@ msgstr "ingen fil specifierades för --owns\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
-msgstr ""
+msgstr "sökväg för lång: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -786,7 +794,7 @@ msgstr "misslyckades att läsa fil '%s': %s\n"
 
 #, c-format
 msgid "cannot determine ownership of directory '%s'\n"
-msgstr ""
+msgstr "kan ej bestämma äganderättigheter till katalogen '%s'\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
@@ -798,19 +806,19 @@ msgstr "Inget paket äger %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "gruppen '%s' hittades ej\n"
 
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: %jd total fil,"
+msgstr[1] "%s: %jd totala filer,"
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd saknad fil\n"
+msgstr[1] "%jd saknade filer\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -818,11 +826,11 @@ msgstr "paketet '%s' hittades inte\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' är en fil, du vill nog använda %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "kunde ej ladda paket '%s': %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
@@ -862,7 +870,7 @@ msgstr "kunde inte få tillgång till databaskatalogen\n"
 
 #, c-format
 msgid "could not remove %s\n"
-msgstr ""
+msgstr "kunde ej ta bort %s\n"
 
 #, c-format
 msgid "Do you want to remove %s?"
@@ -886,19 +894,19 @@ msgstr "Cacheförråd: %s\n"
 
 #, c-format
 msgid "Packages to keep:\n"
-msgstr ""
+msgstr "Paket att behålla:\n"
 
 #, c-format
 msgid "  All locally installed packages\n"
-msgstr ""
+msgstr "  Alla lokalt installerade paket\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr ""
+msgstr "  Alla nuvarande synkroniseringsdatabaspaket\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
-msgstr ""
+msgstr "Vill du ta bort alla andra paket ifrån cachen?"
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -950,19 +958,19 @@ msgstr "hoppar över målet: %s\n"
 
 #, c-format
 msgid "target not found: %s\n"
-msgstr ""
+msgstr "mål ej funnet: %s\n"
 
 #, c-format
 msgid ":: There are %d members in group %s:\n"
-msgstr ""
+msgstr ":: Det finns %d medlemmar i grupp %s:\n"
 
 #, c-format
 msgid "database not found: %s\n"
-msgstr ""
+msgstr "kan ej hitta databasen: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' är en fil, menade du %s istället för %s?\n"
 
 #, c-format
 msgid ":: Starting full system upgrade...\n"
@@ -1018,7 +1026,7 @@ msgstr ""
 
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "läser in paket...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1042,83 +1050,83 @@ msgstr "inga användbara paketförråd konfigurerade.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "databasen '%s' är ej giltig (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "otillräckligt antal kolumner tillgängliga för tabellvisning\n"
 
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Giltig"
 
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Nyckel utgången"
 
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Utgången"
 
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Ogiltig"
 
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Okänd nyckel"
 
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Avaktiverad nyckel"
 
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Signaturfel"
 
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "fullständig tillit"
 
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "marginell tillit"
 
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "ingen tillit"
 
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "okänd tillit"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s från \"%s\""
 
 #, c-format
 msgid "failed to allocate string\n"
-msgstr ""
+msgstr "misslyckades att allokera sträng\n"
 
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Gammal Version"
 
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Ny Version"
 
 #, c-format
 msgid "Net Change"
-msgstr ""
+msgstr "Nettoskillnad"
 
 #, c-format
 msgid "Download Size"
-msgstr ""
+msgstr "Hämtningsstorlek"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1126,19 +1134,19 @@ msgstr "Mål (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
+msgstr "Total Hämtningsstorlek:    %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
+msgstr "Total Installationsstorlek:    %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:     %.2f %s\n"
-msgstr ""
+msgstr "Total Borttagen Storlek:    %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr ""
+msgstr "Nettouppgraderingsstorlek:    %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1150,23 +1158,23 @@ msgstr "Valfria beroenden för %s\n"
 
 #, c-format
 msgid "Repository %s\n"
-msgstr ""
+msgstr "Centralkatalog %s\n"
 
 #, c-format
-msgid "Invalid value: %d is not between %d and %d\n"
-msgstr ""
+msgid "invalid value: %d is not between %d and %d\n"
+msgstr "ogiltigt värde: %d är inte mellan %d och %d\n"
 
 #, c-format
-msgid "Invalid number: %s\n"
-msgstr ""
+msgid "invalid number: %s\n"
+msgstr "ogiltigt nummer: %s\n"
 
 #, c-format
 msgid "Enter a selection (default=all)"
-msgstr ""
+msgstr "Ange ett val (grundantagande = alla)"
 
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Ange ett nummer (grundantagande = %d)"
 
 #, c-format
 msgid "[Y/n]"
@@ -1207,6 +1215,3 @@ msgstr "fel: "
 #, c-format
 msgid "warning: "
 msgstr "varning: "
-
-#~ msgid "Remove (%d):"
-#~ msgstr "Ta bort (%d):"
