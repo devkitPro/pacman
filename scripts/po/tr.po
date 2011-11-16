@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-11-13 21:47-0600\n"
-"PO-Revision-Date: 2011-11-14 03:57+0000\n"
+"PO-Revision-Date: 2011-11-16 05:12+0000\n"
 "Last-Translator: toofishes <dpmcgee@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/tr/)\n"
@@ -727,6 +727,8 @@ msgstr ""
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
+"  --init                    Anahtarlığın uygun şekilde başlatıldığından emin "
+"ol"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr "  --keyserver               Gerekli ise bir anahtar sunucusu belirt"
@@ -755,7 +757,7 @@ msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "%s anahtar dizisini okumak için yeterli izniniz yok."
 
 msgid "Use '%s' to correct the keyring permissions."
-msgstr ""
+msgstr "Anahtarlık izinlerini düzeltmek için '%s' kullan."
 
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Bu komutu yürütmek için yeterli izniniz yok."
@@ -773,7 +775,7 @@ msgid "File %s is unsigned, cannot continue."
 msgstr "%s dosyası imzalanmamış, devam edilemez."
 
 msgid "The signature of file %s is not valid."
-msgstr ""
+msgstr "%s dosyasının imzası geçerli bir imza değil."
 
 msgid "Verifying keyring file signatures..."
 msgstr "Anahtar dizisi dosyası imzaları doğrulanıyor ..."
@@ -806,16 +808,16 @@ msgid "The key identified by %s does not exist."
 msgstr "%s tarafından tanımlanan anahtar mevcut değil."
 
 msgid "Cannot find the %s binary required for all %s operations."
-msgstr ""
+msgstr "%s ikili dosyası tüm %s işlemleri için gerekli ancak bulunamıyor."
 
 msgid "%s needs to be run as root for this operation."
-msgstr ""
+msgstr "Bu işlem için %s kök olarak çalıştırılmalıdır."
 
 msgid "%s configuration file '%s' not found."
 msgstr ""
 
 msgid "no operation specified (use -h for help)"
-msgstr ""
+msgstr "herhangi bir işlem belirtilmedi (yardım için -h kullanın)"
 
 msgid "Multiple operations specified."
 msgstr "Birden çok işlem yapılması istendi."
@@ -824,7 +826,7 @@ msgid "Please run %s with each operation separately."
 msgstr "Lütfen her işlem ile ayrı ayrı %s çalıştırın."
 
 msgid "Updating trust database..."
-msgstr ""
+msgstr "Güvenilir veritabanı güncelleniyor ..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -855,7 +857,7 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Veritabanını optimize etmek için doğru haklara sahip olmalısınız."
 
 msgid "Can not create temp directory for database building."
-msgstr ""
+msgstr "Veritabanı inşası için temp dizini oluşturulamıyor."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Eski veritabanına ait MD5SUM oluşturuluyor..."
@@ -939,6 +941,7 @@ msgstr "xdelta3 ikili dosyası bulunamıyor! Sisteminizde xdelta3 kurulu mu?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
+"Kullanımı: repo-add [seçenekler] <veritabanı-konumu> <paket|delta> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -948,16 +951,17 @@ msgstr ""
 "\\nBirden fazla paket, komut satırında tanımlanabilir.\\n\\n"
 
 msgid "Options:\\n"
-msgstr ""
+msgstr "Seçenekler:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
-msgstr ""
+msgstr "  -d, --delta       paket güncellemesi için delta üret ve ekle\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr ""
+msgstr "  -f, --files       veritabanlarının dosya listesini güncelle\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
+"Kullanımı: repo-add [seçenekler] <veritabanı-konumu> <paket|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -969,25 +973,31 @@ msgstr ""
 "\\nbirden fazla paket tanımlanabilir.\\n\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
-msgstr ""
+msgstr "  -q, --quiet       çıktıyı en aza indir\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr ""
+"  -s, --sign        güncellemeden sonra veritabanını GnuPG ile imzala\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
+"  -k, --key <key>   veritabanını imzalamak için belirtilen anahtarı kullan\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
+"  -v, --verify      güncellemeden önce veritabanlarının imzalarını doğrula\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 "\\n"
 msgstr ""
+"\\nErişilebilir seçenekler hakkında daha fazla bilgi ve açıklamalar için %s"
+"(8) belgesine bakın\\n\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
+"Örnek:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Örnek:  repo-remove /depo/dosyasinin/yolu/repo.db.tar.gz kernel26"
@@ -997,6 +1007,9 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2011 Pacman Geliştirme Ekibi <pacman-dev@archlinux.org>\n"
+"\\nBu bir özgür yazılımdır; kopyalama koşulları için kaynak koda bakın.\\nBu "
+"yazılım HİÇBİR KOŞULDA GARANTI İÇERMEZ.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "'%s' paketi için veritabanı girdisi yok."
@@ -1011,13 +1024,13 @@ msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr ""
 
 msgid "Signing database..."
-msgstr ""
+msgstr "Veritabanı imzalanıyor ..."
 
 msgid "Failed to sign package database."
-msgstr ""
+msgstr "Paket veritabanı imzalanamadı."
 
 msgid "Verifying database signature..."
-msgstr ""
+msgstr "Veritabanı imzası doğrulanıyor ..."
 
 msgid "No existing signature found, skipping verification."
 msgstr ""
