@@ -423,7 +423,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
 			int remove_unresolvable = 0;
-			enum _alpm_errno_t saved_err = handle->pm_errno;
+			alpm_errno_t saved_err = handle->pm_errno;
 			QUESTION(handle, ALPM_QUESTION_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
 			if(remove_unresolvable) {
