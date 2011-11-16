@@ -640,37 +640,51 @@ if (( success )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 
 	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
+	# $LOCKFILE is already guaranteed to be absolute so this is safe
+	dirname=${LOCKFILE%/*}
 	filename=${REPO_DB_FILE##*/}
+	# this ensures we create it on the same filesystem, making moves atomic
+	tempname="$dirname/.tmp.$filename"
 
 	pushd "$tmpdir/tree" >/dev/null
 	if ( shopt -s nullglob; files=(*); (( ${#files[*]} )) ); then
-		bsdtar -c${TAR_OPT}f "$tmpdir/$filename" *
+		bsdtar -c${TAR_OPT}f "$tempname" *
 	else
 		# we have no packages remaining? zip up some emptyness
 		warning "$(gettext "No packages remain, creating empty database.")"
-		bsdtar -c${TAR_OPT}f "$tmpdir/$filename" -T /dev/null
+		bsdtar -c${TAR_OPT}f "$tempname" -T /dev/null
 	fi
 	popd >/dev/null
 
-	create_signature "$tmpdir/$filename"
+	create_signature "$tempname"
 
-	[[ -f $REPO_DB_FILE ]] && mv -f "$REPO_DB_FILE" "${REPO_DB_FILE}.old"
+	# hardlink or move the previous version of the database and signature to .old
+	# extension as a backup measure
+	if [[ -f $REPO_DB_FILE ]]; then
+		ln -f "$REPO_DB_FILE" "$REPO_DB_FILE.old" 2>/dev/null || \
+			mv -f "$REPO_DB_FILE" "$REPO_DB_FILE.old"
+	fi
 	if [[ -f $REPO_DB_FILE.sig ]]; then
-		mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
+		ln -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig" 2>/dev/null || \
+			mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
 	else
 		rm -f "$REPO_DB_FILE.old.sig"
 	fi
-	[[ -f $tmpdir/$filename ]] && mv "$tmpdir/$filename" "$REPO_DB_FILE"
-	[[ -f $tmpdir/$filename.sig ]] && mv "$tmpdir/$filename.sig" "$REPO_DB_FILE.sig"
+
+	# rotate the newly-created database and signature into place
+	mv "$tempname" "$REPO_DB_FILE"
+	if [[ -f $tempname.sig ]]; then
+		mv "$tempname.sig" "$REPO_DB_FILE.sig"
+	fi
+
 	dblink="${REPO_DB_FILE%.tar*}"
-	target=${REPO_DB_FILE##*/}
 	rm -f "$dblink" "$dblink.sig"
-	ln -s "$target" "$dblink" 2>/dev/null || \
-		ln "$target" "$dblink" 2>/dev/null || \
+	ln -s "$filename" "$dblink" 2>/dev/null || \
+		ln "$filename" "$dblink" 2>/dev/null || \
 		cp "$REPO_DB_FILE" "$dblink"
 	if [[ -f "$REPO_DB_FILE.sig" ]]; then
-		ln -s "$target.sig" "$dblink.sig" 2>/dev/null || \
-			ln "$target.sig" "$dblink.sig" 2>/dev/null || \
+		ln -s "$filename.sig" "$dblink.sig" 2>/dev/null || \
+			ln "$filename.sig" "$dblink.sig" 2>/dev/null || \
 			cp "$REPO_DB_FILE.sig" "$dblink.sig"
 	fi
 else
