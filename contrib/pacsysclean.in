@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# pacsysclean - Sort installed packages by decreasing installed size. Useful for system clean-up.
+
+PACMAN_OPTS=
+
+usage() {
+       echo "pacsysclean - Sort installed packages by decreasing installed size."
+       echo
+       echo "Usage: pacsysclean [options]"
+       echo
+       echo "Options:"
+       echo "  -o <options>     Specify custom pacman query options (e.g., dt)"
+       echo "  -h, --help       Show this help message and exit"
+}
+
+
+if [ -n "$1" ]; then
+       case "$1" in
+               -o) PACMAN_OPTS="${2}" ;;
+               -h|--help) usage; exit 0 ;;
+               *) usage; exit 1 ;;
+       esac
+fi
+
+IFS=$'\n'
+name="^Name.*: (.*)$"
+size="^Installed Size.*: (.*) KiB$"
+for line in $(LANG=C pacman -Qi $PACMAN_OPTS); do
+       if [[ $line =~ $name ]]; then
+               printf "%s\t" ${BASH_REMATCH[1]}
+       elif [[ $line =~ $size ]]; then
+               printf "%s\n" ${BASH_REMATCH[1]}
+       fi
+done | sort -g -k2 | awk '
+BEGIN {
+       split("KiB MiB GiB TiB PiB EiB ZiB YiB", suffix)
+}
+function format_size(size) {
+       count = 1
+       while (size + 0 > 1024) {
+               size /= 1024
+               count++
+       }
+       sizestr = sprintf("%.2f %s", size, suffix[count])
+       return sizestr
+}
+{
+       printf("%s\t%s\n", format_size($2), $1);
+}'
