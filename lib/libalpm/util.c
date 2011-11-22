@@ -57,8 +57,16 @@
 #include "trans.h"
 
 #ifndef HAVE_STRSEP
-/* This is a replacement for strsep which is not portable (missing on Solaris).
- * Copyright (c) 2001 by François Gouget <fgouget_at_codeweavers.com> */
+/** Extracts tokens from a string.
+ * Replaces strset which is not portable (missing on Solaris).
+ * Copyright (c) 2001 by François Gouget <fgouget_at_codeweavers.com>
+ * Modifies str to point to the first character after the token if one is
+ * found, or NULL if one is not.
+ * @param str string containing delimited tokens to parse
+ * @param delim character delimiting tokens in str
+ * @return pointer to the first token in str if str is not NULL, NULL if
+ * str is NULL
+ */
 char* strsep(char** str, const char* delims)
 {
 	char* token;
@@ -88,7 +96,11 @@ int _alpm_makepath(const char *path)
 	return _alpm_makepath_mode(path, 0755);
 }
 
-/* does the same thing as 'mkdir -p' */
+/** Creates a directory, including parents if needed, similar to 'mkdir -p'.
+ * @param path directory path to create
+ * @param mode permission mode for created directories
+ * @return 0 on success, 1 on error
+ */
 int _alpm_makepath_mode(const char *path, mode_t mode)
 {
 	/* A bit of pointer hell here. Descriptions:
@@ -124,6 +136,11 @@ int _alpm_makepath_mode(const char *path, mode_t mode)
 	return ret;
 }
 
+/** Copies a file.
+ * @param src file path to copy from
+ * @param dest file path to copy to
+ * @return 0 on success, 1 on error 
+ */
 int _alpm_copyfile(const char *src, const char *dest)
 {
 	char *buf;
@@ -173,8 +190,11 @@ cleanup:
 	return ret;
 }
 
-/* Trim whitespace and newlines from a string
-*/
+/** Trim leading and trailing whitespace, including newlines, from a string.
+ * Modifies str in place.
+ * @param str a string to trim
+ * @return str
+ */
 char *_alpm_strtrim(char *str)
 {
 	char *pch = str;
@@ -190,6 +210,7 @@ char *_alpm_strtrim(char *str)
 	if(pch != str) {
 		size_t len = strlen(pch);
 		if(len) {
+			/* move the remaining string to the beginning of str */
 			memmove(str, pch, len + 1);
 		} else {
 			*str = '\0';
@@ -210,8 +231,7 @@ char *_alpm_strtrim(char *str)
 	return str;
 }
 
-/**
- * Trim trailing newline from a string (if one exists).
+/** Trim trailing newlines from a string (if any exist).
  * @param str a single line of text
  * @return the length of the trimmed string
  */
@@ -232,8 +252,7 @@ size_t _alpm_strip_newline(char *str)
 
 /* Compression functions */
 
-/**
- * Open an archive for reading and perform the necessary boilerplate.
+/** Open an archive for reading and perform the necessary boilerplate.
  * This takes care of creating the libarchive 'archive' struct, setting up
  * compression and format options, opening a file descriptor, setting up the
  * buffer size, and performing a stat on the path once opened.
@@ -290,9 +309,7 @@ int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 	return fd;
 }
 
-/**
- * @brief Unpack a specific file in an archive.
- *
+/** Unpack a specific file in an archive.
  * @param handle the context handle
  * @param archive the archive to unpack
  * @param prefix where to extract the files
@@ -313,15 +330,12 @@ int _alpm_unpack_single(alpm_handle_t *handle, const char *archive,
 	return ret;
 }
 
-/**
- * @brief Unpack a list of files in an archive.
- *
+/** Unpack a list of files in an archive.
  * @param handle the context handle
  * @param path the archive to unpack
  * @param prefix where to extract the files
  * @param list a list of files within the archive to unpack or NULL for all
  * @param breakfirst break after the first entry found
- *
  * @return 0 on success, 1 on failure
  */
 int _alpm_unpack(alpm_handle_t *handle, const char *path, const char *prefix,
@@ -421,7 +435,10 @@ cleanup:
 	return ret;
 }
 
-/* does the same thing as 'rm -rf' */
+/** Recursively removes a path similar to 'rm -rf'.
+ * @param path path to remove
+ * @return 0 on success, number of paths that could not be removed on error
+ */
 int _alpm_rmrf(const char *path)
 {
 	int errflag = 0;
@@ -464,8 +481,7 @@ int _alpm_rmrf(const char *path)
 	return 0;
 }
 
-/**
- * Determine if there are files in a directory
+/** Determine if there are files in a directory.
  * @param handle the context handle
  * @param path the full absolute directory path
  * @param full_count whether to return an exact count of files
@@ -506,6 +522,13 @@ ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path,
 	return files;
 }
 
+/** Write formatted message to log.
+ * @param handle the context handle
+ * @param format formatted string to write out
+ * @param args formatting arguments
+ * @return 0 or number of characters written on success, vfprintf return value
+ * on error
+ */
 int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
 {
 	int ret = 0;
@@ -537,7 +560,13 @@ int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
 	return ret;
 }
 
-int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[])
+/** Execute a command with arguments in a chroot.
+ * @param handle the context handle
+ * @param cmd command to execute
+ * @param argv arguments to pass to cmd
+ * @return 0 on success, 1 on error
+ */
+int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 {
 	pid_t pid;
 	int pipefd[2], cwdfd;
@@ -557,7 +586,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "executing \"%s\" under chroot \"%s\"\n",
-			path, handle->root);
+			cmd, handle->root);
 
 	/* Flush open fds before fork() to avoid cloning buffers */
 	fflush(NULL);
@@ -596,7 +625,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *path, char *const argv[]
 			exit(1);
 		}
 		umask(0022);
-		execv(path, argv);
+		execv(cmd, argv);
 		/* execv only returns if there was an error */
 		fprintf(stderr, _("call to execv failed (%s)\n"), strerror(errno));
 		exit(1);
@@ -656,6 +685,10 @@ cleanup:
 	return retval;
 }
 
+/** Run ldconfig in a chroot.
+ * @param handle the context handle
+ * @return 0 on success, 1 on error
+ */
 int _alpm_ldconfig(alpm_handle_t *handle)
 {
 	char line[PATH_MAX];
@@ -674,8 +707,13 @@ int _alpm_ldconfig(alpm_handle_t *handle)
 	return 0;
 }
 
-/* Helper function for comparing strings using the
- * alpm "compare func" signature */
+/** Helper function for comparing strings using the alpm "compare func"
+ * signature.
+ * @param s1 first string to be compared
+ * @param s2 second string to be compared
+ * @return 0 if strings are equal, positive int if first unequal character
+ * has a greater value in s1, negative if it has a greater value in s2
+ */
 int _alpm_str_cmp(const void *s1, const void *s2)
 {
 	return strcmp(s1, s2);
@@ -784,6 +822,11 @@ int _alpm_lstat(const char *path, struct stat *buf)
 }
 
 #ifdef HAVE_LIBSSL
+/** Compute the MD5 message digest of a file.
+ * @param path file path of file to compute  MD5 digest of
+ * @param output string to hold computed MD5 digest
+ * @return 0 on success, 1 on file open error, 2 on file read error
+ */
 static int md5_file(const char *path, unsigned char output[16])
 {
 	MD5_CTX ctx;
@@ -820,6 +863,12 @@ static int md5_file(const char *path, unsigned char output[16])
 }
 
 /* third param is so we match the PolarSSL definition */
+/** Compute the SHA-224 or SHA-256 message digest of a file.
+ * @param path file path of file to compute SHA2 digest of
+ * @param output string to hold computed SHA2 digest
+ * @param is224 use SHA-224 instead of SHA-256
+ * @return 0 on success, 1 on file open error, 2 on file read error
+ */
 static int sha2_file(const char *path, unsigned char output[32], int is224)
 {
 	SHA256_CTX ctx;
@@ -936,6 +985,13 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 	return sha256sum;
 }
 
+/** Calculates a file's MD5 or SHA2 digest  and compares it to an expected value. 
+ * @param filepath path of the file to check
+ * @param expected hash value to compare against
+ * @param type digest type to use
+ * @return 0 if file matches the expected hash, 1 if they do not match, -1 on
+ * error
+ */
 int _alpm_test_checksum(const char *filepath, const char *expected,
 		enum _alpm_csum type)
 {
@@ -963,6 +1019,12 @@ int _alpm_test_checksum(const char *filepath, const char *expected,
 }
 
 /* Note: does NOT handle sparse files on purpose for speed. */
+/** TODO.
+ * Does not handle sparse files on purpose for speed.
+ * @param a
+ * @param b
+ * @return 
+ */
 int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 {
 	/* ensure we start populating our line buffer at the beginning */
@@ -1058,6 +1120,14 @@ cleanup:
 	}
 }
 
+/** Parse a full package specifier.
+ * @param target package specifier to parse, such as: "pacman-4.0.1-2",
+ * "pacman-4.01-2/", or "pacman-4.0.1-2/desc"
+ * @param name to hold package name
+ * @param version to hold package version
+ * @param name_hash to hold package name hash
+ * @return 0 on success, -1 on error
+ */
 int _alpm_splitname(const char *target, char **name, char **version,
 		unsigned long *name_hash)
 {
@@ -1110,8 +1180,7 @@ int _alpm_splitname(const char *target, char **name, char **version,
 	return 0;
 }
 
-/**
- * Hash the given string to an unsigned long value.
+/** Hash the given string to an unsigned long value.
  * This is the standard sdbm hashing algorithm.
  * @param str string to hash
  * @return the hash value of the given string
@@ -1131,6 +1200,11 @@ unsigned long _alpm_hash_sdbm(const char *str)
 	return hash;
 }
 
+/** Convert a string to a file offset.
+ * This parses bare positive integers only.
+ * @param line string to convert
+ * @return off_t on success, -1 on error
+ */
 off_t _alpm_strtoofft(const char *line)
 {
 	char *end;
@@ -1156,6 +1230,10 @@ off_t _alpm_strtoofft(const char *line)
 	return (off_t)result;
 }
 
+/** Parses a date into an alpm_time_t struct.
+ * @param line date to parse
+ * @return time struct on success, 0 on error
+ */
 alpm_time_t _alpm_parsedate(const char *line)
 {
 	char *end;
@@ -1189,8 +1267,7 @@ alpm_time_t _alpm_parsedate(const char *line)
 	return (alpm_time_t)result;
 }
 
-/**
- * Wrapper around access() which takes a dir and file argument
+/** Wrapper around access() which takes a dir and file argument
  * separately and generates an appropriate error message.
  * If dir is NULL file will be treated as the whole path.
  * @param handle an alpm handle
@@ -1199,7 +1276,6 @@ alpm_time_t _alpm_parsedate(const char *line)
  * @param amode access mode as described in access()
  * @return int value returned by access()
  */
-
 int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int amode)
 {
 	size_t len = 0;
@@ -1240,6 +1316,13 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 	return ret;
 }
 
+/** Checks whether a string matches a shell wildcard pattern.
+ * Wrapper around fnmatch.
+ * @param pattern pattern to match aganist
+ * @param string string to check against pattern
+ * @return 0 if string matches pattern, non-zero if they don't match and on
+ * error
+ */
 int _alpm_fnmatch(const void *pattern, const void *string)
 {
 	return fnmatch(pattern, string, 0);
@@ -1247,6 +1330,11 @@ int _alpm_fnmatch(const void *pattern, const void *string)
 
 #ifndef HAVE_STRNDUP
 /* A quick and dirty implementation derived from glibc */
+/** Determines the length of a fixed-size string.
+ * @param s string to be measured
+ * @param max maximum number of characters to search for the string end
+ * @return length of s or max, whichever is smaller
+ */
 static size_t strnlen(const char *s, size_t max)
 {
     register const char *p;
@@ -1254,6 +1342,12 @@ static size_t strnlen(const char *s, size_t max)
     return (p - s);
 }
 
+/** Copies a string.
+ * Returned string needs to be freed
+ * @param s string to be copied
+ * @param n maximum number of characters to copy
+ * @return pointer to the new string on success, NULL on error
+ */
 char *strndup(const char *s, size_t n)
 {
   size_t len = strnlen(s, n);
