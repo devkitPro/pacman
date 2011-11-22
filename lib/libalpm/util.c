@@ -622,7 +622,7 @@ int _alpm_ldconfig(alpm_handle_t *handle)
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", handle->root);
 		if(access(line, X_OK) == 0) {
 			char *argv[] = { "ldconfig", NULL };
-			_alpm_run_chroot(handle, "/sbin/ldconfig", argv);
+			return _alpm_run_chroot(handle, "/sbin/ldconfig", argv);
 		}
 	}
 
