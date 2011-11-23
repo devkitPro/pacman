@@ -474,7 +474,8 @@ static int local_db_populate(alpm_db_t *db)
 }
 
 /* Note: the return value must be freed by the caller */
-char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info, const char *filename)
+char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
+		const char *filename)
 {
 	size_t len;
 	char *pkgpath;
@@ -637,10 +638,11 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		while(fgets(line, sizeof(line), fp)) {
 			_alpm_strip_newline(line);
 			if(strcmp(line, "%FILES%") == 0) {
-				size_t files_count = 0, files_size = 0;
+				size_t files_count = 0, files_size = 0, len;
 				alpm_file_t *files = NULL;
 
-				while(fgets(line, sizeof(line), fp) && _alpm_strip_newline(line)) {
+				while(fgets(line, sizeof(line), fp) &&
+						(len = _alpm_strip_newline(line))) {
 					if(files_count >= files_size) {
 						size_t old_size = files_size;
 						if(files_size == 0) {
@@ -658,8 +660,14 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 						memset(files + old_size, 0,
 								sizeof(alpm_file_t) * (files_size - old_size));
 					}
-					STRDUP(files[files_count].name, line, goto error);
-					/* TODO: lstat file, get mode/size */
+					/* since we know the length of the file string already,
+					 * we can do malloc + memcpy rather than strdup */
+					files[files_count].name = malloc(len + 1);
+					if(files[files_count].name == NULL) {
+						ALLOC_FAIL(len);
+						goto error;
+					}
+					memcpy(files[files_count].name, line, len + 1);
 					files_count++;
 				}
 				/* attempt to hand back any memory we don't need */
