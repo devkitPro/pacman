@@ -284,8 +284,7 @@ populate_keyring() {
 	verify_keyring_input || exit 1
 
 	# Variable used for iterating on keyrings
-	local key
-	local key_id
+	local keys key_id
 
 	# Add keys from requested keyrings
 	for keyring in "${KEYRINGIDS[@]}"; do
@@ -331,13 +330,13 @@ populate_keyring() {
 	local -A revoked_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
 		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
-			while read key; do
-				key_id="$("${GPG_PACMAN[@]}" --quiet --with-colons --list-key "${key}" 2>/dev/null | grep ^pub | cut -d: -f5)"
-				if [[ -n ${key_id} ]]; then
+			IFS=$'\n' read -r -d '' -a keys < "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
+			while IFS=: read _ _ _ _ key_id _; do
+				if [[ -n $key_id ]]; then
 					# Mark this key to be disabled
 					revoked_ids[$key_id]="${keyring}"
 				fi
-			done < "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
+			done < <("${GPG_PACMAN[@]}" --quiet --with-colons --list-keys "${keys[@]}" 2>/dev/null)
 		fi
 	done
 
