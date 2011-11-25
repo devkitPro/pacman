@@ -301,14 +301,12 @@ populate_keyring() {
 	local -A trusted_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
 		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
-			while read key; do
-				# skip comments; these are valid in this file
-				[[ $key = \#* ]] && continue
-				key_id="${key%%:*}"
-				if [[ -n ${key_id} ]]; then
-					# Mark this key to be lsigned
-					trusted_ids[$key_id]="${keyring}"
-				fi
+			while IFS=: read key_id _; do
+				# skip blank lines, comments; these are valid in this file
+				[[ -z $key_id || ${key_id:0:1} = \# ]] && continue
+
+				# Mark this key to be lsigned
+				trusted_ids[$key_id]=$keyring
 			done < "${KEYRING_IMPORT_DIR}/${keyring}-trusted"
 		fi
 	done
