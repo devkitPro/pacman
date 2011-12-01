@@ -86,8 +86,8 @@ struct __alpm_handle_t {
 	alpm_list_t *ignoregroup; /* List of groups to ignore */
 
 	/* options */
-	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	char *arch;              /* Architecture of packages we should allow */
+	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	int usedelta;            /* Download deltas if possible */
 	int checkspace;          /* Check disk space before installing */
 	alpm_siglevel_t siglevel;   /* Default signature verification level */
