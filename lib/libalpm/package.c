@@ -461,6 +461,15 @@ alpm_pkg_t *_alpm_pkg_new(void)
 	return pkg;
 }
 
+static alpm_list_t *list_depdup(alpm_list_t *old)
+{
+	alpm_list_t *i, *new = NULL;
+	for(i = old; i; i = i->next) {
+		new = alpm_list_add(new, _alpm_dep_dup(i->data));
+	}
+	return new;
+}
+
 /**
  * Duplicate a package data struct.
  * @param pkg the package to duplicate
@@ -509,10 +518,19 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 	newpkg->reason = pkg->reason;
 
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
-	for(i = pkg->replaces; i; i = i->next) {
-		newpkg->replaces = alpm_list_add(newpkg->replaces, _alpm_dep_dup(i->data));
-	}
+	newpkg->replaces   = list_depdup(pkg->replaces);
 	newpkg->groups     = alpm_list_strdup(pkg->groups);
+	for(i = pkg->backup; i; i = i->next) {
+		newpkg->backup = alpm_list_add(newpkg->backup, _alpm_backup_dup(i->data));
+	}
+	newpkg->depends    = list_depdup(pkg->depends);
+	newpkg->optdepends = alpm_list_strdup(pkg->optdepends);
+	newpkg->conflicts  = list_depdup(pkg->conflicts);
+	newpkg->provides   = list_depdup(pkg->provides);
+	for(i = pkg->deltas; i; i = i->next) {
+		newpkg->deltas = alpm_list_add(newpkg->deltas, _alpm_delta_dup(i->data));
+	}
+
 	if(pkg->files.count) {
 		size_t filenum;
 		size_t len = sizeof(alpm_file_t) * pkg->files.count;
@@ -524,22 +542,6 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 			}
 		}
 		newpkg->files.count = pkg->files.count;
-	}
-	for(i = pkg->backup; i; i = i->next) {
-		newpkg->backup = alpm_list_add(newpkg->backup, _alpm_backup_dup(i->data));
-	}
-	for(i = pkg->depends; i; i = i->next) {
-		newpkg->depends = alpm_list_add(newpkg->depends, _alpm_dep_dup(i->data));
-	}
-	newpkg->optdepends = alpm_list_strdup(pkg->optdepends);
-	for(i = pkg->conflicts; i; i = i->next) {
-		newpkg->conflicts = alpm_list_add(newpkg->conflicts, _alpm_dep_dup(i->data));
-	}
-	for(i = pkg->provides; i; i = i->next) {
-		newpkg->provides = alpm_list_add(newpkg->provides, _alpm_dep_dup(i->data));
-	}
-	for(i = pkg->deltas; i; i = i->next) {
-		newpkg->deltas = alpm_list_add(newpkg->deltas, _alpm_delta_dup(i->data));
 	}
 
 	/* internal */
@@ -561,6 +563,12 @@ cleanup:
 	RET_ERR(pkg->handle, ALPM_ERR_MEMORY, -1);
 }
 
+static void free_deplist(alpm_list_t *deps)
+{
+	alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_dep_free);
+	alpm_list_free(deps);
+}
+
 void _alpm_pkg_free(alpm_pkg_t *pkg)
 {
 	if(pkg == NULL) {
@@ -579,8 +587,7 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	FREE(pkg->arch);
 
 	FREELIST(pkg->licenses);
-	alpm_list_free_inner(pkg->replaces, (alpm_list_fn_free)_alpm_dep_free);
-	alpm_list_free(pkg->replaces);
+	free_deplist(pkg->replaces);
 	FREELIST(pkg->groups);
 	if(pkg->files.count) {
 		size_t i;
@@ -591,13 +598,10 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	}
 	alpm_list_free_inner(pkg->backup, (alpm_list_fn_free)_alpm_backup_free);
 	alpm_list_free(pkg->backup);
-	alpm_list_free_inner(pkg->depends, (alpm_list_fn_free)_alpm_dep_free);
-	alpm_list_free(pkg->depends);
+	free_deplist(pkg->depends);
 	FREELIST(pkg->optdepends);
-	alpm_list_free_inner(pkg->conflicts, (alpm_list_fn_free)_alpm_dep_free);
-	alpm_list_free(pkg->conflicts);
-	alpm_list_free_inner(pkg->provides, (alpm_list_fn_free)_alpm_dep_free);
-	alpm_list_free(pkg->provides);
+	free_deplist(pkg->conflicts);
+	free_deplist(pkg->provides);
 	alpm_list_free_inner(pkg->deltas, (alpm_list_fn_free)_alpm_delta_free);
 	alpm_list_free(pkg->deltas);
 	alpm_list_free(pkg->delta_path);
