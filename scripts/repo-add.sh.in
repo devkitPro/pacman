@@ -245,7 +245,7 @@ db_write_entry() {
 	local pkgfile="$1"
 	local -a _groups _licenses _replaces _depends _conflicts _provides _optdepends
 	local pkgname pkgver pkgdesc csize size url arch builddate packager \
-		md5sum sha256sum pgpsig
+		md5sum sha256sum pgpsig pgpsigsize
 
 	# read info from the zipped package
 	local line var val
@@ -284,6 +284,17 @@ db_write_entry() {
 		fi
 	fi
 
+	# compute base64'd PGP signature
+	if [[ -f "$pkgfile.sig" ]]; then
+		pgpsigsize=$(@SIZECMD@ "$pkgfile.sig")
+		if (( pgpsigsize > 16384 )); then
+			error "$(gettext "Invalid package signature file '%s'.")" "$pkgfile.sig"
+			return 1
+		fi
+		msg2 "$(gettext "Adding package signature...")"
+		pgpsig=$(openssl base64 -in "$pkgfile.sig" | tr -d '\n')
+	fi
+
 	csize=$(@SIZECMD@ "$pkgfile")
 
 	# compute checksums
@@ -292,12 +303,6 @@ db_write_entry() {
 	md5sum="${md5sum##* }"
 	sha256sum="$(openssl dgst -sha256 "$pkgfile")"
 	sha256sum="${sha256sum##* }"
-
-	# compute base64'd PGP signature
-	if [[ -f "$pkgfile.sig" ]]; then
-		msg2 "$(gettext "Adding package signature...")"
-		pgpsig=$(openssl base64 -in "$pkgfile.sig" | tr -d '\n')
-	fi
 
 	# remove an existing entry if it exists, ignore failures
 	db_remove_entry "$pkgname"
