@@ -604,6 +604,9 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 		payload.force = 1;
 		payload.errors_ok = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
 
+		/* set hard upper limit of 16KiB */
+		payload.max_size = 16 * 1024;
+
 		ret = _alpm_download(&payload, cachedir, &sig_final_file);
 		if(ret == -1 && !payload.errors_ok) {
 			_alpm_log(handle, ALPM_LOG_WARNING,
