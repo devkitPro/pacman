@@ -25,8 +25,8 @@ shopt -s extglob
 export TEXTDOMAIN='pacman-scripts'
 export TEXTDOMAINDIR='@localedir@'
 
-myver='@PACKAGE_VERSION@'
-confdir='@sysconfdir@'
+declare -r myver='@PACKAGE_VERSION@'
+declare -r confdir='@sysconfdir@'
 
 QUIET=0
 DELTA=0

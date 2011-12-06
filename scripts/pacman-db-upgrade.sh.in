@@ -23,7 +23,7 @@
 export TEXTDOMAIN='pacman-scripts'
 export TEXTDOMAINDIR='@localedir@'
 
-myver='@PACKAGE_VERSION@'
+declare -r myver='@PACKAGE_VERSION@'
 
 eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
 dbroot="${DBPath:-@localstatedir@/lib/pacman/}"

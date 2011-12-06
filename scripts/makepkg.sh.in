@@ -37,10 +37,10 @@ export TEXTDOMAINDIR='@localedir@'
 # file -i does not work on Mac OSX unless legacy mode is set
 export COMMAND_MODE='legacy'
 
-myver='@PACKAGE_VERSION@'
-confdir='@sysconfdir@'
-BUILDSCRIPT='@BUILDSCRIPT@'
-startdir="$PWD"
+declare -r myver='@PACKAGE_VERSION@'
+declare -r confdir='@sysconfdir@'
+declare -r BUILDSCRIPT='@BUILDSCRIPT@'
+declare -r startdir="$PWD"
 
 packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge' 'upx')
 other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
