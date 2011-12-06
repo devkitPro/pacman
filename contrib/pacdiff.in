@@ -17,17 +17,19 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+declare -r myname='pacdiff'
+
 diffprog=${DIFFPROG:-vimdiff}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
 locate=0
 
 usage() {
-	echo "pacdiff : a simple pacnew/pacorig/pacsave updater"
-	echo "Usage : pacdiff [-l]"
-	echo "  -l/--locate makes pacdiff use locate rather than find"
+	echo "$myname : a simple pacnew/pacorig/pacsave updater"
+	echo "Usage : $myname [-l]"
+	echo "  -l/--locate makes $myname use locate rather than find"
 	echo "  DIFFPROG variable allows to override the default vimdiff"
 	echo "  DIFFSEARCHPATH allows to override the default /etc path"
-	echo "Example : DIFFPROG=meld DIFFSEARCHPATH=\"/boot /etc /usr\" pacdiff"
+	echo "Example : DIFFPROG=meld DIFFSEARCHPATH=\"/boot /etc /usr\" $myname"
 }
 
 cmd() {

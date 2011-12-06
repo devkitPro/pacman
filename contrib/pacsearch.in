@@ -24,13 +24,13 @@
 use strict;
 use warnings;
 
-my $progname = "pacsearch";
+my $myname = 'pacsearch';
 my $version = "2.0";
 
 if ($#ARGV lt 0 || $ARGV[0] eq "--help" || $ARGV[0] eq "-h") {
-	print "$progname - Add color and install information to a pacman -Ss search\n";
-	print "Usage:   $progname <pattern>\n";
-	print "Example: $progname ^gnome\n";
+	print "$myname - Add color and install information to a pacman -Ss search\n";
+	print "Usage:   $myname <pattern>\n";
+	print "Example: $myname ^gnome\n";
 	if ($#ARGV lt 0) {
 		exit 1;
 	}
@@ -38,7 +38,7 @@ if ($#ARGV lt 0 || $ARGV[0] eq "--help" || $ARGV[0] eq "-h") {
 }
 
 if ($ARGV[0] eq "--version" || $ARGV[0] eq "-v") {
-	print "$progname version $version\n";
+	print "$myname version $version\n";
 	print "Copyright (C) 2006-2011 Dan McGee\n";
 	exit 0;
 }

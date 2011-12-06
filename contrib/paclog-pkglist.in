@@ -17,14 +17,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+declare -r myname='paclog-pkglist'
+
 export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='/usr/share/locale'
 declare logfile=${1:-@localstatedir@/log/pacman.log}
 
 if [[ $1 ]]; then
 	if [[ $1 = -@(h|-help) ]]; then
-		printf 'usage:   %s [pacman log]\n' "${0##*/}"
-		printf 'example: %s @localstatedir@/log/pacman.log\n' "${0##*/}"
+		printf 'usage:   %s [pacman log]\n' "$myname"
+		printf 'example: %s @localstatedir@/log/pacman.log\n' "$myname"
 		printf '\ndefaults to: @localstatedir@/log/pacman.log\n'
 		exit 0
 	elif [[ ! -e $logfile ]]; then

@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+declare -r myname='paclist'
+
 export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='/usr/share/locale'
 
@@ -28,9 +30,9 @@ if ! type gettext &>/dev/null; then
 fi
 
 if [[ -z $1 ]]; then
-	printf '%s - List all packages installed from a given repo\n' "${0##*/}"
-	printf 'Usage:   %s <repo>\n' "${0##*/}"
-	printf 'Example: %s testing\n' "${0##*/}"
+	printf '%s - List all packages installed from a given repo\n' "$myname"
+	printf 'Usage:   %s <repo>\n' "$myname"
+	printf 'Example: %s testing\n' "$myname"
 	exit 1
 fi
 

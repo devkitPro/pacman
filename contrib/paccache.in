@@ -20,6 +20,8 @@
 
 shopt -s extglob
 
+declare -r myname='paccache'
+
 declare -a candidates=() cmdopts=() whitelist=() blacklist=()
 declare -i delete=0 dryrun=0 filecount=0 move=0 needsroot=0 totalsaved=0 verbose=0
 declare    cachedir=@localstatedir@/cache/pacman/pkg delim=$'\n' keep=3 movedir= scanarch=
@@ -174,9 +176,9 @@ summarize() {
 
 usage() {
 	cat <<EOF
-usage: ${0##*/} <operation> [options] [targets...]
+usage: $myname <operation> [options] [targets...]
 
-${0##*/} is a flexible pacman cache cleaning utility, which has numerous
+$myname is a flexible pacman cache cleaning utility, which has numerous
 options to help control how much, and what, is deleted from any directory
 containing pacman package tarballs.
 

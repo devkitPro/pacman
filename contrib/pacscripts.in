@@ -24,7 +24,7 @@
 set -o nounset
 set -o errexit
 
-progname=$(basename $0)
+declare -r myname='pacscripts'
 progver="0.4"
 
 conf="@sysconfdir@/pacman.conf"
@@ -47,14 +47,14 @@ error() {
 usage() {
 	echo "This program prints out the {pre,post}_{install,remove,upgrade} scripts"
 	echo "of a given package."
-	echo "Usage: $progname pkgname|pkgfile"
+	echo "Usage: $myname pkgname|pkgfile"
 	echo
 	echo " OPTIONS:"
 	echo "  -h, --help                 Print this help message"
 	echo "  -v, --version              Print program name and version"
 	echo
-	echo "Example: $progname gconf-editor"
-	echo "Example: $progname gconf-editor-2.24.1-1-x86_64.pkg.tar.gz"
+	echo "Example: $myname gconf-editor"
+	echo "Example: $myname gconf-editor-2.24.1-1-x86_64.pkg.tar.gz"
 }
 
 spacman() {
@@ -127,6 +127,6 @@ fi
 
 case "$1" in
 	--help|-h) usage; exit 0 ;;
-	--version|-v) echo "$progname version $progver"; exit 0 ;;
+	--version|-v) echo "$myname version $progver"; exit 0 ;;
 	*) print_scriptlet $1 ;;
 esac
