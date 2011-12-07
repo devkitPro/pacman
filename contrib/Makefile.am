@@ -35,19 +35,16 @@ edit = sed \
 	-e '1s|!/bin/bash|!$(BASH_SHELL)|g'
 
 $(OURSCRIPTS): Makefile
-	@echo '    ' GEN $@;
-	@$(RM) $@ $@.tmp
-	@$(edit) $(srcdir)/$@.in >$@.tmp
-	@chmod +x $@.tmp
-	@chmod a-w $@.tmp
-	@mv $@.tmp $@
+	$(AM_V_at)$(RM) $@ $@.tmp
+	$(AM_V_GEN)$(edit) $(srcdir)/$@.in >$@.tmp
+	$(AM_V_at)chmod +x,a-w $@.tmp
+	$(AM_V_at)mv $@.tmp $@
 
 $(OURFILES): Makefile
-	@echo '    ' GEN $@;
-	@$(RM) $@ $@.tmp
-	@$(edit) $(srcdir)/$@.in >$@.tmp
-	@chmod a-w $@.tmp
-	@mv $@.tmp $@
+	$(AM_V_at)$(RM) $@ $@.tmp
+	$(AM_V_GEN)$(edit) $(srcdir)/$@.in >$@.tmp
+	$(AM_V_at)chmod a-w $@.tmp
+	$(AM_V_at)mv $@.tmp $@
 
 all-am: $(OURSCRIPTS) $(OURFILES)
 

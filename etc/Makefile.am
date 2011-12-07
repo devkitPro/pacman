@@ -22,10 +22,9 @@ edit = sed \
 	-e 's|@ROOTDIR[@]|$(ROOTDIR)|g'
 
 $(dist_sysconf_DATA): Makefile
-	@echo '    ' GEN $@;
-	@$(RM) $@ $@.tmp
-	@$(edit) `test -f ./$@.in || echo $(srcdir)/`$@.in >$@.tmp
-	@mv $@.tmp $@
+	$(AM_V_at)$(RM) $@ $@.tmp
+	$(AM_V_GEN)$(edit) `test -f ./$@.in || echo $(srcdir)/`$@.in >$@.tmp
+	$(AM_V_at)mv $@.tmp $@
 
 makepkg.conf: $(srcdir)/makepkg.conf.in
 pacman.conf: $(srcdir)/pacman.conf.in

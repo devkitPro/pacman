@@ -90,8 +90,10 @@ endif
 
 html: $(HTML_DOCS)
 
-website: html
-	bsdtar czf website.tar.gz $(HTML_DOCS) \
+website: website.tar.gz
+
+website.tar.gz: html
+	$(AM_V_GEN)bsdtar czf $@ $(HTML_DOCS) \
 		asciidoc-override.css \
 		-C /etc/asciidoc/stylesheets/ \
 		asciidoc.css \
@@ -119,15 +121,15 @@ A2X_OPTS = \
 
 # These rules are due to the includes and files of the asciidoc text
 $(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile
-	a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@.xml" $(srcdir)/$@.txt
+	$(AM_V_GEN)a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@.xml" $(srcdir)/$@.txt
 
 %.html: %.txt
-	asciidoc $(ASCIIDOC_OPTS) $*.txt
-	dos2unix $@
+	$(AM_V_GEN)asciidoc $(ASCIIDOC_OPTS) -o - $*.txt | \
+		sed -e 's/\r$$//' > $@
 
 HACKING.html: ../HACKING
-	asciidoc $(ASCIIDOC_OPTS) -o $@ ../HACKING
-	dos2unix $@
+	$(AM_V_GEN)asciidoc $(ASCIIDOC_OPTS) -o - ../HACKING | \
+		sed -e 's/\r$$//' > $@
 
 # Customizations for certain HTML docs
 $(HTML_MANPAGES): asciidoc.conf footer.txt Makefile

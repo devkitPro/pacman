@@ -60,14 +60,10 @@ edit = sed \
 ## All the scripts depend on Makefile so that they are rebuilt when the
 ## prefix etc. changes. Use chmod -w to prevent people from editing the
 ## wrong file by accident.
-# two 'test' lines- make sure we can handle both sh and py type scripts
-# third 'test' line- make sure one of the two checks succeeded
 $(OURSCRIPTS): Makefile
-	@echo '    ' GEN $@;
-	@$(RM) $@
-	@test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
-	@chmod +x $@
-	@chmod a-w $@
+	$(AM_V_at)$(RM) $@
+	$(AM_V_GEN)test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
+	$(AM_V_at)chmod +x,a-w $@
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
