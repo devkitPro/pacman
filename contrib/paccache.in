@@ -261,7 +261,7 @@ if (( move || delete )); then
 fi
 
 # unlikely that this will fail, but better make sure
-cd "$cachedir" || die "failed to chdir to \`%s'" "$cachedir"
+cd "$cachedir" >/dev/null || die "failed to chdir to \`%s'" "$cachedir"
 
 # note that these results are returned in an arbitrary order from awk, but
 # they'll be resorted (in summarize) iff we have a verbosity level set.
