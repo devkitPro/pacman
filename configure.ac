@@ -57,7 +57,7 @@ AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
 AC_CANONICAL_HOST
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([silent-rules])
 
 LIB_VERSION=`expr lib_current - lib_age`.lib_age.lib_revision
 LIB_VERSION_INFO="lib_current:lib_revision:lib_age"
