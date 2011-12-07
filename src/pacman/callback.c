@@ -298,7 +298,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 				alpm_list_t *unresolved = data1;
 				alpm_list_t *namelist = NULL, *i;
 				size_t count = 0;
-				for (i = unresolved; i; i = i->next) {
+				for(i = unresolved; i; i = i->next) {
 					namelist = alpm_list_add(namelist,
 							(char *)alpm_pkg_get_name(i->data));
 					count++;
@@ -351,7 +351,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 				time_t time = (time_t)key->created;
 				strftime(created, 12, "%Y-%m-%d", localtime(&time));
 
-				if (key->revoked) {
+				if(key->revoked) {
 					revoked = " (revoked)";
 				}
 

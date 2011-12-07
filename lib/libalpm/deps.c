@@ -395,7 +395,7 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 			/* any version will satisfy the requirement */
 			satisfy = (provision->name_hash == dep->name_hash
 					&& strcmp(provision->name, dep->name) == 0);
-		} else if (provision->mod == ALPM_DEP_MOD_EQ) {
+		} else if(provision->mod == ALPM_DEP_MOD_EQ) {
 			/* provision specifies a version, so try it out */
 			satisfy = (provision->name_hash == dep->name_hash
 					&& strcmp(provision->name, dep->name) == 0

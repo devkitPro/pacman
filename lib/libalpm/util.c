@@ -942,7 +942,7 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	}
 
 	/* Convert the result to something readable */
-	for (i = 0; i < 16; i++) {
+	for(i = 0; i < 16; i++) {
 		int pos = i * 2;
 		/* high 4 bits are first digit, low 4 are second */
 		md5sum[pos] = hex_digits[output[i] >> 4];
@@ -975,7 +975,7 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 	}
 
 	/* Convert the result to something readable */
-	for (i = 0; i < 32; i++) {
+	for(i = 0; i < 32; i++) {
 		int pos = i * 2;
 		/* high 4 bits are first digit, low 4 are second */
 		sha256sum[pos] = hex_digits[output[i] >> 4];
@@ -1216,13 +1216,13 @@ off_t _alpm_strtoofft(const char *line)
 		return (off_t)-1;
 	}
 	result = strtoull(line, &end, 10);
-	if (result == 0 && end == line) {
+	if(result == 0 && end == line) {
 		/* line was not a number */
 		return (off_t)-1;
-	} else if (result == ULLONG_MAX && errno == ERANGE) {
+	} else if(result == ULLONG_MAX && errno == ERANGE) {
 		/* line does not fit in unsigned long long */
 		return (off_t)-1;
-	} else if (*end) {
+	} else if(*end) {
 		/* line began with a number but has junk left over at the end */
 		return (off_t)-1;
 	}
@@ -1251,14 +1251,14 @@ alpm_time_t _alpm_parsedate(const char *line)
 	}
 
 	result = strtoll(line, &end, 10);
-	if (result == 0 && end == line) {
+	if(result == 0 && end == line) {
 		/* line was not a number */
 		errno = EINVAL;
 		return 0;
-	} else if (errno == ERANGE) {
+	} else if(errno == ERANGE) {
 		/* line does not fit in long long */
 		return 0;
-	} else if (*end) {
+	} else if(*end) {
 		/* line began with a number but has junk left over at the end */
 		errno = EINVAL;
 		return 0;
@@ -1281,7 +1281,7 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 	size_t len = 0;
 	int ret = 0;
 
-	if (dir) {
+	if(dir) {
 		char *check_path;
 
 		len = strlen(dir) + strlen(file) + 1;
@@ -1296,19 +1296,19 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 	}
 
 	if(ret != 0) {
-		if (amode & R_OK) {
+		if(amode & R_OK) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" is not readable: %s\n",
 					dir, file, strerror(errno));
 		}
-		if (amode & W_OK) {
+		if(amode & W_OK) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" is not writable: %s\n",
 					dir, file, strerror(errno));
 		}
-		if (amode & X_OK) {
+		if(amode & X_OK) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" is not executable: %s\n",
 					dir, file, strerror(errno));
 		}
-		if (amode == F_OK) {
+		if(amode == F_OK) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "\"%s%s\" does not exist: %s\n",
 					dir, file, strerror(errno));
 		}

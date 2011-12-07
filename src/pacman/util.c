@@ -681,7 +681,7 @@ void list_display(const char *title, const alpm_list_t *list)
 				size_t j;
 				cols = len;
 				printf("\n");
-				for (j = 1; j <= len; j++) {
+				for(j = 1; j <= len; j++) {
 					printf(" ");
 				}
 			} else if(cols != len) {
@@ -1184,7 +1184,7 @@ void select_display(const alpm_list_t *pkglist)
 	char *string = NULL;
 	const char *dbname = NULL;
 
-	for (i = pkglist; i; i = i->next) {
+	for(i = pkglist; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
 		alpm_db_t *db = alpm_pkg_get_db(pkg);
 
@@ -1227,7 +1227,7 @@ static int multiselect_parse(char *array, int count, char *response)
 {
 	char *str, *saveptr;
 
-	for (str = response; ; str = NULL) {
+	for(str = response; ; str = NULL) {
 		int include = 1;
 		int start, end;
 		char *ends = NULL;

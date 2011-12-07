@@ -259,11 +259,11 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
 		const char *original = i->data, *value;
 		int package = 0, database = 0;
 
-		if (strncmp(original, "Package", strlen("Package")) == 0) {
+		if(strncmp(original, "Package", strlen("Package")) == 0) {
 			/* only packages are affected, don't flip flags for databases */
 			value = original + strlen("Package");
 			package = 1;
-		} else if (strncmp(original, "Database", strlen("Database")) == 0) {
+		} else if(strncmp(original, "Database", strlen("Database")) == 0) {
 			/* only databases are affected, don't flip flags for packages */
 			value = original + strlen("Database");
 			database = 1;
@@ -823,7 +823,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 			if((ret = _parse_options(key, value, file, linenum)) != 0) {
 				goto cleanup;
 			}
-		} else if (!parse_options && !section->is_options) {
+		} else if(!parse_options && !section->is_options) {
 			/* ... or in a repo section */
 			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
@@ -860,7 +860,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 	}
 
 cleanup:
-	if (fp) {
+	if(fp) {
 		fclose(fp);
 	}
 	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);

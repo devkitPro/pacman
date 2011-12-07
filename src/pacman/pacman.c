@@ -207,7 +207,7 @@ static void usage(int op, const char * const myname)
 		addlist(_("      --noconfirm      do not ask for any confirmation\n"));
 	}
 	list = alpm_list_msort(list, alpm_list_count(list), options_cmp);
-	for (i = list; i; i = alpm_list_next(i)) {
+	for(i = list; i; i = alpm_list_next(i)) {
 		fputs((const char *)i->data, stdout);
 	}
 	alpm_list_free(list);
