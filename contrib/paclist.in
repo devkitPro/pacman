@@ -29,7 +29,7 @@ if ! type gettext &>/dev/null; then
 	}
 fi
 
-if [[ -z $1 ]]; then
+if [[ -z $1 || $1 = -@(h|-help) ]]; then
 	printf '%s - List all packages installed from a given repo\n' "$myname"
 	printf 'Usage:   %s <repo>\n' "$myname"
 	printf 'Example: %s testing\n' "$myname"
