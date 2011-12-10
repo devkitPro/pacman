@@ -104,8 +104,11 @@ int pacman_remove(alpm_list_t *targets)
 		}
 		if(remove_target(targ) == -1) {
 			retval = 1;
-			goto cleanup;
 		}
+	}
+
+	if(retval == 1) {
+		goto cleanup;
 	}
 
 	/* Step 2: prepare the transaction based on its type, targets and flags */
