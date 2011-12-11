@@ -331,10 +331,10 @@ in_array() {
 	return 1 # Not Found
 }
 
-source_has_signatures(){
+source_has_signatures() {
 	local file
 	for file in "${source[@]}"; do
-		if [[ $file = *.@(sig?(n)|asc) ]]; then
+		if [[ ${file%%::*} = *.@(sig?(n)|asc) ]]; then
 			return 0
 		fi
 	done
