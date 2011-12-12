@@ -5,7 +5,8 @@ OURSCRIPTS = \
 	paclist \
 	paclog-pkglist \
 	pacscripts \
-	pacsearch
+	pacsearch \
+	pacsysclean
 
 OURFILES = \
 	bash_completion \
@@ -21,6 +22,7 @@ EXTRA_DIST = \
 	paclist.in \
 	pacscripts.in \
 	pacsearch.in \
+	pacsysclean.in \
 	vimprojects \
 	zsh_completion.in \
 	README
@@ -56,6 +58,7 @@ paclist: $(srcdir)/paclist.in
 paclog-pkglist: $(srcdir)/paclog-pkglist.in
 pacscripts: $(srcdir)/pacscripts.in
 pacsearch: $(srcdir)/pacsearch.in
+pacsysclean: $(srcdir)/pacsysclean.in
 pactree: $(srcdir)/pactree.in
 zsh_completion: $(srcdir)/zsh_completion.in
 
