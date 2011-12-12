@@ -616,7 +616,7 @@ static int process_pkg(alpm_pkg_t *pkg)
 	return 0;
 }
 
-static int process_group(alpm_list_t *dbs, const char *group)
+static int process_group(alpm_list_t *dbs, const char *group, int error)
 {
 	int ret = 0;
 	alpm_list_t *i;
@@ -628,6 +628,12 @@ static int process_group(alpm_list_t *dbs, const char *group)
 		return 1;
 	}
 
+	if(error) {
+		/* we already know another target errored. there is no reason to prompt the
+		 * user here; we already validated the group name so just move on since we
+		 * won't actually be installing anything anyway. */
+		goto cleanup;
+	}
 
 	if(config->print == 0) {
 		printf(_(":: There are %d members in group %s:\n"), count,
@@ -666,12 +672,14 @@ static int process_group(alpm_list_t *dbs, const char *group)
 			}
 		}
 	}
+
 cleanup:
 	alpm_list_free(pkgs);
 	return ret;
 }
 
-static int process_targname(alpm_list_t *dblist, const char *targname)
+static int process_targname(alpm_list_t *dblist, const char *targname,
+		int error)
 {
 	alpm_pkg_t *pkg = alpm_find_dbs_satisfier(config->handle, dblist, targname);
 
@@ -685,20 +693,20 @@ static int process_targname(alpm_list_t *dblist, const char *targname)
 		return process_pkg(pkg);
 	}
 	/* fallback on group */
-	return process_group(dblist, targname);
+	return process_group(dblist, targname, error);
 }
 
-static int process_target(const char *target)
+static int process_target(const char *target, int error)
 {
 	/* process targets */
 	char *targstring = strdup(target);
 	char *targname = strchr(targstring, '/');
-	char *dbname = NULL;
 	int ret = 0;
-	alpm_list_t *dblist = NULL;
+	alpm_list_t *dblist;
 
 	if(targname && targname != targstring) {
-		alpm_db_t *db = NULL;
+		alpm_db_t *db;
+		const char *dbname;
 
 		*targname = '\0';
 		targname++;
@@ -710,14 +718,15 @@ static int process_target(const char *target)
 			ret = 1;
 			goto cleanup;
 		}
-		dblist = alpm_list_add(dblist, db);
-		ret = process_targname(dblist, targname);
+		dblist = alpm_list_add(NULL, db);
+		ret = process_targname(dblist, targname, error);
 		alpm_list_free(dblist);
 	} else {
 		targname = targstring;
 		dblist = alpm_option_get_syncdbs(config->handle);
-		ret = process_targname(dblist, targname);
+		ret = process_targname(dblist, targname, error);
 	}
+
 cleanup:
 	free(targstring);
 	if(ret && access(target, R_OK) == 0) {
@@ -730,6 +739,7 @@ cleanup:
 
 static int sync_trans(alpm_list_t *targets)
 {
+	int retval = 0;
 	alpm_list_t *i;
 
 	/* Step 1: create a new transaction... */
@@ -740,10 +750,14 @@ static int sync_trans(alpm_list_t *targets)
 	/* process targets */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		const char *targ = i->data;
-		if(process_target(targ) == 1) {
-			trans_release();
-			return 1;
+		if(process_target(targ, retval) == 1) {
+			retval = 1;
 		}
+	}
+
+	if(retval) {
+		trans_release();
+		return retval;
 	}
 
 	if(config->op_s_upgrade) {
