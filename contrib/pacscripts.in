@@ -25,7 +25,7 @@ set -o nounset
 set -o errexit
 
 declare -r myname='pacscripts'
-progver="0.4"
+declare -r myver='@PACKAGE_VERSION@'
 
 conf="@sysconfdir@/pacman.conf"
 
@@ -55,6 +55,12 @@ usage() {
 	echo
 	echo "Example: $myname gconf-editor"
 	echo "Example: $myname gconf-editor-2.24.1-1-x86_64.pkg.tar.gz"
+}
+
+version() {
+	printf "%s %s\n" "$myname" "$myver"
+	echo 'Copyright (c) 2009 Giulio "giulivo" Fidente <giulivo.navigante@gmail.com>'
+	echo 'Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>'
 }
 
 spacman() {
@@ -127,6 +133,6 @@ fi
 
 case "$1" in
 	--help|-h) usage; exit 0 ;;
-	--version|-v) echo "$myname version $progver"; exit 0 ;;
+	--version|-V) version; exit 0 ;;
 	*) print_scriptlet $1 ;;
 esac

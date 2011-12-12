@@ -18,16 +18,29 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 declare -r myname='paclog-pkglist'
+declare -r myver='@PACKAGE_VERSION@'
 
 export TEXTDOMAIN='pacman'
 export TEXTDOMAINDIR='/usr/share/locale'
 declare logfile=${1:-@localstatedir@/log/pacman.log}
 
+usage() {
+	printf 'usage:   %s [pacman log]\n' "$myname"
+	printf 'example: %s @localstatedir@/log/pacman.log\n' "$myname"
+	printf '\ndefaults to: @localstatedir@/log/pacman.log\n'
+}
+
+version() {
+	printf "%s %s\n" "$myname" "$myver"
+	echo 'Copyright (C) 2011 Dave Reisner <dave@archlinux.org>'
+}
+
 if [[ $1 ]]; then
 	if [[ $1 = -@(h|-help) ]]; then
-		printf 'usage:   %s [pacman log]\n' "$myname"
-		printf 'example: %s @localstatedir@/log/pacman.log\n' "$myname"
-		printf '\ndefaults to: @localstatedir@/log/pacman.log\n'
+		usage
+		exit 0
+	elif [[ $1 = -@(V|-version) ]]; then
+		version
 		exit 0
 	elif [[ ! -e $logfile ]]; then
 		printf $"target not found: %s\n" "$1"

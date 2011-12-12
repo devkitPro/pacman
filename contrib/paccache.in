@@ -21,6 +21,7 @@
 shopt -s extglob
 
 declare -r myname='paccache'
+declare -r myver='@PACKAGE_VERSION@'
 
 declare -a candidates=() cmdopts=() whitelist=() blacklist=()
 declare -i delete=0 dryrun=0 filecount=0 move=0 needsroot=0 totalsaved=0 verbose=0
@@ -202,19 +203,32 @@ containing pacman package tarballs.
 EOF
 }
 
+version() {
+	printf "%s %s\n" "$myname" "$myver"
+	echo 'Copyright (C) 2011 Dave Reisner <dreisner@archlinux.org>'
+}
+
 if (( ! UID )); then
 	error "Do not run this script as root. You will be prompted for privilege escalation."
 	exit 42
 fi
 
-while getopts ':a:c:dfhi:k:m:rsuvz' opt; do
+# TODO: remove this workaround and use a sane command line parser (like the
+# parse_options library from scripts/) here
+if [[ $1 = -@(h|-help) ]]; then
+	usage
+	exit 0
+elif [[ $1 = -@(V|-version) ]]; then
+	version
+	exit 0
+fi
+
+while getopts ':a:c:dfi:k:m:rsuvz' opt; do
 	case $opt in
 		a) scanarch=$OPTARG ;;
 		c) cachedir=$OPTARG ;;
 		d) dryrun=1 ;;
 		f) cmdopts=(-f) ;;
-		h) usage
-			exit 0 ;;
 		i) if [[ $OPTARG = '-' ]]; then
 				 [[ ! -t 0 ]] && IFS=$'\n' read -r -d '' -a ign
 			 else

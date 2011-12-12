@@ -18,6 +18,7 @@
 #
 
 declare -r myname='pacdiff'
+declare -r myver='@PACKAGE_VERSION@'
 
 diffprog=${DIFFPROG:-vimdiff}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
@@ -32,6 +33,11 @@ usage() {
 	echo "Example : DIFFPROG=meld DIFFSEARCHPATH=\"/boot /etc /usr\" $myname"
 }
 
+version() {
+	printf "%s %s\n" "$myname" "$myver"
+	echo 'Copyright (C) 2007 Aaron Griffin <aaronmgriffin@gmail.com>'
+}
+
 cmd() {
 	if [ $locate -eq 1 ]; then
 		locate -0 -e -b \*.pacnew \*.pacorig \*.pacsave
@@ -44,8 +50,12 @@ if [ $# -gt 0 ]; then
 	case $1 in
 		-l|--locate)
 		locate=1;;
-		*)
+		-V|--version)
+		version; exit 0;;
+		-h|--help)
 		usage; exit 0;;
+		*)
+		usage; exit 1;;
 	esac
 fi
 

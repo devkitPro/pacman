@@ -1,3 +1,9 @@
+# enforce that all scripts have a --help and --version option
+AUTOMAKE_OPTIONS = std-options
+
+bin_SCRIPTS = \
+  $(OURSCRIPTS)
+
 OURSCRIPTS = \
 	bacman \
 	paccache \
@@ -30,9 +36,17 @@ EXTRA_DIST = \
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(OURSCRIPTS) $(OURFILES) *.tmp
 
+if USE_GIT_VERSION
+GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 --dirty | sed s/^v//')
+REAL_PACKAGE_VERSION = $(GIT_VERSION)
+else
+REAL_PACKAGE_VERSION = $(PACKAGE_VERSION)
+endif
+
 edit = sed \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
+	-e 's|@PACKAGE_VERSION[@]|$(REAL_PACKAGE_VERSION)|g' \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e '1s|!/bin/bash|!$(BASH_SHELL)|g'
 

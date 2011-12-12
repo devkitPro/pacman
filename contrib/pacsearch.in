@@ -25,21 +25,31 @@ use strict;
 use warnings;
 
 my $myname = 'pacsearch';
-my $version = "2.0";
+my $myver = '@PACKAGE_VERSION@';
 
-if ($#ARGV lt 0 || $ARGV[0] eq "--help" || $ARGV[0] eq "-h") {
+sub usage {
 	print "$myname - Add color and install information to a pacman -Ss search\n";
 	print "Usage:   $myname <pattern>\n";
 	print "Example: $myname ^gnome\n";
+}
+
+sub version {
+	printf "%s %s\n", $myname, $myver;
+	print "Copyright (C) 2008-2011 Dan McGee <dan\@archlinux.org>\n\n";
+	print "Based off original shell script version:\n";
+	print "Copyright (C) 2006-2007 Dan McGee <dan\@archlinux.org>\n";
+}
+
+if ($#ARGV lt 0 || $ARGV[0] eq "--help" || $ARGV[0] eq "-h") {
+	usage;
 	if ($#ARGV lt 0) {
 		exit 1;
 	}
 	exit 0;
 }
 
-if ($ARGV[0] eq "--version" || $ARGV[0] eq "-v") {
-	print "$myname version $version\n";
-	print "Copyright (C) 2006-2011 Dan McGee\n";
+if ($ARGV[0] eq "--version" || $ARGV[0] eq "-V") {
+	version;
 	exit 0;
 }
 
