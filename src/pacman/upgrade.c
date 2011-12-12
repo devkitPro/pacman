@@ -41,6 +41,7 @@
  */
 int pacman_upgrade(alpm_list_t *targets)
 {
+	int retval = 0;
 	alpm_list_t *i;
 	alpm_siglevel_t level = alpm_option_get_default_siglevel(config->handle);
 
@@ -57,12 +58,16 @@ int pacman_upgrade(alpm_list_t *targets)
 			if(str == NULL) {
 				pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
 						(char *)i->data, alpm_strerror(alpm_errno(config->handle)));
-				return 1;
+				retval = 1;
 			} else {
 				free(i->data);
 				i->data = str;
 			}
 		}
+	}
+
+	if(retval) {
+		return retval;
 	}
 
 	/* Step 1: create a new transaction */
@@ -79,17 +84,22 @@ int pacman_upgrade(alpm_list_t *targets)
 		if(alpm_pkg_load(config->handle, targ, 1, level, &pkg) != 0) {
 			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
-			trans_release();
-			return 1;
+			retval = 1;
+			continue;
 		}
 		if(alpm_add_pkg(config->handle, pkg) == -1) {
 			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
 			alpm_pkg_free(pkg);
-			trans_release();
-			return 1;
+			retval = 1;
+			continue;
 		}
 		config->explicit_adds = alpm_list_add(config->explicit_adds, pkg);
+	}
+
+	if(retval) {
+		trans_release();
+		return retval;
 	}
 
 	/* now that targets are resolved, we can hand it all off to the sync code */
