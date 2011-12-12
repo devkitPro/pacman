@@ -1,7 +1,9 @@
-SUBDIRS = lib/libalpm src/util src/pacman scripts etc test/pacman test/util contrib
+SUBDIRS = lib/libalpm src/util src/pacman scripts etc test/pacman test/util
 if WANT_DOC
 SUBDIRS += doc
 endif
+
+DIST_SUBDIRS = $(SUBDIRS) contrib
 
 ACLOCAL_AMFLAGS = -I m4 --install
 
