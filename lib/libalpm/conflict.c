@@ -387,10 +387,13 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	alpm_list_t *i, *conflicts = NULL;
 	size_t numtargs = alpm_list_count(upgrade);
 	size_t current;
+	size_t rootlen;
 
 	if(!upgrade) {
 		return NULL;
 	}
+
+	rootlen = strlen(handle->root);
 
 	/* TODO this whole function needs a huge change, which hopefully will
 	 * be possible with real transactions. Right now we only do half as much
@@ -494,7 +497,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				path[pathlen - 1] = '\0';
 			}
 
-			relative_path = path + strlen(handle->root);
+			relative_path = path + rootlen;
 
 			/* Check remove list (will we remove the conflicting local file?) */
 			for(k = remove; k && !resolved_conflict; k = k->next) {
@@ -547,9 +550,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			 * components can be safely checked as all directories are "unowned". */
 			if(!resolved_conflict && dbpkg && !S_ISLNK(lsbuf.st_mode)) {
 				char *rpath = calloc(PATH_MAX, sizeof(char));
-				const char *relative_rpath;
 				if(realpath(path, rpath)) {
-					relative_rpath = rpath + strlen(handle->root);
+					const char *relative_rpath = rpath + rootlen;
 					if(_alpm_filelist_contains(alpm_pkg_get_files(dbpkg), relative_rpath)) {
 						_alpm_log(handle, ALPM_LOG_DEBUG,
 								"package contained the resolved realpath\n");
