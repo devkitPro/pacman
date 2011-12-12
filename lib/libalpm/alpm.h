@@ -136,6 +136,7 @@ typedef struct __alpm_trans_t alpm_trans_t;
 typedef struct _alpm_depend_t {
 	char *name;
 	char *version;
+	char *desc;
 	unsigned long name_hash;
 	alpm_depmod_t mod;
 } alpm_depend_t;

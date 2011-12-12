@@ -39,6 +39,7 @@ void _alpm_dep_free(alpm_depend_t *dep)
 {
 	FREE(dep->name);
 	FREE(dep->version);
+	FREE(dep->desc);
 	FREE(dep);
 }
 
@@ -409,7 +410,7 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 alpm_depend_t *_alpm_splitdep(const char *depstring)
 {
 	alpm_depend_t *depend;
-	const char *ptr, *version;
+	const char *ptr, *version, *desc;
 	size_t deplen;
 
 	if(depstring == NULL) {
@@ -417,7 +418,17 @@ alpm_depend_t *_alpm_splitdep(const char *depstring)
 	}
 
 	MALLOC(depend, sizeof(alpm_depend_t), return NULL);
-	deplen = strlen(depstring);
+
+	/* Note the extra space in ": " to avoid matching the epoch */
+	if((desc = strstr(depstring, ": ")) != NULL) {
+		STRDUP(depend->desc, desc + 2, return NULL);
+		deplen = desc - depstring;
+	} else {
+		/* no description- point desc at NULL at end of string for later use */
+		depend->desc = NULL;
+		deplen = strlen(depstring);
+		desc = depstring + deplen;
+	}
 
 	/* Find a version comparator if one exists. If it does, set the type and
 	 * increment the ptr accordingly so we can copy the right strings. */
@@ -442,21 +453,18 @@ alpm_depend_t *_alpm_splitdep(const char *depstring)
 		depend->mod = ALPM_DEP_MOD_EQ;
 		version = ptr + 1;
 	} else {
-		/* no version specified, leave ptr NULL and set version to NULL */
+		/* no version specified, set ptr to end of string and version to NULL */
+		ptr = depstring + deplen;
 		depend->mod = ALPM_DEP_MOD_ANY;
 		depend->version = NULL;
 		version = NULL;
 	}
 
 	/* copy the right parts to the right places */
-	if(ptr) {
-		STRNDUP(depend->name, depstring, ptr - depstring, return NULL);
-	} else {
-		STRDUP(depend->name, depstring, return NULL);
-	}
+	STRNDUP(depend->name, depstring, ptr - depstring, return NULL);
 	depend->name_hash = _alpm_hash_sdbm(depend->name);
 	if(version) {
-		STRDUP(depend->version, version, return NULL);
+		STRNDUP(depend->version, version, desc - version, return NULL);
 	}
 
 	return depend;
@@ -468,8 +476,9 @@ alpm_depend_t *_alpm_dep_dup(const alpm_depend_t *dep)
 	CALLOC(newdep, 1, sizeof(alpm_depend_t), return NULL);
 
 	STRDUP(newdep->name, dep->name, return NULL);
-	newdep->name_hash = dep->name_hash;
 	STRDUP(newdep->version, dep->version, return NULL);
+	STRDUP(newdep->desc, dep->desc, return NULL);
+	newdep->name_hash = dep->name_hash;
 	newdep->mod = dep->mod;
 
 	return newdep;
@@ -792,7 +801,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
  */
 char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 {
-	const char *name, *opr, *ver;
+	const char *name, *opr, *ver, *desc_delim, *desc;
 	char *str;
 	size_t len;
 
@@ -834,12 +843,21 @@ char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 		ver = "";
 	}
 
+	if(dep->desc) {
+		desc_delim = ": ";
+		desc = dep->desc;
+	} else {
+		desc_delim = "";
+		desc = "";
+	}
+
 	/* we can always compute len and print the string like this because opr
 	 * and ver will be empty when ALPM_DEP_MOD_ANY is the depend type. the
 	 * reassignments above also ensure we do not do a strlen(NULL). */
-	len = strlen(name) + strlen(opr) + strlen(ver) + 1;
+	len = strlen(name) + strlen(opr) + strlen(ver)
+		+ strlen(desc_delim) + strlen(desc) + 1;
 	MALLOC(str, len, return NULL);
-	snprintf(str, len, "%s%s%s", name, opr, ver);
+	snprintf(str, len, "%s%s%s%s%s", name, opr, ver, desc_delim, desc);
 
 	return str;
 }
