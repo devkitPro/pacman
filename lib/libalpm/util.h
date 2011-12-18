@@ -24,8 +24,6 @@
 #ifndef _ALPM_UTIL_H
 #define _ALPM_UTIL_H
 
-#include "config.h"
-
 #include "alpm_list.h"
 #include "alpm.h"
 #include "package.h" /* alpm_pkg_t */

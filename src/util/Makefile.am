@@ -11,7 +11,10 @@ DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DDBPATH=\"$(dbpath)\" \
        -DCACHEDIR=\"$(cachedir)\" \
        @DEFS@
-INCLUDES = -I$(top_srcdir)/lib/libalpm
+
+AM_CPPFLAGS = \
+	-imacros $(top_builddir)/config.h \
+	-I$(top_srcdir)/lib/libalpm
 
 AM_CFLAGS = -pedantic -D_GNU_SOURCE
 

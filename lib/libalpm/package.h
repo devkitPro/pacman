@@ -24,8 +24,6 @@
 #ifndef _ALPM_PACKAGE_H
 #define _ALPM_PACKAGE_H
 
-#include "config.h" /* ensure off_t is correct length */
-
 #include <sys/types.h> /* off_t */
 
 #include "alpm.h"

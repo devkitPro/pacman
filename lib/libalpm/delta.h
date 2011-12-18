@@ -20,8 +20,6 @@
 #ifndef _ALPM_DELTA_H
 #define _ALPM_DELTA_H
 
-#include "config.h" /* ensure off_t is correct length */
-
 #include <sys/types.h> /* off_t */
 
 #include "alpm.h"

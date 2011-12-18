@@ -114,8 +114,6 @@ general pattern, including blank lines:
 
 [source,C]
 -------------------------------------------
-#include "config.h"
-
 #include <standardheader.h>
 #include <another.h>
 #include <...>
@@ -143,6 +141,8 @@ For pacman:
 #include "yourfile.h"
 #include "anythingelse.h"
 -------------------------------------------
+
+Never directly include config.h. This will always be added via Makefiles.
 
 GDB and Valgrind Usage
 ~~~~~~~~~~~~~~~~~~~~~~

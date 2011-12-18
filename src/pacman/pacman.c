@@ -18,8 +18,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
-
 /* special handling of package version for GIT */
 #if defined(GIT_VERSION)
 #undef PACKAGE_VERSION

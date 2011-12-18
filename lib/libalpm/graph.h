@@ -19,8 +19,6 @@
 #ifndef _ALPM_GRAPH_H
 #define _ALPM_GRAPH_H
 
-#include "config.h" /* ensure off_t is correct length */
-
 #include <sys/types.h> /* off_t */
 
 #include "alpm_list.h"

@@ -7,6 +7,9 @@ include_HEADERS = alpm_list.h alpm.h
 
 DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 
+AM_CPPFLAGS = \
+	-imacros $(top_builddir)/config.h
+
 AM_CFLAGS = -pedantic -D_GNU_SOURCE
 
 if ENABLE_VISIBILITY_CC
