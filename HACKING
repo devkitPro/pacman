@@ -90,6 +90,17 @@ alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
        NOT
     if(!strcmp(a, b))
 
+8.  Use spaces around almost all arithmetic, comparison and assignment
+    operators and after all ',;:' separators.
+
+	foobar[2 * size + 1] = function(a, 6);
+	   NOT
+	foobar[2*size+1]=function(a,6);
+
+	for(a = 0; a < n && n > 0; a++,n--) {}
+	   NOT
+	for(a=0;a<n&&n>0;a++,n--) {}
+
 
 Other Concerns
 --------------
