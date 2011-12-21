@@ -1137,7 +1137,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	/* check available disk space */
-	if(handle->checkspace) {
+	if(handle->checkspace && !(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
 		EVENT(handle, ALPM_EVENT_DISKSPACE_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking available disk space\n");
