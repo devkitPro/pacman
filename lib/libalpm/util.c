@@ -915,7 +915,29 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 }
 #endif
 
-static const char *hex_digits = "0123456789abcdef";
+/** Create a string representing bytes in hexadecimal.
+ * @param bytes the bytes to represent in hexadecimal
+ * @param size number of bytes to consider
+ * @return a NULL terminated string with the hexadecimal representation of
+ * bytes or NULL on error. This string must be freed.
+ */
+static char *hex_representation(unsigned char *bytes, size_t size)
+{
+	static const char *hex_digits = "0123456789abcdef";
+	char *str;
+	size_t i;
+
+	MALLOC(str, 2 * size + 1, return NULL);
+
+	for (i = 0; i < size; i++) {
+		str[2 * i] = hex_digits[bytes[i] >> 4];
+		str[2 * i + 1] = hex_digits[bytes[i] & 0x0f];
+	}
+
+	str[2 * size] = '\0';
+
+	return str;
+}
 
 /** Get the md5 sum of file.
  * @param filename name of the file
@@ -925,29 +947,15 @@ static const char *hex_digits = "0123456789abcdef";
 char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 {
 	unsigned char output[16];
-	char *md5sum;
-	int ret, i;
 
 	ASSERT(filename != NULL, return NULL);
 
-	MALLOC(md5sum, (size_t)33, return NULL);
 	/* defined above for OpenSSL, otherwise defined in md5.h */
-	ret = md5_file(filename, output);
-
-	if(ret > 0) {
-		free(md5sum);
+	if(md5_file(filename, output) > 0) {
 		return NULL;
 	}
 
-	/* Convert the result to something readable */
-	for(i = 0; i < 16; i++) {
-		int pos = i * 2;
-		/* high 4 bits are first digit, low 4 are second */
-		md5sum[pos] = hex_digits[output[i] >> 4];
-		md5sum[pos + 1] = hex_digits[output[i] & 0x0f];
-	}
-	md5sum[32] = '\0';
-	return md5sum;
+	return hex_representation(output, 16);
 }
 
 /** Get the sha256 sum of file.
@@ -958,29 +966,15 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 {
 	unsigned char output[32];
-	char *sha256sum;
-	int ret, i;
 
 	ASSERT(filename != NULL, return NULL);
 
-	MALLOC(sha256sum, (size_t)65, return NULL);
 	/* defined above for OpenSSL, otherwise defined in sha2.h */
-	ret = sha2_file(filename, output, 0);
-
-	if(ret > 0) {
-		free(sha256sum);
+	if(sha2_file(filename, output, 0) > 0) {
 		return NULL;
 	}
 
-	/* Convert the result to something readable */
-	for(i = 0; i < 32; i++) {
-		int pos = i * 2;
-		/* high 4 bits are first digit, low 4 are second */
-		sha256sum[pos] = hex_digits[output[i] >> 4];
-		sha256sum[pos + 1] = hex_digits[output[i] & 0x0f];
-	}
-	sha256sum[64] = '\0';
-	return sha256sum;
+	return hex_representation(output, 32);
 }
 
 /** Calculates a file's MD5 or SHA2 digest  and compares it to an expected value. 
