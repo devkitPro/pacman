@@ -120,9 +120,10 @@ of the corresponding source file.
 *md5sums (array)*::
 	This array contains an MD5 hash for every source file specified in the
 	source array (in the same order). makepkg will use this to verify source
-	file integrity during subsequent builds. To easily generate md5sums, run
-	`makepkg -g >> PKGBUILD`. If desired, move the md5sums line to an
-	appropriate location.
+	file integrity during subsequent builds. If 'SKIP' is put in the array
+	in place of a normal hash, the integrity check for that source file will
+	be skipped. To easily generate md5sums, run ``makepkg -g >> PKGBUILD''.
+	If desired, move the md5sums line to an appropriate location.
 
 *sha1sums, sha256sums, sha384sums, sha512sums (arrays)*::
 	Alternative integrity checks that makepkg supports; these all behave

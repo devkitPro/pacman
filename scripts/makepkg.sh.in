@@ -663,14 +663,18 @@ check_checksums() {
 				fi
 
 				if (( $found )) ; then
-					local expectedsum=$(tr '[:upper:]' '[:lower:]' <<< "${integrity_sums[$idx]}")
-					local realsum="$(openssl dgst -${integ} "$file")"
-					realsum="${realsum##* }"
-					if [[ $expectedsum = $realsum ]]; then
-						echo "$(gettext "Passed")" >&2
+					if [[ ${integrity_sums[$idx]} = 'SKIP' ]]; then
+						echo "$(gettext "Skipped")" >&2
 					else
-						echo "$(gettext "FAILED")" >&2
-						errors=1
+						local expectedsum=$(tr '[:upper:]' '[:lower:]' <<< "${integrity_sums[$idx]}")
+						local realsum="$(openssl dgst -${integ} "$file")"
+						realsum="${realsum##* }"
+						if [[ $expectedsum = $realsum ]]; then
+							echo "$(gettext "Passed")" >&2
+						else
+							echo "$(gettext "FAILED")" >&2
+							errors=1
+						fi
 					fi
 				fi
 
