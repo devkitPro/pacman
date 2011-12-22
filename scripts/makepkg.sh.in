@@ -955,7 +955,7 @@ run_function() {
 
 	# clear user-specified buildflags if requested
 	if check_option "buildflags" "n"; then
-		unset CFLAGS CXXFLAGS LDFLAGS
+		unset CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 	fi
 
 	# clear user-specified makeflags if requested
@@ -967,7 +967,7 @@ run_function() {
 	cd_safe "$srcdir"
 
 	# ensure all necessary build variables are exported
-	export CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
+	export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
 	# save our shell options so pkgfunc() can't override what we need
 	local shellopts=$(shopt -p)
 
