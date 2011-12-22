@@ -719,15 +719,17 @@ static int _parseconfig(const char *file, struct section_t *section,
 		size_t line_len;
 
 		linenum++;
+
+		/* ignore whole line and end of line comments */
+		if((ptr = strchr(line, '#'))) {
+			*ptr = '\0';
+		}
+
 		strtrim(line);
 		line_len = strlen(line);
 
-		/* ignore whole line and end of line comments */
-		if(line_len == 0 || line[0] == '#') {
+		if(line_len == 0) {
 			continue;
-		}
-		if((ptr = strchr(line, '#'))) {
-			*ptr = '\0';
 		}
 
 		if(line[0] == '[' && line[line_len - 1] == ']') {
