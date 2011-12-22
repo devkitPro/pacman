@@ -56,7 +56,7 @@ const char *mbasename(const char *path);
 char *mdirname(const char *path);
 void indentprint(const char *str, size_t indent);
 char *strtoupper(char *str);
-char *strtrim(char *str);
+size_t strtrim(char *str);
 char *strreplace(const char *str, const char *needle, const char *replace);
 alpm_list_t *strsplit(const char *str, const char splitchar);
 void string_display(const char *title, const char *string);

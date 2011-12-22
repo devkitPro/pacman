@@ -325,13 +325,13 @@ char *strtoupper(char *str)
 
 /* Trim whitespace and newlines from a string
  */
-char *strtrim(char *str)
+size_t strtrim(char *str)
 {
-	char *pch = str;
+	char *end, *pch = str;
 
 	if(str == NULL || *str == '\0') {
 		/* string is empty, so we're done. */
-		return str;
+		return 0;
 	}
 
 	while(isspace((unsigned char)*pch)) {
@@ -348,16 +348,16 @@ char *strtrim(char *str)
 
 	/* check if there wasn't anything but whitespace in the string. */
 	if(*str == '\0') {
-		return str;
+		return 0;
 	}
 
-	pch = (str + (strlen(str) - 1));
-	while(isspace((unsigned char)*pch)) {
-		pch--;
+	end = (str + strlen(str) - 1);
+	while(isspace((unsigned char)*end)) {
+		end--;
 	}
-	*++pch = '\0';
+	*++end = '\0';
 
-	return str;
+	return end - pch;
 }
 
 /* Replace all occurances of 'needle' with 'replace' in 'str', returning
