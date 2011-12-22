@@ -594,6 +594,18 @@ int SYMEXPORT alpm_option_set_deltaratio(alpm_handle_t *handle, double ratio)
 	return 0;
 }
 
+alpm_db_t SYMEXPORT *alpm_get_localdb(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->db_local;
+}
+
+alpm_list_t SYMEXPORT *alpm_get_syncdbs(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->dbs_sync;
+}
+
 int SYMEXPORT alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace)
 {
 	CHECK_HANDLE(handle, return -1);
@@ -621,16 +633,44 @@ alpm_siglevel_t SYMEXPORT alpm_option_get_default_siglevel(alpm_handle_t *handle
 	return handle->siglevel;
 }
 
-alpm_db_t SYMEXPORT *alpm_get_localdb(alpm_handle_t *handle)
+int SYMEXPORT alpm_option_set_local_file_siglevel(alpm_handle_t *handle,
+		alpm_siglevel_t level)
 {
-	CHECK_HANDLE(handle, return NULL);
-	return handle->db_local;
+	CHECK_HANDLE(handle, return -1);
+#ifdef HAVE_LIBGPGME
+	handle->localfilesiglevel = level;
+#else
+	if(level != 0 && level != ALPM_SIG_USE_DEFAULT) {
+		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+	}
+#endif
+	return 0;
 }
 
-alpm_list_t SYMEXPORT *alpm_get_syncdbs(alpm_handle_t *handle)
+alpm_siglevel_t SYMEXPORT alpm_option_get_local_file_siglevel(alpm_handle_t *handle)
 {
-	CHECK_HANDLE(handle, return NULL);
-	return handle->dbs_sync;
+	CHECK_HANDLE(handle, return -1);
+	return handle->localfilesiglevel;
+}
+
+int SYMEXPORT alpm_option_set_remote_file_siglevel(alpm_handle_t *handle,
+		alpm_siglevel_t level)
+{
+	CHECK_HANDLE(handle, return -1);
+#ifdef HAVE_LIBGPGME
+	handle->remotefilesiglevel = level;
+#else
+	if(level != 0 && level != ALPM_SIG_USE_DEFAULT) {
+		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+	}
+#endif
+	return 0;
+}
+
+alpm_siglevel_t SYMEXPORT alpm_option_get_remote_file_siglevel(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return -1);
+	return handle->remotefilesiglevel;
 }
 
 /* vim: set ts=2 sw=2 noet: */

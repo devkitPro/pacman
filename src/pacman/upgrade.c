@@ -40,8 +40,7 @@
 int pacman_upgrade(alpm_list_t *targets)
 {
 	int retval = 0;
-	alpm_list_t *i;
-	alpm_siglevel_t level = alpm_option_get_default_siglevel(config->handle);
+	alpm_list_t *i, *remote = NULL;
 
 	if(targets == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
@@ -51,6 +50,8 @@ int pacman_upgrade(alpm_list_t *targets)
 	/* Check for URL targets and process them
 	 */
 	for(i = targets; i; i = alpm_list_next(i)) {
+		int *r = malloc(sizeof(int));
+
 		if(strstr(i->data, "://")) {
 			char *str = alpm_fetch_pkgurl(config->handle, i->data);
 			if(str == NULL) {
@@ -60,8 +61,13 @@ int pacman_upgrade(alpm_list_t *targets)
 			} else {
 				free(i->data);
 				i->data = str;
+				*r = 1;
 			}
+		} else {
+			*r = 0;
 		}
+
+		remote = alpm_list_add(remote, r);
 	}
 
 	if(retval) {
@@ -75,9 +81,16 @@ int pacman_upgrade(alpm_list_t *targets)
 
 	printf(_("loading packages...\n"));
 	/* add targets to the created transaction */
-	for(i = targets; i; i = alpm_list_next(i)) {
+	for(i = targets; i; i = alpm_list_next(i), remote = alpm_list_next(remote)) {
 		const char *targ = i->data;
 		alpm_pkg_t *pkg;
+		alpm_siglevel_t level;
+
+		if(*(int *)remote->data) {
+			level = alpm_option_get_remote_file_siglevel(config->handle);
+		} else {
+			level = alpm_option_get_local_file_siglevel(config->handle);
+		}
 
 		if(alpm_pkg_load(config->handle, targ, 1, level, &pkg) != 0) {
 			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
@@ -94,6 +107,8 @@ int pacman_upgrade(alpm_list_t *targets)
 		}
 		config->explicit_adds = alpm_list_add(config->explicit_adds, pkg);
 	}
+
+	FREELIST(remote);
 
 	if(retval) {
 		trans_release();

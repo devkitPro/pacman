@@ -72,6 +72,8 @@ typedef struct __config_t {
 	unsigned int ask;
 	alpm_transflag_t flags;
 	alpm_siglevel_t siglevel;
+	alpm_siglevel_t localfilesiglevel;
+	alpm_siglevel_t remotefilesiglevel;
 
 	/* conf file options */
 	/* I Love Candy! */

@@ -115,6 +115,9 @@ typedef enum _alpm_siglevel_t {
 	ALPM_SIG_DATABASE_MARGINAL_OK = (1 << 12),
 	ALPM_SIG_DATABASE_UNKNOWN_OK = (1 << 13),
 
+	ALPM_SIG_PACKAGE_SET = (1 << 27),
+	ALPM_SIG_PACKAGE_TRUST_SET = (1 << 28),
+
 	ALPM_SIG_USE_DEFAULT = (1 << 31)
 } alpm_siglevel_t;
 
@@ -560,6 +563,12 @@ int alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace);
 
 alpm_siglevel_t alpm_option_get_default_siglevel(alpm_handle_t *handle);
 int alpm_option_set_default_siglevel(alpm_handle_t *handle, alpm_siglevel_t level);
+
+alpm_siglevel_t alpm_option_get_local_file_siglevel(alpm_handle_t *handle);
+int alpm_option_set_local_file_siglevel(alpm_handle_t *handle, alpm_siglevel_t level);
+
+alpm_siglevel_t alpm_option_get_remote_file_siglevel(alpm_handle_t *handle);
+int alpm_option_set_remote_file_siglevel(alpm_handle_t *handle, alpm_siglevel_t level);
 
 /** @} */
 
