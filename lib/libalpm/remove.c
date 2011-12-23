@@ -354,38 +354,15 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 	return 0;
 }
 
-int _alpm_remove_single_package(alpm_handle_t *handle,
+static int remove_package_files(alpm_handle_t *handle,
 		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg,
 		size_t targ_count, size_t pkg_count)
 {
 	alpm_list_t *skip_remove;
-	size_t filenum = 0, position = 0;
-	const char *pkgname = oldpkg->name;
-	const char *pkgver = oldpkg->version;
 	alpm_filelist_t *filelist;
-	size_t i;
-
-	if(newpkg) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "removing old package first (%s-%s)\n",
-				pkgname, pkgver);
-	} else {
-		EVENT(handle, ALPM_EVENT_REMOVE_START, oldpkg, NULL);
-		_alpm_log(handle, ALPM_LOG_DEBUG, "removing package %s-%s\n",
-				pkgname, pkgver);
-
-		/* run the pre-remove scriptlet if it exists  */
-		if(alpm_pkg_has_scriptlet(oldpkg) &&
-				!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
-			char *scriptlet = _alpm_local_db_pkgpath(handle->db_local,
-					oldpkg, "install");
-			_alpm_runscriptlet(handle, scriptlet, "pre_remove", pkgver, NULL, 0);
-			free(scriptlet);
-		}
-	}
-
-	if(handle->trans->flags & ALPM_TRANS_FLAG_DBONLY) {
-		goto db;
-	}
+	size_t i, filenum = 0, position = 0;
+	int err = 0;
+	int nosave = handle->trans->flags & ALPM_TRANS_FLAG_NOSAVE;
 
 	if(newpkg) {
 		alpm_filelist_t *newfiles;
@@ -416,32 +393,33 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		alpm_file_t *file = filelist->files + i;
 		if(!can_remove_file(handle, file, skip_remove)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
-					"not removing package '%s', can't remove all files\n", pkgname);
+					"not removing package '%s', can't remove all files\n",
+					oldpkg->name);
+			FREELIST(skip_remove);
 			RET_ERR(handle, ALPM_ERR_PKG_CANT_REMOVE, -1);
 		}
 		filenum++;
 	}
 
-	_alpm_log(handle, ALPM_LOG_DEBUG, "removing %ld files\n", (unsigned long)filenum);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "removing %zd files\n", filenum);
 
 	if(!newpkg) {
 		/* init progress bar, but only on true remove transactions */
-		PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, pkgname, 0,
+		PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, oldpkg->name, 0,
 				pkg_count, targ_count);
 	}
 
 	/* iterate through the list backwards, unlinking files */
 	for(i = filelist->count; i > 0; i--) {
 		alpm_file_t *file = filelist->files + i - 1;
-		int percent;
-		/* TODO: check return code and handle accordingly */
-		unlink_file(handle, oldpkg, newpkg, file, skip_remove,
-				handle->trans->flags & ALPM_TRANS_FLAG_NOSAVE);
+		if(unlink_file(handle, oldpkg, newpkg, file, skip_remove, nosave) < 0) {
+			err++;
+		}
 
 		if(!newpkg) {
 			/* update progress bar after each file */
-			percent = (position * 100) / filenum;
-			PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, pkgname,
+			int percent = (position * 100) / filenum;
+			PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, oldpkg->name,
 					percent, pkg_count, targ_count);
 		}
 		position++;
@@ -450,20 +428,56 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 
 	if(!newpkg) {
 		/* set progress to 100% after we finish unlinking files */
-		PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, pkgname, 100,
+		PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, oldpkg->name, 100,
 				pkg_count, targ_count);
+	}
 
-		/* run the post-remove script if it exists  */
+	return err;
+}
+
+int _alpm_remove_single_package(alpm_handle_t *handle,
+		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg,
+		size_t targ_count, size_t pkg_count)
+{
+	const char *pkgname = oldpkg->name;
+	const char *pkgver = oldpkg->version;
+
+	if(newpkg) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "removing old package first (%s-%s)\n",
+				pkgname, pkgver);
+	} else {
+		EVENT(handle, ALPM_EVENT_REMOVE_START, oldpkg, NULL);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "removing package %s-%s\n",
+				pkgname, pkgver);
+
+		/* run the pre-remove scriptlet if it exists  */
 		if(alpm_pkg_has_scriptlet(oldpkg) &&
 				!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 			char *scriptlet = _alpm_local_db_pkgpath(handle->db_local,
 					oldpkg, "install");
-			_alpm_runscriptlet(handle, scriptlet, "post_remove", pkgver, NULL, 0);
+			_alpm_runscriptlet(handle, scriptlet, "pre_remove", pkgver, NULL, 0);
 			free(scriptlet);
 		}
 	}
 
-db:
+	if(!(handle->trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
+		/* TODO check returned errors if any */
+		remove_package_files(handle, oldpkg, newpkg, targ_count, pkg_count);
+	}
+
+	/* run the post-remove script if it exists  */
+	if(!newpkg && alpm_pkg_has_scriptlet(oldpkg) &&
+			!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
+		char *scriptlet = _alpm_local_db_pkgpath(handle->db_local,
+				oldpkg, "install");
+		_alpm_runscriptlet(handle, scriptlet, "post_remove", pkgver, NULL, 0);
+		free(scriptlet);
+	}
+
+	if(!newpkg) {
+		EVENT(handle, ALPM_EVENT_REMOVE_DONE, oldpkg, NULL);
+	}
+
 	/* remove the package from the database */
 	_alpm_log(handle, ALPM_LOG_DEBUG, "updating database\n");
 	_alpm_log(handle, ALPM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
@@ -475,11 +489,6 @@ db:
 	if(_alpm_db_remove_pkgfromcache(handle->db_local, oldpkg) == -1) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not remove entry '%s' from cache\n"),
 				pkgname);
-	}
-
-	if(!newpkg) {
-		/* TODO: awesome! we're passing invalid pointers. */
-		EVENT(handle, ALPM_EVENT_REMOVE_DONE, oldpkg, NULL);
 	}
 
 	return 0;
