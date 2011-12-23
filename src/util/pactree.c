@@ -117,13 +117,13 @@ char *strndup(const char *s, size_t n)
 }
 #endif
 
-static char *strtrim(char *str)
+static size_t strtrim(char *str)
 {
-	char *pch = str;
+	char *end, *pch = str;
 
 	if(str == NULL || *str == '\0') {
 		/* string is empty, so we're done. */
-		return str;
+		return 0;
 	}
 
 	while(isspace((unsigned char)*pch)) {
@@ -140,16 +140,16 @@ static char *strtrim(char *str)
 
 	/* check if there wasn't anything but whitespace in the string. */
 	if(*str == '\0') {
-		return str;
+		return 0;
 	}
 
-	pch = (str + (strlen(str) - 1));
-	while(isspace((unsigned char)*pch)) {
-		pch--;
+	end = (str + strlen(str) - 1);
+	while(isspace((unsigned char)*end)) {
+		end--;
 	}
-	*++pch = '\0';
+	*++end = '\0';
 
-	return str;
+	return end - pch;
 }
 
 static int register_syncs(void) {
