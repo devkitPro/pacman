@@ -154,7 +154,7 @@ static size_t strtrim(char *str)
 
 static int register_syncs(void) {
 	FILE *fp;
-	char *ptr, *section = NULL;
+	char *section = NULL;
 	char line[LINE_MAX];
 	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
@@ -165,20 +165,23 @@ static int register_syncs(void) {
 	}
 
 	while(fgets(line, LINE_MAX, fp)) {
-		strtrim(line);
+		size_t linelen;
+		char *ptr;
 
-		if(line[0] == '#' || !strlen(line)) {
+		linelen = strtrim(line);
+
+		if(line[0] == '#' || !linelen) {
 			continue;
 		}
 
 		if((ptr = strchr(line, '#'))) {
 			*ptr = '\0';
-			strtrim(line);
+			linelen = strtrim(line);
 		}
 
-		if(line[0] == '[' && line[strlen(line) - 1] == ']') {
+		if(line[0] == '[' && line[linelen - 1] == ']') {
 			free(section);
-			section = strndup(&line[1], strlen(line) - 2);
+			section = strndup(&line[1], linelen - 2);
 
 			if(section && strcmp(section, "options") != 0) {
 				alpm_db_register_sync(handle, section, level);
