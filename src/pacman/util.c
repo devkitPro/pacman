@@ -1228,14 +1228,14 @@ static int multiselect_parse(char *array, int count, char *response)
 	for(str = response; ; str = NULL) {
 		int include = 1;
 		int start, end;
+		size_t len;
 		char *ends = NULL;
 		char *starts = strtok_r(str, " ", &saveptr);
 
 		if(starts == NULL) {
 			break;
 		}
-		strtrim(starts);
-		int len = strlen(starts);
+		len = strtrim(starts);
 		if(len == 0)
 			continue;
 
@@ -1314,6 +1314,7 @@ int multiselect_question(char *array, int count)
 
 		if(fgets(response, response_len, stdin)) {
 			const size_t response_incr = 64;
+			size_t len;
 			/* handle buffer not being large enough to read full line case */
 			while(*lastchar == '\0' && lastchar[-1] != '\n') {
 				response_len += response_incr;
@@ -1330,8 +1331,9 @@ int multiselect_question(char *array, int count)
 					return -1;
 				}
 			}
-			strtrim(response);
-			if(strlen(response) > 0) {
+
+			len = strtrim(response);
+			if(len > 0) {
 				if(multiselect_parse(array, count, response) == -1) {
 					/* only loop if user gave an invalid answer */
 					continue;
@@ -1374,8 +1376,8 @@ int select_question(int count)
 		flush_term_input();
 
 		if(fgets(response, sizeof(response), stdin)) {
-			strtrim(response);
-			if(strlen(response) > 0) {
+			size_t len = strtrim(response);
+			if(len > 0) {
 				int n;
 				if(parseindex(response, &n, 1, count) != 0)
 					continue;
@@ -1423,8 +1425,8 @@ static int question(short preset, char *fmt, va_list args)
 	flush_term_input();
 
 	if(fgets(response, sizeof(response), stdin)) {
-		strtrim(response);
-		if(strlen(response) == 0) {
+		size_t len = strtrim(response);
+		if(len == 0) {
 			return preset;
 		}
 

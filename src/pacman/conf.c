@@ -726,8 +726,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 			*ptr = '\0';
 		}
 
-		strtrim(line);
-		line_len = strlen(line);
+		line_len = strtrim(line);
 
 		if(line_len == 0) {
 			continue;
