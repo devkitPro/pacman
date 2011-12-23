@@ -188,47 +188,6 @@ cleanup:
 	return ret;
 }
 
-/** Trim leading and trailing whitespace, including newlines, from a string.
- * Modifies str in place.
- * @param str a string to trim
- * @return str
- */
-char *_alpm_strtrim(char *str)
-{
-	char *pch = str;
-
-	if(*str == '\0') {
-		/* string is empty, so we're done. */
-		return str;
-	}
-
-	while(isspace((unsigned char)*pch)) {
-		pch++;
-	}
-	if(pch != str) {
-		size_t len = strlen(pch);
-		if(len) {
-			/* move the remaining string to the beginning of str */
-			memmove(str, pch, len + 1);
-		} else {
-			*str = '\0';
-		}
-	}
-
-	/* check if there wasn't anything but whitespace in the string. */
-	if(*str == '\0') {
-		return str;
-	}
-
-	pch = (str + (strlen(str) - 1));
-	while(isspace((unsigned char)*pch)) {
-		pch--;
-	}
-	*++pch = '\0';
-
-	return str;
-}
-
 /** Trim trailing newlines from a string (if any exist).
  * @param str a single line of text
  * @return the length of the trimmed string
