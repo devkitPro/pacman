@@ -171,18 +171,21 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 		size_t len = _alpm_strip_newline(buf.line);
 
 		linenum++;
-		if(len == 0 || buf.line[0] == '#') {
+		key = buf.line;
+		if(len == 0 || key[0] == '#') {
 			continue;
 		}
-		ptr = buf.line;
-		key = strsep(&ptr, "=");
-		if(key == NULL || ptr == NULL) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "%s: syntax error in description file line %d\n",
-								newpkg->name ? newpkg->name : "error", linenum);
+		/* line is always in this format: "key = value"
+		 * we can be sure the " = " exists, so look for that */
+		ptr = memchr(key, ' ', len);
+		if(!ptr || ptr - key + 2 > len || memcmp(ptr, " = ", 3) != 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"%s: syntax error in description file line %d\n",
+					newpkg->name ? newpkg->name : "error", linenum);
 		} else {
-			key = _alpm_strtrim(key);
-			while(*ptr == ' ') ptr++;
-			ptr = _alpm_strtrim(ptr);
+			/* NULL the end of the key portion, move ptr to start of value */
+			*ptr = '\0';
+			ptr += 3;
 			if(strcmp(key, "pkgname") == 0) {
 				STRDUP(newpkg->name, ptr, return -1);
 				newpkg->name_hash = _alpm_hash_sdbm(newpkg->name);
