@@ -245,7 +245,6 @@ esac
 
 AM_CONDITIONAL([CYGWIN], test "x$host_os_cygwin" = "xyes")
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
-AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(SIZECMD)
 AC_SUBST(SEDINPLACE)
 AC_SUBST(STRIP_BINARIES)
