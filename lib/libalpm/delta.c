@@ -301,7 +301,7 @@ alpm_delta_t *_alpm_delta_parse(char *line)
 
 	/* start at index 1 -- match 0 is the entire match */
 	len = pmatch[1].rm_eo - pmatch[1].rm_so;
-	STRNDUP(tmp, &line[pmatch[1].rm_so], len, return NULL);
+	STRNDUP(delta->delta, &line[pmatch[1].rm_so], len, return NULL);
 
 	len = pmatch[2].rm_eo - pmatch[2].rm_so;
 	STRNDUP(delta->delta_md5, &line[pmatch[2].rm_so], len, return NULL);
@@ -309,6 +309,7 @@ alpm_delta_t *_alpm_delta_parse(char *line)
 	len = pmatch[3].rm_eo - pmatch[3].rm_so;
 	STRNDUP(tmp, &line[pmatch[3].rm_so], len, return NULL);
 	delta->delta_size = _alpm_strtoofft(tmp);
+	free(tmp);
 
 	len = pmatch[4].rm_eo - pmatch[4].rm_so;
 	STRNDUP(delta->from, &line[pmatch[4].rm_so], len, return NULL);
