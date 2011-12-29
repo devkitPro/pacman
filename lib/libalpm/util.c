@@ -1145,7 +1145,7 @@ unsigned long _alpm_hash_sdbm(const char *str)
 		return hash;
 	}
 	while((c = *str++)) {
-		hash = c + (hash << 6) + (hash << 16) - hash;
+		hash = c + hash * 65599;
 	}
 
 	return hash;
