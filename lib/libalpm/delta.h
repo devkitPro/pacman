@@ -24,7 +24,7 @@
 
 #include "alpm.h"
 
-alpm_delta_t *_alpm_delta_parse(char *line);
+alpm_delta_t *_alpm_delta_parse(alpm_handle_t *handle, const char *line);
 void _alpm_delta_free(alpm_delta_t *delta);
 alpm_delta_t *_alpm_delta_dup(const alpm_delta_t *delta);
 off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,

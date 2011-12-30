@@ -34,6 +34,7 @@
 #include "alpm_list.h"
 #include "util.h"
 #include "log.h"
+#include "delta.h"
 #include "trans.h"
 #include "alpm.h"
 
@@ -66,6 +67,8 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	/* release curl handle */
 	curl_easy_cleanup(handle->curl);
 #endif
+
+	regfree(&handle->delta_regex);
 
 	/* free memory */
 	_alpm_trans_free(handle->trans);

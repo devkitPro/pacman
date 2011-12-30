@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <sys/types.h>
+#include <regex.h>
 
 #include "alpm_list.h"
 #include "alpm.h"
@@ -94,6 +95,10 @@ struct __alpm_handle_t {
 
 	/* error code */
 	alpm_errno_t pm_errno;
+
+	/* for delta parsing efficiency */
+	int delta_regex_compiled;
+	regex_t delta_regex;
 };
 
 alpm_handle_t *_alpm_handle_new(void);

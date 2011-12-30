@@ -273,29 +273,32 @@ alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(alpm_pkg_t *pkg)
  * This function assumes that the string is in the correct format.
  * This format is as follows:
  * $deltafile $deltamd5 $deltasize $oldfile $newfile
+ * @param handle the context handle
  * @param line the string to parse
  * @return A pointer to the new alpm_delta_t object
  */
-/* TODO this does not really belong here, but in a parsing lib */
-alpm_delta_t *_alpm_delta_parse(char *line)
+alpm_delta_t *_alpm_delta_parse(alpm_handle_t *handle, const char *line)
 {
 	alpm_delta_t *delta;
-	char *tmp;
 	const int num_matches = 6;
 	size_t len;
-	regex_t reg;
 	regmatch_t pmatch[num_matches];
+	char filesize[32];
 
-	regcomp(&reg,
-			"^([^[:space:]]*) ([[:xdigit:]]{32}) ([[:digit:]]*)"
-			" ([^[:space:]]*) ([^[:space:]]*)$",
-			REG_EXTENDED | REG_NEWLINE);
-	if(regexec(&reg, line, num_matches, pmatch, 0) != 0) {
+	/* this is so we only have to compile the pattern once */
+	if(!handle->delta_regex_compiled) {
+		/* $deltafile $deltamd5 $deltasize $oldfile $newfile*/
+		regcomp(&handle->delta_regex,
+				"^([^[:space:]]+) ([[:xdigit:]]{32}) ([[:digit:]]+)"
+				" ([^[:space:]]+) ([^[:space:]]+)$",
+				REG_EXTENDED | REG_NEWLINE);
+		handle->delta_regex_compiled = 1;
+	}
+
+	if(regexec(&handle->delta_regex, line, num_matches, pmatch, 0) != 0) {
 		/* delta line is invalid, return NULL */
-		regfree(&reg);
 		return NULL;
 	}
-	regfree(&reg);
 
 	CALLOC(delta, 1, sizeof(alpm_delta_t), return NULL);
 
@@ -307,9 +310,11 @@ alpm_delta_t *_alpm_delta_parse(char *line)
 	STRNDUP(delta->delta_md5, &line[pmatch[2].rm_so], len, return NULL);
 
 	len = pmatch[3].rm_eo - pmatch[3].rm_so;
-	STRNDUP(tmp, &line[pmatch[3].rm_so], len, return NULL);
-	delta->delta_size = _alpm_strtoofft(tmp);
-	free(tmp);
+	if(len < sizeof(filesize)) {
+		strncpy(filesize, &line[pmatch[3].rm_so], len);
+		filesize[len] = '\0';
+		delta->delta_size = _alpm_strtoofft(filesize);
+	}
 
 	len = pmatch[4].rm_eo - pmatch[4].rm_so;
 	STRNDUP(delta->from, &line[pmatch[4].rm_so], len, return NULL);

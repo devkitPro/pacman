@@ -598,7 +598,8 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				while(1) {
 					READ_NEXT();
 					if(strlen(line) == 0) break;
-					pkg->deltas = alpm_list_add(pkg->deltas, _alpm_delta_parse(line));
+					pkg->deltas = alpm_list_add(pkg->deltas,
+							_alpm_delta_parse(db->handle, line));
 				}
 			}
 		}
