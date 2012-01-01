@@ -36,9 +36,6 @@
 #define _n(str1, str2, ct) (ct == 1 ? str1 : str2)
 #endif
 
-/* update speed for the fill_progress based functions */
-#define UPDATE_SPEED_SEC 0.2f
-
 typedef struct _pm_target_t {
 	alpm_pkg_t *remove;
 	alpm_pkg_t *install;

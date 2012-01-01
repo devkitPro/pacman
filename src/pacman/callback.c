@@ -43,15 +43,19 @@ static off_t list_total = 0.0;
 static int on_progress = 0;
 static alpm_list_t *output = NULL;
 
-/* Silly little helper function, determines if the caller needs a visual update
+/* update speed for the fill_progress based functions */
+#define UPDATE_SPEED_MS 200
+
+/**
+ * Silly little helper function, determines if the caller needs a visual update
  * since the last time this function was called.
- * This is made for the two progress bar functions, to prevent flicker
- *
- * first_call indicates if this is the first time it is called, for
- * initialization purposes */
-static double get_update_timediff(int first_call)
+ * This is made for the two progress bar functions, to prevent flicker.
+ * @param first_call 1 on first call for initialization purposes, 0 otherwise
+ * @return number of milliseconds since last call
+ */
+static long get_update_timediff(int first_call)
 {
-	double retval = 0.0;
+	long retval = 0;
 	static struct timeval last_time = {0, 0};
 
 	/* on first call, simply set the last time and return */
@@ -59,18 +63,17 @@ static double get_update_timediff(int first_call)
 		gettimeofday(&last_time, NULL);
 	} else {
 		struct timeval this_time;
-		double diff_sec, diff_usec;
+		time_t diff_sec;
+		suseconds_t diff_usec;
 
 		gettimeofday(&this_time, NULL);
 		diff_sec = this_time.tv_sec - last_time.tv_sec;
 		diff_usec = this_time.tv_usec - last_time.tv_usec;
 
-		retval = diff_sec + (diff_usec / 1000000.0);
+		retval = (diff_sec * 1000) + (diff_usec / 1000);
 
-		/* return 0 and do not update last_time if interval was too short */
-		if(retval < UPDATE_SPEED_SEC) {
-			retval = 0.0;
-		} else {
+		/* do not update last_time if interval was too short */
+		if(retval >= UPDATE_SPEED_MS) {
 			last_time = this_time;
 		}
 	}
@@ -399,7 +402,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 		if(current != prevcurrent) {
 			/* update always */
 		} else if(!pkgname || percent == prevpercent ||
-				get_update_timediff(0) < UPDATE_SPEED_SEC) {
+				get_update_timediff(0) < UPDATE_SPEED_MS) {
 			/* only update the progress bar when we have a package name, the
 			 * percentage has changed, and it has been long enough. */
 			return;
@@ -534,7 +537,8 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	int totaldownload = 0;
 	off_t xfered, total;
-	double rate = 0.0, timediff = 0.0;
+	double rate = 0.0;
+	long timediff = 0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
 	double rate_human, xfered_human;
 	const char *rate_label, *xfered_label;
@@ -593,16 +597,17 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	} else if(file_xfered == file_total) {
 		/* compute final values */
 		struct timeval current_time;
-		double diff_sec, diff_usec;
+		time_t diff_sec;
+		suseconds_t diff_usec;
 
 		gettimeofday(&current_time, NULL);
 		diff_sec = current_time.tv_sec - initial_time.tv_sec;
 		diff_usec = current_time.tv_usec - initial_time.tv_usec;
-		timediff = diff_sec + (diff_usec / 1000000.0);
-		if(timediff > 0.0) {
-			rate = xfered / timediff;
-			/* round elapsed time to the nearest second */
-			eta_s = (unsigned int)(timediff + 0.5);
+		timediff = (diff_sec * 1000) + (diff_usec / 1000);
+		if(timediff > 0) {
+			rate = (double)xfered / (timediff / 1000.0);
+			/* round elapsed time (in ms) to the nearest second */
+			eta_s = (unsigned int)(timediff + 500) / 1000;
 		} else {
 			eta_s = 0;
 		}
@@ -610,11 +615,11 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		/* compute current average values */
 		timediff = get_update_timediff(0);
 
-		if(timediff < UPDATE_SPEED_SEC) {
+		if(timediff < UPDATE_SPEED_MS) {
 			/* return if the calling interval was too short */
 			return;
 		}
-		rate = (xfered - xfered_last) / timediff;
+		rate = (double)(xfered - xfered_last) / (timediff / 1000.0);
 		/* average rate to reduce jumpiness */
 		rate = (rate + 2 * rate_last) / 3;
 		if(rate > 0.0) {
