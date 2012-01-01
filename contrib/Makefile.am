@@ -64,6 +64,16 @@ $(OURFILES): Makefile
 
 all-am: $(OURSCRIPTS) $(OURFILES)
 
+install-data-local:
+	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/bash_completion.d/
+	$(INSTALL_DATA) bash_completion $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
+	$(MKDIR_P) $(DESTDIR)$(datarootdir)/zsh/site-functions/
+	$(INSTALL_DATA) zsh_completion $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
+
+uninstall-local:
+	$(RM) $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
+	$(RM) $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
+
 bacman: $(srcdir)/bacman.in
 bash_completion: $(srcdir)/bash_completion.in
 paccache: $(srcdir)/paccache.in
