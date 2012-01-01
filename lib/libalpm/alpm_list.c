@@ -204,7 +204,8 @@ alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
  *
  * @return the resultant list
  */
-alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp fn)
+alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right,
+		alpm_list_fn_cmp fn)
 {
 	alpm_list_t *newlist, *lp, *tail_ptr, *left_tail_ptr, *right_tail_ptr;
 
@@ -273,17 +274,23 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, a
  *
  * @return the resultant list
  */
-alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n, alpm_list_fn_cmp fn)
+alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n,
+		alpm_list_fn_cmp fn)
 {
 	if(n > 1) {
-		alpm_list_t *left = list;
-		alpm_list_t *lastleft = alpm_list_nth(list, n/2 - 1);
-		alpm_list_t *right = lastleft->next;
+		size_t half = n / 2;
+		size_t i = half - 1;
+		alpm_list_t *left = list, *lastleft = list, *right;
+
+		while(i--) {
+			lastleft = lastleft->next;
+		}
+		right = lastleft->next;
 		/* terminate first list */
 		lastleft->next = NULL;
 
-		left = alpm_list_msort(left, n/2, fn);
-		right = alpm_list_msort(right, n - (n/2), fn);
+		left = alpm_list_msort(left, half, fn);
+		right = alpm_list_msort(right, n - half, fn);
 		list = alpm_list_mmerge(left, right, fn);
 	}
 	return list;
