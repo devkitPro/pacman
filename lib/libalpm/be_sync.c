@@ -318,7 +318,8 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 		return NULL;
 	}
 
-	if(likely_pkg && strcmp(likely_pkg->name, pkgname) == 0) {
+	if(likely_pkg && pkgname_hash == likely_pkg->name_hash
+			&& strcmp(likely_pkg->name, pkgname) == 0) {
 		pkg = likely_pkg;
 	} else {
 		pkg = _alpm_pkghash_find(db->pkgcache, pkgname);
