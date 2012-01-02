@@ -178,7 +178,7 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 		/* line is always in this format: "key = value"
 		 * we can be sure the " = " exists, so look for that */
 		ptr = memchr(key, ' ', len);
-		if(!ptr || ptr - key + 2 > len || memcmp(ptr, " = ", 3) != 0) {
+		if(!ptr || (size_t)(ptr - key + 2) > len || memcmp(ptr, " = ", 3) != 0) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"%s: syntax error in description file line %d\n",
 					newpkg->name ? newpkg->name : "error", linenum);
