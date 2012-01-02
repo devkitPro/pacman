@@ -35,17 +35,19 @@
 struct __alpm_pkghash_t {
 	/** data held by the hash table */
 	alpm_list_t **hash_table;
-	/** number of buckets in hash table */
-	size_t buckets;
-	/** number of entries in hash table */
-	size_t entries;
 	/** head node of the hash table data in normal list format */
 	alpm_list_t *list;
+	/** number of buckets in hash table */
+	unsigned int buckets;
+	/** number of entries in hash table */
+	unsigned int entries;
+	/** max number of entries before a resize is needed */
+	unsigned int limit;
 };
 
 typedef struct __alpm_pkghash_t alpm_pkghash_t;
 
-alpm_pkghash_t *_alpm_pkghash_create(size_t size);
+alpm_pkghash_t *_alpm_pkghash_create(unsigned int size);
 
 alpm_pkghash_t *_alpm_pkghash_add(alpm_pkghash_t *hash, alpm_pkg_t *pkg);
 alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t *hash, alpm_pkg_t *pkg);
@@ -54,7 +56,5 @@ alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg, alpm
 void _alpm_pkghash_free(alpm_pkghash_t *hash);
 
 alpm_pkg_t *_alpm_pkghash_find(alpm_pkghash_t *hash, const char *name);
-
-#define MAX_HASH_LOAD 0.7
 
 #endif /* _ALPM_PKGHASH_H */

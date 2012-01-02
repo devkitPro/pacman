@@ -439,8 +439,7 @@ static int sync_db_populate(alpm_db_t *db)
 	}
 	est_count = estimate_package_count(&buf, archive);
 
-	/* initialize hash at 66% full */
-	db->pkgcache = _alpm_pkghash_create(est_count * 3 / 2);
+	db->pkgcache = _alpm_pkghash_create(est_count);
 	if(db->pkgcache == NULL) {
 		db->handle->pm_errno = ALPM_ERR_MEMORY;
 		goto cleanup;

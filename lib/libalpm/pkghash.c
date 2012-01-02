@@ -26,42 +26,51 @@
  *
  * The maximum table size is the last prime under 1,000,000.  That is
  * more than an order of magnitude greater than the number of packages
- * in any Linux distribution.
+ * in any Linux distribution, and well under UINT_MAX.
  */
-static const size_t prime_list[] =
+static const unsigned int prime_list[] =
 {
-	11ul, 13ul, 17ul, 19ul, 23ul, 29ul, 31ul, 37ul, 41ul, 43ul, 47ul,
-	53ul, 59ul, 61ul, 67ul, 71ul, 73ul, 79ul, 83ul, 89ul, 97ul, 103ul,
-	109ul, 113ul, 127ul, 137ul, 139ul, 149ul, 157ul, 167ul, 179ul, 193ul,
-	199ul, 211ul, 227ul, 241ul, 257ul, 277ul, 293ul, 313ul, 337ul, 359ul,
-	383ul, 409ul, 439ul, 467ul, 503ul, 541ul, 577ul, 619ul, 661ul, 709ul,
-	761ul, 823ul, 887ul, 953ul, 1031ul, 1109ul, 1193ul, 1289ul, 1381ul,
-	1493ul, 1613ul, 1741ul, 1879ul, 2029ul, 2179ul, 2357ul, 2549ul,
-	2753ul, 2971ul, 3209ul, 3469ul, 3739ul, 4027ul, 4349ul, 4703ul,
-	5087ul, 5503ul, 5953ul, 6427ul, 6949ul, 7517ul, 8123ul, 8783ul,
-	9497ul, 10273ul, 11113ul, 12011ul, 12983ul, 14033ul, 15173ul,
-	16411ul, 17749ul, 19183ul, 20753ul, 22447ul, 24281ul, 26267ul,
-	28411ul, 30727ul, 33223ul, 35933ul, 38873ul, 42043ul, 45481ul,
-	49201ul, 53201ul, 57557ul, 62233ul, 67307ul, 72817ul, 78779ul,
-	85229ul, 92203ul, 99733ul, 107897ul, 116731ul, 126271ul, 136607ul,
-	147793ul, 159871ul, 172933ul, 187091ul, 202409ul, 218971ul, 236897ul,
-	256279ul, 277261ul, 299951ul, 324503ul, 351061ul, 379787ul, 410857ul,
-	444487ul, 480881ul, 520241ul, 562841ul, 608903ul, 658753ul, 712697ul,
-	771049ul, 834181ul, 902483ul, 976369ul
+	11u, 13u, 17u, 19u, 23u, 29u, 31u, 37u, 41u, 43u, 47u,
+	53u, 59u, 61u, 67u, 71u, 73u, 79u, 83u, 89u, 97u, 103u,
+	109u, 113u, 127u, 137u, 139u, 149u, 157u, 167u, 179u, 193u,
+	199u, 211u, 227u, 241u, 257u, 277u, 293u, 313u, 337u, 359u,
+	383u, 409u, 439u, 467u, 503u, 541u, 577u, 619u, 661u, 709u,
+	761u, 823u, 887u, 953u, 1031u, 1109u, 1193u, 1289u, 1381u,
+	1493u, 1613u, 1741u, 1879u, 2029u, 2179u, 2357u, 2549u,
+	2753u, 2971u, 3209u, 3469u, 3739u, 4027u, 4349u, 4703u,
+	5087u, 5503u, 5953u, 6427u, 6949u, 7517u, 8123u, 8783u,
+	9497u, 10273u, 11113u, 12011u, 12983u, 14033u, 15173u,
+	16411u, 17749u, 19183u, 20753u, 22447u, 24281u, 26267u,
+	28411u, 30727u, 33223u, 35933u, 38873u, 42043u, 45481u,
+	49201u, 53201u, 57557u, 62233u, 67307u, 72817u, 78779u,
+	85229u, 92203u, 99733u, 107897u, 116731u, 126271u, 136607u,
+	147793u, 159871u, 172933u, 187091u, 202409u, 218971u, 236897u,
+	256279u, 277261u, 299951u, 324503u, 351061u, 379787u, 410857u,
+	444487u, 480881u, 520241u, 562841u, 608903u, 658753u, 712697u,
+	771049u, 834181u, 902483u, 976369u
 };
 
-/* Allocate a hash table with at least "size" buckets */
-alpm_pkghash_t *_alpm_pkghash_create(size_t size)
+/* How far forward do we look when linear probing for a spot? */
+static const unsigned int stride = 1;
+/* What is the maximum load percentage of our hash table? */
+static const double max_hash_load = 0.68;
+/* Initial load percentage given a certain size */
+static const double initial_hash_load = 0.58;
+
+/* Allocate a hash table with space for at least "size" elements */
+alpm_pkghash_t *_alpm_pkghash_create(unsigned int size)
 {
 	alpm_pkghash_t *hash = NULL;
-	size_t i, loopsize;
+	unsigned int i, loopsize;
 
 	CALLOC(hash, 1, sizeof(alpm_pkghash_t), return NULL);
+	size = size / initial_hash_load + 1;
 
 	loopsize = sizeof(prime_list) / sizeof(*prime_list);
 	for(i = 0; i < loopsize; i++) {
 		if(prime_list[i] > size) {
 			hash->buckets = prime_list[i];
+			hash->limit = hash->buckets * max_hash_load;
 			break;
 		}
 	}
@@ -78,15 +87,19 @@ alpm_pkghash_t *_alpm_pkghash_create(size_t size)
 	return hash;
 }
 
-static size_t get_hash_position(unsigned long name_hash, alpm_pkghash_t *hash)
+static unsigned int get_hash_position(unsigned long name_hash,
+		alpm_pkghash_t *hash)
 {
-	size_t position;
+	unsigned int position;
 
 	position = name_hash % hash->buckets;
 
 	/* collision resolution using open addressing with linear probing */
 	while(hash->hash_table[position] != NULL) {
-		position = (position + 1) % hash->buckets;
+		position += stride;
+		while(position >= hash->buckets) {
+			position -= hash->buckets;
+		}
 	}
 
 	return position;
@@ -96,7 +109,7 @@ static size_t get_hash_position(unsigned long name_hash, alpm_pkghash_t *hash)
 static alpm_pkghash_t *rehash(alpm_pkghash_t *oldhash)
 {
 	alpm_pkghash_t *newhash;
-	size_t newsize, position, i;
+	unsigned int newsize, i;
 
 	/* Hash tables will need resized in two cases:
 	 *  - adding packages to the local database
@@ -129,8 +142,7 @@ static alpm_pkghash_t *rehash(alpm_pkghash_t *oldhash)
 	for(i = 0; i < oldhash->buckets; i++) {
 		if(oldhash->hash_table[i] != NULL) {
 			alpm_pkg_t *package = oldhash->hash_table[i]->data;
-
-			position = get_hash_position(package->name_hash, newhash);
+			unsigned int position = get_hash_position(package->name_hash, newhash);
 
 			newhash->hash_table[position] = oldhash->hash_table[i];
 			oldhash->hash_table[i] = NULL;
@@ -144,16 +156,17 @@ static alpm_pkghash_t *rehash(alpm_pkghash_t *oldhash)
 	return newhash;
 }
 
-static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t *hash, alpm_pkg_t *pkg, int sorted)
+static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
+		int sorted)
 {
 	alpm_list_t *ptr;
-	size_t position;
+	unsigned int position;
 
 	if(pkg == NULL || hash == NULL) {
 		return hash;
 	}
 
-	if((hash->entries + 1) / MAX_HASH_LOAD > hash->buckets) {
+	if(hash->entries >= hash->limit) {
 		hash = rehash(hash);
 	}
 
@@ -189,7 +202,8 @@ alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t *hash, alpm_pkg_t *pkg)
 	return pkghash_add_pkg(hash, pkg, 1);
 }
 
-static size_t move_one_entry(alpm_pkghash_t *hash, size_t start, size_t end)
+static unsigned int move_one_entry(alpm_pkghash_t *hash,
+		unsigned int start, unsigned int end)
 {
 	/* Iterate backwards from 'end' to 'start', seeing if any of the items
 	 * would hash to 'start'. If we find one, we move it there and break.  If
@@ -201,7 +215,7 @@ static size_t move_one_entry(alpm_pkghash_t *hash, size_t start, size_t end)
 	while(end != start) {
 		alpm_list_t *i = hash->hash_table[end];
 		alpm_pkg_t *info = i->data;
-		size_t new_position = get_hash_position(info->name_hash, hash);
+		unsigned int new_position = get_hash_position(info->name_hash, hash);
 
 		if(new_position == start) {
 			hash->hash_table[start] = i;
@@ -212,7 +226,7 @@ static size_t move_one_entry(alpm_pkghash_t *hash, size_t start, size_t end)
 		/* the odd math ensures we are always positive, e.g.
 		 * e.g. (0 - 1) % 47      == -1
 		 * e.g. (47 + 0 - 1) % 47 == 46 */
-		end = (hash->buckets + end - 1) % hash->buckets;
+		end = (hash->buckets + end - stride) % hash->buckets;
 	}
 	return end;
 }
@@ -230,7 +244,7 @@ alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
 		alpm_pkg_t **data)
 {
 	alpm_list_t *i;
-	size_t position;
+	unsigned int position;
 
 	if(data) {
 		*data = NULL;
@@ -246,7 +260,7 @@ alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
 
 		if(info->name_hash == pkg->name_hash &&
 					strcmp(info->name, pkg->name) == 0) {
-			size_t stop, prev;
+			unsigned int stop, prev;
 
 			/* remove from list and hash */
 			hash->list = alpm_list_remove_item(hash->list, i);
@@ -260,11 +274,17 @@ alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
 			/* Potentially move entries following removed entry to keep open
 			 * addressing collision resolution working. We start by finding the
 			 * next null bucket to know how far we have to look. */
-			stop = (position + 1) % hash->buckets;
-			while(hash->hash_table[stop] != NULL && stop != position) {
-				stop = (stop + 1) % hash->buckets;
+			stop = position + stride;
+			while(stop >= hash->buckets) {
+				stop -= hash->buckets;
 			}
-			stop = (hash->buckets + stop - 1) % hash->buckets;
+			while(hash->hash_table[stop] != NULL && stop != position) {
+				stop += stride;
+				while(stop >= hash->buckets) {
+					stop -= hash->buckets;
+				}
+			}
+			stop = (hash->buckets + stop - stride) % hash->buckets;
 
 			/* We now search backwards from stop to position. If we find an
 			 * item that now hashes to position, we will move it, and then try
@@ -277,7 +297,10 @@ alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
 			return hash;
 		}
 
-		position = (position + 1) % hash->buckets;
+		position += stride;
+		while(position >= hash->buckets) {
+			position -= hash->buckets;
+		}
 	}
 
 	return hash;
@@ -285,8 +308,8 @@ alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
 
 void _alpm_pkghash_free(alpm_pkghash_t *hash)
 {
-	size_t i;
 	if(hash != NULL) {
+		unsigned int i;
 		for(i = 0; i < hash->buckets; i++) {
 			free(hash->hash_table[i]);
 		}
@@ -299,7 +322,7 @@ alpm_pkg_t *_alpm_pkghash_find(alpm_pkghash_t *hash, const char *name)
 {
 	alpm_list_t *lp;
 	unsigned long name_hash;
-	size_t position;
+	unsigned int position;
 
 	if(name == NULL || hash == NULL) {
 		return NULL;
@@ -316,7 +339,10 @@ alpm_pkg_t *_alpm_pkghash_find(alpm_pkghash_t *hash, const char *name)
 			return info;
 		}
 
-		position = (position + 1) % hash->buckets;
+		position += stride;
+		while(position >= hash->buckets) {
+			position -= hash->buckets;
+		}
 	}
 
 	return NULL;

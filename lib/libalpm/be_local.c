@@ -402,8 +402,7 @@ static int local_db_populate(alpm_db_t *db)
 		est_count -= 2;
 	}
 
-	/* initialize hash at 50% full */
-	db->pkgcache = _alpm_pkghash_create(est_count * 2);
+	db->pkgcache = _alpm_pkghash_create(est_count);
 	if(db->pkgcache == NULL){
 		closedir(dbdir);
 		RET_ERR(db->handle, ALPM_ERR_MEMORY, -1);
