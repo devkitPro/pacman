@@ -360,7 +360,7 @@ static int remove_package_files(alpm_handle_t *handle,
 {
 	alpm_list_t *skip_remove;
 	alpm_filelist_t *filelist;
-	size_t i, filenum = 0, position = 0;
+	size_t i;
 	int err = 0;
 	int nosave = handle->trans->flags & ALPM_TRANS_FLAG_NOSAVE;
 
@@ -398,10 +398,9 @@ static int remove_package_files(alpm_handle_t *handle,
 			FREELIST(skip_remove);
 			RET_ERR(handle, ALPM_ERR_PKG_CANT_REMOVE, -1);
 		}
-		filenum++;
 	}
 
-	_alpm_log(handle, ALPM_LOG_DEBUG, "removing %zd files\n", filenum);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "removing %zd files\n", filelist->count);
 
 	if(!newpkg) {
 		/* init progress bar, but only on true remove transactions */
@@ -418,11 +417,10 @@ static int remove_package_files(alpm_handle_t *handle,
 
 		if(!newpkg) {
 			/* update progress bar after each file */
-			int percent = (position * 100) / filenum;
+			int percent = ((filelist->count - i) * 100) / filelist->count;
 			PROGRESS(handle, ALPM_PROGRESS_REMOVE_START, oldpkg->name,
 					percent, pkg_count, targ_count);
 		}
-		position++;
 	}
 	FREELIST(skip_remove);
 
