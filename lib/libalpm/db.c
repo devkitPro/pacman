@@ -427,7 +427,7 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 				for(k = alpm_pkg_get_provides(pkg); k; k = k->next) {
 					alpm_depend_t *provide = k->data;
 					if(regexec(&reg, provide->name, 0, 0, 0) == 0) {
-						matched = k->data;
+						matched = provide->name;
 						break;
 					}
 				}
@@ -443,8 +443,8 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 			}
 
 			if(matched != NULL) {
-				_alpm_log(db->handle, ALPM_LOG_DEBUG, "    search target '%s' matched '%s'\n",
-				          targ, matched);
+				_alpm_log(db->handle, ALPM_LOG_DEBUG,
+						"search target '%s' matched '%s'\n", targ, matched);
 				ret = alpm_list_add(ret, pkg);
 			}
 		}

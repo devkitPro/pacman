@@ -120,7 +120,7 @@ A2X_OPTS = \
 	--destination-dir='./'
 
 # These rules are due to the includes and files of the asciidoc text
-$(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile
+$(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile.am
 	$(AM_V_GEN)a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@.xml" $(srcdir)/$@.txt
 
 %.html: %.txt
@@ -132,8 +132,8 @@ HACKING.html: ../HACKING
 		sed -e 's/\r$$//' > $@
 
 # Customizations for certain HTML docs
-$(HTML_MANPAGES): asciidoc.conf footer.txt Makefile
-$(HTML_OTHER): asciidoc.conf Makefile
+$(HTML_MANPAGES): asciidoc.conf footer.txt Makefile.am
+$(HTML_OTHER): asciidoc.conf Makefile.am
 %.html: ASCIIDOC_OPTS += -a linkcss -a toc -a icons -a max-width=960px -a stylesheet=asciidoc-override.css
 %.8.html: ASCIIDOC_OPTS += -d manpage
 %.5.html: ASCIIDOC_OPTS += -d manpage
