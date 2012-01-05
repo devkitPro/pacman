@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+#   <archetyp@linuxmail.org>, 2011.
 # Dušan Lago <dusan.lago@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2011-11-13 21:47-0600\n"
-"PO-Revision-Date: 2011-11-14 03:57+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2012-01-05 16:57-0600\n"
+"PO-Revision-Date: 2011-11-26 15:46+0000\n"
+"Last-Translator: archetyp <archetyp@linuxmail.org>\n"
 "Language-Team: Slovak (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sk/)\n"
 "Language: sk\n"
@@ -116,16 +117,16 @@ msgid "SOURCE FILE NOT FOUND"
 msgstr "ZDROJOVÝ SÚBOR NEBOL NÁJDENÝ"
 
 msgid "unknown public key"
-msgstr ""
+msgstr "neznámy verejný kľúč"
 
 msgid "the key has been revoked."
-msgstr ""
+msgstr "kľúč bol odvolaný."
 
 msgid "the signature has expired."
-msgstr ""
+msgstr "platnosť podpisu vypršala."
 
 msgid "the key has expired."
-msgstr ""
+msgstr "platnosť kľúča vypršala."
 
 msgid "One or more PGP signatures could not be verified!"
 msgstr "Jeden alebo viac PGP podpisov nemohlo byť overených!"
@@ -143,7 +144,7 @@ msgid "Skipping verification of source file checksums."
 msgstr "Preskakovanie overovania kontrolných súčtov zdrojového súboru."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr ""
+msgstr "Preskakujem overovanie PGP podpisov zdrojového súboru."
 
 msgid "Extracting Sources..."
 msgstr "Rozbaľujem zdrojové súbory..."
@@ -201,7 +202,7 @@ msgid "Example for GPL'ed software: %s."
 msgstr "Príklad pre software s licenciou GPL: %s."
 
 msgid "%s entry file not in package : %s"
-msgstr ""
+msgstr "%s vstupný súbor nie je v balíčku: %s"
 
 msgid "Package contains reference to %s"
 msgstr "Balíček obsahuje odkaz na %s"
@@ -255,7 +256,7 @@ msgid "Failed to create symlink to source package file."
 msgstr "Nepodarilo sa vytvoriť symbolický odkaz na súbor zdrojového balíčku."
 
 msgid "Installing package %s with %s..."
-msgstr ""
+msgstr "Inštalujem balíček %s pomocou %s..."
 
 msgid "Installing %s package group with %s..."
 msgstr "Inštaluje sa balík skupiny  %s s %s..."
@@ -294,49 +295,55 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "Zápis %s nesmie obsahovať počiatočné lomítko: %s"
 
 msgid "Invalid syntax for %s : '%s'"
-msgstr ""
+msgstr "Neplatná syntax pre %s : '%s'"
 
 msgid "%s file (%s) does not exist."
 msgstr "Inštalačný skript %s (%s) neexistuje."
 
 msgid "%s array contains unknown option '%s'"
-msgstr ""
+msgstr "%s pole obsahuje neznámu voľbu '%s'"
 
 msgid "Missing %s function for split package '%s'"
-msgstr ""
+msgstr "Chýba %s funkcia pre rozdelenie balíčka '%s'"
 
 msgid "Requested package %s is not provided in %s"
-msgstr ""
+msgstr "Požadovaný balíček %s nie je poskytovaný balíčkom %s"
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr "Sudo nebolo nájdené. Pre získanie práv roota bude použité su."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
+"Nemôžem nájsť binárny %s potrebný pre vytváranie ako nie-root užívateľ."
 
 msgid "Cannot find the %s binary required for signing packages."
-msgstr ""
+msgstr "Nemôžem nájsť binárny %s potrebný pre podpisovanie balíčkov."
 
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr ""
+msgstr "Nemôžem nájsť binárny %s potrebný pre overenie zdrojových súborov."
 
 msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr ""
+"Nemôžem nájsť binárny %s potrebný pre overenie kontrolných súčtov zdrojových "
+"súborov."
 
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr ""
+msgstr "Nemôžem nájsť binárny %s potrebný pre komprimovanie binárnych súborov."
 
 msgid "Cannot find the %s binary required for distributed compilation."
-msgstr ""
+msgstr "Nemôžem nájsť binárny %s potrebný pre distribuovanú kompiláciu."
 
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
+"Nemôžem nájsť binárny %s  potrebný pre použitie vyrovnávacej pamäte "
+"kompilátora."
 
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr ""
+msgstr "Nemôžem nájsť binárny %s potrebný na odstraňovanie objektov súboru."
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
+"Nemôžem nájsť binárny %s  potrebný pre kompresiu manuálových a info stránok."
 
 msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
@@ -354,7 +361,7 @@ msgid "Options:"
 msgstr "Voľby:"
 
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
-msgstr ""
+msgstr "  -A, --ignorearch Ignoruj neúplné %s pole v %s"
 
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Odstrániť pracovné súbory po zostavení"
@@ -364,6 +371,7 @@ msgstr "  -d, --nodeps     Preskočiť všetky kontroly závislostí"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
+"  -e, --noextract  Nerozbaľuj zdrojové súbory (použi existujúci %s adresár)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Prepísať existujúci balíček"
@@ -372,7 +380,7 @@ msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Vygenerovať kontrolné súčty zdrojových súborov"
 
 msgid "  -h, --help       Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help       Zobraz túto správu a skonči"
 
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Po úspešnom zostavení nainštalovať balíček"
@@ -398,11 +406,12 @@ msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Znovu zabaliť obsah balíčka bez zostavenia"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
-msgstr ""
+msgstr "  -s, --syncdeps   Inštaluj chýbajúce závislosti s %s"
 
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
+"  -S, --source     Vytvor čisto zdrojový archív bez stiahnutých zdrojov"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -411,10 +420,10 @@ msgstr ""
 "  --allsource      Vytvoriť zdrojový archív, vrátane sťahovaných súborov"
 
 msgid "  --asroot         Allow %s to run as root user"
-msgstr ""
+msgstr "  --asroot         Umožni %s spustiť ako užívateľ root"
 
 msgid "  --check          Run the %s function in the %s"
-msgstr ""
+msgstr "  --check          Spusti %s funkciu v  %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
@@ -427,33 +436,34 @@ msgstr ""
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
-msgstr ""
+msgstr "  --key <key>      Zadaj kľúč na podpísanie %s namiesto predvoleného"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
-msgstr ""
+msgstr "  --nocheck        Nespúšťaj %s funkciu v %s"
 
 msgid "  --nosign         Do not create a signature for the package"
-msgstr ""
+msgstr "  --nosign         Nevytváraj podpis pre balíček"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr ""
 "  --pkg <list>     Zostaviť len vymenované balíčky z rozdeleného balíčka"
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr ""
+msgstr "  --sign           Podpíš výsledné balíček s %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr ""
+msgstr "  --skipchecksums  Neoveruj kontrolné súčty zdrojových súborov"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr ""
+"  --skipinteg      Nevykonaj žiadne overovacie testy na zdrojových súboroch"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr ""
+msgstr "  --skippgpcheck   Neoveruj zdrojové súbory s PGP podpismi"
 
 msgid "These options can be passed to %s:"
-msgstr ""
+msgstr "Tieto voľby bude spracovávať %s:"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -463,7 +473,7 @@ msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Nezobrazovať priebeh sťahovania súborov"
 
 msgid "If %s is not specified, %s will look for '%s'"
-msgstr ""
+msgstr "Ak nie je zadané %s, %s bude hľadať '%s'"
 
 msgid ""
 "Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
@@ -480,16 +490,16 @@ msgid "%s signal caught. Exiting..."
 msgstr ""
 
 msgid "Aborted by user! Exiting..."
-msgstr ""
+msgstr "Prerušené užívateľom! Ukončujem..."
 
 msgid "An unknown error has occurred. Exiting..."
-msgstr ""
+msgstr "Vyskytla sa neznáma chyba. Ukončujem..."
 
 msgid "%s not found."
 msgstr "%s nebol nájdený."
 
 msgid "You do not have write permission to create packages in %s."
-msgstr ""
+msgstr "Nemáte právo na zápis na vytvorenie balíčka v %s."
 
 msgid "You do not have write permission to store packages in %s."
 msgstr "Nemáte právo na zápis kvôli uloženiu stiahnutých balíčkov do %s."
@@ -498,27 +508,35 @@ msgid "You do not have write permission to store downloads in %s."
 msgstr "Nemáte právo na zápis kvôli uloženiu stiahnutých súborov do %s."
 
 msgid "\\0%s and %s cannot both be specified"
-msgstr ""
+msgstr "\\0%s a %s nemôžu byť zadané súčasne"
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
 msgstr ""
+"Spustenie %s ako root je ZLÁ myšlienka a môže spôsobiť trvalé, "
+"\\nkatastrofálne poškodenie Vášho systému. Ak chcete skutočne spúšťať ako "
+"root, použite\\n prosím voľbu %s."
 
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
 "%s flag."
 msgstr ""
+"Voľba %s je určená iba pre užívateľa root. Spustite prosím\\nznova %s bez "
+"voľby %s."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
 msgstr ""
+"Spustiť %s ako neprivilegovaný užívateľ znamená nie-rootovské\\nvlastníctvo "
+"balíčkovaných súborov. Skúste použiť %s prostredie\\numiestnením %s do poľa "
+"%s v %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
-msgstr ""
+msgstr "Nepoužívajte voľbu %s. Táto voľba je použiteľná len pre %s."
 
 msgid "%s does not exist."
 msgstr "%s neexistuje."
@@ -536,23 +554,23 @@ msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je už zostavený, inštalujem existujúci balíček..."
 
 msgid "A package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Balíček už bol vytvorený. (použite %s na prepísanie)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Skupina balíčkov je už zostavená, inštalujem existujúce balíčky..."
 
 msgid "The package group has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Skupina balíčkov už bola vytvorená. (použite %s pre prepísanie)"
 
 msgid "Part of the package group has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Časť balíčkov zo skupiny  je už vytvorená. (použite %s pre prepísanie)"
 
 msgid "Leaving %s environment."
-msgstr ""
+msgstr "Opúšťam prostredie %s."
 
 msgid "Repackaging without the use of a %s function is deprecated."
-msgstr ""
+msgstr "Znovuzabalenie bez použitia funkcie %s nie je podporované."
 
 msgid "File permissions may not be preserved."
 msgstr "Prístupové práva súborov nemusia byť zachované."
@@ -561,7 +579,7 @@ msgid "Making package: %s"
 msgstr "Vytváram balíček: %s"
 
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr ""
+msgstr "Zdrojový balíček už bol vytvorený. (použite %s na prepísanie)"
 
 msgid "Source package created: %s"
 msgstr "Zdrojový balíček vytvorený: %s"
@@ -579,16 +597,16 @@ msgid "Could not resolve all dependencies."
 msgstr "Nie je možné vyriešiť všetky závislosti."
 
 msgid "%s was not found in %s; skipping dependency checks."
-msgstr ""
+msgstr "%s nebol nájdený v %s; preskakujem kontrolu závislostí."
 
 msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr ""
+msgstr "Preskakujem získavanie zdrojov        --  použijem existujúci %s strom"
 
 msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr ""
+msgstr "Preskakujem kontrolu integrity -- použijem existujúci %s strom"
 
 msgid "Skipping source extraction       -- using existing %s tree"
-msgstr ""
+msgstr "Preskakujem rozbaľovanie zdrojov       -- použijem existujúci %s strom"
 
 msgid "The source directory is empty, there is nothing to build!"
 msgstr "Zdrojový adresár je prázdny, nie je čo zostavovať!"
@@ -622,7 +640,7 @@ msgid "%s does not exist or is not a directory."
 msgstr "%s neexistuje, alebo nie je adresárom."
 
 msgid "%s is not a pacman database directory."
-msgstr ""
+msgstr "%s nie je databázový adresár pacmana."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Na upgrade databáze musíte mať správne oprávnenia."
@@ -641,9 +659,11 @@ msgstr ""
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add [file(s)]       Pridaj zadané kľúče (prázdne pre štandardný "
+"vstup)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr ""
+msgstr "  -d, --delete <idkľúča(ov)>   Odstráň zadané id kľúča/ov"
 
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
 msgstr ""
@@ -653,7 +673,7 @@ msgid ""
 msgstr ""
 
 msgid "  -h, --help                Show this help message and exit"
-msgstr ""
+msgstr "  -h, --help                Zobraz túto nápovedu a skonči"
 
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
 msgstr ""
@@ -665,15 +685,17 @@ msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
-msgstr ""
+msgstr "  -v, --verify <podpis>  Over súbor zadaný podpisom"
 
 msgid "  -V, --version             Show program version"
-msgstr ""
+msgstr "  -V, --version             Zobraz verziu programu"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
+"  --config <file>           Použi alternatívny konfiguračný súbor (namiesto"
+"\\n                            '%s')"
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
@@ -683,6 +705,8 @@ msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
+"  --gpgdir <dir>            Nastav alternatívne adresár pre GnuPG (namiesto"
+"\\n                            '%s')"
 
 msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
 msgstr ""
@@ -720,22 +744,22 @@ msgid "Use '%s' to correct the keyring permissions."
 msgstr ""
 
 msgid "You do not have sufficient permissions to run this command."
-msgstr ""
+msgstr "Nemáte dostatočné práva na spustenie tohto príkazu."
 
 msgid "There is no secret key available to sign with."
-msgstr ""
+msgstr "Nie je k dispozícií žiadny tajný kľúč pre podpisovanie."
 
 msgid "Use '%s' to generate a default secret key."
-msgstr ""
+msgstr "Použi '%s' pre vygenerovanie prednastaveného kľúča."
 
 msgid "Verifying %s..."
-msgstr ""
+msgstr "Overujem %s..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr ""
+msgstr "Súbor %s nie je podpísaný, nemôžem pokračovať."
 
 msgid "The signature of file %s is not valid."
-msgstr ""
+msgstr "Podpis súboru %s nie je platný.."
 
 msgid "Verifying keyring file signatures..."
 msgstr ""
@@ -747,7 +771,7 @@ msgid "The keyring file %s does not exist."
 msgstr ""
 
 msgid "Appending keys from %s.gpg..."
-msgstr ""
+msgstr "Pridávam kľúče z %s.gpg ..."
 
 msgid "Locally signing trusted keys in keyring..."
 msgstr ""
@@ -762,28 +786,28 @@ msgid "Disabling revoked keys in keyring..."
 msgstr ""
 
 msgid "Disabling key %s..."
-msgstr ""
+msgstr "Vyraďujem kľúč %s..."
 
 msgid "The key identified by %s does not exist."
-msgstr ""
+msgstr "Kľúč, ktorý identifikoval %s, neexistuje."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 
 msgid "%s needs to be run as root for this operation."
-msgstr ""
+msgstr "%s musí byť spustený ako root pre túto operáciu."
 
 msgid "%s configuration file '%s' not found."
-msgstr ""
+msgstr "%s konfiguračný súbor '%s' nebol nájdený."
 
 msgid "no operation specified (use -h for help)"
-msgstr ""
+msgstr "nebola zadaná žiadna operácia (použite -h pre nápovedu)"
 
 msgid "Multiple operations specified."
-msgstr ""
+msgstr "Bolo zadaných viacero operácií."
 
 msgid "Please run %s with each operation separately."
-msgstr ""
+msgstr "Spustite prosím %s pre každú operáciou samostatne."
 
 msgid "Updating trust database..."
 msgstr ""
@@ -816,7 +840,7 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mať správne oprávnenia na optimalizáciu databázy."
 
 msgid "Can not create temp directory for database building."
-msgstr ""
+msgstr "Nie je možné vytvoriť dočasný adresár pre vytvorenie databázy."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Počítam MD5 súčet starej databázy..."
@@ -898,7 +922,7 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Nepodarilo sa nájsť príkaz xdelta3! Je xdelta3 nainštalovaný?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr ""
+msgstr "Použitie: repo-add [voľby] <cesta-k-db> <balíčkek|delta> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -908,16 +932,18 @@ msgstr ""
 "príkazovom riadku môže byť uvedených viac balíčkov pre pridanie.\\n\\n"
 
 msgid "Options:\\n"
-msgstr ""
+msgstr "Voľby:\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
+"  -d, --delta       vygeneruj a pridaj delta pre aktualizáciu balíčka\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr ""
+msgstr "  -f, --files       aktualizuj zoznam súborov databázy\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 msgstr ""
+"Použitie: repo-remove [voľby] <cesta-k-db> <menobalíčka|delta> ...\\n\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -929,25 +955,26 @@ msgstr ""
 "môže byť\\nuvedených viac balíčkov pre odstránenie.\\n\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
-msgstr ""
+msgstr "  -q, --quiet       minimalizuj výstup\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr ""
+msgstr "  -s, --sign        podpíš databázu s GnuPG po aktualizácii\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
-msgstr ""
+msgstr "  -k, --key <key>   použi zadaný kľúč na podpis databázy\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr ""
+msgstr "  -v, --verify      over podpis databázy pred aktualizáciou\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 "\\n"
-msgstr ""
+msgstr "\\nPozri %s(8) pre podrobnosti a popis dostupných volieb.\\n\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 msgstr ""
+"Príklad:  repo-add /cesta/k/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
 msgstr "Príklad:  repo-remove /path/to/repo.db.tar.gz kernel26"
@@ -968,25 +995,25 @@ msgid "Removing existing entry '%s'..."
 msgstr "Odstraňujem existujúci záznam '%s'..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr ""
+msgstr "Nemôžem nájsť binárny súbor pre gpg! Je GnuPG je nainštalované?"
 
 msgid "Signing database..."
-msgstr ""
+msgstr "Podpisujem databázu ..."
 
 msgid "Failed to sign package database."
-msgstr ""
+msgstr "Nepodarilo sa podpísať databázu balíčkov."
 
 msgid "Verifying database signature..."
-msgstr ""
+msgstr "Overujem podpis databázy ..."
 
 msgid "No existing signature found, skipping verification."
-msgstr ""
+msgstr "Žiaden existujúci podpis nebol nájdený, preskakujem overovanie."
 
 msgid "Database signature file verified."
-msgstr ""
+msgstr "Podpis databázy bol overený."
 
 msgid "Database signature was NOT valid!"
-msgstr ""
+msgstr "Podpis databázy nebol platný!"
 
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' nemá platnú príponu archívu."
@@ -994,11 +1021,15 @@ msgstr "'%s' nemá platnú príponu archívu."
 msgid "An entry for '%s' already existed"
 msgstr "Záznam pre '%s' už existuje"
 
-msgid "Computing checksums..."
-msgstr "Počíta sa kontrolná suma..."
+#, fuzzy
+msgid "Invalid package signature file '%s'."
+msgstr "Neplatný súbor balíčka '%s'."
 
 msgid "Adding package signature..."
-msgstr ""
+msgstr "Pridávam podpis balíčka ..."
+
+msgid "Computing checksums..."
+msgstr "Počíta sa kontrolná suma..."
 
 msgid "Creating '%s' db entry..."
 msgstr "Vytváram db záznam '%s'..."
@@ -1064,7 +1095,7 @@ msgid "No packages modified, nothing to do."
 msgstr "Nebol zmenený žiaden balíček, nie je čo robiť."
 
 msgid "option %s requires an argument\\n"
-msgstr ""
+msgstr "voľba %s vyžaduje argument\\n"
 
 msgid "unrecognized option"
 msgstr "neznáma možnosť"
