@@ -32,6 +32,8 @@
  *  * removal of SELF_TEST code
  */
 
+#include <stdint.h>
+
 #include "base64.h"
 
 static const unsigned char base64_enc_map[64] =
@@ -133,8 +135,8 @@ int base64_encode( unsigned char *dst, size_t *dlen,
 int base64_decode( unsigned char *dst, size_t *dlen,
                    const unsigned char *src, size_t slen )
 {
-    size_t i, j, n;
-    unsigned long x;
+    size_t i, n;
+    uint32_t j, x;
     unsigned char *p;
 
     for( i = j = n = 0; i < slen; i++ )
