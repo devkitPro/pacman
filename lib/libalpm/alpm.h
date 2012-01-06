@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#include <inttypes.h>  /* int64_t */
+#include <stdint.h>    /* int64_t */
 #include <sys/types.h> /* off_t */
 #include <stdarg.h>    /* va_list */
 

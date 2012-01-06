@@ -26,8 +26,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <inttypes.h> /* int64_t */
-#include <stdint.h> /* intmax_t */
+#include <stdint.h> /* int64_t */
 
 /* libarchive */
 #include <archive.h>
