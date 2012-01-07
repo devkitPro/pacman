@@ -92,7 +92,7 @@ static int check_localdb_files(void)
 	return ret;
 }
 
-static int checkdeps(alpm_list_t *pkglist)
+static int check_deps(alpm_list_t *pkglist)
 {
 	alpm_list_t *data, *i;
 	int ret = 0;
@@ -101,8 +101,7 @@ static int checkdeps(alpm_list_t *pkglist)
 	for(i = data; i; i = alpm_list_next(i)) {
 		alpm_depmissing_t *miss = i->data;
 		char *depstring = alpm_dep_compute_string(miss->depend);
-		printf("missing dependency for %s : %s\n", miss->target,
-				depstring);
+		printf("missing %s dependency for %s\n", depstring, miss->target);
 		free(depstring);
 		ret++;
 	}
@@ -110,7 +109,7 @@ static int checkdeps(alpm_list_t *pkglist)
 	return ret;
 }
 
-static int checkconflicts(alpm_list_t *pkglist)
+static int check_conflicts(alpm_list_t *pkglist)
 {
 	alpm_list_t *data, *i;
 	int ret = 0;
@@ -123,6 +122,77 @@ static int checkconflicts(alpm_list_t *pkglist)
 		ret++;
 	}
 	FREELIST(data);
+	return ret;
+}
+
+struct fileitem {
+	alpm_file_t *file;
+	alpm_pkg_t *pkg;
+};
+
+static int fileitem_cmp(const void *p1, const void *p2)
+{
+	const struct fileitem * fi1 = p1;
+	const struct fileitem * fi2 = p2;
+	return strcmp(fi1->file->name, fi2->file->name);
+}
+
+static int check_filelists(alpm_list_t *pkglist)
+{
+	alpm_list_t *i;
+	int ret = 0;
+	size_t list_size = 4096;
+	size_t offset = 0, j;
+	struct fileitem *all_files;
+	struct fileitem *prev_fileitem = NULL;
+
+	all_files = malloc(list_size * sizeof(struct fileitem));
+
+	for(i = pkglist; i; i = i->next) {
+		alpm_pkg_t *pkg = i->data;
+		alpm_filelist_t *filelist = alpm_pkg_get_files(pkg);
+		for(j = 0; j < filelist->count; j++) {
+			alpm_file_t *file = filelist->files + j;
+			/* only add files, not directories, to our big list */
+			if(file->name[strlen(file->name) - 1] == '/') {
+				continue;
+			}
+
+			/* do we need to reallocate and grow our array? */
+			if(offset >= list_size) {
+				struct fileitem *new_files;
+				new_files = realloc(all_files, list_size * 2 * sizeof(struct fileitem));
+				if(!new_files) {
+					free(all_files);
+					return 1;
+				}
+				all_files = new_files;
+				list_size *= 2;
+			}
+
+			/* we can finally add it to the list */
+			all_files[offset].file = file;
+			all_files[offset].pkg = pkg;
+			offset++;
+		}
+	}
+
+	/* now sort the list so we can find duplicates */
+	qsort(all_files, offset, sizeof(struct fileitem), fileitem_cmp);
+
+	/* do a 'uniq' style check on the list */
+	for(j = 0; j < offset; j++) {
+		struct fileitem *fileitem = all_files + j;
+		if(prev_fileitem && fileitem_cmp(prev_fileitem, fileitem) == 0) {
+			printf("file owned by %s and %s: %s\n",
+					alpm_pkg_get_name(prev_fileitem->pkg),
+					alpm_pkg_get_name(fileitem->pkg),
+					fileitem->file->name);
+		}
+		prev_fileitem = fileitem;
+	}
+
+	free(all_files);
 	return ret;
 }
 
@@ -139,8 +209,9 @@ static int check_localdb(void)
 
 	db = alpm_option_get_localdb(handle);
 	pkglist = alpm_db_get_pkgcache(db);
-	ret += checkdeps(pkglist);
-	ret += checkconflicts(pkglist);
+	ret += check_deps(pkglist);
+	ret += check_conflicts(pkglist);
+	ret += check_filelists(pkglist);
 	return ret;
 }
 
@@ -163,7 +234,7 @@ static int check_syncdbs(alpm_list_t *dbnames)
 		pkglist = alpm_db_get_pkgcache(db);
 		syncpkglist = alpm_list_join(syncpkglist, alpm_list_copy(pkglist));
 	}
-	ret += checkdeps(syncpkglist);
+	ret += check_deps(syncpkglist);
 
 cleanup:
 	alpm_list_free(syncpkglist);
