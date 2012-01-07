@@ -351,61 +351,38 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 	return pkg;
 }
 
-/*
- * This is the data table used to generate the estimating function below.
- * "Weighted Avg" means averaging the bottom table values; thus each repo, big
- * or small, will have equal influence.  "Unweighted Avg" means averaging the
- * sums of the top table columns, thus each package has equal influence.  The
- * final values are calculated by (surprise) averaging the averages, because
- * why the hell not.
- *
- * Database   Pkgs  tar      bz2     gz      xz
- * community  2096  5294080  256391  421227  301296
- * core        180   460800   25257   36850   29356
- * extra      2606  6635520  294647  470818  339392
- * multilib    126   327680   16120   23261   18732
- * testing      76   204800   10902   14348   12100
- *
- * Bytes Per Package
- * community  2096  2525.80  122.32  200.97  143.75
- * core        180  2560.00  140.32  204.72  163.09
- * extra      2606  2546.25  113.06  180.67  130.23
- * multilib    126  2600.63  127.94  184.61  148.67
- * testing      76  2694.74  143.45  188.79  159.21
-
- * Weighted Avg     2585.48  129.42  191.95  148.99
- * Unweighted Avg   2543.39  118.74  190.16  137.93
- * Average of Avgs  2564.44  124.08  191.06  143.46
- */
+/* This function doesn't work as well as one might think, as size of database
+ * entries varies considerably. Adding signatures nearly doubles the size of a
+ * single entry; deltas also can make for large variations in size. These
+ * current values are heavily influenced by Arch Linux; databases with no
+ * deltas and a single signature per package. */
 static size_t estimate_package_count(struct stat *st, struct archive *archive)
 {
-	unsigned int per_package;
+	int per_package;
 
 	switch(archive_compression(archive)) {
 		case ARCHIVE_COMPRESSION_NONE:
-			per_package = 2564;
+			per_package = 3015;
 			break;
 		case ARCHIVE_COMPRESSION_GZIP:
-			per_package = 191;
+		case ARCHIVE_COMPRESSION_COMPRESS:
+			per_package = 464;
 			break;
 		case ARCHIVE_COMPRESSION_BZIP2:
-			per_package = 124;
-			break;
-		case ARCHIVE_COMPRESSION_COMPRESS:
-			per_package = 193;
+			per_package = 394;
 			break;
 		case ARCHIVE_COMPRESSION_LZMA:
 		case ARCHIVE_COMPRESSION_XZ:
-			per_package = 143;
+			per_package = 400;
 			break;
 #ifdef ARCHIVE_COMPRESSION_UU
 		case ARCHIVE_COMPRESSION_UU:
-			per_package = 3543;
+			per_package = 3015 * 4 / 3;
 			break;
 #endif
 		default:
 			/* assume it is at least somewhat compressed */
-			per_package = 200;
+			per_package = 500;
 	}
 	return (size_t)((st->st_size / per_package) + 1);
 }
