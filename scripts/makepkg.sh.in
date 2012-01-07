@@ -1109,6 +1109,15 @@ find_libprovides() {
 	done
 }
 
+check_license() {
+	# TODO maybe remove this at some point
+	# warn if license array is not present or empty
+	if [[ -z $license ]]; then
+		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
+		plain "$(gettext "Example for GPL\'ed software: %s.")" "license=('GPL')"
+	fi
+}
+
 write_pkginfo() {
 	local builddate=$(date -u "+%s")
 	if [[ -n $PACKAGER ]]; then
@@ -1186,12 +1195,7 @@ write_pkginfo() {
 		fi
 	done
 
-	# TODO maybe remove this at some point
-	# warn if license array is not present or empty
-	if [[ -z $license ]]; then
-		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
-		plain "$(gettext "Example for GPL\'ed software: %s.")" "license=('GPL')"
-	fi
+	check_license
 }
 
 check_package() {
