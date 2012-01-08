@@ -391,7 +391,7 @@ static int sync_db_populate(alpm_db_t *db)
 {
 	const char *dbpath;
 	size_t est_count;
-	int count = -1, fd;
+	int count, fd;
 	struct stat buf;
 	struct archive *archive;
 	struct archive_entry *entry;
@@ -412,13 +412,14 @@ static int sync_db_populate(alpm_db_t *db)
 	fd = _alpm_open_archive(db->handle, dbpath, &buf,
 			&archive, ALPM_ERR_DB_OPEN);
 	if(fd < 0) {
-		goto cleanup;
+		return -1;
 	}
 	est_count = estimate_package_count(&buf, archive);
 
 	db->pkgcache = _alpm_pkghash_create(est_count);
 	if(db->pkgcache == NULL) {
 		db->handle->pm_errno = ALPM_ERR_MEMORY;
+		count = -1;
 		goto cleanup;
 	}
 

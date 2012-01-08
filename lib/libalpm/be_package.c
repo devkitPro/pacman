@@ -380,7 +380,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	int ret, fd, config = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
-	alpm_pkg_t *newpkg = NULL;
+	alpm_pkg_t *newpkg;
 	struct stat st;
 	size_t files_count = 0, files_size = 0;
 	alpm_file_t *files = NULL;
@@ -394,7 +394,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		if(errno == ENOENT) {
 			handle->pm_errno = ALPM_ERR_PKG_NOT_FOUND;
 		}
-		goto error;
+		return NULL;
 	}
 
 	newpkg = _alpm_pkg_new();

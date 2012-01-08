@@ -213,6 +213,8 @@ size_t _alpm_strip_newline(char *str)
  * This takes care of creating the libarchive 'archive' struct, setting up
  * compression and format options, opening a file descriptor, setting up the
  * buffer size, and performing a stat on the path once opened.
+ * On error, no file descriptor is opened, and the archive pointer returned
+ * will be set to NULL.
  * @param handle the context handle
  * @param path the path of the archive to open
  * @param buf space for a stat buffer for the given path
@@ -238,16 +240,13 @@ int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 	if(fd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR,
 				_("could not open file %s: %s\n"), path, strerror(errno));
-		archive_read_finish(*archive);
-		RET_ERR(handle, error, -1);
+		goto error;
 	}
 
 	if(fstat(fd, buf) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR,
 				_("could not stat file %s: %s\n"), path, strerror(errno));
-		archive_read_finish(*archive);
-		CLOSE(fd);
-		RET_ERR(handle, error, -1);
+		goto error;
 	}
 #ifdef HAVE_STRUCT_STAT_ST_BLKSIZE
 	if(buf->st_blksize > ALPM_BUFFER_SIZE) {
@@ -258,12 +257,18 @@ int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 	if(archive_read_open_fd(*archive, fd, bufsize) != ARCHIVE_OK) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"),
 				path, archive_error_string(*archive));
-		archive_read_finish(*archive);
-		CLOSE(fd);
-		RET_ERR(handle, error, -1);
+		goto error;
 	}
 
 	return fd;
+
+error:
+	archive_read_finish(*archive);
+	*archive = NULL;
+	if(fd >= 0) {
+		CLOSE(fd);
+	}
+	RET_ERR(handle, error, -1);
 }
 
 /** Unpack a specific file in an archive.
