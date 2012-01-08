@@ -477,7 +477,6 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 	}
 
 	/* remove the package from the database */
-	_alpm_log(handle, ALPM_LOG_DEBUG, "updating database\n");
 	_alpm_log(handle, ALPM_LOG_DEBUG, "removing database entry '%s'\n", pkgname);
 	if(_alpm_local_db_remove(handle->db_local, oldpkg) == -1) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not remove database entry %s-%s\n"),

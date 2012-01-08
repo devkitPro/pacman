@@ -249,10 +249,24 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	err = gpgme_get_key(ctx, fpr, &key, 0);
 	if(gpg_err_code(err) == GPG_ERR_EOF) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
-		ret = 0;
-		goto error;
-	} else if(gpg_err_code(err) != GPG_ERR_NO_ERROR) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
+		/* Try an alternate lookup using the 8 character fingerprint value, since
+		 * busted-ass keyservers can't support lookups using subkeys with the full
+		 * value as of now. This is why 2012 is not the year of PGP encryption. */
+		if(strlen(fpr) > 8) {
+			const char *short_fpr = fpr + strlen(fpr) - 8;
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"looking up key %s remotely\n", short_fpr);
+			err = gpgme_get_key(ctx, short_fpr, &key, 0);
+			if(gpg_err_code(err) == GPG_ERR_EOF) {
+				_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
+				ret = 0;
+			}
+		} else {
+			ret = 0;
+		}
+	}
+
+	if(gpg_err_code(err) != GPG_ERR_NO_ERROR) {
 		goto error;
 	}
 
@@ -293,6 +307,9 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	ret = 1;
 
 error:
+	if(ret != 1) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
+	}
 	gpgme_release(ctx);
 	return ret;
 }
