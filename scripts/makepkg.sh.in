@@ -551,7 +551,8 @@ download_sources() {
 		fi
 
 		# find the client we should use for this URL
-		local dlclient=$(get_downloadclient "$url") || exit $?
+		local dlclient
+		dlclient=$(get_downloadclient "$url") || exit $?
 
 		msg2 "$(gettext "Downloading %s...")" "$file"
 		# fix flyspray bug #3289
