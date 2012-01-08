@@ -624,7 +624,8 @@ generate_checksums() {
 
 		local netfile
 		for netfile in "${source[@]}"; do
-			local file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
+			local file
+			file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
 			local sum="$(openssl dgst -${integ} "$file")"
 			sum=${sum##* }
 			(( ct )) && echo -n "$indent"
