@@ -1,0 +1,93 @@
+#!/bin/bash
+#
+# updpkgsums - update source checksums in-place in PKGBUILDs
+#
+# Copyright (C) 2012 Dave Reisner <dreisner@archlinux.org>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+shopt -s extglob
+
+declare -r myname='updpkgsums'
+declare -r myver='@PACKAGE_VERSION@'
+
+usage() {
+	printf 'usage: %s [buildfile]\n\n' "$myname"
+	printf '    -h, --help        display this help message and exit\n'
+	printf '    -V, --version     display version information and exit\n\n'
+	printf '%s will perform an in place update the checksums in the\n' "$myname"
+	printf 'path specified by [buildfile], defaulting to PKGBUILD in the current\n'
+	printf 'working directory.\n'
+}
+
+version() {
+	printf "%s %s\n" "$myname" "$myver"
+	echo 'Copyright (C) 2012 Dave Reisner <dreisner@archlinux.org>'
+}
+
+case $1 in
+	-h|--help) usage; exit ;;
+	-V|--version) version; exit ;;
+esac
+
+buildfile=${1:-PKGBUILD}
+if [[ ! -f $buildfile ]]; then
+	printf $'==> ERROR: \`%s\' not found or is not a file: %s\n' "$buildfile"
+	exit 1
+fi
+
+# Resolve any symlinks to avoid replacing the symlink with a file. But, we
+# have to do this portably -- readlink's flags are inconsistent across OSes.
+while [[ -L $buildfile ]]; do
+	buildfile=$(readlink "$buildfile")
+	if [[ $buildfile = */* ]]; then
+		cd "${buildfile%/*}"
+		buildfile=${buildfile##*/}
+	fi
+done
+
+# cd into the directory with the build file. This avoids creating random src/
+# directories scattered about the filesystem, and avoids cases where we might
+# not be able to write in the $PWD.
+if [[ $buildfile = */* ]]; then
+	cd "${buildfile%/*}"
+	buildfile=${buildfile##*/}
+fi
+
+# Check $PWD/ for permission to unlink the $buildfile and write a new one
+if [[ ! -w . ]]; then
+	printf $'==> ERROR: No write permission in `%s\'\n' "$PWD"
+	exit 1
+fi
+
+{
+	# Generate the new sums and try to unlink the file before writing stdin back
+	# into it. This final precaution shouldn't fail based on the previous checks,
+	# but it's better to be extra careful before unlinking files.
+	newsums=$(makepkg -g -p "$buildfile") && rm -f "$buildfile" &&
+	exec awk -v newsums="$newsums" '
+	/^[[:blank:]]*(md|sha)[[:digit:]]+sums=/,/\)[[:blank:]]*(#.*)?$/ {
+		if (!w) {
+			print newsums
+			w++
+		}
+		next
+	}
+
+	1
+	END { if (!w) print newsums }
+	' > "$buildfile"
+} < "$buildfile"
+
+# vim: set ts=2 sw=2 noet:
