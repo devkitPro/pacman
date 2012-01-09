@@ -381,7 +381,6 @@ int _alpm_rmrf(const char *path)
 	int errflag = 0;
 	struct dirent *dp;
 	DIR *dirp;
-	char name[PATH_MAX];
 	struct stat st;
 
 	if(_alpm_lstat(path, &st) == 0) {
@@ -401,9 +400,10 @@ int _alpm_rmrf(const char *path)
 				return 1;
 			}
 			for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
-				if(dp->d_ino) {
-					sprintf(name, "%s/%s", path, dp->d_name);
+				if(dp->d_name) {
 					if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
+						char name[PATH_MAX];
+						sprintf(name, "%s/%s", path, dp->d_name);
 						errflag += _alpm_rmrf(name);
 					}
 				}
