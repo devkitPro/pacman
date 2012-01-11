@@ -20,6 +20,7 @@ SyncFirst   = pacman
 #XferCommand = /usr/bin/curl -C - -f %u > %o
 #XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
 #CleanMethod = KeepInstalled
+#UseDelta    = 0.7
 Architecture = auto
 
 # Pacman won't upgrade packages listed in IgnorePkg and members of IgnoreGroup
@@ -31,7 +32,6 @@ Architecture = auto
 
 # Misc options
 #UseSyslog
-#UseDelta
 #TotalDownload
 CheckSpace
 #VerbosePkgLists

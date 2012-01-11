@@ -535,8 +535,8 @@ const char *alpm_option_get_arch(alpm_handle_t *handle);
 /** Sets the targeted architecture. */
 int alpm_option_set_arch(alpm_handle_t *handle, const char *arch);
 
-int alpm_option_get_usedelta(alpm_handle_t *handle);
-int alpm_option_set_usedelta(alpm_handle_t *handle, int usedelta);
+double alpm_option_get_deltaratio(alpm_handle_t *handle);
+int alpm_option_set_deltaratio(alpm_handle_t *handle, double ratio);
 
 int alpm_option_get_checkspace(alpm_handle_t *handle);
 int alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace);

@@ -318,13 +318,13 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 
 		/* tell the caller that we have a partial */
 		ret = 1;
-	} else if(handle->usedelta) {
+	} else if(handle->deltaratio > 0.0) {
 		off_t dltsize;
 
 		dltsize = _alpm_shortest_delta_path(handle, newpkg->deltas,
 				newpkg->filename, &newpkg->delta_path);
 
-		if(newpkg->delta_path && (dltsize < newpkg->size * MAX_DELTA_RATIO)) {
+		if(newpkg->delta_path && (dltsize < newpkg->size * handle->deltaratio)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "using delta size\n");
 			size = dltsize;
 		} else {

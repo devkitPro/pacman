@@ -34,7 +34,7 @@ typedef struct __config_t {
 	unsigned short print;
 	unsigned short checkspace;
 	unsigned short usesyslog;
-	unsigned short usedelta;
+	double deltaratio;
 	char *arch;
 	char *print_format;
 	/* unfortunately, we have to keep track of paths both here and in the library

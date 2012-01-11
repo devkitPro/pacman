@@ -43,6 +43,7 @@ alpm_handle_t *_alpm_handle_new(void)
 	alpm_handle_t *handle;
 
 	CALLOC(handle, 1, sizeof(alpm_handle_t), return NULL);
+	handle->deltaratio = 0.0;
 
 	return handle;
 }
@@ -252,10 +253,10 @@ const char SYMEXPORT *alpm_option_get_arch(alpm_handle_t *handle)
 	return handle->arch;
 }
 
-int SYMEXPORT alpm_option_get_usedelta(alpm_handle_t *handle)
+double SYMEXPORT alpm_option_get_deltaratio(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
-	return handle->usedelta;
+	return handle->deltaratio;
 }
 
 int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
@@ -597,10 +598,13 @@ int SYMEXPORT alpm_option_set_arch(alpm_handle_t *handle, const char *arch)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_usedelta(alpm_handle_t *handle, int usedelta)
+int SYMEXPORT alpm_option_set_deltaratio(alpm_handle_t *handle, double ratio)
 {
 	CHECK_HANDLE(handle, return -1);
-	handle->usedelta = usedelta;
+	if(ratio < 0.0 || ratio > 2.0) {
+		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+	}
+	handle->deltaratio = ratio;
 	return 0;
 }
 

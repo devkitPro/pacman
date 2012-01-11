@@ -30,9 +30,6 @@ alpm_delta_t *_alpm_delta_dup(const alpm_delta_t *delta);
 off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,
 		const char *to, alpm_list_t **path);
 
-/* max percent of package size to download deltas */
-#define MAX_DELTA_RATIO 0.7
-
 #endif /* _ALPM_DELTA_H */
 
 /* vim: set ts=2 sw=2 noet: */

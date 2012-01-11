@@ -52,6 +52,7 @@ config_t *config_new(void)
 	newconfig->op = PM_OP_MAIN;
 	newconfig->logmask = ALPM_LOG_ERROR | ALPM_LOG_WARNING;
 	newconfig->configfile = strdup(CONFFILE);
+	newconfig->deltaratio = 0.0;
 	if(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) {
 		newconfig->siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
 			ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
@@ -397,8 +398,8 @@ static int _parse_options(const char *key, char *value,
 			config->verbosepkglists = 1;
 			pm_printf(ALPM_LOG_DEBUG, "config: verbosepkglists\n");
 		} else if(strcmp(key, "UseDelta") == 0) {
-			config->usedelta = 1;
-			pm_printf(ALPM_LOG_DEBUG, "config: usedelta\n");
+			config->deltaratio = 0.7;
+			pm_printf(ALPM_LOG_DEBUG, "config: usedelta (default 0.7)\n");
 		} else if(strcmp(key, "TotalDownload") == 0) {
 			config->totaldownload = 1;
 			pm_printf(ALPM_LOG_DEBUG, "config: totaldownload\n");
@@ -429,6 +430,18 @@ static int _parse_options(const char *key, char *value,
 			if(!config->arch) {
 				config_set_arch(value);
 			}
+		} else if(strcmp(key, "UseDelta") == 0) {
+			double ratio;
+			char *endptr;
+			ratio = strtod(value, &endptr);
+			if(*endptr != '\0' || ratio < 0.0 || ratio > 2.0) {
+				pm_printf(ALPM_LOG_ERROR,
+						_("config file %s, line %d: invalid value for '%s' : '%s'\n"),
+						file, linenum, "UseDelta", value);
+				return 1;
+			}
+			config->deltaratio = ratio;
+			pm_printf(ALPM_LOG_DEBUG, "config: usedelta = %f\n", ratio);
 		} else if(strcmp(key, "DBPath") == 0) {
 			/* don't overwrite a path specified on the command line */
 			if(!config->dbpath) {
@@ -605,7 +618,7 @@ static int setup_libalpm(void)
 	alpm_option_set_arch(handle, config->arch);
 	alpm_option_set_checkspace(handle, config->checkspace);
 	alpm_option_set_usesyslog(handle, config->usesyslog);
-	alpm_option_set_usedelta(handle, config->usedelta);
+	alpm_option_set_deltaratio(handle, config->deltaratio);
 
 	alpm_option_set_ignorepkgs(handle, config->ignorepkg);
 	alpm_option_set_ignoregroups(handle, config->ignoregrp);

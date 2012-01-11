@@ -88,8 +88,8 @@ struct __alpm_handle_t {
 
 	/* options */
 	char *arch;              /* Architecture of packages we should allow */
+	double deltaratio;       /* Download deltas if possible; a ratio value */
 	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */
-	int usedelta;            /* Download deltas if possible */
 	int checkspace;          /* Check disk space before installing */
 	alpm_siglevel_t siglevel;   /* Default signature verification level */
 
