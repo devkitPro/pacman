@@ -430,8 +430,13 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 
 	if(!base64_sig) {
 		sigpath = _alpm_sigpath(handle, path);
-		/* this will just help debugging */
-		_alpm_access(handle, NULL, sigpath, R_OK);
+		if(_alpm_access(handle, NULL, sigpath, R_OK) != 0
+				|| (sigfile = fopen(sigpath, "rb")) == NULL) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "sig path %s could not be opened\n",
+					sigpath);
+			handle->pm_errno = ALPM_ERR_SIG_MISSING;
+			goto error;
+		}
 	}
 
 	/* does the file we are verifying exist? */
@@ -439,17 +444,6 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	if(file == NULL) {
 		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
 		goto error;
-	}
-
-	/* does the sig file exist (if we didn't get the data directly)? */
-	if(!base64_sig) {
-		sigfile = fopen(sigpath, "rb");
-		if(sigfile == NULL) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "sig path %s could not be opened\n",
-					sigpath);
-			handle->pm_errno = ALPM_ERR_SIG_MISSING;
-			goto error;
-		}
 	}
 
 	if(init_gpgme(handle)) {
