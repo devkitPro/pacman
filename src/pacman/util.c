@@ -1365,6 +1365,12 @@ static int question(short preset, char *fmt, va_list args)
 			return preset;
 		}
 
+		/* if stdin is piped, response does not get printed out, and as a result
+		 * a \n is missing, resulting in broken output (FS#27909) */
+		if(!isatty(fileno(stdin))) {
+			fprintf(stream, "%s\n", response);
+		}
+
 		if(strcasecmp(response, _("Y")) == 0 || strcasecmp(response, _("YES")) == 0) {
 			return 1;
 		} else if(strcasecmp(response, _("N")) == 0 || strcasecmp(response, _("NO")) == 0) {
