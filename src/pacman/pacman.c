@@ -801,7 +801,7 @@ int main(int argc, char *argv[])
 	config = config_new();
 
 	/* disable progressbar if the output is redirected */
-	if(!isatty(1)) {
+	if(!isatty(fileno(stdout))) {
 		config->noprogressbar = 1;
 	}
 
