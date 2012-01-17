@@ -338,6 +338,14 @@ populate_keyring() {
 	fi
 }
 
+add_keys() {
+	"${GPG_PACMAN[@]}" --quiet --batch --import "${KEYFILES[@]}"
+}
+
+delete_keys() {
+	"${GPG_PACMAN[@]}" --quiet --batch --delete-key --yes "${KEYIDS[@]}"
+}
+
 edit_keys() {
 	local errors=0;
 	for key in "${KEYIDS[@]}"; do
@@ -352,6 +360,14 @@ edit_keys() {
 	for key in "${KEYIDS[@]}"; do
 		"${GPG_PACMAN[@]}" --edit-key "$key"
 	done
+}
+
+export_keys() {
+	"${GPG_PACMAN[@]}" --armor --export "${KEYIDS[@]}"
+}
+
+finger_keys() {
+	"${GPG_PACMAN[@]}" --batch --fingerprint "${KEYIDS[@]}"
 }
 
 import_trustdb() {
@@ -373,6 +389,35 @@ import() {
 			"${GPG_PACMAN[@]}" --quiet --batch --import "${importdir}/pubring.gpg"
 		fi
 	done
+}
+
+list_keys() {
+	"${GPG_PACMAN[@]}" --batch --list-keys "${KEYIDS[@]}"
+}
+
+list_sigs() {
+	"${GPG_PACMAN[@]}" --batch --list-sigs "${KEYIDS[@]}"
+}
+
+lsign_keys() {
+	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${KEYIDS[@]}" 2>/dev/null
+}
+
+receive_keys() {
+	"${GPG_PACMAN[@]}" --recv-keys "${KEYIDS[@]}"
+}
+
+refresh_keys() {
+	"${GPG_PACMAN[@]}" --refresh-keys "${KEYIDS[@]}"
+}
+
+verify_sig() {
+	"${GPG_PACMAN[@]}" --verify $SIGNATURE
+}
+
+updatedb() {
+	msg "$(gettext "Updating trust database...")"
+	"${GPG_PACMAN[@]}" --batch --check-trustdb
 }
 
 # PROGRAM START
@@ -476,27 +521,24 @@ esac
 
 (( ! INIT )) && check_keyring
 
-(( ADD )) && "${GPG_PACMAN[@]}" --quiet --batch --import "${KEYFILES[@]}"
-(( DELETE )) && "${GPG_PACMAN[@]}" --quiet --batch --delete-key --yes "${KEYIDS[@]}"
+(( ADD )) && add_keys
+(( DELETE )) && delete_keys
 (( EDITKEY )) && edit_keys
-(( EXPORT )) && "${GPG_PACMAN[@]}" --armor --export "${KEYIDS[@]}"
-(( FINGER )) && "${GPG_PACMAN[@]}" --batch --fingerprint "${KEYIDS[@]}"
+(( EXPORT )) && export_keys
+(( FINGER )) && finger_keys
 (( IMPORT )) && import
 (( IMPORT_TRUSTDB)) && import_trustdb
 (( INIT )) && initialize
-(( LISTKEYS )) && "${GPG_PACMAN[@]}" --batch --list-keys "${KEYIDS[@]}"
-(( LISTSIGS )) && "${GPG_PACMAN[@]}" --batch --list-sigs "${KEYIDS[@]}"
-if (( LSIGNKEY )); then
-	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${KEYIDS[@]}" 2>/dev/null
-fi
+(( LISTKEYS )) && list_keys
+(( LISTSIGS )) && list_sigs
+(( LSIGNKEY )) && lsign_keys
 (( POPULATE )) && populate_keyring
-(( RECEIVE )) && "${GPG_PACMAN[@]}" --recv-keys "${KEYIDS[@]}"
-(( REFRESH )) && "${GPG_PACMAN[@]}" --refresh-keys "${KEYIDS[@]}"
-(( VERIFY )) && "${GPG_PACMAN[@]}" --verify "$SIGNATURE"
+(( RECEIVE )) && receive_keys
+(( REFRESH )) && refresh_keys
+(( VERIFY )) && verify_sig
 
-if (( UPDATEDB )); then
-	msg "$(gettext "Updating trust database...")"
-	"${GPG_PACMAN[@]}" --batch --check-trustdb
-fi
+(( UPDATEDB )) && updatedb
+
+exit 0
 
 # vim: set ts=2 sw=2 noet:
