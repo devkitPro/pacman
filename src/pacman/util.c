@@ -312,19 +312,6 @@ void indentprint(const char *str, size_t indent)
 	free(wcstr);
 }
 
-/* Convert a string to uppercase
- */
-char *strtoupper(char *str)
-{
-	char *ptr = str;
-
-	while(*ptr) {
-		(*ptr) = (char)toupper((unsigned char)*ptr);
-		ptr++;
-	}
-	return str;
-}
-
 /* Trim whitespace and newlines from a string
  */
 char *strtrim(char *str)
