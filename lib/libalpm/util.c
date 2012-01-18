@@ -1085,7 +1085,7 @@ off_t _alpm_strtoofft(const char *line)
 	errno = 0;
 
 	/* we are trying to parse bare numbers only, no leading anything */
-	if(line[0] < '0' || line[0] > '9') {
+	if(!isdigit((unsigned char)line[0])) {
 		return (off_t)-1;
 	}
 	result = strtoull(line, &end, 10);
