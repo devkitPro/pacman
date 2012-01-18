@@ -198,7 +198,6 @@ static int sync_cleancache(int level)
 		/* step through the directory one file at a time */
 		while((ent = readdir(dir)) != NULL) {
 			char path[PATH_MAX];
-			size_t pathlen;
 			int delete = 1;
 			alpm_pkg_t *localpkg = NULL, *pkg = NULL;
 			const char *local_name, *local_version;
@@ -209,30 +208,18 @@ static int sync_cleancache(int level)
 			/* build the full filepath */
 			snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
 
-			/* short circuit for removing all packages from cache */
+			/* short circuit for removing all files from cache */
 			if(level > 1) {
 				unlink(path);
 				continue;
 			}
 
-			/* we handle .sig files with packages, not separately */
-			pathlen = strlen(path);
-			if(strcmp(path + pathlen - 4, ".sig") == 0) {
-				continue;
-			}
-
-			/* attempt to load the package, prompt removal on failures as we may have
-			 * files here that aren't valid packages. we also don't need a full
-			 * load of the package, just the metadata. */
-			if(alpm_pkg_load(config->handle, path, 0, 0, &localpkg) != 0
-					|| localpkg == NULL) {
-				if(yesno(_("File %s does not seem to be a valid package, remove it?"),
-							path)) {
-					if(localpkg) {
-						alpm_pkg_free(localpkg);
-					}
-					unlink(path);
-				}
+			/* attempt to load the file as a package. if we cannot load the file,
+			 * simply skip it and move on. we don't need a full load of the package,
+			 * just the metadata. */
+			if(alpm_pkg_load(config->handle, path, 0, 0, &localpkg) != 0) {
+				pm_printf(ALPM_LOG_DEBUG, "skipping %s, could not load as package\n",
+						path);
 				continue;
 			}
 			local_name = alpm_pkg_get_name(localpkg);
@@ -244,7 +231,7 @@ static int sync_cleancache(int level)
 				if(pkg != NULL && alpm_pkg_vercmp(local_version,
 							alpm_pkg_get_version(pkg)) == 0) {
 					/* package was found in local DB and version matches, keep it */
-					pm_printf(ALPM_LOG_DEBUG, "pkg %s-%s found in local db\n",
+					pm_printf(ALPM_LOG_DEBUG, "package %s-%s found in local db\n",
 							local_name, local_version);
 					delete = 0;
 				}
@@ -258,7 +245,7 @@ static int sync_cleancache(int level)
 					if(pkg != NULL && alpm_pkg_vercmp(local_version,
 								alpm_pkg_get_version(pkg)) == 0) {
 						/* package was found in a sync DB and version matches, keep it */
-						pm_printf(ALPM_LOG_DEBUG, "pkg %s-%s found in sync db\n",
+						pm_printf(ALPM_LOG_DEBUG, "package %s-%s found in sync db\n",
 								local_name, local_version);
 						delete = 0;
 					}
@@ -268,6 +255,7 @@ static int sync_cleancache(int level)
 			alpm_pkg_free(localpkg);
 
 			if(delete) {
+				size_t pathlen = strlen(path);
 				unlink(path);
 				/* unlink a signature file if present too */
 				if(PATH_MAX - 5 >= pathlen) {
