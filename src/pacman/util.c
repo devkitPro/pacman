@@ -835,8 +835,12 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 			/* add up size of all removed packages */
 			rsize += alpm_pkg_get_isize(target->remove);
 		}
+	}
 
-		/* form data for both verbose and non-verbose display */
+	/* form data for both verbose and non-verbose display */
+	for(i = targets; i; i = alpm_list_next(i)) {
+		pm_target_t *target = i->data;
+
 		rows = alpm_list_add(rows, create_verbose_row(target, show_dl_size));
 		if(target->install) {
 			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
