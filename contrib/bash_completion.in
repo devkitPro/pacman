@@ -59,9 +59,9 @@ _makepkg() {
 _pacman_pkg() {
   _arch_compgen "$(
     if [[ $2 ]]; then
-      \pacman -$1 | \cut -d' ' -f1 | \sort -u
+      \pacman -$1 2>/dev/null | \cut -d' ' -f1 | \sort -u
     else
-      \pacman -$1
+      \pacman -$1 2>/dev/null
     fi
   )"
 }
