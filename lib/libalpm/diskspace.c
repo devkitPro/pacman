@@ -1,7 +1,7 @@
 /*
  *  diskspace.c
  *
- *  Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,9 +19,14 @@
 
 #include "config.h"
 
+#include <stdio.h>
 #include <errno.h>
+
 #if defined(HAVE_MNTENT_H)
 #include <mntent.h>
+#endif
+#if defined(HAVE_MNTTAB_H)
+#include <mnttab.h>
 #endif
 #if defined(HAVE_SYS_STATVFS_H)
 #include <sys/statvfs.h>
@@ -60,10 +65,10 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	alpm_list_t *mount_points = NULL, *ptr;
 	alpm_mountpoint_t *mp;
 
-#if defined HAVE_GETMNTENT
+#if defined(HAVE_GETMNTENT) && defined(HAVE_MNTENT_H)
+	/* Linux */
 	struct mntent *mnt;
 	FILE *fp;
-	struct statvfs fsp;
 
 	fp = setmntent(MOUNTED, "r");
 
@@ -72,8 +77,10 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	}
 
 	while((mnt = getmntent(fp))) {
+		struct statvfs fsp;
 		if(!mnt) {
-			_alpm_log(handle, ALPM_LOG_WARNING, _("could not get filesystem information\n"));
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("could not get filesystem information\n"));
 			continue;
 		}
 		if(statvfs(mnt->mnt_dir, &fsp) != 0) {
@@ -93,7 +100,44 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	}
 
 	endmntent(fp);
-#elif defined HAVE_GETMNTINFO
+#elif defined(HAVE_GETMNTENT) && defined(HAVE_MNTTAB_H)
+	/* Solaris, Illumos */
+	struct mnttab mnt;
+	FILE *fp;
+	int ret;
+
+	fp = fopen("/etc/mnttab", "r");
+
+	if(fp == NULL) {
+		return NULL;
+	}
+
+	while((ret = getmntent(fp, &mnt)) == 0) {
+		struct statvfs fsp;
+		if(statvfs(mnt->mnt_mountp, &fsp) != 0) {
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("could not get filesystem information for %s: %s\n"),
+					mnt->mnt_mountp, strerror(errno));
+			continue;
+		}
+
+		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		mp->mount_dir = strdup(mnt->mnt_mountp);
+		mp->mount_dir_len = strlen(mp->mount_dir);
+		memcpy(&(mp->fsp), &fsp, sizeof(struct statvfs));
+		mp->read_only = fsp.f_flag & ST_RDONLY;
+
+		mount_points = alpm_list_add(mount_points, mp);
+	}
+	/* -1 == EOF */
+	if(ret != -1) {
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("could not get filesystem information\n"));
+	}
+
+	fclose(fp);
+#elif defined(HAVE_GETMNTINFO)
+	/* FreeBSD (statfs), NetBSD (statvfs), OpenBSD (statfs), OS X (statfs) */
 	int entries;
 	FSSTATSTYPE *fsp;
 
