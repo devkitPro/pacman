@@ -202,8 +202,10 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 
 static int no_dep_version(alpm_handle_t *handle)
 {
-	int flags = alpm_trans_get_flags(handle);
-	return flags != -1 && (flags & ALPM_TRANS_FLAG_NODEPVERSION);
+	if(!handle->trans) {
+		return 0;
+	}
+	return (handle->trans->flags & ALPM_TRANS_FLAG_NODEPVERSION);
 }
 
 static alpm_depend_t *filtered_depend(alpm_depend_t *dep, int nodepversion)
