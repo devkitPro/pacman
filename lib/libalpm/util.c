@@ -397,52 +397,6 @@ cleanup:
 	return ret;
 }
 
-/** Recursively removes a path similar to 'rm -rf'.
- * @param path path to remove
- * @return 0 on success, number of paths that could not be removed on error
- */
-int _alpm_rmrf(const char *path)
-{
-	int errflag = 0;
-	struct dirent *dp;
-	DIR *dirp;
-	struct stat st;
-
-	if(_alpm_lstat(path, &st) == 0) {
-		if(!S_ISDIR(st.st_mode)) {
-			if(!unlink(path)) {
-				return 0;
-			} else {
-				if(errno == ENOENT) {
-					return 0;
-				} else {
-					return 1;
-				}
-			}
-		} else {
-			dirp = opendir(path);
-			if(!dirp) {
-				return 1;
-			}
-			for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
-				if(dp->d_name) {
-					if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
-						char name[PATH_MAX];
-						sprintf(name, "%s/%s", path, dp->d_name);
-						errflag += _alpm_rmrf(name);
-					}
-				}
-			}
-			closedir(dirp);
-			if(rmdir(path)) {
-				errflag++;
-			}
-		}
-		return errflag;
-	}
-	return 0;
-}
-
 /** Determine if there are files in a directory.
  * @param handle the context handle
  * @param path the full absolute directory path

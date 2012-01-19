@@ -907,14 +907,44 @@ cleanup:
 int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info)
 {
 	int ret = 0;
-	char *pkgpath = _alpm_local_db_pkgpath(db, info, NULL);
+	DIR *dirp;
+	struct dirent *dp;
+	char *pkgpath;
+	size_t pkgpath_len;
 
-	/* TODO explicit file removes and then an rmdir? */
-	ret = _alpm_rmrf(pkgpath);
-	free(pkgpath);
-	if(ret != 0) {
+	pkgpath = _alpm_local_db_pkgpath(db, info, NULL);
+	if(!pkgpath) {
+		return -1;
+	}
+	pkgpath_len = strlen(pkgpath);
+
+	dirp = opendir(pkgpath);
+	if(!dirp) {
+		return -1;
+	}
+	/* go through the local DB entry, removing the files within, which we know
+	 * are not nested directories of any kind. */
+	for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
+		if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
+			char name[PATH_MAX];
+			if(pkgpath_len + strlen(dp->d_name) + 2 > PATH_MAX) {
+				/* file path is too long to remove, hmm. */
+				ret = -1;
+			} else {
+				sprintf(name, "%s/%s", pkgpath, dp->d_name);
+				if(unlink(name)) {
+					ret = -1;
+				}
+			}
+		}
+	}
+	closedir(dirp);
+
+	/* after removing all enclosed files, we can remove the directory itself. */
+	if(rmdir(pkgpath)) {
 		ret = -1;
 	}
+	free(pkgpath);
 	return ret;
 }
 
