@@ -25,10 +25,18 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/socket.h> /* setsockopt, SO_KEEPALIVE */
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
+
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h> /* IPPROTO_TCP */
+#endif
+#ifdef HAVE_NETINET_TCP_H
+#include <netinet/tcp.h> /* TCP_KEEPINTVL, TCP_KEEPIDLE */
+#endif
 
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
@@ -217,6 +225,47 @@ static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
 	return realsize;
 }
 
+static int dload_sockopt_cb(void *userdata, curl_socket_t curlfd,
+		curlsocktype purpose)
+{
+	alpm_handle_t *handle = userdata;
+	int optval = 1;
+
+	/* this whole method is to prevent FTP control connections from going sour
+	 * during a long data transfer; crappy firewalls love to drop otherwise idle
+	 * connections if there is no traffic. */
+	if(purpose != CURLSOCKTYPE_IPCXN) {
+		return 0;
+	}
+
+	/* don't abort operation if any setsockopt fails, just log to debug */
+	if(setsockopt(curlfd, SOL_SOCKET, SO_KEEPALIVE, (void *)&optval,
+				sizeof(optval)) < 0) {
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"Failed to set SO_KEEPALIVE on fd %d\n", curlfd);
+	}
+	else {
+#ifdef TCP_KEEPIDLE
+		optval = 60;
+		if(setsockopt(curlfd, IPPROTO_TCP, TCP_KEEPIDLE, (void *)&optval,
+					sizeof(optval)) < 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"Failed to set TCP_KEEPIDLE on fd %d\n", curlfd);
+		}
+#endif
+#ifdef TCP_KEEPINTVL
+		optval = 60;
+		if(setsockopt(curlfd, IPPROTO_TCP, TCP_KEEPINTVL, (void *)&optval,
+					sizeof(optval)) < 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"Failed to set TCP_KEEPINTVL on fd %d\n", curlfd);
+		}
+#endif
+	}
+
+	return 0;
+}
+
 static void curl_set_handle_opts(struct dload_payload *payload,
 		CURL *curl, char *error_buffer)
 {
@@ -241,6 +290,8 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, parse_headers);
 	curl_easy_setopt(curl, CURLOPT_WRITEHEADER, (void *)payload);
 	curl_easy_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
+	curl_easy_setopt(curl, CURLOPT_SOCKOPTFUNCTION, dload_sockopt_cb);
+	curl_easy_setopt(curl, CURLOPT_SOCKOPTDATA, (void *)handle);
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "url: %s\n", payload->fileurl);
 
@@ -392,6 +443,8 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	/* perform transfer */
 	payload->curlerr = curl_easy_perform(curl);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "curl returned error %d from transfer\n",
+			payload->curlerr);
 
 	/* disconnect relationships from the curl handle for things that might go out
 	 * of scope, but could still be touched on connection teardown.  This really
