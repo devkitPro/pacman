@@ -92,7 +92,7 @@ static void inthandler(int UNUSED signum)
 	dload_interrupted = ABORT_SIGINT;
 }
 
-static int curl_progress(void *file, double dltotal, double dlnow,
+static int dload_progress_cb(void *file, double dltotal, double dlnow,
 		double UNUSED ultotal, double UNUSED ulnow)
 {
 	struct dload_payload *payload = (struct dload_payload *)file;
@@ -194,7 +194,7 @@ static mode_t _getumask(void)
 	return mask;
 }
 
-static size_t parse_headers(void *ptr, size_t size, size_t nmemb, void *user)
+static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *user)
 {
 	size_t realsize = size * nmemb;
 	const char *fptr, *endptr = NULL;
@@ -283,11 +283,11 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-	curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, curl_progress);
+	curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, dload_progress_cb);
 	curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, (void *)payload);
 	curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
 	curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 10L);
-	curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, parse_headers);
+	curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, dload_parseheader_cb);
 	curl_easy_setopt(curl, CURLOPT_WRITEHEADER, (void *)payload);
 	curl_easy_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
 	curl_easy_setopt(curl, CURLOPT_SOCKOPTFUNCTION, dload_sockopt_cb);
