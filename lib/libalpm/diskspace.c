@@ -25,8 +25,8 @@
 #if defined(HAVE_MNTENT_H)
 #include <mntent.h>
 #endif
-#if defined(HAVE_MNTTAB_H)
-#include <mnttab.h>
+#if defined(HAVE_SYS_MNTTAB_H)
+#include <sys/mnttab.h>
 #endif
 #if defined(HAVE_SYS_STATVFS_H)
 #include <sys/statvfs.h>
