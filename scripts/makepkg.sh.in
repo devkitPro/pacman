@@ -3,7 +3,7 @@
 #   makepkg - make packages compatible for use with pacman
 #   @configure_input@
 #
-#   Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>
+#   Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>
 #   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
 #   Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
 #   Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
@@ -412,7 +412,11 @@ download_file() {
 
 run_pacman() {
 	local cmd
-	printf -v cmd "%q " "$PACMAN" $PACMAN_OPTS "$@"
+	if [[ ! $1 = -@(T|Qq) ]]; then
+		printf -v cmd "%q " "$PACMAN" $PACMAN_OPTS "$@"
+	else
+		printf -v cmd "%q " "$PACMAN" "$@"
+	fi
 	if (( ! ASROOT )) && [[ ! $1 = -@(T|Qq) ]]; then
 		if type -p sudo >/dev/null; then
 			cmd="sudo $cmd"
@@ -507,14 +511,15 @@ remove_deps() {
 	# check for packages removed during dependency install (e.g. due to conflicts)
 	# removing all installed packages is risky in this case
 	if [[ -n $(grep -xvFf <(printf '%s\n' "${current_packagelist[@]}") \
-			<(printf '%s\n' "${original_packagelist[@]}") ) ]]; then
+			<(printf '%s\n' "${original_packagelist[@]}") || true) ]]; then
 		warning "$(gettext "Failed to remove installed dependencies.")"
 		return 0
 	fi
 
 	local deplist
-	if ! deplist=($(grep -xvFf <(printf "%s\n" "${original_pkglist[@]}") \
-			<(printf "%s\n" "${current_pkglist[@]}"))); then
+	deplist=($(grep -xvFf <(printf "%s\n" "${original_pkglist[@]}") \
+			<(printf "%s\n" "${current_pkglist[@]}") || true))
+	if [[ -n deplist ]]; then
 		return
 	fi
 
@@ -1869,7 +1874,7 @@ usage() {
 version() {
 	printf "makepkg (pacman) %s\n" "$myver"
 	printf "$(gettext "\
-Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>.\n\
+Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"

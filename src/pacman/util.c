@@ -1,7 +1,7 @@
 /*
  *  util.c
  *
- *  Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -190,10 +190,10 @@ int rmrf(const char *path)
 			return 1;
 		}
 		for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
-			if(dp->d_ino) {
-				char name[PATH_MAX];
-				sprintf(name, "%s/%s", path, dp->d_name);
+			if(dp->d_name) {
 				if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
+					char name[PATH_MAX];
+					snprintf(name, PATH_MAX, "%s/%s", path, dp->d_name);
 					errflag += rmrf(name);
 				}
 			}
@@ -308,19 +308,6 @@ void indentprint(const char *str, size_t indent)
 		p++;
 	}
 	free(wcstr);
-}
-
-/* Convert a string to uppercase
- */
-char *strtoupper(char *str)
-{
-	char *ptr = str;
-
-	while(*ptr) {
-		(*ptr) = (char)toupper((unsigned char)*ptr);
-		ptr++;
-	}
-	return str;
 }
 
 /* Trim whitespace and newlines from a string
@@ -898,8 +885,12 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 			/* add up size of all removed packages */
 			rsize += alpm_pkg_get_isize(target->remove);
 		}
+	}
 
-		/* form data for both verbose and non-verbose display */
+	/* form data for both verbose and non-verbose display */
+	for(i = targets; i; i = alpm_list_next(i)) {
+		pm_target_t *target = i->data;
+
 		rows = alpm_list_add(rows, create_verbose_row(target, show_dl_size));
 		if(target->install) {
 			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
@@ -1428,6 +1419,12 @@ static int question(short preset, char *fmt, va_list args)
 		size_t len = strtrim(response);
 		if(len == 0) {
 			return preset;
+		}
+
+		/* if stdin is piped, response does not get printed out, and as a result
+		 * a \n is missing, resulting in broken output (FS#27909) */
+		if(!isatty(fileno(stdin))) {
+			fprintf(stream, "%s\n", response);
 		}
 
 		if(strcasecmp(response, _("Y")) == 0 || strcasecmp(response, _("YES")) == 0) {

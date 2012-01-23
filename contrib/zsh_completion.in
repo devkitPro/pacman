@@ -276,7 +276,7 @@ _pacman_completions_repositories() {
 # $cmd must be declared by calling function
 _pacman_get_command() {
 	# this is mostly nicked from _perforce
-	cmd=( "pacman" )
+	cmd=( "pacman" "2>/dev/null")
 	integer i
 	for (( i = 2; i < CURRENT - 1; i++ )); do
 		if [[ ${words[i]} = "--config" || ${words[i]} = "--root" ]]; then

@@ -1,7 +1,7 @@
 /*
  *  util.c
  *
- *  Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *  Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
  *  Copyright (c) 2005 by Christian Hamar <krics@linuxforum.hu>
@@ -406,7 +406,6 @@ int _alpm_rmrf(const char *path)
 	int errflag = 0;
 	struct dirent *dp;
 	DIR *dirp;
-	char name[PATH_MAX];
 	struct stat st;
 
 	if(_alpm_lstat(path, &st) == 0) {
@@ -426,9 +425,10 @@ int _alpm_rmrf(const char *path)
 				return 1;
 			}
 			for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
-				if(dp->d_ino) {
-					sprintf(name, "%s/%s", path, dp->d_name);
+				if(dp->d_name) {
 					if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
+						char name[PATH_MAX];
+						sprintf(name, "%s/%s", path, dp->d_name);
 						errflag += _alpm_rmrf(name);
 					}
 				}
@@ -1168,7 +1168,7 @@ off_t _alpm_strtoofft(const char *line)
 	errno = 0;
 
 	/* we are trying to parse bare numbers only, no leading anything */
-	if(line[0] < '0' || line[0] > '9') {
+	if(!isdigit((unsigned char)line[0])) {
 		return (off_t)-1;
 	}
 	result = strtoull(line, &end, 10);

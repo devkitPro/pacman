@@ -4,7 +4,7 @@
 #                Based on apt-key, from Debian
 #   @configure_input@
 #
-#   Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>
+#   Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ usage() {
 version() {
 	printf "pacman-key (pacman) %s\n" "${myver}"
 	printf "$(gettext "\
-Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>.\n\
+Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
@@ -141,6 +141,20 @@ add_gpg_conf_option() {
 	# followed by at least one space and any other text or the end of line.
 	if ! grep -q "^[[:space:]#]*$1\([[:space:]].*\)*$" "$conffile" &>/dev/null; then
 		printf '%s\n' "$*" >> "$conffile"
+	fi
+}
+
+check_keyids_exist() {
+	local ret=0
+	for key in "${KEYIDS[@]}"; do
+		# Verify if the key exists in pacman's keyring
+		if ! "${GPG_PACMAN[@]}" --list-keys "$key" &>/dev/null ; then
+			error "$(gettext "The key identified by %s could not be found locally.")" "$key"
+			ret=1
+		fi
+	done
+	if (( ret )); then
+		exit 1
 	fi
 }
 
@@ -338,41 +352,144 @@ populate_keyring() {
 	fi
 }
 
+add_keys() {
+	if ! "${GPG_PACMAN[@]}" --quiet --batch --import "${KEYFILES[@]}" ; then
+		error "$(gettext "A specified keyfile could not be added to the gpg keychain.")"
+		exit 1
+	fi
+}
+
+delete_keys() {
+	check_keyids_exist
+	if ! "${GPG_PACMAN[@]}" --quiet --batch --delete-key --yes "${KEYIDS[@]}" ; then
+		error "$(gettext "A specified key could not be removed from the gpg keychain.")"
+		exit 1
+	fi
+}
+
 edit_keys() {
-	local errors=0;
+	check_keyids_exist
+	local ret=0
 	for key in "${KEYIDS[@]}"; do
-		# Verify if the key exists in pacman's keyring
-		if ! "${GPG_PACMAN[@]}" --list-keys "$key" &>/dev/null; then
-			error "$(gettext "The key identified by %s does not exist.")" "$key"
-			errors=1;
+		if ! "${GPG_PACMAN[@]}" --edit-key "$key" ; then
+			error "$(gettext "The key identified by %s could not be edited.")" "$key"
+			ret=1
 		fi
 	done
-	(( errors )) && exit 1;
+	if (( ret )); then
+		exit 1
+	fi
+}
 
-	for key in "${KEYIDS[@]}"; do
-		"${GPG_PACMAN[@]}" --edit-key "$key"
-	done
+export_keys() {
+	check_keyids_exist
+	if ! "${GPG_PACMAN[@]}" --armor --export "${KEYIDS[@]}" ; then
+		error "$(gettext "A specified key could not be exported from the gpg keychain.")"
+		exit 1
+	fi
+}
+
+finger_keys() {
+	check_keyids_exist
+	if ! "${GPG_PACMAN[@]}" --batch --fingerprint "${KEYIDS[@]}" ; then
+		error "$(gettext "The fingerprint of a specified key could not be determined.")"
+		exit 1
+	fi
 }
 
 import_trustdb() {
 	local importdir
-
+	local ret=0
 	for importdir in "${IMPORT_DIRS[@]}"; do
 		if [[ -f "${importdir}/trustdb.gpg" ]]; then
 			gpg --homedir "${importdir}" --export-ownertrust | \
 				"${GPG_PACMAN[@]}" --import-ownertrust -
+			if (( PIPESTATUS )); then
+				error "$(gettext "%s could not be imported.")" "${importdir}/trustdb.gpg"
+				ret=1
+			fi
+		else
+			error "$(gettext "File %s does not exist and could not be imported.")" "${importdir}/trustdb.gpg"
+			ret=1
 		fi
 	done
+	if (( ret )); then
+		exit 1
+	fi
 }
 
 import() {
 	local importdir
-
+	local ret=0
 	for importdir in "${IMPORT_DIRS[@]}"; do
 		if [[ -f "${importdir}/pubring.gpg" ]]; then
-			"${GPG_PACMAN[@]}" --quiet --batch --import "${importdir}/pubring.gpg"
+			if ! "${GPG_PACMAN[@]}" --quiet --batch --import "${importdir}/pubring.gpg" ; then
+				error "$(gettext "%s could not be imported.")" "${importdir}/pubring.gpg"
+				ret=1
+			fi
+		else
+			error "$(gettext "File %s does not exist and could not be imported.")" "${importdir}/pubring.gpg"
+			ret=1
 		fi
 	done
+	if (( ret )); then
+		exit 1
+	fi
+}
+
+list_keys() {
+	check_keyids_exist
+	if ! "${GPG_PACMAN[@]}" --batch --list-keys "${KEYIDS[@]}" ; then
+		error "$(gettext "A specified key could not be listed.")"
+		exit 1
+	fi
+}
+
+list_sigs() {
+	check_keyids_exist
+	if ! "${GPG_PACMAN[@]}" --batch --list-sigs "${KEYIDS[@]}" ; then
+		error "$(gettext "A specified signature could not be listed.")"
+		exit 1
+	fi
+}
+
+lsign_keys() {
+	check_keyids_exist
+	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${KEYIDS[@]}" 2>/dev/null
+	if (( PIPESTATUS[1] )); then
+		error "$(gettext "A specified key could not be locally signed.")"
+		exit 1
+	fi
+}
+
+receive_keys() {
+	if ! "${GPG_PACMAN[@]}" --recv-keys "${KEYIDS[@]}" ; then
+		error "$(gettext "Remote key not fetched correctly from keyserver.")"
+		exit 1
+	fi
+}
+
+refresh_keys() {
+	check_keyids_exist
+	if ! "${GPG_PACMAN[@]}" --refresh-keys "${KEYIDS[@]}" ; then
+		error "$(gettext "A specified local key could not be updated from a keyserver.")"
+		exit 1
+	fi
+}
+
+verify_sig() {
+	if ! "${GPG_PACMAN[@]}" --verify $SIGNATURE ; then
+		error "$(gettext "The signature identified by %s could not be verified.")" "$SIGNATURE"
+		exit 1
+	fi
+}
+
+updatedb() {
+	msg "$(gettext "Updating trust database...")"
+	if ! "${GPG_PACMAN[@]}" --batch --check-trustdb ; then
+		error "$(gettext "Trust database could not be updated.")"
+		exit 1
+	fi
 }
 
 # PROGRAM START
@@ -476,27 +593,24 @@ esac
 
 (( ! INIT )) && check_keyring
 
-(( ADD )) && "${GPG_PACMAN[@]}" --quiet --batch --import "${KEYFILES[@]}"
-(( DELETE )) && "${GPG_PACMAN[@]}" --quiet --batch --delete-key --yes "${KEYIDS[@]}"
+(( ADD )) && add_keys
+(( DELETE )) && delete_keys
 (( EDITKEY )) && edit_keys
-(( EXPORT )) && "${GPG_PACMAN[@]}" --armor --export "${KEYIDS[@]}"
-(( FINGER )) && "${GPG_PACMAN[@]}" --batch --fingerprint "${KEYIDS[@]}"
+(( EXPORT )) && export_keys
+(( FINGER )) && finger_keys
 (( IMPORT )) && import
 (( IMPORT_TRUSTDB)) && import_trustdb
 (( INIT )) && initialize
-(( LISTKEYS )) && "${GPG_PACMAN[@]}" --batch --list-keys "${KEYIDS[@]}"
-(( LISTSIGS )) && "${GPG_PACMAN[@]}" --batch --list-sigs "${KEYIDS[@]}"
-if (( LSIGNKEY )); then
-	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${KEYIDS[@]}" 2>/dev/null
-fi
+(( LISTKEYS )) && list_keys
+(( LISTSIGS )) && list_sigs
+(( LSIGNKEY )) && lsign_keys
 (( POPULATE )) && populate_keyring
-(( RECEIVE )) && "${GPG_PACMAN[@]}" --recv-keys "${KEYIDS[@]}"
-(( REFRESH )) && "${GPG_PACMAN[@]}" --refresh-keys "${KEYIDS[@]}"
-(( VERIFY )) && "${GPG_PACMAN[@]}" --verify "$SIGNATURE"
+(( RECEIVE )) && receive_keys
+(( REFRESH )) && refresh_keys
+(( VERIFY )) && verify_sig
 
-if (( UPDATEDB )); then
-	msg "$(gettext "Updating trust database...")"
-	"${GPG_PACMAN[@]}" --batch --check-trustdb
-fi
+(( UPDATEDB )) && updatedb
+
+exit 0
 
 # vim: set ts=2 sw=2 noet:

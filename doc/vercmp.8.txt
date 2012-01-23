@@ -6,7 +6,7 @@ vercmp(8)
 
 Name
 ----
-vercmp - version comparsion utility
+vercmp - version comparison utility
 
 
 Synopsis
@@ -23,7 +23,7 @@ numbers. It outputs values as follows:
 *  = 0 : if ver1 == ver2
 *  > 0 : if ver1 > ver2
 
-Version comparsion operates as follows:
+Version comparison operates as follows:
 
   Alphanumeric:
     1.0a < 1.0b < 1.0beta < 1.0p < 1.0pre < 1.0rc < 1.0 < 1.0.a < 1.0.1
@@ -34,6 +34,11 @@ Additionally, version strings can have an 'epoch' value defined that will
 overrule any version comparison (unless the epoch values are equal). This is
 specified in an `epoch:version-rel` format. For example, `2:1.0-1` is always
 greater than `1:3.6-1`.
+
+Keep in mind that the 'pkgrel' is only compared if it is available on both
+versions given to this tool. For example, comparing `1.5-1` and `1.5` will
+yield 0; comparing `1.5-1` and `1.5-2` will yield < 0 as expected. This is
+mainly for supporting versioned dependencies that do not include the 'pkgrel'.
 
 
 Options

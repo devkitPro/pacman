@@ -1,7 +1,7 @@
 /*
  *  util.h
  *
- *  Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>
  *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -52,7 +52,6 @@ int rmrf(const char *path);
 const char *mbasename(const char *path);
 char *mdirname(const char *path);
 void indentprint(const char *str, size_t indent);
-char *strtoupper(char *str);
 size_t strtrim(char *str);
 char *strreplace(const char *str, const char *needle, const char *replace);
 alpm_list_t *strsplit(const char *str, const char splitchar);
