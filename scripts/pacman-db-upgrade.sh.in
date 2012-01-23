@@ -32,12 +32,12 @@ m4_include(library/output_format.sh)
 
 usage() {
 	printf "pacman-db-upgrade (pacman) %s\n\n" "$myver"
-	printf "$(gettext "Usage: %s [pacman_db_root]")\n\n" "$0"
+	printf -- "$(gettext "Usage: %s [pacman_db_root]")\n\n" "$0"
 }
 
 version() {
 	printf "pacman-db-upgrade (pacman) %s\n" "$myver"
-	printf "$(gettext "\
+	printf -- "$(gettext "\
 Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
