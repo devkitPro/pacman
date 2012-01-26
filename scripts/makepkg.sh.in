@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 #
 #   makepkg - make packages compatible for use with pacman
 #   @configure_input@
@@ -437,13 +437,10 @@ run_pacman() {
 check_deps() {
 	(( $# > 0 )) || return 0
 
-	# Disable error trap in pacman subshell call as this breaks bash-3.2 compatibility
-	# Also, a non-zero return value is not unexpected and we are manually dealing them
-	set +E
 	local ret=0
 	local pmout
-	pmout=$(run_pacman -T "$@") || ret=$?
-	set -E
+	pmout=$(run_pacman -T "$@")
+	ret=$?
 
 	if (( ret == 127 )); then #unresolved deps
 		printf "%s\n" "$pmout"
@@ -476,13 +473,7 @@ handle_deps() {
 	fi
 
 	# we might need the new system environment
-	# avoid triggering the ERR trap and exiting
-	set +e
-	local restoretrap=$(trap -p ERR)
-	trap - ERR
 	source /etc/profile &>/dev/null
-	eval $restoretrap
-	set -e
 
 	return $R_DEPS_SATISFIED
 }
@@ -882,6 +873,23 @@ cd_safe() {
 	fi
 }
 
+run_function_safe() {
+	local restoretrap
+
+	set -e
+	set -E
+
+	restoretrap=$(trap -p ERR)
+	trap 'error_function $pkgfunc' ERR
+
+	run_function "$1"
+
+	eval $restoretrap
+
+	set +E
+	set +e
+}
+
 run_function() {
 	if [[ -z $1 ]]; then
 		return 1
@@ -907,7 +915,6 @@ run_function() {
 	local shellopts=$(shopt -p)
 
 	local ret=0
-	local restoretrap
 	if (( LOGGING )); then
 		local fullver=$(get_full_version)
 		local BUILDLOG="${startdir}/${pkgbase}-${fullver}-${CARCH}-$pkgfunc.log"
@@ -929,18 +936,12 @@ run_function() {
 		tee "$BUILDLOG" < "$logpipe" &
 		local teepid=$!
 
-		restoretrap=$(trap -p ERR)
-		trap 'error_function $pkgfunc' ERR
 		$pkgfunc &>"$logpipe"
-		eval $restoretrap
 
 		wait $teepid
 		rm "$logpipe"
 	else
-		restoretrap=$(trap -p ERR)
-		trap 'error_function $pkgfunc' ERR
 		$pkgfunc 2>&1
-		eval $restoretrap
 	fi
 	# reset our shell options
 	eval "$shellopts"
@@ -958,11 +959,11 @@ run_build() {
 		[[ -d /usr/lib/ccache/bin ]] && export PATH="/usr/lib/ccache/bin:$PATH"
 	fi
 
-	run_function "build"
+	run_function_safe "build"
 }
 
 run_check() {
-	run_function "check"
+	run_function_safe "check"
 }
 
 run_package() {
@@ -973,7 +974,7 @@ run_package() {
 		pkgfunc="package_$1"
 	fi
 
-	run_function "$pkgfunc"
+	run_function_safe "$pkgfunc"
 }
 
 tidy_install() {
@@ -2009,7 +2010,6 @@ for signal in TERM HUP QUIT; do
 done
 trap 'trap_exit INT "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit USR1 "$(gettext "An unknown error has occurred. Exiting...")"' ERR
-set -E
 
 # preserve environment variables and canonicalize path
 [[ -n ${PKGDEST} ]] && _PKGDEST=$(canonicalize_path ${PKGDEST})
