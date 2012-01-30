@@ -999,7 +999,8 @@ tidy_install() {
 					#   the '|| true' part keeps the script from bailing on the EOF returned
 					#   by read at the end of the find output
 					IFS=$'\n' read -rd '' -a hardlinks < \
-						<(find "${MAN_DIRS[@]}" \! -name "$file" -samefile "$manpage" 2>/dev/null) || true
+						<(find ${MAN_DIRS[@]} \! -name "$file" -samefile "$manpage" \
+								2>/dev/null || true) || true
 					rm -f "${hardlinks[@]}"
 					# compress the original
 					gzip -9 "$manpage"
