@@ -4,14 +4,14 @@
 #
 # Translators:
 # Ionut Biru <ibiru@archlinux.org>, 2011.
-# Mihai Coman <mihai@m1x.ro>, 2011.
+# Mihai Coman <mihai@m1x.ro>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-15 20:12+0000\n"
-"Last-Translator: wonder <ibiru@archlinux.org>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-17 09:17+0000\n"
+"Last-Translator: Mihai Coman <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/ro/)\n"
 "Language: ro\n"
@@ -490,8 +490,9 @@ msgstr "  --noprogressbar  Nu arată bara de progres când se descarcă fişiere
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Dacă % nu este specificat, %s va căuta '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -649,8 +650,9 @@ msgstr "S-a terminat de făcut: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Folosire: %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -776,6 +778,10 @@ msgstr ""
 "  --refresh-keys [IDcheie] Actualizează cheile specificate sau toate cheile "
 "de la un server de chei."
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "Cheia identificată de %s nu există."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nu ai suficiente permisiuni pentru a citi inelul de chei %s."
 
@@ -827,8 +833,57 @@ msgstr "Se dezactivează în inelul de chei cheile revocate."
 msgid "Disabling key %s..."
 msgstr "Se dezactivează cheia %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "Cheia identificată de %s nu există."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Nu s-a putut crea delta."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s nu există sau nu este un director."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Fișierul depozit %s nu a putut fi creat."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Una sau mai multe semnături PGP nu au putut fi verificate!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Cheia identificată de %s nu există."
+
+msgid "Updating trust database..."
+msgstr "Se actualizează baza de date cu valorile de încredere..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Nu s-a putut crea delta."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nu se poate găsi binarul %s necesar pentru toate operațiile %s."
@@ -847,9 +902,6 @@ msgstr "Multiple operații specificate."
 
 msgid "Please run %s with each operation separately."
 msgstr "Vă rugăm executați %s cu fiecare operație separat."
-
-msgid "Updating trust database..."
-msgstr "Se actualizează baza de date cu valorile de încredere..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -966,9 +1018,10 @@ msgstr "Nu se găsește binarul xdelta3! Este instalat xdelta3?"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Utilizare: repo-add [opțiuni] <cale-către-bd> <pachet|delta> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add va actualiza o bază de date cu pachete pachet citind un fişier "
 "pachet.\\nMultiple pachete de adăugat pot fi specificate în aceeași linie de "
@@ -984,18 +1037,23 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       actualizează lista de fișiere a bazei de date\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Utilizare: repo-remove [opțiuni] <cale-către-bd> <numepachet|delta> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove va actualiza o bază de date cu pachete eliminând numele "
 "pachetului\\nspecificat în linia de comandă dintr-un depozit dat. Multiple "
 "pachete\\n de eliminat pot fi specificate în aceeași linie de comandă.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimalizează rezultatul\\n"
@@ -1013,23 +1071,26 @@ msgstr ""
 "  -v, --verify      verifică semnătura bazei de date înainte de actualizare"
 "\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr ""
 "\\nVezi %s(8) pentru mai multe detalii și descrieri ale opțiunilor "
 "disponibile.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Exemplu:  repo-add /cale/către/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exemplu:  repo-remove /cale/către/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1073,9 +1134,8 @@ msgstr "'%s' nu are o extensie de arhivă validă."
 msgid "An entry for '%s' already existed"
 msgstr "O intrare pentru '%s' există deja"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Fișier pachet '%s' nevalid."
+msgstr "Fișier semnătură pachet nevalid '%s'."
 
 msgid "Adding package signature..."
 msgstr "Se adaugă semnătura pachetului..."

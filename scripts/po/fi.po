@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-21 18:29+0000\n"
-"Last-Translator: Larso <larso@gmx.com>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-05 23:01+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fi/)\n"
 "Language: fi\n"
@@ -472,8 +472,9 @@ msgstr "  --noprogressbar  Älä näytä edistymispalkkia tiedostoja ladattaessa
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr ""
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -625,8 +626,9 @@ msgstr "Saatiin valmiiksi paketti: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Käyttö: %s [pacman_tietokannan_juuri]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -751,6 +753,9 @@ msgstr ""
 "  --refresh-keys [avain-id(s)]  Päivitää annetut tai kaikki avaimet "
 "avainpalvelimelta"
 
+msgid "The key identified by %s could not be found locally."
+msgstr ""
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr ""
 
@@ -802,8 +807,57 @@ msgstr ""
 msgid "Disabling key %s..."
 msgstr ""
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
 msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
+msgstr "Tietokantatiedostoa '%s' ei voida luoda."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Deltaa ei voitu luoda."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s ei ole olemassa, tai se ei ole kansio."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Tietokantatiedostoa '%s' ei voida luoda."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Yhtä tai useampaa PGP allekirjoitusta ei voitu tarkastaa!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Yhtä tai useampaa PGP allekirjoitusta ei voitu tarkastaa!"
+
+msgid "Updating trust database..."
+msgstr ""
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Deltaa ei voitu luoda."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Kaikille %s-operaatioille tarvittavaa ohjelmaa %s ei löydy."
@@ -821,9 +875,6 @@ msgid "Multiple operations specified."
 msgstr ""
 
 msgid "Please run %s with each operation separately."
-msgstr ""
-
-msgid "Updating trust database..."
 msgstr ""
 
 msgid ""
@@ -940,9 +991,10 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Käyttö: repo-add [valitsimet] <tietokannan-sijainti> <paketti|delta> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add päivittää pakettitietokannan lukemalla pakettitiedoston."
 "\\nKomentorivillä voidaan määrittää useampia paketteja kerrallaan.\\n\\n"
@@ -956,19 +1008,24 @@ msgstr "  -d, --delta       luo ja lisää delta paketti\\n"
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       päivitä tietokannan tiedostolistaus\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Käyttö: repo-remove [valinnat] <tietokannan_sijainti> <paketinnimi|delta> ..."
 "\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove päivittää pakettitietokannan, poistamalla\\nkomentorivillä "
 "määriteltyjen pakettien nimet tietokannasta.\\n komentorivillä voidaan "
 "määrittää kerrallaan useampia paketteja.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimoi viestien määrä\\n"
@@ -985,22 +1042,25 @@ msgstr ""
 "  -v, --verify      tarkasta tietokannan allekirjoitus, ennen päivittämistä"
 "\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr "\\nLisätietoja kaivatessasi onsltoi man sivua %s(8).\\n\\n "
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Esimerkki:  repo-add /tieto/kannan/sijainti/repo.db.tar.gz pacman-3.0.0-1-"
 "i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Esimerkki: repo-remove /tieto/kannan/sijainti/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1044,9 +1104,8 @@ msgstr "kohteella '%s' ei ole kelvollista arkistopäätettä."
 msgid "An entry for '%s' already existed"
 msgstr "Paketti '%s' on jo tietokannassa"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Pakettitiedosto '%s' ei ole kelvollinen."
+msgstr ""
 
 msgid "Adding package signature..."
 msgstr "Lisätään paketin allekirjoitusta..."

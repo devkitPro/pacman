@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011.
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-22 11:33+0000\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-17 20:53+0000\n"
 "Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/uk/)\n"
@@ -483,8 +483,9 @@ msgstr ""
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Якщо %s не вказано, %s буде шукати '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -642,8 +643,9 @@ msgstr "Закінчено створення: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Використання: %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -772,6 +774,10 @@ msgstr ""
 "  --refresh-keys [ідентифікатор_ключа(ів)] Оновити вказані або всі ключі з "
 "сервера ключів"
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "Ключа, визначеного через %s, не існує."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "У Вас немає достатніх прав для читання зв’язки ключів %s."
 
@@ -823,8 +829,57 @@ msgstr "Відключення скасованих ключів у зв’яз�
 msgid "Disabling key %s..."
 msgstr "Відключення ключа %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "Ключа, визначеного через %s, не існує."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Дельта не може бути створена."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s не існує, або не є текою."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Файл репозиторію '%s' неможливо створити."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Один або кілька PGP-підписів неможливо перевірити!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Ключа, визначеного через %s, не існує."
+
+msgid "Updating trust database..."
+msgstr "Оновлення довірчої бази даних..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Дельта не може бути створена."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Не можу знайти бінарник %s, який вимагається для всіх операцій %s."
@@ -843,9 +898,6 @@ msgstr "Вказано кілька операцій."
 
 msgid "Please run %s with each operation separately."
 msgstr "Будь ласка, запустіть %s з кожною операцією окремо."
-
-msgid "Updating trust database..."
-msgstr "Оновлення довірчої бази даних..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -960,9 +1012,10 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Використання: repo-add [параметри] <шлях-до-бази> <пакунок|дельта> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add поновить базу даних пакунків, прочитавши файл пакунку.\\nВ "
 "командному рядку може бути вказано кілька пакунків.\\n\\n"
@@ -976,19 +1029,24 @@ msgstr "  -d, --delta       генерує і додає дельту для о�
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       оновлює список файлів бази дани\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Використання: repo-remove [параметри] <шлях-до-бази> <назва пакунку|"
 "дельта> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove поновить базу даних пакунків, вилучивши ім'я пакунку,\\nяке "
 "вказане у командному рядку, з даного репозиторія.\\nВ командному рядку може "
 "бути вказано кілька пакунків.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       зменшує вихідну інформацію\\n"
@@ -1003,21 +1061,24 @@ msgstr ""
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify      перевірити підпис бази даних перед оновленням\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr "\\nПерегляньте %s(8) для деталей і описів доступних параметрів.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Приклад:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Приклад:  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1061,9 +1122,8 @@ msgstr "'%s' не має вірного розширення архіву."
 msgid "An entry for '%s' already existed"
 msgstr "Запис для '%s' вже існував"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Невірний файл пакунка '%s'."
+msgstr "Неправильний файл підпису пакунку '%s'."
 
 msgid "Adding package signature..."
 msgstr "Додаю підпис пакунку..."

@@ -4,14 +4,14 @@
 #
 # Translators:
 # Axilleas P <markeleas@gmail.com>, 2011.
-# Christos Nouskas <nous@archlinux.us>, 2011.
+# Christos Nouskas <nous@archlinux.us>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-14 14:54+0000\n"
-"Last-Translator: nous <nous@archlinux.us>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-09 15:38+0000\n"
+"Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/el/)\n"
 "Language: el\n"
@@ -478,8 +478,9 @@ msgstr "  --noprogressbar  Λήψη αρχείων χωρίς γραμμή πρ�
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Εάν το %s δεν καθοριστεί, το %s θα αναζητήσει το '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -497,7 +498,7 @@ msgid "Aborted by user! Exiting..."
 msgstr "Ματαίωση από τον χρήστη! Έξοδος..."
 
 msgid "An unknown error has occurred. Exiting..."
-msgstr "Ένα άγνωστο λάθος συνέβη. Έξοδος..."
+msgstr "Προέκυψε άγνωστο σφάλμα. Έξοδος..."
 
 msgid "%s not found."
 msgstr "Το %s δεν βρέθηκε."
@@ -631,8 +632,9 @@ msgstr "Τέλος δημιουργίας: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Χρήση: %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -753,6 +755,10 @@ msgstr ""
 "  --refresh-keys [keyid(s)] Ενημέρωση καθορισμένων ή όλων των κλειδιών από "
 "διακομιστή"
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "Κλειδί που προσδιορίζεται από %s δεν υπάρχει."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Ανεπαρκή δικαιώματα ανάγνωσης κλειδούχου %s."
 
@@ -804,8 +810,57 @@ msgstr "Απενεργοποίηση ανακληθέντων κλειδιών �
 msgid "Disabling key %s..."
 msgstr "Απενεργοποίηση κλειδιού %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "Κλειδί που προσδιορίζεται από %s δεν υπάρχει."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Αδυναμία δημιουργίας delta."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "Το %s δεν υπάρχει ή δεν είναι κατάλογος."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Αδυναμία δημιουργίας αρχείου αποθήκης '%s'."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Μια ή περισσότερες υπογραφές PGP δεν επικυρώθηκαν!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Κλειδί που προσδιορίζεται από %s δεν υπάρχει."
+
+msgid "Updating trust database..."
+msgstr "Ενημέρωση βάσης εμπιστοσύνης..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Αδυναμία δημιουργίας delta."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -825,9 +880,6 @@ msgstr "Ορίσθηκαν πολλαπλές διεργασίες."
 
 msgid "Please run %s with each operation separately."
 msgstr "Τρέξε τον %s με κάθε διεργασία χωριστά."
-
-msgid "Updating trust database..."
-msgstr "Ενημέρωση βάσης εμπιστοσύνης..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -943,9 +995,10 @@ msgstr "Το εκτελέσιμο xdelta3 δεν υπάρχει! Είναι εγ
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Χρήση: repo-add [options] <path-to-db> <package|delta> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "Το repo-add ενημερώνει μια βάση πακέτων διαβάζοντας ένα αρχείο πακέτων."
 "\\nΜπορούν να ορισθούν πολλαπλά πακέτα στην γραμμή εντολών.\\n\\n"
@@ -960,18 +1013,23 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       ενημέρωση λίστας αρχείων βάσης\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Χρήση: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "το repo-add ενημερώνει μια βάση πακέτων διαγράφοντας το αρχείο πακέτων. "
 "\\nπου ορίζεται στην γραμμή εντολών από την δοθείσα βάση αποθήκης. "
 "\\nΜπορούν να ορισθούν πολλαπλά πακέτα στην γραμμή εντολών.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       περιστολή πληροφορίας\\n"
@@ -986,23 +1044,26 @@ msgstr ""
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify      επικύρωση υπογραφής βάσης προ της ενημέρωσης\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr ""
 "\\nΔες την %s(8) για περισσότερες πληροφορίες και περιγραφές των διαθέσιμων "
 "επιλογών.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Παράδειγμα: repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Παράδειγμα: repo-remove /διαδρομή/προς/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1021,7 +1082,7 @@ msgid "Removing existing entry '%s'..."
 msgstr "Διαγραφή υπάρχουσας εγγραφής '%s'..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr "Δε βρήκα το εκτελέσιμο gpg! Είναι εγκατεστημένο το GnuPG?"
+msgstr "Δε βρέθηκε το gpg! Είναι εγκατεστημένο το GnuPG?"
 
 msgid "Signing database..."
 msgstr "Υπογραφή βάσης..."
@@ -1047,9 +1108,8 @@ msgstr "Το '%s' δεν έχει έγκυρη επέκταση συμπιεσμ
 msgid "An entry for '%s' already existed"
 msgstr "Υπήρχε ήδη εγγραφή για το '%s'"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Άκυρο όνομα πακέτου '%s'."
+msgstr "Άκυρο αρχείο υπογραφών πακέτων '%s'."
 
 msgid "Adding package signature..."
 msgstr "Προσθήκη υπογραφής πακέτου..."
