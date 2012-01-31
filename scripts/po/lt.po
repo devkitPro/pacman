@@ -4,15 +4,15 @@
 #
 # Translators:
 # Algimantas Margevičius <gymka@mail.ru>, 2011.
-# Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011.
+# Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011, 2012.
 # FULL NAME <EMAIL@ADDRESS>, 2011.
 # toofishes <dpmcgee@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-12-20 11:34+0000\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-13 12:18+0000\n"
 "Last-Translator: Algimantas Margevičius <margevicius.algimantas@gmail.com>\n"
 "Language-Team: Lithuanian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/lt/)\n"
@@ -490,8 +490,9 @@ msgstr "  --noprogressbar  Nerodyti pažangos juostos kol parsiunčiami failai"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Jei %s nenurodytas, %s ieškos '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -645,8 +646,9 @@ msgstr "Baigta gaminti: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Naudojimas: %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -762,6 +764,10 @@ msgstr ""
 "  --refresh-keys [keyid(s)] Atnaujinti nurodytus arba visus raktus iš raktų "
 "serverio"
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "Raktas atpažintas kaip %s neegzistuoja."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Neturi pakankamų teisių skaityti %s keyring."
 
@@ -813,8 +819,57 @@ msgstr "Išjungiami atšaukti raktai raktinėj..."
 msgid "Disabling key %s..."
 msgstr "Uždraudžiamas raktas %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "Raktas atpažintas kaip %s neegzistuoja."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Delta negalėjo būt sukurta."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s neegzistuoja arba tai ne aplankas."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Saugyklos failas '%s' nesukurtas."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Neįmanoma patikrinti vieno ar kelių PGP parašų!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Raktas atpažintas kaip %s neegzistuoja."
+
+msgid "Updating trust database..."
+msgstr "Atnaujinama patikima duomenų bazė..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Delta negalėjo būt sukurta."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos atlikti %s."
@@ -833,9 +888,6 @@ msgstr "Nurodyts kelios operacijos."
 
 msgid "Please run %s with each operation separately."
 msgstr "Prašom vykdyti %s su kiekviena užduotim atskirai."
-
-msgid "Updating trust database..."
-msgstr "Atnaujinama patikima duomenų bazė..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -950,9 +1002,10 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Naudojimas: repo-add [pasirinktys] <kelias-iki-db> <paketas|delta> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add atnaujins paketų duomenų bazę perskaitęs failą.\\nGali būt nurodyti "
 "keli paketai.\\n\\n"
@@ -966,19 +1019,24 @@ msgstr "  -d, --delta       sukurti ir pridėti delta paketo atnaujinimui\\n"
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       atnaujinti duomenų bazės failų sąrašą\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Naudojimas: repo-remove [pasirinktys] <kelias-iki-db> <paketo_pavadinimas|"
 "delta>...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove atnaujins paketų duomenų bazę pašalindamas\\npaketą nurodytą "
 "komandinėj eilutės iš nurodytos duomenų bazės. Gali\\nbūt nurodyti keli "
 "paketai pašalinimui\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimali išvestis\\n"
@@ -994,23 +1052,26 @@ msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
 "  -v, --verify      patikrinti duomenų bazės parašą prieš atnaujinimą\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr ""
 "\\nPažiūrėk %s(8) detalesniai informacijai bei galimų pasirinkčių aprašymus."
 "\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Pavyzdys:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Pavyzdys:  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1054,9 +1115,8 @@ msgstr "'%s' neturi reikiamo archyvo plėtinio."
 msgid "An entry for '%s' already existed"
 msgstr "Įrašas apie '%s' jau yra"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Neteisingas paketo failas '%s'."
+msgstr "Netinkamas paketo parašo failas „%s“."
 
 msgid "Adding package signature..."
 msgstr "Pridedamas paketo parašas..."

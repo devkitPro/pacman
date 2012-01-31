@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-14 03:57+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-05 23:01+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/cs/)\n"
 "Language: cs\n"
@@ -471,8 +471,9 @@ msgstr "  --noprogressbar  Nezobrazovat průběh stahování souborů"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Když není zadáno %s, %s bude hledat '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -621,8 +622,9 @@ msgstr "Dokončeno vytváření: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Použití: %s [kořen_databáze_pacmana]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -740,6 +742,10 @@ msgstr ""
 "  --refresh-keys [keyid(s)]   Aktualizuje uvedené (nebo všechny) klíče ze "
 "serveru s klíči."
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "Klíč určený %s neexistuje."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nemáte dostatečná oprávnění pro čteni klíčenky %s."
 
@@ -791,8 +797,57 @@ msgstr "Rušení odvolaných klíčů v klíčence..."
 msgid "Disabling key %s..."
 msgstr "Rušení klíče %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "Klíč určený %s neexistuje."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Delta rozdíl nemohl být vytvořen."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s neexistuje, nebo není adresář."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Nepodařilo se vytvořit soubor repozitáře %s."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Jeden nebo více podpisů PGP se nepodařilo ověřit!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Klíč určený %s neexistuje."
+
+msgid "Updating trust database..."
+msgstr "Aktualizuje se databáze důvěry..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Delta rozdíl nemohl být vytvořen."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nelze nalézt program %s nutný ke všem %s operacím."
@@ -811,9 +866,6 @@ msgstr "Uvedeno více operací."
 
 msgid "Please run %s with each operation separately."
 msgstr "Prosím spusťte %s pro každou operaci samostatně."
-
-msgid "Updating trust database..."
-msgstr "Aktualizuje se databáze důvěry..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -927,9 +979,10 @@ msgstr "Nelze nalézt příkaz xdelta3! Je xdelta3 nainstalován?"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Použití: repo-add [volby] <cesta-k-databázi> <balíček|delta> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add aktualizuje databázi balíčků pomocí čtení souboru balíčku.\\nNa "
 "příkazové řádce může být uvedeno více balíčků pro přidání.\\n\\n"
@@ -944,18 +997,23 @@ msgid "  -f, --files       update database's file list\\n"
 msgstr ""
 "  -f/--files přepínač k aktualizaci databáze včetně záznamů o souborech.\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Použití: repo-remove [volby] <path-to-db> <packagename|delta> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove aktualizuje databázi balíčků odstraňováním balíčků podle jména"
 "\\nuvedeného na příkazové řádce z dané databáze. Na příkazové řádce může být"
 "\\nuvedeno více balíčků pro odebrání.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet    omezí výpisy\\n"
@@ -969,21 +1027,24 @@ msgstr "  -k, --key <klíč>    podepíše databázi tímto klíčem\\n"
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify    ověří podpis databáze před aktualizací\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr "\\n Viz %s(8) pro více informací a popis dostupných voleb. \\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Příklad:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Příklad:  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1027,9 +1088,8 @@ msgstr "'%s' nemá platnou příponu archivu."
 msgid "An entry for '%s' already existed"
 msgstr "Záznam pro '%s' již existuje"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Neplatný soubor balíčku '%s'."
+msgstr ""
 
 msgid "Adding package signature..."
 msgstr "Přidávání podpisu balíčku..."

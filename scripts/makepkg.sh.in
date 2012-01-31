@@ -664,7 +664,7 @@ check_checksums() {
 				echo -n "    $file ... " >&2
 
 				if ! file="$(get_filepath "$file")"; then
-					echo "$(gettext "NOT FOUND")" >&2
+					printf -- "$(gettext "NOT FOUND")\n" >&2
 					errors=1
 					found=0
 				fi
@@ -677,9 +677,9 @@ check_checksums() {
 						local realsum="$(openssl dgst -${integ} "$file")"
 						realsum="${realsum##* }"
 						if [[ $expectedsum = $realsum ]]; then
-							echo "$(gettext "Passed")" >&2
+							printf -- "$(gettext "Passed")\n" >&2
 						else
-							echo "$(gettext "FAILED")" >&2
+							printf -- "$(gettext "FAILED")\n" >&2
 							errors=1
 						fi
 					fi
@@ -1003,7 +1003,8 @@ tidy_install() {
 					#   the '|| true' part keeps the script from bailing on the EOF returned
 					#   by read at the end of the find output
 					IFS=$'\n' read -rd '' -a hardlinks < \
-						<(find "${MAN_DIRS[@]}" \! -name "$file" -samefile "$manpage" 2>/dev/null) || true
+						<(find ${MAN_DIRS[@]} \! -name "$file" -samefile "$manpage" \
+								2>/dev/null || true) || true
 					rm -f "${hardlinks[@]}"
 					# compress the original
 					gzip -9 "$manpage"
@@ -1835,51 +1836,51 @@ m4_include(library/parse_options.sh)
 usage() {
 	printf "makepkg (pacman) %s\n" "$myver"
 	echo
-	printf "$(gettext "Usage: %s [options]")\n" "$0"
+	printf -- "$(gettext "Usage: %s [options]")\n" "$0"
 	echo
-	echo "$(gettext "Options:")"
-	printf "$(gettext "  -A, --ignorearch Ignore incomplete %s field in %s")\n" "arch" "$BUILDSCRIPT"
-	echo "$(gettext "  -c, --clean      Clean up work files after build")"
-	echo "$(gettext "  -d, --nodeps     Skip all dependency checks")"
-	printf "$(gettext "  -e, --noextract  Do not extract source files (use existing %s dir)")\n" "src/"
-	echo "$(gettext "  -f, --force      Overwrite existing package")"
-	echo "$(gettext "  -g, --geninteg   Generate integrity checks for source files")"
-	echo "$(gettext "  -h, --help       Show this help message and exit")"
-	echo "$(gettext "  -i, --install    Install package after successful build")"
-	echo "$(gettext "  -L, --log        Log package build process")"
-	echo "$(gettext "  -m, --nocolor    Disable colorized output messages")"
-	echo "$(gettext "  -o, --nobuild    Download and extract files only")"
-	printf "$(gettext "  -p <file>        Use an alternate build script (instead of '%s')")\n" "$BUILDSCRIPT"
-	echo "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")"
-	echo "$(gettext "  -R, --repackage  Repackage contents of the package without rebuilding")"
-	printf "$(gettext "  -s, --syncdeps   Install missing dependencies with %s")\n" "pacman"
-	echo "$(gettext "  -S, --source     Generate a source-only tarball without downloaded sources")"
-	echo "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")"
-	printf "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
-	printf "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
-	printf "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
-	printf "$(gettext "  --holdver        Prevent automatic version bumping for development %ss")\n" "$BUILDSCRIPT"
-	printf "$(gettext "  --key <key>      Specify a key to use for %s signing instead of the default")\n" "gpg"
-	printf "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
-	echo "$(gettext "  --nosign         Do not create a signature for the package")"
-	echo "$(gettext "  --pkg <list>     Only build listed packages from a split package")"
-	printf "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
-	echo "$(gettext "  --skipchecksums  Do not verify checksums of the source files")"
-	echo "$(gettext "  --skipinteg      Do not perform any verification checks on source files")"
-	echo "$(gettext "  --skippgpcheck   Do not verify source files with PGP signatures")"
+	printf -- "$(gettext "Options:")"
+	printf -- "$(gettext "  -A, --ignorearch Ignore incomplete %s field in %s")\n" "arch" "$BUILDSCRIPT"
+	printf -- "$(gettext "  -c, --clean      Clean up work files after build")\n"
+	printf -- "$(gettext "  -d, --nodeps     Skip all dependency checks")\n"
+	printf -- "$(gettext "  -e, --noextract  Do not extract source files (use existing %s dir)")\n" "src/"
+	printf -- "$(gettext "  -f, --force      Overwrite existing package")\n"
+	printf -- "$(gettext "  -g, --geninteg   Generate integrity checks for source files")\n"
+	printf -- "$(gettext "  -h, --help       Show this help message and exit")\n"
+	printf -- "$(gettext "  -i, --install    Install package after successful build")\n"
+	printf -- "$(gettext "  -L, --log        Log package build process")\n"
+	printf -- "$(gettext "  -m, --nocolor    Disable colorized output messages")\n"
+	printf -- "$(gettext "  -o, --nobuild    Download and extract files only")\n"
+	printf -- "$(gettext "  -p <file>        Use an alternate build script (instead of '%s')")\n" "$BUILDSCRIPT"
+	printf -- "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")\n"
+	printf -- "$(gettext "  -R, --repackage  Repackage contents of the package without rebuilding")\n"
+	printf -- "$(gettext "  -s, --syncdeps   Install missing dependencies with %s")\n" "pacman"
+	printf -- "$(gettext "  -S, --source     Generate a source-only tarball without downloaded sources")\n"
+	printf -- "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")\n"
+	printf -- "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
+	printf -- "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
+	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
+	printf -- "$(gettext "  --holdver        Prevent automatic version bumping for development %ss")\n" "$BUILDSCRIPT"
+	printf -- "$(gettext "  --key <key>      Specify a key to use for %s signing instead of the default")\n" "gpg"
+	printf -- "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
+	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
+	printf -- "$(gettext "  --pkg <list>     Only build listed packages from a split package")\n"
+	printf -- "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
+	printf -- "$(gettext "  --skipchecksums  Do not verify checksums of the source files")\n"
+	printf -- "$(gettext "  --skipinteg      Do not perform any verification checks on source files")\n"
+	printf -- "$(gettext "  --skippgpcheck   Do not verify source files with PGP signatures")\n"
 	echo
-	printf "$(gettext "These options can be passed to %s:")\n" "pacman"
+	printf -- "$(gettext "These options can be passed to %s:")\n" "pacman"
 	echo
-	echo "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")"
-	echo "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")"
+	printf -- "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")\n"
+	printf -- "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")\n"
 	echo
-	printf "$(gettext "If %s is not specified, %s will look for '%s'")\n" "-p" "makepkg" "$BUILDSCRIPT"
+	printf -- "$(gettext "If %s is not specified, %s will look for '%s'")\n" "-p" "makepkg" "$BUILDSCRIPT"
 	echo
 }
 
 version() {
 	printf "makepkg (pacman) %s\n" "$myver"
-	printf "$(gettext "\
+	printf -- "$(gettext "\
 Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\n\n\
 This is free software; see the source for copying conditions.\n\

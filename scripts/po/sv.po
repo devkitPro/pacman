@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-14 03:57+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-05 23:01+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sv/)\n"
 "Language: sv\n"
@@ -463,7 +463,7 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr ""
 
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -602,7 +602,7 @@ msgid "Usage: %s [pacman_db_root]"
 msgstr "Användning: %s [pacman_db_root]"
 
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -702,6 +702,9 @@ msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
 
+msgid "The key identified by %s could not be found locally."
+msgstr ""
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr ""
 
@@ -753,7 +756,54 @@ msgstr ""
 msgid "Disabling key %s..."
 msgstr ""
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
+msgstr "Förrådsfilen '%s' kunde inte skapas."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Förrådsfilen '%s' kunde inte skapas."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s existerar inte eller är inte en katalog."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Förrådsfilen '%s' kunde inte skapas."
+
+msgid "A specified signature could not be listed."
+msgstr ""
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Förrådsfilen '%s' kunde inte skapas."
+
+msgid "Updating trust database..."
+msgstr ""
+
+msgid "Trust database could not be updated."
 msgstr ""
 
 msgid "Cannot find the %s binary required for all %s operations."
@@ -772,9 +822,6 @@ msgid "Multiple operations specified."
 msgstr ""
 
 msgid "Please run %s with each operation separately."
-msgstr ""
-
-msgid "Updating trust database..."
 msgstr ""
 
 msgid ""
@@ -885,9 +932,10 @@ msgstr "Kan inte gitta xdelta3 binär! Är xdelta3 installerat?"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add kommer uppdatera en paketdatabas genom att läsa en paketfil.\\nAtt "
 "lägga till flera paket kan specifieras via kommandotolken.\\n\\n"
@@ -901,18 +949,22 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr ""
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove kommer att uppdatera en paketdatabas genom att ta bort "
 "paketnamnet\\nsom angetts via kommandotolken från den givna "
 "förrådsdatabasen. Flera\\npaket att tas bort kan anges via kommandotolken.\\n"
 "\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
@@ -928,18 +980,19 @@ msgstr ""
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr ""
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
-msgstr ""
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr "Exampel:  repo-remove /sökväg/till/repo.db.tar.gz kernel26"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exampel:  repo-remove /sökväg/till/repo.db.tar.gz kernel26"
 
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -980,9 +1033,8 @@ msgstr "'%s' har inte ett giltigt suffix för arkiv."
 msgid "An entry for '%s' already existed"
 msgstr "Ett inlägg för '%s' existerade redan"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Ej giltig paketfil '%s'."
+msgstr ""
 
 msgid "Adding package signature..."
 msgstr ""

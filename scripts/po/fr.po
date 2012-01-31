@@ -4,15 +4,16 @@
 #
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
-#   <ma.jiehong@gmail.com>, 2011.
+#   <ma.jiehong@gmail.com>, 2011, 2012.
+# Niels Martignène <niels.martignene@gmail.com>, 2012.
 # shining <chantry.xavier@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-14 18:32+0000\n"
-"Last-Translator: jiehong <ma.jiehong@gmail.com>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-20 13:26+0000\n"
+"Last-Translator: Niels Martignène <niels.martignene@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fr/)\n"
 "Language: fr\n"
@@ -178,7 +179,7 @@ msgstr "Compression des pages de man/info..."
 
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr ""
-"Netoyage des symboles inutiles dans les fichiers binaires et les "
+"Nettoyage des symboles inutiles dans les fichiers binaires et les "
 "bibliothèques..."
 
 msgid "Removing %s files..."
@@ -212,7 +213,7 @@ msgid "Package contains reference to %s"
 msgstr "Le paquet contient une référence à %s"
 
 msgid "Missing %s directory."
-msgstr "Le Répertoire %s est manquant."
+msgstr "Le répertoire %s est manquant."
 
 msgid "Creating package..."
 msgstr "Création du paquet... "
@@ -511,8 +512,9 @@ msgstr ""
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Si %s n'est pas spécifié, %s cherchera '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -679,8 +681,9 @@ msgstr "Création finie : %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Utilisation : %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -820,6 +823,10 @@ msgstr ""
 "  --refresh-keys [keyid(s)] Mise à jours de toutes les identités des clefs "
 "(ou uniquement de celles spécifiées) depuis un serveur de clefs"
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "La clef identifiée par %s n'existe pas."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Vous n'avez pas les droits suffisants pour lire le porte-clefs %s."
 
@@ -871,8 +878,57 @@ msgstr "Désactivation des clefs révoquées du porte-clefs…"
 msgid "Disabling key %s..."
 msgstr "Désactivation de la clef %s…"
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "La clef identifiée par %s n'existe pas."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Impossible de créer le delta."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "'%s' n'existe pas ou n'est pas un dossier."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Le fichier de dépôt '%s' n'a pas pu être créé."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Une ou plusieurs signatures PGP n'ont pas pu être vérifiées."
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "La clef identifiée par %s n'existe pas."
+
+msgid "Updating trust database..."
+msgstr "Mise à jour de la base de données de confiance…"
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Impossible de créer le delta."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -895,9 +951,6 @@ msgstr "Tâches multiples spécifiées."
 
 msgid "Please run %s with each operation separately."
 msgstr "Veuillez lancer %s pour chaque opértation séparément."
-
-msgid "Updating trust database..."
-msgstr "Mise à jour de la base de données de confiance…"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -944,7 +997,7 @@ msgid "Tar'ing up %s failed."
 msgstr "L'archivage de %s a échoué."
 
 msgid "Making and MD5sum'ing the new database..."
-msgstr "Création de la nouvelle base de données et calcul du md5sum..."
+msgstr "Création de la nouvelle base de données et calcul de la somme MD5..."
 
 msgid "Untar'ing %s failed."
 msgstr "L'extraction de %s a échoué."
@@ -992,7 +1045,7 @@ msgid "Invalid package file '%s'."
 msgstr "Le paquet '%s' est invalide."
 
 msgid "The package names don't match : '%s' and '%s'"
-msgstr "Le nom du paquet n'est pas cohérent : '%s' et '%s'"
+msgstr "Les nom du paquet n'est pas cohérent : '%s' et '%s'"
 
 msgid "The package architectures don't match : '%s' and '%s'"
 msgstr "L'architecture du paquet n'est pas cohérente : '%s' et '%s'"
@@ -1021,9 +1074,10 @@ msgstr ""
 "Utilisation : repo-add [options] <chemin de la base de donnée> <paquet|"
 "delta> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add va mettre à jour un dépôt en lisant un paquet.\\nIl est possible de "
 "spécifier plusieurs paquets à ajouter.\\n\\n"
@@ -1041,19 +1095,24 @@ msgstr ""
 "  -f, --files       mise à jour de la liste des fichiers de la base de "
 "données\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Utilisation : repo-remove [options] <chemin de la base de données> <nom du "
 "paquet|delta> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove va mettre un jour un dépôt en supprimant le paquet\\nspécifié en "
 "ligne de commande pour un dépôt donné. Plusieurs\\npaquets à supprimer "
 "peuvent être spécifiés.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimise la sortie\\n"
@@ -1073,22 +1132,25 @@ msgstr ""
 "  -v, --verify      vérifie la signature de la base de données avant la mise "
 "à jour\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr "\\nVoir %s(8) pour plus de détails sur les options disponibles.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Exemple :  repo-add /chemin/vers/depot.db.tar.gz pacman-3.0.0-1-i686.pkg.tar."
 "gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exemple :  repo-remove /chemin/vers/depot.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1133,9 +1195,8 @@ msgstr "'%s' n'a pas une extension valide pour une archive."
 msgid "An entry for '%s' already existed"
 msgstr "Une entrée pour '%s' existait déjà"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Le paquet '%s' est invalide."
+msgstr "Fichier de signature de paquet invalide : %s"
 
 msgid "Adding package signature..."
 msgstr "Ajout de la signature des paquets…"

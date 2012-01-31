@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-14 11:42+0000\n"
-"Last-Translator: ganlu <rhythm.gan@gmail.com>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-05 23:01+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -458,8 +458,9 @@ msgstr "  --noprogressbar  下载文件时不显示进度条"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "如果没有指定 %s，%s 将寻找 '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -604,8 +605,9 @@ msgstr "完成创建：%s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "用法：%s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -713,6 +715,10 @@ msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr "  --refresh-keys [keyid(s)] 从密匙服务器中更新指定的或所有的密匙"
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "由 %s 认证的密匙不存在。"
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "您没有足够的许可权来读取 %s 密匙环。"
 
@@ -764,8 +770,57 @@ msgstr "正在密匙环中禁用已激活密匙..."
 msgid "Disabling key %s..."
 msgstr "正在禁用密匙 %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "由 %s 认证的密匙不存在。"
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "无法创建增量软件包。"
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s 不存在或不是一个目录。"
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "库文件 %s 无法创建。"
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "一个或多个 PGP 签名无法校验！"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "由 %s 认证的密匙不存在。"
+
+msgid "Updating trust database..."
+msgstr "正在更新可信数据库..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "无法创建增量软件包。"
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "无法找到所需的 %s 二进制文件以进行所有 %s 操作。"
@@ -784,9 +839,6 @@ msgstr "多个操作已指定。"
 
 msgid "Please run %s with each operation separately."
 msgstr "请分别加 %s 每个操作运行。"
-
-msgid "Updating trust database..."
-msgstr "正在更新可信数据库..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -897,9 +949,10 @@ msgstr "无法找到 xdelta 执行文件！是否已安装 xdelta3？"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "用法：repo-add [选项] <到数据库路径> <软件包|delta增量包> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add 通过读取一个软件包文件来更新软件包数据库。\\n可以在命令行中指定添加"
 "多个软件包\\n\\n"
@@ -913,17 +966,22 @@ msgstr "  -d, --delta       生成并添加软件包更新所用的 delta 增量
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       更新数据库的文件列表\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "用法：repo-remove [选项] <到数据库路径> <软件包名|delta 增量包> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove 通过在指定软件包数据库中删除\\n在命令行中指定的软件包名来更新这个"
 "软件包数据库。\\n可以在命令行中指定删除多个软件包。\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       最小化输出信息\\n"
@@ -937,20 +995,23 @@ msgstr "  -k, --key <密匙>   使用指定的密匙签名该数据库\\n"
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify      更新前验证数据库签名\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr "\\n更多细节及可用选项的描述请参见 %s(8) 。\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr "示例：repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "例子：  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -993,9 +1054,8 @@ msgstr "'%s' 未包含有效的压缩包扩展名。"
 msgid "An entry for '%s' already existed"
 msgstr "已存在条目 '%s'"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "无效的软件包文件 '%s'。"
+msgstr ""
 
 msgid "Adding package signature..."
 msgstr "正在添加软件包签名..."

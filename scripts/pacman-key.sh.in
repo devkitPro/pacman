@@ -54,40 +54,40 @@ m4_include(library/parse_options.sh)
 usage() {
 	printf "pacman-key (pacman) %s\n" ${myver}
 	echo
-	printf "$(gettext "Usage: %s [options]")\n" $(basename $0)
+	printf -- "$(gettext "Usage: %s [options]")\n" $(basename $0)
 	echo
-	printf "$(gettext "Manage pacman's list of trusted keys")\n"
+	printf -- "$(gettext "Manage pacman's list of trusted keys")\n"
 	echo
-	echo "$(gettext "Options:")"
-	echo "$(gettext "  -a, --add [file(s)]       Add the specified keys (empty for stdin)")"
-	echo "$(gettext "  -d, --delete <keyid(s)>   Remove the specified keyids")"
-	echo "$(gettext "  -e, --export [keyid(s)]   Export the specified or all keyids")"
-	echo "$(gettext "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids")"
-	echo "$(gettext "  -h, --help                Show this help message and exit")"
-	echo "$(gettext "  -l, --list-keys [keyid(s)] List the specified or all keys")"
-	echo "$(gettext "  -r, --recv-keys <keyid(s)> Fetch the specified keyids")"
-	echo "$(gettext "  -u, --updatedb            Update the trustdb of pacman")"
-	echo "$(gettext "  -v, --verify <signature>  Verify the file specified by the signature")"
-	echo "$(gettext "  -V, --version             Show program version")"
-	printf "$(gettext "  --config <file>           Use an alternate config file (instead of\n\
+	printf -- "$(gettext "Options:")\n"
+	printf -- "$(gettext "  -a, --add [file(s)]       Add the specified keys (empty for stdin)")\n"
+	printf -- "$(gettext "  -d, --delete <keyid(s)>   Remove the specified keyids")\n"
+	printf -- "$(gettext "  -e, --export [keyid(s)]   Export the specified or all keyids")\n"
+	printf -- "$(gettext "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids")\n"
+	printf -- "$(gettext "  -h, --help                Show this help message and exit")\n"
+	printf -- "$(gettext "  -l, --list-keys [keyid(s)] List the specified or all keys")\n"
+	printf -- "$(gettext "  -r, --recv-keys <keyid(s)> Fetch the specified keyids")\n"
+	printf -- "$(gettext "  -u, --updatedb            Update the trustdb of pacman")\n"
+	printf -- "$(gettext "  -v, --verify <signature>  Verify the file specified by the signature")\n"
+	printf -- "$(gettext "  -V, --version             Show program version")\n"
+	printf -- "$(gettext "  --config <file>           Use an alternate config file (instead of\n\
                             '%s')")\n" "@sysconfdir@/pacman.conf"
-	echo "$(gettext "  --edit-key <keyid(s)>     Present a menu for key management task on keyids")"
-	printf "$(gettext "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\n\
+	printf -- "$(gettext "  --edit-key <keyid(s)>     Present a menu for key management task on keyids")\n"
+	printf -- "$(gettext "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\n\
                             of '%s')")\n" "@sysconfdir@/pacman.d/gnupg"
-	echo "$(gettext "  --import <dir(s)>         Imports pubring.gpg from dir(s)")"
-	echo "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")"
-	echo "$(gettext "  --init                    Ensure the keyring is properly initialized")"
-	echo "$(gettext "  --keyserver               Specify a keyserver to use if necessary")"
-	echo "$(gettext "  --list-sigs [keyid(s)]    List keys and their signatures")"
-	echo "$(gettext "  --lsign-key <keyid>       Locally sign the specified keyid")"
-	printf "$(gettext "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings\n\
+	printf -- "$(gettext "  --import <dir(s)>         Imports pubring.gpg from dir(s)")\n"
+	printf -- "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")\n"
+	printf -- "$(gettext "  --init                    Ensure the keyring is properly initialized")\n"
+	printf -- "$(gettext "  --keyserver               Specify a keyserver to use if necessary")\n"
+	printf -- "$(gettext "  --list-sigs [keyid(s)]    List keys and their signatures")\n"
+	printf -- "$(gettext "  --lsign-key <keyid>       Locally sign the specified keyid")\n"
+	printf -- "$(gettext "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings\n\
                             in '%s'")\n" "@pkgdatadir@/keyrings"
-	echo "$(gettext "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver")"
+	printf -- "$(gettext "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver")\n"
 }
 
 version() {
 	printf "pacman-key (pacman) %s\n" "${myver}"
-	printf "$(gettext "\
+	printf -- "$(gettext "\
 Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"

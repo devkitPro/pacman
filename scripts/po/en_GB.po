@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2012-01-05 17:03-0600\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-30 21:54-0600\n"
 "Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en_GB\n"
@@ -467,12 +467,12 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "If %s is not specified, %s will look for '%s'"
 
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -620,11 +620,11 @@ msgid "Usage: %s [pacman_db_root]"
 msgstr "Usage: %s [pacman_db_root]"
 
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -734,6 +734,9 @@ msgid ""
 msgstr ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 
+msgid "The key identified by %s could not be found locally."
+msgstr "The key identified by %s could not be found locally."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "You do not have sufficient permissions to read the %s keyring."
 
@@ -785,8 +788,50 @@ msgstr "Disabling revoked keys in keyring..."
 msgid "Disabling key %s..."
 msgstr "Disabling key %s..."
 
-msgid "The key identified by %s does not exist."
-msgstr "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr "A specified keyfile could not be added to the gpg keychain."
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr "A specified key could not be removed from the gpg keychain."
+
+msgid "The key identified by %s could not be edited."
+msgstr "The key identified by %s could not be edited."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr "A specified key could not be exported from the gpg keychain."
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr "The fingerprint of a specified key could not be determined."
+
+msgid "%s could not be imported."
+msgstr "%s could not be imported."
+
+msgid "File %s does not exist and could not be imported."
+msgstr "File %s does not exist and could not be imported."
+
+msgid "A specified key could not be listed."
+msgstr "A specified key could not be listed."
+
+msgid "A specified signature could not be listed."
+msgstr "A specified signature could not be listed."
+
+msgid "A specified key could not be locally signed."
+msgstr "A specified key could not be locally signed."
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr "Remote key not fetched correctly from keyserver."
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr "A specified local key could not be updated from a keyserver."
+
+msgid "The signature identified by %s could not be verified."
+msgstr "The signature identified by %s could not be verified."
+
+msgid "Updating trust database..."
+msgstr "Updating trust database..."
+
+msgid "Trust database could not be updated."
+msgstr "Trust database could not be updated."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Cannot find the %s binary required for all %s operations."
@@ -805,9 +850,6 @@ msgstr "Multiple operations specified."
 
 msgid "Please run %s with each operation separately."
 msgstr "Please run %s with each operation separately."
-
-msgid "Updating trust database..."
-msgstr "Updating trust database..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -924,10 +966,10 @@ msgstr "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 
 msgid "Options:\\n"
 msgstr "Options:\\n"
@@ -938,18 +980,20 @@ msgstr "  -d, --delta       generate and add delta for package update\\n"
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       update database's file list\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
-msgstr ""
-"Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
+msgstr "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr "Please move along, there is nothing to see here.\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimise output\\n"
@@ -965,25 +1009,23 @@ msgstr "  -v, --verify      verify database's signature before update\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
-msgstr "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
+msgstr "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 

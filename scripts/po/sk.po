@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-#   <archetyp@linuxmail.org>, 2011.
+#   <archetyp@linuxmail.org>, 2011, 2012.
 # Dušan Lago <dusan.lago@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-26 15:46+0000\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-17 15:37+0000\n"
 "Last-Translator: archetyp <archetyp@linuxmail.org>\n"
 "Language-Team: Slovak (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sk/)\n"
@@ -347,6 +347,8 @@ msgstr ""
 
 msgid "Cannot find the %s binary required to determine latest %s revision."
 msgstr ""
+"Nepodarilo sa nájsť binárny súbor %s potrebný na určenie poslednej %s "
+"revízie."
 
 msgid "Determining latest %s revision..."
 msgstr "Zisťujem poslednú revíziu %s..."
@@ -475,8 +477,9 @@ msgstr "  --noprogressbar  Nezobrazovať priebeh sťahovania súborov"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Ak nie je zadané %s, %s bude hľadať '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -487,7 +490,7 @@ msgstr ""
 "software sa nevzťahuje ŽIADNA ZÁRUKA. v rozsahu povoleného zákonom.\\n"
 
 msgid "%s signal caught. Exiting..."
-msgstr ""
+msgstr "Signál %s bol zachytený. Ukončujem..."
 
 msgid "Aborted by user! Exiting..."
 msgstr "Prerušené užívateľom! Ukončujem..."
@@ -542,13 +545,13 @@ msgid "%s does not exist."
 msgstr "%s neexistuje."
 
 msgid "%s contains %s characters and cannot be sourced."
-msgstr ""
+msgstr "%s obsahuje %s znaky a nemôže byť preto načítaný."
 
 msgid "The key %s does not exist in your keyring."
-msgstr ""
+msgstr "Kľúč %s sa nenachádza vo vašej kľúčenke."
 
 msgid "There is no key in your keyring."
-msgstr ""
+msgstr "V kľúčenke sa nenechádza žiaden kľúč."
 
 msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je už zostavený, inštalujem existujúci balíček..."
@@ -626,8 +629,9 @@ msgstr "Dokončené vytváranie: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Použitie: %s [koreň_databáze_pacmana]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -655,7 +659,7 @@ msgid "Done."
 msgstr "Hotovo."
 
 msgid "Manage pacman's list of trusted keys"
-msgstr ""
+msgstr "Spravuj zoznam dôveryhodných kľúčov pacmana"
 
 msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
 msgstr ""
@@ -663,26 +667,29 @@ msgstr ""
 "vstup)"
 
 msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr "  -d, --delete <idkľúča(ov)>   Odstráň zadané id kľúča/ov"
+msgstr "  -d, --delete <id_kľúča(ov)>   Odstráň zadané id kľúča/ov"
 
 msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
-msgstr ""
+msgstr "  -e, --export [id_kľúča(ov)]   Exportuj zadané alebo všetky kľúče"
 
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
+"  -f, --finger [id_kľúča(ov)]   Zobraz odtlačky pre zadané alebo všetky kľúče"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Zobraz túto nápovedu a skonči"
 
 msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
-msgstr ""
+msgstr "  -l, --list-keys [id_kľúča(ov)] Zobraz zadané alebo všetky kľúče"
 
 msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr ""
+msgstr "  -r, --recv-keys <id_kľúča(ov)> Stiahni zadané kľúče"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
+"  -u, --updatedb            Aktualizuj databázu dôveryhodnosti (trustdb) "
+"pacmana."
 
 msgid "  -v, --verify <signature>  Verify the file specified by the signature"
 msgstr "  -v, --verify <podpis>  Over súbor zadaný podpisom"
@@ -699,7 +706,7 @@ msgstr ""
 
 msgid ""
 "  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
-msgstr ""
+msgstr "  --edit-key <id_kľúča(ov)>     Zobraz menu pre správu zadaných kľúčov"
 
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
@@ -709,39 +716,51 @@ msgstr ""
 "\\n                            '%s')"
 
 msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
-msgstr ""
+msgstr "  --import <adresár(e)>         Importuj pubring.gpg z adresárov"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
 "(s)"
 msgstr ""
+"  --import-trustdb <adresár(e)> Importuj dôverovaných vlastníkov z trustdb."
+"gpg v zadaných adresároch."
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
+"  --init                    Uisti sa, že kľúčenka je správne inicializovaná"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
+"  --keyserver               Použi zadaný server s kľúčmi, ak to bude potrebné"
 
 msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr ""
+msgstr "  --list-sigs [id_kľúča(ov)]    Zobraz kľúče a ich podpisy"
 
 msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr ""
+msgstr "  --lsign-key <keyid>       Lokálne podpíš uvedený kľúč"
 
 msgid ""
 "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"  --populate [kľúčenka(y)]   Znovu načítaj predvolené kľúče zo zadaných "
+"kľúčeniek\\n                            v '%s'"
 
 msgid ""
 "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
 msgstr ""
+"  --refresh-keys [id_kľúča(ov)] Aktualizuj zadané alebo všetky kľúče zo "
+"servera s kľúčmi"
+
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "Kľúč, ktorý identifikoval %s, neexistuje."
 
 msgid "You do not have sufficient permissions to read the %s keyring."
-msgstr ""
+msgstr "Nemáte dostatočné práve pre čítanie kľúčenky %s."
 
 msgid "Use '%s' to correct the keyring permissions."
-msgstr ""
+msgstr "Použite '%s' pre opravu práv kľúčenky."
 
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Nemáte dostatočné práva na spustenie tohto príkazu."
@@ -762,37 +781,86 @@ msgid "The signature of file %s is not valid."
 msgstr "Podpis súboru %s nie je platný.."
 
 msgid "Verifying keyring file signatures..."
-msgstr ""
+msgstr "Overujem podpisy kľúčenky..."
 
 msgid "No keyring files exist in %s."
-msgstr ""
+msgstr "V %s sa nenachádza žiadny súbor kľúčenky."
 
 msgid "The keyring file %s does not exist."
-msgstr ""
+msgstr "Súbor kľúčenky %s neexistuje."
 
 msgid "Appending keys from %s.gpg..."
 msgstr "Pridávam kľúče z %s.gpg ..."
 
 msgid "Locally signing trusted keys in keyring..."
-msgstr ""
+msgstr "Lokálne podpisujem dôverované kľúče z kľúčenky..."
 
 msgid "Locally signing key %s..."
-msgstr ""
+msgstr "Lokálne podpisujem kľúč %s..."
 
 msgid "Importing owner trust values..."
-msgstr ""
+msgstr "Načítavam dôverovaných vlastníkov..."
 
 msgid "Disabling revoked keys in keyring..."
-msgstr ""
+msgstr "Deaktivujem odobraté kľúče z kľúčenky..."
 
 msgid "Disabling key %s..."
 msgstr "Vyraďujem kľúč %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "Kľúč, ktorý identifikoval %s, neexistuje."
 
-msgid "Cannot find the %s binary required for all %s operations."
+msgid "A specified key could not be exported from the gpg keychain."
 msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Delta rozdiel sa nepodarilo vytvoriť."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s neexistuje, alebo nie je adresárom."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Nepodarilo sa vytvoriť súbor repozitára '%s'."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Jeden alebo viac PGP podpisov nemohlo byť overených!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Kľúč, ktorý identifikoval %s, neexistuje."
+
+msgid "Updating trust database..."
+msgstr "Aktualizujem databázu dôveryhodnosti..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Delta rozdiel sa nepodarilo vytvoriť."
+
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr "Nepodarilo sa nájsť súbor %s potrebný pre všetky %s operácie."
 
 msgid "%s needs to be run as root for this operation."
 msgstr "%s musí byť spustený ako root pre túto operáciu."
@@ -808,9 +876,6 @@ msgstr "Bolo zadaných viacero operácií."
 
 msgid "Please run %s with each operation separately."
 msgstr "Spustite prosím %s pre každú operáciou samostatne."
-
-msgid "Updating trust database..."
-msgstr ""
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -924,9 +989,10 @@ msgstr "Nepodarilo sa nájsť príkaz xdelta3! Je xdelta3 nainštalovaný?"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Použitie: repo-add [voľby] <cesta-k-db> <balíčkek|delta> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add aktualizuje databázu balíčkov pomocou čítania súboru balíčku.\\nNa "
 "príkazovom riadku môže byť uvedených viac balíčkov pre pridanie.\\n\\n"
@@ -941,18 +1007,23 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       aktualizuj zoznam súborov databázy\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Použitie: repo-remove [voľby] <cesta-k-db> <menobalíčka|delta> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove aktualizuje databázu balíčkov odstránením balíčka podľa mena"
 "\\nuvedeného na príkazovom riadku z danej databázy. Na príkazovom riadku "
 "môže byť\\nuvedených viac balíčkov pre odstránenie.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimalizuj výstup\\n"
@@ -966,24 +1037,31 @@ msgstr "  -k, --key <key>   použi zadaný kľúč na podpis databázy\\n"
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify      over podpis databázy pred aktualizáciou\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr "\\nPozri %s(8) pre podrobnosti a popis dostupných volieb.\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Príklad:  repo-add /cesta/k/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Príklad:  repo-remove /path/to/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nToto je slobodný software; podmienky kopírovania nájdete v zdrojových "
+"súboroch\\nNa software sa nevzťahuje ŽIADNA ZÁRUKA. v rozsahu povoleného "
+"zákonom.\\n\n"
 
 msgid "No database entry for package '%s'."
 msgstr "V databáze neexistuje záznam o balíčku '%s'."
@@ -1021,9 +1099,8 @@ msgstr "'%s' nemá platnú príponu archívu."
 msgid "An entry for '%s' already existed"
 msgstr "Záznam pre '%s' už existuje"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Neplatný súbor balíčka '%s'."
+msgstr "Neplatný podpis balíčka '%s'."
 
 msgid "Adding package signature..."
 msgstr "Pridávam podpis balíčka ..."

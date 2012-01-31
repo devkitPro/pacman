@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-05 16:57-0600\n"
-"PO-Revision-Date: 2011-11-14 10:58+0000\n"
-"Last-Translator: Xabre <githzerai06@gmail.com>\n"
+"POT-Creation-Date: 2012-01-30 21:40-0600\n"
+"PO-Revision-Date: 2012-01-05 23:01+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sr/)\n"
 "Language: sr\n"
@@ -478,8 +478,9 @@ msgstr "  --noprogressbar  Не приказује траку напретка �
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Уколико %s није одређено, %s ће тражити „%s“"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -629,8 +630,9 @@ msgstr "Заврших градњу: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Употреба: %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -747,6 +749,10 @@ msgstr ""
 "  --refresh-keys [ид(-ови) кључева] Ажурирај наведени или све кључеве са "
 "сервера."
 
+#, fuzzy
+msgid "The key identified by %s could not be found locally."
+msgstr "Кључ који је идентификовао %s не постоји."
+
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Немате одговарајуће дозволе да би читали привезак %s."
 
@@ -798,8 +804,57 @@ msgstr "Онемогућавам опозване кључеве у привес
 msgid "Disabling key %s..."
 msgstr "Онемогућавам кључ %s..."
 
-msgid "The key identified by %s does not exist."
+msgid "A specified keyfile could not be added to the gpg keychain."
+msgstr ""
+
+msgid "A specified key could not be removed from the gpg keychain."
+msgstr ""
+
+#, fuzzy
+msgid "The key identified by %s could not be edited."
 msgstr "Кључ који је идентификовао %s не постоји."
+
+msgid "A specified key could not be exported from the gpg keychain."
+msgstr ""
+
+msgid "The fingerprint of a specified key could not be determined."
+msgstr ""
+
+#, fuzzy
+msgid "%s could not be imported."
+msgstr "Не могах да направим делту."
+
+#, fuzzy
+msgid "File %s does not exist and could not be imported."
+msgstr "%s не постоји или није у фасцикли."
+
+#, fuzzy
+msgid "A specified key could not be listed."
+msgstr "Не могу да направим фајл ризнице „%s“."
+
+#, fuzzy
+msgid "A specified signature could not be listed."
+msgstr "Један или више ПГП потписа не могу бити верификовани!"
+
+msgid "A specified key could not be locally signed."
+msgstr ""
+
+msgid "Remote key not fetched correctly from keyserver."
+msgstr ""
+
+msgid "A specified local key could not be updated from a keyserver."
+msgstr ""
+
+#, fuzzy
+msgid "The signature identified by %s could not be verified."
+msgstr "Кључ који је идентификовао %s не постоји."
+
+msgid "Updating trust database..."
+msgstr "Ажурирам базу поверљивих..."
+
+#, fuzzy
+msgid "Trust database could not be updated."
+msgstr "Не могах да направим делту."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Не могу да нађем извршни фајл %s неопходан за све %s радње."
@@ -818,9 +873,6 @@ msgstr "Наведено је више операција."
 
 msgid "Please run %s with each operation separately."
 msgstr "Покрените %s са сваком операцијом појединачно."
-
-msgid "Updating trust database..."
-msgstr "Ажурирам базу поверљивих..."
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -936,9 +988,10 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Употреба: repo-remove [опције] <путања-до-базе> <имепакета|делта> ...\\n"
 
+#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n\\n"
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add ће ажурирати базу пакета читањем сваког фајла пакета\\nУ командној "
 "линији можете навести и више фајлова.\\n\\n"
@@ -952,18 +1005,23 @@ msgstr "  -d, --delta       направи и додај делту за над�
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       ажурирај списак фајлова базе\\n"
 
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n\\n"
+#, fuzzy
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 "Употреба: repo-remove [опције] <путања-до-базе> <имепакета|делта> ...\\n\\n"
 
+#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n\\n"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove ће ажурирати базу пакета уклањањем имена пакета\\nнаведеног у "
 "командној линији из задате базе ризнице. Можете\\nнавести и више пакета за "
 "уклањање одједном.\\n\\n"
+
+msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       смањи доживљај\\n"
@@ -977,21 +1035,24 @@ msgstr "  -k, --key <key>   користи наведени кључ за пот
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify      овери потпис базе пре ажурирања\\n"
 
+#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-"\\n"
 msgstr "\\nПогледајте %s(8) за више детаља и описе доступних опција..\\n\\n"
 
+#, fuzzy
 msgid ""
-"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Пример: repo-add /путања/до/ризница.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26"
+#, fuzzy
+msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Пример:   repo-remove /путања/до/repo.db.tar.gz kernel26"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1035,9 +1096,8 @@ msgstr "%s нема исправну екстензију архиве."
 msgid "An entry for '%s' already existed"
 msgstr "Унос за „%s“ је већ постојао"
 
-#, fuzzy
 msgid "Invalid package signature file '%s'."
-msgstr "Неисправан фајл пакета „%s“."
+msgstr ""
 
 msgid "Adding package signature..."
 msgstr "Додајем потпис пакета..."
