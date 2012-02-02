@@ -31,7 +31,7 @@ int pacman_deptest(alpm_list_t *targets)
 {
 	alpm_list_t *i;
 	alpm_list_t *deps = NULL;
-	alpm_db_t *localdb = alpm_option_get_localdb(config->handle);
+	alpm_db_t *localdb = alpm_get_localdb(config->handle);
 
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *target = i->data;

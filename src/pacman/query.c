@@ -132,7 +132,7 @@ static int query_fileowner(alpm_list_t *targets)
 	}
 	strcpy(path, root);
 
-	db_local = alpm_option_get_localdb(config->handle);
+	db_local = alpm_get_localdb(config->handle);
 
 	for(t = targets; t; t = alpm_list_next(t)) {
 		char *filename, *dname, *rpath;
@@ -245,7 +245,7 @@ static int query_search(alpm_list_t *targets)
 {
 	alpm_list_t *i, *searchlist;
 	int freelist;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 
 	/* if we have a targets list, search for packages matching it */
 	if(targets) {
@@ -304,7 +304,7 @@ static int query_group(alpm_list_t *targets)
 	alpm_list_t *i, *j;
 	const char *grpname = NULL;
 	int ret = 0;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 
 	if(targets == NULL) {
 		for(j = alpm_db_get_groupcache(db_local); j; j = alpm_list_next(j)) {
@@ -320,7 +320,7 @@ static int query_group(alpm_list_t *targets)
 		for(i = targets; i; i = alpm_list_next(i)) {
 			alpm_group_t *grp;
 			grpname = i->data;
-			grp = alpm_db_readgroup(db_local, grpname);
+			grp = alpm_db_get_group(db_local, grpname);
 			if(grp) {
 				const alpm_list_t *p;
 				for(p = grp->packages; p; p = alpm_list_next(p)) {
@@ -344,7 +344,7 @@ static int is_foreign(alpm_pkg_t *pkg)
 {
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	alpm_list_t *j;
-	alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
+	alpm_list_t *sync_dbs = alpm_get_syncdbs(config->handle);
 
 	int match = 0;
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
@@ -393,7 +393,7 @@ static int filter(alpm_pkg_t *pkg)
 	}
 	/* check if this pkg is outdated */
 	if(config->op_q_upgrade && (alpm_sync_newversion(pkg,
-					alpm_option_get_syncdbs(config->handle)) == NULL)) {
+					alpm_get_syncdbs(config->handle)) == NULL)) {
 		return 0;
 	}
 	return 1;
@@ -512,7 +512,7 @@ int pacman_query(alpm_list_t *targets)
 		}
 	}
 
-	db_local = alpm_option_get_localdb(config->handle);
+	db_local = alpm_get_localdb(config->handle);
 
 	/* operations on all packages in the local DB
 	 * valid: no-op (plain -Q), list, info, check

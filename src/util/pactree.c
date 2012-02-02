@@ -184,7 +184,7 @@ static int register_syncs(void) {
 			section = strndup(&line[1], linelen - 2);
 
 			if(section && strcmp(section, "options") != 0) {
-				alpm_db_register_sync(handle, section, level);
+				alpm_register_syncdb(handle, section, level);
 			}
 		}
 	}
@@ -468,9 +468,9 @@ int main(int argc, char *argv[])
 			ret = 1;
 			goto finish;
 		}
-		dblist = alpm_option_get_syncdbs(handle);
+		dblist = alpm_get_syncdbs(handle);
 	} else {
-		dblist = alpm_list_add(dblist, alpm_option_get_localdb(handle));
+		dblist = alpm_list_add(dblist, alpm_get_localdb(handle));
 		freelist = 1;
 	}
 

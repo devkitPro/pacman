@@ -664,7 +664,7 @@ static int finish_section(struct section_t *section, int parse_options)
 	}
 
 	/* if we are not looking at options sections only, register a db */
-	db = alpm_db_register_sync(config->handle, section->name, section->siglevel);
+	db = alpm_register_syncdb(config->handle, section->name, section->siglevel);
 	if(db == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
 				section->name, alpm_strerror(alpm_errno(config->handle)));

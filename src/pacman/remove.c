@@ -38,7 +38,7 @@ static int fnmatch_cmp(const void *pattern, const void *string)
 static int remove_target(const char *target)
 {
 	alpm_pkg_t *pkg;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 	alpm_list_t *p;
 
 	if((pkg = alpm_db_get_pkg(db_local, target)) != NULL) {
@@ -52,7 +52,7 @@ static int remove_target(const char *target)
 	}
 
 		/* fallback to group */
-	alpm_group_t *grp = alpm_db_readgroup(db_local, target);
+	alpm_group_t *grp = alpm_db_get_group(db_local, target);
 	if(grp == NULL) {
 		pm_printf(ALPM_LOG_ERROR, "'%s': target not found\n", target);
 		return -1;

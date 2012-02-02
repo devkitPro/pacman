@@ -61,11 +61,11 @@ int pacman_database(alpm_list_t *targets)
 		return 1;
 	}
 
-	db_local = alpm_option_get_localdb(config->handle);
+	db_local = alpm_get_localdb(config->handle);
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *pkgname = i->data;
 		alpm_pkg_t *pkg = alpm_db_get_pkg(db_local, pkgname);
-		if(!pkg || alpm_db_set_pkgreason(config->handle, pkg, reason)) {
+		if(!pkg || alpm_pkg_set_reason(pkg, reason)) {
 			pm_printf(ALPM_LOG_ERROR, _("could not set install reason for package %s (%s)\n"),
 							pkgname, alpm_strerror(alpm_errno(config->handle)));
 			retval = 1;

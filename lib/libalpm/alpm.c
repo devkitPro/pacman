@@ -106,7 +106,7 @@ int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 		myhandle->db_local = NULL;
 	}
 
-	if(alpm_db_unregister_all(myhandle) == -1) {
+	if(alpm_unregister_all_syncdbs(myhandle) == -1) {
 		ret = -1;
 	}
 

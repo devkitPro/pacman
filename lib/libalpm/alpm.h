@@ -553,7 +553,7 @@ int alpm_option_set_default_siglevel(alpm_handle_t *handle, alpm_siglevel_t leve
  * libalpm functions.
  * @return a reference to the local database
  */
-alpm_db_t *alpm_option_get_localdb(alpm_handle_t *handle);
+alpm_db_t *alpm_get_localdb(alpm_handle_t *handle);
 
 /** Get the list of sync databases.
  * Returns a list of alpm_db_t structures, one for each registered
@@ -561,7 +561,7 @@ alpm_db_t *alpm_option_get_localdb(alpm_handle_t *handle);
  * @param handle the context handle
  * @return a reference to an internal list of alpm_db_t structures
  */
-alpm_list_t *alpm_option_get_syncdbs(alpm_handle_t *handle);
+alpm_list_t *alpm_get_syncdbs(alpm_handle_t *handle);
 
 /** Register a sync database of packages.
  * @param handle the context handle
@@ -570,20 +570,20 @@ alpm_list_t *alpm_option_get_syncdbs(alpm_handle_t *handle);
  * database; note that this must be a '.sig' file type verification
  * @return an alpm_db_t* on success (the value), NULL on error
  */
-alpm_db_t *alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
+alpm_db_t *alpm_register_syncdb(alpm_handle_t *handle, const char *treename,
 		alpm_siglevel_t level);
+
+/** Unregister all package databases.
+ * @param handle the context handle
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_unregister_all_syncdbs(alpm_handle_t *handle);
 
 /** Unregister a package database.
  * @param db pointer to the package database to unregister
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_db_unregister(alpm_db_t *db);
-
-/** Unregister all package databases.
- * @param handle the context handle
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_db_unregister_all(alpm_handle_t *handle);
 
 /** Get the name of a package database.
  * @param db pointer to the package database
@@ -636,7 +636,7 @@ alpm_list_t *alpm_db_get_pkgcache(alpm_db_t *db);
  * @param name of the group
  * @return the groups entry on success, NULL on error
  */
-alpm_group_t *alpm_db_readgroup(alpm_db_t *db, const char *name);
+alpm_group_t *alpm_db_get_group(alpm_db_t *db, const char *name);
 
 /** Get the group cache of a package database.
  * @param db pointer to the package database to get the group from
@@ -650,15 +650,6 @@ alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
  * @return the list of packages matching all regular expressions on success, NULL on error
  */
 alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
-
-/** Set install reason for a package in db.
- * @param handle the context handle
- * @param pkg the package to update
- * @param reason the new install reason
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_db_set_pkgreason(alpm_handle_t *handle, alpm_pkg_t *pkg,
-		alpm_pkgreason_t reason);
 
 /** @} */
 
@@ -928,6 +919,16 @@ int alpm_pkg_has_scriptlet(alpm_pkg_t *pkg);
 off_t alpm_pkg_download_size(alpm_pkg_t *newpkg);
 
 alpm_list_t *alpm_pkg_unused_deltas(alpm_pkg_t *pkg);
+
+/** Set install reason for a package in the local database.
+ * The provided package object must be from the local database or this method
+ * will fail. The write to the local database is performed immediately.
+ * @param pkg the package to update
+ * @param reason the new install reason
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
+
 
 /* End of alpm_pkg */
 /** @} */

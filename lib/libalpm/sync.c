@@ -248,7 +248,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 
 	for(i = dbs; i; i = i->next) {
 		alpm_db_t *db = i->data;
-		alpm_group_t *grp = alpm_db_readgroup(db, name);
+		alpm_group_t *grp = alpm_db_get_group(db, name);
 
 		if(!grp)
 			continue;

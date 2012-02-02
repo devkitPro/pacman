@@ -265,18 +265,6 @@ int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
 	return handle->checkspace;
 }
 
-alpm_db_t SYMEXPORT *alpm_option_get_localdb(alpm_handle_t *handle)
-{
-	CHECK_HANDLE(handle, return NULL);
-	return handle->db_local;
-}
-
-alpm_list_t SYMEXPORT *alpm_option_get_syncdbs(alpm_handle_t *handle)
-{
-	CHECK_HANDLE(handle, return NULL);
-	return handle->dbs_sync;
-}
-
 int SYMEXPORT alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb)
 {
 	CHECK_HANDLE(handle, return -1);
@@ -633,6 +621,18 @@ alpm_siglevel_t SYMEXPORT alpm_option_get_default_siglevel(alpm_handle_t *handle
 {
 	CHECK_HANDLE(handle, return -1);
 	return handle->siglevel;
+}
+
+alpm_db_t SYMEXPORT *alpm_get_localdb(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->db_local;
+}
+
+alpm_list_t SYMEXPORT *alpm_get_syncdbs(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->dbs_sync;
 }
 
 /* vim: set ts=2 sw=2 noet: */

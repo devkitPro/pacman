@@ -104,7 +104,7 @@ int check_syncdbs(size_t need_repos, int check_valid)
 {
 	int ret = 0;
 	alpm_list_t *i;
-	alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
+	alpm_list_t *sync_dbs = alpm_get_syncdbs(config->handle);
 
 	if(need_repos && sync_dbs == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("no usable package repositories configured.\n"));
@@ -977,7 +977,7 @@ static int pkg_cmp(const void *p1, const void *p2)
 void display_targets(void)
 {
 	alpm_list_t *i, *targets = NULL;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 
 	for(i = alpm_trans_get_add(config->handle); i; i = alpm_list_next(i)) {
 		alpm_pkg_t *pkg = i->data;

@@ -43,7 +43,7 @@
  */
 
 /** Register a sync database of packages. */
-alpm_db_t SYMEXPORT *alpm_db_register_sync(alpm_handle_t *handle,
+alpm_db_t SYMEXPORT *alpm_register_syncdb(alpm_handle_t *handle,
 		const char *treename, alpm_siglevel_t level)
 {
 	/* Sanity checks */
@@ -68,7 +68,7 @@ void _alpm_db_unregister(alpm_db_t *db)
 }
 
 /** Unregister all package databases. */
-int SYMEXPORT alpm_db_unregister_all(alpm_handle_t *handle)
+int SYMEXPORT alpm_unregister_all_syncdbs(alpm_handle_t *handle)
 {
 	alpm_list_t *i;
 	alpm_db_t *db;
@@ -261,7 +261,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(alpm_db_t *db)
 }
 
 /** Get a group entry from a package database. */
-alpm_group_t SYMEXPORT *alpm_db_readgroup(alpm_db_t *db, const char *name)
+alpm_group_t SYMEXPORT *alpm_db_get_group(alpm_db_t *db, const char *name)
 {
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;
@@ -289,32 +289,6 @@ alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t* needles)
 	return _alpm_db_search(db, needles);
 }
 
-/** Set install reason for a package in db. */
-int SYMEXPORT alpm_db_set_pkgreason(alpm_handle_t *handle, alpm_pkg_t *pkg,
-		alpm_pkgreason_t reason)
-{
-	CHECK_HANDLE(handle, return -1);
-	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
-	ASSERT(pkg->origin == PKG_FROM_LOCALDB,
-			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
-	ASSERT(pkg->origin_data.db == handle->db_local,
-			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
-
-	_alpm_log(handle, ALPM_LOG_DEBUG,
-			"setting install reason %u for %s\n", reason, pkg->name);
-	if(alpm_pkg_get_reason(pkg) == reason) {
-		/* we are done */
-		return 0;
-	}
-	/* set reason (in pkgcache) */
-	pkg->reason = reason;
-	/* write DESC */
-	if(_alpm_local_db_write(handle->db_local, pkg, INFRQ_DESC)) {
-		RET_ERR(handle, ALPM_ERR_DB_WRITE, -1);
-	}
-
-	return 0;
-}
 
 /** @} */
 

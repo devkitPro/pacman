@@ -49,7 +49,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 		return 1;
 	}
 
-	syncdbs = alpm_option_get_syncdbs(config->handle);
+	syncdbs = alpm_get_syncdbs(config->handle);
 
 	rewinddir(dir);
 	/* step through the directory one file at a time */
@@ -147,8 +147,8 @@ static int sync_cleandb_all(void)
 static int sync_cleancache(int level)
 {
 	alpm_list_t *i;
-	alpm_list_t *sync_dbs = alpm_option_get_syncdbs(config->handle);
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_list_t *sync_dbs = alpm_get_syncdbs(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 	alpm_list_t *cachedirs = alpm_option_get_cachedirs(config->handle);
 	int ret = 0;
 
@@ -320,7 +320,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 	alpm_list_t *i, *j, *ret;
 	int freelist;
 	int found = 0;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		alpm_db_t *db = i->data;
@@ -389,7 +389,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 			const char *grpname = i->data;
 			for(j = syncs; j; j = alpm_list_next(j)) {
 				alpm_db_t *db = j->data;
-				alpm_group_t *grp = alpm_db_readgroup(db, grpname);
+				alpm_group_t *grp = alpm_db_get_group(db, grpname);
 
 				if(grp) {
 					/* get names of packages in group */
@@ -496,7 +496,7 @@ static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
 static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ls = NULL;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
@@ -551,8 +551,8 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 static alpm_list_t *syncfirst(void) {
 	alpm_list_t *i, *res = NULL;
-	alpm_db_t *db_local = alpm_option_get_localdb(config->handle);
-	alpm_list_t *syncdbs = alpm_option_get_syncdbs(config->handle);
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
+	alpm_list_t *syncdbs = alpm_get_syncdbs(config->handle);
 
 	for(i = config->syncfirst; i; i = alpm_list_next(i)) {
 		const char *pkgname = i->data;
@@ -572,7 +572,7 @@ static alpm_list_t *syncfirst(void) {
 static alpm_db_t *get_db(const char *dbname)
 {
 	alpm_list_t *i;
-	for(i = alpm_option_get_syncdbs(config->handle); i; i = i->next) {
+	for(i = alpm_get_syncdbs(config->handle); i; i = i->next) {
 		alpm_db_t *db = i->data;
 		if(strcmp(alpm_db_get_name(db), dbname) == 0) {
 			return db;
@@ -709,7 +709,7 @@ static int process_target(const char *target, int error)
 		alpm_list_free(dblist);
 	} else {
 		targname = targstring;
-		dblist = alpm_option_get_syncdbs(config->handle);
+		dblist = alpm_get_syncdbs(config->handle);
 		ret = process_targname(dblist, targname, error);
 	}
 
@@ -911,7 +911,7 @@ int pacman_sync(alpm_list_t *targets)
 		return 1;
 	}
 
-	sync_dbs = alpm_option_get_syncdbs(config->handle);
+	sync_dbs = alpm_get_syncdbs(config->handle);
 
 	if(config->op_s_sync) {
 		/* grab a fresh package list */
