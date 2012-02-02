@@ -36,6 +36,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <wchar.h>
+#include <math.h> /* pow */
 #ifdef HAVE_TERMIOS_H
 #include <termios.h> /* tcflush */
 #endif
@@ -791,13 +792,13 @@ static alpm_list_t *create_verbose_row(pm_target_t *target, int dl_size)
 	/* and size */
 	size -= target->remove ? alpm_pkg_get_isize(target->remove) : 0;
 	size += target->install ? alpm_pkg_get_isize(target->install) : 0;
-	human_size = humanize_size(size, 'M', &label);
+	human_size = humanize_size(size, 'M', 2, &label);
 	pm_asprintf(&str, "%.2f %s", human_size, label);
 	ret = alpm_list_add(ret, str);
 
 	if(dl_size) {
 		size = target->install ? alpm_pkg_download_size(target->install) : 0;
-		human_size = humanize_size(size, 'M', &label);
+		human_size = humanize_size(size, 'M', 2, &label);
 		if(size != 0) {
 			pm_asprintf(&str, "%.2f %s", human_size, label);
 		} else {
@@ -881,21 +882,21 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	free(str);
 
 	if(dlsize > 0 || config->op_s_downloadonly) {
-		size = humanize_size(dlsize, 'M', &label);
+		size = humanize_size(dlsize, 'M', 2, &label);
 		printf(_("Total Download Size:    %.2f %s\n"), size, label);
 	}
 	if(!config->op_s_downloadonly) {
 		if(isize > 0) {
-			size = humanize_size(isize, 'M', &label);
+			size = humanize_size(isize, 'M', 2, &label);
 			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
 		}
 		if(rsize > 0 && isize == 0) {
-			size = humanize_size(rsize, 'M', &label);
+			size = humanize_size(rsize, 'M', 2, &label);
 			printf(_("Total Removed Size:     %.2f %s\n"), size, label);
 		}
 		/* only show this net value if different from raw installed size */
 		if(isize > 0 && rsize > 0) {
-			size = humanize_size(isize - rsize, 'M', &label);
+			size = humanize_size(isize - rsize, 'M', 2, &label);
 			printf(_("Net Upgrade Size:       %.2f %s\n"), size, label);
 		}
 	}
@@ -994,12 +995,14 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
  * @param target_unit '\0' or a short label. If equal to one of the short unit
  * labels ('B', 'K', ...) bytes is converted to target_unit; if '\0', the first
  * unit which will bring the value to below a threshold of 2048 will be chosen.
- * @param long_labels whether to use short ("K") or long ("KiB") unit labels
+ * @param precision number of decimal places, ensures -0.0.0 gets rounded to
+ * 0.00; -1 if no rounding desired
  * @param label will be set to the appropriate unit label
  *
  * @return the size in the appropriate unit
  */
-double humanize_size(off_t bytes, const char target_unit, const char **label)
+double humanize_size(off_t bytes, const char target_unit, int precision,
+		const char **label)
 {
 	static const char *labels[] = {"B", "KiB", "MiB", "GiB",
 		"TiB", "PiB", "EiB", "ZiB", "YiB"};
@@ -1019,6 +1022,11 @@ double humanize_size(off_t bytes, const char target_unit, const char **label)
 
 	if(label) {
 		*label = labels[index];
+	}
+
+	/* fix FS#27924 so that it doesn't display negative zeroes */
+	if(precision >= 0 && val < 0.0 && val > (-0.5 / pow(10, precision))) {
+		val = 0.0;
 	}
 
 	return val;
