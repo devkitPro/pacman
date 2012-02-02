@@ -33,8 +33,6 @@ extern "C" {
 
 #include <alpm_list.h>
 
-#define DEPRECATED __attribute__((deprecated))
-
 /*
  * Arch Linux Package Management library
  */
@@ -51,10 +49,7 @@ typedef int64_t alpm_time_t;
  * These ones are used in multiple contexts, so are forward-declared.
  */
 
-/**
- * Install reasons.
- * Why the package was installed.
- */
+/** Package install reasons. */
 typedef enum _alpm_pkgreason_t {
 	/** Explicitly requested by the user. */
 	ALPM_PKG_REASON_EXPLICIT = 0,
@@ -62,6 +57,7 @@ typedef enum _alpm_pkgreason_t {
 	ALPM_PKG_REASON_DEPEND = 1
 } alpm_pkgreason_t;
 
+/** Location a package object was loaded from. */
 typedef enum _alpm_pkgfrom_t {
 	PKG_FROM_FILE = 1,
 	PKG_FROM_LOCALDB,
@@ -94,9 +90,7 @@ typedef enum _alpm_fileconflicttype_t {
 	ALPM_FILECONFLICT_FILESYSTEM
 } alpm_fileconflicttype_t;
 
-/**
- * PGP signature verification options
- */
+/** PGP signature verification options */
 typedef enum _alpm_siglevel_t {
 	ALPM_SIG_PACKAGE = (1 << 0),
 	ALPM_SIG_PACKAGE_OPTIONAL = (1 << 1),
@@ -111,9 +105,7 @@ typedef enum _alpm_siglevel_t {
 	ALPM_SIG_USE_DEFAULT = (1 << 31)
 } alpm_siglevel_t;
 
-/**
- * PGP signature verification status return codes
- */
+/** PGP signature verification status return codes */
 typedef enum _alpm_sigstatus_t {
 	ALPM_SIGSTATUS_VALID,
 	ALPM_SIGSTATUS_KEY_EXPIRED,
@@ -123,9 +115,7 @@ typedef enum _alpm_sigstatus_t {
 	ALPM_SIGSTATUS_INVALID
 } alpm_sigstatus_t;
 
-/**
- * PGP signature verification status return codes
- */
+/** PGP signature verification status return codes */
 typedef enum _alpm_sigvalidity_t {
 	ALPM_SIGVALIDITY_FULL,
 	ALPM_SIGVALIDITY_MARGINAL,
@@ -154,7 +144,7 @@ typedef struct _alpm_depend_t {
 typedef struct _alpm_depmissing_t {
 	char *target;
 	alpm_depend_t *depend;
-	/* this is used in case of remove dependency error only */
+	/* this is used only in the case of a remove dependency error */
 	char *causingpkg;
 } alpm_depmissing_t;
 
@@ -231,7 +221,8 @@ typedef struct _alpm_pgpkey_t {
 	char pubkey_algo;
 } alpm_pgpkey_t;
 
-/** Signature result. Contains the key, status, and validity of a given
+/**
+ * Signature result. Contains the key, status, and validity of a given
  * signature.
  */
 typedef struct _alpm_sigresult_t {
@@ -240,7 +231,8 @@ typedef struct _alpm_sigresult_t {
 	alpm_sigvalidity_t validity;
 } alpm_sigresult_t;
 
-/** Signature list. Contains the number of signatures found and a pointer to an
+/**
+ * Signature list. Contains the number of signatures found and a pointer to an
  * array of results.  The array is of size count.
  */
 typedef struct _alpm_siglist_t {
@@ -252,9 +244,7 @@ typedef struct _alpm_siglist_t {
  * Logging facilities
  */
 
-/**
- * Logging Levels
- */
+/** Logging Levels */
 typedef enum _alpm_loglevel_t {
 	ALPM_LOG_ERROR    = 1,
 	ALPM_LOG_WARNING  = (1 << 1),
@@ -265,7 +255,8 @@ typedef enum _alpm_loglevel_t {
 typedef void (*alpm_cb_log)(alpm_loglevel_t, const char *, va_list);
 int alpm_logaction(alpm_handle_t *handle, const char *fmt, ...);
 
-/** Events.
+/**
+ * Events.
  * NULL parameters are passed to in all events unless specified otherwise.
  */
 typedef enum _alpm_event_t {
@@ -346,13 +337,18 @@ typedef enum _alpm_event_t {
 	/** Disk space usage will be computed for a package */
 	ALPM_EVENT_DISKSPACE_START,
 	/** Disk space usage was computed for a package */
-	ALPM_EVENT_DISKSPACE_DONE,
+	ALPM_EVENT_DISKSPACE_DONE
 } alpm_event_t;
 
 /** Event callback */
 typedef void (*alpm_cb_event)(alpm_event_t, void *, void *);
 
-/** Questions */
+/**
+ * Questions.
+ * Unlike the events or progress enumerations, this enum has bitmask values
+ * so a frontend can use a bitmask map to supply preselected answers to the
+ * different types of questions.
+ */
 typedef enum _alpm_question_t {
 	ALPM_QUESTION_INSTALL_IGNOREPKG = 1,
 	ALPM_QUESTION_REPLACE_PKG = (1 << 1),
@@ -375,7 +371,7 @@ typedef enum _alpm_progress_t {
 	ALPM_PROGRESS_CONFLICTS_START,
 	ALPM_PROGRESS_DISKSPACE_START,
 	ALPM_PROGRESS_INTEGRITY_START,
-	ALPM_PROGRESS_LOAD_START,
+	ALPM_PROGRESS_LOAD_START
 } alpm_progress_t;
 
 /** Progress callback */
@@ -653,7 +649,7 @@ alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
  * @param needles a list of regular expressions to search for
  * @return the list of packages matching all regular expressions on success, NULL on error
  */
-alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t* needles);
+alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
 
 /** Set install reason for a package in db.
  * @param handle the context handle
@@ -1112,7 +1108,7 @@ char *alpm_dep_compute_string(const alpm_depend_t *dep);
  */
 
 /* checksums */
-char *alpm_compute_md5sum(const char *name);
+char *alpm_compute_md5sum(const char *filename);
 char *alpm_compute_sha256sum(const char *filename);
 
 /** @addtogroup alpm_api_errors Error Codes
