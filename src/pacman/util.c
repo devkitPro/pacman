@@ -36,7 +36,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <wchar.h>
-#include <math.h> /* pow */
 #ifdef HAVE_TERMIOS_H
 #include <termios.h> /* tcflush */
 #endif
@@ -989,6 +988,17 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
 	}
 }
 
+/* a pow() implementation that is specialized for an integer base and small,
+ * positive-only integer exponents. */
+static double simple_pow(int base, int exp)
+{
+	double result = 1.0;
+	for(; exp > 0; exp--) {
+		result *= base;
+	}
+	return result;
+}
+
 /** Converts sizes in bytes into human readable units.
  *
  * @param bytes the size in bytes
@@ -1025,7 +1035,8 @@ double humanize_size(off_t bytes, const char target_unit, int precision,
 	}
 
 	/* fix FS#27924 so that it doesn't display negative zeroes */
-	if(precision >= 0 && val < 0.0 && val > (-0.5 / pow(10, precision))) {
+	if(precision >= 0 && val < 0.0 &&
+			val > (-0.5 / simple_pow(10, precision))) {
 		val = 0.0;
 	}
 
