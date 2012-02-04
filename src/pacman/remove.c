@@ -50,7 +50,7 @@ static int remove_target(const char *target)
 		/* fallback to group */
 	alpm_group_t *grp = alpm_db_readgroup(db_local, target);
 	if(grp == NULL) {
-		pm_printf(ALPM_LOG_ERROR, "'%s': target not found\n", target);
+		pm_printf(ALPM_LOG_ERROR, _("target not found: %s\n"), target);
 		return -1;
 	}
 	for(p = grp->packages; p; p = alpm_list_next(p)) {
