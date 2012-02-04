@@ -2299,13 +2299,17 @@ if (( NODEPS || ( (NOBUILD || REPKG) && !DEP_BIN ) )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
 elif type -p "${PACMAN%% *}" >/dev/null; then
-	if (( RMDEPS )); then
+	if (( RMDEPS && ! INSTALL )); then
 		original_pkglist=($(run_pacman -Qq))    # required by remove_dep
 	fi
 	deperr=0
 
 	msg "$(gettext "Checking runtime dependencies...")"
 	resolve_deps ${depends[@]} || deperr=1
+
+	if (( RMDEPS && INSTALL )); then
+		original_pkglist=($(run_pacman -Qq))    # required by remove_dep
+	fi
 
 	msg "$(gettext "Checking buildtime dependencies...")"
 	resolve_deps ${makedepends[@]} || deperr=1
