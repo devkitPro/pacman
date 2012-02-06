@@ -519,7 +519,7 @@ remove_deps() {
 	local deplist
 	deplist=($(grep -xvFf <(printf "%s\n" "${original_pkglist[@]}") \
 			<(printf "%s\n" "${current_pkglist[@]}") || true))
-	if [[ -n deplist ]]; then
+	if [[ -z deplist ]]; then
 		return
 	fi
 
@@ -1838,7 +1838,7 @@ usage() {
 	echo
 	printf -- "$(gettext "Usage: %s [options]")\n" "$0"
 	echo
-	printf -- "$(gettext "Options:")"
+	printf -- "$(gettext "Options:")\n"
 	printf -- "$(gettext "  -A, --ignorearch Ignore incomplete %s field in %s")\n" "arch" "$BUILDSCRIPT"
 	printf -- "$(gettext "  -c, --clean      Clean up work files after build")\n"
 	printf -- "$(gettext "  -d, --nodeps     Skip all dependency checks")\n"
@@ -2058,6 +2058,11 @@ fi
 
 SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
 SRCPKGDEST=${SRCPKGDEST:-$startdir} #default to $startdir if undefined
+if (( SOURCEONLY )) && [[ ! -w $SRCPKGDEST ]]; then
+	error "$(gettext "You do not have write permission to store source tarballs in %s.")" "$SRCPKGDEST"
+	plain "$(gettext "Aborting...")"
+	exit 1
+fi
 
 PKGEXT=${_PKGEXT:-$PKGEXT}
 SRCEXT=${_SRCEXT:-$SRCEXT}
@@ -2305,13 +2310,17 @@ if (( NODEPS || ( (NOBUILD || REPKG) && !DEP_BIN ) )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
 elif type -p "${PACMAN%% *}" >/dev/null; then
-	if (( RMDEPS )); then
+	if (( RMDEPS && ! INSTALL )); then
 		original_pkglist=($(run_pacman -Qq))    # required by remove_dep
 	fi
 	deperr=0
 
 	msg "$(gettext "Checking runtime dependencies...")"
 	resolve_deps ${depends[@]} || deperr=1
+
+	if (( RMDEPS && INSTALL )); then
+		original_pkglist=($(run_pacman -Qq))    # required by remove_dep
+	fi
 
 	msg "$(gettext "Checking buildtime dependencies...")"
 	resolve_deps ${makedepends[@]} || deperr=1

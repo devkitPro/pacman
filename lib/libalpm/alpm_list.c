@@ -286,8 +286,11 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n,
 			lastleft = lastleft->next;
 		}
 		right = lastleft->next;
-		/* terminate first list */
+
+		/* tidy new lists */
 		lastleft->next = NULL;
+		right->prev = left->prev;
+		left->prev = lastleft;
 
 		left = alpm_list_msort(left, half, fn);
 		right = alpm_list_msort(right, n - half, fn);

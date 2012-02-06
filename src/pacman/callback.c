@@ -704,8 +704,8 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	}
 
-	rate_human = humanize_size((off_t)rate, '\0', &rate_label);
-	xfered_human = humanize_size(xfered, '\0', &xfered_label);
+	rate_human = humanize_size((off_t)rate, '\0', -1, &rate_label);
+	xfered_human = humanize_size(xfered, '\0', -1, &xfered_label);
 
 	printf(" %ls%-*s ", wcfname, padwid, "");
 	/* We will show 1.62M/s, 11.6M/s, but 116K/s and 1116K/s */

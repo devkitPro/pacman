@@ -4,14 +4,15 @@
 #
 # Translators:
 # Algimantas Margevičius <gymka@mail.ru>, 2011.
+# Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011, 2012.
 # toofishes <dpmcgee@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2011-11-13 21:47-0600\n"
-"PO-Revision-Date: 2011-10-07 06:12+0000\n"
-"Last-Translator: gymka_ltu <margevicius.algimantas@gmail.com>\n"
+"PO-Revision-Date: 2012-02-05 07:37+0000\n"
+"Last-Translator: Algimantas Margevičius <margevicius.algimantas@gmail.com>\n"
 "Language-Team: Lithuanian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/lt/)\n"
 "Language: lt\n"
@@ -103,7 +104,7 @@ msgstr "nepavyko atnaujint duomenų bazės įrašo %s-%s\n"
 
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr "nepavyko pridėti '%s' podėlin\n"
+msgstr "į podėlį pridėti „%s“ nepavyko\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
@@ -111,15 +112,15 @@ msgstr "šalinama neteisinga duomenų bazė: %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "neteisingas duomenų bazės įrašo pavadinimas '%s'\n"
+msgstr "neteisingas duomenų bazės įrašo pavadinimas „%s“\n"
 
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "toks pavadinimas jau yra '%s'\n"
+msgstr "toks pavadinimas jau yra „%s“\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "duomenų bazės įrašas sugadintas '%s'\n"
+msgstr "duomenų bazės įrašas sugadintas „%s“\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -169,7 +170,7 @@ msgstr "nepavyko pašalinti užrakinto failo %s\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr "nepavyko perskaityt paketo aprašymo failo %s iš duomenų bazės '%s'\n"
+msgstr "nepavyko perskaityt paketo aprašymo failo %s iš duomenų bazės „%s“\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -177,7 +178,7 @@ msgstr "nenurodytas duomenų bazės kelias\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "rastas priklausomybių ciklas:\n"
+msgstr "aptiktas priklausomybių ciklas:\n"
 
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
@@ -189,11 +190,11 @@ msgstr "%s bus įdiegta prieš jo priklausomybę %s\n"
 
 #, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "ignoruojamas paketas %s-%s\n"
+msgstr "paketas nepaisomas %s-%s\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "negaliu išspręsti \"%s\", \"%s\" priklausomybė\n"
+msgstr "nepavyko išspręsti „%s“, „%s“ priklausomybė\n"
 
 #, c-format
 msgid "could not get filesystem information\n"
@@ -233,11 +234,11 @@ msgstr "nepavyko sukurti laikino failo parsiuntimui\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "neteisingas url '%s'\n"
+msgstr "neteisingas url „%s“\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "nepavyko gauti failo '%s' iš %s : %s\n"
+msgstr "nepavyko gauti failo „%s“ iš %s : %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -361,7 +362,7 @@ msgstr "operacija nesuderinama su perdavimo tipu"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr "bandoma perduoti kol duomenų bazė neužrakinta"
+msgstr "bandoma perduoti kai duomenų bazė neužrakinta"
 
 #, c-format
 msgid "could not find or read package"
@@ -437,7 +438,7 @@ msgstr "nepavyko gauti kai kurių failų"
 
 #, c-format
 msgid "invalid regular expression"
-msgstr "neteisinga regular expression"
+msgstr "netinkamos reguliariosios išraiškos"
 
 #, c-format
 msgid "libarchive error"
@@ -473,7 +474,7 @@ msgstr "šalinamas %s iš objektų sąrašo\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "nepavyko pašalinti failo '%s': %s\n"
+msgstr "nepavyko pašalinti failo „%s“: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -485,7 +486,7 @@ msgstr "nepavyko pašalinti duomenų bazės įrašo %s-%s\n"
 
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "iš podėlio nepavyko pašalinti įrašo '%s'\n"
+msgstr "iš podėlio nepavyko pašalinti įrašo „%s“\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
@@ -517,7 +518,7 @@ msgstr "aptikti neišsprendžiami paketų nesuderinamumai\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "iš objektų sąrašo šalinamas '%s' dėl konfliktų su '%s'\n"
+msgstr "iš objektų sąrašo šalinamas „%s“ dėl konfliktų su „%s“\n"
 
 #, c-format
 msgid "failed to retrieve some files from %s\n"
@@ -525,11 +526,11 @@ msgstr "nepavyko gauti kai kurių failų iš %s\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "nepavyko įvykdyt šalinimo perdavimo\n"
+msgstr "nepavyko įvykdyti šalinimo perdavimo\n"
 
 #, c-format
 msgid "could not commit transaction\n"
-msgstr "nepavyko įvykdyt perdavimo\n"
+msgstr "nepavyko įvykdyti perdavimo\n"
 
 #, c-format
 msgid "could not create temp directory\n"
@@ -537,7 +538,7 @@ msgstr "nepavyko sukurti lakino aplanko\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
-msgstr "negaliu nukopijuoti laikiną failą į %s (%s)\n"
+msgstr "negaliu nukopijuoti laikino failo į %s (%s)\n"
 
 #, c-format
 msgid "could not remove %s\n"

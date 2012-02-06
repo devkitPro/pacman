@@ -118,14 +118,14 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
 	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
 
-	size = humanize_size(alpm_pkg_get_size(pkg), 'K', &label);
+	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 2, &label);
 	if(from == PKG_FROM_SYNCDB) {
 		printf(_("Download Size  : %6.2f %s\n"), size, label);
 	} else if(from == PKG_FROM_FILE) {
 		printf(_("Compressed Size: %6.2f %s\n"), size, label);
 	}
 
-	size = humanize_size(alpm_pkg_get_isize(pkg), 'K', &label);
+	size = humanize_size(alpm_pkg_get_isize(pkg), 'K', 2, &label);
 	printf(_("Installed Size : %6.2f %s\n"), size, label);
 
 	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg));

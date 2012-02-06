@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Alexander Rødseth <rodseth@gmail.com>, 2011.
+# Alexander Rødseth <rodseth@gmail.com>, 2011, 2012.
 # Jon Gjengset <jon@thesquareplanet.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-23 18:47-0600\n"
-"PO-Revision-Date: 2011-11-14 07:34+0000\n"
-"Last-Translator: Jonhoo <jon@thesquareplanet.com>\n"
+"POT-Creation-Date: 2012-02-06 05:42-0600\n"
+"PO-Revision-Date: 2012-02-03 09:20+0000\n"
+"Last-Translator: Alexander Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/nb/)\n"
 "Language: nb\n"
@@ -203,7 +203,7 @@ msgstr "konfigurasjonsfil %s, linje %d: ugyldig verdi for '%s': '%s'\n"
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
-"konfigurasjonsfil %s, linje %d: alternativ '%s' er ugyldig, ingen "
+"konfigurasjonsfil %s, linje %d: valget '%s' er ugyldig, ingen "
 "signaturstøtte\n"
 
 #, c-format
@@ -439,7 +439,7 @@ msgstr "ingen endringslogg tilgjengelig for '%s'.\n"
 
 #, c-format
 msgid "options"
-msgstr "alternativer"
+msgstr "valg"
 
 #, c-format
 msgid "file(s)"
@@ -467,8 +467,7 @@ msgid ""
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"bruk '%s {-h --help}' sammen med en handling, for tilgjengelige "
-"alternativer\n"
+"bruk '%s {-h --help}' sammen med en handling, for tilgjengelige valg\n"
 
 #, c-format
 msgid ""
@@ -508,7 +507,7 @@ msgstr "  -c, --changelog      vis endringsloggen for en pakke\n"
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
-"   -d, --deps     list alle pakker som er installert som avhengigheter "
+"  -d, --deps     list alle pakker som er installert som avhengigheter "
 "[filter]\n"
 
 #, c-format
@@ -524,14 +523,14 @@ msgstr "  -g, --groups          list opp alle medlemmer i en pakkegruppe\n"
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "   -i, --info       vis pakkeinformasjon (-ii for backup-filer)\n"
+msgstr "  -i, --info       vis pakkeinformasjon (-ii for backup-filer)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
 msgstr ""
-"   -k, --check     sjekk om filene som er eid av pakken(e) er tilstede\n"
+"  -k, --check     sjekk om filene som er eid av pakken(e) er tilstede\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -547,7 +546,7 @@ msgstr ""
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "   -o --owns <fil>    finn pakken som eier <fil>\n"
+msgstr "  -o, --owns <fil>    finn pakken som eier <fil>\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
@@ -659,7 +658,7 @@ msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
-"     --ignoregroup    ignorer en gruppeoppgradering (kan brukes mer enn én "
+"      --ignoregroup    ignorer en gruppeoppgradering (kan brukes mer enn én "
 "gang)\n"
 
 #, c-format
@@ -679,13 +678,13 @@ msgstr ""
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "     --noprogressbar   ikke vis framdrift ved nedlasting av filer\n"
+msgstr "      --noprogressbar   ikke vis framdrift ved nedlasting av filer\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
-"    --noscriptlet     ikke kjør installasjons-scriptet, om det finnes\n"
+"      --noscriptlet     ikke kjør installasjons-scriptet, om det finnes\n"
 
 #, c-format
 msgid ""
@@ -842,6 +841,10 @@ msgid "could not load package '%s': %s\n"
 msgstr "kunne ikke laste pakke '%s': %s\n"
 
 #, c-format
+msgid "target not found: %s\n"
+msgstr "valget ble ikke funnet: %s\n"
+
+#, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "kunne ikke forberede transaksjon (%s)\n"
 
@@ -960,10 +963,6 @@ msgstr "fant ikke pakkebrønnen \"%s\".\n"
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "hopper over valg: %s\n"
-
-#, c-format
-msgid "target not found: %s\n"
-msgstr "valget ble ikke funnet: %s\n"
 
 #, c-format
 msgid ":: There are %d members in group %s:\n"
