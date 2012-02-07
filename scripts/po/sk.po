@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-17 15:37+0000\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-06 19:50+0000\n"
 "Last-Translator: archetyp <archetyp@linuxmail.org>\n"
 "Language-Team: Slovak (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/sk/)\n"
@@ -477,17 +477,17 @@ msgstr "  --noprogressbar  Nezobrazovať priebeh sťahovania súborov"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Ak nie je zadané %s, %s bude hľadať '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Tím vývojárov <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nToto je "
-"slobodný software; podmienky kopírovania nájdete v zdrojových súboroch\\nNa "
-"software sa nevzťahuje ŽIADNA ZÁRUKA. v rozsahu povoleného zákonom.\\n"
+"Copyright (c) 2006-2012 Pacman development Team &lt;pacman-dev@archlinux."
+"org&gt;.\\nCopyright (C) 2002-2006 Judd Vinet &lt;jvinet@zeroflux.org&gt;.\\n"
+"\\nToto je slobodný software; podmienky kopírovania nájdete v zdrojových "
+"súboroch\\nNa software sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného "
+"zákonom.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "Signál %s bol zachytený. Ukončujem..."
@@ -509,6 +509,9 @@ msgstr "Nemáte právo na zápis kvôli uloženiu stiahnutých balíčkov do %s.
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Nemáte právo na zápis kvôli uloženiu stiahnutých súborov do %s."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr "Nemáte práva na zapisovanie pre uloženie zdrojového súboru do %s."
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0%s a %s nemôžu byť zadané súčasne"
@@ -629,16 +632,15 @@ msgstr "Dokončené vytváranie: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Použitie: %s [koreň_databáze_pacmana]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Tím vývojárov <pacman-dev@archlinux.org>."
-"\\nToto je slobodný software; podmienky kopírovania nájdete v zdrojových "
-"súboroch\\nNa software sa nevzťahuje ŽIADNA ZÁRUKA. v rozsahu povoleného "
-"zákonom.\\n"
+"Copyright (c) 2010-2012 Pacman Development Team &lt;pacman-dev@archlinux."
+"org&gt;\\n\\nToto je slobodný software; podmienky kopírovania nájdete v "
+"zdrojových súboroch\\nNa software sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu "
+"povoleného zákonom.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s neexistuje, alebo nie je adresárom."
@@ -752,9 +754,8 @@ msgstr ""
 "  --refresh-keys [id_kľúča(ov)] Aktualizuj zadané alebo všetky kľúče zo "
 "servera s kľúčmi"
 
-#, fuzzy
 msgid "The key identified by %s could not be found locally."
-msgstr "Kľúč, ktorý identifikoval %s, neexistuje."
+msgstr "Kľúč identifikovaný ako %s sa nepodarilo nájsť lokálne."
 
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nemáte dostatočné práve pre čítanie kľúčenky %s."
@@ -808,56 +809,49 @@ msgid "Disabling key %s..."
 msgstr "Vyraďujem kľúč %s..."
 
 msgid "A specified keyfile could not be added to the gpg keychain."
-msgstr ""
+msgstr "Zadaný kľúč sa nepodarilo pridať do gpg kľúčenky."
 
 msgid "A specified key could not be removed from the gpg keychain."
-msgstr ""
+msgstr "Zadaný kľúč sa nepodarilo odobrať z gpg kľúčenky."
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "Kľúč, ktorý identifikoval %s, neexistuje."
+msgstr "Kľúč identifikovaný ako %s sa nepodarilo editovať."
 
 msgid "A specified key could not be exported from the gpg keychain."
-msgstr ""
+msgstr "Zadaný kľúč sa nepodarilo exportovať z gpg kľúčenky."
 
 msgid "The fingerprint of a specified key could not be determined."
-msgstr ""
+msgstr "Nepodarilo sa zistiť odtlačok zadaného kľúča."
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "Delta rozdiel sa nepodarilo vytvoriť."
+msgstr "%s sa nepodarilo importovať."
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s neexistuje, alebo nie je adresárom."
+msgstr "Súbor %s neexistuje a preto ho nemožno importovať."
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "Nepodarilo sa vytvoriť súbor repozitára '%s'."
+msgstr "Zadaný kľúč sa nepodarilo pridať do zoznamu."
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Jeden alebo viac PGP podpisov nemohlo byť overených!"
+msgstr "Zadaný podpis sa nepodarilo pridať do zoznamu."
 
 msgid "A specified key could not be locally signed."
-msgstr ""
+msgstr "Zadaný kľúč nemohol byť lokálne podpísaný."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr ""
+msgstr "Kľúč sa nepodarilo stiahnuť zo servera kľúčov."
 
 msgid "A specified local key could not be updated from a keyserver."
-msgstr ""
+msgstr "Zadaný lokálny kľúč sa nepodarilo aktualizovať zo servera kľúčov."
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "Kľúč, ktorý identifikoval %s, neexistuje."
+msgstr "Podpis identifikovaný ako %s sa nepodarilo overiť."
 
 msgid "Updating trust database..."
 msgstr "Aktualizujem databázu dôveryhodnosti..."
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "Delta rozdiel sa nepodarilo vytvoriť."
+msgstr "nepodarilo sa aktualizovať databázu dôvery."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nepodarilo sa nájsť súbor %s potrebný pre všetky %s operácie."
@@ -989,13 +983,12 @@ msgstr "Nepodarilo sa nájsť príkaz xdelta3! Je xdelta3 nainštalovaný?"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Použitie: repo-add [voľby] <cesta-k-db> <balíčkek|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add aktualizuje databázu balíčkov pomocou čítania súboru balíčku.\\nNa "
-"príkazovom riadku môže byť uvedených viac balíčkov pre pridanie.\\n\\n"
+"repo-add aktualizuje databázu balíčkov pomocou čítania súboru balíčka.\\nNa "
+"príkazovom riadku môže byť uvedených viac balíčkov pre pridanie.\\n"
 
 msgid "Options:\\n"
 msgstr "Voľby:\\n"
@@ -1007,12 +1000,11 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       aktualizuj zoznam súborov databázy\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
-"Použitie: repo-remove [voľby] <cesta-k-db> <menobalíčka|delta> ...\\n\\n"
+"Použitie: repo-remove [voľby] &lt;cesta-k-db&gt; &lt;menobalíčka|"
+"delta&gt; ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
@@ -1020,10 +1012,10 @@ msgid ""
 msgstr ""
 "repo-remove aktualizuje databázu balíčkov odstránením balíčka podľa mena"
 "\\nuvedeného na príkazovom riadku z danej databázy. Na príkazovom riadku "
-"môže byť\\nuvedených viac balíčkov pre odstránenie.\\n\\n"
+"môže byť\\nuvedených viacero balíčkov na odstránenie.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr ""
+msgstr "Prosím, posuňte sa ďalej, tu nie je nič k videniu.\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimalizuj výstup\\n"
@@ -1037,31 +1029,27 @@ msgstr "  -k, --key <key>   použi zadaný kľúč na podpis databázy\\n"
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify      over podpis databázy pred aktualizáciou\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-msgstr "\\nPozri %s(8) pre podrobnosti a popis dostupných volieb.\\n\\n"
+msgstr "\\nPozri %s(8) pre podrobnosti a popis dostupných volieb.\\n"
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Príklad:  repo-add /cesta/k/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Príklad:  repo-add /cesta/k/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Príklad:  repo-remove /path/to/repo.db.tar.gz kernel26"
+msgstr "Príklad:  repo-remove /cesta/d/repo.db.tar.gz kernel26\\n"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
-"\\nToto je slobodný software; podmienky kopírovania nájdete v zdrojových "
-"súboroch\\nNa software sa nevzťahuje ŽIADNA ZÁRUKA. v rozsahu povoleného "
-"zákonom.\\n\n"
+"Copyright (c) 2006-2012 Pacman Development Team &lt;pacman-dev@archlinux."
+"org&gt;\\n\\nToto je slobodný software; podmienky kopírovania nájdete v "
+"zdrojových súboroch\\nNa software sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu "
+"povoleného zákonom.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "V databáze neexistuje záznam o balíčku '%s'."

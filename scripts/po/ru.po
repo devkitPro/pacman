@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-17 20:24+0000\n"
-"Last-Translator: partizan <serg.partizan@gmail.com>\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-02 06:07+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/ru/)\n"
 "Language: ru\n"
@@ -492,18 +492,12 @@ msgstr "  --noprogressbar  Не показывать индикатор выпо
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Если %s не указано, %s будет искать '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nЭто "
-"свободное программное обеспечение; посмотрите условия копирования в исходном "
-"коде.\\nНа него не даётся НИКАКИХ ГАРАНТИЙ, в той степени, в которой это "
-"разрешено законом.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "Принят сигнал %s. Выходим..."
@@ -525,6 +519,9 @@ msgstr "У вас нет прав на запись, чтобы сохранят
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "У вас нет прав на запись, чтобы сохранить загруженные файлы в %s."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr ""
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0%s и %s не могут использоваться вместе"
@@ -648,15 +645,11 @@ msgstr "Сборка завершена: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Использование: %s [корень_БД_pacman'а]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nЭто свободное программное обеспечение; посмотрите условия копирования в "
-"исходном коде.\\n\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s не существует или не является каталогом."
@@ -824,9 +817,8 @@ msgstr ""
 msgid "A specified key could not be removed from the gpg keychain."
 msgstr ""
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "Файл с ключами %s отсутсвует."
+msgstr ""
 
 msgid "A specified key could not be exported from the gpg keychain."
 msgstr ""
@@ -834,21 +826,17 @@ msgstr ""
 msgid "The fingerprint of a specified key could not be determined."
 msgstr ""
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "Дельта не может быть создана."
+msgstr ""
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s не существует или не является каталогом."
+msgstr ""
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "Файл репозитория '%s' не может быть создан."
+msgstr ""
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Одна или более PGP подписей не может быть проверена!"
+msgstr ""
 
 msgid "A specified key could not be locally signed."
 msgstr ""
@@ -859,16 +847,14 @@ msgstr ""
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "Одна или более PGP подписей не может быть проверена!"
+msgstr ""
 
 msgid "Updating trust database..."
 msgstr ""
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "Дельта не может быть создана."
+msgstr ""
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -1004,13 +990,10 @@ msgstr "Не удалось найти бинарный файл xdelta3!"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add обновит базу данных пакетов, прочитав информацию из файла пакета."
-"\\nУкажите несколько пакетов в командной строке, чтобы добавить их все.\\n\\n"
 
 msgid "Options:\\n"
 msgstr ""
@@ -1024,15 +1007,11 @@ msgstr ""
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove обновит базу данных пакетов, удалив имя пакета, заданного\\nв "
-"командной строке из указанной базы данных. Можете указать сразу\\nнесколько "
-"пакетов для удаления в командной строке.\\n\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr ""
@@ -1053,24 +1032,18 @@ msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr "Пример:  repo-remove /путь/к/репозиторию.db.tar.gz kernel26"
+msgstr ""
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Пример:  repo-remove /путь/к/репозиторию.db.tar.gz kernel26"
+msgstr ""
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nЭто свободное программное обеспечение; посмотрите условия копирования в "
-"исходном коде.\\n\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Нет записи в базы данных для пакета '%s'."

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-05 23:01+0000\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-02 06:07+0000\n"
 "Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fi/)\n"
@@ -472,17 +472,12 @@ msgstr "  --noprogressbar  Älä näytä edistymispalkkia tiedostoja ladattaessa
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2006-2011 Pacmanin kehitystiimi <pacman-dev@archlinux."
-"org>.\\nTekijänoikeudet (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n"
-"\\nTämä on ilmainen ohjelmisto; katso kopioimisehdot lähdekoodista.\\nMitään "
-"takuita ei anneta, lain rajoissa.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "%s signaali vastaanotettu. Lopetetaan..."
@@ -504,6 +499,9 @@ msgstr "Sinulla ei ole oikeuksia säilöä paketteja sijainnissa %s."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Sinulla ei ole oikeuksia säilöä latauksia sijainnissa %s."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr ""
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr ""
@@ -626,15 +624,11 @@ msgstr "Saatiin valmiiksi paketti: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Käyttö: %s [pacman_tietokannan_juuri]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2010-2011 Pacmanin kehitystiimi <pacman-dev@archlinux."
-"org>.\\nTämä on ilmainen ohjelmisto; katso kopioimisehdot lähdekoodista."
-"\\nMitään takuita ei anneta, lain rajoissa.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s ei ole olemassa, tai se ei ole kansio."
@@ -813,9 +807,8 @@ msgstr ""
 msgid "A specified key could not be removed from the gpg keychain."
 msgstr ""
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "Tietokantatiedostoa '%s' ei voida luoda."
+msgstr ""
 
 msgid "A specified key could not be exported from the gpg keychain."
 msgstr ""
@@ -823,21 +816,17 @@ msgstr ""
 msgid "The fingerprint of a specified key could not be determined."
 msgstr ""
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "Deltaa ei voitu luoda."
+msgstr ""
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s ei ole olemassa, tai se ei ole kansio."
+msgstr ""
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "Tietokantatiedostoa '%s' ei voida luoda."
+msgstr ""
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Yhtä tai useampaa PGP allekirjoitusta ei voitu tarkastaa!"
+msgstr ""
 
 msgid "A specified key could not be locally signed."
 msgstr ""
@@ -848,16 +837,14 @@ msgstr ""
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "Yhtä tai useampaa PGP allekirjoitusta ei voitu tarkastaa!"
+msgstr ""
 
 msgid "Updating trust database..."
 msgstr ""
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "Deltaa ei voitu luoda."
+msgstr ""
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Kaikille %s-operaatioille tarvittavaa ohjelmaa %s ei löydy."
@@ -991,13 +978,10 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Käyttö: repo-add [valitsimet] <tietokannan-sijainti> <paketti|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add päivittää pakettitietokannan lukemalla pakettitiedoston."
-"\\nKomentorivillä voidaan määrittää useampia paketteja kerrallaan.\\n\\n"
 
 msgid "Options:\\n"
 msgstr "Valitsimet:\\n"
@@ -1008,21 +992,14 @@ msgstr "  -d, --delta       luo ja lisää delta paketti\\n"
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       päivitä tietokannan tiedostolistaus\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
-"Käyttö: repo-remove [valinnat] <tietokannan_sijainti> <paketinnimi|delta> ..."
-"\\n\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove päivittää pakettitietokannan, poistamalla\\nkomentorivillä "
-"määriteltyjen pakettien nimet tietokannasta.\\n komentorivillä voidaan "
-"määrittää kerrallaan useampia paketteja.\\n\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr ""
@@ -1042,31 +1019,22 @@ msgstr ""
 "  -v, --verify      tarkasta tietokannan allekirjoitus, ennen päivittämistä"
 "\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-msgstr "\\nLisätietoja kaivatessasi onsltoi man sivua %s(8).\\n\\n "
+msgstr ""
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Esimerkki:  repo-add /tieto/kannan/sijainti/repo.db.tar.gz pacman-3.0.0-1-"
-"i686.pkg.tar.gz"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Esimerkki: repo-remove /tieto/kannan/sijainti/repo.db.tar.gz kernel26"
+msgstr ""
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2006-2011 Pacmanin kehitystiimi <pacman-dev@archlinux."
-"org>.\\nTämä on ilmainen ohjelmisto; katso kopioimisehdot lähdekoodista."
-"\\nMitään takuita ei anneta, lain rajoissa.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Paketilla '%s' ei ole merkintää tietokannassa."

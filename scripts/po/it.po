@@ -4,14 +4,14 @@
 #
 # Translators:
 # Andrea Scarpino <andrea@archlinux.org>, 2011.
-# Giovanni Scafora <giovanni@archlinux.org>, 2011.
+# Giovanni Scafora <giovanni@archlinux.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-05 23:01+0000\n"
-"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-06 12:49+0000\n"
+"Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/it/)\n"
 "Language: it\n"
@@ -497,14 +497,13 @@ msgstr ""
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Se %s non è stato specificato, %s cercherà '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -530,6 +529,9 @@ msgstr ""
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Non si dispone dei permessi in scrittura per salvare i download in %s."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr "Non disponi del permesso di scrittura per salvare i sorgenti in %s."
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0%s e %s non possono essere entrambi specificati"
@@ -664,13 +666,12 @@ msgstr "Compilazione terminata: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Uso: %s [pacman_db_root]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -756,7 +757,7 @@ msgstr ""
 "(invece\\n                            di '%s')"
 
 msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
-msgstr "  --import <dir(s)>         Importa pubring.gpg da dir(s)"
+msgstr "  --import <dir(s)>         Importa pubring.gpg dalla(e) directory"
 
 msgid ""
 "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir"
@@ -794,7 +795,6 @@ msgstr ""
 "  --refresh-keys [keyid(s)] Aggiorna la chiave specificata o tutte le chiavi "
 "da keyserver"
 
-#, fuzzy
 msgid "The key identified by %s could not be found locally."
 msgstr "La chiave identificata da %s non esiste."
 
@@ -850,56 +850,51 @@ msgid "Disabling key %s..."
 msgstr "Disabilitazione della chiave %s in corso..."
 
 msgid "A specified keyfile could not be added to the gpg keychain."
-msgstr ""
+msgstr "Un keyfile specificato non può essere aggiunto al portachiavi gpg."
 
 msgid "A specified key could not be removed from the gpg keychain."
-msgstr ""
+msgstr "Un keyfile specificato non può essere rimosso dal portachiavi gpg."
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "La chiave identificata da %s non esiste."
+msgstr "La chiave identificata da %s non può essere modificata."
 
 msgid "A specified key could not be exported from the gpg keychain."
-msgstr ""
+msgstr "Un keyfile specificato non può essere esportato dal portachiavi gpg."
 
 msgid "The fingerprint of a specified key could not be determined."
 msgstr ""
+"L'impronta digitale di una chiave specificata non può essere determinata."
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "Il delta non può essere creato."
+msgstr "%s non può essere importata."
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s non esiste o non è una directory."
+msgstr "Il file %s non esiste e non può essere importato."
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "Il file del repository '%s' potrebbe non essere creato."
+msgstr "Una chiave specificata non può essere elencata."
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Una o più firme PGP non possono essere verificate!"
+msgstr "Una firma specificata non può essere elencata."
 
 msgid "A specified key could not be locally signed."
-msgstr ""
+msgstr "Una chiave specificata non può essere firmata localmente."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr ""
+msgstr "La chiave remota non è stata correttamente scaricata dal keyserver."
 
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
+"Una chiave locale specificata non può essere aggiornata da un keyserver."
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "La chiave identificata da %s non esiste."
+msgstr "La firma identificata da %s non può essere verificata."
 
 msgid "Updating trust database..."
 msgstr "Aggiornamento del database in corso..."
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "Il delta non può essere creato."
+msgstr "Il database non può essere aggiornato."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -1036,14 +1031,12 @@ msgstr "Impossibile trovare il binario di xdelta3! xdelta3 è installato?"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Uso: repo-add [opzioni] <path-del-db> <pacchetto|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add aggiornerà un database dei pacchetti leggendo un file del pacchetto."
-"\\nL'aggiunta di pacchetti multipli può essere specificata dalla linea di "
-"comando.\\n\\n"
+"repo-add aggiornerà un database leggendo i file di un pacchetto.\\nPacchetti "
+"multipli da aggiungere, possono essere specificati dalla linea di comando.\\n"
 
 msgid "Options:\\n"
 msgstr "Opzioni:\\n"
@@ -1056,24 +1049,21 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       aggiorna la lista dei file del database\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
-msgstr ""
-"Uso: repo-remove [opzioni] <path-del-db> <nomepacchetto|delta> ...\\n\\n"
+msgstr "Uso: repo-remove [opzioni] <path-del-db> <nomepacchetto|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove aggiornerà un database, rimuovendo il nome del pacchetto"
-"\\nspecificato dalla linea di comando dal database del repo dato. La"
-"\\nrimozione dei pacchetti multipli può essere specificata dalla linea di "
-"comando.\\n\\n"
+"repo-remove aggiornerà il database di un pacchetto, rimuovendo il nome del "
+"pacchetto\\nspecificato dalla linea di comando dal database del repository. "
+"Pacchetti\\nmultipli da rimuovere, possono essere specificati dalla linea di "
+"comando.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr ""
+msgstr "Stai alla larga, non c'è niente da vedere qui.\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimizza l'output\\n"
@@ -1091,30 +1081,26 @@ msgstr ""
 "  -v, --verify      verifica la firma del database prima dell'aggiornamento"
 "\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr ""
-"\\nVedi %s(8) per maggiori dettagli e descrizioni delle opzioni disponibili."
-"\\n\\n"
+"\\nVedere %s(8) per maggiori dettagli e descrizioni delle opzioni "
+"disponibili.\\n"
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Esempio:  repo-add /path/di/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Esempio:  repo-add /path/al/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Esempio:  repo-remove /path/di/repo.db.tar.gz kernel26"
+msgstr "Esempio:  repo-remove /path/al/repo.db.tar.gz kernel26\\n"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -1157,7 +1143,7 @@ msgid "An entry for '%s' already existed"
 msgstr "Già esiste una voce per '%s'"
 
 msgid "Invalid package signature file '%s'."
-msgstr ""
+msgstr "Firma non valida per il pacchetto '%s'."
 
 msgid "Adding package signature..."
 msgstr "Aggiunta della firma del pacchetto in corso..."

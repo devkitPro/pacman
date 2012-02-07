@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-06 02:42+0000\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-05 15:02+0000\n"
 "Last-Translator: Rafael <rafael.f.f1@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/pt_BR/)\n"
@@ -119,7 +119,7 @@ msgid "unknown public key"
 msgstr "chave pública desconhecida"
 
 msgid "the key has been revoked."
-msgstr "a chave foi revolgada."
+msgstr "a chave foi revogada."
 
 msgid "the signature has expired."
 msgstr "a assinatura já expirou."
@@ -310,7 +310,7 @@ msgstr "O pacote %s requisitado não está disponível em %s"
 
 msgid "Sudo can not be found. Will use su to acquire root privileges."
 msgstr ""
-"O comando sudo não pode ser encontrado. O comando su será usado para "
+"O comando sudo não pôde ser encontrado. O comando su será usado para "
 "adquirir privilégios de root."
 
 msgid "Cannot find the %s binary required for building as non-root user."
@@ -500,17 +500,16 @@ msgstr ""
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Se %s não for especificada, %s vai procurar por \"%s\""
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nEste é um "
-"software livre; veja o código fonte para condições de cópia.\\nNÃO HÁ "
-"GARANTIA, na extensão permitida pela lei.\\n"
+"Copyright (c) 2006-2012 Equipe de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux."
+"org>.\\n\\nEste é um software livre; veja o código fonte para condições de "
+"cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "Sinal %s adquirido. Saindo..."
@@ -532,6 +531,10 @@ msgstr "Você não tem permissão de escrita para armazenar os pacotes em %s."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Você não tem permissão de escrita para armazenar downloads em %s."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr ""
+"Você não tem permissão de escrita para armazenar um tarball de fontes em %s."
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0%s e %s não podem ser especificadas juntas"
@@ -597,7 +600,7 @@ msgid "Leaving %s environment."
 msgstr "Saindo do ambiente de %s."
 
 msgid "Repackaging without the use of a %s function is deprecated."
-msgstr "Reempacotar sem o uso de uma função %s está obsoleto."
+msgstr "Reempacotamento sem o uso de uma função %s está obsoleto."
 
 msgid "File permissions may not be preserved."
 msgstr "As permissões de arquivo podem não ser preservadas."
@@ -656,15 +659,14 @@ msgstr "Compilação concluída: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Uso: %s [raiz_da_base_de_dados_do_pacman]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nEste é um software livre; veja o código fonte para condições de cópia."
-"\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
+"Copyright (c) 2010-2012 Equipe de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>.\\nEste é um software livre; veja o código fonte para "
+"condições de cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s não existe ou não é um diretório."
@@ -795,9 +797,8 @@ msgstr ""
 "                             Atualiza chaves especificadas, ou todas, de um\n"
 "                             keyserver"
 
-#, fuzzy
 msgid "The key identified by %s could not be found locally."
-msgstr "A chave identificada por %s não existe."
+msgstr "A chave identificada por %s não pôde ser encontrada localmente."
 
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Você não tem permissões suficientes para ler o chaveiro %s."
@@ -818,7 +819,7 @@ msgid "Verifying %s..."
 msgstr "Verificando %s..."
 
 msgid "File %s is unsigned, cannot continue."
-msgstr "Arquivo %s não está assinado, não é possível continuar"
+msgstr "Arquivo %s não está assinado, não é possível continuar."
 
 msgid "The signature of file %s is not valid."
 msgstr "A assinatura do arquivo %s não é válida."
@@ -852,55 +853,52 @@ msgstr "Desabilitando chave %s..."
 
 msgid "A specified keyfile could not be added to the gpg keychain."
 msgstr ""
+"O arquivo de chaves - keyfile - especificado não pôde ser adicionado ao "
+"chaveiro gpg."
 
 msgid "A specified key could not be removed from the gpg keychain."
-msgstr ""
+msgstr "Uma chave especificada não pôde ser removida do chaveiro gpg."
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "A chave identificada por %s não existe."
+msgstr "A chave identificada por %s não pôde ser editada."
 
 msgid "A specified key could not be exported from the gpg keychain."
-msgstr ""
+msgstr "Uma chave especificada não pôde ser exportada do chaveiro gpg."
 
 msgid "The fingerprint of a specified key could not be determined."
 msgstr ""
+"A impressão digital de uma chave especificada não pôde ser determinada."
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "O delta não pode ser criado."
+msgstr "%s não pôde ser importada."
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s não existe ou não é um diretório."
+msgstr "Arquivo %s não existe ou não pôde ser importado."
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "Arquivo de repositório \"%s\" não pôde ser criado."
+msgstr "Uma chave especificada não pôde ser listada."
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Uma ou mais assinaturas PGP não puderam ser verificadas!"
+msgstr "Uma assinatura especificada não pôde ser listada."
 
 msgid "A specified key could not be locally signed."
-msgstr ""
+msgstr "Uma chave especificada não pôde ser assinada localmente."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr ""
+msgstr "A chave remota não foi adquirida corretamente do keyserver."
 
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
+"Uma chave local especifica não pôde ser atualizada a partir do keyserver."
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "A chave identificada por %s não existe."
+msgstr "A assinatura identificada por %s não pôde ser verificada."
 
 msgid "Updating trust database..."
 msgstr "Atualizando base de dados de confiança..."
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "O delta não pode ser criado."
+msgstr "A base de dados de confiança não pôde ser atualizada."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -926,8 +924,8 @@ msgid ""
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr ""
 "pacman-optimize é um pequeno hack que deve melhorar a performance\\ndo "
-"pacman quando está lendo/escrevendo em sua base de dados baseada\n"
-"no sistema de arquivos\\n\\n"
+"pacman quando está lendo/escrevendo em sua base de dados baseada\\nno "
+"sistema de arquivos\\n\\n"
 
 msgid ""
 "Because pacman uses many small files to keep track of packages,\\nthere is a "
@@ -958,7 +956,7 @@ msgid "MD5sum'ing the old database..."
 msgstr "Criando md5sum da base de dados antiga..."
 
 msgid "Tar'ing up %s..."
-msgstr "Gerando tarball de %s..."
+msgstr "Criando tarball de %s..."
 
 msgid "Tar'ing up %s failed."
 msgstr "Criação do tarball de %s falhou."
@@ -1023,7 +1021,7 @@ msgid "Generating delta from version %s to version %s"
 msgstr "Gerando o delta da versão %s para a versão %s"
 
 msgid "Delta could not be created."
-msgstr "O delta não pode ser criado."
+msgstr "O delta não pôde ser criado."
 
 msgid "Generated delta : '%s'"
 msgstr "Delta gerado: \"%s\""
@@ -1038,14 +1036,13 @@ msgstr ""
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Uso: repo-add [opções] <caminho-para-bd> <pacote|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add irá atualizar uma base de dados de pacotes lendo um arquivo de "
-"pacote.\\nPacotes múltiplos a adicionar podem ser especificados na linha de "
-"comando\\n\\n"
+"repo-add atualiza uma base de dados de pacotes lendo um arquivo de\\npacote. "
+"Múltiplos pacotes a serem adicionados podem ser especificados\\nna linah de "
+"comando.\\n"
 
 msgid "Options:\\n"
 msgstr "Opções:\\n"
@@ -1057,24 +1054,21 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files        atualiza lista de arquivos da base de dados\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
-msgstr ""
-"Uso: repo-remove [opções] <caminho-para-bd> <nome-do-pacote|delta> ...\\n\\n"
+msgstr "Uso: repo-remove [opções] <caminho para-bd> <nome-pacote|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove irá atualizar uma base de dados de pacotes removendo o nome do\n"
-"pacote especificado na linha de comando da base de dados de repositório"
-"\\nfornecida. Múltiplos pacotes a serem removidos podem ser especificados na"
-"\\nlinha de comando.\\n\\n"
+"repo-remove atualiza uma base de dados de pacotes removendo o nome do"
+"\\npacote especificado na linha de comando da base de dados de repositório"
+"\\ninformada. Múltiplos pacotes a serem removidos podem ser especificados"
+"\\nna linha de comando.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr ""
+msgstr "Favor seguir em frente, há nada para ser visto aqui.\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet        minimiza mensagens de saída\\n"
@@ -1092,31 +1086,28 @@ msgstr ""
 "  -v, --verify       verifica assinatura da base de dados antes de atualizar"
 "\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr ""
-"\\nVeja %s(8) para mais detalhes e descrições das opções disponíveis.\\n\\n"
+"\\nVeja %s(8) para mais detalhes e descrição das opções disponíveis.\\n"
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
 "Exemplo:  repo-add /caminho/para/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar."
-"gz"
+"gz\\n"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Exemplo:  repo-remove /caminho/para/repositorio.db.tar.gz kernel26"
+msgstr "Exemplo:  repo-remove /caminho/para/repo.db.tar.gz kernel26\\n"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
-"\\nEsse é um software livre; veja o código fonte para condições de cópia.\\n"
+"Copyright (c) 2006-2012 Equipe de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>\\n\\nEste é um software livre; veja o código fonte para "
+"condições de cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Nenhum registro de base de dados para o pacote \"%s\"."
@@ -1189,7 +1180,7 @@ msgid "Repository file '%s' could not be created."
 msgstr "Arquivo de repositório \"%s\" não pôde ser criado."
 
 msgid "File '%s' not found."
-msgstr "Arquivo \"%s\" não foi encontrado."
+msgstr "Criando tarball de %s..."
 
 msgid "Adding delta '%s'"
 msgstr "Adicionado delta \"%s\""

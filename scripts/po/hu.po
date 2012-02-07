@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-17 03:48+0000\n"
-"Last-Translator: György Balló <ballogy@freestart.hu>\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-02 06:07+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.net/projects/p/archlinux-"
 "pacman/team/hu/)\n"
 "Language: hu\n"
@@ -489,17 +489,12 @@ msgstr "  --noprogressbar  Ne mutasson folyamatsávot a fájlok letöltése köz
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Ha %s nincs megadva, %s a '%s'-et fogja keresni"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nEz egy "
-"szabad szoftver; a forráskódban leírtak szerint terjeszthető.\\nNINCS "
-"GARANCIA, a jog által engedélyezett mértékig.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "%s szignál érkezett. Kilépés..."
@@ -524,6 +519,9 @@ msgstr ""
 msgid "You do not have write permission to store downloads in %s."
 msgstr ""
 "Nincs írási jogosultsága ahhoz, hogy letöltéseket tároljon a %s könyvtárban."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr ""
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr "A \\0%s és a %s nem adható meg egyszerre"
@@ -648,15 +646,11 @@ msgstr "Létrehozás befejezve: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Használat: %s [pacman_db_root]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nEz egy szabad szoftver; a forráskódban leírtak szerint terjeszthető."
-"\\nNINCS GARANCIA, a jog által engedélyezett mértékig.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "A %s nem létezik vagy nem egy könyvtár."
@@ -778,9 +772,8 @@ msgstr ""
 "  --refresh-keys [kulcsid(k)] A megadott vagy az összes kulcs frissítése egy "
 "kulcstartóból"
 
-#, fuzzy
 msgid "The key identified by %s could not be found locally."
-msgstr "A(z) %s azonosítójú kulcs nem létezik."
+msgstr ""
 
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nincs megfelelő jogosultsága, hogy olvassa a %s kulcstartót."
@@ -840,9 +833,8 @@ msgstr ""
 msgid "A specified key could not be removed from the gpg keychain."
 msgstr ""
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "A(z) %s azonosítójú kulcs nem létezik."
+msgstr ""
 
 msgid "A specified key could not be exported from the gpg keychain."
 msgstr ""
@@ -850,21 +842,17 @@ msgstr ""
 msgid "The fingerprint of a specified key could not be determined."
 msgstr ""
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "Nem sikerült létrehozni a deltát."
+msgstr ""
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "A %s nem létezik vagy nem egy könyvtár."
+msgstr ""
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "A(z) '%s' tárolófájlt nem sikerült létrehozni."
+msgstr ""
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Egy vagy több PGP aláírás nem ellenőrizhető!"
+msgstr ""
 
 msgid "A specified key could not be locally signed."
 msgstr ""
@@ -875,16 +863,14 @@ msgstr ""
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "A(z) %s azonosítójú kulcs nem létezik."
+msgstr ""
 
 msgid "Updating trust database..."
 msgstr "Megbízható adatbázis frissítése..."
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "Nem sikerült létrehozni a deltát."
+msgstr ""
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nem található a %s bináris, ami minden %s művelethez szükséges."
@@ -1019,13 +1005,10 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Használat: repo-add [opciók] <adatbázis-elérési-útja> <csomag|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"A repo-add frissíti a csomagadatbázist egy csomagfájl olvasásával.\\nTöbb "
-"hozzáadandó csomagot a parancssorban lehet megadni.\\n\\n"
 
 msgid "Options:\\n"
 msgstr "Opciók:\\n"
@@ -1037,21 +1020,14 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       adatbázis fájllistájának frissítése\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
-"Használat: repo-remove [opciók] <adatbázis-elérési-útja> <csomagnév|"
-"delta> ...\\n\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"A repo-remove frissíti a csomagadatbázist egy csomagnév eltávolításával,"
-"\\nami a parancssorban van megadva a megadott adatbázisból. Több "
-"\\neltávolítandó csomagot a parancssorban lehet megadni.\\n\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr ""
@@ -1070,31 +1046,22 @@ msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
 "  -v, --verify      adatbázis aláírásának ellenőrzése frissítés előtt\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr ""
-"\\nLásd %s(8)-ot további részletekért és az elérhető opciók leírásához.\\n\\n"
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Példa:  repo-add /elérési/út/tároló.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Példa:  repo-remove /útvonal/ide/repo.db.tar.gz kernel26"
+msgstr ""
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nEz egy szabad szoftver; a forráskódban leírtak szerint terjeszthető."
-"\\nNINCS GARANCIA, a jog által engedélyezett mértékig.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Nincs adatbázis-bejegyzés a(z) '%s' csomaghoz."

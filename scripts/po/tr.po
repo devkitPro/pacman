@@ -4,13 +4,14 @@
 #
 # Translators:
 # Atilla Öntaş <tarakbumba@gmail.com>, 2011, 2012.
+# Samed Beyribey <samed@ozguryazilim.com.tr>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-06 15:10+0000\n"
-"Last-Translator: Atilla Öntaş <tarakbumba@gmail.com>\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-03 10:50+0000\n"
+"Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/tr/)\n"
 "Language: tr\n"
@@ -484,14 +485,13 @@ msgstr "  --noprogressbar   Dosyalar indirilirken durum çubuğu gösterme"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "%s belirtilmemişse; %s, '%s' arayacaktır"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -518,6 +518,9 @@ msgid "You do not have write permission to store downloads in %s."
 msgstr ""
 "İndirilenleri %s dizininde saklayabilmenizi sağlayacak izinlere sahip "
 "değilsiniz."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr "%s içerisinde tar dosyalarını tutmak için yazma hakkınız bulunmuyor."
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0%s ve %s birlikte belirtilemezler"
@@ -648,13 +651,12 @@ msgstr "%s paketinin derlenmesi tamamlandı"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Kullanım: %s [pacman_veritabanı_kök_dizini]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -774,9 +776,8 @@ msgstr ""
 "  --refresh-keys [keyid(s)] Belirtilen veya tüm anahtarları bir anahtar "
 "sunucusundan güncelle"
 
-#, fuzzy
 msgid "The key identified by %s could not be found locally."
-msgstr "%s tarafından tanımlanan anahtar mevcut değil."
+msgstr "%s tarafından tanımlanmış anahtar yerelde bulunamadı."
 
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "%s anahtar dizisini okumak için yeterli izniniz yok."
@@ -830,56 +831,49 @@ msgid "Disabling key %s..."
 msgstr "%s anahtarı devre dışı bırakılıyor ..."
 
 msgid "A specified keyfile could not be added to the gpg keychain."
-msgstr ""
+msgstr "Belirtilen anahtar dosyası gpg anahtarlığına eklenemedi."
 
 msgid "A specified key could not be removed from the gpg keychain."
-msgstr ""
+msgstr "Belirtilen anahtar gpg anahtarlığından kaldırılamadı."
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "%s tarafından tanımlanan anahtar mevcut değil."
+msgstr "%s tarafından tanımlanan anahtar düzenlenemedi."
 
 msgid "A specified key could not be exported from the gpg keychain."
-msgstr ""
+msgstr "Belirtilen anahtar gpg anahtarlığından dışarı aktarılamadı."
 
 msgid "The fingerprint of a specified key could not be determined."
-msgstr ""
+msgstr "Belirtilen anahtar için parmak izi belirlenemedi."
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "Delta oluşturulamadı."
+msgstr "%s içeri aktarılamadı."
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s bulunamadı ya da bir dizin değil."
+msgstr "%s dosyası mevcut değil ve içeri aktarılamadı."
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "Depo dosyası '%s' oluşturulamadı."
+msgstr "Belirtilen anahtar listelenemedi."
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Bir veya daha fazla PGP imzası doğrulanamıyor!"
+msgstr "Belirtilen imza listelenemedi."
 
 msgid "A specified key could not be locally signed."
-msgstr ""
+msgstr "Belirtilen anahtar yerelde imzalanamadı."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr ""
+msgstr "Uzak konumdaki anahtar anahtar sunucusundan doğruca alınamadı."
 
 msgid "A specified local key could not be updated from a keyserver."
-msgstr ""
+msgstr "Belirtilen yerel anahtar, anahtar sunucusundan güncellenemedi."
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "%s tarafından tanımlanan anahtar mevcut değil."
+msgstr "%s tarafından tanımlanan imza doğrulanamadı."
 
 msgid "Updating trust database..."
 msgstr "Güvenilir veritabanı güncelleniyor ..."
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "Delta oluşturulamadı."
+msgstr "Güvenilirlik veritabanı güncellenemedi."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "%s ikili dosyası tüm %s işlemleri için gerekli ancak bulunamıyor."
@@ -1014,13 +1008,12 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
 "Kullanımı: repo-add [seçenekler] <veritabanı-konumu> <paket|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add komutu, bir paket dosyasını okuyarak paket veritabanını günceller."
-"\\nBirden fazla paket, komut satırında tanımlanabilir.\\n\\n"
+"repo-add bir paket dosyası okuyarak paket veritabanını güncelleyecektir."
+"\\nEklenecek birden fazla paket komut satırından belirtilebilir.\\n"
 
 msgid "Options:\\n"
 msgstr "Seçenekler:\\n"
@@ -1031,23 +1024,20 @@ msgstr "  -d, --delta       paket güncellemesi için delta üret ve ekle\\n"
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       veritabanlarının dosya listesini güncelle\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
-msgstr ""
-"Kullanımı: repo-add [seçenekler] <veritabanı-konumu> <paket|delta> ...\\n\\n"
+msgstr "Kullanım: repo-remove [seçenek] <veritabanı> <paket|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove, ilgili paket veritabanını, komut satırından verilmiş paket"
-"\\nadını depo veritabanından silerek günceller. Komut satırında silinecek "
-"\\nbirden fazla paket tanımlanabilir.\\n\\n"
+"repo-remove komut satırından verilen veritabanını kullanarak paket  ismini"
+"\\n paket veritabanından çıkararak paket veritabanını günceller. Birden\\n "
+"fazla paket komut satırından belirtilebilir.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr ""
+msgstr "Görüntülenecek bir şey bulunmamaktadır.\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       çıktıyı en aza indir\\n"
@@ -1064,32 +1054,28 @@ msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
 "  -v, --verify      güncellemeden önce veritabanlarının imzalarını doğrula\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr ""
-"\\nErişilebilir seçenekler hakkında daha fazla bilgi ve açıklamalar için %s"
-"(8) belgesine bakın\\n\\n"
+"\\nMevcut seçeneklere ilişkin ayrıntılı bilgi almak için %s(8) "
+"inceleyebilirsiniz.\\n"
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Örnek:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Örnek:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Örnek:  repo-remove /depo/dosyasinin/yolu/repo.db.tar.gz kernel26"
+msgstr "Örnek:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Geliştirme Ekibi <pacman-dev@archlinux.org>\n"
-"\\nBu bir özgür yazılımdır; kopyalama koşulları için kaynak koda bakın.\\nBu "
-"yazılım HİÇBİR KOŞULDA GARANTI İÇERMEZ.\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "'%s' paketi için veritabanı girdisi yok."
