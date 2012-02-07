@@ -686,7 +686,7 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 		} else if(!S_ISDIR(buf.st_mode)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"skipping cachedir, not a directory: %s\n", cachedir);
-		} else if(access(cachedir, W_OK) != 0) {
+		} else if(_alpm_access(handle, NULL, cachedir, W_OK) != 0) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"skipping cachedir, not writable: %s\n", cachedir);
 		} else if(!(buf.st_mode & (S_IWUSR | S_IWGRP | S_IWOTH))) {

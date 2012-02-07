@@ -316,7 +316,7 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 	}
 
 	/* attempt to access the package file, ensure it exists */
-	if(access(pkgfile, R_OK) != 0) {
+	if(_alpm_access(handle, NULL, pkgfile, R_OK) != 0) {
 		RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, -1);
 	}
 

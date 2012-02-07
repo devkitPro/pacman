@@ -86,7 +86,7 @@ static int sync_db_validate(alpm_db_t *db)
 	}
 
 	/* we can skip any validation if the database doesn't exist */
-	if(access(dbpath, R_OK) != 0 && errno == ENOENT) {
+	if(_alpm_access(db->handle, NULL, dbpath, R_OK) != 0 && errno == ENOENT) {
 		db->status &= ~DB_STATUS_EXISTS;
 		db->status |= DB_STATUS_MISSING;
 		_alpm_log(db->handle, ALPM_LOG_WARNING,
