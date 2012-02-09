@@ -422,6 +422,10 @@ static int curl_download_internal(struct dload_payload *payload,
 	if(localf == NULL) {
 		localf = fopen(payload->tempfile_name, payload->tempfile_openmode);
 		if(localf == NULL) {
+			handle->pm_errno = ALPM_ERR_RETRIEVE;
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("could not open file %s: %s\n"),
+					payload->tempfile_name, strerror(errno));
 			goto cleanup;
 		}
 	}
