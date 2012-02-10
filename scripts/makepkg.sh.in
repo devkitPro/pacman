@@ -873,6 +873,15 @@ cd_safe() {
 	fi
 }
 
+source_safe() {
+	shopt -u extglob
+	if ! source "$@"; then
+		error "$(gettext "Failed to source %s")" "$1"
+		exit 1
+	fi
+	shopt -s extglob
+}
+
 run_function_safe() {
 	local restoretrap
 
@@ -1816,7 +1825,7 @@ devel_update() {
 			if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
 				@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
 				@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
-				source "$BUILDFILE"
+				source_safe "$BUILDFILE"
 			fi
 		fi
 	fi
@@ -2026,7 +2035,7 @@ MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
 
 # Source the config file; fail if it is not found
 if [[ -r $MAKEPKG_CONF ]]; then
-	source "$MAKEPKG_CONF"
+	source_safe "$MAKEPKG_CONF"
 else
 	error "$(gettext "%s not found.")" "$MAKEPKG_CONF"
 	plain "$(gettext "Aborting...")"
@@ -2036,7 +2045,7 @@ fi
 # Source user-specific makepkg.conf overrides, but only if no override config
 # file was specified
 if [[ $MAKEPKG_CONF = "$confdir/makepkg.conf" && -r ~/.makepkg.conf ]]; then
-	source ~/.makepkg.conf
+	source_safe ~/.makepkg.conf
 fi
 
 # set pacman command if not already defined
@@ -2153,9 +2162,7 @@ if [[ ! -f $BUILDFILE ]]; then
 	else
 		# PKGBUILD passed through a pipe
 		BUILDFILE=/dev/stdin
-		shopt -u extglob
-		source "$BUILDFILE"
-		shopt -s extglob
+		source_safe "$BUILDFILE"
 	fi
 else
 	crlftest=$(file "$BUILDFILE" | grep -F 'CRLF' || true)
@@ -2167,9 +2174,7 @@ else
 	if [[ ${BUILDFILE:0:1} != "/" ]]; then
 		BUILDFILE="$startdir/$BUILDFILE"
 	fi
-	shopt -u extglob
-	source "$BUILDFILE"
-	shopt -s extglob
+	source_safe "$BUILDFILE"
 fi
 
 # set defaults if they weren't specified in buildfile
