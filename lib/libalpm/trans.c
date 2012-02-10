@@ -277,7 +277,7 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 		const char *script, const char *ver, const char *oldver, int is_archive)
 {
 	char cmdline[PATH_MAX];
-	char *argv[] = { "sh", "-c", cmdline, NULL };
+	char *argv[] = { SCRIPTLET_SHELL, "-c", cmdline, NULL };
 	char *tmpdir, *scriptfn = NULL, *scriptpath;
 	int retval = 0;
 	size_t len;

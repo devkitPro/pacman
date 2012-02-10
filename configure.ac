@@ -89,6 +89,12 @@ AC_ARG_WITH(buildscript,
 	AS_HELP_STRING([--with-buildscript=name], [set the build script name used by makepkg]),
 	[BUILDSCRIPT=$withval], [BUILDSCRIPT=PKGBUILD])
 
+# Help line for changing shell used to run install scriptlets
+AC_ARG_WITH(scriptlet-shell,
+	AS_HELP_STRING([--with-scriptlet-shell=shell],
+		[set the shell used to run install scriptlets]),
+	[SCRIPTLET_SHELL=$withval], [SCRIPTLET_SHELL=sh])
+
 # Help line for using OpenSSL
 AC_ARG_WITH(openssl,
 	AS_HELP_STRING([--with-openssl], [use OpenSSL crypto implementations instead of internal routines]),
@@ -338,6 +344,9 @@ AC_DEFINE_UNQUOTED([SRCEXT], "$SRCEXT", [The file extension used by pacman sourc
 # Set makepkg build script name
 AC_SUBST(BUILDSCRIPT)
 AC_DEFINE_UNQUOTED([BUILDSCRIPT], "$BUILDSCRIPT", [The build script name used by makepkg])
+# Set shell used by install scriptlets
+AC_SUBST(SCRIPTLET_SHELL)
+AC_DEFINE_UNQUOTED([SCRIPTLET_SHELL], "$SCRIPTLET_SHELL", [The shell used to run install scriptlets])
 
 # Configuration files
 AC_CONFIG_FILES([
