@@ -2106,7 +2106,9 @@ if [[ ! -f $BUILDFILE ]]; then
 	else
 		# PKGBUILD passed through a pipe
 		BUILDFILE=/dev/stdin
+		shopt -u extglob
 		source "$BUILDFILE"
+		shopt -s extglob
 	fi
 else
 	crlftest=$(file "$BUILDFILE" | grep -F 'CRLF' || true)
@@ -2118,7 +2120,9 @@ else
 	if [[ ${BUILDFILE:0:1} != "/" ]]; then
 		BUILDFILE="$startdir/$BUILDFILE"
 	fi
+	shopt -u extglob
 	source "$BUILDFILE"
+	shopt -s extglob
 fi
 
 # set defaults if they weren't specified in buildfile
