@@ -167,15 +167,15 @@ static int register_syncs(void) {
 	}
 
 	while(fgets(line, LINE_MAX, fp)) {
-		strtrim(line);
-
-		if(line[0] == '#' || !strlen(line)) {
-			continue;
-		}
-
+		/* ignore whole line and end of line comments */
 		if((ptr = strchr(line, '#'))) {
 			*ptr = '\0';
-			strtrim(line);
+		}
+
+		strtrim(line);
+
+		if(strlen(line) == 0) {
+			continue;
 		}
 
 		if(line[0] == '[' && line[strlen(line) - 1] == ']') {
