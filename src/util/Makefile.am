@@ -7,7 +7,6 @@ bin_PROGRAMS = vercmp testpkg testdb cleanupdelta pacsort pactree
 
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
-       -DROOTDIR=\"$(ROOTDIR)\" \
        -DDBPATH=\"$(dbpath)\" \
        -DCACHEDIR=\"$(cachedir)\" \
        @DEFS@

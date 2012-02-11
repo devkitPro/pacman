@@ -11,7 +11,6 @@ bin_PROGRAMS = pacman
 
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
-       -DROOTDIR=\"$(ROOTDIR)\" \
        -DDBPATH=\"$(dbpath)\" \
        -DGPGDIR=\"$(gpgdir)\" \
        -DCACHEDIR=\"$(cachedir)\" \

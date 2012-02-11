@@ -335,6 +335,7 @@ AM_CONDITIONAL(USE_GIT_VERSION, test "x$usegitver" = "xyes")
 
 # Set root directory
 AC_SUBST(ROOTDIR)
+AC_DEFINE_UNQUOTED([ROOTDIR], "$ROOTDIR", [The location of the root operating directory])
 # Set package file extension
 AC_SUBST(PKGEXT)
 AC_DEFINE_UNQUOTED([PKGEXT], "$PKGEXT", [The file extension used by pacman packages])
