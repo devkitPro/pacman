@@ -535,7 +535,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 	}
 
 	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
-			|| strcmp(filename, "deltas") == 0) {
+			|| (strcmp(filename, "deltas") == 0 && db->handle->deltaratio > 0.0) ) {
 		int ret;
 		while((ret = _alpm_archive_fgets(archive, &buf)) == ARCHIVE_OK) {
 			char *line = buf.line;
@@ -621,6 +621,8 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			goto error;
 		}
 		*likely_pkg = pkg;
+	} else if(strcmp(filename, "deltas") == 0) {
+		/* skip reading delta files if UseDelta is unset */
 	} else if(strcmp(filename, "files") == 0) {
 		/* currently do nothing with this file */
 	} else {
