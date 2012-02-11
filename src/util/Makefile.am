@@ -1,6 +1,7 @@
 # paths set at make time
 conffile  = ${sysconfdir}/pacman.conf
 dbpath    = ${localstatedir}/lib/pacman/
+gpgdir    = ${sysconfdir}/pacman.d/gnupg/
 cachedir  = ${localstatedir}/cache/pacman/pkg/
 
 bin_PROGRAMS = vercmp testpkg testdb cleanupdelta pacsort pactree
@@ -8,6 +9,7 @@ bin_PROGRAMS = vercmp testpkg testdb cleanupdelta pacsort pactree
 DEFS = -DLOCALEDIR=\"@localedir@\" \
        -DCONFFILE=\"$(conffile)\" \
        -DDBPATH=\"$(dbpath)\" \
+       -DGPGDIR=\"$(gpgdir)\" \
        -DCACHEDIR=\"$(cachedir)\" \
        @DEFS@
 

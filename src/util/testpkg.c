@@ -59,6 +59,9 @@ int main(int argc, char *argv[])
 	/* let us get log messages from libalpm */
 	alpm_option_set_logcb(handle, output_cb);
 
+	/* set gpgdir to default */
+	alpm_option_set_gpgdir(handle, GPGDIR);
+
 	if(alpm_pkg_load(handle, argv[1], 1, level, &pkg) == -1
 			|| pkg == NULL) {
 		err = alpm_errno(handle);
