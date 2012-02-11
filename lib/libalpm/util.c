@@ -227,6 +227,7 @@ int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 {
 	int fd;
 	size_t bufsize = ALPM_BUFFER_SIZE;
+	errno = 0;
 
 	if((*archive = archive_read_new()) == NULL) {
 		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, -1);
