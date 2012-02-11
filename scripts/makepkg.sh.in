@@ -1294,10 +1294,10 @@ create_package() {
 	# Disable bsdtar compression and use gzip -n for now.
 	bsdtar -cf - $comp_files * |
 	case "$PKGEXT" in
-		*tar.gz)  gzip -c -f -n ;;
-		*tar.bz2) bzip2 -c -f ;;
-		*tar.xz)  xz -c -z - ;;
-		*tar.Z)   compress -c -f ;;
+		*tar.gz)  ${COMPRESSGZ[@]:-gzip -c -f -n} ;;
+		*tar.bz2) ${COMPRESSBZ2[@]:-bzip2 -c -f} ;;
+		*tar.xz)  ${COMPRESSXZ[@]:-xz -c -z -} ;;
+		*tar.Z)   ${COMPRESSZ[@]:-compress -c -f} ;;
 		*tar)     cat ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 			"$PKGEXT"; cat ;;
