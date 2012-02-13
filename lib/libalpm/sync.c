@@ -845,7 +845,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 
 							CALLOC(dpayload, 1, sizeof(*dpayload), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 							STRDUP(dpayload->remote_name, delta->delta, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-							dpayload->max_size = delta->download_size;
+							dpayload->max_size = delta->delta_size;
 
 							files = alpm_list_add(files, dpayload);
 						}
