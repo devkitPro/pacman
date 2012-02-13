@@ -309,7 +309,7 @@ typedef enum _alpm_event_t {
 	ALPM_EVENT_LOAD_START,
 	/** Target package is finished loading. */
 	ALPM_EVENT_LOAD_DONE,
-	/** Target deltas's integrity will be checked. */
+	/** Target delta's integrity will be checked. */
 	ALPM_EVENT_DELTA_INTEGRITY_START,
 	/** Target delta's integrity was checked. */
 	ALPM_EVENT_DELTA_INTEGRITY_DONE,
@@ -873,7 +873,7 @@ alpm_list_t *alpm_pkg_get_backup(alpm_pkg_t *pkg);
  */
 alpm_db_t *alpm_pkg_get_db(alpm_pkg_t *pkg);
 
-/** Retuns the base64 encoded package signature.
+/** Returns the base64 encoded package signature.
  * @param pkg a pointer to package
  * @return a reference to an internal string
  */
@@ -1034,7 +1034,7 @@ int alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data);
 /** Commit a transaction.
  * @param handle the context handle
  * @param data the address of an alpm_list where detailed description
- * of an error can be dumped (ie. list of conflicting files)
+ * of an error can be dumped (i.e. list of conflicting files)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data);

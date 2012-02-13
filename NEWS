@@ -1,5 +1,30 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+4.0.2         - allow comments after a repository header in pacman.conf
+              - search for and import PGP subkeys if necessary (FS#27612)
+              - fix rare segfault on removal operations (FS#27805, FS#28195)
+              - skip all unknown files when cleaning package cache
+              - restore looking for files in cache before downloading via -U
+              - ensure '[removal]' is displayed in transaction confirmation (FS#27981)
+              - implement disk space checking code for Illumos
+              - use TCP keepalive in download to prevent dropped connections
+              - round and show -0.00 values as 0.00 (FS#27924)
+              - makepkg:
+                - ensure all source files are included in --source (FS#26580)
+                - fix locale sort/comm related issues (FS#26580)
+                - abort on missing download agent
+                - restrict flags passed to pacman (FS#28012)
+                - work around certain zipman glob/existence issues
+                - fix non-writable SRCPKGDEST error message (FS#28197)
+                - fix printf interpreting gettext string as arg (FS#28069)
+                - don't abort on non-zero hg return codes (FS#28248)
+                - disable extglob when sourcing BUILDSCRIPT (FS#27780)
+              - pacman-key: improve return codes of operations (FS#26730)
+              - repo-add: enforce maximum signature file size (FS#27453)
+              - contrib/paclist: support --help (FS#27258)
+              - contrib/pacsysclean: new script
+              - contrib/*_completion: fix completion for uncompressed packages
+              - translations: extensive updates and corrections
 4.0.1         - ensure VerbosePkgList table display supports multibyte chars
               - always use stderr for warning/error messages (FS#26555)
               - add guidance message for users when public keyring not found

@@ -168,15 +168,15 @@ static int register_syncs(void) {
 		size_t linelen;
 		char *ptr;
 
-		linelen = strtrim(line);
-
-		if(line[0] == '#' || !linelen) {
-			continue;
-		}
-
+		/* ignore whole line and end of line comments */
 		if((ptr = strchr(line, '#'))) {
 			*ptr = '\0';
-			linelen = strtrim(line);
+		}
+
+		linelen = strtrim(line);
+
+		if(linelen == 0) {
+			continue;
 		}
 
 		if(line[0] == '[' && line[linelen - 1] == ']') {

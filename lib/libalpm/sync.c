@@ -838,7 +838,7 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 					alpm_delta_t *delta = dlts->data;
 					if(delta->download_size != 0) {
 						struct dload_payload *payload = build_payload(
-								handle, delta->delta, delta->download_size, repo->servers);
+								handle, delta->delta, delta->delta_size, repo->servers);
 						ASSERT(payload, return -1);
 						*files = alpm_list_add(*files, payload);
 					}

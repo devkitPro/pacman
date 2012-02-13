@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-21 12:07+0000\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-03 09:12+0000\n"
 "Last-Translator: Alexander Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.net/projects/p/"
 "archlinux-pacman/team/nb/)\n"
@@ -358,7 +358,7 @@ msgid "Version found: %s"
 msgstr "Versjon funnet: %s"
 
 msgid "Usage: %s [options]"
-msgstr "Bruk: %s [options]"
+msgstr "Bruk: %s [valg]"
 
 msgid "Options:"
 msgstr "Alternativer:"
@@ -481,17 +481,16 @@ msgstr "      --noprogressbar  Ikke vis framdrift ved nedlasting av filer "
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Dersom %s ikke er spesifisert vil %s se etter '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Opphavsrett (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nOpphavsrett (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nDette er "
-"gratis programvare; se kildekoden for kopibetingelser.\\nDet gis INGEN "
-"GARANTI så langt det er tillatt innenfor loven.\\n"
+"fri programvare; se kildekoden for kopibetingelser.\\nDet gis INGEN GARANTI "
+"så langt det er tillatt innenfor loven.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "fanget %s signalet. Avslutter..."
@@ -514,6 +513,9 @@ msgstr "Du har ikke skrivetilgang til å lagre pakker i %s."
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Du har ikke skrivetilgang til å lagre nedlastinger i %s."
 
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr "Du har ikke skrivetilgang til å lagre arkivfiler med kildekode i %s."
+
 msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0%s og %s kan ikke brukes samtidig"
 
@@ -524,7 +526,7 @@ msgid ""
 msgstr ""
 "Å kjøre %s som root er en DÅRLIG idé og kan forårsake permanent,"
 "\\nkatastrofal skade på systemet. Dersom du allikevel ønsker å gjøre dette, "
-"vennligst\\nbruk %s alternativet."
+"vennligst\\nbruk %s valget."
 
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
@@ -633,16 +635,15 @@ msgid "Finished making: %s"
 msgstr "Bygget ferdig: %s"
 
 msgid "Usage: %s [pacman_db_root]"
-msgstr "Bruk: %s [pacman_db_root]"
+msgstr "Bruk: %s [pacman_db_rot]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nDette er gratis programvare; se kildekoden for kopibetingelser.\\nDet gis "
+"Opphavsrett (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\n\\nDette er fri programvare; se kildekoden for kopibetingelser.\\nDet gis "
 "INGEN GARANTI så langt det er tillatt innenfor loven.\\n"
 
 msgid "%s does not exist or is not a directory."
@@ -680,8 +681,8 @@ msgstr ""
 msgid ""
 "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger [nøkkelid(er)]    Vis alle fingeravtrykk for de angitte, "
-"eller alle, nøklene"
+"  -f, --finger [nøkkelid(er)]    Vis fingeravtrykk for de angitte, eller "
+"alle, nøklene"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                     Vis disse instruksene og avslutt"
@@ -761,9 +762,8 @@ msgstr ""
 "  --refresh-keys [nøkkelid(er)]  Oppdater de angitte, eller alle, nøklene "
 "fra en nøkkelserver"
 
-#, fuzzy
 msgid "The key identified by %s could not be found locally."
-msgstr "Nøkkelen identifisert ved %s eksisterer ikke"
+msgstr "Fant ikke nøkkelen som identifiseres med %s, lokalt."
 
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Du har ikke tilgang til å lese nøkkelringen %s..."
@@ -817,56 +817,49 @@ msgid "Disabling key %s..."
 msgstr "Deaktiverer nøkkel %s..."
 
 msgid "A specified keyfile could not be added to the gpg keychain."
-msgstr ""
+msgstr "En angitt nøkkelfil kunne ikke legges til gpg nøkkelringen."
 
 msgid "A specified key could not be removed from the gpg keychain."
-msgstr ""
+msgstr "En angitt nøkkel kunne ikke fjernes fra gpg nøkkelringen."
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "Nøkkelen identifisert ved %s eksisterer ikke"
+msgstr "Nøkkelen som identifiseres av %s kunne ikke redigeres."
 
 msgid "A specified key could not be exported from the gpg keychain."
-msgstr ""
+msgstr "En angitt nøkkel kunne ikke eksporteres fra gpg nøkkelringen."
 
 msgid "The fingerprint of a specified key could not be determined."
-msgstr ""
+msgstr "Fingeravtrykket til en angitt nøkkel kunne ikke bestemmes."
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "Forskjellene kunne ikke avdekkes."
+msgstr "%s kunne ikke importeres."
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s finnes ikke, eller er ikke en mappe."
+msgstr "Filen %s eksisterer ikke og kunne ikke importeres."
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "Kunne ikke opprette pakkebrønnfil '%s'."
+msgstr "En angitt nøkkel kunne ikke listes opp."
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "En eller flere PGP signaturer kunne ikke verifiseres!"
+msgstr "En angitt signatur kunne ikke listes opp."
 
 msgid "A specified key could not be locally signed."
-msgstr ""
+msgstr "En angitt nøkkel kunne ikke signeres lokalt."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr ""
+msgstr "Ekstern nøkkel kunne ikke hentes riktig fra nøkkeltjener."
 
 msgid "A specified local key could not be updated from a keyserver."
-msgstr ""
+msgstr "En angitt lokal nøkkel kunne ikke oppdateres med en nøkkeltjener."
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "Nøkkelen identifisert ved %s eksisterer ikke"
+msgstr "Signaturen som er identifisert ved %s, kunne ikke verifiseres."
 
 msgid "Updating trust database..."
 msgstr "Oppdaterer databasen med betrodde kilder..."
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "Forskjellene kunne ikke avdekkes."
+msgstr "Tillitsdatabase kunne ikke oppdateres."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
@@ -965,9 +958,9 @@ msgid ""
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDette er "
-"gratis programvare; se kildekoden for kopibetingelser.\\nDet gis INGEN "
-"GARANTI så langt det er tillatt innenfor loven.\\n"
+"Opphavsrett (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDette er fri "
+"programvare; se kildekoden for kopibetingelser.\\nDet gis INGEN GARANTI så "
+"langt det er tillatt innenfor loven.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Ugyldig pakkefil '%s'."
@@ -997,15 +990,14 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Kan ikke finne xdelta3 programmet! Er xdelta3 installert?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "Bruk: repo-add [alternativer] <sti-til-db> <pakke|endring> ...\\n"
+msgstr "Bruk: repo-add [valg] <sti-til-db> <pakke|endring> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add vil oppdatere en pakkedatabase ved å lese inn en pakkefil.\\nDersom "
-"flere pakker skal legges til kan de angis på kommandolinjen.\\n\\n"
+"repo-add kan oppdatere en pakkedatabase ved å lese en pakkefil.\\nFlere "
+"pakker kan legges til ved å angi dem på kommandolinjen.\\n"
 
 msgid "Options:\\n"
 msgstr "Alternativer:\\n"
@@ -1017,23 +1009,20 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files        oppdater databasens filliste\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
-msgstr ""
-"Bruk: repo-remove [alternativer] <sti-til-db> <pakkenavn|endring> ...\\n\\n"
+msgstr "Bruk: repo-remove [valg] <sti-til-db>.<pakkenavn|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove vil oppdatere en pakkedatabase ved å fjerne pakkenavnet som"
-"\\nhar blitt spesifisert på kommandolinjene fra den gitte databasen. Flere"
-"\\npakker kan fjernes ved å spesifisere dem på kommandolinjen.\\n\\n"
+"repo-remove kan oppdatere en pakkedatabase ved å fjerne pakkenavnet \\nsom "
+"angis på kommandolinjen, fra den gitte pakkedatabasen. Flere\\npakker kan "
+"fjernes ved å angi dem på kommandolinjen.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr ""
+msgstr "Kom deg avgårde, ingenting å se her.\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet        minimer utskrift\\n"
@@ -1048,32 +1037,27 @@ msgstr ""
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify       verifiser databasens signatur før oppdatering\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr ""
-"\\nSe %s(8) for ytterligere detaljer og beskrivelser av tilgjengelige "
-"atlernativer.\\n\\n"
+"\\nSe %s(8) for en mer detaljert beskrivelse av de tilgjengelige valgene.\\n"
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Eksempel:  repo-add /sti/til/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Eksempel: repo-add /sti/til/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Eksempel: repo-remove /sti/til/repo.db.tar.gz kernel26"
+msgstr "Eksempel: repo-remove /sti/til/repo.db.tar.gz kernel26\\n"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>"
-"\\n\\nDette er gratis programvare; se kildekoden for kopieringsvilkår.\\nDet "
-"gis INGEN GARANTI så langt det er tillatt innenfor loven.\\n"
+"Opphavsrett (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\n\\nDette er fri programvare; se kildekoden for kopibetingelser.\\nDet gis "
+"INGEN GARANTI så langt det er tillatt innenfor loven.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Ingen databaseoppføring for pakke '%s'."

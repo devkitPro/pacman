@@ -4,14 +4,14 @@
 #
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
-#   <ma.jiehong@gmail.com>, 2011.
+#   <ma.jiehong@gmail.com>, 2011, 2012.
 # shining <chantry.xavier@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2011-11-14 18:30+0000\n"
+"PO-Revision-Date: 2012-02-06 20:18+0000\n"
 "Last-Translator: jiehong <ma.jiehong@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/fr/)\n"
@@ -216,8 +216,8 @@ msgstr ""
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
-"fichier de configuration %s, ligne %d : l'instruction '%s' dans la section "
-"'%s' n'est pas valide.\n"
+"fichier de configuration %s, ligne %d : l'instruction « %s » dans la section "
+"« %s » n'est pas valide.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
@@ -227,8 +227,8 @@ msgstr ""
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr ""
-"ne peut pas ajouter l'URL du serveur '%2$s' à la base de données "
-"'%1$s' (%3$s)\n"
+"ne peut pas ajouter l'URL du serveur « %2$s » à la base de données « %1$s "
+"» (%3$s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -240,11 +240,11 @@ msgstr "  essayez de lancer pacman-db-upgrade\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr "problème en définissant le chemin du fichier de log '%s' (%s)\n"
+msgstr "problème en définissant le chemin du fichier de log « %s » (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr "problème en définissant le chemin du répertoire de gpg '%s' (%s)\n"
+msgstr "problème en définissant le chemin du répertoire de gpg « %s » (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
@@ -252,11 +252,12 @@ msgstr "%s n'est pas configuré"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "l'enregistrement de la base de données '%s' a échoué (%s)\n"
+msgstr "l'enregistrement de la base de données « %s » a échoué (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "impossible d'ajouter le mirroir '%s' à la base de données '%s' (%s)\n"
+msgstr ""
+"impossible d'ajouter le mirroir « %s » à la base de données « %s » (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
@@ -269,23 +270,23 @@ msgstr "le fichier de configuration %s n'a pas pu être lu.\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr "fichier de configuration %s, ligne %d: mauvais nom de section.\n"
+msgstr "fichier de configuration %s, ligne %d : mauvais nom de section.\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
-"fichier de configuration %s, ligne %d: erreur de syntaxe - clé manquante.\n"
+"fichier de configuration %s, ligne %d : erreur de syntaxe - clé manquante.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
-"fichier de configuration %s, ligne %d: toutes les instructions doivent "
+"fichier de configuration %s, ligne %d : toutes les instructions doivent "
 "appartenir à une section.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
-"fichier de configuration %s, ligne %d : l'instruction '%s' a besoin d'une "
+"fichier de configuration %s, ligne %d : l'instruction « %s » a besoin d'une "
 "valeur\n"
 
 #, c-format
@@ -374,7 +375,7 @@ msgstr "Taille du téléchargement :  %6.2f %s\n"
 
 #, c-format
 msgid "Compressed Size: %6.2f %s\n"
-msgstr "Taille compressé: %6.2f %s\n"
+msgstr "Taille compressé : %6.2f %s\n"
 
 #, c-format
 msgid "Installed Size : %6.2f %s\n"
@@ -438,7 +439,7 @@ msgstr "ne peut pas calculer les sommes de contrôle pour %s\n"
 
 #, c-format
 msgid "Backup Files:\n"
-msgstr "Fichiers de sauvegarde:\n"
+msgstr "Fichiers de sauvegarde :\n"
 
 #, c-format
 msgid "(none)\n"
@@ -446,7 +447,7 @@ msgstr "(aucun)\n"
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
-msgstr "changelog non disponible pour '%s'.\n"
+msgstr "changelog non disponible pour « %s ».\n"
 
 #, c-format
 msgid "options"
@@ -786,7 +787,7 @@ msgstr ""
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' n'est pas un niveau de débogage valide\n"
+msgstr "« %s » n'est pas un niveau de débogage valide\n"
 
 #, c-format
 msgid "only one operation may be used at a time\n"
@@ -826,19 +827,19 @@ msgstr "chemin trop long : %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "impossible de trouver '%s' dans le PATH: %s\n"
+msgstr "impossible de trouver « %s » dans le PATH : %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
-msgstr "ne peut pas lire le fichier '%s': %s\n"
+msgstr "ne peut pas lire le fichier « %s » : %s\n"
 
 #, c-format
 msgid "cannot determine ownership of directory '%s'\n"
-msgstr "impossible de déterminer le propriétaire du répertoire '%s'\n"
+msgstr "impossible de déterminer le propriétaire du répertoire « %s »\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
-msgstr "ne peut déterminer le vrai chemin pour '%s' : %s\n"
+msgstr "ne peut déterminer le vrai chemin pour « %s » : %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -862,7 +863,7 @@ msgstr[1] "%jd fichiers manquants\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
-msgstr "le paquet '%s' n'a pas été trouvé.\n"
+msgstr "le paquet « %s » n'a pas été trouvé.\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
@@ -923,7 +924,7 @@ msgstr "Voulez-vous désinstaller %s ?"
 
 #, c-format
 msgid "Database directory: %s\n"
-msgstr "Répertoire des dépôts: %s\n"
+msgstr "Répertoire des dépôts : %s\n"
 
 #, c-format
 msgid "Do you want to remove unused repositories?"
@@ -987,11 +988,11 @@ msgstr "installé"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
-msgstr "le dépôt '%s' n'a pas été trouvé\n"
+msgstr "le dépôt « %s » n'a pas été trouvé\n"
 
 #, c-format
 msgid "repository \"%s\" was not found.\n"
-msgstr "le dépôt \"%s\" n'a pas été trouvé.\n"
+msgstr "le dépôt « %s » n'a pas été trouvé.\n"
 
 #, c-format
 msgid "skipping target: %s\n"
@@ -1031,11 +1032,11 @@ msgstr "Procéder à l'installation ?"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
-msgstr "%s est présent à la fois dans '%s' et '%s'\n"
+msgstr "%s est présent à la fois dans « %s » et « %s »\n"
 
 #, c-format
 msgid "%s: %s exists in filesystem\n"
-msgstr "%s: %s est déjà présent dans le système de fichiers\n"
+msgstr "%s : %s est déjà présent dans le système de fichiers\n"
 
 #, c-format
 msgid "%s is invalid or corrupted\n"
@@ -1087,7 +1088,7 @@ msgstr "aucun dépôt de paquets utilisable n'a été défini.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr "la base de donnée '%s' n'est pas valide (%s)\n"
+msgstr "la base de donnée « %s » n'est pas valide (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
@@ -1139,7 +1140,7 @@ msgstr "confiance inconnue"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr "%s, %s de \"%s\""
+msgstr "%s, %s de « %s »"
 
 #, c-format
 msgid "failed to allocate string\n"

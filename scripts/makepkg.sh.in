@@ -1739,8 +1739,13 @@ devel_check() {
 			msg "$(gettext "Determining latest %s revision...")" 'hg'
 			if [[ -d ./src/$_hgrepo ]] ; then
 				cd ./src/$_hgrepo
-				hg pull
-				hg update
+				local ret=0
+				hg pull || ret=$?
+				if (( ! ret )); then
+					hg update
+				elif (( ret != 1 )); then
+					return 1
+				fi
 			else
 				[[ ! -d ./src/ ]] && mkdir ./src/
 				hg clone $_hgroot/$_hgrepo ./src/$_hgrepo
@@ -2112,7 +2117,9 @@ if [[ ! -f $BUILDFILE ]]; then
 	else
 		# PKGBUILD passed through a pipe
 		BUILDFILE=/dev/stdin
+		shopt -u extglob
 		source "$BUILDFILE"
+		shopt -s extglob
 	fi
 else
 	crlftest=$(file "$BUILDFILE" | grep -F 'CRLF' || true)
@@ -2124,7 +2131,9 @@ else
 	if [[ ${BUILDFILE:0:1} != "/" ]]; then
 		BUILDFILE="$startdir/$BUILDFILE"
 	fi
+	shopt -u extglob
 	source "$BUILDFILE"
+	shopt -s extglob
 fi
 
 # set defaults if they weren't specified in buildfile

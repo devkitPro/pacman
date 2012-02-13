@@ -1055,7 +1055,7 @@ static double simple_pow(int base, int exp)
  * @param target_unit '\0' or a short label. If equal to one of the short unit
  * labels ('B', 'K', ...) bytes is converted to target_unit; if '\0', the first
  * unit which will bring the value to below a threshold of 2048 will be chosen.
- * @param precision number of decimal places, ensures -0.0.0 gets rounded to
+ * @param precision number of decimal places, ensures -0.00 gets rounded to
  * 0.00; -1 if no rounding desired
  * @param label will be set to the appropriate unit label
  *

@@ -721,7 +721,9 @@ static int parseargs(int argc, char *argv[])
 	return 0;
 }
 
-/** print commandline to logfile
+/** Print command line to logfile.
+ * @param argc
+ * @param argv
  */
 static void cl_to_log(int argc, char* argv[])
 {
@@ -749,8 +751,8 @@ static void cl_to_log(int argc, char* argv[])
 }
 
 /** Main function.
- * @param argc argc
- * @param argv argv
+ * @param argc
+ * @param argv
  * @return A return code indicating success, failure, etc.
  */
 int main(int argc, char *argv[])
@@ -904,7 +906,7 @@ int main(int argc, char *argv[])
 		list_display("Targets   :", pm_targets);
 	}
 
-	/* Log commandline */
+	/* Log command line */
 	if(needs_root()) {
 		cl_to_log(argc, argv);
 	}

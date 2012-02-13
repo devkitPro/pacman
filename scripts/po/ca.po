@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Hector Mtz-Seara <hseara@gmail.com>, 2011.
+# Hector Mtz-Seara <hseara@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-01-30 21:40-0600\n"
-"PO-Revision-Date: 2012-01-05 23:01+0000\n"
-"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2012-02-02 00:05-0600\n"
+"PO-Revision-Date: 2012-02-06 13:22+0000\n"
+"Last-Translator: Hector Mtz-Seara <hseara@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/archlinux-pacman/"
 "team/ca/)\n"
 "Language: ca\n"
@@ -494,14 +494,13 @@ msgstr "  --noprogressbar  No mostris un barra de progrés en baixar fitxers"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Si %s no s'ha especificat, %s buscarà '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAquest es "
 "un programa lliure; consulteu el codi font per a les condicions de còpia."
 "\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
@@ -526,6 +525,9 @@ msgstr "No teniu permisos d'escriptura per emmagatzemar paquets a %s."
 
 msgid "You do not have write permission to store downloads in %s."
 msgstr "No teniu permisos d'escriptura per emmagatzemar les baixades en %s."
+
+msgid "You do not have write permission to store source tarballs in %s."
+msgstr "No tens permís d'escritura per guardar codic font tarballs a %s. "
 
 msgid "\\0%s and %s cannot both be specified"
 msgstr "\\0%s i %s no poden ser especificades simultaniament"
@@ -650,7 +652,6 @@ msgstr "S'ha acabat de fer: %s"
 msgid "Usage: %s [pacman_db_root]"
 msgstr "Sintaxi: %s [arrel_bd_pacman]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
@@ -783,9 +784,8 @@ msgstr ""
 "  --refresh-keys [keyid(s)] Actualitza totes claus de un servidor de claus o "
 "algunes especificades"
 
-#, fuzzy
 msgid "The key identified by %s could not be found locally."
-msgstr "La clau identificada per %s no existeix."
+msgstr "No s'ha pogut trobar localment la clau identificada per %s ."
 
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "No tens suficients permisos per llegir %s del clauer."
@@ -840,55 +840,52 @@ msgstr "Deshabilitant clau %s..."
 
 msgid "A specified keyfile could not be added to the gpg keychain."
 msgstr ""
+"No s'ha pogut incorporar un arxiu de claus especificat  al anell de claus "
+"gpg."
 
 msgid "A specified key could not be removed from the gpg keychain."
-msgstr ""
+msgstr "No ha pogut esborrar una clau especificada del anell de claus gpg."
 
-#, fuzzy
 msgid "The key identified by %s could not be edited."
-msgstr "La clau identificada per %s no existeix."
+msgstr "No s'ha pogut editar la clau identificada per %s ."
 
 msgid "A specified key could not be exported from the gpg keychain."
-msgstr ""
+msgstr "No s'ha pogut exportar una clau especificada del anell de claus gpg."
 
 msgid "The fingerprint of a specified key could not be determined."
-msgstr ""
+msgstr "No s'ha pogut determinar l'empremta digital d'una clau especificada."
 
-#, fuzzy
 msgid "%s could not be imported."
-msgstr "No s'ha pogut generar delta."
+msgstr "No s'ha pogut importar %s."
 
-#, fuzzy
 msgid "File %s does not exist and could not be imported."
-msgstr "%s no existeix o no és un directori."
+msgstr "L'arxiu %s no existeix i no s'ha pogut importar."
 
-#, fuzzy
 msgid "A specified key could not be listed."
-msgstr "No s'ha pogut crear el fitxer de repositori '%s'."
+msgstr "No s'ha pogut mostrar una clau specificada."
 
-#, fuzzy
 msgid "A specified signature could not be listed."
-msgstr "Una o més signatures PGP no s'han pogut verificar!"
+msgstr "No s'ha pogut mostrar una signatura digital specificada."
 
 msgid "A specified key could not be locally signed."
-msgstr ""
+msgstr "No s'ha pogut signar localment una clau especificada."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr ""
+msgstr "Clau remota no obtinguda correctament del servidor de claus."
 
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
+"No s'ha pogut actualitzar en el servidor de claus una clau local "
+"espcificada ."
 
-#, fuzzy
 msgid "The signature identified by %s could not be verified."
-msgstr "La clau identificada per %s no existeix."
+msgstr "No s'ha pogut verificar la signatura identificada per %s."
 
 msgid "Updating trust database..."
 msgstr "Actualitzant la base de dades de confiaça... "
 
-#, fuzzy
 msgid "Trust database could not be updated."
-msgstr "No s'ha pogut generar delta."
+msgstr "No s'ha pogut actualitzar la base de dades de confiança."
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "No es pot trobar el binari %s necessari per totels les operacions %s."
@@ -979,7 +976,7 @@ msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
 msgstr ""
-"»pkgdelta crearà un fitxer delta file entre dos paquets.\\n Aquest fitxer "
+"\tpkgdelta crearà un fitxer delta file entre dos paquets.\\nAquest fitxer "
 "delta pot ser afegit a la base de dades mitjançant repo-add.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1024,14 +1021,13 @@ msgstr "No es pot trobar el binari xdelta3! Està instal·lat xdelta3?"
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Utilització: repo-add [opcions] <path-to-db> <package|delta> ...\\n"
 
-#, fuzzy
 msgid ""
 "repo-add will update a package database by reading a package file."
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
-"repo-add actualitza una base de dades de paquets llegint un fitxer de paquet."
-"\\nEs poden especificar múltiples paquets a afegir en la línia d'ordres.\\n"
-"\\n"
+"repo-add actualitzarà la base de dades de paquets mitjançant la lectura d'un "
+"arxiu paquet.\\nMultiples paquets poden ser afegits poden especificant-los "
+"en la línia de comandes.\\n"
 
 msgid "Options:\\n"
 msgstr "Opcions:\\n"
@@ -1043,12 +1039,11 @@ msgstr ""
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       actualització llista arxius en la base de dades\\n"
 
-#, fuzzy
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
-"Utilització: repo-remove [opcions] <path-to-db> <packagename|delta> ...\\n\\n"
+"Utilització:repo-remove [opcions] <ruta-a-baseDeDades> <nomPaquet|delta> ..."
+"\\n"
 
-#, fuzzy
 msgid ""
 "repo-remove will update a package database by removing the package name"
 "\\nspecified on the command line from the given repo database. Multiple"
@@ -1057,10 +1052,10 @@ msgstr ""
 "repo-remove actualitza una base de dades de paquets eliminant el nom del "
 "paquet\\nespecificat en la línia d'ordres de la base de dades del repositori "
 "donada.\\nEs poden especificar múltiples paquets a eliminar en la línia "
-"d'ordres.\\n\\n"
+"d'ordres.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr ""
+msgstr "No hi ha res a veure en aquest punt, si us plau continua.\\n"
 
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimitza sortida\\n"
@@ -1080,32 +1075,29 @@ msgstr ""
 "  -v, --verify      verifica la signatura de la base de dades abans de "
 "l'actualització\\n"
 
-#, fuzzy
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr ""
-"\\nVegis %s(8) per més detalls i descripcions de les opcions disponibles.\\n"
+"\\nVegis %s(8) per més detalls i descripcions sobre les opcions disponibles."
 "\\n"
 
-#, fuzzy
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Exemple:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"Exemple:  repo-add /ruta/a/repositori.db.tar.gz pacman-3.0.0-1-i686.pkg.tar."
+"gz\\n"
 
-#, fuzzy
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Exemple:  repo-remove /ruta/a/repo.bd.tar.gz kernel26"
+msgstr "Exemple:  repo-remove /ruta/a/repositoi.db.tar.gz kernel26\\n"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2011 Pacman Development Team <pacman-dev@archlinux.org>\\n"
-"\\nAquest es un programa gratuit; veure el codi font per les condicions de "
-"còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nAquest es un programa lliure; consulteu el codi font per a les condicions "
+"de còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "No existeix cap base de dades amb entrades referents al paquet '%s'."
@@ -1144,7 +1136,7 @@ msgid "An entry for '%s' already existed"
 msgstr "Ja existeix una entrada per '%s'"
 
 msgid "Invalid package signature file '%s'."
-msgstr ""
+msgstr "Signatura de l'arxiu %s invalida'."
 
 msgid "Adding package signature..."
 msgstr "Afegint signatura al paquet..."
