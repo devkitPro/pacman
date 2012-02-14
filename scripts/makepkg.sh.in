@@ -1820,13 +1820,13 @@ devel_update() {
 	#  ...
 	#  _foo=pkgver
 	#
-	if [[ -n $newpkgver ]]; then
-		if [[ $newpkgver != "$pkgver" ]]; then
-			if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
-				@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
-				@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
-				source_safe "$BUILDFILE"
-			fi
+	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
+		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
+			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
+			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
+			source "$BUILDFILE"
+		else
+			warning "$(gettext "%s is not writeable -- pkgver will not be updated")" "$BUILDFILE"
 		fi
 	fi
 }
