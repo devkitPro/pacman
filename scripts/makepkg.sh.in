@@ -521,7 +521,7 @@ remove_deps() {
 	local deplist
 	deplist=($(grep -xvFf <(printf "%s\n" "${original_pkglist[@]}") \
 			<(printf "%s\n" "${current_pkglist[@]}") || true))
-	if [[ -z deplist ]]; then
+	if [[ -z $deplist ]]; then
 		return
 	fi
 
