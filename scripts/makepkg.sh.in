@@ -36,6 +36,8 @@ export TEXTDOMAINDIR='@localedir@'
 
 # file -i does not work on Mac OSX unless legacy mode is set
 export COMMAND_MODE='legacy'
+# Ensure CDPATH doesn't screw with our cd calls
+unset CDPATH
 
 myver='@PACKAGE_VERSION@'
 confdir='@sysconfdir@'
