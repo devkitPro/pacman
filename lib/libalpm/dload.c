@@ -436,8 +436,8 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, localf);
 
-	/* ignore any SIGPIPE signals- these may occur if our FTP socket dies or
-	 * something along those lines. Store the old signal handler first. */
+	/* Ignore any SIGPIPE signals. With libcurl, these shouldn't be happening,
+	 * but better safe than sorry. Store the old signal handler first. */
 	mask_signal(SIGPIPE, SIG_IGN, &orig_sig_pipe);
 	mask_signal(SIGINT, &inthandler, &orig_sig_int);
 
