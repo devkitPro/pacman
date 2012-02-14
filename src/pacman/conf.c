@@ -71,7 +71,6 @@ int config_free(config_t *oldconfig)
 	alpm_list_free(oldconfig->explicit_removes);
 
 	FREELIST(oldconfig->holdpkg);
-	FREELIST(oldconfig->syncfirst);
 	FREELIST(oldconfig->ignorepkg);
 	FREELIST(oldconfig->ignoregrp);
 	FREELIST(oldconfig->noupgrade);
@@ -422,8 +421,6 @@ static int _parse_options(const char *key, char *value,
 			setrepeatingoption(value, "IgnoreGroup", &(config->ignoregrp));
 		} else if(strcmp(key, "HoldPkg") == 0) {
 			setrepeatingoption(value, "HoldPkg", &(config->holdpkg));
-		} else if(strcmp(key, "SyncFirst") == 0) {
-			setrepeatingoption(value, "SyncFirst", &(config->syncfirst));
 		} else if(strcmp(key, "CacheDir") == 0) {
 			setrepeatingoption(value, "CacheDir", &(config->cachedirs));
 		} else if(strcmp(key, "Architecture") == 0) {

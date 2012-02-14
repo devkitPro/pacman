@@ -84,7 +84,6 @@ typedef struct __config_t {
 	/* select -Sc behavior */
 	unsigned short cleanmethod;
 	alpm_list_t *holdpkg;
-	alpm_list_t *syncfirst;
 	alpm_list_t *ignorepkg;
 	alpm_list_t *ignoregrp;
 	alpm_list_t *noupgrade;

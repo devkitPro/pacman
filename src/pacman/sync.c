@@ -591,26 +591,6 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 	return 0;
 }
 
-static alpm_list_t *syncfirst(void) {
-	alpm_list_t *i, *res = NULL;
-	alpm_db_t *db_local = alpm_get_localdb(config->handle);
-	alpm_list_t *syncdbs = alpm_get_syncdbs(config->handle);
-
-	for(i = config->syncfirst; i; i = alpm_list_next(i)) {
-		const char *pkgname = i->data;
-		alpm_pkg_t *pkg = alpm_db_get_pkg(db_local, pkgname);
-		if(pkg == NULL) {
-			continue;
-		}
-
-		if(alpm_sync_newversion(pkg, syncdbs)) {
-			res = alpm_list_add(res, strdup(pkgname));
-		}
-	}
-
-	return res;
-}
-
 static alpm_db_t *get_db(const char *dbname)
 {
 	alpm_list_t *i;
@@ -1001,38 +981,7 @@ int pacman_sync(alpm_list_t *targets)
 		}
 	}
 
-	alpm_list_t *targs = alpm_list_strdup(targets);
-	if(!config->op_s_downloadonly && !config->print) {
-		/* check for newer versions of packages to be upgraded first */
-		alpm_list_t *packages = syncfirst();
-		if(packages) {
-			/* Do not ask user if all the -S targets are SyncFirst packages, see FS#15810 */
-			alpm_list_t *tmp = NULL;
-			if(config->op_s_upgrade || (tmp = alpm_list_diff(targets, packages, (alpm_list_fn_cmp)strcmp))) {
-				alpm_list_free(tmp);
-				printf(_(":: The following packages should be upgraded first :\n"));
-				list_display("   ", packages, getcols(fileno(stdout)));
-				if(yesno(_(":: Do you want to cancel the current operation\n"
-								":: and upgrade these packages now?"))) {
-					FREELIST(targs);
-					targs = packages;
-					config->flags = 0;
-					config->op_s_upgrade = 0;
-				} else {
-					FREELIST(packages);
-				}
-				printf("\n");
-			} else {
-				pm_printf(ALPM_LOG_DEBUG, "skipping SyncFirst dialog\n");
-				FREELIST(packages);
-			}
-		}
-	}
-
-	int ret = sync_trans(targs);
-	FREELIST(targs);
-
-	return ret;
+	return sync_trans(targets);
 }
 
 /* vim: set ts=2 sw=2 noet: */
