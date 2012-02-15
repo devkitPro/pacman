@@ -101,36 +101,41 @@ int _alpm_makepath(const char *path)
  */
 int _alpm_makepath_mode(const char *path, mode_t mode)
 {
-	/* A bit of pointer hell here. Descriptions:
-	 * orig - a copy of path so we can safely butcher it with strsep
-	 * str - the current position in the path string (after the delimiter)
-	 * ptr - the original position of str after calling strsep
-	 * incr - incrementally generated path for use in stat/mkdir call
-	 */
-	char *orig, *str, *ptr, *incr;
-	mode_t oldmask = umask(0000);
+	char *ptr, *str;
+	mode_t oldmask;
 	int ret = 0;
 
-	orig = strdup(path);
-	incr = calloc(strlen(orig) + 1, sizeof(char));
-	str = orig;
-	while((ptr = strsep(&str, "/"))) {
-		if(strlen(ptr)) {
-			/* we have another path component- append the newest component to
-			 * existing string and create one more level of dir structure */
-			strcat(incr, "/");
-			strcat(incr, ptr);
-			if(access(incr, F_OK)) {
-				if(mkdir(incr, mode)) {
-					ret = 1;
-					break;
-				}
-			}
+	STRDUP(str, path, return 1);
+
+	oldmask = umask(0000);
+
+	for(ptr = str; *ptr; ptr++) {
+		/* detect mid-path condition and zero length paths */
+		if(*ptr != '/' || ptr == str || ptr[-1] == '/') {
+			continue;
 		}
+
+		/* temporarily mask the end of the path */
+		*ptr = '\0';
+
+		if(mkdir(str, 0755) < 0 && errno != EEXIST) {
+			ret = 1;
+			goto done;
+		}
+
+		/* restore path separator */
+		*ptr = '/';
 	}
-	free(orig);
-	free(incr);
+
+	/* end of the string. add the full path. It will already exist when the path
+	 * passed in has a trailing slash. */
+	if(mkdir(str, 0755) < 0 && errno != EEXIST) {
+		ret = 1;
+	}
+
+done:
 	umask(oldmask);
+	free(str);
 	return ret;
 }
 
