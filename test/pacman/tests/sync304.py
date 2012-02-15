@@ -19,9 +19,7 @@ self.option["SyncFirst"] = ["pacman"]
 self.args = "-Su"
 
 self.addrule("PACMAN_RETCODE=0")
-self.addrule("PKG_EXIST=pacman")
 self.addrule("PKG_VERSION=pacman|4.0.1-1")
-self.addrule("PKG_EXIST=pyalpm")
 self.addrule("PKG_VERSION=pyalpm|2-1")
 
 self.expectfailure = True
