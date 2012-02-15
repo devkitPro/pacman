@@ -963,8 +963,6 @@ int pacman_sync(alpm_list_t *targets)
 					FREELIST(targs);
 					targs = packages;
 					config->flags = 0;
-					config->flags |= ALPM_TRANS_FLAG_RECURSE;
-					config->flags |= ALPM_TRANS_FLAG_NEEDED;
 					config->op_s_upgrade = 0;
 				} else {
 					FREELIST(packages);
