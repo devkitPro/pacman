@@ -972,6 +972,7 @@ static int check_validity(alpm_handle_t *handle,
 		char *path;
 		alpm_siglist_t *siglist;
 		alpm_siglevel_t level;
+		alpm_pkgvalidation_t validation;
 		alpm_errno_t error;
 	};
 	size_t current = 0, current_bytes = 0;
@@ -981,7 +982,7 @@ static int check_validity(alpm_handle_t *handle,
 	EVENT(handle, ALPM_EVENT_INTEGRITY_START, NULL, NULL);
 
 	for(i = handle->trans->add; i; i = i->next, current++) {
-		struct validity v = { i->data, NULL, NULL, 0, 0 };
+		struct validity v = { i->data, NULL, NULL, 0, 0, 0 };
 		int percent = (int)(((double)current_bytes / total_bytes) * 100);
 
 		PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", percent,
@@ -995,7 +996,7 @@ static int check_validity(alpm_handle_t *handle,
 		v.level = alpm_db_get_siglevel(alpm_pkg_get_db(v.pkg));
 
 		if(_alpm_pkg_validate_internal(handle, v.path, v.pkg,
-					v.level, &v.siglist) == -1) {
+					v.level, &v.siglist, &v.validation) == -1) {
 			v.error = handle->pm_errno;
 			struct validity *invalid = malloc(sizeof(struct validity));
 			memcpy(invalid, &v, sizeof(struct validity));
@@ -1004,6 +1005,7 @@ static int check_validity(alpm_handle_t *handle,
 			alpm_siglist_cleanup(v.siglist);
 			free(v.siglist);
 			free(v.path);
+			v.pkg->validation = v.validation;
 		}
 	}
 
@@ -1083,6 +1085,8 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 		free(filepath);
 		/* copy over the install reason */
 		pkgfile->reason = spkg->reason;
+		/* copy over validation method */
+		pkgfile->validation = spkg->validation;
 		i->data = pkgfile;
 		/* spkg has been removed from the target list, so we can free the
 		 * sync-specific fields */

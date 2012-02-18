@@ -102,6 +102,12 @@ static alpm_pkgreason_t _cache_get_reason(alpm_pkg_t *pkg)
 	return pkg->reason;
 }
 
+static alpm_pkgvalidation_t _cache_get_validation(alpm_pkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, -1);
+	return pkg->validation;
+}
+
 static alpm_list_t *_cache_get_licenses(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
@@ -223,6 +229,7 @@ static struct pkg_operations local_pkg_ops = {
 	.get_arch        = _cache_get_arch,
 	.get_isize       = _cache_get_isize,
 	.get_reason      = _cache_get_reason,
+	.get_validation  = _cache_get_validation,
 	.has_scriptlet   = _cache_has_scriptlet,
 	.get_licenses    = _cache_get_licenses,
 	.get_groups      = _cache_get_groups,
@@ -603,6 +610,26 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 			} else if(strcmp(line, "%REASON%") == 0) {
 				READ_NEXT();
 				info->reason = (alpm_pkgreason_t)atoi(line);
+			} else if(strcmp(line, "%VALIDATION%") == 0) {
+				alpm_list_t *i, *v = NULL;
+				READ_AND_STORE_ALL(v);
+				for(i = v; i; i = alpm_list_next(i))
+				{
+					if(strcmp(i->data, "none") == 0) {
+						info->validation |= ALPM_PKG_VALIDATION_NONE;
+					} else if(strcmp(i->data, "md5") == 0) {
+						info->validation |= ALPM_PKG_VALIDATION_MD5SUM;
+					} else if(strcmp(i->data, "sha256") == 0) {
+						info->validation |= ALPM_PKG_VALIDATION_SHA256SUM;
+					} else if(strcmp(i->data, "pgp") == 0) {
+						info->validation |= ALPM_PKG_VALIDATION_SIGNATURE;
+					} else {
+						_alpm_log(db->handle, ALPM_LOG_WARNING,
+								_("unknown validation type for package %s: %s\n"),
+								info->name, (const char *)i->data);
+					}
+				}
+				FREELIST(v);
 			} else if(strcmp(line, "%SIZE%") == 0) {
 				READ_NEXT();
 				info->isize = _alpm_strtoofft(line);
@@ -816,6 +843,22 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->reason) {
 			fprintf(fp, "%%REASON%%\n"
 							"%u\n\n", info->reason);
+		}
+		if(info->validation) {
+			fputs("%VALIDATION%\n", fp);
+			if(info->validation & ALPM_PKG_VALIDATION_NONE) {
+				fputs("none\n", fp);
+			}
+			if(info->validation & ALPM_PKG_VALIDATION_MD5SUM) {
+				fputs("md5\n", fp);
+			}
+			if(info->validation & ALPM_PKG_VALIDATION_SHA256SUM) {
+				fputs("sha256\n", fp);
+			}
+			if(info->validation & ALPM_PKG_VALIDATION_SIGNATURE) {
+				fputs("pgp\n", fp);
+			}
+			fprintf(fp, "\n");
 		}
 		if(info->depends) {
 			fputs("%DEPENDS%\n", fp);

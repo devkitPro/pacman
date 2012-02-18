@@ -77,6 +77,7 @@ static void optdeplist_display(const char *title,
 void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 {
 	const char *reason;
+	alpm_list_t *validation = NULL;
 	time_t bdate, idate;
 	char bdatestr[50] = "", idatestr[50] = "";
 	const char *label;
@@ -106,6 +107,27 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		default:
 			reason = _("Unknown");
 			break;
+	}
+
+    if(from == PKG_FROM_LOCALDB) {
+		alpm_pkgvalidation_t v = alpm_pkg_get_validation(pkg);
+		if(v) {
+			if(v & ALPM_PKG_VALIDATION_NONE) {
+				validation = alpm_list_add(validation, _("None"));
+			} else {
+				if(v & ALPM_PKG_VALIDATION_MD5SUM) {
+					validation = alpm_list_add(validation, _("MD5 Sum"));
+				}
+				if(v & ALPM_PKG_VALIDATION_SHA256SUM) {
+					validation = alpm_list_add(validation, _("SHA256 Sum"));
+				}
+				if(v & ALPM_PKG_VALIDATION_SIGNATURE) {
+					validation = alpm_list_add(validation, _("Signature"));
+				}
+			}
+		} else {
+			validation = alpm_list_add(validation, _("Unknown"));
+		}
 	}
 
 	if(extra || from == PKG_FROM_LOCALDB) {
@@ -173,6 +195,9 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		}
 		alpm_siglist_cleanup(&siglist);
 	}
+	if(from == PKG_FROM_LOCALDB) {
+		list_display(_("Validated By   :"), validation);
+	}
 	string_display(_("Description    :"), alpm_pkg_get_desc(pkg));
 
 	/* Print additional package info if info flag passed more than once */
@@ -184,6 +209,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	printf("\n");
 
 	FREELIST(requiredby);
+	alpm_list_free(validation);
 }
 
 static const char *get_backup_file_status(const char *root,

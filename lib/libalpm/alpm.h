@@ -64,6 +64,15 @@ typedef enum _alpm_pkgfrom_t {
 	PKG_FROM_SYNCDB
 } alpm_pkgfrom_t;
 
+/** Location a package object was loaded from. */
+typedef enum _alpm_pkgvalidation_t {
+	ALPM_PKG_VALIDATION_UNKNOWN = 0,
+	ALPM_PKG_VALIDATION_NONE = (1 << 0),
+	ALPM_PKG_VALIDATION_MD5SUM = (1 << 1),
+	ALPM_PKG_VALIDATION_SHA256SUM = (1 << 2),
+	ALPM_PKG_VALIDATION_SIGNATURE = (1 << 3)
+} alpm_pkgvalidation_t;
+
 /** Types of version constraints in dependency specs. */
 typedef enum _alpm_depmod_t {
   /** No version constraint */
@@ -879,6 +888,12 @@ alpm_db_t *alpm_pkg_get_db(alpm_pkg_t *pkg);
  * @return a reference to an internal string
  */
 const char *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg);
+
+/** Returns the method used to validate a package during install.
+ * @param pkg a pointer to package
+ * @return an enum member giving the validation method
+ */
+alpm_pkgvalidation_t alpm_pkg_get_validation(alpm_pkg_t *pkg);
 
 /* End of alpm_pkg_t accessors */
 /* @} */

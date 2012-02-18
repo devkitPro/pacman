@@ -303,11 +303,12 @@ static alpm_file_t *files_msort(alpm_file_t *files, size_t n)
  * sha256sum, and/or base64 signature)
  * @param level the required level of signature verification
  * @param sigdata signature data from the package to pass back
+ * @param validation successful validations performed on the package file
  * @return 0 if package is fully valid, -1 and pm_errno otherwise
  */
 int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level,
-		alpm_siglist_t **sigdata)
+		alpm_siglist_t **sigdata, alpm_pkgvalidation_t *validation)
 {
 	int has_sig;
 	handle->pm_errno = 0;
@@ -342,6 +343,9 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 			if(_alpm_test_checksum(pkgfile, syncpkg->md5sum, ALPM_CSUM_MD5) != 0) {
 				RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, -1);
 			}
+			if(validation) {
+				*validation |= ALPM_PKG_VALIDATION_MD5SUM;
+			}
 		}
 
 		if(syncpkg->sha256sum) {
@@ -349,6 +353,9 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking sha256sum for %s\n", pkgfile);
 			if(_alpm_test_checksum(pkgfile, syncpkg->sha256sum, ALPM_CSUM_SHA256) != 0) {
 				RET_ERR(handle, ALPM_ERR_PKG_INVALID_CHECKSUM, -1);
+			}
+			if(validation) {
+				*validation |= ALPM_PKG_VALIDATION_SHA256SUM;
 			}
 		}
 	}
@@ -363,6 +370,13 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 			handle->pm_errno = ALPM_ERR_PKG_INVALID_SIG;
 			return -1;
 		}
+		if(validation && has_sig) {
+			*validation |= ALPM_PKG_VALIDATION_SIGNATURE;
+		}
+	}
+
+	if (validation && !*validation) {
+		*validation = ALPM_PKG_VALIDATION_NONE;
 	}
 
 	return 0;
@@ -496,6 +510,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	newpkg->ops = get_file_pkg_ops();
 	newpkg->handle = handle;
 	newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_SCRIPTLET;
+	newpkg->validation = ALPM_PKG_VALIDATION_NONE;
 
 	if(full) {
 		if(files) {
@@ -527,10 +542,13 @@ error:
 int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
 		alpm_siglevel_t level, alpm_pkg_t **pkg)
 {
+	alpm_pkgvalidation_t validation = 0;
+
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	if(_alpm_pkg_validate_internal(handle, filename, NULL, level, NULL) == -1) {
+	if(_alpm_pkg_validate_internal(handle, filename, NULL, level, NULL,
+				&validation) == -1) {
 		/* pm_errno is set by pkg_validate */
 		return -1;
 	}
@@ -539,6 +557,7 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 		/* pm_errno is set by pkg_load */
 		return -1;
 	}
+	(*pkg)->validation = validation;
 
 	return 0;
 }
