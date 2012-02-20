@@ -122,8 +122,7 @@ find "$dbroot" -type f | sort | xargs md5sum > "$workdir/pacsums.old"
 
 # step 2: tar it up
 msg "$(gettext "Tar'ing up %s...")" "$dbroot"
-cd "$dbroot"
-bsdtar -czf "$workdir/pacman-db.tar.gz" ./
+bsdtar -czf "$workdir/pacman-db.tar.gz" -C "$dbroot" ./
 if (( $? )); then
 	rm -rf "$workdir"
 	die_r "$(gettext "Tar'ing up %s failed.")" "$dbroot"

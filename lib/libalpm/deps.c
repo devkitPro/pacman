@@ -723,12 +723,6 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 		return 0;
 	}
 
-	if(handle->trans->flags & ALPM_TRANS_FLAG_RECURSE) {
-		/* removing local packages from the equation causes the entire dep chain to
-		 * get pulled for each target- e.g., pactree -u output */
-		localpkgs = NULL;
-	}
-
 	/* Create a copy of the packages list, so that it can be restored
 	   on error */
 	packages_copy = alpm_list_copy(*packages);
@@ -779,29 +773,6 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 			}
 		}
 		alpm_list_free(deps);
-	}
-
-	if(handle->trans->flags & ALPM_TRANS_FLAG_NEEDED) {
-		/* remove any deps that were pulled that match installed version */
-		/* odd loop syntax so we can modify the list as we iterate */
-		i = *packages;
-		while(i) {
-			alpm_pkg_t *tpkg = i->data;
-			alpm_pkg_t *local = _alpm_db_get_pkgfromcache(
-					handle->db_local, tpkg->name);
-			if(local && _alpm_pkg_compare_versions(tpkg, local) == 0) {
-				/* with the NEEDED flag, packages up to date are not reinstalled */
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"not adding dep %s-%s as it is not needed, same version\n",
-						local->name, local->version);
-				j = i;
-				i = i->next;
-				*packages = alpm_list_remove_item(*packages, j);
-				free(j);
-			} else {
-				i = i->next;
-			}
-		}
 	}
 
 	if(ret != 0) {

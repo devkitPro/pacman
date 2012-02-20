@@ -59,5 +59,4 @@ self.addpkg2db("local", lp7)
 
 self.args = "-S pacman"
 self.addrule("PACMAN_RETCODE=0")
-self.addrule("PKG_EXIST=pacman")
 self.addrule("PKG_VERSION=pacman|4.0.1-2")

@@ -20,15 +20,15 @@ expat_lpkg = pmpkg("expat", "2.0.1-6")
 self.addpkg2db("local", expat_lpkg)
 
 # Sync db
-curl_sync = pmpkg("curl", "7.21.7-1")
-self.addpkg2db("sync", curl_sync)
+perl_sync = pmpkg("perl", "5.14.1-3")
+perl_sync.depends = ["glibc"]
+self.addpkg2db("sync", perl_sync)
 
 glibc_sync = pmpkg("glibc", "2.1.4-4")
 self.addpkg2db("sync", glibc_sync)
 
-perl_sync = pmpkg("perl", "5.14.1-3")
-perl_sync.depends = ["glibc"]
-self.addpkg2db("sync", perl_sync)
+curl_sync = pmpkg("curl", "7.21.7-1")
+self.addpkg2db("sync", curl_sync)
 
 expat_sync = pmpkg("expat", "2.0.1-6")
 self.addpkg2db("sync", expat_sync)
@@ -46,11 +46,10 @@ self.addrule("PKG_DEPENDS=git|perl")
 self.addrule("PKG_DEPENDS=perl|glibc")
 self.addrule("PKG_EXIST=git")
 self.addrule("PKG_VERSION=git|1.7.6-1")
-self.addrule("PKG_EXIST=curl")
 self.addrule("PKG_VERSION=curl|7.21.7-1")
-self.addrule("PKG_EXIST=glibc")
 self.addrule("PKG_VERSION=glibc|2.1.4-4")
-self.addrule("PKG_EXIST=perl")
 self.addrule("PKG_VERSION=perl|5.14.1-3")
-self.addrule("PKG_EXIST=expat")
 self.addrule("PKG_VERSION=expat|2.0.1-6")
+
+# --recursive operation was removed for now
+self.expectfailure = True

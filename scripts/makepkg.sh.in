@@ -36,6 +36,8 @@ export TEXTDOMAINDIR='@localedir@'
 
 # file -i does not work on Mac OSX unless legacy mode is set
 export COMMAND_MODE='legacy'
+# Ensure CDPATH doesn't screw with our cd calls
+unset CDPATH
 
 declare -r myver='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
@@ -519,7 +521,7 @@ remove_deps() {
 	local deplist
 	deplist=($(grep -xvFf <(printf "%s\n" "${original_pkglist[@]}") \
 			<(printf "%s\n" "${current_pkglist[@]}") || true))
-	if [[ -z deplist ]]; then
+	if [[ -z $deplist ]]; then
 		return
 	fi
 
@@ -1924,11 +1926,11 @@ OPT_LONG+=",version,config:"
 
 # Pacman Options
 OPT_LONG+=",noconfirm,noprogressbar"
-if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
+if ! parse_options $OPT_SHORT $OPT_LONG "$@"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
-eval set -- "$OPT_TEMP"
-unset OPT_SHORT OPT_LONG OPT_TEMP
+set -- "${OPTRET[@]}"
+unset OPT_SHORT OPT_LONG OPTRET
 
 while true; do
 	case "$1" in

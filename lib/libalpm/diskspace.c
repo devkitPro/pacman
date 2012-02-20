@@ -188,8 +188,20 @@ static alpm_mountpoint_t *match_mount_point(const alpm_list_t *mount_points,
 	for(mp = mount_points; mp != NULL; mp = mp->next) {
 		alpm_mountpoint_t *data = mp->data;
 
+		/* first, check if the prefix matches */
 		if(strncmp(data->mount_dir, real_path, data->mount_dir_len) == 0) {
-			return data;
+			/* now, the hard work- a file like '/etc/myconfig' shouldn't map to a
+			 * mountpoint '/e', but only '/etc'. If the mountpoint ends in a trailing
+			 * slash, we know we didn't have a mismatch, otherwise we have to do some
+			 * more sanity checks. */
+			if(data->mount_dir[data->mount_dir_len - 1] == '/') {
+				return data;
+			} else if(strlen(real_path) >= data->mount_dir_len) {
+				const char next = real_path[data->mount_dir_len];
+				if(next == '/' || next == '\0') {
+					return data;
+				}
+			}
 		}
 	}
 

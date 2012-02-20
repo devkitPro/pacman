@@ -29,10 +29,7 @@ self.option["SyncFirst"] = ["pacman"]
 self.args = "-Su"
 
 self.addrule("PACMAN_RETCODE=0")
-self.addrule("PKG_EXIST=pacman")
 self.addrule("PKG_VERSION=pacman|1.0-2")
 self.addrule("PKG_EXIST=glibc-awesome")
 self.addrule("PKG_VERSION=glibc-awesome|2.13-2")
 self.addrule("PKG_EXIST=zlib")
-
-self.expectfailure = True

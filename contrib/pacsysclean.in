@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# pacsysclean - Sort installed packages by decreasing installed size. Useful for system clean-up.
+# pacsysclean - Sort installed packages by increasing installed size. Useful for system clean-up.
 
 declare -r myname='pacsysclean'
 declare -r myver='@PACKAGE_VERSION@'
@@ -8,7 +8,7 @@ declare -r myver='@PACKAGE_VERSION@'
 PACMAN_OPTS=
 
 usage() {
-       echo "$myname - Sort installed packages by decreasing installed size."
+       echo "$myname - Sort installed packages by increasing installed size."
        echo
        echo "Usage: $myname [options]"
        echo
@@ -35,6 +35,9 @@ fi
 IFS=$'\n'
 name="^Name.*: (.*)$"
 size="^Installed Size.*: (.*) KiB$"
+
+[[ $PACMAN_OPTS != -* ]] && PACMAN_OPTS="-$PACMAN_OPTS"
+
 for line in $(LANG=C pacman -Qi $PACMAN_OPTS); do
        if [[ $line =~ $name ]]; then
                printf "%s\t" ${BASH_REMATCH[1]}

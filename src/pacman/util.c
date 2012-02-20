@@ -67,9 +67,13 @@ void trans_init_error(void)
 	pm_printf(ALPM_LOG_ERROR, _("failed to init transaction (%s)\n"),
 			alpm_strerror(err));
 	if(err == ALPM_ERR_HANDLE_LOCK) {
-		fprintf(stderr, _("  if you're sure a package manager is not already\n"
-					"  running, you can remove %s\n"),
-				alpm_option_get_lockfile(config->handle));
+		const char *lockfile = alpm_option_get_lockfile(config->handle);
+		pm_printf(ALPM_LOG_ERROR, _("could not lock database: %s\n"),
+					strerror(errno));
+		if(access(lockfile, F_OK) == 0) {
+			fprintf(stderr, _("  if you're sure a package manager is not already\n"
+						"  running, you can remove %s\n"), lockfile);
+		}
 	}
 }
 
