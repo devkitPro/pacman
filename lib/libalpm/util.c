@@ -909,14 +909,14 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
  * error
  */
 int _alpm_test_checksum(const char *filepath, const char *expected,
-		enum _alpm_csum type)
+		alpm_pkgvalidation_t type)
 {
 	char *computed;
 	int ret;
 
-	if(type == ALPM_CSUM_MD5) {
+	if(type == ALPM_PKG_VALIDATION_MD5SUM) {
 		computed = alpm_compute_md5sum(filepath);
-	} else if(type == ALPM_CSUM_SHA256) {
+	} else if(type == ALPM_PKG_VALIDATION_SHA256SUM) {
 		computed = alpm_compute_sha256sum(filepath);
 	} else {
 		return -1;
