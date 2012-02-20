@@ -109,25 +109,23 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 			break;
 	}
 
-    if(from == PKG_FROM_LOCALDB) {
-		alpm_pkgvalidation_t v = alpm_pkg_get_validation(pkg);
-		if(v) {
-			if(v & ALPM_PKG_VALIDATION_NONE) {
-				validation = alpm_list_add(validation, _("None"));
-			} else {
-				if(v & ALPM_PKG_VALIDATION_MD5SUM) {
-					validation = alpm_list_add(validation, _("MD5 Sum"));
-				}
-				if(v & ALPM_PKG_VALIDATION_SHA256SUM) {
-					validation = alpm_list_add(validation, _("SHA256 Sum"));
-				}
-				if(v & ALPM_PKG_VALIDATION_SIGNATURE) {
-					validation = alpm_list_add(validation, _("Signature"));
-				}
-			}
+	alpm_pkgvalidation_t v = alpm_pkg_get_validation(pkg);
+	if(v) {
+		if(v & ALPM_PKG_VALIDATION_NONE) {
+			validation = alpm_list_add(validation, _("None"));
 		} else {
-			validation = alpm_list_add(validation, _("Unknown"));
+			if(v & ALPM_PKG_VALIDATION_MD5SUM) {
+				validation = alpm_list_add(validation, _("MD5 Sum"));
+			}
+			if(v & ALPM_PKG_VALIDATION_SHA256SUM) {
+				validation = alpm_list_add(validation, _("SHA256 Sum"));
+			}
+			if(v & ALPM_PKG_VALIDATION_SIGNATURE) {
+				validation = alpm_list_add(validation, _("Signature"));
+			}
 		}
+	} else {
+		validation = alpm_list_add(validation, _("Unknown"));
 	}
 
 	if(extra || from == PKG_FROM_LOCALDB) {
@@ -176,12 +174,8 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 				alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
 	}
 
-	if(from == PKG_FROM_SYNCDB) {
-		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg));
-		string_display(_("SHA256 Sum     :"), alpm_pkg_get_sha256sum(pkg));
-		string_display(_("Signatures     :"),
-				alpm_pkg_get_base64_sig(pkg) ? _("Yes") : _("None"));
-	}
+	list_display(_("Validated By   :"), validation);
+
 	if(from == PKG_FROM_FILE) {
 		alpm_siglist_t siglist;
 		int err = alpm_pkg_check_pgp_signature(pkg, &siglist);
@@ -195,9 +189,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		}
 		alpm_siglist_cleanup(&siglist);
 	}
-	if(from == PKG_FROM_LOCALDB) {
-		list_display(_("Validated By   :"), validation);
-	}
+
 	string_display(_("Description    :"), alpm_pkg_get_desc(pkg));
 
 	/* Print additional package info if info flag passed more than once */

@@ -296,6 +296,29 @@ cleanup:
 static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		struct archive_entry *entry, alpm_pkg_t **likely_pkg);
 
+static alpm_pkgvalidation_t _sync_get_validation(alpm_pkg_t *pkg)
+{
+	if(pkg->validation) {
+		return pkg->validation;
+	}
+
+	if(pkg->md5sum) {
+		pkg->validation |= ALPM_PKG_VALIDATION_MD5SUM;
+	}
+	if(pkg->sha256sum) {
+		pkg->validation |= ALPM_PKG_VALIDATION_SHA256SUM;
+	}
+	if(pkg->base64_sig) {
+		pkg->validation |= ALPM_PKG_VALIDATION_SIGNATURE;
+	}
+
+	if(!pkg->validation) {
+		pkg->validation |= ALPM_PKG_VALIDATION_NONE;
+	}
+
+	return pkg->validation;
+}
+
 static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 		const char **entry_filename, alpm_pkg_t *likely_pkg)
 {
@@ -337,6 +360,7 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 		pkg->origin = PKG_FROM_SYNCDB;
 		pkg->origin_data.db = db;
 		pkg->ops = &default_pkg_ops;
+		pkg->ops->get_validation = _sync_get_validation;
 		pkg->handle = db->handle;
 
 		/* add to the collection */
