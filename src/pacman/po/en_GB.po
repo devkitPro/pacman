@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2011-11-14 03:59+0000\n"
-"Last-Translator: toofishes <dpmcgee@gmail.com>\n"
+"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"PO-Revision-Date: 2012-03-05 11:43-0600\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -488,10 +488,6 @@ msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         do not reinstall up to date packages\n"
 
 #, c-format
-msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr "      --recursive      reinstall all dependencies of target packages\n"
-
-#, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      view the changelog of a package\n"
 
@@ -858,16 +854,12 @@ msgid "failed to commit transaction (%s)\n"
 msgstr "failed to commit transaction (%s)\n"
 
 #, c-format
+msgid "could not remove %s: %s\n"
+msgstr "could not remove %s: %s\n"
+
+#, c-format
 msgid "could not access database directory\n"
 msgstr "could not access database directory\n"
-
-#, c-format
-msgid "could not remove %s\n"
-msgstr "could not remove %s\n"
-
-#, c-format
-msgid "Do you want to remove %s?"
-msgstr "Do you want to remove %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -878,8 +870,8 @@ msgid "Do you want to remove unused repositories?"
 msgstr "Do you want to remove unused repositories?"
 
 #, c-format
-msgid "Database directory cleaned up\n"
-msgstr "Database directory cleaned up\n"
+msgid "removing unused sync repositories...\n"
+msgstr "removing unused sync repositories...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1016,6 +1008,10 @@ msgstr "loading packages...\n"
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "failed to init transaction (%s)\n"
+
+#, c-format
+msgid "could not lock database: %s\n"
+msgstr "could not lock database: %s\n"
 
 #, c-format
 msgid ""
@@ -1200,3 +1196,14 @@ msgstr "error: "
 #, c-format
 msgid "warning: "
 msgstr "warning: "
+
+#~ msgid "Do you want to remove %s?"
+#~ msgstr "Do you want to remove %s?"
+
+#~ msgid "Database directory cleaned up\n"
+#~ msgstr "Database directory cleaned up\n"
+
+#~ msgid ""
+#~ "      --recursive      reinstall all dependencies of target packages\n"
+#~ msgstr ""
+#~ "      --recursive      reinstall all dependencies of target packages\n"
