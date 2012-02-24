@@ -219,14 +219,14 @@ GCC_VISIBILITY_CC
 GCC_GNU89_INLINE_CC
 
 # Host-dependant definitions
-SIZECMD="stat -L -c %s"
+SIZECMD="stat -c %s"
 SEDINPLACE="sed -i"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
 STRIP_STATIC="--strip-debug"
 case "${host_os}" in
 	*bsd*)
-		SIZECMD="stat -L -f %z"
+		SIZECMD="stat -f %z"
 		SEDINPLACE="sed -i \"\""
 		;;
 	cygwin*)
@@ -235,7 +235,7 @@ case "${host_os}" in
 		;;
 	darwin*)
 		host_os_darwin=yes
-		SIZECMD="/usr/bin/stat -L -f %z"
+		SIZECMD="/usr/bin/stat -f %z"
 		SEDINPLACE="/usr/bin/sed -i ''"
 		STRIP_BINARIES=""
 		STRIP_SHARED="-S"
