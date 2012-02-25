@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python2
 #
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
 #
