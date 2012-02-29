@@ -382,7 +382,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 
 	/* try to create an archive object to read in the package */
 	if((archive = archive_read_new()) == NULL) {
-		alpm_pkg_free(newpkg);
+		_alpm_pkg_free(newpkg);
 		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, NULL);
 	}
 
@@ -391,8 +391,8 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 
 	if(archive_read_open_filename(archive, pkgfile,
 				ALPM_BUFFER_SIZE) != ARCHIVE_OK) {
-		alpm_pkg_free(newpkg);
-		RET_ERR(handle, ALPM_ERR_PKG_OPEN, NULL);
+		handle->pm_errno = ALPM_ERR_PKG_OPEN;
+		goto error;
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
