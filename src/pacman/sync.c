@@ -25,6 +25,7 @@
 #include <string.h>
 #include <limits.h>
 #include <unistd.h>
+#include <errno.h>
 #include <dirent.h>
 #include <sys/stat.h>
 
@@ -37,6 +38,20 @@
 #include "package.h"
 #include "conf.h"
 
+static int unlink_verbose(const char *pathname, int ignore_missing)
+{
+	int ret = unlink(pathname);
+	if(ret) {
+		if(ignore_missing && errno == ENOENT) {
+			ret = 0;
+		} else {
+			pm_printf(ALPM_LOG_ERROR, _("could not remove %s: %s\n"),
+					pathname, strerror(errno));
+		}
+	}
+	return ret;
+}
+
 /* if keep_used != 0, then the db files which match an used syncdb
  * will be kept  */
 static int sync_cleandb(const char *dbpath, int keep_used)
@@ -44,6 +59,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 	DIR *dir;
 	struct dirent *ent;
 	alpm_list_t *syncdbs;
+	int ret = 0;
 
 	dir = opendir(dbpath);
 	if(dir == NULL) {
@@ -60,6 +76,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 		struct stat buf;
 		int found = 0;
 		const char *dname = ent->d_name;
+		char *dbname;
 		size_t len;
 
 		if(strcmp(dname, ".") == 0 || strcmp(dname, "..") == 0) {
@@ -79,44 +96,46 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 
 		/* remove all non-skipped directories and non-database files */
 		stat(path, &buf);
-		len = strlen(path);
-		if(S_ISDIR(buf.st_mode) || strcmp(path + len - 3, ".db") != 0) {
+		if(S_ISDIR(buf.st_mode)) {
 			if(rmrf(path)) {
-				pm_printf(ALPM_LOG_ERROR,
-					_("could not remove %s\n"), path);
-				closedir(dir);
-				return 1;
+				pm_printf(ALPM_LOG_ERROR, _("could not remove %s: %s\n"),
+						path, strerror(errno));
 			}
+			continue;
+		}
+
+		len = strlen(dname);
+		if(len > 3 && strcmp(dname + len - 3, ".db") == 0) {
+			dbname = strndup(dname, len - 3);
+		} else if(len > 7 && strcmp(dname + len - 7, ".db.sig") == 0) {
+			dbname = strndup(dname, len - 7);
+		} else {
+			ret += unlink_verbose(path, 0);
 			continue;
 		}
 
 		if(keep_used) {
 			alpm_list_t *i;
-			len = strlen(dname);
-			char *dbname = strndup(dname, len - 3);
 			for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
 				alpm_db_t *db = alpm_list_getdata(i);
 				found = !strcmp(dbname, alpm_db_get_name(db));
 			}
-			free(dbname);
 		}
-		/* We have a database that doesn't match any syncdb.
-		 * Ask the user if he wants to remove it. */
-		if(!found) {
-			if(!yesno(_("Do you want to remove %s?"), path)) {
-				continue;
-			}
 
-			if(rmrf(path)) {
-				pm_printf(ALPM_LOG_ERROR,
-					_("could not remove %s\n"), path);
-				closedir(dir);
-				return 1;
-			}
+		/* We have a database that doesn't match any syncdb. */
+		if(!found) {
+			/* ENOENT check is because the signature and database could come in any
+			 * order in our readdir() call, so either file may already be gone. */
+			snprintf(path, PATH_MAX, "%s%s.db", dbpath, dbname);
+			ret += unlink_verbose(path, 1);
+			/* unlink a signature file if present too */
+			snprintf(path, PATH_MAX, "%s%s.db.sig", dbpath, dbname);
+			ret += unlink_verbose(path, 1);
 		}
+		free(dbname);
 	}
 	closedir(dir);
-	return 0;
+	return ret;
 }
 
 static int sync_cleandb_all(void)
@@ -130,6 +149,7 @@ static int sync_cleandb_all(void)
 	if(!yesno(_("Do you want to remove unused repositories?"))) {
 		return 0;
 	}
+	printf(_("removing unused sync repositories...\n"));
 	/* The sync dbs were previously put in dbpath/ but are now in dbpath/sync/.
 	 * We will clean everything in dbpath/ except local/, sync/ and db.lck, and
 	 * only the unused sync dbs in dbpath/sync/ */
@@ -142,7 +162,6 @@ static int sync_cleandb_all(void)
 	ret += sync_cleandb(newdbpath, 1);
 	free(newdbpath);
 
-	printf(_("Database directory cleaned up\n"));
 	return ret;
 }
 
@@ -210,7 +229,7 @@ static int sync_cleancache(int level)
 
 			/* short circuit for removing all files from cache */
 			if(level > 1) {
-				unlink(path);
+				ret += unlink_verbose(path, 0);
 				continue;
 			}
 
@@ -256,11 +275,11 @@ static int sync_cleancache(int level)
 
 			if(delete) {
 				size_t pathlen = strlen(path);
-				unlink(path);
+				ret += unlink_verbose(path, 0);
 				/* unlink a signature file if present too */
 				if(PATH_MAX - 5 >= pathlen) {
 					strcpy(path + pathlen, ".sig");
-					unlink(path);
+					ret += unlink_verbose(path, 1);
 				}
 			}
 		}
