@@ -1260,7 +1260,7 @@ create_package() {
 
 	write_pkginfo $nameofpkg > .PKGINFO
 
-	local comp_files=".PKGINFO"
+	local comp_files=('.PKGINFO')
 
 	# check for changelog/install files
 	for i in 'changelog/.CHANGELOG' 'install/.INSTALL'; do
@@ -1270,7 +1270,7 @@ create_package() {
 			msg2 "$(gettext "Adding %s file...")" "$orig"
 			cp "$startdir/${!orig}" "$dest"
 			chmod 644 "$dest"
-			comp_files+=" $dest"
+			comp_files+=("$dest")
 		fi
 	done
 
@@ -1292,7 +1292,7 @@ create_package() {
 	# bsdtar's gzip compression always saves the time stamp, making one
 	# archive created using the same command line distinct from another.
 	# Disable bsdtar compression and use gzip -n for now.
-	bsdtar -cf - $comp_files * |
+	bsdtar -cf - "${comp_files[@]}" * |
 	case "$PKGEXT" in
 		*tar.gz)  ${COMPRESSGZ[@]:-gzip -c -f -n} ;;
 		*tar.bz2) ${COMPRESSBZ2[@]:-bzip2 -c -f} ;;
