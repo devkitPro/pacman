@@ -415,18 +415,18 @@ download_file() {
 run_pacman() {
 	local cmd
 	if [[ ! $1 = -@(T|Qq) ]]; then
-		printf -v cmd "%q " "$PACMAN" $PACMAN_OPTS "$@"
+		cmd=("$PACMAN" $PACMAN_OPTS "$@")
 	else
-		printf -v cmd "%q " "$PACMAN" "$@"
+		cmd=("$PACMAN" "$@")
 	fi
 	if (( ! ASROOT )) && [[ ! $1 = -@(T|Qq) ]]; then
 		if type -p sudo >/dev/null; then
-			cmd="sudo $cmd"
+			cmd=(sudo "${cmd[@]}")
 		else
-			cmd="su root -c '$cmd'"
+			cmd=(su root -c "$(printf '%q ' "${cmd[@]}")")
 		fi
 	fi
-	eval "$cmd"
+	"${cmd[@]}"
 }
 
 check_deps() {
