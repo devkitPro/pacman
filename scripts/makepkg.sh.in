@@ -118,12 +118,17 @@ error() {
 # the fakeroot call, the error message will be printed by the main call.
 ##
 trap_exit() {
+	local signal=$1; shift
+
 	if (( ! INFAKEROOT )); then
 		echo
 		error "$@"
 	fi
 	[[ -n $srclinks ]] && rm -rf "$srclinks"
-	exit 1
+
+	# unset the trap for this signal, and then call the default handler
+	trap -- "$signal"
+	kill "-$signal" "$$"
 }
 
 
@@ -1964,10 +1969,10 @@ done
 # setup signal traps
 trap 'clean_up' 0
 for signal in TERM HUP QUIT; do
-	trap "trap_exit \"$(gettext "%s signal caught. Exiting...")\" \"$signal\"" "$signal"
+	trap "trap_exit $signal \"$(gettext "%s signal caught. Exiting...")\" \"$signal\"" "$signal"
 done
-trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
-trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
+trap 'trap_exit INT "$(gettext "Aborted by user! Exiting...")"' INT
+trap 'trap_exit USR1 "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 set -E
 
 # preserve environment variables and canonicalize path
