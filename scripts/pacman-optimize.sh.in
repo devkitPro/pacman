@@ -88,9 +88,8 @@ if [[ -n $1 ]]; then
 	dbroot="$1"
 fi
 
-# make sure diff is installed
-if ! type diff >/dev/null 2>&1; then
-	die "$(gettext "diff tool was not found, please install diffutils.")"
+if ! type -p openssl >/dev/null; then
+	die "$(gettext "Cannot find the %s binary required for verifying integrity.")" "openssl"
 fi
 
 if [[ ! -d $dbroot || ! -d $dbroot/local ]]; then
@@ -103,8 +102,8 @@ fi
 
 # strip any trailing slash from our dbroot
 dbroot="${dbroot%/}"
-# form the path to our lockfile location
 lockfile="${dbroot}/db.lck"
+localdb="${dbroot}/local"
 
 # make sure pacman isn't running
 if [[ -f $lockfile ]]; then
@@ -118,37 +117,39 @@ workdir=$(mktemp -d "${TMPDIR:-/tmp}/pacman-optimize.XXXXXXXXXX") ||
 
 # step 1: sum the old db
 msg "$(gettext "MD5sum'ing the old database...")"
-find "$dbroot" -type f | sort | xargs md5sum > "$workdir/pacsums.old"
+(cd "$localdb" && find . -type f -print0 | \
+	xargs -0 openssl dgst -md5 | sort > "$workdir/pacsums.old")
 
 # step 2: tar it up
-msg "$(gettext "Tar'ing up %s...")" "$dbroot"
-bsdtar -czf "$workdir/pacman-db.tar.gz" -C "$dbroot" ./
+msg "$(gettext "Tar'ing up %s...")" "$localdb"
+bsdtar -czf "$workdir/pacman-db.tar.gz" -C "$localdb" ./
 if (( $? )); then
 	rm -rf "$workdir"
-	die_r "$(gettext "Tar'ing up %s failed.")" "$dbroot"
+	die_r "$(gettext "Tar'ing up %s failed.")" "$localdb"
 fi
 
 # step 3: make and sum the new db side-by-side with the old
 msg "$(gettext "Making and MD5sum'ing the new database...")"
-mkdir "$dbroot.new"
-bsdtar -xpf "$workdir/pacman-db.tar.gz" -C "$dbroot.new"
+mkdir "$localdb.new"
+bsdtar -xpf "$workdir/pacman-db.tar.gz" -C "$localdb.new"
 if (( $? )); then
        rm -rf "$workdir"
-       die_r "$(gettext "Untar'ing %s failed.")" "$dbroot"
+       die_r "$(gettext "Untar'ing %s failed.")" "$localdb"
 fi
 # immediate sync following extraction should get it written continuously on HDD
 msg "$(gettext "Syncing database to disk...")"
 sync
-find "$dbroot.new" -type f | sort | \
-		xargs md5sum | sed 's#.new##' > "$workdir/pacsums.new"
+(cd "$localdb.new" && find . -type f -print0 | \
+	xargs -0 openssl dgst -md5 | sort > "$workdir/pacsums.new")
 
 # step 4: compare the sums
 msg "$(gettext "Checking integrity...")"
-diff "$workdir/pacsums.old" "$workdir/pacsums.new" >/dev/null 2>&1
-if (( $? )); then
+read -ra old_dgst < <(openssl dgst -md5 < "$workdir/pacsums.old")
+read -ra new_dgst < <(openssl dgst -md5 < "$workdir/pacsums.new")
+if [[ ${old_dgst[@]:(-1)} != ${new_dgst[@]:(-1)} ]]; then
 	# failed
 	# leave our pacman-optimize tmpdir for checking to see what doesn't match up
-	rm -rf "$dbroot.new"
+	rm -rf "$localdb.new"
 	die_r "$(gettext "Integrity check FAILED, reverting to old database.")"
 fi
 
@@ -156,15 +157,15 @@ fi
 msg "$(gettext "Rotating database into place...")"
 
 fail=0
-mv "$dbroot" "$dbroot.old" || fail=1
-mv "$dbroot.new" "$dbroot" || fail=1
-chmod --reference="$dbroot.old" "$dbroot" || fail=1
-chown --reference="$dbroot.old" "$dbroot" || fail=1
+mv "$localdb" "$localdb.old" || fail=1
+mv "$localdb.new" "$localdb" || fail=1
+chmod --reference="$localdb.old" "$localdb" || fail=1
+chown --reference="$localdb.old" "$localdb" || fail=1
 if (( fail )); then
 	# failure with our directory shuffle
-	die_r "$(gettext "New database substitution failed. Check for $dbroot,\n$dbroot.old, and $dbroot.new directories.")"
+	die_r "$(gettext "New database substitution failed. Check for %s, %s, and %s directories.")" "$localdb" "$localdb.old" "$localdb.new"
 fi
-rm -rf "$dbroot.old"
+rm -rf "$localdb.old"
 
 # remove the lock file and our working directory with sums and tarfile
 rm -f "$lockfile"
