@@ -1067,7 +1067,7 @@ find_libdepends() {
 		for sofile in $(LC_ALL=C readelf -d "$filename" 2>/dev/null | sed -nr 's/.*Shared library: \[(.*)\].*/\1/p')
 		do
 			# extract the library name: libfoo.so
-			soname="${sofile%%\.so\.*}.so"
+			soname="${sofile%.so?(+(.+([0-9])))}".so
 			# extract the major version: 1
 			soversion="${sofile##*\.so\.}"
 			if in_array "${soname}" ${depends[@]}; then
