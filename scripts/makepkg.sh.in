@@ -1152,7 +1152,8 @@ write_pkginfo() {
 		if [[ $it = *.so ]]; then
 			# check if the entry has been found by find_libdepends
 			# if not, it's unneeded; tell the user so he can remove it
-			if [[ ! $libdepends =~ (^|\s)${it}=.* ]]; then
+			printf -v re '(^|\s)%s=.*' "$it"
+			if [[ ! $libdepends =~ $re ]]; then
 				error "$(gettext "Cannot find library listed in %s: %s")" "'depends'" "$it"
 				return 1
 			fi
