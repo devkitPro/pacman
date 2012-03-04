@@ -214,43 +214,6 @@ check_keyring() {
 	fi
 }
 
-validate_with_gpg() {
-	msg2 "$(gettext "Verifying %s...")" "$1"
-	if [[ ! -f "$1.sig" ]]; then
-		error "$(gettext "File %s is unsigned, cannot continue.")" "$1"
-		return 1
-	elif ! "${GPG_PACMAN[@]}" --verify "$1.sig"; then
-		error "$(gettext "The signature of file %s is not valid.")" "$1"
-		return 1
-	fi
-	return 0
-}
-
-verify_keyring_input() {
-	local ret=0;
-	local KEYRING_IMPORT_DIR='@pkgdatadir@/keyrings'
-
-	# Verify signatures of keyring files and trusted/revoked files if they exist
-	msg "$(gettext "Verifying keyring file signatures...")"
-	local keyring keyfile
-	for keyring in "${KEYRINGIDS[@]}"; do
-		keyfile="${KEYRING_IMPORT_DIR}/${keyring}.gpg"
-		validate_with_gpg "${keyfile}" || ret=1
-
-		keyfile="${KEYRING_IMPORT_DIR}/${keyring}-trusted"
-		if [[ -f "${keyfile}" ]]; then
-			validate_with_gpg "${keyfile}" || ret=1
-		fi
-
-		keyfile="${KEYRING_IMPORT_DIR}/${keyring}-revoked"
-		if [[ -f "${keyfile}" ]]; then
-			validate_with_gpg "${keyfile}" || ret=1
-		fi
-	done
-
-	return $ret
-}
-
 populate_keyring() {
 	local KEYRING_IMPORT_DIR='@pkgdatadir@/keyrings'
 
@@ -280,8 +243,6 @@ populate_keyring() {
 	if (( ret )); then
 		exit 1
 	fi
-
-	verify_keyring_input || exit 1
 
 	# Variable used for iterating on keyrings
 	local key
