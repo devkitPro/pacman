@@ -311,7 +311,7 @@ in_opt_array() {
 
 	local opt
 	for opt in "$@"; do
-		if [[ $opt = $needle ]]; then
+		if [[ $opt = "$needle" ]]; then
 			echo 'y' # Enabled
 			return
 		elif [[ $opt = "!$needle" ]]; then
@@ -333,7 +333,7 @@ in_array() {
 	local needle=$1; shift
 	local item
 	for item in "$@"; do
-		[[ $item = $needle ]] && return 0 # Found
+		[[ $item = "$needle" ]] && return 0 # Found
 	done
 	return 1 # Not Found
 }
@@ -357,7 +357,7 @@ get_downloadclient() {
 	local i
 	for i in "${DLAGENTS[@]}"; do
 		local handler="${i%%::*}"
-		if [[ $proto = $handler ]]; then
+		if [[ $proto = "$handler" ]]; then
 			local agent="${i##*::}"
 			break
 		fi
@@ -557,7 +557,7 @@ download_sources() {
 		local url=$(get_url "$netfile")
 
 		# if we get here, check to make sure it was a URL, else fail
-		if [[ $file = $url ]]; then
+		if [[ $file = "$url" ]]; then
 			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$file"
 			exit 1 # $E_MISSING_FILE
 		fi
@@ -683,7 +683,7 @@ check_checksums() {
 						local expectedsum=$(tr '[:upper:]' '[:lower:]' <<< "${integrity_sums[$idx]}")
 						local realsum="$(openssl dgst -${integ} "$file")"
 						realsum="${realsum##* }"
-						if [[ $expectedsum = $realsum ]]; then
+						if [[ $expectedsum = "$realsum" ]]; then
 							printf -- "$(gettext "Passed")\n" >&2
 						else
 							printf -- "$(gettext "FAILED")\n" >&2
@@ -842,7 +842,7 @@ extract_sources() {
 
 		local ret=0
 		msg2 "$(gettext "Extracting %s with %s")" "$file" "$cmd"
-		if [[ $cmd = bsdtar ]]; then
+		if [[ $cmd = "bsdtar" ]]; then
 			$cmd -xf "$file" || ret=$?
 		else
 			rm -f -- "${file%.*}"
@@ -981,7 +981,7 @@ tidy_install() {
 		msg2 "$(gettext "Purging unwanted files...")"
 		local pt
 		for pt in "${PURGE_TARGETS[@]}"; do
-			if [[ ${pt} = ${pt//\/} ]]; then
+			if [[ ${pt} = "${pt//\/}" ]]; then
 				find . -type f -name "${pt}" -exec rm -f -- '{}' \;
 			else
 				rm -f ${pt}
@@ -1025,7 +1025,7 @@ tidy_install() {
 		done
 	fi
 
-	if [[ $(check_option strip) = y ]]; then
+	if [[ $(check_option strip) = "y" ]]; then
 		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
 		# make sure library stripping variables are defined to prevent excess stripping
 		[[ -z ${STRIP_SHARED+x} ]] && STRIP_SHARED="-S"
@@ -1214,7 +1214,7 @@ write_pkginfo() {
 	for it in "${packaging_options[@]}"; do
 		local ret="$(check_option $it)"
 		if [[ $ret != "?" ]]; then
-			if [[ $ret = y ]]; then
+			if [[ $ret = "y" ]]; then
 				echo "makepkgopt = $it"
 			else
 				echo "makepkgopt = !$it"
@@ -1377,7 +1377,7 @@ create_srcpackage() {
 
 	local file
 	for file in "${source[@]}"; do
-		if [[ "$file" == $(get_filename "$file") ]] || (( SOURCEONLY == 2 )); then
+		if [[ "$file" = "$(get_filename "$file")" ]] || (( SOURCEONLY == 2 )); then
 			local absfile
 			absfile=$(get_filepath "$file") || missing_source_file "$file"
 			msg2 "$(gettext "Adding %s...")" "${absfile##*/}"
@@ -1587,7 +1587,7 @@ check_sanity() {
 		known=0
 		# check if option matches a known option or its inverse
 		for kopt in ${packaging_options[@]} ${other_options[@]}; do
-			if [[ ${i} = ${kopt} || ${i} = "!${kopt}" ]]; then
+			if [[ ${i} = "${kopt}" || ${i} = "!${kopt}" ]]; then
 				known=1
 			fi
 		done
@@ -1711,7 +1711,7 @@ devel_check() {
 	# Do not update pkgver if --holdver is set, when building a source package, repackaging,
 	# reading PKGBUILD from pipe (-f), or if we cannot write to the file (-w)
 	if (( HOLDVER || SOURCEONLY || REPKG )) ||
-		[[ ! -f $BUILDFILE || ! -w $BUILDFILE || $BUILDFILE = /dev/stdin ]]; then
+		[[ ! -f $BUILDFILE || ! -w $BUILDFILE || $BUILDFILE = "/dev/stdin" ]]; then
 		return
 	fi
 
