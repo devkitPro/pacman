@@ -759,7 +759,8 @@ static void write_deps(FILE *fp, const char *header, alpm_list_t *deplist)
 	fputc('\n', fp);
 	for(lp = deplist; lp; lp = lp->next) {
 		char *depstring = alpm_dep_compute_string(lp->data);
-		fprintf(fp, "%s\n", depstring);
+		fputs(depstring, fp);
+		fputc('\n', fp);
 		free(depstring);
 	}
 	fputc('\n', fp);
@@ -802,9 +803,10 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->groups) {
 			fputs("%GROUPS%\n", fp);
 			for(lp = info->groups; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				fputs(lp->data, fp);
+				fputc('\n', fp);
 			}
-			fprintf(fp, "\n");
+			fputc('\n', fp);
 		}
 		if(info->url) {
 			fprintf(fp, "%%URL%%\n"
@@ -813,9 +815,10 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->licenses) {
 			fputs("%LICENSE%\n", fp);
 			for(lp = info->licenses; lp; lp = lp->next) {
-				fprintf(fp, "%s\n", (char *)lp->data);
+				fputs(lp->data, fp);
+				fputc('\n', fp);
 			}
-			fprintf(fp, "\n");
+			fputc('\n', fp);
 		}
 		if(info->arch) {
 			fprintf(fp, "%%ARCH%%\n"
@@ -856,7 +859,7 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 			if(info->validation & ALPM_PKG_VALIDATION_SIGNATURE) {
 				fputs("pgp\n", fp);
 			}
-			fprintf(fp, "\n");
+			fputc('\n', fp);
 		}
 
 		write_deps(fp, "%REPLACES%", info->replaces);
@@ -885,20 +888,21 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		free(path);
 		if(info->files.count) {
 			size_t i;
-			fprintf(fp, "%%FILES%%\n");
+			fputs("%FILES%\n", fp);
 			for(i = 0; i < info->files.count; i++) {
 				const alpm_file_t *file = info->files.files + i;
-				fprintf(fp, "%s\n", file->name);
+				fputs(file->name, fp);
+				fputc('\n', fp);
 			}
-			fprintf(fp, "\n");
+			fputc('\n', fp);
 		}
 		if(info->backup) {
-			fprintf(fp, "%%BACKUP%%\n");
+			fputs("%BACKUP%\n", fp);
 			for(lp = info->backup; lp; lp = lp->next) {
 				const alpm_backup_t *backup = lp->data;
 				fprintf(fp, "%s\t%s\n", backup->name, backup->hash);
 			}
-			fprintf(fp, "\n");
+			fputc('\n', fp);
 		}
 		fclose(fp);
 		fp = NULL;
