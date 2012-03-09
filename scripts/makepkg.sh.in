@@ -874,6 +874,14 @@ error_function() {
 	exit 2 # $E_BUILD_FAILED
 }
 
+cd_safe() {
+	if ! cd "$1"; then
+		error "$(gettext "Failed to change to directory %s")" "$1"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+}
+
 run_function() {
 	if [[ -z $1 ]]; then
 		return 1
@@ -891,7 +899,7 @@ run_function() {
 	fi
 
 	msg "$(gettext "Starting %s()...")" "$pkgfunc"
-	cd "$srcdir"
+	cd_safe "$srcdir"
 
 	# ensure all necessary build variables are exported
 	export CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
@@ -969,7 +977,7 @@ run_package() {
 }
 
 tidy_install() {
-	cd "$pkgdir"
+	cd_safe "$pkgdir"
 	msg "$(gettext "Tidying install...")"
 
 	if [[ $(check_option docs) = "n" && -n ${DOC_DIRS[*]} ]]; then
@@ -1226,7 +1234,7 @@ write_pkginfo() {
 }
 
 check_package() {
-	cd "$pkgdir"
+	cd_safe "$pkgdir"
 
 	# check existence of backup files
 	local file
@@ -1255,7 +1263,7 @@ create_package() {
 
 	check_package
 
-	cd "$pkgdir"
+	cd_safe "$pkgdir"
 	msg "$(gettext "Creating package...")"
 
 	local nameofpkg
@@ -1414,7 +1422,7 @@ create_srcpackage() {
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
-	cd "${srclinks}"
+	cd_safe "${srclinks}"
 	if ! bsdtar -c${TAR_OPT}Lf "$pkg_file" ${pkgbase}; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
@@ -1430,7 +1438,7 @@ create_srcpackage() {
 		warning "$(gettext "Failed to create symlink to source package file.")"
 	fi
 
-	cd "${startdir}"
+	cd_safe "${startdir}"
 	rm -rf "${srclinks}"
 }
 
@@ -1855,7 +1863,7 @@ canonicalize_path() {
 
 	if [[ -d $path ]]; then
 		(
-			cd "$path"
+			cd_safe "$path"
 			pwd -P
 		)
 	else
@@ -2179,7 +2187,7 @@ fi
 if (( GENINTEG )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
-	cd "$srcdir"
+	cd_safe "$srcdir"
 	download_sources
 	generate_checksums
 	exit 0 # $E_OK
@@ -2329,14 +2337,14 @@ if (( SOURCEONLY )); then
 	# Get back to our src directory so we can begin with sources.
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
-	cd "$srcdir"
+	cd_safe "$srcdir"
 	if ( (( ! SKIPCHECKSUMS )) || \
 			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ) || \
 			(( SOURCEONLY == 2 )); then
 		download_sources
 	fi
 	check_source_integrity
-	cd "$startdir"
+	cd_safe "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if [[ $(check_buildenv fakeroot) != "y" ]] || (( EUID == 0 )); then
@@ -2392,7 +2400,7 @@ umask 0022
 # get back to our src directory so we can begin with sources
 mkdir -p "$srcdir"
 chmod a-s "$srcdir"
-cd "$srcdir"
+cd_safe "$srcdir"
 
 if (( NOEXTRACT )); then
 	warning "$(gettext "Skipping source retrieval        -- using existing %s tree")" "src/"
@@ -2428,7 +2436,7 @@ else
 	fi
 	mkdir -p "$pkgdir"
 	chmod a-s "$pkgdir"
-	cd "$startdir"
+	cd_safe "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if [[ $(check_buildenv fakeroot) != "y" ]] || (( EUID == 0 )); then
@@ -2458,7 +2466,7 @@ else
 			devel_update
 			(( BUILDFUNC )) && run_build
 			(( CHECKFUNC )) && run_check
-			cd "$startdir"
+			cd_safe "$startdir"
 		fi
 
 		enter_fakeroot
