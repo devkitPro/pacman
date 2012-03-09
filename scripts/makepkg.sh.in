@@ -168,7 +168,7 @@ clean_up() {
 
 			# clean up dangling symlinks to packages
 			for pkg in ${pkgname[@]}; do
-				for file in ${pkg}-*-*-${CARCH}{${PKGEXT},${SRCEXT}}; do
+				for file in ${pkg}-*-*-*{${PKGEXT},${SRCEXT}}; do
 					if [[ -h $file && ! -e $file ]]; then
 						rm -f "$file"
 					fi
@@ -256,6 +256,28 @@ get_full_version() {
 			printf "%s\n" "$pkgver_override-$pkgrel_override"
 		else
 			printf "%s\n" "$epoch_override:$pkgver_override-$pkgrel_override"
+		fi
+	fi
+}
+
+##
+#  usage : get_pkg_arch( [$pkgname] )
+# return : architecture of the package
+##
+get_pkg_arch() {
+	if [[ -z $1 ]]; then
+		if [[ $arch = "any" ]]; then
+			printf "%s\n" "any"
+		else
+			printf "%s\n" "$CARCH"
+		fi
+	else
+		local arch_override
+		eval $(declare -f package_$1 | sed -n 's/\(^[[:space:]]*arch=\)/arch_override=/p')
+		if [[ $arch_override = "any" ]]; then
+			printf "%s\n" "any"
+		else
+			printf "%s\n" "$CARCH"
 		fi
 	fi
 }
@@ -1201,7 +1223,7 @@ write_pkginfo() {
 	printf "builddate = %s\n" "$builddate"
 	printf "packager = %s\n" "$packager"
 	printf "size = %s\n" "$size"
-	printf "arch = %s\n" "$PKGARCH"
+	printf "arch = %s\n" "$pkgarch"
 
 	[[ $license ]]    && printf "license = %s\n"   "${license[@]}"
 	[[ $replaces ]]   && printf "replaces = %s\n"  "${replaces[@]}"
@@ -1287,11 +1309,7 @@ create_package() {
 		nameofpkg="$1"
 	fi
 
-	if [[ $arch = "any" ]]; then
-		PKGARCH="any"
-	else
-		PKGARCH=$CARCH
-	fi
+	pkgarch=$(get_pkg_arch)
 
 	write_pkginfo $nameofpkg > .PKGINFO
 
@@ -1313,7 +1331,7 @@ create_package() {
 	msg2 "$(gettext "Compressing package...")"
 
 	local fullver=$(get_full_version)
-	local pkg_file="$PKGDEST/${nameofpkg}-${fullver}-${PKGARCH}${PKGEXT}"
+	local pkg_file="$PKGDEST/${nameofpkg}-${fullver}-${pkgarch}${PKGEXT}"
 	local ret=0
 
 	[[ -f $pkg_file ]] && rm -f "$pkg_file"
@@ -1465,14 +1483,11 @@ install_package() {
 		msg "$(gettext "Installing %s package group with %s...")" "$pkgbase" "$PACMAN -U"
 	fi
 
-	local fullver pkg pkglist
+	local fullver pkgarch pkg pkglist
 	for pkg in ${pkgname[@]}; do
 		fullver=$(get_full_version $pkg)
-		if [[ -f $PKGDEST/${pkg}-${fullver}-${CARCH}${PKGEXT} ]]; then
-			pkglist+=" $PKGDEST/${pkg}-${fullver}-${CARCH}${PKGEXT}"
-		else
-			pkglist+=" $PKGDEST/${pkg}-${fullver}-any${PKGEXT}"
-		fi
+		pkgarch=$(get_pkg_arch $pkg)
+		pkglist+=" $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}"
 	done
 
 	if ! run_pacman -U $pkglist; then
@@ -2261,8 +2276,8 @@ fi
 
 if (( ! SPLITPKG )); then
 	fullver=$(get_full_version)
-	if [[ -f $PKGDEST/${pkgname}-${fullver}-${CARCH}${PKGEXT} \
-	     || -f $PKGDEST/${pkgname}-${fullver}-any${PKGEXT} ]] \
+	pkgarch=$(get_pkg_arch)
+	if [[ -f $PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT} ]] \
 			 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
 		if (( INSTALL )); then
 			warning "$(gettext "A package has already been built, installing existing package...")"
@@ -2278,8 +2293,8 @@ else
 	somepkgbuilt=0
 	for pkg in ${pkgname[@]}; do
 		fullver=$(get_full_version $pkg)
-		if [[ -f $PKGDEST/${pkg}-${fullver}-${CARCH}${PKGEXT} \
-		     || -f $PKGDEST/${pkg}-${fullver}-any${PKGEXT} ]]; then
+		pkgarch=$(get_pkg_arch $pkg)
+		if [[ -f $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT} ]]; then
 			somepkgbuilt=1
 		else
 			allpkgbuilt=0
