@@ -405,7 +405,7 @@ static int local_db_populate(alpm_db_t *db)
 		rewinddir(dbdir);
 	}
 	if(est_count >= 2) {
-		/* subtract the two extra pointers to get # of children */
+		/* subtract the '.' and '..' pointers to get # of children */
 		est_count -= 2;
 	}
 
@@ -526,7 +526,6 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
 	char line[1024];
-	char *pkgpath;
 	alpm_db_t *db = info->origin_data.db;
 
 	/* bitmask logic here:
@@ -545,17 +544,9 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		return -1;
 	}
 
-	_alpm_log(db->handle, ALPM_LOG_FUNCTION, "loading package data for %s : level=0x%x\n",
+	_alpm_log(db->handle, ALPM_LOG_FUNCTION,
+			"loading package data for %s : level=0x%x\n",
 			info->name, inforeq);
-
-	pkgpath = _alpm_local_db_pkgpath(db, info, NULL);
-	if(!pkgpath || access(pkgpath, F_OK)) {
-		/* directory doesn't exist or can't be opened */
-		_alpm_log(db->handle, ALPM_LOG_DEBUG, "cannot find '%s-%s' in db '%s'\n",
-				info->name, info->version, db->treename);
-		goto error;
-	}
-	free(pkgpath);
 
 	/* clear out 'line', to be certain - and to make valgrind happy */
 	memset(line, 0, sizeof(line));
