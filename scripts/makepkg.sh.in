@@ -2061,8 +2061,6 @@ if [[ ! -w $BUILDDIR ]]; then
 	plain "$(gettext "Aborting...")"
 	exit 1
 fi
-srcdir="$BUILDDIR/src"
-pkgdir="$BUILDDIR/pkg"
 
 PKGDEST=${_PKGDEST:-$PKGDEST}
 PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
@@ -2158,6 +2156,14 @@ fi
 # set defaults if they weren't specified in buildfile
 pkgbase=${pkgbase:-${pkgname[0]}}
 epoch=${epoch:-0}
+
+if [[ $BUILDDIR = "$startdir" ]]; then
+	srcdir="$BUILDDIR/src"
+	pkgdir="$BUILDDIR/pkg"
+else
+	srcdir="$BUILDDIR/$pkgbase/src"
+	pkgdir="$BUILDDIR/$pkgbase/pkg"
+fi
 
 if (( GENINTEG )); then
 	mkdir -p "$srcdir"
