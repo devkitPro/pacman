@@ -397,8 +397,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	struct archive_entry *entry;
 	alpm_pkg_t *newpkg;
 	struct stat st;
-	size_t files_count = 0, files_size = 0;
-	alpm_file_t *files = NULL;
+	size_t files_size = 0;
 
 	if(pkgfile == NULL || strlen(pkgfile) == 0) {
 		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL);
@@ -452,28 +451,34 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 			/* for now, ignore all files starting with '.' that haven't
 			 * already been handled (for future possibilities) */
 		} else if(full) {
+			const size_t files_count = newpkg->files.count;
+			alpm_file_t *current_file;
 			/* Keep track of all files for filelist generation */
 			if(files_count >= files_size) {
 				size_t old_size = files_size;
+				alpm_file_t *newfiles;
 				if(files_size == 0) {
 					files_size = 4;
 				} else {
 					files_size *= 2;
 				}
-				files = realloc(files, sizeof(alpm_file_t) * files_size);
-				if(!files) {
+				newfiles = realloc(newpkg->files.files,
+						sizeof(alpm_file_t) * files_size);
+				if(!newfiles) {
 					ALLOC_FAIL(sizeof(alpm_file_t) * files_size);
 					goto error;
 				}
 				/* ensure all new memory is zeroed out, in both the initial
 				 * allocation and later reallocs */
-				memset(files + old_size, 0,
+				memset(newfiles + old_size, 0,
 						sizeof(alpm_file_t) * (files_size - old_size));
+				newpkg->files.files = newfiles;
 			}
-			STRDUP(files[files_count].name, entry_name, goto error);
-			files[files_count].size = archive_entry_size(entry);
-			files[files_count].mode = archive_entry_mode(entry);
-			files_count++;
+			current_file = newpkg->files.files + files_count;
+			STRDUP(current_file->name, entry_name, goto error);
+			current_file->size = archive_entry_size(entry);
+			current_file->mode = archive_entry_mode(entry);
+			newpkg->files.count++;
 		}
 
 		if(archive_read_data_skip(archive)) {
@@ -513,15 +518,16 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	newpkg->validation = ALPM_PKG_VALIDATION_NONE;
 
 	if(full) {
-		if(files) {
+		if(newpkg->files.files) {
 			/* attempt to hand back any memory we don't need */
-			files = realloc(files, sizeof(alpm_file_t) * files_count);
+			newpkg->files.files = realloc(newpkg->files.files,
+					sizeof(alpm_file_t) * newpkg->files.count);
 			/* "checking for conflicts" requires a sorted list, ensure that here */
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"sorting package filelist for %s\n", pkgfile);
-			newpkg->files.files = files_msort(files, files_count);
+			newpkg->files.files = files_msort(newpkg->files.files,
+					newpkg->files.count);
 		}
-		newpkg->files.count = files_count;
 		newpkg->infolevel |= INFRQ_FILES;
 	}
 

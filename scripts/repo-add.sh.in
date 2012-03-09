@@ -144,7 +144,7 @@ db_write_delta() {
 	# get md5sum and compressed size of package
 	md5sum="$(openssl dgst -md5 "$deltafile")"
 	md5sum="${md5sum##* }"
-	csize=$(@SIZECMD@ "$deltafile")
+	csize=$(@SIZECMD@ -L "$deltafile")
 
 	oldfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (source)" | sed 's/.*: *//')
 	newfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (output)" | sed 's/.*: *//')
@@ -294,7 +294,7 @@ db_write_entry() {
 
 	# compute base64'd PGP signature
 	if [[ -f "$pkgfile.sig" ]]; then
-		pgpsigsize=$(@SIZECMD@ "$pkgfile.sig")
+		pgpsigsize=$(@SIZECMD@ -L "$pkgfile.sig")
 		if (( pgpsigsize > 16384 )); then
 			error "$(gettext "Invalid package signature file '%s'.")" "$pkgfile.sig"
 			return 1
@@ -303,7 +303,7 @@ db_write_entry() {
 		pgpsig=$(openssl base64 -in "$pkgfile.sig" | tr -d '\n')
 	fi
 
-	csize=$(@SIZECMD@ "$pkgfile")
+	csize=$(@SIZECMD@ -L "$pkgfile")
 
 	# compute checksums
 	msg2 "$(gettext "Computing checksums...")"

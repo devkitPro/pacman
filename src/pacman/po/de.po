@@ -4,6 +4,7 @@
 #
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
+#   <martin.kalcher@googlemail.com>, 2012.
 # Matthias Gorissen <matthias@archlinux.de>, 2011.
 # Mineo <themineo+transifex@googlemail.com>, 2011.
 #   <pierre@archlinux.de>, 2011.
@@ -12,11 +13,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2011-11-15 23:28+0000\n"
-"Last-Translator: pierres <pierre@archlinux.de>\n"
+"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"PO-Revision-Date: 2012-02-27 18:53+0000\n"
+"Last-Translator: martinkalcher <martin.kalcher@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/archlinux-pacman/"
-"team/de/)\n"
+"language/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -510,11 +511,6 @@ msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         installiere aktuelle Pakete nicht erneut\n"
 
 #, c-format
-msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr ""
-"      --recursive      installiere alle Abhängigkeiten der Pakete erneut\n"
-
-#, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      Das Änderungsprotokoll des Paketes anzeigen\n"
 
@@ -901,17 +897,13 @@ msgstr "Möchten Sie diese Pakete entfernen?"
 msgid "failed to commit transaction (%s)\n"
 msgstr "Konnte den Vorgang nicht durchführen (%s)\n"
 
-#, c-format
-msgid "could not access database directory\n"
-msgstr "Konnte nicht auf Datenbank-Verzeichnis zugreifen\n"
-
-#, c-format
-msgid "could not remove %s\n"
+#, fuzzy, c-format
+msgid "could not remove %s: %s\n"
 msgstr "Konnte %s nicht entfernen\n"
 
 #, c-format
-msgid "Do you want to remove %s?"
-msgstr "Möchten Sie %s entfernen?"
+msgid "could not access database directory\n"
+msgstr "Konnte nicht auf Datenbank-Verzeichnis zugreifen\n"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -921,9 +913,9 @@ msgstr "Datenbank-Verzeichnis: %s\n"
 msgid "Do you want to remove unused repositories?"
 msgstr "Möchten Sie ungenutzte Repositorien entfernen? "
 
-#, c-format
-msgid "Database directory cleaned up\n"
-msgstr "Datenbank-Verzeichnis wurde aufgeräumt\n"
+#, fuzzy, c-format
+msgid "removing unused sync repositories...\n"
+msgstr "Möchten Sie ungenutzte Repositorien entfernen? "
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1060,6 +1052,10 @@ msgstr "Lade Pakete ...\n"
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "Konnte den Vorgang nicht starten (%s)\n"
+
+#, c-format
+msgid "could not lock database: %s\n"
+msgstr "Konnte Datenbank nicht sperren: %s\n"
 
 #, c-format
 msgid ""
@@ -1244,3 +1240,9 @@ msgstr "Fehler: "
 #, c-format
 msgid "warning: "
 msgstr "Warnung: "
+
+#~ msgid "Do you want to remove %s?"
+#~ msgstr "Möchten Sie %s entfernen?"
+
+#~ msgid "Database directory cleaned up\n"
+#~ msgstr "Datenbank-Verzeichnis wurde aufgeräumt\n"

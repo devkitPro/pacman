@@ -9,11 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2012-02-11 18:11+0000\n"
+"POT-Creation-Date: 2012-02-23 10:28-0600\n"
+"PO-Revision-Date: 2012-02-16 17:05+0000\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/archlinux-pacman/"
-"team/it/)\n"
+"language/it/)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +50,7 @@ msgstr "aggiornamento di %s in corso...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
-msgstr "controllo dell'integrità dei pacchetti in corso...\n"
+msgstr "verifica dell'integrità dei pacchetti in corso...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -58,7 +58,7 @@ msgstr "caricamento dei file dei pacchetti in corso...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "controllo dell'integrità del delta in corso...\n"
+msgstr "verifica dell'integrità del delta in corso...\n"
 
 #, c-format
 msgid "applying deltas...\n"
@@ -74,7 +74,7 @@ msgstr "operazione riuscita con successo!\n"
 
 #, c-format
 msgid "failed.\n"
-msgstr "non riuscito.\n"
+msgstr "l'operazione non è riuscita.\n"
 
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
@@ -86,7 +86,7 @@ msgstr "controllo dello spazio disponibile sul disco...\n"
 
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ":: %s è in IgnorePkg/IgnoreGroup. Vuoi installarlo?"
+msgstr ":: %s è in IgnorePkg/IgnoreGroup. Vuoi installarlo comunque?"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
@@ -126,7 +126,8 @@ msgstr ":: Ci sono %zd provider disponibili per %s:\n"
 
 #, c-format
 msgid ":: %s-%s: local version is newer. Upgrade anyway?"
-msgstr ":: %s-%s: la versione installata è più recente. Vuoi aggiornarlo?"
+msgstr ""
+":: %s-%s: la versione installata è più recente. Vuoi aggiornare comunque?"
 
 #, c-format
 msgid ""
@@ -162,11 +163,11 @@ msgstr "controllo dello spazio disponibile sul disco"
 
 #, c-format
 msgid "checking package integrity"
-msgstr "controllo dell'integrità del pacchetto"
+msgstr "verifica dell'integrità dei pacchetti"
 
 #, c-format
 msgid "loading package files"
-msgstr "caricamento dei file del pacchetto"
+msgstr "caricamento dei file dei pacchetti"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -174,7 +175,7 @@ msgstr "download di %s in corso...\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "malloc fallita: impossibile allocare %zd byte\n"
+msgstr "malloc non riuscita: impossibile allocare %zd byte\n"
 
 #, c-format
 msgid "could not get current working directory\n"
@@ -239,7 +240,7 @@ msgstr ""
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr ""
-"si è verificato un errore durante l'impostazione della cartella gpg "
+"si è verificato un errore durante l'impostazione della directory gpg "
 "'%s' (%s)\n"
 
 #, c-format
@@ -256,11 +257,12 @@ msgstr "impossibile aggiungere il mirror '%s' al database '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "l'analisi della configurazione eccede di %d.\n"
+msgstr ""
+"l'analisi della configurazione ha superato la profondità massima di %d.\n"
 
 #, c-format
 msgid "config file %s could not be read.\n"
-msgstr "il file di configurazione %s potrebbe non essere leggibile.\n"
+msgstr "il file di configurazione %s non può essere letto.\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -269,7 +271,8 @@ msgstr "file di configurazione %s, linea %d: il nome della sezione è errato.\n"
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
 msgstr ""
-"file di configurazione %s, linea %d: errore di sintassi, manca una chiave.\n"
+"file di configurazione %s, linea %d: errore di sintassi nel file di "
+"configurazione, manca la chiave.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
@@ -436,7 +439,7 @@ msgstr "Descrizione    :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
-msgstr "impossibile calcolare il controllo d'integrità di %s\n"
+msgstr "impossibile calcolare il controllo dell'integrità di %s\n"
 
 #, c-format
 msgid "Backup Files:\n"
@@ -448,7 +451,7 @@ msgstr "(nessuno)\n"
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
-msgstr "nessun changelog disponibile per '%s'.\n"
+msgstr "nessun changelog è disponibile per '%s'.\n"
 
 #, c-format
 msgid "options"
@@ -499,7 +502,8 @@ msgid ""
 "                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
 "  -s, --recursive      rimuove le dipendenze non necessarie\n"
-"                       (-ss include quelle installate esplicitamente)\n"
+"                       (-ss include le dipendenze installate "
+"esplicitamente)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -508,10 +512,6 @@ msgstr "  -u, --unneeded       rimuove i pacchetti non necessari\n"
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         non reinstalla i pacchetti aggiornati\n"
-
-#, c-format
-msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr "      --recursive      reinstalla tutte le dipendenze dei pacchetti\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -538,8 +538,8 @@ msgstr "  -g, --groups         mostra tutti i pacchetti di un gruppo\n"
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
 msgstr ""
-"  -i, --info           mostra le informazioni del pacchetto (-ii per il "
-"backup)\n"
+"  -i, --info           mostra le informazioni del pacchetto (-ii per i file "
+"di backup)\n"
 
 #, c-format
 msgid ""
@@ -573,7 +573,9 @@ msgstr ""
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          mostra meno informazioni per query e ricerca\n"
+msgstr ""
+"  -q, --quiet          mostra meno informazioni per la query e per la "
+"ricerca\n"
 
 #, c-format
 msgid ""
@@ -621,7 +623,7 @@ msgstr ""
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     aggiorna tutti i pacchetti (-uu permette il "
+"  -u, --sysupgrade     aggiorna tutti i pacchetti (-uu consente il "
 "downgrade)\n"
 
 #, c-format
@@ -651,7 +653,7 @@ msgstr ""
 #, c-format
 msgid "  -f, --force          force install, overwrite conflicting files\n"
 msgstr ""
-"  -f, --force          forza l'installazione e sovrascrive i file in "
+"  -f, --force          forza l'installazione, sovrascrive i file in "
 "conflitto\n"
 
 #, c-format
@@ -669,7 +671,9 @@ msgstr ""
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pkg>   ignora l'aggiornamento di un pacchetto\n"
+msgstr ""
+"      --ignore <pkg>   ignora l'aggiornamento di un pacchetto (può essere "
+"usato più volte)\n"
 
 #, c-format
 msgid ""
@@ -677,14 +681,15 @@ msgid ""
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
 "      --ignoregroup <grp>\n"
-"                       ignora l'aggiornamento di un gruppo\n"
+"                       ignora l'aggiornamento di un gruppo (può essere usato "
+"più volte)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr ""
-"  -d, --nodeps         salta il controllo sulle versioni delle dipendenze (-"
+"  -d, --nodeps         salta il controllo delle versioni delle dipendenze (-"
 "dd salta tutti i controlli)\n"
 
 #, c-format
@@ -697,7 +702,9 @@ msgstr ""
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  non mostra la barra di avanzamento\n"
+msgstr ""
+"      --noprogressbar  non mostra la barra di avanzamento durante il "
+"download dei file\n"
 
 #, c-format
 msgid ""
@@ -709,7 +716,8 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"  -p, --print          stampa i pacchetti invece di effettuare l'operazione\n"
+"  -p, --print          visualizza i pacchetti invece di effettuare "
+"l'operazione\n"
 
 #, c-format
 msgid ""
@@ -789,7 +797,7 @@ msgstr "la memoria è stata esaurita durante l'analisi degli argomenti\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
-msgstr "impossibile riaprire stdin in lettura: (%s)\n"
+msgstr "impossibile riaprire stdin per la lettura: (%s)\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -797,7 +805,7 @@ msgstr "questa operazione è possibile solo da root.\n"
 
 #, c-format
 msgid "no operation specified (use -h for help)\n"
-msgstr "nessuna operazione specificata (usa -h per un aiuto)\n"
+msgstr "non è stata specificata nessuna operazione (usa -h per un aiuto)\n"
 
 #, c-format
 msgid "%s is owned by %s %s\n"
@@ -844,8 +852,8 @@ msgstr[1] "%s: %jd file totali, "
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] "manca il file %jd\n"
-msgstr[1] "mancano i file %jd\n"
+msgstr[0] "manca %jd file\n"
+msgstr[1] "mancano %jd file\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -917,7 +925,7 @@ msgstr "Vuoi rimuovere i repository inutilizzati?"
 
 #, c-format
 msgid "Database directory cleaned up\n"
-msgstr "Directory del database pulita\n"
+msgstr "La directory del database è stata ripulita\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -929,11 +937,11 @@ msgstr "Pacchetti da mantenere:\n"
 
 #, c-format
 msgid "  All locally installed packages\n"
-msgstr "Tutti i pacchetti installati localmente\n"
+msgstr "  Tutti i pacchetti installati localmente\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr "Tutti i pacchetti dell'attuale database sincronizzato\n"
+msgstr "  Tutti i pacchetti dell'attuale database sincronizzato\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -953,7 +961,7 @@ msgstr "rimozione di tutti i file dalla cache in corso...\n"
 
 #, c-format
 msgid "could not access cache directory %s\n"
-msgstr "impossibile accedere alla directory %s della cache\n"
+msgstr "impossibile accedere alla directory della cache %s\n"
 
 #, c-format
 msgid "failed to update %s (%s)\n"
@@ -1056,13 +1064,17 @@ msgstr "caricamento dei pacchetti in corso...\n"
 msgid "failed to init transaction (%s)\n"
 msgstr "inizializzazione non riuscita (%s)\n"
 
+#, fuzzy, c-format
+msgid "could not lock database: %s\n"
+msgstr "impossibile caricare il pacchetto '%s': %s\n"
+
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
 msgstr ""
 "  se sei sicuro che il gestore dei pacchetti non sia già\n"
-"  in funzione, puoi rimuovere %s\n"
+"  in esecuzione, puoi rimuovere %s\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1106,19 +1118,19 @@ msgstr "La chiave è disabilitata"
 
 #, c-format
 msgid "Signature error"
-msgstr "Errore firma"
+msgstr "Errore della firma"
 
 #, c-format
 msgid "full trust"
-msgstr "attendibile"
+msgstr "piena attendibilità"
 
 #, c-format
 msgid "marginal trust"
-msgstr "poco attendibile"
+msgstr "attendibilità marginale"
 
 #, c-format
 msgid "never trust"
-msgstr "non attendibile"
+msgstr "mai attendibile"
 
 #, c-format
 msgid "unknown trust"
@@ -1138,19 +1150,19 @@ msgstr "Nome"
 
 #, c-format
 msgid "Old Version"
-msgstr "Vecchia Versione"
+msgstr "Vecchia versione"
 
 #, c-format
 msgid "New Version"
-msgstr "Nuova Versione"
+msgstr "Nuova versione"
 
 #, c-format
 msgid "Net Change"
-msgstr "Cambio della rete"
+msgstr "Variazione netta"
 
 #, c-format
 msgid "Download Size"
-msgstr "Dimensioni del download"
+msgstr "Dimensione del download"
 
 #, c-format
 msgid "Targets (%d):"
@@ -1158,23 +1170,19 @@ msgstr "Pacchetti (%d):"
 
 #, c-format
 msgid "Total Download Size:    %.2f %s\n"
-msgstr ""
-"Dimensione totale dei pacchetti da scaricare:    %.2f %s\n"
-"\n"
+msgstr "Dimensione totale dei pacchetti da scaricare:    %.2f %s\n"
 
 #, c-format
 msgid "Total Installed Size:   %.2f %s\n"
-msgstr ""
-"Dimensione totale dei pacchetti da installare:   %.2f %s\n"
-"\n"
+msgstr "Dimensione totale dei pacchetti da installare:   %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:     %.2f %s\n"
-msgstr "Dimensione totale dei pacchetti rimossi: %.2f %s\n"
+msgstr "Dimensione totale dei pacchetti rimossi:         %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr "Dimensione dell'aggiornamento di rete: %.2f %s\n"
+msgstr "Dimensione netta dell'aggiornamento:             %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1243,3 +1251,8 @@ msgstr "errore: "
 #, c-format
 msgid "warning: "
 msgstr "attenzione: "
+
+#~ msgid ""
+#~ "      --recursive      reinstall all dependencies of target packages\n"
+#~ msgstr ""
+#~ "      --recursive      reinstalla tutte le dipendenze dei pacchetti\n"
