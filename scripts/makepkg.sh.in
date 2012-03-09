@@ -211,7 +211,7 @@ get_filepath() {
 		return 1
 	fi
 
-	echo "$file"
+	printf "%s\n" "$file"
 }
 
 # Print 'source not found' error message and exit makepkg
@@ -226,13 +226,13 @@ get_filename() {
 	# if a filename is specified, use it
 	local filename="${1%%::*}"
 	# if it is just an URL, we only keep the last component
-	echo "${filename##*/}"
+	printf "%s\n" "${filename##*/}"
 }
 
 # extract the URL from a source entry
 get_url() {
 	# strip an eventual filename
-	echo "${1#*::}"
+	printf "%s\n" "${1#*::}"
 }
 
 ##
@@ -242,9 +242,9 @@ get_url() {
 get_full_version() {
 	if [[ -z $1 ]]; then
 		if [[ $epoch ]] && (( ! $epoch )); then
-			echo $pkgver-$pkgrel
+			printf "%s\n" "$pkgver-$pkgrel"
 		else
-			echo $epoch:$pkgver-$pkgrel
+			printf "%s\n" "$epoch:$pkgver-$pkgrel"
 		fi
 	else
 		for i in pkgver pkgrel epoch; do
@@ -253,9 +253,9 @@ get_full_version() {
 			[[ -z ${!indirect} ]] && eval ${indirect}=\"${!i}\"
 		done
 		if (( ! $epoch_override )); then
-			echo $pkgver_override-$pkgrel_override
+			printf "%s\n" "$pkgver_override-$pkgrel_override"
 		else
-			echo $epoch_override:$pkgver_override-$pkgrel_override
+			printf "%s\n" "$epoch_override:$pkgver_override-$pkgrel_override"
 		fi
 	fi
 }
@@ -272,14 +272,14 @@ get_full_version() {
 check_option() {
 	local ret=$(in_opt_array "$1" ${options[@]})
 	if [[ $ret != '?' ]]; then
-		echo $ret
+		printf "%s\n" "$ret"
 		return
 	fi
 
 	# fall back to makepkg.conf options
 	ret=$(in_opt_array "$1" ${OPTIONS[@]})
 	if [[ $ret != '?' ]]; then
-		echo $ret
+		printf "%s\n" "$ret"
 		return
 	fi
 
@@ -379,7 +379,7 @@ get_downloadclient() {
 		exit 1 # $E_MISSING_PROGRAM
 	fi
 
-	echo "$agent"
+	printf "%s\n" "$agent"
 }
 
 download_file() {
@@ -446,7 +446,7 @@ check_deps() {
 	set -E
 
 	if (( ret == 127 )); then #unresolved deps
-		echo "$pmout"
+		printf "%s\n" "$pmout"
 	elif (( ret )); then
 		error "$(gettext "'%s' returned a fatal error (%i): %s")" "$PACMAN" "$ret" "$pmout"
 		return "$ret"
@@ -594,9 +594,9 @@ get_integlist() {
 	done
 
 	if (( ${#integlist[@]} > 0 )); then
-		echo ${integlist[@]}
+		printf "%s\n" "${integlist[@]}"
 	else
-		echo ${INTEGRITY_CHECK[@]}
+		printf "%s\n" "${INTEGRITY_CHECK[@]}"
 	fi
 }
 
@@ -627,7 +627,7 @@ generate_checksums() {
 
 		local ct=0
 		local numsrc=${#source[@]}
-		echo -n "${integ}sums=("
+		printf "%s" "${integ}sums=("
 
 		local i
 		local indent=''
@@ -641,8 +641,8 @@ generate_checksums() {
 			file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
 			local sum="$(openssl dgst -${integ} "$file")"
 			sum=${sum##* }
-			(( ct )) && echo -n "$indent"
-			echo -n "'$sum'"
+			(( ct )) && printf "%s" "$indent"
+			printf "%s" "'$sum'"
 			ct=$(($ct+1))
 			(( $ct < $numsrc )) && echo
 		done
@@ -668,7 +668,7 @@ check_checksums() {
 			for file in "${source[@]}"; do
 				local found=1
 				file="$(get_filename "$file")"
-				echo -n "    $file ... " >&2
+				printf "%s" "    $file ... " >&2
 
 				if ! file="$(get_filepath "$file")"; then
 					printf -- "$(gettext "NOT FOUND")\n" >&2
@@ -1082,7 +1082,7 @@ find_libdepends() {
 			if in_array "${soname}" ${depends[@]}; then
 				if ! in_array "${soname}=${soversion}-${soarch}" ${libdepends[@]}; then
 					# libfoo.so=1-64
-					echo "${soname}=${soversion}-${soarch}"
+					printf "%s" "${soname}=${soversion}-${soarch}"
 					libdepends=(${libdepends[@]} "${soname}=${soversion}-${soarch}")
 				fi
 			fi
@@ -1137,7 +1137,7 @@ find_libprovides() {
 		fi
 	done
 
-	echo ${libprovides[@]}
+	printf "%s" "${libprovides[@]}"
 }
 
 check_license() {
@@ -1171,15 +1171,15 @@ write_pkginfo() {
 		echo "# using $(fakeroot -v)"
 	fi
 	echo "# $(LC_ALL=C date -u)"
-	echo "pkgname = $1"
+	printf "pkgname = %s\n" "$1"
 	(( SPLITPKG )) && echo pkgbase = $pkgbase
 	echo "pkgver = $(get_full_version)"
-	echo "pkgdesc = $pkgdesc"
-	echo "url = $url"
-	echo "builddate = $builddate"
-	echo "packager = $packager"
-	echo "size = $size"
-	echo "arch = $PKGARCH"
+	printf "pkgdesc = %s\n" "$pkgdesc"
+	printf "url = %s\n" "$url"
+	printf "builddate = %s\n" "$builddate"
+	printf "packager = %s\n" "$packager"
+	printf "size = %s\n" "$size"
+	printf "arch = %s\n" "$PKGARCH"
 
 	[[ $license ]]    && printf "license = %s\n"   "${license[@]}"
 	[[ $replaces ]]   && printf "replaces = %s\n"  "${replaces[@]}"
@@ -1207,7 +1207,7 @@ write_pkginfo() {
 				return 1
 			fi
 		else
-			echo "depend = $it"
+			printf "depend = %s\n" "$it"
 		fi
 	done
 
@@ -1215,9 +1215,9 @@ write_pkginfo() {
 		local ret="$(check_option $it)"
 		if [[ $ret != "?" ]]; then
 			if [[ $ret = "y" ]]; then
-				echo "makepkgopt = $it"
+				printf "makepkgopt = %s\n" "$it"
 			else
-				echo "makepkgopt = !$it"
+				printf "makepkgopt = %s\n" "!$it"
 			fi
 		fi
 	done
@@ -1859,7 +1859,7 @@ canonicalize_path() {
 			pwd -P
 		)
 	else
-		echo "$path"
+		printf "%s\n" "$path"
 	fi
 }
 
@@ -1924,7 +1924,7 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 # determine whether we have gettext; make it a no-op if we do not
 if ! type -p gettext >/dev/null; then
 	gettext() {
-		echo "$@"
+		printf "%s\n" "$@"
 	}
 fi
 
