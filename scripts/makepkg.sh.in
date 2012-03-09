@@ -845,7 +845,7 @@ extract_sources() {
 		if [[ $cmd = bsdtar ]]; then
 			$cmd -xf "$file" || ret=$?
 		else
-			rm -f "${file%.*}"
+			rm -f -- "${file%.*}"
 			$cmd -dcf "$file" > "${file%.*}" || ret=$?
 		fi
 		if (( ret )); then
@@ -974,7 +974,7 @@ tidy_install() {
 
 	if [[ $(check_option docs) = "n" && -n ${DOC_DIRS[*]} ]]; then
 		msg2 "$(gettext "Removing doc files...")"
-		rm -rf ${DOC_DIRS[@]}
+		rm -rf -- ${DOC_DIRS[@]}
 	fi
 
 	if [[ $(check_option purge) = "y" && -n ${PURGE_TARGETS[*]} ]]; then
@@ -1001,7 +1001,7 @@ tidy_install() {
 				find ${MAN_DIRS[@]} -lname "$file" 2>/dev/null |
 				while read link ; do
 					rm -f "$link" "${link}.gz"
-					ln -s "${file}.gz" "${link}.gz"
+					ln -s -- "${file}.gz" "${link}.gz"
 				done
 
 				# check file still exists (potentially already compressed due to hardlink)
