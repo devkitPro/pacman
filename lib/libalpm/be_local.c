@@ -749,6 +749,22 @@ int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info)
 	return retval;
 }
 
+static void write_deps(FILE *fp, const char *header, alpm_list_t *deplist)
+{
+	alpm_list_t *lp;
+	if(!deplist) {
+		return;
+	}
+	fputs(header, fp);
+	fputc('\n', fp);
+	for(lp = deplist; lp; lp = lp->next) {
+		char *depstring = alpm_dep_compute_string(lp->data);
+		fprintf(fp, "%s\n", depstring);
+		free(depstring);
+	}
+	fputc('\n', fp);
+}
+
 int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 {
 	FILE *fp = NULL;
@@ -787,15 +803,6 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 			fputs("%GROUPS%\n", fp);
 			for(lp = info->groups; lp; lp = lp->next) {
 				fprintf(fp, "%s\n", (char *)lp->data);
-			}
-			fprintf(fp, "\n");
-		}
-		if(info->replaces) {
-			fputs("%REPLACES%\n", fp);
-			for(lp = info->replaces; lp; lp = lp->next) {
-				char *depstring = alpm_dep_compute_string(lp->data);
-				fprintf(fp, "%s\n", depstring);
-				free(depstring);
 			}
 			fprintf(fp, "\n");
 		}
@@ -851,42 +858,12 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 			}
 			fprintf(fp, "\n");
 		}
-		if(info->depends) {
-			fputs("%DEPENDS%\n", fp);
-			for(lp = info->depends; lp; lp = lp->next) {
-				char *depstring = alpm_dep_compute_string(lp->data);
-				fprintf(fp, "%s\n", depstring);
-				free(depstring);
-			}
-			fprintf(fp, "\n");
-		}
-		if(info->optdepends) {
-			fputs("%OPTDEPENDS%\n", fp);
-			for(lp = info->optdepends; lp; lp = lp->next) {
-				char *optstring = alpm_dep_compute_string(lp->data);
-				fprintf(fp, "%s\n", optstring);
-				free(optstring);
-			}
-			fprintf(fp, "\n");
-		}
-		if(info->conflicts) {
-			fputs("%CONFLICTS%\n", fp);
-			for(lp = info->conflicts; lp; lp = lp->next) {
-				char *depstring = alpm_dep_compute_string(lp->data);
-				fprintf(fp, "%s\n", depstring);
-				free(depstring);
-			}
-			fprintf(fp, "\n");
-		}
-		if(info->provides) {
-			fputs("%PROVIDES%\n", fp);
-			for(lp = info->provides; lp; lp = lp->next) {
-				char *depstring = alpm_dep_compute_string(lp->data);
-				fprintf(fp, "%s\n", depstring);
-				free(depstring);
-			}
-			fprintf(fp, "\n");
-		}
+
+		write_deps(fp, "%REPLACES%", info->replaces);
+		write_deps(fp, "%DEPENDS%", info->depends);
+		write_deps(fp, "%OPTDEPENDS%", info->optdepends);
+		write_deps(fp, "%CONFLICTS%", info->conflicts);
+		write_deps(fp, "%PROVIDES%", info->provides);
 
 		fclose(fp);
 		fp = NULL;
