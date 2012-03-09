@@ -2052,8 +2052,11 @@ readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
 BUILDDIR=${_BUILDDIR:-$BUILDDIR}
 BUILDDIR=${BUILDDIR:-$startdir} #default to $startdir if undefined
 if [[ ! -d $BUILDDIR ]]; then
-	mkdir -p "$BUILDDIR" ||
-			error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
+	if ! mkdir -p "$BUILDDIR"; then
+		error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
 	chmod a-s "$BUILDDIR"
 fi
 if [[ ! -w $BUILDDIR ]]; then
