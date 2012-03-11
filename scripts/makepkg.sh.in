@@ -1091,7 +1091,7 @@ find_libdepends() {
 				if ! in_array "${soname}=${soversion}-${soarch}" ${libdepends[@]}; then
 					# libfoo.so=1-64
 					printf "%s" "${soname}=${soversion}-${soarch}"
-					libdepends=(${libdepends[@]} "${soname}=${soversion}-${soarch}")
+					libdepends+=("${soname}=${soversion}-${soarch}")
 				fi
 			fi
 		done
@@ -1114,7 +1114,7 @@ find_libprovides() {
 							local sofile=$(LC_ALL=C readelf -d "$fn" 2>/dev/null | sed -n 's/.*Library soname: \[\(.*\)\].*/\1/p')
 							if [[ -z "$sofile" ]]; then
 								warning "$(gettext "Library listed in %s is not versioned: %s")" "'provides'" "$p"
-								libprovides=(${libprovides[@]} "$p")
+								libprovides+=("$p")
 								continue
 							fi
 
@@ -1124,19 +1124,19 @@ find_libprovides() {
 							# extract the library major version
 							local soversion="${sofile##*\.so\.}"
 
-							libprovides=(${libprovides[@]} "${p}=${soversion}-${soarch}")
+							libprovides+=("${p}=${soversion}-${soarch}")
 						else
 							warning "$(gettext "Library listed in %s is not a shared object: %s")" "'provides'" "$p"
-							libprovides=(${libprovides[@]} "$p")
+							libprovides+=("$p")
 						fi
 					done
 				else
-					libprovides=(${libprovides[@]} "$p")
+					libprovides+=("$p")
 					missing=1
 				fi
 				;;
 			*)
-				libprovides=(${libprovides[@]} "$p")
+				libprovides+=("$p")
 				;;
 		esac
 
@@ -1203,7 +1203,7 @@ write_pkginfo() {
 
 	local it
 	libdepends=$(find_libdepends)
-	depends=("${depends[@]}" ${libdepends})
+	depends+=(${libdepends})
 
 	for it in "${depends[@]}"; do
 		if [[ $it = *.so ]]; then
