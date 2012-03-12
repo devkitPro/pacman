@@ -1721,7 +1721,6 @@ devel_check() {
 		# calls to makepkg via fakeroot will explicitly pass the version
 		# number to avoid having to determine the version number twice.
 		# Also do a check to make sure we have the VCS tool available.
-		oldpkgver=$pkgver
 		if [[ -n ${_darcstrunk} && -n ${_darcsmod} ]] ; then
 			if ! type -p darcs >/dev/null; then
 				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "darcs" "darcs"
