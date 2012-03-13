@@ -1744,34 +1744,41 @@ devel_check() {
 
 		msg "$(gettext "Determining latest %s revision...")" "$vcs"
 
-		if [[ -n ${_darcstrunk} && -n ${_darcsmod} ]] ; then
-			newpkgver=$(date +%Y%m%d)
-		elif [[ -n ${_cvsroot} && -n ${_cvsmod} ]] ; then
-			newpkgver=$(date +%Y%m%d)
-		elif [[ -n ${_gitroot} && -n ${_gitname} ]] ; then
-			newpkgver=$(date +%Y%m%d)
-		elif [[ -n ${_svntrunk} && -n ${_svnmod} ]] ; then
-			newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
-		elif [[ -n ${_bzrtrunk} && -n ${_bzrmod} ]] ; then
-			newpkgver=$(bzr revno ${_bzrtrunk})
-		elif [[ -n ${_hgroot} && -n ${_hgrepo} ]] ; then
-			if [[ -d ./src/$_hgrepo ]] ; then
-				cd ./src/$_hgrepo
-				local ret=0
-				hg pull || ret=$?
-				if (( ! ret )); then
-					hg update
-				elif (( ret != 1 )); then
-					return 1
+		case "$vcs" in
+			darcs)
+				newpkgver=$(date +%Y%m%d)
+				;;
+			cvs)
+				newpkgver=$(date +%Y%m%d)
+				;;
+			git)
+				newpkgver=$(date +%Y%m%d)
+				;;
+			svn)
+				newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
+				;;
+			bzr)
+				newpkgver=$(bzr revno ${_bzrtrunk})
+				;;
+			hg)
+				if [[ -d ./src/$_hgrepo ]] ; then
+					cd ./src/$_hgrepo
+					local ret=0
+					hg pull || ret=$?
+					if (( ! ret )); then
+						hg update
+					elif (( ret != 1 )); then
+						return 1
+					fi
+				else
+					[[ ! -d ./src/ ]] && mkdir ./src/
+					hg clone $_hgroot/$_hgrepo ./src/$_hgrepo
+					cd ./src/$_hgrepo
 				fi
-			else
-				[[ ! -d ./src/ ]] && mkdir ./src/
-				hg clone $_hgroot/$_hgrepo ./src/$_hgrepo
-				cd ./src/$_hgrepo
-			fi
-			newpkgver=$(hg tip --template "{rev}")
-			cd ../../
-		fi
+				newpkgver=$(hg tip --template "{rev}")
+				cd ../../
+				;;
+		esac
 
 		if [[ -n $newpkgver ]]; then
 			msg2 "$(gettext "Version found: %s")" "$newpkgver"
