@@ -1721,6 +1721,22 @@ devel_check() {
 		# calls to makepkg via fakeroot will explicitly pass the version
 		# number to avoid having to determine the version number twice.
 		# Also do a check to make sure we have the VCS tool available.
+		local vcs=()
+
+		[[ -n ${_darcstrunk} && -n ${_darcsmod} ]] && vcs+=("darcs")
+		[[ -n ${_cvsroot}    && -n ${_cvsmod}   ]] && vcs+=("cvs")
+		[[ -n ${_gitroot}    && -n ${_gitname}  ]] && vcs+=("git")
+		[[ -n ${_svntrunk}   && -n ${_svnmod}   ]] && vcs+=("svn")
+		[[ -n ${_bzrtrunk}   && -n ${_bzrmod}   ]] && vcs+=("bzr")
+		[[ -n ${_hgroot}     && -n ${_hgrepo}   ]] && vcs+=("hg")
+
+		if (( ${#vcs[@]} == 0 )); then
+			return
+		elif (( ${#vcs[@]} > 1 )); then
+			warning "$(gettext "Ambiguous VCS package. Cannot pick from: %s.")" "${vcs[*]}"
+			return 0
+		fi
+
 		if [[ -n ${_darcstrunk} && -n ${_darcsmod} ]] ; then
 			if ! type -p darcs >/dev/null; then
 				warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "darcs" "darcs"
