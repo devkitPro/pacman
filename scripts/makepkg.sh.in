@@ -1761,8 +1761,7 @@ devel_check() {
 				newpkgver=$(bzr revno ${_bzrtrunk})
 				;;
 			hg)
-				if [[ -d ./src/$_hgrepo ]] ; then
-					cd ./src/$_hgrepo
+				if pushd "./src/$_hgrepo" > /dev/null; then
 					local ret=0
 					hg pull || ret=$?
 					if (( ! ret )); then
@@ -1772,11 +1771,14 @@ devel_check() {
 					fi
 				else
 					[[ ! -d ./src/ ]] && mkdir ./src/
-					hg clone $_hgroot/$_hgrepo ./src/$_hgrepo
-					cd ./src/$_hgrepo
+					hg clone "$_hgroot/$_hgrepo" "./src/$_hgrepo"
+					if ! pushd "./src/$_hgrepo" > /dev/null; then
+						warning "$(gettext "An error occured while determining the hg version number.")"
+						return 0
+					fi
 				fi
 				newpkgver=$(hg tip --template "{rev}")
-				cd ../../
+				popd > /dev/null
 				;;
 		esac
 
