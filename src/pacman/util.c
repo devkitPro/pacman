@@ -1146,7 +1146,7 @@ void print_packages(const alpm_list_t *packages)
 			free(size);
 			free(temp);
 		}
-		printf("%s\n",string);
+		printf("%s\n", string);
 		free(string);
 	}
 }

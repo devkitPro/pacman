@@ -1187,7 +1187,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking available disk space\n");
 		if(_alpm_check_diskspace(handle) == -1) {
-			_alpm_log(handle, ALPM_LOG_ERROR, "%s\n", _("not enough free disk space"));
+			_alpm_log(handle, ALPM_LOG_ERROR, _("not enough free disk space\n"));
 			return -1;
 		}
 
