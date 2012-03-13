@@ -87,8 +87,11 @@ class pmrule(object):
                     if not value in newpkg.depends:
                         success = 0
                 elif case == "OPTDEPENDS":
-                    if not value in newpkg.optdepends:
-                        success = 0
+                    success = 0
+                    for optdep in newpkg.optdepends:
+                        if value == optdep.split(':', 1)[0]:
+                            success = 1
+                            break
                 elif case == "REASON":
                     if newpkg.reason != int(value):
                         success = 0
