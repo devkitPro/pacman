@@ -896,6 +896,8 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 					if(ret != -1) {
 						break;
 					}
+					free(payload->fileurl);
+					payload->unlink_on_fail = 0;
 				}
 				if(ret == -1) {
 					errors++;
