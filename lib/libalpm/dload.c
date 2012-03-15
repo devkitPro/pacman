@@ -394,6 +394,11 @@ static int curl_download_internal(struct dload_payload *payload,
 	CURL *curl = get_libcurl_handle(handle);
 	handle->pm_errno = 0;
 
+	/* make sure these are NULL */
+	FREE(payload->tempfile_name);
+	FREE(payload->destfile_name);
+	FREE(payload->content_disp_name);
+
 	payload->tempfile_openmode = "wb";
 	if(!payload->remote_name) {
 		STRDUP(payload->remote_name, get_filename(payload->fileurl),
