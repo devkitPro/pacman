@@ -500,6 +500,9 @@ static void table_print_line(const alpm_list_t *line, short col_padding,
 		}
 
 		value = curcell->data;
+		if(!value) {
+			value = "";
+		}
 		/* silly printf requires padding size to be an int */
 		cell_padding = (int)widths[i] - (int)string_length(value);
 		if(cell_padding < 0) {
