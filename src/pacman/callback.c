@@ -308,7 +308,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 							":: The following package cannot be upgraded due to unresolvable dependencies:\n",
 							":: The following packages cannot be upgraded due to unresolvable dependencies:\n",
 							count));
-				list_display("     ", namelist);
+				list_display("     ", namelist, getcols(fileno(stdout)));
 				printf("\n");
 				*response = noyes(_n(
 							"Do you want to skip the above package for this upgrade?",

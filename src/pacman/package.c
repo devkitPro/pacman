@@ -40,14 +40,14 @@
  * @param deps a list with items of type alpm_depend_t
  */
 static void deplist_display(const char *title,
-		alpm_list_t *deps)
+		alpm_list_t *deps, unsigned short cols)
 {
 	alpm_list_t *i, *text = NULL;
 	for(i = deps; i; i = alpm_list_next(i)) {
 		alpm_depend_t *dep = i->data;
 		text = alpm_list_add(text, alpm_dep_compute_string(dep));
 	}
-	list_display(title, text);
+	list_display(title, text, cols);
 	FREELIST(text);
 }
 
@@ -55,14 +55,14 @@ static void deplist_display(const char *title,
  * @param optdeps a list with items of type alpm_optdepend_t
  */
 static void optdeplist_display(const char *title,
-		alpm_list_t *optdeps)
+		alpm_list_t *optdeps, unsigned short cols)
 {
 	alpm_list_t *i, *text = NULL;
 	for(i = optdeps; i; i = alpm_list_next(i)) {
 		alpm_depend_t *optdep = i->data;
 		text = alpm_list_add(text, alpm_dep_compute_string(optdep));
 	}
-	list_display_linebreak(title, text);
+	list_display_linebreak(title, text, cols);
 	FREELIST(text);
 }
 
@@ -76,14 +76,13 @@ static void optdeplist_display(const char *title,
  */
 void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 {
-	const char *reason;
-	alpm_list_t *validation = NULL;
+	unsigned short cols;
 	time_t bdate, idate;
-	char bdatestr[50] = "", idatestr[50] = "";
-	const char *label;
-	double size;
-	alpm_list_t *requiredby = NULL;
 	alpm_pkgfrom_t from;
+	double size;
+	char bdatestr[50] = "", idatestr[50] = "";
+	const char *label, *reason;
+	alpm_list_t *validation = NULL, *requiredby = NULL;
 
 	from = alpm_pkg_get_origin(pkg);
 
@@ -133,24 +132,26 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		requiredby = alpm_pkg_compute_requiredby(pkg);
 	}
 
+	cols = getcols(fileno(stdout));
+
 	/* actual output */
 	if(from == PKG_FROM_SYNCDB) {
 		string_display(_("Repository     :"),
-				alpm_db_get_name(alpm_pkg_get_db(pkg)));
+				alpm_db_get_name(alpm_pkg_get_db(pkg)), cols);
 	}
-	string_display(_("Name           :"), alpm_pkg_get_name(pkg));
-	string_display(_("Version        :"), alpm_pkg_get_version(pkg));
-	string_display(_("URL            :"), alpm_pkg_get_url(pkg));
-	list_display(_("Licenses       :"), alpm_pkg_get_licenses(pkg));
-	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg));
-	deplist_display(_("Provides       :"), alpm_pkg_get_provides(pkg));
-	deplist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg));
-	optdeplist_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg));
+	string_display(_("Name           :"), alpm_pkg_get_name(pkg), cols);
+	string_display(_("Version        :"), alpm_pkg_get_version(pkg), cols);
+	string_display(_("URL            :"), alpm_pkg_get_url(pkg), cols);
+	list_display(_("Licenses       :"), alpm_pkg_get_licenses(pkg), cols);
+	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg), cols);
+	deplist_display(_("Provides       :"), alpm_pkg_get_provides(pkg), cols);
+	deplist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg), cols);
+	optdeplist_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg), cols);
 	if(extra || from == PKG_FROM_LOCALDB) {
-		list_display(_("Required By    :"), requiredby);
+		list_display(_("Required By    :"), requiredby, cols);
 	}
-	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg));
-	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg));
+	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg), cols);
+	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg), cols);
 
 	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 2, &label);
 	if(from == PKG_FROM_SYNCDB) {
@@ -162,35 +163,35 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	size = humanize_size(alpm_pkg_get_isize(pkg), 'K', 2, &label);
 	printf(_("Installed Size : %6.2f %s\n"), size, label);
 
-	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg));
-	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg));
-	string_display(_("Build Date     :"), bdatestr);
+	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg), cols);
+	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg), cols);
+	string_display(_("Build Date     :"), bdatestr, cols);
 	if(from == PKG_FROM_LOCALDB) {
-		string_display(_("Install Date   :"), idatestr);
-		string_display(_("Install Reason :"), reason);
+		string_display(_("Install Date   :"), idatestr, cols);
+		string_display(_("Install Reason :"), reason, cols);
 	}
 	if(from == PKG_FROM_FILE || from == PKG_FROM_LOCALDB) {
 		string_display(_("Install Script :"),
-				alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"));
+				alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"), cols);
 	}
 
-	list_display(_("Validated By   :"), validation);
+	list_display(_("Validated By   :"), validation, cols);
 
 	if(from == PKG_FROM_FILE) {
 		alpm_siglist_t siglist;
 		int err = alpm_pkg_check_pgp_signature(pkg, &siglist);
 		if(err && alpm_errno(config->handle) == ALPM_ERR_SIG_MISSING) {
-			string_display(_("Signatures     :"), _("None"));
+			string_display(_("Signatures     :"), _("None"), cols);
 		} else if(err) {
 			string_display(_("Signatures     :"),
-					alpm_strerror(alpm_errno(config->handle)));
+					alpm_strerror(alpm_errno(config->handle)), cols);
 		} else {
-			signature_display(_("Signatures     :"), &siglist);
+			signature_display(_("Signatures     :"), &siglist, cols);
 		}
 		alpm_siglist_cleanup(&siglist);
 	}
 
-	string_display(_("Description    :"), alpm_pkg_get_desc(pkg));
+	string_display(_("Description    :"), alpm_pkg_get_desc(pkg), cols);
 
 	/* Print additional package info if info flag passed more than once */
 	if(from == PKG_FROM_LOCALDB && extra) {

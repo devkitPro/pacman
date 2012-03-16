@@ -254,12 +254,11 @@ char *mdirname(const char *path)
 
 /* output a string, but wrap words properly with a specified indentation
  */
-void indentprint(const char *str, size_t indent)
+void indentprint(const char *str, unsigned short indent, unsigned short cols)
 {
 	wchar_t *wcstr;
 	const wchar_t *p;
 	int len, cidx;
-	const unsigned short cols = getcols(fileno(stdout));
 
 	if(!str) {
 		return;
@@ -461,7 +460,7 @@ static size_t string_length(const char *s)
 	return len;
 }
 
-void string_display(const char *title, const char *string)
+void string_display(const char *title, const char *string, unsigned short cols)
 {
 	if(title) {
 		printf("%s ", title);
@@ -471,7 +470,7 @@ void string_display(const char *title, const char *string)
 	} else {
 		/* compute the length of title + a space */
 		size_t len = string_length(title) + 1;
-		indentprint(string, len);
+		indentprint(string, (unsigned short)len, cols);
 	}
 	printf("\n");
 }
@@ -603,11 +602,11 @@ static size_t table_calc_widths(const alpm_list_t *header,
  *               of headers
  * @param rows the rows to display as a list of lists of strings. the outer
  *             list represents the rows, the inner list the cells (= columns)
- *
+ * @param cols the number of columns available in the terminal
  * @return -1 if not enough terminal cols available, else 0
  */
 int table_display(const char *title, const alpm_list_t *header,
-		const alpm_list_t *rows)
+		const alpm_list_t *rows, unsigned short cols)
 {
 	const unsigned short padding = 2;
 	const alpm_list_t *i;
@@ -622,7 +621,7 @@ int table_display(const char *title, const alpm_list_t *header,
 	totalwidth = table_calc_widths(header, rows, padding, totalcols,
 			&widths, &has_data);
 	/* return -1 if terminal is not wide enough */
-	if(totalwidth > getcols(fileno(stdout))) {
+	if(totalwidth > cols) {
 		pm_printf(ALPM_LOG_WARNING,
 				_("insufficient columns available for table display\n"));
 		return -1;
@@ -647,7 +646,8 @@ int table_display(const char *title, const alpm_list_t *header,
 	return 0;
 }
 
-void list_display(const char *title, const alpm_list_t *list)
+void list_display(const char *title, const alpm_list_t *list,
+		unsigned short maxcols)
 {
 	const alpm_list_t *i;
 	size_t len = 0;
@@ -660,7 +660,6 @@ void list_display(const char *title, const alpm_list_t *list)
 	if(!list) {
 		printf("%s\n", _("None"));
 	} else {
-		const unsigned short maxcols = getcols(fileno(stdout));
 		size_t cols = len;
 		const char *str = list->data;
 		fputs(str, stdout);
@@ -688,12 +687,13 @@ void list_display(const char *title, const alpm_list_t *list)
 	}
 }
 
-void list_display_linebreak(const char *title, const alpm_list_t *list)
+void list_display_linebreak(const char *title, const alpm_list_t *list,
+		unsigned short maxcols)
 {
-	size_t len = 0;
+	unsigned short len = 0;
 
 	if(title) {
-		len = string_length(title) + 1;
+		len = (unsigned short)string_length(title) + 1;
 		printf("%s ", title);
 	}
 
@@ -702,7 +702,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 	} else {
 		const alpm_list_t *i;
 		/* Print the first element */
-		indentprint((const char *)list->data, len);
+		indentprint((const char *)list->data, len, maxcols);
 		printf("\n");
 		/* Print the rest */
 		for(i = alpm_list_next(list); i; i = alpm_list_next(i)) {
@@ -710,18 +710,19 @@ void list_display_linebreak(const char *title, const alpm_list_t *list)
 			for(j = 1; j <= len; j++) {
 				printf(" ");
 			}
-			indentprint((const char *)i->data, len);
+			indentprint((const char *)i->data, len, maxcols);
 			printf("\n");
 		}
 	}
 }
 
-void signature_display(const char *title, alpm_siglist_t *siglist)
+void signature_display(const char *title, alpm_siglist_t *siglist,
+		unsigned short maxcols)
 {
-	size_t len = 0;
+	unsigned short len = 0;
 
 	if(title) {
-		len = string_length(title) + 1;
+		len = (unsigned short)string_length(title) + 1;
 		printf("%s ", title);
 	}
 	if(siglist->count == 0) {
@@ -785,7 +786,7 @@ void signature_display(const char *title, alpm_siglist_t *siglist)
 				pm_printf(ALPM_LOG_ERROR,  _("failed to allocate string\n"));
 				continue;
 			}
-			indentprint(sigline, len);
+			indentprint(sigline, len, maxcols);
 			printf("\n");
 			free(sigline);
 		}
@@ -869,6 +870,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	const char *label;
 	double size;
 	off_t isize = 0, rsize = 0, dlsize = 0;
+	unsigned short cols;
 	alpm_list_t *i, *rows = NULL, *names = NULL;
 
 	if(!targets) {
@@ -909,17 +911,18 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 
 	/* print to screen */
 	pm_asprintf(&str, _("Targets (%d):"), alpm_list_count(targets));
-
 	printf("\n");
+
+	cols = getcols(fileno(stdout));
 	if(verbose) {
 		alpm_list_t *header = create_verbose_header();
-		if(table_display(str, header, rows) != 0) {
+		if(table_display(str, header, rows, cols) != 0) {
 			/* fallback to list display if table wouldn't fit */
-			list_display(str, names);
+			list_display(str, names, cols);
 		}
 		alpm_list_free(header);
 	} else {
-		list_display(str, names);
+		list_display(str, names, cols);
 	}
 	printf("\n");
 
@@ -1205,7 +1208,8 @@ void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 
 	if(optstrings) {
 		printf(_("New optional dependencies for %s\n"), alpm_pkg_get_name(newpkg));
-		list_display_linebreak("   ", optstrings);
+		unsigned short cols = getcols(fileno(stdout));
+		list_display_linebreak("   ", optstrings, cols);
 	}
 
 	alpm_list_free(optdeps);
@@ -1226,19 +1230,21 @@ void display_optdepends(alpm_pkg_t *pkg)
 
 	if(optstrings) {
 		printf(_("Optional dependencies for %s\n"), alpm_pkg_get_name(pkg));
-		list_display_linebreak("   ", optstrings);
+		unsigned short cols = getcols(fileno(stdout));
+		list_display_linebreak("   ", optstrings, cols);
 	}
 
 	FREELIST(optstrings);
 }
 
-static void display_repo_list(const char *dbname, alpm_list_t *list)
+static void display_repo_list(const char *dbname, alpm_list_t *list,
+		unsigned short cols)
 {
 	const char *prefix= "  ";
 
 	printf(":: ");
 	printf(_("Repository %s\n"), dbname);
-	list_display(prefix, list);
+	list_display(prefix, list, cols);
 }
 
 void select_display(const alpm_list_t *pkglist)
@@ -1248,6 +1254,7 @@ void select_display(const alpm_list_t *pkglist)
 	alpm_list_t *list = NULL;
 	char *string = NULL;
 	const char *dbname = NULL;
+	unsigned short cols = getcols(fileno(stdout));
 
 	for(i = pkglist; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
@@ -1256,7 +1263,7 @@ void select_display(const alpm_list_t *pkglist)
 		if(!dbname)
 			dbname = alpm_db_get_name(db);
 		if(strcmp(alpm_db_get_name(db), dbname) != 0) {
-			display_repo_list(dbname, list);
+			display_repo_list(dbname, list, cols);
 			FREELIST(list);
 			dbname = alpm_db_get_name(db);
 		}
@@ -1265,7 +1272,7 @@ void select_display(const alpm_list_t *pkglist)
 		list = alpm_list_add(list, string);
 		nth++;
 	}
-	display_repo_list(dbname, list);
+	display_repo_list(dbname, list, cols);
 	FREELIST(list);
 }
 

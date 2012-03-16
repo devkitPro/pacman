@@ -360,6 +360,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		alpm_db_t *db = i->data;
+		unsigned short cols;
 		/* if we have a targets list, search for packages matching it */
 		if(targets) {
 			ret = alpm_db_search(db, targets);
@@ -373,6 +374,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 		} else {
 			found = 1;
 		}
+		cols = getcols(fileno(stdout));
 		for(j = ret; j; j = alpm_list_next(j)) {
 			alpm_list_t *grp;
 			alpm_pkg_t *pkg = j->data;
@@ -402,10 +404,10 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 				print_installed(db_local, pkg);
 
 				/* we need a newline and initial indent first */
-				printf("\n    ");
-				indentprint(alpm_pkg_get_desc(pkg), 4);
+				fputs("\n    ", stdout);
+				indentprint(alpm_pkg_get_desc(pkg), 4, cols);
 			}
-			printf("\n");
+			fputc('\n', stdout);
 		}
 		/* we only want to free if the list was a search list */
 		if(freelist) {
@@ -1005,7 +1007,7 @@ int pacman_sync(alpm_list_t *targets)
 			if(config->op_s_upgrade || (tmp = alpm_list_diff(targets, packages, (alpm_list_fn_cmp)strcmp))) {
 				alpm_list_free(tmp);
 				printf(_(":: The following packages should be upgraded first :\n"));
-				list_display("   ", packages);
+				list_display("   ", packages, getcols(fileno(stdout)));
 				if(yesno(_(":: Do you want to cancel the current operation\n"
 								":: and upgrade these packages now?"))) {
 					FREELIST(targs);

@@ -246,6 +246,7 @@ static int query_search(alpm_list_t *targets)
 	alpm_list_t *i, *searchlist;
 	int freelist;
 	alpm_db_t *db_local = alpm_get_localdb(config->handle);
+	unsigned short cols;
 
 	/* if we have a targets list, search for packages matching it */
 	if(targets) {
@@ -259,6 +260,7 @@ static int query_search(alpm_list_t *targets)
 		return 1;
 	}
 
+	cols = getcols(fileno(stdout));
 	for(i = searchlist; i; i = alpm_list_next(i)) {
 		alpm_list_t *grp;
 		alpm_pkg_t *pkg = i->data;
@@ -286,10 +288,10 @@ static int query_search(alpm_list_t *targets)
 			}
 
 			/* we need a newline and initial indent first */
-			printf("\n    ");
-			indentprint(alpm_pkg_get_desc(pkg), 4);
+			fputs("\n    ", stdout);
+			indentprint(alpm_pkg_get_desc(pkg), 4, cols);
 		}
-		printf("\n");
+		fputc('\n', stdout);
 	}
 
 	/* we only want to free if the list was a search list */

@@ -51,17 +51,21 @@ unsigned short getcols(int fd);
 int rmrf(const char *path);
 const char *mbasename(const char *path);
 char *mdirname(const char *path);
-void indentprint(const char *str, size_t indent);
+void indentprint(const char *str, unsigned short indent, unsigned short cols);
 size_t strtrim(char *str);
 char *strreplace(const char *str, const char *needle, const char *replace);
 alpm_list_t *strsplit(const char *str, const char splitchar);
-void string_display(const char *title, const char *string);
+void string_display(const char *title, const char *string, unsigned short cols);
 double humanize_size(off_t bytes, const char target_unit, int precision,
 		const char **label);
-int table_display(const char *title, const alpm_list_t *header, const alpm_list_t *rows);
-void list_display(const char *title, const alpm_list_t *list);
-void list_display_linebreak(const char *title, const alpm_list_t *list);
-void signature_display(const char *title, alpm_siglist_t *siglist);
+int table_display(const char *title, const alpm_list_t *header,
+		const alpm_list_t *rows, unsigned short cols);
+void list_display(const char *title, const alpm_list_t *list,
+		unsigned short maxcols);
+void list_display_linebreak(const char *title, const alpm_list_t *list,
+		unsigned short maxcols);
+void signature_display(const char *title, alpm_siglist_t *siglist,
+		unsigned short maxcols);
 void display_targets(void);
 int str_cmp(const void *s1, const void *s2);
 void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg);
