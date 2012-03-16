@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <fnmatch.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -222,6 +223,22 @@ static int sync_cleancache(int level)
 			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
 				continue;
 			}
+
+			/* skip signature files - they are removed with their package file */
+			if(fnmatch("*.sig", ent->d_name, 0) == 0) {
+				continue;
+			}
+
+			/* skip package database within the cache directory */
+			if(fnmatch("*.db*", ent->d_name, 0) == 0) {
+				continue;
+			}
+
+			/* skip source packages within the cache directory */
+			if(fnmatch("*.src.tar*", ent->d_name, 0) == 0) {
+				continue;
+			}
+
 			/* build the full filepath */
 			snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
 

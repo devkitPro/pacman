@@ -864,6 +864,9 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 {
 	const alpm_list_t *server;
 
+	payload->handle = handle;
+	payload->allow_resume = 1;
+
 	for(server = payload->servers; server; server = server->next) {
 		const char *server_url = server->data;
 		size_t len;
@@ -872,12 +875,13 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 		len = strlen(server_url) + strlen(payload->remote_name) + 2;
 		MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
-		payload->handle = handle;
-		payload->allow_resume = 1;
 
 		if(_alpm_download(payload, cachedir, NULL) != -1) {
 			return 0;
 		}
+
+		free(payload->fileurl);
+		payload->unlink_on_fail = 0;
 	}
 
 	return -1;

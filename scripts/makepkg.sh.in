@@ -170,7 +170,7 @@ clean_up() {
 			for pkg in ${pkgname[@]}; do
 				for file in ${pkg}-*-*-${CARCH}{${PKGEXT},${SRCEXT}}; do
 					if [[ -h $file && ! -e $file ]]; then
-						rm -f $file
+						rm -f "$file"
 					fi
 				done
 			done
