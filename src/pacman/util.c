@@ -605,7 +605,7 @@ static size_t table_calc_widths(const alpm_list_t *header,
  * @param cols the number of columns available in the terminal
  * @return -1 if not enough terminal cols available, else 0
  */
-int table_display(const char *title, const alpm_list_t *header,
+static int table_display(const char *title, const alpm_list_t *header,
 		const alpm_list_t *rows, unsigned short cols)
 {
 	const unsigned short padding = 2;

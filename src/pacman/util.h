@@ -58,8 +58,6 @@ alpm_list_t *strsplit(const char *str, const char splitchar);
 void string_display(const char *title, const char *string, unsigned short cols);
 double humanize_size(off_t bytes, const char target_unit, int precision,
 		const char **label);
-int table_display(const char *title, const alpm_list_t *header,
-		const alpm_list_t *rows, unsigned short cols);
 void list_display(const char *title, const alpm_list_t *list,
 		unsigned short maxcols);
 void list_display_linebreak(const char *title, const alpm_list_t *list,
