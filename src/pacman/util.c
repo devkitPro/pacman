@@ -130,10 +130,10 @@ int check_syncdbs(size_t need_repos, int check_valid)
 }
 
 /* discard unhandled input on the terminal's input buffer */
-static int flush_term_input(void) {
+static int flush_term_input(int fd) {
 #ifdef HAVE_TCFLUSH
-	if(isatty(fileno(stdin))) {
-		return tcflush(fileno(stdin), TCIFLUSH);
+	if(isatty(fd)) {
+		return tcflush(fd, TCIFLUSH);
 	}
 #endif
 
@@ -142,24 +142,24 @@ static int flush_term_input(void) {
 }
 
 /* gets the current screen column width */
-unsigned short getcols(void)
+unsigned short getcols(int fd)
 {
 	const unsigned short default_tty = 80;
 	const unsigned short default_notty = 0;
 	unsigned short termwidth = 0;
 
-	if(!isatty(fileno(stdout))) {
+	if(!isatty(fd)) {
 		return default_notty;
 	}
 
-#ifdef TIOCGSIZE
+#if defined(TIOCGSIZE)
 	struct ttysize win;
-	if(ioctl(1, TIOCGSIZE, &win) == 0) {
+	if(ioctl(fd, TIOCGSIZE, &win) == 0) {
 		termwidth = win.ts_cols;
 	}
 #elif defined(TIOCGWINSZ)
 	struct winsize win;
-	if(ioctl(1, TIOCGWINSZ, &win) == 0) {
+	if(ioctl(fd, TIOCGWINSZ, &win) == 0) {
 		termwidth = win.ws_col;
 	}
 #endif
@@ -259,7 +259,7 @@ void indentprint(const char *str, size_t indent)
 	wchar_t *wcstr;
 	const wchar_t *p;
 	int len, cidx;
-	const unsigned short cols = getcols();
+	const unsigned short cols = getcols(fileno(stdout));
 
 	if(!str) {
 		return;
@@ -622,7 +622,7 @@ int table_display(const char *title, const alpm_list_t *header,
 	totalwidth = table_calc_widths(header, rows, padding, totalcols,
 			&widths, &has_data);
 	/* return -1 if terminal is not wide enough */
-	if(totalwidth > getcols()) {
+	if(totalwidth > getcols(fileno(stdout))) {
 		pm_printf(ALPM_LOG_WARNING,
 				_("insufficient columns available for table display\n"));
 		return -1;
@@ -660,7 +660,7 @@ void list_display(const char *title, const alpm_list_t *list)
 	if(!list) {
 		printf("%s\n", _("None"));
 	} else {
-		const unsigned short maxcols = getcols();
+		const unsigned short maxcols = getcols(fileno(stdout));
 		size_t cols = len;
 		const char *str = list->data;
 		fputs(str, stdout);
@@ -1377,7 +1377,7 @@ int multiselect_question(char *array, int count)
 			break;
 		}
 
-		flush_term_input();
+		flush_term_input(fileno(stdin));
 
 		if(fgets(response, response_len, stdin)) {
 			const size_t response_incr = 64;
@@ -1440,7 +1440,7 @@ int select_question(int count)
 			break;
 		}
 
-		flush_term_input();
+		flush_term_input(fileno(stdin));
 
 		if(fgets(response, sizeof(response), stdin)) {
 			size_t len = strtrim(response);
@@ -1463,6 +1463,7 @@ static int question(short preset, char *fmt, va_list args)
 {
 	char response[32];
 	FILE *stream;
+	int fd_in = fileno(stdin);
 
 	if(config->noconfirm) {
 		stream = stdout;
@@ -1489,7 +1490,7 @@ static int question(short preset, char *fmt, va_list args)
 	}
 
 	fflush(stream);
-	flush_term_input();
+	flush_term_input(fd_in);
 
 	if(fgets(response, sizeof(response), stdin)) {
 		size_t len = strtrim(response);
@@ -1499,7 +1500,7 @@ static int question(short preset, char *fmt, va_list args)
 
 		/* if stdin is piped, response does not get printed out, and as a result
 		 * a \n is missing, resulting in broken output (FS#27909) */
-		if(!isatty(fileno(stdin))) {
+		if(!isatty(fd_in)) {
 			fprintf(stream, "%s\n", response);
 		}
 
