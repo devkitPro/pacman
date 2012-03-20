@@ -3,7 +3,7 @@ parse_options() {
 	local short_options=$1; shift;
 	local long_options=$1; shift;
 	local ret=0;
-	local unused_options=""
+	local unused_options=()
 	local i
 
 	while [[ -n $1 ]]; do
