@@ -449,6 +449,7 @@ AC_DEFINE_UNQUOTED([SCRIPTLET_SHELL], "$SCRIPTLET_SHELL", [The full path of the 
 AC_CONFIG_FILES([
 lib/libalpm/Makefile
 lib/libalpm/po/Makefile.in
+lib/libalpm/libalpm.pc
 src/pacman/Makefile
 src/pacman/po/Makefile.in
 src/util/Makefile
