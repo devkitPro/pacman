@@ -343,7 +343,7 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "executing \"%s\"\n", cmdline);
 
-	retval = _alpm_run_chroot(handle, "/bin/sh", argv);
+	retval = _alpm_run_chroot(handle, SCRIPTLET_SHELL, argv);
 
 cleanup:
 	if(scriptfn && unlink(scriptfn)) {
