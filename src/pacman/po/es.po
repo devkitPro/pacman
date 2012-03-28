@@ -9,15 +9,16 @@
 # Juan Antonio Cánovas Pérez <traumness@gmail.com>, 2011.
 #   <juantascon@gmail.com>, 2011.
 # neiko <neikokz+tsfx@gmail.com>, 2011.
+# Rodrigo Cares <rcares@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2012-01-31 05:58+0000\n"
-"Last-Translator: j3nnn1 <jcmm986@gmail.com>\n"
+"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"PO-Revision-Date: 2012-03-06 15:24+0000\n"
+"Last-Translator: Rodrigo Cares <rcares@gmail.com>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/"
-"archlinux-pacman/team/es/)\n"
+"archlinux-pacman/language/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -511,11 +512,6 @@ msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         no reinstalar paquetes actualizados\n"
 
 #, c-format
-msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr ""
-"      --recursive      reinstalar todas las dependencias de los objetivos\n"
-
-#, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      muestra el registro de cambios de un paquete\n"
 
@@ -924,16 +920,12 @@ msgid "failed to commit transaction (%s)\n"
 msgstr "error al realizar la transacción (%s)\n"
 
 #, c-format
+msgid "could not remove %s: %s\n"
+msgstr "no se puede quitar %s: %s\n"
+
+#, c-format
 msgid "could not access database directory\n"
 msgstr "no se pudo acceder al directorio de la base de datos\n"
-
-#, c-format
-msgid "could not remove %s\n"
-msgstr "no se puede eliminar %s\n"
-
-#, c-format
-msgid "Do you want to remove %s?"
-msgstr "¿Quiere eliminar %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -944,8 +936,8 @@ msgid "Do you want to remove unused repositories?"
 msgstr "¿Quiere eliminar estos repositorios no utilizados?"
 
 #, c-format
-msgid "Database directory cleaned up\n"
-msgstr "Directorio de la base de datos vaciado\n"
+msgid "removing unused sync repositories...\n"
+msgstr "eliminando repositorios de sincronización no utilizados...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1082,6 +1074,10 @@ msgstr "cargando paquetes...\n"
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "error al iniciar la transacción (%s)\n"
+
+#, c-format
+msgid "could not lock database: %s\n"
+msgstr "no se puede bloquear la base de datos: %s\n"
 
 #, c-format
 msgid ""

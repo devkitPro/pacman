@@ -4,7 +4,7 @@
 #
 # Translators:
 # Axilleas P <markeleas@gmail.com>, 2011.
-# Christos Nouskas <nous@archlinux.us>, 2011.
+# Christos Nouskas <nous@archlinux.us>, 2011, 2012.
 # nous <nous@archlinux.us>, 2011.
 #   <panosfilip@gmail.com>, 2011.
 # Ratnadeep Debnath <rtnpro@gmail.com>, 2011.
@@ -12,11 +12,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2011-11-14 14:55+0000\n"
-"Last-Translator: nous <nous@archlinux.us>\n"
+"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"PO-Revision-Date: 2012-03-22 20:54+0000\n"
+"Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/archlinux-pacman/"
-"team/el/)\n"
+"language/el/)\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -495,11 +495,6 @@ msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         μη επανεγκατάσταση ενημερωμένων πακέτων\n"
 
 #, c-format
-msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr ""
-"      --recursive      επανεγκατάσταση εξαρτήσεων καθορισμένων πακέτων\n"
-
-#, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      εμφάνιση του ημερολογίου αλλαγών\n"
 
@@ -867,16 +862,12 @@ msgid "failed to commit transaction (%s)\n"
 msgstr "αποτυχία διεκπεραίωσης (%s)\n"
 
 #, c-format
+msgid "could not remove %s: %s\n"
+msgstr "αδυναμία διαγραφής %s: %s\n"
+
+#, c-format
 msgid "could not access database directory\n"
 msgstr "αδυναμία πρόσβασης στον κατάλογο βάσης\n"
-
-#, c-format
-msgid "could not remove %s\n"
-msgstr "αδυναμία διαγραφής %s\n"
-
-#, c-format
-msgid "Do you want to remove %s?"
-msgstr "Διαγραφή %s;"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -887,8 +878,8 @@ msgid "Do you want to remove unused repositories?"
 msgstr "Διαγραφή αχρησιμοποίητων αποθηκών;"
 
 #, c-format
-msgid "Database directory cleaned up\n"
-msgstr "Κατάλογος βάσης άδειος\n"
+msgid "removing unused sync repositories...\n"
+msgstr "διαγραφή αχρησιμοποίητων αποθηκών...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1025,6 +1016,10 @@ msgstr "φόρτωση πακέτων...\n"
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "αποτυχία εκκίνησης διεκπεραίωσης (%s)\n"
+
+#, c-format
+msgid "could not lock database: %s\n"
+msgstr "αδυναμία κλειδώματος βάσης: %s\n"
 
 #, c-format
 msgid ""

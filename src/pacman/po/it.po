@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Andrea Scarpino <andrea@archlinux.org>, 2011.
+# Andrea Scarpino <andrea@archlinux.org>, 2011, 2012.
 # Giovanni Scafora <giovanni@archlinux.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-23 10:28-0600\n"
-"PO-Revision-Date: 2012-02-16 17:05+0000\n"
-"Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
+"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"PO-Revision-Date: 2012-03-09 11:28+0000\n"
+"Last-Translator: Andrea Scarpino <andrea@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/archlinux-pacman/"
 "language/it/)\n"
 "Language: it\n"
@@ -904,16 +904,12 @@ msgid "failed to commit transaction (%s)\n"
 msgstr "impossibile eseguire l'operazione richiesta (%s)\n"
 
 #, c-format
+msgid "could not remove %s: %s\n"
+msgstr "impossibile rimuovere %s: %s\n"
+
+#, c-format
 msgid "could not access database directory\n"
 msgstr "impossibile accedere alla directory del database\n"
-
-#, c-format
-msgid "could not remove %s\n"
-msgstr "impossibile rimuovere %s\n"
-
-#, c-format
-msgid "Do you want to remove %s?"
-msgstr "Vuoi rimuovere %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -924,8 +920,8 @@ msgid "Do you want to remove unused repositories?"
 msgstr "Vuoi rimuovere i repository inutilizzati?"
 
 #, c-format
-msgid "Database directory cleaned up\n"
-msgstr "La directory del database è stata ripulita\n"
+msgid "removing unused sync repositories...\n"
+msgstr "rimuovo i repository non usati...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1064,9 +1060,9 @@ msgstr "caricamento dei pacchetti in corso...\n"
 msgid "failed to init transaction (%s)\n"
 msgstr "inizializzazione non riuscita (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not lock database: %s\n"
-msgstr "impossibile caricare il pacchetto '%s': %s\n"
+msgstr "impossibile bloccare il database: %s\n"
 
 #, c-format
 msgid ""
@@ -1251,8 +1247,3 @@ msgstr "errore: "
 #, c-format
 msgid "warning: "
 msgstr "attenzione: "
-
-#~ msgid ""
-#~ "      --recursive      reinstall all dependencies of target packages\n"
-#~ msgstr ""
-#~ "      --recursive      reinstalla tutte le dipendenze dei pacchetti\n"

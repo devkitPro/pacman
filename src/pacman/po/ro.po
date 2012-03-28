@@ -4,17 +4,17 @@
 #
 # Translators:
 # cantabile <cantabile.desu@gmail.com>, 2011.
-# Ionut Biru <ibiru@archlinux.org>, 2011.
+# Ionut Biru <ibiru@archlinux.org>, 2011, 2012.
 # Mihai Coman <mihai@m1x.ro>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2011-11-15 19:51+0000\n"
-"Last-Translator: wonder <ibiru@archlinux.org>\n"
+"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"PO-Revision-Date: 2012-03-21 07:25+0000\n"
+"Last-Translator: Ionut Biru <ibiru@archlinux.org>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/archlinux-"
-"pacman/team/ro/)\n"
+"pacman/language/ro/)\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -511,11 +511,6 @@ msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         nu reinstala pachetele deja actualizate\n"
 
 #, c-format
-msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr ""
-"      --recursive      reinstalează toate dependențele pachetelor țintă\n"
-
-#, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      vezi istoricul de modificări al pachetului\n"
 
@@ -908,16 +903,12 @@ msgid "failed to commit transaction (%s)\n"
 msgstr "eșec la efectuarea tranzacției (%s)\n"
 
 #, c-format
+msgid "could not remove %s: %s\n"
+msgstr "nu s-a putut elimina %s: %s\n"
+
+#, c-format
 msgid "could not access database directory\n"
 msgstr "nu poate fi accesat directorul bazei de date\n"
-
-#, c-format
-msgid "could not remove %s\n"
-msgstr "nu s-a putut elimina %s\n"
-
-#, c-format
-msgid "Do you want to remove %s?"
-msgstr "Vreți să eliminați %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -928,8 +919,8 @@ msgid "Do you want to remove unused repositories?"
 msgstr "Vreți să eliminați depozitele nefolosite?"
 
 #, c-format
-msgid "Database directory cleaned up\n"
-msgstr "Directorul bazei de date curățat\n"
+msgid "removing unused sync repositories...\n"
+msgstr "se elimină depozitele nefolosite...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1068,6 +1059,10 @@ msgstr "se încarcă pachetele...\n"
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "eșec la inițializarea tranzacției (%s)\n"
+
+#, c-format
+msgid "could not lock database: %s\n"
+msgstr "imposibilitatea de a bloca baza de data:%s\n"
 
 #, c-format
 msgid ""
