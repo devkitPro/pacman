@@ -179,7 +179,7 @@ require_gpgme=no
 AS_IF([test "x$with_gpgme" != "xno"],
 	[AS_IF([test "x$with_gpgme" = "xyes"],
 		[require_gpgme=yes])
-	AM_PATH_GPGME([],
+	AM_PATH_GPGME([1.3.0],
 		[LIBS_save="$LIBS"
 		CPPFLAGS_save="$CPPFLAGS"
 		CFLAGS_save="$CFLAGS"
