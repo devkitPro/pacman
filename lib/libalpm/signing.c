@@ -234,6 +234,14 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	gpgme_keylist_mode_t mode;
 	gpgme_key_t key;
 	int ret = -1;
+	size_t fpr_len;
+	char *full_fpr;
+
+	/* gpg2 goes full retard here. For key searches ONLY, we need to prefix the
+	 * key fingerprint with 0x, or the lookup will fail. */
+	fpr_len = strlen(fpr);
+	MALLOC(full_fpr, fpr_len + 3, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+	sprintf(full_fpr, "0x%s", fpr);
 
 	memset(&ctx, 0, sizeof(ctx));
 	err = gpgme_new(&ctx);
@@ -248,14 +256,14 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "looking up key %s remotely\n", fpr);
 
-	err = gpgme_get_key(ctx, fpr, &key, 0);
+	err = gpgme_get_key(ctx, full_fpr, &key, 0);
 	if(gpg_err_code(err) == GPG_ERR_EOF) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed, unknown key\n");
 		/* Try an alternate lookup using the 8 character fingerprint value, since
 		 * busted-ass keyservers can't support lookups using subkeys with the full
 		 * value as of now. This is why 2012 is not the year of PGP encryption. */
-		if(strlen(fpr) > 8) {
-			const char *short_fpr = fpr + strlen(fpr) - 8;
+		if(fpr_len > 8) {
+			const char *short_fpr = memcpy(&full_fpr[fpr_len - 8], "0x", 2);
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"looking up key %s remotely\n", short_fpr);
 			err = gpgme_get_key(ctx, short_fpr, &key, 0);
@@ -289,6 +297,7 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 
 error:
 	_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
+	free(full_fpr);
 	gpgme_release(ctx);
 	return ret;
 }
