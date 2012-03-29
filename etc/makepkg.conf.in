@@ -9,8 +9,8 @@
 #-- The download utilities that makepkg should use to acquire sources
 #  Format: 'protocol::agent'
 DLAGENTS=('ftp::/usr/bin/curl -fC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u'
-          'http::/usr/bin/curl -fLC - --retry 3 --retry-delay 3 -o %o %u'
-          'https::/usr/bin/curl -fLC - --retry 3 --retry-delay 3 -o %o %u'
+          'http::/usr/bin/curl -b "" -fLC - --retry 3 --retry-delay 3 -o %o %u'
+          'https::/usr/bin/curl -b "" -fLC - --retry 3 --retry-delay 3 -o %o %u'
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
 
