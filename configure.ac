@@ -105,8 +105,10 @@ AC_ARG_WITH(gpgme,
 	AS_HELP_STRING([--with-gpgme], [use GPGME for PGP signature verification]),
 	[], [with_gpgme=check])
 
-# Check for useable libcurl
-LIBCURL_CHECK_CONFIG([yes], [7.19.4], [with_libcurl=yes], [with_libcurl=no])
+# Help line for using libcurl
+AC_ARG_WITH(curl,
+	AS_HELP_STRING([--with-libcurl], [use libcurl for the internal downloader]),
+	[], [with_curl=check])
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
@@ -166,6 +168,17 @@ if test "x$with_openssl" != "xno"; then
 	fi
 fi
 AM_CONDITIONAL(HAVE_LIBSSL, [test "$have_openssl" = "yes"])
+
+# Check for libcurl
+have_libcurl=no
+if test "x$with_libcurl" != "xno"; then
+	PKG_CHECK_MODULES(LIBCURL, [libcurl >= 7.19.4],
+		[AC_DEFINE(HAVE_LIBCURL, 1, [Define if libcurl is available]) have_libcurl=yes], have_libcurl=no)
+	if test "x$have_libcurl" = xno -a "x$with_libcurl" = xyes; then
+		AC_MSG_ERROR([*** libcurl >= 7.19.4 is required for internal downloader support])
+	fi
+fi
+AM_CONDITIONAL(HAVE_LIBCURL, [test "$have_libcurl" = "yes"])
 
 # Check for gpgme
 AC_MSG_CHECKING(whether to link with libgpgme)
@@ -412,7 +425,7 @@ ${PACKAGE_NAME}:
     preprocessor flags     : ${CPPFLAGS}
     compiler flags         : ${CFLAGS}
     defines                : ${DEFS}
-    library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS}
+    library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS}
     linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
@@ -432,7 +445,7 @@ ${PACKAGE_NAME}:
     build script name      : ${BUILDSCRIPT}
 
   Compilation options:
-    Use libcurl            : ${with_libcurl}
+    Use libcurl            : ${have_libcurl}
     Use GPGME              : ${with_gpgme}
     Use OpenSSL            : ${have_openssl}
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}

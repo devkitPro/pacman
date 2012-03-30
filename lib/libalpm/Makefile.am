@@ -63,16 +63,18 @@ libalpm_la_SOURCES += \
 	base64.h base64.c
 endif
 
-libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO) @LIBCURL@
+libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
 
 libalpm_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(LIBARCHIVE_CFLAGS) \
+	$(LIBCURL_CFLAGS) \
 	$(LIBSSL_CFLAGS)
 
 libalpm_la_LIBADD = \
 	$(LTLIBINTL) \
 	$(LIBARCHIVE_LIBS) \
+	$(LIBCURL_LIBS) \
 	$(LIBSSL_LIBS)
 
 # vim:set ts=2 sw=2 noet:
