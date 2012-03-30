@@ -153,8 +153,8 @@ AC_CHECK_LIB([m], [fabs], ,
 	AC_MSG_ERROR([libm is needed to compile pacman!]))
 
 # Check for libarchive
-AC_CHECK_LIB([archive], [archive_read_data], ,
-	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
+PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 2.8.0], ,
+	AC_MSG_ERROR([*** libarchive >= 2.8.0 is needed to compile pacman!]))
 
 # Check for OpenSSL
 have_openssl=no
@@ -412,7 +412,7 @@ ${PACKAGE_NAME}:
     preprocessor flags     : ${CPPFLAGS}
     compiler flags         : ${CFLAGS}
     defines                : ${DEFS}
-    library flags          : ${LIBS} ${LIBSSL_LIBS}
+    library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS}
     linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
