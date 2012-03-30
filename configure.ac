@@ -157,17 +157,15 @@ AC_CHECK_LIB([archive], [archive_read_data], ,
 	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
 
 # Check for OpenSSL
-AC_MSG_CHECKING(whether to link with libssl)
-AS_IF([test "x$with_openssl" != "xno"],
-	[AC_MSG_RESULT(yes)
-	AC_CHECK_LIB([ssl], [MD5_Final], ,
-	[if test "x$with_openssl" != "xcheck"; then
-		AC_MSG_FAILURE([--with-openssl was given, but -lssl was not found])
-	fi],
-	[-lcrypto])
-	with_openssl=$ac_cv_lib_ssl_MD5_Final],
-	AC_MSG_RESULT(no))
-AM_CONDITIONAL([HAVE_LIBSSL], [test "x$with_openssl" = "xyes"])
+have_openssl=no
+if test "x$with_openssl" != "xno"; then
+	PKG_CHECK_MODULES(LIBSSL, [libssl libcrypto],
+		[AC_DEFINE(HAVE_LIBSSL, 1, [Define if libcrypto is available]) have_openssl=yes], have_openssl=no)
+	if test "x$have_openssl" = xno -a "x$with_openssl" = xyes; then
+		AC_MSG_ERROR([*** openssl support requested but libraries not found])
+	fi
+fi
+AM_CONDITIONAL(HAVE_LIBSSL, [test "$have_openssl" = "yes"])
 
 # Check for gpgme
 AC_MSG_CHECKING(whether to link with libgpgme)
@@ -414,7 +412,7 @@ ${PACKAGE_NAME}:
     preprocessor flags     : ${CPPFLAGS}
     compiler flags         : ${CFLAGS}
     defines                : ${DEFS}
-    library flags          : ${LIBS}
+    library flags          : ${LIBS} ${LIBSSL_LIBS}
     linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
@@ -436,7 +434,7 @@ ${PACKAGE_NAME}:
   Compilation options:
     Use libcurl            : ${with_libcurl}
     Use GPGME              : ${with_gpgme}
-    Use OpenSSL            : ${with_openssl}
+    Use OpenSSL            : ${have_openssl}
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
