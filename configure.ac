@@ -55,11 +55,13 @@ m4_define([pacman_version],
 AC_INIT([pacman], [pacman_version], [pacman-dev@archlinux.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
 
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([1.11])
 AM_SILENT_RULES([yes])
 
+LT_INIT
 LIB_VERSION=`expr lib_current - lib_age`.lib_age.lib_revision
 LIB_VERSION_INFO="lib_current:lib_revision:lib_age"
 
@@ -138,12 +140,7 @@ AC_SYS_LARGEFILE
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC_C99
-AC_PROG_CXX
 AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_MAKE_SET
-AC_PROG_LIBTOOL
-AC_PROG_RANLIB
 AC_CHECK_PROGS([PYTHON], [python2.7 python2.6 python2.5 python2 python], [false])
 AC_PATH_PROGS([BASH_SHELL], [bash bash4 bash3], [false])
 
