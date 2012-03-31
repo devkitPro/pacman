@@ -280,7 +280,7 @@ case "${host_os}" in
 		;;
 	cygwin*)
 		host_os_cygwin=yes
-		CFLAGS="$CFLAGS -DCYGWIN"
+		AC_DEFINE([CYGWIN], [1], [Define if host OS is cygwin])
 		;;
 	darwin*)
 		host_os_darwin=yes
