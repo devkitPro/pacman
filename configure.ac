@@ -186,11 +186,9 @@ AS_IF([test "x$with_gpgme" != "xno"],
 	[AC_MSG_RESULT([yes])],
 	[AC_MSG_RESULT([no])])
 
-require_gpgme=no
+have_gpgme=no
 AS_IF([test "x$with_gpgme" != "xno"],
-	[AS_IF([test "x$with_gpgme" = "xyes"],
-		[require_gpgme=yes])
-	AM_PATH_GPGME([1.3.0],
+	[AM_PATH_GPGME([1.3.0],
 		[LIBS_save="$LIBS"
 		CPPFLAGS_save="$CPPFLAGS"
 		CFLAGS_save="$CFLAGS"
@@ -203,23 +201,26 @@ AS_IF([test "x$with_gpgme" != "xno"],
 		AC_LINK_IFELSE(
 			[AC_LANG_PROGRAM(
 				[[#include <gpgme.h>]],
-				[[const char *ver;
-ver = gpgme_check_version("1.2.4");]])],
+				[[return gpgme_check_version("1.3.0");]])],
 			[AC_MSG_RESULT([yes])
-			with_gpgme=yes
+			have_gpgme=yes
 			AC_DEFINE([HAVE_LIBGPGME], [1], [Define if gpgme should be used to provide GPG signature support.])],
 			[AC_MSG_RESULT([no])
-			with_gpgme=no
-			LIBS="$LIBS_save"
-			CPPFLAGS="$CPPFLAGS_save"
-			CFLAGS="$CFLAGS_save"])],
-		[with_gpgme=no])])
-AS_IF([test "x$with_gpgme" != "xyes"],
-	[AS_IF([test "x$require_gpgme" = "xyes"],
-		[AC_MSG_FAILURE([--with-gpgme was given, but gpgme was not found])])
-	with_gpgme=no])
-
-AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$with_gpgme" = "xyes"])
+			have_gpgme=no
+			unset GPGME_LIBS
+			unset GPGME_CFLAGS]
+			AS_IF([test "x$with_gpgme" = "xyes"],
+				[AC_MSG_FAILURE([*** gpgme >= 1.3.0 is needed for GPG signature support])])
+			)],
+		[with_gpgme=no])]
+		[LIBS="$LIBS_save"
+		CPPFLAGS="$CPPFLAGS_save"
+		CFLAGS="$CFLAGS_save"
+		unset CPPFLAGS_save
+		unset CFLAGS_save])
+AS_IF([test "x$have_gpgme" = xno -a "x$with_gpgme" = xyes],
+	[AC_MSG_FAILURE([--with-gpgme was given, but gpgme was not found])])
+AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$have_gpgme" = "xyes"])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h float.h glob.h libintl.h limits.h locale.h \
@@ -425,7 +426,7 @@ ${PACKAGE_NAME}:
     preprocessor flags     : ${CPPFLAGS}
     compiler flags         : ${CFLAGS}
     defines                : ${DEFS}
-    library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS}
+    library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS} ${GPGME_LIBS}
     linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
@@ -446,7 +447,7 @@ ${PACKAGE_NAME}:
 
   Compilation options:
     Use libcurl            : ${have_libcurl}
-    Use GPGME              : ${with_gpgme}
+    Use GPGME              : ${have_gpgme}
     Use OpenSSL            : ${have_openssl}
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}
     Doxygen support        : ${usedoxygen}
