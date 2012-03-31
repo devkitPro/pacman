@@ -17,7 +17,7 @@ AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h \
 	-I$(top_srcdir)/lib/libalpm
 
-AM_CFLAGS = -pedantic -D_GNU_SOURCE
+AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 
 cleanupdelta_SOURCES = cleanupdelta.c
 cleanupdelta_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la

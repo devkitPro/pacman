@@ -10,7 +10,7 @@ DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h
 
-AM_CFLAGS = -pedantic -D_GNU_SOURCE
+AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 
 if ENABLE_VISIBILITY_CC
 if DARWIN

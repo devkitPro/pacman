@@ -350,10 +350,10 @@ if test "x$debug" = "xyes" ; then
 	GCC_STACK_PROTECT_LIB
 	GCC_STACK_PROTECT_CC
 	GCC_FORTIFY_SOURCE_CC
-	CFLAGS="$CFLAGS -g -Wall -Werror"
+	WARNING_CFLAGS="-g -Wall -Werror"
 else
 	AC_MSG_RESULT(no)
-	CFLAGS="$CFLAGS -Wall"
+	WARNING_CFLAGS="-Wall"
 fi
 
 # Enable or disable use of git version in pacman version string
@@ -424,7 +424,7 @@ ${PACKAGE_NAME}:
 
     compiler               : ${CC}
     preprocessor flags     : ${CPPFLAGS}
-    compiler flags         : ${CFLAGS}
+    compiler flags         : ${WARNING_CFLAGS} ${CFLAGS}
     defines                : ${DEFS}
     library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS} ${GPGME_LIBS}
     linker flags           : ${LDFLAGS}
