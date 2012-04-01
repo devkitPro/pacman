@@ -46,7 +46,7 @@ int SYMEXPORT alpm_pkg_free(alpm_pkg_t *pkg)
 	ASSERT(pkg != NULL, return -1);
 
 	/* Only free packages loaded in user space */
-	if(pkg->origin == PKG_FROM_FILE) {
+	if(pkg->origin == ALPM_PKG_FROM_FILE) {
 		_alpm_pkg_free(pkg);
 	}
 
@@ -62,7 +62,7 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
 	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = 0;
 	/* We only inspect packages from sync repositories */
-	ASSERT(pkg->origin == PKG_FROM_SYNCDB,
+	ASSERT(pkg->origin == ALPM_PKG_FROM_SYNCDB,
 			RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	fpath = _alpm_filecache_find(pkg->handle, pkg->filename);
@@ -351,7 +351,7 @@ alpm_db_t SYMEXPORT *alpm_pkg_get_db(alpm_pkg_t *pkg)
 {
 	/* Sanity checks */
 	ASSERT(pkg != NULL, return NULL);
-	ASSERT(pkg->origin != PKG_FROM_FILE, return NULL);
+	ASSERT(pkg->origin != ALPM_PKG_FROM_FILE, return NULL);
 	pkg->handle->pm_errno = 0;
 
 	return pkg->origin_data.db;
@@ -418,7 +418,7 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = 0;
 
-	if(pkg->origin == PKG_FROM_FILE) {
+	if(pkg->origin == ALPM_PKG_FROM_FILE) {
 		/* The sane option; search locally for things that require this. */
 		find_requiredby(pkg, pkg->handle->db_local, &reqs);
 	} else {
@@ -554,7 +554,7 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 	/* internal */
 	newpkg->infolevel = pkg->infolevel;
 	newpkg->origin = pkg->origin;
-	if(newpkg->origin == PKG_FROM_FILE) {
+	if(newpkg->origin == ALPM_PKG_FROM_FILE) {
 		newpkg->origin_data.file = strdup(pkg->origin_data.file);
 	} else {
 		newpkg->origin_data.db = pkg->origin_data.db;
@@ -614,15 +614,15 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	alpm_list_free(pkg->delta_path);
 	alpm_list_free(pkg->removes);
 
-	if(pkg->origin == PKG_FROM_FILE) {
+	if(pkg->origin == ALPM_PKG_FROM_FILE) {
 		FREE(pkg->origin_data.file);
 	}
 	FREE(pkg);
 }
 
 /* This function should be used when removing a target from upgrade/sync target list
- * Case 1: If pkg is a loaded package file (PKG_FROM_FILE), it will be freed.
- * Case 2: If pkg is a pkgcache entry (PKG_FROM_CACHE), it won't be freed,
+ * Case 1: If pkg is a loaded package file (ALPM_PKG_FROM_FILE), it will be freed.
+ * Case 2: If pkg is a pkgcache entry (ALPM_PKG_FROM_CACHE), it won't be freed,
  *         only the transaction specific fields of pkg will be freed.
  */
 void _alpm_pkg_free_trans(alpm_pkg_t *pkg)
@@ -631,7 +631,7 @@ void _alpm_pkg_free_trans(alpm_pkg_t *pkg)
 		return;
 	}
 
-	if(pkg->origin == PKG_FROM_FILE) {
+	if(pkg->origin == ALPM_PKG_FROM_FILE) {
 		_alpm_pkg_free(pkg);
 		return;
 	}

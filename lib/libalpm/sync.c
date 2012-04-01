@@ -288,7 +288,7 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 	alpm_handle_t *handle = newpkg->handle;
 	int ret = 0;
 
-	if(newpkg->origin != PKG_FROM_SYNCDB) {
+	if(newpkg->origin != ALPM_PKG_FROM_SYNCDB) {
 		newpkg->infolevel |= INFRQ_DSIZE;
 		newpkg->download_size = 0;
 		return 0;
@@ -365,7 +365,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 	for(i = trans->add; i; i = i->next) {
 		alpm_pkg_t *spkg = i->data;
-		from_sync += (spkg->origin == PKG_FROM_SYNCDB);
+		from_sync += (spkg->origin == ALPM_PKG_FROM_SYNCDB);
 	}
 
 	/* ensure all sync database are valid if we will be using them */
@@ -821,7 +821,7 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 	for(i = handle->trans->add; i; i = i->next) {
 		alpm_pkg_t *spkg = i->data;
 
-		if(spkg->origin != PKG_FROM_FILE && repo == spkg->origin_data.db) {
+		if(spkg->origin != ALPM_PKG_FROM_FILE && repo == spkg->origin_data.db) {
 			alpm_list_t *delta_path = spkg->delta_path;
 
 			if(!repo->servers) {
@@ -991,7 +991,7 @@ static int check_validity(alpm_handle_t *handle,
 
 		PROGRESS(handle, ALPM_PROGRESS_INTEGRITY_START, "", percent,
 				total, current);
-		if(v.pkg->origin == PKG_FROM_FILE) {
+		if(v.pkg->origin == ALPM_PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
 
@@ -1067,7 +1067,7 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 
 		PROGRESS(handle, ALPM_PROGRESS_LOAD_START, "", percent,
 				total, current);
-		if(spkg->origin == PKG_FROM_FILE) {
+		if(spkg->origin == ALPM_PKG_FROM_FILE) {
 			continue; /* pkg_load() has been already called, this package is valid */
 		}
 
@@ -1137,7 +1137,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	 * realistically if there are small and huge packages involved */
 	for(i = trans->add; i; i = i->next) {
 		alpm_pkg_t *spkg = i->data;
-		if(spkg->origin != PKG_FROM_FILE) {
+		if(spkg->origin != ALPM_PKG_FROM_FILE) {
 			total_bytes += spkg->size;
 		}
 		total++;

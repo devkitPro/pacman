@@ -127,7 +127,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		validation = alpm_list_add(validation, _("Unknown"));
 	}
 
-	if(extra || from == PKG_FROM_LOCALDB) {
+	if(extra || from == ALPM_PKG_FROM_LOCALDB) {
 		/* compute this here so we don't get a pause in the middle of output */
 		requiredby = alpm_pkg_compute_requiredby(pkg);
 	}
@@ -135,7 +135,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	cols = getcols(fileno(stdout));
 
 	/* actual output */
-	if(from == PKG_FROM_SYNCDB) {
+	if(from == ALPM_PKG_FROM_SYNCDB) {
 		string_display(_("Repository     :"),
 				alpm_db_get_name(alpm_pkg_get_db(pkg)), cols);
 	}
@@ -147,16 +147,16 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	deplist_display(_("Provides       :"), alpm_pkg_get_provides(pkg), cols);
 	deplist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg), cols);
 	optdeplist_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg), cols);
-	if(extra || from == PKG_FROM_LOCALDB) {
+	if(extra || from == ALPM_PKG_FROM_LOCALDB) {
 		list_display(_("Required By    :"), requiredby, cols);
 	}
 	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg), cols);
 	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg), cols);
 
 	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 2, &label);
-	if(from == PKG_FROM_SYNCDB) {
+	if(from == ALPM_PKG_FROM_SYNCDB) {
 		printf(_("Download Size  : %6.2f %s\n"), size, label);
-	} else if(from == PKG_FROM_FILE) {
+	} else if(from == ALPM_PKG_FROM_FILE) {
 		printf(_("Compressed Size: %6.2f %s\n"), size, label);
 	}
 
@@ -166,18 +166,18 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg), cols);
 	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg), cols);
 	string_display(_("Build Date     :"), bdatestr, cols);
-	if(from == PKG_FROM_LOCALDB) {
+	if(from == ALPM_PKG_FROM_LOCALDB) {
 		string_display(_("Install Date   :"), idatestr, cols);
 		string_display(_("Install Reason :"), reason, cols);
 	}
-	if(from == PKG_FROM_FILE || from == PKG_FROM_LOCALDB) {
+	if(from == ALPM_PKG_FROM_FILE || from == ALPM_PKG_FROM_LOCALDB) {
 		string_display(_("Install Script :"),
 				alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"), cols);
 	}
 
 	list_display(_("Validated By   :"), validation, cols);
 
-	if(from == PKG_FROM_FILE) {
+	if(from == ALPM_PKG_FROM_FILE) {
 		alpm_siglist_t siglist;
 		int err = alpm_pkg_check_pgp_signature(pkg, &siglist);
 		if(err && alpm_errno(config->handle) == ALPM_ERR_SIG_MISSING) {
@@ -194,7 +194,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	string_display(_("Description    :"), alpm_pkg_get_desc(pkg), cols);
 
 	/* Print additional package info if info flag passed more than once */
-	if(from == PKG_FROM_LOCALDB && extra) {
+	if(from == ALPM_PKG_FROM_LOCALDB && extra) {
 		dump_pkg_backups(pkg);
 	}
 

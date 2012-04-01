@@ -448,7 +448,7 @@ static int local_db_populate(alpm_db_t *db)
 			continue;
 		}
 
-		pkg->origin = PKG_FROM_LOCALDB;
+		pkg->origin = ALPM_PKG_FROM_LOCALDB;
 		pkg->origin_data.db = db;
 		pkg->ops = &local_pkg_ops;
 		pkg->handle = db->handle;
@@ -968,7 +968,7 @@ int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info)
 int SYMEXPORT alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason)
 {
 	ASSERT(pkg != NULL, return -1);
-	ASSERT(pkg->origin == PKG_FROM_LOCALDB,
+	ASSERT(pkg->origin == ALPM_PKG_FROM_LOCALDB,
 			RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
 	ASSERT(pkg->origin_data.db == pkg->handle->db_local,
 			RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));

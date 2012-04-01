@@ -59,9 +59,9 @@ typedef enum _alpm_pkgreason_t {
 
 /** Location a package object was loaded from. */
 typedef enum _alpm_pkgfrom_t {
-	PKG_FROM_FILE = 1,
-	PKG_FROM_LOCALDB,
-	PKG_FROM_SYNCDB
+	ALPM_PKG_FROM_FILE = 1,
+	ALPM_PKG_FROM_LOCALDB,
+	ALPM_PKG_FROM_SYNCDB
 } alpm_pkgfrom_t;
 
 /** Location a package object was loaded from. */

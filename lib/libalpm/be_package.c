@@ -521,7 +521,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	CLOSE(fd);
 
 	/* internal fields for package struct */
-	newpkg->origin = PKG_FROM_FILE;
+	newpkg->origin = ALPM_PKG_FROM_FILE;
 	newpkg->origin_data.file = strdup(pkgfile);
 	newpkg->ops = get_file_pkg_ops();
 	newpkg->handle = handle;

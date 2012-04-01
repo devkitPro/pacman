@@ -357,7 +357,7 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 		pkg->version = pkgver;
 		pkg->name_hash = pkgname_hash;
 
-		pkg->origin = PKG_FROM_SYNCDB;
+		pkg->origin = ALPM_PKG_FROM_SYNCDB;
 		pkg->origin_data.db = db;
 		pkg->ops = &default_pkg_ops;
 		pkg->ops->get_validation = _sync_get_validation;
