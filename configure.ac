@@ -56,6 +56,7 @@ AC_INIT([pacman], [pacman_version], [pacman-dev@archlinux.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
 
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([1.11])
