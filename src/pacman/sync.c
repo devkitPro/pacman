@@ -420,7 +420,7 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 
 static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 {
-	alpm_list_t *i, *j, *k;
+	alpm_list_t *i, *j, *k, *s = NULL;
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
@@ -456,10 +456,14 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 					}
 				} else {
 					/* print grp names only, no package names */
-					printf("%s\n", grp->name);
+					if(!alpm_list_find_str (s, grp->name)) {
+						s = alpm_list_add (s, grp->name);
+						printf("%s\n", grp->name);
+					}
 				}
 			}
 		}
+		alpm_list_free(s);
 	}
 
 	return 0;
