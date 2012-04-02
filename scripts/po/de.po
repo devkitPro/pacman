@@ -4,8 +4,10 @@
 #
 # Translators:
 #   <martin.kalcher@googlemail.com>, 2012.
+# Martin Kalcher <martin.kalcher@googlemail.com>, 2012.
 # Matthias Gorissen <matthias@archlinux.de>, 2012.
 #   <pierre@archlinux.de>, 2011.
+# Pierre Schmitz <pierre@archlinux.de>, 2011.
 # Simon Schneider <SPAM.schneida@gmail.com>, 2011.
 # Thomas Scholzen <thomasdodo@arcor.de>, 2012.
 msgid ""
@@ -13,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2012-03-28 18:00-0500\n"
-"PO-Revision-Date: 2012-02-02 20:34+0000\n"
+"PO-Revision-Date: 2012-03-29 10:22+0000\n"
 "Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/archlinux-pacman/"
 "language/de/)\n"
@@ -83,8 +85,8 @@ msgstr "Erstelle Prüfsummen für Quell-Dateien..."
 
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr ""
-"Kann %s Programmdatei nicht finden, wird aber zur Erstellung der Prüfsummen "
-"der Quell-Dateien benötigt."
+"Kann %s Binärdatei nicht finden, die zur Erstellung der Prüfsummen der Quell-"
+"Dateien benötigt wird."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Ungültiger Integritäts-Algorithmus '%s' spezifiziert."
@@ -143,13 +145,13 @@ msgid "Please make sure you really trust them."
 msgstr "Bitte stellen Sie sicher, dass Sie ihnen wirklich vertrauen."
 
 msgid "Skipping all source file integrity checks."
-msgstr "Überspringe Integritäts-Prüfungen der Quell-Dateien."
+msgstr "Überspringe alle Integritäts-Prüfungen der Quell-Dateien."
 
 msgid "Skipping verification of source file checksums."
 msgstr "Überspringe Überprüfung der Prüfsummen der Quell-Dateien."
 
 msgid "Skipping verification of source file PGP signatures."
-msgstr "Überspringe Überprüfung der PGP Signaturen der Quell-Dateien."
+msgstr "Überspringe Überprüfung der PGP-Signaturen der Quell-Dateien."
 
 msgid "Extracting Sources..."
 msgstr "Entpacke Quellen..."
@@ -170,10 +172,10 @@ msgid "Tidying install..."
 msgstr "Säubere Installation..."
 
 msgid "Removing doc files..."
-msgstr "Entferne doc-Dateien... "
+msgstr "Entferne Doku-Dateien... "
 
 msgid "Purging unwanted files..."
-msgstr "Bereinige andere Dateien..."
+msgstr "Bereinige ungewollte Dateien..."
 
 msgid "Compressing man and info pages..."
 msgstr "Komprimiere Man-Pages und Info-Seiten..."
@@ -289,7 +291,7 @@ msgstr "%s steht für die '%s'-Architektur nicht zur Verfügung."
 msgid "Note that many packages may need a line added to their %s"
 msgstr ""
 "Beachten Sie, dass bei vielen Paketen eine Zeile zu %s hinzugefügt werden "
-"muss."
+"muss"
 
 msgid "such as %s."
 msgstr "wie %s."
@@ -323,7 +325,7 @@ msgstr ""
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
 "Kann Programm %s nicht finden, das benötigt wird, um als nicht-root Benutzer "
-"Pakete zu Bauen."
+"Pakete zu bauen."
 
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
@@ -602,11 +604,13 @@ msgstr ""
 "Die Paket-Gruppe wurde bereits gebaut, installiere existierende Pakete..."
 
 msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "Die Paketgruppe wurde bereits gebaut. (benutze %s zum Überschreiben)"
+msgstr ""
+"Die Paketgruppe wurde bereits gebaut. (Benutzen Sie %s zum Überschreiben)"
 
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
-"Ein Teil der Paketgruppe wurde bereits gebaut. (benutze %s zum Überschreiben)"
+"Ein Teil der Paketgruppe wurde bereits gebaut. (Benutzen Sie %s zum "
+"Überschreiben)"
 
 msgid "Leaving %s environment."
 msgstr "Verlasse %s Umgebung."
@@ -686,7 +690,7 @@ msgid "%s does not exist or is not a directory."
 msgstr "%s existiert nicht oder ist kein Verzeichnis"
 
 msgid "%s is not a pacman database directory."
-msgstr "%s ist kein Pacman Datenbank Verzeichnis."
+msgstr "%s ist kein Pacman-Datenbank Verzeichnis."
 
 msgid "You must have correct permissions to upgrade the database."
 msgstr ""
@@ -778,8 +782,8 @@ msgstr ""
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init                    Stellen Sie sicher, dass der Schlüsselbund "
-"richtig initialisiert ist"
+"  --init                    Stelle sicher, dass der Schlüsselbund richtig "
+"initialisiert ist"
 
 msgid "  --keyserver               Specify a keyserver to use if necessary"
 msgstr ""
@@ -856,19 +860,20 @@ msgstr "Mache  Schlüssel %s unbrauchbar ..."
 
 msgid "A specified keyfile could not be added to the gpg keychain."
 msgstr ""
-"Eine bestimmte Schlüsseldatei konnte nicht zum GPG Schlüsselbund hinzugefügt "
-"werden."
+"Eine spezifizierte Schlüsseldatei konnte nicht zum GPG-Schlüsselbund "
+"hinzugefügt werden."
 
 msgid "A specified key could not be removed from the gpg keychain."
 msgstr ""
-"Ein bestimmter Schlüssel konnte nicht vom GPG Schlüsselbund entfernt werden."
+"Ein spezifizierter Schlüssel konnte nicht vom GPG-Schlüsselbund entfernt "
+"werden."
 
 msgid "The key identified by %s could not be edited."
 msgstr "Der von %s identifizierte Schlüssel konnte nicht bearbeitet werden."
 
 msgid "A specified key could not be exported from the gpg keychain."
 msgstr ""
-"Ein bestimmter Schlüssel konnte nicht vom GPG Schlüsselbund exportiert "
+"Ein bestimmter Schlüssel konnte nicht vom GPG-Schlüsselbund exportiert "
 "werden."
 
 msgid "The fingerprint of a specified key could not be determined."
@@ -882,13 +887,13 @@ msgid "File %s does not exist and could not be imported."
 msgstr "Die Datei %s existiert nicht und konnte nicht importiert werden."
 
 msgid "A specified key could not be listed."
-msgstr "Ein bestimmter Schlüssel konnte nicht aufgeführt werden."
+msgstr "Ein spezifizierter Schlüssel konnte nicht aufgeführt werden."
 
 msgid "A specified signature could not be listed."
-msgstr "Eine bestimmte Signatur konnte nicht aufgeführt werden."
+msgstr "Eine spezifzierte Signatur konnte nicht aufgeführt werden."
 
 msgid "A specified key could not be locally signed."
-msgstr "Ein bestimmter Schlüssel konnte nicht lokal signiert werden."
+msgstr "Ein spezifizierter Schlüssel konnte nicht lokal signiert werden."
 
 msgid "Remote key not fetched correctly from keyserver."
 msgstr ""
@@ -897,14 +902,14 @@ msgstr ""
 
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
-"Ein bestimmter lokaler Schlüssel konnte nicht vom Schlüssel-Server "
+"Ein spezifizierter lokaler Schlüssel konnte nicht vom Schlüssel-Server "
 "aktualisiert werden."
 
 msgid "The signature identified by %s could not be verified."
 msgstr "Die von %s identifizierte Signatur konnte nicht verifziert werden."
 
 msgid "Updating trust database..."
-msgstr "Aktualisiere Trust-Datenbank"
+msgstr "Aktualisiere Trust-Datenbank ..."
 
 msgid "Trust database could not be updated."
 msgstr "Vertrauensdatenbank konnte nicht aktualisiert werden."
@@ -1042,7 +1047,8 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Kann die xdelta3-Binär-Datei nicht finden! Ist xdelta3 installiert?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "Aufruf: repo-add [Optionen] <Pfad-zur-Datenbank> <Paket|Delta> ...\\n"
+msgstr ""
+"Verwendung: repo-add [Optionen] <Pfad-zur-Datenbank> <Paket|Delta> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1142,7 +1148,7 @@ msgid "No existing signature found, skipping verification."
 msgstr "Keine existierende Signatur gefunden, überspringe Überprüfung."
 
 msgid "Database signature file verified."
-msgstr "Datenbanksignatur überprüft"
+msgstr "Datenbanksignatur überprüft."
 
 msgid "Database signature was NOT valid!"
 msgstr "Datenbanksignatur ist NICHT gültig!"
@@ -1175,7 +1181,7 @@ msgid "Held by process %s"
 msgstr "Gehalten vom Prozess %s"
 
 msgid "Repository file '%s' is not a proper pacman database."
-msgstr "Repositorien-Datei '%s' ist keine korrekte pacman-Datenbank."
+msgstr "Repositorien-Datei '%s' ist keine korrekte Pacman-Datenbank."
 
 msgid "Extracting database to a temporary location..."
 msgstr "Entpacke Datenbank an einen temporären Ort..."
