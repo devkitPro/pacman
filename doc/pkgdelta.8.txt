@@ -11,7 +11,7 @@ pkgdelta - package delta generation utility
 
 Synopsis
 --------
-'pkgdelta' [-q] <package1> <package2>
+'pkgdelta' [options] <package1> <package2>
 
 
 Description
@@ -27,6 +27,16 @@ significantly.
 
 Options
 -------
+*--max-delta-size <ratio>*::
+	Only create delta files if the delta is smaller than ratio * package_size.
+	Possible values: 0.0 to 2.0.
+	Recommended values: 0.2 to 0.9.
+	Default value: 0.7
+
+*--min-pkg-size <size>*::
+	Minimal size of the package file in bytes to be considered for delta creation.
+	Default value: 1048576 bytes = 1MiB
+
 *-q, \--quiet*::
 	Be quiet. Do not output anything but warnings and errors.
 

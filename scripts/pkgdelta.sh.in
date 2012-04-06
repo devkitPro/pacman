@@ -30,6 +30,13 @@ myver='@PACKAGE_VERSION@'
 
 QUIET=0
 
+# minimal of package before deltas are generated (bytes)
+min_pkg_size=$((1024*1024))
+
+# percent of new package above which the delta will be discarded
+max_delta_size=70
+
+
 # ensure we have a sane umask set
 umask 0022
 
@@ -46,6 +53,8 @@ This delta file can then be added to a database using repo-add.\n\n")"
 	echo
 	printf -- "$(gettext "Options:\n")"
 	printf -- "  -q                ""$(gettext "quiet\n")"
+	printf -- "  --min-pkg-size    ""$(gettext "minimal of package before deltas are generated (bytes)\n")"
+	printf -- "  --max-delta-size  ""$(gettext "percent of new package above which the delta will be discarded\n")"
 }
 
 version() {
@@ -54,6 +63,10 @@ version() {
 Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\n\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
+}
+
+isnumeric() {
+	[[ $1 != *[!0-9]* ]]
 }
 
 read_pkginfo()
@@ -96,6 +109,13 @@ create_xdelta()
 	newver="$pkgver"
 	newarch="$arch"
 
+	pkgsize="$(@SIZECMD@ -L "$newfile")"
+
+	if ((pkgsize < min_pkg_size)); then
+		msg "$(gettext "Skipping delta creation for small package: %s - size %s")" "$newname" "$pkgsize"
+		return 0
+	fi
+
 	if [[ $oldname != "$newname" ]]; then
 		error "$(gettext "The package names don't match : '%s' and '%s'")" "$oldname" "$newname"
 		return 1
@@ -119,10 +139,19 @@ create_xdelta()
 	if (( ret )); then
 		error "$(gettext "Delta could not be created.")"
 		return 1
-	else
-		msg "$(gettext "Generated delta : '%s'")" "$deltafile"
-		(( QUIET )) && echo "$deltafile"
 	fi
+
+	deltasize="$(@SIZECMD@ -L "$deltafile")"
+
+	if ((max_delta_size * pkgsize / 100 < deltasize)); then
+		msg "$(gettext "Delta package larger than maximum size. Removing.")"
+		rm -f "$deltafile"
+		return 0
+	fi
+
+	msg "$(gettext "Generated delta : '%s'")" "$deltafile"
+	(( QUIET )) && echo "$deltafile"
+
 	return 0
 }
 
@@ -134,6 +163,23 @@ while (( $# )); do
 		-h|--help)    usage; exit 0 ;;
 		-V|--version) version; exit 0 ;;
 		-q|--quiet) QUIET=1;;
+		--min-pkg-size)
+			if ! isnumeric "$2"; then
+				echo "invalid argument '$2' for option -- '$1'"
+				exit 1
+			fi
+			min_pkg_size=$2
+			shift
+			;;
+		--max-delta-size)
+			arg=$(echo "$2" | awk '{print $1 * 100}')
+			if ! isnumeric "$arg" || (($arg > 200)); then
+				echo "invalid argument '$2' for option -- '$1'"
+				exit 1
+			fi
+			max_delta_size=$arg
+			shift
+			;;
 		--) shift; args+=("$@"); break 2 ;;
 		-*) echo "invalid option -- '$1'"; usage; exit 1 ;;
 		*) args+=("$1");;
