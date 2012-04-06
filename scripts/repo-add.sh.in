@@ -176,6 +176,11 @@ db_remove_delta() {
 	if grep -q "$filename" $deltas; then
 		sed -i.backup "/$filename/d" $deltas && rm -f $deltas.backup
 		msg2 "$(gettext "Removing existing entry '%s'...")" "$filename"
+		# empty deltas file contains only "%DELTAS%"
+		if (( $(wc -l < "$deltas") == 1 )); then
+			msg2 "$(gettext "Removing empty deltas file ...")"
+			rm "$deltas"
+		fi
 		return 0
 	fi
 
