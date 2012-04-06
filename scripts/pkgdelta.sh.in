@@ -136,12 +136,12 @@ fi
 
 if [[ ! -f $1 ]]; then
 	error "$(gettext "File '%s' does not exist")" "$1"
-	exit 0
+	exit 1
 fi
 
 if [[ ! -f $2 ]]; then
 	error "$(gettext "File '%s' does not exist")" "$2"
-	exit 0
+	exit 1
 fi
 
 if ! type xdelta3 &>/dev/null; then
