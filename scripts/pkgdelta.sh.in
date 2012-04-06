@@ -38,11 +38,14 @@ m4_include(library/output_format.sh)
 # print usage instructions
 usage() {
 	printf "pkgdelta (pacman) %s\n\n" "$myver"
-	printf -- "$(gettext "Usage: pkgdelta [-q] <package1> <package2>\n")"
+	printf -- "$(gettext "Usage: pkgdelta [options] <package1> <package2>\n")"
 	printf -- "$(gettext "\
 	pkgdelta will create a delta file between two packages.\n\
 This delta file can then be added to a database using repo-add.\n\n")"
 	printf -- "$(gettext "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz")\n"
+	echo
+	printf -- "$(gettext "Options:\n")"
+	printf -- "  -q                ""$(gettext "quiet\n")"
 }
 
 version() {
@@ -123,32 +126,38 @@ create_xdelta()
 	return 0
 }
 
-case "$1" in
-	-h|--help)    usage; exit 0 ;;
-	-V|--version) version; exit 0 ;;
-	-q|--quiet)   QUIET=1; shift ;;
-esac
+declare -a args
 
-if (( $# != 2 )); then
+# parse arguments
+while (( $# )); do
+	case "$1" in
+		-h|--help)    usage; exit 0 ;;
+		-V|--version) version; exit 0 ;;
+		-q|--quiet) QUIET=1;;
+		--) shift; args+=("$@"); break 2 ;;
+		-*) echo "invalid option -- '$1'"; usage; exit 1 ;;
+		*) args+=("$1");;
+	esac
+	shift
+done
+
+if (( ${#args[@]} != 2 )); then
 	usage
 	exit 1
 fi
 
-if [[ ! -f $1 ]]; then
-	error "$(gettext "File '%s' does not exist")" "$1"
-	exit 1
-fi
-
-if [[ ! -f $2 ]]; then
-	error "$(gettext "File '%s' does not exist")" "$2"
-	exit 1
-fi
+for i in "${args[@]}"; do
+	if [[ ! -f $i ]]; then
+		error "$(gettext "File '%s' does not exist")" "$i"
+		exit 1
+	fi
+done
 
 if ! type xdelta3 &>/dev/null; then
 	error "$(gettext "Cannot find the xdelta3 binary! Is xdelta3 installed?")"
 	exit 1
 fi
 
-create_xdelta "$1" "$2"
+create_xdelta "${args[@]}"
 
 # vim: set ts=2 sw=2 noet:
