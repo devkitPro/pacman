@@ -132,7 +132,7 @@ create_xdelta()
 	fi
 
 	msg "$(gettext "Generating delta from version %s to version %s")" "$oldver" "$newver"
-	deltafile="$(dirname $newfile)/$pkgname-${oldver}_to_${newver}-$arch.delta"
+	deltafile=$(dirname "$newfile")/$pkgname-${oldver}_to_${newver}-$arch.delta
 	local ret=0
 
 	xdelta3 -q -f -s "$oldfile" "$newfile" "$deltafile" || ret=$?
