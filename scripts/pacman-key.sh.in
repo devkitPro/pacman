@@ -469,11 +469,11 @@ OPT_LONG="add::,config:,delete:,edit-key:,export::,finger::,gpgdir:"
 OPT_LONG+=",help,import:,import-trustdb:,init,keyserver:,list-keys::,list-sigs::"
 OPT_LONG+=",lsign-key:,populate::,recv-keys:,refresh-keys::,updatedb"
 OPT_LONG+=",verify:,version"
-if ! parse_options $OPT_SHORT $OPT_LONG "$@"; then
+if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
-set -- "${OPTRET[@]}"
-unset OPT_SHORT OPT_LONG OPTRET
+eval set -- "$OPT_TEMP"
+unset OPT_SHORT OPT_LONG OPT_TEMP
 
 if [[ $1 == "--" ]]; then
 	usage;

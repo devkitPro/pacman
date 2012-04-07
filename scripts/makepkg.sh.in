@@ -1918,11 +1918,11 @@ OPT_LONG+=",version,config:"
 
 # Pacman Options
 OPT_LONG+=",noconfirm,noprogressbar"
-if ! parse_options $OPT_SHORT $OPT_LONG "$@"; then
+if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
-set -- "${OPTRET[@]}"
-unset OPT_SHORT OPT_LONG OPTRET
+eval set -- "$OPT_TEMP"
+unset OPT_SHORT OPT_LONG OPT_TEMP
 
 while true; do
 	case "$1" in
