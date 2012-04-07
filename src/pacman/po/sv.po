@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Kim Svensson <ks6g10@soton.ac.uk>, 2011.
+# Kim Svensson <ks6g10@soton.ac.uk>, 2011, 2012.
 #   <pojk3n@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-02-06 05:42-0600\n"
-"PO-Revision-Date: 2011-11-15 15:43+0000\n"
-"Last-Translator: Gazpachian <f.halldal@gmail.com>\n"
+"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"PO-Revision-Date: 2012-03-24 20:59+0000\n"
+"Last-Translator: Kim Svensson <ks@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.net/projects/p/archlinux-pacman/"
-"team/sv/)\n"
+"language/sv/)\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -492,10 +492,6 @@ msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         ominstallera ej fullt uppdaterade paket\n"
 
 #, c-format
-msgid "      --recursive      reinstall all dependencies of target packages\n"
-msgstr "      --recursive      ominstallera alla beroenden till målpaketen\n"
-
-#, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      visa ändringsloggen för ett paket\n"
 
@@ -869,16 +865,12 @@ msgid "failed to commit transaction (%s)\n"
 msgstr "misslyckades att påbörja överföringen (%s)\n"
 
 #, c-format
+msgid "could not remove %s: %s\n"
+msgstr "kunde inte radera %s: %s\n"
+
+#, c-format
 msgid "could not access database directory\n"
 msgstr "kunde inte få tillgång till databaskatalogen\n"
-
-#, c-format
-msgid "could not remove %s\n"
-msgstr "kunde ej ta bort %s\n"
-
-#, c-format
-msgid "Do you want to remove %s?"
-msgstr "Vill du ta bort %s?"
 
 #, c-format
 msgid "Database directory: %s\n"
@@ -889,8 +881,8 @@ msgid "Do you want to remove unused repositories?"
 msgstr "Vill du ta bort oanvända förråd?"
 
 #, c-format
-msgid "Database directory cleaned up\n"
-msgstr "Databaskatalog upprensad\n"
+msgid "removing unused sync repositories...\n"
+msgstr "Raderar oanvända synkroniserings servrar...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1027,6 +1019,10 @@ msgstr "läser in paket...\n"
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "misslyckades att initialisera överföringen (%s)\n"
+
+#, c-format
+msgid "could not lock database: %s\n"
+msgstr "kunde inte låsa databasen: %s\n"
 
 #, c-format
 msgid ""

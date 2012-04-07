@@ -45,7 +45,7 @@ REFRESH=0
 UPDATEDB=0
 VERIFY=0
 
-DEFAULT_KEYSERVER='hkp://keys.gnupg.net'
+DEFAULT_KEYSERVER='hkp://pool.sks-keyservers.net'
 
 m4_include(library/output_format.sh)
 
@@ -436,10 +436,14 @@ refresh_keys() {
 }
 
 verify_sig() {
-	if ! "${GPG_PACMAN[@]}" --verify $SIGNATURE ; then
+	local fd="$(mktemp)"
+	"${GPG_PACMAN[@]}" --status-file "${fd}" --verify $SIGNATURE
+	if ! grep -q TRUST_FULLY "${fd}"; then
+		rm -f "${fd}"
 		error "$(gettext "The signature identified by %s could not be verified.")" "$SIGNATURE"
 		exit 1
 	fi
+	rm -f "${fd}"
 }
 
 updatedb() {
@@ -457,16 +461,16 @@ if ! type gettext &>/dev/null; then
 	}
 fi
 
-OPT_SHORT="a::d:e:f::hl::r:uv:V"
+OPT_SHORT="a::d:e::f::hl::r:uv:V"
 OPT_LONG="add::,config:,delete:,edit-key:,export::,finger::,gpgdir:"
 OPT_LONG+=",help,import:,import-trustdb:,init,keyserver:,list-keys::,list-sigs::"
 OPT_LONG+=",lsign-key:,populate::,recv-keys:,refresh-keys::,updatedb"
 OPT_LONG+=",verify:,version"
-if ! parse_options $OPT_SHORT $OPT_LONG "$@"; then
+if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
-set -- "${OPTRET[@]}"
-unset OPT_SHORT OPT_LONG OPTRET
+eval set -- "$OPT_TEMP"
+unset OPT_SHORT OPT_LONG OPT_TEMP
 
 if [[ $1 == "--" ]]; then
 	usage;

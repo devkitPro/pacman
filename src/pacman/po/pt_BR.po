@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2012-03-05 11:35-0600\n"
-"PO-Revision-Date: 2012-02-28 00:55+0000\n"
+"PO-Revision-Date: 2012-04-06 14:13+0000\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/"
 "archlinux-pacman/language/pt_BR/)\n"
@@ -29,7 +29,7 @@ msgstr "verificando dependências...\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "verificando conflitos de arquivo...\n"
+msgstr "verificando conflito de arquivos...\n"
 
 #, c-format
 msgid "resolving dependencies...\n"
@@ -53,7 +53,7 @@ msgstr "atualizando %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
-msgstr "verificando a integridade do(s) pacote(s)...\n"
+msgstr "verificando integridade de pacotes...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -61,7 +61,7 @@ msgstr "carregando arquivos do pacote...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "verificando a integridade do(s) delta(s)...\n"
+msgstr "verificando integridade de deltas...\n"
 
 #, c-format
 msgid "applying deltas...\n"
@@ -556,7 +556,7 @@ msgid ""
 "[filter]\n"
 msgstr ""
 "  -m, --foreign          lista os pacotes instalados não encontrados na(s)\n"
-"                         base(s) de dados sincronizada(s) [filtro]\n"
+"                         base(s) de dados de sincronização [filtro]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -910,9 +910,9 @@ msgstr "Deseja remover estes pacotes?"
 msgid "failed to commit transaction (%s)\n"
 msgstr "falha em submeter a transação (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove %s: %s\n"
-msgstr "não foi possível remover %s\n"
+msgstr "não foi possível remover %s: %s\n"
 
 #, c-format
 msgid "could not access database directory\n"
@@ -926,9 +926,9 @@ msgstr "Diretório da base de dados: %s\n"
 msgid "Do you want to remove unused repositories?"
 msgstr "Deseja remover repositórios não utilizados?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing unused sync repositories...\n"
-msgstr "Deseja remover repositórios não utilizados?"
+msgstr "removendo repositórios de sincronização não utilizados...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -944,7 +944,7 @@ msgstr "      Todos os pacotes instalados localmente\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr "      Todas as bases de dados de pacotes atualmente sincronizadas\n"
+msgstr "      Todos pacotes de bases de dados de sincronização\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -1253,9 +1253,3 @@ msgstr "erro: "
 #, c-format
 msgid "warning: "
 msgstr "atenção: "
-
-#~ msgid "Do you want to remove %s?"
-#~ msgstr "Deseja remover %s?"
-
-#~ msgid "Database directory cleaned up\n"
-#~ msgstr "Diretório da base de dados foi apagado\n"

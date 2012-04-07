@@ -23,15 +23,17 @@ parse_options() {
 					[[ ${match} = ${1:2}:: && -n $2 && ${2:0:1} != "-" ]] && needsargument=1
 
 					if (( ! needsargument )); then
-						OPTRET+=("$1")
+						printf ' %s' "$1"
 					else
 						if [[ -n $2 ]]; then
-							OPTRET+=("$1" "$2")
+							printf ' %s ' "$1"
 							shift
+							printf "'%q" "$1"
 							while [[ -n $2 && ${2:0:1} != "-" ]]; do
 								shift
-								OPTRET+=("$1")
+								printf " %q" "$1"
 							done
+							printf "'"
 						else
 							printf "@SCRIPTNAME@: $(gettext "option %s requires an argument\n")" "'$1'" >&2
 							ret=1
@@ -55,22 +57,26 @@ parse_options() {
 						( -n ${1:$i+1} || ( -n $2 && ${2:0:1} != "-" ) ) ]] && needsargument=1
 
 					if (( ! needsargument )); then
-						OPTRET+=("-${1:i:1}")
+						printf ' -%s' "${1:i:1}"
 					else
 						if [[ -n ${1:$i+1} ]]; then
-							OPTRET+=("-${1:i:1}" "${1:i+1}")
+							printf ' -%s ' "${1:i:1}"
+							printf "'%q" "${1:$i+1}"
 							while [[ -n $2 && ${2:0:1} != "-" ]]; do
 								shift
-								OPTRET+=("$1")
+								printf " %q" "$1"
 							done
+							printf "'"
 						else
 							if [[ -n $2 ]]; then
-								OPTRET+=("-${1:i:1}" "$2")
+								printf ' -%s ' "${1:i:1}"
 								shift
+								printf "'%q" "$1"
 								while [[ -n $2 && ${2:0:1} != "-" ]]; do
 									shift
-									OPTRET+=("$1")
+									printf " %q" "$1"
 								done
+								printf "'"
 
 							else
 								printf "@SCRIPTNAME@: $(gettext "option %s requires an argument\n")" "'-${1:i:1}'" >&2
@@ -85,11 +91,15 @@ parse_options() {
 				fi
 			done
 		else
-			unused_options+=("$1")
+			unused_options="${unused_options} '$1'"
 		fi
 		shift
 	done
 
-	OPTRET+=('--' "${unused_options[@]}")
+	printf " --"
+	[[ $unused_options ]] && printf ' %s' "${unused_options[@]}"
+	[[ $1 ]] && printf " '%s'" "$@"
+	printf "\n"
+
 	return $ret
 }

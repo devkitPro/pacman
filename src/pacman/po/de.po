@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2012-03-05 11:35-0600\n"
-"PO-Revision-Date: 2012-02-27 18:53+0000\n"
-"Last-Translator: martinkalcher <martin.kalcher@googlemail.com>\n"
+"PO-Revision-Date: 2012-03-29 14:26+0000\n"
+"Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/archlinux-pacman/"
 "language/de/)\n"
 "Language: de\n"
@@ -78,7 +78,7 @@ msgstr "Erfolgreich!\n"
 
 #, c-format
 msgid "failed.\n"
-msgstr "fehlgeschlagen.\n"
+msgstr "Fehlgeschlagen.\n"
 
 #, c-format
 msgid ":: Retrieving packages from %s...\n"
@@ -486,7 +486,8 @@ msgstr ""
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
-"  -c, --cascade        Entfernt Pakete und alle, die von ihnen abhängen\n"
+"  -c, --cascade        Entfernt Pakete und alle Pakete, die von ihnen "
+"abhängen\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -897,9 +898,9 @@ msgstr "Möchten Sie diese Pakete entfernen?"
 msgid "failed to commit transaction (%s)\n"
 msgstr "Konnte den Vorgang nicht durchführen (%s)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove %s: %s\n"
-msgstr "Konnte %s nicht entfernen\n"
+msgstr "Konnte %s nicht entfernen: %s\n"
 
 #, c-format
 msgid "could not access database directory\n"
@@ -913,9 +914,9 @@ msgstr "Datenbank-Verzeichnis: %s\n"
 msgid "Do you want to remove unused repositories?"
 msgstr "Möchten Sie ungenutzte Repositorien entfernen? "
 
-#, fuzzy, c-format
+#, c-format
 msgid "removing unused sync repositories...\n"
-msgstr "Möchten Sie ungenutzte Repositorien entfernen? "
+msgstr "Entferne unbenutzte Sync Repositorien...\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -935,7 +936,7 @@ msgstr "Alle Pakete der gegenwärtigen Datenbank-Synchronisation\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
-msgstr "Möchten Sie alle anderen Pakete aus dem Cache entfernen?"
+msgstr "Möchten Sie alle anderen Pakete aus dem Puffer entfernen?"
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -1167,11 +1168,11 @@ msgstr "Gesamtgröße der zu installierenden Pakete: %.2f %s\n"
 
 #, c-format
 msgid "Total Removed Size:     %.2f %s\n"
-msgstr "Desamtgröße der entfernten Pakete:     %.2f %s\n"
+msgstr "Gesamtgröße der entfernten Pakete:     %.2f %s\n"
 
 #, c-format
 msgid "Net Upgrade Size:       %.2f %s\n"
-msgstr "Reine Größe des Upgrades: %.2f %s\n"
+msgstr "Größendifferenz der Aktualisierung:       %.2f %s\n"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1240,9 +1241,3 @@ msgstr "Fehler: "
 #, c-format
 msgid "warning: "
 msgstr "Warnung: "
-
-#~ msgid "Do you want to remove %s?"
-#~ msgstr "Möchten Sie %s entfernen?"
-
-#~ msgid "Database directory cleaned up\n"
-#~ msgstr "Datenbank-Verzeichnis wurde aufgeräumt\n"

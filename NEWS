@@ -1,11 +1,35 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+4.0.3         - frontend database cleanup enhancements (FS#28714)
+              - frontend package cleanup enhancements (FS#25166)
+              - back out changes related to SyncFirst in 4.0.0
+                - remove recursive/needed automatic flags on SyncFirst
+                - remove poorly implemented `-S --recursive` option
+              - improve error messages on database locking failures
+              - use full delta size as max download size (FS#28345)
+              - improved handling and fix crash after failed downloads
+              - fix key lookup when using gpg 2.X as GPG program
+              - match only full path components in diskspace checking
+              - skip diskspace checks when using --dbonly
+              - scripts: unset CDPATH bash variable in all scripts
+              - makepkg:
+                - fix syntax error in remove_deps (FS#28448)
+                - small fixes related to multiple libdeps, parsing issues
+                - exit via default handler in trap_exit (FS#28491)
+                - attempt to work around BTRFS file/block size reporting issues
+              - pacman-key:
+                - remove signature verification in --populate
+                - make -e option work as advertised without arguments
+                - exit with correct return codes when verifying signature
+              - pacsysclean: fix description, fix option parsing (FS#28434)
+              - pkgdelta: use bsdtar -q option for better performance
+              - translations: various updates and corrections
 4.0.2         - allow comments after a repository header in pacman.conf
               - search for and import PGP subkeys if necessary (FS#27612)
               - fix rare segfault on removal operations (FS#27805, FS#28195)
               - skip all unknown files when cleaning package cache
               - restore looking for files in cache before downloading via -U
-              - ensure '[removal]' is displayed in transaction confirmation (FS#27981)
+              - ensure '[removal]' is displayed in trans confirmation (FS#27981)
               - implement disk space checking code for Illumos
               - use TCP keepalive in download to prevent dropped connections
               - round and show -0.00 values as 0.00 (FS#27924)

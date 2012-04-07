@@ -880,7 +880,7 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 			return 0;
 		}
 
-		free(payload->fileurl);
+		FREE(payload->fileurl);
 		payload->unlink_on_fail = 0;
 	}
 
