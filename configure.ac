@@ -128,6 +128,11 @@ AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [enable debugging support]),
 	[debug=$enableval], [debug=no])
 
+# Help line for compiler warning flags
+AC_ARG_ENABLE(warningflags,
+	AS_HELP_STRING([--enable-warningflags], [enable extra compiler warning flags]),
+	[warningflags=$enableval], [warningflags=no])
+
 # Help line for using git version in pacman version string
 AC_ARG_ENABLE(git-version,
 	AS_HELP_STRING([--enable-git-version],
@@ -354,6 +359,40 @@ else
 	WARNING_CFLAGS="-Wall"
 fi
 
+# Enable or disable compiler warning flags
+AC_MSG_CHECKING(for excessive compiler warning flags)
+if test "x$warningflags" = "xyes" ; then
+	AC_MSG_RESULT(yes)
+	CFLAGS_ADD([-Wcast-align], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wclobbered], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wempty-body], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wfloat-equal], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wformat-nonliteral], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wformat-security], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wignored-qualifiers], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Winit-self], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wlogical-op], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wmissing-declarations], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wmissing-parameter-type], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wmissing-prototypes], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wold-style-declaration], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Woverride-init], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wpointer-arith], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wredundant-decls], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wshadow], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wsign-compare], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wstrict-aliasing], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wstrict-overflow=5], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wstrict-prototypes], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wtype-limits], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wuninitialized], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wunused-but-set-parameter], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wunused-parameter], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wwrite-strings], [WARNING_CFLAGS])
+else
+	AC_MSG_RESULT(no)
+fi
+
 # Enable or disable use of git version in pacman version string
 AC_MSG_CHECKING(whether to use git version if available)
 if test "x$wantgitver" = "xyes" ; then
@@ -450,6 +489,8 @@ ${PACKAGE_NAME}:
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
+    extra warning flags    : ${warningflags}
+    use git version        : ${wantgitver}
 "
 
 # vim:set ts=2 sw=2 noet:
