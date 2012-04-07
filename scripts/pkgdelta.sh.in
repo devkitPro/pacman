@@ -61,7 +61,7 @@ read_pkginfo()
 	IFS="
 "
 	local line var val
-	for line in $(bsdtar -xOf "$1" .PKGINFO 2>/dev/null |
+	for line in $(bsdtar -xOqf "$1" .PKGINFO 2>/dev/null |
 		grep -v "^#" | sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
 		eval "$line"
 		if [[ -n $pkgname && -n $pkgver && -n $arch ]]; then
