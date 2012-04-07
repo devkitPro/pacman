@@ -41,7 +41,7 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 		case ALPM_ERR_SYSTEM:
 			return _("unexpected system error");
 		case ALPM_ERR_BADPERMS:
-			return _("insufficient privileges");
+			return _("permission denied");
 		case ALPM_ERR_NOT_A_FILE:
 			return _("could not find or read file");
 		case ALPM_ERR_NOT_A_DIR:

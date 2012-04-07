@@ -319,7 +319,14 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 
 	/* attempt to access the package file, ensure it exists */
 	if(_alpm_access(handle, NULL, pkgfile, R_OK) != 0) {
-		RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, -1);
+		if(errno == ENOENT) {
+			handle->pm_errno = ALPM_ERR_PKG_NOT_FOUND;
+		} else if(errno == EACCES) {
+			handle->pm_errno = ALPM_ERR_BADPERMS;
+		} else {
+			handle->pm_errno = ALPM_ERR_PKG_OPEN;
+		}
+		return -1;
 	}
 
 	/* can we get away with skipping checksums? */
@@ -407,6 +414,10 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	if(fd < 0) {
 		if(errno == ENOENT) {
 			handle->pm_errno = ALPM_ERR_PKG_NOT_FOUND;
+		} else if(errno == EACCES) {
+			handle->pm_errno = ALPM_ERR_BADPERMS;
+		} else {
+			handle->pm_errno = ALPM_ERR_PKG_OPEN;
 		}
 		return NULL;
 	}
