@@ -158,15 +158,17 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 			else if(nextchild->state == -1) {
 				alpm_pkg_t *vertexpkg = vertex->data;
 				alpm_pkg_t *childpkg = nextchild->data;
-				const char *message;
 
 				_alpm_log(handle, ALPM_LOG_WARNING, _("dependency cycle detected:\n"));
 				if(reverse) {
-					message =_("%s will be removed after its %s dependency\n");
+					_alpm_log(handle, ALPM_LOG_WARNING,
+							_("%s will be removed after its %s dependency\n"),
+							vertexpkg->name, childpkg->name);
 				} else {
-					message =_("%s will be installed before its %s dependency\n");
+					_alpm_log(handle, ALPM_LOG_WARNING,
+							_("%s will be installed before its %s dependency\n"),
+							vertexpkg->name, childpkg->name);
 				}
-				_alpm_log(handle, ALPM_LOG_WARNING, message, vertexpkg->name, childpkg->name);
 			}
 		}
 		if(!found) {

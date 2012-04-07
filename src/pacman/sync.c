@@ -307,12 +307,12 @@ static int sync_cleancache(int level)
 static int sync_synctree(int level, alpm_list_t *syncs)
 {
 	alpm_list_t *i;
-	int success = 0, ret;
+	unsigned int success = 0;
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		alpm_db_t *db = i->data;
 
-		ret = alpm_db_update((level < 2 ? 0 : 1), db);
+		int ret = alpm_db_update((level < 2 ? 0 : 1), db);
 		if(ret < 0) {
 			pm_printf(ALPM_LOG_ERROR, _("failed to update %s (%s)\n"),
 					alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));

@@ -258,7 +258,7 @@ void indentprint(const char *str, unsigned short indent, unsigned short cols)
 {
 	wchar_t *wcstr;
 	const wchar_t *p;
-	int len, cidx;
+	size_t len, cidx;
 
 	if(!str) {
 		return;
