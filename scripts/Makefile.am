@@ -53,6 +53,7 @@ edit = sed \
 	-e 's|@BUILDSCRIPT[@]|$(BUILDSCRIPT)|g' \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e 's|@SEDINPLACE[@]|$(SEDINPLACE)|g' \
+	-e 's|@DUPATH[@]|$(DUPATH)|g' \
 	-e 's|@SCRIPTNAME[@]|$@|g' \
 	-e 's|@configure_input[@]|Generated from $@.sh.in; do not edit by hand.|g'
 
