@@ -662,7 +662,7 @@ if (( success )); then
 	dirname=${LOCKFILE%/*}
 	filename=${REPO_DB_FILE##*/}
 	# this ensures we create it on the same filesystem, making moves atomic
-	tempname="$dirname/.tmp.$filename"
+	tempname=$dirname/.tmp.$filename
 
 	pushd "$tmpdir/tree" >/dev/null
 	if ( shopt -s nullglob; files=(*); (( ${#files[*]} )) ); then
