@@ -441,7 +441,7 @@ refresh_keys() {
 verify_sig() {
 	local fd="$(mktemp)"
 	"${GPG_PACMAN[@]}" --status-file "${fd}" --verify $SIGNATURE
-	if ! grep -q TRUST_FULLY "${fd}"; then
+	if ! grep -qE 'TRUST_(FULLY|ULTIMATE)' "${fd}"; then
 		rm -f "${fd}"
 		error "$(gettext "The signature identified by %s could not be verified.")" "$SIGNATURE"
 		exit 1
