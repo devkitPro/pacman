@@ -66,7 +66,7 @@ usage() {
 	printf -- "$(gettext "  -l, --list-keys           List the specified or all keys")\n"
 	printf -- "$(gettext "  -r, --recv-keys           Fetch the specified keyids")\n"
 	printf -- "$(gettext "  -u, --updatedb            Update the trustdb of pacman")\n"
-	printf -- "$(gettext "  -v, --verify              Verify the file specified by the signature")\n"
+	printf -- "$(gettext "  -v, --verify              Verify the file(s) specified by the signature(s)")\n"
 	printf -- "$(gettext "  --edit-key                Present a menu for key management task on keyids")\n"
 	printf -- "$(gettext "  --import                  Imports pubring.gpg from dir(s)")\n"
 	printf -- "$(gettext "  --import-trustdb          Imports ownertrust values from trustdb.gpg in dir(s)")\n"
@@ -439,10 +439,15 @@ refresh_keys() {
 }
 
 verify_sig() {
-	if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "$1" | grep -qE 'TRUST_(FULLY|ULTIMATE)'; then
-		error "$(gettext "The signature identified by %s could not be verified.")" "$1"
-		exit 1
-	fi
+	local ret=0
+	for sig; do
+		msg "Checking %s ..." "$sig"
+		if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "$sig" | grep -qE 'TRUST_(FULLY|ULTIMATE)'; then
+			error "$(gettext "The signature identified by %s could not be verified.")" "$sig"
+			ret=1
+		fi
+	done
+	exit $ret
 }
 
 updatedb() {
