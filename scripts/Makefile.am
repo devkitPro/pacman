@@ -77,7 +77,7 @@ pacman-db-upgrade: \
 pacman-key: \
 	$(srcdir)/pacman-key.sh.in \
 	$(srcdir)/library/output_format.sh \
-	$(srcdir)/library/parse_options.sh
+	$(srcdir)/library/parseopts.sh
 
 pacman-optimize: \
 	$(srcdir)/pacman-optimize.sh.in \

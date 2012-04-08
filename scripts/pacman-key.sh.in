@@ -49,40 +49,43 @@ DEFAULT_KEYSERVER='hkp://pool.sks-keyservers.net'
 
 m4_include(library/output_format.sh)
 
-m4_include(library/parse_options.sh)
+m4_include(library/parseopts.sh)
 
 usage() {
 	printf "pacman-key (pacman) %s\n" ${myver}
 	echo
-	printf -- "$(gettext "Usage: %s [options]")\n" $(basename $0)
+	printf -- "$(gettext "Usage: %s [options] operation [targets]")\n" $(basename $0)
 	echo
 	printf -- "$(gettext "Manage pacman's list of trusted keys")\n"
 	echo
-	printf -- "$(gettext "Options:")\n"
-	printf -- "$(gettext "  -a, --add [file(s)]       Add the specified keys (empty for stdin)")\n"
-	printf -- "$(gettext "  -d, --delete <keyid(s)>   Remove the specified keyids")\n"
-	printf -- "$(gettext "  -e, --export [keyid(s)]   Export the specified or all keyids")\n"
-	printf -- "$(gettext "  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids")\n"
-	printf -- "$(gettext "  -h, --help                Show this help message and exit")\n"
-	printf -- "$(gettext "  -l, --list-keys [keyid(s)] List the specified or all keys")\n"
-	printf -- "$(gettext "  -r, --recv-keys <keyid(s)> Fetch the specified keyids")\n"
+	printf -- "$(gettext "Operations:")\n"
+	printf -- "$(gettext "  -a, --add                 Add the specified keys (empty for stdin)")\n"
+	printf -- "$(gettext "  -d, --delete              Remove the specified keyids")\n"
+	printf -- "$(gettext "  -e, --export              Export the specified or all keyids")\n"
+	printf -- "$(gettext "  -f, --finger              List fingerprint for specified or all keyids")\n"
+	printf -- "$(gettext "  -l, --list-keys           List the specified or all keys")\n"
+	printf -- "$(gettext "  -r, --recv-keys           Fetch the specified keyids")\n"
 	printf -- "$(gettext "  -u, --updatedb            Update the trustdb of pacman")\n"
-	printf -- "$(gettext "  -v, --verify <signature>  Verify the file specified by the signature")\n"
-	printf -- "$(gettext "  -V, --version             Show program version")\n"
+	printf -- "$(gettext "  -v, --verify              Verify the file specified by the signature")\n"
+	printf -- "$(gettext "  --edit-key                Present a menu for key management task on keyids")\n"
+	printf -- "$(gettext "  --import                  Imports pubring.gpg from dir(s)")\n"
+	printf -- "$(gettext "  --import-trustdb          Imports ownertrust values from trustdb.gpg in dir(s)")\n"
+	printf -- "$(gettext "  --init                    Ensure the keyring is properly initialized")\n"
+	printf -- "$(gettext "  --list-sigs               List keys and their signatures")\n"
+	printf -- "$(gettext "  --lsign-key               Locally sign the specified keyid")\n"
+	printf -- "$(gettext "  --populate                Reload the default keys from the (given) keyrings\n\
+                            in '%s'")\n" "@pkgdatadir@/keyrings"
+	printf -- "$(gettext "  --refresh-keys            Update specified or all keys from a keyserver")\n"
+	echo
+	printf -- "$(gettext "Options:")\n"
 	printf -- "$(gettext "  --config <file>           Use an alternate config file (instead of\n\
                             '%s')")\n" "@sysconfdir@/pacman.conf"
-	printf -- "$(gettext "  --edit-key <keyid(s)>     Present a menu for key management task on keyids")\n"
 	printf -- "$(gettext "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\n\
                             of '%s')")\n" "@sysconfdir@/pacman.d/gnupg"
-	printf -- "$(gettext "  --import <dir(s)>         Imports pubring.gpg from dir(s)")\n"
-	printf -- "$(gettext "  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in dir(s)")\n"
-	printf -- "$(gettext "  --init                    Ensure the keyring is properly initialized")\n"
-	printf -- "$(gettext "  --keyserver               Specify a keyserver to use if necessary")\n"
-	printf -- "$(gettext "  --list-sigs [keyid(s)]    List keys and their signatures")\n"
-	printf -- "$(gettext "  --lsign-key <keyid>       Locally sign the specified keyid")\n"
-	printf -- "$(gettext "  --populate [keyring(s)]   Reload the default keys from the (given) keyrings\n\
-                            in '%s'")\n" "@pkgdatadir@/keyrings"
-	printf -- "$(gettext "  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver")\n"
+	printf -- "$(gettext "  --keyserver <server-url>  Specify a keyserver to use if necessary")\n"
+	echo
+	printf -- "$(gettext "  -h, --help                Show this help message and exit")\n"
+	printf -- "$(gettext "  -V, --version             Show program version")\n"
 }
 
 version() {
@@ -146,7 +149,7 @@ add_gpg_conf_option() {
 
 check_keyids_exist() {
 	local ret=0
-	for key in "${KEYIDS[@]}"; do
+	for key in "$@"; do
 		# Verify if the key exists in pacman's keyring
 		if ! "${GPG_PACMAN[@]}" --list-keys "$key" &>/dev/null ; then
 			error "$(gettext "The key identified by %s could not be found locally.")" "$key"
@@ -217,16 +220,16 @@ check_keyring() {
 populate_keyring() {
 	local KEYRING_IMPORT_DIR='@pkgdatadir@/keyrings'
 
-	local keyring
+	local keyring KEYRINGIDS=("$@")
 	local ret=0
-	if [[ -z ${KEYRINGIDS[@]} ]]; then
+	if (( ${#KEYRINGIDS[*]} == 0 )); then
 		# get list of all available keyrings
 		shopt -s nullglob
 		KEYRINGIDS=("$KEYRING_IMPORT_DIR"/*.gpg)
 		shopt -u nullglob
 		KEYRINGIDS=("${KEYRINGIDS[@]##*/}")
 		KEYRINGIDS=("${KEYRINGIDS[@]%.gpg}")
-		if [[ -z ${KEYRINGIDS[@]} ]]; then
+		if (( ${#KEYRINGIDS[*]} == 0 )); then
 			error "$(gettext "No keyring files exist in %s.")" "$KEYRING_IMPORT_DIR"
 			ret=1
 		fi
@@ -311,24 +314,24 @@ populate_keyring() {
 }
 
 add_keys() {
-	if ! "${GPG_PACMAN[@]}" --quiet --batch --import "${KEYFILES[@]}" ; then
+	if ! "${GPG_PACMAN[@]}" --quiet --batch --import "$@" ; then
 		error "$(gettext "A specified keyfile could not be added to the gpg keychain.")"
 		exit 1
 	fi
 }
 
 delete_keys() {
-	check_keyids_exist
-	if ! "${GPG_PACMAN[@]}" --quiet --batch --delete-key --yes "${KEYIDS[@]}" ; then
+	check_keyids_exist "$@"
+	if ! "${GPG_PACMAN[@]}" --quiet --batch --delete-key --yes "$@" ; then
 		error "$(gettext "A specified key could not be removed from the gpg keychain.")"
 		exit 1
 	fi
 }
 
 edit_keys() {
-	check_keyids_exist
+	check_keyids_exist "$@"
 	local ret=0
-	for key in "${KEYIDS[@]}"; do
+	for key in "$@"; do
 		if ! "${GPG_PACMAN[@]}" --edit-key "$key" ; then
 			error "$(gettext "The key identified by %s could not be edited.")" "$key"
 			ret=1
@@ -340,8 +343,8 @@ edit_keys() {
 }
 
 export_keys() {
-	check_keyids_exist
-	if ! "${GPG_PACMAN[@]}" --armor --export "${KEYIDS[@]}" ; then
+	check_keyids_exist "$@"
+	if ! "${GPG_PACMAN[@]}" --armor --export "$@" ; then
 		error "$(gettext "A specified key could not be exported from the gpg keychain.")"
 		exit 1
 	fi
@@ -349,7 +352,7 @@ export_keys() {
 
 finger_keys() {
 	check_keyids_exist
-	if ! "${GPG_PACMAN[@]}" --batch --fingerprint "${KEYIDS[@]}" ; then
+	if ! "${GPG_PACMAN[@]}" --batch --fingerprint "$@" ; then
 		error "$(gettext "The fingerprint of a specified key could not be determined.")"
 		exit 1
 	fi
@@ -358,7 +361,7 @@ finger_keys() {
 import_trustdb() {
 	local importdir
 	local ret=0
-	for importdir in "${IMPORT_DIRS[@]}"; do
+	for importdir in "$@"; do
 		if [[ -f "${importdir}/trustdb.gpg" ]]; then
 			gpg --homedir "${importdir}" --export-ownertrust | \
 				"${GPG_PACMAN[@]}" --import-ownertrust -
@@ -379,7 +382,7 @@ import_trustdb() {
 import() {
 	local importdir
 	local ret=0
-	for importdir in "${IMPORT_DIRS[@]}"; do
+	for importdir in "$@"; do
 		if [[ -f "${importdir}/pubring.gpg" ]]; then
 			if ! "${GPG_PACMAN[@]}" --quiet --batch --import "${importdir}/pubring.gpg" ; then
 				error "$(gettext "%s could not be imported.")" "${importdir}/pubring.gpg"
@@ -397,7 +400,7 @@ import() {
 
 list_keys() {
 	check_keyids_exist
-	if ! "${GPG_PACMAN[@]}" --batch --list-keys "${KEYIDS[@]}" ; then
+	if ! "${GPG_PACMAN[@]}" --batch --list-keys "$@" ; then
 		error "$(gettext "A specified key could not be listed.")"
 		exit 1
 	fi
@@ -405,7 +408,7 @@ list_keys() {
 
 list_sigs() {
 	check_keyids_exist
-	if ! "${GPG_PACMAN[@]}" --batch --list-sigs "${KEYIDS[@]}" ; then
+	if ! "${GPG_PACMAN[@]}" --batch --list-sigs "$@" ; then
 		error "$(gettext "A specified signature could not be listed.")"
 		exit 1
 	fi
@@ -413,7 +416,7 @@ list_sigs() {
 
 lsign_keys() {
 	check_keyids_exist
-	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${KEYIDS[@]}" 2>/dev/null
+	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "$@" 2>/dev/null
 	if (( PIPESTATUS[1] )); then
 		error "$(gettext "A specified key could not be locally signed.")"
 		exit 1
@@ -421,23 +424,23 @@ lsign_keys() {
 }
 
 receive_keys() {
-	if ! "${GPG_PACMAN[@]}" --recv-keys "${KEYIDS[@]}" ; then
+	if ! "${GPG_PACMAN[@]}" --recv-keys "$@" ; then
 		error "$(gettext "Remote key not fetched correctly from keyserver.")"
 		exit 1
 	fi
 }
 
 refresh_keys() {
-	check_keyids_exist
-	if ! "${GPG_PACMAN[@]}" --refresh-keys "${KEYIDS[@]}" ; then
+	check_keyids_exist "$@"
+	if ! "${GPG_PACMAN[@]}" --refresh-keys "$@" ; then
 		error "$(gettext "A specified local key could not be updated from a keyserver.")"
 		exit 1
 	fi
 }
 
 verify_sig() {
-	if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify $SIGNATURE | grep -qE 'TRUST_(FULLY|ULTIMATE)'; then
-		error "$(gettext "The signature identified by %s could not be verified.")" "$SIGNATURE"
+	if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "$1" | grep -qE 'TRUST_(FULLY|ULTIMATE)'; then
+		error "$(gettext "The signature identified by %s could not be verified.")" "$1"
 		exit 1
 	fi
 }
@@ -457,56 +460,55 @@ if ! type gettext &>/dev/null; then
 	}
 fi
 
-OPT_SHORT="a::d:e::f::hl::r:uv:V"
-OPT_LONG="add::,config:,delete:,edit-key:,export::,finger::,gpgdir:"
-OPT_LONG+=",help,import:,import-trustdb:,init,keyserver:,list-keys::,list-sigs::"
-OPT_LONG+=",lsign-key:,populate::,recv-keys:,refresh-keys::,updatedb"
-OPT_LONG+=",verify:,version"
-if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
+OPT_SHORT="adefhlruvV"
+OPT_LONG=('add' 'config:' 'delete' 'edit-key' 'export' 'finger' 'gpgdir:'
+          'help' 'import' 'import-trustdb' 'init' 'keyserver:' 'list-keys' 'list-sigs'
+          'lsign-key' 'populate' 'recv-keys' 'refresh-keys' 'updatedb'
+          'verify' 'version')
+if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	echo; usage; exit 1 # E_INVALID_OPTION;
 fi
-eval set -- "$OPT_TEMP"
-unset OPT_SHORT OPT_LONG OPT_TEMP
+set -- "${OPTRET[@]}"
+unset OPT_SHORT OPT_LONG OPTRET
 
 if [[ $1 == "--" ]]; then
 	usage;
 	exit 0;
 fi
 
-while true; do
-	case "$1" in
-		-a|--add)         ADD=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYFILES=($1); UPDATEDB=1 ;;
+while (( $# )); do
+	case $1 in
+		-a|--add)         ADD=1 UPDATEDB=1 ;;
 		--config)         shift; CONFIG=$1 ;;
-		-d|--delete)      DELETE=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
-		--edit-key)       EDITKEY=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
-		-e|--export)      EXPORT=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
-		-f|--finger)      FINGER=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
+		-d|--delete)      DELETE=1 UPDATEDB=1 ;;
+		--edit-key)       EDITKEY=1 UPDATEDB=1 ;;
+		-e|--export)      EXPORT=1 ;;
+		-f|--finger)      FINGER=1 ;;
 		--gpgdir)         shift; PACMAN_KEYRING_DIR=$1 ;;
-		--import)         IMPORT=1; shift; IMPORT_DIRS=($1); UPDATEDB=1 ;;
-		--import-trustdb) IMPORT_TRUSTDB=1; shift; IMPORT_DIRS=($1); UPDATEDB=1 ;;
+		--import)         IMPORT=1 UPDATEDB=1 ;;
+		--import-trustdb) IMPORT_TRUSTDB=1 UPDATEDB=1 ;;
 		--init)           INIT=1 ;;
 		--keyserver)      shift; KEYSERVER=$1 ;;
-		-l|--list-keys)   LISTKEYS=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
-		--list-sigs)      LISTSIGS=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
-		--lsign-key)      LSIGNKEY=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
-		--populate)       POPULATE=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYRINGIDS=($1); UPDATEDB=1 ;;
-		-r|--recv-keys)   RECEIVE=1; shift; KEYIDS=($1); UPDATEDB=1 ;;
-		--refresh-keys)   REFRESH=1; [[ -n $2 && ${2:0:1} != "-" ]] && shift && KEYIDS=($1) ;;
+		-l|--list-keys)   LISTKEYS=1 ;;
+		--list-sigs)      LISTSIGS=1 ;;
+		--lsign-key)      LSIGNKEY=1 UPDATEDB=1 ;;
+		--populate)       POPULATE=1 UPDATEDB=1 ;;
+		-r|--recv-keys)   RECEIVE=1 UPDATEDB=1 ;;
+		--refresh-keys)   REFRESH=1 ;;
 		-u|--updatedb)    UPDATEDB=1 ;;
-		-v|--verify)      VERIFY=1; shift; SIGNATURE=$1 ;;
+		-v|--verify)      VERIFY=1 ;;
 
 		-h|--help)        usage; exit 0 ;;
 		-V|--version)     version; exit 0 ;;
 
-		--)               OPT_IND=0; shift; break;;
-		*)                usage; exit 1 ;;
+		--)               shift; break 2 ;;
 	esac
 	shift
 done
 
 
 if ! type -p gpg >/dev/null; then
-    error "$(gettext "Cannot find the %s binary required for all %s operations.")" "gpg" "pacman-key"
+	error "$(gettext "Cannot find the %s binary required for all %s operations.")" "gpg" "pacman-key"
 	exit 1
 fi
 
@@ -549,23 +551,30 @@ case $numopt in
 		;;
 esac
 
+# check for targets where needed
+if (( (ADD || DELETE || EDIT || IMPORT || IMPORT_TRUSTDB ||
+		LSIGNKEY || RECEIVE || VERIFY) && $# == 0 )); then
+	error "$(gettext "No targets specified")"
+	exit 1
+fi
+
 (( ! INIT )) && check_keyring
 
-(( ADD )) && add_keys
-(( DELETE )) && delete_keys
-(( EDITKEY )) && edit_keys
-(( EXPORT )) && export_keys
-(( FINGER )) && finger_keys
-(( IMPORT )) && import
-(( IMPORT_TRUSTDB)) && import_trustdb
+(( ADD )) && add_keys "$@"
+(( DELETE )) && delete_keys "$@"
+(( EDITKEY )) && edit_keys "$@"
+(( EXPORT )) && export_keys "$@"
+(( FINGER )) && finger_keys "$@"
+(( IMPORT )) && import "$@"
+(( IMPORT_TRUSTDB)) && import_trustdb "$@"
 (( INIT )) && initialize
-(( LISTKEYS )) && list_keys
-(( LISTSIGS )) && list_sigs
-(( LSIGNKEY )) && lsign_keys
-(( POPULATE )) && populate_keyring
-(( RECEIVE )) && receive_keys
-(( REFRESH )) && refresh_keys
-(( VERIFY )) && verify_sig
+(( LISTKEYS )) && list_keys "$@"
+(( LISTSIGS )) && list_sigs "$@"
+(( LSIGNKEY )) && lsign_keys "$@"
+(( POPULATE )) && populate_keyring "$@"
+(( RECEIVE )) && receive_keys "$@"
+(( REFRESH )) && refresh_keys "$@"
+(( VERIFY )) && verify_sig "$@"
 
 (( UPDATEDB )) && updatedb
 
