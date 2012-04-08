@@ -8,12 +8,6 @@ and can be silenced by defining 'QUIET'.  The 'warning' and 'error'
 functions print to stderr with the appropriate prefix added to the
 message.
 
-parse_options.sh:
-A getopt replacement to avoids portability issues, in particular the
-lack of long option name support in the default getopt provided by some
-platforms.
-Usage: parse_option $SHORT_OPTS $LONG_OPTS "$@"
-
 parseopts.sh:
 A getopt_long-like parser which portably supports longopts and shortopts
 with some GNU extensions. It does not allow for options with optional

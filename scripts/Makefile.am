@@ -27,8 +27,7 @@ EXTRA_DIST = \
 
 LIBRARY = \
 	library/output_format.sh \
-	library/parseopts.sh \
-	library/parse_options.sh
+	library/parseopts.sh
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS)
