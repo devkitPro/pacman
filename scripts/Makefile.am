@@ -68,7 +68,7 @@ $(OURSCRIPTS): Makefile
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
-	$(srcdir)/library/parse_options.sh
+	$(srcdir)/library/parseopts.sh
 
 pacman-db-upgrade: \
 	$(srcdir)/pacman-db-upgrade.sh.in \
