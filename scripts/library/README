@@ -13,3 +13,23 @@ A getopt replacement to avoids portability issues, in particular the
 lack of long option name support in the default getopt provided by some
 platforms.
 Usage: parse_option $SHORT_OPTS $LONG_OPTS "$@"
+
+parseopts.sh:
+A getopt_long-like parser which portably supports longopts and shortopts
+with some GNU extensions. It does not allow for options with optional
+arguments. For both short and long opts, options requiring an argument
+should be suffixed with a colon. After the first argument containing
+the short opts, any number of valid long opts may be be passed. The end
+of the options delimiter must then be added, followed by the user arguments
+to the calling program.
+
+Reccommended Usage:
+  OPT_SHORT='fb:z'
+  OPT_LONG=('foo' 'bar:' 'baz')
+  if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
+    exit 1
+  fi
+  set -- "${OPTRET[@]}"
+Returns:
+  0: parse success
+  1: parse failure (error message supplied)
