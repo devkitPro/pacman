@@ -1487,10 +1487,10 @@ install_package() {
 	for pkg in ${pkgname[@]}; do
 		fullver=$(get_full_version $pkg)
 		pkgarch=$(get_pkg_arch $pkg)
-		pkglist+=" $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}"
+		pkglist+=("$PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}")
 	done
 
-	if ! run_pacman -U $pkglist; then
+	if ! run_pacman -U ${pkglist[@]}; then
 		warning "$(gettext "Failed to install built package(s).")"
 		return 0
 	fi
