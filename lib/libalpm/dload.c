@@ -337,9 +337,9 @@ static void mask_signal(int signal, void (*handler)(int),
 	sigaction(signal, &newaction, NULL);
 }
 
-static void unmask_signal(int signal, struct sigaction sa)
+static void unmask_signal(int signal, struct sigaction *sa)
 {
-	sigaction(signal, &sa, NULL);
+	sigaction(signal, sa, NULL);
 }
 
 static FILE *create_tempfile(struct dload_payload *payload, const char *localpath)
@@ -409,7 +409,8 @@ static int curl_download_internal(struct dload_payload *payload,
 		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
 	}
 
-	if(strlen(payload->remote_name) > 0 && strcmp(payload->remote_name, ".sig") != 0) {
+	if(payload->remote_name && strlen(payload->remote_name) > 0 &&
+			strcmp(payload->remote_name, ".sig") != 0) {
 		payload->destfile_name = get_fullpath(localpath, payload->remote_name, "");
 		payload->tempfile_name = get_fullpath(localpath, payload->remote_name, ".part");
 		if(!payload->destfile_name || !payload->tempfile_name) {
@@ -582,8 +583,8 @@ cleanup:
 	}
 
 	/* restore the old signal handlers */
-	unmask_signal(SIGINT, orig_sig_int);
-	unmask_signal(SIGPIPE, orig_sig_pipe);
+	unmask_signal(SIGINT, &orig_sig_int);
+	unmask_signal(SIGPIPE, &orig_sig_pipe);
 	/* if we were interrupted, trip the old handler */
 	if(dload_interrupted) {
 		raise(SIGINT);
