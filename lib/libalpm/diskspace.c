@@ -224,6 +224,7 @@ static int calculate_removed_size(alpm_handle_t *handle,
 		alpm_mountpoint_t *mp;
 		struct stat st;
 		char path[PATH_MAX];
+		blkcnt_t remove_size;
 		const char *filename = file->name;
 
 		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
@@ -243,8 +244,8 @@ static int calculate_removed_size(alpm_handle_t *handle,
 		}
 
 		/* the addition of (divisor - 1) performs ceil() with integer division */
-		mp->blocks_needed -=
-			(st.st_size + mp->fsp.f_bsize - 1) / mp->fsp.f_bsize;
+		remove_size = (st.st_size + mp->fsp.f_bsize - 1) / mp->fsp.f_bsize;
+		mp->blocks_needed -= remove_size;
 		mp->used |= USED_REMOVE;
 	}
 
@@ -265,6 +266,7 @@ static int calculate_installed_size(alpm_handle_t *handle,
 		const alpm_file_t *file = filelist->files + i;
 		alpm_mountpoint_t *mp;
 		char path[PATH_MAX];
+		blkcnt_t install_size;
 		const char *filename = file->name;
 
 		/* libarchive reports these as zero size anyways */
@@ -289,8 +291,8 @@ static int calculate_installed_size(alpm_handle_t *handle,
 		}
 
 		/* the addition of (divisor - 1) performs ceil() with integer division */
-		mp->blocks_needed +=
-			(file->size + mp->fsp.f_bsize - 1) / mp->fsp.f_bsize;
+		install_size = (file->size + mp->fsp.f_bsize - 1) / mp->fsp.f_bsize;
+		mp->blocks_needed += install_size;
 		mp->used |= USED_INSTALL;
 	}
 
