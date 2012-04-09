@@ -87,7 +87,7 @@
 #endif
 
 #define OPEN(fd, path, flags) do { fd = open(path, flags | O_BINARY); } while(fd == -1 && errno == EINTR)
-#define CLOSE(fd) do { int ret; do { ret = close(fd); } while(ret == -1 && errno == EINTR); } while(0)
+#define CLOSE(fd) do { int _ret; do { _ret = close(fd); } while(_ret == -1 && errno == EINTR); } while(0)
 
 /**
  * Used as a buffer/state holder for _alpm_archive_fgets().

@@ -10,7 +10,7 @@ DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
 AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h
 
-AM_CFLAGS = -pedantic -D_GNU_SOURCE
+AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 
 if ENABLE_VISIBILITY_CC
 if DARWIN
@@ -63,7 +63,20 @@ libalpm_la_SOURCES += \
 	base64.h base64.c
 endif
 
-libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO) @LIBCURL@
-libalpm_la_LIBADD = $(LTLIBINTL)
+libalpm_la_LDFLAGS = -no-undefined -version-info $(LIB_VERSION_INFO)
+
+libalpm_la_CFLAGS = \
+	$(AM_CFLAGS) \
+	$(GPGME_CFLAGS) \
+	$(LIBARCHIVE_CFLAGS) \
+	$(LIBCURL_CFLAGS) \
+	$(LIBSSL_CFLAGS)
+
+libalpm_la_LIBADD = \
+	$(LTLIBINTL) \
+	$(GPGME_LIBS) \
+	$(LIBARCHIVE_LIBS) \
+	$(LIBCURL_LIBS) \
+	$(LIBSSL_LIBS)
 
 # vim:set ts=2 sw=2 noet:

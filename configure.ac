@@ -55,11 +55,14 @@ m4_define([pacman_version],
 AC_INIT([pacman], [pacman_version], [pacman-dev@archlinux.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
 
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([1.11])
 AM_SILENT_RULES([yes])
 
+LT_INIT
 LIB_VERSION=`expr lib_current - lib_age`.lib_age.lib_revision
 LIB_VERSION_INFO="lib_current:lib_revision:lib_age"
 
@@ -105,8 +108,10 @@ AC_ARG_WITH(gpgme,
 	AS_HELP_STRING([--with-gpgme], [use GPGME for PGP signature verification]),
 	[], [with_gpgme=check])
 
-# Check for useable libcurl
-LIBCURL_CHECK_CONFIG([yes], [7.19.4], [with_libcurl=yes], [with_libcurl=no])
+# Help line for using libcurl
+AC_ARG_WITH(curl,
+	AS_HELP_STRING([--with-libcurl], [use libcurl for the internal downloader]),
+	[], [with_curl=check])
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
@@ -123,6 +128,11 @@ AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [enable debugging support]),
 	[debug=$enableval], [debug=no])
 
+# Help line for compiler warning flags
+AC_ARG_ENABLE(warningflags,
+	AS_HELP_STRING([--enable-warningflags], [enable extra compiler warning flags]),
+	[warningflags=$enableval], [warningflags=no])
+
 # Help line for using git version in pacman version string
 AC_ARG_ENABLE(git-version,
 	AS_HELP_STRING([--enable-git-version],
@@ -136,12 +146,7 @@ AC_SYS_LARGEFILE
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC_C99
-AC_PROG_CXX
 AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_MAKE_SET
-AC_PROG_LIBTOOL
-AC_PROG_RANLIB
 AC_CHECK_PROGS([PYTHON], [python2.7 python2.6 python2.5 python2 python], [false])
 AC_PATH_PROGS([BASH_SHELL], [bash bash4 bash3], [false])
 
@@ -153,21 +158,30 @@ AC_CHECK_LIB([m], [fabs], ,
 	AC_MSG_ERROR([libm is needed to compile pacman!]))
 
 # Check for libarchive
-AC_CHECK_LIB([archive], [archive_read_data], ,
-	AC_MSG_ERROR([libarchive is needed to compile pacman!]))
+PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 2.8.0], ,
+	AC_MSG_ERROR([*** libarchive >= 2.8.0 is needed to compile pacman!]))
 
 # Check for OpenSSL
-AC_MSG_CHECKING(whether to link with libssl)
-AS_IF([test "x$with_openssl" != "xno"],
-	[AC_MSG_RESULT(yes)
-	AC_CHECK_LIB([ssl], [MD5_Final], ,
-	[if test "x$with_openssl" != "xcheck"; then
-		AC_MSG_FAILURE([--with-openssl was given, but -lssl was not found])
-	fi],
-	[-lcrypto])
-	with_openssl=$ac_cv_lib_ssl_MD5_Final],
-	AC_MSG_RESULT(no))
-AM_CONDITIONAL([HAVE_LIBSSL], [test "x$with_openssl" = "xyes"])
+have_openssl=no
+if test "x$with_openssl" != "xno"; then
+	PKG_CHECK_MODULES(LIBSSL, [libssl libcrypto],
+		[AC_DEFINE(HAVE_LIBSSL, 1, [Define if libcrypto is available]) have_openssl=yes], have_openssl=no)
+	if test "x$have_openssl" = xno -a "x$with_openssl" = xyes; then
+		AC_MSG_ERROR([*** openssl support requested but libraries not found])
+	fi
+fi
+AM_CONDITIONAL(HAVE_LIBSSL, [test "$have_openssl" = "yes"])
+
+# Check for libcurl
+have_libcurl=no
+if test "x$with_libcurl" != "xno"; then
+	PKG_CHECK_MODULES(LIBCURL, [libcurl >= 7.19.4],
+		[AC_DEFINE(HAVE_LIBCURL, 1, [Define if libcurl is available]) have_libcurl=yes], have_libcurl=no)
+	if test "x$have_libcurl" = xno -a "x$with_libcurl" = xyes; then
+		AC_MSG_ERROR([*** libcurl >= 7.19.4 is required for internal downloader support])
+	fi
+fi
+AM_CONDITIONAL(HAVE_LIBCURL, [test "$have_libcurl" = "yes"])
 
 # Check for gpgme
 AC_MSG_CHECKING(whether to link with libgpgme)
@@ -175,11 +189,9 @@ AS_IF([test "x$with_gpgme" != "xno"],
 	[AC_MSG_RESULT([yes])],
 	[AC_MSG_RESULT([no])])
 
-require_gpgme=no
+have_gpgme=no
 AS_IF([test "x$with_gpgme" != "xno"],
-	[AS_IF([test "x$with_gpgme" = "xyes"],
-		[require_gpgme=yes])
-	AM_PATH_GPGME([1.3.0],
+	[AM_PATH_GPGME([1.3.0],
 		[LIBS_save="$LIBS"
 		CPPFLAGS_save="$CPPFLAGS"
 		CFLAGS_save="$CFLAGS"
@@ -192,23 +204,26 @@ AS_IF([test "x$with_gpgme" != "xno"],
 		AC_LINK_IFELSE(
 			[AC_LANG_PROGRAM(
 				[[#include <gpgme.h>]],
-				[[const char *ver;
-ver = gpgme_check_version("1.2.4");]])],
+				[[return gpgme_check_version("1.3.0");]])],
 			[AC_MSG_RESULT([yes])
-			with_gpgme=yes
+			have_gpgme=yes
 			AC_DEFINE([HAVE_LIBGPGME], [1], [Define if gpgme should be used to provide GPG signature support.])],
 			[AC_MSG_RESULT([no])
-			with_gpgme=no
-			LIBS="$LIBS_save"
-			CPPFLAGS="$CPPFLAGS_save"
-			CFLAGS="$CFLAGS_save"])],
-		[with_gpgme=no])])
-AS_IF([test "x$with_gpgme" != "xyes"],
-	[AS_IF([test "x$require_gpgme" = "xyes"],
-		[AC_MSG_FAILURE([--with-gpgme was given, but gpgme was not found])])
-	with_gpgme=no])
-
-AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$with_gpgme" = "xyes"])
+			have_gpgme=no
+			unset GPGME_LIBS
+			unset GPGME_CFLAGS]
+			AS_IF([test "x$with_gpgme" = "xyes"],
+				[AC_MSG_FAILURE([*** gpgme >= 1.3.0 is needed for GPG signature support])])
+			)],
+		[with_gpgme=no])]
+		[LIBS="$LIBS_save"
+		CPPFLAGS="$CPPFLAGS_save"
+		CFLAGS="$CFLAGS_save"
+		unset CPPFLAGS_save
+		unset CFLAGS_save])
+AS_IF([test "x$have_gpgme" = xno -a "x$with_gpgme" = xyes],
+	[AC_MSG_FAILURE([--with-gpgme was given, but gpgme was not found])])
+AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$have_gpgme" = "xyes"])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h float.h glob.h libintl.h limits.h locale.h \
@@ -268,7 +283,7 @@ case "${host_os}" in
 		;;
 	cygwin*)
 		host_os_cygwin=yes
-		CFLAGS="$CFLAGS -DCYGWIN"
+		AC_DEFINE([CYGWIN], [1], [Define if host OS is cygwin])
 		;;
 	darwin*)
 		host_os_darwin=yes
@@ -338,10 +353,44 @@ if test "x$debug" = "xyes" ; then
 	GCC_STACK_PROTECT_LIB
 	GCC_STACK_PROTECT_CC
 	GCC_FORTIFY_SOURCE_CC
-	CFLAGS="$CFLAGS -g -Wall -Werror"
+	WARNING_CFLAGS="-g -Wall -Werror"
 else
 	AC_MSG_RESULT(no)
-	CFLAGS="$CFLAGS -Wall"
+	WARNING_CFLAGS="-Wall"
+fi
+
+# Enable or disable compiler warning flags
+AC_MSG_CHECKING(for excessive compiler warning flags)
+if test "x$warningflags" = "xyes" ; then
+	AC_MSG_RESULT(yes)
+	CFLAGS_ADD([-Wcast-align], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wclobbered], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wempty-body], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wfloat-equal], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wformat-nonliteral], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wformat-security], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wignored-qualifiers], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Winit-self], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wlogical-op], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wmissing-declarations], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wmissing-parameter-type], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wmissing-prototypes], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wold-style-declaration], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Woverride-init], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wpointer-arith], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wredundant-decls], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wshadow], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wsign-compare], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wstrict-aliasing], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wstrict-overflow=5], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wstrict-prototypes], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wtype-limits], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wuninitialized], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wunused-but-set-parameter], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wunused-parameter], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wwrite-strings], [WARNING_CFLAGS])
+else
+	AC_MSG_RESULT(no)
 fi
 
 # Enable or disable use of git version in pacman version string
@@ -412,9 +461,9 @@ ${PACKAGE_NAME}:
 
     compiler               : ${CC}
     preprocessor flags     : ${CPPFLAGS}
-    compiler flags         : ${CFLAGS}
+    compiler flags         : ${WARNING_CFLAGS} ${CFLAGS}
     defines                : ${DEFS}
-    library flags          : ${LIBS}
+    library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS} ${GPGME_LIBS}
     linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
@@ -434,12 +483,14 @@ ${PACKAGE_NAME}:
     build script name      : ${BUILDSCRIPT}
 
   Compilation options:
-    Use libcurl            : ${with_libcurl}
-    Use GPGME              : ${with_gpgme}
-    Use OpenSSL            : ${with_openssl}
+    Use libcurl            : ${have_libcurl}
+    Use GPGME              : ${have_gpgme}
+    Use OpenSSL            : ${have_openssl}
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
+    extra warning flags    : ${warningflags}
+    use git version        : ${wantgitver}
 "
 
 # vim:set ts=2 sw=2 noet:

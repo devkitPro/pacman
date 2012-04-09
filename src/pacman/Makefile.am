@@ -21,7 +21,7 @@ AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h \
 	-I$(top_srcdir)/lib/libalpm
 
-AM_CFLAGS = -pedantic -D_GNU_SOURCE
+AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 
 if USE_GIT_VERSION
 GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 --dirty | sed s/^v//')

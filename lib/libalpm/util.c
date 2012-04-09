@@ -621,7 +621,9 @@ int _alpm_ldconfig(alpm_handle_t *handle)
 	if(access(line, F_OK) == 0) {
 		snprintf(line, PATH_MAX, "%ssbin/ldconfig", handle->root);
 		if(access(line, X_OK) == 0) {
-			char *argv[] = { "ldconfig", NULL };
+			char arg0[32];
+			char *argv[] = { arg0, NULL };
+			strcpy(arg0, "ldconfig");
 			return _alpm_run_chroot(handle, "/sbin/ldconfig", argv);
 		}
 	}
@@ -676,7 +678,8 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 {
 	struct stat buf;
 	alpm_list_t *i;
-	char *cachedir, *tmpdir;
+	char *cachedir;
+	const char *tmpdir;
 
 	/* Loop through the cache dirs until we find a usable directory */
 	for(i = handle->cachedirs; i; i = i->next) {
@@ -995,13 +998,13 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			}
 			if(needed > b->line_size) {
 				/* need to realloc + copy data to fit total length */
-				char *new;
-				CALLOC(new, needed, sizeof(char), b->ret = -ENOMEM; goto cleanup);
-				memcpy(new, b->line, b->line_size);
+				char *new_line;
+				CALLOC(new_line, needed, sizeof(char), b->ret = -ENOMEM; goto cleanup);
+				memcpy(new_line, b->line, b->line_size);
 				b->line_size = needed;
-				b->line_offset = new + (b->line_offset - b->line);
+				b->line_offset = new_line + (b->line_offset - b->line);
 				free(b->line);
-				b->line = new;
+				b->line = new_line;
 			}
 		}
 

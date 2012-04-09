@@ -17,7 +17,7 @@ AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h \
 	-I$(top_srcdir)/lib/libalpm
 
-AM_CFLAGS = -pedantic -D_GNU_SOURCE
+AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 
 cleanupdelta_SOURCES = cleanupdelta.c
 cleanupdelta_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
@@ -35,6 +35,6 @@ testpkg_SOURCES = testpkg.c
 testpkg_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 vercmp_SOURCES = vercmp.c
-vercmp_LDADD = $(top_builddir)/lib/libalpm/version.lo
+vercmp_LDADD = $(top_builddir)/lib/libalpm/libalpm_la-version.lo
 
 # vim:set ts=2 sw=2 noet:

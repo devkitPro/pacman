@@ -808,12 +808,13 @@ int main(int argc, char *argv[])
 
 	/* we support reading targets from stdin if a cmdline parameter is '-' */
 	if(!isatty(fileno(stdin)) && alpm_list_find_str(pm_targets, "-")) {
-		size_t current_size = PATH_MAX, i = 0;
+		size_t current_size = PATH_MAX;
 		char *line = malloc(current_size);
 
 		/* remove the '-' from the list */
 		pm_targets = alpm_list_remove_str(pm_targets, "-", NULL);
 
+		i = 0;
 		while((line[i] = (char)fgetc(stdin)) != EOF) {
 			if(isspace((unsigned char)line[i])) {
 				/* avoid adding zero length arg when multiple spaces separate args */
@@ -885,13 +886,13 @@ int main(int argc, char *argv[])
 #endif
 
 	if(config->verbose > 0) {
-		alpm_list_t *i;
+		alpm_list_t *j;
 		printf("Root      : %s\n", alpm_option_get_root(config->handle));
 		printf("Conf File : %s\n", config->configfile);
 		printf("DB Path   : %s\n", alpm_option_get_dbpath(config->handle));
 		printf("Cache Dirs: ");
-		for(i = alpm_option_get_cachedirs(config->handle); i; i = alpm_list_next(i)) {
-			printf("%s  ", (const char *)i->data);
+		for(j = alpm_option_get_cachedirs(config->handle); j; j = alpm_list_next(j)) {
+			printf("%s  ", (const char *)j->data);
 		}
 		printf("\n");
 		printf("Lock File : %s\n", alpm_option_get_lockfile(config->handle));

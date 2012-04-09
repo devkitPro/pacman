@@ -276,8 +276,8 @@ static int grep(const char *fn, const char *needle)
 int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 		const char *script, const char *ver, const char *oldver, int is_archive)
 {
-	char cmdline[PATH_MAX];
-	char *argv[] = { SCRIPTLET_SHELL, "-c", cmdline, NULL };
+	char arg0[64], arg1[3], cmdline[PATH_MAX];
+	char *argv[] = { arg0, arg1, cmdline, NULL };
 	char *tmpdir, *scriptfn = NULL, *scriptpath;
 	int retval = 0;
 	size_t len;
@@ -292,6 +292,9 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 		 * if it is an actual scriptlet file and not an archive.  */
 		return 0;
 	}
+
+	strcpy(arg0, SCRIPTLET_SHELL);
+	strcpy(arg1, "-c");
 
 	/* create a directory in $root/tmp/ for copying/extracting the scriptlet */
 	len = strlen(handle->root) + strlen("tmp/alpm_XXXXXX") + 1;
