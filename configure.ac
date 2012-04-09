@@ -373,6 +373,7 @@ if test "x$warningflags" = "xyes" ; then
 	CFLAGS_ADD([-Winit-self], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wlogical-op], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wmissing-declarations], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wmissing-field-initializers], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wmissing-parameter-type], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wmissing-prototypes], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wold-style-declaration], [WARNING_CFLAGS])
