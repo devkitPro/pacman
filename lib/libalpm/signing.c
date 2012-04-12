@@ -208,9 +208,9 @@ static int key_in_keychain(alpm_handle_t *handle, const char *fpr)
 	} else {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
 	}
+	gpgme_key_unref(key);
 
 error:
-	gpgme_key_unref(key);
 	gpgme_release(ctx);
 	return ret;
 }
@@ -812,7 +812,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 						_("%s: key \"%s\" is unknown\n"), identifier, name);
 #ifdef HAVE_LIBGPGME
 				{
-					int answer;
+					int answer = 0;
 					alpm_pgpkey_t fetch_key;
 					memset(&fetch_key, 0, sizeof(fetch_key));
 
