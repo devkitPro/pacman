@@ -116,6 +116,30 @@ get_from() {
 	return 1
 }
 
+key_lookup_from_name() {
+	local ids
+
+	mapfile -t ids < \
+		<("${GPG_PACMAN[@]}" --search-keys --batch --with-colons "$1" 2>/dev/null |
+			awk -F: '$1 == "pub" { print $2 }')
+
+	# only return success on non-ambiguous lookup
+	case ${#ids[*]} in
+		0)
+			error "$(gettext "Failed to lookup key by name:") %s" "$name"
+			return 1
+			;;
+		1)
+			printf '%s' "${ids[0]}"
+			return 0
+			;;
+		*)
+			error "$(gettext "Key name is ambiguous:") %s" "$name"
+			return 1
+			;;
+	esac
+}
+
 generate_master_key() {
 	# Generate the master key, which will be in both pubring and secring
 	"${GPG_PACMAN[@]}" --gen-key --batch <<EOF
@@ -424,7 +448,22 @@ lsign_keys() {
 }
 
 receive_keys() {
-	if ! "${GPG_PACMAN[@]}" --recv-keys "$@" ; then
+	local name id keyids
+
+	# if the key is not a hex ID, do a lookup
+	for name; do
+		if [[ $name = ?(0x)+([0-9a-fA-F]) ]]; then
+			keyids+=("$name")
+		else
+			if id=$(key_lookup_from_name "$name"); then
+				keyids+=("$id")
+			fi
+		fi
+	done
+
+	(( ${#keyids[*]} > 0 )) || exit 1
+
+	if ! "${GPG_PACMAN[@]}" --recv-keys "${keyids[@]}" ; then
 		error "$(gettext "Remote key not fetched correctly from keyserver.")"
 		exit 1
 	fi
