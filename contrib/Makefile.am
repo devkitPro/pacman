@@ -62,7 +62,6 @@ paclog-pkglist: $(srcdir)/paclog-pkglist.in
 pacscripts: $(srcdir)/pacscripts.in
 pacsearch: $(srcdir)/pacsearch.in
 pacsysclean: $(srcdir)/pacsysclean.in
-pactree: $(srcdir)/pactree.in
 zsh_completion: $(srcdir)/zsh_completion.in
 
 # vim:set ts=2 sw=2 noet:
