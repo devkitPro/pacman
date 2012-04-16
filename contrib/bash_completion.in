@@ -27,19 +27,44 @@ _arch_incomp() {
   local r="\s-(-${1#* }\s|\w*${1% *})"; [[ $COMP_LINE =~ $r ]]
 }
 
+_pacman_keyids() {
+  \pacman-key --list-keys 2>/dev/null | awk '
+    $1 == "pub" {
+      # key id
+      split($2, a, "/"); print a[2]
+    }
+    $1 == "uid" {
+      # email
+      if (match($NF, /<[^>]+>/))
+        print substr($NF, RSTART + 1, RLENGTH - 2)
+    }'
+}
+
 _pacman_key() {
-  local cur opts prev
+  local o cur opts prev wantfiles
   COMPREPLY=()
   _get_comp_words_by_ref cur prev
   opts=('add delete export finger help list-keys recv-keys updatedb verify
          version config edit-key gpgdir import import-trustdb init keyserver
          list-sigs lsign-key populate refresh-keys'
         'a d e f h l r u v V')
-  if [[ $prev = 'pacman-key' ]]; then
+
+  # operations for which we want to complete keyids
+  for o in 'd delete' 'e export' 'f finger' 'l list-keys' 'r recv-keys' \
+      'edit-key' 'list-sigs' 'refresh-keys'; do
+    _arch_incomp "$o" && break
+    unset o
+  done
+
+  # options for which we want file completion
+  wantfiles='-@(c|-config|g|-gpgdir)'
+
+  if [[ $prev = 'pacman-key' || ( $cur = -* && $prev != $wantfiles ) ]]; then
     _arch_ptr2comp opts
-  elif [[ $cur = -* &&
-      $prev != -@(a|-add|c|-config|g|-gpgdir|h|-help|import?(-trustdb)) ]]; then
-    _arch_ptr2comp opts
+  elif [[ $prev = @(-k|--keyserver) ]]; then
+    return
+  elif [[ $prev != $wantfiles && $o ]]; then
+    COMPREPLY=($(compgen -W '$(_pacman_keyids)' -- "$cur"))
   fi
   true
 }
