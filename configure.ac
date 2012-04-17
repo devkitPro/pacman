@@ -164,7 +164,7 @@ PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 2.8.0], ,
 # Check for OpenSSL
 have_openssl=no
 if test "x$with_openssl" != "xno"; then
-	PKG_CHECK_MODULES(LIBSSL, [libssl libcrypto],
+	PKG_CHECK_MODULES(LIBSSL, [libcrypto],
 		[AC_DEFINE(HAVE_LIBSSL, 1, [Define if libcrypto is available]) have_openssl=yes], have_openssl=no)
 	if test "x$have_openssl" = xno -a "x$with_openssl" = xyes; then
 		AC_MSG_ERROR([*** openssl support requested but libraries not found])
