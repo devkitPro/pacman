@@ -466,7 +466,7 @@ OPT_LONG=('add' 'config:' 'delete' 'edit-key' 'export' 'finger' 'gpgdir:'
           'lsign-key' 'populate' 'recv-keys' 'refresh-keys' 'updatedb'
           'verify' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
-	echo; usage; exit 1 # E_INVALID_OPTION;
+	exit 1 # E_INVALID_OPTION;
 fi
 set -- "${OPTRET[@]}"
 unset OPT_SHORT OPT_LONG OPTRET

@@ -1964,7 +1964,7 @@ OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean' 'nodeps'
 OPT_LONG+=('noconfirm' 'noprogressbar')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
-	echo; usage; exit 1 # E_INVALID_OPTION;
+	exit 1 # E_INVALID_OPTION;
 fi
 set -- "${OPTRET[@]}"
 unset OPT_SHORT OPT_LONG OPTRET
