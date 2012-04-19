@@ -26,15 +26,15 @@ OURFILES = \
 
 EXTRA_DIST = \
 	PKGBUILD.vim \
-	bacman.in \
+	bacman.sh.in \
 	bash_completion.in \
-	paccache.in \
-	paclog-pkglist.in \
-	pacdiff.in \
-	paclist.in \
-	pacscripts.in \
+	paccache.sh.in \
+	paclog-pkglist.sh.in \
+	pacdiff.sh.in \
+	paclist.sh.in \
+	pacscripts.sh.in \
 	pacsearch.in \
-	pacsysclean.in \
+	pacsysclean.sh.in \
 	vimprojects \
 	zsh_completion.in \
 	README
@@ -64,7 +64,7 @@ $(OTHERSCRIPTS): Makefile
 
 $(BASHSCRIPTS): Makefile
 	$(AM_V_at)$(RM) $@
-	$(AM_V_GEN)test -f $(srcdir)/$@.in && m4 -P -I $(srcdir) $(srcdir)/$@.in | $(edit) >$@
+	$(AM_V_GEN)test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
 	$(AM_V_at)chmod +x,a-w $@
 
 $(OURFILES): Makefile
@@ -85,15 +85,15 @@ uninstall-local:
 	$(RM) $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
 	$(RM) $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
 
-bacman: $(srcdir)/bacman.in
+bacman: $(srcdir)/bacman.sh.in
 bash_completion: $(srcdir)/bash_completion.in
-paccache: $(srcdir)/paccache.in
-pacdiff: $(srcdir)/pacdiff.in
-paclist: $(srcdir)/paclist.in
-paclog-pkglist: $(srcdir)/paclog-pkglist.in
-pacscripts: $(srcdir)/pacscripts.in
+paccache: $(srcdir)/paccache.sh.in
+pacdiff: $(srcdir)/pacdiff.sh.in
+paclist: $(srcdir)/paclist.sh.in
+paclog-pkglist: $(srcdir)/paclog-pkglist.sh.in
+pacscripts: $(srcdir)/pacscripts.sh.in
 pacsearch: $(srcdir)/pacsearch.in
-pacsysclean: $(srcdir)/pacsysclean.in
+pacsysclean: $(srcdir)/pacsysclean.sh.in
 zsh_completion: $(srcdir)/zsh_completion.in
 
 # vim:set ts=2 sw=2 noet:
