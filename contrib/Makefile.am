@@ -4,15 +4,21 @@ AUTOMAKE_OPTIONS = std-options
 bin_SCRIPTS = \
   $(OURSCRIPTS)
 
-OURSCRIPTS = \
+BASHSCRIPTS = \
 	bacman \
 	paccache \
 	pacdiff \
 	paclist \
 	paclog-pkglist \
 	pacscripts \
-	pacsearch \
 	pacsysclean
+
+OTHERSCRIPTS = \
+	pacsearch
+
+OURSCRIPTS = \
+	$(BASHSCRIPTS) \
+	$(OTHERSCRIPTS)
 
 OURFILES = \
 	bash_completion \
@@ -50,11 +56,16 @@ edit = sed \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e '1s|!/bin/bash|!$(BASH_SHELL)|g'
 
-$(OURSCRIPTS): Makefile
+$(OTHERSCRIPTS): Makefile
 	$(AM_V_at)$(RM) $@ $@.tmp
 	$(AM_V_GEN)$(edit) $(srcdir)/$@.in >$@.tmp
 	$(AM_V_at)chmod +x,a-w $@.tmp
 	$(AM_V_at)mv $@.tmp $@
+
+$(BASHSCRIPTS): Makefile
+	$(AM_V_at)$(RM) $@
+	$(AM_V_GEN)test -f $(srcdir)/$@.in && m4 -P -I $(srcdir) $(srcdir)/$@.in | $(edit) >$@
+	$(AM_V_at)chmod +x,a-w $@
 
 $(OURFILES): Makefile
 	$(AM_V_at)$(RM) $@ $@.tmp
