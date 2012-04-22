@@ -11,7 +11,8 @@ BASHSCRIPTS = \
 	paclist \
 	paclog-pkglist \
 	pacscripts \
-	pacsysclean
+	pacsysclean \
+	rankmirrors
 
 OTHERSCRIPTS = \
 	pacsearch
@@ -35,6 +36,7 @@ EXTRA_DIST = \
 	pacscripts.sh.in \
 	pacsearch.in \
 	pacsysclean.sh.in \
+	rankmirrors.sh.in
 	vimprojects \
 	zsh_completion.in \
 	README
@@ -95,6 +97,7 @@ paclog-pkglist: $(srcdir)/paclog-pkglist.sh.in
 pacscripts: $(srcdir)/pacscripts.sh.in
 pacsearch: $(srcdir)/pacsearch.in
 pacsysclean: $(srcdir)/pacsysclean.sh.in
+rankmirrors: $(srcdir)/rankmirrors.sh.in
 zsh_completion: $(srcdir)/zsh_completion.in
 
 # vim:set ts=2 sw=2 noet:
