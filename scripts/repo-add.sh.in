@@ -108,7 +108,7 @@ format_entry() {
 find_pkgentry() {
 	local pkgname=$1
 	local pkgentry
-	for pkgentry in $tmpdir/tree/$pkgname*; do
+	for pkgentry in "$tmpdir/tree/$pkgname"*; do
 		name=${pkgentry##*/}
 		if [[ ${name%-*-*} = $pkgname ]]; then
 			echo $pkgentry
@@ -129,31 +129,31 @@ get_delta_pkgname() {
 # write a delta entry
 #   arg1 - path to delta file
 db_write_delta() {
-	deltafile="$1"
-	pkgname="$(get_delta_pkgname $deltafile)"
+	deltafile=$1
+	pkgname=$(get_delta_pkgname "$deltafile")
 
-	pkgentry=$(find_pkgentry $pkgname)
+	pkgentry=$(find_pkgentry "$pkgname")
 	if [[ -z $pkgentry ]]; then
 		error "$(gettext "No database entry for package '%s'.")" "$pkgname"
 		return 1
 	fi
-	deltas="$pkgentry/deltas"
+	deltas=$pkgentry/deltas
 	if [[ ! -f $deltas ]]; then
-		echo -e "%DELTAS%" >$deltas
+		echo -e "%DELTAS%" >"$deltas"
 	fi
 	# get md5sum and compressed size of package
-	md5sum="$(openssl dgst -md5 "$deltafile")"
-	md5sum="${md5sum##* }"
+	md5sum=$(openssl dgst -md5 "$deltafile")
+	md5sum=${md5sum##* }
 	csize=$(@SIZECMD@ -L "$deltafile")
 
-	oldfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (source)" | sed 's/.*: *//')
-	newfile=$(xdelta3 printhdr $deltafile | grep "XDELTA filename (output)" | sed 's/.*: *//')
+	oldfile=$(xdelta3 printhdr "$deltafile" | grep "XDELTA filename (source)" | sed 's/.*: *//')
+	newfile=$(xdelta3 printhdr "$deltafile" | grep "XDELTA filename (output)" | sed 's/.*: *//')
 
-	if grep -q "$oldfile.*$newfile" $deltas; then
-		sed -i.backup "/$oldfile.*$newfile/d" $deltas && rm -f $deltas.backup
+	if grep -q "$oldfile.*$newfile" "$deltas"; then
+		sed -i.backup "/$oldfile.*$newfile/d" "$deltas" && rm -f "$deltas.backup"
 	fi
 	msg2 "$(gettext "Adding 'deltas' entry : %s -> %s")" "$oldfile" "$newfile"
-	echo ${deltafile##*/} $md5sum $csize $oldfile $newfile >> $deltas
+	echo "${deltafile##*/} $md5sum $csize $oldfile $newfile" >> "$deltas"
 
 	return 0
 } # end db_write_delta
@@ -161,20 +161,20 @@ db_write_delta() {
 # remove a delta entry
 #   arg1 - path to delta file
 db_remove_delta() {
-	deltafile="$1"
+	deltafile=$1
 	filename=${deltafile##*/}
-	pkgname="$(get_delta_pkgname $deltafile)"
+	pkgname=$(get_delta_pkgname "$deltafile")
 
-	pkgentry=$(find_pkgentry $pkgname)
+	pkgentry=$(find_pkgentry "$pkgname")
 	if [[ -z $pkgentry ]]; then
 		return 1
 	fi
-	deltas="$pkgentry/deltas"
+	deltas=$pkgentry/deltas
 	if [[ ! -f $deltas ]]; then
 		return 1
 	fi
-	if grep -q "$filename" $deltas; then
-		sed -i.backup "/$filename/d" $deltas && rm -f $deltas.backup
+	if grep -q "$filename" "$deltas"; then
+		sed -i.backup "/$filename/d" "$deltas" && rm -f "$deltas.backup"
 		msg2 "$(gettext "Removing existing entry '%s'...")" "$filename"
 		# empty deltas file contains only "%DELTAS%"
 		if (( $(wc -l < "$deltas") == 1 )); then
@@ -197,7 +197,7 @@ check_gpg() {
 # sign the package database once repackaged
 create_signature() {
 	(( ! SIGN )) && return
-	local dbfile="$1"
+	local dbfile=$1
 	local ret=0
 	msg "$(gettext "Signing database...")"
 
@@ -217,7 +217,7 @@ create_signature() {
 # verify the existing package database signature
 verify_signature() {
 	(( ! VERIFY )) && return
-	local dbfile="$1"
+	local dbfile=$1
 	local ret=0
 	msg "$(gettext "Verifying database signature...")"
 
@@ -237,7 +237,7 @@ verify_signature() {
 verify_repo_extension() {
 	local repofile=$1
 
-	case "$repofile" in
+	case $repofile in
 		*.@(db|files).tar.gz)  TAR_OPT="z" ;;
 		*.@(db|files).tar.bz2) TAR_OPT="j" ;;
 		*.@(db|files).tar.xz)  TAR_OPT="J" ;;
@@ -255,7 +255,7 @@ verify_repo_extension() {
 #   arg1 - path to package
 db_write_entry() {
 	# blank out all variables
-	local pkgfile="$1"
+	local pkgfile=$1
 	local -a _groups _licenses _replaces _depends _conflicts _provides _optdepends
 	local pkgname pkgver pkgdesc csize size url arch builddate packager \
 		md5sum sha256sum pgpsig pgpsigsize
@@ -268,7 +268,7 @@ db_write_entry() {
 
 		# normalize whitespace with an extglob
 		declare "$var=${val//+([[:space:]])/ }"
-		case "$var" in
+		case $var in
 			group)     _groups+=("$group") ;;
 			license)   _licenses+=("$license") ;;
 			replaces)  _replaces+=("$replaces") ;;
@@ -289,10 +289,10 @@ db_write_entry() {
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 	else
 		if (( DELTA )); then
-			pkgentry=$(find_pkgentry $pkgname)
+			pkgentry=$(find_pkgentry "$pkgname")
 			if [[ -n $pkgentry ]]; then
-				local oldfilename=$(grep -A1 FILENAME $pkgentry/desc | tail -n1)
-				local oldfile="$(dirname $1)/$oldfilename"
+				local oldfilename=$(grep -A1 FILENAME "$pkgentry/desc" | tail -n1)
+				local oldfile="$(dirname "$1")/$oldfilename"
 			fi
 		fi
 	fi
@@ -312,10 +312,10 @@ db_write_entry() {
 
 	# compute checksums
 	msg2 "$(gettext "Computing checksums...")"
-	md5sum="$(openssl dgst -md5 "$pkgfile")"
-	md5sum="${md5sum##* }"
-	sha256sum="$(openssl dgst -sha256 "$pkgfile")"
-	sha256sum="${sha256sum##* }"
+	md5sum=$(openssl dgst -md5 "$pkgfile")
+	md5sum=${md5sum##* }
+	sha256sum=$(openssl dgst -sha256 "$pkgfile")
+	sha256sum=${sha256sum##* }
 
 	# remove an existing entry if it exists, ignore failures
 	db_remove_entry "$pkgname"
@@ -371,17 +371,17 @@ db_write_entry() {
 	if (( WITHFILES )); then
 		msg2 "$(gettext "Creating '%s' db entry...")" 'files'
 		local files_path="$tmpdir/tree/$pkgname-$pkgver/files"
-		echo "%FILES%" >$files_path
-		bsdtar --exclude='^.*' -tf "$pkgfile" >>$files_path
+		echo "%FILES%" >"$files_path"
+		bsdtar --exclude='^.*' -tf "$pkgfile" >>"$files_path"
 	fi
 
 	# create a delta file
 	if (( DELTA )); then
 		if [[ -n $oldfilename ]]; then
 			if [[ -f $oldfile ]]; then
-				delta=$(pkgdelta -q $oldfile $1)
+				delta=$(pkgdelta -q "$oldfile" "$1")
 				if [[ -f $delta ]]; then
-					db_write_delta $delta
+					db_write_delta "$delta"
 				fi
 			else
 				warning "$(gettext "Old package file not found: %s")" "$oldfilename"
@@ -397,7 +397,7 @@ db_write_entry() {
 db_remove_entry() {
 	local pkgname=$1
 	local notfound=1
-	local pkgentry=$(find_pkgentry $pkgname)
+	local pkgentry=$(find_pkgentry "$pkgname")
 	while [[ -n $pkgentry ]]; do
 		notfound=0
 		if [[ -f $pkgentry/deltas ]]; then
@@ -405,8 +405,8 @@ db_remove_entry() {
 		fi
 		msg2 "$(gettext "Removing existing entry '%s'...")" \
 		"${pkgentry##*/}"
-		rm -rf $pkgentry
-		pkgentry=$(find_pkgentry $pkgname)
+		rm -rf "$pkgentry"
+		pkgentry=$(find_pkgentry "$pkgname")
 	done
 	return $notfound
 } # end db_remove_entry
@@ -432,7 +432,7 @@ check_repo_db() {
 	# ensure the path to the DB exists; $LOCKFILE is always an absolute path
 	repodir=${LOCKFILE%/*}/
 
-	if [[ ! -d "$repodir" ]]; then
+	if [[ ! -d $repodir ]]; then
 		error "$(gettext "%s does not exist or is not a directory.")" "$repodir"
 		exit 1
 	fi
@@ -442,7 +442,7 @@ check_repo_db() {
 		CLEAN_LOCK=1
 	else
 		error "$(gettext "Failed to acquire lockfile: %s.")" "$LOCKFILE"
-		[[ -f $LOCKFILE ]] && error "$(gettext "Held by process %s")" "$(cat $LOCKFILE)"
+		[[ -f $LOCKFILE ]] && error "$(gettext "Held by process %s")" "$(cat "$LOCKFILE")"
 		exit 1
 	fi
 
@@ -460,7 +460,7 @@ check_repo_db() {
 		msg "$(gettext "Extracting database to a temporary location...")"
 		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir/tree"
 	else
-		case "$cmd" in
+		case $cmd in
 			repo-remove)
 			error "$(gettext "Repository file '%s' was not found.")" "$REPO_DB_FILE"
 			exit 1
@@ -562,7 +562,7 @@ if ! type gettext &>/dev/null; then
 	}
 fi
 
-case "$1" in
+case $1 in
 	-h|--help) usage; exit 0;;
 	-V|--version) version; exit 0;;
 esac
@@ -582,7 +582,7 @@ fi
 tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/repo-tools.XXXXXXXXXX") || (\
 	error "$(gettext "Cannot create temp directory for database building.")"; \
 	exit 1)
-mkdir $tmpdir/tree
+mkdir "$tmpdir/tree"
 
 trap 'clean_up' EXIT
 for signal in TERM HUP QUIT; do
@@ -595,7 +595,7 @@ declare -a args
 success=0
 # parse arguments
 while (( $# )); do
-	case "$1" in
+	case $1 in
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
 		-f|--files) WITHFILES=1;;
@@ -614,7 +614,7 @@ while (( $# )); do
 		-k|--key)
 			check_gpg
 			shift
-			GPGKEY="$1"
+			GPGKEY=$1
 			if ! gpg --list-key ${GPGKEY} &>/dev/null; then
 				error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
 				exit 1
@@ -647,7 +647,7 @@ verify_repo_extension "$REPO_DB_FILE" >/dev/null
 check_repo_db
 
 for arg in "${args[@]:1}"; do
-	case "$cmd" in
+	case $cmd in
 		repo-add) add "$arg" ;;
 		repo-remove) remove "$arg" ;;
 	esac && success=1
@@ -695,7 +695,7 @@ if (( success )); then
 		mv "$tempname.sig" "$REPO_DB_FILE.sig"
 	fi
 
-	dblink="${REPO_DB_FILE%.tar*}"
+	dblink=${REPO_DB_FILE%.tar*}
 	rm -f "$dblink" "$dblink.sig"
 	ln -s "$filename" "$dblink" 2>/dev/null || \
 		ln "$filename" "$dblink" 2>/dev/null || \

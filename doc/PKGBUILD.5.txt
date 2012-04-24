@@ -40,8 +40,9 @@ similar to `$_basekernver`.
 
 *pkgname (array)*::
 	Either the name of the package or an array of names for split packages.
-	Because it will be used in the package filename, this has to be unix-friendly.
-	Members of the array are not allowed to start with hyphens.
+	Valid characters for members of this array are alphanumerics, and any of
+	the following characters: ```@ . _ + -`''. Additionally, names are not
+	allowed to start with hyphens.
 
 *pkgver*::
 	The version of the software as released from the author (e.g., '2.7.1').
