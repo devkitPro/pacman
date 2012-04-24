@@ -1885,7 +1885,7 @@ canonicalize_path() {
 	fi
 }
 
-m4_include(library/parse_options.sh)
+m4_include(library/parseopts.sh)
 
 usage() {
 	printf "makepkg (pacman) %s\n" "$myver"
@@ -1954,19 +1954,20 @@ ARGLIST=("$@")
 
 # Parse Command Line Options.
 OPT_SHORT="AcdefFghiLmop:rRsSV"
-OPT_LONG="allsource,asroot,ignorearch,check,clean,nodeps"
-OPT_LONG+=",noextract,force,forcever:,geninteg,help,holdver,skippgpcheck"
-OPT_LONG+=",install,key:,log,nocolor,nobuild,nocheck,nosign,pkg:,rmdeps"
-OPT_LONG+=",repackage,skipchecksums,skipinteg,skippgpcheck,sign,source,syncdeps"
-OPT_LONG+=",version,config:"
+OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean' 'nodeps'
+          'noextract' 'force' 'forcever:' 'geninteg' 'help' 'holdver' 'skippgpcheck'
+          'install' 'key:' 'log' 'nocolor' 'nobuild' 'nocheck' 'nosign' 'pkg:' 'rmdeps'
+          'repackage' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'sign' 'source' 'syncdeps'
+          'version' 'config:')
 
 # Pacman Options
-OPT_LONG+=",noconfirm,noprogressbar"
-if ! OPT_TEMP="$(parse_options $OPT_SHORT $OPT_LONG "$@")"; then
-	echo; usage; exit 1 # E_INVALID_OPTION;
+OPT_LONG+=('noconfirm' 'noprogressbar')
+
+if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
+	exit 1 # E_INVALID_OPTION;
 fi
-eval set -- "$OPT_TEMP"
-unset OPT_SHORT OPT_LONG OPT_TEMP
+set -- "${OPTRET[@]}"
+unset OPT_SHORT OPT_LONG OPTRET
 
 while true; do
 	case "$1" in
@@ -1997,7 +1998,7 @@ while true; do
 		--nosign)         SIGNPKG='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
-		--pkg)            shift; PKGLIST=($1) ;;
+		--pkg)            shift; IFS=, read -ra p <<<"$1"; PKGLIST+=("${p[@]}"); unset p ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--skipchecksums)  SKIPCHECKSUMS=1 ;;
@@ -2010,8 +2011,7 @@ while true; do
 		-h|--help)        usage; exit 0 ;; # E_OK
 		-V|--version)     version; exit 0 ;; # E_OK
 
-		--)               OPT_IND=0; shift; break;;
-		*)                usage; exit 1 ;; # E_INVALID_OPTION
+		--)               OPT_IND=0; shift; break 2;;
 	esac
 	shift
 done

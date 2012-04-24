@@ -1,4 +1,4 @@
-SUBDIRS = lib/libalpm src/util src/pacman scripts etc test/pacman test/util
+SUBDIRS = lib/libalpm src/util src/pacman scripts etc test/pacman test/util test/scripts
 if WANT_DOC
 SUBDIRS += doc
 endif
@@ -23,7 +23,7 @@ dist_pkgdata_DATA = \
 	proto/ChangeLog.proto
 
 # run the pactest test suite and vercmp tests
-check-local: test/pacman test/util src/pacman src/util
+check-local: test/pacman test/scripts test/util src/pacman src/util
 	LC_ALL=C $(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
 		--test $(top_srcdir)/test/pacman/tests/*.py \
 		-p $(top_builddir)/src/pacman/pacman
@@ -31,6 +31,8 @@ check-local: test/pacman test/util src/pacman src/util
 		$(top_builddir)/src/util/pacsort
 	$(SH) $(top_srcdir)/test/util/vercmptest.sh \
 		$(top_builddir)/src/util/vercmp
+	$(BASH_SHELL) $(top_srcdir)/test/scripts/parseopts_test.sh \
+		$(top_srcdir)/scripts/library/parseopts.sh
 
 # create the pacman DB and cache directories upon install
 install-data-local:

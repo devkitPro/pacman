@@ -27,7 +27,7 @@ EXTRA_DIST = \
 
 LIBRARY = \
 	library/output_format.sh \
-	library/parse_options.sh
+	library/parseopts.sh
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS)
@@ -67,7 +67,7 @@ $(OURSCRIPTS): Makefile
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
-	$(srcdir)/library/parse_options.sh
+	$(srcdir)/library/parseopts.sh
 
 pacman-db-upgrade: \
 	$(srcdir)/pacman-db-upgrade.sh.in \
@@ -76,7 +76,7 @@ pacman-db-upgrade: \
 pacman-key: \
 	$(srcdir)/pacman-key.sh.in \
 	$(srcdir)/library/output_format.sh \
-	$(srcdir)/library/parse_options.sh
+	$(srcdir)/library/parseopts.sh
 
 pacman-optimize: \
 	$(srcdir)/pacman-optimize.sh.in \
