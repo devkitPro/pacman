@@ -286,47 +286,67 @@ get_pkg_arch() {
 # Checks to see if options are present in makepkg.conf or PKGBUILD;
 # PKGBUILD options always take precedence.
 #
-#  usage : check_option( $option )
-# return : y - enabled
-#          n - disabled
-#          ? - not found
+#  usage : check_option( $option, $expected_val )
+# return : 0   - matches expected
+#          1   - does not match expected
+#          127 - not found
 ##
 check_option() {
-	local ret=$(in_opt_array "$1" ${options[@]})
-	if [[ $ret != '?' ]]; then
-		printf "%s\n" "$ret"
-		return
-	fi
+	in_opt_array "$1" ${options[@]}
+	case $? in
+		0) # assert enabled
+			[[ $2 = y ]]
+			return ;;
+		1) # assert disabled
+			[[ $2 = n ]]
+			return
+	esac
 
 	# fall back to makepkg.conf options
-	ret=$(in_opt_array "$1" ${OPTIONS[@]})
-	if [[ $ret != '?' ]]; then
-		printf "%s\n" "$ret"
-		return
-	fi
+	in_opt_array "$1" ${OPTIONS[@]}
+	case $? in
+		0) # assert enabled
+			[[ $2 = y ]]
+			return ;;
+		1) # assert disabled
+			[[ $2 = n ]]
+			return
+	esac
 
-	echo '?' # Not Found
+	# not found
+	return 127
 }
 
 
 ##
 # Check if option is present in BUILDENV
 #
-#  usage : check_buildenv( $option )
-# return : y - enabled
-#          n - disabled
-#          ? - not found
+#  usage : check_buildenv( $option, $expected_val )
+# return : 0   - matches expected
+#          1   - does not match expected
+#          127 - not found
 ##
 check_buildenv() {
 	in_opt_array "$1" ${BUILDENV[@]}
+	case $? in
+		0) # assert enabled
+			[[ $2 = "y" ]]
+			return ;;
+		1) # assert disabled
+			[[ $2 = "n" ]]
+			return ;;
+	esac
+
+	# not found
+	return 127
 }
 
 
 ##
 #  usage : in_opt_array( $needle, $haystack )
-# return : y - enabled
-#          n - disabled
-#          ? - not found
+# return : 0   - enabled
+#          1   - disabled
+#          127 - not found
 ##
 in_opt_array() {
 	local needle=$1; shift
@@ -334,15 +354,16 @@ in_opt_array() {
 	local opt
 	for opt in "$@"; do
 		if [[ $opt = "$needle" ]]; then
-			echo 'y' # Enabled
-			return
+			# enabled
+			return 0
 		elif [[ $opt = "!$needle" ]]; then
-			echo 'n' # Disabled
-			return
+			# disabled
+			return 1
 		fi
 	done
 
-	echo '?' # Not Found
+	# not found
+	return 127
 }
 
 
@@ -932,12 +953,12 @@ run_function() {
 	local pkgfunc="$1"
 
 	# clear user-specified buildflags if requested
-	if [[ $(check_option buildflags) = "n" ]]; then
+	if check_option "buildflags" "n"; then
 		unset CFLAGS CXXFLAGS LDFLAGS
 	fi
 
 	# clear user-specified makeflags if requested
-	if [[ $(check_option makeflags) = "n" ]]; then
+	if check_option "makeflags" "n"; then
 		unset MAKEFLAGS
 	fi
 
@@ -984,13 +1005,13 @@ run_function() {
 
 run_build() {
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if [[ $(check_buildenv distcc) = "y" && $(check_option distcc) != "n" ]]; then
+	if check_buildenv "distcc" "y" && ! check_option "distc" "n"; then
 		[[ -d /usr/lib/distcc/bin ]] && export PATH="/usr/lib/distcc/bin:$PATH"
 		export DISTCC_HOSTS
 	fi
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
-	if [[ $(check_buildenv ccache) = "y" && $(check_option ccache) != "n" ]]; then
+	if check_buildenv "ccache" "y" && ! check_option "ccache" "n"; then
 		[[ -d /usr/lib/ccache/bin ]] && export PATH="/usr/lib/ccache/bin:$PATH"
 	fi
 
@@ -1016,12 +1037,12 @@ tidy_install() {
 	cd_safe "$pkgdir"
 	msg "$(gettext "Tidying install...")"
 
-	if [[ $(check_option docs) = "n" && -n ${DOC_DIRS[*]} ]]; then
+	if check_option "docs" "n" && [[ -n ${DOC_DIRS[*]} ]]; then
 		msg2 "$(gettext "Removing doc files...")"
 		rm -rf -- ${DOC_DIRS[@]}
 	fi
 
-	if [[ $(check_option purge) = "y" && -n ${PURGE_TARGETS[*]} ]]; then
+	if check_option "purge" "y" && [[ -n ${PURGE_TARGETS[*]} ]]; then
 		msg2 "$(gettext "Purging unwanted files...")"
 		local pt
 		for pt in "${PURGE_TARGETS[@]}"; do
@@ -1033,7 +1054,7 @@ tidy_install() {
 		done
 	fi
 
-	if [[ $(check_option zipman) = "y" && -n ${MAN_DIRS[*]} ]]; then
+	if check_option "zipman" "y" && [[ -n ${MAN_DIRS[*]} ]]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
 		local manpage ext file link hardlinks hl
 		find ${MAN_DIRS[@]} -type f 2>/dev/null |
@@ -1069,7 +1090,7 @@ tidy_install() {
 		done
 	fi
 
-	if [[ $(check_option strip) = "y" ]]; then
+	if check_option "strip" "y"; then
 		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
 		# make sure library stripping variables are defined to prevent excess stripping
 		[[ -z ${STRIP_SHARED+x} ]] && STRIP_SHARED="-S"
@@ -1087,17 +1108,17 @@ tidy_install() {
 		done
 	fi
 
-	if [[ $(check_option libtool) = "n" ]]; then
+	if check_option "libtool" "n"; then
 		msg2 "$(gettext "Removing "%s" files...")" "libtool"
 		find . ! -type d -name "*.la" -exec rm -f -- '{}' \;
 	fi
 
-	if [[ $(check_option emptydirs) = "n" ]]; then
+	if check_option "emptydirs" "n"; then
 		msg2 "$(gettext "Removing empty directories...")"
 		find . -depth -type d -empty -delete
 	fi
 
-	if [[ $(check_option upx) = "y" ]]; then
+	if check_option "upx" "y"; then
 		msg2 "$(gettext "Compressing binaries with %s...")" "UPX"
 		local binary
 		find . -type f -perm -u+w 2>/dev/null | while read binary ; do
@@ -1256,14 +1277,15 @@ write_pkginfo() {
 	done
 
 	for it in "${packaging_options[@]}"; do
-		local ret="$(check_option $it)"
-		if [[ $ret != "?" ]]; then
-			if [[ $ret = "y" ]]; then
+		check_option "$it" "y"
+		case $? in
+			0)
 				printf "makepkgopt = %s\n" "$it"
-			else
+				;;
+			1)
 				printf "makepkgopt = %s\n" "!$it"
-			fi
-		fi
+				;;
+		esac
 	done
 
 	check_license
@@ -1673,7 +1695,7 @@ check_software() {
 	fi
 
 	# fakeroot - building as non-root user
-	if [[ $(check_buildenv fakeroot) = "y" ]] && (( EUID > 0 )); then
+	if check_buildenv "fakeroot" "y" && (( EUID > 0 )); then
 		if ! type -p fakeroot >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for building as non-root user.")" "fakeroot"
 			ret=1
@@ -1681,7 +1703,7 @@ check_software() {
 	fi
 
 	# gpg - package signing
-	if [[ $SIGNPKG == 'y' || (-z "$SIGNPKG" && $(check_buildenv sign) == 'y') ]]; then
+	if [[ $SIGNPKG == 'y' ]] || { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; }; then
 		if ! type -p gpg >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for signing packages.")" "gpg"
 			ret=1
@@ -1705,7 +1727,7 @@ check_software() {
 	fi
 
 	# upx - binary compression
-	if [[ $(check_option upx) == 'y' ]]; then
+	if check_option "upx" "y"; then
 		if ! type -p upx >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for compressing binaries.")" "upx"
 			ret=1
@@ -1713,7 +1735,7 @@ check_software() {
 	fi
 
 	# distcc - compilation with distcc
-	if [[ $(check_buildenv distcc) = "y" && $(check_option distcc) != "n" ]]; then
+	if check_buildenv "distcc" "y" && ! check_option "distcc" "n" ]]; then
 		if ! type -p distcc >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for distributed compilation.")" "distcc"
 			ret=1
@@ -1721,7 +1743,7 @@ check_software() {
 	fi
 
 	# ccache - compilation with ccache
-	if [[ $(check_buildenv ccache) = "y" && $(check_option ccache) != "n" ]]; then
+	if check_buildenv "ccache" "y" && ! check_option "ccache" "n"; then
 		if ! type -p ccache >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for compiler cache usage.")" "ccache"
 			ret=1
@@ -1729,7 +1751,7 @@ check_software() {
 	fi
 
 	# strip - strip symbols from binaries/libraries
-	if [[ $(check_option strip) = "y" ]]; then
+	if check_option "strip" "y"; then
 		if ! type -p strip >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for object file stripping.")" "strip"
 			ret=1
@@ -1737,7 +1759,7 @@ check_software() {
 	fi
 
 	# gzip - compressig man and info pages
-	if [[ $(check_option zipman) = "y" ]]; then
+	if check_option "zipman" "y"; then
 		if ! type -p gzip >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for compressing man and info pages.")" "gzip"
 			ret=1
@@ -2077,7 +2099,7 @@ PACMAN=${PACMAN:-pacman}
 
 # check if messages are to be printed using color
 unset ALL_OFF BOLD BLUE GREEN RED YELLOW
-if [[ -t 2 && ! $USE_COLOR = "n" && $(check_buildenv color) = "y" ]]; then
+if [[ -t 2 && ! $USE_COLOR = "n" ]] && check_buildenv "color" "y"; then
 	# prefer terminal safe colored and bold text when tput is supported
 	if tput setaf 0 &>/dev/null; then
 		ALL_OFF="$(tput sgr0)"
@@ -2161,7 +2183,7 @@ use the %s option.")" "makepkg" "--asroot"
 		error "$(gettext "The %s option is meant for the root user only. Please\n\
 rerun %s without the %s flag.")" "--asroot" "makepkg" "--asroot"
 		exit 1 # $E_USER_ABORT
-	elif (( EUID > 0 )) && [[ $(check_buildenv fakeroot) != "y" ]]; then
+	elif (( EUID > 0 )) && ! check_buildenv "fakeroot" "y"; then
 		warning "$(gettext "Running %s as an unprivileged user will result in non-root\n\
 ownership of the packaged files. Try using the %s environment by\n\
 placing %s in the %s array in %s.")" "makepkg" "fakeroot" "'fakeroot'" "BUILDENV" "$MAKEPKG_CONF"
@@ -2245,7 +2267,7 @@ if declare -f build >/dev/null; then
 fi
 if declare -f check >/dev/null; then
 	# "Hide" check() function if not going to be run
-	if [[ $RUN_CHECK = 'y' || (! $(check_buildenv check) = "n" &&  ! $RUN_CHECK = "n") ]]; then
+	if [[ $RUN_CHECK = 'y' ]] || { ! check_buildenv "check" "n" && [[ $RUN_CHECK != "n" ]]; }; then
 		CHECKFUNC=1
 	fi
 fi
@@ -2261,8 +2283,7 @@ if [[ -n "${PKGLIST[@]}" ]]; then
 fi
 
 # check if gpg signature is to be created and if signing key is valid
-[[ -z $SIGNPKG ]] && SIGNPKG=$(check_buildenv sign)
-if [[ $SIGNPKG == 'y' ]]; then
+if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]]; then
 	if ! gpg --list-key ${GPGKEY} &>/dev/null; then
 		if [[ ! -z $GPGKEY ]]; then
 			error "$(gettext "The key %s does not exist in your keyring.")" "${GPGKEY}"
@@ -2376,7 +2397,7 @@ if (( SOURCEONLY )); then
 	cd_safe "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
-	if [[ $(check_buildenv fakeroot) != "y" ]] || (( EUID == 0 )); then
+	if ! check_buildenv "fakeroot" "y" || (( EUID == 0 )); then
 		create_srcpackage
 	else
 		enter_fakeroot
@@ -2468,7 +2489,7 @@ else
 	cd_safe "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
-	if [[ $(check_buildenv fakeroot) != "y" ]] || (( EUID == 0 )); then
+	if ! check_buildenv "fakeroot" "y" || (( EUID == 0 )); then
 		if (( ! REPKG )); then
 			devel_update
 			(( BUILDFUNC )) && run_build
