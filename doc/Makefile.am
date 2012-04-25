@@ -92,6 +92,8 @@ html: $(HTML_DOCS)
 
 website: website.tar.gz
 
+.PHONY: html website
+
 website.tar.gz: html
 	$(AM_V_GEN)bsdtar czf $@ $(HTML_DOCS) \
 		asciidoc-override.css \

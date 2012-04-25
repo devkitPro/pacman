@@ -23,14 +23,22 @@ dist_pkgdata_DATA = \
 	proto/ChangeLog.proto
 
 # run the pactest test suite and vercmp tests
-check-local: test/pacman test/scripts test/util src/pacman src/util
+check-local: test-pacman test-pacsort test-vercmp test-parseopts
+
+test-pacman: test/pacman src/pacman
 	LC_ALL=C $(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
 		--test $(top_srcdir)/test/pacman/tests/*.py \
 		-p $(top_builddir)/src/pacman/pacman
-	$(SH) $(top_srcdir)/test/util/pacsorttest.sh \
+
+test-pacsort: test/util src/util
+	$(BASH_SHELL) $(top_srcdir)/test/util/pacsorttest.sh \
 		$(top_builddir)/src/util/pacsort
-	$(SH) $(top_srcdir)/test/util/vercmptest.sh \
+
+test-vercmp: test/util src/util
+	$(BASH_SHELL) $(top_srcdir)/test/util/vercmptest.sh \
 		$(top_builddir)/src/util/vercmp
+
+test-parseopts: test/scripts scripts
 	$(BASH_SHELL) $(top_srcdir)/test/scripts/parseopts_test.sh \
 		$(top_srcdir)/scripts/library/parseopts.sh
 
@@ -44,5 +52,7 @@ update-po:
 	$(MAKE) -C lib/libalpm/po update-po
 	$(MAKE) -C scripts/po update-po
 	$(MAKE) -C src/pacman/po update-po
+
+.PHONY: test-pacman test-pacsort test-vercmp test-parseopts update-po
 
 # vim:set ts=2 sw=2 noet:
