@@ -783,7 +783,8 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 	/* DESC */
 	if(inforeq & INFRQ_DESC) {
 		char *path;
-		_alpm_log(db->handle, ALPM_LOG_DEBUG, "writing %s-%s DESC information back to db\n",
+		_alpm_log(db->handle, ALPM_LOG_DEBUG,
+				"writing %s-%s DESC information back to db\n",
 				info->name, info->version);
 		path = _alpm_local_db_pkgpath(db, info, "desc");
 		if(!path || (fp = fopen(path, "w")) == NULL) {
@@ -800,25 +801,9 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 			fprintf(fp, "%%DESC%%\n"
 							"%s\n\n", info->desc);
 		}
-		if(info->groups) {
-			fputs("%GROUPS%\n", fp);
-			for(lp = info->groups; lp; lp = lp->next) {
-				fputs(lp->data, fp);
-				fputc('\n', fp);
-			}
-			fputc('\n', fp);
-		}
 		if(info->url) {
 			fprintf(fp, "%%URL%%\n"
 							"%s\n\n", info->url);
-		}
-		if(info->licenses) {
-			fputs("%LICENSE%\n", fp);
-			for(lp = info->licenses; lp; lp = lp->next) {
-				fputs(lp->data, fp);
-				fputc('\n', fp);
-			}
-			fputc('\n', fp);
 		}
 		if(info->arch) {
 			fprintf(fp, "%%ARCH%%\n"
@@ -844,6 +829,22 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		if(info->reason) {
 			fprintf(fp, "%%REASON%%\n"
 							"%u\n\n", info->reason);
+		}
+		if(info->groups) {
+			fputs("%GROUPS%\n", fp);
+			for(lp = info->groups; lp; lp = lp->next) {
+				fputs(lp->data, fp);
+				fputc('\n', fp);
+			}
+			fputc('\n', fp);
+		}
+		if(info->licenses) {
+			fputs("%LICENSE%\n", fp);
+			for(lp = info->licenses; lp; lp = lp->next) {
+				fputs(lp->data, fp);
+				fputc('\n', fp);
+			}
+			fputc('\n', fp);
 		}
 		if(info->validation) {
 			fputs("%VALIDATION%\n", fp);
@@ -875,7 +876,8 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 	/* FILES */
 	if(inforeq & INFRQ_FILES) {
 		char *path;
-		_alpm_log(db->handle, ALPM_LOG_DEBUG, "writing %s-%s FILES information back to db\n",
+		_alpm_log(db->handle, ALPM_LOG_DEBUG,
+				"writing %s-%s FILES information back to db\n",
 				info->name, info->version);
 		path = _alpm_local_db_pkgpath(db, info, "files");
 		if(!path || (fp = fopen(path, "w")) == NULL) {
