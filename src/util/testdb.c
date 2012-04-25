@@ -253,7 +253,7 @@ static void usage(void)
 
 int main(int argc, char *argv[])
 {
-	int ret = 0;
+	int errors = 0;
 	alpm_errno_t err;
 	const char *dbpath = DBPATH;
 	int a = 1;
@@ -285,13 +285,13 @@ int main(int argc, char *argv[])
 	alpm_option_set_logcb(handle, output_cb);
 
 	if(!dbnames) {
-		ret = check_localdb();
+		errors = check_localdb();
 	} else {
-		ret = check_syncdbs(dbnames);
+		errors = check_syncdbs(dbnames);
 		alpm_list_free(dbnames);
 	}
 
-	cleanup(ret);
+	cleanup(errors > 0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
