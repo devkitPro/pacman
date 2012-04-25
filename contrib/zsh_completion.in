@@ -1,4 +1,4 @@
-#compdef pacman pacman.static=pacman
+#compdef pacman pacman.static=pacman pacman-key makepkg
 
 # copy this file to /usr/share/zsh/site-functions/_pacman
 
@@ -286,7 +286,7 @@ _pacman_get_command() {
 }
 
 # main dispatcher
-_pacman() {
+_pacman_zsh_comp() {
 	case $words[2] in
 		-Q*g*) # ipkg groups
 			_arguments -s : \
@@ -332,5 +332,113 @@ _pacman() {
 	esac
 }
 
-# run the main dispatcher
-_pacman "$@"
+_key_shortopts=(
+    '-h[show help]' \
+    '-a[Add the specified keys (empty for stdin)]: :_files'
+    '-d[Remove the Specified keyids]:*: :_keys'
+    '-e[Export the specified or all keyids]:*: :_keys'
+    '-f[List fingreprint for specidied or all keyids]:*: :_keys'
+    '-l[List the specified or all keys]:*: :_keys'
+    '-r[Fetch the specified keyids]:*: :_keys'
+    '-u[Update the trustdb of pacman]'
+    '-v[Verify the file specified by the signature]: :_files -g "*.sig"'
+    '-V[Show program version]'
+    )
+
+_key_longopts=(
+    '--help[show help]'
+    '--add[Add the specified keys (empty for stdin)]: :_files'
+    '--delete[Remove the Specified keyids]:*: :_keys'
+    '--export[Export the specified or all keyids]:*: :_keys'
+    '--finger[List fingreprint for specidied or all keyids]:*: :_keys'
+    '--list-keys[List the specified or all keys]:*: :_keys'
+    '--recv-keys[Fetch the specified keyids]:*: :_keys'
+    '--updatedb[Update the trustdb of pacman]'
+    '--verify[Verify the file specified by the signature]: :_files -g "*.sig"'
+    '--version[Show program version]'
+    '--edit-key[Present a menu for key management task on keyids]:*: :_keys'
+    '--import[Imports pubring.gpg from dir(s)]: :_files -g "*.gpg"'
+    '--import-tb[Imports ownertrust values from trustdb.gpg in dir(s)]: :_files -g "*.gpg"'
+    '--init[Ensure the keyring is properly initialized]'
+    '--list-sigs[List keys and their signatures]:*: :_keys'
+    '--lsign-key[Locally sign the specified keyid]:*: :_keys'
+    '--populate[Reload the default keys from the (given) keyrings in '/usr/share/pacman/keyrings']: :_path_files -W /usr/share/pacman/keyrings'
+    '--refresh-keys[Update specified or all keys from a keyserver]:*: :_keys'
+    )
+
+_pacman_key_options=(
+  '--config[Use an alternate config file (instead of /etc/pacman.con)]: :_files'
+  '--gpgdir[Set an alternate directory for GnuPG (instead of /etc/pacman.d/gnupg)]: :_files -/'
+  '--keyserver[Specify a keyserver to use if necessary]'
+  )
+
+_pacman_key() {
+  case $words[CURRENT] in
+    --*)
+      _arguments -s : \
+        "$_pacman_key_options[@]" \
+        "$_key_longopts[@]"
+      ;;
+    -*)
+      _arguments -s : \
+        "$_pacman_key_options[@]" \
+        "$_key_shortopts[@]" \
+        "$_key_longopts[@]"
+      ;;
+    *)
+      i=$#;
+      while [[ $words[$i] != -* ]] && [[ $words[$i] != "pacman-key" ]];do
+        i=$(($i-1))
+      done
+      case $i in
+        --*)
+        _arguments -s : \
+          "$_pacman_key_options[@]" \
+          "$_key_longopts[@]"
+        ;;
+      -*)
+        _arguments -s : \
+          "$_pacman_key_options[@]" \
+          "$_key_shortopts[@]" \
+          "$_key_longopts[@]"
+        ;;
+      *) return 1;;
+    esac
+    ;;
+  esac
+}
+
+_keys() {
+  local keylist keys
+  keylist=$(pacman-key --list-keys 2>/dev/null | awk '
+      $1 == "pub" {
+        # key id
+        split($2, a, "/"); print a[2]
+      }
+      $1 == "uid" {
+        # email
+        if (match($NF, /<[^>]+>/))
+          print substr($NF, RSTART + 1, RLENGTH - 2)
+      #this adds support for names as well if that is ever added
+      #  }
+      #$1 == "uid" {
+      #for (i=2;i<NF;i++) {printf "%s%s",sep, $i;sep=" "}; printf "\n"
+      }' #|sed -e 's/(.*)//g' -e 's/^\ //g' -e 's/\ *$//g' |uniq
+        )
+        #keys=(${keylist//$'\n'/\/})
+        keys=(${(s:/:)${keylist//$'\n'/\/}})
+  _describe -t modules 'keys in keyring' keys && return 0
+}
+
+_pacman_comp() {
+  case "$service" in
+    pacman-key)
+      _pacman_key "$@";;
+    pacman)
+      _pacman_zsh_comp "$@";;
+    *)
+      _message "Error";;
+  esac
+}
+
+_pacman_comp "$@"
