@@ -461,7 +461,7 @@ int _alpm_files_cmp(const void *f1, const void *f2)
 
 alpm_pkg_t *_alpm_pkg_new(void)
 {
-	alpm_pkg_t* pkg;
+	alpm_pkg_t *pkg;
 
 	CALLOC(pkg, 1, sizeof(alpm_pkg_t), return NULL);
 

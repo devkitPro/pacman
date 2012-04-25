@@ -30,7 +30,7 @@
 
 alpm_group_t *_alpm_group_new(const char *name)
 {
-	alpm_group_t* grp;
+	alpm_group_t *grp;
 
 	CALLOC(grp, 1, sizeof(alpm_group_t), return NULL);
 	STRDUP(grp->name, name, free(grp); return NULL);
