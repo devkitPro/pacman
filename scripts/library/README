@@ -27,3 +27,11 @@ Reccommended Usage:
 Returns:
   0: parse success
   1: parse failure (error message supplied)
+
+human_to_size.sh:
+A function to convert human readable sizes (such as "5.3 GiB") to raw byte
+equivalents. base10 and base2 suffixes are supported, case sensitively. If
+successful, the converted byte value is written to stdout and the function
+returns 0. If an error occurs, nothing in written and the function returns 1.
+Results may be inaccurate when using a broken implementation of awk, such
+as mawk or busybox awk.

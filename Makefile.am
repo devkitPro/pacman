@@ -41,6 +41,8 @@ test-vercmp: test/util src/util
 test-parseopts: test/scripts scripts
 	$(BASH_SHELL) $(top_srcdir)/test/scripts/parseopts_test.sh \
 		$(top_srcdir)/scripts/library/parseopts.sh
+	$(BASH_SHELL) $(top_srcdir)/test/scripts/human_to_size_test.sh \
+		$(top_srcdir)/scripts/library/human_to_size.sh
 
 # create the pacman DB and cache directories upon install
 install-data-local:
