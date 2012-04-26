@@ -40,6 +40,7 @@ max_delta_size=70
 # ensure we have a sane umask set
 umask 0022
 
+m4_include(library/parseopts.sh)
 m4_include(library/output_format.sh)
 
 # print usage instructions
@@ -155,22 +156,32 @@ create_xdelta()
 	return 0
 }
 
-declare -a args
+OPT_SHORT='hqV'
+OPT_LONG=('help' 'quiet' 'max-delta-size:' 'min-pkg-size:')
+if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
+	exit 1
+fi
+set -- "${OPTRET[@]}"
+unset OPT_SHORT OPT_LONG OPTRET
 
 # parse arguments
-while (( $# )); do
-	case "$1" in
-		-h|--help)    usage; exit 0 ;;
-		-V|--version) version; exit 0 ;;
-		-q|--quiet) QUIET=1;;
+while :; do
+	case $1 in
+		-h|--help)
+			usage
+			exit 0 ;;
+		-V|--version)
+			version
+			exit 0 ;;
+		-q|--quiet)
+			QUIET=1;;
 		--min-pkg-size)
 			if ! isnumeric "$2"; then
 				echo "invalid argument '$2' for option -- '$1'"
 				exit 1
 			fi
 			min_pkg_size=$2
-			shift
-			;;
+			shift ;;
 		--max-delta-size)
 			arg=$(echo "$2" | awk '{print $1 * 100}')
 			if ! isnumeric "$arg" || (($arg > 200)); then
@@ -178,21 +189,20 @@ while (( $# )); do
 				exit 1
 			fi
 			max_delta_size=$arg
+			shift ;;
+		--)
 			shift
-			;;
-		--) shift; args+=("$@"); break 2 ;;
-		-*) echo "invalid option -- '$1'"; usage; exit 1 ;;
-		*) args+=("$1");;
+			break 2 ;;
 	esac
 	shift
 done
 
-if (( ${#args[@]} != 2 )); then
+if (( $# != 2 )); then
 	usage
 	exit 1
 fi
 
-for i in "${args[@]}"; do
+for i in "$@"; do
 	if [[ ! -f $i ]]; then
 		error "$(gettext "File '%s' does not exist")" "$i"
 		exit 1

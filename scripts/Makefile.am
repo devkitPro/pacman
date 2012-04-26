@@ -83,7 +83,8 @@ pacman-optimize: \
 
 pkgdelta: \
 	$(srcdir)/pkgdelta.sh.in \
-	$(srcdir)/library/output_format.sh
+	$(srcdir)/library/output_format.sh \
+	$(srcdir)/library/parseopts.sh
 
 repo-add: \
 	$(srcdir)/repo-add.sh.in \
