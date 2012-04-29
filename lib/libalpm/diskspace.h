@@ -37,6 +37,12 @@ enum mount_used_level {
 	USED_INSTALL = (1 << 1),
 };
 
+enum mount_fsinfo {
+	MOUNT_FSINFO_UNLOADED = 0,
+	MOUNT_FSINFO_LOADED,
+	MOUNT_FSINFO_FAIL,
+};
+
 typedef struct __alpm_mountpoint_t {
 	/* mount point information */
 	char *mount_dir;
@@ -46,6 +52,7 @@ typedef struct __alpm_mountpoint_t {
 	blkcnt_t max_blocks_needed;
 	enum mount_used_level used;
 	int read_only;
+	enum mount_fsinfo fsinfo_loaded;
 	FSSTATSTYPE fsp;
 } alpm_mountpoint_t;
 

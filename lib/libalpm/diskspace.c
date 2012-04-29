@@ -69,22 +69,25 @@ static void mount_point_list_free(alpm_list_t *mount_points)
 	FREELIST(mount_points);
 }
 
-#if defined(HAVE_GETMNTENT)
 static int mount_point_load_fsinfo(alpm_handle_t *handle, alpm_mountpoint_t *mountpoint)
 {
+#if defined(HAVE_GETMNTENT)
 	/* grab the filesystem usage */
 	if(statvfs(mountpoint->mount_dir, &(mountpoint->fsp)) != 0) {
 		_alpm_log(handle, ALPM_LOG_WARNING,
 				_("could not get filesystem information for %s: %s\n"),
 				mountpoint->mount_dir, strerror(errno));
+		mountpoint->fsinfo_loaded = MOUNT_FSINFO_FAIL;
 		return -1;
 	}
 
+	_alpm_log(handle, ALPM_LOG_DEBUG, "loading fsinfo for %s\n", mountpoint->mount_dir);
 	mountpoint->read_only = mountpoint->fsp.f_flag & ST_RDONLY;
+	mountpoint->fsinfo_loaded = MOUNT_FSINFO_LOADED;
+#endif
 
 	return 0;
 }
-#endif
 
 static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 {
@@ -106,11 +109,6 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
 		mp->mount_dir_len = strlen(mp->mount_dir);
-		if(mount_point_load_fsinfo(handle, mp) < 0) {
-			free(mp->mount_dir);
-			free(mp);
-			continue;
-		}
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
@@ -132,11 +130,6 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_mountp);
 		mp->mount_dir_len = strlen(mp->mount_dir);
-		if(mount_point_load_fsinfo(handle, mp) < 0) {
-			free(mp->mount_dir);
-			free(mp);
-			continue;
-		}
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
@@ -169,6 +162,9 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 		mp->read_only = fsp->f_flags & MNT_RDONLY;
 #endif
 
+		/* we don't support lazy loading on this platform */
+		mp->fsinfo_loaded = MOUNT_FSINFO_LOADED;
+
 		mount_points = alpm_list_add(mount_points, mp);
 	}
 #endif
@@ -177,7 +173,7 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 			mount_point_cmp);
 	for(ptr = mount_points; ptr != NULL; ptr = ptr->next) {
 		mp = ptr->data;
-		_alpm_log(handle, ALPM_LOG_DEBUG, "mountpoint: %s\n", mp->mount_dir);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "discovered mountpoint: %s\n", mp->mount_dir);
 	}
 	return mount_points;
 }
@@ -245,6 +241,18 @@ static int calculate_removed_size(alpm_handle_t *handle,
 			continue;
 		}
 
+		/* don't check a mount that we know we can't stat */
+		if(mp && mp->fsinfo_loaded == MOUNT_FSINFO_FAIL) {
+			continue;
+		}
+
+		/* lazy load filesystem info */
+		if(mp->fsinfo_loaded == MOUNT_FSINFO_UNLOADED) {
+			if(mount_point_load_fsinfo(handle, mp) < 0) {
+				continue;
+			}
+		}
+
 		/* the addition of (divisor - 1) performs ceil() with integer division */
 		remove_size = (st.st_size + mp->fsp.f_bsize - 1) / mp->fsp.f_bsize;
 		mp->blocks_needed -= remove_size;
@@ -290,6 +298,18 @@ static int calculate_installed_size(alpm_handle_t *handle,
 			_alpm_log(handle, ALPM_LOG_WARNING,
 					_("could not determine mount point for file %s\n"), filename);
 			continue;
+		}
+
+		/* don't check a mount that we know we can't stat */
+		if(mp && mp->fsinfo_loaded == MOUNT_FSINFO_FAIL) {
+			continue;
+		}
+
+		/* lazy load filesystem info */
+		if(mp->fsinfo_loaded == MOUNT_FSINFO_UNLOADED) {
+			if(mount_point_load_fsinfo(handle, mp) < 0) {
+				continue;
+			}
 		}
 
 		/* the addition of (divisor - 1) performs ceil() with integer division */
@@ -350,6 +370,13 @@ int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 				cachedir);
 		error = 1;
 		goto finish;
+	}
+
+	if(cachedir_mp->fsinfo_loaded == MOUNT_FSINFO_UNLOADED) {
+		if(mount_point_load_fsinfo(handle, cachedir_mp)) {
+			error = 1;
+			goto finish;
+		}
 	}
 
 	/* there's no need to check for a R/O mounted filesystem here, as
