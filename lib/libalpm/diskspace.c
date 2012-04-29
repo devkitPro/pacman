@@ -69,6 +69,23 @@ static void mount_point_list_free(alpm_list_t *mount_points)
 	FREELIST(mount_points);
 }
 
+#if defined(HAVE_GETMNTENT)
+static int mount_point_load_fsinfo(alpm_handle_t *handle, alpm_mountpoint_t *mountpoint)
+{
+	/* grab the filesystem usage */
+	if(statvfs(mountpoint->mount_dir, &(mountpoint->fsp)) != 0) {
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("could not get filesystem information for %s: %s\n"),
+				mountpoint->mount_dir, strerror(errno));
+		return -1;
+	}
+
+	mountpoint->read_only = mountpoint->fsp.f_flag & ST_RDONLY;
+
+	return 0;
+}
+#endif
+
 static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 {
 	alpm_list_t *mount_points = NULL, *ptr;
@@ -86,24 +103,14 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	}
 
 	while((mnt = getmntent(fp))) {
-		struct statvfs fsp;
-		if(!mnt) {
-			_alpm_log(handle, ALPM_LOG_WARNING,
-					_("could not get filesystem information\n"));
-			continue;
-		}
-		if(statvfs(mnt->mnt_dir, &fsp) != 0) {
-			_alpm_log(handle, ALPM_LOG_WARNING,
-					_("could not get filesystem information for %s: %s\n"),
-					mnt->mnt_dir, strerror(errno));
-			continue;
-		}
-
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_dir);
 		mp->mount_dir_len = strlen(mp->mount_dir);
-		memcpy(&(mp->fsp), &fsp, sizeof(struct statvfs));
-		mp->read_only = fsp.f_flag & ST_RDONLY;
+		if(mount_point_load_fsinfo(handle, mp) < 0) {
+			free(mp->mount_dir);
+			free(mp);
+			continue;
+		}
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
@@ -122,19 +129,14 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	}
 
 	while((ret = getmntent(fp, &mnt)) == 0) {
-		struct statvfs fsp;
-		if(statvfs(mnt->mnt_mountp, &fsp) != 0) {
-			_alpm_log(handle, ALPM_LOG_WARNING,
-					_("could not get filesystem information for %s: %s\n"),
-					mnt->mnt_mountp, strerror(errno));
-			continue;
-		}
-
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir = strdup(mnt->mnt_mountp);
 		mp->mount_dir_len = strlen(mp->mount_dir);
-		memcpy(&(mp->fsp), &fsp, sizeof(struct statvfs));
-		mp->read_only = fsp.f_flag & ST_RDONLY;
+		if(mount_point_load_fsinfo(handle, mp) < 0) {
+			free(mp->mount_dir);
+			free(mp);
+			continue;
+		}
 
 		mount_points = alpm_list_add(mount_points, mp);
 	}
