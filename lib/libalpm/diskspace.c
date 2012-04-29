@@ -325,8 +325,16 @@ int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 {
 	alpm_list_t *mount_points;
 	alpm_mountpoint_t *cachedir_mp;
+	char resolved_cachedir[PATH_MAX];
 	size_t j;
 	int error = 0;
+
+	/* resolve the cachedir path to ensure we check the right mountpoint.  We
+	 * handle failures silently, and continue to use the possibly unresolved
+	 * path. */
+	if(realpath(cachedir, resolved_cachedir) != NULL) {
+		cachedir = resolved_cachedir;
+	}
 
 	mount_points = mount_point_list(handle);
 	if(mount_points == NULL) {
