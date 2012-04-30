@@ -333,7 +333,7 @@ alpm_errno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist)
  {
 	struct stat st;
-	char *real = NULL;
+	char real[PATH_MAX];
 	const char *path;
 
 	path = value;
@@ -344,9 +344,7 @@ alpm_errno_t _alpm_set_directory_option(const char *value,
 		if(stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 			return ALPM_ERR_NOT_A_DIR;
 		}
-		CALLOC(real, PATH_MAX, sizeof(char), return ALPM_ERR_MEMORY);
 		if(!realpath(path, real)) {
-			free(real);
 			return ALPM_ERR_NOT_A_DIR;
 		}
 		path = real;
@@ -359,7 +357,6 @@ alpm_errno_t _alpm_set_directory_option(const char *value,
 	if(!*storage) {
 		return ALPM_ERR_MEMORY;
 	}
-	free(real);
 	return 0;
 }
 

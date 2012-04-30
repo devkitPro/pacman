@@ -547,7 +547,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			 * consideration cannot itself be a link, as it might be unowned- path
 			 * components can be safely checked as all directories are "unowned". */
 			if(!resolved_conflict && dbpkg && !S_ISLNK(lsbuf.st_mode)) {
-				char *rpath = calloc(PATH_MAX, sizeof(char));
+				char rpath[PATH_MAX];
 				if(realpath(path, rpath)) {
 					const char *relative_rpath = rpath + rootlen;
 					if(_alpm_filelist_contains(alpm_pkg_get_files(dbpkg), relative_rpath)) {
@@ -556,7 +556,6 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 						resolved_conflict = 1;
 					}
 				}
-				free(rpath);
 			}
 
 			/* is the file unowned and in the backup list of the new package? */
