@@ -476,7 +476,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 				newfiles = realloc(newpkg->files.files,
 						sizeof(alpm_file_t) * files_size);
 				if(!newfiles) {
-					ALLOC_FAIL(sizeof(alpm_file_t) * files_size);
+					_alpm_alloc_fail(sizeof(alpm_file_t) * files_size);
 					goto error;
 				}
 				/* ensure all new memory is zeroed out, in both the initial

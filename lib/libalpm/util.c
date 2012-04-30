@@ -1247,6 +1247,11 @@ int _alpm_fnmatch(const void *pattern, const void *string)
 	return fnmatch(pattern, string, 0);
 }
 
+void _alpm_alloc_fail(size_t size)
+{
+	fprintf(stderr, "alloc failure: could not allocate %zd bytes\n", size);
+}
+
 #ifndef HAVE_STRNDUP
 /* A quick and dirty implementation derived from glibc */
 /** Determines the length of a fixed-size string.

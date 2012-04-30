@@ -49,13 +49,13 @@
 #define _(s) s
 #endif
 
-#define ALLOC_FAIL(s) do { fprintf(stderr, "alloc failure: could not allocate %zd bytes\n", s); } while(0)
+void _alpm_alloc_fail(size_t size);
 
-#define MALLOC(p, s, action) do { p = malloc(s); if(p == NULL) { ALLOC_FAIL(s); action; } } while(0)
-#define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { ALLOC_FAIL(l * s); action; } } while(0)
+#define MALLOC(p, s, action) do { p = malloc(s); if(p == NULL) { _alpm_alloc_fail(s); action; } } while(0)
+#define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { _alpm_alloc_fail(l * s); action; } } while(0)
 /* This strdup macro is NULL safe- copying NULL will yield NULL */
-#define STRDUP(r, s, action) do { if(s != NULL) { r = strdup(s); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
-#define STRNDUP(r, s, l, action) do { if(s != NULL) { r = strndup(s, l); if(r == NULL) { ALLOC_FAIL(strlen(s)); action; } } else { r = NULL; } } while(0)
+#define STRDUP(r, s, action) do { if(s != NULL) { r = strdup(s); if(r == NULL) { _alpm_alloc_fail(strlen(s)); action; } } else { r = NULL; } } while(0)
+#define STRNDUP(r, s, l, action) do { if(s != NULL) { r = strndup(s, l); if(r == NULL) { _alpm_alloc_fail(l); action; } } else { r = NULL; } } while(0)
 
 #define FREE(p) do { free(p); p = NULL; } while(0)
 

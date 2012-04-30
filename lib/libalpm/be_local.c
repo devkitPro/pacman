@@ -667,7 +667,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 						}
 						files = realloc(files, sizeof(alpm_file_t) * files_size);
 						if(!files) {
-							ALLOC_FAIL(sizeof(alpm_file_t) * files_size);
+							_alpm_alloc_fail(sizeof(alpm_file_t) * files_size);
 							goto error;
 						}
 						/* ensure all new memory is zeroed out, in both the initial
@@ -680,7 +680,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 					len += 1;
 					files[files_count].name = malloc(len);
 					if(files[files_count].name == NULL) {
-						ALLOC_FAIL(len);
+						_alpm_alloc_fail(len);
 						goto error;
 					}
 					memcpy(files[files_count].name, line, len);
