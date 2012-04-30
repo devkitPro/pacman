@@ -23,6 +23,9 @@ if ENABLE_GNU89_INLINE_CC
 AM_CFLAGS += -fgnu89-inline
 endif
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libalpm.pc
+
 libalpm_la_SOURCES = \
 	add.h add.c \
 	alpm.h alpm.c \

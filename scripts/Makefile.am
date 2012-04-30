@@ -12,7 +12,6 @@ OURSCRIPTS = \
 	pacman-key \
 	pacman-optimize \
 	pkgdelta \
-	rankmirrors \
 	repo-add
 
 EXTRA_DIST = \
@@ -21,7 +20,6 @@ EXTRA_DIST = \
 	pacman-key.sh.in \
 	pacman-optimize.sh.in \
 	pkgdelta.sh.in \
-	rankmirrors.sh.in \
 	repo-add.sh.in \
 	$(LIBRARY)
 
@@ -64,6 +62,7 @@ $(OURSCRIPTS): Makefile
 	$(AM_V_at)$(RM) $@
 	$(AM_V_GEN)test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
 	$(AM_V_at)chmod +x,a-w $@
+	@$(BASH_SHELL) -O extglob -n $@
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
@@ -85,8 +84,6 @@ pacman-optimize: \
 pkgdelta: \
 	$(srcdir)/pkgdelta.sh.in \
 	$(srcdir)/library/output_format.sh
-
-rankmirrors: $(srcdir)/rankmirrors.sh.in
 
 repo-add: \
 	$(srcdir)/repo-add.sh.in \

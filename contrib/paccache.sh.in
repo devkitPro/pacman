@@ -42,6 +42,8 @@ die() {
 	exit 1
 }
 
+m4_include(../scripts/library/parseopts.sh)
+
 # reads a list of files on stdin and prints out deletion candidates
 pkgfilter() {
 	# there's whitelist and blacklist parameters passed to this
@@ -184,21 +186,21 @@ options to help control how much, and what, is deleted from any directory
 containing pacman package tarballs.
 
   Operations:
-    -d               perform a dry run, only finding candidate packages.
-    -m  <movedir>    move candidate packages to 'movedir'.
-    -r               remove candidate packages.
+    -d, --dryrun            perform a dry run, only finding candidate packages.
+    -m, --move <dir>        move candidate packages to 'movedir'.
+    -r, --remove            remove candidate packages.
 
   Options:
-    -a  <arch>       scan for 'arch' (default: all architectures).
-    -c  <cachedir>   scan 'cachedir' for packages (default: @localstatedir@/cache/pacman/pkg).
-    -f               apply force to mv(1) and rm(1) operations.
-    -h               display this help message.
-    -i  <pkgs>       ignore 'pkgs', which is a comma separated. Alternatively,
-                     specify '-' to read package names from stdin, newline delimited.
-    -k  <num>        keep 'num' of each package in 'cachedir' (default: 3).
-    -u               target uninstalled packages.
-    -v               increase verbosity. specify up to 3 times.
-    -z               use null delimiters for candidate names (only with -v and -vv)
+    -a, --arch <arch>       scan for 'arch' (default: all architectures).
+    -c, --cachedir <dir>    scan 'cachedir' for packages (default: @localstatedir@/cache/pacman/pkg).
+    -f, --force             apply force to mv(1) and rm(1) operations.
+    -h, --help              display this help message and exit.
+    -i, --ignore <pkgs>     ignore 'pkgs', comma separated. Alternatively, specify '-' to
+                              read package names from stdin, newline delimited.
+    -k, --keep <num>        keep 'num' of each package in 'cachedir' (default: 3).
+    -u, --uninstalled       target uninstalled packages.
+    -v, --verbose           increase verbosity. specify up to 3 times.
+    -z, --null              use null delimiters for candidate names (only with -v and -vv)
 
 EOF
 }
@@ -213,47 +215,70 @@ if (( ! UID )); then
 	exit 42
 fi
 
-# TODO: remove this workaround and use a sane command line parser (like the
-# parse_options library from scripts/) here
-if [[ $1 = -@(h|-help) ]]; then
-	usage
-	exit 0
-elif [[ $1 = -@(V|-version) ]]; then
-	version
-	exit 0
-fi
+OPT_SHORT=':a:c:dfhi:k:m:rsuVvz'
+OPT_LONG=('arch:' 'cachedir:' 'dryrun' 'force' 'help' 'ignore:' 'keep:' 'move'
+          'remove' 'uninstalled' 'version' 'verbose' 'null')
 
-while getopts ':a:c:dfi:k:m:rsuvz' opt; do
-	case $opt in
-		a) scanarch=$OPTARG ;;
-		c) cachedir=$OPTARG ;;
-		d) dryrun=1 ;;
-		f) cmdopts=(-f) ;;
-		i) if [[ $OPTARG = '-' ]]; then
-				 [[ ! -t 0 ]] && IFS=$'\n' read -r -d '' -a ign
-			 else
-				 IFS=',' read -r -a ign <<< "$OPTARG"
-			 fi
-			 blacklist+=("${ign[@]}")
-			unset i ign ;;
-		k) keep=$OPTARG
+if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
+	exit 1
+fi
+set -- "${OPTRET[@]}"
+unset OPT_SHORT OPT_LONG OPTRET
+
+while :; do
+	case $1 in
+		-a|--arch)
+			scanarch=$2
+			shift ;;
+		-c|--cachedir)
+			cachedir=$2
+			shift ;;
+		-d|--dryrun)
+			dryrun=1 ;;
+		-f|--force)
+			cmdopts=(-f) ;;
+		-h|--help)
+			usage
+			exit 0 ;;
+		-i|--ignore)
+			if [[ $2 = '-' ]]; then
+				[[ ! -t 0 ]] && IFS=$'\n' read -r -d '' -a ign
+			else
+				IFS=',' read -r -a ign <<< "$2"
+			fi
+			blacklist+=("${ign[@]}")
+			unset i ign
+			shift ;;
+		-k|--keep)
+			keep=$2
 			if [[ -z $keep || -n ${keep//[0-9]/} ]]; then
 				die 'argument to option -k must be a non-negative integer'
 			else
 				keep=$(( 10#$keep ))
-			fi ;;
-		m) move=1 movedir=$OPTARG ;;
-		r) delete=1 ;;
-		u) IFS=$'\n' read -r -d '' -a ign < <(pacman -Qq)
-			 blacklist+=("${ign[@]}")
-			 unset ign ;;
-		v) (( ++verbose )) ;;
-		z) delim='\0' ;;
-		:) die "option '--%s' requires an argument" "$OPTARG" ;;
-		?) die "invalid option -- '%s'" "$OPTARG" ;;
+			fi
+			shift ;;
+		-m|--move)
+			move=1 movedir=$2
+			shift ;;
+		-r|--remove)
+			delete=1 ;;
+		-u|--uninstalled)
+			IFS=$'\n' read -r -d '' -a ign < <(pacman -Qq)
+			blacklist+=("${ign[@]}")
+			unset ign ;;
+		-V|--version)
+			version
+			exit 0 ;;
+		-v|--verbose)
+			(( ++verbose )) ;;
+		-z|--null)
+			delim='\0' ;;
+		--)
+			shift
+			break 2 ;;
 	esac
+	shift
 done
-shift $(( OPTIND - 1 ))
 
 # remaining args are a whitelist
 whitelist=("$@")

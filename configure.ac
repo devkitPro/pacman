@@ -148,7 +148,23 @@ AC_PROG_AWK
 AC_PROG_CC_C99
 AC_PROG_INSTALL
 AC_CHECK_PROGS([PYTHON], [python2.7 python2.6 python2.5 python2 python], [false])
-AC_PATH_PROGS([BASH_SHELL], [bash bash4 bash3], [false])
+AC_PATH_PROGS([BASH_SHELL], [bash bash4], [false])
+
+AS_IF([test "x$BASH_SHELL" = "xfalse"],
+	AC_MSG_WARN([*** bash >= 4.1.0 is required for pacman scripts]),
+	[bash_version_major=`$BASH_SHELL -c 'echo "${BASH_VERSINFO[[0]]}"'`
+	bash_version_minor=`$BASH_SHELL -c 'echo "${BASH_VERSINFO[[1]]}"'`
+	ok=yes
+	if test "$bash_version_major" -lt 4; then
+		ok=no
+	fi
+	if test "$bash_version_major" -eq 4 && test "$bash_version_minor" -lt 1; then
+		ok=no
+	fi
+	if test "$ok" = "no"; then
+		AC_MSG_ERROR([*** bash >= 4.1.0 is required for pacman scripts])
+	fi
+	unset bash_version_major bash_version_minor ok])
 
 # find installed gettext
 AM_GNU_GETTEXT([external], [need-ngettext])
@@ -433,6 +449,7 @@ AC_DEFINE_UNQUOTED([SCRIPTLET_SHELL], "$SCRIPTLET_SHELL", [The full path of the 
 AC_CONFIG_FILES([
 lib/libalpm/Makefile
 lib/libalpm/po/Makefile.in
+lib/libalpm/libalpm.pc
 src/pacman/Makefile
 src/pacman/po/Makefile.in
 src/util/Makefile
