@@ -430,8 +430,99 @@ _keys() {
   _describe -t modules 'keys in keyring' keys && return 0
 }
 
+_makepkg_shortopts=(
+    '*-s[Install missing dependencies with pacman]'
+    '*-i[Install package after successful build]'
+    '*-A[Ignore incomplete arch field in PKGBUILD]'
+    '*-c[Clean up work files after build]'
+    '*-d[Skip all dependency checks]'
+    '*-e[Do not extract source files (use existing src/ dir)]'
+    '*-f[Overwrite existing package]'
+    '*-g[Generate integrity checks for source files]'
+    '*-h[Show help message and exit]'
+    '*-L[Log package build process]'
+    '*-m[Disable colorized output messages]'
+    '*-o[Download and extract files only]'
+    '-p[Use an alternate build script (instead of 'PKGBUILD')]: :_files'
+    '*-r[Remove installed dependencies after a successful build]'
+    '*-R[Repackage contents of the package without rebuilding]'
+    '*-S[Generate a source-only tarball without downloading sources]'
+    )
+
+_makepkg_action_none(){
+  _arguments \
+		"$_makepkg_shortopts[@]"\
+    "$_makepkg_longopts[@]"
+}
+_makepkg_longopts=(
+  '--ignorearch[Ignore incomplete arch field in PKGBUILD]'
+  '--clean[Clean up work files after build]'
+  '--nodeps[Skip all dependency checks]'
+  '--noextract[Do not extract source files (use existing src/ dir)]'
+  '--force[Overwrite existing package]'
+  '--geninteg[Generate integrity checks for source files]'
+  '--help[Show help message and exit]'
+  '--install[Install package after successful build]'
+  '--log[Log package build process]'
+  '--nocolor[Disable colorized output messages]'
+  '--nobuild[Download and extract files only]'
+  '--rmdeps[Remove installed dependencies after a successful build]'
+  '--repackage[Repackage contents of the package without rebuilding]'
+  '--syncdeps[Install missing dependencies with pacman]'
+  '--source[Generate a source-only tarball without downloading sources]'
+  '--allsource[Generate a source-only tarball including downloaded source]'
+  '--asroot[Allow makepkg to run as root user]'
+  '--check[Run check() function in the PKGBUILD]'
+  '--config[Use an alternate config file instead of '/etc/makepkg.conf']: :_files'
+  '--holdver[Prevent automatic version bumping for development PKGBUILDs]'
+  '--key[Specify key to use for gpg signing instead of the default]: :_keys'
+  '--nocheck[Do not run the check() function in the PKGBUILD]'
+  '--nosign[Do not create a signature for the package]'
+  '--pkg[Only build listed packages from a split package]'
+  '--sign[Sign the resulting package with gpg]'
+  '--skipchecksums[Do not verify checksums of the source files]'
+  '--skipinteg[do not perform any verification checks on source files]'
+  '--skippgpcheck[Do not verify source files with PGP signatures]'
+  '--noconfirm[do not ask for confirmation when resolving dependencies]'
+  '--noprogressbar[Do not show a progress bar when downloading files]'
+  )
+_makepkg(){
+    case $words[CURRENT] in
+      -*)
+        _arguments -s -w : \
+          "$_makepkg_shortopts[@]" \
+          "$_makepkg_longopts[@]"
+        ;;
+      --* )
+        _arguments -s \
+          "$_makepkg_longopts[@]"
+        ;;
+      - )_makepkg_action_none ;;
+      * )
+        i=$#
+        while [[ $words[i] != -* ]] && [[ $words[$i] != "makepkg" ]];do
+          i=$((i-1));
+        done
+        case $words[$i] in
+          -*)
+            _arguments -s -w : \
+              "$_makepkg_shortopts[@]" \
+              "$_makepkg_longopts[@]"
+            ;;
+          --* )
+            _arguments -s \
+              "$_makepkg_longopts[@]"
+            ;;
+          - )_makepkg_action_none ;;
+          * ) return 1 ;;
+        esac
+      ;;
+    esac
+}
 _pacman_comp() {
   case "$service" in
+    makepkg)
+      _makepkg "$@";;
     pacman-key)
       _pacman_key "$@";;
     pacman)
