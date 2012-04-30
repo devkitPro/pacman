@@ -164,6 +164,11 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		snprintf(filename, PATH_MAX, "%s%s-%s/changelog",
 				_alpm_db_path(handle->db_local), newpkg->name, newpkg->version);
 		archive_entry_set_perm(entry, 0644);
+	} else if(strcmp(entryname, ".MTREE") == 0) {
+		/* the mtree file goes inside the db */
+		snprintf(filename, PATH_MAX, "%s%s-%s/mtree",
+				_alpm_db_path(handle->db_local), newpkg->name, newpkg->version);
+		archive_entry_set_perm(entry, 0644);
 	} else if(*entryname == '.') {
 		/* for now, ignore all files starting with '.' that haven't
 		 * already been handled (for future possibilities) */
