@@ -274,6 +274,7 @@ get_pkg_arch() {
 	else
 		local arch_override
 		eval $(declare -f package_$1 | sed -n 's/\(^[[:space:]]*arch=\)/arch_override=/p')
+		(( ${#arch_override[@]} == 0 )) && arch_override=("${arch[@]}")
 		if [[ $arch_override = "any" ]]; then
 			printf "%s\n" "any"
 		else
