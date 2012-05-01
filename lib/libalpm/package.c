@@ -121,6 +121,23 @@ static int _pkg_changelog_close(const alpm_pkg_t UNUSED *pkg,
 	return EOF;
 }
 
+static struct archive *_pkg_mtree_open(alpm_pkg_t UNUSED *pkg)
+{
+	return NULL;
+}
+
+static int _pkg_mtree_next(const alpm_pkg_t UNUSED *pkg,
+		struct archive UNUSED *archive, struct archive_entry UNUSED **entry)
+{
+	return -1;
+}
+
+static int _pkg_mtree_close(const alpm_pkg_t UNUSED *pkg,
+		struct archive UNUSED *archive)
+{
+	return -1;
+}
+
 static int _pkg_force_load(alpm_pkg_t UNUSED *pkg) { return 0; }
 
 /** The standard package operations struct. Get fields directly from the
@@ -151,6 +168,10 @@ struct pkg_operations default_pkg_ops = {
 	.changelog_open  = _pkg_changelog_open,
 	.changelog_read  = _pkg_changelog_read,
 	.changelog_close = _pkg_changelog_close,
+
+	.mtree_open      = _pkg_mtree_open,
+	.mtree_next      = _pkg_mtree_next,
+	.mtree_close     = _pkg_mtree_close,
 
 	.force_load      = _pkg_force_load,
 };

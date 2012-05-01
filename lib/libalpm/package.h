@@ -26,6 +26,10 @@
 
 #include <sys/types.h> /* off_t */
 
+/* libarchive */
+#include <archive.h>
+#include <archive_entry.h>
+
 #include "alpm.h"
 #include "backup.h"
 #include "db.h"
@@ -63,6 +67,10 @@ struct pkg_operations {
 	void *(*changelog_open) (alpm_pkg_t *);
 	size_t (*changelog_read) (void *, size_t, const alpm_pkg_t *, void *);
 	int (*changelog_close) (const alpm_pkg_t *, void *);
+
+	struct archive *(*mtree_open) (alpm_pkg_t *);
+	int (*mtree_next) (const alpm_pkg_t *, struct archive *, struct archive_entry **);
+	int (*mtree_close) (const alpm_pkg_t *, struct archive *);
 
 	int (*force_load) (alpm_pkg_t *);
 };

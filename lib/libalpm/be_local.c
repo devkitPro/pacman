@@ -28,6 +28,10 @@
 #include <dirent.h>
 #include <limits.h> /* PATH_MAX */
 
+/* libarchive */
+#include <archive.h>
+#include <archive_entry.h>
+
 /* libalpm */
 #include "db.h"
 #include "alpm_list.h"
@@ -211,6 +215,75 @@ static int _cache_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 	return fclose((FILE *)fp);
 }
 
+/**
+ * Open a package mtree file for reading.
+ * @param pkg the local package to read the changelog of
+ * @return a archive structure for the package mtree file
+ */
+static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
+{
+	int r;
+	struct archive *mtree;
+
+	pkg->handle->pm_errno = 0;
+
+	alpm_db_t *db = alpm_pkg_get_db(pkg);
+	char *mtfile = _alpm_local_db_pkgpath(db, pkg, "mtree");
+
+	if(access(mtfile, F_OK) != 0) {
+		/* there is no mtree file for this package */
+		goto error;
+	}
+
+	if((mtree = archive_read_new()) == NULL) {
+		pkg->handle->pm_errno = ALPM_ERR_LIBARCHIVE;
+		goto error;
+	}
+
+	archive_read_support_filter_gzip(mtree);
+	archive_read_support_format_mtree(mtree);
+
+	if((r = archive_read_open_file(mtree, mtfile, ALPM_BUFFER_SIZE))) {
+		_alpm_log(pkg->handle, ALPM_LOG_ERROR, _("error while reading file %s: %s\n"),
+					mtfile, archive_error_string(mtree));
+		pkg->handle->pm_errno = ALPM_ERR_LIBARCHIVE;
+		archive_read_finish(mtree);
+		goto error;
+	}
+
+	free(mtfile);
+	return mtree;
+
+error:
+	free(mtfile);
+	return NULL;
+}
+
+/**
+ * Read next entry from a package mtree file.
+ * @param pkg the package that the mtree file is being read from
+ * @param archive the archive structure reading from the mtree file
+ * @param entry an archive_entry to store the entry header information
+ * @return 0 if end of archive is reached, non-zero otherwise.
+ */
+static int _cache_mtree_next(const alpm_pkg_t UNUSED *pkg,
+		struct archive *mtree, struct archive_entry **entry)
+{
+	return archive_read_next_header(mtree, entry);
+}
+
+/**
+ * Close a package mtree file for reading.
+ * @param pkg the package that the mtree file was read from
+ * @param mtree the archive structure use for reading from the mtree file
+ * @return whether closing the package changelog stream was successful
+ */
+static int _cache_mtree_close(const alpm_pkg_t UNUSED *pkg,
+		struct archive *mtree)
+{
+	return archive_read_finish(mtree);
+}
+
 static int _cache_force_load(alpm_pkg_t *pkg)
 {
 	return local_db_read(pkg, INFRQ_ALL);
@@ -245,6 +318,10 @@ static struct pkg_operations local_pkg_ops = {
 	.changelog_open  = _cache_changelog_open,
 	.changelog_read  = _cache_changelog_read,
 	.changelog_close = _cache_changelog_close,
+
+	.mtree_open      = _cache_mtree_open,
+	.mtree_next      = _cache_mtree_next,
+	.mtree_close     = _cache_mtree_close,
 
 	.force_load      = _cache_force_load,
 };
