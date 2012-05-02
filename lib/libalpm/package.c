@@ -403,6 +403,31 @@ int SYMEXPORT alpm_pkg_changelog_close(const alpm_pkg_t *pkg, void *fp)
 	return pkg->ops->changelog_close(pkg, fp);
 }
 
+/** Open a package mtree file for reading. */
+struct archive SYMEXPORT *alpm_pkg_mtree_open(alpm_pkg_t * pkg)
+{
+	ASSERT(pkg != NULL, return NULL);
+	pkg->handle->pm_errno = 0;
+	return pkg->ops->mtree_open(pkg);
+}
+
+/** Read entry from an open mtree file. */
+int SYMEXPORT alpm_pkg_mtree_next(const alpm_pkg_t * pkg, struct archive *archive,
+	struct archive_entry **entry)
+{
+	ASSERT(pkg != NULL, return -1);
+	pkg->handle->pm_errno = 0;
+	return pkg->ops->mtree_next(pkg, archive, entry);
+}
+
+/** Close a package mtree file for reading. */
+int SYMEXPORT alpm_pkg_mtree_close(const alpm_pkg_t * pkg, struct archive *archive)
+{
+	ASSERT(pkg != NULL, return -1);
+	pkg->handle->pm_errno = 0;
+	return pkg->ops->mtree_close(pkg, archive);
+}
+
 int SYMEXPORT alpm_pkg_has_scriptlet(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);

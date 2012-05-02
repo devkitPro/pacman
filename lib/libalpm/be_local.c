@@ -225,8 +225,6 @@ static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
 	int r;
 	struct archive *mtree;
 
-	pkg->handle->pm_errno = 0;
-
 	alpm_db_t *db = alpm_pkg_get_db(pkg);
 	char *mtfile = _alpm_local_db_pkgpath(db, pkg, "mtree");
 
