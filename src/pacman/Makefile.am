@@ -27,6 +27,7 @@ AM_CPPFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
 endif
 
 pacman_SOURCES = \
+	check.h check.c \
 	conf.h conf.c \
 	database.c \
 	deptest.c \

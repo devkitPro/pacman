@@ -22,7 +22,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <limits.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
@@ -33,6 +32,7 @@
 /* pacman */
 #include "pacman.h"
 #include "package.h"
+#include "check.h"
 #include "conf.h"
 #include "util.h"
 
@@ -391,60 +391,6 @@ static int filter(alpm_pkg_t *pkg)
 		return 0;
 	}
 	return 1;
-}
-
-/* Loop through the packages. For each package,
- * loop through files to check if they exist. */
-static int check(alpm_pkg_t *pkg)
-{
-	const char *root, *pkgname;
-	size_t errors = 0;
-	size_t rootlen;
-	char f[PATH_MAX];
-	alpm_filelist_t *filelist;
-	size_t i;
-
-	root = alpm_option_get_root(config->handle);
-	rootlen = strlen(root);
-	if(rootlen + 1 > PATH_MAX) {
-		/* we are in trouble here */
-		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
-		return 1;
-	}
-	strcpy(f, root);
-
-	pkgname = alpm_pkg_get_name(pkg);
-	filelist = alpm_pkg_get_files(pkg);
-	for(i = 0; i < filelist->count; i++) {
-		const alpm_file_t *file = filelist->files + i;
-		struct stat st;
-		const char *path = file->name;
-
-		if(rootlen + 1 + strlen(path) > PATH_MAX) {
-			pm_printf(ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
-			continue;
-		}
-		strcpy(f + rootlen, path);
-		/* use lstat to prevent errors from symlinks */
-		if(lstat(f, &st) != 0) {
-			if(config->quiet) {
-				printf("%s %s\n", pkgname, f);
-			} else {
-				pm_printf(ALPM_LOG_WARNING, "%s: %s (%s)\n",
-						pkgname, f, strerror(errno));
-			}
-			errors++;
-		}
-	}
-
-	if(!config->quiet) {
-		printf(_n("%s: %jd total file, ", "%s: %jd total files, ",
-					(unsigned long)filelist->count), pkgname, (intmax_t)filelist->count);
-		printf(_n("%jd missing file\n", "%jd missing files\n",
-					(unsigned long)errors), (intmax_t)errors);
-	}
-
-	return (errors != 0 ? 1 : 0);
 }
 
 static int display(alpm_pkg_t *pkg)
