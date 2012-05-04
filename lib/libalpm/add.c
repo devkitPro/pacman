@@ -488,8 +488,9 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	if(alpm_pkg_has_scriptlet(newpkg) &&
 			!(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 		const char *scriptlet_name = is_upgrade ? "pre_upgrade" : "pre_install";
-		_alpm_runscriptlet(handle, pkgfile,
-				scriptlet_name, newpkg->version, NULL, 1);
+
+		_alpm_runscriptlet(handle, pkgfile, scriptlet_name,
+				newpkg->version, oldpkg ? oldpkg->version : NULL, 1);
 	}
 
 	/* we override any pre-set reason if we have alldeps or allexplicit set */
