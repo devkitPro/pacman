@@ -411,7 +411,11 @@ static int display(alpm_pkg_t *pkg)
 		dump_pkg_changelog(pkg);
 	}
 	if(config->op_q_check) {
-		ret = check(pkg);
+		if(config->op_q_check == 1) {
+			ret = check_pkg_fast(pkg);
+		} else {
+			ret = check_pkg_full(pkg);
+		}
 	}
 	if(!config->op_q_info && !config->op_q_list
 			&& !config->op_q_changelog && !config->op_q_check) {

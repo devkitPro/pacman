@@ -44,7 +44,7 @@ static int check_file_exists(const char *pkgname, const char * filepath,
 }
 
 /* Loop through the files of the package to check if they exist. */
-int check(alpm_pkg_t *pkg)
+int check_pkg_fast(alpm_pkg_t *pkg)
 {
 	const char *root, *pkgname;
 	size_t errors = 0;
@@ -82,6 +82,73 @@ int check(alpm_pkg_t *pkg)
 		printf(_n("%s: %jd total file, ", "%s: %jd total files, ",
 					(unsigned long)filelist->count), pkgname, (intmax_t)filelist->count);
 		printf(_n("%jd missing file\n", "%jd missing files\n",
+					(unsigned long)errors), (intmax_t)errors);
+	}
+
+	return (errors != 0 ? 1 : 0);
+}
+
+/* Loop though files in a package and perform full file property checking. */
+int check_pkg_full(alpm_pkg_t *pkg)
+{
+	const char *root, *pkgname;
+	size_t errors = 0;
+	size_t rootlen;
+	char filepath[PATH_MAX];
+	struct archive *mtree;
+	struct archive_entry *entry = NULL;
+	size_t file_count = 0;
+
+	root = alpm_option_get_root(config->handle);
+	rootlen = strlen(root);
+	if(rootlen + 1 > PATH_MAX) {
+		/* we are in trouble here */
+		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
+		return 1;
+	}
+	strcpy(filepath, root);
+
+	pkgname = alpm_pkg_get_name(pkg);
+	mtree = alpm_pkg_mtree_open(pkg);
+	if(mtree == NULL) {
+		/* TODO: check error to confirm failure due to no mtree file */
+		if(!config->quiet) {
+			printf(_("%s: no mtree file\n"), pkgname);
+		}
+		return 0;
+	}
+
+	while(alpm_pkg_mtree_next(pkg, mtree, &entry) == ARCHIVE_OK) {
+		struct stat st;
+		const char *path = archive_entry_pathname(entry);
+
+		/* TODO: ignoring special files for the moment */
+		if(*path == '.') {
+			continue;
+		}
+
+		file_count++;
+
+		if(rootlen + 1 + strlen(path) > PATH_MAX) {
+			pm_printf(ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
+			continue;
+		}
+		strcpy(filepath + rootlen, path);
+
+		if(check_file_exists(pkgname, filepath, &st) == 1) {
+			errors++;
+			continue;
+		}
+
+		/* TODO: check file properties */
+	}
+
+	alpm_pkg_mtree_close(pkg, mtree);
+
+	if(!config->quiet) {
+		printf(_n("%s: %jd total file, ", "%s: %jd total files, ",
+					(unsigned long)file_count), pkgname, (intmax_t)file_count);
+		printf(_n("%jd altered file\n", "%jd altered files\n",
 					(unsigned long)errors), (intmax_t)errors);
 	}
 

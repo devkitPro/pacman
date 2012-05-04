@@ -460,7 +460,7 @@ static int parsearg_query(int opt)
 		case 'e': config->op_q_explicit = 1; break;
 		case 'g': (config->group)++; break;
 		case 'i': (config->op_q_info)++; break;
-		case 'k': config->op_q_check = 1; break;
+		case 'k': (config->op_q_check)++; break;
 		case 'l': config->op_q_list = 1; break;
 		case 'm': config->op_q_foreign = 1; break;
 		case 'n': config->op_q_native = 1; break;

@@ -22,7 +22,8 @@
 
 #include <alpm.h>
 
-int check(alpm_pkg_t *pkg);
+int check_pkg_fast(alpm_pkg_t *pkg);
+int check_pkg_full(alpm_pkg_t *pkg);
 
 #endif /* _PM_CHECK_H */
 
