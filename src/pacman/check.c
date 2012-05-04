@@ -43,6 +43,110 @@ static int check_file_exists(const char *pkgname, const char * filepath,
 	return 0;
 }
 
+static int check_file_permissions(const char *pkgname, const char *filepath,
+		struct stat *st, struct archive_entry *entry)
+{
+	int errors = 0;
+	mode_t fsmode;
+
+	/* uid */
+	if(st->st_uid != archive_entry_uid(entry)) {
+		errors++;
+		if(!config->quiet) {
+			pm_printf(ALPM_LOG_WARNING, _("%s: %s (UID mismatch)\n"),
+					pkgname, filepath);
+		}
+	}
+
+	/* gid */
+	if(st->st_gid != archive_entry_gid(entry)) {
+		errors++;
+		if(!config->quiet) {
+			pm_printf(ALPM_LOG_WARNING, _("%s: %s (GID mismatch)\n"),
+					pkgname, filepath);
+		}
+	}
+
+	/* mode */
+	fsmode = st->st_mode & (S_ISUID | S_ISGID | S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO);
+	if(fsmode != archive_entry_perm(entry)) {
+		errors++;
+		if(!config->quiet) {
+			pm_printf(ALPM_LOG_WARNING, _("%s: %s (Permissions mismatch)\n"),
+					pkgname, filepath);
+		}
+	}
+
+	return (errors != 0 ? 1 : 0);
+}
+
+static int check_file_time(const char *pkgname, const char *filepath,
+		struct stat *st, struct archive_entry *entry)
+{
+	if(st->st_mtime != archive_entry_mtime(entry)) {
+		if(!config->quiet) {
+			pm_printf(ALPM_LOG_WARNING, _("%s: %s (Modification time mismatch)\n"),
+					pkgname, filepath);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+static int check_file_link(const char *pkgname, const char *filepath,
+		struct stat *st, struct archive_entry *entry)
+{
+	/* TODO - fail early if file is not a symlink */
+	size_t length = st->st_size + 1;
+	char link[length];
+
+	if(readlink(filepath, link, length) != st->st_size) {
+		/* this should not happen */
+		pm_printf(ALPM_LOG_ERROR, _("unable to read symlink contents: %s\n"), filepath);
+		return 1;
+	}
+	link[length - 1] = '\0';
+
+	if(strcmp(link, archive_entry_symlink(entry)) != 0) {
+		if(!config->quiet) {
+			pm_printf(ALPM_LOG_WARNING, _("%s: %s (Symlink path mismatch)\n"),
+					pkgname, filepath);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+static int check_file_size(const char *pkgname, const char *filepath,
+		struct stat *st, struct archive_entry *entry)
+{
+	if(st->st_size != archive_entry_size(entry)) {
+		if(!config->quiet) {
+			pm_printf(ALPM_LOG_WARNING, _("%s: %s (Size mismatch)\n"),
+					pkgname, filepath);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+/* placeholders - libarchive currently does not read checksums from mtree files
+static int check_file_md5sum(const char *pkgname, const char *filepath,
+		struct stat *st, struct archive_entry *entry)
+{
+	return 0;
+}
+
+static int check_file_sha256sum(const char *pkgname, const char *filepath,
+		struct stat *st, struct archive_entry *entry)
+{
+	return 0;
+}
+*/
+
 /* Loop through the files of the package to check if they exist. */
 int check_pkg_fast(alpm_pkg_t *pkg)
 {
@@ -121,6 +225,8 @@ int check_pkg_full(alpm_pkg_t *pkg)
 	while(alpm_pkg_mtree_next(pkg, mtree, &entry) == ARCHIVE_OK) {
 		struct stat st;
 		const char *path = archive_entry_pathname(entry);
+		mode_t type;
+		size_t file_errors = 0;
 
 		/* TODO: ignoring special files for the moment */
 		if(*path == '.') {
@@ -140,7 +246,35 @@ int check_pkg_full(alpm_pkg_t *pkg)
 			continue;
 		}
 
-		/* TODO: check file properties */
+		type = archive_entry_filetype(entry);
+
+		if(type != AE_IFDIR && type != AE_IFREG && type != AE_IFLNK) {
+			pm_printf(ALPM_LOG_WARNING, _("file type not recognized: %s%s\n"), root, path);
+			continue;
+		}
+
+		file_errors += check_file_permissions(pkgname, filepath, &st, entry);
+
+		if(type != AE_IFDIR) {
+			/* file or symbolic link */
+			file_errors += check_file_time(pkgname, filepath, &st, entry);
+		}
+
+		if(type == AE_IFLNK) {
+			file_errors += check_file_link(pkgname, filepath, &st, entry);
+		}
+
+		if(type == AE_IFREG) {
+			/* TODO: these are expected to be changed with backup files */
+			file_errors += check_file_size(pkgname, filepath, &st, entry);
+			//file_errors += check_file_md5sum(pkgname, filepath, &st, entry);
+		}
+
+		if(config->quiet && file_errors) {
+			printf("%s %s\n", pkgname, filepath);
+		}
+
+		errors += (file_errors != 0 ? 1 : 0);
 	}
 
 	alpm_pkg_mtree_close(pkg, mtree);
