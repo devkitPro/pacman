@@ -26,13 +26,30 @@
 #include "conf.h"
 #include "util.h"
 
+static int check_file_exists(const char *pkgname, const char * filepath,
+		struct stat * st)
+{
+	/* use lstat to prevent errors from symlinks */
+	if(lstat(filepath, st) != 0) {
+		if(config->quiet) {
+			printf("%s %s\n", pkgname, filepath);
+		} else {
+			pm_printf(ALPM_LOG_WARNING, "%s: %s (%s)\n",
+					pkgname, filepath, strerror(errno));
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
 /* Loop through the files of the package to check if they exist. */
 int check(alpm_pkg_t *pkg)
 {
 	const char *root, *pkgname;
 	size_t errors = 0;
 	size_t rootlen;
-	char f[PATH_MAX];
+	char filepath[PATH_MAX];
 	alpm_filelist_t *filelist;
 	size_t i;
 
@@ -43,7 +60,7 @@ int check(alpm_pkg_t *pkg)
 		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
 		return 1;
 	}
-	strcpy(f, root);
+	strcpy(filepath, root);
 
 	pkgname = alpm_pkg_get_name(pkg);
 	filelist = alpm_pkg_get_files(pkg);
@@ -56,17 +73,9 @@ int check(alpm_pkg_t *pkg)
 			pm_printf(ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
 			continue;
 		}
-		strcpy(f + rootlen, path);
-		/* use lstat to prevent errors from symlinks */
-		if(lstat(f, &st) != 0) {
-			if(config->quiet) {
-				printf("%s %s\n", pkgname, f);
-			} else {
-				pm_printf(ALPM_LOG_WARNING, "%s: %s (%s)\n",
-						pkgname, f, strerror(errno));
-			}
-			errors++;
-		}
+		strcpy(filepath + rootlen, path);
+
+		errors += check_file_exists(pkgname, filepath, &st);
 	}
 
 	if(!config->quiet) {
