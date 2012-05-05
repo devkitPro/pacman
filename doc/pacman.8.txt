@@ -70,10 +70,10 @@ Operations
 In addition to packages, groups can be specified as well. For example, if
 gnome is a defined package group, then `pacman -S gnome` will provide a
 prompt allowing you to select which packages to install from a numbered list.
-The package selection is specified using a space separated list of package
-numbers. Sequential packages may be selected by specifying the first and last
-package numbers separated by a hyphen (`-`). Excluding packages is achieved by
-prefixing a number or range of numbers with a caret (`^`).
+The package selection is specified using a space and/or comma separated list of
+package numbers. Sequential packages may be selected by specifying the first
+and last package numbers separated by a hyphen (`-`). Excluding packages is
+achieved by prefixing a number or range of numbers with a caret (`^`).
 +
 Packages that provide other packages are also handled. For example, `pacman -S
 foo` will first look for a foo package. If foo is not found, packages that

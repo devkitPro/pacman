@@ -1304,7 +1304,7 @@ static int multiselect_parse(char *array, int count, char *response)
 		int start, end;
 		size_t len;
 		char *ends = NULL;
-		char *starts = strtok_r(str, " ", &saveptr);
+		char *starts = strtok_r(str, " ,", &saveptr);
 
 		if(starts == NULL) {
 			break;
