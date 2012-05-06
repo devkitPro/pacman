@@ -6,6 +6,8 @@ size_to_human() {
 		suffix[3] = "MiB"
 		suffix[4] = "GiB"
 		suffix[5] = "TiB"
+		suffix[6] = "PiB"
+		suffix[7] = "EiB"
 		count = 1
 
 		while (size > 1024) {

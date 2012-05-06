@@ -93,7 +93,7 @@ uninstall-local:
 
 bacman: $(srcdir)/bacman.sh.in
 bash_completion: $(srcdir)/bash_completion.in
-paccache: $(srcdir)/paccache.sh.in $(top_srcdir)/scripts/library/parseopts.sh
+paccache: $(srcdir)/paccache.sh.in $(top_srcdir)/scripts/library/parseopts.sh $(top_srcdir)/scripts/library/size_to_human.sh
 pacdiff: $(srcdir)/pacdiff.sh.in
 paclist: $(srcdir)/paclist.sh.in
 paclog-pkglist: $(srcdir)/paclog-pkglist.sh.in
