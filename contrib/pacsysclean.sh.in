@@ -8,28 +8,28 @@ declare -r myver='@PACKAGE_VERSION@'
 PACMAN_OPTS=
 
 usage() {
-       echo "$myname - Sort installed packages by increasing installed size."
-       echo
-       echo "Usage: $myname [options]"
-       echo
-       echo "Options:"
-       echo "  -o <options>     Specify custom pacman query options (e.g., dt)"
-       echo "  -h, --help       Show this help message and exit"
+	echo "$myname - Sort installed packages by increasing installed size."
+	echo
+	echo "Usage: $myname [options]"
+	echo
+	echo "Options:"
+	echo "  -o <options>     Specify custom pacman query options (e.g., dt)"
+	echo "  -h, --help       Show this help message and exit"
 }
 
 version() {
-  printf "%s %s\n" "$myname" "$myver"
-  echo 'Copyright (C) 2011 Eric Bélanger <snowmaniscool@gmail.com>'
+	printf "%s %s\n" "$myname" "$myver"
+	echo 'Copyright (C) 2011 Eric Bélanger <snowmaniscool@gmail.com>'
 }
 
 
 if [ -n "$1" ]; then
-       case "$1" in
-               -o) PACMAN_OPTS="${2}" ;;
-               -h|--help) usage; exit 0 ;;
-               -V|--version) version; exit 0 ;;
-               *) usage; exit 1 ;;
-       esac
+	case "$1" in
+		-o) PACMAN_OPTS="${2}" ;;
+		-h|--help) usage; exit 0 ;;
+		-V|--version) version; exit 0 ;;
+		*) usage; exit 1 ;;
+	esac
 fi
 
 IFS=$'\n'
@@ -39,24 +39,26 @@ size="^Installed Size.*: (.*) KiB$"
 [[ $PACMAN_OPTS && $PACMAN_OPTS != -* ]] && PACMAN_OPTS="-$PACMAN_OPTS"
 
 for line in $(LANG=C pacman -Qi $PACMAN_OPTS); do
-       if [[ $line =~ $name ]]; then
-               printf "%s\t" ${BASH_REMATCH[1]}
-       elif [[ $line =~ $size ]]; then
-               printf "%s\n" ${BASH_REMATCH[1]}
-       fi
+	if [[ $line =~ $name ]]; then
+		printf "%s\t" ${BASH_REMATCH[1]}
+	elif [[ $line =~ $size ]]; then
+		printf "%s\n" ${BASH_REMATCH[1]}
+	fi
 done | sort -g -k2 | awk '
 BEGIN {
-       split("KiB MiB GiB TiB PiB EiB ZiB YiB", suffix)
+	split("KiB MiB GiB TiB PiB EiB ZiB YiB", suffix)
 }
 function format_size(size) {
-       count = 1
-       while (size + 0 > 1024) {
-               size /= 1024
-               count++
-       }
-       sizestr = sprintf("%.2f %s", size, suffix[count])
-       return sizestr
+	count = 1
+	while (size + 0 > 1024) {
+				 size /= 1024
+				 count++
+	}
+	sizestr = sprintf("%.2f %s", size, suffix[count])
+	return sizestr
 }
 {
-       printf("%s\t%s\n", format_size($2), $1);
+	printf("%s\t%s\n", format_size($2), $1);
 }'
+
+# vim: set ts=2 sw=2 noet:
