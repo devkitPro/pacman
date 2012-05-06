@@ -35,3 +35,7 @@ successful, the converted byte value is written to stdout and the function
 returns 0. If an error occurs, nothing in written and the function returns 1.
 Results may be inaccurate when using a broken implementation of awk, such
 as mawk or busybox awk.
+
+size_to_human.sh:
+The reverse of human_to_size, this function takes an integer byte size and
+prints its in human readable format, with SI prefixes (e.g. MiB, TiB).

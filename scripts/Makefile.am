@@ -28,7 +28,8 @@ EXTRA_DIST = \
 LIBRARY = \
 	library/output_format.sh \
 	library/parseopts.sh \
-	library/human_to_size.sh
+	library/human_to_size.sh \
+	library/size_to_human.sh
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS)
