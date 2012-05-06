@@ -27,7 +27,7 @@ IFS=$'\n'
 name="^Name.*: (.*)$"
 size="^Installed Size.*: (.*) KiB$"
 
-[[ $PACMAN_OPTS != -* ]] && PACMAN_OPTS="-$PACMAN_OPTS"
+[[ $PACMAN_OPTS && $PACMAN_OPTS != -* ]] && PACMAN_OPTS="-$PACMAN_OPTS"
 
 for line in $(LANG=C pacman -Qi $PACMAN_OPTS); do
        if [[ $line =~ $name ]]; then
