@@ -43,6 +43,27 @@ static int check_file_exists(const char *pkgname, const char * filepath,
 	return 0;
 }
 
+static int check_file_type(const char *pkgname, const char *filepath,
+		struct stat *st, struct archive_entry *entry)
+{
+	mode_t archive_type = archive_entry_filetype(entry);
+	mode_t file_type = st->st_mode;
+
+	if((archive_type == AE_IFREG && !S_ISREG(file_type)) ||
+			(archive_type == AE_IFDIR && !S_ISDIR(file_type)) ||
+			(archive_type == AE_IFLNK && !S_ISLNK(file_type))) {
+		if(config->quiet) {
+			printf("%s %s\n", pkgname, filepath);
+		} else {
+			pm_printf(ALPM_LOG_WARNING, _("%s: %s (File type mismatch)\n"),
+					pkgname, filepath);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
 static int check_file_permissions(const char *pkgname, const char *filepath,
 		struct stat *st, struct archive_entry *entry)
 {
@@ -97,7 +118,6 @@ static int check_file_time(const char *pkgname, const char *filepath,
 static int check_file_link(const char *pkgname, const char *filepath,
 		struct stat *st, struct archive_entry *entry)
 {
-	/* TODO - fail early if file is not a symlink */
 	size_t length = st->st_size + 1;
 	char link[length];
 
@@ -261,6 +281,11 @@ int check_pkg_full(alpm_pkg_t *pkg)
 
 		if(type != AE_IFDIR && type != AE_IFREG && type != AE_IFLNK) {
 			pm_printf(ALPM_LOG_WARNING, _("file type not recognized: %s%s\n"), root, path);
+			continue;
+		}
+
+		if(check_file_type(pkgname, filepath, &st, entry) == 1) {
+			errors++;
 			continue;
 		}
 
