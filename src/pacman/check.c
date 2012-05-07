@@ -228,8 +228,19 @@ int check_pkg_full(alpm_pkg_t *pkg)
 		mode_t type;
 		size_t file_errors = 0;
 
-		/* TODO: ignoring special files for the moment */
-		if(*path == '.') {
+		if(strcmp(path, ".INSTALL") == 0) {
+			char filename[PATH_MAX];
+			snprintf(filename, PATH_MAX, "%slocal/%s-%s/install",
+					alpm_option_get_dbpath(config->handle) + 1,
+					pkgname, alpm_pkg_get_version(pkg));
+			archive_entry_set_pathname(entry, filename);
+		} else if(strcmp(path, ".CHANGELOG") == 0) {
+			char filename[PATH_MAX];
+			snprintf(filename, PATH_MAX, "%slocal/%s-%s/changelog",
+					alpm_option_get_dbpath(config->handle) + 1,
+					pkgname, alpm_pkg_get_version(pkg));
+			archive_entry_set_pathname(entry, filename);
+		} else if(*path == '.') {
 			continue;
 		}
 
