@@ -54,7 +54,7 @@ AC_DEFUN([GCC_FORTIFY_SOURCE_CC],[
       }
     ], [
       AC_MSG_RESULT(yes)
-      CFLAGS="$CFLAGS -D_FORTIFY_SOURCE=2"
+      CPPFLAGS="$CPPFLAGS -D_FORTIFY_SOURCE=2"
     ], [
       AC_MSG_RESULT(no)
   ])
