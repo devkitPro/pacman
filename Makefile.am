@@ -6,6 +6,7 @@ endif
 DIST_SUBDIRS = $(SUBDIRS) contrib src/common
 
 ACLOCAL_AMFLAGS = -I m4 --install
+AM_MAKEFLAGS = --no-print-directory
 
 # Make sure we test and build manpages when doing distcheck
 DISTCHECK_CONFIGURE_FLAGS = --enable-doc --disable-git-version
