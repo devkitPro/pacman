@@ -322,7 +322,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	}
 }
 
-static void mask_signal(int signal, void (*handler)(int),
+static void mask_signal(int signum, void (*handler)(int),
 		struct sigaction *origaction)
 {
 	struct sigaction newaction;
@@ -331,13 +331,13 @@ static void mask_signal(int signal, void (*handler)(int),
 	sigemptyset(&newaction.sa_mask);
 	newaction.sa_flags = 0;
 
-	sigaction(signal, NULL, origaction);
-	sigaction(signal, &newaction, NULL);
+	sigaction(signum, NULL, origaction);
+	sigaction(signum, &newaction, NULL);
 }
 
-static void unmask_signal(int signal, struct sigaction *sa)
+static void unmask_signal(int signum, struct sigaction *sa)
 {
-	sigaction(signal, sa, NULL);
+	sigaction(signum, sa, NULL);
 }
 
 static FILE *create_tempfile(struct dload_payload *payload, const char *localpath)
@@ -623,18 +623,18 @@ int _alpm_download(struct dload_payload *payload, const char *localpath,
 
 static char *filecache_find_url(alpm_handle_t *handle, const char *url)
 {
-	const char *basename = strrchr(url, '/');
+	const char *filebase = strrchr(url, '/');
 
-	if(basename == NULL) {
+	if(filebase == NULL) {
 		return NULL;
 	}
 
-	basename++;
-	if(basename == '\0') {
+	filebase++;
+	if(filebase == '\0') {
 		return NULL;
 	}
 
-	return _alpm_filecache_find(handle, basename);
+	return _alpm_filecache_find(handle, filebase);
 }
 
 /** Fetch a remote pkg. */

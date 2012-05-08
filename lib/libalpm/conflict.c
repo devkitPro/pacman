@@ -380,7 +380,7 @@ static int dir_belongsto_pkg(const char *root, const char *dirpath,
  * 1: check every target against every target
  * 2: check every target against the filesystem */
 alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
-		alpm_list_t *upgrade, alpm_list_t *remove)
+		alpm_list_t *upgrade, alpm_list_t *rem)
 {
 	alpm_list_t *i, *conflicts = NULL;
 	size_t numtargs = alpm_list_count(upgrade);
@@ -498,7 +498,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			relative_path = path + rootlen;
 
 			/* Check remove list (will we remove the conflicting local file?) */
-			for(k = remove; k && !resolved_conflict; k = k->next) {
+			for(k = rem; k && !resolved_conflict; k = k->next) {
 				alpm_pkg_t *rempkg = k->data;
 				if(rempkg && _alpm_filelist_contains(alpm_pkg_get_files(rempkg),
 							relative_path)) {

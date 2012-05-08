@@ -269,7 +269,7 @@ alpm_pkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstri
  * @return an alpm_list_t* of alpm_depmissing_t pointers.
  */
 alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
-		alpm_list_t *pkglist, alpm_list_t *remove, alpm_list_t *upgrade,
+		alpm_list_t *pkglist, alpm_list_t *rem, alpm_list_t *upgrade,
 		int reversedeps)
 {
 	alpm_list_t *i, *j;
@@ -281,7 +281,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 
 	for(i = pkglist; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
-		if(_alpm_pkg_find(remove, pkg->name) || _alpm_pkg_find(upgrade, pkg->name)) {
+		if(_alpm_pkg_find(rem, pkg->name) || _alpm_pkg_find(upgrade, pkg->name)) {
 			modified = alpm_list_add(modified, pkg);
 		} else {
 			dblist = alpm_list_add(dblist, pkg);
@@ -650,14 +650,14 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	count = alpm_list_count(providers);
 	if(count >= 1) {
 		/* default to first provider if there is no QUESTION callback */
-		int index = 0;
+		int idx = 0;
 		if(count > 1) {
 			/* if there is more than one provider, we ask the user */
 			QUESTION(handle, ALPM_QUESTION_SELECT_PROVIDER,
-					providers, dep, NULL, &index);
+					providers, dep, NULL, &idx);
 		}
-		if(index >= 0 && index < count) {
-			alpm_list_t *nth = alpm_list_nth(providers, index);
+		if(idx >= 0 && idx < count) {
+			alpm_list_t *nth = alpm_list_nth(providers, idx);
 			alpm_pkg_t *pkg = nth->data;
 			alpm_list_free(providers);
 			return pkg;
@@ -722,7 +722,7 @@ alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
  */
 int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 		alpm_pkg_t *pkg, alpm_list_t *preferred, alpm_list_t **packages,
-		alpm_list_t *remove, alpm_list_t **data)
+		alpm_list_t *rem, alpm_list_t **data)
 {
 	int ret = 0;
 	alpm_list_t *i, *j;
@@ -745,7 +745,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 	for(i = alpm_list_last(*packages); i; i = i->next) {
 		alpm_pkg_t *tpkg = i->data;
 		targ = alpm_list_add(NULL, tpkg);
-		deps = alpm_checkdeps(handle, localpkgs, remove, targ, 0);
+		deps = alpm_checkdeps(handle, localpkgs, rem, targ, 0);
 		alpm_list_free(targ);
 
 		for(j = deps; j; j = j->next) {
