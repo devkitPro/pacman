@@ -31,10 +31,10 @@ parse_hts() {
 
 summarize() {
   if (( !fail )); then
-    printf 'All %s tests successful\n' "$testcount"
+    printf 'All %s tests successful\n\n' "$testcount"
     exit 0
   else
-    printf '%s of %s tests failed\n' "$fail" "$testcount"
+    printf '%s of %s tests failed\n\n' "$fail" "$testcount"
     exit 1
   fi
 }
