@@ -318,7 +318,7 @@ populate_keyring() {
 	local -A revoked_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
 		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
-			IFS=$'\n' read -r -d '' -a keys < "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
+			mapfile -t keys < "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
 			while IFS=: read _ _ _ _ key_id _; do
 				if [[ -n $key_id ]]; then
 					# Mark this key to be disabled
