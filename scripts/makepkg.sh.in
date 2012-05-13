@@ -1075,9 +1075,8 @@ tidy_install() {
 					# find hard links and remove them
 					#   the '|| true' part keeps the script from bailing on the EOF returned
 					#   by read at the end of the find output
-					IFS=$'\n' read -rd '' -a hardlinks < \
-						<(find ${MAN_DIRS[@]} \! -name "$file" -samefile "$manpage" \
-								2>/dev/null || true) || true
+					mapfile -t hardlinks < \
+						<(find ${MAN_DIRS[@]} ! -name "$file" -samefile "$manpage" 2>/dev/null)
 					rm -f "${hardlinks[@]}"
 					# compress the original
 					gzip -9 "$manpage"
@@ -1162,7 +1161,7 @@ find_libprovides() {
 		missing=0
 		case "$p" in
 			*.so)
-				IFS=$'\n' read -rd '' -a filename < <(find "$pkgdir" -type f -name $p\*)
+				mapfile -t filename < <(find "$pkgdir" -type f -name $p\*)
 				if [[ $filename ]]; then
 					# packages may provide multiple versions of the same library
 					for fn in "${filename[@]}"; do
@@ -1253,14 +1252,14 @@ write_pkginfo() {
 	[[ $optdepends ]] && printf "optdepend = %s\n" "${optdepends[@]//+([[:space:]])/ }"
 	[[ $conflicts ]]  && printf "conflict = %s\n"  "${conflicts[@]}"
 
-	IFS=$'\n' read -rd '' -a provides < <(find_libprovides)
+	mapfile -t provides < <(find_libprovides)
 	[[ $provides ]]   && printf "provides = %s\n"  "${provides[@]}"
 
 	[[ $backup ]]     && printf "backup = %s\n"    "${backup[@]}"
 
 
 	local it
-	IFS=$'\n' read -rd '' -a libdepends < <(find_libdepends)
+	mapfile -t libdepends < <(find_libdepends)
 	depends+=("${libdepends[@]}")
 
 	for it in "${depends[@]}"; do
