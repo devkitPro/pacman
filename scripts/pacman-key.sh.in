@@ -261,7 +261,7 @@ populate_keyring() {
 	#  40CHARFINGERPRINTXXXXXXXXXXXXXXXXXXXXXXX:5:
 	local -A trusted_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
-		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
+		if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
 			while read key; do
 				# skip comments; these are valid in this file
 				[[ $key = \#* ]] && continue
@@ -282,7 +282,7 @@ populate_keyring() {
 		done
 		msg "$(gettext "Importing owner trust values...")"
 		for keyring in "${KEYRINGIDS[@]}"; do
-			if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
+			if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
 				"${GPG_PACMAN[@]}" --import-ownertrust "${KEYRING_IMPORT_DIR}/${keyring}-trusted"
 			fi
 		done
@@ -293,7 +293,7 @@ populate_keyring() {
 	# guarantee of identification for the keys.
 	local -A revoked_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
-		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
+		if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
 			while read key; do
 				key_id="$("${GPG_PACMAN[@]}" --quiet --with-colons --list-key "${key}" 2>/dev/null | grep ^pub | cut -d: -f5)"
 				if [[ -n ${key_id} ]]; then
