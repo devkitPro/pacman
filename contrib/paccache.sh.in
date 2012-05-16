@@ -130,7 +130,7 @@ size_to_human() {
 }
 
 runcmd() {
-	if (( needsroot )); then
+	if (( needsroot && EUID != 0 )); then
 		msg "Privilege escalation required"
 		if sudo -v &>/dev/null && sudo -l &>/dev/null; then
 			sudo "$@"
@@ -209,11 +209,6 @@ version() {
 	printf "%s %s\n" "$myname" "$myver"
 	echo 'Copyright (C) 2011 Dave Reisner <dreisner@archlinux.org>'
 }
-
-if (( ! UID )); then
-	error "Do not run this script as root. You will be prompted for privilege escalation."
-	exit 42
-fi
 
 OPT_SHORT=':a:c:dfhi:k:m:rsuVvz'
 OPT_LONG=('arch:' 'cachedir:' 'dryrun' 'force' 'help' 'ignore:' 'keep:' 'move'
