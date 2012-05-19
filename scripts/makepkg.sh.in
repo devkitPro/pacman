@@ -1131,12 +1131,29 @@ tidy_install() {
 }
 
 find_libdepends() {
-	local libdepends
-	find "$pkgdir" -type f -perm -u+x | while read filename
-	do
+	local d sodepends;
+
+	sodepends=0;
+	for d in "${depends[@]}"; do
+		if [[ $d = *.so ]]; then
+			sodepends=1;
+			break;
+		fi
+	done
+
+	if (( sodepends == 0 )); then
+		printf '%s\n' "${depends[@]}"
+		return;
+	fi
+
+	local libdeps filename soarch sofile soname soversion;
+	declare -A libdeps;
+
+	while read filename; do
 		# get architecture of the file; if soarch is empty it's not an ELF binary
 		soarch=$(LC_ALL=C readelf -h "$filename" 2>/dev/null | sed -n 's/.*Class.*ELF\(32\|64\)/\1/p')
-		[ -n "$soarch" ] || continue
+		[[ -n "$soarch" ]] || continue
+
 		# process all libraries needed by the binary
 		for sofile in $(LC_ALL=C readelf -d "$filename" 2>/dev/null | sed -nr 's/.*Shared library: \[(.*)\].*/\1/p')
 		do
@@ -1144,19 +1161,42 @@ find_libdepends() {
 			soname="${sofile%.so?(+(.+([0-9])))}".so
 			# extract the major version: 1
 			soversion="${sofile##*\.so\.}"
-			if in_array "${soname}" ${depends[@]}; then
-				if ! in_array "${soname}=${soversion}-${soarch}" ${libdepends[@]}; then
-					# libfoo.so=1-64
-					printf "%s" "${soname}=${soversion}-${soarch}"
-					libdepends+=("${soname}=${soversion}-${soarch}")
+
+			if [[ ${libdeps[$soname]} ]]; then
+				if [[ ${libdeps[$soname]} != *${soversion}-${soarch}* ]]; then
+					libdeps[$soname]+=" ${soversion}-${soarch}"
 				fi
+			else
+				libdeps[$soname]="${soversion}-${soarch}"
 			fi
 		done
+	done < <(find "$pkgdir" -type f -perm -u+x)
+
+	local libdepends v
+	for d in "${depends[@]}"; do
+		case "$d" in
+			*.so)
+				if [[ ${libdeps[$d]} ]]; then
+					for v in ${libdeps[$d]}; do
+						libdepends+=("$d=$v")
+					done
+				else
+					warning "$(gettext "Library listed in %s is not required by any files: %s")" "'depends'" "$d"
+					libdepends+=("$d")
+				fi
+				;;
+			*)
+				libdepends+=("$d")
+				;;
+		esac
 	done
+
+	printf '%s\n' "${libdepends[@]}"
 }
 
+
 find_libprovides() {
-	local libprovides missing
+	local p libprovides missing
 	for p in "${provides[@]}"; do
 		missing=0
 		case "$p" in
@@ -1246,38 +1286,20 @@ write_pkginfo() {
 	printf "size = %s\n" "$size"
 	printf "arch = %s\n" "$pkgarch"
 
-	[[ $license ]]    && printf "license = %s\n"   "${license[@]}"
-	[[ $replaces ]]   && printf "replaces = %s\n"  "${replaces[@]}"
-	[[ $groups ]]     && printf "group = %s\n"     "${groups[@]}"
-	[[ $optdepends ]] && printf "optdepend = %s\n" "${optdepends[@]//+([[:space:]])/ }"
-	[[ $conflicts ]]  && printf "conflict = %s\n"  "${conflicts[@]}"
-
 	mapfile -t provides < <(find_libprovides)
-	[[ $provides ]]   && printf "provides = %s\n"  "${provides[@]}"
+	mapfile -t depends < <(find_libdepends)
 
-	[[ $backup ]]     && printf "backup = %s\n"    "${backup[@]}"
-
+	[[ $license ]]     && printf "license = %s\n"    "${license[@]}"
+	[[ $replaces ]]    && printf "replaces = %s\n"   "${replaces[@]}"
+	[[ $groups ]]      && printf "group = %s\n"      "${groups[@]}"
+	[[ $conflicts ]]   && printf "conflict = %s\n"   "${conflicts[@]}"
+	[[ $provides ]]    && printf "provides = %s\n"   "${provides[@]}"
+	[[ $backup ]]      && printf "backup = %s\n"     "${backup[@]}"
+	[[ $depends ]]     && printf "depend = %s\n"     "${depends[@]}"
+	[[ $optdepends ]]  && printf "optdepend = %s\n"  "${optdepends[@]//+([[:space:]])/ }"
+	[[ $makedepends ]] && printf "makedepend = %s\n" "${makedepends[@]}"
 
 	local it
-	mapfile -t libdepends < <(find_libdepends)
-	depends+=("${libdepends[@]}")
-
-	for it in "${depends[@]}"; do
-		if [[ $it = *.so ]]; then
-			# check if the entry has been found by find_libdepends
-			# if not, it's unneeded; tell the user so he can remove it
-			printf -v re '(^|\s)%s=.*' "$it"
-			if [[ ! $libdepends =~ $re ]]; then
-				error "$(gettext "Cannot find library listed in %s: %s")" "'depends'" "$it"
-				return 1
-			fi
-		else
-			printf "depend = %s\n" "$it"
-		fi
-	done
-
-	[[ $makedepends ]]  && printf "makedepend = %s\n"  "${makedepends[@]}"
-
 	for it in "${packaging_options[@]}"; do
 		check_option "$it" "y"
 		case $? in
