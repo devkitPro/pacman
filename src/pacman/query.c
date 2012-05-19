@@ -36,6 +36,8 @@
 #include "conf.h"
 #include "util.h"
 
+#define LOCAL_PREFIX "local/"
+
 static char *resolve_path(const char *file)
 {
 	char *str = NULL;
@@ -268,7 +270,7 @@ static int query_search(alpm_list_t *targets)
 		alpm_pkg_t *pkg = i->data;
 
 		if(!config->quiet) {
-			printf("local/%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			printf(LOCAL_PREFIX "%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 		} else {
 			fputs(alpm_pkg_get_name(pkg), stdout);
 		}
@@ -555,6 +557,11 @@ int pacman_query(alpm_list_t *targets)
 	 * valid: no-op (plain -Q), list, info, check */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		const char *strname = i->data;
+
+		/* strip leading part of "local/pkgname" */
+		if(strncmp(strname, LOCAL_PREFIX, strlen(LOCAL_PREFIX)) == 0) {
+			strname += strlen(LOCAL_PREFIX);
+		}
 
 		if(config->op_q_isfile) {
 			alpm_pkg_load(config->handle, strname, 1, 0, &pkg);
