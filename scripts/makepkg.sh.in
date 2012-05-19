@@ -1276,6 +1276,8 @@ write_pkginfo() {
 		fi
 	done
 
+	[[ $makedepends ]]  && printf "makedepend = %s\n"  "${makedepends[@]}"
+
 	for it in "${packaging_options[@]}"; do
 		check_option "$it" "y"
 		case $? in
