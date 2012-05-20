@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pacman 4.0.2\n"
+"Project-Id-Version: pacman 4.0.3\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"POT-Creation-Date: 2012-05-20 11:26-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,6 +261,9 @@ msgid "%s is not allowed to be empty."
 msgstr ""
 
 msgid "%s is not allowed to start with a hyphen."
+msgstr ""
+
+msgid "%s contains invalid characters: '%s'"
 msgstr ""
 
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
@@ -739,16 +742,16 @@ msgstr ""
 msgid "Disabling key %s..."
 msgstr ""
 
-msgid "A specified keyfile could not be added to the gpg keychain."
+msgid "A specified keyfile could not be added to the keyring."
 msgstr ""
 
-msgid "A specified key could not be removed from the gpg keychain."
+msgid "A specified key could not be removed from the keyring."
 msgstr ""
 
 msgid "The key identified by %s could not be edited."
 msgstr ""
 
-msgid "A specified key could not be exported from the gpg keychain."
+msgid "A specified key could not be exported from the keyring."
 msgstr ""
 
 msgid "The fingerprint of a specified key could not be determined."
@@ -855,7 +858,7 @@ msgstr ""
 msgid "Finished. Your pacman database has been optimized."
 msgstr ""
 
-msgid "Usage: pkgdelta [-q] <package1> <package2>\\n"
+msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr ""
 
 msgid ""
@@ -866,6 +869,22 @@ msgstr ""
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr ""
 
+msgid "Options:\\n"
+msgstr ""
+
+msgid "  -q, --quiet       minimize output\\n"
+msgstr ""
+
+msgid ""
+"  --min-pkg-size    minimum package size before deltas are generated "
+"(bytes)\\n"
+msgstr ""
+
+msgid ""
+"  --max-delta-size  percent of package size above which deltas will be "
+"discarded\\n"
+msgstr ""
+
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
@@ -873,6 +892,9 @@ msgid ""
 msgstr ""
 
 msgid "Invalid package file '%s'."
+msgstr ""
+
+msgid "Skipping delta creation for small package: %s - size %s"
 msgstr ""
 
 msgid "The package names don't match : '%s' and '%s'"
@@ -888,6 +910,9 @@ msgid "Generating delta from version %s to version %s"
 msgstr ""
 
 msgid "Delta could not be created."
+msgstr ""
+
+msgid "Delta package larger than maximum size. Removing."
 msgstr ""
 
 msgid "Generated delta : '%s'"
@@ -907,9 +932,6 @@ msgid ""
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 
-msgid "Options:\\n"
-msgstr ""
-
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
 
@@ -926,9 +948,6 @@ msgid ""
 msgstr ""
 
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr ""
-
-msgid "  -q, --quiet       minimize output\\n"
 msgstr ""
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"

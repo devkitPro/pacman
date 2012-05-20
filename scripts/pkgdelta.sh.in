@@ -53,9 +53,9 @@ This delta file can then be added to a database using repo-add.\n\n")"
 	printf -- "$(gettext "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz")\n"
 	echo
 	printf -- "$(gettext "Options:\n")"
-	printf -- "  -q                ""$(gettext "quiet\n")"
-	printf -- "  --min-pkg-size    ""$(gettext "minimal of package before deltas are generated (bytes)\n")"
-	printf -- "  --max-delta-size  ""$(gettext "percent of new package above which the delta will be discarded\n")"
+	printf -- "$(gettext "  -q, --quiet       minimize output\n")"
+	printf -- "$(gettext "  --min-pkg-size    minimum package size before deltas are generated (bytes)\n")"
+	printf -- "$(gettext "  --max-delta-size  percent of package size above which deltas will be discarded\n")"
 }
 
 version() {

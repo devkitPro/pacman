@@ -143,11 +143,11 @@ key_lookup_from_name() {
 generate_master_key() {
 	# Generate the master key, which will be in both pubring and secring
 	"${GPG_PACMAN[@]}" --gen-key --batch <<EOF
-%echo Generating pacman keychain master key...
+%echo Generating pacman keyring master key...
 Key-Type: RSA
 Key-Length: 2048
 Key-Usage: sign
-Name-Real: Pacman Keychain Master Key
+Name-Real: Pacman Keyring Master Key
 Name-Email: pacman@localhost
 Expire-Date: 0
 %commit
@@ -287,7 +287,7 @@ populate_keyring() {
 	#  40CHARFINGERPRINTXXXXXXXXXXXXXXXXXXXXXXX:5:
 	local -A trusted_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
-		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
+		if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
 			while IFS=: read key_id _; do
 				# skip blank lines, comments; these are valid in this file
 				[[ -z $key_id || ${key_id:0:1} = \# ]] && continue
@@ -306,7 +306,7 @@ populate_keyring() {
 		done
 		msg "$(gettext "Importing owner trust values...")"
 		for keyring in "${KEYRINGIDS[@]}"; do
-			if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
+			if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
 				"${GPG_PACMAN[@]}" --import-ownertrust "${KEYRING_IMPORT_DIR}/${keyring}-trusted"
 			fi
 		done
@@ -317,7 +317,7 @@ populate_keyring() {
 	# guarantee of identification for the keys.
 	local -A revoked_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
-		if [[ -f "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
+		if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
 			mapfile -t keys < "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
 			while IFS=: read _ _ _ _ key_id _; do
 				if [[ -n $key_id ]]; then
@@ -339,7 +339,7 @@ populate_keyring() {
 
 add_keys() {
 	if ! "${GPG_PACMAN[@]}" --quiet --batch --import "$@" ; then
-		error "$(gettext "A specified keyfile could not be added to the gpg keychain.")"
+		error "$(gettext "A specified keyfile could not be added to the keyring.")"
 		exit 1
 	fi
 }
@@ -347,7 +347,7 @@ add_keys() {
 delete_keys() {
 	check_keyids_exist "$@"
 	if ! "${GPG_PACMAN[@]}" --quiet --batch --delete-key --yes "$@" ; then
-		error "$(gettext "A specified key could not be removed from the gpg keychain.")"
+		error "$(gettext "A specified key could not be removed from the keyring.")"
 		exit 1
 	fi
 }
@@ -369,7 +369,7 @@ edit_keys() {
 export_keys() {
 	check_keyids_exist "$@"
 	if ! "${GPG_PACMAN[@]}" --armor --export "$@" ; then
-		error "$(gettext "A specified key could not be exported from the gpg keychain.")"
+		error "$(gettext "A specified key could not be exported from the keyring.")"
 		exit 1
 	fi
 }
