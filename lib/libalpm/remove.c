@@ -43,6 +43,14 @@
 #include "handle.h"
 #include "conflict.h"
 
+/**
+ * @brief Add a package removal action to the transaction.
+ *
+ * @param handle the context handle
+ * @param pkg the package to uninstall
+ *
+ * @return 0 on success, -1 on error
+ */
 int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname;
@@ -73,6 +81,14 @@ int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	return 0;
 }
 
+/**
+ * @brief Add dependencies to the removal transaction for cascading.
+ *
+ * @param handle the context handle
+ * @param lp list of missing dependencies caused by the removal transaction
+ *
+ * @return 0 on success, -1 on error
+ */
 static int remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 {
 	alpm_trans_t *trans = handle->trans;
@@ -105,6 +121,12 @@ static int remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 	return 0;
 }
 
+/**
+ * @brief Remove needed packages from the removal transaction.
+ *
+ * @param handle the context handle
+ * @param lp list of missing dependencies caused by the removal transaction
+ */
 static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 {
 	alpm_trans_t *trans = handle->trans;
@@ -135,12 +157,16 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 	}
 }
 
-/** Transaction preparation for remove actions.
+/**
+ * @brief Transaction preparation for remove actions.
+ *
  * This functions takes a pointer to a alpm_list_t which will be
  * filled with a list of alpm_depmissing_t* objects representing
  * the packages blocking the transaction.
+ *
  * @param handle the context handle
  * @param data a pointer to an alpm_list_t* to fill
+ *
  * @return 0 on success, -1 on error
  */
 int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
@@ -209,6 +235,15 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
+/**
+ * @brief Check if alpm can delete a file.
+ *
+ * @param handle the context handle
+ * @param file file to be removed
+ * @param skip_remove list of files that will not be removed
+ *
+ * @return 1 if the file can be deleted, 0 if it cannot be deleted
+ */
 static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 		alpm_list_t *skip_remove)
 {
@@ -235,8 +270,23 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 	return 1;
 }
 
-/* Helper function for iterating through a package's file and deleting them
- * Used by _alpm_remove_commit. */
+/**
+ * @brief Unlink a package file, backing it up if necessary.
+ *
+ * @note Helper function for iterating through a package's file and deleting
+ * them.
+ * @note Used by _alpm_remove_commit.
+ *
+ * @param handle the context handle
+ * @param oldpkg the package being removed
+ * @param newpkg the package replacing \a oldpkg
+ * @param fileobj file to remove
+ * @param skip_remove list of files that shouldn't be removed
+ * @param nosave whether files should be backed up
+ *
+ * @return 0 on success, -1 if there was an error unlinking the file, 1 if the
+ * file was skipped or did not exist
+ */
 static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 		alpm_pkg_t *newpkg, const alpm_file_t *fileobj, alpm_list_t *skip_remove,
 		int nosave)
@@ -354,6 +404,19 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 	return 0;
 }
 
+/**
+ * @brief Remove a package's files, optionally skipping its replacement's
+ * files.
+ *
+ * @param handle the context handle
+ * @param oldpkg package to remove
+ * @param newpkg package to replace \a oldpkg (optional)
+ * @param targ_count current index within the transaction (1-based)
+ * @param pkg_count the number of packages affected by the transaction
+ *
+ * @return 0 on success, -1 if alpm lacks permission to delete some of the
+ * files, >0 the number of files alpm was unable to delete
+ */
 static int remove_package_files(alpm_handle_t *handle,
 		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg,
 		size_t targ_count, size_t pkg_count)
@@ -433,6 +496,17 @@ static int remove_package_files(alpm_handle_t *handle,
 	return err;
 }
 
+/**
+ * @brief Remove a package from the filesystem.
+ *
+ * @param handle the context handle
+ * @param oldpkg package to remove
+ * @param newpkg package to replace \a oldpkg (optional)
+ * @param targ_count current index within the transaction (1-based)
+ * @param pkg_count the number of packages affected by the transaction
+ *
+ * @return 0
+ */
 int _alpm_remove_single_package(alpm_handle_t *handle,
 		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg,
 		size_t targ_count, size_t pkg_count)
@@ -488,9 +562,18 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 				pkgname);
 	}
 
+	/* TODO: useful return values */
 	return 0;
 }
 
+/**
+ * @brief Remove packages in the current transaction.
+ *
+ * @param handle the context handle
+ * @param run_ldconfig whether to run ld_config after removing the packages
+ *
+ * @return 0 on success, -1 if errors occurred while removing files
+ */
 int _alpm_remove_packages(alpm_handle_t *handle, int run_ldconfig)
 {
 	alpm_list_t *targ;
