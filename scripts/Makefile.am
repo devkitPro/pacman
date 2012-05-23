@@ -51,6 +51,7 @@ edit = sed \
 	-e 's|@PACKAGE_BUGREPORT[@]|$(PACKAGE_BUGREPORT)|g' \
 	-e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 	-e 's|@BUILDSCRIPT[@]|$(BUILDSCRIPT)|g' \
+	-e "s|@INODECMD[@]|$(INODECMD)|g" \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e 's|@SEDINPLACE[@]|$(SEDINPLACE)|g' \
 	-e 's|@DUPATH[@]|$(DUPATH)|g' \

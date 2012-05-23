@@ -1057,37 +1057,30 @@ tidy_install() {
 
 	if check_option "zipman" "y" && [[ -n ${MAN_DIRS[*]} ]]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
-		local manpage ext file link hardlinks hl
-		find ${MAN_DIRS[@]} -type f 2>/dev/null |
-		while read manpage ; do
-			ext="${manpage##*.}"
-			file="${manpage##*/}"
-			if [[ $ext != gz && $ext != bz2 ]]; then
-				# update symlinks to this manpage
-				find ${MAN_DIRS[@]} -lname "$file" 2>/dev/null |
-				while read link ; do
+		local file files inode link
+		while read -rd ' ' inode; do
+			read file
+			find ${MAN_DIRS[@]} -type l 2>/dev/null |
+			while read link ; do
+				if [[ "${file}" -ef "${link}" ]] ; then
 					rm -f "$link" "${link}.gz"
-					ln -s -- "${file}.gz" "${link}.gz"
-				done
-
-				# check file still exists (potentially already compressed due to hardlink)
-				if [[ -f ${manpage} ]]; then
-					# find hard links and remove them
-					#   the '|| true' part keeps the script from bailing on the EOF returned
-					#   by read at the end of the find output
-					mapfile -t hardlinks < \
-						<(find ${MAN_DIRS[@]} ! -name "$file" -samefile "$manpage" 2>/dev/null)
-					rm -f "${hardlinks[@]}"
-					# compress the original
-					gzip -9 "$manpage"
-					# recreate hard links removed earlier
-					for hl in "${hardlinks[@]}"; do
-						ln "${manpage}.gz" "${hl}.gz"
-						chmod 644 ${hl}.gz
-					done
+					if [[ ${file%/*} = ${link%/*} ]]; then
+						ln -s -- "${file##*/}.gz" "${link}.gz"
+					else
+						ln -s -- "/${file}.gz" "${link}.gz"
+					fi
 				fi
+			done
+			if [[ -z ${files[$inode]} ]]; then
+				files[$inode]=$file
+				gzip -9 -f "$file"
+			else
+				rm -f "$file"
+				ln "${files[$inode]}.gz" "${file}.gz"
+				chmod 644 "${file}.gz"
 			fi
-		done
+		done < <(find ${MAN_DIRS[@]} -type f \! -name "*.gz" \! -name "*.bz2" \
+			-exec @INODECMD@ '{}' + 2>/dev/null)
 	fi
 
 	if check_option "strip" "y"; then
@@ -1115,7 +1108,7 @@ tidy_install() {
 
 	if check_option "emptydirs" "n"; then
 		msg2 "$(gettext "Removing empty directories...")"
-		find . -depth -type d -empty -delete
+		find . -depth -type d -exec rmdir '{}' + 2>/dev/null
 	fi
 
 	if check_option "upx" "y"; then

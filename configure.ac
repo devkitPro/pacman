@@ -287,6 +287,7 @@ GCC_VISIBILITY_CC
 GCC_GNU89_INLINE_CC
 
 # Host-dependant definitions
+INODECMD="stat -c '%i %n'"
 SIZECMD="stat -c %s"
 SEDINPLACE="sed -i"
 STRIP_BINARIES="--strip-all"
@@ -294,6 +295,7 @@ STRIP_SHARED="--strip-unneeded"
 STRIP_STATIC="--strip-debug"
 case "${host_os}" in
 	*bsd*)
+		INODECMD="stat -f '%i %n'"
 		SIZECMD="stat -f %z"
 		SEDINPLACE="sed -i \"\""
 		;;
@@ -303,6 +305,7 @@ case "${host_os}" in
 		;;
 	darwin*)
 		host_os_darwin=yes
+		INODECMD="/usr/bin/stat -f '%i %n'"
 		SIZECMD="/usr/bin/stat -f %z"
 		SEDINPLACE="/usr/bin/sed -i ''"
 		STRIP_BINARIES=""
@@ -314,6 +317,7 @@ esac
 AM_CONDITIONAL([CYGWIN], test "x$host_os_cygwin" = "xyes")
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
+AC_SUBST(INODECMD)
 AC_SUBST(SIZECMD)
 AC_SUBST(SEDINPLACE)
 AC_SUBST(STRIP_BINARIES)
@@ -487,6 +491,7 @@ ${PACKAGE_NAME}:
 
     Architecture           : ${CARCH}
     Host Type              : ${CHOST}
+    File inode command     : ${INODECMD}
     Filesize command       : ${SIZECMD}
     In-place sed command   : ${SEDINPLACE}
 
