@@ -1009,7 +1009,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 		}
 
 		if(eol) {
-			size_t len = (size_t)(eol - b->block_offset);
+			size_t len = b->real_line_size = (size_t)(eol - b->block_offset);
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset[len] = '\0';
 			b->block_offset = eol + 1;
@@ -1017,7 +1017,7 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			return ARCHIVE_OK;
 		} else {
 			/* we've looked through the whole block but no newline, copy it */
-			size_t len = (size_t)(b->block + b->block_size - b->block_offset);
+			size_t len = b->real_line_size = (size_t)(b->block + b->block_size - b->block_offset);
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset += len;
 			b->block_offset = b->block + b->block_size;

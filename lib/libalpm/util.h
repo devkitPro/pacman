@@ -97,6 +97,7 @@ struct archive_read_buffer {
 	char *line_offset;
 	size_t line_size;
 	size_t max_line_size;
+	size_t real_line_size;
 
 	char *block;
 	char *block_offset;
@@ -108,7 +109,7 @@ struct archive_read_buffer {
 int _alpm_makepath(const char *path);
 int _alpm_makepath_mode(const char *path, mode_t mode);
 int _alpm_copyfile(const char *src, const char *dest);
-size_t _alpm_strip_newline(char *str);
+size_t _alpm_strip_newline(char *str, size_t len);
 
 int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 		struct stat *buf, struct archive **archive, alpm_errno_t error);
