@@ -1048,7 +1048,7 @@ tidy_install() {
 		local pt
 		for pt in "${PURGE_TARGETS[@]}"; do
 			if [[ ${pt} = "${pt//\/}" ]]; then
-				find . -type f -name "${pt}" -exec rm -f -- '{}' \;
+				find . ! -type d -name "${pt}" -exec rm -f -- '{}' \;
 			else
 				rm -f ${pt}
 			fi
