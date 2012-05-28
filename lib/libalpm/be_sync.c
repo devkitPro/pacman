@@ -482,7 +482,7 @@ cleanup:
 #define READ_NEXT() do { \
 	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
 	line = buf.line; \
-	_alpm_strip_newline(line); \
+	_alpm_strip_newline(line, buf.real_line_size); \
 } while(0)
 
 #define READ_AND_STORE(f) do { \
@@ -493,14 +493,14 @@ cleanup:
 #define READ_AND_STORE_ALL(f) do { \
 	char *linedup; \
 	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
-	if(_alpm_strip_newline(buf.line) == 0) break; \
+	if(_alpm_strip_newline(buf.line, buf.real_line_size) == 0) break; \
 	STRDUP(linedup, buf.line, goto error); \
 	f = alpm_list_add(f, linedup); \
 } while(1) /* note the while(1) and not (0) */
 
 #define READ_AND_SPLITDEP(f) do { \
 	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
-	if(_alpm_strip_newline(buf.line) == 0) break; \
+	if(_alpm_strip_newline(buf.line, buf.real_line_size) == 0) break; \
 	f = alpm_list_add(f, _alpm_splitdep(line)); \
 } while(1) /* note the while(1) and not (0) */
 
@@ -539,7 +539,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		int ret;
 		while((ret = _alpm_archive_fgets(archive, &buf)) == ARCHIVE_OK) {
 			char *line = buf.line;
-			if(_alpm_strip_newline(line) == 0) {
+			if(_alpm_strip_newline(line, buf.real_line_size) == 0) {
 				/* length of stripped line was zero */
 				continue;
 			}

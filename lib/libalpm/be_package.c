@@ -168,7 +168,7 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 
 	/* loop until we reach EOF or other error */
 	while((ret = _alpm_archive_fgets(a, &buf)) == ARCHIVE_OK) {
-		size_t len = _alpm_strip_newline(buf.line);
+		size_t len = _alpm_strip_newline(buf.line, buf.real_line_size);
 
 		linenum++;
 		key = buf.line;

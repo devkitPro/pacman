@@ -195,15 +195,17 @@ cleanup:
 
 /** Trim trailing newlines from a string (if any exist).
  * @param str a single line of text
+ * @param len size of str, if known, else 0
  * @return the length of the trimmed string
  */
-size_t _alpm_strip_newline(char *str)
+size_t _alpm_strip_newline(char *str, size_t len)
 {
-	size_t len;
 	if(*str == '\0') {
 		return 0;
 	}
-	len = strlen(str);
+	if(len == 0) {
+		len = strlen(str);
+	}
 	while(len > 0 && str[len - 1] == '\n') {
 		len--;
 	}
