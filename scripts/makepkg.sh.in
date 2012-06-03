@@ -224,6 +224,17 @@ get_url() {
 	printf "%s\n" "${1#*::}"
 }
 
+# extract the protocol from a source entry - return "local" for local sources
+get_protocol() {
+	if [[ $1 = *://* ]]; then
+		# strip leading filename
+		local proto="${1##*::}"
+		printf "%s\n" "${proto%%://*}"
+	else
+		printf "%s\n" local
+	fi
+}
+
 get_downloadclient() {
 	# $1 = URL with valid protocol prefix
 	local url=$1
