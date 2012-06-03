@@ -210,13 +210,6 @@ get_filepath() {
 	printf "%s\n" "$file"
 }
 
-# Print 'source not found' error message and exit makepkg
-missing_source_file() {
-	error "$(gettext "Unable to find source file %s.")" "$(get_filename "$1")"
-	plain "$(gettext "Aborting...")"
-	exit 1 # $E_MISSING_FILE
-}
-
 # extract the filename from a source entry
 get_filename() {
 	# if a filename is specified, use it
@@ -229,6 +222,126 @@ get_filename() {
 get_url() {
 	# strip an eventual filename
 	printf "%s\n" "${1#*::}"
+}
+
+get_downloadclient() {
+	# $1 = URL with valid protocol prefix
+	local url=$1
+	local proto="${url%%://*}"
+
+	# loop through DOWNLOAD_AGENTS variable looking for protocol
+	local i
+	for i in "${DLAGENTS[@]}"; do
+		local handler="${i%%::*}"
+		if [[ $proto = "$handler" ]]; then
+			local agent="${i##*::}"
+			break
+		fi
+	done
+
+	# if we didn't find an agent, return an error
+	if [[ -z $agent ]]; then
+		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$MAKEPKG_CONF"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_CONFIG_ERROR
+	fi
+
+	# ensure specified program is installed
+	local program="${agent%% *}"
+	if [[ ! -x $program ]]; then
+		local baseprog="${program##*/}"
+		error "$(gettext "The download program %s is not installed.")" "$baseprog"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+
+	printf "%s\n" "$agent"
+}
+
+download_file() {
+	# download command
+	local dlcmd=$1
+	# URL of the file
+	local url=$2
+	# destination file
+	local file=$3
+	# temporary download file, default to last component of the URL
+	local dlfile="${url##*/}"
+
+	# replace %o by the temporary dlfile if it exists
+	if [[ $dlcmd = *%o* ]]; then
+		dlcmd=${dlcmd//\%o/\"$file.part\"}
+		dlfile="$file.part"
+	fi
+	# add the URL, either in place of %u or at the end
+	if [[ $dlcmd = *%u* ]]; then
+		dlcmd=${dlcmd//\%u/\"$url\"}
+	else
+		dlcmd="$dlcmd \"$url\""
+	fi
+
+	local ret=0
+	eval "$dlcmd || ret=\$?"
+	if (( ret )); then
+		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
+		return $ret
+	fi
+
+	# rename the temporary download file to the final destination
+	if [[ $dlfile != "$file" ]]; then
+		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$file"
+	fi
+}
+
+download_sources() {
+	msg "$(gettext "Retrieving Sources...")"
+
+	pushd "$SRCDEST" &>/dev/null
+
+	local netfile
+	for netfile in "${source[@]}"; do
+		local file=$(get_filepath "$netfile" || true)
+		if [[ -n "$file" ]]; then
+			msg2 "$(gettext "Found %s")" "${file##*/}"
+			rm -f "$srcdir/${file##*/}"
+			ln -s "$file" "$srcdir/"
+			continue
+		fi
+
+		file=$(get_filename "$netfile")
+		local url=$(get_url "$netfile")
+
+		# if we get here, check to make sure it was a URL, else fail
+		if [[ $file = "$url" ]]; then
+			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$file"
+			exit 1 # $E_MISSING_FILE
+		fi
+
+		# find the client we should use for this URL
+		local dlclient
+		dlclient=$(get_downloadclient "$url") || exit $?
+
+		msg2 "$(gettext "Downloading %s...")" "$file"
+		# fix flyspray bug #3289
+		local ret=0
+		download_file "$dlclient" "$url" "$file" || ret=$?
+		if (( ret )); then
+			error "$(gettext "Failure while downloading %s")" "$file"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+		rm -f "$srcdir/$file"
+		ln -s "$SRCDEST/$file" "$srcdir/"
+	done
+
+	popd &>/dev/null
+}
+
+# Print 'source not found' error message and exit makepkg
+missing_source_file() {
+	error "$(gettext "Unable to find source file %s.")" "$(get_filename "$1")"
+	plain "$(gettext "Aborting...")"
+	exit 1 # $E_MISSING_FILE
 }
 
 ##
@@ -388,75 +501,6 @@ source_has_signatures() {
 	return 1
 }
 
-get_downloadclient() {
-	# $1 = URL with valid protocol prefix
-	local url=$1
-	local proto="${url%%://*}"
-
-	# loop through DOWNLOAD_AGENTS variable looking for protocol
-	local i
-	for i in "${DLAGENTS[@]}"; do
-		local handler="${i%%::*}"
-		if [[ $proto = "$handler" ]]; then
-			local agent="${i##*::}"
-			break
-		fi
-	done
-
-	# if we didn't find an agent, return an error
-	if [[ -z $agent ]]; then
-		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$MAKEPKG_CONF"
-		plain "$(gettext "Aborting...")"
-		exit 1 # $E_CONFIG_ERROR
-	fi
-
-	# ensure specified program is installed
-	local program="${agent%% *}"
-	if [[ ! -x $program ]]; then
-		local baseprog="${program##*/}"
-		error "$(gettext "The download program %s is not installed.")" "$baseprog"
-		plain "$(gettext "Aborting...")"
-		exit 1 # $E_MISSING_PROGRAM
-	fi
-
-	printf "%s\n" "$agent"
-}
-
-download_file() {
-	# download command
-	local dlcmd=$1
-	# URL of the file
-	local url=$2
-	# destination file
-	local file=$3
-	# temporary download file, default to last component of the URL
-	local dlfile="${url##*/}"
-
-	# replace %o by the temporary dlfile if it exists
-	if [[ $dlcmd = *%o* ]]; then
-		dlcmd=${dlcmd//\%o/\"$file.part\"}
-		dlfile="$file.part"
-	fi
-	# add the URL, either in place of %u or at the end
-	if [[ $dlcmd = *%u* ]]; then
-		dlcmd=${dlcmd//\%u/\"$url\"}
-	else
-		dlcmd="$dlcmd \"$url\""
-	fi
-
-	local ret=0
-	eval "$dlcmd || ret=\$?"
-	if (( ret )); then
-		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
-		return $ret
-	fi
-
-	# rename the temporary download file to the final destination
-	if [[ $dlfile != "$file" ]]; then
-		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$file"
-	fi
-}
-
 run_pacman() {
 	local cmd
 	if [[ ! $1 = -@(T|Qq) ]]; then
@@ -571,50 +615,6 @@ remove_deps() {
 		warning "$(gettext "Failed to remove installed dependencies.")"
 		return 0
 	fi
-}
-
-download_sources() {
-	msg "$(gettext "Retrieving Sources...")"
-
-	pushd "$SRCDEST" &>/dev/null
-
-	local netfile
-	for netfile in "${source[@]}"; do
-		local file=$(get_filepath "$netfile" || true)
-		if [[ -n "$file" ]]; then
-			msg2 "$(gettext "Found %s")" "${file##*/}"
-			rm -f "$srcdir/${file##*/}"
-			ln -s "$file" "$srcdir/"
-			continue
-		fi
-
-		file=$(get_filename "$netfile")
-		local url=$(get_url "$netfile")
-
-		# if we get here, check to make sure it was a URL, else fail
-		if [[ $file = "$url" ]]; then
-			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$file"
-			exit 1 # $E_MISSING_FILE
-		fi
-
-		# find the client we should use for this URL
-		local dlclient
-		dlclient=$(get_downloadclient "$url") || exit $?
-
-		msg2 "$(gettext "Downloading %s...")" "$file"
-		# fix flyspray bug #3289
-		local ret=0
-		download_file "$dlclient" "$url" "$file" || ret=$?
-		if (( ret )); then
-			error "$(gettext "Failure while downloading %s")" "$file"
-			plain "$(gettext "Aborting...")"
-			exit 1
-		fi
-		rm -f "$srcdir/$file"
-		ln -s "$SRCDEST/$file" "$srcdir/"
-	done
-
-	popd &>/dev/null
 }
 
 get_integlist() {
