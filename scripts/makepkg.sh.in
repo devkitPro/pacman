@@ -236,9 +236,7 @@ get_protocol() {
 }
 
 get_downloadclient() {
-	# $1 = URL with valid protocol prefix
-	local url=$1
-	local proto="${url%%://*}"
+	local proto=$1
 
 	# loop through DOWNLOAD_AGENTS variable looking for protocol
 	local i
@@ -269,20 +267,56 @@ get_downloadclient() {
 	printf "%s\n" "$agent"
 }
 
+download_local() {
+	local netfile=$1
+	local filepath=$(get_filepath "$netfile")
+
+	if [[ -n "$filepath" ]]; then
+		msg2 "$(gettext "Found %s")" "${filepath##*/}"
+		rm -f "$srcdir/${filepath##*/}"
+		ln -s "$filepath" "$srcdir/"
+		continue
+	else
+		local filename=$(get_filename "$netfile")
+		error "$(gettext "%s was not found in the build directory and is not a URL.")" "$filename"
+		exit 1 # $E_MISSING_FILE
+	fi
+}
+
 download_file() {
-	# download command
-	local dlcmd=$1
-	# URL of the file
-	local url=$2
-	# destination file
-	local file=$3
+	local netfile=$1
+
+	local filepath=$(get_filepath "$netfile")
+	if [[ -n "$filepath" ]]; then
+		msg2 "$(gettext "Found %s")" "${filepath##*/}"
+		rm -f "$srcdir/${filepath##*/}"
+		ln -s "$filepath" "$srcdir/"
+		return
+	fi
+
+	local proto=$(get_protocol "$netfile")
+
+	# find the client we should use for this URL
+	local dlcmd
+	dlcmd=$(get_downloadclient "$proto") || exit $?
+
+	local filename=$(get_filename "$netfile")
+	local url=$(get_url "$netfile")
+
+	if [[ $proto = "scp" ]]; then
+		# scp downloads should not pass the protocol in the url
+		url="${url##*://}"
+	fi
+
+	msg2 "$(gettext "Downloading %s...")" "$filename"
+
 	# temporary download file, default to last component of the URL
 	local dlfile="${url##*/}"
 
 	# replace %o by the temporary dlfile if it exists
 	if [[ $dlcmd = *%o* ]]; then
-		dlcmd=${dlcmd//\%o/\"$file.part\"}
-		dlfile="$file.part"
+		dlcmd=${dlcmd//\%o/\"$filename.part\"}
+		dlfile="$filename.part"
 	fi
 	# add the URL, either in place of %u or at the end
 	if [[ $dlcmd = *%u* ]]; then
@@ -295,13 +329,18 @@ download_file() {
 	eval "$dlcmd || ret=\$?"
 	if (( ret )); then
 		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
-		return $ret
+		error "$(gettext "Failure while downloading %s")" "$filename"
+		plain "$(gettext "Aborting...")"
+		exit 1
 	fi
 
 	# rename the temporary download file to the final destination
-	if [[ $dlfile != "$file" ]]; then
-		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$file"
+	if [[ $dlfile != "$filename" ]]; then
+		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$filename"
 	fi
+
+	rm -f "$srcdir/$filename"
+	ln -s "$SRCDEST/$filename" "$srcdir/"
 }
 
 download_sources() {
@@ -311,38 +350,21 @@ download_sources() {
 
 	local netfile
 	for netfile in "${source[@]}"; do
-		local file=$(get_filepath "$netfile" || true)
-		if [[ -n "$file" ]]; then
-			msg2 "$(gettext "Found %s")" "${file##*/}"
-			rm -f "$srcdir/${file##*/}"
-			ln -s "$file" "$srcdir/"
-			continue
-		fi
+		local proto=$(get_protocol "$netfile")
 
-		file=$(get_filename "$netfile")
-		local url=$(get_url "$netfile")
-
-		# if we get here, check to make sure it was a URL, else fail
-		if [[ $file = "$url" ]]; then
-			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$file"
-			exit 1 # $E_MISSING_FILE
-		fi
-
-		# find the client we should use for this URL
-		local dlclient
-		dlclient=$(get_downloadclient "$url") || exit $?
-
-		msg2 "$(gettext "Downloading %s...")" "$file"
-		# fix flyspray bug #3289
-		local ret=0
-		download_file "$dlclient" "$url" "$file" || ret=$?
-		if (( ret )); then
-			error "$(gettext "Failure while downloading %s")" "$file"
-			plain "$(gettext "Aborting...")"
-			exit 1
-		fi
-		rm -f "$srcdir/$file"
-		ln -s "$SRCDEST/$file" "$srcdir/"
+		case "$proto" in
+			local)
+				download_local "$netfile"
+				;;
+			ftp|http|https|rsync|scp)
+				download_file "$netfile"
+				;;
+			*)
+				error "$(gettext "Unknown download protocol: %s")" "$proto"
+				plain "$(gettext "Aborting...")"
+				exit 1
+				;;
+		esac
 	done
 
 	popd &>/dev/null
