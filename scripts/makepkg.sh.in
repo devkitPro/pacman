@@ -70,7 +70,6 @@ REPKG=0
 LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
-HOLDVER=0
 PREPAREFUNC=0
 BUILDFUNC=0
 CHECKFUNC=0
@@ -185,12 +184,7 @@ clean_up() {
 
 enter_fakeroot() {
 	msg "$(gettext "Entering %s environment...")" "fakeroot"
-
-	if [[ -n $newpkgver ]]; then
-		fakeroot -- $0 --forcever $newpkgver -F "${ARGLIST[@]}" || exit $?
-	else
-		fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
-	fi
+	fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
 }
 
 
@@ -1794,114 +1788,6 @@ check_software() {
 	return $ret
 }
 
-devel_check() {
-	newpkgver=""
-
-	# Do not update pkgver if --holdver is set, when building a source package, repackaging,
-	# reading PKGBUILD from pipe (-f), or if we cannot write to the file (-w)
-	if (( HOLDVER || SOURCEONLY || REPKG )) ||
-		[[ ! -f $BUILDFILE || ! -w $BUILDFILE || $BUILDFILE = "/dev/stdin" ]]; then
-		return
-	fi
-
-	if [[ -z $FORCE_VER ]]; then
-		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
-		# This will only be used on the first call to makepkg; subsequent
-		# calls to makepkg via fakeroot will explicitly pass the version
-		# number to avoid having to determine the version number twice.
-		# Also do a check to make sure we have the VCS tool available.
-		local vcs=()
-
-		[[ -n ${_darcstrunk} && -n ${_darcsmod} ]] && vcs+=("darcs")
-		[[ -n ${_cvsroot}    && -n ${_cvsmod}   ]] && vcs+=("cvs")
-		[[ -n ${_gitroot}    && -n ${_gitname}  ]] && vcs+=("git")
-		[[ -n ${_svntrunk}   && -n ${_svnmod}   ]] && vcs+=("svn")
-		[[ -n ${_bzrtrunk}   && -n ${_bzrmod}   ]] && vcs+=("bzr")
-		[[ -n ${_hgroot}     && -n ${_hgrepo}   ]] && vcs+=("hg")
-
-		if (( ${#vcs[@]} == 0 )); then
-			return
-		elif (( ${#vcs[@]} > 1 )); then
-			warning "$(gettext "Ambiguous VCS package. Cannot pick from: %s.")" "${vcs[*]}"
-			return 0
-		fi
-
-		if ! type -p "$vcs" >/dev/null; then
-			warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "$vcs" "$vcs"
-			return 0
-		fi
-
-		msg "$(gettext "Determining latest %s revision...")" "$vcs"
-
-		case "$vcs" in
-			darcs)
-				newpkgver=$(date +%Y%m%d)
-				;;
-			cvs)
-				newpkgver=$(date +%Y%m%d)
-				;;
-			git)
-				newpkgver=$(date +%Y%m%d)
-				;;
-			svn)
-				newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
-				;;
-			bzr)
-				newpkgver=$(bzr revno ${_bzrtrunk})
-				;;
-			hg)
-				if pushd "./src/$_hgrepo" > /dev/null; then
-					local ret=0
-					hg pull || ret=$?
-					if (( ! ret )); then
-						hg update
-					elif (( ret != 1 )); then
-						return 1
-					fi
-				else
-					[[ ! -d ./src/ ]] && mkdir ./src/
-					hg clone "$_hgroot/$_hgrepo" "./src/$_hgrepo"
-					if ! pushd "./src/$_hgrepo" > /dev/null; then
-						warning "$(gettext "An error occured while determining the hg version number.")"
-						return 0
-					fi
-				fi
-				newpkgver=$(hg tip --template "{rev}")
-				popd > /dev/null
-				;;
-		esac
-
-		if [[ -n $newpkgver ]]; then
-			msg2 "$(gettext "Version found: %s")" "$newpkgver"
-		fi
-
-	else
-		# Version number retrieved from fakeroot->makepkg argument
-		newpkgver=$FORCE_VER
-	fi
-}
-
-devel_update() {
-	# This is lame, but if we're wanting to use an updated pkgver for
-	# retrieving svn/cvs/etc sources, we'll update the PKGBUILD with
-	# the new pkgver and then re-source it. This is the most robust
-	# method for dealing with PKGBUILDs that use, e.g.:
-	#
-	#  pkgver=23
-	#  ...
-	#  _foo=pkgver
-	#
-	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
-		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
-			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
-			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
-			source "$BUILDFILE"
-		else
-			warning "$(gettext "%s is not writeable -- pkgver will not be updated")" "$BUILDFILE"
-		fi
-	fi
-}
-
 backup_package_variables() {
 	local var
 	for var in ${splitpkg_overrides[@]}; do
@@ -1980,7 +1866,6 @@ usage() {
 	printf -- "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
 	printf -- "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
-	printf -- "$(gettext "  --holdver        Prevent automatic version bumping for development %ss")\n" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --key <key>      Specify a key to use for %s signing instead of the default")\n" "gpg"
 	printf -- "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
@@ -2022,11 +1907,11 @@ ARGLIST=("$@")
 
 # Parse Command Line Options.
 OPT_SHORT="AcdefFghiLmop:rRsSV"
-OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean' 'nodeps'
-          'noextract' 'force' 'forcever:' 'geninteg' 'help' 'holdver' 'skippgpcheck'
-          'install' 'key:' 'log' 'nocolor' 'nobuild' 'nocheck' 'nosign' 'pkg:' 'rmdeps'
-          'repackage' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'sign' 'source' 'syncdeps'
-          'version' 'config:')
+OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'config:' 'force' 'geninteg'
+          'help' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
+          'nocheck' 'nodeps' 'noextract' 'nosign' 'pkg:' 'repackage' 'rmdeps'
+          'skipchecksums' 'skipinteg' 'skippgpcheck' 'skippgpcheck' 'sign'
+          'source' 'syncdeps' 'version')
 
 # Pacman Options
 OPT_LONG+=('asdeps' 'noconfirm' 'noprogressbar')
@@ -2054,11 +1939,8 @@ while true; do
 		-d|--nodeps)      NODEPS=1 ;;
 		-e|--noextract)   NOEXTRACT=1 ;;
 		-f|--force)       FORCE=1 ;;
-		#hidden opt used by fakeroot call for svn/cvs/etc PKGBUILDs to set pkgver
-		--forcever)       shift; FORCE_VER=$1;;
 		-F)               INFAKEROOT=1 ;;
 		-g|--geninteg)    GENINTEG=1 ;;
-		--holdver)        HOLDVER=1 ;;
 		-i|--install)     INSTALL=1 ;;
 		--key)            shift; GPGKEY=$1 ;;
 		-L|--log)         LOGGING=1 ;;
@@ -2192,12 +2074,6 @@ SRCEXT=${_SRCEXT:-$SRCEXT}
 GPGKEY=${_GPGKEY:-$GPGKEY}
 PACKAGER=${_PACKAGER:-$PACKAGER}
 
-if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
-	# The '\\0' is here to prevent gettext from thinking --holdver is an option
-	error "$(gettext "\\0%s and %s cannot both be specified" )" "--holdver" "--forcever"
-	exit 1
-fi
-
 if (( ! INFAKEROOT )); then
 	if (( EUID == 0 && ! ASROOT )); then
 		# Warn those who like to live dangerously.
@@ -2276,13 +2152,6 @@ check_sanity || exit 1
 
 # check we have the software required to process the PKGBUILD
 check_software || exit 1
-
-# We need to run devel_update regardless of whether we are in the fakeroot
-# build process so that if the user runs makepkg --forcever manually, we
-# 1) output the correct pkgver, and 2) use the correct filename when
-# checking if the package file already exists - fixes FS #9194
-devel_check
-devel_update
 
 if (( ${#pkgname[@]} > 1 )); then
 	SPLITPKG=1
@@ -2524,7 +2393,6 @@ else
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if ! check_buildenv "fakeroot" "y" || (( EUID == 0 )); then
 		if (( ! REPKG )); then
-			devel_update
 			(( BUILDFUNC )) && run_build
 			(( CHECKFUNC )) && run_check
 		fi
@@ -2546,7 +2414,6 @@ else
 		fi
 	else
 		if (( ! REPKG && ( PKGFUNC || SPLITPKG ) )); then
-			devel_update
 			(( BUILDFUNC )) && run_build
 			(( CHECKFUNC )) && run_check
 			cd_safe "$startdir"
