@@ -789,10 +789,21 @@ generate_checksums() {
 
 		local netfile
 		for netfile in "${source[@]}"; do
-			local file
-			file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
-			local sum="$(openssl dgst -${integ} "$file")"
-			sum=${sum##* }
+			local proto sum
+			proto="$(get_protocol "$netfile")"
+
+			case $proto in
+				git*)
+					sum="SKIP"
+					;;
+				*)
+					local file
+					file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
+					sum="$(openssl dgst -${integ} "$file")"
+					sum=${sum##* }
+					;;
+			esac
+
 			(( ct )) && printf "%s" "$indent"
 			printf "%s" "'$sum'"
 			ct=$(($ct+1))
