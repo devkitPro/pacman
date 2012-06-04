@@ -212,10 +212,28 @@ get_filepath() {
 
 # extract the filename from a source entry
 get_filename() {
+	local netfile=$1
+
 	# if a filename is specified, use it
-	local filename="${1%%::*}"
-	# if it is just an URL, we only keep the last component
-	printf "%s\n" "${filename##*/}"
+	if [[ $netfile = *::* ]]; then
+		printf "%s\n" ${netfile%%::*}
+		return
+	fi
+
+	local proto=$(get_protocol "$netfile")
+
+	case $proto in
+		git*)
+			filename=${netfile##*/}
+			filename=${filename%%#*}
+			filename=${filename%%.git*}
+			;;
+		*)
+			# if it is just an URL, we only keep the last component
+			filename="${netfile##*/}"
+			;;
+	esac
+	printf "%s\n" "${filename}"
 }
 
 # extract the URL from a source entry
@@ -351,14 +369,11 @@ download_git() {
 		unset fragment
 	fi
 
-	local dir=${netfile%%::*}
+	local dir=$(get_filename "$netfile")
+
 	local repo=${netfile##*/}
 	repo=${repo%%#*}
 	repo=${repo%%.git*}
-
-	if [[ $dir = "$netfile" ]]; then
-		dir="${repo}"
-	fi
 
 	if [[ ! -d "$startdir"/$dir ]]; then
 		dir="$SRCDEST"/$dir
