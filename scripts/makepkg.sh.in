@@ -193,19 +193,30 @@ enter_fakeroot() {
 # 2) "http://path/to/file"
 
 # Return the absolute filename of a source entry
-#
-# This function accepts a source entry or the already extracted filename of a
-# source entry as input
 get_filepath() {
 	local file="$(get_filename "$1")"
+	local proto="$(get_protocol "$1")"
 
-	if [[ -f "$startdir/$file" ]]; then
-		file="$startdir/$file"
-	elif [[ -f "$SRCDEST/$file" ]]; then
-		file="$SRCDEST/$file"
-	else
-		return 1
-	fi
+	case $proto in
+		git*)
+			if [[ -d "$startdir/$file" ]]; then
+				file="$startdir/$file"
+			elif [[ -d "$SRCDEST/$file" ]]; then
+				file="$SRCDEST/$file"
+			else
+				return 1
+			fi
+			;;
+		*)
+			if [[ -f "$startdir/$file" ]]; then
+				file="$startdir/$file"
+			elif [[ -f "$SRCDEST/$file" ]]; then
+				file="$SRCDEST/$file"
+			else
+				return 1
+			fi
+			;;
+	esac
 
 	printf "%s\n" "$file"
 }
@@ -369,17 +380,12 @@ download_git() {
 		unset fragment
 	fi
 
-	local dir=$(get_filename "$netfile")
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
 	local repo=${netfile##*/}
 	repo=${repo%%#*}
 	repo=${repo%%.git*}
-
-	if [[ ! -d "$startdir"/$dir ]]; then
-		dir="$SRCDEST"/$dir
-	else
-		dir="$startdir"/$dir
-	fi
 
 	local url=$(get_url "$netfile")
 	url=${url##*git+}
