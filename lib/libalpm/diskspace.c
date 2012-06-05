@@ -343,7 +343,7 @@ int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 	}
 
 	cachedir_mp = match_mount_point(mount_points, cachedir);
-	if(cachedir == NULL) {
+	if(cachedir_mp == NULL) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not determine cachedir mount point %s\n"),
 				cachedir);
 		error = 1;
