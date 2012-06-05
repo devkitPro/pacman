@@ -473,7 +473,28 @@ download_sources() {
 		esac
 	done
 
+	if declare -f pkgver >/dev/null; then
+		update_pkgver
+	fi
+
 	popd &>/dev/null
+}
+
+# Automatically update pkgver variable if a pkgver() function is provided
+# Re-sources the PKGBUILD afterwards to allow for other variables that use $pkgver
+update_pkgver() {
+	newpkgver=$(run_function_safe pkgver)
+
+	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
+		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
+			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
+			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
+			source "$BUILDFILE"
+		else
+			warning "$(gettext "%s is not writeable -- pkgver will not be updated")" \
+					"$BUILDFILE"
+		fi
+	fi
 }
 
 # Print 'source not found' error message and exit makepkg
