@@ -157,7 +157,7 @@ create_xdelta()
 }
 
 OPT_SHORT='hqV'
-OPT_LONG=('help' 'quiet' 'max-delta-size:' 'min-pkg-size:')
+OPT_LONG=('help' 'quiet' 'max-delta-size:' 'min-pkg-size:' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1
 fi
