@@ -4,7 +4,9 @@ AUTOMAKE_OPTIONS = std-options
 SUBDIRS = po
 
 bin_SCRIPTS = \
-	$(OURSCRIPTS)
+	$(OURSCRIPTS) \
+	repo-remove \
+	repo-elephant
 
 OURSCRIPTS = \
 	makepkg \
@@ -91,12 +93,12 @@ repo-add: \
 	$(srcdir)/library/output_format.sh
 
 repo-remove: $(srcdir)/repo-add.sh.in
-	$(RM) repo-remove
-	$(LN_S) repo-add repo-remove
+	$(AM_V_at)$(RM) repo-remove
+	$(AM_V_at)$(LN_S) repo-add repo-remove
 
 repo-elephant: $(srcdir)/repo-add.sh.in
-	$(RM) repo-elephant
-	$(LN_S) repo-add repo-elephant
+	$(AM_V_at)$(RM) repo-elephant
+	$(AM_V_at)$(LN_S) repo-add repo-elephant
 
 install-data-hook:
 	cd $(DESTDIR)$(bindir) && \
