@@ -867,6 +867,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	pm_printf(ALPM_LOG_DEBUG, "pacman v%s - libalpm v%s\n", PACKAGE_VERSION, alpm_version());
+
 	/* parse the config file */
 	ret = parseconfig(config->configfile);
 	if(ret != 0) {
