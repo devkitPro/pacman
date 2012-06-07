@@ -257,7 +257,7 @@ db_write_entry() {
 	# blank out all variables
 	local pkgfile=$1
 	local -a _groups _licenses _replaces _depends _conflicts _provides \
-		_optdepends _makedepends
+		_optdepends _makedepends _checkdepends
 	local pkgname pkgver pkgdesc csize size url arch builddate packager \
 		md5sum sha256sum pgpsig pgpsigsize
 
@@ -278,6 +278,7 @@ db_write_entry() {
 			provides) _provides+=("$provides") ;;
 			optdepend) _optdepends+=("$optdepend") ;;
 			makedepend) _makedepends+=("$makedepend") ;;
+			checkdepend) _checkdepends+=("$checkdepend") ;;
 		esac
 	done< <(bsdtar -xOqf "$pkgfile" .PKGINFO)
 
@@ -365,6 +366,7 @@ db_write_entry() {
 		format_entry "PROVIDES" "${_provides[@]}"
 		format_entry "OPTDEPENDS" "${_optdepends[@]}"
 		format_entry "MAKEDEPENDS" "${_makedepends[@]}"
+		format_entry "CHECKDEPENDS" "${_checkdepends[@]}"
 	} >'depends'
 
 	popd >/dev/null

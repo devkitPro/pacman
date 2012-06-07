@@ -1282,15 +1282,16 @@ write_pkginfo() {
 	mapfile -t provides < <(find_libprovides)
 	mapfile -t depends < <(find_libdepends)
 
-	[[ $license ]]     && printf "license = %s\n"    "${license[@]}"
-	[[ $replaces ]]    && printf "replaces = %s\n"   "${replaces[@]}"
-	[[ $groups ]]      && printf "group = %s\n"      "${groups[@]}"
-	[[ $conflicts ]]   && printf "conflict = %s\n"   "${conflicts[@]}"
-	[[ $provides ]]    && printf "provides = %s\n"   "${provides[@]}"
-	[[ $backup ]]      && printf "backup = %s\n"     "${backup[@]}"
-	[[ $depends ]]     && printf "depend = %s\n"     "${depends[@]}"
-	[[ $optdepends ]]  && printf "optdepend = %s\n"  "${optdepends[@]//+([[:space:]])/ }"
-	[[ $makedepends ]] && printf "makedepend = %s\n" "${makedepends[@]}"
+	[[ $license ]]      && printf "license = %s\n"     "${license[@]}"
+	[[ $replaces ]]     && printf "replaces = %s\n"    "${replaces[@]}"
+	[[ $groups ]]       && printf "group = %s\n"       "${groups[@]}"
+	[[ $conflicts ]]    && printf "conflict = %s\n"    "${conflicts[@]}"
+	[[ $provides ]]     && printf "provides = %s\n"    "${provides[@]}"
+	[[ $backup ]]       && printf "backup = %s\n"      "${backup[@]}"
+	[[ $depends ]]      && printf "depend = %s\n"      "${depends[@]}"
+	[[ $optdepends ]]   && printf "optdepend = %s\n"   "${optdepends[@]//+([[:space:]])/ }"
+	[[ $makedepends ]]  && printf "makedepend = %s\n"  "${makedepends[@]}"
+	[[ $checkdepends ]] && printf "checkdepend = %s\n" "${checkdepends[@]}"
 
 	local it
 	for it in "${packaging_options[@]}"; do
