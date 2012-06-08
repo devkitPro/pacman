@@ -108,7 +108,7 @@ syn match pbValidOptdepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
 syn region pbOptdependsGroup start=/^optdepends=(/ end=/)/ contains=pb_k_optdepends,pbValidOptdepends,shDoubleQuote,shSingleQuote
 
 " checkdepends
-syn keyword pb_k_ckdepends ckdepends contained
+syn keyword pb_k_ckdepends checkdepends contained
 syn match pbValidCkdepends /\([[:alnum:]]\|+\|-\|_\)*/ contained
 syn region pbCkdependsGroup start=/^checkdepends=(/ end=/)/ contains=pb_k_ckdepends,pbValidCkdepends,shDoubleQuote,shSingleQuote
 
