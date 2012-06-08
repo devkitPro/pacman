@@ -58,6 +58,7 @@ edit = sed \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
 	-e 's|@PACKAGE_VERSION[@]|$(REAL_PACKAGE_VERSION)|g' \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
+	-e 's|@SCRIPTNAME[@]|$@|g' \
 	-e '1s|!/bin/bash|!$(BASH_SHELL)|g'
 
 $(OTHERSCRIPTS): Makefile
