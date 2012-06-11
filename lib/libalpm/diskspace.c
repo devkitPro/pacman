@@ -102,6 +102,8 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	fp = setmntent(MOUNTED, "r");
 
 	if(fp == NULL) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file: %s: %s\n"),
+				MOUNTED, strerror(errno));
 		return NULL;
 	}
 
@@ -123,6 +125,8 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	fp = fopen("/etc/mnttab", "r");
 
 	if(fp == NULL) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file %s: %s\n"),
+				"/etc/mnttab", strerror(errno));
 		return NULL;
 	}
 
@@ -148,6 +152,8 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 	entries = getmntinfo(&fsp, MNT_NOWAIT);
 
 	if(entries < 0) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("could not get filesystem information\n"));
 		return NULL;
 	}
 
