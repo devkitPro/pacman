@@ -172,10 +172,6 @@ static int sync_cleancache(int level)
 	alpm_list_t *cachedirs = alpm_option_get_cachedirs(config->handle);
 	int ret = 0;
 
-	for(i = cachedirs; i; i = alpm_list_next(i)) {
-		printf(_("Cache directory: %s\n"), (const char *)i->data);
-	}
-
 	if(!config->cleanmethod) {
 		/* default to KeepInstalled if user did not specify */
 		config->cleanmethod = PM_CLEAN_KEEPINST;
@@ -189,22 +185,31 @@ static int sync_cleancache(int level)
 		if(config->cleanmethod & PM_CLEAN_KEEPCUR) {
 			printf(_("  All current sync database packages\n"));
 		}
-		if(!yesno(_("Do you want to remove all other packages from cache?"))) {
-			return 0;
-		}
-		printf(_("removing old packages from cache...\n"));
-	} else {
-		if(!noyes(_("Do you want to remove ALL files from cache?"))) {
-			return 0;
-		}
-		printf(_("removing all files from cache...\n"));
 	}
+	printf("\n");
 
 	for(i = cachedirs; i; i = alpm_list_next(i)) {
 		const char *cachedir = i->data;
-		DIR *dir = opendir(cachedir);
+		DIR *dir;
 		struct dirent *ent;
 
+		printf(_("Cache directory: %s\n"), (const char *)i->data);
+
+		if(level == 1) {
+			if(!yesno(_("Do you want to remove all other packages from cache?"))) {
+				printf("\n");
+				continue;
+			}
+			printf(_("removing old packages from cache...\n"));
+		} else {
+			if(!noyes(_("Do you want to remove ALL files from cache?"))) {
+				printf("\n");
+				continue;
+			}
+			printf(_("removing all files from cache...\n"));
+		}
+
+		dir = opendir(cachedir);
 		if(dir == NULL) {
 			pm_printf(ALPM_LOG_ERROR,
 					_("could not access cache directory %s\n"), cachedir);
@@ -310,6 +315,7 @@ static int sync_cleancache(int level)
 			}
 		}
 		closedir(dir);
+		printf("\n");
 	}
 
 	return ret;
@@ -930,7 +936,6 @@ int pacman_sync(alpm_list_t *targets)
 		}
 
 		ret += sync_cleancache(config->op_s_clean);
-		printf("\n");
 		ret += sync_cleandb_all();
 
 		if(trans_release() == -1) {
