@@ -69,8 +69,8 @@ syn match pbUrlGroup /^url=.*/ contains=pbValidUrl,pb_k_url,pbIllegalUrl,shDoubl
 " license
 syn keyword pb_k_license license contained
 " echo $(pacman -Ql licenses | grep '/usr/share/licenses/common/' | cut -d'/' -f6 | sort -u)
-syn keyword pbLicense  APACHE CCPL CDDL CPL EPL FDL FDL1.2 FDL1.3 GPL GPL2 GPL3 LGPL LGPL2.1 LGPL3 LPPL MPL PerlArtistic PHP PSF RALINK RUBY ZPL contained
-" special cases from http://wiki.archlinux.org/index.php/Arch_Packaging_Standards
+syn keyword pbLicense  AGPL AGPL3 Apache APACHE Artistic2.0 CCPL CDDL CPL EPL FDL FDL1.2 FDL1.3 GPL GPL2 GPL3 LGPL LGPL2.1 LGPL3 LPPL MPL PerlArtistic PHP PSF RUBY W3C ZPL contained
+" special cases from https://wiki.archlinux.org/index.php/Arch_Packaging_Standards
 syn keyword pbLicenseSpecial  BSD MIT ZLIB Python contained
 syn match pbLicenseCustom /custom\(:[[:alnum:]]*\)*/ contained
 syn match pbIllegalLicense /[^='"() ]/ contained contains=pbLicenseCustom,pbLicenseSpecial,pbLicense
@@ -176,6 +176,39 @@ hi def link pbSha1Quotes Keyword
 hi def link pbSha1Hash Error
 hi def link pbValidSha1sums  Number
 
+" sha256sums
+syn keyword pb_k_sha256sums sha256sums contained
+syn match pbIllegalSha256sums /[^='"()\/ ]/ contained contains=pbValidSha256sums
+syn match pbValidSha256sums /\x\{64\}/ contained
+syn region pbSha256sumsGroup start=/^sha256sums/ end=/)/ contains=pb_k_sha256sums,pbSha256Quotes,pbSha256Hash,pbIllegalSha256sums keepend
+syn match pbSha256Quotes /'.*'\|".*"/ contained contains=pbSha256Hash,pbIllegalSha256sums
+syn match pbSha256Hash /\x\+/ contained contains=pbValidSha256sums
+hi def link pbSha256Quotes Keyword
+hi def link pbSha256Hash Error
+hi def link pbValidSha256sums  Number
+
+" sha384sums
+syn keyword pb_k_sha384sums sha384sums contained
+syn match pbIllegalSha384sums /[^='"()\/ ]/ contained contains=pbValidSha384sums
+syn match pbValidSha384sums /\x\{96\}/ contained
+syn region pbSha384sumsGroup start=/^sha384sums/ end=/)/ contains=pb_k_sha384sums,pbSha384Quotes,pbSha384Hash,pbIllegalSha384sums keepend
+syn match pbSha384Quotes /'.*'\|".*"/ contained contains=pbSha384Hash,pbIllegalSha384sums
+syn match pbSha384Hash /\x\+/ contained contains=pbValidSha384sums
+hi def link pbSha384Quotes Keyword
+hi def link pbSha384Hash Error
+hi def link pbValidSha384sums  Number
+
+" sha512sums
+syn keyword pb_k_sha512sums sha512sums contained
+syn match pbIllegalSha512sums /[^='"()\/ ]/ contained contains=pbValidSha512sums
+syn match pbValidSha512sums /\x\{128\}/ contained
+syn region pbSha512sumsGroup start=/^sha512sums/ end=/)/ contains=pb_k_sha512sums,pbSha512Quotes,pbSha512Hash,pbIllegalSha512sums keepend
+syn match pbSha512Quotes /'.*'\|".*"/ contained contains=pbSha512Hash,pbIllegalSha512sums
+syn match pbSha512Hash /\x\+/ contained contains=pbValidSha512sums
+hi def link pbSha512Quotes Keyword
+hi def link pbSha512Hash Error
+hi def link pbValidSha512sums  Number
+
 " options
 syn keyword pb_k_options options contained
 syn match pbOptions /\(no\)\?\(strip\|docs\|libtool\|emptydirs\|zipman\|ccache\|distcc\|makeflags\|buildflags\)/ contained
@@ -257,6 +290,15 @@ hi def link pbIllegalMd5sums Error
 
 hi def link pb_k_sha1sums pbKeywords
 hi def link pbIllegalSha1sums Error
+
+hi def link pb_k_sha256sums pbKeywords
+hi def link pbIllegalSha256sums Error
+
+hi def link pb_k_sha384sums pbKeywords
+hi def link pbIllegalSha384sums Error
+
+hi def link pb_k_sha512sums pbKeywords
+hi def link pbIllegalSha512sums Error
 
 hi def link pb_k_options pbKeywords
 hi def link pbOptionsDeprec Todo
