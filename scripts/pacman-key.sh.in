@@ -277,7 +277,7 @@ populate_keyring() {
 	# Add keys from requested keyrings
 	for keyring in "${KEYRINGIDS[@]}"; do
 		msg "$(gettext "Appending keys from %s.gpg...")" "$keyring"
-		"${GPG_PACMAN[@]}" --import "${KEYRING_IMPORT_DIR}/${keyring}.gpg"
+		"${GPG_PACMAN[@]}" --quiet --import "${KEYRING_IMPORT_DIR}/${keyring}.gpg"
 	done
 
 	# Read the trusted key IDs to an array. Because this is an ownertrust
