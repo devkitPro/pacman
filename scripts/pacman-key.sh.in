@@ -302,7 +302,7 @@ populate_keyring() {
 		msg "$(gettext "Locally signing trusted keys in keyring...")"
 		for key_id in "${!trusted_ids[@]}"; do
 			msg2 "$(gettext "Locally signing key %s...")" "${key_id}"
-			"${GPG_PACMAN[@]}" --quiet --lsign-key "${key_id}"
+			lsign_keys "${key_id}"
 		done
 		msg "$(gettext "Importing owner trust values...")"
 		for keyring in "${KEYRINGIDS[@]}"; do
@@ -440,6 +440,7 @@ list_sigs() {
 
 lsign_keys() {
 	check_keyids_exist
+	# we cannot use --yes here as gpg would still ask for confirmation if a key has more than one uid
 	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "$@" 2>/dev/null
 	if (( PIPESTATUS[1] )); then
 		error "$(gettext "A specified key could not be locally signed.")"
