@@ -300,10 +300,7 @@ populate_keyring() {
 
 	if (( ${#trusted_ids[@]} > 0 )); then
 		msg "$(gettext "Locally signing trusted keys in keyring...")"
-		for key_id in "${!trusted_ids[@]}"; do
-			msg2 "$(gettext "Locally signing key %s...")" "${key_id}"
-			lsign_keys "${key_id}"
-		done
+		lsign_keys "${!trusted_ids[@]}"
 		msg "$(gettext "Importing owner trust values...")"
 		for keyring in "${KEYRINGIDS[@]}"; do
 			if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-trusted" ]]; then
@@ -440,10 +437,19 @@ list_sigs() {
 
 lsign_keys() {
 	check_keyids_exist
-	# we cannot use --yes here as gpg would still ask for confirmation if a key has more than one uid
-	printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "$@" 2>/dev/null
-	if (( PIPESTATUS[1] )); then
-		error "$(gettext "A specified key could not be locally signed.")"
+
+	local ret=0
+	for key_id in "$@"; do
+		msg2 "$(gettext "Locally signing key %s...")" "${key_id}"
+		# we cannot use --yes here as gpg would still ask for confirmation if a key has more than one uid
+		printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${key_id}" 2>/dev/null
+		if (( PIPESTATUS[1] )); then
+			error "$(gettext "%s could not be locally signed.")" "${key_id}"
+			ret=1
+		fi
+	done
+
+	if (( ret )); then
 		exit 1
 	fi
 }
