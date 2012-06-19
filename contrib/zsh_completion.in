@@ -420,12 +420,11 @@ _keys() {
         if (match($NF, /<[^>]+>/))
           print substr($NF, RSTART + 1, RLENGTH - 2)
       #this adds support for names as well if that is ever added
-      #  }
-      #$1 == "uid" {
-      #for (i=2;i<NF;i++) {printf "%s%s",sep, $i;sep=" "}; printf "\n"
-      }' #|sed -e 's/(.*)//g' -e 's/^\ //g' -e 's/\ *$//g' |uniq
+        }
+      $1 == "uid" {
+      for (i=2;i<NF;i++) {printf "%s%s",sep, $i;sep=" "}; printf "\n"
+      }' |sed -e 's/(.*)//g' -e 's/^\ //g' -e 's/\ *$//g' |uniq
         )
-        #keys=(${keylist//$'\n'/\/})
         keys=(${(s:/:)${keylist//$'\n'/\/}})
   _describe -t modules 'keys in keyring' keys && return 0
 }
