@@ -207,8 +207,10 @@ static int query_fileowner(alpm_list_t *targets)
 
 				/* for files in '/', there is no directory name to match */
 				if(!rpath) {
-					print_query_fileowner(filename, info);
-					found = 1;
+					if(strcmp(pkgfile, bname) == 0) {
+						print_query_fileowner(filename, info);
+						found = 1;
+					}
 					continue;
 				}
 
