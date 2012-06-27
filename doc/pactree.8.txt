@@ -1,0 +1,62 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet spell spelllang=en_us:
+/////
+pactree(8)
+=========
+
+Name
+----
+pactree - package dependency tree viewer
+
+
+Synopsis
+--------
+'pactree' [options] package
+
+Description
+-----------
+Pactree produces a dependency tree for a package.
+
+By default a tree like output is generated, but with the -g option a graphviz
+description is generated.
+
+Options
+-------
+*-b, \--dbpath*::
+	Specify an alternative database location.
+
+*-c, \--color*::
+	Colorize output.
+
+*-d, \--depth <num>*::
+	Limits the number of levels of dependency to show. A zero means
+	show the named package only, one shows the packages that are directly
+	required.
+
+*-g, \--graph*::
+	Generate graphviz description. If this option is given, the -c and -l
+	options are ignored.
+
+*-h, \--help*::
+	Output syntax and command line options.
+
+*-l, \--linear*::
+	Prints package names at the start of each line, one per line.
+
+*-r, \--reverse*::
+	Show packages that depend on the named package.
+
+*-s, \--sync*::
+	Read package data from sync databases instead of local database.
+
+*-u, \--unique*::
+	List dependent packages once. Implies --linear.
+
+*\--config <file>*::
+	Specify an alternate pacman configuration file.
+
+See Also
+--------
+linkman:pacman[8], linkman:pacman.conf[5], linkman:makepkg[8]
+
+include::footer.txt[]
