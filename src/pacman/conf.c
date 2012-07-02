@@ -750,7 +750,42 @@ struct section_t {
 	/* db section option gathering */
 	alpm_siglevel_t siglevel;
 	alpm_list_t *servers;
+	alpm_db_usage_t usage;
 };
+
+static int process_usage(alpm_list_t *values, alpm_db_usage_t *usage,
+		const char *file, int linenum)
+{
+	alpm_list_t *i;
+	alpm_db_usage_t level = *usage;
+	int ret = 0;
+
+	for(i = values; i; i = i->next) {
+		char *key = i->data;
+
+		if(strcmp(key, "Sync") == 0) {
+			level |= ALPM_DB_USAGE_SYNC;
+		} else if(strcmp(key, "Search") == 0) {
+			level |= ALPM_DB_USAGE_SEARCH;
+		} else if(strcmp(key, "Install") == 0) {
+			level |= ALPM_DB_USAGE_INSTALL;
+		} else if(strcmp(key, "Upgrade") == 0) {
+			level |= ALPM_DB_USAGE_UPGRADE;
+		} else if(strcmp(key, "All") == 0) {
+			level |= ALPM_DB_USAGE_ALL;
+		} else {
+			pm_printf(ALPM_LOG_ERROR,
+					_("config file %s, line %d: '%s' option '%s' not recognized\n"),
+					file, linenum, "Usage", key);
+			ret = 1;
+		}
+	}
+
+	*usage = level;
+
+	return ret;
+}
+
 
 static int _parse_repo(const char *key, char *value, const char *file,
 		int line, struct section_t *section)
@@ -779,6 +814,16 @@ static int _parse_repo(const char *key, char *value, const char *file,
 				ret = process_siglevel(values, &section->siglevel, file, line);
 				FREELIST(values);
 			}
+		}
+	} else if(strcmp(key, "Usage") == 0) {
+		alpm_list_t *values = NULL;
+		setrepeatingoption(value, "Usage", &values);
+		if(values) {
+			if(process_usage(values, &section->usage, file, line)) {
+				FREELIST(values);
+				return 1;
+			}
+			FREELIST(values);
 		}
 	} else {
 		pm_printf(ALPM_LOG_WARNING,
@@ -820,6 +865,12 @@ static int finish_section(struct section_t *section)
 		goto cleanup;
 	}
 
+	pm_printf(ALPM_LOG_DEBUG,
+			"setting usage of %d for %s repoistory\n",
+			section->usage == 0 ? ALPM_DB_USAGE_ALL : section->usage,
+			section->name);
+	alpm_db_set_usage(db, section->usage == 0 ? ALPM_DB_USAGE_ALL : section->usage);
+
 	for(i = section->servers; i; i = alpm_list_next(i)) {
 		char *value = i->data;
 		if(_add_mirror(db, value) != 0) {
@@ -837,6 +888,7 @@ cleanup:
 	section->servers = NULL;
 	section->siglevel = ALPM_SIG_USE_DEFAULT;
 	section->name = NULL;
+	section->usage = 0;
 	return ret;
 }
 
@@ -883,6 +935,7 @@ int parseconfig(const char *file)
 	struct section_t section;
 	memset(&section, 0, sizeof(struct section_t));
 	section.siglevel = ALPM_SIG_USE_DEFAULT;
+	section.usage = 0;
 	/* the config parse is a two-pass affair. We first parse the entire thing for
 	 * the [options] section so we can get all default and path options set.
 	 * Next, we go back and parse everything but [options]. */

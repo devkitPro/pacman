@@ -672,6 +672,7 @@ static int process_target(const char *target, int error)
 	if(targname && targname != targstring) {
 		alpm_db_t *db;
 		const char *dbname;
+		alpm_db_usage_t usage;
 
 		*targname = '\0';
 		targname++;
@@ -683,9 +684,19 @@ static int process_target(const char *target, int error)
 			ret = 1;
 			goto cleanup;
 		}
+
+		/* explicitly mark this repo as valid for installs since
+		 * a repo name was given with the target */
+		alpm_db_get_usage(db, &usage);
+		alpm_db_set_usage(db, usage|ALPM_DB_USAGE_INSTALL);
+
 		dblist = alpm_list_add(NULL, db);
 		ret = process_targname(dblist, targname, error);
 		alpm_list_free(dblist);
+
+		/* restore old usage so we don't possibly disturb later
+		 * targets */
+		alpm_db_set_usage(db, usage);
 	} else {
 		targname = targstring;
 		dblist = alpm_get_syncdbs(config->handle);

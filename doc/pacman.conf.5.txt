@@ -243,6 +243,27 @@ even be used for different architectures.
 	Set the signature verification level for this repository. For more
 	information, see <<SC,Package and Database Signature Checking>> below.
 
+*Usage =* ...::
+	Set the usage level for this repository. This option takes a list of tokens
+	which must be at least one of the following:
+		*Sync*;;
+			Enables refreshes for this repository.
+		*Search*;;
+			Enables searching for this repository.
+		*Install*;;
+			Enables installation of packages from this repository during a '\--sync'
+			operation.
+		*Upgrade*;;
+			Allows this repository to be a valid source of packages when performing
+			a '\--sysupgrade'.
+		*All*;;
+			Enables all of the above features for the repository. This is the default
+			if not specified.
++
+Note that an enabled repository can be operated on explicitly, regardless of the Usage
+level set.
+
+
 Package and Database Signature Checking[[SC]]
 ---------------------------------------------
 The 'SigLevel' directive is valid in both the `[options]` and repository
