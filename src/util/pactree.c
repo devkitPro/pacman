@@ -359,85 +359,56 @@ static void print_end(void)
 	}
 }
 
-static alpm_pkg_t *get_pkg_from_dbs(alpm_list_t *dbs, const char *needle) {
-	alpm_list_t *i;
-	alpm_pkg_t *ret;
-
-	for(i = dbs; i; i = alpm_list_next(i)) {
-		ret = alpm_db_get_pkg(i->data, needle);
-		if(ret) {
-			return ret;
-		}
+static alpm_list_t *get_pkg_dep_names(alpm_pkg_t *pkg)
+{
+	alpm_list_t *i, *names = NULL;
+	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
+		alpm_depend_t *d = i->data;
+		names = alpm_list_add(names, d->name);
 	}
-	return NULL;
+	return names;
 }
 
 /**
- * walk dependencies in reverse, showing packages which require the target
+ * walk dependencies, showing dependencies of the target
  */
-static void walk_reverse_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
+static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth, int rev)
 {
-	alpm_list_t *required_by, *i;
+	alpm_list_t *deps, *i;
 
 	if(!pkg || ((max_depth >= 0) && (depth == max_depth + 1))) {
 		return;
 	}
 
 	walked = alpm_list_add(walked, (void *)alpm_pkg_get_name(pkg));
-	required_by = alpm_pkg_compute_requiredby(pkg);
 
-	for(i = required_by; i; i = alpm_list_next(i)) {
+	if(rev) {
+		deps = alpm_pkg_compute_requiredby(pkg);
+	} else {
+		deps = get_pkg_dep_names(pkg);
+	}
+
+	for(i = deps; i; i = alpm_list_next(i)) {
 		const char *pkgname = i->data;
 
-		if(alpm_list_find_str(walked, pkgname)) {
+		alpm_pkg_t *dep_pkg = alpm_find_dbs_satisfier(handle, dblist, pkgname);
+
+		if(alpm_list_find_str(walked, dep_pkg ? alpm_pkg_get_name(dep_pkg) : pkgname)) {
 			/* if we've already seen this package, don't print in "unique" output
 			 * and don't recurse */
 			if(!unique) {
-				print(alpm_pkg_get_name(pkg), pkgname, NULL, depth);
+				print(alpm_pkg_get_name(pkg), alpm_pkg_get_name(dep_pkg), pkgname, depth);
 			}
 		} else {
-			print(alpm_pkg_get_name(pkg), pkgname, NULL, depth);
-			walk_reverse_deps(dblist, get_pkg_from_dbs(dblist, pkgname), depth + 1);
+			print(alpm_pkg_get_name(pkg), alpm_pkg_get_name(dep_pkg), pkgname, depth);
+			if(dep_pkg) {
+				walk_deps(dblist, dep_pkg, depth + 1, rev);
+			}
 		}
 	}
 
-	FREELIST(required_by);
-}
-
-/**
- * walk dependencies, showing dependencies of the target
- */
-static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth)
-{
-	alpm_list_t *i;
-
-	if((max_depth >= 0) && (depth == max_depth + 1)) {
-		return;
-	}
-
-	walked = alpm_list_add(walked, (void *)alpm_pkg_get_name(pkg));
-
-	for(i = alpm_pkg_get_depends(pkg); i; i = alpm_list_next(i)) {
-		alpm_depend_t *depend = i->data;
-		alpm_pkg_t *provider = alpm_find_dbs_satisfier(handle, dblist, depend->name);
-
-		if(provider) {
-			const char *provname = alpm_pkg_get_name(provider);
-
-			if(alpm_list_find_str(walked, provname)) {
-				/* if we've already seen this package, don't print in "unique" output
-				 * and don't recurse */
-				if(!unique) {
-					print(alpm_pkg_get_name(pkg), provname, depend->name, depth);
-				}
-			} else {
-				print(alpm_pkg_get_name(pkg), provname, depend->name, depth);
-				walk_deps(dblist, provider, depth + 1);
-			}
-		} else {
-			/* unresolvable package */
-			print(alpm_pkg_get_name(pkg), NULL, depend->name, depth);
-		}
+	if(rev) {
+		FREELIST(deps);
 	}
 }
 
@@ -486,11 +457,7 @@ int main(int argc, char *argv[])
 
 	print_start(alpm_pkg_get_name(pkg), target_name);
 
-	if(reverse) {
-		walk_reverse_deps(dblist, pkg, 1);
-	} else {
-		walk_deps(dblist, pkg, 1);
-	}
+	walk_deps(dblist, pkg, 1, reverse);
 
 	print_end();
 
