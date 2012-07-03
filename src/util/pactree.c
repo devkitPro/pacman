@@ -27,11 +27,18 @@
 
 #define LINE_MAX     512
 
+typedef struct tdepth {
+	struct tdepth *prev;
+	struct tdepth *next;
+	int level;
+} tdepth;
+
 /* output */
 struct graph_style {
 	const char *provides;
 	const char *tip1;
 	const char *tip2;
+	const char *limb;
 	int indent;
 };
 
@@ -39,10 +46,12 @@ static struct graph_style graph_default = {
 	" provides",
 	"|--",
 	"+--",
+	"|",
 	3
 };
 
 static struct graph_style graph_linear = {
+	"",
 	"",
 	"",
 	"",
@@ -292,28 +301,36 @@ static void cleanup(void)
 }
 
 /* pkg provides provision */
-static void print_text(const char *pkg, const char *provision, int depth)
+static void print_text(const char *pkg, const char *provision, tdepth *depth)
 {
-	int indent_sz = (depth + 1) * style->indent;
-
 	if(!pkg && !provision) {
 		/* not much we can do */
 		return;
 	}
 
+	/* print limbs */
+	while(depth->prev)
+		depth = depth->prev;
+	int level = 0;
+	printf("%s", color->branch1);
+	while(depth->next){
+		printf("%*s%-*s", style->indent * (depth->level - level), "",
+				style->indent, style->limb);
+		level = depth->level + 1;
+		depth = depth->next;
+	}
+	printf("%*s", style->indent * (depth->level - level), "");
+
+	/* print tip */
 	if(!pkg && provision) {
-		/* we failed to resolve provision */
-		printf("%s%*s%s%s%s [unresolvable]%s\n", color->branch1, indent_sz,
-				style->tip1, color->leaf1, provision, color->branch1, color->off);
+		printf("%s%s%s%s [unresolvable]%s\n", style->tip1,  color->leaf1,
+				provision, color->branch1, color->off);
 	} else if(provision && strcmp(pkg, provision) != 0) {
-		/* pkg provides provision */
-		printf("%s%*s%s%s%s%s %s%s%s\n", color->branch2, indent_sz, style->tip2,
-				color->leaf1, pkg, color->leaf2, style->provides, color->leaf1, provision,
+		printf("%s%s%s%s%s %s%s%s\n", style->tip2, color->leaf1, pkg,
+				color->leaf2, style->provides, color->leaf1, provision,
 				color->off);
 	} else {
-		/* pkg is a normal package */
-		printf("%s%*s%s%s%s\n", color->branch1, indent_sz, style->tip1, color->leaf1,
-				pkg, color->off);
+		printf("%s%s%s%s\n", style->tip1, color->leaf1, pkg, color->off);
 	}
 }
 
@@ -331,7 +348,7 @@ static void print_graph(const char *parentname, const char *pkgname, const char 
 }
 
 /* parent depends on dep which is satisfied by pkg */
-static void print(const char *parentname, const char *pkgname, const char *depname, int depth)
+static void print(const char *parentname, const char *pkgname, const char *depname, tdepth *depth)
 {
 	if(graphviz) {
 		print_graph(parentname, pkgname, depname);
@@ -347,7 +364,12 @@ static void print_start(const char *pkgname, const char *provname)
 				"node [style=filled, color=green];\n"
 				" \"START\" -> \"%s\";\n", pkgname);
 	} else {
-		print_text(pkgname, provname, 0);
+		tdepth d = {
+			NULL,
+			NULL,
+			0
+		};
+		print_text(pkgname, provname, &d);
 	}
 }
 
@@ -372,11 +394,11 @@ static alpm_list_t *get_pkg_dep_names(alpm_pkg_t *pkg)
 /**
  * walk dependencies, showing dependencies of the target
  */
-static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth, int rev)
+static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, tdepth *depth, int rev)
 {
 	alpm_list_t *deps, *i;
 
-	if(!pkg || ((max_depth >= 0) && (depth == max_depth + 1))) {
+	if(!pkg || ((max_depth >= 0) && (depth->level > max_depth))) {
 		return;
 	}
 
@@ -402,7 +424,24 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, int depth, int rev)
 		} else {
 			print(alpm_pkg_get_name(pkg), alpm_pkg_get_name(dep_pkg), pkgname, depth);
 			if(dep_pkg) {
-				walk_deps(dblist, dep_pkg, depth + 1, rev);
+				tdepth d = {
+					depth,
+					NULL,
+					depth->level + 1
+				};
+				depth->next = &d;
+				/* last dep, cut off the limb here */
+				if(!alpm_list_next(i)){
+					if(depth->prev){
+						depth->prev->next = &d;
+						d.prev = depth->prev;
+						depth = &d;
+					} else {
+						d.prev = NULL;
+					}
+				}
+				walk_deps(dblist, dep_pkg, &d, rev);
+				depth->next = NULL;
 			}
 		}
 	}
@@ -457,7 +496,12 @@ int main(int argc, char *argv[])
 
 	print_start(alpm_pkg_get_name(pkg), target_name);
 
-	walk_deps(dblist, pkg, 1, reverse);
+	tdepth d = {
+		NULL,
+		NULL,
+		1
+	};
+	walk_deps(dblist, pkg, &d, reverse);
 
 	print_end();
 
