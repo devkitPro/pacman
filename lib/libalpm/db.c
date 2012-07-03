@@ -107,7 +107,7 @@ int SYMEXPORT alpm_db_unregister(alpm_db_t *db)
 	} else {
 		/* Warning : this function shouldn't be used to unregister all sync
 		 * databases by walking through the list returned by
-		 * alpm_option_get_syncdbs, because the db is removed from that list here.
+		 * alpm_get_syncdbs, because the db is removed from that list here.
 		 */
 		void *data;
 		handle->dbs_sync = alpm_list_remove(handle->dbs_sync,

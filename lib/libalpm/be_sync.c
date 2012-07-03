@@ -142,7 +142,7 @@ valid:
  *
  * Example:
  * @code
- * alpm_list_t *syncs = alpm_option_get_syncdbs();
+ * alpm_list_t *syncs = alpm_get_syncdbs();
  * for(i = syncs; i; i = alpm_list_next(i)) {
  *     alpm_db_t *db = alpm_list_getdata(i);
  *     result = alpm_db_update(0, db);
