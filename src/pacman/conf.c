@@ -720,7 +720,8 @@ static int _parseconfig(const char *file, struct section_t *section,
 	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
 	if(fp == NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("config file %s could not be read.\n"), file);
+		pm_printf(ALPM_LOG_ERROR, _("config file %s could not be read: %s\n"),
+				file, strerror(errno));
 		ret = 1;
 		goto cleanup;
 	}
