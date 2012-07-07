@@ -212,12 +212,14 @@ static int query_fileowner(alpm_list_t *targets)
 					if(strcmp(pkgfile, bname) == 0) {
 						print_query_fileowner(filename, info);
 						found = 1;
+						break;
 					}
 					continue;
 				}
 
 				if(rootlen + 1 + strlen(pkgfile) > PATH_MAX) {
 					pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
+					continue;
 				}
 				/* concatenate our file and the root path */
 				strcpy(path + rootlen, pkgfile);
@@ -229,6 +231,8 @@ static int query_fileowner(alpm_list_t *targets)
 				if(ppath && strcmp(ppath, rpath) == 0) {
 					print_query_fileowner(filename, info);
 					found = 1;
+					free(ppath);
+					break;
 				}
 				free(ppath);
 			}
