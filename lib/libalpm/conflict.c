@@ -339,6 +339,11 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 	struct dirent *ent = NULL;
 	const char *root = handle->root;
 
+	/* check directory is actually in package - used for subdirectory checks */
+	if(!_alpm_filelist_contains(alpm_pkg_get_files(pkg), dirpath)) {
+		return 0;
+	}
+
 	/* TODO: this is an overly strict check but currently pacman will not
 	 * overwrite a directory with a file (case 10/11 in add.c). Adjusting that
 	 * is not simple as even if the directory is being unowned by a conflicting
