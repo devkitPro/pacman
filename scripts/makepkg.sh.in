@@ -52,6 +52,7 @@ splitpkg_overrides=('pkgver' 'pkgrel' 'epoch' 'pkgdesc' 'arch' 'url' 'license' \
 readonly -a packaging_options other_options splitpkg_overrides
 
 # Options
+ASDEPS=0
 ASROOT=0
 CLEANUP=0
 DEP_BIN=0
@@ -1524,6 +1525,8 @@ install_package() {
 	fi
 
 	local fullver pkgarch pkg pkglist
+	(( ASDEPS )) && pkglist+=('--asdeps')
+
 	for pkg in ${pkgname[@]}; do
 		fullver=$(get_full_version $pkg)
 		pkgarch=$(get_pkg_arch $pkg)
@@ -1986,6 +1989,7 @@ usage() {
 	printf -- "$(gettext "These options can be passed to %s:")\n" "pacman"
 	echo
 	printf -- "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")\n"
+	printf -- "$(gettext "  --asdeps         Install packages as non-explicitly installed")\n"
 	printf -- "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")\n"
 	echo
 	printf -- "$(gettext "If %s is not specified, %s will look for '%s'")\n" "-p" "makepkg" "$BUILDSCRIPT"
@@ -2021,7 +2025,7 @@ OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean' 'nodeps'
           'version' 'config:')
 
 # Pacman Options
-OPT_LONG+=('noconfirm' 'noprogressbar')
+OPT_LONG+=('asdeps' 'noconfirm' 'noprogressbar')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1 # E_INVALID_OPTION;
@@ -2032,6 +2036,7 @@ unset OPT_SHORT OPT_LONG OPTRET
 while true; do
 	case "$1" in
 		# Pacman Options
+		--asdeps)         ASDEPS=1;;
 		--noconfirm)      PACMAN_OPTS+=" --noconfirm" ;;
 		--noprogressbar)  PACMAN_OPTS+=" --noprogressbar" ;;
 
