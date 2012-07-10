@@ -330,15 +330,40 @@ const alpm_file_t *_alpm_filelist_contains(alpm_filelist_t *filelist,
 	return NULL;
 }
 
-static int dir_belongsto_pkg(const char *root, const char *dirpath,
+static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 		alpm_pkg_t *pkg)
 {
+	alpm_list_t *i;
 	struct stat sbuf;
 	char path[PATH_MAX];
 	char abspath[PATH_MAX];
-	struct dirent *ent = NULL;
 	DIR *dir;
+	struct dirent *ent = NULL;
+	const char *root = handle->root;
 
+	/* check directory is actually in package - used for subdirectory checks */
+	if(!_alpm_filelist_contains(alpm_pkg_get_files(pkg), dirpath)) {
+		return 0;
+	}
+
+	/* TODO: this is an overly strict check but currently pacman will not
+	 * overwrite a directory with a file (case 10/11 in add.c). Adjusting that
+	 * is not simple as even if the directory is being unowned by a conflicting
+	 * package, pacman does not sort this to ensure all required directory
+	 * "removals" happen before installation of file/symlink */
+
+	/* check that no other _installed_ package owns the directory */
+	for(i = _alpm_db_get_pkgcache(handle->db_local); i; i = i->next) {
+		if(pkg == i->data) {
+			continue;
+		}
+
+		if(_alpm_filelist_contains(alpm_pkg_get_files(i->data), dirpath)) {
+			return 0;
+		}
+	}
+
+	/* check all files in directory are owned by the package */
 	snprintf(abspath, PATH_MAX, "%s%s", root, dirpath);
 	dir = opendir(abspath);
 	if(dir == NULL) {
@@ -351,13 +376,13 @@ static int dir_belongsto_pkg(const char *root, const char *dirpath,
 		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
 			continue;
 		}
-		snprintf(path, PATH_MAX, "%s/%s", dirpath, name);
+		snprintf(path, PATH_MAX, "%s%s", dirpath, name);
 		snprintf(abspath, PATH_MAX, "%s%s", root, path);
 		if(stat(abspath, &sbuf) != 0) {
 			continue;
 		}
 		if(S_ISDIR(sbuf.st_mode)) {
-			if(dir_belongsto_pkg(root, path, pkg)) {
+			if(dir_belongsto_pkg(handle, path, pkg)) {
 				continue;
 			} else {
 				closedir(dir);
@@ -535,9 +560,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				sprintf(dir, "%s/", filestr);
 				if(_alpm_filelist_contains(alpm_pkg_get_files(dbpkg), dir)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"check if all files in %s belongs to %s\n",
+							"check if all files in %s belong to %s\n",
 							dir, dbpkg->name);
-					resolved_conflict = dir_belongsto_pkg(handle->root, filestr, dbpkg);
+					resolved_conflict = dir_belongsto_pkg(handle, dir, dbpkg);
 				}
 				free(dir);
 			}
