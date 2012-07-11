@@ -4,7 +4,8 @@
 #   This script rebuilds an already installed package using metadata
 #   stored into the pacman database and system files
 #
-#   (c) 2008 - locci <carlocci_at_gmail_dot_com>
+#   Copyright (c) 2008 locci <carlocci_at_gmail_dot_com>
+#   Copyright (c) 2008-2012 Pacman Development Team <pacman-dev@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -88,7 +89,6 @@ if [[ -r ~/.makepkg.conf ]]; then
 	source ~/.makepkg.conf
 fi
 
-pkg_arch=${CARCH:-'unknown'}
 pkg_dest="${PKGDEST:-$PWD}"
 pkg_pkger=${PACKAGER:-'Unknown Packager'}
 
@@ -184,7 +184,6 @@ fi
 echo "# $(LC_ALL=C date)"            >> .PKGINFO
 echo "#"                    >> .PKGINFO
 
-cat "$pkg_dir"/{desc,files} |
 while read i; do
 	if [[ -z $i ]]; then
 		continue;
@@ -214,6 +213,7 @@ while read i; do
 			;;
 		%ARCH%)
 			echo "arch = $i"    >> .PKGINFO
+			pkg_arch="$i"
 			;;
 		%BUILDDATE%)
 			echo "builddate = $(date -u "+%s")"    >> .PKGINFO
@@ -249,7 +249,7 @@ while read i; do
 			echo "backup = ${i%%$'\t'*}"   >> .PKGINFO
 			;;
 	esac
-done
+done < <(cat "$pkg_dir"/{desc,files})
 
 comp_files=".PKGINFO"
 
