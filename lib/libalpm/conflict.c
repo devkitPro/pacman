@@ -315,19 +315,16 @@ void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 const alpm_file_t *_alpm_filelist_contains(alpm_filelist_t *filelist,
 		const char *name)
 {
-	size_t i;
-	const alpm_file_t *file;
+	alpm_file_t key;
 
 	if(!filelist) {
 		return NULL;
 	}
 
-	for(file = filelist->files, i = 0; i < filelist->count; file++, i++) {
-		if(strcmp(file->name, name) == 0) {
-			return file;
-		}
-	}
-	return NULL;
+	key.name = (char *)name;
+
+	return bsearch(&key, filelist->files, filelist->count,
+			sizeof(alpm_file_t), _alpm_files_cmp);
 }
 
 static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
