@@ -239,6 +239,16 @@ static int sync_cleancache(int level)
 				continue;
 			}
 
+			/* skip package deltas, we aren't smart enough to clean these yet */
+			if(fnmatch("*.delta", ent->d_name, 0) == 0) {
+				continue;
+			}
+
+			/* skip any partial downloads */
+			if(fnmatch("*.part", ent->d_name, 0) == 0) {
+				continue;
+			}
+
 			/* build the full filepath */
 			snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
 
