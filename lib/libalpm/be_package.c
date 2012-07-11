@@ -248,53 +248,6 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 	return 0;
 }
 
-static void files_merge(alpm_file_t a[], alpm_file_t b[], alpm_file_t c[],
-		size_t m, size_t n)
-{
-	size_t i = 0, j = 0, k = 0;
-	while(i < m && j < n) {
-		if(strcmp(a[i].name, b[j].name) < 0) {
-			c[k++] = a[i++];
-		} else {
-			c[k++] = b[j++];
-		}
-	}
-	while(i < m) {
-		c[k++] = a[i++];
-	}
-	while(j < n) {
-		c[k++] = b[j++];
-	}
-}
-
-static alpm_file_t *files_msort(alpm_file_t *files, size_t n)
-{
-	alpm_file_t *work;
-	size_t blocksize = 1;
-
-	CALLOC(work, n, sizeof(alpm_file_t), return NULL);
-
-	for(blocksize = 1; blocksize < n; blocksize *= 2) {
-		size_t i, max_extent = 0;
-		for(i = 0; i < n - blocksize; i += 2 * blocksize) {
-			/* this limits our actual merge to the length of the array, since we will
-			 * not likely be a perfect power of two. */
-			size_t right_blocksize = blocksize;
-			if(i + blocksize * 2 > n) {
-				right_blocksize = n - i - blocksize;
-			}
-			files_merge(files + i, files + i + blocksize, work + i,
-					blocksize, right_blocksize);
-			max_extent = i + blocksize + right_blocksize;
-		}
-		/* ensure we only copy what we actually touched on this merge pass,
-		 * no more, no less */
-		memcpy(files, work, max_extent * sizeof(alpm_file_t));
-	}
-	free(work);
-	return files;
-}
-
 /**
  * Validate a package.
  * @param handle the context handle
@@ -536,8 +489,9 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 			/* "checking for conflicts" requires a sorted list, ensure that here */
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"sorting package filelist for %s\n", pkgfile);
-			newpkg->files.files = files_msort(newpkg->files.files,
-					newpkg->files.count);
+
+			qsort(newpkg->files.files, newpkg->files.count,
+					sizeof(alpm_file_t), _alpm_files_cmp);
 		}
 		newpkg->infolevel |= INFRQ_FILES;
 	}
