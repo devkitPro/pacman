@@ -224,29 +224,30 @@ static int sync_cleancache(int level)
 				continue;
 			}
 
-			/* skip signature files - they are removed with their package file */
-			if(fnmatch("*.sig", ent->d_name, 0) == 0) {
-				continue;
-			}
+			if (level <= 1) {
+				static const char * const glob_skips[] = {
+					/* skip signature files - they are removed with their package file */
+					"*.sig",
+					/* skip package database within the cache directory */
+					"*.db*",
+					/* skip source packages within the cache directory */
+					"*.src.tar.*",
+					/* skip package deltas, we aren't smart enough to clean these yet */
+					"*.delta",
+					/* skip any partial downloads */
+					"*.part"
+				};
+				size_t j;
 
-			/* skip package database within the cache directory */
-			if(fnmatch("*.db*", ent->d_name, 0) == 0) {
-				continue;
-			}
-
-			/* skip source packages within the cache directory */
-			if(fnmatch("*.src.tar*", ent->d_name, 0) == 0) {
-				continue;
-			}
-
-			/* skip package deltas, we aren't smart enough to clean these yet */
-			if(fnmatch("*.delta", ent->d_name, 0) == 0) {
-				continue;
-			}
-
-			/* skip any partial downloads */
-			if(fnmatch("*.part", ent->d_name, 0) == 0) {
-				continue;
+				for(j = 0; j < sizeof(glob_skips) / sizeof(glob_skips[0]); j++) {
+					if(fnmatch(glob_skips[j], ent->d_name, 0) == 0) {
+						delete = 0;
+						break;
+					}
+				}
+				if(delete == 0) {
+					continue;
+				}
 			}
 
 			/* build the full filepath */
