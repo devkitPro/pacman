@@ -126,7 +126,6 @@ struct __alpm_pkg_t {
 };
 
 alpm_file_t *_alpm_file_copy(alpm_file_t *dest, const alpm_file_t *src);
-int _alpm_files_cmp(const void *f1, const void *f2);
 
 alpm_pkg_t *_alpm_pkg_new(void);
 int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr);

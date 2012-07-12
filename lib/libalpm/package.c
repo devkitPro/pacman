@@ -450,15 +450,6 @@ alpm_file_t *_alpm_file_copy(alpm_file_t *dest,
 	return dest;
 }
 
-/* Helper function for comparing files list entries
- */
-int _alpm_files_cmp(const void *f1, const void *f2)
-{
-	const alpm_file_t *file1 = f1;
-	const alpm_file_t *file2 = f2;
-	return strcmp(file1->name, file2->name);
-}
-
 alpm_pkg_t *_alpm_pkg_new(void)
 {
 	alpm_pkg_t *pkg;

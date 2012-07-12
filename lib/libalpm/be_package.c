@@ -37,6 +37,7 @@
 #include "handle.h"
 #include "package.h"
 #include "deps.h"
+#include "filelist.h"
 
 struct package_changelog {
 	struct archive *archive;

@@ -41,7 +41,7 @@
 #include "db.h"
 #include "deps.h"
 #include "handle.h"
-#include "conflict.h"
+#include "filelist.h"
 
 /**
  * @brief Add a package removal action to the transaction.
@@ -323,7 +323,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 		} else if(files < 0) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"keeping directory %s (could not count files)\n", file);
-		} else if(newpkg && _alpm_filelist_contains(alpm_pkg_get_files(newpkg),
+		} else if(newpkg && alpm_filelist_contains(alpm_pkg_get_files(newpkg),
 					fileobj->name)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"keeping directory %s (in new package)\n", file);
@@ -343,7 +343,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 					continue;
 				}
 				filelist = alpm_pkg_get_files(local_pkg);
-				if(_alpm_filelist_contains(filelist, fileobj->name)) {
+				if(alpm_filelist_contains(filelist, fileobj->name)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"keeping directory %s (owned by %s)\n", file, local_pkg->name);
 					found = 1;
@@ -440,7 +440,7 @@ static int remove_package_files(alpm_handle_t *handle,
 		for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 			const alpm_backup_t *backup = b->data;
 			/* safety check (fix the upgrade026 pactest) */
-			if(!_alpm_filelist_contains(newfiles, backup->name)) {
+			if(!alpm_filelist_contains(newfiles, backup->name)) {
 				continue;
 			}
 			_alpm_log(handle, ALPM_LOG_DEBUG, "adding %s to the skip_remove array\n",

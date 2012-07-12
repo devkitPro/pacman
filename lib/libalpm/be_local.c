@@ -37,6 +37,7 @@
 #include "handle.h"
 #include "package.h"
 #include "deps.h"
+#include "filelist.h"
 
 static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
 

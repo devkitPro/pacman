@@ -41,6 +41,7 @@ libalpm_la_SOURCES = \
 	diskspace.h diskspace.c \
 	dload.h dload.c \
 	error.c \
+	filelist.h filelist.c \
 	graph.h graph.c \
 	group.h group.c \
 	handle.h handle.c \

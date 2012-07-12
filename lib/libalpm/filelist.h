@@ -1,8 +1,7 @@
 /*
- *  conflict.h
+ *  filelist.h
  *
- *  Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>
- *  Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
+ *  Copyright (c) 2012 Pacman Development Team <pacman-dev@archlinux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,22 +16,21 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_CONFLICT_H
-#define _ALPM_CONFLICT_H
+#ifndef _ALPM_FILELIST_H
+#define _ALPM_FILELIST_H
 
 #include "alpm.h"
-#include "db.h"
-#include "package.h"
 
-alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict);
-void _alpm_conflict_free(alpm_conflict_t *conflict);
-alpm_list_t *_alpm_innerconflicts(alpm_handle_t *handle, alpm_list_t *packages);
-alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages);
-alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
-		alpm_list_t *upgrade, alpm_list_t *remove);
+enum filelist_op {
+	DIFFERENCE = 0,
+	INTERSECT = 1
+};
 
-void _alpm_fileconflict_free(alpm_fileconflict_t *conflict);
+alpm_list_t *_alpm_filelist_operation(alpm_filelist_t *filesA,
+		alpm_filelist_t *filesB, enum filelist_op operation);
 
-#endif /* _ALPM_CONFLICT_H */
+int _alpm_files_cmp(const void *f1, const void *f2);
+
+#endif /* _ALPM_FILELIST_H */
 
 /* vim: set ts=2 sw=2 noet: */

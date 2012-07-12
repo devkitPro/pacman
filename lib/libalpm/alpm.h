@@ -871,7 +871,7 @@ alpm_filelist_t *alpm_pkg_get_files(alpm_pkg_t *pkg);
  * "<filename>\t<md5sum>", where the given md5sum is that of
  * the file as provided by the package.
  * @param pkg a pointer to package
- * @return a reference to an internal list of strings.
+ * @return a reference to a list of alpm_backup_t objects
  */
 alpm_list_t *alpm_pkg_get_backup(alpm_pkg_t *pkg);
 
@@ -948,6 +948,20 @@ int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
 
 /* End of alpm_pkg */
 /** @} */
+
+/*
+ * Filelists
+ */
+
+/** Determines whether a package filelist contains a given path.
+ * The provided path should be relative to the install root with no leading
+ * slashes, e.g. "etc/localtime". When searching for directories, the path must
+ * have a trailing slash.
+ * @param filelist a pointer to a package filelist
+ * @param path the path to search for in the package
+ * @return a pointer to the matching file or NULL if not found
+ */
+alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
 
 /*
  * Signatures
