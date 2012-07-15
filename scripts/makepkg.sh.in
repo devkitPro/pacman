@@ -59,6 +59,7 @@ DEP_BIN=0
 FORCE=0
 INFAKEROOT=0
 GENINTEG=0
+HOLDVER=0
 SKIPCHECKSUMS=0
 SKIPPGPCHECK=0
 INSTALL=0
@@ -401,7 +402,7 @@ download_git() {
 			plain "$(gettext "Aborting...")"
 			exit 1
 		fi
-	else
+	elif (( ! HOLDVER )); then
 		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "git"
 		cd_safe "$dir"
 		if ! git fetch --all -p; then
@@ -476,7 +477,7 @@ download_svn() {
 			plain "$(gettext "Aborting...")"
 			exit 1
 		fi
-	else
+	elif (( ! HOLDVER )); then
 		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "svn"
 		cd_safe "$dir"
 		if ! svn update; then
@@ -2111,6 +2112,7 @@ usage() {
 	printf -- "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
 	printf -- "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
+	printf -- "$(gettext "  --holdver        Do not update VCS sources")\n"
 	printf -- "$(gettext "  --key <key>      Specify a key to use for %s signing instead of the default")\n" "gpg"
 	printf -- "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
@@ -2153,7 +2155,7 @@ ARGLIST=("$@")
 # Parse Command Line Options.
 OPT_SHORT="AcdefFghiLmop:rRsSV"
 OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'config:' 'force' 'geninteg'
-          'help' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
+          'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
           'nocheck' 'nodeps' 'noextract' 'nosign' 'pkg:' 'repackage' 'rmdeps'
           'skipchecksums' 'skipinteg' 'skippgpcheck' 'skippgpcheck' 'sign'
           'source' 'syncdeps' 'version')
@@ -2186,6 +2188,7 @@ while true; do
 		-f|--force)       FORCE=1 ;;
 		-F)               INFAKEROOT=1 ;;
 		-g|--geninteg)    GENINTEG=1 ;;
+		--holdver)        HOLDVER=1 ;;
 		-i|--install)     INSTALL=1 ;;
 		--key)            shift; GPGKEY=$1 ;;
 		-L|--log)         LOGGING=1 ;;
