@@ -546,7 +546,7 @@ download_sources() {
 		esac
 	done
 
-	if declare -f pkgver >/dev/null; then
+	if declare -f pkgver >/dev/null && (( GET_VCS )); then
 		update_pkgver
 	fi
 
