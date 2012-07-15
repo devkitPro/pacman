@@ -43,7 +43,7 @@ esac
 
 buildfile=${1:-PKGBUILD}
 if [[ ! -f $buildfile ]]; then
-	printf '==> ERROR: %s not found or is not a file: %s\n' "$buildfile"
+	printf '==> ERROR: %s not found or is not a file\n' "$buildfile"
 	exit 1
 fi
 
