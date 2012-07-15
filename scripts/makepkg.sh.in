@@ -513,6 +513,11 @@ download_svn() {
 download_sources() {
 	msg "$(gettext "Retrieving Sources...")"
 
+	local GET_VCS=1
+	if [[ $1 == "fast" ]]; then
+		GET_VCS=0
+	fi
+
 	pushd "$SRCDEST" &>/dev/null
 
 	local netfile
@@ -527,10 +532,10 @@ download_sources() {
 				download_file "$netfile"
 				;;
 			git*)
-				download_git "$netfile"
+				(( GET_VCS )) && download_git "$netfile"
 				;;
 			svn*)
-				download_svn "$netfile"
+				(( GET_VCS )) && download_svn "$netfile"
 				;;
 			*)
 				error "$(gettext "Unknown download protocol: %s")" "$proto"
@@ -2382,7 +2387,7 @@ if (( GENINTEG )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd_safe "$srcdir"
-	download_sources
+	download_sources fast
 	generate_checksums
 	exit 0 # $E_OK
 fi
@@ -2527,10 +2532,11 @@ if (( SOURCEONLY )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd_safe "$srcdir"
-	if ( (( ! SKIPCHECKSUMS )) || \
-			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ) || \
-			(( SOURCEONLY == 2 )); then
+	if (( SOURCEONLY == 2 )); then
 		download_sources
+	elif ( (( ! SKIPCHECKSUMS )) || \
+			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ); then
+		download_sources fast
 	fi
 	check_source_integrity
 	cd_safe "$startdir"
