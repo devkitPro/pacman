@@ -75,6 +75,7 @@ PREPAREFUNC=0
 BUILDFUNC=0
 CHECKFUNC=0
 PKGFUNC=0
+PKGVERFUNC=0
 SPLITPKG=0
 PKGLIST=()
 SIGNPKG=''
@@ -609,9 +610,10 @@ download_sources() {
 		esac
 	done
 
-	if declare -f pkgver >/dev/null && (( GET_VCS )); then
+	if (( PKGVERFUNC && GET_VCS )); then
 		update_pkgver
 		check_pkgver || exit 1
+		check_build_status
 	fi
 
 	popd &>/dev/null
@@ -1875,7 +1877,7 @@ check_sanity() {
 		ret=1
 	fi
 
-	if ! declare -f pkgver >/dev/null; then
+	if (( ! PKGVERFUNC )) ; then
 		check_pkgver || ret=1
 	fi
 
@@ -2111,6 +2113,53 @@ check_software() {
 	fi
 
 	return $ret
+}
+
+check_build_status() {
+	if (( ! SPLITPKG )); then
+		fullver=$(get_full_version)
+		pkgarch=$(get_pkg_arch)
+		if [[ -f $PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT} ]] \
+				 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
+			if (( INSTALL )); then
+				warning "$(gettext "A package has already been built, installing existing package...")"
+				install_package
+				exit $?
+			else
+				error "$(gettext "A package has already been built. (use %s to overwrite)")" "-f"
+				exit 1
+			fi
+		fi
+	else
+		allpkgbuilt=1
+		somepkgbuilt=0
+		for pkg in ${pkgname[@]}; do
+			fullver=$(get_full_version $pkg)
+			pkgarch=$(get_pkg_arch $pkg)
+			if [[ -f $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT} ]]; then
+				somepkgbuilt=1
+			else
+				allpkgbuilt=0
+			fi
+		done
+		if ! (( FORCE || SOURCEONLY || NOBUILD )); then
+			if (( allpkgbuilt )); then
+				if (( INSTALL )); then
+					warning "$(gettext "The package group has already been built, installing existing packages...")"
+					install_package
+					exit $?
+				else
+					error "$(gettext "The package group has already been built. (use %s to overwrite)")" "-f"
+					exit 1
+				fi
+			fi
+			if (( somepkgbuilt && ! PKGVERFUNC )); then
+				error "$(gettext "Part of the package group has already been built. (use %s to overwrite)")" "-f"
+				exit 1
+			fi
+		fi
+		unset allpkgbuilt somepkgbuilt
+	fi
 }
 
 backup_package_variables() {
@@ -2474,6 +2523,10 @@ if (( GENINTEG )); then
 	exit 0 # $E_OK
 fi
 
+if declare -f pkgver >/dev/null; then
+	PKGVERFUNC=1
+fi
+
 # check the PKGBUILD for some basic requirements
 check_sanity || exit 1
 
@@ -2520,50 +2573,8 @@ if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]];
 	fi
 fi
 
-
-if (( ! SPLITPKG )); then
-	fullver=$(get_full_version)
-	pkgarch=$(get_pkg_arch)
-	if [[ -f $PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT} ]] \
-			 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
-		if (( INSTALL )); then
-			warning "$(gettext "A package has already been built, installing existing package...")"
-			install_package
-			exit $?
-		else
-			error "$(gettext "A package has already been built. (use %s to overwrite)")" "-f"
-			exit 1
-		fi
-	fi
-else
-	allpkgbuilt=1
-	somepkgbuilt=0
-	for pkg in ${pkgname[@]}; do
-		fullver=$(get_full_version $pkg)
-		pkgarch=$(get_pkg_arch $pkg)
-		if [[ -f $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT} ]]; then
-			somepkgbuilt=1
-		else
-			allpkgbuilt=0
-		fi
-	done
-	if ! (( FORCE || SOURCEONLY || NOBUILD )); then
-		if (( allpkgbuilt )); then
-			if (( INSTALL )); then
-				warning "$(gettext "The package group has already been built, installing existing packages...")"
-				install_package
-				exit $?
-			else
-				error "$(gettext "The package group has already been built. (use %s to overwrite)")" "-f"
-				exit 1
-			fi
-		fi
-		if (( somepkgbuilt )); then
-			error "$(gettext "Part of the package group has already been built. (use %s to overwrite)")" "-f"
-			exit 1
-		fi
-	fi
-	unset allpkgbuilt somepkgbuilt
+if (( ! PKGVERFUNC )); then
+	check_build_status
 fi
 
 # Run the bare minimum in fakeroot
