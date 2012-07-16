@@ -66,6 +66,11 @@ LT_INIT
 LIB_VERSION=`expr lib_current - lib_age`.lib_age.lib_revision
 LIB_VERSION_INFO="lib_current:lib_revision:lib_age"
 
+# Respect empty CFLAGS during compiler tests
+if test "x$CFLAGS" != "x"; then
+  CFLAGS=""
+fi
+
 # Set subsitution values for version stuff in Makefiles and anywhere else,
 # and put LIB_VERSION in config.h
 AC_SUBST(LIB_VERSION)

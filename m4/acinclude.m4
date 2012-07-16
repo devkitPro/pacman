@@ -40,11 +40,15 @@ AC_DEFUN([GCC_STACK_PROTECT_CC],[
 
 dnl GCC_FORTIFY_SOURCE_CC
 dnl checks -D_FORTIFY_SOURCE with the C compiler, if it exists then updates
-dnl CFLAGS
+dnl CPPFLAGS
 AC_DEFUN([GCC_FORTIFY_SOURCE_CC],[
   AC_LANG_ASSERT(C)
   if test "X$CC" != "X"; then
     AC_MSG_CHECKING(for FORTIFY_SOURCE support)
+    fs_old_cppflags="$CPPFLAGS"
+    fs_old_cflags="$CFLAGS"
+    CPPFLAGS="$CPPFLAGS -D_FORTIFY_SOURCE=2"
+    CFLAGS="$CFLAGS -Werror"
     AC_TRY_COMPILE([#include <features.h>], [
       int main() {
       #if !(__GNUC_PREREQ (4, 1) )
@@ -54,10 +58,12 @@ AC_DEFUN([GCC_FORTIFY_SOURCE_CC],[
       }
     ], [
       AC_MSG_RESULT(yes)
-      CPPFLAGS="$CPPFLAGS -D_FORTIFY_SOURCE=2"
+      CFLAGS="$df_old_cflags"
     ], [
       AC_MSG_RESULT(no)
-  ])
+      CPPFLAGS="$df_old_cppflags"
+      CFLAGS="$df_old_cflags"
+    ])
   fi
 ])
 
