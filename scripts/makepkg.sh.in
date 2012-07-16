@@ -548,6 +548,7 @@ download_sources() {
 
 	if declare -f pkgver >/dev/null && (( GET_VCS )); then
 		update_pkgver
+		check_pkgver || exit 1
 	fi
 
 	popd &>/dev/null
@@ -1787,7 +1788,7 @@ check_sanity() {
 	# check for no-no's in the build script
 	local i
 	local ret=0
-	for i in 'pkgname' 'pkgrel' 'pkgver'; do
+	for i in 'pkgname' 'pkgrel'; do
 		if [[ -z ${!i} ]]; then
 			error "$(gettext "%s is not allowed to be empty.")" "$i"
 			ret=1
@@ -1811,14 +1812,9 @@ check_sanity() {
 		ret=1
 	fi
 
-	awk -F'=' '$1 ~ /^[[:space:]]*pkgver$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
-	while IFS='=' read -r _ i; do
-		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
-		if [[ $i = *[[:space:]:-]* ]]; then
-			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
-			return 1
-		fi
-	done || ret=1
+	if ! declare -f pkgver >/dev/null; then
+		check_pkgver || ret=1
+	fi
 
 	awk -F'=' '$1 ~ /^[[:space:]]*pkgrel$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
 	while IFS='=' read -r _ i; do
@@ -1944,6 +1940,26 @@ check_sanity() {
 			ret=1
 		fi
 	done
+
+	return $ret
+}
+
+check_pkgver() {
+	local ret=0
+
+	if [[ -z ${pkgver} ]]; then
+		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
+		ret=1
+	fi
+
+	awk -F'=' '$1 ~ /^[[:space:]]*pkgver$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
+	while IFS='=' read -r _ i; do
+		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
+		if [[ $i = *[[:space:]:-]* ]]; then
+			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
+			return 1
+		fi
+	done || ret=1
 
 	return $ret
 }
