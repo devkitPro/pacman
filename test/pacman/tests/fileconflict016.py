@@ -7,11 +7,14 @@ lp1.files = ["usr/",
 self.addpkg2db("local", lp1)
 
 p1 = pmpkg("pkg1")
-p1.files = ["lib/foo"]
+p1.files = ["lib/",
+            "lib/foo"]
 self.addpkg2db("sync", p1)
 
 p2 = pmpkg("pkg2")
-p2.files = ["usr/lib/foo"]
+p2.files = ["usr/",
+            "usr/lib/",
+	    "usr/lib/foo"]
 self.addpkg2db("sync", p2)
 
 self.args = "-S pkg1 pkg2"

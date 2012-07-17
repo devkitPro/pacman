@@ -7,11 +7,15 @@ lp.files = ["dir/realdir/",
 self.addpkg2db("local", lp)
 
 p1 = pmpkg("pkg1")
-p1.files = ["dir/realdir/file"]
+p1.files = ["dir/",
+            "dir/realdir/",
+            "dir/realdir/file"]
 self.addpkg(p1)
 
 p2 = pmpkg("pkg2")
-p2.files = ["dir/symdir/file"]
+p2.files = ["dir/",
+            "dir/symdir/",
+            "dir/symdir/file"]
 self.addpkg(p2)
 
 self.args = "-U %s" % " ".join([p.filename() for p in p1, p2])
