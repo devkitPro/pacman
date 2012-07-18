@@ -210,6 +210,7 @@ typedef struct _alpm_file_t {
 typedef struct _alpm_filelist_t {
 	size_t count;
 	alpm_file_t *files;
+	char **resolved_path;
 } alpm_filelist_t;
 
 /** Local package or package file backup entry */

@@ -540,6 +540,9 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 			}
 		}
 		newpkg->files.count = pkg->files.count;
+		/* deliberately do not copy resolved_path as this is only used
+		 * during conflict checking and the sorting of list does not readily
+		 * allow keeping its efficient memory usage when copying */
 	}
 
 	/* internal */
@@ -590,9 +593,15 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	if(pkg->files.count) {
 		size_t i;
 		for(i = 0; i < pkg->files.count; i++) {
-			free(pkg->files.files[i].name);
+			FREE(pkg->files.files[i].name);
 		}
 		free(pkg->files.files);
+		if(pkg->files.resolved_path) {
+			for(i = 0; i < pkg->files.count; i++) {
+				free(pkg->files.resolved_path[i]);
+			}
+			free(pkg->files.resolved_path);
+		}
 	}
 	alpm_list_free_inner(pkg->backup, (alpm_list_fn_free)_alpm_backup_free);
 	alpm_list_free(pkg->backup);
