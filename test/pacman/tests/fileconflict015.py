@@ -13,5 +13,3 @@ self.args = "-S pkg1 pkg2"
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("!PKG_EXIST=pkg1")
 self.addrule("!PKG_EXIST=pkg2")
-
-self.expectfailure = True

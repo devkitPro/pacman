@@ -82,27 +82,52 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 	size_t ctrA = 0, ctrB = 0;
 
 	while(ctrA < filesA->count && ctrB < filesB->count) {
+		int cmp, isdirA, isdirB;
+		char *strA, *strB;
+
 		alpm_file_t *fileA = filesA->files + ctrA;
 		alpm_file_t *fileB = filesB->files + ctrB;
-		const char *strA = fileA->name;
-		const char *strB = fileB->name;
-		/* skip directories, we don't care about them */
+
+		isdirA = 0;
+		strA = fileA->name;
 		if(strA[strlen(strA)-1] == '/') {
+			isdirA = 1;
+			strA = strndup(fileA->name, strlen(strA)-1);
+		}
+
+		isdirB = 0;
+		strB = fileB->name;
+		if(strB[strlen(strB)-1] == '/') {
+			isdirB = 1;
+			strB = strndup(fileB->name, strlen(strB)-1);
+		}
+
+		cmp = strcmp(strA, strB);
+		if(cmp < 0) {
 			ctrA++;
-		} else if(strB[strlen(strB)-1] == '/') {
+		} else if(cmp > 0) {
 			ctrB++;
 		} else {
-			int cmp = strcmp(strA, strB);
-			if(cmp < 0) {
-				ctrA++;
-			} else if(cmp > 0) {
-				ctrB++;
-			} else {
-				/* item in both, qualifies as an intersect */
+			/* TODO: this creates conflicts between a symlink to a directory in
+			 * one package and a real directory in the other. For example,
+			 * lib -> /usr/lib in pkg1 and /lib in pkg2.  This would be allowed
+			 * when installing one package at a time _provided_ pkg1 is installed
+			 * first. This will need adjusted if the order of package install can
+			 * be guaranteed to install the symlink first */
+
+			/* when not directories, item in both qualifies as an intersect */
+			if(! (isdirA && isdirB)) {
 				ret = alpm_list_add(ret, fileA);
-				ctrA++;
-				ctrB++;
 			}
+			ctrA++;
+			ctrB++;
+		}
+
+		if(isdirA) {
+			free(strA);
+		}
+		if(isdirB) {
+			free(strB);
 		}
 	}
 
