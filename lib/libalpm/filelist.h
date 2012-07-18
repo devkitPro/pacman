@@ -21,13 +21,12 @@
 
 #include "alpm.h"
 
-enum filelist_op {
-	DIFFERENCE = 0,
-	INTERSECT = 1
-};
 
-alpm_list_t *_alpm_filelist_operation(alpm_filelist_t *filesA,
-		alpm_filelist_t *filesB, enum filelist_op operation);
+alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
+		alpm_filelist_t *filesB);
+
+alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
+		alpm_filelist_t *filesB);
 
 int _alpm_files_cmp(const void *f1, const void *f2);
 

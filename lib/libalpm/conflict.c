@@ -367,8 +367,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		for(j = i->next; j; j = j->next) {
 			alpm_list_t *common_files;
 			alpm_pkg_t *p2 = j->data;
-			common_files = _alpm_filelist_operation(alpm_pkg_get_files(p1),
-					alpm_pkg_get_files(p2), INTERSECT);
+			common_files = _alpm_filelist_intersection(alpm_pkg_get_files(p1),
+					alpm_pkg_get_files(p2));
 
 			if(common_files) {
 				alpm_list_t *k;
@@ -400,8 +400,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		if(dbpkg) {
 			alpm_list_t *difference;
 			/* older ver of package currently installed */
-			difference = _alpm_filelist_operation(alpm_pkg_get_files(p1),
-					alpm_pkg_get_files(dbpkg), DIFFERENCE);
+			difference = _alpm_filelist_difference(alpm_pkg_get_files(p1),
+					alpm_pkg_get_files(dbpkg));
 			tmpfiles.count = alpm_list_count(difference);
 			tmpfiles.files = alpm_list_to_array(difference, tmpfiles.count,
 					sizeof(alpm_file_t));
@@ -533,7 +533,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				if(handle->pm_errno == ALPM_ERR_MEMORY) {
 					FREELIST(conflicts);
 					if(dbpkg) {
-						/* only freed if it was generated from filelist_operation() */
+						/* only freed if it was generated from _alpm_filelist_difference() */
 						free(tmpfiles.files);
 					}
 					return NULL;
@@ -541,7 +541,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			}
 		}
 		if(dbpkg) {
-			/* only freed if it was generated from filelist_operation() */
+			/* only freed if it was generated from _alpm_filelist_difference() */
 			free(tmpfiles.files);
 		}
 	}

@@ -22,16 +22,12 @@
 /* libalpm */
 #include "filelist.h"
 
-/* Returns a set operation on the provided two lists of files.
+/* Returns the difference of the provided two lists of files.
  * Pre-condition: both lists are sorted!
  * When done, free the list but NOT the contained data.
- *
- * Operations:
- *   DIFFERENCE - a difference operation is performed. filesA - filesB.
- *   INTERSECT - an intersection operation is performed. filesA & filesB.
  */
-alpm_list_t *_alpm_filelist_operation(alpm_filelist_t *filesA,
-		alpm_filelist_t *filesB, enum filelist_op operation)
+alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
+		alpm_filelist_t *filesB)
 {
 	alpm_list_t *ret = NULL;
 	size_t ctrA = 0, ctrB = 0;
@@ -49,26 +45,20 @@ alpm_list_t *_alpm_filelist_operation(alpm_filelist_t *filesA,
 		} else {
 			int cmp = strcmp(strA, strB);
 			if(cmp < 0) {
-				if(operation == DIFFERENCE) {
-					/* item only in filesA, qualifies as a difference */
-					ret = alpm_list_add(ret, fileA);
-				}
+				/* item only in filesA, qualifies as a difference */
+				ret = alpm_list_add(ret, fileA);
 				ctrA++;
 			} else if(cmp > 0) {
 				ctrB++;
 			} else {
-				if(operation == INTERSECT) {
-					/* item in both, qualifies as an intersect */
-					ret = alpm_list_add(ret, fileA);
-				}
 				ctrA++;
 				ctrB++;
 			}
-	  }
+		}
 	}
 
-	/* if doing a difference, ensure we have completely emptied pA */
-	while(operation == DIFFERENCE && ctrA < filesA->count) {
+	/* ensure we have completely emptied pA */
+	while(ctrA < filesA->count) {
 		alpm_file_t *fileA = filesA->files + ctrA;
 		const char *strA = fileA->name;
 		/* skip directories */
@@ -76,6 +66,44 @@ alpm_list_t *_alpm_filelist_operation(alpm_filelist_t *filesA,
 			ret = alpm_list_add(ret, fileA);
 		}
 		ctrA++;
+	}
+
+	return ret;
+}
+
+/* Returns the intersection of the provided two lists of files.
+ * Pre-condition: both lists are sorted!
+ * When done, free the list but NOT the contained data.
+ */
+alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
+		alpm_filelist_t *filesB)
+{
+	alpm_list_t *ret = NULL;
+	size_t ctrA = 0, ctrB = 0;
+
+	while(ctrA < filesA->count && ctrB < filesB->count) {
+		alpm_file_t *fileA = filesA->files + ctrA;
+		alpm_file_t *fileB = filesB->files + ctrB;
+		const char *strA = fileA->name;
+		const char *strB = fileB->name;
+		/* skip directories, we don't care about them */
+		if(strA[strlen(strA)-1] == '/') {
+			ctrA++;
+		} else if(strB[strlen(strB)-1] == '/') {
+			ctrB++;
+		} else {
+			int cmp = strcmp(strA, strB);
+			if(cmp < 0) {
+				ctrA++;
+			} else if(cmp > 0) {
+				ctrB++;
+			} else {
+				/* item in both, qualifies as an intersect */
+				ret = alpm_list_add(ret, fileA);
+				ctrA++;
+				ctrB++;
+			}
+		}
 	}
 
 	return ret;
