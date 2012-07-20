@@ -217,9 +217,8 @@ alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
 
 	while(ctrA < filesA->count && ctrB < filesB->count) {
 		alpm_file_t *fileA = filesA->files + ctrA;
-		alpm_file_t *fileB = filesB->files + ctrB;
-		const char *strA = fileA->name;
-		const char *strB = fileB->name;
+		const char *strA = filesA->resolved_path[ctrA];
+		const char *strB = filesB->resolved_path[ctrB];
 		/* skip directories, we don't care about them */
 		if(strA[strlen(strA)-1] == '/') {
 			ctrA++;

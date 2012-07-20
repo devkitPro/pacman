@@ -396,6 +396,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "searching for filesystem conflicts: %s\n",
 				p1->name);
 		dbpkg = _alpm_db_get_pkgfromcache(handle->db_local, p1->name);
+		_alpm_filelist_resolve(handle, alpm_pkg_get_files(dbpkg));
 
 		/* Do two different checks here. If the package is currently installed,
 		 * then only check files that are new in the new package. If the package
