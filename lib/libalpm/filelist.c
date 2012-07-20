@@ -268,21 +268,18 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 		int cmp, isdirA, isdirB;
 		char *strA, *strB;
 
-		alpm_file_t *fileA = filesA->files + ctrA;
-		alpm_file_t *fileB = filesB->files + ctrB;
-
 		isdirA = 0;
-		strA = fileA->name;
+		strA = filesA->resolved_path[ctrA];
 		if(strA[strlen(strA)-1] == '/') {
 			isdirA = 1;
-			strA = strndup(fileA->name, strlen(strA)-1);
+			strA = strndup(filesA->resolved_path[ctrA], strlen(strA)-1);
 		}
 
 		isdirB = 0;
-		strB = fileB->name;
+		strB = filesB->resolved_path[ctrB];
 		if(strB[strlen(strB)-1] == '/') {
 			isdirB = 1;
-			strB = strndup(fileB->name, strlen(strB)-1);
+			strB = strndup(filesB->resolved_path[ctrB], strlen(strB)-1);
 		}
 
 		cmp = strcmp(strA, strB);
@@ -300,7 +297,7 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 
 			/* when not directories, item in both qualifies as an intersect */
 			if(! (isdirA && isdirB)) {
-				ret = alpm_list_add(ret, fileA);
+				ret = alpm_list_add(ret, filesA->files + ctrA);
 			}
 			ctrA++;
 			ctrB++;

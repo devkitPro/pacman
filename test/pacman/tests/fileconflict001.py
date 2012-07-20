@@ -25,5 +25,3 @@ self.addrule("!PKG_EXIST=pkg1")
 self.addrule("!PKG_EXIST=pkg2")
 self.addrule("FILE_EXIST=dir/realdir/realfile")
 self.addrule("!FILE_EXIST=dir/realdir/file")
-
-self.expectfailure = True
