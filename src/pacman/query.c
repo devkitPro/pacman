@@ -38,23 +38,6 @@
 
 #define LOCAL_PREFIX "local/"
 
-static char *resolve_path(const char *file)
-{
-	char *str = NULL;
-
-	str = calloc(PATH_MAX, sizeof(char));
-	if(!str) {
-		return NULL;
-	}
-
-	if(!realpath(file, str)) {
-		free(str);
-		return NULL;
-	}
-
-	return str;
-}
-
 /* check if filename exists in PATH */
 static int search_path(char **filename, struct stat *bufptr)
 {
@@ -178,7 +161,7 @@ static int query_fileowner(alpm_list_t *targets)
 		if(strcmp(dname, "") == 0) {
 			rpath = NULL;
 		} else {
-			rpath = resolve_path(dname);
+			rpath = realpath(dname, NULL);
 
 			if(!rpath) {
 				pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
@@ -202,7 +185,7 @@ static int query_fileowner(alpm_list_t *targets)
 				char *ppath, *pdname;
 				const char *pkgfile = file->name;
 
-				/* avoid the costly resolve_path usage if the basenames don't match */
+				/* avoid the costly realpath usage if the basenames don't match */
 				if(strcmp(mbasename(pkgfile), bname) != 0) {
 					continue;
 				}
@@ -225,7 +208,7 @@ static int query_fileowner(alpm_list_t *targets)
 				strcpy(path + rootlen, pkgfile);
 
 				pdname = mdirname(path);
-				ppath = resolve_path(pdname);
+				ppath = realpath(pdname, NULL);
 				free(pdname);
 
 				if(ppath && strcmp(ppath, rpath) == 0) {
