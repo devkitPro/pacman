@@ -109,6 +109,10 @@ It is also possible to change the name of the downloaded file, which is helpful
 with weird URLs and for handling multiple source files with the same
 name. The syntax is: `source=('filename::url')`.
 +
+makepkg also supports building developmental versions of packages using sources
+downloaded from version control systems (VCS). For more information, see
+<<VCS,Using VCS Sources>> below.
++
 Files in the source array with extensions `.sig`, `.sign` or `.asc` are recognized by
 makepkg as PGP signatures and will be automatically used to verify the integrity
 of the corresponding source file.
@@ -391,6 +395,34 @@ same directory as the PKGBUILD script. Then use the install directive:
 The install script does not need to be specified in the source array. A
 template install file is available in '{pkgdatadir}' as 'proto.install' for
 reference with all of the available functions defined.
+
+Using VCS Sources[[VCS]]
+------------------------
+Building a developmental version of a package using sources from a version control
+system (VCS) is enabled by specifying the source in the form
+`source=('folder::url#fragment')`. Currently makepkg supports the `git` protocol.
+
+The source URL is divided into three components:
+
+*folder*::
+	(optional) Specifies an alternate folder name for makepkg to download the VCS
+	source into.
+
+*url*::
+	The url to the VCS repo. This must include the the vcs in the URL protocol for
+	makepkg to recognize this as a VCS source.  If the protocol does not include
+	the VCS name, it can be added by prefixing the URL with `vcs+`. For example,
+	using a git repository over `http` would have a source URL in the form
+	`git+http://...`.
+
+*fragment*::
+	(optional) Allows specifying a revision number or branch for makepkg to checkout
+	from the VCS. For example, to checkout a given revision, the source line would
+	have the format `source=(url#revision=123)`. The available fragments depends on
+	the VCS being used:
+
+	*git*;;
+		branch, commit, tag
 
 Example
 -------
