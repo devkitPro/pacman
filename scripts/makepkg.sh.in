@@ -199,7 +199,7 @@ get_filepath() {
 	local proto="$(get_protocol "$1")"
 
 	case $proto in
-		git*|svn*)
+		git*|hg*|svn*)
 			if [[ -d "$startdir/$file" ]]; then
 				file="$startdir/$file"
 			elif [[ -d "$SRCDEST/$file" ]]; then
@@ -235,7 +235,7 @@ get_filename() {
 	local proto=$(get_protocol "$netfile")
 
 	case $proto in
-		git*|svn*)
+		git*|hg*|svn*)
 			filename=${netfile##*/}
 			filename=${filename%%#*}
 			# fall-through
@@ -450,6 +450,66 @@ download_git() {
 	popd &>/dev/null
 }
 
+download_hg() {
+	local netfile=$1
+
+	local fragment=${netfile##*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
+
+	local url=$(get_url "$netfile")
+	url=${url##*hg+}
+	url=${url%%#*}
+
+	if [[ ! -d "$dir" ]]; then
+		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "hg"
+		if ! hg clone "$url" "$dir"; then
+			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "hg"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif (( ! HOLDVER )); then
+		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "hg"
+		cd_safe "$dir"
+		if ! hg pull -u; then
+			# only warn on failure to allow offline builds
+			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "hg"
+		fi
+	fi
+
+	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "hg"
+	pushd "$srcdir" &>/dev/null
+	rm -rf "${dir##*/}"
+
+	local ref
+	if [[ -n $fragment ]]; then
+		case ${fragment%%=*} in
+			branch|revision|tag)
+				ref=('-u' "${fragment##*=}")
+				;;
+			*)
+				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
+				plain "$(gettext "Aborting...")"
+				exit 1
+		esac
+	fi
+
+	if ! hg clone "${ref[@]}" "$dir" "${dir##*/}"; then
+		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "hg"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	popd &>/dev/null
+}
+
 download_svn() {
 	local netfile=$1
 
@@ -534,6 +594,9 @@ download_sources() {
 				;;
 			git*)
 				(( GET_VCS )) && download_git "$netfile"
+				;;
+			hg*)
+				(( GET_VCS )) && download_hg "$netfile"
 				;;
 			svn*)
 				(( GET_VCS )) && download_svn "$netfile"
@@ -909,7 +972,7 @@ generate_checksums() {
 			proto="$(get_protocol "$netfile")"
 
 			case $proto in
-				git*|svn*)
+				git*|hg*|svn*)
 					sum="SKIP"
 					;;
 				*)
