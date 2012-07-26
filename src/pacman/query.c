@@ -94,7 +94,6 @@ static int query_fileowner(alpm_list_t *targets)
 {
 	int ret = 0;
 	char path[PATH_MAX];
-	const char *root;
 	size_t rootlen;
 	alpm_list_t *t;
 	alpm_db_t *db_local;
@@ -108,14 +107,24 @@ static int query_fileowner(alpm_list_t *targets)
 	/* Set up our root path buffer. We only need to copy the location of root in
 	 * once, then we can just overwrite whatever file was there on the previous
 	 * iteration. */
-	root = alpm_option_get_root(config->handle);
-	rootlen = strlen(root);
-	if(rootlen + 1 > PATH_MAX) {
-		/* we are in trouble here */
-		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
+
+	/* resolve root now so any symlinks in it will only have to be resolved once */
+	if(!realpath(alpm_option_get_root(config->handle), path)) {
+		pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
+				path, strerror(errno));
 		return 1;
 	}
-	strcpy(path, root);
+
+	/* make sure there's enough room to append the package file to path */
+	rootlen = strlen(path);
+	if(rootlen + 2 > PATH_MAX) {
+		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), path, "");
+		return 1;
+	}
+
+	/* append trailing '/' removed by realpath */
+	path[rootlen++] = '/';
+	path[rootlen] = '\0';
 
 	db_local = alpm_get_localdb(config->handle);
 
@@ -201,7 +210,7 @@ static int query_fileowner(alpm_list_t *targets)
 				}
 
 				if(rootlen + 1 + strlen(pkgfile) > PATH_MAX) {
-					pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, pkgfile);
+					pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), path, pkgfile);
 					continue;
 				}
 				/* concatenate our file and the root path */
@@ -210,8 +219,15 @@ static int query_fileowner(alpm_list_t *targets)
 				pdname = mdirname(path);
 				ppath = realpath(pdname, NULL);
 				free(pdname);
+				path[rootlen] = '\0'; /* reset path for error messages */
 
-				if(ppath && strcmp(ppath, rpath) == 0) {
+				if(!ppath) {
+					pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
+							pdname, strerror(errno));
+					continue;
+				}
+
+				if(strcmp(ppath, rpath) == 0) {
 					print_query_fileowner(filename, info);
 					found = 1;
 					free(ppath);
