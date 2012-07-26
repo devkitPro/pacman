@@ -58,7 +58,7 @@ static int search_path(char **filename, struct stat *bufptr)
 
 		/* strip the trailing slash if one exists */
 		while(path[plen - 1] == '/') {
-				path[--plen] = '\0';
+			path[--plen] = '\0';
 		}
 
 		fullname = malloc(plen + flen + 2);
@@ -133,9 +133,16 @@ static int query_fileowner(alpm_list_t *targets)
 		const char *bname;
 		struct stat buf;
 		alpm_list_t *i;
+		size_t len;
 		int found = 0;
 
 		filename = strdup(t->data);
+
+		/* trailing '/' causes lstat to dereference directory symlinks */
+		len = strlen(filename) - 1;
+		while(len > 0 && filename[len] == '/') {
+			filename[len--] = '\0';
+		}
 
 		if(lstat(filename, &buf) == -1) {
 			/*  if it is not a path but a program name, then check in PATH */
