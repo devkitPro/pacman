@@ -296,6 +296,15 @@ If you create any variables of your own in the build function, it is
 recommended to use the bash `local` keyword to scope the variable to inside
 the build function.
 
+prepare() Function
+------------------
+An optional prepare() function can be specified in which operations that are
+to be run in order to prepare the sources for building (such as patching) are
+performed. This function is run after the source extraction and before the
+build() function and is skipped when source extraction is skipped. The
+function is run in `bash -e` mode, meaning any command that exits with a
+non-zero status will cause the function to exit.
+
 check() Function
 ----------------
 An optional check() function can be specified in which a packages test-suite

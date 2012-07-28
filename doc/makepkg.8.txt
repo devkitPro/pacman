@@ -59,11 +59,11 @@ Options
 	installed.
 
 *-e, \--noextract*::
-	Do not extract source files; use whatever source already exists in the
-	src/ directory. This is handy if you want to go into src/ and manually
-	patch or tweak code, then make a package out of the result. Keep in mind
-	that creating a patch may be a better solution to allow others to use
-	your PKGBUILD.
+	Do not extract source files or run the prepare() function (if present);
+	use whatever source already exists in the $srcdir/ directory. This is
+	handy if you want to go into $srcdir/ and manually patch or tweak code,
+	then make a package out of the result. Keep in mind that creating a
+	patch may be a better solution to allow others to use your PKGBUILD.
 
 *-f, \--force*::
 	makepkg will not build a package if a built package already exists in
@@ -116,9 +116,9 @@ Options
 	Disable color in output messages.
 
 *-o, \--nobuild*::
-	Download and extract files only, but do not build them. Useful with the
-	'\--noextract' option if you wish to tweak the files in src/ before
-	building.
+	Download and extract files, run the prepare() function, but do not build
+	them. Useful with the '\--noextract' option if you wish to tweak the files
+	in $srcdir/ before building.
 
 *-p* <buildscript>::
 	Read the package script `buildscript` instead of the `PKGBUILD` default;
