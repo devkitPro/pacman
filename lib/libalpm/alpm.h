@@ -626,7 +626,7 @@ int alpm_db_add_server(alpm_db_t *db, const char *url);
 int alpm_db_remove_server(alpm_db_t *db, const char *url);
 /** @} */
 
-int alpm_db_update(int level, alpm_db_t *db);
+int alpm_db_update(int force, alpm_db_t *db);
 
 /** Get a package entry from a package database.
  * @param db pointer to the package database to get the package from
