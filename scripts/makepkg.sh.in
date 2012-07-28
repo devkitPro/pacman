@@ -71,6 +71,7 @@ LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
 HOLDVER=0
+PREPAREFUNC=0
 BUILDFUNC=0
 CHECKFUNC=0
 PKGFUNC=0
@@ -1003,6 +1004,10 @@ run_function() {
 	fi
 	# reset our shell options
 	eval "$shellopts"
+}
+
+run_prepare() {
+	run_function_safe "prepare"
 }
 
 run_build() {
@@ -2285,6 +2290,9 @@ if (( ${#pkgname[@]} > 1 )); then
 fi
 
 # test for available PKGBUILD functions
+if declare -f prepare >/dev/null; then
+	PREPAREFUNC=1
+fi
 if declare -f build >/dev/null; then
 	BUILDFUNC=1
 fi
@@ -2496,6 +2504,9 @@ else
 	download_sources
 	check_source_integrity
 	extract_sources
+	if (( PREPAREFUNC )); then
+		run_prepare
+	fi
 fi
 
 if (( NOBUILD )); then
