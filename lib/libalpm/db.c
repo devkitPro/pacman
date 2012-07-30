@@ -188,6 +188,7 @@ int SYMEXPORT alpm_db_add_server(alpm_db_t *db, const char *url)
 int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 {
 	char *newurl, *vdata = NULL;
+	int ret = 1;
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
@@ -198,16 +199,18 @@ int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 	if(!newurl) {
 		return -1;
 	}
+
 	db->servers = alpm_list_remove_str(db->servers, newurl, &vdata);
-	free(newurl);
+
 	if(vdata) {
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "removed server URL from database '%s': %s\n",
 				db->treename, newurl);
 		free(vdata);
-		return 0;
+		ret = 0;
 	}
 
-	return 1;
+	free(newurl);
+	return ret;
 }
 
 /** Get the name of a package database. */
