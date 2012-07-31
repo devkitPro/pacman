@@ -136,7 +136,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_servers(const alpm_db_t *db)
 int SYMEXPORT alpm_db_set_servers(alpm_db_t *db, alpm_list_t *servers)
 {
 	ASSERT(db != NULL, return -1);
-	if(db->servers) FREELIST(db->servers);
+	FREELIST(db->servers);
 	db->servers = servers;
 	return 0;
 }
