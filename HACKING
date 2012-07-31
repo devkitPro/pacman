@@ -101,6 +101,50 @@ alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
 	   NOT
 	for(a=0;a<n&&n>0;a++,n--) {}
 
+9.  Declare all variables at the start of the block.
+[source,C]
+-------------------------------------------
+int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
+{
+  char *newurl, *vdata = NULL;
+
+  newurl = url;
+  if(!newurl) {
+    return -1;
+  }
+
+  ...
+
+  if(vdata) {
+    ...
+  }
+
+  return 1;
+}
+-------------------------------------------
+
+    NOT
+
+[source,C]
+-------------------------------------------
+int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
+{
+  char *newurl = url;
+
+  if(!newurl) {
+    return -1;
+  }
+
+  char *vdata = NULL;
+
+  if(vdata) {
+    ...
+  }
+
+  return 1;
+}
+-------------------------------------------
+
 
 Other Concerns
 --------------
