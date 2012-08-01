@@ -26,8 +26,11 @@
 #include <errno.h>
 #include <string.h>
 #include <limits.h>
+#include <dirent.h>
+#include <regex.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
 /* libalpm */
 #include "remove.h"
@@ -299,6 +302,78 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 	return 1;
 }
 
+static void shift_pacsave(alpm_handle_t *handle, const char *file)
+{
+	DIR *dir = NULL;
+	struct dirent *ent;
+	struct stat st;
+	regex_t reg;
+
+	const char *basename;
+	char *dirname;
+	char oldfile[PATH_MAX];
+	char newfile[PATH_MAX];
+	char regstr[PATH_MAX];
+
+	unsigned long log_max = 0;
+	size_t basename_len;
+
+	dirname = mdirname(file);
+	if(!dirname) {
+		return;
+	}
+
+	basename = mbasename(file);
+	basename_len = strlen(basename);
+
+	snprintf(regstr, PATH_MAX, "^%s\\.pacsave\\.([[:digit:]]+)$", basename);
+	if(regcomp(&reg, regstr, REG_EXTENDED | REG_NEWLINE) != 0) {
+		goto cleanup;
+	}
+
+	dir = opendir(dirname);
+	if(dir == NULL) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not open directory: %s: %s\n"),
+							dirname, strerror(errno));
+		goto cleanup;
+	}
+
+	while((ent = readdir(dir)) != NULL) {
+		if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
+			continue;
+		}
+
+		if(regexec(&reg, ent->d_name, 0, 0, 0) == 0) {
+			unsigned long cur_log;
+			cur_log = strtoul(ent->d_name + basename_len + strlen(".pacsave."), NULL, 10);
+			if(cur_log > log_max) {
+				log_max = cur_log;
+			}
+		}
+	}
+
+	/* Shift pacsaves */
+	unsigned long i;
+	for(i = log_max + 1; i > 1; i--) {
+		snprintf(oldfile, PATH_MAX, "%s.pacsave.%lu", file, i-1);
+		snprintf(newfile, PATH_MAX, "%s.pacsave.%lu", file, i);
+		rename(oldfile, newfile);
+	}
+
+	snprintf(oldfile, PATH_MAX, "%s.pacsave", file);
+	if(stat(oldfile, &st) == 0) {
+		snprintf(newfile, PATH_MAX, "%s.1", oldfile);
+		rename(oldfile, newfile);
+	}
+
+	regfree(&reg);
+
+cleanup:
+	free(dirname);
+	closedir(dir);
+}
+
+
 /**
  * @brief Unlink a package file, backing it up if necessary.
  *
@@ -399,6 +474,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 					char *newpath;
 					size_t len = strlen(file) + 8 + 1;
 					MALLOC(newpath, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+					shift_pacsave(handle, file);
 					snprintf(newpath, len, "%s.pacsave", file);
 					if(rename(file, newpath)) {
 						_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
