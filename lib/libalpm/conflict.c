@@ -340,6 +340,8 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 
 	/* check directory is actually in package - used for subdirectory checks */
 	if(!_alpm_filelist_contains(alpm_pkg_get_files(pkg), dirpath)) {
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"directory %s not in package %s\n", dirpath, pkg->name);
 		return 0;
 	}
 
@@ -356,6 +358,9 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 		}
 
 		if(_alpm_filelist_contains(alpm_pkg_get_files(i->data), dirpath)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"file %s also in package %s\n", dirpath,
+					((alpm_pkg_t*)i->data)->name);
 			return 0;
 		}
 	}
@@ -390,6 +395,8 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 				continue;
 			} else {
 				closedir(dir);
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"unowned file %s found in directory\n", path);
 				return 0;
 			}
 		}
@@ -557,7 +564,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				sprintf(dir, "%s/", filestr);
 				if(_alpm_filelist_contains(alpm_pkg_get_files(dbpkg), dir)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"check if all files in %s belong to %s\n",
+							"checking if all files in %s belong to %s\n",
 							dir, dbpkg->name);
 					resolved_conflict = dir_belongsto_pkg(handle, dir, dbpkg);
 				}

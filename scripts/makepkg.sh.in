@@ -643,7 +643,6 @@ get_integlist() {
 
 generate_checksums() {
 	msg "$(gettext "Generating checksums for source files...")"
-	plain ""
 
 	if ! type -p openssl >/dev/null; then
 		error "$(gettext "Cannot find the %s binary required for generating sourcefile checksums.")" "openssl"
