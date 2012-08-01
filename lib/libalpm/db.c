@@ -281,7 +281,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_groupcache(alpm_db_t *db)
 }
 
 /** Searches a database. */
-alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t* needles)
+alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 {
 	ASSERT(db != NULL, return NULL);
 	db->handle->pm_errno = 0;

@@ -719,7 +719,7 @@ static int parseargs(int argc, char *argv[])
  * @param argc
  * @param argv
  */
-static void cl_to_log(int argc, char* argv[])
+static void cl_to_log(int argc, char *argv[])
 {
 	size_t size = 0;
 	int i;

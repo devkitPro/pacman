@@ -65,9 +65,9 @@
  * @return pointer to the first token in str if str is not NULL, NULL if
  * str is NULL
  */
-char* strsep(char** str, const char* delims)
+char *strsep(char **str, const char *delims)
 {
-	char* token;
+	char *token;
 
 	if(*str==NULL) {
 		/* No more tokens */
