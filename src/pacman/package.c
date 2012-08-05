@@ -141,6 +141,8 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	}
 	string_display(_("Name           :"), alpm_pkg_get_name(pkg), cols);
 	string_display(_("Version        :"), alpm_pkg_get_version(pkg), cols);
+	string_display(_("Description    :"), alpm_pkg_get_desc(pkg), cols);
+	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg), cols);
 	string_display(_("URL            :"), alpm_pkg_get_url(pkg), cols);
 	list_display(_("Licenses       :"), alpm_pkg_get_licenses(pkg), cols);
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg), cols);
@@ -164,7 +166,6 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	printf(_("Installed Size : %6.2f %s\n"), size, label);
 
 	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg), cols);
-	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg), cols);
 	string_display(_("Build Date     :"), bdatestr, cols);
 	if(from == ALPM_PKG_FROM_LOCALDB) {
 		string_display(_("Install Date   :"), idatestr, cols);
@@ -197,8 +198,6 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		}
 		alpm_siglist_cleanup(&siglist);
 	}
-
-	string_display(_("Description    :"), alpm_pkg_get_desc(pkg), cols);
 
 	/* Print additional package info if info flag passed more than once */
 	if(from == ALPM_PKG_FROM_LOCALDB && extra) {
