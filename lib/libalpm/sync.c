@@ -127,7 +127,8 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 	alpm_list_t *replacers = NULL;
 	alpm_list_t *k;
 	_alpm_log(handle, ALPM_LOG_DEBUG,
-			"searching for replacements for %s\n", lpkg->name);
+			"searching for replacements for %s in %s\n",
+			lpkg->name, sdb->treename);
 	for(k = _alpm_db_get_pkgcache(sdb); k; k = k->next) {
 		int found = 0;
 		alpm_pkg_t *spkg = k->data;
