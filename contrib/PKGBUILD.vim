@@ -211,10 +211,10 @@ hi def link pbValidSha512sums  Number
 
 " options
 syn keyword pb_k_options options contained
-syn match pbOptions /\(no\)\?\(strip\|docs\|libtool\|emptydirs\|zipman\|ccache\|distcc\|makeflags\|buildflags\)/ contained
+syn match pbOptions /\(no\)\?\(strip\|docs\|libtool\|emptydirs\|zipman\|purge\|upx\|fakeroot\|distcc\|color\|ccache\|check\|sign\|makeflags\|buildflags\)/ contained
 syn match   pbOptionsNeg     /\!/ contained
 syn match   pbOptionsDeprec  /no/ contained
-syn region pbOptionsGroup start=/^options=(/ end=/)/ contains=pb_k_options,pbOptions,pbOptionsNeg,pbOptionsDeprec,pbIllegalOption,shDoubleQuote,shSingleQuote
+syn region pbOptionsGroup start=/^options=(/ end=/)/ contains=pb_k_options,pbOptions,pbOptionsNeg,pbOptionsDeprec,pbIllegalOption
 syn match pbIllegalOption /[^!"'()= ]/ contained contains=pbOptionsDeprec,pbOptions
 
 " noextract
