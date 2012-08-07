@@ -57,13 +57,13 @@ size_t _alpm_filelist_resolve_link(
 		causal_dir = files->files[i].name;
 		causal_dir_len = strlen(causal_dir);
 		if(realpath(path, filename_r) == NULL) {
-			STRDUP(files->resolved_path[i], causal_dir, goto error);
+			files->resolved_path[i] = causal_dir;
 			FREE(filename_r);
 			return i;
 		}
 		causal_dir_r_len = strlen(filename_r + root_len) + 1;
 		if(causal_dir_r_len >= PATH_MAX) {
-			STRDUP(files->resolved_path[i], causal_dir, goto error);
+			files->resolved_path[i] = causal_dir;
 			FREE(filename_r);
 			return i;
 		}
@@ -91,23 +91,25 @@ size_t _alpm_filelist_resolve_link(
 			filename_r_len = filename_len + causal_dir_r_len - causal_dir_len;
 			if(filename_r_len >= PATH_MAX) {
 				/* resolved path is too long */
-				STRDUP(files->resolved_path[i], filename, goto error);
+				files->resolved_path[i] = filename;
 				continue;
 			}
 
 			strcpy(filename_r + causal_dir_r_len, filename + causal_dir_len);
-		} else {
-			filename_r = filename;
 		}
 
 		/* deal with files and paths too long to resolve*/
 		if(filename[filename_len - 1] != '/' || root_len + filename_r_len >= PATH_MAX) {
-			STRDUP(files->resolved_path[i], filename_r, goto error);
+			if(resolving) {
+				STRDUP(files->resolved_path[i], filename_r, goto error);
+			} else {
+				files->resolved_path[i] = filename;
+			}
 			continue;
 		}
 
 		/* construct absolute path and stat() */
-		strcpy(path + root_len, filename_r);
+		strcpy(path + root_len, resolving ? filename_r : filename);
 		exists = !_alpm_lstat(path, &sbuf);
 
 		/* deal with symlinks */
@@ -117,7 +119,11 @@ size_t _alpm_filelist_resolve_link(
 		}
 
 		/* deal with normal directories */
-		STRDUP(files->resolved_path[i], filename_r, goto error);
+		if(resolving) {
+			STRDUP(files->resolved_path[i], filename_r, goto error);
+		} else {
+			files->resolved_path[i] = filename;
+		}
 
 		/* deal with children of non-existent directories to reduce lstat() calls */
 		if (!exists) {
@@ -136,25 +142,24 @@ size_t _alpm_filelist_resolve_link(
 					strcpy(filename_r + causal_dir_r_len, f + causal_dir_len);
 					STRDUP(files->resolved_path[i], filename_r, goto error);
 				} else {
-					STRDUP(files->resolved_path[i], f, goto error);
+					files->resolved_path[i] = f;
 				}
 			}
 			i--;
 		}
 	}
 
-	if(resolving) {
-		FREE(filename_r);
-	}
+	FREE(filename_r);
 
 	return i-1;
 
 error:
-	if(resolving) {
-		FREE(filename_r);
+	FREE(filename_r);
+	/* out of memory, set remaining files to their original names */
+	for(; i < files->count; (i)++) {
+		files->resolved_path[i] = files->files[i].name;
 	}
-	/* out of memory, not much point in going on */
-	return files->count;
+	return i-1;
 }
 
 /**
