@@ -21,9 +21,9 @@
 
 #include "alpm.h"
 
-size_t _alpm_filelist_resolve_link(alpm_filelist_t *files, size_t i,
+int _alpm_filelist_resolve_link(alpm_filelist_t *files, size_t *i,
 		char *path, size_t root_len, int resolving);
-void _alpm_filelist_resolve(alpm_handle_t *handle, alpm_filelist_t *files);
+int _alpm_filelist_resolve(alpm_handle_t *handle, alpm_filelist_t *files);
 
 alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
 		alpm_filelist_t *filesB);

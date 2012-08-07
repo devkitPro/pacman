@@ -31,21 +31,25 @@ static int _alpm_filelist_strcmp(const void *s1, const void *s2)
 	return strcmp(*(char **)s1, *(char **)s2);
 }
 
+/* TODO make sure callers check the return value so we can bail on errors.
+ * For now we soldier on as best we can, skipping paths that are too long to
+ * resolve and using the original filenames on memory errors.  */
 /**
  * @brief Resolves a symlink and its children.
  *
  * @attention Pre-condition: files must be sorted!
  *
  * @param files filelist to resolve
- * @param i index in files to start processing
+ * @param i pointer to the index in files to start processing, will point to
+ * the last file processed on return
  * @param path absolute path for the symlink being resolved
  * @param root_len length of the root portion of path
  * @param resolving is file \i in \files a symlink that needs to be resolved
  *
- * @return the index of the last file resolved
+ * @return 0 on success, -1 on error
  */
-size_t _alpm_filelist_resolve_link(
-		alpm_filelist_t *files, size_t i, char *path, size_t root_len, int resolving)
+int _alpm_filelist_resolve_link(alpm_filelist_t *files, size_t *i,
+		char *path, size_t root_len, int resolving)
 {
 	char *causal_dir = NULL; /* symlink being resolved */
 	char *filename_r = NULL; /* resolved filename */
@@ -54,29 +58,29 @@ size_t _alpm_filelist_resolve_link(
 	if(resolving) {
 		/* deal with the symlink being resolved */
 		MALLOC(filename_r, PATH_MAX, goto error);
-		causal_dir = files->files[i].name;
+		causal_dir = files->files[*i].name;
 		causal_dir_len = strlen(causal_dir);
 		if(realpath(path, filename_r) == NULL) {
-			files->resolved_path[i] = causal_dir;
+			files->resolved_path[*i] = causal_dir;
 			FREE(filename_r);
-			return i;
+			return -1;
 		}
 		causal_dir_r_len = strlen(filename_r + root_len) + 1;
 		if(causal_dir_r_len >= PATH_MAX) {
-			files->resolved_path[i] = causal_dir;
+			files->resolved_path[*i] = causal_dir;
 			FREE(filename_r);
-			return i;
+			return -1;
 		}
 		/* remove root_r from filename_r */
 		memmove(filename_r, filename_r + root_len, causal_dir_r_len);
 		filename_r[causal_dir_r_len - 1] = '/';
 		filename_r[causal_dir_r_len] = '\0';
-		STRDUP(files->resolved_path[i], filename_r, goto error);
-		i++;
+		STRDUP(files->resolved_path[*i], filename_r, goto error);
+		(*i)++;
 	}
 
-	for(; i < files->count; i++) {
-		char *filename = files->files[i].name;
+	for(; *i < files->count; (*i)++) {
+		char *filename = files->files[*i].name;
 		size_t filename_len = strlen(filename);
 		size_t filename_r_len = filename_len;
 		struct stat sbuf;
@@ -91,7 +95,7 @@ size_t _alpm_filelist_resolve_link(
 			filename_r_len = filename_len + causal_dir_r_len - causal_dir_len;
 			if(filename_r_len >= PATH_MAX) {
 				/* resolved path is too long */
-				files->resolved_path[i] = filename;
+				files->resolved_path[*i] = filename;
 				continue;
 			}
 
@@ -101,9 +105,9 @@ size_t _alpm_filelist_resolve_link(
 		/* deal with files and paths too long to resolve*/
 		if(filename[filename_len - 1] != '/' || root_len + filename_r_len >= PATH_MAX) {
 			if(resolving) {
-				STRDUP(files->resolved_path[i], filename_r, goto error);
+				STRDUP(files->resolved_path[*i], filename_r, goto error);
 			} else {
-				files->resolved_path[i] = filename;
+				files->resolved_path[*i] = filename;
 			}
 			continue;
 		}
@@ -114,21 +118,21 @@ size_t _alpm_filelist_resolve_link(
 
 		/* deal with symlinks */
 		if(exists && S_ISLNK(sbuf.st_mode)) {
-			i = _alpm_filelist_resolve_link(files, i, path, root_len, 1);
+			_alpm_filelist_resolve_link(files, i, path, root_len, 1);
 			continue;
 		}
 
 		/* deal with normal directories */
 		if(resolving) {
-			STRDUP(files->resolved_path[i], filename_r, goto error);
+			STRDUP(files->resolved_path[*i], filename_r, goto error);
 		} else {
-			files->resolved_path[i] = filename;
+			files->resolved_path[*i] = filename;
 		}
 
 		/* deal with children of non-existent directories to reduce lstat() calls */
 		if (!exists) {
-			for(i++; i < files->count; i++) {
-				char *f = files->files[i].name;;
+			for((*i)++; *i < files->count; (*i)++) {
+				char *f = files->files[*i].name;
 				size_t f_len = strlen(f);
 				size_t f_r_len;
 
@@ -140,26 +144,28 @@ size_t _alpm_filelist_resolve_link(
 				f_r_len = f_len + causal_dir_r_len - causal_dir_len;
 				if(resolving && f_r_len <= PATH_MAX) {
 					strcpy(filename_r + causal_dir_r_len, f + causal_dir_len);
-					STRDUP(files->resolved_path[i], filename_r, goto error);
+					STRDUP(files->resolved_path[*i], filename_r, goto error);
 				} else {
-					files->resolved_path[i] = f;
+					files->resolved_path[*i] = f;
 				}
 			}
-			i--;
+			(*i)--;
 		}
 	}
+	(*i)--;
 
 	FREE(filename_r);
 
-	return i-1;
+	return 0;
 
 error:
 	FREE(filename_r);
 	/* out of memory, set remaining files to their original names */
-	for(; i < files->count; (i)++) {
-		files->resolved_path[i] = files->files[i].name;
+	for(; *i < files->count; (*i)++) {
+		files->resolved_path[*i] = files->files[*i].name;
 	}
-	return i-1;
+	(*i)--;
+	return -1;
 }
 
 /**
@@ -173,35 +179,38 @@ error:
  *
  * @param handle the context handle
  * @param files list of files to resolve
+ *
+ * @return 0 on success, -1 on error
  */
-void _alpm_filelist_resolve(alpm_handle_t *handle, alpm_filelist_t *files)
+int _alpm_filelist_resolve(alpm_handle_t *handle, alpm_filelist_t *files)
 {
 	char path[PATH_MAX];
-	size_t root_len;
+	size_t root_len, i=0;
+	int ret = 0;
 
 	if(!files || files->resolved_path) {
-		return;
+		return 0;
 	}
 
-	CALLOC(files->resolved_path, files->count, sizeof(char *), return);
+	CALLOC(files->resolved_path, files->count, sizeof(char *), return -1);
 
 	/* not much point in going on if we can't even resolve root */
 	if(realpath(handle->root, path) == NULL){
-		return;
+		return -1;
 	}
 	root_len = strlen(path) + 1;
 	if(root_len >= PATH_MAX) {
-		return;
+		return -1;
 	}
 	path[root_len - 1] = '/';
 	path[root_len] = '\0';
 
-	_alpm_filelist_resolve_link(files, 0, path, root_len, 0);
+	ret = _alpm_filelist_resolve_link(files, &i, path, root_len, 0);
 
 	qsort(files->resolved_path, files->count, sizeof(char *),
 			_alpm_filelist_strcmp);
 
-	return;
+	return ret;
 }
 
 
