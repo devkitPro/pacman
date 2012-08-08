@@ -71,11 +71,6 @@ Options
 	default to the current directory. This allows the built package to be
 	overwritten.
 
-*--forcever*::
-	This is a hidden option that should *not* be used unless you really know
-	what you are doing. makepkg uses this internally when calling itself to
-	set the new development pkgver of the package.
-
 *-g, \--geninteg*::
 	For each source file in the source array of PKGBUILD, download the file
 	if required and generate integrity checks. The integrity checks generated
@@ -96,10 +91,9 @@ Options
 *-h, \--help*::
 	Output syntax and command line options.
 
-*\--holdver*::
-	Useful when building development versions of packages. Prevents makepkg
-	from automatically bumping the pkgver to the latest revision number in
-	the package's development tree.
+*--holdver*::
+	When using VCS sources (linkman:PKGBUILD[5]) any currently checked out source
+	will not be updated to the latest revision.
 
 *-i, \--install*::
 	Install or upgrade the package after a successful build using

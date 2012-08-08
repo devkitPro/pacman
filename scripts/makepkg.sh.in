@@ -39,7 +39,7 @@ export COMMAND_MODE='legacy'
 # Ensure CDPATH doesn't screw with our cd calls
 unset CDPATH
 
-declare -r myver='@PACKAGE_VERSION@'
+declare -r makepkg_version='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
 declare -r BUILDSCRIPT='@BUILDSCRIPT@'
 declare -r startdir="$PWD"
@@ -59,6 +59,7 @@ DEP_BIN=0
 FORCE=0
 INFAKEROOT=0
 GENINTEG=0
+HOLDVER=0
 SKIPCHECKSUMS=0
 SKIPPGPCHECK=0
 INSTALL=0
@@ -70,11 +71,11 @@ REPKG=0
 LOGGING=0
 SOURCEONLY=0
 IGNOREARCH=0
-HOLDVER=0
 PREPAREFUNC=0
 BUILDFUNC=0
 CHECKFUNC=0
 PKGFUNC=0
+PKGVERFUNC=0
 SPLITPKG=0
 PKGLIST=()
 SIGNPKG=''
@@ -185,12 +186,7 @@ clean_up() {
 
 enter_fakeroot() {
 	msg "$(gettext "Entering %s environment...")" "fakeroot"
-
-	if [[ -n $newpkgver ]]; then
-		fakeroot -- $0 --forcever $newpkgver -F "${ARGLIST[@]}" || exit $?
-	else
-		fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
-	fi
+	fakeroot -- $0 -F "${ARGLIST[@]}" || exit $?
 }
 
 
@@ -199,21 +195,445 @@ enter_fakeroot() {
 # 2) "http://path/to/file"
 
 # Return the absolute filename of a source entry
-#
-# This function accepts a source entry or the already extracted filename of a
-# source entry as input
 get_filepath() {
 	local file="$(get_filename "$1")"
+	local proto="$(get_protocol "$1")"
 
-	if [[ -f "$startdir/$file" ]]; then
-		file="$startdir/$file"
-	elif [[ -f "$SRCDEST/$file" ]]; then
-		file="$SRCDEST/$file"
-	else
-		return 1
-	fi
+	case $proto in
+		git*|hg*|svn*)
+			if [[ -d "$startdir/$file" ]]; then
+				file="$startdir/$file"
+			elif [[ -d "$SRCDEST/$file" ]]; then
+				file="$SRCDEST/$file"
+			else
+				return 1
+			fi
+			;;
+		*)
+			if [[ -f "$startdir/$file" ]]; then
+				file="$startdir/$file"
+			elif [[ -f "$SRCDEST/$file" ]]; then
+				file="$SRCDEST/$file"
+			else
+				return 1
+			fi
+			;;
+	esac
 
 	printf "%s\n" "$file"
+}
+
+# extract the filename from a source entry
+get_filename() {
+	local netfile=$1
+
+	# if a filename is specified, use it
+	if [[ $netfile = *::* ]]; then
+		printf "%s\n" ${netfile%%::*}
+		return
+	fi
+
+	local proto=$(get_protocol "$netfile")
+
+	case $proto in
+		git*|hg*|svn*)
+			filename=${netfile##*/}
+			filename=${filename%%#*}
+			# fall-through
+			;;&
+		git*)
+			filename=${filename%%.git*}
+			;;
+		*)
+			# if it is just an URL, we only keep the last component
+			filename="${netfile##*/}"
+			;;
+	esac
+	printf "%s\n" "${filename}"
+}
+
+# extract the URL from a source entry
+get_url() {
+	# strip an eventual filename
+	printf "%s\n" "${1#*::}"
+}
+
+# extract the protocol from a source entry - return "local" for local sources
+get_protocol() {
+	if [[ $1 = *://* ]]; then
+		# strip leading filename
+		local proto="${1##*::}"
+		printf "%s\n" "${proto%%://*}"
+	else
+		printf "%s\n" local
+	fi
+}
+
+get_downloadclient() {
+	local proto=$1
+
+	# loop through DOWNLOAD_AGENTS variable looking for protocol
+	local i
+	for i in "${DLAGENTS[@]}"; do
+		local handler="${i%%::*}"
+		if [[ $proto = "$handler" ]]; then
+			local agent="${i##*::}"
+			break
+		fi
+	done
+
+	# if we didn't find an agent, return an error
+	if [[ -z $agent ]]; then
+		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$MAKEPKG_CONF"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_CONFIG_ERROR
+	fi
+
+	# ensure specified program is installed
+	local program="${agent%% *}"
+	if [[ ! -x $program ]]; then
+		local baseprog="${program##*/}"
+		error "$(gettext "The download program %s is not installed.")" "$baseprog"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_MISSING_PROGRAM
+	fi
+
+	printf "%s\n" "$agent"
+}
+
+download_local() {
+	local netfile=$1
+	local filepath=$(get_filepath "$netfile")
+
+	if [[ -n "$filepath" ]]; then
+		msg2 "$(gettext "Found %s")" "${filepath##*/}"
+		rm -f "$srcdir/${filepath##*/}"
+		ln -s "$filepath" "$srcdir/"
+		continue
+	else
+		local filename=$(get_filename "$netfile")
+		error "$(gettext "%s was not found in the build directory and is not a URL.")" "$filename"
+		exit 1 # $E_MISSING_FILE
+	fi
+}
+
+download_file() {
+	local netfile=$1
+
+	local filepath=$(get_filepath "$netfile")
+	if [[ -n "$filepath" ]]; then
+		msg2 "$(gettext "Found %s")" "${filepath##*/}"
+		rm -f "$srcdir/${filepath##*/}"
+		ln -s "$filepath" "$srcdir/"
+		return
+	fi
+
+	local proto=$(get_protocol "$netfile")
+
+	# find the client we should use for this URL
+	local dlcmd
+	dlcmd=$(get_downloadclient "$proto") || exit $?
+
+	local filename=$(get_filename "$netfile")
+	local url=$(get_url "$netfile")
+
+	if [[ $proto = "scp" ]]; then
+		# scp downloads should not pass the protocol in the url
+		url="${url##*://}"
+	fi
+
+	msg2 "$(gettext "Downloading %s...")" "$filename"
+
+	# temporary download file, default to last component of the URL
+	local dlfile="${url##*/}"
+
+	# replace %o by the temporary dlfile if it exists
+	if [[ $dlcmd = *%o* ]]; then
+		dlcmd=${dlcmd//\%o/\"$filename.part\"}
+		dlfile="$filename.part"
+	fi
+	# add the URL, either in place of %u or at the end
+	if [[ $dlcmd = *%u* ]]; then
+		dlcmd=${dlcmd//\%u/\"$url\"}
+	else
+		dlcmd="$dlcmd \"$url\""
+	fi
+
+	local ret=0
+	eval "$dlcmd || ret=\$?"
+	if (( ret )); then
+		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
+		error "$(gettext "Failure while downloading %s")" "$filename"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	# rename the temporary download file to the final destination
+	if [[ $dlfile != "$filename" ]]; then
+		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$filename"
+	fi
+
+	rm -f "$srcdir/$filename"
+	ln -s "$SRCDEST/$filename" "$srcdir/"
+}
+
+download_git() {
+	local netfile=$1
+
+	local fragment=${netfile##*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
+	repo=${repo%%.git*}
+
+	local url=$(get_url "$netfile")
+	url=${url##*git+}
+	url=${url%%#*}
+
+	if [[ ! -d "$dir" ]]; then
+		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "git"
+		if ! git clone --mirror "$url" "$dir"; then
+			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "git"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif (( ! HOLDVER )); then
+		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "git"
+		cd_safe "$dir"
+		if ! git fetch --all -p; then
+			# only warn on failure to allow offline builds
+			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "git"
+		fi
+	fi
+
+	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "git"
+	pushd "$srcdir" &>/dev/null
+	rm -rf "${dir##*/}"
+
+	if ! git clone "$dir"; then
+		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "git"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	cd_safe "${dir##*/}"
+
+	local ref
+	if [[ -n $fragment ]]; then
+		case ${fragment%%=*} in
+			commit|tag)
+				ref=${fragment##*=}
+				;;
+			branch)
+				ref=origin/${fragment##*=}
+				;;
+			*)
+				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
+				plain "$(gettext "Aborting...")"
+				exit 1
+		esac
+	fi
+
+	if [[ -n $ref ]]; then
+		if ! git checkout -b makepkg $ref; then
+			error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "git"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	fi
+
+	popd &>/dev/null
+}
+
+download_hg() {
+	local netfile=$1
+
+	local fragment=${netfile##*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
+
+	local url=$(get_url "$netfile")
+	url=${url##*hg+}
+	url=${url%%#*}
+
+	if [[ ! -d "$dir" ]]; then
+		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "hg"
+		if ! hg clone "$url" "$dir"; then
+			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "hg"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif (( ! HOLDVER )); then
+		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "hg"
+		cd_safe "$dir"
+		if ! hg pull -u; then
+			# only warn on failure to allow offline builds
+			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "hg"
+		fi
+	fi
+
+	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "hg"
+	pushd "$srcdir" &>/dev/null
+	rm -rf "${dir##*/}"
+
+	local ref
+	if [[ -n $fragment ]]; then
+		case ${fragment%%=*} in
+			branch|revision|tag)
+				ref=('-u' "${fragment##*=}")
+				;;
+			*)
+				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
+				plain "$(gettext "Aborting...")"
+				exit 1
+		esac
+	fi
+
+	if ! hg clone "${ref[@]}" "$dir" "${dir##*/}"; then
+		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "hg"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	popd &>/dev/null
+}
+
+download_svn() {
+	local netfile=$1
+
+	local fragment=${netfile##*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
+
+	local url=$(get_url "$netfile")
+	if [[ $url != svn+ssh* ]]; then
+		url=${url##*svn+}
+	fi
+	url=${url%%#*}
+
+	if [[ ! -d "$dir" ]]; then
+		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "svn"
+		if ! svn checkout --config-dir "$dir" "$url" "$dir"; then
+			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "svn"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif (( ! HOLDVER )); then
+		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "svn"
+		cd_safe "$dir"
+		if ! svn update; then
+			# only warn on failure to allow offline builds
+			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "svn"
+		fi
+	fi
+
+	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "svn"
+	pushd "$srcdir" &>/dev/null
+	rm -rf "${dir##*/}"
+
+	local ref
+	if [[ -n $fragment ]]; then
+		case ${fragment%%=*} in
+			revision)
+				ref=('-r' "${fragment##*=}")
+				;;
+			*)
+				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
+				plain "$(gettext "Aborting...")"
+				exit 1
+		esac
+	fi
+
+	if ! svn export $(ref[@]) "$dir"; then
+		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "svn"
+		plain "$(gettext "Aborting...")"
+	fi
+
+	popd &>/dev/null
+}
+
+download_sources() {
+	msg "$(gettext "Retrieving Sources...")"
+
+	local GET_VCS=1
+	if [[ $1 == "fast" ]]; then
+		GET_VCS=0
+	fi
+
+	pushd "$SRCDEST" &>/dev/null
+
+	local netfile
+	for netfile in "${source[@]}"; do
+		local proto=$(get_protocol "$netfile")
+
+		case "$proto" in
+			local)
+				download_local "$netfile"
+				;;
+			ftp|http|https|rsync|scp)
+				download_file "$netfile"
+				;;
+			git*)
+				(( GET_VCS )) && download_git "$netfile"
+				;;
+			hg*)
+				(( GET_VCS )) && download_hg "$netfile"
+				;;
+			svn*)
+				(( GET_VCS )) && download_svn "$netfile"
+				;;
+			*)
+				error "$(gettext "Unknown download protocol: %s")" "$proto"
+				plain "$(gettext "Aborting...")"
+				exit 1
+				;;
+		esac
+	done
+
+	if (( PKGVERFUNC && GET_VCS )); then
+		update_pkgver
+		check_pkgver || exit 1
+		check_build_status
+	fi
+
+	popd &>/dev/null
+}
+
+# Automatically update pkgver variable if a pkgver() function is provided
+# Re-sources the PKGBUILD afterwards to allow for other variables that use $pkgver
+update_pkgver() {
+	newpkgver=$(run_function_safe pkgver)
+
+	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
+		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
+			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
+			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
+			source "$BUILDFILE"
+		else
+			warning "$(gettext "%s is not writeable -- pkgver will not be updated")" \
+					"$BUILDFILE"
+		fi
+	fi
 }
 
 # Print 'source not found' error message and exit makepkg
@@ -221,20 +641,6 @@ missing_source_file() {
 	error "$(gettext "Unable to find source file %s.")" "$(get_filename "$1")"
 	plain "$(gettext "Aborting...")"
 	exit 1 # $E_MISSING_FILE
-}
-
-# extract the filename from a source entry
-get_filename() {
-	# if a filename is specified, use it
-	local filename="${1%%::*}"
-	# if it is just an URL, we only keep the last component
-	printf "%s\n" "${filename##*/}"
-}
-
-# extract the URL from a source entry
-get_url() {
-	# strip an eventual filename
-	printf "%s\n" "${1#*::}"
 }
 
 ##
@@ -394,75 +800,6 @@ source_has_signatures() {
 	return 1
 }
 
-get_downloadclient() {
-	# $1 = URL with valid protocol prefix
-	local url=$1
-	local proto="${url%%://*}"
-
-	# loop through DOWNLOAD_AGENTS variable looking for protocol
-	local i
-	for i in "${DLAGENTS[@]}"; do
-		local handler="${i%%::*}"
-		if [[ $proto = "$handler" ]]; then
-			local agent="${i##*::}"
-			break
-		fi
-	done
-
-	# if we didn't find an agent, return an error
-	if [[ -z $agent ]]; then
-		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$MAKEPKG_CONF"
-		plain "$(gettext "Aborting...")"
-		exit 1 # $E_CONFIG_ERROR
-	fi
-
-	# ensure specified program is installed
-	local program="${agent%% *}"
-	if [[ ! -x $program ]]; then
-		local baseprog="${program##*/}"
-		error "$(gettext "The download program %s is not installed.")" "$baseprog"
-		plain "$(gettext "Aborting...")"
-		exit 1 # $E_MISSING_PROGRAM
-	fi
-
-	printf "%s\n" "$agent"
-}
-
-download_file() {
-	# download command
-	local dlcmd=$1
-	# URL of the file
-	local url=$2
-	# destination file
-	local file=$3
-	# temporary download file, default to last component of the URL
-	local dlfile="${url##*/}"
-
-	# replace %o by the temporary dlfile if it exists
-	if [[ $dlcmd = *%o* ]]; then
-		dlcmd=${dlcmd//\%o/\"$file.part\"}
-		dlfile="$file.part"
-	fi
-	# add the URL, either in place of %u or at the end
-	if [[ $dlcmd = *%u* ]]; then
-		dlcmd=${dlcmd//\%u/\"$url\"}
-	else
-		dlcmd="$dlcmd \"$url\""
-	fi
-
-	local ret=0
-	eval "$dlcmd || ret=\$?"
-	if (( ret )); then
-		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
-		return $ret
-	fi
-
-	# rename the temporary download file to the final destination
-	if [[ $dlfile != "$file" ]]; then
-		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$file"
-	fi
-}
-
 run_pacman() {
 	local cmd
 	if [[ ! $1 = -@(T|Qq) ]]; then
@@ -579,50 +916,6 @@ remove_deps() {
 	fi
 }
 
-download_sources() {
-	msg "$(gettext "Retrieving Sources...")"
-
-	pushd "$SRCDEST" &>/dev/null
-
-	local netfile
-	for netfile in "${source[@]}"; do
-		local file=$(get_filepath "$netfile" || true)
-		if [[ -n "$file" ]]; then
-			msg2 "$(gettext "Found %s")" "${file##*/}"
-			rm -f "$srcdir/${file##*/}"
-			ln -s "$file" "$srcdir/"
-			continue
-		fi
-
-		file=$(get_filename "$netfile")
-		local url=$(get_url "$netfile")
-
-		# if we get here, check to make sure it was a URL, else fail
-		if [[ $file = "$url" ]]; then
-			error "$(gettext "%s was not found in the build directory and is not a URL.")" "$file"
-			exit 1 # $E_MISSING_FILE
-		fi
-
-		# find the client we should use for this URL
-		local dlclient
-		dlclient=$(get_downloadclient "$url") || exit $?
-
-		msg2 "$(gettext "Downloading %s...")" "$file"
-		# fix flyspray bug #3289
-		local ret=0
-		download_file "$dlclient" "$url" "$file" || ret=$?
-		if (( ret )); then
-			error "$(gettext "Failure while downloading %s")" "$file"
-			plain "$(gettext "Aborting...")"
-			exit 1
-		fi
-		rm -f "$srcdir/$file"
-		ln -s "$SRCDEST/$file" "$srcdir/"
-	done
-
-	popd &>/dev/null
-}
-
 get_integlist() {
 	local integ
 	local integlist=()
@@ -677,10 +970,21 @@ generate_checksums() {
 
 		local netfile
 		for netfile in "${source[@]}"; do
-			local file
-			file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
-			local sum="$(openssl dgst -${integ} "$file")"
-			sum=${sum##* }
+			local proto sum
+			proto="$(get_protocol "$netfile")"
+
+			case $proto in
+				git*|hg*|svn*)
+					sum="SKIP"
+					;;
+				*)
+					local file
+					file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
+					sum="$(openssl dgst -${integ} "$file")"
+					sum=${sum##* }
+					;;
+			esac
+
 			(( ct )) && printf "%s" "$indent"
 			printf "%s" "'$sum'"
 			ct=$(($ct+1))
@@ -710,6 +1014,12 @@ check_checksums() {
 				file="$(get_filename "$file")"
 				printf "%s" "    $file ... " >&2
 
+				if [[ ${integrity_sums[$idx]} = 'SKIP' ]]; then
+					echo "$(gettext "Skipped")" >&2
+					idx=$((idx + 1))
+					continue
+				fi
+
 				if ! file="$(get_filepath "$file")"; then
 					printf -- "$(gettext "NOT FOUND")\n" >&2
 					errors=1
@@ -717,18 +1027,14 @@ check_checksums() {
 				fi
 
 				if (( $found )) ; then
-					if [[ ${integrity_sums[$idx]} = 'SKIP' ]]; then
-						echo "$(gettext "Skipped")" >&2
+					local expectedsum="${integrity_sums[idx],,}"
+					local realsum="$(openssl dgst -${integ} "$file")"
+					realsum="${realsum##* }"
+					if [[ $expectedsum = "$realsum" ]]; then
+						printf -- "$(gettext "Passed")\n" >&2
 					else
-						local expectedsum=$(tr '[:upper:]' '[:lower:]' <<< "${integrity_sums[$idx]}")
-						local realsum="$(openssl dgst -${integ} "$file")"
-						realsum="${realsum##* }"
-						if [[ $expectedsum = "$realsum" ]]; then
-							printf -- "$(gettext "Passed")\n" >&2
-						else
-							printf -- "$(gettext "FAILED")\n" >&2
-							errors=1
-						fi
+						printf -- "$(gettext "FAILED")\n" >&2
+						errors=1
 					fi
 				fi
 
@@ -1269,7 +1575,7 @@ write_pkginfo() {
 	size="$(( ${size%%[^0-9]*} * 1024 ))"
 
 	msg2 "$(gettext "Generating %s file...")" ".PKGINFO"
-	echo "# Generated by makepkg $myver"
+	echo "# Generated by makepkg $makepkg_version"
 	if (( INFAKEROOT )); then
 		echo "# using $(fakeroot -v)"
 	fi
@@ -1547,7 +1853,7 @@ check_sanity() {
 	# check for no-no's in the build script
 	local i
 	local ret=0
-	for i in 'pkgname' 'pkgrel' 'pkgver'; do
+	for i in 'pkgname' 'pkgrel'; do
 		if [[ -z ${!i} ]]; then
 			error "$(gettext "%s is not allowed to be empty.")" "$i"
 			ret=1
@@ -1571,14 +1877,9 @@ check_sanity() {
 		ret=1
 	fi
 
-	awk -F'=' '$1 ~ /^[[:space:]]*pkgver$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
-	while IFS='=' read -r _ i; do
-		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
-		if [[ $i = *[[:space:]:-]* ]]; then
-			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
-			return 1
-		fi
-	done || ret=1
+	if (( ! PKGVERFUNC )) ; then
+		check_pkgver || ret=1
+	fi
 
 	awk -F'=' '$1 ~ /^[[:space:]]*pkgrel$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
 	while IFS='=' read -r _ i; do
@@ -1708,6 +2009,26 @@ check_sanity() {
 	return $ret
 }
 
+check_pkgver() {
+	local ret=0
+
+	if [[ -z ${pkgver} ]]; then
+		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
+		ret=1
+	fi
+
+	awk -F'=' '$1 ~ /^[[:space:]]*pkgver$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
+	while IFS='=' read -r _ i; do
+		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
+		if [[ $i = *[[:space:]:-]* ]]; then
+			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
+			return 1
+		fi
+	done || ret=1
+
+	return $ret
+}
+
 check_software() {
 	# check for needed software
 	local ret=0
@@ -1794,111 +2115,50 @@ check_software() {
 	return $ret
 }
 
-devel_check() {
-	newpkgver=""
-
-	# Do not update pkgver if --holdver is set, when building a source package, repackaging,
-	# reading PKGBUILD from pipe (-f), or if we cannot write to the file (-w)
-	if (( HOLDVER || SOURCEONLY || REPKG )) ||
-		[[ ! -f $BUILDFILE || ! -w $BUILDFILE || $BUILDFILE = "/dev/stdin" ]]; then
-		return
-	fi
-
-	if [[ -z $FORCE_VER ]]; then
-		# Check if this is a svn/cvs/etc PKGBUILD; set $newpkgver if so.
-		# This will only be used on the first call to makepkg; subsequent
-		# calls to makepkg via fakeroot will explicitly pass the version
-		# number to avoid having to determine the version number twice.
-		# Also do a check to make sure we have the VCS tool available.
-		local vcs=()
-
-		[[ -n ${_darcstrunk} && -n ${_darcsmod} ]] && vcs+=("darcs")
-		[[ -n ${_cvsroot}    && -n ${_cvsmod}   ]] && vcs+=("cvs")
-		[[ -n ${_gitroot}    && -n ${_gitname}  ]] && vcs+=("git")
-		[[ -n ${_svntrunk}   && -n ${_svnmod}   ]] && vcs+=("svn")
-		[[ -n ${_bzrtrunk}   && -n ${_bzrmod}   ]] && vcs+=("bzr")
-		[[ -n ${_hgroot}     && -n ${_hgrepo}   ]] && vcs+=("hg")
-
-		if (( ${#vcs[@]} == 0 )); then
-			return
-		elif (( ${#vcs[@]} > 1 )); then
-			warning "$(gettext "Ambiguous VCS package. Cannot pick from: %s.")" "${vcs[*]}"
-			return 0
+check_build_status() {
+	if (( ! SPLITPKG )); then
+		fullver=$(get_full_version)
+		pkgarch=$(get_pkg_arch)
+		if [[ -f $PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT} ]] \
+				 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
+			if (( INSTALL )); then
+				warning "$(gettext "A package has already been built, installing existing package...")"
+				install_package
+				exit $?
+			else
+				error "$(gettext "A package has already been built. (use %s to overwrite)")" "-f"
+				exit 1
+			fi
 		fi
-
-		if ! type -p "$vcs" >/dev/null; then
-			warning "$(gettext "Cannot find the %s binary required to determine latest %s revision.")" "$vcs" "$vcs"
-			return 0
-		fi
-
-		msg "$(gettext "Determining latest %s revision...")" "$vcs"
-
-		case "$vcs" in
-			darcs)
-				newpkgver=$(date +%Y%m%d)
-				;;
-			cvs)
-				newpkgver=$(date +%Y%m%d)
-				;;
-			git)
-				newpkgver=$(date +%Y%m%d)
-				;;
-			svn)
-				newpkgver=$(LC_ALL=C svn info $_svntrunk | sed -n 's/^Last Changed Rev: \([0-9]*\)$/\1/p')
-				;;
-			bzr)
-				newpkgver=$(bzr revno ${_bzrtrunk})
-				;;
-			hg)
-				if pushd "./src/$_hgrepo" > /dev/null; then
-					local ret=0
-					hg pull || ret=$?
-					if (( ! ret )); then
-						hg update
-					elif (( ret != 1 )); then
-						return 1
-					fi
-				else
-					[[ ! -d ./src/ ]] && mkdir ./src/
-					hg clone "$_hgroot/$_hgrepo" "./src/$_hgrepo"
-					if ! pushd "./src/$_hgrepo" > /dev/null; then
-						warning "$(gettext "An error occured while determining the hg version number.")"
-						return 0
-					fi
-				fi
-				newpkgver=$(hg tip --template "{rev}")
-				popd > /dev/null
-				;;
-		esac
-
-		if [[ -n $newpkgver ]]; then
-			msg2 "$(gettext "Version found: %s")" "$newpkgver"
-		fi
-
 	else
-		# Version number retrieved from fakeroot->makepkg argument
-		newpkgver=$FORCE_VER
-	fi
-}
-
-devel_update() {
-	# This is lame, but if we're wanting to use an updated pkgver for
-	# retrieving svn/cvs/etc sources, we'll update the PKGBUILD with
-	# the new pkgver and then re-source it. This is the most robust
-	# method for dealing with PKGBUILDs that use, e.g.:
-	#
-	#  pkgver=23
-	#  ...
-	#  _foo=pkgver
-	#
-	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
-		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
-			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
-			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
-			source "$BUILDFILE"
-		else
-			warning "$(gettext "%s is not writeable -- pkgver will not be updated")" "$BUILDFILE"
+		allpkgbuilt=1
+		somepkgbuilt=0
+		for pkg in ${pkgname[@]}; do
+			fullver=$(get_full_version $pkg)
+			pkgarch=$(get_pkg_arch $pkg)
+			if [[ -f $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT} ]]; then
+				somepkgbuilt=1
+			else
+				allpkgbuilt=0
+			fi
+		done
+		if ! (( FORCE || SOURCEONLY || NOBUILD )); then
+			if (( allpkgbuilt )); then
+				if (( INSTALL )); then
+					warning "$(gettext "The package group has already been built, installing existing packages...")"
+					install_package
+					exit $?
+				else
+					error "$(gettext "The package group has already been built. (use %s to overwrite)")" "-f"
+					exit 1
+				fi
+			fi
+			if (( somepkgbuilt && ! PKGVERFUNC )); then
+				error "$(gettext "Part of the package group has already been built. (use %s to overwrite)")" "-f"
+				exit 1
+			fi
 		fi
+		unset allpkgbuilt somepkgbuilt
 	fi
 }
 
@@ -1955,7 +2215,7 @@ canonicalize_path() {
 m4_include(library/parseopts.sh)
 
 usage() {
-	printf "makepkg (pacman) %s\n" "$myver"
+	printf "makepkg (pacman) %s\n" "$makepkg_version"
 	echo
 	printf -- "$(gettext "Usage: %s [options]")\n" "$0"
 	echo
@@ -1980,7 +2240,7 @@ usage() {
 	printf -- "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
 	printf -- "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
-	printf -- "$(gettext "  --holdver        Prevent automatic version bumping for development %ss")\n" "$BUILDSCRIPT"
+	printf -- "$(gettext "  --holdver        Do not update VCS sources")\n"
 	printf -- "$(gettext "  --key <key>      Specify a key to use for %s signing instead of the default")\n" "gpg"
 	printf -- "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
@@ -2001,7 +2261,7 @@ usage() {
 }
 
 version() {
-	printf "makepkg (pacman) %s\n" "$myver"
+	printf "makepkg (pacman) %s\n" "$makepkg_version"
 	printf -- "$(gettext "\
 Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\n\n\
@@ -2022,11 +2282,11 @@ ARGLIST=("$@")
 
 # Parse Command Line Options.
 OPT_SHORT="AcdefFghiLmop:rRsSV"
-OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean' 'nodeps'
-          'noextract' 'force' 'forcever:' 'geninteg' 'help' 'holdver' 'skippgpcheck'
-          'install' 'key:' 'log' 'nocolor' 'nobuild' 'nocheck' 'nosign' 'pkg:' 'rmdeps'
-          'repackage' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'sign' 'source' 'syncdeps'
-          'version' 'config:')
+OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'config:' 'force' 'geninteg'
+          'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
+          'nocheck' 'nodeps' 'noextract' 'nosign' 'pkg:' 'repackage' 'rmdeps'
+          'skipchecksums' 'skipinteg' 'skippgpcheck' 'skippgpcheck' 'sign'
+          'source' 'syncdeps' 'version')
 
 # Pacman Options
 OPT_LONG+=('asdeps' 'noconfirm' 'noprogressbar')
@@ -2054,8 +2314,6 @@ while true; do
 		-d|--nodeps)      NODEPS=1 ;;
 		-e|--noextract)   NOEXTRACT=1 ;;
 		-f|--force)       FORCE=1 ;;
-		#hidden opt used by fakeroot call for svn/cvs/etc PKGBUILDs to set pkgver
-		--forcever)       shift; FORCE_VER=$1;;
 		-F)               INFAKEROOT=1 ;;
 		-g|--geninteg)    GENINTEG=1 ;;
 		--holdver)        HOLDVER=1 ;;
@@ -2192,12 +2450,6 @@ SRCEXT=${_SRCEXT:-$SRCEXT}
 GPGKEY=${_GPGKEY:-$GPGKEY}
 PACKAGER=${_PACKAGER:-$PACKAGER}
 
-if (( HOLDVER )) && [[ -n $FORCE_VER ]]; then
-	# The '\\0' is here to prevent gettext from thinking --holdver is an option
-	error "$(gettext "\\0%s and %s cannot both be specified" )" "--holdver" "--forcever"
-	exit 1
-fi
-
 if (( ! INFAKEROOT )); then
 	if (( EUID == 0 && ! ASROOT )); then
 		# Warn those who like to live dangerously.
@@ -2266,9 +2518,13 @@ if (( GENINTEG )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd_safe "$srcdir"
-	download_sources
+	download_sources fast
 	generate_checksums
 	exit 0 # $E_OK
+fi
+
+if declare -f pkgver >/dev/null; then
+	PKGVERFUNC=1
 fi
 
 # check the PKGBUILD for some basic requirements
@@ -2276,13 +2532,6 @@ check_sanity || exit 1
 
 # check we have the software required to process the PKGBUILD
 check_software || exit 1
-
-# We need to run devel_update regardless of whether we are in the fakeroot
-# build process so that if the user runs makepkg --forcever manually, we
-# 1) output the correct pkgver, and 2) use the correct filename when
-# checking if the package file already exists - fixes FS #9194
-devel_check
-devel_update
 
 if (( ${#pkgname[@]} > 1 )); then
 	SPLITPKG=1
@@ -2324,50 +2573,8 @@ if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]];
 	fi
 fi
 
-
-if (( ! SPLITPKG )); then
-	fullver=$(get_full_version)
-	pkgarch=$(get_pkg_arch)
-	if [[ -f $PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT} ]] \
-			 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
-		if (( INSTALL )); then
-			warning "$(gettext "A package has already been built, installing existing package...")"
-			install_package
-			exit $?
-		else
-			error "$(gettext "A package has already been built. (use %s to overwrite)")" "-f"
-			exit 1
-		fi
-	fi
-else
-	allpkgbuilt=1
-	somepkgbuilt=0
-	for pkg in ${pkgname[@]}; do
-		fullver=$(get_full_version $pkg)
-		pkgarch=$(get_pkg_arch $pkg)
-		if [[ -f $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT} ]]; then
-			somepkgbuilt=1
-		else
-			allpkgbuilt=0
-		fi
-	done
-	if ! (( FORCE || SOURCEONLY || NOBUILD )); then
-		if (( allpkgbuilt )); then
-			if (( INSTALL )); then
-				warning "$(gettext "The package group has already been built, installing existing packages...")"
-				install_package
-				exit $?
-			else
-				error "$(gettext "The package group has already been built. (use %s to overwrite)")" "-f"
-				exit 1
-			fi
-		fi
-		if (( somepkgbuilt )); then
-			error "$(gettext "Part of the package group has already been built. (use %s to overwrite)")" "-f"
-			exit 1
-		fi
-	fi
-	unset allpkgbuilt somepkgbuilt
+if (( ! PKGVERFUNC )); then
+	check_build_status
 fi
 
 # Run the bare minimum in fakeroot
@@ -2418,10 +2625,11 @@ if (( SOURCEONLY )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd_safe "$srcdir"
-	if ( (( ! SKIPCHECKSUMS )) || \
-			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ) || \
-			(( SOURCEONLY == 2 )); then
+	if (( SOURCEONLY == 2 )); then
 		download_sources
+	elif ( (( ! SKIPCHECKSUMS )) || \
+			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ); then
+		download_sources fast
 	fi
 	check_source_integrity
 	cd_safe "$startdir"
@@ -2524,7 +2732,6 @@ else
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if ! check_buildenv "fakeroot" "y" || (( EUID == 0 )); then
 		if (( ! REPKG )); then
-			devel_update
 			(( BUILDFUNC )) && run_build
 			(( CHECKFUNC )) && run_check
 		fi
@@ -2546,7 +2753,6 @@ else
 		fi
 	else
 		if (( ! REPKG && ( PKGFUNC || SPLITPKG ) )); then
-			devel_update
 			(( BUILDFUNC )) && run_build
 			(( CHECKFUNC )) && run_check
 			cd_safe "$startdir"
