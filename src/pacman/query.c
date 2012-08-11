@@ -173,21 +173,12 @@ static int query_fileowner(alpm_list_t *targets)
 
 		bname = mbasename(filename);
 		dname = mdirname(filename);
-		/* for files in '/', there is no directory name to match */
-		if(strcmp(dname, "") == 0) {
-			rpath = NULL;
-		} else {
-			rpath = realpath(dname, NULL);
+		rpath = realpath(dname, NULL);
 
-			if(!rpath) {
-				pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
-						filename, strerror(errno));
-				free(filename);
-				free(dname);
-				free(rpath);
-				ret++;
-				continue;
-			}
+		if(!dname || !rpath) {
+			pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
+					filename, strerror(errno));
+			goto targcleanup;
 		}
 		free(dname);
 
@@ -206,21 +197,11 @@ static int query_fileowner(alpm_list_t *targets)
 					continue;
 				}
 
-				/* for files in '/', there is no directory name to match */
-				if(!rpath) {
-					if(strcmp(pkgfile, bname) == 0) {
-						print_query_fileowner(filename, info);
-						found = 1;
-						break;
-					}
-					continue;
-				}
-
+				/* concatenate our file and the root path */
 				if(rootlen + 1 + strlen(pkgfile) > PATH_MAX) {
 					pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), path, pkgfile);
 					continue;
 				}
-				/* concatenate our file and the root path */
 				strcpy(path + rootlen, pkgfile);
 
 				pdname = mdirname(path);

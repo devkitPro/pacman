@@ -244,9 +244,14 @@ char *mdirname(const char *path)
 
 	if(last != NULL) {
 		/* we found a '/', so terminate our string */
+		if(last == ret) {
+			/* return "/" for root */
+			last++;
+		}
 		*last = '\0';
 		return ret;
 	}
+
 	/* no slash found */
 	free(ret);
 	return strdup(".");
