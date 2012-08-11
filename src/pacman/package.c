@@ -52,7 +52,7 @@ static void deplist_display(const char *title,
 }
 
 /** Turn a optdepends list into a text list.
- * @param optdeps a list with items of type alpm_optdepend_t
+ * @param optdeps a list with items of type alpm_depend_t
  */
 static void optdeplist_display(const char *title,
 		alpm_list_t *optdeps, unsigned short cols)
