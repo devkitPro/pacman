@@ -2699,15 +2699,7 @@ chmod a-s "$srcdir"
 cd_safe "$srcdir"
 
 if (( NOEXTRACT )); then
-	warning "$(gettext "Skipping source retrieval        -- using existing %s tree")" "src/"
-	warning "$(gettext "Skipping source integrity checks -- using existing %s tree")" "src/"
-	warning "$(gettext "Skipping source extraction       -- using existing %s tree")" "src/"
-
-	if (( NOEXTRACT )) && dir_is_empty "$srcdir"; then
-		error "$(gettext "The source directory is empty, there is nothing to build!")"
-		plain "$(gettext "Aborting...")"
-		exit 1
-	fi
+	warning "$(gettext "Using existing %s tree")" "src/"
 elif (( REPKG )); then
 	if (( ! PKGFUNC && ! SPLITPKG )) \
 	     && { [[ ! -d $pkgdir ]] || dir_is_empty "$pkgdir"; }; then
