@@ -304,7 +304,7 @@ void indentprint(const char *str, unsigned short indent, unsigned short cols)
 			while(q < next) {
 				len += wcwidth(*q++);
 			}
-			if(len > (cols - cidx - 1)) {
+			if((len + 1) > (cols - cidx)) {
 				/* wrap to a newline and reindent */
 				printf("\n%-*s", (int)indent, "");
 				cidx = indent;
