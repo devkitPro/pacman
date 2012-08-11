@@ -54,15 +54,22 @@ static void deplist_display(const char *title,
 /** Turn a optdepends list into a text list.
  * @param optdeps a list with items of type alpm_depend_t
  */
-static void optdeplist_display(const char *title,
-		alpm_list_t *optdeps, unsigned short cols)
+static void optdeplist_display(alpm_pkg_t *pkg, unsigned short cols)
 {
 	alpm_list_t *i, *text = NULL;
-	for(i = optdeps; i; i = alpm_list_next(i)) {
+	for(i = alpm_pkg_get_optdepends(pkg); i; i = alpm_list_next(i)) {
 		alpm_depend_t *optdep = i->data;
-		text = alpm_list_add(text, alpm_dep_compute_string(optdep));
+		char *depstring = alpm_dep_compute_string(optdep);
+		if(alpm_pkg_get_origin(pkg) == ALPM_PKG_FROM_LOCALDB) {
+			if(alpm_db_get_pkg(alpm_get_localdb(config->handle), optdep->name)) {
+				const char *installed = _(" [installed]");
+				depstring = realloc(depstring, strlen(depstring) + strlen(installed) + 1);
+				strcpy(depstring + strlen(depstring), installed);
+			}
+		}
+		text = alpm_list_add(text, depstring);
 	}
-	list_display_linebreak(title, text, cols);
+	list_display_linebreak(_("Optional Deps  :"), text, cols);
 	FREELIST(text);
 }
 
@@ -148,7 +155,8 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg), cols);
 	deplist_display(_("Provides       :"), alpm_pkg_get_provides(pkg), cols);
 	deplist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg), cols);
-	optdeplist_display(_("Optional Deps  :"), alpm_pkg_get_optdepends(pkg), cols);
+	optdeplist_display(pkg, cols);
+
 	if(extra || from == ALPM_PKG_FROM_LOCALDB) {
 		list_display(_("Required By    :"), requiredby, cols);
 	}
