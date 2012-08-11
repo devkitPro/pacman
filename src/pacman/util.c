@@ -239,7 +239,10 @@ char *mdirname(const char *path)
 		return strdup(".");
 	}
 
-	ret = strdup(path);
+	if((ret = strdup(path)) == NULL) {
+		return NULL;
+	}
+
 	last = strrchr(ret, '/');
 
 	if(last != NULL) {

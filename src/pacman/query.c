@@ -129,14 +129,16 @@ static int query_fileowner(alpm_list_t *targets)
 	db_local = alpm_get_localdb(config->handle);
 
 	for(t = targets; t; t = alpm_list_next(t)) {
-		char *filename, *dname, *rpath;
+		char *filename = NULL, *dname = NULL, *rpath = NULL;
 		const char *bname;
 		struct stat buf;
 		alpm_list_t *i;
 		size_t len;
 		int found = 0;
 
-		filename = strdup(t->data);
+		if((filename = strdup(t->data)) == NULL) {
+			goto targcleanup;
+		}
 
 		/* trailing '/' causes lstat to dereference directory symlinks */
 		len = strlen(filename) - 1;
@@ -150,25 +152,19 @@ static int query_fileowner(alpm_list_t *targets)
 				if(search_path(&filename, &buf) == -1) {
 					pm_printf(ALPM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),
 							filename, strerror(errno));
-					ret++;
-					free(filename);
-					continue;
+					goto targcleanup;
 				}
 			} else {
 				pm_printf(ALPM_LOG_ERROR, _("failed to read file '%s': %s\n"),
 						filename, strerror(errno));
-				ret++;
-				free(filename);
-				continue;
+				goto targcleanup;
 			}
 		}
 
 		if(S_ISDIR(buf.st_mode)) {
 			pm_printf(ALPM_LOG_ERROR,
 				_("cannot determine ownership of directory '%s'\n"), filename);
-			ret++;
-			free(filename);
-			continue;
+			goto targcleanup;
 		}
 
 		bname = mbasename(filename);
@@ -180,7 +176,6 @@ static int query_fileowner(alpm_list_t *targets)
 					filename, strerror(errno));
 			goto targcleanup;
 		}
-		free(dname);
 
 		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
 			alpm_pkg_t *info = i->data;
@@ -199,6 +194,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 				/* concatenate our file and the root path */
 				if(rootlen + 1 + strlen(pkgfile) > PATH_MAX) {
+					path[rootlen] = '\0'; /* reset path for error message */
 					pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), path, pkgfile);
 					continue;
 				}
@@ -207,11 +203,10 @@ static int query_fileowner(alpm_list_t *targets)
 				pdname = mdirname(path);
 				ppath = realpath(pdname, NULL);
 				free(pdname);
-				path[rootlen] = '\0'; /* reset path for error messages */
 
 				if(!ppath) {
 					pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
-							pdname, strerror(errno));
+							path, strerror(errno));
 					continue;
 				}
 
@@ -226,10 +221,15 @@ static int query_fileowner(alpm_list_t *targets)
 		}
 		if(!found) {
 			pm_printf(ALPM_LOG_ERROR, _("No package owns %s\n"), filename);
+		}
+
+targcleanup:
+		if(!found) {
 			ret++;
 		}
 		free(filename);
 		free(rpath);
+		free(dname);
 	}
 
 	return ret;
