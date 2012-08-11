@@ -348,7 +348,10 @@ typedef enum _alpm_event_t {
 	/** Disk space usage will be computed for a package */
 	ALPM_EVENT_DISKSPACE_START,
 	/** Disk space usage was computed for a package */
-	ALPM_EVENT_DISKSPACE_DONE
+	ALPM_EVENT_DISKSPACE_DONE,
+	/** An optdepend for another package is being removed
+	 * The requiring package and its dependency are passed to the callback */
+	ALPM_EVENT_OPTDEP_REQUIRED
 } alpm_event_t;
 
 /** Event callback */

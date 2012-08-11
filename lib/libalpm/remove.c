@@ -158,6 +158,32 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 }
 
 /**
+ * @brief Send a callback for any optdepend being removed.
+ *
+ * @param handle the context handle
+ * @param lp list of packages to be removed
+ */
+static void remove_notify_needed_optdepends(alpm_handle_t *handle, alpm_list_t *lp)
+{
+	alpm_list_t *i;
+
+	for(i = _alpm_db_get_pkgcache(handle->db_local); i; i = alpm_list_next(i)) {
+		alpm_pkg_t *pkg = i->data;
+		alpm_list_t *optdeps = alpm_pkg_get_optdepends(pkg);
+
+		if(optdeps && !_alpm_pkg_find(lp, pkg->name)) {
+			alpm_list_t *j;
+			for(j = optdeps; j; j = alpm_list_next(j)) {
+				alpm_depend_t *optdep = j->data;
+				if(_alpm_pkg_find(lp, optdep->name)) {
+					EVENT(handle, ALPM_EVENT_OPTDEP_REQUIRED, pkg, optdep);
+				}
+			}
+		}
+	}
+}
+
+/**
  * @brief Transaction preparation for remove actions.
  *
  * This functions takes a pointer to a alpm_list_t which will be
@@ -227,6 +253,9 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			return -1;
 		}
 	}
+
+	/* Note packages being removed that are optdepends for installed packages */
+	remove_notify_needed_optdepends(handle, trans->remove);
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		EVENT(handle, ALPM_EVENT_CHECKDEPS_DONE, NULL, NULL);

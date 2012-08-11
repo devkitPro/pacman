@@ -239,6 +239,10 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 				printf(_("checking available disk space...\n"));
 			}
 			break;
+		case ALPM_EVENT_OPTDEP_REQUIRED:
+			printf(_(":: %s optionally requires %s\n"), alpm_pkg_get_name(data1),
+				alpm_dep_compute_string(data2));
+			break;
 		/* all the simple done events, with fallthrough for each */
 		case ALPM_EVENT_FILECONFLICTS_DONE:
 		case ALPM_EVENT_CHECKDEPS_DONE:
