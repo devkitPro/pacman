@@ -2212,6 +2212,14 @@ canonicalize_path() {
 	fi
 }
 
+dir_is_empty() {
+	(
+		shopt -s dotglob nullglob
+		files=("$1"/*)
+		(( ${#files} == 0 ))
+	)
+}
+
 m4_include(library/parseopts.sh)
 
 usage() {
@@ -2695,14 +2703,14 @@ if (( NOEXTRACT )); then
 	warning "$(gettext "Skipping source integrity checks -- using existing %s tree")" "src/"
 	warning "$(gettext "Skipping source extraction       -- using existing %s tree")" "src/"
 
-	if (( NOEXTRACT )) && [[ -z $(ls "$srcdir" 2>/dev/null) ]]; then
+	if (( NOEXTRACT )) && dir_is_empty "$srcdir"; then
 		error "$(gettext "The source directory is empty, there is nothing to build!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
 	fi
 elif (( REPKG )); then
 	if (( ! PKGFUNC && ! SPLITPKG )) \
-	     && [[ ! -d $pkgdir || -z $(ls "$pkgdir" 2>/dev/null) ]]; then
+	     && { [[ ! -d $pkgdir ]] || dir_is_empty "$pkgdir"; }; then
 		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
