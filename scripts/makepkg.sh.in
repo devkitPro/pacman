@@ -396,7 +396,7 @@ download_git() {
 	url=${url##*git+}
 	url=${url%%#*}
 
-	if [[ ! -d "$dir" ]]; then
+	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
 		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "git"
 		if ! git clone --mirror "$url" "$dir"; then
 			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "git"
