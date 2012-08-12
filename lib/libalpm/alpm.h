@@ -712,6 +712,14 @@ int alpm_pkg_vercmp(const char *a, const char *b);
  */
 alpm_list_t *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg);
 
+/** Computes the list of packages optionally requiring a given package.
+ * The return value of this function is a newly allocated
+ * list of package names (char*), it should be freed by the caller.
+ * @param pkg a package
+ * @return the list of packages optionally requiring pkg
+ */
+alpm_list_t *alpm_pkg_compute_optionalfor(alpm_pkg_t *pkg);
+
 /** @name Package Property Accessors
  * Any pointer returned by these functions points to internal structures
  * allocated by libalpm. They should not be freed nor modified in any

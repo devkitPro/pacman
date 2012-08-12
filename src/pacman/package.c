@@ -89,7 +89,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	double size;
 	char bdatestr[50] = "", idatestr[50] = "";
 	const char *label, *reason;
-	alpm_list_t *validation = NULL, *requiredby = NULL;
+	alpm_list_t *validation = NULL, *requiredby = NULL, *optionalfor = NULL;
 
 	from = alpm_pkg_get_origin(pkg);
 
@@ -137,6 +137,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	if(extra || from == ALPM_PKG_FROM_LOCALDB) {
 		/* compute this here so we don't get a pause in the middle of output */
 		requiredby = alpm_pkg_compute_requiredby(pkg);
+		optionalfor = alpm_pkg_compute_optionalfor(pkg);
 	}
 
 	cols = getcols(fileno(stdout));
@@ -159,6 +160,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 
 	if(extra || from == ALPM_PKG_FROM_LOCALDB) {
 		list_display(_("Required By    :"), requiredby, cols);
+		list_display(_("Optional For   :"), optionalfor, cols);
 	}
 	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg), cols);
 	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg), cols);

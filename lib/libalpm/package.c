@@ -389,7 +389,8 @@ int SYMEXPORT alpm_pkg_has_scriptlet(alpm_pkg_t *pkg)
 	return pkg->ops->has_scriptlet(pkg);
 }
 
-static void find_requiredby(alpm_pkg_t *pkg, alpm_db_t *db, alpm_list_t **reqs)
+static void find_requiredby(alpm_pkg_t *pkg, alpm_db_t *db, alpm_list_t **reqs,
+		int optional)
 {
 	const alpm_list_t *i;
 	pkg->handle->pm_errno = 0;
@@ -397,7 +398,14 @@ static void find_requiredby(alpm_pkg_t *pkg, alpm_db_t *db, alpm_list_t **reqs)
 	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
 		alpm_pkg_t *cachepkg = i->data;
 		alpm_list_t *j;
-		for(j = alpm_pkg_get_depends(cachepkg); j; j = j->next) {
+
+		if(optional == 0) {
+			j = alpm_pkg_get_depends(cachepkg);
+		} else {
+			j = alpm_pkg_get_optdepends(cachepkg);
+		}
+
+		for(; j; j = j->next) {
 			if(_alpm_depcmp(pkg, j->data)) {
 				const char *cachepkgname = cachepkg->name;
 				if(alpm_list_find_str(*reqs, cachepkgname) == NULL) {
@@ -408,8 +416,7 @@ static void find_requiredby(alpm_pkg_t *pkg, alpm_db_t *db, alpm_list_t **reqs)
 	}
 }
 
-/** Compute the packages requiring a given package. */
-alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
+static alpm_list_t *compute_requiredby(alpm_pkg_t *pkg, int optional)
 {
 	const alpm_list_t *i;
 	alpm_list_t *reqs = NULL;
@@ -420,23 +427,36 @@ alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
 
 	if(pkg->origin == ALPM_PKG_FROM_FILE) {
 		/* The sane option; search locally for things that require this. */
-		find_requiredby(pkg, pkg->handle->db_local, &reqs);
+		find_requiredby(pkg, pkg->handle->db_local, &reqs, optional);
 	} else {
 		/* We have a DB package. if it is a local package, then we should
 		 * only search the local DB; else search all known sync databases. */
 		db = pkg->origin_data.db;
 		if(db->status & DB_STATUS_LOCAL) {
-			find_requiredby(pkg, db, &reqs);
+			find_requiredby(pkg, db, &reqs, optional);
 		} else {
 			for(i = pkg->handle->dbs_sync; i; i = i->next) {
 				db = i->data;
-				find_requiredby(pkg, db, &reqs);
+				find_requiredby(pkg, db, &reqs, optional);
 			}
 			reqs = alpm_list_msort(reqs, alpm_list_count(reqs), _alpm_str_cmp);
 		}
 	}
 	return reqs;
 }
+
+/** Compute the packages requiring a given package. */
+alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
+{
+	return compute_requiredby(pkg, 0);
+}
+
+/** Compute the packages optionally requiring a given package. */
+alpm_list_t SYMEXPORT *alpm_pkg_compute_optionalfor(alpm_pkg_t *pkg)
+{
+	return compute_requiredby(pkg, 1);
+}
+
 
 /** @} */
 
