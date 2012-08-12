@@ -273,10 +273,6 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 /**
  * @brief Unlink a package file, backing it up if necessary.
  *
- * @note Helper function for iterating through a package's file and deleting
- * them.
- * @note Used by _alpm_remove_commit.
- *
  * @param handle the context handle
  * @param oldpkg the package being removed
  * @param newpkg the package replacing \a oldpkg
