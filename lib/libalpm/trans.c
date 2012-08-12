@@ -163,7 +163,7 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 	if(trans->add == NULL) {
 		if(_alpm_remove_packages(handle, 1) == -1) {
-			/* pm_errno is set by _alpm_remove_commit() */
+			/* pm_errno is set by _alpm_remove_packages() */
 			return -1;
 		}
 	} else {
