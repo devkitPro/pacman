@@ -1200,6 +1200,22 @@ static int depend_cmp(const void *d1, const void *d2)
 	return ret;
 }
 
+static char *make_optstring(alpm_depend_t *optdep)
+{
+	char *optstring = alpm_dep_compute_string(optdep);
+	char *status = NULL;
+	if(alpm_db_get_pkg(alpm_get_localdb(config->handle), optdep->name)) {
+		status = _(" [installed]");
+	} else if(alpm_pkg_find(alpm_trans_get_add(config->handle), optdep->name)) {
+		status = _(" [pending]");
+	}
+	if(status) {
+		optstring = realloc(optstring, strlen(optstring) + strlen(status) + 1);
+		strcpy(optstring + strlen(optstring), status);
+	}
+	return optstring;
+}
+
 void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 {
 	alpm_list_t *i, *old, *new, *optdeps, *optstrings = NULL;
@@ -1211,7 +1227,7 @@ void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 	/* turn optdepends list into a text list */
 	for(i = optdeps; i; i = alpm_list_next(i)) {
 		alpm_depend_t *optdep = i->data;
-		optstrings = alpm_list_add(optstrings, alpm_dep_compute_string(optdep));
+		optstrings = alpm_list_add(optstrings, make_optstring(optdep));
 	}
 
 	if(optstrings) {
@@ -1233,7 +1249,7 @@ void display_optdepends(alpm_pkg_t *pkg)
 	/* turn optdepends list into a text list */
 	for(i = optdeps; i; i = alpm_list_next(i)) {
 		alpm_depend_t *optdep = i->data;
-		optstrings = alpm_list_add(optstrings, alpm_dep_compute_string(optdep));
+		optstrings = alpm_list_add(optstrings, make_optstring(optdep));
 	}
 
 	if(optstrings) {
