@@ -685,7 +685,7 @@ int _alpm_pkg_cmp(const void *p1, const void *p2)
 /* Test for existence of a package in a alpm_list_t*
  * of alpm_pkg_t*
  */
-alpm_pkg_t *_alpm_pkg_find(alpm_list_t *haystack, const char *needle)
+alpm_pkg_t SYMEXPORT *alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 {
 	alpm_list_t *lp;
 	unsigned long needle_hash;

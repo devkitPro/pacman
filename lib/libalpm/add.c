@@ -67,7 +67,7 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "adding package '%s'\n", pkgname);
 
-	if(_alpm_pkg_find(trans->add, pkgname)) {
+	if(alpm_pkg_find(trans->add, pkgname)) {
 		RET_ERR(handle, ALPM_ERR_TRANS_DUP_TARGET, -1);
 	}
 

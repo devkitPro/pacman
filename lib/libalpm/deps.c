@@ -281,7 +281,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 
 	for(i = pkglist; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
-		if(_alpm_pkg_find(rem, pkg->name) || _alpm_pkg_find(upgrade, pkg->name)) {
+		if(alpm_pkg_find(rem, pkg->name) || alpm_pkg_find(upgrade, pkg->name)) {
 			modified = alpm_list_add(modified, pkg);
 		} else {
 			dblist = alpm_list_add(dblist, pkg);
@@ -495,7 +495,7 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
 {
 	alpm_list_t *i;
 
-	if(_alpm_pkg_find(targets, pkg->name)) {
+	if(alpm_pkg_find(targets, pkg->name)) {
 		return 0;
 	}
 
@@ -517,7 +517,7 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
 	/* see if other packages need it */
 	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
 		alpm_pkg_t *lpkg = i->data;
-		if(_alpm_dep_edge(lpkg, pkg) && !_alpm_pkg_find(targets, lpkg->name)) {
+		if(_alpm_dep_edge(lpkg, pkg) && !alpm_pkg_find(targets, lpkg->name)) {
 			return 0;
 		}
 	}
@@ -591,7 +591,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	for(i = dbs; i; i = i->next) {
 		alpm_pkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
 		if(pkg && _alpm_depcmp_literal(pkg, dep)
-				&& !_alpm_pkg_find(excluding, pkg->name)) {
+				&& !alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(handle, pkg)) {
 				int install = 0;
 				if(prompt) {
@@ -616,7 +616,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 			/* with hash != hash, we can even skip the strcmp() as we know they can't
 			 * possibly be the same string */
 			if(pkg->name_hash != dep->name_hash && _alpm_depcmp(pkg, dep)
-					&& !_alpm_pkg_find(excluding, pkg->name)) {
+					&& !alpm_pkg_find(excluding, pkg->name)) {
 				if(_alpm_pkg_should_ignore(handle, pkg)) {
 					int install = 0;
 					if(prompt) {
@@ -730,7 +730,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 	alpm_list_t *deps = NULL;
 	alpm_list_t *packages_copy;
 
-	if(_alpm_pkg_find(*packages, pkg->name) != NULL) {
+	if(alpm_pkg_find(*packages, pkg->name) != NULL) {
 		return 0;
 	}
 

@@ -159,7 +159,7 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 
 			/* If spkg is already in the target list, we append lpkg to spkg's
 			 * removes list */
-			tpkg = _alpm_pkg_find(handle->trans->add, spkg->name);
+			tpkg = alpm_pkg_find(handle->trans->add, spkg->name);
 			if(tpkg) {
 				/* sanity check, multiple repos can contain spkg->name */
 				if(tpkg->origin_data.db != sdb) {
@@ -204,7 +204,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 	for(i = _alpm_db_get_pkgcache(handle->db_local); i; i = i->next) {
 		alpm_pkg_t *lpkg = i->data;
 
-		if(_alpm_pkg_find(trans->add, lpkg->name)) {
+		if(alpm_pkg_find(trans->add, lpkg->name)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "%s is already in the target list -- skipping\n", lpkg->name);
 			continue;
 		}
@@ -257,7 +257,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 		for(j = grp->packages; j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
 
-			if(_alpm_pkg_find(ignorelist, pkg->name)) {
+			if(alpm_pkg_find(ignorelist, pkg->name)) {
 				continue;
 			}
 			if(_alpm_pkg_should_ignore(db->handle, pkg)) {
@@ -268,7 +268,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 				if(!install)
 					continue;
 			}
-			if(!_alpm_pkg_find(pkgs, pkg->name)) {
+			if(!alpm_pkg_find(pkgs, pkg->name)) {
 				pkgs = alpm_list_add(pkgs, pkg);
 			}
 		}
@@ -448,7 +448,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		/* Set DEPEND reason for pulled packages */
 		for(i = resolved; i; i = i->next) {
 			alpm_pkg_t *pkg = i->data;
-			if(!_alpm_pkg_find(trans->add, pkg->name)) {
+			if(!alpm_pkg_find(trans->add, pkg->name)) {
 				pkg->reason = ALPM_PKG_REASON_DEPEND;
 			}
 		}
@@ -482,8 +482,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			alpm_pkg_t *rsync, *sync, *sync1, *sync2;
 
 			/* have we already removed one of the conflicting targets? */
-			sync1 = _alpm_pkg_find(trans->add, conflict->package1);
-			sync2 = _alpm_pkg_find(trans->add, conflict->package2);
+			sync1 = alpm_pkg_find(trans->add, conflict->package1);
+			sync2 = alpm_pkg_find(trans->add, conflict->package2);
 			if(!sync1 || !sync2) {
 				continue;
 			}
@@ -545,7 +545,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			int found = 0;
 			for(j = trans->add; j && !found; j = j->next) {
 				alpm_pkg_t *spkg = j->data;
-				if(_alpm_pkg_find(spkg->removes, conflict->package2)) {
+				if(alpm_pkg_find(spkg->removes, conflict->package2)) {
 					found = 1;
 				}
 			}
@@ -556,7 +556,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			_alpm_log(handle, ALPM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
 					conflict->package1, conflict->package2);
 
-			alpm_pkg_t *sync = _alpm_pkg_find(trans->add, conflict->package1);
+			alpm_pkg_t *sync = alpm_pkg_find(trans->add, conflict->package1);
 			alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
 			int doremove = 0;
 			QUESTION(handle, ALPM_QUESTION_CONFLICT_PKG, conflict->package1,
@@ -590,7 +590,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		alpm_pkg_t *spkg = i->data;
 		for(j = spkg->removes; j; j = j->next) {
 			alpm_pkg_t *rpkg = j->data;
-			if(!_alpm_pkg_find(trans->remove, rpkg->name)) {
+			if(!alpm_pkg_find(trans->remove, rpkg->name)) {
 				alpm_pkg_t *copy;
 				_alpm_log(handle, ALPM_LOG_DEBUG, "adding '%s' to remove list\n", rpkg->name);
 				if(_alpm_pkg_dup(rpkg, &copy) == -1) {

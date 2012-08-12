@@ -689,6 +689,13 @@ alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
 int alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
 		alpm_siglevel_t level, alpm_pkg_t **pkg);
 
+/** Find a package in a list by name.
+ * @param haystack a list of alpm_pkg_t
+ * @param needle the package name
+ * @return a pointer to the package if found or NULL
+ */
+alpm_pkg_t *alpm_pkg_find(alpm_list_t *haystack, const char *needle);
+
 /** Free a package.
  * @param pkg package pointer to free
  * @return 0 on success, -1 on error (pm_errno is set accordingly)

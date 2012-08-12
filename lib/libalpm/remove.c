@@ -68,7 +68,7 @@ int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	pkgname = pkg->name;
 
-	if(_alpm_pkg_find(trans->remove, pkgname)) {
+	if(alpm_pkg_find(trans->remove, pkgname)) {
 		RET_ERR(handle, ALPM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
@@ -100,7 +100,7 @@ static int remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 			alpm_pkg_t *info = _alpm_db_get_pkgfromcache(handle->db_local, miss->target);
 			if(info) {
 				alpm_pkg_t *copy;
-				if(!_alpm_pkg_find(trans->remove, info->name)) {
+				if(!alpm_pkg_find(trans->remove, info->name)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "pulling %s in target list\n",
 							info->name);
 					if(_alpm_pkg_dup(info, &copy) == -1) {
@@ -137,7 +137,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 		for(i = lp; i; i = i->next) {
 			alpm_depmissing_t *miss = i->data;
 			void *vpkg;
-			alpm_pkg_t *pkg = _alpm_pkg_find(trans->remove, miss->causingpkg);
+			alpm_pkg_t *pkg = alpm_pkg_find(trans->remove, miss->causingpkg);
 			if(pkg == NULL) {
 				continue;
 			}
@@ -171,11 +171,11 @@ static void remove_notify_needed_optdepends(alpm_handle_t *handle, alpm_list_t *
 		alpm_pkg_t *pkg = i->data;
 		alpm_list_t *optdeps = alpm_pkg_get_optdepends(pkg);
 
-		if(optdeps && !_alpm_pkg_find(lp, pkg->name)) {
+		if(optdeps && !alpm_pkg_find(lp, pkg->name)) {
 			alpm_list_t *j;
 			for(j = optdeps; j; j = alpm_list_next(j)) {
 				alpm_depend_t *optdep = j->data;
-				if(_alpm_pkg_find(lp, optdep->name)) {
+				if(alpm_pkg_find(lp, optdep->name)) {
 					EVENT(handle, ALPM_EVENT_OPTDEP_REQUIRED, pkg, optdep);
 				}
 			}
