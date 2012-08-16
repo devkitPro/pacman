@@ -237,12 +237,12 @@ get_filename() {
 
 	case $proto in
 		git*|hg*|svn*)
-			filename=${netfile##*/}
-			filename=${filename%%#*}
-			# fall-through
-			;;&
-		git*)
-			filename=${filename%%.git*}
+			filename=${netfile%%#*}
+			filename=${filename%/}
+			filename=${filename##*/}
+			if [[ $proto = git* ]]; then
+				filename=${filename%%.git*}
+			fi
 			;;
 		*)
 			# if it is just an URL, we only keep the last component
