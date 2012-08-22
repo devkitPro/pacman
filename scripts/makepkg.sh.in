@@ -475,7 +475,7 @@ download_hg() {
 	url=${url##*hg+}
 	url=${url%%#*}
 
-	if [[ ! -d "$dir" ]]; then
+	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
 		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "hg"
 		if ! hg clone -U "$url" "$dir"; then
 			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "hg"
@@ -537,7 +537,7 @@ download_svn() {
 	fi
 	url=${url%%#*}
 
-	if [[ ! -d "$dir" ]]; then
+	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
 		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "svn"
 		if ! svn checkout --config-dir "$dir" "$url" "$dir"; then
 			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "svn"
