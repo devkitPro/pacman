@@ -1390,7 +1390,7 @@ tidy_install() {
 			done
 			if [[ -z ${files[$inode]} ]]; then
 				files[$inode]=$file
-				gzip -9 -f "$file"
+				gzip -9 -n -f "$file"
 			else
 				rm -f "$file"
 				ln "${files[$inode]}.gz" "${file}.gz"
