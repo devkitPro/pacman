@@ -380,7 +380,7 @@ download_file() {
 download_git() {
 	local netfile=$1
 
-	local fragment=${netfile##*#}
+	local fragment=${netfile#*#}
 	if [[ $fragment = "$netfile" ]]; then
 		unset fragment
 	fi
@@ -460,7 +460,7 @@ download_git() {
 download_hg() {
 	local netfile=$1
 
-	local fragment=${netfile##*#}
+	local fragment=${netfile#*#}
 	if [[ $fragment = "$netfile" ]]; then
 		unset fragment
 	fi
@@ -520,7 +520,7 @@ download_hg() {
 download_svn() {
 	local netfile=$1
 
-	local fragment=${netfile##*#}
+	local fragment=${netfile#*#}
 	if [[ $fragment = "$netfile" ]]; then
 		unset fragment
 	fi
