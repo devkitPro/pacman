@@ -284,7 +284,7 @@ get_downloadclient() {
 
 	# if we didn't find an agent, return an error
 	if [[ -z $agent ]]; then
-		error "$(gettext "There is no agent set up to handle %s URLs. Check %s.")" "$proto" "$MAKEPKG_CONF"
+		error "$(gettext "Unknown download protocol: %s")" "$proto"
 		plain "$(gettext "Aborting...")"
 		exit 1 # $E_CONFIG_ERROR
 	fi
@@ -596,9 +596,6 @@ download_sources() {
 			local)
 				download_local "$netfile"
 				;;
-			ftp|http|https|rsync|scp)
-				download_file "$netfile"
-				;;
 			git*)
 				(( GET_VCS )) && download_git "$netfile"
 				;;
@@ -609,9 +606,7 @@ download_sources() {
 				(( GET_VCS )) && download_svn "$netfile"
 				;;
 			*)
-				error "$(gettext "Unknown download protocol: %s")" "$proto"
-				plain "$(gettext "Aborting...")"
-				exit 1
+				download_file "$netfile"
 				;;
 		esac
 	done
