@@ -123,8 +123,10 @@ static int query_fileowner(alpm_list_t *targets)
 	}
 
 	/* append trailing '/' removed by realpath */
-	path[rootlen++] = '/';
-	path[rootlen] = '\0';
+	if(path[rootlen - 1] != '/') {
+		path[rootlen++] = '/';
+		path[rootlen] = '\0';
+	}
 
 	db_local = alpm_get_localdb(config->handle);
 
