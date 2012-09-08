@@ -97,6 +97,7 @@ static int query_fileowner(alpm_list_t *targets)
 	size_t rootlen;
 	alpm_list_t *t;
 	alpm_db_t *db_local;
+	alpm_list_t *packages;
 
 	/* This code is here for safety only */
 	if(targets == NULL) {
@@ -129,13 +130,14 @@ static int query_fileowner(alpm_list_t *targets)
 	}
 
 	db_local = alpm_get_localdb(config->handle);
+	packages = alpm_db_get_pkgcache(db_local);
 
 	for(t = targets; t; t = alpm_list_next(t)) {
 		char *filename = NULL, *dname = NULL, *rpath = NULL;
 		const char *bname;
 		struct stat buf;
 		alpm_list_t *i;
-		size_t len;
+		size_t len, is_dir, bname_len, pbname_len;
 		unsigned int found = 0;
 
 		if((filename = strdup(t->data)) == NULL) {
@@ -163,15 +165,21 @@ static int query_fileowner(alpm_list_t *targets)
 			}
 		}
 
-		if(S_ISDIR(buf.st_mode)) {
-			pm_printf(ALPM_LOG_ERROR,
-				_("cannot determine ownership of directory '%s'\n"), filename);
-			goto targcleanup;
+		is_dir = S_ISDIR(buf.st_mode) ? 1 : 0;
+		if(is_dir) {
+			/* the entire filename is safe to resolve if we know it points to a dir,
+			 * and it's necessary in case it ends in . or .. */
+			dname = realpath(filename, NULL);
+			bname = mbasename(dname);
+			rpath = mdirname(dname);
+		} else {
+			bname = mbasename(filename);
+			dname = mdirname(filename);
+			rpath = realpath(dname, NULL);
 		}
 
-		bname = mbasename(filename);
-		dname = mdirname(filename);
-		rpath = realpath(dname, NULL);
+		bname_len = strlen(bname);
+		pbname_len = bname_len + is_dir;
 
 		if(!dname || !rpath) {
 			pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
@@ -179,33 +187,47 @@ static int query_fileowner(alpm_list_t *targets)
 			goto targcleanup;
 		}
 
-		for(i = alpm_db_get_pkgcache(db_local); i && !found; i = alpm_list_next(i)) {
+		for(i = packages; i && (!found || is_dir); i = alpm_list_next(i)) {
 			alpm_pkg_t *info = i->data;
 			alpm_filelist_t *filelist = alpm_pkg_get_files(info);
 			size_t j;
 
 			for(j = 0; j < filelist->count; j++) {
 				const alpm_file_t *file = filelist->files + j;
-				char *ppath, *pdname;
+				char *ppath;
 				const char *pkgfile = file->name;
+				size_t pkgfile_len = strlen(pkgfile);
 
-				/* avoid the costly realpath usage if the basenames don't match */
-				if(strcmp(mbasename(pkgfile), bname) != 0) {
+				/* make sure pkgfile and target are of the same type */
+				if(is_dir != (pkgfile[pkgfile_len - 1] == '/')) {
 					continue;
 				}
 
-				/* concatenate our file and the root path */
-				if(rootlen + 1 + strlen(pkgfile) > PATH_MAX) {
+				/* make sure pkgfile is long enough */
+				if(pkgfile_len < pbname_len) {
+					continue;
+				}
+
+				/* make sure pbname_len takes us to the start of a path component */
+				if(pbname_len != pkgfile_len && pkgfile[pkgfile_len - pbname_len - 1] != '/') {
+					continue;
+				}
+
+				/* compare basename with bname */
+				if(strncmp(pkgfile + pkgfile_len - pbname_len, bname, bname_len) != 0) {
+					continue;
+				}
+
+				/* concatenate our dirname and the root path */
+				if(rootlen + 1 + pkgfile_len - pbname_len > PATH_MAX) {
 					path[rootlen] = '\0'; /* reset path for error message */
 					pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), path, pkgfile);
 					continue;
 				}
-				strcpy(path + rootlen, pkgfile);
+				strncpy(path + rootlen, pkgfile, pkgfile_len - pbname_len);
+				path[rootlen + pkgfile_len - pbname_len] = '\0';
 
-				pdname = mdirname(path);
-				ppath = realpath(pdname, NULL);
-				free(pdname);
-
+				ppath = realpath(path, NULL);
 				if(!ppath) {
 					pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
 							path, strerror(errno));
