@@ -636,7 +636,7 @@ download_svn() {
 		esac
 	fi
 
-	if ! svn export $(ref[@]) "$dir"; then
+	if ! svn export ${ref[@]} "$dir"; then
 		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "svn"
 		plain "$(gettext "Aborting...")"
 	fi
