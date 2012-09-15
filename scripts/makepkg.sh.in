@@ -200,7 +200,7 @@ get_filepath() {
 	local proto="$(get_protocol "$1")"
 
 	case $proto in
-		git*|hg*|svn*)
+		bzr*|git*|hg*|svn*)
 			if [[ -d "$startdir/$file" ]]; then
 				file="$startdir/$file"
 			elif [[ -d "$SRCDEST/$file" ]]; then
@@ -236,7 +236,7 @@ get_filename() {
 	local proto=$(get_protocol "$netfile")
 
 	case $proto in
-		git*|hg*|svn*)
+		bzr*|git*|hg*|svn*)
 			filename=${netfile%%#*}
 			filename=${filename%/}
 			filename=${filename##*/}
@@ -375,6 +375,72 @@ download_file() {
 
 	rm -f "$srcdir/$filename"
 	ln -s "$SRCDEST/$filename" "$srcdir/"
+}
+
+download_bzr() {
+	local netfile=$1
+
+	local url=$(get_url "$netfile")
+	url=${url##*bzr+}
+	url=${url%%#*}
+
+	local fragment=${netfile#*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local displaylocation="$url"
+	local revision=('-r-1')
+
+	if [[ -n $fragment ]]; then
+		case ${fragment%%=*} in
+			revision)
+				revision=("-r${fragment##*=}")
+				displaylocation="$url -r ${fragment##*=}"
+				;;
+			*)
+				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
+				plain "$(gettext "Aborting...")"
+				exit 1
+		esac
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
+		msg2 "$(gettext "Branching %s ...")" "${displaylocation}"
+		if ! bzr branch "$url" "$dir" ${revision[@]} --no-tree --use-existing-dir; then
+			error "$(gettext "Failure while branching %s")" "${displaylocation}"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif (( ! HOLDVER )); then
+		# Make sure we are fetching the right repo
+		if [[ "$url" != "$(bzr config parent_location -d $dir)"  ]] ; then
+			error "$(gettext "%s is not a branch of %s")" "$dir" "$url"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+		msg2 "$(gettext "Pulling %s ...")" "${displaylocation}"
+		cd_safe "$dir"
+		if ! bzr pull "$url" ${revision[@]} --overwrite; then
+			# only warn on failure to allow offline builds
+			warning "$(gettext "Failure while pulling %s")" "${displaylocation}"
+		fi
+	fi
+
+	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${dir}" "bzr"
+	pushd "$srcdir" &>/dev/null
+	rm -rf "${dir##*/}"
+
+	if ! bzr checkout "$dir" --lightweight; then
+		error "$(gettext "Failure while creating working copy of %s %s repo")" "${dir}" "bzr"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	popd &>/dev/null
 }
 
 download_git() {
@@ -595,6 +661,9 @@ download_sources() {
 		case "$proto" in
 			local)
 				download_local "$netfile"
+				;;
+			bzr*)
+				(( GET_VCS )) && download_bzr "$netfile"
 				;;
 			git*)
 				(( GET_VCS )) && download_git "$netfile"
@@ -975,7 +1044,7 @@ generate_checksums() {
 			proto="$(get_protocol "$netfile")"
 
 			case $proto in
-				git*|hg*|svn*)
+				bzr*|git*|hg*|svn*)
 					sum="SKIP"
 					;;
 				*)

@@ -405,7 +405,7 @@ Using VCS Sources[[VCS]]
 ------------------------
 Building a developmental version of a package using sources from a version control
 system (VCS) is enabled by specifying the source in the form
-`source=('folder::url#fragment')`. Currently makepkg supports the `git`, `hg` and
+`source=('folder::url#fragment')`. Currently makepkg supports the `bzr`, `git`, `hg` and
 `svn` protocols.
 
 The source URL is divided into three components:
@@ -426,6 +426,9 @@ The source URL is divided into three components:
 	from the VCS. For example, to checkout a given revision, the source line would
 	have the format `source=(url#revision=123)`. The available fragments depends on
 	the VCS being used:
+
+	*bzr*;;
+		revision (see `bzr help revisionspec` for details)
 
 	*git*;;
 		branch, commit, tag
