@@ -17,5 +17,3 @@ self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=package")
 self.addrule("PKG_EXIST=dep")
 self.addrule("PKG_VERSION=dep|1.0-1")
-
-self.expectfailure = True

@@ -24,5 +24,3 @@ self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=glibc|1.0-1")
 self.addrule("PKG_VERSION=gcc-libs|1.0-1")
 self.addrule("PKG_VERSION=pcre|1.0-2")
-
-self.expectfailure = True

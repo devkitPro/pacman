@@ -725,7 +725,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 		alpm_list_t *rem, alpm_list_t **data)
 {
 	int ret = 0;
-	alpm_list_t *i, *j;
+	alpm_list_t *j;
 	alpm_list_t *targ;
 	alpm_list_t *deps = NULL;
 	alpm_list_t *packages_copy;
@@ -742,49 +742,49 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 	*packages = alpm_list_add(*packages, pkg);
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "started resolving dependencies\n");
-	for(i = alpm_list_last(*packages); i; i = i->next) {
-		alpm_pkg_t *tpkg = i->data;
-		targ = alpm_list_add(NULL, tpkg);
-		deps = alpm_checkdeps(handle, localpkgs, rem, targ, 0);
-		alpm_list_free(targ);
+	targ = alpm_list_add(NULL, pkg);
+	deps = alpm_checkdeps(handle, localpkgs, rem, targ, 0);
+	alpm_list_free(targ);
+	targ = NULL;
 
-		for(j = deps; j; j = j->next) {
-			alpm_depmissing_t *miss = j->data;
-			alpm_depend_t *missdep = miss->depend;
-			/* check if one of the packages in the [*packages] list already satisfies
-			 * this dependency */
-			if(find_dep_satisfier(*packages, missdep)) {
-				_alpm_depmiss_free(miss);
-				continue;
-			}
-			/* check if one of the packages in the [preferred] list already satisfies
-			 * this dependency */
-			alpm_pkg_t *spkg = find_dep_satisfier(preferred, missdep);
-			if(!spkg) {
-				/* find a satisfier package in the given repositories */
-				spkg = resolvedep(handle, missdep, handle->dbs_sync, *packages, 0);
-			}
-			if(!spkg) {
-				handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
-				char *missdepstring = alpm_dep_compute_string(missdep);
-				_alpm_log(handle, ALPM_LOG_WARNING,
-						_("cannot resolve \"%s\", a dependency of \"%s\"\n"),
-						missdepstring, tpkg->name);
-				free(missdepstring);
-				if(data) {
-					*data = alpm_list_add(*data, miss);
-				}
-				ret = -1;
-			} else {
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"pulling dependency %s (needed by %s)\n",
-						spkg->name, tpkg->name);
-				*packages = alpm_list_add(*packages, spkg);
-				_alpm_depmiss_free(miss);
-			}
+	for(j = deps; j; j = j->next) {
+		alpm_depmissing_t *miss = j->data;
+		alpm_depend_t *missdep = miss->depend;
+		/* check if one of the packages in the [*packages] list already satisfies
+		 * this dependency */
+		if(find_dep_satisfier(*packages, missdep)) {
+			_alpm_depmiss_free(miss);
+			continue;
 		}
-		alpm_list_free(deps);
+		/* check if one of the packages in the [preferred] list already satisfies
+		 * this dependency */
+		alpm_pkg_t *spkg = find_dep_satisfier(preferred, missdep);
+		if(!spkg) {
+			/* find a satisfier package in the given repositories */
+			spkg = resolvedep(handle, missdep, handle->dbs_sync, *packages, 0);
+		}
+		if(spkg && _alpm_resolvedeps(handle, localpkgs, spkg, preferred, packages, rem, data) == 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"pulling dependency %s (needed by %s)\n",
+					spkg->name, pkg->name);
+			_alpm_depmiss_free(miss);
+		} else if(resolvedep(handle, missdep, (targ = alpm_list_add(NULL, handle->db_local)), rem, 0)) {
+			_alpm_depmiss_free(miss);
+		} else {
+			handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
+			char *missdepstring = alpm_dep_compute_string(missdep);
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("cannot resolve \"%s\", a dependency of \"%s\"\n"),
+					missdepstring, pkg->name);
+			free(missdepstring);
+			if(data) {
+				*data = alpm_list_add(*data, miss);
+			}
+			ret = -1;
+		}
 	}
+	alpm_list_free(targ);
+	alpm_list_free(deps);
 
 	if(ret != 0) {
 		alpm_list_free(*packages);
