@@ -203,9 +203,12 @@ class pmtest(object):
         if pacman["gdb"]:
             cmd.extend(["libtool", "execute", "gdb", "--args"])
         if pacman["valgrind"]:
+            suppfile = os.path.join(os.path.dirname(__file__),
+                    '..', '..', 'valgrind.supp')
             cmd.extend(["libtool", "execute", "valgrind", "-q",
                 "--tool=memcheck", "--leak-check=full",
-                "--show-reachable=yes", "--suppressions=%s/valgrind.supp" % os.getcwd()])
+                "--show-reachable=yes",
+                "--suppressions=%s" % suppfile])
         cmd.extend([pacman["bin"],
             "--config", os.path.join(self.root, util.PACCONF),
             "--root", self.root,
