@@ -81,7 +81,8 @@ Options
 	This array contains options that affect the build environment, the defaults
 	are shown here. All options should always be left in the array; to enable
 	or disable an option simply remove or place an ``!'' at the front of the
-	option. Each works as follows:
+	option. If an option is specified multiple times, the final value takes
+	precedence. Each option works as follows:
 
 	*fakeroot*;;
 		Allow building packages as a non-root user. This is highly recommended.
@@ -134,7 +135,8 @@ Options
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
 	shown here. All options should always be left in the array; to enable or
 	disable an option simply remove or place an ``!'' at the front of the
-	option. Each works as follows:
+	option. If an option is specified multiple times, the final value takes
+	precedence. Each option works as follows:
 
 	*strip*;;
 		Strip symbols from binaries and libraries. If you frequently use a

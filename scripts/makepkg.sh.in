@@ -830,8 +830,9 @@ check_buildenv() {
 in_opt_array() {
 	local needle=$1; shift
 
-	local opt
-	for opt in "$@"; do
+	local i opt
+	for (( i = $#; i > 0; i-- )); do
+		opt=${!i}
 		if [[ $opt = "$needle" ]]; then
 			# enabled
 			return 0
