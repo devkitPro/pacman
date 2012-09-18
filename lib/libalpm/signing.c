@@ -530,6 +530,11 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				string_validity(gpgsig->validity),
 				gpgme_strerror(gpgsig->validity_reason));
 
+		if((time_t)gpgsig->timestamp > time(NULL)) {
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("System time is greater than signature timestamp.\n"));
+		}
+
 		result = siglist->results + sigcount;
 		err = gpgme_get_key(ctx, gpgsig->fpr, &key, 0);
 		if(gpg_err_code(err) == GPG_ERR_EOF) {
