@@ -67,7 +67,7 @@ LIB_VERSION=`expr lib_current - lib_age`.lib_age.lib_revision
 LIB_VERSION_INFO="lib_current:lib_revision:lib_age"
 
 # Respect empty CFLAGS during compiler tests
-if test "x$CFLAGS" != "x"; then
+if test "x$CFLAGS" = "x"; then
   CFLAGS=""
 fi
 

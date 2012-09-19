@@ -134,7 +134,7 @@ static int query_fileowner(alpm_list_t *targets)
 		struct stat buf;
 		alpm_list_t *i;
 		size_t len;
-		int found = 0;
+		unsigned int found = 0;
 
 		if((filename = strdup(t->data)) == NULL) {
 			goto targcleanup;
