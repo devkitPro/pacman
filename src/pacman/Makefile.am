@@ -9,23 +9,21 @@ logfile   = ${localstatedir}/log/pacman.log
 
 bin_PROGRAMS = pacman
 
-DEFS = -DLOCALEDIR=\"@localedir@\" \
-       -DCONFFILE=\"$(conffile)\" \
-       -DDBPATH=\"$(dbpath)\" \
-       -DGPGDIR=\"$(gpgdir)\" \
-       -DCACHEDIR=\"$(cachedir)\" \
-       -DLOGFILE=\"$(logfile)\" \
-       @DEFS@
-
 AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h \
-	-I$(top_srcdir)/lib/libalpm
+	-I$(top_srcdir)/lib/libalpm \
+	-DLOCALEDIR=\"@localedir@\" \
+	-DCONFFILE=\"$(conffile)\" \
+	-DDBPATH=\"$(dbpath)\" \
+	-DGPGDIR=\"$(gpgdir)\" \
+	-DCACHEDIR=\"$(cachedir)\" \
+	-DLOGFILE=\"$(logfile)\"
 
 AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 
 if USE_GIT_VERSION
 GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 --dirty | sed s/^v//')
-DEFS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+AM_CPPFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
 endif
 
 pacman_SOURCES = \

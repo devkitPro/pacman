@@ -486,7 +486,6 @@ ${PACKAGE_NAME}:
     compiler               : ${CC}
     preprocessor flags     : ${CPPFLAGS}
     compiler flags         : ${WARNING_CFLAGS} ${CFLAGS}
-    defines                : ${DEFS}
     library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS} ${GPGME_LIBS}
     linker flags           : ${LDFLAGS}
 

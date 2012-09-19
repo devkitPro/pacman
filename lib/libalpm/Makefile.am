@@ -5,10 +5,9 @@ SUBDIRS = po
 lib_LTLIBRARIES = libalpm.la
 include_HEADERS = alpm_list.h alpm.h
 
-DEFS = -DLOCALEDIR=\"@localedir@\" @DEFS@
-
 AM_CPPFLAGS = \
-	-imacros $(top_builddir)/config.h
+	-imacros $(top_builddir)/config.h \
+	-DLOCALEDIR=\"@localedir@\"
 
 AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 
