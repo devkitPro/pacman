@@ -424,13 +424,9 @@ AC_MSG_CHECKING(whether to use git version if available)
 if test "x$wantgitver" = "xyes" ; then
 	AC_CHECK_PROGS([GIT], [git])
 	AC_CHECK_FILE([.git/], hasgitdir=yes)
+	usegitver=$ac_cv_file__git_
 	if test $GIT -a "x$hasgitdir" = "xyes"; then
-		AC_MSG_RESULT([yes])
-		usegitver=yes
 		AC_DEFINE([USE_GIT_VERSION], , [Use GIT version in version string])
-	else
-		AC_MSG_RESULT([no, git or .git dir missing])
-		usegitver=no
 	fi
 else
 	AC_MSG_RESULT([no, disabled by configure])
