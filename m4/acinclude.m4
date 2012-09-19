@@ -58,11 +58,11 @@ AC_DEFUN([GCC_FORTIFY_SOURCE_CC],[
       }
     ], [
       AC_MSG_RESULT(yes)
-      CFLAGS="$df_old_cflags"
+      CFLAGS="$fs_old_cflags"
     ], [
       AC_MSG_RESULT(no)
-      CPPFLAGS="$df_old_cppflags"
-      CFLAGS="$df_old_cflags"
+      CPPFLAGS="$fs_old_cppflags"
+      CFLAGS="$fs_old_cflags"
     ])
   fi
 ])
