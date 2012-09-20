@@ -1049,10 +1049,14 @@ generate_checksums() {
 					sum="SKIP"
 					;;
 				*)
-					local file
-					file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
-					sum="$(openssl dgst -${integ} "$file")"
-					sum=${sum##* }
+					if [[ ! $netfile = *.@(sig?(n)|asc) ]]; then
+						local file
+						file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
+						sum="$(openssl dgst -${integ} "$file")"
+						sum=${sum##* }
+					else
+						sum="SKIP"
+					fi
 					;;
 			esac
 
