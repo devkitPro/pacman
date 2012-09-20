@@ -66,7 +66,7 @@ class pmenv(object):
             print t.description
             print "----------"*8
 
-            t.generate()
+            t.generate(self.pacman)
 
             t.run(self.pacman)
 

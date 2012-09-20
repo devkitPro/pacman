@@ -3,6 +3,7 @@
 #  pactest : run automated testing on the pacman binary
 #
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
+#  Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -81,6 +82,9 @@ def create_parser():
     parser.add_option("--manual-confirm", action = "store_true",
                       dest = "manualconfirm", default = False,
                       help = "do not use --noconfirm for pacman calls")
+    parser.add_option("--scriptlet-shell", type = "string",
+                      dest = "scriptletshell", default = "sh",
+                      help = "specify shell used for install scriptlets")
     return parser
 
 
@@ -99,6 +103,7 @@ if __name__ == "__main__":
     env.pacman["gdb"] = opts.gdb
     env.pacman["valgrind"] = opts.valgrind
     env.pacman["manual-confirm"] = opts.manualconfirm
+    env.pacman["scriptlet-shell"] = opts.scriptletshell
 
     if opts.testcases is None or len(opts.testcases) == 0:
         print "no tests defined, nothing to do"

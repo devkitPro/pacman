@@ -1,6 +1,7 @@
 #! /usr/bin/python2
 #
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
+#  Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -102,7 +103,18 @@ class pmtest(object):
         else:
             raise IOError("file %s does not exist!" % self.name)
 
-    def generate(self):
+    def resolve_binary(self, binary):
+        if os.path.isabs(binary):
+            return binary
+
+        for path in os.environ["PATH"].split(':'):
+            resolved = os.path.join(path, binary)
+            if os.path.exists(resolved):
+                return resolved
+
+        return binary
+
+    def generate(self, pacman):
         print "==> Generating test environment"
 
         # Cleanup leftover files from a previous test session
@@ -120,13 +132,18 @@ class pmtest(object):
         etcdir = os.path.join(self.root, os.path.dirname(util.PACCONF))
         bindir = os.path.join(self.root, "bin")
         sbindir = os.path.join(self.root, "sbin")
-        sys_dirs = [dbdir, cachedir, syncdir, tmpdir, logdir, etcdir, bindir, sbindir]
+        scriptlet_shell = self.resolve_binary(pacman["scriptlet-shell"])
+        shelldir = os.path.join(self.root, os.path.dirname(scriptlet_shell)[1:])
+        sys_dirs = [dbdir, cachedir, syncdir, tmpdir, logdir, etcdir, bindir,
+                    sbindir, shelldir]
         for sys_dir in sys_dirs:
             if not os.path.isdir(sys_dir):
                 vprint("\t%s" % sys_dir[len(self.root)+1:])
                 os.makedirs(sys_dir, 0755)
         # Only the dynamically linked binary is needed for fakechroot
         shutil.copy("/bin/sh", bindir)
+        if scriptlet_shell != "/bin/sh":
+            shutil.copy("/bin/sh", os.path.join(self.root, scriptlet_shell[1:]))
         shutil.copy(os.path.join(util.SELFPATH, "ldconfig.stub"),
             os.path.join(sbindir, "ldconfig"))
         ld_so_conf = open(os.path.join(etcdir, "ld.so.conf"), "w")
