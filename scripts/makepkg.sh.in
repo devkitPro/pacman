@@ -1426,6 +1426,11 @@ run_package() {
 	run_function_safe "$pkgfunc"
 }
 
+strip_file() {
+	local binary=$1; shift
+	strip $@ "$binary"
+}
+
 tidy_install() {
 	cd_safe "$pkgdir"
 	msg "$(gettext "Tidying install...")"
@@ -1480,16 +1485,19 @@ tidy_install() {
 		# make sure library stripping variables are defined to prevent excess stripping
 		[[ -z ${STRIP_SHARED+x} ]] && STRIP_SHARED="-S"
 		[[ -z ${STRIP_STATIC+x} ]] && STRIP_STATIC="-S"
-		local binary
+		local binary strip_flags
 		find . -type f -perm -u+w -print0 2>/dev/null | while read -d '' binary ; do
 			case "$(file -bi "$binary")" in
 				*application/x-sharedlib*)  # Libraries (.so)
-					strip $STRIP_SHARED "$binary";;
+					strip_flags="$STRIP_SHARED";;
 				*application/x-archive*)    # Libraries (.a)
-					strip $STRIP_STATIC "$binary";;
+					strip_flags="$STRIP_STATIC";;
 				*application/x-executable*) # Binaries
-					strip $STRIP_BINARIES "$binary";;
+					strip_flags="$STRIP_BINARIES";;
+				*)
+					continue ;;
 			esac
+			strip_file "$binary" ${strip_flags}
 		done
 	fi
 
