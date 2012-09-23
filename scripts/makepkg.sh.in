@@ -1426,8 +1426,53 @@ run_package() {
 	run_function_safe "$pkgfunc"
 }
 
+build_id() {
+	LANG=C readelf -n $1 | sed -n '/Build ID/ { s/.*: //p; q; }'
+}
+
 strip_file() {
 	local binary=$1; shift
+
+	if check_option "debug" "y"; then
+		local bid=$(build_id "$binary")
+
+		# has this file already been stripped
+		if [[ -n "$bid" ]]; then
+			if [[ -f "$pkgdir-debug"/usr/lib/debug/.build_id/${bid:0:2}/${bid:2}.debug ]]; then
+				return
+			fi
+		elif [[ -f "$pkgdir-debug/usr/lib/debug/$binary.debug" ]]; then
+			return
+		fi
+
+		mkdir -p "$pkgdir-debug/usr/lib/debug/${binary%/*}"
+		objcopy --only-keep-debug "$binary" "$pkgdir-debug/usr/lib/debug/$binary.debug"
+		objcopy --add-gnu-debuglink="$pkgdir-debug/usr/lib/debug/${binary#/}.debug" "$binary"
+
+		# create any needed hardlinks
+		while read -d '' file ; do
+			if [[ "${binary}" -ef "${file}" &&
+					! -f "$pkgdir-debug/usr/lib/debug/${file}.debug" ]]; then
+				mkdir -p "$pkgdir-debug/usr/lib/debug/${file%/*}"
+				ln "$pkgdir-debug/usr/lib/debug/${binary}.debug" \
+						"$pkgdir-debug/usr/lib/debug/${file}.debug"
+			fi
+		done < <(find . -type f -perm -u+w -print0 2>/dev/null)
+
+		if [[ -n "$bid" ]]; then
+			local target
+			mkdir -p "$pkgdir-debug/usr/lib/debug/.build_id/${bid:0:2}"
+
+			target="../../../../../${binary#./}"
+			target="${target/..\/..\/usr\/lib\/}"
+			target="${target/..\/usr\/}"
+			ln -s "$target" "$pkgdir-debug/usr/lib/debug/.build_id/${bid:0:2}/${bid:2}"
+
+			target="../../${binary#./}.debug"
+			ln -s "$target" "$pkgdir-debug/usr/lib/debug/.build_id/${bid:0:2}/${bid:2}.debug"
+		fi
+	fi
+
 	strip $@ "$binary"
 }
 
@@ -1485,6 +1530,11 @@ tidy_install() {
 		# make sure library stripping variables are defined to prevent excess stripping
 		[[ -z ${STRIP_SHARED+x} ]] && STRIP_SHARED="-S"
 		[[ -z ${STRIP_STATIC+x} ]] && STRIP_STATIC="-S"
+
+		if check_option "debug" "y"; then
+			mkdir -p $pkgdir-debug/usr/lib/debug
+		fi
+
 		local binary strip_flags
 		find . -type f -perm -u+w -print0 2>/dev/null | while read -d '' binary ; do
 			case "$(file -bi "$binary")" in
