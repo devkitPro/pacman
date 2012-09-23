@@ -1719,7 +1719,7 @@ write_pkginfo() {
 		echo "# using $(fakeroot -v)"
 	fi
 	echo "# $(LC_ALL=C date -u)"
-	printf "pkgname = %s\n" "$1"
+	printf "pkgname = %s\n" "$pkgname"
 	(( SPLITPKG )) && echo pkgbase = $pkgbase
 	echo "pkgver = $(get_full_version)"
 	printf "pkgdesc = %s\n" "$pkgdesc"
@@ -1790,18 +1790,11 @@ create_package() {
 	check_package
 
 	cd_safe "$pkgdir"
-	msg "$(gettext "Creating package...")"
-
-	local nameofpkg
-	if [[ -z $1 ]]; then
-		nameofpkg="$pkgname"
-	else
-		nameofpkg="$1"
-	fi
+	msg "$(gettext "Creating package \"%s\"...")" "$pkgname"
 
 	pkgarch=$(get_pkg_arch)
 
-	write_pkginfo $nameofpkg > .PKGINFO
+	write_pkginfo > .PKGINFO
 
 	local comp_files=('.PKGINFO')
 
@@ -1821,7 +1814,7 @@ create_package() {
 	msg2 "$(gettext "Compressing package...")"
 
 	local fullver=$(get_full_version)
-	local pkg_file="$PKGDEST/${nameofpkg}-${fullver}-${pkgarch}${PKGEXT}"
+	local pkg_file="$PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT}"
 	local ret=0
 
 	[[ -f $pkg_file ]] && rm -f "$pkg_file"
@@ -2338,7 +2331,7 @@ run_split_packaging() {
 		backup_package_variables
 		run_package $pkgname
 		tidy_install
-		create_package $pkgname
+		create_package
 		restore_package_variables
 		pkgdir="${pkgdir%/*}"
 	done
