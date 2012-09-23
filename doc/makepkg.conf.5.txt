@@ -77,6 +77,14 @@ Options
 	This is often used to set the number of jobs used, for example, `-j2`.
 	Other flags that make accepts can also be passed.
 
+**DEBUG_CFLAGS=**"debug_cflags"::
+	Additional compiler flags appended to CFLAGS for use in debugging. Usually
+	this would include: ``-g''. Read gcc(1) for more details on the wide
+	variety of compiler flags available.
+
+**DEBUG_CXXFLAGS=**"debug_cxxflags"::
+	Debug flags used for the C++ compiler; see DEBUG_CFLAGS for more info.
+
 **BUILDENV=(**fakeroot !distcc color !ccache check !sign**)**::
 	This array contains options that affect the build environment, the defaults
 	are shown here. All options should always be left in the array; to enable
@@ -166,6 +174,10 @@ Options
 	*upx*;;
 		Compress binary executable files using UPX.  Additional options
 		can be passed to UPX by specifying the `UPXFLAGS` variable.
+
+	*debug*;;
+		Add the user-specified debug flags as specified in DEBUG_CFLAGS and
+		DEBUG_CXXFLAGS to their counterpart buildflags.
 
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this

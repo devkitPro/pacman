@@ -44,7 +44,8 @@ declare -r confdir='@sysconfdir@'
 declare -r BUILDSCRIPT='@BUILDSCRIPT@'
 declare -r startdir="$PWD"
 
-packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge' 'upx')
+packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge' 'upx' \
+                   'debug')
 other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
 splitpkg_overrides=('pkgver' 'pkgrel' 'epoch' 'pkgdesc' 'arch' 'url' 'license' \
                     'groups' 'depends' 'optdepends' 'provides' 'conflicts' \
@@ -1338,6 +1339,11 @@ run_function() {
 	# clear user-specified buildflags if requested
 	if check_option "buildflags" "n"; then
 		unset CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
+	fi
+
+	if check_option "debug" "y"; then
+		CFLAGS+=" $DEBUG_CFLAGS"
+		CXXFLAGS+=" $DEBUG_CXXFLAGS"
 	fi
 
 	# clear user-specified makeflags if requested
