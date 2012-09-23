@@ -1864,6 +1864,28 @@ create_package() {
 	fi
 }
 
+create_debug_package() {
+	# check if a debug package was requested
+	if ! check_option "debug" "y" || ! check_option "strip" "y"; then
+		return
+	fi
+
+	pkgdir="${pkgdir}-debug"
+
+	# check if we have any debug symbols to package
+	if dir_is_empty "$pkgdir/usr/lib/debug"; then
+		return
+	fi
+
+	depends=("$pkgname=$(get_full_version)")
+	pkgdesc="Detached debugging symbols for $pkgname"
+	pkgname=$pkgname-debug
+
+	unset groups optdepends provides conflicts replaces backup install changelog
+
+	create_package
+}
+
 create_signature() {
 	if [[ $SIGNPKG != 'y' ]]; then
 		return
@@ -2332,6 +2354,7 @@ run_split_packaging() {
 		run_package $pkgname
 		tidy_install
 		create_package
+		create_debug_package
 		restore_package_variables
 		pkgdir="${pkgdir%/*}"
 	done
@@ -2756,6 +2779,7 @@ if (( INFAKEROOT )); then
 		fi
 		tidy_install
 		create_package
+		create_debug_package
 		pkgdir="${pkgdir%/*}"
 	else
 		run_split_packaging
@@ -2895,6 +2919,7 @@ else
 			fi
 			tidy_install
 			create_package
+			create_debug_package
 			pkgdir="${pkgdir%/*}"
 		else
 			run_split_packaging
