@@ -2696,6 +2696,8 @@ if (( INFAKEROOT )); then
 	fi
 
 	if (( ! SPLITPKG )); then
+		pkgdir="$pkgdir/$pkgname"
+		mkdir -p "$pkgdir"
 		if (( ! PKGFUNC )); then
 			if (( ! REPKG )); then
 				if (( BUILDFUNC )); then
@@ -2711,6 +2713,7 @@ if (( INFAKEROOT )); then
 		fi
 		tidy_install
 		create_package
+		pkgdir="${pkgdir%/*}"
 	else
 		run_split_packaging
 	fi
@@ -2839,6 +2842,8 @@ else
 			(( CHECKFUNC )) && run_check
 		fi
 		if (( ! SPLITPKG )); then
+			pkgdir="$pkgdir/$pkgname"
+			mkdir -p "$pkgdir"
 			if (( PKGFUNC )); then
 				run_package
 			elif (( REPKG )); then
@@ -2847,6 +2852,7 @@ else
 			fi
 			tidy_install
 			create_package
+			pkgdir="${pkgdir%/*}"
 		else
 			run_split_packaging
 		fi
