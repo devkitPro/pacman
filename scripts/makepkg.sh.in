@@ -2687,7 +2687,6 @@ if (( INFAKEROOT )); then
 				if (( BUILDFUNC )); then
 					run_build
 					(( CHECKFUNC )) && run_check
-					tidy_install
 				fi
 			else
 				warning "$(gettext "Repackaging without the use of a %s function is deprecated.")" "package()"
@@ -2695,8 +2694,8 @@ if (( INFAKEROOT )); then
 			fi
 		else
 			run_package
-			tidy_install
 		fi
+		tidy_install
 		create_package
 	else
 		run_split_packaging
@@ -2828,15 +2827,11 @@ else
 		if (( ! SPLITPKG )); then
 			if (( PKGFUNC )); then
 				run_package
-				tidy_install
-			else
-				if (( ! REPKG )); then
-					tidy_install
-				else
+			elif (( REPKG )); then
 					warning "$(gettext "Repackaging without the use of a %s function is deprecated.")" "package()"
 					plain "$(gettext "File permissions may not be preserved.")"
-				fi
 			fi
+			tidy_install
 			create_package
 		else
 			run_split_packaging
