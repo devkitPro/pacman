@@ -2696,6 +2696,10 @@ fi
 fullver=$(get_full_version)
 msg "$(gettext "Making package: %s")" "$pkgbase $fullver ($(date))"
 
+if (( !PKGFUNC && !SPLITPKG )); then
+	warning "$(gettext "Using a %s without a %s function is deprecated.")" "$BUILDSCRIPT" "package()"
+fi
+
 # if we are creating a source-only package, go no further
 if (( SOURCEONLY )); then
 	if [[ -f $SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT} ]] \
