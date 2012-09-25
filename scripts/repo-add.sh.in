@@ -208,7 +208,7 @@ create_signature() {
 	gpg --detach-sign --use-agent ${SIGNWITHKEY} "$dbfile" &>/dev/null || ret=$?
 
 	if (( ! ret )); then
-		msg2 "$(gettext "Created signature file %s.")" "${dbfile##*/.tmp.}.sig"
+		msg2 "$(gettext "Created signature file '%s'")" "${dbfile##*/.tmp.}.sig"
 	else
 		warning "$(gettext "Failed to sign package database.")"
 	fi
