@@ -97,6 +97,11 @@ AC_ARG_WITH(buildscript,
 	AS_HELP_STRING([--with-buildscript=name], [set the build script name used by makepkg]),
 	[BUILDSCRIPT=$withval], [BUILDSCRIPT=PKGBUILD])
 
+# Help line for debug package suffix
+AC_ARG_WITH(debug-suffix,
+	AS_HELP_STRING([--with-debug-suffix=name], [set the suffix for split debugging symbol packages used by makepkg]),
+	[DEBUGSUFFIX=$withval], [DEBUGSUFFIX=debug])
+
 # Help line for changing shell used to run install scriptlets
 AC_ARG_WITH(scriptlet-shell,
 	AS_HELP_STRING([--with-scriptlet-shell=shell],
@@ -446,6 +451,9 @@ AC_DEFINE_UNQUOTED([SRCEXT], "$SRCEXT", [The file extension used by pacman sourc
 # Set makepkg build script name
 AC_SUBST(BUILDSCRIPT)
 AC_DEFINE_UNQUOTED([BUILDSCRIPT], "$BUILDSCRIPT", [The build script name used by makepkg])
+# Set makepkg split debugging symbol package suffix
+AC_SUBST(DEBUGSUFFIX)
+AC_DEFINE_UNQUOTED([DEBUGSUFFIX], "$DEBUGSUFFIX", [The suffix for debugging symbol packages used by makepkg])
 # Set shell used by install scriptlets
 AC_SUBST(SCRIPTLET_SHELL)
 AC_DEFINE_UNQUOTED([SCRIPTLET_SHELL], "$SCRIPTLET_SHELL", [The full path of the shell used to run install scriptlets])
