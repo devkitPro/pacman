@@ -247,8 +247,8 @@ AS_IF([test "x$have_gpgme" = xno -a "x$with_gpgme" = xyes],
 AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$have_gpgme" = "xyes"])
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h float.h glob.h libintl.h limits.h locale.h \
-                  mntent.h netinet/in.h netinet/tcp.h \
+AC_CHECK_HEADERS([fcntl.h float.h glob.h langinfo.h libintl.h limits.h \
+                  locale.h mntent.h netinet/in.h netinet/tcp.h \
                   stddef.h string.h sys/ioctl.h \
                   sys/mnttab.h sys/mount.h \
                   sys/param.h sys/statvfs.h sys/time.h sys/types.h \

@@ -21,9 +21,13 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <locale.h>
 #include <alpm.h>
 #include <alpm_list.h>
+
+#ifdef HAVE_LANGINFO_H
+#include <langinfo.h>
+#endif
 
 #define LINE_MAX     512
 
@@ -40,6 +44,19 @@ struct graph_style {
 	const char *last;
 	const char *limb;
 	int indent;
+};
+
+#define UTF_V   "\342\224\202"  /* U+2502, Vertical line drawing char */
+#define UTF_VR  "\342\224\234"  /* U+251C, Vertical and right */
+#define UTF_H   "\342\224\200"  /* U+2500, Horizontal */
+#define UTF_UR  "\342\224\224"  /* U+2514, Up and right */
+
+static struct graph_style graph_utf8 = {
+	" provides",
+	UTF_VR UTF_H,
+	UTF_UR UTF_H,
+	UTF_V " ",
+	3
 };
 
 static struct graph_style graph_default = {
@@ -95,7 +112,7 @@ alpm_list_t *provisions = NULL;
 
 /* options */
 struct color_choices *color = &no_color;
-struct graph_style *style = &graph_default;
+struct graph_style *style = &graph_utf8;
 int graphviz = 0;
 int max_depth = -1;
 int reverse = 0;
@@ -210,6 +227,7 @@ static int parse_options(int argc, char *argv[])
 	char *endptr = NULL;
 
 	static const struct option opts[] = {
+		{"ascii",   no_argument,          0, 'a'},
 		{"dbpath",  required_argument,    0, 'b'},
 		{"color",   no_argument,          0, 'c'},
 		{"depth",   required_argument,    0, 'd'},
@@ -224,12 +242,24 @@ static int parse_options(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "b:cd:ghlrsu", opts, &option_index))) {
+#ifdef HAVE_LANGINFO_H
+	setlocale(LC_ALL, "");
+	if(strcmp(nl_langinfo(CODESET), "UTF-8") == 0) {
+		style = &graph_utf8;
+	}
+#else
+	style = &graph_default;
+#endif
+
+	while((opt = getopt_long(argc, argv, "ab:cd:ghlrsu", opts, &option_index))) {
 		if(opt < 0) {
 			break;
 		}
 
 		switch(opt) {
+			case 'a':
+				style = &graph_default;
+				break;
 			case OP_CONFIG:
 				configfile = optarg;
 				break;
@@ -281,6 +311,7 @@ static void usage(void)
 {
 	fprintf(stderr, "pactree v" PACKAGE_VERSION "\n"
 			"Usage: pactree [options] PACKAGE\n\n"
+			"  -a, --ascii          use ascii characters for tree formatting\n"
 			"  -b, --dbpath <path>  set an alternate database location\n"
 			"  -c, --color          colorize output\n"
 			"  -d, --depth <#>      limit the depth of recursion\n"
