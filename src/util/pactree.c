@@ -336,15 +336,16 @@ static void print_text(const char *pkg, const char *provision,
 		tdepth *depth, int last)
 {
 	const char* tip = last ? style->last : style->tip;
+	int level = 0;
 	if(!pkg && !provision) {
 		/* not much we can do */
 		return;
 	}
 
 	/* print limbs */
-	while(depth->prev)
+	while(depth->prev) {
 		depth = depth->prev;
-	int level = 0;
+	}
 	printf("%s", color->branch1);
 	while(depth->next){
 		printf("%*s%-*s", style->indent * (depth->level - level), "",
