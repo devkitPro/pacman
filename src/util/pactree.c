@@ -56,15 +56,15 @@ static struct graph_style graph_utf8 = {
 	UTF_VR UTF_H,
 	UTF_UR UTF_H,
 	UTF_V " ",
-	3
+	2
 };
 
 static struct graph_style graph_default = {
 	" provides",
-	"|--",
-	"`--",
+	"|-",
+	"`-",
 	"|",
-	3
+	2
 };
 
 static struct graph_style graph_linear = {
@@ -335,25 +335,29 @@ static void cleanup(void)
 static void print_text(const char *pkg, const char *provision,
 		tdepth *depth, int last)
 {
-	const char* tip = last ? style->last : style->tip;
+	const char* tip = "";
 	int level = 0;
 	if(!pkg && !provision) {
 		/* not much we can do */
 		return;
 	}
 
-	/* print limbs */
-	while(depth->prev) {
-		depth = depth->prev;
+	if(depth->level > 0) {
+		tip = last ? style->last : style->tip;
+
+		/* print limbs */
+		while(depth->prev) {
+			depth = depth->prev;
+		}
+		printf("%s", color->branch1);
+		while(depth->next){
+			printf("%*s%-*s", style->indent * (depth->level - level), "",
+					style->indent, style->limb);
+			level = depth->level + 1;
+			depth = depth->next;
+		}
+		printf("%*s", style->indent * (depth->level - level), "");
 	}
-	printf("%s", color->branch1);
-	while(depth->next){
-		printf("%*s%-*s", style->indent * (depth->level - level), "",
-				style->indent, style->limb);
-		level = depth->level + 1;
-		depth = depth->next;
-	}
-	printf("%*s", style->indent * (depth->level - level), "");
 
 	/* print tip */
 	if(!pkg && provision) {
