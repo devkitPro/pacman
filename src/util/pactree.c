@@ -36,8 +36,8 @@ typedef struct tdepth {
 /* output */
 struct graph_style {
 	const char *provides;
-	const char *tip1;
-	const char *tip2;
+	const char *tip;
+	const char *last;
 	const char *limb;
 	int indent;
 };
@@ -45,7 +45,7 @@ struct graph_style {
 static struct graph_style graph_default = {
 	" provides",
 	"|--",
-	"+--",
+	"`--",
 	"|",
 	3
 };
@@ -301,8 +301,10 @@ static void cleanup(void)
 }
 
 /* pkg provides provision */
-static void print_text(const char *pkg, const char *provision, tdepth *depth)
+static void print_text(const char *pkg, const char *provision,
+		tdepth *depth, int last)
 {
+	const char* tip = last ? style->last : style->tip;
 	if(!pkg && !provision) {
 		/* not much we can do */
 		return;
@@ -323,14 +325,14 @@ static void print_text(const char *pkg, const char *provision, tdepth *depth)
 
 	/* print tip */
 	if(!pkg && provision) {
-		printf("%s%s%s%s [unresolvable]%s\n", style->tip1,  color->leaf1,
+		printf("%s%s%s%s [unresolvable]%s\n", tip,  color->leaf1,
 				provision, color->branch1, color->off);
 	} else if(provision && strcmp(pkg, provision) != 0) {
-		printf("%s%s%s%s%s %s%s%s\n", style->tip2, color->leaf1, pkg,
+		printf("%s%s%s%s%s %s%s%s\n", tip, color->leaf1, pkg,
 				color->leaf2, style->provides, color->leaf1, provision,
 				color->off);
 	} else {
-		printf("%s%s%s%s\n", style->tip1, color->leaf1, pkg, color->off);
+		printf("%s%s%s%s\n", tip, color->leaf1, pkg, color->off);
 	}
 }
 
@@ -348,12 +350,13 @@ static void print_graph(const char *parentname, const char *pkgname, const char 
 }
 
 /* parent depends on dep which is satisfied by pkg */
-static void print(const char *parentname, const char *pkgname, const char *depname, tdepth *depth)
+static void print(const char *parentname, const char *pkgname,
+		const char *depname, tdepth *depth, int last)
 {
 	if(graphviz) {
 		print_graph(parentname, pkgname, depname);
 	} else {
-		print_text(pkgname, depname, depth);
+		print_text(pkgname, depname, depth, last);
 	}
 }
 
@@ -369,7 +372,7 @@ static void print_start(const char *pkgname, const char *provname)
 			NULL,
 			0
 		};
-		print_text(pkgname, provname, &d);
+		print_text(pkgname, provname, &d, 0);
 	}
 }
 
@@ -412,6 +415,7 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, tdepth *depth, int r
 
 	for(i = deps; i; i = alpm_list_next(i)) {
 		const char *pkgname = i->data;
+		int last = alpm_list_next(i) ? 0 : 1;
 
 		alpm_pkg_t *dep_pkg = alpm_find_dbs_satisfier(handle, dblist, pkgname);
 
@@ -419,10 +423,10 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, tdepth *depth, int r
 			/* if we've already seen this package, don't print in "unique" output
 			 * and don't recurse */
 			if(!unique) {
-				print(alpm_pkg_get_name(pkg), alpm_pkg_get_name(dep_pkg), pkgname, depth);
+				print(alpm_pkg_get_name(pkg), alpm_pkg_get_name(dep_pkg), pkgname, depth, last);
 			}
 		} else {
-			print(alpm_pkg_get_name(pkg), alpm_pkg_get_name(dep_pkg), pkgname, depth);
+			print(alpm_pkg_get_name(pkg), alpm_pkg_get_name(dep_pkg), pkgname, depth, last);
 			if(dep_pkg) {
 				tdepth d = {
 					depth,
@@ -431,7 +435,7 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, tdepth *depth, int r
 				};
 				depth->next = &d;
 				/* last dep, cut off the limb here */
-				if(!alpm_list_next(i)){
+				if(last){
 					if(depth->prev){
 						depth->prev->next = &d;
 						d.prev = depth->prev;
