@@ -217,7 +217,7 @@ static int parse_options(int argc, char *argv[])
 		{"help",    no_argument,          0, 'h'},
 		{"linear",  no_argument,          0, 'l'},
 		{"reverse", no_argument,          0, 'r'},
-		{"sync",    no_argument,          0, 'S'},
+		{"sync",    no_argument,          0, 's'},
 		{"unique",  no_argument,          0, 'u'},
 
 		{"config",  required_argument,    0, OP_CONFIG},
