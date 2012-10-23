@@ -871,6 +871,7 @@ int sync_prepare_execute(void)
 		confirm = yesno(_("Proceed with installation?"));
 	}
 	if(!confirm) {
+		retval = 1;
 		goto cleanup;
 	}
 
