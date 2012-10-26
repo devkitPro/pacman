@@ -336,7 +336,7 @@ static void print_text(const char *pkg, const char *provision,
 		tdepth *depth, int last)
 {
 	const char* tip = "";
-	int level = 0;
+	int level = 1;
 	if(!pkg && !provision) {
 		/* not much we can do */
 		return;
