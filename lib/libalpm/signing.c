@@ -185,7 +185,7 @@ error:
  * @param fpr the fingerprint key ID to look up
  * @return 1 if key is known, 0 if key is unknown, -1 on error
  */
-static int key_in_keychain(alpm_handle_t *handle, const char *fpr)
+int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr)
 {
 	gpgme_error_t err;
 	gpgme_ctx_t ctx;
@@ -633,10 +633,11 @@ error:
 }
 
 #else  /* HAVE_LIBGPGME */
-static int key_in_keychain(alpm_handle_t UNUSED *handle, const char UNUSED *fpr)
+int _alpm_key_in_keychain(alpm_handle_t UNUSED *handle, const char UNUSED *fpr)
 {
 	return -1;
 }
+
 int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
 		const char UNUSED *base64_sig, alpm_siglist_t UNUSED *siglist)
 {
@@ -812,7 +813,7 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 			case ALPM_SIGSTATUS_KEY_UNKNOWN:
 				/* ensure this key is still actually unknown; we may have imported it
 				 * on an earlier call to this function. */
-				if(key_in_keychain(handle, result->key.fingerprint) == 1) {
+				if(_alpm_key_in_keychain(handle, result->key.fingerprint) == 1) {
 					break;
 				}
 				_alpm_log(handle, ALPM_LOG_ERROR,

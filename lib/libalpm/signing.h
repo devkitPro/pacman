@@ -31,6 +31,8 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 		alpm_siglist_t *siglist, int optional, int marginal, int unknown);
 
+int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr);
+
 #endif /* _ALPM_SIGNING_H */
 
 /* vim: set ts=2 sw=2 noet: */
