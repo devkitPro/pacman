@@ -372,6 +372,46 @@ error:
 }
 
 /**
+ * Import a key defined by a fingerprint into the local keyring.
+ * @param handle the context handle
+ * @param fpr the fingerprint key ID to import
+ * @return 0 on success, -1 on error
+ */
+int _alpm_key_import(alpm_handle_t *handle, const char *fpr) {
+	int answer = 0, ret = -1;
+	alpm_pgpkey_t fetch_key;
+	memset(&fetch_key, 0, sizeof(fetch_key));
+
+	if(key_search(handle, fpr, &fetch_key) == 1) {
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"unknown key, found %s on keyserver\n", fetch_key.uid);
+		if(!_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
+			QUESTION(handle, ALPM_QUESTION_IMPORT_KEY,
+					&fetch_key, NULL, NULL, &answer);
+			if(answer) {
+				if(key_import(handle, &fetch_key) == 0) {
+					ret = 0;
+				} else {
+					_alpm_log(handle, ALPM_LOG_ERROR,
+							_("key \"%s\" could not be imported\n"), fetch_key.uid);
+				}
+			}
+		} else {
+			/* keyring directory was not writable, so we don't even try */
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("key %s, \"%s\" found on keyserver, keyring is not writable\n"),
+					fetch_key.fingerprint, fetch_key.uid);
+		}
+	} else {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("key \"%s\" could not be looked up remotely\n"), fpr);
+	}
+	gpgme_key_unref(fetch_key.data);
+
+	return ret;
+}
+
+/**
  * Decode a loaded signature in base64 form.
  * @param base64_data the signature to attempt to decode
  * @param data the decoded data; must be freed by the caller
@@ -638,6 +678,11 @@ int _alpm_key_in_keychain(alpm_handle_t UNUSED *handle, const char UNUSED *fpr)
 	return -1;
 }
 
+int _alpm_key_import(alpm_handle_t UNUSED *handle, const char UNUSED *fpr)
+{
+	return -1;
+}
+
 int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
 		const char UNUSED *base64_sig, alpm_siglist_t UNUSED *siglist)
 {
@@ -818,39 +863,11 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 				}
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("%s: key \"%s\" is unknown\n"), identifier, name);
-#ifdef HAVE_LIBGPGME
-				{
-					int answer = 0;
-					alpm_pgpkey_t fetch_key;
-					memset(&fetch_key, 0, sizeof(fetch_key));
 
-					if(key_search(handle, result->key.fingerprint, &fetch_key) == 1) {
-						_alpm_log(handle, ALPM_LOG_DEBUG,
-								"unknown key, found %s on keyserver\n", fetch_key.uid);
-						if(!_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
-							QUESTION(handle, ALPM_QUESTION_IMPORT_KEY,
-									&fetch_key, NULL, NULL, &answer);
-							if(answer) {
-								if(key_import(handle, &fetch_key) == 0) {
-									retry = 1;
-								} else {
-									_alpm_log(handle, ALPM_LOG_ERROR,
-											_("key \"%s\" could not be imported\n"), fetch_key.uid);
-								}
-							}
-						} else {
-							/* keyring directory was not writable, so we don't even try */
-							_alpm_log(handle, ALPM_LOG_WARNING,
-									_("key %s, \"%s\" found on keyserver, keyring is not writable\n"),
-									fetch_key.fingerprint, fetch_key.uid);
-						}
-					} else {
-						_alpm_log(handle, ALPM_LOG_ERROR,
-								_("key \"%s\" could not be looked up remotely\n"), name);
-					}
-					gpgme_key_unref(fetch_key.data);
+				if(_alpm_key_import(handle, result->key.fingerprint) == 0) {
+					retry = 1;
 				}
-#endif
+
 				break;
 			case ALPM_SIGSTATUS_KEY_DISABLED:
 				_alpm_log(handle, ALPM_LOG_ERROR,
