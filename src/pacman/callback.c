@@ -243,6 +243,12 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			printf(_(":: %s optionally requires %s\n"), alpm_pkg_get_name(data1),
 				alpm_dep_compute_string(data2));
 			break;
+		case ALPM_EVENT_DATABASE_MISSING:
+			if(!config->op_s_sync) {
+				pm_printf(ALPM_LOG_WARNING,
+					"database file for '%s' does not exist\n", (char *)data1);
+			}
+			break;
 		/* all the simple done events, with fallthrough for each */
 		case ALPM_EVENT_FILECONFLICTS_DONE:
 		case ALPM_EVENT_CHECKDEPS_DONE:

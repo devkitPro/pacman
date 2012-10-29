@@ -89,8 +89,7 @@ static int sync_db_validate(alpm_db_t *db)
 	if(_alpm_access(db->handle, NULL, dbpath, R_OK) != 0 && errno == ENOENT) {
 		db->status &= ~DB_STATUS_EXISTS;
 		db->status |= DB_STATUS_MISSING;
-		_alpm_log(db->handle, ALPM_LOG_WARNING,
-				"database file for '%s' does not exist\n", db->treename);
+		EVENT(db->handle, ALPM_EVENT_DATABASE_MISSING, db->treename, NULL);
 		goto valid;
 	}
 	db->status |= DB_STATUS_EXISTS;
