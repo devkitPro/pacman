@@ -2738,7 +2738,7 @@ if (( NODEPS || (NOBUILD && !DEP_BIN ) )); then
 	if (( NODEPS )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
-elif type -p "${PACMAN%% *}" >/dev/null; then
+elif type -p "$PACMAN" >/dev/null; then
 	if (( RMDEPS && ! INSTALL )); then
 		original_pkglist=($(run_pacman -Qq))    # required by remove_dep
 	fi
@@ -2767,7 +2767,7 @@ elif type -p "${PACMAN%% *}" >/dev/null; then
 		exit 1
 	fi
 else
-	warning "$(gettext "%s was not found in %s; skipping dependency checks.")" "${PACMAN%% *}" "PATH"
+	warning "$(gettext "%s was not found in %s; skipping dependency checks.")" "$PACMAN" "PATH"
 fi
 
 # ensure we have a sane umask set
