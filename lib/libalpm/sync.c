@@ -1089,15 +1089,13 @@ static int check_validity(alpm_handle_t *handle,
 	EVENT(handle, ALPM_EVENT_INTEGRITY_DONE, NULL, NULL);
 
 	if(errors) {
-		int tryagain = 0;
 		for(i = errors; i; i = i->next) {
 			struct validity *v = i->data;
 			if(v->error == ALPM_ERR_PKG_INVALID_SIG) {
-				int retry = _alpm_process_siglist(handle, v->pkg->name, v->siglist,
+				_alpm_process_siglist(handle, v->pkg->name, v->siglist,
 						v->level & ALPM_SIG_PACKAGE_OPTIONAL,
 						v->level & ALPM_SIG_PACKAGE_MARGINAL_OK,
 						v->level & ALPM_SIG_PACKAGE_UNKNOWN_OK);
-				tryagain += retry;
 			} else if(v->error == ALPM_ERR_PKG_INVALID_CHECKSUM) {
 				prompt_to_delete(handle, v->path, v->error);
 			}
@@ -1108,14 +1106,10 @@ static int check_validity(alpm_handle_t *handle,
 		}
 		alpm_list_free(errors);
 
-		if(tryagain == 0) {
-			if(!handle->pm_errno) {
-				RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
-			}
-			return -1;
+		if(!handle->pm_errno) {
+			RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
 		}
-		/* we were told at least once we can try again */
-		return 1;
+		return -1;
 	}
 
 	return 0;
