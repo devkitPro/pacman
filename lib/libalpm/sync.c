@@ -969,6 +969,76 @@ finish:
 	return errors;
 }
 
+static int check_keyring(alpm_handle_t *handle)
+{
+	size_t current = 0, numtargs;
+	alpm_list_t *i, *errors = NULL;
+
+	EVENT(handle, ALPM_EVENT_KEYRING_START, NULL, NULL);
+
+	numtargs = alpm_list_count(handle->trans->add);
+
+	for(i = handle->trans->add; i; i = i->next, current++) {
+		alpm_pkg_t *pkg = i->data;
+		alpm_siglevel_t level;
+
+		int percent = (current * 100) / numtargs;
+		PROGRESS(handle, ALPM_PROGRESS_KEYRING_START, "", percent,
+				numtargs, current);
+
+		if(pkg->origin == ALPM_PKG_FROM_FILE) {
+			continue; /* pkg_load() has been already called, this package is valid */
+		}
+
+		level = alpm_db_get_siglevel(alpm_pkg_get_db(pkg));
+		if((level & ALPM_SIG_PACKAGE) && pkg->base64_sig) {
+			unsigned char *decoded_sigdata = NULL;
+			size_t data_len;
+			int decode_ret = _alpm_decode_signature(pkg->base64_sig,
+					&decoded_sigdata, &data_len);
+			if(decode_ret == 0) {
+				alpm_list_t *keys = NULL;
+				if(_alpm_extract_keyid(handle, pkg->name, decoded_sigdata,
+							data_len, &keys) == 0) {
+					alpm_list_t *k;
+					for(k = keys; k; k = k->next) {
+						char *key = k->data;
+						if(_alpm_key_in_keychain(handle, key) == 0) {
+							if(!alpm_list_find_str(errors, key)) {
+								errors = alpm_list_add(errors, strdup(key));
+							}
+						}
+					}
+					FREELIST(keys);
+				}
+			}
+		}
+	}
+
+	PROGRESS(handle, ALPM_PROGRESS_KEYRING_START, "", 100,
+			numtargs, current);
+	EVENT(handle, ALPM_EVENT_KEYRING_DONE, NULL, NULL);
+
+	if(errors) {
+		EVENT(handle, ALPM_EVENT_KEY_DOWNLOAD_START, NULL, NULL);
+		int fail = 0;
+		alpm_list_t *k;
+		for(k = errors; k; k = k->next) {
+			char *key = k->data;
+			if(_alpm_key_import(handle, key) == -1) {
+				fail = 1;
+			}
+		}
+		EVENT(handle, ALPM_EVENT_KEY_DOWNLOAD_DONE, NULL, NULL);
+		if(fail) {
+			_alpm_log(handle, ALPM_LOG_ERROR, _("required key missing from keyring\n"));
+			return -1;
+		}
+	}
+
+	return 0;
+}
+
 static int check_validity(alpm_handle_t *handle,
 		size_t total, size_t total_bytes)
 {
@@ -1133,6 +1203,13 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	if(apply_deltas(handle)) {
 		return -1;
 	}
+
+#if HAVE_LIBGPGME
+	/* make sure all required signatures are in keyring */
+	if(check_keyring(handle)) {
+		return -1;
+	}
+#endif
 
 	/* get the total size of all packages so we can adjust the progress bar more
 	 * realistically if there are small and huge packages involved */

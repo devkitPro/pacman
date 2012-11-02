@@ -361,7 +361,15 @@ typedef enum _alpm_event_t {
 	 * The requiring package and its dependency are passed to the callback */
 	ALPM_EVENT_OPTDEP_REQUIRED,
 	/** A configured repository database is missing */
-	ALPM_EVENT_DATABASE_MISSING
+	ALPM_EVENT_DATABASE_MISSING,
+	/** Checking keys used to create signatures are in keyring. */
+	ALPM_EVENT_KEYRING_START,
+	/** Keyring checking is finished. */
+	ALPM_EVENT_KEYRING_DONE,
+	/** Downloading missing keys into keyring. */
+	ALPM_EVENT_KEY_DOWNLOAD_START,
+	/** Key downloading is finished. */
+	ALPM_EVENT_KEY_DOWNLOAD_DONE
 } alpm_event_t;
 
 /** Event callback */
@@ -395,7 +403,8 @@ typedef enum _alpm_progress_t {
 	ALPM_PROGRESS_CONFLICTS_START,
 	ALPM_PROGRESS_DISKSPACE_START,
 	ALPM_PROGRESS_INTEGRITY_START,
-	ALPM_PROGRESS_LOAD_START
+	ALPM_PROGRESS_LOAD_START,
+	ALPM_PROGRESS_KEYRING_START
 } alpm_progress_t;
 
 /** Progress callback */
