@@ -34,6 +34,9 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr);
 int _alpm_key_import(alpm_handle_t *handle, const char *fpr);
 
+int _alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
+		const unsigned char *sig, const size_t len, alpm_list_t **keys);
+
 #endif /* _ALPM_SIGNING_H */
 
 /* vim: set ts=2 sw=2 noet: */

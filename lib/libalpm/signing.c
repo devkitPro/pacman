@@ -950,4 +950,117 @@ int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 	return 0;
 }
 
+/**
+ * Extract the Issuer Key ID from a signature
+ * @param sig PGP signature
+ * @param len length of signature
+ * @param keys a pointer to storage for key IDs
+ * @return 0 on success, -1 on error
+ */
+int _alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
+		const unsigned char *sig, const size_t len, alpm_list_t **keys)
+{
+	size_t pos, spos, blen, hlen, ulen, slen;
+	pos = 0;
+
+	while(pos < len) {
+		if(!(sig[pos] & 0x80)) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: signature format error"), identifier);
+			return -1;
+		}
+
+		if(sig[pos] & 0x40) {
+			/* "new" packet format is not supported */
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: unsupported signature format"), identifier);
+			return -1;
+		}
+
+		if(((sig[pos] & 0x3f) >> 2) != 2) {
+			/* signature is not a "Signature Packet" */
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: signature format error"), identifier);
+			return -1;
+		}
+
+		switch(sig[pos] & 0x03) {
+			case 0:
+				blen = sig[pos + 1];
+				pos = pos + 2;
+				break;
+
+			case 1:
+				blen = (sig[pos + 1] << 8) | sig[pos + 2];
+				pos = pos + 3;
+				break;
+
+			case 2:
+				blen = (sig[pos + 1] << 24) | (sig[pos + 2] << 16) | (sig[pos + 3] << 8) | sig[pos + 4];
+				pos = pos + 5;
+				break;
+
+			case 3:
+				/* partial body length not supported */
+				_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: unsupported signature format"), identifier);
+				return -1;
+		}
+
+		if(sig[pos] != 4) {
+			/* only support version 4 signature packet format */
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: unsupported signature format"), identifier);
+			return -1;
+		}
+
+		if(sig[pos + 1] != 0x00) {
+			/* not a signature of a binary document */
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: signature format error"), identifier);
+			return -1;
+		}
+
+		pos = pos + 4;
+
+		hlen = (sig[pos] << 8) | sig[pos + 1];
+		pos = pos + hlen + 2;
+
+		ulen = (sig[pos] << 8) | sig[pos + 1];
+		pos = pos + 2;
+
+		spos = pos;
+
+		while(spos < pos + ulen) {
+			if(sig[spos] < 192) {
+				slen = sig[spos];
+				spos = spos + 1;
+			} else if(sig[spos] < 255) {
+				slen = (sig[spos] << 8) | sig[spos + 1];
+				spos = spos + 2;
+			} else {
+				slen = (sig[spos + 1] << 24) | (sig[spos + 2] << 16) | (sig[spos + 3] << 8) | sig[spos + 4];
+				spos = spos + 5;
+			}
+
+			if(sig[spos] == 16) {
+				/* issuer key ID */
+				char key[17];
+				size_t i;
+				for (i = 0; i < 8; i++) {
+					sprintf(&key[i * 2], "%02X", sig[spos + i + 1]);
+				}
+				*keys = alpm_list_add(*keys, strdup(key));
+				break;
+			}
+
+			spos = spos + slen;
+		}
+
+		pos = pos + (blen - hlen - 8);
+	}
+
+	return 0;
+}
+
 /* vim: set ts=2 sw=2 noet: */
