@@ -1096,6 +1096,7 @@ static int check_validity(alpm_handle_t *handle,
 						v->level & ALPM_SIG_PACKAGE_OPTIONAL,
 						v->level & ALPM_SIG_PACKAGE_MARGINAL_OK,
 						v->level & ALPM_SIG_PACKAGE_UNKNOWN_OK);
+				prompt_to_delete(handle, v->path, v->error);
 			} else if(v->error == ALPM_ERR_PKG_INVALID_CHECKSUM) {
 				prompt_to_delete(handle, v->path, v->error);
 			}
