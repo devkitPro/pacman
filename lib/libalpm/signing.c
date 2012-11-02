@@ -418,7 +418,8 @@ int _alpm_key_import(alpm_handle_t *handle, const char *fpr) {
  * @param data_len the length of the returned data
  * @return 0 on success, -1 on failure to properly decode
  */
-static int decode_signature(const char *base64_data,
+
+int _alpm_decode_signature(const char *base64_data,
 		unsigned char **data, size_t *data_len)
 {
 	size_t len = strlen(base64_data);
@@ -518,7 +519,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	if(base64_sig) {
 		/* memory-based, we loaded it from a sync DB */
 		size_t data_len;
-		int decode_ret = decode_signature(base64_sig,
+		int decode_ret = _alpm_decode_signature(base64_sig,
 				&decoded_sigdata, &data_len);
 		if(decode_ret) {
 			handle->pm_errno = ALPM_ERR_SIG_INVALID;
