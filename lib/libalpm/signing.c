@@ -192,6 +192,11 @@ int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr)
 	gpgme_key_t key;
 	int ret = -1;
 
+	if(init_gpgme(handle)) {
+		/* pm_errno was set in gpgme_init() */
+		goto error;
+	}
+
 	memset(&ctx, 0, sizeof(ctx));
 	err = gpgme_new(&ctx);
 	CHECK_ERR();

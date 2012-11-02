@@ -512,6 +512,32 @@ error:
 	return NULL;
 }
 
+static int read_sigfile(const char *sigpath, unsigned char **sig)
+{
+	struct stat st;
+	FILE *fp;
+
+	if(stat(sigpath, &st) != 0) {
+		return -1;
+	}
+
+	MALLOC(*sig, st.st_size, return -1);
+
+	if((fp = fopen(sigpath, "rb")) == NULL) {
+		free(*sig);
+		return -1;
+	}
+
+	if(fread(*sig, st.st_size, 1, fp) != 1) {
+		free(*sig);
+		fclose(fp);
+		return -1;
+	}
+
+	fclose(fp);
+	return st.st_size;
+}
+
 int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
 		alpm_siglevel_t level, alpm_pkg_t **pkg)
 {
@@ -519,6 +545,44 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+
+	char *sigpath = _alpm_sigpath(handle, filename);
+	if(sigpath && !_alpm_access(handle, NULL, sigpath, R_OK)) {
+		if(level & ALPM_SIG_PACKAGE) {
+			alpm_list_t *keys = NULL;
+			int fail = 0;
+			unsigned char *sig = NULL;
+
+			int len = read_sigfile(sigpath, &sig);
+			if(len == -1) {
+				_alpm_log(handle, ALPM_LOG_ERROR,
+					_("failed to read signature file: %s\n"), sigpath);
+				free(sigpath);
+				return -1;
+			}
+
+			if(_alpm_extract_keyid(handle, filename, sig, len, &keys) == 0) {
+				alpm_list_t *k;
+				for(k = keys; k; k = k->next) {
+					char *key = k->data;
+					if(_alpm_key_in_keychain(handle, key) == 0) {
+						if(_alpm_key_import(handle, key) == -1) {
+							fail = 1;
+						}
+					}
+				}
+				FREELIST(keys);
+			}
+
+			free(sig);
+
+			if(fail) {
+				_alpm_log(handle, ALPM_LOG_ERROR, _("required key missing from keyring\n"));
+				return -1;
+			}
+		}
+	}
+	free(sigpath);
 
 	if(_alpm_pkg_validate_internal(handle, filename, NULL, level, NULL,
 				&validation) == -1) {
