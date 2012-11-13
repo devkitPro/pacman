@@ -874,9 +874,9 @@ source_has_signatures() {
 run_pacman() {
 	local cmd
 	if [[ ! $1 = -@(T|Qq) ]]; then
-		cmd=("$PACMAN" $PACMAN_OPTS "$@")
+		cmd=("$PACMAN_PATH" $PACMAN_OPTS "$@")
 	else
-		cmd=("$PACMAN" "$@")
+		cmd=("$PACMAN_PATH" "$@")
 	fi
 	if (( ! ASROOT )) && [[ ! $1 = -@(T|Qq) ]]; then
 		if type -p sudo >/dev/null; then
@@ -2108,6 +2108,14 @@ check_software() {
 	# check for needed software
 	local ret=0
 
+	# check for PACMAN if we need it
+	if (( ! INFAKEROOT && ( ! NODEPS || DEP_BIN || RMDEPS || INSTALL ) )); then
+		if [[ -z $PACMAN_PATH ]]; then
+			error "$(gettext "Cannot find the %s binary required for dependency operations.")" "$PACMAN"
+			ret=1
+		fi
+	fi
+
 	# check for sudo if we will need it during makepkg execution
 	if (( ! ( ASROOT || INFAKEROOT ) && ( DEP_BIN || RMDEPS || INSTALL ) )); then
 		if ! type -p sudo >/dev/null; then
@@ -2464,6 +2472,8 @@ fi
 
 # set pacman command if not already defined
 PACMAN=${PACMAN:-pacman}
+# save full path to command as PATH may change when sourcing /etc/profile
+PACMAN_PATH=$(type -P $PACMAN) || true
 
 # check if messages are to be printed using color
 unset ALL_OFF BOLD BLUE GREEN RED YELLOW
@@ -2738,7 +2748,7 @@ if (( NODEPS || (NOBUILD && !DEP_BIN ) )); then
 	if (( NODEPS )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
-elif type -p "$PACMAN" >/dev/null; then
+else
 	if (( RMDEPS && ! INSTALL )); then
 		original_pkglist=($(run_pacman -Qq))    # required by remove_dep
 	fi
@@ -2766,8 +2776,6 @@ elif type -p "$PACMAN" >/dev/null; then
 		error "$(gettext "Could not resolve all dependencies.")"
 		exit 1
 	fi
-else
-	warning "$(gettext "%s was not found in %s; skipping dependency checks.")" "$PACMAN" "PATH"
 fi
 
 # ensure we have a sane umask set
