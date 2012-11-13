@@ -525,15 +525,16 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		alpm_list_free(summary_list);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "status: %s\n", gpgme_strerror(gpgsig->status));
 		_alpm_log(handle, ALPM_LOG_DEBUG, "timestamp: %lu\n", gpgsig->timestamp);
+
+		if((time_t)gpgsig->timestamp > time(NULL)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"signature timestamp is greater than system time.\n");
+		}
+
 		_alpm_log(handle, ALPM_LOG_DEBUG, "exp_timestamp: %lu\n", gpgsig->exp_timestamp);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "validity: %s; reason: %s\n",
 				string_validity(gpgsig->validity),
 				gpgme_strerror(gpgsig->validity_reason));
-
-		if((time_t)gpgsig->timestamp > time(NULL)) {
-			_alpm_log(handle, ALPM_LOG_WARNING,
-					_("System time is greater than signature timestamp.\n"));
-		}
 
 		result = siglist->results + sigcount;
 		err = gpgme_get_key(ctx, gpgsig->fpr, &key, 0);
