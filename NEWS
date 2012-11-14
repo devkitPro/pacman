@@ -1,5 +1,85 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+4.1.0         - check file properties when using -Qkk (FS#11091)
+              - add informational messages for optdepends installation
+                status (FS#13035, FS#27116)
+              - add number suffix to pacsave files instead of overwriting
+                (FS#24192)
+              - improve needed key importing for Upgrade (FS#26520)
+              - add options to specify require signature level for
+                Upgrade operations (FS#26729)
+              - directory ownership can be queried
+              - allow wildcards in NoUpgrade, NoExtract, IgnorePkg,
+                IgnoreGroup and HoldPkg (FS#20360, FS#18988)
+              - remove -f short option for --force
+              - SyncFirst option has been removed (FS#26445)
+              - offer to delete downloaded packages failing signature check
+                (FS#28014)
+              - configure shell for running install scriptlets (FS#20557)
+              - make path to ldconfig configurable
+              - speed up reading from archives
+              - improve speed when checking for directory removal
+              - more thorough checking for disk space availability
+              - display repo in VerbosePkgLists output (FS#26334)
+              - process all targets on Sync/Upgrade/Removal operations
+                to list all errors
+              - do not check file conflicts or diskspace with --dbonly
+                (FS#25667)
+              - specify a ratio in UseDelta
+              - handle descriptions for dependencies
+              - track how installed packages were validated (FS#28040)
+              - add pkg-config file for libalpm
+              - avoid false ownership matches for files in / (FS#30388)
+              - only load filesystem space information when needed
+              - allow leading "local/" in query options
+              - allow cleaning only some cachedirs
+              - do not remove source package and package databases from
+                cache (FS#25166)
+              - improve conflict checking with directory symlinks (FS#30681)
+              - remove Cygwin support
+              - makepkg:
+                - require bash>=4.0
+                - support for VCS URLs (git, bzr, svn and hg) (FS#7816,
+                  FS#8890, FS#13727, FS#15895, FS#16384, FS#16872, FS#19459,
+                  FS#19476, FS#20841, FS#21098, FS#28605)
+                - split debugging symbols into separate package (FS#10975)
+                - use SKIP in checksums to skip integrity check (FS#19735)
+                - add prepare() function to PKGBUILD (FS#30582)
+                - add pkgver() function to auto-update pkgver/pkgrel
+                - pkgrel must be in decimal format
+                - PKGBUILDs without package() functions are deprecated
+                - support specifying CPPFLAGS in makepkg.conf
+                - support PACKAGER environmental variable
+                - allow source renaming to work on signature files
+                - libprovides and libdepends rewritten
+                - configurable compression options (FS#27430)
+                - allow multiple packages to be build when using
+                  BUILDDIR (FS#28417)
+                - improved option parsing
+                - add program prefix to pacman log entries
+                - add --native filter to pacman -Q
+                - add zsh completion
+                - add makedepends/checkdepends information to .PKGINFO
+                - url can be overridden in split packages
+                - allow wildcards in PURGE_TARGETS
+                - pass --asdep and --needed flags to pacman when installing
+                - use last match in BUILDENV/OPTIONS arrays (FS#26701)
+                - fix "arch" handling in split packages (FS#27204)
+                - add LOGDEST configuration option
+                - install makedepends with --repackage
+              - repo-add:
+                - honor TMPDIR environmental variable
+                - add makedepends/checkdepends information to database
+              - pacman-key:
+                - fix importing keys with quotes in file name (FS#28445)
+                - allow verification of multiple sig files
+                - add zsh completion (FS#29062)
+              - pkgdelta: add ratio and package size limits
+              - pactree: improve output
+              - contrib:
+                - add updpkgsums
+                - pacsort: add --files option to support parsing filenames
+                - pacdiff: improve usability
 4.0.3         - frontend database cleanup enhancements (FS#28714)
               - frontend package cleanup enhancements (FS#25166)
               - back out changes related to SyncFirst in 4.0.0
