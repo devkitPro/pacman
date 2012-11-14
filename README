@@ -370,6 +370,7 @@ API CHANGES BETWEEN 3.4 AND 3.5
    PM_TRANS_EVT_DISKSPACE_DONE, PM_TRANS_CONV_SELECT_PROVIDER,
    PM_TRANS_PROGRESS_DISKSPACE_START, PM_TRANS_PROGRESS_INTEGRITY_START
 
+
 API CHANGES BETWEEN 3.5 AND 4.0
 ===============================
 
@@ -449,3 +450,59 @@ API CHANGES BETWEEN 3.5 AND 4.0
     ALPM_ERR_DB_INVALID, ALPM_ERR_DB_INVALID_SIG, ALPM_ERR_GPGME,
     ALPM_ERR_PKG_INVALID_CHECKSUM, ALPM_ERR_PKG_INVALID_SIG, ALPM_ERR_SIG_INVALID,
     ALPM_ERR_SIG_MISSING
+
+
+API CHANGES BETWEEN 4.0 AND 4.1
+===============================
+
+[REMOVED]
+- alpm_list_getdata()
+
+[CHANGED]
+- alpm_pkgfrom_t members are now prefixed with ALPM_
+- alpm_siglevel_t - added members ALPM_SIG_PACKAGE_SET, ALPM_SIG_PACKAGE_TRUST_SET
+- alpm_depend_t - additional desc member
+- alpm_filelist_t - additional resolved_path member
+- alpm_pgpkey_t - added members length, revoked, pubkey_algo
+- function renaming:
+  - alpm_option_get_localdb -> alpm_get_localdb
+  - alpm_option_get_syncdbs -> alpm_get_syncdbs
+  - alpm_db_register_sync -> alpm_register_syncdb
+  - alpm_db_unregister_all -> alpm_unregister_all_syncdbs
+  - alpm_db_readgroup -> alpm_db_get_group
+  - alpm_db_set_pkgreason -> alpm_pkg_set_reason (handle parameter removed)
+- alpm_time_t typedef used for all times
+  - members of alpm_pgpkey_t
+  - return types of alpm_pkg_get_builddate and alpm_pkg_get_installdate
+- delta options now use required ratio rather than on/off
+  - alpm_option_get_usedelta -> alpm_option_get_deltaratio
+  - alpm_option_set_usedelta -> alpm_option_set_deltaratio
+
+[ADDED]
+- tracking of how a package was validated:
+  - alpm_pkgvalidation_t
+  - alpm_pkg_get_validation()
+- adjustable signature verification levels for upgrade operations:
+  - alpm_option_get_local_file_siglevel()
+  - alpm_option_set_local_file_siglevel()
+  - alpm_option_get_remote_file_siglevel()
+  - alpm_option_set_remote_file_siglevel()
+- sync database usage functions:
+  - alpm_db_usage_t
+  - alpm_db_set_usage()
+  - alpm_db_get_usage()
+- wrapper functions for reading mtree files
+  - alpm_pkg_mtree_open()
+  - alpm_pkg_mtree_next()
+  - alpm_pkg_mtree_close()
+- utility functions
+  - alpm_pkg_find()
+  - alpm_pkg_compute_optionalfor()
+  - alpm_filelist_contains()
+- types
+  - alpm_time_t
+  - alpm_errno_t
+- flags
+   ALPM_EVENT_OPTDEP_REQUIRED, ALPM_EVENT_DATABASE_MISSING,
+   ALPM_EVENT_KEYRING_START, ALPM_EVENT_KEYRING_DONE, ALPM_EVENT_KEY_DOWNLOAD_START,
+   ALPM_EVENT_KEY_DOWNLOAD_DONE, ALPM_PROGRESS_KEYRING_START
