@@ -29,44 +29,44 @@ noextract=()
 md5sums=() #generate with 'makepkg -g'
 
 build() {
-  cd "$srcdir/$pkgbase-$pkgver"
-  ./configure --prefix=/usr
-  make
+	cd "$srcdir/$pkgbase-$pkgver"
+	./configure --prefix=/usr
+	make
 }
 
 check() {
-  cd "$srcdir/$pkgname-$pkgver"
-  make -k check
+	cd "$srcdir/$pkgname-$pkgver"
+	make -k check
 }
 
 package_pkg1() {
-  # options and directives that can be overridden
-  pkgver=
-  pkgrel=
-  epoch=
-  pkgdesc=""
-  arch=()
-  url=""
-  license=()
-  groups=()
-  depends=()
-  optdepends=()
-  provides=()
-  conflicts=()
-  replaces=()
-  backup=()
-  options=()
-  install=
-  changelog=
+	# options and directives that can be overridden
+	pkgver=
+	pkgrel=
+	epoch=
+	pkgdesc=""
+	arch=()
+	url=""
+	license=()
+	groups=()
+	depends=()
+	optdepends=()
+	provides=()
+	conflicts=()
+	replaces=()
+	backup=()
+	options=()
+	install=
+	changelog=
 
-  cd "$srcdir/$pkgbase-$pkgver"
-  make DESTDIR="$pkgdir/" install-pkg1
+	cd "$srcdir/$pkgbase-$pkgver"
+	make DESTDIR="$pkgdir/" install-pkg1
 }
 
 package_pkg2() {
-  # options and directives overrides
-  pkgdesc=""
+	# options and directives overrides
+	pkgdesc=""
 
-  cd "$srcdir/$pkgbase-$pkgver"
-  make DESTDIR="$pkgdir/" install-pkg2
+	cd "$srcdir/$pkgbase-$pkgver"
+	make DESTDIR="$pkgdir/" install-pkg2
 }
