@@ -142,6 +142,7 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -k, --check          check that the files owned by the package(s) are present\n"));
 			addlist(_("  -l, --list           list the contents of the queried package\n"));
 			addlist(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
+			addlist(_("  -n, --native         list installed packages only found in sync db(s) [filter]\n"));
 			addlist(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			addlist(_("  -p, --file <package> query a package file instead of the database\n"));
 			addlist(_("  -q, --quiet          show less information for query and search\n"));
@@ -462,6 +463,7 @@ static int parsearg_query(int opt)
 		case 'k': config->op_q_check = 1; break;
 		case 'l': config->op_q_list = 1; break;
 		case 'm': config->op_q_foreign = 1; break;
+		case 'n': config->op_q_native = 1; break;
 		case 'o': config->op_q_owns = 1; break;
 		case 'p': config->op_q_isfile = 1; break;
 		case 'q': config->quiet = 1; break;
@@ -594,6 +596,7 @@ static int parseargs(int argc, char *argv[])
 		{"check",      no_argument,       0, 'k'},
 		{"list",       no_argument,       0, 'l'},
 		{"foreign",    no_argument,       0, 'm'},
+		{"native",     no_argument,       0, 'n'},
 		{"nosave",     no_argument,       0, 'n'},
 		{"owns",       no_argument,       0, 'o'},
 		{"file",       no_argument,       0, 'p'},

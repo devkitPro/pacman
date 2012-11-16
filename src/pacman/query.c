@@ -380,6 +380,10 @@ static int filter(alpm_pkg_t *pkg)
 			alpm_pkg_get_reason(pkg) != ALPM_PKG_REASON_DEPEND) {
 		return 0;
 	}
+	/* check if this pkg is in a sync DB */
+	if(config->op_q_native && is_foreign(pkg)) {
+		return 0;
+	}
 	/* check if this pkg isn't in a sync DB */
 	if(config->op_q_foreign && !is_foreign(pkg)) {
 		return 0;
