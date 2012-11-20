@@ -645,7 +645,7 @@ download_svn() {
 }
 
 download_sources() {
-	msg "$(gettext "Retrieving Sources...")"
+	msg "$(gettext "Retrieving sources...")"
 
 	local GET_VCS=1
 	if [[ $1 == "fast" ]]; then
@@ -952,7 +952,7 @@ resolve_deps() {
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 	fi
 
-	msg "$(gettext "Missing Dependencies:")"
+	msg "$(gettext "Missing dependencies:")"
 	local dep
 	for dep in $deplist; do
 		msg2 "$dep"
@@ -1219,7 +1219,7 @@ check_source_integrity() {
 }
 
 extract_sources() {
-	msg "$(gettext "Extracting Sources...")"
+	msg "$(gettext "Extracting sources...")"
 	local netfile
 	for netfile in "${source[@]}"; do
 		local file=$(get_filename "$netfile")
@@ -1617,7 +1617,7 @@ find_libprovides() {
 		esac
 
 		if (( missing )); then
-			warning "$(gettext "Can not find library listed in %s: %s")" "'provides'" "$p"
+			warning "$(gettext "Cannot find library listed in %s: %s")" "'provides'" "$p"
 		fi
 	done
 
