@@ -2345,6 +2345,7 @@ usage() {
 	echo
 	printf -- "$(gettext "  --asdeps         Install packages as non-explicitly installed")\n"
 	printf -- "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")\n"
+	printf -- "$(gettext "  --needed         Do not reinstall the targets that are already up to date")\n"
 	printf -- "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")\n"
 	echo
 	printf -- "$(gettext "If %s is not specified, %s will look for '%s'")\n" "-p" "makepkg" "$BUILDSCRIPT"
@@ -2380,7 +2381,7 @@ OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'config:' 'force' 'geninteg'
           'source' 'syncdeps' 'version')
 
 # Pacman Options
-OPT_LONG+=('asdeps' 'noconfirm' 'noprogressbar')
+OPT_LONG+=('asdeps' 'noconfirm' 'needed' 'noprogressbar')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1 # E_INVALID_OPTION;
@@ -2393,6 +2394,7 @@ while true; do
 		# Pacman Options
 		--asdeps)         ASDEPS=1;;
 		--noconfirm)      PACMAN_OPTS+=" --noconfirm" ;;
+		--needed)         PACMAN_OPTS+=" --needed" ;;
 		--noprogressbar)  PACMAN_OPTS+=" --noprogressbar" ;;
 
 		# Makepkg Options
