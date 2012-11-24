@@ -812,10 +812,11 @@ int main(int argc, char *argv[])
 	/* we support reading targets from stdin if a cmdline parameter is '-' */
 	if(!isatty(fileno(stdin)) && alpm_list_find_str(pm_targets, "-")) {
 		size_t current_size = PATH_MAX;
-		char *line = malloc(current_size);
+		char *vdata, *line = malloc(current_size);
 
 		/* remove the '-' from the list */
-		pm_targets = alpm_list_remove_str(pm_targets, "-", NULL);
+		pm_targets = alpm_list_remove_str(pm_targets, "-", &vdata);
+		free(vdata);
 
 		i = 0;
 		while((line[i] = (char)fgetc(stdin)) != EOF) {

@@ -560,6 +560,8 @@ static size_t table_calc_widths(const alpm_list_t *header,
 	colwidths = malloc(totalcols * sizeof(size_t));
 	coldata = calloc(totalcols, sizeof(int));
 	if(!colwidths || !coldata) {
+		free(colwidths);
+		free(coldata);
 		return 0;
 	}
 	/* header determines column count and initial values of longest_strs */

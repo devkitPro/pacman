@@ -943,6 +943,7 @@ int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info)
 
 	dirp = opendir(pkgpath);
 	if(!dirp) {
+		free(pkgpath);
 		return -1;
 	}
 	/* go through the local DB entry, removing the files within, which we know

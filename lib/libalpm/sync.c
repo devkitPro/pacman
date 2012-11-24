@@ -698,7 +698,7 @@ static int apply_deltas(alpm_handle_t *handle)
 				snprintf(from, len, "%s/%s", cachedir, d->from);
 			}
 			len = strlen(cachedir) + strlen(d->to) + 2;
-			MALLOC(to, len, RET_ERR(handle, ALPM_ERR_MEMORY, 1));
+			MALLOC(to, len, free(from); RET_ERR(handle, ALPM_ERR_MEMORY, 1));
 			snprintf(to, len, "%s/%s", cachedir, d->to);
 
 			/* build the patch command */

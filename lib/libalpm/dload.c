@@ -358,6 +358,7 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 		CLOSE(fd);
 		_alpm_log(payload->handle, ALPM_LOG_ERROR,
 				_("failed to create temporary file for download\n"));
+		free(randpath);
 		return NULL;
 	}
 	/* fp now points to our alpmtmp.XXXXXX */
