@@ -1721,7 +1721,7 @@ write_pkginfo() {
 	printf "pkgname = %s\n" "$pkgname"
 	(( SPLITPKG )) && echo pkgbase = $pkgbase
 	echo "pkgver = $(get_full_version)"
-	printf "pkgdesc = %s\n" "$pkgdesc"
+	printf "pkgdesc = %s\n" "${pkgdesc//+([[:space:]])/ }"
 	printf "url = %s\n" "$url"
 	printf "builddate = %s\n" "$builddate"
 	printf "packager = %s\n" "$packager"
