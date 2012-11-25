@@ -72,23 +72,19 @@ isnumeric() {
 	[[ $1 != *[!0-9]* ]]
 }
 
-read_pkginfo()
-{
-	pkgname= pkgver= arch=
-	local OLDIFS=$IFS
-	# IFS (field separator) is only the newline character
-	IFS="
-"
-	local line var val
-	for line in $(bsdtar -xOqf "$1" .PKGINFO 2>/dev/null |
-		grep -v "^#" | sed 's|\(\w*\)\s*=\s*\(.*\)|\1="\2"|'); do
-		eval "$line"
-		if [[ -n $pkgname && -n $pkgver && -n $arch ]]; then
-			IFS=$OLDIFS
-			return 0
-		fi
+read_pkginfo() {
+	while IFS='=' read -r field value; do
+		# skip comments and invalid lines
+		[[ $field = '#'* || -z $value ]] && continue
+
+		# skip lines which aren't fields we care about
+		[[ $field != @(pkgver|pkgname|arch) ]] || continue
+
+		declare "$field=$value"
+
+		[[ $pkgname && $pkgver && $arch ]] && return 0
 	done
-	IFS=$OLDIFS
+
 	error "$(gettext "Invalid package file '%s'.")" "$1"
 	return 1
 }
