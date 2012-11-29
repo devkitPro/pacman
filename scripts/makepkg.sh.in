@@ -1362,7 +1362,7 @@ run_function() {
 	local ret=0
 	if (( LOGGING )); then
 		local fullver=$(get_full_version)
-		local BUILDLOG="${startdir}/${pkgbase}-${fullver}-${CARCH}-$pkgfunc.log"
+		local BUILDLOG="$LOGDEST/${pkgbase}-${fullver}-${CARCH}-$pkgfunc.log"
 		if [[ -f $BUILDLOG ]]; then
 			local i=1
 			while true; do
@@ -2531,6 +2531,7 @@ trap 'trap_exit USR1 "$(gettext "An unknown error has occurred. Exiting...")"' E
 [[ -n ${PKGDEST} ]] && _PKGDEST=$(canonicalize_path ${PKGDEST})
 [[ -n ${SRCDEST} ]] && _SRCDEST=$(canonicalize_path ${SRCDEST})
 [[ -n ${SRCPKGDEST} ]] && _SRCPKGDEST=$(canonicalize_path ${SRCPKGDEST})
+[[ -n ${LOGDEST} ]] && _LOGDEST=$(canonicalize_path ${LOGDEST})
 [[ -n ${BUILDDIR} ]] && _BUILDDIR=$(canonicalize_path ${BUILDDIR})
 [[ -n ${PKGEXT} ]] && _PKGEXT=${PKGEXT}
 [[ -n ${SRCEXT} ]] && _SRCEXT=${SRCEXT}
@@ -2619,6 +2620,14 @@ SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
 SRCPKGDEST=${SRCPKGDEST:-$startdir} #default to $startdir if undefined
 if (( SOURCEONLY )) && [[ ! -w $SRCPKGDEST ]]; then
 	error "$(gettext "You do not have write permission to store source tarballs in %s.")" "$SRCPKGDEST"
+	plain "$(gettext "Aborting...")"
+	exit 1
+fi
+
+LOGDEST=${_LOGDEST:-$LOGDEST}
+LOGDEST=${LOGDEST:-$startdir} #default to $startdir if undefined
+if (( LOGGING )) && [[ ! -w $LOGDEST ]]; then
+	error "$(gettext "You do not have write permission to store logs in %s.")" "$LOGDEST"
 	plain "$(gettext "Aborting...")"
 	exit 1
 fi
