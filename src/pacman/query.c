@@ -343,19 +343,12 @@ static int is_foreign(alpm_pkg_t *pkg)
 	alpm_list_t *j;
 	alpm_list_t *sync_dbs = alpm_get_syncdbs(config->handle);
 
-	int match = 0;
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
-		alpm_db_t *db = j->data;
-		alpm_pkg_t *findpkg = alpm_db_get_pkg(db, pkgname);
-		if(findpkg) {
-			match = 1;
-			break;
+		if(alpm_db_get_pkg(j->data, pkgname)) {
+			return 0;
 		}
 	}
-	if(match == 0) {
-		return 1;
-	}
-	return 0;
+	return 1;
 }
 
 static int is_unrequired(alpm_pkg_t *pkg)
