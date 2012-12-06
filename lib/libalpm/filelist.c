@@ -228,34 +228,24 @@ alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
 		alpm_file_t *fileA = filesA->files + ctrA;
 		const char *strA = filesA->resolved_path[ctrA];
 		const char *strB = filesB->resolved_path[ctrB];
-		/* skip directories, we don't care about them */
-		if(strA[strlen(strA)-1] == '/') {
+
+		int cmp = strcmp(strA, strB);
+		if(cmp < 0) {
+			/* item only in filesA, qualifies as a difference */
+			ret = alpm_list_add(ret, fileA);
 			ctrA++;
-		} else if(strB[strlen(strB)-1] == '/') {
+		} else if(cmp > 0) {
 			ctrB++;
 		} else {
-			int cmp = strcmp(strA, strB);
-			if(cmp < 0) {
-				/* item only in filesA, qualifies as a difference */
-				ret = alpm_list_add(ret, fileA);
-				ctrA++;
-			} else if(cmp > 0) {
-				ctrB++;
-			} else {
-				ctrA++;
-				ctrB++;
-			}
+			ctrA++;
+			ctrB++;
 		}
 	}
 
 	/* ensure we have completely emptied pA */
 	while(ctrA < filesA->count) {
 		alpm_file_t *fileA = filesA->files + ctrA;
-		const char *strA = fileA->name;
-		/* skip directories */
-		if(strA[strlen(strA)-1] != '/') {
-			ret = alpm_list_add(ret, fileA);
-		}
+		ret = alpm_list_add(ret, fileA);
 		ctrA++;
 	}
 

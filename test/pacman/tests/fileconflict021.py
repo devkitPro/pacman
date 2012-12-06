@@ -14,5 +14,3 @@ self.args = "-S pkg1"
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("PKG_VERSION=pkg1|1.0-1")
 self.addrule("!DIR_EXIST=file/")
-
-self.expectfailure = True
