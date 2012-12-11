@@ -325,6 +325,7 @@ void dump_pkg_changelog(alpm_pkg_t *pkg)
 				alpm_pkg_get_name(pkg));
 		return;
 	} else {
+		fprintf(stdout, _("Changelog for %s:\n"), alpm_pkg_get_name(pkg));
 		/* allocate a buffer to get the changelog back in chunks */
 		char buf[CLBUF_SIZE];
 		size_t ret = 0;
