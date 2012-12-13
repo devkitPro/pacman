@@ -50,8 +50,6 @@ typedef struct __config_t {
 	unsigned short op_q_isfile;
 	unsigned short op_q_info;
 	unsigned short op_q_list;
-	unsigned short op_q_foreign;
-	unsigned short op_q_native;
 	unsigned short op_q_unrequired;
 	unsigned short op_q_deps;
 	unsigned short op_q_explicit;
@@ -60,6 +58,7 @@ typedef struct __config_t {
 	unsigned short op_q_changelog;
 	unsigned short op_q_upgrade;
 	unsigned short op_q_check;
+	unsigned short op_q_locality;
 
 	unsigned short op_s_clean;
 	unsigned short op_s_downloadonly;
@@ -136,6 +135,14 @@ enum {
 	PM_CLEAN_KEEPINST = 1,
 	PM_CLEAN_KEEPCUR = (1 << 1)
 };
+
+/** package locality */
+enum {
+	PKG_LOCALITY_UNSET = 0,
+	PKG_LOCALITY_LOCAL = (1 << 0),
+	PKG_LOCALITY_FOREIGN = (1 << 1)
+};
+
 
 /* global config variable */
 extern config_t *config;

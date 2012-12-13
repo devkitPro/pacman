@@ -361,7 +361,7 @@ static int query_group(alpm_list_t *targets)
 	return ret;
 }
 
-static int is_foreign(alpm_pkg_t *pkg)
+static unsigned short pkg_get_locality(alpm_pkg_t *pkg)
 {
 	const char *pkgname = alpm_pkg_get_name(pkg);
 	alpm_list_t *j;
@@ -369,10 +369,10 @@ static int is_foreign(alpm_pkg_t *pkg)
 
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
 		if(alpm_db_get_pkg(j->data, pkgname)) {
-			return 0;
+			return PKG_LOCALITY_LOCAL;
 		}
 	}
-	return 1;
+	return PKG_LOCALITY_FOREIGN;
 }
 
 static int is_unrequired(alpm_pkg_t *pkg)
@@ -397,12 +397,8 @@ static int filter(alpm_pkg_t *pkg)
 			alpm_pkg_get_reason(pkg) != ALPM_PKG_REASON_DEPEND) {
 		return 0;
 	}
-	/* check if this pkg is in a sync DB */
-	if(config->op_q_native && is_foreign(pkg)) {
-		return 0;
-	}
-	/* check if this pkg isn't in a sync DB */
-	if(config->op_q_foreign && !is_foreign(pkg)) {
+	/* check if this pkg is or isn't in a sync DB */
+	if(config->op_q_locality && config->op_q_locality & pkg_get_locality(pkg)) {
 		return 0;
 	}
 	/* check if this pkg is unrequired */
@@ -474,7 +470,7 @@ int pacman_query(alpm_list_t *targets)
 		return ret;
 	}
 
-	if(config->op_q_foreign || config->op_q_upgrade) {
+	if(config->op_q_locality || config->op_q_upgrade) {
 		if(check_syncdbs(1, 1)) {
 			return 1;
 		}

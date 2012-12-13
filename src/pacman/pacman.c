@@ -463,8 +463,8 @@ static int parsearg_query(int opt)
 		case 'i': (config->op_q_info)++; break;
 		case 'k': (config->op_q_check)++; break;
 		case 'l': config->op_q_list = 1; break;
-		case 'm': config->op_q_foreign = 1; break;
-		case 'n': config->op_q_native = 1; break;
+		case 'm': config->op_q_locality |= PKG_LOCALITY_LOCAL; break;
+		case 'n': config->op_q_locality |= PKG_LOCALITY_FOREIGN; break;
 		case 'o': config->op_q_owns = 1; break;
 		case 'p': config->op_q_isfile = 1; break;
 		case 'q': config->quiet = 1; break;
