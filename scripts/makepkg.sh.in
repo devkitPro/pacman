@@ -700,6 +700,8 @@ update_pkgver() {
 			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
 			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
 			source "$BUILDFILE"
+			local fullver=$(get_full_version)
+			msg "$(gettext "Updated version: %s")" "$pkgbase $fullver"
 		else
 			warning "$(gettext "%s is not writeable -- pkgver will not be updated")" \
 					"$BUILDFILE"
