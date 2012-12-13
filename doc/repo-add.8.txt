@@ -68,6 +68,10 @@ repo-add Options
 	specified packages. This is useful for creating databases listing all files
 	in a given sync repository for tools that may use this information.
 
+*-n, \--new*::
+	Only add packages that are not already in the database.  Warnings will be
+	printed upon detection of existing packages, but they will not be re-added.
+
 See Also
 --------
 linkman:makepkg[8], linkman:pacman[8], linkman:pkgdelta[8]

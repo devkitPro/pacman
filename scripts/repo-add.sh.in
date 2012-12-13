@@ -30,6 +30,7 @@ declare -r confdir='@sysconfdir@'
 
 QUIET=0
 DELTA=0
+ONLYADDNEW=0
 WITHFILES=0
 SIGN=0
 VERIFY=0
@@ -55,6 +56,7 @@ Multiple packages to add can be specified on the command line.\n")"
 		printf -- "\n"
 		printf -- "$(gettext "Options:\n")"
 		printf -- "$(gettext "  -d, --delta       generate and add delta for package update\n")"
+		printf -- "$(gettext "  -n, --new         only add packages that are not already in the database\n")"
 		printf -- "$(gettext "  -f, --files       update database's file list\n")"
 	elif [[ $cmd == "repo-remove" ]] ; then
 		printf -- "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\n")"
@@ -290,6 +292,9 @@ db_write_entry() {
 
 	if [[ -d $tmpdir/tree/$pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
+		if (( ONLYADDNEW )); then
+			return 0;
+		fi
 	else
 		if (( DELTA )); then
 			pkgentry=$(find_pkgentry "$pkgname")
@@ -603,6 +608,7 @@ while (( $# )); do
 	case $1 in
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
+		-n|--new) ONLYADDNEW=1;;
 		-f|--files) WITHFILES=1;;
 		-s|--sign)
 			check_gpg
