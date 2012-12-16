@@ -300,6 +300,7 @@ GCC_GNU89_INLINE_CC
 INODECMD="stat -c '%i %n'"
 SIZECMD="stat -c %s"
 SEDINPLACE="sed -i"
+DUFLAGS="-sk --apparent-size"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
 STRIP_STATIC="--strip-debug"
@@ -308,12 +309,14 @@ case "${host_os}" in
 		INODECMD="stat -f '%i %n'"
 		SIZECMD="stat -f %z"
 		SEDINPLACE="sed -i \"\""
+		DUFLAGS="-sk"
 		;;
 	darwin*)
 		host_os_darwin=yes
 		INODECMD="/usr/bin/stat -f '%i %n'"
 		SIZECMD="/usr/bin/stat -f %z"
 		SEDINPLACE="/usr/bin/sed -i ''"
+		DUFLAGS="-sk"
 		STRIP_BINARIES=""
 		STRIP_SHARED="-S"
 		STRIP_STATIC="-S"
@@ -325,6 +328,7 @@ AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
 AC_SUBST(SIZECMD)
 AC_SUBST(SEDINPLACE)
+AC_SUBST(DUFLAGS)
 AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)

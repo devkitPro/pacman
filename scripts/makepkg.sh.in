@@ -1704,12 +1704,7 @@ write_pkginfo() {
 		local packager="Unknown Packager"
 	fi
 
-	# btrfs's delayed allocation causes the stat buffers from the kernel to "lie"
-	# to us momentarily and report 0 blocks allocated (which is how du calculates
-	# size). Sleeping for a second here is about the dirtiest thing possible,
-	# but avoids reporting entirely bogus install sizes.
-	sleep 1
-	local size="$(@DUPATH@ -sk)"
+	local size="$(@DUPATH@ @DUFLAGS@)"
 	size="$(( ${size%%[^0-9]*} * 1024 ))"
 
 	msg2 "$(gettext "Generating %s file...")" ".PKGINFO"
