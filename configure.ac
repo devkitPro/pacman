@@ -309,10 +309,6 @@ case "${host_os}" in
 		SIZECMD="stat -f %z"
 		SEDINPLACE="sed -i \"\""
 		;;
-	cygwin*)
-		host_os_cygwin=yes
-		AC_DEFINE([CYGWIN], [1], [Define if host OS is cygwin])
-		;;
 	darwin*)
 		host_os_darwin=yes
 		INODECMD="/usr/bin/stat -f '%i %n'"
@@ -324,7 +320,6 @@ case "${host_os}" in
 		;;
 esac
 
-AM_CONDITIONAL([CYGWIN], test "x$host_os_cygwin" = "xyes")
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
