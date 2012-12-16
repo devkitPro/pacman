@@ -279,7 +279,7 @@ AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MALLOC
 AC_FUNC_MKTIME
 AC_FUNC_STRCOLL
-AC_CHECK_FUNCS([dup2 getcwd geteuid getmntinfo gettimeofday memmove memset \
+AC_CHECK_FUNCS([dup2 getcwd getmntinfo gettimeofday memmove memset \
                 mkdir realpath regcomp rmdir setenv setlocale strcasecmp \
                 strchr strcspn strdup strerror strndup strrchr strsep strstr \
                 strtol swprintf tcflush wcwidth uname])

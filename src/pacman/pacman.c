@@ -758,9 +758,7 @@ int main(int argc, char *argv[])
 	size_t i;
 	struct sigaction new_action, old_action;
 	const int signals[] = { SIGHUP, SIGINT, SIGTERM, SIGSEGV };
-#if defined(HAVE_GETEUID)
 	uid_t myuid = geteuid();
-#endif
 
 	/* Set signal handlers */
 	/* Set up the structure to specify the new action. */
@@ -880,13 +878,11 @@ int main(int argc, char *argv[])
 		config->logmask &= ~ALPM_LOG_WARNING;
 	}
 
-#if defined(HAVE_GETEUID)
 	/* check if we have sufficient permission for the requested operation */
 	if(myuid > 0 && needs_root()) {
 		pm_printf(ALPM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
 		cleanup(EXIT_FAILURE);
 	}
-#endif
 
 	if(config->verbose > 0) {
 		alpm_list_t *j;
