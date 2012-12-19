@@ -92,8 +92,8 @@ while IFS= read -u 3 -r -d '' pacfile; do
 		rm -iv "$pacfile"
 		continue
 	fi
-	check="$(cmp "$pacfile" "$file")"
-	if [ -z "${check}" ]; then
+
+	if cmp -s "$pacfile" "$file"; then
 		echo "  Files are identical, removing..."
 		rm -v "$pacfile"
 	else
