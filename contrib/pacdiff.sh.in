@@ -24,6 +24,22 @@ diffprog=${DIFFPROG:-vimdiff}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
 locate=0
 
+if tput setaf 0 &>/dev/null; then
+	ALL_OFF="$(tput sgr0)"
+	BOLD="$(tput bold)"
+	BLUE="${BOLD}$(tput setaf 4)"
+	GREEN="${BOLD}$(tput setaf 2)"
+	YELLOW="${BOLD}$(tput setaf 3)"
+	PURPLE="${BOLD}$(tput setaf 5)"
+else
+	ALL_OFF="\e[1;0m"
+	BOLD="\e[1;1m"
+	BLUE="${BOLD}\e[1;34m"
+	GREEN="${BOLD}\e[1;32m"
+	YELLOW="${BOLD}\e[1;33m"
+	PURPLE="${BOLD}\e[1;35m"
+fi
+
 usage() {
 	echo "$myname : a simple pacnew/pacorig/pacsave updater"
 	echo "Usage : $myname [-l]"
@@ -62,7 +78,15 @@ fi
 # see http://mywiki.wooledge.org/BashFAQ/020
 while IFS= read -u 3 -r -d '' pacfile; do
 	file="${pacfile%.pac*}"
-	echo "File: $file"
+	file_type="pac${pacfile##*.pac}"
+
+	case $file_type in
+		pacnew) printf "$GREEN%s$ALL_OFF" "$file_type";;
+		pacorig) printf "$YELLOW%s$ALL_OFF" "$file_type";;
+		pacsave) printf "$BLUE%s$ALL_OFF" "$file_type";;
+	esac
+
+	printf " file found for $PURPLE%s$ALL_OFF\n" "$file"
 	if [ ! -f "$file" ]; then
 		echo "  $file does not exist"
 		rm -i "$pacfile"
