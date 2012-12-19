@@ -89,21 +89,21 @@ while IFS= read -u 3 -r -d '' pacfile; do
 	printf " file found for $PURPLE%s$ALL_OFF\n" "$file"
 	if [ ! -f "$file" ]; then
 		echo "  $file does not exist"
-		rm -i "$pacfile"
+		rm -iv "$pacfile"
 		continue
 	fi
 	check="$(cmp "$pacfile" "$file")"
 	if [ -z "${check}" ]; then
 		echo "  Files are identical, removing..."
-		rm "$pacfile"
+		rm -v "$pacfile"
 	else
 		echo -n "  File differences found. (V)iew, (S)kip, (R)emove: [v/s/r] "
 		while read c; do
 			case $c in
-				r|R) rm "$pacfile"; break ;;
+				r|R) rm -v "$pacfile"; break ;;
 				v|V)
 				$diffprog "$pacfile" "$file"
-				rm -i "$pacfile"; break ;;
+				rm -iv "$pacfile"; break ;;
 				s|S) break ;;
 				*) echo -n "  Invalid answer. Try again: [v/s/r] "; continue ;;
 			esac
