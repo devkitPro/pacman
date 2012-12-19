@@ -97,15 +97,16 @@ while IFS= read -u 3 -r -d '' pacfile; do
 		echo "  Files are identical, removing..."
 		rm -v "$pacfile"
 	else
-		echo -n "  File differences found. (V)iew, (S)kip, (R)emove: [v/s/r] "
+		printf "  (V)iew, (S)kip, (R)emove %s, (O)verwrite with %s: [v/s/r/o] " "$file_type" "$file_type"
 		while read c; do
 			case $c in
 				r|R) rm -v "$pacfile"; break ;;
+				o|O) mv -v "$pacfile" "$file"; break ;;
 				v|V)
 				$diffprog "$pacfile" "$file"
 				rm -iv "$pacfile"; break ;;
 				s|S) break ;;
-				*) echo -n "  Invalid answer. Try again: [v/s/r] "; continue ;;
+				*) printf "  Invalid answer. Try again: [v/s/r/o] "; continue ;;
 			esac
 		done
 	fi
