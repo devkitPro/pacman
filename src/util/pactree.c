@@ -472,7 +472,7 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, tdepth *depth, int r
 				depth->next = &d;
 				/* last dep, cut off the limb here */
 				if(last){
-					if(depth->prev){
+					if(depth->prev) {
 						depth->prev->next = &d;
 						d.prev = depth->prev;
 						depth = &d;
@@ -488,6 +488,8 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, tdepth *depth, int r
 
 	if(rev) {
 		FREELIST(deps);
+	} else {
+		alpm_list_free(deps);
 	}
 }
 
