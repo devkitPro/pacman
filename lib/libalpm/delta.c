@@ -270,6 +270,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(alpm_pkg_t *pkg)
 
 /** @} */
 
+#define NUM_MATCHES 6
+
 /** Parses the string representation of a alpm_delta_t object.
  * This function assumes that the string is in the correct format.
  * This format is as follows:
@@ -281,9 +283,8 @@ alpm_list_t SYMEXPORT *alpm_pkg_unused_deltas(alpm_pkg_t *pkg)
 alpm_delta_t *_alpm_delta_parse(alpm_handle_t *handle, const char *line)
 {
 	alpm_delta_t *delta;
-	const int num_matches = 6;
 	size_t len;
-	regmatch_t pmatch[num_matches];
+	regmatch_t pmatch[NUM_MATCHES];
 	char filesize[32];
 
 	/* this is so we only have to compile the pattern once */
@@ -296,7 +297,7 @@ alpm_delta_t *_alpm_delta_parse(alpm_handle_t *handle, const char *line)
 		handle->delta_regex_compiled = 1;
 	}
 
-	if(regexec(&handle->delta_regex, line, num_matches, pmatch, 0) != 0) {
+	if(regexec(&handle->delta_regex, line, NUM_MATCHES, pmatch, 0) != 0) {
 		/* delta line is invalid, return NULL */
 		return NULL;
 	}
@@ -325,6 +326,8 @@ alpm_delta_t *_alpm_delta_parse(alpm_handle_t *handle, const char *line)
 
 	return delta;
 }
+
+#undef NUM_MATCHES
 
 void _alpm_delta_free(alpm_delta_t *delta)
 {
