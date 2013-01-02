@@ -92,26 +92,22 @@ parseopts() {
 						# --longopt
 						else
 							OPTRET+=("--$opt")
-							shift
-							continue 2
 						fi
 						;;
 					1)
 						# --longopt=optarg
 						if [[ $optarg ]]; then
 							OPTRET+=("--$opt" "$optarg")
-							shift
 						# --longopt optarg
 						elif [[ $2 ]]; then
 							OPTRET+=("--$opt" "$2" )
-							shift 2
+							shift
 						# parse failure
 						else
 							printf "@SCRIPTNAME@: $(gettext "option '%s' requires an argument")\n" "--$opt" >&2
 							OPTRET=(--)
 							return 1
 						fi
-						continue 2
 						;;
 					254)
 						# ambiguous option -- error was reported for us by longoptmatch()
