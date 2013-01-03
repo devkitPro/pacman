@@ -359,7 +359,7 @@ static void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg)
 	alpm_pkg_t *lpkg = alpm_db_get_pkg(db_local, pkgname);
 	if(lpkg) {
 		const char *lpkgver = alpm_pkg_get_version(lpkg);
-		if(strcmp(lpkgver,pkgver) == 0) {
+		if(strcmp(lpkgver, pkgver) == 0) {
 			printf(" [%s]", _("installed"));
 		} else {
 			printf(" [%s: %s]", _("installed"), lpkgver);
@@ -573,7 +573,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 
 			if(db == NULL) {
 				pm_printf(ALPM_LOG_ERROR,
-					_("repository \"%s\" was not found.\n"),repo);
+					_("repository \"%s\" was not found.\n"), repo);
 				alpm_list_free(ls);
 				return 1;
 			}

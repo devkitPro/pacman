@@ -127,7 +127,7 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 	int usepart = 0;
 	int cwdfd;
 	struct stat st;
-	char *parsedcmd,*tempcmd;
+	char *parsedcmd, *tempcmd;
 	char *destfile, *tempfile, *filename;
 
 	if(!config->xfercommand) {

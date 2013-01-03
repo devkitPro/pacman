@@ -185,7 +185,7 @@ error:
 int _alpm_filelist_resolve(alpm_handle_t *handle, alpm_filelist_t *files)
 {
 	char path[PATH_MAX];
-	size_t root_len, i=0;
+	size_t root_len, i = 0;
 	int ret = 0;
 
 	if(!files || files->resolved_path) {

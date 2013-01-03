@@ -201,7 +201,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			         alpm_pkg_get_name(data1),
 			         alpm_pkg_get_version(data2),
 			         alpm_pkg_get_version(data1));
-			display_new_optdepends(data2,data1);
+			display_new_optdepends(data2, data1);
 			break;
 		case ALPM_EVENT_INTEGRITY_START:
 			if(config->noprogressbar) {

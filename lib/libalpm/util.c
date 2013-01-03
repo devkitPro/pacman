@@ -69,22 +69,22 @@ char *strsep(char **str, const char *delims)
 {
 	char *token;
 
-	if(*str==NULL) {
+	if(*str == NULL) {
 		/* No more tokens */
 		return NULL;
 	}
 
-	token=*str;
-	while(**str!='\0') {
-		if(strchr(delims,**str)!=NULL) {
-			**str='\0';
+	token = *str;
+	while(**str != '\0') {
+		if(strchr(delims, **str) != NULL) {
+			**str = '\0';
 			(*str)++;
 			return token;
 		}
 		(*str)++;
 	}
 	/* There is no other token */
-	*str=NULL;
+	*str = NULL;
 	return token;
 }
 #endif
@@ -350,7 +350,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *path, const char *prefix,
 			char *entry_prefix = strdup(entryname);
 			char *p = strstr(entry_prefix,"/");
 			if(p) {
-				*(p+1) = '\0';
+				*(p + 1) = '\0';
 			}
 			char *found = alpm_list_find_str(list, entry_prefix);
 			free(entry_prefix);
@@ -475,7 +475,7 @@ int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
 
 		/* Use ISO-8601 date format */
 		fprintf(handle->logstream, "[%04d-%02d-%02d %02d:%02d] ",
-						tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
+						tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
 						tm->tm_hour, tm->tm_min);
 		ret = vfprintf(handle->logstream, fmt, args);
 		fflush(handle->logstream);

@@ -57,7 +57,7 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	/* close logfile */
 	if(handle->logstream) {
 		fclose(handle->logstream);
-		handle->logstream= NULL;
+		handle->logstream = NULL;
 	}
 	if(handle->usesyslog) {
 		handle->usesyslog = 0;

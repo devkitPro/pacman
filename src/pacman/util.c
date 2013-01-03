@@ -1216,7 +1216,7 @@ void display_optdepends(alpm_pkg_t *pkg)
 static void display_repo_list(const char *dbname, alpm_list_t *list,
 		unsigned short cols)
 {
-	const char *prefix= "  ";
+	const char *prefix = "  ";
 
 	printf(":: ");
 	printf(_("Repository %s\n"), dbname);
@@ -1311,14 +1311,14 @@ static int multiselect_parse(char *array, int count, char *response)
 			return -1;
 
 		if(!ends) {
-			array[start-1] = include;
+			array[start - 1] = include;
 		} else {
 			int d;
 			if(parseindex(ends, &end, start, count) != 0) {
 				return -1;
 			}
 			for(d = start; d <= end; d++) {
-				array[d-1] = include;
+				array[d - 1] = include;
 			}
 		}
 	}
