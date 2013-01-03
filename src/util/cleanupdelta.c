@@ -42,7 +42,7 @@ static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 		switch(level) {
 			case ALPM_LOG_ERROR: printf("error: "); break;
 			case ALPM_LOG_WARNING: printf("warning: "); break;
-			//case ALPM_LOG_DEBUG: printf("debug: "); break;
+			/* case ALPM_LOG_DEBUG: printf("debug: "); break; */
 			default: return;
 		}
 		vprintf(fmt, args);

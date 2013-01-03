@@ -310,7 +310,7 @@ int check_pkg_full(alpm_pkg_t *pkg)
 		if(type == AE_IFREG) {
 			/* TODO: these are expected to be changed with backup files */
 			file_errors += check_file_size(pkgname, filepath, &st, entry);
-			//file_errors += check_file_md5sum(pkgname, filepath, &st, entry);
+			/* file_errors += check_file_md5sum(pkgname, filepath, &st, entry); */
 		}
 
 		if(config->quiet && file_errors) {
