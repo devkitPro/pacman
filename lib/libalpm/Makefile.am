@@ -53,6 +53,7 @@ libalpm_la_SOURCES = \
 	sync.h sync.c \
 	trans.h trans.c \
 	util.h util.c \
+	util-common.h util-common.c \
 	version.c
 
 if !HAVE_LIBSSL

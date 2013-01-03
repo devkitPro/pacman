@@ -1256,37 +1256,4 @@ void _alpm_alloc_fail(size_t size)
 	fprintf(stderr, "alloc failure: could not allocate %zd bytes\n", size);
 }
 
-#ifndef HAVE_STRNDUP
-/* A quick and dirty implementation derived from glibc */
-/** Determines the length of a fixed-size string.
- * @param s string to be measured
- * @param max maximum number of characters to search for the string end
- * @return length of s or max, whichever is smaller
- */
-static size_t strnlen(const char *s, size_t max)
-{
-    register const char *p;
-    for(p = s; *p && max--; ++p);
-    return (p - s);
-}
-
-/** Copies a string.
- * Returned string needs to be freed
- * @param s string to be copied
- * @param n maximum number of characters to copy
- * @return pointer to the new string on success, NULL on error
- */
-char *strndup(const char *s, size_t n)
-{
-  size_t len = strnlen(s, n);
-  char *new = (char *) malloc(len + 1);
-
-  if(new == NULL)
-    return NULL;
-
-  new[len] = '\0';
-  return (char *)memcpy(new, s, len);
-}
-#endif
-
 /* vim: set ts=2 sw=2 noet: */

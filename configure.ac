@@ -462,6 +462,7 @@ AC_CONFIG_FILES([
 lib/libalpm/Makefile
 lib/libalpm/po/Makefile.in
 lib/libalpm/libalpm.pc
+src/common/Makefile
 src/pacman/Makefile
 src/pacman/po/Makefile.in
 src/util/Makefile

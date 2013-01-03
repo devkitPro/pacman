@@ -38,7 +38,8 @@ pacman_SOURCES = \
 	sync.c \
 	callback.h callback.c \
 	upgrade.c \
-	util.h util.c
+	util.h util.c \
+	util-common.h util-common.c
 
 LDADD = $(LTLIBINTL) $(top_builddir)/lib/libalpm/.libs/libalpm.la
 

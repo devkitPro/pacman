@@ -26,6 +26,8 @@
 
 #include <alpm_list.h>
 
+#include "util-common.h"
+
 #ifdef ENABLE_NLS
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
 /* define _() as shortcut for gettext() */
@@ -49,8 +51,6 @@ int needs_root(void);
 int check_syncdbs(size_t need_repos, int check_valid);
 unsigned short getcols(int fd);
 int rmrf(const char *path);
-const char *mbasename(const char *path);
-char *mdirname(const char *path);
 void indentprint(const char *str, unsigned short indent, unsigned short cols);
 size_t strtrim(char *str);
 char *strreplace(const char *str, const char *needle, const char *replace);
@@ -79,10 +79,6 @@ int pm_printf(alpm_loglevel_t level, const char *format, ...) __attribute__((for
 int pm_asprintf(char **string, const char *format, ...);
 int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
-
-#ifndef HAVE_STRNDUP
-char *strndup(const char *s, size_t n);
-#endif
 
 #endif /* _PM_UTIL_H */
 

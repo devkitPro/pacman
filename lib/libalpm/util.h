@@ -28,6 +28,7 @@
 #include "alpm.h"
 #include "package.h" /* alpm_pkg_t */
 #include "handle.h" /* alpm_handle_t */
+#include "util-common.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -140,10 +141,6 @@ int _alpm_fnmatch(const void *pattern, const void *string);
 
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);
-#endif
-
-#ifndef HAVE_STRNDUP
-char *strndup(const char *s, size_t n);
 #endif
 
 /* check exported library symbols with: nm -C -D <lib> */

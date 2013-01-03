@@ -210,56 +210,6 @@ int rmrf(const char *path)
 	}
 }
 
-/** Parse the basename of a program from a path.
-* @param path path to parse basename from
-*
-* @return everything following the final '/'
-*/
-const char *mbasename(const char *path)
-{
-	const char *last = strrchr(path, '/');
-	if(last) {
-		return last + 1;
-	}
-	return path;
-}
-
-/** Parse the dirname of a program from a path.
-* The path returned should be freed.
-* @param path path to parse dirname from
-*
-* @return everything preceding the final '/'
-*/
-char *mdirname(const char *path)
-{
-	char *ret, *last;
-
-	/* null or empty path */
-	if(path == NULL || path == '\0') {
-		return strdup(".");
-	}
-
-	if((ret = strdup(path)) == NULL) {
-		return NULL;
-	}
-
-	last = strrchr(ret, '/');
-
-	if(last != NULL) {
-		/* we found a '/', so terminate our string */
-		if(last == ret) {
-			/* return "/" for root */
-			last++;
-		}
-		*last = '\0';
-		return ret;
-	}
-
-	/* no slash found */
-	free(ret);
-	return strdup(".");
-}
-
 /* output a string, but wrap words properly with a specified indentation
  */
 void indentprint(const char *str, unsigned short indent, unsigned short cols)
