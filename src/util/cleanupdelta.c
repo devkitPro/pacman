@@ -28,7 +28,8 @@
 
 alpm_handle_t *handle = NULL;
 
-static void cleanup(int signum) {
+static void cleanup(int signum)
+{
 	if(handle && alpm_release(handle) == -1) {
 		fprintf(stderr, "error releasing alpm\n");
 	}
@@ -64,7 +65,8 @@ static void checkpkgs(alpm_list_t *pkglist)
 	}
 }
 
-static void checkdbs(alpm_list_t *dbnames) {
+static void checkdbs(alpm_list_t *dbnames)
+{
 	alpm_db_t *db = NULL;
 	alpm_list_t *i;
 	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
@@ -82,7 +84,8 @@ static void checkdbs(alpm_list_t *dbnames) {
 
 }
 
-static void usage(void) {
+static void usage(void)
+{
 	fprintf(stderr, "usage:\n");
 	fprintf(stderr,
 			"\t%s [-b <pacman db>] core extra ... : check the listed sync databases\n", BASENAME);

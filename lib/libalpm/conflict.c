@@ -133,7 +133,8 @@ static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
  */
 static void check_conflict(alpm_handle_t *handle,
 		alpm_list_t *list1, alpm_list_t *list2,
-		alpm_list_t **baddeps, int order) {
+		alpm_list_t **baddeps, int order)
+{
 	alpm_list_t *i;
 
 	if(!baddeps) {

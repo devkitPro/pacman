@@ -130,7 +130,8 @@ int check_syncdbs(size_t need_repos, int check_valid)
 }
 
 /* discard unhandled input on the terminal's input buffer */
-static int flush_term_input(int fd) {
+static int flush_term_input(int fd)
+{
 #ifdef HAVE_TCFLUSH
 	if(isatty(fd)) {
 		return tcflush(fd, TCIFLUSH);

@@ -379,7 +379,8 @@ error:
  * @return 0 on success, -1 on failure to properly decode
  */
 static int decode_signature(const char *base64_data,
-		unsigned char **data, size_t *data_len) {
+		unsigned char **data, size_t *data_len)
+{
 	size_t len = strlen(base64_data);
 	unsigned char *usline = (unsigned char *)base64_data;
 	/* reasonable allocation of expected length is 3/4 of encoded length */

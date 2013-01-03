@@ -314,7 +314,8 @@ int SYMEXPORT alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress
 	return 0;
 }
 
-static char *canonicalize_path(const char *path) {
+static char *canonicalize_path(const char *path)
+{
 	char *new_path;
 	size_t len;
 
@@ -331,7 +332,7 @@ static char *canonicalize_path(const char *path) {
 
 alpm_errno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist)
- {
+{
 	struct stat st;
 	char real[PATH_MAX];
 	const char *path;

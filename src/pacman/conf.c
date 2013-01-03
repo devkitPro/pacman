@@ -90,7 +90,8 @@ int config_free(config_t *oldconfig)
 }
 
 /** Helper function for download_with_xfercommand() */
-static char *get_filename(const char *url) {
+static char *get_filename(const char *url)
+{
 	char *filename = strrchr(url, '/');
 	if(filename != NULL) {
 		filename++;
@@ -99,7 +100,8 @@ static char *get_filename(const char *url) {
 }
 
 /** Helper function for download_with_xfercommand() */
-static char *get_destfile(const char *path, const char *filename) {
+static char *get_destfile(const char *path, const char *filename)
+{
 	char *destfile;
 	/* len = localpath len + filename len + null */
 	size_t len = strlen(path) + strlen(filename) + 1;
@@ -110,7 +112,8 @@ static char *get_destfile(const char *path, const char *filename) {
 }
 
 /** Helper function for download_with_xfercommand() */
-static char *get_tempfile(const char *path, const char *filename) {
+static char *get_tempfile(const char *path, const char *filename)
+{
 	char *tempfile;
 	/* len = localpath len + filename len + '.part' len + null */
 	size_t len = strlen(path) + strlen(filename) + 6;
@@ -122,7 +125,8 @@ static char *get_tempfile(const char *path, const char *filename) {
 
 /** External fetch callback */
 static int download_with_xfercommand(const char *url, const char *localpath,
-		int force) {
+		int force)
+{
 	int ret = 0, retval;
 	int usepart = 0;
 	int cwdfd;

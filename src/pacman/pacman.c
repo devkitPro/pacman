@@ -258,7 +258,8 @@ static void setuseragent(void)
  *
  * @param ret the return value
  */
-static void cleanup(int ret) {
+static void cleanup(int ret)
+{
 	/* free alpm library resources */
 	if(config->handle && alpm_release(config->handle) == -1) {
 		pm_printf(ALPM_LOG_ERROR, "error releasing alpm library\n");

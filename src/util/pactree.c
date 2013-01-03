@@ -178,7 +178,8 @@ static size_t strtrim(char *str)
 	return end - pch;
 }
 
-static int register_syncs(void) {
+static int register_syncs(void)
+{
 	FILE *fp;
 	char *section = NULL;
 	char line[LINE_MAX];
@@ -350,7 +351,7 @@ static void print_text(const char *pkg, const char *provision,
 			depth = depth->prev;
 		}
 		printf("%s", color->branch1);
-		while(depth->next){
+		while(depth->next) {
 			printf("%*s%-*s", style->indent * (depth->level - level), "",
 					style->indent, style->limb);
 			level = depth->level + 1;
@@ -471,7 +472,7 @@ static void walk_deps(alpm_list_t *dblist, alpm_pkg_t *pkg, tdepth *depth, int r
 				};
 				depth->next = &d;
 				/* last dep, cut off the limb here */
-				if(last){
+				if(last) {
 					if(depth->prev) {
 						depth->prev->next = &d;
 						d.prev = depth->prev;
