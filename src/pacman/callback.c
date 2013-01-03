@@ -423,7 +423,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	prevcurrent = current;
 
 	/* set text of message to display */
-	switch (event) {
+	switch(event) {
 		case ALPM_PROGRESS_ADD_START:
 			opr = _("installing");
 			break;

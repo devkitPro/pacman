@@ -205,7 +205,7 @@ static int splitfile(FILE *stream, struct buffer_t *buffer, struct list_t *list)
 
 	while(!feof(stream)) {
 		/* check if a read of BUFSIZ chars will overflow */
-		if (buffer->len + BUFSIZ + 1 >= buffer->maxlen) {
+		if(buffer->len + BUFSIZ + 1 >= buffer->maxlen) {
 			if(buffer_grow(buffer) != 0) {
 				return 1;
 			}

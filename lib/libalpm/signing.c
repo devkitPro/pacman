@@ -293,7 +293,7 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	pgpkey->length = key->subkeys->length;
 	pgpkey->revoked = key->subkeys->revoked;
 
-	switch (key->subkeys->pubkey_algo) {
+	switch(key->subkeys->pubkey_algo) {
 		case GPGME_PK_RSA:
 		case GPGME_PK_RSA_E:
 		case GPGME_PK_RSA_S:

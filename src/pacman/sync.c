@@ -229,7 +229,7 @@ static int sync_cleancache(int level)
 				continue;
 			}
 
-			if (level <= 1) {
+			if(level <= 1) {
 				static const char * const glob_skips[] = {
 					/* skip signature files - they are removed with their package file */
 					"*.sig",

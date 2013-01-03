@@ -130,7 +130,7 @@ int _alpm_filelist_resolve_link(alpm_filelist_t *files, size_t *i,
 		}
 
 		/* deal with children of non-existent directories to reduce lstat() calls */
-		if (!exists) {
+		if(!exists) {
 			for((*i)++; *i < files->count; (*i)++) {
 				char *f = files->files[*i].name;
 				size_t f_len = strlen(f);

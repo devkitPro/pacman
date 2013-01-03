@@ -858,7 +858,7 @@ static char *hex_representation(unsigned char *bytes, size_t size)
 
 	MALLOC(str, 2 * size + 1, return NULL);
 
-	for (i = 0; i < size; i++) {
+	for(i = 0; i < size; i++) {
 		str[2 * i] = hex_digits[bytes[i] >> 4];
 		str[2 * i + 1] = hex_digits[bytes[i] & 0x0f];
 	}

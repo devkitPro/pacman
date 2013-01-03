@@ -336,7 +336,7 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 		}
 	}
 
-	if (validation && !*validation) {
+	if(validation && !*validation) {
 		*validation = ALPM_PKG_VALIDATION_NONE;
 	}
 
