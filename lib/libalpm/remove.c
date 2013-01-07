@@ -267,6 +267,37 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
+static int dir_is_mountpoint(alpm_handle_t *handle, const char *directory,
+		const struct stat *stbuf)
+{
+	char parent_dir[PATH_MAX];
+	struct stat parent_stbuf;
+	dev_t dir_st_dev;
+
+	if(stbuf == NULL) {
+		struct stat dir_stbuf;
+		if(stat(directory, &dir_stbuf) < 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"failed to stat directory %s: %s",
+					directory, strerror(errno));
+			return 0;
+		}
+		dir_st_dev = dir_stbuf.st_dev;
+	} else {
+		dir_st_dev = stbuf->st_dev;
+	}
+
+	snprintf(parent_dir, PATH_MAX, "%s..", directory);
+	if(stat(parent_dir, &parent_stbuf) < 0) {
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"failed to stat parent of %s: %s: %s",
+				directory, parent_dir, strerror(errno));
+		return 0;
+	}
+
+	return dir_st_dev != parent_stbuf.st_dev;
+}
+
 /**
  * @brief Check if alpm can delete a file.
  *
@@ -283,6 +314,12 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 
 	if(alpm_list_find(skip_remove, file->name, _alpm_fnmatch)) {
 		/* return success because we will never actually remove this file */
+		return 1;
+	}
+
+	if(file->name[strlen(file->name) - 1] == '/' &&
+			dir_is_mountpoint(handle, file->name, NULL)) {
+		/* we do not remove mountpoints */
 		return 1;
 	}
 
@@ -427,6 +464,9 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 					fileobj->name)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"keeping directory %s (in new package)\n", file);
+		} else if(dir_is_mountpoint(handle, file, &buf)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"keeping directory %s (mountpoint)\n", file);
 		} else {
 			/* one last check- does any other package own this file? */
 			alpm_list_t *local, *local_pkgs;
