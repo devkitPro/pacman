@@ -96,6 +96,11 @@ static int dload_progress_cb(void *file, double dltotal, double dlnow,
 	struct dload_payload *payload = (struct dload_payload *)file;
 	off_t current_size, total_size;
 
+	/* avoid displaying progress bar for redirects with a body */
+	if(payload->respcode >= 300) {
+		return 0;
+	}
+
 	/* SIGINT sent, abort by alerting curl */
 	if(dload_interrupted) {
 		return 1;
@@ -199,6 +204,7 @@ static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *u
 	const char * const cd_header = "Content-Disposition:";
 	const char * const fn_key = "filename=";
 	struct dload_payload *payload = (struct dload_payload *)user;
+	long respcode;
 
 	if(_alpm_raw_ncmp(cd_header, ptr, strlen(cd_header)) == 0) {
 		if((fptr = strstr(ptr, fn_key))) {
@@ -218,6 +224,11 @@ static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *u
 			STRNDUP(payload->content_disp_name, fptr, endptr - fptr + 1,
 					RET_ERR(payload->handle, ALPM_ERR_MEMORY, realsize));
 		}
+	}
+
+	curl_easy_getinfo(payload->handle->curl, CURLINFO_RESPONSE_CODE, &respcode);
+	if(payload->respcode != respcode) {
+		payload->respcode = respcode;
 	}
 
 	return realsize;
@@ -383,7 +394,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	char hostname[HOSTNAME_SIZE];
 	char error_buffer[CURL_ERROR_SIZE] = {0};
 	struct stat st;
-	long timecond, respcode = 0, remote_time = -1;
+	long timecond, remote_time = -1;
 	double remote_size, bytes_dl;
 	struct sigaction orig_sig_pipe, orig_sig_int;
 	/* shortcut to our handle within the payload */
@@ -463,13 +474,12 @@ static int curl_download_internal(struct dload_payload *payload,
 	switch(payload->curlerr) {
 		case CURLE_OK:
 			/* get http/ftp response code */
-			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &respcode);
-			_alpm_log(handle, ALPM_LOG_DEBUG, "response code: %ld\n", respcode);
-			if(respcode >= 400) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "response code: %ld\n", payload->respcode);
+			if(payload->respcode >= 400) {
 				payload->unlink_on_fail = 1;
 				/* non-translated message is same as libcurl */
 				snprintf(error_buffer, sizeof(error_buffer),
-						"The requested URL returned error: %ld", respcode);
+						"The requested URL returned error: %ld", payload->respcode);
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("failed retrieving file '%s' from %s : %s\n"),
 						payload->remote_name, hostname, error_buffer);
@@ -725,6 +735,7 @@ void _alpm_dload_payload_reset(struct dload_payload *payload)
 	FREE(payload->destfile_name);
 	FREE(payload->content_disp_name);
 	FREE(payload->fileurl);
+	memset(payload, '\0', sizeof(*payload));
 }
 
 /* vim: set ts=2 sw=2 noet: */

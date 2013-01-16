@@ -42,6 +42,7 @@ struct dload_payload {
 #ifdef HAVE_LIBCURL
 	CURLcode curlerr;       /* last error produced by curl */
 #endif
+	long respcode;
 };
 
 void _alpm_dload_payload_reset(struct dload_payload *payload);
