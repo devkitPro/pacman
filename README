@@ -53,8 +53,16 @@ library is initialized.
 * dlcb: The callback function for download progress of each package.
 * fetchcb: Callback for custom download function.
 * totaldlcb: The callback function for overall download progress.
-* root: The root directory for pacman to install to (Default: /)
-* dbpath: The toplevel database directory (Default: /var/lib/pacman)
+* eventcb: Callback for transaction messages.
+* questioncb: Callback for selecting amongst choices.
+* progresscb: Callback to handle display of transaction progress.
+* gpgdir: Directory where GnuPG files are stored.
+* arch: Allowed package architecture.
+* deltaratio: Download deltas if possible; a ratio value.
+* checkspace: Check disk space before installing.
+* default_siglevel: Default signature verification level.
+* local_file_siglevel: Signature verification level for local file upgrades.
+* remote_file_siglevel: Signature verification level for remote file upgrades.
 * logfile: The base path to pacman's log file (Default: /var/log/pacman.log)
 * usesyslog: Log to syslog instead of `logfile` for file-base logging.
 
@@ -71,14 +79,10 @@ alpm_option_{get,set}_noupgrades -> alpm_option_{add,remove}_noupgrade.
 
 The following options are read-only, having ONLY alpm_option_get_* functions:
 
-* lockfile: The file used for locking the database
-  (Default: <dbpath>/db.lck)
-* localdb: A alpm_db_t structure for the local (installed) database
-* syncdbs: A list of alpm_db_t structures to which pacman can sync from.
+* root: The root directory for pacman to install to
+* dbpath: The toplevel database directory
+* lockfile: The file used for locking the database (Default: <dbpath>/db.lck)
 
-The following options are write-only, having ONLY alpm_option_set_* functions:
-
-* usedelta: Download delta files instead of complete packages if possible.
 
 [Transactions]
 
