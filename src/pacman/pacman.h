@@ -22,6 +22,8 @@
 
 #include <alpm_list.h>
 
+#define PACMAN_CALLER_PREFIX "PACMAN"
+
 /* database.c */
 int pacman_database(alpm_list_t *targets);
 /* deptest.c */

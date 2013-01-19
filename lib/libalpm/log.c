@@ -35,10 +35,12 @@
 
 /** A printf-like function for logging.
  * @param handle the context handle
+ * @param prefix caller-specific prefix for the log
  * @param fmt output format
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *fmt, ...)
+int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *prefix, const
+		char *fmt, ...)
 {
 	int ret;
 	va_list args;
@@ -62,20 +64,9 @@ int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *fmt, ...)
 	}
 
 	va_start(args, fmt);
-	ret = _alpm_logaction(handle, fmt, args);
+	ret = _alpm_logaction(handle, prefix, fmt, args);
 	va_end(args);
 
-	/* TODO	We should add a prefix to log strings depending on who called us.
-	 * If logaction was called by the frontend:
-	 *   USER: <the frontend log>
-	 * and if called internally:
-	 *   ALPM: <the library log>
-	 * Moreover, the frontend should be able to choose its prefix
-	 * (USER by default?):
-	 *   pacman: "PACMAN"
-	 *   kpacman: "KPACMAN"
-	 * This would allow us to share the log file between several frontends
-	 * and know who does what */
 	return ret;
 }
 

@@ -268,7 +268,8 @@ typedef enum _alpm_loglevel_t {
 } alpm_loglevel_t;
 
 typedef void (*alpm_cb_log)(alpm_loglevel_t, const char *, va_list);
-int alpm_logaction(alpm_handle_t *handle, const char *fmt, ...);
+int alpm_logaction(alpm_handle_t *handle, const char *prefix,
+		const char *fmt, ...);
 
 /**
  * Events.

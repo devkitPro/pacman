@@ -744,7 +744,8 @@ static void cl_to_log(int argc, char *argv[])
 		*p++ = ' ';
 	}
 	strcpy(p, argv[i]);
-	alpm_logaction(config->handle, "Running '%s'\n", cl_text);
+	alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
+			"Running '%s'\n", cl_text);
 	free(cl_text);
 }
 

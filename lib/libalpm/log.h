@@ -22,6 +22,8 @@
 
 #include "alpm.h"
 
+#define ALPM_CALLER_PREFIX "ALPM"
+
 void _alpm_log(alpm_handle_t *handle, alpm_loglevel_t flag,
 		const char *fmt, ...) __attribute__((format(printf,3,4)));
 

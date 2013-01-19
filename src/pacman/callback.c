@@ -31,6 +31,7 @@
 #include <alpm.h>
 
 /* pacman */
+#include "pacman.h"
 #include "callback.h"
 #include "util.h"
 #include "conf.h"
@@ -176,9 +177,10 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		case ALPM_EVENT_ADD_DONE:
-			alpm_logaction(config->handle, "installed %s (%s)\n",
-			         alpm_pkg_get_name(data1),
-			         alpm_pkg_get_version(data1));
+			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
+					"installed %s (%s)\n",
+					alpm_pkg_get_name(data1),
+					alpm_pkg_get_version(data1));
 			display_optdepends(data1);
 			break;
 		case ALPM_EVENT_REMOVE_START:
@@ -187,9 +189,10 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		case ALPM_EVENT_REMOVE_DONE:
-			alpm_logaction(config->handle, "removed %s (%s)\n",
-			         alpm_pkg_get_name(data1),
-			         alpm_pkg_get_version(data1));
+			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
+					"removed %s (%s)\n",
+					alpm_pkg_get_name(data1),
+					alpm_pkg_get_version(data1));
 			break;
 		case ALPM_EVENT_UPGRADE_START:
 			if(config->noprogressbar) {
@@ -197,10 +200,11 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		case ALPM_EVENT_UPGRADE_DONE:
-			alpm_logaction(config->handle, "upgraded %s (%s -> %s)\n",
-			         alpm_pkg_get_name(data1),
-			         alpm_pkg_get_version(data2),
-			         alpm_pkg_get_version(data1));
+			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
+					"upgraded %s (%s -> %s)\n",
+					alpm_pkg_get_name(data1),
+					alpm_pkg_get_version(data2),
+					alpm_pkg_get_version(data1));
 			display_new_optdepends(data2, data1);
 			break;
 		case ALPM_EVENT_INTEGRITY_START:

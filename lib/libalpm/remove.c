@@ -479,13 +479,15 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 					if(rename(file, newpath)) {
 						_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
 								file, newpath, strerror(errno));
-						alpm_logaction(handle, "error: could not rename %s to %s (%s)\n",
+						alpm_logaction(handle, ALPM_CALLER_PREFIX,
+								"error: could not rename %s to %s (%s)\n",
 								file, newpath, strerror(errno));
 						free(newpath);
 						return -1;
 					}
 					_alpm_log(handle, ALPM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
-					alpm_logaction(handle, "warning: %s saved as %s\n", file, newpath);
+					alpm_logaction(handle, ALPM_CALLER_PREFIX,
+							"warning: %s saved as %s\n", file, newpath);
 					free(newpath);
 					return 0;
 				}
@@ -497,8 +499,8 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 		if(unlink(file) == -1) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("cannot remove %s (%s)\n"),
 					file, strerror(errno));
-			alpm_logaction(handle, "error: cannot remove %s (%s)\n",
-					file, strerror(errno));
+			alpm_logaction(handle, ALPM_CALLER_PREFIX,
+					"error: cannot remove %s (%s)\n", file, strerror(errno));
 			return -1;
 		}
 	}

@@ -453,9 +453,14 @@ ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path,
  * @return 0 or number of characters written on success, vfprintf return value
  * on error
  */
-int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
+int _alpm_logaction(alpm_handle_t *handle, const char *prefix,
+		const char *fmt, va_list args)
 {
 	int ret = 0;
+
+	if(!(prefix && *prefix)) {
+		prefix = "UNKNOWN";
+	}
 
 	if(handle->usesyslog) {
 		/* we can't use a va_list more than once, so we need to copy it
@@ -474,9 +479,9 @@ int _alpm_logaction(alpm_handle_t *handle, const char *fmt, va_list args)
 		tm = localtime(&t);
 
 		/* Use ISO-8601 date format */
-		fprintf(handle->logstream, "[%04d-%02d-%02d %02d:%02d] ",
+		fprintf(handle->logstream, "[%04d-%02d-%02d %02d:%02d] [%s] ",
 						tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
-						tm->tm_hour, tm->tm_min);
+						tm->tm_hour, tm->tm_min, prefix);
 		ret = vfprintf(handle->logstream, fmt, args);
 		fflush(handle->logstream);
 	}
@@ -568,7 +573,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 				char line[PATH_MAX];
 				if(fgets(line, PATH_MAX, pipe_file) == NULL)
 					break;
-				alpm_logaction(handle, "%s", line);
+				alpm_logaction(handle, "ALPM-SCRIPTLET", "%s", line);
 				EVENT(handle, ALPM_EVENT_SCRIPTLET_INFO, line, NULL);
 			}
 			fclose(pipe_file);
