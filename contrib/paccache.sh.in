@@ -149,7 +149,7 @@ summarize() {
 				else
 					printf "%s$delim" "$pkg"
 				fi
-			done < <(printf '%s\n' "$@" | pacsort)
+			done < <(printf '%s\n' "$@" | pacsort --files)
 		fi
 		printf -v output 'finished dry run: %d candidates' "$filecount"
 	fi
@@ -283,7 +283,7 @@ cd "$cachedir" >/dev/null || die "failed to chdir to \`%s'" "$cachedir"
 # note that these results are returned in an arbitrary order from awk, but
 # they'll be resorted (in summarize) iff we have a verbosity level set.
 IFS=$'\n' read -r -d '' -a candidates < \
-	<(printf '%s\n' *.pkg.tar?(.+([^.])) | pacsort |
+	<(printf '%s\n' *.pkg.tar?(.+([^.])) | pacsort --files |
 		pkgfilter "$keep" "$scanarch" \
 			"${#whitelist[*]}" "${whitelist[@]}" \
 			"${#blacklist[*]}" "${blacklist[@]}")
