@@ -66,6 +66,24 @@ runtest $in $ex "add trailing newline"
 in="1.0-1\n1.0\n1.0-2\n1.0\n"
 runtest $in $in "stable sort"
 
+in="firefox-18.0-2-x86_64.pkg.tar.xz\nfirefox-18.0.1-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort" "--files"
+
+in="firefox-18.0-2\nfirefox-18.0.1-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort with invalid filename" "--files"
+
+in="firefox-18.0-2-x86_64.pkg.tar.xz\n/path2/firefox-18.0.1-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort maybe with leading paths" "--files"
+
+in="/path1/firefox-18.0-2-x86_64.pkg.tar.xz\n/path2/firefox-18.0.1-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort with different leading paths" "--files"
+
+in="/path2/firefox-18.0-2-x86_64.pkg.tar.xz\n/path1/path2/firefox-18.0.1-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort with uneven leading path components" "--files"
+
+in="firefox-18.0-2-i686.pkg.tar.xz\nfirefox-18.0.1-1-x86_64.pkg.tar.gz\n"
+runtest $in $in "filename sort with different extensions" "--files"
+
 # generate some long input/expected for the next few tests
 declare normal reverse names_normal names_reverse
 for ((i=1; i<600; i++)); do

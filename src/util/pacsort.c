@@ -18,6 +18,7 @@
  */
 
 #include <errno.h>
+#include <fnmatch.h>
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +44,7 @@ static struct options_t {
 	int order;
 	int sortkey;
 	int null;
+	int filemode;
 	char delim;
 } opts;
 
@@ -259,15 +261,54 @@ static const char *nth_column(const char *string)
 static int vercmp(const void *p1, const void *p2)
 {
 	const char *name1, *name2;
+	char *fn1 = NULL, *fn2 = NULL;
+	int r;
 
 	name1 = *(const char **)p1;
 	name2 = *(const char **)p2;
 
-	if(opts.sortkey == 0) {
-		return opts.order * alpm_pkg_vercmp(name1, name2);
-	} else {
-		return opts.order * alpm_pkg_vercmp(nth_column(name1), nth_column(name2));
+	/* if we're operating in file mode, we modify the strings under certain
+	 * conditions to appease alpm_pkg_vercmp(). If and only if both inputs end
+	 * with a suffix that appears to be a package name, we strip the suffix and
+	 * remove any leading paths. This means that strings such as:
+	 *
+	 *   /var/cache/pacman/pkg/firefox-18.0-2-x86_64.pkg.tar.xz
+	 *   firefox-18.0-2-x86_64.pkg.tar.gz
+	 *
+	 *  Will be considered equal by this version comparison
+	 */
+	if(opts.filemode) {
+		if(fnmatch("*-*.pkg.tar.?z", name1, 0) == 0 &&
+			 fnmatch("*-*.pkg.tar.?z", name2, 0) == 0) {
+			const char *start, *end;
+
+			start = strrchr(name1, '/');
+			start = start ? start + 1 : name1;
+			end = strrchr(name1, '-');
+			fn1 = strndup(start, end - start);
+
+			start = strrchr(name2, '/');
+			start = start ? start + 1 : name2;
+			end = strrchr(name2, '-');
+			fn2 = strndup(start, end - start);
+
+			name1 = fn1;
+			name2 = fn2;
+		}
 	}
+
+	if(opts.sortkey == 0) {
+		r = opts.order * alpm_pkg_vercmp(name1, name2);
+	} else {
+		r = opts.order * alpm_pkg_vercmp(nth_column(name1), nth_column(name2));
+	}
+
+	if(opts.filemode) {
+		free(fn1);
+		free(fn2);
+	}
+
+	return r;
 }
 
 static char escape_char(const char *string)
@@ -304,6 +345,7 @@ static void usage(void)
 {
 	fprintf(stderr, "pacsort v" PACKAGE_VERSION "\n"
 			"Usage: pacsort [options] [files...]\n\n"
+			"  -f, --files             assume inputs are filepaths of packages\n"
 			"  -h, --help              display this help message\n"
 			"  -k, --key <index>       sort input starting on specified column\n"
 			"  -r, --reverse           sort in reverse order (default: oldest to newest)\n"
@@ -316,6 +358,7 @@ static int parse_options(int argc, char **argv)
 	int opt;
 
 	static const struct option opttable[] = {
+		{"files",     no_argument,          0, 'f'},
 		{"help",      no_argument,          0, 'h'},
 		{"key",       required_argument,    0, 'k'},
 		{"reverse",   no_argument,          0, 'r'},
@@ -324,8 +367,11 @@ static int parse_options(int argc, char **argv)
 		{0, 0, 0, 0}
 	};
 
-	while((opt = getopt_long(argc, argv, "hk:rt:z", opttable, NULL)) != -1) {
+	while((opt = getopt_long(argc, argv, "fhk:rt:z", opttable, NULL)) != -1) {
 		switch(opt) {
+			case 'f':
+				opts.filemode = 1;
+				break;
 			case 'h':
 				return 1;
 			case 'k':
