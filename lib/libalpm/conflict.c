@@ -40,6 +40,9 @@
 #include "deps.h"
 #include "filelist.h"
 
+/**
+ * @brief Creates a new conflict.
+ */
 static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 		alpm_depend_t *reason)
 {
@@ -56,6 +59,9 @@ static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 	return conflict;
 }
 
+/**
+ * @brief Free a conflict and its members.
+ */
 void _alpm_conflict_free(alpm_conflict_t *conflict)
 {
 	FREE(conflict->package2);
@@ -63,6 +69,9 @@ void _alpm_conflict_free(alpm_conflict_t *conflict)
 	FREE(conflict);
 }
 
+/**
+ * @brief Creates a copy of a conflict.
+ */
 alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 {
 	alpm_conflict_t *newconflict;
@@ -77,6 +86,14 @@ alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 	return newconflict;
 }
 
+/**
+ * @brief Searches for a conflict in a list.
+ *
+ * @param needle conflict to search for
+ * @param haystack list of conflicts to search
+ *
+ * @return 1 if needle is in haystack, 0 otherwise
+ */
 static int conflict_isin(alpm_conflict_t *needle, alpm_list_t *haystack)
 {
 	alpm_list_t *i;
@@ -93,12 +110,16 @@ static int conflict_isin(alpm_conflict_t *needle, alpm_list_t *haystack)
 	return 0;
 }
 
-/** Adds the pkg1/pkg2 conflict to the baddeps list.
+/**
+ * @brief Adds the pkg1/pkg2 conflict to the baddeps list.
+ *
  * @param handle the context handle
  * @param baddeps list to add conflict to
  * @param pkg1 first package
  * @param pkg2 package causing conflict
  * @param reason reason for this conflict
+ *
+ * @return 0 on success, -1 on error
  */
 static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
 		alpm_pkg_t *pkg1, alpm_pkg_t *pkg2, alpm_depend_t *reason)
@@ -119,11 +140,13 @@ static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
 	return 0;
 }
 
-/** Check if packages from list1 conflict with packages from list2.
- * This looks at the conflicts fields of all packages from list1, and sees
- * if they match packages from list2.
- * If a conflict (pkg1, pkg2) is found, it is added to the baddeps list
- * in this order if order >= 0, or reverse order (pkg2,pkg1) otherwise.
+/**
+ * @brief Check if packages from list1 conflict with packages from list2.
+ *
+ * @details This looks at the conflicts fields of all packages from list1, and
+ * sees if they match packages from list2. If a conflict (pkg1, pkg2) is found,
+ * it is added to the baddeps list in this order if order >= 0, or reverse
+ * order (pkg2,pkg1) otherwise.
  *
  * @param handle the context handle
  * @param list1 first list of packages
@@ -169,7 +192,14 @@ static void check_conflict(alpm_handle_t *handle,
 	}
 }
 
-/* Check for inter-conflicts */
+/**
+ * @brief Check for inter-conflicts in a list of packages.
+ *
+ * @param handle the context handle
+ * @param packages list of packages to check
+ *
+ * @return list of conflicts
+ */
 alpm_list_t *_alpm_innerconflicts(alpm_handle_t *handle, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
@@ -180,7 +210,9 @@ alpm_list_t *_alpm_innerconflicts(alpm_handle_t *handle, alpm_list_t *packages)
 	return baddeps;
 }
 
-/* Check for target vs (db - target) conflicts */
+/**
+ * @brief Returns a list of conflicts between a db and a list of packages.
+ */
 alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages)
 {
 	alpm_list_t *baddeps = NULL;
@@ -202,10 +234,12 @@ alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages)
 	return baddeps;
 }
 
-/** Check the package conflicts in a database
+/**
+ * @brief Check the package conflicts in a database
  *
  * @param handle the context handle
  * @param pkglist the list of packages to check
+ *
  * @return an alpm_list_t of alpm_conflict_t
  */
 alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_handle_t *handle,
@@ -215,8 +249,16 @@ alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_handle_t *handle,
 	return _alpm_innerconflicts(handle, pkglist);
 }
 
-/* Adds alpm_fileconflict_t to a conflicts list. Pass the conflicts list, the
- * conflicting file path, and either two packages or one package and NULL.
+/**
+ * @brief Creates and adds a file conflict to a conflict list.
+ *
+ * @param handle the context handle
+ * @param conflicts the list of conflicts to append to
+ * @param filestr the conflicting file path
+ * @param pkg1 package that wishes to install the file
+ * @param pkg2 package that currently owns the file, or NULL if unowned
+ *
+ * @return the updated conflict list
  */
 static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 		alpm_list_t *conflicts, const char *filestr,
@@ -245,6 +287,9 @@ error:
 	RET_ERR(handle, ALPM_ERR_MEMORY, conflicts);
 }
 
+/**
+ * @brief Frees a conflict and its members.
+ */
 void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 {
 	FREE(conflict->ctarget);
@@ -253,6 +298,17 @@ void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 	FREE(conflict);
 }
 
+/**
+ * @brief Recursively checks if a package owns all subdirectories and files in
+ * a directory.
+ *
+ * @param handle the context handle
+ * @param dirpath path of the directory to check
+ * @param pkg package being checked against
+ *
+ * @return 1 if a package owns all subdirectories and files or a directory
+ * cannot be opened, 0 otherwise
+ */
 static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 		alpm_pkg_t *pkg)
 {
@@ -331,9 +387,19 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 	return 1;
 }
 
-/* Find file conflicts that may occur during the transaction with two checks:
- * 1: check every target against every target
- * 2: check every target against the filesystem */
+/**
+ * @brief Find file conflicts that may occur during the transaction.
+ *
+ * @details Performs two checks:
+ *   1. check every target against every target
+ *   2. check every target against the filesystem
+ *
+ * @param handle the context handle
+ * @param upgrade list of packages being installed
+ * @param rem list of packages being removed
+ *
+ * @return list of file conflicts
+ */
 alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		alpm_list_t *upgrade, alpm_list_t *rem)
 {
