@@ -1,6 +1,7 @@
 #! /usr/bin/python2
 #
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
+#  Copyright (c) 2006-2013 Pacman Developmet Team <pacman-dev@archlinux.org>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -66,7 +67,7 @@ class pmenv(object):
             print t.description
             print "----------"*8
 
-            t.generate()
+            t.generate(self.pacman)
 
             t.run(self.pacman)
 
