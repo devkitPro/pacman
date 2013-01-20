@@ -85,6 +85,9 @@ def create_parser():
     parser.add_option("--scriptlet-shell", type = "string",
                       dest = "scriptletshell", default = "/bin/sh",
                       help = "specify path to shell used for install scriptlets")
+    parser.add_option("--ldconfig", type = "string",
+                      dest = "ldconfig", default = "/sbin/ldconfig",
+                      help = "specify path to ldconfig")
     return parser
 
 
@@ -104,6 +107,7 @@ if __name__ == "__main__":
     env.pacman["valgrind"] = opts.valgrind
     env.pacman["manual-confirm"] = opts.manualconfirm
     env.pacman["scriptlet-shell"] = opts.scriptletshell
+    env.pacman["ldconfig"] = opts.ldconfig
 
     if opts.testcases is None or len(opts.testcases) == 0:
         print "no tests defined, nothing to do"

@@ -621,12 +621,12 @@ int _alpm_ldconfig(alpm_handle_t *handle)
 
 	snprintf(line, PATH_MAX, "%setc/ld.so.conf", handle->root);
 	if(access(line, F_OK) == 0) {
-		snprintf(line, PATH_MAX, "%ssbin/ldconfig", handle->root);
+		snprintf(line, PATH_MAX, "%s%s", handle->root, LDCONFIG);
 		if(access(line, X_OK) == 0) {
 			char arg0[32];
 			char *argv[] = { arg0, NULL };
 			strcpy(arg0, "ldconfig");
-			return _alpm_run_chroot(handle, "/sbin/ldconfig", argv);
+			return _alpm_run_chroot(handle, LDCONFIG, argv);
 		}
 	}
 

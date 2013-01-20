@@ -29,6 +29,7 @@ test-pacman: test/pacman src/pacman
 	LC_ALL=C $(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
 		--test $(top_srcdir)/test/pacman/tests/*.py \
 		--scriptlet-shell $(SCRIPTLET_SHELL) \
+		--ldconfig $(LDCONFIG) \
 		-p $(top_builddir)/src/pacman/pacman
 
 test-pacsort: test/util src/util

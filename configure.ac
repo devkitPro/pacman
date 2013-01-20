@@ -108,6 +108,12 @@ AC_ARG_WITH(scriptlet-shell,
 		[set the full path to the shell used to run install scriptlets]),
 	[SCRIPTLET_SHELL=$withval], [SCRIPTLET_SHELL=/bin/sh])
 
+# Help line for ldconfig path
+AC_ARG_WITH(ldconfig,
+	AS_HELP_STRING([--with-ldconfig=path],
+		[set the full path to ldconfig]),
+	[LDCONFIG=$withval], [LDCONFIG=/sbin/ldconfig])
+
 # Help line for using OpenSSL
 AC_ARG_WITH(openssl,
 	AS_HELP_STRING([--with-openssl], [use OpenSSL crypto implementations instead of internal routines]),
@@ -456,6 +462,10 @@ AC_DEFINE_UNQUOTED([DEBUGSUFFIX], "$DEBUGSUFFIX", [The suffix for debugging symb
 # Set shell used by install scriptlets
 AC_SUBST(SCRIPTLET_SHELL)
 AC_DEFINE_UNQUOTED([SCRIPTLET_SHELL], "$SCRIPTLET_SHELL", [The full path of the shell used to run install scriptlets])
+# Set ldconfig path
+AC_SUBST(LDCONFIG)
+AC_DEFINE_UNQUOTED([LDCONFIG], "$LDCONFIG", [The full path to ldconfig])
+
 
 # Configuration files
 AC_CONFIG_FILES([
