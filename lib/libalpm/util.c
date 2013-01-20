@@ -549,9 +549,9 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 			exit(1);
 		}
 		umask(0022);
-		execvp(cmd, argv);
-		/* execvp only returns if there was an error */
-		fprintf(stderr, _("call to execvp failed (%s)\n"), strerror(errno));
+		execv(cmd, argv);
+		/* execv only returns if there was an error */
+		fprintf(stderr, _("call to execv failed (%s)\n"), strerror(errno));
 		exit(1);
 	} else {
 		/* this code runs for the parent only (wait on the child) */
@@ -621,10 +621,13 @@ int _alpm_ldconfig(alpm_handle_t *handle)
 
 	snprintf(line, PATH_MAX, "%setc/ld.so.conf", handle->root);
 	if(access(line, F_OK) == 0) {
-		char arg0[32];
-		char *argv[] = { arg0, NULL };
-		strcpy(arg0, "ldconfig");
-		return _alpm_run_chroot(handle, "ldconfig", argv);
+		snprintf(line, PATH_MAX, "%ssbin/ldconfig", handle->root);
+		if(access(line, X_OK) == 0) {
+			char arg0[32];
+			char *argv[] = { arg0, NULL };
+			strcpy(arg0, "ldconfig");
+			return _alpm_run_chroot(handle, "/sbin/ldconfig", argv);
+		}
 	}
 
 	return 0;

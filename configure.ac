@@ -105,8 +105,8 @@ AC_ARG_WITH(debug-suffix,
 # Help line for changing shell used to run install scriptlets
 AC_ARG_WITH(scriptlet-shell,
 	AS_HELP_STRING([--with-scriptlet-shell=shell],
-		[set the shell used to run install scriptlets]),
-	[SCRIPTLET_SHELL=$withval], [SCRIPTLET_SHELL=sh])
+		[set the full path to the shell used to run install scriptlets]),
+	[SCRIPTLET_SHELL=$withval], [SCRIPTLET_SHELL=/bin/sh])
 
 # Help line for using OpenSSL
 AC_ARG_WITH(openssl,
@@ -455,7 +455,7 @@ AC_SUBST(DEBUGSUFFIX)
 AC_DEFINE_UNQUOTED([DEBUGSUFFIX], "$DEBUGSUFFIX", [The suffix for debugging symbol packages used by makepkg])
 # Set shell used by install scriptlets
 AC_SUBST(SCRIPTLET_SHELL)
-AC_DEFINE_UNQUOTED([SCRIPTLET_SHELL], "$SCRIPTLET_SHELL", [The shell used to run install scriptlets])
+AC_DEFINE_UNQUOTED([SCRIPTLET_SHELL], "$SCRIPTLET_SHELL", [The full path of the shell used to run install scriptlets])
 
 # Configuration files
 AC_CONFIG_FILES([
