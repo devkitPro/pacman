@@ -132,7 +132,7 @@ summarize() {
 	if (( delete )); then
 		printf -v output 'finished: %d packages removed' "$filecount"
 	elif (( move )); then
-		printf -v output "finished: %d packages moved to \`%s'" "$filecount" "$movedir"
+		printf -v output "finished: %d packages moved to '%s'" "$filecount" "$movedir"
 	elif (( dryrun )); then
 		if (( verbose )); then
 			msg "Candidate packages:"
@@ -266,10 +266,10 @@ case $(( dryrun+delete+move )) in
 esac
 
 [[ -d $cachedir ]] ||
-	die "cachedir \`%s' does not exist or is not a directory" "$cachedir"
+	die "cachedir '%s' does not exist or is not a directory" "$cachedir"
 
 [[ $movedir && ! -d $movedir ]] &&
-	die "move-to directory \`%s' does not exist or is not a directory" "$movedir"
+	die "move-to directory '%s' does not exist or is not a directory" "$movedir"
 
 if (( move || delete )); then
 	# make it an absolute path since we're about to chdir
@@ -278,7 +278,7 @@ if (( move || delete )); then
 fi
 
 # unlikely that this will fail, but better make sure
-cd "$cachedir" >/dev/null || die "failed to chdir to \`%s'" "$cachedir"
+cd "$cachedir" >/dev/null || die "failed to chdir to '%s'" "$cachedir"
 
 # note that these results are returned in an arbitrary order from awk, but
 # they'll be resorted (in summarize) iff we have a verbosity level set.
