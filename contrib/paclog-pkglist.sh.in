@@ -50,25 +50,35 @@ fi
 
 <"$logfile" awk '
 {
-	action  = $3
-	pkgname = $4
-	pkgver  = $5
-	upgver  = $7
+	if ($3 ~ /^\[.*\]$/) {
+		# new style with caller name
+		action  = $4
+		pkgname = $5
+		pkgver  = $6
+		upgver  = $8
+		nfields = NF
+	} else {
+		action  = $3
+		pkgname = $4
+		pkgver  = $5
+		upgver  = $7
+		nfields = (NF + 1)    # compensate for missing caller field
+	}
 }
 
-NF == 5 && action == "installed" {
+nfields == 6 && action == "installed" {
 	gsub(/[()]/, "", pkgver)
 	pkg[pkgname] = pkgver
 	next
 }
 
-NF == 7 && action == "upgraded" {
+nfields == 8 && action == "upgraded" {
 	sub(/\)/, "", upgver)
 	pkg[pkgname] = upgver
 	next
 }
 
-NF == 5 && action == "removed" {
+nfields == 6 && action == "removed" {
 	pkg[pkgname] = -1
 }
 
