@@ -305,7 +305,7 @@ GCC_GNU89_INLINE_CC
 # Host-dependant definitions
 INODECMD="stat -c '%i %n'"
 SIZECMD="stat -c %s"
-SEDINPLACE="sed -i"
+SEDINPLACE="sed --follow-symlinks -i"
 DUFLAGS="-sk --apparent-size"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
