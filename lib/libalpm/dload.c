@@ -294,7 +294,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, dload_progress_cb);
 	curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, (void *)payload);
-	curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, 1024L);
+	curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, 1L);
 	curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 10L);
 	curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, dload_parseheader_cb);
 	curl_easy_setopt(curl, CURLOPT_WRITEHEADER, (void *)payload);
