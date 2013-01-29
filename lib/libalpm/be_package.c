@@ -32,6 +32,7 @@
 /* libalpm */
 #include "alpm_list.h"
 #include "alpm.h"
+#include "libarchive-compat.h"
 #include "util.h"
 #include "log.h"
 #include "handle.h"
@@ -74,7 +75,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 			changelog = malloc(sizeof(struct package_changelog));
 			if(!changelog) {
 				pkg->handle->pm_errno = ALPM_ERR_MEMORY;
-				archive_read_finish(archive);
+				_alpm_archive_read_free(archive);
 				CLOSE(fd);
 				return NULL;
 			}
@@ -84,7 +85,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 		}
 	}
 	/* we didn't find a changelog */
-	archive_read_finish(archive);
+	_alpm_archive_read_free(archive);
 	CLOSE(fd);
 	errno = ENOENT;
 
@@ -124,7 +125,7 @@ static int _package_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 {
 	int ret;
 	struct package_changelog *changelog = fp;
-	ret = archive_read_finish(changelog->archive);
+	ret = _alpm_archive_read_free(changelog->archive);
 	CLOSE(changelog->fd);
 	free(changelog);
 	return ret;
@@ -471,7 +472,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		goto pkg_invalid;
 	}
 
-	archive_read_finish(archive);
+	_alpm_archive_read_free(archive);
 	CLOSE(fd);
 
 	/* internal fields for package struct */
@@ -503,7 +504,7 @@ pkg_invalid:
 	handle->pm_errno = ALPM_ERR_PKG_INVALID;
 error:
 	_alpm_pkg_free(newpkg);
-	archive_read_finish(archive);
+	_alpm_archive_read_free(archive);
 	if(fd >= 0) {
 		CLOSE(fd);
 	}

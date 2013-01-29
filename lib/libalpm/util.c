@@ -49,6 +49,7 @@
 /* libalpm */
 #include "util.h"
 #include "log.h"
+#include "libarchive-compat.h"
 #include "alpm.h"
 #include "alpm_list.h"
 #include "handle.h"
@@ -240,7 +241,7 @@ int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 		RET_ERR(handle, ALPM_ERR_LIBARCHIVE, -1);
 	}
 
-	archive_read_support_compression_all(*archive);
+	_alpm_archive_read_support_filter_all(*archive);
 	archive_read_support_format_all(*archive);
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "opening archive %s\n", path);
@@ -271,7 +272,7 @@ int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 	return fd;
 
 error:
-	archive_read_finish(*archive);
+	_alpm_archive_read_free(*archive);
 	*archive = NULL;
 	if(fd >= 0) {
 		CLOSE(fd);
@@ -392,7 +393,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *path, const char *prefix,
 
 cleanup:
 	umask(oldmask);
-	archive_read_finish(archive);
+	_alpm_archive_read_free(archive);
 	CLOSE(fd);
 	if(cwdfd >= 0) {
 		if(fchdir(cwdfd) != 0) {

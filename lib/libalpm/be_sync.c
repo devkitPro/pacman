@@ -31,6 +31,7 @@
 /* libalpm */
 #include "util.h"
 #include "log.h"
+#include "libarchive-compat.h"
 #include "alpm.h"
 #include "alpm_list.h"
 #include "package.h"
@@ -383,7 +384,7 @@ static size_t estimate_package_count(struct stat *st, struct archive *archive)
 {
 	int per_package;
 
-	switch(archive_compression(archive)) {
+	switch(_alpm_archive_filter_code(archive)) {
 		case ARCHIVE_COMPRESSION_NONE:
 			per_package = 3015;
 			break;
@@ -471,7 +472,7 @@ static int sync_db_populate(alpm_db_t *db)
 			count, db->treename);
 
 cleanup:
-	archive_read_finish(archive);
+	_alpm_archive_read_free(archive);
 	if(fd >= 0) {
 		CLOSE(fd);
 	}

@@ -35,6 +35,7 @@
 /* libalpm */
 #include "db.h"
 #include "alpm_list.h"
+#include "libarchive-compat.h"
 #include "log.h"
 #include "util.h"
 #include "alpm.h"
@@ -241,11 +242,11 @@ static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
 	archive_read_support_filter_gzip(mtree);
 	archive_read_support_format_mtree(mtree);
 
-	if((r = archive_read_open_file(mtree, mtfile, ALPM_BUFFER_SIZE))) {
+	if((r = _alpm_archive_read_open_file(mtree, mtfile, ALPM_BUFFER_SIZE))) {
 		_alpm_log(pkg->handle, ALPM_LOG_ERROR, _("error while reading file %s: %s\n"),
 					mtfile, archive_error_string(mtree));
 		pkg->handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-		archive_read_finish(mtree);
+		_alpm_archive_read_free(mtree);
 		goto error;
 	}
 
@@ -279,7 +280,7 @@ static int _cache_mtree_next(const alpm_pkg_t UNUSED *pkg,
 static int _cache_mtree_close(const alpm_pkg_t UNUSED *pkg,
 		struct archive *mtree)
 {
-	return archive_read_finish(mtree);
+	return _alpm_archive_read_free(mtree);
 }
 
 static int _cache_force_load(alpm_pkg_t *pkg)
