@@ -1497,6 +1497,32 @@ tidy_install() {
 		done
 	fi
 
+	if check_option "libtool" "n"; then
+		msg2 "$(gettext "Removing "%s" files...")" "libtool"
+		find . ! -type d -name "*.la" -exec rm -f -- '{}' \;
+	fi
+
+	if check_option "emptydirs" "n"; then
+		msg2 "$(gettext "Removing empty directories...")"
+		find . -depth -type d -exec rmdir '{}' + 2>/dev/null
+	fi
+
+	# check existence of backup files
+	local file
+	for file in "${backup[@]}"; do
+		if [[ ! -f $file ]]; then
+			warning "$(gettext "%s entry file not in package : %s")" "backup" "$file"
+		fi
+	done
+
+	# check for references to the build and package directory
+	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${srcdir}" ; then
+		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
+	fi
+	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${pkgdir}" ; then
+		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
+	fi
+
 	if check_option "zipman" "y" && [[ -n ${MAN_DIRS[*]} ]]; then
 		msg2 "$(gettext "Compressing man and info pages...")"
 		local file files inode link
@@ -1550,16 +1576,6 @@ tidy_install() {
 			esac
 			strip_file "$binary" ${strip_flags}
 		done
-	fi
-
-	if check_option "libtool" "n"; then
-		msg2 "$(gettext "Removing "%s" files...")" "libtool"
-		find . ! -type d -name "*.la" -exec rm -f -- '{}' \;
-	fi
-
-	if check_option "emptydirs" "n"; then
-		msg2 "$(gettext "Removing empty directories...")"
-		find . -depth -type d -exec rmdir '{}' + 2>/dev/null
 	fi
 
 	if check_option "upx" "y"; then
@@ -1753,35 +1769,12 @@ write_pkginfo() {
 	check_license
 }
 
-check_package() {
-	cd_safe "$pkgdir"
-
-	# check existence of backup files
-	local file
-	for file in "${backup[@]}"; do
-		if [[ ! -f $file ]]; then
-			warning "$(gettext "%s entry file not in package : %s")" "backup" "$file"
-		fi
-	done
-
-	# check for references to the build and package directory
-	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${srcdir}" ; then
-		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
-	fi
-	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${pkgdir}" ; then
-		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
-	fi
-
-}
-
 create_package() {
 	if [[ ! -d $pkgdir ]]; then
 		error "$(gettext "Missing %s directory.")" "pkg/"
 		plain "$(gettext "Aborting...")"
 		exit 1 # $E_MISSING_PKGDIR
 	fi
-
-	check_package
 
 	cd_safe "$pkgdir"
 	msg "$(gettext "Creating package \"%s\"...")" "$pkgname"
