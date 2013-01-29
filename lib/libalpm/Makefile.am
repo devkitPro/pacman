@@ -44,6 +44,7 @@ libalpm_la_SOURCES = \
 	graph.h graph.c \
 	group.h group.c \
 	handle.h handle.c \
+	libarchive-compat.h libarchive-compat.c \
 	log.h log.c \
 	package.h package.c \
 	pkghash.h pkghash.c \
