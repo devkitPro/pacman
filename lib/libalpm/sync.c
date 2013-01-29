@@ -877,7 +877,7 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 		MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
 
-		if(_alpm_download(payload, cachedir, NULL) != -1) {
+		if(_alpm_download(payload, cachedir, NULL, NULL) != -1) {
 			return 0;
 		}
 

@@ -218,7 +218,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		payload.force = force;
 		payload.unlink_on_fail = 1;
 
-		ret = _alpm_download(&payload, syncpath, NULL);
+		ret = _alpm_download(&payload, syncpath, NULL, NULL);
 		_alpm_dload_payload_reset(&payload);
 
 		if(ret == 0 && (level & ALPM_SIG_DATABASE)) {
@@ -244,7 +244,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			/* set hard upper limit of 16KiB */
 			payload.max_size = 16 * 1024;
 
-			sig_ret = _alpm_download(&payload, syncpath, NULL);
+			sig_ret = _alpm_download(&payload, syncpath, NULL, NULL);
 			/* errors_ok suppresses error messages, but not the return code */
 			sig_ret = payload.errors_ok ? 0 : sig_ret;
 			_alpm_dload_payload_reset(&payload);

@@ -386,7 +386,7 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 #define HOSTNAME_SIZE 256
 
 static int curl_download_internal(struct dload_payload *payload,
-		const char *localpath, char **final_file)
+		const char *localpath, char **final_file, char **final_url)
 {
 	int ret = -1;
 	FILE *localf = NULL;
@@ -523,6 +523,10 @@ static int curl_download_internal(struct dload_payload *payload,
 	curl_easy_getinfo(curl, CURLINFO_CONDITION_UNMET, &timecond);
 	curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &effective_url);
 
+	if(final_url != NULL) {
+		*final_url = effective_url;
+	}
+
 	/* time condition was met and we didn't download anything. we need to
 	 * clean up the 0 byte .part file that's left behind. */
 	if(timecond == 1 && DOUBLE_EQ(bytes_dl, 0)) {
@@ -613,13 +617,13 @@ cleanup:
  * @return 0 on success, -1 on error (pm_errno is set accordingly if errors_ok == 0)
  */
 int _alpm_download(struct dload_payload *payload, const char *localpath,
-		char **final_file)
+		char **final_file, char **final_url)
 {
 	alpm_handle_t *handle = payload->handle;
 
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
-		return curl_download_internal(payload, localpath, final_file);
+		return curl_download_internal(payload, localpath, final_file, final_url);
 #else
 		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
@@ -653,7 +657,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 {
 	char *filepath;
 	const char *cachedir;
-	char *final_file = NULL;
+	char *final_file = NULL, *final_pkg_url = NULL;
 	struct dload_payload payload;
 	int ret = 0;
 
@@ -673,7 +677,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 		payload.handle = handle;
 
 		/* download the file */
-		ret = _alpm_download(&payload, cachedir, &final_file);
+		ret = _alpm_download(&payload, cachedir, &final_file, &final_pkg_url);
 		_alpm_dload_payload_reset(&payload);
 		if(ret == -1) {
 			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to download %s\n"), url);
@@ -688,9 +692,9 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 		char *sig_filepath, *sig_final_file = NULL;
 		size_t len;
 
-		len = strlen(url) + 5;
+		len = strlen(final_pkg_url) + 5;
 		MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		snprintf(payload.fileurl, len, "%s.sig", url);
+		snprintf(payload.fileurl, len, "%s.sig", final_pkg_url);
 
 		sig_filepath = filecache_find_url(handle, payload.fileurl);
 		if(sig_filepath == NULL) {
@@ -701,7 +705,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 			/* set hard upper limit of 16KiB */
 			payload.max_size = 16 * 1024;
 
-			ret = _alpm_download(&payload, cachedir, &sig_final_file);
+			ret = _alpm_download(&payload, cachedir, &sig_final_file, NULL);
 			if(ret == -1 && !payload.errors_ok) {
 				_alpm_log(handle, ALPM_LOG_WARNING,
 						_("failed to download %s\n"), payload.fileurl);
