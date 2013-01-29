@@ -239,7 +239,7 @@ static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
 		goto error;
 	}
 
-	archive_read_support_filter_gzip(mtree);
+	_alpm_archive_read_support_filter_all(mtree);
 	archive_read_support_format_mtree(mtree);
 
 	if((r = _alpm_archive_read_open_file(mtree, mtfile, ALPM_BUFFER_SIZE))) {

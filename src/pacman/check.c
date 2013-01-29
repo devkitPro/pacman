@@ -90,7 +90,7 @@ static int check_file_permissions(const char *pkgname, const char *filepath,
 
 	/* mode */
 	fsmode = st->st_mode & (S_ISUID | S_ISGID | S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO);
-	if(fsmode != archive_entry_perm(entry)) {
+	if(fsmode != (~AE_IFMT & archive_entry_mode(entry))) {
 		errors++;
 		if(!config->quiet) {
 			pm_printf(ALPM_LOG_WARNING, _("%s: %s (Permissions mismatch)\n"),
