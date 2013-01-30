@@ -4,17 +4,22 @@ PKGBUILD.vim - a vim/gvim syntax file for PKGBUILDs. Colors known variable
 names, highlights common errors such as invalid characters in pkgname or
 pkgver, etc.
 
+bacman - regenerate a pacman package based on installed files and the pacman
+database entries. Useful for reuse, or possible config file extension.
+
 bash_completion - a bash completion script for pacman, install in
 /etc/bash_completion.d/ for use (but rename to something descriptive!).
 
-zsh_completion - a zsh completion script, install (with a rename) to
-/usr/share/zsh/site-functions/.
+paccache - a flexible package cache cleaning utility that allows greater
+control over which packages are removed.
 
 pacdiff - a simple pacnew/pacorig/pacsave updater for /etc/.
 
 paclist - list all packages installed from a given repository. Useful for
 seeing which packages you may have installed from the testing repository,
 for instance.
+
+paclog-pkglist - lists currently installs packages based pacman's log.
 
 pacscripts - tries to print out the {pre,post}_{install,remove,upgrade}
 scripts of a given package.
@@ -23,8 +28,13 @@ pacsearch - a colorized search combining both -Ss and -Qs output. Installed
 packages are easily identified with a *** and local-only packages are also
 listed.
 
-bacman - regenerate a pacman package based on installed files and the pacman
-database entries. Useful for reuse, or possible config file extension.
+pacsysclean - lists installed packages sorted by size.
+
+rankmirrors - ranks pacman mirrors by their connection and opening speed.
+
+updpkgsums - performs an in place update of the checksums in a PKGBUILD.
 
 vimprojects - a project file for the vim project plugin.
 
+zsh_completion - a zsh completion script, install (with a rename) to
+/usr/share/zsh/site-functions/.
