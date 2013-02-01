@@ -204,7 +204,9 @@ class pmtest(object):
                 cmd.append("fakeroot")
 
             fakechroot = util.which("fakechroot")
-            if fakechroot:
+            if not fakechroot:
+                print "WARNING: fakechroot not found!"
+            else:
                 cmd.append("fakechroot")
 
         if pacman["gdb"]:
