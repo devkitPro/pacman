@@ -11,7 +11,3 @@ self.args = "-U %s" % p1.filename()
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("FILE_EXIST=pre_install")
 self.addrule("FILE_EXIST=post_install")
-
-fakechroot = util.which("fakechroot")
-if not fakechroot:
-	self.expectfailure = True
