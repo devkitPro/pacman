@@ -280,62 +280,65 @@ A normal sync or upgrade will not use its value.
 		When used in combination with the `strip' option, a separate package
 		containing the debug symbols is created.
 
-build() Function
-----------------
-In addition to the above directives, the optional build() function usually
-comprises the remainder of the PKGBUILD. This is directly sourced and executed
-by makepkg, so anything that bash or the system has available is available for
-use here. The function is run in `bash -e` mode, meaning any command that exits
-with a non-zero status will cause the function to exit. Be sure any exotic
-commands used are covered by `makedepends`.
+
+Packaging Functions
+-------------------
+
+In addition to the above directives, PKGBUILDs require a set of functions that
+provide instructions to build and install the package.  As a minimum, the PKGBUILD
+must contain a package() function which installs all the package's files into the
+packaging directory, with optional prepare(), build() and check() being used to
+create those files from source.
+
+*package() Function*::
+	The package() function is used to install files into the directory that
+	will become the root directory of the built package and is run after all
+	the optional functions listed below. When specified in combination with
+	the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot usage
+	will be limited to running the packaging stage. All other functions will
+	be run as the user calling makepkg.
+
+*prepare() Function*::
+	An optional prepare() function can be specified in which operations that
+	are to be run in order to prepare the sources for building (such as
+	patching) are performed. This function is run after the source extraction
+	and before the build() function and is skipped when source extraction is
+	skipped.
+
+*build() Function*::
+	The optional build() function is use to compile and/or adjust the source
+	files in preparation to be installed by the package() function. This is
+	directly sourced and executed by makepkg, so anything that bash or the
+	system has available is available for use here. Be sure any exotic
+	commands used are covered by `makedepends`.
++
+If you create any variables of your own in the build function, it is
+recommended to use the bash `local` keyword to scope the variable to inside
+the build function.
+
+*check() Function*::
+	An optional check() function can be specified in which a package's
+	test-suite may be run. This function is run between the build() and
+	package() functions. Be sure any exotic commands used are covered by
+	`checkdepends`.
 
 All of the above variables such as `$pkgname` and `$pkgver` are available for use
-in the build function. In addition, makepkg defines the following three
-variables for use during the build and install process:
+in the build function. In addition, makepkg defines the following variables for use
+during the build and install process:
+
+*srcdir*::
+       This contains the directory where makepkg extracts, or copies, all source
+       files.
+
+*pkgdir*::
+       This contains the directory where makepkg bundles the installed package
+       (this directory will become the root directory of your built package).
+       This variable should only be used in the package() function.
 
 *startdir*::
 	This contains the absolute path to the directory where the PKGBUILD is
 	located, which is usually the output of `$(pwd)` when makepkg is started.
 	Use of this variable is deprecated and strongly discouraged.
-
-*srcdir*::
-	This contains the directory where makepkg extracts, or copies, all source
-	files.
-
-*pkgdir*::
-	This contains the directory where makepkg bundles the installed package
-	(this directory will become the root directory of your built package).
-
-If you create any variables of your own in the build function, it is
-recommended to use the bash `local` keyword to scope the variable to inside
-the build function.
-
-prepare() Function
-------------------
-An optional prepare() function can be specified in which operations that are
-to be run in order to prepare the sources for building (such as patching) are
-performed. This function is run after the source extraction and before the
-build() function and is skipped when source extraction is skipped. The
-function is run in `bash -e` mode, meaning any command that exits with a
-non-zero status will cause the function to exit.
-
-check() Function
-----------------
-An optional check() function can be specified in which a packages test-suite
-may be run. This function is run between the build() and package() functions.
-The function is run in `bash -e` mode, meaning any command that exits with a
-non-zero status will cause the function to exit. Be sure any exotic commands
-used are covered by `checkdepends`.
-
-package() Function
-------------------
-An optional package() function can be specified in addition to the build()
-function. This function is run after the build() and check() functions. The
-function is run in `bash -e` mode, meaning any command that exits with a
-non-zero status will cause the function to exit. When specified in combination
-with the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot usage
-will be limited to running the packaging stage. An existing build() function
-will be run as the user calling makepkg.
 
 Package Splitting
 -----------------
