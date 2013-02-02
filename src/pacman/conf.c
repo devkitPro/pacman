@@ -404,17 +404,14 @@ static int process_cleanmethods(alpm_list_t *values,
 static void setrepeatingoption(char *ptr, const char *option,
 		alpm_list_t **list)
 {
-	char *q;
+	char *val, *saveptr;
 
-	while((q = strchr(ptr, ' '))) {
-		*q = '\0';
-		*list = alpm_list_add(*list, strdup(ptr));
-		pm_printf(ALPM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
-		ptr = q;
-		ptr++;
+	val = strtok_r(ptr, " ", &saveptr);
+	while(val) {
+		*list = alpm_list_add(*list, strdup(val));
+		pm_printf(ALPM_LOG_DEBUG, "config: %s: %s\n", option, val);
+		val = strtok_r(NULL, " ", &saveptr);
 	}
-	*list = alpm_list_add(*list, strdup(ptr));
-	pm_printf(ALPM_LOG_DEBUG, "config: %s: %s\n", option, ptr);
 }
 
 static int _parse_options(const char *key, char *value,
