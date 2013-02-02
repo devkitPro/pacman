@@ -152,7 +152,7 @@ clean_up() {
 
 		# If it's a clean exit and -c/--clean has been passed...
 		msg "$(gettext "Cleaning up...")"
-		rm -rf "$pkgdir" "$srcdir"
+		rm -rf "$pkgdirbase" "$srcdir"
 		if [[ -n $pkgbase ]]; then
 			local fullver=$(get_full_version)
 			# Can't do this unless the BUILDSCRIPT has been sourced.
@@ -1519,7 +1519,7 @@ tidy_install() {
 	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${srcdir}" ; then
 		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
 	fi
-	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${pkgdir}" ; then
+	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${pkgdirbase}" ; then
 		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
 	fi
 
@@ -2344,16 +2344,14 @@ restore_package_variables() {
 run_split_packaging() {
 	local pkgname_backup=${pkgname[@]}
 	for pkgname in ${pkgname_backup[@]}; do
-		pkgdir="$pkgdir/$pkgname"
-		mkdir -p "$pkgdir"
-		chmod a-s "$pkgdir"
+		pkgdir="$pkgdirbase/$pkgname"
+		mkdir "$pkgdir"
 		backup_package_variables
 		run_package $pkgname
 		tidy_install
 		create_package
 		create_debug_package
 		restore_package_variables
-		pkgdir="${pkgdir%/*}"
 	done
 	pkgname=${pkgname_backup[@]}
 }
@@ -2689,11 +2687,15 @@ epoch=${epoch:-0}
 
 if [[ $BUILDDIR = "$startdir" ]]; then
 	srcdir="$BUILDDIR/src"
-	pkgdir="$BUILDDIR/pkg"
+	pkgdirbase="$BUILDDIR/pkg"
 else
 	srcdir="$BUILDDIR/$pkgbase/src"
-	pkgdir="$BUILDDIR/$pkgbase/pkg"
+	pkgdirbase="$BUILDDIR/$pkgbase/pkg"
+
 fi
+
+# set pkgdir to something "sensible" for (not recommended) use during build()
+pkgdir="$pkgdirbase/$pkgbase"
 
 if (( GENINTEG )); then
 	mkdir -p "$srcdir"
@@ -2767,9 +2769,10 @@ if (( INFAKEROOT )); then
 		exit 0 # $E_OK
 	fi
 
+	chmod 755 "$pkgdirbase"
 	if (( ! SPLITPKG )); then
-		pkgdir="$pkgdir/$pkgname"
-		mkdir -p "$pkgdir"
+		pkgdir="$pkgdirbase/$pkgname"
+		mkdir "$pkgdir"
 		if (( ! PKGFUNC )); then
 			if (( ! REPKG )); then
 				if (( BUILDFUNC )); then
@@ -2786,7 +2789,6 @@ if (( INFAKEROOT )); then
 		tidy_install
 		create_package
 		create_debug_package
-		pkgdir="${pkgdir%/*}"
 	else
 		run_split_packaging
 	fi
@@ -2881,7 +2883,7 @@ if (( NOEXTRACT )); then
 	warning "$(gettext "Using existing %s tree")" "src/"
 elif (( REPKG )); then
 	if (( ! PKGFUNC && ! SPLITPKG )) \
-	     && { [[ ! -d $pkgdir ]] || dir_is_empty "$pkgdir"; }; then
+	     && { [[ ! -d $pkgdirbase ]] || dir_is_empty "$pkgdirbase"; }; then
 		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
 		plain "$(gettext "Aborting...")"
 		exit 1
@@ -2900,22 +2902,27 @@ if (( NOBUILD )); then
 	exit 0 #E_OK
 else
 	# check for existing pkg directory; don't remove if we are repackaging
-	if [[ -d $pkgdir ]] && (( ! REPKG || PKGFUNC || SPLITPKG )); then
+	if [[ -d $pkgdirbase ]] && (( ! REPKG || PKGFUNC || SPLITPKG )); then
 		msg "$(gettext "Removing existing %s directory...")" "pkg/"
-		rm -rf "$pkgdir"
+		rm -rf "$pkgdirbase"
 	fi
-	mkdir -p "$pkgdir"
-	chmod a-s "$pkgdir"
+	mkdir -p "$pkgdirbase"
+	chmod a-srwx "$pkgdirbase"
 	cd_safe "$startdir"
 
 	# if we are root or if fakeroot is not enabled, then we don't use it
 	if ! check_buildenv "fakeroot" "y" || (( EUID == 0 )); then
 		if (( ! REPKG )); then
+			if (( ! ( SPLITPKG || PKGFUNC ) )); then
+				chmod 755 "$pkgdirbase"
+				mkdir -p "$pkgdir"
+			fi
 			(( BUILDFUNC )) && run_build
 			(( CHECKFUNC )) && run_check
 		fi
+		chmod 755 "$pkgdirbase"
 		if (( ! SPLITPKG )); then
-			pkgdir="$pkgdir/$pkgname"
+			pkgdir="$pkgdirbase/$pkgname"
 			mkdir -p "$pkgdir"
 			if (( PKGFUNC )); then
 				run_package
@@ -2926,7 +2933,6 @@ else
 			tidy_install
 			create_package
 			create_debug_package
-			pkgdir="${pkgdir%/*}"
 		else
 			run_split_packaging
 		fi
