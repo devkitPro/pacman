@@ -809,54 +809,61 @@ int main(int argc, char *argv[])
 	}
 
 	/* we support reading targets from stdin if a cmdline parameter is '-' */
-	if(!isatty(fileno(stdin)) && alpm_list_find_str(pm_targets, "-")) {
-		size_t current_size = PATH_MAX;
-		char *vdata, *line = malloc(current_size);
+	if(alpm_list_find_str(pm_targets, "-")) {
+		if(!isatty(fileno(stdin))) {
+			size_t current_size = PATH_MAX;
+			char *vdata, *line = malloc(current_size);
 
-		/* remove the '-' from the list */
-		pm_targets = alpm_list_remove_str(pm_targets, "-", &vdata);
-		free(vdata);
+			/* remove the '-' from the list */
+			pm_targets = alpm_list_remove_str(pm_targets, "-", &vdata);
+			free(vdata);
 
-		i = 0;
-		while((line[i] = (char)fgetc(stdin)) != EOF) {
-			if(isspace((unsigned char)line[i])) {
-				/* avoid adding zero length arg when multiple spaces separate args */
-				if(i > 0) {
-					line[i] = '\0';
-					pm_targets = alpm_list_add(pm_targets, strdup(line));
-					i = 0;
-				}
-			} else {
-				i++;
-				/* we may be at the end of our allocated buffer now */
-				if(i >= current_size) {
-					char *new = realloc(line, current_size * 2);
-					if(new) {
-						line = new;
-						current_size *= 2;
-					} else {
-						free(line);
-						line = NULL;
-						break;
+			i = 0;
+			while((line[i] = (char)fgetc(stdin)) != EOF) {
+				if(isspace((unsigned char)line[i])) {
+					/* avoid adding zero length arg when multiple spaces separate args */
+					if(i > 0) {
+						line[i] = '\0';
+						pm_targets = alpm_list_add(pm_targets, strdup(line));
+						i = 0;
+					}
+				} else {
+					i++;
+					/* we may be at the end of our allocated buffer now */
+					if(i >= current_size) {
+						char *new = realloc(line, current_size * 2);
+						if(new) {
+							line = new;
+							current_size *= 2;
+						} else {
+							free(line);
+							line = NULL;
+							break;
+						}
 					}
 				}
 			}
-		}
-		/* check for memory exhaustion */
-		if(!line) {
-			pm_printf(ALPM_LOG_ERROR, _("memory exhausted in argument parsing\n"));
-			cleanup(EXIT_FAILURE);
-		}
 
-		/* end of stream -- check for data still in line buffer */
-		if(i > 0) {
-			line[i] = '\0';
-			pm_targets = alpm_list_add(pm_targets, strdup(line));
-		}
-		free(line);
-		if(!freopen(ctermid(NULL), "r", stdin)) {
-			pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
-					strerror(errno));
+			/* check for memory exhaustion */
+			if(!line) {
+				pm_printf(ALPM_LOG_ERROR, _("memory exhausted in argument parsing\n"));
+				cleanup(EXIT_FAILURE);
+			}
+
+			/* end of stream -- check for data still in line buffer */
+			if(i > 0) {
+				line[i] = '\0';
+				pm_targets = alpm_list_add(pm_targets, strdup(line));
+			}
+			free(line);
+			if(!freopen(ctermid(NULL), "r", stdin)) {
+				pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
+						strerror(errno));
+			}
+		} else {
+			/* do not read stdin from terminal */
+			pm_printf(ALPM_LOG_ERROR, _("argument '-' specified without input on stdin\n"));
+			cleanup(1);
 		}
 	}
 
