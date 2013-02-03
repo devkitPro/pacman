@@ -49,21 +49,6 @@ Upon completion, it checks that:
   - all files from the package exist in the filesystem.
 
 
-Installation
-============
-
-Simply extract the pactest tarball, jump into the newly created directory and 
-run pactest.py.  See the usage section below.
-
-Remark: pacman 3.x restrictions regarding fakeroot must be disabled.
-It can be done by configuring pacman with the --disable-fakeroot flag:
-	./configure --disable-fakeroot
-
-For pacman 2.9.x releases, apply the patch found in the patches directory, 
-then export CFLAGS as following before rebuilding pacman:
-	export CFLAGS=-DNOFAKEROOT
-
-
 Usage
 =====
 
