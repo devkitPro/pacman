@@ -54,6 +54,7 @@ readonly -a packaging_options other_options splitpkg_overrides
 
 # Options
 ASDEPS=0
+NEEDED=0
 ASROOT=0
 CLEANUP=0
 DEP_BIN=0
@@ -1985,6 +1986,7 @@ install_package() {
 
 	local fullver pkgarch pkg pkglist
 	(( ASDEPS )) && pkglist+=('--asdeps')
+	(( NEEDED )) && pkglist+=('--needed')
 
 	for pkg in ${pkgname[@]}; do
 		fullver=$(get_full_version $pkg)
@@ -2471,7 +2473,7 @@ while true; do
 		# Pacman Options
 		--asdeps)         ASDEPS=1;;
 		--noconfirm)      PACMAN_OPTS+=" --noconfirm" ;;
-		--needed)         PACMAN_OPTS+=" --needed" ;;
+		--needed)         NEEDED=1;;
 		--noprogressbar)  PACMAN_OPTS+=" --noprogressbar" ;;
 
 		# Makepkg Options
