@@ -240,14 +240,16 @@ Options
 	This value is used when querying a package to see who was the builder.
 	It is recommended you change this to your name and email address.
 
-**COMPRESSGZ=**"(gzip -c -f -n)", **COMPRESSBZ2=**"(bzip2 -c -f)", **COMPRESSXZ=**"(xz -c -z -)", **COMPRESSZ=**"(compress -c -f)"::
+**COMPRESSGZ=**"(gzip -c -f -n)", **COMPRESSBZ2=**"(bzip2 -c -f)",
+**COMPRESSXZ=**"(xz -c -z -)", **COMPRESSLRZ=**"(lrzip -q)",
+**COMPRESSZ=**"(compress -c -f)"::
 	Sets the command and options used when compressing compiled or source
 	packages in the named format.
 
 **PKGEXT=**".pkg.tar.gz", **SRCEXT=**".src.tar.gz"::
 	Sets the compression used when making compiled or source packages. The
-	current valid suffixes are `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.xz`, and
-	`.tar.Z`.
+	current valid suffixes are `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.xz`,
+	`.tar.lrz` and `.tar.Z`.
 	Do not touch these unless you know what you are doing.
 
 See Also

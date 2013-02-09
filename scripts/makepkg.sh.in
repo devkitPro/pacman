@@ -1826,6 +1826,7 @@ create_package() {
 		*tar.gz)  ${COMPRESSGZ[@]:-gzip -c -f -n} ;;
 		*tar.bz2) ${COMPRESSBZ2[@]:-bzip2 -c -f} ;;
 		*tar.xz)  ${COMPRESSXZ[@]:-xz -c -z -} ;;
+		*tar.lrz) ${COMPRESSLRZ[@]:-lrzip -q} ;;
 		*tar.Z)   ${COMPRESSZ[@]:-compress -c -f} ;;
 		*tar)     cat ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
@@ -1938,10 +1939,11 @@ create_srcpackage() {
 
 	local TAR_OPT
 	case "$SRCEXT" in
-		*tar.gz)  TAR_OPT="z" ;;
-		*tar.bz2) TAR_OPT="j" ;;
-		*tar.xz)  TAR_OPT="J" ;;
-		*tar.Z)   TAR_OPT="Z" ;;
+		*tar.gz)  TAR_OPT="-z" ;;
+		*tar.bz2) TAR_OPT="-j" ;;
+		*tar.xz)  TAR_OPT="-J" ;;
+		*tar.lrz) TAR_OPT="--lrzip" ;;
+		*tar.Z)   TAR_OPT="-Z" ;;
 		*tar)     TAR_OPT=""  ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 		"$SRCEXT" ;;
@@ -1953,7 +1955,7 @@ create_srcpackage() {
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
 	cd_safe "${srclinks}"
-	if ! bsdtar -c${TAR_OPT}Lf "$pkg_file" ${pkgbase}; then
+	if ! bsdtar -cL ${TAR_OPT} -f "$pkg_file" ${pkgbase}; then
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
