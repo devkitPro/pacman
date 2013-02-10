@@ -871,7 +871,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	}
 
 	/* print to screen */
-	pm_asprintf(&str, _("Packages (%d):"), alpm_list_count(targets));
+	pm_asprintf(&str, _("Packages (%zd):"), alpm_list_count(targets));
 	printf("\n");
 
 	cols = getcols(fileno(stdout));
@@ -992,7 +992,7 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
 		case PM_OP_SYNC:
 			servers = alpm_db_get_servers(alpm_pkg_get_db(pkg));
 			if(servers) {
-				pm_asprintf(&string, "%s/%s", servers->data,
+				pm_asprintf(&string, "%s/%s", (char *)(servers->data),
 						alpm_pkg_get_filename(pkg));
 				return string;
 			}
@@ -1443,6 +1443,7 @@ int select_question(int count)
 
 
 /* presents a prompt and gets a Y/N answer */
+__attribute__((format(printf, 2, 0)))
 static int question(short preset, char *fmt, va_list args)
 {
 	char response[32];

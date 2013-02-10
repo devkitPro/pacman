@@ -72,11 +72,11 @@ void print_packages(const alpm_list_t *packages);
 void select_display(const alpm_list_t *pkglist);
 int select_question(int count);
 int multiselect_question(char *array, int count);
-int yesno(char *fmt, ...);
-int noyes(char *fmt, ...);
+int yesno(char *fmt, ...) __attribute__((format(printf, 1, 2)));
+int noyes(char *fmt, ...) __attribute__((format(printf, 1, 2)));
 
 int pm_printf(alpm_loglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
-int pm_asprintf(char **string, const char *format, ...);
+int pm_asprintf(char **string, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 

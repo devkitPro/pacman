@@ -37,6 +37,7 @@ static void cleanup(int signum)
 	exit(signum);
 }
 
+__attribute__((format(printf, 2, 0)))
 static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 {
 	if(strlen(fmt)) {
