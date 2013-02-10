@@ -114,6 +114,10 @@ AC_DEFUN([CFLAGS_ADD],
 [AS_VAR_PUSHDEF([my_cflags], [cflags_cv_warn_$1])dnl
 AC_CACHE_CHECK([whether compiler handles $1], [my_cflags], [
   save_CFLAGS="$CFLAGS"
+  CFLAGS="${CFLAGS} -Werror=unknown-warning-option"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([])],
+                    [],
+                    [CFLAGS="$save_CFLAGS"])
   CFLAGS="${CFLAGS} $1"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([])],
                     [AS_VAR_SET([my_cflags], [yes])],
