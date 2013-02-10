@@ -37,7 +37,7 @@
 
 #if HAVE_LIBGPGME
 #define CHECK_ERR(void) do { \
-		if(gpg_err_code(err) != GPG_ERR_NO_ERROR) { goto error; } \
+		if(gpg_err_code(err) != GPG_ERR_NO_ERROR) { goto gpg_error; } \
 	} while(0)
 
 /**
@@ -174,7 +174,7 @@ static int init_gpgme(alpm_handle_t *handle)
 	init = 1;
 	return 0;
 
-error:
+gpg_error:
 	_alpm_log(handle, ALPM_LOG_ERROR, _("GPGME error: %s\n"), gpgme_strerror(err));
 	RET_ERR(handle, ALPM_ERR_GPGME, -1);
 }
@@ -215,8 +215,10 @@ int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr)
 	}
 	gpgme_key_unref(key);
 
-error:
+gpg_error:
 	gpgme_release(ctx);
+
+error:
 	return ret;
 }
 
@@ -279,9 +281,7 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 		}
 	}
 
-	if(gpg_err_code(err) != GPG_ERR_NO_ERROR) {
-		goto error;
-	}
+	CHECK_ERR();
 
 	/* should only get here if key actually exists */
 	pgpkey->data = key;
@@ -319,7 +319,7 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 
 	ret = 1;
 
-error:
+gpg_error:
 	if(ret != 1) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(err));
 	}
@@ -371,7 +371,7 @@ static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
 		ret = 0;
 	}
 
-error:
+gpg_error:
 	gpgme_release(ctx);
 	return ret;
 }
