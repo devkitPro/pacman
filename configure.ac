@@ -246,13 +246,14 @@ AS_IF([test "x$with_gpgme" != "xno"],
 			unset GPGME_CFLAGS]
 			AS_IF([test "x$with_gpgme" = "xyes"],
 				[AC_MSG_FAILURE([*** gpgme >= 1.3.0 is needed for GPG signature support])])
-			)],
-		[with_gpgme=no])]
-		[LIBS="$LIBS_save"
+			)
+
+		LIBS="$LIBS_save"
 		CPPFLAGS="$CPPFLAGS_save"
 		CFLAGS="$CFLAGS_save"
 		unset CPPFLAGS_save
-		unset CFLAGS_save])
+		unset CFLAGS_save],)])
+
 AS_IF([test "x$have_gpgme" = xno -a "x$with_gpgme" = xyes],
 	[AC_MSG_FAILURE([--with-gpgme was given, but gpgme was not found])])
 AM_CONDITIONAL([HAVE_LIBGPGME], [test "x$have_gpgme" = "xyes"])
