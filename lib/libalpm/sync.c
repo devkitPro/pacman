@@ -969,6 +969,7 @@ finish:
 	return errors;
 }
 
+#ifdef HAVE_LIBGPGME
 static int check_keyring(alpm_handle_t *handle)
 {
 	size_t current = 0, numtargs;
@@ -1038,6 +1039,7 @@ static int check_keyring(alpm_handle_t *handle)
 
 	return 0;
 }
+#endif /* HAVE_LIBGPGME */
 
 static int check_validity(alpm_handle_t *handle,
 		size_t total, size_t total_bytes)
