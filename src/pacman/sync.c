@@ -881,6 +881,9 @@ int sync_prepare_execute(void)
 		        alpm_strerror(err));
 		switch(err) {
 			case ALPM_ERR_FILE_CONFLICTS:
+				if(config->flags & ALPM_TRANS_FLAG_FORCE) {
+					printf(_("unable to %s directory-file conflicts\n"), "--force");
+				}
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_fileconflict_t *conflict = i->data;
 					switch(conflict->type) {

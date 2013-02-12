@@ -443,8 +443,10 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			alpm_list_t *common_files;
 			alpm_pkg_t *p2 = j->data;
 
-			common_files = _alpm_filelist_intersection(alpm_pkg_get_files(p1),
-					alpm_pkg_get_files(p2));
+			alpm_filelist_t *p1_files = alpm_pkg_get_files(p1);
+			alpm_filelist_t *p2_files = alpm_pkg_get_files(p2);
+
+			common_files = _alpm_filelist_intersection(p1_files, p2_files);
 
 			if(common_files) {
 				alpm_list_t *k;
@@ -452,6 +454,20 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				for(k = common_files; k; k = k->next) {
 					char *filename = k->data;
 					snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
+
+					/* can skip file-file conflicts when forced *
+					 * checking presence in p2_files detects dir-file or file-dir
+					 * conflicts as the path from p1 is returned */
+					if((handle->trans->flags & ALPM_TRANS_FLAG_FORCE) &&
+							alpm_filelist_contains(p2_files, filename)) {
+						_alpm_log(handle, ALPM_LOG_DEBUG,
+							"%s exists in both '%s' and '%s'\n", filename,
+							p1->name, p2->name);
+						_alpm_log(handle, ALPM_LOG_DEBUG,
+							"file-file conflict being forced\n");
+						continue;
+					}
+
 					conflicts = add_fileconflict(handle, conflicts, path, p1, p2);
 					if(handle->pm_errno == ALPM_ERR_MEMORY) {
 						FREELIST(conflicts);
@@ -604,6 +620,14 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 							"file was unowned but in new backup list\n");
 					resolved_conflict = 1;
 				}
+			}
+
+			/* skip file-file conflicts when being forced */
+			if((handle->trans->flags & ALPM_TRANS_FLAG_FORCE) &&
+					!S_ISDIR(lsbuf.st_mode)) {
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+							"conflict with file on filesystem being forced\n");
+				resolved_conflict = 1;
 			}
 
 			if(!resolved_conflict) {

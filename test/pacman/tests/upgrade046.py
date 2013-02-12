@@ -29,5 +29,3 @@ self.addrule("FILE_MODIFIED=bin/dummy")
 self.addrule("FILE_MODIFIED=bin/foobar")
 self.addrule("FILE_EXIST=usr/share/file")
 self.addrule("FILE_MODIFIED=usr/share/file")
-
-self.expectfailure = True

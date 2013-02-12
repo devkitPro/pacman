@@ -1241,7 +1241,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	trans->state = STATE_COMMITING;
 
 	/* fileconflict check */
-	if(!(trans->flags & (ALPM_TRANS_FLAG_FORCE|ALPM_TRANS_FLAG_DBONLY))) {
+	if(!(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
 		EVENT(handle, ALPM_EVENT_FILECONFLICTS_START, NULL, NULL);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for file conflicts\n");
