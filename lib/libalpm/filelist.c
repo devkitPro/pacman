@@ -198,12 +198,16 @@ int _alpm_filelist_resolve(alpm_handle_t *handle, alpm_filelist_t *files)
 	if(realpath(handle->root, path) == NULL){
 		return -1;
 	}
-	root_len = strlen(path) + 1;
-	if(root_len >= PATH_MAX) {
+	root_len = strlen(path);
+	if(root_len + 1 >= PATH_MAX) {
 		return -1;
 	}
-	path[root_len - 1] = '/';
-	path[root_len] = '\0';
+	/* append '/' if root is not "/" */
+	if(path[root_len - 1] != '/') {
+		path[root_len] = '/';
+		root_len++;
+		path[root_len] = '\0';
+	}
 
 	ret = _alpm_filelist_resolve_link(files, &i, path, root_len, 0);
 
