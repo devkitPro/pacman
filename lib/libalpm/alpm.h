@@ -68,7 +68,7 @@ typedef enum _alpm_pkgfrom_t {
 	ALPM_PKG_FROM_SYNCDB
 } alpm_pkgfrom_t;
 
-/** Location a package object was loaded from. */
+/** Method used to validate a package. */
 typedef enum _alpm_pkgvalidation_t {
 	ALPM_PKG_VALIDATION_UNKNOWN = 0,
 	ALPM_PKG_VALIDATION_NONE = (1 << 0),
