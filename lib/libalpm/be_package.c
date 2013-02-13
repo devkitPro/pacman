@@ -542,18 +542,19 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 		alpm_siglevel_t level, alpm_pkg_t **pkg)
 {
 	alpm_pkgvalidation_t validation = 0;
+	char *sigpath;
 
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
-	char *sigpath = _alpm_sigpath(handle, filename);
+	sigpath = _alpm_sigpath(handle, filename);
 	if(sigpath && !_alpm_access(handle, NULL, sigpath, R_OK)) {
 		if(level & ALPM_SIG_PACKAGE) {
 			alpm_list_t *keys = NULL;
 			int fail = 0;
 			unsigned char *sig = NULL;
-
 			int len = read_sigfile(sigpath, &sig);
+
 			if(len == -1) {
 				_alpm_log(handle, ALPM_LOG_ERROR,
 					_("failed to read signature file: %s\n"), sigpath);

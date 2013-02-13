@@ -382,7 +382,8 @@ gpg_error:
  * @param fpr the fingerprint key ID to import
  * @return 0 on success, -1 on error
  */
-int _alpm_key_import(alpm_handle_t *handle, const char *fpr) {
+int _alpm_key_import(alpm_handle_t *handle, const char *fpr)
+{
 	int answer = 0, ret = -1;
 	alpm_pgpkey_t fetch_key;
 	memset(&fetch_key, 0, sizeof(fetch_key));

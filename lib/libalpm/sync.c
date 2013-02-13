@@ -539,10 +539,11 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 		for(i = deps; i; i = i->next) {
 			alpm_conflict_t *conflict = i->data;
+			int doremove = 0;
+			int found = 0;
 
 			/* if conflict->package2 (the local package) is not elected for removal,
 			   we ask the user */
-			int found = 0;
 			for(j = trans->add; j && !found; j = j->next) {
 				alpm_pkg_t *spkg = j->data;
 				if(alpm_pkg_find(spkg->removes, conflict->package2)) {
@@ -556,13 +557,12 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			_alpm_log(handle, ALPM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
 					conflict->package1, conflict->package2);
 
-			alpm_pkg_t *sync = alpm_pkg_find(trans->add, conflict->package1);
-			alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
-			int doremove = 0;
 			QUESTION(handle, ALPM_QUESTION_CONFLICT_PKG, conflict->package1,
 							conflict->package2, conflict->reason->name, &doremove);
 			if(doremove) {
 				/* append to the removes list */
+				alpm_pkg_t *sync = alpm_pkg_find(trans->add, conflict->package1);
+				alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
 				_alpm_log(handle, ALPM_LOG_DEBUG, "electing '%s' for removal\n", conflict->package2);
 				sync->removes = alpm_list_add(sync->removes, local);
 			} else { /* abort */
