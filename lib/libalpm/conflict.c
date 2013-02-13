@@ -414,6 +414,11 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 	rootlen = strlen(handle->root);
 
+	/* make sure all files to be installed have been resolved */
+	for(i = upgrade; i; i = i->next) {
+		_alpm_filelist_resolve(handle, alpm_pkg_get_files(i->data));
+	}
+
 	/* TODO this whole function needs a huge change, which hopefully will
 	 * be possible with real transactions. Right now we only do half as much
 	 * here as we do when we actually extract files in add.c with our 12
@@ -429,15 +434,12 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		PROGRESS(handle, ALPM_PROGRESS_CONFLICTS_START, "", percent,
 		         numtargs, current);
 
-		_alpm_filelist_resolve(handle, alpm_pkg_get_files(p1));
-
 		/* CHECK 1: check every target against every target */
 		_alpm_log(handle, ALPM_LOG_DEBUG, "searching for file conflicts: %s\n",
 				p1->name);
 		for(j = i->next; j; j = j->next) {
 			alpm_list_t *common_files;
 			alpm_pkg_t *p2 = j->data;
-			_alpm_filelist_resolve(handle, alpm_pkg_get_files(p2));
 
 			common_files = _alpm_filelist_intersection(alpm_pkg_get_files(p1),
 					alpm_pkg_get_files(p2));
@@ -463,7 +465,6 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "searching for filesystem conflicts: %s\n",
 				p1->name);
 		dbpkg = _alpm_db_get_pkgfromcache(handle->db_local, p1->name);
-		_alpm_filelist_resolve(handle, alpm_pkg_get_files(dbpkg));
 
 		/* Do two different checks here. If the package is currently installed,
 		 * then only check files that are new in the new package. If the package
@@ -471,6 +472,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		 * that the former list needs to be freed while the latter list should NOT
 		 * be freed. */
 		if(dbpkg) {
+			_alpm_filelist_resolve(handle, alpm_pkg_get_files(dbpkg));
 			alpm_list_t *difference;
 			/* older ver of package currently installed */
 			difference = _alpm_filelist_difference(alpm_pkg_get_files(p1),
