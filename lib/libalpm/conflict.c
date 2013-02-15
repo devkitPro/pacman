@@ -453,7 +453,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					conflicts = add_fileconflict(handle, conflicts, path, p1, p2);
 					if(handle->pm_errno == ALPM_ERR_MEMORY) {
 						FREELIST(conflicts);
-						FREELIST(common_files);
+						alpm_list_free(common_files);
 						return NULL;
 					}
 				}
