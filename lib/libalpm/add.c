@@ -184,8 +184,9 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 
 	/* if a file is in NoExtract then we never extract it */
 	if(alpm_list_find(handle->noextract, entryname, _alpm_fnmatch)) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "%s is in NoExtract, skipping extraction\n",
-				entryname);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "%s is in NoExtract,"
+				" skipping extraction of %s\n",
+				entryname, filename);
 		alpm_logaction(handle, ALPM_CALLER_PREFIX,
 				"note: %s is in NoExtract, skipping extraction\n", entryname);
 		archive_read_data_skip(archive);
@@ -224,21 +225,21 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					/* if filesystem perms are different than pkg perms, warn user */
 					mode_t mask = 07777;
 					_alpm_log(handle, ALPM_LOG_WARNING, _("directory permissions differ on %s\n"
-								"filesystem: %o  package: %o\n"), entryname, lsbuf.st_mode & mask,
+								"filesystem: %o  package: %o\n"), filename, lsbuf.st_mode & mask,
 							entrymode & mask);
 					alpm_logaction(handle, ALPM_CALLER_PREFIX,
 							"warning: directory permissions differ on %s\n"
-							"filesystem: %o  package: %o\n", entryname, lsbuf.st_mode & mask,
+							"filesystem: %o  package: %o\n", filename, lsbuf.st_mode & mask,
 							entrymode & mask);
 				}
 				_alpm_log(handle, ALPM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
-						entryname);
+						filename);
 				archive_read_data_skip(archive);
 				return 0;
 			} else {
 				/* case 10/11: trying to overwrite dir with file/symlink, don't allow it */
 				_alpm_log(handle, ALPM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
-						entryname);
+						filename);
 				archive_read_data_skip(archive);
 				return 1;
 			}
@@ -247,20 +248,20 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			if(S_ISDIR(sbuf.st_mode)) {
 				/* the symlink on FS is to a directory, so we'll use it */
 				_alpm_log(handle, ALPM_LOG_DEBUG, "extract: skipping symlink overwrite of %s\n",
-						entryname);
+						filename);
 				archive_read_data_skip(archive);
 				return 0;
 			} else {
 				/* this is BAD. symlink was not to a directory */
 				_alpm_log(handle, ALPM_LOG_ERROR, _("extract: symlink %s does not point to dir\n"),
-						entryname);
+						filename);
 				archive_read_data_skip(archive);
 				return 1;
 			}
 		} else if(S_ISREG(lsbuf.st_mode) && S_ISDIR(entrymode)) {
 			/* case 6: trying to overwrite file with dir */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "extract: overwriting file with dir %s\n",
-					entryname);
+					filename);
 		} else if(S_ISREG(entrymode)) {
 			/* case 4,7: */
 			/* if file is in NoUpgrade, don't touch it */
