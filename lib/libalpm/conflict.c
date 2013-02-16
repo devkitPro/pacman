@@ -448,8 +448,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				alpm_list_t *k;
 				char path[PATH_MAX];
 				for(k = common_files; k; k = k->next) {
-					alpm_file_t *file = k->data;
-					snprintf(path, PATH_MAX, "%s%s", handle->root, file->name);
+					char *filename = k->data;
+					snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
 					conflicts = add_fileconflict(handle, conflicts, path, p1, p2);
 					if(handle->pm_errno == ALPM_ERR_MEMORY) {
 						FREELIST(conflicts);

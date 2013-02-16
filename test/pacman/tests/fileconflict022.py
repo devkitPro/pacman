@@ -17,5 +17,3 @@ self.addrule("PACMAN_RETCODE=1")
 self.addrule("PACMAN_OUTPUT=.*/usr/lib/file exists in both 'foo' and 'bar'")
 self.addrule("!PKG_EXIST=foo")
 self.addrule("!PKG_EXIST=bar")
-
-self.expectfailure = True

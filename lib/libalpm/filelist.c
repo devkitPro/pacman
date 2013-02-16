@@ -299,7 +299,7 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 
 			/* when not directories, item in both qualifies as an intersect */
 			if(! (isdirA && isdirB)) {
-				ret = alpm_list_add(ret, filesA->files + ctrA);
+				ret = alpm_list_add(ret, filesA->resolved_path[ctrA]);
 			}
 			ctrA++;
 			ctrB++;
