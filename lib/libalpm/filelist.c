@@ -229,14 +229,13 @@ alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
 	size_t ctrA = 0, ctrB = 0;
 
 	while(ctrA < filesA->count && ctrB < filesB->count) {
-		alpm_file_t *fileA = filesA->files + ctrA;
-		const char *strA = filesA->resolved_path[ctrA];
-		const char *strB = filesB->resolved_path[ctrB];
+		char *strA = filesA->resolved_path[ctrA];
+		char *strB = filesB->resolved_path[ctrB];
 
 		int cmp = strcmp(strA, strB);
 		if(cmp < 0) {
 			/* item only in filesA, qualifies as a difference */
-			ret = alpm_list_add(ret, fileA);
+			ret = alpm_list_add(ret, strA);
 			ctrA++;
 		} else if(cmp > 0) {
 			ctrB++;
@@ -248,8 +247,7 @@ alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
 
 	/* ensure we have completely emptied pA */
 	while(ctrA < filesA->count) {
-		alpm_file_t *fileA = filesA->files + ctrA;
-		ret = alpm_list_add(ret, fileA);
+		ret = alpm_list_add(ret, filesA->resolved_path[ctrA]);
 		ctrA++;
 	}
 

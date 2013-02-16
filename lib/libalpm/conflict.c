@@ -426,9 +426,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	for(current = 0, i = upgrade; i; i = i->next, current++) {
 		alpm_pkg_t *p1 = i->data;
 		alpm_list_t *j;
-		alpm_filelist_t tmpfiles;
+		alpm_list_t *tmpfiles = NULL;
 		alpm_pkg_t *dbpkg;
-		size_t filenum;
 
 		int percent = (current * 100) / numtargs;
 		PROGRESS(handle, ALPM_PROGRESS_CONFLICTS_START, "", percent,
@@ -472,23 +471,21 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		 * that the former list needs to be freed while the latter list should NOT
 		 * be freed. */
 		if(dbpkg) {
-			_alpm_filelist_resolve(handle, alpm_pkg_get_files(dbpkg));
-			alpm_list_t *difference;
 			/* older ver of package currently installed */
-			difference = _alpm_filelist_difference(alpm_pkg_get_files(p1),
+			_alpm_filelist_resolve(handle, alpm_pkg_get_files(dbpkg));
+			tmpfiles = _alpm_filelist_difference(alpm_pkg_get_files(p1),
 					alpm_pkg_get_files(dbpkg));
-			tmpfiles.count = alpm_list_count(difference);
-			tmpfiles.files = alpm_list_to_array(difference, tmpfiles.count,
-					sizeof(alpm_file_t));
-			alpm_list_free(difference);
 		} else {
 			/* no version of package currently installed */
-			tmpfiles = *alpm_pkg_get_files(p1);
+			alpm_filelist_t *fl = alpm_pkg_get_files(p1);
+			size_t filenum;
+			for(filenum = 0; filenum < fl->count; filenum++) {
+				tmpfiles = alpm_list_add(tmpfiles, fl->resolved_path[filenum]);
+			}
 		}
 
-		for(filenum = 0; filenum < tmpfiles.count; filenum++) {
-			alpm_file_t *file = tmpfiles.files + filenum;
-			const char *filestr = file->name;
+		for(j = tmpfiles; j; j = j->next) {
+			const char *filestr = j->data;
 			const char *relative_path;
 			alpm_list_t *k;
 			/* have we acted on this conflict? */
@@ -506,7 +503,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
-			if(S_ISDIR(file->mode)) {
+			if(filestr[strlen(filestr) - 1] == '/') {
 				struct stat sbuf;
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "file is a directory, not a conflict\n");
@@ -529,6 +526,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			/* Check remove list (will we remove the conflicting local file?) */
 			for(k = rem; k && !resolved_conflict; k = k->next) {
 				alpm_pkg_t *rempkg = k->data;
+				_alpm_filelist_resolve(handle, alpm_pkg_get_files(rempkg));
 				if(rempkg && alpm_filelist_contains(alpm_pkg_get_files(rempkg),
 							relative_path)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
@@ -607,18 +605,12 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				conflicts = add_fileconflict(handle, conflicts, path, p1, NULL);
 				if(handle->pm_errno == ALPM_ERR_MEMORY) {
 					FREELIST(conflicts);
-					if(dbpkg) {
-						/* only freed if it was generated from _alpm_filelist_difference() */
-						free(tmpfiles.files);
-					}
+					alpm_list_free(tmpfiles);
 					return NULL;
 				}
 			}
 		}
-		if(dbpkg) {
-			/* only freed if it was generated from _alpm_filelist_difference() */
-			free(tmpfiles.files);
-		}
+		alpm_list_free(tmpfiles);
 	}
 	PROGRESS(handle, ALPM_PROGRESS_CONFLICTS_START, "", 100,
 			numtargs, current);

@@ -15,5 +15,3 @@ self.args = "-S %s" % sp1.name
 
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("PKG_EXIST=foo|1-1")
-
-self.expectfailure = True
