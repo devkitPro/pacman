@@ -310,9 +310,9 @@ totalsaved=$(@SIZECMD@ "${candidates[@]}" | awk '{ sum += $1 } END { print sum }
 # crush. kill. destroy.
 (( verbose )) && cmdopts+=(-v)
 if (( delete )); then
-	runcmd rm "${cmdopts[@]}" "${candidates[@]}"
+	printf '%s\0' "${candidates[@]}" | runcmd xargs -0 rm "${cmdopts[@]}"
 elif (( move )); then
-	runcmd mv "${cmdopts[@]}" "${candidates[@]}" "$movedir"
+	printf '%s\0' "${candidates[@]}" | runcmd xargs -0 mv "${cmdopts[@]}" -t "$movedir"
 fi
 
 summarize "$pkgcount" "${candidates[@]}"
