@@ -688,7 +688,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 	}
 
 	/* attempt to download the signature */
-	if(ret == 0 && (handle->siglevel & ALPM_SIG_PACKAGE)) {
+	if(ret == 0 && final_pkg_url && (handle->siglevel & ALPM_SIG_PACKAGE)) {
 		char *sig_filepath, *sig_final_file = NULL;
 		size_t len;
 
