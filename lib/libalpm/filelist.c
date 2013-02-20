@@ -324,10 +324,10 @@ int _alpm_files_cmp(const void *f1, const void *f2)
 }
 
 
-alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist,
+char *alpm_filelist_contains(alpm_filelist_t *filelist,
 		const char *path)
 {
-	alpm_file_t key;
+	alpm_file_t key, *match;
 
 	if(!filelist) {
 		return NULL;
@@ -335,8 +335,17 @@ alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist,
 
 	key.name = (char *)path;
 
-	return bsearch(&key, filelist->files, filelist->count,
+	match = bsearch(&key, filelist->files, filelist->count,
 			sizeof(alpm_file_t), _alpm_files_cmp);
+
+	if(match) {
+		return match->name;
+	} else if(filelist->resolved_path) {
+		return bsearch(&path, filelist->resolved_path, filelist->count,
+				sizeof(char *), _alpm_filelist_strcmp);
+	} else {
+		return NULL;
+	}
 }
 
 /* vim: set ts=2 sw=2 noet: */

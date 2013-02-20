@@ -462,6 +462,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 					"keeping directory %s (could not count files)\n", file);
 		} else if(newpkg && alpm_filelist_contains(alpm_pkg_get_files(newpkg),
 					fileobj->name)) {
+			/* newpkg's filelist should have already been resolved by the caller */
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"keeping directory %s (in new package)\n", file);
 		} else if(dir_is_mountpoint(handle, file, &buf)) {
@@ -483,6 +484,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 					continue;
 				}
 				filelist = alpm_pkg_get_files(local_pkg);
+				_alpm_filelist_resolve(handle, filelist);
 				if(alpm_filelist_contains(filelist, fileobj->name)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"keeping directory %s (owned by %s)\n", file, local_pkg->name);
@@ -580,6 +582,7 @@ static int remove_package_files(alpm_handle_t *handle,
 		 * so this removal operation doesn't kill them */
 		/* old package backup list */
 		newfiles = alpm_pkg_get_files(newpkg);
+		_alpm_filelist_resolve(handle, newfiles);
 		for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
 			const alpm_backup_t *backup = b->data;
 			/* safety check (fix the upgrade026 pactest) */

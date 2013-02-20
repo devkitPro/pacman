@@ -1023,7 +1023,7 @@ int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
  * @param path the path to search for in the package
  * @return a pointer to the matching file or NULL if not found
  */
-alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
+char *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
 
 /*
  * Signatures

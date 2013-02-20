@@ -16,5 +16,3 @@ self.args = "-S %s --ask=4" % sp1.name
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("!PKG_EXIST=foo")
 self.addrule("PKG_EXIST=bar")
-
-self.expectfailure = True

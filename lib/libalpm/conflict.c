@@ -321,6 +321,7 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 	const char *root = handle->root;
 
 	/* check directory is actually in package - used for subdirectory checks */
+	_alpm_filelist_resolve(handle, alpm_pkg_get_files(pkg));
 	if(!alpm_filelist_contains(alpm_pkg_get_files(pkg), dirpath)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				"directory %s not in package %s\n", dirpath, pkg->name);
@@ -339,6 +340,7 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 			continue;
 		}
 
+		_alpm_filelist_resolve(handle, alpm_pkg_get_files(i->data));
 		if(alpm_filelist_contains(alpm_pkg_get_files(i->data), dirpath)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"file %s also in package %s\n", dirpath,
@@ -373,6 +375,7 @@ static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
 				return 0;
 			}
 		} else {
+			_alpm_filelist_resolve(handle, alpm_pkg_get_files(pkg));
 			if(alpm_filelist_contains(alpm_pkg_get_files(pkg), path)) {
 				continue;
 			} else {
@@ -544,6 +547,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				alpm_pkg_t *localp2 = _alpm_db_get_pkgfromcache(handle->db_local, p2->name);
 
 				/* localp2->files will be removed (target conflicts are handled by CHECK 1) */
+				_alpm_filelist_resolve(handle, alpm_pkg_get_files(localp2));
 				if(localp2 && alpm_filelist_contains(alpm_pkg_get_files(localp2), filestr)) {
 					/* skip removal of file, but not add. this will prevent a second
 					 * package from removing the file when it was already installed
@@ -590,6 +594,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				alpm_list_t *local_pkgs = _alpm_db_get_pkgcache(handle->db_local);
 				int found = 0;
 				for(k = local_pkgs; k && !found; k = k->next) {
+					_alpm_filelist_resolve(handle, alpm_pkg_get_files(k->data));
 					if(alpm_filelist_contains(alpm_pkg_get_files(k->data), filestr)) {
 							found = 1;
 					}
