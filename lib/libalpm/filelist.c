@@ -324,7 +324,7 @@ int _alpm_files_cmp(const void *f1, const void *f2)
 }
 
 
-char *alpm_filelist_contains(alpm_filelist_t *filelist,
+char SYMEXPORT *alpm_filelist_contains(alpm_filelist_t *filelist,
 		const char *path)
 {
 	alpm_file_t key, *match;
