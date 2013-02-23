@@ -68,6 +68,7 @@ INSTALL=0
 NOBUILD=0
 NODEPS=0
 NOEXTRACT=0
+VERIFYSOURCE=0
 RMDEPS=0
 REPKG=0
 LOGGING=0
@@ -2475,6 +2476,7 @@ usage() {
 	printf -- "$(gettext "  -s, --syncdeps   Install missing dependencies with %s")\n" "pacman"
 	printf -- "$(gettext "  -S, --source     Generate a source-only tarball without downloaded sources")\n"
 	printf -- "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")\n"
+	printf -- "$(gettext "  --verifysource   Download source files (if needed) and perform integrity checks")\n"
 	printf -- "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
 	printf -- "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
@@ -2525,7 +2527,7 @@ OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'config:' 'force' 'geninteg'
           'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
           'nocheck' 'nodeps' 'noextract' 'nosign' 'pkg:' 'repackage' 'rmdeps'
           'skipchecksums' 'skipinteg' 'skippgpcheck' 'skippgpcheck' 'sign'
-          'source' 'syncdeps' 'version')
+          'source' 'syncdeps' 'verifysource' 'version')
 
 # Pacman Options
 OPT_LONG+=('asdeps' 'noconfirm' 'needed' 'noprogressbar')
@@ -2574,6 +2576,7 @@ while true; do
 		--sign)           SIGNPKG='y' ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
 		-S|--source)      SOURCEONLY=1 ;;
+		--verifysource)   VERIFYSOURCE=1 ;;
 
 		-h|--help)        usage; exit 0 ;; # E_OK
 		-V|--version)     version; exit 0 ;; # E_OK
@@ -2951,7 +2954,7 @@ mkdir -p "$srcdir"
 chmod a-s "$srcdir"
 cd_safe "$srcdir"
 
-if (( NOEXTRACT )); then
+if (( NOEXTRACT && ! VERIFYSOURCE )); then
 	warning "$(gettext "Using existing %s tree")" "src/"
 elif (( REPKG )); then
 	if (( ! PKGFUNC && ! SPLITPKG )) \
@@ -2963,6 +2966,7 @@ elif (( REPKG )); then
 else
 	download_sources
 	check_source_integrity
+	(( VERIFYSOURCE )) && exit 0 # $E_OK
 	extract_sources
 	if (( PREPAREFUNC )); then
 		run_prepare

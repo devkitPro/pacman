@@ -65,6 +65,11 @@ Options
 	then make a package out of the result. Keep in mind that creating a
 	patch may be a better solution to allow others to use your PKGBUILD.
 
+*\--verifysource*::
+	For each source file in the source array of PKGBUILD, download the file
+	if required and perform the integrity checks. No extraction or build is
+	performed. Useful for performing subsequent offline builds.
+
 *-f, \--force*::
 	makepkg will not build a package if a built package already exists in
 	the `PKGDEST` (set in linkman:makepkg.conf[5]) directory, which may
