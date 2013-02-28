@@ -871,7 +871,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	}
 
 	/* print to screen */
-	pm_asprintf(&str, _("Packages (%zd):"), alpm_list_count(targets));
+	pm_asprintf(&str, "%s (%zd):", _("Packages"), alpm_list_count(targets));
 	printf("\n");
 
 	cols = getcols(fileno(stdout));
