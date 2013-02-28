@@ -352,87 +352,18 @@ static int sync_synctree(int level, alpm_list_t *syncs)
 	return (success > 0);
 }
 
-static void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg)
-{
-	const char *pkgname = alpm_pkg_get_name(pkg);
-	const char *pkgver = alpm_pkg_get_version(pkg);
-	alpm_pkg_t *lpkg = alpm_db_get_pkg(db_local, pkgname);
-	if(lpkg) {
-		const char *lpkgver = alpm_pkg_get_version(lpkg);
-		if(strcmp(lpkgver, pkgver) == 0) {
-			printf(" [%s]", _("installed"));
-		} else {
-			printf(" [%s: %s]", _("installed"), lpkgver);
-		}
-	}
-}
-
 /* search the sync dbs for a matching package */
 static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 {
-	alpm_list_t *i, *j, *ret;
-	int freelist;
+	alpm_list_t *i;
 	int found = 0;
-	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		alpm_db_t *db = i->data;
-		unsigned short cols;
-		/* if we have a targets list, search for packages matching it */
-		if(targets) {
-			ret = alpm_db_search(db, targets);
-			freelist = 1;
-		} else {
-			ret = alpm_db_get_pkgcache(db);
-			freelist = 0;
-		}
-		if(ret == NULL) {
-			continue;
-		} else {
-			found = 1;
-		}
-		cols = getcols(fileno(stdout));
-		for(j = ret; j; j = alpm_list_next(j)) {
-			alpm_list_t *grp;
-			alpm_pkg_t *pkg = j->data;
-
-			if(!config->quiet) {
-				printf("%s/%s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
-							 alpm_pkg_get_version(pkg));
-			} else {
-				fputs(alpm_pkg_get_name(pkg), stdout);
-			}
-
-			if(!config->quiet) {
-				if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-					alpm_list_t *k;
-					fputs(" (", stdout);
-					for(k = grp; k; k = alpm_list_next(k)) {
-						const char *group = k->data;
-						fputs(group, stdout);
-						if(alpm_list_next(k)) {
-							/* only print a spacer if there are more groups */
-							putchar(' ');
-						}
-					}
-					putchar(')');
-				}
-
-				print_installed(db_local, pkg);
-
-				/* we need a newline and initial indent first */
-				fputs("\n    ", stdout);
-				indentprint(alpm_pkg_get_desc(pkg), 4, cols);
-			}
-			fputc('\n', stdout);
-		}
-		/* we only want to free if the list was a search list */
-		if(freelist) {
-			alpm_list_free(ret);
-		}
+		found += !dump_pkg_search(db, targets, 1);
 	}
 
-	return !found;
+	return (found == 0);
 }
 
 static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)

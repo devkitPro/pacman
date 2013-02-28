@@ -341,4 +341,92 @@ void dump_pkg_changelog(alpm_pkg_t *pkg)
 	}
 }
 
+void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg)
+{
+	const char *pkgname = alpm_pkg_get_name(pkg);
+	const char *pkgver = alpm_pkg_get_version(pkg);
+	alpm_pkg_t *lpkg = alpm_db_get_pkg(db_local, pkgname);
+	if(lpkg) {
+		const char *lpkgver = alpm_pkg_get_version(lpkg);
+		if(strcmp(lpkgver, pkgver) == 0) {
+			printf(" [%s]", _("installed"));
+		} else {
+			printf(" [%s: %s]", _("installed"), lpkgver);
+		}
+	}
+}
+
+/**
+ * Display the defails of a search.
+ * @param db the database we're searching
+ * @param targets the targets we're searching for
+ * @param show_status show if the package is also in the local db
+ */
+int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
+{
+	int freelist = 0;
+	alpm_db_t *db_local;
+	alpm_list_t *i, *searchlist;
+	unsigned short cols;
+
+	if(show_status) {
+		db_local = alpm_get_localdb(config->handle);
+	}
+
+	/* if we have a targets list, search for packages matching it */
+	if(targets) {
+		searchlist = alpm_db_search(db, targets);
+		freelist = 1;
+	} else {
+		searchlist = alpm_db_get_pkgcache(db);
+		freelist = 0;
+	}
+	if(searchlist == NULL) {
+		return 1;
+	}
+
+	cols = getcols(fileno(stdout));
+	for(i = searchlist; i; i = alpm_list_next(i)) {
+		alpm_list_t *grp;
+		alpm_pkg_t *pkg = i->data;
+
+		if(config->quiet) {
+			fputs(alpm_pkg_get_name(pkg), stdout);
+		} else {
+			printf("%s/%s %s", alpm_db_get_name(db),
+					alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+
+			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
+				alpm_list_t *k;
+				fputs(" (", stdout);
+				for(k = grp; k; k = alpm_list_next(k)) {
+					const char *group = k->data;
+					fputs(group, stdout);
+					if(alpm_list_next(k)) {
+						/* only print a spacer if there are more groups */
+						putchar(' ');
+					}
+				}
+				putchar(')');
+			}
+
+			if(show_status) {
+				print_installed(db_local, pkg);
+			}
+
+			/* we need a newline and initial indent first */
+			fputs("\n    ", stdout);
+			indentprint(alpm_pkg_get_desc(pkg), 4, cols);
+		}
+		fputc('\n', stdout);
+	}
+
+	/* we only want to free if the list was a search list */
+	if(freelist) {
+		alpm_list_free(searchlist);
+	}
+
+	return 0;
+}
+
 /* vim: set ts=2 sw=2 noet: */

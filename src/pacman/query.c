@@ -262,62 +262,8 @@ targcleanup:
 /* search the local database for a matching package */
 static int query_search(alpm_list_t *targets)
 {
-	alpm_list_t *i, *searchlist;
-	int freelist;
 	alpm_db_t *db_local = alpm_get_localdb(config->handle);
-	unsigned short cols;
-
-	/* if we have a targets list, search for packages matching it */
-	if(targets) {
-		searchlist = alpm_db_search(db_local, targets);
-		freelist = 1;
-	} else {
-		searchlist = alpm_db_get_pkgcache(db_local);
-		freelist = 0;
-	}
-	if(searchlist == NULL) {
-		return 1;
-	}
-
-	cols = getcols(fileno(stdout));
-	for(i = searchlist; i; i = alpm_list_next(i)) {
-		alpm_list_t *grp;
-		alpm_pkg_t *pkg = i->data;
-
-		if(!config->quiet) {
-			printf(LOCAL_PREFIX "%s %s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
-		} else {
-			fputs(alpm_pkg_get_name(pkg), stdout);
-		}
-
-
-		if(!config->quiet) {
-			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-				alpm_list_t *k;
-				fputs(" (", stdout);
-				for(k = grp; k; k = alpm_list_next(k)) {
-					const char *group = k->data;
-					fputs(group, stdout);
-					if(alpm_list_next(k)) {
-						/* only print a spacer if there are more groups */
-						putchar(' ');
-					}
-				}
-				putchar(')');
-			}
-
-			/* we need a newline and initial indent first */
-			fputs("\n    ", stdout);
-			indentprint(alpm_pkg_get_desc(pkg), 4, cols);
-		}
-		fputc('\n', stdout);
-	}
-
-	/* we only want to free if the list was a search list */
-	if(freelist) {
-		alpm_list_free(searchlist);
-	}
-	return 0;
+	return dump_pkg_search(db_local, targets, 0);
 }
 
 static int query_group(alpm_list_t *targets)
