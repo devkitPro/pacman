@@ -47,6 +47,11 @@
 #include "callback.h"
 
 
+struct table_row_t {
+	const char *label;
+	int size;
+};
+
 int trans_init(alpm_transflag_t flags, int check_valid)
 {
 	int ret;
@@ -824,15 +829,47 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	return ret;
 }
 
+static void add_transaction_sizes_row(alpm_list_t **table, const char *label, int size)
+{
+	struct table_row_t *row = malloc(sizeof(struct table_row_t));
+
+	row->label = label;
+	row->size = size;
+
+	*table = alpm_list_add(*table, row);
+}
+
+static void display_transaction_sizes(alpm_list_t *table)
+{
+	alpm_list_t *i;
+	int max_len = 0;
+
+	for(i = table; i; i = alpm_list_next(i)) {
+		struct table_row_t *row = i->data;
+		int len = string_length(row->label);
+
+		if(len > max_len)
+			max_len = len;
+	}
+
+	max_len += 2;
+
+	for(i = table; i; i = alpm_list_next(i)) {
+		struct table_row_t *row = i->data;
+		const char *units;
+		double s = humanize_size(row->size, 'M', 2, &units);
+
+		printf("%-*s %.2f %s\n", max_len, row->label, s, units);
+	}
+}
+
 /* prepare a list of pkgs to display */
 static void _display_targets(alpm_list_t *targets, int verbose)
 {
 	char *str;
-	const char *label;
-	double size;
 	off_t isize = 0, rsize = 0, dlsize = 0;
 	unsigned short cols;
-	alpm_list_t *i, *rows = NULL, *names = NULL;
+	alpm_list_t *i, *rows = NULL, *names = NULL, *table = NULL;
 
 	if(!targets) {
 		return;
@@ -897,24 +934,22 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	free(str);
 
 	if(dlsize > 0 || config->op_s_downloadonly) {
-		size = humanize_size(dlsize, 'M', 2, &label);
-		printf(_("Total Download Size:    %.2f %s\n"), size, label);
+		add_transaction_sizes_row(&table, _("Total Download Size:"), dlsize);
 	}
 	if(!config->op_s_downloadonly) {
 		if(isize > 0) {
-			size = humanize_size(isize, 'M', 2, &label);
-			printf(_("Total Installed Size:   %.2f %s\n"), size, label);
+			add_transaction_sizes_row(&table, _("Total Installed Size:"), isize);
 		}
 		if(rsize > 0 && isize == 0) {
-			size = humanize_size(rsize, 'M', 2, &label);
-			printf(_("Total Removed Size:     %.2f %s\n"), size, label);
+			add_transaction_sizes_row(&table, _("Total Removed Size:"), rsize);
 		}
 		/* only show this net value if different from raw installed size */
 		if(isize > 0 && rsize > 0) {
-			size = humanize_size(isize - rsize, 'M', 2, &label);
-			printf(_("Net Upgrade Size:       %.2f %s\n"), size, label);
+			add_transaction_sizes_row(&table, _("Net Upgrade Size:"), isize - rsize);
 		}
 	}
+	display_transaction_sizes(table);
+	FREELIST(table);
 }
 
 static int target_cmp(const void *p1, const void *p2)
