@@ -386,7 +386,9 @@ static int display(alpm_pkg_t *pkg)
 	if(!config->op_q_info && !config->op_q_list
 			&& !config->op_q_changelog && !config->op_q_check) {
 		if(!config->quiet) {
-			printf("%s %s\n", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			const colstr_t *colstr = &config->colstr;
+			printf("%s%s %s%s%s\n", colstr->title, alpm_pkg_get_name(pkg),
+					colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
 		} else {
 			printf("%s\n", alpm_pkg_get_name(pkg));
 		}
