@@ -244,7 +244,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			fputs((const char *)data1, stdout);
 			break;
 		case ALPM_EVENT_RETRIEVE_START:
-			printf(_(":: Retrieving packages ...\n"));
+			colon_printf(_("Retrieving packages ...\n"));
 			break;
 		case ALPM_EVENT_DISKSPACE_START:
 			if(config->noprogressbar) {
@@ -252,7 +252,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		case ALPM_EVENT_OPTDEP_REQUIRED:
-			printf(_(":: %s optionally requires %s\n"), alpm_pkg_get_name(data1),
+			colon_printf(_("%s optionally requires %s\n"), alpm_pkg_get_name(data1),
 				alpm_dep_compute_string(data2));
 			break;
 		case ALPM_EVENT_DATABASE_MISSING:
@@ -290,14 +290,14 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 	switch(event) {
 		case ALPM_QUESTION_INSTALL_IGNOREPKG:
 			if(!config->op_s_downloadonly) {
-				*response = yesno(_(":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"),
+				*response = yesno(_("%s is in IgnorePkg/IgnoreGroup. Install anyway?"),
 								  alpm_pkg_get_name(data1));
 			} else {
 				*response = 1;
 			}
 			break;
 		case ALPM_QUESTION_REPLACE_PKG:
-			*response = yesno(_(":: Replace %s with %s/%s?"),
+			*response = yesno(_("Replace %s with %s/%s?"),
 					alpm_pkg_get_name(data1),
 					(char *)data3,
 					alpm_pkg_get_name(data2));
@@ -306,12 +306,12 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			/* data parameters: target package, local package, conflict (strings) */
 			/* print conflict only if it contains new information */
 			if(strcmp(data1, data3) == 0 || strcmp(data2, data3) == 0) {
-				*response = noyes(_(":: %s and %s are in conflict. Remove %s?"),
+				*response = noyes(_("%s and %s are in conflict. Remove %s?"),
 						(char *)data1,
 						(char *)data2,
 						(char *)data2);
 			} else {
-				*response = noyes(_(":: %s and %s are in conflict (%s). Remove %s?"),
+				*response = noyes(_("%s and %s are in conflict (%s). Remove %s?"),
 						(char *)data1,
 						(char *)data2,
 						(char *)data3,
@@ -328,9 +328,9 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 							(char *)alpm_pkg_get_name(i->data));
 					count++;
 				}
-				printf(_n(
-							":: The following package cannot be upgraded due to unresolvable dependencies:\n",
-							":: The following packages cannot be upgraded due to unresolvable dependencies:\n",
+				colon_printf(_n(
+							"The following package cannot be upgraded due to unresolvable dependencies:\n",
+							"The following packages cannot be upgraded due to unresolvable dependencies:\n",
 							count));
 				list_display("     ", namelist, getcols(fileno(stdout)));
 				printf("\n");
@@ -346,7 +346,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 				alpm_list_t *providers = data1;
 				size_t count = alpm_list_count(providers);
 				char *depstring = alpm_dep_compute_string((alpm_depend_t *)data2);
-				printf(_(":: There are %zd providers available for %s:\n"), count,
+				colon_printf(_("There are %zd providers available for %s:\n"), count,
 						depstring);
 				free(depstring);
 				select_display(providers);
@@ -355,7 +355,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			break;
 		case ALPM_QUESTION_LOCAL_NEWER:
 			if(!config->op_s_downloadonly) {
-				*response = yesno(_(":: %s-%s: local version is newer. Upgrade anyway?"),
+				*response = yesno(_("%s-%s: local version is newer. Upgrade anyway?"),
 						alpm_pkg_get_name(data1),
 						alpm_pkg_get_version(data1));
 			} else {
@@ -363,7 +363,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			}
 			break;
 		case ALPM_QUESTION_CORRUPTED_PKG:
-			*response = yesno(_(":: File %s is corrupted (%s).\n"
+			*response = yesno(_("File %s is corrupted (%s).\n"
 						"Do you want to delete it?"),
 					(char *)data1,
 					alpm_strerror(*(alpm_errno_t *)data2));
@@ -380,7 +380,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 					revoked = " (revoked)";
 				}
 
-				*response = yesno(_(":: Import PGP key %d%c/%s, \"%s\", created: %s%s?"),
+				*response = yesno(_("Import PGP key %d%c/%s, \"%s\", created: %s%s?"),
 						key->length, key->pubkey_algo, key->fingerprint, key->uid, created, revoked);
 			}
 			break;

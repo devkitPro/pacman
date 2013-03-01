@@ -592,7 +592,7 @@ static int process_group(alpm_list_t *dbs, const char *group, int error)
 	}
 
 	if(config->print == 0) {
-		printf(_(":: There are %d members in group %s:\n"), count,
+		colon_printf(_("There are %d members in group %s:\n"), count,
 				group);
 		select_display(pkgs);
 		char *array = malloc(count);
@@ -717,7 +717,7 @@ static int sync_trans(alpm_list_t *targets)
 	}
 
 	if(config->op_s_upgrade) {
-		printf(_(":: Starting full system upgrade...\n"));
+		colon_printf(_("Starting full system upgrade...\n"));
 		alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
 				"starting full system upgrade\n");
 		if(alpm_sync_sysupgrade(config->handle, config->op_s_upgrade >= 2) == -1) {
@@ -744,14 +744,14 @@ int sync_prepare_execute(void)
 			case ALPM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
 					const char *pkg = i->data;
-					printf(_(":: package %s does not have a valid architecture\n"), pkg);
+					colon_printf(_("package %s does not have a valid architecture\n"), pkg);
 				}
 				break;
 			case ALPM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_depmissing_t *miss = i->data;
 					char *depstring = alpm_dep_compute_string(miss->depend);
-					printf(_(":: %s: requires %s\n"), miss->target, depstring);
+					colon_printf(_("%s: requires %s\n"), miss->target, depstring);
 					free(depstring);
 				}
 				break;
@@ -760,11 +760,11 @@ int sync_prepare_execute(void)
 					alpm_conflict_t *conflict = i->data;
 					/* only print reason if it contains new information */
 					if(conflict->reason->mod == ALPM_DEP_MOD_ANY) {
-						printf(_(":: %s and %s are in conflict\n"),
+						colon_printf(_("%s and %s are in conflict\n"),
 								conflict->package1, conflict->package2);
 					} else {
 						char *reason = alpm_dep_compute_string(conflict->reason);
-						printf(_(":: %s and %s are in conflict (%s)\n"),
+						colon_printf(_("%s and %s are in conflict (%s)\n"),
 								conflict->package1, conflict->package2, reason);
 						free(reason);
 					}
@@ -889,7 +889,7 @@ int pacman_sync(alpm_list_t *targets)
 
 	if(config->op_s_sync) {
 		/* grab a fresh package list */
-		printf(_(":: Synchronizing package databases...\n"));
+		colon_printf(_("Synchronizing package databases...\n"));
 		alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
 				"synchronizing package lists\n");
 		if(!sync_synctree(config->op_s_sync, sync_dbs)) {

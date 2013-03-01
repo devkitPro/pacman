@@ -119,7 +119,7 @@ int pacman_remove(alpm_list_t *targets)
 				for(i = data; i; i = alpm_list_next(i)) {
 					alpm_depmissing_t *miss = i->data;
 					char *depstring = alpm_dep_compute_string(miss->depend);
-					printf(_(":: %s: requires %s\n"), miss->target, depstring);
+					colon_printf(_("%s: requires %s\n"), miss->target, depstring);
 					free(depstring);
 				}
 				break;

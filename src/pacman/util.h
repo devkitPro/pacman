@@ -72,6 +72,7 @@ void print_packages(const alpm_list_t *packages);
 void select_display(const alpm_list_t *pkglist);
 int select_question(int count);
 int multiselect_question(char *array, int count);
+int colon_printf(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 int yesno(char *fmt, ...) __attribute__((format(printf, 1, 2)));
 int noyes(char *fmt, ...) __attribute__((format(printf, 1, 2)));
 

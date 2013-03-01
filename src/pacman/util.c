@@ -1219,8 +1219,7 @@ static void display_repo_list(const char *dbname, alpm_list_t *list,
 {
 	const char *prefix = "  ";
 
-	printf(":: ");
-	printf(_("Repository %s\n"), dbname);
+	colon_printf(_("Repository %s\n"), dbname);
 	list_display(prefix, list, cols);
 }
 
@@ -1461,6 +1460,7 @@ static int question(short preset, char *fmt, va_list args)
 	fflush(stdout);
 	fflush(stderr);
 
+	fprintf(stream, ":: ");
 	vfprintf(stream, fmt, args);
 
 	if(preset) {
@@ -1517,6 +1517,19 @@ int noyes(char *fmt, ...)
 
 	va_start(args, fmt);
 	ret = question(0, fmt, args);
+	va_end(args);
+
+	return ret;
+}
+
+int colon_printf(const char *fmt, ...)
+{
+	int ret;
+	va_list args;
+
+	fputs(":: ", stdout);
+	va_start(args, fmt);
+	ret = vprintf(fmt, args);
 	va_end(args);
 
 	return ret;
