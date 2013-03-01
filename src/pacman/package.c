@@ -167,13 +167,16 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 
 	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 2, &label);
 	if(from == ALPM_PKG_FROM_SYNCDB) {
-		printf(_("Download Size  : %6.2f %s\n"), size, label);
+		printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Download Size  :"),
+			config->colstr.nocolor, size, label);
 	} else if(from == ALPM_PKG_FROM_FILE) {
-		printf(_("Compressed Size: %6.2f %s\n"), size, label);
+		printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Compressed Size:"),
+			config->colstr.nocolor, size, label);
 	}
 
 	size = humanize_size(alpm_pkg_get_isize(pkg), 'K', 2, &label);
-	printf(_("Installed Size : %6.2f %s\n"), size, label);
+	printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Installed Size :"),
+			config->colstr.nocolor, size, label);
 
 	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg), cols);
 	string_display(_("Build Date     :"), bdatestr, cols);
@@ -267,7 +270,8 @@ void dump_pkg_backups(alpm_pkg_t *pkg)
 {
 	alpm_list_t *i;
 	const char *root = alpm_option_get_root(config->handle);
-	printf(_("Backup Files:\n"));
+	printf("%s%s%s", config->colstr.title, _("Backup Files:\n"),
+				 config->colstr.nocolor);
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
 		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {

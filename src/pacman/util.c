@@ -427,7 +427,7 @@ static size_t string_length(const char *s)
 void string_display(const char *title, const char *string, unsigned short cols)
 {
 	if(title) {
-		printf("%s ", title);
+		printf("%s%s%s ", config->colstr.title, title, config->colstr.nocolor);
 	}
 	if(string == NULL || string[0] == '\0') {
 		printf(_("None"));
@@ -620,7 +620,7 @@ void list_display(const char *title, const alpm_list_t *list,
 
 	if(title) {
 		len = string_length(title) + 1;
-		printf("%s ", title);
+		printf("%s%s%s ", config->colstr.title, title, config->colstr.nocolor);
 	}
 
 	if(!list) {
@@ -660,7 +660,7 @@ void list_display_linebreak(const char *title, const alpm_list_t *list,
 
 	if(title) {
 		len = (unsigned short)string_length(title) + 1;
-		printf("%s ", title);
+		printf("%s%s%s ", config->colstr.title, title, config->colstr.nocolor);
 	}
 
 	if(!list) {
