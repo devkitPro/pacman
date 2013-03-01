@@ -22,6 +22,18 @@
 
 #include <alpm.h>
 
+typedef struct __colstr_t {
+	const char *colon;
+	const char *title;
+	const char *repo;
+	const char *version;
+	const char *groups;
+	const char *meta;
+	const char *warn;
+	const char *err;
+	const char *nocolor;
+} colstr_t;
+
 typedef struct __config_t {
 	unsigned short op;
 	unsigned short quiet;
@@ -98,6 +110,9 @@ typedef struct __config_t {
 
 	alpm_list_t *explicit_adds;
 	alpm_list_t *explicit_removes;
+
+	/* Color strings for output */
+	colstr_t colstr;
 } config_t;
 
 /* Operations */
@@ -156,6 +171,7 @@ enum {
 /* global config variable */
 extern config_t *config;
 
+void enable_colors(int colors);
 config_t *config_new(void);
 int config_free(config_t *oldconfig);
 

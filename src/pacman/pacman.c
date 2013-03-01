@@ -407,6 +407,7 @@ static int parsearg_global(int opt)
 						optarg, "--color");
 				return 1;
 			}
+			enable_colors(config->color);
 			break;
 		case OP_CONFIG:
 			check_optarg();
