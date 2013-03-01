@@ -1668,10 +1668,12 @@ int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list
 	/* print a prefix to the message */
 	switch(level) {
 		case ALPM_LOG_ERROR:
-			fprintf(stream, _("error: "));
+			fprintf(stream, "%s%s%s", config->colstr.err, _("error: "),
+					config->colstr.nocolor);
 			break;
 		case ALPM_LOG_WARNING:
-			fprintf(stream, _("warning: "));
+			fprintf(stream, "%s%s%s", config->colstr.warn, _("warning: "),
+					config->colstr.nocolor);
 			break;
 		case ALPM_LOG_DEBUG:
 			fprintf(stream, "debug: ");
