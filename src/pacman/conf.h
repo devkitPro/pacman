@@ -34,6 +34,7 @@ typedef struct __config_t {
 	unsigned short print;
 	unsigned short checkspace;
 	unsigned short usesyslog;
+	unsigned short color;
 	double deltaratio;
 	char *arch;
 	char *print_format;
@@ -129,7 +130,8 @@ enum {
 	OP_PRINTFORMAT,
 	OP_GPGDIR,
 	OP_DBONLY,
-	OP_FORCE
+	OP_FORCE,
+	OP_COLOR
 };
 
 /* clean method */
@@ -145,6 +147,11 @@ enum {
 	PKG_LOCALITY_FOREIGN = (1 << 1)
 };
 
+enum {
+	PM_COLOR_UNSET = 0,
+	PM_COLOR_OFF,
+	PM_COLOR_ON
+};
 
 /* global config variable */
 extern config_t *config;

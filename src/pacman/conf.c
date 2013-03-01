@@ -436,6 +436,10 @@ static int _parse_options(const char *key, char *value,
 			pm_printf(ALPM_LOG_DEBUG, "config: totaldownload\n");
 		} else if(strcmp(key, "CheckSpace") == 0) {
 			config->checkspace = 1;
+		} else if(strcmp(key, "Color") == 0) {
+			if(config->color == PM_COLOR_UNSET) {
+				config->color = isatty(fileno(stdout)) ? PM_COLOR_ON : PM_COLOR_OFF;
+			}
 		} else {
 			pm_printf(ALPM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),

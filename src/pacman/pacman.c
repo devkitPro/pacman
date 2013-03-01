@@ -197,6 +197,7 @@ static void usage(int op, const char * const myname)
 		addlist(_("  -v, --verbose        be verbose\n"));
 		addlist(_("      --arch <arch>    set an alternate architecture\n"));
 		addlist(_("      --cachedir <dir> set an alternate package cache location\n"));
+		addlist(_("      --color <when>   colorize the output\n"));
 		addlist(_("      --config <path>  set an alternate configuration file\n"));
 		addlist(_("      --debug          display debug messages\n"));
 		addlist(_("      --gpgdir <path>  set an alternate home directory for GnuPG\n"));
@@ -393,6 +394,19 @@ static int parsearg_global(int opt)
 		case OP_CACHEDIR:
 			check_optarg();
 			config->cachedirs = alpm_list_add(config->cachedirs, strdup(optarg));
+			break;
+		case OP_COLOR:
+			if(strcmp("never", optarg) == 0) {
+				config->color = PM_COLOR_OFF;
+			} else if(strcmp("auto", optarg) == 0) {
+				config->color = isatty(fileno(stdout)) ? PM_COLOR_ON : PM_COLOR_OFF;
+			} else if(strcmp("always", optarg) == 0) {
+				config->color = PM_COLOR_ON;
+			} else {
+				pm_printf(ALPM_LOG_ERROR, _("invalid agument '%s' for %s\n"),
+						optarg, "--color");
+				return 1;
+			}
 			break;
 		case OP_CONFIG:
 			check_optarg();
@@ -632,6 +646,7 @@ static int parseargs(int argc, char *argv[])
 		{"print-format", required_argument, 0, OP_PRINTFORMAT},
 		{"gpgdir",     required_argument, 0, OP_GPGDIR},
 		{"dbonly",     no_argument,       0, OP_DBONLY},
+		{"color",      required_argument, 0, OP_COLOR},
 		{0, 0, 0, 0}
 	};
 
