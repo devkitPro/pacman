@@ -484,7 +484,9 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 					continue;
 				}
 				filelist = alpm_pkg_get_files(local_pkg);
-				_alpm_filelist_resolve(handle, filelist);
+				/* This is too slow and only covers a rare case
+				   Disable for now... */
+				/* _alpm_filelist_resolve(handle, filelist); */
 				if(alpm_filelist_contains(filelist, fileobj->name)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"keeping directory %s (owned by %s)\n", file, local_pkg->name);
