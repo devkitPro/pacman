@@ -307,12 +307,9 @@ void dump_pkg_files(alpm_pkg_t *pkg, int quiet)
 		 * Quiet  : '<root><filepath>\n'
 		 */
 		if(!quiet) {
-			fputs(pkgname, stdout);
-			putchar(' ');
+			printf("%s%s%s ", config->colstr.title, pkgname, config->colstr.nocolor);
 		}
-		fputs(root, stdout);
-		fputs(file->name, stdout);
-		putchar('\n');
+		printf("%s%s\n", root, file->name);
 	}
 
 	fflush(stdout);

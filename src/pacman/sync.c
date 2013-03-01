@@ -522,8 +522,10 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 			alpm_pkg_t *pkg = j->data;
 
 			if(!config->quiet) {
-				printf("%s %s %s", alpm_db_get_name(db), alpm_pkg_get_name(pkg),
-						alpm_pkg_get_version(pkg));
+				const colstr_t *colstr = &config->colstr;
+				printf("%s%s %s%s %s%s%s", colstr->repo, alpm_db_get_name(db),
+						colstr->title, alpm_pkg_get_name(pkg),
+						colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
 				print_installed(db_local, pkg);
 				printf("\n");
 			} else {
