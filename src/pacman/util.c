@@ -1478,7 +1478,7 @@ int select_question(int count)
 
 /* presents a prompt and gets a Y/N answer */
 __attribute__((format(printf, 2, 0)))
-static int question(short preset, char *fmt, va_list args)
+static int question(short preset, const char *format, va_list args)
 {
 	char response[32];
 	FILE *stream;
@@ -1496,7 +1496,7 @@ static int question(short preset, char *fmt, va_list args)
 	fflush(stderr);
 
 	fprintf(stream, ":: ");
-	vfprintf(stream, fmt, args);
+	vfprintf(stream, format, args);
 
 	if(preset) {
 		fprintf(stream, " %s ", _("[Y/n]"));
@@ -1533,25 +1533,25 @@ static int question(short preset, char *fmt, va_list args)
 	return 0;
 }
 
-int yesno(char *fmt, ...)
+int yesno(const char *format, ...)
 {
 	int ret;
 	va_list args;
 
-	va_start(args, fmt);
-	ret = question(1, fmt, args);
+	va_start(args, format);
+	ret = question(1, format, args);
 	va_end(args);
 
 	return ret;
 }
 
-int noyes(char *fmt, ...)
+int noyes(const char *format, ...)
 {
 	int ret;
 	va_list args;
 
-	va_start(args, fmt);
-	ret = question(0, fmt, args);
+	va_start(args, format);
+	ret = question(0, format, args);
 	va_end(args);
 
 	return ret;
