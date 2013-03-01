@@ -857,9 +857,11 @@ static void display_transaction_sizes(alpm_list_t *table)
 	for(i = table; i; i = alpm_list_next(i)) {
 		struct table_row_t *row = i->data;
 		const char *units;
+		const colstr_t *colstr = &config->colstr;
 		double s = humanize_size(row->size, 'M', 2, &units);
 
-		printf("%-*s %.2f %s\n", max_len, row->label, s, units);
+		printf("%s%-*s%s %.2f %s\n", colstr->title, max_len, row->label,
+				colstr->nocolor, s, units);
 	}
 }
 
