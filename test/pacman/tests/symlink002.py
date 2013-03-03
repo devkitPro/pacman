@@ -37,7 +37,7 @@ self.addrule("!FILE_EXIST=etc/exists2")
 
 self.addrule("PKG_EXIST=dummy3")
 self.addrule("LINK_EXIST=etc/brokenlink3")
-self.addrule("!FILE_EXIST=etc/nonexistent")
+self.addrule("!FILE_EXIST=etc/nonexistent3")
 self.addrule("FILE_EXIST=etc/exists3")
 self.addrule("FILE_TYPE=etc/brokenlink3|link")
 self.addrule("FILE_TYPE=etc/exists3|file")

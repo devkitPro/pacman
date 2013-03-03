@@ -3,8 +3,8 @@ self.description = "dir->symlink change during package upgrade (conflict)"
 p1 = pmpkg("pkg1", "1.0-1")
 p1.files = ["test/",
             "test/file1",
-	    "test/dir/file1",
-	    "test/dir/file2"]
+            "test/dir/file1",
+            "test/dir/file2"]
 self.addpkg2db("local", p1)
 
 p2 = pmpkg("pkg2")
