@@ -1,4 +1,4 @@
-self.description = "do not remove directory symlink if incoming package has file in its path (order 1)"
+self.description = "incoming package replaces symlink with directory (order 1)"
 
 lp = pmpkg("pkg1")
 lp.files = ["usr/lib/foo",
@@ -15,8 +15,7 @@ self.addpkg2db("sync", p2)
 
 self.args = "-S pkg1 pkg2"
 
-self.addrule("PACMAN_RETCODE=1")
-self.addrule("PKG_VERSION=pkg1|1.0-1")
-self.addrule("!PKG_EXIST=pkg2")
-
-self.expectfailure = True
+self.addrule("PACMAN_RETCODE=0")
+self.addrule("PKG_VERSION=pkg1|1.0-2")
+self.addrule("PKG_EXIST=pkg2")
+self.addrule("FILE_TYPE=lib|dir")

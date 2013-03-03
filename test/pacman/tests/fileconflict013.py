@@ -1,4 +1,5 @@
 self.description = "file->file path change with same effective path (/lib as symlink)"
+# Note: this situation means the filesystem and local db are out of sync
 
 lp1 = pmpkg("filesystem", "1.0-1")
 lp1.files = ["usr/",
@@ -16,5 +17,7 @@ self.addpkg2db("sync", sp1)
 
 self.args = "-Su"
 
-self.addrule("PACMAN_RETCODE=0")
-self.addrule("PKG_VERSION=pkg1|1.0-2")
+self.addrule("PACMAN_RETCODE=1")
+self.addrule("PKG_VERSION=pkg1|1.0-1")
+
+self.expectfailure = True

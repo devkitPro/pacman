@@ -11,10 +11,11 @@ self.addpkg(p)
 
 self.args = "-U %s" % p.filename()
 
-self.addrule("PACMAN_RETCODE=0")
-self.addrule("PKG_EXIST=pkg1")
-self.addrule("FILE_EXIST=dir/symdir/tmp")
-self.addrule("FILE_EXIST=dir/realdir/tmp")
-self.addrule("FILE_TYPE=dir/symdir/tmp|file")
+self.addrule("PACMAN_RETCODE=1")
+self.addrule("!PKG_EXIST=pkg1")
+self.addrule("!FILE_EXIST=dir/symdir/tmp")
+self.addrule("!FILE_EXIST=dir/realdir/tmp")
 self.addrule("FILE_TYPE=dir/symdir|link")
 self.addrule("FILE_TYPE=dir/realdir|dir")
+
+self.expectfailure = True

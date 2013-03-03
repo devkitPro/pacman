@@ -1,4 +1,4 @@
-self.description = "File conflict between package with symlink and package with real path resolved by removal (reversed)"
+self.description = "File conflict between package with symlink and package with real path and filesystem (reversed)"
 
 self.filesystem = ["usr/lib/", "lib -> usr/lib/"]
 
@@ -13,6 +13,8 @@ self.addpkg2db("sync", sp1)
 
 self.args = "-S %s --ask=4" % sp1.name
 
-self.addrule("PACMAN_RETCODE=0")
-self.addrule("!PKG_EXIST=foo")
-self.addrule("PKG_EXIST=bar")
+self.addrule("PACMAN_RETCODE=1")
+self.addrule("PKG_EXIST=foo")
+self.addrule("!PKG_EXIST=bar")
+
+self.expectfailure = True
