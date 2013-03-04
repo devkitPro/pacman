@@ -37,6 +37,7 @@ VERIFY=0
 REPO_DB_FILE=
 LOCKFILE=
 CLEAN_LOCK=0
+USE_COLOR='y'
 
 # ensure we have a sane umask set
 umask 0022
@@ -71,6 +72,7 @@ packages to remove can be specified on the command line.\n")"
 		printf -- "$(gettext "Please move along, there is nothing to see here.\n")"
 		return
 	fi
+	printf -- "$(gettext "  --nocolor         turn off color in output\n")"
 	printf -- "$(gettext "  -q, --quiet       minimize output\n")"
 	printf -- "$(gettext "  -s, --sign        sign database with GnuPG after update\n")"
 	printf -- "$(gettext "  -k, --key <key>   use the specified key to sign the database\n")"
@@ -610,6 +612,7 @@ while (( $# )); do
 		-d|--delta) DELTA=1;;
 		-n|--new) ONLYADDNEW=1;;
 		-f|--files) WITHFILES=1;;
+		--nocolor) USE_COLOR='n';;
 		-s|--sign)
 			check_gpg
 			SIGN=1
@@ -641,6 +644,8 @@ while (( $# )); do
 	esac
 	shift
 done
+
+m4_include(library/term_colors.sh)
 
 REPO_DB_FILE=${args[0]}
 if [[ -z $REPO_DB_FILE ]]; then
