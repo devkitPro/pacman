@@ -24,22 +24,11 @@ declare -r myver='@PACKAGE_VERSION@'
 diffprog=${DIFFPROG:-vimdiff}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
 locate=0
+USE_COLOR='y'
 
-if tput setaf 0 &>/dev/null; then
-	ALL_OFF="$(tput sgr0)"
-	BOLD="$(tput bold)"
-	BLUE="${BOLD}$(tput setaf 4)"
-	GREEN="${BOLD}$(tput setaf 2)"
-	YELLOW="${BOLD}$(tput setaf 3)"
-	PURPLE="${BOLD}$(tput setaf 5)"
-else
-	ALL_OFF="\e[1;0m"
-	BOLD="\e[1;1m"
-	BLUE="${BOLD}\e[1;34m"
-	GREEN="${BOLD}\e[1;32m"
-	YELLOW="${BOLD}\e[1;33m"
-	PURPLE="${BOLD}\e[1;35m"
-fi
+m4_include(../scripts/library/output_format.sh)
+
+m4_include(../scripts/library/term_colors.sh)
 
 usage() {
 	echo "$myname : a simple pacnew/pacorig/pacsave updater"
@@ -82,24 +71,18 @@ while IFS= read -u 3 -r -d '' pacfile; do
 	file="${pacfile%.pac*}"
 	file_type="pac${pacfile##*.pac}"
 
-	case $file_type in
-		pacnew) printf "$GREEN%s$ALL_OFF" "$file_type";;
-		pacorig) printf "$YELLOW%s$ALL_OFF" "$file_type";;
-		pacsave) printf "$BLUE%s$ALL_OFF" "$file_type";;
-	esac
-
-	printf " file found for $PURPLE%s$ALL_OFF\n" "$file"
+	msg "%s file found for %s" "$file_type" "$file"
 	if [ ! -f "$file" ]; then
-		echo "  $file does not exist"
+		warning "$file does not exist"
 		rm -iv "$pacfile"
 		continue
 	fi
 
 	if cmp -s "$pacfile" "$file"; then
-		echo "  Files are identical, removing..."
+		msg2 "Files are identical, removing..."
 		rm -v "$pacfile"
 	else
-		printf "  (V)iew, (S)kip, (R)emove %s, (O)verwrite with %s: [v/s/r/o] " "$file_type" "$file_type"
+		ask "(V)iew, (S)kip, (R)emove %s, (O)verwrite with %s: [v/s/r/o] " "$file_type" "$file_type"
 		while read c; do
 			case $c in
 				r|R) rm -v "$pacfile"; break ;;
@@ -108,7 +91,7 @@ while IFS= read -u 3 -r -d '' pacfile; do
 				$diffprog "$pacfile" "$file"
 				rm -iv "$pacfile"; break ;;
 				s|S) break ;;
-				*) printf "  Invalid answer. Try again: [v/s/r/o] "; continue ;;
+				*) ask "Invalid answer. Try again: [v/s/r/o] "; continue ;;
 			esac
 		done
 	fi
