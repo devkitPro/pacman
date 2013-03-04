@@ -2,9 +2,9 @@ This folder contains code snippets that can be reused by multiple
 scripts.  A brief description of each file follows.
 
 output_format.sh:
-Provides basic output formatting functions with levels 'msg', 'msg2',
-'warning' and 'error'.  The 'msg' amd 'msg2' functions print to stdout
-and can be silenced by defining 'QUIET'.  The 'warning' and 'error'
+Provides basic output formatting functions with levels 'plain', 'msg',
+'msg2', 'warning' and 'error'.  The 'msg' amd 'msg2' functions print to
+stdout and can be silenced by defining 'QUIET'.  The 'warning' and 'error'
 functions print to stderr with the appropriate prefix added to the
 message.
 
@@ -39,3 +39,6 @@ as mawk or busybox awk.
 size_to_human.sh:
 The reverse of human_to_size, this function takes an integer byte size and
 prints its in human readable format, with SI prefixes (e.g. MiB, TiB).
+
+term_colors.sh:
+Contains some common color settings for output_format.sh.

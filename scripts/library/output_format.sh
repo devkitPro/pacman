@@ -1,21 +1,27 @@
+plain() {
+	(( QUIET )) && return
+	local mesg=$1; shift
+	printf "${BOLD}    ${mesg}${ALL_OFF}\n" "$@" >&1
+}
+
 msg() {
 	(( QUIET )) && return
 	local mesg=$1; shift
-	printf "==> ${mesg}\n" "$@" >&1
+	printf "${GREEN}==>${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&1
 }
 
 msg2() {
 	(( QUIET )) && return
 	local mesg=$1; shift
-	printf "  -> ${mesg}\n" "$@" >&1
+	printf "${BLUE}  ->${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&1
 }
 
 warning() {
 	local mesg=$1; shift
-	printf "==> $(gettext "WARNING:") ${mesg}\n" "$@" >&2
+	printf "${YELLOW}==> $(gettext "WARNING:")${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&2
 }
 
 error() {
 	local mesg=$1; shift
-	printf "==> $(gettext "ERROR:") ${mesg}\n" "$@" >&2
+	printf "${RED}==> $(gettext "ERROR:")${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&2
 }
