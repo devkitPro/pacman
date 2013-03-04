@@ -28,11 +28,13 @@ declare -r myver='@PACKAGE_VERSION@'
 eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
 dbroot="${DBPath:-@localstatedir@/lib/pacman/}"
 
+USE_COLOR='y'
+
 m4_include(library/output_format.sh)
 
 usage() {
 	printf "pacman-db-upgrade (pacman) %s\n\n" "$myver"
-	printf -- "$(gettext "Usage: %s [pacman_db_root]")\n\n" "$0"
+	printf -- "$(gettext "Usage: %s [--nocolor] [pacman_db_root]")\n\n" "$0"
 }
 
 version() {
@@ -71,6 +73,13 @@ if [[ $1 = "-V" || $1 = "--version" ]]; then
 	version
 	exit 0
 fi
+
+if [[ $1 = "--nocolor" ]]; then
+	USE_COLOR='n'
+	shift
+fi
+
+m4_include(library/term_colors.sh)
 
 if [[ -n $1 ]]; then
 	dbroot="$1"
