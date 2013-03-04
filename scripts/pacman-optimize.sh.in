@@ -24,6 +24,8 @@
 export TEXTDOMAIN='pacman-scripts'
 export TEXTDOMAINDIR='@localedir@'
 
+USE_COLOR='y'
+
 declare -r myver='@PACKAGE_VERSION@'
 
 eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
@@ -33,7 +35,7 @@ m4_include(library/output_format.sh)
 
 usage() {
 	printf "pacman-optimize (pacman) %s\n\n" "$myver"
-	printf -- "$(gettext "Usage: %s [pacman_db_root]")\n\n" "$0"
+	printf -- "$(gettext "Usage: %s [--nocolor] [pacman_db_root]")\n\n" "$0"
 	printf -- "$(gettext "\
 pacman-optimize is a little hack that should improve the performance\n\
 of pacman when reading/writing to its filesystem-based database.\n\n")"
@@ -83,6 +85,13 @@ if [[ $1 = "-V" || $1 = "--version" ]]; then
 	version
 	exit 0
 fi
+
+if [[ $1 = "--nocolor" ]]; then
+	USE_COLOR='n'
+	shift
+fi
+
+m4_include(library/term_colors.sh)
 
 if [[ -n $1 ]]; then
 	dbroot="$1"
