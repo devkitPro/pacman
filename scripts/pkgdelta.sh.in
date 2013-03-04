@@ -29,6 +29,7 @@ export TEXTDOMAINDIR='@localedir@'
 declare -r myver='@PACKAGE_VERSION@'
 
 QUIET=0
+USE_COLOR='y'
 
 # minimal of package before deltas are generated (bytes)
 min_pkg_size=$((1024*1024))
@@ -54,6 +55,7 @@ This delta file can then be added to a database using repo-add.\n\n")"
 	echo
 	printf -- "$(gettext "Options:\n")"
 	printf -- "$(gettext "  -q, --quiet       minimize output\n")"
+	printf -- "$(gettext "  --nocolor         remove color from output\n")"
 	printf -- "$(gettext "  --min-pkg-size    minimum package size before deltas are generated\n")"
 	printf -- "$(gettext "  --max-delta-size  percent of new package above which the delta will be discarded\n")"
 }
@@ -155,7 +157,7 @@ create_xdelta()
 }
 
 OPT_SHORT='hqV'
-OPT_LONG=('help' 'quiet' 'max-delta-size:' 'min-pkg-size:' 'version')
+OPT_LONG=('help' 'quiet' 'max-delta-size:' 'min-pkg-size:' 'nocolor' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1
 fi
@@ -173,6 +175,8 @@ while :; do
 			exit 0 ;;
 		-q|--quiet)
 			QUIET=1;;
+		--nocolor)
+			USE_COLOR='n';;
 		--min-pkg-size)
 			if ! min_pkg_size=$(human_to_size "$2"); then
 				echo "invalid argument '$2' for option -- '$1'"
@@ -193,6 +197,8 @@ while :; do
 	esac
 	shift
 done
+
+m4_include(library/term_colors.sh)
 
 if (( $# != 2 )); then
 	usage
