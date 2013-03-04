@@ -43,6 +43,7 @@ POPULATE=0
 RECEIVE=0
 REFRESH=0
 UPDATEDB=0
+USE_COLOR='y'
 VERIFY=0
 
 DEFAULT_KEYSERVER='hkp://pool.sks-keyservers.net'
@@ -514,7 +515,7 @@ fi
 OPT_SHORT="adefhlruvV"
 OPT_LONG=('add' 'config:' 'delete' 'edit-key' 'export' 'finger' 'gpgdir:'
           'help' 'import' 'import-trustdb' 'init' 'keyserver:' 'list-keys' 'list-sigs'
-          'lsign-key' 'populate' 'recv-keys' 'refresh-keys' 'updatedb'
+          'lsign-key' 'nocolor' 'populate' 'recv-keys' 'refresh-keys' 'updatedb'
           'verify' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1 # E_INVALID_OPTION;
@@ -543,6 +544,7 @@ while (( $# )); do
 		-l|--list-keys)   LISTKEYS=1 ;;
 		--list-sigs)      LISTSIGS=1 ;;
 		--lsign-key)      LSIGNKEY=1 UPDATEDB=1 ;;
+		--nocolor)        USE_COLOR='n';;
 		--populate)       POPULATE=1 UPDATEDB=1 ;;
 		-r|--recv-keys)   RECEIVE=1 UPDATEDB=1 ;;
 		--refresh-keys)   REFRESH=1 ;;
@@ -557,6 +559,7 @@ while (( $# )); do
 	shift
 done
 
+m4_include(library/term_colors.sh)
 
 if ! type -p gpg >/dev/null; then
 	error "$(gettext "Cannot find the %s binary required for all %s operations.")" "gpg" "pacman-key"
