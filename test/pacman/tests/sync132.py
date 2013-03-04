@@ -14,5 +14,5 @@ self.addpkg2db("local", lp)
 self.args = "-Su"
 
 self.addrule("PACMAN_RETCODE=0")
-self.addrule("!PKG_EXIST=pkg1")
-self.addrule("PKG_EXIST=pkg2")
+self.addrule("PKG_EXIST=pkg1")
+self.addrule("!PKG_EXIST=pkg2")
