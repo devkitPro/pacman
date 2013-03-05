@@ -27,22 +27,15 @@ declare -a candidates=() cmdopts=() whitelist=() blacklist=()
 declare -i delete=0 dryrun=0 filecount=0 move=0 needsroot=0 totalsaved=0 verbose=0
 declare    cachedir=@localstatedir@/cache/pacman/pkg delim=$'\n' keep=3 movedir= scanarch=
 
-msg() {
-	local mesg=$1; shift
-	printf "==> $mesg\n" "$@"
-} >&2
+USE_COLOR='y'
 
-error() {
-	local mesg=$1; shift
-	printf "==> ERROR: $mesg\n" "$@"
-} >&2
+m4_include(../scripts/library/output_format.sh)
+m4_include(../scripts/library/parseopts.sh)
 
 die() {
 	error "$@"
 	exit 1
 }
-
-m4_include(../scripts/library/parseopts.sh)
 
 # reads a list of files on stdin and prints out deletion candidates
 pkgfilter() {
@@ -179,6 +172,7 @@ containing pacman package tarballs.
     -i, --ignore <pkgs>     ignore 'pkgs', comma separated. Alternatively, specify '-' to
                               read package names from stdin, newline delimited.
     -k, --keep <num>        keep 'num' of each package in 'cachedir' (default: 3).
+    --nocolor               remove color from output.
     -u, --uninstalled       target uninstalled packages.
     -v, --verbose           increase verbosity. specify up to 3 times.
     -z, --null              use null delimiters for candidate names (only with -v and -vv)
@@ -193,7 +187,7 @@ version() {
 
 OPT_SHORT=':a:c:dfhi:k:m:rsuVvz'
 OPT_LONG=('arch:' 'cachedir:' 'dryrun' 'force' 'help' 'ignore:' 'keep:' 'move'
-          'remove' 'uninstalled' 'version' 'verbose' 'null')
+          'nocolor' 'remove' 'uninstalled' 'version' 'verbose' 'null')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1
@@ -233,6 +227,8 @@ while :; do
 				keep=$(( 10#$keep ))
 			fi
 			shift ;;
+		--nocolor)
+			USE_COLOR='n' ;;
 		-m|--move)
 			move=1 movedir=$2
 			shift ;;
@@ -255,6 +251,8 @@ while :; do
 	esac
 	shift
 done
+
+m4_include(../scripts/library/term_colors.sh)
 
 # remaining args are a whitelist
 whitelist=("$@")
