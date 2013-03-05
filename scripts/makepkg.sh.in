@@ -44,8 +44,8 @@ declare -r confdir='@sysconfdir@'
 declare -r BUILDSCRIPT='@BUILDSCRIPT@'
 declare -r startdir="$PWD"
 
-packaging_options=('strip' 'docs' 'libtool' 'emptydirs' 'zipman' 'purge' 'upx' \
-                   'debug')
+packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman' \
+                   'purge' 'upx' 'debug')
 other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
 splitpkg_overrides=('pkgver' 'pkgrel' 'epoch' 'pkgdesc' 'arch' 'url' 'license' \
                     'groups' 'depends' 'optdepends' 'provides' 'conflicts' \
@@ -1501,6 +1501,11 @@ tidy_install() {
 	if check_option "libtool" "n"; then
 		msg2 "$(gettext "Removing "%s" files...")" "libtool"
 		find . ! -type d -name "*.la" -exec rm -f -- '{}' \;
+	fi
+
+	if check_option "staticlibs" "n"; then
+		msg2 "$(gettext "Removing "%s" files...")" "static library"
+		find . ! -type d -name "*.a" -exec rm -f -- '{}' +
 	fi
 
 	if check_option "emptydirs" "n"; then

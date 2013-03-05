@@ -68,16 +68,17 @@ BUILDENV=(fakeroot !distcc color !ccache check !sign)
 # Default: OPTIONS=(strip docs libtool emptydirs zipman purge !upx !debug)
 #  A negated option will do the opposite of the comments below.
 #
-#-- strip:     Strip symbols from binaries/libraries
-#-- docs:      Save doc directories specified by DOC_DIRS
-#-- libtool:   Leave libtool (.la) files in packages
-#-- emptydirs: Leave empty directories in packages
-#-- zipman:    Compress manual (man and info) pages in MAN_DIRS with gzip
-#-- purge:     Remove files specified by PURGE_TARGETS
-#-- upx:       Compress binary executable files using UPX
-#-- debug:     Add debugging flags as specified in DEBUG_* variables
+#-- strip:      Strip symbols from binaries/libraries
+#-- docs:       Save doc directories specified by DOC_DIRS
+#-- libtool:    Leave libtool (.la) files in packages
+#-- staticlibs: Leave static library (.a) files in packages
+#-- emptydirs:  Leave empty directories in packages
+#-- zipman:     Compress manual (man and info) pages in MAN_DIRS with gzip
+#-- purge:      Remove files specified by PURGE_TARGETS
+#-- upx:        Compress binary executable files using UPX
+#-- debug:      Add debugging flags as specified in DEBUG_* variables
 #
-OPTIONS=(strip docs libtool emptydirs zipman purge !upx !debug)
+OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge !upx !debug)
 
 #-- File integrity checks to use. Valid: md5, sha1, sha256, sha384, sha512
 INTEGRITY_CHECK=(md5)
