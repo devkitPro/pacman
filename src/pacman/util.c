@@ -1495,7 +1495,7 @@ static int question(short preset, const char *format, va_list args)
 	fflush(stdout);
 	fflush(stderr);
 
-	fprintf(stream, ":: ");
+	fputs(config->colstr.colon, stream);
 	vfprintf(stream, format, args);
 
 	if(preset) {
@@ -1503,6 +1503,9 @@ static int question(short preset, const char *format, va_list args)
 	} else {
 		fprintf(stream, " %s ", _("[y/N]"));
 	}
+
+	fputs(config->colstr.nocolor, stream);
+	fflush(stream);
 
 	if(config->noconfirm) {
 		fprintf(stream, "\n");
@@ -1562,11 +1565,13 @@ int colon_printf(const char *fmt, ...)
 	int ret;
 	va_list args;
 
-	fputs(":: ", stdout);
 	va_start(args, fmt);
+	fputs(config->colstr.colon, stdout);
 	ret = vprintf(fmt, args);
+	fputs(config->colstr.nocolor, stdout);
 	va_end(args);
 
+	fflush(stdout);
 	return ret;
 }
 
