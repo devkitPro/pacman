@@ -352,10 +352,12 @@ void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg)
 	alpm_pkg_t *lpkg = alpm_db_get_pkg(db_local, pkgname);
 	if(lpkg) {
 		const char *lpkgver = alpm_pkg_get_version(lpkg);
+		const colstr_t *colstr = &config->colstr;
 		if(strcmp(lpkgver, pkgver) == 0) {
-			printf(" [%s]", _("installed"));
+			printf(" %s[%s]%s", colstr->meta, _("installed"), colstr->nocolor);
 		} else {
-			printf(" [%s: %s]", _("installed"), lpkgver);
+			printf(" %s[%s: %s]%s", colstr->meta, _("installed"),
+					lpkgver, colstr->nocolor);
 		}
 	}
 }
@@ -372,6 +374,7 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 	alpm_db_t *db_local;
 	alpm_list_t *i, *searchlist;
 	unsigned short cols;
+	const colstr_t *colstr = &config->colstr;
 
 	if(show_status) {
 		db_local = alpm_get_localdb(config->handle);
@@ -397,12 +400,13 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 		if(config->quiet) {
 			fputs(alpm_pkg_get_name(pkg), stdout);
 		} else {
-			printf("%s/%s %s", alpm_db_get_name(db),
-					alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
+			printf("%s%s/%s%s %s%s%s", colstr->repo, alpm_db_get_name(db),
+					colstr->title, alpm_pkg_get_name(pkg),
+					colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
 
 			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
 				alpm_list_t *k;
-				fputs(" (", stdout);
+				printf(" %s(", colstr->groups);
 				for(k = grp; k; k = alpm_list_next(k)) {
 					const char *group = k->data;
 					fputs(group, stdout);
@@ -411,7 +415,7 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 						putchar(' ');
 					}
 				}
-				putchar(')');
+				printf(")%s", colstr->nocolor);
 			}
 
 			if(show_status) {
