@@ -134,32 +134,32 @@ _pacman_action_query() {
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package file:_files -g "*.pkg.tar*"'
-				;;
+			;;
 		query_group)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:groups:_pacman_completions_installed_groups'
-				;;
+			;;
 		query_owner)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:file:_files'
-				;;
+			;;
 		query_search)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:search text: '
-				;;
+			;;
 		*)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_actions[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package:_pacman_completions_installed_packages'
-				;;
+			;;
 	esac
 }
 
@@ -192,27 +192,27 @@ _pacman_action_sync() {
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*-c[Remove old packages from cache]' \
-				;;
+			;;
 		sync_group)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package group:_pacman_completions_all_groups'
-				;;
+			;;
 		sync_search)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:search text: '
-				;;
+			;;
 		*)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_actions[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package:_pacman_completions_all_packages'
-				;;
-		esac
+			;;
+	esac
 }
 
 # handles --upgrade subcommand
@@ -328,21 +328,31 @@ _pacman_zsh_comp() {
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:groups:_pacman_completions_installed_groups'
-				;;
+			;;
 		Q*o*) # file
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package file:_files'
-				;;
+			;;
 		Q*p*) # file *.pkg.tar*
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package file:_files -g "*.pkg.tar*"'
-				;;
-		Q*)  _pacman_action_query    ;;
-		R*)  _pacman_action_remove   ;;
+			;;
+		T*)
+			_arguments -s : \
+				'-T' \
+				"$_pacman_opts_common[@]" \
+				":packages:_pacman_all_packages"
+			;;
+		Q*)
+			_pacman_action_query
+			;;
+		R*)
+			_pacman_action_remove
+			;;
 		S*c*) # no completion
 			return 0
 			;;
@@ -351,23 +361,31 @@ _pacman_zsh_comp() {
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package repo:_pacman_completions_repositories' \
-				;;
+			;;
 		S*g*) # pkg groups
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package group:_pacman_completions_all_groups'
-				;;
-		S*)  _pacman_action_sync     ;;
+			;;
+		S*)
+			_pacman_action_sync
+			;;
 		T*)
 			 _arguments -s : \
 				'-T' \
 				"$_pacman_opts_common[@]" \
 				":packages:_pacman_all_packages"
-			 ;;
-		U*)  _pacman_action_upgrade  ;;
-		V*)  _pacman_action_version  ;;
-		*  ) _pacman_action_none     ;;
+			;;
+		U*)
+			_pacman_action_upgrade
+			;;
+		V*)
+			_pacman_action_version
+			;;
+		*)
+			_pacman_action_none
+			;;
 	esac
 }
 
@@ -382,7 +400,7 @@ _key_shortopts=(
     '-u[Update the trustdb of pacman]'
     '-v[Verify the file specified by the signature]: :_files -g "*.sig"'
     '-V[Show program version]'
-    )
+)
 
 _key_longopts=(
     '--help[show help]'
@@ -403,48 +421,50 @@ _key_longopts=(
     '--lsign-key[Locally sign the specified keyid]:*: :_keys'
     '--populate[Reload the default keys from the (given) keyrings in '/usr/share/pacman/keyrings']: :_path_files -W /usr/share/pacman/keyrings'
     '--refresh-keys[Update specified or all keys from a keyserver]:*: :_keys'
-    )
+)
 
 _pacman_key_options=(
   '--config[Use an alternate config file (instead of /etc/pacman.con)]: :_files'
   '--gpgdir[Set an alternate directory for GnuPG (instead of /etc/pacman.d/gnupg)]: :_files -/'
   '--keyserver[Specify a keyserver to use if necessary]'
-  )
+)
 
 _pacman_key() {
-  case $words[CURRENT] in
-    --*)
-      _arguments -s : \
-        "$_pacman_key_options[@]" \
-        "$_key_longopts[@]"
-      ;;
-    -*)
-      _arguments -s : \
-        "$_pacman_key_options[@]" \
-        "$_key_shortopts[@]" \
-        "$_key_longopts[@]"
-      ;;
-    *)
-      i=$#;
-      while [[ $words[$i] != -* ]] && [[ $words[$i] != "pacman-key" ]];do
-        i=$(($i-1))
-      done
-      case $i in
-        --*)
-        _arguments -s : \
-          "$_pacman_key_options[@]" \
-          "$_key_longopts[@]"
-        ;;
-      -*)
-        _arguments -s : \
-          "$_pacman_key_options[@]" \
-          "$_key_shortopts[@]" \
-          "$_key_longopts[@]"
-        ;;
-      *) return 1;;
-    esac
-    ;;
-  esac
+	case $words[CURRENT] in
+		--*)
+			_arguments -s : \
+				"$_pacman_key_options[@]" \
+				"$_key_longopts[@]"
+			;;
+		-*)
+			_arguments -s : \
+				"$_pacman_key_options[@]" \
+				"$_key_shortopts[@]" \
+				"$_key_longopts[@]"
+			;;
+		*)
+			i=$#;
+			while [[ $words[$i] != -* ]] && [[ $words[$i] != "pacman-key" ]];do
+				i=$(($i-1))
+			done
+			case $i in
+				--*)
+					_arguments -s : \
+						"$_pacman_key_options[@]" \
+						"$_key_longopts[@]"
+					;;
+				-*)
+					_arguments -s : \
+						"$_pacman_key_options[@]" \
+						"$_key_shortopts[@]" \
+						"$_key_longopts[@]"
+					;;
+				*)
+					return 1
+					;;
+			esac
+			;;
+	esac
 }
 
 _keys() {
@@ -485,7 +505,7 @@ _makepkg_shortopts=(
     '*-r[Remove installed dependencies after a successful build]'
     '*-R[Repackage contents of the package without rebuilding]'
     '*-S[Generate a source-only tarball without downloading sources]'
-    )
+)
 
 _makepkg_action_none(){
   _arguments \
@@ -524,51 +544,61 @@ _makepkg_longopts=(
   '--noconfirm[do not ask for confirmation when resolving dependencies]'
   '--asdeps[Install packages as non-explicitly installed]'
   '--noprogressbar[Do not show a progress bar when downloading files]'
-  )
+)
 _makepkg(){
-    case $words[CURRENT] in
-      -*)
-        _arguments -s -w : \
-          "$_makepkg_shortopts[@]" \
-          "$_makepkg_longopts[@]"
-        ;;
-      --* )
-        _arguments -s \
-          "$_makepkg_longopts[@]"
-        ;;
-      - )_makepkg_action_none ;;
-      * )
-        i=$#
-        while [[ $words[i] != -* ]] && [[ $words[$i] != "makepkg" ]];do
-          i=$((i-1));
-        done
-        case $words[$i] in
-          -*)
-            _arguments -s -w : \
-              "$_makepkg_shortopts[@]" \
-              "$_makepkg_longopts[@]"
-            ;;
-          --* )
-            _arguments -s \
-              "$_makepkg_longopts[@]"
-            ;;
-          - )_makepkg_action_none ;;
-          * ) return 1 ;;
-        esac
-      ;;
-    esac
+	case $words[CURRENT] in
+		-*)
+			_arguments -s -w : \
+				"$_makepkg_shortopts[@]" \
+				"$_makepkg_longopts[@]"
+			;;
+		--* )
+			_arguments -s \
+				"$_makepkg_longopts[@]"
+			;;
+		- )
+			_makepkg_action_none
+			;;
+		*)
+			i=$#
+			while [[ $words[i] != -* ]] && [[ $words[$i] != "makepkg" ]];do
+				i=$((i-1));
+			done
+			case $words[$i] in
+				-*)
+					_arguments -s -w : \
+						"$_makepkg_shortopts[@]" \
+						"$_makepkg_longopts[@]"
+					;;
+				--* )
+					_arguments -s \
+						"$_makepkg_longopts[@]"
+					;;
+				- )
+					_makepkg_action_none
+					;;
+				* )
+					return 1
+					;;
+			esac
+			;;
+	esac
 }
 _pacman_comp() {
-  case "$service" in
-    makepkg)
-      _makepkg "$@";;
-    pacman-key)
-      _pacman_key "$@";;
-    pacman)
-      _pacman_zsh_comp "$@";;
-    *)
-      _message "Error";;
-  esac
+	case "$service" in
+		makepkg)
+			_makepkg "$@"
+			;;
+		pacman-key)
+			_pacman_key "$@"
+			;;
+		pacman)
+			_pacman_zsh_comp "$@"
+			;;
+		*)
+			_message "Error"
+			;;
+	esac
 }
 
 _pacman_comp "$@"
