@@ -43,6 +43,7 @@ _pacman_opts_pkgfile=(
 
 # options for passing to _arguments: subactions for --query command
 _pacman_opts_query_actions=(
+	'-Q'
 	'-g[View all members of a package group]:*:package groups:->query_group'
 	'-o[Query the package that owns a file]:file:_files'
 	'-p[Package file to query]:*:package file:->query_file'
@@ -59,6 +60,7 @@ _pacman_opts_query_modifiers=(
 	'-k[Check package files]'
 	'-l[List package contents]'
 	'-m[List installed packages not found in sync db(s)]'
+	'-n[List installed packages found in sync db(s)]'
 	'-t[List packages not required by any package]'
 	'-u[List packages that can be upgraded]'
 )
@@ -81,6 +83,7 @@ _pacman_opts_database=(
 
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_actions=(
+	'-S'
 	'*-c[Remove old packages from cache]:*:clean:->sync_clean'
 	'*-cc[Remove all packages from cache]:*:clean:->sync_clean'
 	'-g[View all members of a package group]:*:package groups:->sync_group'
@@ -125,11 +128,6 @@ _pacman_action_query() {
 	local context state line
 	typeset -A opt_args
 
-#	_arguments -s : \
-#		"$_pacman_opts_common[@]" \
-#		"$_pacman_opts_query_actions[@]" \
-#		"$_pacman_opts_query_modifiers[@]"
-
 	case $state in
 		query_file)
 			_arguments -s : \
@@ -168,6 +166,7 @@ _pacman_action_query() {
 # handles --remove subcommand
 _pacman_action_remove() {
 	_arguments -s : \
+		'-R' \
 		"$_pacman_opts_common[@]" \
 		"$_pacman_opts_remove[@]"
 }
@@ -186,11 +185,6 @@ _pacman_action_database() {
 _pacman_action_sync() {
 	local context state line
 	typeset -A opt_args
-
-#	_arguments -s : \
-#		"$_pacman_opts_common[@]" \
-#		"$_pacman_opts_sync_actions[@]" #\
-#		#"$_pacman_opts_sync_modifiers[@]"
 
 	case $state in
 		sync_clean)
@@ -214,6 +208,7 @@ _pacman_action_sync() {
 		*)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
+				"$_pacman_opts_sync_actions[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package:_pacman_completions_all_packages'
 				;;
@@ -223,6 +218,7 @@ _pacman_action_sync() {
 # handles --upgrade subcommand
 _pacman_action_upgrade() {
 	_arguments -s : \
+		'-U' \
 		"$_pacman_opts_common[@]" \
 		"$_pacman_opts_pkgfile[@]"
 }
@@ -280,6 +276,12 @@ _pacman_completions_installed_packages() {
 	compadd "$@" -a packages
 }
 
+_pacman_all_packages() {
+    _alternative : \
+        'localpkgs:local packages:_pacman_completions_installed_packages' \
+        'repopkgs:repository packages:_pacman_completions_all_packages'
+}
+
 # provides completions for repository names
 _pacman_completions_repositories() {
 	local -a cmd repositories
@@ -305,55 +307,67 @@ _pacman_get_command() {
 
 # main dispatcher
 _pacman_zsh_comp() {
-	case $words[2] in
-		-D*)  _pacman_action_database ;;
-		-Q*g*) # ipkg groups
+	local -a args;
+	args=( ${${${(M)words:#-*}#-}:#-*} )
+	case $args in #$words[2] in
+		h*)
+			if (( ${(c)#args} <= 1 )); then
+				_pacman_action_help
+			else
+				_message "no more arguments"
+			fi
+			;;
+		*h*)
+			_message "no more arguments"
+			;;
+		D*)
+			_pacman_action_database
+			;;
+		Q*g*) # ipkg groups
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:groups:_pacman_completions_installed_groups'
 				;;
-		-Q*o*) # file
+		Q*o*) # file
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package file:_files'
 				;;
-		-Q*p*) # file *.pkg.tar*
+		Q*p*) # file *.pkg.tar*
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
 				'*:package file:_files -g "*.pkg.tar*"'
 				;;
-		-Q*)  _pacman_action_query    ;;
-		-R*)  _pacman_action_remove   ;;
-		-S*c*) # no completion
+		Q*)  _pacman_action_query    ;;
+		R*)  _pacman_action_remove   ;;
+		S*c*) # no completion
 			return 0
 			;;
-		-S*l*) # repos
+		S*l*) # repos
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package repo:_pacman_completions_repositories' \
 				;;
-		-S*g*) # pkg groups
+		S*g*) # pkg groups
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package group:_pacman_completions_all_groups'
 				;;
-		-S*)  _pacman_action_sync     ;;
-		-T*)
+		S*)  _pacman_action_sync     ;;
+		T*)
 			 _arguments -s : \
 				'-T' \
 				"$_pacman_opts_common[@]" \
 				":packages:_pacman_all_packages"
 			 ;;
-		-U*)  _pacman_action_upgrade  ;;
-		-V*)  _pacman_action_version  ;;
-		-h*)  _pacman_action_help     ;;
-		-  )  _pacman_action_none     ;;
-		*  )  return 1                ;;
+		U*)  _pacman_action_upgrade  ;;
+		V*)  _pacman_action_version  ;;
+		*  ) _pacman_action_none     ;;
 	esac
 }
 
