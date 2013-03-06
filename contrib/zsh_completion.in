@@ -103,9 +103,9 @@ _pacman_opts_sync_modifiers=(
 	'-w[Download packages only]'
 	'-y[Download fresh package databases]'
 	'*--ignore[Ignore a package upgrade]:package:
-		_pacman_completions_all_packages'
+	_pacman_completions_all_packages'
 	'*--ignoregroup[Ignore a group upgrade]:package group:
-		_pacman_completions_all_groups'
+	_pacman_completions_all_groups'
 	'--asdeps[Install packages as non-explicitly installed]'
 	'--asexplicit[Install packages as explicitly installed]'
 	'--force[Overwrite conflicting files]'
@@ -192,7 +192,7 @@ _pacman_action_sync() {
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*-c[Remove old packages from cache]' \
-			;;
+				;;
 		sync_group)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
@@ -277,9 +277,9 @@ _pacman_completions_installed_packages() {
 }
 
 _pacman_all_packages() {
-    _alternative : \
-        'localpkgs:local packages:_pacman_completions_installed_packages' \
-        'repopkgs:repository packages:_pacman_completions_all_packages'
+	_alternative : \
+		'localpkgs:local packages:_pacman_completions_installed_packages' \
+		'repopkgs:repository packages:_pacman_completions_all_packages'
 }
 
 # provides completions for repository names
@@ -390,43 +390,43 @@ _pacman_zsh_comp() {
 }
 
 _key_shortopts=(
-    '-h[show help]' \
-    '-a[Add the specified keys (empty for stdin)]: :_files'
-    '-d[Remove the Specified keyids]:*: :_keys'
-    '-e[Export the specified or all keyids]:*: :_keys'
-    '-f[List fingreprint for specidied or all keyids]:*: :_keys'
-    '-l[List the specified or all keys]:*: :_keys'
-    '-r[Fetch the specified keyids]:*: :_keys'
-    '-u[Update the trustdb of pacman]'
-    '-v[Verify the file specified by the signature]: :_files -g "*.sig"'
-    '-V[Show program version]'
+	'-h[show help]'
+	'-a[Add the specified keys (empty for stdin)]: :_files'
+	'-d[Remove the Specified keyids]:*: :_keys'
+	'-e[Export the specified or all keyids]:*: :_keys'
+	'-f[List fingreprint for specidied or all keyids]:*: :_keys'
+	'-l[List the specified or all keys]:*: :_keys'
+	'-r[Fetch the specified keyids]:*: :_keys'
+	'-u[Update the trustdb of pacman]'
+	'-v[Verify the file specified by the signature]: :_files -g "*.sig"'
+	'-V[Show program version]'
 )
 
 _key_longopts=(
-    '--help[show help]'
-    '--add[Add the specified keys (empty for stdin)]: :_files'
-    '--delete[Remove the Specified keyids]:*: :_keys'
-    '--export[Export the specified or all keyids]:*: :_keys'
-    '--finger[List fingreprint for specidied or all keyids]:*: :_keys'
-    '--list-keys[List the specified or all keys]:*: :_keys'
-    '--recv-keys[Fetch the specified keyids]:*: :_keys'
-    '--updatedb[Update the trustdb of pacman]'
-    '--verify[Verify the file specified by the signature]: :_files -g "*.sig"'
-    '--version[Show program version]'
-    '--edit-key[Present a menu for key management task on keyids]:*: :_keys'
-    '--import[Imports pubring.gpg from dir(s)]: :_files -g "*.gpg"'
-    '--import-tb[Imports ownertrust values from trustdb.gpg in dir(s)]: :_files -g "*.gpg"'
-    '--init[Ensure the keyring is properly initialized]'
-    '--list-sigs[List keys and their signatures]:*: :_keys'
-    '--lsign-key[Locally sign the specified keyid]:*: :_keys'
-    '--populate[Reload the default keys from the (given) keyrings in '/usr/share/pacman/keyrings']: :_path_files -W /usr/share/pacman/keyrings'
-    '--refresh-keys[Update specified or all keys from a keyserver]:*: :_keys'
+	'--help[show help]'
+	'--add[Add the specified keys (empty for stdin)]: :_files'
+	'--delete[Remove the Specified keyids]:*: :_keys'
+	'--export[Export the specified or all keyids]:*: :_keys'
+	'--finger[List fingreprint for specidied or all keyids]:*: :_keys'
+	'--list-keys[List the specified or all keys]:*: :_keys'
+	'--recv-keys[Fetch the specified keyids]:*: :_keys'
+	'--updatedb[Update the trustdb of pacman]'
+	'--verify[Verify the file specified by the signature]: :_files -g "*.sig"'
+	'--version[Show program version]'
+	'--edit-key[Present a menu for key management task on keyids]:*: :_keys'
+	'--import[Imports pubring.gpg from dir(s)]: :_files -g "*.gpg"'
+	'--import-tb[Imports ownertrust values from trustdb.gpg in dir(s)]: :_files -g "*.gpg"'
+	'--init[Ensure the keyring is properly initialized]'
+	'--list-sigs[List keys and their signatures]:*: :_keys'
+	'--lsign-key[Locally sign the specified keyid]:*: :_keys'
+	'--populate[Reload the default keys from the (given) keyrings in '/usr/share/pacman/keyrings']: :_path_files -W /usr/share/pacman/keyrings'
+	'--refresh-keys[Update specified or all keys from a keyserver]:*: :_keys'
 )
 
 _pacman_key_options=(
-  '--config[Use an alternate config file (instead of /etc/pacman.con)]: :_files'
-  '--gpgdir[Set an alternate directory for GnuPG (instead of /etc/pacman.d/gnupg)]: :_files -/'
-  '--keyserver[Specify a keyserver to use if necessary]'
+	'--config[Use an alternate config file (instead of /etc/pacman.con)]: :_files'
+	'--gpgdir[Set an alternate directory for GnuPG (instead of /etc/pacman.d/gnupg)]: :_files -/'
+	'--keyserver[Specify a keyserver to use if necessary]'
 )
 
 _pacman_key() {
@@ -468,82 +468,82 @@ _pacman_key() {
 }
 
 _keys() {
-  local keylist keys
-  keylist=$(pacman-key --list-keys 2>/dev/null | awk '
-      $1 == "pub" {
-        # key id
-        split($2, a, "/"); print a[2]
-      }
-      $1 == "uid" {
-        # email
-        if (match($NF, /<[^>]+>/))
-          print substr($NF, RSTART + 1, RLENGTH - 2)
-      #this adds support for names as well if that is ever added
-        }
-      $1 == "uid" {
-      for (i=2;i<NF;i++) {printf "%s%s",sep, $i;sep=" "}; printf "\n"
-      }' |sed -e 's/(.*)//g' -e 's/^\ //g' -e 's/\ *$//g' |uniq
-        )
-        keys=(${(s:/:)${keylist//$'\n'/\/}})
-  _describe -t modules 'keys in keyring' keys && return 0
+	local keylist keys
+	keylist=$(pacman-key --list-keys 2>/dev/null | awk '
+		$1 == "pub" {
+			# key id
+			split($2, a, "/"); print a[2]
+		}
+		$1 == "uid" {
+			# email
+			if (match($NF, /<[^>]+>/))
+				print substr($NF, RSTART + 1, RLENGTH - 2)
+		#this adds support for names as well if that is ever added
+			}
+		$1 == "uid" {
+		for (i=2;i<NF;i++) {printf "%s%s",sep, $i;sep=" "}; printf "\n"
+		}' |sed -e 's/(.*)//g' -e 's/^\ //g' -e 's/\ *$//g' |uniq
+		)
+		keys=(${(s:/:)${keylist//$'\n'/\/}})
+	_describe -t modules 'keys in keyring' keys && return 0
 }
 
 _makepkg_shortopts=(
-    '*-s[Install missing dependencies with pacman]'
-    '*-i[Install package after successful build]'
-    '*-A[Ignore incomplete arch field in PKGBUILD]'
-    '*-c[Clean up work files after build]'
-    '*-d[Skip all dependency checks]'
-    '*-e[Do not extract source files (use existing src/ dir)]'
-    '*-f[Overwrite existing package]'
-    '*-g[Generate integrity checks for source files]'
-    '*-h[Show help message and exit]'
-    '*-L[Log package build process]'
-    '*-m[Disable colorized output messages]'
-    '*-o[Download and extract files only]'
-    '-p[Use an alternate build script (instead of 'PKGBUILD')]: :_files'
-    '*-r[Remove installed dependencies after a successful build]'
-    '*-R[Repackage contents of the package without rebuilding]'
-    '*-S[Generate a source-only tarball without downloading sources]'
+	'*-s[Install missing dependencies with pacman]'
+	'*-i[Install package after successful build]'
+	'*-A[Ignore incomplete arch field in PKGBUILD]'
+	'*-c[Clean up work files after build]'
+	'*-d[Skip all dependency checks]'
+	'*-e[Do not extract source files (use existing src/ dir)]'
+	'*-f[Overwrite existing package]'
+	'*-g[Generate integrity checks for source files]'
+	'*-h[Show help message and exit]'
+	'*-L[Log package build process]'
+	'*-m[Disable colorized output messages]'
+	'*-o[Download and extract files only]'
+	'-p[Use an alternate build script (instead of 'PKGBUILD')]: :_files'
+	'*-r[Remove installed dependencies after a successful build]'
+	'*-R[Repackage contents of the package without rebuilding]'
+	'*-S[Generate a source-only tarball without downloading sources]'
 )
 
 _makepkg_action_none(){
-  _arguments \
-		"$_makepkg_shortopts[@]"\
-    "$_makepkg_longopts[@]"
+	_arguments \
+		"$_makepkg_shortopts[@]" \
+		"$_makepkg_longopts[@]"
 }
 _makepkg_longopts=(
-  '--ignorearch[Ignore incomplete arch field in PKGBUILD]'
-  '--clean[Clean up work files after build]'
-  '--nodeps[Skip all dependency checks]'
-  '--noextract[Do not extract source files (use existing src/ dir)]'
-  '--force[Overwrite existing package]'
-  '--geninteg[Generate integrity checks for source files]'
-  '--help[Show help message and exit]'
-  '--install[Install package after successful build]'
-  '--log[Log package build process]'
-  '--nocolor[Disable colorized output messages]'
-  '--nobuild[Download and extract files only]'
-  '--rmdeps[Remove installed dependencies after a successful build]'
-  '--repackage[Repackage contents of the package without rebuilding]'
-  '--syncdeps[Install missing dependencies with pacman]'
-  '--source[Generate a source-only tarball without downloading sources]'
-  '--allsource[Generate a source-only tarball including downloaded source]'
-  '--asroot[Allow makepkg to run as root user]'
-  '--check[Run check() function in the PKGBUILD]'
-  '--config[Use an alternate config file instead of '/etc/makepkg.conf']: :_files'
-  '--holdver[Prevent automatic version bumping for development PKGBUILDs]'
-  '--key[Specify key to use for gpg signing instead of the default]: :_keys'
-  '--nocheck[Do not run the check() function in the PKGBUILD]'
-  '--nosign[Do not create a signature for the package]'
-  '--pkg[Only build listed packages from a split package]'
-  '--sign[Sign the resulting package with gpg]'
-  '--skipchecksums[Do not verify checksums of the source files]'
-  '--skipinteg[do not perform any verification checks on source files]'
-  '--skippgpcheck[Do not verify source files with PGP signatures]'
-  '--noconfirm[do not ask for confirmation when resolving dependencies]'
-  '--asdeps[Install packages as non-explicitly installed]'
-  '--noprogressbar[Do not show a progress bar when downloading files]'
+	'--ignorearch[Ignore incomplete arch field in PKGBUILD]'
+	'--clean[Clean up work files after build]'
+	'--nodeps[Skip all dependency checks]'
+	'--noextract[Do not extract source files (use existing src/ dir)]'
+	'--force[Overwrite existing package]'
+	'--geninteg[Generate integrity checks for source files]'
+	'--help[Show help message and exit]'
+	'--install[Install package after successful build]'
+	'--log[Log package build process]'
+	'--nocolor[Disable colorized output messages]'
+	'--nobuild[Download and extract files only]'
+	'--rmdeps[Remove installed dependencies after a successful build]'
+	'--repackage[Repackage contents of the package without rebuilding]'
+	'--syncdeps[Install missing dependencies with pacman]'
+	'--source[Generate a source-only tarball without downloading sources]'
+	'--allsource[Generate a source-only tarball including downloaded source]'
+	'--asroot[Allow makepkg to run as root user]'
+	'--check[Run check() function in the PKGBUILD]'
+	'--config[Use an alternate config file instead of '/etc/makepkg.conf']: :_files'
+	'--holdver[Prevent automatic version bumping for development PKGBUILDs]'
+	'--key[Specify key to use for gpg signing instead of the default]: :_keys'
+	'--nocheck[Do not run the check() function in the PKGBUILD]'
+	'--nosign[Do not create a signature for the package]'
+	'--pkg[Only build listed packages from a split package]'
+	'--sign[Sign the resulting package with gpg]'
+	'--skipchecksums[Do not verify checksums of the source files]'
+	'--skipinteg[do not perform any verification checks on source files]'
+	'--skippgpcheck[Do not verify source files with PGP signatures]'
+	'--noconfirm[do not ask for confirmation when resolving dependencies]'
+	'--asdeps[Install packages as non-explicitly installed]'
+	'--noprogressbar[Do not show a progress bar when downloading files]'
 )
 _makepkg(){
 	case $words[CURRENT] in
