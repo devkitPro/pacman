@@ -464,10 +464,13 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		size_t pkg_current, size_t pkg_count)
 {
 	int i, ret = 0, errors = 0;
-	int is_upgrade;
+	int is_upgrade = 0;
 	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
 	alpm_trans_t *trans = handle->trans;
+	alpm_progress_t event = ALPM_PROGRESS_ADD_START;
+	alpm_event_t done = ALPM_EVENT_ADD_DONE, start = ALPM_EVENT_ADD_START;
+	const char *log_msg = "adding";
 	const char *pkgfile;
 
 	ASSERT(trans != NULL, return -1);
@@ -475,6 +478,23 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	/* see if this is an upgrade. if so, remove the old package first */
 	alpm_pkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
 	if(local) {
+		int cmp = _alpm_pkg_compare_versions(newpkg, local);
+		if(cmp < 0) {
+			log_msg = "downgrading";
+			event = ALPM_PROGRESS_DOWNGRADE_START;
+			start = ALPM_EVENT_DOWNGRADE_START;
+			done = ALPM_EVENT_DOWNGRADE_DONE;
+		} else if(cmp == 0) {
+			log_msg = "reinstalling";
+			event = ALPM_PROGRESS_REINSTALL_START;
+			start = ALPM_EVENT_REINSTALL_START;
+			done = ALPM_EVENT_REINSTALL_DONE;
+		} else {
+			log_msg = "upgrading";
+			event = ALPM_PROGRESS_UPGRADE_START;
+			start = ALPM_EVENT_UPGRADE_START;
+			done = ALPM_EVENT_UPGRADE_DONE;
+		}
 		is_upgrade = 1;
 
 		/* we'll need to save some record for backup checks later */
@@ -485,17 +505,14 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 		/* copy over the install reason */
 		newpkg->reason = alpm_pkg_get_reason(local);
-
-		EVENT(handle, ALPM_EVENT_UPGRADE_START, newpkg, local);
-	} else {
-		is_upgrade = 0;
-		EVENT(handle, ALPM_EVENT_ADD_START, newpkg, NULL);
 	}
+
+	EVENT(handle, start, newpkg, local);
 
 	pkgfile = newpkg->origin_data.file;
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "%s package %s-%s\n",
-			is_upgrade ? "upgrading" : "adding", newpkg->name, newpkg->version);
+			log_msg, newpkg->name, newpkg->version);
 		/* pre_install/pre_upgrade scriptlet */
 	if(alpm_pkg_has_scriptlet(newpkg) &&
 			!(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
@@ -564,13 +581,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		}
 
 		/* call PROGRESS once with 0 percent, as we sort-of skip that here */
-		if(is_upgrade) {
-			PROGRESS(handle, ALPM_PROGRESS_UPGRADE_START,
-					newpkg->name, 0, pkg_count, pkg_current);
-		} else {
-			PROGRESS(handle, ALPM_PROGRESS_ADD_START,
-					newpkg->name, 0, pkg_count, pkg_current);
-		}
+		PROGRESS(handle, event, newpkg->name, 0, pkg_count, pkg_current);
 
 		for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
 			int percent;
@@ -588,13 +599,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				percent = 0;
 			}
 
-			if(is_upgrade) {
-				PROGRESS(handle, ALPM_PROGRESS_UPGRADE_START,
-						newpkg->name, percent, pkg_count, pkg_current);
-			} else {
-				PROGRESS(handle, ALPM_PROGRESS_ADD_START,
-						newpkg->name, percent, pkg_count, pkg_current);
-			}
+			PROGRESS(handle, event, newpkg->name, percent, pkg_count, pkg_current);
 
 			/* extract the next file from the archive */
 			errors += extract_single_file(handle, archive, entry, newpkg, oldpkg);
@@ -651,13 +656,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				newpkg->name);
 	}
 
-	if(is_upgrade) {
-		PROGRESS(handle, ALPM_PROGRESS_UPGRADE_START,
-				newpkg->name, 100, pkg_count, pkg_current);
-	} else {
-		PROGRESS(handle, ALPM_PROGRESS_ADD_START,
-				newpkg->name, 100, pkg_count, pkg_current);
-	}
+	PROGRESS(handle, event, newpkg->name, 100, pkg_count, pkg_current);
 
 	/* run the post-install script if it exists  */
 	if(alpm_pkg_has_scriptlet(newpkg)
@@ -670,11 +669,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		free(scriptlet);
 	}
 
-	if(is_upgrade) {
-		EVENT(handle, ALPM_EVENT_UPGRADE_DONE, newpkg, oldpkg);
-	} else {
-		EVENT(handle, ALPM_EVENT_ADD_DONE, newpkg, oldpkg);
-	}
+	EVENT(handle, done, newpkg, oldpkg);
 
 cleanup:
 	_alpm_pkg_free(oldpkg);

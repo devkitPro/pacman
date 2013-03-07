@@ -207,6 +207,30 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 					alpm_pkg_get_version(data1));
 			display_new_optdepends(data2, data1);
 			break;
+		case ALPM_EVENT_DOWNGRADE_START:
+			if(config->noprogressbar) {
+				printf(_("downgrading %s...\n"), alpm_pkg_get_name(data1));
+			}
+			break;
+		case ALPM_EVENT_DOWNGRADE_DONE:
+			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
+					"downgraded %s (%s -> %s)\n",
+					alpm_pkg_get_name(data1),
+					alpm_pkg_get_version(data2),
+					alpm_pkg_get_version(data1));
+			display_new_optdepends(data2, data1);
+			break;
+		case ALPM_EVENT_REINSTALL_START:
+			if(config->noprogressbar) {
+				printf(_("reinstalling %s...\n"), alpm_pkg_get_name(data1));
+			}
+			break;
+		case ALPM_EVENT_REINSTALL_DONE:
+			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
+					"reinstalled %s (%s)\n",
+					alpm_pkg_get_name(data1),
+					alpm_pkg_get_version(data1));
+			break;
 		case ALPM_EVENT_INTEGRITY_START:
 			if(config->noprogressbar) {
 				printf(_("checking package integrity...\n"));
@@ -443,6 +467,12 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 			break;
 		case ALPM_PROGRESS_UPGRADE_START:
 			opr = _("upgrading");
+			break;
+		case ALPM_PROGRESS_DOWNGRADE_START:
+			opr = _("downgrading");
+			break;
+		case ALPM_PROGRESS_REINSTALL_START:
+			opr = _("reinstalling");
 			break;
 		case ALPM_PROGRESS_REMOVE_START:
 			opr = _("removing");

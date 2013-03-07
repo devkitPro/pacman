@@ -321,6 +321,24 @@ typedef enum _alpm_event_t {
 	 * to the callback, respectively.
 	 */
 	ALPM_EVENT_UPGRADE_DONE,
+	/** Package will be downgraded.
+	 * A pointer to the downgraded package is passed to the callback.
+	 */
+	ALPM_EVENT_DOWNGRADE_START,
+	/** Package was downgraded.
+	 * A pointer to the new package, and a pointer to the old package is passed
+	 * to the callback, respectively.
+	 */
+	ALPM_EVENT_DOWNGRADE_DONE,
+	/** Package will be reinstalled.
+	 * A pointer to the reinstalled package is passed to the callback.
+	 */
+	ALPM_EVENT_REINSTALL_START,
+	/** Package was reinstalled.
+	 * A pointer to the new package, and a pointer to the old package is passed
+	 * to the callback, respectively.
+	 */
+	ALPM_EVENT_REINSTALL_DONE,
 	/** Target package's integrity will be checked. */
 	ALPM_EVENT_INTEGRITY_START,
 	/** Target package's integrity was checked. */
@@ -400,6 +418,8 @@ typedef void (*alpm_cb_question)(alpm_question_t, void *, void *, void *, int *)
 typedef enum _alpm_progress_t {
 	ALPM_PROGRESS_ADD_START,
 	ALPM_PROGRESS_UPGRADE_START,
+	ALPM_PROGRESS_DOWNGRADE_START,
+	ALPM_PROGRESS_REINSTALL_START,
 	ALPM_PROGRESS_REMOVE_START,
 	ALPM_PROGRESS_CONFLICTS_START,
 	ALPM_PROGRESS_DISKSPACE_START,
