@@ -19,6 +19,7 @@ _pacman_opts_commands=(
 # options for passing to _arguments: options common to all commands
 _pacman_opts_common=(
 	'-b[Alternate database location]:database_location:_files -/'
+	'--color[colorize the output]:color options:(always never auto)'
 	'-h[Display syntax for the given operation]'
 	'-r[Set alternate installation root]:installation root:_files -/'
 	'-v[Be more verbose]'
