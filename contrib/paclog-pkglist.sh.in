@@ -72,7 +72,7 @@ nfields == 6 && action == "installed" {
 	next
 }
 
-nfields == 8 && action == "upgraded" {
+nfields == 8 && (action == "upgraded" || action == "downgraded") {
 	sub(/\)/, "", upgver)
 	pkg[pkgname] = upgver
 	next
