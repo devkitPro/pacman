@@ -1692,26 +1692,4 @@ int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list
 	return ret;
 }
 
-#ifndef HAVE_STRNDUP
-/* A quick and dirty implementation derived from glibc */
-static size_t strnlen(const char *s, size_t max)
-{
-    register const char *p;
-    for(p = s; *p && max--; ++p);
-    return (p - s);
-}
-
-char *strndup(const char *s, size_t n)
-{
-  size_t len = strnlen(s, n);
-  char *new = (char *) malloc(len + 1);
-
-  if(new == NULL)
-    return NULL;
-
-  new[len] = '\0';
-  return (char *)memcpy(new, s, len);
-}
-#endif
-
 /* vim: set ts=2 sw=2 noet: */
