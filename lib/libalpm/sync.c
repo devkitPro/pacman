@@ -212,9 +212,8 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 		/* Search for replacers then literal (if no replacer) in each sync database. */
 		for(j = handle->dbs_sync; j; j = j->next) {
 			alpm_db_t *sdb = j->data;
+			alpm_list_t *replacers = check_replacers(handle, lpkg, sdb);
 			/* Check sdb */
-			alpm_list_t *replacers;
-			replacers = check_replacers(handle, lpkg, sdb);
 			if(replacers) {
 				trans->add = alpm_list_join(trans->add, replacers);
 				/* jump to next local package */
@@ -222,9 +221,7 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 			} else {
 				alpm_pkg_t *spkg = _alpm_db_get_pkgfromcache(sdb, lpkg->name);
 				if(spkg) {
-					int literal_upgrade = 0;
-					literal_upgrade = check_literal(handle, lpkg, spkg, enable_downgrade);
-					if(literal_upgrade) {
+					if(check_literal(handle, lpkg, spkg, enable_downgrade)) {
 						trans->add = alpm_list_add(trans->add, spkg);
 					}
 					/* jump to next local package */
