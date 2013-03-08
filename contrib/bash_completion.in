@@ -46,7 +46,7 @@ _pacman_key() {
   _get_comp_words_by_ref cur prev
   opts=('add delete export finger help list-keys recv-keys updatedb verify
          version config edit-key gpgdir import import-trustdb init keyserver
-         list-sigs lsign-key populate refresh-keys'
+         list-sigs lsign-key populate refresh-keys nocolor'
         'a d e f h l r u v V')
 
   # operations for which we want to complete keyids
@@ -105,7 +105,7 @@ _pacman() {
          info list needed nodeps print refresh recursive search sysupgrade'
         'c g i l p s u w y')
   upgrade=('asdeps asexplicit force needed nodeps print recursive' 'p')
-  common=('arch cachedir config dbpath debug help logfile noconfirm
+  common=('arch cachedir color config dbpath debug help logfile noconfirm
            noprogressbar noscriptlet quiet root verbose' 'b d h q r v')
   core=('database help query remove sync upgrade version' 'D Q R S U V h')
 
@@ -116,7 +116,7 @@ _pacman() {
   if [[ $? != 0 ]]; then
     _arch_ptr2comp core
   elif [[ ! $prev =~ ^-\w*[Vbhr] &&
-    ! $prev = --@(cachedir|config|dbpath|help|logfile|root|version) ]]
+    ! $prev = --@(cachedir|color|config|dbpath|help|logfile|root|version) ]]
   then
     [[ $cur = -* ]] && _arch_ptr2comp ${o#* } common ||
       case ${o% *} in
