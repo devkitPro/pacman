@@ -56,9 +56,8 @@ _pacman_opts_query_modifiers=(
 	'-c[List package changelog]'
 	'-d[List packages installed as dependencies]'
 	'-e[List packages explicitly installed]'
-	'-i[View package information]'
-	'-ii[View package information including backup files]'
-	'-k[Check package files]'
+	'*-i[View package information]'
+	'*-k[Check package files]'
 	'-l[List package contents]'
 	'-m[List installed packages not found in sync db(s)]'
 	'-n[List installed packages found in sync db(s)]'
@@ -69,9 +68,9 @@ _pacman_opts_query_modifiers=(
 # options for passing to _arguments: options for --remove command
 _pacman_opts_remove=(
 	'-c[Remove all dependent packages]'
-	'-d[Skip dependency checks]'
+	'*-d[Skip dependency checks]'
 	'-n[Remove protected configuration files]'
-	'-s[Remove dependencies not required by other packages]'
+	'*-s[Remove dependencies not required by other packages]'
 	'--dbonly[Only remove database entry, do not remove files]'
 	'*:installed package:_pacman_completions_installed_packages'
 )
@@ -86,7 +85,6 @@ _pacman_opts_database=(
 _pacman_opts_sync_actions=(
 	'-S'
 	'*-c[Remove old packages from cache]:*:clean:->sync_clean'
-	'*-cc[Remove all packages from cache]:*:clean:->sync_clean'
 	'-g[View all members of a package group]:*:package groups:->sync_group'
 	'-s[Search package names and descriptions]:*:search text:->sync_search'
 	'--dbonly[Only remove database entry, do not remove files]'
@@ -96,13 +94,13 @@ _pacman_opts_sync_actions=(
 
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_modifiers=(
-	'-d[Skip dependency checks]'
-	'-i[View package information]'
+	'*-d[Skip dependency checks]'
+	'*-i[View package information]'
 	'-l[List all packages in a repository]'
 	'-p[Print download URIs for each package to be installed]'
-	'-u[Upgrade all out-of-date packages]'
+	'*-u[Upgrade all out-of-date packages]'
 	'-w[Download packages only]'
-	'-y[Download fresh package databases]'
+	'*-y[Download fresh package databases]'
 	'*--ignore[Ignore a package upgrade]:package:
 	_pacman_completions_all_packages'
 	'*--ignoregroup[Ignore a group upgrade]:package group:
@@ -490,22 +488,22 @@ _keys() {
 }
 
 _makepkg_shortopts=(
-	'*-s[Install missing dependencies with pacman]'
-	'*-i[Install package after successful build]'
-	'*-A[Ignore incomplete arch field in PKGBUILD]'
-	'*-c[Clean up work files after build]'
-	'*-d[Skip all dependency checks]'
-	'*-e[Do not extract source files (use existing src/ dir)]'
-	'*-f[Overwrite existing package]'
-	'*-g[Generate integrity checks for source files]'
-	'*-h[Show help message and exit]'
-	'*-L[Log package build process]'
-	'*-m[Disable colorized output messages]'
-	'*-o[Download and extract files only]'
+	'-s[Install missing dependencies with pacman]'
+	'-i[Install package after successful build]'
+	'-A[Ignore incomplete arch field in PKGBUILD]'
+	'-c[Clean up work files after build]'
+	'-d[Skip all dependency checks]'
+	'-e[Do not extract source files (use existing src/ dir)]'
+	'-f[Overwrite existing package]'
+	'-g[Generate integrity checks for source files]'
+	'-h[Show help message and exit]'
+	'-L[Log package build process]'
+	'-m[Disable colorized output messages]'
+	'-o[Download and extract files only]'
 	'-p[Use an alternate build script (instead of 'PKGBUILD')]: :_files'
-	'*-r[Remove installed dependencies after a successful build]'
-	'*-R[Repackage contents of the package without rebuilding]'
-	'*-S[Generate a source-only tarball without downloading sources]'
+	'-r[Remove installed dependencies after a successful build]'
+	'-R[Repackage contents of the package without rebuilding]'
+	'-S[Generate a source-only tarball without downloading sources]'
 )
 
 _makepkg_action_none(){
