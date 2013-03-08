@@ -13,7 +13,7 @@ _pacman_opts_commands=(
 	{-T,--deptest}'[Check if dependencies are installed]'
 	{-U,--upgrade}'[Upgrade a package]'
 	{-V,--version}'[Display version and exit]'
-	{-h,--help}'[Display usage]'
+	'(-h --help)'{-h,--help}'[Display usage]'
 )
 
 # options for passing to _arguments: options common to all commands
@@ -44,7 +44,7 @@ _pacman_opts_pkgfile=(
 
 # options for passing to _arguments: subactions for --query command
 _pacman_opts_query_actions=(
-	'-Q'
+	'(-Q --query)'{-Q,--query}
 	{-g,--groups}'[View all members of a package group]:*:package groups:->query_group'
 	{-o,--owns}'[Query the package that owns a file]:file:_files'
 	{-p,--file}'[Package file to query]:*:package file:->query_file'
@@ -83,7 +83,7 @@ _pacman_opts_database=(
 
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_actions=(
-	'-S'
+	'(-S --sync)'{-S,--sync}
 	{\*-c,\*--clean}'[Remove old packages from cache]:\*:clean:->sync_clean'
 	{-g,--groups}'[View all members of a package group]:*:package groups:->sync_group'
 	{-s,--search}'[Search package names and descriptions]:*:search text:->sync_search'
@@ -118,6 +118,7 @@ _pacman_action_help() {
 _pacman_action_none() {
 	_arguments -s : \
 		"$_pacman_opts_commands[@]"
+	return 0
 }
 
 # handles --query subcommand
@@ -163,7 +164,7 @@ _pacman_action_query() {
 # handles --remove subcommand
 _pacman_action_remove() {
 	_arguments -s : \
-		'-R' \
+		'(--remove -R)'{-R,--remove} \
 		"$_pacman_opts_common[@]" \
 		"$_pacman_opts_remove[@]"
 }
@@ -171,29 +172,43 @@ _pacman_action_remove() {
 # handles --database subcommand
 _pacman_action_database() {
 	_arguments -s : \
-		'-D' \
+		'(--database -D)'{-D,--database} \
 		"$_pacman_opts_common[@]" \
 		"$_pacman_opts_database[@]"
 }
 
+_pacman_action_deptest () {
+	_arguments -s : \
+		'(--deptest)-T' \
+		"$_pacman_opts_common[@]" \
+		":packages:_pacman_all_packages"
+}
 
 
 # handles --sync subcommand
 _pacman_action_sync() {
 	local context state line
 	typeset -A opt_args
+	if (( $+words[(r)--clean] )); then
+		state=sync_clean
+	elif (( $+words[(r)--groups] )); then
+		state=sync_group
+	elif (( $+words[(r)--search] )); then
+		state=sync_search
+	fi
 
 	case $state in
 		sync_clean)
 			_arguments -s : \
+				{\*-c,\*--clean}'[Remove old packages from cache]' \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
-				'*-c[Remove old packages from cache]' \
 				;;
 		sync_group)
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_sync_modifiers[@]" \
+				'(-g --group)'{-g,--groups} \
 				'*:package group:_pacman_completions_all_groups'
 			;;
 		sync_search)
@@ -215,7 +230,7 @@ _pacman_action_sync() {
 # handles --upgrade subcommand
 _pacman_action_upgrade() {
 	_arguments -s : \
-		'-U' \
+		'(-U --upgrade)'{-U,--upgrade} \
 		"$_pacman_opts_common[@]" \
 		"$_pacman_opts_pkgfile[@]"
 }
@@ -304,11 +319,14 @@ _pacman_get_command() {
 
 # main dispatcher
 _pacman_zsh_comp() {
-	local -a args;
+	local -a args cmds;
 	args=( ${${${(M)words:#-*}#-}:#-*} )
+	for tmp in $words; do
+		cmds+=("${${_pacman_opts_commands[(r)*$tmp\[*]%%\[*}#*\)}")
+	done
 	case $args in #$words[2] in
 		h*)
-			if (( ${(c)#args} <= 1 )); then
+			if (( ${(c)#args} <= 1 && ${(w)#cmds} <= 1 )); then
 				_pacman_action_help
 			else
 				_message "no more arguments"
@@ -339,10 +357,7 @@ _pacman_zsh_comp() {
 				'*:package file:_files -g "*.pkg.tar*"'
 			;;
 		T*)
-			_arguments -s : \
-				'-T' \
-				"$_pacman_opts_common[@]" \
-				":packages:_pacman_all_packages"
+			_pacman_action_deptest
 			;;
 		Q*)
 			_pacman_action_query
@@ -351,8 +366,8 @@ _pacman_zsh_comp() {
 			_pacman_action_remove
 			;;
 		S*c*) # no completion
-			_arguments -s \
-				'-c' \
+			_arguments -s : \
+				'(-c --clean)'{\*-c,\*--clean}'[Remove all files from the cache]' \
 				"$_pacman_opts_common[@]"
 			;;
 		S*l*) # repos
@@ -383,9 +398,43 @@ _pacman_zsh_comp() {
 			_pacman_action_version
 			;;
 		*)
-			_pacman_action_none
+
+			case ${(M)words:#--*} in
+				*--help*)
+					if (( ${(w)#cmds} == 1 )); then
+						_pacman_action_help
+					else
+						return 0;
+					fi
+					;;
+				*--sync*)
+					_pacman_action_sync
+					;;
+				*--query*)
+					_pacman_action_query
+					;;
+				*--remove*)
+					_pacman_action_remove
+					;;
+				*--deptest*)
+					_pacman_action_deptest
+					;;
+				*--database*)
+					_pacman_action_database
+					;;
+				*--version*)
+					_pacman_action_version
+					;;
+				*--upgrade*)
+					_pacman_action_upgrade
+					;;
+				*)
+					_pacman_action_none
+					;;
+			esac
 			;;
 	esac
+	return 0
 }
 
 _key_shortopts=(
