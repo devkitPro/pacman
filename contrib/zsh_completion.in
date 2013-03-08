@@ -6,23 +6,23 @@ typeset -A opt_args
 
 # options for passing to _arguments: main pacman commands
 _pacman_opts_commands=(
-	'-D[Modify database]'
-	'-Q[Query the package database]'
-	'-R[Remove a package from the system]'
-	'-S[Synchronize packages]'
-	'-T[Check if dependencies are installed]'
-	'-U[Upgrade a package]'
-	'-V[Display version and exit]'
-	'-h[Display usage]'
+	{-D,--database}'[Modify database]'
+	{-Q,--query}'[Query the package database]'
+	{-R,--remove}'[Remove a package from the system]'
+	{-S,--sync}'[Synchronize packages]'
+	{-T,--deptest}'[Check if dependencies are installed]'
+	{-U,--upgrade}'[Upgrade a package]'
+	{-V,--version}'[Display version and exit]'
+	{-h,--help}'[Display usage]'
 )
 
 # options for passing to _arguments: options common to all commands
 _pacman_opts_common=(
-	'-b[Alternate database location]:database_location:_files -/'
+	{-b,--dbpath}'[Alternate database location]:database_location:_files -/'
 	'--color[colorize the output]:color options:(always never auto)'
-	'-h[Display syntax for the given operation]'
-	'-r[Set alternate installation root]:installation root:_files -/'
-	'-v[Be more verbose]'
+	{-h,--help}'[Display syntax for the given operation]'
+	{-r,--root}'[Set alternate installation root]:installation root:_files -/'
+	{-v,--verbose}'[Be more verbose]'
 	'--cachedir[Alternate package cache location]:cache_location:_files -/'
 	'--config[An alternate configuration file]:config file:_files'
 	'--logfile[An alternate log file]:config file:_files'
@@ -34,43 +34,43 @@ _pacman_opts_common=(
 
 # options for passing to _arguments: options for --upgrade commands
 _pacman_opts_pkgfile=(
-	'-d[Skip dependency checks]'
+	'*-d[Skip dependency checks]'
+	'*--nodeps[Skip dependency checks]'
 	'--dbonly[Only remove database entry, do not remove files]'
 	'--force[Overwrite conflicting files]'
 	'--needed[Do not reinstall up to date packages]'
-	'--recursive[Reinstall all dependencies of target packages]'
 	'*:package file:_files -g "*.pkg.tar*(.)"'
 )
 
 # options for passing to _arguments: subactions for --query command
 _pacman_opts_query_actions=(
 	'-Q'
-	'-g[View all members of a package group]:*:package groups:->query_group'
-	'-o[Query the package that owns a file]:file:_files'
-	'-p[Package file to query]:*:package file:->query_file'
-	'-s[Search package names and descriptions]:*:search text:->query_search'
+	{-g,--groups}'[View all members of a package group]:*:package groups:->query_group'
+	{-o,--owns}'[Query the package that owns a file]:file:_files'
+	{-p,--file}'[Package file to query]:*:package file:->query_file'
+	{-s,--search}'[Search package names and descriptions]:*:search text:->query_search'
 )
 
 # options for passing to _arguments: options for --query and subcommands
 _pacman_opts_query_modifiers=(
-	'-c[List package changelog]'
-	'-d[List packages installed as dependencies]'
-	'-e[List packages explicitly installed]'
-	'*-i[View package information]'
-	'*-k[Check package files]'
-	'-l[List package contents]'
-	'-m[List installed packages not found in sync db(s)]'
-	'-n[List installed packages found in sync db(s)]'
-	'-t[List packages not required by any package]'
-	'-u[List packages that can be upgraded]'
+	{-c,--changelog}'[List package changelog]'
+	{-d,--deps}'[List packages installed as dependencies]'
+	{-e,--explicit}'[List packages explicitly installed]'
+	{\*-i,\*--info}'[View package information]'
+	{\*-k,\*--check}'[Check package files]'
+	{-l,--list}'[List package contents]'
+	{-m,--foreign}'[List installed packages not found in sync db(s)]'
+	{-n,--native}'[List installed packages found in sync db(s)]'
+	{-t,--unrequired}'[List packages not required by any package]'
+	{-u,--upgrades}'[List packages that can be upgraded]'
 )
 
 # options for passing to _arguments: options for --remove command
 _pacman_opts_remove=(
-	'-c[Remove all dependent packages]'
-	'*-d[Skip dependency checks]'
-	'-n[Remove protected configuration files]'
-	'*-s[Remove dependencies not required by other packages]'
+	{-c,--cascade}'[Remove all dependent packages]'
+	{*-d,*--nodeps}'[Skip dependency checks]'
+	{-n,--nosave}'[Remove protected configuration files]'
+	{\*-s,\*--recursive}'[Remove dependencies not required by other packages]'
 	'--dbonly[Only remove database entry, do not remove files]'
 	'*:installed package:_pacman_completions_installed_packages'
 )
@@ -84,9 +84,9 @@ _pacman_opts_database=(
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_actions=(
 	'-S'
-	'*-c[Remove old packages from cache]:*:clean:->sync_clean'
-	'-g[View all members of a package group]:*:package groups:->sync_group'
-	'-s[Search package names and descriptions]:*:search text:->sync_search'
+	{\*-c,\*--clean}'[Remove old packages from cache]:\*:clean:->sync_clean'
+	{-g,--groups}'[View all members of a package group]:*:package groups:->sync_group'
+	{-s,--search}'[Search package names and descriptions]:*:search text:->sync_search'
 	'--dbonly[Only remove database entry, do not remove files]'
 	'--needed[Do not reinstall up to date packages]'
 	'--recursive[Reinstall all dependencies of target packages]'
@@ -94,17 +94,15 @@ _pacman_opts_sync_actions=(
 
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_modifiers=(
-	'*-d[Skip dependency checks]'
-	'*-i[View package information]'
-	'-l[List all packages in a repository]'
-	'-p[Print download URIs for each package to be installed]'
-	'*-u[Upgrade all out-of-date packages]'
-	'-w[Download packages only]'
-	'*-y[Download fresh package databases]'
-	'*--ignore[Ignore a package upgrade]:package:
-	_pacman_completions_all_packages'
-	'*--ignoregroup[Ignore a group upgrade]:package group:
-	_pacman_completions_all_groups'
+	{\*-d,\*--nodeps}'[Skip dependency checks]'
+	{\*-i,\*--info}'[View package information]'
+	{-l,--list}'[List all packages in a repository]'
+	{-p,--print}'[Print download URIs for each package to be installed]'
+	{\*-u,\*--sysupgrade}'[Upgrade all out-of-date packages]'
+	{-w,--downloadonly}'[Download packages only]'
+	{\*-y,\*--refresh}'[Download fresh package databases]'
+	'*--ignore[Ignore a package upgrade]:package: _pacman_completions_all_packages'
+	'*--ignoregroup[Ignore a group upgrade]:package group:_pacman_completions_all_groups'
 	'--asdeps[Install packages as non-explicitly installed]'
 	'--asexplicit[Install packages as explicitly installed]'
 	'--force[Overwrite conflicting files]'
@@ -353,7 +351,9 @@ _pacman_zsh_comp() {
 			_pacman_action_remove
 			;;
 		S*c*) # no completion
-			return 0
+			_arguments -s \
+				'-c' \
+				"$_pacman_opts_common[@]"
 			;;
 		S*l*) # repos
 			_arguments -s : \
