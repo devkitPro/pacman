@@ -379,17 +379,65 @@ download_file() {
 	ln -s "$SRCDEST/$filename" "$srcdir/"
 }
 
+extract_file() {
+	local file=$1
+	# fix flyspray #6246
+	local file_type=$(file -bizL "$file")
+	local ext=${file##*.}
+	local cmd=''
+	case "$file_type" in
+		*application/x-tar*|*application/zip*|*application/x-zip*|*application/x-cpio*)
+			cmd="bsdtar" ;;
+		*application/x-gzip*)
+			case "$ext" in
+				gz|z|Z) cmd="gzip" ;;
+				*) continue;;
+			esac ;;
+		*application/x-bzip*)
+			case "$ext" in
+				bz2|bz) cmd="bzip2" ;;
+				*) continue;;
+			esac ;;
+		*application/x-xz*)
+			case "$ext" in
+				xz) cmd="xz" ;;
+				*) continue;;
+			esac ;;
+		*)
+			# See if bsdtar can recognize the file
+			if bsdtar -tf "$file" -q '*' &>/dev/null; then
+				cmd="bsdtar"
+			else
+				continue
+			fi ;;
+	esac
+
+	local ret=0
+	msg2 "$(gettext "Extracting %s with %s")" "$file" "$cmd"
+	if [[ $cmd = "bsdtar" ]]; then
+		$cmd -xf "$file" || ret=$?
+	else
+		rm -f -- "${file%.*}"
+		$cmd -dcf "$file" > "${file%.*}" || ret=$?
+	fi
+	if (( ret )); then
+		error "$(gettext "Failed to extract %s")" "$file"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	if (( EUID == 0 )); then
+		# change perms of all source files to root user & root group
+		chown -R 0:0 "$srcdir"
+	fi
+}
+
 download_bzr() {
 	local netfile=$1
 
 	local url=$(get_url "$netfile")
 	url=${url##*bzr+}
 	url=${url%%#*}
-
-	local fragment=${netfile#*#}
-	if [[ $fragment = "$netfile" ]]; then
-		unset fragment
-	fi
 
 	local displaylocation="$url"
 	local revision=('-r-1')
@@ -431,6 +479,18 @@ download_bzr() {
 			warning "$(gettext "Failure while pulling %s")" "${displaylocation}"
 		fi
 	fi
+}
+
+extract_bzr() {
+	local netfile=$1
+
+	local fragment=${netfile#*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${dir}" "bzr"
 	pushd "$srcdir" &>/dev/null
@@ -447,11 +507,6 @@ download_bzr() {
 
 download_git() {
 	local netfile=$1
-
-	local fragment=${netfile#*#}
-	if [[ $fragment = "$netfile" ]]; then
-		unset fragment
-	fi
 
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
@@ -485,6 +540,22 @@ download_git() {
 			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "git"
 		fi
 	fi
+}
+
+extract_git() {
+	local netfile=$1
+
+	local fragment=${netfile#*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
+	repo=${repo%%.git*}
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "git"
 	pushd "$srcdir" &>/dev/null
@@ -528,11 +599,6 @@ download_git() {
 download_hg() {
 	local netfile=$1
 
-	local fragment=${netfile#*#}
-	if [[ $fragment = "$netfile" ]]; then
-		unset fragment
-	fi
-
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
@@ -558,6 +624,21 @@ download_hg() {
 			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "hg"
 		fi
 	fi
+}
+
+extract_hg() {
+	local netfile=$1
+
+	local fragment=${netfile#*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
 
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "hg"
 	pushd "$srcdir" &>/dev/null
@@ -620,6 +701,21 @@ download_svn() {
 			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "svn"
 		fi
 	fi
+}
+
+extract_svn() {
+	local netfile=$1
+
+	local fragment=${netfile#*#}
+	if [[ $fragment = "$netfile" ]]; then
+		unset fragment
+	fi
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
 
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "svn"
 	pushd "$srcdir" &>/dev/null
@@ -681,12 +777,6 @@ download_sources() {
 				;;
 		esac
 	done
-
-	if (( PKGVERFUNC && GET_VCS )); then
-		update_pkgver
-		check_pkgver || exit 1
-		check_build_status
-	fi
 
 	popd &>/dev/null
 }
@@ -1232,57 +1322,30 @@ extract_sources() {
 			#  these are marked explicitly to NOT be extracted
 			continue
 		fi
-
-
-		# fix flyspray #6246
-		local file_type=$(file -bizL "$file")
-		local ext=${file##*.}
-		local cmd=''
-		case "$file_type" in
-			*application/x-tar*|*application/zip*|*application/x-zip*|*application/x-cpio*)
-				cmd="bsdtar" ;;
-			*application/x-gzip*)
-				case "$ext" in
-					gz|z|Z) cmd="gzip" ;;
-					*) continue;;
-				esac ;;
-			*application/x-bzip*)
-				case "$ext" in
-					bz2|bz) cmd="bzip2" ;;
-					*) continue;;
-				esac ;;
-			*application/x-xz*)
-				case "$ext" in
-					xz) cmd="xz" ;;
-					*) continue;;
-				esac ;;
+		local proto=$(get_protocol "$netfile")
+		case "$proto" in
+			bzr*)
+				extract_bzr "$netfile"
+				;;
+			git*)
+				extract_git "$netfile"
+				;;
+			hg*)
+				extract_hg "$netfile"
+				;;
+			svn*)
+				extract_svn "$netfile"
+				;;
 			*)
-				# See if bsdtar can recognize the file
-				if bsdtar -tf "$file" -q '*' &>/dev/null; then
-					cmd="bsdtar"
-				else
-					continue
-				fi ;;
+				extract_file "$file"
+				;;
 		esac
-
-		local ret=0
-		msg2 "$(gettext "Extracting %s with %s")" "$file" "$cmd"
-		if [[ $cmd = "bsdtar" ]]; then
-			$cmd -xf "$file" || ret=$?
-		else
-			rm -f -- "${file%.*}"
-			$cmd -dcf "$file" > "${file%.*}" || ret=$?
-		fi
-		if (( ret )); then
-			error "$(gettext "Failed to extract %s")" "$file"
-			plain "$(gettext "Aborting...")"
-			exit 1
-		fi
 	done
 
-	if (( EUID == 0 )); then
-		# change perms of all source files to root user & root group
-		chown -R 0:0 "$srcdir"
+	if (( PKGVERFUNC )); then
+		update_pkgver
+		check_pkgver || exit 1
+		check_build_status
 	fi
 }
 
