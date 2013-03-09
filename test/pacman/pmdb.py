@@ -219,7 +219,7 @@ class pmdb(object):
         # files and install
         if self.is_local:
             data = []
-            make_section(data, "FILES", pkg.full_filelist())
+            make_section(data, "FILES", pkg.filelist())
             make_section(data, "BACKUP", pkg.local_backup_entries())
             entry["files"] = "\n".join(data)
 

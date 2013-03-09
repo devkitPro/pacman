@@ -147,8 +147,11 @@ class pmtest(object):
         vprint("    Creating package archives")
         for pkg in self.localpkgs:
             vprint("\t%s" % os.path.join(util.TMPDIR, pkg.filename()))
+            pkg.finalize()
             pkg.makepkg(tmpdir)
         for key, value in self.db.iteritems():
+            for pkg in value.pkgs:
+                pkg.finalize()
             if key == "local" and not self.createlocalpkgs:
                 continue
             for pkg in value.pkgs:

@@ -69,6 +69,7 @@ class pmpkg(object):
             "post_upgrade": "",
         }
         self.path = None
+        self.finalized = False
 
     def __str__(self):
         s = ["%s" % self.fullname()]
@@ -182,27 +183,38 @@ class pmpkg(object):
             if os.path.isfile(path):
                 os.utime(path, (355, 355))
 
-    def full_filelist(self):
-        """Generate a list of package files.
+    def filelist(self):
+        """Generate a list of package files."""
+        return sorted([self.parse_filename(f) for f in self.files])
 
-        Each path is decomposed to generate the list of all directories leading
-        to the file.
+    def finalize(self):
+        """Perform any necessary operations to ready the package for use."""
+        if self.finalized:
+            return
 
-        Example with 'usr/local/bin/dummy':
-        The resulting list will be:
-            usr/
-            usr/local/
-            usr/local/bin/
-            usr/local/bin/dummy
-        """
-        file_set = set()
-        for name in self.files:
-            name = self.parse_filename(name)
-            file_set.add(name)
-            while "/" in name:
-                name, tmp = name.rsplit("/", 1)
-                file_set.add(name + "/")
-        return sorted(file_set)
+        # add missing parent dirs to file list
+        # use bare file names so trailing ' -> ', '*', etc don't throw off the
+        # checks for existing files
+        file_names = self.filelist()
+        for name in list(file_names):
+            if os.path.isabs(name):
+                raise ValueError("Absolute path in filelist '%s'." % name)
+
+            name = os.path.dirname(name.rstrip("/"))
+            while name:
+                if name in file_names:
+                    # path exists as both a file and a directory
+                    raise ValueError("Duplicate path in filelist '%s'." % name)
+                elif name + "/" in file_names:
+                    # path was either manually included or already processed
+                    break
+                else:
+                    file_names.append(name + "/")
+                    self.files.append(name + "/")
+                name = os.path.dirname(name)
+        self.files.sort()
+
+        self.finalized = True
 
     def local_backup_entries(self):
         return ["%s\t%s" % (self.parse_filename(i), util.mkmd5sum(i)) for i in self.backup]
