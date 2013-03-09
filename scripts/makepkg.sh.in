@@ -439,6 +439,8 @@ download_bzr() {
 	url=${url##*bzr+}
 	url=${url%%#*}
 
+	local repo=$(get_filename "$netfile")
+
 	local displaylocation="$url"
 	local revision=('-r-1')
 
@@ -492,12 +494,12 @@ extract_bzr() {
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
-	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${dir}" "bzr"
+	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "bzr"
 	pushd "$srcdir" &>/dev/null
 	rm -rf "${dir##*/}"
 
 	if ! bzr checkout "$dir" --lightweight; then
-		error "$(gettext "Failure while creating working copy of %s %s repo")" "${dir}" "bzr"
+		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "bzr"
 		plain "$(gettext "Aborting...")"
 		exit 1
 	fi
@@ -511,9 +513,7 @@ download_git() {
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
-	local repo=${netfile##*/}
-	repo=${repo%%#*}
-	repo=${repo%%.git*}
+	local repo=$(get_filename "$netfile")
 
 	local url=$(get_url "$netfile")
 	url=${url##*git+}
@@ -602,8 +602,7 @@ download_hg() {
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
-	local repo=${netfile##*/}
-	repo=${repo%%#*}
+	local repo=$(get_filename "$netfile")
 
 	local url=$(get_url "$netfile")
 	url=${url##*hg+}
@@ -677,8 +676,7 @@ download_svn() {
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
-	local repo=${netfile##*/}
-	repo=${repo%%#*}
+	local repo=$(get_filename "$netfile")
 
 	local url=$(get_url "$netfile")
 	if [[ $url != svn+ssh* ]]; then
