@@ -709,6 +709,28 @@ alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
  */
 alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
 
+typedef enum _alpm_db_usage_ {
+	ALPM_DB_USAGE_SYNC = 1,
+	ALPM_DB_USAGE_SEARCH = (1 << 1),
+	ALPM_DB_USAGE_INSTALL = (1 << 2),
+	ALPM_DB_USAGE_UPGRADE = (1 << 3),
+	ALPM_DB_USAGE_ALL = (1 << 4) - 1,
+} alpm_db_usage_t;
+
+/** Sets the usage of a database.
+ * @param db pointer to the package database to set the status for
+ * @param usage a bitmask of alpm_db_usage_t values
+ * @return 0 on success, or -1 on error
+ */
+int alpm_db_set_usage(alpm_db_t *db, alpm_db_usage_t usage);
+
+/** Gets the usage of a database.
+ * @param db pointer to the package database to get the status of
+ * @param usage pointer to an alpm_db_usage_t to store db's status
+ * @return 0 on success, or -1 on error
+ */
+int alpm_db_get_usage(alpm_db_t *db, alpm_db_usage_t *usage);
+
 /** @} */
 
 /** @addtogroup alpm_api_packages Package Functions

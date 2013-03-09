@@ -654,7 +654,14 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 
 	/* 1. literals */
 	for(i = dbs; i; i = i->next) {
-		alpm_pkg_t *pkg = _alpm_db_get_pkgfromcache(i->data, dep->name);
+		alpm_pkg_t *pkg;
+		alpm_db_t *db = i->data;
+
+		if(!(db->usage & (ALPM_DB_USAGE_INSTALL|ALPM_DB_USAGE_UPGRADE))) {
+			continue;
+		}
+
+		pkg = _alpm_db_get_pkgfromcache(db, dep->name);
 		if(pkg && _alpm_depcmp_literal(pkg, dep)
 				&& !alpm_pkg_find(excluding, pkg->name)) {
 			if(_alpm_pkg_should_ignore(handle, pkg)) {
@@ -676,7 +683,11 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	}
 	/* 2. satisfiers (skip literals here) */
 	for(i = dbs; i; i = i->next) {
-		for(j = _alpm_db_get_pkgcache(i->data); j; j = j->next) {
+		alpm_db_t *db = i->data;
+		if(!(db->usage & (ALPM_DB_USAGE_INSTALL|ALPM_DB_USAGE_UPGRADE))) {
+			continue;
+		}
+		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
 			/* with hash != hash, we can even skip the strcmp() as we know they can't
 			 * possibly be the same string */

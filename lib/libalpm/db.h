@@ -73,6 +73,7 @@ struct __alpm_db_t {
 	/* flags determining validity, local, loaded caches, etc. */
 	enum _alpm_dbstatus_t status;
 	alpm_siglevel_t siglevel;
+	alpm_db_usage_t usage;
 };
 
 

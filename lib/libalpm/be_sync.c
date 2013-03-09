@@ -183,6 +183,10 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	ASSERT(db != handle->db_local, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	ASSERT(db->servers != NULL, RET_ERR(handle, ALPM_ERR_SERVER_NONE, -1));
 
+	if(!(db->usage & ALPM_DB_USAGE_SYNC)) {
+		return 0;
+	}
+
 	syncpath = get_sync_dir(handle);
 	if(!syncpath) {
 		return -1;

@@ -292,6 +292,23 @@ alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 	return _alpm_db_search(db, needles);
 }
 
+/** Sets the usage bitmask for a repo */
+int SYMEXPORT alpm_db_set_usage(alpm_db_t *db, alpm_db_usage_t usage)
+{
+	ASSERT(db != NULL, return -1);
+	db->usage = usage;
+	return 0;
+}
+
+/** Gets the usage bitmask for a repo */
+int SYMEXPORT alpm_db_get_usage(alpm_db_t *db, alpm_db_usage_t *usage)
+{
+	ASSERT(db != NULL, return -1);
+	ASSERT(usage != NULL, return -1);
+	*usage = db->usage;
+	return 0;
+}
+
 
 /** @} */
 
@@ -365,6 +382,11 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 {
 	const alpm_list_t *i, *j, *k;
 	alpm_list_t *ret = NULL;
+
+	if(!(db->usage & ALPM_DB_USAGE_SEARCH)) {
+		return NULL;
+	}
+
 	/* copy the pkgcache- we will free the list var after each needle */
 	alpm_list_t *list = alpm_list_copy(_alpm_db_get_pkgcache(db));
 

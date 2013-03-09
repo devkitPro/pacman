@@ -60,7 +60,12 @@ alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_syn
 	pkg->handle->pm_errno = 0;
 
 	for(i = dbs_sync; !spkg && i; i = i->next) {
-		spkg = _alpm_db_get_pkgfromcache(i->data, pkg->name);
+		alpm_db_t *db = i->data;
+		if(!(db->usage & ALPM_DB_USAGE_SEARCH)) {
+			continue;
+		}
+
+		spkg = _alpm_db_get_pkgfromcache(db, pkg->name);
 	}
 
 	if(spkg == NULL) {
@@ -212,8 +217,14 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 		/* Search for replacers then literal (if no replacer) in each sync database. */
 		for(j = handle->dbs_sync; j; j = j->next) {
 			alpm_db_t *sdb = j->data;
-			alpm_list_t *replacers = check_replacers(handle, lpkg, sdb);
+			alpm_list_t *replacers;
+
+			if(!(sdb->usage & ALPM_DB_USAGE_UPGRADE)) {
+				continue;
+			}
+
 			/* Check sdb */
+			replacers = check_replacers(handle, lpkg, sdb);
 			if(replacers) {
 				trans->add = alpm_list_join(trans->add, replacers);
 				/* jump to next local package */

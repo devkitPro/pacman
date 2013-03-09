@@ -1091,6 +1091,7 @@ alpm_db_t *_alpm_db_register_local(alpm_handle_t *handle)
 	}
 	db->ops = &local_db_ops;
 	db->handle = handle;
+	db->usage = ALPM_DB_USAGE_ALL;
 
 	if(local_db_validate(db)) {
 		/* pm_errno set in local_db_validate() */
