@@ -64,7 +64,7 @@ static int check_localdb_files(void)
 	dbpath = alpm_option_get_dbpath(handle);
 	snprintf(path, sizeof(path), "%slocal", dbpath);
 	if(!(dir = opendir(path))) {
-		fprintf(stderr, "error : %s : %s\n", path, strerror(errno));
+		fprintf(stderr, "error : '%s' : %s\n", path, strerror(errno));
 		return 1;
 	}
 
@@ -76,12 +76,12 @@ static int check_localdb_files(void)
 		/* check for known db files in local database */
 		snprintf(path, sizeof(path), "%slocal/%s/desc", dbpath, ent->d_name);
 		if(access(path, F_OK)) {
-			printf("%s: description file is missing\n", ent->d_name);
+			printf("'%s': description file is missing\n", ent->d_name);
 			ret++;
 		}
 		snprintf(path, sizeof(path), "%slocal/%s/files", dbpath, ent->d_name);
 		if(access(path, F_OK)) {
-			printf("%s: file list is missing\n", ent->d_name);
+			printf("'%s': file list is missing\n", ent->d_name);
 			ret++;
 		}
 	}
@@ -102,7 +102,7 @@ static int check_deps(alpm_list_t *pkglist)
 	for(i = data; i; i = alpm_list_next(i)) {
 		alpm_depmissing_t *miss = i->data;
 		char *depstring = alpm_dep_compute_string(miss->depend);
-		printf("missing %s dependency for %s\n", depstring, miss->target);
+		printf("missing '%s' dependency for '%s'\n", depstring, miss->target);
 		free(depstring);
 		ret++;
 	}
@@ -118,7 +118,7 @@ static int check_conflicts(alpm_list_t *pkglist)
 	data = alpm_checkconflicts(handle, pkglist);
 	for(i = data; i; i = i->next) {
 		alpm_conflict_t *conflict = i->data;
-		printf("%s conflicts with %s\n",
+		printf("'%s' conflicts with '%s'\n",
 				conflict->package1, conflict->package2);
 		ret++;
 	}
@@ -185,7 +185,7 @@ static int check_filelists(alpm_list_t *pkglist)
 	for(j = 0; j < offset; j++) {
 		struct fileitem *fileitem = all_files + j;
 		if(prev_fileitem && fileitem_cmp(prev_fileitem, fileitem) == 0) {
-			printf("file owned by %s and %s: %s\n",
+			printf("file owned by '%s' and '%s': '%s'\n",
 					alpm_pkg_get_name(prev_fileitem->pkg),
 					alpm_pkg_get_name(fileitem->pkg),
 					fileitem->file->name);
