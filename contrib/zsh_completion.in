@@ -592,6 +592,8 @@ _makepkg_longopts=(
 	'--noconfirm[do not ask for confirmation when resolving dependencies]'
 	'--asdeps[Install packages as non-explicitly installed]'
 	'--noprogressbar[Do not show a progress bar when downloading files]'
+	'--needed[Do not reinstall up-to-date packages]'
+	'--verifysource[Only download sources and verify checksums]'
 )
 _makepkg(){
 	case $words[CURRENT] in
