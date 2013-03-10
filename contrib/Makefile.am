@@ -37,7 +37,7 @@ EXTRA_DIST = \
 	pacscripts.sh.in \
 	pacsearch.in \
 	pacsysclean.sh.in \
-	rankmirrors.sh.in
+	rankmirrors.sh.in \
 	updpkgsums.sh.in \
 	vimprojects \
 	zsh_completion.in \
