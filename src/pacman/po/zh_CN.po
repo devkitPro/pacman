@@ -1,26 +1,25 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # leonfeng <rainofchaos@gmail.com>, 2011.
 #   <rainofchaos@gmail.com>, 2011.
-# 甘 露 <rhythm.gan@gmail.com>, 2011.
+# 甘 露 <rhythm.gan@gmail.com>, 2011-2012.
 # 甘露 <rhythm.gan@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2012-03-05 11:35-0600\n"
-"PO-Revision-Date: 2012-03-29 01:45+0000\n"
+"PO-Revision-Date: 2012-11-18 13:16+0000\n"
 "Last-Translator: 甘 露 <rhythm.gan@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.net/projects/p/"
-"archlinux-pacman/language/zh_CN/)\n"
-"Language: zh_CN\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/archlinux-pacman/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -88,8 +87,7 @@ msgstr "正在检查可用磁盘空间...\n"
 
 #, c-format
 msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-":: %s 位于 IgnorePkg/IgnoreGroup (忽略软件包／忽略软件包组) 中。确定要安装吗?"
+msgstr ":: %s 位于 IgnorePkg/IgnoreGroup (忽略软件包／忽略软件包组) 中。确定要安装吗?"
 
 #, c-format
 msgid ":: Replace %s with %s/%s?"
@@ -110,7 +108,7 @@ msgid ""
 msgid_plural ""
 ":: The following packages cannot be upgraded due to unresolvable "
 "dependencies:\n"
-msgstr[0] "因为无法解决以来关系，以下软件包无法进行更新：\n"
+msgstr[0] "因为无法解决依赖关系，以下软件包无法进行更新：\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -129,9 +127,7 @@ msgstr ":: %s-%s：本地版本较新。确定要更新吗？"
 msgid ""
 ":: File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ""
-":: 文件 %s 已损坏 (%s).\n"
-"打算删除吗？"
+msgstr ":: 文件 %s 已损坏 (%s).\n打算删除吗？"
 
 #, c-format
 msgid ":: Import PGP key %s, \"%s\", created %s?"
@@ -454,13 +450,12 @@ msgstr "操作:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr ""
-"\n"
-"使用 '%s {-h --help}' 及某个操作以查看可用选项\n"
+msgstr "\n使用 '%s {-h --help}' 及某个操作以查看可用选项\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on them\n"
+"  -c, --cascade        remove packages and all packages that depend on "
+"them\n"
 msgstr "  -c, --cascade        删除软件包及所有依赖于此的软件包\n"
 
 #, c-format
@@ -471,9 +466,7 @@ msgstr "  -n, --nosave         删除配置文件\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr ""
-"  -s, --recursive      删除不需要的依赖关系\n"
-"                       (-ss 包括单独指定安装的依赖关系)\n"
+msgstr "  -s, --recursive      删除不需要的依赖关系\n                       (-ss 包括单独指定安装的依赖关系)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -501,8 +494,7 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         查看某软件包组所属的所有软件包\n"
 
 #, c-format
-msgid ""
-"  -i, --info           view package information (-ii for backup files)\n"
+msgid "  -i, --info           view package information (-ii for backup files)\n"
 msgstr "  -i, --info           查看软件包信息 (-ii 查看备份文件) \n"
 
 #, c-format
@@ -519,8 +511,7 @@ msgstr "  -l, --list           列出被查询软件包的内容\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr ""
-"  -m, --foreign        列出没有在同步数据库时找到的已安装软件包 [过滤器]\n"
+msgstr "  -m, --foreign        列出没有在同步数据库时找到的已安装软件包 [过滤器]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -564,8 +555,7 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <软件库>    查看在该软件库中的软件包清单\n"
 
 #, c-format
-msgid ""
-"  -s, --search <regex> search remote repositories for matching strings\n"
+msgid "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件库\n"
 
 #, c-format
@@ -614,9 +604,7 @@ msgstr "      --ignore <软件包>   升级时忽略某个软件包 (可多次�
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr ""
-"      --ignoregroup <软件包组>\n"
-"                         升级时忽略某个软件包组 (可多次使用) \n"
+msgstr "      --ignoregroup <软件包组>\n                         升级时忽略某个软件包组 (可多次使用) \n"
 
 #, c-format
 msgid ""
@@ -625,8 +613,7 @@ msgid ""
 msgstr "-d, --nodeps         跳过依赖关系的版本检查 (-dd 跳过所有检查)\n"
 
 #, c-format
-msgid ""
-"      --dbonly         only modify database entries, not package files\n"
+msgid "      --dbonly         only modify database entries, not package files\n"
 msgstr "      --dbonly         仅修改数据库条目，而非软件包文件\n"
 
 #, c-format
@@ -649,9 +636,7 @@ msgstr "  -p, --print          打印目标而不是执行操作\n"
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr ""
-"      --print-format <字符串>\n"
-"                       指定如何打印目标\n"
+msgstr "      --print-format <字符串>\n                       指定如何打印目标\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -697,9 +682,7 @@ msgstr "      --noconfirm      不询问确认\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr ""
-"                       本程序可以在GNU一般公众许可条款下\n"
-"                       自由分发\n"
+msgstr "                       本程序可以在GNU一般公众许可条款下\n                       自由分发\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -967,9 +950,7 @@ msgstr ":: 下列软件包应当首先更新：\n"
 msgid ""
 ":: Do you want to cancel the current operation\n"
 ":: and upgrade these packages now?"
-msgstr ""
-":: 打算取消当前操作\n"
-":: 并马上安装这些软件包吗？ "
+msgstr ":: 打算取消当前操作\n:: 并马上安装这些软件包吗？ "
 
 #, c-format
 msgid "loading packages...\n"
@@ -987,9 +968,7 @@ msgstr "无法锁定数据库：%s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr ""
-"  如果你确认软件包管理器没有在运行，\n"
-"  你可以删除 %s。\n"
+msgstr "  如果你确认软件包管理器没有在运行，\n  你可以删除 %s。\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
