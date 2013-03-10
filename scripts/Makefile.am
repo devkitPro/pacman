@@ -29,7 +29,8 @@ LIBRARY = \
 	library/output_format.sh \
 	library/parseopts.sh \
 	library/human_to_size.sh \
-	library/size_to_human.sh
+	library/size_to_human.sh \
+	library/term_colors.sh
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS)
