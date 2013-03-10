@@ -197,30 +197,25 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	 * to get 'right'. Here are the possibilities, with the filesystem
 	 * on the left and the package on the top:
 	 * (F=file, N=node, S=symlink, D=dir)
-	 *               |  F/N  |  S  |  D
-	 *  non-existent |   1   |  2  |  3
-	 *  F/N          |   4   |  5  |  6
-	 *  S            |   7   |  8  |  9
-	 *  D            |   10  |  11 |  12
+	 *               |  F/N  |   D
+	 *  non-existent |   1   |   2
+	 *  F/N          |   3   |   4
+	 *  D            |   5   |   6
 	 *
-	 *  1,2,3- extract, no magic necessary. lstat (_alpm_lstat) will fail here.
-	 *  4,5,6,7,8- conflict checks should have caught this. either overwrite
+	 *  1,2- extract, no magic necessary. lstat (_alpm_lstat) will fail here.
+	 *  3,4- conflict checks should have caught this. either overwrite
 	 *      or backup the file.
-	 *  9- follow the symlink, hopefully it is a directory, check it.
-	 *  10- file replacing directory- don't allow it.
-	 *  11- don't extract symlink- a dir exists here. we don't want links to
-	 *      links, etc.
-	 *  12- skip extraction, dir already exists.
+	 *  5- file replacing directory- don't allow it.
+	 *  6- skip extraction, dir already exists.
 	 */
 
-	/* do both a lstat and a stat, so we can see what symlinks point to */
-	struct stat lsbuf, sbuf;
-	if(_alpm_lstat(filename, &lsbuf) != 0 || stat(filename, &sbuf) != 0) {
-		/* cases 1,2,3: couldn't stat an existing file, skip all backup checks */
+	struct stat lsbuf;
+	if(_alpm_lstat(filename, &lsbuf) != 0) {
+		/* cases 1,2: file doesn't exist, skip all backup checks */
 	} else {
 		if(S_ISDIR(lsbuf.st_mode)) {
 			if(S_ISDIR(entrymode)) {
-				/* case 12: existing dir, ignore it */
+				/* case 6: existing dir, ignore it */
 				if(lsbuf.st_mode != entrymode) {
 					/* if filesystem perms are different than pkg perms, warn user */
 					mode_t mask = 07777;
@@ -237,33 +232,18 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				archive_read_data_skip(archive);
 				return 0;
 			} else {
-				/* case 10/11: trying to overwrite dir with file/symlink, don't allow it */
+				/* case 5: trying to overwrite dir with file, don't allow it */
 				_alpm_log(handle, ALPM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
 						filename);
 				archive_read_data_skip(archive);
 				return 1;
 			}
-		} else if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(entrymode)) {
-			/* case 9: existing symlink, dir in package */
-			if(S_ISDIR(sbuf.st_mode)) {
-				/* the symlink on FS is to a directory, so we'll use it */
-				_alpm_log(handle, ALPM_LOG_DEBUG, "extract: skipping symlink overwrite of %s\n",
-						filename);
-				archive_read_data_skip(archive);
-				return 0;
-			} else {
-				/* this is BAD. symlink was not to a directory */
-				_alpm_log(handle, ALPM_LOG_ERROR, _("extract: symlink %s does not point to dir\n"),
-						filename);
-				archive_read_data_skip(archive);
-				return 1;
-			}
-		} else if(S_ISREG(lsbuf.st_mode) && S_ISDIR(entrymode)) {
-			/* case 6: trying to overwrite file with dir */
+		} else if(S_ISDIR(entrymode)) {
+			/* case 4: trying to overwrite file with dir */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "extract: overwriting file with dir %s\n",
 					filename);
-		} else if(S_ISREG(entrymode)) {
-			/* case 4,7: */
+		} else {
+			/* case 3: */
 			/* if file is in NoUpgrade, don't touch it */
 			if(alpm_list_find(handle->noupgrade, entryname, _alpm_fnmatch)) {
 				notouch = 1;
@@ -286,8 +266,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				}
 			}
 		}
-		/* else if(S_ISLNK(entrymode)) */
-		/* case 5,8: don't need to do anything special */
 	}
 
 	/* we need access to the original entryname later after calls to

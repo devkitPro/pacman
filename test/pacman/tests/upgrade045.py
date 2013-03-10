@@ -14,4 +14,5 @@ self.args = "-U %s" % p1.filename()
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=foo|1.0-2")
-self.addrule("FILE_EXIST=etc/foo.cfg")
+self.addrule("LINK_EXIST=etc/foo.cfg")
+self.addrule("FILE_EXIST=etc/foo.cfg.pacnew")
