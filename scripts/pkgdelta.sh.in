@@ -75,6 +75,7 @@ isnumeric() {
 }
 
 read_pkginfo() {
+	unset pkgver pkgname arch
 	while IFS='=' read -r field value; do
 		# skip comments and invalid lines
 		[[ $field = '#'* || -z $value ]] && continue
@@ -82,10 +83,10 @@ read_pkginfo() {
 		# skip lines which aren't fields we care about
 		[[ $field != @(pkgver|pkgname|arch) ]] || continue
 
-		declare "$field=$value"
+		declare -g "${field% }=${value# }"
 
 		[[ $pkgname && $pkgver && $arch ]] && return 0
-	done
+	done < <(bsdtar -xOqf "$1" .PKGINFO 2>/dev/null)
 
 	error "$(gettext "Invalid package file '%s'.")" "$1"
 	return 1
