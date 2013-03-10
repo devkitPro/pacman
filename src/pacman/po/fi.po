@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # apuasi <kaannokset.hellberg@gmail.com>, 2011.
 # Dan McGee <dpmcgee@gmail.com>, 2011.
@@ -12,15 +12,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-12-16 04:33+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/language/fi/)\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/fi/)\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -51,9 +52,25 @@ msgstr "poistetaan pakettia %s...\n"
 msgid "upgrading %s...\n"
 msgstr "päivitetään pakettia %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "ladataan pakettia %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "asennetaan pakettia %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "tarkastetaan pakettien virheettömyyttä...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "tarkastetaan pakettien virheettömyyttä...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "ladataan pakettia %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -79,17 +96,22 @@ msgstr "onnistui!\n"
 msgid "failed.\n"
 msgstr "epäonnistui.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Noudetaan paketteja varastosta %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "tarkastetaan saatavilla olevaa levytilaa...\n"
 
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: riippuu paketeista %s\n"
+
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr "Paketti %s on IgnorePkg/IgnoreGroup -listalla. Asenna siitä huolimatta?"
+msgstr ""
+"Paketti %s on IgnorePkg/IgnoreGroup -listalla. Asenna siitä huolimatta?"
 
 #, c-format
 msgid "Replace %s with %s/%s?"
@@ -97,21 +119,25 @@ msgstr "Korvaa paketti %s paketilla %s/%s?"
 
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
-msgstr "Paketit %s ja %s ovat ristiriidassa keskenään. Poistetaanko paketti %s?"
+msgstr ""
+"Paketit %s ja %s ovat ristiriidassa keskenään. Poistetaanko paketti %s?"
 
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
-msgstr "Paketit %s ja %s ovat ristiriidassa keskenään (%s). Poistetaanko paketti %s?"
+msgstr ""
+"Paketit %s ja %s ovat ristiriidassa keskenään (%s). Poistetaanko paketti %s?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Seuraavaa pakettia ei voida päivittää selvittämättömien riippuvuuksien vuoksi:\n"
-msgstr[1] "Seuraavia paketteja ei voida päivittää selvittämättömien riippuvuuksien vuoksi:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Seuraavaa pakettia ei voida päivittää selvittämättömien riippuvuuksien "
+"vuoksi:\n"
+msgstr[1] ""
+"Seuraavia paketteja ei voida päivittää selvittämättömien riippuvuuksien "
+"vuoksi:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -131,10 +157,12 @@ msgstr "Paikallinen paketti %s-%s on uudempi. Asenna siitä huolimatta?"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Tiedosto %s on vahingoittunut (%s).\nHaluatko poistaa sen?"
+msgstr ""
+"Tiedosto %s on vahingoittunut (%s).\n"
+"Haluatko poistaa sen?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "Tuodaanko PGP-avain %s, \"%s\", luotu %s?"
 
 #, c-format
@@ -144,6 +172,14 @@ msgstr "asennetaan"
 #, c-format
 msgid "upgrading"
 msgstr "päivitetään"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "päivitetään"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "asennetaan"
 
 #, c-format
 msgid "removing"
@@ -159,6 +195,10 @@ msgstr "tarkastetaan saatavilla olevaa levytilaa"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "tarkastetaan pakettien virheettömyyttä"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "tarkastetaan pakettien virheettömyyttä"
 
 #, c-format
@@ -199,16 +239,21 @@ msgstr "asetustiedosto %s, rivi %d: virheellinen '%s'-arvo : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "asetustiedosto %s, rivi %d: virheellinen valinta '%s', ei allekirjoitustukea\n"
+msgstr ""
+"asetustiedosto %s, rivi %d: virheellinen valinta '%s', ei "
+"allekirjoitustukea\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "asetustiedosto %s rivillä %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
+msgstr ""
+"asetustiedosto %s rivillä %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "peilipalvelimen '%s' asetuksissa on '%s'-muuttuja, mutta arvoa '%s' ei ole määritetty.\n"
+msgstr ""
+"peilipalvelimen '%s' asetuksissa on '%s'-muuttuja, mutta arvoa '%s' ei ole "
+"määritetty.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -246,8 +291,8 @@ msgstr "ei voitu lisätä peilipalvelinta \"%s\" tietokantaan \"%s\" (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "asetusten jäsentäminen ylitti rekursion enimmäissyvyyden (%d).\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "asetustiedostoa %s ei voitu lukea.\n"
 
 #, c-format
@@ -260,7 +305,9 @@ msgstr "asetustiedosto %s, rivi %d: syntaksivirhe, avain puuttuu.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "asetustiedosto %s, rivi %d: Kaikkien asetusvalintojen tulee kuulua johonkin osioon.\n"
+msgstr ""
+"asetustiedosto %s, rivi %d: Kaikkien asetusvalintojen tulee kuulua johonkin "
+"osioon.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
@@ -286,6 +333,14 @@ msgstr "%s: asennussyyksi on merkitty 'asennettu riippuvuutena'\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: asennussyyksi on merkitty 'itsenäisesti asennettu'\n"
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "asennettu"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Valinnaiset riippuvuudet:"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr "Asennettu itsenäisesti"
@@ -299,6 +354,22 @@ msgid "Unknown"
 msgstr "Vanha versio"
 
 #, c-format
+msgid "None"
+msgstr "Ei ole"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5-summa              :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256-summa     :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Allekirjoitusvirhe"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Pakettivarasto          :"
 
@@ -309,6 +380,14 @@ msgstr "Nimi                    :"
 #, c-format
 msgid "Version        :"
 msgstr "Versio                  :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Kuvaus                  :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Arkkitehtuuri           :"
 
 #, c-format
 msgid "URL            :"
@@ -331,12 +410,12 @@ msgid "Depends On     :"
 msgstr "Riippuu paketeista      :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Valinnaiset riippuvuudet:"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Riippuvuutena paketeille:"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Valinnaiset riippuvuudet:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -346,25 +425,21 @@ msgstr "Ristiriidassa paketeille:"
 msgid "Replaces       :"
 msgstr "Korvaa paketit          :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "Ladattava koko : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Ladattava koko"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Koko pakattuna : %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Koko asennettuna        : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Pakkaaja                :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Arkkitehtuuri           :"
 
 #, c-format
 msgid "Build Date     :"
@@ -402,13 +477,9 @@ msgstr "SHA256-summa     :"
 msgid "Signatures     :"
 msgstr "Allekirjoitukset :"
 
-#, c-format
-msgid "None"
-msgstr "Ei ole"
-
-#, c-format
-msgid "Description    :"
-msgstr "Kuvaus                  :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Riippuvuutena paketeille:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -425,6 +496,14 @@ msgstr "(Ei ole)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "paketille '%s' ei ole muutoslokia.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "paketille '%s' ei ole muutoslokia.\n"
+
+#, c-format
+msgid "installed"
+msgstr "asennettu"
 
 #, c-format
 msgid "options"
@@ -454,13 +533,16 @@ msgstr "operaatiot:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nsuorita '%s {-h --help}' operaation kanssa käytettävissä olevien valitsimien listaamiseksi.\n"
+msgstr ""
+"\n"
+"suorita '%s {-h --help}' operaation kanssa käytettävissä olevien valitsimien "
+"listaamiseksi.\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade          poista paketit ja kaikki niiden riippuvuudet\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade          poista paketit ja kaikki niiden riippuvuudet\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -470,7 +552,10 @@ msgstr "  -n, --nosave           poista myös asetustiedostot\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive        poista tarpeettomat riippuvuuden\n                         (-ss poista myös itsenäisesti asennetut riippuvuudet)\n"
+msgstr ""
+"  -s, --recursive        poista tarpeettomat riippuvuuden\n"
+"                         (-ss poista myös itsenäisesti asennetut "
+"riippuvuudet)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -478,7 +563,8 @@ msgstr "  -u, --unneeded         poista tarpeettomat paketit\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed           älä asenna ajan tasalla olevia pakatteja uudelleen\n"
+msgstr ""
+"      --needed           älä asenna ajan tasalla olevia pakatteja uudelleen\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -487,25 +573,31 @@ msgstr "  -c, --changelog        näytä paketin muutosloki\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps             listaa riippuvuuksina asennetut paketit [suodatin]\n"
+msgstr ""
+"  -d, --deps             listaa riippuvuuksina asennetut paketit [suodatin]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit         listaa itsenäisesti asennetut paketit [suodatin]\n"
+msgstr ""
+"  -e, --explicit         listaa itsenäisesti asennetut paketit [suodatin]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups           listaa ryhmän paketit\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info             näytä paketin tiedot (-ii listaa varmuuskopiot)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info             näytä paketin tiedot (-ii listaa varmuuskopiot)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check            varmistaa, että kaikki paketin tiedostot ovat levyllä\n"
+msgstr ""
+"  -k, --check            varmistaa, että kaikki paketin tiedostot ovat "
+"levyllä\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -515,11 +607,22 @@ msgstr "  -l, --list             listaa paketin tiedostot\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign          listaa paketit, jotka eivät ole millään pakettilistalla [suodatin]\n"
+msgstr ""
+"  -m, --foreign          listaa paketit, jotka eivät ole millään "
+"pakettilistalla [suodatin]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign          listaa paketit, jotka eivät ole millään "
+"pakettilistalla [suodatin]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "  -o, --owns <tiedosto>  etsi pakettia, joka omistaa kyseisen tiedoston\n"
+msgstr ""
+"  -o, --owns <tiedosto>  etsi pakettia, joka omistaa kyseisen tiedoston\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
@@ -538,17 +641,23 @@ msgstr "  -s, --search <regex>   etsi merkkijonoa asennetuista paketeista\n"
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired       listaa paketit, jotka eivät ole riippuvuuksia [suodatin]\n"
+msgstr ""
+"  -t, --unrequired       listaa paketit, jotka eivät ole riippuvuuksia "
+"[suodatin]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
-msgstr "  -u, --upgrades         listaa paketit, joille on saatavilla päivityksiä [suodatin]\n"
+msgstr ""
+"  -u, --upgrades         listaa paketit, joille on saatavilla päivityksiä "
+"[suodatin]\n"
 
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean            poista vanhat paketit varastosta (-cc poistaa kaikki)\n"
+msgstr ""
+"  -c, --clean            poista vanhat paketit varastosta (-cc poistaa "
+"kaikki)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -559,19 +668,23 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <varasto>   listaa varaston sisältämät paketit\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex>   etsi merkkijonoa pakettivarastoista\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade       päivitä asennetut paketit (-uu sallii pakettien varhentamisen)\n"
+msgstr ""
+"  -u, --sysupgrade       päivitä asennetut paketit (-uu sallii pakettien "
+"varhentamisen)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly     lataa paketit, mutta älä asenna/päivitä mitään\n"
+msgstr ""
+"  -w, --downloadonly     lataa paketit, mutta älä asenna/päivitä mitään\n"
 
 #, c-format
 msgid ""
@@ -580,15 +693,17 @@ msgstr "  -y, --refresh          lataa uusimmat pakettilistat palvelimelta\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps           merkitse paketit riippuvuuksina asennetuiksi\n"
+msgstr ""
+"      --asdeps           merkitse paketit riippuvuuksina asennetuiksi\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit       merkitse paketit itsenäisesti asennetuiksi\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force            pakota asennus, ylikirjoita tiedosto ristiriidat\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force            pakota asennus, ylikirjoita tiedosto ristiriidat\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -602,49 +717,66 @@ msgstr "      --asexplicit       asenna paketit itsenäisinä\n"
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <paketti> ohita paketin päivitys (voidaan käyttää useamman kerran)\n"
+msgstr ""
+"      --ignore <paketti> ohita paketin päivitys (voidaan käyttää useamman "
+"kerran)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <ryhmä>\n                         ohita ryhmän päivitys (voidaan käyttää useamman kerran)\n"
+msgstr ""
+"      --ignoregroup <ryhmä>\n"
+"                         ohita ryhmän päivitys (voidaan käyttää useamman "
+"kerran)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps           ohita versio riippuvuudet (-dd ohittaa kaikki riippuvuudet)\n"
+msgstr ""
+"  -d, --nodeps           ohita versio riippuvuudet (-dd ohittaa kaikki "
+"riippuvuudet)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly           tee muutokset vain tietokantamerkintöihin, ei paketteihin\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly           tee muutokset vain tietokantamerkintöihin, ei "
+"paketteihin\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar    älä näytä edistymispalkkia tiedostoja ladattaessa\n"
+msgstr ""
+"      --noprogressbar    älä näytä edistymispalkkia tiedostoja ladattaessa\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriplet       älä suorita asennusskriptiä, jos sellainen on olemassa\n"
+msgstr ""
+"      --noscriplet       älä suorita asennusskriptiä, jos sellainen on "
+"olemassa\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print            tulosta kohteet toiminnon suorittamisen sijasta\n"
+msgstr ""
+"  -p, --print            tulosta kohteet toiminnon suorittamisen sijasta\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <rimpsu>\n                         missä muodossa paketit tulisi listata\n"
+msgstr ""
+"      --print-format <rimpsu>\n"
+"                         missä muodossa paketit tulisi listata\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <polku>   määritä vaihtoehtoinen sijainti tietokannalle\n"
+msgstr ""
+"  -b, --dbpath <polku>   määritä vaihtoehtoinen sijainti tietokannalle\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -660,7 +792,12 @@ msgstr "      --arch <arch>      määritä vaihtoehtoinen arkkitehtuuri\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <kansio> määritä vaihtoehtoinen sijainti välimuistille\n"
+msgstr ""
+"      --cachedir <kansio> määritä vaihtoehtoinen sijainti välimuistille\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -686,7 +823,13 @@ msgstr "      --noconfirm        älä pyydä vahvistusta\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                     Tätä ohjelmaa saa jakaa vapaasti GNU\n                     General Public Licensen ehtojen mukaisesti.\n"
+msgstr ""
+"                     Tätä ohjelmaa saa jakaa vapaasti GNU\n"
+"                     General Public Licensen ehtojen mukaisesti.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "virheellinen luku: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -709,6 +852,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "stdin:in uudelleen avaaminen epäonnistui: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "tämän operaation suorittamiseen vaaditaan ylläpitäjän oikeudet.\n"
 
@@ -725,6 +872,10 @@ msgid "no file was specified for --owns\n"
 msgstr "valitsimelle --owns ei annettu tiedostoa\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "kohteen '%s' todellisen sijainnin selvittäminen epäonnistui: %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "polku on liian pitkä: %s%s\n"
 
@@ -737,32 +888,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "tiedoston '%s' luku epäonnistui: %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "kansion '%s' omistussuhteita ei voida määrittää\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "kohteen '%s' todellisen sijainnin selvittäminen epäonnistui: %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "Tiedosto %s ei ole minkään paketin omistuksessa\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "ryhmää '%s' ei löytynyt\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: yhteensä %jd tiedosto, "
-msgstr[1] "%s: yhteensä %jd tiedostoa, "
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd puuttuva tiedosto\n"
-msgstr[1] "%jd puuttuvaa tiedostoa\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -783,10 +914,6 @@ msgstr "kohdetta %s ei löydy\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "latauksen valmistelu epäonnistui (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "paketilla %s ei ole kelvollista arkkitehtuuria\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -833,10 +960,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "poistetaan käyttämättömiä tietokantoja...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Välimuistikansio: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Säilytettävät paketit:\n"
 
@@ -847,6 +970,10 @@ msgstr "  Kaikki asennetut paketit\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  Kaikki pakettilistan paketit\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Välimuistikansio: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -881,10 +1008,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "minkään pakettitietokannan päivittäminen ei onistunut\n"
 
 #, c-format
-msgid "installed"
-msgstr "asennettu"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "pakettivarastoa '%s' ei ole olemassa\n"
 
@@ -913,6 +1036,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Aloitetaan järjestelmäpäivitys...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "paketilla %s ei ole kelvollista arkkitehtuuria\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s ja %s ovat ristiriidassa keskenään\n"
 
@@ -927,6 +1054,10 @@ msgstr "Jatka lataamiseen?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Jatketaanko asentamista?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -949,16 +1080,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "Päivitetään pakettitietokantoja...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "Seuraavat paketit tulisi päivittää ennen muita:\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Haluatko peruuttaa nykyisen operaation\n:: ja päivittää nämä paketit nyt?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "ladataan paketteja...\n"
 
@@ -974,7 +1095,9 @@ msgstr "tietokantaa ei voitu lukita: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  jos olet varma, että pakettienhallinta ei ole\n  käynnissä, niin voit poistaa tiedoston %s\n"
+msgstr ""
+"  jos olet varma, että pakettienhallinta ei ole\n"
+"  käynnissä, niin voit poistaa tiedoston %s\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1064,25 +1187,29 @@ msgstr "Nettomuutos"
 msgid "Download Size"
 msgstr "Ladattava koko"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "kohteet (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "paketti(tit)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Yhteensä ladataan:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Ladattava koko"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Yhteensä asennetaan:   %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Yhteensä poistetaan:   %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Tilan muutos:  %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1151,3 +1278,35 @@ msgstr "virhe: "
 #, c-format
 msgid "warning: "
 msgstr "varoitus: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "Ladattava koko : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "kansion '%s' omistussuhteita ei voida määrittää\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: yhteensä %jd tiedosto, "
+#~ msgstr[1] "%s: yhteensä %jd tiedostoa, "
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd puuttuva tiedosto\n"
+#~ msgstr[1] "%jd puuttuvaa tiedostoa\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "Seuraavat paketit tulisi päivittää ennen muita:\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Haluatko peruuttaa nykyisen operaation\n"
+#~ ":: ja päivittää nämä paketit nyt?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "kohteet (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Yhteensä ladataan:     %.2f %s\n"

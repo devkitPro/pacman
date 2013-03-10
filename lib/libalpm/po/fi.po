@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # apuasi <kaannokset.hellberg@gmail.com>, 2011.
 # Dan McGee <dpmcgee@gmail.com>, 2011.
@@ -12,15 +12,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2011-10-07 18:48+0000\n"
 "Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/language/fi/)\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/fi/)\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -44,10 +45,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "tiedostoa %s ei voitu purkaa (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "kohdetta %s ei voitu nimetä uudelleen kohteeksi %s (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "kansion oikeuksissa eroavaisuuksia kohdassa %s\ntiedostojärjestelmä: %o   paketti: %o\n"
+msgstr ""
+"kansion oikeuksissa eroavaisuuksia kohdassa %s\n"
+"tiedostojärjestelmä: %o   paketti: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -58,16 +65,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "purku: symbolinen linkki %s ei osoita kansioon\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "kohdetta %s ei voitu nimetä uudelleen kohteeksi %s (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "kohde %s tallennettu kohteena %s\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "kohdetta %s ei voitu asentaa kohteena %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -105,6 +104,10 @@ msgstr "ei voitu päivittää tietokantamerkintää: %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "merkintää '%s' ei voitu lisätä välimuistiin\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "virhe luettaessa pakettia %s: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "poistetaan virheellinen tietokanta: %s\n"
@@ -134,6 +137,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "tietokanta %s on epäyhtenäinen: paketin %s versio ei täsmää\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "kansiota %s ei voitu luoda: %s\n"
 
@@ -156,6 +163,14 @@ msgstr "virhe luettaessa pakettia %s: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "paketin metadata puuttuu tiedostosta %s\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "joidenkin tiedostojen nouto varastosta %s epäonnistui\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -194,20 +209,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "pakettia '%s' ei voida selvittää, paketin '%s' riippuvuus\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "ei saatu tietoja tiedostojärjestelmästä\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "ei saatu tietoja tiedostojärjestelmästä %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "tiedostoa %s ei voitu avata: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "ei saatu tietoja tiedostojärjestelmästä\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "tiedoston %s tiedostojärjestelmän liitospistettä ei voitu selvittää\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Osio %s on liian täynnä: %jd lohkoa tarvitaan, %jd lohkoa vapaana\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "tiedostojärjestelmien liitospisteitä ei voitu selvittää\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "juuren %s liitospistettä ei voitu selvittää\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -216,10 +243,6 @@ msgstr "juuren %s liitospistettä ei voitu selvittää\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Osio %s on liitetty vain lukutilassa\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Osio %s on liian täynnä: %jd lohkoa tarvitaan, %jd lohkoa vapaana\n"
 
 #, c-format
 msgid "disk"
@@ -254,8 +277,8 @@ msgid "unexpected system error"
 msgstr "odottamaton järjestelmävirhe"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "riittämättömät oikeudet"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -473,6 +496,10 @@ msgstr "poistetaan %s kohteiden listasta\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "tiedostoa '%s' ei voitu poistaa: %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "kansiota %s ei voitu luoda: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "tiedostoa %s ei voida poistaa (%s)\n"
@@ -515,11 +542,17 @@ msgstr "ratkaisemattomia pakettiristiriitoja havaittu\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "poistetaan '%s' kohteiden listasta, koska se on ristiriidassa paketin '%s' kanssa\n"
+msgstr ""
+"poistetaan '%s' kohteiden listasta, koska se on ristiriidassa paketin '%s' "
+"kanssa\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "joidenkin tiedostojen nouto varastosta %s epäonnistui\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "joidenkin tiedostojen nouto epäonnistui"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "ei tarpeeksi vapaata levytilaa"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -544,6 +577,10 @@ msgstr "%s ei voitu poistaa\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "väliaikaiskansiota %s ei voitu poistaa\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "tiedostoa %s ei voitu avata: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -579,4 +616,12 @@ msgstr "välimuistia %s ei ole olemassa, luodaan...\n"
 
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "pakettivälimuistia ei ollut olemassa eikä sitä voitu luoda. Käytetään %s sen sijaan\n"
+msgstr ""
+"pakettivälimuistia ei ollut olemassa eikä sitä voitu luoda. Käytetään %s sen "
+"sijaan\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "kohdetta %s ei voitu asentaa kohteena %s (%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "riittämättömät oikeudet"

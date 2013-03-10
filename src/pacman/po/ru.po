@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 #   <alexander.r@gmx.com>, 2012.
 # Ivan Yurasov <vdk@gmx.us>, 2011.
@@ -11,16 +11,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-04-05 13:53+0000\n"
 "Last-Translator: AlexanderR <alexander.r@gmx.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/archlinux-pacman/language/ru/)\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/ru/)\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -50,9 +52,25 @@ msgstr "удаление %s...\n"
 msgid "upgrading %s...\n"
 msgstr "обновление %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "загрузка %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "установка %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "проверка целостности пакета...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "проверка целостности пакета...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "загрузка %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -78,13 +96,17 @@ msgstr "завершено успешно!\n"
 msgid "failed.\n"
 msgstr "не удалось.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Получение пакетов с %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "проверяется доступное место...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: требует %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -104,14 +126,15 @@ msgstr "%s и %s конфликтуют (%s). Удалить %s?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Этот пакет не может быть обновлен из-за неразрешимых зависимостей:\n"
-msgstr[1] "Эти пакеты не могут быть обновлены из-за неразрешимых зависимостей:\n"
-msgstr[2] "Эти пакеты не могут быть обновлены из-за неразрешимых зависимостей:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Этот пакет не может быть обновлен из-за неразрешимых зависимостей:\n"
+msgstr[1] ""
+"Эти пакеты не могут быть обновлены из-за неразрешимых зависимостей:\n"
+msgstr[2] ""
+"Эти пакеты не могут быть обновлены из-за неразрешимых зависимостей:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -132,10 +155,12 @@ msgstr "%s-%s: установленная версия новее. Всё рав
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Файл %s поврежден (%s).\nХотите его удалить?"
+msgstr ""
+"Файл %s поврежден (%s).\n"
+"Хотите его удалить?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "Import PGP key %s, \"%s\", created %s?"
 
 #, c-format
@@ -145,6 +170,14 @@ msgstr "установка"
 #, c-format
 msgid "upgrading"
 msgstr "обновление"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "обновление"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "установка"
 
 #, c-format
 msgid "removing"
@@ -160,6 +193,10 @@ msgstr "проверяется доступное место"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "проверяется целостность пакета"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "проверяется целостность пакета"
 
 #, c-format
@@ -200,7 +237,9 @@ msgstr "файл %s, строка %d: недопустимое значение 
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "файл %s, строка %d: '%s' недопустимый параметр, поддержка подписей недоступна\n"
+msgstr ""
+"файл %s, строка %d: '%s' недопустимый параметр, поддержка подписей "
+"недоступна\n"
 
 #, c-format
 msgid ""
@@ -245,10 +284,11 @@ msgstr "не удалось добавить зеркало '%s' в базу д�
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "достинут максимум вложенности при разборе конфигурационного файла %d.\n"
+msgstr ""
+"достинут максимум вложенности при разборе конфигурационного файла %d.\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "не удалось прочитать конфигурационный файл %s.\n"
 
 #, c-format
@@ -257,11 +297,14 @@ msgstr "конфигурационный файл %s, строка %d: неве�
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "конфигурационный файл %s, строка %d: синтаксическая ошибка - пропущен ключ.\n"
+msgstr ""
+"конфигурационный файл %s, строка %d: синтаксическая ошибка - пропущен ключ.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "конфигурационный файл %s, строка %d: все директивы должны находиться в секциях.\n"
+msgstr ""
+"конфигурационный файл %s, строка %d: все директивы должны находиться в "
+"секциях.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
@@ -287,6 +330,14 @@ msgstr "%s: причина установки изменена на 'устан�
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: причина установки изменена на 'установлен явно'\n"
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "установлен"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Дополнительно         :"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr "Явно установлен"
@@ -300,6 +351,22 @@ msgid "Unknown"
 msgstr "Неизвестно"
 
 #, c-format
+msgid "None"
+msgstr "Нет"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5                   :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256                :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Ошибка подписи"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Репозиторий           :"
 
@@ -310,6 +377,14 @@ msgstr "Название              :"
 #, c-format
 msgid "Version        :"
 msgstr "Версия                :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Описание              :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Архитектура           :"
 
 #, c-format
 msgid "URL            :"
@@ -332,12 +407,12 @@ msgid "Depends On     :"
 msgstr "Зависит от            :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Дополнительно         :"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Требуется пакетами    :"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Дополнительно         :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -347,25 +422,21 @@ msgstr "Конфликтует с         :"
 msgid "Replaces       :"
 msgstr "Заменяет              :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "Размер загрузки       : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Необходимо загрузить"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Сжатый размер         : %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Установленный размер  : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Сборщик               :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Архитектура           :"
 
 #, c-format
 msgid "Build Date     :"
@@ -403,13 +474,9 @@ msgstr "SHA256                :"
 msgid "Signatures     :"
 msgstr "Подписи               :"
 
-#, c-format
-msgid "None"
-msgstr "Нет"
-
-#, c-format
-msgid "Description    :"
-msgstr "Описание              :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Требуется пакетами    :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -426,6 +493,14 @@ msgstr "(пусто)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "для '%s' нет списка изменений.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "для '%s' нет списка изменений.\n"
+
+#, c-format
+msgid "installed"
+msgstr "установлен"
 
 #, c-format
 msgid "options"
@@ -455,12 +530,14 @@ msgstr "действия:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nиспользуйте '%s { -h --help}' вместе с другими операциями для просмотра параметров\n"
+msgstr ""
+"\n"
+"используйте '%s { -h --help}' вместе с другими операциями для просмотра "
+"параметров\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr "  -c, --cascade        удалить пакет и все зависящие от него пакеты\n"
 
 #, c-format
@@ -471,7 +548,9 @@ msgstr "  -n, --nosave         удалить конфигурационный �
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      удалять ненужные зависимости\n                       (-ss включая явно установленные)\n"
+msgstr ""
+"  -s, --recursive      удалять ненужные зависимости\n"
+"                       (-ss включая явно установленные)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -488,25 +567,33 @@ msgstr "  -c, --changelog      показать список изменений 
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           показать все пакеты, установленные как зависимости [фильтр]\n"
+msgstr ""
+"  -d, --deps           показать все пакеты, установленные как зависимости "
+"[фильтр]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       показать все явно установленные пакеты [фильтр]\n"
+msgstr ""
+"  -e, --explicit       показать все явно установленные пакеты [фильтр]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         показать все пакеты данной группы\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           показать информацию о пакете (-ii для резервных копий)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           показать информацию о пакете (-ii для резервных "
+"копий)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check          проверить, все ли файлы, принадлежащие пакету, существуют\n"
+msgstr ""
+"  -k, --check          проверить, все ли файлы, принадлежащие пакету, "
+"существуют\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -516,7 +603,17 @@ msgstr "  -l, --list           показать содержимое запра�
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        показать установленные пакеты, не найденные в базе(ах) данных [фильтр]\n"
+msgstr ""
+"  -m, --foreign        показать установленные пакеты, не найденные в "
+"базе(ах) данных [фильтр]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        показать установленные пакеты, не найденные в "
+"базе(ах) данных [фильтр]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -524,22 +621,29 @@ msgstr "  -o, --owns <файл>    найти пакет, содержащий <
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
-msgstr "  -p, --file <пакет>   извлечь информацию из файла пакета, а не из базы данных\n"
+msgstr ""
+"  -p, --file <пакет>   извлечь информацию из файла пакета, а не из базы "
+"данных\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          показывать меньше информации при запросах и поиске\n"
+msgstr ""
+"  -q, --quiet          показывать меньше информации при запросах и поиске\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> искать указанную строку в локально установленных пакетах\n"
+msgstr ""
+"  -s, --search <regex> искать указанную строку в локально установленных "
+"пакетах\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     показать все пакеты, не используемые ни одним пакетом [фильтр]\n"
+msgstr ""
+"  -t, --unrequired     показать все пакеты, не используемые ни одним пакетом "
+"[фильтр]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -560,24 +664,29 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <repo>    показать все пакеты из этого репозитория\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex> искать указанную строку в удаленных репозиториях\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr ""
+"  -s, --search <regex> искать указанную строку в удаленных репозиториях\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     обновить установленные пакеты(-uu включает откат)\n"
+msgstr ""
+"  -u, --sysupgrade     обновить установленные пакеты(-uu включает откат)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   загрузить пакеты с сервера, но не устанавливать\n"
+msgstr ""
+"  -w, --downloadonly   загрузить пакеты с сервера, но не устанавливать\n"
 
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        загрузить свежие базы данных пакетов с сервера\n"
+msgstr ""
+"  -y, --refresh        загрузить свежие базы данных пакетов с сервера\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
@@ -587,9 +696,11 @@ msgstr "      --asdeps         отметить пакеты как неявно
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     отметить пакеты как явно установленные\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          принудительная установка, перезаписывать конфликтующие файлы\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          принудительная установка, перезаписывать "
+"конфликтующие файлы\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -603,49 +714,65 @@ msgstr "      --asexplicit     установить пакеты как явно
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <пакет> пропустить пакет при обновлении (может быть использовано неоднократно)\n"
+msgstr ""
+"      --ignore <пакет> пропустить пакет при обновлении (может быть "
+"использовано неоднократно)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <группа>\n                       пропустить группу при обновлении (может быть использовано неоднократно)\n"
+msgstr ""
+"      --ignoregroup <группа>\n"
+"                       пропустить группу при обновлении (может быть "
+"использовано неоднократно)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         пропостить проверку версий (-dd пропускает все проверки)\n"
+msgstr ""
+"  -d, --nodeps         пропостить проверку версий (-dd пропускает все "
+"проверки)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         изменить только записи в базе данных, не файлы пакетов\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         изменить только записи в базе данных, не файлы "
+"пакетов\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  не показывать индикатор выполнения при загрузке\n"
+msgstr ""
+"      --noprogressbar  не показывать индикатор выполнения при загрузке\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    не запускать установочные скрипты, если они есть\n"
+msgstr ""
+"      --noscriptlet    не запускать установочные скрипты, если они есть\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          вывести список целей вместо выполнения операций\n"
+msgstr ""
+"  -p, --print          вывести список целей вместо выполнения операций\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <строка>\n                       укажите формат вывода целей\n"
+msgstr ""
+"      --print-format <строка>\n"
+"                       укажите формат вывода целей\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <путь>  указать альтернативное расположение базы данных\n"
+msgstr ""
+"  -b, --dbpath <путь>  указать альтернативное расположение базы данных\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
@@ -664,8 +791,13 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <каталог> указать альтернативное расположение кэша\n"
 
 #, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
+
+#, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <путь>  использовать альтернативный конфигурационный файл\n"
+msgstr ""
+"      --config <путь>  использовать альтернативный конфигурационный файл\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
@@ -673,7 +805,8 @@ msgstr "      --debug          показывать отладочные соо�
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --gpgdir <path>  установить альтернативный домашний каталог для GnuPG\n"
+msgstr ""
+"      --gpgdir <path>  установить альтернативный домашний каталог для GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -687,7 +820,13 @@ msgstr "      --noconfirm      не спрашивать подтвержден�
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Эта программа может свободно распространяться\n                       на условиях GNU General Public License\n"
+msgstr ""
+"                       Эта программа может свободно распространяться\n"
+"                       на условиях GNU General Public License\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "неверный номер: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -710,8 +849,13 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "не удалось открыть заново stdin для чтения: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr "Вы не можете выполнить эту операцию, не являясь суперпользователем (root).\n"
+msgstr ""
+"Вы не можете выполнить эту операцию, не являясь суперпользователем (root).\n"
 
 #, c-format
 msgid "no operation specified (use -h for help)\n"
@@ -726,6 +870,10 @@ msgid "no file was specified for --owns\n"
 msgstr "не был указан файл для --owns\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "не удалось определить настоящий путь для '%s': %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "путь слишком длинный: %s%s\n"
 
@@ -738,34 +886,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "не удалось прочитать файл '%s': %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "не удалось установить владельца каталога '%s'\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "не удалось определить настоящий путь для '%s': %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "Ни один пакет не содержит %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "группа '%s' не найдена\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: всего %jd файл, "
-msgstr[1] "%s: всего %jd файла, "
-msgstr[2] "%s: всего %jd файлов, "
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd файла не хватает\n"
-msgstr[1] "%jd файлов не хватает\n"
-msgstr[2] "%jd файлов не хватает\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -786,10 +912,6 @@ msgstr "цель не найдена: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "не удалось подготовить запрос (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "пакет %s не имеет допустимой архитектуры\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -836,10 +958,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "удаление неиспользуемых репозиториев...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Каталог для кэша: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Пакеты, которые сохраняются:\n"
 
@@ -850,6 +968,10 @@ msgstr "  Все локально установленные пакеты\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  Все не устаревшие пакеты\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Каталог для кэша: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -884,10 +1006,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "не удалось синхронизировать ни одну базу данных\n"
 
 #, c-format
-msgid "installed"
-msgstr "установлен"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "репозиторий '%s' не существует\n"
 
@@ -901,7 +1019,9 @@ msgstr "пропуск цели: %s\n"
 
 #, c-format
 msgid "There are %d members in group %s:\n"
-msgstr "%d объектов в группе %s:\n\n"
+msgstr ""
+"%d объектов в группе %s:\n"
+"\n"
 
 #, c-format
 msgid "database not found: %s\n"
@@ -914,6 +1034,10 @@ msgstr "'%s' это файл, вы имели ввиду %s вместо %s?\n"
 #, c-format
 msgid "Starting full system upgrade...\n"
 msgstr "Запускается полное обновление системы...\n"
+
+#, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "пакет %s не имеет допустимой архитектуры\n"
 
 #, c-format
 msgid "%s and %s are in conflict\n"
@@ -930,6 +1054,10 @@ msgstr "Приступить к загрузке?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Приступить к установке?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -952,16 +1080,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "Синхронизируются базы данных пакетов...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "Эти пакеты будут обновлены в первую очередь :\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Хотите прервать текущую операцию\n:: и обновить эти пакеты сейчас?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "загрузка пакетов...\n"
 
@@ -977,7 +1095,9 @@ msgstr "не удалось заблокировать базу: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  если вы уверены, что pacman не запущен, можете\n  удалить %s\n"
+msgstr ""
+"  если вы уверены, что pacman не запущен, можете\n"
+"  удалить %s\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1067,25 +1187,29 @@ msgstr "Изменение размера"
 msgid "Download Size"
 msgstr "Необходимо загрузить"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "Цели (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "пакет(ы)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Будет загружено:    %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Необходимо загрузить"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Будет установлено:  %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Будет освобождено:  %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Изменение размера:  %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1154,3 +1278,37 @@ msgstr "ошибка: "
 #, c-format
 msgid "warning: "
 msgstr "предупреждение: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "Размер загрузки       : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "не удалось установить владельца каталога '%s'\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: всего %jd файл, "
+#~ msgstr[1] "%s: всего %jd файла, "
+#~ msgstr[2] "%s: всего %jd файлов, "
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd файла не хватает\n"
+#~ msgstr[1] "%jd файлов не хватает\n"
+#~ msgstr[2] "%jd файлов не хватает\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "Эти пакеты будут обновлены в первую очередь :\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Хотите прервать текущую операцию\n"
+#~ ":: и обновить эти пакеты сейчас?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "Цели (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Будет загружено:    %.2f %s\n"

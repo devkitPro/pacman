@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # Marek Otahal <markotahalREMOVETHIS@gmail.com>, 2011.
@@ -10,15 +10,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-05-20 11:26-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2013-02-11 15:34+0000\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/archlinux-pacman/language/cs/)\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/cs/)\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 msgid "WARNING:"
@@ -33,17 +34,96 @@ msgstr "Probíhá čištění..."
 msgid "Entering %s environment..."
 msgstr "Vstupuje se do %s prostředí..."
 
-msgid "Unable to find source file %s."
-msgstr "Nepodařilo se nalézt zdrojový soubor %s."
+msgid "Unknown download protocol: %s"
+msgstr ""
 
 msgid "Aborting..."
 msgstr "Rušení..."
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Použitý agent neumí zacházet s %s URL. Zkontrolujte %s."
-
 msgid "The download program %s is not installed."
 msgstr "Program pro stahování %s není nainstalován."
+
+msgid "Found %s"
+msgstr "Nalezen %s"
+
+msgid "%s was not found in the build directory and is not a URL."
+msgstr ""
+"Soubor %s nebyl nalezen v adresáři, kde se provádí sestavení, a není ani URL."
+
+msgid "Downloading %s..."
+msgstr "Stahuje se %s..."
+
+msgid "Failure while downloading %s"
+msgstr "Selhalo stažení %s"
+
+msgid "Extracting %s with %s"
+msgstr "Rozbaluje se %s pomocí %s"
+
+msgid "Failed to extract %s"
+msgstr "Selhalo rozbalení %s"
+
+#, fuzzy
+msgid "Unrecognized reference: %s"
+msgstr "Balíček obsahuje odkaz na %s"
+
+#, fuzzy
+msgid "Branching %s ..."
+msgstr "Vytváření %s souboru..."
+
+#, fuzzy
+msgid "Failure while branching %s"
+msgstr "Selhalo stažení %s"
+
+#, fuzzy
+msgid "%s is not a branch of %s"
+msgstr "'%s' není soubor balíčku, přeskočit"
+
+#, fuzzy
+msgid "Pulling %s ..."
+msgstr "Přidává se %s..."
+
+#, fuzzy
+msgid "Failure while pulling %s"
+msgstr "Selhalo stažení %s"
+
+msgid "Creating working copy of %s %s repo..."
+msgstr ""
+
+msgid "Failure while creating working copy of %s %s repo"
+msgstr ""
+
+#, fuzzy
+msgid "Cloning %s %s repo..."
+msgstr "Probíhá čištění..."
+
+#, fuzzy
+msgid "Failure while downloading %s %s repo"
+msgstr "Selhalo stažení %s"
+
+#, fuzzy
+msgid "%s is not a clone of %s"
+msgstr "%s nemůže být prázdné."
+
+#, fuzzy
+msgid "Updating %s %s repo..."
+msgstr "Aktualizuje se databáze důvěry..."
+
+#, fuzzy
+msgid "Failure while updating %s %s repo"
+msgstr "Selhalo stažení %s"
+
+#, fuzzy
+msgid "Retrieving sources..."
+msgstr "Získávají se zdrojové soubory..."
+
+msgid "Updated version: %s"
+msgstr ""
+
+msgid "%s is not writeable -- pkgver will not be updated"
+msgstr ""
+
+msgid "Unable to find source file %s."
+msgstr "Nepodařilo se nalézt zdrojový soubor %s."
 
 msgid "'%s' returned a fatal error (%i): %s"
 msgstr "%s vrátil fatální chybu (%i): %s"
@@ -54,32 +134,17 @@ msgstr "Instalují se chybějící závislosti..."
 msgid "'%s' failed to install missing dependencies."
 msgstr "%s selhal při instalaci chybějících závislostí."
 
-msgid "Missing Dependencies:"
+#, fuzzy
+msgid "Missing dependencies:"
 msgstr "Chybějící závislosti:"
 
 msgid "Failed to remove installed dependencies."
 msgstr "Selhalo odstranění nainstalovaných závislostí."
 
-msgid "Retrieving Sources..."
-msgstr "Získávají se zdrojové soubory..."
-
-msgid "Found %s"
-msgstr "Nalezen %s"
-
-msgid "%s was not found in the build directory and is not a URL."
-msgstr "Soubor %s nebyl nalezen v adresáři, kde se provádí sestavení, a není ani URL."
-
-msgid "Downloading %s..."
-msgstr "Stahuje se %s..."
-
-msgid "Failure while downloading %s"
-msgstr "Selhalo stažení %s"
-
 msgid "Generating checksums for source files..."
 msgstr "Počítají se kontrolní součty zdrojových souborů..."
 
-msgid ""
-"Cannot find the %s binary required for generating sourcefile checksums."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr "Nelze nalézt soubor %s potřebný pro vytvoření kontrolních součtů."
 
 msgid "Invalid integrity algorithm '%s' specified."
@@ -87,6 +152,9 @@ msgstr "Zadán chybný algoritmus '%s' pro kontrolu integrity."
 
 msgid "Validating source files with %s..."
 msgstr "Kontrola zdrojových souborů pomocí %s..."
+
+msgid "Skipped"
+msgstr ""
 
 msgid "NOT FOUND"
 msgstr "NENALEZEN"
@@ -145,17 +213,20 @@ msgstr "Vynechává se ověřování kontrolních součtů."
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Vynechává se ověřování PGP podpisů zdrojových souborů."
 
-msgid "Extracting Sources..."
+#, fuzzy
+msgid "Extracting sources..."
 msgstr "Rozbalují se zdrojové soubory..."
-
-msgid "Extracting %s with %s"
-msgstr "Rozbaluje se %s pomocí %s"
-
-msgid "Failed to extract %s"
-msgstr "Selhalo rozbalení %s"
 
 msgid "A failure occurred in %s()."
 msgstr "Došlo k chybě v %s()."
+
+#, fuzzy
+msgid "Failed to change to directory %s"
+msgstr "Selhalo rozbalení %s"
+
+#, fuzzy
+msgid "Failed to source %s"
+msgstr "Selhalo rozbalení %s"
 
 msgid "Starting %s()..."
 msgstr "Spouští se %s()..."
@@ -169,17 +240,24 @@ msgstr "Odstraňují se doc soubory..."
 msgid "Purging unwanted files..."
 msgstr "Promazávají se zbytečné soubory..."
 
-msgid "Compressing man and info pages..."
-msgstr "Komprimují se man a info stránky..."
-
-msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Odstraňují se nepotřebné ladící informace z binárních souborů a knihoven..."
-
 msgid "Removing %s files..."
 msgstr "Odstraňují se %s soubory..."
 
 msgid "Removing empty directories..."
 msgstr "Odstraňují se prázdné adresáře..."
+
+msgid "%s entry file not in package : %s"
+msgstr "%s soubor není v balíčku: %s"
+
+msgid "Package contains reference to %s"
+msgstr "Balíček obsahuje odkaz na %s"
+
+msgid "Compressing man and info pages..."
+msgstr "Komprimují se man a info stránky..."
+
+msgid "Stripping unneeded symbols from binaries and libraries..."
+msgstr ""
+"Odstraňují se nepotřebné ladící informace z binárních souborů a knihoven..."
 
 msgid "Compressing binaries with %s..."
 msgstr "Kompimují se soubory (%s)..."
@@ -187,8 +265,14 @@ msgstr "Kompimují se soubory (%s)..."
 msgid "Could not compress binary : %s"
 msgstr "Nepodařilo se komprimovat soubor: %s"
 
-msgid "Generating %s file..."
-msgstr "Vytváření %s souboru..."
+msgid "Library listed in %s is not required by any files: %s"
+msgstr ""
+
+msgid "Library listed in %s is not versioned: %s"
+msgstr ""
+
+msgid "Library listed in %s is not a shared object: %s"
+msgstr ""
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "Nelze nalézt knihovnu ovedenou v %s: %s"
@@ -199,20 +283,22 @@ msgstr "Přidejte, prosím, informace o licenci do vašeho %s!"
 msgid "Example for GPL'ed software: %s."
 msgstr "Ukázka pro software pod GPL licencí: %s."
 
-msgid "%s entry file not in package : %s"
-msgstr "%s soubor není v balíčku: %s"
-
-msgid "Package contains reference to %s"
-msgstr "Balíček obsahuje odkaz na %s"
+msgid "Generating %s file..."
+msgstr "Vytváření %s souboru..."
 
 msgid "Missing %s directory."
 msgstr "Chybí složka %s."
 
-msgid "Creating package..."
+#, fuzzy
+msgid "Creating package \"%s\"..."
 msgstr "Vytváří se balíček..."
 
 msgid "Adding %s file..."
 msgstr "Přidán soubor %s..."
+
+#, fuzzy
+msgid "Generating .MTREE file..."
+msgstr "Vytváření %s souboru..."
 
 msgid "Compressing package..."
 msgstr "Komprimuje se balíček..."
@@ -271,11 +357,9 @@ msgstr "%s nemůže začínat pomlčkou."
 msgid "%s contains invalid characters: '%s'"
 msgstr ""
 
-msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr "%s nesmí obsahovat dvojtečky, pomlčky nebo mezery."
-
-msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr "%s nemůže obsahovat pomlčky nebo mezery."
+#, fuzzy
+msgid "%s must be a decimal."
+msgstr "%s musí být celé číslo."
 
 msgid "%s must be an integer."
 msgstr "%s musí být celé číslo."
@@ -310,11 +394,20 @@ msgstr "chybí funkce balíčku %s pro rozdělení balíčku '%s'"
 msgid "Requested package %s is not provided in %s"
 msgstr "Požadovaný balíček %s není poskytovaný balíčkem %s"
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
+msgstr "%s nesmí obsahovat dvojtečky, pomlčky nebo mezery."
+
+#, fuzzy
+msgid "Cannot find the %s binary required for dependency operations."
+msgstr "Nelze nalézt program %s nutný ke všem %s operacím."
+
+#, fuzzy
+msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "Sudo nebylo nalezeno. K získání práv roota bude použito su."
 
 msgid "Cannot find the %s binary required for building as non-root user."
-msgstr "Nelze najít program %s požadovaný pro sestavení jako non-root uživatel."
+msgstr ""
+"Nelze najít program %s požadovaný pro sestavení jako non-root uživatel."
 
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Nelze najít program %s požadovaný k podepisování balíčků."
@@ -322,9 +415,10 @@ msgstr "Nelze najít program %s požadovaný k podepisování balíčků."
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Nelze najít program %s požadovaný k ověření zdrojových souborů."
 
-msgid ""
-"Cannot find the %s binary required for validating sourcefile checksums."
-msgstr "Nelze najít program %s nutný k ověření kontrolních součtů u zdrojových souborů."
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+"Nelze najít program %s nutný k ověření kontrolních součtů u zdrojových "
+"souborů."
 
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Nelze najít program %s nutný pro kompresi souborů."
@@ -341,14 +435,21 @@ msgstr "Nelze najít program %s nutný ke \"stripování object souborů\"."
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr "Nelze najít program %s nutný ke kompresi man a info stránek."
 
-msgid "Cannot find the %s binary required to determine latest %s revision."
-msgstr "Nelze nalézt program %s nutný k rozpoznání poslední %s revize."
+msgid "A package has already been built, installing existing package..."
+msgstr "Balíček je již sestaven, instaluje se existující balíček..."
 
-msgid "Determining latest %s revision..."
-msgstr "Určuje se poslední revize %s..."
+msgid "A package has already been built. (use %s to overwrite)"
+msgstr "Balíček je již sestaven. (použijte %s pro přepsání)"
 
-msgid "Version found: %s"
-msgstr "Nalezena verze: %s"
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr "Skupina balíčků je již sestavena, instalují se existující balíčky..."
+
+msgid "The package group has already been built. (use %s to overwrite)"
+msgstr "Skupina balíčků je již sestavena. (použijte %s pro přepsání)"
+
+msgid "Part of the package group has already been built. (use %s to overwrite)"
+msgstr "Část skupiny balíčků je již sestavena. (použijte %s pro přepsání)"
 
 msgid "Usage: %s [options]"
 msgstr "Použití: %s [volby]"
@@ -366,7 +467,9 @@ msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Přeskočit všechny kontroly závislostí"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr "  -e, --noextract  Nerozbalovat zdrojové soubory (použít existující %s složku)"
+msgstr ""
+"  -e, --noextract  Nerozbalovat zdrojové soubory (použít existující %s "
+"složku)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Přepsat existující balíček"
@@ -394,10 +497,10 @@ msgstr "  -p <file>        Použít alternativní build skript (namísto '%s')"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr "  -r, --rmdeps     Po úspěšném sestavení odstranit nainstalované závislosti"
+msgstr ""
+"  -r, --rmdeps     Po úspěšném sestavení odstranit nainstalované závislosti"
 
-msgid ""
-"  -R, --repackage  Repackage contents of the package without rebuilding"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Znovu zabalit obsah balícku bez sestavení"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
@@ -410,7 +513,13 @@ msgstr "  -S, --source     Vytvoří zdrojový archiv, bez stahovaných souborů
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr "  --allsource      Vytvořit zdrojový archiv, včetně stahovaných souborů"
+msgstr ""
+"  --allsource      Vytvořit zdrojový archiv, včetně stahovaných souborů"
+
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr ""
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Spustit %s pod uživatelem root"
@@ -419,15 +528,15 @@ msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Spustí funkci %s v %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr "  --config <file>  Použít alternativní konfigurační soubor (namísto '%s')"
+msgstr ""
+"  --config <file>  Použít alternativní konfigurační soubor (namísto '%s')"
+
+#, fuzzy
+msgid "  --holdver        Do not update VCS sources"
+msgstr "  --nocheck        Nespouštět funkci %s v %s"
 
 msgid ""
-"  --holdver        Prevent automatic version bumping for development %ss"
-msgstr "  --holdver        Zabrání automatickému zjištění verze pro vývojové %ss"
-
-msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the "
-"default"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr "  --key <klíč>     Určí klíč pro podepisování %s namísto výchozího"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
@@ -437,7 +546,8 @@ msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Nepodepisovat balíček"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr "  --pkg <list>     Sestavit jen vyjmenované balíčky z rozděleného balíčku"
+msgstr ""
+"  --pkg <list>     Sestavit jen vyjmenované balíčky z rozděleného balíčku"
 
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Podepsat výsledný balíček pomocí %s"
@@ -455,9 +565,16 @@ msgstr "  --skippgpcheck   Neověřovat PGP podpisy u zdrojových souborů"
 msgid "These options can be passed to %s:"
 msgstr "Tyto volby se předají %s:"
 
+msgid "  --asdeps         Install packages as non-explicitly installed"
+msgstr ""
+
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Nedotazovat se na potvrzení"
+
+msgid ""
+"  --needed         Do not reinstall the targets that are already up to date"
+msgstr ""
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Nezobrazovat průběh stahování souborů"
@@ -465,13 +582,16 @@ msgstr "  --noprogressbar  Nezobrazovat průběh stahování souborů"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Když není zadáno %s, %s bude hledat '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
-"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
-"law.\\n"
+"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nToto je "
+"svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou "
+"poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "Zachycen signál %s. Ukončování..."
@@ -497,25 +617,33 @@ msgstr "Nemáte práva zápisu k uložení stažených souborů do %s."
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr ""
 
-msgid "\\0%s and %s cannot both be specified"
-msgstr "\\0%s a %s nemohou být zadány současně"
+#, fuzzy
+msgid "You do not have write permission to store logs in %s."
+msgstr "Nemáte práva zápisu k uložení stažených souborů do %s."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
-msgstr "Spouštění %s jako root je ŠPATNÝ nápad a může způsobit trvalou,\\n\nkatastrofickou škodu na vašem systému. Pokud si opravdu přejete spustit to jako root, \\npoužijte volnu %s. "
+msgstr ""
+"Spouštění %s jako root je ŠPATNÝ nápad a může způsobit trvalou,\\n\n"
+"katastrofickou škodu na vašem systému. Pokud si opravdu přejete spustit to "
+"jako root, \\npoužijte volnu %s. "
 
 msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
-msgstr "Volba %s je pouze pro root uživatele. Prosím\\nspusťte bez přepínače %s. "
+"The %s option is meant for the root user only. Please\\nrerun %s without the "
+"%s flag."
+msgstr ""
+"Volba %s je pouze pro root uživatele. Prosím\\nspusťte bez přepínače %s. "
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
-msgstr "Spušťení %s jako neprivilegovaný uživatel způsobí ne-rootovská vlastnická práva k souborům v balíčku.\\n Zkuste použít prostředí %s \\n přidáním %s do pole %s v %s."
+msgstr ""
+"Spušťení %s jako neprivilegovaný uživatel způsobí ne-rootovská vlastnická "
+"práva k souborům v balíčku.\\n Zkuste použít prostředí %s \\n přidáním %s do "
+"pole %s v %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Nepoužívejte volbu %s. Tato volba je použitelná jen pro %s."
@@ -532,23 +660,6 @@ msgstr "Klíč %s neexistuje ve vaší klíčence."
 msgid "There is no key in your keyring."
 msgstr "Ve vaší klíčence není žádný klíč."
 
-msgid "A package has already been built, installing existing package..."
-msgstr "Balíček je již sestaven, instaluje se existující balíček..."
-
-msgid "A package has already been built. (use %s to overwrite)"
-msgstr "Balíček je již sestaven. (použijte %s pro přepsání)"
-
-msgid ""
-"The package group has already been built, installing existing packages..."
-msgstr "Skupina balíčků je již sestavena, instalují se existující balíčky..."
-
-msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "Skupina balíčků je již sestavena. (použijte %s pro přepsání)"
-
-msgid ""
-"Part of the package group has already been built. (use %s to overwrite)"
-msgstr "Část skupiny balíčků je již sestavena. (použijte %s pro přepsání)"
-
 msgid "Leaving %s environment."
 msgstr "Opouští se prostředí %s."
 
@@ -560,6 +671,10 @@ msgstr "Přístupová práva souborů nemusí být zachována."
 
 msgid "Making package: %s"
 msgstr "Vytváří se balíček: %s"
+
+#, fuzzy
+msgid "Using a %s without a %s function is deprecated."
+msgstr "Znovu-zabalení bez použití funkce %s je zastaralé."
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Zdrojový balíček je již sestaven. (použijte %s pro přepsání)"
@@ -579,20 +694,9 @@ msgstr "Kontrola buildtime závislostí..."
 msgid "Could not resolve all dependencies."
 msgstr "Nelze vyřešit všechny závislosti."
 
-msgid "%s was not found in %s; skipping dependency checks."
-msgstr "%s nebyl nalezen v %s, přeskakuje se kontrola závislostí."
-
-msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr "Neprovádí se hledání zdrojů       -- používá se existující %s strom"
-
-msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr "Neprovádí se kontrola integrity   -- používá se existující %s strom"
-
-msgid "Skipping source extraction       -- using existing %s tree"
-msgstr "Neprovádí se rozbalení zdrojů      -- používá se existující %s strom"
-
-msgid "The source directory is empty, there is nothing to build!"
-msgstr "Zdrojový adresář je prázdný, není co sestavovat!"
+#, fuzzy
+msgid "Using existing %s tree"
+msgstr "Odstraňuje se existující adresář %s ..."
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "Adresář s balíčkem je prázdný, není nic k opětovnému zabalení!"
@@ -606,14 +710,19 @@ msgstr "Odstraňuje se existující adresář %s ..."
 msgid "Finished making: %s"
 msgstr "Dokončeno vytváření: %s"
 
-msgid "Usage: %s [pacman_db_root]"
+#, fuzzy
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
 msgstr "Použití: %s [kořen_databáze_pacmana]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nToto je "
+"svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou "
+"poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s neexistuje, nebo není adresář."
@@ -633,82 +742,127 @@ msgstr "Zjištěn formát databáze před verzí 3.5 - aktualizuje se..."
 msgid "Done."
 msgstr "Hotovo."
 
+#, fuzzy
+msgid "Usage: %s [options] operation [targets]"
+msgstr "Použití: %s [volby]"
+
 msgid "Manage pacman's list of trusted keys"
 msgstr "Správa seznamu důvěryhodných klíčů pro pacman"
 
-msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
+#, fuzzy
+msgid "Operations:"
+msgstr "Volby:"
+
+#, fuzzy
+msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr "  -a, --add [soubor(y)]     Přidá uvedené klíče (prázdné pro stdin)"
 
-msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
+#, fuzzy
+msgid "  -d, --delete              Remove the specified keyids"
 msgstr "  -d, --delete <id klíče\\čů>     Odstraní zadaná id klíčů"
 
-msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export              Export the specified or all keyids"
 msgstr "  -e, --exporrt [keyid(s)]    Exportuje uvedené, nebo všechny, keyids"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
-msgstr "  -f, --finger [keyid(s)]      Vypíše otisky uvedených (nebo všech) klíčů"
+"  -f, --finger              List fingerprint for specified or all keyids"
+msgstr ""
+"  -f, --finger [keyid(s)]      Vypíše otisky uvedených (nebo všech) klíčů"
 
-msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help       Vypsat nápovědu"
-
-msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys           List the specified or all keys"
 msgstr "  -l, --list-keys [keyid(s)]   Vypíše uvedené (nebo všechny) klíče"
 
-msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys <keyid(s)>   Stáhne uvedené klíče"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr "  -u, --updatedb      Aktualizuje databázi důvěry (trustdb) v pacmanovi"
+msgstr ""
+"  -u, --updatedb      Aktualizuje databázi důvěry (trustdb) v pacmanovi"
 
-msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+#, fuzzy
+msgid ""
+"  -v, --verify              Verify the file(s) specified by the signature(s)"
 msgstr "  -v, --verify <podpis>   Ověří soubor podpisu"
 
-msgid "  -V, --version             Show program version"
-msgstr "  -V, --version      Verze programu"
-
+#, fuzzy
 msgid ""
-"  --config <file>           Use an alternate config file (instead of\\n"
-"                            '%s')"
-msgstr "  --config <soubor>    Použije zadaný konfigurační soubor (namísto\\n                                                         '%s')"
-
-msgid ""
-"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+"  --edit-key                Present a menu for key management task on keyids"
 msgstr "  --edit-key <id klíče\\čů>     Zobrazí menu pro správu těchto klíčů"
 
-msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
-"                            of '%s')"
-msgstr "  --gpgdir <složka>     nastaví vlastní adresář pro GnuPG (namísto \\n                                                                                        '%s')"
-
-msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
+#, fuzzy
+msgid "  --import                  Imports pubring.gpg from dir(s)"
 msgstr "  --import <adresář(e)>     Načte pupring.gpg ze adresáře(ů)"
 
+#, fuzzy
 msgid ""
-"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in "
+"  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
-msgstr "  --import-trustdb <složka\\ky>   Načte \"důvěryhodnost vlastníků\" z trustdb.gpg ze zadaných složek "
+msgstr ""
+"  --import-trustdb <složka\\ky>   Načte \"důvěryhodnost vlastníků\" z "
+"trustdb.gpg ze zadaných složek "
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr " --init      Zajistí správnou inicializaci klíčenky"
 
-msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr "  --keyserver           Určí, který server s klíči se má v případě potřeby použít"
-
-msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
+#, fuzzy
+msgid "  --list-sigs               List keys and their signatures"
 msgstr "  --list-sigs [keyid(s)]    Výpis klíčů a jejich podpisů"
 
-msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+#, fuzzy
+msgid "  --lsign-key               Locally sign the specified keyid"
 msgstr "  --lsign-key <keyid>   Lokálně podepíše uvedené keyid"
 
+#, fuzzy
 msgid ""
-"  --populate [keyring(s)]   Reload the default keys from the (given) "
-"keyrings\\n                            in '%s'"
-msgstr "  --populate [keyring(s)]    Znovu načte výchozí klíče z (zadaných) klíčenek\\n                                              v '%s'"
+"  --populate                Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+"  --populate [keyring(s)]    Znovu načte výchozí klíče z (zadaných) klíčenek"
+"\\n                                              v '%s'"
+
+#, fuzzy
+msgid ""
+"  --refresh-keys            Update specified or all keys from a keyserver"
+msgstr ""
+"  --refresh-keys [keyid(s)]   Aktualizuje uvedené (nebo všechny) klíče ze "
+"serveru s klíči."
 
 msgid ""
-"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys [keyid(s)]   Aktualizuje uvedené (nebo všechny) klíče ze serveru s klíči."
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
+msgstr ""
+"  --config <soubor>    Použije zadaný konfigurační soubor (namísto"
+"\\n                                                         '%s')"
+
+msgid ""
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
+msgstr ""
+"  --gpgdir <složka>     nastaví vlastní adresář pro GnuPG (namísto "
+"\\n                                                                                        "
+"'%s')"
+
+#, fuzzy
+msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
+msgstr ""
+"  --keyserver           Určí, který server s klíči se má v případě potřeby "
+"použít"
+
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help       Vypsat nápovědu"
+
+msgid "  -V, --version             Show program version"
+msgstr "  -V, --version      Verze programu"
+
+msgid "Failed to lookup key by name:"
+msgstr ""
+
+msgid "Key name is ambiguous:"
+msgstr ""
 
 msgid "The key identified by %s could not be found locally."
 msgstr "Klíč určený %s nebyl lokálně nalezen."
@@ -739,9 +893,6 @@ msgstr "Přídávám klíče z %s.gpg..."
 
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Lokálně podepisuji důvěřované klíče v klíčence..."
-
-msgid "Locally signing key %s..."
-msgstr "Lokálně podepisuji klíč %s..."
 
 msgid "Importing owner trust values..."
 msgstr "Načítání důvěry vlastníků..."
@@ -779,8 +930,12 @@ msgstr ""
 msgid "A specified signature could not be listed."
 msgstr ""
 
-msgid "A specified key could not be locally signed."
-msgstr ""
+msgid "Locally signing key %s..."
+msgstr "Lokálně podepisuji klíč %s..."
+
+#, fuzzy
+msgid "%s could not be locally signed."
+msgstr "%s se nepodařilo importovat."
 
 msgid "Remote key not fetched correctly from keyserver."
 msgstr ""
@@ -815,22 +970,33 @@ msgstr "Uvedeno více operací."
 msgid "Please run %s with each operation separately."
 msgstr "Prosím spusťte %s pro každou operaci samostatně."
 
+msgid "No targets specified"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
-msgstr "pacman-optimize je malý hack, který pomáhá zlepšit výkon pacmana\\npři čtení a zápisu do databáze na bázi souborového systému.\\n\\n"
+msgstr ""
+"pacman-optimize je malý hack, který pomáhá zlepšit výkon pacmana\\npři čtení "
+"a zápisu do databáze na bázi souborového systému.\\n\\n"
 
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\nthere is a"
-" tendency for these files to become fragmented over time.\\nThis script "
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
 "attempts to relocate these small files into one\\ncontinuous location on "
 "your hard drive. The result is that the hard\\ndrive should be able to read "
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
-msgstr "Protože pacman používá mnoho malých souborů pro udržování informací\\no balíčcích, má tendenci v průběhu času tyto soubory fragmentovat.\\nTento skript se pokouší přemístit tyto malé soubory do jedné souvislé\\noblasti na disku. Ve výsledku by měl disk být schopen číst tyto soubory\\nrychleji, protože hlavičky disku se nemusí tak často přesouvat.\\n"
+msgstr ""
+"Protože pacman používá mnoho malých souborů pro udržování informací\\no "
+"balíčcích, má tendenci v průběhu času tyto soubory fragmentovat.\\nTento "
+"skript se pokouší přemístit tyto malé soubory do jedné souvislé\\noblasti na "
+"disku. Ve výsledku by měl disk být schopen číst tyto soubory\\nrychleji, "
+"protože hlavičky disku se nemusí tak často přesouvat.\\n"
 
-msgid "diff tool was not found, please install diffutils."
-msgstr "diff nebyl nalezen, prosím nainstalujte diffutils."
+#, fuzzy
+msgid "Cannot find the %s binary required for verifying integrity."
+msgstr "Nelze najít program %s požadovaný k ověření zdrojových souborů."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mít správná oprávnění k optimalizaci databáze."
@@ -865,6 +1031,9 @@ msgstr "Kontrola integrity SELHALA, vrací se stará databáze."
 msgid "Rotating database into place..."
 msgstr "Vyměňují se databáze..."
 
+msgid "New database substitution failed. Check for %s, %s, and %s directories."
+msgstr ""
+
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Dokončeno. Databáze pacmana byla optimalizována."
 
@@ -874,7 +1043,9 @@ msgstr ""
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
-msgstr "»Pkgdelta vytvoří delta rozdíl mezi dvěma balíčky.\\nTento delta rozdíl pak může být přidán do databáze pomocí repo-add.\\n\\n"
+msgstr ""
+"»Pkgdelta vytvoří delta rozdíl mezi dvěma balíčky.\\nTento delta rozdíl pak "
+"může být přidán do databáze pomocí repo-add.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "Příklad:    pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -885,13 +1056,14 @@ msgstr "Volby:\\n"
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet    omezí výpisy\\n"
 
-msgid ""
-"  --min-pkg-size    minimum package size before deltas are generated "
-"(bytes)\\n"
+msgid "  --nocolor         remove color from output\\n"
+msgstr ""
+
+msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr ""
 
 msgid ""
-"  --max-delta-size  percent of package size above which deltas will be "
+"  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
 msgstr ""
 
@@ -899,7 +1071,10 @@ msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
-msgstr "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nToto je svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
+msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nToto je "
+"svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou "
+"poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Neplatný soubor balíčku '%s'."
@@ -938,26 +1113,34 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Použití: repo-add [volby] <cesta-k-databázi> <balíček|delta> ...\\n"
 
 msgid ""
-"repo-add will update a package database by reading a package "
-"file.\\nMultiple packages to add can be specified on the command line.\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr "  -d, --delta    vytvoří a přidá rozdíly (delta) pro update balíčků\\n"
 
+msgid ""
+"  -n, --new         only add packages that are not already in the database\\n"
+msgstr ""
+
 msgid "  -f, --files       update database's file list\\n"
-msgstr "  -f/--files přepínač k aktualizaci databáze včetně záznamů o souborech.\\n"
+msgstr ""
+"  -f/--files přepínač k aktualizaci databáze včetně záznamů o souborech.\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
 
 msgid ""
-"repo-remove will update a package database by removing the package "
-"name\\nspecified on the command line from the given repo database. "
-"Multiple\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 
 msgid "Please move along, there is nothing to see here.\\n"
+msgstr ""
+
+msgid "  --nocolor         turn off color in output\\n"
 msgstr ""
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
@@ -981,9 +1164,9 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr ""
 
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
 
 msgid "No database entry for package '%s'."
@@ -995,11 +1178,19 @@ msgstr "Přidávají se záznamy o delta rozdílech: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Odstraňuje se existující záznam '%s'..."
 
+#, fuzzy
+msgid "Removing empty deltas file ..."
+msgstr "Odstraňují se prázdné adresáře..."
+
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Nelze najít program gpg! Máte nainstalované GnuPG?"
 
 msgid "Signing database..."
 msgstr "Podepisování databáze..."
+
+#, fuzzy
+msgid "Created signature file '%s'"
+msgstr "Vytvořen podpisový soubor %s."
 
 msgid "Failed to sign package database."
 msgstr "Nepodařilo se podepsat databázi balíčků."
@@ -1094,8 +1285,63 @@ msgstr "Nezůstaly žádné balíčky, vytváří se prázdná databáze."
 msgid "No packages modified, nothing to do."
 msgstr "Nebyl změněn žádný balíček, není co dělat."
 
-msgid "option %s requires an argument\\n"
+msgid "option '%s' is ambiguous; possibilities:"
+msgstr ""
+
+#, fuzzy
+msgid "invalid option"
+msgstr "neznámá volba"
+
+#, fuzzy
+msgid "option requires an argument"
 msgstr "volba %s vyžaduje nějaký argument\\n"
 
-msgid "unrecognized option"
-msgstr "neznámá volba"
+#, fuzzy
+msgid "option '%s' does not allow an argument"
+msgstr "volba %s vyžaduje nějaký argument\\n"
+
+#, fuzzy
+msgid "option '%s' requires an argument"
+msgstr "volba %s vyžaduje nějaký argument\\n"
+
+#~ msgid "There is no agent set up to handle %s URLs. Check %s."
+#~ msgstr "Použitý agent neumí zacházet s %s URL. Zkontrolujte %s."
+
+#~ msgid "%s is not allowed to contain hyphens or whitespace."
+#~ msgstr "%s nemůže obsahovat pomlčky nebo mezery."
+
+#~ msgid "Cannot find the %s binary required to determine latest %s revision."
+#~ msgstr "Nelze nalézt program %s nutný k rozpoznání poslední %s revize."
+
+#~ msgid "Determining latest %s revision..."
+#~ msgstr "Určuje se poslední revize %s..."
+
+#~ msgid "Version found: %s"
+#~ msgstr "Nalezena verze: %s"
+
+#~ msgid ""
+#~ "  --holdver        Prevent automatic version bumping for development %ss"
+#~ msgstr ""
+#~ "  --holdver        Zabrání automatickému zjištění verze pro vývojové %ss"
+
+#~ msgid "\\0%s and %s cannot both be specified"
+#~ msgstr "\\0%s a %s nemohou být zadány současně"
+
+#~ msgid "%s was not found in %s; skipping dependency checks."
+#~ msgstr "%s nebyl nalezen v %s, přeskakuje se kontrola závislostí."
+
+#~ msgid "Skipping source retrieval        -- using existing %s tree"
+#~ msgstr "Neprovádí se hledání zdrojů       -- používá se existující %s strom"
+
+#~ msgid "Skipping source integrity checks -- using existing %s tree"
+#~ msgstr "Neprovádí se kontrola integrity   -- používá se existující %s strom"
+
+#~ msgid "Skipping source extraction       -- using existing %s tree"
+#~ msgstr ""
+#~ "Neprovádí se rozbalení zdrojů      -- používá se existující %s strom"
+
+#~ msgid "The source directory is empty, there is nothing to build!"
+#~ msgstr "Zdrojový adresář je prázdný, není co sestavovat!"
+
+#~ msgid "diff tool was not found, please install diffutils."
+#~ msgstr "diff nebyl nalezen, prosím nainstalujte diffutils."

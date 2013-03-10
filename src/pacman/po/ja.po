@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 #  <info@astaricsoft.net>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2013-02-27 09:45+0000\n"
 "Last-Translator: kusakata <info@astaricsoft.net>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-pacman/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-"
+"pacman/language/ja/)\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
@@ -46,9 +47,25 @@ msgstr "%s を削除...\n"
 msgid "upgrading %s...\n"
 msgstr "%s をアップグレード...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "%s をダウンロード...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "%s をインストール...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "パッケージの整合性を確認中...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "パッケージの整合性を確認中...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "%s をダウンロード...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -74,13 +91,17 @@ msgstr "成功！\n"
 msgid "failed.\n"
 msgstr "失敗。\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "%s からパッケージを取得...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "空き容量の確認...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: %s を必要としています\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -100,12 +121,11 @@ msgstr "%s と %s が衝突しています (%s)。%s を削除しますか？"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "依存関係を解決できないために以下のパッケージをアップグレードできません:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"依存関係を解決できないために以下のパッケージをアップグレードできません:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -118,16 +138,19 @@ msgstr "%zd 個の選択肢が %s にはあります:\n"
 
 #, c-format
 msgid "%s-%s: local version is newer. Upgrade anyway?"
-msgstr "%s-%s: ローカルの方が新しいバージョンです。それでもアップグレードしますか？"
+msgstr ""
+"%s-%s: ローカルの方が新しいバージョンです。それでもアップグレードしますか？"
 
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "ファイル %s は破損しています (%s)。\nファイルを削除しますか?"
+msgstr ""
+"ファイル %s は破損しています (%s)。\n"
+"ファイルを削除しますか?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "PGP 鍵 %s, \"%s\", 作成日 %s をインポートしますか？"
 
 #, c-format
@@ -137,6 +160,14 @@ msgstr "インストール"
 #, c-format
 msgid "upgrading"
 msgstr "アップグレード"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "アップグレード"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "インストール"
 
 #, c-format
 msgid "removing"
@@ -152,6 +183,10 @@ msgstr "空き容量を確認"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "パッケージの整合性を確認"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "パッケージの整合性を確認"
 
 #, c-format
@@ -197,11 +232,14 @@ msgstr "設定ファイル %s, %d 行: '%s' オプションは無効です\n"
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "設定ファイル %s, %d 行: セクション '%s' のディレクティブ '%s' が実行できません。\n"
+msgstr ""
+"設定ファイル %s, %d 行: セクション '%s' のディレクティブ '%s' が実行できませ"
+"ん。\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "ミラー '%s' に '%s' 変数が含まれていますが、'%s' が定義されていません。\n"
+msgstr ""
+"ミラー '%s' に '%s' 変数が含まれていますが、'%s' が定義されていません。\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -239,8 +277,8 @@ msgstr "ミラー '%s' をデータベース '%s' に追加できませんでし
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "パースの設定が %d の最大再帰の深さを超えています。\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "設定ファイル %s が読み込ませんでした。\n"
 
 #, c-format
@@ -253,7 +291,9 @@ msgstr "設定ファイル %s, %d 行: 設定ファイルの構文エラー - �
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "設定ファイル %s, %d 行: 全てのディレクティブはセクションに入れる必要があります。\n"
+msgstr ""
+"設定ファイル %s, %d 行: 全てのディレクティブはセクションに入れる必要がありま"
+"す。\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
@@ -273,11 +313,20 @@ msgstr "パッケージ %s の install reason を設定できませんでした 
 
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
-msgstr "%s: install reason は '依存関係としてインストール' に設定されています\n"
+msgstr ""
+"%s: install reason は '依存関係としてインストール' に設定されています\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: install reason は '明示的にインストール' に設定されています\n"
+
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "installed"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "提案パッケージ　:"
 
 #, c-format
 msgid "Explicitly installed"
@@ -292,6 +341,22 @@ msgid "Unknown"
 msgstr "不明"
 
 #, c-format
+msgid "None"
+msgstr "None"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5 Sum        :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256 Sum     :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "署名エラー"
+
+#, c-format
 msgid "Repository     :"
 msgstr "リポジトリ　　　:"
 
@@ -302,6 +367,14 @@ msgstr "名前　　　　　　:"
 #, c-format
 msgid "Version        :"
 msgstr "バージョン　　　:"
+
+#, c-format
+msgid "Description    :"
+msgstr "説明　　　　　　:"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "アーキテクチャ　:"
 
 #, c-format
 msgid "URL            :"
@@ -324,12 +397,12 @@ msgid "Depends On     :"
 msgstr "依存パッケージ　:"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "提案パッケージ　:"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Required By    :"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "提案パッケージ　:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -339,25 +412,21 @@ msgstr "衝突パッケージ　:"
 msgid "Replaces       :"
 msgstr "置換パッケージ　:"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "ダウンロードサイズ :    　%6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "ダウンロードサイズ"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "圧縮されたサイズ :　　　  %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "インストールされるサイズ: %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "パッケージ作成者:"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "アーキテクチャ　:"
 
 #, c-format
 msgid "Build Date     :"
@@ -395,13 +464,9 @@ msgstr "SHA256 Sum     :"
 msgid "Signatures     :"
 msgstr "署名　　　　　　:"
 
-#, c-format
-msgid "None"
-msgstr "None"
-
-#, c-format
-msgid "Description    :"
-msgstr "説明　　　　　　:"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Required By    :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -418,6 +483,14 @@ msgstr "(none)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "'%s' の変更履歴はありません。\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "'%s' の変更履歴はありません。\n"
+
+#, c-format
+msgid "installed"
+msgstr "installed"
 
 #, c-format
 msgid "options"
@@ -447,13 +520,17 @@ msgstr "オペレーション:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nオペレーションと一緒に '%s {-h --help}' を使うことでオプションを一覧できます\n"
+msgstr ""
+"\n"
+"オペレーションと一緒に '%s {-h --help}' を使うことでオプションを一覧できま"
+"す\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade        指定したパッケージとそのパッケージに依存している全てのパッケージを削除\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        指定したパッケージとそのパッケージに依存している全ての"
+"パッケージを削除\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -463,7 +540,9 @@ msgstr "  -n, --nosave         設定ファイルを削除\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      不要な依存関係を削除\n                       (-ss で明示的にインストールした依存関係も削除)\n"
+msgstr ""
+"  -s, --recursive      不要な依存関係を削除\n"
+"                       (-ss で明示的にインストールした依存関係も削除)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -480,25 +559,33 @@ msgstr "  -c, --changelog      パッケージの変更履歴を表示\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           依存関係としてインストールされたパッケージを一覧 [filter]\n"
+msgstr ""
+"  -d, --deps           依存関係としてインストールされたパッケージを一覧 "
+"[filter]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       明示的にインストールされたパッケージを一覧 [filter]\n"
+msgstr ""
+"  -e, --explicit       明示的にインストールされたパッケージを一覧 [filter]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr "  -g, --groups         パッケージグループに含まれている全てのパッケージを表示\n"
+msgstr ""
+"  -g, --groups         パッケージグループに含まれている全てのパッケージを表"
+"示\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           パッケージ情報の表示 (-ii でバックアップの表示)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           パッケージ情報の表示 (-ii でバックアップの表示)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check          パッケージによって保有されているファイルを確認\n"
+msgstr ""
+"  -k, --check          パッケージによって保有されているファイルを確認\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -508,7 +595,17 @@ msgstr "  -l, --list           指定したパッケージの中身を一覧\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        インストールしたパッケージの中で同期データベースに存在しないものを一覧 [filter]\n"
+msgstr ""
+"  -m, --foreign        インストールしたパッケージの中で同期データベースに存在"
+"しないものを一覧 [filter]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        インストールしたパッケージの中で同期データベースに存在"
+"しないものを一覧 [filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -531,7 +628,9 @@ msgstr "  -s, --search <regex> インストールされたパッケージの部�
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     どのパッケージからも必要とされていないパッケージを一覧 [filter]\n"
+msgstr ""
+"  -t, --unrequired     どのパッケージからも必要とされていないパッケージを一"
+"覧 [filter]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -541,7 +640,9 @@ msgstr "  -u, --upgrades       古くなっているパッケージを一覧 [fi
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          キャッシュディレクトリから古いパッケージを削除 (-cc で全てのキャッシュを削除)\n"
+msgstr ""
+"  -c, --clean          キャッシュディレクトリから古いパッケージを削除 (-cc で"
+"全てのキャッシュを削除)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -549,47 +650,63 @@ msgstr "  -i, --info           パッケージ情報を表示\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <repo>    リポジトリに含まれているパッケージの一覧を表示\n"
+msgstr ""
+"  -l, --list <repo>    リポジトリに含まれているパッケージの一覧を表示\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> 外部リポジトリの部分一致検索\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     インストールされたパッケージのアップグレード (-uu でダウングレード)\n"
+msgstr ""
+"  -u, --sysupgrade     インストールされたパッケージのアップグレード (-uu でダ"
+"ウングレード)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   インストール・アップグレードをせずパッケージのダウンロードだけ行う\n"
+msgstr ""
+"  -w, --downloadonly   インストール・アップグレードをせずパッケージのダウン"
+"ロードだけ行う\n"
 
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        サーバーから新しいパッケージデータベースをダウンロード\n"
+msgstr ""
+"  -y, --refresh        サーバーから新しいパッケージデータベースをダウンロー"
+"ド\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         パッケージを依存関係としてインストールしたと印をつける\n"
+msgstr ""
+"      --asdeps         パッケージを依存関係としてインストールしたと印をつけ"
+"る\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     パッケージを明示的にインストールしたと印をつける\n"
+msgstr ""
+"      --asexplicit     パッケージを明示的にインストールしたと印をつける\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          衝突するファイルを上書きしてインストールを強制的に実行\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          衝突するファイルを上書きしてインストールを強制的に実"
+"行\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         パッケージを依存関係としてインストールしたと印をつける\n"
+msgstr ""
+"      --asdeps         パッケージを依存関係としてインストールしたと印をつけ"
+"る\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     パッケージを明示的にインストールしたと印をつける\n"
+msgstr ""
+"      --asexplicit     パッケージを明示的にインストールしたと印をつける\n"
 
 #, c-format
 msgid ""
@@ -601,39 +718,52 @@ msgstr "      --ignore <pkg>   指定したパッケージのアップグレー�
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <grp>\n                       指定したグループのアップグレードを無視\n"
+msgstr ""
+"      --ignoregroup <grp>\n"
+"                       指定したグループのアップグレードを無視\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         依存バージョンチェックをスキップ (-dd で全てのチェックをスキップ)\n"
+msgstr ""
+"  -d, --nodeps         依存バージョンチェックをスキップ (-dd で全てのチェック"
+"をスキップ)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         データベースエントリだけを修正してパッケージファイルを触らない\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         データベースエントリだけを修正してパッケージファイルを"
+"触らない\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  ファイルのダウンロード中にプログレスバーを表示しない\n"
+msgstr ""
+"      --noprogressbar  ファイルのダウンロード中にプログレスバーを表示しない\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    インストールスクリプトレットが存在する場合それを実行しない\n"
+msgstr ""
+"      --noscriptlet    インストールスクリプトレットが存在する場合それを実行し"
+"ない\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          オペレーションを実行するかわりに対象を表示する\n"
+msgstr ""
+"  -p, --print          オペレーションを実行するかわりに対象を表示する\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <string>\n                       対象を表示する形式を指定する\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       対象を表示する形式を指定する\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -654,6 +784,10 @@ msgstr "      --arch <arch>    アーキテクチャを指定\n"
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> パッケージキャッシュのディレクトリを指定\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -679,7 +813,13 @@ msgstr "      --noconfirm      確認を行わない\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       This program may be freely redistributed under\n                       the terms of the GNU General Public License.\n"
+msgstr ""
+"                       This program may be freely redistributed under\n"
+"                       the terms of the GNU General Public License.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "不正な数値です: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -702,6 +842,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "標準入力の再オープンに失敗しました: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "root 権限がないとこのオペレーションは実行できません。\n"
 
@@ -718,6 +862,10 @@ msgid "no file was specified for --owns\n"
 msgstr "--owns で照会するファイルが指定されていません\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "'%s' の絶対パスを決定できません: %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "パスが長すぎます: %s%s\n"
 
@@ -730,30 +878,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "ファイル '%s' を読み込めませんでした: %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "ディレクトリ '%s' の所有権を決定できません\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "'%s' の絶対パスを決定できません: %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "%s を保有しているパッケージはありません\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "グループ '%s' は見つかりませんでした\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: 合計 %jd ファイル, "
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "欠落 %jd ファイル\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -774,10 +904,6 @@ msgstr "対象が見つかりませんでした: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "トランザクションの準備に失敗しました (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "パッケージ %s は有効なアーキテクチャを持っていません\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -824,10 +950,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "使われていない同期リポジトリを削除...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "キャッシュディレクトリ: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "維持するパッケージ:\n"
 
@@ -838,6 +960,10 @@ msgstr "  インストールされた全てのパッケージ\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  現在の同期データベースの全てのパッケージ\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "キャッシュディレクトリ: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -872,10 +998,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "データベースの同期に失敗しました\n"
 
 #, c-format
-msgid "installed"
-msgstr "installed"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "リポジトリ '%s' は存在しません\n"
 
@@ -897,11 +1019,16 @@ msgstr "データベースが見つかりませんでした: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr "'%s' はファイルです、あなたが行いたいのは %s で %s ではありませんか？\n"
+msgstr ""
+"'%s' はファイルです、あなたが行いたいのは %s で %s ではありませんか？\n"
 
 #, c-format
 msgid "Starting full system upgrade...\n"
 msgstr "フルシステムアップグレードの開始...\n"
+
+#, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "パッケージ %s は有効なアーキテクチャを持っていません\n"
 
 #, c-format
 msgid "%s and %s are in conflict\n"
@@ -918,6 +1045,10 @@ msgstr "ダウンロードを行いますか？"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "インストールを行いますか？"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -940,16 +1071,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "パッケージデータベースを同期中...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "まず以下のパッケージをアップグレードする必要があります :\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "現在のオペレーションを中止して\n:: パッケージをアップグレードしますか？"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "パッケージをロード...\n"
 
@@ -965,7 +1086,9 @@ msgstr "データベースをロックできませんでした: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  パッケージマネージャを動かしてないのなら\n  %s を削除することができます\n"
+msgstr ""
+"  パッケージマネージャを動かしてないのなら\n"
+"  %s を削除することができます\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1055,25 +1178,29 @@ msgstr "Net Change"
 msgid "Download Size"
 msgstr "ダウンロードサイズ"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "対象 (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "パッケージ"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "ダウンロードされるサイズの合計:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "ダウンロードサイズ"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "インストールされるサイズの合計:   %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "削除されるサイズの合計:　　　　　 %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "ネットアップグレードサイズ:　　　 %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1142,3 +1269,33 @@ msgstr "エラー: "
 #, c-format
 msgid "warning: "
 msgstr "警告: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "ダウンロードサイズ :    　%6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "ディレクトリ '%s' の所有権を決定できません\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: 合計 %jd ファイル, "
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "欠落 %jd ファイル\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "まず以下のパッケージをアップグレードする必要があります :\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "現在のオペレーションを中止して\n"
+#~ ":: パッケージをアップグレードしますか？"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "対象 (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "ダウンロードされるサイズの合計:   %.2f %s\n"

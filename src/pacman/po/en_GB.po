@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # Dimitris Glezos <glezos@indifex.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-03-05 17:48+0000\n"
 "Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/archlinux-pacman/language/en_GB/)\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/"
+"archlinux-pacman/language/en_GB/)\n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -47,9 +48,25 @@ msgstr "removing %s...\n"
 msgid "upgrading %s...\n"
 msgstr "upgrading %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "downloading %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "installing %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "checking package integrity...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "checking package integrity...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "downloading %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -75,13 +92,17 @@ msgstr "success!\n"
 msgid "failed.\n"
 msgstr "failed.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Retrieving packages from %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "checking available disk space...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: requires %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -101,13 +122,13 @@ msgstr "%s and %s are in conflict (%s). Remove %s?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "The following package cannot be upgraded due to unresolvable dependencies:\n"
-msgstr[1] "The following packages cannot be upgraded due to unresolvable dependencies:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[1] ""
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -127,10 +148,12 @@ msgstr "%s-%s: local version is newer. Upgrade anyway?"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "File %s is corrupted (%s).\nDo you want to delete it?"
+msgstr ""
+"File %s is corrupted (%s).\n"
+"Do you want to delete it?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "Import PGP key %s, \"%s\", created %s?"
 
 #, c-format
@@ -140,6 +163,14 @@ msgstr "installing"
 #, c-format
 msgid "upgrading"
 msgstr "upgrading"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "upgrading"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "installing"
 
 #, c-format
 msgid "removing"
@@ -155,6 +186,10 @@ msgstr "checking available disk space"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "checking package integrity"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "checking package integrity"
 
 #, c-format
@@ -200,7 +235,8 @@ msgstr "config file %s, line %d: '%s' option invalid, no signature support\n"
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
+msgstr ""
+"config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
@@ -242,8 +278,8 @@ msgstr "could not add mirror '%s' to database '%s' (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "config parsing exceeded max recursion depth of %d.\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "config file %s could not be read.\n"
 
 #, c-format
@@ -282,6 +318,14 @@ msgstr "%s: install reason has been set to 'installed as dependency'\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: install reason has been set to 'explicitly installed'\n"
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "installed"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Optional Deps  :"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr "Explicitly installed"
@@ -295,6 +339,22 @@ msgid "Unknown"
 msgstr "Unknown"
 
 #, c-format
+msgid "None"
+msgstr "None"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5 Sum        :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256 Sum     :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Signature error"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Repository     :"
 
@@ -305,6 +365,14 @@ msgstr "Name           :"
 #, c-format
 msgid "Version        :"
 msgstr "Version        :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Description    :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Architecture   :"
 
 #, c-format
 msgid "URL            :"
@@ -327,12 +395,12 @@ msgid "Depends On     :"
 msgstr "Depends On     :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Optional Deps  :"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Required By    :"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Optional Deps  :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -342,25 +410,21 @@ msgstr "Conflicts With :"
 msgid "Replaces       :"
 msgstr "Replaces       :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "Download Size  : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Download Size"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Compressed Size: %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Installed Size : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Packager       :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Architecture   :"
 
 #, c-format
 msgid "Build Date     :"
@@ -398,13 +462,9 @@ msgstr "SHA256 Sum     :"
 msgid "Signatures     :"
 msgstr "Signatures     :"
 
-#, c-format
-msgid "None"
-msgstr "None"
-
-#, c-format
-msgid "Description    :"
-msgstr "Description    :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Required By    :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -421,6 +481,14 @@ msgstr "(none)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "no changelog available for '%s'.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "no changelog available for '%s'.\n"
+
+#, c-format
+msgid "installed"
+msgstr "installed"
 
 #, c-format
 msgid "options"
@@ -450,13 +518,15 @@ msgstr "operations:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nuse '%s {-h --help}' with an operation for available options\n"
+msgstr ""
+"\n"
+"use '%s {-h --help}' with an operation for available options\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade        remove packages and all packages that depend on them\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -466,7 +536,9 @@ msgstr "  -n, --nosave         remove configuration files\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      remove unnecessary dependencies\n                       (-ss includes explicitly installed dependencies)\n"
+msgstr ""
+"  -s, --recursive      remove unnecessary dependencies\n"
+"                       (-ss includes explicitly installed dependencies)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -483,7 +555,8 @@ msgstr "  -c, --changelog      view the changelog of a package\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           list packages installed as dependencies [filter]\n"
+msgstr ""
+"  -d, --deps           list packages installed as dependencies [filter]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
@@ -494,14 +567,18 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         view all members of a package group\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           view package information (-ii for backup files)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           view package information (-ii for backup files)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check          check that the files owned by the package(s) are present\n"
+msgstr ""
+"  -k, --check          check that the files owned by the package(s) are "
+"present\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -511,7 +588,17 @@ msgstr "  -l, --list           list the contents of the queried package\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"
+msgstr ""
+"  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -529,12 +616,15 @@ msgstr "  -q, --quiet          show less information for query and search\n"
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> search locally-installed packages for matching strings\n"
+msgstr ""
+"  -s, --search <regex> search locally-installed packages for matching "
+"strings\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     list packages not required by any package [filter]\n"
+msgstr ""
+"  -t, --unrequired     list packages not required by any package [filter]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -544,7 +634,9 @@ msgstr "  -u, --upgrades       list outdated packages [filter]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          remove old packages from cache directory (-cc for all)\n"
+msgstr ""
+"  -c, --clean          remove old packages from cache directory (-cc for "
+"all)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -555,24 +647,30 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <repo>    view a list of packages in a repo\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
+msgstr ""
+"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   download packages but do not install/upgrade anything\n"
+msgstr ""
+"  -w, --downloadonly   download packages but do not install/upgrade "
+"anything\n"
 
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        download fresh package databases from the server\n"
+msgstr ""
+"  -y, --refresh        download fresh package databases from the server\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
@@ -582,8 +680,8 @@ msgstr "      --asdeps         mark packages as non-explicitly installed\n"
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     mark packages as explicitly installed\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
 msgstr "  -f, --force          force install, overwrite conflicting files\n"
 
 #, c-format
@@ -598,45 +696,59 @@ msgstr "      --asexplicit     install packages as explicitly installed\n"
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"
+msgstr ""
+"      --ignore <pkg>   ignore a package upgrade (can be used more than "
+"once)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <grp>\n                       ignore a group upgrade (can be used more than once)\n"
+msgstr ""
+"      --ignoregroup <grp>\n"
+"                       ignore a group upgrade (can be used more than once)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         skip dependency version checks (-dd to skip all checks)\n"
+msgstr ""
+"  -d, --nodeps         skip dependency version checks (-dd to skip all "
+"checks)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         only modify database entries, not package files\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         only modify database entries, not package files\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  do not show a progress bar when downloading files\n"
+msgstr ""
+"      --noprogressbar  do not show a progress bar when downloading files\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    do not execute the install scriptlet if one exists\n"
+msgstr ""
+"      --noscriptlet    do not execute the install scriptlet if one exists\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          print the targets instead of performing the operation\n"
+msgstr ""
+"  -p, --print          print the targets instead of performing the "
+"operation\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <string>\n                       specify how the targets should be printed\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       specify how the targets should be printed\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -657,6 +769,10 @@ msgstr "      --arch <arch>    set an alternate architecture\n"
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> set an alternate package cache location\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -682,7 +798,13 @@ msgstr "      --noconfirm      do not ask for any confirmation\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       This program may be freely redistributed under\n                       the terms of the GNU General Public License.\n"
+msgstr ""
+"                       This program may be freely redistributed under\n"
+"                       the terms of the GNU General Public License.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "invalid number: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -705,6 +827,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "failed to reopen stdin for reading: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "you cannot perform this operation unless you are root.\n"
 
@@ -721,6 +847,10 @@ msgid "no file was specified for --owns\n"
 msgstr "no file was specified for --owns\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "cannot determine real path for '%s': %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "path too long: %s%s\n"
 
@@ -733,32 +863,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "failed to read file '%s': %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "cannot determine ownership of directory '%s'\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "cannot determine real path for '%s': %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "No package owns %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "group '%s' was not found\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %jd total file, "
-msgstr[1] "%s: %jd total files, "
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd missing file\n"
-msgstr[1] "%jd missing files\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -779,10 +889,6 @@ msgstr "target not found: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "failed to prepare transaction (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "package %s does not have a valid architecture\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -829,10 +935,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "removing unused sync repositories...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Cache directory: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Packages to keep:\n"
 
@@ -843,6 +945,10 @@ msgstr "  All locally installed packages\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  All current sync database packages\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Cache directory: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -877,10 +983,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "failed to synchronise any databases\n"
 
 #, c-format
-msgid "installed"
-msgstr "installed"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "repository '%s' does not exist\n"
 
@@ -909,6 +1011,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Starting full system upgrade...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "package %s does not have a valid architecture\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s and %s are in conflict\n"
 
@@ -923,6 +1029,10 @@ msgstr "Proceed with download?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Proceed with installation?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -945,16 +1055,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "Synchronising package databases...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "The following packages should be upgraded first :\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Do you want to cancel the current operation\n:: and upgrade these packages now?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "loading packages...\n"
 
@@ -970,7 +1070,9 @@ msgstr "could not lock database: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  if you're sure a package manager is not already\n  running, you can remove %s\n"
+msgstr ""
+"  if you're sure a package manager is not already\n"
+"  running, you can remove %s\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1060,25 +1162,29 @@ msgstr "Net Change"
 msgid "Download Size"
 msgstr "Download Size"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "Targets (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "package(s)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Total Download Size:    %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Download Size"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Total Installed Size:   %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Total Removed Size:     %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Net Upgrade Size:       %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1147,3 +1253,35 @@ msgstr "error: "
 #, c-format
 msgid "warning: "
 msgstr "warning: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "Download Size  : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "cannot determine ownership of directory '%s'\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: %jd total file, "
+#~ msgstr[1] "%s: %jd total files, "
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd missing file\n"
+#~ msgstr[1] "%jd missing files\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "The following packages should be upgraded first :\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Do you want to cancel the current operation\n"
+#~ ":: and upgrade these packages now?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "Targets (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Total Download Size:    %.2f %s\n"

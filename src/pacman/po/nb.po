@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Alexander Rødseth <rodseth@gmail.com>, 2011, 2012.
 # Jon Gjengset <jon@thesquareplanet.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-03-21 18:16+0000\n"
 "Last-Translator: Alexander Rødseth <rodseth@gmail.com>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/archlinux-pacman/language/nb/)\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/"
+"archlinux-pacman/language/nb/)\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -47,9 +48,25 @@ msgstr "fjerner %s...\n"
 msgid "upgrading %s...\n"
 msgstr "oppgraderer %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "laster ned %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "installerer %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "sjekker pakkeintegritet...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "sjekker pakkeintegritet...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "laster ned %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -75,13 +92,17 @@ msgstr "suksess!\n"
 msgid "failed.\n"
 msgstr "feilet.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Henter pakker fra %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "sjekker ledig diskplass...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: krever %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -101,19 +122,20 @@ msgstr "konflikt mellom %s og %s (%s). Fjerne %s?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Denne pakken kunne ikke oppgraderes grunnet uoppfylte avhengigheter:\n"
-msgstr[1] "De følgende pakkene kunne ikke oppgraderes grunnet uoppfylte avhengigheter:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Denne pakken kunne ikke oppgraderes grunnet uoppfylte avhengigheter:\n"
+msgstr[1] ""
+"De følgende pakkene kunne ikke oppgraderes grunnet uoppfylte avhengigheter:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Vil du hoppe over den overnevnte pakken for denne oppgraderingen?"
-msgstr[1] "Ønsker du å hoppe over de overnevnte pakkene for denne oppgraderingen?"
+msgstr[1] ""
+"Ønsker du å hoppe over de overnevnte pakkene for denne oppgraderingen?"
 
 #, c-format
 msgid "There are %zd providers available for %s:\n"
@@ -127,10 +149,12 @@ msgstr "%s-%s: lokal versjon er nyere. Oppgradér likevel?"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Filen %s er korrupt (%s).\nVil du slette den?"
+msgstr ""
+"Filen %s er korrupt (%s).\n"
+"Vil du slette den?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "Importér PGP nøkkel %s, \"%s\", opprettet %s?"
 
 #, c-format
@@ -140,6 +164,14 @@ msgstr "installerer"
 #, c-format
 msgid "upgrading"
 msgstr "oppgraderer"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "oppgraderer"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "installerer"
 
 #, c-format
 msgid "removing"
@@ -155,6 +187,10 @@ msgstr "sjekker ledig diskplass"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "sjekker pakkeintegritet"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "sjekker pakkeintegritet"
 
 #, c-format
@@ -195,16 +231,21 @@ msgstr "konfigurasjonsfil %s, linje %d: ugyldig verdi for '%s': '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "konfigurasjonsfil %s, linje %d: valget '%s' er ugyldig, ingen signaturstøtte\n"
+msgstr ""
+"konfigurasjonsfil %s, linje %d: valget '%s' er ugyldig, ingen "
+"signaturstøtte\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "konfigurasjonsfil %s, linje %d: direktiv '%s' i seksjon '%s' ikke gjenkjent.\n"
+msgstr ""
+"konfigurasjonsfil %s, linje %d: direktiv '%s' i seksjon '%s' ikke "
+"gjenkjent.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "pakkebrønnen '%s' inneholder variablen '%s', men ingen '%s' er definert.\n"
+msgstr ""
+"pakkebrønnen '%s' inneholder variablen '%s', men ingen '%s' er definert.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -242,8 +283,8 @@ msgstr "kunne ikke legge pakkebrønn '%s' til '%s' databasen (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "tolkning av konfigurasjon gikk forbi maks rekursjonsdybde (på %d).\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "kunne ikke lese konfigurasjonsfilen %s.\n"
 
 #, c-format
@@ -252,11 +293,14 @@ msgstr "konfigurasjonsfil %s, linje %d: ugyldig seksjonsnavn.\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "konfigurasjonsfil %s, linje %d: syntaksfeil i konfigurasjonsfil, mangler\nnøkkel.\n"
+msgstr ""
+"konfigurasjonsfil %s, linje %d: syntaksfeil i konfigurasjonsfil, mangler\n"
+"nøkkel.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "konfigurasjonsfil %s, linje %d: Alle direktiver må høre til en seksjon.\n"
+msgstr ""
+"konfigurasjonsfil %s, linje %d: Alle direktiver må høre til en seksjon.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
@@ -282,6 +326,14 @@ msgstr "%s: installasjonstype ble satt til 'installert som avhengighet'\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: installasjonstype ble satt til 'manuelt installert'\n"
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "installert"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Valgfrie avhengigheter :"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr "Manuelt installert"
@@ -295,6 +347,22 @@ msgid "Unknown"
 msgstr "Ukjent"
 
 #, c-format
+msgid "None"
+msgstr "Ingen"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5 sum        :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256 sum     :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Signaturfeil"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Pakkebrønn     :"
 
@@ -305,6 +373,14 @@ msgstr "Navn           :"
 #, c-format
 msgid "Version        :"
 msgstr "Versjon        :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Beskrivelse    :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Arkitektur        :"
 
 #, c-format
 msgid "URL            :"
@@ -327,12 +403,12 @@ msgid "Depends On     :"
 msgstr "Avhenger av    :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Valgfrie avhengigheter :"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Behøves av     :"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Valgfrie avhengigheter :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -342,25 +418,21 @@ msgstr "I konflikt med :"
 msgid "Replaces       :"
 msgstr "Erstatter      :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "Nedlastingsstørrelse  : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Nedlastingsstørrelse"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Komprimert størrelse: %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Installert størrelse : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Innpakker         :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Arkitektur        :"
 
 #, c-format
 msgid "Build Date     :"
@@ -398,13 +470,9 @@ msgstr "SHA256 sum     :"
 msgid "Signatures     :"
 msgstr "Signaturer     :"
 
-#, c-format
-msgid "None"
-msgstr "Ingen"
-
-#, c-format
-msgid "Description    :"
-msgstr "Beskrivelse    :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Behøves av     :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -421,6 +489,14 @@ msgstr "(ingen)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "ingen endringslogg tilgjengelig for '%s'.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "ingen endringslogg tilgjengelig for '%s'.\n"
+
+#, c-format
+msgid "installed"
+msgstr "installert"
 
 #, c-format
 msgid "options"
@@ -450,12 +526,13 @@ msgstr "handlinger:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nbruk '%s {-h --help}' sammen med en handling, for tilgjengelige valg\n"
+msgstr ""
+"\n"
+"bruk '%s {-h --help}' sammen med en handling, for tilgjengelige valg\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr "  -c, --cascade      fjern pakker og alle pakker som avhenger av dem\n"
 
 #, c-format
@@ -466,7 +543,9 @@ msgstr "  -n, --nosave         fjern konfigurasjonsfiler\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      fjern unødvendige avhengigheter\n                       (-ss inkluderer manuelt installerte avhengigheter)\n"
+msgstr ""
+"  -s, --recursive      fjern unødvendige avhengigheter\n"
+"                       (-ss inkluderer manuelt installerte avhengigheter)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -483,25 +562,31 @@ msgstr "  -c, --changelog      vis endringsloggen for en pakke\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps     list alle pakker som er installert som avhengigheter [filter]\n"
+msgstr ""
+"  -d, --deps     list alle pakker som er installert som avhengigheter "
+"[filter]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit        list opp all pakker som er installert manuelt [filter]\n"
+msgstr ""
+"  -e, --explicit        list opp all pakker som er installert manuelt "
+"[filter]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups          list opp alle medlemmer i en pakkegruppe\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
 msgstr "  -i, --info       vis pakkeinformasjon (-ii for backup-filer)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check     sjekk om filene som er eid av pakken(e) er tilstede\n"
+msgstr ""
+"  -k, --check     sjekk om filene som er eid av pakken(e) er tilstede\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -511,7 +596,17 @@ msgstr "  -l, --list            list opp innholdet i den angitte pakken\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign     list opp installerte pakker som ikke er i sync-database(r) [filter]\n"
+msgstr ""
+"  -m, --foreign     list opp installerte pakker som ikke er i sync-"
+"database(r) [filter]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign     list opp installerte pakker som ikke er i sync-"
+"database(r) [filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -523,18 +618,23 @@ msgstr "  -p, --file <pakke> forespør en pakkefil istedenfor databasen\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          vis mindre informasjon for forespørsler og søk\n"
+msgstr ""
+"  -q, --quiet          vis mindre informasjon for forespørsler og søk\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> søk i lokalt installerte pakker for samsvarende tekst-strenger\n"
+msgstr ""
+"  -s, --search <regex> søk i lokalt installerte pakker for samsvarende tekst-"
+"strenger\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     lister opp pakker som ikke behøves av noen pakker [filter]\n"
+msgstr ""
+"  -t, --unrequired     lister opp pakker som ikke behøves av noen pakker "
+"[filter]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -544,7 +644,9 @@ msgstr "  -u, --upgrades       list opp utdaterte pakker [filter]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean        fjern gamle pakker fra mellomlagringsmappen (-cc for alt)\n"
+msgstr ""
+"  -c, --clean        fjern gamle pakker fra mellomlagringsmappen (-cc for "
+"alt)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -555,24 +657,32 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <brønn>   vis en liste over pakker i en pakkebrønn\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex> søk i eksterne pakkebrønner etter samsvarende tekst-strenger\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr ""
+"  -s, --search <regex> søk i eksterne pakkebrønner etter samsvarende tekst-"
+"strenger\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     oppgrader installerte pakker (-uu tillater nedgradering)\n"
+msgstr ""
+"  -u, --sysupgrade     oppgrader installerte pakker (-uu tillater "
+"nedgradering)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly    last ned pakker uten å installere/oppgradere noen ting\n"
+msgstr ""
+"  -w, --downloadonly    last ned pakker uten å installere/oppgradere noen "
+"ting\n"
 
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh     laster ned friske nye pakkedatabaser fra tjeneren\n"
+msgstr ""
+"  -y, --refresh     laster ned friske nye pakkedatabaser fra tjeneren\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
@@ -582,39 +692,52 @@ msgstr "      --asdeps         marker pakker som automatisk installert\n"
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     marker pakker som manuelt installert\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          tvungen installasjon, overskriver motstridige filer\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          tvungen installasjon, overskriver motstridige filer\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         installér pakker som om de skulle vært installert automatisk\n"
+msgstr ""
+"      --asdeps         installér pakker som om de skulle vært installert "
+"automatisk\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     installér pakker som om de skulle vært manuelt installert\n"
+msgstr ""
+"      --asexplicit     installér pakker som om de skulle vært manuelt "
+"installert\n"
 
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pakke>   ignorer en pakkeoppgradering (kan brukes mer enn én gang)\n"
+msgstr ""
+"      --ignore <pakke>   ignorer en pakkeoppgradering (kan brukes mer enn én "
+"gang)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup    ignorer en gruppeoppgradering (kan brukes mer enn én gang)\n"
+msgstr ""
+"      --ignoregroup    ignorer en gruppeoppgradering (kan brukes mer enn én "
+"gang)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         hopp over versjonssjekk for avhengigheter (-dd for å hoppe over all sjekker)\n"
+msgstr ""
+"  -d, --nodeps         hopp over versjonssjekk for avhengigheter (-dd for å "
+"hoppe over all sjekker)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         kun endre databaseoppføringer, ikke pakkefiler\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         kun endre databaseoppføringer, ikke pakkefiler\n"
 
 #, c-format
 msgid ""
@@ -624,19 +747,24 @@ msgstr "      --noprogressbar   ikke vis framdrift ved nedlasting av filer\n"
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet     ikke kjør installasjons-scriptet, om det finnes\n"
+msgstr ""
+"      --noscriptlet     ikke kjør installasjons-scriptet, om det finnes\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          lister valgte pakker istedenfor å utføre den valgte handlingen\n"
+msgstr ""
+"  -p, --print          lister valgte pakker istedenfor å utføre den valgte "
+"handlingen\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <string>\n                       angir hvordan valgene skal listes\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       angir hvordan valgene skal listes\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -656,7 +784,13 @@ msgstr "      --arch <arch>    bruk en alternativ arkitektur\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <mappe> bruk en alternativ plassering for mellomlagring av pakker\n"
+msgstr ""
+"      --cachedir <mappe> bruk en alternativ plassering for mellomlagring av "
+"pakker\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -682,7 +816,13 @@ msgstr "      --nocorfirm      ikke spør om bekreftelse\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Dette programmet kan fritt distribueres under\n                       betingelsene til GNU General Public License.\n"
+msgstr ""
+"                       Dette programmet kan fritt distribueres under\n"
+"                       betingelsene til GNU General Public License.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "ugyldig tallverdi: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -705,6 +845,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "klarte ikke å åpne stdin for lesing: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "du kan ikke gjøre denne handlingen hvis ikke du er root.\n"
 
@@ -721,6 +865,10 @@ msgid "no file was specified for --owns\n"
 msgstr "ingen fil ble angitt for --owns\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "kunne ikke bestemme den egentlige stien for '%s' : %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "stien er for lang: %s%s\n"
 
@@ -733,32 +881,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "kunne ikke lese filen '%s' : %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "kunne ikke avgjøre eierskap til mappen '%s'\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "kunne ikke bestemme den egentlige stien for '%s' : %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "Ingen pakke eier %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "fant ikke gruppen '%s'\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %jd fil totalt, "
-msgstr[1] "%s: %jd filer totalt, "
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd manglende fil\n"
-msgstr[1] "%jd manglende filer\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -779,10 +907,6 @@ msgstr "valget ble ikke funnet: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "kunne ikke forberede transaksjon (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "pakken %s har ikke en gyldig arkitektur\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -829,10 +953,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "fjerner ubrukte synkroniseringsbrønner...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Mellomlagrings-mappe: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Pakker som skal beholdes:\n"
 
@@ -843,6 +963,10 @@ msgstr "  Alle lokalt installerte pakker\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  Alle pakker i sync-databasen\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Mellomlagrings-mappe: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -877,10 +1001,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "kunne ikke synkronisere noen databaser\n"
 
 #, c-format
-msgid "installed"
-msgstr "installert"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "pakkebrønnen '%s' finnes ikke\n"
 
@@ -909,6 +1029,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Starter full systemoppgradering...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "pakken %s har ikke en gyldig arkitektur\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "konflikt mellom %s og %s\n"
 
@@ -923,6 +1047,10 @@ msgstr "Fortsett til nedlasting?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Fortsett til installasjon?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -945,16 +1073,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "Synkroniserer pakkedatabaser...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "Følgende pakker bør oppgraderes først :\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Vil du avbryte den nåværende handlingen\n:: og oppgradere disse pakkene nå?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "laster pakker...\n"
 
@@ -970,7 +1088,9 @@ msgstr "kunne ikke låse database: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  hvis du vet at ingen pakkebehandler kjører allerede,\n  kan du fjerne %s\n"
+msgstr ""
+"  hvis du vet at ingen pakkebehandler kjører allerede,\n"
+"  kan du fjerne %s\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -986,7 +1106,8 @@ msgstr "databasen '%s' er ugyldig (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr "det er et utilstrekkelig antall kolonner tilgjengelig for tabellvisning\n"
+msgstr ""
+"det er et utilstrekkelig antall kolonner tilgjengelig for tabellvisning\n"
 
 #, c-format
 msgid "Valid"
@@ -1060,25 +1181,29 @@ msgstr "Netto endring"
 msgid "Download Size"
 msgstr "Nedlastingsstørrelse"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "Mål (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "pakke(r)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Total nedlastingsstørrelse:    %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Nedlastingsstørrelse"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Total installasjonsstørrelse:   %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Totalt fjernet:   %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Netto oppgraderingsstørrelse:       %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1147,3 +1272,35 @@ msgstr "feil: "
 #, c-format
 msgid "warning: "
 msgstr "advarsel: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "Nedlastingsstørrelse  : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "kunne ikke avgjøre eierskap til mappen '%s'\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: %jd fil totalt, "
+#~ msgstr[1] "%s: %jd filer totalt, "
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd manglende fil\n"
+#~ msgstr[1] "%jd manglende filer\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "Følgende pakker bør oppgraderes først :\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Vil du avbryte den nåværende handlingen\n"
+#~ ":: og oppgradere disse pakkene nå?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "Mål (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Total nedlastingsstørrelse:    %.2f %s\n"

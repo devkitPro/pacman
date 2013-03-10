@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Sung jin Gang <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2012-06-24 04:47+0000\n"
 "Last-Translator: Sung Jin Gang <>\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/archlinux-pacman/language/ko/)\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/ko/)\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
@@ -39,10 +40,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "%s을(를) 추출할 수 없습니다. (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "%s(으)로 %s의 이름을 바꾸지 못했습니다.(%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "%s 디렉토리 권한이 다릅니다.\n파일시스템 : %o 패키지 : %o \n"
+msgstr ""
+"%s 디렉토리 권한이 다릅니다.\n"
+"파일시스템 : %o 패키지 : %o \n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -53,16 +60,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "추출물 : 심볼릭링크 %s은(는) 디렉토리를 가르키지 않습니다.\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "%s(으)로 %s의 이름을 바꾸지 못했습니다.(%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "%s은(는) %s로 저장\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "%s은(는) %s(으)로 설치할 수 없습니다.(%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -100,6 +99,10 @@ msgstr "데이터베이스에 %s-%s을(를) 업데이트 할 수 없습니다.\n
 msgid "could not add entry '%s' in cache\n"
 msgstr "캐시에 '%'s을(를) 추가할 수 없습니다.\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "%s 패키지를 읽는 동안 오류가 발생하였습니다.: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "잘못된 데이터베이스를 삭제 : %s\n"
@@ -129,6 +132,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s 데이터 베이스 일관성 : %s패키지의 버전이 맞지 않습니다. \n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "%s 디렉토리를 만들 수 없습니다.: %s\n"
 
@@ -151,6 +158,14 @@ msgstr "%s 패키지를 읽는 동안 오류가 발생하였습니다.: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "%s에서 메타정보가 누락되었습니다..\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "%s에서 일부 파일을 가져오는데 실패하였습니다.\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -189,20 +204,33 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "\"%s\"에서 \"%s\"의 의존성을 확인할 수 없습니다.\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "파일 시스템 정보를 가져올 수 없습니다.\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "%s에 대한 파일 시스템 정보를 가져올 수 없습니다.: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "%s 파일을 열수 없습니다. : %s \n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "파일 시스템 정보를 가져올 수 없습니다.\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "파일 %s에 대한 마운트 지점을 지정하지 못했습니다.\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr ""
+"파티션 %s가 꽉찼습니다.: %jd 블럭이 필요하니, %jd 블럭을 비워주십시오.\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "파일 시스템 마운트 지점을 지정할 수 없습니다.\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "root 마운트 포인트 %s에 지정할 수 없습니다.\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -211,10 +239,6 @@ msgstr "root 마운트 포인트 %s에 지정할 수 없습니다.\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "파티션 %s를 일기 전용으로 마운트 하였습니다.\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "파티션 %s가 꽉찼습니다.: %jd 블럭이 필요하니, %jd 블럭을 비워주십시오.\n"
 
 #, c-format
 msgid "disk"
@@ -249,8 +273,8 @@ msgid "unexpected system error"
 msgstr "예기치 않은 시스템 오류"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "불충분한 권한"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -468,6 +492,10 @@ msgstr "대상 목록에서 %s을(를) 제거\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "파일 '%s'을(를) 제거 할 수 없습니다.: %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "%s 디렉토리를 만들 수 없습니다.: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "%s을(를) 제거할 수 없습니다.(%s)\n"
@@ -512,9 +540,13 @@ msgstr "해결할 수 없는 피키지 충돌이 있습니다.\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "대상 목록에 있는 '%s' 삭제로 '%s'와(과) 충돌이 일어납니다.\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "%s에서 일부 파일을 가져오는데 실패하였습니다.\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "일부 파일을 검색하지 못했습니다."
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "디스크 여유 공간이 부족합니다."
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -539,6 +571,10 @@ msgstr "%s를 제거할 수 없습니다.\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "tmpdir에 있는 %s를 제거하지 못하였습니다.\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "%s 파일을 열수 없습니다. : %s \n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -575,3 +611,9 @@ msgstr "%s 캐쉬가 없으므로 생성중...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "%s 대신 사용할 패키지 캐시를 찾거나 생성할 수 없습니다.\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "%s은(는) %s(으)로 설치할 수 없습니다.(%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "불충분한 권한"

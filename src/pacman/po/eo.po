@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Michael Moroni <michael.moroni@mailoo.org>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2013-01-19 14:44+0000\n"
 "Last-Translator: Michael Moroni <michael.moroni@mailoo.org>\n"
-"Language-Team: Esperanto (http://www.transifex.com/projects/p/archlinux-pacman/language/eo/)\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/archlinux-"
+"pacman/language/eo/)\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -46,9 +47,25 @@ msgstr "forigado de %s...\n"
 msgid "upgrading %s...\n"
 msgstr "promociado de %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "elŝutado de %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "instalado de %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "kontrolado de integreco de pakaĵo...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "kontrolado de integreco de pakaĵo...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "elŝutado de %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -74,13 +91,17 @@ msgstr "sukcese!\n"
 msgid "failed.\n"
 msgstr "fiasko.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Obtenado de pakaĵoj el %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr ""
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: %s estas postulata\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -100,11 +121,9 @@ msgstr "%s kaj %s konfliktas (%s). Ĉu forigi %s?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -129,7 +148,7 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr ""
 
 #, c-format
@@ -139,6 +158,14 @@ msgstr "instalado"
 #, c-format
 msgid "upgrading"
 msgstr "promociado"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "promociado"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "instalado"
 
 #, c-format
 msgid "removing"
@@ -155,6 +182,10 @@ msgstr ""
 #, c-format
 msgid "checking package integrity"
 msgstr ""
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
+msgstr "kontrolado de integreco de pakaĵo...\n"
 
 #, c-format
 msgid "loading package files"
@@ -242,7 +273,7 @@ msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 
 #, c-format
-msgid "config file %s could not be read.\n"
+msgid "config file %s could not be read: %s\n"
 msgstr ""
 
 #, c-format
@@ -281,6 +312,14 @@ msgstr ""
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "instalita"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Laŭvolaj dependecoj:"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr ""
@@ -294,6 +333,22 @@ msgid "Unknown"
 msgstr "Nekonata"
 
 #, c-format
+msgid "None"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "Sumo de MD5:"
+
+#, c-format
+msgid "SHA256 Sum"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Eraro de subskribo"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Deponejo:"
 
@@ -304,6 +359,14 @@ msgstr "Nomo:"
 #, c-format
 msgid "Version        :"
 msgstr "Versio:"
+
+#, c-format
+msgid "Description    :"
+msgstr "Priskribo:"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Arkitekturo:"
 
 #, c-format
 msgid "URL            :"
@@ -326,12 +389,12 @@ msgid "Depends On     :"
 msgstr "Ĝi dependas je:"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Laŭvolaj dependecoj:"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Postulata de:"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Laŭvolaj dependecoj:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -341,25 +404,21 @@ msgstr "Ĝi konfliktas kun:"
 msgid "Replaces       :"
 msgstr "Ĝi anstataŭigas:"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr ""
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Grando de elŝuto"
 
 #, c-format
-msgid "Compressed Size: %6.2f %s\n"
+msgid "Compressed Size:"
 msgstr ""
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
-msgstr ""
+#, fuzzy, c-format
+msgid "Installed Size :"
+msgstr "Skripto de instalo:"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Pakaĵisto:"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Arkitekturo:"
 
 #, c-format
 msgid "Build Date     :"
@@ -397,13 +456,9 @@ msgstr ""
 msgid "Signatures     :"
 msgstr ""
 
-#, c-format
-msgid "None"
-msgstr ""
-
-#, c-format
-msgid "Description    :"
-msgstr "Priskribo:"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Postulata de:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -420,6 +475,14 @@ msgstr "(nenio)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "neniu ŝanĝoprotokolo disponeblas por '%s'.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "neniu ŝanĝoprotokolo disponeblas por '%s'.\n"
+
+#, c-format
+msgid "installed"
+msgstr "instalita"
 
 #, c-format
 msgid "options"
@@ -453,8 +516,7 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
 
 #, c-format
@@ -493,7 +555,8 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr ""
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
 msgstr ""
 
 #, c-format
@@ -509,6 +572,12 @@ msgstr ""
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
 
@@ -554,7 +623,8 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
 
 #, c-format
@@ -582,7 +652,7 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr ""
 
 #, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
 
 #, c-format
@@ -612,7 +682,8 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
 msgstr ""
 
 #, c-format
@@ -658,6 +729,10 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 
 #, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
+
+#, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr ""
 
@@ -684,6 +759,10 @@ msgid ""
 msgstr ""
 
 #, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr ""
+
+#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr ""
 
@@ -704,6 +783,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr ""
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr ""
 
@@ -720,6 +803,10 @@ msgid "no file was specified for --owns\n"
 msgstr ""
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr ""
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "tro longa vojo: %s%s\n"
 
@@ -732,32 +819,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr ""
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr ""
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr ""
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "Neniu pakaĵo posedas %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr ""
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -777,10 +844,6 @@ msgstr "celo ne trovata: %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
-msgstr ""
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
 msgstr ""
 
 #, c-format
@@ -828,10 +891,6 @@ msgid "removing unused sync repositories...\n"
 msgstr ""
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr ""
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Mantenendaj pakaĵoj:\n"
 
@@ -841,6 +900,10 @@ msgstr "Ĉiuj loke instalitaj pakaĵoj\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
+msgstr ""
+
+#, c-format
+msgid "Cache directory: %s\n"
 msgstr ""
 
 #, c-format
@@ -876,10 +939,6 @@ msgid "failed to synchronize any databases\n"
 msgstr ""
 
 #, c-format
-msgid "installed"
-msgstr "instalita"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr ""
 
@@ -908,6 +967,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Komencado de kompleta promociado de sistemo...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr ""
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s kaj %s konfliktas\n"
 
@@ -922,6 +985,10 @@ msgstr "Ĉu ekelŝuti?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Ĉu ekinstali?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -941,16 +1008,6 @@ msgstr ""
 
 #, c-format
 msgid "Synchronizing package databases...\n"
-msgstr ""
-
-#, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr ""
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
 msgstr ""
 
 #, c-format
@@ -1059,24 +1116,28 @@ msgstr ""
 msgid "Download Size"
 msgstr "Grando de elŝuto"
 
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "pakaĵo(j)"
+
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Grando de elŝuto"
+
 #, c-format
-msgid "Targets (%d):"
+msgid "Total Installed Size:"
 msgstr ""
 
 #, c-format
-msgid "Total Download Size:    %.2f %s\n"
+msgid "Total Removed Size:"
 msgstr ""
 
 #, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+msgid "Net Upgrade Size:"
 msgstr ""
 
 #, c-format
-msgid "Total Removed Size:     %.2f %s\n"
-msgstr ""
-
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+msgid " [pending]"
 msgstr ""
 
 #, c-format

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pacman 4.0.2\n"
+"Project-Id-Version: pacman 4.1.0rc1\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,6 +38,10 @@ msgid "could not extract %s (%s)\n"
 msgstr ""
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr ""
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
@@ -52,15 +56,7 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr ""
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr ""
-
-#, c-format
 msgid "%s saved as %s\n"
-msgstr ""
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
 msgstr ""
 
 #, c-format
@@ -100,6 +96,10 @@ msgid "could not add entry '%s' in cache\n"
 msgstr ""
 
 #, c-format
+msgid "error while reading file %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "removing invalid database: %s\n"
 msgstr ""
 
@@ -128,6 +128,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr ""
 
@@ -149,6 +153,14 @@ msgstr ""
 
 #, c-format
 msgid "missing package metadata in %s\n"
+msgstr ""
+
+#, c-format
+msgid "failed to read signature file: %s\n"
+msgstr ""
+
+#, c-format
+msgid "required key missing from keyring\n"
 msgstr ""
 
 #, c-format
@@ -188,11 +200,15 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr ""
 
 #, c-format
-msgid "could not get filesystem information\n"
+msgid "could not get filesystem information for %s: %s\n"
 msgstr ""
 
 #, c-format
-msgid "could not get filesystem information for %s: %s\n"
+msgid "could not open file: %s: %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not get filesystem information\n"
 msgstr ""
 
 #, c-format
@@ -200,7 +216,15 @@ msgid "could not determine mount point for file %s\n"
 msgstr ""
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr ""
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
+msgstr ""
+
+#, c-format
+msgid "could not determine cachedir mount point %s\n"
 msgstr ""
 
 #, c-format
@@ -209,10 +233,6 @@ msgstr ""
 
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr ""
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr ""
 
 #, c-format
@@ -248,7 +268,7 @@ msgid "unexpected system error"
 msgstr ""
 
 #, c-format
-msgid "insufficient privileges"
+msgid "permission denied"
 msgstr ""
 
 #, c-format
@@ -468,6 +488,10 @@ msgid "cannot remove file '%s': %s\n"
 msgstr ""
 
 #, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr ""
 
@@ -512,7 +536,11 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
 
 #, c-format
-msgid "failed to retrieve some files from %s\n"
+msgid "failed to retrieve some files\n"
+msgstr ""
+
+#, c-format
+msgid "not enough free disk space\n"
 msgstr ""
 
 #, c-format
@@ -537,6 +565,10 @@ msgstr ""
 
 #, c-format
 msgid "could not remove tmpdir %s\n"
+msgstr ""
+
+#, c-format
+msgid "could not stat file %s: %s\n"
 msgstr ""
 
 #, c-format

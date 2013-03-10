@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Atilla Öntaş <tarakbumba@gmail.com>, 2011, 2012.
 # Samed Beyribey <samed@ozguryazilim.com.tr>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-05-20 11:26-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2012-06-18 20:25+0000\n"
 "Last-Translator: Atilla Öntaş <tarakbumba@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/archlinux-pacman/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/tr/)\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "WARNING:"
@@ -31,35 +32,14 @@ msgstr "Temizleniyor..."
 msgid "Entering %s environment..."
 msgstr "%s ortamına giriliyor..."
 
-msgid "Unable to find source file %s."
-msgstr "Kaynak dosya (%s) bulunamadı."
+msgid "Unknown download protocol: %s"
+msgstr ""
 
 msgid "Aborting..."
 msgstr "Çıkılıyor..."
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "%s adreslerini idare edecek bir araç bulunamadı. %s'i kontrol ediniz."
-
 msgid "The download program %s is not installed."
 msgstr "İndirme programı %s kurulu değil."
-
-msgid "'%s' returned a fatal error (%i): %s"
-msgstr "'%s' ölümcül bir hata döndürdü (%i): %s"
-
-msgid "Installing missing dependencies..."
-msgstr "Eksik bağımlılıklar yükleniyor..."
-
-msgid "'%s' failed to install missing dependencies."
-msgstr "'%s' eksik bağımlılıkları yükleyemedi."
-
-msgid "Missing Dependencies:"
-msgstr "Eksik bağımlılıklar:"
-
-msgid "Failed to remove installed dependencies."
-msgstr "Kurulu bağımlılıkları kaldırma işlemi başarısız oldu."
-
-msgid "Retrieving Sources..."
-msgstr "Kaynak kodları alınıyor..."
 
 msgid "Found %s"
 msgstr "%s bulundu"
@@ -73,18 +53,107 @@ msgstr "%s indiriliyor..."
 msgid "Failure while downloading %s"
 msgstr "%s indirilirken hata oluştu"
 
+msgid "Extracting %s with %s"
+msgstr "%s ile %s açılıyor"
+
+msgid "Failed to extract %s"
+msgstr "%s arşivi açılamadı"
+
+#, fuzzy
+msgid "Unrecognized reference: %s"
+msgstr "Paket %s için referans barındırıyor"
+
+#, fuzzy
+msgid "Branching %s ..."
+msgstr "%s dosyası üretiliyor..."
+
+#, fuzzy
+msgid "Failure while branching %s"
+msgstr "%s indirilirken hata oluştu"
+
+#, fuzzy
+msgid "%s is not a branch of %s"
+msgstr "'%s' bir paket dosyası değil, atlanıyor"
+
+#, fuzzy
+msgid "Pulling %s ..."
+msgstr "%s ekleniyor..."
+
+#, fuzzy
+msgid "Failure while pulling %s"
+msgstr "%s indirilirken hata oluştu"
+
+msgid "Creating working copy of %s %s repo..."
+msgstr ""
+
+msgid "Failure while creating working copy of %s %s repo"
+msgstr ""
+
+#, fuzzy
+msgid "Cloning %s %s repo..."
+msgstr "Temizleniyor..."
+
+#, fuzzy
+msgid "Failure while downloading %s %s repo"
+msgstr "%s indirilirken hata oluştu"
+
+#, fuzzy
+msgid "%s is not a clone of %s"
+msgstr "%s boş olamaz."
+
+#, fuzzy
+msgid "Updating %s %s repo..."
+msgstr "Güvenilir veritabanı güncelleniyor ..."
+
+#, fuzzy
+msgid "Failure while updating %s %s repo"
+msgstr "%s indirilirken hata oluştu"
+
+#, fuzzy
+msgid "Retrieving sources..."
+msgstr "Kaynak kodları alınıyor..."
+
+msgid "Updated version: %s"
+msgstr ""
+
+msgid "%s is not writeable -- pkgver will not be updated"
+msgstr ""
+
+msgid "Unable to find source file %s."
+msgstr "Kaynak dosya (%s) bulunamadı."
+
+msgid "'%s' returned a fatal error (%i): %s"
+msgstr "'%s' ölümcül bir hata döndürdü (%i): %s"
+
+msgid "Installing missing dependencies..."
+msgstr "Eksik bağımlılıklar yükleniyor..."
+
+msgid "'%s' failed to install missing dependencies."
+msgstr "'%s' eksik bağımlılıkları yükleyemedi."
+
+#, fuzzy
+msgid "Missing dependencies:"
+msgstr "Eksik bağımlılıklar:"
+
+msgid "Failed to remove installed dependencies."
+msgstr "Kurulu bağımlılıkları kaldırma işlemi başarısız oldu."
+
 msgid "Generating checksums for source files..."
 msgstr "Kaynak kodları için bütünlük kontrolleri oluşturuluyor..."
 
-msgid ""
-"Cannot find the %s binary required for generating sourcefile checksums."
-msgstr "Kaynak dosya bütünlük doğrulamalarının üretimi için gerekli %s ikili dosyası bulunamıyor."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
+"Kaynak dosya bütünlük doğrulamalarının üretimi için gerekli %s ikili dosyası "
+"bulunamıyor."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Geçersiz bütünlük algoritması '%s' tanımlanmış."
 
 msgid "Validating source files with %s..."
 msgstr "Kaynak dosyaları %s ile doğrulanıyor..."
+
+msgid "Skipped"
+msgstr ""
 
 msgid "NOT FOUND"
 msgstr "BULUNAMADI"
@@ -99,7 +168,9 @@ msgid "One or more files did not pass the validity check!"
 msgstr "Bir ya da daha fazla dosya doğrulama kontrolünü geçemedi."
 
 msgid "Integrity checks (%s) differ in size from the source array."
-msgstr "Bütünlük kontrolleri (%s) kaynak dizisindeki dosyaların boyutlarıyla örtüşmüyor."
+msgstr ""
+"Bütünlük kontrolleri (%s) kaynak dizisindeki dosyaların boyutlarıyla "
+"örtüşmüyor."
 
 msgid "Integrity checks are missing."
 msgstr "Bütünlük kontrolü kayıp ya da eksik."
@@ -143,17 +214,20 @@ msgstr "Kaynak dosya denetimleri atlanıyor."
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Kaynak dosya PGP imza doğrulamaları atlanıyor."
 
-msgid "Extracting Sources..."
+#, fuzzy
+msgid "Extracting sources..."
 msgstr "Kaynak Kodları Açılıyor..."
-
-msgid "Extracting %s with %s"
-msgstr "%s ile %s açılıyor"
-
-msgid "Failed to extract %s"
-msgstr "%s arşivi açılamadı"
 
 msgid "A failure occurred in %s()."
 msgstr "%s() içinde bir hata oluştu."
+
+#, fuzzy
+msgid "Failed to change to directory %s"
+msgstr "%s arşivi açılamadı"
+
+#, fuzzy
+msgid "Failed to source %s"
+msgstr "%s arşivi açılamadı"
 
 msgid "Starting %s()..."
 msgstr "%s() işlemine başlanıyor..."
@@ -167,17 +241,25 @@ msgstr "Döküman dosyaları kaldırılıyor..."
 msgid "Purging unwanted files..."
 msgstr "İstenmeyen dosyalar kaldırılıyor..."
 
-msgid "Compressing man and info pages..."
-msgstr "Kılavuz ve bilgi sayfaları sıkıştırılıyor..."
-
-msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "İkilik dosyalardan ve kütüphanelerden gereksiz ayıklama sembolleri ayıklanıyor..."
-
 msgid "Removing %s files..."
 msgstr "%s dosyaları kaldırılıyor..."
 
 msgid "Removing empty directories..."
 msgstr "Boş dizinler kaldırılıyor..."
+
+msgid "%s entry file not in package : %s"
+msgstr "%s girdi dosyası paket içinde değil: %s"
+
+msgid "Package contains reference to %s"
+msgstr "Paket %s için referans barındırıyor"
+
+msgid "Compressing man and info pages..."
+msgstr "Kılavuz ve bilgi sayfaları sıkıştırılıyor..."
+
+msgid "Stripping unneeded symbols from binaries and libraries..."
+msgstr ""
+"İkilik dosyalardan ve kütüphanelerden gereksiz ayıklama sembolleri "
+"ayıklanıyor..."
 
 msgid "Compressing binaries with %s..."
 msgstr "İkili dosyalar %s ile sıkıştırılıyor..."
@@ -185,8 +267,14 @@ msgstr "İkili dosyalar %s ile sıkıştırılıyor..."
 msgid "Could not compress binary : %s"
 msgstr "İkili dosya sıkıştırılamıyor: %s"
 
-msgid "Generating %s file..."
-msgstr "%s dosyası üretiliyor..."
+msgid "Library listed in %s is not required by any files: %s"
+msgstr ""
+
+msgid "Library listed in %s is not versioned: %s"
+msgstr ""
+
+msgid "Library listed in %s is not a shared object: %s"
+msgstr ""
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "%s içinde olması gereken kütüphane bulunamıyor: %s"
@@ -197,20 +285,22 @@ msgstr "Lütfen %s dosyanıza bir lisans satırı ekleyin!"
 msgid "Example for GPL'ed software: %s."
 msgstr "GPL lisanslı yazılım örneği: %s."
 
-msgid "%s entry file not in package : %s"
-msgstr "%s girdi dosyası paket içinde değil: %s"
-
-msgid "Package contains reference to %s"
-msgstr "Paket %s için referans barındırıyor"
+msgid "Generating %s file..."
+msgstr "%s dosyası üretiliyor..."
 
 msgid "Missing %s directory."
 msgstr "Kayıp %s dizini."
 
-msgid "Creating package..."
+#, fuzzy
+msgid "Creating package \"%s\"..."
 msgstr "Paket oluşturuluyor..."
 
 msgid "Adding %s file..."
 msgstr "%s dosyası ekleniyor..."
+
+#, fuzzy
+msgid "Generating .MTREE file..."
+msgstr "%s dosyası üretiliyor..."
 
 msgid "Compressing package..."
 msgstr "Paket sıkıştırılıyor..."
@@ -269,11 +359,9 @@ msgstr "%s, '-' (tire) işareti ile başlayamaz."
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s geçersiz karakterler içeriyor: '%s'"
 
-msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr "%s virgül, tire, boşluk içeremez."
-
-msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr "%s tire veya boşluk içeremez."
+#, fuzzy
+msgid "%s must be a decimal."
+msgstr "%s bir tamsayı olmalıdır."
 
 msgid "%s must be an integer."
 msgstr "%s bir tamsayı olmalıdır."
@@ -308,45 +396,73 @@ msgstr "%s fonksiyonu ayırma paketi '%s' için eksik"
 msgid "Requested package %s is not provided in %s"
 msgstr "İstenilen %s paketi %s tarafından sunulmuyor"
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
+msgstr "%s virgül, tire, boşluk içeremez."
+
+#, fuzzy
+msgid "Cannot find the %s binary required for dependency operations."
+msgstr "%s ikili dosyası tüm %s işlemleri için gerekli ancak bulunamıyor."
+
+#, fuzzy
+msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "Sudo bulunamadı. Yetki almak için su kullanılacak."
 
 msgid "Cannot find the %s binary required for building as non-root user."
-msgstr "Kök olmayan kullanıcı tarafından derlemek için gerekli olan %s ikili dosyası bulunamıyor."
+msgstr ""
+"Kök olmayan kullanıcı tarafından derlemek için gerekli olan %s ikili dosyası "
+"bulunamıyor."
 
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Paketleri imzalamak için gerekli olan %s ikili dosyası bulunamıyor."
 
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr "Kaynak dosyaları doğrulamak için gerekli olan %s ikili dosyası bulunamıyor."
+msgstr ""
+"Kaynak dosyaları doğrulamak için gerekli olan %s ikili dosyası bulunamıyor."
 
-msgid ""
-"Cannot find the %s binary required for validating sourcefile checksums."
-msgstr "Kaynak dosya sağlama toplamlarını doğrulamak için gerekli olan %s ikili dosyası bulunamıyor."
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+"Kaynak dosya sağlama toplamlarını doğrulamak için gerekli olan %s ikili "
+"dosyası bulunamıyor."
 
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr "Sıkıştırılmış ikili dosyalar için gerekli olan %s ikili dosyası bulunamıyor."
+msgstr ""
+"Sıkıştırılmış ikili dosyalar için gerekli olan %s ikili dosyası bulunamıyor."
 
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "Dağıtılmış derleme için gerekli olan %s ikili dosyası bulunamıyor."
 
 msgid "Cannot find the %s binary required for compiler cache usage."
-msgstr "Derleyici önbelleği kullanımı için gerekli olan %s ikili dosyası bulunamıyor."
+msgstr ""
+"Derleyici önbelleği kullanımı için gerekli olan %s ikili dosyası bulunamıyor."
 
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr "Nesne dosyası ayıklamak için gerekli olan %s ikili dosyası bulunamıyor."
+msgstr ""
+"Nesne dosyası ayıklamak için gerekli olan %s ikili dosyası bulunamıyor."
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
-msgstr "Man ve info sayfalarını sıkıştırmak için gerekli olan %s ikili dosyası bulunamıyor."
+msgstr ""
+"Man ve info sayfalarını sıkıştırmak için gerekli olan %s ikili dosyası "
+"bulunamıyor."
 
-msgid "Cannot find the %s binary required to determine latest %s revision."
-msgstr "Şu işlem için gerekli olan %s ikili dosyası bulunamıyor : güncel %s sürümünü belirlemek."
+msgid "A package has already been built, installing existing package..."
+msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
 
-msgid "Determining latest %s revision..."
-msgstr "Son %s sürümü belirleniyor..."
+msgid "A package has already been built. (use %s to overwrite)"
+msgstr ""
+"Bir paket zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
 
-msgid "Version found: %s"
-msgstr "Değişiklik numarası olarak %s bulundu"
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr "Paket grubu zaten derlenmiş, var olan paketler kuruluyor..."
+
+msgid "The package group has already been built. (use %s to overwrite)"
+msgstr ""
+"Paket grubu zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
+
+msgid "Part of the package group has already been built. (use %s to overwrite)"
+msgstr ""
+"Paket grubunun bir kısmı zaten önceden oluşturulmuş. (üzerine yazmak için %s "
+"kullanın)"
 
 msgid "Usage: %s [options]"
 msgstr "Kullanım: %s [seçenekler]"
@@ -392,10 +508,11 @@ msgstr "  -p <dosya>  '%s' yerine farklı bir derleme betiği kullan"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr "  -r, --rmdeps     Derlenme tamamlandıktan sonra yüklenen bağımlılıkları kaldır"
+msgstr ""
+"  -r, --rmdeps     Derlenme tamamlandıktan sonra yüklenen bağımlılıkları "
+"kaldır"
 
-msgid ""
-"  -R, --repackage  Repackage contents of the package without rebuilding"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Derleme yapmadan yeniden paketle"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
@@ -403,12 +520,21 @@ msgstr "  -s, --syncdeps   Eksik bağımlılıkları %s ile kur"
 
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr "  -S, --source     İndirilen kaynak dosyaları olmadan bir kaynak arşivi oluştur."
+msgstr ""
+"  -S, --source     İndirilen kaynak dosyaları olmadan bir kaynak arşivi "
+"oluştur."
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr "  --allsource      İndirilmiş arşivlerle birlikte sadece kaynak barındıran bir arşiv oluştur"
+msgstr ""
+"  --allsource      İndirilmiş arşivlerle birlikte sadece kaynak barındıran "
+"bir arşiv oluştur"
+
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr ""
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         %s kök kullanıcı olarak çalıştırılsın"
@@ -419,14 +545,15 @@ msgstr "  --check          %s fonksiyonunu %s içinde çalıştır"
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <dosya> '%s' yerine farklı bir yapılandırma dosyası kullan"
 
-msgid ""
-"  --holdver        Prevent automatic version bumping for development %ss"
-msgstr "  --holdver        %s için sürümü sabit tut"
+#, fuzzy
+msgid "  --holdver        Do not update VCS sources"
+msgstr "  --nocheck        %s fonksiyonunu %s içinde çalıştırma"
 
 msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the "
-"default"
-msgstr "  --key <key>      Öntanımlı yerine %s imzalama işlemi için başka bir anahtar belirt"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr ""
+"  --key <key>      Öntanımlı yerine %s imzalama işlemi için başka bir "
+"anahtar belirt"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        %s fonksiyonunu %s içinde çalıştırma"
@@ -435,7 +562,8 @@ msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Paket imzası oluşturma"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr "  --pkg <list>     Paket grubundan sadece listedeki ayrılmış paketleri derle "
+msgstr ""
+"  --pkg <list>     Paket grubundan sadece listedeki ayrılmış paketleri derle "
 
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Paketi %s ile imzala"
@@ -445,7 +573,8 @@ msgstr "  --skipchecksums  Kaynak dosyaların sağlama toplamalarını denetleme
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
-msgstr "  --skipinteg      Kaynak dosyalarında herhangi bir doğrulama denetimi yapma"
+msgstr ""
+"  --skipinteg      Kaynak dosyalarında herhangi bir doğrulama denetimi yapma"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Kaynak dosyaları PGP imzaları ile doğrulama"
@@ -453,9 +582,16 @@ msgstr "  --skippgpcheck   Kaynak dosyaları PGP imzaları ile doğrulama"
 msgid "These options can be passed to %s:"
 msgstr "Bu seçenekler %s üzerinden geçirilebilir :"
 
+msgid "  --asdeps         Install packages as non-explicitly installed"
+msgstr ""
+
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm       Bağımlılıklar çözümlenirken onay isteme"
+
+msgid ""
+"  --needed         Do not reinstall the targets that are already up to date"
+msgstr ""
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar   Dosyalar indirilirken durum çubuğu gösterme"
@@ -463,13 +599,17 @@ msgstr "  --noprogressbar   Dosyalar indirilirken durum çubuğu gösterme"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "%s belirtilmemişse; %s, '%s' arayacaktır"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
-"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
-"law.\\n"
-msgstr "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for copying conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "%s sinyalı yakalandı. Çıkılıyor ..."
@@ -490,33 +630,48 @@ msgid "You do not have write permission to store packages in %s."
 msgstr "Paketleri %s dizininde saklamak için yazma izniniz yok."
 
 msgid "You do not have write permission to store downloads in %s."
-msgstr "İndirilenleri %s dizininde saklayabilmenizi sağlayacak izinlere sahip değilsiniz."
+msgstr ""
+"İndirilenleri %s dizininde saklayabilmenizi sağlayacak izinlere sahip "
+"değilsiniz."
 
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "%s içerisinde tar dosyalarını tutmak için yazma hakkınız bulunmuyor."
 
-msgid "\\0%s and %s cannot both be specified"
-msgstr "\\0%s ve %s birlikte belirtilemezler"
+#, fuzzy
+msgid "You do not have write permission to store logs in %s."
+msgstr ""
+"İndirilenleri %s dizininde saklayabilmenizi sağlayacak izinlere sahip "
+"değilsiniz."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
-msgstr "%s kök olarak çalıştırmak KÖTÜ bir fikir ve sisteminizde kalıcı\nhasarlara yol açabilir. Yine de kök olarak çalıştırmak istiyorsanız;\n%s seçeneğini kullanın."
+msgstr ""
+"%s kök olarak çalıştırmak KÖTÜ bir fikir ve sisteminizde kalıcı\n"
+"hasarlara yol açabilir. Yine de kök olarak çalıştırmak istiyorsanız;\n"
+"%s seçeneğini kullanın."
 
 msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
-msgstr "%s seçeneği sadece kök kullanıcı içindir. Lütfen\n%s'i %s işareti olmadan yeniden çalıştırın."
+"The %s option is meant for the root user only. Please\\nrerun %s without the "
+"%s flag."
+msgstr ""
+"%s seçeneği sadece kök kullanıcı içindir. Lütfen\n"
+"%s'i %s işareti olmadan yeniden çalıştırın."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
-msgstr "%s uygulamasını yetkisiz kullanıcı olarak çalıştırmak paketlenmiş\ndosyaların kök olmayan sahiplik almasına yol açacaktır. %s ortamını, %s değerini %s satırına %s dosyası içinde \nyerleştirerek kullanmayı deneyin."
+msgstr ""
+"%s uygulamasını yetkisiz kullanıcı olarak çalıştırmak paketlenmiş\n"
+"dosyaların kök olmayan sahiplik almasına yol açacaktır. %s ortamını, %s "
+"değerini %s satırına %s dosyası içinde \n"
+"yerleştirerek kullanmayı deneyin."
 
 msgid "Do not use the %s option. This option is only for use by %s."
-msgstr "%s seçeneğini kullanma. Bu seçenek sadece %s tarafından kullanılabilir."
+msgstr ""
+"%s seçeneğini kullanma. Bu seçenek sadece %s tarafından kullanılabilir."
 
 msgid "%s does not exist."
 msgstr "%s mevcut değil."
@@ -530,23 +685,6 @@ msgstr "Anahtar dizinizde %s anahtarı mevcut değil."
 msgid "There is no key in your keyring."
 msgstr "Anahtar dizinizde bir anahtar yok."
 
-msgid "A package has already been built, installing existing package..."
-msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
-
-msgid "A package has already been built. (use %s to overwrite)"
-msgstr "Bir paket zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
-
-msgid ""
-"The package group has already been built, installing existing packages..."
-msgstr "Paket grubu zaten derlenmiş, var olan paketler kuruluyor..."
-
-msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "Paket grubu zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
-
-msgid ""
-"Part of the package group has already been built. (use %s to overwrite)"
-msgstr "Paket grubunun bir kısmı zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
-
 msgid "Leaving %s environment."
 msgstr "%s ortamından çıkılıyor."
 
@@ -559,8 +697,14 @@ msgstr "Dosya izinleri korunmayabilir."
 msgid "Making package: %s"
 msgstr "%s paketi oluşturuluyor"
 
+#, fuzzy
+msgid "Using a %s without a %s function is deprecated."
+msgstr "%s fonkisonu kullanılmadan yeniden paketleme yapılamaz."
+
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr "Bir kaynak paketi zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
+msgstr ""
+"Bir kaynak paketi zaten önceden oluşturulmuş. (üzerine yazmak için %s "
+"kullanın)"
 
 msgid "Source package created: %s"
 msgstr "Kaynak paketi oluşturuldu: %s"
@@ -577,20 +721,9 @@ msgstr "Derleme bağımlılıkları denetleniyor..."
 msgid "Could not resolve all dependencies."
 msgstr "Bazı bağımlılıklar çözülemedi."
 
-msgid "%s was not found in %s; skipping dependency checks."
-msgstr "%s, %s içinde bulunamadı; bağımlılık denetimleri atlanıyor."
-
-msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr "Kaynak alımı atlanıyor        -- mevcut %s ağacı kullanılıyor"
-
-msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr "Kaynak bütünlüğü doğrulama denetimleri atlanıyor  -- mevcut %s ağacı kullanılıyor"
-
-msgid "Skipping source extraction       -- using existing %s tree"
-msgstr "Kaynak açma işlemi atlanıyor        -- mevcut %s ağacı kullanılıyor"
-
-msgid "The source directory is empty, there is nothing to build!"
-msgstr "Kaynak dizini boş; derlenecek bir şey yok!"
+#, fuzzy
+msgid "Using existing %s tree"
+msgstr "Mevcut %s dizini kaldırılıyor ..."
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "Paket dizini boş; yeniden paketlenecek bir şey yok!"
@@ -604,14 +737,19 @@ msgstr "Mevcut %s dizini kaldırılıyor ..."
 msgid "Finished making: %s"
 msgstr "%s paketinin derlenmesi tamamlandı"
 
-msgid "Usage: %s [pacman_db_root]"
+#, fuzzy
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
 msgstr "Kullanım: %s [pacman_veritabanı_kök_dizini]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>.\\nThis is free software; see the source for copying conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s bulunamadı ya da bir dizin değil."
@@ -631,82 +769,133 @@ msgstr "3.5 sürümü öncesi veritabanı biçimi algılandı - yükseltiliyor..
 msgid "Done."
 msgstr "Tamamlandı."
 
+#, fuzzy
+msgid "Usage: %s [options] operation [targets]"
+msgstr "Kullanım: %s [seçenekler]"
+
 msgid "Manage pacman's list of trusted keys"
 msgstr "Pacman' ın güvenilir anahtarlarını yönet"
 
-msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
-msgstr "  -a, --add [dosya(lar)]       Belirtilen anahtarları ekle (stdin için boş bırakın)"
+#, fuzzy
+msgid "Operations:"
+msgstr "Seçenekler:"
 
-msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
+#, fuzzy
+msgid "  -a, --add                 Add the specified keys (empty for stdin)"
+msgstr ""
+"  -a, --add [dosya(lar)]       Belirtilen anahtarları ekle (stdin için boş "
+"bırakın)"
+
+#, fuzzy
+msgid "  -d, --delete              Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   Belirtilen anahtar kimliklerini kaldır"
 
-msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
-msgstr "  -e, --export [anahtar kimlik(ler)i]   Belirtilen veya tüm anahtar kimliklerini dışa aktar."
+#, fuzzy
+msgid "  -e, --export              Export the specified or all keyids"
+msgstr ""
+"  -e, --export [anahtar kimlik(ler)i]   Belirtilen veya tüm anahtar "
+"kimliklerini dışa aktar."
 
+#, fuzzy
 msgid ""
-"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
-msgstr "  -f, --finger [keyid(s)]   Belirtilen veya tüm anahtar kimliklerinin parmak izlerini listele"
+"  -f, --finger              List fingerprint for specified or all keyids"
+msgstr ""
+"  -f, --finger [keyid(s)]   Belirtilen veya tüm anahtar kimliklerinin parmak "
+"izlerini listele"
 
-msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help                 Bu yardım iletisini göster ve çık"
-
-msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys           List the specified or all keys"
 msgstr "  -l, --list-keys [keyid(s)] Belirtilen veya tümü anahtarları listele"
 
-msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys <keyid(s)> Belirtilen anahtar kimliklerini al"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            Pacman' in trustdb veritabanını güncelle"
 
-msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+#, fuzzy
+msgid ""
+"  -v, --verify              Verify the file(s) specified by the signature(s)"
 msgstr "  -v, --verify <signature>  İmza tarafından belirlenen dosyayı doğrula"
+
+#, fuzzy
+msgid ""
+"  --edit-key                Present a menu for key management task on keyids"
+msgstr ""
+"  --edit-key <keyid(s)>      Anahtar kimlikleri üzerinde anahtar yönetimi "
+"görevi için bir menü göster"
+
+#, fuzzy
+msgid "  --import                  Imports pubring.gpg from dir(s)"
+msgstr "  --import <dir(s)>         Dizin(ler)den pubring.gpg içe aktarılıyor"
+
+#, fuzzy
+msgid ""
+"  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
+"dir(s)"
+msgstr ""
+"  --import-trustdb <dir(s)> Dizin(ler)deki trustdb.gpg' den Sahiplik güven "
+"değerlerini  içe aktarır."
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+"  --init                    Anahtarlığın uygun şekilde başlatıldığından emin "
+"ol"
+
+#, fuzzy
+msgid "  --list-sigs               List keys and their signatures"
+msgstr "  --list-sigs [keyid(s)]    Anahtarları ve bunların imzalarını listele"
+
+#, fuzzy
+msgid "  --lsign-key               Locally sign the specified keyid"
+msgstr ""
+"  --lsign-key <keyid>       Belirtilen anahtar kimliğini yerel olarak imzala"
+
+#, fuzzy
+msgid ""
+"  --populate                Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+"  --populate [keyring(s)]   Öntanımlı anahtarları (verilen) anahtar "
+"dizilerinden yeniden yükle\\n                            '%s'"
+
+#, fuzzy
+msgid ""
+"  --refresh-keys            Update specified or all keys from a keyserver"
+msgstr ""
+"  --refresh-keys [keyid(s)] Belirtilen veya tüm anahtarları bir anahtar "
+"sunucusundan güncelle"
+
+msgid ""
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
+msgstr ""
+"  --config <file>           Farklı bir yapılandırma dosyası kullan. ('%s'\n"
+"                            yerine)"
+
+msgid ""
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
+msgstr ""
+"  --gpgdir <dir>            GnuPG için farklı bir dizin ayarla. ('%s'\n"
+"                            yerine)"
+
+#, fuzzy
+msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
+msgstr "  --keyserver               Gerekli ise bir anahtar sunucusu belirt"
+
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help                 Bu yardım iletisini göster ve çık"
 
 msgid "  -V, --version             Show program version"
 msgstr "  -V, --version             Uygulama sürümünü göster"
 
-msgid ""
-"  --config <file>           Use an alternate config file (instead of\\n"
-"                            '%s')"
-msgstr "  --config <file>           Farklı bir yapılandırma dosyası kullan. ('%s'\n                            yerine)"
+msgid "Failed to lookup key by name:"
+msgstr ""
 
-msgid ""
-"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
-msgstr "  --edit-key <keyid(s)>      Anahtar kimlikleri üzerinde anahtar yönetimi görevi için bir menü göster"
-
-msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
-"                            of '%s')"
-msgstr "  --gpgdir <dir>            GnuPG için farklı bir dizin ayarla. ('%s'\n                            yerine)"
-
-msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
-msgstr "  --import <dir(s)>         Dizin(ler)den pubring.gpg içe aktarılıyor"
-
-msgid ""
-"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in "
-"dir(s)"
-msgstr "  --import-trustdb <dir(s)> Dizin(ler)deki trustdb.gpg' den Sahiplik güven değerlerini  içe aktarır."
-
-msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr "  --init                    Anahtarlığın uygun şekilde başlatıldığından emin ol"
-
-msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr "  --keyserver               Gerekli ise bir anahtar sunucusu belirt"
-
-msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr "  --list-sigs [keyid(s)]    Anahtarları ve bunların imzalarını listele"
-
-msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr "  --lsign-key <keyid>       Belirtilen anahtar kimliğini yerel olarak imzala"
-
-msgid ""
-"  --populate [keyring(s)]   Reload the default keys from the (given) "
-"keyrings\\n                            in '%s'"
-msgstr "  --populate [keyring(s)]   Öntanımlı anahtarları (verilen) anahtar dizilerinden yeniden yükle\\n                            '%s'"
-
-msgid ""
-"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys [keyid(s)] Belirtilen veya tüm anahtarları bir anahtar sunucusundan güncelle"
+msgid "Key name is ambiguous:"
+msgstr ""
 
 msgid "The key identified by %s could not be found locally."
 msgstr "%s tarafından tanımlanmış anahtar yerelde bulunamadı."
@@ -737,9 +926,6 @@ msgstr "Anahtarlar %s.gpg' den ekleniyor ..."
 
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Anahtar dizisindeki güvenilir anahtarlar yerel olarak imzalanıyor ..."
-
-msgid "Locally signing key %s..."
-msgstr "%s anahtarı yerel olarak imzalanıyor ..."
 
 msgid "Importing owner trust values..."
 msgstr "Sahiplik güven değerleri içe aktarılıyor ..."
@@ -777,7 +963,11 @@ msgstr "Belirtilen anahtar listelenemedi."
 msgid "A specified signature could not be listed."
 msgstr "Belirtilen imza listelenemedi."
 
-msgid "A specified key could not be locally signed."
+msgid "Locally signing key %s..."
+msgstr "%s anahtarı yerel olarak imzalanıyor ..."
+
+#, fuzzy
+msgid "%s could not be locally signed."
 msgstr "Belirtilen anahtar yerelde imzalanamadı."
 
 msgid "Remote key not fetched correctly from keyserver."
@@ -813,22 +1003,35 @@ msgstr "Birden çok işlem yapılması istendi."
 msgid "Please run %s with each operation separately."
 msgstr "Lütfen her işlem ile ayrı ayrı %s çalıştırın."
 
+msgid "No targets specified"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
-msgstr "pacman-optimize, pacman'in dosya sistemi tabanlı veritabanını okumasını ve\\nyazmasını hızlandırmak amacıyla kullanılan bir araçtır.\\n\\n"
+msgstr ""
+"pacman-optimize, pacman'in dosya sistemi tabanlı veritabanını okumasını ve"
+"\\nyazmasını hızlandırmak amacıyla kullanılan bir araçtır.\\n\\n"
 
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\nthere is a"
-" tendency for these files to become fragmented over time.\\nThis script "
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
 "attempts to relocate these small files into one\\ncontinuous location on "
 "your hard drive. The result is that the hard\\ndrive should be able to read "
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
-msgstr "pacman, paketleri takip etmek için bir sürü küçük dosya ile uğraşmak zorunda\\nolduğundan, bu dosyaların zamanla derlenip toplanması iyi olacaktır.\\nBu betik, bahsi geçen küçük dosyaları bulup onları sabit diskinizdeki\\nkesintisiz bir bölümde bir araya toplar. Sabit diskinizin okuma kafası\\ndiskin farklı kısımlarında gezmek zorunda kalmayacağından, sonuçta\\nfarkedilir bir performans artışı olması muhtemeldir.\\n"
+msgstr ""
+"pacman, paketleri takip etmek için bir sürü küçük dosya ile uğraşmak zorunda"
+"\\nolduğundan, bu dosyaların zamanla derlenip toplanması iyi olacaktır.\\nBu "
+"betik, bahsi geçen küçük dosyaları bulup onları sabit diskinizdeki"
+"\\nkesintisiz bir bölümde bir araya toplar. Sabit diskinizin okuma kafası"
+"\\ndiskin farklı kısımlarında gezmek zorunda kalmayacağından, sonuçta"
+"\\nfarkedilir bir performans artışı olması muhtemeldir.\\n"
 
-msgid "diff tool was not found, please install diffutils."
-msgstr "diff komutu bulunamadı, lütfen diffutils paketini kurun."
+#, fuzzy
+msgid "Cannot find the %s binary required for verifying integrity."
+msgstr ""
+"Kaynak dosyaları doğrulamak için gerekli olan %s ikili dosyası bulunamıyor."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Veritabanını optimize etmek için doğru haklara sahip olmalısınız."
@@ -863,6 +1066,9 @@ msgstr "Bütünlük kontrolü BAŞARISIZ, eski veritabanına dönülüyor."
 msgid "Rotating database into place..."
 msgstr "Veritabanı dönüştürülüyor..."
 
+msgid "New database substitution failed. Check for %s, %s, and %s directories."
+msgstr ""
+
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Tamamlandı. Pacman veritabanınız optimize edildi."
 
@@ -872,7 +1078,10 @@ msgstr "Kullanımı: pkgdelta [seçenekler] <paket1> <paket2>\\n"
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
-msgstr "\tpkgdelta iki paket arasındaki farklılıklardan bir delta paketi oluşturur.\\nBu delta dosyası paket veritabanına repo-add kullanılarak eklenebilir.\\n\\n"
+msgstr ""
+"\tpkgdelta iki paket arasındaki farklılıklardan bir delta paketi oluşturur."
+"\\nBu delta dosyası paket veritabanına repo-add kullanılarak eklenebilir.\\n"
+"\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "Örnek: pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -883,21 +1092,30 @@ msgstr "Seçenekler:\\n"
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       çıktıyı en aza indir\\n"
 
-msgid ""
-"  --min-pkg-size    minimum package size before deltas are generated "
-"(bytes)\\n"
-msgstr "  --min-pkg-size    deltalar üretilmeden önceki en az paket boyutu (bayt)\\n"
+msgid "  --nocolor         remove color from output\\n"
+msgstr ""
 
+#, fuzzy
+msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
+msgstr ""
+"  --min-pkg-size    deltalar üretilmeden önceki en az paket boyutu (bayt)\\n"
+
+#, fuzzy
 msgid ""
-"  --max-delta-size  percent of package size above which deltas will be "
+"  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
-msgstr "  --max-delta-size  deltaların ele alınmayacağı en yüksek paket boyutu yüzdesi\\n"
+msgstr ""
+"  --max-delta-size  deltaların ele alınmayacağı en yüksek paket boyutu "
+"yüzdesi\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
-msgstr "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free software; see the source for copying conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Geçersiz paket dosyası '%s'."
@@ -933,15 +1151,22 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "xdelta3 ikili dosyası bulunamıyor! Sisteminizde xdelta3 kurulu mu?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "Kullanımı: repo-add [seçenekler] <veritabanı-konumu> <paket|delta> ...\\n"
+msgstr ""
+"Kullanımı: repo-add [seçenekler] <veritabanı-konumu> <paket|delta> ...\\n"
 
 msgid ""
-"repo-add will update a package database by reading a package "
-"file.\\nMultiple packages to add can be specified on the command line.\\n"
-msgstr "repo-add bir paket dosyası okuyarak paket veritabanını güncelleyecektir.\\nEklenecek birden fazla paket komut satırından belirtilebilir.\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n"
+msgstr ""
+"repo-add bir paket dosyası okuyarak paket veritabanını güncelleyecektir."
+"\\nEklenecek birden fazla paket komut satırından belirtilebilir.\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr "  -d, --delta       paket güncellemesi için delta üret ve ekle\\n"
+
+msgid ""
+"  -n, --new         only add packages that are not already in the database\\n"
+msgstr ""
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       veritabanlarının dosya listesini güncelle\\n"
@@ -950,39 +1175,54 @@ msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr "Kullanım: repo-remove [seçenek] <veritabanı> <paket|delta> ...\\n"
 
 msgid ""
-"repo-remove will update a package database by removing the package "
-"name\\nspecified on the command line from the given repo database. "
-"Multiple\\npackages to remove can be specified on the command line.\\n"
-msgstr "repo-remove komut satırından verilen veritabanını kullanarak paket  ismini\\n paket veritabanından çıkararak paket veritabanını günceller. Birden\\n fazla paket komut satırından belirtilebilir.\\n"
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n"
+msgstr ""
+"repo-remove komut satırından verilen veritabanını kullanarak paket  ismini"
+"\\n paket veritabanından çıkararak paket veritabanını günceller. Birden\\n "
+"fazla paket komut satırından belirtilebilir.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Görüntülenecek bir şey bulunmamaktadır.\\n"
 
+msgid "  --nocolor         turn off color in output\\n"
+msgstr ""
+
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr "  -s, --sign        güncellemeden sonra veritabanını GnuPG ile imzala\\n"
+msgstr ""
+"  -s, --sign        güncellemeden sonra veritabanını GnuPG ile imzala\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
-msgstr "  -k, --key <key>   veritabanını imzalamak için belirtilen anahtarı kullan\\n"
+msgstr ""
+"  -k, --key <key>   veritabanını imzalamak için belirtilen anahtarı kullan\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr "  -v, --verify      güncellemeden önce veritabanlarının imzalarını doğrula\\n"
+msgstr ""
+"  -v, --verify      güncellemeden önce veritabanlarının imzalarını doğrula\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-msgstr "\\nMevcut seçeneklere ilişkin ayrıntılı bilgi almak için %s(8) inceleyebilirsiniz.\\n"
+msgstr ""
+"\\nMevcut seçeneklere ilişkin ayrıntılı bilgi almak için %s(8) "
+"inceleyebilirsiniz.\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr "Örnek:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr ""
+"Örnek:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Örnek:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n\\nThis is free software; see the source for copying conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "'%s' paketi için veritabanı girdisi yok."
@@ -993,11 +1233,19 @@ msgstr "'deltas' girdisi ekleniyor: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Mevcut '%s' kaydı kaldırılıyor..."
 
+#, fuzzy
+msgid "Removing empty deltas file ..."
+msgstr "Boş dizinler kaldırılıyor..."
+
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Gpg ikili dosyası bulunamadı! GnuPG kurulu mu?"
 
 msgid "Signing database..."
 msgstr "Veritabanı imzalanıyor ..."
+
+#, fuzzy
+msgid "Created signature file '%s'"
+msgstr "%s imza dosyası oluşturuldu."
 
 msgid "Failed to sign package database."
 msgstr "Paket veritabanı imzalanamadı."
@@ -1081,7 +1329,8 @@ msgid "Invalid command name '%s' specified."
 msgstr "Geçersiz komut '%s' belirtilmiş."
 
 msgid "Cannot create temp directory for database building."
-msgstr "Veritabanı oluşturulması için gerekli olan geçici dizin oluşturulamadı."
+msgstr ""
+"Veritabanı oluşturulması için gerekli olan geçici dizin oluşturulamadı."
 
 msgid "Creating updated database file '%s'"
 msgstr "Güncellenmiş veritabanı dosyası '%s' oluşturuluyor"
@@ -1092,8 +1341,66 @@ msgstr "Hiç paket kalmadı, boş veritabanı yaratılıyor."
 msgid "No packages modified, nothing to do."
 msgstr "Hiç bir pakette değişiklik yapılmadı, çıkılıyor."
 
-msgid "option %s requires an argument\\n"
+msgid "option '%s' is ambiguous; possibilities:"
+msgstr ""
+
+#, fuzzy
+msgid "invalid option"
+msgstr "tanınmayan seçenek"
+
+#, fuzzy
+msgid "option requires an argument"
 msgstr "%s seçeneği bir argüman gerektiriyor\\n"
 
-msgid "unrecognized option"
-msgstr "tanınmayan seçenek"
+#, fuzzy
+msgid "option '%s' does not allow an argument"
+msgstr "%s seçeneği bir argüman gerektiriyor\\n"
+
+#, fuzzy
+msgid "option '%s' requires an argument"
+msgstr "%s seçeneği bir argüman gerektiriyor\\n"
+
+#~ msgid "There is no agent set up to handle %s URLs. Check %s."
+#~ msgstr ""
+#~ "%s adreslerini idare edecek bir araç bulunamadı. %s'i kontrol ediniz."
+
+#~ msgid "%s is not allowed to contain hyphens or whitespace."
+#~ msgstr "%s tire veya boşluk içeremez."
+
+#~ msgid "Cannot find the %s binary required to determine latest %s revision."
+#~ msgstr ""
+#~ "Şu işlem için gerekli olan %s ikili dosyası bulunamıyor : güncel %s "
+#~ "sürümünü belirlemek."
+
+#~ msgid "Determining latest %s revision..."
+#~ msgstr "Son %s sürümü belirleniyor..."
+
+#~ msgid "Version found: %s"
+#~ msgstr "Değişiklik numarası olarak %s bulundu"
+
+#~ msgid ""
+#~ "  --holdver        Prevent automatic version bumping for development %ss"
+#~ msgstr "  --holdver        %s için sürümü sabit tut"
+
+#~ msgid "\\0%s and %s cannot both be specified"
+#~ msgstr "\\0%s ve %s birlikte belirtilemezler"
+
+#~ msgid "%s was not found in %s; skipping dependency checks."
+#~ msgstr "%s, %s içinde bulunamadı; bağımlılık denetimleri atlanıyor."
+
+#~ msgid "Skipping source retrieval        -- using existing %s tree"
+#~ msgstr "Kaynak alımı atlanıyor        -- mevcut %s ağacı kullanılıyor"
+
+#~ msgid "Skipping source integrity checks -- using existing %s tree"
+#~ msgstr ""
+#~ "Kaynak bütünlüğü doğrulama denetimleri atlanıyor  -- mevcut %s ağacı "
+#~ "kullanılıyor"
+
+#~ msgid "Skipping source extraction       -- using existing %s tree"
+#~ msgstr "Kaynak açma işlemi atlanıyor        -- mevcut %s ağacı kullanılıyor"
+
+#~ msgid "The source directory is empty, there is nothing to build!"
+#~ msgstr "Kaynak dizini boş; derlenecek bir şey yok!"
+
+#~ msgid "diff tool was not found, please install diffutils."
+#~ msgstr "diff komutu bulunamadı, lütfen diffutils paketini kurun."

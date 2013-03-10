@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Algimantas Margevičius <gymka@mail.ru>, 2011.
 # Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011, 2012.
@@ -10,16 +10,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-04-19 14:41+0000\n"
 "Last-Translator: Kiprianas Spiridonovas <k.spiridonovas@gmail.com>\n"
-"Language-Team: Lithuanian (http://www.transifex.com/projects/p/archlinux-pacman/language/lt/)\n"
+"Language-Team: Lithuanian (http://www.transifex.com/projects/p/archlinux-"
+"pacman/language/lt/)\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -49,9 +51,25 @@ msgstr "šalinama %s...\n"
 msgid "upgrading %s...\n"
 msgstr "atnaujinama %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "parsisiunčiama %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "įdiegiama %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "tikrinamas paketo vientisumas...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "tikrinamas paketo vientisumas...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "parsisiunčiama %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -77,13 +95,17 @@ msgstr "pavyko!\n"
 msgid "failed.\n"
 msgstr "nepavyko.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Gaunami paketai iš %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "tikrinama laisva disko vieta...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: reikalauja %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -103,14 +125,15 @@ msgstr "%s ir %s nesuderinama (%s). Pašalinti %s?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Šio paketo atnaujinti neįmanoma, dėl neišsprendžiamų priklausomybių:\n"
-msgstr[1] "Šių paketų atnaujinti neįmanoma, dėl neišsprendžiamų priklausomybių:\n"
-msgstr[2] "Šių paketų atnaujinti neįmanoma, dėl neišsprendžiamų priklausomybių:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Šio paketo atnaujinti neįmanoma, dėl neišsprendžiamų priklausomybių:\n"
+msgstr[1] ""
+"Šių paketų atnaujinti neįmanoma, dėl neišsprendžiamų priklausomybių:\n"
+msgstr[2] ""
+"Šių paketų atnaujinti neįmanoma, dėl neišsprendžiamų priklausomybių:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -131,10 +154,12 @@ msgstr "%s-%s: vietinė versija yra naujesnė. Vistiek įrašyti?"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Failas %s yra sugadintas (%s).\nAr norite jį ištrinti?"
+msgstr ""
+"Failas %s yra sugadintas (%s).\n"
+"Ar norite jį ištrinti?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "Importuoti PGP raktą %s, „%s“, sukurtą %s?"
 
 #, c-format
@@ -144,6 +169,14 @@ msgstr "diegiama"
 #, c-format
 msgid "upgrading"
 msgstr "atnaujinama"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "atnaujinama"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "diegiama"
 
 #, c-format
 msgid "removing"
@@ -159,6 +192,10 @@ msgstr "tikrinama laisva disko vieta"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "tikrinamas paketo vientisumas"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "tikrinamas paketo vientisumas"
 
 #, c-format
@@ -199,12 +236,16 @@ msgstr "konfigūracijos failas %s, eilutė %d: netinkama reikšmė „%s“ : �
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "konfigūracijos failas %s, eilutė %d: „%s“ pasirinktis neteisinga, nėra pasirašymo palaikymo\n"
+msgstr ""
+"konfigūracijos failas %s, eilutė %d: „%s“ pasirinktis neteisinga, nėra "
+"pasirašymo palaikymo\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "konfigūracijos failas %s, eilutė %d: direktyva „%s“ sekcijoj „%s“ neatpažinta.\n"
+msgstr ""
+"konfigūracijos failas %s, eilutė %d: direktyva „%s“ sekcijoj „%s“ "
+"neatpažinta.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
@@ -246,8 +287,8 @@ msgstr "negaliu pridėt veidrodžio „%s“ į duomenų bazę „%s“ (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "skaitant konfigūracijos failą, prieita gylio riba %d.\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "konfigūracijos failas %s neperskaitomas.\n"
 
 #, c-format
@@ -256,15 +297,20 @@ msgstr "konfigūracijos failas %s, eilutė %d: netinkamas skyriaus vardas.\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "konfigūracijos failas %s, eilutė %d: sintaksės klaida konfigūracijos faile - trūksta rakto.\n"
+msgstr ""
+"konfigūracijos failas %s, eilutė %d: sintaksės klaida konfigūracijos faile - "
+"trūksta rakto.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "konfigūracijos failas %s, eilutė %d: Visos direktyvos turi priklausyti skyriuj\n"
+msgstr ""
+"konfigūracijos failas %s, eilutė %d: Visos direktyvos turi priklausyti "
+"skyriuj\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "konfigūracijos failas %s, eilutė %d: direktyva „%s“ turi turėt reikšmę\n"
+msgstr ""
+"konfigūracijos failas %s, eilutė %d: direktyva „%s“ turi turėt reikšmę\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -286,6 +332,14 @@ msgstr "%s: diegimo priežastis nustatyta kaip „įdiegta kaip priklausomybė�
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: diegimo priežastis nustatyta kaip „įdiegta savarankiškai“\n"
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "įdiegta"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Nebūtinos priklausomybės:"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr "Savarankiškai įdiegta"
@@ -299,6 +353,22 @@ msgid "Unknown"
 msgstr "Nežinoma"
 
 #, c-format
+msgid "None"
+msgstr "Nieko"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5 Sum        :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256 Sum     :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Parašo klaida"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Saugykla                :"
 
@@ -309,6 +379,14 @@ msgstr "Pavadinimas    :"
 #, c-format
 msgid "Version        :"
 msgstr "Versija        :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Aprašymas      :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Architektūra   :"
 
 #, c-format
 msgid "URL            :"
@@ -331,12 +409,12 @@ msgid "Depends On     :"
 msgstr "Priklauso nuo  :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Nebūtinos priklausomybės:"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Reikia paketams:"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Nebūtinos priklausomybės:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -346,25 +424,21 @@ msgstr "Nesuderinama su:"
 msgid "Replaces       :"
 msgstr "Pakeičia       :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "Parsisiuntimo dydis  : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Parsisiuntimo dydis"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Suarchyvuoto dydis: %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Įdiegto dydis  : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Pakuotojas     :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Architektūra   :"
 
 #, c-format
 msgid "Build Date     :"
@@ -402,13 +476,9 @@ msgstr "SHA256 Sum     :"
 msgid "Signatures     :"
 msgstr "Parašai        :"
 
-#, c-format
-msgid "None"
-msgstr "Nieko"
-
-#, c-format
-msgid "Description    :"
-msgstr "Aprašymas      :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Reikia paketams:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -425,6 +495,14 @@ msgstr "(nieko)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "paketui „%s“ nėra keitimų žurnalo.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "paketui „%s“ nėra keitimų žurnalo.\n"
+
+#, c-format
+msgid "installed"
+msgstr "įdiegta"
 
 #, c-format
 msgid "options"
@@ -454,13 +532,16 @@ msgstr "operacijos:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nnaudokite komandą „%s {-h --help}“ galimom pasirinktim pamatyt\n"
+msgstr ""
+"\n"
+"naudokite komandą „%s {-h --help}“ galimom pasirinktim pamatyt\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade        pašalinti pačius paketus ir visus kurie priklauso nuo jų\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        pašalinti pačius paketus ir visus kurie priklauso nuo "
+"jų\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -470,7 +551,9 @@ msgstr "  -n, --nosave         pašalina konfigūracijos failus\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      pašalina nereikalingas priklausomybes\n                       (-ss įterpia savarankiškai įdiegtas priklausomybes)\n"
+msgstr ""
+"  -s, --recursive      pašalina nereikalingas priklausomybes\n"
+"                       (-ss įterpia savarankiškai įdiegtas priklausomybes)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -487,19 +570,25 @@ msgstr "  -c, --changelog      peržiūrėti paketo keitimų žurnalą\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           parodo paketus įdiegtus kaip priklausomybės [filtras]\n"
+msgstr ""
+"  -d, --deps           parodo paketus įdiegtus kaip priklausomybės "
+"[filtras]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       parodo savarankiškai įdiegtus paketus [filtras]\n"
+msgstr ""
+"  -e, --explicit       parodo savarankiškai įdiegtus paketus [filtras]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         peržiūrėti visus grupės narius\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           peržiūrėti paketo informaciją (-ii atsarginės kopijos failam)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           peržiūrėti paketo informaciją (-ii atsarginės kopijos "
+"failam)\n"
 
 #, c-format
 msgid ""
@@ -515,7 +604,17 @@ msgstr "  -l, --list           parodyti užklausto paketo turinį\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        parodyti paketus kurių nėra sinchronizacijos duomenų bazėje [filtras]\n"
+msgstr ""
+"  -m, --foreign        parodyti paketus kurių nėra sinchronizacijos duomenų "
+"bazėje [filtras]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        parodyti paketus kurių nėra sinchronizacijos duomenų "
+"bazėje [filtras]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -527,18 +626,21 @@ msgstr "  -p, --file <paketas> užklausti paketo failą vietoj duomenų bazės\n
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          rodyti mažiau informacijos užklausoms ir paieškai\n"
+msgstr ""
+"  -q, --quiet          rodyti mažiau informacijos užklausoms ir paieškai\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> ieškoti įdiegtų paketų kurie atitinka kriterijus\n"
+msgstr ""
+"  -s, --search <regex> ieškoti įdiegtų paketų kurie atitinka kriterijus\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     parodyti niekam nereikalingus paketus [filtras]\n"
+msgstr ""
+"  -t, --unrequired     parodyti niekam nereikalingus paketus [filtras]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -548,7 +650,9 @@ msgstr "  -u, --upgrades       parodyti pasenusius paketus [filtras]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          pašalinti senus paketus iš podėlio (-cc norint pašalint visus)\n"
+msgstr ""
+"  -c, --clean          pašalinti senus paketus iš podėlio (-cc norint "
+"pašalint visus)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -559,36 +663,43 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <repo>    peržiūrėti paketus kurie yra saugykloje\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> ieškoti nutolusių saugyklų pagal kriterijų\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     atnaujinti įdiegtus paketus (-uu leidžia grįžti prie senos versijos)\n"
+msgstr ""
+"  -u, --sysupgrade     atnaujinti įdiegtus paketus (-uu leidžia grįžti prie "
+"senos versijos)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   parsisiųsti paketus, bet nediegti/neatnaujinti\n"
+msgstr ""
+"  -w, --downloadonly   parsisiųsti paketus, bet nediegti/neatnaujinti\n"
 
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        parsisiųsti naują paketų duomenų bazę iš serverio\n"
+msgstr ""
+"  -y, --refresh        parsisiųsti naują paketų duomenų bazę iš serverio\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         pažymėti paketus kaip nesavarankiškai įdiegtus\n"
+msgstr ""
+"      --asdeps         pažymėti paketus kaip nesavarankiškai įdiegtus\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     pažymėti paketus kaip savarankiškai įdiegtus\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          priverstinai diegti, perrašyti nesuderinamus failus\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          priverstinai diegti, perrašyti nesuderinamus failus\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -602,23 +713,33 @@ msgstr "      --asexplicit     įdiegti paketus kaip savarankiškus\n"
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pkg>   ignoruoti paketo atnaujinimą (galima naudoti daugiau nei vieną kartą)\n"
+msgstr ""
+"      --ignore <pkg>   ignoruoti paketo atnaujinimą (galima naudoti daugiau "
+"nei vieną kartą)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <grp>\n                       ignoruoti grupinį atnaujinimą (galima naudoti daugiau nei vieną kartą)\n"
+msgstr ""
+"      --ignoregroup <grp>\n"
+"                       ignoruoti grupinį atnaujinimą (galima naudoti daugiau "
+"nei vieną kartą)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         praleisti priklausomybių versijų tikrinimą (-dd praleisti visus tikrinimus)\n"
+msgstr ""
+"  -d, --nodeps         praleisti priklausomybių versijų tikrinimą (-dd "
+"praleisti visus tikrinimus)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         pakeisti tik duomenų bazės įrašus, bet ne paketo failus\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         pakeisti tik duomenų bazės įrašus, bet ne paketo "
+"failus\n"
 
 #, c-format
 msgid ""
@@ -628,7 +749,8 @@ msgstr "      --noprogressbar  siunčiant failus nerodyti pažangos juostos\n"
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    nevykdyti diegimo scenarijaus, jei toks egzistuoja\n"
+msgstr ""
+"      --noscriptlet    nevykdyti diegimo scenarijaus, jei toks egzistuoja\n"
 
 #, c-format
 msgid ""
@@ -640,7 +762,9 @@ msgstr "  -p, --print          parodo objektus vietoj to jog vykdytų užduotį\
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <string>\n                       nurodyti kaip objektai turi būti atvaizduoti\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       nurodyti kaip objektai turi būti atvaizduoti\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -648,7 +772,8 @@ msgstr "  -b, --dbpath <kelias>  nurodyt alternatyvią duomenų bazės vietą\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "  -r, --root <kelias>    nurodyti alternatyvų diegimo šakninį katalogą\n"
+msgstr ""
+"  -r, --root <kelias>    nurodyti alternatyvų diegimo šakninį katalogą\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
@@ -661,6 +786,10 @@ msgstr "      --arch <arch>    nurodyti alternatyvią architektūrą\n"
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> nurodyti alternatyvią podėlio vietą\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -686,7 +815,13 @@ msgstr "      --noconfirm      nereikalauti patvirtinimo\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Ši programa gali būti laisvai platinama\n                       pagal GNU General Public License.\n"
+msgstr ""
+"                       Ši programa gali būti laisvai platinama\n"
+"                       pagal GNU General Public License.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "netinkamas skaičius: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -709,6 +844,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "nepavyko pakartotinai atidaryti skaitymui stdin: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "jūs negalite įvykdyti šios komandos jei nesate root naudotojas.\n"
 
@@ -725,6 +864,10 @@ msgid "no file was specified for --owns\n"
 msgstr "nenurodytas failas --owns\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "negaliu nustatyti tikro kelio „%s“: %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "kelias per ilgas: %s%s\n"
 
@@ -737,34 +880,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "nepavyko perskaityti failo „%s“: %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "negaliu nustatyti aplanko savininko „%s“\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "negaliu nustatyti tikro kelio „%s“: %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "%s nepriklauso jokiam paketui\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "grupė „%s“ nerasta\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: iš viso %jd failas,"
-msgstr[1] "%s: iš viso %jd failai,"
-msgstr[2] "%s: iš viso %jd failų,"
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd trūkstamas failas\n"
-msgstr[1] "%jd trūkstami failai\n"
-msgstr[2] "%jd trūkstamų failų\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -785,10 +906,6 @@ msgstr "objektas nerastas: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "nepavyko paruošti perdavimo (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "paketas %s netinkamos architektūros\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -835,10 +952,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "šalinamos nenaudojamos saugyklos...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Podėlio aplankas: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Paketai kurie bus palikti:\n"
 
@@ -849,6 +962,10 @@ msgstr "  Visi įdiegti paketai\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  Visi dabar sinchronizuoti paketai\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Podėlio aplankas: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -883,10 +1000,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "nepavyko sinchronizuoti nei vienos duomenų bazės\n"
 
 #, c-format
-msgid "installed"
-msgstr "įdiegta"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "saugykla „%s“ neegzistuoja\n"
 
@@ -915,6 +1028,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Pradedamas sistemos atnaujinimas...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "paketas %s netinkamos architektūros\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s ir %s yra nesuderinami\n"
 
@@ -929,6 +1046,10 @@ msgstr "Vykdyti parsisiuntimą?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Vykdyti diegimą?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -951,16 +1072,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "Sinchronizuojamos paketų duomenų bazės...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "Šie paketai turėtų būti atnaujinti pirmiausia :\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Ar norite atšaukti dabartinę užduotį\n:: ir atnaujinti šiuos paketus dabar?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "įkraunami paketai...\n"
 
@@ -976,7 +1087,9 @@ msgstr "nepavyko užrakinti duomenų bazės: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  jei jūs esate tikras, kad paketų tvarkytuvė\n  nėra paleista, galite ištrinti %s\n"
+msgstr ""
+"  jei jūs esate tikras, kad paketų tvarkytuvė\n"
+"  nėra paleista, galite ištrinti %s\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1066,25 +1179,29 @@ msgstr "Bendras pokytis"
 msgid "Download Size"
 msgstr "Parsisiuntimo dydis"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "Paketai (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "paketas(-ai)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Iš viso bus parsisiųsta:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Parsisiuntimo dydis"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Iš viso bus įdiegta:       %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Iš viso bus pašalinta:     %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Bendras atnaujinimų dydis: %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1153,3 +1270,37 @@ msgstr "klaida: "
 #, c-format
 msgid "warning: "
 msgstr "įspėjimas: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "Parsisiuntimo dydis  : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "negaliu nustatyti aplanko savininko „%s“\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: iš viso %jd failas,"
+#~ msgstr[1] "%s: iš viso %jd failai,"
+#~ msgstr[2] "%s: iš viso %jd failų,"
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd trūkstamas failas\n"
+#~ msgstr[1] "%jd trūkstami failai\n"
+#~ msgstr[2] "%jd trūkstamų failų\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "Šie paketai turėtų būti atnaujinti pirmiausia :\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Ar norite atšaukti dabartinę užduotį\n"
+#~ ":: ir atnaujinti šiuos paketus dabar?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "Paketai (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Iš viso bus parsisiųsta:   %.2f %s\n"

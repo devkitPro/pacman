@@ -1,20 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2013-02-26 17:34+0000\n"
 "Last-Translator: kusakata <info@astaricsoft.net>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-pacman/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-"
+"pacman/language/ja/)\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
@@ -38,10 +39,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "%s を展開できませんでした (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "%s を %s に名前を変更できませんでした (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "%s のディレクトリのパーミッションが異なっています\nファイルシステム: %o  パッケージ: %o\n"
+msgstr ""
+"%s のディレクトリのパーミッションが異なっています\n"
+"ファイルシステム: %o  パッケージ: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -52,16 +59,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "extract: シンボリックリンク %s はディレクトリを示していません\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "%s を %s に名前を変更できませんでした (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "%s は %s として保存されました\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "%s を %s としてインストールできませんでした (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -99,6 +98,10 @@ msgstr "データベースエントリ %s-%s をアップデートできませ�
 msgid "could not add entry '%s' in cache\n"
 msgstr "キャッシュにエントリ '%s' を追加できませんでした\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "パッケージ %s の読込中にエラーが発生しました: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "無効なデータベースを削除: %s\n"
@@ -128,6 +131,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s データベースは矛盾しています: パッケージ %s のバージョンの不整合\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "キャッシュディレクトリ %s を作成できませんでした: %s\n"
 
@@ -151,6 +158,14 @@ msgstr "パッケージ %s の読込中にエラーが発生しました: %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "%s にパッケージのメタデータが見つかりません\n"
 
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "%s からのファイルの取得に失敗しました\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
+
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "無効なファイルを削除: %s\n"
@@ -161,7 +176,8 @@ msgstr "ロックファイル %s を削除できませんでした\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr "パッケージ定義ファイル '%s' (データベース '%s') をパースできませんでした\n"
+msgstr ""
+"パッケージ定義ファイル '%s' (データベース '%s') をパースできませんでした\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -188,20 +204,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "\"%s\" を解決できません、\"%s\" の依存\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "ファイルシステムの情報を取得できませんでした\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "%s のファイルシステム情報を取得できませんでした: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "ファイル %s を開けませんでした: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "ファイルシステムの情報を取得できませんでした\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "ファイル %s のマウントポイントを決定できませんでした\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "パーティション %s が一杯です: %jd ブロック必要、 %jd ブロック空き\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "ファイルシステムのマウントポイントを決定できませんでした\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "root マウントポイント %s を決定できませんでした\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -210,10 +238,6 @@ msgstr "root マウントポイント %s を決定できませんでした\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "パーティション %s は読み込み専用でマウントされています\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "パーティション %s が一杯です: %jd ブロック必要、 %jd ブロック空き\n"
 
 #, c-format
 msgid "disk"
@@ -248,8 +272,8 @@ msgid "unexpected system error"
 msgstr "予期しないシステムエラー"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "権限がありません"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -467,6 +491,10 @@ msgstr "対象リストから %s を削除\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "ファイル '%s' を削除できません: %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "キャッシュディレクトリ %s を作成できませんでした: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "%s を削除できません (%s)\n"
@@ -511,9 +539,13 @@ msgstr "解決できないパッケージの衝突が検出されました\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "対象リストから '%s' を削除。'%s' と衝突しています\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "%s からのファイルの取得に失敗しました\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "ファイルの取得に失敗しました"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "空き容量が足りません"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -538,6 +570,10 @@ msgstr "%s を削除できません\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "一時ディレクトリ %s を削除できません\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "ファイル %s を開けませんでした: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -574,3 +610,9 @@ msgstr "%s キャッシュが存在しません、作成...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "パッケージキャッシュを発見・作成できませんした、かわりに %s を使用\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "%s を %s としてインストールできませんでした (%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "権限がありません"

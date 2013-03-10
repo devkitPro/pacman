@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # <7kraim@gmail.com>, 2013.
 #  <7kraim@gmail.com>, 2013.
@@ -9,16 +9,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2013-01-29 03:04+0000\n"
 "Last-Translator: kraim <7kraim@gmail.com>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/archlinux-pacman/language/ar/)\n"
+"Language-Team: Arabic (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/ar/)\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #, c-format
 msgid "checking dependencies...\n"
@@ -48,9 +50,25 @@ msgstr "إزالة %s...\n"
 msgid "upgrading %s...\n"
 msgstr "ترقية %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "جاري تحميل %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "تثبيت %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "التحقق من سلامة الحزمة...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "التحقق من سلامة الحزمة...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "جاري تحميل %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -76,13 +94,17 @@ msgstr "تم بنجاح!\n"
 msgid "failed.\n"
 msgstr "فشل.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "استرداد حزم من %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "التحقق من مساحة القرص المتوفرة...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: يتطلب %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -102,11 +124,9 @@ msgstr "%s و %s متعارضة(%s). هل تريد إزالة %s؟"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -136,10 +156,12 @@ msgstr "%s-%s: الإصدار المحلي أحدث. هل تريد الترقي�
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "الملف %s تالف (%s).\nهل تريد حذفه؟"
+msgstr ""
+"الملف %s تالف (%s).\n"
+"هل تريد حذفه؟"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "استيراد مفتاح PGP %s، \"%s\"، تم إنشاءه %s؟"
 
 #, c-format
@@ -149,6 +171,14 @@ msgstr "جاري التثبيت"
 #, c-format
 msgid "upgrading"
 msgstr "جاري الترقية"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "جاري الترقية"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "جاري التثبيت"
 
 #, c-format
 msgid "removing"
@@ -164,6 +194,10 @@ msgstr "التحقق من مساحة القرص المتوفرة"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "التحقق من سلامة الحزمة"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "التحقق من سلامة الحزمة"
 
 #, c-format
@@ -251,8 +285,8 @@ msgstr "تعذر إضافة المرآة '%s' إلى قاعدة البيانات
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "تعذر قراءة ملف الإعداد %s.\n"
 
 #, c-format
@@ -291,6 +325,14 @@ msgstr ""
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "مثبت"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "إعتماديات اختيارية:"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr ""
@@ -304,6 +346,22 @@ msgid "Unknown"
 msgstr "غير معروف"
 
 #, c-format
+msgid "None"
+msgstr "لا شيئ"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "مجموع MD5:"
+
+#, c-format
+msgid "SHA256 Sum"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "خطأ في التوقيع"
+
+#, c-format
 msgid "Repository     :"
 msgstr "مستودع:"
 
@@ -314,6 +372,14 @@ msgstr "الاسم:"
 #, c-format
 msgid "Version        :"
 msgstr "الإصدار:"
+
+#, c-format
+msgid "Description    :"
+msgstr "تقديم:"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "البنية:"
 
 #, c-format
 msgid "URL            :"
@@ -336,12 +402,12 @@ msgid "Depends On     :"
 msgstr "يعتمد على:"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "إعتماديات اختيارية:"
-
-#, c-format
 msgid "Required By    :"
 msgstr "مطلوب من قبل:"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "إعتماديات اختيارية:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -351,25 +417,21 @@ msgstr "يتعارض مع:"
 msgid "Replaces       :"
 msgstr "يستبدل:"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "الحجم المحمل: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "حجم التحميل"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "الحجم المضغوط: %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "الحجم المثبت: %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "محزم:"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "البنية:"
 
 #, c-format
 msgid "Build Date     :"
@@ -407,13 +469,9 @@ msgstr ""
 msgid "Signatures     :"
 msgstr "التوقيعات:"
 
-#, c-format
-msgid "None"
-msgstr "لا شيئ"
-
-#, c-format
-msgid "Description    :"
-msgstr "تقديم:"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "مطلوب من قبل:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -430,6 +488,14 @@ msgstr "(لا شيئ)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "لا يتوفر تغيير لـ '%s'.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "لا يتوفر تغيير لـ '%s'.\n"
+
+#, c-format
+msgid "installed"
+msgstr "مثبت"
 
 #, c-format
 msgid "options"
@@ -459,12 +525,13 @@ msgstr "عمليات:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nاستخدم '%s {-h --help}' مع عملية من الخيارات المتاحة\n"
+msgstr ""
+"\n"
+"استخدم '%s {-h --help}' مع عملية من الخيارات المتاحة\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr " -c, --cascade احذف الحزم وجميع الحزم التي تعتمد عليها\n"
 
 #, c-format
@@ -503,7 +570,8 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr ""
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
 msgstr ""
 
 #, c-format
@@ -519,6 +587,12 @@ msgstr ""
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
+"[filter]\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
 
@@ -564,7 +638,8 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
 
 #, c-format
@@ -592,7 +667,7 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr ""
 
 #, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
 
 #, c-format
@@ -622,7 +697,8 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
 msgstr ""
 
 #, c-format
@@ -645,7 +721,9 @@ msgstr ""
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr " --print-format <string>\nحدد كيفية طباعة الأهداف\n"
+msgstr ""
+" --print-format <string>\n"
+"حدد كيفية طباعة الأهداف\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -665,6 +743,10 @@ msgstr ""
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
+msgstr ""
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
 msgstr ""
 
 #, c-format
@@ -693,6 +775,10 @@ msgid ""
 "                       the terms of the GNU General Public License.\n"
 msgstr ""
 
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "عدد غير صالح: %s\n"
+
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr ""
@@ -714,6 +800,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr ""
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "لا يمكنك تنفيذ هذه العملية إلا إذا كنت الجذر.\n"
 
@@ -730,6 +820,10 @@ msgid "no file was specified for --owns\n"
 msgstr ""
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr ""
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "المسار طويل جدا: %s %s\n"
 
@@ -742,40 +836,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "فشل في قراءة الملف '%s': %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr ""
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr ""
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr ""
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "لم يتم العثور على المجموعة '%s'\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "لا توجد ملفات مفقودة!%jd \n"
-msgstr[1] "ملف مفقود (%jd)\n"
-msgstr[2] "ملفين مفقودين (%jd)\n"
-msgstr[3] "%jd ملفات مفقودة\n"
-msgstr[4] "%jd ملف  مفقود\n"
-msgstr[5] "%jd ملف  مفقود\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -796,10 +862,6 @@ msgstr "لم يتم العثور على الهدف: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr ""
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "الحزمة %s ليس لديها بنية صالحة\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -846,10 +908,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "إزالة مستودعات المزامنة غير المستخدمة...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "مجلد التخزين المؤقت: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "حزم للإحتفاظ:\n"
 
@@ -860,6 +918,10 @@ msgstr "جميع الحزم المثبتة محليا\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr ""
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "مجلد التخزين المؤقت: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -894,10 +956,6 @@ msgid "failed to synchronize any databases\n"
 msgstr ""
 
 #, c-format
-msgid "installed"
-msgstr "مثبت"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "المستودع '%s' غير موجود\n"
 
@@ -923,11 +981,19 @@ msgstr "'%s' ملف، هل تقصد %s بدلا من %s؟\n"
 
 #, c-format
 msgid "Starting full system upgrade...\n"
-msgstr "بدأ ترقية كاملة للنظام...\n\n"
+msgstr ""
+"بدأ ترقية كاملة للنظام...\n"
+"\n"
+
+#, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "الحزمة %s ليس لديها بنية صالحة\n"
 
 #, c-format
 msgid "%s and %s are in conflict\n"
-msgstr "%s و %s في تعارض\n\n"
+msgstr ""
+"%s و %s في تعارض\n"
+"\n"
 
 #, c-format
 msgid "%s and %s are in conflict (%s)\n"
@@ -940,6 +1006,10 @@ msgstr "مواصلة التحميل؟"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "مواصلة التثبيت؟"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -959,16 +1029,6 @@ msgstr ""
 
 #, c-format
 msgid "Synchronizing package databases...\n"
-msgstr ""
-
-#, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "يجب أن تتم ترقية الحزم التالية أولا:\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
 msgstr ""
 
 #, c-format
@@ -1077,24 +1137,28 @@ msgstr ""
 msgid "Download Size"
 msgstr "حجم التحميل"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "الأهداف(%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "حزم(ة)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "إجمالي الحجم المحمل: %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "حجم التحميل"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "إجمالي الحجم المثبت: %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "مجموع الحجم المزال: %.2f %s\n"
 
 #, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+msgid "Net Upgrade Size:"
+msgstr ""
+
+#, c-format
+msgid " [pending]"
 msgstr ""
 
 #, c-format
@@ -1164,3 +1228,24 @@ msgstr "خطأ:"
 #, c-format
 msgid "warning: "
 msgstr "تحذير:"
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "الحجم المحمل: %6.2f %s\n"
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "لا توجد ملفات مفقودة!%jd \n"
+#~ msgstr[1] "ملف مفقود (%jd)\n"
+#~ msgstr[2] "ملفين مفقودين (%jd)\n"
+#~ msgstr[3] "%jd ملفات مفقودة\n"
+#~ msgstr[4] "%jd ملف  مفقود\n"
+#~ msgstr[5] "%jd ملف  مفقود\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "يجب أن تتم ترقية الحزم التالية أولا:\n"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "الأهداف(%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "إجمالي الحجم المحمل: %.2f %s\n"

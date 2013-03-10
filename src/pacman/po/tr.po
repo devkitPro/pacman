@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Atilla Öntaş <tarakbumba@gmail.com>, 2011, 2012.
 # Atilla ÖNTAŞ <tarakbumba@gmail.com>, 2012.
@@ -9,15 +9,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-05-04 10:09+0000\n"
 "Last-Translator: Atilla Öntaş <tarakbumba@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/archlinux-pacman/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/tr/)\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
@@ -48,9 +49,25 @@ msgstr "%s kaldırılıyor...\n"
 msgid "upgrading %s...\n"
 msgstr "%s güncelleniyor...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "%s indiriliyor...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "%s yükleniyor...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "paket bütünlüğü doğrulanıyor...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "paket bütünlüğü doğrulanıyor...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "%s indiriliyor...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -76,17 +93,23 @@ msgstr "başarılı!\n"
 msgid "failed.\n"
 msgstr "başarısız.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "paketler %s deposundan alınıyor...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "disk alanı kontrol ediliyor...\n"
 
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: %s paketini gerektiriyor\n"
+
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr "%s paketi IgnorePkg ya da IgnoreGroup içerisinde bulunuyor. Yine de kurulmasını istiyor musunuz?"
+msgstr ""
+"%s paketi IgnorePkg ya da IgnoreGroup içerisinde bulunuyor. Yine de "
+"kurulmasını istiyor musunuz?"
 
 #, c-format
 msgid "Replace %s with %s/%s?"
@@ -98,16 +121,16 @@ msgstr "%s, %s ile çakışıyor. %s paketinin kaldırılmasını istiyor musunu
 
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
-msgstr "%s, %s ile çakışıyor (%s). %s paketinin kaldırılmasını istiyor musunuz?"
+msgstr ""
+"%s, %s ile çakışıyor (%s). %s paketinin kaldırılmasını istiyor musunuz?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Aşağıdaki paketler çözümlenemeyen bağımlılıkları nedeniyle yükseltilemez:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Aşağıdaki paketler çözümlenemeyen bağımlılıkları nedeniyle yükseltilemez:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -126,11 +149,15 @@ msgstr "%s-%s: yerel sürüm daha yeni. Yine de güncellenmesini istiyor musunuz
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "%s dosyası bozuk (%s).\nSilinmesini istiyor musunuz?"
+msgstr ""
+"%s dosyası bozuk (%s).\n"
+"Silinmesini istiyor musunuz?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
-msgstr " %s, \"%s\" tarafından imzalanan, %s tarihinde oluşturulan PGP anahtarını içeri aktarmak istiyor musunuz?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+msgstr ""
+" %s, \"%s\" tarafından imzalanan, %s tarihinde oluşturulan PGP anahtarını "
+"içeri aktarmak istiyor musunuz?"
 
 #, c-format
 msgid "installing"
@@ -139,6 +166,14 @@ msgstr "yükleniyor"
 #, c-format
 msgid "upgrading"
 msgstr "güncelleniyor"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "güncelleniyor"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "yükleniyor"
 
 #, c-format
 msgid "removing"
@@ -154,6 +189,10 @@ msgstr "disk alanı kontrol ediliyor"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "paket bütünlüğü kontrol ediliyor"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "paket bütünlüğü kontrol ediliyor"
 
 #, c-format
@@ -194,7 +233,8 @@ msgstr "%s yapılandırma dosyası, satır %d: '%s' için geçersiz değer: '%s'
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "%s yapılandırma dosyası, satır %d: '%s' seçeneği geçersiz, imza desteği yok\n"
+msgstr ""
+"%s yapılandırma dosyası, satır %d: '%s' seçeneği geçersiz, imza desteği yok\n"
 
 #, c-format
 msgid ""
@@ -239,10 +279,12 @@ msgstr "'%s' yansısı '%s' veritabanına eklenemedi (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "yapılandırma yorumlaması izin verilen maksimum çözümleme değeri olan %d  değerini aştı.\n"
+msgstr ""
+"yapılandırma yorumlaması izin verilen maksimum çözümleme değeri olan %d  "
+"değerini aştı.\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "ayar dosyası %s okunamadı.\n"
 
 #, c-format
@@ -251,7 +293,9 @@ msgstr "ayar dosyası %s, satır %d: hatalı bölüm adı.\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "ayar dosyası %s, satır %d: ayar dosyasında söz dizimi hatası- eksik anahtar.\n"
+msgstr ""
+"ayar dosyası %s, satır %d: ayar dosyasında söz dizimi hatası- eksik "
+"anahtar.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
@@ -259,7 +303,8 @@ msgstr "ayar dosyası %s, satır %d: Tüm direktifler bir bölüme ait olmalı.\
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
+msgstr ""
+"yapılandırma dosyası %s, satır %d: '%s' direktifine bir değer atanmalı\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -281,6 +326,14 @@ msgstr "%s: kurulum sebebi 'bağımlılık olarak kuruldu' olarak belirlendi\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: kurulum sebebi 'doğrudan kurulmuş' olarak belirlendi\n"
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "kurulu"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Opsiyonel Bağımlılık(lar)  :"
+
 #, c-format
 msgid "Explicitly installed"
 msgstr "Doğrudan kurulmuş"
@@ -294,6 +347,22 @@ msgid "Unknown"
 msgstr "Bilinmiyor"
 
 #, c-format
+msgid "None"
+msgstr "Hiçbiri"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5 Çıktısı                :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256 Özeti                :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "İmza hatası"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Depo                       :"
 
@@ -304,6 +373,14 @@ msgstr "İsim                       :"
 #, c-format
 msgid "Version        :"
 msgstr "Sürüm                      :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Açıklama                   :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Mimari                     :"
 
 #, c-format
 msgid "URL            :"
@@ -326,12 +403,12 @@ msgid "Depends On     :"
 msgstr "Bağımlılıkları             :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Opsiyonel Bağımlılık(lar)  :"
-
-#, c-format
 msgid "Required By    :"
 msgstr "İhtiyaç Duyan Paket(ler)   :"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Opsiyonel Bağımlılık(lar)  :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -341,25 +418,21 @@ msgstr "Çakıştığı Paket(ler)       :"
 msgid "Replaces       :"
 msgstr "Değiştirdiği Paket(ler)    :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "İndirme Boyutu  : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "İndirme Boyutu"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Sıkıştırılmış Boyut: %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Kurulan Boyut : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Paket Sorumlusu            :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Mimari                     :"
 
 #, c-format
 msgid "Build Date     :"
@@ -397,13 +470,9 @@ msgstr "SHA256 Özeti                :"
 msgid "Signatures     :"
 msgstr "İmzalar     :"
 
-#, c-format
-msgid "None"
-msgstr "Hiçbiri"
-
-#, c-format
-msgid "Description    :"
-msgstr "Açıklama                   :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "İhtiyaç Duyan Paket(ler)   :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -420,6 +489,14 @@ msgstr "(yok)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "'%s' için değişim kaydı bulunmuyor.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "'%s' için değişim kaydı bulunmuyor.\n"
+
+#, c-format
+msgid "installed"
+msgstr "kurulu"
 
 #, c-format
 msgid "options"
@@ -449,13 +526,15 @@ msgstr "işlemler:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\ndaha ayrıntılı bilgi için '%s {-h --help}' kullanın\n"
+msgstr ""
+"\n"
+"daha ayrıntılı bilgi için '%s {-h --help}' kullanın\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade       paket(ler)i ve on(lar)a ait tüm bağımlılıkları kaldır\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade       paket(ler)i ve on(lar)a ait tüm bağımlılıkları kaldır\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -465,7 +544,9 @@ msgstr "  -n, --nosave         yapılandırma dosyalarını kaldır\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      gereksiz bağımlılıkları kaldır\n                       (-ss doğrudan kurulmuş bağımlılıkları da içerir)\n"
+msgstr ""
+"  -s, --recursive      gereksiz bağımlılıkları kaldır\n"
+"                       (-ss doğrudan kurulmuş bağımlılıkları da içerir)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -482,7 +563,9 @@ msgstr "  -c, --changelog      paketin değişim kaydını göster\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           bağımlılık olarak yüklenen paketleri listele [filtre]\n"
+msgstr ""
+"  -d, --deps           bağımlılık olarak yüklenen paketleri listele "
+"[filtre]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
@@ -493,14 +576,17 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         paket grubundaki tüm paketleri göster\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           paket bilgisini göster (yedek dosyaları için -ii)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           paket bilgisini göster (yedek dosyaları için -ii)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check          pakette bulunan dosyaların varlığını kontrol et\n"
+msgstr ""
+"  -k, --check          pakette bulunan dosyaların varlığını kontrol et\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -510,7 +596,17 @@ msgstr "  -l, --list           sorgulanan paketin içeriğini listele\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        senkronize veritabanında bulunmayan paketleri listele [filtre]\n"
+msgstr ""
+"  -m, --foreign        senkronize veritabanında bulunmayan paketleri listele "
+"[filtre]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        senkronize veritabanında bulunmayan paketleri listele "
+"[filtre]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -522,18 +618,23 @@ msgstr "  -p, --file <paket>  veritabanı yerine paket dosyasını sorgula\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          sorgulama ve arama sırasında daha az bilgi göster\n"
+msgstr ""
+"  -q, --quiet          sorgulama ve arama sırasında daha az bilgi göster\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> kurulu paketler içerisinde söz dizimine uyarak arama yap\n"
+msgstr ""
+"  -s, --search <regex> kurulu paketler içerisinde söz dizimine uyarak arama "
+"yap\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     hiçbir paket tarafından gereksinim duyulmayan paketleri listele [filtre]\n"
+msgstr ""
+"  -t, --unrequired     hiçbir paket tarafından gereksinim duyulmayan "
+"paketleri listele [filtre]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -543,7 +644,8 @@ msgstr "  -u, --upgrades       güncellenebilecek paketleri listele [filtre]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          önbellekteki eski paketleri kaldır (hepsi için -cc)\n"
+msgstr ""
+"  -c, --clean          önbellekteki eski paketleri kaldır (hepsi için -cc)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -554,19 +656,24 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <depo>    depodaki paket listesini göster\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> depo(lar)da söz dizimine uyan arama yap\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     kurulu paketleri güncelle (-uu eski sürüme çevirmeyi etkinleştirir)\n"
+msgstr ""
+"  -u, --sysupgrade     kurulu paketleri güncelle (-uu eski sürüme çevirmeyi "
+"etkinleştirir)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   paketleri sadece indir ve kurulum ya da güncelleme yapma\n"
+msgstr ""
+"  -w, --downloadonly   paketleri sadece indir ve kurulum ya da güncelleme "
+"yapma\n"
 
 #, c-format
 msgid ""
@@ -575,15 +682,18 @@ msgstr "  -y, --refresh        sunucudan güncel paket veritabanını indir\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps     paketleri bağımlılık olarak kurulacak şekilde işaretle\n"
+msgstr ""
+"      --asdeps     paketleri bağımlılık olarak kurulacak şekilde işaretle\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     paketleri doğrudan kurulmuş paket olarak işaretle\n"
+msgstr ""
+"      --asexplicit     paketleri doğrudan kurulmuş paket olarak işaretle\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          kurulumu zorla, çakışan dosyaların üzerine yaz\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          kurulumu zorla, çakışan dosyaların üzerine yaz\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -591,29 +701,40 @@ msgstr "      --asdeps         paket(ler)i bağımlılık olarak kur\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     paket(ler)i doğrudan kurulmuş paket olarak kur\n"
+msgstr ""
+"      --asexplicit     paket(ler)i doğrudan kurulmuş paket olarak kur\n"
 
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pkg>   paket güncellemesini görmezden gel (birden çok paket için kullanılabilir)\n"
+msgstr ""
+"      --ignore <pkg>   paket güncellemesini görmezden gel (birden çok paket "
+"için kullanılabilir)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <grp>\n                       güncelleme sırasında grubu görmezden gel (birden çok grup için kullanılabilir)\n"
+msgstr ""
+"      --ignoregroup <grp>\n"
+"                       güncelleme sırasında grubu görmezden gel (birden çok "
+"grup için kullanılabilir)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         bağımlılk sürüm denetimlerini atla (-dd tüm denetimleri atlar)\n"
+msgstr ""
+"  -d, --nodeps         bağımlılk sürüm denetimlerini atla (-dd tüm "
+"denetimleri atlar)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         sadece veritabanı girdilerini değiştir, paket dosyalarını değiştirme\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         sadece veritabanı girdilerini değiştir, paket "
+"dosyalarını değiştirme\n"
 
 #, c-format
 msgid ""
@@ -629,13 +750,16 @@ msgstr "      --noscriptlet    kurulum betiği varsa çalıştırma\n"
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          işlem gerçekleştirmek yerine hedefleri görüntüle\n"
+msgstr ""
+"  -p, --print          işlem gerçekleştirmek yerine hedefleri görüntüle\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <dizgi>\n                       çıktı biçiminin nasıl gösterileceğini belirle\n"
+msgstr ""
+"      --print-format <dizgi>\n"
+"                       çıktı biçiminin nasıl gösterileceğini belirle\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -656,6 +780,10 @@ msgstr "      --arch <arch>    alternatif bir mimari seç\n"
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> farklı bir önbellek yolu ayarla\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -681,7 +809,13 @@ msgstr "      --noconfirm      herhangi bir onay isteme\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Bu yazılım GNU Genel Kamu Lisansı hükümlerine\n                       uymak şartıyla özgürce dağıtılabilir.\n"
+msgstr ""
+"                       Bu yazılım GNU Genel Kamu Lisansı hükümlerine\n"
+"                       uymak şartıyla özgürce dağıtılabilir.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "geçersiz rakam: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -704,6 +838,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "stdin okunmak için açılamadı: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "yönetici yetkileri olmadan bu işlemi gerçekleştiremezsiniz.\n"
 
@@ -720,6 +858,10 @@ msgid "no file was specified for --owns\n"
 msgstr "--owns parametresi için herhangi bir dosya belirtilmedi\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "'%s' için gerçek yol belirlenemedi: %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "dosya yolu çok uzun: %s%s\n"
 
@@ -732,30 +874,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "'%s' adlı dosya okunamadı: %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "'%s' dizininin sahipliği belirlenemedi\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "'%s' için gerçek yol belirlenemedi: %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "%s hiçbir paket tarafından sahiplenilmiyor\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "'%s' grubu bulunamadı\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %jd toplam dosya, "
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd kayıp dosya\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -776,10 +900,6 @@ msgstr "hedef bulunamadı: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "işlem hazırlığı başarısız oldu (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "'%s' paketi geçerli bir mimariye sahip değil.\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -826,10 +946,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "kullanılmayan eşleştirme depoları kaldırılıyor...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Önbellek dizini: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Tutulacak paketler:\n"
 
@@ -840,6 +956,10 @@ msgstr "  Yerelde kurulu tüm paketler\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  Mevcut tüm senkronize paketler\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Önbellek dizini: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -874,10 +994,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "veritabanı senkronizasyonu başarısız\n"
 
 #, c-format
-msgid "installed"
-msgstr "kurulu"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "'%s' deposu mevcut değil\n"
 
@@ -906,6 +1022,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Sistem güncellemesi başlatılıyor...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "'%s' paketi geçerli bir mimariye sahip değil.\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s ve %s çakışıyor\n"
 
@@ -920,6 +1040,10 @@ msgstr "İndirme işlemine onay veriyor musunuz?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Kuruluma onay veriyor musunuz?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -942,16 +1066,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "Paket veritabanları senkronize ediliyor...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "Öncelikle şu paketler güncellenmelidir :\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Yürütülen işlemi şimdi durdurup\n:: yeni sürümün yüklenmesini ister misiniz?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "paketler yükleniyor...\n"
 
@@ -967,7 +1081,9 @@ msgstr "veritabanı kilitlenemiyor: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  eğer paket yöneticisinin çalışmadığından eminseniz\n  %s dosyasını silebilirsiniz.\n"
+msgstr ""
+"  eğer paket yöneticisinin çalışmadığından eminseniz\n"
+"  %s dosyasını silebilirsiniz.\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1057,25 +1173,29 @@ msgstr "Değişiklik"
 msgid "Download Size"
 msgstr "İndirme Boyutu"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "Hedefler (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "paket(ler)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Toplam İndirme Boyutu:    %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "İndirme Boyutu"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Toplam Kaplayacağı Alan:   %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Toplam Kaldırma Boyutu:     %.2f%s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Net Güncelleme Boyutu:       %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1144,3 +1264,33 @@ msgstr "hata: "
 #, c-format
 msgid "warning: "
 msgstr "uyarı: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "İndirme Boyutu  : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "'%s' dizininin sahipliği belirlenemedi\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: %jd toplam dosya, "
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd kayıp dosya\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "Öncelikle şu paketler güncellenmelidir :\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Yürütülen işlemi şimdi durdurup\n"
+#~ ":: yeni sürümün yüklenmesini ister misiniz?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "Hedefler (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Toplam İndirme Boyutu:    %.2f %s\n"

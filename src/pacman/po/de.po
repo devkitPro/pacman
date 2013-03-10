@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 #   <martin.kalcher@googlemail.com>, 2012.
@@ -12,15 +12,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-11-04 17:09+0000\n"
 "Last-Translator: Shugyousha <s.jegen@gmail.com>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/archlinux-pacman/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -51,9 +52,25 @@ msgstr "Entferne %s...\n"
 msgid "upgrading %s...\n"
 msgstr "Aktualisiere %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "lade %s herunter...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "Installiere %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "Prüfe Paketintegrität...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "Prüfe Paketintegrität...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "lade %s herunter...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -79,13 +96,17 @@ msgstr "Erfolgreich!\n"
 msgid "failed.\n"
 msgstr "Fehlgeschlagen.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Empfange Pakete von %s...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "Überprüfe verfügbaren Platz auf der Festplatte ...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: benötigt %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -105,19 +126,23 @@ msgstr "%s und %s stehen miteinander in Konflikt (%s). %s entfernen?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Das folgende Paket kann aufgrund nicht-auflösbarer Abhängigkeiten nicht aktualisiert werden:\n"
-msgstr[1] "Die folgenden Pakete können aufgrund nicht-auflösbarer Abhängigkeiten nicht aktualisiert werden:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Das folgende Paket kann aufgrund nicht-auflösbarer Abhängigkeiten nicht "
+"aktualisiert werden:\n"
+msgstr[1] ""
+"Die folgenden Pakete können aufgrund nicht-auflösbarer Abhängigkeiten nicht "
+"aktualisiert werden:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
-msgstr[0] "Möchten Sie das obengenannte Paket bei dieser Aktualisierung überspringen?"
-msgstr[1] "Möchten Sie die obengenannten Pakete bei dieser Aktualisierung überspringen?"
+msgstr[0] ""
+"Möchten Sie das obengenannte Paket bei dieser Aktualisierung überspringen?"
+msgstr[1] ""
+"Möchten Sie die obengenannten Pakete bei dieser Aktualisierung überspringen?"
 
 #, c-format
 msgid "There are %zd providers available for %s:\n"
@@ -131,10 +156,12 @@ msgstr "%s-%s: Lokale Version ist neuer. Trotzdem aktualisieren? "
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Datei %s ist beschädigt (%s).\nSoll die Datei entfernt werden?"
+msgstr ""
+"Datei %s ist beschädigt (%s).\n"
+"Soll die Datei entfernt werden?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "PGP-Schlüssel %s, \"%s\", erstellt am %s importieren?"
 
 #, c-format
@@ -144,6 +171,14 @@ msgstr "Installiere"
 #, c-format
 msgid "upgrading"
 msgstr "Aktualisiere"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "Aktualisiere"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "Installiere"
 
 #, c-format
 msgid "removing"
@@ -159,6 +194,10 @@ msgstr "Überprüfe verfügbaren Festplattenspeicher"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "Überprüfe Paket-Integrität"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "Überprüfe Paket-Integrität"
 
 #, c-format
@@ -199,16 +238,21 @@ msgstr "Konfigurations-Datei %s, Zeile %d: Ungültiger Wert für '%s' : '%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "Konfigurations-Datei %s, Zeile %d: Option '%s' ungültig, keine Signatur-Unterstützung\n"
+msgstr ""
+"Konfigurations-Datei %s, Zeile %d: Option '%s' ungültig, keine Signatur-"
+"Unterstützung\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "Konfigurations-Datei %s, Zeile %d: Direktive '%s in Sektion '%s' wird nicht erkannt.\n"
+msgstr ""
+"Konfigurations-Datei %s, Zeile %d: Direktive '%s in Sektion '%s' wird nicht "
+"erkannt.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "Spiegel '%s' enthält die Variable '%s', doch ist kein '%s' definiert.\n"
+msgstr ""
+"Spiegel '%s' enthält die Variable '%s', doch ist kein '%s' definiert.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -244,10 +288,12 @@ msgstr "Konnte Spiegel '%s' nicht zur Datenbank '%s' hinzufügen (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "Einlesen der Konfigurations-Datei hat die maximale Rekursionstiefe %d überschritten.\n"
+msgstr ""
+"Einlesen der Konfigurations-Datei hat die maximale Rekursionstiefe %d "
+"überschritten.\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "Konfigurations-Datei %s konnte nicht gelesen werden.\n"
 
 #, c-format
@@ -256,15 +302,20 @@ msgstr "Konfigurations-Datei %s, Zeile %d: Schlechter Sektions-Name.\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "Konfigurations-Datei %s, Zeile %d: Syntax-Fehler in der Datei - fehlender Schlüssel.\n"
+msgstr ""
+"Konfigurations-Datei %s, Zeile %d: Syntax-Fehler in der Datei - fehlender "
+"Schlüssel.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "Konfigurations-Datei %s, Zeile %d: Alle Direktiven müssen zu einer Sektion gehören.\n"
+msgstr ""
+"Konfigurations-Datei %s, Zeile %d: Alle Direktiven müssen zu einer Sektion "
+"gehören.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "Konfigurations-Datei %s, Zeile %d: Direktive '%s' verlangt einen Wert.\n"
+msgstr ""
+"Konfigurations-Datei %s, Zeile %d: Direktive '%s' verlangt einen Wert.\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -280,11 +331,21 @@ msgstr "Konnte den Installations-Grund für %s nicht festsetzen (%s)\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
-msgstr "%s: Installations-Grund wurde auf \"Installiert als Abhängigkeit\" gesetzt\n"
+msgstr ""
+"%s: Installations-Grund wurde auf \"Installiert als Abhängigkeit\" gesetzt\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
-msgstr "%s: Installations-Grund wurde auf \"Ausdrücklich installiert\" gesetzt\n"
+msgstr ""
+"%s: Installations-Grund wurde auf \"Ausdrücklich installiert\" gesetzt\n"
+
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "Installiert"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Optionale Abhängigkeiten:"
 
 #, c-format
 msgid "Explicitly installed"
@@ -299,6 +360,22 @@ msgid "Unknown"
 msgstr "Unbekannt"
 
 #, c-format
+msgid "None"
+msgstr "Nichts"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5-Summe            :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256-Summe         :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Signaturfehler"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Repositorium         :"
 
@@ -309,6 +386,14 @@ msgstr "Name           :"
 #, c-format
 msgid "Version        :"
 msgstr "Version              :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Beschreibung         :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Architektur          :"
 
 #, c-format
 msgid "URL            :"
@@ -331,12 +416,12 @@ msgid "Depends On     :"
 msgstr "Hängt ab von         :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Optionale Abhängigkeiten:"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Benötigt von         :"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Optionale Abhängigkeiten:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -346,25 +431,21 @@ msgstr "Konflikt mit         :"
 msgid "Replaces       :"
 msgstr "Ersetzt              :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "Download-Größe       : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Größe des Downloads"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Komprimierte Größe   : %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Installationsgröße   : %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Packer               :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Architektur          :"
 
 #, c-format
 msgid "Build Date     :"
@@ -402,13 +483,9 @@ msgstr "SHA256-Summe         :"
 msgid "Signatures     :"
 msgstr "Signaturen           :"
 
-#, c-format
-msgid "None"
-msgstr "Nichts"
-
-#, c-format
-msgid "Description    :"
-msgstr "Beschreibung         :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Benötigt von         :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -425,6 +502,14 @@ msgstr "(Nichts)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "Kein Änderungsprotokoll für '%s' verfügbar.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "Kein Änderungsprotokoll für '%s' verfügbar.\n"
+
+#, c-format
+msgid "installed"
+msgstr "Installiert"
 
 #, c-format
 msgid "options"
@@ -454,13 +539,17 @@ msgstr "Operationen:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nBenutzen Sie '%s {-h --help}' zusammen mit einer Operation für verfügbare Optionen\n"
+msgstr ""
+"\n"
+"Benutzen Sie '%s {-h --help}' zusammen mit einer Operation für verfügbare "
+"Optionen\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade        Entfernt Pakete und alle Pakete, die von ihnen abhängen\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        Entfernt Pakete und alle Pakete, die von ihnen "
+"abhängen\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -470,7 +559,11 @@ msgstr "  -n, --nosave         auch Konfigurationsdateien entfernen\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      entfernt unnötige Abhängigkeiten\n                       (-ss auch explizit installierte Abhängigkeiten entfernen)\n\n"
+msgstr ""
+"  -s, --recursive      entfernt unnötige Abhängigkeiten\n"
+"                       (-ss auch explizit installierte Abhängigkeiten "
+"entfernen)\n"
+"\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -487,25 +580,34 @@ msgstr "  -c, --changelog      Das Änderungsprotokoll des Paketes anzeigen\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           Zeigt Pakete an, die als Abhängigkeiten installiert wurden [Filter]\n"
+msgstr ""
+"  -d, --deps           Zeigt Pakete an, die als Abhängigkeiten installiert "
+"wurden [Filter]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       Zeigt Pakete an, die ausdrücklich installiert wurden [Filter]\n"
+msgstr ""
+"  -e, --explicit       Zeigt Pakete an, die ausdrücklich installiert wurden "
+"[Filter]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         Zeigt alle Mitglieder einer Paket-Gruppe an\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           Zeigt Paketinformationen an (-ii für Sicherungs-Dateien)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           Zeigt Paketinformationen an (-ii für Sicherungs-"
+"Dateien)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check          Überprüfe, ob die zu den Paketen gehörenden Dateien vorhanden sind\n"
+msgstr ""
+"  -k, --check          Überprüfe, ob die zu den Paketen gehörenden Dateien "
+"vorhanden sind\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -515,7 +617,17 @@ msgstr "  -l, --list           Zeigt den Inhalt des abgefragten Paketes an\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        Zeigt installierte Pakete an, die nicht in den Sync-db(s) gefunden wurden [Filter]\n"
+msgstr ""
+"  -m, --foreign        Zeigt installierte Pakete an, die nicht in den Sync-"
+"db(s) gefunden wurden [Filter]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        Zeigt installierte Pakete an, die nicht in den Sync-"
+"db(s) gefunden wurden [Filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -523,22 +635,27 @@ msgstr "  -o, --owns <Datei>   Fragt das Paket ab, das <Datei> enthält\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
-msgstr "  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
+msgstr ""
+"  -p, --file <Paket>   Fragt eine Paketdatei anstatt der Datenbank ab\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          zeigt weniger Information bei Abfragen und Suche an \n"
+msgstr ""
+"  -q, --quiet          zeigt weniger Information bei Abfragen und Suche an \n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> Durchsucht lokal installierte Pakete nach einem Wort\n"
+msgstr ""
+"  -s, --search <regex> Durchsucht lokal installierte Pakete nach einem Wort\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     Zeigt Pakete an, die nicht von anderen benötigt werden [Filter]\n"
+msgstr ""
+"  -t, --unrequired     Zeigt Pakete an, die nicht von anderen benötigt "
+"werden [Filter]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -548,7 +665,9 @@ msgstr "  -u, --upgrades       Zeigt aktualisierbare Pakete an [Filter]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          Entfernt alte Pakete aus dem Paketpuffer(-cc für alle)\n"
+msgstr ""
+"  -c, --clean          Entfernt alte Pakete aus dem Paketpuffer(-cc für "
+"alle)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -556,22 +675,30 @@ msgstr "  -i, --info           Zeigt Paketinformationen an\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <repo>    Zeigt eine Liste aller Pakete eines Repositoriums an\n"
+msgstr ""
+"  -l, --list <repo>    Zeigt eine Liste aller Pakete eines Repositoriums an\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex> Durchsucht entfernte Repositorien nach einem Wort\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr ""
+"  -s, --search <regex> Durchsucht entfernte Repositorien nach einem Wort\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     Aktualisiert installierte Pakete (-uu ermöglicht Downgrades)\n"
+msgstr ""
+"  -u, --sysupgrade     Aktualisiert installierte Pakete (-uu ermöglicht "
+"Downgrades)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   Lädt Pakete herunter, ohne etwas zu installieren oder\n                       aktualisieren\n"
+msgstr ""
+"  -w, --downloadonly   Lädt Pakete herunter, ohne etwas zu installieren "
+"oder\n"
+"                       aktualisieren\n"
 
 #, c-format
 msgid ""
@@ -580,67 +707,87 @@ msgstr "  -y, --refresh        Lädt frische Paketdatenbanken vom Server\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         Markiert Pakete als nicht-ausdrücklich installiert\n"
+msgstr ""
+"      --asdeps         Markiert Pakete als nicht-ausdrücklich installiert\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     Markiert Pakete als ausdrücklich installiert\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          Installation erzwingen, Dateikonflikte überschreiben\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          Installation erzwingen, Dateikonflikte überschreiben\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         Installiert Pakete als nicht-ausdrücklich installiert\n"
+msgstr ""
+"      --asdeps         Installiert Pakete als nicht-ausdrücklich "
+"installiert\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit       Installiert Pakete als ausdrücklich installiert\n"
+msgstr ""
+"      --asexplicit       Installiert Pakete als ausdrücklich installiert\n"
 
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pkg>   Ignoriert ein neues Paket (kann mehrfach genutzt werden)\n"
+msgstr ""
+"      --ignore <pkg>   Ignoriert ein neues Paket (kann mehrfach genutzt "
+"werden)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <grp>\n                       Ignoriert Upgrade einer Gruppe (kann mehrfach genutzt werden)\n"
+msgstr ""
+"      --ignoregroup <grp>\n"
+"                       Ignoriert Upgrade einer Gruppe (kann mehrfach genutzt "
+"werden)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         überspringt die Versionsüberprüfungen für Abhängigkeiten (-dd um alle Überprüfungen zu überspringen)\n"
+msgstr ""
+"  -d, --nodeps         überspringt die Versionsüberprüfungen für "
+"Abhängigkeiten (-dd um alle Überprüfungen zu überspringen)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         verändere nur Datenbank-Einträge, keine Paketdateien\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         verändere nur Datenbank-Einträge, keine Paketdateien\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  Keine Fortschrittsanzeige anzeigen, wenn Dateien heruntergeladen werden\n"
+msgstr ""
+"      --noprogressbar  Keine Fortschrittsanzeige anzeigen, wenn Dateien "
+"heruntergeladen werden\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    Installationsskript nicht ausführen, falls vorhanden\n"
+msgstr ""
+"      --noscriptlet    Installationsskript nicht ausführen, falls vorhanden\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          Zeigt die Ziele an, statt die Operation auszuführen\n"
+msgstr ""
+"  -p, --print          Zeigt die Ziele an, statt die Operation auszuführen\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <string>\n                       legt fest, wie die Ziele ausgegeben werden sollen\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       legt fest, wie die Ziele ausgegeben werden sollen\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -648,7 +795,9 @@ msgstr "  -b, --dbpath <Pfad>  Setzt einen anderen Ort für die Datenbank\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "  -r, --root <Pfad>    Setzt ein alternatives Wurzelverzeichnis zur Installation\n"
+msgstr ""
+"  -r, --root <Pfad>    Setzt ein alternatives Wurzelverzeichnis zur "
+"Installation\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
@@ -660,7 +809,12 @@ msgstr "      --arch <arch>    Setzt eine alternative Architektur\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "  --cachedir <Verzeichnis>  Setzt einen anderen Ort für den Paketpuffer\n"
+msgstr ""
+"  --cachedir <Verzeichnis>  Setzt einen anderen Ort für den Paketpuffer\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -672,7 +826,9 @@ msgstr "      --debug          Zeigt Debug-Meldungen an\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --gpgdir <path>  Setzte alternatives Konfigurationsverzeichnis für GnuPG\n"
+msgstr ""
+"      --gpgdir <path>  Setzte alternatives Konfigurationsverzeichnis für "
+"GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -686,7 +842,13 @@ msgstr "      --noconfirm      Niemals nach einer Bestätigung fragen\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Dieses Programm darf unter Bedingungen der GNU\n                       General Public License frei weiterverbreitet werden.\n"
+msgstr ""
+"                       Dieses Programm darf unter Bedingungen der GNU\n"
+"                       General Public License frei weiterverbreitet werden.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "Ungültiger Wert: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -709,6 +871,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "Konnte stdin nicht zum Auslesen neu öffnen: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "Sie benötigen Root-Rechte, um diese Operation auszuführen.\n"
 
@@ -725,6 +891,10 @@ msgid "no file was specified for --owns\n"
 msgstr "Es wurde keine Datei für --owns angegeben\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "Kann den wahren Pfad für '%s' nicht ermitteln: %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "Pfad zu lang: %s%s\n"
 
@@ -737,32 +907,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "Konnte Datei '%s' nicht lesen: %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "Kann die Eigentumsrechte am Verzeichnis '%s' nicht bestimmen\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "Kann den wahren Pfad für '%s' nicht ermitteln: %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "Kein Paket besitzt %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "Gruppe '%s' wurde nicht gefunden\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %jd gesamte Datei"
-msgstr[1] "%s: %jd gesamte Dateien"
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd fehlende Datei\n"
-msgstr[1] "%jd fehlende Dateien\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -785,10 +935,6 @@ msgid "failed to prepare transaction (%s)\n"
 msgstr "Konnte den Vorgang nicht vorbereiten (%s)\n"
 
 #, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "Paket %s hat keine gültige Architektur\n"
-
-#, c-format
 msgid "%s: requires %s\n"
 msgstr "%s: benötigt %s\n"
 
@@ -798,7 +944,9 @@ msgstr "%s ist als ein HoldPkg gekennzeichnet.\n"
 
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr "Ein als HoldPkg markiertes Paket wurde in der Ziel-Liste gefunden. Möchten Sie fortfahren?"
+msgstr ""
+"Ein als HoldPkg markiertes Paket wurde in der Ziel-Liste gefunden. Möchten "
+"Sie fortfahren?"
 
 #, c-format
 msgid " there is nothing to do\n"
@@ -833,10 +981,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "Entferne unbenutzte Sync Repositorien...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Puffer-Verzeichnis: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Pakete, die beibehalten werden:\n"
 
@@ -847,6 +991,10 @@ msgstr "  Alle lokal installierten Pakete\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "Alle Pakete der gegenwärtigen Datenbank-Synchronisation\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Puffer-Verzeichnis: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -881,10 +1029,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "Konnte keinerlei Datenbanken synchronisieren\n"
 
 #, c-format
-msgid "installed"
-msgstr "Installiert"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "Das Repositorium '%s' existiert nicht.\n"
 
@@ -913,6 +1057,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Starte komplette Systemaktualisierung...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "Paket %s hat keine gültige Architektur\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s und %s stehen miteinander in Konflikt\n"
 
@@ -927,6 +1075,10 @@ msgstr "Download fortsetzen? "
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Installation fortsetzen? "
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -949,16 +1101,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "Synchronisiere Paketdatenbanken...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "Die folgenden Pakete sollten zuerst aktualisiert werden :\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Möchten Sie den laufenden Prozess abbrechen\n:: und diese Pakete nun aktualisieren?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "Lade Pakete ...\n"
 
@@ -974,7 +1116,9 @@ msgstr "Konnte Datenbank nicht sperren: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  Wenn Sie sicher sind, dass nicht bereits ein\n  Paketmanager läuft, können Sie %s entfernen\n"
+msgstr ""
+"  Wenn Sie sicher sind, dass nicht bereits ein\n"
+"  Paketmanager läuft, können Sie %s entfernen\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1064,25 +1208,29 @@ msgstr "Netto-Veränderung"
 msgid "Download Size"
 msgstr "Größe des Downloads"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "Pakete (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "Paket(e)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Gesamtgröße des Downloads: %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Größe des Downloads"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Gesamtgröße der zu installierenden Pakete: %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Gesamtgröße der entfernten Pakete:     %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Größendifferenz der Aktualisierung:       %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1151,3 +1299,35 @@ msgstr "Fehler: "
 #, c-format
 msgid "warning: "
 msgstr "Warnung: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "Download-Größe       : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "Kann die Eigentumsrechte am Verzeichnis '%s' nicht bestimmen\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: %jd gesamte Datei"
+#~ msgstr[1] "%s: %jd gesamte Dateien"
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd fehlende Datei\n"
+#~ msgstr[1] "%jd fehlende Dateien\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "Die folgenden Pakete sollten zuerst aktualisiert werden :\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Möchten Sie den laufenden Prozess abbrechen\n"
+#~ ":: und diese Pakete nun aktualisieren?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "Pakete (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Gesamtgröße des Downloads: %.2f %s\n"

@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 #   <kaannokset.hellberg@gmail.com>, 2012.
 #  <larso@gmx.com>, 2013.
@@ -10,15 +10,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-05-20 11:26-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2013-01-16 10:44+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/language/fi/)\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/fi/)\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "WARNING:"
@@ -33,35 +34,14 @@ msgstr "Siivotaan..."
 msgid "Entering %s environment..."
 msgstr "Siirrytään %s-ympäristöön..."
 
-msgid "Unable to find source file %s."
-msgstr "Lähdetiedostoa %s ei löydy."
+msgid "Unknown download protocol: %s"
+msgstr ""
 
 msgid "Aborting..."
 msgstr "Peruutetaan..."
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Protokollan %s osoitteille ei ole määritetty agenttia. Katso %s."
-
 msgid "The download program %s is not installed."
 msgstr "Latausohjelmaa %s ei ole asennettu."
-
-msgid "'%s' returned a fatal error (%i): %s"
-msgstr "'%s' palautti virheen (%i): %s"
-
-msgid "Installing missing dependencies..."
-msgstr "Asennetaan puuttuvia riippuvuuksia..."
-
-msgid "'%s' failed to install missing dependencies."
-msgstr "'%s' ei onnistunut asentamaan puuttuvia riippuvuuksia."
-
-msgid "Missing Dependencies:"
-msgstr "Puuttuvat riippuvuudet:"
-
-msgid "Failed to remove installed dependencies."
-msgstr "Asennettujen riippuvuuksien poistaminen epäonnistui."
-
-msgid "Retrieving Sources..."
-msgstr "Noudetaan lähdetiedostoja..."
 
 msgid "Found %s"
 msgstr "Kohde %s löytyi"
@@ -75,18 +55,106 @@ msgstr "Ladataan kohdetta %s..."
 msgid "Failure while downloading %s"
 msgstr "Tiedostoa %s ladattaessa tapahtui virhe"
 
+msgid "Extracting %s with %s"
+msgstr "Puretaan %s komennolla %s"
+
+msgid "Failed to extract %s"
+msgstr "tiedoston %s purkaminen epäonnistui"
+
+#, fuzzy
+msgid "Unrecognized reference: %s"
+msgstr "Paketti sisältää viitteitä kohteeseen %s"
+
+#, fuzzy
+msgid "Branching %s ..."
+msgstr "Luodaan %s-tiedostoa..."
+
+#, fuzzy
+msgid "Failure while branching %s"
+msgstr "Tiedostoa %s ladattaessa tapahtui virhe"
+
+#, fuzzy
+msgid "%s is not a branch of %s"
+msgstr "'%s' ei ole pakettitiedosto, ohitetaan"
+
+#, fuzzy
+msgid "Pulling %s ..."
+msgstr "Lisätään kohdetta %s..."
+
+#, fuzzy
+msgid "Failure while pulling %s"
+msgstr "Tiedostoa %s ladattaessa tapahtui virhe"
+
+msgid "Creating working copy of %s %s repo..."
+msgstr ""
+
+msgid "Failure while creating working copy of %s %s repo"
+msgstr ""
+
+#, fuzzy
+msgid "Cloning %s %s repo..."
+msgstr "Siivotaan..."
+
+#, fuzzy
+msgid "Failure while downloading %s %s repo"
+msgstr "Tiedostoa %s ladattaessa tapahtui virhe"
+
+#, fuzzy
+msgid "%s is not a clone of %s"
+msgstr "%s ei saa olla tyhjä."
+
+#, fuzzy
+msgid "Updating %s %s repo..."
+msgstr "Päivitetään luotettujen tietokantaa..."
+
+#, fuzzy
+msgid "Failure while updating %s %s repo"
+msgstr "Tiedostoa %s ladattaessa tapahtui virhe"
+
+#, fuzzy
+msgid "Retrieving sources..."
+msgstr "Noudetaan lähdetiedostoja..."
+
+msgid "Updated version: %s"
+msgstr ""
+
+msgid "%s is not writeable -- pkgver will not be updated"
+msgstr ""
+
+msgid "Unable to find source file %s."
+msgstr "Lähdetiedostoa %s ei löydy."
+
+msgid "'%s' returned a fatal error (%i): %s"
+msgstr "'%s' palautti virheen (%i): %s"
+
+msgid "Installing missing dependencies..."
+msgstr "Asennetaan puuttuvia riippuvuuksia..."
+
+msgid "'%s' failed to install missing dependencies."
+msgstr "'%s' ei onnistunut asentamaan puuttuvia riippuvuuksia."
+
+#, fuzzy
+msgid "Missing dependencies:"
+msgstr "Puuttuvat riippuvuudet:"
+
+msgid "Failed to remove installed dependencies."
+msgstr "Asennettujen riippuvuuksien poistaminen epäonnistui."
+
 msgid "Generating checksums for source files..."
 msgstr "Luodaan tarkistussummia lähdetiedostoille..."
 
-msgid ""
-"Cannot find the %s binary required for generating sourcefile checksums."
-msgstr "Lähdetiedostojen tarkistussummien luontiin tarvittavaa ohjelmaa %s ei löydy."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
+"Lähdetiedostojen tarkistussummien luontiin tarvittavaa ohjelmaa %s ei löydy."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Virheellinen tarkistussumma-algoritmi \"%s\" annettu."
 
 msgid "Validating source files with %s..."
 msgstr "Lähdetiedostojen virheettömyyttä tarkastetaan algoritmilla '%s'..."
+
+msgid "Skipped"
+msgstr ""
 
 msgid "NOT FOUND"
 msgstr "EI LÖYDY"
@@ -145,17 +213,20 @@ msgstr "Ohitetaan lähdetiedostojen tarkistussummien todentaminen."
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Lähdetiedostojen PGP-allekirjoituksia ei tarkasteta."
 
-msgid "Extracting Sources..."
+#, fuzzy
+msgid "Extracting sources..."
 msgstr "Puretaan lähdetiedostoja..."
-
-msgid "Extracting %s with %s"
-msgstr "Puretaan %s komennolla %s"
-
-msgid "Failed to extract %s"
-msgstr "tiedoston %s purkaminen epäonnistui"
 
 msgid "A failure occurred in %s()."
 msgstr "Virhe tapahtui funktiossa %s()."
+
+#, fuzzy
+msgid "Failed to change to directory %s"
+msgstr "tiedoston %s purkaminen epäonnistui"
+
+#, fuzzy
+msgid "Failed to source %s"
+msgstr "tiedoston %s purkaminen epäonnistui"
 
 msgid "Starting %s()..."
 msgstr "Aloitetaan osion %s() käsittelemistä..."
@@ -169,17 +240,23 @@ msgstr "Poistetaan doc-tiedostoja..."
 msgid "Purging unwanted files..."
 msgstr "Puhdistetaan tarpeettomia tiedostoja..."
 
-msgid "Compressing man and info pages..."
-msgstr "Pakataan man- ja info-sivuja..."
-
-msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Poistetaan tarpeettomat symbolit ohjelmista ja kirjastoista..."
-
 msgid "Removing %s files..."
 msgstr "Poistetaan %s tiedostoa..."
 
 msgid "Removing empty directories..."
 msgstr "Poistetaan tyhjiä kansioita..."
+
+msgid "%s entry file not in package : %s"
+msgstr "%s-merkittyä tiedostoa ei paketissa : %s"
+
+msgid "Package contains reference to %s"
+msgstr "Paketti sisältää viitteitä kohteeseen %s"
+
+msgid "Compressing man and info pages..."
+msgstr "Pakataan man- ja info-sivuja..."
+
+msgid "Stripping unneeded symbols from binaries and libraries..."
+msgstr "Poistetaan tarpeettomat symbolit ohjelmista ja kirjastoista..."
 
 msgid "Compressing binaries with %s..."
 msgstr "Pakataan binääri tiedsotoja %sllä..."
@@ -187,8 +264,14 @@ msgstr "Pakataan binääri tiedsotoja %sllä..."
 msgid "Could not compress binary : %s"
 msgstr "Ohjelmaa ei voitu pakata : %s"
 
-msgid "Generating %s file..."
-msgstr "Luodaan %s-tiedostoa..."
+msgid "Library listed in %s is not required by any files: %s"
+msgstr ""
+
+msgid "Library listed in %s is not versioned: %s"
+msgstr ""
+
+msgid "Library listed in %s is not a shared object: %s"
+msgstr ""
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "%s-kentässä mainittua kirjastoa ei löydy: %s"
@@ -199,20 +282,22 @@ msgstr "Lisää lisenssirivi tiedostoosi %s!"
 msgid "Example for GPL'ed software: %s."
 msgstr "Esimerkki GPL-lisenssöidystä ohjelmistosta: %s."
 
-msgid "%s entry file not in package : %s"
-msgstr "%s-merkittyä tiedostoa ei paketissa : %s"
-
-msgid "Package contains reference to %s"
-msgstr "Paketti sisältää viitteitä kohteeseen %s"
+msgid "Generating %s file..."
+msgstr "Luodaan %s-tiedostoa..."
 
 msgid "Missing %s directory."
 msgstr "Kansio %s puuttuu."
 
-msgid "Creating package..."
+#, fuzzy
+msgid "Creating package \"%s\"..."
 msgstr "Luodaan pakettia..."
 
 msgid "Adding %s file..."
 msgstr "Lisätään %s-tiedostoa..."
+
+#, fuzzy
+msgid "Generating .MTREE file..."
+msgstr "Luodaan %s-tiedostoa..."
 
 msgid "Compressing package..."
 msgstr "Pakataan pakettia..."
@@ -271,11 +356,9 @@ msgstr "%s ei saa alkaa tavuviivalla."
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s sisältää virheellisiä merkkejä: \"%s\""
 
-msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr "%s ei saa sisältää tavuviivoja, kaksoispisteitä eikä tyhjiä välejä."
-
-msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr "%s ei saa sisältää tavuviivoja eikä tyhjiä välejä."
+#, fuzzy
+msgid "%s must be a decimal."
+msgstr "%s:n tulee olla luku."
 
 msgid "%s must be an integer."
 msgstr "%s:n tulee olla luku."
@@ -310,11 +393,21 @@ msgstr "Funktio %s puuttuu jaetusta paketista '%s'"
 msgid "Requested package %s is not provided in %s"
 msgstr "Pyydettyä pakettia %s ei löydy kohteesta %s"
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr "Sudoa ei löydy. Käytetään su-komentoa ylläpitäjän oikeuksien saamiseksi."
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
+msgstr "%s ei saa sisältää tavuviivoja, kaksoispisteitä eikä tyhjiä välejä."
+
+#, fuzzy
+msgid "Cannot find the %s binary required for dependency operations."
+msgstr "Kaikille %s-operaatioille tarvittavaa ohjelmaa %s ei löydy."
+
+#, fuzzy
+msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
+msgstr ""
+"Sudoa ei löydy. Käytetään su-komentoa ylläpitäjän oikeuksien saamiseksi."
 
 msgid "Cannot find the %s binary required for building as non-root user."
-msgstr "Muuna kuin pääkäyttäjänä kääntämiseen tarvittavaa ohjelmaa %s ei löydy."
+msgstr ""
+"Muuna kuin pääkäyttäjänä kääntämiseen tarvittavaa ohjelmaa %s ei löydy."
 
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Pakettien allekirjoittamiseen tarvittavaa ohjelmaa %s ei löydy."
@@ -322,9 +415,10 @@ msgstr "Pakettien allekirjoittamiseen tarvittavaa ohjelmaa %s ei löydy."
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Lähdetiedostojen tarkastamiseen tarvittavaa ohjelmaa %s ei löydy."
 
-msgid ""
-"Cannot find the %s binary required for validating sourcefile checksums."
-msgstr "Lähdetiedostojen tarkistussummien tarkistamiseen tarvittavaa ohjelmaa %s ei löydy."
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+"Lähdetiedostojen tarkistussummien tarkistamiseen tarvittavaa ohjelmaa %s ei "
+"löydy."
 
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Ohjelmien pakkaamiseen tarvittavaa ohjelmaa %s ei löydy."
@@ -341,14 +435,27 @@ msgstr "Objektitiedostojen riisumiseen tarvittavaa ohjelmaa %s ei löydy."
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr "man- ja info-sivujen pakkaamiseen tarvittavaa ohjelmaa %s ei löydy."
 
-msgid "Cannot find the %s binary required to determine latest %s revision."
-msgstr "Tarvittavaa ohjelmaa %s ei löydy uusimman %s -version etsimiseksi."
+msgid "A package has already been built, installing existing package..."
+msgstr "Paketti on jo käännetty. Asennetaan valmista pakettia..."
 
-msgid "Determining latest %s revision..."
-msgstr "Etsitään uusinta %s-versiota..."
+msgid "A package has already been built. (use %s to overwrite)"
+msgstr ""
+"Paketti on jo käännetty. (käytä valitsinta %s kääntääksesi paketin uudelleen)"
 
-msgid "Version found: %s"
-msgstr "Löydetty versio: %s"
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr ""
+"Pakettiryhmä on jo käännetty. Asennetaan valmiiksi käännettyjä paketteja..."
+
+msgid "The package group has already been built. (use %s to overwrite)"
+msgstr ""
+"Pakettiryhmä on jo käännetty. (käytä valitsinta %s kääntääksesi paketit "
+"uudelleen)"
+
+msgid "Part of the package group has already been built. (use %s to overwrite)"
+msgstr ""
+"Osa pakettiryhmästä on jo käännetty. (käytä valitsinta %s kääntääksesi "
+"paketit uudelleen)"
 
 msgid "Usage: %s [options]"
 msgstr "Käyttö: %s [valinnat]"
@@ -366,7 +473,9 @@ msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Ohita riippuvuustarkastukset"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr "  -e, --noextract  Älä pura lähdetiedostoja (käytt'' olemassa olevaa %s kansiota)"
+msgstr ""
+"  -e, --noextract  Älä pura lähdetiedostoja (käytt'' olemassa olevaa %s "
+"kansiota)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Ylikirjoita olemassa oleva paketti"
@@ -387,17 +496,18 @@ msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Älä käytä värejä viesteissä"
 
 msgid "  -o, --nobuild    Download and extract files only"
-msgstr "  -o, --nobuild    Älä käännä pakettia, mutta lataa ja pura lähdetiedostot"
+msgstr ""
+"  -o, --nobuild    Älä käännä pakettia, mutta lataa ja pura lähdetiedostot"
 
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr "  -p <tiedosto>    Käytä vaihtoehtoista käännösskriptiä ('%s':in sjaan)"
+msgstr ""
+"  -p <tiedosto>    Käytä vaihtoehtoista käännösskriptiä ('%s':in sjaan)"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr "  -r, --rmdeps     Poista asennetut riippuvuudet kääntämisen jälkeen"
 
-msgid ""
-"  -R, --repackage  Repackage contents of the package without rebuilding"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Uudelleenpakkaa paketin sisältö ilman kääntämistä"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
@@ -410,25 +520,34 @@ msgstr "  -S, --source     Luo lähdepaketti, ilman ladattuja lähdetiedostoja"
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr "  --allsource      Luo lähdepaketti ja sisällytä myös ladatut lähdetiedostot siihen"
+msgstr ""
+"  --allsource      Luo lähdepaketti ja sisällytä myös ladatut lähdetiedostot "
+"siihen"
+
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr ""
 
 msgid "  --asroot         Allow %s to run as root user"
-msgstr "  --asroot         Salli %s-ohjelman suorittaminen ylläpitäjän oikeuksilla"
+msgstr ""
+"  --asroot         Salli %s-ohjelman suorittaminen ylläpitäjän oikeuksilla"
 
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Suorita funktio %s kohteessa %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr "  --config<tiedosto> Käytä vaihtoehtoista asetustiedostoa ('%s':in sijaan)"
+msgstr ""
+"  --config<tiedosto> Käytä vaihtoehtoista asetustiedostoa ('%s':in sijaan)"
+
+#, fuzzy
+msgid "  --holdver        Do not update VCS sources"
+msgstr "  --nocheck        Älä suorita funktiota %s kohteessa %s"
 
 msgid ""
-"  --holdver        Prevent automatic version bumping for development %ss"
-msgstr "  --holdver        Estää automaattisen version muutoksen kehittämiseen %ss"
-
-msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the "
-"default"
-msgstr "  --key <avain>    Määrritä paketin allekirjoittamiseen käytettävä %s avain"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr ""
+"  --key <avain>    Määrritä paketin allekirjoittamiseen käytettävä %s avain"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Älä suorita funktiota %s kohteessa %s"
@@ -455,9 +574,16 @@ msgstr "  --skippgpcheck   Älä tarkasta lähdetiedostojen PGP-allekirjoituksia
 msgid "These options can be passed to %s:"
 msgstr "Seuraavat valinnat voidaan antaa %s-ohjelmalle:"
 
+msgid "  --asdeps         Install packages as non-explicitly installed"
+msgstr ""
+
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Älä kysy vahvistusta riippuvuuksia setvittäessä"
+
+msgid ""
+"  --needed         Do not reinstall the targets that are already up to date"
+msgstr ""
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Älä näytä edistymispalkkia tiedostoja ladattaessa"
@@ -465,13 +591,17 @@ msgstr "  --noprogressbar  Älä näytä edistymispalkkia tiedostoja ladattaessa
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Jos tiedostoa ei anneta %s-valitsimella, %s etsii tiedostoa \"%s\""
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
-"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
-"law.\\n"
-msgstr "Tekijänoikeudet (c) 2006-2012 Pacmanin kehitysryhmä <pacman-dev@archlinux.org>.\\nTekijänoikeudet (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nTämä on vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei anneta, lain rajoissa.\\n"
+"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Tekijänoikeudet (c) 2006-2012 Pacmanin kehitysryhmä <pacman-dev@archlinux."
+"org>.\\nTekijänoikeudet (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n"
+"\\nTämä on vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään "
+"takuita ei anneta, lain rajoissa.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "%s signaali vastaanotettu. Lopetetaan..."
@@ -497,25 +627,34 @@ msgstr "Sinulla ei ole oikeuksia säilöä latauksia sijainnissa %s."
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "Sinulla ei ole oikeuksia säilöä lähdekoodiarkistoja sijainnissa %s."
 
-msgid "\\0%s and %s cannot both be specified"
-msgstr "\\0ei voi antaa sekä %s- että %s-valitsinta"
+#, fuzzy
+msgid "You do not have write permission to store logs in %s."
+msgstr "Sinulla ei ole oikeuksia säilöä latauksia sijainnissa %s."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
-msgstr "%s:n suorittaminen pääkäyttäjänä on HUONO idea, ja voi aiheuttaa pysyvää,\\nkatastrofaalista tuhoa järjestelmääsi. Jos kuitenkin haluat suorittaa pääkäyttäjänä, käytä %s-valitsinta."
+msgstr ""
+"%s:n suorittaminen pääkäyttäjänä on HUONO idea, ja voi aiheuttaa pysyvää,"
+"\\nkatastrofaalista tuhoa järjestelmääsi. Jos kuitenkin haluat suorittaa "
+"pääkäyttäjänä, käytä %s-valitsinta."
 
 msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
-msgstr "%s-valitsin on tarkoitettu vain pääkäyttäjälle. Suorita\\n%s uudelleen ilman %s-valitsinta."
+"The %s option is meant for the root user only. Please\\nrerun %s without the "
+"%s flag."
+msgstr ""
+"%s-valitsin on tarkoitettu vain pääkäyttäjälle. Suorita\\n%s uudelleen ilman "
+"%s-valitsinta."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
-msgstr "%s suorittamisesta tavallisena käyttäjänä seuraa, että pääkäyttäjä ei\\nomista paketoituja tiedostoja. Yritä käyttää %s-ympäristöä \\nlisäämällä %s %s-taulukkoon tiedostossa %s."
+msgstr ""
+"%s suorittamisesta tavallisena käyttäjänä seuraa, että pääkäyttäjä ei"
+"\\nomista paketoituja tiedostoja. Yritä käyttää %s-ympäristöä \\nlisäämällä "
+"%s %s-taulukkoon tiedostossa %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Älä käytä valitsinta %s. Vain %s käyttää sitä."
@@ -532,23 +671,6 @@ msgstr "Avain %s ei ole avainnipussasi."
 msgid "There is no key in your keyring."
 msgstr "Avainnipussasi ei ole avaimia."
 
-msgid "A package has already been built, installing existing package..."
-msgstr "Paketti on jo käännetty. Asennetaan valmista pakettia..."
-
-msgid "A package has already been built. (use %s to overwrite)"
-msgstr "Paketti on jo käännetty. (käytä valitsinta %s kääntääksesi paketin uudelleen)"
-
-msgid ""
-"The package group has already been built, installing existing packages..."
-msgstr "Pakettiryhmä on jo käännetty. Asennetaan valmiiksi käännettyjä paketteja..."
-
-msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "Pakettiryhmä on jo käännetty. (käytä valitsinta %s kääntääksesi paketit uudelleen)"
-
-msgid ""
-"Part of the package group has already been built. (use %s to overwrite)"
-msgstr "Osa pakettiryhmästä on jo käännetty. (käytä valitsinta %s kääntääksesi paketit uudelleen)"
-
 msgid "Leaving %s environment."
 msgstr "Poistutaan %s-ympäristöstä."
 
@@ -561,8 +683,14 @@ msgstr "Tiedostojen omistussuhteet saattavat kärsiä."
 msgid "Making package: %s"
 msgstr "Käännetään pakettia: %s"
 
+#, fuzzy
+msgid "Using a %s without a %s function is deprecated."
+msgstr "Uudelleenpakkaaminen ilman %s-funktiota on vanhentunut."
+
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr "Lähdepaketti on jo luotu. (käytä valitsinta %s luodaksesi lähdepaketin uudelleen)"
+msgstr ""
+"Lähdepaketti on jo luotu. (käytä valitsinta %s luodaksesi lähdepaketin "
+"uudelleen)"
 
 msgid "Source package created: %s"
 msgstr "Luotiin lähdepaketti: %s"
@@ -579,20 +707,9 @@ msgstr "Tarkastetaan käännönaikaisia riippuvuuksia..."
 msgid "Could not resolve all dependencies."
 msgstr "Kaikkia riippuvuuksia ei pystytty selvittämään."
 
-msgid "%s was not found in %s; skipping dependency checks."
-msgstr "ohjelmaa %s ei löydy %s-muuttujan määrittämistä kansioista; ohitetaan riippuvuustarkastukset."
-
-msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr "Ohitetaan lähdetiedostojen nouto                     -- käytetään aiemmin luotua %s-puuta"
-
-msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr "Ohitetaan lähdetiedostojen virheettömyystarkistukset -- käytetään aiemmin luotua %s-puuta"
-
-msgid "Skipping source extraction       -- using existing %s tree"
-msgstr "Ohitetaan lähdetiedostojen purku                     -- käytetään aiemmin luotua %s-puuta"
-
-msgid "The source directory is empty, there is nothing to build!"
-msgstr "Lähdekansio on tyhjä, ei ole mitään käännettävää."
+#, fuzzy
+msgid "Using existing %s tree"
+msgstr "Poistetaan jo olemassaolevaa %s-kansiota..."
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "Pakettikansio on tyhjä, ei ole mitään uudelleenpakattavaa."
@@ -606,14 +723,19 @@ msgstr "Poistetaan jo olemassaolevaa %s-kansiota..."
 msgid "Finished making: %s"
 msgstr "Saatiin valmiiksi paketti: %s"
 
-msgid "Usage: %s [pacman_db_root]"
+#, fuzzy
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
 msgstr "Käyttö: %s [pacman_tietokannan_juuri]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Tekijänoikeudet (c) 2010-2012 Pacmanin kehitysryhmä <pacman-dev@archlinux.org>.\\nTämä on vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei anneta, lain rajoissa.\\n"
+"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Tekijänoikeudet (c) 2010-2012 Pacmanin kehitysryhmä <pacman-dev@archlinux."
+"org>.\\nTämä on vapaa ohjelmisto; katso kopiointiehdot lähdekoodista."
+"\\nMitään takuita ei anneta, lain rajoissa.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s ei ole olemassa, tai se ei ole kansio."
@@ -625,90 +747,142 @@ msgid "You must have correct permissions to upgrade the database."
 msgstr "Sinulla tulee olla oikeat oikeudet tietokannan päivittämiseen."
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Pacmanin lukitustiedosto löytyi. Et voi ajaa kahta pacmania samanaikaisesti."
+msgstr ""
+"Pacmanin lukitustiedosto löytyi. Et voi ajaa kahta pacmania samanaikaisesti."
 
 msgid "Pre-3.5 database format detected - upgrading..."
-msgstr "Vanhanaikainen pakettitietokantaformaatti havaittu. Päivitetään sitä uuteen 3.5 formaattiin..."
+msgstr ""
+"Vanhanaikainen pakettitietokantaformaatti havaittu. Päivitetään sitä uuteen "
+"3.5 formaattiin..."
 
 msgid "Done."
 msgstr "Tehty."
 
+#, fuzzy
+msgid "Usage: %s [options] operation [targets]"
+msgstr "Käyttö: %s [valinnat]"
+
 msgid "Manage pacman's list of trusted keys"
 msgstr "Hallitse pacmanin tietokantaa luotetuista avaimista"
 
-msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
-msgstr "  -a, --add [tiedosto(t)]       Lisää luetellut avaimet (tyhjäksi jätettynä luetaan stdin:istä)"
+#, fuzzy
+msgid "Operations:"
+msgstr "Valinnat:"
 
-msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
+#, fuzzy
+msgid "  -a, --add                 Add the specified keys (empty for stdin)"
+msgstr ""
+"  -a, --add [tiedosto(t)]       Lisää luetellut avaimet (tyhjäksi jätettynä "
+"luetaan stdin:istä)"
+
+#, fuzzy
+msgid "  -d, --delete              Remove the specified keyids"
 msgstr "  -d, --delete <avain-id(t)>    Poista luetellut avaimet"
 
-msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export              Export the specified or all keyids"
 msgstr "  -e, --export [avain-id(t)]    Vie luetellut avaimet"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
-msgstr "  -f, --finger [avain-id(t)]    Listaa lueteltujen avainten sormenjäljet"
+"  -f, --finger              List fingerprint for specified or all keyids"
+msgstr ""
+"  -f, --finger [avain-id(t)]    Listaa lueteltujen avainten sormenjäljet"
 
-msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help                    Näyttää tämän ohjeen"
-
-msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys           List the specified or all keys"
 msgstr "  -l, --list-keys [avain-id(t)] Listaa luetellut avaimet"
 
-msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys <avain-id(t)> Noutaa luetellut avaimet"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb                Päivittää pacmanin trustdb tietokannan"
 
-msgid "  -v, --verify <signature>  Verify the file specified by the signature"
-msgstr "  -v, --verify <allekirjoitus>  Tarkastaa allekirjoitteen määrittämän tiedoston"
-
-msgid "  -V, --version             Show program version"
-msgstr "  -V, --version                 Kertoo ohjelman version"
-
+#, fuzzy
 msgid ""
-"  --config <file>           Use an alternate config file (instead of\\n"
-"                            '%s')"
-msgstr "  --config <tiedosto>           Käytä omavalintaista asetustiedostoa (tiedoston\\n                                '%s' sijaan)"
+"  -v, --verify              Verify the file(s) specified by the signature(s)"
+msgstr ""
+"  -v, --verify <allekirjoitus>  Tarkastaa allekirjoitteen määrittämän "
+"tiedoston"
 
+#, fuzzy
 msgid ""
-"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+"  --edit-key                Present a menu for key management task on keyids"
 msgstr "  --edit-key <avain-id(t)>      Avaa avaimen hallinta valikkon"
 
-msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
-"                            of '%s')"
-msgstr "  --gpgdir <kansio>             Käytä omavalintaista GnuPG kansiota (kansion\\n                                '%s' sijaan)"
+#, fuzzy
+msgid "  --import                  Imports pubring.gpg from dir(s)"
+msgstr ""
+"  --import <kansio(t)>          Lisää pubring.gpg tiedstojen sisällöt "
+"kansioista"
 
-msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
-msgstr "  --import <kansio(t)>          Lisää pubring.gpg tiedstojen sisällöt kansioista"
-
+#, fuzzy
 msgid ""
-"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in "
+"  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
-msgstr "  --import-trustdb <kansio(t)>  Lisää omistajien turvaluokitukset trustdb.gpg tiedostoista"
+msgstr ""
+"  --import-trustdb <kansio(t)>  Lisää omistajien turvaluokitukset trustdb."
+"gpg tiedostoista"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr "  --init                        Varmistaa että avainnippu on alustettu"
 
-msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr "  --keyserver                   Määrittää käytettävän avainpalvelimen"
+#, fuzzy
+msgid "  --list-sigs               List keys and their signatures"
+msgstr ""
+"  --list-sigs [avain-id(t)]     Listaa avaimet ja niiden allekirjoitukset"
 
-msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr "  --list-sigs [avain-id(t)]     Listaa avaimet ja niiden allekirjoitukset"
-
-msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+#, fuzzy
+msgid "  --lsign-key               Locally sign the specified keyid"
 msgstr "  --lsign-key <avain-id>        Allekirjoitaa avaimen paikallisesti"
 
+#, fuzzy
 msgid ""
-"  --populate [keyring(s)]   Reload the default keys from the (given) "
-"keyrings\\n                            in '%s'"
-msgstr "  --populate [avainnippu(t)]    Lataa oletusavaimet uudelleen listatuista tai \\n                                '%s' tiedoston sisältämistä avainnipuista"
+"  --populate                Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+"  --populate [avainnippu(t)]    Lataa oletusavaimet uudelleen listatuista "
+"tai \\n                                '%s' tiedoston sisältämistä "
+"avainnipuista"
+
+#, fuzzy
+msgid ""
+"  --refresh-keys            Update specified or all keys from a keyserver"
+msgstr ""
+"  --refresh-keys [avain-id(s)]  Päivitää annetut tai kaikki avaimet "
+"avainpalvelimelta"
 
 msgid ""
-"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys [avain-id(s)]  Päivitää annetut tai kaikki avaimet avainpalvelimelta"
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
+msgstr ""
+"  --config <tiedosto>           Käytä omavalintaista asetustiedostoa "
+"(tiedoston\\n                                '%s' sijaan)"
+
+msgid ""
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
+msgstr ""
+"  --gpgdir <kansio>             Käytä omavalintaista GnuPG kansiota (kansion"
+"\\n                                '%s' sijaan)"
+
+#, fuzzy
+msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
+msgstr "  --keyserver                   Määrittää käytettävän avainpalvelimen"
+
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help                    Näyttää tämän ohjeen"
+
+msgid "  -V, --version             Show program version"
+msgstr "  -V, --version                 Kertoo ohjelman version"
+
+msgid "Failed to lookup key by name:"
+msgstr ""
+
+msgid "Key name is ambiguous:"
+msgstr ""
 
 msgid "The key identified by %s could not be found locally."
 msgstr "Avainta tunnisteella %s ei voitu löytää paikallisesti."
@@ -739,9 +913,6 @@ msgstr "Lisätään avaimia tiedostosta %s.gpg..."
 
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Allekirjoitetaan avainnipun luotettuja avaimia paikallisesti..."
-
-msgid "Locally signing key %s..."
-msgstr "Allekirjoitetaan avainta %s paikallisesti..."
 
 msgid "Importing owner trust values..."
 msgstr "Tuodaan omistajan luotetut arvot..."
@@ -779,7 +950,11 @@ msgstr "Määritettyä avainta ei voitu luetella."
 msgid "A specified signature could not be listed."
 msgstr "Määritettyä allekirjoitusta ei voitu luetella."
 
-msgid "A specified key could not be locally signed."
+msgid "Locally signing key %s..."
+msgstr "Allekirjoitetaan avainta %s paikallisesti..."
+
+#, fuzzy
+msgid "%s could not be locally signed."
 msgstr "Määritettyä avainta ei voitu allekirjoittaa paikallisesti."
 
 msgid "Remote key not fetched correctly from keyserver."
@@ -815,22 +990,34 @@ msgstr "Annettiin useampia operaatioita."
 msgid "Please run %s with each operation separately."
 msgstr "Suorita %s erikseen joka operaatiolle."
 
+msgid "No targets specified"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
-msgstr "pacman-optimize on pikkuinen skripti, jonka tarkoituksena\\non kohentaa pacmanin suorituskykyä,\\nluettaessa ja kirjoitettaessa sen tietokantaan.\\n\\n"
+msgstr ""
+"pacman-optimize on pikkuinen skripti, jonka tarkoituksena\\non kohentaa "
+"pacmanin suorituskykyä,\\nluettaessa ja kirjoitettaessa sen tietokantaan.\\n"
+"\\n"
 
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\nthere is a"
-" tendency for these files to become fragmented over time.\\nThis script "
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
 "attempts to relocate these small files into one\\ncontinuous location on "
 "your hard drive. The result is that the hard\\ndrive should be able to read "
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
-msgstr "Koska pacman pitää kirjaa paketeista monien pienten tiedostojen\\navulla, niin saattavat nämä tiedostot kertyä ympäri kiintolevyä\\najan kuluessa. Tämän skriptin tarkoituksena on tuoda nämä tiedostot\\nyhteen ja samaan paikkaan kiintolevyllä.\\nNäin ollen pacmanilta menee vähemmän aikaa löytää ne.\\n\\n"
+msgstr ""
+"Koska pacman pitää kirjaa paketeista monien pienten tiedostojen\\navulla, "
+"niin saattavat nämä tiedostot kertyä ympäri kiintolevyä\\najan kuluessa. "
+"Tämän skriptin tarkoituksena on tuoda nämä tiedostot\\nyhteen ja samaan "
+"paikkaan kiintolevyllä.\\nNäin ollen pacmanilta menee vähemmän aikaa löytää "
+"ne.\\n\\n"
 
-msgid "diff tool was not found, please install diffutils."
-msgstr "diff työkalua ei löydy. Asenna diffutils-paketti."
+#, fuzzy
+msgid "Cannot find the %s binary required for verifying integrity."
+msgstr "Lähdetiedostojen tarkastamiseen tarvittavaa ohjelmaa %s ei löydy."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Sinulla tulee olla kunnolliset oikeudet tietokannan optimoimiseen."
@@ -865,6 +1052,9 @@ msgstr "Uusi tietokanta on VIRHEELLINEN, palautetaan vanhaa tietokantaa..."
 msgid "Rotating database into place..."
 msgstr "Pyöritellään tietokantaa paikalleen..."
 
+msgid "New database substitution failed. Check for %s, %s, and %s directories."
+msgstr ""
+
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Valmis. Pakettitietokantasi on nyt optimoitu."
 
@@ -874,7 +1064,9 @@ msgstr "Käyttö: pkgdelta [valinnat] <paketti1> <paketti2>\\n"
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
-msgstr "\tpkgdelta luo kahden tiedoston välisen deltatiedoston.\\nTämä deltatiedosto voidaan sitten lisätä pakettitietokantaan\\nkäyttäen repo-add-ohjelmaa.\\n\\n"
+msgstr ""
+"\tpkgdelta luo kahden tiedoston välisen deltatiedoston.\\nTämä deltatiedosto "
+"voidaan sitten lisätä pakettitietokantaan\\nkäyttäen repo-add-ohjelmaa.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "Esimerkki:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -885,21 +1077,30 @@ msgstr "Valinnat:\\n"
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimoi viestien määrä\\n"
 
-msgid ""
-"  --min-pkg-size    minimum package size before deltas are generated "
-"(bytes)\\n"
-msgstr "  --min-pkg-size    paketin vähimmäiskoko, jotta delta luodaan (tavuissa)\\n"
+msgid "  --nocolor         remove color from output\\n"
+msgstr ""
 
+#, fuzzy
+msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
+msgstr ""
+"  --min-pkg-size    paketin vähimmäiskoko, jotta delta luodaan (tavuissa)\\n"
+
+#, fuzzy
 msgid ""
-"  --max-delta-size  percent of package size above which deltas will be "
+"  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
-msgstr "  --max-delta-size  prosenttiosuus pakettikoosta, jonka ylittyessä delta heitetään pois\\n"
+msgstr ""
+"  --max-delta-size  prosenttiosuus pakettikoosta, jonka ylittyessä delta "
+"heitetään pois\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
-msgstr "Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei anneta, lain rajoissa.\\n"
+msgstr ""
+"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
+"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
+"anneta, lain rajoissa.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Pakettitiedosto '%s' ei ole kelvollinen."
@@ -935,15 +1136,22 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Xdelta3-ohjelmaa ei löydy! Onko xdelta3 asennettuna?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "Käyttö: repo-add [valinnat] <tietokannan-sijainti> <paketti|delta> ...\\n"
+msgstr ""
+"Käyttö: repo-add [valinnat] <tietokannan-sijainti> <paketti|delta> ...\\n"
 
 msgid ""
-"repo-add will update a package database by reading a package "
-"file.\\nMultiple packages to add can be specified on the command line.\\n"
-msgstr "repo-add päivittää pakettitietokannan lukemalla pakettitiedoston.\\nKomentorivillä voi antaa useita päivitettäviä paketteja.\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n"
+msgstr ""
+"repo-add päivittää pakettitietokannan lukemalla pakettitiedoston."
+"\\nKomentorivillä voi antaa useita päivitettäviä paketteja.\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr "  -d, --delta       luo ja lisää delta paketti\\n"
+
+msgid ""
+"  -n, --new         only add packages that are not already in the database\\n"
+msgstr ""
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       päivitä tietokannan tiedostolistaus\\n"
@@ -952,22 +1160,31 @@ msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr "Käyttö: repo-remove [valinnat] <path-to-db> <packagename|delta> ...\\n"
 
 msgid ""
-"repo-remove will update a package database by removing the package "
-"name\\nspecified on the command line from the given repo database. "
-"Multiple\\npackages to remove can be specified on the command line.\\n"
-msgstr "repo-remove päivittää pakettitietokannan poistamalla komentorivillä\\nannetun nimisen paketin annetusta varastotietokannasta.\\nKomentorivillä voi antaa useita poistettavia paketteja.\\n"
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n"
+msgstr ""
+"repo-remove päivittää pakettitietokannan poistamalla komentorivillä"
+"\\nannetun nimisen paketin annetusta varastotietokannasta.\\nKomentorivillä "
+"voi antaa useita poistettavia paketteja.\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Jatkakaa matkaanne, täällä ei ole mitään nähtävää.\\n"
+
+msgid "  --nocolor         turn off color in output\\n"
+msgstr ""
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign        allekirjoita tietokanta GnuGP:llä\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
-msgstr "  -k, --key <avain> käytä annettua avainta tietokannan allekirjoittamiseen\\n"
+msgstr ""
+"  -k, --key <avain> käytä annettua avainta tietokannan allekirjoittamiseen\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr "  -v, --verify      tarkasta tietokannan allekirjoitus, ennen päivittämistä\\n"
+msgstr ""
+"  -v, --verify      tarkasta tietokannan allekirjoitus, ennen päivittämistä"
+"\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
@@ -975,16 +1192,21 @@ msgstr "\\nMan-sivulta %s(8) löydät lisätietoja käytettävistä valinnoista.
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr "Esimerkki:  repo-add /polku/varastoon/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr ""
+"Esimerkki:  repo-add /polku/varastoon/repo.db.tar.gz pacman-3.0.0-1-i686.pkg."
+"tar.gz\\n"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Esimerkki:  repo-remove /polku/varastoon/repo.db.tar.gz kernel26\\n"
 
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Tekijänoikeudet (c) 2006-2012 Pacmanin kehitysryhmä <pacman-dev@archlinuxorg>\\n\\nTämä on vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei anneta, lain rajoissa.\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Tekijänoikeudet (c) 2006-2012 Pacmanin kehitysryhmä <pacman-dev@archlinuxorg>"
+"\\n\\nTämä on vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään "
+"takuita ei anneta, lain rajoissa.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Paketilla '%s' ei ole merkintää tietokannassa."
@@ -995,11 +1217,19 @@ msgstr "Lisätään 'deltas'-merkintää: %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Poistetaan pakettia '%s' tietokannasta..."
 
+#, fuzzy
+msgid "Removing empty deltas file ..."
+msgstr "Poistetaan tyhjiä kansioita..."
+
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "gpg-ohjelmaa ei löydy! Onko gpg-asennettuna?"
 
 msgid "Signing database..."
 msgstr "Allekirjoitetaan tietokantaa..."
+
+#, fuzzy
+msgid "Created signature file '%s'"
+msgstr "Luotiin allekirjoutus tiedosto %s."
 
 msgid "Failed to sign package database."
 msgstr "Pakettitietokannan allekirjoittaminen epäonnistui."
@@ -1044,7 +1274,8 @@ msgid "Held by process %s"
 msgstr "Prosessin %s hallinnassa"
 
 msgid "Repository file '%s' is not a proper pacman database."
-msgstr "Pakettivarastotiedosto '%s' ei ole kelvollinen pacmanin pakettitietokanta."
+msgstr ""
+"Pakettivarastotiedosto '%s' ei ole kelvollinen pacmanin pakettitietokanta."
 
 msgid "Extracting database to a temporary location..."
 msgstr "Puretaan tietokantaa väliaikaiseen sijaintiin..."
@@ -1094,8 +1325,70 @@ msgstr "Yhtään pakettia ei ole jäljellä, luodaan tyhjä tietokanta."
 msgid "No packages modified, nothing to do."
 msgstr "Yhtään pakettia ei ole muokattu, ei ole mitään tehtävää jäljellä."
 
-msgid "option %s requires an argument\\n"
+msgid "option '%s' is ambiguous; possibilities:"
+msgstr ""
+
+#, fuzzy
+msgid "invalid option"
+msgstr "tunnistamaton valitsin"
+
+#, fuzzy
+msgid "option requires an argument"
 msgstr "valitsin %s tarvitsee myös parametrin\\n"
 
-msgid "unrecognized option"
-msgstr "tunnistamaton valitsin"
+#, fuzzy
+msgid "option '%s' does not allow an argument"
+msgstr "valitsin %s tarvitsee myös parametrin\\n"
+
+#, fuzzy
+msgid "option '%s' requires an argument"
+msgstr "valitsin %s tarvitsee myös parametrin\\n"
+
+#~ msgid "There is no agent set up to handle %s URLs. Check %s."
+#~ msgstr "Protokollan %s osoitteille ei ole määritetty agenttia. Katso %s."
+
+#~ msgid "%s is not allowed to contain hyphens or whitespace."
+#~ msgstr "%s ei saa sisältää tavuviivoja eikä tyhjiä välejä."
+
+#~ msgid "Cannot find the %s binary required to determine latest %s revision."
+#~ msgstr "Tarvittavaa ohjelmaa %s ei löydy uusimman %s -version etsimiseksi."
+
+#~ msgid "Determining latest %s revision..."
+#~ msgstr "Etsitään uusinta %s-versiota..."
+
+#~ msgid "Version found: %s"
+#~ msgstr "Löydetty versio: %s"
+
+#~ msgid ""
+#~ "  --holdver        Prevent automatic version bumping for development %ss"
+#~ msgstr ""
+#~ "  --holdver        Estää automaattisen version muutoksen kehittämiseen %ss"
+
+#~ msgid "\\0%s and %s cannot both be specified"
+#~ msgstr "\\0ei voi antaa sekä %s- että %s-valitsinta"
+
+#~ msgid "%s was not found in %s; skipping dependency checks."
+#~ msgstr ""
+#~ "ohjelmaa %s ei löydy %s-muuttujan määrittämistä kansioista; ohitetaan "
+#~ "riippuvuustarkastukset."
+
+#~ msgid "Skipping source retrieval        -- using existing %s tree"
+#~ msgstr ""
+#~ "Ohitetaan lähdetiedostojen nouto                     -- käytetään aiemmin "
+#~ "luotua %s-puuta"
+
+#~ msgid "Skipping source integrity checks -- using existing %s tree"
+#~ msgstr ""
+#~ "Ohitetaan lähdetiedostojen virheettömyystarkistukset -- käytetään aiemmin "
+#~ "luotua %s-puuta"
+
+#~ msgid "Skipping source extraction       -- using existing %s tree"
+#~ msgstr ""
+#~ "Ohitetaan lähdetiedostojen purku                     -- käytetään aiemmin "
+#~ "luotua %s-puuta"
+
+#~ msgid "The source directory is empty, there is nothing to build!"
+#~ msgstr "Lähdekansio on tyhjä, ei ole mitään käännettävää."
+
+#~ msgid "diff tool was not found, please install diffutils."
+#~ msgstr "diff työkalua ei löydy. Asenna diffutils-paketti."

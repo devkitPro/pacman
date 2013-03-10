@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # , 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2011-11-15 15:42+0000\n"
 "Last-Translator: Fredrik Halldal <f.halldal@gmail.com>\n"
-"Language-Team: Swedish (http://www.transifex.com/projects/p/archlinux-pacman/language/sv/)\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/sv/)\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -39,10 +40,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "kunde inte extrahera %s (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "kunde inte döpa om %s till %s (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "katalogrättigheter skiljer sig på %s\nfilsystem: %o  paket: %o\n"
+msgstr ""
+"katalogrättigheter skiljer sig på %s\n"
+"filsystem: %o  paket: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -53,16 +60,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "extrahera: symbolisk länk %s pekar inte mot en katalog\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "kunde inte döpa om %s till %s (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "%s sparad som %s\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "kunde inte installera %s som %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -100,6 +99,10 @@ msgstr "kunde inte uppdatera databasinlägget %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "kunde inte lägga till '%s' i cachen\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "fel vid läsning av paketet %s: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "tar bort ogiltig databas: %s\n"
@@ -129,6 +132,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s databasen är inkonsekvent: ej matchande version på paketet %s\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "kunde inte skapa katalogen %s: %s\n"
 
@@ -151,6 +158,14 @@ msgstr "fel vid läsning av paketet %s: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "saknar metadata för paketet i %s\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "misslyckades att hämta vissa filer från %s\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -189,20 +204,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "kan inte lösa \"%s\", beroende till \"%s\", \n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "Kunde ej hämta filsysteminformation\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "Kunde ej hämta filsysteminformation för %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "kunde inte öppna filen %s: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "Kunde ej hämta filsysteminformation\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "Kunde ej bestämma monteringspunkt för fil %s\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Partition %s för full: %jd block behövs, %jd block fria\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "Kunde ej bestämma filsystemmonteringspunkter\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "Kunde ej bestämma rootmonteringspunkt %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -211,10 +238,6 @@ msgstr "Kunde ej bestämma rootmonteringspunkt %s\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partition %s är monterad utan skrivrättigheter\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Partition %s för full: %jd block behövs, %jd block fria\n"
 
 #, c-format
 msgid "disk"
@@ -249,8 +272,8 @@ msgid "unexpected system error"
 msgstr "oväntat systemfel"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "otillräckliga rättigheter"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -468,6 +491,10 @@ msgstr "tar bort %s från mållistan\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "kan inte ta bort '%s': %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "kunde inte skapa katalogen %s: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "kunde ej ta bort %s (%s)\n"
@@ -512,9 +539,13 @@ msgstr "olösliga paketkonflikter upptäckta\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "tar bort '%s' från mållistan då den står i konflikt med '%s'\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "misslyckades att hämta vissa filer från %s\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "misslyckades att hämta några filer"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "ej tillräckligt fritt diskutrymme"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -539,6 +570,10 @@ msgstr "kunde ej ta bort %s\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kunde inte ta bort tmpdir %s\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "kunde inte öppna filen %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -575,3 +610,9 @@ msgstr "ingen %s cache existerar, skapar...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kunde ej hitta eller skapa paketcache, använder %s istället\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "kunde inte installera %s som %s (%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "otillräckliga rättigheter"

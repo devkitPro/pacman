@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # leonfeng <rainofchaos@gmail.com>, 2011.
 #   <rainofchaos@gmail.com>, 2011.
@@ -10,15 +10,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-05-20 11:26-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2012-11-16 14:29+0000\n"
 "Last-Translator: Yangtse Su <yangtsesu@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/archlinux-pacman/language/zh_CN/)\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/"
+"archlinux-pacman/language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "WARNING:"
@@ -33,35 +34,14 @@ msgstr "打扫中..."
 msgid "Entering %s environment..."
 msgstr "正在进入 %s 环境..."
 
-msgid "Unable to find source file %s."
-msgstr "无法找到源文件 %s。"
+msgid "Unknown download protocol: %s"
+msgstr ""
 
 msgid "Aborting..."
 msgstr "正在放弃..."
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "没有设置程序来处理 %s URLs。请检查 %s。"
-
 msgid "The download program %s is not installed."
 msgstr "下载程序 %s 没有安装。"
-
-msgid "'%s' returned a fatal error (%i): %s"
-msgstr "'%s' 返回一个致命错误 (%i)：%s"
-
-msgid "Installing missing dependencies..."
-msgstr "正在安装缺少的依赖关系..."
-
-msgid "'%s' failed to install missing dependencies."
-msgstr "'%s' 无法安装缺少的依赖关系。"
-
-msgid "Missing Dependencies:"
-msgstr "缺少依赖关系："
-
-msgid "Failed to remove installed dependencies."
-msgstr "无法删除已安装的依赖关系。"
-
-msgid "Retrieving Sources..."
-msgstr "获取源代码..."
 
 msgid "Found %s"
 msgstr "找到 %s"
@@ -75,11 +55,95 @@ msgstr "正在下载 %s..."
 msgid "Failure while downloading %s"
 msgstr "无法下载 %s"
 
+msgid "Extracting %s with %s"
+msgstr "正在解压缩 %s，使用 %s"
+
+msgid "Failed to extract %s"
+msgstr "无法解压缩 %s"
+
+#, fuzzy
+msgid "Unrecognized reference: %s"
+msgstr "软件包提及含有 %s"
+
+#, fuzzy
+msgid "Branching %s ..."
+msgstr "正在生成 %s 文件..."
+
+#, fuzzy
+msgid "Failure while branching %s"
+msgstr "无法下载 %s"
+
+#, fuzzy
+msgid "%s is not a branch of %s"
+msgstr "'%s' 不是一个软件包文件，跳过"
+
+#, fuzzy
+msgid "Pulling %s ..."
+msgstr "正在添加 %s..."
+
+#, fuzzy
+msgid "Failure while pulling %s"
+msgstr "无法下载 %s"
+
+msgid "Creating working copy of %s %s repo..."
+msgstr ""
+
+msgid "Failure while creating working copy of %s %s repo"
+msgstr ""
+
+#, fuzzy
+msgid "Cloning %s %s repo..."
+msgstr "打扫中..."
+
+#, fuzzy
+msgid "Failure while downloading %s %s repo"
+msgstr "无法下载 %s"
+
+#, fuzzy
+msgid "%s is not a clone of %s"
+msgstr "%s 不允许为空。"
+
+#, fuzzy
+msgid "Updating %s %s repo..."
+msgstr "正在更新可信数据库..."
+
+#, fuzzy
+msgid "Failure while updating %s %s repo"
+msgstr "无法下载 %s"
+
+#, fuzzy
+msgid "Retrieving sources..."
+msgstr "获取源代码..."
+
+msgid "Updated version: %s"
+msgstr ""
+
+msgid "%s is not writeable -- pkgver will not be updated"
+msgstr ""
+
+msgid "Unable to find source file %s."
+msgstr "无法找到源文件 %s。"
+
+msgid "'%s' returned a fatal error (%i): %s"
+msgstr "'%s' 返回一个致命错误 (%i)：%s"
+
+msgid "Installing missing dependencies..."
+msgstr "正在安装缺少的依赖关系..."
+
+msgid "'%s' failed to install missing dependencies."
+msgstr "'%s' 无法安装缺少的依赖关系。"
+
+#, fuzzy
+msgid "Missing dependencies:"
+msgstr "缺少依赖关系："
+
+msgid "Failed to remove installed dependencies."
+msgstr "无法删除已安装的依赖关系。"
+
 msgid "Generating checksums for source files..."
 msgstr "正在为源代码文件创建完整性检查值..."
 
-msgid ""
-"Cannot find the %s binary required for generating sourcefile checksums."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr "无法找到生成源文件检验值所需的 %s 库。"
 
 msgid "Invalid integrity algorithm '%s' specified."
@@ -87,6 +151,9 @@ msgstr "指定了无效的完整性算法 '%s'"
 
 msgid "Validating source files with %s..."
 msgstr "正在验证源代码文件 %s..."
+
+msgid "Skipped"
+msgstr ""
 
 msgid "NOT FOUND"
 msgstr "未找到"
@@ -145,17 +212,20 @@ msgstr "正在跳过校验源文件校验值。"
 msgid "Skipping verification of source file PGP signatures."
 msgstr "正在跳过源文件 PGP 签名校验。"
 
-msgid "Extracting Sources..."
+#, fuzzy
+msgid "Extracting sources..."
 msgstr "解压缩源码..."
-
-msgid "Extracting %s with %s"
-msgstr "正在解压缩 %s，使用 %s"
-
-msgid "Failed to extract %s"
-msgstr "无法解压缩 %s"
 
 msgid "A failure occurred in %s()."
 msgstr "在 %s() 中发生一个错误。"
+
+#, fuzzy
+msgid "Failed to change to directory %s"
+msgstr "无法解压缩 %s"
+
+#, fuzzy
+msgid "Failed to source %s"
+msgstr "无法解压缩 %s"
 
 msgid "Starting %s()..."
 msgstr "正在开始 %s()..."
@@ -169,17 +239,23 @@ msgstr "正在删除 doc 文件..."
 msgid "Purging unwanted files..."
 msgstr "正在清除不打算要的文件..."
 
-msgid "Compressing man and info pages..."
-msgstr "正在压缩 man 及 info 文档..."
-
-msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "正在从二进制文件和库中清除不需要的系统符号..."
-
 msgid "Removing %s files..."
 msgstr "正在删除 %s 文件..."
 
 msgid "Removing empty directories..."
 msgstr "正在删除空目录..."
+
+msgid "%s entry file not in package : %s"
+msgstr "%s 条目文件不在软件包内： %s"
+
+msgid "Package contains reference to %s"
+msgstr "软件包提及含有 %s"
+
+msgid "Compressing man and info pages..."
+msgstr "正在压缩 man 及 info 文档..."
+
+msgid "Stripping unneeded symbols from binaries and libraries..."
+msgstr "正在从二进制文件和库中清除不需要的系统符号..."
 
 msgid "Compressing binaries with %s..."
 msgstr "正在使用 %s 压缩二进制文件..."
@@ -187,8 +263,14 @@ msgstr "正在使用 %s 压缩二进制文件..."
 msgid "Could not compress binary : %s"
 msgstr "无法压缩二进制文件：%s"
 
-msgid "Generating %s file..."
-msgstr "正在生成 %s 文件..."
+msgid "Library listed in %s is not required by any files: %s"
+msgstr ""
+
+msgid "Library listed in %s is not versioned: %s"
+msgstr ""
+
+msgid "Library listed in %s is not a shared object: %s"
+msgstr ""
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "无法找到列在 %s 中的库： %s"
@@ -199,20 +281,22 @@ msgstr "请添加软件许可证行到你的 %s！"
 msgid "Example for GPL'ed software: %s."
 msgstr "如 GPL 版权的软件有： %s。"
 
-msgid "%s entry file not in package : %s"
-msgstr "%s 条目文件不在软件包内： %s"
-
-msgid "Package contains reference to %s"
-msgstr "软件包提及含有 %s"
+msgid "Generating %s file..."
+msgstr "正在生成 %s 文件..."
 
 msgid "Missing %s directory."
 msgstr "缺失 %s 目录。"
 
-msgid "Creating package..."
+#, fuzzy
+msgid "Creating package \"%s\"..."
 msgstr "正在创建软件包..."
 
 msgid "Adding %s file..."
 msgstr "正在添加 %s 文件..."
+
+#, fuzzy
+msgid "Generating .MTREE file..."
+msgstr "正在生成 %s 文件..."
 
 msgid "Compressing package..."
 msgstr "正在压缩软件包..."
@@ -271,11 +355,9 @@ msgstr "%s 不允许以连字号开始。"
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s 包含无效字符： '%s'"
 
-msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr "%s 不允许包含冒号，连字号及空格。"
-
-msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr "%s 不允许包含连字号及空格。"
+#, fuzzy
+msgid "%s must be a decimal."
+msgstr "%s 必须是个整数。"
 
 msgid "%s must be an integer."
 msgstr "%s 必须是个整数。"
@@ -310,7 +392,15 @@ msgstr "缺失 %s 功能以分割软件包 '%s'"
 msgid "Requested package %s is not provided in %s"
 msgstr "要求的软件包 %s 在 %s 中不提供"
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
+msgstr "%s 不允许包含冒号，连字号及空格。"
+
+#, fuzzy
+msgid "Cannot find the %s binary required for dependency operations."
+msgstr "无法找到所需的 %s 二进制文件以进行所有 %s 操作。"
+
+#, fuzzy
+msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "Sudo 命令没有找到。将使用 su 获取根用户特权。"
 
 msgid "Cannot find the %s binary required for building as non-root user."
@@ -322,8 +412,7 @@ msgstr "无法找到签名软件包所需的 %s 二进制文件。"
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "无法找到验证源文件所需的 %s 二进制文件。"
 
-msgid ""
-"Cannot find the %s binary required for validating sourcefile checksums."
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr "无法找到验证源文件校验值所需的 %s 二进制文件。"
 
 msgid "Cannot find the %s binary required for compressing binaries."
@@ -341,14 +430,21 @@ msgstr "无法找到目标文件分割所需的 %s 二进制文件。"
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr "无法找到压缩帮助及信息页面所需的 %s 二进制文件。"
 
-msgid "Cannot find the %s binary required to determine latest %s revision."
-msgstr "无法找到所需的 %s 二进制文件以判定最新的 %s 修订。"
+msgid "A package has already been built, installing existing package..."
+msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
 
-msgid "Determining latest %s revision..."
-msgstr "正在测定最新 %s 的修订..."
+msgid "A package has already been built. (use %s to overwrite)"
+msgstr "软件包已经创建过。(使用 %s 覆盖)"
 
-msgid "Version found: %s"
-msgstr "找到版本：%s"
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr "已有一个编译好的软件包组，正在安装现有的软件包..."
+
+msgid "The package group has already been built. (use %s to overwrite)"
+msgstr "该软件包组已创建过。(使用 %s 覆盖)"
+
+msgid "Part of the package group has already been built. (use %s to overwrite)"
+msgstr "软件包组的一部分已经创建过。(使用 %s 覆盖)"
 
 msgid "Usage: %s [options]"
 msgstr "用法：%s [选项]"
@@ -396,8 +492,7 @@ msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr "  -r, --rmdeps     编译成功后删除安装的依赖关系"
 
-msgid ""
-"  -R, --repackage  Repackage contents of the package without rebuilding"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  不编译而重新打包软件包内容"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
@@ -412,6 +507,11 @@ msgid ""
 "sources"
 msgstr "    --allsource     只生成源码包 (包括有已下载的源码) "
 
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr ""
+
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         允许 %s 以根用户身份运行"
 
@@ -421,13 +521,12 @@ msgstr "  --check          运行 %s 函数 (包含于 %s 中)"
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <文件> 使用替代的配置文件 (而不是 '%s')"
 
-msgid ""
-"  --holdver        Prevent automatic version bumping for development %ss"
-msgstr "  --holdver        防止开发 %ss 的自动版本碰撞"
+#, fuzzy
+msgid "  --holdver        Do not update VCS sources"
+msgstr "  --nocheck        不运行 %s 功能在 %s 中"
 
 msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the "
-"default"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr "  --key <密匙>      指定签名 %s 使用的密匙而不用默认密匙"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
@@ -455,9 +554,16 @@ msgstr "  --skippgpcheck   不验证有 PGP 签名的源文件"
 msgid "These options can be passed to %s:"
 msgstr "这些选项可以传递给 %s："
 
+msgid "  --asdeps         Install packages as non-explicitly installed"
+msgstr ""
+
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "   --noconfirm      当解决依赖关系时不询问确认"
+
+msgid ""
+"  --needed         Do not reinstall the targets that are already up to date"
+msgstr ""
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  下载文件时不显示进度条"
@@ -465,13 +571,16 @@ msgstr "  --noprogressbar  下载文件时不显示进度条"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "如果没有指定 %s，%s 将寻找 '%s'"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
-"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
-"law.\\n"
-msgstr "Copyright (c) 2006-2012 Pacman 开发小组 <pacman-dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\n本程序是自由软件；版权情况请详见源代码。\\"
+"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2012 Pacman 开发小组 <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\n本程序是自"
+"由软件；版权情况请详见源代码。\\"
 
 msgid "%s signal caught. Exiting..."
 msgstr "发现 %s 信号。退出中..."
@@ -497,25 +606,30 @@ msgstr "你没有权限将下载数据写入 %s。"
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "您没有在 %s 内保存源码包所需的写入权限。"
 
-msgid "\\0%s and %s cannot both be specified"
-msgstr "\\0%s 和 %s 不能同时指定。"
+#, fuzzy
+msgid "You do not have write permission to store logs in %s."
+msgstr "你没有权限将下载数据写入 %s。"
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
-msgstr "作为根用户运行 %s 是一个糟透了的主意，\\n可能会导致对系统灾难性的损坏。如果您的确想以根用户\\n身份运行，请使用 %s 选项。"
+msgstr ""
+"作为根用户运行 %s 是一个糟透了的主意，\\n可能会导致对系统灾难性的损坏。如果您"
+"的确想以根用户\\n身份运行，请使用 %s 选项。"
 
 msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
+"The %s option is meant for the root user only. Please\\nrerun %s without the "
+"%s flag."
 msgstr "该 %s 选项仅供根用户使用。\\n请重新运行 %s 且无 %s 标志。"
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
-msgstr "作为非特权用户运行会导致软件包文件的\\n非根用户拥有权。请尝试使用 %s 环境，\\n 可通过放置 %s 于 %s 数组内 (位于 %s 中) 调用。"
+msgstr ""
+"作为非特权用户运行会导致软件包文件的\\n非根用户拥有权。请尝试使用 %s 环"
+"境，\\n 可通过放置 %s 于 %s 数组内 (位于 %s 中) 调用。"
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "请不要使用 %s 选项。该选项仅供 %s 使用。"
@@ -532,23 +646,6 @@ msgstr "在您的密匙环中不存在密匙 %s。"
 msgid "There is no key in your keyring."
 msgstr "您密匙环中无密匙。"
 
-msgid "A package has already been built, installing existing package..."
-msgstr "已有一个编译好的软件包，正在安装现有的软件包..."
-
-msgid "A package has already been built. (use %s to overwrite)"
-msgstr "软件包已经创建过。(使用 %s 覆盖)"
-
-msgid ""
-"The package group has already been built, installing existing packages..."
-msgstr "已有一个编译好的软件包组，正在安装现有的软件包..."
-
-msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "该软件包组已创建过。(使用 %s 覆盖)"
-
-msgid ""
-"Part of the package group has already been built. (use %s to overwrite)"
-msgstr "软件包组的一部分已经创建过。(使用 %s 覆盖)"
-
 msgid "Leaving %s environment."
 msgstr "正在离开 %s 环境。"
 
@@ -560,6 +657,10 @@ msgstr "文件权限无法保留。"
 
 msgid "Making package: %s"
 msgstr "正在创建软件包：%s"
+
+#, fuzzy
+msgid "Using a %s without a %s function is deprecated."
+msgstr "不使用 %s 函数而重新打包软件包已被弃用。"
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "源软件包已经创建过。(使用 %s 覆盖)"
@@ -579,20 +680,9 @@ msgstr "正在检查编译时依赖关系"
 msgid "Could not resolve all dependencies."
 msgstr "无法解决所有的依赖关系。"
 
-msgid "%s was not found in %s; skipping dependency checks."
-msgstr "%s 在 %s 中没有找到；正在跳过依赖关系检查。"
-
-msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr "正在跳过源取回        -- 使用现存的 %s 树"
-
-msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr "正在跳过源完整性检查 -- 使用现存的 %s 树"
-
-msgid "Skipping source extraction       -- using existing %s tree"
-msgstr "正在跳过源解压        -- 使用现存的 %s 树"
-
-msgid "The source directory is empty, there is nothing to build!"
-msgstr "源代码目录为空，没有东西可编译。"
+#, fuzzy
+msgid "Using existing %s tree"
+msgstr "正在删除现存的 %s 目录..."
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "软件包目录为空，没有东西可重新打包。"
@@ -606,14 +696,18 @@ msgstr "正在删除现存的 %s 目录..."
 msgid "Finished making: %s"
 msgstr "完成创建：%s"
 
-msgid "Usage: %s [pacman_db_root]"
+#, fuzzy
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
 msgstr "用法：%s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2010-2012 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
+"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2010-2012 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
+"是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s 不存在或不是一个目录。"
@@ -633,82 +727,118 @@ msgstr "探测到 3.5 版本以前的数据库格式 - 正在升级中..."
 msgid "Done."
 msgstr "完成。"
 
+#, fuzzy
+msgid "Usage: %s [options] operation [targets]"
+msgstr "用法：%s [选项]"
+
 msgid "Manage pacman's list of trusted keys"
 msgstr "管理 pacman 的可信密匙清单"
 
-msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
+#, fuzzy
+msgid "Operations:"
+msgstr "选项："
+
+#, fuzzy
+msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr "  -a, --add [文件]       添加指定的密匙 (空则使用 stdin)"
 
-msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
+#, fuzzy
+msgid "  -d, --delete              Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   删除指定的密匙识别号"
 
-msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export              Export the specified or all keyids"
 msgstr "  -e, --export [keyid(s)]   导出指定的或所有密匙识别号"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
+"  -f, --finger              List fingerprint for specified or all keyids"
 msgstr "  -f, --finger [keyid(s)]   列出指定的或所有密匙识别号的指纹"
 
-msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help                显示本帮助并退出"
-
-msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys           List the specified or all keys"
 msgstr "  -l, --list-keys [keyid(s)] 列出指定的或全部的密匙"
 
-msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys <keyid(s)> 取回指定的 keyids"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            更新 pacman 的信任数据库"
 
-msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+#, fuzzy
+msgid ""
+"  -v, --verify              Verify the file(s) specified by the signature(s)"
 msgstr "  -v, --verify <签名>  验证该签名指定的文件"
 
-msgid "  -V, --version             Show program version"
-msgstr "  -V, --version             显示程序版本"
-
+#, fuzzy
 msgid ""
-"  --config <file>           Use an alternate config file (instead of\\n"
-"                            '%s')"
-msgstr "  --config <file>           使用另外的配置文件 (而不是\\n                            '%s')"
-
-msgid ""
-"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
+"  --edit-key                Present a menu for key management task on keyids"
 msgstr "  --edit-key <keyid(s)>     为有关密匙识别号的管理密匙任务提供一个菜单"
 
-msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
-"                            of '%s')"
-msgstr "  --gpgdir <dir>            为 GnuPG 设定的另外目录 (而\\n                            非 '%s')"
-
-msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
+#, fuzzy
+msgid "  --import                  Imports pubring.gpg from dir(s)"
 msgstr "  --import <目录>         从目录中导入 pubring.gpg"
 
+#, fuzzy
 msgid ""
-"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in "
+"  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr "  --import-trustdb <目录> 从目录中的 trustdb.gpg 导入拥有者信任值"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr "  --init                    确保密匙环已正确初始化"
 
-msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr "  --keyserver               如果需要，指定使用的密匙服务器"
-
-msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
+#, fuzzy
+msgid "  --list-sigs               List keys and their signatures"
 msgstr "  --list-sigs [keyid(s)]    列出密匙及对应签名"
 
-msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
+#, fuzzy
+msgid "  --lsign-key               Locally sign the specified keyid"
 msgstr "  --lsign-key <keyid>       在本地签名指定的密匙识别号"
 
+#, fuzzy
 msgid ""
-"  --populate [keyring(s)]   Reload the default keys from the (given) "
-"keyrings\\n                            in '%s'"
-msgstr "  --populate [keyring(s)]   从 (给定的) 密匙环中重新加载默认密匙\\n                            (在 '%s' 中)"
+"  --populate                Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+"  --populate [keyring(s)]   从 (给定的) 密匙环中重新加载默认密匙"
+"\\n                            (在 '%s' 中)"
+
+#, fuzzy
+msgid ""
+"  --refresh-keys            Update specified or all keys from a keyserver"
+msgstr "  --refresh-keys [keyid(s)] 从密匙服务器中更新指定的或所有的密匙"
 
 msgid ""
-"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys [keyid(s)] 从密匙服务器中更新指定的或所有的密匙"
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
+msgstr ""
+"  --config <file>           使用另外的配置文件 (而不是"
+"\\n                            '%s')"
+
+msgid ""
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
+msgstr ""
+"  --gpgdir <dir>            为 GnuPG 设定的另外目录 (而"
+"\\n                            非 '%s')"
+
+#, fuzzy
+msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
+msgstr "  --keyserver               如果需要，指定使用的密匙服务器"
+
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help                显示本帮助并退出"
+
+msgid "  -V, --version             Show program version"
+msgstr "  -V, --version             显示程序版本"
+
+msgid "Failed to lookup key by name:"
+msgstr ""
+
+msgid "Key name is ambiguous:"
+msgstr ""
 
 msgid "The key identified by %s could not be found locally."
 msgstr "本地没有找到由 %s 认定的密匙。"
@@ -739,9 +869,6 @@ msgstr "正在从 %s.gpg 添加密匙..."
 
 msgid "Locally signing trusted keys in keyring..."
 msgstr "正在本地签名密匙环中的可信密匙..."
-
-msgid "Locally signing key %s..."
-msgstr "正在本地签名密匙 %s..."
 
 msgid "Importing owner trust values..."
 msgstr "正在导入拥有者信任值..."
@@ -779,7 +906,11 @@ msgstr "指定密匙无法列出。"
 msgid "A specified signature could not be listed."
 msgstr "指定签名无法列出。"
 
-msgid "A specified key could not be locally signed."
+msgid "Locally signing key %s..."
+msgstr "正在本地签名密匙 %s..."
+
+#, fuzzy
+msgid "%s could not be locally signed."
 msgstr "指定密匙无法在本地签署。"
 
 msgid "Remote key not fetched correctly from keyserver."
@@ -815,22 +946,31 @@ msgstr "多个操作已指定。"
 msgid "Please run %s with each operation separately."
 msgstr "请分别加 %s 每个操作运行。"
 
+msgid "No targets specified"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
-msgstr "pacman-optimize 是一个小 hack，用于提高 pacman\\n读/写基于文件系统的数据库时的性能。\\n\\n"
+msgstr ""
+"pacman-optimize 是一个小 hack，用于提高 pacman\\n读/写基于文件系统的数据库时"
+"的性能。\\n\\n"
 
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\nthere is a"
-" tendency for these files to become fragmented over time.\\nThis script "
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
 "attempts to relocate these small files into one\\ncontinuous location on "
 "your hard drive. The result is that the hard\\ndrive should be able to read "
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
-msgstr "因为 pacman 使用许多小文件来跟踪软件包。\\n久而久之这些文件有倾向变得零碎。\\n本脚本尝试把这些小文件重新放置到硬盘上的一个连续的位置。\\n结果是硬盘磁头由于不用再在碟片上移来移去，从而可以读取得更快。\\n"
+msgstr ""
+"因为 pacman 使用许多小文件来跟踪软件包。\\n久而久之这些文件有倾向变得零"
+"碎。\\n本脚本尝试把这些小文件重新放置到硬盘上的一个连续的位置。\\n结果是硬盘"
+"磁头由于不用再在碟片上移来移去，从而可以读取得更快。\\n"
 
-msgid "diff tool was not found, please install diffutils."
-msgstr "diff 工具未找到，请安装 diffutils。"
+#, fuzzy
+msgid "Cannot find the %s binary required for verifying integrity."
+msgstr "无法找到验证源文件所需的 %s 二进制文件。"
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "你必须拥有相应的权限才能优化数据库。"
@@ -865,6 +1005,9 @@ msgstr "完整性检查失败，恢复到原数据库。"
 msgid "Rotating database into place..."
 msgstr "正在把数据库放置到位..."
 
+msgid "New database substitution failed. Check for %s, %s, and %s directories."
+msgstr ""
+
 msgid "Finished. Your pacman database has been optimized."
 msgstr "完毕。你的 pacman 数据库已经优化。"
 
@@ -874,7 +1017,9 @@ msgstr "用法： pkgdelta [options] <package1> <package2>\\n"
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
-msgstr "\tpkgdelta 将在两个软件包中创建增量文件。\\n该增量文件可通过使用 repo-add 添加到数据库中。\\n\\n"
+msgstr ""
+"\tpkgdelta 将在两个软件包中创建增量文件。\\n该增量文件可通过使用 repo-add 添"
+"加到数据库中。\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "例子：pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -885,21 +1030,27 @@ msgstr "选项：\\n"
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       最小化输出信息\\n"
 
-msgid ""
-"  --min-pkg-size    minimum package size before deltas are generated "
-"(bytes)\\n"
+msgid "  --nocolor         remove color from output\\n"
+msgstr ""
+
+#, fuzzy
+msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr "  --min-pkg-size    生成增量包的最小包大小(字节)\\n"
 
+#, fuzzy
 msgid ""
-"  --max-delta-size  percent of package size above which deltas will be "
+"  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
-msgstr "  --max-delta-size  增量包大小超过包大小的百分比，则增量包将会被丢弃\\n"
+msgstr ""
+"  --max-delta-size  增量包大小超过包大小的百分比，则增量包将会被丢弃\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
-msgstr "版权所有 (c)  2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n本程序是自由软件；请参阅版权条款。\\n没有任何担保，在法律允许的范围内。\\n"
+msgstr ""
+"版权所有 (c)  2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n本程序是自由软"
+"件；请参阅版权条款。\\n没有任何担保，在法律允许的范围内。\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "无效的软件包文件 '%s'。"
@@ -938,12 +1089,18 @@ msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "用法：repo-add [选项] <到数据库路径> <软件包|delta增量包> ...\\n"
 
 msgid ""
-"repo-add will update a package database by reading a package "
-"file.\\nMultiple packages to add can be specified on the command line.\\n"
-msgstr "repo-add 会通过读取某个软件包来更新软件包数据库。\\n可以在命令行中添加多个指定的软件包。\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n"
+msgstr ""
+"repo-add 会通过读取某个软件包来更新软件包数据库。\\n可以在命令行中添加多个指"
+"定的软件包。\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr "  -d, --delta       生成并添加软件包更新所用的 delta 增量包\\n"
+
+msgid ""
+"  -n, --new         only add packages that are not already in the database\\n"
+msgstr ""
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       更新数据库的文件列表\\n"
@@ -952,13 +1109,18 @@ msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr "用法：repo-remove [选项] <数据库路径> <软件包名|增量包> ...\\n"
 
 msgid ""
-"repo-remove will update a package database by removing the package "
-"name\\nspecified on the command line from the given repo database. "
-"Multiple\\npackages to remove can be specified on the command line.\\n"
-msgstr "repo-remove 会通过移除从给定的软件库数据库的命令行中\\n指定的软件包名来更新软件包数据库。\\n可以在命令行中移除多个指定的软件包。\\n"
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n"
+msgstr ""
+"repo-remove 会通过移除从给定的软件库数据库的命令行中\\n指定的软件包名来更新软"
+"件包数据库。\\n可以在命令行中移除多个指定的软件包。\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "请自便，此处无须人盯。\\n"
+
+msgid "  --nocolor         turn off color in output\\n"
+msgstr ""
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign        更新后使用 GnuPG 签名数据库\\n"
@@ -975,16 +1137,19 @@ msgstr "\\n更多可用选项的描述及细节请参见 %s(8)。\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr "示例：repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr ""
+"示例：repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "示例：repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2006-2012 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2012 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
+"是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "没有软件包 '%s' 的数据库条目。"
@@ -995,11 +1160,19 @@ msgstr "正在添加 'deltas' 增量包条目：%s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "正在删除现有的条目 '%s'..."
 
+#, fuzzy
+msgid "Removing empty deltas file ..."
+msgstr "正在删除空目录..."
+
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "无法找到 gpg 运行文件！已安装 GnuPG了吗？"
 
 msgid "Signing database..."
 msgstr "正在签名数据库..."
+
+#, fuzzy
+msgid "Created signature file '%s'"
+msgstr "已创建签名文件 %s。"
 
 msgid "Failed to sign package database."
 msgstr "无法签名软件包数据库。"
@@ -1094,8 +1267,61 @@ msgstr "没有包含软件包，正在创建空数据库。"
 msgid "No packages modified, nothing to do."
 msgstr "没有软件包被修改，无事可做。"
 
-msgid "option %s requires an argument\\n"
+msgid "option '%s' is ambiguous; possibilities:"
+msgstr ""
+
+#, fuzzy
+msgid "invalid option"
+msgstr "不识别的选项"
+
+#, fuzzy
+msgid "option requires an argument"
 msgstr "选项 %s 要求接一个参数\\n"
 
-msgid "unrecognized option"
-msgstr "不识别的选项"
+#, fuzzy
+msgid "option '%s' does not allow an argument"
+msgstr "选项 %s 要求接一个参数\\n"
+
+#, fuzzy
+msgid "option '%s' requires an argument"
+msgstr "选项 %s 要求接一个参数\\n"
+
+#~ msgid "There is no agent set up to handle %s URLs. Check %s."
+#~ msgstr "没有设置程序来处理 %s URLs。请检查 %s。"
+
+#~ msgid "%s is not allowed to contain hyphens or whitespace."
+#~ msgstr "%s 不允许包含连字号及空格。"
+
+#~ msgid "Cannot find the %s binary required to determine latest %s revision."
+#~ msgstr "无法找到所需的 %s 二进制文件以判定最新的 %s 修订。"
+
+#~ msgid "Determining latest %s revision..."
+#~ msgstr "正在测定最新 %s 的修订..."
+
+#~ msgid "Version found: %s"
+#~ msgstr "找到版本：%s"
+
+#~ msgid ""
+#~ "  --holdver        Prevent automatic version bumping for development %ss"
+#~ msgstr "  --holdver        防止开发 %ss 的自动版本碰撞"
+
+#~ msgid "\\0%s and %s cannot both be specified"
+#~ msgstr "\\0%s 和 %s 不能同时指定。"
+
+#~ msgid "%s was not found in %s; skipping dependency checks."
+#~ msgstr "%s 在 %s 中没有找到；正在跳过依赖关系检查。"
+
+#~ msgid "Skipping source retrieval        -- using existing %s tree"
+#~ msgstr "正在跳过源取回        -- 使用现存的 %s 树"
+
+#~ msgid "Skipping source integrity checks -- using existing %s tree"
+#~ msgstr "正在跳过源完整性检查 -- 使用现存的 %s 树"
+
+#~ msgid "Skipping source extraction       -- using existing %s tree"
+#~ msgstr "正在跳过源解压        -- 使用现存的 %s 树"
+
+#~ msgid "The source directory is empty, there is nothing to build!"
+#~ msgstr "源代码目录为空，没有东西可编译。"
+
+#~ msgid "diff tool was not found, please install diffutils."
+#~ msgstr "diff 工具未找到，请安装 diffutils。"

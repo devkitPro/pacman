@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Algimantas Margevičius <gymka@mail.ru>, 2011.
 # Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011, 2012.
@@ -10,16 +10,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-05-20 11:26-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2012-05-21 05:35+0000\n"
 "Last-Translator: Algimantas Margevičius <gymka@archlinux.lt>\n"
-"Language-Team: Lithuanian (http://www.transifex.com/projects/p/archlinux-pacman/language/lt/)\n"
+"Language-Team: Lithuanian (http://www.transifex.com/projects/p/archlinux-"
+"pacman/language/lt/)\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "WARNING:"
 msgstr "ĮSPĖJIMAS:"
@@ -33,35 +35,14 @@ msgstr "Švarinamasi..."
 msgid "Entering %s environment..."
 msgstr "Įeinama į %s aplinką..."
 
-msgid "Unable to find source file %s."
-msgstr "Pradinio kodo failas %s nerastas."
+msgid "Unknown download protocol: %s"
+msgstr ""
 
 msgid "Aborting..."
 msgstr "Nutraukiama..."
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Nėra kam prisijungti prie %s URL. Patikrink %s."
-
 msgid "The download program %s is not installed."
 msgstr "Parsiuntimo programa %s neįdiegta."
-
-msgid "'%s' returned a fatal error (%i): %s"
-msgstr "„%s“ grąžino kritinę klaidą (%i): %s"
-
-msgid "Installing missing dependencies..."
-msgstr "Įdiegiamos trūkstamos priklausomybės..."
-
-msgid "'%s' failed to install missing dependencies."
-msgstr "„%s“ nepavyko įdiegti trūkstamų priklausomybių."
-
-msgid "Missing Dependencies:"
-msgstr "Trūkstamos priklausomybės:"
-
-msgid "Failed to remove installed dependencies."
-msgstr "Nepavyko pašalinti įdiegtų priklausomybių."
-
-msgid "Retrieving Sources..."
-msgstr "Gaunami pradiniai kodai..."
 
 msgid "Found %s"
 msgstr "Rasta %s"
@@ -75,18 +56,107 @@ msgstr "Parsiunčiama %s..."
 msgid "Failure while downloading %s"
 msgstr "Įvyko klaida siunčiant %s"
 
+msgid "Extracting %s with %s"
+msgstr "Išarchyvuojama %s su %s"
+
+msgid "Failed to extract %s"
+msgstr "%s išarchyvuoti nepavyko"
+
+#, fuzzy
+msgid "Unrecognized reference: %s"
+msgstr "Paketas turi nuorodą į %s"
+
+#, fuzzy
+msgid "Branching %s ..."
+msgstr "Generuojamas %s failas..."
+
+#, fuzzy
+msgid "Failure while branching %s"
+msgstr "Įvyko klaida siunčiant %s"
+
+#, fuzzy
+msgid "%s is not a branch of %s"
+msgstr "„%s“ nėra paketo failas, praleidžiama"
+
+#, fuzzy
+msgid "Pulling %s ..."
+msgstr "Pridedama %s..."
+
+#, fuzzy
+msgid "Failure while pulling %s"
+msgstr "Įvyko klaida siunčiant %s"
+
+msgid "Creating working copy of %s %s repo..."
+msgstr ""
+
+msgid "Failure while creating working copy of %s %s repo"
+msgstr ""
+
+#, fuzzy
+msgid "Cloning %s %s repo..."
+msgstr "Švarinamasi..."
+
+#, fuzzy
+msgid "Failure while downloading %s %s repo"
+msgstr "Įvyko klaida siunčiant %s"
+
+#, fuzzy
+msgid "%s is not a clone of %s"
+msgstr "%s negali būti tuščias."
+
+#, fuzzy
+msgid "Updating %s %s repo..."
+msgstr "Atnaujinama patikima duomenų bazė..."
+
+#, fuzzy
+msgid "Failure while updating %s %s repo"
+msgstr "Įvyko klaida siunčiant %s"
+
+#, fuzzy
+msgid "Retrieving sources..."
+msgstr "Gaunami pradiniai kodai..."
+
+msgid "Updated version: %s"
+msgstr ""
+
+msgid "%s is not writeable -- pkgver will not be updated"
+msgstr ""
+
+msgid "Unable to find source file %s."
+msgstr "Pradinio kodo failas %s nerastas."
+
+msgid "'%s' returned a fatal error (%i): %s"
+msgstr "„%s“ grąžino kritinę klaidą (%i): %s"
+
+msgid "Installing missing dependencies..."
+msgstr "Įdiegiamos trūkstamos priklausomybės..."
+
+msgid "'%s' failed to install missing dependencies."
+msgstr "„%s“ nepavyko įdiegti trūkstamų priklausomybių."
+
+#, fuzzy
+msgid "Missing dependencies:"
+msgstr "Trūkstamos priklausomybės:"
+
+msgid "Failed to remove installed dependencies."
+msgstr "Nepavyko pašalinti įdiegtų priklausomybių."
+
 msgid "Generating checksums for source files..."
 msgstr "Kuriamos pradinio kodo failų kontrolinės sumos ..."
 
-msgid ""
-"Cannot find the %s binary required for generating sourcefile checksums."
-msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos suskaičiuoti pradinio kodo kontrolinę sumą."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos reikalingos suskaičiuoti pradinio "
+"kodo kontrolinę sumą."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Nurodytas neteisingas vientisumo algoritmas „%s“."
 
 msgid "Validating source files with %s..."
 msgstr "Pradinio kodo failai tikrinami su %s..."
+
+msgid "Skipped"
+msgstr ""
 
 msgid "NOT FOUND"
 msgstr "NERASTA"
@@ -145,17 +215,20 @@ msgstr "Praleidžiama pradinių kodų failų kontrolinės sumos patikra."
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Praleidžiama PGP parašų pradinio kodo failų patikra."
 
-msgid "Extracting Sources..."
+#, fuzzy
+msgid "Extracting sources..."
 msgstr "Išarchyvuojami pradiniai kodai..."
-
-msgid "Extracting %s with %s"
-msgstr "Išarchyvuojama %s su %s"
-
-msgid "Failed to extract %s"
-msgstr "%s išarchyvuoti nepavyko"
 
 msgid "A failure occurred in %s()."
 msgstr "Kilo bėdų su %s()."
+
+#, fuzzy
+msgid "Failed to change to directory %s"
+msgstr "%s išarchyvuoti nepavyko"
+
+#, fuzzy
+msgid "Failed to source %s"
+msgstr "%s išarchyvuoti nepavyko"
 
 msgid "Starting %s()..."
 msgstr "Pradedamas %s()..."
@@ -169,17 +242,24 @@ msgstr "Šalinami doc failai..."
 msgid "Purging unwanted files..."
 msgstr "Šalinami nepageidaujami failai..."
 
-msgid "Compressing man and info pages..."
-msgstr "Archyvuojami „man“ ir „info“ puslapiai..."
-
-msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Šalinami nereikalingi simboliai iš sukompiliuotos programos bei bibliotekų..."
-
 msgid "Removing %s files..."
 msgstr "Šalinami %s failai..."
 
 msgid "Removing empty directories..."
 msgstr "Šalinami tušti aplankai..."
+
+msgid "%s entry file not in package : %s"
+msgstr "Įrašo failo %s pakete nėra : %s"
+
+msgid "Package contains reference to %s"
+msgstr "Paketas turi nuorodą į %s"
+
+msgid "Compressing man and info pages..."
+msgstr "Archyvuojami „man“ ir „info“ puslapiai..."
+
+msgid "Stripping unneeded symbols from binaries and libraries..."
+msgstr ""
+"Šalinami nereikalingi simboliai iš sukompiliuotos programos bei bibliotekų..."
 
 msgid "Compressing binaries with %s..."
 msgstr "Sukompiliuota programa archyvuojama su %s..."
@@ -187,8 +267,14 @@ msgstr "Sukompiliuota programa archyvuojama su %s..."
 msgid "Could not compress binary : %s"
 msgstr "Nepavyko suarchyvuoti sukompiliuotos programos: %s"
 
-msgid "Generating %s file..."
-msgstr "Generuojamas %s failas..."
+msgid "Library listed in %s is not required by any files: %s"
+msgstr ""
+
+msgid "Library listed in %s is not versioned: %s"
+msgstr ""
+
+msgid "Library listed in %s is not a shared object: %s"
+msgstr ""
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "Nepavyko rasti bibliotekos esančios sąraše %s: %s"
@@ -199,20 +285,22 @@ msgstr "Pridėkite licencijos eilutę prie savo %s!"
 msgid "Example for GPL'ed software: %s."
 msgstr "Pavyzdys programai su GPL licencija: %s."
 
-msgid "%s entry file not in package : %s"
-msgstr "Įrašo failo %s pakete nėra : %s"
-
-msgid "Package contains reference to %s"
-msgstr "Paketas turi nuorodą į %s"
+msgid "Generating %s file..."
+msgstr "Generuojamas %s failas..."
 
 msgid "Missing %s directory."
 msgstr "Trūksta %s aplanko."
 
-msgid "Creating package..."
+#, fuzzy
+msgid "Creating package \"%s\"..."
 msgstr "Kuriamas paketas..."
 
 msgid "Adding %s file..."
 msgstr "Pridedamas failas %s..."
+
+#, fuzzy
+msgid "Generating .MTREE file..."
+msgstr "Generuojamas %s failas..."
 
 msgid "Compressing package..."
 msgstr "Archyvuojamas paketas..."
@@ -271,11 +359,9 @@ msgstr "%s negali prasidėt brūkšniu."
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s turi netinkamų simbolių: „%s“"
 
-msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr "%s negali turėti dvitaškių, brūkšnių ar tarpų."
-
-msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr "%s negali turėti brūkšnių ar tarpų."
+#, fuzzy
+msgid "%s must be a decimal."
+msgstr "%s turi būti skaičius."
 
 msgid "%s must be an integer."
 msgstr "%s turi būti skaičius."
@@ -310,45 +396,71 @@ msgstr "Trūksta %s funkcijos atskiram paketui „%s“"
 msgid "Requested package %s is not provided in %s"
 msgstr "Užklausto paketo %s nėra %s"
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
+msgstr "%s negali turėti dvitaškių, brūkšnių ar tarpų."
+
+#, fuzzy
+msgid "Cannot find the %s binary required for dependency operations."
+msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos atlikti %s."
+
+#, fuzzy
+msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "„Sudo“ nerastas. Gauti „root“ teises bus naudojama „su“."
 
 msgid "Cannot find the %s binary required for building as non-root user."
-msgstr "Sukompiliuota programa %s, reikalinga kompiliuoti kaip ne-root naudotojas, nerasta."
+msgstr ""
+"Sukompiliuota programa %s, reikalinga kompiliuoti kaip ne-root naudotojas, "
+"nerasta."
 
 msgid "Cannot find the %s binary required for signing packages."
-msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos paketų pasirašymui."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos reikalingos paketų pasirašymui."
 
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos patikrinti pradinių kodų failus."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos reikalingos patikrinti pradinių "
+"kodų failus."
 
-msgid ""
-"Cannot find the %s binary required for validating sourcefile checksums."
-msgstr "Negaliu rasti %s sukompiliuotos programos pradinių kodų kontrolinių sumų tikrinimui."
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos pradinių kodų kontrolinių sumų "
+"tikrinimui."
 
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos archyvuoti kompiliuotas programas."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos reikalingos archyvuoti "
+"kompiliuotas programas."
 
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos kompiliavimui."
 
 msgid "Cannot find the %s binary required for compiler cache usage."
-msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos kompiliatoriaus podėlio naudojimui."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos reikalingos kompiliatoriaus "
+"podėlio naudojimui."
 
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr "Negaliu rasti %s sukompiliuotos programos objektų failų pašalinimui."
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
-msgstr "Negaliu rasti %s sukompiliuotos programos man ir info puslapių archyvavimui."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos man ir info puslapių archyvavimui."
 
-msgid "Cannot find the %s binary required to determine latest %s revision."
-msgstr "Negaliu rasti %s sukompiliuotos programos reikalingos nustatyti naujausią %s peržiūrą."
+msgid "A package has already been built, installing existing package..."
+msgstr "Paketas jau sukurtas, įdiegiamas egzistuojantis paketas..."
 
-msgid "Determining latest %s revision..."
-msgstr "Nustatoma naujausia %s peržiūra..."
+msgid "A package has already been built. (use %s to overwrite)"
+msgstr "Paketas jau sukurtas. (naudok %s perrašyt)"
 
-msgid "Version found: %s"
-msgstr "Rasta versija: %s"
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr "Paketų grupė jau sukurta, diegiami turimi paketai..."
+
+msgid "The package group has already been built. (use %s to overwrite)"
+msgstr "Paketų grupė jau sukurta. (naudok %s perrašyt)"
+
+msgid "Part of the package group has already been built. (use %s to overwrite)"
+msgstr "Dalis paketo jau sukurta. (naudok %s perrašyt)"
 
 msgid "Usage: %s [options]"
 msgstr "Naudojimas: %s [pasirinktys]"
@@ -366,13 +478,16 @@ msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Praleisti visas priklausomybių patikras"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr "  -e, --noextract  Neišarchyvuoti pradinio kodo failų (naudoti esantį %s aplanką)"
+msgstr ""
+"  -e, --noextract  Neišarchyvuoti pradinio kodo failų (naudoti esantį %s "
+"aplanką)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Perrašyti egzistuojantį paketą"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
-msgstr "  -g, --geninteg   Generuoti vientisumo patikras pradinių kodų failams "
+msgstr ""
+"  -g, --geninteg   Generuoti vientisumo patikras pradinių kodų failams "
 
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Parodyti šį pagalbos pranešimą ir išeiti"
@@ -390,14 +505,15 @@ msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Failus tik parsiųsti ir išarchyvuoti"
 
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr "  -p <failas>        Naudoti alternatyvų kūrimo scenarijų (vietoj „%s“)"
+msgstr ""
+"  -p <failas>        Naudoti alternatyvų kūrimo scenarijų (vietoj „%s“)"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr "  -r, --rmdeps     Po sėkmingo sukūrimo pašalinti įdiegtas priklausomybes"
+msgstr ""
+"  -r, --rmdeps     Po sėkmingo sukūrimo pašalinti įdiegtas priklausomybes"
 
-msgid ""
-"  -R, --repackage  Repackage contents of the package without rebuilding"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Perpakuoti paketo turinį neperkuriant"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
@@ -405,12 +521,21 @@ msgstr "  -s, --syncdeps   Įdiegti trūkstamas priklausomybes su %s"
 
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr "  -S, --source     Sukuria tik tai pradinio kodo archyvą be parsiųstų išeities kodų"
+msgstr ""
+"  -S, --source     Sukuria tik tai pradinio kodo archyvą be parsiųstų "
+"išeities kodų"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr "  --allsource      Sukurti tik pradinio kodo „tarball“ pridedant parsiųstus pradinius kodus "
+msgstr ""
+"  --allsource      Sukurti tik pradinio kodo „tarball“ pridedant parsiųstus "
+"pradinius kodus "
+
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr ""
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Leisti %s veikti kaip root naudotojui"
@@ -419,16 +544,18 @@ msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Paleisti funkciją %s %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr "  --config <failas>  Naudoti alternatyvų konfigūracijos failą (vietoj „%s“)"
+msgstr ""
+"  --config <failas>  Naudoti alternatyvų konfigūracijos failą (vietoj „%s“)"
+
+#, fuzzy
+msgid "  --holdver        Do not update VCS sources"
+msgstr "  --nocheck        Nevykdyti funkcijos %s %s"
 
 msgid ""
-"  --holdver        Prevent automatic version bumping for development %ss"
-msgstr "  --holdver        Neleisti automatiškai numesti kūrimo versijos %ss"
-
-msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the "
-"default"
-msgstr "  --key <raktas>      Nurodyti raktą %s kuris bus naudojamas vietoj numatytojo"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr ""
+"  --key <raktas>      Nurodyti raktą %s kuris bus naudojamas vietoj "
+"numatytojo"
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Nevykdyti funkcijos %s %s"
@@ -437,7 +564,8 @@ msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Nekurti paketo parašo"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr "  --pkg <sąrašas>     Sukurti tik išvardintus paketus iš perskirto paketo"
+msgstr ""
+"  --pkg <sąrašas>     Sukurti tik išvardintus paketus iš perskirto paketo"
 
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Pasirašyti galutinį paketą su %s"
@@ -455,9 +583,16 @@ msgstr "  --skippgpcheck   Netikrinti pradinio kodo failų PGP parašų"
 msgid "These options can be passed to %s:"
 msgstr "Šios pasirinktys gali būti pateiktos %s:"
 
+msgid "  --asdeps         Install packages as non-explicitly installed"
+msgstr ""
+
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Neprašyti patvirtinimo sprendžiant priklausomybes"
+
+msgid ""
+"  --needed         Do not reinstall the targets that are already up to date"
+msgstr ""
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Nerodyti pažangos juostos parsiunčiant failus"
@@ -465,13 +600,17 @@ msgstr "  --noprogressbar  Nerodyti pažangos juostos parsiunčiant failus"
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Jei %s nenurodytas, %s ieškos „%s“"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
-"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
-"law.\\n"
-msgstr "Autorinės teisės (c) 2006-2012 Pacman kūrėjų komanda <pacman-dev@archlinux.org>.\\nAutorinės teisės (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nTai nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Autorinės teisės (c) 2006-2012 Pacman kūrėjų komanda <pacman-dev@archlinux."
+"org>.\\nAutorinės teisės (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n"
+"\\nTai nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra "
+"JOKIOS GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "%s signalas pagautas. Išeinama..."
@@ -497,25 +636,32 @@ msgstr "Neturite rašymo teisės saugoti parsiuntimus %s."
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "Neturite teisės saugoti pradinio kodo „tarballs“ %s."
 
-msgid "\\0%s and %s cannot both be specified"
-msgstr "\\0%s ir %s negali būti nurodyti kartu"
+#, fuzzy
+msgid "You do not have write permission to store logs in %s."
+msgstr "Neturite rašymo teisės saugoti parsiuntimus %s."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
-msgstr "Vykdyti kaip root vartotojas yra BLOGA mintis ir gali sukelti nepataisomą, \\nkatastrofišką žalą jūsų sistemai. Jei vistiek nori vykdyti kaip root, naudok \\n%s pasirinkty."
+msgstr ""
+"Vykdyti kaip root vartotojas yra BLOGA mintis ir gali sukelti nepataisomą, "
+"\\nkatastrofišką žalą jūsų sistemai. Jei vistiek nori vykdyti kaip root, "
+"naudok \\n%s pasirinkty."
 
 msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
+"The %s option is meant for the root user only. Please\\nrerun %s without the "
+"%s flag."
 msgstr "%s skirta tik root naudotojui. \\nPerleisk %s be %s parametro."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
-msgstr "Vykdant %s su eilinio naudotojo teisėm\\n sukurs paketo failus kurie priklausys eiliniam naudotojui. Bandyk %s aplinką\\nįrašydamas %s %s masyve %s."
+msgstr ""
+"Vykdant %s su eilinio naudotojo teisėm\\n sukurs paketo failus kurie "
+"priklausys eiliniam naudotojui. Bandyk %s aplinką\\nįrašydamas %s %s masyve "
+"%s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Nenaudok %s pasirinkties. Ši pasirinktis skirta naudojimui tik su %s."
@@ -532,23 +678,6 @@ msgstr "Tavo raktinėj nėra %s rakto."
 msgid "There is no key in your keyring."
 msgstr "Tavo raktinėj nėra rakto."
 
-msgid "A package has already been built, installing existing package..."
-msgstr "Paketas jau sukurtas, įdiegiamas egzistuojantis paketas..."
-
-msgid "A package has already been built. (use %s to overwrite)"
-msgstr "Paketas jau sukurtas. (naudok %s perrašyt)"
-
-msgid ""
-"The package group has already been built, installing existing packages..."
-msgstr "Paketų grupė jau sukurta, diegiami turimi paketai..."
-
-msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "Paketų grupė jau sukurta. (naudok %s perrašyt)"
-
-msgid ""
-"Part of the package group has already been built. (use %s to overwrite)"
-msgstr "Dalis paketo jau sukurta. (naudok %s perrašyt)"
-
 msgid "Leaving %s environment."
 msgstr "Paliekama %s aplinka."
 
@@ -560,6 +689,10 @@ msgstr "Failų leidimai nebus išsaugoti."
 
 msgid "Making package: %s"
 msgstr "Kuriamas paketas: %s"
+
+#, fuzzy
+msgid "Using a %s without a %s function is deprecated."
+msgstr "Perkuriama be pasenusios funkcijos %s."
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Pradinio kodo paketas jau sukurtas. (naudok %s perrašyt)"
@@ -579,20 +712,9 @@ msgstr "Tikrinama kūrimo laiko priklausomybės..."
 msgid "Could not resolve all dependencies."
 msgstr "Neįmanoma išspręsti visų priklausomybių."
 
-msgid "%s was not found in %s; skipping dependency checks."
-msgstr "%s nerastas %s; priklausomybių patikra praleidžiama."
-
-msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr "Pradinio kodo gavimas praleidžiamas        -- naudojamas egzistuojantis %s medis"
-
-msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr "Pradinio kodo vientisumo patikra praleidžiama -- naudojamas egzistuojantis %s medis"
-
-msgid "Skipping source extraction       -- using existing %s tree"
-msgstr "Pradinio kodo išarchyvavimas praleidžiamas            -- naudojamas egzistuojantis %s medis"
-
-msgid "The source directory is empty, there is nothing to build!"
-msgstr "Pradinio kodo aplankas tuščias, nėra ką kurti!"
+#, fuzzy
+msgid "Using existing %s tree"
+msgstr "Šalinamas egzistuojantis %s aplankas..."
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "Paketo aplankas tuščias, nėra ką perpakuoti!"
@@ -606,14 +728,19 @@ msgstr "Šalinamas egzistuojantis %s aplankas..."
 msgid "Finished making: %s"
 msgstr "Sukurta: %s"
 
-msgid "Usage: %s [pacman_db_root]"
+#, fuzzy
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
 msgstr "Naudojimas: %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Autorinės teisės (c) 2010-2011 Pacman kūrėjų komanda <pacman-dev@archlinux.org>.\\nTai nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Autorinės teisės (c) 2010-2011 Pacman kūrėjų komanda <pacman-dev@archlinux."
+"org>.\\nTai nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom."
+"\\nNėra JOKIOS GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s neegzistuoja arba tai ne aplankas."
@@ -633,82 +760,126 @@ msgstr "Aptiktas pre-3.5 duomenų bazės formatas - atnaujinama..."
 msgid "Done."
 msgstr "Atlikta."
 
+#, fuzzy
+msgid "Usage: %s [options] operation [targets]"
+msgstr "Naudojimas: %s [pasirinktys]"
+
 msgid "Manage pacman's list of trusted keys"
 msgstr "Pacman patikimų raktų sąrašo tvarkymas."
 
-msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
+#, fuzzy
+msgid "Operations:"
+msgstr "Pasirinktys:"
+
+#, fuzzy
+msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr "  -a, --add [failas(ai)]       Pridėti nurodytus raktus (tuščia stdin)"
 
-msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
+#, fuzzy
+msgid "  -d, --delete              Remove the specified keyids"
 msgstr "  -d, --delete <keyid(s)>   Pašalinti nurodytus keyids"
 
-msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
+#, fuzzy
+msgid "  -e, --export              Export the specified or all keyids"
 msgstr "  -e, --export [keyid(s)]   Eksportuoti nurodytus arba visus keyids"
 
+#, fuzzy
 msgid ""
-"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
-msgstr "  -f, --finger [keyid(s)]   Parodyti fingerprint sąrašą nurodytiems arba visiems keyid"
+"  -f, --finger              List fingerprint for specified or all keyids"
+msgstr ""
+"  -f, --finger [keyid(s)]   Parodyti fingerprint sąrašą nurodytiems arba "
+"visiems keyid"
 
-msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help                Parodyti šį pagalbos pranešimą ir išeiti"
-
-msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
+#, fuzzy
+msgid "  -l, --list-keys           List the specified or all keys"
 msgstr "  -l, --list-keys [keyid(s)] Parodyti nurodytų arba visų raktų sąrašą"
 
-msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
+#, fuzzy
+msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys <keyid(s)> Gauti nurodytus keyid"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            Atnaujinti patikimas pacman duomenų bazes"
 
-msgid "  -v, --verify <signature>  Verify the file specified by the signature"
+#, fuzzy
+msgid ""
+"  -v, --verify              Verify the file(s) specified by the signature(s)"
 msgstr "  -v, --verify <parašas>  Patikrinti parašo nurodytą failą"
+
+#, fuzzy
+msgid ""
+"  --edit-key                Present a menu for key management task on keyids"
+msgstr "  --edit-key <keyid(s)>     Iškviesti raktų tvarkymo meniu"
+
+#, fuzzy
+msgid "  --import                  Imports pubring.gpg from dir(s)"
+msgstr ""
+"  --import <aplankas(ai)>         Importuoja pubring.gpg iš aplanko(-ų)"
+
+#, fuzzy
+msgid ""
+"  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
+"dir(s)"
+msgstr ""
+"  --import-trustdb <aplankas(-ai)> Importuoja savininko pasitikėjimo "
+"reikšmes iš trustdb.gpg aplanke(-uose)"
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+"  --init                    Užtikrinti jog raktų saugykla tinkamai inicijuota"
+
+#, fuzzy
+msgid "  --list-sigs               List keys and their signatures"
+msgstr "  --list-sigs [keyid(s)]    Parodyti raktų ir jų parašų sąrašą"
+
+#, fuzzy
+msgid "  --lsign-key               Locally sign the specified keyid"
+msgstr "  --lsign-key <keyid>       Nurodytą keyid pasirašyti lokaliai "
+
+#, fuzzy
+msgid ""
+"  --populate                Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+"  --populate [keyring(s)]   Perkrauti nurodytus raktus iš (duotosios) "
+"raktinės\\n                         „%s“"
+
+#, fuzzy
+msgid ""
+"  --refresh-keys            Update specified or all keys from a keyserver"
+msgstr ""
+"  --refresh-keys [keyid(s)] Atnaujinti nurodytus arba visus raktus iš raktų "
+"serverio"
+
+msgid ""
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
+msgstr ""
+"  --config <failas>           Naudoti alternatyvų konfigūracijos failą "
+"(vietoj\\n                    „%s“)"
+
+msgid ""
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
+msgstr ""
+"  --gpgdir <dir>            Nurodyti alternatyvų GnuPG aplanką (vietoj"
+"\\n                             „%s“)"
+
+#, fuzzy
+msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
+msgstr "  --keyserver               Jei reikia nurodyti keyserver"
+
+msgid "  -h, --help                Show this help message and exit"
+msgstr "  -h, --help                Parodyti šį pagalbos pranešimą ir išeiti"
 
 msgid "  -V, --version             Show program version"
 msgstr "  -V, --version             Parodyti programos versiją"
 
-msgid ""
-"  --config <file>           Use an alternate config file (instead of\\n"
-"                            '%s')"
-msgstr "  --config <failas>           Naudoti alternatyvų konfigūracijos failą (vietoj\\n                    „%s“)"
+msgid "Failed to lookup key by name:"
+msgstr ""
 
-msgid ""
-"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
-msgstr "  --edit-key <keyid(s)>     Iškviesti raktų tvarkymo meniu"
-
-msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
-"                            of '%s')"
-msgstr "  --gpgdir <dir>            Nurodyti alternatyvų GnuPG aplanką (vietoj\\n                             „%s“)"
-
-msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
-msgstr "  --import <aplankas(ai)>         Importuoja pubring.gpg iš aplanko(-ų)"
-
-msgid ""
-"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in "
-"dir(s)"
-msgstr "  --import-trustdb <aplankas(-ai)> Importuoja savininko pasitikėjimo reikšmes iš trustdb.gpg aplanke(-uose)"
-
-msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr "  --init                    Užtikrinti jog raktų saugykla tinkamai inicijuota"
-
-msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr "  --keyserver               Jei reikia nurodyti keyserver"
-
-msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr "  --list-sigs [keyid(s)]    Parodyti raktų ir jų parašų sąrašą"
-
-msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr "  --lsign-key <keyid>       Nurodytą keyid pasirašyti lokaliai "
-
-msgid ""
-"  --populate [keyring(s)]   Reload the default keys from the (given) "
-"keyrings\\n                            in '%s'"
-msgstr "  --populate [keyring(s)]   Perkrauti nurodytus raktus iš (duotosios) raktinės\\n                         „%s“"
-
-msgid ""
-"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys [keyid(s)] Atnaujinti nurodytus arba visus raktus iš raktų serverio"
+msgid "Key name is ambiguous:"
+msgstr ""
 
 msgid "The key identified by %s could not be found locally."
 msgstr "Atpažintas %s, nerastas lokaliai."
@@ -739,9 +910,6 @@ msgstr "Pridedami raktai iš %s.gpg..."
 
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Patikimi raktai pasirašomi lokaliai raktinėj..."
-
-msgid "Locally signing key %s..."
-msgstr "Lokaliai pasirašomas raktas %s..."
 
 msgid "Importing owner trust values..."
 msgstr "Importuojamos patikimos savininko reikšmės..."
@@ -779,7 +947,11 @@ msgstr "Parodyti nurodyto failo nepavyko."
 msgid "A specified signature could not be listed."
 msgstr "Parodyti nurodyto parašo nepavyko."
 
-msgid "A specified key could not be locally signed."
+msgid "Locally signing key %s..."
+msgstr "Lokaliai pasirašomas raktas %s..."
+
+#, fuzzy
+msgid "%s could not be locally signed."
 msgstr "Nurodytas raktas negali būti pasirašytas lokaliai."
 
 msgid "Remote key not fetched correctly from keyserver."
@@ -815,22 +987,35 @@ msgstr "Nurodytos kelios operacijos."
 msgid "Please run %s with each operation separately."
 msgstr "Prašom vykdyti %s su kiekviena užduotimi atskirai."
 
+msgid "No targets specified"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
-msgstr "pacman-optimize yra mažas pataisymas kuris turėtų pagreitinti\\nkai pacman skaito/rašo savo failų sistemos duomenų bazę\\n\\n"
+msgstr ""
+"pacman-optimize yra mažas pataisymas kuris turėtų pagreitinti\\nkai pacman "
+"skaito/rašo savo failų sistemos duomenų bazę\\n\\n"
 
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\nthere is a"
-" tendency for these files to become fragmented over time.\\nThis script "
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
 "attempts to relocate these small files into one\\ncontinuous location on "
 "your hard drive. The result is that the hard\\ndrive should be able to read "
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
-msgstr "Pacman paketų sekimui naudoja daug mažų failų,\\nyra tikimybė jog tie failai laikui bėgant bus fragmentuoti.\\nŠis scenarijus pabandys perkelti tuos failus į vieną\\nfailą kuris bus vientisas. Ko pasekoje kietasis diskas turėtų sugebėt greičiau juos perskaityt, nes kietojo disko galvutei\\nnereiks tiek daug keliaut.\\n"
+msgstr ""
+"Pacman paketų sekimui naudoja daug mažų failų,\\nyra tikimybė jog tie failai "
+"laikui bėgant bus fragmentuoti.\\nŠis scenarijus pabandys perkelti tuos "
+"failus į vieną\\nfailą kuris bus vientisas. Ko pasekoje kietasis diskas "
+"turėtų sugebėt greičiau juos perskaityt, nes kietojo disko galvutei"
+"\\nnereiks tiek daug keliaut.\\n"
 
-msgid "diff tool was not found, please install diffutils."
-msgstr "diff įrankis nerastas, prašom įdiegti diffutils."
+#, fuzzy
+msgid "Cannot find the %s binary required for verifying integrity."
+msgstr ""
+"Negaliu rasti %s sukompiliuotos programos reikalingos patikrinti pradinių "
+"kodų failus."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Norint optimizuoti duomenų bazę tau reikia atitinkamų teisių."
@@ -865,6 +1050,9 @@ msgstr "Vientisumo patikra NEPAVYKO, grįžtama prie senos duomenų bazės."
 msgid "Rotating database into place..."
 msgstr "Duomenų bazė grąžinama į vietą..."
 
+msgid "New database substitution failed. Check for %s, %s, and %s directories."
+msgstr ""
+
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Baigta. Pacman duomenų bazė optimizuota."
 
@@ -874,7 +1062,9 @@ msgstr "Naudojimas: pkgdelta [parinktys] <paketas1> <paketas2>\\n"
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
-msgstr "\tpkgdelta sukurs delta tarp dviejų paketų.\\nTada šį delta failą bus galima pridėti į duomenų bazę naudojant repo-add.\\n\\n"
+msgstr ""
+"\tpkgdelta sukurs delta tarp dviejų paketų.\\nTada šį delta failą bus galima "
+"pridėti į duomenų bazę naudojant repo-add.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "Pavyzdys:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -885,21 +1075,31 @@ msgstr "Pasirinktys:\\n"
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimali išvestis\\n"
 
-msgid ""
-"  --min-pkg-size    minimum package size before deltas are generated "
-"(bytes)\\n"
-msgstr "  --min-pkg-size    minimalus paketo dydis nuo kurio generuojamos deltos (bitais)\\n"
+msgid "  --nocolor         remove color from output\\n"
+msgstr ""
 
+#, fuzzy
+msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
+msgstr ""
+"  --min-pkg-size    minimalus paketo dydis nuo kurio generuojamos deltos "
+"(bitais)\\n"
+
+#, fuzzy
 msgid ""
-"  --max-delta-size  percent of package size above which deltas will be "
+"  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
-msgstr "  --max-delta-size  paketo dydžio procentas virš kurio deltos bus nepaisomos\\n"
+msgstr ""
+"  --max-delta-size  paketo dydžio procentas virš kurio deltos bus nepaisomos"
+"\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
-msgstr "Autorinės teisės (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nTai nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+msgstr ""
+"Autorinės teisės (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nTai "
+"nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS "
+"GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Netinkamas paketo failas „%s“."
@@ -935,56 +1135,80 @@ msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Negaliu rasti xdelta3 programos! Ar xdelta3 įdiegta?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "Naudojimas: repo-add [pasirinktys] <kelias-iki-db> <paketas|delta> ...\\n"
+msgstr ""
+"Naudojimas: repo-add [pasirinktys] <kelias-iki-db> <paketas|delta> ...\\n"
 
 msgid ""
-"repo-add will update a package database by reading a package "
-"file.\\nMultiple packages to add can be specified on the command line.\\n"
-msgstr "repo-add atnaujins paketų duomenų bazę perskaitęs paketo failą.\\nKomandinėje eilutėje gali būti nurodyti keli paketai pridėjimui.\\n\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n"
+msgstr ""
+"repo-add atnaujins paketų duomenų bazę perskaitęs paketo failą."
+"\\nKomandinėje eilutėje gali būti nurodyti keli paketai pridėjimui.\\n\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr "  -d, --delta       sukurti ir pridėti delta paketo atnaujinimui\\n"
+
+msgid ""
+"  -n, --new         only add packages that are not already in the database\\n"
+msgstr ""
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       atnaujinti duomenų bazės failų sąrašą\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
-msgstr "Naudojimas: repo-remove [parintys] <kelias-iki_db> <paketo_vardas|delta>...\\n"
+msgstr ""
+"Naudojimas: repo-remove [parintys] <kelias-iki_db> <paketo_vardas|delta>..."
+"\\n"
 
 msgid ""
-"repo-remove will update a package database by removing the package "
-"name\\nspecified on the command line from the given repo database. "
-"Multiple\\npackages to remove can be specified on the command line.\\n"
-msgstr "repo-remove atnaujins paketų duomenų bazę pašalindamas\\npaketą nurodytą komandinėj eilutėj iš nurodytos repo duomenų bazės. Gali\\nbūti nurodyti keli paketai pašalinimui\\n\\n"
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n"
+msgstr ""
+"repo-remove atnaujins paketų duomenų bazę pašalindamas\\npaketą nurodytą "
+"komandinėj eilutėj iš nurodytos repo duomenų bazės. Gali\\nbūti nurodyti "
+"keli paketai pašalinimui\\n\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Tęskite, čia nėra ką žiūrėti.\\n"
+
+msgid "  --nocolor         turn off color in output\\n"
+msgstr ""
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign        po atnaujinimo pasirašyti duomenų bazę su GnuPG\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
-msgstr "  -k, --key <raktas>   naudoti nurodytą raktą duomenų bazės pasirašymui\\n"
+msgstr ""
+"  -k, --key <raktas>   naudoti nurodytą raktą duomenų bazės pasirašymui\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr "  -v, --verify      patikrinti duomenų bazės parašą prieš atnaujinimą\\n"
+msgstr ""
+"  -v, --verify      patikrinti duomenų bazės parašą prieš atnaujinimą\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-msgstr "\\nPeržiūrėkite %s(8) detalesniai informacijai bei galimų pasirinkčių aprašymus.\\n"
+msgstr ""
+"\\nPeržiūrėkite %s(8) detalesniai informacijai bei galimų pasirinkčių "
+"aprašymus.\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr "Pavyzdys:  repo-add /kelias/iki/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr ""
+"Pavyzdys:  repo-add /kelias/iki/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
+"\\n"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Pavyzdys:  repo-remove /kelias/iki/repo.db.tar.gz kernel26\\n"
 
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Autorinės teisės (c) 2006-2012 Pacman kūrėjų komanda <pacman-dev@archlinux.org>\\n\\nTai nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Autorinės teisės (c) 2006-2012 Pacman kūrėjų komanda <pacman-dev@archlinux."
+"org>\\n\\nTai nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom."
+"\\nNėra JOKIOS GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Duomenų bazėj nėra įrašo apie paketą „%s“."
@@ -995,11 +1219,19 @@ msgstr "Pridedamas „delta“ įrašas : %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Šalinamas egzistuojantis įrašas „%s“..."
 
+#, fuzzy
+msgid "Removing empty deltas file ..."
+msgstr "Šalinami tušti aplankai..."
+
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Negaliu rasti gpg programos! Ar GnuPG įdiegta?"
 
 msgid "Signing database..."
 msgstr "Pasirašoma duomenų bazė..."
+
+#, fuzzy
+msgid "Created signature file '%s'"
+msgstr "Kuriamas parašas failui %s."
 
 msgid "Failed to sign package database."
 msgstr "Nepavyko pasirašyt paketų duomenų bazės."
@@ -1094,8 +1326,70 @@ msgstr "Paketų neliko, kuriama tuščia duomenų bazė."
 msgid "No packages modified, nothing to do."
 msgstr "Paketai nepakeisti, nėra ką daryti."
 
-msgid "option %s requires an argument\\n"
+msgid "option '%s' is ambiguous; possibilities:"
+msgstr ""
+
+#, fuzzy
+msgid "invalid option"
+msgstr "neatpažinta pasirinktis"
+
+#, fuzzy
+msgid "option requires an argument"
 msgstr "pasirinktis %s reikalauja argumento\\n"
 
-msgid "unrecognized option"
-msgstr "neatpažinta pasirinktis"
+#, fuzzy
+msgid "option '%s' does not allow an argument"
+msgstr "pasirinktis %s reikalauja argumento\\n"
+
+#, fuzzy
+msgid "option '%s' requires an argument"
+msgstr "pasirinktis %s reikalauja argumento\\n"
+
+#~ msgid "There is no agent set up to handle %s URLs. Check %s."
+#~ msgstr "Nėra kam prisijungti prie %s URL. Patikrink %s."
+
+#~ msgid "%s is not allowed to contain hyphens or whitespace."
+#~ msgstr "%s negali turėti brūkšnių ar tarpų."
+
+#~ msgid "Cannot find the %s binary required to determine latest %s revision."
+#~ msgstr ""
+#~ "Negaliu rasti %s sukompiliuotos programos reikalingos nustatyti naujausią "
+#~ "%s peržiūrą."
+
+#~ msgid "Determining latest %s revision..."
+#~ msgstr "Nustatoma naujausia %s peržiūra..."
+
+#~ msgid "Version found: %s"
+#~ msgstr "Rasta versija: %s"
+
+#~ msgid ""
+#~ "  --holdver        Prevent automatic version bumping for development %ss"
+#~ msgstr ""
+#~ "  --holdver        Neleisti automatiškai numesti kūrimo versijos %ss"
+
+#~ msgid "\\0%s and %s cannot both be specified"
+#~ msgstr "\\0%s ir %s negali būti nurodyti kartu"
+
+#~ msgid "%s was not found in %s; skipping dependency checks."
+#~ msgstr "%s nerastas %s; priklausomybių patikra praleidžiama."
+
+#~ msgid "Skipping source retrieval        -- using existing %s tree"
+#~ msgstr ""
+#~ "Pradinio kodo gavimas praleidžiamas        -- naudojamas egzistuojantis "
+#~ "%s medis"
+
+#~ msgid "Skipping source integrity checks -- using existing %s tree"
+#~ msgstr ""
+#~ "Pradinio kodo vientisumo patikra praleidžiama -- naudojamas "
+#~ "egzistuojantis %s medis"
+
+#~ msgid "Skipping source extraction       -- using existing %s tree"
+#~ msgstr ""
+#~ "Pradinio kodo išarchyvavimas praleidžiamas            -- naudojamas "
+#~ "egzistuojantis %s medis"
+
+#~ msgid "The source directory is empty, there is nothing to build!"
+#~ msgstr "Pradinio kodo aplankas tuščias, nėra ką kurti!"
+
+#~ msgid "diff tool was not found, please install diffutils."
+#~ msgstr "diff įrankis nerastas, prašom įdiegti diffutils."

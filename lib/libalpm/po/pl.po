@@ -1,22 +1,24 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Bartek Piotrowski <barthalion@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2011-10-08 09:10+0000\n"
 "Last-Translator: Bartek Piotrowski <spam@bpiotrowski.pl>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/archlinux-pacman/language/pl/)\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/pl/)\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
@@ -39,10 +41,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "nie udało się rozpakować %s (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "nie udało się zmienić nazwy %s na %s (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "Różne uprawnienia dla katalogu dla %s\nsystem plików: %o pakiet: %o\n"
+msgstr ""
+"Różne uprawnienia dla katalogu dla %s\n"
+"system plików: %o pakiet: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -53,16 +61,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "rozpakowywanie: dowiązanie symboliczne %s nie kieruje do katalogu\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "nie udało się zmienić nazwy %s na %s (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "%s zachowane jako %s\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "nie udało się zainstalować %s jako %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -100,6 +100,10 @@ msgstr "nie udało się zaktualizować pozycji bazy danych %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nie udało się dodać pozycji '%s' w pliku podręcznym\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "błąd odczytywania pakietu: %s: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "usuwanie niepoprawnej bazy danych: %s\n"
@@ -129,6 +133,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "baza danych %s jest sprzeczna: niedopasowana wersja w pakiecie %s\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "nie można stworzyć katalogu %s: %s\n"
 
@@ -151,6 +159,14 @@ msgstr "błąd odczytywania pakietu: %s: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "brak metadanych pakietu w %s\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "nie udało się pobrać niektórych plików z %s\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -189,20 +205,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nie można rozwiązać \"%s\", zależności od \"%s\"\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "nie można odczytać informacji o systemie plików\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "nie można odczytać informacji o systemie plików %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "nie udało się otworzyć pliku %s: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "nie można odczytać informacji o systemie plików\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "nie można określić punktu montowania pliku %s\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Partycja %s jest zbyt pełna: potrzebne jest %jd bloków, %jd wolnych\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "nie można określić punktów montowania systemu plików\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "nie można określić punktu montowania partycji systemowej %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -211,10 +239,6 @@ msgstr "nie można określić punktu montowania partycji systemowej %s\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partycja %s jest zamontowana tylko do odczytu\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Partycja %s jest zbyt pełna: potrzebne jest %jd bloków, %jd wolnych\n"
 
 #, c-format
 msgid "disk"
@@ -249,8 +273,8 @@ msgid "unexpected system error"
 msgstr "niespodziewany błąd systemu"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "niewystarczające przywileje"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -446,7 +470,8 @@ msgstr "błąd gpgme"
 
 #, c-format
 msgid "error invoking external downloader"
-msgstr "wystąpił błąd podczas odwoływania się do zewnętrznego programu pobierającego"
+msgstr ""
+"wystąpił błąd podczas odwoływania się do zewnętrznego programu pobierającego"
 
 #, c-format
 msgid "unexpected error"
@@ -467,6 +492,10 @@ msgstr "usuwanie %s z listy celów\n"
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "nie udało się usunąć pliku '%s': %s\n"
+
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "nie można stworzyć katalogu %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -512,9 +541,13 @@ msgstr "odkryto nierozwiązywalne konflikty pakietów\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "usuwanie '%s' z listy celów ponieważ konfliktuje z '%s'\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "nie udało się pobrać niektórych plików z %s\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "nie udało się odzyskać niektórych plików"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "niewystarczające miejsce na dysku"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -539,6 +572,10 @@ msgstr "nie można usunąć %s\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nie udało się usunąć katalogu tymczasowego %s\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "nie udało się otworzyć pliku %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -574,4 +611,12 @@ msgstr "brak pamięci podręcznej dla %s, tworzenie...\n"
 
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "nie można odnaleźć lub stworzyć pamięci podręcznej pakietu, używam %s w zamian\n"
+msgstr ""
+"nie można odnaleźć lub stworzyć pamięci podręcznej pakietu, używam %s w "
+"zamian\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "nie udało się zainstalować %s jako %s (%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "niewystarczające przywileje"

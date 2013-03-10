@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2011-10-06 03:57+0000\n"
 "Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/archlinux-pacman/language/en_GB/)\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/"
+"archlinux-pacman/language/en_GB/)\n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -39,10 +40,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "could not extract %s (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "could not rename %s to %s (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "directory permissions differ on %s\nfilesystem: %o  package: %o\n"
+msgstr ""
+"directory permissions differ on %s\n"
+"filesystem: %o  package: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -53,16 +60,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "extract: symlink %s does not point to dir\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "could not rename %s to %s (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "%s saved as %s\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "could not install %s as %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -100,6 +99,10 @@ msgstr "could not update database entry %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "could not add entry '%s' in cache\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "error while reading package %s: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "removing invalid database: %s\n"
@@ -129,6 +132,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s database is inconsistent: version mismatch on package %s\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "could not create directory %s: %s\n"
 
@@ -151,6 +158,14 @@ msgstr "error while reading package %s: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "missing package metadata in %s\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "failed to retrieve some files from %s\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -189,20 +204,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "cannot resolve \"%s\", a dependency of \"%s\"\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "could not get filesystem information\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "could not get filesystem information for %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "could not open file %s: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "could not get filesystem information\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "could not determine mount point for file %s\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "could not determine filesystem mount points\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "could not determine root mount point %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -211,10 +238,6 @@ msgstr "could not determine root mount point %s\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partition %s is mounted read only\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 
 #, c-format
 msgid "disk"
@@ -249,8 +272,8 @@ msgid "unexpected system error"
 msgstr "unexpected system error"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "insufficient privileges"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -468,6 +491,10 @@ msgstr "removing %s from target list\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "cannot remove file '%s': %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "could not create directory %s: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "cannot remove %s (%s)\n"
@@ -512,9 +539,13 @@ msgstr "unresolvable package conflicts detected\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "removing '%s' from target list because it conflicts with '%s'\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "failed to retrieve some files from %s\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "failed to retrieve some files"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "not enough free disk space"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -539,6 +570,10 @@ msgstr "could not remove %s\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "could not remove tmpdir %s\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "could not open file %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -575,3 +610,9 @@ msgstr "no %s cache exists, creating...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "couldn't find or create package cache, using %s instead\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "could not install %s as %s (%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "insufficient privileges"

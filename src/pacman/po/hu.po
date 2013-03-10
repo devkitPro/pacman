@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # György Balló <ballogy@freestart.hu>, 2011, 2012.
 # ngaba <ngaba@bibl.u-szeged.hu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-03-09 13:09+0000\n"
 "Last-Translator: György Balló <ballogy@freestart.hu>\n"
-"Language-Team: Hungarian (http://www.transifex.com/projects/p/archlinux-pacman/language/hu/)\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/archlinux-"
+"pacman/language/hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -47,9 +48,25 @@ msgstr "%s eltávolítása...\n"
 msgid "upgrading %s...\n"
 msgstr "%s frissítése...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "%s letöltése...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "%s telepítése...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "csomagok integritásának ellenőrzése...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "csomagok integritásának ellenőrzése...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "%s letöltése...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -75,13 +92,17 @@ msgstr "sikeres!\n"
 msgid "failed.\n"
 msgstr "sikertelen.\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "Csomagok letöltése a(z) %s tárolóból...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "szabad lemezterület ellenőrzése...\n"
+
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: igényli a következőt: %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -97,17 +118,18 @@ msgstr "A(z) %s és a(z) %s ütközik egymással. Eltávolítja a(z) %s csomagot
 
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
-msgstr "A(z) %s és a(z) %s ütközik egymással (%s). Eltávolítja a(z) %s csomagot?"
+msgstr ""
+"A(z) %s és a(z) %s ütközik egymással (%s). Eltávolítja a(z) %s csomagot?"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Az alábbi csomagot nem lehet telepíteni feloldhatatlan függőségek miatt:\n"
-msgstr[1] "Az alábbi csomagokat nem lehet telepíteni feloldhatatlan függőségek miatt:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Az alábbi csomagot nem lehet telepíteni feloldhatatlan függőségek miatt:\n"
+msgstr[1] ""
+"Az alábbi csomagokat nem lehet telepíteni feloldhatatlan függőségek miatt:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -127,10 +149,12 @@ msgstr "%s-%s: a helyi verzió újabb. Mégis \"frissíti\"?"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "A %s fájl sérült (%s).\nSzeretné törölni?"
+msgstr ""
+"A %s fájl sérült (%s).\n"
+"Szeretné törölni?"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "Importálja ezt a PGP kulcsot: %s, \"%s\", ami ekkor készült: %s?"
 
 #, c-format
@@ -140,6 +164,14 @@ msgstr "telepítés:"
 #, c-format
 msgid "upgrading"
 msgstr "frissítés:"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "frissítés:"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "telepítés:"
 
 #, c-format
 msgid "removing"
@@ -155,6 +187,10 @@ msgstr "szabad lemezterület ellenőrzése"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "csomagok integritásának ellenőrzése"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "csomagok integritásának ellenőrzése"
 
 #, c-format
@@ -195,12 +231,16 @@ msgstr "%s konfigurációs fájl, %d. sor: érvénytelen érték ehhez: '%s' : '
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "%s konfigurációs fájl, %d. sor: a(z) '%s' opció érvénytelen, nincs aláírás-támogatás\n"
+msgstr ""
+"%s konfigurációs fájl, %d. sor: a(z) '%s' opció érvénytelen, nincs aláírás-"
+"támogatás\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "%s konfigurációs fájl, %d. sor: ismeretlen '%s' direktíva a(z) '%s' szekcióban.\n"
+msgstr ""
+"%s konfigurációs fájl, %d. sor: ismeretlen '%s' direktíva a(z) '%s' "
+"szekcióban.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
@@ -240,10 +280,11 @@ msgstr "nem sikerült hozzáadni a(z) '%s' tükröt a(z) '%s' adatbázishoz (%s)
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "a beállítás értelmezése meghaladta a maximális %d rekurzív mélységet.\n"
+msgstr ""
+"a beállítás értelmezése meghaladta a maximális %d rekurzív mélységet.\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "a %s konfigurációs fájl nem olvasható.\n"
 
 #, c-format
@@ -256,11 +297,14 @@ msgstr "%s konfigurációs fájl, %d. sor: szintaktikai hiba- hiányzó kulcs.\n
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "%s konfigurációs fájl, %d. sor: Minden direktívának egy szekcióhoz kell tartoznia.\n"
+msgstr ""
+"%s konfigurációs fájl, %d. sor: Minden direktívának egy szekcióhoz kell "
+"tartoznia.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "%s konfigurációs fájl, %d. sor: a(z) '%s' direktívának értéket kell adni\n"
+msgstr ""
+"%s konfigurációs fájl, %d. sor: a(z) '%s' direktívának értéket kell adni\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -276,11 +320,20 @@ msgstr "nem sikerült beállítani a telepítés okát a(z) %s csomaghoz (%s)\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
-msgstr "%s: a telepítés okát beállítottam arra, hogy 'függőségként telepítve'\n"
+msgstr ""
+"%s: a telepítés okát beállítottam arra, hogy 'függőségként telepítve'\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: a telepítés okát beállítottam arra, hogy 'kézzel telepítve'\n"
+
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "telepítve"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "Opcionális függ.:"
 
 #, c-format
 msgid "Explicitly installed"
@@ -295,6 +348,22 @@ msgid "Unknown"
 msgstr "Ismeretlen"
 
 #, c-format
+msgid "None"
+msgstr "Nincs"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5 Sum         :"
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256 Sum      :"
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "Aláírás hiba"
+
+#, c-format
 msgid "Repository     :"
 msgstr "Tároló          :"
 
@@ -305,6 +374,14 @@ msgstr "Név             :"
 #, c-format
 msgid "Version        :"
 msgstr "Verzió          :"
+
+#, c-format
+msgid "Description    :"
+msgstr "Leírás          :"
+
+#, c-format
+msgid "Architecture   :"
+msgstr "Architektúra    :"
 
 #, c-format
 msgid "URL            :"
@@ -327,12 +404,12 @@ msgid "Depends On     :"
 msgstr "Függ            :"
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Opcionális függ.:"
-
-#, c-format
 msgid "Required By    :"
 msgstr "Igényli         :"
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "Opcionális függ.:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -342,25 +419,21 @@ msgstr "Ütközik         :"
 msgid "Replaces       :"
 msgstr "Lecseréli       :"
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "Letöltött méret : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "Letöltési méret"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "Tömörített méret: %6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "Telepített méret: %6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "Csomagoló       :"
-
-#, c-format
-msgid "Architecture   :"
-msgstr "Architektúra    :"
 
 #, c-format
 msgid "Build Date     :"
@@ -398,13 +471,9 @@ msgstr "SHA256 Sum      :"
 msgid "Signatures     :"
 msgstr "Aláírások       :"
 
-#, c-format
-msgid "None"
-msgstr "Nincs"
-
-#, c-format
-msgid "Description    :"
-msgstr "Leírás          :"
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "Igényli         :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -421,6 +490,14 @@ msgstr "(nincs)\n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "nem áll rendelkezésre változási napló a(z) '%s' csomaghoz.\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "nem áll rendelkezésre változási napló a(z) '%s' csomaghoz.\n"
+
+#, c-format
+msgid "installed"
+msgstr "telepítve"
 
 #, c-format
 msgid "options"
@@ -450,13 +527,15 @@ msgstr "műveletek:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\na '%s {-h --help}' után egy műveletet megadva a vonatkozó opciókat kapjuk\n"
+msgstr ""
+"\n"
+"a '%s {-h --help}' után egy műveletet megadva a vonatkozó opciókat kapjuk\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade        csomagok és az azokat igénylő csomagok eltávolítása\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        csomagok és az azokat igénylő csomagok eltávolítása\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -466,15 +545,20 @@ msgstr "  -n, --nosave         törölje a konfigurációs fájlokat\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      a feleslegessé váló függőségeket is távolítsa el\n                       (-ss a kézzel telepített függőségeket is eltávolítja)\n"
+msgstr ""
+"  -s, --recursive      a feleslegessé váló függőségeket is távolítsa el\n"
+"                       (-ss a kézzel telepített függőségeket is "
+"eltávolítja)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr "  -u, --unneeded       más csomag által nem igényelt csomagok eltávolítása\n"
+msgstr ""
+"  -u, --unneeded       más csomag által nem igényelt csomagok eltávolítása\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed         a naprakész csomagok ne legyenek újratelepítve\n"
+msgstr ""
+"      --needed         a naprakész csomagok ne legyenek újratelepítve\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -483,25 +567,32 @@ msgstr "  -c, --changelog      egy csomag változási naplójának megtekintése
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           a függőségként telepített csomagok listázása [szűrő]\n"
+msgstr ""
+"  -d, --deps           a függőségként telepített csomagok listázása [szűrő]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       a kézzel telepített csomagok listázása [szűrő]\n"
+msgstr ""
+"  -e, --explicit       a kézzel telepített csomagok listázása [szűrő]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         egy csoport összes tagjának megtekintése\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           csomaginformációk megtekintése (-ii: backup fájlok is)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           csomaginformációk megtekintése (-ii: backup fájlok "
+"is)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"
-msgstr "  -k, --check          ellenőrzi, hogy a csomag(ok) által telepített fájlok\n                       jelen vannak-e a rendszerben\n"
+msgstr ""
+"  -k, --check          ellenőrzi, hogy a csomag(ok) által telepített fájlok\n"
+"                       jelen vannak-e a rendszerben\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -511,7 +602,17 @@ msgstr "  -l, --list           a lekérdezett csomag tartalmának listázása\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        a tárolókban nem található telepített\n                       csomagok listázása [szűrő]\n"
+msgstr ""
+"  -m, --foreign        a tárolókban nem található telepített\n"
+"                       csomagok listázása [szűrő]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        a tárolókban nem található telepített\n"
+"                       csomagok listázása [szűrő]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -519,11 +620,14 @@ msgstr "  -o, --owns <fájl>    a <fájl>-t tartalmazó csomag lekérdezése\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
-msgstr "  -p, --file <csomag>  egy csomagfájl lekérdezése az adatbázis helyett\n"
+msgstr ""
+"  -p, --file <csomag>  egy csomagfájl lekérdezése az adatbázis helyett\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          kevesebb információ megjelenítése\n                       lekérdezésnél és keresésnél\n"
+msgstr ""
+"  -q, --quiet          kevesebb információ megjelenítése\n"
+"                       lekérdezésnél és keresésnél\n"
 
 #, c-format
 msgid ""
@@ -534,7 +638,9 @@ msgstr "  -s, --search <regex> keresés a helyileg telepített csomagok között
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     más csomag által nem igényelt csomagok listázása [szűrő]\n"
+msgstr ""
+"  -t, --unrequired     más csomag által nem igényelt csomagok listázása "
+"[szűrő]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
@@ -544,7 +650,9 @@ msgstr "  -u, --upgrades       az elavult csomagok listázása [szűrő]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          a régi csomagok törlése a gyorsítótár-könyvtárból\n                       (használja a '-cc'-t az összeshez)\n"
+msgstr ""
+"  -c, --clean          a régi csomagok törlése a gyorsítótár-könyvtárból\n"
+"                       (használja a '-cc'-t az összeshez)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -555,13 +663,16 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <tároló>  egy tároló csomagjainak listázása\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex> keresés a távoli tárolókban\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     telepített csomagok frissítése\n                       (-uu: visszafejlesztés engedélyezése)\n"
+msgstr ""
+"  -u, --sysupgrade     telepített csomagok frissítése\n"
+"                       (-uu: visszafejlesztés engedélyezése)\n"
 
 #, c-format
 msgid ""
@@ -572,19 +683,22 @@ msgstr "  -w, --downloadonly   csak letöltés, de nem telepít/frissít semmit\
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        friss csomagadatbázisok letöltése a szerverről\n"
+msgstr ""
+"  -y, --refresh        friss csomagadatbázisok letöltése a szerverről\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         csomagok megjelölése függőségként telepítettként\n"
+msgstr ""
+"      --asdeps         csomagok megjelölése függőségként telepítettként\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     csomagok megjelölése kézzel telepítettként\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          a telepítés erőltetése, ütköző fájlok felülírása\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
+msgstr ""
+"  -f, --force          a telepítés erőltetése, ütköző fájlok felülírása\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -592,34 +706,44 @@ msgstr "      --asdeps         csomagok telepítése 'függőség' jelöléssel\
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     csomagok telepítése 'kézzel telepítve' jelöléssel\n"
+msgstr ""
+"      --asexplicit     csomagok telepítése 'kézzel telepítve' jelöléssel\n"
 
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <csomag>\n                       csomagfrissítés mellőzése (többször is használható)\n"
+msgstr ""
+"      --ignore <csomag>\n"
+"                       csomagfrissítés mellőzése (többször is használható)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <csoport>\n                       csoportfrissítés mellőzése (többször is használható)\n"
+msgstr ""
+"      --ignoregroup <csoport>\n"
+"                       csoportfrissítés mellőzése (többször is használható)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         függőségverzió-ellenőrzések kihagyása\n                       (-dd: minden függőségellenőrzés kihagyása)\n"
+msgstr ""
+"  -d, --nodeps         függőségverzió-ellenőrzések kihagyása\n"
+"                       (-dd: minden függőségellenőrzés kihagyása)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         csak adatbázis-bejegyzést módosítson, csomagfájlt ne\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         csak adatbázis-bejegyzést módosítson, csomagfájlt ne\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  ne mutasson folyamatsávot a fájlok letöltése közben\n"
+msgstr ""
+"      --noprogressbar  ne mutasson folyamatsávot a fájlok letöltése közben\n"
 
 #, c-format
 msgid ""
@@ -630,21 +754,27 @@ msgstr "      --noscriptlet    ne futtassa az install szkripteket, ha van\n"
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          célok kiírása a műveletek végrehajtása helyett\n"
+msgstr ""
+"  -p, --print          célok kiírása a műveletek végrehajtása helyett\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <sztring>\n                       a megadott formátum használata csomaglistázás során\n"
+msgstr ""
+"      --print-format <sztring>\n"
+"                       a megadott formátum használata csomaglistázás során\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <útvonal>\n                       alternatív adatbáziskönyvtár beállítása\n"
+msgstr ""
+"  -b, --dbpath <útvonal>\n"
+"                       alternatív adatbáziskönyvtár beállítása\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "  -r, --root <útvonal> alternatív telepítési gyökérkönyvtár beállítása\n"
+msgstr ""
+"  -r, --root <útvonal> alternatív telepítési gyökérkönyvtár beállítása\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
@@ -656,11 +786,19 @@ msgstr "      --arch <arch>    alternatív architektúra beállítása\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <könyvtár> \n                       alternatív csomaggyorsítótár-könyvtár beállítása\n"
+msgstr ""
+"      --cachedir <könyvtár> \n"
+"                       alternatív csomaggyorsítótár-könyvtár beállítása\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <útvonal>\n                       alternatív konfigurációs fájl beállítása\n"
+msgstr ""
+"      --config <útvonal>\n"
+"                       alternatív konfigurációs fájl beállítása\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
@@ -668,11 +806,15 @@ msgstr "      --debug          hibakeresési üzenetek megjelenítése\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --gpgdir <útvonal>\n                       alternatív saját könyvtár beállítása a GnuPG-hez\n"
+msgstr ""
+"      --gpgdir <útvonal>\n"
+"                       alternatív saját könyvtár beállítása a GnuPG-hez\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <útvonal>\n                       alternatív naplófájl beállítása\n"
+msgstr ""
+"      --logfile <útvonal>\n"
+"                       alternatív naplófájl beállítása\n"
 
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
@@ -682,7 +824,13 @@ msgstr "      --noconfirm      ne kérjen soha megerősítést\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Ez a program szabadon terjeszthető a GNU\n                       General Public License feltételei szerint.\n"
+msgstr ""
+"                       Ez a program szabadon terjeszthető a GNU\n"
+"                       General Public License feltételei szerint.\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "érvénytelen szám: %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -705,6 +853,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "nem sikerült újra megnyitni az stdin-t olvasásra: (%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "ez a művelet csak rendszergazdaként hajtható végre.\n"
 
@@ -721,6 +873,10 @@ msgid "no file was specified for --owns\n"
 msgstr "nincs megadva fájl az --owns számára\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "nem állapítható meg a valódi útvonal a(z) '%s' számára: %s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "az útvonal túl hosszú: %s%s\n"
 
@@ -733,32 +889,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "a '%s' könyvtár tulajdonoscsomagját nem lehet megállapítani\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "nem állapítható meg a valódi útvonal a(z) '%s' számára: %s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "Egyik csomag sem tartalmazza a következőt: %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "a(z) '%s' csoport nem található\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %jd fájl összesen, "
-msgstr[1] "%s: %jd fájl összesen, "
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd hiányzó fájl\n"
-msgstr[1] "%jd hiányzó fájl\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -779,10 +915,6 @@ msgstr "cél nem található: %s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "nem sikerült előkészíteni a tranzakciót (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "a(z) %s csomaghoz nincs érvényes architektúra definiálva\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -829,10 +961,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "használaton kívüli szinkrontárolók eltávolítása...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "Gyorsítótár könyvtára: %s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "Megtartandó csomagok:\n"
 
@@ -843,6 +971,10 @@ msgstr "  Az összes helyileg telepített csomag\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  A jelenlegi adatbázisban megtalálható összes csomag\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Gyorsítótár könyvtára: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -877,10 +1009,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "nem sikerült szinkronizálni egyik adatbázist sem\n"
 
 #, c-format
-msgid "installed"
-msgstr "telepítve"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "hiba: a(z) '%s' tároló nem létezik\n"
 
@@ -909,6 +1037,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "Teljes rendszerfrissítés indítása...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "a(z) %s csomaghoz nincs érvényes architektúra definiálva\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "A(z) %s és a(z) %s ütközik egymással\n"
 
@@ -923,6 +1055,10 @@ msgstr "Kezdődhet a letöltés?"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Kezdődhet a telepítés?"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -945,16 +1081,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "A csomagadatbázisok szinkronizálása...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "A következő csomagok telepítése javasolt elsőként:\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "Megszakítja a jelenlegi műveletet,\n:: és telepíti ezeket a csomagokat most?"
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "csomagok betöltése...\n"
 
@@ -970,7 +1096,9 @@ msgstr "nem zárolható az adatbázis: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  ha biztos benne, hogy nem fut másik csomagkezelő,\n  akkor eltávolíthatja a %s fájlt\n"
+msgstr ""
+"  ha biztos benne, hogy nem fut másik csomagkezelő,\n"
+"  akkor eltávolíthatja a %s fájlt\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1060,25 +1188,29 @@ msgstr "Tiszta változás"
 msgid "Download Size"
 msgstr "Letöltési méret"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "Célok (%d):"
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "csomag(ok)"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "Teljes letöltési méret:    %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "Letöltési méret"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "Teljes telepített méret:   %.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "Teljes eltávolított méret: %.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "Tiszta frissítési méret:   %.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1147,3 +1279,35 @@ msgstr "hiba: "
 #, c-format
 msgid "warning: "
 msgstr "figyelmeztetés: "
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "Letöltött méret : %6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "a '%s' könyvtár tulajdonoscsomagját nem lehet megállapítani\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: %jd fájl összesen, "
+#~ msgstr[1] "%s: %jd fájl összesen, "
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd hiányzó fájl\n"
+#~ msgstr[1] "%jd hiányzó fájl\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "A következő csomagok telepítése javasolt elsőként:\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "Megszakítja a jelenlegi műveletet,\n"
+#~ ":: és telepíti ezeket a csomagokat most?"
+
+#~ msgid "Targets (%d):"
+#~ msgstr "Célok (%d):"
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "Teljes letöltési méret:    %.2f %s\n"

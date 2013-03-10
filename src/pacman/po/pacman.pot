@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pacman 4.0.2\n"
+"Project-Id-Version: pacman 4.1.0rc1\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,23 @@ msgid "upgrading %s...\n"
 msgstr ""
 
 #, c-format
+msgid "downgrading %s...\n"
+msgstr ""
+
+#, c-format
+msgid "reinstalling %s...\n"
+msgstr ""
+
+#, c-format
 msgid "checking package integrity...\n"
+msgstr ""
+
+#, c-format
+msgid "checking keyring...\n"
+msgstr ""
+
+#, c-format
+msgid "downloading required keys...\n"
 msgstr ""
 
 #, c-format
@@ -75,7 +91,7 @@ msgid "failed.\n"
 msgstr ""
 
 #, c-format
-msgid ":: Retrieving packages from %s...\n"
+msgid "Retrieving packages ...\n"
 msgstr ""
 
 #, c-format
@@ -83,28 +99,30 @@ msgid "checking available disk space...\n"
 msgstr ""
 
 #, c-format
-msgid ":: %s is in IgnorePkg/IgnoreGroup. Install anyway?"
+msgid "%s optionally requires %s\n"
 msgstr ""
 
 #, c-format
-msgid ":: Replace %s with %s/%s?"
+msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
 
 #, c-format
-msgid ":: %s and %s are in conflict. Remove %s?"
+msgid "Replace %s with %s/%s?"
 msgstr ""
 
 #, c-format
-msgid ":: %s and %s are in conflict (%s). Remove %s?"
+msgid "%s and %s are in conflict. Remove %s?"
+msgstr ""
+
+#, c-format
+msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr ""
 
 #, c-format
 msgid ""
-":: The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-":: The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -115,21 +133,21 @@ msgstr[0] ""
 msgstr[1] ""
 
 #, c-format
-msgid ":: There are %zd providers available for %s:\n"
+msgid "There are %zd providers available for %s:\n"
 msgstr ""
 
 #, c-format
-msgid ":: %s-%s: local version is newer. Upgrade anyway?"
+msgid "%s-%s: local version is newer. Upgrade anyway?"
 msgstr ""
 
 #, c-format
 msgid ""
-":: File %s is corrupted (%s).\n"
+"File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
 
 #, c-format
-msgid ":: Import PGP key %s, \"%s\", created %s?"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr ""
 
 #, c-format
@@ -138,6 +156,14 @@ msgstr ""
 
 #, c-format
 msgid "upgrading"
+msgstr ""
+
+#, c-format
+msgid "downgrading"
+msgstr ""
+
+#, c-format
+msgid "reinstalling"
 msgstr ""
 
 #, c-format
@@ -154,6 +180,10 @@ msgstr ""
 
 #, c-format
 msgid "checking package integrity"
+msgstr ""
+
+#, c-format
+msgid "checking keys in keyring"
 msgstr ""
 
 #, c-format
@@ -242,7 +272,7 @@ msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 
 #, c-format
-msgid "config file %s could not be read.\n"
+msgid "config file %s could not be read: %s\n"
 msgstr ""
 
 #, c-format
@@ -282,6 +312,14 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
 
 #, c-format
+msgid " [installed]"
+msgstr ""
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr ""
+
+#, c-format
 msgid "Explicitly installed"
 msgstr ""
 
@@ -294,6 +332,22 @@ msgid "Unknown"
 msgstr ""
 
 #, c-format
+msgid "None"
+msgstr ""
+
+#, c-format
+msgid "MD5 Sum"
+msgstr ""
+
+#, c-format
+msgid "SHA256 Sum"
+msgstr ""
+
+#, c-format
+msgid "Signature"
+msgstr ""
+
+#, c-format
 msgid "Repository     :"
 msgstr ""
 
@@ -303,6 +357,14 @@ msgstr ""
 
 #, c-format
 msgid "Version        :"
+msgstr ""
+
+#, c-format
+msgid "Description    :"
+msgstr ""
+
+#, c-format
+msgid "Architecture   :"
 msgstr ""
 
 #, c-format
@@ -326,11 +388,11 @@ msgid "Depends On     :"
 msgstr ""
 
 #, c-format
-msgid "Optional Deps  :"
+msgid "Required By    :"
 msgstr ""
 
 #, c-format
-msgid "Required By    :"
+msgid "Optional For   :"
 msgstr ""
 
 #, c-format
@@ -342,23 +404,19 @@ msgid "Replaces       :"
 msgstr ""
 
 #, c-format
-msgid "Download Size  : %6.2f %s\n"
+msgid "Download Size  :"
 msgstr ""
 
 #, c-format
-msgid "Compressed Size: %6.2f %s\n"
+msgid "Compressed Size:"
 msgstr ""
 
 #, c-format
-msgid "Installed Size : %6.2f %s\n"
+msgid "Installed Size :"
 msgstr ""
 
 #, c-format
 msgid "Packager       :"
-msgstr ""
-
-#, c-format
-msgid "Architecture   :"
 msgstr ""
 
 #, c-format
@@ -398,11 +456,7 @@ msgid "Signatures     :"
 msgstr ""
 
 #, c-format
-msgid "None"
-msgstr ""
-
-#, c-format
-msgid "Description    :"
+msgid "Validated By   :"
 msgstr ""
 
 #, c-format
@@ -419,6 +473,14 @@ msgstr ""
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
+msgstr ""
+
+#, c-format
+msgid "Changelog for %s:\n"
+msgstr ""
+
+#, c-format
+msgid "installed"
 msgstr ""
 
 #, c-format
@@ -513,6 +575,12 @@ msgid ""
 msgstr ""
 
 #, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+
+#, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr ""
 
@@ -583,7 +651,7 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr ""
 
 #, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
+msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
 
 #, c-format
@@ -660,6 +728,10 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 
 #, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
+
+#, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr ""
 
@@ -686,6 +758,10 @@ msgid ""
 msgstr ""
 
 #, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr ""
+
+#, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr ""
 
@@ -706,6 +782,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr ""
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr ""
 
@@ -722,6 +802,10 @@ msgid "no file was specified for --owns\n"
 msgstr ""
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr ""
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr ""
 
@@ -734,32 +818,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr ""
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr ""
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr ""
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr ""
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr ""
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -782,11 +846,7 @@ msgid "failed to prepare transaction (%s)\n"
 msgstr ""
 
 #, c-format
-msgid ":: package %s does not have a valid architecture\n"
-msgstr ""
-
-#, c-format
-msgid ":: %s: requires %s\n"
+msgid "%s: requires %s\n"
 msgstr ""
 
 #, c-format
@@ -830,10 +890,6 @@ msgid "removing unused sync repositories...\n"
 msgstr ""
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr ""
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr ""
 
@@ -843,6 +899,10 @@ msgstr ""
 
 #, c-format
 msgid "  All current sync database packages\n"
+msgstr ""
+
+#, c-format
+msgid "Cache directory: %s\n"
 msgstr ""
 
 #, c-format
@@ -878,10 +938,6 @@ msgid "failed to synchronize any databases\n"
 msgstr ""
 
 #, c-format
-msgid "installed"
-msgstr ""
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr ""
 
@@ -894,7 +950,7 @@ msgid "skipping target: %s\n"
 msgstr ""
 
 #, c-format
-msgid ":: There are %d members in group %s:\n"
+msgid "There are %d members in group %s:\n"
 msgstr ""
 
 #, c-format
@@ -906,15 +962,19 @@ msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr ""
 
 #, c-format
-msgid ":: Starting full system upgrade...\n"
+msgid "Starting full system upgrade...\n"
 msgstr ""
 
 #, c-format
-msgid ":: %s and %s are in conflict\n"
+msgid "package %s does not have a valid architecture\n"
 msgstr ""
 
 #, c-format
-msgid ":: %s and %s are in conflict (%s)\n"
+msgid "%s and %s are in conflict\n"
+msgstr ""
+
+#, c-format
+msgid "%s and %s are in conflict (%s)\n"
 msgstr ""
 
 #, c-format
@@ -923,6 +983,10 @@ msgstr ""
 
 #, c-format
 msgid "Proceed with installation?"
+msgstr ""
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
 msgstr ""
 
 #, c-format
@@ -942,17 +1006,7 @@ msgid "Errors occurred, no packages were upgraded.\n"
 msgstr ""
 
 #, c-format
-msgid ":: Synchronizing package databases...\n"
-msgstr ""
-
-#, c-format
-msgid ":: The following packages should be upgraded first :\n"
-msgstr ""
-
-#, c-format
-msgid ""
-":: Do you want to cancel the current operation\n"
-":: and upgrade these packages now?"
+msgid "Synchronizing package databases...\n"
 msgstr ""
 
 #, c-format
@@ -1062,23 +1116,27 @@ msgid "Download Size"
 msgstr ""
 
 #, c-format
-msgid "Targets (%d):"
+msgid "Packages"
 msgstr ""
 
 #, c-format
-msgid "Total Download Size:    %.2f %s\n"
+msgid "Total Download Size:"
 msgstr ""
 
 #, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+msgid "Total Installed Size:"
 msgstr ""
 
 #, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+msgid "Total Removed Size:"
 msgstr ""
 
 #, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+msgid "Net Upgrade Size:"
+msgstr ""
+
+#, c-format
+msgid " [pending]"
 msgstr ""
 
 #, c-format

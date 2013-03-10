@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # leonfeng <rainofchaos@gmail.com>, 2011.
 #   <rainofchaos@gmail.com>, 2011.
@@ -10,15 +10,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-05 11:35-0600\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:01+1000\n"
 "PO-Revision-Date: 2012-11-18 13:16+0000\n"
 "Last-Translator: 甘 露 <rhythm.gan@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/archlinux-pacman/language/zh_CN/)\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/"
+"archlinux-pacman/language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
@@ -49,9 +50,25 @@ msgstr "正在删除 %s...\n"
 msgid "upgrading %s...\n"
 msgstr "正在升级 %s...\n"
 
+#, fuzzy, c-format
+msgid "downgrading %s...\n"
+msgstr "正在下载 %s...\n"
+
+#, fuzzy, c-format
+msgid "reinstalling %s...\n"
+msgstr "正在安装 %s...\n"
+
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "正在检查软件包完整性...\n"
+
+#, fuzzy, c-format
+msgid "checking keyring...\n"
+msgstr "正在检查软件包完整性...\n"
+
+#, fuzzy, c-format
+msgid "downloading required keys...\n"
+msgstr "正在下载 %s...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -77,17 +94,22 @@ msgstr "成功完成！\n"
 msgid "failed.\n"
 msgstr "失败。\n"
 
-#, c-format
-msgid "Retrieving packages from %s...\n"
+#, fuzzy, c-format
+msgid "Retrieving packages ...\n"
 msgstr "正在从 %s 软件库获取软件包...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "正在检查可用磁盘空间...\n"
 
+#, fuzzy, c-format
+msgid "%s optionally requires %s\n"
+msgstr "%s: 要求 %s\n"
+
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr "%s 位于 IgnorePkg/IgnoreGroup (忽略软件包／忽略软件包组) 中。确定要安装吗?"
+msgstr ""
+"%s 位于 IgnorePkg/IgnoreGroup (忽略软件包／忽略软件包组) 中。确定要安装吗?"
 
 #, c-format
 msgid "Replace %s with %s/%s?"
@@ -103,11 +125,9 @@ msgstr "%s 与 %s 有冲突 (%s)。删除 %s 吗？"
 
 #, c-format
 msgid ""
-"The following package cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] "因为无法解决依赖关系，以下软件包无法进行更新：\n"
 
 #, c-format
@@ -127,10 +147,12 @@ msgstr "%s-%s：本地版本较新。确定要更新吗？"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "文件 %s 已损坏 (%s).\n打算删除吗？"
+msgstr ""
+"文件 %s 已损坏 (%s).\n"
+"打算删除吗？"
 
-#, c-format
-msgid "Import PGP key %s, \"%s\", created %s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 msgstr "导入 PGP 密匙 %s，\"%s\"，创建 %s 吗？"
 
 #, c-format
@@ -140,6 +162,14 @@ msgstr "正在安装"
 #, c-format
 msgid "upgrading"
 msgstr "正在更新"
+
+#, fuzzy, c-format
+msgid "downgrading"
+msgstr "正在更新"
+
+#, fuzzy, c-format
+msgid "reinstalling"
+msgstr "正在安装"
 
 #, c-format
 msgid "removing"
@@ -155,6 +185,10 @@ msgstr "正在检查可用硬盘空间"
 
 #, c-format
 msgid "checking package integrity"
+msgstr "正在检查软件包完整性"
+
+#, fuzzy, c-format
+msgid "checking keys in keyring"
 msgstr "正在检查软件包完整性"
 
 #, c-format
@@ -242,8 +276,8 @@ msgstr "无法添加 '%s' 镜像到数据库 '%s' (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "配置解析时超过最大 %d 的递归深度。\n"
 
-#, c-format
-msgid "config file %s could not be read.\n"
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
 msgstr "无法读取配置文件 %s。\n"
 
 #, c-format
@@ -282,6 +316,14 @@ msgstr "%s：安装原因设定为“作为依赖关系安装”\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s：安装原因设定为“单独指定安装”\n"
 
+#, fuzzy, c-format
+msgid " [installed]"
+msgstr "已安装"
+
+#, c-format
+msgid "Optional Deps  :"
+msgstr "可选依赖　："
+
 #, c-format
 msgid "Explicitly installed"
 msgstr "单独指定安装"
@@ -295,6 +337,22 @@ msgid "Unknown"
 msgstr "未知的"
 
 #, c-format
+msgid "None"
+msgstr "无"
+
+#, fuzzy, c-format
+msgid "MD5 Sum"
+msgstr "MD5校验值："
+
+#, fuzzy, c-format
+msgid "SHA256 Sum"
+msgstr "SHA256 校验值："
+
+#, fuzzy, c-format
+msgid "Signature"
+msgstr "签名错误"
+
+#, c-format
 msgid "Repository     :"
 msgstr "软件库　　："
 
@@ -305,6 +363,14 @@ msgstr "名称　　　："
 #, c-format
 msgid "Version        :"
 msgstr "版本　　　："
+
+#, c-format
+msgid "Description    :"
+msgstr "描述　　　："
+
+#, c-format
+msgid "Architecture   :"
+msgstr "架构　　　："
 
 #, c-format
 msgid "URL            :"
@@ -327,12 +393,12 @@ msgid "Depends On     :"
 msgstr "依赖于　　："
 
 #, c-format
-msgid "Optional Deps  :"
-msgstr "可选依赖　："
-
-#, c-format
 msgid "Required By    :"
 msgstr "要求被　　："
+
+#, fuzzy, c-format
+msgid "Optional For   :"
+msgstr "可选依赖　："
 
 #, c-format
 msgid "Conflicts With :"
@@ -342,25 +408,21 @@ msgstr "冲突与　　："
 msgid "Replaces       :"
 msgstr "取代　　　："
 
-#, c-format
-msgid "Download Size  : %6.2f %s\n"
-msgstr "下载大小：%6.2f %s\n"
+#, fuzzy, c-format
+msgid "Download Size  :"
+msgstr "下载大小"
 
-#, c-format
-msgid "Compressed Size: %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Compressed Size:"
 msgstr "压缩后大小：%6.2f %s\n"
 
-#, c-format
-msgid "Installed Size : %6.2f %s\n"
+#, fuzzy, c-format
+msgid "Installed Size :"
 msgstr "安装后大小：%6.2f %s\n"
 
 #, c-format
 msgid "Packager       :"
 msgstr "打包者　　："
-
-#, c-format
-msgid "Architecture   :"
-msgstr "架构　　　："
 
 #, c-format
 msgid "Build Date     :"
@@ -398,13 +460,9 @@ msgstr "SHA256 校验值："
 msgid "Signatures     :"
 msgstr "签名："
 
-#, c-format
-msgid "None"
-msgstr "无"
-
-#, c-format
-msgid "Description    :"
-msgstr "描述　　　："
+#, fuzzy, c-format
+msgid "Validated By   :"
+msgstr "要求被　　："
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -421,6 +479,14 @@ msgstr " (无) \n"
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "'%s' 没有可用的更新日志。\n"
+
+#, fuzzy, c-format
+msgid "Changelog for %s:\n"
+msgstr "'%s' 没有可用的更新日志。\n"
+
+#, c-format
+msgid "installed"
+msgstr "已安装"
 
 #, c-format
 msgid "options"
@@ -450,12 +516,13 @@ msgstr "操作:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\n使用 '%s {-h --help}' 及某个操作以查看可用选项\n"
+msgstr ""
+"\n"
+"使用 '%s {-h --help}' 及某个操作以查看可用选项\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr "  -c, --cascade        删除软件包及所有依赖于此的软件包\n"
 
 #, c-format
@@ -466,7 +533,9 @@ msgstr "  -n, --nosave         删除配置文件\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      删除不需要的依赖关系\n                       (-ss 包括单独指定安装的依赖关系)\n"
+msgstr ""
+"  -s, --recursive      删除不需要的依赖关系\n"
+"                       (-ss 包括单独指定安装的依赖关系)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -494,7 +563,8 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         查看某软件包组所属的所有软件包\n"
 
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
 msgstr "  -i, --info           查看软件包信息 (-ii 查看备份文件) \n"
 
 #, c-format
@@ -511,7 +581,15 @@ msgstr "  -l, --list           列出被查询软件包的内容\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        列出没有在同步数据库时找到的已安装软件包 [过滤器]\n"
+msgstr ""
+"  -m, --foreign        列出没有在同步数据库时找到的已安装软件包 [过滤器]\n"
+
+#, fuzzy, c-format
+msgid ""
+"  -n, --native         list installed packages only found in sync db(s) "
+"[filter]\n"
+msgstr ""
+"  -m, --foreign        列出没有在同步数据库时找到的已安装软件包 [过滤器]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -555,7 +633,8 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <软件库>    查看在该软件库中的软件包清单\n"
 
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件库\n"
 
 #, c-format
@@ -582,8 +661,8 @@ msgstr "      --asdeps         标记为非单独指定安装的软件包\n"
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     标记为明确指定安装的软件包\n"
 
-#, c-format
-msgid "  -f, --force          force install, overwrite conflicting files\n"
+#, fuzzy, c-format
+msgid "      --force          force install, overwrite conflicting files\n"
 msgstr "  -f,  -force          强制安装，覆盖存在冲突的文件\n"
 
 #, c-format
@@ -604,7 +683,9 @@ msgstr "      --ignore <软件包>   升级时忽略某个软件包 (可多次�
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <软件包组>\n                         升级时忽略某个软件包组 (可多次使用) \n"
+msgstr ""
+"      --ignoregroup <软件包组>\n"
+"                         升级时忽略某个软件包组 (可多次使用) \n"
 
 #, c-format
 msgid ""
@@ -613,7 +694,8 @@ msgid ""
 msgstr "-d, --nodeps         跳过依赖关系的版本检查 (-dd 跳过所有检查)\n"
 
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
 msgstr "      --dbonly         仅修改数据库条目，而非软件包文件\n"
 
 #, c-format
@@ -636,7 +718,9 @@ msgstr "  -p, --print          打印目标而不是执行操作\n"
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <字符串>\n                       指定如何打印目标\n"
+msgstr ""
+"      --print-format <字符串>\n"
+"                       指定如何打印目标\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -657,6 +741,10 @@ msgstr "      --arch <架构>    设定另外的架构\n"
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <目录> 指定另外的软件包缓存位置\n"
+
+#, c-format
+msgid "      --color <when>   colorize the output\n"
+msgstr ""
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -682,7 +770,13 @@ msgstr "      --noconfirm      不询问确认\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       本程序可以在GNU一般公众许可条款下\n                       自由分发\n"
+msgstr ""
+"                       本程序可以在GNU一般公众许可条款下\n"
+"                       自由分发\n"
+
+#, fuzzy, c-format
+msgid "invalid agument '%s' for %s\n"
+msgstr "无效数字：%s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -705,6 +799,10 @@ msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "无法打开 stdin 以读取：(%s)\n"
 
 #, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr ""
+
+#, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "非 root (根用户) 无法执行指定操作。\n"
 
@@ -721,6 +819,10 @@ msgid "no file was specified for --owns\n"
 msgstr "错误：没有为 --owns 指定文件\n"
 
 #, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "无法确定 '%s' 的真实路径：%s\n"
+
+#, c-format
 msgid "path too long: %s%s\n"
 msgstr "路径过长：%s%s\n"
 
@@ -733,30 +835,12 @@ msgid "failed to read file '%s': %s\n"
 msgstr "无法读取文件 '%s'：%s\n"
 
 #, c-format
-msgid "cannot determine ownership of directory '%s'\n"
-msgstr "无法测定目录 '%s' 的所属权\n"
-
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "无法确定 '%s' 的真实路径：%s\n"
-
-#, c-format
 msgid "No package owns %s\n"
 msgstr "没有软件包拥有 %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "软件组 '%s' 未找到\n"
-
-#, c-format
-msgid "%s: %jd total file, "
-msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %jd 全部文件。"
-
-#, c-format
-msgid "%jd missing file\n"
-msgid_plural "%jd missing files\n"
-msgstr[0] "%jd 缺失文件\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
@@ -777,10 +861,6 @@ msgstr "未找到目标：%s\n"
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "无法准备事务处理 (%s)\n"
-
-#, c-format
-msgid "package %s does not have a valid architecture\n"
-msgstr "软件包 '%s' 未包含一个有效的架构\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -827,10 +907,6 @@ msgid "removing unused sync repositories...\n"
 msgstr "正在删除未用的同步仓库...\n"
 
 #, c-format
-msgid "Cache directory: %s\n"
-msgstr "缓存目录：%s\n"
-
-#, c-format
 msgid "Packages to keep:\n"
 msgstr "要保留的软件包：\n"
 
@@ -841,6 +917,10 @@ msgstr "  所有本地安装的软件包\n"
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  所有目前同步数据库的软件包\n"
+
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "缓存目录：%s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
@@ -875,10 +955,6 @@ msgid "failed to synchronize any databases\n"
 msgstr "无法同步任何数据库\n"
 
 #, c-format
-msgid "installed"
-msgstr "已安装"
-
-#, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "软件库 '%s' 不存在\n"
 
@@ -907,6 +983,10 @@ msgid "Starting full system upgrade...\n"
 msgstr "正在进行全面系统更新...\n"
 
 #, c-format
+msgid "package %s does not have a valid architecture\n"
+msgstr "软件包 '%s' 未包含一个有效的架构\n"
+
+#, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s 与 %s 有冲突\n"
 
@@ -921,6 +1001,10 @@ msgstr "进行下载吗？"
 #, c-format
 msgid "Proceed with installation?"
 msgstr "进行安装吗？"
+
+#, c-format
+msgid "unable to %s directory-file conflicts\n"
+msgstr ""
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -943,16 +1027,6 @@ msgid "Synchronizing package databases...\n"
 msgstr "正在同步软件包数据库...\n"
 
 #, c-format
-msgid "The following packages should be upgraded first :\n"
-msgstr "下列软件包应当首先更新：\n"
-
-#, c-format
-msgid ""
-"Do you want to cancel the current operation\n"
-"and upgrade these packages now?"
-msgstr "打算取消当前操作\n:: 并马上安装这些软件包吗？ "
-
-#, c-format
 msgid "loading packages...\n"
 msgstr "正在加载软件包...\n"
 
@@ -968,7 +1042,9 @@ msgstr "无法锁定数据库：%s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  如果你确认软件包管理器没有在运行，\n  你可以删除 %s。\n"
+msgstr ""
+"  如果你确认软件包管理器没有在运行，\n"
+"  你可以删除 %s。\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
@@ -1058,25 +1134,29 @@ msgstr "净变化"
 msgid "Download Size"
 msgstr "下载大小"
 
-#, c-format
-msgid "Targets (%d):"
-msgstr "目标 (%d)："
+#, fuzzy, c-format
+msgid "Packages"
+msgstr "软件包"
 
-#, c-format
-msgid "Total Download Size:    %.2f %s\n"
-msgstr "全部下载大小：%.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Download Size:"
+msgstr "下载大小"
 
-#, c-format
-msgid "Total Installed Size:   %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Installed Size:"
 msgstr "全部安装大小：%.2f %s\n"
 
-#, c-format
-msgid "Total Removed Size:     %.2f %s\n"
+#, fuzzy, c-format
+msgid "Total Removed Size:"
 msgstr "全部删除大小：%.2f %s\n"
 
-#, c-format
-msgid "Net Upgrade Size:       %.2f %s\n"
+#, fuzzy, c-format
+msgid "Net Upgrade Size:"
 msgstr "净更新大小：%.2f %s\n"
+
+#, c-format
+msgid " [pending]"
+msgstr ""
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1145,3 +1225,33 @@ msgstr "错误："
 #, c-format
 msgid "warning: "
 msgstr "警告："
+
+#~ msgid "Download Size  : %6.2f %s\n"
+#~ msgstr "下载大小：%6.2f %s\n"
+
+#~ msgid "cannot determine ownership of directory '%s'\n"
+#~ msgstr "无法测定目录 '%s' 的所属权\n"
+
+#~ msgid "%s: %jd total file, "
+#~ msgid_plural "%s: %jd total files, "
+#~ msgstr[0] "%s: %jd 全部文件。"
+
+#~ msgid "%jd missing file\n"
+#~ msgid_plural "%jd missing files\n"
+#~ msgstr[0] "%jd 缺失文件\n"
+
+#~ msgid "The following packages should be upgraded first :\n"
+#~ msgstr "下列软件包应当首先更新：\n"
+
+#~ msgid ""
+#~ "Do you want to cancel the current operation\n"
+#~ "and upgrade these packages now?"
+#~ msgstr ""
+#~ "打算取消当前操作\n"
+#~ ":: 并马上安装这些软件包吗？ "
+
+#~ msgid "Targets (%d):"
+#~ msgstr "目标 (%d)："
+
+#~ msgid "Total Download Size:    %.2f %s\n"
+#~ msgstr "全部下载大小：%.2f %s\n"

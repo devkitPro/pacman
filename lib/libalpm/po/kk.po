@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2011.
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2011-10-06 03:39+0000\n"
 "Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
-"Language-Team: Kazakh (http://www.transifex.com/projects/p/archlinux-pacman/language/kk/)\n"
+"Language-Team: Kazakh (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/kk/)\n"
+"Language: kk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: kk\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
@@ -40,10 +41,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "%s тарқату қатесі (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "%s атын жаңа %s атына ауыстыру мүмкін емес (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "%s бумасының қатынау рұқсаттары әр түрлі\nфайлдық жүйе: %o  десте: %o\n"
+msgstr ""
+"%s бумасының қатынау рұқсаттары әр түрлі\n"
+"файлдық жүйе: %o  десте: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -54,16 +61,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "тарқату: %s символдық сілтемесі бумаға көрсетіп тұрған жоқ\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "%s атын жаңа %s атына ауыстыру мүмкін емес (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "%s қазір %s етіп сақталды\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "%s қазір %s ретінде орнату мүмкін емес: %s\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -101,6 +100,10 @@ msgstr "дерекқорда жазбаны жаңарту мүмкін емес
 msgid "could not add entry '%s' in cache\n"
 msgstr "кэш ішіне '%s' жазбасын қосу мүмкін емес\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "%s дестесін оқу қатесі: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "қате дерекқорды өшіру: %s\n"
@@ -130,6 +133,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "дерекқордағы қате ақпарат %s: %s дестесінің нұсқасы сәйкес келмейді\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "%s бумасын жасау мүмкін емес: %s\n"
 
@@ -152,6 +159,14 @@ msgstr "%s дестесін оқу қатесі: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "%s ішінде дестенің мета мәліметтері жоқ\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "%s адресінен кейбір файлдарды алу мүмкін емес\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -190,20 +205,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "\"%s\" шешу мүмкін емес, ол \"%s\" тәуелділігі болып тұр\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "файлдық жүйе ақпаратын алу мүмкін емес\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "%s үшін файлдық жүйе ақпаратын алу мүмкін емес: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "%s файлын ашу мүмкін емес: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "файлдық жүйе ақпаратын алу мүмкін емес\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "%s файлы үшін тіркеу нүктесін анықтау мүмкін емес\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr ""
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr ""
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "%s файлы үшін тіркеу нүктесін анықтау мүмкін емес\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -212,10 +239,6 @@ msgstr ""
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "%s бөлімі тек оқу үшін тіркелген\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
 
 #, c-format
 msgid "disk"
@@ -250,8 +273,8 @@ msgid "unexpected system error"
 msgstr "күтпеген қате"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "құқықтар жеткіліксіз"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -469,6 +492,10 @@ msgstr "мақсаттар тізімінен '%s' өшіру\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr " '%s' файлын өшіру мүмкін емес: %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "%s бумасын жасау мүмкін емес: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr ""
@@ -511,11 +538,16 @@ msgstr "дестелердің шешілмейтін ерегісі табыл�
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "мақсаттар тізімінен '%s' өшіріледі, өйткені ол '%s' дестесімен ерегіседі\n"
+msgstr ""
+"мақсаттар тізімінен '%s' өшіріледі, өйткені ол '%s' дестесімен ерегіседі\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "%s адресінен кейбір файлдарды алу мүмкін емес\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "кейбір файлдарды алу сәтсіз аяқталды"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "дискідегі бос орын жеткіліксіз"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -540,6 +572,10 @@ msgstr ""
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "%s уақытша бумасын өшіру мүмкін емес\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "%s файлын ашу мүмкін емес: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -576,3 +612,9 @@ msgstr "%s кэші жоқ болып тұр, құрылады...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "%s қазір %s ретінде орнату мүмкін емес: %s\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "құқықтар жеткіліксіз"

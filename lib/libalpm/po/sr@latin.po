@@ -1,23 +1,25 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Mladen Pejaković <pejakm@teol.net>, 2013.
 # Slobodan Terzić <githzerai06@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2013-01-31 22:24+0000\n"
 "Last-Translator: daimonion <pejakm@teol.net>\n"
-"Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/archlinux-pacman/language/sr@latin/)\n"
+"Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/"
+"archlinux-pacman/language/sr@latin/)\n"
+"Language: sr@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sr@latin\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
@@ -40,10 +42,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "ne mogu da raspakujem %s (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "ne mogu da preimenujem %s u %s (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "dozvole fascikle se razlikuju za %s\nsistem fajlova: %o paket: %o\n"
+msgstr ""
+"dozvole fascikle se razlikuju za %s\n"
+"sistem fajlova: %o paket: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -54,16 +62,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "raspakivanje: simbolička veza %s ne upućuje na fasciklu\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "ne mogu da preimenujem %s u %s (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "sačuvah %s kao %s\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "ne mogu da instaliram %s kao %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -101,6 +101,10 @@ msgstr "ne mogu da ažuriram unos u bazi %s - %s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "ne mogu da dodam unos „%s“ u keš\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "greška pri čitanju paketa %s: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "uklanjam neispravnu bazu: %s\n"
@@ -130,6 +134,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "nedoslednost baze „%s“: razlika u verziji paketa %s\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "ne mogu da napravim fasciklu %s: %s\n"
 
@@ -152,6 +160,14 @@ msgstr "greška pri čitanju paketa %s: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "nedostaju metapodaci paketa %s\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "neuspešno preuzimanje nekih fajlova sa %s\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -190,20 +206,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "ne mogu da razrešim „%s“, zavisnost za „%s“\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "ne mogu da dobavim podatke o sistemu fajlova\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "ne mogu da dobavim podatke o sistemu fajlova za %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "ne mogu da otvorim fajl %s: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "ne mogu da dobavim podatke o sistemu fajlova\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "ne mogu da odredim tačku montiranja za fajl %s\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Particija %s je prepuna: potrebno je %jd blokova, a slobodno je %jd\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "ne mogu da utvrdim tačke montiranja sistema fajlova\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "ne mogu da utvrdim korenu tačku montiranja %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -212,10 +240,6 @@ msgstr "ne mogu da utvrdim korenu tačku montiranja %s\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Particija %s je montirana samo za čitanje\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Particija %s je prepuna: potrebno je %jd blokova, a slobodno je %jd\n"
 
 #, c-format
 msgid "disk"
@@ -250,8 +274,8 @@ msgid "unexpected system error"
 msgstr "neočekivana sistemska greška"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "neodgovarajuće dozvole"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -469,6 +493,10 @@ msgstr "uklanjam %s sa spiska ciljeva\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "ne mogu da uklonim fajl „%s“: %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "ne mogu da napravim fasciklu %s: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "ne mogu da uklonim %s (%s)\n"
@@ -513,9 +541,13 @@ msgstr "otkriveni su nerazrešivi sukobi paketa\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "uklanjam „%s“ sa spiska ciljeva zbog sukoba sa „%s“\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "neuspešno preuzimanje nekih fajlova sa %s\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "neuspešno preuzimanje nekih fajlova"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "nema dovoljno slobodnog prostora na disku"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -540,6 +572,10 @@ msgstr "ne mogu da uklonim %s\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "ne mogu da uklonim privremenu fasciklu %s\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "ne mogu da otvorim fajl %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -576,3 +612,9 @@ msgstr "ne postoji keš za %s; pravim....\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "ne mogu da nađem ili napravim keš paketa, kao zamenu koristim %s\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "ne mogu da instaliram %s kao %s (%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "neodgovarajuće dozvole"

@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 #   <antoine@lubignon.info>, 2012.
 # Cedric Girard <girard.cedric@gmail.com>, 2012.
@@ -12,15 +12,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-05-20 11:26-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2012-10-01 19:59+0000\n"
 "Last-Translator: alub <antoine@lubignon.info>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/archlinux-pacman/language/fr/)\n"
+"Language-Team: French (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/fr/)\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "WARNING:"
@@ -35,17 +36,96 @@ msgstr "Nettoyage…"
 msgid "Entering %s environment..."
 msgstr "Entre dans l'environnement %s…"
 
-msgid "Unable to find source file %s."
-msgstr "Impossible de trouver le fichier source %s."
+msgid "Unknown download protocol: %s"
+msgstr ""
 
 msgid "Aborting..."
 msgstr "Abandon…"
 
-msgid "There is no agent set up to handle %s URLs. Check %s."
-msgstr "Il n'y a pas d'agent défini pour les URL %s. Vérifiez %s."
-
 msgid "The download program %s is not installed."
 msgstr "Le programme de téléchargement %s n'est pas installé."
+
+msgid "Found %s"
+msgstr "%s trouvé"
+
+msgid "%s was not found in the build directory and is not a URL."
+msgstr ""
+"%s n'a pas été trouvé dans le répertoire de travail et n'est pas une URL."
+
+msgid "Downloading %s..."
+msgstr "Téléchargement de %s…"
+
+msgid "Failure while downloading %s"
+msgstr "Erreur lors du téléchargement de %s"
+
+msgid "Extracting %s with %s"
+msgstr "Extraction de %s avec %s"
+
+msgid "Failed to extract %s"
+msgstr "L'extraction de %s a échoué"
+
+#, fuzzy
+msgid "Unrecognized reference: %s"
+msgstr "Le paquet contient une référence à %s"
+
+#, fuzzy
+msgid "Branching %s ..."
+msgstr "Génération du fichier %s…"
+
+#, fuzzy
+msgid "Failure while branching %s"
+msgstr "Erreur lors du téléchargement de %s"
+
+#, fuzzy
+msgid "%s is not a branch of %s"
+msgstr "« %s » n'est pas un paquet, ignore"
+
+#, fuzzy
+msgid "Pulling %s ..."
+msgstr "Ajoute %s…"
+
+#, fuzzy
+msgid "Failure while pulling %s"
+msgstr "Erreur lors du téléchargement de %s"
+
+msgid "Creating working copy of %s %s repo..."
+msgstr ""
+
+msgid "Failure while creating working copy of %s %s repo"
+msgstr ""
+
+#, fuzzy
+msgid "Cloning %s %s repo..."
+msgstr "Nettoyage…"
+
+#, fuzzy
+msgid "Failure while downloading %s %s repo"
+msgstr "Erreur lors du téléchargement de %s"
+
+#, fuzzy
+msgid "%s is not a clone of %s"
+msgstr "%s ne peut pas être vide."
+
+#, fuzzy
+msgid "Updating %s %s repo..."
+msgstr "Mise à jour de la base de données de confiance…"
+
+#, fuzzy
+msgid "Failure while updating %s %s repo"
+msgstr "Erreur lors du téléchargement de %s"
+
+#, fuzzy
+msgid "Retrieving sources..."
+msgstr "Récupération des sources…"
+
+msgid "Updated version: %s"
+msgstr ""
+
+msgid "%s is not writeable -- pkgver will not be updated"
+msgstr ""
+
+msgid "Unable to find source file %s."
+msgstr "Impossible de trouver le fichier source %s."
 
 msgid "'%s' returned a fatal error (%i): %s"
 msgstr "« %s » a rencontré une erreur fatale (%i) : %s"
@@ -56,39 +136,29 @@ msgstr "Installation des dépendances manquantes… "
 msgid "'%s' failed to install missing dependencies."
 msgstr "« %s » n'a pas pu installer les dépendances manquantes."
 
-msgid "Missing Dependencies:"
+#, fuzzy
+msgid "Missing dependencies:"
 msgstr "Dépendances manquantes :"
 
 msgid "Failed to remove installed dependencies."
 msgstr "La suppression des dépendances installées a échoué."
 
-msgid "Retrieving Sources..."
-msgstr "Récupération des sources…"
-
-msgid "Found %s"
-msgstr "%s trouvé"
-
-msgid "%s was not found in the build directory and is not a URL."
-msgstr "%s n'a pas été trouvé dans le répertoire de travail et n'est pas une URL."
-
-msgid "Downloading %s..."
-msgstr "Téléchargement de %s…"
-
-msgid "Failure while downloading %s"
-msgstr "Erreur lors du téléchargement de %s"
-
 msgid "Generating checksums for source files..."
 msgstr "Génération des sommes de contrôle des sources…"
 
-msgid ""
-"Cannot find the %s binary required for generating sourcefile checksums."
-msgstr "Le fichier binaire %s, nécessaire à la génération des sommes de contrôle des fichiers sources, n'a pas pu être trouvé."
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
+msgstr ""
+"Le fichier binaire %s, nécessaire à la génération des sommes de contrôle des "
+"fichiers sources, n'a pas pu être trouvé."
 
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "L'algorithme d'intégrité « %s » spécifié est invalide."
 
 msgid "Validating source files with %s..."
 msgstr "Validation des fichiers sources avec %s…"
+
+msgid "Skipped"
+msgstr ""
 
 msgid "NOT FOUND"
 msgstr "INTROUVABLE"
@@ -133,7 +203,9 @@ msgid "One or more PGP signatures could not be verified!"
 msgstr "Une ou plusieurs signatures PGP n'ont pas pu être vérifiées."
 
 msgid "Warnings have occurred while verifying the signatures."
-msgstr "Des messages destinés à attirer votre attention sont apparus lors de la vérification des signatures."
+msgstr ""
+"Des messages destinés à attirer votre attention sont apparus lors de la "
+"vérification des signatures."
 
 msgid "Please make sure you really trust them."
 msgstr "Veuillez vous assurer que vous leurs faites confiance."
@@ -147,17 +219,20 @@ msgstr "Ignore la vérification des sommes de contrôles des fichiers sources."
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Ignore la vérification des signatures PGP des fichiers sources."
 
-msgid "Extracting Sources..."
+#, fuzzy
+msgid "Extracting sources..."
 msgstr "Extraction des sources…"
-
-msgid "Extracting %s with %s"
-msgstr "Extraction de %s avec %s"
-
-msgid "Failed to extract %s"
-msgstr "L'extraction de %s a échoué"
 
 msgid "A failure occurred in %s()."
 msgstr "Une erreur s'est produite dans %s()."
+
+#, fuzzy
+msgid "Failed to change to directory %s"
+msgstr "L'extraction de %s a échoué"
+
+#, fuzzy
+msgid "Failed to source %s"
+msgstr "L'extraction de %s a échoué"
 
 msgid "Starting %s()..."
 msgstr "Lancement de %s()…"
@@ -171,17 +246,25 @@ msgstr "Suppression de la documentation…"
 msgid "Purging unwanted files..."
 msgstr "Suppression des fichiers indésirables…"
 
-msgid "Compressing man and info pages..."
-msgstr "Compression des pages de man/info…"
-
-msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Nettoyage des symboles inutiles dans les fichiers binaires et les bibliothèques…"
-
 msgid "Removing %s files..."
 msgstr "Suppression des fichiers %s…"
 
 msgid "Removing empty directories..."
 msgstr "Suppression des répertoires vides… "
+
+msgid "%s entry file not in package : %s"
+msgstr "Le fichier %s n'est pas dans le paquet %s"
+
+msgid "Package contains reference to %s"
+msgstr "Le paquet contient une référence à %s"
+
+msgid "Compressing man and info pages..."
+msgstr "Compression des pages de man/info…"
+
+msgid "Stripping unneeded symbols from binaries and libraries..."
+msgstr ""
+"Nettoyage des symboles inutiles dans les fichiers binaires et les "
+"bibliothèques…"
 
 msgid "Compressing binaries with %s..."
 msgstr "Compression des fichiers binaires grâce à %s…"
@@ -189,8 +272,14 @@ msgstr "Compression des fichiers binaires grâce à %s…"
 msgid "Could not compress binary : %s"
 msgstr "Impossibilité de compresser le fichier binaire %s"
 
-msgid "Generating %s file..."
-msgstr "Génération du fichier %s…"
+msgid "Library listed in %s is not required by any files: %s"
+msgstr ""
+
+msgid "Library listed in %s is not versioned: %s"
+msgstr ""
+
+msgid "Library listed in %s is not a shared object: %s"
+msgstr ""
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "La bibliothèque suivante, listée dans %s, est introuvable : %s"
@@ -201,20 +290,22 @@ msgstr "Veuillez ajouter une ligne license à votre %s !"
 msgid "Example for GPL'ed software: %s."
 msgstr "Exemple de logiciel sous GPL : %s."
 
-msgid "%s entry file not in package : %s"
-msgstr "Le fichier %s n'est pas dans le paquet %s"
-
-msgid "Package contains reference to %s"
-msgstr "Le paquet contient une référence à %s"
+msgid "Generating %s file..."
+msgstr "Génération du fichier %s…"
 
 msgid "Missing %s directory."
 msgstr "Le répertoire %s est manquant."
 
-msgid "Creating package..."
+#, fuzzy
+msgid "Creating package \"%s\"..."
 msgstr "Création du paquet… "
 
 msgid "Adding %s file..."
 msgstr "Ajout du fichier %s…"
+
+#, fuzzy
+msgid "Generating .MTREE file..."
+msgstr "Génération du fichier %s…"
 
 msgid "Compressing package..."
 msgstr "Compression du paquet… "
@@ -273,11 +364,9 @@ msgstr "%s ne peut pas commencer par un tiret."
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s contient des caractères invalides : « %s »"
 
-msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr "%s ne peut pas contenir de deux-points, de tirets ou d'espaces."
-
-msgid "%s is not allowed to contain hyphens or whitespace."
-msgstr "%s ne peut pas contenir de tirets ou d'espaces."
+#, fuzzy
+msgid "%s must be a decimal."
+msgstr "%s doit être un entier."
 
 msgid "%s must be an integer."
 msgstr "%s doit être un entier."
@@ -292,7 +381,9 @@ msgid "such as %s."
 msgstr "tel que %s."
 
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr "Le champ %s ne ne peut pas contenir d'opérateurs de comparaison (« < » ou « > »)"
+msgstr ""
+"Le champ %s ne ne peut pas contenir d'opérateurs de comparaison (« < » ou « "
+"> »)"
 
 msgid "%s entry should not contain leading slash : %s"
 msgstr "%s ne doit pas commencer par une barre oblique (« / ») : %s"
@@ -312,45 +403,82 @@ msgstr "Fonction %s manquante dans le sous-paquet « %s »"
 msgid "Requested package %s is not provided in %s"
 msgstr "Le paquet demandé (%s) n'est pas présent dans %s."
 
-msgid "Sudo can not be found. Will use su to acquire root privileges."
-msgstr "Impossible de trouver sudo. su sera utilisé pour les obtenir les privilèges root."
+msgid "%s is not allowed to contain colons, hyphens or whitespace."
+msgstr "%s ne peut pas contenir de deux-points, de tirets ou d'espaces."
+
+#, fuzzy
+msgid "Cannot find the %s binary required for dependency operations."
+msgstr ""
+"Le fichier binaire %s, requis pour toutes les opérations %s, n'a pas pu être "
+"trouvé."
+
+#, fuzzy
+msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
+msgstr ""
+"Impossible de trouver sudo. su sera utilisé pour les obtenir les privilèges "
+"root."
 
 msgid "Cannot find the %s binary required for building as non-root user."
-msgstr "Le fichier binaire %s, requis pour la création en tant que simple utilisateur, est introuvable."
+msgstr ""
+"Le fichier binaire %s, requis pour la création en tant que simple "
+"utilisateur, est introuvable."
 
 msgid "Cannot find the %s binary required for signing packages."
-msgstr "Le fichier binaire %s servant à la signature des paquets est introuvable."
+msgstr ""
+"Le fichier binaire %s servant à la signature des paquets est introuvable."
 
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr "Le fichier binaire %s servant à la vérification des fichiers sources est introuvable."
+msgstr ""
+"Le fichier binaire %s servant à la vérification des fichiers sources est "
+"introuvable."
 
-msgid ""
-"Cannot find the %s binary required for validating sourcefile checksums."
-msgstr "Le fichier binaire %s servant à la vérification des sommes de contrôles des fichiers sources est introuvable."
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+"Le fichier binaire %s servant à la vérification des sommes de contrôles des "
+"fichiers sources est introuvable."
 
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr "Le fichier binaire %s servant à la compression des paquets est introuvable."
+msgstr ""
+"Le fichier binaire %s servant à la compression des paquets est introuvable."
 
 msgid "Cannot find the %s binary required for distributed compilation."
-msgstr "%s n'a pas pu être trouvé. Celui-ci est requis pour effectuer la compilation distribuée."
+msgstr ""
+"%s n'a pas pu être trouvé. Celui-ci est requis pour effectuer la compilation "
+"distribuée."
 
 msgid "Cannot find the %s binary required for compiler cache usage."
-msgstr "%s n'a pas pu être trouvé. Celui-ci est requis pour l'utilisation du cache du compilateur."
+msgstr ""
+"%s n'a pas pu être trouvé. Celui-ci est requis pour l'utilisation du cache "
+"du compilateur."
 
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr "%s n'a pas été trouvé. Celui-ci est requis pour le nettoyage des fichiers objets."
+msgstr ""
+"%s n'a pas été trouvé. Celui-ci est requis pour le nettoyage des fichiers "
+"objets."
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
-msgstr "%s n'a pas pu être trouvé. Celui-ci est requis pour compresser les pages man et les pages info."
+msgstr ""
+"%s n'a pas pu être trouvé. Celui-ci est requis pour compresser les pages man "
+"et les pages info."
 
-msgid "Cannot find the %s binary required to determine latest %s revision."
-msgstr "Le fichier binaire %s, requis pour déterminer la dernière révision %s, n'a pas pu être trouvé."
+msgid "A package has already been built, installing existing package..."
+msgstr "Un paquet a déjà été compilé, installation du paquet existant…"
 
-msgid "Determining latest %s revision..."
-msgstr "Détermination de la dernière révision %s…"
+msgid "A package has already been built. (use %s to overwrite)"
+msgstr "Un paquet a déjà été compilé (utilisez %s pour l'écraser)."
 
-msgid "Version found: %s"
-msgstr "Version trouvée : %s"
+msgid ""
+"The package group has already been built, installing existing packages..."
+msgstr ""
+"Un groupe de paquets a déjà été compilé, installation des paquets existants…"
+
+msgid "The package group has already been built. (use %s to overwrite)"
+msgstr "Un groupe de paquets a déjà été compilé (utilisez %s pour l'écraser)."
+
+msgid "Part of the package group has already been built. (use %s to overwrite)"
+msgstr ""
+"Une partie du groupe de paquets a déjà été compilé (utilisez %s pour "
+"l'écraser)."
 
 msgid "Usage: %s [options]"
 msgstr "Utilisation : %s [options]"
@@ -368,13 +496,16 @@ msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Ne pas vérifier les dépendances"
 
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr "  -e, --noextract  Ne pas extraire les fichiers sources (utilisation dossier %s existant)"
+msgstr ""
+"  -e, --noextract  Ne pas extraire les fichiers sources (utilisation dossier "
+"%s existant)"
 
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Écraser le paquet existant"
 
 msgid "  -g, --geninteg   Generate integrity checks for source files"
-msgstr "  -g, --geninteg   Générer les sommes de contrôle d'intégrité des sources"
+msgstr ""
+"  -g, --geninteg   Générer les sommes de contrôle d'intégrité des sources"
 
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Afficher ce message et quitter"
@@ -389,17 +520,20 @@ msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Ne pas colorer les messages de sortie"
 
 msgid "  -o, --nobuild    Download and extract files only"
-msgstr "  -o, --nobuild    Effectuer seulement le téléchargement\n                   et l'extraction des fichiers"
+msgstr ""
+"  -o, --nobuild    Effectuer seulement le téléchargement\n"
+"                   et l'extraction des fichiers"
 
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <file>        Utiliser un script alternatif (au lieu de « %s »)"
 
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr "  -r, --rmdeps     Supprimer les dépendances installées après une\n                   compilation réussie"
+msgstr ""
+"  -r, --rmdeps     Supprimer les dépendances installées après une\n"
+"                   compilation réussie"
 
-msgid ""
-"  -R, --repackage  Repackage contents of the package without rebuilding"
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Recréer le paquet sans re-compiler"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
@@ -407,12 +541,20 @@ msgstr "  -s, --syncdeps   Installer les dépendances manquantes avec %s"
 
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr "  -S, --source     Génère une archive (tarball) source sans les sources téléchargées"
+msgstr ""
+"  -S, --source     Génère une archive (tarball) source sans les sources "
+"téléchargées"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr "  --allsource      Créer une archive source incluant les sources téléchargées"
+msgstr ""
+"  --allsource      Créer une archive source incluant les sources téléchargées"
+
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr ""
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Autoriser %s à s'exécuter en tant que root."
@@ -421,16 +563,19 @@ msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Exécute la fonction %s dans %s"
 
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr "  --config <file>  Utilise un fichier de configuration alternatif (au lieu de « %s »)"
+msgstr ""
+"  --config <file>  Utilise un fichier de configuration alternatif (au lieu "
+"de « %s »)"
+
+#, fuzzy
+msgid "  --holdver        Do not update VCS sources"
+msgstr "  --nocheck        Ne pas lancer la fonction %s dans %s"
 
 msgid ""
-"  --holdver        Prevent automatic version bumping for development %ss"
-msgstr "  --holdver        Ne pas changer automatiquement la version pour les %ss de développement"
-
-msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the "
-"default"
-msgstr "  --key <key>      Spécifier une clé à utiliser avec %s pour signer les paquets à la place de celle par défaut."
+"  --key <key>      Specify a key to use for %s signing instead of the default"
+msgstr ""
+"  --key <key>      Spécifier une clé à utiliser avec %s pour signer les "
+"paquets à la place de celle par défaut."
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Ne pas lancer la fonction %s dans %s"
@@ -439,41 +584,60 @@ msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Ne pas créer de signature pour le paquet"
 
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr "  --pkg <list>     Compile seulement les paquets listés pour un paquet splitté"
+msgstr ""
+"  --pkg <list>     Compile seulement les paquets listés pour un paquet "
+"splitté"
 
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Signer le paquet résultant avec %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr "  --skipchecksums  Ne pas générer les sommes de contrôle pour les fichiers sources"
+msgstr ""
+"  --skipchecksums  Ne pas générer les sommes de contrôle pour les fichiers "
+"sources"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Ne rien vérifier pour les fichiers sources"
 
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr "  --skippgpcheck   Ne pas vérifier les fichiers sources avec des signatures PGP"
+msgstr ""
+"  --skippgpcheck   Ne pas vérifier les fichiers sources avec des signatures "
+"PGP"
 
 msgid "These options can be passed to %s:"
 msgstr "Ces options peuvent être passées à %s :"
+
+msgid "  --asdeps         Install packages as non-explicitly installed"
+msgstr ""
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Ne demander aucune confirmation"
 
+msgid ""
+"  --needed         Do not reinstall the targets that are already up to date"
+msgstr ""
+
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr "  --noprogressbar  Ne pas afficher la barre de progression pendant le téléchargement"
+msgstr ""
+"  --noprogressbar  Ne pas afficher la barre de progression pendant le "
+"téléchargement"
 
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Si %s n'est pas spécifié, %s cherchera « %s »"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
-"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
-"law.\\n"
-msgstr "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nCeci est un logiciel libre ; voir les sources pour les conditions sur la copie.\\nIl n'y a AUCUNE GARANTIE, dans les limites permises par la loi.\\n"
+"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nCeci est "
+"un logiciel libre ; voir les sources pour les conditions sur la copie.\\nIl "
+"n'y a AUCUNE GARANTIE, dans les limites permises par la loi.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "Signal %s reçu. Abandon…"
@@ -488,36 +652,55 @@ msgid "%s not found."
 msgstr "%s est introuvable."
 
 msgid "You do not have write permission to create packages in %s."
-msgstr "Vous n'avez pas les permissions nécessaires (accès en écriture) pour créer les paquets dans %s."
+msgstr ""
+"Vous n'avez pas les permissions nécessaires (accès en écriture) pour créer "
+"les paquets dans %s."
 
 msgid "You do not have write permission to store packages in %s."
-msgstr "Vous n'avez pas les permissions nécessaires (accès en écriture) pour enregistrer les paquets dans %s."
+msgstr ""
+"Vous n'avez pas les permissions nécessaires (accès en écriture) pour "
+"enregistrer les paquets dans %s."
 
 msgid "You do not have write permission to store downloads in %s."
-msgstr "Vous n'avez pas les permissions nécessaires (accès en écriture) pour enregistrer les téléchargements dans %s."
+msgstr ""
+"Vous n'avez pas les permissions nécessaires (accès en écriture) pour "
+"enregistrer les téléchargements dans %s."
 
 msgid "You do not have write permission to store source tarballs in %s."
-msgstr "Vous n'avez pas l'autorisation en écriture pour stocker les archives sources dans %s."
+msgstr ""
+"Vous n'avez pas l'autorisation en écriture pour stocker les archives sources "
+"dans %s."
 
-msgid "\\0%s and %s cannot both be specified"
-msgstr "\\0%s et %s sont incompatibles"
+#, fuzzy
+msgid "You do not have write permission to store logs in %s."
+msgstr ""
+"Vous n'avez pas les permissions nécessaires (accès en écriture) pour "
+"enregistrer les téléchargements dans %s."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
 "damage to your system. If you wish to run as root, please\\nuse the %s "
 "option."
-msgstr "Lancer %s en tant que root est une MAUVAISE idée et pourrait\\ncauser des dommages catastrophiques et permanents à votre système.\\nSi vous souhaitez tout de même le faire, utilisez l'option %s."
+msgstr ""
+"Lancer %s en tant que root est une MAUVAISE idée et pourrait\\ncauser des "
+"dommages catastrophiques et permanents à votre système.\\nSi vous souhaitez "
+"tout de même le faire, utilisez l'option %s."
 
 msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
-msgstr "L'option %s est destinée à root uniquement. Veuillez\\n lancer %s sans l'option %s."
+"The %s option is meant for the root user only. Please\\nrerun %s without the "
+"%s flag."
+msgstr ""
+"L'option %s est destinée à root uniquement. Veuillez\\n lancer %s sans "
+"l'option %s."
 
 msgid ""
 "Running %s as an unprivileged user will result in non-root\\nownership of "
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
-msgstr "Lancer %s en tant que simple utilisateur créera des paquets\\n dont le propriétaire ne sera pas root. Veuillez essayer d'utiliser l'environnement\\n%s en mettant %s dans la liste %s au sein de %s."
+msgstr ""
+"Lancer %s en tant que simple utilisateur créera des paquets\\n dont le "
+"propriétaire ne sera pas root. Veuillez essayer d'utiliser l'environnement\\n"
+"%s en mettant %s dans la liste %s au sein de %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Ne pas utiliser l'option %s. Celle-ci est réservée pour %s."
@@ -534,23 +717,6 @@ msgstr "La clef %s n'existe pas dans votre porte-clefs."
 msgid "There is no key in your keyring."
 msgstr "Cette clef n'est pas dans votre porte-clefs."
 
-msgid "A package has already been built, installing existing package..."
-msgstr "Un paquet a déjà été compilé, installation du paquet existant…"
-
-msgid "A package has already been built. (use %s to overwrite)"
-msgstr "Un paquet a déjà été compilé (utilisez %s pour l'écraser)."
-
-msgid ""
-"The package group has already been built, installing existing packages..."
-msgstr "Un groupe de paquets a déjà été compilé, installation des paquets existants…"
-
-msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "Un groupe de paquets a déjà été compilé (utilisez %s pour l'écraser)."
-
-msgid ""
-"Part of the package group has already been built. (use %s to overwrite)"
-msgstr "Une partie du groupe de paquets a déjà été compilé (utilisez %s pour l'écraser)."
-
 msgid "Leaving %s environment."
 msgstr "Quitte l'environnement %s."
 
@@ -562,6 +728,10 @@ msgstr "Les permissions des fichiers peuvent ne pas être préservées."
 
 msgid "Making package: %s"
 msgstr "Création du paquet %s"
+
+#, fuzzy
+msgid "Using a %s without a %s function is deprecated."
+msgstr "Rempaqueter sans l'utilisation de la fonction %s est obsolète."
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Un paquet source a déjà été compilé (utilisez %s pour l'écraser)."
@@ -581,20 +751,9 @@ msgstr "Vérification des dépendances pour la compilation…"
 msgid "Could not resolve all dependencies."
 msgstr "Échec de résolution des dépendances."
 
-msgid "%s was not found in %s; skipping dependency checks."
-msgstr "%s n'a pas pu être trouvé dans %s : la vérification des dépendances est ignorée."
-
-msgid "Skipping source retrieval        -- using existing %s tree"
-msgstr "Ignore la récupération des sources        -- utilisation de l'arbre %s existant"
-
-msgid "Skipping source integrity checks -- using existing %s tree"
-msgstr "Ignore la vérification de l'intégrité des sources -- utilisation de l'arbre %s existant"
-
-msgid "Skipping source extraction       -- using existing %s tree"
-msgstr "Ignore l'extraction des sources       -- utilisation de l'arbre %s existant"
-
-msgid "The source directory is empty, there is nothing to build!"
-msgstr "Le répertoire source est vide, il n'y a rien à compiler !"
+#, fuzzy
+msgid "Using existing %s tree"
+msgstr "Suppression du répertoire %s existant…"
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "Le répertoire du paquet est vide, il n'y a rien à rempaqueter !"
@@ -608,14 +767,19 @@ msgstr "Suppression du répertoire %s existant…"
 msgid "Finished making: %s"
 msgstr "Création finie : %s"
 
-msgid "Usage: %s [pacman_db_root]"
+#, fuzzy
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
 msgstr "Utilisation : %s [pacman_db_root]"
 
+#, fuzzy
 msgid ""
-"Copyright (c) 2010-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>.\\nCeci est un logiciel libre ; voir les sources pour les conditions sur la copie.\\nIl n'y a AUCUNE GARANTIE, dans les limites permises par la loi.\\n"
+"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCeci est un logiciel libre ; voir les sources pour les conditions sur la "
+"copie.\\nIl n'y a AUCUNE GARANTIE, dans les limites permises par la loi.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s n'existe pas ou n'est pas un dossier."
@@ -624,93 +788,160 @@ msgid "%s is not a pacman database directory."
 msgstr "%s n'est pas un répertoire de dépôt pacman."
 
 msgid "You must have correct permissions to upgrade the database."
-msgstr "Vous devez avoir les permissions suffisantes pour mettre à jour la base de données."
+msgstr ""
+"Vous devez avoir les permissions suffisantes pour mettre à jour la base de "
+"données."
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr "Le fichier de verrou de pacman est présent. Ne peut pas être exécuté pendant que pacman tourne."
+msgstr ""
+"Le fichier de verrou de pacman est présent. Ne peut pas être exécuté pendant "
+"que pacman tourne."
 
 msgid "Pre-3.5 database format detected - upgrading..."
-msgstr "Le format de la base de données est antérieur à celui de la version 3.5 ; mise à jour…"
+msgstr ""
+"Le format de la base de données est antérieur à celui de la version 3.5 ; "
+"mise à jour…"
 
 msgid "Done."
 msgstr "Effectué(e)."
 
+#, fuzzy
+msgid "Usage: %s [options] operation [targets]"
+msgstr "Utilisation : %s [options]"
+
 msgid "Manage pacman's list of trusted keys"
 msgstr "Gérer la liste des clefs de confiance de pacman"
 
-msgid "  -a, --add [file(s)]       Add the specified keys (empty for stdin)"
-msgstr "  -a, --add [file(s)]       Ajoute les clefs spécifiées dans le(s) fichier(s) « file(s) » (vide pour utiliser l'entrée standard (stdin))"
+#, fuzzy
+msgid "Operations:"
+msgstr "Options :"
 
-msgid "  -d, --delete <keyid(s)>   Remove the specified keyids"
-msgstr "  -d, --delete <keyid(s)>   Suppression des identités des clefs spécifiées"
+#, fuzzy
+msgid "  -a, --add                 Add the specified keys (empty for stdin)"
+msgstr ""
+"  -a, --add [file(s)]       Ajoute les clefs spécifiées dans le(s) "
+"fichier(s) « file(s) » (vide pour utiliser l'entrée standard (stdin))"
 
-msgid "  -e, --export [keyid(s)]   Export the specified or all keyids"
-msgstr "  -e, --export [keyid(s)]   Exporte les identités des clefs spécifiées ou toutes les identités."
+#, fuzzy
+msgid "  -d, --delete              Remove the specified keyids"
+msgstr ""
+"  -d, --delete <keyid(s)>   Suppression des identités des clefs spécifiées"
+
+#, fuzzy
+msgid "  -e, --export              Export the specified or all keyids"
+msgstr ""
+"  -e, --export [keyid(s)]   Exporte les identités des clefs spécifiées ou "
+"toutes les identités."
+
+#, fuzzy
+msgid ""
+"  -f, --finger              List fingerprint for specified or all keyids"
+msgstr ""
+"  -f, --finger [keyid(s)]   Liste les empreintes des identités des clefs "
+"spécifiés ou de toutes les identités"
+
+#, fuzzy
+msgid "  -l, --list-keys           List the specified or all keys"
+msgstr ""
+"  -l, --list-keys [keyid(s)] Liste de toutes les clefs ou seulement de "
+"celles spécifiées"
+
+#, fuzzy
+msgid "  -r, --recv-keys           Fetch the specified keyids"
+msgstr "  -r, --recv-keys <keyid(s)> Récupère les clefs spécifiées"
+
+msgid "  -u, --updatedb            Update the trustdb of pacman"
+msgstr ""
+"  -u, --updatedb            Mise à jour de la base de données de onfiance de "
+"pacman"
+
+#, fuzzy
+msgid ""
+"  -v, --verify              Verify the file(s) specified by the signature(s)"
+msgstr ""
+"  -v, --verify <signature>  Vérifie le fichier spécifié par la signature"
+
+#, fuzzy
+msgid ""
+"  --edit-key                Present a menu for key management task on keyids"
+msgstr ""
+"  --edit-key <keyid(s)>     Affiche un menu pour la gestion des tâches à "
+"propos des identités des clefs."
+
+#, fuzzy
+msgid "  --import                  Imports pubring.gpg from dir(s)"
+msgstr ""
+"  --import <dir(s)>         Importe le fichier pubring.gpg des répertoires « "
+"dir(s) »"
+
+#, fuzzy
+msgid ""
+"  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
+"dir(s)"
+msgstr ""
+"  --import-trustdb <dir(s)> Importe les valeurs des propriétaires de "
+"confiance à partir de trustdb.gpg dans le(s) dossier(s) dir(s)"
+
+msgid "  --init                    Ensure the keyring is properly initialized"
+msgstr ""
+"  --init                    S'assure que le porte-clefs est bien initialisé"
+
+#, fuzzy
+msgid "  --list-sigs               List keys and their signatures"
+msgstr "  --list-sigs [keyid(s)]    Liste des clefs et de leurs signatures"
+
+#, fuzzy
+msgid "  --lsign-key               Locally sign the specified keyid"
+msgstr ""
+"  --lsign-key <keyid>       Signer les identités des clefs spécifiées "
+"localement"
+
+#, fuzzy
+msgid ""
+"  --populate                Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+"  --populate [keyring(s)]   Recharge les clefs par défaut du porte-clefs "
+"(donné)\\n                            dans '%s'"
+
+#, fuzzy
+msgid ""
+"  --refresh-keys            Update specified or all keys from a keyserver"
+msgstr ""
+"  --refresh-keys [keyid(s)] Mise à jours de toutes les identités des clefs "
+"(ou uniquement de celles spécifiées) depuis un serveur de clefs"
 
 msgid ""
-"  -f, --finger [keyid(s)]   List fingerprint for specified or all keyids"
-msgstr "  -f, --finger [keyid(s)]   Liste les empreintes des identités des clefs spécifiés ou de toutes les identités"
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
+msgstr ""
+"  --config <file>           Utilisation d'une fichier de configuration "
+"alternatif (à la place de\\n                            « %s »)"
+
+msgid ""
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
+msgstr ""
+"  --gpgdir <dir>            Indiquer un répertoire alternatif pour GnuPG (à "
+"la place de\\n                            « %s »)"
+
+#, fuzzy
+msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
+msgstr ""
+"  --keyserver               Spécifier un serveur de clefs à utiliser en cas "
+"de nécessité"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Afficher ce message d'aide et quitte"
 
-msgid "  -l, --list-keys [keyid(s)] List the specified or all keys"
-msgstr "  -l, --list-keys [keyid(s)] Liste de toutes les clefs ou seulement de celles spécifiées"
-
-msgid "  -r, --recv-keys <keyid(s)> Fetch the specified keyids"
-msgstr "  -r, --recv-keys <keyid(s)> Récupère les clefs spécifiées"
-
-msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr "  -u, --updatedb            Mise à jour de la base de données de onfiance de pacman"
-
-msgid "  -v, --verify <signature>  Verify the file specified by the signature"
-msgstr "  -v, --verify <signature>  Vérifie le fichier spécifié par la signature"
-
 msgid "  -V, --version             Show program version"
 msgstr "  -V, --version             Voir la version du programme"
 
-msgid ""
-"  --config <file>           Use an alternate config file (instead of\\n"
-"                            '%s')"
-msgstr "  --config <file>           Utilisation d'une fichier de configuration alternatif (à la place de\\n                            « %s »)"
+msgid "Failed to lookup key by name:"
+msgstr ""
 
-msgid ""
-"  --edit-key <keyid(s)>     Present a menu for key management task on keyids"
-msgstr "  --edit-key <keyid(s)>     Affiche un menu pour la gestion des tâches à propos des identités des clefs."
-
-msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
-"                            of '%s')"
-msgstr "  --gpgdir <dir>            Indiquer un répertoire alternatif pour GnuPG (à la place de\\n                            « %s »)"
-
-msgid "  --import <dir(s)>         Imports pubring.gpg from dir(s)"
-msgstr "  --import <dir(s)>         Importe le fichier pubring.gpg des répertoires « dir(s) »"
-
-msgid ""
-"  --import-trustdb <dir(s)> Imports ownertrust values from trustdb.gpg in "
-"dir(s)"
-msgstr "  --import-trustdb <dir(s)> Importe les valeurs des propriétaires de confiance à partir de trustdb.gpg dans le(s) dossier(s) dir(s)"
-
-msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr "  --init                    S'assure que le porte-clefs est bien initialisé"
-
-msgid "  --keyserver               Specify a keyserver to use if necessary"
-msgstr "  --keyserver               Spécifier un serveur de clefs à utiliser en cas de nécessité"
-
-msgid "  --list-sigs [keyid(s)]    List keys and their signatures"
-msgstr "  --list-sigs [keyid(s)]    Liste des clefs et de leurs signatures"
-
-msgid "  --lsign-key <keyid>       Locally sign the specified keyid"
-msgstr "  --lsign-key <keyid>       Signer les identités des clefs spécifiées localement"
-
-msgid ""
-"  --populate [keyring(s)]   Reload the default keys from the (given) "
-"keyrings\\n                            in '%s'"
-msgstr "  --populate [keyring(s)]   Recharge les clefs par défaut du porte-clefs (donné)\\n                            dans '%s'"
-
-msgid ""
-"  --refresh-keys [keyid(s)] Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys [keyid(s)] Mise à jours de toutes les identités des clefs (ou uniquement de celles spécifiées) depuis un serveur de clefs"
+msgid "Key name is ambiguous:"
+msgstr ""
 
 msgid "The key identified by %s could not be found locally."
 msgstr "La clef identifiée par %s n'a pas pu être trouvée localement."
@@ -742,9 +973,6 @@ msgstr "Ajout des clefs depuis %s.gpg…"
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Signature locale des clefs de confiance dans le porte-clefs…"
 
-msgid "Locally signing key %s..."
-msgstr "Signature locale de la clef %s…"
-
 msgid "Importing owner trust values..."
 msgstr "Importation des valeurs des propriétaires de confiance…"
 
@@ -755,10 +983,13 @@ msgid "Disabling key %s..."
 msgstr "Désactivation de la clef %s…"
 
 msgid "A specified keyfile could not be added to the keyring."
-msgstr "L'un des fichiers de clefs spécifié n'a pas pu être ajouté au porte-clefs GPG."
+msgstr ""
+"L'un des fichiers de clefs spécifié n'a pas pu être ajouté au porte-clefs "
+"GPG."
 
 msgid "A specified key could not be removed from the keyring."
-msgstr "L'une des clefs spécifiée n'a pas pu être supprimée du porte-clefs GPG."
+msgstr ""
+"L'une des clefs spécifiée n'a pas pu être supprimée du porte-clefs GPG."
 
 msgid "The key identified by %s could not be edited."
 msgstr "La clef identifiée par %s n'a pas pu être éditée."
@@ -781,14 +1012,21 @@ msgstr "Une des clefs spécifiées n'a pas pu être listée."
 msgid "A specified signature could not be listed."
 msgstr "Une des signatures spécifiées n'a pas pu être listée."
 
-msgid "A specified key could not be locally signed."
+msgid "Locally signing key %s..."
+msgstr "Signature locale de la clef %s…"
+
+#, fuzzy
+msgid "%s could not be locally signed."
 msgstr "Une des clefs spécifiées n'a pas pu être localement signée."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr "La clef distante n'a pas correctement pu être atteinte depuis le serveur de clefs."
+msgstr ""
+"La clef distante n'a pas correctement pu être atteinte depuis le serveur de "
+"clefs."
 
 msgid "A specified local key could not be updated from a keyserver."
-msgstr "Une clef locale spécifiée n'a pas pu être mise à jour depuis le serveur."
+msgstr ""
+"Une clef locale spécifiée n'a pas pu être mise à jour depuis le serveur."
 
 msgid "The signature identified by %s could not be verified."
 msgstr "La signature identifié par « %s » n'a pas pu être vérifiée."
@@ -800,10 +1038,14 @@ msgid "Trust database could not be updated."
 msgstr "La base de données de confiance n'a pas pu être mise à jour."
 
 msgid "Cannot find the %s binary required for all %s operations."
-msgstr "Le fichier binaire %s, requis pour toutes les opérations %s, n'a pas pu être trouvé."
+msgstr ""
+"Le fichier binaire %s, requis pour toutes les opérations %s, n'a pas pu être "
+"trouvé."
 
 msgid "%s needs to be run as root for this operation."
-msgstr "%s doit être executé avec les droits de l'utilisateur root pour effectuer cette opération."
+msgstr ""
+"%s doit être executé avec les droits de l'utilisateur root pour effectuer "
+"cette opération."
 
 msgid "%s configuration file '%s' not found."
 msgstr "Le fichier de configuration de %s « %s » n'a pas été trouvé."
@@ -817,28 +1059,46 @@ msgstr "Tâches multiples spécifiées."
 msgid "Please run %s with each operation separately."
 msgstr "Veuillez lancer %s pour chaque opération séparément."
 
+msgid "No targets specified"
+msgstr ""
+
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
-msgstr "pacman-optimize est un petit hack qui devrait améliorer les performances\\nde pacman lors de la lecture/écriture de sa base de données.\\n\\n"
+msgstr ""
+"pacman-optimize est un petit hack qui devrait améliorer les performances"
+"\\nde pacman lors de la lecture/écriture de sa base de données.\\n\\n"
 
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\nthere is a"
-" tendency for these files to become fragmented over time.\\nThis script "
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
 "attempts to relocate these small files into one\\ncontinuous location on "
 "your hard drive. The result is that the hard\\ndrive should be able to read "
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
-msgstr "Pacman utilise beaucoup de petits fichiers pour garder des traces des paquets,\\nces fichiers ont ainsi tendance à se fragmenter avec le temps. \\nCe script tente de replacer tous ces fichiers ensemble sur votre disque dur.\\nLe résultat est que le disque devrait être capable de les lire plus rapidement\\n,puisque la tête de lecture n'aura plus besoin de bouger autant.\\n"
+msgstr ""
+"Pacman utilise beaucoup de petits fichiers pour garder des traces des "
+"paquets,\\nces fichiers ont ainsi tendance à se fragmenter avec le temps. "
+"\\nCe script tente de replacer tous ces fichiers ensemble sur votre disque "
+"dur.\\nLe résultat est que le disque devrait être capable de les lire plus "
+"rapidement\\n,puisque la tête de lecture n'aura plus besoin de bouger autant."
+"\\n"
 
-msgid "diff tool was not found, please install diffutils."
-msgstr "L'outil diff est introuvable, veuillez installer diffutils."
+#, fuzzy
+msgid "Cannot find the %s binary required for verifying integrity."
+msgstr ""
+"Le fichier binaire %s servant à la vérification des fichiers sources est "
+"introuvable."
 
 msgid "You must have correct permissions to optimize the database."
-msgstr "Vous devez avoir les permissions suffisantes pour optimiser la base de données."
+msgstr ""
+"Vous devez avoir les permissions suffisantes pour optimiser la base de "
+"données."
 
 msgid "Can not create temp directory for database building."
-msgstr "Le répertoire temporaire nécessaire à la construction de la base de données n'a pas pu être créé."
+msgstr ""
+"Le répertoire temporaire nécessaire à la construction de la base de données "
+"n'a pas pu être créé."
 
 msgid "MD5sum'ing the old database..."
 msgstr "Calcul de la somme de contrôle (MD5) de l'ancienne base de données…"
@@ -862,10 +1122,15 @@ msgid "Checking integrity..."
 msgstr "Analyse de l'intégrité… "
 
 msgid "Integrity check FAILED, reverting to old database."
-msgstr "La vérification de l'intégrité a échoué, restauration de l'ancienne base de données."
+msgstr ""
+"La vérification de l'intégrité a échoué, restauration de l'ancienne base de "
+"données."
 
 msgid "Rotating database into place..."
 msgstr "Mise en place de la base de données…"
+
+msgid "New database substitution failed. Check for %s, %s, and %s directories."
+msgstr ""
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Fini. La base de données de pacman a été optimisée."
@@ -876,7 +1141,9 @@ msgstr "Utilisation : pkgdelta [options] <paquet1> <paquet2>\\n"
 msgid ""
 "\tpkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n\\n"
-msgstr "\tpkgdelta va créer un fichier de delta entre les deux paquets.\\nCe fichier delta pourra être ajouté au dépôt avec repo-add.\\n\\n"
+msgstr ""
+"\tpkgdelta va créer un fichier de delta entre les deux paquets.\\nCe fichier "
+"delta pourra être ajouté au dépôt avec repo-add.\\n\\n"
 
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "Exemple :  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -887,33 +1154,45 @@ msgstr "Options :\\n"
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimise la sortie\\n"
 
-msgid ""
-"  --min-pkg-size    minimum package size before deltas are generated "
-"(bytes)\\n"
-msgstr "  --min-pkg-size    taille minimum des paquets pour lesquels les deltas seront générés (en octets).\\n"
+msgid "  --nocolor         remove color from output\\n"
+msgstr ""
 
+#, fuzzy
+msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
+msgstr ""
+"  --min-pkg-size    taille minimum des paquets pour lesquels les deltas "
+"seront générés (en octets).\\n"
+
+#, fuzzy
 msgid ""
-"  --max-delta-size  percent of package size above which deltas will be "
+"  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
-msgstr "  --max-delta-size  pourcentage de la taille des paquets au delà duquel les deltas ne seront pas pris en compte.\\n"
+msgstr ""
+"  --max-delta-size  pourcentage de la taille des paquets au delà duquel les "
+"deltas ne seront pas pris en compte.\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
-msgstr "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free software; see the source for copying conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
+"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
+"the extent permitted by law.\\n"
 
 msgid "Invalid package file '%s'."
 msgstr "Le paquet « %s » est invalide."
 
 msgid "Skipping delta creation for small package: %s - size %s"
-msgstr "Omission de la création de delta pour un petit paquet : %s - taille : %s"
+msgstr ""
+"Omission de la création de delta pour un petit paquet : %s - taille : %s"
 
 msgid "The package names don't match : '%s' and '%s'"
 msgstr "Les noms des paquets ne sont pas cohérents : « %s » et « %s »"
 
 msgid "The package architectures don't match : '%s' and '%s'"
-msgstr "Les architectures des paquets ne sont pas cohérentes : « %s » et « %s »"
+msgstr ""
+"Les architectures des paquets ne sont pas cohérentes : « %s » et « %s »"
 
 msgid "Both packages have the same version : '%s'"
 msgstr "Les deux paquets ont la même version : « %s »"
@@ -925,7 +1204,8 @@ msgid "Delta could not be created."
 msgstr "Impossible de créer le delta."
 
 msgid "Delta package larger than maximum size. Removing."
-msgstr "Le paquet delta est plus gros que la taille maximum autorisée. Suppression."
+msgstr ""
+"Le paquet delta est plus gros que la taille maximum autorisée. Suppression."
 
 msgid "Generated delta : '%s'"
 msgstr "Delta généré : « %s »"
@@ -934,42 +1214,69 @@ msgid "File '%s' does not exist"
 msgstr "Fichier « %s » introuvable"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
-msgstr "Le programme xdelta3 est introuvable ! Vérifiez qu'il est bien installé."
+msgstr ""
+"Le programme xdelta3 est introuvable ! Vérifiez qu'il est bien installé."
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "Utilisation : repo-add [options] <chemin de la base de donnée> <paquet|delta> …\\n"
+msgstr ""
+"Utilisation : repo-add [options] <chemin de la base de donnée> <paquet|"
+"delta> …\\n"
 
 msgid ""
-"repo-add will update a package database by reading a package "
-"file.\\nMultiple packages to add can be specified on the command line.\\n"
-msgstr "« repo-add » va mettre à jour un dépot à partir d'un paquet.\\nIl est possible de spécifier plusieurs paquets à ajouter.\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n"
+msgstr ""
+"« repo-add » va mettre à jour un dépot à partir d'un paquet.\\nIl est "
+"possible de spécifier plusieurs paquets à ajouter.\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
-msgstr "  -d, --delta       génère et ajoute un delta pour la mise à jour des paquets\\n"
-
-msgid "  -f, --files       update database's file list\\n"
-msgstr "  -f, --files       mise à jour de la liste des fichiers de la base de données\\n"
-
-msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
-msgstr "Utilisation : repo-remove [options] <chemin de la base de données> <nom du paquet|delta> …\\n"
+msgstr ""
+"  -d, --delta       génère et ajoute un delta pour la mise à jour des paquets"
+"\\n"
 
 msgid ""
-"repo-remove will update a package database by removing the package "
-"name\\nspecified on the command line from the given repo database. "
-"Multiple\\npackages to remove can be specified on the command line.\\n"
-msgstr "« repo-remove » va mettre un jour un dépôt en supprimant le paquet\\nspécifié en ligne de commande pour un dépôt donné. Plusieurs\\npaquets à supprimer peuvent être spécifiés.\\n\\n"
+"  -n, --new         only add packages that are not already in the database\\n"
+msgstr ""
+
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"  -f, --files       mise à jour de la liste des fichiers de la base de "
+"données\\n"
+
+msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
+msgstr ""
+"Utilisation : repo-remove [options] <chemin de la base de données> <nom du "
+"paquet|delta> …\\n"
+
+msgid ""
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n"
+msgstr ""
+"« repo-remove » va mettre un jour un dépôt en supprimant le paquet"
+"\\nspécifié en ligne de commande pour un dépôt donné. Plusieurs\\npaquets à "
+"supprimer peuvent être spécifiés.\\n\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Veuillez partir, il n'y a rien à voir ici.\\n"
 
+msgid "  --nocolor         turn off color in output\\n"
+msgstr ""
+
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr "  -s, --sign        signer la base de données avec GnuPG après la mise à jour\\n"
+msgstr ""
+"  -s, --sign        signer la base de données avec GnuPG après la mise à jour"
+"\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
-msgstr "  -k, --key <clef>  utilise la clef spécifiée pour signer la base de donnée\\n"
+msgstr ""
+"  -k, --key <clef>  utilise la clef spécifiée pour signer la base de donnée"
+"\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr "  -v, --verify      vérifie la signature de la base de données avant la mise à jour\\n"
+msgstr ""
+"  -v, --verify      vérifie la signature de la base de données avant la mise "
+"à jour\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
@@ -977,16 +1284,20 @@ msgstr "\\nVoir %s(8) pour plus de détails sur les options disponibles.\\n"
 
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr "Exemple:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr ""
+"Exemple:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exemple:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 msgid ""
-"Copyright (c) 2006-2012 Pacman Development Team <pacman-"
-"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n\\nCeci est un logiciel libre ; voir les sources pour les conditions sur la copie.\\nIl n'y a AUCUNE GARANTIE, dans les limites permises par la loi.\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nCeci est un logiciel libre ; voir les sources pour les conditions sur la "
+"copie.\\nIl n'y a AUCUNE GARANTIE, dans les limites permises par la loi.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Pas d'entrée pour le paquet « %s »."
@@ -997,11 +1308,19 @@ msgstr "Ajout de l'entrée « deltas » : %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Suppression de l'entrée existante « %s »…"
 
+#, fuzzy
+msgid "Removing empty deltas file ..."
+msgstr "Suppression des répertoires vides… "
+
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "GPG n'a pas pu être trouvé. Est-il installé ?"
 
 msgid "Signing database..."
 msgstr "Signature de la base de données…"
+
+#, fuzzy
+msgid "Created signature file '%s'"
+msgstr "Le fichier %s des signatures a été créé."
 
 msgid "Failed to sign package database."
 msgstr "Échec lors de la signature de la base de données des paquets."
@@ -1010,7 +1329,8 @@ msgid "Verifying database signature..."
 msgstr "Vérification de la signature de la base de données…"
 
 msgid "No existing signature found, skipping verification."
-msgstr "Aucune signature existante n'a été trouvée : la véréfication est ignorée."
+msgstr ""
+"Aucune signature existante n'a été trouvée : la véréfication est ignorée."
 
 msgid "Database signature file verified."
 msgstr "La signature de la base de données a été vérifiée."
@@ -1085,7 +1405,9 @@ msgid "Invalid command name '%s' specified."
 msgstr "La commande « %s » spécifiée est invalide."
 
 msgid "Cannot create temp directory for database building."
-msgstr "Ne peut pas créer le répertoire temporaire pour construire la base de données."
+msgstr ""
+"Ne peut pas créer le répertoire temporaire pour construire la base de "
+"données."
 
 msgid "Creating updated database file '%s'"
 msgstr "Création du nouveau fichier de dépôt « %s »"
@@ -1096,8 +1418,73 @@ msgstr "Plus de paquet, création d'un dépôt vide."
 msgid "No packages modified, nothing to do."
 msgstr "Aucun paquet modifié, il n'y a rien à faire."
 
-msgid "option %s requires an argument\\n"
+msgid "option '%s' is ambiguous; possibilities:"
+msgstr ""
+
+#, fuzzy
+msgid "invalid option"
+msgstr "Option non reconnue"
+
+#, fuzzy
+msgid "option requires an argument"
 msgstr "L'option %s a besoin d'un argument\\n"
 
-msgid "unrecognized option"
-msgstr "Option non reconnue"
+#, fuzzy
+msgid "option '%s' does not allow an argument"
+msgstr "L'option %s a besoin d'un argument\\n"
+
+#, fuzzy
+msgid "option '%s' requires an argument"
+msgstr "L'option %s a besoin d'un argument\\n"
+
+#~ msgid "There is no agent set up to handle %s URLs. Check %s."
+#~ msgstr "Il n'y a pas d'agent défini pour les URL %s. Vérifiez %s."
+
+#~ msgid "%s is not allowed to contain hyphens or whitespace."
+#~ msgstr "%s ne peut pas contenir de tirets ou d'espaces."
+
+#~ msgid "Cannot find the %s binary required to determine latest %s revision."
+#~ msgstr ""
+#~ "Le fichier binaire %s, requis pour déterminer la dernière révision %s, "
+#~ "n'a pas pu être trouvé."
+
+#~ msgid "Determining latest %s revision..."
+#~ msgstr "Détermination de la dernière révision %s…"
+
+#~ msgid "Version found: %s"
+#~ msgstr "Version trouvée : %s"
+
+#~ msgid ""
+#~ "  --holdver        Prevent automatic version bumping for development %ss"
+#~ msgstr ""
+#~ "  --holdver        Ne pas changer automatiquement la version pour les %ss "
+#~ "de développement"
+
+#~ msgid "\\0%s and %s cannot both be specified"
+#~ msgstr "\\0%s et %s sont incompatibles"
+
+#~ msgid "%s was not found in %s; skipping dependency checks."
+#~ msgstr ""
+#~ "%s n'a pas pu être trouvé dans %s : la vérification des dépendances est "
+#~ "ignorée."
+
+#~ msgid "Skipping source retrieval        -- using existing %s tree"
+#~ msgstr ""
+#~ "Ignore la récupération des sources        -- utilisation de l'arbre %s "
+#~ "existant"
+
+#~ msgid "Skipping source integrity checks -- using existing %s tree"
+#~ msgstr ""
+#~ "Ignore la vérification de l'intégrité des sources -- utilisation de "
+#~ "l'arbre %s existant"
+
+#~ msgid "Skipping source extraction       -- using existing %s tree"
+#~ msgstr ""
+#~ "Ignore l'extraction des sources       -- utilisation de l'arbre %s "
+#~ "existant"
+
+#~ msgid "The source directory is empty, there is nothing to build!"
+#~ msgstr "Le répertoire source est vide, il n'y a rien à compiler !"
+
+#~ msgid "diff tool was not found, please install diffutils."
+#~ msgstr "L'outil diff est introuvable, veuillez installer diffutils."

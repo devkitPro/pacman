@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # David Kolibáč <david@kolibac.cz>, 2011.
@@ -10,15 +10,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-03-10 13:00+1000\n"
 "PO-Revision-Date: 2011-10-15 08:43+0000\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/archlinux-pacman/language/cs/)\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/cs/)\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, c-format
@@ -42,10 +43,16 @@ msgid "could not extract %s (%s)\n"
 msgstr "nelze rozbalit %s (%s)\n"
 
 #, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "nelze přejmenovat %s na %s (%s)\n"
+
+#, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "přístupová práva adresáře %s se neshodují\nsouborový systém: %o   balíček: %o\n"
+msgstr ""
+"přístupová práva adresáře %s se neshodují\n"
+"souborový systém: %o   balíček: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
@@ -56,16 +63,8 @@ msgid "extract: symlink %s does not point to dir\n"
 msgstr "rozbalení: symbolický odkaz %s neodkazuje na adresář\n"
 
 #, c-format
-msgid "could not rename %s to %s (%s)\n"
-msgstr "nelze přejmenovat %s na %s (%s)\n"
-
-#, c-format
 msgid "%s saved as %s\n"
 msgstr "%s byl uložen jako %s\n"
-
-#, c-format
-msgid "could not install %s as %s (%s)\n"
-msgstr "%s nelze nainstalovat jako %s (%s)\n"
 
 #, c-format
 msgid "%s installed as %s\n"
@@ -103,6 +102,10 @@ msgstr "nelze aktualizovat záznam databáze %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nelze přidat položku '%s' do mezipaměti\n"
 
+#, fuzzy, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "chyba při čtení balíčku %s: %s\n"
+
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "odstraňuje se chybná databáze: %s\n"
@@ -132,6 +135,10 @@ msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "databáze %s je nekonzistentní: nesouhlasí verze balíčku %s\n"
 
 #, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr ""
+
+#, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "nelze změnit adresář %s: %s\n"
 
@@ -154,6 +161,14 @@ msgstr "chyba při čtení balíčku %s: %s\n"
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "chybí metadata balíčku v %s\n"
+
+#, fuzzy, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "selhalo získání některých souborů z %s\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr ""
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -192,20 +207,32 @@ msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nelze vyřešit \"%s\", závislost \"%s\"\n"
 
 #, c-format
-msgid "could not get filesystem information\n"
-msgstr "nepodařilo se získat informace o souborovém systému\n"
-
-#, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "nepodařilo se získat informace o souborovém systému %s: %s\n"
+
+#, fuzzy, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "nelze otevřít soubor %s: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "nepodařilo se získat informace o souborovém systému\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "nepodařilo se určit připojovací bod pro soubor %s\n"
 
 #, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Oddíl %s je plný: je potřeba %jd bloků, ale k dispozici je jen %jd\n"
+
+#, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "nepodařilo se určit přípojné body souborového systému\n"
+
+#, fuzzy, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "nepodařilo se určit kořen přípojného bodu %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -214,10 +241,6 @@ msgstr "nepodařilo se určit kořen přípojného bodu %s\n"
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Diskový oddíl %s je připojen jen pro čtení\n"
-
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Oddíl %s je plný: je potřeba %jd bloků, ale k dispozici je jen %jd\n"
 
 #, c-format
 msgid "disk"
@@ -252,8 +275,8 @@ msgid "unexpected system error"
 msgstr "neočekávaná systémová chyba"
 
 #, c-format
-msgid "insufficient privileges"
-msgstr "nedostatečná oprávnění"
+msgid "permission denied"
+msgstr ""
 
 #, c-format
 msgid "could not find or read file"
@@ -471,6 +494,10 @@ msgstr "'%s' odstraněn ze seznamu cílů\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "nelze odstranit soubor '%s': %s\n"
 
+#, fuzzy, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "nelze změnit adresář %s: %s\n"
+
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "nelze odstranit %s (%s)\n"
@@ -515,9 +542,13 @@ msgstr "zjištěn konflikt nerozlišitelných balíčků\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' odstraněn ze seznamu cílů, protože je konfliktní s '%s'\n"
 
-#, c-format
-msgid "failed to retrieve some files from %s\n"
-msgstr "selhalo získání některých souborů z %s\n"
+#, fuzzy, c-format
+msgid "failed to retrieve some files\n"
+msgstr "selhalo získání některých souborů"
+
+#, fuzzy, c-format
+msgid "not enough free disk space\n"
+msgstr "není dostatek volného místa na disku"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -542,6 +573,10 @@ msgstr "nelze odstranit %s\n"
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nelze odstranit dočasný adresář %s\n"
+
+#, fuzzy, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "nelze otevřít soubor %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -577,4 +612,12 @@ msgstr "neexistuje mezipaměť %s, vytváří se...\n"
 
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "nepodařilo se najít nebo vytvořit mezipaměť pro balíčky, používám místo toho %s\n"
+msgstr ""
+"nepodařilo se najít nebo vytvořit mezipaměť pro balíčky, používám místo toho "
+"%s\n"
+
+#~ msgid "could not install %s as %s (%s)\n"
+#~ msgstr "%s nelze nainstalovat jako %s (%s)\n"
+
+#~ msgid "insufficient privileges"
+#~ msgstr "nedostatečná oprávnění"
