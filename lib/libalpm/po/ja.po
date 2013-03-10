@@ -1,0 +1,576 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: https://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2012-03-28 18:00-0500\n"
+"PO-Revision-Date: 2013-02-26 17:34+0000\n"
+"Last-Translator: kusakata <info@astaricsoft.net>\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-pacman/language/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, c-format
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s は最新です -- スキップ\n"
+
+#, c-format
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s は最新です -- 再インストール\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "パッケージ %s のダウングレード (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr "%s の展開中に警告が発生しました (%s)\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "%s を展開できませんでした (%s)\n"
+
+#, c-format
+msgid ""
+"directory permissions differ on %s\n"
+"filesystem: %o  package: %o\n"
+msgstr "%s のディレクトリのパーミッションが異なっています\nファイルシステム: %o  パッケージ: %o\n"
+
+#, c-format
+msgid "extract: not overwriting dir with file %s\n"
+msgstr "extract: ディレクトリをファイルで上書きできません %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "extract: シンボリックリンク %s はディレクトリを示していません\n"
+
+#, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "%s を %s に名前を変更できませんでした (%s)\n"
+
+#, c-format
+msgid "%s saved as %s\n"
+msgstr "%s は %s として保存されました\n"
+
+#, c-format
+msgid "could not install %s as %s (%s)\n"
+msgstr "%s を %s としてインストールできませんでした (%s)\n"
+
+#, c-format
+msgid "%s installed as %s\n"
+msgstr "%s は %s としてインストールされました\n"
+
+#, c-format
+msgid "extracting %s as %s.pacnew\n"
+msgstr "%s は %s.pacnew として展開しました\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr "現在の作業ディレクトリを取得できませんでした\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "ディレクトリを %s に変更できませんでした (%s)\n"
+
+#, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "作業ディレクトリを復帰できませんでした (%s)\n"
+
+#, c-format
+msgid "problem occurred while upgrading %s\n"
+msgstr "アップグレード中に問題が発生しました %s\n"
+
+#, c-format
+msgid "problem occurred while installing %s\n"
+msgstr "インストール中に問題が発生しました %s\n"
+
+#, c-format
+msgid "could not update database entry %s-%s\n"
+msgstr "データベースエントリ %s-%s をアップデートできませんでした\n"
+
+#, c-format
+msgid "could not add entry '%s' in cache\n"
+msgstr "キャッシュにエントリ '%s' を追加できませんでした\n"
+
+#, c-format
+msgid "removing invalid database: %s\n"
+msgstr "無効なデータベースを削除: %s\n"
+
+#, c-format
+msgid "invalid name for database entry '%s'\n"
+msgstr "無効な名前のデータベースエントリ '%s'\n"
+
+#, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "重複したデータベースエントリ '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "破損したデータベースエントリ '%s'\n"
+
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "ファイル %s を開けませんでした: %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s データベースは矛盾しています: パッケージ %s の名前の不整合\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s データベースは矛盾しています: パッケージ %s のバージョンの不整合\n"
+
+#, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "キャッシュディレクトリ %s を作成できませんでした: %s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "%s のパッケージ説明ファイルをパースできませんでした\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "%s にパッケージの名前が見つかりません\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "%s にパッケージのバージョンが見つかりません\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "パッケージ %s の読込中にエラーが発生しました: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "%s にパッケージのメタデータが見つかりません\n"
+
+#, c-format
+msgid "removing invalid file: %s\n"
+msgstr "無効なファイルを削除: %s\n"
+
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "ロックファイル %s を削除できませんでした\n"
+
+#, c-format
+msgid "could not parse package description file '%s' from db '%s'\n"
+msgstr "パッケージ定義ファイル '%s' (データベース '%s') をパースできませんでした\n"
+
+#, c-format
+msgid "database path is undefined\n"
+msgstr "データベースパスが定義されていません\n"
+
+#, c-format
+msgid "dependency cycle detected:\n"
+msgstr "依存サイクルが検出されました:\n"
+
+#, c-format
+msgid "%s will be removed after its %s dependency\n"
+msgstr "%s は依存パッケージ %s の後に削除されます\n"
+
+#, c-format
+msgid "%s will be installed before its %s dependency\n"
+msgstr "%s は依存パッケージ %s の前にインストールされます\n"
+
+#, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "パッケージ %s-%s を無視\n"
+
+#, c-format
+msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
+msgstr "\"%s\" を解決できません、\"%s\" の依存\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "ファイルシステムの情報を取得できませんでした\n"
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr "%s のファイルシステム情報を取得できませんでした: %s\n"
+
+#, c-format
+msgid "could not determine mount point for file %s\n"
+msgstr "ファイル %s のマウントポイントを決定できませんでした\n"
+
+#, c-format
+msgid "could not determine filesystem mount points\n"
+msgstr "ファイルシステムのマウントポイントを決定できませんでした\n"
+
+#, c-format
+msgid "could not determine root mount point %s\n"
+msgstr "root マウントポイント %s を決定できませんでした\n"
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr "パーティション %s は読み込み専用でマウントされています\n"
+
+#, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "パーティション %s が一杯です: %jd ブロック必要、 %jd ブロック空き\n"
+
+#, c-format
+msgid "disk"
+msgstr "ディスク"
+
+#, c-format
+msgid "failed to create temporary file for download\n"
+msgstr "ダウンロードのための一時ファイルを作成できませんでした\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' は無効です\n"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "ファイル '%s' を %s から取得するのに失敗しました : %s\n"
+
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr "%s が途中で切れています: %jd/%jd バイト\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "%s のダウンロードに失敗しました\n"
+
+#, c-format
+msgid "out of memory!"
+msgstr "メモリが足りません！"
+
+#, c-format
+msgid "unexpected system error"
+msgstr "予期しないシステムエラー"
+
+#, c-format
+msgid "insufficient privileges"
+msgstr "権限がありません"
+
+#, c-format
+msgid "could not find or read file"
+msgstr "ファイルを読み込めませんでした"
+
+#, c-format
+msgid "could not find or read directory"
+msgstr "ディレクトリを読み込めませんでした"
+
+#, c-format
+msgid "wrong or NULL argument passed"
+msgstr "無効または空の引数が渡されました"
+
+#, c-format
+msgid "not enough free disk space"
+msgstr "空き容量が足りません"
+
+#, c-format
+msgid "library not initialized"
+msgstr "ライブラリが初期化されていません"
+
+#, c-format
+msgid "library already initialized"
+msgstr "ライブラリは既に初期化されています"
+
+#, c-format
+msgid "unable to lock database"
+msgstr "データベースをロックできません"
+
+#, c-format
+msgid "could not open database"
+msgstr "データベースを開けませんでした"
+
+#, c-format
+msgid "could not create database"
+msgstr "データベースを作成できませんでした"
+
+#, c-format
+msgid "database not initialized"
+msgstr "データベースが初期化されていません"
+
+#, c-format
+msgid "database already registered"
+msgstr "データベースは既に登録されています"
+
+#, c-format
+msgid "could not find database"
+msgstr "データベースを見つけられませんでした"
+
+#, c-format
+msgid "invalid or corrupted database"
+msgstr "無効または破損したデータベース"
+
+#, c-format
+msgid "invalid or corrupted database (PGP signature)"
+msgstr "無効または破損したデータベース (PGP 鍵)"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr "データベースのバージョンが間違っています"
+
+#, c-format
+msgid "could not update database"
+msgstr "データベースをアップデートできませんでした"
+
+#, c-format
+msgid "could not remove database entry"
+msgstr "データベースエントリを削除できませんでした"
+
+#, c-format
+msgid "invalid url for server"
+msgstr "サーバーの無効な url"
+
+#, c-format
+msgid "no servers configured for repository"
+msgstr "リポジトリに設定されたサーバーがありません"
+
+#, c-format
+msgid "transaction already initialized"
+msgstr "トランザクションはすでに初期化されています"
+
+#, c-format
+msgid "transaction not initialized"
+msgstr "トランザクションが初期化されていません"
+
+#, c-format
+msgid "duplicate target"
+msgstr "重複する対象"
+
+#, c-format
+msgid "transaction not prepared"
+msgstr "トランザクションが準備されていません"
+
+#, c-format
+msgid "transaction aborted"
+msgstr "トランザクションが中止されました"
+
+#, c-format
+msgid "operation not compatible with the transaction type"
+msgstr "トランザクションタイプと互換性のないオペレーション"
+
+#, c-format
+msgid "transaction commit attempt when database is not locked"
+msgstr "データベースがロックされていない間にトランザクションが終了しました"
+
+#, c-format
+msgid "could not find or read package"
+msgstr "パッケージが見つからないまたは読み込めませんでした"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr "ignorepkg によってオペレーションが中止されました"
+
+#, c-format
+msgid "invalid or corrupted package"
+msgstr "無効または破損したパッケージ"
+
+#, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "無効または破損したパッケージ (チェックサム)"
+
+#, c-format
+msgid "invalid or corrupted package (PGP signature)"
+msgstr "無効または破損したパッケージ (PGP 鍵)"
+
+#, c-format
+msgid "cannot open package file"
+msgstr "パッケージファイルを開けませんでした"
+
+#, c-format
+msgid "cannot remove all files for package"
+msgstr "パッケージのために全てのファイルを削除できません"
+
+#, c-format
+msgid "package filename is not valid"
+msgstr "パッケージの名前が無効です"
+
+#, c-format
+msgid "package architecture is not valid"
+msgstr "パッケージのアーキテクチャが無効です"
+
+#, c-format
+msgid "could not find repository for target"
+msgstr "対象のリポジトリを見つけられませんでした"
+
+#, c-format
+msgid "missing PGP signature"
+msgstr "不明な PGP 鍵"
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr "無効な PGP 鍵"
+
+#, c-format
+msgid "invalid or corrupted delta"
+msgstr "無効または破損した差分"
+
+#, c-format
+msgid "delta patch failed"
+msgstr "差分パッチ失敗"
+
+#, c-format
+msgid "could not satisfy dependencies"
+msgstr "依存関係を解決できませんでした"
+
+#, c-format
+msgid "conflicting dependencies"
+msgstr "衝突する依存関係"
+
+#, c-format
+msgid "conflicting files"
+msgstr "衝突しているファイル"
+
+#, c-format
+msgid "failed to retrieve some files"
+msgstr "ファイルの取得に失敗しました"
+
+#, c-format
+msgid "invalid regular expression"
+msgstr "無効な正規表現"
+
+#, c-format
+msgid "libarchive error"
+msgstr "libarchive エラー"
+
+#, c-format
+msgid "download library error"
+msgstr "ダウンロードライブラリエラー"
+
+#, c-format
+msgid "gpgme error"
+msgstr "gpgme エラー"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "外部のダウンローダーの呼び出しエラー"
+
+#, c-format
+msgid "unexpected error"
+msgstr "予期しないエラー"
+
+#, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "パッケージ %s-%s のメタデータを読み込めませんでした\n"
+
+#, c-format
+msgid "could not find %s in database -- skipping\n"
+msgstr "データベースに %s が見つかりませんでした -- スキップ\n"
+
+#, c-format
+msgid "removing %s from target list\n"
+msgstr "対象リストから %s を削除\n"
+
+#, c-format
+msgid "cannot remove file '%s': %s\n"
+msgstr "ファイル '%s' を削除できません: %s\n"
+
+#, c-format
+msgid "cannot remove %s (%s)\n"
+msgstr "%s を削除できません (%s)\n"
+
+#, c-format
+msgid "could not remove database entry %s-%s\n"
+msgstr "データベースエントリ %s-%s を削除できませんでした\n"
+
+#, c-format
+msgid "could not remove entry '%s' from cache\n"
+msgstr "キャッシュからエントリ '%s' を削除できませんでした\n"
+
+#, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: パッケージのアップグレードを無視 (%s => %s)\n"
+
+#, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: パッケージのダウングレードを無視 (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr "%s: バージョン %s からバージョン %s にダウングレード\n"
+
+#, c-format
+msgid "%s: local (%s) is newer than %s (%s)\n"
+msgstr "%s: ローカル (%s) のほうが %s よりも最新です (%s)\n"
+
+#, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
+msgstr "パッケージの置き換えの無視 (%s-%s => %s-%s)\n"
+
+#, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "%s を %s で置き換えられません\n"
+
+#, c-format
+msgid "unresolvable package conflicts detected\n"
+msgstr "解決できないパッケージの衝突が検出されました\n"
+
+#, c-format
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "対象リストから '%s' を削除。'%s' と衝突しています\n"
+
+#, c-format
+msgid "failed to retrieve some files from %s\n"
+msgstr "%s からのファイルの取得に失敗しました\n"
+
+#, c-format
+msgid "could not commit removal transaction\n"
+msgstr "移動トランザクションの終了ができませんでした\n"
+
+#, c-format
+msgid "could not commit transaction\n"
+msgstr "トランザクションの終了ができませんでした\n"
+
+#, c-format
+msgid "could not create temp directory\n"
+msgstr "一時ディレクトリを作成できません\n"
+
+#, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "一時ファイルを %s にコピーできません (%s)\n"
+
+#, c-format
+msgid "could not remove %s\n"
+msgstr "%s を削除できません\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "一時ディレクトリ %s を削除できません\n"
+
+#, c-format
+msgid "could not create pipe (%s)\n"
+msgstr "パイプを作成できません (%s)\n"
+
+#, c-format
+msgid "could not fork a new process (%s)\n"
+msgstr "新しいプロセスをフォークできません (%s)\n"
+
+#, c-format
+msgid "could not change the root directory (%s)\n"
+msgstr "ルートディレクトリを変更できません (%s)\n"
+
+#, c-format
+msgid "call to execv failed (%s)\n"
+msgstr "execv のコールに失敗しました (%s)\n"
+
+#, c-format
+msgid "call to waitpid failed (%s)\n"
+msgstr "waitpid のコールに失敗しました (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr "パイプを開けません (%s)\n"
+
+#, c-format
+msgid "command failed to execute correctly\n"
+msgstr "コマンドの実行に失敗しました\n"
+
+#, c-format
+msgid "no %s cache exists, creating...\n"
+msgstr "%s キャッシュが存在しません、作成...\n"
+
+#, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
+msgstr "パッケージキャッシュを発見・作成できませんした、かわりに %s を使用\n"
