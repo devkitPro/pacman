@@ -442,11 +442,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 		return 1;
 	}
 
-	/* we want to do a lstat here, and not a _alpm_lstat.
-	 * if a directory in the package is actually a directory symlink on the
-	 * filesystem, we want to work with the linked directory instead of the
-	 * actual symlink */
-	if(lstat(file, &buf)) {
+	if(_alpm_lstat(file, &buf)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "file %s does not exist\n", file);
 		return 1;
 	}
