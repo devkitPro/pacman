@@ -35,17 +35,17 @@ prepare() {
 }
 
 build() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
 	./configure --prefix=/usr
 	make
 }
 
 check() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
 	make -k check
 }
 
 package() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
 	make DESTDIR="$pkgdir/" install
 }

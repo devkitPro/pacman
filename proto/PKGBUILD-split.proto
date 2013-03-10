@@ -35,13 +35,13 @@ prepare() {
 }
 
 build() {
-	cd "$srcdir/$pkgbase-$pkgver"
+	cd "$pkgbase-$pkgver"
 	./configure --prefix=/usr
 	make
 }
 
 check() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
 	make -k check
 }
 
@@ -65,7 +65,7 @@ package_pkg1() {
 	install=
 	changelog=
 
-	cd "$srcdir/$pkgbase-$pkgver"
+	cd "$pkgbase-$pkgver"
 	make DESTDIR="$pkgdir/" install-pkg1
 }
 
@@ -73,6 +73,6 @@ package_pkg2() {
 	# options and directives overrides
 	pkgdesc=""
 
-	cd "$srcdir/$pkgbase-$pkgver"
+	cd "$pkgbase-$pkgver"
 	make DESTDIR="$pkgdir/" install-pkg2
 }
