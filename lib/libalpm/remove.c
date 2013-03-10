@@ -278,7 +278,7 @@ static int dir_is_mountpoint(alpm_handle_t *handle, const char *directory,
 		struct stat dir_stbuf;
 		if(stat(directory, &dir_stbuf) < 0) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
-					"failed to stat directory %s: %s",
+					"failed to stat directory %s: %s\n",
 					directory, strerror(errno));
 			return 0;
 		}
@@ -290,7 +290,7 @@ static int dir_is_mountpoint(alpm_handle_t *handle, const char *directory,
 	snprintf(parent_dir, PATH_MAX, "%s..", directory);
 	if(stat(parent_dir, &parent_stbuf) < 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"failed to stat parent of %s: %s: %s",
+				"failed to stat parent of %s: %s: %s\n",
 				directory, parent_dir, strerror(errno));
 		return 0;
 	}
