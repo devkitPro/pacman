@@ -1170,12 +1170,16 @@ alpm_time_t _alpm_parsedate(const char *line)
 	errno = 0;
 
 	if(isalpha((unsigned char)line[0])) {
+		const char *oldlocale;
 		/* initialize to null in case of failure */
 		struct tm tmp_tm;
 		memset(&tmp_tm, 0, sizeof(struct tm));
+
+		oldlocale = setlocale(LC_TIME, NULL);
 		setlocale(LC_TIME, "C");
 		strptime(line, "%a %b %e %H:%M:%S %Y", &tmp_tm);
-		setlocale(LC_TIME, "");
+		setlocale(LC_TIME, oldlocale);
+
 		return (alpm_time_t)mktime(&tmp_tm);
 	}
 
