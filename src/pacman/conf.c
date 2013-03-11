@@ -21,6 +21,7 @@
 #include <errno.h>
 #include <glob.h>
 #include <limits.h>
+#include <locale.h> /* setlocale */
 #include <fcntl.h> /* open */
 #include <stdlib.h>
 #include <stdio.h>
@@ -514,7 +515,15 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "UseDelta") == 0) {
 			double ratio;
 			char *endptr;
+			const char *oldlocale;
+
+			/* set the locale to 'C' for consistant decimal parsing (0.7 and never
+			 * 0,7) from config files, then restore old setting when we are done */
+			oldlocale = setlocale(LC_NUMERIC, NULL);
+			setlocale(LC_NUMERIC, "C");
 			ratio = strtod(value, &endptr);
+			setlocale(LC_NUMERIC, oldlocale);
+
 			if(*endptr != '\0' || ratio < 0.0 || ratio > 2.0) {
 				pm_printf(ALPM_LOG_ERROR,
 						_("config file %s, line %d: invalid value for '%s' : '%s'\n"),
