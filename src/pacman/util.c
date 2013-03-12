@@ -903,8 +903,8 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->remove),
 					alpm_pkg_get_version(target->remove));
 		} else {
-			pm_asprintf(&str, "%s-%s [removal]", alpm_pkg_get_name(target->remove),
-					alpm_pkg_get_version(target->remove));
+			pm_asprintf(&str, "%s-%s [%s]", alpm_pkg_get_name(target->remove),
+					alpm_pkg_get_version(target->remove), _("removal"));
 		}
 		names = alpm_list_add(names, str);
 	}
