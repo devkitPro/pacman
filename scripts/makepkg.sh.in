@@ -562,7 +562,7 @@ extract_git() {
 	pushd "$srcdir" &>/dev/null
 	rm -rf "${dir##*/}"
 
-	if ! git clone --recursive "$dir"; then
+	if ! git clone "$dir"; then
 		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "git"
 		plain "$(gettext "Aborting...")"
 		exit 1
