@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011, 2012.
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013.
 # Данило Коростіль <ted.korostiled@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2012-07-15 22:23+0000\n"
+"PO-Revision-Date: 2013-03-11 22:02+0000\n"
 "Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/uk/)\n"
@@ -101,9 +101,11 @@ msgstr "неможливо оновити запис бази даних %s-%s\n
 msgid "could not add entry '%s' in cache\n"
 msgstr "неможливо додати запис  «%s» у кеш\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading file %s: %s\n"
-msgstr "помилка при читанні пакунка %s: %s\n"
+msgstr ""
+"помилка при читанні пакунка %s: %s\n"
+"\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
@@ -135,7 +137,7 @@ msgstr "база даних %s неоднорідна: не збігаються
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "невідомий тип перевірки для пакунку %s: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -161,13 +163,13 @@ msgstr "помилка при читанні пакунка %s: %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "бракує метаданих пакунка в %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "не вдалось одержати деякі файли з %s\n"
+msgstr "не вдалось одержати файл підпису: %s\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "потрібний ключ не міститься в зв’язці ключів\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -209,7 +211,7 @@ msgstr "неможливо розв'язати «%s», залежність ві
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "неможливо одержати інформації про файлову систему для %s: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s: %s\n"
 msgstr "неможливо відкрити файл %s: %s\n"
 
@@ -229,9 +231,9 @@ msgstr "Розділ %s — надто повний; %jd блоків потрі
 msgid "could not determine filesystem mount points\n"
 msgstr "неможливо визначити файлові системи точок монтування\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "неможливо визначити корінь точки монтування %s\n"
+msgstr "неможливо визначити точку монтування теку кешу %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -275,7 +277,7 @@ msgstr "неочікувана системна помилка"
 
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "доступ заборонено"
 
 #, c-format
 msgid "could not find or read file"
@@ -493,9 +495,9 @@ msgstr "вилучення «%s» зі списку пакунків\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "неможливо вилучити файл «%s»: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "неможливо створити каталог %s: %s\n"
+msgstr "неможливо відкрити теку: %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -541,13 +543,13 @@ msgstr "виявлено нерозв'язні конфлікти пакункі
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "вилучення  «%s» зі списку пакунків через конфлікт з «%s»\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files\n"
-msgstr "не вдалось одержати деякі файли"
+msgstr "не вдалось одержати деякі файли\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "not enough free disk space\n"
-msgstr "недостатньо вільного місця на диску "
+msgstr "недостатньо вільного місця на диску \n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -573,9 +575,9 @@ msgstr "неможливо вилучити %s\n"
 msgid "could not remove tmpdir %s\n"
 msgstr "неможливо вилучити тимчасовий каталог %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not stat file %s: %s\n"
-msgstr "неможливо відкрити файл %s: %s\n"
+msgstr "не вдається отримати статус файлу  %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -613,9 +615,3 @@ msgstr "кеш %s не існує, створюється…\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "неможливо знайти або створити кеш пакунків, використовуючи %s натомість\n"
-
-#~ msgid "could not install %s as %s (%s)\n"
-#~ msgstr "неможливо встановити %s як %s (%s)\n"
-
-#~ msgid "insufficient privileges"
-#~ msgstr "недостатньо прав"

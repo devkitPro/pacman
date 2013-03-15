@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Arthur <arthur.titeica@gmail.com>, 2013.
 # cantabile <cantabile.desu@gmail.com>, 2011.
-# Ionut Biru <ibiru@archlinux.org>, 2011, 2012.
-# Mihai Coman <mihai@m1x.ro>, 2011.
+# Ionut Biru <ibiru@archlinux.org>, 2011-2012.
+# Mihai Coman <mihai@m1x.ro>, 2011,2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-10 13:01+1000\n"
-"PO-Revision-Date: 2012-03-21 07:25+0000\n"
-"Last-Translator: Ionut Biru <ibiru@archlinux.org>\n"
+"POT-Creation-Date: 2013-03-15 12:53+1000\n"
+"PO-Revision-Date: 2013-03-11 19:56+0000\n"
+"Last-Translator: roentgen <arthur.titeica@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ro/)\n"
 "Language: ro\n"
@@ -50,25 +51,25 @@ msgstr "se elimină %s...\n"
 msgid "upgrading %s...\n"
 msgstr "se actualizează %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %s...\n"
-msgstr "se descarcă %s...\n"
+msgstr "se retrogradează %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling %s...\n"
-msgstr "se instalează %s...\n"
+msgstr "se reinstaleză %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "se verifică integritatea pachetului...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keyring...\n"
-msgstr "se verifică integritatea pachetului...\n"
+msgstr "se verifică inelul de chei...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading required keys...\n"
-msgstr "se descarcă %s...\n"
+msgstr "se descarcă cheile necesare...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -94,17 +95,17 @@ msgstr "succes!\n"
 msgid "failed.\n"
 msgstr "eșuat.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving packages ...\n"
-msgstr "Se preiau pachetele din %s...\n"
+msgstr "Se preiau pachetele ...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "se verifică spațiul disponibil pe disc...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s: cere %s\n"
+msgstr "%s cere opțional %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -160,9 +161,9 @@ msgstr ""
 "Fișierul %s este corupt (%s).\n"
 "Dorești să îl ștergi?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Importă cheia PGP %s, \"%s\", creată %s?"
+msgstr "Se importă cheia PGP %d%c/%s, \"%s\", creată: %s%s?"
 
 #, c-format
 msgid "installing"
@@ -172,13 +173,13 @@ msgstr "se instalează"
 msgid "upgrading"
 msgstr "se actualizează"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading"
-msgstr "se actualizează"
+msgstr "retrogradare"
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling"
-msgstr "se instalează"
+msgstr "se reinstalează"
 
 #, c-format
 msgid "removing"
@@ -196,9 +197,9 @@ msgstr "se verifică spațiul disponibil pe disc"
 msgid "checking package integrity"
 msgstr "se verifică integritatea pachetului"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keys in keyring"
-msgstr "se verifică integritatea pachetului"
+msgstr "se verifică cheile din inelul de chei"
 
 #, c-format
 msgid "loading package files"
@@ -291,9 +292,9 @@ msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 "parcurgerea configurării a depășit adâncimea max de recursivitate %d.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "fișierul de configurare %s nu poate fi citit.\n"
+msgstr "fișierul de configurare %s nu a putut fi citit: %s\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -323,8 +324,7 @@ msgstr "nu sunt specificate ținte (folosiți -h pentru ajutor)\n"
 #, c-format
 msgid "no install reason specified (use -h for help)\n"
 msgstr ""
-"nu a fost specificat nici un motiv pentru instalare (folosește -h pentru "
-"ajutor)\n"
+"nu a fost specificat un motiv pentru instalare (folosește -h pentru ajutor)\n"
 
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
@@ -340,9 +340,9 @@ msgstr ""
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: motivul pentru instalare a fost schimbat în: 'instalat explicit'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid " [installed]"
-msgstr "instalat"
+msgstr "[instalat]"
 
 #, c-format
 msgid "Optional Deps  :"
@@ -364,17 +364,17 @@ msgstr "Necunoscut"
 msgid "None"
 msgstr "Niciunul"
 
-#, fuzzy, c-format
+#, c-format
 msgid "MD5 Sum"
-msgstr "Suma MD5            :"
+msgstr "Suma MD5"
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum"
-msgstr "Sumă SHA256    :"
+msgstr "Sumă SHA256"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signature"
-msgstr "Eroare de semnătură"
+msgstr "Semnătură"
 
 #, c-format
 msgid "Repository     :"
@@ -420,9 +420,9 @@ msgstr "Depinde de         :"
 msgid "Required By    :"
 msgstr "Cerut de           :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For   :"
-msgstr "Dep. opționale     :"
+msgstr "Opțional pentru :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -432,17 +432,17 @@ msgstr "În conflict cu     :"
 msgid "Replaces       :"
 msgstr "Înlocuiește        :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  :"
-msgstr "Mărimea Descărcării"
+msgstr "Mărimea Descărcării :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size:"
-msgstr "Mărime Comprimat    : %6.2f %s\n"
+msgstr "Mărime Comprimată:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size :"
-msgstr "Mărime Instalat     : %6.2f %s\n"
+msgstr "Mărime Instalată :"
 
 #, c-format
 msgid "Packager       :"
@@ -484,9 +484,9 @@ msgstr "Sumă SHA256    :"
 msgid "Signatures     :"
 msgstr "Semnături           :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By   :"
-msgstr "Cerut de           :"
+msgstr "Validat De :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -504,9 +504,9 @@ msgstr "(niciunul)\n"
 msgid "no changelog available for '%s'.\n"
 msgstr "nu exista istoric modificări pentru '%s'.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s:\n"
-msgstr "nu exista istoric modificări pentru '%s'.\n"
+msgstr "Istoric de modificări pentru %s:\n"
 
 #, c-format
 msgid "installed"
@@ -574,7 +574,7 @@ msgstr "      --needed         nu reinstala pachetele deja actualizate\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
-msgstr "  -c, --changelog      vezi istoricul de modificări al pachetului\n"
+msgstr "-c, --changelog  vezi istoricul de modificări al pachetului\n"
 
 #, c-format
 msgid ""
@@ -619,13 +619,13 @@ msgstr ""
 "  -m, --foreign        listează pachetele instalate ce nu se găsesc în "
 "bazele de date ale depozitelor [filtru]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        listează pachetele instalate ce nu se găsesc în "
-"bazele de date ale depozitelor [filtru]\n"
+"-n, --native listează doar pachetele instalate care se regăsesc în bazele de "
+"date ale depozitelor [filtru]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -715,20 +715,19 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr ""
 "      --asexplicit     marchează pachete ca instalate în mod explicit\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"  -f, --force          instalare forțată, suprascrie fișierele aflate în "
-"conflict\n"
+"--force instalare forțată, suprascrie fișierele aflate în conflict\n"
+"\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         instalează pachete ca instalate ne-explicit\n"
+msgstr "--asdeps instalează pachete ca instalate ne-explicit\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr ""
-"      --asexplicit     instalează pachete ca instalate în mod explicit\n"
+msgstr "--asexplicit instalează pachete ca instalate în mod explicit\n"
 
 #, c-format
 msgid ""
@@ -787,8 +786,8 @@ msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
-"      --print-format <șir>\n"
-"                       specifică cum vor fi afișate țintele\n"
+"--print-format <șir>\n"
+"specifică cum vor fi afișate țintele\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -814,7 +813,7 @@ msgstr ""
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr ""
+msgstr "--color <when> colorează mesajele returnate\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -844,9 +843,9 @@ msgstr ""
 "                       Acest program poate fi redistribuit liber sub\n"
 "                       termenii licenței GNU - General Public License.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid agument '%s' for %s\n"
-msgstr "număr nevalid: %s\n"
+msgstr "argument invalid '%s' pentru %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -870,7 +869,7 @@ msgstr "nu s-a putut redeschide stdin pentru citire: (%s)\n"
 
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr ""
+msgstr "s-a specificat argumentul '-' fără o intrare din stdin\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -986,11 +985,11 @@ msgstr "Pachete de păstrat:\n"
 
 #, c-format
 msgid "  All locally installed packages\n"
-msgstr "  Toate pachetele instalate\n"
+msgstr "Toate pachetele instalate\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr "  Toate pachetele din baza de date\n"
+msgstr "Toate pachetele din baza de date\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1080,7 +1079,7 @@ msgstr "Începe instalarea?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "imposibil de %s conflictele director-fișier\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -1213,28 +1212,32 @@ msgid "Download Size"
 msgstr "Mărimea Descărcării"
 
 #, fuzzy, c-format
+msgid "removal"
+msgstr "se elimină"
+
+#, c-format
 msgid "Packages"
-msgstr "pachet(e)"
+msgstr "Pachete"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:"
-msgstr "Mărimea Descărcării"
+msgstr "Mărimea Totală a Descărcării:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:"
-msgstr "Mărimea totală a instalării:  %.2f %s\n"
+msgstr "Mărimea Totală a Instalării:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:"
-msgstr "Mărimea totală a eliminării: %.2f %s\n"
+msgstr "Mărimea Totală a Eliminării:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:"
-msgstr "Mărimea netă a actualizării:  %.2f %s\n"
+msgstr "Mărimea Netă a Actualizării:"
 
 #, c-format
 msgid " [pending]"
-msgstr ""
+msgstr "[în așteptarea]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1303,37 +1306,3 @@ msgstr "eroare: "
 #, c-format
 msgid "warning: "
 msgstr "avertisment: "
-
-#~ msgid "Download Size  : %6.2f %s\n"
-#~ msgstr "Mărimea Descărcării : %6.2f %s\n"
-
-#~ msgid "cannot determine ownership of directory '%s'\n"
-#~ msgstr "nu s-a putut determina cine deține directorul '%s'\n"
-
-#~ msgid "%s: %jd total file, "
-#~ msgid_plural "%s: %jd total files, "
-#~ msgstr[0] "%s: %jd fișier în total, "
-#~ msgstr[1] "%s: %jd fișiere în total, "
-#~ msgstr[2] "%s: %jd fișiere în total, "
-
-#~ msgid "%jd missing file\n"
-#~ msgid_plural "%jd missing files\n"
-#~ msgstr[0] "%jd fișier lipsă\n"
-#~ msgstr[1] "%jd fișiere lipsă\n"
-#~ msgstr[2] "%jd fișiere lipsă\n"
-
-#~ msgid "The following packages should be upgraded first :\n"
-#~ msgstr "Următoarele pachete ar trebui actualizate mai întai :\n"
-
-#~ msgid ""
-#~ "Do you want to cancel the current operation\n"
-#~ "and upgrade these packages now?"
-#~ msgstr ""
-#~ "Vreți să întrerupeți operațiunea curentă\n"
-#~ ":: și să actualizați aceste pachete acum?"
-
-#~ msgid "Targets (%d):"
-#~ msgstr "Ținte (%d):"
-
-#~ msgid "Total Download Size:    %.2f %s\n"
-#~ msgstr "Mărimea totală a descărcării: %.2f %s\n"
