@@ -1356,7 +1356,6 @@ error_function() {
 	if (( ! BASH_SUBSHELL )); then
 		error "$(gettext "A failure occurred in %s().")" "$1"
 		plain "$(gettext "Aborting...")"
-		remove_deps
 	fi
 	exit 2 # $E_BUILD_FAILED
 }
