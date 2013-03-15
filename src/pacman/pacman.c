@@ -403,7 +403,7 @@ static int parsearg_global(int opt)
 			} else if(strcmp("always", optarg) == 0) {
 				config->color = PM_COLOR_ON;
 			} else {
-				pm_printf(ALPM_LOG_ERROR, _("invalid agument '%s' for %s\n"),
+				pm_printf(ALPM_LOG_ERROR, _("invalid argument '%s' for %s\n"),
 						optarg, "--color");
 				return 1;
 			}
