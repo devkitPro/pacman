@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2013-01-29 03:04+0000\n"
-"Last-Translator: kraim <7kraim@gmail.com>\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 03:06+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ar/)\n"
 "Language: ar\n"
@@ -50,25 +50,25 @@ msgstr "إزالة %s...\n"
 msgid "upgrading %s...\n"
 msgstr "ترقية %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %s...\n"
-msgstr "جاري تحميل %s...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling %s...\n"
-msgstr "تثبيت %s...\n"
+msgstr ""
 
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "التحقق من سلامة الحزمة...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keyring...\n"
-msgstr "التحقق من سلامة الحزمة...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading required keys...\n"
-msgstr "جاري تحميل %s...\n"
+msgstr ""
 
 #, c-format
 msgid "loading package files...\n"
@@ -94,17 +94,17 @@ msgstr "تم بنجاح!\n"
 msgid "failed.\n"
 msgstr "فشل.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving packages ...\n"
-msgstr "استرداد حزم من %s...\n"
+msgstr ""
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "التحقق من مساحة القرص المتوفرة...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s: يتطلب %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -160,9 +160,9 @@ msgstr ""
 "الملف %s تالف (%s).\n"
 "هل تريد حذفه؟"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "استيراد مفتاح PGP %s، \"%s\"، تم إنشاءه %s؟"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -172,13 +172,13 @@ msgstr "جاري التثبيت"
 msgid "upgrading"
 msgstr "جاري الترقية"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading"
-msgstr "جاري الترقية"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling"
-msgstr "جاري التثبيت"
+msgstr ""
 
 #, c-format
 msgid "removing"
@@ -196,9 +196,9 @@ msgstr "التحقق من مساحة القرص المتوفرة"
 msgid "checking package integrity"
 msgstr "التحقق من سلامة الحزمة"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keys in keyring"
-msgstr "التحقق من سلامة الحزمة"
+msgstr ""
 
 #, c-format
 msgid "loading package files"
@@ -207,6 +207,80 @@ msgstr "تحميل ملفات الحزمة"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "جاري تحميل %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s موجود في نظام الملفات\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "فشل في قراءة الملف '%s': %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "المسار طويل جدا: %s %s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] "لا توجد ملفات مفقودة!%jd \n"
+msgstr[1] "ملف مفقود (%jd)\n"
+msgstr[2] "ملفين مفقودين (%jd)\n"
+msgstr[3] "%jd ملفات مفقودة\n"
+msgstr[4] "%jd ملف  مفقود\n"
+msgstr[5] "%jd ملف  مفقود\n"
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "فشل في قراءة الملف '%s': %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -285,9 +359,9 @@ msgstr "تعذر إضافة المرآة '%s' إلى قاعدة البيانات
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "تعذر قراءة ملف الإعداد %s.\n"
+msgstr ""
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -325,9 +399,9 @@ msgstr ""
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid " [installed]"
-msgstr "مثبت"
+msgstr ""
 
 #, c-format
 msgid "Optional Deps  :"
@@ -349,17 +423,17 @@ msgstr "غير معروف"
 msgid "None"
 msgstr "لا شيئ"
 
-#, fuzzy, c-format
+#, c-format
 msgid "MD5 Sum"
-msgstr "مجموع MD5:"
+msgstr ""
 
 #, c-format
 msgid "SHA256 Sum"
 msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signature"
-msgstr "خطأ في التوقيع"
+msgstr ""
 
 #, c-format
 msgid "Repository     :"
@@ -405,9 +479,9 @@ msgstr "يعتمد على:"
 msgid "Required By    :"
 msgstr "مطلوب من قبل:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For   :"
-msgstr "إعتماديات اختيارية:"
+msgstr ""
 
 #, c-format
 msgid "Conflicts With :"
@@ -417,17 +491,17 @@ msgstr "يتعارض مع:"
 msgid "Replaces       :"
 msgstr "يستبدل:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  :"
-msgstr "حجم التحميل"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size:"
-msgstr "الحجم المضغوط: %6.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size :"
-msgstr "الحجم المثبت: %6.2f %s\n"
+msgstr ""
 
 #, c-format
 msgid "Packager       :"
@@ -469,9 +543,9 @@ msgstr ""
 msgid "Signatures     :"
 msgstr "التوقيعات:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By   :"
-msgstr "مطلوب من قبل:"
+msgstr ""
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -489,9 +563,9 @@ msgstr "(لا شيئ)\n"
 msgid "no changelog available for '%s'.\n"
 msgstr "لا يتوفر تغيير لـ '%s'.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s:\n"
-msgstr "لا يتوفر تغيير لـ '%s'.\n"
+msgstr ""
 
 #, c-format
 msgid "installed"
@@ -824,10 +898,6 @@ msgid "cannot determine real path for '%s': %s\n"
 msgstr ""
 
 #, c-format
-msgid "path too long: %s%s\n"
-msgstr "المسار طويل جدا: %s %s\n"
-
-#, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr ""
 
@@ -1137,25 +1207,25 @@ msgstr ""
 msgid "Download Size"
 msgstr "حجم التحميل"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
-msgstr "جاري الحذف"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Packages"
-msgstr "حزم(ة)"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:"
-msgstr "حجم التحميل"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:"
-msgstr "إجمالي الحجم المثبت: %.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:"
-msgstr "مجموع الحجم المزال: %.2f %s\n"
+msgstr ""
 
 #, c-format
 msgid "Net Upgrade Size:"
@@ -1232,24 +1302,3 @@ msgstr "خطأ:"
 #, c-format
 msgid "warning: "
 msgstr "تحذير:"
-
-#~ msgid "Download Size  : %6.2f %s\n"
-#~ msgstr "الحجم المحمل: %6.2f %s\n"
-
-#~ msgid "%jd missing file\n"
-#~ msgid_plural "%jd missing files\n"
-#~ msgstr[0] "لا توجد ملفات مفقودة!%jd \n"
-#~ msgstr[1] "ملف مفقود (%jd)\n"
-#~ msgstr[2] "ملفين مفقودين (%jd)\n"
-#~ msgstr[3] "%jd ملفات مفقودة\n"
-#~ msgstr[4] "%jd ملف  مفقود\n"
-#~ msgstr[5] "%jd ملف  مفقود\n"
-
-#~ msgid "The following packages should be upgraded first :\n"
-#~ msgstr "يجب أن تتم ترقية الحزم التالية أولا:\n"
-
-#~ msgid "Targets (%d):"
-#~ msgstr "الأهداف(%d):"
-
-#~ msgid "Total Download Size:    %.2f %s\n"
-#~ msgstr "إجمالي الحجم المحمل: %.2f %s\n"

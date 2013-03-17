@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2012-09-18 15:14+0000\n"
-"Last-Translator: Kwpolska <kwpolska@gmail.com>\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 03:06+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/pl/)\n"
 "Language: pl\n"
@@ -49,25 +49,25 @@ msgstr "usuwanie %s...\n"
 msgid "upgrading %s...\n"
 msgstr "aktualizowanie %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %s...\n"
-msgstr "pobieram %s...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling %s...\n"
-msgstr "instalowanie %s...\n"
+msgstr ""
 
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "sprawdzanie spójności pakietów...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keyring...\n"
-msgstr "sprawdzanie spójności pakietów...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading required keys...\n"
-msgstr "pobieram %s...\n"
+msgstr ""
 
 #, c-format
 msgid "loading package files...\n"
@@ -93,17 +93,17 @@ msgstr "sukces!\n"
 msgid "failed.\n"
 msgstr "nieudane.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving packages ...\n"
-msgstr "Pobieranie pakietów z %s...\n"
+msgstr ""
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "sprawdzanie dostępnego miejsca na dysku...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s: wymaga %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -159,9 +159,9 @@ msgstr ""
 "Plik %s jest uszkodzony (%s).\n"
 "Czy chcesz go usunąć?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Zaimportować klucz PGP %s, \"%s\", utworzony %s?"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -171,13 +171,13 @@ msgstr "instalowanie"
 msgid "upgrading"
 msgstr "aktualizowanie"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading"
-msgstr "aktualizowanie"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling"
-msgstr "instalowanie"
+msgstr ""
 
 #, c-format
 msgid "removing"
@@ -195,9 +195,9 @@ msgstr "sprawdzanie dostępnego miejsca na dysku"
 msgid "checking package integrity"
 msgstr "sprawdzanie spójności pakietów"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keys in keyring"
-msgstr "sprawdzanie spójności pakietów"
+msgstr ""
 
 #, c-format
 msgid "loading package files"
@@ -206,6 +206,71 @@ msgstr "wczytywanie plików pakietu"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "pobieram %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s znajduje się w systemie plików\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "nie udało się odczytać pliku '%s': %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "za długa ścieżka: %s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] "%s: w sumie %jd plik, "
+msgstr[1] "%s: w sumie %jd pliki, "
+msgstr[2] "%s: w sumie %jd plików, "
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] "%jd brakujący plik\n"
+msgstr[1] "%jd brakujące pliki\n"
+msgstr[2] "%jd brakujących plików\n"
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "nie udało się odczytać pliku '%s': %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -291,9 +356,9 @@ msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 "parsowanie konfiguracji przekroczyło maksymalną głębokość rekurencji, %d.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "plik konfiguracyjny %s nie może być odczytany.\n"
+msgstr ""
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -332,9 +397,9 @@ msgstr "%s: powód instalacji został ustawiony jako zależność.\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: powód instalacji został ustawiony jako ręczny.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid " [installed]"
-msgstr "zainstalowano"
+msgstr ""
 
 #, c-format
 msgid "Optional Deps  :"
@@ -356,17 +421,17 @@ msgstr "Nieznane"
 msgid "None"
 msgstr "Żadnych"
 
-#, fuzzy, c-format
+#, c-format
 msgid "MD5 Sum"
-msgstr "Suma MD5       :"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum"
-msgstr "Suma kontrolna SHA256: "
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signature"
-msgstr "Błąd podpisu"
+msgstr ""
 
 #, c-format
 msgid "Repository     :"
@@ -412,9 +477,9 @@ msgstr "Zależy od      :"
 msgid "Required By    :"
 msgstr "Wymagane przez :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For   :"
-msgstr "Opcjonalne zależności:"
+msgstr ""
 
 #, c-format
 msgid "Conflicts With :"
@@ -424,17 +489,17 @@ msgstr "Konfliktuje z  :"
 msgid "Replaces       :"
 msgstr "Zastępuje      :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  :"
-msgstr "Rozmiar do pobrania"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size:"
-msgstr "Rozmiar skompresowany:  %6.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size :"
-msgstr "Rozmiar po instalacji:  %6.2f %s\n"
+msgstr ""
 
 #, c-format
 msgid "Packager       :"
@@ -476,9 +541,9 @@ msgstr "Suma kontrolna SHA256: "
 msgid "Signatures     :"
 msgstr "Podpisy        :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By   :"
-msgstr "Wymagane przez :"
+msgstr ""
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -496,9 +561,9 @@ msgstr "(żadnych)\n"
 msgid "no changelog available for '%s'.\n"
 msgstr "brak listy zmian dla '%s'.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s:\n"
-msgstr "brak listy zmian dla '%s'.\n"
+msgstr ""
 
 #, c-format
 msgid "installed"
@@ -611,13 +676,11 @@ msgstr ""
 "  -m, --foreign        wylistuj zainstalowane pakiety nie znalezione w "
 "bazach synchronizacji [filtr]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        wylistuj zainstalowane pakiety nie znalezione w "
-"bazach synchronizacji [filtr]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -703,10 +766,9 @@ msgstr "      --asdeps         oznacza pakiety jako zależności\n"
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     oznacza pakiety jako zainstalowane ręcznie\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"  -f, --force          wymusza instalację, nadpisując konfliktujące pliki\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -874,10 +936,6 @@ msgstr "nie podano pliku dla --owns\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nie można ustalić pełnej ścieżki dla '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "za długa ścieżka: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1187,29 +1245,29 @@ msgstr "Zmiana netto"
 msgid "Download Size"
 msgstr "Rozmiar do pobrania"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
-msgstr "usuwanie"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Packages"
-msgstr "pakiet(y)"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:"
-msgstr "Rozmiar do pobrania"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:"
-msgstr "Całkowity rozmiar po instalacji: %.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:"
-msgstr "Całkowity rozmiar do usunięcia: %.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:"
-msgstr "Rozmiar netto aktualizacji:  %.2f %s\n"
+msgstr ""
 
 #, c-format
 msgid " [pending]"
@@ -1282,37 +1340,3 @@ msgstr "błąd:  "
 #, c-format
 msgid "warning: "
 msgstr "ostrzeżenie: "
-
-#~ msgid "Download Size  : %6.2f %s\n"
-#~ msgstr "Rozmiar do pobrania:  %6.2f %s\n"
-
-#~ msgid "cannot determine ownership of directory '%s'\n"
-#~ msgstr "nie można określić właściciela katalogu '%s'\n"
-
-#~ msgid "%s: %jd total file, "
-#~ msgid_plural "%s: %jd total files, "
-#~ msgstr[0] "%s: w sumie %jd plik, "
-#~ msgstr[1] "%s: w sumie %jd pliki, "
-#~ msgstr[2] "%s: w sumie %jd plików, "
-
-#~ msgid "%jd missing file\n"
-#~ msgid_plural "%jd missing files\n"
-#~ msgstr[0] "%jd brakujący plik\n"
-#~ msgstr[1] "%jd brakujące pliki\n"
-#~ msgstr[2] "%jd brakujących plików\n"
-
-#~ msgid "The following packages should be upgraded first :\n"
-#~ msgstr "Następujące pakiety powinny być zaktualizowane najpierw :\n"
-
-#~ msgid ""
-#~ "Do you want to cancel the current operation\n"
-#~ "and upgrade these packages now?"
-#~ msgstr ""
-#~ "Czy chcesz anulować obecną operację\n"
-#~ ":: i zaktualizować te pakiety teraz?"
-
-#~ msgid "Targets (%d):"
-#~ msgstr "Cele (%d):"
-
-#~ msgid "Total Download Size:    %.2f %s\n"
-#~ msgstr "Całkowity rozmiar do pobrania: %.2f %s\n"

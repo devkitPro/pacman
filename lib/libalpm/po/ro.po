@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Arthur <arthur.titeica@gmail.com>, 2013.
 # cantabile <cantabile.desu@gmail.com>, 2011.
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # Ionut Biru <ibiru@archlinux.org>, 2011.
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2011-10-06 17:25+0000\n"
-"Last-Translator: Mihai Coman <mihai@m1x.ro>\n"
+"PO-Revision-Date: 2013-03-10 20:31+0000\n"
+"Last-Translator: roentgen <arthur.titeica@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ro/)\n"
 "Language: ro\n"
@@ -105,9 +106,9 @@ msgstr "nu se poate actualiza în baza de date intrarea %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nu se poate adăuga intrarea '%s' în cache\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading file %s: %s\n"
-msgstr "eroare la citirea pachetului %s: %s\n"
+msgstr "eroare la citirea fișierului %s: %s\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
@@ -142,7 +143,7 @@ msgstr ""
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "tipul de validare este necunoscut pentru pachetul %s: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -168,13 +169,13 @@ msgstr "eroare la citirea pachetului %s: %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "lipsă metadate pentru pachet în %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "eșec în obținerea unor fișiere din %s\n"
+msgstr "eșec la citirea fișierului de semnătură: %s\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "cheia necesară lipsește din lanțul de chei\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -219,7 +220,7 @@ msgid "could not get filesystem information for %s: %s\n"
 msgstr ""
 "nu s-au putut obține informații despre sistemul de fișiere pentru %s: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s: %s\n"
 msgstr "nu poate fi deschis fișierul %s: %s\n"
 
@@ -239,9 +240,9 @@ msgstr "Partiția %s prea plină: %jd blocuri necesare,%jd blocuri libere\n"
 msgid "could not determine filesystem mount points\n"
 msgstr "nu s-a putut determina locul de montare al sistemului de fișiere\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "nu s-a putut determina locul de montare al partiției root %s\n"
+msgstr "nu s-a putut determina partiția de montare pentru cachedir %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -285,7 +286,7 @@ msgstr "eroare de sistem neașteptată"
 
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "permisiune respinsă"
 
 #, c-format
 msgid "could not find or read file"
@@ -503,9 +504,9 @@ msgstr "se elimină '%s' din lista țintă\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "nu poate fi eliminat fișierul '%s': %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "nu poate fi creat director %s: %s\n"
+msgstr "nu s-a putut deschide directorul: %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -551,13 +552,13 @@ msgstr "au fost detectate conflicte nerezolvabile în pachet\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "se elimină '%s' din lista țintă deoarece este în conflict cu '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files\n"
-msgstr "eșec în obținerea unor fișiere"
+msgstr "eșec în obținerea unor fișiere\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "not enough free disk space\n"
-msgstr "nu există destul spațiu liber pe disc"
+msgstr "nu există destul spațiu liber pe disc\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -583,9 +584,9 @@ msgstr "nu s-a putut elimina %s\n"
 msgid "could not remove tmpdir %s\n"
 msgstr "nu poate fi eliminat tmpdir %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not stat file %s: %s\n"
-msgstr "nu poate fi deschis fișierul %s: %s\n"
+msgstr "nu s-a putut găsi fișierul %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -623,9 +624,3 @@ msgstr "nu există cache %s, se crează...\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "nu s-a putut găsi sau creea cache pentru pachet; se folosește %s în schimb.\n"
-
-#~ msgid "could not install %s as %s (%s)\n"
-#~ msgstr "nu se poate instala %s ca %s (%s)\n"
-
-#~ msgid "insufficient privileges"
-#~ msgstr "privilegii insuficiente"

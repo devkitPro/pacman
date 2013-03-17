@@ -5,15 +5,15 @@
 # Translators:
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2012.
 # Dan McGee <dpmcgee@gmail.com>, 2011.
-#   <dlin.tw@gmail.com>, 2011, 2012.
+#   <dlin.tw@gmail.com>, 2011-2012.
 # Huei-Horng Yo <hiroshiyui@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2012-08-23 10:27+0000\n"
-"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 03:06+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -50,25 +50,25 @@ msgstr "正在刪除 %s...\n"
 msgid "upgrading %s...\n"
 msgstr "正在升級 %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %s...\n"
-msgstr "正在下載 %s...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling %s...\n"
-msgstr "正在安裝 %s...\n"
+msgstr ""
 
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "正在檢查軟體包完整性...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keyring...\n"
-msgstr "正在檢查軟體包完整性...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading required keys...\n"
-msgstr "正在下載 %s...\n"
+msgstr ""
 
 #, c-format
 msgid "loading package files...\n"
@@ -94,17 +94,17 @@ msgstr "成功完成！\n"
 msgid "failed.\n"
 msgstr "失敗。\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving packages ...\n"
-msgstr "正在從 %s 軟體庫獲取軟體包...\n"
+msgstr ""
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "正在檢查可用磁盤空間...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s: 要求 %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -152,9 +152,9 @@ msgstr ""
 " %s 檔案毀損(%s).\n"
 "你要刪除它嗎?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "::導入 PGP 安全金鑰 %s, \"%s\", 建立 %s"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -164,13 +164,13 @@ msgstr "正在安裝"
 msgid "upgrading"
 msgstr "正在更新"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading"
-msgstr "正在更新"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling"
-msgstr "正在安裝"
+msgstr ""
 
 #, c-format
 msgid "removing"
@@ -188,9 +188,9 @@ msgstr "正在檢查可用硬盤空間"
 msgid "checking package integrity"
 msgstr "正在檢查軟體包完整性"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keys in keyring"
-msgstr "正在檢查軟體包完整性"
+msgstr ""
 
 #, c-format
 msgid "loading package files"
@@ -199,6 +199,65 @@ msgstr "正在載入軟體包檔案"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "正在下載 %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: 文件系統中已存在 %s \n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "無法讀取文件 '%s'：%s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "路徑過長：%s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] "%s: 共 %jd 個文件，"
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] "共 %jd 個缺失文件\n"
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "無法讀取文件 '%s'：%s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -281,9 +340,9 @@ msgstr "無法新增鏡像檔案 '%s' 到資料庫 '%s' (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "解析配置檔超出最大遞迴深度 %d\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "無法讀取配置文件 %s。\n"
+msgstr ""
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -321,9 +380,9 @@ msgstr "%s：安裝原因設定爲“作爲依賴關係安裝”\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s：安裝原因設定爲“單獨指定安裝”\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid " [installed]"
-msgstr "已安裝"
+msgstr ""
 
 #, c-format
 msgid "Optional Deps  :"
@@ -345,17 +404,17 @@ msgstr "未知的"
 msgid "None"
 msgstr "無"
 
-#, fuzzy, c-format
+#, c-format
 msgid "MD5 Sum"
-msgstr "MD5校驗值："
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum"
-msgstr "SHA256 檢查碼 :"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signature"
-msgstr "數位簽章錯誤"
+msgstr ""
 
 #, c-format
 msgid "Repository     :"
@@ -401,9 +460,9 @@ msgstr "依賴於　　："
 msgid "Required By    :"
 msgstr "要求被　　："
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For   :"
-msgstr "可選依賴　："
+msgstr ""
 
 #, c-format
 msgid "Conflicts With :"
@@ -413,21 +472,17 @@ msgstr "衝突與　　："
 msgid "Replaces       :"
 msgstr "取代　　　："
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  :"
-msgstr "下載大小"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size:"
 msgstr ""
-"壓縮後檔案長度: %6.2f %s\n"
-"\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size :"
 msgstr ""
-"已安裝檔案長度: %6.2f %s\n"
-"\n"
 
 #, c-format
 msgid "Packager       :"
@@ -469,9 +524,9 @@ msgstr "SHA256 檢查碼 :"
 msgid "Signatures     :"
 msgstr "數位簽章:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By   :"
-msgstr "要求被　　："
+msgstr ""
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -489,9 +544,9 @@ msgstr " (無) \n"
 msgid "no changelog available for '%s'.\n"
 msgstr "'%s' 沒有可用的更新日誌。\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s:\n"
-msgstr "'%s' 沒有可用的更新日誌。\n"
+msgstr ""
 
 #, c-format
 msgid "installed"
@@ -593,12 +648,11 @@ msgid ""
 msgstr ""
 "  -m, --foreign        列出沒有在同步資料庫時找到的已安裝軟體包 [過濾器]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        列出沒有在同步資料庫時找到的已安裝軟體包 [過濾器]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -670,9 +724,9 @@ msgstr "      --asdeps         標記爲非單獨指定安裝的軟體包\n"
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     標記爲明確指定安裝的軟體包\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr "  -f,  -force          強制安裝，覆蓋存在衝突的文件\n"
+msgstr ""
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -830,10 +884,6 @@ msgstr "錯誤：沒有爲 --owns 指定文件\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "無法確定 '%s' 的真實路徑：%s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "路徑過長：%s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1143,29 +1193,29 @@ msgstr "淨更動"
 msgid "Download Size"
 msgstr "下載大小"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
-msgstr "正在刪除"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Packages"
-msgstr "軟體包"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:"
-msgstr "下載大小"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:"
-msgstr "全部安裝檔案長度:    %.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:"
-msgstr "總計移除大小：    %.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:"
-msgstr "升級檔案長度       :    %.2f %s\n"
+msgstr ""
 
 #, c-format
 msgid " [pending]"
@@ -1238,35 +1288,3 @@ msgstr "錯誤："
 #, c-format
 msgid "warning: "
 msgstr "警告："
-
-#~ msgid "Download Size  : %6.2f %s\n"
-#~ msgstr ""
-#~ "下載檔案長度: %6.2f %s\n"
-#~ "\n"
-
-#~ msgid "cannot determine ownership of directory '%s'\n"
-#~ msgstr "無法測定目錄 '%s' 的所屬權\n"
-
-#~ msgid "%s: %jd total file, "
-#~ msgid_plural "%s: %jd total files, "
-#~ msgstr[0] "%s: 共 %jd 個文件，"
-
-#~ msgid "%jd missing file\n"
-#~ msgid_plural "%jd missing files\n"
-#~ msgstr[0] "共 %jd 個缺失文件\n"
-
-#~ msgid "The following packages should be upgraded first :\n"
-#~ msgstr "下列軟體包應當首先更新：\n"
-
-#~ msgid ""
-#~ "Do you want to cancel the current operation\n"
-#~ "and upgrade these packages now?"
-#~ msgstr ""
-#~ "打算取消當前操作\n"
-#~ ":: 並馬上安裝這些軟體包嗎？ "
-
-#~ msgid "Targets (%d):"
-#~ msgstr "目標 (%d)："
-
-#~ msgid "Total Download Size:    %.2f %s\n"
-#~ msgstr "全部下載檔案長度:    %.2f %s\n"

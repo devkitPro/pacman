@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2013.
 # György Balló <ballogy@freestart.hu>, 2011-2012.
 #  <ngaba@bibl.u-szeged.hu>, 2013.
 # ngaba <ngaba@bibl.u-szeged.hu>, 2011.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2013-03-13 10:52+0000\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-16 15:05+0000\n"
 "Last-Translator: ngaba <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/hu/)\n"
@@ -202,6 +203,68 @@ msgstr "csomagfájlok betöltése"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "%s letöltése...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s létezik a fájlrendszerben\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "az útvonal túl hosszú: %s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -830,7 +893,7 @@ msgstr ""
 "                       Ez a program szabadon terjeszthető a GNU\n"
 "                       General Public License feltételei szerint.\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "érvénytelen '%s' argumentum a %s-hoz\n"
 
@@ -877,10 +940,6 @@ msgstr "nincs megadva fájl az --owns számára\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nem állapítható meg a valódi útvonal a(z) '%s' számára: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "az útvonal túl hosszú: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1190,9 +1249,9 @@ msgstr "Tiszta változás"
 msgid "Download Size"
 msgstr "Letöltési méret"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
-msgstr "eltávolítás:"
+msgstr "eltávolítás"
 
 #, c-format
 msgid "Packages"

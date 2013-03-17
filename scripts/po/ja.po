@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2013-02-27 09:44+0000\n"
-"Last-Translator: kusakata <info@astaricsoft.net>\n"
+"POT-Creation-Date: 2013-03-17 13:19+1000\n"
+"PO-Revision-Date: 2013-03-15 07:33+0000\n"
+"Last-Translator: kusakata <shohei@kusakata.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ja/)\n"
 "Language: ja\n"
@@ -31,7 +31,7 @@ msgid "Entering %s environment..."
 msgstr "%s 環境を開始..."
 
 msgid "Unknown download protocol: %s"
-msgstr ""
+msgstr "不明なダウンロードプロトコル: %s"
 
 msgid "Aborting..."
 msgstr "中止..."
@@ -57,65 +57,53 @@ msgstr "%s を %s で展開"
 msgid "Failed to extract %s"
 msgstr "%s の展開に失敗しました"
 
-#, fuzzy
 msgid "Unrecognized reference: %s"
-msgstr "パッケージは %s へのリファレンスを含んでいます"
+msgstr "認識できない参照: %s"
 
-#, fuzzy
 msgid "Branching %s ..."
-msgstr "%s ファイルを生成..."
+msgstr "%s ブランチを作成 ..."
 
-#, fuzzy
 msgid "Failure while branching %s"
-msgstr "%s のダウンロードに失敗"
+msgstr "%s ブランチの作成に失敗"
 
-#, fuzzy
 msgid "%s is not a branch of %s"
-msgstr "'%s' はパッケージファイルではありません、スキップ"
+msgstr "%s は %s のブランチではありません"
 
-#, fuzzy
 msgid "Pulling %s ..."
-msgstr "%s を追加..."
+msgstr "%s の pull ..."
 
-#, fuzzy
 msgid "Failure while pulling %s"
-msgstr "%s のダウンロードに失敗"
+msgstr "%s の pull に失敗"
 
 msgid "Creating working copy of %s %s repo..."
-msgstr ""
+msgstr "%s %s リポジトリの作業コピーを作成..."
 
 msgid "Failure while creating working copy of %s %s repo"
-msgstr ""
+msgstr "%s %s リポジトリの作業コピーの作成に失敗"
 
-#, fuzzy
 msgid "Cloning %s %s repo..."
-msgstr "クリーンアップ..."
+msgstr "%s %s リポジトリを複製..."
 
-#, fuzzy
 msgid "Failure while downloading %s %s repo"
-msgstr "%s のダウンロードに失敗"
+msgstr "%s %s リポジトリのダウンロードに失敗"
 
-#, fuzzy
 msgid "%s is not a clone of %s"
-msgstr "%s を空にすることはできません。"
+msgstr "%s は %s の複製ではありません"
 
-#, fuzzy
 msgid "Updating %s %s repo..."
-msgstr "信用データベースをアップデート..."
+msgstr "%s %s リポジトリをアップデート..."
 
-#, fuzzy
 msgid "Failure while updating %s %s repo"
-msgstr "%s のダウンロードに失敗"
+msgstr "%s %s リポジトリのアップデートに失敗"
 
-#, fuzzy
 msgid "Retrieving sources..."
 msgstr "ソースを取得..."
 
 msgid "Updated version: %s"
-msgstr ""
+msgstr "アップデートされたバージョン: %s"
 
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr ""
+msgstr "%s を書き込みできません -- pkgver はアップデートされません"
 
 msgid "Unable to find source file %s."
 msgstr "ソースファイル %s を見つけられません。"
@@ -124,17 +112,16 @@ msgid "'%s' returned a fatal error (%i): %s"
 msgstr "'%s' は致命的なエラーを返しました (%i): %s"
 
 msgid "Installing missing dependencies..."
-msgstr "欠けている依存関係をインストール..."
+msgstr "欠けている依存パッケージをインストール..."
 
 msgid "'%s' failed to install missing dependencies."
-msgstr "'%s' で欠けている依存関係をインストールするのに失敗しました。"
+msgstr "'%s' で欠けている依存パッケージをインストールするのに失敗しました。"
 
-#, fuzzy
 msgid "Missing dependencies:"
-msgstr "欠けている依存関係:"
+msgstr "欠けている依存パッケージ:"
 
 msgid "Failed to remove installed dependencies."
-msgstr "インストールされた依存関係の削除に失敗しました。"
+msgstr "インストールされた依存パッケージの削除に失敗しました。"
 
 msgid "Generating checksums for source files..."
 msgstr "ソースファイルのチェックサムを生成..."
@@ -151,7 +138,7 @@ msgid "Validating source files with %s..."
 msgstr "%s でソースファイルを検証..."
 
 msgid "Skipped"
-msgstr ""
+msgstr "スキップ"
 
 msgid "NOT FOUND"
 msgstr "NOT FOUND"
@@ -210,20 +197,17 @@ msgstr "ソースファイルのチェックサムの検証をスキップ。"
 msgid "Skipping verification of source file PGP signatures."
 msgstr "ソースファイルの PGP 鍵の検証をスキップ。"
 
-#, fuzzy
 msgid "Extracting sources..."
-msgstr "ソースの展開..."
+msgstr "ソースを展開..."
 
 msgid "A failure occurred in %s()."
 msgstr "%s() で問題が発生しました。"
 
-#, fuzzy
 msgid "Failed to change to directory %s"
-msgstr "%s の展開に失敗しました"
+msgstr "ディレクトリの変更に失敗 %s"
 
-#, fuzzy
 msgid "Failed to source %s"
-msgstr "%s の展開に失敗しました"
+msgstr "source に失敗 %s"
 
 msgid "Starting %s()..."
 msgstr "%s() を開始..."
@@ -263,12 +247,13 @@ msgstr "バイナリを圧縮できませんでした : %s"
 
 msgid "Library listed in %s is not required by any files: %s"
 msgstr ""
+"%s にリストされているライブラリはどのファイルにも必要とされていません: %s"
 
 msgid "Library listed in %s is not versioned: %s"
-msgstr ""
+msgstr "%s にリストされているライブラリはバージョン管理されていません: %s"
 
 msgid "Library listed in %s is not a shared object: %s"
-msgstr ""
+msgstr "%s にリストされているライブラリは共有オブジェクトではありません: %s"
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "%s にリストされているライブラリが見つかりません: %s"
@@ -285,16 +270,14 @@ msgstr "%s ファイルを生成..."
 msgid "Missing %s directory."
 msgstr "%s ディレクトリが見つかりません。"
 
-#, fuzzy
 msgid "Creating package \"%s\"..."
-msgstr "パッケージを作成..."
+msgstr "パッケージを作成 \"%s\"..."
 
 msgid "Adding %s file..."
 msgstr "%s ファイルを追加..."
 
-#, fuzzy
 msgid "Generating .MTREE file..."
-msgstr "%s ファイルを生成..."
+msgstr ".MTREE ファイルを生成..."
 
 msgid "Compressing package..."
 msgstr "パッケージの圧縮..."
@@ -353,9 +336,8 @@ msgstr "%s の先頭をハイフンにすることはできません。"
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s に無効な文字を含んでいます: '%s'"
 
-#, fuzzy
 msgid "%s must be a decimal."
-msgstr "%s は整数でなくてはなりません。"
+msgstr "%s は十六進数にする必要があります。"
 
 msgid "%s must be an integer."
 msgstr "%s は整数でなくてはなりません。"
@@ -393,13 +375,11 @@ msgstr "リクエストされたパッケージ %s は %s にありません"
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s にコロンやハイフン、空白を含めることはできません。"
 
-#, fuzzy
 msgid "Cannot find the %s binary required for dependency operations."
-msgstr "全ての %s オペレーションをするのに必要な %s バイナリが見つかりません。"
+msgstr "依存関係を解決するのに必要な %s バイナリが見つかりません。"
 
-#, fuzzy
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
-msgstr "Sudo が見つかりません。su を使って root 権限を取得します。"
+msgstr "%s バイナリが見つかりません。%s を使って root 特権を獲得します。"
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr "非 root ユーザーでビルドするために必要な %s バイナリが見つかりません。"
@@ -437,7 +417,7 @@ msgstr ""
 "パッケージはすでにビルドされています。既存のパッケージをインストール..."
 
 msgid "A package has already been built. (use %s to overwrite)"
-msgstr "パッケージはすでにビルドされています。 (%s で上書きします)"
+msgstr "パッケージはすでにビルドされています。(%s で上書きします)"
 
 msgid ""
 "The package group has already been built, installing existing packages..."
@@ -446,11 +426,11 @@ msgstr ""
 "ル..."
 
 msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "パッケージグループはすでにビルドされています。 (%s で上書きします)"
+msgstr "パッケージグループはすでにビルドされています。(%s で上書きします)"
 
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
-"パッケージグループの一部がすでにビルドされています。 (%s で上書きします)"
+"パッケージグループの一部がすでにビルドされています。(%s で上書きします)"
 
 msgid "Usage: %s [options]"
 msgstr "使用方法: %s [オプション]"
@@ -497,13 +477,13 @@ msgstr "  -p <file>        指定したビルドスクリプトを使う (デフ
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps     ビルドが成功した後にインストールされた依存関係を削除"
+"  -r, --rmdeps     ビルドが成功した後にインストールされた依存パッケージを削除"
 
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  リビルドをせずにパッケージの中身を再パッケージ"
 
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
-msgstr "  -s, --syncdeps   欠けている依存関係を %s でインストール"
+msgstr "  -s, --syncdeps   欠けている依存パッケージを %s でインストール"
 
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
@@ -522,6 +502,8 @@ msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
+"  --verifysource   (必要な) ソースファイルをダウンロードして整合性チェックを"
+"行う"
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         %s を root ユーザーで実行"
@@ -532,9 +514,8 @@ msgstr "  --check          %s 関数を %s で実行"
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <file>  指定した設定ファイルを使う (デフォルトは '%s')"
 
-#, fuzzy
 msgid "  --holdver        Do not update VCS sources"
-msgstr "  --nocheck        %s 関数を %s で実行しない"
+msgstr "  --holdver        VCS ソースをアップデートしない"
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
@@ -570,6 +551,8 @@ msgstr "以下のオプションを %s に渡すことができます:"
 
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr ""
+"  --asdeps         依存関係としてインストールされたとしてパッケージをインス"
+"トール"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -577,7 +560,7 @@ msgstr "  --noconfirm      依存関係を解決するときに確認をしな�
 
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
-msgstr ""
+msgstr "  --needed         対象が最新の場合は再インストールしない"
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
@@ -586,7 +569,6 @@ msgstr ""
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "%s が指定されていない場合、%s は '%s' を探します"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
@@ -622,9 +604,8 @@ msgstr "%s にダウンロードを保存するための書き込み権限があ
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "%s にソース tarball を保存するための書き込み権限がありません。"
 
-#, fuzzy
 msgid "You do not have write permission to store logs in %s."
-msgstr "%s にダウンロードを保存するための書き込み権限がありません。"
+msgstr "%s にログを保存するための書き込み許可がありません。"
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
@@ -677,9 +658,8 @@ msgstr "ファイルパーミッションは保存されません。"
 msgid "Making package: %s"
 msgstr "パッケージを作成: %s"
 
-#, fuzzy
 msgid "Using a %s without a %s function is deprecated."
-msgstr "%s 関数を使わずに再パッケージを行うのは推奨されません。"
+msgstr "%s には %s 関数が必要です。"
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "ソースパッケージはすでにビルドされています。 (%s で上書きします)"
@@ -699,9 +679,8 @@ msgstr "ビルドタイムの依存関係を確認..."
 msgid "Could not resolve all dependencies."
 msgstr "全ての依存関係を解決できませんでした。"
 
-#, fuzzy
 msgid "Using existing %s tree"
-msgstr "既存の %s ディレクトリを削除..."
+msgstr "既存の %s ツリーを使用"
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr ""
@@ -716,17 +695,15 @@ msgstr "既存の %s ディレクトリを削除..."
 msgid "Finished making: %s"
 msgstr "作成完了: %s"
 
-#, fuzzy
 msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr "使用方法: %s [pacman_db_root]"
+msgstr "使用方法: %s [--nocolor] [pacman_db_root]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -749,94 +726,78 @@ msgstr "3.5 以前のデータベースフォーマットが検出されまし�
 msgid "Done."
 msgstr "完了。"
 
-#, fuzzy
 msgid "Usage: %s [options] operation [targets]"
-msgstr "使用方法: %s [オプション]"
+msgstr "使用方法: %s [オプション] オペレーション [対象]"
 
 msgid "Manage pacman's list of trusted keys"
 msgstr "信用されたキーの pacman のリストの管理"
 
-#, fuzzy
 msgid "Operations:"
-msgstr "オプション:"
+msgstr "オペレーション:"
 
-#, fuzzy
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
-msgstr "  -a, --add [file(s)]       指定されたキーを追加 (標準入力は空)"
+msgstr "  -a, --add                 指定されたキーを追加 (標準入力は空)"
 
-#, fuzzy
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr "  -d, --delete <keyid(s)>   指定された keyid を削除"
+msgstr "  -d, --delete              指定された keyid を削除"
 
-#, fuzzy
 msgid "  -e, --export              Export the specified or all keyids"
 msgstr ""
-"  -e, --export [keyid(s)]   指定された、もしくは全ての keyid をエクスポート"
+"  -e, --export              指定された、もしくは全ての keyid をエクスポート"
 
-#, fuzzy
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger [keyid(s)]   指定された、もしくは全ての keyid のフィンガープリ"
-"ントを表示"
+"  -f, --finger              指定された、もしくは全ての keyid のフィンガープリ"
+"ントを一覧"
 
-#, fuzzy
 msgid "  -l, --list-keys           List the specified or all keys"
-msgstr "  -l, --list-keys [keyid(s)] 指定された、もしくは全てのキーを表示"
+msgstr "  -l, --list-keys           指定された、もしくは全てのキーを一覧"
 
-#, fuzzy
 msgid "  -r, --recv-keys           Fetch the specified keyids"
-msgstr "  -r, --recv-keys <keyid(s)> 指定された keyid を取得"
+msgstr "  -r, --recv-keys           指定された keyid を取得"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            pacman の信用データベースをアップデート"
 
-#, fuzzy
 msgid ""
 "  -v, --verify              Verify the file(s) specified by the signature(s)"
-msgstr "  -v, --verify <signature>  指定されたファイルを署名で検証"
+msgstr "  -v, --verify              指定されたファイルを署名で検証"
 
-#, fuzzy
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
-msgstr "  --edit-key <keyid(s)>     キー管理のためのメニューを表示"
+msgstr "  --edit-key                キー管理のためのメニューを表示"
 
-#, fuzzy
 msgid "  --import                  Imports pubring.gpg from dir(s)"
-msgstr "  --import <dir(s)>         ディレクトリから pubring.gpg をインポート"
+msgstr "  --import                  ディレクトリから pubring.gpg をインポート"
 
-#, fuzzy
 msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr ""
-"  --import-trustdb <dir(s)> ディレクトリ内の trustdb.gpg から所有者信頼値をイ"
+"  --import-trustdb          ディレクトリ内の trustdb.gpg から所有者信頼値をイ"
 "ンポート"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr "  --init                    キーリングを正しく初期化"
 
-#, fuzzy
 msgid "  --list-sigs               List keys and their signatures"
-msgstr "  --list-sigs [keyid(s)]    キーと署名を一覧"
+msgstr "  --list-sigs               キーと署名を一覧"
 
-#, fuzzy
 msgid "  --lsign-key               Locally sign the specified keyid"
-msgstr "  --lsign-key <keyid>       指定された keyid に署名"
+msgstr "  --lsign-key               指定された keyid に署名"
 
-#, fuzzy
 msgid ""
 "  --populate                Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
-"  --populate [keyring(s)]   （指定された）キーリングからデフォルトキーをリ"
-"ロード\\n                            キーリングのディレクトリ: '%s'"
+"  --populate                (指定された) キーリングからデフォルトキーをリロー"
+"ド\\n                            キーリングのディレクトリ: '%s'"
 
-#, fuzzy
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 msgstr ""
-"  --refresh-keys [keyid(s)] 指定された、もしくは全てのキーをキーサーバから"
+"  --refresh-keys            指定された、もしくは全てのキーをキーサーバから"
 "アップデート"
 
 msgid ""
@@ -853,9 +814,8 @@ msgstr ""
 "  --gpgdir <dir>            GnuPG のディレクトリを指定する (デフォルトは"
 "\\n                            '%s')"
 
-#, fuzzy
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
-msgstr "  --keyserver               使用するキーサーバを指定"
+msgstr "  --keyserver <server-url>  使用するキーサーバを指定"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                このヘルプメッセージを表示"
@@ -864,10 +824,10 @@ msgid "  -V, --version             Show program version"
 msgstr "  -V, --version             プラグラムのバージョンを表示"
 
 msgid "Failed to lookup key by name:"
-msgstr ""
+msgstr "名前によるキーの検索に失敗しました:"
 
 msgid "Key name is ambiguous:"
-msgstr ""
+msgstr "キーの名前があいまいです:"
 
 msgid "The key identified by %s could not be found locally."
 msgstr "%s によって確認されたキーを見つけられませんでした。"
@@ -938,9 +898,8 @@ msgstr "指定された署名を記入できませんでした。"
 msgid "Locally signing key %s..."
 msgstr "キーに署名 %s..."
 
-#, fuzzy
 msgid "%s could not be locally signed."
-msgstr "指定されたキーに署名できませんでした。"
+msgstr "%s に署名できませんでした。"
 
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "キーサーバから正しくキーを取得できませんでした。"
@@ -961,7 +920,7 @@ msgid "Cannot find the %s binary required for all %s operations."
 msgstr "全ての %s オペレーションをするのに必要な %s バイナリが見つかりません。"
 
 msgid "%s needs to be run as root for this operation."
-msgstr "このオペレーションをするには %s を root で実行する必要があります。"
+msgstr "この操作をするには %s を root で実行する必要があります。"
 
 msgid "%s configuration file '%s' not found."
 msgstr "%s 設定ファイル '%s' が見つかりませんでした。"
@@ -976,7 +935,7 @@ msgid "Please run %s with each operation separately."
 msgstr "それぞれのオペレーションを分割して %s を実行してください。"
 
 msgid "No targets specified"
-msgstr ""
+msgstr "対象が指定されていません"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -999,9 +958,8 @@ msgstr ""
 "HDDのヘッドが動く距離を減らすことになり\\n結果としてハードドライブの読み込み"
 "が速くなるはずです。\\n"
 
-#, fuzzy
 msgid "Cannot find the %s binary required for verifying integrity."
-msgstr "ソースファイルを検証するのに必要な %s バイナリが見つかりません。"
+msgstr "整合性の検証に必要な %s バイナリが見つかりません。"
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "データベースを最適化するには適切な権限が必要です。"
@@ -1038,6 +996,8 @@ msgstr "データベースを配置..."
 
 msgid "New database substitution failed. Check for %s, %s, and %s directories."
 msgstr ""
+"新しいデータベースの置換に失敗しました。%s, %s, %s ディレクトリを確認してくだ"
+"さい。"
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "完了。あなたの pacman データベースは最適化されました。"
@@ -1062,14 +1022,11 @@ msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       最小の情報だけ表示\\n"
 
 msgid "  --nocolor         remove color from output\\n"
-msgstr ""
+msgstr "  --nocolor         出力から色を取り除く\\n"
 
-#, fuzzy
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
-msgstr ""
-"  --min-pkg-size    差分が生成される前の最小パッケージサイズ (バイト)\\n"
+msgstr "  --min-pkg-size    差分が生成される前の最小パッケージサイズ\\n"
 
-#, fuzzy
 msgid ""
 "  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
@@ -1120,7 +1077,7 @@ msgstr ""
 "か？"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "使用方法: repo-add [オプション] <path-to-db> <package|delta> ...\\n"
+msgstr "使用方法: repo-add [オプション] <path-to-db> <パッケージ|差分> ...\\n"
 
 msgid ""
 "repo-add will update a package database by reading a package file."
@@ -1134,14 +1091,14 @@ msgstr "  -d, --delta       パッケージのアップデートの差分を生�
 
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
-msgstr ""
+msgstr "  -n, --new         データベースにないパッケージのみを追加\\n"
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       データベースのファイルリストをアップデート\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
-"使用方法: repo-remove [オプション] <path-to-db> <packagename|delta> ...\\n"
+"使用方法: repo-remove [オプション] <path-to-db> <パッケージ名|差分> ...\\n"
 
 msgid ""
 "repo-remove will update a package database by removing the package name"
@@ -1156,7 +1113,7 @@ msgid "Please move along, there is nothing to see here.\\n"
 msgstr "見せ物じゃあないよ。さぁ行った行った。\\n"
 
 msgid "  --nocolor         turn off color in output\\n"
-msgstr ""
+msgstr "  --nocolor         カラー出力をオフにする\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign        アップデート後に GnuPG でデータベースに署名\\n"
@@ -1179,12 +1136,13 @@ msgstr ""
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "例:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
+#, fuzzy
 msgid ""
 "Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -1197,9 +1155,8 @@ msgstr "'deltas' エントリを追加 : %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "既存のエントリ '%s' を削除..."
 
-#, fuzzy
 msgid "Removing empty deltas file ..."
-msgstr "空のディレクトリを削除..."
+msgstr "空の差分ファイルを削除 ..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "gpg バイナリが見つかりません！GnuPG がインストールされていますか？"
@@ -1207,9 +1164,8 @@ msgstr "gpg バイナリが見つかりません！GnuPG がインストール�
 msgid "Signing database..."
 msgstr "データベースに署名..."
 
-#, fuzzy
 msgid "Created signature file '%s'"
-msgstr "署名ファイル %s を作成しました。"
+msgstr "作成された署名ファイル '%s'"
 
 msgid "Failed to sign package database."
 msgstr "パッケージデータベースの署名に失敗しました。"
@@ -1305,65 +1261,16 @@ msgid "No packages modified, nothing to do."
 msgstr "変更されたパッケージはありません。"
 
 msgid "option '%s' is ambiguous; possibilities:"
-msgstr ""
+msgstr "オプション '%s' はあいまいです; 候補:"
 
-#, fuzzy
 msgid "invalid option"
-msgstr "不明なオプション"
+msgstr "無効なオプション"
 
-#, fuzzy
 msgid "option requires an argument"
-msgstr "オプション %s には引数が必要です\\n"
+msgstr "オプションに引数が必要です"
 
-#, fuzzy
 msgid "option '%s' does not allow an argument"
-msgstr "オプション %s には引数が必要です\\n"
+msgstr "オプション '%s' に引数はつけられません"
 
-#, fuzzy
 msgid "option '%s' requires an argument"
-msgstr "オプション %s には引数が必要です\\n"
-
-#~ msgid "There is no agent set up to handle %s URLs. Check %s."
-#~ msgstr ""
-#~ "%s URL を扱えるエージェントが設定されていません。%s をチェックしてくださ"
-#~ "い。"
-
-#~ msgid "%s is not allowed to contain hyphens or whitespace."
-#~ msgstr "%s にハイフンや空白を含めることはできません。"
-
-#~ msgid "Cannot find the %s binary required to determine latest %s revision."
-#~ msgstr ""
-#~ "最新の %s リビジョンを選択するのに必要な %s バイナリが見つかりません。"
-
-#~ msgid "Determining latest %s revision..."
-#~ msgstr "最新の %s リビジョンを選択..."
-
-#~ msgid "Version found: %s"
-#~ msgstr "バージョン: %s"
-
-#~ msgid ""
-#~ "  --holdver        Prevent automatic version bumping for development %ss"
-#~ msgstr ""
-#~ "  --holdver        %s の作成のために自動バージョンアップを無効にする"
-
-#~ msgid "\\0%s and %s cannot both be specified"
-#~ msgstr "\\0%s と %s を両方指定することはできません"
-
-#~ msgid "%s was not found in %s; skipping dependency checks."
-#~ msgstr "%s が %s に見つかりませんでした; 依存チェックをスキップ。"
-
-#~ msgid "Skipping source retrieval        -- using existing %s tree"
-#~ msgstr "ソースの取得をスキップ　　　　　　 -- 既存の %s ツリーを使用"
-
-#~ msgid "Skipping source integrity checks -- using existing %s tree"
-#~ msgstr "ソースの整合性チェックをスキップ　 -- 既存の %s ツリーを使用"
-
-#~ msgid "Skipping source extraction       -- using existing %s tree"
-#~ msgstr "ソースの展開をスキップ　　　　　　 -- 既存の %s ツリーを使用"
-
-#~ msgid "The source directory is empty, there is nothing to build!"
-#~ msgstr "ソースディレクトリが空です、ビルドするべきものが何もありません！"
-
-#~ msgid "diff tool was not found, please install diffutils."
-#~ msgstr ""
-#~ "diff ツールが見つかりませんでした。diffutils をインストールしてください。"
+msgstr "オプション '%s' には引数が必要です"

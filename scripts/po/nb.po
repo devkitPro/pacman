@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Alexander Rødseth <rodseth@gmail.com>, 2011, 2012.
-# Jon Gjengset <jon@thesquareplanet.com>, 2011.
+# Alexander Rødseth <rodseth@gmail.com>, 2011-2012.
+# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2012-06-25 10:53+0000\n"
-"Last-Translator: Alexander Rødseth <rodseth@gmail.com>\n"
+"POT-Creation-Date: 2013-03-17 13:19+1000\n"
+"PO-Revision-Date: 2013-03-10 10:55+0000\n"
+"Last-Translator: Jon Gjengset <jon@thesquareplanet.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/nb/)\n"
 "Language: nb\n"
@@ -33,7 +33,7 @@ msgid "Entering %s environment..."
 msgstr "Går inn i %s miljøet..."
 
 msgid "Unknown download protocol: %s"
-msgstr ""
+msgstr "Ukjent dataprotokoll: %s"
 
 msgid "Aborting..."
 msgstr "Avbryter..."
@@ -59,65 +59,53 @@ msgstr "Pakker ut %s med %s"
 msgid "Failed to extract %s"
 msgstr "Klarte ikke å pakke ut %s"
 
-#, fuzzy
 msgid "Unrecognized reference: %s"
-msgstr "Pakken inneholder referanser til %s"
+msgstr "Ukjent referanse: %s"
 
-#, fuzzy
 msgid "Branching %s ..."
-msgstr "Genererer %s fil..."
+msgstr "Henter kopi av %s ..."
 
-#, fuzzy
 msgid "Failure while branching %s"
-msgstr "Feil oppstod ved nedlasting av %s"
+msgstr "Kunne ikke hente kopi av %s"
 
-#, fuzzy
 msgid "%s is not a branch of %s"
-msgstr "'%s' er ikke en pakkefil, hopper over den"
+msgstr "%s er ikke en kopi av %s"
 
-#, fuzzy
 msgid "Pulling %s ..."
-msgstr "Legger til %s..."
+msgstr "Henter %s ..."
 
-#, fuzzy
 msgid "Failure while pulling %s"
-msgstr "Feil oppstod ved nedlasting av %s"
+msgstr "Kunne ikke hente %s"
 
 msgid "Creating working copy of %s %s repo..."
-msgstr ""
+msgstr "Oppretter arbeidskopi av %s %s arkiv..."
 
 msgid "Failure while creating working copy of %s %s repo"
-msgstr ""
+msgstr "Kunne ikke opprette arbeidskopi for %s %s arkiv..."
 
-#, fuzzy
 msgid "Cloning %s %s repo..."
-msgstr "Rydder opp..."
+msgstr "Kopierer %s %s arkiv..."
 
-#, fuzzy
 msgid "Failure while downloading %s %s repo"
-msgstr "Feil oppstod ved nedlasting av %s"
+msgstr "Kunne ikke laste ned %s %s arkiv"
 
-#, fuzzy
 msgid "%s is not a clone of %s"
-msgstr "%s kan ikke være tom."
+msgstr "%s er ikke en kopi av %s"
 
-#, fuzzy
 msgid "Updating %s %s repo..."
-msgstr "Oppdaterer databasen med betrodde kilder..."
+msgstr "Oppdaterer %s %s arkiv..."
 
-#, fuzzy
 msgid "Failure while updating %s %s repo"
-msgstr "Feil oppstod ved nedlasting av %s"
+msgstr "Kunne ikke oppdatere %s %s arkiv"
 
-#, fuzzy
 msgid "Retrieving sources..."
 msgstr "Henter kilder..."
 
 msgid "Updated version: %s"
-msgstr ""
+msgstr "Oppdatert versjon: %s"
 
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr ""
+msgstr "%s er ikke skrivbar -- pkgver vil ikke bli oppdatert"
 
 msgid "Unable to find source file %s."
 msgstr "Kunne ikke finne kildefilen %s."
@@ -131,9 +119,8 @@ msgstr "Installerer manglende avhengigheter..."
 msgid "'%s' failed to install missing dependencies."
 msgstr "'%s' kunne ikke installere manglende avhengigheter."
 
-#, fuzzy
 msgid "Missing dependencies:"
-msgstr "Manglende Avhengigheter:"
+msgstr "Manglende avhengigheter:"
 
 msgid "Failed to remove installed dependencies."
 msgstr "Kunne ikke fjerne installerte avhengigheter."
@@ -153,7 +140,7 @@ msgid "Validating source files with %s..."
 msgstr "Validerer kildefiler med %s..."
 
 msgid "Skipped"
-msgstr ""
+msgstr "Hoppet over"
 
 msgid "NOT FOUND"
 msgstr "IKKE FUNNET"
@@ -212,20 +199,17 @@ msgstr "Hopper over verifisering av sjekksummer for kildefiler."
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Hopper over verifiseringen av PGP signaturer på kildefiler."
 
-#, fuzzy
 msgid "Extracting sources..."
 msgstr "Pakker ut kilder..."
 
 msgid "A failure occurred in %s()."
 msgstr "En feil oppsto i %s()."
 
-#, fuzzy
 msgid "Failed to change to directory %s"
-msgstr "Klarte ikke å pakke ut %s"
+msgstr "Kunne ikke åpne mappen %s"
 
-#, fuzzy
 msgid "Failed to source %s"
-msgstr "Klarte ikke å pakke ut %s"
+msgstr "Kunne ikke source %s"
 
 msgid "Starting %s()..."
 msgstr "Starter %s()..."
@@ -264,13 +248,13 @@ msgid "Could not compress binary : %s"
 msgstr "Kunne ikke komprimere binærfil : %s"
 
 msgid "Library listed in %s is not required by any files: %s"
-msgstr ""
+msgstr "Ingen filer trenger biblioteket listet i %s: %s"
 
 msgid "Library listed in %s is not versioned: %s"
-msgstr ""
+msgstr "Biblioteket listet i %s har ingen versjon: %s"
 
 msgid "Library listed in %s is not a shared object: %s"
-msgstr ""
+msgstr "Biblioteket i %s er ikke et delt objekt: %s"
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "Kunne ikke finne biblioteket listet i %s: %s"
@@ -287,16 +271,14 @@ msgstr "Genererer %s fil..."
 msgid "Missing %s directory."
 msgstr "Mangler %s mappen."
 
-#, fuzzy
 msgid "Creating package \"%s\"..."
-msgstr "Lager pakke..."
+msgstr "Oppretter pakke \"%s\"..."
 
 msgid "Adding %s file..."
 msgstr "Legger til fil %s..."
 
-#, fuzzy
 msgid "Generating .MTREE file..."
-msgstr "Genererer %s fil..."
+msgstr "Oppretter .MTREE fil..."
 
 msgid "Compressing package..."
 msgstr "Komprimerer pakke..."
@@ -355,9 +337,8 @@ msgstr "%s kan ikke starte med en bindestrek."
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s inneholder ugyldige tegn: '%s'"
 
-#, fuzzy
 msgid "%s must be a decimal."
-msgstr "%s må være et heltall."
+msgstr "%s må være et kommatall."
 
 msgid "%s must be an integer."
 msgstr "%s må være et heltall."
@@ -395,14 +376,13 @@ msgstr "Den forespurte pakken %s er ikke tilgjengelig %s"
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s kan ikke inneholde kolon, bindestreker eller mellomrom."
 
-#, fuzzy
 msgid "Cannot find the %s binary required for dependency operations."
-msgstr ""
-"Kunne ikke finne %s programmet som er nødvendig for alle %s operasjoner."
+msgstr "Kunne ikke finne programmet %s som trengs for å håndtere avhengigheter"
 
-#, fuzzy
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
-msgstr "Kunne ikke finne sudo. Bruker su for å få tilgang som root."
+msgstr ""
+"Kunne ikke finne programmet %s. Bruker %s for å få "
+"administrasjonsrettigheter."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -530,6 +510,8 @@ msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
+"  --verifysource   Last ned kildefiler (om nødvendig) og utfør "
+"integritetstester"
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Tillat %s å kjøre som root"
@@ -540,9 +522,8 @@ msgstr "  --check          Kjør %s funksjonen i %s"
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <fil>  Bruk en annen konfigurasjonsfil (istedenfor '%s')"
 
-#, fuzzy
 msgid "  --holdver        Do not update VCS sources"
-msgstr "  --nocheck        Ikke kjør %s funksjonen i %s"
+msgstr "  --holdver        Ikke oppdater VCS kilder"
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
@@ -576,7 +557,7 @@ msgid "These options can be passed to %s:"
 msgstr "Disse valgene kan gis videre til %s:"
 
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr ""
+msgstr "  --asdeps         Installér pakker som avhengigheter"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -587,6 +568,7 @@ msgstr ""
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr ""
+"  --needed         Ikke reinstallér pakker som allerede er i nyeste versjon"
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "      --noprogressbar  Ikke vis framdrift ved nedlasting av filer "
@@ -594,7 +576,6 @@ msgstr "      --noprogressbar  Ikke vis framdrift ved nedlasting av filer "
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Dersom %s ikke er spesifisert vil %s se etter '%s'"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
@@ -630,9 +611,8 @@ msgstr "Du har ikke skrivetilgang til å lagre nedlastinger i %s."
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "Du har ikke skrivetilgang til å lagre arkivfiler med kildekode i %s."
 
-#, fuzzy
 msgid "You do not have write permission to store logs in %s."
-msgstr "Du har ikke skrivetilgang til å lagre nedlastinger i %s."
+msgstr "Du har ikke skriverettigheter til å lage loggfiler i %s."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
@@ -686,9 +666,8 @@ msgstr "Det er ikke sikkert at filerettighetene forblir de samme."
 msgid "Making package: %s"
 msgstr "Lager pakke: %s"
 
-#, fuzzy
 msgid "Using a %s without a %s function is deprecated."
-msgstr "Å pakke på nytt uten bruk av %s funksjonen er utdatert."
+msgstr "Bruk av %s uten en %s funksjon er ikke lengre støttet."
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "En kildepakke har allerede blitt bygget (bruk %s for å erstatte)"
@@ -708,9 +687,8 @@ msgstr "Kontrollerer avhengigheter som trengs under bygging..."
 msgid "Could not resolve all dependencies."
 msgstr "Kunne ikke finne alle avhengigheter."
 
-#, fuzzy
 msgid "Using existing %s tree"
-msgstr "Fjerner eksisterende %s mappe..."
+msgstr "Bruker eksisterende %s mappe"
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "Pakkemappen er tom, det er ingenting her som kan pakkes på nytt!"
@@ -724,17 +702,15 @@ msgstr "Fjerner eksisterende %s mappe..."
 msgid "Finished making: %s"
 msgstr "Bygget ferdig: %s"
 
-#, fuzzy
 msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr "Bruk: %s [pacman_db_rot]"
+msgstr "Bruk: %s [--nocolor] [pacman_db_root]"
 
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2010-2012 Pacman Development Team <pacman-dev@archlinux.org>."
+"Opphavsrett (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\n\\nDette er fri programvare; se kildekoden for kopibetingelser.\\nDet gis "
 "INGEN GARANTI så langt det er tillatt innenfor loven.\\n"
 
@@ -756,101 +732,82 @@ msgstr "Database fra før versjon 3.5 funnet - oppgraderer..."
 msgid "Done."
 msgstr "Ferdig."
 
-#, fuzzy
 msgid "Usage: %s [options] operation [targets]"
-msgstr "Bruk: %s [valg]"
+msgstr "Bruk: %s [valg] handling [mål]"
 
 msgid "Manage pacman's list of trusted keys"
 msgstr "Administrer pacmans liste over betrodde nøkler."
 
-#, fuzzy
 msgid "Operations:"
-msgstr "Alternativer:"
+msgstr "Handlinger:"
 
-#, fuzzy
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
-msgstr ""
-"  -a, --add [fil(er)]            Legg til de angitte nøklene (tom for stdin)"
+msgstr "  -a, --add                 Legg til oppgitte nøkler (tom for stdin)"
 
-#, fuzzy
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr "  -d, --delete <nøkkelid(er)>    Fjern de angitte nøklene"
+msgstr "  -d, --delete              Fjerner de gitte nøkkel IDene"
 
-#, fuzzy
 msgid "  -e, --export              Export the specified or all keyids"
-msgstr ""
-"  -e, --export [nøkkelid(er)]    Eksporter de angitte, eller alle, nøklene"
+msgstr "  -e, --export              Eksporér de gitte (eller alle) nøkkel IDer"
 
-#, fuzzy
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger [nøkkelid(er)]    Vis fingeravtrykk for de angitte, eller "
-"alle, nøklene"
+"  -f, --finger              List fingeravtrykk for gitte (eller alle) nøkkel "
+"IDer"
 
-#, fuzzy
 msgid "  -l, --list-keys           List the specified or all keys"
-msgstr "  -l, --list-keys [nøkkelid(er)] Vis de angitte, eller alle, nøklene"
+msgstr "  -l, --list-keys           List de gitte (eller alle) nøkler"
 
-#, fuzzy
 msgid "  -r, --recv-keys           Fetch the specified keyids"
-msgstr "  -r, --recv-keys <nøkkelid(er)> Hent de angitte nøklene"
+msgstr "  -r, --recv-keys           Hent de gitte nøkkel IDene"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
 "  -u, --updatedb                 Oppdater pacmans liste over betrodde kilder"
 
-#, fuzzy
 msgid ""
 "  -v, --verify              Verify the file(s) specified by the signature(s)"
-msgstr ""
-"  -v, --verify <signatur>        Verifiser den angitte filen med signaturen"
+msgstr "  -v, --verify              Sjekk fil(ene) gitt i signaturen(e)"
 
-#, fuzzy
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
 msgstr ""
-"  --edit-key <nøkkelid(er)>      Vis en meny for administrasjon av nøkler"
+"  --edit-key                Vis en meny for nøkkelhåndtering av nøkkel IDer"
 
-#, fuzzy
 msgid "  --import                  Imports pubring.gpg from dir(s)"
-msgstr "  --import <mappe(r)>            Importer pubring.gpg fra mappen(e)"
+msgstr "  --import                  Importér pubring.gpg fra mappe(r)"
 
-#, fuzzy
 msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr ""
-"  --import-trustdb <mappe(r)>    Importer ownertrust verdier fra trustdb.gpg "
-"i mappen(e)"
+"  --import-trustdb          Importér eiertro verdier fra trustdb.gpg i "
+"mappe(r)"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
 "  --init                         Forsikre at nøkkelknippet er riktig "
 "igangsatt"
 
-#, fuzzy
 msgid "  --list-sigs               List keys and their signatures"
-msgstr "  --list-sigs [nøkkelid(er)]     Vis nøkler og tilhørende signaturer"
+msgstr "  --list-sigs               List nøkler og deres signaturer"
 
-#, fuzzy
 msgid "  --lsign-key               Locally sign the specified keyid"
-msgstr "  --lsign-key <nøkkelid>         Signer den angitte nøkkelen lokalt"
+msgstr "  --lsign-key               Signér den gitte nøkkel IDen lokalt"
 
-#, fuzzy
 msgid ""
 "  --populate                Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
-"  --populate [nøkkelring(er)]    Last inn standardnøkler på nytt fra (de "
-"angitte)\\n                                 nøkkelknippene i '%s'"
+"  --populate                Last inn standardnøkler på nytt fra (de "
+"angitte)\\n                            nøkkelringene i '%s'"
 
-#, fuzzy
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 msgstr ""
-"  --refresh-keys [nøkkelid(er)]  Oppdater de angitte, eller alle, nøklene "
-"fra en nøkkelserver"
+"  --refresh-keys            Oppdatér de angitte, eller alle, nøklene fra en "
+"nøkkelserver"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
@@ -866,10 +823,9 @@ msgstr ""
 "  --gpgdir <mappe>               Angi en alternativ mappe for GnuPG "
 "(istedenfor\\n                                 '%s')"
 
-#, fuzzy
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
 msgstr ""
-"  --keyserver                    Oppgi en nøkkelserver som kan brukes om "
+"  --keyserver <server-url>  Oppgi hvilken nøkkelserver som skal brukes om "
 "nødvendig"
 
 msgid "  -h, --help                Show this help message and exit"
@@ -879,10 +835,10 @@ msgid "  -V, --version             Show program version"
 msgstr "  -V, --version                  Vis programversjon"
 
 msgid "Failed to lookup key by name:"
-msgstr ""
+msgstr "Kunne ikke slå opp nøkkel ved navn:"
 
 msgid "Key name is ambiguous:"
-msgstr ""
+msgstr "Nøkkelnavn er tvetydig:"
 
 msgid "The key identified by %s could not be found locally."
 msgstr "Fant ikke nøkkelen som identifiseres med %s, lokalt."
@@ -953,9 +909,8 @@ msgstr "En angitt signatur kunne ikke listes opp."
 msgid "Locally signing key %s..."
 msgstr "Signerer nøkkelen %s, lokalt..."
 
-#, fuzzy
 msgid "%s could not be locally signed."
-msgstr "En angitt nøkkel kunne ikke signeres lokalt."
+msgstr "%s kunne ikke signeres lokalt."
 
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Ekstern nøkkel kunne ikke hentes riktig fra nøkkeltjener."
@@ -992,7 +947,7 @@ msgid "Please run %s with each operation separately."
 msgstr "Vennligst kjør %s med hver oppgave for seg."
 
 msgid "No targets specified"
-msgstr ""
+msgstr "Ingen mål angitt"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -1015,10 +970,8 @@ msgstr ""
 "harddisken. Resultatet er at de kan\\nleses inn raskere fordi harddisken "
 "ikke trenger å bruke tid på å finne ut hvor de egentlig ligger."
 
-#, fuzzy
 msgid "Cannot find the %s binary required for verifying integrity."
-msgstr ""
-"Kunne ikke finne %s programmet, som trengs for å verifisere kildefiler."
+msgstr "Kunne ikke finne programmet %s som trengs til integritetssjekking."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Du må ha tilgang for å kunne optimalisere databasen."
@@ -1054,7 +1007,7 @@ msgid "Rotating database into place..."
 msgstr "Roterer database på plass..."
 
 msgid "New database substitution failed. Check for %s, %s, and %s directories."
-msgstr ""
+msgstr "Ny databaseerstatning feilet. Se etter %s, %s og %s mapper."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Ferdig. Din pacman-database har nå blitt optimalisert."
@@ -1079,21 +1032,19 @@ msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet        minimer utskrift\\n"
 
 msgid "  --nocolor         remove color from output\\n"
-msgstr ""
+msgstr "  --nocolor         fjern farger fra utskrift\\n"
 
-#, fuzzy
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr ""
-"  --min-pkg-size    minimum pakkestørrelse (i bytes) før filforskjeller "
-"genereres\\n"
+"  --min-pkg-size    minste pakkestørrelse før endringer blir kalkulert\\n"
 
-#, fuzzy
 msgid ""
 "  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
 msgstr ""
-"  --max-delta-size  forkast pakkedelta når pakkestørrelsen er over denne "
-"angitte prosenten\\n"
+"  --max-delta-size  forkast endringer når endringen er større en den angitte"
+"\\n\n"
+"                    prosentandelen av den opprinnelige pakken\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
@@ -1154,6 +1105,8 @@ msgstr ""
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
 msgstr ""
+"  -n, --new         legg kun til pakker som ikke allerede finnes i databasen"
+"\\n"
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files        oppdater databasens filliste\\n"
@@ -1174,7 +1127,7 @@ msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Kom deg avgårde, ingenting å se her.\\n"
 
 msgid "  --nocolor         turn off color in output\\n"
-msgstr ""
+msgstr "  --nocolor         skru av farger i utskrift\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign         signer database med GnuPG etter oppdatering\\n"
@@ -1199,12 +1152,13 @@ msgstr ""
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Eksempel: repo-remove /sti/til/repo.db.tar.gz kernel26\\n"
 
+#, fuzzy
 msgid ""
 "Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"Opphavsrett (c) 2006-2012 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\n\\nDette er fri programvare; se kildekoden for kopibetingelser.\\nDet gis "
 "INGEN GARANTI så langt det er tillatt innenfor loven.\\n"
 
@@ -1217,9 +1171,8 @@ msgstr "Legger til forskjellsoppføring : %s -> %s"
 msgid "Removing existing entry '%s'..."
 msgstr "Fjerner eksisterende oppføring '%s'..."
 
-#, fuzzy
 msgid "Removing empty deltas file ..."
-msgstr "Fjerner tomme mapper..."
+msgstr "Fjerner tom endringsfil ..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Kunne ikke finne gpg programmet! Er GnuPG installert?"
@@ -1227,9 +1180,8 @@ msgstr "Kunne ikke finne gpg programmet! Er GnuPG installert?"
 msgid "Signing database..."
 msgstr "Signerer database..."
 
-#, fuzzy
 msgid "Created signature file '%s'"
-msgstr "Opprettet signaturfil %s."
+msgstr "Opprettet signaturfil '%s'"
 
 msgid "Failed to sign package database."
 msgstr "Kunne ikke signere database."
@@ -1325,64 +1277,16 @@ msgid "No packages modified, nothing to do."
 msgstr "Ingen pakker ble endret, ferdig med jobben."
 
 msgid "option '%s' is ambiguous; possibilities:"
-msgstr ""
+msgstr "valg '%s' er tvetydig; mulige valg:"
 
-#, fuzzy
 msgid "invalid option"
-msgstr "ukjent alternativ"
+msgstr "ugyldig valg"
 
-#, fuzzy
 msgid "option requires an argument"
-msgstr "alternativet %s krever en parameter\\n"
+msgstr "valg krever en parameter"
 
-#, fuzzy
 msgid "option '%s' does not allow an argument"
-msgstr "alternativet %s krever en parameter\\n"
+msgstr "valg '%s' kan ikke ta en parameter"
 
-#, fuzzy
 msgid "option '%s' requires an argument"
-msgstr "alternativet %s krever en parameter\\n"
-
-#~ msgid "There is no agent set up to handle %s URLs. Check %s."
-#~ msgstr "Ingen programmer er satt opp for å håndtere %s URLer. Sjekk %s."
-
-#~ msgid "%s is not allowed to contain hyphens or whitespace."
-#~ msgstr "%s kan ikke inneholde bindestreker eller mellomrom."
-
-#~ msgid "Cannot find the %s binary required to determine latest %s revision."
-#~ msgstr ""
-#~ "Kunne ikke finne %s programmet, som trengs for å oppdage siste %s "
-#~ "revisjon."
-
-#~ msgid "Determining latest %s revision..."
-#~ msgstr "Oppdager siste %s revisjon..."
-
-#~ msgid "Version found: %s"
-#~ msgstr "Versjon funnet: %s"
-
-#~ msgid ""
-#~ "  --holdver        Prevent automatic version bumping for development %ss"
-#~ msgstr ""
-#~ "  --holdver        Forhindre versjonsnummeret fra å økes, for utvikling "
-#~ "%ser"
-
-#~ msgid "\\0%s and %s cannot both be specified"
-#~ msgstr "\\0%s og %s kan ikke brukes samtidig"
-
-#~ msgid "%s was not found in %s; skipping dependency checks."
-#~ msgstr "%s ble ikke funnet i %s; hopper over sjekk av avhengigheter."
-
-#~ msgid "Skipping source retrieval        -- using existing %s tree"
-#~ msgstr "Hopper over kildenedlasting        -- bruker eksisterende %s tre"
-
-#~ msgid "Skipping source integrity checks -- using existing %s tree"
-#~ msgstr "Hopper over integritetstester -- bruker eksisterende %s tre"
-
-#~ msgid "Skipping source extraction       -- using existing %s tree"
-#~ msgstr "Hopper over kildeutpakking       -- bruker eksisterende %s tre"
-
-#~ msgid "The source directory is empty, there is nothing to build!"
-#~ msgstr "Kildemappen er tom, det er ingenting her som kan bygges!"
-
-#~ msgid "diff tool was not found, please install diffutils."
-#~ msgstr "fant ikke verktøyet \"diff\". Vennligst installer diffutils."
+msgstr "valg '%s' krever en parameter"

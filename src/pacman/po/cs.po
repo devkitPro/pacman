@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Allan McRae <allan@archlinux.org>, 2013.
 # David Kolibáč <david@kolibac.cz>, 2011.
 # Marek Otahal <markotahalREMOVETHIS@gmail.com>, 2011.
 #   <markotahal@gmail.com>, 2011.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2013-02-11 15:24+0000\n"
-"Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 10:28+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/cs/)\n"
 "Language: cs\n"
@@ -50,25 +51,25 @@ msgstr "odstraňuje se %s...\n"
 msgid "upgrading %s...\n"
 msgstr "aktualizuje se %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %s...\n"
-msgstr "stahuje se %s...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling %s...\n"
-msgstr "instaluje se %s...\n"
+msgstr ""
 
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "kontroluje se integrita balíčků...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keyring...\n"
-msgstr "kontroluje se integrita balíčků...\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading required keys...\n"
-msgstr "stahuje se %s...\n"
+msgstr ""
 
 #, c-format
 msgid "loading package files...\n"
@@ -94,17 +95,17 @@ msgstr "úspěch!\n"
 msgid "failed.\n"
 msgstr "selhalo.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving packages ...\n"
-msgstr "Získávají se balíčky z %s...\n"
+msgstr ""
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "kontroluje se volné místo na disku ...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s: vyžaduje %s\n"
+msgstr ""
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -160,9 +161,9 @@ msgstr ""
 "Soubor %s je poškozen (%s).\n"
 "Odstranit ho? "
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Importovat PGP klíč %s, \"%s\", vytvořený %s?"
+msgstr ""
 
 #, c-format
 msgid "installing"
@@ -172,13 +173,13 @@ msgstr "instalace"
 msgid "upgrading"
 msgstr "aktualizace"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading"
-msgstr "aktualizace"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling"
-msgstr "instalace"
+msgstr ""
 
 #, c-format
 msgid "removing"
@@ -196,9 +197,9 @@ msgstr "kontrola volného místa na disku"
 msgid "checking package integrity"
 msgstr "kontrola integrity balíčků"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keys in keyring"
-msgstr "kontrola integrity balíčků"
+msgstr ""
 
 #, c-format
 msgid "loading package files"
@@ -207,6 +208,71 @@ msgstr "načítání balíčku"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "stahuje se %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s již existuje v souborovém systému\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "selhalo čtení souboru '%s': %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "cesta je příliš dlouhá: %s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] "%s: %jd soubor. "
+msgstr[1] "%s: %jd souborů celkem. "
+msgstr[2] "%s: %jd souborů celkem. "
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] "%jd chybějící soubor\n"
+msgstr[1] "%jd chybějící soubory\n"
+msgstr[2] "%jd chybějící soubory\n"
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "selhalo čtení souboru '%s': %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -289,9 +355,9 @@ msgstr "nelze přidat zrcadlo '%s' do databáze '%s' (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "načítaní konfigurace přesáhlo maximální hloubku rekurze %d.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "konfigurační soubor %s nelze přečíst.\n"
+msgstr ""
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -334,9 +400,9 @@ msgstr "%s: důvod instalace byl nastaven na 'nainstalován jako závislost'\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: důvod instalace byl nastaven na 'výslovně nainstalován'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid " [installed]"
-msgstr "nainstalovaný"
+msgstr ""
 
 #, c-format
 msgid "Optional Deps  :"
@@ -358,17 +424,17 @@ msgstr "Neznámý"
 msgid "None"
 msgstr "Nic"
 
-#, fuzzy, c-format
+#, c-format
 msgid "MD5 Sum"
-msgstr "MD5 součet     :"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum"
-msgstr "SHA256 součet  :"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signature"
-msgstr "Chyba v podpisu"
+msgstr ""
 
 #, c-format
 msgid "Repository     :"
@@ -414,9 +480,9 @@ msgstr "Závisí na      :"
 msgid "Required By    :"
 msgstr "Požadovaný     :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For   :"
-msgstr "Volitelné záv. :"
+msgstr ""
 
 #, c-format
 msgid "Conflicts With :"
@@ -426,17 +492,17 @@ msgstr "Konfliktní s   :"
 msgid "Replaces       :"
 msgstr "Nahrazuje      :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  :"
-msgstr "Velikost ke stažení"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size:"
-msgstr "Velikost po kompresi: %6.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size :"
-msgstr "Velikost po instalaci : %6.2f %s\n"
+msgstr ""
 
 #, c-format
 msgid "Packager       :"
@@ -478,9 +544,9 @@ msgstr "SHA256 součet  :"
 msgid "Signatures     :"
 msgstr "Podpisy        :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By   :"
-msgstr "Požadovaný     :"
+msgstr ""
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -498,9 +564,9 @@ msgstr "(žádný)\n"
 msgid "no changelog available for '%s'.\n"
 msgstr "seznam změn pro '%s' není dostupný.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s:\n"
-msgstr "seznam změn pro '%s' není dostupný.\n"
+msgstr ""
 
 #, c-format
 msgid "installed"
@@ -612,13 +678,11 @@ msgstr ""
 "  -m, --foreign        seznam nainstalovaných balíčků nalezených "
 "repozitářích  [filter]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        seznam nainstalovaných balíčků nalezených "
-"repozitářích  [filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -701,10 +765,9 @@ msgstr "      --asdeps         označit balíčky jako závislosti\n"
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     označit balíčky jako výslovně instalované\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"  -f, --force          vynucená instalace, přepíše konfliktní soubory\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -868,10 +931,6 @@ msgstr "nebyl určen soubor pro --owns\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nelze určit skutečnou cestu pro '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "cesta je příliš dlouhá: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1181,29 +1240,29 @@ msgstr "Změna (zhruba)"
 msgid "Download Size"
 msgstr "Velikost ke stažení"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
-msgstr "odstranění"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Packages"
-msgstr "balíček(y)"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:"
-msgstr "Velikost ke stažení"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:"
-msgstr "Celková velikost po instalaci:    %.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:"
-msgstr "Celkem odstraněno:    %.2f %s\n"
+msgstr ""
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:"
-msgstr "Odhadovaná velikost aktualizace:  %.2f %s\n"
+msgstr ""
 
 #, c-format
 msgid " [pending]"
@@ -1231,7 +1290,7 @@ msgstr "neplatné číslo: %s\n"
 
 #, c-format
 msgid "Enter a selection (default=all)"
-msgstr "Zadejte výběr (výzchozí = všechny)"
+msgstr "Zadejte výběr (výchozí = všechny)"
 
 #, c-format
 msgid "Enter a number (default=%d)"
@@ -1276,35 +1335,3 @@ msgstr "chyba: "
 #, c-format
 msgid "warning: "
 msgstr "varování: "
-
-#~ msgid "Download Size  : %6.2f %s\n"
-#~ msgstr "Ke stažení     : %6.2f %s\n"
-
-#~ msgid "cannot determine ownership of directory '%s'\n"
-#~ msgstr "nepodařilo se určit vlastníka adresáře '%s'\n"
-
-#~ msgid "%s: %jd total file, "
-#~ msgid_plural "%s: %jd total files, "
-#~ msgstr[0] "%s: %jd soubor. "
-#~ msgstr[1] "%s: %jd souborů celkem. "
-#~ msgstr[2] "%s: %jd souborů celkem. "
-
-#~ msgid "%jd missing file\n"
-#~ msgid_plural "%jd missing files\n"
-#~ msgstr[0] "%jd chybějící soubor\n"
-#~ msgstr[1] "%jd chybějící soubory\n"
-#~ msgstr[2] "%jd chybějící soubory\n"
-
-#~ msgid "The following packages should be upgraded first :\n"
-#~ msgstr "Následující balíčky by měly být aktualizovány nejdříve:\n"
-
-#~ msgid ""
-#~ "Do you want to cancel the current operation\n"
-#~ "and upgrade these packages now?"
-#~ msgstr "Chcete zrušit současnou operaci a aktualizovat tyto balíčky?"
-
-#~ msgid "Targets (%d):"
-#~ msgstr "Cíle (%d):"
-
-#~ msgid "Total Download Size:    %.2f %s\n"
-#~ msgstr "Celková velikost ke stažení:      %.2f %s\n"

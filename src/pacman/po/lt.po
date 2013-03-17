@@ -3,17 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Algimantas Margevičius <gymka@archlinux.lt>, 2013.
 # Algimantas Margevičius <gymka@mail.ru>, 2011.
-# Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011, 2012.
+# Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011-2012.
+# Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011, 2011-2012, 2013.
 # Kiprianas Spiridonovas <k.spiridonovas@gmail.com>, 2012.
 # toofishes <dpmcgee@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2012-04-19 14:41+0000\n"
-"Last-Translator: Kiprianas Spiridonovas <k.spiridonovas@gmail.com>\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 06:12+0000\n"
+"Last-Translator: Algimantas Margevičius <gymka@archlinux.lt>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/lt/)\n"
 "Language: lt\n"
@@ -51,25 +53,25 @@ msgstr "šalinama %s...\n"
 msgid "upgrading %s...\n"
 msgstr "atnaujinama %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %s...\n"
-msgstr "parsisiunčiama %s...\n"
+msgstr "pasendinamas paketas %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling %s...\n"
-msgstr "įdiegiama %s...\n"
+msgstr "įdiegiama iš naujo %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "tikrinamas paketo vientisumas...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keyring...\n"
-msgstr "tikrinamas paketo vientisumas...\n"
+msgstr "tikrinama raktinė...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading required keys...\n"
-msgstr "parsisiunčiama %s...\n"
+msgstr "parsiunčiami reikalingi raktai...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -95,17 +97,17 @@ msgstr "pavyko!\n"
 msgid "failed.\n"
 msgstr "nepavyko.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving packages ...\n"
-msgstr "Gaunami paketai iš %s...\n"
+msgstr "Gaunami paketai...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "tikrinama laisva disko vieta...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s: reikalauja %s\n"
+msgstr "%s nebūtina priklausomybė %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -158,9 +160,9 @@ msgstr ""
 "Failas %s yra sugadintas (%s).\n"
 "Ar norite jį ištrinti?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Importuoti PGP raktą %s, „%s“, sukurtą %s?"
+msgstr "Importuoti PGP raktą %d%c/%s, „%s“, sukurtą: %s%s?"
 
 #, c-format
 msgid "installing"
@@ -170,13 +172,13 @@ msgstr "diegiama"
 msgid "upgrading"
 msgstr "atnaujinama"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading"
-msgstr "atnaujinama"
+msgstr "sendinama"
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling"
-msgstr "diegiama"
+msgstr "diegiama iš naujo"
 
 #, c-format
 msgid "removing"
@@ -194,9 +196,9 @@ msgstr "tikrinama laisva disko vieta"
 msgid "checking package integrity"
 msgstr "tikrinamas paketo vientisumas"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keys in keyring"
-msgstr "tikrinamas paketo vientisumas"
+msgstr "tikrinami raktai raktinėje"
 
 #, c-format
 msgid "loading package files"
@@ -205,6 +207,71 @@ msgstr "įkraunami paketo failai"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "parsisiunčiama %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s jau egzistuoja failų sistemoje\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "nepavyko perskaityti failo „%s“: %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "kelias per ilgas: %s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] "%s: iš viso %jd failas,"
+msgstr[1] "%s: iš viso %jd failai,"
+msgstr[2] "%s: iš viso %jd failų,"
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] "%jd trūkstamas failas\n"
+msgstr[1] "%jd trūkstami failai\n"
+msgstr[2] "%jd trūkstamų failų\n"
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "nepavyko perskaityti failo „%s“: %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -287,9 +354,9 @@ msgstr "negaliu pridėt veidrodžio „%s“ į duomenų bazę „%s“ (%s)\n"
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "skaitant konfigūracijos failą, prieita gylio riba %d.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "konfigūracijos failas %s neperskaitomas.\n"
+msgstr "konfigūracijos failas %s neperskaitomas: %s\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -332,9 +399,9 @@ msgstr "%s: diegimo priežastis nustatyta kaip „įdiegta kaip priklausomybė�
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: diegimo priežastis nustatyta kaip „įdiegta savarankiškai“\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid " [installed]"
-msgstr "įdiegta"
+msgstr " [įdiegta]"
 
 #, c-format
 msgid "Optional Deps  :"
@@ -356,17 +423,17 @@ msgstr "Nežinoma"
 msgid "None"
 msgstr "Nieko"
 
-#, fuzzy, c-format
+#, c-format
 msgid "MD5 Sum"
-msgstr "MD5 Sum        :"
+msgstr "MD5 suma"
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum"
-msgstr "SHA256 Sum     :"
+msgstr "SHA256 suma"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signature"
-msgstr "Parašo klaida"
+msgstr "Parašas"
 
 #, c-format
 msgid "Repository     :"
@@ -412,9 +479,9 @@ msgstr "Priklauso nuo  :"
 msgid "Required By    :"
 msgstr "Reikia paketams:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For   :"
-msgstr "Nebūtinos priklausomybės:"
+msgstr "Nebūtinas paketui:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -424,17 +491,17 @@ msgstr "Nesuderinama su:"
 msgid "Replaces       :"
 msgstr "Pakeičia       :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  :"
-msgstr "Parsisiuntimo dydis"
+msgstr "Parsiuntimo dydis:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size:"
-msgstr "Suarchyvuoto dydis: %6.2f %s\n"
+msgstr "Suspausto dydis:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size :"
-msgstr "Įdiegto dydis  : %6.2f %s\n"
+msgstr "Įdiegto dydis :"
 
 #, c-format
 msgid "Packager       :"
@@ -476,9 +543,9 @@ msgstr "SHA256 Sum     :"
 msgid "Signatures     :"
 msgstr "Parašai        :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By   :"
-msgstr "Reikia paketams:"
+msgstr "Patikrino    :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -496,9 +563,9 @@ msgstr "(nieko)\n"
 msgid "no changelog available for '%s'.\n"
 msgstr "paketui „%s“ nėra keitimų žurnalo.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s:\n"
-msgstr "paketui „%s“ nėra keitimų žurnalo.\n"
+msgstr "%s keitimų žurnalas:\n"
 
 #, c-format
 msgid "installed"
@@ -608,13 +675,13 @@ msgstr ""
 "  -m, --foreign        parodyti paketus kurių nėra sinchronizacijos duomenų "
 "bazėje [filtras]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        parodyti paketus kurių nėra sinchronizacijos duomenų "
-"bazėje [filtras]\n"
+"  -n, --native         parodo paketų sąrašą, kurie yra tik sinchronizacijos "
+"duomenų bazėje [filtras]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -696,10 +763,10 @@ msgstr ""
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     pažymėti paketus kaip savarankiškai įdiegtus\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"  -f, --force          priverstinai diegti, perrašyti nesuderinamus failus\n"
+"      --force          priverstinai diegti, perrašyti nesuderinamus failus\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -789,7 +856,7 @@ msgstr "      --cachedir <dir> nurodyti alternatyvią podėlio vietą\n"
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr ""
+msgstr "      --color <kada>   nuspalvoti išvestį\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -821,7 +888,7 @@ msgstr ""
 
 #, fuzzy, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "netinkamas skaičius: %s\n"
+msgstr "netinkamas argumentas „%s“ skirtas %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -845,7 +912,7 @@ msgstr "nepavyko pakartotinai atidaryti skaitymui stdin: (%s)\n"
 
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr ""
+msgstr "argumentas „-“ nurodytas be stdin įvesties\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -866,10 +933,6 @@ msgstr "nenurodytas failas --owns\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "negaliu nustatyti tikro kelio „%s“: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "kelias per ilgas: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1049,7 +1112,7 @@ msgstr "Vykdyti diegimą?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "neįmanoma %s aplanko failas nesuderinamas\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -1179,33 +1242,33 @@ msgstr "Bendras pokytis"
 msgid "Download Size"
 msgstr "Parsisiuntimo dydis"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
 msgstr "šalinama"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Packages"
-msgstr "paketas(-ai)"
+msgstr "Paketai"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:"
-msgstr "Parsisiuntimo dydis"
+msgstr "Iš viso bus parsiųsta:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:"
-msgstr "Iš viso bus įdiegta:       %.2f %s\n"
+msgstr "Iš viso bus įdiegta:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:"
-msgstr "Iš viso bus pašalinta:     %.2f %s\n"
+msgstr "Iš viso bus pašalinta:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:"
-msgstr "Bendras atnaujinimų dydis: %.2f %s\n"
+msgstr "Tinklo atnaujinimo dydis:"
 
 #, c-format
 msgid " [pending]"
-msgstr ""
+msgstr " [laukiama]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1274,37 +1337,3 @@ msgstr "klaida: "
 #, c-format
 msgid "warning: "
 msgstr "įspėjimas: "
-
-#~ msgid "Download Size  : %6.2f %s\n"
-#~ msgstr "Parsisiuntimo dydis  : %6.2f %s\n"
-
-#~ msgid "cannot determine ownership of directory '%s'\n"
-#~ msgstr "negaliu nustatyti aplanko savininko „%s“\n"
-
-#~ msgid "%s: %jd total file, "
-#~ msgid_plural "%s: %jd total files, "
-#~ msgstr[0] "%s: iš viso %jd failas,"
-#~ msgstr[1] "%s: iš viso %jd failai,"
-#~ msgstr[2] "%s: iš viso %jd failų,"
-
-#~ msgid "%jd missing file\n"
-#~ msgid_plural "%jd missing files\n"
-#~ msgstr[0] "%jd trūkstamas failas\n"
-#~ msgstr[1] "%jd trūkstami failai\n"
-#~ msgstr[2] "%jd trūkstamų failų\n"
-
-#~ msgid "The following packages should be upgraded first :\n"
-#~ msgstr "Šie paketai turėtų būti atnaujinti pirmiausia :\n"
-
-#~ msgid ""
-#~ "Do you want to cancel the current operation\n"
-#~ "and upgrade these packages now?"
-#~ msgstr ""
-#~ "Ar norite atšaukti dabartinę užduotį\n"
-#~ ":: ir atnaujinti šiuos paketus dabar?"
-
-#~ msgid "Targets (%d):"
-#~ msgstr "Paketai (%d):"
-
-#~ msgid "Total Download Size:    %.2f %s\n"
-#~ msgstr "Iš viso bus parsisiųsta:   %.2f %s\n"

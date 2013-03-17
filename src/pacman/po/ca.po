@@ -4,14 +4,15 @@
 #
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
-# Hector Mtz-Seara <hseara@gmail.com>, 2011, 2012.
+# Hector Mtz-Seara <hseara@gmail.com>, 2011-2012.
+# Josep <jpreales@gmail.com>, 2013.
 #   <jpreales@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2012-03-29 04:24+0000\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 06:11+0000\n"
 "Last-Translator: Hector Mtz-Seara <hseara@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
@@ -49,25 +50,25 @@ msgstr "s'està eliminant %s...\n"
 msgid "upgrading %s...\n"
 msgstr "s'està actualitzant %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading %s...\n"
-msgstr "s'està baixant %s...\n"
+msgstr "degradant %s...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling %s...\n"
-msgstr "s'està instal·lant %s...\n"
+msgstr "s'està reinstal·lant %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "s'està comprovant la integritat dels paquets...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keyring...\n"
-msgstr "s'està comprovant la integritat dels paquets...\n"
+msgstr "s'està comprovant el clauer...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downloading required keys...\n"
-msgstr "s'està baixant %s...\n"
+msgstr "descarregant claus necessàries...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -93,17 +94,17 @@ msgstr "èxit!\n"
 msgid "failed.\n"
 msgstr "fallat.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving packages ...\n"
-msgstr "Recuperant paquets des de %s...\n"
+msgstr "S'està recuperant els paquets...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "comprovant l'espai disponible al disc ...\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s: requereix %s\n"
+msgstr "%s requereix opcionalment %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -155,9 +156,9 @@ msgstr ""
 "El fitxer %s és corrupte (%s).\n"
 "Voleu esborrar-lo?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Importar clau PGP %s, \"%s\", creada %s?"
+msgstr "Importar clau PGP %d%c/%s, \"%s\", creada: %s%s?"
 
 #, c-format
 msgid "installing"
@@ -167,13 +168,13 @@ msgstr "s'està instal.lant"
 msgid "upgrading"
 msgstr "s'està actualitzant"
 
-#, fuzzy, c-format
+#, c-format
 msgid "downgrading"
-msgstr "s'està actualitzant"
+msgstr "degradant"
 
-#, fuzzy, c-format
+#, c-format
 msgid "reinstalling"
-msgstr "s'està instal.lant"
+msgstr "s'està reinstal·lant"
 
 #, c-format
 msgid "removing"
@@ -191,9 +192,9 @@ msgstr "comprovant l'espai disponible al disc"
 msgid "checking package integrity"
 msgstr "comprovant la integritat del paquet"
 
-#, fuzzy, c-format
+#, c-format
 msgid "checking keys in keyring"
-msgstr "comprovant la integritat del paquet"
+msgstr "s'està comprovant les claus del clauer"
 
 #, c-format
 msgid "loading package files"
@@ -202,6 +203,68 @@ msgstr "s'estan carregant fitxers del paquet"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "s'està baixant %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s existeix en el sistema de fitxers\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "ha fallat en llegir el fitxer «%s»: %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "ruta d'accés massa llarga:%s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] "%s: %jd fitxer en total, "
+msgstr[1] "%s: %jd fitxers en total, "
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] "Falta %jd fitxer\n"
+msgstr[1] "Falten %jd fitxer\n"
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "ha fallat en llegir el fitxer «%s»: %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -287,9 +350,9 @@ msgstr ""
 "Superada la profunditat màxima de recursió de l'anàlisi de la configuracio "
 "en %d.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "no es pot llegir el fitxer de configuració %s.\n"
+msgstr "no s'ha pogut llegir el fitxer %s de configuració: %s\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -334,9 +397,9 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
 "%s: el motiu d'instal·lació s'ha fixat a ' instal·lat explicitament \"\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid " [installed]"
-msgstr "instal·lat"
+msgstr "[instal·lat]"
 
 #, c-format
 msgid "Optional Deps  :"
@@ -358,17 +421,17 @@ msgstr "Desconegut"
 msgid "None"
 msgstr "Cap"
 
-#, fuzzy, c-format
+#, c-format
 msgid "MD5 Sum"
-msgstr "Suma MS5       :"
+msgstr "Suma MD5"
 
-#, fuzzy, c-format
+#, c-format
 msgid "SHA256 Sum"
-msgstr "Suma SHA256    :"
+msgstr "Suma SHA256"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Signature"
-msgstr "Error de signatura"
+msgstr "Signatura"
 
 #, c-format
 msgid "Repository     :"
@@ -414,9 +477,9 @@ msgstr "Depen de       :"
 msgid "Required By    :"
 msgstr "Requerit per   :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For   :"
-msgstr "Dep opcionals  :"
+msgstr "Opcional per  :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -426,17 +489,17 @@ msgstr "Conflictes amb :"
 msgid "Replaces       :"
 msgstr "Substitueix    :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Download Size  :"
-msgstr "Mida de la baixada"
+msgstr "Mida de la baixada:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size:"
-msgstr "Mida comprimida: %6.2f %s\n"
+msgstr "Mida comprimida:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size :"
-msgstr "Mida instal.   : %6.2f %s\n"
+msgstr "Mida de la instal·lació:"
 
 #, c-format
 msgid "Packager       :"
@@ -478,9 +541,9 @@ msgstr "Suma SHA256    :"
 msgid "Signatures     :"
 msgstr "Signatures     :"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By   :"
-msgstr "Requerit per   :"
+msgstr "Validat per:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -498,9 +561,9 @@ msgstr "(cap)\n"
 msgid "no changelog available for '%s'.\n"
 msgstr "no hi ha registre de canvis disponible per «%s».\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s:\n"
-msgstr "no hi ha registre de canvis disponible per «%s».\n"
+msgstr "Registre canvis per %s:\n"
 
 #, c-format
 msgid "installed"
@@ -612,13 +675,13 @@ msgstr ""
 "  -m, --foreign        llista els paquets instal·lats que no es troben en "
 "les bd sinc. [filtre]\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        llista els paquets instal·lats que no es troben en "
-"les bd sinc. [filtre]\n"
+"-n, --native llista els paquets instal·lats trobats únicament en bd(s) sinc. "
+"[filtre]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -707,11 +770,10 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr ""
 "      --asexplicit     marca els paquets com a explícitament instal·lats\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"  -f, --force          força la instal·lació. sobreescrivint els fitxers amb "
-"conflictes\n"
+"--force força la instal·lació, sobreescrivint els fitxers amb conflictes\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -810,7 +872,7 @@ msgstr ""
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr ""
+msgstr "      --color <quan>   Empra color text sortida\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -843,7 +905,7 @@ msgstr ""
 
 #, fuzzy, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "el nombre no és vàlid: %s\n"
+msgstr "l'argument '%s' no és vàlid per %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -867,7 +929,7 @@ msgstr "Errada al reobrir stdin per a la lectura: (%s)\n"
 
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr ""
+msgstr "argument '-' especificat sense entrada a stdin\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -888,10 +950,6 @@ msgstr "no s'ha especificat cap fitxer per --owns\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "no es pot determinar la ruta real per «%s»: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "ruta d'accés massa llarga:%s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1071,7 +1129,7 @@ msgstr "Inicio la instal·lació?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "incapaç de %s directori-fitxer presenta un conflicte\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -1201,33 +1259,33 @@ msgstr "Canvi net"
 msgid "Download Size"
 msgstr "Mida de la baixada"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
-msgstr "s'està eliminant"
+msgstr "eliminació"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Packages"
-msgstr "paquet(s)"
+msgstr "Paquets"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Download Size:"
-msgstr "Mida de la baixada"
+msgstr "Mida total de la baixada:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Installed Size:"
-msgstr "Mida total instal·lada: %.2f %s\n"
+msgstr "Mida total de la instal·lació:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Total Removed Size:"
-msgstr "Mida total remoguda:      %.2f %s\n"
+msgstr "Mida total eliminada:"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Net Upgrade Size:"
-msgstr "Mida en xarxa de l'actualització:        %.2f %s\n"
+msgstr "Mida actualització neta:"
 
 #, c-format
 msgid " [pending]"
-msgstr ""
+msgstr "[pendent]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1296,35 +1354,3 @@ msgstr "error: "
 #, c-format
 msgid "warning: "
 msgstr "avís: "
-
-#~ msgid "Download Size  : %6.2f %s\n"
-#~ msgstr "Mida de la baixada: %6.2f %s\n"
-
-#~ msgid "cannot determine ownership of directory '%s'\n"
-#~ msgstr "no s'ha pogut determinar la propietat del directori '%s'\n"
-
-#~ msgid "%s: %jd total file, "
-#~ msgid_plural "%s: %jd total files, "
-#~ msgstr[0] "%s: %jd fitxer en total, "
-#~ msgstr[1] "%s: %jd fitxers en total, "
-
-#~ msgid "%jd missing file\n"
-#~ msgid_plural "%jd missing files\n"
-#~ msgstr[0] "Falta %jd fitxer\n"
-#~ msgstr[1] "Falten %jd fitxer\n"
-
-#~ msgid "The following packages should be upgraded first :\n"
-#~ msgstr "Primer s'han d'actualitzar els següents paquets:\n"
-
-#~ msgid ""
-#~ "Do you want to cancel the current operation\n"
-#~ "and upgrade these packages now?"
-#~ msgstr ""
-#~ "Voleu cancel·lar l'operació actual i\n"
-#~ ":: actualitzar primer aquests paquets?"
-
-#~ msgid "Targets (%d):"
-#~ msgstr "Objectius (%d):"
-
-#~ msgid "Total Download Size:    %.2f %s\n"
-#~ msgstr "Mida total baixada:     %.2f %s\n"

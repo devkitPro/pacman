@@ -4,14 +4,15 @@
 #
 # Translators:
 # György Balló <ballogy@freestart.hu>, 2011.
+#  <ngaba@bibl.u-szeged.hu>, 2013.
 # ngaba <ngaba@bibl.u-szeged.hu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2011-10-08 10:04+0000\n"
-"Last-Translator: György Balló <ballogy@freestart.hu>\n"
+"PO-Revision-Date: 2013-03-15 03:06+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/hu/)\n"
 "Language: hu\n"
@@ -100,9 +101,9 @@ msgstr "nem sikerült a(z) %s-%s adatbázis-bejegyzés frissítése\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "nem sikerült a(z) '%s' bejegyzés hozzáadása a gyorsítótárhoz\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading file %s: %s\n"
-msgstr "hiba a(z) %s csomag olvasása közben: %s\n"
+msgstr "hiba a %s fájl olvasása közben: %s\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
@@ -134,7 +135,7 @@ msgstr "a(z) %s adatbázis inkonzisztens: eltérő verziók a(z) %s csomagnál\n
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "ismeretlen érvényességellenőrzési mód a(z) %s csomaghoz: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -160,13 +161,13 @@ msgstr "hiba a(z) %s csomag olvasása közben: %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "hiányzó csomaginformációs fájl itt: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "nem sikerült néhány fájlt letölteni innen: %s\n"
+msgstr "nem sikerült olvasni a %s aláírásfájlt\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "egy szükséges kulcs hiányzik a kulcstartóból\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -210,7 +211,7 @@ msgstr "nem sikerült a(z) \"%2$s\" csomag \"%1$s\" függőségét feloldani\n"
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "nem sikerült meghatározni a fájlrendszer-információt %s-hez: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s: %s\n"
 msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
 
@@ -231,9 +232,10 @@ msgstr ""
 msgid "could not determine filesystem mount points\n"
 msgstr "nem sikerült meghatározni a csatolási pontokat\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "nem sikerült meghatározni a %s gyökérkönyvtár csatolási pontját\n"
+msgstr ""
+"nem sikerült meghatározni a %s csomaggyorsítótár-könyvtár csatolási pontját\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -277,7 +279,7 @@ msgstr "nem várt hiba"
 
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "hozzáférés megtagadva"
 
 #, c-format
 msgid "could not find or read file"
@@ -496,9 +498,9 @@ msgstr "%s eltávolítása a céllistából\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "nem sikerült eltávolítani a '%s' fájlt : %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "nem sikerült létrehozni a %s könyvtárat: %s\n"
+msgstr "nem sikerült megnyitni a %s könyvtárat: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -544,13 +546,13 @@ msgstr "feloldhatatlan csomagütközéseket találtam\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' kihagyása, mert ütközik a következővel: '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files\n"
-msgstr "nem sikerült néhány fájlt letölteni"
+msgstr "nem sikerült minden fájlt letölteni\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "not enough free disk space\n"
-msgstr "nincs elég szabad lemezterület"
+msgstr "nincs elég szabad lemezterület\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -576,9 +578,9 @@ msgstr "%s nem távolítható el\n"
 msgid "could not remove tmpdir %s\n"
 msgstr "nem sikerült eltávolítani a %s ideiglenes könyvtárat\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not stat file %s: %s\n"
-msgstr "nem sikerült megnyitni a %s fájlt: %s\n"
+msgstr "sikertelen stat művelet a %s fájlon: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -617,9 +619,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "nem található vagy nem hozható létre a csomaggyorsítótár, a %s könyvtárat "
 "használom helyette\n"
-
-#~ msgid "could not install %s as %s (%s)\n"
-#~ msgstr "nem sikerült %s telepítése %s néven (%s)\n"
-
-#~ msgid "insufficient privileges"
-#~ msgstr "elégtelen jogosultságok"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2013-03-11 22:08+0000\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 12:17+0000\n"
 "Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/uk/)\n"
@@ -207,6 +207,71 @@ msgstr "завантаження файлів пакунка"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "звантаження %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s існує у файловій системі\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "не вдалось прочитати файл «%s»: %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "шлях надто довгий: %s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "не вдалось прочитати файл «%s»: %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -826,7 +891,7 @@ msgstr ""
 "                       Цю програму можна вільно розповсюджуватись на\n"
 "                       умовах загальної громадської ліцензії GNU.\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "неправильний аргумент '%s' для %s\n"
 
@@ -873,10 +938,6 @@ msgstr "не було вказано файл для --owns\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "неможливо визначити справжній шлях до «%s»: %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "шлях надто довгий: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1188,7 +1249,7 @@ msgstr "Чиста зміна"
 msgid "Download Size"
 msgstr "Розмір звантаження"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
 msgstr "вилучення"
 

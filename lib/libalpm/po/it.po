@@ -4,14 +4,14 @@
 #
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
-# Giovanni Scafora <giovanni@archlinux.org>, 2011, 2012.
+# Giovanni Scafora <giovanni@archlinux.org>, 2011-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2012-02-16 15:25+0000\n"
-"Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
+"PO-Revision-Date: 2013-03-15 03:06+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/it/)\n"
 "Language: it\n"
@@ -102,7 +102,7 @@ msgstr "impossibile aggiornare la voce %s-%s nel database\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "impossible aggiungere la voce '%s' nella cache\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "si è verificato un errore durante la lettura del pacchetto %s: %s\n"
 
@@ -139,7 +139,7 @@ msgstr ""
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "tipo di convalida sconosciuto per il pacchetto %s: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -165,13 +165,13 @@ msgstr "si è verificato un errore durante la lettura del pacchetto %s: %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "manca il metadata del pacchetto in %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "impossibile scaricare alcuni file da %s\n"
+msgstr "impossibile leggere il file della firma: %s\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "la chiave richiesta non è presente nel portachiavi\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -216,9 +216,9 @@ msgid "could not get filesystem information for %s: %s\n"
 msgstr ""
 "impossibile ottenere le informazione relative al filesystem di %s: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s: %s\n"
-msgstr "impossibile aprire il file %s: %s\n"
+msgstr "impossibile aprire il file: %s: %s\n"
 
 #, c-format
 msgid "could not get filesystem information\n"
@@ -237,9 +237,11 @@ msgstr ""
 msgid "could not determine filesystem mount points\n"
 msgstr "impossibile determinare i punti di montaggio del filesystem\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "impossibile determinare il punto di montaggio della root %s\n"
+msgstr ""
+"impossibile determinare il punto di montaggio della directory della cache "
+"%s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -283,7 +285,7 @@ msgstr "errore di sistema inaspettato"
 
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "autorizzazione negata"
 
 #, c-format
 msgid "could not find or read file"
@@ -501,9 +503,9 @@ msgstr "rimozione di %s dalla lista dei pacchetti\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "impossibile rimuovere il file '%s': %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "impossibile creare la directory %s: %s\n"
+msgstr "impossibile accedere alla directory: %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -551,13 +553,13 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
 "rimozione di '%s' dalla lista dei pacchetti perché va in conflitto con '%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files\n"
-msgstr "impossibile scaricare alcuni file"
+msgstr "impossibile scaricare alcuni file\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "not enough free disk space\n"
-msgstr "lo spazio libero sul disco non è sufficiente"
+msgstr "lo spazio libero sul disco non è sufficiente\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -583,9 +585,9 @@ msgstr "impossibile rimuovere %s\n"
 msgid "could not remove tmpdir %s\n"
 msgstr "impossibile rimuovere la directory temporanea %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not stat file %s: %s\n"
-msgstr "impossibile aprire il file %s: %s\n"
+msgstr "impossibile trovare il file %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -624,9 +626,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "impossibile trovare o creare la cache del pacchetto, al suo posto sarà usato "
 "%s\n"
-
-#~ msgid "could not install %s as %s (%s)\n"
-#~ msgstr "impossibile installare %s come %s (%s)\n"
-
-#~ msgid "insufficient privileges"
-#~ msgstr "privilegi insufficienti"

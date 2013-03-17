@@ -5,14 +5,15 @@
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011.
 # Hector Mtz-Seara <hseara@gmail.com>, 2011.
+# Josep <jpreales@gmail.com>, 2013.
 #   <jpreales@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2011-10-11 14:03+0000\n"
-"Last-Translator: Dan McGee <dpmcgee@gmail.com>\n"
+"PO-Revision-Date: 2013-03-15 03:04+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -101,9 +102,9 @@ msgstr "no s'ha pogut actualitzar l'entrada de la base de dades %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "no s'ha pogut afegir l'entrada '%s' en la memòria cau\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading file %s: %s\n"
-msgstr "error en llegir paquet %s: %s\n"
+msgstr "error en llegir el fitxer %s: %s\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
@@ -135,7 +136,7 @@ msgstr "la base de dades %s és inconsistent: versió errònia en el paquet %s\n
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "tipus de validació desconeguda per al paquet %s: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -161,13 +162,13 @@ msgstr "error en llegir paquet %s: %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "falten les metadades del paquet en %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "ha fallat en recuperar alguns fitxers de %s\n"
+msgstr "ha fallat en llegir el fitxer de signatures: %s\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "clau requerida manca al clauer\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -211,9 +212,9 @@ msgstr "no es pot resoldre \"%s\", una dependència de \"%s\"\n"
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "no s'ha pogut obtenir informació  per %s: %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s: %s\n"
-msgstr "no es pot obrir el fitxer %s: %s\n"
+msgstr "no es pot obrir el fitxer: %s: %s\n"
 
 #, c-format
 msgid "could not get filesystem information\n"
@@ -233,9 +234,9 @@ msgstr ""
 msgid "could not determine filesystem mount points\n"
 msgstr "no s'ha pogut determinar els punts de muntatge del sistema d'arxius\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "no s'ha pogut determinar punt de muntatge de root %s\n"
+msgstr "no s'ha pogut determinar el punt de muntatge cachedir %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -279,7 +280,7 @@ msgstr "error inesperat del sistema"
 
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "permís denegat"
 
 #, c-format
 msgid "could not find or read file"
@@ -498,9 +499,9 @@ msgstr "s'està eliminant %s de la llista d'objectius\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "no s'ha pogut eliminar el fitxer '%s': %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "no s'ha pogut crear el directori %s: %s\n"
+msgstr "no es pot obrir el directori: %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -548,13 +549,13 @@ msgstr ""
 "s'està eliminant '%s' de la llista d'objectius perquè té conflictes amb "
 "'%s'\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "failed to retrieve some files\n"
-msgstr "ha fallat en recuperar alguns fitxers"
+msgstr "ha fallat en recuperar alguns fitxers\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "not enough free disk space\n"
-msgstr "no hi ha prou espai lliure en disc"
+msgstr "no hi ha prou espai lliure en disc\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -580,9 +581,9 @@ msgstr "no s'ha pogut eliminar %s\n"
 msgid "could not remove tmpdir %s\n"
 msgstr "no s'ha pogut eliminar el directori temporal %s\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "could not stat file %s: %s\n"
-msgstr "no es pot obrir el fitxer %s: %s\n"
+msgstr "no s'ha pogut validar l'estat del fitxer %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
@@ -620,9 +621,3 @@ msgstr "no existeix memòria cau %s, s'està creant...\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "no s'ha trobat o creat packet de memòria cau, usant alternativaent %s\n"
-
-#~ msgid "could not install %s as %s (%s)\n"
-#~ msgstr "no es pot instal·lar %s com %s (%s)\n"
-
-#~ msgid "insufficient privileges"
-#~ msgstr "privilegis insuficients"

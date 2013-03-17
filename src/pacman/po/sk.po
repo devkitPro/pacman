@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2013-03-11 10:56+0000\n"
-"Last-Translator: archetyp <archetyp@linuxmail.org>\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-15 03:06+0000\n"
+"Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/sk/)\n"
 "Language: sk\n"
@@ -208,6 +208,71 @@ msgstr "načítavam súbory balíčkov"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "sťahujem %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: %s už existuje v súborovom systéme\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "zlyhalo čítanie súboru '%s': %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "cesta príliš dlhá: %s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "zlyhalo čítanie súboru '%s': %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -823,7 +888,7 @@ msgstr ""
 "                       Tento program smie byť slobodne šírený pod\n"
 "                       licenciou GNU GPL (General Public License).\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "neplatný argument '%s' pre %s\n"
 
@@ -870,10 +935,6 @@ msgstr "nebol určený súbor pre --owns\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "nie je možné určiť skutočnú cestu pre '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "cesta príliš dlhá: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -1184,9 +1245,9 @@ msgstr "Približná zmena"
 msgid "Download Size"
 msgstr "Veľkosť na prevzatie"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
-msgstr "odstraňujem"
+msgstr ""
 
 #, c-format
 msgid "Packages"

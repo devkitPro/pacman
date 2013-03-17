@@ -3,9 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Axilleas Pi <axilleas@archlinux.gr>, 2013.
 # Axilleas P <markeleas@gmail.com>, 2011.
 # Christos Nouskas <nous@archlinux.us>, 2011-2013.
 # Christos Nouskas <nous@archlinux.us>, 2011-2012, 2013.
+#  <ifaigios@gmail.com>, 2013.
 # nous <nous@archlinux.us>, 2011.
 #   <panosfilip@gmail.com>, 2011.
 # Ratnadeep Debnath <rtnpro@gmail.com>, 2011.
@@ -13,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-15 12:53+1000\n"
-"PO-Revision-Date: 2013-03-11 19:13+0000\n"
+"POT-Creation-Date: 2013-03-17 13:20+1000\n"
+"PO-Revision-Date: 2013-03-16 18:40+0000\n"
 "Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/el/)\n"
@@ -203,6 +205,68 @@ msgstr "φόρτωση αρχείων πακέτων"
 #, c-format
 msgid "downloading %s...\n"
 msgstr "λήψη %s...\n"
+
+#, c-format
+msgid "%s: %s (File type mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (UID mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (GID mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "%s: %s (Permissions mismatch)\n"
+msgstr "%s: το %s υπάρχει ήδη\n"
+
+#, c-format
+msgid "%s: %s (Modification time mismatch)\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "unable to read symlink contents: %s\n"
+msgstr "αποτυχία ανάγνωσης αρχείου '%s': %s\n"
+
+#, c-format
+msgid "%s: %s (Symlink path mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "%s: %s (Size mismatch)\n"
+msgstr ""
+
+#, c-format
+msgid "path too long: %s%s\n"
+msgstr "υπερβολικό μήκος διαδρομής: %s%s\n"
+
+#, c-format
+msgid "%s: %jd total file, "
+msgid_plural "%s: %jd total files, "
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%jd missing file\n"
+msgid_plural "%jd missing files\n"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%s: no mtree file\n"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "file type not recognized: %s%s\n"
+msgstr "αποτυχία ανάγνωσης αρχείου '%s': %s\n"
+
+#, c-format
+msgid "%jd altered file\n"
+msgid_plural "%jd altered files\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -551,7 +615,7 @@ msgstr ""
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr "  -u, --uneeded        κατάργηση αχρείαστων πακέτων\n"
+msgstr "  -u, --unneeded       κατάργηση αχρείαστων πακέτων\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
@@ -811,7 +875,7 @@ msgstr ""
 "                       Το πρόγραμμα αυτό μπορεί να αναδιανεμηθεί ελεύθερα\n"
 "                       υπό τους όρους της Γενικής Δημόσιας Άδειας GNU GPL.\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "άκυρο όρισμα '%s' στο '%s'\n"
 
@@ -858,10 +922,6 @@ msgstr "δεν ορίσθηκε αρχείο στην --owns\n"
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
 msgstr "αδύνατος ο προσδιορισμός της πραγματικής διαδρομής για το '%s': %s\n"
-
-#, c-format
-msgid "path too long: %s%s\n"
-msgstr "υπερβολικό μήκος διαδρομής: %s%s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
@@ -925,7 +985,7 @@ msgstr "αποτυχία διεκπεραίωσης (%s)\n"
 
 #, c-format
 msgid "could not remove %s: %s\n"
-msgstr "αδυναμία διαγραφής %s: %s\n"
+msgstr "αδυναμία κατάργησης %s: %s\n"
 
 #, c-format
 msgid "could not access database directory\n"
@@ -1171,7 +1231,7 @@ msgstr "Διαφορά"
 msgid "Download Size"
 msgstr "Λήψη"
 
-#, fuzzy, c-format
+#, c-format
 msgid "removal"
 msgstr "κατάργηση"
 
@@ -1189,7 +1249,7 @@ msgstr "Συνολικό Μέγεθος Εγκατάστασης:"
 
 #, c-format
 msgid "Total Removed Size:"
-msgstr "Συνολικό Μέγεθος Διαγραφής:"
+msgstr "Συνολικό Μέγεθος Κατάργησης:"
 
 #, c-format
 msgid "Net Upgrade Size:"
@@ -1217,7 +1277,7 @@ msgstr "μη έγκυρη τιμή: το %d δεν είναι μεταξύ %d κ
 
 #, c-format
 msgid "invalid number: %s\n"
-msgstr "μη έγκυρος αριθμός: %s\n"
+msgstr "άκυρος αριθμός: %s\n"
 
 #, c-format
 msgid "Enter a selection (default=all)"
