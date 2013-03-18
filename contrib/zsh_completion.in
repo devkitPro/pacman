@@ -3,6 +3,7 @@
 # copy this file to /usr/share/zsh/site-functions/_pacman
 
 typeset -A opt_args
+setopt extendedglob
 
 # options for passing to _arguments: main pacman commands
 _pacman_opts_commands=(
@@ -39,7 +40,7 @@ _pacman_opts_pkgfile=(
 	'--dbonly[Only remove database entry, do not remove files]'
 	'--force[Overwrite conflicting files]'
 	'--needed[Do not reinstall up to date packages]'
-	'*:package file:_files -g "*.pkg.tar*(.)"'
+	'*:package file:_files -g "*.pkg.tar*~*.sig(.,@)"'
 )
 
 # options for passing to _arguments: subactions for --query command
@@ -130,7 +131,7 @@ _pacman_action_query() {
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
-				'*:package file:_files -g "*.pkg.tar*"'
+				'*:package file:_files -g "*.pkg.tar*~*.sig(.,@)"'
 			;;
 		query_group)
 			_arguments -s : \
@@ -354,7 +355,7 @@ _pacman_zsh_comp() {
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
 				"$_pacman_opts_query_modifiers[@]" \
-				'*:package file:_files -g "*.pkg.tar*"'
+				'*:package file:_files -g "*.pkg.tar*~*.sig(.,@)"'
 			;;
 		T*)
 			_pacman_action_deptest
