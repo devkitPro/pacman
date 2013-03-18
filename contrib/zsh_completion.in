@@ -118,7 +118,6 @@ _pacman_action_help() {
 _pacman_action_none() {
 	_arguments -s : \
 		"$_pacman_opts_commands[@]"
-	return 0
 }
 
 # handles --query subcommand
@@ -320,6 +319,7 @@ _pacman_get_command() {
 # main dispatcher
 _pacman_zsh_comp() {
 	local -a args cmds;
+	local tmp
 	args=( ${${${(M)words:#-*}#-}:#-*} )
 	for tmp in $words; do
 		cmds+=("${${_pacman_opts_commands[(r)*$tmp\[*]%%\[*}#*\)}")
@@ -434,7 +434,6 @@ _pacman_zsh_comp() {
 			esac
 			;;
 	esac
-	return 0
 }
 
 _key_shortopts=(
