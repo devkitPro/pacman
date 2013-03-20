@@ -44,14 +44,15 @@ _pacman_key() {
   local o cur opts prev wantfiles
   COMPREPLY=()
   _get_comp_words_by_ref cur prev
-  opts=('add delete export finger help list-keys recv-keys updatedb verify
-         version config edit-key gpgdir import import-trustdb init keyserver
-         list-sigs lsign-key populate refresh-keys nocolor'
+  opts=('add config delete edit-key export finger gpgdir
+         help import import-trustdb init keyserver list-keys list-sigs
+         lsign-key nocolor populate recv-keys refresh-keys updatedb
+         verify version'
         'a d e f h l r u v V')
 
   # operations for which we want to complete keyids
   for o in 'd delete' 'e export' 'f finger' 'l list-keys' 'r recv-keys' \
-      'edit-key' 'list-sigs' 'refresh-keys'; do
+      'edit-key' 'list-sigs' 'lsign-key' 'refresh-keys'; do
     _arch_incomp "$o" && break
     unset o
   done
@@ -75,8 +76,9 @@ _makepkg() {
   _get_comp_words_by_ref cur prev
   if [[ $cur = -* && ! $prev =~ ^-(-(config|help)$|\w*[Chp]) ]]; then
     opts=('allsource asdeps asroot check clean config force geninteg help holdver ignorearch
-           install log nobuild nocheck nocolor noconfirm nodeps noextract
-           noprogressbar nosign pkg repackage rmdeps sign skipinteg source syncdeps'
+           install key log needed nobuild nocheck nocolor noconfirm nodeps noextract
+           noprogressbar nosign pkg repackage rmdeps sign skipchecksums skipinteg
+           skippgpcheck source syncdeps verifysource version'
           'A L R S c d e f g h i m o p r s')
     _arch_ptr2comp opts
   fi
