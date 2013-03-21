@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+#   checkupdates: Safely print a list of pending updates.
+#
+#   Copyright (c) 2013 Kyle Keen <keenerd@gmail.com>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+if (( $# > 0 )); then
+	echo "checkupdate: Safely print a list of pending updates."
+	echo "Use: checkupdates"
+	echo "Export the 'CHECKUPDATE_DB' variable to change the path of the temporary database."
+	exit 0
+fi
+
+if [[ -z $CHECKUPDATE_DB ]]; then
+	CHECKUPDATE_DB="${TMPDIR:-/tmp}/checkup-db-${USER}/"
+fi
+
+trap 'rm -f $CHECKUPDATE_DB/db.lck' INT TERM EXIT
+
+DBPath="${DBPath:-@localstatedir@/lib/pacman/}"
+eval $(awk -F' *= *' '$1 ~ /DBPath/ { print $1 "=" $2 }' /etc/pacman.conf)
+
+mkdir -p "$CHECKUPDATE_DB"
+ln -s "${DBPath}/local" "$CHECKUPDATE_DB" &> /dev/null
+fakeroot pacman -Sy --dbpath "$CHECKUPDATE_DB" &> /dev/null
+pacman -Qqu --dbpath "$CHECKUPDATE_DB" 2> /dev/null
+
+exit 0
+
+# vim: set ts=2 sw=2 noet:

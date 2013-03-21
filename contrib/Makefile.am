@@ -6,6 +6,7 @@ bin_SCRIPTS = \
 
 BASHSCRIPTS = \
 	bacman \
+	checkupdates \
 	paccache \
 	pacdiff \
 	paclist \
@@ -30,6 +31,7 @@ EXTRA_DIST = \
 	PKGBUILD.vim \
 	bacman.sh.in \
 	bash_completion.in \
+	checkupdates.sh.in \
 	paccache.sh.in \
 	paclog-pkglist.sh.in \
 	pacdiff.sh.in \
@@ -93,6 +95,7 @@ uninstall-local:
 
 bacman: $(srcdir)/bacman.sh.in
 bash_completion: $(srcdir)/bash_completion.in
+checkupdates: $(srcdir)/checkupdates.sh.in
 paccache: $(srcdir)/paccache.sh.in $(top_srcdir)/scripts/library/parseopts.sh $(top_srcdir)/scripts/library/size_to_human.sh
 pacdiff: $(srcdir)/pacdiff.sh.in
 paclist: $(srcdir)/paclist.sh.in
