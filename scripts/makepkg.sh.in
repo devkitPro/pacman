@@ -2744,8 +2744,7 @@ if [[ ! -f $BUILDFILE ]]; then
 		source_safe "$BUILDFILE"
 	fi
 else
-	crlftest=$(file "$BUILDFILE" | grep -F 'CRLF' || true)
-	if [[ -n $crlftest ]]; then
+	if [[ $(<"$BUILDFILE") = *$'\r'* ]]; then
 		error "$(gettext "%s contains %s characters and cannot be sourced.")" "$BUILDFILE" "CRLF"
 		exit 1
 	fi
