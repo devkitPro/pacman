@@ -37,8 +37,9 @@
  * @{
  */
 
-/** Initializes the library.  This must be called before any other
- * functions are called.
+/** Initializes the library.
+ * Creates handle, connects to database and creates lockfile.
+ * This must be called before any other functions are called.
  * @param root the root path for all filesystem operations
  * @param dbpath the absolute path to the libalpm database
  * @param err an optional variable to hold any error return codes
@@ -86,7 +87,9 @@ cleanup:
 	return NULL;
 }
 
-/** Release the library.  This should be the last alpm call you make.
+/** Release the library.
+ * Disconnects from the database, removes handle and lockfile
+ * This should be the last alpm call you make.
  * After this returns, handle should be considered invalid and cannot be reused
  * in any way.
  * @param myhandle the context handle
