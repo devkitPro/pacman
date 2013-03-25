@@ -689,7 +689,7 @@ void signature_display(const char *title, alpm_siglist_t *siglist,
 
 	if(title) {
 		len = (unsigned short)string_length(title) + 1;
-		printf("%s ", title);
+		printf("%s%s%s ", config->colstr.title, title, config->colstr.nocolor);
 	}
 	if(siglist->count == 0) {
 		printf(_("None"));
