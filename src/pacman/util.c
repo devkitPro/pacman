@@ -749,7 +749,6 @@ void signature_display(const char *title, alpm_siglist_t *siglist,
 			ret = pm_asprintf(&sigline, _("%s, %s from \"%s\""),
 					status, validity, name);
 			if(ret == -1) {
-				pm_printf(ALPM_LOG_ERROR,  _("failed to allocate string\n"));
 				continue;
 			}
 			indentprint(sigline, len, maxcols);
