@@ -749,12 +749,11 @@ download_sources() {
 		GET_VCS=0
 	fi
 
-	pushd "$SRCDEST" &>/dev/null
-
 	local netfile
 	for netfile in "${source[@]}"; do
-		local proto=$(get_protocol "$netfile")
+		pushd "$SRCDEST" &>/dev/null
 
+		local proto=$(get_protocol "$netfile")
 		case "$proto" in
 			local)
 				download_local "$netfile"
@@ -775,9 +774,9 @@ download_sources() {
 				download_file "$netfile"
 				;;
 		esac
-	done
 
-	popd &>/dev/null
+		popd &>/dev/null
+	done
 }
 
 # Automatically update pkgver variable if a pkgver() function is provided
