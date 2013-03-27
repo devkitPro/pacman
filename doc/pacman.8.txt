@@ -269,7 +269,9 @@ Query Options[[QO]]
 *-k \--check*::
 	Check that all files owned by the given package(s) are present on the
 	system. If packages are not specified or filter flags are not provided,
-	check all installed packages.
+	check all installed packages.  Specifying this option twice will perform
+	more detailed file checking (including permissions, file sizes and
+	modification times) for packages that contain the needed mtree file.
 
 *-l, \--list*::
 	List all files owned by a given package. Multiple packages can be
