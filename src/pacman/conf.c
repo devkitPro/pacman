@@ -42,6 +42,8 @@ config_t *config = NULL;
 
 #define NOCOLOR       "\033[0m"
 
+#define BOLD          "\033[0;1m"
+
 #define BLACK         "\033[0;30m"
 #define RED           "\033[0;31m"
 #define GREEN         "\033[0;32m"
@@ -65,8 +67,8 @@ void enable_colors(int colors)
 	colstr_t *colstr = &config->colstr;
 
 	if(colors == PM_COLOR_ON) {
-		colstr->colon   = BOLDBLUE "::" BOLDWHITE " ";
-		colstr->title   = BOLDWHITE;
+		colstr->colon   = BOLDBLUE "::" BOLD " ";
+		colstr->title   = BOLD;
 		colstr->repo    = BOLDMAGENTA;
 		colstr->version = BOLDGREEN;
 		colstr->groups  = BOLDBLUE;
