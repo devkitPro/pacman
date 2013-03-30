@@ -38,6 +38,8 @@ export TEXTDOMAINDIR='@localedir@'
 export COMMAND_MODE='legacy'
 # Ensure CDPATH doesn't screw with our cd calls
 unset CDPATH
+# Ensure GREP_OPTIONS doesn't screw with our grep calls
+unset GREP_OPTIONS
 
 declare -r makepkg_version='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
