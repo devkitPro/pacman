@@ -314,7 +314,6 @@ download_local() {
 		msg2 "$(gettext "Found %s")" "${filepath##*/}"
 		rm -f "$srcdir/${filepath##*/}"
 		ln -s "$filepath" "$srcdir/"
-		continue
 	else
 		local filename=$(get_filename "$netfile")
 		error "$(gettext "%s was not found in the build directory and is not a URL.")" "$filename"
