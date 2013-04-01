@@ -24,7 +24,6 @@
 #define PACKAGE_VERSION GIT_VERSION
 #endif
 
-#include <ctype.h> /* isspace */
 #include <stdlib.h> /* atoi */
 #include <stdio.h>
 #include <ctype.h> /* isspace */
