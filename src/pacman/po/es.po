@@ -10,14 +10,15 @@
 #   <juantascon@gmail.com>, 2011.
 # neiko <neikokz+tsfx@gmail.com>, 2011.
 # Pablo Lezaeta <prflr88@gmail.com>, 2012-2013.
+# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013.
 # Rodrigo Cares <rcares@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 03:06+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 16:29+0000\n"
+"Last-Translator: Pablo Lezaeta <prflr88@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -210,35 +211,35 @@ msgstr "descargando %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (El archivos no concuerda)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (El UID no concuerda)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (El GID no concuerda)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s existe en el sistema de archivos\n"
+msgstr "%s: %s (Los permisos no concuerdan)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (La fecha de modificación no concuerda)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "no se pudo leer el archivo '%s': %s\n"
+msgstr "no se pudo leer el enlace al archivo: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Dirección del enlace no concuerda)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (El tamaño no concuerda)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -258,17 +259,19 @@ msgstr[1] "%jd archivos no encontrados\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: sin archivo .MTREE\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "no se pudo leer el archivo '%s': %s\n"
+msgstr "tipo de archivo no reconocido: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
+msgstr[0] "%jd archivos alterados\n"
 msgstr[1] ""
+"%jd archivo alterado\n"
+"\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -931,9 +934,9 @@ msgstr ""
 "                       los términos de la licencia GNU General Public "
 "License\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "argumento inválido  '%s' para %s\n"
+msgstr "argumento inválido '%s' para %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1264,10 +1267,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s desde \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "error al asignar espacio para la cadena\n"
-
-#, c-format
 msgid "Name"
 msgstr "Nombre"
 
@@ -1289,7 +1288,7 @@ msgstr "Tamaño de la descarga"
 
 #, c-format
 msgid "removal"
-msgstr ""
+msgstr "quitando"
 
 #, c-format
 msgid "Packages"
@@ -1366,6 +1365,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NO"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "error al asignar espacio para la cadena\n"
 
 #, c-format
 msgid "error: %s"

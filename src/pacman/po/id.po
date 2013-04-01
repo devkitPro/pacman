@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 18:02+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 06:24+0000\n"
 "Last-Translator: andjeng <teratower8@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/id/)\n"
@@ -197,35 +197,35 @@ msgstr "mengunduh %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Jenis berkas tidak cocok)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (UID tidak cocok)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (GID tidak cocok)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s ada pada filesystem\n"
+msgstr "%s: %s (Izin tidak cocok)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Waktu modifikasi tidak cocok)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "gagal membaca berkas '%s': %s\n"
+msgstr "tidak dapat membaca konten symlink: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Path symlink tidak cocok)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Ukuran tidak cocok)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -234,25 +234,25 @@ msgstr "path terlalu panjang: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
+msgstr[0] "%s: %jd total berkas,"
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
+msgstr[0] "%jd berkas yang tidak ada\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: tidak ada berkas mtree\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "gagal membaca berkas '%s': %s\n"
+msgstr "jenis berkas tidak dikenal: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
+msgstr[0] "%jd berkas yang terganti\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -856,7 +856,7 @@ msgstr ""
 "Program ini bebas didistribusikan ulang dibawah\n"
 "batasan GNU General Public License.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "argumen tidak valid '%s' untuk %s\n"
 
@@ -1189,10 +1189,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s dari \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "gagal mengalokasikan string\n"
-
-#, c-format
 msgid "Name"
 msgstr "Nama"
 
@@ -1291,6 +1287,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NO"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "gagal mengalokasikan string\n"
 
 #, c-format
 msgid "error: %s"

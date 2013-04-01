@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 03:06+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-18 08:54+0000\n"
+"Last-Translator: archetyp <archetyp@linuxmail.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/sk/)\n"
 "Language: sk\n"
@@ -53,7 +53,7 @@ msgstr "aktualizujem %s...\n"
 
 #, c-format
 msgid "downgrading %s...\n"
-msgstr ""
+msgstr "znižujem verziu %s...\n"
 
 #, c-format
 msgid "reinstalling %s...\n"
@@ -65,7 +65,7 @@ msgstr "kontrolujem integritu balíčkov...\n"
 
 #, c-format
 msgid "checking keyring...\n"
-msgstr ""
+msgstr "overujem kľúčenku...\n"
 
 #, c-format
 msgid "downloading required keys...\n"
@@ -97,7 +97,7 @@ msgstr "zlyhalo.\n"
 
 #, c-format
 msgid "Retrieving packages ...\n"
-msgstr ""
+msgstr "Získavam balíčky ...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
@@ -105,7 +105,7 @@ msgstr "zisťujem voľné miesto na disku...\n"
 
 #, c-format
 msgid "%s optionally requires %s\n"
-msgstr ""
+msgstr "%s voliteľne vyžaduje %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -175,7 +175,7 @@ msgstr "aktualizujem"
 
 #, c-format
 msgid "downgrading"
-msgstr ""
+msgstr "znižujem verziu"
 
 #, c-format
 msgid "reinstalling"
@@ -211,35 +211,35 @@ msgstr "sťahujem %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (typ súboru sa nezhoduje)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (UID sa nezhoduje)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (GID sa nezhoduje)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s už existuje v súborovom systéme\n"
+msgstr "%s: %s (práva sa nezhodujú)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (čas zmeny sa nezhoduje)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "zlyhalo čítanie súboru '%s': %s\n"
+msgstr "nepodarilo sa prečítať obsah symlinku: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (cesta symlinku sa nezhoduje)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (veľkosť sa nezhoduje)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -248,31 +248,31 @@ msgstr "cesta príliš dlhá: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s: %jd súbor celkom,"
+msgstr[1] "%s: %jd súbory celkom,"
+msgstr[2] "%s: %jd súborov celkom,"
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd chýbajúci súbor\n"
+msgstr[1] "%jd chýbajúce súbory\n"
+msgstr[2] "%jd chýbajúcich súborov\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: žiadny mtree súbor\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "zlyhalo čítanie súboru '%s': %s\n"
+msgstr "neznámy typ súboru: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd zmenený súbor\n"
+msgstr[1] "%jd zmenené súbory\n"
+msgstr[2] "%jd zmenených súborov\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -547,7 +547,7 @@ msgstr "Podpisy        :"
 
 #, c-format
 msgid "Validated By   :"
-msgstr ""
+msgstr "Schválil:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -567,7 +567,7 @@ msgstr "zoznam zmien pre '%s' nie je dostupný.\n"
 
 #, c-format
 msgid "Changelog for %s:\n"
-msgstr ""
+msgstr "Changelog pre %s:\n"
 
 #, c-format
 msgid "installed"
@@ -684,6 +684,8 @@ msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
+"  -n, --native         vypíš inštalované balíčky nachádzajúce sa iba v sync "
+"db(s) [filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -888,9 +890,11 @@ msgstr ""
 "                       Tento program smie byť slobodne šírený pod\n"
 "                       licenciou GNU GPL (General Public License).\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "neplatný argument '%s' pre %s\n"
+msgstr ""
+"neplatný argument '%s' pre %s\n"
+"\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1115,7 +1119,7 @@ msgstr "Pokračovať v inštalácii?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "nepodarilo sa %s adresár-konflikt súbor\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -1222,10 +1226,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s z \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "nepodarilo sa alokovať reťazec\n"
-
-#, c-format
 msgid "Name"
 msgstr "Meno"
 
@@ -1247,7 +1247,7 @@ msgstr "Veľkosť na prevzatie"
 
 #, c-format
 msgid "removal"
-msgstr ""
+msgstr "odstránenie"
 
 #, c-format
 msgid "Packages"
@@ -1271,7 +1271,7 @@ msgstr "Čistá zmena aktualizácie:"
 
 #, c-format
 msgid " [pending]"
-msgstr ""
+msgstr " [čaká na vykonanie]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
@@ -1324,6 +1324,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NIE"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "nepodarilo sa alokovať reťazec\n"
 
 #, c-format
 msgid "error: %s"

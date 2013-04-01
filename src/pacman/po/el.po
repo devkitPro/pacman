@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-16 18:40+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 21:02+0000\n"
 "Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/el/)\n"
@@ -208,35 +208,35 @@ msgstr "λήψη %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Αναντιστοιχία τύπου αρχείου)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Αναντιστοιχία UID)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Αναντιστοιχία GID)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: το %s υπάρχει ήδη\n"
+msgstr "%s: %s (Αναντιστοιχία δικαιωμάτων)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Αναντιστοιχία ώρας τροποποίησης)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "αποτυχία ανάγνωσης αρχείου '%s': %s\n"
+msgstr "αδυναμία ανάγνωσης των περιεχομένων του symlink: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Αναντιστοιχία διαδρομής symlink)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Αναντιστοιχία μεγέθους)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -245,28 +245,28 @@ msgstr "υπερβολικό μήκος διαδρομής: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: %jd συνολικό αρχείο, "
+msgstr[1] "%s: %jd συνολικά αρχεία, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd απόν αρχείο\n"
+msgstr[1] "%jd απόντα αρχεία\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: από αρχείο mtree\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "αποτυχία ανάγνωσης αρχείου '%s': %s\n"
+msgstr "μη αναγνωρίσιμος τύπος αρχείου: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd αλλαγμένο αρχείο\n"
+msgstr[1] "%jd αλλαγμένα αρχεία\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -875,9 +875,9 @@ msgstr ""
 "                       Το πρόγραμμα αυτό μπορεί να αναδιανεμηθεί ελεύθερα\n"
 "                       υπό τους όρους της Γενικής Δημόσιας Άδειας GNU GPL.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "άκυρο όρισμα '%s' στο '%s'\n"
+msgstr "μη έγκυρο όρισμα '%s' στο %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1208,10 +1208,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s από \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "αποτυχία δέσμευσης συμβολοσειράς\n"
-
-#, c-format
 msgid "Name"
 msgstr "Όνομα"
 
@@ -1310,6 +1306,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "ΟΧΙ"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "αποτυχία δέσμευσης συμβολοσειράς\n"
 
 #, c-format
 msgid "error: %s"

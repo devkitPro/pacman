@@ -5,14 +5,14 @@
 # Translators:
 # Arthur <arthur.titeica@gmail.com>, 2013.
 # cantabile <cantabile.desu@gmail.com>, 2011.
-# Ionut Biru <ibiru@archlinux.org>, 2011-2012.
+# Ionut Biru <ibiru@archlinux.org>, 2011-2013.
 # Mihai Coman <mihai@m1x.ro>, 2011,2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 17:35+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 18:33+0000\n"
 "Last-Translator: Mihai Coman <mihai@m1x.ro>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ro/)\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "se verifică dependențele...\n"
+msgstr "se verifică dependențele..\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
@@ -147,7 +147,7 @@ msgstr[2] "Dorești omiterea pachetului de mai sus pentru această actualizare?"
 
 #, c-format
 msgid "There are %zd providers available for %s:\n"
-msgstr "Există %zd provideri disponibili pentru %s:\n"
+msgstr "Există %zd furnizori disponibili pentru %s:\n"
 
 #, c-format
 msgid "%s-%s: local version is newer. Upgrade anyway?"
@@ -159,7 +159,7 @@ msgid ""
 "Do you want to delete it?"
 msgstr ""
 "Fișierul %s este corupt (%s).\n"
-"Dorești să îl ștergi?"
+"Doriți să îl ștergeți?"
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
@@ -211,37 +211,35 @@ msgstr "se descarcă %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Nepotrivire la nume de fișier)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Nepotrivire la UID)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Nepotrivire la GID)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr ""
-"%s: %s există în sistemul de fișiere\n"
-"\n"
+msgstr "%s: %s (Nepotrivire la permisiuni)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Nepotrivire la data modificării)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "eșec la citirea fișierului '%s': %s\n"
+msgstr "nu se poate citi conținutul legăturii simbolice : %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Nepotrivire la calea legăturii simbolice)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Nepotrivire la dimensiune)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -250,35 +248,37 @@ msgstr "cale prea lungă: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s: %jd fișier în total, "
+msgstr[1] "%s: %jd fișiere în total, "
+msgstr[2] "%s: %jd fișiere în total, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd fișier lipsă\n"
+msgstr[1] "%jd fișiere lipsă\n"
+msgstr[2] "%jd fișiere lipsă\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: nu există fișier mtree\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "eșec la citirea fișierului '%s': %s\n"
+msgstr "tipul fișierului nu este recunoscut: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd fișier modificat\n"
+msgstr[1] "%jd fișiere modificate\n"
 msgstr[2] ""
+"%jd fișiere modificate\n"
+"\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "eșec malloc: nu se pot aloca %zd bytes\n"
+msgstr "eșec malloc: nu se pot aloca %zd octeți\n"
 
 #, c-format
 msgid "could not get current working directory\n"
@@ -509,7 +509,7 @@ msgstr "Mărime Comprimată:"
 
 #, c-format
 msgid "Installed Size :"
-msgstr "Mărime Instalată :"
+msgstr "Mărime instalat:"
 
 #, c-format
 msgid "Packager       :"
@@ -910,9 +910,9 @@ msgstr ""
 "                       Acest program poate fi redistribuit liber sub\n"
 "                       termenii licenței GNU - General Public License.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "argument invalid '%s' pentru %s\n"
+msgstr "argumentul '%s' nu este valid pentru %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1251,10 +1251,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s din \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "Eșuare la alocarea șirului\n"
-
-#, c-format
 msgid "Name"
 msgstr "Nume"
 
@@ -1284,19 +1280,19 @@ msgstr "Pachete"
 
 #, c-format
 msgid "Total Download Size:"
-msgstr "Mărimea Totală a Descărcării:"
+msgstr "Mărimea totală a descărcării:"
 
 #, c-format
 msgid "Total Installed Size:"
-msgstr "Mărimea Totală a Instalării:"
+msgstr "Mărimea totală a instalării:"
 
 #, c-format
 msgid "Total Removed Size:"
-msgstr "Mărimea Totală a Eliminării:"
+msgstr "Mărimea totală a eliminării:"
 
 #, c-format
 msgid "Net Upgrade Size:"
-msgstr "Mărimea Netă a Actualizării:"
+msgstr "Mărimea netă a actualizării:"
 
 #, c-format
 msgid " [pending]"
@@ -1353,6 +1349,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NU"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "Eșuare la alocarea șirului\n"
 
 #, c-format
 msgid "error: %s"

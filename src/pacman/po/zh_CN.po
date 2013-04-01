@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-17 00:09+0000\n"
-"Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-25 12:33+0000\n"
+"Last-Translator: mytbk <mytbk920423@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -204,35 +204,35 @@ msgstr "正在下载 %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (文件类型不匹配)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (用户标识符UID不匹配)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (用户组标识符GID不匹配)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: 文件系统中已存在 %s \n"
+msgstr "%s: %s (许可不匹配)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (修改时间不匹配)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "无法读取文件 '%s'：%s\n"
+msgstr "无法读取符号链接的内容: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (符号链接路径不匹配)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (大小不匹配)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -250,16 +250,16 @@ msgstr[0] "%jd 缺失文件\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: 没有M-树文件\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "无法读取文件 '%s'：%s\n"
+msgstr "文件类型无法识别: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
+msgstr[0] "%jd 变化的文件\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -436,7 +436,7 @@ msgstr "架构　　　："
 
 #, c-format
 msgid "URL            :"
-msgstr "URL地址　："
+msgstr "URL地址　 ："
 
 #, c-format
 msgid "Licenses       :"
@@ -835,9 +835,9 @@ msgstr ""
 "                       本程序可以在GNU一般公众许可条款下\n"
 "                       自由分发\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "'%s'是%s的无效参数\n"
+msgstr " '%s' 不是 %s 的合法参数\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1168,10 +1168,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s，%s 来自 \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "无法分配字符串\n"
-
-#, c-format
 msgid "Name"
 msgstr "名字"
 
@@ -1270,6 +1266,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "否"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "无法分配字符串\n"
 
 #, c-format
 msgid "error: %s"

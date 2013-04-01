@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-03-10 13:00+1000\n"
-"PO-Revision-Date: 2013-03-15 03:04+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2013-03-26 23:56+0000\n"
+"Last-Translator: jpatufet <jpreales@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -32,7 +32,7 @@ msgstr "%s-%s és al dia -- es reinstal·larà\n"
 
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "desactualitzant paquet %s (%s => %s)\n"
+msgstr "desactualitzant el paquet %s (%s => %s)\n"
 
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
@@ -40,11 +40,11 @@ msgstr "advertència al extreure %s (%s)\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "no es pot extreure %s (%s)\n"
+msgstr "no s'ha pogut extreure %s (%s)\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "no es pot reanomenar %s a %s (%s)\n"
+msgstr "no s'ha pogut canviar el nom %s a %s (%s)\n"
 
 #, c-format
 msgid ""
@@ -64,11 +64,11 @@ msgstr "extracció: l'enllaç simbòlic %s no apunta al directori\n"
 
 #, c-format
 msgid "%s saved as %s\n"
-msgstr "%s desat com %s\n"
+msgstr "%s s'ha desat com %s\n"
 
 #, c-format
 msgid "%s installed as %s\n"
-msgstr "%s instal·lat com %s\n"
+msgstr "%s s'ha instal·lat com %s\n"
 
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
@@ -76,7 +76,7 @@ msgstr "s'està extraient %s com %s.pacnew\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "no es pot obtenir el directori de treball actual\n"
+msgstr "no s'ha pogut obtenir el directori de treball actual\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -124,7 +124,7 @@ msgstr "entrada de la base de dades corrupta '%s'\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
-msgstr "no es pot obrir el fitxer %s: %s\n"
+msgstr "no s'ha pogut obrir el fitxer %s: %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
@@ -148,15 +148,15 @@ msgstr "no s'ha pogut analitzar el fitxer de descripció de paquet en %s\n"
 
 #, c-format
 msgid "missing package name in %s\n"
-msgstr "falta nom de paquet en %s\n"
+msgstr "falta el nom del paquet en %s\n"
 
 #, c-format
 msgid "missing package version in %s\n"
-msgstr "falta versió de paquet en %s\n"
+msgstr "falta la versió del paquet en %s\n"
 
 #, c-format
 msgid "error while reading package %s: %s\n"
-msgstr "error en llegir paquet %s: %s\n"
+msgstr "error en llegir el paquet %s: %s\n"
 
 #, c-format
 msgid "missing package metadata in %s\n"
@@ -198,11 +198,11 @@ msgstr "%s serà eliminat després de la seva dependència %s\n"
 
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr "%s serà instal·lar abans de la seva dependència %s\n"
+msgstr "%s s'instal·larà abans de la seva dependència %s\n"
 
 #, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "s'està ignorant paquet %s-%s\n"
+msgstr "s'està ignorant el paquet %s-%s\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
@@ -210,15 +210,15 @@ msgstr "no es pot resoldre \"%s\", una dependència de \"%s\"\n"
 
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr "no s'ha pogut obtenir informació  per %s: %s\n"
+msgstr "no s'ha pogut obtenir informació del sistema de fitxers per %s: %s\n"
 
 #, c-format
 msgid "could not open file: %s: %s\n"
-msgstr "no es pot obrir el fitxer: %s: %s\n"
+msgstr "no s'ha pogut obrir el fitxer: %s: %s\n"
 
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr "no s'ha pogut obtenir informació del sistema d'arxiu\n"
+msgstr "no s'ha pogut obtenir informació del sistema de fitxers\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
@@ -232,7 +232,8 @@ msgstr ""
 
 #, c-format
 msgid "could not determine filesystem mount points\n"
-msgstr "no s'ha pogut determinar els punts de muntatge del sistema d'arxius\n"
+msgstr ""
+"no s'han pogut determinar els punts de muntatge dels sistemes de fitxers\n"
 
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
@@ -240,11 +241,11 @@ msgstr "no s'ha pogut determinar el punt de muntatge cachedir %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
-msgstr "no s'ha pogut determinar punt de muntatge de root %s\n"
+msgstr "no s'ha pogut determinar el punt de muntatge del directori arrel %s\n"
 
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr "La partició %s està muntat només en mode lectura\n"
+msgstr "La partició %s està muntada només en mode lectura\n"
 
 #, c-format
 msgid "disk"
@@ -252,7 +253,7 @@ msgstr "disc"
 
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "ha fallat en crear un arxiu temporal per la baixada\n"
+msgstr "ha fallat en crear un fitxer temporal per la baixada\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
@@ -284,11 +285,11 @@ msgstr "permís denegat"
 
 #, c-format
 msgid "could not find or read file"
-msgstr "no es pot trobar o llegir fitxer"
+msgstr "no s'ha pogut trobar o llegir el fitxer"
 
 #, c-format
 msgid "could not find or read directory"
-msgstr "no es pot trobar o llegir directori"
+msgstr "no s'ha pogut trobar o llegir el directori"
 
 #, c-format
 msgid "wrong or NULL argument passed"
@@ -401,7 +402,7 @@ msgstr "paquet invàlid o corrupte"
 
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr "base de dades invàlida o corrupta (checksum)"
+msgstr "paquet invàlid o corrupte (suma de verificació)"
 
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
@@ -409,7 +410,7 @@ msgstr "paquet invàlid o corrupte (signatura PGP)"
 
 #, c-format
 msgid "cannot open package file"
-msgstr "no s'ha pogut obrir el fitxer de paquet"
+msgstr "no s'ha pogut obrir el fitxer del paquet"
 
 #, c-format
 msgid "cannot remove all files for package"
@@ -501,7 +502,7 @@ msgstr "no s'ha pogut eliminar el fitxer '%s': %s\n"
 
 #, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "no es pot obrir el directori: %s: %s\n"
+msgstr "nos'ha pogut obrir el directori: %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -537,7 +538,7 @@ msgstr "s'està ignorant el reemplaçament del paquet (%s-%s => %s-%s)\n"
 
 #, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "no s'ha pogut reemplaçar %s per %s\n"
+msgstr "no es pot reemplaçar %s per %s\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
@@ -620,4 +621,5 @@ msgstr "no existeix memòria cau %s, s'està creant...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
-"no s'ha trobat o creat packet de memòria cau, usant alternativaent %s\n"
+"no s'ha trobat o creat el paquet de memòria cau, s'està usant "
+"alternativament %s\n"

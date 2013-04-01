@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 12:17+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 19:22+0000\n"
 "Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/uk/)\n"
@@ -210,35 +210,35 @@ msgstr "звантаження %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Тип файлу збігається)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (UID не збігається)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (GID не збігається)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s існує у файловій системі\n"
+msgstr "%s: %s (Дозволи не збігаються)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Час зміни не збігається)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "не вдалось прочитати файл «%s»: %s\n"
+msgstr "не вдається прочитати вміст символьного посилання: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Шлях символьного посилання не збігається)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Розмір не збігається)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -247,31 +247,31 @@ msgstr "шлях надто довгий: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s: %jd всіх файлів, "
+msgstr[1] "%s: %jd всіх файлів, "
+msgstr[2] "%s: %jd всіх файлів, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd бракує файлів\n"
+msgstr[1] "%jd бракує файлів\n"
+msgstr[2] "%jd бракує файлів\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: немає файлу mtree\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "не вдалось прочитати файл «%s»: %s\n"
+msgstr "тип файлу не розпізнаний: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd змінених файлів\n"
+msgstr[1] "%jd змінених файлів\n"
+msgstr[2] "%jd змінених файлів\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -891,7 +891,7 @@ msgstr ""
 "                       Цю програму можна вільно розповсюджуватись на\n"
 "                       умовах загальної громадської ліцензії GNU.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "неправильний аргумент '%s' для %s\n"
 
@@ -1226,10 +1226,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s з «%s»"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "не вдалось розмістити рядок\n"
-
-#, c-format
 msgid "Name"
 msgstr "Назва"
 
@@ -1328,6 +1324,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "НІ"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "не вдалось розмістити рядок\n"
 
 #, c-format
 msgid "error: %s"

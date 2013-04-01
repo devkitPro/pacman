@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 06:11+0000\n"
-"Last-Translator: Hector Mtz-Seara <hseara@gmail.com>\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-24 22:45+0000\n"
+"Last-Translator: jpatufet <jpreales@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -206,35 +206,35 @@ msgstr "s'està baixant %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (No coincideix el tipus de fitxer)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (No coincideix l'UID)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (No coincideix la GID)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s existeix en el sistema de fitxers\n"
+msgstr "%s: %s (Permisos no coincidents)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (No coincideix el temps de modificació)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "ha fallat en llegir el fitxer «%s»: %s\n"
+msgstr "no es pot llegir el contingut de l'enllaç simbòlic: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Desajust ruta enllaç simbòlic)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Desajust mida)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -254,17 +254,17 @@ msgstr[1] "Falten %jd fitxer\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: no hi arxiu mtree\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "ha fallat en llegir el fitxer «%s»: %s\n"
+msgstr "tipus de fitxer no reconegut: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd arxiu modificat\n"
+msgstr[1] "%jd fitxers modificats\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -609,7 +609,7 @@ msgstr ""
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
-msgstr "  -n, --nosave         esborra arxius de configuració\n"
+msgstr "  -n, --nosave         esborra els fitxers de configuració\n"
 
 #, c-format
 msgid ""
@@ -885,7 +885,7 @@ msgstr "      --debug          mostra missatges de depuració\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --gpgdir <path>   establir un directori alternatiu per GnuPG\n"
+msgstr "      --gpgdir <ruta>   establir un directori alternatiu per GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -903,9 +903,9 @@ msgstr ""
 "                       Aquest programa es pot distribuir lliurement sota\n"
 "                       els termes de la llicència pública general de GNU.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "l'argument '%s' no és vàlid per %s\n"
+msgstr "Argument no vàlid '%s' for %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -973,7 +973,7 @@ msgstr "no s'ha trobat el paquet «%s»\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr "'%s' és un arxiu, és possible que vulgueu utilitzar %s.\n"
+msgstr "'%s' és un fitxer, és possible que vulgueu utilitzar %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
@@ -1101,7 +1101,7 @@ msgstr "base de dades no trobada: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr "'%s' és un arxiu, pretenies dir %s en lloc de %s?\n"
+msgstr "'%s' és un fitxer, pretenies dir %s en lloc de %s?\n"
 
 #, c-format
 msgid "Starting full system upgrade...\n"
@@ -1236,10 +1236,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s des de \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "No s'ha pogut assignar memòria a la cadena de caràcters\n"
-
-#, c-format
 msgid "Name"
 msgstr "Nom"
 
@@ -1338,6 +1334,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NO"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "No s'ha pogut assignar memòria a la cadena de caràcters\n"
 
 #, c-format
 msgid "error: %s"

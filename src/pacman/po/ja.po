@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 07:32+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-26 17:35+0000\n"
 "Last-Translator: kusakata <shohei@kusakata.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ja/)\n"
@@ -199,35 +199,35 @@ msgstr "%s をダウンロード...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (ファイルタイプの不一致)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (UID の不一致)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (GID の不一致)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s がファイルシステムに存在しています\n"
+msgstr "%s: %s (パーティションの不一致)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (修正時刻の不一致)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "ファイル '%s' を読み込めませんでした: %s\n"
+msgstr "シンボリックリンクの中身を読み込めません: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (シンボリックリンクのパスの不一致)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (サイズの不一致)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -236,25 +236,25 @@ msgstr "パスが長すぎます: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
+msgstr[0] "%s: 合計ファイル %jd, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
+msgstr[0] "見つからないファイル %jd\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: mtree ファイルがありません\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "ファイル '%s' を読み込めませんでした: %s\n"
+msgstr "認識できないファイルタイプ: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
+msgstr[0] "変更されたファイル %jd\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -875,7 +875,7 @@ msgstr ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "引数 '%s' は %s では無効です\n"
 
@@ -957,7 +957,7 @@ msgstr "対象が見つかりませんでした: %s\n"
 
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
-msgstr "トランザクションの準備に失敗しました (%s)\n"
+msgstr "処理の準備に失敗しました (%s)\n"
 
 #, c-format
 msgid "%s: requires %s\n"
@@ -981,7 +981,7 @@ msgstr "以上のパッケージを削除しますか？"
 
 #, c-format
 msgid "failed to commit transaction (%s)\n"
-msgstr "トランザクションの終了に失敗しました (%s)\n"
+msgstr "処理を完了できませんでした (%s)\n"
 
 #, c-format
 msgid "could not remove %s: %s\n"
@@ -1130,7 +1130,7 @@ msgstr "パッケージをロード...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
-msgstr "トランザクションの初期化に失敗しました (%s)\n"
+msgstr "処理を始められませんでした (%s)\n"
 
 #, c-format
 msgid "could not lock database: %s\n"
@@ -1207,10 +1207,6 @@ msgstr "不明な信用"
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s 名前 \"%s\""
-
-#, c-format
-msgid "failed to allocate string\n"
-msgstr "文字列の割り当てに失敗しました\n"
 
 #, c-format
 msgid "Name"
@@ -1311,6 +1307,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NO"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "文字列の割り当てに失敗しました\n"
 
 #, c-format
 msgid "error: %s"

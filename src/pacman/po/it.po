@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 19:55+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 07:41+0000\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/it/)\n"
@@ -204,35 +204,35 @@ msgstr "download di %s in corso...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (il tipo di file non corrisponde)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (l'UID non corrisponde)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (il GID non corrisponde)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s è già presente nel filesystem\n"
+msgstr "%s: %s (i permessi non corrispondono)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (l'orario della modifica non corrisponde)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "impossibile leggere il file '%s': %s\n"
+msgstr "impossibile leggere i contenuti dei link simbolici: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (il path del link simbolico non corrisponde)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (la dimensione non corrisponde)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -252,17 +252,17 @@ msgstr[1] "mancano %jd file\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: nessun file mtree\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "impossibile leggere il file '%s': %s\n"
+msgstr "il tipo di file non è riconosciuto: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd file alterati\n"
+msgstr[1] "%jd file alterati\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -911,7 +911,7 @@ msgstr ""
 "ridistribuito\n"
 "                       sotto i termini della GNU General Public License.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "l'argomento '%s' non è valido per %s\n"
 
@@ -1245,10 +1245,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s da \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "impossibile allocare la stringa\n"
-
-#, c-format
 msgid "Name"
 msgstr "Nome"
 
@@ -1347,6 +1343,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NO"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "impossibile allocare la stringa\n"
 
 #, c-format
 msgid "error: %s"

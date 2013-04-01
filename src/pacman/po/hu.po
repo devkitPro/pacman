@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-16 15:05+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 10:07+0000\n"
 "Last-Translator: ngaba <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/hu/)\n"
@@ -206,35 +206,35 @@ msgstr "%s letöltése...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Eltérő fájltípus)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Eltérő UID)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Eltérő GID)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s létezik a fájlrendszerben\n"
+msgstr "%s: %s (Eltérő engedélyek)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Eltérő módosítás-időpont)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
+msgstr "nem sikerült olvasni a szimbolikus link tartalmát: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Eltérő szimbolikus link útvonal)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Eltérő méret)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -243,28 +243,28 @@ msgstr "az útvonal túl hosszú: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: összesen %jd fájl, "
+msgstr[1] "%s: összesen %jd fájl, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd hiányzó fájl\n"
+msgstr[1] "%jd hiányzó fájl\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: nincs mtree fájl\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "nem sikerült olvasni a '%s' fájlt: %s\n"
+msgstr "ismeretlen fájltípus: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd módosított fájl\n"
+msgstr[1] "%jd módosított fájl\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -893,9 +893,9 @@ msgstr ""
 "                       Ez a program szabadon terjeszthető a GNU\n"
 "                       General Public License feltételei szerint.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "érvénytelen '%s' argumentum a %s-hoz\n"
+msgstr "érvénytelen %2$s argumentum: %1$s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1226,10 +1226,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s innen: \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "nem sikerült lefoglalni a karakterláncot\n"
-
-#, c-format
 msgid "Name"
 msgstr "Név"
 
@@ -1328,6 +1324,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NEM"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "nem sikerült lefoglalni a karakterláncot\n"
 
 #, c-format
 msgid "error: %s"

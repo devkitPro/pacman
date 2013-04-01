@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 05:38+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 21:40+0000\n"
 "Last-Translator: Atilla Öntaş <tarakbumba@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/tr/)\n"
@@ -208,35 +208,35 @@ msgstr "%s indiriliyor...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Dosya türü uyuşmazlığı)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (UID uyuşmazlığı)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (GID uyuşmazlığı)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s dosya sisteminde mevcut\n"
+msgstr "%s: %s (İzin uyuşmazlığı)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Değiştirme zamanı uyuşmazlığı)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "'%s' adlı dosya okunamadı: %s\n"
+msgstr "sembolik bağ içerikleri okunamıyor: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Sembolik bağ konumu uyuşmazlığı)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Boyut uyuşmazlığı)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -245,28 +245,28 @@ msgstr "dosya yolu çok uzun: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: %jd toplam dosya, "
+msgstr[1] "%s: %jd toplam dosya, "
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd eksik dosya\n"
+msgstr[1] "%jd eksik dosya\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: mtree dosyası değil\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "'%s' adlı dosya okunamadı: %s\n"
+msgstr "dosya türü tanınmadı: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd değiştirilmiş dosya\n"
+msgstr[1] "%jd değiştirilmiş dosya\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -878,9 +878,9 @@ msgstr ""
 "                       Bu yazılım GNU Genel Kamu Lisansı hükümlerine\n"
 "                       uymak şartıyla özgürce dağıtılabilir.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "geçersiz parametre '%s' - %s\n"
+msgstr "'%s',  %s için geçersiz bir argüman\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1211,10 +1211,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s \"%s\" tarafından"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "dizgi tahsis edilemedi\n"
-
-#, c-format
 msgid "Name"
 msgstr "İsim"
 
@@ -1313,6 +1309,10 @@ msgstr "H"
 #, c-format
 msgid "NO"
 msgstr "HAYIR"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "dizgi tahsis edilemedi\n"
 
 #, c-format
 msgid "error: %s"

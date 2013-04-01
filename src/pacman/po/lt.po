@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 06:12+0000\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 05:53+0000\n"
 "Last-Translator: Algimantas Margevičius <gymka@archlinux.lt>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/lt/)\n"
@@ -211,34 +211,40 @@ msgstr "parsisiunčiama %s...\n"
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
 msgstr ""
+"%s: %s (nesutampa failo tipas)\n"
+"\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (nesutampa UID)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
 msgstr ""
+"%s: %s (nesutampa GID)\n"
+"\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s jau egzistuoja failų sistemoje\n"
+msgstr "%s: %s (nesutampa leidimai)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (nesutampa keitimo laikas)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "nepavyko perskaityti failo „%s“: %s\n"
+msgstr "perskaityti simbolinės nuorodos turinio nepavyko: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
 msgstr ""
+"%s: %s (nesutampa simbolinės nuorodos kelias)\n"
+"\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (nesutampa dydis)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -260,18 +266,18 @@ msgstr[2] "%jd trūkstamų failų\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: nėra „mtree“ failo\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "nepavyko perskaityti failo „%s“: %s\n"
+msgstr "failo tipas neatpažintas: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd pakeistas failas\n"
+msgstr[1] "%jd pakeisti failai\n"
+msgstr[2] "%jd pakeistų failų\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -886,7 +892,7 @@ msgstr ""
 "                       Ši programa gali būti laisvai platinama\n"
 "                       pagal GNU General Public License.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "netinkamas argumentas „%s“ skirtas %s\n"
 
@@ -1219,10 +1225,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s iš „%s“"
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "nepavyko išskirti vietos eilutei\n"
-
-#, c-format
 msgid "Name"
 msgstr "Pavadinimas"
 
@@ -1321,6 +1323,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NE"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "nepavyko išskirti vietos eilutei\n"
 
 #, c-format
 msgid "error: %s"

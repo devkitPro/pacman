@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:20+1000\n"
-"PO-Revision-Date: 2013-03-15 18:22+0000\n"
-"Last-Translator: Alexander Rødseth <rodseth@gmail.com>\n"
+"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"PO-Revision-Date: 2013-03-17 12:55+0000\n"
+"Last-Translator: Jon Gjengset <jon@thesquareplanet.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/nb/)\n"
 "Language: nb\n"
@@ -203,35 +203,35 @@ msgstr "laster ned %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Forskjellige filtyper)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Forskjellig UID)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Forskjellig GID)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s finnes i filsystemet\n"
+msgstr "%s: %s (Forskjellige rettigheter)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Forskjellig endringstid)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "kunne ikke lese filen '%s' : %s\n"
+msgstr "kunne ikke lese lenket innhold: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Forskjellig lenket sti)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Forskjellig størrelse)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -251,17 +251,17 @@ msgstr[1] "%jd manglende filer\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: ingen mtree fil\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "kunne ikke lese filen '%s' : %s\n"
+msgstr "ukjent filtype: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd endret fil\n"
+msgstr[1] "%jd endrete filer\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -882,7 +882,7 @@ msgstr ""
 "                       Dette programmet kan fritt distribueres under\n"
 "                       betingelsene til GNU General Public License.\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "ugyldig parameter '%s' for %s\n"
 
@@ -1216,10 +1216,6 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s fra \"%s\""
 
 #, c-format
-msgid "failed to allocate string\n"
-msgstr "kunne ikke allokere tekststreng\n"
-
-#, c-format
 msgid "Name"
 msgstr "Navn"
 
@@ -1318,6 +1314,10 @@ msgstr "N"
 #, c-format
 msgid "NO"
 msgstr "NEI"
+
+#, c-format
+msgid "failed to allocate string\n"
+msgstr "kunne ikke allokere tekststreng\n"
 
 #, c-format
 msgid "error: %s"
