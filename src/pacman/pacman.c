@@ -138,7 +138,7 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -e, --explicit       list packages explicitly installed [filter]\n"));
 			addlist(_("  -g, --groups         view all members of a package group\n"));
 			addlist(_("  -i, --info           view package information (-ii for backup files)\n"));
-			addlist(_("  -k, --check          check that the files owned by the package(s) are present\n"));
+			addlist(_("  -k, --check          check that package files exist (-kk for file properties)\n"));
 			addlist(_("  -l, --list           list the contents of the queried package\n"));
 			addlist(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
 			addlist(_("  -n, --native         list installed packages only found in sync db(s) [filter]\n"));
