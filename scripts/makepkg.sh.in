@@ -2640,12 +2640,12 @@ if [[ -t 2 && ! $USE_COLOR = "n" ]] && check_buildenv "color" "y"; then
 		RED="${BOLD}$(tput setaf 1)"
 		YELLOW="${BOLD}$(tput setaf 3)"
 	else
-		ALL_OFF="\e[1;0m"
-		BOLD="\e[1;1m"
-		BLUE="${BOLD}\e[1;34m"
-		GREEN="${BOLD}\e[1;32m"
-		RED="${BOLD}\e[1;31m"
-		YELLOW="${BOLD}\e[1;33m"
+		ALL_OFF="\e[0m"
+		BOLD="\e[1m"
+		BLUE="${BOLD}\e[34m"
+		GREEN="${BOLD}\e[32m"
+		RED="${BOLD}\e[31m"
+		YELLOW="${BOLD}\e[33m"
 	fi
 fi
 readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
