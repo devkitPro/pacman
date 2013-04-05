@@ -49,7 +49,7 @@
 
 struct table_row_t {
 	const char *label;
-	int size;
+	off_t size;
 };
 
 int trans_init(alpm_transflag_t flags, int check_valid)
@@ -828,7 +828,7 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	return ret;
 }
 
-static void add_transaction_sizes_row(alpm_list_t **table, const char *label, int size)
+static void add_transaction_sizes_row(alpm_list_t **table, const char *label, off_t size)
 {
 	struct table_row_t *row = malloc(sizeof(struct table_row_t));
 
