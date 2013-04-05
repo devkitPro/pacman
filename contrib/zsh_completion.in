@@ -202,7 +202,7 @@ _pacman_action_sync() {
 			_arguments -s : \
 				{\*-c,\*--clean}'[Remove old packages from cache]' \
 				"$_pacman_opts_common[@]" \
-				"$_pacman_opts_sync_modifiers[@]" \
+				"$_pacman_opts_sync_modifiers[@]"
 				;;
 		sync_group)
 			_arguments -s : \
@@ -383,6 +383,12 @@ _pacman_zsh_comp() {
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package group:_pacman_completions_all_groups'
 			;;
+		S*s*)
+			_arguments -s : \
+				"$_pacman_opts_common[@]" \
+				"$_pacman_opts_sync_modifiers[@]" \
+				'*:search text: '
+				;;
 		S*)
 			_pacman_action_sync
 			;;
