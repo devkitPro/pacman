@@ -705,7 +705,8 @@ download_svn() {
 
 	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
 		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "svn"
-		if ! svn checkout --config-dir "$dir" "$url" "$dir"; then
+		mkdir -p "$dir/.makepkg"
+		if ! svn checkout --config-dir "$dir/.makepkg" "$url" "$dir"; then
 			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "svn"
 			plain "$(gettext "Aborting...")"
 			exit 1
