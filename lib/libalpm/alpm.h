@@ -217,7 +217,6 @@ typedef struct _alpm_file_t {
 typedef struct _alpm_filelist_t {
 	size_t count;
 	alpm_file_t *files;
-	char **resolved_path;
 } alpm_filelist_t;
 
 /** Local package or package file backup entry */
@@ -1042,7 +1041,7 @@ int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
  * @param path the path to search for in the package
  * @return a pointer to the matching file or NULL if not found
  */
-char *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
+alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
 
 /*
  * Signatures

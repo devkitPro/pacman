@@ -606,9 +606,6 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 			}
 		}
 		newpkg->files.count = pkg->files.count;
-		/* deliberately do not copy resolved_path as this is only used
-		 * during conflict checking and the sorting of list does not readily
-		 * allow keeping its efficient memory usage when copying */
 	}
 
 	/* internal */
@@ -657,22 +654,9 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	free_deplist(pkg->replaces);
 	FREELIST(pkg->groups);
 	if(pkg->files.count) {
-		size_t i, j, k;
-		if(pkg->files.resolved_path) {
-			for(i = 0, j = 0; i < pkg->files.count; i++) {
-				for(k = j; k <= pkg->files.count; k++) {
-					if(pkg->files.resolved_path[i] == pkg->files.files[k].name) {
-						pkg->files.files[k].name = NULL;
-						j = k + 1;
-						break;
-					}
-				}
-				free(pkg->files.resolved_path[i]);
-			}
-			free(pkg->files.resolved_path);
-		}
-		for(j = 0; j < pkg->files.count; j++) {
-			FREE(pkg->files.files[j].name);
+		size_t i;
+		for(i = 0; i < pkg->files.count; i++) {
+			FREE(pkg->files.files[i].name);
 		}
 		free(pkg->files.files);
 	}
