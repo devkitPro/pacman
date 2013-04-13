@@ -299,92 +299,71 @@ void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 }
 
 /**
- * @brief Recursively checks if a package owns all subdirectories and files in
- * a directory.
+ * @brief Recursively checks if a set of packages own all subdirectories and
+ * files in a directory.
  *
  * @param handle the context handle
  * @param dirpath path of the directory to check
- * @param pkg package being checked against
+ * @param pkgs packages being checked against
  *
- * @return 1 if a package owns all subdirectories and files or a directory
- * cannot be opened, 0 otherwise
+ * @return 1 if a package owns all subdirectories and files, 0 otherwise
  */
-static int dir_belongsto_pkg(alpm_handle_t *handle, const char *dirpath,
-		alpm_pkg_t *pkg)
+static int dir_belongsto_pkgs(alpm_handle_t *handle, const char *dirpath,
+		alpm_list_t *pkgs)
 {
-	alpm_list_t *i;
-	struct stat sbuf;
-	char path[PATH_MAX];
-	char abspath[PATH_MAX];
+	char path[PATH_MAX], full_path[PATH_MAX];
 	DIR *dir;
 	struct dirent *ent = NULL;
-	const char *root = handle->root;
 
-	/* check directory is actually in package - used for subdirectory checks */
-	if(!alpm_filelist_contains(alpm_pkg_get_files(pkg), dirpath)) {
-		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"directory %s not in package %s\n", dirpath, pkg->name);
-		return 0;
-	}
-
-	/* TODO: this is an overly strict check but currently pacman will not
-	 * overwrite a directory with a file (case 10/11 in add.c). Adjusting that
-	 * is not simple as even if the directory is being unowned by a conflicting
-	 * package, pacman does not sort this to ensure all required directory
-	 * "removals" happen before installation of file/symlink */
-
-	/* check that no other _installed_ package owns the directory */
-	for(i = _alpm_db_get_pkgcache(handle->db_local); i; i = i->next) {
-		if(pkg == i->data) {
-			continue;
-		}
-
-		if(alpm_filelist_contains(alpm_pkg_get_files(i->data), dirpath)) {
-			_alpm_log(handle, ALPM_LOG_DEBUG,
-					"file %s also in package %s\n", dirpath,
-					((alpm_pkg_t*)i->data)->name);
-			return 0;
-		}
-	}
-
-	/* check all files in directory are owned by the package */
-	snprintf(abspath, PATH_MAX, "%s%s", root, dirpath);
-	dir = opendir(abspath);
+	snprintf(full_path, PATH_MAX, "%s%s", handle->root, dirpath);
+	dir = opendir(full_path);
 	if(dir == NULL) {
-		return 1;
+		return 0;
 	}
 
 	while((ent = readdir(dir)) != NULL) {
 		const char *name = ent->d_name;
+		int owned = 0;
+		alpm_list_t *i;
+		struct stat sbuf;
 
 		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
 			continue;
 		}
+
 		snprintf(path, PATH_MAX, "%s%s", dirpath, name);
-		snprintf(abspath, PATH_MAX, "%s%s", root, path);
-		if(stat(abspath, &sbuf) != 0) {
-			continue;
+		snprintf(full_path, PATH_MAX, "%s%s", handle->root, path);
+
+		for(i = pkgs; i && !owned; i = i->next) {
+			if(alpm_filelist_contains(alpm_pkg_get_files(i->data), path)) {
+				owned = 1;
+			}
 		}
-		if(S_ISDIR(sbuf.st_mode)) {
-			if(dir_belongsto_pkg(handle, path, pkg)) {
-				continue;
-			} else {
-				closedir(dir);
-				return 0;
-			}
-		} else {
-			if(alpm_filelist_contains(alpm_pkg_get_files(pkg), path)) {
-				continue;
-			} else {
-				closedir(dir);
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"unowned file %s found in directory\n", path);
-				return 0;
-			}
+
+		if(owned && stat(full_path, &sbuf) != 0 && S_ISDIR(sbuf.st_mode)) {
+			owned = dir_belongsto_pkgs(handle, path, pkgs);
+		}
+
+		if(!owned) {
+			closedir(dir);
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"unowned file %s found in directory\n", path);
+			return 0;
 		}
 	}
 	closedir(dir);
 	return 1;
+}
+
+static alpm_list_t *alpm_db_find_file_owners(alpm_db_t* db, const char *path)
+{
+	alpm_list_t *i, *owners = NULL;
+	for(i = alpm_db_get_pkgcache(db); i; i = i->next) {
+		if(alpm_filelist_contains(alpm_pkg_get_files(i->data), path)) {
+			owners = alpm_list_add(owners, i->data);
+		}
+	}
+	return owners;
 }
 
 /**
@@ -578,14 +557,32 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			}
 
 			/* check if all files of the dir belong to the installed pkg */
-			if(!resolved_conflict && S_ISDIR(lsbuf.st_mode) && dbpkg) {
+			if(!resolved_conflict && S_ISDIR(lsbuf.st_mode)) {
+				alpm_list_t *owners;
 				char *dir = malloc(strlen(relative_path) + 2);
 				sprintf(dir, "%s/", relative_path);
-				if(alpm_filelist_contains(alpm_pkg_get_files(dbpkg), dir)) {
-					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"checking if all files in %s belong to %s\n",
-							dir, dbpkg->name);
-					resolved_conflict = dir_belongsto_pkg(handle, dir, dbpkg);
+
+				owners = alpm_db_find_file_owners(handle->db_local, dir);
+				if(owners) {
+					alpm_list_t *pkgs = NULL, *diff;
+
+					if(dbpkg) {
+						pkgs = alpm_list_add(pkgs, dbpkg);
+					}
+					pkgs = alpm_list_join(pkgs, alpm_list_copy(rem));
+					if((diff = alpm_list_diff(owners, pkgs, _alpm_pkg_cmp))) {
+						/* dir is owned by files we aren't removing */
+						/* TODO: with better commit ordering, we may be able to check
+						 * against upgrades as well */
+						alpm_list_free(diff);
+					} else {
+						_alpm_log(handle, ALPM_LOG_DEBUG,
+								"checking if all files in %s belong to removed packages\n",
+								dir);
+						resolved_conflict = dir_belongsto_pkgs(handle, dir, owners);
+					}
+					alpm_list_free(pkgs);
+					alpm_list_free(owners);
 				}
 				free(dir);
 			}
