@@ -514,15 +514,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
 			if(filestr[strlen(filestr) - 1] == '/') {
-				struct stat sbuf;
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "file is a directory, not a conflict\n");
-					continue;
-				}
-				stat(path, &sbuf);
-				if(S_ISLNK(lsbuf.st_mode) && S_ISDIR(sbuf.st_mode)) {
-					_alpm_log(handle, ALPM_LOG_DEBUG,
-							"file is a symlink to a dir, hopefully not a conflict\n");
 					continue;
 				}
 				/* if we made it to here, we want all subsequent path comparisons to

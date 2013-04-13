@@ -17,5 +17,3 @@ self.addrule("!FILE_EXIST=dir/symdir/tmp")
 self.addrule("!FILE_EXIST=dir/realdir/tmp")
 self.addrule("FILE_TYPE=dir/symdir|link")
 self.addrule("FILE_TYPE=dir/realdir|dir")
-
-self.expectfailure = True

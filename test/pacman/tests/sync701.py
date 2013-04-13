@@ -19,3 +19,5 @@ self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=pkg1|1.0-2")
 self.addrule("PKG_EXIST=pkg2")
 self.addrule("FILE_TYPE=lib|dir")
+
+self.expectfailure = True
