@@ -100,7 +100,7 @@ def mkfile(base, name, data=""):
 def writedata(filename, data):
     if isinstance(data, list):
         data = "\n".join(data)
-    fd = file(filename, "w")
+    fd = open(filename, "w")
     if data:
         fd.write(data)
         if data[-1] != "\n":
