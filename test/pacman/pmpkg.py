@@ -160,6 +160,8 @@ class pmpkg(object):
             info = tarfile.TarInfo(fileinfo["filename"])
             if fileinfo["hasperms"]:
                 info.mode = fileinfo["perms"]
+            elif fileinfo["isdir"]:
+                info.mode = 0755
             if fileinfo["isdir"]:
                 info.type = tarfile.DIRTYPE
                 tar.addfile(info)
