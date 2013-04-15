@@ -314,7 +314,7 @@ size_t strtrim(char *str)
 	return end - pch;
 }
 
-/* Replace all occurances of 'needle' with 'replace' in 'str', returning
+/* Replace all occurrences of 'needle' with 'replace' in 'str', returning
  * a new string (must be free'd) */
 char *strreplace(const char *str, const char *needle, const char *replace)
 {
@@ -336,11 +336,11 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 		q = strstr(p, needle);
 	}
 
-	/* no occurences of needle found */
+	/* no occurrences of needle found */
 	if(!list) {
 		return strdup(str);
 	}
-	/* size of new string = size of old string + "number of occurences of needle"
+	/* size of new string = size of old string + "number of occurrences of needle"
 	 * x "size difference between replace and needle" */
 	newsz = strlen(str) + 1 +
 		alpm_list_count(list) * (replacesz - needlesz);
@@ -354,7 +354,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	for(i = list; i; i = alpm_list_next(i)) {
 		q = i->data;
 		if(q > p) {
-			/* add chars between this occurence and last occurence, if any */
+			/* add chars between this occurrence and last occurrence, if any */
 			memcpy(newp, p, (size_t)(q - p));
 			newp += q - p;
 		}

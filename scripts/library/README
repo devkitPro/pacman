@@ -17,7 +17,7 @@ the short opts, any number of valid long opts may be be passed. The end
 of the options delimiter must then be added, followed by the user arguments
 to the calling program.
 
-Reccommended Usage:
+Recommended Usage:
   OPT_SHORT='fb:z'
   OPT_LONG=('foo' 'bar:' 'baz')
   if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then

@@ -527,7 +527,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 		goto cleanup;
 	}
 
-	/* fork- parent and child each have seperate code blocks below */
+	/* fork- parent and child each have separate code blocks below */
 	pid = fork();
 	if(pid == -1) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not fork a new process (%s)\n"), strerror(errno));
@@ -677,7 +677,7 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 	return NULL;
 }
 
-/** Check the alpm cachedirs for existance and find a writable one.
+/** Check the alpm cachedirs for existence and find a writable one.
  * If no valid cache directory can be found, use /tmp.
  * @param handle the context handle
  * @return pointer to a writable cache directory.
@@ -1251,7 +1251,7 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 
 /** Checks whether a string matches a shell wildcard pattern.
  * Wrapper around fnmatch.
- * @param pattern pattern to match aganist
+ * @param pattern pattern to match against
  * @param string string to check against pattern
  * @return 0 if string matches pattern, non-zero if they don't match and on
  * error

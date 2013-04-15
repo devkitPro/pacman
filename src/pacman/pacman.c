@@ -287,7 +287,7 @@ static ssize_t xwrite(int fd, const void *buf, size_t count)
 }
 
 /** Catches thrown signals. Performs necessary cleanup to ensure database is
- * in a consistant state.
+ * in a consistent state.
  * @param signum the thrown signal
  */
 static void handler(int signum)
@@ -312,7 +312,7 @@ static void handler(int signum)
 			return;
 		}
 	}
-	/* SIGINT: no commiting transaction, release it now and then exit pacman
+	/* SIGINT: no committing transaction, release it now and then exit pacman
 	 * SIGHUP, SIGTERM: release no matter what */
 	alpm_trans_release(config->handle);
 	/* output a newline to be sure we clear any line we may be on */

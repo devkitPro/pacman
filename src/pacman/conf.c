@@ -519,7 +519,7 @@ static int _parse_options(const char *key, char *value,
 			char *endptr;
 			const char *oldlocale;
 
-			/* set the locale to 'C' for consistant decimal parsing (0.7 and never
+			/* set the locale to 'C' for consistent decimal parsing (0.7 and never
 			 * 0,7) from config files, then restore old setting when we are done */
 			oldlocale = setlocale(LC_NUMERIC, NULL);
 			setlocale(LC_NUMERIC, "C");
@@ -636,7 +636,7 @@ static int _add_mirror(alpm_db_t *db, char *value)
 }
 
 /** Sets up libalpm global stuff in one go. Called after the command line
- * and inital config file parsing. Once this is complete, we can see if any
+ * and initial config file parsing. Once this is complete, we can see if any
  * paths were defined. If a rootdir was defined and nothing else, we want all
  * of our paths to live under the rootdir that was specified. Safe to call
  * multiple times (will only do anything the first time).

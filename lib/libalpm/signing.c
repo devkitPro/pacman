@@ -105,7 +105,7 @@ static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_CRL_TOO_OLD, "crl too old");
 	/* A policy was not met.  */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_BAD_POLICY, "bad policy");
-	/* A system error occured.  */
+	/* A system error occurred.  */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_SYS_ERROR, "sys error");
 	/* Fallback case */
 	if(!sigsum) {

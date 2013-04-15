@@ -83,7 +83,7 @@ parse '-p PKGBUILD --' 3 -pPKGBUILD
 # valid shortopts as a long opt
 parse '--' 1 --sir
 
-# long opt wiht no optarg
+# long opt with no optarg
 parse '--log --' 2 --log
 
 # long opt with missing optarg

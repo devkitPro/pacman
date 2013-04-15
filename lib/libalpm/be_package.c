@@ -390,7 +390,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 
 	/* If full is false, only read through the archive until we find our needed
 	 * metadata. If it is true, read through the entire archive, which serves
-	 * as a verfication of integrity and allows us to create the filelist. */
+	 * as a verification of integrity and allows us to create the filelist. */
 	while((ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
 		const char *entry_name = archive_entry_pathname(entry);
 
@@ -460,7 +460,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		}
 	}
 
-	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occured */
+	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occurred */
 		_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading package %s: %s\n"),
 				pkgfile, archive_error_string(archive));
 		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
