@@ -309,6 +309,11 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
                    void *data3, int *response)
 {
 	if(config->print) {
+		if(event == ALPM_QUESTION_INSTALL_IGNOREPKG) {
+			*response = 1;
+		} else {
+			*response = 0;
+		}
 		return;
 	}
 	switch(event) {
