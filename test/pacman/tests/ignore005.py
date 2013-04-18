@@ -36,7 +36,7 @@ self.addpkg2db("sync", packageA5up)
 
 
 self.option["IgnorePkg"] = ["packageA3"]
-self.args = "-S packageA1 packageA2 --ask=32"
+self.args = "-S packageA1 packageA2 --ask=16"
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=packageA1|1.0-1")

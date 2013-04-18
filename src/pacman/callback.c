@@ -382,15 +382,6 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 				*response = select_question(count);
 			}
 			break;
-		case ALPM_QUESTION_LOCAL_NEWER:
-			if(!config->op_s_downloadonly) {
-				*response = yesno(_("%s-%s: local version is newer. Upgrade anyway?"),
-						alpm_pkg_get_name(data1),
-						alpm_pkg_get_version(data1));
-			} else {
-				*response = 1;
-			}
-			break;
 		case ALPM_QUESTION_CORRUPTED_PKG:
 			*response = yesno(_("File %s is corrupted (%s).\n"
 						"Do you want to delete it?"),

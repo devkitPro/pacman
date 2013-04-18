@@ -18,7 +18,7 @@ sp3.depends = ["gcc-libs"]
 for p in sp1, sp2, sp3:
 	self.addpkg2db("sync", p)
 
-self.args = "-Su --ignore %s --ask=32" % sp1.name
+self.args = "-Su --ignore %s --ask=16" % sp1.name
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=glibc|1.0-1")

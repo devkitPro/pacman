@@ -11,7 +11,7 @@ packageA2up = pmpkg("package")
 packageA2up.depends = ["dep"];
 self.addpkg2db("sync", packageA2up)
 
-self.args = "-S package dep --ask=32"
+self.args = "-S package dep --ask=16"
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=package")
