@@ -1473,7 +1473,7 @@ run_function() {
 		wait $teepid
 		rm "$logpipe"
 	else
-		$pkgfunc 2>&1
+		"$pkgfunc"
 	fi
 	# reset our shell options
 	eval "$shellopts"
