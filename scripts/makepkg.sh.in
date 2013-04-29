@@ -2638,6 +2638,7 @@ trap 'trap_exit USR1 "$(gettext "An unknown error has occurred. Exiting...")"' E
 [[ -n ${SRCEXT} ]] && _SRCEXT=${SRCEXT}
 [[ -n ${GPGKEY} ]] && _GPGKEY=${GPGKEY}
 [[ -n ${PACKAGER} ]] && _PACKAGER=${PACKAGER}
+[[ -n ${CARCH} ]] && _CARCH=${CARCH}
 
 # default config is makepkg.conf
 MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
@@ -2737,6 +2738,7 @@ PKGEXT=${_PKGEXT:-$PKGEXT}
 SRCEXT=${_SRCEXT:-$SRCEXT}
 GPGKEY=${_GPGKEY:-$GPGKEY}
 PACKAGER=${_PACKAGER:-$PACKAGER}
+CARCH=${_CARCH:-$CARCH}
 
 if (( ! INFAKEROOT )); then
 	if (( EUID == 0 && ! ASROOT )); then
