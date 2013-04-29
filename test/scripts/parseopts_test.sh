@@ -18,7 +18,7 @@ fi
 OPT_SHORT="AcdefFghiLmop:rRsV"
 OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean:' 'cleanall' 'nodeps'
           'noextract' 'force' 'forcever:' 'geninteg' 'help' 'holdver'
-          'install' 'key:' 'log' 'nocolor' 'nobuild' 'nocheck' 'nosign' 'pkg:' 'rmdeps'
+          'install' 'key:' 'log' 'nocolor' 'nobuild' 'nocheck' 'noprepare' 'nosign' 'pkg:' 'rmdeps'
           'repackage' 'skipinteg' 'sign' 'source' 'syncdeps' 'version' 'config:'
           'noconfirm' 'noprogressbar')
 

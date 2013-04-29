@@ -77,7 +77,7 @@ _makepkg() {
   if [[ $cur = -* && ! $prev =~ ^-(-(config|help)$|\w*[Chp]) ]]; then
     opts=('allsource asdeps asroot check clean config force geninteg help holdver ignorearch
            install key log needed nobuild nocheck nocolor noconfirm nodeps noextract
-           noprogressbar nosign pkg repackage rmdeps sign skipchecksums skipinteg
+           noprepare noprogressbar nosign pkg repackage rmdeps sign skipchecksums skipinteg
            skippgpcheck source syncdeps verifysource version'
           'A L R S c d e f g h i m o p r s')
     _arch_ptr2comp opts

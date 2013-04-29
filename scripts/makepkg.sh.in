@@ -2483,6 +2483,7 @@ usage() {
 	printf -- "$(gettext "  --holdver        Do not update VCS sources")\n"
 	printf -- "$(gettext "  --key <key>      Specify a key to use for %s signing instead of the default")\n" "gpg"
 	printf -- "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
+	printf -- "$(gettext "  --noprepare      Do not run the %s function in the %s")\n" "prepare()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
 	printf -- "$(gettext "  --pkg <list>     Only build listed packages from a split package")\n"
 	printf -- "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
@@ -2525,7 +2526,7 @@ ARGLIST=("$@")
 OPT_SHORT="AcdefFghiLmop:rRsSV"
 OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'config:' 'force' 'geninteg'
           'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
-          'nocheck' 'nodeps' 'noextract' 'nosign' 'pkg:' 'repackage' 'rmdeps'
+          'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'pkg:' 'repackage' 'rmdeps'
           'sign' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'source' 'syncdeps'
           'verifysource' 'version')
 
@@ -2564,6 +2565,7 @@ while true; do
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
 		--nocheck)        RUN_CHECK='n' ;;
+		--noprepare)      RUN_PREPARE='n' ;;
 		--nosign)         SIGNPKG='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
@@ -2796,7 +2798,10 @@ fi
 
 # test for available PKGBUILD functions
 if declare -f prepare >/dev/null; then
-	PREPAREFUNC=1
+	# "Hide" prepare() function if not going to be run
+	if [[ $RUN_PREPARE != "n" ]]; then
+		PREPAREFUNC=1
+	fi
 fi
 if declare -f build >/dev/null; then
 	BUILDFUNC=1
