@@ -5,6 +5,7 @@ SUBDIRS = po
 
 bin_SCRIPTS = \
 	$(OURSCRIPTS) \
+	makepkg-template \
 	repo-remove \
 	repo-elephant
 
@@ -18,6 +19,7 @@ OURSCRIPTS = \
 
 EXTRA_DIST = \
 	makepkg.sh.in \
+	makepkg-template.pl.in \
 	pacman-db-upgrade.sh.in \
 	pacman-key.sh.in \
 	pacman-optimize.sh.in \
@@ -54,6 +56,7 @@ edit = sed \
 	-e 's|@PACKAGE_BUGREPORT[@]|$(PACKAGE_BUGREPORT)|g' \
 	-e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 	-e 's|@BUILDSCRIPT[@]|$(BUILDSCRIPT)|g' \
+	-e 's|@TEMPLATE_DIR[@]|$(TEMPLATE_DIR)|g' \
 	-e 's|@DEBUGSUFFIX[@]|$(DEBUGSUFFIX)|g' \
 	-e "s|@INODECMD[@]|$(INODECMD)|g" \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
@@ -75,6 +78,14 @@ $(OURSCRIPTS): Makefile
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
 	$(srcdir)/library/parseopts.sh
+
+makepkg-template: \
+	$(srcdir)/makepkg-template.pl.in \
+	Makefile
+
+	$(AM_V_at)$(RM) -f makepkg-template
+	$(AM_V_GEN)$(edit) $< > $@
+	$(AM_V_at)chmod +x,a-w $@
 
 pacman-db-upgrade: \
 	$(srcdir)/pacman-db-upgrade.sh.in \

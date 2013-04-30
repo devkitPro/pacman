@@ -6,6 +6,7 @@
 ASCIIDOC_MANS = \
 	pacman.8 \
 	makepkg.8 \
+	makepkg-template.1 \
 	repo-add.8 \
 	vercmp.8 \
 	pkgdelta.8 \
@@ -21,6 +22,7 @@ DOXYGEN_MANS = $(wildcard man3/*.3)
 HTML_MANPAGES = \
 	pacman.8.html \
 	makepkg.8.html \
+	makepkg-template.1.html \
 	repo-add.8.html \
 	vercmp.8.html \
 	pkgdelta.8.html \
@@ -46,6 +48,7 @@ EXTRA_DIST = \
 	asciidoc-override.css \
 	pacman.8.txt \
 	makepkg.8.txt \
+	makepkg-template.1.txt \
 	repo-add.8.txt \
 	vercmp.8.txt \
 	pkgdelta.8.txt \
@@ -147,6 +150,7 @@ $(HTML_OTHER): asciidoc.conf Makefile.am
 # Dependency rules
 pacman.8 pacman.8.html: pacman.8.txt
 makepkg.8 makepkg.8.html: makepkg.8.txt
+makepkg-template.1 makepkg-template.1.html: makepkg-template.1.txt
 repo-add.8 repo-add.8.html: repo-add.8.txt
 vercmp.8 vercmp.8.html: vercmp.8.txt
 pkgdelta.8 pkgdelta.8.html: pkgdelta.8.txt

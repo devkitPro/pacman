@@ -97,6 +97,11 @@ AC_ARG_WITH(buildscript,
 	AS_HELP_STRING([--with-buildscript=name], [set the build script name used by makepkg]),
 	[BUILDSCRIPT=$withval], [BUILDSCRIPT=PKGBUILD])
 
+# Help line for buildscript filename
+AC_ARG_WITH(makepkg-template-dir,
+	AS_HELP_STRING([--with-makepkg-template-dir=name], [set the template dir used by makepkg-template]),
+	[TEMPLATE_DIR=$withval], [TEMPLATE_DIR=/usr/share/makepkg-template])
+
 # Help line for debug package suffix
 AC_ARG_WITH(debug-suffix,
 	AS_HELP_STRING([--with-debug-suffix=name], [set the suffix for split debugging symbol packages used by makepkg]),
@@ -165,6 +170,16 @@ AC_PROG_CC_C99
 AC_PROG_INSTALL
 AC_CHECK_PROGS([PYTHON], [python2.7 python2.6 python2.5 python2 python], [false])
 AC_PATH_PROGS([BASH_SHELL], [bash bash4], [false])
+
+# check for perl 5.10.1 (needed by makepkg-template)
+AC_PATH_PROG([PERL],[perl])
+AC_DEFUN([AX_PROG_PERL_VERSION],
+	[AC_CACHE_CHECK([for Perl version $1 or later], [ax_cv_prog_perl_version],
+		[AS_IF(["$PERL" -e 'require v$1;' >/dev/null 2>&1],
+			[ax_cv_prog_perl_version=yes],
+			[ax_cv_prog_perl_version=no])])
+	AS_IF([test x"$ax_cv_prog_perl_version" = xyes], [$2], [$3])])
+AX_PROG_PERL_VERSION([5.10.1], [], [AC_MSG_ERROR([perl is too old])])
 
 AS_IF([test "x$BASH_SHELL" = "xfalse"],
 	AC_MSG_WARN([*** bash >= 4.1.0 is required for pacman scripts]),
@@ -457,6 +472,9 @@ AC_DEFINE_UNQUOTED([SRCEXT], "$SRCEXT", [The file extension used by pacman sourc
 # Set makepkg build script name
 AC_SUBST(BUILDSCRIPT)
 AC_DEFINE_UNQUOTED([BUILDSCRIPT], "$BUILDSCRIPT", [The build script name used by makepkg])
+# Set makepkg-template template directory
+AC_SUBST(TEMPLATE_DIR)
+AC_DEFINE_UNQUOTED([TEMPLATE_DIR], "$TEMPLATE_DIR", [The template directory used by makepkg-teplate])
 # Set makepkg split debugging symbol package suffix
 AC_SUBST(DEBUGSUFFIX)
 AC_DEFINE_UNQUOTED([DEBUGSUFFIX], "$DEBUGSUFFIX", [The suffix for debugging symbol packages used by makepkg])
@@ -524,6 +542,7 @@ ${PACKAGE_NAME}:
     package extension      : ${PKGEXT}
     source pkg extension   : ${SRCEXT}
     build script name      : ${BUILDSCRIPT}
+    template directory     : ${TEMPLATE_DIR}
 
   Compilation options:
     Use libcurl            : ${have_libcurl}

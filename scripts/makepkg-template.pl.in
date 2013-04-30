@@ -1,0 +1,168 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+use v5.10.1;
+use Cwd qw(abs_path);
+use File::Spec;
+use Getopt::Long;
+use Pod::Usage;
+
+my %opts = (
+	input => '@BUILDSCRIPT@',
+	template_dir => '@TEMPLATE_DIR@',
+);
+
+my $template_name_charset = qr/[[:alnum:]+_.@-]/;
+my $template_marker = qr/# template/;
+
+sub burp {
+	my ($file_name, @lines) = @_;
+	open (my $fh, ">", $file_name) || die "can't create $file_name $!" ;
+	print $fh @lines;
+	close $fh;
+}
+
+# read a template marker line and parse values into a hash
+# format is "# template (start|input); key=value; key2=value2; ..."
+sub parse_template_line {
+	my ($line, $filename, $linenumber) = @_;
+	my %values;
+
+	my ($marker, @elements) = split(/;\s?/, $line);
+
+	($values{command}) = ($marker =~ /$template_marker (.*)/);
+
+	foreach my $element (@elements) {
+		my ($key, $val) = ($element =~ /^([a-z0-9]+)=(.*)$/);
+		die "invalid key/value pair $filename:$linenumber: $line"
+		    unless $key and $val;
+		$values{$key} = $val;
+	}
+
+	# end doesn't take arguments
+	if ($values{command} ne "end") {
+		if (!$values{name}) {
+			die "invalid template line: can't find template name\n",
+				"$filename:$linenumber: $line";
+		}
+
+		unless ($values{name} =~ /^$template_name_charset+$/) {
+			die "invalid chars used in name '$values{name}'. allowed: [:alnum:]+_.@-\n",
+				"$filename:$linenumber: $line";
+		}
+	}
+
+	return \%values;
+}
+
+# load a template, process possibly existing markers (nested templates)
+sub load_template {
+	my ($values) = @_;
+
+	my $ret = "";
+
+	my $path;
+	if (!$opts{newest} and $values->{version}) {
+		$path = "$opts{template_dir}/$values->{name}-$values->{version}.template";
+	} else {
+		$path = "$opts{template_dir}/$values->{name}.template";
+	}
+
+	# resolve symlink(s) and use the real file's name for version detection
+	my ($version) = (abs_path($path) =~ /-([0-9.]+)[.]template$/);
+
+	if (!$version) {
+		die "Couldn't detect version for template '$values->{name}'";
+	}
+
+	my $parsed = process_file($path);
+
+	$ret .= "# template start; name=$values->{name}; version=$version;\n";
+	$ret .= $parsed;
+	$ret .= "# template end;\n";
+	return $ret;
+}
+
+# process input file and load templates for all markers found
+sub process_file {
+	my ($filename) = @_;
+
+	my $ret = "";
+	my $nesting_level = 0;
+	my $linenumber = 0;
+
+	open (my $fh, "<", $filename) or die "failed to open '$filename': $!";
+	my @lines = <$fh>;
+	close $fh;
+
+	foreach my $line (@lines) {
+		$linenumber++;
+
+		if ($line =~ $template_marker) {
+			my $values = parse_template_line($line, $filename, $linenumber);
+
+			given ($values->{command}) {
+				when (['start', 'input']) {
+					if ($nesting_level == 0) {
+						$ret .= load_template($values);
+					}
+				}
+
+				when ('end') {
+					# nothing to do here, just for completeness
+				}
+
+				default {
+					die "Unknown template marker '$values->{command}'\n",
+						"$filename:$linenumber: $line";
+				}
+			}
+
+			$nesting_level++ if $values->{command} eq "start";
+			$nesting_level-- if $values->{command} eq "end";
+
+			# marker lines should never be added
+			next;
+		}
+
+		# we replace code inside blocks with the template
+		# so we ignore the content of the block
+		next if $nesting_level > 0;
+
+		$ret .= $line;
+	}
+	return $ret;
+}
+
+Getopt::Long::Configure ("bundling");
+GetOptions(
+	"help" => sub {pod2usage(-exitval => 0, -verbose => 1); },
+	"h" => sub {pod2usage(-exitval => 0, -verbose => 0); },
+	"input|p=s" => \$opts{input},
+	"output|o=s" => \$opts{output},
+	"newest|n" => \$opts{newest},
+	"template-dir=s" => \$opts{template_dir},
+) or pod2usage(1);
+
+$opts{output} = $opts{input} unless $opts{output};
+
+$opts{input} = "/dev/stdin" if $opts{input} eq "-";
+$opts{output} = "/dev/stdout" if $opts{output} eq "-";
+
+burp($opts{output}, process_file($opts{input}));
+
+__END__
+=head1 SYNOPSIS
+
+makepkg-template [options]
+
+ Options:
+   --input, -p <file>     Build script to read (default: @BUILDSCRIPT@)
+   --output, -o <file>    file to output to (default: input file)
+   --newest, -n           update templates to newest version
+                          (default: use specified version in the template markers)
+   --template-dir <dir>   directory to search for templates
+                          (default: @TEMPLATE_DIR@)
+
+=cut
+# vim: set noet:
