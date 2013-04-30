@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-#  <info@astaricsoft.net>, 2013.
+#  <info@astaricsoft.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-26 17:35+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-07 04:05+0000\n"
 "Last-Translator: kusakata <shohei@kusakata.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ja/)\n"
@@ -29,11 +29,11 @@ msgstr "ファイル衝突を確認...\n"
 
 #, c-format
 msgid "resolving dependencies...\n"
-msgstr "依存関係を解決...\n"
+msgstr "依存関係を解決しています...\n"
 
 #, c-format
 msgid "looking for inter-conflicts...\n"
-msgstr "内部衝突を確認...\n"
+msgstr "相互衝突をチェックしています...\n"
 
 #, c-format
 msgid "installing %s...\n"
@@ -45,7 +45,7 @@ msgstr "削除 %s...\n"
 
 #, c-format
 msgid "upgrading %s...\n"
-msgstr "アップグレード %s...\n"
+msgstr "更新 %s...\n"
 
 #, c-format
 msgid "downgrading %s...\n"
@@ -93,7 +93,7 @@ msgstr "失敗。\n"
 
 #, c-format
 msgid "Retrieving packages ...\n"
-msgstr "パッケージを取得 ...\n"
+msgstr "パッケージを取得します ...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
@@ -124,13 +124,12 @@ msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
-msgstr[0] ""
-"依存関係を解決できないために以下のパッケージをアップグレードできません:\n"
+msgstr[0] "依存関係を解決できないために以下のパッケージを更新できません:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
-msgstr[0] "アップグレードのために上記のパッケージをスキップしますか？"
+msgstr[0] "更新のために上記のパッケージをスキップしますか？"
 
 #, c-format
 msgid "There are %zd providers available for %s:\n"
@@ -138,8 +137,7 @@ msgstr "%zd 個の選択肢が %s にはあります:\n"
 
 #, c-format
 msgid "%s-%s: local version is newer. Upgrade anyway?"
-msgstr ""
-"%s-%s: ローカルの方が新しいバージョンです。それでもアップグレードしますか？"
+msgstr "%s-%s: ローカルの方が新しいバージョンです。それでも更新しますか？"
 
 #, c-format
 msgid ""
@@ -149,8 +147,12 @@ msgstr ""
 "ファイル %s は破損しています (%s)。\n"
 "ファイルを削除しますか?"
 
-#, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "PGP 鍵 %d%c/%s, \"%s\", 作成日: %s%s をインポートしますか？"
+
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
 msgstr "PGP 鍵 %d%c/%s, \"%s\", 作成日: %s%s をインポートしますか？"
 
 #, c-format
@@ -159,7 +161,7 @@ msgstr "インストール"
 
 #, c-format
 msgid "upgrading"
-msgstr "アップグレード"
+msgstr "更新"
 
 #, c-format
 msgid "downgrading"
@@ -175,7 +177,7 @@ msgstr "削除"
 
 #, c-format
 msgid "checking for file conflicts"
-msgstr "ファイル衝突の確認"
+msgstr "ファイルの衝突をチェック"
 
 #, c-format
 msgid "checking available disk space"
@@ -183,7 +185,7 @@ msgstr "空き容量を確認"
 
 #, c-format
 msgid "checking package integrity"
-msgstr "パッケージの整合性を確認"
+msgstr "パッケージの整合性をチェック"
 
 #, c-format
 msgid "checking keys in keyring"
@@ -449,7 +451,7 @@ msgstr "グループ　　　　:"
 
 #, c-format
 msgid "Provides       :"
-msgstr "提供パッケージ　:"
+msgstr "Provides        :"
 
 #, c-format
 msgid "Depends On     :"
@@ -457,11 +459,11 @@ msgstr "依存パッケージ　:"
 
 #, c-format
 msgid "Required By    :"
-msgstr "必要パッケージ　:"
+msgstr "Required By     :"
 
 #, c-format
 msgid "Optional For   :"
-msgstr "選択パッケージ　:"
+msgstr "Optional For    :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -525,7 +527,7 @@ msgstr "署名　　　　　　:"
 
 #, c-format
 msgid "Validated By   :"
-msgstr "検証　　　　　　:"
+msgstr "Validated By    :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -639,10 +641,10 @@ msgid ""
 msgstr ""
 "  -i, --info           パッケージ情報の表示 (-ii でバックアップの表示)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
 "  -k, --check          パッケージによって保有されているファイルを確認\n"
 
@@ -721,8 +723,8 @@ msgstr "  -s, --search <regex> 外部リポジトリの部分一致検索\n"
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     インストールされたパッケージのアップグレード (-uu でダ"
-"ウングレード)\n"
+"  -u, --sysupgrade     インストールされたパッケージの更新 (-uu でダウングレー"
+"ド)\n"
 
 #, c-format
 msgid ""
@@ -771,7 +773,7 @@ msgstr ""
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pkg>   指定したパッケージのアップグレードを無視\n"
+msgstr "      --ignore <pkg>   指定したパッケージの更新を無視\n"
 
 #, c-format
 msgid ""
@@ -779,7 +781,7 @@ msgid ""
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
 "      --ignoregroup <grp>\n"
-"                       指定したグループのアップグレードを無視\n"
+"                       指定したグループの更新を無視\n"
 
 #, c-format
 msgid ""
@@ -973,7 +975,7 @@ msgstr "対象の中に HoldPkg があります。続行しますか？"
 
 #, c-format
 msgid " there is nothing to do\n"
-msgstr "行うべきことはありません\n"
+msgstr " 何も行うことがありません\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -1041,7 +1043,7 @@ msgstr "キャッシュディレクトリにアクセスできませんでした
 
 #, c-format
 msgid "failed to update %s (%s)\n"
-msgstr "%s のアップデートに失敗しました (%s)\n"
+msgstr "%s の更新に失敗しました (%s)\n"
 
 #, c-format
 msgid " %s is up to date\n"
@@ -1078,7 +1080,7 @@ msgstr ""
 
 #, c-format
 msgid "Starting full system upgrade...\n"
-msgstr "フルシステムアップグレードの開始...\n"
+msgstr "システム全体の更新を開始...\n"
 
 #, c-format
 msgid "package %s does not have a valid architecture\n"
@@ -1118,11 +1120,11 @@ msgstr "%s は無効または破損しています\n"
 
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
-msgstr "エラーが発生し、パッケージはアップグレードされませんでした。\n"
+msgstr "エラーが発生したため、パッケージは更新されませんでした。\n"
 
 #, c-format
 msgid "Synchronizing package databases...\n"
-msgstr "パッケージデータベースを同期中...\n"
+msgstr "パッケージデータベースの同期中...\n"
 
 #, c-format
 msgid "loading packages...\n"
@@ -1238,15 +1240,15 @@ msgstr "パッケージ"
 
 #, c-format
 msgid "Total Download Size:"
-msgstr "合計ダウンロードサイズ:"
+msgstr "Total Download Size:"
 
 #, c-format
 msgid "Total Installed Size:"
-msgstr "合計インストールサイズ:"
+msgstr "Total Installed Size:"
 
 #, c-format
 msgid "Total Removed Size:"
-msgstr "削除されるサイズの合計:"
+msgstr "Total Removed Size:"
 
 #, c-format
 msgid "Net Upgrade Size:"

@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Dan McGee <dpmcgee@gmail.com>, 2011.
-# Dimitris Glezos <glezos@indifex.com>, 2011.
+# Dan McGee <dpmcgee@gmail.com>, 2011
+# Dimitris Glezos <glezos@indifex.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
 "PO-Revision-Date: 2013-03-17 08:08+0000\n"
 "Last-Translator: allanmcrae <allan@archlinux.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/"
@@ -152,8 +152,12 @@ msgstr ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 
-#, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
 msgstr "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
 
 #, c-format
@@ -634,10 +638,10 @@ msgid ""
 msgstr ""
 "  -i, --info           view package information (-ii for backup files)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
 "  -k, --check          check that the files owned by the package(s) are "
 "present\n"

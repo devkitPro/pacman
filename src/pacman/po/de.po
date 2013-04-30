@@ -3,21 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Dan McGee <dpmcgee@gmail.com>, 2011.
-#  <martin.kalcher@googlemail.com>, 2013.
-#   <martin.kalcher@googlemail.com>, 2012.
-# Matthias Gorissen <matthias@archlinux.de>, 2011.
-# Mineo <themineo+transifex@googlemail.com>, 2011.
-#  <mysatyre@gmail.com>, 2013.
-#   <pierre@archlinux.de>, 2011.
-# Simon Schneider <SPAM.schneida@gmail.com>, 2011.
+# WhiteKnight, 2013
+# Dan McGee <dpmcgee@gmail.com>, 2011
+# martinkalcher <martin.kalcher@googlemail.com>, 2013
+# martinkalcher <martin.kalcher@googlemail.com>, 2012
+# Matthias Gorissen <matthias@archlinux.de>, 2011
+# Mineo <themineo+transifex@googlemail.com>, 2011
+# mar77i <mysatyre@gmail.com>, 2013
+# pierres <pierre@archlinux.de>, 2011
+# Simon Schneider <SPAM.schneida@gmail.com>, 2011
+# Mineo <themineo+transifex@googlemail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-28 11:01+0000\n"
-"Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-28 20:47+0000\n"
+"Last-Translator: WhiteKnight\n"
 "Language-Team: German (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/de/)\n"
 "Language: de\n"
@@ -162,9 +164,13 @@ msgstr ""
 "Datei %s ist beschädigt (%s).\n"
 "Soll die Datei entfernt werden?"
 
-#, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "PGP-Schlüssel %d%c/%s, \"%s\", erstellt am %s%s impotieren?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "PGP-Schlüssel %d%c/%s, \"%s\", erstellt am %s%s, importieren?"
+
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr "PGP-Schlüssel %d%c/%s, \"%s\", erstellt am %s%s, importieren?"
 
 #, c-format
 msgid "installing"
@@ -551,7 +557,7 @@ msgstr "Signaturen           :"
 
 #, c-format
 msgid "Validated By   :"
-msgstr "Benötigt von:"
+msgstr "Verifiziert durch:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -667,10 +673,10 @@ msgstr ""
 "  -i, --info           Zeigt Paketinformationen an (-ii für Sicherungs-"
 "Dateien)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
 "  -k, --check          Überprüfe, ob die zu den Paketen gehörenden Dateien "
 "vorhanden sind\n"

@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Dan McGee <dpmcgee@gmail.com>, 2011.
-# Hector Mtz-Seara <hseara@gmail.com>, 2011-2012.
-# Josep <jpreales@gmail.com>, 2013.
-#   <jpreales@gmail.com>, 2011.
+# Dan McGee <dpmcgee@gmail.com>, 2011
+# Hector Mtz-Seara <hseara@gmail.com>, 2011-2012
+# jpatufet <jpreales@gmail.com>, 2013
+# jpatufet <jpreales@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-24 22:45+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-02 22:17+0000\n"
 "Last-Translator: jpatufet <jpreales@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
@@ -108,19 +108,19 @@ msgstr "%s requereix opcionalment %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr "%s és en IgnorePkg/IgnoreGroup. L'instal·lo igualment?"
+msgstr "%s és en IgnorePkg/IgnoreGroup. S'ha d'instal·lar igualment?"
 
 #, c-format
 msgid "Replace %s with %s/%s?"
-msgstr "Reemplaço %s amb %s/%s?"
+msgstr "Es reemplaça %s amb %s/%s?"
 
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
-msgstr "%s i %s tenen conflictes. Elimino %s?"
+msgstr "%s i %s tenen conflictes. S'elimina %s?"
 
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
-msgstr "%s i %s tenen conflictes (%s). Elimino %s?"
+msgstr "%s i %s tenen conflictes (%s). S'elimina %s?"
 
 #, c-format
 msgid ""
@@ -146,7 +146,7 @@ msgstr "Hi ha %zd proveïdors disponibles per %s:\n"
 
 #, c-format
 msgid "%s-%s: local version is newer. Upgrade anyway?"
-msgstr "%s-%s: la versió local és més nova. Actualitzo igualment?"
+msgstr "%s-%s: la versió local és més nova. S'actualitza igualment?"
 
 #, c-format
 msgid ""
@@ -156,8 +156,12 @@ msgstr ""
 "El fitxer %s és corrupte (%s).\n"
 "Voleu esborrar-lo?"
 
-#, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "Importar clau PGP %d%c/%s, \"%s\", creada: %s%s?"
+
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
 msgstr "Importar clau PGP %d%c/%s, \"%s\", creada: %s%s?"
 
 #, c-format
@@ -238,7 +242,7 @@ msgstr "%s: %s (Desajust mida)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
-msgstr "ruta d'accés massa llarga:%s%s\n"
+msgstr "la ruta d'accés és massa llarga:%s%s\n"
 
 #, c-format
 msgid "%s: %jd total file, "
@@ -250,7 +254,7 @@ msgstr[1] "%s: %jd fitxers en total, "
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
 msgstr[0] "Falta %jd fitxer\n"
-msgstr[1] "Falten %jd fitxer\n"
+msgstr[1] "Falten %jd fitxers\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
@@ -304,12 +308,13 @@ msgstr ""
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
-"fitxer de configuració %s, línia %d: directiva '%s' en la secció '%s' no "
-"reconeguda.\n"
+"fitxer de configuració %s, línia %d: la directiva '%s' en la secció '%s' no "
+"és reconeguda.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "rèplica '%s' conté la variable '%s', però '%s' no ha estat definida.\n"
+msgstr ""
+"la rèplica '%s' conté la variable '%s', però '%s' no ha estat definida.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
@@ -342,13 +347,13 @@ msgstr "no es pot registrar «%s» base de dades (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "No s'ha pogut afegir la rèplica '%s' a la base de dades '%s' (%s)\n"
+msgstr "no s'ha pogut afegir la rèplica '%s' a la base de dades '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
-"Superada la profunditat màxima de recursió de l'anàlisi de la configuracio "
-"en %d.\n"
+"L'anàlisi de configuració ha superat la profunditat màxima de recursió en "
+"%d.\n"
 
 #, c-format
 msgid "config file %s could not be read: %s\n"
@@ -373,7 +378,7 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
-"fitxer de configuració %s, línia %d: directiva '%s' necessita un valor\n"
+"fitxer de configuració %s, línia %d: la directiva '%s' necessita un valor\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -411,7 +416,7 @@ msgstr "Instal·lat explícitament"
 
 #, c-format
 msgid "Installed as a dependency for another package"
-msgstr "Instal·lat com a dependència d'una altre paquet"
+msgstr "S'ha Instal·lat com a dependència d'un altre paquet"
 
 #, c-format
 msgid "Unknown"
@@ -655,10 +660,10 @@ msgstr ""
 "  -i, --info           mostra informació dels paquets (-ii per fitxers de "
 "còpia de seguretat)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
 "  -k, --check          comprova que els fitxers que pertanyen als paquets "
 "són presents\n"
@@ -921,7 +926,7 @@ msgstr "opció no vàlida\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr "memòria exhaurida en l'anàlisi d'arguments\n"
+msgstr "s'ha exhaurit la memòria en l'anàlisi d'arguments\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
@@ -977,7 +982,7 @@ msgstr "'%s' és un fitxer, és possible que vulgueu utilitzar %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr "No es pot carregar el paquet '%s': %s\n"
+msgstr "no s'ha pogut carregar el paquet '%s': %s\n"
 
 #, c-format
 msgid "target not found: %s\n"
@@ -1097,7 +1102,7 @@ msgstr "Hi ha %d membres en el grup %s:\n"
 
 #, c-format
 msgid "database not found: %s\n"
-msgstr "base de dades no trobada: %s\n"
+msgstr "la base de dades no s'ha trobat: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
@@ -1185,7 +1190,8 @@ msgstr "la base de dades '%s' no és vàlida (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr "columnes disponibles insuficients per a la presentació de la taula\n"
+msgstr ""
+"no hi ha columnes disponibles suficients per a la presentació de la taula\n"
 
 #, c-format
 msgid "Valid"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:19+1000\n"
-"PO-Revision-Date: 2013-03-17 05:53+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-11 14:15+0000\n"
 "Last-Translator: kusakata <shohei@kusakata.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ja/)\n"
@@ -25,10 +25,10 @@ msgid "ERROR:"
 msgstr "エラー:"
 
 msgid "Cleaning up..."
-msgstr "クリーンアップ..."
+msgstr "Cleaning up..."
 
 msgid "Entering %s environment..."
-msgstr "%s 環境を開始..."
+msgstr "%s 環境を開始します..."
 
 msgid "Unknown download protocol: %s"
 msgstr "不明なダウンロードプロトコル: %s"
@@ -46,7 +46,7 @@ msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s はビルドディレクトリに含まれていません、また、URL ではありません。"
 
 msgid "Downloading %s..."
-msgstr "%s をダウンロード..."
+msgstr "ダウンロード %s..."
 
 msgid "Failure while downloading %s"
 msgstr "%s のダウンロードに失敗"
@@ -69,11 +69,14 @@ msgstr "%s ブランチの作成に失敗"
 msgid "%s is not a branch of %s"
 msgstr "%s は %s のブランチではありません"
 
+msgid "The local URL is %s"
+msgstr ""
+
 msgid "Pulling %s ..."
-msgstr "%s の pull ..."
+msgstr "Pulling %s ..."
 
 msgid "Failure while pulling %s"
-msgstr "%s の pull に失敗"
+msgstr "Failure while pulling %s"
 
 msgid "Creating working copy of %s %s repo..."
 msgstr "%s %s リポジトリの作業コピーを作成..."
@@ -91,19 +94,19 @@ msgid "%s is not a clone of %s"
 msgstr "%s は %s の複製ではありません"
 
 msgid "Updating %s %s repo..."
-msgstr "%s %s リポジトリをアップデート..."
+msgstr "%s %s リポジトリを更新..."
 
 msgid "Failure while updating %s %s repo"
-msgstr "%s %s リポジトリのアップデートに失敗"
+msgstr "%s %s リポジトリの更新に失敗"
 
 msgid "Retrieving sources..."
 msgstr "ソースを取得..."
 
 msgid "Updated version: %s"
-msgstr "アップデートされたバージョン: %s"
+msgstr "更新されたバージョン: %s"
 
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr "%s を書き込みできません -- pkgver はアップデートされません"
+msgstr "%s を書き込みできません -- pkgver は更新されません"
 
 msgid "Unable to find source file %s."
 msgstr "ソースファイル %s を見つけられません。"
@@ -337,7 +340,7 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s に無効な文字を含んでいます: '%s'"
 
 msgid "%s must be a decimal."
-msgstr "%s は十六進数にする必要があります。"
+msgstr "%s は十進数にする必要があります。"
 
 msgid "%s must be an integer."
 msgstr "%s は整数でなくてはなりません。"
@@ -355,7 +358,7 @@ msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "%s 行に比較 (< や >) 演算子を含めることはできません。"
 
 msgid "%s entry should not contain leading slash : %s"
-msgstr "%s エントリにスラッシュを含めてはいけません : %s"
+msgstr "%s エントリの冒頭にスラッシュを含めてはいけません : %s"
 
 msgid "Invalid syntax for %s : '%s'"
 msgstr "%s の無効な構文 : '%s'"
@@ -406,7 +409,7 @@ msgstr "コンパイラキャッシュを使うのに必要な %s バイナリ�
 
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr ""
-"オプジェクトファイルをストリップするために必要な %s バイナリが見つかりませ"
+"オブジェクトファイルをストリップするために必要な %s バイナリが見つかりませ"
 "ん。"
 
 msgid "Cannot find the %s binary required for compressing man and info pages."
@@ -442,7 +445,7 @@ msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch 不完全な %s が %s にあっても無視する"
 
 msgid "  -c, --clean      Clean up work files after build"
-msgstr "  -c, --clean      ビルドの後に作業ファイルをクリーンアップ"
+msgstr "  -c, --clean      ビルドの後に作業ファイルを削除する"
 
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     全ての依存関係チェックをスキップ"
@@ -491,6 +494,10 @@ msgstr ""
 "  -S, --source     ダウンロードされたソースが含まれないソースだけの tarball "
 "を生成"
 
+#, fuzzy
+msgid "  -V, --version    Show version information and exit"
+msgstr "  -V, --version             プログラムのバージョンを表示"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -515,7 +522,7 @@ msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <file>  指定した設定ファイルを使う (デフォルトは '%s')"
 
 msgid "  --holdver        Do not update VCS sources"
-msgstr "  --holdver        VCS ソースをアップデートしない"
+msgstr "  --holdver        VCS ソースを更新しない"
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
@@ -714,14 +721,14 @@ msgid "%s is not a pacman database directory."
 msgstr "%s は pacman データベースディレクトリではありません。"
 
 msgid "You must have correct permissions to upgrade the database."
-msgstr "データベースをアップデートするには適切な権限が必要です。"
+msgstr "データベースを更新するには適切な権限が必要です。"
 
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr ""
 "Pacman ロックファイルが存在します。pacman が動作している間は実行できません。"
 
 msgid "Pre-3.5 database format detected - upgrading..."
-msgstr "3.5 以前のデータベースフォーマットが検出されました - アップグレード..."
+msgstr "3.5 以前のデータベースフォーマットが検出されました - 更新..."
 
 msgid "Done."
 msgstr "完了。"
@@ -758,7 +765,7 @@ msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys           指定された keyid を取得"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr "  -u, --updatedb            pacman の信用データベースをアップデート"
+msgstr "  -u, --updatedb            pacman の信用データベースを更新"
 
 msgid ""
 "  -v, --verify              Verify the file(s) specified by the signature(s)"
@@ -797,8 +804,8 @@ msgstr ""
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 msgstr ""
-"  --refresh-keys            指定された、もしくは全てのキーをキーサーバから"
-"アップデート"
+"  --refresh-keys            指定された、もしくは全てのキーをキーサーバから更"
+"新"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
@@ -821,7 +828,7 @@ msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                このヘルプメッセージを表示"
 
 msgid "  -V, --version             Show program version"
-msgstr "  -V, --version             プラグラムのバージョンを表示"
+msgstr "  -V, --version             プログラムのバージョンを表示"
 
 msgid "Failed to lookup key by name:"
 msgstr "名前によるキーの検索に失敗しました:"
@@ -905,16 +912,16 @@ msgid "Remote key not fetched correctly from keyserver."
 msgstr "キーサーバから正しくキーを取得できませんでした。"
 
 msgid "A specified local key could not be updated from a keyserver."
-msgstr "キーサーバから特定のキーをアップデートできませんでした。"
+msgstr "キーサーバから特定のキーを更新できませんでした。"
 
 msgid "The signature identified by %s could not be verified."
 msgstr "%s によって確認された署名を検証できませんでした。"
 
 msgid "Updating trust database..."
-msgstr "信用データベースをアップデート..."
+msgstr "信用データベースを更新..."
 
 msgid "Trust database could not be updated."
-msgstr "信用データベースをアップデートできませんでした。"
+msgstr "信用データベースを更新できませんでした。"
 
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "全ての %s オペレーションをするのに必要な %s バイナリが見つかりません。"
@@ -1087,14 +1094,14 @@ msgstr ""
 "す。\\n追加するパッケージはコマンドラインから複数指定することができます。\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
-msgstr "  -d, --delta       パッケージのアップデートの差分を生成・追加\\n"
+msgstr "  -d, --delta       パッケージの更新の差分を生成・追加\\n"
 
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
 msgstr "  -n, --new         データベースにないパッケージのみを追加\\n"
 
 msgid "  -f, --files       update database's file list\\n"
-msgstr "  -f, --files       データベースのファイルリストをアップデート\\n"
+msgstr "  -f, --files       データベースのファイルリストを更新\\n"
 
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
@@ -1106,8 +1113,8 @@ msgid ""
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove はコマンドラインから指定されたパッケージ名をデータベースから\\n削"
-"除してパッケージデータベースをアップデートします。一度に複数の\\nパッケージを"
-"コマンドラインから指定して削除できます。\\n"
+"除してパッケージデータベースを更新します。一度に複数の\\nパッケージをコマンド"
+"ラインから指定して削除できます。\\n"
 
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "見せ物じゃあないよ。さぁ行った行った。\\n"
@@ -1116,13 +1123,13 @@ msgid "  --nocolor         turn off color in output\\n"
 msgstr "  --nocolor         カラー出力をオフにする\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr "  -s, --sign        アップデート後に GnuPG でデータベースに署名\\n"
+msgstr "  -s, --sign        更新後に GnuPG でデータベースに署名\\n"
 
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr "  -k, --key <key>   指定されたキーを使ってデータベースに署名\\n"
 
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr "  -v, --verify      アップデートの前にデータベースの署名を検証\\n"
+msgstr "  -v, --verify      更新の前にデータベースの署名を検証\\n"
 
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"

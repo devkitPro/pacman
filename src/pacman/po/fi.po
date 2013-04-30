@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# apuasi <kaannokset.hellberg@gmail.com>, 2011.
-# Dan McGee <dpmcgee@gmail.com>, 2011.
-# Jesse Jaara <jesse.jaara@gmail.com>, 2011-2012.
-#  <larso@gmx.com>, 2013.
-#   <larso@gmx.com>, 2011-2012.
-# Larso <larso@gmx.com>, 2011.
-# Lasse Liehu <lasse.liehu@gmail.com>, 2011-2012.
-# Lasse Liehu <lasse.liehu@gmail.com>, 2011-2012, 2013.
+# apuasi <kaannokset.hellberg@gmail.com>, 2011
+# Dan McGee <dpmcgee@gmail.com>, 2011
+# Jesse Jaara <jesse.jaara@gmail.com>, 2011-2012
+# Larso <larso@gmx.com>, 2013
+# Larso <larso@gmx.com>, 2011-2012
+# Larso <larso@gmx.com>, 2011
+# Lasse Liehu <lasse.liehu@gmail.com>, 2011-2012
+# Lasse Liehu <lasse.liehu@gmail.com>, 2011-2012, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-20 17:42+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-07 21:29+0000\n"
 "Last-Translator: Larso <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/fi/)\n"
@@ -163,8 +163,12 @@ msgstr ""
 "Tiedosto %s on vahingoittunut (%s).\n"
 "Haluatko poistaa sen?"
 
-#, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "Tuodaanko PGP-avain %d%c/%s, \"%s\", luotu: %s%s?"
+
+#, fuzzy, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
 msgstr "Tuodaanko PGP-avain %d%c/%s, \"%s\", luotu: %s%s?"
 
 #, c-format
@@ -311,7 +315,7 @@ msgstr ""
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
-"asetustiedosto %s rivillä %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
+"asetustiedosto %s rivi %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
@@ -375,7 +379,7 @@ msgstr ""
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "asetustiedosto %s rivillä %d: direktiivi '%s' tarvitsee arvon\n"
+msgstr "asetustiedosto %s rivi %d: direktiivi '%s' tarvitsee arvon\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -411,7 +415,7 @@ msgstr "Asennettu itsenäisesti"
 
 #, c-format
 msgid "Installed as a dependency for another package"
-msgstr "Nimi"
+msgstr "Asennettu toisen paketin riippuvuutena"
 
 #, c-format
 msgid "Unknown"
@@ -655,10 +659,10 @@ msgid ""
 msgstr ""
 "  -i, --info             näytä paketin tiedot (-ii listaa varmuuskopiot)\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
 "  -k, --check            varmistaa, että kaikki paketin tiedostot ovat "
 "levyllä\n"
@@ -765,6 +769,8 @@ msgstr "      --asexplicit       merkitse paketit itsenäisesti asennetuiksi\n"
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
+"      --force          pakota asennus korvaamalla ristiriidassa olevat "
+"tiedostot\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
