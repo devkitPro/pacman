@@ -847,8 +847,9 @@ static void display_transaction_sizes(alpm_list_t *table)
 		struct table_row_t *row = i->data;
 		int len = string_length(row->label);
 
-		if(len > max_len)
+		if(len > max_len) {
 			max_len = len;
+		}
 	}
 
 	max_len += 2;
