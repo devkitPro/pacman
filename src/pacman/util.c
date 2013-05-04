@@ -1388,7 +1388,7 @@ int multiselect_question(char *array, int count)
 
 		fprintf(stream, "\n");
 		fprintf(stream, _("Enter a selection (default=all)"));
-		fprintf(stream,	": ");
+		fprintf(stream, ": ");
 		fflush(stream);
 
 		if(config->noconfirm) {
@@ -1452,7 +1452,8 @@ int select_question(int count)
 	while(1) {
 		fprintf(stream, "\n");
 		fprintf(stream, _("Enter a number (default=%d)"), preset);
-		fprintf(stream,	": ");
+		fprintf(stream, ": ");
+		fflush(stream);
 
 		if(config->noconfirm) {
 			fprintf(stream, "\n");
@@ -1513,7 +1514,6 @@ static int question(short preset, const char *format, va_list args)
 		return preset;
 	}
 
-	fflush(stream);
 	flush_term_input(fd_in);
 
 	if(fgets(response, sizeof(response), stdin)) {
