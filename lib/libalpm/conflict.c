@@ -556,11 +556,13 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			/* Look at all the targets to see if file has changed hands */
 			for(k = upgrade; k && !resolved_conflict; k = k->next) {
-				alpm_pkg_t *p2 = k->data;
-				if(!p2 || strcmp(p1->name, p2->name) == 0) {
+				alpm_pkg_t *localp2, *p2 = k->data;
+				if(!p2 || p1 == p2) {
+					/* skip p1; both p1 and p2 come directly from the upgrade list
+					 * so they can be compared directly */
 					continue;
 				}
-				alpm_pkg_t *localp2 = _alpm_db_get_pkgfromcache(handle->db_local, p2->name);
+				localp2 = _alpm_db_get_pkgfromcache(handle->db_local, p2->name);
 
 				/* localp2->files will be removed (target conflicts are handled by CHECK 1) */
 				_alpm_filelist_resolve(handle, alpm_pkg_get_files(localp2));
