@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012-2013.
-# Rafael  <rafael.f.f1@gmail.com>, 2011-2012.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012-2013
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2011-2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:19+1000\n"
-"PO-Revision-Date: 2013-03-23 20:22+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-05-01 15:46+0000\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/pt_BR/)\n"
@@ -33,7 +33,7 @@ msgid "Entering %s environment..."
 msgstr "Entrando no ambiente %s..."
 
 msgid "Unknown download protocol: %s"
-msgstr "Protocolo de download desconhecido %s"
+msgstr "Protocolo de download desconhecido: %s"
 
 msgid "Aborting..."
 msgstr "Abortando..."
@@ -51,25 +51,28 @@ msgid "Downloading %s..."
 msgstr "Baixando %s..."
 
 msgid "Failure while downloading %s"
-msgstr "Falha enquanto baixava %s"
+msgstr "Falha ao baixar %s"
 
 msgid "Extracting %s with %s"
 msgstr "Extraindo %s com %s"
 
 msgid "Failed to extract %s"
-msgstr "Falha na extração de %s"
+msgstr "Falha ao extrair %s"
 
 msgid "Unrecognized reference: %s"
 msgstr "Referência não reconhecida: %s"
 
 msgid "Branching %s ..."
-msgstr "Criando branch de %s ..."
+msgstr "Criando ramo de %s ..."
 
 msgid "Failure while branching %s"
-msgstr "Falha ao criar branch de %s"
+msgstr "Falha ao criar ramo de %s"
 
 msgid "%s is not a branch of %s"
-msgstr "%s não é um branch de %s"
+msgstr "%s não é um ramo de %s"
+
+msgid "The local URL is %s"
+msgstr "A URL é %s"
 
 msgid "Pulling %s ..."
 msgstr "Executando pull de %s ..."
@@ -78,25 +81,25 @@ msgid "Failure while pulling %s"
 msgstr "Falha ao executar pull de %s"
 
 msgid "Creating working copy of %s %s repo..."
-msgstr "Criando cópia de trabalho do repositório %s \"%s\"..."
+msgstr "Criando cópia de trabalho do repositório %s do tipo %s..."
 
 msgid "Failure while creating working copy of %s %s repo"
-msgstr "Falha ao criar cópia de trabalho do repositório %s \"%s\""
+msgstr "Falha ao criar cópia de trabalho do repositório %s do tipo %s"
 
 msgid "Cloning %s %s repo..."
-msgstr "Clonando repositório %s \"%s\"..."
+msgstr "Clonando repositório %s do tipo %s..."
 
 msgid "Failure while downloading %s %s repo"
-msgstr "Falha ao baixar o repositório %s \"%s\""
+msgstr "Falha ao baixar o repositório %s do tipo %s"
 
 msgid "%s is not a clone of %s"
 msgstr "%s não é um clone de %s"
 
 msgid "Updating %s %s repo..."
-msgstr "Atualizando repositório %s \"%s\"..."
+msgstr "Atualizando repositório %s do tipo %s..."
 
 msgid "Failure while updating %s %s repo"
-msgstr "Falha ao atualizar repositório %s \"%s\""
+msgstr "Falha ao atualizar repositório %s do tipo %s"
 
 msgid "Retrieving sources..."
 msgstr "Obtendo fontes..."
@@ -105,7 +108,7 @@ msgid "Updated version: %s"
 msgstr "Versão atualizada: %s"
 
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr "%s é pode ser alterado -- pkgver não será atualizado"
+msgstr "%s é pôde ser alterado -- pkgver não será atualizado"
 
 msgid "Unable to find source file %s."
 msgstr "Impossível encontrar arquivo fonte %s."
@@ -123,7 +126,7 @@ msgid "Missing dependencies:"
 msgstr "Dependências faltando:"
 
 msgid "Failed to remove installed dependencies."
-msgstr "Falha na remoção dependências instaladas."
+msgstr "Falha ao remover dependências instaladas."
 
 msgid "Generating checksums for source files..."
 msgstr "Gerando somas de verificação para os arquivos fonte..."
@@ -364,7 +367,7 @@ msgid "Invalid syntax for %s : '%s'"
 msgstr "Sintaxe inválida para %s : \"%s\""
 
 msgid "%s file (%s) does not exist."
-msgstr "o arquivo %s (%s) não existe."
+msgstr "O arquivo %s (%s) não existe."
 
 msgid "%s array contains unknown option '%s'"
 msgstr "Vetor %s contém opção desconhecida \"%s\""
@@ -376,7 +379,7 @@ msgid "Requested package %s is not provided in %s"
 msgstr "O pacote %s requisitado não está disponível em %s"
 
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
-msgstr "%s não é permitido conter vírgulas, hifens ou espaços em branco."
+msgstr "%s não pode conter vírgulas, hifens ou espaços em branco."
 
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr ""
@@ -512,6 +515,9 @@ msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr "  -S, --source     Gera um tarball de fontes sem as fontes baixadas"
 
+msgid "  -V, --version    Show version information and exit"
+msgstr "  -V, --version    Mostra informação da versão e sai"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -563,7 +569,8 @@ msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Assina o pacote resultante com %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
-msgstr "  --skipchecksums  Não verifica checksums dos arquivos fontes"
+msgstr ""
+"  --skipchecksums  Não verifica some de verificação dos arquivos fontes"
 
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
@@ -670,7 +677,7 @@ msgid "The key %s does not exist in your keyring."
 msgstr "A chave %s não existe no seu chaveiro."
 
 msgid "There is no key in your keyring."
-msgstr "Não há chave no seu chaveiro."
+msgstr "Não há chaves no seu chaveiro."
 
 msgid "Leaving %s environment."
 msgstr "Saindo do ambiente de %s."
@@ -709,10 +716,10 @@ msgid "Using existing %s tree"
 msgstr "Usando a árvore do %s existente"
 
 msgid "The package directory is empty, there is nothing to repackage!"
-msgstr "O diretório do pacote está vazio, não há nada para re-empacotar!"
+msgstr "O diretório do pacote está vazio, não há nada para ser re-empacotado!"
 
 msgid "Sources are ready."
-msgstr "Fontes estão prontos."
+msgstr "Os fontes estão prontos."
 
 msgid "Removing existing %s directory..."
 msgstr "Removendo diretório %s existente..."
@@ -931,7 +938,7 @@ msgid "A specified key could not be listed."
 msgstr "Uma chave especificada não pôde ser listada."
 
 msgid "A specified signature could not be listed."
-msgstr "Uma assinatura especificada não pôde ser listada.could not be"
+msgstr "Uma assinatura especificada não pôde ser listada."
 
 msgid "Locally signing key %s..."
 msgstr "Assinando localmente a chave %s..."
@@ -940,11 +947,12 @@ msgid "%s could not be locally signed."
 msgstr "%s não pôde ser assinado localmente."
 
 msgid "Remote key not fetched correctly from keyserver."
-msgstr "A chave remota não foi adquirida corretamente do keyserver."
+msgstr "A chave remota não foi adquirida corretamente do servidor de chaves."
 
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
-"Uma chave local especifica não pôde ser atualizada a partir do keyserver."
+"Uma chave local especifica não pôde ser atualizada a partir do servidor de "
+"chaves."
 
 msgid "The signature identified by %s could not be verified."
 msgstr "A assinatura identificada por %s não pôde ser verificada."
@@ -1038,7 +1046,7 @@ msgstr ""
 "Verificação de integridade FALHOU, revertendo para a base de dados antiga."
 
 msgid "Rotating database into place..."
-msgstr "Rodando a base de dados no mesmo lugar..."
+msgstr "Posicionando a base de dados em seu lugar..."
 
 msgid "New database substitution failed. Check for %s, %s, and %s directories."
 msgstr ""
@@ -1123,7 +1131,7 @@ msgstr "O arquivo \"%s\" não existe"
 
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr ""
-"Não foi possível encontrar o binário xdelta3! O xdelta3 está instalado?"
+"Não foi possível encontrar o executável xdelta3! O xdelta3 está instalado?"
 
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Uso: repo-add [opções] <caminho-para-bd> <pacote|delta> ...\\n"
@@ -1133,7 +1141,7 @@ msgid ""
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add atualiza uma base de dados de pacotes lendo um arquivo de\\npacote. "
-"Múltiplos pacotes a serem adicionados podem ser especificados\\nna linah de "
+"Múltiplos pacotes a serem adicionados podem ser especificados\\nna linha de "
 "comando.\\n"
 
 msgid "  -d, --delta       generate and add delta for package update\\n"
@@ -1256,7 +1264,7 @@ msgid "Adding package signature..."
 msgstr "Adicionando assinatura de pacote..."
 
 msgid "Computing checksums..."
-msgstr "Computando checksums..."
+msgstr "Computando soma de verificação..."
 
 msgid "Creating '%s' db entry..."
 msgstr "Criando registro \"%s\" da base de dados..."
@@ -1265,7 +1273,7 @@ msgid "Old package file not found: %s"
 msgstr "Arquivo de pacotes antigo não encontrado: %s"
 
 msgid "Failed to acquire lockfile: %s."
-msgstr "Falha na aquisição do arquivo de trava: %s."
+msgstr "Falha ao adquirir o arquivo de trava: %s."
 
 msgid "Held by process %s"
 msgstr "Contido pelo processo %s"

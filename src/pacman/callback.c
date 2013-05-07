@@ -392,16 +392,16 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 			{
 				alpm_pgpkey_t *key = data1;
 				char created[12];
-				const char *revoked = "";
 				time_t time = (time_t)key->created;
 				strftime(created, 12, "%Y-%m-%d", localtime(&time));
 
 				if(key->revoked) {
-					revoked = " (revoked)";
+					*response = yesno(_("Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"),
+							key->length, key->pubkey_algo, key->fingerprint, key->uid, created);
+				} else {
+					*response = yesno(_("Import PGP key %d%c/%s, \"%s\", created: %s?"),
+							key->length, key->pubkey_algo, key->fingerprint, key->uid, created);
 				}
-
-				*response = yesno(_("Import PGP key %d%c/%s, \"%s\", created: %s%s?"),
-						key->length, key->pubkey_algo, key->fingerprint, key->uid, created, revoked);
 			}
 			break;
 	}

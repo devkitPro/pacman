@@ -1,5 +1,16 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+4.1.1         - fix bug causing negative "Total Installed Size" (FS#34616)
+              - report libalpm version it is pkg-config file (FS#34967)
+              - various translation fixes and updates (FS#34395, FS#34704,
+                FS#34716, FS#35097)
+              - makepkg:
+                - imporve SVN VCS PKGBUILD handling (FS#34675, FS#34636)
+                - allow "lp:" URLs for BZR sources (FS#34650)
+                - prevent pkgver() capturing stderr (FS#34974)
+                - fix attempt to remove package twice on failure (FS#34672)
+              - contrib:
+                - fix privilege escalation in paccache (FS#34656)
 4.1.0         - check file properties when using -Qkk (FS#11091)
               - add color to pacman output - new configuration option "Color"
               - add informational messages for optdepends installation
@@ -912,7 +923,7 @@ VERSION         DESCRIPTION
                 - HTTP/1.1 support
                 - an improved progress bar with transfer rates and ETA
               - cleaned up warning output a bit
-2.7.2         - Supressed "No such file" messages during stripping
+2.7.2         - Suppressed "No such file" messages during stripping
               - Removed extra newlines in /var/log/pacman.log
               - Added a --noextract option to makepkg to skip source extraction
 2.7.1         - Fixed a couple obscure segfaults

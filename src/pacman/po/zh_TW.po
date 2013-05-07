@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Cheng-Chia Tseng <pswo10680@gmail.com>, 2012.
-# Dan McGee <dpmcgee@gmail.com>, 2011.
-#   <dlin.tw@gmail.com>, 2011-2012.
-# Huei-Horng Yo <hiroshiyui@gmail.com>, 2012.
+# Cheng-Chia Tseng <pswo10680@gmail.com>, 2012
+# Dan McGee <dpmcgee@gmail.com>, 2011
+# dlin <dlin.tw@gmail.com>, 2011-2012
+# Huei-Horng Yo <hiroshiyui@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-17 03:52+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-05-01 01:03+0000\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr "正在檢查依賴關係...\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "正在檢查文件衝突...\n"
+msgstr "正在檢查檔案衝突...\n"
 
 #, c-format
 msgid "resolving dependencies...\n"
@@ -52,11 +52,11 @@ msgstr "正在升級 %s...\n"
 
 #, c-format
 msgid "downgrading %s...\n"
-msgstr ""
+msgstr "正在降級 %s...\n"
 
 #, c-format
 msgid "reinstalling %s...\n"
-msgstr ""
+msgstr "正在重裝 %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
@@ -64,11 +64,11 @@ msgstr "正在檢查軟體包完整性...\n"
 
 #, c-format
 msgid "checking keyring...\n"
-msgstr ""
+msgstr "正在檢查鑰匙圈...\n"
 
 #, c-format
 msgid "downloading required keys...\n"
-msgstr ""
+msgstr "正在下載需要的鑰匙...\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -88,7 +88,7 @@ msgstr "正在生成 %s (使用 %s) ..."
 
 #, c-format
 msgid "success!\n"
-msgstr "成功完成！\n"
+msgstr "成功！\n"
 
 #, c-format
 msgid "failed.\n"
@@ -96,21 +96,20 @@ msgstr "失敗。\n"
 
 #, c-format
 msgid "Retrieving packages ...\n"
-msgstr ""
+msgstr "正在擷取軟體包...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "正在檢查可用磁盤空間...\n"
+msgstr "正在檢查可用磁碟空間...\n"
 
 #, c-format
 msgid "%s optionally requires %s\n"
-msgstr ""
+msgstr "%s 選擇性需要 %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
-"%s 位於 IgnorePkg/IgnoreGroup （忽略軟體包／忽略軟體包群組）中。確定要安裝"
-"嗎？"
+"%s 位於 IgnorePkg/IgnoreGroup (忽略軟體包/忽略軟體包群組) 中。確定要安裝嗎？"
 
 #, c-format
 msgid "Replace %s with %s/%s?"
@@ -149,12 +148,16 @@ msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
-" %s 檔案毀損(%s).\n"
+" %s 檔案毀損(%s)。\n"
 "你要刪除它嗎?"
 
 #, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr ""
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "匯入 PGP 金鑰 %d%c/%s，「%s」，建立於：%s (已撤銷)？"
+
+#, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr "匯入 PGP 金鑰 %d%c/%s，「%s」，建立於：%s？"
 
 #, c-format
 msgid "installing"
@@ -166,11 +169,11 @@ msgstr "正在更新"
 
 #, c-format
 msgid "downgrading"
-msgstr ""
+msgstr "正在下載"
 
 #, c-format
 msgid "reinstalling"
-msgstr ""
+msgstr "正在重裝"
 
 #, c-format
 msgid "removing"
@@ -178,11 +181,11 @@ msgstr "正在刪除"
 
 #, c-format
 msgid "checking for file conflicts"
-msgstr "正在檢查文件衝突"
+msgstr "正在檢查檔案衝突"
 
 #, c-format
 msgid "checking available disk space"
-msgstr "正在檢查可用硬盤空間"
+msgstr "正在檢查可用磁碟空間"
 
 #, c-format
 msgid "checking package integrity"
@@ -190,7 +193,7 @@ msgstr "正在檢查軟體包完整性"
 
 #, c-format
 msgid "checking keys in keyring"
-msgstr ""
+msgstr "正在檢查鑰匙圈中的鑰匙"
 
 #, c-format
 msgid "loading package files"
@@ -202,35 +205,35 @@ msgstr "正在下載 %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s：%s (檔案類型不符)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s：%s (UID 不符)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s：%s (GID 不符)\n"
 
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr ""
+msgstr "%s：%s (權限不符)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s：%s (修改時間不符)\n"
 
 #, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr ""
+msgstr "無法讀取符號連結內容：%s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s：%s (符號連結路徑不符)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s：%s (大小不符)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -239,25 +242,25 @@ msgstr "路徑過長：%s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: 共 %jd 個文件，"
+msgstr[0] "%s: 共 %jd 個檔案，"
 
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] "共 %jd 個缺失文件\n"
+msgstr[0] "共 %jd 個缺失檔案\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s：無 mtree 檔案\n"
 
 #, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr ""
+msgstr "檔案類型無法辨識：%s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
+msgstr[0] "%jd 個檔案經修改\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -265,7 +268,7 @@ msgstr "記憶體配置失敗：無法配置 %zd 位元組\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "無法獲取當前的工作目錄\n"
+msgstr "無法獲取目前的工作目錄\n"
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
@@ -287,18 +290,18 @@ msgstr "無法回存工作目錄(%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr "設定檔 %s 的第 %d 行: 不正確的值 '%s':'%s'\n"
+msgstr "組態檔 %s 的第 %d 列: 不正確的值 '%s':'%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
-"設定檔 %s 的第 %d 行: '%s' 選項不正確, 不支援此種簽署方式\n"
+"組態檔 %s 的第 %d 列: '%s' 選項不正確, 不支援此種簽署方式\n"
 "\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "配置文件 %s，第 %d 行：指令 '%s'(位於章節 '%s' 中) 無法識別。\n"
+msgstr "組態檔 %s，第 %d 列：指令 '%s'(位於區段 '%s' 中) 無法識別。\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
@@ -306,7 +309,7 @@ msgstr "鏡像檔案 '%s' 含有 '%s' 變數, 但未定義 '%s'\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr "無法添加服務器 URL 到資料庫 '%s'：%s (%s)\n"
+msgstr "無法添加伺服器 URL 到資料庫 '%s'：%s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -318,7 +321,7 @@ msgstr "  請嘗試運行 pacman-db-upgrade\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr "設定日志文件 '%s' (%s) 時出現問題\n"
+msgstr "設定日誌檔案 '%s' (%s) 時出現問題\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
@@ -338,27 +341,27 @@ msgstr "無法新增鏡像檔案 '%s' 到資料庫 '%s' (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "解析配置檔超出最大遞迴深度 %d\n"
+msgstr "解析組態檔超出最大遞迴深度 %d\n"
 
 #, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr ""
+msgstr "組態檔 %s 無法讀取：%s\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
-msgstr "配置文件 %s，第 %d 行：壞的章節名字。\n"
+msgstr "組態檔 %s，第 %d 列：壞的區段名字。\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "配置文件 %s，第 %d 行：配置文件中語法錯誤－缺少關鍵字。\n"
+msgstr "組態檔 %s，第 %d 列：組態檔中語法錯誤－缺少關鍵字。\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "配置文件 %s，第 %d 行：所有的命令必須屬於同一章節。\n"
+msgstr "組態檔 %s，第 %d 列：所有的命令必須屬於同一區段。\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要賦值\n"
+msgstr "組態檔 %s，第 %d 列：指令 '%s' 需要賦值\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -382,7 +385,7 @@ msgstr "%s：安裝原因設定爲“單獨指定安裝”\n"
 
 #, c-format
 msgid " [installed]"
-msgstr ""
+msgstr " [已安裝]"
 
 #, c-format
 msgid "Optional Deps  :"
@@ -406,19 +409,19 @@ msgstr "無"
 
 #, c-format
 msgid "MD5 Sum"
-msgstr ""
+msgstr "MD5 總和碼"
 
 #, c-format
 msgid "SHA256 Sum"
-msgstr ""
+msgstr "SHA256 總和碼"
 
 #, c-format
 msgid "Signature"
-msgstr ""
+msgstr "簽章"
 
 #, c-format
 msgid "Repository     :"
-msgstr "軟體庫　："
+msgstr "軟體庫　　："
 
 #, c-format
 msgid "Name           :"
@@ -450,39 +453,39 @@ msgstr "軟體群組　："
 
 #, c-format
 msgid "Provides       :"
-msgstr "提供　　　："
+msgstr "它提供　　："
 
 #, c-format
 msgid "Depends On     :"
-msgstr "依賴於　　："
+msgstr "它依賴　　："
 
 #, c-format
 msgid "Required By    :"
-msgstr "要求被　　："
+msgstr "需要它　　："
 
 #, c-format
 msgid "Optional For   :"
-msgstr ""
+msgstr "可選依賴　："
 
 #, c-format
 msgid "Conflicts With :"
-msgstr "衝突與　　："
+msgstr "與它衝突　："
 
 #, c-format
 msgid "Replaces       :"
-msgstr "取代　　　："
+msgstr "它會取代　："
 
 #, c-format
 msgid "Download Size  :"
-msgstr ""
+msgstr "下載大小  ："
 
 #, c-format
 msgid "Compressed Size:"
-msgstr ""
+msgstr "壓縮後大小："
 
 #, c-format
 msgid "Installed Size :"
-msgstr ""
+msgstr "安裝後大小："
 
 #, c-format
 msgid "Packager       :"
@@ -514,27 +517,27 @@ msgstr "否"
 
 #, c-format
 msgid "MD5 Sum        :"
-msgstr "MD5校驗值："
+msgstr "MD5總和碼："
 
 #, c-format
 msgid "SHA256 Sum     :"
-msgstr "SHA256 檢查碼 :"
+msgstr "SHA256碼 :"
 
 #, c-format
 msgid "Signatures     :"
-msgstr "數位簽章:"
+msgstr "數位簽章　:"
 
 #, c-format
 msgid "Validated By   :"
-msgstr ""
+msgstr "驗證者   ："
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
-msgstr "無法計算 %s 的完整性校驗值\n"
+msgstr "無法計算 %s 的完整性校驗碼\n"
 
 #, c-format
 msgid "Backup Files:\n"
-msgstr "備份文件：\n"
+msgstr "備份檔案 ：\n"
 
 #, c-format
 msgid "(none)\n"
@@ -546,7 +549,7 @@ msgstr "'%s' 沒有可用的更新日誌。\n"
 
 #, c-format
 msgid "Changelog for %s:\n"
-msgstr ""
+msgstr "%s 的更動紀錄：\n"
 
 #, c-format
 msgid "installed"
@@ -558,7 +561,7 @@ msgstr "選項"
 
 #, c-format
 msgid "file(s)"
-msgstr "文件"
+msgstr "檔案"
 
 #, c-format
 msgid "package(s)"
@@ -574,7 +577,7 @@ msgstr "操作"
 
 #, c-format
 msgid "operations:\n"
-msgstr "操作:\n"
+msgstr "操作：\n"
 
 #, c-format
 msgid ""
@@ -591,7 +594,7 @@ msgstr "  -c, --cascade        刪除軟體包及所有依賴於此的軟體包\
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
-msgstr "  -n, --nosave         刪除配置文件\n"
+msgstr "  -n, --nosave         刪除組態檔\n"
 
 #, c-format
 msgid ""
@@ -629,13 +632,13 @@ msgstr "  -g, --groups         查看某軟體包群組所屬的所有軟體包\
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           查看軟體包信息 (-ii 查看備份文件) \n"
+msgstr "  -i, --info           查看軟體包信息 (-ii 查看備份檔案) \n"
 
 #, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
-msgstr "  -k, --check          檢查該軟體包擁有的文件是否存在\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
+msgstr "  -k, --check          檢查軟體包檔案是否存在 (-kk 則查詢檔案數性)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -653,10 +656,11 @@ msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
+"  -n, --native         列出僅可在同步資料庫中找到的已安裝軟體包 [過濾器]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "  -o, --owns <文件>     查詢哪個軟體包擁有  <文件>\n"
+msgstr "  -o, --owns <檔案>     查詢哪個軟體包擁有  <檔案>\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
@@ -714,7 +718,7 @@ msgstr "  -w, --downloadonly   下載但不安裝/升級軟體包\n"
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        從服務器下載新的軟體包資料庫\n"
+msgstr "  -y, --refresh        從伺服器下載新的軟體包資料庫\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
@@ -726,7 +730,7 @@ msgstr "      --asexplicit     標記爲明確指定安裝的軟體包\n"
 
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr ""
+msgstr "      --force          強迫安裝，覆寫衝突檔案\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -764,7 +768,7 @@ msgstr "      --dbonly         只修改資料庫項目,非套件檔案\n"
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar  下載文件時不顯示進度條\n"
+msgstr "      --noprogressbar  下載檔案時不顯示進度條\n"
 
 #, c-format
 msgid ""
@@ -807,11 +811,11 @@ msgstr "      --cachedir <目錄> 指定另外的軟體包快取位置\n"
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr ""
+msgstr "      --color <when>   讓輸出呈現色彩變化\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <路徑>  指定另外的配置文件\n"
+msgstr "      --config <路徑>  指定另外的組態檔\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
@@ -839,7 +843,7 @@ msgstr ""
 
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr ""
+msgstr "無效的引數「%s」被傳給 %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -863,7 +867,7 @@ msgstr "無法打開 stdin 以讀取：(%s)\n"
 
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr ""
+msgstr "引數 '-' 指定卻無附上 stdin 中的輸入\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -879,7 +883,7 @@ msgstr "%s 屬於 %s %s\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
-msgstr "錯誤：沒有爲 --owns 指定文件\n"
+msgstr "錯誤：沒有爲 --owns 指定檔案\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
@@ -891,7 +895,7 @@ msgstr "無法找到 '%s' (在路徑：%s 中)\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
-msgstr "無法讀取文件 '%s'：%s\n"
+msgstr "無法讀取檔案 '%s'：%s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -907,7 +911,7 @@ msgstr "軟體包 '%s' 未找到\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr "'%s' 是個文件，您可能想要用 %s。\n"
+msgstr "'%s' 是個檔案，您可能想要用 %s。\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
@@ -991,11 +995,11 @@ msgstr "正在從快取中刪除舊軟體包...\n"
 
 #, c-format
 msgid "Do you want to remove ALL files from cache?"
-msgstr "打算從快取中刪除所有文件嗎？"
+msgstr "打算從快取中刪除所有檔案嗎？"
 
 #, c-format
 msgid "removing all files from cache...\n"
-msgstr "正在從快取中刪除所有文件...\n"
+msgstr "正在從快取中刪除所有檔案...\n"
 
 #, c-format
 msgid "could not access cache directory %s\n"
@@ -1035,7 +1039,7 @@ msgstr "未找到資料庫：%s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr "'%s' 是個文件，您的意思是 %s 而不是 %s？\n"
+msgstr "'%s' 是個檔案，您的意思是 %s 而不是 %s？\n"
 
 #, c-format
 msgid "Starting full system upgrade...\n"
@@ -1063,7 +1067,7 @@ msgstr "進行安裝嗎？"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "無法 %s directory-file 衝突\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -1071,7 +1075,7 @@ msgstr "%s 同時存在於 '%s' 和 '%s'\n"
 
 #, c-format
 msgid "%s: %s exists in filesystem\n"
-msgstr "%s: 文件系統中已存在 %s \n"
+msgstr "%s: 檔案系統中已存在 %s \n"
 
 #, c-format
 msgid "%s is invalid or corrupted\n"
@@ -1091,7 +1095,7 @@ msgstr "正在載入軟體包...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
-msgstr "無法初始化事務處理 (%s)\n"
+msgstr "無法初始化處理事務 (%s)\n"
 
 #, c-format
 msgid "could not lock database: %s\n"
@@ -1123,7 +1127,7 @@ msgstr "表格顯示所需的列數不夠\n"
 
 #, c-format
 msgid "Valid"
-msgstr "合法"
+msgstr "有效"
 
 #, c-format
 msgid "Key expired"
@@ -1135,7 +1139,7 @@ msgstr "已過期"
 
 #, c-format
 msgid "Invalid"
-msgstr "不合法"
+msgstr "無效"
 
 #, c-format
 msgid "Key unknown"
@@ -1143,7 +1147,7 @@ msgstr "未知的鑰匙"
 
 #, c-format
 msgid "Key disabled"
-msgstr "金鑰已停用"
+msgstr "鑰匙已停用"
 
 #, c-format
 msgid "Signature error"
@@ -1191,31 +1195,31 @@ msgstr "下載大小"
 
 #, c-format
 msgid "removal"
-msgstr ""
+msgstr "移除"
 
 #, c-format
 msgid "Packages"
-msgstr ""
+msgstr "軟體包"
 
 #, c-format
 msgid "Total Download Size:"
-msgstr ""
+msgstr "總計下載大小："
 
 #, c-format
 msgid "Total Installed Size:"
-msgstr ""
+msgstr "總計安裝大小："
 
 #, c-format
 msgid "Total Removed Size:"
-msgstr ""
+msgstr "總計移除大小："
 
 #, c-format
 msgid "Net Upgrade Size:"
-msgstr ""
+msgstr "淨升級大小："
 
 #, c-format
 msgid " [pending]"
-msgstr ""
+msgstr " [擱置中]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

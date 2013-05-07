@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Atilla Öntaş <tarakbumba@gmail.com>, 2011-2013.
-# Atilla ÖNTAŞ <tarakbumba@gmail.com>, 2012.
-# Samed Beyribey <ras0ir@eventualis.org>, 2011,2013.
+# Atilla Öntaş <tarakbumba@gmail.com>, 2011-2013
+# Atilla Öntaş <tarakbumba@gmail.com>, 2012
+# Samed Beyribey <ras0ir@eventualis.org>, 2011,2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-17 21:40+0000\n"
-"Last-Translator: Atilla Öntaş <tarakbumba@gmail.com>\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-30 11:57+0000\n"
+"Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/tr/)\n"
 "Language: tr\n"
@@ -157,10 +157,15 @@ msgstr ""
 "Silinmesini istiyor musunuz?"
 
 #, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
 msgstr ""
-"Anahtar %d%c/%s, \"%s\", oluşturulma tarihi: %s%s içeri aktarmak istiyor "
-"musunuz?"
+"PGP anahtarı %d%c/%s, \"%s\", oluşturma: %s (kaldırılmış) içeri aktarmak "
+"istiyor musunuz?"
+
+#, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr ""
+"PGP anahtarı %d%c/%s, \"%s\", oluşturma: %s içeri aktarmak istiyor musunuz?"
 
 #, c-format
 msgid "installing"
@@ -648,10 +653,11 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
-"  -k, --check          pakette bulunan dosyaların varlığını kontrol et\n"
+"  -k, --check          paket dosyalarının varlığını kontrol et (dosya "
+"sahipliklerini görüntülemek  için -kk)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"

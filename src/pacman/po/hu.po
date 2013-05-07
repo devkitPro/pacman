@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2013.
-# György Balló <ballogy@freestart.hu>, 2011-2012.
-#  <ngaba@bibl.u-szeged.hu>, 2013.
-# ngaba <ngaba@bibl.u-szeged.hu>, 2011.
+# ngaba <ngaba@bibl.u-szeged.hu>, 2013
+# György Balló <ballogy@freestart.hu>, 2011-2013
+# ngaba <ngaba@bibl.u-szeged.hu>, 2013
+# ngaba <ngaba@bibl.u-szeged.hu>, 2011,2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-17 10:07+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-05-02 23:55+0000\n"
 "Last-Translator: ngaba <ngaba@bibl.u-szeged.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/hu/)\n"
@@ -52,7 +52,7 @@ msgstr "%s frissítése...\n"
 
 #, c-format
 msgid "downgrading %s...\n"
-msgstr "%s downgradelése...\n"
+msgstr "%s visszafejlesztése...\n"
 
 #, c-format
 msgid "reinstalling %s...\n"
@@ -156,9 +156,13 @@ msgstr ""
 "Szeretné törölni?"
 
 #, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
 msgstr ""
-"Importálja ezt a PGP kulcsot: %d%c/%s, \"%s\", ami ekkor készült: %s%s?"
+"Importálja a %d%c/%s, \"%s\" PGP kulcsot (létrehozva: %s, visszavonva)?"
+
+#, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr "Importálja a %d%c/%s, \"%s\" PGP kulcsot (létrehozva: %s)?"
 
 #, c-format
 msgid "installing"
@@ -170,7 +174,7 @@ msgstr "frissítés:"
 
 #, c-format
 msgid "downgrading"
-msgstr "downgradelés:"
+msgstr "visszafejlesztés:"
 
 #, c-format
 msgid "reinstalling"
@@ -653,11 +657,12 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
-"  -k, --check          ellenőrzi, hogy a csomag(ok) által telepített fájlok\n"
-"                       jelen vannak-e a rendszerben\n"
+"  -k, --check          a csomag(ok) által telepített fájlok jelenlétének\n"
+"                       ellenőrzése (-kk: a fájlok módosításainak "
+"vizsgálata)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"

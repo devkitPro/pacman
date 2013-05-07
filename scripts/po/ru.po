@@ -3,15 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-#   <alexander.r@gmx.com>, 2012.
-# Ivan Yurasov <vdk@gmx.us>, 2011.
+# AlexanderR <alexander.r@gmx.com>, 2012
+# AlexanderR <alexander.r@gmx.com>, 2012
+# Ivan Yurasov <vdk@gmx.us>, 2011
+# kyak <peselnik@gmail.com>, 2013
+# kyak <peselnik@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-03-17 13:19+1000\n"
-"PO-Revision-Date: 2013-03-17 03:56+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-30 12:02+0000\n"
+"Last-Translator: kyak <peselnik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -34,7 +37,7 @@ msgid "Entering %s environment..."
 msgstr "Вход в окружение %s..."
 
 msgid "Unknown download protocol: %s"
-msgstr ""
+msgstr "Неизвестный протокол загрузки: %s"
 
 msgid "Aborting..."
 msgstr "Преждевременный выход..."
@@ -61,52 +64,55 @@ msgid "Failed to extract %s"
 msgstr "Не удалось распаковать %s"
 
 msgid "Unrecognized reference: %s"
-msgstr ""
+msgstr "Ссылка не распознана: %s"
 
 msgid "Branching %s ..."
-msgstr ""
+msgstr "Создание ветки %s ..."
 
 msgid "Failure while branching %s"
-msgstr ""
+msgstr "Ошибка при создании ветки %s"
 
 msgid "%s is not a branch of %s"
-msgstr ""
+msgstr "%s не является веткой %s"
+
+msgid "The local URL is %s"
+msgstr "Локальный URL адрес: %s"
 
 msgid "Pulling %s ..."
-msgstr ""
+msgstr "Получаем %s ..."
 
 msgid "Failure while pulling %s"
-msgstr ""
+msgstr "Ошибка при получении %s"
 
 msgid "Creating working copy of %s %s repo..."
-msgstr ""
+msgstr "Создание рабочей копии %s %s репозитория..."
 
 msgid "Failure while creating working copy of %s %s repo"
-msgstr ""
+msgstr "Ошибка при создании рабочей копии %s %s репозитория"
 
 msgid "Cloning %s %s repo..."
-msgstr ""
+msgstr "Клонирование %s %s репозитория..."
 
 msgid "Failure while downloading %s %s repo"
-msgstr ""
+msgstr "Ошибка при загрузке %s %s репозитория"
 
 msgid "%s is not a clone of %s"
-msgstr ""
+msgstr "%s не является клоном %s"
 
 msgid "Updating %s %s repo..."
-msgstr ""
+msgstr "Обновление %s %s репозитория..."
 
 msgid "Failure while updating %s %s repo"
-msgstr ""
+msgstr "Ошибка при обновлении %s %s репозитория"
 
 msgid "Retrieving sources..."
-msgstr ""
+msgstr "Получение исходных файлов..."
 
 msgid "Updated version: %s"
-msgstr ""
+msgstr "Обновленная версия: %s"
 
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr ""
+msgstr "невозможно записать в %s -- pkgver не будет обновлен"
 
 msgid "Unable to find source file %s."
 msgstr "Не удалось найти исходный файл %s."
@@ -121,7 +127,7 @@ msgid "'%s' failed to install missing dependencies."
 msgstr "'%s' не удалось установить недостающие зависимости."
 
 msgid "Missing dependencies:"
-msgstr ""
+msgstr "Недостающие зависимости:"
 
 msgid "Failed to remove installed dependencies."
 msgstr "Не удалось удалить все установленные зависимости."
@@ -141,7 +147,7 @@ msgid "Validating source files with %s..."
 msgstr "Проверка исходных файлов с помощью %s..."
 
 msgid "Skipped"
-msgstr ""
+msgstr "Пропущен"
 
 msgid "NOT FOUND"
 msgstr "НЕ НАЙДЕНО"
@@ -203,16 +209,16 @@ msgid "Skipping verification of source file PGP signatures."
 msgstr "Пропуск провероки PGP подписей исходных файлов."
 
 msgid "Extracting sources..."
-msgstr ""
+msgstr "Распаковка исходных файлов..."
 
 msgid "A failure occurred in %s()."
 msgstr "Произошел сбой в %s()."
 
 msgid "Failed to change to directory %s"
-msgstr ""
+msgstr "Не удалось перейти в каталог %s"
 
 msgid "Failed to source %s"
-msgstr ""
+msgstr "Не удалось получить %s"
 
 msgid "Starting %s()..."
 msgstr "Запускается %s()..."
@@ -251,13 +257,13 @@ msgid "Could not compress binary : %s"
 msgstr "Не удалось сжать бинарные фалйлы: %s"
 
 msgid "Library listed in %s is not required by any files: %s"
-msgstr ""
+msgstr "Библиотека, указанная в %s, не требуется ни одним файлом: %s"
 
 msgid "Library listed in %s is not versioned: %s"
-msgstr ""
+msgstr "Библиотека, указанная в %s, не имеет версии: %s"
 
 msgid "Library listed in %s is not a shared object: %s"
-msgstr ""
+msgstr "Библиотека, указанная в %s, не является разделяемым объектом: %s"
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "Не удалось найти библиотеку указанную в %s: %s"
@@ -275,13 +281,13 @@ msgid "Missing %s directory."
 msgstr "Отсутствует каталог %s."
 
 msgid "Creating package \"%s\"..."
-msgstr ""
+msgstr "Создание пакета \"%s\"... "
 
 msgid "Adding %s file..."
 msgstr "Добавление файла %s..."
 
 msgid "Generating .MTREE file..."
-msgstr ""
+msgstr "Создание файла .MTREE..."
 
 msgid "Compressing package..."
 msgstr "Архивируется пакет... "
@@ -341,7 +347,7 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s содержит недопустимые символы '%s'"
 
 msgid "%s must be a decimal."
-msgstr ""
+msgstr "%s должно быть десятичным числом."
 
 msgid "%s must be an integer."
 msgstr "%s должно быть целым числом"
@@ -381,9 +387,12 @@ msgstr "%s не должно содержать двоеточий или деф
 
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr ""
+"Не удалось найти исполняемый файл %s, необходимый для зависимых операций."
 
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
+"Не удалось найти исполняемый файл %s. Для получения привилегий root "
+"используется %s."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -508,6 +517,9 @@ msgid ""
 msgstr ""
 "  -S, --source     Создать архив с исходным кодом, без загруженных файлов"
 
+msgid "  -V, --version    Show version information and exit"
+msgstr "-V, --version Показать информацию о версии и выйти"
+
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -518,6 +530,8 @@ msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
+"--verifysource Загрузить исходные файлы (если требуется) и провести проверки "
+"целостности"
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Разрешить запуск %s пользователем root"
@@ -530,7 +544,7 @@ msgstr ""
 "  --config <файл>  Использовать альтернативный файл настроек (вместо '%s')"
 
 msgid "  --holdver        Do not update VCS sources"
-msgstr ""
+msgstr "--holdver Не обновлять исходные файл VCS"
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
@@ -564,7 +578,7 @@ msgid "These options can be passed to %s:"
 msgstr "Эти параметры могут быть переданы %s:"
 
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr ""
+msgstr "--asdeps Установить пакеты как неявно установленные"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -573,7 +587,7 @@ msgstr ""
 
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
-msgstr ""
+msgstr "--needed Не переустанавливать пакеты, которые уже обновлены"
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Не показывать индикатор выполнения при загрузке"
@@ -587,6 +601,11 @@ msgid ""
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2013 Команда разработчиков Pacman <pacman-dev@archlinux."
+"org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nЭто "
+"свободное программное обеспечение; посмотрите условия распространения в "
+"исходном коде.\\nНа него не даётся НИКАКИХ ГАРАНТИЙ, в той степени, в "
+"которой это разрешено законом.\\n"
 
 msgid "%s signal caught. Exiting..."
 msgstr "Принят сигнал %s. Выходим..."
@@ -615,7 +634,7 @@ msgstr ""
 "в %s."
 
 msgid "You do not have write permission to store logs in %s."
-msgstr ""
+msgstr "У вас нет прав на запись, чтобы сохранить логи в %s."
 
 msgid ""
 "Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
@@ -670,7 +689,7 @@ msgid "Making package: %s"
 msgstr "Сборка пакета: %s"
 
 msgid "Using a %s without a %s function is deprecated."
-msgstr ""
+msgstr "Использование %s без функции %s является устаревшим."
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Пакет с исходным кодом уже собран. (используйте %s для перезаписи)"
@@ -691,7 +710,7 @@ msgid "Could not resolve all dependencies."
 msgstr "Не удалось разрешить все зависимости."
 
 msgid "Using existing %s tree"
-msgstr ""
+msgstr "Использование существующего дерева %s"
 
 msgid "The package directory is empty, there is nothing to repackage!"
 msgstr "Каталог пакета пуст. Здесь нечего перепаковывать!"
@@ -706,13 +725,18 @@ msgid "Finished making: %s"
 msgstr "Сборка завершена: %s"
 
 msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr ""
+msgstr "Использование: %s [--nocolor] [pacman_db_root]"
 
 msgid ""
 "Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2010-2013 Команда разработчиков Pacman <pacman-dev@archlinux."
+"org>.\\n\n"
+"Это свободное программное обеспечение; посмотрите условия распространения в "
+"исходном коде.\\nНа него не даётся НИКАКИХ ГАРАНТИЙ, в той степени, в "
+"которой это разрешено законом.\\n"
 
 msgid "%s does not exist or is not a directory."
 msgstr "%s не существует или не является каталогом."
@@ -735,51 +759,54 @@ msgid "Done."
 msgstr "Готово."
 
 msgid "Usage: %s [options] operation [targets]"
-msgstr ""
+msgstr "Использование: %s [параметры] действие [цели]"
 
 msgid "Manage pacman's list of trusted keys"
 msgstr "Управление списком доверенных ключей для pacman's"
 
 msgid "Operations:"
-msgstr ""
+msgstr "Действия:"
 
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr ""
+"-a, --add Добавить указанные ключи (для чтения из stdin ничего не указывайте)"
 
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr ""
+msgstr "-d, --delete Удалить указанные ключи"
 
 msgid "  -e, --export              Export the specified or all keyids"
-msgstr ""
+msgstr "  -e, --export Экспортировать указанные или все ключи"
 
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
-msgstr ""
+msgstr "-f, --finger Вывести отпечатки выбранных или всех ключей"
 
 msgid "  -l, --list-keys           List the specified or all keys"
-msgstr ""
+msgstr "-l, --list-keys Показать указанные или все ключи"
 
 msgid "  -r, --recv-keys           Fetch the specified keyids"
-msgstr ""
+msgstr "-r, --recv-keys Получить указанные ключи"
 
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            Обновить базу доверия pacman"
 
 msgid ""
 "  -v, --verify              Verify the file(s) specified by the signature(s)"
-msgstr ""
+msgstr "-v, --verify Проверить файл(ы), указанные подписью"
 
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
-msgstr ""
+msgstr "--edit-key Показать меню управления ключами для списка ключей"
 
 msgid "  --import                  Imports pubring.gpg from dir(s)"
-msgstr ""
+msgstr "--import Импорт pubring.gpg из каталога(ов)"
 
 msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr ""
+"--import-trustdb Импорт значений доверия владельцам из trustdb.gpg в "
+"каталог(и)"
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
@@ -787,19 +814,21 @@ msgstr ""
 "инициализирована"
 
 msgid "  --list-sigs               List keys and their signatures"
-msgstr ""
+msgstr "--list-sigs Список ключей и их подписей"
 
 msgid "  --lsign-key               Locally sign the specified keyid"
-msgstr ""
+msgstr "--lsign-key Локально подписать указанный по id ключ"
 
 msgid ""
 "  --populate                Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
+"--populate Перезагрузить ключи по умолчанию из (указанных) связок ключей\\n "
+"в '%s'"
 
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
-msgstr ""
+msgstr "--refresh-keys Обновление указанных или всех ключей с сервера ключей"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
@@ -817,6 +846,8 @@ msgstr ""
 
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
 msgstr ""
+"--keyserver <server-url> Указать сервер ключей для использования, если "
+"необходимо"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Показать это справочное сообщение"
@@ -825,10 +856,10 @@ msgid "  -V, --version             Show program version"
 msgstr "  -V, --version             Показать версию программы"
 
 msgid "Failed to lookup key by name:"
-msgstr ""
+msgstr "Ошибка поиска ключа по имени:"
 
 msgid "Key name is ambiguous:"
-msgstr ""
+msgstr "Имя ключа не является однозначным:"
 
 msgid "The key identified by %s could not be found locally."
 msgstr "Ключ %s не удалось найти среди локально установленных."
@@ -901,7 +932,7 @@ msgid "Locally signing key %s..."
 msgstr "Локальное подписывание ключа %s..."
 
 msgid "%s could not be locally signed."
-msgstr ""
+msgstr "%s не может быть локально подписан."
 
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Ключ не удалось получить с сервера ключей."
@@ -937,7 +968,7 @@ msgid "Please run %s with each operation separately."
 msgstr "Пожалуйста, запустите %s раздельно с каждой операцией"
 
 msgid "No targets specified"
-msgstr ""
+msgstr "Не задано целей"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -964,6 +995,7 @@ msgstr ""
 
 msgid "Cannot find the %s binary required for verifying integrity."
 msgstr ""
+"Не удалось найти исполняемый файл %s, необходимый для проверки целостности."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr ""
@@ -1002,6 +1034,7 @@ msgstr "Возвращение базы данных на место..."
 
 msgid "New database substitution failed. Check for %s, %s, and %s directories."
 msgstr ""
+"Ошибка при подстановке новой базы данных. Проверьте директории %s, %s и %s."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Готово. База данных pacman оптимизирована."
@@ -1026,15 +1059,19 @@ msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       минимизировать вывод\\n"
 
 msgid "  --nocolor         remove color from output\\n"
-msgstr ""
+msgstr "--nocolor не использовать цвет в сообщениях\\n"
 
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr ""
+"--min-pkg-size минимальный размер пакета, прежде чем будет сгенерирована "
+"дельта\\n"
 
 msgid ""
 "  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
 msgstr ""
+"--max-delta-size процент от нового пакета, выше которого дельта будет "
+"отброшена\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
@@ -1094,7 +1131,7 @@ msgstr ""
 
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
-msgstr ""
+msgstr "-n, --new добавлять только пакеты, которых еще нет в базе данных\\n"
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       обновить список файлов базы данных\\n"
@@ -1116,7 +1153,7 @@ msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Не обращайте внимания, здесь ничего нет.\\n"
 
 msgid "  --nocolor         turn off color in output\\n"
-msgstr ""
+msgstr "--nocolor не использовать цвет в сообщениях\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr ""
@@ -1148,6 +1185,10 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2013 Команда разработчиков Pacman <pacman-dev@archlinux."
+"org>\\n\\nЭто свободное программное обеспечение; посмотрите условия "
+"распространения в исходном коде.\\nНа него не даётся НИКАКИХ ГАРАНТИЙ, в той "
+"степени, в которой это разрешено законом.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Нет записи в базе данных для пакета '%s'."
@@ -1159,7 +1200,7 @@ msgid "Removing existing entry '%s'..."
 msgstr "Удаление существующей записи '%s'..."
 
 msgid "Removing empty deltas file ..."
-msgstr ""
+msgstr "Удаление пустых файлов с дельтами ..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Не найден gpg! Пакет GnuPG установлен?"
@@ -1168,7 +1209,7 @@ msgid "Signing database..."
 msgstr "Подписывание базы данных..."
 
 msgid "Created signature file '%s'"
-msgstr ""
+msgstr "Создание файла с подписью %s."
 
 msgid "Failed to sign package database."
 msgstr "Не удалось подписать базу данных."
@@ -1264,16 +1305,16 @@ msgid "No packages modified, nothing to do."
 msgstr "Пакеты не изменялись, делать нечего."
 
 msgid "option '%s' is ambiguous; possibilities:"
-msgstr ""
+msgstr "не удалось распознать опцию '%s'; возможные варианты:"
 
 msgid "invalid option"
-msgstr ""
+msgstr "неверный параметр"
 
 msgid "option requires an argument"
-msgstr ""
+msgstr "опция требует аргумента"
 
 msgid "option '%s' does not allow an argument"
-msgstr ""
+msgstr "опция '%s' не должна иметь аргумента"
 
 msgid "option '%s' requires an argument"
-msgstr ""
+msgstr "опция '%s' требует аргумента"

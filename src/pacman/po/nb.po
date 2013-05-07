@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Alexander Rødseth <rodseth@gmail.com>, 2011-2013.
-# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013.
+# Alexander Rødseth <rodseth@gmail.com>, 2011-2013
+# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-17 12:55+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-30 11:58+0000\n"
 "Last-Translator: Jon Gjengset <jon@thesquareplanet.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/nb/)\n"
@@ -154,8 +154,12 @@ msgstr ""
 "Vil du slette den?"
 
 #, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Importér PGP nøkkel %d%c/%s, \"%s\", opprettet: %s%s?"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "Importér PGP nøkkel %d%c/%s, \"%s\", opprettet: %s (ugyldig)?"
+
+#, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr "Importér PGP nøkkel %d%c/%s, \"%s\", opprettet: %s?"
 
 #, c-format
 msgid "installing"
@@ -645,10 +649,11 @@ msgstr "  -i, --info       vis pakkeinformasjon (-ii for backup-filer)\n"
 
 #, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
-"  -k, --check     sjekk om filene som er eid av pakken(e) er tilstede\n"
+"  -k, --check          sjekk at pakkefilene eksisterer (-kk for "
+"filegenskaper)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -1237,7 +1242,7 @@ msgstr "Nedlastingsstørrelse"
 
 #, c-format
 msgid "removal"
-msgstr "fjerning"
+msgstr "fjerner"
 
 #, c-format
 msgid "Packages"

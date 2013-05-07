@@ -49,7 +49,7 @@
 
 struct table_row_t {
 	const char *label;
-	int size;
+	off_t size;
 };
 
 int trans_init(alpm_transflag_t flags, int check_valid)
@@ -314,7 +314,7 @@ size_t strtrim(char *str)
 	return end - pch;
 }
 
-/* Replace all occurances of 'needle' with 'replace' in 'str', returning
+/* Replace all occurrences of 'needle' with 'replace' in 'str', returning
  * a new string (must be free'd) */
 char *strreplace(const char *str, const char *needle, const char *replace)
 {
@@ -336,11 +336,11 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 		q = strstr(p, needle);
 	}
 
-	/* no occurences of needle found */
+	/* no occurrences of needle found */
 	if(!list) {
 		return strdup(str);
 	}
-	/* size of new string = size of old string + "number of occurences of needle"
+	/* size of new string = size of old string + "number of occurrences of needle"
 	 * x "size difference between replace and needle" */
 	newsz = strlen(str) + 1 +
 		alpm_list_count(list) * (replacesz - needlesz);
@@ -354,7 +354,7 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	for(i = list; i; i = alpm_list_next(i)) {
 		q = i->data;
 		if(q > p) {
-			/* add chars between this occurence and last occurence, if any */
+			/* add chars between this occurrence and last occurrence, if any */
 			memcpy(newp, p, (size_t)(q - p));
 			newp += q - p;
 		}
@@ -828,7 +828,7 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	return ret;
 }
 
-static void add_transaction_sizes_row(alpm_list_t **table, const char *label, int size)
+static void add_transaction_sizes_row(alpm_list_t **table, const char *label, off_t size)
 {
 	struct table_row_t *row = malloc(sizeof(struct table_row_t));
 
@@ -847,8 +847,9 @@ static void display_transaction_sizes(alpm_list_t *table)
 		struct table_row_t *row = i->data;
 		int len = string_length(row->label);
 
-		if(len > max_len)
+		if(len > max_len) {
 			max_len = len;
+		}
 	}
 
 	max_len += 2;
@@ -1388,7 +1389,7 @@ int multiselect_question(char *array, int count)
 
 		fprintf(stream, "\n");
 		fprintf(stream, _("Enter a selection (default=all)"));
-		fprintf(stream,	": ");
+		fprintf(stream, ": ");
 		fflush(stream);
 
 		if(config->noconfirm) {
@@ -1452,7 +1453,8 @@ int select_question(int count)
 	while(1) {
 		fprintf(stream, "\n");
 		fprintf(stream, _("Enter a number (default=%d)"), preset);
-		fprintf(stream,	": ");
+		fprintf(stream, ": ");
+		fflush(stream);
 
 		if(config->noconfirm) {
 			fprintf(stream, "\n");
@@ -1513,7 +1515,6 @@ static int question(short preset, const char *format, va_list args)
 		return preset;
 	}
 
-	fflush(stream);
 	flush_term_input(fd_in);
 
 	if(fgets(response, sizeof(response), stdin)) {

@@ -314,7 +314,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		hash_local = alpm_compute_md5sum(filename);
 		hash_pkg = alpm_compute_md5sum(checkfile);
 
-		/* update the md5 hash in newpkg's backup (it will be the new orginal) */
+		/* update the md5 hash in newpkg's backup (it will be the new original) */
 		alpm_list_t *i;
 		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
 			alpm_backup_t *backup = i->data;

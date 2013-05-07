@@ -3,17 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# ambaratti <ambaratti.listas@gmail.com>, 2011.
-# Antonio Fernandes C. Neto  <fernandes@pelivre.org>, 2011.
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012-2013.
-# Rafael  <rafael.f.f1@gmail.com>, 2011-2012.
-# Sandro  <sandrossv@hotmail.com>, 2011.
+# ambaratti <ambaratti.listas@gmail.com>, 2011
+# Antonio Fernandes C. Neto <fernandes@pelivre.org>, 2011
+# Antonio Fernandes C. Neto <fernandes@pelivre.org>, 2011
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012-2013
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2011-2012
+# Sandro <sandrossv@hotmail.com>, 2011
+# Sandro <sandrossv@hotmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-23 20:13+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-05-01 15:45+0000\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/pt_BR/)\n"
@@ -105,7 +107,7 @@ msgstr "verificando espaço em disco disponível...\n"
 
 #, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s requer como opção %s\n"
+msgstr "%s requer opcionalmente %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -158,8 +160,12 @@ msgstr ""
 "Deseja apagá-lo?"
 
 #, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Importar a chave PGP %d%c/%s, \"%s\", criada: %s%s?"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "Importar chave PGP %d%c/%s, \"%s\", criada: %s (revogada)?"
+
+#, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr "Importar chave PGP %d%c/%s, \"%s\", criada: %s?"
 
 #, c-format
 msgid "installing"
@@ -231,7 +237,7 @@ msgstr "não foi possível ler o conteúdo do link simbólico: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr "%s: %s (caminho de link simbólico incorreto)\n"
+msgstr "%s: %s (Caminho de link simbólico incorreto)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
@@ -294,29 +300,31 @@ msgstr "não foi possível recuperar diretório de trabalho (%s)\n"
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr ""
-"arquivo de configuração %s, linha %d: valor inválido para '%s' : '%s'\n"
+"arquivo de configuração %s, linha %d: valor inválido para \"%s\" : \"%s\"\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
-"arquivo de configuração %s, linha %d: '%s' opção inválida, sem suporte a "
+"arquivo de configuração %s, linha %d: \"%s\" opção inválida, sem suporte a "
 "assinatura\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
-"arquivo de configuração %s, linha %d: diretiva '%s' na seção '%s' não foi "
-"reconhecida.\n"
+"arquivo de configuração %s, linha %d: diretiva \"%s\" na seção \"%s\" não "
+"foi reconhecida.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "espelho '%s' contém a variável '%s', mas nenhuma '%s' está definida.\n"
+msgstr ""
+"espelho \"%s\" contém a variável \"%s\", mas nenhuma \"%s\" está definida.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr ""
-"não foi possível adicionar a URL do servidor à base de dados '%s': %s (%s)\n"
+"não foi possível adicionar a URL do servidor à base de dados \"%s\": %s "
+"(%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
@@ -328,7 +336,7 @@ msgstr "  tente executar pacman-db-upgrade\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr "problema na configuração do logfile '%s' (%s)\n"
+msgstr "problema na configuração do logfile \"%s\" (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
@@ -340,7 +348,7 @@ msgstr "nenhum \"%s\" configurado"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "não foi possível registrar a base de dados '%s' (%s)\n"
+msgstr "não foi possível registrar a base de dados \"%s\" (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
@@ -351,8 +359,8 @@ msgstr ""
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
-"a análise de configuração ultrapassou a profundidade\n"
-"máxima de recursão de %d.\n"
+"a análise de configuração ultrapassou a profundidade máxima de recursão de "
+"%d.\n"
 
 #, c-format
 msgid "config file %s could not be read: %s\n"
@@ -377,7 +385,7 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
-"arquivo de configuração %s, linha %d: diretiva '%s' precisa de um valor\n"
+"arquivo de configuração %s, linha %d: diretiva \"%s\" precisa de um valor\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -407,7 +415,7 @@ msgstr " [instalado]"
 
 #, c-format
 msgid "Optional Deps  :"
-msgstr "Depend. Opcionais    :"
+msgstr "Depend. opcionais    :"
 
 #, c-format
 msgid "Explicitly installed"
@@ -475,11 +483,11 @@ msgstr "Provê                :"
 
 #, c-format
 msgid "Depends On     :"
-msgstr "Depende De           :"
+msgstr "Depende de           :"
 
 #, c-format
 msgid "Required By    :"
-msgstr "Necessário Para      :"
+msgstr "Necessário para      :"
 
 #, c-format
 msgid "Optional For   :"
@@ -487,7 +495,7 @@ msgstr "Opcional para        :"
 
 #, c-format
 msgid "Conflicts With :"
-msgstr "Conflita Com         :"
+msgstr "Conflita com         :"
 
 #, c-format
 msgid "Replaces       :"
@@ -511,11 +519,11 @@ msgstr "Empacotador          :"
 
 #, c-format
 msgid "Build Date     :"
-msgstr "Data da Compilação   :"
+msgstr "Data da compilação   :"
 
 #, c-format
 msgid "Install Date   :"
-msgstr "Data da Instalação   :"
+msgstr "Data da instalação   :"
 
 #, c-format
 msgid "Install Reason :"
@@ -523,7 +531,7 @@ msgstr "Motivo da instalação :"
 
 #, c-format
 msgid "Install Script :"
-msgstr "Script de Instalação :"
+msgstr "Script de instalação :"
 
 #, c-format
 msgid "Yes"
@@ -551,11 +559,11 @@ msgstr "Validado por         :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
-msgstr "não foi possível calcular os checksums para %s\n"
+msgstr "não foi possível calcular a verificação de soma para %s\n"
 
 #, c-format
 msgid "Backup Files:\n"
-msgstr "Arquivos de Backup:\n"
+msgstr "Arquivos backup:\n"
 
 #, c-format
 msgid "(none)\n"
@@ -663,11 +671,11 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
-"  -k, --check            verifica se arquivos do(s) pacote(s) estão "
-"presentes\n"
+"  -k, --check          verifica se os arquivos de pacote existem (-kk para\n"
+"                       propriedades dos arquivos)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -927,7 +935,7 @@ msgstr "argumento inválido \"%s\" para %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' não é um nível de debug válido\n"
+msgstr "\"%s\" não é um nível de depuração válido\n"
 
 #, c-format
 msgid "only one operation may be used at a time\n"
@@ -943,7 +951,7 @@ msgstr "memória esgotada na análise de argumentos\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
-msgstr "falha ao reabrir stdin para leitura: (%s)\n"
+msgstr "falha ao reabrir entrada padrão para leitura: (%s)\n"
 
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
@@ -967,15 +975,15 @@ msgstr "nenhum arquivo foi especificado para --owns\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
-msgstr "não é possível determinar o caminho real para '%s': %s\n"
+msgstr "não é possível determinar o caminho real para \"%s\": %s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "falha em procurar '%s' no PATH: %s\n"
+msgstr "falha em procurar \"%s\" no PATH: %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
-msgstr "falha na leitura o arquivo '%s': %s\n"
+msgstr "falha na leitura o arquivo \"%s\": %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
@@ -1139,11 +1147,11 @@ msgstr "%s e %s estão em conflito (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
-msgstr "Prosseguir com o download?"
+msgstr "Continuar o download?"
 
 #, c-format
 msgid "Proceed with installation?"
-msgstr "Prosseguir com a instalação?"
+msgstr "Continuar a instalação?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
@@ -1259,11 +1267,11 @@ msgstr "Nome"
 
 #, c-format
 msgid "Old Version"
-msgstr "Versão Antiga"
+msgstr "Versão antiga"
 
 #, c-format
 msgid "New Version"
-msgstr "Versão Nova"
+msgstr "Versão nova"
 
 #, c-format
 msgid "Net Change"

@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Rax Garfield <admin@dvizho.ks.ua>, 2012.
-#   <sevenfourk@gmail.com>, 2012.
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013.
-# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2012.
+# Rax Garfield <admin@dvizho.ks.ua>, 2012
+# sevenfourk <sevenfourk@gmail.com>, 2012
+# sevenfourk <sevenfourk@gmail.com>, 2012
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013
+# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-17 19:22+0000\n"
-"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-30 16:57+0000\n"
+"Last-Translator: Данило Коростіль <ted.korostiled@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -29,13 +30,11 @@ msgstr "перевірка залежностей…\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr ""
-"перевірка конфліктів між файлами…\n"
-"\n"
+msgstr "перевірка конфліктів між файлами…\n"
 
 #, c-format
 msgid "resolving dependencies...\n"
-msgstr "розв'язання залежностей…\n"
+msgstr "перевірка конфліктів між файлами…\n"
 
 #, c-format
 msgid "looking for inter-conflicts...\n"
@@ -161,8 +160,12 @@ msgstr ""
 "вилучити його?"
 
 #, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "Імпортувати ключ PGP %d%c/%s, \"%s\", створений: %s%s?"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "Імпортувати ключ PGP %d%c/%s, «%s», створено: %s (скасовано)?"
+
+#, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr "Імпортувати ключ PGP %d%c/%s, «%s», створено: %s?"
 
 #, c-format
 msgid "installing"
@@ -656,12 +659,11 @@ msgstr ""
 
 #, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
 msgstr ""
-"  -k, --check          перевірити, чи існують файли, які є власністю "
-"пакунка(ів)\n"
-"\n"
+"  -k, --check          перевірити, чи файл пакунка існує (-kk для "
+"властивостей файла)⏎\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"

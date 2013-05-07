@@ -202,7 +202,7 @@ _pacman_action_sync() {
 			_arguments -s : \
 				{\*-c,\*--clean}'[Remove old packages from cache]' \
 				"$_pacman_opts_common[@]" \
-				"$_pacman_opts_sync_modifiers[@]" \
+				"$_pacman_opts_sync_modifiers[@]"
 				;;
 		sync_group)
 			_arguments -s : \
@@ -383,6 +383,12 @@ _pacman_zsh_comp() {
 				"$_pacman_opts_sync_modifiers[@]" \
 				'*:package group:_pacman_completions_all_groups'
 			;;
+		S*s*)
+			_arguments -s : \
+				"$_pacman_opts_common[@]" \
+				"$_pacman_opts_sync_modifiers[@]" \
+				'*:search text: '
+				;;
 		S*)
 			_pacman_action_sync
 			;;
@@ -472,8 +478,8 @@ _key_longopts=(
 )
 
 _pacman_key_options=(
-	'--config[Use an alternate config file (instead of /etc/pacman.con)]: :_files'
-	'--gpgdir[Set an alternate directory for GnuPG (instead of /etc/pacman.d/gnupg)]: :_files -/'
+	'--config[Use an alternate config file (instead of @sysconfdir@/pacman.conf)]: :_files'
+	'--gpgdir[Set an alternate directory for GnuPG (instead of @sysconfdir@/pacman.d/gnupg)]: :_files -/'
 	'--keyserver[Specify a keyserver to use if necessary]'
 )
 
@@ -579,7 +585,7 @@ _makepkg_longopts=(
 	'--allsource[Generate a source-only tarball including downloaded source]'
 	'--asroot[Allow makepkg to run as root user]'
 	'--check[Run check() function in the PKGBUILD]'
-	'--config[Use an alternate config file instead of '/etc/makepkg.conf']: :_files'
+	'--config[Use an alternate config file instead of '@sysconfdir@/makepkg.conf']: :_files'
 	'--holdver[Prevent automatic version bumping for development PKGBUILDs]'
 	'--key[Specify key to use for gpg signing instead of the default]: :_keys'
 	'--nocheck[Do not run the check() function in the PKGBUILD]'

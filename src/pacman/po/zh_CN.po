@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Blask <blaskyy@gmail.com>, 2013.
-# leonfeng <rainofchaos@gmail.com>, 2011.
-#  <mytbk920423@gmail.com>, 2013.
-#  <rainofchaos@gmail.com>, 2013.
-#   <rainofchaos@gmail.com>, 2011.
-# 甘 露 <rhythm.gan@gmail.com>, 2011-2012.
-# 甘露 <rhythm.gan@gmail.com>, 2011.
+# Blask Wang <blaskyy@gmail.com>, 2013
+# Blask Wang <blaskyy@gmail.com>, 2013
+# leonfeng <rainofchaos@gmail.com>, 2011,2013
+# mytbk <mytbk920423@gmail.com>, 2013
+# mytbk <mytbk920423@gmail.com>, 2013
+# leonfeng <rainofchaos@gmail.com>, 2013
+# leonfeng <rainofchaos@gmail.com>, 2011
+# 甘 露 <rhythm.gan@gmail.com>, 2011-2012
+# 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-01 15:48+1000\n"
-"PO-Revision-Date: 2013-03-25 12:33+0000\n"
+"POT-Creation-Date: 2013-04-30 21:18+1000\n"
+"PO-Revision-Date: 2013-04-30 15:06+0000\n"
 "Last-Translator: mytbk <mytbk920423@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/zh_CN/)\n"
@@ -155,8 +157,12 @@ msgstr ""
 "打算删除吗？"
 
 #, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s%s?"
-msgstr "导入 PGP 密匙 %d%c/%s，\"%s\"，创建 %s%s 吗？"
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+msgstr "导入 PGP 密匙 %d%c/%s，\"%s\"，创建 %s (已废除) 吗？"
+
+#, c-format
+msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+msgstr "导入 PGP 密匙 %d%c/%s，\"%s\"，创建 %s 吗？"
 
 #, c-format
 msgid "installing"
@@ -631,9 +637,9 @@ msgstr "  -i, --info           查看软件包信息 (-ii 查看备份文件) \n
 
 #, c-format
 msgid ""
-"  -k, --check          check that the files owned by the package(s) are "
-"present\n"
-msgstr "  -k, --check          检查该软件包拥有的文件是否存在\n"
+"  -k, --check          check that package files exist (-kk for file "
+"properties)\n"
+msgstr "  -k, --check          检查软件包的文件存在(-kk检查文件属性)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -696,7 +702,7 @@ msgstr "  -l, --list <软件库>    查看在该软件库中的软件包清单\n
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex表达式> 按照指定字符串查询远端软件库\n"
+msgstr "  -s, --search <正则表达式> 按照指定字符串查询远端软件库\n"
 
 #, c-format
 msgid ""
@@ -724,7 +730,7 @@ msgstr "      --asexplicit     标记为明确指定安装的软件包\n"
 
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr "  -f,  -force          强制安装，覆盖存在冲突的文件\n"
+msgstr "  -f, --force          强制安装，覆盖存在冲突的文件\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
@@ -752,7 +758,7 @@ msgstr ""
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "-d, --nodeps         跳过依赖关系的版本检查 (-dd 跳过所有检查)\n"
+msgstr "  -d, --nodeps         跳过依赖关系的版本检查 (-dd 跳过所有检查)\n"
 
 #, c-format
 msgid ""
@@ -805,7 +811,7 @@ msgstr "      --cachedir <目录> 指定另外的软件包缓存位置\n"
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr "--color <when> 彩色化输出\n"
+msgstr "      --color <when>   彩色化输出\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -813,7 +819,7 @@ msgstr "      --config <路径>  指定另外的配置文件\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      -- debug        显示除错信息\n"
+msgstr "      --debug          显示调试信息\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"

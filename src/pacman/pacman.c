@@ -24,7 +24,6 @@
 #define PACKAGE_VERSION GIT_VERSION
 #endif
 
-#include <ctype.h> /* isspace */
 #include <stdlib.h> /* atoi */
 #include <stdio.h>
 #include <ctype.h> /* isspace */
@@ -139,7 +138,7 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -e, --explicit       list packages explicitly installed [filter]\n"));
 			addlist(_("  -g, --groups         view all members of a package group\n"));
 			addlist(_("  -i, --info           view package information (-ii for backup files)\n"));
-			addlist(_("  -k, --check          check that the files owned by the package(s) are present\n"));
+			addlist(_("  -k, --check          check that package files exist (-kk for file properties)\n"));
 			addlist(_("  -l, --list           list the contents of the queried package\n"));
 			addlist(_("  -m, --foreign        list installed packages not found in sync db(s) [filter]\n"));
 			addlist(_("  -n, --native         list installed packages only found in sync db(s) [filter]\n"));
@@ -288,7 +287,7 @@ static ssize_t xwrite(int fd, const void *buf, size_t count)
 }
 
 /** Catches thrown signals. Performs necessary cleanup to ensure database is
- * in a consistant state.
+ * in a consistent state.
  * @param signum the thrown signal
  */
 static void handler(int signum)
@@ -313,7 +312,7 @@ static void handler(int signum)
 			return;
 		}
 	}
-	/* SIGINT: no commiting transaction, release it now and then exit pacman
+	/* SIGINT: no committing transaction, release it now and then exit pacman
 	 * SIGHUP, SIGTERM: release no matter what */
 	alpm_trans_release(config->handle);
 	/* output a newline to be sure we clear any line we may be on */

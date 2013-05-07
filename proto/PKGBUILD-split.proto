@@ -24,9 +24,15 @@ backup=()
 options=()
 install=
 changelog=
-source=($pkgbase-$pkgver.tar.gz)
+source=($pkgbase-$pkgver.tar.gz
+        $pkgname-$pkgver.patch)
 noextract=()
 md5sums=() #generate with 'makepkg -g'
+
+prepare() {
+	cd "$srcdir/$pkgname-$pkgver"
+	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
+}
 
 build() {
 	cd "$srcdir/$pkgbase-$pkgver"
