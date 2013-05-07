@@ -4,13 +4,15 @@
 #
 # Translators:
 # swilkens <stefanwilkens@gmail.com>, 2011
+# swilkens <stefanwilkens@gmail.com>, 2011
+# zenlord <zenlord@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-04-30 21:18+1000\n"
-"PO-Revision-Date: 2013-03-10 03:10+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2013-05-05 20:42+0000\n"
+"Last-Translator: zenlord <zenlord@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/nl/)\n"
 "Language: nl\n"
@@ -29,7 +31,7 @@ msgstr "%s-%s is up to date -- opnieuw installeren\n"
 
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "pakket neerwaarderen %s (%s => %s)\n"
+msgstr "pakket %s wordt gedowngradet (%s => %s)\n"
 
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
@@ -37,21 +39,23 @@ msgstr "waarschuwing tijdens uitpakken van %s (%s)\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "kon %s (%s) niet uitpakken\n"
+msgstr "kan %s (%s) niet uitpakken\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "kon %s niet hernoemen als %s (%s)\n"
+msgstr "kan %s niet hernoemen als %s (%s)\n"
 
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
+"rechten voor map %s verschillen\n"
+"bestandssysteem: %o pakket: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "uitpakken: overschrijf map niet met bestand %s\n"
+msgstr "uitpakken: map wordt niet overschreven met bestand %s\n"
 
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
@@ -59,131 +63,133 @@ msgstr "uitpakken: symbolische link %s verwijst niet naar een map\n"
 
 #, c-format
 msgid "%s saved as %s\n"
-msgstr "%s is opgeslagen als %s\n"
+msgstr "%s is opgeslaan als %s\n"
 
 #, c-format
 msgid "%s installed as %s\n"
-msgstr "%s is geinstalleert als %s\n"
+msgstr "%s is geïnstalleerd als %s\n"
 
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
-msgstr "%s word uitgepakt als %s.pacnew\n"
+msgstr "%s wordt uitgepakt als %s.pacnew\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "kon de huidige werkmap niet bepalen\n"
+msgstr "kan de huidige werkmap niet bepalen\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr "kon niet naar de map %s (%s) wisselen\n"
+msgstr "kan niet naar de map %s (%s) wisselen\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "kon de werkmap (%s) niet herstellen\n"
+msgstr "kan werkmap (%s) niet terugzetten\n"
 
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr "probleem deed zich voor tijdens bijwerken van %s\n"
+msgstr "probleem tijdens bijwerken van %s\n"
 
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr "probleem deed zich voor tijdens installatie van %s\n"
+msgstr "probleem tijdens installatie van %s\n"
 
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr "kon database ingang %s-%s niet bijwerken\n"
+msgstr "kan database record %s-%s niet bijwerken\n"
 
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr ""
+msgstr "kan '%s' niet toevoegen in cache\n"
 
 #, c-format
 msgid "error while reading file %s: %s\n"
-msgstr ""
+msgstr "fout tijdens lezen van bestand %s: %s\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr "verwijderen ongeldige database: %s\n"
+msgstr "ongeldige database: %s wordt verwijderd\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "ongeldige gebruikersnaam voor database ingang '%s'\n"
+msgstr "ongeldige naam voor database record '%s'\n"
 
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "database ingang gedupliceerd '%s'\n"
+msgstr "database record '%s' gedupliceerd\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "corrupte database ingang '%s'\n"
+msgstr "database record '%s' corrupt\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
-msgstr "kon het bestand %s: %s niet openen\n"
+msgstr "kan bestand %s: %s niet openen\n"
 
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "%s database is tegenstrijdig: naam onjuist voor pakket %s\n"
+msgstr "%s database is niet consistent: naam onjuist voor pakket %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "%s database is tegenstrijdig: versie onjuist voor pakket %s\n"
+msgstr ""
+"%s database is niet consistent: versie onjuist voor pakket %s\n"
+"\n"
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "onbekend type van validatie voor pakket %s: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "kon de map %s: %s niet aanmaken\n"
+msgstr "kan map %s: %s niet aanmaken\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "kon het bestand met pakket beschrijving in %s niet verwerken\n"
+msgstr "kan het bestand met pakket beschrijving in %s niet verwerken\n"
 
 #, c-format
 msgid "missing package name in %s\n"
-msgstr "ontbrekende pakket naam in %s\n"
+msgstr "ontbrekende pakketnaam in %s\n"
 
 #, c-format
 msgid "missing package version in %s\n"
-msgstr "ontbrekende pakket versie in %s\n"
+msgstr "ontbrekende pakketversie in %s\n"
 
 #, c-format
 msgid "error while reading package %s: %s\n"
-msgstr "fout tijdens het lezen van pakket %s: %s\n"
+msgstr "fout tijdens lezen van pakket %s: %s\n"
 
 #, c-format
 msgid "missing package metadata in %s\n"
-msgstr "metagegevens ontbreken in %s\n"
+msgstr "metagegevens van pakket ontbreken in %s\n"
 
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr ""
+msgstr "fout tijdens lezen van handtekeningsbestand: %s\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "vereiste sleutel ontbreekt in sleutelhanger\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr "verwijderen ongeldig bestand: %s\n"
+msgstr "ongeldig bestand: %s wordt verwijderd\n"
 
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "kon het lock bestand %s niet verwijderen\n"
+msgstr "kan het vergrendelbestand %s niet verwijderen\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr ""
+msgstr "kan bestand met pakketbeschrijving '%s' uit db '%s' niet verwerken\n"
 
 #, c-format
 msgid "database path is undefined\n"
-msgstr "database pad is niet gedefinieerd\n"
+msgstr "database-pad is niet gedefinieerd\n"
 
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "afhankelijkheidscyclus ontdekt:\n"
+msgstr "Cyclische afhankelijkheid ontdekt:\n"
 
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
@@ -195,49 +201,47 @@ msgstr "%s zal voor de afhankelijkheid %s worden geïnstalleerd\n"
 
 #, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "negeer pakket %s-%s\n"
+msgstr "pakket %s-%s wordt genegeerd\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "kon \"%s\" niet oplossen, een afhankelijkheid van \"%s\"\n"
+msgstr "kan \"%s\", een afhankelijkheid van \"%s\", niet vinden\n"
 
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr "kon geen bestandssysteem informatie verkrijgen voor %s: %s\n"
+msgstr "kan geen informatie van bestandssysteem krijgen voor %s: %s\n"
 
 #, c-format
 msgid "could not open file: %s: %s\n"
-msgstr ""
+msgstr "kan bestand niet openen: %s :%s\n"
 
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr "kon geen bestandssysteem informatie verkrijgen\n"
+msgstr "kan geen informatie van bestandssysteem verkrijgen\n"
 
 #, c-format
 msgid "could not determine mount point for file %s\n"
-msgstr "kon koppelpunt niet bepalen voor %s\n"
+msgstr "kan koppelpunt niet bepalen voor bestand %s\n"
 
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
-"Partitie %s heeft te weinig ruimte: %jd blocks nodig, %jd blocks "
-"beschikbaar\n"
+msgstr "Partitie %s te vol: %jd blocks benodigd, %jd blocks beschikbaar\n"
 
 #, c-format
 msgid "could not determine filesystem mount points\n"
-msgstr "kon bestandssysteem koppelpunten niet bepalen\n"
+msgstr "kan koppelpunten voor het bestandssysteem niet bepalen\n"
 
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr ""
+msgstr "kan koppelpunt voor cachedir %s niet bepalen\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
-msgstr "kon root koppelpunt niet bepalen %s\n"
+msgstr "kan koppelpunt voor root niet bepalen %s\n"
 
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr "Partitie %s is alleen-lezen gekoppeld\n"
+msgstr "Partitie %s is gekoppeld als alleen-lezen\n"
 
 #, c-format
 msgid "disk"
@@ -253,63 +257,63 @@ msgstr "url '%s' is niet geldig\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "kon het bestand '%s' niet ophalen van %s : %s\n"
+msgstr "kan het bestand '%s' niet ophalen van %s : %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s is niet compleet: %jd/%jd bytes\n"
+msgstr "%s werd onderbroken: %jd/%jd bytes\n"
 
 #, c-format
 msgid "failed to download %s\n"
-msgstr "dowloaden mislukt %s\n"
+msgstr "%s downloaden mislukt\n"
 
 #, c-format
 msgid "out of memory!"
-msgstr "geen vrij geheugen beschikbaar!"
+msgstr "onvoldoende geheugen beschikbaar!"
 
 #, c-format
 msgid "unexpected system error"
-msgstr "overwachte systeemfout"
+msgstr "onverwachte systeemfout"
 
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "toegang geweigerd"
 
 #, c-format
 msgid "could not find or read file"
-msgstr "kon het bestand niet vinden of lezen"
+msgstr "kan bestand niet vinden of lezen"
 
 #, c-format
 msgid "could not find or read directory"
-msgstr "kon de map niet vinden of lezen"
+msgstr "kan map niet vinden of lezen"
 
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "fout of NULL argument"
+msgstr "fout of NULL argument ingegeven"
 
 #, c-format
 msgid "not enough free disk space"
-msgstr "niet genoeg vrije schijfruimte"
+msgstr "onvoldoende vrije schijfruimte"
 
 #, c-format
 msgid "library not initialized"
-msgstr "bibliotheek niet geladen"
+msgstr "bibliotheek niet geïnitialiseerd"
 
 #, c-format
 msgid "library already initialized"
-msgstr "bibliotheek is al geladen"
+msgstr "bibliotheek werd al geïnitialiseerd"
 
 #, c-format
 msgid "unable to lock database"
-msgstr "kon de database niet afsluiten"
+msgstr "kan database niet vergrendelen"
 
 #, c-format
 msgid "could not open database"
-msgstr "kon de database niet openen"
+msgstr "kan database niet openen"
 
 #, c-format
 msgid "could not create database"
-msgstr "kon de database niet creëren"
+msgstr "kan database niet aanmaken"
 
 #, c-format
 msgid "database not initialized"
@@ -317,15 +321,15 @@ msgstr "database niet geïnitialiseerd"
 
 #, c-format
 msgid "database already registered"
-msgstr "database is al geregistreerd"
+msgstr "database werd al geregistreerd"
 
 #, c-format
 msgid "could not find database"
-msgstr "kon database niet vinden"
+msgstr "kan database niet vinden"
 
 #, c-format
 msgid "invalid or corrupted database"
-msgstr "onjuiste of beschadigde database"
+msgstr "ongeldige of corrupte database"
 
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
@@ -333,27 +337,27 @@ msgstr "ongeldige of corrupte database (PGP handtekening)"
 
 #, c-format
 msgid "database is incorrect version"
-msgstr "database versie is onjuist"
+msgstr "database-versie is onjuist"
 
 #, c-format
 msgid "could not update database"
-msgstr "kon database niet bijwerken"
+msgstr "kan database niet bijwerken"
 
 #, c-format
 msgid "could not remove database entry"
-msgstr "kon database ingang niet verwijderen"
+msgstr "kan database record niet verwijderen"
 
 #, c-format
 msgid "invalid url for server"
-msgstr "ongeldige URL voor opslagplaats"
+msgstr "ongeldige URL voor server"
 
 #, c-format
 msgid "no servers configured for repository"
-msgstr "geen server ingesteld voor opslagplaats"
+msgstr "geen server ingesteld voor repository"
 
 #, c-format
 msgid "transaction already initialized"
-msgstr "transactie is al geïnitialiseerd"
+msgstr "transactie werd al geïnitialiseerd"
 
 #, c-format
 msgid "transaction not initialized"
@@ -373,27 +377,27 @@ msgstr "transactie afgebroken"
 
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "actie niet compatibel met het transactie type"
+msgstr "actie niet compatibel met dit transactie-type"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
+msgstr "poging om transactie te voltooien terwijl database niet vergrendeld is"
 
 #, c-format
 msgid "could not find or read package"
-msgstr "kon pakket niet vinden of lezen"
+msgstr "kan pakket niet vinden of lezen"
 
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr "bewerking geannuleerd vanwege ignorepkg"
+msgstr "actie geannuleerd vanwege ignorepkg"
 
 #, c-format
 msgid "invalid or corrupted package"
-msgstr "onjuist of beschadigd pakket"
+msgstr "ongeldig of corrupt pakket"
 
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr "onjuist of beschadigd pakket (checksum)"
+msgstr "ongeldig of corrupt pakket (checksum)"
 
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
@@ -405,19 +409,19 @@ msgstr "kan pakketbestand niet openen"
 
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "kan niet alle bestanden van het pakket verwijderen"
+msgstr "kan niet alle bestanden van pakket verwijderen"
 
 #, c-format
 msgid "package filename is not valid"
-msgstr "pakket bestandsnaam is ongeldig"
+msgstr "pakket-bestandsnaam is ongeldig"
 
 #, c-format
 msgid "package architecture is not valid"
-msgstr "pakket architectuur is niet geldig"
+msgstr "pakket-architectuur is ongeldig"
 
 #, c-format
 msgid "could not find repository for target"
-msgstr "kon geen opslagplaats voor het doel vinden"
+msgstr "kan geen repository voor het doel vinden"
 
 #, c-format
 msgid "missing PGP signature"
@@ -433,23 +437,23 @@ msgstr "ongeldige of corrupte delta"
 
 #, c-format
 msgid "delta patch failed"
-msgstr "delta patch mislukt"
+msgstr "delta-patch mislukt"
 
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr "kon niet aan afhankelijkheden voldoen"
+msgstr "kan niet alle afhankelijkheden voldoen"
 
 #, c-format
 msgid "conflicting dependencies"
-msgstr "tegenstrijdige afhankelijkheden"
+msgstr "conflicterende afhankelijkheden"
 
 #, c-format
 msgid "conflicting files"
-msgstr "tegenstrijdige bestanden"
+msgstr "conflicterende bestanden"
 
 #, c-format
 msgid "failed to retrieve some files"
-msgstr "niet gelukt enkele bestanden op te halen"
+msgstr "kon niet alle bestanden ophalen"
 
 #, c-format
 msgid "invalid regular expression"
@@ -461,7 +465,7 @@ msgstr "libarchive fout"
 
 #, c-format
 msgid "download library error"
-msgstr "download bibliotheek fout"
+msgstr "download-bibliotheek fout"
 
 #, c-format
 msgid "gpgme error"
@@ -469,7 +473,7 @@ msgstr "gpgme fout"
 
 #, c-format
 msgid "error invoking external downloader"
-msgstr "fout bij het beroepen op een externe downloader"
+msgstr "fout bij oproepen van externe downloader"
 
 #, c-format
 msgid "unexpected error"
@@ -477,7 +481,7 @@ msgstr "onverwachte fout"
 
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "kon de metadata voor het pakket %s-%s niet volledig laden\n"
+msgstr "kan de metadata voor het pakket %s-%s niet volledig laden\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
@@ -485,39 +489,39 @@ msgstr "kon %s niet in de database vinden -- overslaan\n"
 
 #, c-format
 msgid "removing %s from target list\n"
-msgstr "%s verwijderen van doellijst\n"
+msgstr "%s wordt verwijderd van doellijst\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "kan bestand niet verwijderen '%s': %s\n"
+msgstr "kan bestand '%s': %s niet verwijderen\n"
 
 #, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr ""
+msgstr "kan map niet openen: %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr "kon %s (%s) niet verwijderen\n"
+msgstr "kan %s (%s) niet verwijderen\n"
 
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "kon database ingang %s-%s niet verwijderen\n"
+msgstr "kan database-record %s-%s niet verwijderen\n"
 
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "kon de ingang '%s' niet uit de cache verwijderen\n"
+msgstr "kan record '%s' niet uit de cache verwijderen\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: negeren pakket upgrade (%s => %s)\n"
+msgstr "%s: pakket-upgrade (%s => %s) wordt genegeerd\n"
 
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: negeren pakket downgrade (%s => %s)\n"
+msgstr "%s: pakket-downgrade (%s => %s) wordt genegeerd\n"
 
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr "%s: versie %s naar versie %s downgraden\n"
+msgstr "%s: versie %s naar versie %s wordt gedowngradet\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
@@ -525,89 +529,89 @@ msgstr "%s: lokaal (%s) is nieuwer dan %s (%s)\n"
 
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "pakket vervanging negeren (%s-%s => %s-%s)\n"
+msgstr "pakket-vervanging wordt genegeerd (%s-%s => %s-%s)\n"
 
 #, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "kon %s niet vervangen door %s\n"
+msgstr "kan %s niet vervangen door %s\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr "onoplosbaar pakket conflict gevonden\n"
+msgstr "onoplosbaar conflict tussen paketten gevonden\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
-"'%s' word verwijderd van de doel lijst omdat het in strijd is met '%s'\n"
+"'%s' wordt verwijderd van de doellijst omdat het conflicteert met '%s'\n"
 
 #, c-format
 msgid "failed to retrieve some files\n"
-msgstr ""
+msgstr "Niet alle bestanden konden worden opgehaald\n"
 
 #, c-format
 msgid "not enough free disk space\n"
-msgstr ""
+msgstr "Onvoldoende vrije schijfruimte\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "kon de verwijderingsactie niet plegen\n"
+msgstr "kan de verwijder-transactie niet voltooien\n"
 
 #, c-format
 msgid "could not commit transaction\n"
-msgstr "kon de actie niet plegen\n"
+msgstr "kan transactie niet voltooien\n"
 
 #, c-format
 msgid "could not create temp directory\n"
-msgstr "kon tijdelijke map niet aanmaken\n"
+msgstr "kan tijdelijke map niet aanmaken\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
-msgstr "kon het tijdelijke bestand niet naar %s (%s) kopiëren\n"
+msgstr "kan het tijdelijke bestand niet naar %s (%s) kopiëren\n"
 
 #, c-format
 msgid "could not remove %s\n"
-msgstr "kon %s niet verwijderen\n"
+msgstr "kan %s niet verwijderen\n"
 
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr "kon de tijdelijke map %s niet verwijderen\n"
+msgstr "kan de tijdelijke map %s niet verwijderen\n"
 
 #, c-format
 msgid "could not stat file %s: %s\n"
-msgstr ""
+msgstr "kan bestand niet 'stat'ten %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
-msgstr ""
+msgstr "kan geen pipe aanmaken (%s)\n"
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
-msgstr ""
+msgstr "kan geen nieuw proces (%s) afsplitsen\n"
 
 #, c-format
 msgid "could not change the root directory (%s)\n"
-msgstr "kon de root map (%s) niet veranderen\n"
+msgstr "kan de root map (%s) niet wijzigen\n"
 
 #, c-format
 msgid "call to execv failed (%s)\n"
-msgstr ""
+msgstr "execv aanroepen mislukt (%s)\n"
 
 #, c-format
 msgid "call to waitpid failed (%s)\n"
-msgstr ""
+msgstr "waitpid aanroepen mislukt (%s)\n"
 
 #, c-format
 msgid "could not open pipe (%s)\n"
-msgstr ""
+msgstr "kan geen pipe openen (%s)\n"
 
 #, c-format
 msgid "command failed to execute correctly\n"
-msgstr "fout tijdens uitvoering van het commando\n"
+msgstr "fout tijdens uitvoeren van commando\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "cache voor %s bestaat niet, aanmaken...\n"
+msgstr "%s-cache bestaat niet, wordt aangemaakt...\n"
 
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "kon pakket cache niet vinden of aanmaken, %s word gebruikt\n"
+msgstr "kan pakket-cache niet vinden of aanmaken, %s wordt gebruikt\n"

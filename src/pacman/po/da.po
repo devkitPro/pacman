@@ -3,8 +3,10 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Frederik "Freso" S. Olesen <transifex.net@freso.dk>, 2011,2013
 # jakobw <jakob.wadsager@gmail.com>, 2012
-# Joe Hansen <joedalton2@yahoo.dk>, 2011
+# jakobw <jakob.wadsager@gmail.com>, 2012
+# Joe Hansen <joedalton2@yahoo.dk>, 2011,2013
 # Frederik "Freso" S. Olesen <transifex.net@freso.dk>, 2013
 # Frederik "Freso" S. Olesen <transifex.net@freso.dk>, 2011
 msgid ""
@@ -12,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-04-30 21:18+1000\n"
-"PO-Revision-Date: 2013-03-17 03:52+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2013-05-01 14:06+0000\n"
+"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/da/)\n"
 "Language: da\n"
@@ -154,13 +156,13 @@ msgstr ""
 "Filen %s er ødelagt (%s).\n"
 "Ønsker du at slette den?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "Importer PGP-nøgle %d%c/%s, \"%s\", oprettet %s%s?"
+msgstr "Importer PGP-nøgle %d%c/%s, »%s«, oprettet: %s (tilbagekaldt)?"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
-msgstr "Importer PGP-nøgle %d%c/%s, \"%s\", oprettet %s%s?"
+msgstr "Importer PGP-nøgle %d%c/%s, »%s«, oprettet: %s?"
 
 #, c-format
 msgid "installing"
@@ -208,35 +210,35 @@ msgstr "henter %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (forskellige filtyper)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (forskellige UID'er)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (forskellige GID'er)\n"
 
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr ""
+msgstr "%s: %s (forskellige rettigheder)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (forskellige ændringstidspunkter)\n"
 
 #, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr ""
+msgstr "kan ikke læse indhold for symbolske henvisninger: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (forskellige stier for symbolske henvisninger)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (forskellige størrelser)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -256,17 +258,17 @@ msgstr[1] "%jd manglende filer\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: ingen mtree-fil\n"
 
 #, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr ""
+msgstr "filtypen blev ikke genkendt: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%jd ændret fil\n"
+msgstr[1] "%jd ændrede filer\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -476,7 +478,7 @@ msgstr "Krævet af      :"
 
 #, c-format
 msgid "Optional For   :"
-msgstr ""
+msgstr "Valgfri for:"
 
 #, c-format
 msgid "Conflicts With :"
@@ -540,7 +542,7 @@ msgstr "Signaturer     :"
 
 #, c-format
 msgid "Validated By   :"
-msgstr ""
+msgstr "Valideret af:"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -652,11 +654,11 @@ msgid ""
 msgstr ""
 "  -i, --info           vis pakkeinformation (-ii for sikkerhedskopier)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
-msgstr "  -k, --check          tjek at filerne ejet af pakkerne er til stede\n"
+msgstr "-k, --check kontroller at pakkefiler findes (-kk for filegenskaber)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -675,6 +677,8 @@ msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
+"-n, --native vis installerede pakker som kun er fundet i sync db(s) "
+"[filter]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -886,7 +890,7 @@ msgstr ""
 
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr ""
+msgstr "Ugyldigt argument »%s« for %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -1111,7 +1115,7 @@ msgstr "Fortsæt med installation?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "kan ikke %s mappe-fil konflikter\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"

@@ -3,7 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# daimonion <pejakm@teol.net>, 2013
+# daimonion <pejakm@gmail.com>, 2013
+# daimonion <pejakm@gmail.com>, 2013
+# daimonion <pejakm@gmail.com>, 2013
 # Slobodan Terzić <githzerai06@gmail.com>, 2011-2012
 # Zoran Olujić <olujicz@gmail.com>, 2011
 msgid ""
@@ -11,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-04-30 21:18+1000\n"
-"PO-Revision-Date: 2013-03-17 03:54+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2013-04-30 17:32+0000\n"
+"Last-Translator: daimonion <pejakm@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/sr/)\n"
 "Language: sr\n"
@@ -52,11 +54,11 @@ msgstr "надограђујем %s...\n"
 
 #, c-format
 msgid "downgrading %s...\n"
-msgstr ""
+msgstr "разграђујем %s...\n"
 
 #, c-format
 msgid "reinstalling %s...\n"
-msgstr ""
+msgstr "поново инсталирам %s...\n"
 
 #, c-format
 msgid "checking package integrity...\n"
@@ -64,11 +66,13 @@ msgstr "проверавам интегритет пакета...\n"
 
 #, c-format
 msgid "checking keyring...\n"
-msgstr ""
+msgstr "проверавам привесак...\n"
 
 #, c-format
 msgid "downloading required keys...\n"
 msgstr ""
+"преузимам захтеване кључеве...\n"
+"\n"
 
 #, c-format
 msgid "loading package files...\n"
@@ -96,7 +100,7 @@ msgstr "неуспех.\n"
 
 #, c-format
 msgid "Retrieving packages ...\n"
-msgstr ""
+msgstr "Добављам пакете...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
@@ -104,7 +108,7 @@ msgstr "проверавам доступан простор на диску...\
 
 #, c-format
 msgid "%s optionally requires %s\n"
-msgstr ""
+msgstr "%s опционо захтева %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
@@ -147,21 +151,23 @@ msgstr "Доступно је %zd достављача за %s:\n"
 
 #, c-format
 msgid "%s-%s: local version is newer. Upgrade anyway?"
-msgstr "%s-%s: локална верзија је новија. Свеједно надоградити?  "
+msgstr "%s-%s: локална верзија је новија. Свеједно надоградити?"
 
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Фајл %s је неисправан (%s).Желуте ли да га обришете?"
+msgstr ""
+"Фајл %s је неисправан (%s).\n"
+"Желуте ли да га обришете?"
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
-msgstr ""
+msgstr "Увести ПГП кључ %d%c/%s, „%s“, направљен: %s (повучен)?"
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
-msgstr ""
+msgstr "Увести ПГП кључ %d%c/%s, „%s“, направљен: %s?"
 
 #, c-format
 msgid "installing"
@@ -173,11 +179,11 @@ msgstr "надограђујем"
 
 #, c-format
 msgid "downgrading"
-msgstr ""
+msgstr "разграђујем"
 
 #, c-format
 msgid "reinstalling"
-msgstr ""
+msgstr "поново инсталирам"
 
 #, c-format
 msgid "removing"
@@ -197,7 +203,7 @@ msgstr "проверавам интегритет пакета"
 
 #, c-format
 msgid "checking keys in keyring"
-msgstr ""
+msgstr "проверавам кључеве у привеску"
 
 #, c-format
 msgid "loading package files"
@@ -209,35 +215,35 @@ msgstr "преузимам %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (тип фајла се не поклапа)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (УИД се не поклапа)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (ГИД се не поклапа)\n"
 
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr ""
+msgstr "%s: %s (дозволе се не поклапају)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (време измене се не поклапа)\n"
 
 #, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr ""
+msgstr "не могу да прочитам садржаје симболичке везе: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (путања симболичке везе се не поклапа)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (величина се не поклапа)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -259,18 +265,18 @@ msgstr[2] "%jd фајлова недостаје\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: нема mtree фајла\n"
 
 #, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr ""
+msgstr "тип фајла није препознат: %s%s\n"
 
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%jd измењен фајл\n"
+msgstr[1] "%jd измењена фајла\n"
+msgstr[2] "%jd измењених фајлова\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
@@ -356,6 +362,8 @@ msgstr ""
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr ""
+"не могу да прочитам фајл поставки %s: %s\n"
+"\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -397,7 +405,7 @@ msgstr "%s: разлог инсталације је постављен на „
 
 #, c-format
 msgid " [installed]"
-msgstr ""
+msgstr "[инсталиран]"
 
 #, c-format
 msgid "Optional Deps  :"
@@ -421,15 +429,15 @@ msgstr "нема"
 
 #, c-format
 msgid "MD5 Sum"
-msgstr ""
+msgstr "МД5 сума"
 
 #, c-format
 msgid "SHA256 Sum"
-msgstr ""
+msgstr "SHA256 сума"
 
 #, c-format
 msgid "Signature"
-msgstr ""
+msgstr "Потпис"
 
 #, c-format
 msgid "Repository     :"
@@ -477,7 +485,7 @@ msgstr "Захтева га       :"
 
 #, c-format
 msgid "Optional For   :"
-msgstr ""
+msgstr "Опционо за       :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -489,15 +497,15 @@ msgstr "Смењује          :"
 
 #, c-format
 msgid "Download Size  :"
-msgstr ""
+msgstr "Вел. преузимања  :"
 
 #, c-format
 msgid "Compressed Size:"
-msgstr ""
+msgstr "Величина архиве  :"
 
 #, c-format
 msgid "Installed Size :"
-msgstr ""
+msgstr "Инстал. величина :"
 
 #, c-format
 msgid "Packager       :"
@@ -541,7 +549,7 @@ msgstr "Потписи          :"
 
 #, c-format
 msgid "Validated By   :"
-msgstr ""
+msgstr "Оверен помоћу    :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
@@ -561,7 +569,7 @@ msgstr "није доступан дневник измена за „%s”.\n"
 
 #, c-format
 msgid "Changelog for %s:\n"
-msgstr ""
+msgstr "Дневник измена за %s:\n"
 
 #, c-format
 msgid "installed"
@@ -602,139 +610,143 @@ msgstr ""
 #, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr " -c, --cascade        уклања пакете и све пакете који зависе од њих\n"
+msgstr ""
+" -c, --cascade           уклони пакете и све пакете који зависе од њих\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
-msgstr "  -n, --nosave        уклања фајлове поставки\n"
+msgstr "  -n, --nosave           уклони фајлове поставки\n"
 
 #, c-format
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      уклања непотребне зависности\n"
-"                       (-ss укључује и експлицитно инсталиране зависности)\n"
+"  -s, --recursive        уклони непотребне зависности\n"
+"                         (-ss укључује и експлицитно инсталиране "
+"зависности)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr "  -u, --unneeded       уклања непотребне пакете\n"
+msgstr "  -u, --unneeded         уклони непотребне пакете\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed         ажурне пакете не инсталирај поново\n"
+msgstr "      --needed           ажурне пакете не инсталирај поново\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
-msgstr " -c, --changelog      приказује дневник измена пакета\n"
+msgstr "  -c, --changelog        прикажи дневник измена пакета\n"
 
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
-"  -d, --deps           даје списак пакета инсталираних као зависности "
-"[филтер]\n"
+"  -d, --deps             списак пакета инсталираних као зависности [филтер]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr ""
-"  -e, --explicit       даје списак експлицитно инсталираних пакета  "
-"[филтер]\n"
+"  -e, --explicit         списак експлицитно инсталираних пакета  [филтер]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr "  -g, --groups         приказује све пакете из групе\n"
+msgstr "  -g, --groups           прикажи све пакете из групе\n"
 
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
 msgstr ""
-"  -i, --info           приказује податке о пакету (--ii за резервне "
+"  -i, --info             прикажи податке о пакету (--ii за резервне "
 "фајлове)\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
-msgstr "  -k, --check          проверава присутност свих фајлова из пакета\n"
+msgstr ""
+" -k, --check             провери да ли пакет постоји (-kk за својства "
+"фајла)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
-msgstr " -l, --list           листа садржај траженог пакета\n"
+msgstr "  -l, --list             излистај садржај траженог пакета\n"
 
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        листа инсталиране пакете који нису у базама које се "
-"синхронизују [филтер]\n"
+"  -m, --foreign          излистај инсталиране пакете који нису у базама које "
+"се синхронизују [филтер]\n"
 
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
+"  -n, --native           излистај само инсталиране пакете који су у базама "
+"које се синхронизују [филтер]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "  -o, --owns <фајл>    тражи пакет који у себи садржи <фајл>\n"
+msgstr "  -o, --owns <фајл>      тражи пакет који у себи садржи <фајл>\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
-msgstr "  -p, --file <пакет>   тражи фајл пакета уместо уноса у бази\n"
+msgstr "  -p, --file <пакет>     тражи фајл пакета уместо уноса у бази\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr ""
-"  -q, --quiet          приказује мање информација за упите и претрагу\n"
+"  -q, --quiet            прикажи мање информација за упите и претрагу\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search <региз> тражи локално инсталиране пакете према задатим "
+"  -s, --search <региз>   тражи локално инсталиране пакете према задатим "
 "нискама\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
 msgstr ""
-"  -t, --unrequired     листа пакете које не захтева ниједан други пакет "
+"  -t, --unrequired       излистај пакете које не захтева ниједан други пакет "
 "[филтер]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
-msgstr "  -u, --upgrades       листа застареле пакете [филтер]\n"
+msgstr "  -u, --upgrades         излистај застареле пакете [филтер]\n"
 
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr ""
-"  -c, --clean          уклања старе пакете из фасцикле кеша (-cc за све)\n"
+"  -c, --clean            уклони старе пакете из фасцикле кеша (-cc за све)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
-msgstr "  -i, --info           приказује податке о пакету\n"
+msgstr "  -i, --info             прикажи податке о пакету\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <ризница> приказује списак свих пакета из ризнице\n"
+msgstr "  -l, --list <ризница>   прикажи списак свих пакета из ризнице\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search <региз> тражи пакете у удаљеним ризницама на основу задатих "
+"  -s, --search <региз>   тражи пакете у удаљеним ризницама на основу задатих "
 "ниски\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
 msgstr ""
-"  -u, --sysupgrade     надограђује инсталиране пакете (-uu дозвољава "
+"  -u, --sysupgrade       надогради инсталиране пакете (-uu дозвољава "
 "разградњу)\n"
 
 #, c-format
@@ -742,41 +754,44 @@ msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
 msgstr ""
-"  -w, --downloadonly   преузима пакете, али их не инсталира/надограђује\n"
+"  -w, --downloadonly     преузми пакете, али их не инсталирај/надограђуј\n"
 
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 msgstr ""
-"  -y, --refresh        поново потпуно преузима базу пакета са сервера\n"
+"  -y, --refresh          поново потпуно преузми базу пакета са сервера\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         означава пакетр као неексплицитно инсталиране\n"
+msgstr "      --asdeps           означи пакете као неексплицитно инсталиране\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     означава пакете као експлицитно инсталиране\n"
+msgstr "      --asexplicit       означи пакете као експлицитно инсталиране\n"
 
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
+"      --force            присили инсталацију, преписујући фајлове у "
+"конфликту\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr ""
-"      --asdeps         инсталира пакете као неексплицитно инсталиране\n"
+"      --asdeps           инсталирај пакете као неексплицитно инсталиране\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     инсталира пакете као експлицитно инсталиране\n"
+msgstr ""
+"      --asexplicit       инсталирај пакете као експлицитно инсталиране\n"
 
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
-"       --ignore <пакет> игнорише надоградње пакета (може се употребити више "
+"      --ignore <пакет>   игнориши надоградње пакета (може се употребити више "
 "пута)\n"
 
 #, c-format
@@ -785,7 +800,7 @@ msgid ""
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
 "      --ignoregroup <група>\n"
-"                       игнорише надоградњу групе (може се употребити више "
+"                         игнориши надоградњу групе (може се употребити више "
 "пута)\n"
 
 #, c-format
@@ -793,31 +808,32 @@ msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr ""
-"  -d, --nodeps         прескаче проверу верзија зависности (-dd прескаче све "
-"провере)\n"
+"  -d, --nodeps           прескочи проверу верзија зависности (-dd прескаче "
+"све провере)\n"
 
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         измени само уносе у бази, не и фајлове пакета\n"
+msgstr ""
+"      --dbonly           измени само уносе у бази, не и фајлове пакета\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
-"      --noprogressbar  не приказује траку напретка при преузимању фајлова\n"
+"      --noprogressbar    не приказуј траку напретка при преузимању фајлова\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
-"      --noscriptlet    не извршава инсталациону скрипту уколико постоји\n"
+"      --noscriptlet      не извршавај инсталациону скрипту уколико постоји\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          штампај циљеве уместо извршавања операције\n"
+msgstr "  -p, --print            штампај циљеве уместо извршавања операције\n"
 
 #, c-format
 msgid ""
@@ -825,39 +841,39 @@ msgid ""
 "                       specify how the targets should be printed\n"
 msgstr ""
 "      --print-format <ниска>\n"
-"                       назначује како ће циљеви бити штампани\n"
+"                         назначује како ће циљеви бити штампани\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <путања> поставља алтернативну локацију базе\n"
+msgstr "  -b, --dbpath <путања>  постави алтернативну локацију базе\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "  -r, --root <роот>    поставља алтернативни корен инсталације\n"
+msgstr "  -r, --root <путања>    постави алтернативни корен инсталације\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        даје детаљнији излаз\n"
+msgstr "  -v, --verbose          детаљнији излаз\n"
 
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --arch <архит.>    поставља алтернативну архитектуру\n"
+msgstr "      --arch <архит.>    постави алтернативну архитектуру\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <fasц.>  поставља алтернативну локацију кеша пакета\n"
+msgstr "      --cachedir <фасц.> постави алтернативну локацију кеша пакета\n"
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr ""
+msgstr "      --color <када>     обоји излаз\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr "      --config <путања> поставља алтернативни фајл поставки\n"
+msgstr "      --config <путања>  постави алтернативни фајл поставки\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      --debug          приказује поруке за исправљање грешака\n"
+msgstr "      --debug            прикажи поруке за исправљање грешака\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
@@ -866,11 +882,11 @@ msgstr ""
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <путањa> поставља атернативни дневнички фајл\n"
+msgstr "      --logfile <путањa> постави атернативни дневнички фајл\n"
 
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --noconfirm      да не тражи никакве потврде\n"
+msgstr "      --noconfirm        не тражи никакве потврде\n"
 
 #, c-format
 msgid ""
@@ -878,11 +894,11 @@ msgid ""
 "                       the terms of the GNU General Public License.\n"
 msgstr ""
 "                       Овај програм се може слободно редистрибуирати\n"
-"                         под условима Гнуове Опште Јавне Лиценце.\n"
+"                          под условима Гнуове Опште Јавне Лиценце.\n"
 
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr ""
+msgstr "неисправан аргумент „%s“ за %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
@@ -906,7 +922,7 @@ msgstr "грешка при поновном отварању стандардн
 
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr ""
+msgstr "аргумент „-“ назнечен без уносу на stdin\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -1098,15 +1114,15 @@ msgstr "%s и %s су у сукобу (%s)\n"
 
 #, c-format
 msgid "Proceed with download?"
-msgstr "Наставити са преузимањем?"
+msgstr "Да наставим преузимање?"
 
 #, c-format
 msgid "Proceed with installation?"
-msgstr "Наставити са инсталацијом?"
+msgstr "Да наставим инсталацију?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "не могу да %s фасцикла-фајл конфликт\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
@@ -1145,7 +1161,7 @@ msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
 msgstr ""
-"  уколико сте сигурни да менаџер пакета није већ\n"
+"  Ако сте сигурни да менаџер пакета није већ\n"
 "  покренут, можете уклонити %s\n"
 
 #, c-format
@@ -1234,31 +1250,31 @@ msgstr "Величина преузимања"
 
 #, c-format
 msgid "removal"
-msgstr ""
+msgstr "уклањање"
 
 #, c-format
 msgid "Packages"
-msgstr ""
+msgstr "Пакети"
 
 #, c-format
 msgid "Total Download Size:"
-msgstr ""
+msgstr "Укупна величина преузимања:"
 
 #, c-format
 msgid "Total Installed Size:"
-msgstr ""
+msgstr "Укупна величина инсталације:"
 
 #, c-format
 msgid "Total Removed Size:"
-msgstr ""
+msgstr "Укупна величина уклоњеног:"
 
 #, c-format
 msgid "Net Upgrade Size:"
-msgstr ""
+msgstr "Нето величина надоградње:"
 
 #, c-format
 msgid " [pending]"
-msgstr ""
+msgstr "[на чекању]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
