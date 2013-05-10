@@ -548,12 +548,12 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				localp2 = _alpm_db_get_pkgfromcache(handle->db_local, p2->name);
 
 				/* localp2->files will be removed (target conflicts are handled by CHECK 1) */
-				if(localp2 && alpm_filelist_contains(alpm_pkg_get_files(localp2), filestr)) {
+				if(localp2 && alpm_filelist_contains(alpm_pkg_get_files(localp2), relative_path)) {
 					/* skip removal of file, but not add. this will prevent a second
 					 * package from removing the file when it was already installed
 					 * by its new owner (whether the file is in backup array or not */
 					handle->trans->skip_remove =
-						alpm_list_add(handle->trans->skip_remove, strdup(filestr));
+						alpm_list_add(handle->trans->skip_remove, strdup(relative_path));
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"file changed packages, adding to remove skiplist\n");
 					resolved_conflict = 1;
@@ -562,8 +562,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			/* check if all files of the dir belong to the installed pkg */
 			if(!resolved_conflict && S_ISDIR(lsbuf.st_mode) && dbpkg) {
-				char *dir = malloc(strlen(filestr) + 2);
-				sprintf(dir, "%s/", filestr);
+				char *dir = malloc(strlen(relative_path) + 2);
+				sprintf(dir, "%s/", relative_path);
 				if(alpm_filelist_contains(alpm_pkg_get_files(dbpkg), dir)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"checking if all files in %s belong to %s\n",
@@ -590,11 +590,11 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			}
 
 			/* is the file unowned and in the backup list of the new package? */
-			if(!resolved_conflict && _alpm_needbackup(filestr, p1)) {
+			if(!resolved_conflict && _alpm_needbackup(relative_path, p1)) {
 				alpm_list_t *local_pkgs = _alpm_db_get_pkgcache(handle->db_local);
 				int found = 0;
 				for(k = local_pkgs; k && !found; k = k->next) {
-					if(alpm_filelist_contains(alpm_pkg_get_files(k->data), filestr)) {
+					if(alpm_filelist_contains(alpm_pkg_get_files(k->data), relative_path)) {
 							found = 1;
 					}
 				}
