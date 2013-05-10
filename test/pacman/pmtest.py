@@ -241,7 +241,7 @@ class pmtest(object):
         # archives are made available more easily.
         time_start = time.time()
         self.retcode = subprocess.call(cmd, stdout=output, stderr=output,
-                cwd=os.path.join(self.root, util.TMPDIR))
+                cwd=os.path.join(self.root, util.TMPDIR), env={'LC_ALL': 'C'})
         time_end = time.time()
         vprint("\ttime elapsed: %.2fs" % (time_end - time_start))
 
