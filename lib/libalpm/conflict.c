@@ -505,6 +505,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			size_t pathlen;
 
 			pathlen = snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
+			relative_path = path + rootlen;
 
 			/* stat the file - if it exists, do some checks */
 			if(_alpm_lstat(path, &lsbuf) != 0) {
@@ -513,7 +514,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
-			if(filestr[strlen(filestr) - 1] == '/') {
+			if(path[pathlen - 1] == '/') {
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "file is a directory, not a conflict\n");
 					continue;
@@ -522,9 +523,25 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 				 * not include the trailing slash. This allows things like file ->
 				 * directory replacements. */
 				path[pathlen - 1] = '\0';
-			}
 
-			relative_path = path + rootlen;
+				/* Check if the directory was a file in dbpkg */
+				if(alpm_filelist_contains(alpm_pkg_get_files(dbpkg), relative_path)) {
+					size_t fslen = strlen(filestr);
+					_alpm_log(handle, ALPM_LOG_DEBUG,
+							"replacing package file with a directory, not a conflict\n");
+					resolved_conflict = 1;
+
+					/* go ahead and skip any files inside filestr as they will
+					 * necessarily be resolved by replacing the file with a dir
+					 * NOTE: afterward, j will point to the last file inside filestr */
+					for( ; j->next; j = j->next) {
+						const char *filestr2 = j->next->data;
+						if(strncmp(filestr, filestr2, fslen) != 0) {
+							break;
+						}
+					}
+				}
+			}
 
 			/* Check remove list (will we remove the conflicting local file?) */
 			for(k = rem; k && !resolved_conflict; k = k->next) {
@@ -571,22 +588,6 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					resolved_conflict = dir_belongsto_pkg(handle, dir, dbpkg);
 				}
 				free(dir);
-			}
-
-			/* check if a component of the filepath was a link. canonicalize the path
-			 * and look for it in the old package. note that the actual file under
-			 * consideration cannot itself be a link, as it might be unowned- path
-			 * components can be safely checked as all directories are "unowned". */
-			if(!resolved_conflict && dbpkg && !S_ISLNK(lsbuf.st_mode)) {
-				char rpath[PATH_MAX];
-				if(realpath(path, rpath)) {
-					const char *relative_rpath = rpath + rootlen;
-					if(alpm_filelist_contains(alpm_pkg_get_files(dbpkg), relative_rpath)) {
-						_alpm_log(handle, ALPM_LOG_DEBUG,
-								"package contained the resolved realpath\n");
-						resolved_conflict = 1;
-					}
-				}
 			}
 
 			/* is the file unowned and in the backup list of the new package? */
