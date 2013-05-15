@@ -448,29 +448,14 @@ download_bzr() {
 	url=${url%%#*}
 
 	local repo=$(get_filename "$netfile")
-
 	local displaylocation="$url"
-	local revision=('-r-1')
-
-	if [[ -n $fragment ]]; then
-		case ${fragment%%=*} in
-			revision)
-				revision=("-r${fragment##*=}")
-				displaylocation="$url -r ${fragment##*=}"
-				;;
-			*)
-				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
-				plain "$(gettext "Aborting...")"
-				exit 1
-		esac
-	fi
 
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
 	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
 		msg2 "$(gettext "Branching %s ...")" "${displaylocation}"
-		if ! bzr branch "$url" "$dir" ${revision[@]} --no-tree --use-existing-dir; then
+		if ! bzr branch "$url" "$dir" --no-tree --use-existing-dir; then
 			error "$(gettext "Failure while branching %s")" "${displaylocation}"
 			plain "$(gettext "Aborting...")"
 			exit 1
@@ -495,7 +480,7 @@ download_bzr() {
 		fi
 		msg2 "$(gettext "Pulling %s ...")" "${displaylocation}"
 		cd_safe "$dir"
-		if ! bzr pull "$url" ${revision[@]} --overwrite; then
+		if ! bzr pull "$url" --overwrite; then
 			# only warn on failure to allow offline builds
 			warning "$(gettext "Failure while pulling %s")" "${displaylocation}"
 		fi
@@ -505,9 +490,23 @@ download_bzr() {
 extract_bzr() {
 	local netfile=$1
 
+	local repo=$(get_filename "$netfile")
 	local fragment=${netfile#*#}
 	if [[ $fragment = "$netfile" ]]; then
 		unset fragment
+	fi
+
+	if [[ -n $fragment ]]; then
+		case ${fragment%%=*} in
+			revision)
+				revision=("-r" "${fragment#*=}")
+				displaylocation="$url -r ${fragment#*=}"
+				;;
+			*)
+				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
+				plain "$(gettext "Aborting...")"
+				exit 1
+		esac
 	fi
 
 	local dir=$(get_filepath "$netfile")
@@ -517,7 +516,8 @@ extract_bzr() {
 	pushd "$srcdir" &>/dev/null
 	rm -rf "${dir##*/}"
 
-	if ! bzr checkout "$dir" --lightweight; then
+	if ! { bzr checkout "$dir" "${revision[@]}" --lightweight &&
+		( cd "$repo" && bzr pull "$dir" -q --overwrite "${revision[@]}" ); }; then
 		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "bzr"
 		plain "$(gettext "Aborting...")"
 		exit 1
