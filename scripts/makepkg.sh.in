@@ -2760,14 +2760,8 @@ unset makedepends optdepends options noextract
 
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
 if [[ ! -f $BUILDFILE ]]; then
-	if [[ -t 0 ]]; then
-		error "$(gettext "%s does not exist.")" "$BUILDFILE"
-		exit 1
-	else
-		# PKGBUILD passed through a pipe
-		BUILDFILE=/dev/stdin
-		source_safe "$BUILDFILE"
-	fi
+	error "$(gettext "%s does not exist.")" "$BUILDFILE"
+	exit 1
 else
 	if [[ $(<"$BUILDFILE") = *$'\r'* ]]; then
 		error "$(gettext "%s contains %s characters and cannot be sourced.")" "$BUILDFILE" "CRLF"
