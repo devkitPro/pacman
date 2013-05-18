@@ -445,6 +445,11 @@ original=X, current=Y, new=Z::
 	extension and warn the user. The user must then manually merge any
 	necessary changes into the original file.
 
+original=NULL, current=Y, new=Z::
+	Package was not previously installed and the file already exists on the
+	filesystem.  Save the current file with a '.pacorig' extension, install the
+	new file, and warn the user.
+
 
 Examples
 --------
