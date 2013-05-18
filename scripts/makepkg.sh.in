@@ -2095,6 +2095,10 @@ install_package() {
 	fi
 }
 
+have_function() {
+	declare -f "$1" >/dev/null
+}
+
 check_sanity() {
 	# check for no-no's in the build script
 	local i
@@ -2238,7 +2242,7 @@ check_sanity() {
 
 	if (( ${#pkgname[@]} > 1 )); then
 		for i in ${pkgname[@]}; do
-			if ! declare -f package_${i} >/dev/null; then
+			if ! have_function package_${i}; then
 				error "$(gettext "Missing %s function for split package '%s'")" "package_$i()" "$i"
 				ret=1
 			fi
@@ -2799,7 +2803,7 @@ if (( GENINTEG )); then
 	exit 0 # $E_OK
 fi
 
-if declare -f pkgver >/dev/null; then
+if have_function pkgver; then
 	PKGVERFUNC=1
 fi
 
@@ -2814,24 +2818,24 @@ if (( ${#pkgname[@]} > 1 )); then
 fi
 
 # test for available PKGBUILD functions
-if declare -f prepare >/dev/null; then
+if have_function prepare; then
 	# "Hide" prepare() function if not going to be run
 	if [[ $RUN_PREPARE != "n" ]]; then
 		PREPAREFUNC=1
 	fi
 fi
-if declare -f build >/dev/null; then
+if have_function build; then
 	BUILDFUNC=1
 fi
-if declare -f check >/dev/null; then
+if have_function check; then
 	# "Hide" check() function if not going to be run
 	if [[ $RUN_CHECK = 'y' ]] || { ! check_buildenv "check" "n" && [[ $RUN_CHECK != "n" ]]; }; then
 		CHECKFUNC=1
 	fi
 fi
-if declare -f package >/dev/null; then
+if have_function package; then
 	PKGFUNC=1
-elif [[ $SPLITPKG -eq 0 ]] && declare -f package_${pkgname} >/dev/null; then
+elif [[ $SPLITPKG -eq 0 ]] && have_function package_${pkgname}; then
 	SPLITPKG=1
 fi
 
