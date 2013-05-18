@@ -2240,7 +2240,12 @@ check_sanity() {
 		ret=1
 	fi
 
-	if (( ${#pkgname[@]} > 1 )); then
+	if (( ${#pkgname[@]} == 1 )); then
+		if have_function build && ! ( have_function package || have_function package_${pkgname}); then
+			error "$(gettext "Missing %s function in %s")" "package()" "$BUILDFILE"
+			ret=1
+		fi
+	else
 		for i in ${pkgname[@]}; do
 			if ! have_function package_${i}; then
 				error "$(gettext "Missing %s function for split package '%s'")" "package_$i()" "$i"
@@ -2873,17 +2878,7 @@ if (( INFAKEROOT )); then
 	if (( ! SPLITPKG )); then
 		pkgdir="$pkgdirbase/$pkgname"
 		mkdir "$pkgdir"
-		if (( ! PKGFUNC )); then
-			if (( ! REPKG )); then
-				if (( BUILDFUNC )); then
-					run_build
-					(( CHECKFUNC )) && run_check
-				fi
-			else
-				warning "$(gettext "Repackaging without the use of a %s function is deprecated.")" "package()"
-				plain "$(gettext "File permissions may not be preserved.")"
-			fi
-		else
+		if (( PKGFUNC )); then
 			run_package
 		fi
 		tidy_install
@@ -2899,10 +2894,6 @@ fi
 
 fullver=$(get_full_version)
 msg "$(gettext "Making package: %s")" "$pkgbase $fullver ($(date))"
-
-if (( !PKGFUNC && !SPLITPKG )); then
-	warning "$(gettext "Using a %s without a %s function is deprecated.")" "$BUILDSCRIPT" "package()"
-fi
 
 # if we are creating a source-only package, go no further
 if (( SOURCEONLY )); then
@@ -2981,14 +2972,7 @@ cd_safe "$srcdir"
 
 if (( NOEXTRACT && ! VERIFYSOURCE )); then
 	warning "$(gettext "Using existing %s tree")" "src/"
-elif (( REPKG )); then
-	if (( ! PKGFUNC && ! SPLITPKG )) \
-	     && { [[ ! -d $pkgdirbase ]] || dir_is_empty "$pkgdirbase"; }; then
-		error "$(gettext "The package directory is empty, there is nothing to repackage!")"
-		plain "$(gettext "Aborting...")"
-		exit 1
-	fi
-else
+elif (( !REPKG )); then
 	download_sources
 	check_source_integrity
 	(( VERIFYSOURCE )) && exit 0 # $E_OK
@@ -3002,8 +2986,8 @@ if (( NOBUILD )); then
 	msg "$(gettext "Sources are ready.")"
 	exit 0 #E_OK
 else
-	# check for existing pkg directory; don't remove if we are repackaging
-	if [[ -d $pkgdirbase ]] && (( ! REPKG || PKGFUNC || SPLITPKG )); then
+	# clean existing pkg directory
+	if [[ -d $pkgdirbase ]]; then
 		msg "$(gettext "Removing existing %s directory...")" "pkg/"
 		rm -rf "$pkgdirbase"
 	fi
@@ -3027,9 +3011,6 @@ else
 			mkdir -p "$pkgdir"
 			if (( PKGFUNC )); then
 				run_package
-			elif (( REPKG )); then
-					warning "$(gettext "Repackaging without the use of a %s function is deprecated.")" "package()"
-					plain "$(gettext "File permissions may not be preserved.")"
 			fi
 			tidy_install
 			create_package
@@ -3038,7 +3019,7 @@ else
 			run_split_packaging
 		fi
 	else
-		if (( ! REPKG && ( PKGFUNC || SPLITPKG ) )); then
+		if (( ! REPKG )); then
 			(( BUILDFUNC )) && run_build
 			(( CHECKFUNC )) && run_check
 			cd_safe "$startdir"
