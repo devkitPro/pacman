@@ -1463,7 +1463,7 @@ run_function() {
 		fi
 
 		# ensure overridden package variables survive tee with split packages
-		logpipe=$(mktemp -u "$startdir/logpipe.XXXXXXXX")
+		logpipe=$(mktemp -u "$LOGDEST/logpipe.XXXXXXXX")
 		mkfifo "$logpipe"
 		tee "$BUILDLOG" < "$logpipe" &
 		local teepid=$!
