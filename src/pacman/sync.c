@@ -238,9 +238,7 @@ static int sync_cleancache(int level)
 					/* skip source packages within the cache directory */
 					"*.src.tar.*",
 					/* skip package deltas, we aren't smart enough to clean these yet */
-					"*.delta",
-					/* skip any partial downloads */
-					"*.part"
+					"*.delta"
 				};
 				size_t j;
 
