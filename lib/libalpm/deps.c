@@ -65,8 +65,8 @@ void _alpm_depmiss_free(alpm_depmissing_t *miss)
 	FREE(miss);
 }
 
-/* Does pkg1 depend on pkg2, ie. does pkg2 satisfy a dependency of pkg1? */
-static int _alpm_dep_edge(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2)
+/** Check if pkg2 satisfies a dependency of pkg1 */
+static int _alpm_pkg_depends_on(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2)
 {
 	alpm_list_t *i;
 	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
@@ -75,6 +75,84 @@ static int _alpm_dep_edge(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2)
 		}
 	}
 	return 0;
+}
+
+static alpm_pkg_t *find_dep_satisfier(alpm_list_t *pkgs, alpm_depend_t *dep)
+{
+	alpm_list_t *i;
+
+	for(i = pkgs; i; i = i->next) {
+		alpm_pkg_t *pkg = i->data;
+		if(_alpm_depcmp(pkg, dep)) {
+			return pkg;
+		}
+	}
+	return NULL;
+}
+
+/** Check if pkg2 is anywhere in pkg1's dependency tree.
+ * @param pkg1
+ * @param pkg2
+ * @param targets if a package in this list is an intermediate dependency
+ *        between pkg1 and pkg2, the pkg1 -> pkg2 dependency will not be
+ *        reported
+ * @param ignore packages which should not be recursively checked for
+ *        intermediate dependencies.  Used internally for state to avoid
+ *        getting stuck on cyclic dependencies.
+ * @return 1 if pkg2 is found in pkg1's dependency tree
+ */
+static int _alpm_pkg_in_dep_tree(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
+		alpm_list_t *targets, alpm_list_t **ignore)
+{
+	alpm_list_t *i, *pkgs = alpm_db_get_pkgcache(pkg1->handle->db_local);
+
+	if(_alpm_pkg_depends_on(pkg1, pkg2)) {
+		return 1;
+	}
+
+	*ignore = alpm_list_add(*ignore, pkg1);
+
+	 /* pkg1 does not directly depend on pkg2, but if this is an upgrade
+		* operation there may be an indirect dependency through an installed
+		* dependency not part of the current transaction */
+	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
+		alpm_depend_t *dep = i->data;
+		alpm_pkg_t *lpkg = find_dep_satisfier(pkgs, dep);
+
+		if(!lpkg) {
+			continue;
+		} else if(alpm_list_find(targets, lpkg, _alpm_pkg_cmp)) {
+			/* lpkg's upgrade is part of the transaction, any dependency will be
+			 * detected separately as pkg1 -> lpkg and lpkg -> pkg2 */
+			continue;
+		} else if(alpm_list_find(*ignore, lpkg, _alpm_pkg_cmp)) {
+			/* we've already checked lpkg, move on */
+			continue;
+		} else if(_alpm_pkg_in_dep_tree(lpkg, pkg2, targets, ignore)) {
+			/* we have an indirect dependency: pkg1 -> lpkg -> ... -> pkg2 */
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+/** Check if pkg2 is anywhere in pkg1's dependency tree.
+ * Wrapper for _alpm_pkg_in_dep_tree to handle creating and destroying state.
+ * @param pkg1
+ * @param pkg2
+ * @param targets if a package in this list is an intermediate dependency
+ *        between pkg1 and pkg2, the pkg1 -> pkg2 dependency will not be
+ *        reported
+ * @return 1 if pkg2 is found in pkg1's dependency tree
+ */
+static int _alpm_dep_edge(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
+		alpm_list_t *targets)
+{
+	alpm_list_t *ignore = NULL;
+	int ret = _alpm_pkg_in_dep_tree(pkg1, pkg2, targets, &ignore);
+	alpm_list_free(ignore);
+	return ret;
 }
 
 /* Convert a list of alpm_pkg_t * to a graph structure,
@@ -101,7 +179,7 @@ static alpm_list_t *dep_graph_init(alpm_list_t *targets)
 		for(j = vertices; j; j = j->next) {
 			alpm_graph_t *vertex_j = j->data;
 			alpm_pkg_t *p_j = vertex_j->data;
-			if(_alpm_dep_edge(p_i, p_j)) {
+			if(_alpm_dep_edge(p_i, p_j, targets)) {
 				vertex_i->children =
 					alpm_list_add(vertex_i->children, vertex_j);
 			}
@@ -227,19 +305,6 @@ static void release_filtered_depend(alpm_depend_t *dep, int nodepversion)
 	if(nodepversion) {
 		free(dep);
 	}
-}
-
-static alpm_pkg_t *find_dep_satisfier(alpm_list_t *pkgs, alpm_depend_t *dep)
-{
-	alpm_list_t *i;
-
-	for(i = pkgs; i; i = i->next) {
-		alpm_pkg_t *pkg = i->data;
-		if(_alpm_depcmp(pkg, dep)) {
-			return pkg;
-		}
-	}
-	return NULL;
 }
 
 /** Find a package satisfying a specified dependency.
@@ -517,7 +582,7 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
 	/* see if other packages need it */
 	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
 		alpm_pkg_t *lpkg = i->data;
-		if(_alpm_dep_edge(lpkg, pkg) && !alpm_pkg_find(targets, lpkg->name)) {
+		if(_alpm_pkg_depends_on(lpkg, pkg) && !alpm_pkg_find(targets, lpkg->name)) {
 			return 0;
 		}
 	}
@@ -549,7 +614,7 @@ int _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
 		alpm_pkg_t *pkg = i->data;
 		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
 			alpm_pkg_t *deppkg = j->data;
-			if(_alpm_dep_edge(pkg, deppkg)
+			if(_alpm_pkg_depends_on(pkg, deppkg)
 					&& can_remove_package(db, deppkg, targs, include_explicit)) {
 				alpm_pkg_t *copy;
 				_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding '%s' to the targets\n",

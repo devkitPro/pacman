@@ -41,5 +41,3 @@ self.addrule("PKG_VERSION=util-linux|2.19-1")
 self.addrule("PKG_VERSION=kernel26|2.6.37.1-1")
 self.addrule("FILE_EXIST=sbin/blkid")
 self.addrule("FILE_EXIST=foundit")
-
-self.expectfailure = True
