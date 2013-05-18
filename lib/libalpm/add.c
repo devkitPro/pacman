@@ -273,8 +273,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				/* check newpkg first, so that adding backup files is retroactive */
 				backup = _alpm_needbackup(entryname, newpkg);
 				if(backup) {
-					/* if we force hash_orig to be non-NULL retroactive backup works */
-					hash_orig = "";
 					needbackup = 1;
 				}
 
@@ -332,73 +330,42 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "new:      %s\n", hash_pkg);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "original: %s\n", hash_orig);
 
-		if(!oldpkg) {
-			if(hash_local && hash_pkg && strcmp(hash_local, hash_pkg) != 0) {
-				/* looks like we have a local file that has a different hash as the
-				 * file in the package, move it to a .pacorig */
-				char *newpath;
-				size_t newlen = strlen(filename) + 9;
-				MALLOC(newpath, newlen,
-						errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
-				snprintf(newpath, newlen, "%s.pacorig", filename);
-
-				/* move the existing file to the "pacorig" */
-				if(try_rename(handle, filename, newpath)) {
-						errors++;
-					errors++;
-				} else {
-					/* rename the file we extracted to the real name */
-					if(try_rename(handle, checkfile, filename)) {
-						errors++;
-					} else {
-						_alpm_log(handle, ALPM_LOG_WARNING, _("%s saved as %s\n"), filename, newpath);
-						alpm_logaction(handle, ALPM_CALLER_PREFIX,
-								"warning: %s saved as %s\n", filename, newpath);
-					}
-				}
-				free(newpath);
-			} else {
-				/* local file is identical to pkg one, so just remove pkg one */
-				unlink(checkfile);
+		if(hash_local && hash_pkg && strcmp(hash_local, hash_pkg) == 0) {
+			/* local and new files are the same, no sense in installing the file
+			 * over itself, regardless of what the original file was */
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"action: leaving existing file in place\n");
+			unlink(checkfile);
+		} else if(hash_orig && hash_pkg && strcmp(hash_orig, hash_pkg) == 0) {
+			/* original and new files are the same, leave the local version alone,
+			 * including any user changes */
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"action: leaving existing file in place\n");
+			unlink(checkfile);
+		} else if(hash_orig && hash_local && strcmp(hash_orig, hash_local) == 0) {
+			/* installed file has NOT been changed by user,
+			 * update to the new version */
+			_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
+					entryname_orig);
+			if(try_rename(handle, checkfile, filename)) {
+				errors++;
 			}
-		} else if(hash_orig) {
-			/* the fun part */
+		} else {
+			/* none of the three files matched another, unpack the new file alongside
+			 * the local file */
 
-			if(hash_local && strcmp(hash_orig, hash_local) == 0) {
-				/* installed file has NOT been changed by user */
-				if(hash_pkg && strcmp(hash_orig, hash_pkg) != 0) {
-					_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
-							entryname_orig);
-
-					if(try_rename(handle, checkfile, filename)) {
-						errors++;
-					}
-				} else {
-					/* no sense in installing the same file twice, install
-					 * ONLY if the original and package hashes differ */
-					_alpm_log(handle, ALPM_LOG_DEBUG, "action: leaving existing file in place\n");
-					unlink(checkfile);
-				}
-			} else if(hash_pkg && strcmp(hash_orig, hash_pkg) == 0) {
-				/* originally installed file and new file are the same - this
-				 * implies the case above failed - i.e. the file was changed by a
-				 * user */
-				_alpm_log(handle, ALPM_LOG_DEBUG, "action: leaving existing file in place\n");
-				unlink(checkfile);
-			} else if(hash_local && hash_pkg && strcmp(hash_local, hash_pkg) == 0) {
-				/* this would be magical.  The above two cases failed, but the
-				 * user changes just so happened to make the new file exactly the
-				 * same as the one in the package... skip it */
-				_alpm_log(handle, ALPM_LOG_DEBUG, "action: leaving existing file in place\n");
-				unlink(checkfile);
-			} else {
+			if(oldpkg) {
 				char *newpath;
-				size_t newlen = strlen(filename) + 8;
-				_alpm_log(handle, ALPM_LOG_DEBUG, "action: keeping current file and installing"
+				size_t newlen = strlen(filename) + strlen(".pacnew") + 1;
+
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"action: keeping current file and installing"
 						" new one with .pacnew ending\n");
+
 				MALLOC(newpath, newlen,
 						errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
 				snprintf(newpath, newlen, "%s.pacnew", filename);
+
 				if(try_rename(handle, checkfile, newpath)) {
 					errors++;
 				} else {
@@ -407,6 +374,36 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					alpm_logaction(handle, ALPM_CALLER_PREFIX,
 							"warning: %s installed as %s\n", filename, newpath);
 				}
+
+				free(newpath);
+			} else {
+				char *newpath;
+				size_t newlen = strlen(filename) + strlen(".pacorig") + 1;
+
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"action: saving existing file with a .pacorig ending"
+						" and installing a new one\n");
+
+				MALLOC(newpath, newlen,
+						errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
+				snprintf(newpath, newlen, "%s.pacorig", filename);
+
+				/* move the existing file to the "pacorig" */
+				if(try_rename(handle, filename, newpath)) {
+					errors++;   /* failed rename filename  -> filename.pacorig */
+					errors++;   /* failed rename checkfile -> filename */
+				} else {
+					/* rename the file we extracted to the real name */
+					if(try_rename(handle, checkfile, filename)) {
+						errors++;
+					} else {
+						_alpm_log(handle, ALPM_LOG_WARNING,
+								_("%s saved as %s\n"), filename, newpath);
+						alpm_logaction(handle, ALPM_CALLER_PREFIX,
+								"warning: %s saved as %s\n", filename, newpath);
+					}
+				}
+
 				free(newpath);
 			}
 		}
