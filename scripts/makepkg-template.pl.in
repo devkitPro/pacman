@@ -3,9 +3,9 @@ use warnings;
 use strict;
 use v5.10.1;
 use Cwd qw(abs_path);
-use File::Spec;
 use Getopt::Long;
-use Pod::Usage;
+use Module::Load;
+use Module::Load::Conditional qw(can_load);
 
 my %opts = (
 	input => '@BUILDSCRIPT@',
@@ -15,9 +15,26 @@ my %opts = (
 my $template_name_charset = qr/[[:alnum:]+_.@-]/;
 my $template_marker = qr/# template/;
 
+# runtime loading to avoid dependency on cpan since this is the only non-core module
+my $loaded_gettext = can_load(modules => {'Locale::gettext' => undef});
+if ($loaded_gettext) {
+	Locale::gettext::bindtextdomain("pacman-scripts", '@localedir@');
+	Locale::gettext::textdomain("pacman-scripts");
+}
+
+sub gettext {
+	my ($string) = @_;
+
+	if ($loaded_gettext) {
+		return Locale::gettext::gettext($string);
+	} else {
+		return $string;
+	}
+}
+
 sub burp {
 	my ($file_name, @lines) = @_;
-	open (my $fh, ">", $file_name) || die "can't create $file_name $!" ;
+	open (my $fh, ">", $file_name) || die sprintf(gettext("can't create '%s': %s"), $file_name, $!);
 	print $fh @lines;
 	close $fh;
 }
@@ -34,20 +51,22 @@ sub parse_template_line {
 
 	foreach my $element (@elements) {
 		my ($key, $val) = ($element =~ /^([a-z0-9]+)=(.*)$/);
-		die "invalid key/value pair $filename:$linenumber: $line"
-		    unless $key and $val;
+		unless ($key and $val) {
+			die gettext("invalid key/value pair\n%s:%s: %s"),
+				"$filename:$linenumber: $line";
+		}
 		$values{$key} = $val;
 	}
 
 	# end doesn't take arguments
 	if ($values{command} ne "end") {
 		if (!$values{name}) {
-			die "invalid template line: can't find template name\n",
+			die gettext("invalid template line: can't find template name\n"),
 				"$filename:$linenumber: $line";
 		}
 
 		unless ($values{name} =~ /^$template_name_charset+$/) {
-			die "invalid chars used in name '$values{name}'. allowed: [:alnum:]+_.@-\n",
+			die sprintf(gettext("invalid chars used in name '%s'. allowed: [:alnum:]+_.\@-\n"), $values{name}),
 				"$filename:$linenumber: $line";
 		}
 	}
@@ -72,7 +91,7 @@ sub load_template {
 	my ($version) = (abs_path($path) =~ /-([0-9.]+)[.]template$/);
 
 	if (!$version) {
-		die "Couldn't detect version for template '$values->{name}'";
+		die sprintf(gettext("Couldn't detect version for template '%s'"), $values->{name});
 	}
 
 	my $parsed = process_file($path);
@@ -91,7 +110,7 @@ sub process_file {
 	my $nesting_level = 0;
 	my $linenumber = 0;
 
-	open (my $fh, "<", $filename) or die "failed to open '$filename': $!";
+	open (my $fh, "<", $filename) or die sprintf(gettext("failed to open '%s': %s"), $filename, $!);
 	my @lines = <$fh>;
 	close $fh;
 
@@ -113,7 +132,7 @@ sub process_file {
 				}
 
 				default {
-					die "Unknown template marker '$values->{command}'\n",
+					die sprintf(gettext("Unknown template marker '%s'\n"), $values->{command}),
 						"$filename:$linenumber: $line";
 				}
 			}
@@ -134,15 +153,30 @@ sub process_file {
 	return $ret;
 }
 
+sub usage {
+	my ($exitstatus) = @_;
+	print  gettext("makepkg-template [options]\n");
+	print "\n";
+	print  gettext("Options:\n");
+	printf(gettext("  --input, -p <file>    Build script to read (default: %s)\n"), '@BUILDSCRIPT@');
+	print  gettext("  --output, -o <file>   file to output to (default: input file)\n");
+	print  gettext("  --newest, -n          update templates to newest version\n");
+	print  gettext("                        (default: use version specified in the template markers)\n");
+	print  gettext("  --template-dir <dir>  directory to search for templates\n");
+	printf(gettext("                        (default: %s)\n"), '@TEMPLATE_DIR@');
+	print "\n";
+	exit($exitstatus);
+}
+
 Getopt::Long::Configure ("bundling");
 GetOptions(
-	"help" => sub {pod2usage(-exitval => 0, -verbose => 1); },
-	"h" => sub {pod2usage(-exitval => 0, -verbose => 0); },
+	"help" => sub {usage(0); },
+	"h" => sub {usage(0); },
 	"input|p=s" => \$opts{input},
 	"output|o=s" => \$opts{output},
 	"newest|n" => \$opts{newest},
 	"template-dir=s" => \$opts{template_dir},
-) or pod2usage(1);
+) or usage(1);
 
 $opts{output} = $opts{input} unless $opts{output};
 
@@ -151,18 +185,4 @@ $opts{output} = "/dev/stdout" if $opts{output} eq "-";
 
 burp($opts{output}, process_file($opts{input}));
 
-__END__
-=head1 SYNOPSIS
-
-makepkg-template [options]
-
- Options:
-   --input, -p <file>     Build script to read (default: @BUILDSCRIPT@)
-   --output, -o <file>    file to output to (default: input file)
-   --newest, -n           update templates to newest version
-                          (default: use specified version in the template markers)
-   --template-dir <dir>   directory to search for templates
-                          (default: @TEMPLATE_DIR@)
-
-=cut
 # vim: set noet:
