@@ -111,6 +111,8 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 			return _("invalid or corrupted package (checksum)");
 		case ALPM_ERR_PKG_INVALID_SIG:
 			return _("invalid or corrupted package (PGP signature)");
+		case ALPM_ERR_PKG_MISSING_SIG:
+			return _("package missing required signature");
 		case ALPM_ERR_PKG_OPEN:
 			return _("cannot open package file");
 		case ALPM_ERR_PKG_CANT_REMOVE:
