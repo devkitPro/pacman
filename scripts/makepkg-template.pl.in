@@ -120,21 +120,15 @@ sub process_file {
 		if ($line =~ $template_marker) {
 			my $values = parse_template_line($line, $filename, $linenumber);
 
-			given ($values->{command}) {
-				when (['start', 'input']) {
-					if ($nesting_level == 0) {
-						$ret .= load_template($values);
-					}
+			if ($values->{command} eq "start" or $values->{command} eq "input") {
+				if ($nesting_level == 0) {
+					$ret .= load_template($values);
 				}
-
-				when ('end') {
-					# nothing to do here, just for completeness
-				}
-
-				default {
-					die sprintf(gettext("Unknown template marker '%s'\n"), $values->{command}),
-						"$filename:$linenumber: $line";
-				}
+			} elsif ($values->{command} eq "end") {
+				# nothing to do here, just for completeness
+			} else {
+				die sprintf(gettext("Unknown template marker '%s'\n"), $values->{command}),
+					"$filename:$linenumber: $line";
 			}
 
 			$nesting_level++ if $values->{command} eq "start";
