@@ -1,24 +1,27 @@
 # Maintainer: Joe User <joe.user@example.com>
 
 pkgname=patch
-pkgver=2.5.4
-pkgrel=3
+pkgver=2.7.1
+pkgrel=1
 pkgdesc="A utility to apply patch files to original sources"
 arch=('i686' 'x86_64')
 url="https://www.gnu.org/software/patch/patch.html"
 license=('GPL')
 groups=('base-devel')
-depends=('glibc' 'ed')
-source=("ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz")
-md5sums=('ee5ae84d115f051d87fcaaef3b4ae782')
+depends=('glibc')
+makedepends=('ed')
+optdepends=('ed: for "patch -e" functionality')
+source=("ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"{,.sig})
+md5sums=('e9ae5393426d3ad783a300a338c09b72'
+         'SKIP')
 
 build() {
-  cd "$srcdir"/$pkgname-$pkgver
-  ./configure --prefix=/usr
-  make
+	cd "$srcdir/$pkgname-$pkgver"
+	./configure --prefix=/usr
+	make
 }
 
 package() {
-  cd "$srcdir"/$pkgname-$pkgver
-  make prefix="$pkgdir"/usr install
+	cd "$srcdir/$pkgname-$pkgver"
+	make DESTDIR="$pkgdir/" install
 }
