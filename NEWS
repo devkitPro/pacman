@@ -5,7 +5,7 @@ VERSION         DESCRIPTION
               - various translation fixes and updates (FS#34395, FS#34704,
                 FS#34716, FS#35097)
               - makepkg:
-                - imporve SVN VCS PKGBUILD handling (FS#34675, FS#34636)
+                - improve SVN VCS PKGBUILD handling (FS#34675, FS#34636)
                 - allow "lp:" URLs for BZR sources (FS#34650)
                 - prevent pkgver() capturing stderr (FS#34974)
                 - fix attempt to remove package twice on failure (FS#34672)
@@ -29,8 +29,8 @@ VERSION         DESCRIPTION
                 (FS#28014)
               - configure shell for running install scriptlets (FS#20557)
               - make path to ldconfig configurable
-              - display repo in VerbosePkgLists output (FS#26334)
-              - do not check file conflicts or diskspace with --dbonly
+              - display repo in VerbosePkgLists output
+              - do not check file conflicts or disk space with --dbonly
                 (FS#25667)
               - UseDelta takes a ratio for the largest delta to use
               - track how installed packages were validated (FS#28040)
@@ -94,14 +94,14 @@ VERSION         DESCRIPTION
               - use full delta size as max download size (FS#28345)
               - improved handling and fix crash after failed downloads
               - fix key lookup when using gpg 2.X as GPG program
-              - match only full path components in diskspace checking
-              - skip diskspace checks when using --dbonly
+              - match only full path components in disk space checking
+              - skip disk space checks when using --dbonly
               - scripts: unset CDPATH bash variable in all scripts
               - makepkg:
                 - fix syntax error in remove_deps (FS#28448)
                 - small fixes related to multiple libdeps, parsing issues
                 - exit via default handler in trap_exit (FS#28491)
-                - attempt to work around BTRFS file/block size reporting issues
+                - attempt to work around Btrfs file/block size reporting issues
               - pacman-key:
                 - remove signature verification in --populate
                 - make -e option work as advertised without arguments
@@ -177,8 +177,8 @@ VERSION         DESCRIPTION
               - split package verification and load stages
               - sync database reading refactor for performance
               - use a larger buffer for package checksum validation
-              - filelists now have a dedicated type with metadata
-              - diskspace check no longer requires iterating package archives
+              - file lists now have a dedicated type with metadata
+              - disk space check no longer requires iterating package archives
               - update and add checksum routines from PolarSSL
               - validate sync database sha256sum if available
               - correctly parse sizes in database > 2GiB
@@ -240,7 +240,7 @@ VERSION         DESCRIPTION
               - fix default path substitution in documentation
               - makepkg: quote variables that may contain spaces (FS#24002)
               - makepkg: fix creation of source package with -p (FS#24567)
-              - repo-add: include dotfiles in filelists (FS#24534)
+              - repo-add: include dotfiles in file lists (FS#24534)
               - minor translation updates: de, fi, fr, sk, zh_CN
 3.5.2         - ensure we show correct missing dependency info (FS#23424)
               - pacman usage/--help updates (FS#23433, FS#23369)
@@ -387,7 +387,7 @@ VERSION         DESCRIPTION
               - translations:
                 - zh_CN: fix positional parameter usage in makepkg (FS#16983)
                 - el: fix Y/N response translation (FS#16568)
-3.3.2         - fix infinite filesize download issue (FS#16359)
+3.3.2         - fix infinite file size download issue (FS#16359)
               - fix bogus download size on TotalDownload
               - documentation updates
               - small translation updates
@@ -658,7 +658,7 @@ VERSION         DESCRIPTION
                 - conflicts checking speedups and fixes
                 - move lockfile location to inside the DB
                 - remove gettext calls from DEBUG messages
-                - remove faulty diskspace checking
+                - remove faulty disk space checking
                 - move functions out of alpm.c to where they belong
                 - rewrite of file extraction code (FS#7484)
               - makepkg-specific changes:

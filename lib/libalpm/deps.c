@@ -488,7 +488,7 @@ alpm_depend_t *_alpm_dep_dup(const alpm_depend_t *dep)
 
 /* These parameters are messy. We check if this package, given a list of
  * targets and a db is safe to remove. We do NOT remove it if it is in the
- * target list, or if if the package was explicitly installed and
+ * target list, or if the package was explicitly installed and
  * include_explicit == 0 */
 static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
 		alpm_list_t *targets, int include_explicit)

@@ -32,7 +32,7 @@ fi
 trap 'rm -f $CHECKUPDATE_DB/db.lck' INT TERM EXIT
 
 DBPath="${DBPath:-@localstatedir@/lib/pacman/}"
-eval $(awk -F' *= *' '$1 ~ /DBPath/ { print $1 "=" $2 }' /etc/pacman.conf)
+eval $(awk -F' *= *' '$1 ~ /DBPath/ { print $1 "=" $2 }' @sysconfdir@/pacman.conf)
 
 mkdir -p "$CHECKUPDATE_DB"
 ln -s "${DBPath}/local" "$CHECKUPDATE_DB" &> /dev/null
