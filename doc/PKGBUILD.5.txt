@@ -48,10 +48,12 @@ similar to `$_basekernver`.
 	The version of the software as released from the author (e.g., '2.7.1').
 	The variable is not allowed to contain colons or hyphens.
 +
-The `pkgver` variable can be automatically updated by providing a `pkgver()` function
-in the PKGBUILD that outputs the new package version.  This is run after downloading
-and extracting the sources so can use those files in determining the new `pkgver`.
-This is most useful when used with sources from version control systems (see below).
+The `pkgver` variable can be automatically updated by providing a `pkgver()`
+function in the PKGBUILD that outputs the new package version.
+This is run after downloading and extracting the sources so it can use those
+files in determining the new `pkgver`.
+This is most useful when used with sources from version control systems (see
+below).
 
 *pkgrel*::
 	This is the release number specific to the Arch Linux release. This
@@ -62,7 +64,8 @@ This is most useful when used with sources from version control systems (see bel
 
 *pkgdesc*::
 	This should be a brief description of the package and its functionality.
-	Try to keep the description to one line of text and not use the package's name.
+	Try to keep the description to one line of text and to not use the package's
+	name.
 
 *epoch*::
 	Used to force the package to be seen as newer than any previous versions
@@ -75,7 +78,7 @@ This is most useful when used with sources from version control systems (see bel
 
 *url*::
 	This field contains a URL that is associated with the software being
-	packaged. Typically the project's website.
+	packaged. This is typically the project's web site.
 
 *license (array)*::
 	This field specifies the license(s) that apply to the package.
@@ -91,13 +94,13 @@ This is most useful when used with sources from version control systems (see bel
 
 *install*::
 	Specifies a special install script that is to be included in the package.
-	This file should reside in the same directory as the PKGBUILD, and will
+	This file should reside in the same directory as the PKGBUILD and will
 	be copied into the package by makepkg. It does not need to be included
 	in the source array (e.g., `install=$pkgname.install`).
 
 *changelog*::
 	Specifies a changelog file that is to be included in the package.
-	This file should reside in the same directory as the PKGBUILD, and will
+	This file should reside in the same directory as the PKGBUILD and will
 	be copied into the package by makepkg. It does not need to be included
 	in the source array (e.g., `changelog=$pkgname.changelog`).
 
@@ -105,10 +108,10 @@ This is most useful when used with sources from version control systems (see bel
 	An array of source files required to build the package. Source files
 	must either reside in the same directory as the PKGBUILD, or be a
 	fully-qualified URL that makepkg can use to download the file.
-	To make the PKGBUILD as useful as possible, use the `$pkgname` and `$pkgver`
-	variables if possible when specifying the download location. Compressed files
-	will be extracted automatically unless found in
-	the noextract array described below.
+	To simplify the maintenance of PKGBUILDs, use the `$pkgname` and `$pkgver`
+	variables when specifying the download location, if possible.
+	Compressed files will be extracted automatically unless found in the
+	noextract array described below.
 +
 It is also possible to change the name of the downloaded file, which is helpful
 with weird URLs and for handling multiple source files with the same
@@ -118,12 +121,12 @@ makepkg also supports building developmental versions of packages using sources
 downloaded from version control systems (VCS). For more information, see
 <<VCS,Using VCS Sources>> below.
 +
-Files in the source array with extensions `.sig`, `.sign` or `.asc` are recognized by
-makepkg as PGP signatures and will be automatically used to verify the integrity
-of the corresponding source file.
+Files in the source array with extensions `.sig`, `.sign` or, `.asc` are
+recognized by makepkg as PGP signatures and will be automatically used to verify
+the integrity of the corresponding source file.
 
 *noextract (array)*::
-	An array of filenames corresponding to those from the source array. Files
+	An array of file names corresponding to those from the source array. Files
 	listed here will not be extracted with the rest of the source files. This
 	is useful for packages that use compressed data directly.
 
@@ -152,10 +155,10 @@ of the corresponding source file.
 	files should use `arch=('any')`.
 
 *backup (array)*::
-	An array of filenames, without preceding slashes, that
+	An array of file names, without preceding slashes, that
 	should be backed up if the package is removed or upgraded. This is
-	commonly used for packages placing configuration files in /etc. See
-	Handling Config Files in linkman:pacman[8] for more information.
+	commonly used for packages placing configuration files in '/etc'. See
+	`"Handling Config Files"` in linkman:pacman[8] for more information.
 
 *depends (array)*::
 	An array of packages this package depends on to run. Entries in
@@ -168,7 +171,7 @@ of the corresponding source file.
 If the dependency name appears to be a library (ends with .so), makepkg will
 try to find a binary that depends on the library in the built package and
 append the version needed by the binary. Appending the version yourself
-disables auto detection.
+disables automatic detection.
 
 *makedepends (array)*::
 	An array of packages this package depends on to build but are not
@@ -209,7 +212,7 @@ only specific versions of a package may be provided.
 +
 If the provision name appears to be a library (ends with .so), makepkg will
 try to find the library in the built package and append the correct
-version. Appending the version yourself disables auto detection.
+version. Appending the version yourself disables automatic detection.
 
 *replaces (array)*::
 	An array of packages this package should replace. This can be used
@@ -289,13 +292,13 @@ Packaging Functions
 -------------------
 
 In addition to the above directives, PKGBUILDs require a set of functions that
-provide instructions to build and install the package.  As a minimum, the PKGBUILD
-must contain a package() function which installs all the package's files into the
-packaging directory, with optional prepare(), build() and check() being used to
-create those files from source.
+provide instructions to build and install the package. As a minimum, the
+PKGBUILD must contain a `package()` function which installs all the package's
+files into the packaging directory, with optional `prepare()`, `build()`, and
+`check()` functions being used to create those files from source.
 
 *package() Function*::
-	The package() function is used to install files into the directory that
+	The `package()` function is used to install files into the directory that
 	will become the root directory of the built package and is run after all
 	the optional functions listed below. When specified in combination with
 	the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot usage
@@ -303,41 +306,41 @@ create those files from source.
 	be run as the user calling makepkg.
 
 *prepare() Function*::
-	An optional prepare() function can be specified in which operations that
-	are to be run in order to prepare the sources for building (such as
-	patching) are performed. This function is run after the source extraction
-	and before the build() function and is skipped when source extraction is
-	skipped.
+	An optional `prepare()` function can be specified in which operations to
+	prepare the sources for building, such as patching, are performed. This
+	function is run after the source extraction and before the `build()`
+	function. The `prepare()` function is skipped when source extraction
+	is skipped.
 
 *build() Function*::
-	The optional build() function is use to compile and/or adjust the source
-	files in preparation to be installed by the package() function. This is
-	directly sourced and executed by makepkg, so anything that bash or the
+	The optional `build()` function is use to compile and/or adjust the source
+	files in preparation to be installed by the `package()` function. This is
+	directly sourced and executed by makepkg, so anything that Bash or the
 	system has available is available for use here. Be sure any exotic
-	commands used are covered by `makedepends`.
+	commands used are covered by the `makedepends` array.
 +
-If you create any variables of your own in the build function, it is
-recommended to use the bash `local` keyword to scope the variable to inside
-the build function.
+If you create any variables of your own in the `build()` function, it is
+recommended to use the Bash `local` keyword to scope the variable to inside
+the `build()` function.
 
 *check() Function*::
-	An optional check() function can be specified in which a package's
-	test-suite may be run. This function is run between the build() and
-	package() functions. Be sure any exotic commands used are covered by
-	`checkdepends`.
+	An optional `check()` function can be specified in which a package's
+	test-suite may be run. This function is run between the `build()` and
+	`package()` functions. Be sure any exotic commands used are covered by the
+	`checkdepends` array.
 
-All of the above variables such as `$pkgname` and `$pkgver` are available for use
-in the build function. In addition, makepkg defines the following variables for use
-during the build and install process:
+All of the above variables such as `$pkgname` and `$pkgver` are available for
+use in the `build()` function. In addition, makepkg defines the following
+variables for use during the build and install process:
 
 *srcdir*::
-       This contains the directory where makepkg extracts, or copies, all source
-       files.
+	This contains the directory where makepkg extracts, or copies, all source
+	files.
 
 *pkgdir*::
-       This contains the directory where makepkg bundles the installed package
-       (this directory will become the root directory of your built package).
-       This variable should only be used in the package() function.
+	This contains the directory where makepkg bundles the installed package.
+	This directory will become the root directory of your built package. This
+	variable should only be used in the `package()` function.
 
 *startdir*::
 	This contains the absolute path to the directory where the PKGBUILD is
@@ -362,8 +365,8 @@ An optional global directive is available when building a split package:
 
 *pkgbase*::
 	The name used to refer to the group of packages in the output of makepkg
-	and in the naming of source-only tarballs.  If not specified, the first
-	element in the `pkgname` array is used.  The variable is not allowed to
+	and in the naming of source-only tarballs. If not specified, the first
+	element in the `pkgname` array is used. The variable is not allowed to
 	begin with a hyphen.
 
 Install/Upgrade/Remove Scripting
@@ -377,7 +380,7 @@ self-explanatory. Note that during an upgrade operation, none of the install
 or remove scripts will be called.
 
 Scripts are passed either one or two ``full version strings'', where a full
-version string is either 'pkgver-pkgrel' or 'epoch:pkgver-pkgrel' if epoch is
+version string is either 'pkgver-pkgrel' or 'epoch:pkgver-pkgrel', if epoch is
 non-zero.
 
 *pre_install*::
@@ -415,10 +418,12 @@ reference with all of the available functions defined.
 
 Using VCS Sources[[VCS]]
 ------------------------
-Building a developmental version of a package using sources from a version control
-system (VCS) is enabled by specifying the source in the form
-`source=('folder::url#fragment')`. Currently makepkg supports the `bzr`, `git`, `hg` and
-`svn` protocols.
+Building a developmental version of a package using sources from a version
+control system (VCS) is enabled by specifying the source in the form
+`source=('folder::url#fragment')`. Currently makepkg supports the Bazaar, Git,
+Subversion, and Mercurial version control systems. For other version control
+systems, manual cloning of upstream repositories must be done in the `prepare()`
+function.
 
 The source URL is divided into three components:
 
@@ -427,11 +432,12 @@ The source URL is divided into three components:
 	source into.
 
 *url*::
-	The url to the VCS repo. This must include the the vcs in the URL protocol for
-	makepkg to recognize this as a VCS source.  If the protocol does not include
-	the VCS name, it can be added by prefixing the URL with `vcs+`. For example,
-	using a git repository over `http` would have a source URL in the form
-	`git+http://...`.
+	The URL to the VCS repository. This must include the VCS in the URL protocol
+	for makepkg to recognize this as a VCS source. If the protocol does not
+	include the VCS name, it can be added by prefixing the URL with `vcs+`. For
+	example, using a Git repository over HTTPS would have a source URL in the
+	form:
+	`git+https://...`.
 
 *fragment*::
 	(optional) Allows specifying a revision number or branch for makepkg to checkout
@@ -455,7 +461,7 @@ Example
 -------
 The following is an example PKGBUILD for the 'patch' package. For more
 examples, look through the build files of your distribution's packages. For
-those using Arch Linux, consult the ABS tree.
+those using Arch Linux, consult the Arch Build System (ABS) tree.
 
 [source,sh]
 -------------------------------
