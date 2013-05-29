@@ -1,4 +1,22 @@
 #!/usr/bin/perl
+#   makepkg-template - template system for makepkg
+#   @configure_input@
+#
+#   Copyright (c) 2013 Pacman Development Team <pacman-dev@archlinux.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 use warnings;
 use strict;
 use v5.10.1;
@@ -158,14 +176,26 @@ sub usage {
 	print  gettext("                        (default: use version specified in the template markers)\n");
 	print  gettext("  --template-dir <dir>  directory to search for templates\n");
 	printf(gettext("                        (default: %s)\n"), '@TEMPLATE_DIR@');
+	print  gettext("  --help, -h            This help message\n");
+	print  gettext("  --version             Version information\n");
 	print "\n";
+	exit($exitstatus);
+}
+
+sub version {
+	my ($exitstatus) = @_;
+	printf "makepkg-template (pacman) %s\n", '@PACKAGE_VERSION@';
+	print  gettext(
+		'Copyright (c) 2013 Pacman Development Team <pacman-dev@archlinux.org>.'."\n".
+		'This is free software; see the source for copying conditions.'."\n".
+		'There is NO WARRANTY, to the extent permitted by law.'."\n");
 	exit($exitstatus);
 }
 
 Getopt::Long::Configure ("bundling");
 GetOptions(
-	"help" => sub {usage(0); },
-	"h" => sub {usage(0); },
+	"help|h" => sub {usage(0); },
+	"version" => sub {version(0); },
 	"input|p=s" => \$opts{input},
 	"output|o=s" => \$opts{output},
 	"newest|n" => \$opts{newest},
