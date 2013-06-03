@@ -310,19 +310,12 @@ populate_keyring() {
 		done
 	fi
 
-	# Read the revoked key IDs to an array. The conversion from whatever is
-	# inside the file to key ids is important, because key ids are the only
-	# guarantee of identification for the keys.
 	local -A revoked_ids
 	for keyring in "${KEYRINGIDS[@]}"; do
-		if [[ -s "${KEYRING_IMPORT_DIR}/${keyring}-revoked" ]]; then
-			mapfile -t keys < "${KEYRING_IMPORT_DIR}/${keyring}-revoked"
-			while IFS=: read _ _ _ _ key_id _; do
-				if [[ -n $key_id ]]; then
-					# Mark this key to be disabled
-					revoked_ids[$key_id]="${keyring}"
-				fi
-			done < <("${GPG_PACMAN[@]}" --quiet --with-colons --list-keys "${keys[@]}" 2>/dev/null)
+		if [[ -s $KEYRING_IMPORT_DIR/$keyring-revoked ]]; then
+			while read -r key_id; do
+				revoked_ids["$key_id"]=1
+			done <"$KEYRING_IMPORT_DIR/$keyring-revoked"
 		fi
 	done
 
