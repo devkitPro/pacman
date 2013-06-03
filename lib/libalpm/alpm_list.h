@@ -22,6 +22,10 @@
 
 #include <stdlib.h> /* size_t */
 
+/* Note: alpm_list.{c,h} are intended to be standalone files. Do not include
+ * any other libalpm headers.
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif

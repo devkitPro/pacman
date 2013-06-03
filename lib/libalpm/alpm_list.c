@@ -21,6 +21,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Note: alpm_list.{c,h} are intended to be standalone files. Do not include
+ * any other libalpm headers.
+ */
+
 /* libalpm */
 #include "alpm_list.h"
 
