@@ -826,6 +826,7 @@ int main(int argc, char *argv[])
 	/* we support reading targets from stdin if a cmdline parameter is '-' */
 	if(alpm_list_find_str(pm_targets, "-")) {
 		if(!isatty(fileno(stdin))) {
+			int target_found = 0;
 			size_t current_size = PATH_MAX;
 			char *vdata, *line = malloc(current_size);
 
@@ -840,6 +841,7 @@ int main(int argc, char *argv[])
 					if(i > 0) {
 						line[i] = '\0';
 						pm_targets = alpm_list_add(pm_targets, strdup(line));
+						target_found = 1;
 						i = 0;
 					}
 				} else {
@@ -869,11 +871,17 @@ int main(int argc, char *argv[])
 			if(i > 0) {
 				line[i] = '\0';
 				pm_targets = alpm_list_add(pm_targets, strdup(line));
+				target_found = 1;
 			}
 			free(line);
 			if(!freopen(ctermid(NULL), "r", stdin)) {
 				pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
 						strerror(errno));
+			}
+
+			if(!target_found) {
+				pm_printf(ALPM_LOG_ERROR, _("argument '-' specified with empty stdin\n"));
+				cleanup(1);
 			}
 		} else {
 			/* do not read stdin from terminal */
