@@ -31,6 +31,7 @@ declare -r confdir='@sysconfdir@'
 QUIET=0
 DELTA=0
 ONLYADDNEW=0
+RMEXISTING=0
 WITHFILES=0
 SIGN=0
 VERIFY=0
@@ -58,6 +59,7 @@ Multiple packages to add can be specified on the command line.\n")"
 		printf -- "$(gettext "Options:\n")"
 		printf -- "$(gettext "  -d, --delta       generate and add delta for package update\n")"
 		printf -- "$(gettext "  -n, --new         only add packages that are not already in the database\n")"
+		printf -- "$(gettext "  -R, --remove      remove package file from disk when updating database entry\n")"
 		printf -- "$(gettext "  -f, --files       update database's file list\n")"
 	elif [[ $cmd == "repo-remove" ]] ; then
 		printf -- "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\n")"
@@ -303,6 +305,15 @@ db_write_entry() {
 			if [[ -n $pkgentry ]]; then
 				local oldfilename=$(grep -A1 FILENAME "$pkgentry/desc" | tail -n1)
 				local oldfile="$(dirname "$1")/$oldfilename"
+			fi
+		elif (( RMEXISTING )); then
+			# only remove existing package if we're not doing deltas
+			pkgentry=$(find_pkgentry "$pkgname")
+			if [[ -n $pkgentry ]]; then
+				local oldfilename="$(sed -n '/^%FILENAME%$/ {n;p;q;}' "$pkgentry/desc")"
+				local oldfile="$(dirname "$1")/$oldfilename"
+				msg2 "$(gettext "Removing existing package '%s'")" "$oldfilename"
+				rm -f ${oldfile} ${oldfile}.sig
 			fi
 		fi
 	fi
@@ -611,6 +622,7 @@ while (( $# )); do
 		-q|--quiet) QUIET=1;;
 		-d|--delta) DELTA=1;;
 		-n|--new) ONLYADDNEW=1;;
+		-R|--remove) RMEXISTING=1;;
 		-f|--files) WITHFILES=1;;
 		--nocolor) USE_COLOR='n';;
 		-s|--sign)
