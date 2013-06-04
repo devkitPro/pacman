@@ -309,11 +309,13 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "original: %s\n", hash_orig);
 
 		if(hash_local && hash_pkg && strcmp(hash_local, hash_pkg) == 0) {
-			/* local and new files are the same, no sense in installing the file
-			 * over itself, regardless of what the original file was */
-			_alpm_log(handle, ALPM_LOG_DEBUG,
-					"action: leaving existing file in place\n");
-			unlink(checkfile);
+			/* local and new files are the same, updating anyway to get
+			 * correct timestamps */
+			_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
+					entryname_orig);
+			if(try_rename(handle, checkfile, filename)) {
+				errors++;
+			}
 		} else if(hash_orig && hash_pkg && strcmp(hash_orig, hash_pkg) == 0) {
 			/* original and new files are the same, leave the local version alone,
 			 * including any user changes */
