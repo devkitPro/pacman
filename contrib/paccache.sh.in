@@ -159,22 +159,25 @@ options to help control how much, and what, is deleted from any directory
 containing pacman package tarballs.
 
   Operations:
-    -d, --dryrun            perform a dry run, only finding candidate packages.
-    -m, --move <dir>        move candidate packages to 'movedir'.
-    -r, --remove            remove candidate packages.
+    -d, --dryrun          perform a dry run, only finding candidate packages.
+    -m, --move <dir>      move candidate packages to 'movedir'.
+    -r, --remove          remove candidate packages.
 
   Options:
-    -a, --arch <arch>       scan for 'arch' (default: all architectures).
-    -c, --cachedir <dir>    scan 'cachedir' for packages (default: @localstatedir@/cache/pacman/pkg).
-    -f, --force             apply force to mv(1) and rm(1) operations.
-    -h, --help              display this help message and exit.
-    -i, --ignore <pkgs>     ignore 'pkgs', comma separated. Alternatively, specify '-' to
-                              read package names from stdin, newline delimited.
-    -k, --keep <num>        keep 'num' of each package in 'cachedir' (default: 3).
-    --nocolor               remove color from output.
-    -u, --uninstalled       target uninstalled packages.
-    -v, --verbose           increase verbosity. specify up to 3 times.
-    -z, --null              use null delimiters for candidate names (only with -v and -vv)
+    -a, --arch <arch>     scan for 'arch' (default: all architectures).
+    -c, --cachedir <dir>  scan 'cachedir' for packages.
+                          (default: @localstatedir@/cache/pacman/pkg).
+    -f, --force           apply force to mv(1) and rm(1) operations.
+    -h, --help            display this help message and exit.
+    -i, --ignore <pkgs>   ignore 'pkgs', comma separated. Alternatively, specify
+                          '-' to read package names from stdin, newline
+                          delimited.
+    -k, --keep <num>      keep 'num' of each package in 'cachedir' (default: 3).
+    --nocolor             remove color from output.
+    -u, --uninstalled     target uninstalled packages.
+    -v, --verbose         increase verbosity. specify up to 3 times.
+    -z, --null            use null delimiters for candidate names (only with -v
+                          and -vv).
 
 EOF
 }
