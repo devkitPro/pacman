@@ -479,6 +479,33 @@ cleanup:
 	return count;
 }
 
+/* This function validates %FILENAME%. filename must be between 3 and
+ * PATH_MAX characters and cannot be contain a path */
+static int _alpm_validate_filename(alpm_db_t *db, const char *pkgname,
+		const char *filename)
+{
+	size_t len = strlen(filename);
+
+	if(filename[0] == '.') {
+		errno = EINVAL;
+		_alpm_log(db->handle, ALPM_LOG_ERROR, _("%s database is inconsistent: filename "
+					"of package %s is illegal\n"), db->treename, pkgname);
+		return -1;
+	} else if(memchr(filename, '/', len) != NULL) {
+		errno = EINVAL;
+		_alpm_log(db->handle, ALPM_LOG_ERROR, _("%s database is inconsistent: filename "
+					"of package %s is illegal\n"), db->treename, pkgname);
+		return -1;
+	} else if(len > PATH_MAX) {
+		errno = EINVAL;
+		_alpm_log(db->handle, ALPM_LOG_ERROR, _("%s database is inconsistent: filename "
+					"of package %s is too long\n"), db->treename, pkgname);
+		return -1;
+	}
+
+	return 0;
+}
+
 #define READ_NEXT() do { \
 	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
 	line = buf.line; \
@@ -558,6 +585,9 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				}
 			} else if(strcmp(line, "%FILENAME%") == 0) {
 				READ_AND_STORE(pkg->filename);
+				if(_alpm_validate_filename(db, pkg->name, pkg->filename) < 0) {
+					return -1;
+				}
 			} else if(strcmp(line, "%DESC%") == 0) {
 				READ_AND_STORE(pkg->desc);
 			} else if(strcmp(line, "%GROUPS%") == 0) {

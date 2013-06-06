@@ -2115,6 +2115,10 @@ check_sanity() {
 			error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
 			ret=1
 		fi
+		if [[ ${i:0:1} = "." ]]; then
+			error "$(gettext "%s is not allowed to start with a dot.")" "pkgname"
+			ret=1
+		fi
 		if [[ $i = *[^[:alnum:]+_.@-]* ]]; then
 			error "$(gettext "%s contains invalid characters: '%s'")" \
 					'pkgname' "${pkgname//[[:alnum:]+_.@-]}"

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-30 21:18+1000\n"
-"PO-Revision-Date: 2013-04-30 12:02+0000\n"
+"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"PO-Revision-Date: 2013-05-09 07:39+0000\n"
 "Last-Translator: kyak <peselnik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ru/)\n"
@@ -63,9 +63,6 @@ msgstr "Извлечение %s с помощью %s"
 msgid "Failed to extract %s"
 msgstr "Не удалось распаковать %s"
 
-msgid "Unrecognized reference: %s"
-msgstr "Ссылка не распознана: %s"
-
 msgid "Branching %s ..."
 msgstr "Создание ветки %s ..."
 
@@ -83,6 +80,9 @@ msgstr "Получаем %s ..."
 
 msgid "Failure while pulling %s"
 msgstr "Ошибка при получении %s"
+
+msgid "Unrecognized reference: %s"
+msgstr "Ссылка не распознана: %s"
 
 msgid "Creating working copy of %s %s repo..."
 msgstr "Создание рабочей копии %s %s репозитория..."
@@ -343,6 +343,10 @@ msgstr "%s не должен быть пустым."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s не должен начинаться с дефиса."
 
+#, fuzzy
+msgid "%s is not allowed to start with a dot."
+msgstr "%s не должен начинаться с дефиса."
+
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s содержит недопустимые символы '%s'"
 
@@ -518,7 +522,7 @@ msgstr ""
 "  -S, --source     Создать архив с исходным кодом, без загруженных файлов"
 
 msgid "  -V, --version    Show version information and exit"
-msgstr "-V, --version Показать информацию о версии и выйти"
+msgstr "  -V, --version Показать информацию о версии и выйти"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -530,8 +534,8 @@ msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
-"--verifysource Загрузить исходные файлы (если требуется) и провести проверки "
-"целостности"
+"  --verifysource Загрузить исходные файлы (если требуется) и провести "
+"проверки целостности"
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "  --asroot         Разрешить запуск %s пользователем root"
@@ -544,7 +548,7 @@ msgstr ""
 "  --config <файл>  Использовать альтернативный файл настроек (вместо '%s')"
 
 msgid "  --holdver        Do not update VCS sources"
-msgstr "--holdver Не обновлять исходные файл VCS"
+msgstr "  --holdver Не обновлять исходные файл VCS"
 
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
@@ -578,7 +582,7 @@ msgid "These options can be passed to %s:"
 msgstr "Эти параметры могут быть переданы %s:"
 
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr "--asdeps Установить пакеты как неявно установленные"
+msgstr "  --asdeps Установить пакеты как неявно установленные"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -587,7 +591,7 @@ msgstr ""
 
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
-msgstr "--needed Не переустанавливать пакеты, которые уже обновлены"
+msgstr "  --needed Не переустанавливать пакеты, которые уже обновлены"
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Не показывать индикатор выполнения при загрузке"

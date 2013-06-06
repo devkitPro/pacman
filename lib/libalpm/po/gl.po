@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# faidoc <alexfilgueira@cinnarch.com>, 2013
-# faidoc <alexfilgueira@cinnarch.com>, 2013
-# faidoc <alexfilgueira@cinnarch.com>, 2013
+# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013
+# faidoc <faidoc@gmail.com>, 2013
+# faidoc <faidoc@gmail.com>, 2013
+# faidoc <faidoc@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-30 21:18+1000\n"
-"PO-Revision-Date: 2013-03-10 03:10+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"PO-Revision-Date: 2013-05-30 15:13+0000\n"
+"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/gl/)\n"
 "Language: gl\n"
@@ -39,36 +40,36 @@ msgstr "alerta producida mentres se extraía %s (%s)\n"
 
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "non se puido extraer %s (%s)\n"
+msgstr "Non foi posíbel extraer «%s» (%s).\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "non se puido renombrar %s a %s (%s)\n"
+msgstr "Non foi posíbel cambiar o nome de «%s» a «%s» (%s).\n"
 
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
-"os permisos de directorio difieren en %s\n"
-"sistema de arquivos: %o paquete: %o\n"
-"\n"
+"Os permisos dun directorio son distintos en «%s».\n"
+"No sistema de ficheiros: «%o». No paquete: «%o».\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "extract: non se pode sobreescribir o directorio co arquivo %s\n"
+msgstr ""
+"[Extracción] Non é posíbel substituír un directorio polo ficheiro «%s».\n"
 
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
-msgstr "extract: o ligazón simbólico %s non apunta ao directorio\n"
+msgstr "[Extracción] A ligazón simbólica «%s» non apunta a un directorio.\n"
 
 #, c-format
 msgid "%s saved as %s\n"
-msgstr "%s gardado coma %s\n"
+msgstr "«%s» gardouse como «%s»\n"
 
 #, c-format
 msgid "%s installed as %s\n"
-msgstr "%s instalado coma %s\n"
+msgstr "«%s» instalouse como «%s»\n"
 
 #, c-format
 msgid "extracting %s as %s.pacnew\n"
@@ -104,7 +105,7 @@ msgstr "non se puido agregar a entrada '%s' á caché\n"
 
 #, c-format
 msgid "error while reading file %s: %s\n"
-msgstr ""
+msgstr "erro ao ler o ficheiro «%s»: %s\n"
 
 #, c-format
 msgid "removing invalid database: %s\n"
@@ -140,7 +141,7 @@ msgstr ""
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "o paquete «%s» ten un tipo de validación incorrecto: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -168,11 +169,11 @@ msgstr "faltan os metadatos do paquete en %s\n"
 
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr ""
+msgstr "non foi posíbel ler o ficheiro da sinatura: %s\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "a chave solicitada non está no anel\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -186,6 +187,16 @@ msgstr "non se puido eliminar o arquivo de bloqueo %s\n"
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr ""
 "error ao ler o arquivo de descripción '%s' do paquete da base de datos '%s'\n"
+
+#, fuzzy, c-format
+msgid "%s database is inconsistent: filename of package %s is illegal\n"
+msgstr ""
+"a base de datos %s é inconsistente: nome mal emparexado no paquete %s\n"
+
+#, fuzzy, c-format
+msgid "%s database is inconsistent: filename of package %s is too long\n"
+msgstr ""
+"a base de datos %s é inconsistente: nome mal emparexado no paquete %s\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -217,7 +228,7 @@ msgstr "non se puido obter información do sistema de arquivos para %s: %s\n"
 
 #, c-format
 msgid "could not open file: %s: %s\n"
-msgstr ""
+msgstr "non foi posíbel abrir o ficheiro «%s»: %s\n"
 
 #, c-format
 msgid "could not get filesystem information\n"
@@ -240,6 +251,7 @@ msgstr "non se pode determinar o punto de montaxe do sistema de arquivos\n"
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr ""
+"non foi posíbel determinar o punto de montaxe do directorio de caché «%s»\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -283,7 +295,7 @@ msgstr "error inesperado do sistema"
 
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "denegóuselle o permiso"
 
 #, c-format
 msgid "could not find or read file"
@@ -504,7 +516,7 @@ msgstr "non se puido quitar o arquivo '%s': %s\n"
 
 #, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr ""
+msgstr "non foi posíbel abrir o cartafol «%s»: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -553,11 +565,11 @@ msgstr ""
 
 #, c-format
 msgid "failed to retrieve some files\n"
-msgstr ""
+msgstr "non foi posíbel descargar algúns dos ficheiros\n"
 
 #, c-format
 msgid "not enough free disk space\n"
-msgstr ""
+msgstr "non hai espazo de almacenamento dabondo\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
@@ -585,7 +597,7 @@ msgstr "non se puido eliminar o directorio temporal %s\n"
 
 #, c-format
 msgid "could not stat file %s: %s\n"
-msgstr ""
+msgstr "non foi posíbel executar a orde «stat» co ficheiro «%s»: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
