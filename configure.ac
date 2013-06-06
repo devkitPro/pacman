@@ -313,14 +313,14 @@ STRIP_SHARED="--strip-unneeded"
 STRIP_STATIC="--strip-debug"
 case "${host_os}" in
 	*bsd*)
-		INODECMD="stat -f '%i %n'"
+		INODECMD="stat -f '%i %N'"
 		SIZECMD="stat -f %z"
 		SEDINPLACE="sed -i \"\""
 		DUFLAGS="-sk"
 		;;
 	darwin*)
 		host_os_darwin=yes
-		INODECMD="/usr/bin/stat -f '%i %n'"
+		INODECMD="/usr/bin/stat -f '%i %N'"
 		SIZECMD="/usr/bin/stat -f %z"
 		SEDINPLACE="/usr/bin/sed -i ''"
 		DUFLAGS="-sk"
