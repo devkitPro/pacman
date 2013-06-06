@@ -4,6 +4,7 @@
 #
 # Translators:
 # roentgen <arthur.titeica@gmail.com>, 2013
+# Arthur Titeica <arthur@psw.ro>, 2013
 # cantabile <cantabile.desu@gmail.com>, 2011
 # Ionut Biru <ibiru@archlinux.org>, 2011-2013
 # Mihai Coman <mihai@m1x.ro>, 2011,2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-30 21:18+1000\n"
-"PO-Revision-Date: 2013-04-30 11:22+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"PO-Revision-Date: 2013-06-01 17:50+0000\n"
+"Last-Translator: roentgen <arthur.titeica@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ro/)\n"
 "Language: ro\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "se verifică dependențele..\n"
+msgstr "se verifică dependențele...\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
@@ -144,7 +145,7 @@ msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Dorești omiterea pachetului de mai sus pentru această actualizare?"
 msgstr[1] "Dorești omiterea pachetelor de mai sus pentru această actualizare?"
-msgstr[2] "Dorești omiterea pachetului de mai sus pentru această actualizare?"
+msgstr[2] "Dorești omiterea pachetelor de mai sus pentru această actualizare?"
 
 #, c-format
 msgid "There are %zd providers available for %s:\n"
@@ -164,11 +165,11 @@ msgstr ""
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
-msgstr ""
+msgstr "Importă cheia PGP %d%c/%s, \"%s\", creată: %s (revocată)?"
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
-msgstr ""
+msgstr "Importă cheia PGP %d%c/%s, \"%s\", creată: %s?"
 
 #, c-format
 msgid "installing"
@@ -216,23 +217,23 @@ msgstr "se descarcă %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr "%s: %s (Nepotrivire la nume de fișier)\n"
+msgstr "%s: %s (Nepotrivire la nivel de tip de fișier)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr "%s: %s (Nepotrivire la UID)\n"
+msgstr "%s: %s (Nepotrivire la nivel de UID)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr "%s: %s (Nepotrivire la GID)\n"
+msgstr "%s: %s (Nepotrivire la nivel de GID)\n"
 
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s (Nepotrivire la permisiuni)\n"
+msgstr "%s: %s (Nepotrivire la nivel de permisiuni)\n"
 
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr "%s: %s (Nepotrivire la data modificării)\n"
+msgstr "%s: %s (Nepotrivire la nivel de data modificării)\n"
 
 #, c-format
 msgid "unable to read symlink contents: %s\n"
@@ -244,7 +245,7 @@ msgstr "%s: %s (Nepotrivire la calea legăturii simbolice)\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr "%s: %s (Nepotrivire la dimensiune)\n"
+msgstr "%s: %s (Nepotrivire la nivel de mărime)\n"
 
 #, c-format
 msgid "path too long: %s%s\n"
@@ -295,7 +296,7 @@ msgstr "nu se poate schimba directorul la directorul de descărcare %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr "se rulează XferCommand: fork eșuat!\n"
+msgstr "se rulează XferCommand: bifurcare eșuată!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
@@ -337,7 +338,7 @@ msgstr "eșec la inițializarea bibliotecii alpm (%s)\n"
 
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
-msgstr "  încercați să lansați pacman-db-upgrade\n"
+msgstr "  încercați să rulați pacman-db-upgrade\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
@@ -622,7 +623,6 @@ msgid ""
 msgstr ""
 "  -c, --cascade        elimină pachete precum și toate pachetele care depind "
 "de ele\n"
-"\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -646,7 +646,7 @@ msgstr "      --needed         nu reinstala pachetele deja actualizate\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
-msgstr "-c, --changelog  vezi istoricul de modificări al pachetului\n"
+msgstr "  -c, --changelog      vezi istoricul de modificări al pachetului\n"
 
 #, c-format
 msgid ""
@@ -676,6 +676,8 @@ msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
 msgstr ""
+"  -k, --check          verifică dacă fișierele pachetului există (-kk pentru "
+"proprietățile fișierului)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
@@ -694,8 +696,8 @@ msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"-n, --native listează doar pachetele instalate care se regăsesc în bazele de "
-"date ale depozitelor [filtru]\n"
+"  -n, --native listează doar pachetele instalate care se regăsesc în bazele "
+"de date ale depozitelor [filtru]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -788,16 +790,17 @@ msgstr ""
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"--force instalare forțată, suprascrie fișierele aflate în conflict\n"
-"\n"
+"     --force          instalare forțată, suprascrie fișierele aflate în "
+"conflict\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "--asdeps instalează pachete ca instalate ne-explicit\n"
+msgstr "      --asdeps instalează pachete ca instalate ne-explicit\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "--asexplicit instalează pachete ca instalate în mod explicit\n"
+msgstr ""
+"      --asexplicit     instalează pachete ca instalate în mod explicit\n"
 
 #, c-format
 msgid ""
@@ -849,15 +852,15 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"  -p, --print          afișează țintele în loc de a efectua operaținea\n"
+"  -p, --print          afișează țintele în loc de a efectua operațiunea\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
-"--print-format <șir>\n"
-"specifică cum vor fi afișate țintele\n"
+"      --print-format <șir>\n"
+"                       specifică cum vor fi afișate țintele\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -869,11 +872,11 @@ msgstr "  -r, --root <cale>    setează o cale de instalare alternativă\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        forțat să fie mai detaliat\n"
+msgstr "  -v, --verbose        mai detaliat\n"
 
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --arch <arhit>  setează o arhitectură alternativă\n"
+msgstr "      --arch <arhit>    setează o arhitectură alternativă\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
@@ -883,7 +886,7 @@ msgstr ""
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr "--color <when> colorează mesajele returnate\n"
+msgstr "      --color <when>   colorează mesajele returnate\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
@@ -891,7 +894,7 @@ msgstr "      --config <cale>  setează un fișier de configurare alternativ\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      --debug         afișează mesaje de depanare\n"
+msgstr "      --debug          afișează mesaje de depanare\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
@@ -971,9 +974,7 @@ msgstr "eșec la citirea fișierului '%s': %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
-msgstr ""
-"Niciun pachet nu deține %s\n"
-"\n"
+msgstr "Niciun pachet nu deține %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
@@ -1051,11 +1052,11 @@ msgstr "Pachete de păstrat:\n"
 
 #, c-format
 msgid "  All locally installed packages\n"
-msgstr "Toate pachetele instalate\n"
+msgstr "  Toate pachetele instalate\n"
 
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr "Toate pachetele din baza de date\n"
+msgstr "  Toate pachetele din baza de date\n"
 
 #, c-format
 msgid "Cache directory: %s\n"
@@ -1299,7 +1300,7 @@ msgstr "Mărimea netă a actualizării:"
 
 #, c-format
 msgid " [pending]"
-msgstr "[în așteptarea]"
+msgstr " [în așteptarea]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"

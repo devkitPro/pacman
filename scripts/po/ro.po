@@ -4,6 +4,7 @@
 #
 # Translators:
 # roentgen <arthur.titeica@gmail.com>, 2013
+# Arthur Titeica <arthur@psw.ro>, 2013
 # Ionut Biru <ibiru@archlinux.org>, 2011-2012
 # Mihai Coman <mihai@m1x.ro>, 2011-2013
 # roentgen <arthur.titeica@gmail.com>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-04-30 21:18+1000\n"
-"PO-Revision-Date: 2013-04-30 11:28+0000\n"
-"Last-Translator: allanmcrae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"PO-Revision-Date: 2013-06-01 17:40+0000\n"
+"Last-Translator: roentgen <arthur.titeica@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ro/)\n"
 "Language: ro\n"
@@ -62,9 +63,6 @@ msgstr "Se extrage %s cu %s..."
 msgid "Failed to extract %s"
 msgstr "Eșec la extragerea %s"
 
-msgid "Unrecognized reference: %s"
-msgstr "Referință nerecunoscută: %s"
-
 msgid "Branching %s ..."
 msgstr "Se ramifică %s ..."
 
@@ -75,13 +73,16 @@ msgid "%s is not a branch of %s"
 msgstr "%s nu este o ramificație a %s"
 
 msgid "The local URL is %s"
-msgstr ""
+msgstr "URL-ul local este %s"
 
 msgid "Pulling %s ..."
 msgstr "Se preia %s ..."
 
 msgid "Failure while pulling %s"
 msgstr "Eșec la preluarea %s"
+
+msgid "Unrecognized reference: %s"
+msgstr "Referință nerecunoscută: %s"
 
 msgid "Creating working copy of %s %s repo..."
 msgstr "Se creează o copie de lucru a depozitului %s %s ..."
@@ -342,6 +343,10 @@ msgstr "%s nu este permis să fie gol."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s nu este permis să înceapă cu cratimă."
 
+#, fuzzy
+msgid "%s is not allowed to start with a dot."
+msgstr "%s nu este permis să înceapă cu cratimă."
+
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s conține caractere nevalide: '%s'"
 
@@ -515,7 +520,7 @@ msgstr ""
 "  -S, --source     Generează o arhivă doar-sursă fără sursele descărcate"
 
 msgid "  -V, --version    Show version information and exit"
-msgstr ""
+msgstr "  -V, --version    Arată informații despre versiune și ieși"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -546,7 +551,8 @@ msgstr "  --holdver        Nu actualiza sursele VCS"
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
-"  --key <cheie>      Specifică o cheie pentru semnarea %s în loc de implicit."
+"  --key <cheie>      Specifică o cheie pentru semnarea %s în loc de cea "
+"implicită."
 
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Nu executa funcția  %s în %s"
@@ -560,7 +566,7 @@ msgstr ""
 "împărțit."
 
 msgid "  --sign           Sign the resulting package with %s"
-msgstr "  --sign           Semnează pachetul rezultat cu  %s"
+msgstr "  --sign           Semnează pachetul rezultat cu %s"
 
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  Nu verifica sumele de control ale fișierelor sursă"
@@ -573,10 +579,11 @@ msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Nu verifica fișierele sursă cu semnături PGP"
 
 msgid "These options can be passed to %s:"
-msgstr "Aceste opțiuni pot fi promovate la %s:"
+msgstr "Aceste opțiuni sunt valabile pentru %s:"
 
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr "  --asdeps         Instalează pachetul ca pachet instalat neexplicit."
+msgstr ""
+"  --asdeps         Instalează pachetele ca pachete instalate neexplicit."
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -598,16 +605,16 @@ msgid ""
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Echipa Dezvoltatorilor Pacman <pacman-dev@archlinux."
+"Copyright (c) 2006-2013 Echipa Dezvoltatorilor Pacman <pacman- dev@archlinux."
 "org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n"
 "\\nAcesta este un program liber; vezi sursa pentru condiții de copiere.\\nNu "
 "există NICIO GARANȚIE, în măsura permisă de lege.\\n"
 
 msgid "%s signal caught. Exiting..."
-msgstr "Semnalul %s  interceptat. Ieșim..."
+msgstr "Semnalul %s interceptat. Ieșim..."
 
 msgid "Aborted by user! Exiting..."
-msgstr "Anulat de către utilizator! Ieșim..."
+msgstr "întrerupt de către utilizator! Ieșim..."
 
 msgid "An unknown error has occurred. Exiting..."
 msgstr "A apărut o eroare necunoscută. Ieșim..."
@@ -636,8 +643,8 @@ msgid ""
 "option."
 msgstr ""
 "Executarea %s ca root este o idee PROASTĂ și poate cauza daune catastrofale"
-"\\npermanente. Dacă vrei să execuți ca root, te rugăm să folosești opțiunea "
-"%s."
+"\\npermanente. Dacă vrei să execuți ca root, te rugăm\\nsă folosești "
+"opțiunea %s."
 
 msgid ""
 "The %s option is meant for the root user only. Please\\nrerun %s without the "
@@ -651,8 +658,8 @@ msgid ""
 "the packaged files. Try using the %s environment by\\nplacing %s in the %s "
 "array in %s."
 msgstr ""
-"Executarea %s ca utilizator neprivilegiat va rezulta în drepturi de "
-"proprietate non-root ale fișierelor. Încercați să folosiți mediul %s\\n "
+"Executarea %s ca utilizator neprivilegiat va rezulta în drepturi de"
+"\\nproprietate non-root ale fișierelor. Încercați să folosiți mediul %s\\n "
 "plasând %s în câmpul %s din %s."
 
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -678,7 +685,7 @@ msgid "Repackaging without the use of a %s function is deprecated."
 msgstr "Reîmpachetarea fără folosirea funcției %s este învechită."
 
 msgid "File permissions may not be preserved."
-msgstr "Permisiunile fișierului e posibil să nu fie conservate."
+msgstr "Este posibil ca permisiunile fișierului să nu fie conservate."
 
 msgid "Making package: %s"
 msgstr "Se face pachetul: %s"
@@ -812,8 +819,7 @@ msgstr ""
 
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init                    Asigurare la inițializarea corectă a inelului de "
-"chei"
+"  --init                    Verifică inițializarea corectă a inelului de chei"
 
 msgid "  --list-sigs               List keys and their signatures"
 msgstr "  --list-sigs               Afișează cheile și semnăturile lor"
@@ -825,8 +831,8 @@ msgid ""
 "  --populate                Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
-"  --populate                Reîncarcă cheile implicite din fișierele de chei"
-"\\n din '%s''"
+"  --populate                Reîncarcă cheile implicite din fișierele (date) "
+"de chei\\n                            din '%s''"
 
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
@@ -1155,7 +1161,7 @@ msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Mergi mai departe, nu e nimic de văzut aici.\\n"
 
 msgid "  --nocolor         turn off color in output\\n"
-msgstr "  --nocolor nu colora mesajele de output\\n"
+msgstr "  --nocolor         nu colora mesajele de output\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign        semnează baza de date cu GnuPG după actualizare\\n"
@@ -1190,7 +1196,7 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Echipa Dezvoltatorilor Pacman <pacman-dev@archlinux."
+"Copyright (c) 2006-2013 Echipa Dezvoltatorilor Pacman <pacman- dev@archlinux."
 "org>\\n\\nAcesta este un program liber; vezi sursa pentru condiții de "
 "copiere.\\nNU EXISTĂ GARANȚIE, în măsura permisă de lege.\\n"
 
