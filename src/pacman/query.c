@@ -312,11 +312,16 @@ static unsigned short pkg_get_locality(alpm_pkg_t *pkg)
 	return PKG_LOCALITY_FOREIGN;
 }
 
-static int is_unrequired(alpm_pkg_t *pkg)
+static int is_unrequired(alpm_pkg_t *pkg, unsigned short level)
 {
 	alpm_list_t *requiredby = alpm_pkg_compute_requiredby(pkg);
 	if(requiredby == NULL) {
-		return 1;
+		if(level == 1) {
+			requiredby = alpm_pkg_compute_optionalfor(pkg);
+		}
+		if(requiredby == NULL) {
+			return 1;
+		}
 	}
 	FREELIST(requiredby);
 	return 0;
@@ -339,7 +344,7 @@ static int filter(alpm_pkg_t *pkg)
 		return 0;
 	}
 	/* check if this pkg is unrequired */
-	if(config->op_q_unrequired && !is_unrequired(pkg)) {
+	if(config->op_q_unrequired && !is_unrequired(pkg, config->op_q_unrequired)) {
 		return 0;
 	}
 	/* check if this pkg is outdated */

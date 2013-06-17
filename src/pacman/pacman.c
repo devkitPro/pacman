@@ -146,7 +146,8 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -p, --file <package> query a package file instead of the database\n"));
 			addlist(_("  -q, --quiet          show less information for query and search\n"));
 			addlist(_("  -s, --search <regex> search locally-installed packages for matching strings\n"));
-			addlist(_("  -t, --unrequired     list packages not required by any package [filter]\n"));
+			addlist(_("  -t, --unrequired     list packages not (optionally) required by any\n"
+			          "                       package (-tt to ignore optdepends) [filter]\n"));
 			addlist(_("  -u, --upgrades       list outdated packages [filter]\n"));
 		} else if(op == PM_OP_SYNC) {
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
@@ -483,7 +484,7 @@ static int parsearg_query(int opt)
 		case 'p': config->op_q_isfile = 1; break;
 		case 'q': config->quiet = 1; break;
 		case 's': config->op_q_search = 1; break;
-		case 't': config->op_q_unrequired = 1; break;
+		case 't': (config->op_q_unrequired)++; break;
 		case 'u': config->op_q_upgrade = 1; break;
 		default: return 1;
 	}
