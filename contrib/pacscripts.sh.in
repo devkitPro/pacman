@@ -114,10 +114,10 @@ print_scriptlet() {
 		error "Package $1 not found"
 		return 1
 	fi
-	url=$(spacman -Sdp $1 | tail -n1)
+	url=$(pacman -Sddp $1)
 	filename=$(basename $url)
 	if [ ! -f "$pac_cache/$filename" ]; then
-		if ! spacman -Sdw --noconfirm $1 >&2; then
+		if ! spacman -Sddw --noconfirm $1 >&2; then
 			error "Failed to download $1"
 			return 1
 		fi
