@@ -5,6 +5,7 @@
 #
 #   Copyright (c) 2009 Giulio "giulivo" Fidente <giulivo.navigante@gmail.com>
 #   Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>
+#   Copyright (c) 2009-2013 Pacman Development Team <pacman-dev@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -91,7 +92,7 @@ print_db() {
 }
 
 print_pkg() {
-	if ! bsdtar -xOf "$1" .INSTALL 2>/dev/null; then
+	if ! bsdtar -xqOf "$1" .INSTALL 2>/dev/null; then
 		error "Package $1 does not include any .INSTALL script"
 		return 1
 	fi
@@ -113,10 +114,10 @@ print_scriptlet() {
 		error "Package $1 not found"
 		return 1
 	fi
-	url=$(spacman -Sdp $1 | tail -n1)
+	url=$(pacman -Sddp $1)
 	filename=$(basename $url)
 	if [ ! -f "$pac_cache/$filename" ]; then
-		if ! spacman -Sdw --noconfirm $1 >&2; then
+		if ! spacman -Sddw --noconfirm $1 >&2; then
 			error "Failed to download $1"
 			return 1
 		fi

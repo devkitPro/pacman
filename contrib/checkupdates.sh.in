@@ -19,25 +19,25 @@
 #
 
 if (( $# > 0 )); then
-	echo "checkupdate: Safely print a list of pending updates."
+	echo "checkupdates: Safely print a list of pending updates."
 	echo "Use: checkupdates"
-	echo "Export the 'CHECKUPDATE_DB' variable to change the path of the temporary database."
+	echo "Export the 'CHECKUPDATES_DB' variable to change the path of the temporary database."
 	exit 0
 fi
 
-if [[ -z $CHECKUPDATE_DB ]]; then
-	CHECKUPDATE_DB="${TMPDIR:-/tmp}/checkup-db-${USER}/"
+if [[ -z $CHECKUPDATES_DB ]]; then
+	CHECKUPDATES_DB="${TMPDIR:-/tmp}/checkup-db-${USER}/"
 fi
 
-trap 'rm -f $CHECKUPDATE_DB/db.lck' INT TERM EXIT
+trap 'rm -f $CHECKUPDATES_DB/db.lck' INT TERM EXIT
 
 DBPath="${DBPath:-@localstatedir@/lib/pacman/}"
 eval $(awk -F' *= *' '$1 ~ /DBPath/ { print $1 "=" $2 }' @sysconfdir@/pacman.conf)
 
-mkdir -p "$CHECKUPDATE_DB"
-ln -s "${DBPath}/local" "$CHECKUPDATE_DB" &> /dev/null
-fakeroot pacman -Sy --dbpath "$CHECKUPDATE_DB" --logfile /dev/null &> /dev/null
-pacman -Qqu --dbpath "$CHECKUPDATE_DB" 2> /dev/null
+mkdir -p "$CHECKUPDATES_DB"
+ln -s "${DBPath}/local" "$CHECKUPDATES_DB" &> /dev/null
+fakeroot pacman -Sy --dbpath "$CHECKUPDATES_DB" --logfile /dev/null &> /dev/null
+pacman -Qqu --dbpath "$CHECKUPDATES_DB" 2> /dev/null
 
 exit 0
 

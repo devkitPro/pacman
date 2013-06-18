@@ -1485,7 +1485,7 @@ run_prepare() {
 
 run_build() {
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildenv "distcc" "y" && ! check_option "distc" "n"; then
+	if check_buildenv "distcc" "y" && ! check_option "distcc" "n"; then
 		[[ -d /usr/lib/distcc/bin ]] && export PATH="/usr/lib/distcc/bin:$PATH"
 		export DISTCC_HOSTS
 	fi

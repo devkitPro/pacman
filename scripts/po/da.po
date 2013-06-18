@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# cedeel <chris@cedeel.com>, 2013
 # Frederik "Freso" S. Olesen <transifex.net@freso.dk>, 2012-2013
 # jakobw <jakob.wadsager@gmail.com>, 2012
 # jakobw <jakob.wadsager@gmail.com>, 2012
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-06-06 13:07+1000\n"
-"PO-Revision-Date: 2013-05-01 14:01+0000\n"
-"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+"PO-Revision-Date: 2013-06-06 16:37+0000\n"
+"Last-Translator: cedeel <chris@cedeel.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/da/)\n"
 "Language: da\n"
@@ -73,7 +74,7 @@ msgid "%s is not a branch of %s"
 msgstr "%s er ikke en forgrening af %s"
 
 msgid "The local URL is %s"
-msgstr ""
+msgstr "Den lokale URL er %s"
 
 msgid "Pulling %s ..."
 msgstr "Henter %s ..."
@@ -216,7 +217,7 @@ msgid "Failed to change to directory %s"
 msgstr "Kunne ikke ændre til mappe %s"
 
 msgid "Failed to source %s"
-msgstr ""
+msgstr "Kunne ikke finde %s"
 
 msgid "Starting %s()..."
 msgstr "Starter %s()..."
@@ -255,13 +256,13 @@ msgid "Could not compress binary : %s"
 msgstr "Kunne ikke komprimere binær fil: %s"
 
 msgid "Library listed in %s is not required by any files: %s"
-msgstr ""
+msgstr "Bibliotek angivet i %s er ikke krævet af nogle filer: %s"
 
 msgid "Library listed in %s is not versioned: %s"
-msgstr ""
+msgstr "Bibliotek angivet i %s er uden version: %s"
 
 msgid "Library listed in %s is not a shared object: %s"
-msgstr ""
+msgstr "Bibliotek angivet i %s er ikke et delt objekt: %s"
 
 msgid "Cannot find library listed in %s: %s"
 msgstr "Kan ikke finde bibliotek opført i %s: %s"
@@ -341,9 +342,8 @@ msgstr "%s må ikke være tom."
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s må ikke starte med en bindestreg."
 
-#, fuzzy
 msgid "%s is not allowed to start with a dot."
-msgstr "%s må ikke starte med en bindestreg."
+msgstr "%s må ikke starte med et punktum."
 
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s indeholder ugyldige tegn: '%s'"
@@ -390,9 +390,12 @@ msgstr "%s må ikke indeholde koloner, bindestreger eller mellemrum."
 
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr ""
+"Kan ikke finde den binære fil %s, der er krævet for afhængige operationer."
 
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
+"Kan ikke finde den binære fil %s. Vil bruge %s til at indhente root-"
+"privilegier."
 
 msgid "Cannot find the %s binary required for building as non-root user."
 msgstr ""
@@ -510,7 +513,7 @@ msgid ""
 msgstr "Generer en tarball kun med kildefiler"
 
 msgid "  -V, --version    Show version information and exit"
-msgstr ""
+msgstr " -v, --version Vis programversion og afslut"
 
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
@@ -523,6 +526,7 @@ msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
+"--verifysource Hent kildekode (hvis nødvendig) og udfør integritetskontrol"
 
 msgid "  --asroot         Allow %s to run as root user"
 msgstr "--asroot Tillad %s at køre som root-bruger"
@@ -568,7 +572,7 @@ msgid "These options can be passed to %s:"
 msgstr "Disse indstillinger kan videresendes til %s:"
 
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr ""
+msgstr "--asdeps Installer pakker som værende ikke eksplicit installeret"
 
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
@@ -578,7 +582,7 @@ msgstr ""
 
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
-msgstr ""
+msgstr "--needed Geninstaller ikke mål som allerede er ajourførte"
 
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Vis ikke en statusbjælke, når der hentes filer"
@@ -677,7 +681,7 @@ msgid "Making package: %s"
 msgstr "Fremstiller pakke: %s"
 
 msgid "Using a %s without a %s function is deprecated."
-msgstr ""
+msgstr "Brug af %s uden en %s-funktion er frarådet"
 
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "En kildepakke er allerde blevet bygget. (brug %s for at overskrive)"
@@ -808,7 +812,7 @@ msgstr ""
 
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
-msgstr ""
+msgstr "  --refresh-keys Opdater angivne eller alle nøgler fra en nøgleserver"
 
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
@@ -825,7 +829,7 @@ msgstr ""
 "\\n                            for '%s')"
 
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
-msgstr ""
+msgstr "--keyserver <server-url> Angiv en nøgleserver til brug hvis nødvendigt"
 
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h --help                Vis denne hjælpebesked og afslut"
@@ -834,10 +838,10 @@ msgid "  -V, --version             Show program version"
 msgstr " -v, --version             Vis programversion"
 
 msgid "Failed to lookup key by name:"
-msgstr ""
+msgstr "Kunne ikke slå en nøgle op ved navn:"
 
 msgid "Key name is ambiguous:"
-msgstr ""
+msgstr "Nøglenavn er tvetydigt:"
 
 msgid "The key identified by %s could not be found locally."
 msgstr "Nøglen identificeret ved %s kunne ikke findes lokalt."
@@ -909,7 +913,7 @@ msgid "Locally signing key %s..."
 msgstr "Signerer nøglen %s lokalt..."
 
 msgid "%s could not be locally signed."
-msgstr ""
+msgstr "%s kunne ikke ikke signeres lokalt."
 
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Fjern-nøgle ikke hentet korrekt fra nøgleserver."
@@ -946,7 +950,7 @@ msgid "Please run %s with each operation separately."
 msgstr "Kør venligst %s seperat med hver operation."
 
 msgid "No targets specified"
-msgstr ""
+msgstr "Ingen mål angivet"
 
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
@@ -971,6 +975,8 @@ msgstr ""
 
 msgid "Cannot find the %s binary required for verifying integrity."
 msgstr ""
+"Kan ikke finde den binære fil %s, der er krævet for at verificere "
+"integriteten."
 
 msgid "You must have correct permissions to optimize the database."
 msgstr "Du skal have korrekte rettigheder for at optimere databasen."
@@ -1006,7 +1012,7 @@ msgid "Rotating database into place..."
 msgstr "Roterer database på plads..."
 
 msgid "New database substitution failed. Check for %s, %s, and %s directories."
-msgstr ""
+msgstr "Ny databaseerstatning mislykkedes. Kontroller stierne %s, %s og %s."
 
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Færdig. Din pacman-database er blevet optimeret."
@@ -1031,15 +1037,18 @@ msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       minimer uddata\\n"
 
 msgid "  --nocolor         remove color from output\\n"
-msgstr ""
+msgstr "--nocolor fjern farve fra udskrift\\n"
 
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr ""
+"  --min-pkg-size    minimum pakkestørrelse før deltaer bliver dannet\\n"
 
 msgid ""
 "  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
 msgstr ""
+"  --max-delta-size procent af den nye pakke over hvilken deltaet vil blive "
+"kasseret\\n"
 
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
@@ -1098,7 +1107,7 @@ msgstr "  -d, --delta       generer og tilføj delta for pakkeopdatering\\n"
 
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
-msgstr ""
+msgstr "-n, --new tilføj kun pakker som ikke allerede er i databasen\\n"
 
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       opdater databases fil-liste\\n"
@@ -1120,7 +1129,7 @@ msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Fortsæt venligst, der er ikke noget at se her.\\n"
 
 msgid "  --nocolor         turn off color in output\\n"
-msgstr ""
+msgstr "--nocolor slå farve fra i udskrift\\n"
 
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign        signer database med GnuPG efter opdatering\\n"
@@ -1151,6 +1160,9 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Copyright (c) 2006-2013 Pacman Udviklingsholdet <pacman-dev@archlinux.org>\\n"
+"\\nDette er fri software; se kildeteksten for kopieringsbetingelser \\nDer "
+"er INGEN GARANTI, i det omfang det er tilladt ved lov.\\n"
 
 msgid "No database entry for package '%s'."
 msgstr "Ingen databasepunkt for pakke '%s'."
@@ -1162,7 +1174,7 @@ msgid "Removing existing entry '%s'..."
 msgstr "Fjerner eksisterende punkt '%s'..."
 
 msgid "Removing empty deltas file ..."
-msgstr ""
+msgstr "Fjerner tom deltas-fil ..."
 
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Kan ikke finde binær fil gpg! Er GnuPG installeret?"
@@ -1171,7 +1183,7 @@ msgid "Signing database..."
 msgstr "Signerer database..."
 
 msgid "Created signature file '%s'"
-msgstr ""
+msgstr "Oprettede signaturfil '%s'"
 
 msgid "Failed to sign package database."
 msgstr "Kunne ikke signere database."
@@ -1267,16 +1279,16 @@ msgid "No packages modified, nothing to do."
 msgstr "Ingen pakker ændret, intet at udføre."
 
 msgid "option '%s' is ambiguous; possibilities:"
-msgstr ""
+msgstr "valgmuligheden '%s' er tvetydigt; muligheder\""
 
 msgid "invalid option"
-msgstr ""
+msgstr "ugyldig valgmulighed"
 
 msgid "option requires an argument"
-msgstr ""
+msgstr "valgmuligheden kræver et argument"
 
 msgid "option '%s' does not allow an argument"
-msgstr ""
+msgstr "valgmuligheden '%s' må ikke have et argument"
 
 msgid "option '%s' requires an argument"
-msgstr ""
+msgstr "valgmuligheden '%s' kræver et argument"
