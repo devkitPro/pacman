@@ -1,5 +1,19 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+4.1.2         - validate %FILEPATH% when parsing repos to prevent arbitary
+                file overwrites from malicious databases
+              - makepkg:
+                - restrict package name from starting with a dot
+                - fix BZR source revision support (FS#35281)
+                - Use LOGDEST for log pipe
+                - fix distcc disabling (FS#35741)
+                - correct stat usage on BSD/Darwin (FS#35469)
+              - pacman-key:
+                - Do not reinterpret keys from revoked keyrings
+              - contrib:
+                - paccache: remove broken su privilege escalation (FS#35173)
+                - pacscripts: update for current pacman options
+                - checkupdates: be consistent with naming (FS#35755)
 4.1.1         - fix bug causing negative "Total Installed Size" (FS#34616)
               - report libalpm version it is pkg-config file (FS#34967)
               - various translation fixes and updates (FS#34395, FS#34704,
