@@ -128,7 +128,10 @@ Options
 	'.pacnew' extension.
 	These files refer to files in the package archive, so do not include the
 	leading slash (the RootDir) when specifying them. Shell-style glob patterns
-	are allowed.
+	are allowed. It is possible to invert matches by prepending a file with
+	an exclamation mark. Inverted files will result in previously blacklisted
+	files being whitelisted again. Subsequent matches will override previous
+	ones. A leading literal exclamation mark or backslash needs to be escaped.
 
 *NoExtract =* file ...::
 	All files listed with a `NoExtract` directive will never be extracted from
@@ -138,7 +141,10 @@ Options
 	from the 'apache' package.
 	These files refer to files in the package archive, so do not include the
 	leading slash (the RootDir) when specifying them. Shell-style glob patterns
-	are allowed.
+	are allowed. It is possible to invert matches by prepending a file with
+	an exclamation mark. Inverted files will result in previously blacklisted
+	files being whitelisted again. Subsequent matches will override previous
+	ones. A leading literal exclamation mark or backslash needs to be escaped.
 
 *CleanMethod =* KeepInstalled &| KeepCurrent::
 	If set to `KeepInstalled` (the default), the '-Sc' operation will clean

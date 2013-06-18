@@ -140,6 +140,7 @@ alpm_time_t _alpm_parsedate(const char *line);
 int _alpm_raw_cmp(const char *first, const char *second);
 int _alpm_raw_ncmp(const char *first, const char *second, size_t max);
 int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int amode);
+int _alpm_fnmatch_patterns(alpm_list_t *patterns, const char *string);
 int _alpm_fnmatch(const void *pattern, const void *string);
 
 #ifndef HAVE_STRSEP

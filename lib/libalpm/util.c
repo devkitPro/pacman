@@ -1249,6 +1249,37 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 	return ret;
 }
 
+/** Checks whether a string matches at least one shell wildcard pattern.
+ * Checks for matches with fnmatch. Matches are inverted by prepending
+ * patterns with an exclamation mark. Preceding exclamation marks may be
+ * escaped. Subsequent matches override previous ones.
+ * @param patterns patterns to match against
+ * @param string string to check against pattern
+ * @return 0 if string matches pattern, negative if they don't match and
+ * positive if the last match was inverted
+ */
+int _alpm_fnmatch_patterns(alpm_list_t *patterns, const char *string)
+{
+	alpm_list_t *i;
+	char *pattern;
+	short inverted;
+
+	for(i = alpm_list_last(patterns); i; i = alpm_list_previous(i)) {
+		pattern = i->data;
+
+		inverted = pattern[0] == '!';
+		if(inverted || pattern[0] == '\\') {
+			pattern++;
+		}
+
+		if(_alpm_fnmatch(pattern, string) == 0) {
+			return inverted;
+		}
+	}
+
+	return -1;
+}
+
 /** Checks whether a string matches a shell wildcard pattern.
  * Wrapper around fnmatch.
  * @param pattern pattern to match against

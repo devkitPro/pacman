@@ -183,7 +183,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	}
 
 	/* if a file is in NoExtract then we never extract it */
-	if(alpm_list_find(handle->noextract, entryname, _alpm_fnmatch)) {
+	if(_alpm_fnmatch_patterns(handle->noextract, entryname) == 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "%s is in NoExtract,"
 				" skipping extraction of %s\n",
 				entryname, filename);
@@ -245,7 +245,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		} else {
 			/* case 3: */
 			/* if file is in NoUpgrade, don't touch it */
-			if(alpm_list_find(handle->noupgrade, entryname, _alpm_fnmatch)) {
+			if(_alpm_fnmatch_patterns(handle->noupgrade, entryname) == 0) {
 				notouch = 1;
 			} else {
 				alpm_backup_t *backup;
