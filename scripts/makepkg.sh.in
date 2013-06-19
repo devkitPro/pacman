@@ -2089,7 +2089,7 @@ install_package() {
 		fi
 	done
 
-	if ! run_pacman -U ${pkglist[@]}; then
+	if ! run_pacman -U "${pkglist[@]}"; then
 		warning "$(gettext "Failed to install built package(s).")"
 		return 0
 	fi
