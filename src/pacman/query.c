@@ -257,47 +257,6 @@ static int query_search(alpm_list_t *targets)
 	return dump_pkg_search(db_local, targets, 0);
 }
 
-static int query_group(alpm_list_t *targets)
-{
-	alpm_list_t *i, *j;
-	const char *grpname = NULL;
-	int ret = 0;
-	alpm_db_t *db_local = alpm_get_localdb(config->handle);
-
-	if(targets == NULL) {
-		for(j = alpm_db_get_groupcache(db_local); j; j = alpm_list_next(j)) {
-			alpm_group_t *grp = j->data;
-			const alpm_list_t *p;
-
-			for(p = grp->packages; p; p = alpm_list_next(p)) {
-				alpm_pkg_t *pkg = p->data;
-				printf("%s %s\n", grp->name, alpm_pkg_get_name(pkg));
-			}
-		}
-	} else {
-		for(i = targets; i; i = alpm_list_next(i)) {
-			alpm_group_t *grp;
-			grpname = i->data;
-			grp = alpm_db_get_group(db_local, grpname);
-			if(grp) {
-				const alpm_list_t *p;
-				for(p = grp->packages; p; p = alpm_list_next(p)) {
-					if(!config->quiet) {
-						printf("%s %s\n", grpname,
-								alpm_pkg_get_name(p->data));
-					} else {
-						printf("%s\n", alpm_pkg_get_name(p->data));
-					}
-				}
-			} else {
-				pm_printf(ALPM_LOG_ERROR, _("group '%s' was not found\n"), grpname);
-				ret++;
-			}
-		}
-	}
-	return ret;
-}
-
 static unsigned short pkg_get_locality(alpm_pkg_t *pkg)
 {
 	const char *pkgname = alpm_pkg_get_name(pkg);
@@ -387,6 +346,53 @@ static int display(alpm_pkg_t *pkg)
 					colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
 		} else {
 			printf("%s\n", alpm_pkg_get_name(pkg));
+		}
+	}
+	return ret;
+}
+
+static int query_group(alpm_list_t *targets)
+{
+	alpm_list_t *i, *j;
+	const char *grpname = NULL;
+	int ret = 0;
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
+
+	if(targets == NULL) {
+		for(j = alpm_db_get_groupcache(db_local); j; j = alpm_list_next(j)) {
+			alpm_group_t *grp = j->data;
+			const alpm_list_t *p;
+
+			for(p = grp->packages; p; p = alpm_list_next(p)) {
+				alpm_pkg_t *pkg = p->data;
+				if(!filter(pkg)) {
+					continue;
+				}
+				printf("%s %s\n", grp->name, alpm_pkg_get_name(pkg));
+			}
+		}
+	} else {
+		for(i = targets; i; i = alpm_list_next(i)) {
+			alpm_group_t *grp;
+			grpname = i->data;
+			grp = alpm_db_get_group(db_local, grpname);
+			if(grp) {
+				const alpm_list_t *p;
+				for(p = grp->packages; p; p = alpm_list_next(p)) {
+					if(!filter(p->data)) {
+						continue;
+					}
+					if(!config->quiet) {
+						printf("%s %s\n", grpname,
+								alpm_pkg_get_name(p->data));
+					} else {
+						printf("%s\n", alpm_pkg_get_name(p->data));
+					}
+				}
+			} else {
+				pm_printf(ALPM_LOG_ERROR, _("group '%s' was not found\n"), grpname);
+				ret++;
+			}
 		}
 	}
 	return ret;
