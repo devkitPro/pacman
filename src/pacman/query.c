@@ -136,8 +136,8 @@ cleanup:
 static int query_fileowner(alpm_list_t *targets)
 {
 	int ret = 0;
-	char path[PATH_MAX];
-	size_t rootlen;
+	const char *root = alpm_option_get_root(config->handle);
+	size_t rootlen = strlen(root);
 	alpm_list_t *t;
 	alpm_db_t *db_local;
 	alpm_list_t *packages;
@@ -146,30 +146,6 @@ static int query_fileowner(alpm_list_t *targets)
 	if(targets == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("no file was specified for --owns\n"));
 		return 1;
-	}
-
-	/* Set up our root path buffer. We only need to copy the location of root in
-	 * once, then we can just overwrite whatever file was there on the previous
-	 * iteration. */
-
-	/* resolve root now so any symlinks in it will only have to be resolved once */
-	if(!realpath(alpm_option_get_root(config->handle), path)) {
-		pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
-				path, strerror(errno));
-		return 1;
-	}
-
-	/* make sure there's enough room to append the package file to path */
-	rootlen = strlen(path);
-	if(rootlen + 2 > PATH_MAX) {
-		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), path, "");
-		return 1;
-	}
-
-	/* append trailing '/' removed by realpath */
-	if(path[rootlen - 1] != '/') {
-		path[rootlen++] = '/';
-		path[rootlen] = '\0';
 	}
 
 	db_local = alpm_get_localdb(config->handle);
@@ -214,7 +190,7 @@ static int query_fileowner(alpm_list_t *targets)
 			goto targcleanup;
 		}
 
-		if(strncmp(rpath, path, rootlen) != 0) {
+		if(strncmp(rpath, root, rootlen) != 0) {
 			/* file is outside root, we know nothing can own it */
 			pm_printf(ALPM_LOG_ERROR, _("No package owns %s\n"), filename);
 			goto targcleanup;
