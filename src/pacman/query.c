@@ -102,7 +102,7 @@ static char *lrealpath(const char *path, char *resolved_path)
 	char *rpath = NULL, *dname = NULL;
 	int success = 0;
 
-	if(strcmp(path, ".") == 0 || strcmp(path, "..") == 0) {
+	if(strcmp(bname, ".") == 0 || strcmp(bname, "..") == 0) {
 		/* the entire path needs to be resolved */
 		return realpath(path, resolved_path);
 	}
