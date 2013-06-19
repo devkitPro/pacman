@@ -485,6 +485,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *ls = NULL;
 	alpm_db_t *db_local = alpm_get_localdb(config->handle);
+	int ret = 0;
 
 	if(targets) {
 		for(i = targets; i; i = alpm_list_next(i)) {
@@ -503,8 +504,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 			if(db == NULL) {
 				pm_printf(ALPM_LOG_ERROR,
 					_("repository \"%s\" was not found.\n"), repo);
-				alpm_list_free(ls);
-				return 1;
+				ret = 1;
 			}
 
 			ls = alpm_list_add(ls, db);
@@ -536,7 +536,7 @@ static int sync_list(alpm_list_t *syncs, alpm_list_t *targets)
 		alpm_list_free(ls);
 	}
 
-	return 0;
+	return ret;
 }
 
 static alpm_db_t *get_db(const char *dbname)
