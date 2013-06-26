@@ -1,0 +1,33 @@
+--- ltmain.sh.orig	2013-06-26 14:31:53.472627840 +1000
++++ ltmain.sh	2013-06-26 14:30:56.137038936 +1000
+@@ -5800,6 +5800,14 @@
+ 	arg=$func_stripname_result
+ 	;;
+ 
++      -Wl,*--as-needed*)
++	deplibs="$deplibs $wl--as-needed"
++	;;
++
++      -Wl,*--no-as-needed*)
++	deplibs="$deplibs $wl--no-as-needed"
++	;;
++
+       -Wl,*)
+ 	func_stripname '-Wl,' '' "$arg"
+ 	args=$func_stripname_result
+@@ -6160,6 +6168,15 @@
+ 	lib=
+ 	found=no
+ 	case $deplib in
++	-Wl,--as-needed|-Wl,--no-as-needed)
++	  if test "$linkmode,$pass" = "prog,link"; then
++	    compile_deplibs="$deplib $compile_deplibs"
++	    finalize_deplibs="$deplib $finalize_deplibs"
++	  else
++	    deplibs="$deplib $deplibs"
++	  fi
++	  continue
++	  ;;
+ 	-mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe \
+         |-threads|-fopenmp|-openmp|-mp|-xopenmp|-omp|-qsmp=*)
+ 	  if test "$linkmode,$pass" = "prog,link"; then
