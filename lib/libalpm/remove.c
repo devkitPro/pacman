@@ -267,6 +267,16 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
+/**
+ * @brief Test if a directory is being used as a mountpoint.
+ *
+ * @param handle context handle
+ * @param directory path to test, must be absolute and include trailing '/'
+ * @param stbuf stat result for @a directory, may be NULL
+ *
+ * @return 0 if @a directory is not a mountpoint or on error, 1 if @a directory
+ * is a mountpoint
+ */
 static int dir_is_mountpoint(alpm_handle_t *handle, const char *directory,
 		const struct stat *stbuf)
 {
@@ -317,13 +327,14 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 		return 1;
 	}
 
+	snprintf(filepath, PATH_MAX, "%s%s", handle->root, file->name);
+
 	if(file->name[strlen(file->name) - 1] == '/' &&
-			dir_is_mountpoint(handle, file->name, NULL)) {
+			dir_is_mountpoint(handle, filepath, NULL)) {
 		/* we do not remove mountpoints */
 		return 1;
 	}
 
-	snprintf(filepath, PATH_MAX, "%s%s", handle->root, file->name);
 	/* If we fail write permissions due to a read-only filesystem, abort.
 	 * Assume all other possible failures are covered somewhere else */
 	if(_alpm_access(handle, NULL, filepath, W_OK) == -1) {
