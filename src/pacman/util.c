@@ -47,9 +47,17 @@
 #include "callback.h"
 
 
-struct table_row_t {
-	const char *label;
-	off_t size;
+struct table_cell_t {
+	char *label;
+	size_t len;
+	int mode;
+};
+
+enum {
+	CELL_NORMAL = 0,
+	CELL_TITLE = (1 << 0),
+	CELL_RIGHT_ALIGN = (1 << 1),
+	CELL_FREE = (1 << 3)
 };
 
 int trans_init(alpm_transflag_t flags, int check_valid)
@@ -424,6 +432,58 @@ static size_t string_length(const char *s)
 	return len;
 }
 
+static void add_table_cell(alpm_list_t **row, char *label, int mode)
+{
+	struct table_cell_t *cell = malloc(sizeof(struct table_cell_t));
+
+	cell->label = label;
+	cell->mode = mode;
+	cell->len = string_length(label);
+
+	*row = alpm_list_add(*row, cell);
+}
+
+static void table_free_cell(void *ptr)
+{
+	struct table_cell_t *cell = ptr;
+
+	if(cell) {
+		if(cell->mode & CELL_FREE) {
+			free(cell->label);
+		}
+		free(cell);
+	}
+}
+
+static void table_free(alpm_list_t *headers, alpm_list_t *rows)
+{
+	alpm_list_t *i;
+
+	alpm_list_free_inner(headers, table_free_cell);
+
+	for(i = rows; i; i = alpm_list_next(i)) {
+		alpm_list_free_inner(i->data, table_free_cell);
+		alpm_list_free(i->data);
+	}
+
+	alpm_list_free(headers);
+	alpm_list_free(rows);
+}
+
+static void add_transaction_sizes_row(alpm_list_t **rows, char *label, int size)
+{
+	alpm_list_t *row = NULL;
+	char *str;
+	const char *units;
+	double s = humanize_size(size, 'M', 2, &units);
+	pm_asprintf(&str, "%.2f %s", s, units);
+
+	add_table_cell(&row, label, CELL_TITLE);
+	add_table_cell(&row, str, CELL_RIGHT_ALIGN | CELL_FREE);
+
+	*rows = alpm_list_add(*rows, row);
+}
+
 void string_display(const char *title, const char *string, unsigned short cols)
 {
 	if(title) {
@@ -442,50 +502,36 @@ void string_display(const char *title, const char *string, unsigned short cols)
 static void table_print_line(const alpm_list_t *line, short col_padding,
 		size_t colcount, size_t *widths, int *has_data)
 {
-	size_t i, lastcol = 0;
+	size_t i;
 	int need_padding = 0;
 	const alpm_list_t *curcell;
 
-	for(i = colcount; i > 0; i--) {
-		if(has_data[i - 1]) {
-			lastcol = i - 1;
-			break;
-		}
-	}
-
 	for(i = 0, curcell = line; curcell && i < colcount;
 			i++, curcell = alpm_list_next(curcell)) {
-		const char *value;
-		int cell_padding;
+		const struct table_cell_t *cell = curcell->data;
+		const char *str = (cell->label ? cell->label : "");
+		int cell_width;
 
 		if(!has_data[i]) {
 			continue;
 		}
 
-		value = curcell->data;
-		if(!value) {
-			value = "";
-		}
-		/* silly printf requires padding size to be an int */
-		cell_padding = (int)widths[i] - (int)string_length(value);
-		if(cell_padding < 0) {
-			cell_padding = 0;
-		}
+		cell_width = (cell->mode & CELL_RIGHT_ALIGN ? (int)widths[i] : -(int)widths[i]);
+
 		if(need_padding) {
 			printf("%*s", col_padding, "");
 		}
-		/* left-align all but the last column */
-		if(i != lastcol) {
-			printf("%s%*s", value, cell_padding, "");
+
+		if(cell->mode & CELL_TITLE) {
+			printf("%s%*s%s", config->colstr.title, cell_width, str, config->colstr.nocolor);
 		} else {
-			printf("%*s%s", cell_padding, "", value);
+			printf("%*s", cell_width, str);
 		}
 		need_padding = 1;
 	}
 
 	printf("\n");
 }
-
 
 
 /**
@@ -522,7 +568,8 @@ static size_t table_calc_widths(const alpm_list_t *header,
 	}
 	/* header determines column count and initial values of longest_strs */
 	for(i = header, curcol = 0; i; i = alpm_list_next(i), curcol++) {
-		colwidths[curcol] = string_length(i->data);
+		const struct table_cell_t *row = i->data;
+		colwidths[curcol] = row->len;
 		/* note: header does not determine whether column has data */
 	}
 
@@ -531,8 +578,8 @@ static size_t table_calc_widths(const alpm_list_t *header,
 		/* grab first column of each row and iterate through columns */
 		const alpm_list_t *j = i->data;
 		for(curcol = 0; j; j = alpm_list_next(j), curcol++) {
-			const char *str = j->data;
-			size_t str_len = string_length(str);
+			const struct table_cell_t *cell = j->data;
+			size_t str_len = cell ? cell->len : 0;
 
 			if(str_len > colwidths[curcol]) {
 				colwidths[curcol] = str_len;
@@ -571,20 +618,24 @@ static size_t table_calc_widths(const alpm_list_t *header,
  * @param cols the number of columns available in the terminal
  * @return -1 if not enough terminal cols available, else 0
  */
-static int table_display(const char *title, const alpm_list_t *header,
+static int table_display(const alpm_list_t *header,
 		const alpm_list_t *rows, unsigned short cols)
 {
 	const unsigned short padding = 2;
-	const alpm_list_t *i;
+	const alpm_list_t *i, *first;
 	size_t *widths = NULL, totalcols, totalwidth;
 	int *has_data = NULL;
 
-	if(rows == NULL || header == NULL) {
+	if(rows == NULL) {
 		return 0;
 	}
 
-	totalcols = alpm_list_count(header);
-	totalwidth = table_calc_widths(header, rows, padding, totalcols,
+	/* we want the first row. if no headers are provided, use the first
+	 * entry of the rows array. */
+	first = header ? header : rows->data;
+
+	totalcols = alpm_list_count(first);
+	totalwidth = table_calc_widths(first, rows, padding, totalcols,
 			&widths, &has_data);
 	/* return -1 if terminal is not wide enough */
 	if(totalwidth > cols) {
@@ -596,12 +647,10 @@ static int table_display(const char *title, const alpm_list_t *header,
 		return -1;
 	}
 
-	if(title != NULL) {
-		printf("%s\n\n", title);
+	if (header) {
+		table_print_line(header, padding, totalcols, widths, has_data);
+		printf("\n");
 	}
-
-	table_print_line(header, padding, totalcols, widths, has_data);
-	printf("\n");
 
 	for(i = rows; i; i = alpm_list_next(i)) {
 		table_print_line(i->data, padding, totalcols, widths, has_data);
@@ -759,23 +808,20 @@ void signature_display(const char *title, alpm_siglist_t *siglist,
 }
 
 /* creates a header row for use with table_display */
-static alpm_list_t *create_verbose_header(void)
+static alpm_list_t *create_verbose_header(size_t count)
 {
-	alpm_list_t *res = NULL;
-	char *str;
+	alpm_list_t *ret = NULL;
 
-	str = _("Name");
-	res = alpm_list_add(res, str);
-	str = _("Old Version");
-	res = alpm_list_add(res, str);
-	str = _("New Version");
-	res = alpm_list_add(res, str);
-	str = _("Net Change");
-	res = alpm_list_add(res, str);
-	str = _("Download Size");
-	res = alpm_list_add(res, str);
+	char *header;
+	pm_asprintf(&header, "%s (%zd)", _("Package"), count);
 
-	return res;
+	add_table_cell(&ret, header, CELL_TITLE | CELL_FREE);
+	add_table_cell(&ret, _("Old Version"), CELL_TITLE);
+	add_table_cell(&ret, _("New Version"), CELL_TITLE);
+	add_table_cell(&ret, _("Net Change"), CELL_TITLE);
+	add_table_cell(&ret, _("Download Size"), CELL_TITLE);
+
+	return ret;
 }
 
 /* returns package info as list of strings */
@@ -798,23 +844,23 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	} else {
 		pm_asprintf(&str, "%s", alpm_pkg_get_name(target->remove));
 	}
-	ret = alpm_list_add(ret, str);
+	add_table_cell(&ret, str, CELL_NORMAL);
 
 	/* old and new versions */
 	pm_asprintf(&str, "%s",
 			target->remove != NULL ? alpm_pkg_get_version(target->remove) : "");
-	ret = alpm_list_add(ret, str);
+	add_table_cell(&ret, str, CELL_NORMAL);
 
 	pm_asprintf(&str, "%s",
 			target->install != NULL ? alpm_pkg_get_version(target->install) : "");
-	ret = alpm_list_add(ret, str);
+	add_table_cell(&ret, str, CELL_NORMAL);
 
 	/* and size */
 	size -= target->remove ? alpm_pkg_get_isize(target->remove) : 0;
 	size += target->install ? alpm_pkg_get_isize(target->install) : 0;
 	human_size = humanize_size(size, 'M', 2, &label);
 	pm_asprintf(&str, "%.2f %s", human_size, label);
-	ret = alpm_list_add(ret, str);
+	add_table_cell(&ret, str, CELL_RIGHT_ALIGN);
 
 	size = target->install ? alpm_pkg_download_size(target->install) : 0;
 	if(size != 0) {
@@ -823,46 +869,9 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	} else {
 		str = NULL;
 	}
-	ret = alpm_list_add(ret, str);
+	add_table_cell(&ret, str, CELL_RIGHT_ALIGN);
 
 	return ret;
-}
-
-static void add_transaction_sizes_row(alpm_list_t **table, const char *label, off_t size)
-{
-	struct table_row_t *row = malloc(sizeof(struct table_row_t));
-
-	row->label = label;
-	row->size = size;
-
-	*table = alpm_list_add(*table, row);
-}
-
-static void display_transaction_sizes(alpm_list_t *table)
-{
-	alpm_list_t *i;
-	int max_len = 0;
-
-	for(i = table; i; i = alpm_list_next(i)) {
-		struct table_row_t *row = i->data;
-		int len = string_length(row->label);
-
-		if(len > max_len) {
-			max_len = len;
-		}
-	}
-
-	max_len += 2;
-
-	for(i = table; i; i = alpm_list_next(i)) {
-		struct table_row_t *row = i->data;
-		const char *units;
-		const colstr_t *colstr = &config->colstr;
-		double s = humanize_size(row->size, 'M', 2, &units);
-
-		printf("%s%-*s%s %.2f %s\n", colstr->title, max_len, row->label,
-				colstr->nocolor, s, units);
-	}
 }
 
 /* prepare a list of pkgs to display */
@@ -871,7 +880,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	char *str;
 	off_t isize = 0, rsize = 0, dlsize = 0;
 	unsigned short cols;
-	alpm_list_t *i, *rows = NULL, *names = NULL, *table = NULL;
+	alpm_list_t *i, *names = NULL, *header = NULL, *rows = NULL;
 
 	if(!targets) {
 		return;
@@ -895,7 +904,10 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	for(i = targets; i; i = alpm_list_next(i)) {
 		pm_target_t *target = i->data;
 
-		rows = alpm_list_add(rows, create_verbose_row(target));
+		if(verbose) {
+			rows = alpm_list_add(rows, create_verbose_row(target));
+		}
+
 		if(target->install) {
 			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
 					alpm_pkg_get_version(target->install));
@@ -910,48 +922,43 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	}
 
 	/* print to screen */
-	pm_asprintf(&str, "%s (%zd):", _("Packages"), alpm_list_count(targets));
+	pm_asprintf(&str, "%s (%zd)", _("Packages"), alpm_list_count(targets));
 	printf("\n");
 
 	cols = getcols(fileno(stdout));
 	if(verbose) {
-		alpm_list_t *header = create_verbose_header();
-		if(table_display(str, header, rows, cols) != 0) {
+		header = create_verbose_header(alpm_list_count(targets));
+		if(table_display(header, rows, cols) != 0) {
 			/* fallback to list display if table wouldn't fit */
 			list_display(str, names, cols);
 		}
-		alpm_list_free(header);
 	} else {
 		list_display(str, names, cols);
 	}
 	printf("\n");
 
-	/* rows is a list of lists of strings, free inner lists here */
-	for(i = rows; i; i = alpm_list_next(i)) {
-		alpm_list_t *lp = i->data;
-		FREELIST(lp);
-	}
-	alpm_list_free(rows);
+	table_free(header, rows);
 	FREELIST(names);
 	free(str);
+	rows = NULL;
 
 	if(dlsize > 0 || config->op_s_downloadonly) {
-		add_transaction_sizes_row(&table, _("Total Download Size:"), dlsize);
+		add_transaction_sizes_row(&rows, _("Total Download Size:"), dlsize);
 	}
 	if(!config->op_s_downloadonly) {
 		if(isize > 0) {
-			add_transaction_sizes_row(&table, _("Total Installed Size:"), isize);
+			add_transaction_sizes_row(&rows, _("Total Installed Size:"), isize);
 		}
 		if(rsize > 0 && isize == 0) {
-			add_transaction_sizes_row(&table, _("Total Removed Size:"), rsize);
+			add_transaction_sizes_row(&rows, _("Total Removed Size:"), rsize);
 		}
 		/* only show this net value if different from raw installed size */
 		if(isize > 0 && rsize > 0) {
-			add_transaction_sizes_row(&table, _("Net Upgrade Size:"), isize - rsize);
+			add_transaction_sizes_row(&rows, _("Net Upgrade Size:"), isize - rsize);
 		}
 	}
-	display_transaction_sizes(table);
-	FREELIST(table);
+	table_display(NULL, rows, cols);
+	table_free(NULL, rows);
 }
 
 static int target_cmp(const void *p1, const void *p2)
