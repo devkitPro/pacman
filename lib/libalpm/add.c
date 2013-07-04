@@ -552,7 +552,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
 					handle->root, strerror(errno));
 			_alpm_archive_read_free(archive);
-			CLOSE(fd);
+			close(fd);
 			ret = -1;
 			goto cleanup;
 		}
@@ -582,7 +582,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			errors += extract_single_file(handle, archive, entry, newpkg, oldpkg);
 		}
 		_alpm_archive_read_free(archive);
-		CLOSE(fd);
+		close(fd);
 
 		/* restore the old cwd if we have it */
 		if(cwdfd >= 0) {
@@ -590,7 +590,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("could not restore working directory (%s)\n"), strerror(errno));
 			}
-			CLOSE(cwdfd);
+			close(cwdfd);
 		}
 
 		if(errors) {

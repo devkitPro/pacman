@@ -88,7 +88,6 @@ void _alpm_alloc_fail(size_t size);
 #endif
 
 #define OPEN(fd, path, flags) do { fd = open(path, flags | O_BINARY); } while(fd == -1 && errno == EINTR)
-#define CLOSE(fd) do { int _ret; do { _ret = close(fd); } while(_ret == -1 && errno == EINTR); } while(0)
 
 /**
  * Used as a buffer/state holder for _alpm_archive_fgets().

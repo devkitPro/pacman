@@ -76,7 +76,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 			if(!changelog) {
 				pkg->handle->pm_errno = ALPM_ERR_MEMORY;
 				_alpm_archive_read_free(archive);
-				CLOSE(fd);
+				close(fd);
 				return NULL;
 			}
 			changelog->archive = archive;
@@ -86,7 +86,7 @@ static void *_package_changelog_open(alpm_pkg_t *pkg)
 	}
 	/* we didn't find a changelog */
 	_alpm_archive_read_free(archive);
-	CLOSE(fd);
+	close(fd);
 	errno = ENOENT;
 
 	return NULL;
@@ -126,7 +126,7 @@ static int _package_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 	int ret;
 	struct package_changelog *changelog = fp;
 	ret = _alpm_archive_read_free(changelog->archive);
-	CLOSE(changelog->fd);
+	close(changelog->fd);
 	free(changelog);
 	return ret;
 }
@@ -477,7 +477,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	}
 
 	_alpm_archive_read_free(archive);
-	CLOSE(fd);
+	close(fd);
 
 	/* internal fields for package struct */
 	newpkg->origin = ALPM_PKG_FROM_FILE;
@@ -510,7 +510,7 @@ error:
 	_alpm_pkg_free(newpkg);
 	_alpm_archive_read_free(archive);
 	if(fd >= 0) {
-		CLOSE(fd);
+		close(fd);
 	}
 
 	return NULL;

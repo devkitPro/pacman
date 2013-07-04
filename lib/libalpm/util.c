@@ -186,10 +186,10 @@ int _alpm_copyfile(const char *src, const char *dest)
 cleanup:
 	free(buf);
 	if(in >= 0) {
-		CLOSE(in);
+		close(in);
 	}
 	if(out >= 0) {
-		CLOSE(out);
+		close(out);
 	}
 	return ret;
 }
@@ -275,7 +275,7 @@ error:
 	_alpm_archive_read_free(*archive);
 	*archive = NULL;
 	if(fd >= 0) {
-		CLOSE(fd);
+		close(fd);
 	}
 	RET_ERR(handle, error, -1);
 }
@@ -394,13 +394,13 @@ int _alpm_unpack(alpm_handle_t *handle, const char *path, const char *prefix,
 cleanup:
 	umask(oldmask);
 	_alpm_archive_read_free(archive);
-	CLOSE(fd);
+	close(fd);
 	if(cwdfd >= 0) {
 		if(fchdir(cwdfd) != 0) {
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("could not restore working directory (%s)\n"), strerror(errno));
 		}
-		CLOSE(cwdfd);
+		close(cwdfd);
 	}
 
 	return ret;
@@ -537,12 +537,12 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 
 	if(pid == 0) {
 		/* this code runs for the child only (the actual chroot/exec) */
-		CLOSE(1);
-		CLOSE(2);
+		close(1);
+		close(2);
 		while(dup2(pipefd[1], 1) == -1 && errno == EINTR);
 		while(dup2(pipefd[1], 2) == -1 && errno == EINTR);
-		CLOSE(pipefd[0]);
-		CLOSE(pipefd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 
 		/* use fprintf instead of _alpm_log to send output through the parent */
 		if(chroot(handle->root) != 0) {
@@ -564,10 +564,10 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 		int status;
 		FILE *pipe_file;
 
-		CLOSE(pipefd[1]);
+		close(pipefd[1]);
 		pipe_file = fdopen(pipefd[0], "r");
 		if(pipe_file == NULL) {
-			CLOSE(pipefd[0]);
+			close(pipefd[0]);
 			retval = 1;
 		} else {
 			while(!feof(pipe_file)) {
@@ -609,7 +609,7 @@ cleanup:
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("could not restore working directory (%s)\n"), strerror(errno));
 		}
-		CLOSE(cwdfd);
+		close(cwdfd);
 	}
 
 	return retval;
@@ -784,7 +784,7 @@ static int md5_file(const char *path, unsigned char output[16])
 		MD5_Update(&ctx, buf, n);
 	}
 
-	CLOSE(fd);
+	close(fd);
 	free(buf);
 
 	if(n < 0) {
@@ -834,7 +834,7 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 		}
 	}
 
-	CLOSE(fd);
+	close(fd);
 	free(buf);
 
 	if(n < 0) {

@@ -474,7 +474,7 @@ static int sync_db_populate(alpm_db_t *db)
 cleanup:
 	_alpm_archive_read_free(archive);
 	if(fd >= 0) {
-		CLOSE(fd);
+		close(fd);
 	}
 	return count;
 }

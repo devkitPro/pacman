@@ -257,14 +257,11 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 cleanup:
 	/* restore the old cwd if we have it */
 	if(cwdfd >= 0) {
-		int close_ret;
 		if(fchdir(cwdfd) != 0) {
 			pm_printf(ALPM_LOG_ERROR, _("could not restore working directory (%s)\n"),
 					strerror(errno));
 		}
-		do {
-			close_ret = close(cwdfd);
-		} while(close_ret == -1 && errno == EINTR);
+		close(cwdfd);
 	}
 
 	if(ret == -1) {
