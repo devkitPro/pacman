@@ -562,6 +562,14 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		return -1;
 	}
 
+	if(filename == NULL) {
+		/* A file exists outside of a subdirectory. This isn't a read error, so return
+		 * success and try to continue on. */
+		_alpm_log(db->handle, ALPM_LOG_WARNING, _("unknown database file: %s\n"),
+				filename);
+		return 0;
+	}
+
 	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
 			|| (strcmp(filename, "deltas") == 0 && db->handle->deltaratio > 0.0) ) {
 		int ret;
