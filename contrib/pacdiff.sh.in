@@ -25,6 +25,7 @@ diffprog=${DIFFPROG:-vimdiff}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
 locate=0
 USE_COLOR='y'
+declare -a oldsaves
 
 m4_include(../scripts/library/output_format.sh)
 
@@ -47,9 +48,9 @@ version() {
 
 cmd() {
 	if [ $locate -eq 1 ]; then
-		locate -0 -e -b \*.pacnew \*.pacorig \*.pacsave
+		locate -0 -e -b \*.pacnew \*.pacorig \*.pacsave '*.pacsave.[0-9]*'
 	else
-		find $diffsearchpath \( -name \*.pacnew -o -name \*.pacorig -o -name \*.pacsave \) -print0
+		find $diffsearchpath \( -name \*.pacnew -o -name \*.pacorig -o -name \*.pacsave -o -name '*.pacsave.[0-9]*' \) -print0
 	fi
 }
 
@@ -70,6 +71,12 @@ fi
 while IFS= read -u 3 -r -d '' pacfile; do
 	file="${pacfile%.pac*}"
 	file_type="pac${pacfile##*.pac}"
+
+	# add matches for pacsave.N to oldsaves array, do not prompt
+	if [[ $file_type = pacsave.+([0-9]) ]]; then
+		oldsaves+=("$pacfile")
+		continue
+	fi
 
 	msg "%s file found for %s" "$file_type" "$file"
 	if [ ! -f "$file" ]; then
@@ -97,6 +104,8 @@ while IFS= read -u 3 -r -d '' pacfile; do
 		done
 	fi
 done 3< <(cmd)
+
+(( ${#oldsaves[@]} )) && warning "Ignoring %s" "${oldsaves[@]}"
 
 exit 0
 
