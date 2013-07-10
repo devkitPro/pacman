@@ -625,6 +625,9 @@ int _alpm_download(struct dload_payload *payload, const char *localpath,
 #ifdef HAVE_LIBCURL
 		return curl_download_internal(payload, localpath, final_file, final_url);
 #else
+		/* work around unused warnings when building without libcurl */
+		(void)final_file;
+		(void)final_url;
 		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
 	} else {
