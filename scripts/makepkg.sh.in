@@ -2952,10 +2952,10 @@ else
 	fi
 
 	msg "$(gettext "Checking buildtime dependencies...")"
-	resolve_deps ${makedepends[@]} || deperr=1
-
 	if (( CHECKFUNC )); then
-		resolve_deps ${checkdepends[@]} || deperr=1
+		resolve_deps "${makedepends[@]}" "${checkdepends[@]}" || deperr=1
+	else
+		resolve_deps "${makedepends[@]}" || deperr=1
 	fi
 
 	if (( RMDEPS )); then
