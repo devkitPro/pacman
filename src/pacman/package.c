@@ -360,7 +360,7 @@ void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg)
 }
 
 /**
- * Display the defails of a search.
+ * Display the details of a search.
  * @param db the database we're searching
  * @param targets the targets we're searching for
  * @param show_status show if the package is also in the local db
