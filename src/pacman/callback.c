@@ -169,7 +169,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			printf(_("resolving dependencies...\n"));
 			break;
 		case ALPM_EVENT_INTERCONFLICTS_START:
-			printf(_("looking for inter-conflicts...\n"));
+			printf(_("looking for conflicting packages...\n"));
 			break;
 		case ALPM_EVENT_ADD_START:
 			if(config->noprogressbar) {
