@@ -29,8 +29,6 @@ declare -a oldsaves
 
 m4_include(../scripts/library/output_format.sh)
 
-m4_include(../scripts/library/term_colors.sh)
-
 usage() {
 	cat <<EOF
 $myname is a simple pacnew/pacorig/pacsave updater.
@@ -39,6 +37,7 @@ Usage: $myname [-l]
 
 Options:
   -l/--locate       scan using locate (default: find)
+  --nocolor         remove colors from output
 
 Enviroment Variables:
   DIFFPROG          override the merge program: (default: vimdiff)
@@ -68,6 +67,8 @@ while [[ -n "$1" ]]; do
 	case "$1" in
 		-l|--locate)
 		locate=1;;
+		--nocolor)
+		USE_COLOR='n' ;;
 		-V|--version)
 		version; exit 0;;
 		-h|--help)
@@ -77,6 +78,8 @@ while [[ -n "$1" ]]; do
 	esac
 	shift
 done
+
+m4_include(../scripts/library/term_colors.sh)
 
 # see http://mywiki.wooledge.org/BashFAQ/020
 while IFS= read -u 3 -r -d '' pacfile; do
