@@ -530,7 +530,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	}
 
 	/* prepare directory for database entries so permission are correct after
-	   changelog/install script installation (FS#12263) */
+	   changelog/install script installation */
 	if(_alpm_local_db_prepare(db, newpkg)) {
 		alpm_logaction(handle, ALPM_CALLER_PREFIX,
 				"error: could not create database entry %s-%s\n",

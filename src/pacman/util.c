@@ -1094,7 +1094,7 @@ double humanize_size(off_t bytes, const char target_unit, int precision,
 		*label = labels[index];
 	}
 
-	/* fix FS#27924 so that it doesn't display negative zeroes */
+	/* do not display negative zeroes */
 	if(precision >= 0 && val < 0.0 &&
 			val > (-0.5 / simple_pow(10, precision))) {
 		val = 0.0;
@@ -1531,7 +1531,7 @@ static int question(short preset, const char *format, va_list args)
 		}
 
 		/* if stdin is piped, response does not get printed out, and as a result
-		 * a \n is missing, resulting in broken output (FS#27909) */
+		 * a \n is missing, resulting in broken output */
 		if(!isatty(fd_in)) {
 			fprintf(stream, "%s\n", response);
 		}

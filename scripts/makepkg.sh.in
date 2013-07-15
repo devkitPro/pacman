@@ -389,7 +389,7 @@ download_file() {
 
 extract_file() {
 	local file=$1
-	# fix flyspray #6246
+	# do not rely on extension for file type
 	local file_type=$(file -bizL "$file")
 	local ext=${file##*.}
 	local cmd=''

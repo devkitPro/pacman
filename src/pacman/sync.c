@@ -648,7 +648,7 @@ static int process_targname(alpm_list_t *dblist, const char *targname,
 {
 	alpm_pkg_t *pkg = alpm_find_dbs_satisfier(config->handle, dblist, targname);
 
-	/* #FS#23342 - skip ignored packages when user says no */
+	/* skip ignored packages when user says no */
 	if(alpm_errno(config->handle) == ALPM_ERR_PKG_IGNORED) {
 			pm_printf(ALPM_LOG_WARNING, _("skipping target: %s\n"), targname);
 			return 0;
