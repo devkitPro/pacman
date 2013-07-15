@@ -319,7 +319,7 @@ static void usage(void)
 			"  -g, --graph          generate output for graphviz's dot\n"
 			"  -h, --help           display this help message\n"
 			"  -l, --linear         enable linear output\n"
-			"  -r, --reverse        show reverse dependencies\n"
+			"  -r, --reverse        list packages that depend on the named package\n"
 			"  -s, --sync           search sync DBs instead of local\n"
 			"  -u, --unique         show dependencies with no duplicates (implies -l)\n"
 			"      --config <path>  set an alternate configuration file\n");
