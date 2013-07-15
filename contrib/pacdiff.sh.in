@@ -64,8 +64,8 @@ cmd() {
 	fi
 }
 
-if [ $# -gt 0 ]; then
-	case $1 in
+while [[ -n "$1" ]]; do	
+	case "$1" in
 		-l|--locate)
 		locate=1;;
 		-V|--version)
@@ -75,7 +75,8 @@ if [ $# -gt 0 ]; then
 		*)
 		usage; exit 1;;
 	esac
-fi
+	shift
+done
 
 # see http://mywiki.wooledge.org/BashFAQ/020
 while IFS= read -u 3 -r -d '' pacfile; do
