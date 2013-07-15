@@ -32,12 +32,22 @@ m4_include(../scripts/library/output_format.sh)
 m4_include(../scripts/library/term_colors.sh)
 
 usage() {
-	echo "$myname : a simple pacnew/pacorig/pacsave updater"
-	echo "Usage : $myname [-l]"
-	echo "  -l/--locate makes $myname use locate rather than find"
-	echo "  DIFFPROG variable allows to override the default vimdiff"
-	echo "  DIFFSEARCHPATH allows to override the default /etc path"
-	echo "Example : DIFFPROG=meld DIFFSEARCHPATH=\"/boot /etc /usr\" $myname"
+	cat <<EOF
+$myname is a simple pacnew/pacorig/pacsave updater.
+
+Usage: $myname [-l]
+
+Options:
+  -l/--locate       scan using locate (default: find)
+
+Enviroment Variables:
+  DIFFPROG          override the merge program: (default: vimdiff)
+  DIFFSEARCHPATH    override the search path. (only when using find)
+                    (default: /etc)
+
+Example: DIFFPROG=meld DIFFSEARCHPATH="/boot /etc /usr" $myname
+
+EOF
 }
 
 version() {
