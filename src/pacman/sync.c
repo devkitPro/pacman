@@ -367,15 +367,19 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 {
 	alpm_list_t *i, *j, *k, *s = NULL;
+	int ret = 0;
 
 	if(targets) {
+		int found;
 		for(i = targets; i; i = alpm_list_next(i)) {
+			found = 0;
 			const char *grpname = i->data;
 			for(j = syncs; j; j = alpm_list_next(j)) {
 				alpm_db_t *db = j->data;
 				alpm_group_t *grp = alpm_db_get_group(db, grpname);
 
 				if(grp) {
+					found++;
 					/* get names of packages in group */
 					for(k = grp->packages; k; k = alpm_list_next(k)) {
 						if(!config->quiet) {
@@ -387,13 +391,18 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 					}
 				}
 			}
+			if (!found) {
+				ret = 1;
+			}
 		}
 	} else {
+		ret = 1;
 		for(i = syncs; i; i = alpm_list_next(i)) {
 			alpm_db_t *db = i->data;
 
 			for(j = alpm_db_get_groupcache(db); j; j = alpm_list_next(j)) {
 				alpm_group_t *grp = j->data;
+				ret = 0;
 
 				if(level > 1) {
 					for(k = grp->packages; k; k = alpm_list_next(k)) {
@@ -412,7 +421,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 		alpm_list_free(s);
 	}
 
-	return 0;
+	return ret;
 }
 
 static int sync_info(alpm_list_t *syncs, alpm_list_t *targets)
