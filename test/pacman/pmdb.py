@@ -87,6 +87,8 @@ class pmdb(object):
         if self.read_dircache is None:
             self.read_dircache = os.listdir(self.dbdir)
         for entry in self.read_dircache:
+            if entry == "ALPM_DB_VERSION":
+                continue
             [pkgname, pkgver, pkgrel] = entry.rsplit("-", 2)
             if pkgname == name:
                 dbentry = entry

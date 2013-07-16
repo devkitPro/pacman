@@ -44,6 +44,9 @@
 #include "deps.h"
 #include "filelist.h"
 
+/* local database format version */
+size_t ALPM_LOCAL_DB_VERSION = 9;
+
 static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
 
 #define LAZY_LOAD(info, errret) \
@@ -366,6 +369,20 @@ static int is_dir(const char *path, struct dirent *entry)
 	return 0;
 }
 
+static int local_db_add_version(alpm_db_t UNUSED *db, const char *dbpath)
+{
+	char dbverpath[PATH_MAX];
+	FILE *dbverfile;
+
+	snprintf(dbverpath, PATH_MAX, "%sALPM_DB_VERSION", dbpath);
+
+	dbverfile = fopen(dbverpath, "w");
+	fprintf(dbverfile, "%zu\n", ALPM_LOCAL_DB_VERSION);
+	fclose(dbverfile);
+
+	return 0;
+}
+
 static int local_db_create(alpm_db_t *db, const char *dbpath)
 {
 	if(mkdir(dbpath, 0755) != 0) {
@@ -373,6 +390,7 @@ static int local_db_create(alpm_db_t *db, const char *dbpath)
 				dbpath, strerror(errno));
 		RET_ERR(db->handle, ALPM_ERR_DB_CREATE, -1);
 	}
+	local_db_add_version(db, dbpath);
 	return 0;
 }
 
