@@ -23,9 +23,9 @@ declare -r myver='@PACKAGE_VERSION@'
 
 diffprog=${DIFFPROG:-vimdiff}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
-locate=0
 USE_COLOR='y'
 declare -a oldsaves
+declare -i USE_FIND=0 USE_LOCATE=0
 
 m4_include(../scripts/library/output_format.sh)
 
@@ -33,10 +33,13 @@ usage() {
 	cat <<EOF
 $myname is a simple pacnew/pacorig/pacsave updater.
 
-Usage: $myname [-l]
+Usage: $myname [-l | -f] [--nocolor]
 
-Options:
-  -l/--locate       scan using locate (default: find)
+Search Options:     select one, default: find
+  -l/--locate       scan using locate
+  -f/--find         scan using find
+
+General Options:
   --nocolor         remove colors from output
 
 Enviroment Variables:
@@ -56,9 +59,9 @@ version() {
 }
 
 cmd() {
-	if [ $locate -eq 1 ]; then
+	if (( USE_LOCATE )); then
 		locate -0 -e -b \*.pacnew \*.pacorig \*.pacsave '*.pacsave.[0-9]*'
-	else
+	elif (( USE_FIND )); then
 		find $diffsearchpath \( -name \*.pacnew -o -name \*.pacorig -o -name \*.pacsave -o -name '*.pacsave.[0-9]*' \) -print0
 	fi
 }
@@ -66,20 +69,28 @@ cmd() {
 while [[ -n "$1" ]]; do	
 	case "$1" in
 		-l|--locate)
-		locate=1;;
+			USE_LOCATE=1;;
+		-f|--find)
+			USE_FIND=1;;
 		--nocolor)
-		USE_COLOR='n' ;;
+			USE_COLOR='n' ;;
 		-V|--version)
-		version; exit 0;;
+			version; exit 0;;
 		-h|--help)
-		usage; exit 0;;
+			usage; exit 0;;
 		*)
-		usage; exit 1;;
+			usage; exit 1;;
 	esac
 	shift
 done
 
 m4_include(../scripts/library/term_colors.sh)
+
+case $(( USE_FIND + USE_LOCATE )) in
+	0) USE_FIND=1;; # set the default search option
+	[^1]) error "Only one search option may be used at a time"
+	 	usage; exit 1;;
+esac
 
 # see http://mywiki.wooledge.org/BashFAQ/020
 while IFS= read -u 3 -r -d '' pacfile; do
