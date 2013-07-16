@@ -180,6 +180,9 @@ class pmtest(object):
         for pkg in self.db["local"].pkgs:
             vprint("\tinstalling %s" % pkg.fullname())
             pkg.install_package(self.root)
+        if self.db["local"].pkgs:
+            path = os.path.join(self.root, util.PM_DBPATH, "local")
+            util.mkfile(path, ".alpm_db_version", "9")
 
         # Done.
         vprint("    Taking a snapshot of the file system")
