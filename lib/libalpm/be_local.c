@@ -398,9 +398,11 @@ static int local_db_validate(alpm_db_t *db)
 {
 	struct dirent *ent = NULL;
 	const char *dbpath;
+	DIR *dbdir;
 	char dbverpath[PATH_MAX];
 	FILE *dbverfile;
-	DIR *dbdir;
+	int t;
+	size_t version;
 
 	if(db->status & DB_STATUS_VALID) {
 		return 0;
@@ -437,7 +439,7 @@ static int local_db_validate(alpm_db_t *db)
 	db->status |= DB_STATUS_EXISTS;
 	db->status &= ~DB_STATUS_MISSING;
 
-	snprintf(dbverpath, PATH_MAX, "%s.alpm_db_version", dbpath);
+	snprintf(dbverpath, PATH_MAX, "%sALPM_DB_VERSION", dbpath);
 
 	if((dbverfile = fopen(dbverpath, "r")) == NULL) {
 		/* create dbverfile if local database is empty - otherwise version error */
@@ -453,26 +455,17 @@ static int local_db_validate(alpm_db_t *db)
 		local_db_add_version(db, dbpath);
 		goto version_latest;
 	}
+
+	t = fscanf(dbverfile, "%zu", &version);
 	fclose(dbverfile);
 
-	while((ent = readdir(dbdir)) != NULL) {
-		const char *name = ent->d_name;
-		char path[PATH_MAX];
-
-		if(strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
-			continue;
-		}
-		if(!is_dir(dbpath, ent)) {
-			continue;
-		}
-
-		snprintf(path, PATH_MAX, "%s%s/depends", dbpath, name);
-		if(access(path, F_OK) == 0) {
-			/* we found a depends file- bail */
-			goto version_error;
-		}
+	if(t != 1) {
+		goto version_error;
 	}
-	/* we found no depends file after full scan */
+
+	if(version != ALPM_LOCAL_DB_VERSION) {
+		goto version_error;
+	}
 
 version_latest:
 	closedir(dbdir);

@@ -182,7 +182,7 @@ class pmtest(object):
             pkg.install_package(self.root)
         if self.db["local"].pkgs:
             path = os.path.join(self.root, util.PM_DBPATH, "local")
-            util.mkfile(path, ".alpm_db_version", "9")
+            util.mkfile(path, "ALPM_DB_VERSION", "9")
 
         # Done.
         vprint("    Taking a snapshot of the file system")
