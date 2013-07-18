@@ -2,6 +2,7 @@
 #
 # pacsorttest - a test suite for pacsort
 #
+#   Copyright (c) 2013 by Pacman Development Team <pacman-dev@archlinux.org>
 #   Copyright (c) 2011 by Dan McGee <dan@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
@@ -20,31 +21,38 @@
 # default binary if one was not specified as $1
 bin='pacsort'
 # holds counts of tests
-total=0
+total=23
+run=0
 failure=0
 
 # args:
 # runtest input expected test_description optional_opts
 runtest() {
 	# run the test
-	diff -u <(printf "$1" | $bin $4) <(printf "$2")
-	if [[ $? -ne 0 ]]; then
-		echo "FAILURE: $3"
+	((run++))
+	out=$(diff -u <(printf "$1" | $bin $4) <(printf "$2"))
+	if [[ $? -eq 0 ]]; then
+		echo "ok $run - $3"
+	else
 		((failure++))
+		echo "not ok $run - $3"
+		while read line; do
+			echo "    # $line"
+		done <<<"$out"
 	fi
-	((total++))
 }
 
 # use first arg as our binary if specified
 [[ -n "$1" ]] && bin="$1"
 
 if ! type -p "$bin"; then
-	echo "pacsort binary ($bin) could not be located"
-	echo
+	echo "Bail out! pacsort binary ($bin) could not be located"
 	exit 1
 fi
 
 echo "Running pacsort tests..."
+
+echo "1..$total"
 
 # BEGIN TESTS
 
@@ -113,11 +121,9 @@ runtest "$separator" "$separator_reverse" "really long input, sort key, separato
 #END TESTS
 
 if [[ $failure -eq 0 ]]; then
-	echo "All $total tests successful"
-	echo
+	echo "# All $run tests successful"
 	exit 0
 fi
 
-echo "$failure of $total tests failed"
-echo
+echo "# $failure of $run tests failed"
 exit 1

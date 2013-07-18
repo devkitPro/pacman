@@ -1,14 +1,16 @@
 #!/bin/bash
 
+declare -i testcount=0 fail=0 pass=0 total=15
+
 # source the library function
 if [[ -z $1 || ! -f $1 ]]; then
-  printf "error: path to human_to_size library not provided or does not exist\n"
+  printf "Bail out! path to human_to_size library not provided or does not exist\n"
   exit 1
 fi
 . "$1"
 
 if ! type -t human_to_size >/dev/null; then
-  printf 'human_to_size function not found\n'
+  printf 'Bail out! human_to_size function not found\n'
   exit 1
 fi
 
@@ -20,27 +22,31 @@ parse_hts() {
   result=$(human_to_size "$1")
   if [[ $result = "$expected" ]]; then
     (( ++pass ))
+    printf "ok %d - %s\n" "$testcount" "$input"
   else
     (( ++fail ))
-    printf '[TEST %3s]: FAIL\n' "$testcount"
-    printf '      input: %s\n' "$input"
-    printf '     output: %s\n' "$result"
-    printf '   expected: %s\n' "$expected"
+    printf "not ok %d - %s\n" "$testcount" "$input"
+    printf '# [TEST %3s]: FAIL\n' "$testcount"
+    printf '#      input: %s\n' "$input"
+    printf '#     output: %s\n' "$result"
+    printf '#   expected: %s\n' "$expected"
   fi
 }
 
 summarize() {
   if (( !fail )); then
-    printf 'All %s tests successful\n\n' "$testcount"
+    printf '# All %s tests successful\n\n' "$testcount"
     exit 0
   else
-    printf '%s of %s tests failed\n\n' "$fail" "$testcount"
+    printf '# %s of %s tests failed\n\n' "$fail" "$testcount"
     exit 1
   fi
 }
 trap 'summarize' EXIT
 
-printf 'Beginning human_to_size tests\n'
+printf '# Beginning human_to_size tests\n'
+
+echo "1..$total"
 
 # parse_hts <input> <expected output>
 

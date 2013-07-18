@@ -20,22 +20,20 @@
 # default binary if one was not specified as $1
 bin='vercmp'
 # holds counts of tests
-total=0
+total=92
+run=0
 failure=0
 
 # args:
 # pass ver1 ver2 ret expected
 pass() {
-	#echo "test: ver1: $1 ver2: $2 ret: $3 expected: $4"
-	#echo "  --> pass"
-	echo -n
+	echo "ok $run - ver1: $1 ver2: $2 ret: $3"
 }
 
 # args:
 # fail ver1 ver2 ret expected
 fail() {
-	echo "test: ver1: $1 ver2: $2 ret: $3 expected: $4"
-	echo "  ==> FAILURE"
+	echo "not ok $run - test: ver1: $1 ver2: $2 ret: $3 expected: $4"
 	((failure++))
 }
 
@@ -43,12 +41,13 @@ fail() {
 # runtest ver1 ver2 expected
 runtest() {
 	# run the test
+	((run++))
 	ret=$($bin $1 $2)
 	func='pass'
 	[[ -n $ret && $ret -eq $3 ]] || func='fail'
 	$func $1 $2 $ret $3
-	((total++))
 	# and run its mirror case just to be sure
+	((run++))
 	reverse=0
 	[[ $3 -eq 1 ]] && reverse=-1
 	[[ $3 -eq -1 ]] && reverse=1
@@ -56,19 +55,19 @@ runtest() {
 	func='pass'
 	[[ -n $ret && $ret -eq $reverse ]] || func='fail'
 	$func $2 $1 $ret $reverse
-	((total++))
 }
 
 # use first arg as our binary if specified
 [[ -n "$1" ]] && bin="$1"
 
 if ! type -p "$bin"; then
-	echo "vercmp binary ($bin) could not be located"
-	echo
+	echo "Bail out! vercmp binary ($bin) could not be located"
 	exit 1
 fi
 
-echo "Running vercmp tests..."
+echo "# Running vercmp tests..."
+
+echo "1..$total"
 
 # BEGIN TESTS
 
@@ -147,11 +146,9 @@ runtest 1:1.1    1.1   1
 #END TESTS
 
 if [[ $failure -eq 0 ]]; then
-	echo "All $total tests successful"
-	echo
+	echo "# All $run tests successful"
 	exit 0
 fi
 
-echo "$failure of $total tests failed"
-echo
+echo "# $failure of $run tests failed"
 exit 1

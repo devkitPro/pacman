@@ -1,16 +1,16 @@
 #!/bin/bash
 
-declare -i testcount=0 pass=0 fail=0
+declare -i testcount=0 pass=0 fail=0 total=25
 
 # source the library function
 if [[ -z $1 || ! -f $1 ]]; then
-  printf "error: path to parseopts library not provided or does not exist\n"
+  printf "Bail out! path to parseopts library not provided or does not exist\n"
   exit 1
 fi
 . "$1"
 
 if ! type -t parseopts >/dev/null; then
-  printf 'parseopts function not found\n'
+  printf 'Bail out! parseopts function not found\n'
   exit 1
 fi
 
@@ -36,28 +36,31 @@ test_result() {
 
   if [[ $result = "$*" ]] && (( tokencount == $# )); then
     (( ++pass ))
+    printf 'ok %d - %s\n' "$testcount" "$input"
   else
-    printf '[TEST %3s]: FAIL\n' "$testcount"
-    printf '      input: %s\n' "$input"
-    printf '     output: %s (%s tokens)\n' "$*" "$#"
-    printf '   expected: %s (%s tokens)\n' "$result" "$tokencount"
-    echo
+    printf 'not ok %d - %s\n' "$testcount" "$input"
+    printf '# [TEST %3s]: FAIL\n' "$testcount"
+    printf '#      input: %s\n' "$input"
+    printf '#     output: %s (%s tokens)\n' "$*" "$#"
+    printf '#   expected: %s (%s tokens)\n' "$result" "$tokencount"
     (( ++fail ))
   fi
 }
 
 summarize() {
   if (( !fail )); then
-    printf 'All %s tests successful\n\n' "$testcount"
+    printf '# All %s tests successful\n\n' "$testcount"
     exit 0
   else
-    printf '%s of %s tests failed\n\n' "$fail" "$testcount"
+    printf '# %s of %s tests failed\n\n' "$fail" "$testcount"
     exit 1
   fi
 }
 trap 'summarize' EXIT
 
-printf 'Beginning parseopts tests\n'
+printf '# Beginning parseopts tests\n'
+
+echo "1..$total"
 
 # usage: parse <expected result> <token count> test-params...
 # a failed parse will match only the end of options marker '--'
