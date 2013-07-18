@@ -23,29 +23,25 @@ dist_pkgdata_DATA = \
 	proto/proto.install \
 	proto/ChangeLog.proto
 
-# run the pactest test suite and vercmp tests
-check-local: test-pacman test-pacsort test-vercmp test-parseopts
+TESTS =  test/scripts/parseopts_test.sh \
+				 test/scripts/human_to_size_test.sh \
+				 test/util/pacsorttest.sh \
+				 test/util/vercmptest.sh
+include $(top_srcdir)/test/pacman/tests/TESTS
 
-test-pacman: test/pacman src/pacman
-	$(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
+TEST_EXTENSIONS = .py
+AM_TESTS_ENVIRONMENT = \
+	PMTEST_UTIL_DIR=$(top_srcdir)/src/util/; export PMTEST_UTIL_DIR; \
+	PMTEST_SCRIPTLIB_DIR=$(top_srcdir)/scripts/library/; export PMTEST_SCRIPTLIB_DIR;
+TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
+								 $(top_srcdir)/build-aux/tap-driver.sh
+PY_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
+								 $(top_srcdir)/build-aux/tap-driver.sh
+PY_LOG_COMPILER = test/pacman/pactest.py
+AM_PY_LOG_FLAGS = \
 		--scriptlet-shell $(SCRIPTLET_SHELL) \
 		--ldconfig $(LDCONFIG) \
-		-p $(top_builddir)/src/pacman/pacman \
-		$(top_srcdir)/test/pacman/tests/*.py
-
-test-pacsort: test/util src/util
-	$(BASH_SHELL) $(top_srcdir)/test/util/pacsorttest.sh \
-		$(top_builddir)/src/util/pacsort
-
-test-vercmp: test/util src/util
-	$(BASH_SHELL) $(top_srcdir)/test/util/vercmptest.sh \
-		$(top_builddir)/src/util/vercmp
-
-test-parseopts: test/scripts scripts
-	$(BASH_SHELL) $(top_srcdir)/test/scripts/parseopts_test.sh \
-		$(top_srcdir)/scripts/library/parseopts.sh
-	$(BASH_SHELL) $(top_srcdir)/test/scripts/human_to_size_test.sh \
-		$(top_srcdir)/scripts/library/human_to_size.sh
+		-p $(top_builddir)/src/pacman/pacman
 
 # create the pacman DB and cache directories upon install
 install-data-local:
