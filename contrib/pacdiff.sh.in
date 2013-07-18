@@ -18,6 +18,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+shopt -s extglob
+
 declare -r myname='pacdiff'
 declare -r myver='@PACKAGE_VERSION@'
 
@@ -25,7 +27,7 @@ diffprog=${DIFFPROG:-vimdiff}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
 USE_COLOR='y'
 declare -a oldsaves
-declare -i USE_FIND=0 USE_LOCATE=0
+declare -i USE_FIND=0 USE_LOCATE=0 USE_PACDB=0
 
 m4_include(../scripts/library/output_format.sh)
 
@@ -33,11 +35,12 @@ usage() {
 	cat <<EOF
 $myname is a simple pacnew/pacorig/pacsave updater.
 
-Usage: $myname [-l | -f] [--nocolor]
+Usage: $myname [-l | -f | -p] [--nocolor]
 
 Search Options:     select one, default: find
   -l/--locate       scan using locate
   -f/--find         scan using find
+  -p/--pacmandb     scan active config files from pacman db
 
 General Options:
   --nocolor         remove colors from output
@@ -58,11 +61,32 @@ version() {
 	echo 'Copyright (C) 2013 Pacman Development Team <pacman-dev@archlinux.org>'
 }
 
+print_existing() {
+	[[ -f "$1" ]] && printf '%s\0' "$1"
+}
+
+print_existing_pacsave(){
+	for f in "${1}"?(.+([0-9])); do
+		[[ -f $f ]] && printf '%s\0' "$f"
+	done
+}	
+
 cmd() {
 	if (( USE_LOCATE )); then
 		locate -0 -e -b \*.pacnew \*.pacorig \*.pacsave '*.pacsave.[0-9]*'
 	elif (( USE_FIND )); then
 		find $diffsearchpath \( -name \*.pacnew -o -name \*.pacorig -o -name \*.pacsave -o -name '*.pacsave.[0-9]*' \) -print0
+	elif (( USE_PACDB )); then
+		awk '/^%BACKUP%$/ {
+		while (getline) {
+			if (/^$/) { nextfile }
+				print $1
+			}
+		}' "${pac_db}"/*/files | while read -r bkup; do
+			print_existing "/$bkup.pacnew"
+			print_existing "/$bkup.pacorig"
+			print_existing_pacsave "/$bkup.pacsave"
+		done
 	fi
 }
 
@@ -72,8 +96,10 @@ while [[ -n "$1" ]]; do
 			USE_LOCATE=1;;
 		-f|--find)
 			USE_FIND=1;;
+		-p|--pacmandb)
+			USE_PACDB=1;;
 		--nocolor)
-			USE_COLOR='n' ;;
+			USE_COLOR='n';;
 		-V|--version)
 			version; exit 0;;
 		-h|--help)
@@ -86,11 +112,25 @@ done
 
 m4_include(../scripts/library/term_colors.sh)
 
-case $(( USE_FIND + USE_LOCATE )) in
+case $(( USE_FIND + USE_LOCATE + USE_PACDB )) in
 	0) USE_FIND=1;; # set the default search option
 	[^1]) error "Only one search option may be used at a time"
 	 	usage; exit 1;;
 esac
+
+if (( USE_PACDB )); then
+	if [[ ! -r @sysconfdir@/pacman.conf ]]; then
+		error "unable to read @sysconfdir@/pacman.conf"
+		usage; exit 1
+	fi
+
+	eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
+	pac_db="${DBPath:-@localstatedir@/lib/pacman/}local"
+	if [[ ! -d "${pac_db}" ]]; then
+		error "unable to read pacman db %s". "${pac_db}"
+		usage; exit 1
+	fi
+fi
 
 # see http://mywiki.wooledge.org/BashFAQ/020
 while IFS= read -u 3 -r -d '' pacfile; do
@@ -121,8 +161,8 @@ while IFS= read -u 3 -r -d '' pacfile; do
 				r|R) rm -v "$pacfile"; break ;;
 				o|O) mv -v "$pacfile" "$file"; break ;;
 				v|V)
-				$diffprog "$pacfile" "$file"
-				rm -iv "$pacfile"; break ;;
+					$diffprog "$pacfile" "$file"
+					rm -iv "$pacfile"; break ;;
 				s|S) break ;;
 				*) ask "Invalid answer. Try again: [v/s/r/o/q] "; continue ;;
 			esac
