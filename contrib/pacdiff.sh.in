@@ -37,7 +37,7 @@ $myname is a simple pacnew/pacorig/pacsave updater.
 
 Usage: $myname [-l | -f | -p] [--nocolor]
 
-Search Options:     select one, default: find
+Search Options:     select one, default: pacmandb
   -l/--locate       scan using locate
   -f/--find         scan using find
   -p/--pacmandb     scan active config files from pacman db
@@ -113,7 +113,7 @@ done
 m4_include(../scripts/library/term_colors.sh)
 
 case $(( USE_FIND + USE_LOCATE + USE_PACDB )) in
-	0) USE_FIND=1;; # set the default search option
+	0) USE_PACDB=1;; # set the default search option
 	[^1]) error "Only one search option may be used at a time"
 	 	usage; exit 1;;
 esac
