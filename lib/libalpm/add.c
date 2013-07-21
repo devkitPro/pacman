@@ -215,18 +215,32 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	} else {
 		if(S_ISDIR(lsbuf.st_mode)) {
 			if(S_ISDIR(entrymode)) {
+				uid_t entryuid = archive_entry_uid(entry);
+				gid_t entrygid = archive_entry_gid(entry);
+
 				/* case 6: existing dir, ignore it */
 				if(lsbuf.st_mode != entrymode) {
 					/* if filesystem perms are different than pkg perms, warn user */
 					mode_t mask = 07777;
 					_alpm_log(handle, ALPM_LOG_WARNING, _("directory permissions differ on %s\n"
-								"filesystem: %o  package: %o\n"), filename, lsbuf.st_mode & mask,
+							"filesystem: %o  package: %o\n"), filename, lsbuf.st_mode & mask,
 							entrymode & mask);
 					alpm_logaction(handle, ALPM_CALLER_PREFIX,
 							"warning: directory permissions differ on %s\n"
 							"filesystem: %o  package: %o\n", filename, lsbuf.st_mode & mask,
 							entrymode & mask);
 				}
+
+				if((entryuid != lsbuf.st_uid) || (entrygid != lsbuf.st_gid)) {
+					_alpm_log(handle, ALPM_LOG_WARNING, _("directory ownership differs on %s\n"
+							"filesystem: %u:%u  package: %u:%u\n"), filename,
+							lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
+					alpm_logaction(handle, ALPM_CALLER_PREFIX,
+							"warning: directory ownership differs on %s\n"
+							"filesystem: %u:%u  package: %u:%u\n", filename,
+							lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
+				}
+
 				_alpm_log(handle, ALPM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
 						filename);
 				archive_read_data_skip(archive);

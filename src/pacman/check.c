@@ -106,9 +106,12 @@ static int check_file_time(const char *pkgname, const char *filepath,
 {
 	if(st->st_mtime != archive_entry_mtime(entry)) {
 		if(backup) {
-			printf("%s%s%s: ", config->colstr.title, _("backup file"), config->colstr.nocolor);
-			printf(_("%s: %s (Modification time mismatch)\n"),
-					pkgname, filepath);
+			if(!config->quiet) {
+				printf("%s%s%s: ", config->colstr.title, _("backup file"),
+						config->colstr.nocolor);
+				printf(_("%s: %s (Modification time mismatch)\n"),
+						pkgname, filepath);
+			}
 			return 0;
 		}
 		if(!config->quiet) {
@@ -150,9 +153,12 @@ static int check_file_size(const char *pkgname, const char *filepath,
 {
 	if(st->st_size != archive_entry_size(entry)) {
 		if(backup) {
-			printf("%s%s%s: ", config->colstr.title, _("backup file"), config->colstr.nocolor);
-			printf(_("%s: %s (Size mismatch)\n"),
-					pkgname, filepath);
+			if(!config->quiet) {
+				printf("%s%s%s: ", config->colstr.title, _("backup file"),
+						config->colstr.nocolor);
+				printf(_("%s: %s (Size mismatch)\n"),
+						pkgname, filepath);
+			}
 			return 0;
 		}
 		if(!config->quiet) {
