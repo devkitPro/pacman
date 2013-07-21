@@ -8,8 +8,6 @@ sp.groups = ["foo"]
 sp.url = "http://www.archlinux.org"
 sp.license = "GPL2"
 sp.arch = "i686"
-# test both old style and new style dates
-sp.builddate = "Mon Oct  1 01:40:21 2007 UTC"
 sp.packager = "Arch Linux"
 sp.md5sum = "00000000000000000000000000000000"
 
@@ -20,4 +18,3 @@ self.args = "-Si %s" % sp.name
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PACMAN_OUTPUT=^Name.*%s" % sp.name)
 self.addrule("PACMAN_OUTPUT=^Description.*%s" % sp.desc)
-self.addrule("PACMAN_OUTPUT=^Build Date.*2007")
