@@ -102,9 +102,15 @@ static int check_file_permissions(const char *pkgname, const char *filepath,
 }
 
 static int check_file_time(const char *pkgname, const char *filepath,
-		struct stat *st, struct archive_entry *entry)
+		struct stat *st, struct archive_entry *entry, int backup)
 {
 	if(st->st_mtime != archive_entry_mtime(entry)) {
+		if(backup) {
+			printf("%s%s%s: ", config->colstr.title, _("backup file"), config->colstr.nocolor);
+			printf(_("%s: %s (Modification time mismatch)\n"),
+					pkgname, filepath);
+			return 0;
+		}
 		if(!config->quiet) {
 			pm_printf(ALPM_LOG_WARNING, _("%s: %s (Modification time mismatch)\n"),
 					pkgname, filepath);
@@ -140,9 +146,15 @@ static int check_file_link(const char *pkgname, const char *filepath,
 }
 
 static int check_file_size(const char *pkgname, const char *filepath,
-		struct stat *st, struct archive_entry *entry)
+		struct stat *st, struct archive_entry *entry, int backup)
 {
 	if(st->st_size != archive_entry_size(entry)) {
+		if(backup) {
+			printf("%s%s%s: ", config->colstr.title, _("backup file"), config->colstr.nocolor);
+			printf(_("%s: %s (Size mismatch)\n"),
+					pkgname, filepath);
+			return 0;
+		}
 		if(!config->quiet) {
 			pm_printf(ALPM_LOG_WARNING, _("%s: %s (Size mismatch)\n"),
 					pkgname, filepath);
@@ -155,13 +167,13 @@ static int check_file_size(const char *pkgname, const char *filepath,
 
 /* placeholders - libarchive currently does not read checksums from mtree files
 static int check_file_md5sum(const char *pkgname, const char *filepath,
-		struct stat *st, struct archive_entry *entry)
+		struct stat *st, struct archive_entry *entry, int backup)
 {
 	return 0;
 }
 
 static int check_file_sha256sum(const char *pkgname, const char *filepath,
-		struct stat *st, struct archive_entry *entry)
+		struct stat *st, struct archive_entry *entry, int backup)
 {
 	return 0;
 }
@@ -222,6 +234,7 @@ int check_pkg_full(alpm_pkg_t *pkg)
 	struct archive *mtree;
 	struct archive_entry *entry = NULL;
 	size_t file_count = 0;
+	const alpm_list_t *lp;
 
 	root = alpm_option_get_root(config->handle);
 	rootlen = strlen(root);
@@ -247,6 +260,7 @@ int check_pkg_full(alpm_pkg_t *pkg)
 		const char *path = archive_entry_pathname(entry);
 		mode_t type;
 		size_t file_errors = 0;
+		int backup = 0;
 
 		/* strip leading "./" from path entries */
 		if(path[0] == '.' && path[1] == '/') {
@@ -298,19 +312,30 @@ int check_pkg_full(alpm_pkg_t *pkg)
 
 		file_errors += check_file_permissions(pkgname, filepath, &st, entry);
 
-		if(type != AE_IFDIR) {
-			/* file or symbolic link */
-			file_errors += check_file_time(pkgname, filepath, &st, entry);
-		}
-
 		if(type == AE_IFLNK) {
 			file_errors += check_file_link(pkgname, filepath, &st, entry);
 		}
 
+		/* the following checks are expected to fail if a backup file has been
+		   modified */
+		for(lp = alpm_pkg_get_backup(pkg); lp; lp = lp->next) {
+			alpm_backup_t *bl = lp->data;
+
+			if(strcmp(path, bl->name) == 0) {
+				backup = 1;
+				continue;
+			}
+		}
+
+		if(type != AE_IFDIR) {
+			/* file or symbolic link */
+			file_errors += check_file_time(pkgname, filepath, &st, entry, backup);
+		}
+
 		if(type == AE_IFREG) {
 			/* TODO: these are expected to be changed with backup files */
-			file_errors += check_file_size(pkgname, filepath, &st, entry);
-			/* file_errors += check_file_md5sum(pkgname, filepath, &st, entry); */
+			file_errors += check_file_size(pkgname, filepath, &st, entry, backup);
+			/* file_errors += check_file_md5sum(pkgname, filepath, &st, entry, backup); */
 		}
 
 		if(config->quiet && file_errors) {
