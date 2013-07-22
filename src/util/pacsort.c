@@ -26,7 +26,7 @@
 
 #include <alpm.h>
 
-#define DELIM   ' '
+#define DELIM ' '
 
 struct buffer_t {
 	char *mem;
@@ -52,21 +52,21 @@ static struct options_t {
 /* A quick and dirty implementation derived from glibc */
 static size_t strnlen(const char *s, size_t max)
 {
-    register const char *p;
-    for(p = s; *p && max--; ++p);
-    return (p - s);
+	register const char *p;
+	for(p = s; *p && max--; ++p);
+	return (p - s);
 }
 
 char *strndup(const char *s, size_t n)
 {
-  size_t len = strnlen(s, n);
-  char *new = (char *) malloc(len + 1);
+	size_t len = strnlen(s, n);
+	char *new = (char *) malloc(len + 1);
 
-  if(new == NULL)
-    return NULL;
+	if(new == NULL)
+		return NULL;
 
-  new[len] = '\0';
-  return (char *)memcpy(new, s, len);
+	new[len] = '\0';
+	return (char *)memcpy(new, s, len);
 }
 #endif
 

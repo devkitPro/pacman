@@ -125,21 +125,21 @@ const char *configfile = CONFFILE;
 /* A quick and dirty implementation derived from glibc */
 static size_t strnlen(const char *s, size_t max)
 {
-    register const char *p;
-    for(p = s; *p && max--; ++p);
-    return (p - s);
+	register const char *p;
+	for(p = s; *p && max--; ++p);
+	return (p - s);
 }
 
 char *strndup(const char *s, size_t n)
 {
-  size_t len = strnlen(s, n);
-  char *new = (char *) malloc(len + 1);
+	size_t len = strnlen(s, n);
+	char *new = (char *) malloc(len + 1);
 
-  if(new == NULL)
-    return NULL;
+	if(new == NULL)
+		return NULL;
 
-  new[len] = '\0';
-  return (char *)memcpy(new, s, len);
+	new[len] = '\0';
+	return (char *)memcpy(new, s, len);
 }
 #endif
 
@@ -362,7 +362,7 @@ static void print_text(const char *pkg, const char *provision,
 
 	/* print tip */
 	if(!pkg && provision) {
-		printf("%s%s%s%s [unresolvable]%s\n", tip,  color->leaf1,
+		printf("%s%s%s%s [unresolvable]%s\n", tip, color->leaf1,
 				provision, color->branch1, color->off);
 	} else if(provision && strcmp(pkg, provision) != 0) {
 		printf("%s%s%s%s%s %s%s%s\n", tip, color->leaf1, pkg,
