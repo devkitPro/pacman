@@ -548,7 +548,7 @@ download_git() {
 	elif (( ! HOLDVER )); then
 		cd_safe "$dir"
 		# Make sure we are fetching the right repo
-		if [[ "$url" != "$(git config --get remote.origin.url)"  ]] ; then
+		if [[ "$url" != "$(git config --get remote.origin.url)" ]] ; then
 			error "$(gettext "%s is not a clone of %s")" "$dir" "$url"
 			plain "$(gettext "Aborting...")"
 			exit 1
@@ -1606,10 +1606,10 @@ tidy_install() {
 	done
 
 	# check for references to the build and package directory
-	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${srcdir}" ; then
+	if find "${pkgdir}" -type f -print0 | xargs -0 grep -q -I "${srcdir}" ; then
 		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
 	fi
-	if find "${pkgdir}" -type f -print0 | xargs -0  grep -q -I "${pkgdirbase}" ; then
+	if find "${pkgdir}" -type f -print0 | xargs -0 grep -q -I "${pkgdirbase}" ; then
 		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
 	fi
 
@@ -2904,7 +2904,7 @@ msg "$(gettext "Making package: %s")" "$pkgbase $fullver ($(date))"
 # if we are creating a source-only package, go no further
 if (( SOURCEONLY )); then
 	if [[ -f $SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT} ]] \
-	     && (( ! FORCE )); then
+			&& (( ! FORCE )); then
 		error "$(gettext "A source package has already been built. (use %s to overwrite)")" "-f"
 		exit 1
 	fi
