@@ -744,7 +744,7 @@ static int setup_libalpm(void)
  */
 struct section_t {
 	/* useful for all sections */
-	char *name;
+	const char *name;
 	int is_options;
 	int parse_options;
 	/* db section option gathering */
@@ -836,14 +836,25 @@ cleanup:
 	alpm_list_free(section->servers);
 	section->servers = NULL;
 	section->siglevel = ALPM_SIG_USE_DEFAULT;
-	free(section->name);
 	section->name = NULL;
 	return ret;
 }
 
-static int _parse_directive(const char *file, int linenum,
+static int _parse_directive(const char *file, int linenum, const char *name,
 		char *key, char *value, struct section_t *section)
 {
+	if(!key && !value) {
+		int ret = finish_section(section);
+		pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
+		section->name = name;
+		if(name && strcmp(name, "options") == 0) {
+			section->is_options = 1;
+		} else {
+			section->is_options = 0;
+		}
+		return ret;
+	}
+
 	if(section->name == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
 				file, linenum);
@@ -857,6 +868,7 @@ static int _parse_directive(const char *file, int linenum,
 		/* ... or in a repo section */
 		return _parse_repo(key, value, file, linenum, section);
 	}
+
 	return 0;
 }
 
@@ -869,7 +881,8 @@ static int _parse_directive(const char *file, int linenum,
  * @param depth the current recursion depth
  * @return 0 on success, 1 on failure
  */
-static int _parseconfig(const char *file, struct section_t *section, int depth)
+static int _parseconfig(const char *file, struct section_t *section,
+		char **section_name, int depth)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX];
@@ -922,14 +935,14 @@ static int _parseconfig(const char *file, struct section_t *section, int depth)
 			/* new config section, skip the '[' */
 			name = strdup(line + 1);
 			name[line_len - 2] = '\0';
-			/* we're at a new section; perform any post-actions for the prior */
-			if(finish_section(section)) {
-				ret = 1;
+
+			ret = _parse_directive(file, linenum, name, NULL, NULL, section);
+			free(*section_name);
+			*section_name = name;
+
+			if(ret) {
 				goto cleanup;
 			}
-			pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
-			section->name = name;
-			section->is_options = (strcmp(name, "options") == 0);
 			continue;
 		}
 
@@ -981,25 +994,30 @@ static int _parseconfig(const char *file, struct section_t *section, int depth)
 					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
-						_parseconfig(globbuf.gl_pathv[gindex], section, depth + 1);
+						_parseconfig(globbuf.gl_pathv[gindex], section,
+								section_name, depth + 1);
 					}
 				break;
 			}
 			globfree(&globbuf);
 			continue;
 		}
-		if((ret = _parse_directive(file, linenum, key, value, section)) != 0) {
+		if((ret = _parse_directive(file, linenum, *section_name, key, value, section)) != 0) {
 			goto cleanup;
 		}
 	}
 
 	if(depth == 0) {
-		ret = finish_section(section);
+		ret = _parse_directive(NULL, 0, NULL, NULL, NULL, section);
 	}
 
 cleanup:
 	if(fp) {
 		fclose(fp);
+	}
+	if(depth == 0) {
+		free(*section_name);
+		*section_name = NULL;
 	}
 	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return ret;
@@ -1013,6 +1031,7 @@ int parseconfig(const char *file)
 {
 	int ret;
 	struct section_t section;
+	char *section_name = NULL;
 	memset(&section, 0, sizeof(struct section_t));
 	section.siglevel = ALPM_SIG_USE_DEFAULT;
 	/* the config parse is a two-pass affair. We first parse the entire thing for
@@ -1022,7 +1041,7 @@ int parseconfig(const char *file)
 	/* call the real parseconfig function with a null section & db argument */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: options pass\n");
 	section.parse_options = 1;
-	if((ret = _parseconfig(file, &section, 0))) {
+	if((ret = _parseconfig(file, &section, &section_name, 0))) {
 		return ret;
 	}
 	if((ret = setup_libalpm())) {
@@ -1031,7 +1050,7 @@ int parseconfig(const char *file)
 	/* second pass, repo section parsing */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: repo pass\n");
 	section.parse_options = 0;
-	return _parseconfig(file, &section, 0);
+	return _parseconfig(file, &section, &section_name, 0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
