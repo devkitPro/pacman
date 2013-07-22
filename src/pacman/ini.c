@@ -34,16 +34,16 @@
  * @param cb callback for key/value pairs
  * @param data caller defined data to be passed to the callback
  * @param section_name the name of the current section
+ * @param line buffer to read into, must be at least PATH_MAX long
  * @param depth recursion depth, should initially be 0
  *
  * @return 0 on success, 1 on parsing errors, the callback return value
  * otherwise
  */
 static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
-		char **section_name, int depth)
+		char **section_name, char *line, int depth)
 {
 	FILE *fp = NULL;
-	char line[PATH_MAX];
 	int linenum = 0;
 	int ret = 0;
 	const int max_depth = 10;
@@ -154,7 +154,7 @@ static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
 						pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
 						_parse_ini(globbuf.gl_pathv[gindex], cb, data,
-								section_name, depth + 1);
+								section_name, line, depth + 1);
 					}
 					break;
 			}
@@ -204,8 +204,8 @@ cleanup:
  */
 int parse_ini(const char *file, ini_parser_fn cb, void *data)
 {
-	char *section_name = NULL;
-	return _parse_ini(file, cb, data, &section_name, 0);
+	char *section_name = NULL, line[PATH_MAX];
+	return _parse_ini(file, cb, data, &section_name, line, 0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
