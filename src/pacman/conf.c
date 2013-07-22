@@ -746,6 +746,7 @@ struct section_t {
 	/* useful for all sections */
 	char *name;
 	int is_options;
+	int parse_options;
 	/* db section option gathering */
 	alpm_siglevel_t siglevel;
 	alpm_list_t *servers;
@@ -760,7 +761,7 @@ struct section_t {
  * @param parse_options whether we are parsing options or repo data
  * @return 0 on success, 1 on failure
  */
-static int finish_section(struct section_t *section, int parse_options)
+static int finish_section(struct section_t *section)
 {
 	int ret = 0;
 	alpm_list_t *i;
@@ -769,7 +770,7 @@ static int finish_section(struct section_t *section, int parse_options)
 	pm_printf(ALPM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
 
 	/* parsing options (or nothing)- nothing to do except free the pieces */
-	if(!section->name || parse_options || section->is_options) {
+	if(!section->name || section->parse_options || section->is_options) {
 		goto cleanup;
 	}
 
@@ -809,13 +810,10 @@ cleanup:
  * within ourself on an include.
  * @param file path to the config file
  * @param section the current active section
- * @param parse_options whether to parse and call methods for the options
- * section; if 0, parse and call methods for the repos sections
  * @param depth the current recursion depth
  * @return 0 on success, 1 on failure
  */
-static int _parseconfig(const char *file, struct section_t *section,
-		int parse_options, int depth)
+static int _parseconfig(const char *file, struct section_t *section, int depth)
 {
 	FILE *fp = NULL;
 	char line[PATH_MAX];
@@ -869,7 +867,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 			name = strdup(line + 1);
 			name[line_len - 2] = '\0';
 			/* we're at a new section; perform any post-actions for the prior */
-			if(finish_section(section, parse_options)) {
+			if(finish_section(section)) {
 				ret = 1;
 				goto cleanup;
 			}
@@ -934,19 +932,19 @@ static int _parseconfig(const char *file, struct section_t *section,
 					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
-						_parseconfig(globbuf.gl_pathv[gindex], section, parse_options, depth + 1);
+						_parseconfig(globbuf.gl_pathv[gindex], section, depth + 1);
 					}
 				break;
 			}
 			globfree(&globbuf);
 			continue;
 		}
-		if(parse_options && section->is_options) {
+		if(section->parse_options && section->is_options) {
 			/* we are either in options ... */
 			if((ret = _parse_options(key, value, file, linenum)) != 0) {
 				goto cleanup;
 			}
-		} else if(!parse_options && !section->is_options) {
+		} else if(!section->parse_options && !section->is_options) {
 			/* ... or in a repo section */
 			if(strcmp(key, "Server") == 0) {
 				if(value == NULL) {
@@ -979,7 +977,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 	}
 
 	if(depth == 0) {
-		ret = finish_section(section, parse_options);
+		ret = finish_section(section);
 	}
 
 cleanup:
@@ -1006,7 +1004,8 @@ int parseconfig(const char *file)
 
 	/* call the real parseconfig function with a null section & db argument */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: options pass\n");
-	if((ret = _parseconfig(file, &section, 1, 0))) {
+	section.parse_options = 1;
+	if((ret = _parseconfig(file, &section, 0))) {
 		return ret;
 	}
 	if((ret = setup_libalpm())) {
@@ -1014,7 +1013,8 @@ int parseconfig(const char *file)
 	}
 	/* second pass, repo section parsing */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: repo pass\n");
-	return _parseconfig(file, &section, 0, 0);
+	section.parse_options = 0;
+	return _parseconfig(file, &section, 0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
