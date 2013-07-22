@@ -841,6 +841,25 @@ cleanup:
 	return ret;
 }
 
+static int _parse_directive(const char *file, int linenum,
+		char *key, char *value, struct section_t *section)
+{
+	if(section->name == NULL) {
+		pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
+				file, linenum);
+		return 1;
+	}
+
+	if(section->parse_options && section->is_options) {
+		/* we are either in options ... */
+		return _parse_options(key, value, file, linenum);
+	} else if(!section->parse_options && !section->is_options) {
+		/* ... or in a repo section */
+		return _parse_repo(key, value, file, linenum, section);
+	}
+	return 0;
+}
+
 /** The "real" parseconfig. Each "Include" directive will recall this method so
  * recursion and stack depth are limited to 10 levels. The publicly visible
  * parseconfig calls this with a NULL section argument so we can recall from
@@ -928,13 +947,6 @@ static int _parseconfig(const char *file, struct section_t *section, int depth)
 			ret = 1;
 			goto cleanup;
 		}
-		/* For each directive, compare to the camelcase string. */
-		if(section->name == NULL) {
-			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: All directives must belong to a section.\n"),
-					file, linenum);
-			ret = 1;
-			goto cleanup;
-		}
 		/* Include is allowed in both options and repo sections */
 		if(strcmp(key, "Include") == 0) {
 			glob_t globbuf;
@@ -976,16 +988,8 @@ static int _parseconfig(const char *file, struct section_t *section, int depth)
 			globfree(&globbuf);
 			continue;
 		}
-		if(section->parse_options && section->is_options) {
-			/* we are either in options ... */
-			if((ret = _parse_options(key, value, file, linenum)) != 0) {
-				goto cleanup;
-			}
-		} else if(!section->parse_options && !section->is_options) {
-			/* ... or in a repo section */
-			if((ret = _parse_repo(key, value, file, linenum, section)) != 0) {
-				goto cleanup;
-			}
+		if((ret = _parse_directive(file, linenum, key, value, section)) != 0) {
+			goto cleanup;
 		}
 	}
 
