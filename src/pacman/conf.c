@@ -841,8 +841,9 @@ cleanup:
 }
 
 static int _parse_directive(const char *file, int linenum, const char *name,
-		char *key, char *value, struct section_t *section)
+		char *key, char *value, void *data)
 {
+	struct section_t *section = data;
 	if(!key && !value) {
 		int ret = finish_section(section);
 		pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
@@ -872,6 +873,9 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 	return 0;
 }
 
+typedef int (ini_parser_fn)(const char *file, int line, const char *section,
+		char *key, char *value, void *data);
+
 /** The "real" parseconfig. Each "Include" directive will recall this method so
  * recursion and stack depth are limited to 10 levels. The publicly visible
  * parseconfig calls this with a NULL section argument so we can recall from
@@ -881,7 +885,7 @@ static int _parse_directive(const char *file, int linenum, const char *name,
  * @param depth the current recursion depth
  * @return 0 on success, 1 on failure
  */
-static int _parseconfig(const char *file, struct section_t *section,
+static int _parseconfig(const char *file, ini_parser_fn cb, void *data,
 		char **section_name, int depth)
 {
 	FILE *fp = NULL;
@@ -936,7 +940,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 			name = strdup(line + 1);
 			name[line_len - 2] = '\0';
 
-			ret = _parse_directive(file, linenum, name, NULL, NULL, section);
+			ret = cb(file, linenum, name, NULL, NULL, data);
 			free(*section_name);
 			*section_name = name;
 
@@ -994,7 +998,7 @@ static int _parseconfig(const char *file, struct section_t *section,
 					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
-						_parseconfig(globbuf.gl_pathv[gindex], section,
+						_parseconfig(globbuf.gl_pathv[gindex], cb, data,
 								section_name, depth + 1);
 					}
 				break;
@@ -1002,13 +1006,13 @@ static int _parseconfig(const char *file, struct section_t *section,
 			globfree(&globbuf);
 			continue;
 		}
-		if((ret = _parse_directive(file, linenum, *section_name, key, value, section)) != 0) {
+		if((ret = cb(file, linenum, *section_name, key, value, data)) != 0) {
 			goto cleanup;
 		}
 	}
 
 	if(depth == 0) {
-		ret = _parse_directive(NULL, 0, NULL, NULL, NULL, section);
+		ret = cb(NULL, 0, NULL, NULL, NULL, data);
 	}
 
 cleanup:
@@ -1041,7 +1045,7 @@ int parseconfig(const char *file)
 	/* call the real parseconfig function with a null section & db argument */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: options pass\n");
 	section.parse_options = 1;
-	if((ret = _parseconfig(file, &section, &section_name, 0))) {
+	if((ret = _parseconfig(file, _parse_directive, &section, &section_name, 0))) {
 		return ret;
 	}
 	if((ret = setup_libalpm())) {
@@ -1050,7 +1054,7 @@ int parseconfig(const char *file)
 	/* second pass, repo section parsing */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: repo pass\n");
 	section.parse_options = 0;
-	return _parseconfig(file, &section, &section_name, 0);
+	return _parseconfig(file, _parse_directive, &section, &section_name, 0);
 }
 
 /* vim: set ts=2 sw=2 noet: */
