@@ -19,7 +19,6 @@
  */
 
 #include <errno.h>
-#include <glob.h>
 #include <limits.h>
 #include <locale.h> /* setlocale */
 #include <fcntl.h> /* open */
@@ -33,6 +32,7 @@
 
 /* pacman */
 #include "conf.h"
+#include "ini.h"
 #include "util.h"
 #include "pacman.h"
 #include "callback.h"
@@ -873,160 +873,6 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 	return 0;
 }
 
-typedef int (ini_parser_fn)(const char *file, int line, const char *section,
-		char *key, char *value, void *data);
-
-/** The "real" parseconfig. Each "Include" directive will recall this method so
- * recursion and stack depth are limited to 10 levels. The publicly visible
- * parseconfig calls this with a NULL section argument so we can recall from
- * within ourself on an include.
- * @param file path to the config file
- * @param section the current active section
- * @param depth the current recursion depth
- * @return 0 on success, 1 on failure
- */
-static int _parseconfig(const char *file, ini_parser_fn cb, void *data,
-		char **section_name, int depth)
-{
-	FILE *fp = NULL;
-	char line[PATH_MAX];
-	int linenum = 0;
-	int ret = 0;
-	const int max_depth = 10;
-
-	if(depth >= max_depth) {
-		pm_printf(ALPM_LOG_ERROR,
-				_("config parsing exceeded max recursion depth of %d.\n"), max_depth);
-		ret = 1;
-		goto cleanup;
-	}
-
-	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
-	fp = fopen(file, "r");
-	if(fp == NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("config file %s could not be read: %s\n"),
-				file, strerror(errno));
-		ret = 1;
-		goto cleanup;
-	}
-
-	while(fgets(line, PATH_MAX, fp)) {
-		char *key, *value, *ptr;
-		size_t line_len;
-
-		linenum++;
-
-		/* ignore whole line and end of line comments */
-		if((ptr = strchr(line, '#'))) {
-			*ptr = '\0';
-		}
-
-		line_len = strtrim(line);
-
-		if(line_len == 0) {
-			continue;
-		}
-
-		if(line[0] == '[' && line[line_len - 1] == ']') {
-			char *name;
-			/* only possibility here is a line == '[]' */
-			if(line_len <= 2) {
-				pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
-						file, linenum);
-				ret = 1;
-				goto cleanup;
-			}
-			/* new config section, skip the '[' */
-			name = strdup(line + 1);
-			name[line_len - 2] = '\0';
-
-			ret = cb(file, linenum, name, NULL, NULL, data);
-			free(*section_name);
-			*section_name = name;
-
-			if(ret) {
-				goto cleanup;
-			}
-			continue;
-		}
-
-		/* directive */
-		/* strsep modifies the 'line' string: 'key \0 value' */
-		key = line;
-		value = line;
-		strsep(&value, "=");
-		strtrim(key);
-		strtrim(value);
-
-		if(key == NULL) {
-			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
-					file, linenum);
-			ret = 1;
-			goto cleanup;
-		}
-		/* Include is allowed in both options and repo sections */
-		if(strcmp(key, "Include") == 0) {
-			glob_t globbuf;
-			int globret;
-			size_t gindex;
-
-			if(value == NULL) {
-				pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
-						file, linenum, key);
-				ret = 1;
-				goto cleanup;
-			}
-			/* Ignore include failures... assume non-critical */
-			globret = glob(value, GLOB_NOCHECK, NULL, &globbuf);
-			switch(globret) {
-				case GLOB_NOSPACE:
-					pm_printf(ALPM_LOG_DEBUG,
-							"config file %s, line %d: include globbing out of space\n",
-							file, linenum);
-				break;
-				case GLOB_ABORTED:
-					pm_printf(ALPM_LOG_DEBUG,
-							"config file %s, line %d: include globbing read error for %s\n",
-							file, linenum, value);
-				break;
-				case GLOB_NOMATCH:
-					pm_printf(ALPM_LOG_DEBUG,
-							"config file %s, line %d: no include found for %s\n",
-							file, linenum, value);
-				break;
-				default:
-					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
-						pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
-								file, linenum, globbuf.gl_pathv[gindex]);
-						_parseconfig(globbuf.gl_pathv[gindex], cb, data,
-								section_name, depth + 1);
-					}
-				break;
-			}
-			globfree(&globbuf);
-			continue;
-		}
-		if((ret = cb(file, linenum, *section_name, key, value, data)) != 0) {
-			goto cleanup;
-		}
-	}
-
-	if(depth == 0) {
-		ret = cb(NULL, 0, NULL, NULL, NULL, data);
-	}
-
-cleanup:
-	if(fp) {
-		fclose(fp);
-	}
-	if(depth == 0) {
-		free(*section_name);
-		*section_name = NULL;
-	}
-	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
-	return ret;
-}
-
 /** Parse a configuration file.
  * @param file path to the config file
  * @return 0 on success, non-zero on error
@@ -1035,7 +881,6 @@ int parseconfig(const char *file)
 {
 	int ret;
 	struct section_t section;
-	char *section_name = NULL;
 	memset(&section, 0, sizeof(struct section_t));
 	section.siglevel = ALPM_SIG_USE_DEFAULT;
 	/* the config parse is a two-pass affair. We first parse the entire thing for
@@ -1045,7 +890,7 @@ int parseconfig(const char *file)
 	/* call the real parseconfig function with a null section & db argument */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: options pass\n");
 	section.parse_options = 1;
-	if((ret = _parseconfig(file, _parse_directive, &section, &section_name, 0))) {
+	if((ret = parse_ini(file, _parse_directive, &section))) {
 		return ret;
 	}
 	if((ret = setup_libalpm())) {
@@ -1054,7 +899,7 @@ int parseconfig(const char *file)
 	/* second pass, repo section parsing */
 	pm_printf(ALPM_LOG_DEBUG, "parseconfig: repo pass\n");
 	section.parse_options = 0;
-	return _parseconfig(file, _parse_directive, &section, &section_name, 0);
+	return parse_ini(file, _parse_directive, &section);
 }
 
 /* vim: set ts=2 sw=2 noet: */

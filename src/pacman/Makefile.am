@@ -31,6 +31,7 @@ pacman_SOURCES = \
 	conf.h conf.c \
 	database.c \
 	deptest.c \
+	ini.h ini.c \
 	package.h package.c \
 	pacman.h pacman.c \
 	query.c \
