@@ -153,8 +153,12 @@ static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
 					for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
 						pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
 								file, linenum, globbuf.gl_pathv[gindex]);
-						_parse_ini(globbuf.gl_pathv[gindex], cb, data,
+						ret =_parse_ini(globbuf.gl_pathv[gindex], cb, data,
 								section_name, line, depth + 1);
+						if(ret) {
+							globfree(&globbuf);
+							goto cleanup;
+						}
 					}
 					break;
 			}
