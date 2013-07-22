@@ -752,6 +752,43 @@ struct section_t {
 	alpm_list_t *servers;
 };
 
+static int _parse_repo(const char *key, char *value, const char *file,
+		int line, struct section_t *section)
+{
+	int ret = 0;
+
+	if(strcmp(key, "Server") == 0) {
+		if(!value) {
+			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
+					file, line, key);
+			ret = 1;
+		} else {
+			section->servers = alpm_list_add(section->servers, strdup(value));
+		}
+	} else if(strcmp(key, "SigLevel") == 0) {
+		if(!value) {
+			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
+					file, line, key);
+		} else {
+			alpm_list_t *values = NULL;
+			setrepeatingoption(value, "SigLevel", &values);
+			if(values) {
+				if(section->siglevel == ALPM_SIG_USE_DEFAULT) {
+					section->siglevel = config->siglevel;
+				}
+				ret = process_siglevel(values, &section->siglevel, file, line);
+				FREELIST(values);
+			}
+		}
+	} else {
+		pm_printf(ALPM_LOG_WARNING,
+				_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
+				file, line, key, section->name);
+	}
+
+	return ret;
+}
+
 /**
  * Wrap up a section once we have reached the end of it. This should be called
  * when a subsequent section is encountered, or when we have reached the end of
@@ -946,32 +983,8 @@ static int _parseconfig(const char *file, struct section_t *section, int depth)
 			}
 		} else if(!section->parse_options && !section->is_options) {
 			/* ... or in a repo section */
-			if(strcmp(key, "Server") == 0) {
-				if(value == NULL) {
-					pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
-							file, linenum, key);
-					ret = 1;
-					goto cleanup;
-				}
-				section->servers = alpm_list_add(section->servers, strdup(value));
-			} else if(strcmp(key, "SigLevel") == 0) {
-				alpm_list_t *values = NULL;
-				setrepeatingoption(value, "SigLevel", &values);
-				if(values) {
-					if(section->siglevel == ALPM_SIG_USE_DEFAULT) {
-						section->siglevel = config->siglevel;
-					}
-					if(process_siglevel(values, &section->siglevel, file, linenum)) {
-						FREELIST(values);
-						ret = 1;
-						goto cleanup;
-					}
-					FREELIST(values);
-				}
-			} else {
-				pm_printf(ALPM_LOG_WARNING,
-						_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
-						file, linenum, key, section->name);
+			if((ret = _parse_repo(key, value, file, linenum, section)) != 0) {
+				goto cleanup;
 			}
 		}
 	}
