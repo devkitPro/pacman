@@ -18,11 +18,17 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # default binary if one was not specified as $1
-bin='vercmp'
+bin=${1:-${PMTEST_UTIL_DIR}vercmp}
 # holds counts of tests
 total=92
 run=0
 failure=0
+
+# use first arg as our binary if specified
+if ! type -p "$bin"; then
+	echo "Bail out! vercmp binary ($bin) could not be located"
+	exit 1
+fi
 
 # args:
 # pass ver1 ver2 ret expected
@@ -56,14 +62,6 @@ runtest() {
 	[[ -n $ret && $ret -eq $reverse ]] || func='fail'
 	$func $2 $1 $ret $reverse
 }
-
-# use first arg as our binary if specified
-[[ -n "$1" ]] && bin="$1"
-
-if ! type -p "$bin"; then
-	echo "Bail out! vercmp binary ($bin) could not be located"
-	exit 1
-fi
 
 echo "# Running vercmp tests..."
 

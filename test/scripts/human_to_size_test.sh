@@ -3,11 +3,12 @@
 declare -i testcount=0 fail=0 pass=0 total=15
 
 # source the library function
-if [[ -z $1 || ! -f $1 ]]; then
-  printf "Bail out! path to human_to_size library not provided or does not exist\n"
+lib=${1:-${PMTEST_SCRIPTLIB_DIR}human_to_size.sh}
+if [[ -z $lib || ! -f $lib ]]; then
+  echo "Bail out! human_to_size library  ($lib) could not be located\n"
   exit 1
 fi
-. "$1"
+. "$lib"
 
 if ! type -t human_to_size >/dev/null; then
   printf 'Bail out! human_to_size function not found\n'

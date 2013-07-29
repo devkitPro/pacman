@@ -19,11 +19,16 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # default binary if one was not specified as $1
-bin='pacsort'
+bin=${1:-${PMTEST_UTIL_DIR}pacsort}
 # holds counts of tests
 total=23
 run=0
 failure=0
+
+if ! type -p "$bin"; then
+	echo "Bail out! pacsort binary ($bin) could not be located"
+	exit 1
+fi
 
 # args:
 # runtest input expected test_description optional_opts
@@ -41,14 +46,6 @@ runtest() {
 		done <<<"$out"
 	fi
 }
-
-# use first arg as our binary if specified
-[[ -n "$1" ]] && bin="$1"
-
-if ! type -p "$bin"; then
-	echo "Bail out! pacsort binary ($bin) could not be located"
-	exit 1
-fi
 
 echo "Running pacsort tests..."
 

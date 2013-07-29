@@ -3,11 +3,12 @@
 declare -i testcount=0 pass=0 fail=0 total=25
 
 # source the library function
-if [[ -z $1 || ! -f $1 ]]; then
-  printf "Bail out! path to parseopts library not provided or does not exist\n"
+lib=${1:-${PMTEST_SCRIPTLIB_DIR}parseopts.sh}
+if [[ -z $lib || ! -f $lib ]]; then
+  printf "Bail out! parseopts library ($lib) could not be located\n"
   exit 1
 fi
-. "$1"
+. "$lib"
 
 if ! type -t parseopts >/dev/null; then
   printf 'Bail out! parseopts function not found\n'
