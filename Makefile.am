@@ -28,10 +28,10 @@ check-local: test-pacman test-pacsort test-vercmp test-parseopts
 
 test-pacman: test/pacman src/pacman
 	$(PYTHON) $(top_srcdir)/test/pacman/pactest.py --debug=1 \
-		--test $(top_srcdir)/test/pacman/tests/*.py \
 		--scriptlet-shell $(SCRIPTLET_SHELL) \
 		--ldconfig $(LDCONFIG) \
-		-p $(top_builddir)/src/pacman/pacman
+		-p $(top_builddir)/src/pacman/pacman \
+		$(top_srcdir)/test/pacman/tests/*.py
 
 test-pacsort: test/util src/util
 	$(BASH_SHELL) $(top_srcdir)/test/util/pacsorttest.sh \

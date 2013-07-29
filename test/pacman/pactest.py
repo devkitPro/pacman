@@ -35,21 +35,8 @@ __version__ = "0.4"
 def resolve_binary_path(option, opt_str, value, parser):
     setattr(parser.values, option.dest, os.path.abspath(value))
 
-def glob_tests(option, opt_str, value, parser):
-    idx = 0
-    globlist = []
-
-    # maintain the idx so we can modify rargs
-    while idx < len(parser.rargs) and \
-            not parser.rargs[idx].startswith('-'):
-        globlist += glob.glob(parser.rargs[idx])
-        idx += 1
-
-    parser.rargs = parser.rargs[idx:]
-    setattr(parser.values, option.dest, globlist)
-
 def create_parser():
-    usage = "usage: %prog [options] [[--test <path/to/testfile.py>] ...]"
+    usage = "usage: %prog [options] <path/to/testfile.py>..."
     description = "Runs automated tests on the pacman binary. Tests are " \
             "described using an easy python syntax, and several can be " \
             "ran at once."
@@ -65,9 +52,6 @@ def create_parser():
                       callback = resolve_binary_path, type = "string",
                       dest = "bin", default = "pacman",
                       help = "specify location of the pacman binary")
-    parser.add_option("-t", "--test", action = "callback",
-                      callback = glob_tests, dest = "testcases",
-                      help = "specify test case(s)")
     parser.add_option("--keep-root", action = "store_true",
                       dest = "keeproot", default = False,
                       help = "don't remove the generated pacman root filesystem")
@@ -110,6 +94,9 @@ if __name__ == "__main__":
     env.pacman["scriptlet-shell"] = opts.scriptletshell
     env.pacman["ldconfig"] = opts.ldconfig
 
+    opts.testcases = []
+    for path in args:
+        opts.testcases += glob.glob(path)
     if opts.testcases is None or len(opts.testcases) == 0:
         tap.bail("no tests defined, nothing to do")
         os.rmdir(root_path)
