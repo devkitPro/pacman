@@ -19,6 +19,7 @@
 import os
 import stat
 
+import tap
 import util
 
 class pmrule(object):
@@ -57,12 +58,12 @@ class pmrule(object):
             elif case == "OUTPUT":
                 logfile = os.path.join(test.root, util.LOGFILE)
                 if not os.access(logfile, os.F_OK):
-                    print "LOGFILE not found, cannot validate 'OUTPUT' rule"
+                    tap.diag("LOGFILE not found, cannot validate 'OUTPUT' rule")
                     success = 0
                 elif not util.grep(logfile, key):
                     success = 0
             else:
-                print "PACMAN rule '%s' not found" % case
+                tap.diag("PACMAN rule '%s' not found" % case)
                 success = -1
         elif kind == "PKG":
             localdb = test.db["local"]
@@ -108,7 +109,7 @@ class pmrule(object):
                     if not found:
                         success = 0
                 else:
-                    print "PKG rule '%s' not found" % case
+                    tap.diag("PKG rule '%s' not found" % case)
                     success = -1
         elif kind == "FILE":
             filename = os.path.join(test.root, key)
@@ -148,7 +149,7 @@ class pmrule(object):
                 if not os.path.isfile("%s.pacsave" % filename):
                     success = 0
             else:
-                print "FILE rule '%s' not found" % case
+                tap.diag("FILE rule '%s' not found" % case)
                 success = -1
         elif kind == "DIR":
             filename = os.path.join(test.root, key)
@@ -156,7 +157,7 @@ class pmrule(object):
                 if not os.path.isdir(filename):
                     success = 0
             else:
-                print "DIR rule '%s' not found" % case
+                tap.diag("DIR rule '%s' not found" % case)
                 success = -1
         elif kind == "LINK":
             filename = os.path.join(test.root, key)
@@ -164,7 +165,7 @@ class pmrule(object):
                 if not os.path.islink(filename):
                     success = 0
             else:
-                print "LINK rule '%s' not found" % case
+                tap.diag("LINK rule '%s' not found" % case)
                 success = -1
         elif kind == "CACHE":
             cachedir = os.path.join(test.root, util.PM_CACHEDIR)
@@ -174,7 +175,7 @@ class pmrule(object):
                         os.path.join(cachedir, pkg.filename())):
                     success = 0
         else:
-            print "Rule kind '%s' not found" % kind
+            tap.diag("Rule kind '%s' not found" % kind)
             success = -1
 
         if self.false and success != -1:

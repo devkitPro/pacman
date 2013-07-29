@@ -26,6 +26,7 @@ import sys
 import tempfile
 
 import pmenv
+import tap
 import util
 
 __author__ = "Aurelien FORET"
@@ -110,7 +111,7 @@ if __name__ == "__main__":
     env.pacman["ldconfig"] = opts.ldconfig
 
     if opts.testcases is None or len(opts.testcases) == 0:
-        print "no tests defined, nothing to do"
+        tap.bail("no tests defined, nothing to do")
         os.rmdir(root_path)
         sys.exit(2)
 
@@ -124,7 +125,7 @@ if __name__ == "__main__":
     if not opts.keeproot:
         shutil.rmtree(root_path)
     else:
-        print "pacman testing root saved: %s" % root_path
+        tap.diag("pacman testing root saved: %s" % root_path)
 
     if env.failed > 0:
         sys.exit(1)

@@ -20,6 +20,7 @@
 import os
 
 import pmtest
+import tap
 
 
 class pmenv(object):
@@ -58,26 +59,18 @@ class pmenv(object):
     def run(self):
         """
         """
-
+        tap.plan(len(self.testcases))
         for t in self.testcases:
-            print "=========="*8
-            print "Running '%s'" % t.testname
+            tap.diag("==========" * 8)
+            tap.diag("Running '%s'" % t.testname)
 
             t.load()
-            print t.description
-            print "----------"*8
-
             t.generate(self.pacman)
-
             t.run(self.pacman)
 
-            t.check()
-            print "==> Test result"
-            if t.result["fail"] == 0:
-                print "\tPASS"
-            else:
-                print "\tFAIL"
-            print
+            tap.diag("==> Checking rules")
+            tap.todo = t.expectfailure
+            tap.subtest(lambda: t.check(), t.description)
 
     def results(self):
         """
@@ -109,40 +102,42 @@ class pmenv(object):
                 result = "[PASS]"
             else:
                 result = "[FAIL]"
-            print result,
-            print "%s Rules: OK = %2u  FAIL = %2u" \
-                    % (t.testname.ljust(34), success, fail)
+            tap.diag("%s %s Rules: OK = %2u  FAIL = %2u" \
+                    % (result, t.testname.ljust(34), success, fail))
             if fail != 0:
                 # print test description if test failed
-                print "      ", t.description
+                tap.diag("       " + t.description)
 
-        print "=========="*8
-        print "Results"
-        print "----------"*8
-        print " Passed:"
+        tap.diag("==========" * 8)
+        tap.diag("Results")
+        tap.diag("----------" * 8)
+        tap.diag(" Passed:")
         for test in tpassed:
             _printtest(test)
-        print "----------"*8
-        print " Expected Failures:"
+        tap.diag("----------" * 8)
+        tap.diag(" Expected Failures:")
         for test in texpectedfail:
             _printtest(test)
-        print "----------"*8
-        print " Unexpected Passes:"
+        tap.diag("----------" * 8)
+        tap.diag(" Unexpected Passes:")
         for test in tunexpectedpass:
             _printtest(test)
-        print "----------"*8
-        print " Failed:"
+        tap.diag("----------" * 8)
+        tap.diag(" Failed:")
         for test in tfailed:
             _printtest(test)
-        print "----------"*8
+        tap.diag("----------" * 8)
 
         total = len(self.testcases)
-        print "Total            = %3u" % total
+        tap.diag("Total            = %3u" % total)
         if total:
-            print "Pass             = %3u (%6.2f%%)" % (self.passed, float(self.passed) * 100 / total)
-            print "Expected Fail    = %3u (%6.2f%%)" % (self.expectedfail, float(self.expectedfail) * 100 / total)
-            print "Unexpected Pass  = %3u (%6.2f%%)" % (self.unexpectedpass, float(self.unexpectedpass) * 100 / total)
-            print "Fail             = %3u (%6.2f%%)" % (self.failed, float(self.failed) * 100 / total)
-        print ""
+            tap.diag("Pass             = %3u (%6.2f%%)" % (self.passed,
+                float(self.passed) * 100 / total))
+            tap.diag("Expected Fail    = %3u (%6.2f%%)" % (self.expectedfail,
+                float(self.expectedfail) * 100 / total))
+            tap.diag("Unexpected Pass  = %3u (%6.2f%%)" % (self.unexpectedpass,
+                float(self.unexpectedpass) * 100 / total))
+            tap.diag("Fail             = %3u (%6.2f%%)" % (self.failed,
+                float(self.failed) * 100 / total))
 
 # vim: set ts=4 sw=4 et:

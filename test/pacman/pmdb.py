@@ -23,6 +23,7 @@ from StringIO import StringIO
 import tarfile
 
 import pmpkg
+import tap
 import util
 
 def _getsection(fd):
@@ -105,7 +106,7 @@ class pmdb(object):
         # desc
         filename = os.path.join(path, "desc")
         if not os.path.isfile(filename):
-            print "invalid db entry found (desc missing) for pkg", pkgname
+            tap.bail("invalid db entry found (desc missing) for pkg " + pkgname)
             return None
         fd = open(filename, "r")
         while 1:
@@ -160,7 +161,7 @@ class pmdb(object):
         # files
         filename = os.path.join(path, "files")
         if not os.path.isfile(filename):
-            print "invalid db entry found (files missing) for pkg", pkgname
+            tap.bail("invalid db entry found (files missing) for pkg " + pkgname)
             return None
         fd = open(filename, "r")
         while 1:

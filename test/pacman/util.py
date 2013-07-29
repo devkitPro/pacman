@@ -21,6 +21,8 @@ import os
 import re
 import hashlib
 
+import tap
+
 SELFPATH    = os.path.abspath(os.path.dirname(__file__))
 
 # ALPM
@@ -43,7 +45,7 @@ verbose = 0
 
 def vprint(msg):
     if verbose:
-        print msg
+        tap.diag(msg)
 
 #
 # Methods to generate files

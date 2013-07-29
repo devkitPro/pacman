@@ -27,6 +27,7 @@ import time
 import pmrule
 import pmdb
 import pmfile
+import tap
 import util
 from util import vprint
 
@@ -104,7 +105,7 @@ class pmtest(object):
             raise IOError("file %s does not exist!" % self.name)
 
     def generate(self, pacman):
-        print "==> Generating test environment"
+        tap.diag("==> Generating test environment")
 
         # Cleanup leftover files from a previous test session
         if os.path.isdir(self.root):
@@ -192,23 +193,23 @@ class pmtest(object):
 
     def run(self, pacman):
         if os.path.isfile(util.PM_LOCK):
-            print "\tERROR: another pacman session is on-going -- skipping"
+            tap.bail("\tERROR: another pacman session is on-going -- skipping")
             return
 
-        print "==> Running test"
+        tap.diag("==> Running test")
         vprint("\tpacman %s" % self.args)
 
         cmd = []
         if os.geteuid() != 0:
             fakeroot = util.which("fakeroot")
             if not fakeroot:
-                print "WARNING: fakeroot not found!"
+                tap.diag("WARNING: fakeroot not found!")
             else:
                 cmd.append("fakeroot")
 
             fakechroot = util.which("fakechroot")
             if not fakechroot:
-                print "WARNING: fakechroot not found!"
+                tap.diag("WARNING: fakechroot not found!")
             else:
                 cmd.append("fakechroot")
 
@@ -252,23 +253,20 @@ class pmtest(object):
 
         # Check if the lock is still there
         if os.path.isfile(util.PM_LOCK):
-            print "\tERROR: %s not removed" % util.PM_LOCK
+            tap.diag("\tERROR: %s not removed" % util.PM_LOCK)
             os.unlink(util.PM_LOCK)
         # Look for a core file
         if os.path.isfile(os.path.join(self.root, util.TMPDIR, "core")):
-            print "\tERROR: pacman dumped a core file"
+            tap.diag("\tERROR: pacman dumped a core file")
 
     def check(self):
-        print "==> Checking rules"
-
+        tap.plan(len(self.rules))
         for i in self.rules:
             success = i.check(self)
             if success == 1:
-                msg = " OK "
                 self.result["success"] += 1
             else:
-                msg = "FAIL"
                 self.result["fail"] += 1
-            print "\t[%s] %s" % (msg, i)
+            tap.ok(success, i)
 
 # vim: set ts=4 sw=4 et:
