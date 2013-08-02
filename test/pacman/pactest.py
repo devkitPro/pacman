@@ -105,9 +105,8 @@ if __name__ == "__main__":
     for i in opts.testcases:
         env.addtest(i)
 
-    # run tests and print overall results
+    # run tests
     env.run()
-    env.results()
 
     if not opts.keeproot:
         shutil.rmtree(root_path)
