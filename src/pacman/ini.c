@@ -27,6 +27,8 @@
 #include "ini.h"
 #include "util.h"
 
+static const int ini_max_recursion = 10;
+
 /**
  * @brief INI parser backend.
  *
@@ -46,11 +48,11 @@ static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
 	FILE *fp = NULL;
 	int linenum = 0;
 	int ret = 0;
-	const int max_depth = 10;
 
-	if(depth >= max_depth) {
+	if(depth >= ini_max_recursion) {
 		pm_printf(ALPM_LOG_ERROR,
-				_("config parsing exceeded max recursion depth of %d.\n"), max_depth);
+				_("config parsing exceeded max recursion depth of %d.\n"),
+				ini_max_recursion);
 		ret = 1;
 		goto cleanup;
 	}
