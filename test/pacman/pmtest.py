@@ -266,11 +266,9 @@ class pmtest(object):
             if success == 1:
                 msg = " OK "
                 self.result["success"] += 1
-            elif success == 0:
+            else:
                 msg = "FAIL"
                 self.result["fail"] += 1
-            else:
-                msg = "SKIP"
             print "\t[%s] %s" % (msg, i)
 
 # vim: set ts=4 sw=4 et:

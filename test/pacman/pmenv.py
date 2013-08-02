@@ -110,9 +110,8 @@ class pmenv(object):
             else:
                 result = "[FAIL]"
             print result,
-            print "%s Rules: OK = %2u  FAIL = %2u  SKIP = %2u" \
-                    % (t.testname.ljust(34), success, fail, \
-                       rules - (success + fail))
+            print "%s Rules: OK = %2u  FAIL = %2u" \
+                    % (t.testname.ljust(34), success, fail)
             if fail != 0:
                 # print test description if test failed
                 print "      ", t.description
