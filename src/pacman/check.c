@@ -329,7 +329,7 @@ int check_pkg_full(alpm_pkg_t *pkg)
 
 			if(strcmp(path, bl->name) == 0) {
 				backup = 1;
-				continue;
+				break;
 			}
 		}
 
