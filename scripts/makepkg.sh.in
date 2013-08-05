@@ -2624,6 +2624,16 @@ while true; do
 	shift
 done
 
+# attempt to consume any extra argv as environment variables. this supports
+# overriding (e.g. CC=clang) as well as overriding (e.g. CFLAGS+=' -g').
+extra_environment=()
+while [[ $1 ]]; do
+	if [[ $1 = [_[:alpha:]]*([[:alnum:]_])?(+)=* ]]; then
+		extra_environment+=("$1")
+	fi
+	shift
+done
+
 # setup signal traps
 trap 'clean_up' 0
 for signal in TERM HUP QUIT; do
@@ -2704,6 +2714,11 @@ if [[ ! -w $BUILDDIR ]]; then
 	error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
 	plain "$(gettext "Aborting...")"
 	exit 1
+fi
+
+# override settings from extra variables on commandline, if any
+if (( ${#extra_environment[*]} )); then
+	export "${extra_environment[@]}"
 fi
 
 PKGDEST=${_PKGDEST:-$PKGDEST}
