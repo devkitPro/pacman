@@ -25,6 +25,9 @@ They also handle package deltas produced by linkman:pkgdelta[8].
 delta file. Multiple packages and/or deltas to add can be specified on the
 command line.
 
+If a matching ``.sig'' file is found alongside a package file, the signature
+will automatically be embedded into the database.
+
 'repo-remove' will update a package database by removing the package name or
 delta specified on the command line. Multiple packages and/or delta to remove
 can be specified on the command line.
