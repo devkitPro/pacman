@@ -323,7 +323,7 @@ static int dir_belongsto_pkgs(alpm_handle_t *handle, const char *dirpath,
 
 	while((ent = readdir(dir)) != NULL) {
 		const char *name = ent->d_name;
-		int owned = 0;
+		int owned = 0, is_dir = 0;
 		alpm_list_t *i;
 		struct stat sbuf;
 
@@ -331,8 +331,16 @@ static int dir_belongsto_pkgs(alpm_handle_t *handle, const char *dirpath,
 			continue;
 		}
 
-		snprintf(path, PATH_MAX, "%s%s", dirpath, name);
-		snprintf(full_path, PATH_MAX, "%s%s", handle->root, path);
+		snprintf(full_path, PATH_MAX, "%s%s%s", handle->root, dirpath, name);
+
+		if(lstat(full_path, &sbuf) != 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "could not stat %s\n", full_path);
+			closedir(dir);
+			return 0;
+		}
+		is_dir = S_ISDIR(sbuf.st_mode);
+
+		snprintf(path, PATH_MAX, "%s%s%s", dirpath, name, is_dir ? "/" : "");
 
 		for(i = pkgs; i && !owned; i = i->next) {
 			if(alpm_filelist_contains(alpm_pkg_get_files(i->data), path)) {
@@ -340,7 +348,7 @@ static int dir_belongsto_pkgs(alpm_handle_t *handle, const char *dirpath,
 			}
 		}
 
-		if(owned && stat(full_path, &sbuf) != 0 && S_ISDIR(sbuf.st_mode)) {
+		if(owned && is_dir) {
 			owned = dir_belongsto_pkgs(handle, path, pkgs);
 		}
 
