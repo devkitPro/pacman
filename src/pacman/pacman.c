@@ -830,13 +830,15 @@ int main(int argc, char *argv[])
 			int target_found = 0;
 			size_t current_size = PATH_MAX;
 			char *vdata, *line = malloc(current_size);
+			int c;
 
 			/* remove the '-' from the list */
 			pm_targets = alpm_list_remove_str(pm_targets, "-", &vdata);
 			free(vdata);
 
 			i = 0;
-			while((line[i] = (char)fgetc(stdin)) != EOF) {
+			while((c = fgetc(stdin)) != EOF) {
+				line[i] = (char)c;
 				if(isspace((unsigned char)line[i])) {
 					/* avoid adding zero length arg when multiple spaces separate args */
 					if(i > 0) {
