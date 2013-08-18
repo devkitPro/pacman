@@ -24,4 +24,7 @@ self.addrule("PACMAN_OUTPUT=^Installed Size.*9765625.00 KiB")
 self.addrule("PACMAN_OUTPUT=^Build Date.* 2065")
 self.addrule("PACMAN_OUTPUT=^Install Date.* 2286")
 
-self.expectfailure = True
+# expect failure on 32bit systems
+import sys
+if sys.maxsize <= 2**32:
+    self.expectfailure = True
