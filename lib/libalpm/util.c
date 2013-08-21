@@ -599,6 +599,15 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 				_alpm_log(handle, ALPM_LOG_ERROR, _("command failed to execute correctly\n"));
 				retval = 1;
 			}
+		} else if(WIFSIGNALED(status) != 0) {
+			char *signal_description = strsignal(WTERMSIG(status));
+			/* strsignal can return NULL on some (non-Linux) platforms */
+			if(signal_description == NULL) {
+				signal_description = _("Unknown signal");
+			}
+			_alpm_log(handle, ALPM_LOG_ERROR, _("command terminated by signal %d: %s\n"),
+						WTERMSIG(status), signal_description);
+			retval = 1;
 		}
 	}
 
