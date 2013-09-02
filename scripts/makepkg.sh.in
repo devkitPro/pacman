@@ -54,6 +54,8 @@ splitpkg_overrides=('pkgver' 'pkgrel' 'epoch' 'pkgdesc' 'arch' 'url' 'license' \
                     'replaces' 'backup' 'options' 'install' 'changelog')
 readonly -a packaging_options other_options splitpkg_overrides
 
+known_hash_algos=('md5' 'sha1' 'sha256' 'sha384' 'sha512')
+
 # Options
 ASDEPS=0
 NEEDED=0
@@ -1107,10 +1109,10 @@ get_integlist() {
 	local integ
 	local integlist=()
 
-	for integ in md5 sha1 sha256 sha384 sha512; do
-		local integrity_sums=($(eval echo "\${${integ}sums[@]}"))
-		if [[ -n "$integrity_sums" ]]; then
-			integlist=(${integlist[@]} $integ)
+	for integ in "${known_hash_algos[@]}"; do
+		local sumname="${integ}sums[@]"
+		if [[ -n ${!sumname} ]]; then
+			integlist+=("$integ")
 		fi
 	done
 
@@ -1131,19 +1133,17 @@ generate_checksums() {
 
 	local integlist
 	if (( $# == 0 )); then
-		integlist=$(get_integlist)
+		IFS=$'\n' read -ra integlist < <(get_integlist)
 	else
-		integlist=$@
+		integlist=("$@")
 	fi
 
 	local integ
-	for integ in ${integlist[@]}; do
-		case "$integ" in
-			md5|sha1|sha256|sha384|sha512) : ;;
-			*)
-				error "$(gettext "Invalid integrity algorithm '%s' specified.")" "$integ"
-				exit 1;; # $E_CONFIG_ERROR
-		esac
+	for integ in "${integlist[@]}"; do
+		if ! in_array "$integ" "${known_hash_algos[@]}"; then
+			error "$(gettext "Invalid integrity algorithm '%s' specified.")" "$integ"
+			exit 1 # $E_CONFIG_ERROR
+		fi
 
 		local ct=0
 		local numsrc=${#source[@]}
@@ -1192,8 +1192,9 @@ check_checksums() {
 
 	local correlation=0
 	local integ required
-	for integ in md5 sha1 sha256 sha384 sha512; do
-		local integrity_sums=($(eval echo "\${${integ}sums[@]}"))
+	for integ in "${known_hash_algos[@]}"; do
+		local sumname="${integ}sums[@]"
+		local integrity_sums=("${!sumname}")
 		if (( ${#integrity_sums[@]} == ${#source[@]} )); then
 			msg "$(gettext "Validating source files with %s...")" "${integ}sums"
 			correlation=1
