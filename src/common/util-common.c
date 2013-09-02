@@ -48,7 +48,7 @@ char *mdirname(const char *path)
 	char *ret, *last;
 
 	/* null or empty path */
-	if(path == NULL || path == '\0') {
+	if(path == NULL || *path == '\0') {
 		return strdup(".");
 	}
 
