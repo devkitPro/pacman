@@ -190,15 +190,13 @@ int rmrf(const char *path)
 	if(!unlink(path)) {
 		return 0;
 	} else {
-		if(errno == ENOENT) {
+		switch(errno) {
+		case ENOENT:
 			return 0;
-		} else if(errno == EPERM) {
-			/* fallthrough */
-		} else if(errno == EISDIR) {
-			/* fallthrough */
-		} else if(errno == ENOTDIR) {
-			return 1;
-		} else {
+		case EPERM:
+		case EISDIR:
+			break;
+		default:
 			/* not a directory */
 			return 1;
 		}
