@@ -310,9 +310,10 @@ static int parse_options(int argc, char *argv[])
 
 static void usage(void)
 {
-	fprintf(stderr, "pactree v" PACKAGE_VERSION "\n"
+	fprintf(stderr, "pactree (pacman) v" PACKAGE_VERSION "\n\n"
+			"A simple dependency tree viewer.\n\n"
 			"Usage: pactree [options] PACKAGE\n\n"
-			"  -a, --ascii          use ascii characters for tree formatting\n"
+			"  -a, --ascii          use ASCII characters for tree formatting\n"
 			"  -b, --dbpath <path>  set an alternate database location\n"
 			"  -c, --color          colorize output\n"
 			"  -d, --depth <#>      limit the depth of recursion\n"
@@ -320,7 +321,7 @@ static void usage(void)
 			"  -h, --help           display this help message\n"
 			"  -l, --linear         enable linear output\n"
 			"  -r, --reverse        list packages that depend on the named package\n"
-			"  -s, --sync           search sync DBs instead of local\n"
+			"  -s, --sync           search sync databases instead of local\n"
 			"  -u, --unique         show dependencies with no duplicates (implies -l)\n"
 			"      --config <path>  set an alternate configuration file\n");
 }

@@ -24,8 +24,6 @@
 #include <alpm.h>
 #include <alpm_list.h>
 
-#define BASENAME "cleanupdelta"
-
 alpm_handle_t *handle = NULL;
 
 static void cleanup(int signum)
@@ -87,9 +85,10 @@ static void checkdbs(alpm_list_t *dbnames)
 
 static void usage(void)
 {
-	fprintf(stderr, "usage:\n");
-	fprintf(stderr,
-			"\t%s [-b <pacman db>] core extra ... : check the listed sync databases\n", BASENAME);
+	fprintf(stderr, "cleanupdelta (pacman) v" PACKAGE_VERSION "\n\n"
+			"Returns a list of unused delta in a given sync database.\n\n"
+			"Usage: cleanupdelta [options]\n\n"
+			"  -b <pacman db>       core extra ... : check the listed sync databases\n");
 	exit(1);
 }
 

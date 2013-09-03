@@ -343,9 +343,10 @@ static char escape_char(const char *string)
 
 static void usage(void)
 {
-	fprintf(stderr, "pacsort v" PACKAGE_VERSION "\n"
+	fprintf(stderr, "pacsort (pacman) v" PACKAGE_VERSION "\n\n"
+			"A sort utility implementing alpm_pkg_vercmp.\n\n"
 			"Usage: pacsort [options] [files...]\n\n"
-			"  -f, --files             assume inputs are filepaths of packages\n"
+			"  -f, --files             assume inputs are file paths of packages\n"
 			"  -h, --help              display this help message\n"
 			"  -k, --key <index>       sort input starting on specified column\n"
 			"  -r, --reverse           sort in reverse order (default: oldest to newest)\n"

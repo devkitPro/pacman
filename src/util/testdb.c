@@ -27,8 +27,6 @@
 #include <alpm.h>
 #include <alpm_list.h>
 
-#define BASENAME "testdb"
-
 alpm_handle_t *handle = NULL;
 
 static void cleanup(int signum)
@@ -244,11 +242,11 @@ cleanup:
 
 static void usage(void)
 {
-	fprintf(stderr, "usage:\n");
-	fprintf(stderr,
-			"\t%s [-b <pacman db>]                : check the local database\n", BASENAME);
-	fprintf(stderr,
-			"\t%s [-b <pacman db>] core extra ... : check the listed sync databases\n", BASENAME);
+	fprintf(stderr, "testdb (pacman) v" PACKAGE_VERSION "\n\n"
+			"Test a pacman local database for validity.\n\n"
+			"Usage: testdb [options]\n\n"
+			"  -b <pacman db>                : check the local database\n"
+			"  -b <pacman db> core extra ... : check the listed sync databases\n");
 	exit(1);
 }
 
