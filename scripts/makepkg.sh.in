@@ -1146,14 +1146,8 @@ generate_checksums() {
 		fi
 
 		local ct=0
-		local numsrc=${#source[@]}
-		printf "%s" "${integ}sums=("
-
-		local i
-		local indent=''
-		for (( i = 0; i < ${#integ} + 6; i++ )); do
-			indent="$indent "
-		done
+		local indentsz numsrc=${#source[@]}
+		printf "%s%n" "${integ}sums=(" indentsz
 
 		local netfile
 		for netfile in "${source[@]}"; do
@@ -1176,10 +1170,11 @@ generate_checksums() {
 					;;
 			esac
 
-			(( ct )) && printf "%s" "$indent"
-			printf "%s" "'$sum'"
-			ct=$(($ct+1))
-			(( $ct < $numsrc )) && echo
+			# indent checksum on lines after the first
+			printf "%*s%s" $(( ct ? indentsz : 0 )) '' "'$sum'"
+
+			# print a newline on lines before the last
+			(( ++ct < numsrc )) && echo
 		done
 
 		echo ")"
