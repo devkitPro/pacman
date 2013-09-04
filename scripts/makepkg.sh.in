@@ -1145,12 +1145,11 @@ generate_checksums() {
 			exit 1 # $E_CONFIG_ERROR
 		fi
 
-		local ct=0
-		local indentsz numsrc=${#source[@]}
+		local indentsz idx numsrc=${#source[@]}
 		printf "%s%n" "${integ}sums=(" indentsz
 
-		local netfile
-		for netfile in "${source[@]}"; do
+		for (( idx = 0; idx < numsrc; i++ )); do
+			local netfile=${source[idx]}
 			local proto sum
 			proto="$(get_protocol "$netfile")"
 
@@ -1171,10 +1170,10 @@ generate_checksums() {
 			esac
 
 			# indent checksum on lines after the first
-			printf "%*s%s" $(( ct ? indentsz : 0 )) '' "'$sum'"
+			printf "%*s%s" $(( idx ? indentsz : 0 )) '' "'$sum'"
 
 			# print a newline on lines before the last
-			(( ++ct < numsrc )) && echo
+			(( ++idx < numsrc )) && echo
 		done
 
 		echo ")"
@@ -1193,39 +1192,31 @@ check_checksums() {
 		if (( ${#integrity_sums[@]} == ${#source[@]} )); then
 			msg "$(gettext "Validating source files with %s...")" "${integ}sums"
 			correlation=1
-			local errors=0
-			local idx=0
-			local file
-			for file in "${source[@]}"; do
-				local found=1
-				file="$(get_filename "$file")"
+			local idx errors=0
+			for (( idx = 0; idx < ${#source[*]}; idx++ )); do
+				local file="$(get_filename "${source[idx]}")"
 				printf '    %s ... ' "$file" >&2
 
-				if [[ ${integrity_sums[$idx]} = 'SKIP' ]]; then
+				if [[ ${integrity_sums[idx]} = 'SKIP' ]]; then
 					printf '%s\n' "$(gettext "Skipped")" >&2
-					idx=$((idx + 1))
 					continue
 				fi
 
 				if ! file="$(get_filepath "$file")"; then
 					printf '%s\n' "$(gettext "NOT FOUND")" >&2
 					errors=1
-					found=0
+					continue
 				fi
 
-				if (( $found )) ; then
-					local expectedsum="${integrity_sums[idx],,}"
-					local realsum="$(openssl dgst -${integ} "$file")"
-					realsum="${realsum##* }"
-					if [[ $expectedsum = "$realsum" ]]; then
-						printf '%s\n' "$(gettext "Passed")" >&2
-					else
-						printf '%s\n' "$(gettext "FAILED")" >&2
-						errors=1
-					fi
+				local expectedsum="${integrity_sums[idx],,}"
+				local realsum="$(openssl dgst -${integ} "$file")"
+				realsum="${realsum##* }"
+				if [[ $expectedsum = "$realsum" ]]; then
+					printf '%s\n' "$(gettext "Passed")" >&2
+				else
+					printf '%s\n' "$(gettext "FAILED")" >&2
+					errors=1
 				fi
-
-				idx=$((idx + 1))
 			done
 
 			if (( errors )); then
@@ -2260,6 +2251,12 @@ check_sanity() {
 			ret=1
 		fi
 	done
+
+	local idx=("${!source[@]}")
+	if (( (idx[-1] + 1) != ${#source[*]} )); then
+		error "$(gettext "Sparse arrays are not allowed for source")"
+		ret=1
+	fi
 
 	return $ret
 }
