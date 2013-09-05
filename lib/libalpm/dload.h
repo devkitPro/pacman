@@ -38,6 +38,7 @@ struct dload_payload {
 	int allow_resume;
 	int errors_ok;
 	int unlink_on_fail;
+	int trust_remote_name;
 	alpm_list_t *servers;
 #ifdef HAVE_LIBCURL
 	CURLcode curlerr;       /* last error produced by curl */

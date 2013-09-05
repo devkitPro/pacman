@@ -547,23 +547,25 @@ static int curl_download_internal(struct dload_payload *payload,
 		goto cleanup;
 	}
 
-	if(payload->content_disp_name) {
-		/* content-disposition header has a better name for our file */
-		free(payload->destfile_name);
-		payload->destfile_name = get_fullpath(localpath, payload->content_disp_name, "");
-	} else {
-		const char *effective_filename = strrchr(effective_url, '/');
-		if(effective_filename && strlen(effective_filename) > 2) {
-			effective_filename++;
+	if (payload->trust_remote_name) {
+		if(payload->content_disp_name) {
+			/* content-disposition header has a better name for our file */
+			free(payload->destfile_name);
+			payload->destfile_name = get_fullpath(localpath, payload->content_disp_name, "");
+		} else {
+			const char *effective_filename = strrchr(effective_url, '/');
+			if(effective_filename && strlen(effective_filename) > 2) {
+				effective_filename++;
 
-			/* if destfile was never set, we wrote to a tempfile. even if destfile is
-			 * set, we may have followed some redirects and the effective url may
-			 * have a better suggestion as to what to name our file. in either case,
-			 * refactor destfile to this newly derived name. */
-			if(!payload->destfile_name || strcmp(effective_filename,
-						strrchr(payload->destfile_name, '/') + 1) != 0) {
-				free(payload->destfile_name);
-				payload->destfile_name = get_fullpath(localpath, effective_filename, "");
+				/* if destfile was never set, we wrote to a tempfile. even if destfile is
+				 * set, we may have followed some redirects and the effective url may
+				 * have a better suggestion as to what to name our file. in either case,
+				 * refactor destfile to this newly derived name. */
+				if(!payload->destfile_name || strcmp(effective_filename,
+							strrchr(payload->destfile_name, '/') + 1) != 0) {
+					free(payload->destfile_name);
+					payload->destfile_name = get_fullpath(localpath, effective_filename, "");
+				}
 			}
 		}
 	}
@@ -678,6 +680,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 		STRDUP(payload.fileurl, url, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		payload.allow_resume = 1;
 		payload.handle = handle;
+		payload.trust_remote_name = 1;
 
 		/* download the file */
 		ret = _alpm_download(&payload, cachedir, &final_file, &final_pkg_url);
@@ -702,6 +705,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 		sig_filepath = filecache_find_url(handle, payload.fileurl);
 		if(sig_filepath == NULL) {
 			payload.handle = handle;
+			payload.trust_remote_name = 1;
 			payload.force = 1;
 			payload.errors_ok = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
 
