@@ -67,7 +67,7 @@ fi
 
 # Check $PWD/ for permission to unlink the $buildfile and write a new one
 if [[ ! -w . ]]; then
-	printf $'==> ERROR: No write permission in `%s\'\n' "$PWD"
+	printf "==> ERROR: No write permission in '%s'\n" "$PWD"
 	exit 1
 fi
 

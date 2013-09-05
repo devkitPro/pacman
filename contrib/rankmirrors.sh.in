@@ -127,7 +127,7 @@ while [[ $1 ]]; do
 			verbose) VERBOSE=1 ; shift ;;
 			url) CHECKURL=1; [[ $2 ]] || err "Must specify url."; URL="$2"; shift 2;;
 			repo) [[ $2 ]] || err "Must specify repo name."; TARGETREPO="$2"; shift 2;;
-			*) err "\`$1' is an invalid argument."
+			*) err "'$1' is an invalid argument."
 		esac
 	elif [[ ${1:0:1} = - ]]; then
 
@@ -146,7 +146,7 @@ while [[ $1 ]]; do
 					u) CHECKURL=1; [[ $2 ]] || err "Must specify url."; URL="$2"; snum=2;;
 					r) [[ $2 ]] || err "Must specify repo name."; TARGETREPO="$2"; snum=2;;
 					n) [[ $2 ]] || err "Must specify number." ; NUM="$2" ; snum=2;;
-					*) err "\`-$1' is an invald argument." ;;
+					*) err "'$1' is an invalid argument." ;;
 				esac
 			done
 			shift $snum
@@ -157,7 +157,7 @@ while [[ $1 ]]; do
 		[[ $linearray ]] || err "File is empty."
 		shift
 	else
-		err "\`$1' does not exist."
+		err "'$1' does not exist."
 	fi
 done
 
@@ -169,7 +169,7 @@ done
 # Single url handling
 if [[ $CHECKURL ]]; then
 	url="$(getfetchurl "$URL")"
-	[[ $url = fail ]] && err "url \`$URL' is malformed."
+	[[ $url = fail ]] && err "url '$URL' is malformed."
 	[[ $VERBOSE ]] && echo "Testing $url..."
 	time=$(gettime "$url")
 	echo "$URL : $time"
@@ -193,7 +193,7 @@ for line in  "${linearray[@]}"; do
 		server="${line#*= }"
 		server="${server%%#*}"
 		url="$(getfetchurl "$server")"
-		[[ $url = fail ]] && err "url \`$URL' is malformed."
+		[[ $url = fail ]] && err "url '$URL' is malformed."
 		time=$(gettime "$url")
 		timesarray+=("$time $server")
 

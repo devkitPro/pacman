@@ -124,7 +124,7 @@ fi
 
 if [[ ! -d $pkg_dir ]]; then
 	error "package %s is found in pacman database," "${pkg_name}"
-	plain "       but \`%s' is not a directory" "${pkg_dir}"
+	plain "       but '%s' is not a directory" "${pkg_dir}"
 	exit 1
 fi
 
