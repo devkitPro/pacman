@@ -1133,7 +1133,7 @@ generate_checksums() {
 
 	local integlist
 	if (( $# == 0 )); then
-		IFS=$'\n' read -ra integlist < <(get_integlist)
+		IFS=$'\n' read -rd '' -a integlist < <(get_integlist)
 	else
 		integlist=("$@")
 	fi
