@@ -27,6 +27,8 @@ shopt -s nullglob
 declare -r myname='bacman'
 declare -r myver='@PACKAGE_VERSION@'
 USE_COLOR='y'
+# Required for fakeroot because options are shifted off the array.
+ARGS=("$@")
 
 m4_include(../scripts/library/output_format.sh)
 
@@ -71,7 +73,7 @@ if (( EUID )); then
 	if [[ -f /usr/bin/fakeroot ]]; then
 		msg "Entering fakeroot environment"
 		export INFAKEROOT="1"
-		/usr/bin/fakeroot -u -- "$0" "$@"
+		/usr/bin/fakeroot -u -- "$0" "${ARGS[@]}"
 		exit $?
 	else
 		warning "installing fakeroot or running $myname as root is required to"
