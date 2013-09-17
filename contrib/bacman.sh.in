@@ -27,6 +27,7 @@ shopt -s nullglob
 declare -r myname='bacman'
 declare -r myver='@PACKAGE_VERSION@'
 USE_COLOR='y'
+INCLUDE_PACNEW='n'
 # Required for fakeroot because options are shifted off the array.
 ARGS=("$@")
 
@@ -37,7 +38,7 @@ m4_include(../scripts/library/output_format.sh)
 #
 usage() {
 	echo "This program recreates a package using pacman's db and system files"
-	echo "Usage:   $myname [--nocolor] <installed package name>"
+	echo "Usage:   $myname [--nocolor] [--pacnew] <installed package name>"
 	echo "Example: $myname kernel26"
 }
 
@@ -47,10 +48,17 @@ version() {
 	echo 'Copyright (C) 2008-2013 Pacman Development Team <pacman-dev@archlinux.org>'
 }
 
-if [[ $1 == "--nocolor" ]]; then
-	USE_COLOR='n'
-	shift
-fi
+while [[ ! -z $1 ]]; do
+	if [[ $1 == "--nocolor" ]]; then
+		USE_COLOR='n'
+		shift
+	elif [[ $1 == "--pacnew" ]]; then
+		INCLUDE_PACNEW='y'
+		shift
+	else
+		break
+	fi
+done
 
 m4_include(../scripts/library/term_colors.sh)
 
@@ -143,7 +151,6 @@ cd "$work_dir" || exit 1
 #
 msg2 "Copying package files..."
 
-cat "$pkg_dir"/files |
 while read i; do
 	if [[ -z $i ]]; then
 		continue
@@ -156,24 +163,55 @@ while read i; do
 
 	case "$current" in
 		%FILES%)
-			ret=0
-			if [[ -e /$i ]]; then
-				bsdtar -cnf - "/$i" 2> /dev/null | bsdtar -xpf -
+			local_file="/$i"
+			package_file="$work_dir/$i"
 
-				# Workaround to bsdtar not reporting a missing file as an error
-				if ! [[ -e $work_dir/$i || -L $work_dir/$i ]]; then
-					error "unable to add /$i to the package"
-					plain "       If your user does not have permssion to read this file then"
-					plain "       you will need to run $myname as root"
-					rm -rf "$work_dir"
-					exit 1
-				fi
-			else
-				warning "package file /$i is missing"
+			if [[ ! -e $local_file ]]; then
+				warning "package file $local_file is missing"
+				continue
 			fi
 			;;
+
+		%BACKUP%)
+			# Get the MD5 checksum.
+			original_md5="${i##*$'\t'}"
+			# Strip the md5sum after the tab.
+			i="${i%$'\t'*}"
+			local_file="/$i.pacnew"
+			package_file="$work_dir/$i"
+
+			# Include unmodified .pacnew files.
+			local_md5="$(md5sum "$local_file" | cut -d' ' -f1)"
+			if [[ $INCLUDE_PACNEW == 'n' ]] \
+			|| [[ ! -e $local_file ]] \
+			|| [[ $local_md5 != $original_md5 ]]; then
+				# Warn about modified files.
+				local_md5="$(md5sum "/$i" | cut -d' ' -f1)"
+				if [[ $local_md5 != $original_md5 ]]; then
+					warning "package file /$i has been modified"
+				fi
+				# Let the normal file be included in the %FILES% list.
+				continue
+			fi
+			;;
+
+		*)
+			continue
+			;;
 	esac
-done
+
+	ret=0
+	bsdtar -cnf - -s'/.pacnew$//' "$local_file" 2> /dev/null | bsdtar -xpf - 2> /dev/null
+
+	# Workaround to bsdtar not reporting a missing file as an error
+	if ! [[ -e $package_file || -L $package_file ]]; then
+		error "unable to add $local_file to the package"
+		plain "       If your user does not have permission to read this file then"
+		plain "       you will need to run $myname as root"
+		rm -rf "$work_dir"
+		exit 1
+	fi
+done < "$pkg_dir"/files
 
 ret=$?
 if (( ret )); then
@@ -256,7 +294,7 @@ while read i; do
 
 		# files
 		%BACKUP%)
-			# strip the md5sum after the tab
+			# Strip the md5sum after the tab
 			echo "backup = ${i%%$'\t'*}"   >> .PKGINFO
 			;;
 	esac
