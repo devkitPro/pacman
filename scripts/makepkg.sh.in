@@ -372,7 +372,7 @@ download_file() {
 	fi
 
 	local ret=0
-	eval "$dlcmd || ret=\$?"
+	eval "$dlcmd >&2 || ret=\$?"
 	if (( ret )); then
 		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
 		error "$(gettext "Failure while downloading %s")" "$filename"
