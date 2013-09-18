@@ -31,13 +31,13 @@ include $(top_srcdir)/test/pacman/tests/TESTS
 
 TEST_EXTENSIONS = .py
 AM_TESTS_ENVIRONMENT = \
-	PMTEST_UTIL_DIR=$(top_srcdir)/src/util/; export PMTEST_UTIL_DIR; \
+	PMTEST_UTIL_DIR=$(top_builddir)/src/util/; export PMTEST_UTIL_DIR; \
 	PMTEST_SCRIPTLIB_DIR=$(top_srcdir)/scripts/library/; export PMTEST_SCRIPTLIB_DIR;
 TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 								 $(top_srcdir)/build-aux/tap-driver.sh
 PY_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 								 $(top_srcdir)/build-aux/tap-driver.sh
-PY_LOG_COMPILER = test/pacman/pactest.py
+PY_LOG_COMPILER = $(top_srcdir)/test/pacman/pactest.py
 AM_PY_LOG_FLAGS = \
 		--scriptlet-shell $(SCRIPTLET_SHELL) \
 		--ldconfig $(LDCONFIG) \
