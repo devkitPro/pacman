@@ -23,6 +23,9 @@ dist_pkgdata_DATA = \
 	proto/proto.install \
 	proto/ChangeLog.proto
 
+$(top_srcdir)/test/pacman/tests/TESTS: $(wildcard test/pacman/tests/*.py*)
+	@printf "TESTS += %s\n" $^ | sed -e "s/\.py\.in/.py/" | LC_ALL=C sort -u > "$@"
+
 TESTS =  test/scripts/parseopts_test.sh \
 				 test/scripts/human_to_size_test.sh \
 				 test/util/pacsorttest.sh \
