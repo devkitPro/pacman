@@ -6,6 +6,7 @@ SUBDIRS = po
 bin_SCRIPTS = \
 	$(OURSCRIPTS) \
 	makepkg-template \
+	makepkg-wrapper \
 	repo-remove \
 	repo-elephant
 
@@ -20,6 +21,7 @@ OURSCRIPTS = \
 EXTRA_DIST = \
 	makepkg.sh.in \
 	makepkg-template.pl.in \
+	makepkg-wrapper.sh.in \
 	pacman-db-upgrade.sh.in \
 	pacman-key.sh.in \
 	pacman-optimize.sh.in \
@@ -36,6 +38,9 @@ LIBRARY = \
 
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS)
+
+clean-local:
+	$(AM_V_at)$(RM) -r .lib
 
 if USE_GIT_VERSION
 GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 --dirty | sed s/^v//')
@@ -77,6 +82,7 @@ $(OURSCRIPTS): Makefile
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
+	$(srcdir)/makepkg-wrapper.sh.in \
 	$(srcdir)/library/parseopts.sh
 
 makepkg-template: \
@@ -117,7 +123,26 @@ repo-elephant: $(srcdir)/repo-add.sh.in
 	$(AM_V_at)$(RM) repo-elephant
 	$(AM_V_at)$(LN_S) repo-add repo-elephant
 
+makepkg-wrapper: \
+	Makefile \
+	$(srcdir)/makepkg-wrapper.sh.in \
+	$(srcdir)/makepkg.sh.in \
+	$(srcdir)/library/parseopts.sh \
+	| makepkg
+	$(AM_V_at)$(MKDIR_P) .lib
+	$(AM_V_at)mv -f makepkg .lib
+	$(AM_V_at)$(RM) $@
+	$(AM_V_GEN)sed \
+		-e "s|@PWD[@]|$$(pwd)|" \
+		-e '1s|!/bin/bash|!$(BASH_SHELL)|g' \
+		$(srcdir)/$@.sh.in > $@
+	$(AM_V_at)chmod +x,a-w $@
+	$(AM_V_at)$(LN_S) makepkg-wrapper makepkg
+
 install-data-hook:
+	cd $(DESTDIR)$(bindir) && \
+		$(RM) makepkg makepkg-wrapper
+	$(INSTALL) .lib/makepkg $(DESTDIR)$(bindir)/makepkg
 	cd $(DESTDIR)$(bindir) && \
 		$(RM) repo-elephant && \
 		( $(LN_S) repo-add repo-elephant || \
