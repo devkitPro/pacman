@@ -39,6 +39,8 @@ LIBRARY = \
 # Files that should be removed, but which Automake does not know.
 MOSTLYCLEANFILES = $(bin_SCRIPTS)
 
+libmakepkgdir = $(libdir)/makepkg
+
 clean-local:
 	$(AM_V_at)$(RM) -r .lib
 
@@ -54,6 +56,7 @@ edit = sed \
 	-e 's|@localedir[@]|$(localedir)|g' \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
+	-e 's|@libmakepkgdir[@]|$(libmakepkgdir)|g' \
 	-e 's|@pkgdatadir[@]|$(pkgdatadir)|g' \
 	-e 's|@prefix[@]|$(prefix)|g' \
 	-e '1s|!/bin/bash|!$(BASH_SHELL)|g' \

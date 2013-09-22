@@ -46,6 +46,8 @@ declare -r confdir='@sysconfdir@'
 declare -r BUILDSCRIPT='@BUILDSCRIPT@'
 declare -r startdir="$PWD"
 
+LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+
 packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman' \
                    'purge' 'upx' 'debug')
 other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
