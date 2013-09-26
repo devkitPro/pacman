@@ -318,8 +318,15 @@ static int display(alpm_pkg_t *pkg)
 			&& !config->op_q_changelog && !config->op_q_check) {
 		if(!config->quiet) {
 			const colstr_t *colstr = &config->colstr;
-			printf("%s%s %s%s%s\n", colstr->title, alpm_pkg_get_name(pkg),
+			printf("%s%s %s%s%s", colstr->title, alpm_pkg_get_name(pkg),
 					colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
+
+			if(config->op_q_upgrade) {
+				alpm_pkg_t *newpkg = alpm_sync_newversion(pkg, alpm_get_syncdbs(config->handle));
+				printf(" -> %s%s%s", colstr->version, alpm_pkg_get_version(newpkg), colstr->nocolor);
+			}
+
+			printf("\n");
 		} else {
 			printf("%s\n", alpm_pkg_get_name(pkg));
 		}
