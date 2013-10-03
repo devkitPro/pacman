@@ -1782,15 +1782,6 @@ find_libprovides() {
 	printf '%s\n' "${libprovides[@]}"
 }
 
-check_license() {
-	# TODO maybe remove this at some point
-	# warn if license array is not present or empty
-	if [[ -z $license ]]; then
-		warning "$(gettext "Please add a license line to your %s!")" "$BUILDSCRIPT"
-		plain "$(gettext "Example for GPL\'ed software: %s.")" "license=('GPL')"
-	fi
-}
-
 write_pkginfo() {
 	local builddate=$(date -u "+%s")
 	if [[ -n $PACKAGER ]]; then
@@ -1842,8 +1833,6 @@ write_pkginfo() {
 				;;
 		esac
 	done
-
-	check_license
 }
 
 create_package() {
@@ -1986,8 +1975,6 @@ create_srcpackage() {
 	msg "$(gettext "Creating source package...")"
 	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
 	mkdir "${srclinks}"/${pkgbase}
-
-	check_license
 
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
 	ln -s "${BUILDFILE}" "${srclinks}/${pkgbase}/${BUILDSCRIPT}"
