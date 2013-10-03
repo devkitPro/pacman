@@ -2490,7 +2490,7 @@ usage() {
 	printf -- "$(gettext "  -A, --ignorearch Ignore incomplete %s field in %s")\n" "arch" "$BUILDSCRIPT"
 	printf -- "$(gettext "  -c, --clean      Clean up work files after build")\n"
 	printf -- "$(gettext "  -d, --nodeps     Skip all dependency checks")\n"
-	printf -- "$(gettext "  -e, --noextract  Do not extract source files (use existing %s dir)")\n" "src/"
+	printf -- "$(gettext "  -e, --noextract  Do not extract source files (use existing %s dir)")\n" "\$srcdir/"
 	printf -- "$(gettext "  -f, --force      Overwrite existing package")\n"
 	printf -- "$(gettext "  -g, --geninteg   Generate integrity checks for source files")\n"
 	printf -- "$(gettext "  -h, --help       Show this help message and exit")\n"
