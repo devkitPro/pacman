@@ -63,6 +63,7 @@ ASROOT=0
 CLEANUP=0
 DEP_BIN=0
 FORCE=0
+CLEANBUILD=0
 INFAKEROOT=0
 GENINTEG=0
 HOLDVER=0
@@ -2474,6 +2475,7 @@ usage() {
 	printf -- "$(gettext "Options:")\n"
 	printf -- "$(gettext "  -A, --ignorearch Ignore incomplete %s field in %s")\n" "arch" "$BUILDSCRIPT"
 	printf -- "$(gettext "  -c, --clean      Clean up work files after build")\n"
+        printf -- "$(gettext "  -C, --cleanbuild Remove %s dir before building the package")\n" "\$srcdir/"
 	printf -- "$(gettext "  -d, --nodeps     Skip all dependency checks")\n"
 	printf -- "$(gettext "  -e, --noextract  Do not extract source files (use existing %s dir)")\n" "\$srcdir/"
 	printf -- "$(gettext "  -f, --force      Overwrite existing package")\n"
@@ -2537,8 +2539,8 @@ fi
 ARGLIST=("$@")
 
 # Parse Command Line Options.
-OPT_SHORT="AcdefFghiLmop:rRsSV"
-OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'config:' 'force' 'geninteg'
+OPT_SHORT="AcCdefFghiLmop:rRsSV"
+OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
           'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
           'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'pkg:' 'repackage' 'rmdeps'
           'sign' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'source' 'syncdeps'
@@ -2566,6 +2568,7 @@ while true; do
 		--asroot)         ASROOT=1 ;;
 		-A|--ignorearch)  IGNOREARCH=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
+		-C|--cleanbuild)  CLEANBUILD=1 ;;
 		--check)          RUN_CHECK='y' ;;
 		--config)         shift; MAKEPKG_CONF=$1 ;;
 		-d|--nodeps)      NODEPS=1 ;;
@@ -2975,6 +2978,12 @@ elif (( !REPKG )); then
 	download_sources
 	check_source_integrity
 	(( VERIFYSOURCE )) && exit 0 # $E_OK
+
+	if (( CLEANBUILD )); then
+		msg "$(gettext "Removing existing %s directory...")" "src/"
+		rm -rf "$srcdir"/*
+	fi
+
 	extract_sources
 	if (( PREPAREFUNC )); then
 		run_prepare
