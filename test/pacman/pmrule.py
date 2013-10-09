@@ -32,9 +32,7 @@ class pmrule(object):
         self.result = 0
 
     def __str__(self):
-        if len(self.rule) <= 40:
-            return self.rule
-        return self.rule[:37] + '...'
+        return self.rule
 
     def check(self, test):
         """
