@@ -1836,7 +1836,7 @@ write_pkginfo() {
 
 create_package() {
 	if [[ ! -d $pkgdir ]]; then
-		error "$(gettext "Missing %s directory.")" "pkg/"
+		error "$(gettext "Missing %s directory.")" "\$pkgdir/"
 		plain "$(gettext "Aborting...")"
 		exit 1 # $E_MISSING_PKGDIR
 	fi
@@ -2973,14 +2973,14 @@ chmod a-s "$srcdir"
 cd_safe "$srcdir"
 
 if (( NOEXTRACT && ! VERIFYSOURCE )); then
-	warning "$(gettext "Using existing %s tree")" "src/"
+	warning "$(gettext "Using existing %s tree")" "\$srcdir/"
 elif (( !REPKG )); then
 	download_sources
 	check_source_integrity
 	(( VERIFYSOURCE )) && exit 0 # $E_OK
 
 	if (( CLEANBUILD )); then
-		msg "$(gettext "Removing existing %s directory...")" "src/"
+		msg "$(gettext "Removing existing %s directory...")" "\$srcdir/"
 		rm -rf "$srcdir"/*
 	fi
 
@@ -2996,7 +2996,7 @@ if (( NOBUILD )); then
 else
 	# clean existing pkg directory
 	if [[ -d $pkgdirbase ]]; then
-		msg "$(gettext "Removing existing %s directory...")" "pkg/"
+		msg "$(gettext "Removing existing %s directory...")" "\$pkgdir/"
 		rm -rf "$pkgdirbase"
 	fi
 	mkdir -p "$pkgdirbase"
