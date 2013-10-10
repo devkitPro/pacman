@@ -70,11 +70,13 @@ void SYMEXPORT alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
 {
 	alpm_list_t *it = list;
 
-	while(it) {
-		if(fn && it->data) {
-			fn(it->data);
+	if(fn) {
+		while(it) {
+			if(it->data) {
+				fn(it->data);
+			}
+			it = it->next;
 		}
-		it = it->next;
 	}
 }
 
