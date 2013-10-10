@@ -320,8 +320,6 @@ download_local() {
 
 	if [[ -n "$filepath" ]]; then
 		msg2 "$(gettext "Found %s")" "${filepath##*/}"
-		rm -f "$srcdir/${filepath##*/}"
-		ln -s "$filepath" "$srcdir/"
 	else
 		local filename=$(get_filename "$netfile")
 		error "$(gettext "%s was not found in the build directory and is not a URL.")" "$filename"
@@ -335,8 +333,6 @@ download_file() {
 	local filepath=$(get_filepath "$netfile")
 	if [[ -n "$filepath" ]]; then
 		msg2 "$(gettext "Found %s")" "${filepath##*/}"
-		rm -f "$srcdir/${filepath##*/}"
-		ln -s "$filepath" "$srcdir/"
 		return
 	fi
 
@@ -384,13 +380,15 @@ download_file() {
 	if [[ $dlfile != "$filename" ]]; then
 		mv -f "$SRCDEST/$dlfile" "$SRCDEST/$filename"
 	fi
-
-	rm -f "$srcdir/$filename"
-	ln -s "$SRCDEST/$filename" "$srcdir/"
 }
 
 extract_file() {
 	local file=$1
+
+	local filepath=$(get_filepath "$file")
+	rm -f "$srcdir/${file}"
+	ln -s "$filepath" "$srcdir/"
+
 	# do not rely on extension for file type
 	local file_type=$(file -bizL "$file")
 	local ext=${file##*.}
@@ -401,24 +399,24 @@ extract_file() {
 		*application/x-gzip*)
 			case "$ext" in
 				gz|z|Z) cmd="gzip" ;;
-				*) continue;;
+				*) return;;
 			esac ;;
 		*application/x-bzip*)
 			case "$ext" in
 				bz2|bz) cmd="bzip2" ;;
-				*) continue;;
+				*) return;;
 			esac ;;
 		*application/x-xz*)
 			case "$ext" in
 				xz) cmd="xz" ;;
-				*) continue;;
+				*) return;;
 			esac ;;
 		*)
 			# See if bsdtar can recognize the file
 			if bsdtar -tf "$file" -q '*' &>/dev/null; then
 				cmd="bsdtar"
 			else
-				continue
+				return
 			fi ;;
 	esac
 
