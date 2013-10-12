@@ -574,6 +574,7 @@ static int parsearg_trans(int opt)
 			break;
 		case OP_PRINTFORMAT:
 			check_optarg();
+			config->print = 1;
 			config->print_format = strdup(optarg);
 			break;
 		default:
