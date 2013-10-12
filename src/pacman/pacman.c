@@ -561,6 +561,7 @@ static int parsearg_trans(int opt)
 			break;
 		case OP_DBONLY:
 			config->flags |= ALPM_TRANS_FLAG_DBONLY;
+			config->flags |= ALPM_TRANS_FLAG_NOSCRIPTLET;
 			break;
 		case OP_NOPROGRESSBAR:
 			config->noprogressbar = 1;
