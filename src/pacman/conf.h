@@ -128,7 +128,8 @@ enum {
 
 /* Long Operations */
 enum {
-	OP_NOCONFIRM = 1000,
+	OP_LONG_FLAG_MIN = 1000,
+	OP_NOCONFIRM,
 	OP_CONFIG,
 	OP_IGNORE,
 	OP_DEBUG,

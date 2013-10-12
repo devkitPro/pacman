@@ -947,7 +947,12 @@ static int parseargs(int argc, char *argv[])
 		result = parsearg_global(opt);
 		if(result != 0) {
 			/* global option parsing failed, abort */
-			pm_printf(ALPM_LOG_ERROR, _("invalid option\n"));
+			if(opt < OP_LONG_FLAG_MIN) {
+				pm_printf(ALPM_LOG_ERROR, _("invalid option '-%c'\n"), opt);
+			} else {
+				pm_printf(ALPM_LOG_ERROR, _("invalid option '--%s'\n"),
+						opts[option_index].name);
+			}
 			return result;
 		}
 	}
