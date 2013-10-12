@@ -77,6 +77,12 @@ def create_parser():
 
 
 if __name__ == "__main__":
+
+    if sys.hexversion < 0x02070000:
+        # bailing now with clear message better than mid-run with unhelpful one
+        tap.bail("Python versions before 2.7 are not supported.")
+        sys.exit(1)
+
     # instantiate env and parser objects
     root_path = tempfile.mkdtemp()
     env = pmenv.pmenv(root=root_path)
