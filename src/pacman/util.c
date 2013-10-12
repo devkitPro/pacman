@@ -378,40 +378,6 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	return newstr;
 }
 
-/** Splits a string into a list of strings using the chosen character as
- * a delimiter.
- *
- * @param str the string to split
- * @param splitchar the character to split at
- *
- * @return a list containing the duplicated strings
- */
-alpm_list_t *strsplit(const char *str, const char splitchar)
-{
-	alpm_list_t *list = NULL;
-	const char *prev = str;
-	char *dup = NULL;
-
-	while((str = strchr(str, splitchar))) {
-		dup = strndup(prev, (size_t)(str - prev));
-		if(dup == NULL) {
-			return NULL;
-		}
-		list = alpm_list_add(list, dup);
-
-		str++;
-		prev = str;
-	}
-
-	dup = strdup(prev);
-	if(dup == NULL) {
-		return NULL;
-	}
-	list = alpm_list_add(list, dup);
-
-	return list;
-}
-
 static size_t string_length(const char *s)
 {
 	int len;

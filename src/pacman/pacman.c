@@ -325,14 +325,14 @@ static void handler(int signum)
 
 static int parsearg_util_addlist(alpm_list_t **list)
 {
-	alpm_list_t *split, *item;
+	char *i, *save;
 
 	check_optarg();
-	split = strsplit(optarg, ',');
-	for(item = split; item; item = alpm_list_next(item)) {
-		*list = alpm_list_add(*list, item->data);
+
+	for(i = strtok_r(optarg, ",", &save); i; i = strtok_r(NULL, ",", &save)) {
+		*list = alpm_list_add(*list, strdup(i));
 	}
-	alpm_list_free(split);
+
 	return 0;
 }
 
