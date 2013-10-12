@@ -57,6 +57,6 @@ update-po:
 	$(MAKE) -C scripts/po update-po
 	$(MAKE) -C src/pacman/po update-po
 
-.PHONY: test-pacman test-pacsort test-vercmp test-parseopts update-po
+.PHONY: update-po
 
 # vim:set ts=2 sw=2 noet:
