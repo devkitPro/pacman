@@ -14,7 +14,7 @@ p3.files = ["bin/pkg3", "usr/man/man1/pkg3.1"]
 for p in p1, p2, p3:
 	self.addpkg(p)
 
-self.args = "-U %s" % " ".join([p.filename() for p in p1, p2, p3])
+self.args = "-U %s" % " ".join([p.filename() for p in (p1, p2, p3)])
 
 self.addrule("PACMAN_RETCODE=0")
 for p in p1, p2, p3:

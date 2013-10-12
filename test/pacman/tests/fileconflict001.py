@@ -18,7 +18,7 @@ p2.files = ["dir/",
             "dir/symdir/file"]
 self.addpkg(p2)
 
-self.args = "-U %s" % " ".join([p.filename() for p in p1, p2])
+self.args = "-U %s" % " ".join([p.filename() for p in (p1, p2)])
 
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("!PKG_EXIST=pkg1")

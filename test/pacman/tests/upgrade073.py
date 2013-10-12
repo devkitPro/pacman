@@ -15,7 +15,7 @@ p3.files = ["bin/dep2"]
 for p in p1, p2, p3:
 	self.addpkg(p)
 
-self.args = "-U %s" % " ".join([p.filename() for p in p1, p2, p3])
+self.args = "-U %s" % " ".join([p.filename() for p in (p1, p2, p3)])
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=dummy|1.0-2")

@@ -10,7 +10,7 @@ p2 = pmpkg("pkg2", "1.0-2")
 for p in p1, p2:
 	self.addpkg2db("sync", p)
 
-self.args = "-S --asexplicit %s" % " ".join([p.name for p in p1, p2])
+self.args = "-S --asexplicit %s" % " ".join([p.name for p in (p1, p2)])
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_VERSION=pkg1|1.0-2")

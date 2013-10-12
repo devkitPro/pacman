@@ -16,7 +16,7 @@ sp = pmpkg("dep")
 sp.files = ["bin/dep"]
 self.addpkg2db("sync", sp)
 
-self.args = "-U %s --ask=16" % " ".join([p.filename() for p in p1, p2, p3])
+self.args = "-U %s --ask=16" % " ".join([p.filename() for p in (p1, p2, p3)])
 
 self.addrule("PACMAN_RETCODE=0")
 for p in p1, p2, sp:

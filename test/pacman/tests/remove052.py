@@ -13,7 +13,7 @@ lp3 = pmpkg("pkg3")
 lp3.reason = 1
 self.addpkg2db("local", lp3)
 
-self.args = "-Rs %s" % " ".join([p.name for p in lp1, lp3])
+self.args = "-Rs %s" % " ".join([p.name for p in (lp1, lp3)])
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("!PKG_EXIST=pkg1")

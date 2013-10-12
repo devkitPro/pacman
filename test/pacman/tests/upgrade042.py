@@ -17,7 +17,7 @@ p2.backup = ["etc/profile"]
 p2.depends = [ "bash" ]
 self.addpkg(p2)
 
-self.args = "-U %s" % " ".join([p.filename() for p in p1, p2])
+self.args = "-U %s" % " ".join([p.filename() for p in (p1, p2)])
 
 self.filesystem = ["etc/profile"]
 

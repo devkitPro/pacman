@@ -18,7 +18,7 @@ self.addpkg(p2)
 p3 = pmpkg("pkg3", "1.0-2")
 self.addpkg(p3)
 
-self.args = "-U %s" % " ".join([p.filename() for p in p2, p3])
+self.args = "-U %s" % " ".join([p.filename() for p in (p2, p3)])
 
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("PKG_EXIST=pkg1")

@@ -15,7 +15,7 @@ for p in sp1, sp2, sp3:
 lp1 = pmpkg("pkg2", "0.1-1")
 self.addpkg2db("local", lp1)
 
-self.args = "-S %s --ask=4" % " ".join([p.name for p in sp1, sp2])
+self.args = "-S %s --ask=4" % " ".join([p.name for p in (sp1, sp2)])
 
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PKG_EXIST=pkg1")
