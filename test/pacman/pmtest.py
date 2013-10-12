@@ -100,7 +100,8 @@ class pmtest(object):
         if os.path.isfile(self.name):
             # all tests expect this to be available
             from pmpkg import pmpkg
-            execfile(self.name)
+            with open(self.name) as input:
+                exec(input.read(),locals())
         else:
             raise IOError("file %s does not exist!" % self.name)
 
