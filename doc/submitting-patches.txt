@@ -27,7 +27,7 @@ Creating your patch
 -------------------
 
 --
-* use `git commit -s` for creating a commit of your changes.
+* Use `git commit -s` for creating a commit of your changes.
 
 The -s allows you to credit yourself by adding a "Signed Off By" line to
 indicate who has "signed" the patch - who has approved it.
@@ -46,7 +46,11 @@ was actually done, and allows better feedback.
 * Use `git format-patch` to create patches.
 
 Your commit message will be shown above the patch by default when you will use
-`git-format-patch`, including the signoff line.
+`git format-patch`, including the signoff line.  Sets of multiple patches that
+need extra explanation beyond the commit messages may include additional notes
+in a cover letter.  Individual patches may include additional notes between the
+"---" following the commit message and the beginning of the diff.
+
 --
 
 Submitting your patch
@@ -66,7 +70,9 @@ it allows easier review "at a glance", and most importantly, it allows people
 to comment on exact lines of the patch in reply emails.
 
 `git send-email` allows you to send git formatted patches in plain text easily
-and is the preferred method for submission to the mailing list.
+and is the preferred method for submission to the mailing list.  Mail clients,
+including gmail's web interface, have a tendency to break patches by wrapping
+lines and/or adjusting whitespace and should be avoided.
 
 --
 
@@ -89,7 +95,8 @@ When you do get feedback, it usually merits a response, whether this be a
 resubmit of the patch with corrections or a follow-up email asking for
 clarifications. When neither of these occurs, don't expect your patch to see
 further review. The all-volunteer staff don't have time to fix up patches that
-aren't their own.
+aren't their own.  When resubmitting patches update the subject line to reflect
+the version number ('[PATCHv2]') and send it as a reply to the original thread.
 
 --
 
