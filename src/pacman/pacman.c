@@ -323,6 +323,16 @@ static void handler(int signum)
 
 #define check_optarg() if(!optarg) { return 1; }
 
+static void invalid_opt(int used, const char *opt1, const char *opt2)
+{
+	if(used) {
+		pm_printf(ALPM_LOG_ERROR,
+				_("invalid option: '%s' and '%s' may not be used together\n"),
+				opt1, opt2);
+		cleanup(1);
+	}
+}
+
 static int parsearg_util_addlist(alpm_list_t **list)
 {
 	char *i, *save;
@@ -479,6 +489,13 @@ static int parsearg_database(int opt)
 	return 0;
 }
 
+static void checkargs_database(void)
+{
+	invalid_opt(config->flags & ALPM_TRANS_FLAG_ALLDEPS
+			&& config->flags & ALPM_TRANS_FLAG_ALLEXPLICIT,
+			"--asdeps", "--asexplicit");
+}
+
 static int parsearg_query(int opt)
 {
 	switch(opt) {
@@ -547,6 +564,46 @@ static int parsearg_query(int opt)
 	return 0;
 }
 
+static void checkargs_query_display_opts(const char *opname) {
+	invalid_opt(config->op_q_changelog, opname, "--changelog");
+	invalid_opt(config->op_q_check, opname, "--check");
+	invalid_opt(config->op_q_info, opname, "--info");
+	invalid_opt(config->op_q_list, opname, "--list");
+}
+
+static void checkargs_query_filter_opts(const char *opname) {
+	invalid_opt(config->op_q_deps, opname, "--deps");
+	invalid_opt(config->op_q_explicit, opname, "--explicit");
+	invalid_opt(config->op_q_upgrade, opname, "--upgrade");
+	invalid_opt(config->op_q_unrequired, opname, "--unrequired");
+	invalid_opt(config->op_q_locality & PKG_LOCALITY_NATIVE, opname, "--native");
+	invalid_opt(config->op_q_locality & PKG_LOCALITY_FOREIGN, opname, "--foreign");
+}
+
+static void checkargs_query(void)
+{
+	if(config->op_q_isfile) {
+		invalid_opt(config->group, "--file", "--groups");
+		invalid_opt(config->op_q_search, "--file", "--search");
+		invalid_opt(config->op_q_owns, "--file", "--owns");
+	} else if(config->op_q_search) {
+		invalid_opt(config->group, "--search", "--groups");
+		invalid_opt(config->op_q_owns, "--search", "--owns");
+		checkargs_query_display_opts("--search");
+		checkargs_query_filter_opts("--search");
+	} else if(config->op_q_owns) {
+		invalid_opt(config->group, "--owns", "--groups");
+		checkargs_query_display_opts("--owns");
+		checkargs_query_filter_opts("--owns");
+	} else if(config->group) {
+		checkargs_query_display_opts("--groups");
+	}
+
+	invalid_opt(config->op_q_deps && config->op_q_explicit, "--deps", "--explicit");
+	invalid_opt(config->op_q_locality & (PKG_LOCALITY_NATIVE | PKG_LOCALITY_FOREIGN),
+			"--native", "--foreign");
+}
+
 /* options common to -S -R -U */
 static int parsearg_trans(int opt)
 {
@@ -584,6 +641,16 @@ static int parsearg_trans(int opt)
 	return 0;
 }
 
+static void checkargs_trans(void)
+{
+	if(config->print) {
+		invalid_opt(config->flags & ALPM_TRANS_FLAG_DBONLY,
+				"--print", "--dbonly");
+		invalid_opt(config->flags & ALPM_TRANS_FLAG_NOSCRIPTLET,
+				"--print", "--noscriptlet");
+	}
+}
+
 static int parsearg_remove(int opt)
 {
 	if(parsearg_trans(opt) == 0) {
@@ -616,6 +683,16 @@ static int parsearg_remove(int opt)
 	return 0;
 }
 
+static void checkargs_remove(void)
+{
+	checkargs_trans();
+	if(config->flags & ALPM_TRANS_FLAG_NOSAVE) {
+		invalid_opt(config->print, "--nosave", "--print");
+		invalid_opt(config->flags & ALPM_TRANS_FLAG_DBONLY,
+				"--nosave", "--dbonly");
+	}
+}
+
 /* options common to -S -U */
 static int parsearg_upgrade(int opt)
 {
@@ -636,6 +713,14 @@ static int parsearg_upgrade(int opt)
 		default: return 1;
 	}
 	return 0;
+}
+
+static void checkargs_upgrade(void)
+{
+	checkargs_trans();
+	invalid_opt(config->flags & ALPM_TRANS_FLAG_ALLDEPS
+			&& config->flags & ALPM_TRANS_FLAG_ALLEXPLICIT,
+			"--asdeps", "--asexplicit");
 }
 
 static int parsearg_sync(int opt)
@@ -686,6 +771,38 @@ static int parsearg_sync(int opt)
 			return 1;
 	}
 	return 0;
+}
+
+static void checkargs_sync(void)
+{
+	checkargs_upgrade();
+	if(config->op_s_clean) {
+		invalid_opt(config->group, "--clean", "--groups");
+		invalid_opt(config->op_s_info, "--clean", "--info");
+		invalid_opt(config->op_q_list, "--clean", "--list");
+		invalid_opt(config->op_s_sync, "--clean", "--refresh");
+		invalid_opt(config->op_s_search, "--clean", "--search");
+		invalid_opt(config->op_s_upgrade, "--clean", "--sysupgrade");
+		invalid_opt(config->op_s_downloadonly, "--clean", "--downloadonly");
+	} else if(config->op_s_info) {
+		invalid_opt(config->group, "--info", "--groups");
+		invalid_opt(config->op_q_list, "--info", "--list");
+		invalid_opt(config->op_s_search, "--info", "--search");
+		invalid_opt(config->op_s_upgrade, "--info", "--sysupgrade");
+		invalid_opt(config->op_s_downloadonly, "--info", "--downloadonly");
+	} else if(config->op_s_search) {
+		invalid_opt(config->group, "--search", "--groups");
+		invalid_opt(config->op_q_list, "--search", "--list");
+		invalid_opt(config->op_s_upgrade, "--search", "--sysupgrade");
+		invalid_opt(config->op_s_downloadonly, "--search", "--downloadonly");
+	} else if(config->op_q_list) {
+		invalid_opt(config->group, "--list", "--groups");
+		invalid_opt(config->op_s_upgrade, "--list", "--sysupgrade");
+		invalid_opt(config->op_s_downloadonly, "--list", "--downloadonly");
+	} else if(config->group) {
+		invalid_opt(config->op_s_upgrade, "--groups", "--sysupgrade");
+		invalid_opt(config->op_s_downloadonly, "--groups", "--downloadonly");
+	}
 }
 
 /** Parse command-line arguments for each operation.
@@ -839,6 +956,29 @@ static int parseargs(int argc, char *argv[])
 		/* add the target to our target array */
 		pm_targets = alpm_list_add(pm_targets, strdup(argv[optind]));
 		optind++;
+	}
+
+	switch(config->op) {
+		case PM_OP_DATABASE:
+			checkargs_database();
+			break;
+		case PM_OP_DEPTEST:
+			/* no conflicting options */
+			break;
+		case PM_OP_SYNC:
+			checkargs_sync();
+			break;
+		case PM_OP_QUERY:
+			checkargs_query();
+			break;
+		case PM_OP_REMOVE:
+			checkargs_remove();
+			break;
+		case PM_OP_UPGRADE:
+			checkargs_upgrade();
+			break;
+		default:
+			break;
 	}
 
 	return 0;
