@@ -84,12 +84,12 @@ def mkfile(base, name, data=""):
     path = os.path.join(base, filename)
     if info["isdir"]:
         if not os.path.isdir(path):
-            os.makedirs(path, 0755)
+            os.makedirs(path, 0o755)
         return
 
     dir_path = os.path.dirname(path)
     if dir_path and not os.path.isdir(dir_path):
-        os.makedirs(dir_path, 0755)
+        os.makedirs(dir_path, 0o755)
 
     if info["islink"]:
         os.symlink(info["link"], path)
@@ -182,6 +182,6 @@ def mkdir(path):
         return
     elif os.path.isfile(path):
         raise OSError("'%s' already exists and is not a directory" % path)
-    os.makedirs(path, 0755)
+    os.makedirs(path, 0o755)
 
 # vim: set ts=4 sw=4 et:

@@ -131,7 +131,7 @@ class pmtest(object):
         for sys_dir in sys_dirs:
             if not os.path.isdir(sys_dir):
                 vprint("\t%s" % sys_dir[len(self.root)+1:])
-                os.makedirs(sys_dir, 0755)
+                os.makedirs(sys_dir, 0o755)
         # Only the dynamically linked binary is needed for fakechroot
         shutil.copy("/bin/sh", bindir)
         if shell != "bin/sh":
