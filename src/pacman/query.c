@@ -241,7 +241,7 @@ static unsigned short pkg_get_locality(alpm_pkg_t *pkg)
 
 	for(j = sync_dbs; j; j = alpm_list_next(j)) {
 		if(alpm_db_get_pkg(j->data, pkgname)) {
-			return PKG_LOCALITY_LOCAL;
+			return PKG_LOCALITY_NATIVE;
 		}
 	}
 	return PKG_LOCALITY_FOREIGN;
@@ -275,7 +275,7 @@ static int filter(alpm_pkg_t *pkg)
 		return 0;
 	}
 	/* check if this pkg is or isn't in a sync DB */
-	if(config->op_q_locality && config->op_q_locality & pkg_get_locality(pkg)) {
+	if(config->op_q_locality && config->op_q_locality != pkg_get_locality(pkg)) {
 		return 0;
 	}
 	/* check if this pkg is unrequired */

@@ -187,7 +187,7 @@ enum {
 /** package locality */
 enum {
 	PKG_LOCALITY_UNSET = 0,
-	PKG_LOCALITY_LOCAL = (1 << 0),
+	PKG_LOCALITY_NATIVE = (1 << 0),
 	PKG_LOCALITY_FOREIGN = (1 << 1)
 };
 

@@ -512,11 +512,11 @@ static int parsearg_query(int opt)
 			break;
 		case OP_FOREIGN:
 		case 'm':
-			config->op_q_locality |= PKG_LOCALITY_LOCAL;
+			config->op_q_locality |= PKG_LOCALITY_FOREIGN;
 			break;
 		case OP_NATIVE:
 		case 'n':
-			config->op_q_locality |= PKG_LOCALITY_FOREIGN;
+			config->op_q_locality |= PKG_LOCALITY_NATIVE;
 			break;
 		case OP_OWNS:
 		case 'o':
