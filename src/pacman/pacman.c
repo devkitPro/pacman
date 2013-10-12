@@ -446,14 +446,25 @@ static int parsearg_global(int opt)
 			check_optarg();
 			config->logfile = strndup(optarg, PATH_MAX);
 			break;
-		case OP_NOCONFIRM: config->noconfirm = 1; break;
+		case OP_NOCONFIRM:
+			config->noconfirm = 1;
+			break;
+		case OP_DBPATH:
 		case 'b':
 			check_optarg();
 			config->dbpath = strdup(optarg);
 			break;
-		case 'r': check_optarg(); config->rootdir = strdup(optarg); break;
-		case 'v': (config->verbose)++; break;
-		default: return 1;
+		case OP_ROOT:
+		case 'r':
+			check_optarg();
+			config->rootdir = strdup(optarg);
+			break;
+		case OP_VERBOSE:
+		case 'v':
+			(config->verbose)++;
+			break;
+		default:
+			return 1;
 	}
 	return 0;
 }
@@ -471,22 +482,67 @@ static int parsearg_database(int opt)
 static int parsearg_query(int opt)
 {
 	switch(opt) {
-		case 'c': config->op_q_changelog = 1; break;
-		case 'd': config->op_q_deps = 1; break;
-		case 'e': config->op_q_explicit = 1; break;
-		case 'g': (config->group)++; break;
-		case 'i': (config->op_q_info)++; break;
-		case 'k': (config->op_q_check)++; break;
-		case 'l': config->op_q_list = 1; break;
-		case 'm': config->op_q_locality |= PKG_LOCALITY_LOCAL; break;
-		case 'n': config->op_q_locality |= PKG_LOCALITY_FOREIGN; break;
-		case 'o': config->op_q_owns = 1; break;
-		case 'p': config->op_q_isfile = 1; break;
-		case 'q': config->quiet = 1; break;
-		case 's': config->op_q_search = 1; break;
-		case 't': (config->op_q_unrequired)++; break;
-		case 'u': config->op_q_upgrade = 1; break;
-		default: return 1;
+		case OP_CHANGELOG:
+		case 'c':
+			config->op_q_changelog = 1;
+			break;
+		case OP_DEPS:
+		case 'd':
+			config->op_q_deps = 1;
+			break;
+		case OP_EXPLICIT:
+		case 'e':
+			config->op_q_explicit = 1;
+			break;
+		case OP_GROUPS:
+		case 'g':
+			(config->group)++;
+			break;
+		case OP_INFO:
+		case 'i':
+			(config->op_q_info)++;
+			break;
+		case OP_CHECK:
+		case 'k':
+			(config->op_q_check)++;
+			break;
+		case OP_LIST:
+		case 'l':
+			config->op_q_list = 1;
+			break;
+		case OP_FOREIGN:
+		case 'm':
+			config->op_q_locality |= PKG_LOCALITY_LOCAL;
+			break;
+		case OP_NATIVE:
+		case 'n':
+			config->op_q_locality |= PKG_LOCALITY_FOREIGN;
+			break;
+		case OP_OWNS:
+		case 'o':
+			config->op_q_owns = 1;
+			break;
+		case OP_FILE:
+		case 'p':
+			config->op_q_isfile = 1;
+			break;
+		case OP_QUIET:
+		case 'q':
+			config->quiet = 1;
+			break;
+		case OP_SEARCH:
+		case 's':
+			config->op_q_search = 1;
+			break;
+		case OP_UNREQUIRED:
+		case 't':
+			(config->op_q_unrequired)++;
+			break;
+		case OP_UPGRADES:
+		case 'u':
+			config->op_q_upgrade = 1; break;
+		default:
+			return 1;
 	}
 	return 0;
 }
@@ -495,6 +551,7 @@ static int parsearg_query(int opt)
 static int parsearg_trans(int opt)
 {
 	switch(opt) {
+		case OP_NODEPS:
 		case 'd':
 			if(config->flags & ALPM_TRANS_FLAG_NODEPVERSION) {
 				config->flags |= ALPM_TRANS_FLAG_NODEPS;
@@ -502,26 +559,44 @@ static int parsearg_trans(int opt)
 				config->flags |= ALPM_TRANS_FLAG_NODEPVERSION;
 			}
 			break;
-		case OP_DBONLY: config->flags |= ALPM_TRANS_FLAG_DBONLY; break;
-		case OP_NOPROGRESSBAR: config->noprogressbar = 1; break;
-		case OP_NOSCRIPTLET: config->flags |= ALPM_TRANS_FLAG_NOSCRIPTLET; break;
-		case 'p': config->print = 1; break;
+		case OP_DBONLY:
+			config->flags |= ALPM_TRANS_FLAG_DBONLY;
+			break;
+		case OP_NOPROGRESSBAR:
+			config->noprogressbar = 1;
+			break;
+		case OP_NOSCRIPTLET:
+			config->flags |= ALPM_TRANS_FLAG_NOSCRIPTLET;
+			break;
+		case OP_PRINT:
+		case 'p':
+			config->print = 1;
+			break;
 		case OP_PRINTFORMAT:
 			check_optarg();
 			config->print_format = strdup(optarg);
 			break;
-		default: return 1;
+		default:
+			return 1;
 	}
 	return 0;
 }
 
 static int parsearg_remove(int opt)
 {
-	if(parsearg_trans(opt) == 0)
+	if(parsearg_trans(opt) == 0) {
 		return 0;
+	}
 	switch(opt) {
-		case 'c': config->flags |= ALPM_TRANS_FLAG_CASCADE; break;
-		case 'n': config->flags |= ALPM_TRANS_FLAG_NOSAVE; break;
+		case OP_CASCADE:
+		case 'c':
+			config->flags |= ALPM_TRANS_FLAG_CASCADE;
+			break;
+		case OP_NOSAVE:
+		case 'n':
+			config->flags |= ALPM_TRANS_FLAG_NOSAVE;
+			break;
+		case OP_RECURSIVE:
 		case 's':
 			if(config->flags & ALPM_TRANS_FLAG_RECURSE) {
 				config->flags |= ALPM_TRANS_FLAG_RECURSEALL;
@@ -529,8 +604,12 @@ static int parsearg_remove(int opt)
 				config->flags |= ALPM_TRANS_FLAG_RECURSE;
 			}
 			break;
-		case 'u': config->flags |= ALPM_TRANS_FLAG_UNNEEDED; break;
-		default: return 1;
+		case OP_UNNEEDED:
+		case 'u':
+			config->flags |= ALPM_TRANS_FLAG_UNNEEDED;
+			break;
+		default:
+			return 1;
 	}
 	return 0;
 }
@@ -538,8 +617,9 @@ static int parsearg_remove(int opt)
 /* options common to -S -U */
 static int parsearg_upgrade(int opt)
 {
-	if(parsearg_trans(opt) == 0)
+	if(parsearg_trans(opt) == 0) {
 		return 0;
+	}
 	switch(opt) {
 		case OP_FORCE: config->flags |= ALPM_TRANS_FLAG_FORCE; break;
 		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
@@ -558,23 +638,50 @@ static int parsearg_upgrade(int opt)
 
 static int parsearg_sync(int opt)
 {
-	if(parsearg_upgrade(opt) == 0)
+	if(parsearg_upgrade(opt) == 0) {
 		return 0;
+	}
 	switch(opt) {
-		case 'c': (config->op_s_clean)++; break;
-		case 'g': (config->group)++; break;
-		case 'i': (config->op_s_info)++; break;
-		case 'l': config->op_q_list = 1; break;
-		case 'q': config->quiet = 1; break;
-		case 's': config->op_s_search = 1; break;
-		case 'u': (config->op_s_upgrade)++; break;
+		case OP_CLEAN:
+		case 'c':
+			(config->op_s_clean)++;
+			break;
+		case OP_GROUPS:
+		case 'g':
+			(config->group)++;
+			break;
+		case OP_INFO:
+		case 'i':
+			(config->op_s_info)++;
+			break;
+		case OP_LIST:
+		case 'l':
+			config->op_q_list = 1;
+			break;
+		case OP_QUIET:
+		case 'q':
+			config->quiet = 1;
+			break;
+		case OP_SEARCH:
+		case 's':
+			config->op_s_search = 1;
+			break;
+		case OP_SYSUPGRADE:
+		case 'u':
+			(config->op_s_upgrade)++;
+			break;
+		case OP_DOWNLOADONLY:
 		case 'w':
 			config->op_s_downloadonly = 1;
 			config->flags |= ALPM_TRANS_FLAG_DOWNLOADONLY;
 			config->flags |= ALPM_TRANS_FLAG_NOCONFLICTS;
 			break;
-		case 'y': (config->op_s_sync)++; break;
-		default: return 1;
+		case OP_REFRESH:
+		case 'y':
+			(config->op_s_sync)++;
+			break;
+		default:
+			return 1;
 	}
 	return 0;
 }
@@ -599,36 +706,36 @@ static int parseargs(int argc, char *argv[])
 		{"deptest",    no_argument,       0, 'T'}, /* used by makepkg */
 		{"upgrade",    no_argument,       0, 'U'},
 		{"version",    no_argument,       0, 'V'},
-		{"dbpath",     required_argument, 0, 'b'},
-		{"cascade",    no_argument,       0, 'c'},
-		{"changelog",  no_argument,       0, 'c'},
-		{"clean",      no_argument,       0, 'c'},
-		{"nodeps",     no_argument,       0, 'd'},
-		{"deps",       no_argument,       0, 'd'},
-		{"explicit",   no_argument,       0, 'e'},
-		{"groups",     no_argument,       0, 'g'},
 		{"help",       no_argument,       0, 'h'},
-		{"info",       no_argument,       0, 'i'},
-		{"check",      no_argument,       0, 'k'},
-		{"list",       no_argument,       0, 'l'},
-		{"foreign",    no_argument,       0, 'm'},
-		{"native",     no_argument,       0, 'n'},
-		{"nosave",     no_argument,       0, 'n'},
-		{"owns",       no_argument,       0, 'o'},
-		{"file",       no_argument,       0, 'p'},
-		{"print",      no_argument,       0, 'p'},
-		{"quiet",      no_argument,       0, 'q'},
-		{"root",       required_argument, 0, 'r'},
-		{"recursive",  no_argument,       0, 's'},
-		{"search",     no_argument,       0, 's'},
-		{"unrequired", no_argument,       0, 't'},
-		{"upgrades",   no_argument,       0, 'u'},
-		{"sysupgrade", no_argument,       0, 'u'},
-		{"unneeded",   no_argument,       0, 'u'},
-		{"verbose",    no_argument,       0, 'v'},
-		{"downloadonly", no_argument,     0, 'w'},
-		{"refresh",    no_argument,       0, 'y'},
 
+		{"dbpath",     required_argument, 0, OP_DBPATH},
+		{"cascade",    no_argument,       0, OP_CASCADE},
+		{"changelog",  no_argument,       0, OP_CHANGELOG},
+		{"clean",      no_argument,       0, OP_CLEAN},
+		{"nodeps",     no_argument,       0, OP_NODEPS},
+		{"deps",       no_argument,       0, OP_DEPS},
+		{"explicit",   no_argument,       0, OP_EXPLICIT},
+		{"groups",     no_argument,       0, OP_GROUPS},
+		{"info",       no_argument,       0, OP_INFO},
+		{"check",      no_argument,       0, OP_CHECK},
+		{"list",       no_argument,       0, OP_LIST},
+		{"foreign",    no_argument,       0, OP_FOREIGN},
+		{"native",     no_argument,       0, OP_NATIVE},
+		{"nosave",     no_argument,       0, OP_NOSAVE},
+		{"owns",       no_argument,       0, OP_OWNS},
+		{"file",       no_argument,       0, OP_FILE},
+		{"print",      no_argument,       0, OP_PRINT},
+		{"quiet",      no_argument,       0, OP_QUIET},
+		{"root",       required_argument, 0, OP_ROOT},
+		{"recursive",  no_argument,       0, OP_RECURSIVE},
+		{"search",     no_argument,       0, OP_SEARCH},
+		{"unrequired", no_argument,       0, OP_UNREQUIRED},
+		{"upgrades",   no_argument,       0, OP_UPGRADES},
+		{"sysupgrade", no_argument,       0, OP_SYSUPGRADE},
+		{"unneeded",   no_argument,       0, OP_UNNEEDED},
+		{"verbose",    no_argument,       0, OP_VERBOSE},
+		{"downloadonly", no_argument,     0, OP_DOWNLOADONLY},
+		{"refresh",    no_argument,       0, OP_REFRESH},
 		{"noconfirm",  no_argument,       0, OP_NOCONFIRM},
 		{"config",     required_argument, 0, OP_CONFIG},
 		{"ignore",     required_argument, 0, OP_IGNORE},
