@@ -236,7 +236,7 @@ class pmdb(object):
             for pkg, entry in pkg_entries:
                 path = os.path.join(self.dbdir, pkg.fullname())
                 util.mkdir(path)
-                for name, data in entry.iteritems():
+                for name, data in entry.items():
                     util.mkfile(path, name, data)
 
         if self.dbfile:
@@ -247,7 +247,7 @@ class pmdb(object):
                 info = tarfile.TarInfo(pkg.fullname())
                 info.type = tarfile.DIRTYPE
                 tar.addfile(info)
-                for name, data in entry.iteritems():
+                for name, data in entry.items():
                     filename = os.path.join(pkg.fullname(), name)
                     info = tarfile.TarInfo(filename)
                     info.size = len(data)

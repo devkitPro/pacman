@@ -223,7 +223,7 @@ class pmpkg(object):
 
     def installfile(self):
         data = []
-        for key, value in self.install.iteritems():
+        for key, value in self.install.items():
             if value:
                 data.append("%s() {\n%s\n}\n" % (key, value))
 

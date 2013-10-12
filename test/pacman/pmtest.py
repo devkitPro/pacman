@@ -58,7 +58,7 @@ class pmtest(object):
         """Find a package object matching the name and version specified in
         either sync databases or the local package collection. The local database
         is allowed to match if allow_local is True."""
-        for db in self.db.itervalues():
+        for db in self.db.values():
             if db.is_local and not allow_local:
                 continue
             pkg = db.getpkg(name)
@@ -151,7 +151,7 @@ class pmtest(object):
             vprint("\t%s" % os.path.join(util.TMPDIR, pkg.filename()))
             pkg.finalize()
             pkg.makepkg(tmpdir)
-        for key, value in self.db.iteritems():
+        for key, value in self.db.items():
             for pkg in value.pkgs:
                 pkg.finalize()
             if key == "local" and not self.createlocalpkgs:
@@ -167,7 +167,7 @@ class pmtest(object):
 
         # Creating sync database archives
         vprint("    Creating databases")
-        for key, value in self.db.iteritems():
+        for key, value in self.db.items():
             vprint("\t" + value.treename)
             value.generate()
 

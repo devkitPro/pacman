@@ -112,13 +112,13 @@ def writedata(filename, data):
 def mkcfgfile(filename, root, option, db):
     # Options
     data = ["[options]"]
-    for key, value in option.iteritems():
+    for key, value in option.items():
         data.extend(["%s = %s" % (key, j) for j in value])
 
     # Repositories
     # sort by repo name so tests can predict repo order, rather than be
     # subjects to the whims of python dict() ordering
-    for key in sorted(db.iterkeys()):
+    for key in sorted(db.keys()):
         if key != "local":
             value = db[key]
             data.append("[%s]\n" \
@@ -126,7 +126,7 @@ def mkcfgfile(filename, root, option, db):
                     "Server = file://%s" \
                      % (value.treename, value.getverify(), \
                         os.path.join(root, SYNCREPO, value.treename)))
-            for optkey, optval in value.option.iteritems():
+            for optkey, optval in value.option.items():
                 data.extend(["%s = %s" % (optkey, j) for j in optval])
 
     mkfile(root, filename, "\n".join(data))
