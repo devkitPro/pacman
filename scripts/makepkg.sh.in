@@ -815,7 +815,7 @@ update_pkgver() {
 		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
 			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
 			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
-			source "$BUILDFILE"
+			source_safe "$BUILDFILE"
 			local fullver=$(get_full_version)
 			msg "$(gettext "Updated version: %s")" "$pkgbase $fullver"
 		else
