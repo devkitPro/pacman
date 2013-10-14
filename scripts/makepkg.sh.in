@@ -810,11 +810,19 @@ download_sources() {
 # Re-sources the PKGBUILD afterwards to allow for other variables that use $pkgver
 update_pkgver() {
 	newpkgver=$(run_function_safe pkgver)
+	if ! validate_pkgver "$newpkgver"; then
+		error "$(gettext "pkgver() generated an invalid version: %s")" "$newpkgver"
+		exit 1
+	fi
 
 	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
 		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
-			@SEDINPLACE@ "s/^pkgver=[^ ]*/pkgver=$newpkgver/" "$BUILDFILE"
-			@SEDINPLACE@ "s/^pkgrel=[^ ]*/pkgrel=1/" "$BUILDFILE"
+			if ! @SEDINPLACE@ "s:^pkgver=[^ ]*:pkgver=$newpkgver:" "$BUILDFILE"; then
+				error "$(gettext "Failed to update %s from %s to %s")" \
+						"pkgver" "$pkgver" "$newpkgver"
+				exit 1
+			fi
+			@SEDINPLACE@ "s:^pkgrel=[^ ]*:pkgrel=1:" "$BUILDFILE"
 			source_safe "$BUILDFILE"
 			local fullver=$(get_full_version)
 			msg "$(gettext "Updated version: %s")" "$pkgbase $fullver"
@@ -1354,7 +1362,6 @@ extract_sources() {
 
 	if (( PKGVERFUNC )); then
 		update_pkgver
-		check_pkgver || exit 1
 		check_build_status
 	fi
 }
@@ -2249,6 +2256,13 @@ check_sanity() {
 	return $ret
 }
 
+validate_pkgver() {
+	if [[ $1 = *[[:space:]:-]* ]]; then
+		error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
+		return 1
+	fi
+}
+
 check_pkgver() {
 	local ret=0
 
@@ -2260,10 +2274,7 @@ check_pkgver() {
 	awk -F'=' '$1 ~ /^[[:space:]]*pkgver$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
 	while IFS='=' read -r _ i; do
 		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
-		if [[ $i = *[[:space:]:-]* ]]; then
-			error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
-			return 1
-		fi
+		validate_pkgver "$i" || return 1
 	done || ret=1
 
 	return $ret
