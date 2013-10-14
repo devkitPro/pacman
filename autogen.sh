@@ -1,4 +1,6 @@
-#!/bin/sh -xu
+#!/bin/sh -x
 
 autoreconf -i
-(cd build-aux && (patch -Np0 -i ltmain-asneeded.patch || true))
+patch -d build-aux -Np0 -i ltmain-asneeded.patch
+
+exit 0
