@@ -116,6 +116,11 @@ done
 
 m4_include(../scripts/library/term_colors.sh)
 
+if ! type -p $diffprog >/dev/null; then
+	error "Cannot find the $diffprog binary required for viewing differences."
+	exit 1
+fi
+
 case $(( USE_FIND + USE_LOCATE + USE_PACDB )) in
 	0) USE_PACDB=1;; # set the default search option
 	[^1]) error "Only one search option may be used at a time"
