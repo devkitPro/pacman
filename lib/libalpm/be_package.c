@@ -413,6 +413,10 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 				_alpm_log(handle, ALPM_LOG_ERROR, _("missing package version in %s\n"), pkgfile);
 				goto pkg_invalid;
 			}
+			if(strchr(newpkg->version, '-') == NULL) {
+				_alpm_log(handle, ALPM_LOG_ERROR, _("invalid package version in %s\n"), pkgfile);
+				goto pkg_invalid;
+			}
 			config = 1;
 			continue;
 		} else if(strcmp(entry_name,  ".INSTALL") == 0) {
