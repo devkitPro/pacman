@@ -1054,7 +1054,7 @@ static int check_keyring(alpm_handle_t *handle)
 #endif /* HAVE_LIBGPGME */
 
 static int check_validity(alpm_handle_t *handle,
-		size_t total, size_t total_bytes)
+		size_t total, uint64_t total_bytes)
 {
 	struct validity {
 		alpm_pkg_t *pkg;
@@ -1064,7 +1064,8 @@ static int check_validity(alpm_handle_t *handle,
 		alpm_pkgvalidation_t validation;
 		alpm_errno_t error;
 	};
-	size_t current = 0, current_bytes = 0;
+	size_t current = 0;
+	uint64_t current_bytes = 0;
 	alpm_list_t *i, *errors = NULL;
 
 	/* Check integrity of packages */
@@ -1197,7 +1198,8 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *i, *deltas = NULL;
-	size_t total = 0, total_bytes = 0;
+	size_t total = 0;
+	uint64_t total_bytes = 0;
 	alpm_trans_t *trans = handle->trans;
 
 	if(download_files(handle, &deltas)) {
