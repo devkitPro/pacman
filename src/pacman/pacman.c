@@ -600,7 +600,8 @@ static void checkargs_query(void)
 	}
 
 	invalid_opt(config->op_q_deps && config->op_q_explicit, "--deps", "--explicit");
-	invalid_opt(config->op_q_locality & (PKG_LOCALITY_NATIVE | PKG_LOCALITY_FOREIGN),
+	invalid_opt((config->op_q_locality & PKG_LOCALITY_NATIVE) &&
+				 (config->op_q_locality &  PKG_LOCALITY_FOREIGN),
 			"--native", "--foreign");
 }
 
