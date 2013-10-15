@@ -570,7 +570,7 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 				return -1;
 			}
 
-			if(_alpm_extract_keyid(handle, filename, sig, len, &keys) == 0) {
+			if(alpm_extract_keyid(handle, filename, sig, len, &keys) == 0) {
 				alpm_list_t *k;
 				for(k = keys; k; k = k->next) {
 					char *key = k->data;

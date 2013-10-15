@@ -425,7 +425,7 @@ int _alpm_key_import(alpm_handle_t *handle, const char *fpr)
  * @return 0 on success, -1 on failure to properly decode
  */
 
-int _alpm_decode_signature(const char *base64_data,
+int SYMEXPORT alpm_decode_signature(const char *base64_data,
 		unsigned char **data, size_t *data_len)
 {
 	size_t len = strlen(base64_data);
@@ -525,7 +525,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	if(base64_sig) {
 		/* memory-based, we loaded it from a sync DB */
 		size_t data_len;
-		int decode_ret = _alpm_decode_signature(base64_sig,
+		int decode_ret = alpm_decode_signature(base64_sig,
 				&decoded_sigdata, &data_len);
 		if(decode_ret) {
 			handle->pm_errno = ALPM_ERR_SIG_INVALID;
@@ -964,7 +964,7 @@ int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
  * @param keys a pointer to storage for key IDs
  * @return 0 on success, -1 on error
  */
-int _alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
+int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 		const unsigned char *sig, const size_t len, alpm_list_t **keys)
 {
 	size_t pos, spos, blen, hlen, ulen, slen;

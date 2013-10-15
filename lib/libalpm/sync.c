@@ -1007,11 +1007,11 @@ static int check_keyring(alpm_handle_t *handle)
 		if((level & ALPM_SIG_PACKAGE) && pkg->base64_sig) {
 			unsigned char *decoded_sigdata = NULL;
 			size_t data_len;
-			int decode_ret = _alpm_decode_signature(pkg->base64_sig,
+			int decode_ret = alpm_decode_signature(pkg->base64_sig,
 					&decoded_sigdata, &data_len);
 			if(decode_ret == 0) {
 				alpm_list_t *keys = NULL;
-				if(_alpm_extract_keyid(handle, pkg->name, decoded_sigdata,
+				if(alpm_extract_keyid(handle, pkg->name, decoded_sigdata,
 							data_len, &keys) == 0) {
 					alpm_list_t *k;
 					for(k = keys; k; k = k->next) {
