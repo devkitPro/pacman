@@ -190,10 +190,21 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	}
 
 	if(from == ALPM_PKG_FROM_SYNCDB && extra) {
+		const char *base64_sig = alpm_pkg_get_base64_sig(pkg);
+		alpm_list_t *keys = NULL;
+		if(base64_sig) {
+			unsigned char *decoded_sigdata = NULL;
+			size_t data_len;
+			alpm_decode_signature(base64_sig, &decoded_sigdata, &data_len);
+			alpm_extract_keyid(config->handle, alpm_pkg_get_name(pkg),
+					decoded_sigdata, data_len, &keys);
+		} else {
+			keys = alpm_list_add(keys, _("None"));
+		}
+
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg), cols);
 		string_display(_("SHA256 Sum     :"), alpm_pkg_get_sha256sum(pkg), cols);
-		string_display(_("Signatures     :"),
-				alpm_pkg_get_base64_sig(pkg) ? _("Yes") : _("None"), cols);
+		list_display(_("Signatures     :"), keys, cols);
 	} else {
 		list_display(_("Validated By   :"), validation, cols);
 	}
