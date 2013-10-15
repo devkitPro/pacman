@@ -236,6 +236,13 @@ Environment Variables
 	Force build for a specific architecture. Useful for cross-compiling.
 	Overrides the corresponding value defined in linkman:makepkg.conf[5].
 
+**GNUPGHOME=**"/path/to/folder"::
+	Folder where the gpg keyring for signing the built package is stored.
+
+**GPGKEY=**"keyid"::
+	Specify a key to use when signing packages, overriding the GPGKEY setting
+	in linkman:makepkg.conf[5]
+
 Configuration
 -------------
 See linkman:makepkg.conf[5] for more details on configuring makepkg using the
