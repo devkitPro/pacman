@@ -324,6 +324,10 @@ static int display(alpm_pkg_t *pkg)
 			if(config->op_q_upgrade) {
 				alpm_pkg_t *newpkg = alpm_sync_newversion(pkg, alpm_get_syncdbs(config->handle));
 				printf(" -> %s%s%s", colstr->version, alpm_pkg_get_version(newpkg), colstr->nocolor);
+
+				if(alpm_pkg_should_ignore(config->handle, pkg)) {
+					printf(" %s", _("[ignored]"));
+				}
 			}
 
 			printf("\n");
