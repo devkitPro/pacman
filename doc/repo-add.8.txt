@@ -82,6 +82,19 @@ repo-add Options
 	Remove old package files from the disk when updating their entry in the
 	database.
 
+Example
+-------
+
+'repo-add' is often invoked twice to create two separate databases; a smaller
+database used by pacman and a large database containing package file lists for
+use by other utilities.
+
+'repo-add' foo.db.tar.xz <pkg1> [<pkg2> ...]
+'repo-add' -f foo.files.tar.xz <pkg1> [<pkg2> ...]
+
+While pacman can use the large database (if given a db.tar* extension), there
+is currently no additional benefit for the larger download.
+
 See Also
 --------
 linkman:makepkg[8], linkman:pacman[8], linkman:pkgdelta[8]
