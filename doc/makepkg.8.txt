@@ -210,11 +210,15 @@ set up a development PKGBUILD.
 
 Environment Variables
 ---------------------
-*PACMAN*::
+**PACMAN**::
 	The command that will be used to check for missing dependencies and to
 	install and remove packages. Pacman's -Qq, -Rns, -S, -T, and -U
 	operations must be supported by this command. If the variable is not
 	set or empty, makepkg will fall back to `pacman'.
+
+**MAKEPKG_CONF=**::"/path/to/file"::
+	Use an alternate config file instead of the +{sysconfdir}/makepkg.conf+
+	default.
 
 **PKGDEST=**"/path/to/folder"::
 	Folder where the resulting packages will be stored. Overrides the
@@ -222,6 +226,14 @@ Environment Variables
 
 **SRCDEST=**"/path/to/folder"::
 	Folder where the downloaded sources will be stored. Overrides the
+	corresponding value defined in linkman:makepkg.conf[5].
+
+**SRCPKGDEST=**"/path/to/folder"::
+	Folder where source package files will be stored. Overrides the
+	corresponding value defined in linkman:makepkg.conf[5].
+
+**LOGDEST=**"/path/to/folder"::
+	Folder where generated log files will be stored. Overrides the
 	corresponding value defined in linkman:makepkg.conf[5].
 
 **PACKAGER=**"John Doe <john@doe.com>"::
@@ -234,6 +246,10 @@ Environment Variables
 
 **CARCH=**"(i686|x86_64)"::
 	Force build for a specific architecture. Useful for cross-compiling.
+	Overrides the corresponding value defined in linkman:makepkg.conf[5].
+
+**PKGEXT=**".pkg.tar.gz", **SRCEXT=**".src.tar.gz"::
+	Sets the compression used when making compiled or source packages.
 	Overrides the corresponding value defined in linkman:makepkg.conf[5].
 
 **GNUPGHOME=**"/path/to/folder"::
