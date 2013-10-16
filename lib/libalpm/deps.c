@@ -664,7 +664,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 		pkg = _alpm_db_get_pkgfromcache(db, dep->name);
 		if(pkg && _alpm_depcmp_literal(pkg, dep)
 				&& !alpm_pkg_find(excluding, pkg->name)) {
-			if(_alpm_pkg_should_ignore(handle, pkg)) {
+			if(alpm_pkg_should_ignore(handle, pkg)) {
 				int install = 0;
 				if(prompt) {
 					QUESTION(handle, ALPM_QUESTION_INSTALL_IGNOREPKG, pkg,
@@ -693,7 +693,7 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 			 * possibly be the same string */
 			if(pkg->name_hash != dep->name_hash && _alpm_depcmp(pkg, dep)
 					&& !alpm_pkg_find(excluding, pkg->name)) {
-				if(_alpm_pkg_should_ignore(handle, pkg)) {
+				if(alpm_pkg_should_ignore(handle, pkg)) {
 					int install = 0;
 					if(prompt) {
 						QUESTION(handle, ALPM_QUESTION_INSTALL_IGNOREPKG,

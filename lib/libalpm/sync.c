@@ -93,8 +93,8 @@ static int check_literal(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "new version of '%s' found (%s => %s)\n",
 				lpkg->name, lpkg->version, spkg->version);
 		/* check IgnorePkg/IgnoreGroup */
-		if(_alpm_pkg_should_ignore(handle, spkg)
-				|| _alpm_pkg_should_ignore(handle, lpkg)) {
+		if(alpm_pkg_should_ignore(handle, spkg)
+				|| alpm_pkg_should_ignore(handle, lpkg)) {
 			_alpm_log(handle, ALPM_LOG_WARNING, _("%s: ignoring package upgrade (%s => %s)\n"),
 					lpkg->name, lpkg->version, spkg->version);
 		} else {
@@ -105,8 +105,8 @@ static int check_literal(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 	} else if(cmp < 0) {
 		if(enable_downgrade) {
 			/* check IgnorePkg/IgnoreGroup */
-			if(_alpm_pkg_should_ignore(handle, spkg)
-					|| _alpm_pkg_should_ignore(handle, lpkg)) {
+			if(alpm_pkg_should_ignore(handle, spkg)
+					|| alpm_pkg_should_ignore(handle, lpkg)) {
 				_alpm_log(handle, ALPM_LOG_WARNING, _("%s: ignoring package downgrade (%s => %s)\n"),
 						lpkg->name, lpkg->version, spkg->version);
 			} else {
@@ -148,8 +148,8 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 			int doreplace = 0;
 			alpm_pkg_t *tpkg;
 			/* check IgnorePkg/IgnoreGroup */
-			if(_alpm_pkg_should_ignore(handle, spkg)
-					|| _alpm_pkg_should_ignore(handle, lpkg)) {
+			if(alpm_pkg_should_ignore(handle, spkg)
+					|| alpm_pkg_should_ignore(handle, lpkg)) {
 				_alpm_log(handle, ALPM_LOG_WARNING,
 						_("ignoring package replacement (%s-%s => %s-%s)\n"),
 						lpkg->name, lpkg->version, spkg->name, spkg->version);
@@ -270,7 +270,7 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 			if(alpm_pkg_find(ignorelist, pkg->name)) {
 				continue;
 			}
-			if(_alpm_pkg_should_ignore(db->handle, pkg)) {
+			if(alpm_pkg_should_ignore(db->handle, pkg)) {
 				ignorelist = alpm_list_add(ignorelist, pkg);
 				int install = 0;
 				QUESTION(db->handle, ALPM_QUESTION_INSTALL_IGNOREPKG, pkg,

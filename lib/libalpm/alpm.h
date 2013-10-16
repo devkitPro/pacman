@@ -793,6 +793,15 @@ alpm_list_t *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg);
  */
 alpm_list_t *alpm_pkg_compute_optionalfor(alpm_pkg_t *pkg);
 
+/** Test if a package should be ignored.
+ * Checks if the package is ignored via IgnorePkg, or if the package is
+ * in a group ignored via IgnoreGroup.
+ * @param handle the context handle
+ * @param pkg the package to test
+ * @return 1 if the package should be ignored, 0 otherwise
+ */
+int alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg);
+
 /** @name Package Property Accessors
  * Any pointer returned by these functions points to internal structures
  * allocated by libalpm. They should not be freed nor modified in any

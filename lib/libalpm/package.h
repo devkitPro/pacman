@@ -148,7 +148,6 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
-int _alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg);
 
 #endif /* _ALPM_PACKAGE_H */
 

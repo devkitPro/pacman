@@ -753,7 +753,7 @@ alpm_pkg_t SYMEXPORT *alpm_pkg_find(alpm_list_t *haystack, const char *needle)
  *
  * @return 1 if the package should be ignored, 0 otherwise
  */
-int _alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
+int SYMEXPORT alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	alpm_list_t *groups = NULL;
 
