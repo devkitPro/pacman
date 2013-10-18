@@ -90,69 +90,9 @@ static alpm_pkg_t *find_dep_satisfier(alpm_list_t *pkgs, alpm_depend_t *dep)
 	return NULL;
 }
 
-/** Check if pkg2 is anywhere in pkg1's dependency tree.
- * @param pkg1
- * @param pkg2
- * @param targets if a package in this list is an intermediate dependency
- *        between pkg1 and pkg2, the pkg1 -> pkg2 dependency will not be
- *        reported
- * @param ignore packages which should not be recursively checked for
- *        intermediate dependencies.  Used internally for state to avoid
- *        getting stuck on cyclic dependencies.
- * @return 1 if pkg2 is found in pkg1's dependency tree
- */
-static int _alpm_pkg_in_dep_tree(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
-		alpm_list_t *targets, alpm_list_t **ignore)
+static int ptr_cmp(const void *p, const void *q)
 {
-	alpm_list_t *i, *pkgs = alpm_db_get_pkgcache(pkg1->handle->db_local);
-
-	if(_alpm_pkg_depends_on(pkg1, pkg2)) {
-		return 1;
-	}
-
-	*ignore = alpm_list_add(*ignore, pkg1);
-
-	 /* pkg1 does not directly depend on pkg2, but if this is an upgrade
-		* operation there may be an indirect dependency through an installed
-		* dependency not part of the current transaction */
-	for(i = alpm_pkg_get_depends(pkg1); i; i = i->next) {
-		alpm_depend_t *dep = i->data;
-		alpm_pkg_t *lpkg = find_dep_satisfier(pkgs, dep);
-
-		if(!lpkg) {
-			continue;
-		} else if(alpm_list_find(targets, lpkg, _alpm_pkg_cmp)) {
-			/* lpkg's upgrade is part of the transaction, any dependency will be
-			 * detected separately as pkg1 -> lpkg and lpkg -> pkg2 */
-			continue;
-		} else if(alpm_list_find(*ignore, lpkg, _alpm_pkg_cmp)) {
-			/* we've already checked lpkg, move on */
-			continue;
-		} else if(_alpm_pkg_in_dep_tree(lpkg, pkg2, targets, ignore)) {
-			/* we have an indirect dependency: pkg1 -> lpkg -> ... -> pkg2 */
-			return 1;
-		}
-	}
-
-	return 0;
-}
-
-/** Check if pkg2 is anywhere in pkg1's dependency tree.
- * Wrapper for _alpm_pkg_in_dep_tree to handle creating and destroying state.
- * @param pkg1
- * @param pkg2
- * @param targets if a package in this list is an intermediate dependency
- *        between pkg1 and pkg2, the pkg1 -> pkg2 dependency will not be
- *        reported
- * @return 1 if pkg2 is found in pkg1's dependency tree
- */
-static int _alpm_dep_edge(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
-		alpm_list_t *targets)
-{
-	alpm_list_t *ignore = NULL;
-	int ret = _alpm_pkg_in_dep_tree(pkg1, pkg2, targets, &ignore);
-	alpm_list_free(ignore);
-	return ret;
+	return (p != q);
 }
 
 /* Convert a list of alpm_pkg_t * to a graph structure,
@@ -160,10 +100,14 @@ static int _alpm_dep_edge(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
  * Returns a list of vertices (one vertex = one package)
  * (used by alpm_sortbydeps)
  */
-static alpm_list_t *dep_graph_init(alpm_list_t *targets)
+static alpm_list_t *dep_graph_init(alpm_handle_t *handle,
+		alpm_list_t *targets, alpm_list_t *ignore)
 {
 	alpm_list_t *i, *j;
 	alpm_list_t *vertices = NULL;
+	alpm_list_t *localpkgs = alpm_list_diff(
+			alpm_db_get_pkgcache(handle->db_local), ignore, ptr_cmp);
+
 	/* We create the vertices */
 	for(i = targets; i; i = i->next) {
 		alpm_graph_t *vertex = _alpm_graph_new();
@@ -179,13 +123,32 @@ static alpm_list_t *dep_graph_init(alpm_list_t *targets)
 		for(j = vertices; j; j = j->next) {
 			alpm_graph_t *vertex_j = j->data;
 			alpm_pkg_t *p_j = vertex_j->data;
-			if(_alpm_dep_edge(p_i, p_j, targets)) {
+			if(_alpm_pkg_depends_on(p_i, p_j)) {
 				vertex_i->children =
 					alpm_list_add(vertex_i->children, vertex_j);
 			}
 		}
+
+		/* lazily add local packages to the dep graph so they don't
+		 * get resolved unnecessarily */
+		j = localpkgs;
+		while(j) {
+			alpm_list_t *next = j->next;
+			if(_alpm_pkg_depends_on(p_i, j->data)) {
+				alpm_graph_t *vertex_j = _alpm_graph_new();
+				vertex_j->data = (void *)j->data;
+				vertices = alpm_list_add(vertices, vertex_j);
+				vertex_i->children =
+					alpm_list_add(vertex_i->children, vertex_j);
+				localpkgs = alpm_list_remove_item(localpkgs, j);
+				free(j);
+			}
+			j = next;
+		}
+
 		vertex_i->childptr = vertex_i->children;
 	}
+	alpm_list_free(localpkgs);
 	return vertices;
 }
 
@@ -198,13 +161,15 @@ static alpm_list_t *dep_graph_init(alpm_list_t *targets)
  *
  *   Should be re-ordered to C,A,B,D
  *
+ * packages listed in ignore will not be used to detect indirect dependencies
+ *
  * if reverse is > 0, the dependency order will be reversed.
  *
  * This function returns the new alpm_list_t* target list.
  *
  */
 alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
-		alpm_list_t *targets, int reverse)
+		alpm_list_t *targets, alpm_list_t *ignore, int reverse)
 {
 	alpm_list_t *newtargs = NULL;
 	alpm_list_t *vertices = NULL;
@@ -217,7 +182,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "started sorting dependencies\n");
 
-	vertices = dep_graph_init(targets);
+	vertices = dep_graph_init(handle, targets, ignore);
 
 	vptr = vertices;
 	vertex = vertices->data;
@@ -232,34 +197,56 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 				found = 1;
 				nextchild->parent = vertex;
 				vertex = nextchild;
-			}
-			else if(nextchild->state == -1) {
-				alpm_pkg_t *vertexpkg = vertex->data;
-				alpm_pkg_t *childpkg = nextchild->data;
+			} else if(nextchild->state == -1) {
+				/* child is an ancestor of vertex */
+				alpm_graph_t *transvertex = vertex;
 
-				_alpm_log(handle, ALPM_LOG_WARNING, _("dependency cycle detected:\n"));
-				if(reverse) {
-					_alpm_log(handle, ALPM_LOG_WARNING,
-							_("%s will be removed after its %s dependency\n"),
-							vertexpkg->name, childpkg->name);
+				if(!alpm_list_find(targets, nextchild->data, ptr_cmp)) {
+					/* child is not part of the transaction, not a problem */
+					continue;
+				}
+
+				/* find the nearest parent that's part of the transaction */
+				while(transvertex) {
+					if(alpm_list_find(targets, transvertex->data, ptr_cmp)) {
+						break;
+					}
+					transvertex = transvertex->parent;
+				}
+
+				if(!transvertex || transvertex == nextchild) {
+					/* no transaction package in our ancestry or the package has
+					 * a circular dependency with itself, not a problem */
 				} else {
-					_alpm_log(handle, ALPM_LOG_WARNING,
-							_("%s will be installed before its %s dependency\n"),
-							vertexpkg->name, childpkg->name);
+					alpm_pkg_t *transpkg = transvertex->data;
+					alpm_pkg_t *childpkg = nextchild->data;
+					_alpm_log(handle, ALPM_LOG_WARNING, _("dependency cycle detected:\n"));
+					if(reverse) {
+						_alpm_log(handle, ALPM_LOG_WARNING,
+								_("%s will be removed after its %s dependency\n"),
+								transpkg->name, childpkg->name);
+					} else {
+						_alpm_log(handle, ALPM_LOG_WARNING,
+								_("%s will be installed before its %s dependency\n"),
+								transpkg->name, childpkg->name);
+					}
 				}
 			}
 		}
 		if(!found) {
-			newtargs = alpm_list_add(newtargs, vertex->data);
+			if(alpm_list_find(targets, vertex->data, ptr_cmp)) {
+				newtargs = alpm_list_add(newtargs, vertex->data);
+			}
 			/* mark that we've left this vertex */
 			vertex->state = 1;
 			vertex = vertex->parent;
 			if(!vertex) {
-				vptr = vptr->next;
-				while(vptr) {
+				/* top level vertex reached, move to the next unprocessed vertex */
+				for( vptr = vptr->next; vptr; vptr = vptr->next) {
 					vertex = vptr->data;
-					if(vertex->state == 0) break;
-					vptr = vptr->next;
+					if(vertex->state == 0) {
+						break;
+					}
 				}
 			}
 		}

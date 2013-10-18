@@ -471,10 +471,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		 * holds to package objects. */
 		trans->unresolvable = unresolvable;
 
-		/* re-order w.r.t. dependencies */
 		alpm_list_free(trans->add);
-		trans->add = _alpm_sortbydeps(handle, resolved, 0);
-		alpm_list_free(resolved);
+		trans->add = resolved;
 
 		EVENT(handle, ALPM_EVENT_RESOLVEDEPS_DONE, NULL, NULL);
 	}
@@ -628,6 +626,11 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			}
 			goto cleanup;
 		}
+
+		/* re-order w.r.t. dependencies */
+		alpm_list_t *add_orig = trans->add;
+		trans->add = _alpm_sortbydeps(handle, add_orig, trans->remove, 0);
+		alpm_list_free(add_orig);
 	}
 	for(i = trans->add; i; i = i->next) {
 		/* update download size field */
