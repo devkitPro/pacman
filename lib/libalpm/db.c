@@ -323,6 +323,7 @@ alpm_db_t *_alpm_db_new(const char *treename, int is_local)
 	} else {
 		db->status &= ~DB_STATUS_LOCAL;
 	}
+	db->usage = ALPM_DB_USAGE_ALL;
 
 	return db;
 }
