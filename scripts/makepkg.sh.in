@@ -2248,7 +2248,7 @@ check_sanity() {
 	done
 
 	local idx=("${!source[@]}")
-	if (( (idx[-1] + 1) != ${#source[*]} )); then
+	if (( ${#source[*]} > 0 && (idx[-1] + 1) != ${#source[*]} )); then
 		error "$(gettext "Sparse arrays are not allowed for source")"
 		ret=1
 	fi
