@@ -165,16 +165,19 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg), cols);
 	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg), cols);
 
-	size = humanize_size(alpm_pkg_get_size(pkg), 'K', 2, &label);
+	size = humanize_size(alpm_pkg_get_size(pkg), '\0', 2, &label);
 	if(from == ALPM_PKG_FROM_SYNCDB) {
 		printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Download Size  :"),
 			config->colstr.nocolor, size, label);
 	} else if(from == ALPM_PKG_FROM_FILE) {
 		printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Compressed Size:"),
 			config->colstr.nocolor, size, label);
+	} else {
+		// autodetect size for "Installed Size"
+		label = "\0";
 	}
 
-	size = humanize_size(alpm_pkg_get_isize(pkg), 'K', 2, &label);
+	size = humanize_size(alpm_pkg_get_isize(pkg), label[0], 2, &label);
 	printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Installed Size :"),
 			config->colstr.nocolor, size, label);
 

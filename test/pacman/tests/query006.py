@@ -20,7 +20,7 @@ self.args = "-Qi %s" % p.name
 self.addrule("PACMAN_RETCODE=0")
 self.addrule("PACMAN_OUTPUT=^Name.*%s" % p.name)
 self.addrule("PACMAN_OUTPUT=^Description.*%s" % p.desc)
-self.addrule("PACMAN_OUTPUT=^Installed Size.*9765625.00 KiB")
+self.addrule("PACMAN_OUTPUT=^Installed Size.*9.31 GiB")
 self.addrule("PACMAN_OUTPUT=^Build Date.* 2065")
 self.addrule("PACMAN_OUTPUT=^Install Date.* 2286")
 
