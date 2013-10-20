@@ -2136,7 +2136,7 @@ check_sanity() {
 	done || ret=1
 
 	if [[ $arch != 'any' ]]; then
-		if ! in_array $CARCH ${arch[@]}; then
+		if ! in_array $CARCH "${arch[@]}"; then
 			if (( ! IGNOREARCH )); then
 				error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
 				plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
@@ -2151,7 +2151,7 @@ check_sanity() {
 			local arch_list=""
 			eval $(declare -f package_${i} | sed -n 's/\(^[[:space:]]*arch=\)/arch_list=/p')
 			if [[ ${arch_list[@]} && ${arch_list} != 'any' ]]; then
-				if ! in_array $CARCH ${arch_list[@]}; then
+				if ! in_array $CARCH "${arch_list[@]}"; then
 					if (( ! IGNOREARCH )); then
 						error "$(gettext "%s is not available for the '%s' architecture.")" "$i" "$CARCH"
 						ret=1
