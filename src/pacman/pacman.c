@@ -1031,7 +1031,7 @@ int main(int argc, char *argv[])
 	size_t i;
 	struct sigaction new_action, old_action;
 	const int signals[] = { SIGHUP, SIGINT, SIGTERM, SIGSEGV };
-	uid_t myuid = geteuid();
+	uid_t myuid = getuid();
 
 	/* Set signal handlers */
 	/* Set up the structure to specify the new action. */
