@@ -40,7 +40,7 @@
 int pacman_upgrade(alpm_list_t *targets)
 {
 	int retval = 0;
-	alpm_list_t *i, *remote = NULL;
+	alpm_list_t *i, *j, *remote = NULL;
 
 	if(targets == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
@@ -81,12 +81,12 @@ int pacman_upgrade(alpm_list_t *targets)
 
 	printf(_("loading packages...\n"));
 	/* add targets to the created transaction */
-	for(i = targets; i; i = alpm_list_next(i), remote = alpm_list_next(remote)) {
+	for(i = targets, j = remote; i; i = alpm_list_next(i), j = alpm_list_next(j)) {
 		const char *targ = i->data;
 		alpm_pkg_t *pkg;
 		alpm_siglevel_t level;
 
-		if(*(int *)remote->data) {
+		if(*(int *)j->data) {
 			level = alpm_option_get_remote_file_siglevel(config->handle);
 		} else {
 			level = alpm_option_get_local_file_siglevel(config->handle);
