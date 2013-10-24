@@ -632,7 +632,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	}
 
 	/* bogus values : stop here */
-	if(xfered > total) {
+	if(xfered > total || xfered < 0) {
 		return;
 	}
 
