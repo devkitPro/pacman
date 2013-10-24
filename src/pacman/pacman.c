@@ -879,10 +879,8 @@ static int parseargs(int argc, char *argv[])
 	};
 
 	/* parse operation */
-	while((opt = getopt_long(argc, argv, optstring, opts, &option_index))) {
-		if(opt < 0) {
-			break;
-		} else if(opt == 0) {
+	while((opt = getopt_long(argc, argv, optstring, opts, &option_index)) != -1) {
+		if(opt == 0) {
 			continue;
 		} else if(opt == '?') {
 			/* unknown option, getopt printed an error */
@@ -906,10 +904,8 @@ static int parseargs(int argc, char *argv[])
 
 	/* parse all other options */
 	optind = 1;
-	while((opt = getopt_long(argc, argv, optstring, opts, &option_index))) {
-		if(opt < 0) {
-			break;
-		} else if(opt == 0) {
+	while((opt = getopt_long(argc, argv, optstring, opts, &option_index)) != -1) {
+		if(opt == 0) {
 			continue;
 		} else if(opt == '?') {
 			/* this should have failed during first pass already */
