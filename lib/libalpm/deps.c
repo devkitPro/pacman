@@ -589,7 +589,7 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
  * @param include_explicit if 0, explicitly installed packages are not included
  * @return 0 on success, -1 on errors
  */
-int _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
+int _alpm_recursedeps(alpm_db_t *db, alpm_list_t **targs, int include_explicit)
 {
 	alpm_list_t *i, *j;
 
@@ -597,12 +597,12 @@ int _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
 		return -1;
 	}
 
-	for(i = targs; i; i = i->next) {
+	for(i = *targs; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
 		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
 			alpm_pkg_t *deppkg = j->data;
 			if(_alpm_pkg_depends_on(pkg, deppkg)
-					&& can_remove_package(db, deppkg, targs, include_explicit)) {
+					&& can_remove_package(db, deppkg, *targs, include_explicit)) {
 				alpm_pkg_t *copy;
 				_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding '%s' to the targets\n",
 						deppkg->name);
@@ -610,7 +610,7 @@ int _alpm_recursedeps(alpm_db_t *db, alpm_list_t *targs, int include_explicit)
 				if(_alpm_pkg_dup(deppkg, &copy)) {
 					return -1;
 				}
-				targs = alpm_list_add(targs, copy);
+				*targs = alpm_list_add(*targs, copy);
 			}
 		}
 	}
