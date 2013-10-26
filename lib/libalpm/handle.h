@@ -55,7 +55,7 @@ struct __alpm_handle_t {
 	alpm_db_t *db_local;       /* local db pointer */
 	alpm_list_t *dbs_sync;  /* List of (alpm_db_t *) */
 	FILE *logstream;        /* log file stream pointer */
-	FILE *lckstream;        /* lock file stream pointer if one exists */
+	int lockfd;             /* lock file descriptor */
 	alpm_trans_t *trans;
 
 #ifdef HAVE_LIBCURL

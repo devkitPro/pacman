@@ -44,6 +44,7 @@ alpm_handle_t *_alpm_handle_new(void)
 
 	CALLOC(handle, 1, sizeof(alpm_handle_t), return NULL);
 	handle->deltaratio = 0.0;
+	handle->lockfd = -1;
 
 	return handle;
 }
@@ -91,11 +92,10 @@ void _alpm_handle_free(alpm_handle_t *handle)
 /** Lock the database */
 int _alpm_handle_lock(alpm_handle_t *handle)
 {
-	int fd;
 	char *dir, *ptr;
 
 	ASSERT(handle->lockfile != NULL, return -1);
-	ASSERT(handle->lckstream == NULL, return 0);
+	ASSERT(handle->lockfd < 0, return 0);
 
 	/* create the dir of the lockfile first */
 	dir = strdup(handle->lockfile);
@@ -110,27 +110,20 @@ int _alpm_handle_lock(alpm_handle_t *handle)
 	FREE(dir);
 
 	do {
-		fd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL, 0000);
-	} while(fd == -1 && errno == EINTR);
-	if(fd >= 0) {
-		FILE *f = fdopen(fd, "w");
-		fprintf(f, "%ld\n", (long)getpid());
-		fflush(f);
-		fsync(fd);
-		handle->lckstream = f;
-		return 0;
-	}
-	return -1;
+		handle->lockfd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL, 0000);
+	} while(handle->lockfd == -1 && errno == EINTR);
+
+	return (handle->lockfd >= 0 ? 0 : -1);
 }
 
 /** Remove a lock file */
 int _alpm_handle_unlock(alpm_handle_t *handle)
 {
 	ASSERT(handle->lockfile != NULL, return -1);
-	ASSERT(handle->lckstream != NULL, return 0);
+	ASSERT(handle->lockfd >= 0, return 0);
 
-	fclose(handle->lckstream);
-	handle->lckstream = NULL;
+	close(handle->lockfd);
+	handle->lockfd = -1;
 
 	if(unlink(handle->lockfile) && errno != ENOENT) {
 		return -1;
