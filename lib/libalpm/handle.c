@@ -650,7 +650,11 @@ int SYMEXPORT alpm_option_set_local_file_siglevel(alpm_handle_t *handle,
 alpm_siglevel_t SYMEXPORT alpm_option_get_local_file_siglevel(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
-	return handle->localfilesiglevel;
+	if(handle->localfilesiglevel & ALPM_SIG_USE_DEFAULT) {
+		return handle->siglevel;
+	} else {
+		return handle->localfilesiglevel;
+	}
 }
 
 int SYMEXPORT alpm_option_set_remote_file_siglevel(alpm_handle_t *handle,
@@ -670,7 +674,11 @@ int SYMEXPORT alpm_option_set_remote_file_siglevel(alpm_handle_t *handle,
 alpm_siglevel_t SYMEXPORT alpm_option_get_remote_file_siglevel(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
-	return handle->remotefilesiglevel;
+	if(handle->remotefilesiglevel & ALPM_SIG_USE_DEFAULT) {
+		return handle->siglevel;
+	} else {
+		return handle->remotefilesiglevel;
+	}
 }
 
 /* vim: set ts=2 sw=2 noet: */

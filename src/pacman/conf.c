@@ -405,9 +405,7 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
 static void merge_siglevel(alpm_siglevel_t *base, alpm_siglevel_t *over)
 {
 	alpm_siglevel_t level = *over;
-	if(level & ALPM_SIG_USE_DEFAULT) {
-		level = *base;
-	} else {
+	if(!(level & ALPM_SIG_USE_DEFAULT)) {
 		if(!(level & ALPM_SIG_PACKAGE_SET)) {
 			level |= *base & ALPM_SIG_PACKAGE;
 			level |= *base & ALPM_SIG_PACKAGE_OPTIONAL;
