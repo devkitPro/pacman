@@ -547,7 +547,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		goto cleanup;
 	}
 
-	if (payload->trust_remote_name) {
+	if(payload->trust_remote_name) {
 		if(payload->content_disp_name) {
 			/* content-disposition header has a better name for our file */
 			free(payload->destfile_name);

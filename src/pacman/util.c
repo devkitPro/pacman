@@ -611,7 +611,7 @@ static int table_display(const alpm_list_t *header,
 		return -1;
 	}
 
-	if (header) {
+	if(header) {
 		table_print_line(header, padding, totalcols, widths, has_data);
 		printf("\n");
 	}

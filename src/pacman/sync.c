@@ -391,7 +391,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 					}
 				}
 			}
-			if (!found) {
+			if(!found) {
 				ret = 1;
 			}
 		}
