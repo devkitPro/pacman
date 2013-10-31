@@ -1584,7 +1584,12 @@ tidy_install() {
 
 	if check_option "staticlibs" "n"; then
 		msg2 "$(gettext "Removing static library files...")"
-		find . ! -type d -name "*.a" -exec rm -f -- '{}' +
+		local l
+		while read -rd '' l; do
+			if [[ -f "${l%.a}.so" ]]; then
+				rm "$l"
+			fi
+		done < <(find . ! -type d -name "*.a" -print0)
 	fi
 
 	if check_option "emptydirs" "n"; then
