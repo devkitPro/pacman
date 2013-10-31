@@ -46,7 +46,7 @@ static void parseEVR(char *evr, const char **ep, const char **vp,
 
 	s = evr;
 	/* s points to epoch terminator */
-	while(*s && isdigit(*s)) s++;
+	while (*s && isdigit(*s)) s++;
 	/* se points to version terminator */
 	se = strrchr(s, '-');
 
@@ -100,15 +100,15 @@ static int rpmvercmp(const char *a, const char *b)
 	two = ptr2 = str2;
 
 	/* loop through each version segment of str1 and str2 and compare them */
-	while(*one && *two) {
-		while(*one && !isalnum((int)*one)) one++;
-		while(*two && !isalnum((int)*two)) two++;
+	while (*one && *two) {
+		while (*one && !isalnum((int)*one)) one++;
+		while (*two && !isalnum((int)*two)) two++;
 
 		/* If we ran to the end of either, we are finished with the loop */
-		if(!(*one && *two)) break;
+		if (!(*one && *two)) break;
 
 		/* If the separator lengths were different, we are also finished */
-		if((one - ptr1) != (two - ptr2)) {
+		if ((one - ptr1) != (two - ptr2)) {
 			return (one - ptr1) < (two - ptr2) ? -1 : 1;
 		}
 
@@ -118,13 +118,13 @@ static int rpmvercmp(const char *a, const char *b)
 		/* grab first completely alpha or completely numeric segment */
 		/* leave one and two pointing to the start of the alpha or numeric */
 		/* segment and walk ptr1 and ptr2 to end of segment */
-		if(isdigit((int)*ptr1)) {
-			while(*ptr1 && isdigit((int)*ptr1)) ptr1++;
-			while(*ptr2 && isdigit((int)*ptr2)) ptr2++;
+		if (isdigit((int)*ptr1)) {
+			while (*ptr1 && isdigit((int)*ptr1)) ptr1++;
+			while (*ptr2 && isdigit((int)*ptr2)) ptr2++;
 			isnum = 1;
 		} else {
-			while(*ptr1 && isalpha((int)*ptr1)) ptr1++;
-			while(*ptr2 && isalpha((int)*ptr2)) ptr2++;
+			while (*ptr1 && isalpha((int)*ptr1)) ptr1++;
+			while (*ptr2 && isalpha((int)*ptr2)) ptr2++;
 			isnum = 0;
 		}
 
@@ -137,7 +137,7 @@ static int rpmvercmp(const char *a, const char *b)
 
 		/* this cannot happen, as we previously tested to make sure that */
 		/* the first string has a non-null segment */
-		if(one == ptr1) {
+		if (one == ptr1) {
 			ret = -1;	/* arbitrary */
 			goto cleanup;
 		}
@@ -146,26 +146,26 @@ static int rpmvercmp(const char *a, const char *b)
 		/* different types: one numeric, the other alpha (i.e. empty) */
 		/* numeric segments are always newer than alpha segments */
 		/* XXX See patch #60884 (and details) from bugzilla #50977. */
-		if(two == ptr2) {
+		if (two == ptr2) {
 			ret = isnum ? 1 : -1;
 			goto cleanup;
 		}
 
-		if(isnum) {
+		if (isnum) {
 			/* this used to be done by converting the digit segments */
 			/* to ints using atoi() - it's changed because long  */
 			/* digit segments can overflow an int - this should fix that. */
 
 			/* throw away any leading zeros - it's a number, right? */
-			while(*one == '0') one++;
-			while(*two == '0') two++;
+			while (*one == '0') one++;
+			while (*two == '0') two++;
 
 			/* whichever number has more digits wins */
-			if(strlen(one) > strlen(two)) {
+			if (strlen(one) > strlen(two)) {
 				ret = 1;
 				goto cleanup;
 			}
-			if(strlen(two) > strlen(one)) {
+			if (strlen(two) > strlen(one)) {
 				ret = -1;
 				goto cleanup;
 			}
@@ -176,7 +176,7 @@ static int rpmvercmp(const char *a, const char *b)
 		/* if they are equal because there might be more segments to */
 		/* compare */
 		rc = strcmp(one, two);
-		if(rc) {
+		if (rc) {
 			ret = rc < 1 ? -1 : 1;
 			goto cleanup;
 		}
@@ -191,7 +191,7 @@ static int rpmvercmp(const char *a, const char *b)
 	/* this catches the case where all numeric and alpha segments have */
 	/* compared identically but the segment separating characters were */
 	/* different */
-	if((!*one) && (!*two)) {
+	if ((!*one) && (!*two)) {
 		ret = 0;
 		goto cleanup;
 	}
@@ -202,7 +202,7 @@ static int rpmvercmp(const char *a, const char *b)
 	 * - if one is an alpha, two is newer.
 	 * - otherwise one is newer.
 	 * */
-	if( (!*one && !isalpha((int)*two))
+	if ( (!*one && !isalpha((int)*two))
 			|| isalpha((int)*one) ) {
 		ret = -1;
 	} else {
