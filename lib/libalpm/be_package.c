@@ -196,6 +196,8 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 				/* not used atm */
 			} else if(strcmp(key, "pkgver") == 0) {
 				STRDUP(newpkg->version, ptr, return -1);
+			} else if(strcmp(key, "basever") == 0) {
+				/* not used atm */
 			} else if(strcmp(key, "pkgdesc") == 0) {
 				STRDUP(newpkg->desc, ptr, return -1);
 			} else if(strcmp(key, "group") == 0) {
