@@ -419,7 +419,7 @@ extract_file() {
 			if bsdtar -tf "$file" -q '*' &>/dev/null; then
 				cmd="bsdtar"
 			else
-				return
+				return 0
 			fi ;;
 	esac
 
