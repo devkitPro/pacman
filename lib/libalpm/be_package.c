@@ -218,6 +218,10 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 			} else if(strcmp(key, "optdepend") == 0) {
 				alpm_depend_t *optdep = _alpm_splitdep(ptr);
 				newpkg->optdepends = alpm_list_add(newpkg->optdepends, optdep);
+			} else if(strcmp(key, "makedepend") == 0) {
+				/* not used atm */
+			} else if(strcmp(key, "checkdepend") == 0) {
+				/* not used atm */
 			} else if(strcmp(key, "conflict") == 0) {
 				alpm_depend_t *conflict = _alpm_splitdep(ptr);
 				newpkg->conflicts = alpm_list_add(newpkg->conflicts, conflict);
