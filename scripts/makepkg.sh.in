@@ -1359,11 +1359,6 @@ extract_sources() {
 				;;
 		esac
 	done
-
-	if (( PKGVERFUNC )); then
-		update_pkgver
-		check_build_status
-	fi
 }
 
 error_function() {
@@ -3003,6 +2998,10 @@ elif (( !REPKG )); then
 	fi
 
 	extract_sources
+	if (( PKGVERFUNC )); then
+		update_pkgver
+		check_build_status
+	fi
 	if (( PREPAREFUNC )); then
 		run_prepare
 	fi
