@@ -10,7 +10,7 @@ if [[ -z $lib || ! -f $lib ]]; then
 fi
 . "$lib"
 
-if ! type -t human_to_size >/dev/null; then
+if ! type -t human_to_size &>/dev/null; then
   printf 'Bail out! human_to_size function not found\n'
   exit 1
 fi

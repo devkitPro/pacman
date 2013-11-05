@@ -25,7 +25,7 @@ total=23
 run=0
 failure=0
 
-if ! type -p "$bin"; then
+if ! type -p "$bin" &>/dev/null; then
 	echo "Bail out! pacsort binary ($bin) could not be located"
 	exit 1
 fi
@@ -47,7 +47,7 @@ runtest() {
 	fi
 }
 
-echo "Running pacsort tests..."
+echo "# Running pacsort tests..."
 
 echo "1..$total"
 

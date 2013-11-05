@@ -25,7 +25,7 @@ run=0
 failure=0
 
 # use first arg as our binary if specified
-if ! type -p "$bin"; then
+if ! type -p "$bin" &>/dev/null; then
 	echo "Bail out! vercmp binary ($bin) could not be located"
 	exit 1
 fi

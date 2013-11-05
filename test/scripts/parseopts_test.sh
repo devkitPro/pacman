@@ -10,7 +10,7 @@ if [[ -z $lib || ! -f $lib ]]; then
 fi
 . "$lib"
 
-if ! type -t parseopts >/dev/null; then
+if ! type -t parseopts &>/dev/null; then
   printf 'Bail out! parseopts function not found\n'
   exit 1
 fi
