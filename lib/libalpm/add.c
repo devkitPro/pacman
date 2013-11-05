@@ -649,6 +649,28 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 	PROGRESS(handle, event, newpkg->name, 100, pkg_count, pkg_current);
 
+	switch(done) {
+		case ALPM_EVENT_ADD_DONE:
+			alpm_logaction(handle, ALPM_CALLER_PREFIX, "installed %s (%s)\n",
+					newpkg->name, newpkg->version);
+			break;
+		case ALPM_EVENT_DOWNGRADE_DONE:
+			alpm_logaction(handle, ALPM_CALLER_PREFIX, "downgraded %s (%s -> %s)\n",
+					newpkg->name, oldpkg->version, newpkg->version);
+			break;
+		case ALPM_EVENT_REINSTALL_DONE:
+			alpm_logaction(handle, ALPM_CALLER_PREFIX, "reinstalled %s (%s)\n",
+					newpkg->name, newpkg->version);
+			break;
+		case ALPM_EVENT_UPGRADE_DONE:
+			alpm_logaction(handle, ALPM_CALLER_PREFIX, "upgraded %s (%s -> %s)\n",
+					newpkg->name, oldpkg->version, newpkg->version);
+			break;
+		default:
+			/* we should never reach here */
+			break;
+	}
+
 	/* run the post-install script if it exists  */
 	if(alpm_pkg_has_scriptlet(newpkg)
 			&& !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {

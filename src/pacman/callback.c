@@ -148,8 +148,6 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	fflush(stdout);
 }
 
-
-
 /* callback to handle messages/notifications from libalpm transactions */
 void cb_event(alpm_event_t event, void *data1, void *data2)
 {
@@ -177,10 +175,6 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		case ALPM_EVENT_ADD_DONE:
-			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
-					"installed %s (%s)\n",
-					alpm_pkg_get_name(data1),
-					alpm_pkg_get_version(data1));
 			display_optdepends(data1);
 			break;
 		case ALPM_EVENT_REMOVE_START:
@@ -188,23 +182,12 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			printf(_("removing %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
-		case ALPM_EVENT_REMOVE_DONE:
-			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
-					"removed %s (%s)\n",
-					alpm_pkg_get_name(data1),
-					alpm_pkg_get_version(data1));
-			break;
 		case ALPM_EVENT_UPGRADE_START:
 			if(config->noprogressbar) {
 				printf(_("upgrading %s...\n"), alpm_pkg_get_name(data1));
 			}
 			break;
 		case ALPM_EVENT_UPGRADE_DONE:
-			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
-					"upgraded %s (%s -> %s)\n",
-					alpm_pkg_get_name(data1),
-					alpm_pkg_get_version(data2),
-					alpm_pkg_get_version(data1));
 			display_new_optdepends(data2, data1);
 			break;
 		case ALPM_EVENT_DOWNGRADE_START:
@@ -213,23 +196,12 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		case ALPM_EVENT_DOWNGRADE_DONE:
-			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
-					"downgraded %s (%s -> %s)\n",
-					alpm_pkg_get_name(data1),
-					alpm_pkg_get_version(data2),
-					alpm_pkg_get_version(data1));
 			display_new_optdepends(data2, data1);
 			break;
 		case ALPM_EVENT_REINSTALL_START:
 			if(config->noprogressbar) {
 				printf(_("reinstalling %s...\n"), alpm_pkg_get_name(data1));
 			}
-			break;
-		case ALPM_EVENT_REINSTALL_DONE:
-			alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
-					"reinstalled %s (%s)\n",
-					alpm_pkg_get_name(data1),
-					alpm_pkg_get_version(data1));
 			break;
 		case ALPM_EVENT_INTEGRITY_START:
 			if(config->noprogressbar) {
@@ -286,6 +258,8 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		/* all the simple done events, with fallthrough for each */
+		case ALPM_EVENT_REINSTALL_DONE:
+		case ALPM_EVENT_REMOVE_DONE:
 		case ALPM_EVENT_FILECONFLICTS_DONE:
 		case ALPM_EVENT_CHECKDEPS_DONE:
 		case ALPM_EVENT_RESOLVEDEPS_DONE:

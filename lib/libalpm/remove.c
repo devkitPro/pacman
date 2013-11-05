@@ -687,6 +687,11 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		remove_package_files(handle, oldpkg, newpkg, targ_count, pkg_count);
 	}
 
+	if(!newpkg) {
+		alpm_logaction(handle, ALPM_CALLER_PREFIX, "removed %s (%s)\n",
+					oldpkg->name, oldpkg->version);
+	}
+
 	/* run the post-remove script if it exists  */
 	if(!newpkg && alpm_pkg_has_scriptlet(oldpkg) &&
 			!(handle->trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
