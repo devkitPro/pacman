@@ -5,7 +5,7 @@ declare -i testcount=0 fail=0 pass=0 total=15
 # source the library function
 lib=${1:-${PMTEST_SCRIPTLIB_DIR}human_to_size.sh}
 if [[ -z $lib || ! -f $lib ]]; then
-	echo "Bail out! human_to_size library ($lib) could not be located\n"
+	printf "Bail out! human_to_size library (%s) could not be located\n" "${lib}"
 	exit 1
 fi
 . "$lib"
