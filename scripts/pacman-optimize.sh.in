@@ -142,8 +142,8 @@ msg "$(gettext "Making and MD5sum'ing the new database...")"
 mkdir "$localdb.new"
 bsdtar -xpf "$workdir/pacman-db.tar.gz" -C "$localdb.new"
 if (( $? )); then
-       rm -rf "$workdir"
-       die_r "$(gettext "Untar'ing %s failed.")" "$localdb"
+	rm -rf "$workdir"
+	die_r "$(gettext "Untar'ing %s failed.")" "$localdb"
 fi
 # immediate sync following extraction should get it written continuously on HDD
 msg "$(gettext "Syncing database to disk...")"

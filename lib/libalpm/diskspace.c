@@ -357,7 +357,7 @@ int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 	size_t j;
 	int error = 0;
 
-	/* resolve the cachedir path to ensure we check the right mountpoint.  We
+	/* resolve the cachedir path to ensure we check the right mountpoint. We
 	 * handle failures silently, and continue to use the possibly unresolved
 	 * path. */
 	if(realpath(cachedir, resolved_cachedir) != NULL) {

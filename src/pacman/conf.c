@@ -689,7 +689,7 @@ static int setup_libalpm(void)
 		return ret;
 	}
 
-	/* Set GnuPG's home directory.  This is not relative to rootdir, even if
+	/* Set GnuPG's home directory. This is not relative to rootdir, even if
 	 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
 	config->gpgdir = config->gpgdir ? config->gpgdir : strdup(GPGDIR);
 	ret = alpm_option_set_gpgdir(handle, config->gpgdir);

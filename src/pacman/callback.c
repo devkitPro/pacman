@@ -156,7 +156,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 	}
 	switch(event) {
 		case ALPM_EVENT_CHECKDEPS_START:
-		  printf(_("checking dependencies...\n"));
+			printf(_("checking dependencies...\n"));
 			break;
 		case ALPM_EVENT_FILECONFLICTS_START:
 			if(config->noprogressbar) {
@@ -294,7 +294,7 @@ void cb_question(alpm_question_t event, void *data1, void *data2,
 		case ALPM_QUESTION_INSTALL_IGNOREPKG:
 			if(!config->op_s_downloadonly) {
 				*response = yesno(_("%s is in IgnorePkg/IgnoreGroup. Install anyway?"),
-								  alpm_pkg_get_name(data1));
+								alpm_pkg_get_name(data1));
 			} else {
 				*response = 1;
 			}
@@ -698,7 +698,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	fname[len] = '\0';
 
 	/* 1 space + filenamelen + 1 space + 6 for size + 1 space + 3 for label +
-	 * + 2 spaces + 4 for rate  + 1 for label + 2 for /s + 1 space +
+	 * + 2 spaces + 4 for rate + 1 for label + 2 for /s + 1 space +
 	 * 8 for eta, gives us the magic 30 */
 	filenamelen = infolen - 30;
 	/* see printf() code, we omit 'HH:' in these conditions */

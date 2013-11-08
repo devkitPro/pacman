@@ -79,17 +79,17 @@ typedef enum _alpm_pkgvalidation_t {
 
 /** Types of version constraints in dependency specs. */
 typedef enum _alpm_depmod_t {
-  /** No version constraint */
+	/** No version constraint */
 	ALPM_DEP_MOD_ANY = 1,
-  /** Test version equality (package=x.y.z) */
+	/** Test version equality (package=x.y.z) */
 	ALPM_DEP_MOD_EQ,
-  /** Test for at least a version (package>=x.y.z) */
+	/** Test for at least a version (package>=x.y.z) */
 	ALPM_DEP_MOD_GE,
-  /** Test for at most a version (package<=x.y.z) */
+	/** Test for at most a version (package<=x.y.z) */
 	ALPM_DEP_MOD_LE,
-  /** Test for greater than some version (package>x.y.z) */
+	/** Test for greater than some version (package>x.y.z) */
 	ALPM_DEP_MOD_GT,
-  /** Test for less than some version (package<x.y.z) */
+	/** Test for less than some version (package<x.y.z) */
 	ALPM_DEP_MOD_LT
 } alpm_depmod_t;
 
@@ -250,7 +250,7 @@ typedef struct _alpm_sigresult_t {
 
 /**
  * Signature list. Contains the number of signatures found and a pointer to an
- * array of results.  The array is of size count.
+ * array of results. The array is of size count.
  */
 typedef struct _alpm_siglist_t {
 	size_t count;

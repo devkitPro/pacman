@@ -5,43 +5,43 @@ declare -i testcount=0 fail=0 pass=0 total=15
 # source the library function
 lib=${1:-${PMTEST_SCRIPTLIB_DIR}human_to_size.sh}
 if [[ -z $lib || ! -f $lib ]]; then
-  echo "Bail out! human_to_size library  ($lib) could not be located\n"
-  exit 1
+	echo "Bail out! human_to_size library ($lib) could not be located\n"
+	exit 1
 fi
 . "$lib"
 
 if ! type -t human_to_size &>/dev/null; then
-  printf 'Bail out! human_to_size function not found\n'
-  exit 1
+	printf "Bail out! human_to_size function not found\n"
+	exit 1
 fi
 
 parse_hts() {
-  local input=$1 expected=$2 result
+	local input=$1 expected=$2 result
 
-  (( ++testcount ))
+	(( ++testcount ))
 
-  result=$(human_to_size "$1")
-  if [[ $result = "$expected" ]]; then
-    (( ++pass ))
-    printf "ok %d - %s\n" "$testcount" "$input"
-  else
-    (( ++fail ))
-    printf "not ok %d - %s\n" "$testcount" "$input"
-    printf '# [TEST %3s]: FAIL\n' "$testcount"
-    printf '#      input: %s\n' "$input"
-    printf '#     output: %s\n' "$result"
-    printf '#   expected: %s\n' "$expected"
-  fi
+	result=$(human_to_size "$1")
+	if [[ $result = "$expected" ]]; then
+		(( ++pass ))
+		printf "ok %d - %s\n" "$testcount" "$input"
+	else
+		(( ++fail ))
+		printf "not ok %d - %s\n" "$testcount" "$input"
+		printf '# [TEST %3s]: FAIL\n' "$testcount"
+		printf '#      input: %s\n' "$input"
+		printf '#     output: %s\n' "$result"
+		printf '#   expected: %s\n' "$expected"
+	fi
 }
 
 summarize() {
-  if (( !fail )); then
-    printf '# All %s tests successful\n\n' "$testcount"
-    exit 0
-  else
-    printf '# %s of %s tests failed\n\n' "$fail" "$testcount"
-    exit 1
-  fi
+	if (( !fail )); then
+		printf '# All %s tests successful\n\n' "$testcount"
+		exit 0
+	else
+		printf '# %s of %s tests failed\n\n' "$fail" "$testcount"
+		exit 1
+	fi
 }
 trap 'summarize' EXIT
 

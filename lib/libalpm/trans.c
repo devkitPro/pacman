@@ -289,7 +289,7 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 
 	if(!is_archive && !grep(filepath, script)) {
 		/* script not found in scriptlet file; we can only short-circuit this early
-		 * if it is an actual scriptlet file and not an archive.  */
+		 * if it is an actual scriptlet file and not an archive. */
 		return 0;
 	}
 

@@ -465,7 +465,7 @@ static int curl_download_internal(struct dload_payload *payload,
 			payload->curlerr);
 
 	/* disconnect relationships from the curl handle for things that might go out
-	 * of scope, but could still be touched on connection teardown.  This really
+	 * of scope, but could still be touched on connection teardown. This really
 	 * only applies to FTP transfers. */
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
 	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, (char *)NULL);

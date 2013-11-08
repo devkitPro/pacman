@@ -85,27 +85,27 @@ static alpm_list_t *list_sigsum(gpgme_sigsum_t sigsum)
 	/* The docs say this can be a bitmask...not sure I believe it, but we'll code
 	 * for it anyway and show all possible flags in the returned string. */
 
-	/* The signature is fully valid.  */
+	/* The signature is fully valid. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_VALID, "valid");
-	/* The signature is good.  */
+	/* The signature is good. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_GREEN, "green");
-	/* The signature is bad.  */
+	/* The signature is bad. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_RED, "red");
-	/* One key has been revoked.  */
+	/* One key has been revoked. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_KEY_REVOKED, "key revoked");
-	/* One key has expired.  */
+	/* One key has expired. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_KEY_EXPIRED, "key expired");
-	/* The signature has expired.  */
+	/* The signature has expired. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_SIG_EXPIRED, "sig expired");
-	/* Can't verify: key missing.  */
+	/* Can't verify: key missing. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_KEY_MISSING, "key missing");
-	/* CRL not available.  */
+	/* CRL not available. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_CRL_MISSING, "crl missing");
-	/* Available CRL is too old.  */
+	/* Available CRL is too old. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_CRL_TOO_OLD, "crl too old");
-	/* A policy was not met.  */
+	/* A policy was not met. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_BAD_POLICY, "bad policy");
-	/* A system error occurred.  */
+	/* A system error occurred. */
 	sigsum_test_bit(sigsum, &summary, GPGME_SIGSUM_SYS_ERROR, "sys error");
 	/* Fallback case */
 	if(!sigsum) {
@@ -679,7 +679,7 @@ error:
 	return ret;
 }
 
-#else  /* HAVE_LIBGPGME */
+#else /* HAVE_LIBGPGME */
 int _alpm_key_in_keychain(alpm_handle_t UNUSED *handle, const char UNUSED *fpr)
 {
 	return -1;

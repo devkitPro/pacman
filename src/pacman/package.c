@@ -189,7 +189,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	}
 	if(from == ALPM_PKG_FROM_FILE || from == ALPM_PKG_FROM_LOCALDB) {
 		string_display(_("Install Script :"),
-				alpm_pkg_has_scriptlet(pkg) ?  _("Yes") : _("No"), cols);
+				alpm_pkg_has_scriptlet(pkg) ? _("Yes") : _("No"), cols);
 	}
 
 	if(from == ALPM_PKG_FROM_SYNCDB && extra) {
@@ -206,7 +206,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		}
 
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg), cols);
-		string_display(_("SHA256 Sum     :"), alpm_pkg_get_sha256sum(pkg), cols);
+		string_display(_("SHA-256 Sum    :"), alpm_pkg_get_sha256sum(pkg), cols);
 		list_display(_("Signatures     :"), keys, cols);
 	} else {
 		list_display(_("Validated By   :"), validation, cols);

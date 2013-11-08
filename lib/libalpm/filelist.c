@@ -97,7 +97,7 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 		} else {
 			/* TODO: this creates conflicts between a symlink to a directory in
 			 * one package and a real directory in the other. For example,
-			 * lib -> /usr/lib in pkg1 and /lib in pkg2.  This would be allowed
+			 * lib -> /usr/lib in pkg1 and /lib in pkg2. This would be allowed
 			 * when installing one package at a time _provided_ pkg1 is installed
 			 * first. This will need adjusted if the order of package install can
 			 * be guaranteed to install the symlink first */

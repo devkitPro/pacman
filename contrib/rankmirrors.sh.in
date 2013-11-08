@@ -184,7 +184,7 @@ elif [[ $FILE ]]; then
 fi
 
 timesarray=()
-for line in  "${linearray[@]}"; do
+for line in "${linearray[@]}"; do
 	if [[ $line =~ ^[[:space:]]*# ]]; then
 		[[ $TIMESONLY ]] || echo $line
 	elif [[ $line =~ ^[[:space:]]*Server ]]; then

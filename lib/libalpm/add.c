@@ -671,7 +671,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			break;
 	}
 
-	/* run the post-install script if it exists  */
+	/* run the post-install script if it exists */
 	if(alpm_pkg_has_scriptlet(newpkg)
 			&& !(trans->flags & ALPM_TRANS_FLAG_NOSCRIPTLET)) {
 		char *scriptlet = _alpm_local_db_pkgpath(db, newpkg, "install");

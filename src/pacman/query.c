@@ -170,7 +170,7 @@ static int query_fileowner(alpm_list_t *targets)
 		}
 
 		if(lstat(filename, &buf) == -1) {
-			/*  if it is not a path but a program name, then check in PATH */
+			/* if it is not a path but a program name, then check in PATH */
 			if(strchr(filename, '/') == NULL) {
 				if(search_path(&filename, &buf) == -1) {
 					pm_printf(ALPM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),

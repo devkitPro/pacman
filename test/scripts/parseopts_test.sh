@@ -5,14 +5,14 @@ declare -i testcount=0 pass=0 fail=0 total=25
 # source the library function
 lib=${1:-${PMTEST_SCRIPTLIB_DIR}parseopts.sh}
 if [[ -z $lib || ! -f $lib ]]; then
-  printf "Bail out! parseopts library ($lib) could not be located\n"
-  exit 1
+	printf "Bail out! parseopts library ($lib) could not be located\n"
+	exit 1
 fi
 . "$lib"
 
 if ! type -t parseopts &>/dev/null; then
-  printf 'Bail out! parseopts function not found\n'
-  exit 1
+	printf "Bail out! parseopts function not found\n"
+	exit 1
 fi
 
 # borrow opts from makepkg
@@ -24,38 +24,38 @@ OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean:' 'cleanall' 'nodeps'
           'noconfirm' 'noprogressbar')
 
 parse() {
-  local result=$1 tokencount=$2; shift 2
+	local result=$1 tokencount=$2; shift 2
 
-  (( ++testcount ))
-  parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@" 2>/dev/null
-  test_result "$result" "$tokencount" "$*" "${OPTRET[@]}"
-  unset OPTRET
+	(( ++testcount ))
+	parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@" 2>/dev/null
+	test_result "$result" "$tokencount" "$*" "${OPTRET[@]}"
+	unset OPTRET
 }
 
 test_result() {
-  local result=$1 tokencount=$2 input=$3; shift 3
+	local result=$1 tokencount=$2 input=$3; shift 3
 
-  if [[ $result = "$*" ]] && (( tokencount == $# )); then
-    (( ++pass ))
-    printf 'ok %d - %s\n' "$testcount" "$input"
-  else
-    printf 'not ok %d - %s\n' "$testcount" "$input"
-    printf '# [TEST %3s]: FAIL\n' "$testcount"
-    printf '#      input: %s\n' "$input"
-    printf '#     output: %s (%s tokens)\n' "$*" "$#"
-    printf '#   expected: %s (%s tokens)\n' "$result" "$tokencount"
-    (( ++fail ))
-  fi
+	if [[ $result = "$*" ]] && (( tokencount == $# )); then
+		(( ++pass ))
+		printf 'ok %d - %s\n' "$testcount" "$input"
+	else
+		printf 'not ok %d - %s\n' "$testcount" "$input"
+		printf '# [TEST %3s]: FAIL\n' "$testcount"
+		printf '#      input: %s\n' "$input"
+		printf '#     output: %s (%s tokens)\n' "$*" "$#"
+		printf '#   expected: %s (%s tokens)\n' "$result" "$tokencount"
+		(( ++fail ))
+	fi
 }
 
 summarize() {
-  if (( !fail )); then
-    printf '# All %s tests successful\n\n' "$testcount"
-    exit 0
-  else
-    printf '# %s of %s tests failed\n\n' "$fail" "$testcount"
-    exit 1
-  fi
+	if (( !fail )); then
+		printf '# All %s tests successful\n\n' "$testcount"
+		exit 0
+	else
+		printf '# %s of %s tests failed\n\n' "$fail" "$testcount"
+		exit 1
+	fi
 }
 trap 'summarize' EXIT
 

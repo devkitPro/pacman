@@ -1336,8 +1336,8 @@ extract_sources() {
 	for netfile in "${source[@]}"; do
 		local file=$(get_filename "$netfile")
 		if in_array "$file" "${noextract[@]}"; then
-			#skip source files in the noextract=() array
-			#  these are marked explicitly to NOT be extracted
+			# skip source files in the noextract=() array
+			# these are marked explicitly to NOT be extracted
 			continue
 		fi
 		local proto=$(get_protocol "$netfile")
@@ -2488,7 +2488,7 @@ usage() {
 	printf -- "$(gettext "Options:")\n"
 	printf -- "$(gettext "  -A, --ignorearch Ignore incomplete %s field in %s")\n" "arch" "$BUILDSCRIPT"
 	printf -- "$(gettext "  -c, --clean      Clean up work files after build")\n"
-        printf -- "$(gettext "  -C, --cleanbuild Remove %s dir before building the package")\n" "\$srcdir/"
+	printf -- "$(gettext "  -C, --cleanbuild Remove %s dir before building the package")\n" "\$srcdir/"
 	printf -- "$(gettext "  -d, --nodeps     Skip all dependency checks")\n"
 	printf -- "$(gettext "  -e, --noextract  Do not extract source files (use existing %s dir)")\n" "\$srcdir/"
 	printf -- "$(gettext "  -f, --force      Overwrite existing package")\n"

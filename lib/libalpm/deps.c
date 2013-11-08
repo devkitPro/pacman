@@ -381,8 +381,8 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 				/* 1. check upgrade list for satisfiers */
 				/* 2. check dblist for satisfiers */
 				if(causingpkg &&
-				   !find_dep_satisfier(upgrade, depend) &&
-				   !find_dep_satisfier(dblist, depend)) {
+						!find_dep_satisfier(upgrade, depend) &&
+						!find_dep_satisfier(dblist, depend)) {
 					alpm_depmissing_t *miss;
 					char *missdepstring = alpm_dep_compute_string(depend);
 					_alpm_log(handle, ALPM_LOG_DEBUG, "checkdeps: transaction would break '%s' dependency of '%s'\n",

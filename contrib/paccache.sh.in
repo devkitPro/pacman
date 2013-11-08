@@ -298,8 +298,8 @@ pkgcount=${#candidates[*]}
 
 # copy the list, merging in any found sigs
 for cand in "${candidates[@]}"; do
-  candtemp+=("$cand")
-  [[ -f $cand.sig ]] && candtemp+=("$cand.sig")
+	candtemp+=("$cand")
+	[[ -f $cand.sig ]] && candtemp+=("$cand.sig")
 done
 candidates=("${candtemp[@]}")
 unset candtemp

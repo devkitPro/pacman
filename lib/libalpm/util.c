@@ -142,7 +142,7 @@ done:
 /** Copies a file.
  * @param src file path to copy from
  * @param dest file path to copy to
- * @return 0 on success, 1 on error 
+ * @return 0 on success, 1 on error
  */
 int _alpm_copyfile(const char *src, const char *dest)
 {
@@ -920,7 +920,7 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 	return hex_representation(output, 32);
 }
 
-/** Calculates a file's MD5 or SHA2 digest  and compares it to an expected value. 
+/** Calculates a file's MD5 or SHA-2 digest and compares it to an expected value.
  * @param filepath path of the file to check
  * @param expected hash value to compare against
  * @param type digest type to use
@@ -958,7 +958,7 @@ int _alpm_test_checksum(const char *filepath, const char *expected,
  * Does not handle sparse files on purpose for speed.
  * @param a
  * @param b
- * @return 
+ * @return
  */
 int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 {
