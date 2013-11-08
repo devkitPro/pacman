@@ -37,9 +37,13 @@ m4_include(../scripts/library/output_format.sh)
 # User Friendliness
 #
 usage() {
-	echo "This program recreates a package using pacman's db and system files"
-	echo "Usage:   $myname [--nocolor] [--pacnew] <installed package name>"
-	echo "Example: $myname kernel26"
+	echo "${myname} (pacman) v${myver}"
+	echo
+	echo "Recreate a package using pacman's database and system files"
+	echo
+	echo "Usage: ${myname} [--nocolor] [--pacnew] <installed package name>"
+	echo
+	echo "Example: ${myname} linux-headers"
 }
 
 version() {

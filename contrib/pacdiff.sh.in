@@ -33,20 +33,22 @@ m4_include(../scripts/library/output_format.sh)
 
 usage() {
 	cat <<EOF
-$myname is a simple pacnew/pacorig/pacsave updater.
+${myname} (pacman) v${myver}
+
+A simple program to merge or remove pacnew/pacorig/pacsave files.
 
 Usage: $myname [-l | -f | -p] [--nocolor]
 
 Search Options:     select one, default: pacmandb
   -l/--locate       scan using locate
   -f/--find         scan using find
-  -p/--pacmandb     scan active config files from pacman db
+  -p/--pacmandb     scan active config files from pacman database
 
 General Options:
   -o/--output       print files instead of merging them
   --nocolor         remove colors from output
 
-Enviroment Variables:
+Environment Variables:
   DIFFPROG          override the merge program: (default: vimdiff)
   DIFFSEARCHPATH    override the search path. (only when using find)
                     (default: /etc)

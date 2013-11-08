@@ -21,26 +21,31 @@
 # traps interrupt key to spit out pre-interrupt info
 trap finaloutput INT
 
+declare -r myname='rankmirrors'
+declare -r myver='@PACKAGE_VERSION@'
+
 usage() {
-	echo "Usage: rankmirrors [options] MIRRORFILE | URL"
+	echo "${myname} (pacman) v${myver}"
 	echo
 	echo "Ranks pacman mirrors by their connection and opening speed. Pacman mirror"
 	echo "files are located in @sysconfdir@/pacman.d/. It can also rank one mirror if the URL is"
 	echo "provided."
+	echo
+	echo "Usage: ${myname} [options] MIRRORFILE | URL"
 	echo
 	echo "Options:"
 	echo "  --version      show program's version number and exit"
 	echo "  -h, --help     show this help message and exit"
 	echo "  -n NUM         number of servers to output, 0 for all"
 	echo "  -t, --times    only output mirrors and their response times"
-	echo "  -u, --url      test a specific url"
+	echo "  -u, --url      test a specific URL"
 	echo "  -v, --verbose  be verbose in ouptut"
-	echo "  -r, --repo     specify a specific repo name instead of guessing"
+	echo "  -r, --repo     specify a repository name instead of guessing"
 	exit 0
 }
 
 version() {
-	echo "rankmirrors (pacman) @PACKAGE_VERSION@"
+	echo "${myname} (pacman) ${myver}"
 	echo "Copyright (c) 2009 Matthew Bruenig <matthewbruenig@gmail.com>."
 	echo
 	echo "This is free software; see the source for copying conditions."

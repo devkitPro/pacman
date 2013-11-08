@@ -46,11 +46,14 @@ m4_include(library/output_format.sh)
 
 # print usage instructions
 usage() {
-	printf "pkgdelta (pacman) %s\n\n" "$myver"
+	printf "pkgdelta (pacman) %s\n" "${myver}"
+	echo
 	printf -- "$(gettext "Usage: pkgdelta [options] <package1> <package2>\n")"
+	echo
 	printf -- "$(gettext "\
-	pkgdelta will create a delta file between two packages.\n\
-This delta file can then be added to a database using repo-add.\n\n")"
+pkgdelta will create a delta file between two packages.\n\
+This delta file can then be added to a database using repo-add.\n")"
+	echo
 	printf -- "$(gettext "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz")\n"
 	echo
 	printf -- "$(gettext "Options:\n")"
@@ -61,7 +64,7 @@ This delta file can then be added to a database using repo-add.\n\n")"
 }
 
 version() {
-	printf "pkgdelta (pacman) %s\n\n" "$myver"
+	printf "pkgdelta (pacman) %s\n" "$myver"
 	printf -- "$(gettext "\
 Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\n\n\
 This is free software; see the source for copying conditions.\n\

@@ -23,12 +23,16 @@ declare -r myname='updpkgsums'
 declare -r myver='@PACKAGE_VERSION@'
 
 usage() {
-	printf 'usage: %s [buildfile]\n\n' "$myname"
-	printf '    -h, --help        display this help message and exit\n'
-	printf '    -V, --version     display version information and exit\n\n'
-	printf '%s will perform an in place update the checksums in the\n' "$myname"
-	printf 'path specified by [buildfile], defaulting to PKGBUILD in the current\n'
-	printf 'working directory.\n'
+	printf "%s (pacman) v%s\n" "${myname}" "${myver}"
+	echo
+	printf "%s will perform an in place update of the checksums in the\n" "${myname}"
+	echo "path specified by [build file], defaulting to PKGBUILD in the current"
+	echo "working directory."
+	echo
+	printf "Usage: %s [build file]\n" "${myname}"
+	echo
+	echo "    -h, --help        display this help message and exit"
+	echo "    -V, --version     display version information and exit"
 }
 
 version() {
@@ -43,7 +47,7 @@ esac
 
 buildfile=${1:-PKGBUILD}
 if [[ ! -f $buildfile ]]; then
-	printf '==> ERROR: %s not found or is not a file\n' "$buildfile"
+	printf "==> ERROR: %s not found or is not a file\n" "$buildfile"
 	exit 1
 fi
 

@@ -18,10 +18,17 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+declare -r myname='checkupdates'
+declare -r myver='@PACKAGE_VERSION@'
+
 if (( $# > 0 )); then
-	echo "checkupdates: Safely print a list of pending updates."
-	echo "Use: checkupdates"
-	echo "Export the 'CHECKUPDATES_DB' variable to change the path of the temporary database."
+	echo "${myname} (pacman) v${myver}"
+	echo
+	echo "Safely print a list of pending updates"
+	echo
+	echo "Usage: ${myname}"
+	echo
+	echo 'Note: Export the "CHECKUPDATES_DB" variable to change the path of the temporary database.'
 	exit 0
 fi
 

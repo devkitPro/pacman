@@ -2483,6 +2483,8 @@ m4_include(library/parseopts.sh)
 usage() {
 	printf "makepkg (pacman) %s\n" "$makepkg_version"
 	echo
+	printf -- "$(gettext "Make packages compatible for use with pacman")\n"
+	echo
 	printf -- "$(gettext "Usage: %s [options]")\n" "$0"
 	echo
 	printf -- "$(gettext "Options:")\n"

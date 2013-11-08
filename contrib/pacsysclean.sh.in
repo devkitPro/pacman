@@ -8,9 +8,12 @@ declare -r myver='@PACKAGE_VERSION@'
 PACMAN_OPTS=
 
 usage() {
-	echo "$myname - Sort installed packages by increasing installed size."
+	echo "${myname} (pacman) v${myver}"
 	echo
-	echo "Usage: $myname [options]"
+	echo "Sort installed packages by increasing installed size. Useful for"
+	echo "system clean-up."
+	echo
+	echo "Usage: ${myname} [options]"
 	echo
 	echo "Options:"
 	echo "  -o <options>     Specify custom pacman query options (e.g., dt)"
@@ -21,7 +24,6 @@ version() {
 	printf "%s %s\n" "$myname" "$myver"
 	echo 'Copyright (C) 2011 Eric Bélanger <snowmaniscool@gmail.com>'
 }
-
 
 if [ -n "$1" ]; then
 	case "$1" in

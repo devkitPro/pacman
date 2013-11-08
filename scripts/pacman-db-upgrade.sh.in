@@ -33,8 +33,11 @@ USE_COLOR='y'
 m4_include(library/output_format.sh)
 
 usage() {
-	printf "pacman-db-upgrade (pacman) %s\n\n" "$myver"
-	printf -- "$(gettext "Usage: %s [--nocolor] [pacman_db_root]")\n\n" "$0"
+	printf "pacman-db-upgrade (pacman) %s\n" "${myver}"
+	echo
+	printf -- "$(gettext "Upgrade the local pacman database to a newer format")\n"
+	echo
+	printf -- "$(gettext "Usage: %s [--nocolor] [pacman_db_root]")\n" "$0"
 }
 
 version() {
