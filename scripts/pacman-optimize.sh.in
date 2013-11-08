@@ -122,7 +122,7 @@ fi
 touch "$lockfile"
 
 workdir=$(mktemp -d "${TMPDIR:-/tmp}/pacman-optimize.XXXXXXXXXX") ||
-	die_r "$(gettext "Can not create temp directory for database building.")\n" >&2
+	die_r "$(gettext "Cannot create temporary directory for database building.")\n" >&2
 
 # step 1: sum the old db
 msg "$(gettext "MD5sum'ing the old database...")"
