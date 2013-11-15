@@ -542,6 +542,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 		while(dup2(pipefd[1], 2) == -1 && errno == EINTR);
 		close(pipefd[0]);
 		close(pipefd[1]);
+		close(cwdfd);
 
 		/* use fprintf instead of _alpm_log to send output through the parent */
 		if(chroot(handle->root) != 0) {
