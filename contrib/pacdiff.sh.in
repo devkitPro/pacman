@@ -39,7 +39,7 @@ A simple program to merge or remove pacnew/pacorig/pacsave files.
 
 Usage: $myname [-l | -f | -p] [--nocolor]
 
-Search Options:     select one, default: pacmandb
+Search Options:     select one (default: --pacmandb)
   -l/--locate       scan using locate
   -f/--find         scan using find
   -p/--pacmandb     scan active config files from pacman database
@@ -73,7 +73,7 @@ print_existing_pacsave(){
 	for f in "${1}"?(.+([0-9])); do
 		[[ -f $f ]] && printf '%s\0' "$f"
 	done
-}	
+}
 
 cmd() {
 	if (( USE_LOCATE )); then
@@ -94,7 +94,7 @@ cmd() {
 	fi
 }
 
-while [[ -n "$1" ]]; do	
+while [[ -n "$1" ]]; do
 	case "$1" in
 		-l|--locate)
 			USE_LOCATE=1;;
@@ -138,7 +138,7 @@ if (( USE_PACDB )); then
 	eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
 	pac_db="${DBPath:-@localstatedir@/lib/pacman/}local"
 	if [[ ! -d "${pac_db}" ]]; then
-		error "unable to read pacman db %s". "${pac_db}"
+		error "unable to read pacman database %s". "${pac_db}"
 		usage; exit 1
 	fi
 fi
@@ -147,7 +147,7 @@ fi
 while IFS= read -u 3 -r -d '' pacfile; do
 	file="${pacfile%.pac*}"
 	file_type="pac${pacfile##*.pac}"
-	
+
 	if (( OUTPUTONLY )); then
 		echo "$pacfile"
 		continue

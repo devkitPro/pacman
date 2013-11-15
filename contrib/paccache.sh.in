@@ -147,7 +147,7 @@ summarize() {
 	fi
 
 	printf '\n' >&2
-	msg "$output (diskspace saved: %s)" "$(size_to_human "$totalsaved")"
+	msg "$output (disk space saved: %s)" "$(size_to_human "$totalsaved")"
 }
 
 usage() {
@@ -269,7 +269,7 @@ esac
 	die "cachedir '%s' does not exist or is not a directory" "$cachedir"
 
 [[ $movedir && ! -d $movedir ]] &&
-	die "move-to directory '%s' does not exist or is not a directory" "$movedir"
+	die "destination directory '%s' does not exist or is not a directory" "$movedir"
 
 if (( move || delete )); then
 	# make it an absolute path since we're about to chdir

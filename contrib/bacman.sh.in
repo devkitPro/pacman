@@ -210,8 +210,8 @@ while read i; do
 	# Workaround to bsdtar not reporting a missing file as an error
 	if ! [[ -e $package_file || -L $package_file ]]; then
 		error "unable to add $local_file to the package"
-		plain "       If your user does not have permission to read this file then"
-		plain "       you will need to run $myname as root"
+		plain "       If your user does not have permission to read this file, then"
+		plain "       you will need to run $myname as root."
 		rm -rf "$work_dir"
 		exit 1
 	fi
