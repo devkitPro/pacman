@@ -276,24 +276,6 @@ static int no_dep_version(alpm_handle_t *handle)
 	return (handle->trans->flags & ALPM_TRANS_FLAG_NODEPVERSION);
 }
 
-static alpm_depend_t *filtered_depend(alpm_depend_t *dep, int nodepversion)
-{
-	if(nodepversion) {
-		alpm_depend_t *newdep = _alpm_dep_dup(dep);
-		ASSERT(newdep, return dep);
-		newdep->mod = ALPM_DEP_MOD_ANY;
-		dep = newdep;
-	}
-	return dep;
-}
-
-static void release_filtered_depend(alpm_depend_t *dep, int nodepversion)
-{
-	if(nodepversion) {
-		free(dep);
-	}
-}
-
 /** Find a package satisfying a specified dependency.
  * The dependency can include versions with depmod operators.
  * @param pkgs an alpm_list_t* of alpm_pkg_t where the satisfier will be searched
@@ -350,7 +332,10 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 
 		for(j = alpm_pkg_get_depends(tp); j; j = j->next) {
 			alpm_depend_t *depend = j->data;
-			depend = filtered_depend(depend, nodepversion);
+			alpm_depmod_t orig_mod = depend->mod;
+			if(nodepversion) {
+				depend->mod = ALPM_DEP_MOD_ANY;
+			}
 			/* 1. we check the upgrade list */
 			/* 2. we check database for untouched satisfying packages */
 			if(!find_dep_satisfier(upgrade, depend) &&
@@ -364,7 +349,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 				miss = depmiss_new(tp->name, depend, NULL);
 				baddeps = alpm_list_add(baddeps, miss);
 			}
-			release_filtered_depend(depend, nodepversion);
+			depend->mod = orig_mod;
 		}
 	}
 
@@ -375,7 +360,10 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 			alpm_pkg_t *lp = i->data;
 			for(j = alpm_pkg_get_depends(lp); j; j = j->next) {
 				alpm_depend_t *depend = j->data;
-				depend = filtered_depend(depend, nodepversion);
+				alpm_depmod_t orig_mod = depend->mod;
+				if(nodepversion) {
+					depend->mod = ALPM_DEP_MOD_ANY;
+				}
 				alpm_pkg_t *causingpkg = find_dep_satisfier(modified, depend);
 				/* we won't break this depend, if it is already broken, we ignore it */
 				/* 1. check upgrade list for satisfiers */
@@ -391,7 +379,7 @@ alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 					miss = depmiss_new(lp->name, depend, causingpkg->name);
 					baddeps = alpm_list_add(baddeps, miss);
 				}
-				release_filtered_depend(depend, nodepversion);
+				depend->mod = orig_mod;
 			}
 		}
 	}
