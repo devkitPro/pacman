@@ -71,8 +71,8 @@ spacman() {
 		pacman "$@"
 	else
 		if ! type -p sudo; then
-			error "Cannot find the sudo binary! Is sudo installed?"
-			error "Otherwise, try to run the program as root"
+			error "Cannot find the sudo binary!"
+			error "${myname} requires root privileges. Either install \"sudo\" or run as root."
 			exit 1
 		else
 			sudo pacman "$@"
