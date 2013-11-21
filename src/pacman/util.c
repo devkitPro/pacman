@@ -1593,10 +1593,12 @@ int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_li
 	/* print a prefix to the message */
 	switch(level) {
 		case ALPM_LOG_ERROR:
-			pm_asprintf(string, _("error: %s"), msg);
+			pm_asprintf(string, "%s%s%s%s", config->colstr.err, _("error: "),
+								config->colstr.nocolor, msg);
 			break;
 		case ALPM_LOG_WARNING:
-			pm_asprintf(string, _("warning: %s"), msg);
+			pm_asprintf(string, "%s%s%s%s", config->colstr.warn, _("warning: "),
+								config->colstr.nocolor, msg);
 			break;
 		case ALPM_LOG_DEBUG:
 			pm_asprintf(string, "debug: %s", msg);
