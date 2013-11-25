@@ -209,6 +209,11 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 	for(i = _alpm_db_get_pkgcache(handle->db_local); i; i = i->next) {
 		alpm_pkg_t *lpkg = i->data;
 
+		if(alpm_pkg_find(trans->remove, lpkg->name)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "%s is marked for removal -- skipping\n", lpkg->name);
+			continue;
+		}
+
 		if(alpm_pkg_find(trans->add, lpkg->name)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "%s is already in the target list -- skipping\n", lpkg->name);
 			continue;
