@@ -202,10 +202,11 @@ Repository Sections
 -------------------
 Each repository section defines a section name and at least one location where
 the packages can be found. The section name is defined by the string within
-square brackets (the two above are 'current'  and  'custom'). Locations are
-defined with the 'Server' directive and follow a URL naming structure. If you
-want to use a local directory, you can specify the full path with a ``file://''
-prefix, as shown above.
+square brackets (the two above are 'core'  and  'custom'). Repository names
+must be unique and the name 'local' is reserved for the database of installed
+packages. Locations are defined with the 'Server' directive and follow a URL
+naming structure. If you want to use a local directory, you can specify the
+full path with a ``file://'' prefix, as shown above.
 
 A common way to define DB locations utilizes the 'Include' directive. For each
 repository defined in the configuration file, a single 'Include' directive can
