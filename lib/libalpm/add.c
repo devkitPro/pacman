@@ -459,7 +459,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
 	alpm_trans_t *trans = handle->trans;
-	alpm_progress_t event = ALPM_PROGRESS_ADD_START;
+	alpm_progress_t progress = ALPM_PROGRESS_ADD_START;
 	alpm_event_t done = ALPM_EVENT_ADD_DONE, start = ALPM_EVENT_ADD_START;
 	const char *log_msg = "adding";
 	const char *pkgfile;
@@ -472,17 +472,17 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		int cmp = _alpm_pkg_compare_versions(newpkg, local);
 		if(cmp < 0) {
 			log_msg = "downgrading";
-			event = ALPM_PROGRESS_DOWNGRADE_START;
+			progress = ALPM_PROGRESS_DOWNGRADE_START;
 			start = ALPM_EVENT_DOWNGRADE_START;
 			done = ALPM_EVENT_DOWNGRADE_DONE;
 		} else if(cmp == 0) {
 			log_msg = "reinstalling";
-			event = ALPM_PROGRESS_REINSTALL_START;
+			progress = ALPM_PROGRESS_REINSTALL_START;
 			start = ALPM_EVENT_REINSTALL_START;
 			done = ALPM_EVENT_REINSTALL_DONE;
 		} else {
 			log_msg = "upgrading";
-			event = ALPM_PROGRESS_UPGRADE_START;
+			progress = ALPM_PROGRESS_UPGRADE_START;
 			start = ALPM_EVENT_UPGRADE_START;
 			done = ALPM_EVENT_UPGRADE_DONE;
 		}
@@ -572,7 +572,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		}
 
 		/* call PROGRESS once with 0 percent, as we sort-of skip that here */
-		PROGRESS(handle, event, newpkg->name, 0, pkg_count, pkg_current);
+		PROGRESS(handle, progress, newpkg->name, 0, pkg_count, pkg_current);
 
 		for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
 			int percent;
@@ -590,7 +590,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				percent = 0;
 			}
 
-			PROGRESS(handle, event, newpkg->name, percent, pkg_count, pkg_current);
+			PROGRESS(handle, progress, newpkg->name, percent, pkg_count, pkg_current);
 
 			/* extract the next file from the archive */
 			errors += extract_single_file(handle, archive, entry, newpkg, oldpkg);
@@ -647,7 +647,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 				newpkg->name);
 	}
 
-	PROGRESS(handle, event, newpkg->name, 100, pkg_count, pkg_current);
+	PROGRESS(handle, progress, newpkg->name, 100, pkg_count, pkg_current);
 
 	switch(done) {
 		case ALPM_EVENT_ADD_DONE:
