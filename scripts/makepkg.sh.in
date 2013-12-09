@@ -714,43 +714,7 @@ download_svn() {
 	fi
 	url=${url%%#*}
 
-	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
-		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "svn"
-		mkdir -p "$dir/.makepkg"
-		if ! svn checkout --config-dir "$dir/.makepkg" "$url" "$dir"; then
-			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "svn"
-			plain "$(gettext "Aborting...")"
-			exit 1
-		fi
-	elif (( ! HOLDVER )); then
-		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "svn"
-		cd_safe "$dir"
-		if ! svn update; then
-			# only warn on failure to allow offline builds
-			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "svn"
-		fi
-	fi
-}
-
-extract_svn() {
-	local netfile=$1
-
-	local fragment=${netfile#*#}
-	if [[ $fragment = "$netfile" ]]; then
-		unset fragment
-	fi
-
-	local dir=$(get_filepath "$netfile")
-	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
-
-	local repo=${netfile##*/}
-	repo=${repo%%#*}
-
-	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "svn"
-	pushd "$srcdir" &>/dev/null
-	rm -rf "${dir##*/}"
-
-	local ref
+	local ref=HEAD
 	if [[ -n $fragment ]]; then
 		case ${fragment%%=*} in
 			revision)
@@ -763,15 +727,38 @@ extract_svn() {
 		esac
 	fi
 
-	cp -a "$dir" .
-
-	if [[ -n ${ref} ]]; then
-		cd_safe "$(get_filename "$netfile")"
-		if ! svn update -r ${ref}; then
-			error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "svn"
+	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
+		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "svn"
+		mkdir -p "$dir/.makepkg"
+		if ! svn checkout -r ${ref} --config-dir "$dir/.makepkg" "$url" "$dir"; then
+			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "svn"
 			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif (( ! HOLDVER )); then
+		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "svn"
+		cd_safe "$dir"
+		if ! svn update -r ${ref}; then
+			# only warn on failure to allow offline builds
+			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "svn"
 		fi
 	fi
+}
+
+extract_svn() {
+	local netfile=$1
+
+	local dir=$(get_filepath "$netfile")
+	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
+
+	local repo=${netfile##*/}
+	repo=${repo%%#*}
+
+	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "svn"
+	pushd "$srcdir" &>/dev/null
+	rm -rf "${dir##*/}"
+
+	cp -a "$dir" .
 
 	popd &>/dev/null
 }
