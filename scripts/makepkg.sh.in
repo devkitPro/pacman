@@ -769,12 +769,8 @@ extract_svn() {
 	repo=${repo%%#*}
 
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "svn"
-	pushd "$srcdir" &>/dev/null
-	rm -rf "${dir##*/}"
 
-	cp -a "$dir" .
-
-	popd &>/dev/null
+	cp -au "$dir" "$srcdir"
 }
 
 get_all_sources() {
