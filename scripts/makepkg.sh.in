@@ -671,13 +671,12 @@ extract_hg() {
 
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "hg"
 	pushd "$srcdir" &>/dev/null
-	rm -rf "${dir##*/}"
 
-	local ref
+	local ref=tip
 	if [[ -n $fragment ]]; then
 		case ${fragment%%=*} in
 			branch|revision|tag)
-				ref=('-u' "${fragment##*=}")
+				ref="${fragment##*=}"
 				;;
 			*)
 				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
@@ -686,7 +685,14 @@ extract_hg() {
 		esac
 	fi
 
-	if ! hg clone "${ref[@]}" "$dir" "${dir##*/}"; then
+	if [[ -d "${dir##*/}" ]]; then
+		cd_safe "${dir##*/}"
+		if ! (hg pull && hg update -C -r "$ref"); then
+			error "$(gettext "Failure while updating working copy of %s %s repo")" "${repo}" "hg"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif ! hg clone -u "$ref" "$dir" "${dir##*/}"; then
 		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "hg"
 		plain "$(gettext "Aborting...")"
 		exit 1
