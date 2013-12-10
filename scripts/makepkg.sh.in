@@ -2544,6 +2544,9 @@ There is NO WARRANTY, to the extent permitted by law.\n")"
 
 # PROGRAM START
 
+# ensure we have a sane umask set
+umask 0022
+
 # determine whether we have gettext; make it a no-op if we do not
 if ! type -p gettext >/dev/null; then
 	gettext() {
@@ -2978,9 +2981,6 @@ else
 		exit 1
 	fi
 fi
-
-# ensure we have a sane umask set
-umask 0022
 
 # get back to our src directory so we can begin with sources
 mkdir -p "$srcdir"
