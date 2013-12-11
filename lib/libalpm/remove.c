@@ -240,13 +240,6 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		}
 	}
 
-	/* re-order w.r.t. dependencies */
-	_alpm_log(handle, ALPM_LOG_DEBUG, "sorting by dependencies\n");
-	lp = _alpm_sortbydeps(handle, trans->remove, NULL, 1);
-	/* free the old alltargs */
-	alpm_list_free(trans->remove);
-	trans->remove = lp;
-
 	/* -Rcs == -Rc then -Rs */
 	if((trans->flags & ALPM_TRANS_FLAG_CASCADE)
 			&& (trans->flags & ALPM_TRANS_FLAG_RECURSE)) {
