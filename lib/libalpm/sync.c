@@ -541,7 +541,6 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			trans->add = alpm_list_remove(trans->add, rsync, _alpm_pkg_cmp, NULL);
 			/* rsync is not a transaction target anymore */
 			trans->unresolvable = alpm_list_add(trans->unresolvable, rsync);
-			continue;
 		}
 
 		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
