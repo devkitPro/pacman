@@ -301,6 +301,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	curl_easy_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
 	curl_easy_setopt(curl, CURLOPT_SOCKOPTFUNCTION, dload_sockopt_cb);
 	curl_easy_setopt(curl, CURLOPT_SOCKOPTDATA, (void *)handle);
+	curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "url: %s\n", payload->fileurl);
 
