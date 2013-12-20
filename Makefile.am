@@ -40,7 +40,7 @@ LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 								 $(top_srcdir)/build-aux/tap-driver.sh
 PY_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 								 $(top_srcdir)/build-aux/tap-driver.sh
-PY_LOG_COMPILER = $(top_srcdir)/test/pacman/pactest.py
+PY_LOG_COMPILER = $(PYTHON) $(top_srcdir)/test/pacman/pactest.py
 AM_PY_LOG_FLAGS = \
 		--scriptlet-shell $(SCRIPTLET_SHELL) \
 		--ldconfig $(LDCONFIG) \

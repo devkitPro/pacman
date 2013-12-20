@@ -1,5 +1,3 @@
-#! /usr/bin/python2
-#
 #  Copyright (c) 2006 by Aurelien Foret <orelien@chez.com>
 #  Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>
 #
