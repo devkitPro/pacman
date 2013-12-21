@@ -47,7 +47,7 @@
 /* define _() as shortcut for gettext() */
 #define _(str) dgettext ("libalpm", str)
 #else
-#define _(s) s
+#define _(s) (char *)s
 #endif
 
 void _alpm_alloc_fail(size_t size);

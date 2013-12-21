@@ -34,8 +34,8 @@
 #define _(str) gettext(str)
 #define _n(str1, str2, ct) ngettext(str1, str2, ct)
 #else
-#define _(str) str
-#define _n(str1, str2, ct) (ct == 1 ? str1 : str2)
+#define _(str) (char *)str
+#define _n(str1, str2, ct) (char *)(ct == 1 ? str1 : str2)
 #endif
 
 typedef struct _pm_target_t {
