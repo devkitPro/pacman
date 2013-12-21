@@ -2340,7 +2340,7 @@ check_software() {
 	fi
 
 	# distcc - compilation with distcc
-	if check_buildenv "distcc" "y" && ! check_option "distcc" "n" ]]; then
+	if check_buildenv "distcc" "y" && ! check_option "distcc" "n"; then
 		if ! type -p distcc >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for distributed compilation.")" "distcc"
 			ret=1
