@@ -24,16 +24,45 @@
 #if HAVE_LIBGPGME
 #include <locale.h> /* setlocale() */
 #include <gpgme.h>
-#include "base64.h"
 #endif
 
 /* libalpm */
 #include "signing.h"
 #include "package.h"
+#include "base64.h"
 #include "util.h"
 #include "log.h"
 #include "alpm.h"
 #include "handle.h"
+
+/**
+ * Decode a loaded signature in base64 form.
+ * @param base64_data the signature to attempt to decode
+ * @param data the decoded data; must be freed by the caller
+ * @param data_len the length of the returned data
+ * @return 0 on success, -1 on failure to properly decode
+ */
+
+int SYMEXPORT alpm_decode_signature(const char *base64_data,
+		unsigned char **data, size_t *data_len)
+{
+	size_t len = strlen(base64_data);
+	unsigned char *usline = (unsigned char *)base64_data;
+	/* reasonable allocation of expected length is 3/4 of encoded length */
+	size_t destlen = len * 3 / 4;
+	MALLOC(*data, destlen, goto error);
+	if(base64_decode(*data, &destlen, usline, len)) {
+		free(*data);
+		goto error;
+	}
+	*data_len = destlen;
+	return 0;
+
+error:
+	*data = NULL;
+	*data_len = 0;
+	return -1;
+}
 
 #if HAVE_LIBGPGME
 #define CHECK_ERR(void) do { \
@@ -415,35 +444,6 @@ int _alpm_key_import(alpm_handle_t *handle, const char *fpr)
 	gpgme_key_unref(fetch_key.data);
 
 	return ret;
-}
-
-/**
- * Decode a loaded signature in base64 form.
- * @param base64_data the signature to attempt to decode
- * @param data the decoded data; must be freed by the caller
- * @param data_len the length of the returned data
- * @return 0 on success, -1 on failure to properly decode
- */
-
-int SYMEXPORT alpm_decode_signature(const char *base64_data,
-		unsigned char **data, size_t *data_len)
-{
-	size_t len = strlen(base64_data);
-	unsigned char *usline = (unsigned char *)base64_data;
-	/* reasonable allocation of expected length is 3/4 of encoded length */
-	size_t destlen = len * 3 / 4;
-	MALLOC(*data, destlen, goto error);
-	if(base64_decode(*data, &destlen, usline, len)) {
-		free(*data);
-		goto error;
-	}
-	*data_len = destlen;
-	return 0;
-
-error:
-	*data = NULL;
-	*data_len = 0;
-	return -1;
 }
 
 /**
