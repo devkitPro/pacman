@@ -580,6 +580,7 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 	newpkg->isize = pkg->isize;
 	newpkg->scriptlet = pkg->scriptlet;
 	newpkg->reason = pkg->reason;
+	newpkg->validation = pkg->validation;
 
 	newpkg->licenses   = alpm_list_strdup(pkg->licenses);
 	newpkg->replaces   = list_depdup(pkg->replaces);
