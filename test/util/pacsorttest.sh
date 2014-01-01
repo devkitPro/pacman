@@ -2,7 +2,7 @@
 #
 # pacsorttest - a test suite for pacsort
 #
-#   Copyright (c) 2013 by Pacman Development Team <pacman-dev@archlinux.org>
+#   Copyright (c) 2013-2014 by Pacman Development Team <pacman-dev@archlinux.org>
 #   Copyright (c) 2011 by Dan McGee <dan@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
