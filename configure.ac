@@ -316,8 +316,6 @@ AC_CHECK_MEMBERS([struct statfs.f_flags],,,[[#include <sys/param.h>
 
 # Check if we can use symbol visibility support in GCC
 GCC_VISIBILITY_CC
-# Check if we have -fgnu89-inline flag
-GCC_GNU89_INLINE_CC
 
 # Host-dependant definitions
 INODECMD="stat -c '%i %n'"

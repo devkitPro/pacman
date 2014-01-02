@@ -18,9 +18,6 @@ else
 AM_CFLAGS += -fvisibility=internal
 endif
 endif
-if ENABLE_GNU89_INLINE_CC
-AM_CFLAGS += -fgnu89-inline
-endif
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libalpm.pc
