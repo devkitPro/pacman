@@ -55,7 +55,6 @@ struct __alpm_handle_t {
 	alpm_db_t *db_local;    /* local db pointer */
 	alpm_list_t *dbs_sync;  /* List of (alpm_db_t *) */
 	FILE *logstream;        /* log file stream pointer */
-	int lockfd;             /* lock file descriptor */
 	alpm_trans_t *trans;
 
 #ifdef HAVE_LIBCURL
@@ -99,6 +98,9 @@ struct __alpm_handle_t {
 
 	/* error code */
 	alpm_errno_t pm_errno;
+
+	/* lock file descriptor */
+	int lockfd;
 
 	/* for delta parsing efficiency */
 	int delta_regex_compiled;

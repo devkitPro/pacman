@@ -746,8 +746,8 @@ struct section_t {
 	int is_options;
 	int parse_options;
 	/* db section option gathering */
-	alpm_siglevel_t siglevel;
 	alpm_list_t *servers;
+	alpm_siglevel_t siglevel;
 	alpm_db_usage_t usage;
 };
 
