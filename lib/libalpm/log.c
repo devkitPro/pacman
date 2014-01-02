@@ -49,9 +49,16 @@ int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *prefix,
 
 	/* check if the logstream is open already, opening it if needed */
 	if(handle->logstream == NULL) {
-		handle->logstream = fopen(handle->logfile, "a");
+		int fd;
+		do {
+			fd = open(handle->logfile, O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC,
+					0000);
+		} while(fd == -1 && errno == EINTR);
+		if(fd >= 0) {
+			handle->logstream = fdopen(fd, "a");
+		}
 		/* if we couldn't open it, we have an issue */
-		if(handle->logstream == NULL) {
+		if(fd < 0 || handle->logstream == NULL) {
 			if(errno == EACCES) {
 				handle->pm_errno = ALPM_ERR_BADPERMS;
 			} else if(errno == ENOENT) {

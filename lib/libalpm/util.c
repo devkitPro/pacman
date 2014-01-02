@@ -153,9 +153,9 @@ int _alpm_copyfile(const char *src, const char *dest)
 
 	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, return 1);
 
-	OPEN(in, src, O_RDONLY);
+	OPEN(in, src, O_RDONLY | O_CLOEXEC);
 	do {
-		out = open(dest, O_WRONLY | O_CREAT, 0000);
+		out = open(dest, O_WRONLY | O_CREAT | O_BINARY | O_CLOEXEC, 0000);
 	} while(out == -1 && errno == EINTR);
 	if(in < 0 || out < 0) {
 		goto cleanup;
@@ -244,7 +244,7 @@ int _alpm_open_archive(alpm_handle_t *handle, const char *path,
 	archive_read_support_format_all(*archive);
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "opening archive %s\n", path);
-	OPEN(fd, path, O_RDONLY);
+	OPEN(fd, path, O_RDONLY | O_CLOEXEC);
 	if(fd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR,
 				_("could not open file %s: %s\n"), path, strerror(errno));
@@ -326,7 +326,7 @@ int _alpm_unpack(alpm_handle_t *handle, const char *path, const char *prefix,
 	oldmask = umask(0022);
 
 	/* save the cwd so we can restore it later */
-	OPEN(cwdfd, ".", O_RDONLY);
+	OPEN(cwdfd, ".", O_RDONLY | O_CLOEXEC);
 	if(cwdfd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
 	}
@@ -502,7 +502,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 	int retval = 0;
 
 	/* save the cwd so we can restore it later */
-	OPEN(cwdfd, ".", O_RDONLY);
+	OPEN(cwdfd, ".", O_RDONLY | O_CLOEXEC);
 	if(cwdfd < 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
 	}
@@ -778,7 +778,7 @@ static int md5_file(const char *path, unsigned char output[16])
 
 	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, return 1);
 
-	OPEN(fd, path, O_RDONLY);
+	OPEN(fd, path, O_RDONLY | O_CLOEXEC);
 	if(fd < 0) {
 		free(buf);
 		return 1;
@@ -820,7 +820,7 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 
 	MALLOC(buf, (size_t)ALPM_BUFFER_SIZE, return 1);
 
-	OPEN(fd, path, O_RDONLY);
+	OPEN(fd, path, O_RDONLY | O_CLOEXEC);
 	if(fd < 0) {
 		free(buf);
 		return 1;

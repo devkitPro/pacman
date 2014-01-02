@@ -110,7 +110,7 @@ int _alpm_handle_lock(alpm_handle_t *handle)
 	FREE(dir);
 
 	do {
-		handle->lockfd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL, 0000);
+		handle->lockfd = open(handle->lockfile, O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC, 0000);
 	} while(handle->lockfd == -1 && errno == EINTR);
 
 	return (handle->lockfd >= 0 ? 0 : -1);
