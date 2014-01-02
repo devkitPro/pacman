@@ -84,6 +84,9 @@ static int mount_point_load_fsinfo(alpm_handle_t *handle, alpm_mountpoint_t *mou
 	_alpm_log(handle, ALPM_LOG_DEBUG, "loading fsinfo for %s\n", mountpoint->mount_dir);
 	mountpoint->read_only = mountpoint->fsp.f_flag & ST_RDONLY;
 	mountpoint->fsinfo_loaded = MOUNT_FSINFO_LOADED;
+#else
+	(void)handle;
+	(void)mountpoint;
 #endif
 
 	return 0;
