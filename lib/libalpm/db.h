@@ -32,13 +32,14 @@
 
 /* Database entries */
 typedef enum _alpm_dbinfrq_t {
-	INFRQ_BASE = 1,
+	INFRQ_BASE = (1 << 0),
 	INFRQ_DESC = (1 << 1),
 	INFRQ_FILES = (1 << 2),
 	INFRQ_SCRIPTLET = (1 << 3),
 	INFRQ_DSIZE = (1 << 4),
 	/* ALL should be info stored in the package or database */
-	INFRQ_ALL = 0x1F,
+	INFRQ_ALL = INFRQ_BASE | INFRQ_DESC | INFRQ_FILES |
+		INFRQ_SCRIPTLET | INFRQ_DSIZE,
 	INFRQ_ERROR = (1 << 31)
 } alpm_dbinfrq_t;
 
