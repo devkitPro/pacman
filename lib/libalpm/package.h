@@ -102,18 +102,6 @@ struct __alpm_pkg_t {
 	off_t isize;
 	off_t download_size;
 
-	int scriptlet;
-
-	alpm_pkgreason_t reason;
-	alpm_pkgvalidation_t validation;
-	alpm_dbinfrq_t infolevel;
-	alpm_pkgfrom_t origin;
-	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
-	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
-	union {
-		alpm_db_t *db;
-		char *file;
-	} origin_data;
 	alpm_handle_t *handle;
 
 	alpm_list_t *licenses;
@@ -131,6 +119,19 @@ struct __alpm_pkg_t {
 	struct pkg_operations *ops;
 
 	alpm_filelist_t files;
+
+	/* origin == PKG_FROM_FILE, use pkg->origin_data.file
+	 * origin == PKG_FROM_*DB, use pkg->origin_data.db */
+	union {
+		alpm_db_t *db;
+		char *file;
+	} origin_data;
+
+	alpm_dbinfrq_t infolevel;
+	alpm_pkgvalidation_t validation;
+	alpm_pkgfrom_t origin;
+	alpm_pkgreason_t reason;
+	unsigned int scriptlet;
 };
 
 alpm_file_t *_alpm_file_copy(alpm_file_t *dest, const alpm_file_t *src);
