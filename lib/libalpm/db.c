@@ -457,7 +457,8 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 
 			if(matched != NULL) {
 				_alpm_log(db->handle, ALPM_LOG_DEBUG,
-						"search target '%s' matched '%s'\n", targ, matched);
+						"search target '%s' matched '%s' on package '%s'\n",
+						targ, matched, name);
 				ret = alpm_list_add(ret, pkg);
 			}
 		}
