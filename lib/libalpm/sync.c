@@ -1026,6 +1026,7 @@ static int check_keyring(alpm_handle_t *handle)
 					}
 					FREELIST(keys);
 				}
+				free(decoded_sigdata);
 			}
 		}
 	}
