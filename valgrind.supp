@@ -64,6 +64,13 @@
    fun:gpgme_get_engine_info
 }
 {
+   gpgme-static-get-key
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:gpgme_get_key
+}
+{
    gpgme-static-set-engine-info
    Memcheck:Leak
    fun:malloc
