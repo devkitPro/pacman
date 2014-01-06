@@ -808,23 +808,23 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	} else {
 		pm_asprintf(&str, "%s", alpm_pkg_get_name(target->remove));
 	}
-	add_table_cell(&ret, str, CELL_NORMAL);
+	add_table_cell(&ret, str, CELL_NORMAL | CELL_FREE);
 
 	/* old and new versions */
 	pm_asprintf(&str, "%s",
 			target->remove != NULL ? alpm_pkg_get_version(target->remove) : "");
-	add_table_cell(&ret, str, CELL_NORMAL);
+	add_table_cell(&ret, str, CELL_NORMAL | CELL_FREE);
 
 	pm_asprintf(&str, "%s",
 			target->install != NULL ? alpm_pkg_get_version(target->install) : "");
-	add_table_cell(&ret, str, CELL_NORMAL);
+	add_table_cell(&ret, str, CELL_NORMAL | CELL_FREE);
 
 	/* and size */
 	size -= target->remove ? alpm_pkg_get_isize(target->remove) : 0;
 	size += target->install ? alpm_pkg_get_isize(target->install) : 0;
 	human_size = humanize_size(size, 'M', 2, &label);
 	pm_asprintf(&str, "%.2f %s", human_size, label);
-	add_table_cell(&ret, str, CELL_RIGHT_ALIGN);
+	add_table_cell(&ret, str, CELL_RIGHT_ALIGN | CELL_FREE);
 
 	size = target->install ? alpm_pkg_download_size(target->install) : 0;
 	if(size != 0) {
@@ -833,7 +833,7 @@ static alpm_list_t *create_verbose_row(pm_target_t *target)
 	} else {
 		str = NULL;
 	}
-	add_table_cell(&ret, str, CELL_RIGHT_ALIGN);
+	add_table_cell(&ret, str, CELL_RIGHT_ALIGN | CELL_FREE);
 
 	return ret;
 }
