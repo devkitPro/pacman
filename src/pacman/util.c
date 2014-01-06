@@ -587,9 +587,10 @@ static int table_display(const alpm_list_t *header,
 	const alpm_list_t *i, *first;
 	size_t *widths = NULL, totalcols, totalwidth;
 	int *has_data = NULL;
+	int ret = 0;
 
 	if(rows == NULL) {
-		return 0;
+		return ret;
 	}
 
 	/* we want the first row. if no headers are provided, use the first
@@ -603,10 +604,12 @@ static int table_display(const alpm_list_t *header,
 	if(totalwidth > cols) {
 		pm_printf(ALPM_LOG_WARNING,
 				_("insufficient columns available for table display\n"));
-		return -1;
+		ret = -1;
+		goto cleanup;
 	}
 	if(!totalwidth || !widths || !has_data) {
-		return -1;
+		ret = -1;
+		goto cleanup;
 	}
 
 	if(header) {
@@ -618,9 +621,10 @@ static int table_display(const alpm_list_t *header,
 		table_print_line(i->data, padding, totalcols, widths, has_data);
 	}
 
+cleanup:
 	free(widths);
 	free(has_data);
-	return 0;
+	return ret;
 }
 
 void list_display(const char *title, const alpm_list_t *list,
