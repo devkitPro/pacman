@@ -109,3 +109,43 @@
    ...
    fun:regexec
 }
+{
+   fakeroot-msgsnd
+   Memcheck:Param
+   msgsnd(msgp->mtext)
+   fun:__msgsnd_nocancel
+}
+{
+   fakechroot-add-to-environ
+   Memcheck:Leak
+   fun:malloc
+   fun:__add_to_environ
+}
+{
+   fakechroot-static-fakechroot-init-malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:fakechroot_init
+}
+{
+   fakechroot-static-fakechroot-init-calloc
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:fakechroot_init
+}
+{
+   fakechroot-static-bindtextdomain
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libfakeroot/fakechroot/libfakechroot.so
+   obj:/usr/lib/libfakeroot/fakechroot/libfakechroot.so
+   fun:bindtextdomain
+}
+{
+   fakechroot-uninitialized-var-lxstat
+   Memcheck:Cond
+   fun:__lxstat
+}
