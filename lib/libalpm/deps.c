@@ -833,8 +833,9 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 			}
 			ret = -1;
 		}
+		alpm_list_free(targ);
+		targ = NULL;
 	}
-	alpm_list_free(targ);
 	alpm_list_free(deps);
 
 	if(ret != 0) {
