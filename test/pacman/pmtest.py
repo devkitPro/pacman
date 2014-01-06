@@ -220,6 +220,7 @@ class pmtest(object):
             cmd.extend(["libtool", "execute", "valgrind", "-q",
                 "--tool=memcheck", "--leak-check=full",
                 "--show-reachable=yes",
+                "--gen-suppressions=all",
                 "--log-file=%s" % os.path.join(self.root, "var/log/valgrind"),
                 "--suppressions=%s" % suppfile])
         cmd.extend([pacman["bin"],
