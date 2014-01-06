@@ -442,7 +442,6 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
 			int remove_unresolvable = 0;
-			alpm_errno_t saved_err = handle->pm_errno;
 			QUESTION(handle, ALPM_QUESTION_REMOVE_PKGS, unresolvable,
 					NULL, NULL, &remove_unresolvable);
 			if(remove_unresolvable) {
@@ -458,7 +457,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				}
 			} else {
 				/* pm_errno was set by resolvedeps, callback may have overwrote it */
-				handle->pm_errno = saved_err;
+				handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
 				alpm_list_free(resolved);
 				ret = -1;
 				goto cleanup;
