@@ -221,6 +221,7 @@ class pmtest(object):
                 "--tool=memcheck", "--leak-check=full",
                 "--show-reachable=yes",
                 "--gen-suppressions=all",
+                "--child-silent-after-fork=yes",
                 "--log-file=%s" % os.path.join(self.root, "var/log/valgrind"),
                 "--suppressions=%s" % suppfile])
         cmd.extend([pacman["bin"],
