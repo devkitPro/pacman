@@ -235,6 +235,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	printf("\n");
 
 	FREELIST(requiredby);
+	FREELIST(optionalfor);
 	alpm_list_free(validation);
 }
 
