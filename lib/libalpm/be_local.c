@@ -459,6 +459,7 @@ static int local_db_populate(alpm_db_t *db)
 			/* no database existing yet is not an error */
 			db->status &= ~DB_STATUS_EXISTS;
 			db->status |= DB_STATUS_MISSING;
+			db->pkgcache = _alpm_pkghash_create(0);
 			return 0;
 		}
 		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
