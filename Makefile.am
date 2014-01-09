@@ -32,6 +32,7 @@ TESTS =  test/scripts/parseopts_test.sh \
 				 test/util/vercmptest.sh
 include $(top_srcdir)/test/pacman/tests/TESTS
 
+TEST_SUITE_LOG = test/test-suite.log
 TEST_EXTENSIONS = .py
 AM_TESTS_ENVIRONMENT = \
 	PMTEST_UTIL_DIR=$(top_builddir)/src/util/; export PMTEST_UTIL_DIR; \
