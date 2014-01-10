@@ -89,9 +89,13 @@ static int sync_db_validate(alpm_db_t *db)
 
 	/* we can skip any validation if the database doesn't exist */
 	if(_alpm_access(db->handle, NULL, dbpath, R_OK) != 0 && errno == ENOENT) {
+		alpm_event_database_missing_t event = {
+			.type = ALPM_EVENT_DATABASE_MISSING,
+			.dbname = db->treename
+		};
 		db->status &= ~DB_STATUS_EXISTS;
 		db->status |= DB_STATUS_MISSING;
-		EVENT(db->handle, ALPM_EVENT_DATABASE_MISSING, db->treename, NULL);
+		EVENT(db->handle, &event);
 		goto valid;
 	}
 	db->status |= DB_STATUS_EXISTS;

@@ -31,10 +31,10 @@
 #include <curl/curl.h>
 #endif
 
-#define EVENT(h, e, d1, d2) \
+#define EVENT(h, e) \
 do { \
 	if((h)->eventcb) { \
-		(h)->eventcb(e, d1, d2); \
+		(h)->eventcb((alpm_event_t *) (e)); \
 	} \
 } while(0)
 #define QUESTION(h, q, d1, d2, d3, r) \

@@ -275,10 +275,9 @@ int alpm_logaction(alpm_handle_t *handle, const char *prefix,
 		const char *fmt, ...) __attribute__((format(printf, 3, 4)));
 
 /**
- * Events.
- * NULL parameters are passed to in all events unless specified otherwise.
+ * Type of events.
  */
-typedef enum _alpm_event_t {
+typedef enum _alpm_event_type_t {
 	/** Dependencies will be computed for a package. */
 	ALPM_EVENT_CHECKDEPS_START = 1,
 	/** Dependencies were computed for a package. */
@@ -295,49 +294,12 @@ typedef enum _alpm_event_t {
 	ALPM_EVENT_INTERCONFLICTS_START,
 	/** Inter-conflicts were checked for target package. */
 	ALPM_EVENT_INTERCONFLICTS_DONE,
-	/** Package will be installed.
-	 * A pointer to the target package is passed to the callback.
-	 */
-	ALPM_EVENT_ADD_START,
-	/** Package was installed.
-	 * A pointer to the new package is passed to the callback.
-	 */
-	ALPM_EVENT_ADD_DONE,
-	/** Package will be removed.
-	 * A pointer to the target package is passed to the callback.
-	 */
-	ALPM_EVENT_REMOVE_START,
-	/** Package was removed.
-	 * A pointer to the removed package is passed to the callback.
-	 */
-	ALPM_EVENT_REMOVE_DONE,
-	/** Package will be upgraded.
-	 * A pointer to the upgraded package is passed to the callback.
-	 */
-	ALPM_EVENT_UPGRADE_START,
-	/** Package was upgraded.
-	 * A pointer to the new package, and a pointer to the old package is passed
-	 * to the callback, respectively.
-	 */
-	ALPM_EVENT_UPGRADE_DONE,
-	/** Package will be downgraded.
-	 * A pointer to the downgraded package is passed to the callback.
-	 */
-	ALPM_EVENT_DOWNGRADE_START,
-	/** Package was downgraded.
-	 * A pointer to the new package, and a pointer to the old package is passed
-	 * to the callback, respectively.
-	 */
-	ALPM_EVENT_DOWNGRADE_DONE,
-	/** Package will be reinstalled.
-	 * A pointer to the reinstalled package is passed to the callback.
-	 */
-	ALPM_EVENT_REINSTALL_START,
-	/** Package was reinstalled.
-	 * A pointer to the new package, and a pointer to the old package is passed
-	 * to the callback, respectively.
-	 */
-	ALPM_EVENT_REINSTALL_DONE,
+	/** Package will be installed/upgraded/downgraded/re-installed/removed; See
+	 * alpm_event_package_operation_t for arguments. */
+	ALPM_EVENT_PACKAGE_OPERATION_START,
+	/** Package was installed/upgraded/downgraded/re-installed/removed; See
+	 * alpm_event_package_operation_t for arguments. */
+	ALPM_EVENT_PACKAGE_OPERATION_DONE,
 	/** Target package's integrity will be checked. */
 	ALPM_EVENT_INTEGRITY_START,
 	/** Target package's integrity was checked. */
@@ -354,31 +316,27 @@ typedef enum _alpm_event_t {
 	ALPM_EVENT_DELTA_PATCHES_START,
 	/** Deltas were applied to packages. */
 	ALPM_EVENT_DELTA_PATCHES_DONE,
-	/** Delta patch will be applied to target package.
-	 * The filename of the package and the filename of the patch is passed to the
-	 * callback.
-	 */
+	/** Delta patch will be applied to target package; See
+	 * alpm_event_delta_patch_t for arguments.. */
 	ALPM_EVENT_DELTA_PATCH_START,
 	/** Delta patch was applied to target package. */
 	ALPM_EVENT_DELTA_PATCH_DONE,
 	/** Delta patch failed to apply to target package. */
 	ALPM_EVENT_DELTA_PATCH_FAILED,
-	/** Scriptlet has printed information.
-	 * A line of text is passed to the callback.
-	 */
+	/** Scriptlet has printed information; See alpm_event_scriptlet_info_t for
+	 * arguments. */
 	ALPM_EVENT_SCRIPTLET_INFO,
-	/** Files will be downloaded from a repository.
-	 * The repository's tree name is passed to the callback.
-	 */
+	/** Files will be downloaded from a repository. */
 	ALPM_EVENT_RETRIEVE_START,
-	/** Disk space usage will be computed for a package */
+	/** Disk space usage will be computed for a package. */
 	ALPM_EVENT_DISKSPACE_START,
-	/** Disk space usage was computed for a package */
+	/** Disk space usage was computed for a package. */
 	ALPM_EVENT_DISKSPACE_DONE,
-	/** An optdepend for another package is being removed
-	 * The requiring package and its dependency are passed to the callback */
+	/** An optdepend for another package is being removed; See
+	 * alpm_event_optdep_removal_t for arguments. */
 	ALPM_EVENT_OPTDEP_REMOVAL,
-	/** A configured repository database is missing */
+	/** A configured repository database is missing; See
+	 * alpm_event_database_missing_t for arguments. */
 	ALPM_EVENT_DATABASE_MISSING,
 	/** Checking keys used to create signatures are in keyring. */
 	ALPM_EVENT_KEYRING_START,
@@ -388,10 +346,74 @@ typedef enum _alpm_event_t {
 	ALPM_EVENT_KEY_DOWNLOAD_START,
 	/** Key downloading is finished. */
 	ALPM_EVENT_KEY_DOWNLOAD_DONE
+} alpm_event_type_t;
+
+/** Events.
+ * This is a generic struct this is passed to the callback, that allows the
+ * frontend to know which type of event was triggered. It is then possible to
+ * typecast the pointer to the right structure, in order to access
+ * event-specific data. */
+typedef struct _alpm_event_t {
+	/** Type of event. */
+	alpm_event_type_t type;
 } alpm_event_t;
 
-/** Event callback */
-typedef void (*alpm_cb_event)(alpm_event_t, void *, void *);
+typedef enum _alpm_package_operation_t {
+	/** Package (to be) installed. (No oldpkg) */
+	ALPM_PACKAGE_INSTALL = 1,
+	/** Package (to be) upgraded */
+	ALPM_PACKAGE_UPGRADE,
+	/** Package (to be) re-installed. */
+	ALPM_PACKAGE_REINSTALL,
+	/** Package (to be) downgraded. */
+	ALPM_PACKAGE_DOWNGRADE,
+	/** Package (to be) removed. (No newpkg) */
+	ALPM_PACKAGE_REMOVE
+} alpm_package_operation_t;
+
+typedef struct _alpm_event_package_operation_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Type of operation. */
+	alpm_package_operation_t operation;
+	/** Old package. */
+	alpm_pkg_t *oldpkg;
+	/** New package. */
+	alpm_pkg_t *newpkg;
+} alpm_event_package_operation_t;
+
+typedef struct _alpm_event_optdep_removal_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Package with the optdep. */
+	alpm_pkg_t *pkg;
+	/** Optdep being removed. */
+	alpm_depend_t *optdep;
+} alpm_event_optdep_removal_t;
+
+typedef struct _alpm_event_delta_patch_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Delta info */
+	alpm_delta_t *delta;
+} alpm_event_delta_patch_t;
+
+typedef struct _alpm_event_scriptlet_info_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Line of scriptlet output. */
+	const char *line;
+} alpm_event_scriptlet_info_t;
+
+typedef struct _alpm_event_database_missing_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Name of the database. */
+	const char *dbname;
+} alpm_event_database_missing_t;
+
+/** Event callback. */
+typedef void (*alpm_cb_event)(alpm_event_t *);
 
 /**
  * Questions.

@@ -179,7 +179,12 @@ static void remove_notify_needed_optdepends(alpm_handle_t *handle, alpm_list_t *
 			for(j = optdeps; j; j = alpm_list_next(j)) {
 				alpm_depend_t *optdep = j->data;
 				if(alpm_pkg_find(lp, optdep->name)) {
-					EVENT(handle, ALPM_EVENT_OPTDEP_REMOVAL, pkg, optdep);
+					alpm_event_optdep_removal_t event = {
+						.type = ALPM_EVENT_OPTDEP_REMOVAL,
+						.pkg = pkg,
+						.optdep = optdep
+					};
+					EVENT(handle, &event);
 				}
 			}
 		}
@@ -203,6 +208,7 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	alpm_list_t *lp;
 	alpm_trans_t *trans = handle->trans;
 	alpm_db_t *db = handle->db_local;
+	alpm_event_t event;
 
 	if((trans->flags & ALPM_TRANS_FLAG_RECURSE)
 			&& !(trans->flags & ALPM_TRANS_FLAG_CASCADE)) {
@@ -214,7 +220,8 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
-		EVENT(handle, ALPM_EVENT_CHECKDEPS_START, NULL, NULL);
+		event.type = ALPM_EVENT_CHECKDEPS_START;
+		EVENT(handle, &event);
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "looking for unsatisfied dependencies\n");
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(db), trans->remove, NULL, 1);
@@ -255,7 +262,8 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	remove_notify_needed_optdepends(handle, trans->remove);
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
-		EVENT(handle, ALPM_EVENT_CHECKDEPS_DONE, NULL, NULL);
+		event.type = ALPM_EVENT_CHECKDEPS_DONE;
+		EVENT(handle, &event);
 	}
 
 	return 0;
@@ -657,12 +665,18 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 {
 	const char *pkgname = oldpkg->name;
 	const char *pkgver = oldpkg->version;
+	alpm_event_package_operation_t event = {
+		.type = ALPM_EVENT_PACKAGE_OPERATION_START,
+		.operation = ALPM_PACKAGE_REMOVE,
+		.oldpkg = oldpkg,
+		.newpkg = NULL
+	};
 
 	if(newpkg) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing old package first (%s-%s)\n",
 				pkgname, pkgver);
 	} else {
-		EVENT(handle, ALPM_EVENT_REMOVE_START, oldpkg, NULL);
+		EVENT(handle, &event);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "removing package %s-%s\n",
 				pkgname, pkgver);
 
@@ -696,7 +710,8 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 	}
 
 	if(!newpkg) {
-		EVENT(handle, ALPM_EVENT_REMOVE_DONE, oldpkg, NULL);
+		event.type = ALPM_EVENT_PACKAGE_OPERATION_DONE;
+		EVENT(handle, &event);
 	}
 
 	/* remove the package from the database */

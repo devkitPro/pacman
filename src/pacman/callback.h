@@ -25,7 +25,7 @@
 #include <alpm.h>
 
 /* callback to handle messages/notifications from libalpm */
-void cb_event(alpm_event_t event, void *data1, void *data2);
+void cb_event(alpm_event_t *event);
 
 /* callback to handle questions from libalpm (yes/no) */
 void cb_question(alpm_question_t event, void *data1, void *data2,

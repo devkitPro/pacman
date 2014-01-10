@@ -572,10 +572,14 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 		} else {
 			while(!feof(pipe_file)) {
 				char line[PATH_MAX];
+				alpm_event_scriptlet_info_t event = {
+					.type = ALPM_EVENT_SCRIPTLET_INFO,
+					.line = line
+				};
 				if(fgets(line, PATH_MAX, pipe_file) == NULL)
 					break;
 				alpm_logaction(handle, "ALPM-SCRIPTLET", "%s", line);
-				EVENT(handle, ALPM_EVENT_SCRIPTLET_INFO, line, NULL);
+				EVENT(handle, &event);
 			}
 			fclose(pipe_file);
 		}

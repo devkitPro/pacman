@@ -149,12 +149,12 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 }
 
 /* callback to handle messages/notifications from libalpm transactions */
-void cb_event(alpm_event_t event, void *data1, void *data2)
+void cb_event(alpm_event_t *event)
 {
 	if(config->print) {
 		return;
 	}
-	switch(event) {
+	switch(event->type) {
 		case ALPM_EVENT_CHECKDEPS_START:
 			printf(_("checking dependencies...\n"));
 			break;
@@ -169,38 +169,43 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 		case ALPM_EVENT_INTERCONFLICTS_START:
 			printf(_("looking for conflicting packages...\n"));
 			break;
-		case ALPM_EVENT_ADD_START:
+		case ALPM_EVENT_PACKAGE_OPERATION_START:
 			if(config->noprogressbar) {
-				printf(_("installing %s...\n"), alpm_pkg_get_name(data1));
+				alpm_event_package_operation_t *e = (alpm_event_package_operation_t *) event;
+				switch(e->operation) {
+					case ALPM_PACKAGE_INSTALL:
+						printf(_("installing %s...\n"), alpm_pkg_get_name(e->newpkg));
+						break;
+					case ALPM_PACKAGE_UPGRADE:
+						printf(_("upgrading %s...\n"), alpm_pkg_get_name(e->newpkg));
+						break;
+					case ALPM_PACKAGE_REINSTALL:
+						printf(_("reinstalling %s...\n"), alpm_pkg_get_name(e->newpkg));
+						break;
+					case ALPM_PACKAGE_DOWNGRADE:
+						printf(_("downgrading %s...\n"), alpm_pkg_get_name(e->newpkg));
+						break;
+					case ALPM_PACKAGE_REMOVE:
+						printf(_("removing %s...\n"), alpm_pkg_get_name(e->oldpkg));
+						break;
+				}
 			}
 			break;
-		case ALPM_EVENT_ADD_DONE:
-			display_optdepends(data1);
-			break;
-		case ALPM_EVENT_REMOVE_START:
-			if(config->noprogressbar) {
-			printf(_("removing %s...\n"), alpm_pkg_get_name(data1));
-			}
-			break;
-		case ALPM_EVENT_UPGRADE_START:
-			if(config->noprogressbar) {
-				printf(_("upgrading %s...\n"), alpm_pkg_get_name(data1));
-			}
-			break;
-		case ALPM_EVENT_UPGRADE_DONE:
-			display_new_optdepends(data2, data1);
-			break;
-		case ALPM_EVENT_DOWNGRADE_START:
-			if(config->noprogressbar) {
-				printf(_("downgrading %s...\n"), alpm_pkg_get_name(data1));
-			}
-			break;
-		case ALPM_EVENT_DOWNGRADE_DONE:
-			display_new_optdepends(data2, data1);
-			break;
-		case ALPM_EVENT_REINSTALL_START:
-			if(config->noprogressbar) {
-				printf(_("reinstalling %s...\n"), alpm_pkg_get_name(data1));
+		case ALPM_EVENT_PACKAGE_OPERATION_DONE:
+			{
+				alpm_event_package_operation_t *e = (alpm_event_package_operation_t *) event;
+				switch(e->operation) {
+					case ALPM_PACKAGE_INSTALL:
+						display_optdepends(e->newpkg);
+						break;
+					case ALPM_PACKAGE_UPGRADE:
+					case ALPM_PACKAGE_DOWNGRADE:
+						display_new_optdepends(e->oldpkg, e->newpkg);
+						break;
+					case ALPM_PACKAGE_REINSTALL:
+					case ALPM_PACKAGE_REMOVE:
+						break;
+				}
 			}
 			break;
 		case ALPM_EVENT_INTEGRITY_START:
@@ -228,7 +233,10 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			printf(_("applying deltas...\n"));
 			break;
 		case ALPM_EVENT_DELTA_PATCH_START:
-			printf(_("generating %s with %s... "), (char *)data1, (char *)data2);
+			{
+				alpm_event_delta_patch_t *e = (alpm_event_delta_patch_t *) event;
+				printf(_("generating %s with %s... "), e->delta->to, e->delta->delta);
+			}
 			break;
 		case ALPM_EVENT_DELTA_PATCH_DONE:
 			printf(_("success!\n"));
@@ -237,7 +245,7 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			printf(_("failed.\n"));
 			break;
 		case ALPM_EVENT_SCRIPTLET_INFO:
-			fputs((const char *)data1, stdout);
+			fputs(((alpm_event_scriptlet_info_t *) event)->line, stdout);
 			break;
 		case ALPM_EVENT_RETRIEVE_START:
 			colon_printf(_("Retrieving packages ...\n"));
@@ -248,18 +256,21 @@ void cb_event(alpm_event_t event, void *data1, void *data2)
 			}
 			break;
 		case ALPM_EVENT_OPTDEP_REMOVAL:
-			colon_printf(_("%s optionally requires %s\n"), alpm_pkg_get_name(data1),
-				alpm_dep_compute_string(data2));
+			{
+				alpm_event_optdep_removal_t *e = (alpm_event_optdep_removal_t *) event;
+				colon_printf(_("%s optionally requires %s\n"),
+						alpm_pkg_get_name(e->pkg),
+						alpm_dep_compute_string(e->optdep));
+			}
 			break;
 		case ALPM_EVENT_DATABASE_MISSING:
 			if(!config->op_s_sync) {
 				pm_printf(ALPM_LOG_WARNING,
-					"database file for '%s' does not exist\n", (char *)data1);
+					"database file for '%s' does not exist\n",
+					((alpm_event_database_missing_t *) event)->dbname);
 			}
 			break;
 		/* all the simple done events, with fallthrough for each */
-		case ALPM_EVENT_REINSTALL_DONE:
-		case ALPM_EVENT_REMOVE_DONE:
 		case ALPM_EVENT_FILECONFLICTS_DONE:
 		case ALPM_EVENT_CHECKDEPS_DONE:
 		case ALPM_EVENT_RESOLVEDEPS_DONE:

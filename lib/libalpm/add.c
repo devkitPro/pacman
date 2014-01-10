@@ -465,7 +465,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	alpm_db_t *db = handle->db_local;
 	alpm_trans_t *trans = handle->trans;
 	alpm_progress_t progress = ALPM_PROGRESS_ADD_START;
-	alpm_event_t done = ALPM_EVENT_ADD_DONE, start = ALPM_EVENT_ADD_START;
+	alpm_event_package_operation_t event;
 	const char *log_msg = "adding";
 	const char *pkgfile;
 
@@ -478,18 +478,15 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		if(cmp < 0) {
 			log_msg = "downgrading";
 			progress = ALPM_PROGRESS_DOWNGRADE_START;
-			start = ALPM_EVENT_DOWNGRADE_START;
-			done = ALPM_EVENT_DOWNGRADE_DONE;
+			event.operation = ALPM_PACKAGE_DOWNGRADE;
 		} else if(cmp == 0) {
 			log_msg = "reinstalling";
 			progress = ALPM_PROGRESS_REINSTALL_START;
-			start = ALPM_EVENT_REINSTALL_START;
-			done = ALPM_EVENT_REINSTALL_DONE;
+			event.operation = ALPM_PACKAGE_REINSTALL;
 		} else {
 			log_msg = "upgrading";
 			progress = ALPM_PROGRESS_UPGRADE_START;
-			start = ALPM_EVENT_UPGRADE_START;
-			done = ALPM_EVENT_UPGRADE_DONE;
+			event.operation = ALPM_PACKAGE_UPGRADE;
 		}
 		is_upgrade = 1;
 
@@ -501,9 +498,14 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 		/* copy over the install reason */
 		newpkg->reason = alpm_pkg_get_reason(local);
+	} else {
+		event.operation = ALPM_PACKAGE_INSTALL;
 	}
 
-	EVENT(handle, start, newpkg, local);
+	event.type = ALPM_EVENT_PACKAGE_OPERATION_START;
+	event.oldpkg = oldpkg;
+	event.newpkg = newpkg;
+	EVENT(handle, &event);
 
 	pkgfile = newpkg->origin_data.file;
 
@@ -654,20 +656,20 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 
 	PROGRESS(handle, progress, newpkg->name, 100, pkg_count, pkg_current);
 
-	switch(done) {
-		case ALPM_EVENT_ADD_DONE:
+	switch(event.operation) {
+		case ALPM_PACKAGE_INSTALL:
 			alpm_logaction(handle, ALPM_CALLER_PREFIX, "installed %s (%s)\n",
 					newpkg->name, newpkg->version);
 			break;
-		case ALPM_EVENT_DOWNGRADE_DONE:
+		case ALPM_PACKAGE_DOWNGRADE:
 			alpm_logaction(handle, ALPM_CALLER_PREFIX, "downgraded %s (%s -> %s)\n",
 					newpkg->name, oldpkg->version, newpkg->version);
 			break;
-		case ALPM_EVENT_REINSTALL_DONE:
+		case ALPM_PACKAGE_REINSTALL:
 			alpm_logaction(handle, ALPM_CALLER_PREFIX, "reinstalled %s (%s)\n",
 					newpkg->name, newpkg->version);
 			break;
-		case ALPM_EVENT_UPGRADE_DONE:
+		case ALPM_PACKAGE_UPGRADE:
 			alpm_logaction(handle, ALPM_CALLER_PREFIX, "upgraded %s (%s -> %s)\n",
 					newpkg->name, oldpkg->version, newpkg->version);
 			break;
@@ -687,7 +689,8 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		free(scriptlet);
 	}
 
-	EVENT(handle, done, newpkg, oldpkg);
+	event.type = ALPM_EVENT_PACKAGE_OPERATION_DONE;
+	EVENT(handle, &event);
 
 cleanup:
 	_alpm_pkg_free(oldpkg);
