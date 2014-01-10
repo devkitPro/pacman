@@ -179,7 +179,7 @@ static void remove_notify_needed_optdepends(alpm_handle_t *handle, alpm_list_t *
 			for(j = optdeps; j; j = alpm_list_next(j)) {
 				alpm_depend_t *optdep = j->data;
 				if(alpm_pkg_find(lp, optdep->name)) {
-					EVENT(handle, ALPM_EVENT_OPTDEP_REQUIRED, pkg, optdep);
+					EVENT(handle, ALPM_EVENT_OPTDEP_REMOVAL, pkg, optdep);
 				}
 			}
 		}
