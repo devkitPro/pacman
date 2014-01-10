@@ -300,6 +300,8 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_DELTA_INTEGRITY_DONE:
 		case ALPM_EVENT_DELTA_PATCHES_DONE:
 		case ALPM_EVENT_DISKSPACE_DONE:
+		case ALPM_EVENT_RETRIEVE_DONE:
+		case ALPM_EVENT_RETRIEVE_FAILED:
 			/* nothing */
 			break;
 	}

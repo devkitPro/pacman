@@ -977,12 +977,15 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 
 		event.type = ALPM_EVENT_RETRIEVE_START;
 		EVENT(handle, &event);
+		event.type = ALPM_EVENT_RETRIEVE_DONE;
 		for(i = files; i; i = i->next) {
 			if(download_single_file(handle, i->data, cachedir) == -1) {
 				errors++;
+				event.type = ALPM_EVENT_RETRIEVE_FAILED;
 				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
 			}
 		}
+		EVENT(handle, &event);
 	}
 
 finish:

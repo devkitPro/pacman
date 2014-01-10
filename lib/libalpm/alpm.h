@@ -318,6 +318,10 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_SCRIPTLET_INFO,
 	/** Files will be downloaded from a repository. */
 	ALPM_EVENT_RETRIEVE_START,
+	/** Files were downloaded from a repository. */
+	ALPM_EVENT_RETRIEVE_DONE,
+	/** Not all files were successfully downloaded from a repository. */
+	ALPM_EVENT_RETRIEVE_FAILED,
 	/** Disk space usage will be computed for a package. */
 	ALPM_EVENT_DISKSPACE_START,
 	/** Disk space usage was computed for a package. */
