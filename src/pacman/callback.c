@@ -528,10 +528,11 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	if(percent == 100) {
 		alpm_list_t *i = NULL;
 		on_progress = 0;
-		for(i = output; i; i = i->next) {
-			fputs((const char *)i->data, stdout);
-		}
 		fflush(stdout);
+		for(i = output; i; i = i->next) {
+			fputs((const char *)i->data, stderr);
+		}
+		fflush(stderr);
 		FREELIST(output);
 	} else {
 		on_progress = 1;
