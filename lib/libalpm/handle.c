@@ -132,12 +132,6 @@ int _alpm_handle_unlock(alpm_handle_t *handle)
 }
 
 
-alpm_cb_log SYMEXPORT alpm_option_get_logcb(alpm_handle_t *handle)
-{
-	CHECK_HANDLE(handle, return NULL);
-	return handle->logcb;
-}
-
 alpm_cb_download SYMEXPORT alpm_option_get_dlcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
@@ -256,13 +250,6 @@ int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	return handle->checkspace;
-}
-
-int SYMEXPORT alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb)
-{
-	CHECK_HANDLE(handle, return -1);
-	handle->logcb = cb;
-	return 0;
 }
 
 int SYMEXPORT alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb)

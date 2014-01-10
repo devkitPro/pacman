@@ -39,16 +39,18 @@ static void cleanup(int signum)
 	exit(signum);
 }
 
-__attribute__((format(printf, 2, 0)))
-static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
+static void output_cb(alpm_event_log_t *event)
 {
-	if(strlen(fmt)) {
-		switch(level) {
+	if(event->type != ALPM_EVENT_LOG) {
+		return;
+	}
+	if(strlen(event->fmt)) {
+		switch(event->level) {
 			case ALPM_LOG_ERROR: printf("error: "); break;
 			case ALPM_LOG_WARNING: printf("warning: "); break;
 			default: return;
 		}
-		vprintf(fmt, args);
+		vprintf(event->fmt, event->args);
 	}
 }
 
@@ -282,7 +284,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* let us get log messages from libalpm */
-	alpm_option_set_logcb(handle, output_cb);
+	alpm_option_set_eventcb(handle, (alpm_cb_event) output_cb);
 
 	if(!dbnames) {
 		errors = check_localdb();
