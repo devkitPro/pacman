@@ -322,6 +322,15 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_RETRIEVE_DONE,
 	/** Not all files were successfully downloaded from a repository. */
 	ALPM_EVENT_RETRIEVE_FAILED,
+	/** A file will be downloaded from a repository; See alpm_event_pkgdownload_t
+	 * for arguments */
+	ALPM_EVENT_PKGDOWNLOAD_START,
+	/** A file was downloaded from a repository; See alpm_event_pkgdownload_t
+	 * for arguments */
+	ALPM_EVENT_PKGDOWNLOAD_DONE,
+	/** A file failed to be downloaded from a repository; See
+	 * alpm_event_pkgdownload_t for arguments */
+	ALPM_EVENT_PKGDOWNLOAD_FAILED,
 	/** Disk space usage will be computed for a package. */
 	ALPM_EVENT_DISKSPACE_START,
 	/** Disk space usage was computed for a package. */
@@ -425,6 +434,13 @@ typedef struct _alpm_event_log_t {
 	const char *fmt;
 	va_list args;
 } alpm_event_log_t;
+
+typedef struct _alpm_event_pkgdownload_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Name of the file */
+	const char *file;
+} alpm_event_pkgdownload_t;
 
 /** Event callback. */
 typedef void (*alpm_cb_event)(alpm_event_t *);

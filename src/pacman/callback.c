@@ -302,6 +302,10 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_DISKSPACE_DONE:
 		case ALPM_EVENT_RETRIEVE_DONE:
 		case ALPM_EVENT_RETRIEVE_FAILED:
+		/* we can safely ignore those as well */
+		case ALPM_EVENT_PKGDOWNLOAD_START:
+		case ALPM_EVENT_PKGDOWNLOAD_DONE:
+		case ALPM_EVENT_PKGDOWNLOAD_FAILED:
 			/* nothing */
 			break;
 	}

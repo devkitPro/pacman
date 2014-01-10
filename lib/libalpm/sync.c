@@ -897,11 +897,16 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 static int download_single_file(alpm_handle_t *handle, struct dload_payload *payload,
 		const char *cachedir)
 {
+	alpm_event_pkgdownload_t event = {
+		.type = ALPM_EVENT_PKGDOWNLOAD_START,
+		.file = payload->remote_name
+	};
 	const alpm_list_t *server;
 
 	payload->handle = handle;
 	payload->allow_resume = 1;
 
+	EVENT(handle, &event);
 	for(server = payload->servers; server; server = server->next) {
 		const char *server_url = server->data;
 		size_t len;
@@ -912,6 +917,8 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 		snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
 
 		if(_alpm_download(payload, cachedir, NULL, NULL) != -1) {
+			event.type = ALPM_EVENT_PKGDOWNLOAD_DONE;
+			EVENT(handle, &event);
 			return 0;
 		}
 
@@ -919,6 +926,8 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 		payload->unlink_on_fail = 0;
 	}
 
+	event.type = ALPM_EVENT_PKGDOWNLOAD_FAILED;
+	EVENT(handle, &event);
 	return -1;
 }
 
