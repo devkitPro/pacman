@@ -1221,7 +1221,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		return -1;
 	}
 
-#if HAVE_LIBGPGME
+#ifdef HAVE_LIBGPGME
 	/* make sure all required signatures are in keyring */
 	if(check_keyring(handle)) {
 		return -1;

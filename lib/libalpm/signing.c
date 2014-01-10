@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#if HAVE_LIBGPGME
+#ifdef HAVE_LIBGPGME
 #include <locale.h> /* setlocale() */
 #include <gpgme.h>
 #endif
@@ -64,7 +64,7 @@ error:
 	return -1;
 }
 
-#if HAVE_LIBGPGME
+#ifdef HAVE_LIBGPGME
 #define CHECK_ERR(void) do { \
 		if(gpg_err_code(gpg_err) != GPG_ERR_NO_ERROR) { goto gpg_error; } \
 	} while(0)
@@ -942,7 +942,7 @@ int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 	for(num = 0; num < siglist->count; num++) {
 		alpm_sigresult_t *result = siglist->results + num;
 		if(result->key.data) {
-#if HAVE_LIBGPGME
+#ifdef HAVE_LIBGPGME
 			gpgme_key_unref(result->key.data);
 #endif
 		} else {
