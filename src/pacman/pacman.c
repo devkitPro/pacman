@@ -321,8 +321,6 @@ static void handler(int signum)
 	cleanup(128 + signum);
 }
 
-#define check_optarg() if(!optarg) { return 1; }
-
 static void invalid_opt(int used, const char *opt1, const char *opt2)
 {
 	if(used) {
@@ -337,7 +335,6 @@ static int parsearg_util_addlist(alpm_list_t **list)
 {
 	char *i, *save;
 
-	check_optarg();
 
 	for(i = strtok_r(optarg, ",", &save); i; i = strtok_r(NULL, ",", &save)) {
 		*list = alpm_list_add(*list, strdup(i));
@@ -393,16 +390,13 @@ static int parsearg_global(int opt)
 {
 	switch(opt) {
 		case OP_ARCH:
-			check_optarg();
 			config_set_arch(optarg);
 			break;
 		case OP_ASK:
-			check_optarg();
 			config->noask = 1;
 			config->ask = (unsigned int)atoi(optarg);
 			break;
 		case OP_CACHEDIR:
-			check_optarg();
 			config->cachedirs = alpm_list_add(config->cachedirs, strdup(optarg));
 			break;
 		case OP_COLOR:
@@ -420,7 +414,6 @@ static int parsearg_global(int opt)
 			enable_colors(config->color);
 			break;
 		case OP_CONFIG:
-			check_optarg();
 			if(config->configfile) {
 				free(config->configfile);
 			}
@@ -453,7 +446,6 @@ static int parsearg_global(int opt)
 			config->gpgdir = strdup(optarg);
 			break;
 		case OP_LOGFILE:
-			check_optarg();
 			config->logfile = strndup(optarg, PATH_MAX);
 			break;
 		case OP_NOCONFIRM:
@@ -461,12 +453,10 @@ static int parsearg_global(int opt)
 			break;
 		case OP_DBPATH:
 		case 'b':
-			check_optarg();
 			config->dbpath = strdup(optarg);
 			break;
 		case OP_ROOT:
 		case 'r':
-			check_optarg();
 			config->rootdir = strdup(optarg);
 			break;
 		case OP_VERBOSE:
@@ -632,7 +622,6 @@ static int parsearg_trans(int opt)
 			config->print = 1;
 			break;
 		case OP_PRINTFORMAT:
-			check_optarg();
 			config->print = 1;
 			config->print_format = strdup(optarg);
 			break;
