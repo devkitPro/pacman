@@ -36,6 +36,7 @@
 
 #include "base64.h"
 
+#if 0
 static const unsigned char base64_enc_map[64] =
 {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -46,6 +47,7 @@ static const unsigned char base64_enc_map[64] =
     'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', '+', '/'
 };
+#endif
 
 static const unsigned char base64_dec_map[128] =
 {
