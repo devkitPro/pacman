@@ -443,9 +443,11 @@ static int parsearg_global(int opt)
 			config->noprogressbar = 1;
 			break;
 		case OP_GPGDIR:
+			free(config->gpgdir);
 			config->gpgdir = strdup(optarg);
 			break;
 		case OP_LOGFILE:
+			free(config->logfile);
 			config->logfile = strndup(optarg, PATH_MAX);
 			break;
 		case OP_NOCONFIRM:
@@ -453,10 +455,12 @@ static int parsearg_global(int opt)
 			break;
 		case OP_DBPATH:
 		case 'b':
+			free(config->dbpath);
 			config->dbpath = strdup(optarg);
 			break;
 		case OP_ROOT:
 		case 'r':
+			free(config->rootdir);
 			config->rootdir = strdup(optarg);
 			break;
 		case OP_VERBOSE:
@@ -623,6 +627,7 @@ static int parsearg_trans(int opt)
 			break;
 		case OP_PRINTFORMAT:
 			config->print = 1;
+			free(config->print_format);
 			config->print_format = strdup(optarg);
 			break;
 		default:
