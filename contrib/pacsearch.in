@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# pacsearch - Adds color and install information to a 'pacman -Ss' search
+# pacsearch - Perform a pacman search using both the local and the sync databases
 #
 # Copyright (C) 2008-2014 Dan McGee <dan@archlinux.org>
 #
@@ -29,7 +29,7 @@ my $myver = '@PACKAGE_VERSION@';
 
 sub usage {
 	print "$myname (pacman) v$myver\n\n";
-	print "Add color and install information to a 'pacman -Ss' search\n\n";
+	print "Perform a pacman search using both the local and the sync databases.\n\n";
 	print "Usage: $myname <pattern>\n\n";
 	print "Example: $myname ^gnome\n";
 }
