@@ -23,6 +23,7 @@
 
 use strict;
 use warnings;
+use Term::ANSIColor;
 
 my $myname = 'pacsearch';
 my $myver = '@PACKAGE_VERSION@';
@@ -55,15 +56,15 @@ if ($ARGV[0] eq "--version" || $ARGV[0] eq "-V") {
 }
 
 # define our colors to use when printing
-my $CLR1 = "\e[0;34m";
-my $CLR2 = "\e[0;32m";
-my $CLR3 = "\e[0;35m";
-my $CLR4 = "\e[0;36m";
-my $CLR5 = "\e[0;31m";
-my $CLR6 = "\e[0;33m";
-my $CLR7 = "\e[1;36m";
-my $INST = "\e[1;31m";
-my $BASE = "\e[0m";
+my($BLUE, $CYAN, $GREEN, $MAGENTA, $RED, $YELLOW, $BOLD, $RESET);
+$BLUE = color('blue');
+$CYAN = color('cyan');
+$GREEN = color('green');
+$MAGENTA = color('magenta');
+$RED = color('red');
+$YELLOW = color('yellow');
+$BOLD = color('bold');
+$RESET = color('reset');
 
 # localization
 my $LC_INSTALLED = `gettext pacman installed`;
@@ -72,17 +73,17 @@ my $LC_INSTALLED = `gettext pacman installed`;
 sub to_color {
 	my $line = shift;
 	# get the installed text colored first
-	$line =~ s/(\[.*\]$)/$INST$1$BASE/;
+	$line =~ s/(\[.*\]$)/$CYAN$1$RESET/;
 	# and now the repo and dealings
-	$line =~ s/(^core\/.*)/$CLR1$1$BASE/;
-	$line =~ s/(^extra\/.*)/$CLR2$1$BASE/;
-	$line =~ s/(^community\/.*)/$CLR3$1$BASE/;
-	$line =~ s/(^testing\/.*)/$CLR4$1$BASE/;
-	$line =~ s/(^community-testing\/.*)/$CLR5$1$BASE/;
-	$line =~ s/(^multilib\/.*)/$CLR6$1$BASE/;
-	$line =~ s/(^local\/.*)/$CLR7$1$BASE/;
+	$line =~ s/(^core\/.*)/$MAGENTA$1$RESET/;
+	$line =~ s/(^extra\/.*)/$MAGENTA$1$RESET/;
+	$line =~ s/(^community\/.*)/$MAGENTA$1$RESET/;
+	$line =~ s/(^testing\/.*)/$MAGENTA$1$RESET/;
+	$line =~ s/(^community-testing\/.*)/$MAGENTA$1$RESET/;
+	$line =~ s/(^multilib\/.*)/$MAGENTA$1$RESET/;
+	$line =~ s/(^local\/.*)/$RED$1$RESET/;
 	# any other unknown repository
-	$line =~ s/(^[\w-]*\/.*)/$CLR6$1$BASE/;
+	$line =~ s/(^[\w-]*\/.*)/$RED$1$RESET/;
 	return $line;
 }
 
