@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#TODO: colors flag on commandline
-
 use strict;
 use warnings;
 use Term::ANSIColor;
@@ -31,7 +29,9 @@ my $myver = '@PACKAGE_VERSION@';
 sub usage {
 	print "$myname (pacman) v$myver\n\n";
 	print "Perform a pacman search using both the local and the sync databases.\n\n";
-	print "Usage: $myname <pattern>\n\n";
+	print "Usage: $myname [-n] <pattern>\n\n";
+	print "Options:\n";
+	print "	 -n, --nocolor: turn off coloring\n\n";
 	print "Example: $myname ^gnome\n";
 }
 
@@ -55,16 +55,28 @@ if ($ARGV[0] eq "--version" || $ARGV[0] eq "-V") {
 	exit 0;
 }
 
-# define our colors to use when printing
+# define formatting variables
 my($BLUE, $CYAN, $GREEN, $MAGENTA, $RED, $YELLOW, $BOLD, $RESET);
-$BLUE = color('blue');
-$CYAN = color('cyan');
-$GREEN = color('green');
-$MAGENTA = color('magenta');
-$RED = color('red');
-$YELLOW = color('yellow');
-$BOLD = color('bold');
-$RESET = color('reset');
+if ($ARGV[0] eq "--nocolor" || $ARGV[0] eq "-n") {
+	shift;
+	$BLUE = "";
+	$CYAN = "";
+	$GREEN = "";
+	$MAGENTA = "";
+	$RED = "";
+	$YELLOW = "";
+	$BOLD = "";
+	$RESET = "";
+} else {
+	$BLUE = color('blue');
+	$CYAN = color('cyan');
+	$GREEN = color('green');
+	$MAGENTA = color('magenta');
+	$RED = color('red');
+	$YELLOW = color('yellow');
+	$BOLD = color('bold');
+	$RESET = color('reset');
+}
 
 # localization
 my $LC_INSTALLED = `gettext pacman installed`;
