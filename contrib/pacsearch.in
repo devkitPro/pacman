@@ -99,16 +99,17 @@ if ($#syncpkgs >= 0) {
 # counter var for packages, used here and in the query loop too
 my $cnt = 0;
 foreach $_ (@syncpkgs) {
-	# we grab 4 fields here: repo, name/ver, installed, and desc
-	my @pkgfields = /^(.*?)\/(.*?) ?(\[.*\])?\n(.*)$/s;
+	# we grab the following fields: repo, name, ver, group, installed, and desc
+	my @pkgfields = /^(.*?)\/(.*?) (.*?) ?(\(.*?\))? ?(\[.*\])?\n(.*)$/s;
 	if(not @pkgfields) {
 		# skip any non-matching line and just print it for the user
 		print $_, "\n";
 		next;
 	}
-	# since installed is optional, we should fill it in if necessary
-	$pkgfields[2] = "" if not defined $pkgfields[2];
-	# add a fifth field that indicates original order
+	# since 'group' and 'installed' are optional, we should fill it in if necessary
+	$pkgfields[3] = "" if not defined $pkgfields[3];
+	$pkgfields[4] = "" if not defined $pkgfields[4];
+	# add a last field that indicates original order
 	push (@pkgfields, $cnt++);
 	# add each sync pkg by name/ver to a hash table for quick lookup
 	$allpkgs{$pkgfields[1]} = [ @pkgfields ];
@@ -123,30 +124,33 @@ if ($#querypkgs >= 0) {
 }
 
 foreach $_ (@querypkgs) {
-	# we grab 4 fields here: repo, name/ver, installed, and desc
-	my @pkgfields = /^(.*?)\/(.*?) ?(\[.*\])?\n(.*)$/s;
+	# we grab the following fields: repo, name, ver, group, installed, and desc
+	my @pkgfields = /^(.*?)\/(.*?) (.*?) ?(\(.*?\))? ?(\[.*\])?\n(.*)$/s;
+	# my @pkgfields = /^(.*?)\/(.*?) ?(\[.*\])?\n(.*)$/s;
 	# skip any non-matching line
 	next if not defined $pkgfields[1];
-	# since installed is optional, we should fill it in if necessary
-	$pkgfields[2] = "" if not defined $pkgfields[2];
 	# check if the package was listed in the sync out
 	if (not exists $allpkgs{$pkgfields[1]}) {
-		$pkgfields[2] = "[$LC_INSTALLED]";
-		# add a fifth field that indicates original order (after sync)
+		# since 'group' is optional, we should fill it in if necessary
+		$pkgfields[3] = "" if not defined $pkgfields[3];
+		$pkgfields[4] = "[$LC_INSTALLED]";
+		# add a last field that indicates original order (after sync)
 		push (@pkgfields, $cnt++);
 		# add our local-only package to the hash
 		$allpkgs{$pkgfields[1]} = [ @pkgfields ];
 	}
 }
 
-# sort by original order (the fifth field) and print
-foreach $_ ( sort{ @{$allpkgs{$a}}[4] <=> @{$allpkgs{$b}}[4] } keys %allpkgs) {
+# sort by original order (the last field) and print
+foreach $_ ( sort{ @{$allpkgs{$a}}[6] <=> @{$allpkgs{$b}}[6] } keys %allpkgs) {
 	my @v = @{$allpkgs{$_}};
 	my $line = "$v[0]/$v[1] $v[2]";
+	$line .= " $v[3]" if $v[3] ne "";
+	$line .= " $v[4]" if $v[4] ne "";
 	$line = to_color($line);
-	# print colorized "repo/pkgname pkgver" string with possible installed text
+	# print colorized "repo/pkgname pkgver ..." string with possible installed text
 	print "$line\n";
-	print "$v[3]\n";
+	print "$v[5]\n";
 }
 
 #vim: set noet:
