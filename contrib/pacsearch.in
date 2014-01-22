@@ -65,6 +65,9 @@ my $CLR7 = "\e[1;36m";
 my $INST = "\e[1;31m";
 my $BASE = "\e[0m";
 
+# localization
+my $LC_INSTALLED = `gettext pacman installed`;
+
 # color a "repo/pkgname pkgver" line based on the repository name
 sub to_color {
 	my $line = shift;
@@ -128,7 +131,7 @@ foreach $_ (@querypkgs) {
 	$pkgfields[2] = "" if not defined $pkgfields[2];
 	# check if the package was listed in the sync out
 	if (not exists $allpkgs{$pkgfields[1]}) {
-		$pkgfields[2] = "[installed]";
+		$pkgfields[2] = "[$LC_INSTALLED]";
 		# add a fifth field that indicates original order (after sync)
 		push (@pkgfields, $cnt++);
 		# add our local-only package to the hash
