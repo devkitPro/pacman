@@ -554,4 +554,4 @@ ${PACKAGE_NAME}:
     use git version        : ${wantgitver}
 "
 
-# vim:set ts=2 sw=2 noet:
+# vim:set noet:

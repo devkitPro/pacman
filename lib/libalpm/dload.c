@@ -750,4 +750,4 @@ void _alpm_dload_payload_reset(struct dload_payload *payload)
 	memset(payload, '\0', sizeof(*payload));
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

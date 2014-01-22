@@ -31,4 +31,4 @@ int _alpm_files_cmp(const void *f1, const void *f2);
 
 #endif /* _ALPM_FILELIST_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

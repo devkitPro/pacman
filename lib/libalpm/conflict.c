@@ -636,4 +636,4 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	return conflicts;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

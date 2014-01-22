@@ -36,4 +36,4 @@ int _alpm_key_import(alpm_handle_t *handle, const char *fpr);
 
 #endif /* _ALPM_SIGNING_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

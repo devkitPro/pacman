@@ -161,4 +161,4 @@ uninstall-hook:
 	cd $(DESTDIR)$(bindir) && \
 		$(RM) repo-remove repo-elephant
 
-# vim:set ts=2 sw=2 noet:
+# vim:set noet:

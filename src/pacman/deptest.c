@@ -54,4 +54,4 @@ int pacman_deptest(alpm_list_t *targets)
 	return 127;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

@@ -109,4 +109,4 @@ alpm_group_t *_alpm_db_get_groupfromcache(alpm_db_t *db, const char *target);
 
 #endif /* _ALPM_DB_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

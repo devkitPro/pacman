@@ -28,4 +28,4 @@ int _alpm_upgrade_packages(alpm_handle_t *handle);
 
 #endif /* _ALPM_ADD_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

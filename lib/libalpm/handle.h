@@ -118,4 +118,4 @@ alpm_errno_t _alpm_set_directory_option(const char *value,
 
 #endif /* _ALPM_HANDLE_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

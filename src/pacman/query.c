@@ -506,4 +506,4 @@ int pacman_query(alpm_list_t *targets)
 	return ret;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

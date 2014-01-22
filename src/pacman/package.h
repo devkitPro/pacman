@@ -33,4 +33,4 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status);
 
 #endif /* _PM_PACKAGE_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

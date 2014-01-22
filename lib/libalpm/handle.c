@@ -674,4 +674,4 @@ alpm_siglevel_t SYMEXPORT alpm_option_get_remote_file_siglevel(alpm_handle_t *ha
 	}
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

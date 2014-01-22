@@ -107,4 +107,4 @@ rankmirrors: $(srcdir)/rankmirrors.sh.in
 updpkgsums: $(srcdir)/updpkgsums.sh.in
 zsh_completion: $(srcdir)/zsh_completion.in
 
-# vim:set ts=2 sw=2 noet:
+# vim:set noet:

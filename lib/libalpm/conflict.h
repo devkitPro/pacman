@@ -35,4 +35,4 @@ void _alpm_fileconflict_free(alpm_fileconflict_t *conflict);
 
 #endif /* _ALPM_CONFLICT_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

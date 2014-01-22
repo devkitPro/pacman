@@ -348,4 +348,4 @@ alpm_pkg_t *_alpm_pkghash_find(alpm_pkghash_t *hash, const char *name)
 	return NULL;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

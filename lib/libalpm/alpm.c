@@ -155,4 +155,4 @@ enum alpm_caps SYMEXPORT alpm_capabilities(void)
 		| 0;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

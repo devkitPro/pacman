@@ -612,4 +612,4 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 	return 0;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

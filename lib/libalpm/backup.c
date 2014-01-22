@@ -93,4 +93,4 @@ alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup)
 	return newbackup;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

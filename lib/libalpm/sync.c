@@ -1316,4 +1316,4 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

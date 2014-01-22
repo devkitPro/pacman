@@ -65,4 +65,4 @@ pacman -Sl $1 | awk -v i="$installed" '$NF == i { print $2,$3 }'
 # exit with pacman's return value, not awk's
 exit ${PIPESTATUS[0]}
 
-# vim: set ts=2 sw=2 noet:
+# vim: set noet:

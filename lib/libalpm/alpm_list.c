@@ -790,4 +790,4 @@ void SYMEXPORT *alpm_list_to_array(const alpm_list_t *list, size_t n,
 
 /** @} */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

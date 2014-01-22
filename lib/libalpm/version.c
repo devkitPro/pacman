@@ -272,4 +272,4 @@ int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 	return ret;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

@@ -27,4 +27,4 @@ int check_pkg_full(alpm_pkg_t *pkg);
 
 #endif /* _PM_CHECK_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

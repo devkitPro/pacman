@@ -40,4 +40,4 @@ int pacman_upgrade(alpm_list_t *targets);
 
 #endif /* _PM_PACMAN_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

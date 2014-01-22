@@ -209,4 +209,4 @@ int config_set_arch(const char *arch);
 int parseconfig(const char *file);
 #endif /* _PM_CONF_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

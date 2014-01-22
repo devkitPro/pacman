@@ -36,4 +36,4 @@ void _alpm_graph_free(void *data)
 	free(graph);
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

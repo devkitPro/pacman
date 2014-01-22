@@ -53,4 +53,4 @@ int _alpm_download(struct dload_payload *payload, const char *localpath,
 
 #endif /* _ALPM_DLOAD_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

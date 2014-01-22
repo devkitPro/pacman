@@ -152,4 +152,4 @@ int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
 
 #endif /* _ALPM_PACKAGE_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

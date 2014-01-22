@@ -784,4 +784,4 @@ void cb_log(alpm_loglevel_t level, const char *fmt, va_list args)
 	}
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

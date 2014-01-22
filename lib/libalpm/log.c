@@ -92,4 +92,4 @@ void _alpm_log(alpm_handle_t *handle, alpm_loglevel_t flag, const char *fmt, ...
 	va_end(args);
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

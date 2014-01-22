@@ -22,4 +22,4 @@ $(CONFTESTS): Makefile
 	$(AM_V_at)chmod a-w $@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
-# vim:set ts=2 sw=2 noet:
+# vim:set noet:

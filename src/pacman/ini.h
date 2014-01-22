@@ -27,4 +27,4 @@ int parse_ini(const char *file, ini_parser_fn cb, void *data);
 
 #endif /* _PM_CONF_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

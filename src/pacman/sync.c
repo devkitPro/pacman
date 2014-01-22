@@ -957,4 +957,4 @@ int pacman_sync(alpm_list_t *targets)
 	return sync_trans(targets);
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

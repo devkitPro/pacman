@@ -42,4 +42,4 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep);
 
 #endif /* _ALPM_DEPS_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

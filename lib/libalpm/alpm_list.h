@@ -91,4 +91,4 @@ void *alpm_list_to_array(const alpm_list_t *list, size_t n, size_t size);
 #endif
 #endif /* _ALPM_LIST_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

@@ -107,4 +107,4 @@ char *strndup(const char *s, size_t n)
 }
 #endif
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

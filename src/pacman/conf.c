@@ -953,4 +953,4 @@ int parseconfig(const char *file)
 	return parse_ini(file, _parse_directive, &section);
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

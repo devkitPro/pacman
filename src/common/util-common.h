@@ -29,4 +29,4 @@ char *strndup(const char *s, size_t n);
 
 #endif /* _PM_UTIL_COMMON_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

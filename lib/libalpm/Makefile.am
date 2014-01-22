@@ -77,4 +77,4 @@ libalpm_la_LIBADD = \
 	$(LIBCURL_LIBS) \
 	$(LIBSSL_LIBS)
 
-# vim:set ts=2 sw=2 noet:
+# vim:set noet:

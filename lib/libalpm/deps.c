@@ -914,4 +914,4 @@ char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 
 	return str;
 }
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

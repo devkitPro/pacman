@@ -52,4 +52,4 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 
 #endif /* _ALPM_TRANS_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

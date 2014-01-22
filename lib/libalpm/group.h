@@ -27,4 +27,4 @@ void _alpm_group_free(alpm_group_t *grp);
 
 #endif /* _ALPM_GROUP_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

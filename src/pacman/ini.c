@@ -214,4 +214,4 @@ int parse_ini(const char *file, ini_parser_fn cb, void *data)
 	return _parse_ini(file, cb, data, &section_name, line, 0);
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

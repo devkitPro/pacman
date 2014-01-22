@@ -352,4 +352,4 @@ alpm_delta_t *_alpm_delta_dup(const alpm_delta_t *delta)
 	return newdelta;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

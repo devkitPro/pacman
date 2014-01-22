@@ -163,4 +163,4 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 	}
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

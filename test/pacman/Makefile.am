@@ -20,4 +20,4 @@ EXTRA_DIST = \
 	ldconfig.stub \
 	$(check_SCRIPTS)
 
-# vim:set ts=2 sw=2 noet:
+# vim:set noet:

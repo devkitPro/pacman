@@ -32,4 +32,4 @@ off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,
 
 #endif /* _ALPM_DELTA_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

@@ -713,4 +713,4 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 	return db;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

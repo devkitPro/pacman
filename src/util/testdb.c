@@ -294,4 +294,4 @@ int main(int argc, char *argv[])
 	cleanup(errors > 0);
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

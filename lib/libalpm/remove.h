@@ -33,4 +33,4 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 
 #endif /* _ALPM_REMOVE_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

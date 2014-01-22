@@ -1665,4 +1665,4 @@ int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list
 	return ret;
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

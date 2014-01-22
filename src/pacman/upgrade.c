@@ -119,4 +119,4 @@ int pacman_upgrade(alpm_list_t *targets)
 	return sync_prepare_execute();
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

@@ -145,4 +145,4 @@ alpm_file_t SYMEXPORT *alpm_filelist_contains(alpm_filelist_t *filelist,
 			sizeof(alpm_file_t), _alpm_files_cmp);
 }
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */

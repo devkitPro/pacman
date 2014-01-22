@@ -82,4 +82,4 @@ int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_li
 
 #endif /* _PM_UTIL_H */
 
-/* vim: set ts=2 sw=2 noet: */
+/* vim: set noet: */
