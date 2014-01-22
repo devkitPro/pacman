@@ -69,21 +69,20 @@ $RESET = color('reset');
 # localization
 my $LC_INSTALLED = `gettext pacman installed`;
 
-# color a "repo/pkgname pkgver" line based on the repository name
+# Color a "repo/pkgname pkgver (groups) [installed]" line.
+# We try to stick to pacman colors.
 sub to_color {
-	my $line = shift;
-	# get the installed text colored first
-	$line =~ s/(\[.*\]$)/$CYAN$1$RESET/;
-	# and now the repo and dealings
-	$line =~ s/(^core\/.*)/$MAGENTA$1$RESET/;
-	$line =~ s/(^extra\/.*)/$MAGENTA$1$RESET/;
-	$line =~ s/(^community\/.*)/$MAGENTA$1$RESET/;
-	$line =~ s/(^testing\/.*)/$MAGENTA$1$RESET/;
-	$line =~ s/(^community-testing\/.*)/$MAGENTA$1$RESET/;
-	$line =~ s/(^multilib\/.*)/$MAGENTA$1$RESET/;
-	$line =~ s/(^local\/.*)/$RED$1$RESET/;
-	# any other unknown repository
-	$line =~ s/(^[\w-]*\/.*)/$RED$1$RESET/;
+	my @v = @_;
+	my $line = "$RESET$BOLD";
+	if ( "$v[0]" eq "local" ) {
+		$line .= "$RED";
+	} else {
+		$line .= "$MAGENTA";
+	}
+	$line .= "$v[0]/$RESET$BOLD$v[1] $GREEN$v[2]";
+	$line .= " $BLUE$v[3]" if $v[3] ne "";
+	$line .= " $CYAN$v[4]" if $v[4] ne "";
+	$line .= " $RESET";
 	return $line;
 }
 
@@ -145,10 +144,7 @@ foreach $_ (@querypkgs) {
 # sort by original order (the last field) and print
 foreach $_ ( sort{ @{$allpkgs{$a}}[6] <=> @{$allpkgs{$b}}[6] } keys %allpkgs) {
 	my @v = @{$allpkgs{$_}};
-	my $line = "$v[0]/$v[1] $v[2]";
-	$line .= " $v[3]" if $v[3] ne "";
-	$line .= " $v[4]" if $v[4] ne "";
-	$line = to_color($line);
+	my $line = to_color(@v);
 	# print colorized "repo/pkgname pkgver ..." string with possible installed text
 	print "$line\n";
 	print "$v[5]\n";
