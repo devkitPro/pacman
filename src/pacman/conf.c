@@ -76,6 +76,16 @@ void enable_colors(int colors)
 		colstr->warn    = BOLDYELLOW;
 		colstr->err     = BOLDRED;
 		colstr->nocolor = NOCOLOR;
+	} else {
+		colstr->colon   = ":: ";
+		colstr->title   = "";
+		colstr->repo    = "";
+		colstr->version = "";
+		colstr->groups  = "";
+		colstr->meta    = "";
+		colstr->warn    = "";
+		colstr->err     = "";
+		colstr->nocolor = "";
 	}
 }
 
