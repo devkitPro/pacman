@@ -353,6 +353,26 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 }
 
 /**
+ * Handle the existance of simple paths for _alpm_load_pkg_internal()
+ * @param pkg package to change
+ * @param path path to examine
+ * @return 0 if path doesn't match any rule, 1 if it has been handled
+ */
+static int handle_simple_path(alpm_pkg_t *pkg, const char *path)
+{
+	if(strcmp(path, ".INSTALL") == 0) {
+		pkg->scriptlet = 1;
+		return 1;
+	} else if(*path == '.') {
+		/* for now, ignore all files starting with '.' that haven't
+		 * already been handled (for future possibilities) */
+		return 1;
+	}
+
+	return 0;
+}
+
+/**
  * Load a package and create the corresponding alpm_pkg_t struct.
  * @param handle the context handle
  * @param pkgfile path to the package file
@@ -423,11 +443,8 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 			}
 			config = 1;
 			continue;
-		} else if(strcmp(entry_name, ".INSTALL") == 0) {
-			newpkg->scriptlet = 1;
-		} else if(*entry_name == '.') {
-			/* for now, ignore all files starting with '.' that haven't
-			 * already been handled (for future possibilities) */
+		} else if(handle_simple_path(newpkg, entry_name)) {
+			continue;
 		} else if(full) {
 			const size_t files_count = newpkg->files.count;
 			alpm_file_t *current_file;
