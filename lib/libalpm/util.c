@@ -1287,6 +1287,68 @@ int _alpm_fnmatch(const void *pattern, const void *string)
 	return fnmatch(pattern, string, 0);
 }
 
+/** Think of this as realloc with error handling. If realloc fails NULL will be
+ * returned and data will not be changed.
+ *
+ * Newly created memory will be zeroed.
+ *
+ * @param data source memory space
+ * @param current size of the space pointed to by data
+ * @param required size you want
+ * @return new memory; NULL on error
+ */
+void *_alpm_realloc(void **data, size_t *current, const size_t required)
+{
+	char *newdata;
+
+	newdata = realloc(*data, required);
+	if(!newdata) {
+		_alpm_alloc_fail(required);
+		return NULL;
+	}
+
+	if (*current < required) {
+		/* ensure all new memory is zeroed out, in both the initial
+		 * allocation and later reallocs */
+		memset(newdata + *current, 0, required - *current);
+	}
+	*current = required;
+	*data = newdata;
+	return newdata;
+}
+
+/** This automatically grows data based on current/required.
+ *
+ * The memory space will be initialised to required bytes and doubled in size when required.
+ *
+ * Newly created memory will be zeroed.
+ * @param data source memory space
+ * @param current size of the space pointed to by data
+ * @param required size you want
+ * @return new memory if grown; old memory otherwise; NULL on error
+ */
+void *_alpm_greedy_grow(void **data, size_t *current, const size_t required)
+{
+	size_t newsize = 0;
+
+	if(*current >= required) {
+		return data;
+	}
+
+	if(*current == 0) {
+		newsize = required;
+	} else {
+		newsize = *current * 2;
+	}
+
+	/* check for overflows */
+	if (newsize < required) {
+		return NULL;
+	}
+
+	return _alpm_realloc(data, current, required);
+}
+
 void _alpm_alloc_fail(size_t size)
 {
 	fprintf(stderr, "alloc failure: could not allocate %zd bytes\n", size);
