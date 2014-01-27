@@ -178,6 +178,11 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		archive_read_data_skip(archive);
 		return 0;
 	} else {
+		if (!alpm_filelist_contains(&newpkg->files, entryname)) {
+			_alpm_log(handle, ALPM_LOG_WARNING, _("file not found in file list for package %s. skipping extraction of %s\n"),
+					newpkg->name, entryname);
+			return 0;
+		}
 		/* build the new entryname relative to handle->root */
 		snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
 	}
