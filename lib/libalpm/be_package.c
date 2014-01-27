@@ -373,6 +373,33 @@ static int handle_simple_path(alpm_pkg_t *pkg, const char *path)
 }
 
 /**
+ * Add a file to the files list for pkg.
+ *
+ * @param pkg package to add the file to
+ * @param files_size size of pkg->files.files
+ * @param entry archive entry of the file to add to the list
+ * @param path path of the file to be added
+ * @return <0 on error, 0 on success
+ */
+static int add_entry_to_files_list(alpm_pkg_t *pkg, size_t *files_size,
+		struct archive_entry *entry, const char *path)
+{
+	const size_t files_count = pkg->files.count;
+	alpm_file_t *current_file;
+
+	if(!_alpm_greedy_grow((void **)&pkg->files.files, files_size, (files_count + 1) * sizeof(alpm_file_t))) {
+		return -1;
+	}
+
+	current_file = pkg->files.files + files_count;
+	STRDUP(current_file->name, path, return -1);
+	current_file->size = archive_entry_size(entry);
+	current_file->mode = archive_entry_mode(entry);
+	pkg->files.count++;
+	return 0;
+}
+
+/**
  * Load a package and create the corresponding alpm_pkg_t struct.
  * @param handle the context handle
  * @param pkgfile path to the package file
@@ -446,34 +473,9 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		} else if(handle_simple_path(newpkg, entry_name)) {
 			continue;
 		} else if(full) {
-			const size_t files_count = newpkg->files.count;
-			alpm_file_t *current_file;
-			/* Keep track of all files for filelist generation */
-			if(files_count >= files_size) {
-				size_t old_size = files_size;
-				alpm_file_t *newfiles;
-				if(files_size == 0) {
-					files_size = 4;
-				} else {
-					files_size *= 2;
-				}
-				newfiles = realloc(newpkg->files.files,
-						sizeof(alpm_file_t) * files_size);
-				if(!newfiles) {
-					_alpm_alloc_fail(sizeof(alpm_file_t) * files_size);
-					goto error;
-				}
-				/* ensure all new memory is zeroed out, in both the initial
-				 * allocation and later reallocs */
-				memset(newfiles + old_size, 0,
-						sizeof(alpm_file_t) * (files_size - old_size));
-				newpkg->files.files = newfiles;
+			if(add_entry_to_files_list(newpkg, &files_size, entry, entry_name) < 0) {
+				goto error;
 			}
-			current_file = newpkg->files.files + files_count;
-			STRDUP(current_file->name, entry_name, goto error);
-			current_file->size = archive_entry_size(entry);
-			current_file->mode = archive_entry_mode(entry);
-			newpkg->files.count++;
 		}
 
 		if(archive_read_data_skip(archive)) {
