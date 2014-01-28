@@ -126,10 +126,10 @@ Options
 	running in the DistCC cluster. In addition, you will want to modify your
 	`MAKEFLAGS`.
 
-**BUILDDIR=**"/path/to/folder"::
+**BUILDDIR=**"/path/to/directory"::
 	If this value is not set, packages will by default be built in
 	subdirectories of the directory that makepkg is called from.  This
-	option allows setting the build location to another folder.
+	option allows setting the build location to another directory.
 	Incorrect use of `$startdir` in a PKGBUILD may cause building with
 	this option to fail.
 
@@ -219,23 +219,23 @@ Options
 	instruct makepkg which files to remove from the package. This is
 	useful for index files that are added by multiple packages.
 
-**PKGDEST=**"/path/to/folder"::
+**PKGDEST=**"/path/to/directory"::
 	If this value is not set, packages will by default be placed in the
 	current directory (location of the linkman:PKGBUILD[5]). Many people
 	like to keep all their packages in one place so this option allows
 	this behavior. A common location is ``/home/packages''.
 
-**SRCDEST=**"/path/to/folder"::
+**SRCDEST=**"/path/to/directory"::
 	If this value is not set, downloaded source files will only be stored
 	in the current directory. Many people like to keep all source files in
 	a central location for easy cleanup, so this path can be set here.
 
-**SRCPKGDEST=**"/path/to/folder"::
+**SRCPKGDEST=**"/path/to/directory"::
 	If this value is not set, source package files will be stored in
 	in the current directory. Many people like to keep all source package files
 	in a central location for easy cleanup, so this path can be set here.
 
-**LOGDEST=**"/path/to/folder"::
+**LOGDEST=**"/path/to/directory"::
 	If this value is not set, log files are written to the current
 	directory. This centralizes the log location, facilitating cleanup
 	and compression.
