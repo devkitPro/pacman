@@ -414,9 +414,7 @@ static int parsearg_global(int opt)
 			enable_colors(config->color);
 			break;
 		case OP_CONFIG:
-			if(config->configfile) {
-				free(config->configfile);
-			}
+			free(config->configfile);
 			config->configfile = strndup(optarg, PATH_MAX);
 			break;
 		case OP_DEBUG:
