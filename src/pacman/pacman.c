@@ -261,18 +261,18 @@ static void setuseragent(void)
  */
 static void cleanup(int ret)
 {
-	/* free alpm library resources */
-	if(config->handle && alpm_release(config->handle) == -1) {
-		pm_printf(ALPM_LOG_ERROR, "error releasing alpm library\n");
-	}
-
-	/* free memory */
-	FREELIST(pm_targets);
 	if(config) {
+		/* free alpm library resources */
+		if(config->handle && alpm_release(config->handle) == -1) {
+			pm_printf(ALPM_LOG_ERROR, "error releasing alpm library\n");
+		}
+
 		config_free(config);
 		config = NULL;
 	}
 
+	/* free memory */
+	FREELIST(pm_targets);
 	exit(ret);
 }
 
