@@ -98,10 +98,7 @@ static void buffer_free(struct buffer_t *buf)
 		return;
 	}
 
-	if(buf->mem) {
-		free(buf->mem);
-	}
-
+	free(buf->mem);
 	free(buf);
 }
 
