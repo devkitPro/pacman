@@ -206,12 +206,10 @@ int rmrf(const char *path)
 			return 1;
 		}
 		for(dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
-			if(dp->d_name) {
-				if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
-					char name[PATH_MAX];
-					snprintf(name, PATH_MAX, "%s/%s", path, dp->d_name);
-					errflag += rmrf(name);
-				}
+			if(strcmp(dp->d_name, "..") != 0 && strcmp(dp->d_name, ".") != 0) {
+				char name[PATH_MAX];
+				snprintf(name, PATH_MAX, "%s/%s", path, dp->d_name);
+				errflag += rmrf(name);
 			}
 		}
 		closedir(dirp);
