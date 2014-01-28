@@ -20,6 +20,7 @@ pkgdatadir = ${datadir}/${PACKAGE}
 dist_pkgdata_DATA = \
 	proto/PKGBUILD.proto \
 	proto/PKGBUILD-split.proto \
+	proto/PKGBUILD-vcs.proto \
 	proto/proto.install \
 	proto/ChangeLog.proto
 
