@@ -45,6 +45,7 @@ static struct options_t {
 	int sortkey;
 	int null;
 	int filemode;
+	int help;
 	char delim;
 } opts;
 
@@ -374,7 +375,8 @@ static int parse_options(int argc, char **argv)
 				opts.filemode = 1;
 				break;
 			case 'h':
-				return 1;
+				opts.help = 1;
+				return 0;
 			case 'k':
 				opts.sortkey = (int)strtol(optarg, NULL, 10);
 				if(opts.sortkey <= 0) {
@@ -418,6 +420,11 @@ int main(int argc, char *argv[])
 	if(parse_options(argc, argv) != 0) {
 		usage();
 		return 2;
+	}
+
+	if(opts.help) {
+		usage();
+		return 0;
 	}
 
 	list = list_new(100);

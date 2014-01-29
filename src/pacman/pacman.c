@@ -889,11 +889,11 @@ static int parseargs(int argc, char *argv[])
 	}
 	if(config->help) {
 		usage(config->op, mbasename(argv[0]));
-		return 2;
+		cleanup(0);
 	}
 	if(config->version) {
 		version();
-		return 2;
+		cleanup(0);
 	}
 
 	/* parse all other options */
