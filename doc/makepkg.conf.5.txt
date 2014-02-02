@@ -16,9 +16,9 @@ Synopsis
 
 Description
 -----------
-Configuration options for makekpg are stored in makepkg.conf. This file is
-sourced, so you can include any special compiler flags you wish to use. This is
-helpful for building for different architectures, or with different
+Configuration options for makepkg are stored in makepkg.conf. This file is
+sourced so you can include any special compiler flags you wish to use. This is
+helpful when building for different architectures or with different
 optimizations. However, only the variables described below are exported to the
 build environment.
 
@@ -26,7 +26,7 @@ NOTE: This does not guarantee that all package Makefiles will use your exported
 variables. Some of them are non-standard.
 
 The system-wide configuration file is found in {sysconfdir}/makepkg.conf.
-Individual options can be overridden (or added to) on a per user basis in
+Individual options can be overridden (or added to) on a per-user basis in
 ~/.makepkg.conf.
 
 The default file is fairly well commented, so it may be easiest to simply
@@ -43,7 +43,7 @@ Options
 	+
 	If present, `%u` will be replaced with the download URL. Otherwise, the
 	download URL will be placed on the end of the command. If present, `%o` will
-	be replaced with the local filename, plus a ``.part'' extension, which allows
+	be replaced with the local file name, plus a ``.part'' extension, which allows
 	makepkg to handle resuming file downloads.
 
 **CARCH=**"carch"::
@@ -52,7 +52,7 @@ Options
 	installation.
 
 **CHOST=**"chost"::
-	A string such as ``i686-pc-linux-gnu'', do not touch unless you know what
+	A string such as ``i686-pc-linux-gnu''; do not touch unless you know what
 	you are doing. This can be commented out by most users if desired.
 
 **CPPFLAGS=**"cppflags"::
@@ -74,7 +74,7 @@ Options
 	available linker flags.
 
 **MAKEFLAGS=**"makeflags"::
-	This is often used to set the number of jobs used, for example, `-j2`.
+	This is often used to set the number of jobs used; for example, `-j2`.
 	Other flags that make accepts can also be passed.
 
 **DEBUG_CFLAGS=**"debug_cflags"::
@@ -86,9 +86,9 @@ Options
 	Debug flags used for the C++ compiler; see DEBUG_CFLAGS for more info.
 
 **BUILDENV=(**fakeroot !distcc color !ccache check !sign**)**::
-	This array contains options that affect the build environment, the defaults
+	This array contains options that affect the build environment; the defaults
 	are shown here. All options should always be left in the array; to enable
-	or disable an option simply remove or place an ``!'' at the front of the
+	or disable an option, simply remove or add an ``!'' at the front of the
 	option. If an option is specified multiple times, the final value takes
 	precedence. Each option works as follows:
 
@@ -112,13 +112,13 @@ Options
 	*check*;;
 		Run the check() function if present in the PKGBUILD. This can be
 		enabled or disabled for individual packages through the use of
-		makepkg's '\--check' and '\--nocheck' options respectively.
+		makepkg's '\--check' and '\--nocheck' options, respectively.
 
 	*sign*;;
 		Generate a PGP signature file using GnuPG. This will execute 'gpg
 		\--detach-sign \--use-agent' on the built package to generate a detached
-		signature file, using the GPG agent if it is available. The signature
-		file will be the entire filename of the package with a ``.sig''
+		signature file, using the GPG agent, if it is available. The signature
+		file will be the entire file name of the package with a ``.sig''
 		extension.
 
 **DISTCC_HOSTS=**"host1 ..."::
@@ -127,22 +127,21 @@ Options
 	`MAKEFLAGS`.
 
 **BUILDDIR=**"/path/to/directory"::
-	If this value is not set, packages will by default be built in
-	subdirectories of the directory that makepkg is called from.  This
+	If this value is not set, packages will, by default, be built in
+	subdirectories of the directory that makepkg is called from. This
 	option allows setting the build location to another directory.
 	Incorrect use of `$startdir` in a PKGBUILD may cause building with
 	this option to fail.
 
-
 **GPGKEY=**""::
-	Specify a key to use for gpg signing instead of the default key in the
+	Specify a key to use for GPG signing instead of the default key in the
 	keyring. Can be overridden with makepkg's '\--key' option.
 
 **OPTIONS=(**strip docs libtool staticlibs emptydirs zipman purge !upx**)**::
-	This array contains options that affect the default packaging. They are
+	This array contains options that affect default packaging. They are
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
 	shown here. All options should always be left in the array; to enable or
-	disable an option simply remove or place an ``!'' at the front of the
+	disable an option, simply remove or add an ``!'' at the front of the
 	option. If an option is specified multiple times, the final value takes
 	precedence. Each option works as follows:
 
@@ -162,7 +161,7 @@ Options
 
 	*staticlibs*;;
 		Leave static library (.a) files in packages. Specify `!staticlibs` to
-		remove them (if they have a shared counterpart).
+		remove them, if they have a shared counterpart.
 
 	*emptydirs*;;
 		Leave empty directories in packages.
@@ -198,7 +197,7 @@ Options
 	for details.
 
 **STRIP_STATIC=**"--strip-debug"::
-	Options to be used when stripping static libraries. See  linkman:strip[1]
+	Options to be used when stripping static libraries. See linkman:strip[1]
 	for details.
 
 **MAN_DIRS=(**{usr{,/local}{,/share},opt/*}/{man,info} ...**)**::
@@ -220,10 +219,10 @@ Options
 	useful for index files that are added by multiple packages.
 
 **PKGDEST=**"/path/to/directory"::
-	If this value is not set, packages will by default be placed in the
+	If this value is not set, packages will, by default, be placed in the
 	current directory (location of the linkman:PKGBUILD[5]). Many people
 	like to keep all their packages in one place so this option allows
-	this behavior. A common location is ``/home/packages''.
+	for this behavior. A common location is ``/home/packages''.
 
 **SRCDEST=**"/path/to/directory"::
 	If this value is not set, downloaded source files will only be stored
@@ -242,7 +241,7 @@ Options
 
 **PACKAGER=**"John Doe <john@example.com>"::
 	This value is used when querying a package to see who was the builder.
-	It is recommended you change this to your name and email address.
+	It is recommended to change this to your name and email address.
 
 **COMPRESSGZ=**"(gzip -c -f -n)"::
 **COMPRESSBZ2=**"(bzip2 -c -f)"::
@@ -254,9 +253,9 @@ Options
 	packages in the named format.
 
 **PKGEXT=**".pkg.tar.gz", **SRCEXT=**".src.tar.gz"::
-	Sets the compression used when making compiled or source packages. The
-	current valid suffixes are `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.xz`,
-	`.tar.lzo`, `.tar.lrz` and `.tar.Z`.
+	Sets the compression used when making compiled or source packages.
+	Valid suffixes are `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.xz`,
+	`.tar.lzo`, `.tar.lrz`, and `.tar.Z`.
 	Do not touch these unless you know what you are doing.
 
 See Also
