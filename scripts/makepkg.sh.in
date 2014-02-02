@@ -1094,16 +1094,16 @@ remove_deps() {
 	# check for packages removed during dependency install (e.g. due to conflicts)
 	# removing all installed packages is risky in this case
 	if [[ -n $(grep -xvFf <(printf '%s\n' "${current_pkglist[@]}") \
-			<(printf '%s\n' "${original_pkglist[@]}") || true) ]]; then
+			<(printf '%s\n' "${original_pkglist[@]}")) ]]; then
 		warning "$(gettext "Failed to remove installed dependencies.")"
 		return 0
 	fi
 
 	local deplist
 	deplist=($(grep -xvFf <(printf "%s\n" "${original_pkglist[@]}") \
-			<(printf "%s\n" "${current_pkglist[@]}") || true))
+			<(printf "%s\n" "${current_pkglist[@]}")))
 	if [[ -z $deplist ]]; then
-		return
+		return 0
 	fi
 
 	msg "Removing installed dependencies..."
@@ -2674,7 +2674,7 @@ fi
 # set pacman command if not already defined
 PACMAN=${PACMAN:-pacman}
 # save full path to command as PATH may change when sourcing /etc/profile
-PACMAN_PATH=$(type -P $PACMAN) || true
+PACMAN_PATH=$(type -P $PACMAN)
 
 # check if messages are to be printed using color
 unset ALL_OFF BOLD BLUE GREEN RED YELLOW
