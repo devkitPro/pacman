@@ -78,7 +78,7 @@ Options
 	Other flags that make accepts can also be passed.
 
 **DEBUG_CFLAGS=**"debug_cflags"::
-	Additional compiler flags appended to CFLAGS for use in debugging. Usually
+	Additional compiler flags appended to `CFLAGS` for use in debugging. Usually
 	this would include: ``-g''. Read gcc(1) for more details on the wide
 	variety of compiler flags available.
 
@@ -115,8 +115,8 @@ Options
 		makepkg's '\--check' and '\--nocheck' options respectively.
 
 	*sign*;;
-		Generate a PGP signature file using GnuPG. This will execute `gpg
-		--detach-sign --use-agent` on the built package to generate a detached
+		Generate a PGP signature file using GnuPG. This will execute 'gpg
+		\--detach-sign \--use-agent' on the built package to generate a detached
 		signature file, using the GPG agent if it is available. The signature
 		file will be the entire filename of the package with a ``.sig''
 		extension.
@@ -202,20 +202,20 @@ Options
 	for details.
 
 **MAN_DIRS=(**{usr{,/local}{,/share},opt/*}/{man,info} ...**)**::
-	If `zipman` is specified in the OPTIONS array, this variable will
+	If `zipman` is specified in the `OPTIONS` array, this variable will
 	instruct makepkg where to look to compress manual (man and info)
 	pages. If you build packages that are located in opt/, you may need
 	to add the directory to this array. *NOTE:* Do not add the leading
 	slash to the directory name.
 
 **DOC_DIRS=(**usr/{,share/}{doc,gtk-doc} ...**)**::
-	If `!docs` is specified in the OPTIONS array, this variable will
+	If `!docs` is specified in the `OPTIONS` array, this variable will
 	instruct makepkg where to look to remove docs. If you build packages
 	that are located in opt/, you may need to add the directory to this
 	array. *NOTE:* Do not add the leading slash to the directory name.
 
 **PURGE_TARGETS=(**usr/{,share}/info/dir .podlist *.pod...**)**::
-	If `purge` is specified in the OPTIONS array, this variable will
+	If `purge` is specified in the `OPTIONS` array, this variable will
 	instruct makepkg which files to remove from the package. This is
 	useful for index files that are added by multiple packages.
 
