@@ -1968,7 +1968,7 @@ create_signature() {
 		SIGNWITHKEY="-u ${GPGKEY}"
 	fi
 	# The signature will be generated directly in ascii-friendly format
-	gpg --detach-sign --use-agent ${SIGNWITHKEY} "$filename" &>/dev/null || ret=$?
+	gpg --detach-sign --use-agent ${SIGNWITHKEY} --no-armor "$filename" &>/dev/null || ret=$?
 
 
 	if (( ! ret )); then
