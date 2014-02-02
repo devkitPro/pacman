@@ -21,8 +21,7 @@ dist_pkgdata_DATA = \
 	proto/PKGBUILD.proto \
 	proto/PKGBUILD-split.proto \
 	proto/PKGBUILD-vcs.proto \
-	proto/proto.install \
-	proto/ChangeLog.proto
+	proto/proto.install
 
 $(top_srcdir)/test/pacman/tests/TESTS: $(wildcard test/pacman/tests/*.py*)
 	@printf "TESTS += %s\n" $^ | sed -e "s/\.py\.in/.py/" | LC_ALL=C sort -u > "$@"
