@@ -121,12 +121,13 @@ int pacman_remove(alpm_list_t *targets)
 					char *depstring = alpm_dep_compute_string(miss->depend);
 					colon_printf(_("%s: requires %s\n"), miss->target, depstring);
 					free(depstring);
+					alpm_depmissing_free(miss);
 				}
 				break;
 			default:
 				break;
 		}
-		FREELIST(data);
+		alpm_list_free(data);
 		retval = 1;
 		goto cleanup;
 	}

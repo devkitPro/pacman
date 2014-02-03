@@ -57,7 +57,7 @@ static alpm_depmissing_t *depmiss_new(const char *target, alpm_depend_t *dep,
 	return miss;
 }
 
-void _alpm_depmiss_free(alpm_depmissing_t *miss)
+void SYMEXPORT alpm_depmissing_free(alpm_depmissing_t *miss)
 {
 	_alpm_dep_free(miss->depend);
 	FREE(miss->target);
@@ -804,7 +804,7 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 		/* check if one of the packages in the [*packages] list already satisfies
 		 * this dependency */
 		if(find_dep_satisfier(*packages, missdep)) {
-			_alpm_depmiss_free(miss);
+			alpm_depmissing_free(miss);
 			continue;
 		}
 		/* check if one of the packages in the [preferred] list already satisfies
@@ -818,9 +818,9 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"pulling dependency %s (needed by %s)\n",
 					spkg->name, pkg->name);
-			_alpm_depmiss_free(miss);
+			alpm_depmissing_free(miss);
 		} else if(resolvedep(handle, missdep, (targ = alpm_list_add(NULL, handle->db_local)), rem, 0)) {
-			_alpm_depmiss_free(miss);
+			alpm_depmissing_free(miss);
 		} else {
 			handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
 			char *missdepstring = alpm_dep_compute_string(missdep);

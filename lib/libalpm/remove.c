@@ -116,7 +116,7 @@ static int remove_prepare_cascade(alpm_handle_t *handle, alpm_list_t *lp)
 						_("could not find %s in database -- skipping\n"), miss->target);
 			}
 		}
-		alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
+		alpm_list_free_inner(lp, (alpm_list_fn_free)alpm_depmissing_free);
 		alpm_list_free(lp);
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
 				trans->remove, NULL, 1);
@@ -153,7 +153,7 @@ static void remove_prepare_keep_needed(alpm_handle_t *handle, alpm_list_t *lp)
 				_alpm_pkg_free(pkg);
 			}
 		}
-		alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
+		alpm_list_free_inner(lp, (alpm_list_fn_free)alpm_depmissing_free);
 		alpm_list_free(lp);
 		lp = alpm_checkdeps(handle, _alpm_db_get_pkgcache(handle->db_local),
 				trans->remove, NULL, 1);
@@ -232,7 +232,8 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				if(data) {
 					*data = lp;
 				} else {
-					alpm_list_free_inner(lp, (alpm_list_fn_free)_alpm_depmiss_free);
+					alpm_list_free_inner(lp,
+							(alpm_list_fn_free)alpm_depmissing_free);
 					alpm_list_free(lp);
 				}
 				RET_ERR(handle, ALPM_ERR_UNSATISFIED_DEPS, -1);

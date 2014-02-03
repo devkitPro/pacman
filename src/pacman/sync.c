@@ -764,8 +764,9 @@ int sync_prepare_execute(void)
 		switch(err) {
 			case ALPM_ERR_PKG_INVALID_ARCH:
 				for(i = data; i; i = alpm_list_next(i)) {
-					const char *pkg = i->data;
+					char *pkg = i->data;
 					colon_printf(_("package %s does not have a valid architecture\n"), pkg);
+					free(pkg);
 				}
 				break;
 			case ALPM_ERR_UNSATISFIED_DEPS:
@@ -774,6 +775,7 @@ int sync_prepare_execute(void)
 					char *depstring = alpm_dep_compute_string(miss->depend);
 					colon_printf(_("%s: requires %s\n"), miss->target, depstring);
 					free(depstring);
+					alpm_depmissing_free(miss);
 				}
 				break;
 			case ALPM_ERR_CONFLICTING_DEPS:
@@ -789,6 +791,7 @@ int sync_prepare_execute(void)
 								conflict->package1, conflict->package2, reason);
 						free(reason);
 					}
+					alpm_conflict_free(conflict);
 				}
 				break;
 			default:
@@ -848,6 +851,7 @@ int sync_prepare_execute(void)
 									conflict->target, conflict->file);
 							break;
 					}
+					alpm_fileconflict_free(conflict);
 				}
 				break;
 			case ALPM_ERR_PKG_INVALID:
@@ -855,8 +859,9 @@ int sync_prepare_execute(void)
 			case ALPM_ERR_PKG_INVALID_SIG:
 			case ALPM_ERR_DLT_INVALID:
 				for(i = data; i; i = alpm_list_next(i)) {
-					const char *filename = i->data;
+					char *filename = i->data;
 					printf(_("%s is invalid or corrupted\n"), filename);
+					free(filename);
 				}
 				break;
 			default:
@@ -870,9 +875,7 @@ int sync_prepare_execute(void)
 
 	/* Step 4: release transaction resources */
 cleanup:
-	if(data) {
-		FREELIST(data);
-	}
+	alpm_list_free(data);
 	if(trans_release() == -1) {
 		retval = 1;
 	}

@@ -62,7 +62,7 @@ static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 /**
  * @brief Free a conflict and its members.
  */
-void _alpm_conflict_free(alpm_conflict_t *conflict)
+void SYMEXPORT alpm_conflict_free(alpm_conflict_t *conflict)
 {
 	FREE(conflict->package2);
 	FREE(conflict->package1);
@@ -135,7 +135,7 @@ static int add_conflict(alpm_handle_t *handle, alpm_list_t **baddeps,
 				pkg1->name, pkg2->name, conflict_str);
 		free(conflict_str);
 	} else {
-		_alpm_conflict_free(conflict);
+		alpm_conflict_free(conflict);
 	}
 	return 0;
 }
@@ -290,7 +290,7 @@ error:
 /**
  * @brief Frees a conflict and its members.
  */
-void _alpm_fileconflict_free(alpm_fileconflict_t *conflict)
+void SYMEXPORT alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 {
 	FREE(conflict->ctarget);
 	FREE(conflict->file);

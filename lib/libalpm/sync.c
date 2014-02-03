@@ -451,7 +451,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				   dependency-reordered list below */
 				handle->pm_errno = 0;
 				if(data) {
-					alpm_list_free_inner(*data, (alpm_list_fn_free)_alpm_depmiss_free);
+					alpm_list_free_inner(*data,
+							(alpm_list_fn_free)alpm_depmissing_free);
 					alpm_list_free(*data);
 					*data = NULL;
 				}
@@ -527,7 +528,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 						*data = alpm_list_add(*data, newconflict);
 					}
 				}
-				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+				alpm_list_free_inner(deps, (alpm_list_fn_free)alpm_conflict_free);
 				alpm_list_free(deps);
 				_alpm_dep_free(dep1);
 				_alpm_dep_free(dep2);
@@ -545,7 +546,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			trans->unresolvable = alpm_list_add(trans->unresolvable, rsync);
 		}
 
-		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+		alpm_list_free_inner(deps, (alpm_list_fn_free)alpm_conflict_free);
 		alpm_list_free(deps);
 		deps = NULL;
 
@@ -591,13 +592,13 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 						*data = alpm_list_add(*data, newconflict);
 					}
 				}
-				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+				alpm_list_free_inner(deps, (alpm_list_fn_free)alpm_conflict_free);
 				alpm_list_free(deps);
 				goto cleanup;
 			}
 		}
 		EVENT(handle, ALPM_EVENT_INTERCONFLICTS_DONE, NULL, NULL);
-		alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_conflict_free);
+		alpm_list_free_inner(deps, (alpm_list_fn_free)alpm_conflict_free);
 		alpm_list_free(deps);
 	}
 
@@ -627,7 +628,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			if(data) {
 				*data = deps;
 			} else {
-				alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_depmiss_free);
+				alpm_list_free_inner(deps,
+						(alpm_list_fn_free)alpm_depmissing_free);
 				alpm_list_free(deps);
 			}
 			goto cleanup;
@@ -1273,7 +1275,7 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 			if(data) {
 				*data = conflict;
 			} else {
-				alpm_list_free_inner(conflict, (alpm_list_fn_free)_alpm_fileconflict_free);
+				alpm_list_free_inner(conflict, (alpm_list_fn_free)alpm_fileconflict_free);
 				alpm_list_free(conflict);
 			}
 			RET_ERR(handle, ALPM_ERR_FILE_CONFLICTS, -1);

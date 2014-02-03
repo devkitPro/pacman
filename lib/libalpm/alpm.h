@@ -1351,6 +1351,10 @@ enum alpm_caps {
 const char *alpm_version(void);
 enum alpm_caps alpm_capabilities(void);
 
+void alpm_fileconflict_free(alpm_fileconflict_t *conflict);
+void alpm_depmissing_free(alpm_depmissing_t *miss);
+void alpm_conflict_free(alpm_conflict_t *conflict);
+
 /* End of alpm_api */
 /** @} */
 
