@@ -224,6 +224,7 @@ class pmtest(object):
                 "--child-silent-after-fork=yes",
                 "--log-file=%s" % os.path.join(self.root, "var/log/valgrind"),
                 "--suppressions=%s" % suppfile])
+            self.addrule("FILE_EMPTY=var/log/valgrind")
         cmd.extend([pacman["bin"],
             "--config", os.path.join(self.root, util.PACCONF),
             "--root", self.root,
