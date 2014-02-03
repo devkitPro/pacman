@@ -112,6 +112,10 @@ class pmrule(object):
             if case == "EXIST":
                 if not os.path.isfile(filename):
                     success = 0
+            elif case == "EMPTY":
+                if not (os.path.isfile(filename)
+                        and os.path.getsize(filename) == 0):
+                    success = 0
             elif case == "MODIFIED":
                 for f in test.files:
                     if f.name == key:
