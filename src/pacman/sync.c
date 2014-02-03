@@ -601,8 +601,9 @@ static int process_group(alpm_list_t *dbs, const char *group, int error)
 	}
 
 	if(config->print == 0) {
-		colon_printf(_("There are %d members in group %s:\n"), count,
-				group);
+		colon_printf(_n("There is %d member in group %s:\n",
+				"There are %d members in group %s:\n", count),
+				count, group);
 		select_display(pkgs);
 		char *array = malloc(count);
 		if(!array) {
