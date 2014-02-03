@@ -363,10 +363,13 @@ static void print_text(const char *pkg, const char *provision,
 	}
 
 	/* print tip */
+	/* If style->provides is empty (e.g. when using linear style), we do not
+	 * want to print the provided package. This makes output easier to parse and
+	 * to reuse. */
 	if(!pkg && provision) {
 		printf("%s%s%s%s [unresolvable]%s\n", tip, color->leaf1,
 				provision, color->branch1, color->off);
-	} else if(provision && strcmp(pkg, provision) != 0) {
+	} else if(provision && strcmp(pkg, provision) != 0 && *(style->provides) != '\0') {
 		printf("%s%s%s%s%s %s%s%s\n", tip, color->leaf1, pkg,
 				color->leaf2, style->provides, color->leaf1, provision,
 				color->off);
