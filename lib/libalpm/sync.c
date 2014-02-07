@@ -460,6 +460,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				/* pm_errno was set by resolvedeps, callback may have overwrote it */
 				handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
 				alpm_list_free(resolved);
+				alpm_list_free(unresolvable);
 				ret = -1;
 				goto cleanup;
 			}
