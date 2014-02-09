@@ -1654,6 +1654,13 @@ tidy_install() {
 					strip_flags="$STRIP_SHARED";;
 				*application/x-archive*)    # Libraries (.a)
 					strip_flags="$STRIP_STATIC";;
+				*application/x-object*)
+					case "$binary" in
+						*.ko)                   # Kernel module
+							strip_flags="$STRIP_SHARED";;
+						*)
+							continue;;
+					esac;;
 				*application/x-executable*) # Binaries
 					strip_flags="$STRIP_BINARIES";;
 				*)
