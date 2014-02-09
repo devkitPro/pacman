@@ -91,11 +91,8 @@ sub print_pkg {
 	} else {
 		print "$MAGENTA";
 	}
-	print "$v[0]/$RESET$BOLD$v[1] $GREEN$v[2]";
-	print " $BLUE$v[3]" if $v[3] ne "";
-	print " $CYAN$v[4]" if $v[4] ne "";
-	print " $RESET\n";
-	print " $v[5]\n";
+	print "$v[0]/$RESET$BOLD$v[1] $GREEN$v[2]$BLUE$v[3]$CYAN$v[4]$RESET\n";
+	print "$v[5]\n";
 }
 
 my %allpkgs = ();
@@ -110,8 +107,10 @@ if ($#syncpkgs >= 0) {
 }
 
 foreach $_ (@syncpkgs) {
-	# we grab the following fields: repo, name, ver, group, installed, and desc
-	my @pkgfields = /^(.*?)\/(.*?) (.*?) ?(\(.*?\))? ?(\[.*\])?\n(.*)$/s;
+	# We grab the following fields: repo, name, ver, group, installed, and
+	# desc. We grab leading space for 'group' and 'installed' so that we do not
+	# need to test if non-empty when printing.
+	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?\n(.*)$/s;
 	if(not @pkgfields) {
 		# skip any non-matching line and just print it for the user
 		print $_, "\n";
@@ -135,15 +134,16 @@ if ($#querypkgs >= 0) {
 }
 
 foreach $_ (@querypkgs) {
-	# we grab the following fields: repo, name, ver, group, installed, and desc
-	my @pkgfields = /^(.*?)\/(.*?) (.*?) ?(\(.*?\))? ?(\[.*\])?\n(.*)$/s;
+	# We grab the same field as before, even the "installed" which is always
+	# empty for local searches. This allows us to reserve a cell in @pkgfields.
+	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?\n(.*)$/s;
 	# skip any non-matching line
 	next if not defined $pkgfields[1];
 	# check if the package was listed in the sync out
 	if (not exists $allpkgs{$pkgfields[1] . $pkgfields[2]}) {
 		# since 'group' is optional, we should fill it in if necessary
 		$pkgfields[3] = "" if not defined $pkgfields[3];
-		$pkgfields[4] = "[$LC_INSTALLED]";
+		$pkgfields[4] = " [$LC_INSTALLED]";
 		push (@pkglist, \@pkgfields);
 	}
 }
