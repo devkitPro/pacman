@@ -736,22 +736,9 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 
 				while(fgets(line, sizeof(line), fp) &&
 						(len = _alpm_strip_newline(line, 0))) {
-					if(files_count >= files_size) {
-						size_t old_size = files_size;
-						if(files_size == 0) {
-							files_size = 8;
-						} else {
-							files_size *= 2;
-						}
-						files = realloc(files, sizeof(alpm_file_t) * files_size);
-						if(!files) {
-							_alpm_alloc_fail(sizeof(alpm_file_t) * files_size);
-							goto error;
-						}
-						/* ensure all new memory is zeroed out, in both the initial
-						 * allocation and later reallocs */
-						memset(files + old_size, 0,
-								sizeof(alpm_file_t) * (files_size - old_size));
+					if(!_alpm_greedy_grow((void **)&files, &files_size,
+								(files_size ? files_size + sizeof(alpm_file_t) : 8 * sizeof(alpm_file_t)))) {
+						goto error;
 					}
 					/* since we know the length of the file string already,
 					 * we can do malloc + memcpy rather than strdup */
