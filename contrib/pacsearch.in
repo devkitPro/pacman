@@ -81,24 +81,25 @@ if ($ARGV[0] eq "--nocolor" || $ARGV[0] eq "-n") {
 # localization
 my $LC_INSTALLED = `gettext pacman installed`;
 
-# Color a "repo/pkgname pkgver (groups) [installed]" line.
-# We try to stick to pacman colors.
-sub to_color {
+# Print a "repo/pkgname pkgver (groups) [installed]" line.
+# We stick to pacman colors.
+sub print_pkg {
 	my @v = @_;
-	my $line = "$RESET$BOLD";
+	print "$RESET$BOLD";
 	if ( "$v[0]" eq "local" ) {
-		$line .= "$RED";
+		print "$RED";
 	} else {
-		$line .= "$MAGENTA";
+		print "$MAGENTA";
 	}
-	$line .= "$v[0]/$RESET$BOLD$v[1] $GREEN$v[2]";
-	$line .= " $BLUE$v[3]" if $v[3] ne "";
-	$line .= " $CYAN$v[4]" if $v[4] ne "";
-	$line .= " $RESET";
-	return $line;
+	print "$v[0]/$RESET$BOLD$v[1] $GREEN$v[2]";
+	print " $BLUE$v[3]" if $v[3] ne "";
+	print " $CYAN$v[4]" if $v[4] ne "";
+	print " $RESET\n";
+	print " $v[5]\n";
 }
 
 my %allpkgs = ();
+my @pkglist = ();
 
 my $syncout = `pacman -Ss '@ARGV'`;
 # split each sync search entry into its own array entry
@@ -108,8 +109,6 @@ if ($#syncpkgs >= 0) {
 	chomp($syncpkgs[$#syncpkgs]);
 }
 
-# counter var for packages, used here and in the query loop too
-my $cnt = 0;
 foreach $_ (@syncpkgs) {
 	# we grab the following fields: repo, name, ver, group, installed, and desc
 	my @pkgfields = /^(.*?)\/(.*?) (.*?) ?(\(.*?\))? ?(\[.*\])?\n(.*)$/s;
@@ -121,10 +120,10 @@ foreach $_ (@syncpkgs) {
 	# since 'group' and 'installed' are optional, we should fill it in if necessary
 	$pkgfields[3] = "" if not defined $pkgfields[3];
 	$pkgfields[4] = "" if not defined $pkgfields[4];
-	# add a last field that indicates original order
-	push (@pkgfields, $cnt++);
-	# add each sync pkg by name/ver to a hash table for quick lookup
-	$allpkgs{$pkgfields[1] . $pkgfields[2]} = [ @pkgfields ];
+	# Add each sync pkg by name/ver to a hash table.
+	# Any value is good since we only check for existence.
+	$allpkgs{$pkgfields[1] . $pkgfields[2]} = 1;
+	push (@pkglist, \@pkgfields);
 }
 
 my $queryout = `pacman -Qs '@ARGV'`;
@@ -145,20 +144,12 @@ foreach $_ (@querypkgs) {
 		# since 'group' is optional, we should fill it in if necessary
 		$pkgfields[3] = "" if not defined $pkgfields[3];
 		$pkgfields[4] = "[$LC_INSTALLED]";
-		# add a last field that indicates original order (after sync)
-		push (@pkgfields, $cnt++);
-		# add our local-only package to the hash
-		$allpkgs{$pkgfields[1] . $pkgfields[2]} = [ @pkgfields ];
+		push (@pkglist, \@pkgfields);
 	}
 }
 
-# sort by original order (the last field) and print
-foreach $_ ( sort{ @{$allpkgs{$a}}[6] <=> @{$allpkgs{$b}}[6] } keys %allpkgs) {
-	my @v = @{$allpkgs{$_}};
-	my $line = to_color(@v);
-	# print colorized "repo/pkgname pkgver ..." string with possible installed text
-	print "$line\n";
-	print "$v[5]\n";
+foreach (@pkglist) {
+	print_pkg (@{$_});
 }
 
 #vim: set noet:
