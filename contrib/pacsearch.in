@@ -124,7 +124,7 @@ foreach $_ (@syncpkgs) {
 	# add a last field that indicates original order
 	push (@pkgfields, $cnt++);
 	# add each sync pkg by name/ver to a hash table for quick lookup
-	$allpkgs{$pkgfields[1]} = [ @pkgfields ];
+	$allpkgs{$pkgfields[1] . $pkgfields[2]} = [ @pkgfields ];
 }
 
 my $queryout = `pacman -Qs '@ARGV'`;
@@ -141,14 +141,14 @@ foreach $_ (@querypkgs) {
 	# skip any non-matching line
 	next if not defined $pkgfields[1];
 	# check if the package was listed in the sync out
-	if (not exists $allpkgs{$pkgfields[1]}) {
+	if (not exists $allpkgs{$pkgfields[1] . $pkgfields[2]}) {
 		# since 'group' is optional, we should fill it in if necessary
 		$pkgfields[3] = "" if not defined $pkgfields[3];
 		$pkgfields[4] = "[$LC_INSTALLED]";
 		# add a last field that indicates original order (after sync)
 		push (@pkgfields, $cnt++);
 		# add our local-only package to the hash
-		$allpkgs{$pkgfields[1]} = [ @pkgfields ];
+		$allpkgs{$pkgfields[1] . $pkgfields[2]} = [ @pkgfields ];
 	}
 }
 
