@@ -350,7 +350,15 @@ typedef enum _alpm_event_type_t {
 	/** Key downloading is finished. */
 	ALPM_EVENT_KEY_DOWNLOAD_DONE,
 	/** A log message was emitted; See alpm_event_log_t for arguments. */
-	ALPM_EVENT_LOG
+	ALPM_EVENT_LOG,
+	/** A .pacnew file was created; See alpm_event_pacnew_created_t for arguments. */
+	ALPM_EVENT_PACNEW_CREATED,
+	/** A .pacsave file was created; See alpm_event_pacsave_created_t for
+	 * arguments */
+	ALPM_EVENT_PACSAVE_CREATED,
+	/** A .pacorig file was created; See alpm_event_pacorig_created_t for
+	 * arguments */
+	ALPM_EVENT_PACORIG_CREATED
 } alpm_event_type_t;
 
 /** Events.
@@ -441,6 +449,37 @@ typedef struct _alpm_event_pkgdownload_t {
 	/** Name of the file */
 	const char *file;
 } alpm_event_pkgdownload_t;
+
+typedef struct _alpm_event_pacnew_created_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Whether the creation was result of a NoUpgrade or not */
+	int from_noupgrade;
+	/** Old package. */
+	alpm_pkg_t *oldpkg;
+	/** New Package. */
+	alpm_pkg_t *newpkg;
+	/** Filename of the file without the .pacnew suffix */
+	const char *file;
+} alpm_event_pacnew_created_t;
+
+typedef struct _alpm_event_pacsave_created_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** Old package. */
+	alpm_pkg_t *oldpkg;
+	/** Filename of the file without the .pacsave suffix. */
+	const char *file;
+} alpm_event_pacsave_created_t;
+
+typedef struct _alpm_event_pacorig_created_t {
+	/** Type of event. */
+	alpm_event_type_t type;
+	/** New package. */
+	alpm_pkg_t *newpkg;
+	/** Filename of the file without the .pacorig suffix. */
+	const char *file;
+} alpm_event_pacorig_created_t;
 
 /** Event callback. */
 typedef void (*alpm_cb_event)(alpm_event_t *);

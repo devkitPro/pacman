@@ -78,6 +78,7 @@ int noyes(const char *format, ...) __attribute__((format(printf, 1, 2)));
 int pm_printf(alpm_loglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_asprintf(char **string, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
+int pm_sprintf(char **string, alpm_loglevel_t level, const char *format, ...) __attribute__((format(printf,3,4)));
 int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 
 #endif /* _PM_UTIL_H */

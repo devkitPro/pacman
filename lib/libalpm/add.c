@@ -370,8 +370,14 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				if(try_rename(handle, checkfile, newpath)) {
 					errors++;
 				} else {
-					_alpm_log(handle, ALPM_LOG_WARNING, _("%s installed as %s\n"),
-							filename, newpath);
+					alpm_event_pacnew_created_t event = {
+						.type = ALPM_EVENT_PACNEW_CREATED,
+						.from_noupgrade = 0,
+						.oldpkg = oldpkg,
+						.newpkg = newpkg,
+						.file = filename
+					};
+					EVENT(handle, &event);
 					alpm_logaction(handle, ALPM_CALLER_PREFIX,
 							"warning: %s installed as %s\n", filename, newpath);
 				}
@@ -398,8 +404,12 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					if(try_rename(handle, checkfile, filename)) {
 						errors++;
 					} else {
-						_alpm_log(handle, ALPM_LOG_WARNING,
-								_("%s saved as %s\n"), filename, newpath);
+						alpm_event_pacorig_created_t event = {
+							.type = ALPM_EVENT_PACORIG_CREATED,
+							.newpkg = newpkg,
+							.file = filename
+						};
+						EVENT(handle, &event);
 						alpm_logaction(handle, ALPM_CALLER_PREFIX,
 								"warning: %s saved as %s\n", filename, newpath);
 					}
@@ -414,14 +424,14 @@ needbackup_cleanup:
 		free(hash_local);
 		free(hash_pkg);
 	} else {
+		size_t len;
 		/* we didn't need a backup */
 		if(notouch) {
 			/* change the path to a .pacnew extension */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "%s is in NoUpgrade -- skipping\n", filename);
-			_alpm_log(handle, ALPM_LOG_WARNING, _("extracting %s as %s.pacnew\n"), filename, filename);
-			alpm_logaction(handle, ALPM_CALLER_PREFIX,
-					"warning: extracting %s as %s.pacnew\n", filename, filename);
-			strncat(filename, ".pacnew", PATH_MAX - strlen(filename));
+			/* remember len so we can get the old filename back for the event */
+			len = strlen(filename);
+			strncat(filename, ".pacnew", PATH_MAX - len);
 		} else {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "extracting %s\n", filename);
 		}
@@ -438,6 +448,23 @@ needbackup_cleanup:
 			free(entryname_orig);
 			errors++;
 			return errors;
+		}
+
+		if(notouch) {
+			alpm_event_pacnew_created_t event = {
+				.type = ALPM_EVENT_PACNEW_CREATED,
+				.from_noupgrade = 1,
+				.oldpkg = oldpkg,
+				.newpkg = newpkg,
+				.file = filename
+			};
+			/* "remove" the .pacnew suffix */
+			filename[len] = '\0';
+			EVENT(handle, &event);
+			alpm_logaction(handle, ALPM_CALLER_PREFIX,
+					"warning: %s installed as %s.pacnew\n", filename, filename);
+			/* restore */
+			filename[len] = '.';
 		}
 
 		/* calculate an hash if this is in newpkg's backup */

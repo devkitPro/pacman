@@ -522,6 +522,11 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 				int cmp = filehash ? strcmp(filehash, backup->hash) : 0;
 				FREE(filehash);
 				if(cmp != 0) {
+					alpm_event_pacsave_created_t event = {
+						.type = ALPM_EVENT_PACSAVE_CREATED,
+						.oldpkg = oldpkg,
+						.file = file
+					};
 					char *newpath;
 					size_t len = strlen(file) + 8 + 1;
 					MALLOC(newpath, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
@@ -536,7 +541,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 						free(newpath);
 						return -1;
 					}
-					_alpm_log(handle, ALPM_LOG_WARNING, _("%s saved as %s\n"), file, newpath);
+					EVENT(handle, &event);
 					alpm_logaction(handle, ALPM_CALLER_PREFIX,
 							"warning: %s saved as %s\n", file, newpath);
 					free(newpath);

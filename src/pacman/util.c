@@ -1579,6 +1579,19 @@ int pm_asprintf(char **string, const char *format, ...)
 	return ret;
 }
 
+int pm_sprintf(char **string, alpm_loglevel_t level, const char *format, ...)
+{
+	int ret = 0;
+	va_list args;
+
+	/* print the message using va_arg list */
+	va_start(args, format);
+	ret = pm_vasprintf(string, level, format, args);
+	va_end(args);
+
+	return ret;
+}
+
 int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_list args)
 {
 	int ret = 0;
