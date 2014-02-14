@@ -95,46 +95,31 @@ sub print_pkg {
 	print "$v[5]";
 }
 
-my %allpkgs = ();
-my @pkglist = ();
-
-open (my $syncout, '-|', 'pacman', '-Ss', '--', @ARGV) or exit 1;
-while ( readline($syncout) ) {
-	# We grab the following fields: repo, name, ver, group, installed, and
-	# desc. We grab leading space for 'group' and 'installed' so that we do not
-	# need to test if non-empty when printing.
-	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?$/s;
-	my $desc = readline($syncout);
-	# since 'group' and 'installed' are optional, we should fill it in if necessary
-	$pkgfields[3] = "" if not defined $pkgfields[3];
-	$pkgfields[4] = "" if not defined $pkgfields[4];
-	$pkgfields[5] = $desc;
-	# Add each sync pkg by name/ver to a hash table.
-	# Any value is good since we only check for existence.
-	$allpkgs{$pkgfields[1] . $pkgfields[2]} = 1;
-	push (@pkglist, \@pkgfields);
-}
-close ($syncout);
-
-open (my $queryout, '-|', 'pacman', '-Qs', '--', @ARGV) or exit 1;
-while ( readline($queryout) ) {
-	# We grab the same field as before, even the "installed" which is always
-	# empty for local searches. This allows us to reserve a cell in @pkgfields.
-	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?$/s;
-	my $desc = readline($queryout);
-	# check if the package was listed in the sync out
-	if (not exists $allpkgs{$pkgfields[1] . $pkgfields[2]}) {
-		# since 'group' is optional, we should fill it in if necessary
+sub list_pkg {
+	my $db = shift;
+	open (my $out, '-|', 'pacman', $db, '--', @ARGV) or exit 1;
+	my @pkglist = ();
+	while ( readline($out) ) {
+		# We grab the following fields: repo, name, ver, group, installed, and
+		# desc. We grab leading space for 'group' and 'installed' so that we do
+		# not need to test if non-empty when printing.
+		my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?$/s;
+		my $desc = readline($out);
+		# since 'group' and 'installed' are optional, we should fill it in if
+		# necessary
 		$pkgfields[3] = "" if not defined $pkgfields[3];
-		$pkgfields[4] = " [$LC_INSTALLED]";
+		$pkgfields[4] = "" if not defined $pkgfields[4];
 		$pkgfields[5] = $desc;
 		push (@pkglist, \@pkgfields);
 	}
+	close ($out);
+	return @pkglist;
 }
-close ($queryout);
 
-foreach (@pkglist) {
-	print_pkg (@{$_});
-}
+my @sync = list_pkg('-Ss', @ARGV);
+my %allpkgs = map {$_->[1] . $_->[2] => 1} @sync;
+my @query = grep { not $allpkgs{$_->[1] . $_->[2]}} list_pkg('-Qs', @ARGV);
+$_->[4] = " [$LC_INSTALLED]" foreach @query;
+print_pkg (@{$_}) foreach (@sync, @query);
 
 #vim: set noet:
