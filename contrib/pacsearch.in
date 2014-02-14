@@ -92,61 +92,46 @@ sub print_pkg {
 		print "$MAGENTA";
 	}
 	print "$v[0]/$RESET$BOLD$v[1] $GREEN$v[2]$BLUE$v[3]$CYAN$v[4]$RESET\n";
-	print "$v[5]\n";
+	print "$v[5]";
 }
 
 my %allpkgs = ();
 my @pkglist = ();
 
-my $syncout = `pacman -Ss '@ARGV'`;
-# split each sync search entry into its own array entry
-my @syncpkgs = split(/\n^(?=\w)/m, $syncout);
-# remove the extra \n from the last desc entry
-if ($#syncpkgs >= 0) {
-	chomp($syncpkgs[$#syncpkgs]);
-}
-
-foreach $_ (@syncpkgs) {
+open (my $syncout, '-|', 'pacman', '-Ss', '--', @ARGV) or exit 1;
+while ( readline($syncout) ) {
 	# We grab the following fields: repo, name, ver, group, installed, and
 	# desc. We grab leading space for 'group' and 'installed' so that we do not
 	# need to test if non-empty when printing.
-	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?\n(.*)$/s;
-	if(not @pkgfields) {
-		# skip any non-matching line and just print it for the user
-		print $_, "\n";
-		next;
-	}
+	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?$/s;
+	my $desc = readline($syncout);
 	# since 'group' and 'installed' are optional, we should fill it in if necessary
 	$pkgfields[3] = "" if not defined $pkgfields[3];
 	$pkgfields[4] = "" if not defined $pkgfields[4];
+	$pkgfields[5] = $desc;
 	# Add each sync pkg by name/ver to a hash table.
 	# Any value is good since we only check for existence.
 	$allpkgs{$pkgfields[1] . $pkgfields[2]} = 1;
 	push (@pkglist, \@pkgfields);
 }
+close ($syncout);
 
-my $queryout = `pacman -Qs '@ARGV'`;
-# split each querysearch entry into its own array entry
-my @querypkgs = split(/\n^(?=\w)/m, $queryout);
-# remove the extra \n from the last desc entry
-if ($#querypkgs >= 0) {
-	chomp ($querypkgs[$#querypkgs]);
-}
-
-foreach $_ (@querypkgs) {
+open (my $queryout, '-|', 'pacman', '-Qs', '--', @ARGV) or exit 1;
+while ( readline($queryout) ) {
 	# We grab the same field as before, even the "installed" which is always
 	# empty for local searches. This allows us to reserve a cell in @pkgfields.
-	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?\n(.*)$/s;
-	# skip any non-matching line
-	next if not defined $pkgfields[1];
+	my @pkgfields = /^(.*?)\/(.*?) (.*?)( \(.*?\))?( \[.*\])?$/s;
+	my $desc = readline($queryout);
 	# check if the package was listed in the sync out
 	if (not exists $allpkgs{$pkgfields[1] . $pkgfields[2]}) {
 		# since 'group' is optional, we should fill it in if necessary
 		$pkgfields[3] = "" if not defined $pkgfields[3];
 		$pkgfields[4] = " [$LC_INSTALLED]";
+		$pkgfields[5] = $desc;
 		push (@pkglist, \@pkgfields);
 	}
 }
+close ($queryout);
 
 foreach (@pkglist) {
 	print_pkg (@{$_});
