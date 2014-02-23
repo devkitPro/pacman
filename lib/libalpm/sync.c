@@ -685,7 +685,8 @@ static int endswith(const char *filename, const char *extension)
 static int apply_deltas(alpm_handle_t *handle)
 {
 	alpm_list_t *i;
-	int deltas_found = 0, ret = 0;
+	size_t deltas_found = 0;
+	int ret = 0;
 	const char *cachedir = _alpm_filecache_setup(handle);
 	alpm_trans_t *trans = handle->trans;
 	alpm_event_delta_patch_t event;

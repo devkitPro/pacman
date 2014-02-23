@@ -370,7 +370,7 @@ static int sync_group(int level, alpm_list_t *syncs, alpm_list_t *targets)
 	int ret = 0;
 
 	if(targets) {
-		int found;
+		size_t found;
 		for(i = targets; i; i = alpm_list_next(i)) {
 			found = 0;
 			const char *grpname = i->data;
