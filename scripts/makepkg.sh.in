@@ -1250,7 +1250,7 @@ check_pgpsigs() {
 
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
-	local file pubkey
+	local file pubkey ext decompress found
 	local warning=0
 	local errors=0
 	local statusfile=$(mktemp)
@@ -1269,13 +1269,30 @@ check_pgpsigs() {
 			continue
 		fi
 
-		if ! sourcefile="$(get_filepath "${file%.*}")"; then
+		found=0
+		for ext in "" gz bz2 xz lrz lzo Z; do
+			if sourcefile="$(get_filepath "${file%.*}${ext:+.$ext}")"; then
+				found=1
+				break;
+			fi
+		done
+		if (( ! found )); then
 			printf '%s\n' "$(gettext "SOURCE FILE NOT FOUND")" >&2
 			errors=1
 			continue
 		fi
 
-		if ! gpg --quiet --batch --status-file "$statusfile" --verify "$file" "$sourcefile" 2> /dev/null; then
+		case "$ext" in
+			gz)  decompress="gzip -c -d -f" ;;
+			bz2) decompress="bzip2 -c -d -f" ;;
+			xz)  decompress="xz -c -d" ;;
+			lrz) decompress="lrzip -q -d" ;;
+			lzo) decompress="lzop -c -d -q" ;;
+			Z)   decompress="uncompress -c -f" ;;
+			"")  decompress="cat" ;;
+		esac
+
+		if ! $decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null; then
 			printf '%s' "$(gettext "FAILED")" >&2
 			if ! pubkey=$(awk '/NO_PUBKEY/ { print $3; exit 1; }' "$statusfile"); then
 				printf ' (%s)' "$(gettext "unknown public key") $pubkey" >&2
