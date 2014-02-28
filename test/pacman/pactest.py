@@ -84,7 +84,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # instantiate env and parser objects
-    root_path = tempfile.mkdtemp()
+    root_path = tempfile.mkdtemp(prefix='pactest-')
     env = pmenv.pmenv(root=root_path)
     opt_parser = create_parser()
     (opts, args) = opt_parser.parse_args()
