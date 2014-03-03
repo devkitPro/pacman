@@ -74,6 +74,7 @@ INFAKEROOT=0
 INSTALL=0
 LOGGING=0
 NEEDED=0
+NOARCHIVE=0
 NOBUILD=0
 NODEPS=0
 NOEXTRACT=0
@@ -1868,6 +1869,8 @@ write_pkginfo() {
 }
 
 create_package() {
+	(( NOARCHIVE )) && return
+
 	if [[ ! -d $pkgdir ]]; then
 		error "$(gettext "Missing %s directory.")" "\$pkgdir/"
 		plain "$(gettext "Aborting...")"
@@ -2404,7 +2407,7 @@ check_build_status() {
 		fullver=$(get_full_version)
 		pkgarch=$(get_pkg_arch)
 		if [[ -f $PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT} ]] \
-				 && ! (( FORCE || SOURCEONLY || NOBUILD )); then
+				 && ! (( FORCE || SOURCEONLY || NOBUILD || NOARCHIVE)); then
 			if (( INSTALL )); then
 				warning "$(gettext "A package has already been built, installing existing package...")"
 				install_package
@@ -2426,7 +2429,7 @@ check_build_status() {
 				allpkgbuilt=0
 			fi
 		done
-		if ! (( FORCE || SOURCEONLY || NOBUILD )); then
+		if ! (( FORCE || SOURCEONLY || NOBUILD || NOARCHIVE)); then
 			if (( allpkgbuilt )); then
 				if (( INSTALL )); then
 					warning "$(gettext "The package group has already been built, installing existing packages...")"
@@ -2538,6 +2541,7 @@ usage() {
 	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
 	printf -- "$(gettext "  --holdver        Do not update VCS sources")\n"
 	printf -- "$(gettext "  --key <key>      Specify a key to use for %s signing instead of the default")\n" "gpg"
+	printf -- "$(gettext "  --noarchive      Do not create package archive")\n"
 	printf -- "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --noprepare      Do not run the %s function in the %s")\n" "prepare()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
@@ -2584,9 +2588,9 @@ ARGLIST=("$@")
 # Parse Command Line Options.
 OPT_SHORT="AcCdefFghiLmop:rRsSV"
 OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
-          'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'nobuild' 'nocolor'
-          'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'pkg:' 'repackage' 'rmdeps'
-          'sign' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'source' 'syncdeps'
+          'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'noarchive' 'nobuild'
+          'nocolor' 'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'pkg:' 'repackage'
+          'rmdeps' 'sign' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'source' 'syncdeps'
           'verifysource' 'version')
 
 # Pacman Options
@@ -2624,6 +2628,7 @@ while true; do
 		--key)            shift; GPGKEY=$1 ;;
 		-L|--log)         LOGGING=1 ;;
 		-m|--nocolor)     USE_COLOR='n' ;;
+		--noarchive)      NOARCHIVE=1 ;;
 		--nocheck)        RUN_CHECK='n' ;;
 		--noprepare)      RUN_PREPARE='n' ;;
 		--nosign)         SIGNPKG='n' ;;
@@ -3079,6 +3084,12 @@ else
 
 		enter_fakeroot
 	fi
+fi
+
+# if inhibiting archive creation, go no further
+if (( NOARCHIVE )); then
+	msg "$(gettext "Package folder is ready.")"
+	exit 0
 fi
 
 fullver=$(get_full_version)

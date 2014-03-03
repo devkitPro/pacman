@@ -165,6 +165,11 @@ Options
 	Run the check() function in the PKGBUILD, overriding the setting in
 	linkman:makepkg.conf[5].
 
+*\--noarchive*::
+	Do not create the archive at the end of the build process. This can be
+	useful to test the package() function or if your target distribution does
+	not use pacman.
+
 *\--nocheck*::
 	Do not run the check() function in the PKGBUILD or handle the checkdepends.
 
