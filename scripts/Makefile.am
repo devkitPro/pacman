@@ -142,7 +142,7 @@ makepkg-wrapper: \
 	$(AM_V_at)chmod +x,a-w $@
 	$(AM_V_at)$(LN_S) makepkg-wrapper makepkg
 
-install-data-hook:
+install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
 		$(RM) makepkg makepkg-wrapper
 	$(INSTALL) .lib/makepkg $(DESTDIR)$(bindir)/makepkg
