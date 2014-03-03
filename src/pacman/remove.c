@@ -94,13 +94,10 @@ int pacman_remove(alpm_list_t *targets)
 	/* Step 1: add targets to the created transaction */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		char *target = i->data;
-		char *targ = strchr(target, '/');
-		if(targ && strncmp(target, "local", 5) == 0) {
-			targ++;
-		} else {
-			targ = target;
+		if(strncmp(target, "local/", 6) == 0) {
+			target += 6;
 		}
-		if(remove_target(targ) == -1) {
+		if(remove_target(target) == -1) {
 			retval = 1;
 		}
 	}
