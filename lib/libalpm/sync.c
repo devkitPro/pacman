@@ -566,6 +566,9 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 			/* if conflict->package2 (the local package) is not elected for removal,
 			   we ask the user */
+			if(alpm_pkg_find(trans->remove, conflict->package2)) {
+				found = 1;
+			}
 			for(j = trans->add; j && !found; j = j->next) {
 				alpm_pkg_t *spkg = j->data;
 				if(alpm_pkg_find(spkg->removes, conflict->package2)) {
