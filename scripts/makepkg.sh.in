@@ -2534,7 +2534,6 @@ usage() {
 	printf -- "$(gettext "  -S, --source     Generate a source-only tarball without downloaded sources")\n"
 	printf -- "$(gettext "  -V, --version    Show version information and exit")\n"
 	printf -- "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")\n"
-	printf -- "$(gettext "  --verifysource   Download source files (if needed) and perform integrity checks")\n"
 	printf -- "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
 	printf -- "$(gettext "  --holdver        Do not update VCS sources")\n"
@@ -2548,12 +2547,13 @@ usage() {
 	printf -- "$(gettext "  --skipchecksums  Do not verify checksums of the source files")\n"
 	printf -- "$(gettext "  --skipinteg      Do not perform any verification checks on source files")\n"
 	printf -- "$(gettext "  --skippgpcheck   Do not verify source files with PGP signatures")\n"
+	printf -- "$(gettext "  --verifysource   Download source files (if needed) and perform integrity checks")\n"
 	echo
 	printf -- "$(gettext "These options can be passed to %s:")\n" "pacman"
 	echo
 	printf -- "$(gettext "  --asdeps         Install packages as non-explicitly installed")\n"
-	printf -- "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")\n"
 	printf -- "$(gettext "  --needed         Do not reinstall the targets that are already up to date")\n"
+	printf -- "$(gettext "  --noconfirm      Do not ask for confirmation when resolving dependencies")\n"
 	printf -- "$(gettext "  --noprogressbar  Do not show a progress bar when downloading files")\n"
 	echo
 	printf -- "$(gettext "If %s is not specified, %s will look for '%s'")\n" "-p" "makepkg" "$BUILDSCRIPT"
@@ -2604,8 +2604,8 @@ while true; do
 	case "$1" in
 		# Pacman Options
 		--asdeps)         ASDEPS=1;;
-		--noconfirm)      PACMAN_OPTS+=" --noconfirm" ;;
 		--needed)         NEEDED=1;;
+		--noconfirm)      PACMAN_OPTS+=" --noconfirm" ;;
 		--noprogressbar)  PACMAN_OPTS+=" --noprogressbar" ;;
 
 		# Makepkg Options
@@ -2634,10 +2634,10 @@ while true; do
 		--pkg)            shift; IFS=, read -ra p <<<"$1"; PKGLIST+=("${p[@]}"); unset p ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
+		--sign)           SIGNPKG='y' ;;
 		--skipchecksums)  SKIPCHECKSUMS=1 ;;
 		--skipinteg)      SKIPCHECKSUMS=1; SKIPPGPCHECK=1 ;;
 		--skippgpcheck)   SKIPPGPCHECK=1;;
-		--sign)           SIGNPKG='y' ;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
 		-S|--source)      SOURCEONLY=1 ;;
 		--verifysource)   VERIFYSOURCE=1 ;;
