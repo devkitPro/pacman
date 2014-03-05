@@ -2072,6 +2072,7 @@ create_srcpackage() {
 	rm -rf "${srclinks}"
 }
 
+# this function always returns 0 to make sure clean-up will still occur
 install_package() {
 	(( ! INSTALL )) && return
 
@@ -2407,7 +2408,7 @@ check_build_status() {
 			if (( INSTALL )); then
 				warning "$(gettext "A package has already been built, installing existing package...")"
 				install_package
-				exit $?
+				exit 0
 			else
 				error "$(gettext "A package has already been built. (use %s to overwrite)")" "-f"
 				exit 1
@@ -2430,7 +2431,7 @@ check_build_status() {
 				if (( INSTALL )); then
 					warning "$(gettext "The package group has already been built, installing existing packages...")"
 					install_package
-					exit $?
+					exit 0
 				else
 					error "$(gettext "The package group has already been built. (use %s to overwrite)")" "-f"
 					exit 1
