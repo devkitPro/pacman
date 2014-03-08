@@ -85,15 +85,12 @@ Options
 **DEBUG_CXXFLAGS=**"debug_cxxflags"::
 	Debug flags used for the C++ compiler; see DEBUG_CFLAGS for more info.
 
-**BUILDENV=(**fakeroot !distcc color !ccache check !sign**)**::
+**BUILDENV=(**!distcc color !ccache check !sign**)**::
 	This array contains options that affect the build environment; the defaults
 	are shown here. All options should always be left in the array; to enable
 	or disable an option, simply remove or add an ``!'' at the front of the
 	option. If an option is specified multiple times, the final value takes
 	precedence. Each option works as follows:
-
-	*fakeroot*;;
-		Allow building packages as a non-root user. This is highly recommended.
 
 	*distcc*;;
 		Use the distributed C/C++/ObjC compiler to spread compilation among
