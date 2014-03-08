@@ -60,7 +60,6 @@ known_hash_algos=('md5' 'sha1' 'sha224' 'sha256' 'sha384' 'sha512')
 
 # Options
 ASDEPS=0
-ASROOT=0
 BUILDFUNC=0
 CHECKFUNC=0
 CLEANBUILD=0
@@ -1006,7 +1005,7 @@ run_pacman() {
 	else
 		cmd=("$PACMAN_PATH" "$@")
 	fi
-	if (( ! ASROOT )) && [[ ! $1 = -@(T|Qq) ]]; then
+	if [[ ! $1 = -@(T|Qq) ]]; then
 		if type -p sudo >/dev/null; then
 			cmd=(sudo "${cmd[@]}")
 		else
@@ -2321,7 +2320,7 @@ check_software() {
 	fi
 
 	# check for sudo if we will need it during makepkg execution
-	if (( ! ( ASROOT || INFAKEROOT ) && ( DEP_BIN || RMDEPS || INSTALL ) )); then
+	if (( ! INFAKEROOT && ( DEP_BIN || RMDEPS || INSTALL ) )); then
 		if ! type -p sudo >/dev/null; then
 			warning "$(gettext "Cannot find the %s binary. Will use %s to acquire root privileges.")" "sudo" "su"
 		fi
@@ -2536,7 +2535,6 @@ usage() {
 	printf -- "$(gettext "  -V, --version    Show version information and exit")\n"
 	printf -- "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")\n"
 	printf -- "$(gettext "  --verifysource   Download source files (if needed) and perform integrity checks")\n"
-	printf -- "$(gettext "  --asroot         Allow %s to run as root user")\n" "makepkg"
 	printf -- "$(gettext "  --check          Run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --config <file>  Use an alternate config file (instead of '%s')")\n" "$confdir/makepkg.conf"
 	printf -- "$(gettext "  --holdver        Do not update VCS sources")\n"
@@ -2587,7 +2585,7 @@ ARGLIST=("$@")
 
 # Parse Command Line Options.
 OPT_SHORT="AcCdefFghiLmop:rRsSV"
-OPT_LONG=('allsource' 'asroot' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
+OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
           'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'noarchive' 'nobuild'
           'nocolor' 'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'pkg:' 'repackage'
           'rmdeps' 'sign' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'source' 'syncdeps'
@@ -2612,7 +2610,6 @@ while true; do
 
 		# Makepkg Options
 		--allsource)      SOURCEONLY=2 ;;
-		--asroot)         ASROOT=1 ;;
 		-A|--ignorearch)  IGNOREARCH=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
 		-C|--cleanbuild)  CLEANBUILD=1 ;;
@@ -2789,16 +2786,9 @@ PACKAGER=${_PACKAGER:-$PACKAGER}
 CARCH=${_CARCH:-$CARCH}
 
 if (( ! INFAKEROOT )); then
-	if (( EUID == 0 && ! ASROOT )); then
-		# Warn those who like to live dangerously.
-		error "$(gettext "Running %s as root is a BAD idea and can cause permanent,\n\
-catastrophic damage to your system. If you wish to run as root, please\n\
-use the %s option.")" "makepkg" "--asroot"
-		exit 1 # $E_USER_ABORT
-	elif (( EUID > 0 && ASROOT )); then
-		# Warn those who try to use the --asroot option when they are not root
-		error "$(gettext "The %s option is meant for the root user only. Please\n\
-rerun %s without the %s flag.")" "--asroot" "makepkg" "--asroot"
+	if (( EUID == 0 )); then
+		error "$(gettext "Running %s as root is not allowed as it can cause permanent,\n\
+catastrophic damage to your system.")"
 		exit 1 # $E_USER_ABORT
 	elif (( EUID > 0 )) && ! check_buildenv "fakeroot" "y"; then
 		warning "$(gettext "Running %s as an unprivileged user will result in non-root\n\
