@@ -743,11 +743,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 					/* since we know the length of the file string already,
 					 * we can do malloc + memcpy rather than strdup */
 					len += 1;
-					files[files_count].name = malloc(len);
-					if(files[files_count].name == NULL) {
-						_alpm_alloc_fail(len);
-						goto error;
-					}
+					MALLOC(files[files_count].name, len, goto error);
 					memcpy(files[files_count].name, line, len);
 					files_count++;
 				}

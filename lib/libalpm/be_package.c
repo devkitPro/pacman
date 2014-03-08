@@ -39,6 +39,7 @@
 #include "package.h"
 #include "deps.h"
 #include "filelist.h"
+#include "util.h"
 
 struct package_changelog {
 	struct archive *archive;
@@ -404,11 +405,8 @@ static int add_entry_to_files_list(alpm_pkg_t *pkg, size_t *files_size,
 	 * Other code relies on it to detect directories so add it here.*/
 	if(type == AE_IFDIR && path[pathlen - 1] != '/') {
 		/* 2 = 1 for / + 1 for \0 */
-		char *newpath = malloc(pathlen + 2);
-		if (!newpath) {
-			_alpm_alloc_fail(pathlen + 2);
-			return -1;
-		}
+		char *newpath;
+		MALLOC(newpath, pathlen + 2, return -1);
 		strcpy(newpath, path);
 		newpath[pathlen] = '/';
 		newpath[pathlen + 1] = '\0';

@@ -1135,8 +1135,9 @@ static int check_validity(alpm_handle_t *handle,
 
 		if(_alpm_pkg_validate_internal(handle, v.path, v.pkg,
 					v.level, &v.siglist, &v.validation) == -1) {
+			struct validity *invalid;
 			v.error = handle->pm_errno;
-			struct validity *invalid = malloc(sizeof(struct validity));
+			MALLOC(invalid, sizeof(struct validity), return -1);
 			memcpy(invalid, &v, sizeof(struct validity));
 			errors = alpm_list_add(errors, invalid);
 		} else {

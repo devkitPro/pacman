@@ -172,10 +172,7 @@ static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
 
 	position = get_hash_position(pkg->name_hash, hash);
 
-	ptr = malloc(sizeof(alpm_list_t));
-	if(ptr == NULL) {
-		return hash;
-	}
+	MALLOC(ptr, sizeof(alpm_list_t), return hash);
 
 	ptr->data = pkg;
 	ptr->prev = ptr;
