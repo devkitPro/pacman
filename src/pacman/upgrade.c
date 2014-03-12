@@ -75,12 +75,13 @@ int pacman_upgrade(alpm_list_t *targets)
 	}
 
 	if(retval) {
-		return retval;
+		goto fail_free;
 	}
 
 	/* Step 1: create a new transaction */
 	if(trans_init(config->flags, 1) == -1) {
-		return 1;
+		retval = 1;
+		goto fail_free;
 	}
 
 	printf(_("loading packages...\n"));
@@ -112,15 +113,21 @@ int pacman_upgrade(alpm_list_t *targets)
 		config->explicit_adds = alpm_list_add(config->explicit_adds, pkg);
 	}
 
-	free(file_is_remote);
-
 	if(retval) {
-		trans_release();
-		return retval;
+		goto fail_release;
 	}
+
+	free(file_is_remote);
 
 	/* now that targets are resolved, we can hand it all off to the sync code */
 	return sync_prepare_execute();
+
+fail_release:
+	trans_release();
+fail_free:
+	free(file_is_remote);
+
+	return retval;
 }
 
 /* vim: set noet: */
