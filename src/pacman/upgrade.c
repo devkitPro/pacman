@@ -51,6 +51,10 @@ int pacman_upgrade(alpm_list_t *targets)
 	 */
 	for(i = targets; i; i = alpm_list_next(i)) {
 		int *r = malloc(sizeof(int));
+		if(r == NULL) {
+			pm_printf(ALPM_LOG_ERROR, _("memory exhausted\n"));
+			return 1;
+		}
 
 		if(strstr(i->data, "://")) {
 			char *str = alpm_fetch_pkgurl(config->handle, i->data);
