@@ -41,6 +41,93 @@ extern "C" {
  * Arch Linux Package Management library
  */
 
+/*
+ * Opaque Structures
+ */
+typedef struct __alpm_handle_t alpm_handle_t;
+typedef struct __alpm_db_t alpm_db_t;
+typedef struct __alpm_pkg_t alpm_pkg_t;
+typedef struct __alpm_trans_t alpm_trans_t;
+
+/** @addtogroup alpm_api_errors Error Codes
+ * @{
+ */
+typedef enum _alpm_errno_t {
+	ALPM_ERR_MEMORY = 1,
+	ALPM_ERR_SYSTEM,
+	ALPM_ERR_BADPERMS,
+	ALPM_ERR_NOT_A_FILE,
+	ALPM_ERR_NOT_A_DIR,
+	ALPM_ERR_WRONG_ARGS,
+	ALPM_ERR_DISK_SPACE,
+	/* Interface */
+	ALPM_ERR_HANDLE_NULL,
+	ALPM_ERR_HANDLE_NOT_NULL,
+	ALPM_ERR_HANDLE_LOCK,
+	/* Databases */
+	ALPM_ERR_DB_OPEN,
+	ALPM_ERR_DB_CREATE,
+	ALPM_ERR_DB_NULL,
+	ALPM_ERR_DB_NOT_NULL,
+	ALPM_ERR_DB_NOT_FOUND,
+	ALPM_ERR_DB_INVALID,
+	ALPM_ERR_DB_INVALID_SIG,
+	ALPM_ERR_DB_VERSION,
+	ALPM_ERR_DB_WRITE,
+	ALPM_ERR_DB_REMOVE,
+	/* Servers */
+	ALPM_ERR_SERVER_BAD_URL,
+	ALPM_ERR_SERVER_NONE,
+	/* Transactions */
+	ALPM_ERR_TRANS_NOT_NULL,
+	ALPM_ERR_TRANS_NULL,
+	ALPM_ERR_TRANS_DUP_TARGET,
+	ALPM_ERR_TRANS_NOT_INITIALIZED,
+	ALPM_ERR_TRANS_NOT_PREPARED,
+	ALPM_ERR_TRANS_ABORT,
+	ALPM_ERR_TRANS_TYPE,
+	ALPM_ERR_TRANS_NOT_LOCKED,
+	/* Packages */
+	ALPM_ERR_PKG_NOT_FOUND,
+	ALPM_ERR_PKG_IGNORED,
+	ALPM_ERR_PKG_INVALID,
+	ALPM_ERR_PKG_INVALID_CHECKSUM,
+	ALPM_ERR_PKG_INVALID_SIG,
+	ALPM_ERR_PKG_MISSING_SIG,
+	ALPM_ERR_PKG_OPEN,
+	ALPM_ERR_PKG_CANT_REMOVE,
+	ALPM_ERR_PKG_INVALID_NAME,
+	ALPM_ERR_PKG_INVALID_ARCH,
+	ALPM_ERR_PKG_REPO_NOT_FOUND,
+	/* Signatures */
+	ALPM_ERR_SIG_MISSING,
+	ALPM_ERR_SIG_INVALID,
+	/* Deltas */
+	ALPM_ERR_DLT_INVALID,
+	ALPM_ERR_DLT_PATCHFAILED,
+	/* Dependencies */
+	ALPM_ERR_UNSATISFIED_DEPS,
+	ALPM_ERR_CONFLICTING_DEPS,
+	ALPM_ERR_FILE_CONFLICTS,
+	/* Misc */
+	ALPM_ERR_RETRIEVE,
+	ALPM_ERR_INVALID_REGEX,
+	/* External library errors */
+	ALPM_ERR_LIBARCHIVE,
+	ALPM_ERR_LIBCURL,
+	ALPM_ERR_EXTERNAL_DOWNLOAD,
+	ALPM_ERR_GPGME
+} alpm_errno_t;
+
+/** Returns the current error code from the handle. */
+alpm_errno_t alpm_errno(alpm_handle_t *handle);
+
+/** Returns the string corresponding to an error number. */
+const char *alpm_strerror(alpm_errno_t err);
+
+/* End of alpm_api_errors */
+/** @} */
+
 /** @addtogroup alpm_api Public API
  * The libalpm Public API
  * @{
@@ -142,11 +229,6 @@ typedef enum _alpm_sigvalidity_t {
 /*
  * Structures
  */
-
-typedef struct __alpm_handle_t alpm_handle_t;
-typedef struct __alpm_db_t alpm_db_t;
-typedef struct __alpm_pkg_t alpm_pkg_t;
-typedef struct __alpm_trans_t alpm_trans_t;
 
 /** Dependency */
 typedef struct _alpm_depend_t {
@@ -1344,85 +1426,6 @@ char *alpm_dep_compute_string(const alpm_depend_t *dep);
 /* checksums */
 char *alpm_compute_md5sum(const char *filename);
 char *alpm_compute_sha256sum(const char *filename);
-
-/** @addtogroup alpm_api_errors Error Codes
- * @{
- */
-typedef enum _alpm_errno_t {
-	ALPM_ERR_MEMORY = 1,
-	ALPM_ERR_SYSTEM,
-	ALPM_ERR_BADPERMS,
-	ALPM_ERR_NOT_A_FILE,
-	ALPM_ERR_NOT_A_DIR,
-	ALPM_ERR_WRONG_ARGS,
-	ALPM_ERR_DISK_SPACE,
-	/* Interface */
-	ALPM_ERR_HANDLE_NULL,
-	ALPM_ERR_HANDLE_NOT_NULL,
-	ALPM_ERR_HANDLE_LOCK,
-	/* Databases */
-	ALPM_ERR_DB_OPEN,
-	ALPM_ERR_DB_CREATE,
-	ALPM_ERR_DB_NULL,
-	ALPM_ERR_DB_NOT_NULL,
-	ALPM_ERR_DB_NOT_FOUND,
-	ALPM_ERR_DB_INVALID,
-	ALPM_ERR_DB_INVALID_SIG,
-	ALPM_ERR_DB_VERSION,
-	ALPM_ERR_DB_WRITE,
-	ALPM_ERR_DB_REMOVE,
-	/* Servers */
-	ALPM_ERR_SERVER_BAD_URL,
-	ALPM_ERR_SERVER_NONE,
-	/* Transactions */
-	ALPM_ERR_TRANS_NOT_NULL,
-	ALPM_ERR_TRANS_NULL,
-	ALPM_ERR_TRANS_DUP_TARGET,
-	ALPM_ERR_TRANS_NOT_INITIALIZED,
-	ALPM_ERR_TRANS_NOT_PREPARED,
-	ALPM_ERR_TRANS_ABORT,
-	ALPM_ERR_TRANS_TYPE,
-	ALPM_ERR_TRANS_NOT_LOCKED,
-	/* Packages */
-	ALPM_ERR_PKG_NOT_FOUND,
-	ALPM_ERR_PKG_IGNORED,
-	ALPM_ERR_PKG_INVALID,
-	ALPM_ERR_PKG_INVALID_CHECKSUM,
-	ALPM_ERR_PKG_INVALID_SIG,
-	ALPM_ERR_PKG_MISSING_SIG,
-	ALPM_ERR_PKG_OPEN,
-	ALPM_ERR_PKG_CANT_REMOVE,
-	ALPM_ERR_PKG_INVALID_NAME,
-	ALPM_ERR_PKG_INVALID_ARCH,
-	ALPM_ERR_PKG_REPO_NOT_FOUND,
-	/* Signatures */
-	ALPM_ERR_SIG_MISSING,
-	ALPM_ERR_SIG_INVALID,
-	/* Deltas */
-	ALPM_ERR_DLT_INVALID,
-	ALPM_ERR_DLT_PATCHFAILED,
-	/* Dependencies */
-	ALPM_ERR_UNSATISFIED_DEPS,
-	ALPM_ERR_CONFLICTING_DEPS,
-	ALPM_ERR_FILE_CONFLICTS,
-	/* Misc */
-	ALPM_ERR_RETRIEVE,
-	ALPM_ERR_INVALID_REGEX,
-	/* External library errors */
-	ALPM_ERR_LIBARCHIVE,
-	ALPM_ERR_LIBCURL,
-	ALPM_ERR_EXTERNAL_DOWNLOAD,
-	ALPM_ERR_GPGME
-} alpm_errno_t;
-
-/** Returns the current error code from the handle. */
-alpm_errno_t alpm_errno(alpm_handle_t *handle);
-
-/** Returns the string corresponding to an error number. */
-const char *alpm_strerror(alpm_errno_t err);
-
-/* End of alpm_api_errors */
-/** @} */
 
 alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
 		alpm_errno_t *err);
