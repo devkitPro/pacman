@@ -410,7 +410,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		alpm_list_t *resolved = NULL;
-		alpm_list_t *remove = NULL;
+		alpm_list_t *remove = alpm_list_copy(trans->remove);
 		alpm_list_t *localpkgs;
 
 		/* Build up list by repeatedly resolving each transaction package */
