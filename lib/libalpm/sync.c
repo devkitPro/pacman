@@ -424,8 +424,6 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			alpm_pkg_t *spkg = i->data;
 			for(j = spkg->removes; j; j = j->next) {
 				remove = alpm_list_add(remove, j->data);
-				/* do not re-install a (replaced) package even if an update is available */
-				trans->add = alpm_list_remove(trans->add, j->data, _alpm_pkg_cmp, NULL);
 			}
 		}
 
