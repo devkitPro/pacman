@@ -93,10 +93,9 @@ config_t *config_new(void)
 {
 	config_t *newconfig = calloc(1, sizeof(config_t));
 	if(!newconfig) {
-			pm_printf(ALPM_LOG_ERROR,
-					_("malloc failure: could not allocate %zd bytes\n"),
-					sizeof(config_t));
-			return NULL;
+		pm_printf(ALPM_LOG_ERROR,
+				_("malloc failure: could not allocate %zd bytes\n"), sizeof(config_t));
+		return NULL;
 	}
 	/* defaults which may get overridden later */
 	newconfig->op = PM_OP_MAIN;
