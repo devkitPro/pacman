@@ -1045,7 +1045,10 @@ int main(int argc, char *argv[])
 	setuseragent();
 
 	/* init config data */
-	config = config_new();
+	if(!(config = config_new())) {
+		/* config_new prints the appropriate error message */
+		cleanup(1);
+	}
 
 	/* disable progressbar if the output is redirected */
 	if(!isatty(fileno(stdout))) {
