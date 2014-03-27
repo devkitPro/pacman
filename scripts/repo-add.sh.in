@@ -264,7 +264,7 @@ db_write_entry() {
 	local pkgfile=$1
 	local -a _groups _licenses _replaces _depends _conflicts _provides \
 		_optdepends _makedepends _checkdepends
-	local pkgname pkgver pkgdesc csize size url arch builddate packager \
+	local pkgname pkgbase pkgver pkgdesc csize size url arch builddate packager \
 		md5sum sha256sum pgpsig pgpsigsize
 
 	# read info from the zipped package
