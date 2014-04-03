@@ -1532,7 +1532,7 @@ strip_file() {
 
 		# has this file already been stripped
 		if [[ -n "$bid" ]]; then
-			if [[ -f "$dbgdir/.build_id/${bid:0:2}/${bid:2}.debug" ]]; then
+			if [[ -f "$dbgdir/.build-id/${bid:0:2}/${bid:2}.debug" ]]; then
 				return
 			fi
 		elif [[ -f "$dbgdir/$binary.debug" ]]; then
@@ -1553,15 +1553,15 @@ strip_file() {
 
 		if [[ -n "$bid" ]]; then
 			local target
-			mkdir -p "$dbgdir/.build_id/${bid:0:2}"
+			mkdir -p "$dbgdir/.build-id/${bid:0:2}"
 
 			target="../../../../../${binary#./}"
 			target="${target/..\/..\/usr\/lib\/}"
 			target="${target/..\/usr\/}"
-			ln -s "$target" "$dbgdir/.build_id/${bid:0:2}/${bid:2}"
+			ln -s "$target" "$dbgdir/.build-id/${bid:0:2}/${bid:2}"
 
 			target="../../${binary#./}.debug"
-			ln -s "$target" "$dbgdir/.build_id/${bid:0:2}/${bid:2}.debug"
+			ln -s "$target" "$dbgdir/.build-id/${bid:0:2}/${bid:2}.debug"
 		fi
 	fi
 
