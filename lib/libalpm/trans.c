@@ -177,16 +177,26 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 
 	trans->state = STATE_COMMITING;
 
+	alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction started\n");
+
 	if(trans->add == NULL) {
 		if(_alpm_remove_packages(handle, 1) == -1) {
 			/* pm_errno is set by _alpm_remove_packages() */
+			alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction failed\n");
 			return -1;
 		}
 	} else {
 		if(_alpm_sync_commit(handle, data) == -1) {
 			/* pm_errno is set by _alpm_sync_commit() */
+			alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction failed\n");
 			return -1;
 		}
+	}
+
+	if(trans->state == STATE_INTERRUPTED) {
+		alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction interrupted\n");
+	} else {
+		alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction completed\n");
 	}
 
 	trans->state = STATE_COMMITED;
