@@ -18,7 +18,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import glob
 from optparse import OptionParser
 import os
 import shutil
@@ -100,16 +99,18 @@ if __name__ == "__main__":
     env.pacman["scriptlet-shell"] = opts.scriptletshell
     env.pacman["ldconfig"] = opts.ldconfig
 
-    opts.testcases = []
-    for path in args:
-        opts.testcases += glob.glob(path)
-    if opts.testcases is None or len(opts.testcases) == 0:
+    if args is None or len(args) == 0:
         tap.bail("no tests defined, nothing to do")
         os.rmdir(root_path)
         sys.exit(2)
 
-    for i in opts.testcases:
-        env.addtest(i)
+    try:
+        for i in args:
+            env.addtest(i)
+    except Exception as e:
+        tap.bail(e)
+        os.rmdir(root_path)
+        sys.exit(2)
 
     # run tests
     env.run()
