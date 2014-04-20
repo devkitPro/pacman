@@ -159,6 +159,7 @@ static size_t strtrim(char *str)
 		size_t len = strlen(pch);
 		if(len) {
 			memmove(str, pch, len + 1);
+			pch = str;
 		} else {
 			*str = '\0';
 		}
