@@ -103,12 +103,6 @@ int parse_ini(const char *file, ini_parser_fn cb, void *data)
 		strtrim(key);
 		strtrim(value);
 
-		if(key == NULL) {
-			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: syntax error in config file- missing key.\n"),
-					file, linenum);
-			ret = 1;
-			goto cleanup;
-		}
 		if((ret = cb(file, linenum, section_name, key, value, data)) != 0) {
 			goto cleanup;
 		}
