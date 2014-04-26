@@ -131,6 +131,9 @@ int config_free(config_t *oldconfig)
 	alpm_list_free(oldconfig->explicit_adds);
 	alpm_list_free(oldconfig->explicit_removes);
 
+	alpm_list_free_inner(config->repos, (alpm_list_fn_free) config_repo_free);
+	alpm_list_free(config->repos);
+
 	FREELIST(oldconfig->holdpkg);
 	FREELIST(oldconfig->ignorepkg);
 	FREELIST(oldconfig->ignoregrp);
@@ -156,6 +159,7 @@ void config_repo_free(config_repo_t *repo)
 	if(repo == NULL) {
 		return;
 	}
+	free(repo->name);
 	FREELIST(repo->servers);
 	free(repo);
 }
@@ -638,6 +642,40 @@ static int _add_mirror(alpm_db_t *db, char *value)
 	return 0;
 }
 
+static int register_repo(config_repo_t *repo)
+{
+	alpm_list_t *i;
+	alpm_db_t *db;
+
+	repo->siglevel = merge_siglevel(config->siglevel,
+			repo->siglevel, repo->siglevel_mask);
+
+	db = alpm_register_syncdb(config->handle, repo->name, repo->siglevel);
+	if(db == NULL) {
+		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
+				repo->name, alpm_strerror(alpm_errno(config->handle)));
+		return 1;
+	}
+
+	pm_printf(ALPM_LOG_DEBUG,
+			"setting usage of %d for %s repository\n",
+			repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage,
+			repo->name);
+	alpm_db_set_usage(db, repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage);
+
+	for(i = repo->servers; i; i = alpm_list_next(i)) {
+		char *value = i->data;
+		if(_add_mirror(db, value) != 0) {
+			pm_printf(ALPM_LOG_ERROR,
+					_("could not add mirror '%s' to database '%s' (%s)\n"),
+					value, repo->name, alpm_strerror(alpm_errno(config->handle)));
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 /** Sets up libalpm global stuff in one go. Called after the command line
  * and initial config file parsing. Once this is complete, we can see if any
  * paths were defined. If a rootdir was defined and nothing else, we want all
@@ -725,6 +763,10 @@ static int setup_libalpm(void)
 	alpm_option_set_local_file_siglevel(handle, config->localfilesiglevel);
 	alpm_option_set_remote_file_siglevel(handle, config->remotefilesiglevel);
 
+	for(i = config->repos; i; i = alpm_list_next(i)) {
+		register_repo(i->data);
+	}
+
 	if(config->xfercommand) {
 		alpm_option_set_fetchcb(handle, download_with_xfercommand);
 	} else if(!(alpm_capabilities() & ALPM_CAPABILITY_DOWNLOADER)) {
@@ -771,8 +813,6 @@ static int setup_libalpm(void)
 struct section_t {
 	const char *name;
 	config_repo_t *repo;
-	int is_options;
-	int parse_options;
 };
 
 static int process_usage(alpm_list_t *values, alpm_db_usage_t *usage,
@@ -849,61 +889,10 @@ static int _parse_repo(const char *key, char *value, const char *file,
 	} else {
 		pm_printf(ALPM_LOG_WARNING,
 				_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
-				file, line, key, section->name);
+				file, line, key, repo->name);
 	}
 
 	return ret;
-}
-
-/**
- * Wrap up a section once we have reached the end of it. This should be called
- * when a subsequent section is encountered, or when we have reached the end of
- * the root config file. Once called, all existing saved config pieces on the
- * section struct are freed.
- * @param section the current parsed and saved section data
- * @param parse_options whether we are parsing options or repo data
- * @return 0 on success, 1 on failure
- */
-static int finish_section(struct section_t *section)
-{
-	alpm_list_t *i;
-	alpm_db_t *db;
-	config_repo_t *repo = section->repo;
-
-	pm_printf(ALPM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
-
-	/* parsing options (or nothing)- nothing to do except free the pieces */
-	if(section->parse_options || !section->repo) {
-		return 0;
-	}
-
-	/* if we are not looking at options sections only, register a db */
-	repo->siglevel = merge_siglevel(config->siglevel,
-			repo->siglevel, repo->siglevel_mask);
-	db = alpm_register_syncdb(config->handle, section->name, repo->siglevel);
-	if(db == NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
-				section->name, alpm_strerror(alpm_errno(config->handle)));
-		return 1;
-	}
-
-	pm_printf(ALPM_LOG_DEBUG,
-			"setting usage of %d for %s repository\n",
-			repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage,
-			section->name);
-	alpm_db_set_usage(db, repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage);
-
-	for(i = repo->servers; i; i = alpm_list_next(i)) {
-		char *value = i->data;
-		if(_add_mirror(db, value) != 0) {
-			pm_printf(ALPM_LOG_ERROR,
-					_("could not add mirror '%s' to database '%s' (%s)\n"),
-					value, section->name, alpm_strerror(alpm_errno(config->handle)));
-			return 1;
-		}
-	}
-
-	return 0;
 }
 
 static int _parse_directive(const char *file, int linenum, const char *name,
@@ -911,22 +900,20 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 {
 	struct section_t *section = data;
 	if(!key && !value) {
-		int ret = finish_section(data);
 		section->name = name;
 		pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
-		config_repo_free(section->repo);
-		section->repo = NULL;
-		section->is_options = 0;
 		if(!name) {
 			/* end of file, do nothing */
 		} else if(strcmp(name, "options") == 0) {
-			section->is_options = 1;
-		} else if(!section->parse_options) {
+			section->repo = NULL;
+		} else {
 			section->repo = calloc(sizeof(config_repo_t), 1);
+			section->repo->name = strdup(name);
 			section->repo->siglevel = ALPM_SIG_USE_DEFAULT;
 			section->repo->usage = 0;
+			config->repos = alpm_list_add(config->repos, section->repo);
 		}
-		return ret;
+		return 0;
 	}
 
 	if(section->name == NULL) {
@@ -935,15 +922,13 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 		return 1;
 	}
 
-	if(section->parse_options && section->is_options) {
+	if(!section->repo) {
 		/* we are either in options ... */
 		return _parse_options(key, value, file, linenum);
-	} else if(!section->parse_options && section->repo) {
+	} else {
 		/* ... or in a repo section */
 		return _parse_repo(key, value, file, linenum, section);
 	}
-
-	return 0;
 }
 
 /** Parse a configuration file.
@@ -955,23 +940,16 @@ int parseconfig(const char *file)
 	int ret;
 	struct section_t section;
 	memset(&section, 0, sizeof(struct section_t));
-	/* the config parse is a two-pass affair. We first parse the entire thing for
-	 * the [options] section so we can get all default and path options set.
-	 * Next, we go back and parse everything but [options]. */
-
-	/* call the real parseconfig function with a null section & db argument */
-	pm_printf(ALPM_LOG_DEBUG, "parseconfig: options pass\n");
-	section.parse_options = 1;
 	if((ret = parse_ini(file, _parse_directive, &section))) {
 		return ret;
 	}
 	if((ret = setup_libalpm())) {
 		return ret;
 	}
-	/* second pass, repo section parsing */
-	pm_printf(ALPM_LOG_DEBUG, "parseconfig: repo pass\n");
-	section.parse_options = 0;
-	return parse_ini(file, _parse_directive, &section);
+	alpm_list_free_inner(config->repos, (alpm_list_fn_free) config_repo_free);
+	alpm_list_free(config->repos);
+	config->repos = NULL;
+	return ret;
 }
 
 /* vim: set noet: */

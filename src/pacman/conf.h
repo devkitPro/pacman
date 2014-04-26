@@ -35,6 +35,7 @@ typedef struct __colstr_t {
 } colstr_t;
 
 typedef struct __config_repo_t {
+	char *name;
 	alpm_list_t *servers;
 	alpm_db_usage_t usage;
 	alpm_siglevel_t siglevel;
@@ -125,6 +126,8 @@ typedef struct __config_t {
 
 	/* Color strings for output */
 	colstr_t colstr;
+
+	alpm_list_t *repos;
 } config_t;
 
 /* Operations */
