@@ -151,6 +151,15 @@ int config_free(config_t *oldconfig)
 	return 0;
 }
 
+void config_repo_free(config_repo_t *repo)
+{
+	if(repo == NULL) {
+		return;
+	}
+	FREELIST(repo->servers);
+	free(repo);
+}
+
 /** Helper function for download_with_xfercommand() */
 static char *get_filename(const char *url)
 {
@@ -768,14 +777,10 @@ static int setup_libalpm(void)
  * calling library methods.
  */
 struct section_t {
-	/* useful for all sections */
 	const char *name;
+	config_repo_t *repo;
 	int is_options;
 	int parse_options;
-	/* db section option gathering */
-	alpm_list_t *servers;
-	alpm_siglevel_t siglevel;
-	alpm_db_usage_t usage;
 };
 
 static int process_usage(alpm_list_t *values, alpm_db_usage_t *usage,
@@ -816,6 +821,7 @@ static int _parse_repo(const char *key, char *value, const char *file,
 		int line, struct section_t *section)
 {
 	int ret = 0;
+	config_repo_t *repo = section->repo;
 
 	if(strcmp(key, "Server") == 0) {
 		if(!value) {
@@ -823,7 +829,7 @@ static int _parse_repo(const char *key, char *value, const char *file,
 					file, line, key);
 			ret = 1;
 		} else {
-			section->servers = alpm_list_add(section->servers, strdup(value));
+			repo->servers = alpm_list_add(repo->servers, strdup(value));
 		}
 	} else if(strcmp(key, "SigLevel") == 0) {
 		if(!value) {
@@ -833,10 +839,10 @@ static int _parse_repo(const char *key, char *value, const char *file,
 			alpm_list_t *values = NULL;
 			setrepeatingoption(value, "SigLevel", &values);
 			if(values) {
-				if(section->siglevel == ALPM_SIG_USE_DEFAULT) {
-					section->siglevel = config->siglevel;
+				if(repo->siglevel == ALPM_SIG_USE_DEFAULT) {
+					repo->siglevel = config->siglevel;
 				}
-				ret = process_siglevel(values, &section->siglevel, file, line);
+				ret = process_siglevel(values, &repo->siglevel, file, line);
 				FREELIST(values);
 			}
 		}
@@ -844,7 +850,7 @@ static int _parse_repo(const char *key, char *value, const char *file,
 		alpm_list_t *values = NULL;
 		setrepeatingoption(value, "Usage", &values);
 		if(values) {
-			if(process_usage(values, &section->usage, file, line)) {
+			if(process_usage(values, &repo->usage, file, line)) {
 				FREELIST(values);
 				return 1;
 			}
@@ -870,51 +876,42 @@ static int _parse_repo(const char *key, char *value, const char *file,
  */
 static int finish_section(struct section_t *section)
 {
-	int ret = 0;
 	alpm_list_t *i;
 	alpm_db_t *db;
+	config_repo_t *repo = section->repo;
 
 	pm_printf(ALPM_LOG_DEBUG, "config: finish section '%s'\n", section->name);
 
 	/* parsing options (or nothing)- nothing to do except free the pieces */
-	if(!section->name || section->parse_options || section->is_options) {
-		goto cleanup;
+	if(section->parse_options || !section->repo) {
+		return 0;
 	}
 
 	/* if we are not looking at options sections only, register a db */
-	db = alpm_register_syncdb(config->handle, section->name, section->siglevel);
+	db = alpm_register_syncdb(config->handle, section->name, repo->siglevel);
 	if(db == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
 				section->name, alpm_strerror(alpm_errno(config->handle)));
-		ret = 1;
-		goto cleanup;
+		return 1;
 	}
 
 	pm_printf(ALPM_LOG_DEBUG,
-			"setting usage of %d for %s repoistory\n",
-			section->usage == 0 ? ALPM_DB_USAGE_ALL : section->usage,
+			"setting usage of %d for %s repository\n",
+			repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage,
 			section->name);
-	alpm_db_set_usage(db, section->usage == 0 ? ALPM_DB_USAGE_ALL : section->usage);
+	alpm_db_set_usage(db, repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage);
 
-	for(i = section->servers; i; i = alpm_list_next(i)) {
+	for(i = repo->servers; i; i = alpm_list_next(i)) {
 		char *value = i->data;
 		if(_add_mirror(db, value) != 0) {
 			pm_printf(ALPM_LOG_ERROR,
 					_("could not add mirror '%s' to database '%s' (%s)\n"),
 					value, section->name, alpm_strerror(alpm_errno(config->handle)));
-			ret = 1;
-			goto cleanup;
+			return 1;
 		}
-		free(value);
 	}
 
-cleanup:
-	alpm_list_free(section->servers);
-	section->servers = NULL;
-	section->siglevel = ALPM_SIG_USE_DEFAULT;
-	section->name = NULL;
-	section->usage = 0;
-	return ret;
+	return 0;
 }
 
 static int _parse_directive(const char *file, int linenum, const char *name,
@@ -922,13 +919,20 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 {
 	struct section_t *section = data;
 	if(!key && !value) {
-		int ret = finish_section(section);
-		pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
+		int ret = finish_section(data);
 		section->name = name;
-		if(name && strcmp(name, "options") == 0) {
+		pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
+		config_repo_free(section->repo);
+		section->repo = NULL;
+		section->is_options = 0;
+		if(!name) {
+			/* end of file, do nothing */
+		} else if(strcmp(name, "options") == 0) {
 			section->is_options = 1;
-		} else {
-			section->is_options = 0;
+		} else if(!section->parse_options) {
+			section->repo = calloc(sizeof(config_repo_t), 1);
+			section->repo->siglevel = ALPM_SIG_USE_DEFAULT;
+			section->repo->usage = 0;
 		}
 		return ret;
 	}
@@ -942,7 +946,7 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 	if(section->parse_options && section->is_options) {
 		/* we are either in options ... */
 		return _parse_options(key, value, file, linenum);
-	} else if(!section->parse_options && !section->is_options) {
+	} else if(!section->parse_options && section->repo) {
 		/* ... or in a repo section */
 		return _parse_repo(key, value, file, linenum, section);
 	}
@@ -959,8 +963,6 @@ int parseconfig(const char *file)
 	int ret;
 	struct section_t section;
 	memset(&section, 0, sizeof(struct section_t));
-	section.siglevel = ALPM_SIG_USE_DEFAULT;
-	section.usage = 0;
 	/* the config parse is a two-pass affair. We first parse the entire thing for
 	 * the [options] section so we can get all default and path options set.
 	 * Next, we go back and parse everything but [options]. */

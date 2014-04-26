@@ -34,6 +34,12 @@ typedef struct __colstr_t {
 	const char *nocolor;
 } colstr_t;
 
+typedef struct __config_repo_t {
+	alpm_list_t *servers;
+	alpm_db_usage_t usage;
+	alpm_siglevel_t siglevel;
+} config_repo_t;
+
 typedef struct __config_t {
 	unsigned short op;
 	unsigned short quiet;
@@ -207,6 +213,8 @@ extern config_t *config;
 void enable_colors(int colors);
 config_t *config_new(void);
 int config_free(config_t *oldconfig);
+
+void config_repo_free(config_repo_t *repo);
 
 int config_set_arch(const char *arch);
 int parseconfig(const char *file);
