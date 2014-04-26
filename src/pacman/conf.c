@@ -22,6 +22,7 @@
 #include <limits.h>
 #include <locale.h> /* setlocale */
 #include <fcntl.h> /* open */
+#include <glob.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h> /* strdup */
@@ -813,6 +814,7 @@ static int setup_libalpm(void)
 struct section_t {
 	const char *name;
 	config_repo_t *repo;
+	int depth;
 };
 
 static int process_usage(alpm_list_t *values, alpm_db_usage_t *usage,
@@ -896,6 +898,69 @@ static int _parse_repo(const char *key, char *value, const char *file,
 }
 
 static int _parse_directive(const char *file, int linenum, const char *name,
+		char *key, char *value, void *data);
+
+static int process_include(const char *value, void *data,
+		const char *file, int linenum)
+{
+	glob_t globbuf;
+	int globret, ret = 0;
+	size_t gindex;
+	struct section_t *section = data;
+	static const int config_max_recursion = 10;
+
+	if(value == NULL) {
+		pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
+				file, linenum, "Include");
+		return 1;
+	}
+
+	if(section->depth >= config_max_recursion) {
+		pm_printf(ALPM_LOG_ERROR,
+				_("config parsing exceeded max recursion depth of %d.\n"),
+				config_max_recursion);
+		return 1;
+	}
+
+	section->depth++;
+
+	/* Ignore include failures... assume non-critical */
+	globret = glob(value, GLOB_NOCHECK, NULL, &globbuf);
+	switch(globret) {
+		case GLOB_NOSPACE:
+			pm_printf(ALPM_LOG_DEBUG,
+					"config file %s, line %d: include globbing out of space\n",
+					file, linenum);
+			break;
+		case GLOB_ABORTED:
+			pm_printf(ALPM_LOG_DEBUG,
+					"config file %s, line %d: include globbing read error for %s\n",
+					file, linenum, value);
+			break;
+		case GLOB_NOMATCH:
+			pm_printf(ALPM_LOG_DEBUG,
+					"config file %s, line %d: no include found for %s\n",
+					file, linenum, value);
+			break;
+		default:
+			for(gindex = 0; gindex < globbuf.gl_pathc; gindex++) {
+				pm_printf(ALPM_LOG_DEBUG, "config file %s, line %d: including %s\n",
+						file, linenum, globbuf.gl_pathv[gindex]);
+				ret = parse_ini(globbuf.gl_pathv[gindex], _parse_directive, data);
+				if(ret) {
+					goto cleanup;
+				}
+			}
+			break;
+	}
+
+cleanup:
+	section->depth--;
+	globfree(&globbuf);
+	return ret;
+}
+
+static int _parse_directive(const char *file, int linenum, const char *name,
 		char *key, char *value, void *data)
 {
 	struct section_t *section = data;
@@ -912,6 +977,10 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 			config->repos = alpm_list_add(config->repos, section->repo);
 		}
 		return 0;
+	}
+
+	if(strcmp(key, "Include") == 0) {
+		return process_include(value, data, file, linenum);
 	}
 
 	if(section->name == NULL) {
