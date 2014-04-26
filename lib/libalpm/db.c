@@ -52,12 +52,13 @@ alpm_db_t SYMEXPORT *alpm_register_syncdb(alpm_handle_t *handle,
 	CHECK_HANDLE(handle, return NULL);
 	ASSERT(treename != NULL && strlen(treename) != 0,
 			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
+	ASSERT(!strchr(treename, '/'), RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
 	/* Do not register a database if a transaction is on-going */
 	ASSERT(handle->trans == NULL, RET_ERR(handle, ALPM_ERR_TRANS_NOT_NULL, NULL));
 
 	/* ensure database name is unique */
 	if(strcmp(treename, "local") == 0) {
-			RET_ERR(handle, ALPM_ERR_DB_NOT_NULL, NULL);
+		RET_ERR(handle, ALPM_ERR_DB_NOT_NULL, NULL);
 	}
 	for(i = handle->dbs_sync; i; i = i->next) {
 		alpm_db_t *d = i->data;
