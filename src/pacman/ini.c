@@ -80,13 +80,6 @@ int parse_ini(const char *file, ini_parser_fn cb, void *data)
 
 		if(line[0] == '[' && line[line_len - 1] == ']') {
 			char *name;
-			/* only possibility here is a line == '[]' */
-			if(line_len <= 2) {
-				pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: bad section name.\n"),
-						file, linenum);
-				ret = 1;
-				goto cleanup;
-			}
 			/* new config section, skip the '[' */
 			name = strdup(line + 1);
 			name[line_len - 2] = '\0';
