@@ -964,7 +964,11 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 		char *key, char *value, void *data)
 {
 	struct section_t *section = data;
-	if(!key && !value) {
+	if(!name && !key && !value) {
+		pm_printf(ALPM_LOG_ERROR, _("config file %s could not be read: %s\n"),
+				file, strerror(errno));
+		return 1;
+	} else if(!key && !value) {
 		section->name = name;
 		pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
 		if(strcmp(name, "options") == 0) {
@@ -1007,9 +1011,11 @@ int parseconfig(const char *file)
 	int ret;
 	struct section_t section;
 	memset(&section, 0, sizeof(struct section_t));
+	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	if((ret = parse_ini(file, _parse_directive, &section))) {
 		return ret;
 	}
+	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	if((ret = setup_libalpm())) {
 		return ret;
 	}

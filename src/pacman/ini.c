@@ -33,11 +33,14 @@
  * @param cb callback for key/value pairs
  * @param data caller defined data to be passed to the callback
  *
- * @return 0 on success, 1 on parsing errors, the callback return value
- * otherwise
+ * @return the callback return value
  *
  * @note The callback will be called at the beginning of each section with an
  * empty key and value and for each key/value pair.
+ *
+ * @note If the parser encounters an error the callback will be called with
+ * section, key, and value set to NULL and errno set by fopen, fgets, or
+ * strdup.
  *
  * @note The @a key and @a value passed to @ cb will be overwritten between
  * calls.  The section name will remain valid until after @a cb is called to
@@ -52,13 +55,9 @@ int parse_ini(const char *file, ini_parser_fn cb, void *data)
 	int linenum = 0;
 	int ret = 0;
 
-	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	fp = fopen(file, "r");
 	if(fp == NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("config file %s could not be read: %s\n"),
-				file, strerror(errno));
-		ret = 1;
-		goto cleanup;
+		return cb(file, 0, NULL, NULL, NULL, data);
 	}
 
 	while(safe_fgets(line, PATH_MAX, fp)) {
@@ -109,11 +108,8 @@ int parse_ini(const char *file, ini_parser_fn cb, void *data)
 	}
 
 cleanup:
-	if(fp) {
-		fclose(fp);
-	}
+	fclose(fp);
 	free(section_name);
-	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return ret;
 }
 
