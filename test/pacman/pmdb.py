@@ -69,7 +69,7 @@ class pmdb(object):
         return "%s" % self.treename
 
     def getverify(self):
-        for value in ("Always", "Never", "Optional"):
+        for value in ("Required", "Never", "Optional"):
             if value in self.treename:
                 return value
         return "Never"
