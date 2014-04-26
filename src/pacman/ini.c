@@ -27,20 +27,27 @@
 #include "util.h"
 
 /**
- * @brief INI parser backend.
+ * @brief Parse a pacman-style INI config file.
  *
  * @param file path to the config file
  * @param cb callback for key/value pairs
  * @param data caller defined data to be passed to the callback
- * @param section_name the name of the current section
- * @param line buffer to read into, must be at least PATH_MAX long
  *
  * @return 0 on success, 1 on parsing errors, the callback return value
  * otherwise
+ *
+ * @note The callback will be called at the beginning of each section with an
+ * empty key and value and for each key/value pair.
+ *
+ * @note The @a key and @a value passed to @ cb will be overwritten between
+ * calls.  The section name will remain valid until after @a cb is called to
+ * begin a new section.
+ *
+ * @note Parsing will immediately stop if the callback returns non-zero.
  */
-static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
-		char **section_name, char *line)
+int parse_ini(const char *file, ini_parser_fn cb, void *data)
 {
+	char line[PATH_MAX], *section_name = NULL;
 	FILE *fp = NULL;
 	int linenum = 0;
 	int ret = 0;
@@ -85,8 +92,8 @@ static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
 			name[line_len - 2] = '\0';
 
 			ret = cb(file, linenum, name, NULL, NULL, data);
-			free(*section_name);
-			*section_name = name;
+			free(section_name);
+			section_name = name;
 
 			/* we're at a new section; perform any post-actions for the prior */
 			if(ret) {
@@ -109,7 +116,7 @@ static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
 			ret = 1;
 			goto cleanup;
 		}
-		if((ret = cb(file, linenum, *section_name, key, value, data)) != 0) {
+		if((ret = cb(file, linenum, section_name, key, value, data)) != 0) {
 			goto cleanup;
 		}
 	}
@@ -118,34 +125,9 @@ cleanup:
 	if(fp) {
 		fclose(fp);
 	}
-	free(*section_name);
+	free(section_name);
 	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
 	return ret;
-}
-
-/**
- * @brief Parse a pacman-style INI config file.
- *
- * @param file path to the config file
- * @param cb callback for key/value pairs
- * @param data caller defined data to be passed to the callback
- *
- * @return 0 on success, 1 on parsing errors, the callback return value
- * otherwise
- *
- * @note The callback will be called at the beginning of each section with an
- * empty key and value and for each key/value pair.
- *
- * @note The @a key and @a value passed to @ cb will be overwritten between
- * calls.  The section name will remain valid until after @a cb is called to
- * begin a new section.
- *
- * @note Parsing will immediately stop if the callback returns non-zero.
- */
-int parse_ini(const char *file, ini_parser_fn cb, void *data)
-{
-	char *section_name = NULL, line[PATH_MAX];
-	return _parse_ini(file, cb, data, &section_name, line);
 }
 
 /* vim: set noet: */
