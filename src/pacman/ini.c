@@ -172,10 +172,6 @@ static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
 		}
 	}
 
-	if(depth == 0) {
-		ret = cb(NULL, 0, NULL, NULL, NULL, data);
-	}
-
 cleanup:
 	if(fp) {
 		fclose(fp);
@@ -199,8 +195,7 @@ cleanup:
  * otherwise
  *
  * @note The callback will be called at the beginning of each section with an
- * empty key and value, for each key/value pair, and when parsing is complete
- * with all arguments except @a data empty.
+ * empty key and value and for each key/value pair.
  *
  * @note The @a key and @a value passed to @ cb will be overwritten between
  * calls.  The section name will remain valid until after @a cb is called to

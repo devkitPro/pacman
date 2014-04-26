@@ -902,9 +902,7 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 	if(!key && !value) {
 		section->name = name;
 		pm_printf(ALPM_LOG_DEBUG, "config: new section '%s'\n", name);
-		if(!name) {
-			/* end of file, do nothing */
-		} else if(strcmp(name, "options") == 0) {
+		if(strcmp(name, "options") == 0) {
 			section->repo = NULL;
 		} else {
 			section->repo = calloc(sizeof(config_repo_t), 1);
