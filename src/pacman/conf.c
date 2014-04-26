@@ -318,11 +318,14 @@ int config_set_arch(const char *arch)
  * @return 0 on success, 1 on any parsing error
  */
 static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
-		const char *file, int linenum)
+		alpm_siglevel_t *storage_mask, const char *file, int linenum)
 {
-	alpm_siglevel_t level = *storage;
+	alpm_siglevel_t level = *storage, mask = *storage_mask;
 	alpm_list_t *i;
 	int ret = 0;
+
+#define SLSET(sl) do { level |= (sl); mask |= (sl); } while(0)
+#define SLUNSET(sl) do { level &= ~(sl); mask |= (sl); } while(0)
 
 	/* Collapse the option names into a single bitmasked value */
 	for(i = values; i; i = alpm_list_next(i)) {
@@ -346,51 +349,40 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
 		/* now parse out and store actual flag if it is valid */
 		if(strcmp(value, "Never") == 0) {
 			if(package) {
-				level &= ~ALPM_SIG_PACKAGE;
-				level |= ALPM_SIG_PACKAGE_SET;
+				SLUNSET(ALPM_SIG_PACKAGE);
 			}
 			if(database) {
-				level &= ~ALPM_SIG_DATABASE;
+				SLUNSET(ALPM_SIG_DATABASE);
 			}
 		} else if(strcmp(value, "Optional") == 0) {
 			if(package) {
-				level |= ALPM_SIG_PACKAGE;
-				level |= ALPM_SIG_PACKAGE_OPTIONAL;
-				level |= ALPM_SIG_PACKAGE_SET;
+				SLSET(ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL);
 			}
 			if(database) {
-				level |= ALPM_SIG_DATABASE;
-				level |= ALPM_SIG_DATABASE_OPTIONAL;
+				SLSET(ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL);
 			}
 		} else if(strcmp(value, "Required") == 0) {
 			if(package) {
-				level |= ALPM_SIG_PACKAGE;
-				level &= ~ALPM_SIG_PACKAGE_OPTIONAL;
-				level |= ALPM_SIG_PACKAGE_SET;
+				SLSET(ALPM_SIG_PACKAGE);
+				SLUNSET(ALPM_SIG_PACKAGE_OPTIONAL);
 			}
 			if(database) {
-				level |= ALPM_SIG_DATABASE;
-				level &= ~ALPM_SIG_DATABASE_OPTIONAL;
+				SLSET(ALPM_SIG_DATABASE);
+				SLUNSET(ALPM_SIG_DATABASE_OPTIONAL);
 			}
 		} else if(strcmp(value, "TrustedOnly") == 0) {
 			if(package) {
-				level &= ~ALPM_SIG_PACKAGE_MARGINAL_OK;
-				level &= ~ALPM_SIG_PACKAGE_UNKNOWN_OK;
-				level |= ALPM_SIG_PACKAGE_TRUST_SET;
+				SLUNSET(ALPM_SIG_PACKAGE_MARGINAL_OK | ALPM_SIG_PACKAGE_UNKNOWN_OK);
 			}
 			if(database) {
-				level &= ~ALPM_SIG_DATABASE_MARGINAL_OK;
-				level &= ~ALPM_SIG_DATABASE_UNKNOWN_OK;
+				SLUNSET(ALPM_SIG_DATABASE_MARGINAL_OK | ALPM_SIG_DATABASE_UNKNOWN_OK);
 			}
 		} else if(strcmp(value, "TrustAll") == 0) {
 			if(package) {
-				level |= ALPM_SIG_PACKAGE_MARGINAL_OK;
-				level |= ALPM_SIG_PACKAGE_UNKNOWN_OK;
-				level |= ALPM_SIG_PACKAGE_TRUST_SET;
+				SLSET(ALPM_SIG_PACKAGE_MARGINAL_OK | ALPM_SIG_PACKAGE_UNKNOWN_OK);
 			}
 			if(database) {
-				level |= ALPM_SIG_DATABASE_MARGINAL_OK;
-				level |= ALPM_SIG_DATABASE_UNKNOWN_OK;
+				SLSET(ALPM_SIG_DATABASE_MARGINAL_OK | ALPM_SIG_DATABASE_UNKNOWN_OK);
 			}
 		} else {
 			pm_printf(ALPM_LOG_ERROR,
@@ -400,6 +392,9 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
 		}
 		level &= ~ALPM_SIG_USE_DEFAULT;
 	}
+
+#undef SLSET
+#undef SLUNSET
 
 	/* ensure we have sig checking ability and are actually turning it on */
 	if(!(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) &&
@@ -412,6 +407,7 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
 
 	if(!ret) {
 		*storage = level;
+		*storage_mask = mask;
 	}
 	return ret;
 }
@@ -419,23 +415,13 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
 /**
  * Merge the package entires of two signature verification levels.
  * @param base initial siglevel
- * @param over overridden siglevel, derived value is stored here
+ * @param over overridden siglevel
+ * @return merged siglevel
  */
-static void merge_siglevel(alpm_siglevel_t *base, alpm_siglevel_t *over)
+static alpm_siglevel_t merge_siglevel(alpm_siglevel_t base,
+		alpm_siglevel_t over, alpm_siglevel_t mask)
 {
-	alpm_siglevel_t level = *over;
-	if(!(level & ALPM_SIG_USE_DEFAULT)) {
-		if(!(level & ALPM_SIG_PACKAGE_SET)) {
-			level |= *base & ALPM_SIG_PACKAGE;
-			level |= *base & ALPM_SIG_PACKAGE_OPTIONAL;
-		}
-		if(!(level & ALPM_SIG_PACKAGE_TRUST_SET)) {
-			level |= *base & ALPM_SIG_PACKAGE_MARGINAL_OK;
-			level |= *base & ALPM_SIG_PACKAGE_UNKNOWN_OK;
-		}
-	}
-
-	*over = level;
+	return mask ? (over & mask) | (base & ~mask) : over;
 }
 
 static int process_cleanmethods(alpm_list_t *values,
@@ -584,7 +570,8 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "SigLevel") == 0) {
 			alpm_list_t *values = NULL;
 			setrepeatingoption(value, "SigLevel", &values);
-			if(process_siglevel(values, &config->siglevel, file, linenum)) {
+			if(process_siglevel(values, &config->siglevel,
+						&config->siglevel_mask, file, linenum)) {
 				FREELIST(values);
 				return 1;
 			}
@@ -592,7 +579,8 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "LocalFileSigLevel") == 0) {
 			alpm_list_t *values = NULL;
 			setrepeatingoption(value, "LocalFileSigLevel", &values);
-			if(process_siglevel(values, &config->localfilesiglevel, file, linenum)) {
+			if(process_siglevel(values, &config->localfilesiglevel,
+						&config->localfilesiglevel_mask, file, linenum)) {
 				FREELIST(values);
 				return 1;
 			}
@@ -600,7 +588,8 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "RemoteFileSigLevel") == 0) {
 			alpm_list_t *values = NULL;
 			setrepeatingoption(value, "RemoteFileSigLevel", &values);
-			if(process_siglevel(values, &config->remotefilesiglevel, file, linenum)) {
+			if(process_siglevel(values, &config->remotefilesiglevel,
+						&config->remotefilesiglevel_mask, file, linenum)) {
 				FREELIST(values);
 				return 1;
 			}
@@ -728,8 +717,11 @@ static int setup_libalpm(void)
 
 	alpm_option_set_default_siglevel(handle, config->siglevel);
 
-	merge_siglevel(&config->siglevel, &config->localfilesiglevel);
-	merge_siglevel(&config->siglevel, &config->remotefilesiglevel);
+	config->localfilesiglevel = merge_siglevel(config->siglevel,
+			config->localfilesiglevel, config->localfilesiglevel_mask);
+	config->remotefilesiglevel = merge_siglevel(config->siglevel,
+			config->remotefilesiglevel, config->remotefilesiglevel_mask);
+
 	alpm_option_set_local_file_siglevel(handle, config->localfilesiglevel);
 	alpm_option_set_remote_file_siglevel(handle, config->remotefilesiglevel);
 
@@ -839,10 +831,8 @@ static int _parse_repo(const char *key, char *value, const char *file,
 			alpm_list_t *values = NULL;
 			setrepeatingoption(value, "SigLevel", &values);
 			if(values) {
-				if(repo->siglevel == ALPM_SIG_USE_DEFAULT) {
-					repo->siglevel = config->siglevel;
-				}
-				ret = process_siglevel(values, &repo->siglevel, file, line);
+				ret = process_siglevel(values, &repo->siglevel,
+						&repo->siglevel_mask, file, line);
 				FREELIST(values);
 			}
 		}
@@ -888,6 +878,8 @@ static int finish_section(struct section_t *section)
 	}
 
 	/* if we are not looking at options sections only, register a db */
+	repo->siglevel = merge_siglevel(config->siglevel,
+			repo->siglevel, repo->siglevel_mask);
 	db = alpm_register_syncdb(config->handle, section->name, repo->siglevel);
 	if(db == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),

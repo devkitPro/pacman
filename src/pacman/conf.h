@@ -38,6 +38,7 @@ typedef struct __config_repo_t {
 	alpm_list_t *servers;
 	alpm_db_usage_t usage;
 	alpm_siglevel_t siglevel;
+	alpm_siglevel_t siglevel_mask;
 } config_repo_t;
 
 typedef struct __config_t {
@@ -93,6 +94,10 @@ typedef struct __config_t {
 	alpm_siglevel_t siglevel;
 	alpm_siglevel_t localfilesiglevel;
 	alpm_siglevel_t remotefilesiglevel;
+
+	alpm_siglevel_t siglevel_mask;
+	alpm_siglevel_t localfilesiglevel_mask;
+	alpm_siglevel_t remotefilesiglevel_mask;
 
 	/* conf file options */
 	/* I Love Candy! */

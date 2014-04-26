@@ -202,9 +202,6 @@ typedef enum _alpm_siglevel_t {
 	ALPM_SIG_DATABASE_MARGINAL_OK = (1 << 12),
 	ALPM_SIG_DATABASE_UNKNOWN_OK = (1 << 13),
 
-	ALPM_SIG_PACKAGE_SET = (1 << 27),
-	ALPM_SIG_PACKAGE_TRUST_SET = (1 << 28),
-
 	ALPM_SIG_USE_DEFAULT = (1 << 31)
 } alpm_siglevel_t;
 

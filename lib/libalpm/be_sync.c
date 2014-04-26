@@ -709,7 +709,7 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 	_alpm_log(handle, ALPM_LOG_DEBUG, "registering sync database '%s'\n", treename);
 
 #ifndef HAVE_LIBGPGME
-	if((level &= ~ALPM_SIG_PACKAGE_SET) != 0 && level != ALPM_SIG_USE_DEFAULT) {
+	if(level != ALPM_SIG_USE_DEFAULT) {
 		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL);
 	}
 #endif
