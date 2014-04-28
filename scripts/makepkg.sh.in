@@ -275,10 +275,10 @@ get_url() {
 get_protocol() {
 	if [[ $1 = *://* ]]; then
 		# strip leading filename
-		local proto="${1##*::}"
+		local proto="${1#*::}"
 		printf "%s\n" "${proto%%://*}"
 	elif [[ $1 = *lp:* ]]; then
-		local proto="${1##*::}"
+		local proto="${1#*::}"
 		printf "%s\n" "${proto%%lp:*}"
 	else
 		printf "%s\n" local
@@ -293,7 +293,7 @@ get_downloadclient() {
 	for i in "${DLAGENTS[@]}"; do
 		local handler="${i%%::*}"
 		if [[ $proto = "$handler" ]]; then
-			local agent="${i##*::}"
+			local agent="${i#*::}"
 			break
 		fi
 	done
