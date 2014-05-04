@@ -1244,13 +1244,56 @@ check_checksums() {
 	fi
 }
 
+parse_gpg_statusfile() {
+	local type arg1 arg6
+
+	while read -r _ type arg1 _ _ _ _ arg6 _; do
+		case "$type" in
+			GOODSIG)
+				pubkey=$arg1
+				success=1
+				status="good"
+				;;
+			EXPSIG)
+				pubkey=$arg1
+				success=1
+				status="expired"
+				;;
+			EXPKEYSIG)
+				pubkey=$arg1
+				success=1
+				status="expiredkey"
+				;;
+			REVKEYSIG)
+				pubkey=$arg1
+				success=0
+				status="revokedkey"
+				;;
+			BADSIG)
+				pubkey=$arg1
+				success=0
+				status="bad"
+				;;
+			ERRSIG)
+				pubkey=$arg1
+				success=0
+				if [[ $arg6 == 9 ]]; then
+					status="missingkey"
+				else
+					status="error"
+				fi
+				;;
+		esac
+	done < "$1"
+}
+
 check_pgpsigs() {
 	(( SKIPPGPCHECK )) && return 0
 	! source_has_signatures && return 0
 
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
-	local file pubkey ext decompress found
+	local file ext decompress found pubkey success status
 	local warning=0
 	local errors=0
 	local statusfile=$(mktemp)
@@ -1292,31 +1335,43 @@ check_pgpsigs() {
 			"")  decompress="cat" ;;
 		esac
 
-		if ! $decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null; then
+		$decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null
+		# these variables are assigned values in parse_gpg_statusfile
+		success=0
+		status=
+		pubkey=
+		parse_gpg_statusfile "$statusfile"
+		if (( ! $success )); then
 			printf '%s' "$(gettext "FAILED")" >&2
-			if ! pubkey=$(awk '/NO_PUBKEY/ { print $3; exit 1; }' "$statusfile"); then
-				printf ' (%s)' "$(gettext "unknown public key") $pubkey" >&2
-				warnings=1
-			else
-				errors=1
-			fi
-			printf '\n' >&2
+			case "$status" in
+				"missingkey")
+					printf ' (%s)' "$(gettext "unknown public key") $pubkey" >&2
+					;;
+				"revokedkey")
+					printf " ($(gettext "public key %s has been revoked"))" "$pubkey" >&2
+					;;
+				"bad")
+					printf ' (%s)' "$(gettext "bad signature from public key") $pubkey" >&2
+					;;
+				"error")
+					printf ' (%s)' "$(gettext "error during signature verification")" >&2
+					;;
+			esac
+			errors=1
 		else
-			if grep -q "REVKEYSIG" "$statusfile"; then
-				printf '%s (%s)' "$(gettext "FAILED")" "$(gettext "the key has been revoked.")" >&2
-				errors=1
-			else
-				printf '%s' "$(gettext "Passed")" >&2
-				if grep -q "EXPSIG" "$statusfile"; then
+			printf '%s' "$(gettext "Passed")" >&2
+			case "$status" in
+				"expired")
 					printf ' (%s)' "$(gettext "WARNING:") $(gettext "the signature has expired.")" >&2
 					warnings=1
-				elif grep -q "EXPKEYSIG" "$statusfile"; then
+					;;
+				"expiredkey")
 					printf ' (%s)' "$(gettext "WARNING:") $(gettext "the key has expired.")" >&2
 					warnings=1
-				fi
-			fi
-			printf '\n' >&2
+					;;
+			esac
 		fi
+		printf '\n' >&2
 	done
 
 	rm -f "$statusfile"
