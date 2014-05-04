@@ -1245,9 +1245,9 @@ check_checksums() {
 }
 
 parse_gpg_statusfile() {
-	local type arg1 arg6
+	local type arg1 arg6 arg10
 
-	while read -r _ type arg1 _ _ _ _ arg6 _; do
+	while read -r _ type arg1 _ _ _ _ arg6 _ _ _ arg10 _; do
 		case "$type" in
 			GOODSIG)
 				pubkey=$arg1
@@ -1283,6 +1283,15 @@ parse_gpg_statusfile() {
 					status="error"
 				fi
 				;;
+			VALIDSIG)
+				if [[ $arg10 ]]; then
+					# If the file was signed with a subkey, arg10 contains
+					# the fingerprint of the primary key
+					fingerprint=$arg10
+				else
+					fingerprint=$arg1
+				fi
+				;;
 			TRUST_UNDEFINED|TRUST_NEVER)
 				trusted=0
 				;;
@@ -1299,7 +1308,7 @@ check_pgpsigs() {
 
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
-	local file ext decompress found pubkey success status trusted
+	local file ext decompress found pubkey success status fingerprint trusted
 	local warning=0
 	local errors=0
 	local statusfile=$(mktemp)
@@ -1346,6 +1355,7 @@ check_pgpsigs() {
 		success=0
 		status=
 		pubkey=
+		fingerprint=
 		trusted=
 		parse_gpg_statusfile "$statusfile"
 		if (( ! $success )); then
@@ -1366,8 +1376,11 @@ check_pgpsigs() {
 			esac
 			errors=1
 		else
-			if (( ! $trusted )); then
+			if (( ${#validpgpkeys[@]} == 0 && ! $trusted )); then
 				printf "%s ($(gettext "the public key %s is not trusted"))" $(gettext "FAILED") "$pubkey" >&2
+				errors=1
+			elif (( ${#validpgpkeys[@]} > 0 )) && ! in_array "$fingerprint" "${validpgpkeys[@]}"; then
+				printf "%s (%s $pubkey)" "$(gettext "FAILED")" "$(gettext "invalid public key")"
 				errors=1
 			else
 				printf '%s' "$(gettext "Passed")" >&2
@@ -2881,7 +2894,7 @@ fi
 
 unset pkgname pkgbase pkgver pkgrel epoch pkgdesc url license groups provides
 unset md5sums replaces depends conflicts backup source install changelog build
-unset makedepends optdepends options noextract
+unset makedepends optdepends options noextract validpgpkeys
 
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
 if [[ ! -f $BUILDFILE ]]; then

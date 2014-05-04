@@ -128,6 +128,14 @@ Files in the source array with extensions `.sig`, `.sign` or, `.asc` are
 recognized by makepkg as PGP signatures and will be automatically used to verify
 the integrity of the corresponding source file.
 
+*validpgpkeys (array)*::
+	An array of PGP fingerprints. If this array is non-empty, makepkg will
+	only accept signatures from the keys listed here and will ignore the
+	trust values from the keyring. If the source file was signed with a
+	subkey, makepkg will still use the primary key for comparison.
++
+Fingerprints must be uppercase and must not contain whitespace characters.
+
 *noextract (array)*::
 	An array of file names corresponding to those from the source array. Files
 	listed here will not be extracted with the rest of the source files. This
