@@ -1283,6 +1283,12 @@ parse_gpg_statusfile() {
 					status="error"
 				fi
 				;;
+			TRUST_UNDEFINED|TRUST_NEVER)
+				trusted=0
+				;;
+			TRUST_MARGINAL|TRUST_FULLY|TRUST_ULTIMATE)
+				trusted=1
+				;;
 		esac
 	done < "$1"
 }
@@ -1293,7 +1299,7 @@ check_pgpsigs() {
 
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
-	local file ext decompress found pubkey success status
+	local file ext decompress found pubkey success status trusted
 	local warning=0
 	local errors=0
 	local statusfile=$(mktemp)
@@ -1340,6 +1346,7 @@ check_pgpsigs() {
 		success=0
 		status=
 		pubkey=
+		trusted=
 		parse_gpg_statusfile "$statusfile"
 		if (( ! $success )); then
 			printf '%s' "$(gettext "FAILED")" >&2
@@ -1359,17 +1366,22 @@ check_pgpsigs() {
 			esac
 			errors=1
 		else
-			printf '%s' "$(gettext "Passed")" >&2
-			case "$status" in
-				"expired")
-					printf ' (%s)' "$(gettext "WARNING:") $(gettext "the signature has expired.")" >&2
-					warnings=1
-					;;
-				"expiredkey")
-					printf ' (%s)' "$(gettext "WARNING:") $(gettext "the key has expired.")" >&2
-					warnings=1
-					;;
-			esac
+			if (( ! $trusted )); then
+				printf "%s ($(gettext "the public key %s is not trusted"))" $(gettext "FAILED") "$pubkey" >&2
+				errors=1
+			else
+				printf '%s' "$(gettext "Passed")" >&2
+				case "$status" in
+					"expired")
+						printf ' (%s)' "$(gettext "WARNING:") $(gettext "the signature has expired.")" >&2
+						warnings=1
+						;;
+					"expiredkey")
+						printf ' (%s)' "$(gettext "WARNING:") $(gettext "the key has expired.")" >&2
+						warnings=1
+						;;
+				esac
+			fi
 		fi
 		printf '\n' >&2
 	done
