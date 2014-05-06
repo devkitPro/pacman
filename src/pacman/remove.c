@@ -43,9 +43,15 @@ static int remove_target(const char *target)
 
 	if((pkg = alpm_db_get_pkg(db_local, target)) != NULL) {
 		if(alpm_remove_pkg(config->handle, pkg) == -1) {
-			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n", target,
-					alpm_strerror(alpm_errno(config->handle)));
-			return -1;
+			alpm_errno_t err = alpm_errno(config->handle);
+			if(err == ALPM_ERR_TRANS_DUP_TARGET) {
+				/* just skip duplicate targets */
+				pm_printf(ALPM_LOG_WARNING, _("skipping target: %s\n"), target);
+				return 0;
+			} else {
+				pm_printf(ALPM_LOG_ERROR, "'%s': %s\n", target, alpm_strerror(err));
+				return -1;
+			}
 		}
 		config->explicit_removes = alpm_list_add(config->explicit_removes, pkg);
 		return 0;
