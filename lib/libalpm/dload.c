@@ -286,7 +286,6 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	 * to reset the handle's parameters for each time it's used. */
 	curl_easy_reset(curl);
 	curl_easy_setopt(curl, CURLOPT_URL, payload->fileurl);
-	curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
 	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, error_buffer);
 	curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10L);
 	curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
@@ -478,12 +477,14 @@ static int curl_download_internal(struct dload_payload *payload,
 			_alpm_log(handle, ALPM_LOG_DEBUG, "response code: %ld\n", payload->respcode);
 			if(payload->respcode >= 400) {
 				payload->unlink_on_fail = 1;
-				/* non-translated message is same as libcurl */
-				snprintf(error_buffer, sizeof(error_buffer),
-						"The requested URL returned error: %ld", payload->respcode);
-				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("failed retrieving file '%s' from %s : %s\n"),
-						payload->remote_name, hostname, error_buffer);
+				if(!payload->errors_ok) {
+					/* non-translated message is same as libcurl */
+					snprintf(error_buffer, sizeof(error_buffer),
+							"The requested URL returned error: %ld", payload->respcode);
+					_alpm_log(handle, ALPM_LOG_ERROR,
+							_("failed retrieving file '%s' from %s : %s\n"),
+							payload->remote_name, hostname, error_buffer);
+				}
 				goto cleanup;
 			}
 			break;
