@@ -433,7 +433,7 @@ static void table_free(alpm_list_t *headers, alpm_list_t *rows)
 	alpm_list_free(rows);
 }
 
-static void add_transaction_sizes_row(alpm_list_t **rows, char *label, int size)
+static void add_transaction_sizes_row(alpm_list_t **rows, char *label, off_t size)
 {
 	alpm_list_t *row = NULL;
 	char *str;
