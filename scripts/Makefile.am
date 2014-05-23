@@ -1,5 +1,6 @@
 # enforce that all scripts have a --help and --version option
 AUTOMAKE_OPTIONS = std-options
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = makepkg-wrapper
 
 SUBDIRS = po
 
