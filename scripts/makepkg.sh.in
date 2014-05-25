@@ -2906,6 +2906,11 @@ else
 		exit 1
 	fi
 
+	if [[ ${BUILDFILE##*/} != "${BUILDFILE}" && ${BUILDFILE} != "${startdir}/${BUILDFILE##*/}" ]]; then
+		error "$(gettext "%s must be in the build directory.")" "$BUILDFILE"
+		exit 1
+	fi
+
 	if [[ ${BUILDFILE:0:1} != "/" ]]; then
 		BUILDFILE="$startdir/$BUILDFILE"
 	fi
