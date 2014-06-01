@@ -342,6 +342,10 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 		case GPGME_PK_ELG:
 		case GPGME_PK_ECDSA:
 		case GPGME_PK_ECDH:
+/* value added in gpgme 1.5.0 */
+#if GPGME_VERSION_NUMBER >= 0x010500
+		case GPGME_PK_ECC:
+#endif
 			pgpkey->pubkey_algo = 'E';
 			break;
 	}
