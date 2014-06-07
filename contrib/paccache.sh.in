@@ -37,6 +37,19 @@ die() {
 	exit 1
 }
 
+get_cachedir_from_config() {
+	local key value
+
+	while IFS=$'= \t' read -r key value _; do
+		if [[ $key = CacheDir ]]; then
+			echo "$value"
+			return 0
+		fi
+	done <"$1"
+
+	return 1
+}
+
 # reads a list of files on stdin and prints out deletion candidates
 pkgfilter() {
 	# there's whitelist and blacklist parameters passed to this
@@ -166,7 +179,7 @@ Usage: ${myname} <operation> [options] [targets...]
   Options:
     -a, --arch <arch>     scan for "arch" (default: all architectures).
     -c, --cachedir <dir>  scan "dir" for packages. can be used more than once.
-                          (default: @localstatedir@/cache/pacman/pkg).
+                          (default: read from @sysconfdir@/pacman.conf).
     -f, --force           apply force to mv(1) and rm(1) operations.
     -h, --help            display this help message and exit.
     -i, --ignore <pkgs>   ignore "pkgs", comma-separated. Alternatively, specify
@@ -257,7 +270,13 @@ done
 m4_include(../scripts/library/term_colors.sh)
 
 # setting default cachedir
-cachedirs=("${cachedirs[@]:-@localstatedir@/cache/pacman/pkg}")
+if [[ -z $cachedirs ]]; then
+	if cachedir=$(get_cachedir_from_config "@sysconfdir@/pacman.conf"); then
+		cachedirs=("$cachedir")
+	else
+		cachedirs=("${cachedirs[@]:-@localstatedir@/cache/pacman/pkg}")
+	fi
+fi
 
 # remaining args are a whitelist
 whitelist=("$@")
