@@ -37,10 +37,10 @@ do { \
 		(h)->eventcb((alpm_event_t *) (e)); \
 	} \
 } while(0)
-#define QUESTION(h, q, d1, d2, d3, r) \
+#define QUESTION(h, q) \
 do { \
 	if((h)->questioncb) { \
-		(h)->questioncb(q, d1, d2, d3, r); \
+		(h)->questioncb((alpm_question_t *) (q)); \
 	} \
 } while(0)
 #define PROGRESS(h, e, p, per, n, r) \

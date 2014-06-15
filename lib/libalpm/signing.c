@@ -417,7 +417,7 @@ gpg_error:
  */
 int _alpm_key_import(alpm_handle_t *handle, const char *fpr)
 {
-	int answer = 0, ret = -1;
+	int ret = -1;
 	alpm_pgpkey_t fetch_key;
 	memset(&fetch_key, 0, sizeof(fetch_key));
 
@@ -425,9 +425,13 @@ int _alpm_key_import(alpm_handle_t *handle, const char *fpr)
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				"unknown key, found %s on keyserver\n", fetch_key.uid);
 		if(!_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
-			QUESTION(handle, ALPM_QUESTION_IMPORT_KEY,
-					&fetch_key, NULL, NULL, &answer);
-			if(answer) {
+			alpm_question_import_key_t question = {
+				.type = ALPM_QUESTION_IMPORT_KEY,
+				.import = 0,
+				.key = &fetch_key
+			};
+			QUESTION(handle, &question);
+			if(question.import) {
 				if(key_import(handle, &fetch_key) == 0) {
 					ret = 0;
 				} else {

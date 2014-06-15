@@ -145,7 +145,13 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 			}
 		}
 		if(found) {
-			int doreplace = 0;
+			alpm_question_replace_t question = {
+				.type = ALPM_QUESTION_REPLACE_PKG,
+				.replace = 0,
+				.oldpkg = lpkg,
+				.newpkg = spkg,
+				.newdb = sdb
+			};
 			alpm_pkg_t *tpkg;
 			/* check IgnorePkg/IgnoreGroup */
 			if(alpm_pkg_should_ignore(handle, spkg)
@@ -156,9 +162,8 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 				continue;
 			}
 
-			QUESTION(handle, ALPM_QUESTION_REPLACE_PKG, lpkg, spkg,
-					sdb->treename, &doreplace);
-			if(!doreplace) {
+			QUESTION(handle, &question);
+			if(!question.replace) {
 				continue;
 			}
 
@@ -276,11 +281,14 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 				continue;
 			}
 			if(alpm_pkg_should_ignore(db->handle, pkg)) {
+				alpm_question_install_ignorepkg_t question = {
+					.type = ALPM_QUESTION_INSTALL_IGNOREPKG,
+					.install = 0,
+					.pkg = pkg
+				};
 				ignorelist = alpm_list_add(ignorelist, pkg);
-				int install = 0;
-				QUESTION(db->handle, ALPM_QUESTION_INSTALL_IGNOREPKG, pkg,
-						NULL, NULL, &install);
-				if(!install)
+				QUESTION(db->handle, &question);
+				if(!question.install)
 					continue;
 			}
 			if(!alpm_pkg_find(pkgs, pkg->name)) {
@@ -443,10 +451,13 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		/* If there were unresolvable top-level packages, prompt the user to
 		   see if they'd like to ignore them rather than failing the sync */
 		if(unresolvable != NULL) {
-			int remove_unresolvable = 0;
-			QUESTION(handle, ALPM_QUESTION_REMOVE_PKGS, unresolvable,
-					NULL, NULL, &remove_unresolvable);
-			if(remove_unresolvable) {
+			alpm_question_remove_pkgs_t question = {
+				.type = ALPM_QUESTION_REMOVE_PKGS,
+				.skip = 0,
+				.packages = unresolvable
+			};
+			QUESTION(handle, &question);
+			if(question.skip) {
 				/* User wants to remove the unresolvable packages from the
 				   transaction. The packages will be removed from the actual
 				   transaction when the transaction packages are replaced with a
@@ -560,8 +571,12 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		deps = _alpm_outerconflicts(handle->db_local, trans->add);
 
 		for(i = deps; i; i = i->next) {
+			alpm_question_conflict_t question = {
+				.type = ALPM_QUESTION_CONFLICT_PKG,
+				.remove = 0,
+				.conflict = i->data
+			};
 			alpm_conflict_t *conflict = i->data;
-			int doremove = 0;
 			int found = 0;
 
 			/* if conflict->package2 (the local package) is not elected for removal,
@@ -582,9 +597,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			_alpm_log(handle, ALPM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
 					conflict->package1, conflict->package2);
 
-			QUESTION(handle, ALPM_QUESTION_CONFLICT_PKG, conflict->package1,
-							conflict->package2, conflict->reason->name, &doremove);
-			if(doremove) {
+			QUESTION(handle, &question);
+			if(question.remove) {
 				/* append to the removes list */
 				alpm_pkg_t *sync = alpm_pkg_find(trans->add, conflict->package1);
 				alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
@@ -793,13 +807,17 @@ static int apply_deltas(alpm_handle_t *handle)
 static int prompt_to_delete(alpm_handle_t *handle, const char *filepath,
 		alpm_errno_t reason)
 {
-	int doremove = 0;
-	QUESTION(handle, ALPM_QUESTION_CORRUPTED_PKG, (char *)filepath,
-			&reason, NULL, &doremove);
-	if(doremove) {
+	alpm_question_corrupted_t question = {
+		.type = ALPM_QUESTION_CORRUPTED_PKG,
+		.remove = 0,
+		.filepath = filepath,
+		.reason = reason
+	};
+	QUESTION(handle, &question);
+	if(question.remove) {
 		unlink(filepath);
 	}
-	return doremove;
+	return question.remove;
 }
 
 static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas)

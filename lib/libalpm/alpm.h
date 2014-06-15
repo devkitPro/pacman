@@ -567,23 +567,119 @@ typedef struct _alpm_event_pacorig_created_t {
 typedef void (*alpm_cb_event)(alpm_event_t *);
 
 /**
- * Questions.
+ * Type of questions.
  * Unlike the events or progress enumerations, this enum has bitmask values
  * so a frontend can use a bitmask map to supply preselected answers to the
  * different types of questions.
  */
-typedef enum _alpm_question_t {
-	ALPM_QUESTION_INSTALL_IGNOREPKG = 1,
+typedef enum _alpm_question_type_t {
+	ALPM_QUESTION_INSTALL_IGNOREPKG = (1 << 0),
 	ALPM_QUESTION_REPLACE_PKG = (1 << 1),
 	ALPM_QUESTION_CONFLICT_PKG = (1 << 2),
 	ALPM_QUESTION_CORRUPTED_PKG = (1 << 3),
 	ALPM_QUESTION_REMOVE_PKGS = (1 << 4),
 	ALPM_QUESTION_SELECT_PROVIDER = (1 << 5),
 	ALPM_QUESTION_IMPORT_KEY = (1 << 6)
+} alpm_question_type_t;
+
+typedef struct _alpm_question_any_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer. */
+	int answer;
+} alpm_question_any_t;
+
+typedef struct _alpm_question_install_ignorepkg_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer: whether or not to install pkg anyway. */
+	int install;
+	/* Package in IgnorePkg/IgnoreGroup. */
+	alpm_pkg_t *pkg;
+} alpm_question_install_ignorepkg_t;
+
+typedef struct _alpm_question_replace_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer: whether or not to replace oldpkg with newpkg. */
+	int replace;
+	/* Package to be replaced. */
+	alpm_pkg_t *oldpkg;
+	/* Package to replace with. */
+	alpm_pkg_t *newpkg;
+	/* DB of newpkg */
+	alpm_db_t *newdb;
+} alpm_question_replace_t;
+
+typedef struct _alpm_question_conflict_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer: whether or not to remove conflict->package2. */
+	int remove;
+	/** Conflict info. */
+	alpm_conflict_t *conflict;
+} alpm_question_conflict_t;
+
+typedef struct _alpm_question_corrupted_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer: whether or not to remove filepath. */
+	int remove;
+	/** Filename to remove */
+	const char *filepath;
+	/** Error code indicating the reason for package invalidity */
+	alpm_errno_t reason;
+} alpm_question_corrupted_t;
+
+typedef struct _alpm_question_remove_pkgs_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer: whether or not to skip packages. */
+	int skip;
+	/** List of alpm_pkg_t* with unresolved dependencies. */
+	alpm_list_t *packages;
+} alpm_question_remove_pkgs_t;
+
+typedef struct _alpm_question_select_provider_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer: which provider to use (index from providers). */
+	int use_index;
+	/** List of alpm_pkg_t* as possible providers. */
+	alpm_list_t *providers;
+	/** What providers provide for. */
+	alpm_depend_t *depend;
+} alpm_question_select_provider_t;
+
+typedef struct _alpm_question_import_key_t {
+	/** Type of question. */
+	alpm_question_type_t type;
+	/** Answer: whether or not to import key. */
+	int import;
+	/** The key to import. */
+	alpm_pgpkey_t *key;
+} alpm_question_import_key_t;
+
+/**
+ * Questions.
+ * This is an union passed to the callback, that allows the frontend to know
+ * which type of question was triggered (via type). It is then possible to
+ * typecast the pointer to the right structure, or use the union field, in order
+ * to access question-specific data. */
+typedef union _alpm_question_t {
+	alpm_question_type_t type;
+	alpm_question_any_t any;
+	alpm_question_install_ignorepkg_t install_ignorepkg;
+	alpm_question_replace_t replace;
+	alpm_question_conflict_t conflict;
+	alpm_question_corrupted_t corrupted;
+	alpm_question_remove_pkgs_t remove_pkgs;
+	alpm_question_select_provider_t select_provider;
+	alpm_question_import_key_t import_key;
 } alpm_question_t;
 
 /** Question callback */
-typedef void (*alpm_cb_question)(alpm_question_t, void *, void *, void *, int *);
+typedef void (*alpm_cb_question)(alpm_question_t *);
 
 /** Progress */
 typedef enum _alpm_progress_t {

@@ -640,15 +640,18 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 		if(pkg && _alpm_depcmp_literal(pkg, dep)
 				&& !alpm_pkg_find(excluding, pkg->name)) {
 			if(alpm_pkg_should_ignore(handle, pkg)) {
-				int install = 0;
+				alpm_question_install_ignorepkg_t question = {
+					.type = ALPM_QUESTION_INSTALL_IGNOREPKG,
+					.install = 0,
+					.pkg = pkg
+				};
 				if(prompt) {
-					QUESTION(handle, ALPM_QUESTION_INSTALL_IGNOREPKG, pkg,
-							 NULL, NULL, &install);
+					QUESTION(handle, &question);
 				} else {
 					_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"),
 							pkg->name, pkg->version);
 				}
-				if(!install) {
+				if(!question.install) {
 					ignored = 1;
 					continue;
 				}
@@ -669,15 +672,18 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 			if(pkg->name_hash != dep->name_hash && _alpm_depcmp(pkg, dep)
 					&& !alpm_pkg_find(excluding, pkg->name)) {
 				if(alpm_pkg_should_ignore(handle, pkg)) {
-					int install = 0;
+					alpm_question_install_ignorepkg_t question = {
+						.type = ALPM_QUESTION_INSTALL_IGNOREPKG,
+						.install = 0,
+						.pkg = pkg
+					};
 					if(prompt) {
-						QUESTION(handle, ALPM_QUESTION_INSTALL_IGNOREPKG,
-									pkg, NULL, NULL, &install);
+						QUESTION(handle, &question);
 					} else {
 						_alpm_log(handle, ALPM_LOG_WARNING, _("ignoring package %s-%s\n"),
 								pkg->name, pkg->version);
 					}
-					if(!install) {
+					if(!question.install) {
 						ignored = 1;
 						continue;
 					}
@@ -700,15 +706,19 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	}
 	count = alpm_list_count(providers);
 	if(count >= 1) {
-		/* default to first provider if there is no QUESTION callback */
-		int idx = 0;
+		alpm_question_select_provider_t question = {
+			.type = ALPM_QUESTION_SELECT_PROVIDER,
+			/* default to first provider if there is no QUESTION callback */
+			.use_index = 0,
+			.providers = providers,
+			.depend = dep
+		};
 		if(count > 1) {
 			/* if there is more than one provider, we ask the user */
-			QUESTION(handle, ALPM_QUESTION_SELECT_PROVIDER,
-					providers, dep, NULL, &idx);
+			QUESTION(handle, &question);
 		}
-		if(idx >= 0 && idx < count) {
-			alpm_list_t *nth = alpm_list_nth(providers, idx);
+		if(question.use_index >= 0 && question.use_index < count) {
+			alpm_list_t *nth = alpm_list_nth(providers, question.use_index);
 			alpm_pkg_t *pkg = nth->data;
 			alpm_list_free(providers);
 			return pkg;
