@@ -443,15 +443,10 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_PACORIG_CREATED
 } alpm_event_type_t;
 
-/** Events.
- * This is a generic struct this is passed to the callback, that allows the
- * frontend to know which type of event was triggered. It is then possible to
- * typecast the pointer to the right structure, in order to access
- * event-specific data. */
-typedef struct _alpm_event_t {
+typedef struct _alpm_event_any_t {
 	/** Type of event. */
 	alpm_event_type_t type;
-} alpm_event_t;
+} alpm_event_any_t;
 
 typedef enum _alpm_package_operation_t {
 	/** Package (to be) installed. (No oldpkg) */
@@ -562,6 +557,26 @@ typedef struct _alpm_event_pacorig_created_t {
 	/** Filename of the file without the .pacorig suffix. */
 	const char *file;
 } alpm_event_pacorig_created_t;
+
+/** Events.
+ * This is an union passed to the callback, that allows the frontend to know
+ * which type of event was triggered (via type). It is then possible to
+ * typecast the pointer to the right structure, or use the union field, in order
+ * to access event-specific data. */
+typedef union _alpm_event_t {
+	alpm_event_type_t type;
+	alpm_event_any_t any;
+	alpm_event_package_operation_t package_operation;
+	alpm_event_optdep_removal_t optdep_removal;
+	alpm_event_delta_patch_t delta_patch;
+	alpm_event_scriptlet_info_t scriptlet_info;
+	alpm_event_database_missing_t database_missing;
+	alpm_event_log_t log;
+	alpm_event_pkgdownload_t pkgdownload;
+	alpm_event_pacnew_created_t pacnew_created;
+	alpm_event_pacsave_created_t pacsave_created;
+	alpm_event_pacorig_created_t pacorig_created;
+} alpm_event_t;
 
 /** Event callback. */
 typedef void (*alpm_cb_event)(alpm_event_t *);
