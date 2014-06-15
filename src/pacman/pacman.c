@@ -549,7 +549,8 @@ static int parsearg_query(int opt)
 			break;
 		case OP_UPGRADES:
 		case 'u':
-			config->op_q_upgrade = 1; break;
+			config->op_q_upgrade = 1;
+			break;
 		default:
 			return 1;
 	}
