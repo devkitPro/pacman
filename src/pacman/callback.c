@@ -424,7 +424,7 @@ void cb_question(alpm_question_t *question)
 							"The following package cannot be upgraded due to unresolvable dependencies:\n",
 							"The following packages cannot be upgraded due to unresolvable dependencies:\n",
 							count));
-				list_display("     ", namelist, getcols(fileno(stdout)));
+				list_display("     ", namelist, getcols());
 				printf("\n");
 				q->skip = noyes(_n(
 							"Do you want to skip the above package for this upgrade?",
@@ -494,7 +494,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcstr;
 
-	const unsigned short cols = getcols(fileno(stdout));
+	const unsigned short cols = getcols();
 
 	if(config->noprogressbar || cols == 0) {
 		return;
@@ -664,7 +664,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	const char *rate_label, *xfered_label;
 	int file_percent = 0, total_percent = 0;
 
-	const unsigned short cols = getcols(fileno(stdout));
+	const unsigned short cols = getcols();
 
 	if(config->noprogressbar || cols == 0 || file_total == -1) {
 		if(file_xfered == 0) {

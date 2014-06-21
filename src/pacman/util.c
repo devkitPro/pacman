@@ -46,6 +46,7 @@
 #include "conf.h"
 #include "callback.h"
 
+static int cached_columns = 0;
 
 struct table_cell_t {
 	char *label;
@@ -155,29 +156,58 @@ static int flush_term_input(int fd)
 	return 0;
 }
 
-/* gets the current screen column width */
-unsigned short getcols(int fd)
+void columns_cache_reset(void)
 {
-	const unsigned short default_tty = 80;
-	const unsigned short default_notty = 0;
-	unsigned short termwidth = 0;
+	cached_columns = 0;
+}
 
-	if(!isatty(fd)) {
-		return default_notty;
-	}
+static int getcols_fd(int fd)
+{
+	int width = -1;
 
 #if defined(TIOCGSIZE)
 	struct ttysize win;
 	if(ioctl(fd, TIOCGSIZE, &win) == 0) {
-		termwidth = win.ts_cols;
+		width = win.ts_cols;
 	}
 #elif defined(TIOCGWINSZ)
 	struct winsize win;
 	if(ioctl(fd, TIOCGWINSZ, &win) == 0) {
-		termwidth = win.ws_col;
+		width = win.ws_col;
 	}
 #endif
-	return termwidth == 0 ? default_tty : termwidth;
+
+	if(width <= 0) {
+		return -EIO;
+	}
+
+	return width;
+}
+
+unsigned short getcols(void)
+{
+	const char *e;
+	int c = 0;
+
+	if(cached_columns > 0) {
+		return cached_columns;
+	}
+
+	e = getenv("COLUMNS");
+	if(e) {
+		c = strtol(e, NULL, 10);
+	}
+
+	if(c <= 0) {
+		c = getcols_fd(STDOUT_FILENO);
+	}
+
+	if(c <= 0) {
+		c = 80;
+	}
+
+	cached_columns = c;
+	return c;
 }
 
 /* does the same thing as 'rm -rf' */
@@ -892,7 +922,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	pm_asprintf(&str, "%s (%zd)", _("Packages"), alpm_list_count(targets));
 	printf("\n");
 
-	cols = getcols(fileno(stdout));
+	cols = getcols();
 	if(verbose) {
 		header = create_verbose_header(alpm_list_count(targets));
 		if(table_display(header, rows, cols) != 0) {
@@ -1196,7 +1226,7 @@ void display_new_optdepends(alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg)
 
 	if(optstrings) {
 		printf(_("New optional dependencies for %s\n"), alpm_pkg_get_name(newpkg));
-		unsigned short cols = getcols(fileno(stdout));
+		unsigned short cols = getcols();
 		list_display_linebreak("   ", optstrings, cols);
 	}
 
@@ -1218,7 +1248,7 @@ void display_optdepends(alpm_pkg_t *pkg)
 
 	if(optstrings) {
 		printf(_("Optional dependencies for %s\n"), alpm_pkg_get_name(pkg));
-		unsigned short cols = getcols(fileno(stdout));
+		unsigned short cols = getcols();
 		list_display_linebreak("   ", optstrings, cols);
 	}
 
@@ -1241,7 +1271,7 @@ void select_display(const alpm_list_t *pkglist)
 	alpm_list_t *list = NULL;
 	char *string = NULL;
 	const char *dbname = NULL;
-	unsigned short cols = getcols(fileno(stdout));
+	unsigned short cols = getcols();
 
 	for(i = pkglist; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;

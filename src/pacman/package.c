@@ -140,7 +140,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		optionalfor = alpm_pkg_compute_optionalfor(pkg);
 	}
 
-	cols = getcols(fileno(stdout));
+	cols = getcols();
 
 	/* actual output */
 	if(from == ALPM_PKG_FROM_SYNCDB) {
@@ -404,7 +404,7 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 		return 1;
 	}
 
-	cols = getcols(fileno(stdout));
+	cols = getcols();
 	for(i = searchlist; i; i = alpm_list_next(i)) {
 		alpm_list_t *grp;
 		alpm_pkg_t *pkg = i->data;
