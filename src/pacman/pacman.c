@@ -301,7 +301,7 @@ static void handler(int signum)
 			"Please submit a full bug report with --debug if appropriate.\n";
 		xwrite(err, msg, strlen(msg));
 		exit(signum);
-	} else if(signum == SIGINT || signum == SIGHUP) {
+	} else if(signum != SIGTERM) {
 		if(signum == SIGINT) {
 			msg = "\nInterrupt signal received\n";
 		} else {
@@ -313,8 +313,8 @@ static void handler(int signum)
 			return;
 		}
 	}
-	/* SIGINT: no committing transaction, release it now and then exit pacman
-	 * SIGHUP, SIGTERM: release no matter what */
+	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman
+	 * SIGTERM: release no matter what */
 	alpm_trans_release(config->handle);
 	/* output a newline to be sure we clear any line we may be on */
 	xwrite(out, "\n", 1);
