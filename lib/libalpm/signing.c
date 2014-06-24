@@ -327,6 +327,10 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	pgpkey->length = key->subkeys->length;
 	pgpkey->revoked = key->subkeys->revoked;
 
+	/* Initialize with '?', this is overwritten unless public key
+	 * algorithm is unknown. */
+	pgpkey->pubkey_algo = '?';
+
 	switch(key->subkeys->pubkey_algo) {
 		case GPGME_PK_RSA:
 		case GPGME_PK_RSA_E:
@@ -351,6 +355,14 @@ static int key_search(alpm_handle_t *handle, const char *fpr,
 	}
 
 	ret = 1;
+
+	/* We do not want to add a default switch case above to receive
+	 * compiler error on new public key algorithm in gpgme. So check
+	 * here if we have a valid pubkey_algo. */
+	if (pgpkey->pubkey_algo == '?') {
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+			"unknown public key algorithm: %d\n", key->subkeys->pubkey_algo);
+	}
 
 gpg_error:
 	if(ret != 1) {
