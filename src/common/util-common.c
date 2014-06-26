@@ -80,17 +80,21 @@ char *mdirname(const char *path)
  * @param buf structure to fill with stat information
  * @return the return code from lstat
  */
-int llstat(const char *path, struct stat *buf)
+int llstat(char *path, struct stat *buf)
 {
 	int ret;
+	char *c = NULL;
 	size_t len = strlen(path);
 
-	/* strip the trailing slash if one exists */
-	if(len != 0 && path[len - 1] == '/') {
-		char *newpath = strdup(path);
-		newpath[len - 1] = '\0';
-		ret = lstat(newpath, buf);
-		free(newpath);
+	while(len > 1 && path[len - 1] == '/') {
+		--len;
+		c = path + len;
+	}
+
+	if(c) {
+		*c = '\0';
+		ret = lstat(path, buf);
+		*c = '/';
 	} else {
 		ret = lstat(path, buf);
 	}

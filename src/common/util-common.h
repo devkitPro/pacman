@@ -25,7 +25,7 @@
 const char *mbasename(const char *path);
 char *mdirname(const char *path);
 
-int llstat(const char *path, struct stat *buf);
+int llstat(char *path, struct stat *buf);
 
 #ifndef HAVE_STRNDUP
 char *strndup(const char *s, size_t n);
