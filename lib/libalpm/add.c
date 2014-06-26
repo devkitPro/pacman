@@ -209,7 +209,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	 *  F/N          |   3   |   4
 	 *  D            |   5   |   6
 	 *
-	 *  1,2- extract, no magic necessary. lstat (_alpm_lstat) will fail here.
+	 *  1,2- extract, no magic necessary. lstat (llstat) will fail here.
 	 *  3,4- conflict checks should have caught this. either overwrite
 	 *      or backup the file.
 	 *  5- file replacing directory- don't allow it.
@@ -217,7 +217,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	 */
 
 	struct stat lsbuf;
-	if(_alpm_lstat(filename, &lsbuf) != 0) {
+	if(llstat(filename, &lsbuf) != 0) {
 		/* cases 1,2: file doesn't exist, skip all backup checks */
 	} else {
 		if(S_ISDIR(lsbuf.st_mode)) {

@@ -495,7 +495,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			relative_path = path + rootlen;
 
 			/* stat the file - if it exists, do some checks */
-			if(_alpm_lstat(path, &lsbuf) != 0) {
+			if(llstat(path, &lsbuf) != 0) {
 				continue;
 			}
 

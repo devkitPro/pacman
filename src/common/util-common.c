@@ -73,6 +73,31 @@ char *mdirname(const char *path)
 	return strdup(".");
 }
 
+/** lstat wrapper that treats /path/dirsymlink/ the same as /path/dirsymlink.
+ * Linux lstat follows POSIX semantics and still performs a dereference on
+ * the first, and for uses of lstat in libalpm this is not what we want.
+ * @param path path to file to lstat
+ * @param buf structure to fill with stat information
+ * @return the return code from lstat
+ */
+int llstat(const char *path, struct stat *buf)
+{
+	int ret;
+	size_t len = strlen(path);
+
+	/* strip the trailing slash if one exists */
+	if(len != 0 && path[len - 1] == '/') {
+		char *newpath = strdup(path);
+		newpath[len - 1] = '\0';
+		ret = lstat(newpath, buf);
+		free(newpath);
+	} else {
+		ret = lstat(path, buf);
+	}
+
+	return ret;
+}
+
 #ifndef HAVE_STRNDUP
 /* A quick and dirty implementation derived from glibc */
 /** Determines the length of a fixed-size string.

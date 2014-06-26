@@ -35,7 +35,6 @@
 #include <stdarg.h>
 #include <stddef.h> /* size_t */
 #include <sys/types.h>
-#include <sys/stat.h> /* struct stat */
 #include <math.h> /* fabs */
 #include <float.h> /* DBL_EPSILON */
 #include <fcntl.h> /* open, close */
@@ -128,7 +127,6 @@ int _alpm_ldconfig(alpm_handle_t *handle);
 int _alpm_str_cmp(const void *s1, const void *s2);
 char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename);
 const char *_alpm_filecache_setup(alpm_handle_t *handle);
-int _alpm_lstat(const char *path, struct stat *buf);
 int _alpm_test_checksum(const char *filepath, const char *expected, alpm_pkgvalidation_t type);
 int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b);
 int _alpm_splitname(const char *target, char **name, char **version,

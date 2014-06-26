@@ -235,7 +235,7 @@ static int calculate_removed_size(alpm_handle_t *handle,
 		const char *filename = file->name;
 
 		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
-		_alpm_lstat(path, &st);
+		llstat(path, &st);
 
 		/* skip directories and symlinks to be consistent with libarchive that
 		 * reports them to be zero size */

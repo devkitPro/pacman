@@ -457,7 +457,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 		return 1;
 	}
 
-	if(_alpm_lstat(file, &buf)) {
+	if(llstat(file, &buf)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "file %s does not exist\n", file);
 		return 1;
 	}

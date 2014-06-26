@@ -20,8 +20,12 @@
 #ifndef _PM_UTIL_COMMON_H
 #define _PM_UTIL_COMMON_H
 
+#include <sys/stat.h> /* struct stat */
+
 const char *mbasename(const char *path);
 char *mdirname(const char *path);
+
+int llstat(const char *path, struct stat *buf);
 
 #ifndef HAVE_STRNDUP
 char *strndup(const char *s, size_t n);
