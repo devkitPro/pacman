@@ -26,11 +26,11 @@
 #include "conf.h"
 #include "util.h"
 
-static int check_file_exists(const char *pkgname, const char * filepath,
-		struct stat * st)
+static int check_file_exists(const char *pkgname, char *filepath,
+		struct stat *st)
 {
 	/* use lstat to prevent errors from symlinks */
-	if(lstat(filepath, st) != 0) {
+	if(llstat(filepath, st) != 0) {
 		if(config->quiet) {
 			printf("%s %s\n", pkgname, filepath);
 		} else {
