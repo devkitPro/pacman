@@ -10,5 +10,3 @@ self.args = "-Qk"
 
 self.addrule("PACMAN_RETCODE=1")
 self.addrule("PACMAN_OUTPUT=warning.*(File type mismatch)")
-
-self.expectfailure = True
