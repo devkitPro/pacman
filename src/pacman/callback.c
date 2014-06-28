@@ -21,8 +21,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/time.h>
+#include <sys/time.h> /* gettimeofday */
 #include <sys/types.h> /* off_t */
+#include <stdint.h> /* int64_t */
 #include <time.h>
 #include <unistd.h>
 #include <wchar.h>
@@ -47,6 +48,24 @@ static alpm_list_t *output = NULL;
 /* update speed for the fill_progress based functions */
 #define UPDATE_SPEED_MS 200
 
+#if !defined(CLOCK_MONOTONIC_COARSE) && defined(CLOCK_MONOTONIC)
+#define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
+#endif
+
+static int64_t get_time_ms(void)
+{
+#if defined(_POSIX_TIMERS) && (_POSIX_TIMERS > 0) && defined(CLOCK_MONOTONIC_COARSE)
+	struct timespec ts = {0, 0};
+	clock_gettime(CLOCK_MONOTONIC_COARSE, &ts);
+	return (ts.tv_sec * 1000) + (ts.tv_nsec / 1000000);
+#else
+	/* darwin doesn't support clock_gettime, fallback to gettimeofday */
+	struct timeval tv = {0, 0};
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+#endif
+}
+
 /**
  * Silly little helper function, determines if the caller needs a visual update
  * since the last time this function was called.
@@ -54,27 +73,20 @@ static alpm_list_t *output = NULL;
  * @param first_call 1 on first call for initialization purposes, 0 otherwise
  * @return number of milliseconds since last call
  */
-static long get_update_timediff(int first_call)
+static int64_t get_update_timediff(int first_call)
 {
-	long retval = 0;
-	static struct timeval last_time = {0, 0};
+	int64_t retval = 0;
+	static int64_t last_time = 0;
 
 	/* on first call, simply set the last time and return */
 	if(first_call) {
-		gettimeofday(&last_time, NULL);
+		last_time = get_time_ms();
 	} else {
-		struct timeval this_time;
-		time_t diff_sec;
-		suseconds_t diff_usec;
-
-		gettimeofday(&this_time, NULL);
-		diff_sec = this_time.tv_sec - last_time.tv_sec;
-		diff_usec = this_time.tv_usec - last_time.tv_usec;
-
-		retval = (diff_sec * 1000) + (diff_usec / 1000);
+		int64_t this_time = get_time_ms();
+		retval = this_time - last_time;
 
 		/* do not update last_time if interval was too short */
-		if(retval >= UPDATE_SPEED_MS) {
+		if(retval < 0 || retval >= UPDATE_SPEED_MS) {
 			last_time = this_time;
 		}
 	}
@@ -647,7 +659,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 {
 	static double rate_last;
 	static off_t xfered_last;
-	static struct timeval initial_time;
+	static int64_t initial_time = 0;
 	int infolen;
 	int filenamelen;
 	char *fname, *p;
@@ -658,7 +670,6 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	int totaldownload = 0;
 	off_t xfered, total;
 	double rate = 0.0;
-	long timediff = 0;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
 	double rate_human, xfered_human;
 	const char *rate_label, *xfered_label;
@@ -709,21 +720,14 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		/* set default starting values, ensure we only call this once
 		 * if TotalDownload is enabled */
 		if(!totaldownload || (totaldownload && list_xfered == 0)) {
-			gettimeofday(&initial_time, NULL);
+			initial_time = get_time_ms();
 			xfered_last = (off_t)0;
 			rate_last = 0.0;
 			get_update_timediff(1);
 		}
 	} else if(file_xfered == file_total) {
 		/* compute final values */
-		struct timeval current_time;
-		time_t diff_sec;
-		suseconds_t diff_usec;
-
-		gettimeofday(&current_time, NULL);
-		diff_sec = current_time.tv_sec - initial_time.tv_sec;
-		diff_usec = current_time.tv_usec - initial_time.tv_usec;
-		timediff = (diff_sec * 1000) + (diff_usec / 1000);
+		int64_t timediff = get_time_ms() - initial_time;
 		if(timediff > 0) {
 			rate = (double)xfered / (timediff / 1000.0);
 			/* round elapsed time (in ms) to the nearest second */
@@ -733,7 +737,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		}
 	} else {
 		/* compute current average values */
-		timediff = get_update_timediff(0);
+		int64_t timediff = get_update_timediff(0);
 
 		if(timediff < UPDATE_SPEED_MS) {
 			/* return if the calling interval was too short */
