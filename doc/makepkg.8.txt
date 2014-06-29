@@ -63,7 +63,9 @@ Options
 *\--verifysource*::
 	For each source file in the source array of PKGBUILD, download the file
 	if required and perform the integrity checks. No extraction or build is
-	performed. Useful for performing subsequent offline builds.
+	performed. Dependencies specified in the PKGBUILD will not be handled
+	unless `--syndeps` is used. Useful for performing subsequent offline
+	builds.
 
 *-f, \--force*::
 	makepkg will not build a package if a built package already exists in

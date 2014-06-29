@@ -2449,7 +2449,7 @@ check_vcs_software() {
 					local uninstalled
 					uninstalled="$(set +E; check_deps $client)" || exit 1
 					# if not installed, check presence in depends or makedepends
-					if [[ -n "$uninstalled" ]] && (( ! NODEPS )); then
+					if [[ -n "$uninstalled" ]] && (( ! NODEPS || ( VERIFYSOURCE && !DEP_BIN ) )); then
 						if ! in_array "$client" ${depends[@]} ${makedepends[@]}; then
 							error "$(gettext "Cannot find the %s package needed to handle %s sources.")" \
 									"$client" "${proto%%+*}"
@@ -3132,7 +3132,7 @@ if (( SOURCEONLY )); then
 	exit 0
 fi
 
-if (( NODEPS || (NOBUILD && !DEP_BIN ) )); then
+if (( NODEPS || ( VERIFYSOURCE && !DEP_BIN ) )); then
 	# no warning message needed for nobuild
 	if (( NODEPS )); then
 		warning "$(gettext "Skipping dependency checks.")"
