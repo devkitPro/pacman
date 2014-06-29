@@ -47,6 +47,11 @@ Options
 	be replaced with the local file name, plus a ``.part'' extension, which allows
 	makepkg to handle resuming file downloads.
 
+**VCSCLIENTS=(**\'protocol::package' ...**)**::
+	Sets the packages required to fetch version controlled source files. When
+	required, makepkg will check that these packages are installed or are included
+	in the `depends` or `makedepends` arrays in the PKGBUILD.
+
 **CARCH=**"carch"::
 	Specifies your computer architecture; possible values include such things
 	as ``i686'', ``x86_64'', ``ppc'', etc. This should be automatically set on

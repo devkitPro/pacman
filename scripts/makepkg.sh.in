@@ -2402,6 +2402,71 @@ check_pkgver() {
 	return $ret
 }
 
+get_vcsclient() {
+	local proto=${1%%+*}
+
+	local i
+	for i in "${VCSCLIENTS[@]}"; do
+		local handler="${i%%::*}"
+		if [[ $proto = "$handler" ]]; then
+			local client="${i##*::}"
+			break
+		fi
+	done
+
+	# if we didn't find an client, return an error
+	if [[ -z $client ]]; then
+		error "$(gettext "Unknown download protocol: %s")" "$proto"
+		plain "$(gettext "Aborting...")"
+		exit 1 # $E_CONFIG_ERROR
+	fi
+
+	printf "%s\n" "$client"
+}
+
+check_vcs_software() {
+	local ret=0
+
+	if (( SOURCEONLY == 1 )); then
+		# we will not download VCS sources
+		return $ret
+	fi
+
+	if [[ -z $PACMAN_PATH ]]; then
+		warning "$(gettext "Cannot find the %s binary needed to check VCS source requirements.")" "$PACMAN"
+		return $ret
+	fi
+
+	for netfile in ${source[@]}; do
+		local proto=$(get_protocol "$netfile")
+
+		case $proto in
+			bzr*|git*|hg*|svn*)
+				if ! type -p ${proto%%+*} > /dev/null; then
+					local client
+					client=$(get_vcsclient "$proto") || exit $?
+					# ensure specified program is installed
+					local uninstalled
+					uninstalled="$(set +E; check_deps $client)" || exit 1
+					# if not installed, check presence in depends or makedepends
+					if [[ -n "$uninstalled" ]] && (( ! NODEPS )); then
+						if ! in_array "$client" ${depends[@]} ${makedepends[@]}; then
+							error "$(gettext "Cannot find the %s package needed to handle %s sources.")" \
+									"$client" "${proto%%+*}"
+							ret=1
+						fi
+					fi
+				fi
+				;;
+			*)
+				# non VCS source
+				;;
+		esac
+	done
+
+	return $ret
+}
+
 check_software() {
 	# check for needed software
 	local ret=0
@@ -2491,6 +2556,11 @@ check_software() {
 			error "$(gettext "Cannot find the %s binary required for compressing man and info pages.")" "gzip"
 			ret=1
 		fi
+	fi
+
+	# tools to download vcs sources
+	if ! check_vcs_software; then
+		ret=1
 	fi
 
 	return $ret
