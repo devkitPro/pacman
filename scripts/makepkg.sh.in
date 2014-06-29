@@ -824,6 +824,7 @@ update_pkgver() {
 			fi
 			@SEDINPLACE@ "s:^pkgrel=[^ ]*:pkgrel=1:" "$BUILDFILE"
 			source_safe "$BUILDFILE"
+			epoch=${epoch:-0}
 			local fullver=$(get_full_version)
 			msg "$(gettext "Updated version: %s")" "$pkgbase $fullver"
 		else
@@ -846,10 +847,10 @@ missing_source_file() {
 ##
 get_full_version() {
 	if [[ -z $1 ]]; then
-		if [[ $epoch ]] && (( ! $epoch )); then
-			printf "%s\n" "$pkgver-$pkgrel"
-		else
+		if [[ -n $epoch ]] && (( $epoch )); then
 			printf "%s\n" "$epoch:$pkgver-$pkgrel"
+		else
+			printf "%s\n" "$pkgver-$pkgrel"
 		fi
 	else
 		for i in pkgver pkgrel epoch; do
@@ -857,10 +858,10 @@ get_full_version() {
 			eval $(declare -f package_$1 | sed -n "s/\(^[[:space:]]*$i=\)/${i}_override=/p")
 			[[ -z ${!indirect} ]] && eval ${indirect}=\"${!i}\"
 		done
-		if (( ! $epoch_override )); then
-			printf "%s\n" "$pkgver_override-$pkgrel_override"
-		else
+		if [[ -n $epoch_override ]] && (( $epoch_override )); then
 			printf "%s\n" "$epoch_override:$pkgver_override-$pkgrel_override"
+		else
+			printf "%s\n" "$pkgver_override-$pkgrel_override"
 		fi
 	fi
 }
