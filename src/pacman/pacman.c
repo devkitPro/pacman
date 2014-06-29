@@ -301,7 +301,7 @@ static void handler(int signum)
 			"Please submit a full bug report with --debug if appropriate.\n";
 		xwrite(err, msg, strlen(msg));
 		exit(signum);
-	} else if(signum != SIGTERM) {
+	} else if(signum == SIGINT || signum == SIGHUP) {
 		if(signum == SIGINT) {
 			msg = "\nInterrupt signal received\n";
 		} else {
