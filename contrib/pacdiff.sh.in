@@ -23,7 +23,7 @@ shopt -s extglob
 declare -r myname='pacdiff'
 declare -r myver='@PACKAGE_VERSION@'
 
-diffprog=${DIFFPROG:-vimdiff}
+diffprog=${DIFFPROG:-'vim -d'}
 diffsearchpath=${DIFFSEARCHPATH:-/etc}
 USE_COLOR='y'
 declare -a oldsaves
@@ -49,7 +49,7 @@ General Options:
   --nocolor         remove colors from output
 
 Environment Variables:
-  DIFFPROG          override the merge program: (default: vimdiff)
+  DIFFPROG          override the merge program: (default: 'vim -d')
   DIFFSEARCHPATH    override the search path. (only when using find)
                     (default: /etc)
 
@@ -118,7 +118,7 @@ done
 
 m4_include(../scripts/library/term_colors.sh)
 
-if ! type -p $diffprog >/dev/null; then
+if ! type -p ${diffprog%% *} >/dev/null; then
 	error "Cannot find the $diffprog binary required for viewing differences."
 	exit 1
 fi
