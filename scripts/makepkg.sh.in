@@ -482,7 +482,7 @@ download_bzr() {
 		fi
 		msg2 "$(gettext "Pulling %s ...")" "${displaylocation}"
 		cd_safe "$dir"
-		if ! bzr pull "$url" --overwrite; then
+		if ! bzr pull "$url"; then
 			# only warn on failure to allow offline builds
 			warning "$(gettext "Failure while pulling %s")" "${displaylocation}"
 		fi
@@ -498,10 +498,11 @@ extract_bzr() {
 		unset fragment
 	fi
 
+	rev="last:1"
 	if [[ -n $fragment ]]; then
 		case ${fragment%%=*} in
 			revision)
-				revision=("-r" "${fragment#*=}")
+				rev="${fragment#*=}"
 				displaylocation="$url -r ${fragment#*=}"
 				;;
 			*)
@@ -516,10 +517,15 @@ extract_bzr() {
 
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "bzr"
 	pushd "$srcdir" &>/dev/null
-	rm -rf "${dir##*/}"
 
-	if ! { bzr checkout "$dir" "${revision[@]}" --lightweight &&
-		( cd "$repo" && bzr pull "$dir" -q --overwrite "${revision[@]}" ); }; then
+	if [[ -d "${dir##*/}" ]]; then
+		cd_safe "${dir##*/}"
+		if ! (bzr pull "$dir" -q --overwrite -r "$rev" && bzr clean-tree -q --detritus --force); then
+			error "$(gettext "Failure while updating working copy of %s %s repo")" "${repo}" "bzr"
+			plain "$(gettext "Aborting...")"
+			exit 1
+		fi
+	elif ! bzr checkout "$dir" -r "$rev"; then
 		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "bzr"
 		plain "$(gettext "Aborting...")"
 		exit 1
