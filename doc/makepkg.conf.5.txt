@@ -11,7 +11,7 @@ makepkg.conf - makepkg configuration file
 
 Synopsis
 --------
-{sysconfdir}/makepkg.conf, ~/.makepkg.conf
+{sysconfdir}/makepkg.conf, $XDG_CONFIG_HOME/pacman/makepkg.conf, ~/.makepkg.conf
 
 
 Description
@@ -27,7 +27,8 @@ variables. Some of them are non-standard.
 
 The system-wide configuration file is found in {sysconfdir}/makepkg.conf.
 Individual options can be overridden (or added to) on a per-user basis in
-~/.makepkg.conf.
+$XDG_CONFIG_HOME/pacman/makepkg.conf or ~/.makepkg.conf, with the former
+taking priority.
 
 The default file is fairly well commented, so it may be easiest to simply
 follow directions given there for customization.

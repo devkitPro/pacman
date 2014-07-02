@@ -2789,8 +2789,13 @@ fi
 
 # Source user-specific makepkg.conf overrides, but only if no override config
 # file was specified
-if [[ $MAKEPKG_CONF = "$confdir/makepkg.conf" && -r ~/.makepkg.conf ]]; then
-	source_safe ~/.makepkg.conf
+XDG_PACMAN_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/pacman"
+if [[ "$MAKEPKG_CONF" = "$confdir/makepkg.conf" ]]; then
+	if [[ -r "$XDG_PACMAN_DIR/makepkg.conf" ]]; then
+		source_safe "$XDG_PACMAN_DIR/makepkg.conf"
+	elif [[ -r "$HOME/.makepkg.conf" ]]; then
+		source_safe "$HOME/.makepkg.conf"
+	fi
 fi
 
 # set pacman command if not already defined
