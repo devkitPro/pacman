@@ -186,6 +186,12 @@ Transaction Options (apply to '-S', '-R' and '-U')
 	dependencies are installed and there are no package conflicts in the
 	system. Specify this option twice to skip all dependency checks.
 
+*\--assume-installed* <package=version>::
+	Add a virtual package "package" with version "version" to the transaction
+	to satisfy dependencies. This allows to disable specific dependency checks
+	without affecting all dependency checks. To disable all dependency
+	checking, see the '\--nodeps' option.
+
 *\--dbonly*::
 	Adds/removes the database entry only, leaving all files in place.
 

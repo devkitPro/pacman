@@ -851,6 +851,17 @@ int alpm_option_set_ignoregroups(alpm_handle_t *handle, alpm_list_t *ignoregrps)
 int alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *grp);
 /** @} */
 
+/** @name Accessors to the list of ignored dependencies.
+ * These functions modify the list of dependencies that
+ * should be ignored by a sysupgrade.
+ * @{
+ */
+alpm_list_t *alpm_option_get_assumeinstalled(alpm_handle_t *handle);
+int alpm_option_add_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep);
+int alpm_option_set_assumeinstalled(alpm_handle_t *handle, alpm_list_t *deps);
+int alpm_option_remove_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep);
+/** @} */
+
 /** Returns the targeted architecture. */
 const char *alpm_option_get_arch(alpm_handle_t *handle);
 /** Sets the targeted architecture. */

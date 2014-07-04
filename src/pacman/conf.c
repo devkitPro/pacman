@@ -134,6 +134,7 @@ int config_free(config_t *oldconfig)
 	FREELIST(oldconfig->holdpkg);
 	FREELIST(oldconfig->ignorepkg);
 	FREELIST(oldconfig->ignoregrp);
+	FREELIST(oldconfig->assumeinstalled);
 	FREELIST(oldconfig->noupgrade);
 	FREELIST(oldconfig->noextract);
 	free(oldconfig->configfile);
@@ -650,6 +651,7 @@ static int setup_libalpm(void)
 	int ret = 0;
 	alpm_errno_t err;
 	alpm_handle_t *handle;
+	alpm_list_t *i;
 
 	pm_printf(ALPM_LOG_DEBUG, "setup_libalpm called\n");
 
@@ -741,6 +743,22 @@ static int setup_libalpm(void)
 	alpm_option_set_ignoregroups(handle, config->ignoregrp);
 	alpm_option_set_noupgrades(handle, config->noupgrade);
 	alpm_option_set_noextracts(handle, config->noextract);
+
+	for(i = config->assumeinstalled; i; i = i->next) {
+		char *entry = i->data;
+		alpm_depend_t *dep = alpm_dep_from_string(entry);
+		if(!dep) {
+			return 1;
+		}
+		pm_printf(ALPM_LOG_DEBUG, "parsed assume installed: %s %s\n", dep->name, dep->version);
+
+		ret = alpm_option_add_assumeinstalled(handle, dep);
+		if(ret) {
+			pm_printf(ALPM_LOG_ERROR, _("Failed to pass assume installed entry to libalpm"));
+			alpm_dep_free(dep);
+			return ret;
+		}
+	 }
 
 	return 0;
 }

@@ -634,6 +634,9 @@ static int parsearg_trans(int opt)
 			free(config->print_format);
 			config->print_format = strdup(optarg);
 			break;
+		case OP_ASSUMEINSTALLED:
+			parsearg_util_addlist(&(config->assumeinstalled));
+			break;
 		default:
 			return 1;
 	}
@@ -857,6 +860,7 @@ static int parseargs(int argc, char *argv[])
 		{"noconfirm",  no_argument,       0, OP_NOCONFIRM},
 		{"config",     required_argument, 0, OP_CONFIG},
 		{"ignore",     required_argument, 0, OP_IGNORE},
+		{"assume-installed",     required_argument, 0, OP_ASSUMEINSTALLED},
 		{"debug",      optional_argument, 0, OP_DEBUG},
 		{"force",      no_argument,       0, OP_FORCE},
 		{"noprogressbar", no_argument,    0, OP_NOPROGRESSBAR},

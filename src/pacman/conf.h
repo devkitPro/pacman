@@ -101,6 +101,7 @@ typedef struct __config_t {
 	alpm_list_t *holdpkg;
 	alpm_list_t *ignorepkg;
 	alpm_list_t *ignoregrp;
+	alpm_list_t *assumeinstalled;
 	alpm_list_t *noupgrade;
 	alpm_list_t *noextract;
 	char *xfercommand;
@@ -176,7 +177,8 @@ enum {
 	OP_UNNEEDED,
 	OP_VERBOSE,
 	OP_DOWNLOADONLY,
-	OP_REFRESH
+	OP_REFRESH,
+	OP_ASSUMEINSTALLED
 };
 
 /* clean method */
