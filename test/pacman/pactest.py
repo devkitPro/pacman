@@ -90,6 +90,10 @@ if __name__ == "__main__":
         tap.bail("cannot locate pacman binary")
         sys.exit(2)
 
+    if args is None or len(args) == 0:
+        tap.bail("no tests defined, nothing to do")
+        sys.exit(2)
+
     # instantiate env
     root_path = tempfile.mkdtemp(prefix='pactest-')
     env = pmenv.pmenv(root=root_path)
@@ -104,11 +108,6 @@ if __name__ == "__main__":
     env.pacman["manual-confirm"] = opts.manualconfirm
     env.pacman["scriptlet-shell"] = opts.scriptletshell
     env.pacman["ldconfig"] = opts.ldconfig
-
-    if args is None or len(args) == 0:
-        tap.bail("no tests defined, nothing to do")
-        os.rmdir(root_path)
-        sys.exit(2)
 
     try:
         for i in args:
