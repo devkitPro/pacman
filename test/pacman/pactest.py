@@ -82,11 +82,13 @@ if __name__ == "__main__":
         tap.bail("Python versions before 2.7 are not supported.")
         sys.exit(1)
 
-    # instantiate env and parser objects
-    root_path = tempfile.mkdtemp(prefix='pactest-')
-    env = pmenv.pmenv(root=root_path)
+    # parse options
     opt_parser = create_parser()
     (opts, args) = opt_parser.parse_args()
+
+    # instantiate env
+    root_path = tempfile.mkdtemp(prefix='pactest-')
+    env = pmenv.pmenv(root=root_path)
 
     # add parsed options to env object
     util.verbose = opts.verbose
