@@ -61,6 +61,23 @@ alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
 	return ret;
 }
 
+static int _alpm_filelist_pathcmp(const char *p1, const char *p2)
+{
+	while(*p1 && *p1 == *p2) {
+		p1++;
+		p2++;
+	}
+
+	/* skip trailing '/' */
+	if(*p1 == '\0' && *p2 == '/') {
+		p2++;
+	} else if(*p2 == '\0' && *p1 == '/') {
+		p1++;
+	}
+
+	return *p1 - *p2;
+}
+
 /* Returns the intersection of the provided two lists of files.
  * Pre-condition: both lists are sorted!
  * When done, free the list but NOT the contained data.
@@ -70,51 +87,22 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 {
 	alpm_list_t *ret = NULL;
 	size_t ctrA = 0, ctrB = 0;
+	alpm_file_t *arrA = filesA->files, *arrB = filesB->files;
 
 	while(ctrA < filesA->count && ctrB < filesB->count) {
-		int cmp, isdirA, isdirB;
-		char *strA, *strB;
-
-		isdirA = 0;
-		strA = filesA->files[ctrA].name;
-		if(strA[strlen(strA)-1] == '/') {
-			isdirA = 1;
-			strA = strndup(strA, strlen(strA)-1);
-		}
-
-		isdirB = 0;
-		strB = filesB->files[ctrB].name;
-		if(strB[strlen(strB)-1] == '/') {
-			isdirB = 1;
-			strB = strndup(strB, strlen(strB)-1);
-		}
-
-		cmp = strcmp(strA, strB);
+		const char *strA = arrA[ctrA].name, *strB = arrB[ctrB].name;
+		int cmp = _alpm_filelist_pathcmp(strA, strB);
 		if(cmp < 0) {
 			ctrA++;
 		} else if(cmp > 0) {
 			ctrB++;
 		} else {
-			/* TODO: this creates conflicts between a symlink to a directory in
-			 * one package and a real directory in the other. For example,
-			 * lib -> /usr/lib in pkg1 and /lib in pkg2. This would be allowed
-			 * when installing one package at a time _provided_ pkg1 is installed
-			 * first. This will need adjusted if the order of package install can
-			 * be guaranteed to install the symlink first */
-
 			/* when not directories, item in both qualifies as an intersect */
-			if(! (isdirA && isdirB)) {
-				ret = alpm_list_add(ret, filesA->files[ctrA].name);
+			if(strA[strlen(strA) - 1] != '/' || strB[strlen(strB) - 1] != '/') {
+				ret = alpm_list_add(ret, arrA[ctrA].name);
 			}
 			ctrA++;
 			ctrB++;
-		}
-
-		if(isdirA) {
-			free(strA);
-		}
-		if(isdirB) {
-			free(strB);
 		}
 	}
 
