@@ -652,7 +652,7 @@ static char *filecache_find_url(alpm_handle_t *handle, const char *url)
 	}
 
 	filebase++;
-	if(filebase == '\0') {
+	if(*filebase == '\0') {
 		return NULL;
 	}
 
