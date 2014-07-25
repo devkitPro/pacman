@@ -2912,8 +2912,8 @@ else
 		exit 1
 	fi
 
-	if [[ ${BUILDFILE##*/} != "${BUILDFILE}" && ${BUILDFILE} != "${startdir}/${BUILDFILE##*/}" ]]; then
-		error "$(gettext "%s must be in the build directory.")" "$BUILDFILE"
+	if [[ ! $BUILDFILE -ef $PWD/${BUILDFILE##*/} ]]; then
+		error "$(gettext "%s must be in the current working directory.")" "$BUILDFILE"
 		exit 1
 	fi
 
