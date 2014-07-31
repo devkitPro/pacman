@@ -131,7 +131,9 @@ static int dload_progress_cb(void *file, double dltotal, double dlnow,
 		payload->handle->dlcb(payload->remote_name, 0, (off_t)dltotal);
 	}
 
-	payload->handle->dlcb(payload->remote_name, current_size, total_size);
+	/* do NOT include initial_size since it wasn't part of the package's
+	 * download_size (nor included in the total download size callback) */
+	payload->handle->dlcb(payload->remote_name, (off_t)dlnow, (off_t)dltotal);
 
 	payload->prevprogress = current_size;
 
