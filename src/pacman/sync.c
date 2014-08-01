@@ -600,11 +600,12 @@ static int process_group(alpm_list_t *dbs, const char *group, int error)
 	}
 
 	if(config->print == 0) {
+		char *array = malloc(count);
+		int n = 0;
 		colon_printf(_n("There is %d member in group %s:\n",
 				"There are %d members in group %s:\n", count),
 				count, group);
 		select_display(pkgs);
-		char *array = malloc(count);
 		if(!array) {
 			ret = 1;
 			goto cleanup;
@@ -614,11 +615,12 @@ static int process_group(alpm_list_t *dbs, const char *group, int error)
 			free(array);
 			goto cleanup;
 		}
-		int n = 0;
-		for(i = pkgs; i; i = alpm_list_next(i)) {
-			if(array[n++] == 0)
-				continue;
+		for(i = pkgs, n = 0; i; i = alpm_list_next(i)) {
 			alpm_pkg_t *pkg = i->data;
+
+			if(array[n++] == 0) {
+				continue;
+			}
 
 			if(process_pkg(pkg) == 1) {
 				ret = 1;
