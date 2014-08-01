@@ -818,9 +818,9 @@ int alpm_option_set_usesyslog(alpm_handle_t *handle, int usesyslog);
  * @{
  */
 alpm_list_t *alpm_option_get_noupgrades(alpm_handle_t *handle);
-int alpm_option_add_noupgrade(alpm_handle_t *handle, const char *pkg);
+int alpm_option_add_noupgrade(alpm_handle_t *handle, const char *path);
 int alpm_option_set_noupgrades(alpm_handle_t *handle, alpm_list_t *noupgrade);
-int alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *pkg);
+int alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *path);
 /** @} */
 
 /** @name Accessors to the list of no-extract files.
@@ -830,9 +830,9 @@ int alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *pkg);
  * @{
  */
 alpm_list_t *alpm_option_get_noextracts(alpm_handle_t *handle);
-int alpm_option_add_noextract(alpm_handle_t *handle, const char *pkg);
+int alpm_option_add_noextract(alpm_handle_t *handle, const char *path);
 int alpm_option_set_noextracts(alpm_handle_t *handle, alpm_list_t *noextract);
-int alpm_option_remove_noextract(alpm_handle_t *handle, const char *pkg);
+int alpm_option_remove_noextract(alpm_handle_t *handle, const char *path);
 /** @} */
 
 /** @name Accessors to the list of ignored packages.

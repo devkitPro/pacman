@@ -444,112 +444,93 @@ int SYMEXPORT alpm_option_set_usesyslog(alpm_handle_t *handle, int usesyslog)
 	return 0;
 }
 
-int SYMEXPORT alpm_option_add_noupgrade(alpm_handle_t *handle, const char *pkg)
+static int _alpm_option_strlist_add(alpm_handle_t *handle, alpm_list_t **list, const char *str)
+{
+	char *dup;
+	CHECK_HANDLE(handle, return -1);
+	STRDUP(dup, str, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+	*list = alpm_list_add(*list, dup);
+	return 0;
+}
+
+static int _alpm_option_strlist_set(alpm_handle_t *handle, alpm_list_t **list, alpm_list_t *newlist)
 {
 	CHECK_HANDLE(handle, return -1);
-	handle->noupgrade = alpm_list_add(handle->noupgrade, strdup(pkg));
+	FREELIST(*list);
+	*list = alpm_list_strdup(newlist);
 	return 0;
+}
+
+static int _alpm_option_strlist_rem(alpm_handle_t *handle, alpm_list_t **list, const char *str)
+{
+	char *vdata = NULL;
+	CHECK_HANDLE(handle, return -1);
+	*list = alpm_list_remove_str(*list, str, &vdata);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return 1;
+	}
+	return 0;
+}
+
+int SYMEXPORT alpm_option_add_noupgrade(alpm_handle_t *handle, const char *pkg)
+{
+	return _alpm_option_strlist_add(handle, &(handle->noupgrade), pkg);
 }
 
 int SYMEXPORT alpm_option_set_noupgrades(alpm_handle_t *handle, alpm_list_t *noupgrade)
 {
-	CHECK_HANDLE(handle, return -1);
-	if(handle->noupgrade) FREELIST(handle->noupgrade);
-	handle->noupgrade = alpm_list_strdup(noupgrade);
-	return 0;
+	return _alpm_option_strlist_set(handle, &(handle->noupgrade), noupgrade);
 }
 
 int SYMEXPORT alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *pkg)
 {
-	char *vdata = NULL;
-	CHECK_HANDLE(handle, return -1);
-	handle->noupgrade = alpm_list_remove_str(handle->noupgrade, pkg, &vdata);
-	if(vdata != NULL) {
-		FREE(vdata);
-		return 1;
-	}
-	return 0;
+	return _alpm_option_strlist_rem(handle, &(handle->noupgrade), pkg);
 }
 
-int SYMEXPORT alpm_option_add_noextract(alpm_handle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_add_noextract(alpm_handle_t *handle, const char *path)
 {
-	CHECK_HANDLE(handle, return -1);
-	handle->noextract = alpm_list_add(handle->noextract, strdup(pkg));
-	return 0;
+	return _alpm_option_strlist_add(handle, &(handle->noextract), path);
 }
 
 int SYMEXPORT alpm_option_set_noextracts(alpm_handle_t *handle, alpm_list_t *noextract)
 {
-	CHECK_HANDLE(handle, return -1);
-	if(handle->noextract) FREELIST(handle->noextract);
-	handle->noextract = alpm_list_strdup(noextract);
-	return 0;
+	return _alpm_option_strlist_set(handle, &(handle->noextract), noextract);
 }
 
-int SYMEXPORT alpm_option_remove_noextract(alpm_handle_t *handle, const char *pkg)
+int SYMEXPORT alpm_option_remove_noextract(alpm_handle_t *handle, const char *path)
 {
-	char *vdata = NULL;
-	CHECK_HANDLE(handle, return -1);
-	handle->noextract = alpm_list_remove_str(handle->noextract, pkg, &vdata);
-	if(vdata != NULL) {
-		FREE(vdata);
-		return 1;
-	}
-	return 0;
+	return _alpm_option_strlist_rem(handle, &(handle->noextract), path);
 }
 
 int SYMEXPORT alpm_option_add_ignorepkg(alpm_handle_t *handle, const char *pkg)
 {
-	CHECK_HANDLE(handle, return -1);
-	handle->ignorepkg = alpm_list_add(handle->ignorepkg, strdup(pkg));
-	return 0;
+	return _alpm_option_strlist_add(handle, &(handle->ignorepkg), pkg);
 }
 
 int SYMEXPORT alpm_option_set_ignorepkgs(alpm_handle_t *handle, alpm_list_t *ignorepkgs)
 {
-	CHECK_HANDLE(handle, return -1);
-	if(handle->ignorepkg) FREELIST(handle->ignorepkg);
-	handle->ignorepkg = alpm_list_strdup(ignorepkgs);
-	return 0;
+	return _alpm_option_strlist_set(handle, &(handle->ignorepkg), ignorepkgs);
 }
 
 int SYMEXPORT alpm_option_remove_ignorepkg(alpm_handle_t *handle, const char *pkg)
 {
-	char *vdata = NULL;
-	CHECK_HANDLE(handle, return -1);
-	handle->ignorepkg = alpm_list_remove_str(handle->ignorepkg, pkg, &vdata);
-	if(vdata != NULL) {
-		FREE(vdata);
-		return 1;
-	}
-	return 0;
+	return _alpm_option_strlist_rem(handle, &(handle->ignorepkg), pkg);
 }
 
 int SYMEXPORT alpm_option_add_ignoregroup(alpm_handle_t *handle, const char *grp)
 {
-	CHECK_HANDLE(handle, return -1);
-	handle->ignoregroup = alpm_list_add(handle->ignoregroup, strdup(grp));
-	return 0;
+	return _alpm_option_strlist_add(handle, &(handle->ignoregroup), grp);
 }
 
 int SYMEXPORT alpm_option_set_ignoregroups(alpm_handle_t *handle, alpm_list_t *ignoregrps)
 {
-	CHECK_HANDLE(handle, return -1);
-	if(handle->ignoregroup) FREELIST(handle->ignoregroup);
-	handle->ignoregroup = alpm_list_strdup(ignoregrps);
-	return 0;
+	return _alpm_option_strlist_set(handle, &(handle->ignoregroup), ignoregrps);
 }
 
 int SYMEXPORT alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *grp)
 {
-	char *vdata = NULL;
-	CHECK_HANDLE(handle, return -1);
-	handle->ignoregroup = alpm_list_remove_str(handle->ignoregroup, grp, &vdata);
-	if(vdata != NULL) {
-		FREE(vdata);
-		return 1;
-	}
-	return 0;
+	return _alpm_option_strlist_rem(handle, &(handle->ignoregroup), grp);
 }
 
 int SYMEXPORT alpm_option_set_arch(alpm_handle_t *handle, const char *arch)
