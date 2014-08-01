@@ -1087,9 +1087,9 @@ int main(int argc, char *argv[])
 			free(vdata);
 
 			i = 0;
-			while((c = fgetc(stdin)) != EOF) {
-				line[i] = (char)c;
-				if(isspace((unsigned char)line[i])) {
+			do {
+				c = fgetc(stdin);
+				if(c == EOF || isspace(c)) {
 					/* avoid adding zero length arg when multiple spaces separate args */
 					if(i > 0) {
 						line[i] = '\0';
@@ -1098,7 +1098,7 @@ int main(int argc, char *argv[])
 						i = 0;
 					}
 				} else {
-					i++;
+					line[i++] = (char)c;
 					/* we may be at the end of our allocated buffer now */
 					if(i >= current_size) {
 						char *new = realloc(line, current_size * 2);
@@ -1107,25 +1107,14 @@ int main(int argc, char *argv[])
 							current_size *= 2;
 						} else {
 							free(line);
-							line = NULL;
-							break;
+							pm_printf(ALPM_LOG_ERROR,
+									_("memory exhausted in argument parsing\n"));
+							cleanup(EXIT_FAILURE);
 						}
 					}
 				}
-			}
+			} while(c != EOF);
 
-			/* check for memory exhaustion */
-			if(!line) {
-				pm_printf(ALPM_LOG_ERROR, _("memory exhausted in argument parsing\n"));
-				cleanup(EXIT_FAILURE);
-			}
-
-			/* end of stream -- check for data still in line buffer */
-			if(i > 0) {
-				line[i] = '\0';
-				pm_targets = alpm_list_add(pm_targets, strdup(line));
-				target_found = 1;
-			}
 			free(line);
 			if(!freopen(ctermid(NULL), "r", stdin)) {
 				pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
