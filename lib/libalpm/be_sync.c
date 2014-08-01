@@ -291,11 +291,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	}
 
 cleanup:
-
-	if(_alpm_handle_unlock(handle)) {
-		_alpm_log(handle, ALPM_LOG_WARNING, _("could not remove lock file %s\n"),
-				handle->lockfile);
-	}
+	_alpm_handle_unlock(handle);
 	free(syncpath);
 	umask(oldmask);
 	return ret;

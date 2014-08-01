@@ -231,12 +231,7 @@ int SYMEXPORT alpm_trans_release(alpm_handle_t *handle)
 
 	/* unlock db */
 	if(!nolock_flag) {
-		if(_alpm_handle_unlock(handle)) {
-			_alpm_log(handle, ALPM_LOG_WARNING, _("could not remove lock file %s\n"),
-					handle->lockfile);
-			alpm_logaction(handle, ALPM_CALLER_PREFIX,
-				"warning: could not remove lock file %s\n", handle->lockfile);
-		}
+		_alpm_handle_unlock(handle);
 	}
 
 	return 0;

@@ -126,6 +126,10 @@ int _alpm_handle_unlock(alpm_handle_t *handle)
 	handle->lockfd = -1;
 
 	if(unlink(handle->lockfile) && errno != ENOENT) {
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("could not remove lock file %s\n"), handle->lockfile);
+		alpm_logaction(handle, ALPM_CALLER_PREFIX,
+				"warning: could not remove lock file %s\n", handle->lockfile);
 		return -1;
 	}
 	return 0;
