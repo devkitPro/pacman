@@ -404,7 +404,6 @@ static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
 	gpg_err = gpgme_op_import_keys(ctx, keys);
 	CHECK_ERR();
 	result = gpgme_op_import_result(ctx);
-	CHECK_ERR();
 	/* we know we tried to import exactly one key, so check for this */
 	if(result->considered != 1 || !result->imports) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "could not import key, 0 results\n");
