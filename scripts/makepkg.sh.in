@@ -2190,18 +2190,103 @@ have_function() {
 	declare -f "$1" >/dev/null
 }
 
-check_sanity() {
-	# check for no-no's in the build script
-	local i
-	local ret=0
-	for i in 'pkgname' 'pkgrel'; do
-		if [[ -z ${!i} ]]; then
-			error "$(gettext "%s is not allowed to be empty.")" "$i"
-			ret=1
-		fi
+array_build() {
+	local dest=$1 src=$2 i keys values
+
+	# it's an error to try to copy a value which doesn't exist.
+	declare -p "$2" &>/dev/null || return 1
+
+	# Build an array of the indicies of the source array.
+	eval "keys=(\"\${!$2[@]}\")"
+
+	# Read values indirectly via their index. This approach gives us support
+	# for associative arrays, sparse arrays, and empty strings as elements.
+	for i in "${keys[@]}"; do
+		values+=("printf -v '$dest[$i]' %s \"\${$src[$i]}\";")
 	done
 
+	eval "${values[*]}"
+}
+
+funcgrep() {
+	{ declare -f "$1" || declare -f package; } 2>/dev/null | grep -E "$2"
+}
+
+extract_global_var() {
+	# $1: variable name
+	# $2: multivalued
+	# $3: name of output var
+
+	local attr=$1 isarray=$2 outputvar=$3
+
+	if (( isarray )); then
+		array_build ref "$attr"
+		[[ ${ref[@]} ]] && array_build "$outputvar" "$attr"
+	else
+		[[ -v $attr ]] && printf -v "$outputvar" %s "${!attr}"
+	fi
+}
+
+extract_function_var() {
+	# $1: function name
+	# $2: variable name
+	# $3: multivalued
+	# $4: name of output var
+
+	local funcname=$1 attr=$2 isarray=$3 outputvar=$4 attr_regex= decl= r=1
+
+	if (( isarray )); then
+		printf -v attr_regex '^[[:space:]]*(declare( -[[:alpha:]])*)? %q\+?=\(' "$2"
+	else
+		printf -v attr_regex '^[[:space:]]*(declare( -[[:alpha:]])*)? %q\+?=[^(]' "$2"
+	fi
+
+	while read -r; do
+		# strip leading whitespace and any usage of declare
+		decl=${REPLY##*([[:space:]])?(declare +(-+([[:alpha:]]) ))}
+		eval "${decl/#$attr/$outputvar}"
+
+		# entering this loop at all means we found a match, so notify the caller.
+		r=0
+	done < <(funcgrep "$funcname" "$attr_regex")
+
+	return $r
+}
+
+pkgbuild_get_attribute() {
+	# $1: package name
+	# $2: attribute name
+	# $3: name of output var
+	# $4: multivalued
+
+	local pkgname=$1 attrname=$2 outputvar=$3 isarray=$4
+
+	printf -v "$outputvar" %s ''
+
+	if [[ $pkgname ]]; then
+		extract_global_var "$attrname" "$isarray" "$outputvar"
+		extract_function_var "package_$pkgname" "$attrname" "$isarray" "$outputvar"
+	else
+		extract_global_var "$attrname" "$isarray" "$outputvar"
+	fi
+}
+
+lint_pkgbase() {
+	if [[ ${pkgbase:0:1} = "-" ]]; then
+		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
+		return 1
+	fi
+}
+
+lint_pkgname() {
+	local ret=0 i
+
 	for i in "${pkgname[@]}"; do
+		if [[ -z $i ]]; then
+			error "$(gettext "%s is not allowed to be empty.")" "pkgname"
+			ret=1
+			continue
+		fi
 		if [[ ${i:0:1} = "-" ]]; then
 			error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
 			ret=1
@@ -2212,155 +2297,262 @@ check_sanity() {
 		fi
 		if [[ $i = *[^[:alnum:]+_.@-]* ]]; then
 			error "$(gettext "%s contains invalid characters: '%s'")" \
-					'pkgname' "${pkgname//[[:alnum:]+_.@-]}"
+					'pkgname' "${i//[[:alnum:]+_.@-]}"
 			ret=1
 		fi
 	done
 
-	if [[ ${pkgbase:0:1} = "-" ]]; then
-		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgbase"
-		ret=1
+	return $ret
+}
+
+lint_pkgrel() {
+	if [[ -z $pkgrel ]]; then
+		error "$(gettext "%s is not allowed to be empty.")" "pkgrel"
+		return 1
 	fi
 
-	if (( ! PKGVERFUNC )) ; then
-		check_pkgver || ret=1
+	if [[ $pkgrel != +([0-9])?(.+([0-9])) ]]; then
+		error "$(gettext "%s must be a decimal, not %s.")" "pkgrel" "$pkgrel"
+		return 1
+	fi
+}
+
+lint_pkgver() {
+	if (( PKGVERFUNC )); then
+		# defer check to after getting version from pkgver function
+		return 0
 	fi
 
-	awk -F'=' '$1 ~ /^[[:space:]]*pkgrel$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
-	while IFS='=' read -r _ i; do
-		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
-		if [[ $i != +([0-9])?(.+([0-9])) ]]; then
-			error "$(gettext "%s must be a decimal.")" "pkgrel"
-			return 1
-		fi
-	done || ret=1
+	check_pkgver
+}
 
-	awk -F'=' '$1 ~ /^[[:space:]]*epoch$/' "$BUILDFILE" |
-	while IFS='=' read -r _ i; do
-		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
-		if [[ $i != *([[:digit:]]) ]]; then
-			error "$(gettext "%s must be an integer.")" "epoch"
-			return 1
-		fi
-	done || ret=1
+lint_epoch() {
+	if [[ $epoch != *([[:digit:]]) ]]; then
+		error "$(gettext "%s must be an integer, not %s.")" "epoch" "$epoch"
+		return 1
+	fi
+}
 
-	if [[ $arch != 'any' ]]; then
-		if ! in_array $CARCH "${arch[@]}"; then
+lint_arch() {
+	local name list=("${@:-"${arch[@]}"}")
+
+	if [[ $list == 'any' ]]; then
+		return 0
+	fi
+
+	if ! in_array "$CARCH" "${list[@]}" && (( ! IGNOREARCH )); then
+		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
+		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
+		plain "$(gettext "such as %s.")" "arch=('$CARCH')"
+		return 1
+	fi
+
+	for name in "${pkgname[@]}"; do
+		pkgbuild_get_attribute "$name" 'arch' list 1
+		if [[ $list && $list != 'any' ]] && ! in_array $CARCH "${list[@]}"; then
 			if (( ! IGNOREARCH )); then
-				error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
-				plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
-				plain "$(gettext "such as %s.")" "arch=('$CARCH')"
+				error "$(gettext "%s is not available for the '%s' architecture.")" "$name" "$CARCH"
 				ret=1
 			fi
 		fi
-	fi
+	done
+}
 
-	if (( ${#pkgname[@]} > 1 )); then
-		for i in ${pkgname[@]}; do
-			local arch_list=""
-			eval $(declare -f package_${i} | sed -n 's/\(^[[:space:]]*arch=\)/arch_list=/p')
-			if [[ ${arch_list[@]} && ${arch_list} != 'any' ]]; then
-				if ! in_array $CARCH "${arch_list[@]}"; then
-					if (( ! IGNOREARCH )); then
-						error "$(gettext "%s is not available for the '%s' architecture.")" "$i" "$CARCH"
-						ret=1
-					fi
-				fi
-			fi
-		done
-	fi
+lint_provides() {
+	local list name provides_list ret=0
 
-	local provides_list=()
-	eval $(awk '/^[[:space:]]*provides=/,/\)/' "$BUILDFILE" | \
-		sed -e "s/provides=/provides_list+=/" -e "s/#.*//" -e 's/\\$//')
-	for i in ${provides_list[@]}; do
-		if [[ $i == *['<>']* ]]; then
+	provides_list=("${provides[@]}")
+	for name in "${pkgname[@]}"; do
+		if extract_function_var "package_$name" provides 1 list; then
+			provides_list+=("${list[@]}")
+		fi
+	done
+
+	for provide in "${provides_list[@]}"; do
+		if [[ $provide == *['<>']* ]]; then
 			error "$(gettext "%s array cannot contain comparison (< or >) operators.")" "provides"
 			ret=1
 		fi
 	done
 
-	local backup_list=()
-	eval $(awk '/^[[:space:]]*backup=/,/\)/' "$BUILDFILE" | \
-		sed -e "s/backup=/backup_list+=/" -e "s/#.*//" -e 's/\\$//')
-	for i in "${backup_list[@]}"; do
-		if [[ ${i:0:1} = "/" ]]; then
-			error "$(gettext "%s entry should not contain leading slash : %s")" "backup" "$i"
+	return $ret
+}
+
+lint_backup() {
+	local list name backup_list ret=0
+
+	backup_list=("${backup[@]}")
+	for name in "${pkgname[@]}"; do
+		if extract_function_var "package_$name" backup 1 list; then
+			backup_list+=("${list[@]}")
+		fi
+	done
+
+	for name in "${backup_list[@]}"; do
+		if [[ ${name:0:1} = "/" ]]; then
+			error "$(gettext "%s entry should not contain leading slash : %s")" "backup" "$name"
 			ret=1
 		fi
 	done
 
-	local optdepends_list=()
-	eval $(awk '/^[[:space:]]*optdepends=\(/,/\)[[:space:]]*(#.*)?$/' "$BUILDFILE" | \
-		sed -e "s/optdepends=/optdepends_list+=/" -e "s/#.*//" -e 's/\\$//')
-	for i in "${optdepends_list[@]}"; do
-		local pkg=${i%%:[[:space:]]*}
+	return $ret
+}
+
+lint_optdepends() {
+	local list name optdepends_list ret=0
+
+	optdepends_list=("${optdepends[@]}")
+	for name in "${pkgname[@]}"; do
+		if extract_function_var "package_$name" optdepends 1 list; then
+			optdepends_list+=("${list[@]}")
+		fi
+	done
+
+	for name in "${optdepends_list[@]}"; do
+		local pkg=${name%%:[[:space:]]*}
 		# the '-' character _must_ be first or last in the character range
 		if [[ $pkg != +([-[:alnum:]><=.+_:]) ]]; then
-			error "$(gettext "Invalid syntax for %s : '%s'")" "optdepend" "$i"
+			error "$(gettext "Invalid syntax for %s: '%s'")" "optdepend" "$name"
 			ret=1
 		fi
 	done
 
-	for i in 'changelog' 'install'; do
-		local file
-		while read -r file; do
-			# evaluate any bash variables used
-			eval file=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "$file")\"
-			if [[ $file && ! -f $file ]]; then
-				error "$(gettext "%s file (%s) does not exist.")" "$i" "$file"
-				ret=1
-			fi
-		done < <(sed -n "s/^[[:space:]]*$i=//p" "$BUILDFILE")
-	done
+	return $ret
+}
 
-	local valid_options=1
-	local known kopt options_list
-	eval $(awk '/^[[:space:]]*options=/,/\)/' "$BUILDFILE" | \
-		sed -e "s/options=/options_list+=/" -e "s/#.*//" -e 's/\\$//')
-	for i in ${options_list[@]}; do
-		known=0
-		# check if option matches a known option or its inverse
-		for kopt in ${packaging_options[@]} ${other_options[@]}; do
-			if [[ ${i} = "${kopt}" || ${i} = "!${kopt}" ]]; then
-				known=1
-			fi
-		done
-		if (( ! known )); then
-			error "$(gettext "%s array contains unknown option '%s'")" "options" "$i"
-			valid_options=0
+check_files_exist() {
+	local kind=$1 files=("${@:2}") file ret
+
+	for file in "${files[@]}"; do
+		if [[ $file && ! -f $file ]]; then
+			error "$(gettext "%s file (%s) does not exist or is not a regular file.")" \
+				"$kind" "$file"
+			ret=1
 		fi
 	done
-	if (( ! valid_options )); then
+
+	return $ret
+}
+
+lint_install() {
+	local list file name install_list ret=0
+
+	install_list=("${install[@]}")
+	for name in "${pkgname[@]}"; do
+		extract_function_var "package_$name" install 0 file
+		install_list+=("$file")
+	done
+
+	check_files_exist 'install' "${install_list[@]}"
+}
+
+lint_changelog() {
+	local list name file changelog_list ret=0
+
+	changelog_list=("${changelog[@]}")
+	for name in "${pkgname[@]}"; do
+		if extract_function_var "package_$name" changelog 0 file; then
+			changelog_list+=("$file")
+		fi
+	done
+
+	check_files_exist 'changelog' "${changelog_list[@]}"
+}
+
+lint_options() {
+	local ret=0 list name kopt options_list
+
+	options_list=("${options[@]}")
+	for name in "${pkgname[@]}"; do
+		if extract_function_var "package_$name" options 1 list; then
+			options_list+=("${list[@]}")
+		fi
+	done
+
+	for i in "${options_list[@]}"; do
+		# check if option matches a known option or its inverse
+		for kopt in "${packaging_options[@]}" "${other_options[@]}"; do
+			if [[ $i = "$kopt" || $i = "!$kopt" ]]; then
+				# continue to the next $i
+				continue 2
+			fi
+		done
+
+		error "$(gettext "%s array contains unknown option '%s'")" "options" "$i"
 		ret=1
+	done
+
+	return $ret
+}
+
+lint_source() {
+	local idx=("${!source[@]}")
+
+	if (( ${#source[*]} > 0 && (idx[-1] + 1) != ${#source[*]} )); then
+		error "$(gettext "Sparse arrays are not allowed for source")"
+		return 1
 	fi
+}
+
+lint_pkglist() {
+	local i ret=0
+
+	for i in "${PKGLIST[@]}"; do
+		if ! in_array "$i" "${pkgname[@]}"; then
+			error "$(gettext "Requested package %s is not provided in %s")" "$i" "$BUILDFILE"
+			ret=1
+		fi
+	done
+
+	return $ret
+}
+
+lint_packagefn() {
+	local i ret=0
 
 	if (( ${#pkgname[@]} == 1 )); then
-		if have_function build && ! ( have_function package || have_function package_${pkgname}); then
+		if have_function 'build' && ! { have_function 'package' || have_function "package_$pkgname"; }; then
 			error "$(gettext "Missing %s function in %s")" "package()" "$BUILDFILE"
 			ret=1
 		fi
 	else
-		for i in ${pkgname[@]}; do
-			if ! have_function package_${i}; then
+		for i in "${pkgname[@]}"; do
+			if ! have_function "package_$i"; then
 				error "$(gettext "Missing %s function for split package '%s'")" "package_$i()" "$i"
 				ret=1
 			fi
 		done
 	fi
 
-	for i in ${PKGLIST[@]}; do
-		if ! in_array $i ${pkgname[@]}; then
-			error "$(gettext "Requested package %s is not provided in %s")" "$i" "$BUILDFILE"
-			ret=1
-		fi
-	done
+	return $ret
+}
 
-	local idx=("${!source[@]}")
-	if (( ${#source[*]} > 0 && (idx[-1] + 1) != ${#source[*]} )); then
-		error "$(gettext "Sparse arrays are not allowed for source")"
-		ret=1
-	fi
+check_sanity() {
+	# check for no-no's in the build script
+	local ret=0
+	local lintfn lint_functions
+
+	lint_functions=(
+		lint_pkgbase
+		lint_pkgname
+		lint_pkgver
+		lint_pkgrel
+		lint_epoch
+		lint_arch
+		lint_provides
+		lint_backup
+		lint_optdepends
+		lint_changelog
+		lint_install
+		lint_options
+		lint_packagefn
+		lint_pkglist
+		lint_source
+	)
+
+	for lintfn in "${lint_functions[@]}"; do
+		"$lintfn" || ret=1
+	done
 
 	return $ret
 }
