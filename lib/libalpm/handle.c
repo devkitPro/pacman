@@ -417,7 +417,7 @@ int SYMEXPORT alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile
 		return -1;
 	}
 
-	handle->logfile = strdup(logfile);
+	STRDUP(handle->logfile, logfile, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
 	/* free the old logfile path string, and close the stream so logaction
 	 * will reopen a new stream on the new logfile */
@@ -443,7 +443,7 @@ int SYMEXPORT alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir)
 	if(handle->gpgdir) {
 		FREE(handle->gpgdir);
 	}
-	handle->gpgdir = strdup(gpgdir);
+	STRDUP(handle->gpgdir, gpgdir, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'gpgdir' = %s\n", handle->gpgdir);
 	return 0;
@@ -549,11 +549,7 @@ int SYMEXPORT alpm_option_set_arch(alpm_handle_t *handle, const char *arch)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->arch) FREE(handle->arch);
-	if(arch) {
-		handle->arch = strdup(arch);
-	} else {
-		handle->arch = NULL;
-	}
+	STRDUP(handle->arch, arch, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	return 0;
 }
 

@@ -613,7 +613,7 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 	newpkg->infolevel = pkg->infolevel;
 	newpkg->origin = pkg->origin;
 	if(newpkg->origin == ALPM_PKG_FROM_FILE) {
-		newpkg->origin_data.file = strdup(pkg->origin_data.file);
+		STRDUP(newpkg->origin_data.file, pkg->origin_data.file, goto cleanup);
 	} else {
 		newpkg->origin_data.db = pkg->origin_data.db;
 	}
