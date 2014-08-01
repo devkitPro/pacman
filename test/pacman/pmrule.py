@@ -32,6 +32,12 @@ class pmrule(object):
     def __str__(self):
         return self.rule
 
+    def snapshots_needed(self):
+        (testname, args) = self.rule.split("=")
+        if testname == "FILE_MODIFIED" or testname == "!FILE_MODIFIED":
+            return [args]
+        return []
+
     def check(self, test):
         """
         """

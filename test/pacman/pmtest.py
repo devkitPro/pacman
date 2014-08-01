@@ -183,12 +183,17 @@ class pmtest(object):
 
         # Done.
         vprint("    Taking a snapshot of the file system")
-        for roots, dirs, files in os.walk(self.root):
-            for i in files:
-                filename = os.path.join(roots, i)
-                f = pmfile.PacmanFile(self.root, filename.replace(self.root + "/", ""))
-                self.files.append(f)
-                vprint("\t%s" % f.name)
+        for filename in self.snapshots_needed():
+            f = pmfile.PacmanFile(self.root, filename)
+            self.files.append(f)
+            vprint("\t%s" % f.name)
+
+
+    def snapshots_needed(self):
+        files = set()
+        for r in self.rules:
+            files.update(r.snapshots_needed())
+        return files
 
     def run(self, pacman):
         if os.path.isfile(util.PM_LOCK):
