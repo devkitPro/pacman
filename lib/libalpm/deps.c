@@ -106,7 +106,7 @@ static alpm_list_t *dep_graph_init(alpm_handle_t *handle,
 	alpm_list_t *i, *j;
 	alpm_list_t *vertices = NULL;
 	alpm_list_t *localpkgs = alpm_list_diff(
-			alpm_db_get_pkgcache(handle->db_local), ignore, ptr_cmp);
+			alpm_db_get_pkgcache(handle->db_local), ignore, _alpm_pkg_cmp);
 
 	/* We create the vertices */
 	for(i = targets; i; i = i->next) {
