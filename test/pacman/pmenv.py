@@ -51,14 +51,14 @@ class pmenv(object):
         """
         if not os.path.isfile(testcase):
             raise IOError("test file %s not found" % testcase)
-        test = pmtest.pmtest(testcase, self.root)
-        self.testcases.append(test)
+        self.testcases.append(testcase)
 
     def run(self):
         """
         """
         tap.plan(len(self.testcases))
-        for t in self.testcases:
+        for testcase in self.testcases:
+            t = pmtest.pmtest(testcase, self.root)
             tap.diag("Running '%s'" % t.testname)
 
             t.load()
