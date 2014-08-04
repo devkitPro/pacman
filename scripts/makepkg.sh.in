@@ -48,12 +48,12 @@ declare -r startdir="$PWD"
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman' \
+packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman'
                    'purge' 'upx' 'debug')
 other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
-splitpkg_overrides=('pkgver' 'pkgrel' 'epoch' 'pkgdesc' 'arch' 'url' 'license' \
-                    'groups' 'depends' 'optdepends' 'provides' 'conflicts' \
-                    'replaces' 'backup' 'options' 'install' 'changelog')
+splitpkg_overrides=('pkgdesc' 'arch' 'url' 'license' 'groups' 'depends'
+                    'optdepends' 'provides' 'conflicts' 'replaces' 'backup'
+                    'options' 'install' 'changelog')
 readonly -a packaging_options other_options splitpkg_overrides
 
 known_hash_algos=('md5' 'sha1' 'sha224' 'sha256' 'sha384' 'sha512')
@@ -842,27 +842,14 @@ missing_source_file() {
 }
 
 ##
-#  usage : get_full_version( [$pkgname] )
+#  usage : get_full_version()
 # return : full version spec, including epoch (if necessary), pkgver, pkgrel
 ##
 get_full_version() {
-	if [[ -z $1 ]]; then
-		if [[ -n $epoch ]] && (( $epoch )); then
-			printf "%s\n" "$epoch:$pkgver-$pkgrel"
-		else
-			printf "%s\n" "$pkgver-$pkgrel"
-		fi
+	if [[ $epoch ]] && (( epoch > 0 )); then
+		printf "%s\n" "$epoch:$pkgver-$pkgrel"
 	else
-		for i in pkgver pkgrel epoch; do
-			local indirect="${i}_override"
-			eval $(declare -f package_$1 | sed -n "s/\(^[[:space:]]*$i=\)/${i}_override=/p")
-			[[ -z ${!indirect} ]] && eval ${indirect}=\"${!i}\"
-		done
-		if [[ -n $epoch_override ]] && (( $epoch_override )); then
-			printf "%s\n" "$epoch_override:$pkgver_override-$pkgrel_override"
-		else
-			printf "%s\n" "$pkgver_override-$pkgrel_override"
-		fi
+		printf "%s\n" "$pkgver-$pkgrel"
 	fi
 }
 
@@ -2184,7 +2171,7 @@ install_package() {
 	(( NEEDED )) && pkglist+=('--needed')
 
 	for pkg in ${pkgname[@]}; do
-		fullver=$(get_full_version $pkg)
+		fullver=$(get_full_version)
 		pkgarch=$(get_pkg_arch $pkg)
 		pkglist+=("$PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}")
 
@@ -2386,20 +2373,12 @@ validate_pkgver() {
 }
 
 check_pkgver() {
-	local ret=0
-
 	if [[ -z ${pkgver} ]]; then
 		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
-		ret=1
+		return 1
 	fi
 
-	awk -F'=' '$1 ~ /^[[:space:]]*pkgver$/' "$BUILDFILE" | sed "s/[[:space:]]*#.*//" |
-	while IFS='=' read -r _ i; do
-		eval i=\"$(sed 's/^\(['\''"]\)\(.*\)\1$/\2/' <<< "${i%%+([[:space:]])}")\"
-		validate_pkgver "$i" || return 1
-	done || ret=1
-
-	return $ret
+	validate_pkgver "$pkgver"
 }
 
 get_vcsclient() {
@@ -2585,7 +2564,7 @@ check_build_status() {
 		allpkgbuilt=1
 		somepkgbuilt=0
 		for pkg in ${pkgname[@]}; do
-			fullver=$(get_full_version $pkg)
+			fullver=$(get_full_version)
 			pkgarch=$(get_pkg_arch $pkg)
 			if [[ -f $PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT} ]]; then
 				somepkgbuilt=1
