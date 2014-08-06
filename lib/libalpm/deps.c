@@ -416,17 +416,18 @@ int _alpm_depcmp_literal(alpm_pkg_t *pkg, alpm_depend_t *dep)
 	return dep_vercmp(pkg->version, dep->mod, dep->version);
 }
 
-int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
+/**
+ * @param dep dependency to check agains the provision list
+ * @param provisions provision list
+ * @return 1 if provider is found, 0 otherwise
+ */
+int _alpm_depcmp_provides(alpm_depend_t *dep, alpm_list_t *provisions)
 {
+	int satisfy = 0;
 	alpm_list_t *i;
-	int satisfy = _alpm_depcmp_literal(pkg, dep);
-
-	if(satisfy) {
-		return satisfy;
-	}
 
 	/* check provisions, name and version if available */
-	for(i = alpm_pkg_get_provides(pkg); i && !satisfy; i = i->next) {
+	for(i = provisions; i && !satisfy; i = i->next) {
 		alpm_depend_t *provision = i->data;
 
 		if(dep->mod == ALPM_DEP_MOD_ANY) {
@@ -442,6 +443,12 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 	}
 
 	return satisfy;
+}
+
+int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
+{
+	return _alpm_depcmp_literal(pkg, dep)
+		|| _alpm_depcmp_provides(dep, alpm_pkg_get_provides(pkg));
 }
 
 alpm_depend_t *_alpm_splitdep(const char *depstring)
