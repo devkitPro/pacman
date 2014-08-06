@@ -66,7 +66,7 @@ static int _parse_ini(const char *file, ini_parser_fn cb, void *data,
 		goto cleanup;
 	}
 
-	while(fgets(line, PATH_MAX, fp)) {
+	while(safe_fgets(line, PATH_MAX, fp)) {
 		char *key, *value, *ptr;
 		size_t line_len;
 

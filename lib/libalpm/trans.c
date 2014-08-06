@@ -280,7 +280,7 @@ static int grep(const char *fn, const char *needle)
 	}
 	while(!feof(fp)) {
 		char line[1024];
-		if(fgets(line, sizeof(line), fp) == NULL) {
+		if(safe_fgets(line, sizeof(line), fp) == NULL) {
 			continue;
 		}
 		/* TODO: this will not work if the search string

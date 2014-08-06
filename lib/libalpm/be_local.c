@@ -616,7 +616,7 @@ char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 }
 
 #define READ_NEXT() do { \
-	if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
+	if(safe_fgets(line, sizeof(line), fp) == NULL && !feof(fp)) goto error; \
 	_alpm_strip_newline(line, 0); \
 } while(0)
 
@@ -627,7 +627,7 @@ char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 
 #define READ_AND_STORE_ALL(f) do { \
 	char *linedup; \
-	if(fgets(line, sizeof(line), fp) == NULL) {\
+	if(safe_fgets(line, sizeof(line), fp) == NULL) {\
 		if(!feof(fp)) goto error; else break; \
 	} \
 	if(_alpm_strip_newline(line, 0) == 0) break; \
@@ -636,7 +636,7 @@ char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 } while(1) /* note the while(1) and not (0) */
 
 #define READ_AND_SPLITDEP(f) do { \
-	if(fgets(line, sizeof(line), fp) == NULL) {\
+	if(safe_fgets(line, sizeof(line), fp) == NULL) {\
 		if(!feof(fp)) goto error; else break; \
 	} \
 	if(_alpm_strip_newline(line, 0) == 0) break; \
@@ -682,7 +682,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 		}
 		free(path);
 		while(!feof(fp)) {
-			if(fgets(line, sizeof(line), fp) == NULL && !feof(fp)) {
+			if(safe_fgets(line, sizeof(line), fp) == NULL && !feof(fp)) {
 				goto error;
 			}
 			if(_alpm_strip_newline(line, 0) == 0) {
@@ -771,13 +771,13 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 			goto error;
 		}
 		free(path);
-		while(fgets(line, sizeof(line), fp)) {
+		while(safe_fgets(line, sizeof(line), fp)) {
 			_alpm_strip_newline(line, 0);
 			if(strcmp(line, "%FILES%") == 0) {
 				size_t files_count = 0, files_size = 0, len;
 				alpm_file_t *files = NULL;
 
-				while(fgets(line, sizeof(line), fp) &&
+				while(safe_fgets(line, sizeof(line), fp) &&
 						(len = _alpm_strip_newline(line, 0))) {
 					if(!_alpm_greedy_grow((void **)&files, &files_size,
 								(files_size ? files_size + sizeof(alpm_file_t) : 8 * sizeof(alpm_file_t)))) {
@@ -797,7 +797,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				info->files.count = files_count;
 				info->files.files = files;
 			} else if(strcmp(line, "%BACKUP%") == 0) {
-				while(fgets(line, sizeof(line), fp) && _alpm_strip_newline(line, 0)) {
+				while(safe_fgets(line, sizeof(line), fp) && _alpm_strip_newline(line, 0)) {
 					alpm_backup_t *backup;
 					CALLOC(backup, 1, sizeof(alpm_backup_t), goto error);
 					if(_alpm_split_backup(line, &backup)) {

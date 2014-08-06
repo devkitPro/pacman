@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -99,6 +100,30 @@ int llstat(char *path, struct stat *buf)
 		ret = lstat(path, buf);
 	}
 
+	return ret;
+}
+
+/** Wrapper around fgets() which properly handles EINTR
+ * @param s string to read into
+ * @param size maximum length to read
+ * @param stream stream to read from
+ * @return value returned by fgets()
+ */
+char *safe_fgets(char *s, int size, FILE *stream)
+{
+	char *ret;
+	int errno_save = errno, ferror_save = ferror(stream);
+	while((ret = fgets(s, size, stream)) == NULL && !feof(stream)) {
+		if(errno == EINTR) {
+			/* clear any errors we set and try again */
+			errno = errno_save;
+			if(!ferror_save) {
+				clearerr(stream);
+			}
+		} else {
+			break;
+		}
+	}
 	return ret;
 }
 

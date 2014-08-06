@@ -1403,7 +1403,7 @@ int multiselect_question(char *array, int count)
 
 		flush_term_input(fileno(stdin));
 
-		if(fgets(response, response_len, stdin)) {
+		if(safe_fgets(response, response_len, stdin)) {
 			const size_t response_incr = 64;
 			size_t len;
 			/* handle buffer not being large enough to read full line case */
@@ -1416,7 +1416,7 @@ int multiselect_question(char *array, int count)
 				lastchar = response + response_len - 1;
 				/* sentinel byte */
 				*lastchar = 1;
-				if(fgets(response + response_len - response_incr - 1,
+				if(safe_fgets(response + response_len - response_incr - 1,
 							response_incr + 1, stdin) == 0) {
 					free(response);
 					return -1;
@@ -1467,7 +1467,7 @@ int select_question(int count)
 
 		flush_term_input(fileno(stdin));
 
-		if(fgets(response, sizeof(response), stdin)) {
+		if(safe_fgets(response, sizeof(response), stdin)) {
 			size_t len = strtrim(response);
 			if(len > 0) {
 				int n;
@@ -1521,7 +1521,7 @@ static int question(short preset, const char *format, va_list args)
 
 	flush_term_input(fd_in);
 
-	if(fgets(response, sizeof(response), stdin)) {
+	if(safe_fgets(response, sizeof(response), stdin)) {
 		size_t len = strtrim(response);
 		if(len == 0) {
 			return preset;

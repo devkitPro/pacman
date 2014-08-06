@@ -576,8 +576,9 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 					.type = ALPM_EVENT_SCRIPTLET_INFO,
 					.line = line
 				};
-				if(fgets(line, PATH_MAX, pipe_file) == NULL)
+				if(safe_fgets(line, PATH_MAX, pipe_file) == NULL) {
 					break;
+				}
 				alpm_logaction(handle, "ALPM-SCRIPTLET", "%s", line);
 				EVENT(handle, &event);
 			}
