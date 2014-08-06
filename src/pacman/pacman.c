@@ -1029,7 +1029,7 @@ int main(int argc, char *argv[])
 	/* Set up the structure to specify the new action. */
 	new_action.sa_handler = handler;
 	sigemptyset(&new_action.sa_mask);
-	new_action.sa_flags = 0;
+	new_action.sa_flags = SA_RESTART;
 
 	/* assign our handler to any signals we care about */
 	for(i = 0; i < sizeof(signals) / sizeof(signals[0]); i++) {
