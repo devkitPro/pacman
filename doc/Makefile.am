@@ -124,8 +124,7 @@ A2X_OPTS = \
 	--no-xmllint \
 	-d manpage \
 	-f manpage \
-	--xsltproc-opts='-param man.endnotes.list.enabled 0 -param man.endnotes.are.numbered 0' \
-	--destination-dir='./'
+	--xsltproc-opts='-param man.endnotes.list.enabled 0 -param man.endnotes.are.numbered 0'
 
 # These rules are due to the includes and files of the asciidoc text
 $(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile.am
