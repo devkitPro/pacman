@@ -123,7 +123,7 @@ Options
 	Specify an alternative database location (a typical default is
 	+{localstatedir}/lib/pacman+). This should not be used unless you know what
 	you are doing.
-	*NOTE*: if specified, this is an absolute path, and the root path is
+	*NOTE*: If specified, this is an absolute path, and the root path is
 	not automatically prepended.
 
 *-r, \--root* <path>::
@@ -203,8 +203,8 @@ Transaction Options (apply to '-S', '-R' and '-U')
 
 *\--print-format* <format>::
 	Specify a printf-like format to control the output of the '\--print'
-	operation. The possible attributes are: %n for pkgname, %v for pkgver,
-	%l for location, %r for repo, and %s for size.  Implies '\--print'.
+	operation. The possible attributes are: "%n" for pkgname, "%v" for pkgver,
+	"%l" for location, "%r" for repository, and "%s" for size. Implies '\--print'.
 
 Upgrade Options (apply to '-S' and '-U')[[UO]]
 --------------------------------------------
@@ -212,7 +212,7 @@ Upgrade Options (apply to '-S' and '-U')[[UO]]
 	Bypass file conflict checks and overwrite conflicting files. If the
 	package that is about to be installed contains files that are already
 	installed, this option will cause all those files to be overwritten.
-	Using '--force' will not allow overwriting a directory with a file or
+	Using '\--force' will not allow overwriting a directory with a file or
 	installing packages with conflicting files and directories.
 	This option should be used with care, ideally not at all.
 
@@ -406,7 +406,7 @@ select sync packages whose versions do not match with the local versions. This
 can be useful when the user switches from a testing repository to a stable one.
 +
 Additional targets can also be specified manually, so that '-Su foo' will do a
-system upgrade and install/upgrade the foo package in the same operation.
+system upgrade and install/upgrade the "foo" package in the same operation.
 
 *-w, \--downloadonly*::
 	Retrieve all packages from the server, but do not install/upgrade anything.
