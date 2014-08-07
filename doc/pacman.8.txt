@@ -13,6 +13,7 @@ Synopsis
 --------
 'pacman' <operation> [options] [targets]
 
+
 Description
 -----------
 Pacman is a package management utility that tracks installed packages on a Linux
@@ -176,6 +177,7 @@ Options
 	Bypass any and all ``Are you sure?'' messages. It's not a good idea to do
 	this unless you want to run pacman from a script.
 
+
 Transaction Options (apply to '-S', '-R' and '-U')
 --------------------------------------------------
 *-d, \--nodeps*::
@@ -205,6 +207,7 @@ Transaction Options (apply to '-S', '-R' and '-U')
 	Specify a printf-like format to control the output of the '\--print'
 	operation. The possible attributes are: "%n" for pkgname, "%v" for pkgver,
 	"%l" for location, "%r" for repository, and "%s" for size. Implies '\--print'.
+
 
 Upgrade Options (apply to '-S' and '-U')[[UO]]
 --------------------------------------------
@@ -473,6 +476,7 @@ pacman -Syu::
 pacman -Syu gpm::
 	Update package list, upgrade all packages, and then install gpm if it
 	wasn't already installed.
+
 
 Configuration
 -------------

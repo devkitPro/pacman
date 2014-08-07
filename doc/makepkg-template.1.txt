@@ -16,7 +16,6 @@ Synopsis
 
 Description
 -----------
-
 'makepkg-template' is a script to ease the work of maintaining multiple similar
 PKGBUILDs.  It allows you to move most of the code from the PKGBUILD into a
 template file and uses markers to allow in-place updating of existing PKGBUILDs
@@ -60,9 +59,9 @@ resulting PKGBUILD. If you use markers in a template, please set the version
 you used/tested with in the start/input marker so other people can properly
 recreate from templates.
 
+
 Options
 -------
-
 *-p, \--input* <build script>::
 	Read the package script `build script` instead of the default.
 
@@ -74,6 +73,7 @@ Options
 
 *\--template-dir* <dir>::
 	Change the dir where we are looking for template files.
+
 
 Example PKGBUILD
 ----------------
@@ -110,7 +110,6 @@ Example PKGBUILD
 		make DESTDIR="$pkgdir" install
 	}
 	# template end;
-
 
 
 See Also

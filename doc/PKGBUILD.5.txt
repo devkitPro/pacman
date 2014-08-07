@@ -322,7 +322,6 @@ underscore and the architecture name e.g., 'replaces_x86_64=()'.
 
 Packaging Functions
 -------------------
-
 In addition to the above directives, PKGBUILDs require a set of functions that
 provide instructions to build and install the package. As a minimum, the
 PKGBUILD must contain a `package()` function which installs all the package's
@@ -379,6 +378,7 @@ variables for use during the build and install process:
 	located, which is usually the output of `$(pwd)` when makepkg is started.
 	Use of this variable is deprecated and strongly discouraged.
 
+
 Package Splitting
 -----------------
 makepkg supports building multiple packages from a single PKGBUILD. This is
@@ -400,6 +400,7 @@ An optional global directive is available when building a split package:
 	and in the naming of source-only tarballs. If not specified, the first
 	element in the `pkgname` array is used. The variable is not allowed to
 	begin with a hyphen.
+
 
 Install/Upgrade/Remove Scripting
 --------------------------------
@@ -448,6 +449,7 @@ The install script does not need to be specified in the source array. A
 template install file is available in '{pkgdatadir}' as 'proto.install' for
 reference with all of the available functions defined.
 
+
 Using VCS Sources[[VCS]]
 ------------------------
 Building a developmental version of a package using sources from a version
@@ -489,6 +491,7 @@ The source URL is divided into three components:
 	*svn*;;
 		revision
 
+
 Example
 -------
 The following is an example PKGBUILD for the 'patch' package. For more
@@ -499,6 +502,7 @@ those using Arch Linux, consult the Arch Build System (ABS) tree.
 -------------------------------
 include::PKGBUILD-example.txt[]
 -------------------------------
+
 
 See Also
 --------
