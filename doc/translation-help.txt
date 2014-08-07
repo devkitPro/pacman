@@ -2,7 +2,7 @@ Pacman - Translating
 ====================
 
 This document is here to guide you in helping translate pacman messages,
-libalpm messages, and the manpages for the entire pacman package.
+libalpm messages, and the manual pages for the entire pacman package.
 
 We are currently using http://www.transifex.net/[Transifex] as the translation
 platform for pacman and libalpm. You will need to sign up for an account there
@@ -23,13 +23,13 @@ Translating Messages
 Overview
 ~~~~~~~~
 
-There are two separate message catalogs in pacman- one for the backend
-(libalpm) and one for the frontend (pacman and scripts). These correspond to
+There are two separate message catalogs in pacman: one for the back-end
+(libalpm) and one for the front-end (pacman and scripts). These correspond to
 the `lib/libalpm/po` and `po` directories in the pacman source, respectively.
 
 Translation message files are a specially formatted text file containing the
 original message and the corresponding translation. These po files can then
-either be hand edited, or modified with a tool such as poedit, gtranslator or
+either be hand-edited, or modified with a tool such as poedit, gtranslator or
 kbabel. Using a translation tool tends to make the job easier.
 
 Please read up on Transifex usage using the
@@ -61,8 +61,8 @@ mailing list asking for translations. This email will have a prefix of
 *[translation]* for anyone looking to set up an email filter.
 
 At this time, the latest `.po` language files will be made available at the
-Transifex project page.  Each language will have two files available (backend
-and frontend). Translators interested in helping are encouraged to use the
+Transifex project page.  Each language will have two files available (back-end
+and front-end). Translators interested in helping are encouraged to use the
 features of Transifex to let others know they are currently translating their
 language.
 
@@ -99,7 +99,7 @@ Next, update your specific language's translation file:
 
 At this point, you can do the translation. To submit your changes, either email
 the new `.po` file to the mailing-list with *[translation]* in the subject, or
-submit a GIT-formatted patch (please do not include any `.pot` file changes).
+submit a Git-formatted patch (please do not include any `.pot` file changes).
 
 As a shortcut, all translation files (including `.pot` files) can be updated
 with the following command:
@@ -130,7 +130,7 @@ Notes[[Notes]]
 ~~~~~~~~~~~~~~
 
 msgid and msgstr 'variables' can be on as many lines as necessary. Line breaks
-are ignored- if you need a literal line break, use an `\n` in your string. The
+are ignored; if you need a literal line break, use an `\n` in your string. The
 following two translations are equivalent:
 
 	msgstr "This is a test translation"
@@ -138,7 +138,7 @@ following two translations are equivalent:
 	msgstr ""
 	"This is a test translation"
 
-If you want to test the translation (for example, the frontend one):
+If you want to test the translation (for example, the front-end one):
 
 	rm *.gmo stamp-po
 	make
@@ -147,14 +147,13 @@ If you want to test the translation (for example, the frontend one):
 
 Translating Manpages
 --------------------
-
-There are currently no efforts underway to include translated manpages in the
-pacman codebase. However, this is not to say translations are unwelcome. If
-someone has experience with i18n manpages and how to best include them with our
+There are currently no efforts underway to include translated manual pages in
+the pacman codebase. However, this is not to say translations are unwelcome. If
+someone has experience with i18n man pages and how to best include them with our
 source, please contact the pacman-dev mailing list at
 mailto:pacman-dev@archlinux.org[].
 
-Some community efforts have been made to translate manpages, and these can be
+Some community efforts have been made to translate man pages, and these can be
 found in the link:https://aur.archlinux.org[AUR] (Arch User Repository). Please
 check there first before undergoing a translation effort to ensure you are not
 duplicating efforts.

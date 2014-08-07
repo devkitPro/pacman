@@ -45,7 +45,7 @@ Options
 	Clean up leftover work files and directories after a successful build.
 
 *\--config* <file>::
-	Use an alternate config file instead of the +{sysconfdir}/makepkg.conf+
+	Use an alternate configuration file instead of the +{sysconfdir}/makepkg.conf+
 	default.
 
 *-d, \--nodeps*::
@@ -128,7 +128,7 @@ Options
 
 *-R, \--repackage*::
 	Repackage contents of the package without rebuilding the package. This
-	is useful if you forgot (e.g.) a dependency or install file in your
+	is useful if you forgot, for example, a dependency or install file in your
 	PKGBUILD and the build itself will not change.
 
 *-s, \--syncdeps*::
@@ -193,11 +193,11 @@ Options
 
 *\--needed*::
 	(Passed to pacman) Tell pacman not to reinstall a target if it is already
-	up to date. (used with -i / --install).
+	up-to-date. (used with '-i' / '\--install').
 
 *\--asdeps*::
 	(Passed to pacman) Install packages as non-explicitly installed (used
-	with -i / --install).
+	with '-i' / '\--install').
 
 *\--noprogressbar*::
 	(Passed to pacman) Prevent pacman from displaying a progress bar;
@@ -216,7 +216,7 @@ Environment Variables
 ---------------------
 **PACMAN**::
 	The command that will be used to check for missing dependencies and to
-	install and remove packages. Pacman's -Qq, -Rns, -S, -T, and -U
+	install and remove packages. Pacman's '-Qq', '-Rns', '-S', '-T', and '-U'
 	operations must be supported by this command. If the variable is not
 	set or empty, makepkg will fall back to `pacman'.
 

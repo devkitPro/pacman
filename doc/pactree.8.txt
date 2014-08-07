@@ -18,14 +18,14 @@ Description
 -----------
 Pactree produces a dependency tree for a package.
 
-By default a tree like output is generated, but with the -g option a graphviz
+By default, a tree-like output is generated, but with the '\--graph' option, a Graphviz
 description is generated.
 
 
 Options
 -------
 *-a, \--ascii*::
-	Use ascii characters for tree formatting. By default, pactree will use unicode
+	Use ASCII characters for tree formatting. By default, pactree will use Unicode
 	line drawing characters if it is able to detect that the locale supports them.
 
 *-b, \--dbpath*::
@@ -40,11 +40,11 @@ Options
 	required.
 
 *-g, \--graph*::
-	Generate graphviz description. If this option is given, the -c and -l
-	options are ignored.
+	Generate a Graphviz description. If this option is given, the '\--color' and
+	'\--linear' options are ignored.
 
 *-h, \--help*::
-	Output syntax and command line options.
+	Output syntax and command-line options.
 
 *-l, \--linear*::
 	Prints package names at the start of each line, one per line.
@@ -56,7 +56,7 @@ Options
 	Read package data from sync databases instead of local database.
 
 *-u, \--unique*::
-	List dependent packages once. Implies --linear.
+	List dependent packages once. Implies '\--linear'.
 
 *\--config <file>*::
 	Specify an alternate pacman configuration file.

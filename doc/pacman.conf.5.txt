@@ -45,13 +45,14 @@ NOTE: Each directive must be in CamelCase. If the case isn't respected, the
 directive won't be recognized. For example. noupgrade or NOUPGRADE will not
 work.
 
+
 Options
 -------
 *RootDir =* path/to/root::
 	Set the default root directory for pacman to install to. This option is
 	used if you want to install a package on a temporary mounted partition
 	which is "owned" by another system, or for a chroot install.
-	*NOTE*: If database path or logfile are not specified on either the
+	*NOTE*: If database path or log file are not specified on either the
 	command line or in linkman:pacman.conf[5], their default location will
 	be inside this root path.
 
@@ -99,15 +100,15 @@ Options
 	allowed.
 
 *Include =* path::
-	Include another config file. This file can include repositories or
+	Include another configuration file. This file can include repositories or
 	general configuration options. Wildcards in the specified paths will get
 	expanded based on linkman:glob[7] rules.
 
 *Architecture =* auto | i686 | x86_64 | ...::
 	If set, pacman will only allow installation of packages of the given
 	architecture (e.g. 'i686', 'x86_64', etc). The special value 'auto' will
-	use the system architecture, provided by in ``uname -m''.  If unset, no
-	architecture checks are made. *NOTE*: packages with the special
+	use the system architecture, provided via ``uname -m''. If unset, no
+	architecture checks are made. *NOTE*: Packages with the special
 	architecture 'any' can always be installed, as they are meant to be
 	architecture independent.
 
@@ -119,7 +120,7 @@ Options
 	properly.
 	+
 	This option is useful for users who experience problems with built-in
-	http/ftp support, or need the more advanced proxy support that comes with
+	HTTP/FTP support, or need the more advanced proxy support that comes with
 	utilities like wget.
 
 *NoUpgrade =* file ...::
