@@ -1119,6 +1119,46 @@ get_integlist() {
 	fi
 }
 
+generate_one_checksum() {
+	local integ=$1 numsrc=${#source[*]} indentsz idx
+
+	if (( numsrc == 0 )); then
+		return
+	fi
+
+	printf "%ssums=(%n" "$integ" indentsz
+
+	for (( idx = 0; idx < numsrc; ++idx )); do
+		local netfile=${source[idx]}
+		local proto sum
+		proto="$(get_protocol "$netfile")"
+
+		case $proto in
+			bzr*|git*|hg*|svn*)
+				sum="SKIP"
+				;;
+			*)
+				if [[ ! $netfile = *.@(sig?(n)|asc) ]]; then
+					local file
+					file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
+					sum="$(openssl dgst -${integ} "$file")"
+					sum=${sum##* }
+				else
+					sum="SKIP"
+				fi
+				;;
+		esac
+
+		# indent checksum on lines after the first
+		printf "%*s%s" $(( idx ? indentsz : 0 )) '' "'$sum'"
+
+		# print a newline on lines before the last
+		(( idx < (numsrc - 1) )) && echo
+	done
+
+	echo ")"
+}
+
 generate_checksums() {
 	msg "$(gettext "Generating checksums for source files...")"
 
@@ -1141,38 +1181,7 @@ generate_checksums() {
 			exit 1 # $E_CONFIG_ERROR
 		fi
 
-		local indentsz idx numsrc=${#source[@]}
-		printf "%s%n" "${integ}sums=(" indentsz
-
-		for (( idx = 0; idx < numsrc; i++ )); do
-			local netfile=${source[idx]}
-			local proto sum
-			proto="$(get_protocol "$netfile")"
-
-			case $proto in
-				bzr*|git*|hg*|svn*)
-					sum="SKIP"
-					;;
-				*)
-					if [[ ! $netfile = *.@(sig?(n)|asc) ]]; then
-						local file
-						file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
-						sum="$(openssl dgst -${integ} "$file")"
-						sum=${sum##* }
-					else
-						sum="SKIP"
-					fi
-					;;
-			esac
-
-			# indent checksum on lines after the first
-			printf "%*s%s" $(( idx ? indentsz : 0 )) '' "'$sum'"
-
-			# print a newline on lines before the last
-			(( ++idx < numsrc )) && echo
-		done
-
-		echo ")"
+		generate_one_checksum "$integ"
 	done
 }
 
