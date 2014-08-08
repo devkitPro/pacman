@@ -540,7 +540,9 @@ error:
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		const char *pkgfile, int full)
 {
-	int ret, fd, config, hit_mtree = 0;
+	int ret, fd;
+	int config = 0;
+	int hit_mtree = 0;
 	struct archive *archive;
 	struct archive_entry *entry;
 	alpm_pkg_t *newpkg;
