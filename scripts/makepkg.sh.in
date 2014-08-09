@@ -2359,13 +2359,21 @@ lint_epoch() {
 }
 
 lint_arch() {
-	local name list=("${@:-"${arch[@]}"}")
+	local a name list
 
-	if [[ $list == 'any' ]]; then
+	if [[ $arch == 'any' ]]; then
 		return 0
 	fi
 
-	if ! in_array "$CARCH" "${list[@]}" && (( ! IGNOREARCH )); then
+	for a in "${arch[@]}"; do
+		if [[ $a = *[![:alnum:]_]* ]]; then
+			error "$(gettext "%s contains invalid characters: '%s'")" \
+					'arch' "${a//[[:alnum:]_]}"
+			ret=1
+		fi
+	done
+
+	if (( ! IGNOREARCH )) && ! in_array "$CARCH" "${arch[@]}"; then
 		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
 		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
 		plain "$(gettext "such as %s.")" "arch=('$CARCH')"
