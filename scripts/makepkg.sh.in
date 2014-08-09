@@ -3153,10 +3153,16 @@ fi
 
 SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
 SRCPKGDEST=${SRCPKGDEST:-$startdir} #default to $startdir if undefined
-if (( SOURCEONLY )) && [[ ! -w $SRCPKGDEST ]]; then
-	error "$(gettext "You do not have write permission to store source tarballs in %s.")" "$SRCPKGDEST"
-	plain "$(gettext "Aborting...")"
-	exit 1
+if (( SOURCEONLY )); then
+	if [[ ! -w $SRCPKGDEST ]]; then
+		error "$(gettext "You do not have write permission to store source tarballs in %s.")" "$SRCPKGDEST"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
+
+	# If we're only making a source tarball, then we need to ignore architecture-
+	# dependent behavior.
+	IGNOREARCH=1
 fi
 
 LOGDEST=${_LOGDEST:-$LOGDEST}
