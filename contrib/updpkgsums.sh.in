@@ -83,7 +83,7 @@ fi
 	trap "rm -rf '$BUILDDIR'" EXIT
 	newsums=$(makepkg -g -p "$buildfile") && rm -f "$buildfile" &&
 	exec awk -v newsums="$newsums" '
-	/^[[:blank:]]*(md|sha)[[:digit:]]+sums=/,/\)[[:blank:]]*(#.*)?$/ {
+	/^[[:blank:]]*(md|sha)[[:digit:]]+sums(_[^=]+)?=/,/\)[[:blank:]]*(#.*)?$/ {
 		if (!w) {
 			print newsums
 			w++
