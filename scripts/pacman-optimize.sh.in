@@ -168,8 +168,8 @@ msg "$(gettext "Rotating database into place...")"
 fail=0
 mv "$localdb" "$localdb.old" || fail=1
 mv "$localdb.new" "$localdb" || fail=1
-chmod --reference="$localdb.old" "$localdb" || fail=1
-chown --reference="$localdb.old" "$localdb" || fail=1
+chmod $(@MODECMD@ "$localdb.old") "$localdb" || fail=1
+chown $(@OWNERCMD@ "$localdb.old") "$localdb" || fail=1
 if (( fail )); then
 	# failure with our directory shuffle
 	die_r "$(gettext "New database substitution failed. Check for %s, %s, and %s directories.")" "$localdb" "$localdb.old" "$localdb.new"

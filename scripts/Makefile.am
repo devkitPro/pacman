@@ -69,6 +69,8 @@ edit = sed \
 	-e 's|@TEMPLATE_DIR[@]|$(TEMPLATE_DIR)|g' \
 	-e 's|@DEBUGSUFFIX[@]|$(DEBUGSUFFIX)|g' \
 	-e "s|@INODECMD[@]|$(INODECMD)|g" \
+	-e "s|@OWNERCMD[@]|$(OWNERCMD)|g" \
+	-e "s|@MODECMD[@]|$(MODECMD)|g" \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e 's|@SEDINPLACE[@]|$(SEDINPLACE)|g' \
 	-e 's|@DUFLAGS[@]|$(DUFLAGS)|g' \
