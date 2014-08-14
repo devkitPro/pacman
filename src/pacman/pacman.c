@@ -153,14 +153,16 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-S --sync} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 			addlist(_("  -c, --clean          remove old packages from cache directory (-cc for all)\n"));
-			addlist(_("  -g, --groups         view all members of a package group\n"));
-			addlist(_("  -i, --info           view package information\n"));
+			addlist(_("  -g, --groups         view all members of a package group\n"
+			          "                       (-gg to view all groups and members)\n"));
+			addlist(_("  -i, --info           view package information (-ii for extended information)\n"));
 			addlist(_("  -l, --list <repo>    view a list of packages in a repo\n"));
 			addlist(_("  -q, --quiet          show less information for query and search\n"));
 			addlist(_("  -s, --search <regex> search remote repositories for matching strings\n"));
-			addlist(_("  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"));
+			addlist(_("  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"));
 			addlist(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
-			addlist(_("  -y, --refresh        download fresh package databases from the server\n"));
+			addlist(_("  -y, --refresh        download fresh package databases from the server\n"
+			          "                       (-yy to force a refresh even if up to date)\n"));
 			addlist(_("      --needed         do not reinstall up to date packages\n"));
 		} else if(op == PM_OP_DATABASE) {
 			printf("%s:  %s {-D --database} <%s> <%s>\n", str_usg, myname, str_opt, str_pkg);
