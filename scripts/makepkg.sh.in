@@ -1032,12 +1032,12 @@ source_has_signatures() {
 
 run_pacman() {
 	local cmd
-	if [[ ! $1 = -@(T|Qq) ]]; then
+	if [[ $1 != -@(T|Qq) ]]; then
 		cmd=("$PACMAN_PATH" $PACMAN_OPTS "$@")
 	else
 		cmd=("$PACMAN_PATH" "$@")
 	fi
-	if [[ ! $1 = -@(T|Qq) ]]; then
+	if [[ $1 != -@(T|Qq) ]]; then
 		if type -p sudo >/dev/null; then
 			cmd=(sudo "${cmd[@]}")
 		else
@@ -1194,7 +1194,7 @@ generate_one_checksum() {
 				sum="SKIP"
 				;;
 			*)
-				if [[ ! $netfile = *.@(sig?(n)|asc) ]]; then
+				if [[ $netfile != *.@(sig?(n)|asc) ]]; then
 					local file
 					file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
 					sum="$(openssl dgst -${integ} "$file")"
@@ -1432,7 +1432,7 @@ check_pgpsigs() {
 	esac
 	for file in "${all_sources[@]}"; do
 		file="$(get_filename "$file")"
-		if [[ ! $file = *.@(sig?(n)|asc) ]]; then
+		if [[ $file != *.@(sig?(n)|asc) ]]; then
 			continue
 		fi
 
@@ -3238,7 +3238,7 @@ PACMAN_PATH=$(type -P $PACMAN)
 
 # check if messages are to be printed using color
 unset ALL_OFF BOLD BLUE GREEN RED YELLOW
-if [[ -t 2 && ! $USE_COLOR = "n" ]] && check_buildenv "color" "y"; then
+if [[ -t 2 && $USE_COLOR != "n" ]] && check_buildenv "color" "y"; then
 	# prefer terminal safe colored and bold text when tput is supported
 	if tput setaf 0 &>/dev/null; then
 		ALL_OFF="$(tput sgr0)"
