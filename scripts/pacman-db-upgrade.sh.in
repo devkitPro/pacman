@@ -76,6 +76,12 @@ get_opt_from_config() {
 	done <"$conffile"
 }
 
+resolve_dir() {
+	local d="$(cd "$1"; pwd -P)"
+	[[ $d == */ ]] || d+=/
+	printf "%s" "$d"
+}
+
 # PROGRAM START
 
 # determine whether we have gettext; make it a no-op if we do not
@@ -143,17 +149,87 @@ fi
 # do not let pacman run while we do this
 touch "$lockfile"
 
-# pacman-3.4 to 3.5 upgrade - merge depends into desc
-if [[ $(find "$dbroot"/local -name depends) ]]; then
-	msg "$(gettext "Pre-3.5 database format detected - upgrading...")"
-	for i in "$dbroot"/local/*; do
-		if [[ -f "$i"/depends ]]; then
-			cat "$i"/depends >> "$i"/desc
-			rm "$i"/depends
-		fi
-	done
-	msg "$(gettext "Done.")"
+if [[ -f "${dbroot}"/local/ALPM_DB_VERSION ]]; then
+	db_version=$(cat "${dbroot}"/local/ALPM_DB_VERSION)
 fi
+
+if [[ -z "$db_version" ]]; then
+	# pacman-3.4 to 3.5 upgrade - merge depends into desc
+	if [[ $(find "$dbroot"/local -name depends) ]]; then
+		msg "$(gettext "Pre-3.5 database format detected - upgrading...")"
+		for i in "$dbroot"/local/*; do
+			if [[ -f "$i"/depends ]]; then
+				cat "$i"/depends >> "$i"/desc
+				rm "$i"/depends
+			fi
+		done
+		msg "$(gettext "Done.")"
+	fi
+
+	# pacman 4.1 to 4.2 upgrade - remove directory symlink support
+	dirlist=()
+
+	unset GREP_OPTIONS
+	while IFS= read -r dir; do
+		dirlist+=("${pacroot}${dir%/}")
+	done < <(grep -h '/$' "$dbroot"/local/*/files | sort -ru)
+
+	mapfile -t dirlist < <(find "${dirlist[@]}" -maxdepth 0 -type l)
+
+	if [[ ${#dirlist[@]} != 0 ]]; then
+		msg "$(gettext "Pre-4.2 database format detected - upgrading...")"
+
+		pacroot="$(resolve_dir "$pacroot")"
+
+		for dir in "${dirlist[@]}"; do
+			realdir="$(resolve_dir "$dir")"
+
+			# verify realdir is inside root
+			if [[ ${realdir:0:${#pacroot}} != $pacroot ]]; then
+				warning "$(gettext "symlink '%s' points outside pacman root, manual repair required")" "$dir"
+				continue
+			fi
+
+			# convert to an appropriate form for the replacement
+			olddir="${dir:${#pacroot}}/"
+			newdir="${realdir:${#pacroot}}"
+
+			# construct the parents of the new directory
+			parents=""
+			parent="$(dirname "$newdir")"
+			while [[ $parent != "." ]]; do
+				parents+="$parent/\n"
+				parent="$(dirname "$parent")"
+			done
+
+			for f in "$dbroot"/local/*/files; do
+				awk -v "olddir=$olddir" -v "newdir=$newdir" -v "parents=$parents" '
+					BEGIN {
+						i = length(olddir) + 1
+						file = substr(newdir, 0, length(newdir) - 1)
+					}
+					{
+						if ($0 == olddir) {
+							# replace symlink with its target, including parents
+							printf("%s", parents)
+							printf("%s\n", newdir)
+						} else if ($0 == file) {
+							# newdir already existed as a file, skip it
+						} else if (index($0, olddir) == 1) {
+							# update paths that were under olddir
+							printf("%s%s\n", newdir, substr($0, i))
+						} else {
+							# print everything else as-is
+							print
+						}
+					}' "$f" | grep . | LC_ALL=C sort -u > "$f.tmp"
+				mv "$f.tmp" "$f"
+			done
+		done
+	fi
+fi
+
+echo "9" > "$dbroot"/local/ALPM_DB_VERSION
 
 # remove the lock file
 rm -f "$lockfile"
