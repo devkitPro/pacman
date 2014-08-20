@@ -81,7 +81,6 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	FREE(handle->lockfile);
 	FREE(handle->arch);
 	FREE(handle->gpgdir);
-	FREELIST(handle->dbs_sync);
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
 	FREELIST(handle->ignorepkg);

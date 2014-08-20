@@ -449,7 +449,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 					conflicts = add_fileconflict(handle, conflicts, path, p1, p2);
 					if(handle->pm_errno == ALPM_ERR_MEMORY) {
-						FREELIST(conflicts);
+						alpm_list_free_inner(conflicts,
+								(alpm_list_fn_free) alpm_conflict_free);
+						alpm_list_free(conflicts);
 						alpm_list_free(common_files);
 						return NULL;
 					}
@@ -622,7 +624,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			if(!resolved_conflict) {
 				conflicts = add_fileconflict(handle, conflicts, path, p1, NULL);
 				if(handle->pm_errno == ALPM_ERR_MEMORY) {
-					FREELIST(conflicts);
+					alpm_list_free_inner(conflicts,
+							(alpm_list_fn_free) alpm_conflict_free);
+					alpm_list_free(conflicts);
 					alpm_list_free(tmpfiles);
 					return NULL;
 				}
