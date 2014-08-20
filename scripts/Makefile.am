@@ -54,6 +54,7 @@ endif
 
 #### Taken from the autoconf scripts Makefile.am ####
 edit = sed \
+	-e 's|@rootdir[@]|$(ROOTDIR)|g' \
 	-e 's|@localedir[@]|$(localedir)|g' \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
