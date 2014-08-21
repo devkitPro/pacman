@@ -2118,7 +2118,10 @@ create_package() {
 
 		if [[ -n ${!orig} ]]; then
 			msg2 "$(gettext "Adding %s file...")" "$orig"
-			cp "$startdir/${!orig}" "$dest"
+			if ! cp "$startdir/${!orig}" "$dest"; then
+				error "$(gettext "Failed to add %s file to package.")" "$orig"
+				exit 1
+			fi
 			chmod 644 "$dest"
 			comp_files+=("$dest")
 		fi
