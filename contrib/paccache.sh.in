@@ -23,9 +23,9 @@ shopt -s extglob
 declare -r myname='paccache'
 declare -r myver='@PACKAGE_VERSION@'
 
-declare -a candidates=() cmdopts=() whitelist=() blacklist=()
+declare -a cachedirs=() candidates=() cmdopts=() whitelist=() blacklist=()
 declare -i delete=0 dryrun=0 filecount=0 move=0 needsroot=0 totalsaved=0 verbose=0
-declare    cachedir=@localstatedir@/cache/pacman/pkg delim=$'\n' keep=3 movedir= scanarch=
+declare    delim=$'\n' keep=3 movedir= scanarch=
 
 USE_COLOR='y'
 
@@ -133,13 +133,13 @@ summarize() {
 					[[ $pkg =~ $pkg_re ]] && name=${BASH_REMATCH[1]} arch=${BASH_REMATCH[2]}
 					if [[ -z $seen || $seenarch != "$arch" || $seen != "$name" ]]; then
 						seen=$name seenarch=$arch
-						printf '%s (%s):\n' "$name" "$arch"
+						printf '%s (%s):\n' "${name##*/}" "$arch"
 					fi
-					printf '  %s\n' "$pkg"
+					printf '  %s\n' "${pkg##*/}"
 				elif (( verbose >= 2 )); then
-					printf "$PWD/%s$delim" "$pkg"
-				else
 					printf "%s$delim" "$pkg"
+				else
+					printf "%s$delim" "${pkg##*/}"
 				fi
 			done < <(printf '%s\n' "$@" | pacsort --files)
 		fi
@@ -165,7 +165,7 @@ Usage: ${myname} <operation> [options] [targets...]
 
   Options:
     -a, --arch <arch>     scan for "arch" (default: all architectures).
-    -c, --cachedir <dir>  scan "dir" for packages.
+    -c, --cachedir <dir>  scan "dir" for packages. can be used more than once.
                           (default: @localstatedir@/cache/pacman/pkg).
     -f, --force           apply force to mv(1) and rm(1) operations.
     -h, --help            display this help message and exit.
@@ -173,7 +173,7 @@ Usage: ${myname} <operation> [options] [targets...]
                           "-" to read package names from stdin, newline-
                           delimited.
     -k, --keep <num>      keep "num" of each package in the cache (default: 3).
-    --nocolor             remove color from output.
+        --nocolor         remove color from output.
     -u, --uninstalled     target uninstalled packages.
     -v, --verbose         increase verbosity. specify up to 3 times.
     -z, --null            use null delimiters for candidate names (only with -v
@@ -203,7 +203,7 @@ while :; do
 			scanarch=$2
 			shift ;;
 		-c|--cachedir)
-			cachedir=$2
+			cachedirs+=("$2")
 			shift ;;
 		-d|--dryrun)
 			dryrun=1 ;;
@@ -256,6 +256,9 @@ done
 
 m4_include(../scripts/library/term_colors.sh)
 
+# setting default cachedir
+cachedirs=("${cachedirs[@]:-@localstatedir@/cache/pacman/pkg}")
+
 # remaining args are a whitelist
 whitelist=("$@")
 
@@ -265,28 +268,39 @@ case $(( dryrun+delete+move )) in
 	[^1]) die "only one operation may be used at a time" ;;
 esac
 
-[[ -d $cachedir ]] ||
-	die "cachedir '%s' does not exist or is not a directory" "$cachedir"
-
 [[ $movedir && ! -d $movedir ]] &&
 	die "destination directory '%s' does not exist or is not a directory" "$movedir"
 
 if (( move || delete )); then
 	# make it an absolute path since we're about to chdir
-	[[ ${movedir:0:1} != '/' ]] && movedir=$PWD/$movedir
-	[[ ! -w $cachedir || ( $movedir && ! -w $movedir ) ]] && needsroot=1
+	[[ $movedir && ${movedir:0:1} != '/' ]] && movedir=$PWD/$movedir
+	[[ $movedir && ! -w $movedir ]] && needsroot=1
 fi
 
-# unlikely that this will fail, but better make sure
-cd "$cachedir" >/dev/null || die "failed to chdir to '%s'" "$cachedir"
+for cachedir in "${cachedirs[@]}"; do
+	[[ -d $cachedir ]] ||
+		die "cachedir '%s' does not exist or is not a directory" "$cachedir"
 
-# note that these results are returned in an arbitrary order from awk, but
-# they'll be resorted (in summarize) iff we have a verbosity level set.
-IFS=$'\n' read -r -d '' -a candidates < \
-	<(printf '%s\n' *.pkg.tar?(.+([^.])) | pacsort --files |
-		pkgfilter "$keep" "$scanarch" \
-			"${#whitelist[*]}" "${whitelist[@]}" \
-			"${#blacklist[*]}" "${blacklist[@]}")
+	if (( move || delete )); then
+		[[ ! -w $cachedir ]] && needsroot=1
+	fi
+
+	# unlikely that this will fail, but better make sure
+	pushd "$cachedir" &>/dev/null || die "failed to chdir to '%s'" "$cachedir"
+
+	# note that these results are returned in an arbitrary order from awk, but
+	# they'll be resorted (in summarize) iff we have a verbosity level set.
+	IFS=$'\n' read -r -d '' -a cand < \
+		<(printf '%s\n' "$PWD"/*.pkg.tar?(.+([^.])) | pacsort --files |
+			pkgfilter "$keep" "$scanarch" \
+				"${#whitelist[*]}" "${whitelist[@]}" \
+				"${#blacklist[*]}" "${blacklist[@]}")
+
+	candidates+=("${cand[@]}")
+	unset cand
+
+	popd &>/dev/null
+done
 
 if (( ! ${#candidates[*]} )); then
 	msg 'no candidate packages found for pruning'
