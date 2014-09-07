@@ -342,8 +342,9 @@ download_file() {
 	local proto=$(get_protocol "$netfile")
 
 	# find the client we should use for this URL
-	local dlcmd
-	dlcmd=$(get_downloadclient "$proto") || exit $?
+	local -a cmdline
+	IFS=' ' read -a cmdline < <(get_downloadclient "$proto")
+	(( ${#cmdline[@]} )) || exit
 
 	local filename=$(get_filename "$netfile")
 	local url=$(get_url "$netfile")
@@ -359,20 +360,18 @@ download_file() {
 	local dlfile="${url##*/}"
 
 	# replace %o by the temporary dlfile if it exists
-	if [[ $dlcmd = *%o* ]]; then
-		dlcmd=${dlcmd//\%o/\"$filename.part\"}
-		dlfile="$filename.part"
+	if [[ ${cmdline[*]} = *%o* ]]; then
+		dlfile=$filename.part
+		cmdline=("${cmdline[@]//%o/"$dlfile"}")
 	fi
 	# add the URL, either in place of %u or at the end
-	if [[ $dlcmd = *%u* ]]; then
-		dlcmd=${dlcmd//\%u/\"$url\"}
+	if [[ ${cmdline[*]} = *%u* ]]; then
+		cmdline=("${cmdline[@]//%u/"$url"}")
 	else
-		dlcmd="$dlcmd \"$url\""
+		cmdline+=("$url")
 	fi
 
-	local ret=0
-	eval "$dlcmd >&2 || ret=\$?"
-	if (( ret )); then
+	if ! command -- "${cmdline[@]}" >&2; then
 		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
 		error "$(gettext "Failure while downloading %s")" "$filename"
 		plain "$(gettext "Aborting...")"
