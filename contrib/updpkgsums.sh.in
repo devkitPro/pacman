@@ -79,6 +79,8 @@ fi
 	# Generate the new sums and try to unlink the file before writing stdin back
 	# into it. This final precaution shouldn't fail based on the previous checks,
 	# but it's better to be extra careful before unlinking files.
+	export BUILDDIR=$(mktemp -d --tmpdir updpkgsums.XXXXXX)
+	trap "rm -rf '$BUILDDIR'" EXIT
 	newsums=$(makepkg -g -p "$buildfile") && rm -f "$buildfile" &&
 	exec awk -v newsums="$newsums" '
 	/^[[:blank:]]*(md|sha)[[:digit:]]+sums=/,/\)[[:blank:]]*(#.*)?$/ {
