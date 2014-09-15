@@ -533,7 +533,7 @@ static int _alpm_validate_filename(alpm_db_t *db, const char *pkgname,
 #define READ_AND_SPLITDEP(f) do { \
 	if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) goto error; \
 	if(_alpm_strip_newline(buf.line, buf.real_line_size) == 0) break; \
-	f = alpm_list_add(f, _alpm_splitdep(line)); \
+	f = alpm_list_add(f, alpm_dep_from_string(line)); \
 } while(1) /* note the while(1) and not (0) */
 
 static int sync_db_read(alpm_db_t *db, struct archive *archive,

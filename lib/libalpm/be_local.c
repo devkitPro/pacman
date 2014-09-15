@@ -640,7 +640,7 @@ char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 		if(!feof(fp)) goto error; else break; \
 	} \
 	if(_alpm_strip_newline(line, 0) == 0) break; \
-	f = alpm_list_add(f, _alpm_splitdep(line)); \
+	f = alpm_list_add(f, alpm_dep_from_string(line)); \
 } while(1) /* note the while(1) and not (0) */
 
 static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)

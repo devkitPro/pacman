@@ -1517,6 +1517,17 @@ alpm_list_t *alpm_checkconflicts(alpm_handle_t *handle, alpm_list_t *pkglist);
  */
 char *alpm_dep_compute_string(const alpm_depend_t *dep);
 
+/** Return a newly allocated dependency information parsed from a string
+ * @param depstring a formatted string, e.g. "glibc=2.12"
+ * @return a dependency info structure
+ */
+alpm_depend_t *alpm_dep_from_string(const char *depstring);
+
+/** Free a dependency info structure
+ * @param dep struct to free
+ */
+void alpm_dep_free(alpm_depend_t *dep);
+
 /** @} */
 
 /** @} */

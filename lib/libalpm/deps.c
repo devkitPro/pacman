@@ -35,7 +35,7 @@
 #include "handle.h"
 #include "trans.h"
 
-void _alpm_dep_free(alpm_depend_t *dep)
+void SYMEXPORT alpm_dep_free(alpm_depend_t *dep)
 {
 	FREE(dep->name);
 	FREE(dep->version);
@@ -59,7 +59,7 @@ static alpm_depmissing_t *depmiss_new(const char *target, alpm_depend_t *dep,
 
 void SYMEXPORT alpm_depmissing_free(alpm_depmissing_t *miss)
 {
-	_alpm_dep_free(miss->depend);
+	alpm_dep_free(miss->depend);
 	FREE(miss->target);
 	FREE(miss->causingpkg);
 	FREE(miss);
@@ -279,12 +279,12 @@ static int no_dep_version(alpm_handle_t *handle)
  */
 alpm_pkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 {
-	alpm_depend_t *dep = _alpm_splitdep(depstring);
+	alpm_depend_t *dep = alpm_dep_from_string(depstring);
 	if(!dep) {
 		return NULL;
 	}
 	alpm_pkg_t *pkg = find_dep_satisfier(pkgs, dep);
-	_alpm_dep_free(dep);
+	alpm_dep_free(dep);
 	return pkg;
 }
 
@@ -451,7 +451,7 @@ int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep)
 		|| _alpm_depcmp_provides(dep, alpm_pkg_get_provides(pkg));
 }
 
-alpm_depend_t *_alpm_splitdep(const char *depstring)
+alpm_depend_t SYMEXPORT *alpm_dep_from_string(const char *depstring)
 {
 	alpm_depend_t *depend;
 	const char *ptr, *version, *desc;
@@ -755,10 +755,10 @@ alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
 	CHECK_HANDLE(handle, return NULL);
 	ASSERT(dbs, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
 
-	dep = _alpm_splitdep(depstring);
+	dep = alpm_dep_from_string(depstring);
 	ASSERT(dep, return NULL);
 	pkg = resolvedep(handle, dep, dbs, NULL, 1);
-	_alpm_dep_free(dep);
+	alpm_dep_free(dep);
 	return pkg;
 }
 

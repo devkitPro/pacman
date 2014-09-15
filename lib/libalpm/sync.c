@@ -524,8 +524,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 					conflict->package1, conflict->package2);
 
 			/* if sync1 provides sync2, we remove sync2 from the targets, and vice versa */
-			alpm_depend_t *dep1 = _alpm_splitdep(conflict->package1);
-			alpm_depend_t *dep2 = _alpm_splitdep(conflict->package2);
+			alpm_depend_t *dep1 = alpm_dep_from_string(conflict->package1);
+			alpm_depend_t *dep2 = alpm_dep_from_string(conflict->package2);
 			if(_alpm_depcmp(sync1, dep2)) {
 				rsync = sync2;
 				sync = sync1;
@@ -544,12 +544,12 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				}
 				alpm_list_free_inner(deps, (alpm_list_fn_free)alpm_conflict_free);
 				alpm_list_free(deps);
-				_alpm_dep_free(dep1);
-				_alpm_dep_free(dep2);
+				alpm_dep_free(dep1);
+				alpm_dep_free(dep2);
 				goto cleanup;
 			}
-			_alpm_dep_free(dep1);
-			_alpm_dep_free(dep2);
+			alpm_dep_free(dep1);
+			alpm_dep_free(dep2);
 
 			/* Prints warning */
 			_alpm_log(handle, ALPM_LOG_WARNING,

@@ -630,7 +630,7 @@ cleanup:
 
 static void free_deplist(alpm_list_t *deps)
 {
-	alpm_list_free_inner(deps, (alpm_list_fn_free)_alpm_dep_free);
+	alpm_list_free_inner(deps, (alpm_list_fn_free)alpm_dep_free);
 	alpm_list_free(deps);
 }
 
