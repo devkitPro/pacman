@@ -1240,9 +1240,6 @@ alpm_list_t *alpm_pkg_get_replaces(alpm_pkg_t *pkg);
 alpm_filelist_t *alpm_pkg_get_files(alpm_pkg_t *pkg);
 
 /** Returns the list of files backed up when installing pkg.
- * The elements of the returned list have the form
- * "<filename>\t<md5sum>", where the given md5sum is that of
- * the file as provided by the package.
  * @param pkg a pointer to package
  * @return a reference to a list of alpm_backup_t objects
  */
