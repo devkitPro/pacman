@@ -366,6 +366,16 @@ static int is_dir(const char *path, struct dirent *entry)
 	return 0;
 }
 
+static int local_db_create(alpm_db_t *db, const char *dbpath)
+{
+	if(mkdir(dbpath, 0755) != 0) {
+		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not create directory %s: %s\n"),
+				dbpath, strerror(errno));
+		RET_ERR(db->handle, ALPM_ERR_DB_CREATE, -1);
+	}
+	return 0;
+}
+
 static int local_db_validate(alpm_db_t *db)
 {
 	struct dirent *ent = NULL;
@@ -387,12 +397,19 @@ static int local_db_validate(alpm_db_t *db)
 	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
 		if(errno == ENOENT) {
-			/* database dir doesn't exist yet */
-			db->status |= DB_STATUS_VALID;
-			db->status &= ~DB_STATUS_INVALID;
-			db->status &= ~DB_STATUS_EXISTS;
-			db->status |= DB_STATUS_MISSING;
-			return 0;
+			/* local database dir doesn't exist yet - create it */
+			if(local_db_create(db, dbpath) == 0) {
+				db->status |= DB_STATUS_VALID;
+				db->status &= ~DB_STATUS_INVALID;
+				db->status |= DB_STATUS_EXISTS;
+				db->status &= ~DB_STATUS_MISSING;
+				return 0;
+			} else {
+				db->status &= ~DB_STATUS_EXISTS;
+				db->status |= DB_STATUS_MISSING;
+				/* pm_errno is set by local_db_create */
+				return -1;
+			}
 		} else {
 			RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 		}
@@ -445,7 +462,9 @@ static int local_db_populate(alpm_db_t *db)
 	if(db->status & DB_STATUS_INVALID) {
 		RET_ERR(db->handle, ALPM_ERR_DB_INVALID, -1);
 	}
-	/* note: DB_STATUS_MISSING is not fatal for local database */
+	if(db->status & DB_STATUS_MISSING) {
+		RET_ERR(db->handle, ALPM_ERR_DB_NOT_FOUND, -1);
+	}
 
 	dbpath = _alpm_db_path(db);
 	if(dbpath == NULL) {
@@ -455,13 +474,6 @@ static int local_db_populate(alpm_db_t *db)
 
 	dbdir = opendir(dbpath);
 	if(dbdir == NULL) {
-		if(errno == ENOENT) {
-			/* no database existing yet is not an error */
-			db->status &= ~DB_STATUS_EXISTS;
-			db->status |= DB_STATUS_MISSING;
-			db->pkgcache = _alpm_pkghash_create(0);
-			return 0;
-		}
 		RET_ERR(db->handle, ALPM_ERR_DB_OPEN, -1);
 	}
 	if(fstat(dirfd(dbdir), &buf) != 0) {
