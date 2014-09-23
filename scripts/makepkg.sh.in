@@ -446,7 +446,9 @@ download_bzr() {
 	local netfile=$1
 
 	local url=$(get_url "$netfile")
-	url=${url##*bzr+}
+	if [[ $url != bzr+ssh* ]]; then
+		url=${url##*bzr+}
+	fi
 	url=${url%%#*}
 
 	local repo=$(get_filename "$netfile")
