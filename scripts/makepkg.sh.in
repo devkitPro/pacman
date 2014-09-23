@@ -447,7 +447,7 @@ download_bzr() {
 
 	local url=$(get_url "$netfile")
 	if [[ $url != bzr+ssh* ]]; then
-		url=${url##*bzr+}
+		url=${url#bzr+}
 	fi
 	url=${url%%#*}
 
@@ -545,7 +545,7 @@ download_git() {
 	local repo=$(get_filename "$netfile")
 
 	local url=$(get_url "$netfile")
-	url=${url##*git+}
+	url=${url#git+}
 	url=${url%%#*}
 
 	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
@@ -643,7 +643,7 @@ download_hg() {
 	local repo=$(get_filename "$netfile")
 
 	local url=$(get_url "$netfile")
-	url=${url##*hg+}
+	url=${url#hg+}
 	url=${url%%#*}
 
 	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
@@ -724,7 +724,7 @@ download_svn() {
 
 	local url=$(get_url "$netfile")
 	if [[ $url != svn+ssh* ]]; then
-		url=${url##*svn+}
+		url=${url#svn+}
 	fi
 	url=${url%%#*}
 
