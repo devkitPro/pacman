@@ -56,9 +56,14 @@ pkgfilter() {
 	# script after the block of awk.
 
 	awk -v keep="$1" -v scanarch="$2" '
+	function basename(str) {
+		sub(".*/", "", str);
+		return str;
+	}
+
 	function parse_filename(filename,     parts, count, i, pkgname, arch) {
 
-		count = split(filename, parts, "-")
+		count = split(basename(filename), parts, "-")
 
 		i = 1
 		pkgname = parts[i++]
