@@ -281,24 +281,6 @@ void cb_event(alpm_event_t *event)
 					event->database_missing.dbname);
 			}
 			break;
-		case ALPM_EVENT_LOG:
-			{
-				alpm_event_log_t *e = &event->log;
-				if(!e->fmt || strlen(e->fmt) == 0) {
-					break;
-				}
-
-				if(on_progress) {
-					char *string = NULL;
-					pm_vasprintf(&string, e->level, e->fmt, e->args);
-					if(string != NULL) {
-						output = alpm_list_add(output, string);
-					}
-				} else {
-					pm_vfprintf(stderr, e->level, e->fmt, e->args);
-				}
-			}
-			break;
 		case ALPM_EVENT_PACNEW_CREATED:
 			{
 				alpm_event_pacnew_created_t *e = &event->pacnew_created;
@@ -860,6 +842,24 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		fill_progress(file_percent, file_percent, cols - infolen);
 	}
 	return;
+}
+
+/* Callback to handle notifications from the library */
+void cb_log(alpm_loglevel_t level, const char *fmt, va_list args)
+{
+	if(!fmt || strlen(fmt) == 0) {
+		return;
+	}
+
+	if(on_progress) {
+		char *string = NULL;
+		pm_vasprintf(&string, level, fmt, args);
+		if(string != NULL) {
+			output = alpm_list_add(output, string);
+		}
+	} else {
+		pm_vfprintf(stderr, level, fmt, args);
+	}
 }
 
 /* vim: set noet: */

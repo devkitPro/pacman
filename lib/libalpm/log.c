@@ -81,19 +81,15 @@ int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *prefix,
 
 void _alpm_log(alpm_handle_t *handle, alpm_loglevel_t flag, const char *fmt, ...)
 {
-	alpm_event_log_t event = {
-		.type = ALPM_EVENT_LOG,
-		.level = flag,
-		.fmt = fmt
-	};
+	va_list args;
 
-	if(handle == NULL || handle->eventcb == NULL) {
+	if(handle == NULL || handle->logcb == NULL) {
 		return;
 	}
 
-	va_start(event.args, fmt);
-	EVENT(handle, &event);
-	va_end(event.args);
+	va_start(args, fmt);
+	handle->logcb(flag, fmt, args);
+	va_end(args);
 }
 
 /* vim: set noet: */

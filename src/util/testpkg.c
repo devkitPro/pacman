@@ -23,20 +23,18 @@
 
 #include <alpm.h>
 
-static void output_cb(alpm_event_log_t *event)
+__attribute__((format(printf, 2, 0)))
+static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 {
-	if(event->type != ALPM_EVENT_LOG) {
+	if(fmt[0] == '\0') {
 		return;
 	}
-	if(event->fmt[0] == '\0') {
-		return;
-	}
-	switch(event->level) {
+	switch(level) {
 		case ALPM_LOG_ERROR: printf("error: "); break;
 		case ALPM_LOG_WARNING: printf("warning: "); break;
 		default: return; /* skip other messages */
 	}
-	vprintf(event->fmt, event->args);
+	vprintf(fmt, args);
 }
 
 int main(int argc, char *argv[])
@@ -61,7 +59,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* let us get log messages from libalpm */
-	alpm_option_set_eventcb(handle, (alpm_cb_event) output_cb);
+	alpm_option_set_logcb(handle, output_cb);
 
 	/* set gpgdir to default */
 	alpm_option_set_gpgdir(handle, GPGDIR);
