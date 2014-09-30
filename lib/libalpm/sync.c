@@ -1074,10 +1074,9 @@ static int check_keyring(alpm_handle_t *handle)
 					alpm_list_t *k;
 					for(k = keys; k; k = k->next) {
 						char *key = k->data;
-						if(_alpm_key_in_keychain(handle, key) == 0) {
-							if(!alpm_list_find_str(errors, key)) {
-								errors = alpm_list_add(errors, strdup(key));
-							}
+						if(!alpm_list_find_str(errors, key) &&
+								_alpm_key_in_keychain(handle, key) == 0) {
+							errors = alpm_list_add(errors, strdup(key));
 						}
 					}
 					FREELIST(keys);
