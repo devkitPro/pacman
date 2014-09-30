@@ -71,6 +71,10 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	curl_easy_cleanup(handle->curl);
 #endif
 
+#ifdef HAVE_LIBGPGME
+	FREELIST(handle->known_keys);
+#endif
+
 	regfree(&handle->delta_regex);
 
 	/* free memory */

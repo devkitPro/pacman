@@ -62,6 +62,10 @@ struct __alpm_handle_t {
 	CURL *curl;             /* reusable curl_easy handle */
 #endif
 
+#ifdef HAVE_LIBGPGME
+	alpm_list_t *known_keys;  /* keys verified to be in our keychain */
+#endif
+
 	/* callback functions */
 	alpm_cb_log logcb;          /* Log callback function */
 	alpm_cb_download dlcb;      /* Download callback function */

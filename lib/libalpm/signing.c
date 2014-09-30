@@ -221,6 +221,11 @@ int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr)
 	gpgme_key_t key;
 	int ret = -1;
 
+	if(alpm_list_find_str(handle->known_keys, fpr)) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "key %s found in cache\n", fpr);
+		return 1;
+	}
+
 	if(init_gpgme(handle)) {
 		/* pm_errno was set in gpgme_init() */
 		goto error;
@@ -238,6 +243,7 @@ int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr)
 		ret = 0;
 	} else if(gpg_err_code(gpg_err) == GPG_ERR_NO_ERROR) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup success, key exists\n");
+		handle->known_keys = alpm_list_add(handle->known_keys, strdup(fpr));
 		ret = 1;
 	} else {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "gpg error: %s\n", gpgme_strerror(gpg_err));
