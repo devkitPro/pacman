@@ -1307,14 +1307,8 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 	/* this can only happen maliciously */
 	total_bytes = total_bytes ? total_bytes : 1;
 
-	/* this one is special: -1 is failure, 1 is retry, 0 is success */
-	while(1) {
-		int ret = check_validity(handle, total, total_bytes);
-		if(ret == 0) {
-			break;
-		} else if(ret < 0) {
-			return -1;
-		}
+	if(check_validity(handle, total, total_bytes) != 0) {
+		return -1;
 	}
 
 	if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
