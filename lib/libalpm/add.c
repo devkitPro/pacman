@@ -215,64 +215,60 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 
 	if(llstat(filename, &lsbuf) != 0) {
 		/* cases 1,2: file doesn't exist, skip all backup checks */
+	} else if(S_ISDIR(lsbuf.st_mode) && S_ISDIR(entrymode)) {
+		uid_t entryuid = archive_entry_uid(entry);
+		gid_t entrygid = archive_entry_gid(entry);
+
+		/* case 6: existing dir, ignore it */
+		if(lsbuf.st_mode != entrymode) {
+			/* if filesystem perms are different than pkg perms, warn user */
+			mode_t mask = 07777;
+			_alpm_log(handle, ALPM_LOG_WARNING, _("directory permissions differ on %s\n"
+					"filesystem: %o  package: %o\n"), filename, lsbuf.st_mode & mask,
+					entrymode & mask);
+			alpm_logaction(handle, ALPM_CALLER_PREFIX,
+					"warning: directory permissions differ on %s\n"
+					"filesystem: %o  package: %o\n", filename, lsbuf.st_mode & mask,
+					entrymode & mask);
+		}
+
+		if((entryuid != lsbuf.st_uid) || (entrygid != lsbuf.st_gid)) {
+			_alpm_log(handle, ALPM_LOG_WARNING, _("directory ownership differs on %s\n"
+					"filesystem: %u:%u  package: %u:%u\n"), filename,
+					lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
+			alpm_logaction(handle, ALPM_CALLER_PREFIX,
+					"warning: directory ownership differs on %s\n"
+					"filesystem: %u:%u  package: %u:%u\n", filename,
+					lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
+		}
+
+		_alpm_log(handle, ALPM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
+				filename);
+		archive_read_data_skip(archive);
+		return 0;
+	} else if(S_ISDIR(lsbuf.st_mode)) {
+		/* case 5: trying to overwrite dir with file, don't allow it */
+		_alpm_log(handle, ALPM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
+				filename);
+		archive_read_data_skip(archive);
+		return 1;
+	} else if(S_ISDIR(entrymode)) {
+		/* case 4: trying to overwrite file with dir */
+		_alpm_log(handle, ALPM_LOG_DEBUG, "extract: overwriting file with dir %s\n",
+				filename);
 	} else {
-		if(S_ISDIR(lsbuf.st_mode)) {
-			if(S_ISDIR(entrymode)) {
-				uid_t entryuid = archive_entry_uid(entry);
-				gid_t entrygid = archive_entry_gid(entry);
-
-				/* case 6: existing dir, ignore it */
-				if(lsbuf.st_mode != entrymode) {
-					/* if filesystem perms are different than pkg perms, warn user */
-					mode_t mask = 07777;
-					_alpm_log(handle, ALPM_LOG_WARNING, _("directory permissions differ on %s\n"
-							"filesystem: %o  package: %o\n"), filename, lsbuf.st_mode & mask,
-							entrymode & mask);
-					alpm_logaction(handle, ALPM_CALLER_PREFIX,
-							"warning: directory permissions differ on %s\n"
-							"filesystem: %o  package: %o\n", filename, lsbuf.st_mode & mask,
-							entrymode & mask);
-				}
-
-				if((entryuid != lsbuf.st_uid) || (entrygid != lsbuf.st_gid)) {
-					_alpm_log(handle, ALPM_LOG_WARNING, _("directory ownership differs on %s\n"
-							"filesystem: %u:%u  package: %u:%u\n"), filename,
-							lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
-					alpm_logaction(handle, ALPM_CALLER_PREFIX,
-							"warning: directory ownership differs on %s\n"
-							"filesystem: %u:%u  package: %u:%u\n", filename,
-							lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
-				}
-
-				_alpm_log(handle, ALPM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
-						filename);
-				archive_read_data_skip(archive);
-				return 0;
-			} else {
-				/* case 5: trying to overwrite dir with file, don't allow it */
-				_alpm_log(handle, ALPM_LOG_ERROR, _("extract: not overwriting dir with file %s\n"),
-						filename);
-				archive_read_data_skip(archive);
-				return 1;
-			}
-		} else if(S_ISDIR(entrymode)) {
-			/* case 4: trying to overwrite file with dir */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "extract: overwriting file with dir %s\n",
-					filename);
+		/* case 3: trying to overwrite file with file */
+		/* if file is in NoUpgrade, don't touch it */
+		if(_alpm_fnmatch_patterns(handle->noupgrade, entryname) == 0) {
+			notouch = 1;
 		} else {
-			/* case 3: */
-			/* if file is in NoUpgrade, don't touch it */
-			if(_alpm_fnmatch_patterns(handle->noupgrade, entryname) == 0) {
-				notouch = 1;
-			} else {
-				alpm_backup_t *oldbackup;
-				if(oldpkg && (oldbackup = _alpm_needbackup(entryname, oldpkg))) {
-					hash_orig = oldbackup->hash;
-					needbackup = 1;
-				} else if(backup) {
-					/* allow adding backup files retroactively */
-					needbackup = 1;
-				}
+			alpm_backup_t *oldbackup;
+			if(oldpkg && (oldbackup = _alpm_needbackup(entryname, oldpkg))) {
+				hash_orig = oldbackup->hash;
+				needbackup = 1;
+			} else if(backup) {
+				/* allow adding backup files retroactively */
+				needbackup = 1;
 			}
 		}
 	}
