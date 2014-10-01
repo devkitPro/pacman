@@ -144,6 +144,29 @@ static int try_rename(alpm_handle_t *handle, const char *src, const char *dest)
 	return 0;
 }
 
+static int extract_db_file(alpm_handle_t *handle, struct archive *archive,
+		struct archive_entry *entry, alpm_pkg_t *newpkg, const char *entryname)
+{
+	char filename[PATH_MAX]; /* the actual file we're extracting */
+	const char *dbfile;
+	if(strcmp(entryname, ".INSTALL") == 0) {
+		dbfile = "install";
+	} else if(strcmp(entryname, ".CHANGELOG") == 0) {
+		dbfile = "changelog";
+	} else if(strcmp(entryname, ".MTREE") == 0) {
+		dbfile = "mtree";
+	} else if(*entryname == '.') {
+		/* reserve all files starting with '.' for future possibilities */
+		_alpm_log(handle, ALPM_LOG_DEBUG, "skipping extraction of '%s'\n", entryname);
+		archive_read_data_skip(archive);
+		return 0;
+	}
+	archive_entry_set_perm(entry, 0644);
+	snprintf(filename, PATH_MAX, "%s%s-%s/%s",
+			_alpm_db_path(handle->db_local), newpkg->name, newpkg->version, dbfile);
+	return perform_extraction(handle, archive, entry, filename, filename);
+}
+
 static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, alpm_pkg_t *newpkg, alpm_pkg_t *oldpkg)
 {
@@ -157,36 +180,17 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	int errors = 0;
 	struct stat lsbuf;
 
-	if(strcmp(entryname, ".INSTALL") == 0) {
-		/* the install script goes inside the db */
-		snprintf(filename, PATH_MAX, "%s%s-%s/install",
-				_alpm_db_path(handle->db_local), newpkg->name, newpkg->version);
-		archive_entry_set_perm(entry, 0644);
-	} else if(strcmp(entryname, ".CHANGELOG") == 0) {
-		/* the changelog goes inside the db */
-		snprintf(filename, PATH_MAX, "%s%s-%s/changelog",
-				_alpm_db_path(handle->db_local), newpkg->name, newpkg->version);
-		archive_entry_set_perm(entry, 0644);
-	} else if(strcmp(entryname, ".MTREE") == 0) {
-		/* the mtree file goes inside the db */
-		snprintf(filename, PATH_MAX, "%s%s-%s/mtree",
-				_alpm_db_path(handle->db_local), newpkg->name, newpkg->version);
-		archive_entry_set_perm(entry, 0644);
-	} else if(*entryname == '.') {
-		/* for now, ignore all files starting with '.' that haven't
-		 * already been handled (for future possibilities) */
-		_alpm_log(handle, ALPM_LOG_DEBUG, "skipping extraction of '%s'\n", entryname);
-		archive_read_data_skip(archive);
-		return 0;
-	} else {
-		if (!alpm_filelist_contains(&newpkg->files, entryname)) {
-			_alpm_log(handle, ALPM_LOG_WARNING, _("file not found in file list for package %s. skipping extraction of %s\n"),
-					newpkg->name, entryname);
-			return 0;
-		}
-		/* build the new entryname relative to handle->root */
-		snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
+	if(*entryname == '.') {
+		return extract_db_file(handle, archive, entry, newpkg, entryname);
 	}
+
+	if (!alpm_filelist_contains(&newpkg->files, entryname)) {
+		_alpm_log(handle, ALPM_LOG_WARNING, _("file not found in file list for package %s. skipping extraction of %s\n"),
+				newpkg->name, entryname);
+		return 0;
+	}
+	/* build the new entryname relative to handle->root */
+	snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
 
 	/* if a file is in NoExtract then we never extract it */
 	if(_alpm_fnmatch_patterns(handle->noextract, entryname) == 0) {
