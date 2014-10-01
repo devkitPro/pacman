@@ -178,6 +178,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	const char *hash_orig = NULL;
 	int errors = 0;
 	struct stat lsbuf;
+	size_t filename_len;
 
 	if(*entryname == '.') {
 		return extract_db_file(handle, archive, entry, newpkg, entryname);
@@ -191,7 +192,12 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	}
 
 	/* build the new entryname relative to handle->root */
-	snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
+	filename_len = snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
+	if(filename_len >= PATH_MAX) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("unable to extract %s%s: path too long"), handle->root, entryname);
+		return 1;
+	}
 
 	/* if a file is in NoExtract then we never extract it */
 	if(_alpm_fnmatch_patterns(handle->noextract, entryname) == 0) {
@@ -278,32 +284,56 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		}
 	}
 
-	if(needbackup) {
-		char *checkfile;
+	if(notouch || needbackup) {
+		if(filename_len + strlen(".pacnew") >= PATH_MAX) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("unable to extract %s.pacnew: path too long"), filename);
+			return 1;
+		}
+		strcpy(filename + filename_len, ".pacnew");
+	}
+
+	if(handle->trans->flags & ALPM_TRANS_FLAG_FORCE) {
+		/* if FORCE was used, unlink() each file (whether it's there
+		 * or not) before extracting. This prevents the old "Text file busy"
+		 * error that crops up if forcing a glibc or pacman upgrade. */
+		unlink(filename);
+	}
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, "extracting %s\n", filename);
+	if(perform_extraction(handle, archive, entry, filename)) {
+		errors++;
+		return errors;
+	}
+
+	if(backup) {
+		FREE(backup->hash);
+		backup->hash = alpm_compute_md5sum(filename);
+	}
+
+	if(notouch) {
+		alpm_event_pacnew_created_t event = {
+			.type = ALPM_EVENT_PACNEW_CREATED,
+			.from_noupgrade = 1,
+			.oldpkg = oldpkg,
+			.newpkg = newpkg,
+			.file = filename
+		};
+		/* "remove" the .pacnew suffix */
+		filename[filename_len] = '\0';
+		EVENT(handle, &event);
+		alpm_logaction(handle, ALPM_CALLER_PREFIX,
+				"warning: %s installed as %s.pacnew\n", filename, filename);
+	} else if(needbackup) {
 		char *hash_local = NULL, *hash_pkg = NULL;
-		size_t len;
+		char origfile[PATH_MAX] = "";
 
-		len = strlen(filename) + 10;
-		MALLOC(checkfile, len,
-				errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
-		snprintf(checkfile, len, "%s.pacnew", filename);
+		strncat(origfile, filename, filename_len);
 
-		if(perform_extraction(handle, archive, entry, checkfile)) {
-			errors++;
-			goto needbackup_cleanup;
-		}
+		hash_local = alpm_compute_md5sum(origfile);
+		hash_pkg = backup ? backup->hash : alpm_compute_md5sum(filename);
 
-		hash_local = alpm_compute_md5sum(filename);
-		hash_pkg = alpm_compute_md5sum(checkfile);
-
-		/* update the md5 hash in newpkg's backup (it will be the new original) */
-		if(backup) {
-			FREE(backup->hash);
-			STRDUP(backup->hash, hash_pkg,
-					errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
-		}
-
-		_alpm_log(handle, ALPM_LOG_DEBUG, "checking hashes for %s\n", filename);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "checking hashes for %s\n", origfile);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "current:  %s\n", hash_local);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "new:      %s\n", hash_pkg);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "original: %s\n", hash_orig);
@@ -312,8 +342,8 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			/* local and new files are the same, updating anyway to get
 			 * correct timestamps */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
-					filename);
-			if(try_rename(handle, checkfile, filename)) {
+					origfile);
+			if(try_rename(handle, filename, origfile)) {
 				errors++;
 			}
 		} else if(hash_orig && hash_pkg && strcmp(hash_orig, hash_pkg) == 0) {
@@ -321,13 +351,13 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			 * including any user changes */
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"action: leaving existing file in place\n");
-			unlink(checkfile);
+			unlink(filename);
 		} else if(hash_orig && hash_local && strcmp(hash_orig, hash_local) == 0) {
 			/* installed file has NOT been changed by user,
 			 * update to the new version */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
-					filename);
-			if(try_rename(handle, checkfile, filename)) {
+					origfile);
+			if(try_rename(handle, filename, origfile)) {
 				errors++;
 			}
 		} else {
@@ -338,67 +368,19 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				.from_noupgrade = 0,
 				.oldpkg = oldpkg,
 				.newpkg = newpkg,
-				.file = filename
+				.file = origfile
 			};
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"action: keeping current file and installing"
 					" new one with .pacnew ending\n");
 			EVENT(handle, &event);
 			alpm_logaction(handle, ALPM_CALLER_PREFIX,
-					"warning: %s installed as %s\n", filename, checkfile);
+					"warning: %s installed as %s\n", origfile, filename);
 		}
 
-needbackup_cleanup:
-		free(checkfile);
 		free(hash_local);
-		free(hash_pkg);
-	} else {
-		size_t len;
-		/* we didn't need a backup */
-		if(notouch) {
-			/* change the path to a .pacnew extension */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "%s is in NoUpgrade -- skipping\n", filename);
-			/* remember len so we can get the old filename back for the event */
-			len = strlen(filename);
-			strncat(filename, ".pacnew", PATH_MAX - len);
-		} else {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "extracting %s\n", filename);
-		}
-
-		if(handle->trans->flags & ALPM_TRANS_FLAG_FORCE) {
-			/* if FORCE was used, unlink() each file (whether it's there
-			 * or not) before extracting. This prevents the old "Text file busy"
-			 * error that crops up if forcing a glibc or pacman upgrade. */
-			unlink(filename);
-		}
-
-		if(perform_extraction(handle, archive, entry, filename)) {
-			/* error */
-			errors++;
-			return errors;
-		}
-
-		if(notouch) {
-			alpm_event_pacnew_created_t event = {
-				.type = ALPM_EVENT_PACNEW_CREATED,
-				.from_noupgrade = 1,
-				.oldpkg = oldpkg,
-				.newpkg = newpkg,
-				.file = filename
-			};
-			/* "remove" the .pacnew suffix */
-			filename[len] = '\0';
-			EVENT(handle, &event);
-			alpm_logaction(handle, ALPM_CALLER_PREFIX,
-					"warning: %s installed as %s.pacnew\n", filename, filename);
-			/* restore */
-			filename[len] = '.';
-		}
-
-		/* calculate an hash if this is in newpkg's backup */
-		if(backup) {
-			FREE(backup->hash);
-			backup->hash = alpm_compute_md5sum(filename);
+		if(!backup) {
+			free(hash_pkg);
 		}
 	}
 	return errors;
