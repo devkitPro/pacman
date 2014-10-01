@@ -333,69 +333,33 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		} else {
 			/* none of the three files matched another, unpack the new file alongside
 			 * the local file */
+			char *newpath;
+			size_t newlen = strlen(filename) + strlen(".pacnew") + 1;
 
-			if(oldpkg) {
-				char *newpath;
-				size_t newlen = strlen(filename) + strlen(".pacnew") + 1;
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"action: keeping current file and installing"
+					" new one with .pacnew ending\n");
 
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"action: keeping current file and installing"
-						" new one with .pacnew ending\n");
+			MALLOC(newpath, newlen,
+					errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
+			snprintf(newpath, newlen, "%s.pacnew", filename);
 
-				MALLOC(newpath, newlen,
-						errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
-				snprintf(newpath, newlen, "%s.pacnew", filename);
-
-				if(try_rename(handle, checkfile, newpath)) {
-					errors++;
-				} else {
-					alpm_event_pacnew_created_t event = {
-						.type = ALPM_EVENT_PACNEW_CREATED,
-						.from_noupgrade = 0,
-						.oldpkg = oldpkg,
-						.newpkg = newpkg,
-						.file = filename
-					};
-					EVENT(handle, &event);
-					alpm_logaction(handle, ALPM_CALLER_PREFIX,
-							"warning: %s installed as %s\n", filename, newpath);
-				}
-
-				free(newpath);
+			if(try_rename(handle, checkfile, newpath)) {
+				errors++;
 			} else {
-				char *newpath;
-				size_t newlen = strlen(filename) + strlen(".pacorig") + 1;
-
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"action: saving existing file with a .pacorig ending"
-						" and installing a new one\n");
-
-				MALLOC(newpath, newlen,
-						errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
-				snprintf(newpath, newlen, "%s.pacorig", filename);
-
-				/* move the existing file to the "pacorig" */
-				if(try_rename(handle, filename, newpath)) {
-					errors++;   /* failed rename filename  -> filename.pacorig */
-					errors++;   /* failed rename checkfile -> filename */
-				} else {
-					/* rename the file we extracted to the real name */
-					if(try_rename(handle, checkfile, filename)) {
-						errors++;
-					} else {
-						alpm_event_pacorig_created_t event = {
-							.type = ALPM_EVENT_PACORIG_CREATED,
-							.newpkg = newpkg,
-							.file = filename
-						};
-						EVENT(handle, &event);
-						alpm_logaction(handle, ALPM_CALLER_PREFIX,
-								"warning: %s saved as %s\n", filename, newpath);
-					}
-				}
-
-				free(newpath);
+				alpm_event_pacnew_created_t event = {
+					.type = ALPM_EVENT_PACNEW_CREATED,
+					.from_noupgrade = 0,
+					.oldpkg = oldpkg,
+					.newpkg = newpkg,
+					.file = filename
+				};
+				EVENT(handle, &event);
+				alpm_logaction(handle, ALPM_CALLER_PREFIX,
+						"warning: %s installed as %s\n", filename, newpath);
 			}
+
+			free(newpath);
 		}
 
 needbackup_cleanup:

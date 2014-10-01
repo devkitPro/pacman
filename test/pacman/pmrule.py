@@ -146,9 +146,6 @@ class pmrule(object):
             elif case == "PACNEW":
                 if not os.path.isfile("%s.pacnew" % filename):
                     success = 0
-            elif case == "PACORIG":
-                if not os.path.isfile("%s.pacorig" % filename):
-                    success = 0
             elif case == "PACSAVE":
                 if not os.path.isfile("%s.pacsave" % filename):
                     success = 0

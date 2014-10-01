@@ -484,8 +484,9 @@ original=X, current=Y, new=Z::
 
 original=NULL, current=Y, new=Z::
 	The package was not previously installed, and the file already exists on the
-	file system. Save the current file with a '.pacorig' extension, install the
-	new file, and warn the user.
+	file system. Install the new file with a '.pacnew' extension and warn the
+	user. The user must then manually merge any necessary changes into the
+	original file.
 
 
 Examples

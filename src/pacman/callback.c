@@ -315,22 +315,6 @@ void cb_event(alpm_event_t *event)
 				}
 			}
 			break;
-		case ALPM_EVENT_PACORIG_CREATED:
-			{
-				alpm_event_pacorig_created_t *e = &event->pacorig_created;
-				if(on_progress) {
-					char *string = NULL;
-					pm_sprintf(&string, ALPM_LOG_WARNING, _("%s saved as %s.pacorig\n"),
-							e->file, e->file);
-					if(string != NULL) {
-						output = alpm_list_add(output, string);
-					}
-				} else {
-					pm_printf(ALPM_LOG_WARNING, _("%s saved as %s.pacorig\n"),
-							e->file, e->file);
-				}
-			}
-			break;
 		/* all the simple done events, with fallthrough for each */
 		case ALPM_EVENT_FILECONFLICTS_DONE:
 		case ALPM_EVENT_CHECKDEPS_DONE:
