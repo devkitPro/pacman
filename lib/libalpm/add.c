@@ -107,7 +107,7 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 }
 
 static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
-		struct archive_entry *entry, const char *filename, const char *origname)
+		struct archive_entry *entry, const char *filename)
 {
 	int ret;
 	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
@@ -120,13 +120,13 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 	if(ret == ARCHIVE_WARN && archive_errno(archive) != ENOSPC) {
 		/* operation succeeded but a "non-critical" error was encountered */
 		_alpm_log(handle, ALPM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
-				origname, archive_error_string(archive));
+				filename, archive_error_string(archive));
 	} else if(ret != ARCHIVE_OK) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not extract %s (%s)\n"),
-				origname, archive_error_string(archive));
+				filename, archive_error_string(archive));
 		alpm_logaction(handle, ALPM_CALLER_PREFIX,
 				"error: could not extract %s (%s)\n",
-				origname, archive_error_string(archive));
+				filename, archive_error_string(archive));
 		return 1;
 	}
 	return 0;
@@ -164,7 +164,7 @@ static int extract_db_file(alpm_handle_t *handle, struct archive *archive,
 	archive_entry_set_perm(entry, 0644);
 	snprintf(filename, PATH_MAX, "%s%s-%s/%s",
 			_alpm_db_path(handle->db_local), newpkg->name, newpkg->version, dbfile);
-	return perform_extraction(handle, archive, entry, filename, filename);
+	return perform_extraction(handle, archive, entry, filename);
 }
 
 static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
@@ -176,7 +176,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	char filename[PATH_MAX]; /* the actual file we're extracting */
 	int needbackup = 0, notouch = 0;
 	const char *hash_orig = NULL;
-	char *entryname_orig = NULL;
 	int errors = 0;
 	struct stat lsbuf;
 
@@ -185,10 +184,12 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	}
 
 	if (!alpm_filelist_contains(&newpkg->files, entryname)) {
-		_alpm_log(handle, ALPM_LOG_WARNING, _("file not found in file list for package %s. skipping extraction of %s\n"),
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("file not found in file list for package %s. skipping extraction of %s\n"),
 				newpkg->name, entryname);
 		return 0;
 	}
+
 	/* build the new entryname relative to handle->root */
 	snprintf(filename, PATH_MAX, "%s%s", handle->root, entryname);
 
@@ -277,10 +278,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		}
 	}
 
-	/* we need access to the original entryname later after calls to
-	 * archive_entry_set_pathname(), so we need to dupe it and free() later */
-	STRDUP(entryname_orig, entryname, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-
 	if(needbackup) {
 		char *checkfile;
 		char *hash_local = NULL, *hash_pkg = NULL;
@@ -291,7 +288,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 				errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
 		snprintf(checkfile, len, "%s.paccheck", filename);
 
-		if(perform_extraction(handle, archive, entry, checkfile, entryname_orig)) {
+		if(perform_extraction(handle, archive, entry, checkfile)) {
 			errors++;
 			goto needbackup_cleanup;
 		}
@@ -306,7 +303,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
 		}
 
-		_alpm_log(handle, ALPM_LOG_DEBUG, "checking hashes for %s\n", entryname_orig);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "checking hashes for %s\n", filename);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "current:  %s\n", hash_local);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "new:      %s\n", hash_pkg);
 		_alpm_log(handle, ALPM_LOG_DEBUG, "original: %s\n", hash_orig);
@@ -315,7 +312,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			/* local and new files are the same, updating anyway to get
 			 * correct timestamps */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
-					entryname_orig);
+					filename);
 			if(try_rename(handle, checkfile, filename)) {
 				errors++;
 			}
@@ -329,7 +326,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			/* installed file has NOT been changed by user,
 			 * update to the new version */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "action: installing new file: %s\n",
-					entryname_orig);
+					filename);
 			if(try_rename(handle, checkfile, filename)) {
 				errors++;
 			}
@@ -425,9 +422,8 @@ needbackup_cleanup:
 			unlink(filename);
 		}
 
-		if(perform_extraction(handle, archive, entry, filename, entryname_orig)) {
+		if(perform_extraction(handle, archive, entry, filename)) {
 			/* error */
-			free(entryname_orig);
 			errors++;
 			return errors;
 		}
@@ -455,7 +451,6 @@ needbackup_cleanup:
 			backup->hash = alpm_compute_md5sum(filename);
 		}
 	}
-	free(entryname_orig);
 	return errors;
 }
 
