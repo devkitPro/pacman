@@ -147,16 +147,15 @@ static int try_rename(alpm_handle_t *handle, const char *src, const char *dest)
 static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, alpm_pkg_t *newpkg, alpm_pkg_t *oldpkg)
 {
-	const char *entryname;
-	mode_t entrymode;
+	const char *entryname = archive_entry_pathname(entry);
+	mode_t entrymode = archive_entry_mode(entry);
+	alpm_backup_t *backup = _alpm_needbackup(entryname, newpkg);
 	char filename[PATH_MAX]; /* the actual file we're extracting */
 	int needbackup = 0, notouch = 0;
 	const char *hash_orig = NULL;
 	char *entryname_orig = NULL;
 	int errors = 0;
-
-	entryname = archive_entry_pathname(entry);
-	entrymode = archive_entry_mode(entry);
+	struct stat lsbuf;
 
 	if(strcmp(entryname, ".INSTALL") == 0) {
 		/* the install script goes inside the db */
@@ -214,7 +213,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	 *  6- skip extraction, dir already exists.
 	 */
 
-	struct stat lsbuf;
 	if(llstat(filename, &lsbuf) != 0) {
 		/* cases 1,2: file doesn't exist, skip all backup checks */
 	} else {
@@ -267,21 +265,13 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			if(_alpm_fnmatch_patterns(handle->noupgrade, entryname) == 0) {
 				notouch = 1;
 			} else {
-				alpm_backup_t *backup;
-				/* go to the backup array and see if our conflict is there */
-				/* check newpkg first, so that adding backup files is retroactive */
-				backup = _alpm_needbackup(entryname, newpkg);
-				if(backup) {
+				alpm_backup_t *oldbackup;
+				if(oldpkg && (oldbackup = _alpm_needbackup(entryname, oldpkg))) {
+					hash_orig = oldbackup->hash;
 					needbackup = 1;
-				}
-
-				/* check oldpkg for a backup entry, store the hash if available */
-				if(oldpkg) {
-					backup = _alpm_needbackup(entryname, oldpkg);
-					if(backup) {
-						hash_orig = backup->hash;
-						needbackup = 1;
-					}
+				} else if(backup) {
+					/* allow adding backup files retroactively */
+					needbackup = 1;
 				}
 			}
 		}
@@ -310,16 +300,10 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		hash_pkg = alpm_compute_md5sum(checkfile);
 
 		/* update the md5 hash in newpkg's backup (it will be the new original) */
-		alpm_list_t *i;
-		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
-			alpm_backup_t *backup = i->data;
-			char *newhash;
-			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
-				continue;
-			}
-			STRDUP(newhash, hash_pkg, errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
+		if(backup) {
 			FREE(backup->hash);
-			backup->hash = newhash;
+			STRDUP(backup->hash, hash_pkg,
+					errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
 		}
 
 		_alpm_log(handle, ALPM_LOG_DEBUG, "checking hashes for %s\n", entryname_orig);
@@ -466,17 +450,9 @@ needbackup_cleanup:
 		}
 
 		/* calculate an hash if this is in newpkg's backup */
-		alpm_list_t *i;
-		for(i = alpm_pkg_get_backup(newpkg); i; i = i->next) {
-			alpm_backup_t *backup = i->data;
-			char *newhash;
-			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
-				continue;
-			}
-			_alpm_log(handle, ALPM_LOG_DEBUG, "appending backup entry for %s\n", entryname_orig);
-			newhash = alpm_compute_md5sum(filename);
+		if(backup) {
 			FREE(backup->hash);
-			backup->hash = newhash;
+			backup->hash = alpm_compute_md5sum(filename);
 		}
 	}
 	free(entryname_orig);
