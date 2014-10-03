@@ -1494,10 +1494,10 @@ check_pgpsigs() {
 			errors=1
 		else
 			if (( ${#validpgpkeys[@]} == 0 && ! $trusted )); then
-				printf "%s ($(gettext "the public key %s is not trusted"))" $(gettext "FAILED") "$pubkey" >&2
+				printf "%s ($(gettext "the public key %s is not trusted"))" $(gettext "FAILED") "$fingerprint" >&2
 				errors=1
 			elif (( ${#validpgpkeys[@]} > 0 )) && ! in_array "$fingerprint" "${validpgpkeys[@]}"; then
-				printf "%s (%s $pubkey)" "$(gettext "FAILED")" "$(gettext "invalid public key")"
+				printf "%s (%s %s)" "$(gettext "FAILED")" "$(gettext "invalid public key")" "$fingerprint"
 				errors=1
 			else
 				printf '%s' "$(gettext "Passed")" >&2
