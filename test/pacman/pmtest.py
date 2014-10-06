@@ -234,13 +234,13 @@ class pmtest(object):
                 "--log-file=%s" % os.path.join(self.root, "var/log/valgrind"),
                 "--suppressions=%s" % suppfile])
             self.addrule("FILE_EMPTY=var/log/valgrind")
-        cmd.extend([pacman["bin"],
+        cmd.extend([pacman["bin"], "--noconfirm",
             "--config", os.path.join(self.root, util.PACCONF),
             "--root", self.root,
             "--dbpath", os.path.join(self.root, util.PM_DBPATH),
             "--cachedir", os.path.join(self.root, util.PM_CACHEDIR)])
-        if not pacman["manual-confirm"]:
-            cmd.append("--noconfirm")
+        if pacman["manual-confirm"]:
+            cmd.append("--confirm")
         if pacman["debug"]:
             cmd.append("--debug=%s" % pacman["debug"])
         cmd.extend(shlex.split(self.args))
