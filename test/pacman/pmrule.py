@@ -103,13 +103,11 @@ class pmrule(object):
                     if not value in newpkg.files:
                         success = 0
                 elif case == "BACKUP":
-                    found = 0
+                    success = 0
                     for f in newpkg.backup:
-                        name, md5sum = f.split("\t")
-                        if value == name:
-                            found = 1
-                    if not found:
-                        success = 0
+                        if f.startswith(value + "\t"):
+                            success = 1
+                            break;
                 else:
                     tap.diag("PKG rule '%s' not found" % case)
                     success = -1
