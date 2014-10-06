@@ -45,7 +45,8 @@ PY_LOG_COMPILER = $(PYTHON) $(top_srcdir)/test/pacman/pactest.py
 AM_PY_LOG_FLAGS = \
 		--scriptlet-shell $(SCRIPTLET_SHELL) \
 		--ldconfig $(LDCONFIG) \
-		-p $(top_builddir)/src/pacman/pacman
+		--bindir $(top_builddir)/src/pacman \
+		--bindir $(top_builddir)/scripts
 
 # create the pacman DB and cache directories upon install
 install-data-local:

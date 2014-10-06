@@ -39,6 +39,11 @@ class pmtest(object):
         self.root = root
         self.dbver = 9
         self.cachepkgs = True
+        self.cmd = ["pacman", "--noconfirm",
+                "--config", os.path.join(self.root, util.PACCONF),
+                "--root", self.root,
+                "--dbpath", os.path.join(self.root, util.PM_DBPATH),
+                "--cachedir", os.path.join(self.root, util.PM_CACHEDIR)]
 
     def __str__(self):
         return "name = %s\n" \
@@ -234,16 +239,24 @@ class pmtest(object):
                 "--log-file=%s" % os.path.join(self.root, "var/log/valgrind"),
                 "--suppressions=%s" % suppfile])
             self.addrule("FILE_EMPTY=var/log/valgrind")
-        cmd.extend([pacman["bin"], "--noconfirm",
-            "--config", os.path.join(self.root, util.PACCONF),
-            "--root", self.root,
-            "--dbpath", os.path.join(self.root, util.PM_DBPATH),
-            "--cachedir", os.path.join(self.root, util.PM_CACHEDIR)])
+
+        # replace program name with absolute path
+        prog = pacman["bin"]
+        if not prog:
+            prog = util.which(self.cmd[0], pacman["bindir"])
+        if not prog or not os.access(prog, os.X_OK):
+            if not prog:
+                tap.bail("could not locate '%s' binary" % (self.cmd[0]))
+                return
+
+        cmd.append(os.path.abspath(prog))
+        cmd.extend(self.cmd[1:])
         if pacman["manual-confirm"]:
             cmd.append("--confirm")
         if pacman["debug"]:
             cmd.append("--debug=%s" % pacman["debug"])
         cmd.extend(shlex.split(self.args))
+
         if not (pacman["gdb"] or pacman["nolog"]):
             output = open(os.path.join(self.root, util.LOGFILE), 'w')
         else:

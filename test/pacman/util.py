@@ -157,8 +157,9 @@ def mkmd5sum(data):
 # Miscellaneous
 #
 
-def which(filename):
-    path = os.environ["PATH"].split(':')
+def which(filename, path=None):
+    if not path:
+        path = os.environ["PATH"].split(os.pathsep)
     for p in path:
         f = os.path.join(p, filename)
         if os.access(f, os.F_OK):

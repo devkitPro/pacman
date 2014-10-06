@@ -31,9 +31,6 @@ import util
 __author__ = "Aurelien FORET"
 __version__ = "0.4"
 
-def resolve_binary_path(option, opt_str, value, parser):
-    setattr(parser.values, option.dest, os.path.abspath(value))
-
 def create_parser():
     usage = "usage: %prog [options] <path/to/testfile.py>..."
     description = "Runs automated tests on the pacman binary. Tests are " \
@@ -47,10 +44,12 @@ def create_parser():
     parser.add_option("-d", "--debug", type = "int",
                       dest = "debug", default = 0,
                       help = "set debug level for pacman")
-    parser.add_option("-p", "--pacman", action = "callback",
-                      callback = resolve_binary_path, type = "string",
-                      dest = "bin", default = util.which("pacman"),
+    parser.add_option("-p", "--pacman", type = "string",
+                      dest = "bin", default = None,
                       help = "specify location of the pacman binary")
+    parser.add_option("--bindir", type = "string",
+                      dest = "bindir", action = "append",
+                      help = "specify location of binaries")
     parser.add_option("--keep-root", action = "store_true",
                       dest = "keeproot", default = False,
                       help = "don't remove the generated pacman root filesystem")
@@ -86,10 +85,6 @@ if __name__ == "__main__":
     opt_parser = create_parser()
     (opts, args) = opt_parser.parse_args()
 
-    if opts.bin is None or not os.access(opts.bin, os.X_OK):
-        tap.bail("cannot locate pacman binary")
-        sys.exit(2)
-
     if args is None or len(args) == 0:
         tap.bail("no tests defined, nothing to do")
         sys.exit(2)
@@ -102,6 +97,7 @@ if __name__ == "__main__":
     util.verbose = opts.verbose
     env.pacman["debug"] = opts.debug
     env.pacman["bin"] = opts.bin
+    env.pacman["bindir"] = opts.bindir
     env.pacman["nolog"] = opts.nolog
     env.pacman["gdb"] = opts.gdb
     env.pacman["valgrind"] = opts.valgrind
