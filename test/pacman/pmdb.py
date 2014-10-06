@@ -172,7 +172,7 @@ class pmdb(object):
             if line == "%FILES%":
                 while line:
                     line = fd.readline().strip("\n")
-                    if line and line[-1] != "/":
+                    if line:
                         pkg.files.append(line)
             if line == "%BACKUP%":
                 pkg.backup = _getsection(fd)
