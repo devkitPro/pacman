@@ -37,6 +37,7 @@ class pmtest(object):
         self.name = name
         self.testname = os.path.basename(name).replace('.py', '')
         self.root = root
+        self.dbver = 9
         self.cachepkgs = True
 
     def __str__(self):
@@ -180,9 +181,9 @@ class pmtest(object):
         for pkg in self.db["local"].pkgs:
             vprint("\tinstalling %s" % pkg.fullname())
             pkg.install_package(self.root)
-        if self.db["local"].pkgs:
+        if self.db["local"].pkgs and self.dbver >= 9:
             path = os.path.join(self.root, util.PM_DBPATH, "local")
-            util.mkfile(path, "ALPM_DB_VERSION", "9")
+            util.mkfile(path, "ALPM_DB_VERSION", str(self.dbver))
 
         # Done.
         vprint("    Taking a snapshot of the file system")
