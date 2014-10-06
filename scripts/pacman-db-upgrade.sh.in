@@ -204,25 +204,40 @@ if [[ -z "$db_version" ]]; then
 
 			for f in "$dbroot"/local/*/files; do
 				awk -v "olddir=$olddir" -v "newdir=$newdir" -v "parents=$parents" '
+					function print_path(path) {
+						if (path != "" && !(path in seen)) {
+							seen[path] = 1
+							print path
+						}
+					}
 					BEGIN {
-						i = length(olddir) + 1
+						oldlen = length(olddir) + 1
 						file = substr(newdir, 0, length(newdir) - 1)
 					}
 					{
-						if ($0 == olddir) {
+						if ($0 == "") {
+							# end of section, clear seen paths and print as-is
+							for ( i in seen ) {
+								delete seen[i]
+							}
+							print
+						} else if ($0 == olddir) {
 							# replace symlink with its target, including parents
-							printf("%s", parents)
-							printf("%s\n", newdir)
+							split(parents, paths, "\n")
+							for (i in paths) {
+								print_path(paths[i])
+							}
+							print_path(newdir)
 						} else if ($0 == file) {
 							# newdir already existed as a file, skip it
 						} else if (index($0, olddir) == 1) {
 							# update paths that were under olddir
-							printf("%s%s\n", newdir, substr($0, i))
+							print_path(newdir substr($0, oldlen))
 						} else {
 							# print everything else as-is
-							print
+							print_path($0)
 						}
-					}' "$f" | grep . | LC_ALL=C sort -u > "$f.tmp"
+					}' "$f" > "$f.tmp"
 				mv "$f.tmp" "$f"
 			done
 		done
