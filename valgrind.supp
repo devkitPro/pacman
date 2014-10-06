@@ -149,3 +149,21 @@
    Memcheck:Cond
    fun:__lxstat
 }
+{
+   bash-is-a-sieve
+   Memcheck:Leak
+   match-leak-kinds: reachable,definite,indirect
+   ...
+   obj:*/bash
+}
+{
+   fakechroot-call-init
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libfakeroot/fakechroot/libfakechroot.so
+   fun:call_init.part.0
+   fun:_dl_init
+   obj:/usr/lib/ld-2.20.so
+   ...
+}
