@@ -495,11 +495,9 @@ static int curl_download_internal(struct dload_payload *payload,
 			if(dload_interrupted == ABORT_OVER_MAXFILESIZE) {
 				payload->curlerr = CURLE_FILESIZE_EXCEEDED;
 				handle->pm_errno = ALPM_ERR_LIBCURL;
-				/* use the 'size exceeded' message from libcurl */
 				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("failed retrieving file '%s' from %s : %s\n"),
-						payload->remote_name, hostname,
-						curl_easy_strerror(CURLE_FILESIZE_EXCEEDED));
+						_("failed retrieving file '%s' from %s : expected download size exceeded\n"),
+						payload->remote_name, hostname);
 			}
 			goto cleanup;
 		default:
