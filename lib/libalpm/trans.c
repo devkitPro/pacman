@@ -175,6 +175,16 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 		return 0;
 	}
 
+	if(trans->add) {
+		if(_alpm_sync_load(handle, data) != 0) {
+			/* pm_errno is set by _alpm_sync_load() */
+			return -1;
+		}
+		if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
+			return 0;
+		}
+	}
+
 	trans->state = STATE_COMMITING;
 
 	alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction started\n");

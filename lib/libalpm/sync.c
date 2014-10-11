@@ -1263,13 +1263,12 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 	return 0;
 }
 
-int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
+int _alpm_sync_load(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_list_t *i, *deltas = NULL;
 	size_t total = 0;
 	uint64_t total_bytes = 0;
 	alpm_trans_t *trans = handle->trans;
-	alpm_event_t event;
 
 	if(download_files(handle, &deltas)) {
 		alpm_list_free(deltas);
@@ -1318,7 +1317,13 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		return -1;
 	}
 
-	trans->state = STATE_COMMITING;
+	return 0;
+}
+
+int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
+{
+	alpm_trans_t *trans = handle->trans;
+	alpm_event_t event;
 
 	/* fileconflict check */
 	if(!(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {

@@ -25,6 +25,7 @@
 #include "alpm.h"
 
 int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data);
+int _alpm_sync_load(alpm_handle_t *handle, alpm_list_t **data);
 int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data);
 
 #endif /* _ALPM_SYNC_H */
