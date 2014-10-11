@@ -2398,14 +2398,14 @@ extract_function_var() {
 	local funcname=$1 attr=$2 isarray=$3 outputvar=$4 attr_regex= decl= r=1
 
 	if (( isarray )); then
-		printf -v attr_regex '^[[:space:]]*(declare( -[[:alpha:]])*)? %q\+?=\(' "$2"
+		printf -v attr_regex '^[[:space:]]* %s\+?=\(' "$2"
 	else
-		printf -v attr_regex '^[[:space:]]*(declare( -[[:alpha:]])*)? %q\+?=[^(]' "$2"
+		printf -v attr_regex '^[[:space:]]* %s\+?=[^(]' "$2"
 	fi
 
 	while read -r; do
 		# strip leading whitespace and any usage of declare
-		decl=${REPLY##*([[:space:]])?(declare +(-+([[:alpha:]]) ))}
+		decl=${REPLY##*([[:space:]])}
 		eval "${decl/#$attr/$outputvar}"
 
 		# entering this loop at all means we found a match, so notify the caller.
