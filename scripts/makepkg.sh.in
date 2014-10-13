@@ -908,7 +908,7 @@ get_pkg_arch() {
 		fi
 	else
 		local arch_override
-		pkgbuild_get_attribute "$1" arch arch_override 0
+		pkgbuild_get_attribute "$1" arch 0 arch_override
 		(( ${#arch_override[@]} == 0 )) && arch_override=("${arch[@]}")
 		if [[ $arch_override = "any" ]]; then
 			printf "%s\n" "any"
@@ -2418,10 +2418,10 @@ extract_function_var() {
 pkgbuild_get_attribute() {
 	# $1: package name
 	# $2: attribute name
-	# $3: name of output var
-	# $4: multivalued
+	# $3: multivalued
+	# $4: name of output var
 
-	local pkgname=$1 attrname=$2 outputvar=$3 isarray=$4
+	local pkgname=$1 attrname=$2 isarray=$3 outputvar=$4
 
 	printf -v "$outputvar" %s ''
 
@@ -2518,7 +2518,7 @@ lint_arch() {
 	fi
 
 	for name in "${pkgname[@]}"; do
-		pkgbuild_get_attribute "$name" 'arch' list 1
+		pkgbuild_get_attribute "$name" 'arch' 1 list
 		if [[ $list && $list != 'any' ]] && ! in_array $CARCH "${list[@]}"; then
 			if (( ! IGNOREARCH )); then
 				error "$(gettext "%s is not available for the '%s' architecture.")" "$name" "$CARCH"
