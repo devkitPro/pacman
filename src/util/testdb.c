@@ -69,7 +69,7 @@ static int check_localdb_files(void)
 
 	while((ent = readdir(dir)) != NULL) {
 		if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0
-				|| ent->d_name[0] == '.') {
+				|| strcmp(ent->d_name, "ALPM_DB_VERSION") == 0) {
 			continue;
 		}
 		/* check for known db files in local database */
