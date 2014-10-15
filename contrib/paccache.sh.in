@@ -164,7 +164,7 @@ summarize() {
 		printf -v output 'finished dry run: %d candidates' "$filecount"
 	fi
 
-	printf '\n' >&2
+	echo
 	msg "$output (disk space saved: %s)" "$(size_to_human "$totalsaved")"
 }
 
