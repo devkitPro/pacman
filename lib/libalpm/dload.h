@@ -49,7 +49,7 @@ struct dload_payload {
 void _alpm_dload_payload_reset(struct dload_payload *payload);
 
 int _alpm_download(struct dload_payload *payload, const char *localpath,
-		char **final_file, char **final_url);
+		char **final_file, const char **final_url);
 
 #endif /* _ALPM_DLOAD_H */
 

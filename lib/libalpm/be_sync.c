@@ -209,8 +209,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	}
 
 	for(i = db->servers; i; i = i->next) {
-		char *final_db_url = NULL;
-		const char *server = i->data;
+		const char *server = i->data, *final_db_url = NULL;
 		struct dload_payload payload;
 		size_t len;
 		int sig_ret = 0;
