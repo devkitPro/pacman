@@ -1309,6 +1309,8 @@ verify_integrity_sums() {
 have_sources() {
 	local a
 
+	(( ${#source[*]} )) && return 0
+
 	case $1 in
 		all)
 			for a in "${arch[@]}"; do
@@ -1316,9 +1318,7 @@ have_sources() {
 			done
 			;;
 		*)
-			if (( ${#source[*]} )) || array_build _ source_"$CARCH"; then
-				return 0
-			fi
+			array_build _ source_"$CARCH" && return 0
 			;;
 	esac
 
