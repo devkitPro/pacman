@@ -2385,7 +2385,7 @@ extract_global_var() {
 		array_build ref "$attr"
 		[[ ${ref[@]} ]] && array_build "$outputvar" "$attr"
 	else
-		[[ -v $attr ]] && printf -v "$outputvar" %s "${!attr}"
+		[[ ${!attr} ]] && printf -v "$outputvar" %s "${!attr}"
 	fi
 }
 
