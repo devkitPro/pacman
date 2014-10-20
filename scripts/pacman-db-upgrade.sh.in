@@ -94,7 +94,7 @@ fi
 USE_COLOR='y'
 
 OPT_SHORT="d:hr:V"
-OPT_LONG=('confg' 'dbpath:' 'help' 'nocolor' 'root:' 'version')
+OPT_LONG=('config:' 'dbpath:' 'help' 'nocolor' 'root:' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1 # E_INVALID_OPTION
 fi
