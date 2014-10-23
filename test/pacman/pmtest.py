@@ -40,10 +40,10 @@ class pmtest(object):
         self.dbver = 9
         self.cachepkgs = True
         self.cmd = ["pacman", "--noconfirm",
-                "--config", os.path.join(self.root, util.PACCONF),
-                "--root", self.root,
-                "--dbpath", os.path.join(self.root, util.PM_DBPATH),
-                "--cachedir", os.path.join(self.root, util.PM_CACHEDIR)]
+                "--config", self.configfile(),
+                "--root", self.rootdir(),
+                "--dbpath", self.dbdir(),
+                "--cachedir", self.cachedir()]
 
     def __str__(self):
         return "name = %s\n" \
@@ -293,5 +293,17 @@ class pmtest(object):
             else:
                 self.result["fail"] += 1
             tap.ok(success, i)
+
+    def configfile(self):
+        return os.path.join(self.root, util.PACCONF)
+
+    def dbdir(self):
+        return os.path.join(self.root, util.PM_DBPATH)
+
+    def rootdir(self):
+        return self.root + '/'
+
+    def cachedir(self):
+        return os.path.join(self.root, util.PM_CACHEDIR)
 
 # vim: set ts=4 sw=4 et:
