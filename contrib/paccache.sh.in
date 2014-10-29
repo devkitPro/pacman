@@ -328,7 +328,7 @@ done
 
 if (( ! ${#candidates[*]} )); then
 	msg 'no candidate packages found for pruning'
-	exit 1
+	exit 0
 fi
 
 # grab this prior to signature scavenging
