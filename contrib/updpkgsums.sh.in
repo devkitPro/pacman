@@ -82,7 +82,7 @@ fi
 	export BUILDDIR=$(mktemp -d --tmpdir updpkgsums.XXXXXX)
 	trap "rm -rf '$BUILDDIR'" EXIT
 	newsums=$(makepkg -g -p "$buildfile") && rm -f "$buildfile" &&
-	exec awk -v newsums="$newsums" '
+	awk -v newsums="$newsums" '
 	/^[[:blank:]]*(md|sha)[[:digit:]]+sums(_[^=]+)?=/,/\)[[:blank:]]*(#.*)?$/ {
 		if (!w) {
 			print newsums
