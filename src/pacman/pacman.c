@@ -185,6 +185,8 @@ static void usage(int op, const char * const myname)
 				/* pass through */
 			case PM_OP_REMOVE:
 				addlist(_("  -d, --nodeps         skip dependency version checks (-dd to skip all checks)\n"));
+				addlist(_("      --assume-installed <package=version>\n"
+				          "                       add a virtual package to satisfy dependencies\n"));
 				addlist(_("      --dbonly         only modify database entries, not package files\n"));
 				addlist(_("      --noprogressbar  do not show a progress bar when downloading files\n"));
 				addlist(_("      --noscriptlet    do not execute the install scriptlet if one exists\n"));
