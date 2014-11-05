@@ -102,11 +102,11 @@ _pacman() {
   database=('asdeps asexplicit')
   query=('changelog check deps explicit file foreign groups info list owns
           search unrequired upgrades' 'c e g i k l m o p s t u')
-  remove=('cascade dbonly nodeps nosave print recursive unneeded' 'c n p s u')
+  remove=('cascade dbonly nodeps assume-installed nosave print recursive unneeded' 'c n p s u')
   sync=('asdeps asexplicit clean dbonly downloadonly force groups ignore ignoregroup
-         info list needed nodeps print refresh recursive search sysupgrade'
+         info list needed nodeps assume-installed print refresh recursive search sysupgrade'
         'c g i l p s u w y')
-  upgrade=('asdeps asexplicit force needed nodeps print recursive' 'p')
+  upgrade=('asdeps asexplicit force needed nodeps assume-installed print recursive' 'p')
   common=('arch cachedir color config dbpath debug help logfile noconfirm
            noprogressbar noscriptlet quiet root verbose' 'b d h q r v')
   core=('database help query remove sync upgrade version' 'D Q R S U V h')

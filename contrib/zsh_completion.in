@@ -37,6 +37,7 @@ _pacman_opts_common=(
 _pacman_opts_pkgfile=(
 	'*-d[Skip dependency checks]'
 	'*--nodeps[Skip dependency checks]'
+	'*--assume-installed[Add virtual package to satisfy dependencies]'
 	'--dbonly[Only remove database entry, do not remove files]'
 	'--force[Overwrite conflicting files]'
 	'--needed[Do not reinstall up to date packages]'
@@ -70,6 +71,7 @@ _pacman_opts_query_modifiers=(
 _pacman_opts_remove=(
 	{-c,--cascade}'[Remove all dependent packages]'
 	{*-d,*--nodeps}'[Skip dependency checks]'
+	'*--assume-installed[Add virtual package to satisfy dependencies]'
 	{-n,--nosave}'[Remove protected configuration files]'
 	{\*-s,\*--recursive}'[Remove dependencies not required by other packages]'
 	'--dbonly[Only remove database entry, do not remove files]'
@@ -96,6 +98,7 @@ _pacman_opts_sync_actions=(
 # options for passing to _arguments: options for --sync command
 _pacman_opts_sync_modifiers=(
 	{\*-d,\*--nodeps}'[Skip dependency checks]'
+	'*--assume-installed[Add virtual package to satisfy dependencies]'
 	{\*-i,\*--info}'[View package information]'
 	{-l,--list}'[List all packages in a repository]'
 	{-p,--print}'[Print download URIs for each package to be installed]'
