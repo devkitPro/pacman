@@ -2153,7 +2153,12 @@ write_pkginfo() {
 		printf "basever = %s\n" "$basever"
 	fi
 
-	printf "pkgdesc = %s\n" "${pkgdesc//+([[:space:]])/ }"
+	# TODO: all fields should have this treatment
+	local spd="${pkgdesc//+([[:space:]])/ }"
+	spd=("${spd[@]#[[:space:]]}")
+	spd=("${spd[@]%[[:space:]]}")
+
+	printf "pkgdesc = %s\n" "$spd"
 	printf "url = %s\n" "$url"
 	printf "builddate = %s\n" "$builddate"
 	printf "packager = %s\n" "$packager"
