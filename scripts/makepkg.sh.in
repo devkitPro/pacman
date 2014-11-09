@@ -866,7 +866,6 @@ update_pkgver() {
 			fi
 			@SEDINPLACE@ "s:^pkgrel=[^ ]*:pkgrel=1:" "$BUILDFILE"
 			source_safe "$BUILDFILE"
-			epoch=${epoch:-0}
 			local fullver=$(get_full_version)
 			msg "$(gettext "Updated version: %s")" "$pkgbase $fullver"
 		else
@@ -888,7 +887,7 @@ missing_source_file() {
 # return : full version spec, including epoch (if necessary), pkgver, pkgrel
 ##
 get_full_version() {
-	if [[ $epoch ]] && (( epoch > 0 )); then
+	if (( epoch > 0 )); then
 		printf "%s\n" "$epoch:$pkgver-$pkgrel"
 	else
 		printf "%s\n" "$pkgver-$pkgrel"
@@ -3364,7 +3363,6 @@ fi
 
 # set defaults if they weren't specified in buildfile
 pkgbase=${pkgbase:-${pkgname[0]}}
-epoch=${epoch:-0}
 basever=$(get_full_version)
 
 if [[ $BUILDDIR = "$startdir" ]]; then
