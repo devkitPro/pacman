@@ -317,7 +317,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 			if(!backup->name || strcmp(backup->name, entryname_orig) != 0) {
 				continue;
 			}
-			STRDUP(newhash, hash_pkg, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+			STRDUP(newhash, hash_pkg, errors++; handle->pm_errno = ALPM_ERR_MEMORY; goto needbackup_cleanup);
 			FREE(backup->hash);
 			backup->hash = newhash;
 		}
