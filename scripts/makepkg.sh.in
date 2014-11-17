@@ -391,6 +391,12 @@ extract_file() {
 	rm -f "$srcdir/${file}"
 	ln -s "$filepath" "$srcdir/"
 
+	if in_array "$file" "${noextract[@]}"; then
+		# skip source files in the noextract=() array
+		# these are marked explicitly to NOT be extracted
+		return 0
+	fi
+
 	# do not rely on extension for file type
 	local file_type=$(file -bizL "$file")
 	local ext=${file##*.}
@@ -1556,11 +1562,6 @@ extract_sources() {
 	get_all_sources_for_arch 'all_sources'
 	for netfile in "${all_sources[@]}"; do
 		local file=$(get_filename "$netfile")
-		if in_array "$file" "${noextract[@]}"; then
-			# skip source files in the noextract=() array
-			# these are marked explicitly to NOT be extracted
-			continue
-		fi
 		local proto=$(get_protocol "$netfile")
 		case "$proto" in
 			bzr*)
