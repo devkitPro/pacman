@@ -87,10 +87,15 @@ alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup)
 	alpm_backup_t *newbackup;
 	CALLOC(newbackup, 1, sizeof(alpm_backup_t), return NULL);
 
-	STRDUP(newbackup->name, backup->name, return NULL);
-	STRDUP(newbackup->hash, backup->hash, return NULL);
+	STRDUP(newbackup->name, backup->name, goto error);
+	STRDUP(newbackup->hash, backup->hash, goto error);
 
 	return newbackup;
+
+error:
+	free(newbackup->name);
+	free(newbackup);
+	return NULL;
 }
 
 /* vim: set noet: */
