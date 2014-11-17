@@ -194,8 +194,6 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "%s is in NoExtract,"
 				" skipping extraction of %s\n",
 				entryname, filename);
-		alpm_logaction(handle, ALPM_CALLER_PREFIX,
-				"note: %s is in NoExtract, skipping extraction\n", entryname);
 		archive_read_data_skip(archive);
 		return 0;
 	}
