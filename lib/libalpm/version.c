@@ -109,7 +109,8 @@ static int rpmvercmp(const char *a, const char *b)
 
 		/* If the separator lengths were different, we are also finished */
 		if ((one - ptr1) != (two - ptr2)) {
-			return (one - ptr1) < (two - ptr2) ? -1 : 1;
+			ret = (one - ptr1) < (two - ptr2) ? -1 : 1;
+			goto cleanup;
 		}
 
 		ptr1 = one;
