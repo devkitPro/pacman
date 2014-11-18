@@ -21,7 +21,7 @@
 # default binary if one was not specified as $1
 bin=${1:-${PMTEST_UTIL_DIR}pacsort}
 # holds counts of tests
-total=23
+total=26
 run=0
 failure=0
 
@@ -88,6 +88,15 @@ runtest $in $in "filename sort with uneven leading path components" "--files"
 
 in="firefox-18.0-2-i686.pkg.tar.xz\nfirefox-18.0.1-1-x86_64.pkg.tar.gz\n"
 runtest $in $in "filename sort with different extensions" "--files"
+
+in="/packages/dialog-1.2_20131001-1-x86_64.pkg.tar.xz\n/packages/dialog-1:1.2_20130928-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort with epoch" "--files"
+
+in="/packages/dia-log-1:1.2_20130928-1-x86_64.pkg.tar.xz\n/packages/dialog-1.2_20131001-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort with differing package names and epoch" "--files"
+
+in="/packages/systemd-217-1-x86_64.pkg.tar.xz\n/packages/systemd-sysvcompat-217-1-x86_64.pkg.tar.xz\n"
+runtest $in $in "filename sort with package names as shared substring" "--files"
 
 # generate some long input/expected for the next few tests
 declare normal reverse names_normal names_reverse

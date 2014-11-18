@@ -28,6 +28,15 @@
 
 #define DELIM ' '
 
+#ifndef MIN
+#define MIN(a, b)      \
+	__extension__({           \
+		__typeof__(a) _a = (a); \
+		__typeof__(b) _b = (b); \
+		_a < _b ? _a : _b;           \
+	})
+#endif
+
 struct buffer_t {
 	char *mem;
 	size_t len;
@@ -35,9 +44,20 @@ struct buffer_t {
 };
 
 struct list_t {
-	char **list;
+	void **list;
 	size_t count;
 	size_t maxcount;
+};
+
+struct input_t {
+	char *data;
+	int is_file;
+
+	const char *pkgname;
+	size_t pkgname_len;
+
+	const char *pkgver;
+	size_t pkgver_len;
 };
 
 static struct options_t {
@@ -147,9 +167,9 @@ static int list_grow(struct list_t *list)
 	return 0;
 }
 
-static int list_add(struct list_t *list, char *name)
+static int list_add(struct list_t *list, void *obj)
 {
-	if(!list || !name) {
+	if(!list || !obj) {
 		return 1;
 	}
 
@@ -159,13 +179,13 @@ static int list_add(struct list_t *list, char *name)
 		}
 	}
 
-	list->list[list->count] = name;
+	list->list[list->count] = obj;
 	list->count++;
 
 	return 0;
 }
 
-static void list_free(struct list_t *list)
+static void list_free(struct list_t *list, void (*freefn)(void *))
 {
 	size_t i;
 
@@ -175,23 +195,86 @@ static void list_free(struct list_t *list)
 
 	if(list->list) {
 		for(i = 0; i < list->count; i++) {
-			free(list->list[i]);
+			freefn(list->list[i]);
 		}
 		free(list->list);
 	}
 	free(list);
 }
 
+static void input_free(void *p)
+{
+	struct input_t *in = p;
+
+	if(in == NULL) {
+		return;
+	}
+
+	free(in->data);
+	free(in);
+}
+
+static struct input_t *input_new(const char *path, int pathlen)
+{
+	const char *pkgver_end;
+	const char *slash;
+	struct input_t *in;
+
+	in = calloc(1, sizeof(struct input_t));
+	if(in == NULL) {
+		return NULL;
+	}
+
+	in->data = strndup(path, pathlen);
+	if(in->data == NULL) {
+		return NULL;
+	}
+
+	in->is_file = fnmatch("*-*.pkg.tar.?z", in->data, 0) == 0;
+	if(!in->is_file) {
+		return in;
+	}
+
+	/* for files, we parse the pkgname and pkgrel from the full filename. */
+
+	slash = strrchr(in->data, '/');
+	if(slash == NULL) {
+		in->pkgname = in->data;
+	} else {
+		in->pkgname = slash + 1;
+	}
+
+	pkgver_end = strrchr(in->pkgname, '-');
+
+	/* read backwards through pkgrel */
+	for(in->pkgver = pkgver_end - 1;
+			in->pkgver > in->pkgname && *in->pkgver != '-';
+			--in->pkgver)
+		;
+	/* read backwards through pkgver */
+	for(--in->pkgver;
+			in->pkgver > in->pkgname && *in->pkgver != '-';
+			--in->pkgver)
+		;
+	++in->pkgver;
+
+	in->pkgname_len = in->pkgver - in->pkgname - 1;
+	in->pkgver_len = pkgver_end - in->pkgver;
+
+	return in;
+}
+
 static char *explode(struct buffer_t *buffer, struct list_t *list)
 {
-	char *name, *ptr, *end;
+	char *ptr, *end;
 	const char linedelim = opts.null ? '\0' : '\n';
+	struct input_t *meta;
 
 	ptr = buffer->mem;
 	while((end = memchr(ptr, linedelim, &buffer->mem[buffer->len] - ptr))) {
 		*end = '\0';
-		name = strdup(ptr);
-		list_add(list, name);
+		meta = input_new(ptr, end - ptr);
+		list_add(list, meta);
 		ptr = end + 1;
 	}
 
@@ -229,8 +312,8 @@ static int splitfile(FILE *stream, struct buffer_t *buffer, struct list_t *list)
 	}
 
 	if(buffer->len) {
-		char *name = strndup(buffer->mem, buffer->len + 1);
-		if(list_add(list, name) != 0) {
+		struct input_t *meta = input_new(buffer->mem, buffer->len + 1);
+		if(meta == NULL || list_add(list, meta) != 0) {
 			return 1;
 		}
 	}
@@ -256,57 +339,61 @@ static const char *nth_column(const char *string)
 	return prev;
 }
 
+static int compare_versions(const char *v1, const char *v2)
+{
+	if(opts.sortkey == 0) {
+		return opts.order * alpm_pkg_vercmp(v1, v2);
+	} else {
+		return opts.order * alpm_pkg_vercmp(nth_column(v1), nth_column(v2));
+	}
+}
+
+static int compare_files(const struct input_t *meta1, const struct input_t *meta2)
+{
+	int cmp;
+	char *verbuf;
+	const char *v1, *v2;
+
+	/* sort first by package name */
+	cmp = memcmp(meta1->pkgname, meta2->pkgname,
+			MIN(meta1->pkgname_len, meta2->pkgname_len));
+
+	/* 1) package names differ, sort by package name */
+	if(cmp != 0) {
+		return opts.order * cmp;
+	}
+
+	/* 2) prefixes are the same but length differs, sort by length */
+	if(meta1->pkgname_len != meta2->pkgname_len) {
+		return opts.order * (meta1->pkgname_len - meta2->pkgname_len);
+	}
+
+	/* allocate once with enough space for both pkgver */
+	verbuf = calloc(1, meta1->pkgver_len + 1 + meta2->pkgver_len + 1);
+	memcpy(verbuf, meta1->pkgver, meta1->pkgver_len);
+	memcpy(&verbuf[meta1->pkgver_len + 1], meta2->pkgver, meta2->pkgver_len);
+
+	/* 3) sort by package version */
+	v1 = verbuf;
+	v2 = verbuf + meta1->pkgver_len + 1;
+	cmp = compare_versions(v1, v2);
+	free(verbuf);
+
+	return cmp;
+}
+
 static int vercmp(const void *p1, const void *p2)
 {
-	const char *name1, *name2;
-	char *fn1 = NULL, *fn2 = NULL;
-	int r;
+	const struct input_t *meta1, *meta2;
 
-	name1 = *(const char **)p1;
-	name2 = *(const char **)p2;
+	meta1 = *(struct input_t **)p1;
+	meta2 = *(struct input_t **)p2;
 
-	/* if we're operating in file mode, we modify the strings under certain
-	 * conditions to appease alpm_pkg_vercmp(). If and only if both inputs end
-	 * with a suffix that appears to be a package name, we strip the suffix and
-	 * remove any leading paths. This means that strings such as:
-	 *
-	 *   /var/cache/pacman/pkg/firefox-18.0-2-x86_64.pkg.tar.xz
-	 *   firefox-18.0-2-x86_64.pkg.tar.gz
-	 *
-	 *  Will be considered equal by this version comparison
-	 */
-	if(opts.filemode) {
-		if(fnmatch("*-*.pkg.tar.?z", name1, 0) == 0 &&
-			 fnmatch("*-*.pkg.tar.?z", name2, 0) == 0) {
-			const char *start, *end;
-
-			start = strrchr(name1, '/');
-			start = start ? start + 1 : name1;
-			end = strrchr(name1, '-');
-			fn1 = strndup(start, end - start);
-
-			start = strrchr(name2, '/');
-			start = start ? start + 1 : name2;
-			end = strrchr(name2, '-');
-			fn2 = strndup(start, end - start);
-
-			name1 = fn1;
-			name2 = fn2;
-		}
-	}
-
-	if(opts.sortkey == 0) {
-		r = opts.order * alpm_pkg_vercmp(name1, name2);
+	if(opts.filemode && meta1->is_file && meta2->is_file) {
+		return compare_files(meta1, meta2);
 	} else {
-		r = opts.order * alpm_pkg_vercmp(nth_column(name1), nth_column(name2));
+		return compare_versions(meta1->data, meta2->data);
 	}
-
-	if(opts.filemode) {
-		free(fn1);
-		free(fn2);
-	}
-
-	return r;
 }
 
 static char escape_char(const char *string)
@@ -450,13 +537,14 @@ int main(int argc, char *argv[])
 
 	if(list->count) {
 		const char linedelim = opts.null ? '\0' : '\n';
-		qsort(list->list, list->count, sizeof(char *), vercmp);
+		qsort(list->list, list->count, sizeof(void *), vercmp);
 		for(i = 0; i < list->count; i++) {
-			printf("%s%c", list->list[i], linedelim);
+			const struct input_t *in = list->list[i];
+			printf("%s%c", in->data, linedelim);
 		}
 	}
 
-	list_free(list);
+	list_free(list, input_free);
 	buffer_free(buffer);
 
 	return 0;
