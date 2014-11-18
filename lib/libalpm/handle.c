@@ -542,6 +542,11 @@ int SYMEXPORT alpm_option_remove_noextract(alpm_handle_t *handle, const char *pa
 	return _alpm_option_strlist_rem(handle, &(handle->noextract), path);
 }
 
+int SYMEXPORT alpm_option_match_noextract(alpm_handle_t *handle, const char *path)
+{
+	return _alpm_fnmatch_patterns(handle->noextract, path);
+}
+
 int SYMEXPORT alpm_option_add_ignorepkg(alpm_handle_t *handle, const char *pkg)
 {
 	return _alpm_option_strlist_add(handle, &(handle->ignorepkg), pkg);

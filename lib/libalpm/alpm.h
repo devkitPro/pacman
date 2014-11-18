@@ -827,6 +827,7 @@ alpm_list_t *alpm_option_get_noextracts(alpm_handle_t *handle);
 int alpm_option_add_noextract(alpm_handle_t *handle, const char *path);
 int alpm_option_set_noextracts(alpm_handle_t *handle, alpm_list_t *noextract);
 int alpm_option_remove_noextract(alpm_handle_t *handle, const char *path);
+int alpm_option_match_noextract(alpm_handle_t *handle, const char *path);
 /** @} */
 
 /** @name Accessors to the list of ignored packages.
