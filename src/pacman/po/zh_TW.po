@@ -7,19 +7,19 @@
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # dlin <dlin.tw@gmail.com>, 2011-2012
 # Huei-Horng Yo <hiroshiyui@gmail.com>, 2012
+# Jeff Huang <s8321414@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-06-06 13:07+1000\n"
-"PO-Revision-Date: 2013-05-01 01:03+0000\n"
-"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/"
-"archlinux-pacman/language/zh_TW/)\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2014-10-20 13:29+0000\n"
+"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/archlinux-pacman/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, c-format
@@ -108,8 +108,7 @@ msgstr "%s 選擇性需要 %s\n"
 
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-"%s 位於 IgnorePkg/IgnoreGroup (忽略軟體包/忽略軟體包群組) 中。確定要安裝嗎？"
+msgstr "%s 位於 IgnorePkg/IgnoreGroup (忽略軟體包/忽略軟體包群組) 中。確定要安裝嗎？"
 
 #, c-format
 msgid "Replace %s with %s/%s?"
@@ -127,8 +126,9 @@ msgstr "%s 與 %s 有衝突 (%s)。刪除 %s 嗎？"
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable dependencies:\n"
-msgstr[0] "因爲無法解決以來關係，以下軟體包無法進行更新：\n"
+"The following packages cannot be upgraded due to unresolvable "
+"dependencies:\n"
+msgstr[0] "因爲無法解決依賴關係，以下軟體包無法進行更新：\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -147,9 +147,7 @@ msgstr "%s-%s：本地版本較新。確定要更新嗎？"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ""
-" %s 檔案毀損(%s)。\n"
-"你要刪除它嗎?"
+msgstr " %s 檔案毀損(%s)。\n你要刪除它嗎?"
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
@@ -280,9 +278,7 @@ msgstr "正在運行 XferCommand：分支失敗！\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
-"不能將 %s 重命名為 %s (%s)\n"
-"\n"
+msgstr "不能將 %s 重命名為 %s (%s)\n\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
@@ -294,9 +290,7 @@ msgstr "組態檔 %s 的第 %d 列: 不正確的值 '%s':'%s'\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr ""
-"組態檔 %s 的第 %d 列: '%s' 選項不正確, 不支援此種簽署方式\n"
-"\n"
+msgstr "組態檔 %s 的第 %d 列: '%s' 選項不正確, 不支援此種簽署方式\n\n"
 
 #, c-format
 msgid ""
@@ -465,7 +459,7 @@ msgstr "需要它　　："
 
 #, c-format
 msgid "Optional For   :"
-msgstr "可選依賴　："
+msgstr "為這些軟體包的可選依賴　："
 
 #, c-format
 msgid "Conflicts With :"
@@ -583,13 +577,12 @@ msgstr "操作：\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr ""
-"\n"
-"使用 '%s {-h --help}' 及某個操作以查看可用選項\n"
+msgstr "\n使用 '%s {-h --help}' 及某個操作以查看可用選項\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on them\n"
+"  -c, --cascade        remove packages and all packages that depend on "
+"them\n"
 msgstr "  -c, --cascade        刪除軟體包及所有依賴於此的軟體包\n"
 
 #, c-format
@@ -600,9 +593,7 @@ msgstr "  -n, --nosave         刪除組態檔\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr ""
-"  -s, --recursive      刪除不需要的依賴關係\n"
-"                       (-ss 包括單獨指定安裝的依賴關係)\n"
+msgstr "  -s, --recursive      刪除不需要的依賴關係\n                       (-ss 包括單獨指定安裝的依賴關係)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -630,8 +621,7 @@ msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         查看某軟體包群組所屬的所有軟體包\n"
 
 #, c-format
-msgid ""
-"  -i, --info           view package information (-ii for backup files)\n"
+msgid "  -i, --info           view package information (-ii for backup files)\n"
 msgstr "  -i, --info           查看軟體包信息 (-ii 查看備份檔案) \n"
 
 #, c-format
@@ -648,15 +638,13 @@ msgstr "  -l, --list           列出被查詢軟體包的內容\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr ""
-"  -m, --foreign        列出沒有在同步資料庫時找到的已安裝軟體包 [過濾器]\n"
+msgstr "  -m, --foreign        列出沒有在同步資料庫時找到的已安裝軟體包 [過濾器]\n"
 
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
-msgstr ""
-"  -n, --native         列出僅可在同步資料庫中找到的已安裝軟體包 [過濾器]\n"
+msgstr "  -n, --native         列出僅可在同步資料庫中找到的已安裝軟體包 [過濾器]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
@@ -700,8 +688,7 @@ msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <軟體庫>    查看在該軟體庫中的軟體包清單\n"
 
 #, c-format
-msgid ""
-"  -s, --search <regex> search remote repositories for matching strings\n"
+msgid "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex 表達式> 按照指定字符串查詢遠端軟體庫\n"
 
 #, c-format
@@ -750,9 +737,7 @@ msgstr "      --ignore <軟件包>   升級時忽略某個軟體包 (可多次�
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr ""
-"      --ignoregroup <軟體包組>\n"
-"                         升級時忽略某個軟體包組 (可多次使用) \n"
+msgstr "      --ignoregroup <軟體包組>\n                         升級時忽略某個軟體包組 (可多次使用) \n"
 
 #, c-format
 msgid ""
@@ -761,8 +746,7 @@ msgid ""
 msgstr "-d, --nodeps         跳過依賴關係的版本檢查 (-dd 跳過所有檢查)\n"
 
 #, c-format
-msgid ""
-"      --dbonly         only modify database entries, not package files\n"
+msgid "      --dbonly         only modify database entries, not package files\n"
 msgstr "      --dbonly         只修改資料庫項目,非套件檔案\n"
 
 #, c-format
@@ -785,9 +769,7 @@ msgstr "  -p, --print          列印目標而不是執行操作\n"
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr ""
-"      --print-format <字串>\n"
-"                       指定如何列印目標\n"
+msgstr "      --print-format <字串>\n                       指定如何列印目標\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
@@ -837,9 +819,7 @@ msgstr "      --noconfirm      不詢問確認\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr ""
-"                       本程序可以在GNU一般公衆許可條款下\n"
-"                       自由分發\n"
+msgstr "                       本程序可以在GNU一般公衆許可條款下\n                       自由分發\n"
 
 #, c-format
 msgid "invalid argument '%s' for %s\n"
@@ -1105,9 +1085,7 @@ msgstr "無法鎖定資料庫： %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr ""
-"  如果你確認軟體包管理器沒有在運行，\n"
-"  你可以刪除 %s。\n"
+msgstr "  如果你確認軟體包管理器沒有在運行，\n  你可以刪除 %s。\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"

@@ -8,21 +8,23 @@
 # Juan Antonio Cánovas Pérez <traumness@gmail.com>, 2011
 # juantascon <juantascon@gmail.com>, 2011
 # juantascon <juantascon@gmail.com>, 2011
-# leonelhermetica <leonelmalon@gmail.com>, 2013
+# Leonel <leonelmalon@gmail.com>, 2013
+# Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
+# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2014
+# Pedro Román <roizheim@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-06-06 13:07+1000\n"
-"PO-Revision-Date: 2013-06-06 23:54+0000\n"
-"Last-Translator: leonelhermetica <leonelmalon@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/archlinux-pacman/"
-"language/es/)\n"
-"Language: es\n"
+"PO-Revision-Date: 2014-03-31 02:54+0000\n"
+"Last-Translator: Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/archlinux-pacman/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -31,11 +33,11 @@ msgstr "%s-%s está actualizado -- omitiendo\n"
 
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s está actualizado -- re-instalando\n"
+msgstr "%s-%s está actualizado -- reinstalando\n"
 
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "desactualizando la versión del paquete %s (%s => %s)\n"
+msgstr "revertiendo a una versión anterior del paquete %s (%s => %s)\n"
 
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
@@ -53,17 +55,15 @@ msgstr "no se pudo renombrar %s a %s (%s)\n"
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr ""
-"los permisos de directorio difieren en %s\n"
-"sistema de archivos: %o  paquete: %o\n"
+msgstr "los permisos del directorio difieren respecto del sistema de archivos de %s: %o  paquete: %o\n"
 
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "extract: no se puede sobreescribir el directorio con el archivo %s\n"
+msgstr "extracto: no se puede sobrescribir el directorio con el archivo %s\n"
 
 #, c-format
 msgid "extract: symlink %s does not point to dir\n"
-msgstr "extract: el enlace simbólico %s no apunta al directorio\n"
+msgstr "extracto: el enlace simbólico %s no apunta al directorio\n"
 
 #, c-format
 msgid "%s saved as %s\n"
@@ -79,7 +79,7 @@ msgstr "extrayendo %s como %s.pacnew\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "no se pudo obtener el directorio de trabajo actual\n"
+msgstr "no se pudo determinar el directorio de trabajo actual\n"
 
 #, c-format
 msgid "could not change directory to %s (%s)\n"
@@ -103,7 +103,7 @@ msgstr "no se pudo actualizar la entrada %s-%s en la base de datos\n"
 
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr "no se pudo agregar la entrada '%s' a la caché\n"
+msgstr "no se pudo agregar la entrada «%s» a la caché\n"
 
 #, c-format
 msgid "error while reading file %s: %s\n"
@@ -115,15 +115,15 @@ msgstr "quitando la base de datos no válida: %s\n"
 
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "nombre no válido para la entrada '%s' de la base de datos\n"
+msgstr "nombre no válido para la entrada «%s» de la base de datos\n"
 
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "entrada '%s' duplicada en la base de datos\n"
+msgstr "entrada «%s» duplicada en la base de datos\n"
 
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "entrada dañada en la base de datos '%s'\n"
+msgstr "la entrada «%s» de la base de datos está dañada\n"
 
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -131,19 +131,15 @@ msgstr "no se pudo abrir el archivo %s: %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr ""
-"la base de datos %s es inconsistente: nombre mal emparejado en el paquete "
-"%s\n"
+msgstr "la base de datos %s es inconsistente: nombre mal emparejado en el paquete %s\n"
 
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr ""
-"la base de datos %s es inconsistente: versión mal emparejada en el paquete "
-"%s\n"
+msgstr "la base de datos %s es inconsistente: versión mal emparejada en el paquete %s\n"
 
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr "tipo de validación desconocida para el paquete  %s: %s\n"
+msgstr "tipo de validación desconocida para el paquete %s: %s\n"
 
 #, c-format
 msgid "could not create directory %s: %s\n"
@@ -151,7 +147,7 @@ msgstr "no se pudo crear el directorio %s: %s\n"
 
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "no se pudo leer el archivo de descripción en %s\n"
+msgstr "no se pudo analizar el archivo de descripción del paquete en %s\n"
 
 #, c-format
 msgid "missing package name in %s\n"
@@ -175,7 +171,7 @@ msgstr "falló la lectura del archivo de firma: %s\n"
 
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "llave requerida falta en el llavero\n"
+msgstr "la clave requerida no está presente en el llavero\n"
 
 #, c-format
 msgid "removing invalid file: %s\n"
@@ -187,20 +183,15 @@ msgstr "no se pudo eliminar el archivo de bloqueo %s\n"
 
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr ""
-"error al leer el archivo de descripción '%s' del paquete de la base de datos "
-"'%s'\n"
+msgstr "no se pudo analizar el archivo de descripción del paquete «%s» de la base de datos «%s»\n"
 
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
-msgstr ""
-"la base de datos %s es incosistente: el nombre de paquete %s es ilegal\n"
+msgstr "la base de datos %s es incosistente: el nombre del paquete %s es ilegal\n"
 
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
-msgstr ""
-"la base de datos %s es incosistente: el nombre de paquete %s es demaciado "
-"largo\n"
+msgstr "la base de datos %s es incosistente: el nombre del paquete %s es demasiado largo\n"
 
 #, c-format
 msgid "database path is undefined\n"
@@ -224,13 +215,11 @@ msgstr "ignorando el paquete %s-%s\n"
 
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "no se pudo resolver \"%s\", una dependencia de \"%s\"\n"
+msgstr "no se pudo resolver «%s», una dependencia de «%s»\n"
 
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr ""
-"no se pudo obtener información del sistema de archivos para %s: %s\n"
-"\n"
+msgstr "no se pudo obtener información del sistema de archivos para %s: %s\n\n"
 
 #, c-format
 msgid "could not open file: %s: %s\n"
@@ -246,9 +235,7 @@ msgstr "no se pudo determinar el punto de montaje para el archivo %s\n"
 
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
-"Partición %s demasiado llena: %jd bloques son necesarios, %jd bloques "
-"libres\n"
+msgstr "Partición %s demasiado llena: %jd bloques son necesarios, %jd bloques libres\n"
 
 #, c-format
 msgid "could not determine filesystem mount points\n"
@@ -256,7 +243,7 @@ msgstr "no se puede determinar el punto de montaje del sistema de archivos\n"
 
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "no se pudo determinar el punto de montaje del directorio cachedir %s\n"
+msgstr "no se pudo determinar el punto de montaje del directorio de la memoria caché %s\n"
 
 #, c-format
 msgid "could not determine root mount point %s\n"
@@ -264,7 +251,7 @@ msgstr "no se pudo determinar el punto de montaje de la raiz %s\n"
 
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr "La partición %s está montada como sólo lectura\n"
+msgstr "La partición %s está montada como solamente lectura\n"
 
 #, c-format
 msgid "disk"
@@ -272,19 +259,19 @@ msgstr "disco"
 
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "error al crear un archivo temporal para la descarga\n"
+msgstr "hubo fallos al crear el archivo temporal para la descarga\n"
 
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "la dirección %s no es válida\n"
+msgstr "la dirección «%s» no es válida\n"
 
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "error al obtener archivo '%s' desde %s: %s\n"
+msgstr "error al obtener el archivo «%s» desde %s: %s\n"
 
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s parece estar truncado: %jd/%jd bytes\n"
+msgstr "%s parece estar incompleto: %jd/%jd bytes\n"
 
 #, c-format
 msgid "failed to download %s\n"
@@ -312,7 +299,7 @@ msgstr "no se pudo encontrar o leer el directorio"
 
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "se pasó un argumento erróneo o nulo"
+msgstr "se pasó un argumento erróneo o NULO"
 
 #, c-format
 msgid "not enough free disk space"
@@ -320,7 +307,7 @@ msgstr "no hay suficiente espacio en el disco"
 
 #, c-format
 msgid "library not initialized"
-msgstr "biblioteca no inicializada"
+msgstr "la biblioteca no está inicializada"
 
 #, c-format
 msgid "library already initialized"
@@ -396,7 +383,7 @@ msgstr "la operación no está lista"
 
 #, c-format
 msgid "transaction aborted"
-msgstr "operación abortada"
+msgstr "operación cancelada"
 
 #, c-format
 msgid "operation not compatible with the transaction type"
@@ -404,8 +391,7 @@ msgstr "la operación no es compatible con el tipo de transacción"
 
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr ""
-"intento de envío de la transación cuando la base de datos no está bloqueada"
+msgstr "intento de realizar la operación cuando la base de datos no está bloqueada"
 
 #, c-format
 msgid "could not find or read package"
@@ -429,11 +415,11 @@ msgstr "paquete no válido o dañado (firma PGP)"
 
 #, c-format
 msgid "cannot open package file"
-msgstr "no se pudo abrir el archivo de paquetes"
+msgstr "no se pudo abrir el archivo del paquete"
 
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "no se pudo quitar todos los archivos del paquete"
+msgstr "no se pudieron quitar todos los archivos del paquete"
 
 #, c-format
 msgid "package filename is not valid"
@@ -445,7 +431,7 @@ msgstr "la arquitectura del paquete no es válida"
 
 #, c-format
 msgid "could not find repository for target"
-msgstr "no pudo encontrarse un repositorio para el objetivo"
+msgstr "no se pudo encontrar un repositorio que contenga el paquete"
 
 #, c-format
 msgid "missing PGP signature"
@@ -457,11 +443,11 @@ msgstr "firma PGP no válida"
 
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr "no válido o diferencial dañado"
+msgstr "el archivo diferencial no es válido o está dañado"
 
 #, c-format
 msgid "delta patch failed"
-msgstr "parche diferencial falló"
+msgstr "el parche del diferencial ha fallado"
 
 #, c-format
 msgid "could not satisfy dependencies"
@@ -485,11 +471,11 @@ msgstr "expresión regular no válida"
 
 #, c-format
 msgid "libarchive error"
-msgstr "error de libarchive"
+msgstr "error de la biblioteca libarchive"
 
 #, c-format
 msgid "download library error"
-msgstr "error de descarga de biblioteca"
+msgstr "error de la biblioteca de descarga"
 
 #, c-format
 msgid "gpgme error"
@@ -505,11 +491,11 @@ msgstr "error inesperado"
 
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "no se pudo cargar completamente los metadatos para el paquete %s-%s\n"
+msgstr "no se pudieron cargar completamente los metadatos para el paquete %s-%s\n"
 
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "no se pudo encontrar %s en la base de datos -- saltando\n"
+msgstr "no se pudo encontrar %s en la base de datos -- ignorándolo\n"
 
 #, c-format
 msgid "removing %s from target list\n"
@@ -517,11 +503,11 @@ msgstr "quitando %s de la lista de objetivos\n"
 
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "no se pudo quitar el archivo '%s': %s\n"
+msgstr "no se pudo quitar el archivo «%s»: %s\n"
 
 #, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "No se pudo abrir directorio: %s: %s\n"
+msgstr "no se pudo abrir el directorio: %s: %s\n"
 
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -533,7 +519,7 @@ msgstr "no se pudo quitar la entrada %s-%s de la base de datos\n"
 
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "no se pudo quitar la entrada '%s' de la caché\n"
+msgstr "no se pudo quitar la entrada «%s» de la caché\n"
 
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
@@ -549,7 +535,7 @@ msgstr "%s: desactualizando de la versión %s a la versión %s\n"
 
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: local (%s) es más nuevo que %s (%s)\n"
+msgstr "%s: la versión instalada (%s) es más nueva que %s (%s)\n"
 
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
@@ -561,33 +547,31 @@ msgstr "no se pudo reemplazar el archivo %s por %s\n"
 
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr "se han detectado paquetes con conflictos no resolvibles\n"
+msgstr "se han detectado paquetes con conflictos irresolubles\n"
 
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr ""
-"quitando '%s' de la lista de objetivos debido a que tiene conflictos con "
-"'%s'\n"
+msgstr "quitando «%s» de la lista de objetivos debido a que tiene conflictos con «%s»\n"
 
 #, c-format
 msgid "failed to retrieve some files\n"
-msgstr "falló al recuperar algunos archivos\n"
+msgstr "hubo fallos al recibir algunos archivos\n"
 
 #, c-format
 msgid "not enough free disk space\n"
-msgstr "No tienes suficiente espacio libre en el disco\n"
+msgstr "No tiene suficiente espacio libre en el disco\n"
 
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "no se pudo enviar la operación de eliminación\n"
+msgstr "no se pudo realizar la operación de eliminación\n"
 
 #, c-format
 msgid "could not commit transaction\n"
-msgstr "no se pudo asignar la transacción\n"
+msgstr "no se pudo realizar la operación\n"
 
 #, c-format
 msgid "could not create temp directory\n"
-msgstr "no se puede crear el directorio temporal\n"
+msgstr "no se pudo crear el directorio temporal\n"
 
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
@@ -607,7 +591,7 @@ msgstr "no se pudo recuperar la información del archivo %s: %s\n"
 
 #, c-format
 msgid "could not create pipe (%s)\n"
-msgstr "no se pudo crear tubería (%s)\n"
+msgstr "no se pudo crear la tubería (%s)\n"
 
 #, c-format
 msgid "could not fork a new process (%s)\n"
@@ -631,13 +615,12 @@ msgstr "no se pudo abrir la tubería (%s)\n"
 
 #, c-format
 msgid "command failed to execute correctly\n"
-msgstr "el comando falló al ejecutarse\n"
+msgstr "la orden no se ejecutó correctamente\n"
 
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "no existe la caché %s, creando...\n"
+msgstr "no existe la caché de %s, creándola...\n"
 
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr ""
-"no se pudo encontrar o crear la caché del paquete, en lugar se utilizará %s\n"
+msgstr "no se pudo encontrar o crear la caché del paquete, en su lugar se utilizará %s\n"

@@ -4,30 +4,31 @@
 #
 # Translators:
 # Angel Velasquez <angvp@archlinux.org>, 2011
-# j3nnn1 <jcmm986@gmail.com>, 2011-2012
-# j3nnn1 <jcmm986@gmail.com>, 2012
+# Jenn <jcmm986@gmail.com>, 2011-2012
+# Jenn <jcmm986@gmail.com>, 2012
 # Juan Antonio Cánovas Pérez <traumness@gmail.com>, 2011
 # juantascon <juantascon@gmail.com>, 2011
 # juantascon <juantascon@gmail.com>, 2011
-# leonelhermetica <leonelmalon@gmail.com>, 2013
-# leonelhermetica <leonelmalon@gmail.com>, 2013
+# Leonel <leonelmalon@gmail.com>, 2013
+# Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
-# Pablo Lezaeta <prflr88@gmail.com>, 2012-2013
-# Pablo Lezaeta <prflr88@gmail.com>, 2013
+# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2012-2013
+# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2014
+# Pedro Román <roizheim@gmail.com>, 2013-2014
 # Rodrigo Cares <rcares@gmail.com>, 2012
+# Pedro Román <roizheim@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2013-06-06 13:07+1000\n"
-"PO-Revision-Date: 2013-06-07 00:16+0000\n"
-"Last-Translator: leonelhermetica <leonelmalon@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/archlinux-pacman/"
-"language/es/)\n"
-"Language: es\n"
+"PO-Revision-Date: 2014-07-15 23:25+0000\n"
+"Last-Translator: Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/archlinux-pacman/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, c-format
@@ -36,7 +37,7 @@ msgstr "comprobando dependencias...\n"
 
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "comprobando posibles conflictos entre archivos...\n"
+msgstr "comprobando conflictos entre archivos...\n"
 
 #, c-format
 msgid "resolving dependencies...\n"
@@ -44,7 +45,7 @@ msgstr "resolviendo dependencias...\n"
 
 #, c-format
 msgid "looking for inter-conflicts...\n"
-msgstr "verificando conflictos...\n"
+msgstr "buscando conflictos...\n"
 
 #, c-format
 msgid "installing %s...\n"
@@ -72,19 +73,19 @@ msgstr "verificando la integridad de los paquetes...\n"
 
 #, c-format
 msgid "checking keyring...\n"
-msgstr "verificando llavero...\n"
+msgstr "comprobando el llavero de claves...\n"
 
 #, c-format
 msgid "downloading required keys...\n"
-msgstr "descargando las llaves requridas...\n"
+msgstr "descargando las claves requeridas...\n"
 
 #, c-format
 msgid "loading package files...\n"
-msgstr "cargando los archivos del paquete...\n"
+msgstr "cargando los archivos de los paquetes...\n"
 
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "verificando la integridad diferencial...\n"
+msgstr "verificando la integridad del diferencial...\n"
 
 #, c-format
 msgid "applying deltas...\n"
@@ -100,15 +101,15 @@ msgstr "¡éxito!\n"
 
 #, c-format
 msgid "failed.\n"
-msgstr "error.\n"
+msgstr "ha fallado.\n"
 
 #, c-format
 msgid "Retrieving packages ...\n"
-msgstr "Recuperando paquetes ...\n"
+msgstr "Recibiendo los paquetes...\n"
 
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "verificando el espacio disponible en disco...\n"
+msgstr "comprobando el espacio disponible en disco...\n"
 
 #, c-format
 msgid "%s optionally requires %s\n"
@@ -120,7 +121,7 @@ msgstr "%s está en IgnorePkg/IgnoreGroup. ¿Instalar de todas formas?"
 
 #, c-format
 msgid "Replace %s with %s/%s?"
-msgstr "¿Reemplazar %s con %s/%s? "
+msgstr "¿Remplazar %s con %s/%s? "
 
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
@@ -134,13 +135,10 @@ msgstr "%s y %s están en conflicto (%s). ¿Quitar %s?"
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable dependencies:\n"
-msgstr[0] ""
-"El siguiente paquete no se puede actualizar debido a dependencias que no se "
-"pudieron resolver:\n"
-msgstr[1] ""
-"Los siguientes paquetes no pueden ser actualizados debido a dependencias que "
-"no se pudieron resolver:\n"
+"The following packages cannot be upgraded due to unresolvable "
+"dependencies:\n"
+msgstr[0] "El siguiente paquete no se puede actualizar debido a dependencias que no se pudieron resolver:\n"
+msgstr[1] "Los siguientes paquetes no pueden ser actualizados debido a dependencias que no se pudieron resolver:\n"
 
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
@@ -154,23 +152,21 @@ msgstr "Existen %zd proveedores disponibles para %s:\n"
 
 #, c-format
 msgid "%s-%s: local version is newer. Upgrade anyway?"
-msgstr "%s-%s: la versión local es más reciente. ¿Actualizar de todas formas?"
+msgstr "%s-%s: la versión instalada es más nueva. ¿Sustituirla de todas formas?"
 
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ""
-"El archivo %s está dañado (%s).\n"
-"¿Quiere eliminarlo?"
+msgstr "El archivo %s está dañado (%s).\n¿Quiere eliminarlo?"
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "Importar llave PGP %d%c/%s, \"%s\", creada: %s (revocada)?"
+msgstr "Importar clave PGP %d %c / %s, «%s», ¿creada: %s (revocada)?"
 
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
-msgstr "Importar llave PGP %d%c/%s, \"%s\", creada: %s?"
+msgstr "Importar clave PGP %d %c / %s, «%s», ¿creada: %s?"
 
 #, c-format
 msgid "installing"
@@ -194,11 +190,11 @@ msgstr "quitando"
 
 #, c-format
 msgid "checking for file conflicts"
-msgstr "verificando conflictos entre archivos"
+msgstr "comprobando conflictos entre archivos"
 
 #, c-format
 msgid "checking available disk space"
-msgstr "verificando el espacio disponible en disco"
+msgstr "comprobando el espacio disponible en disco"
 
 #, c-format
 msgid "checking package integrity"
@@ -206,11 +202,11 @@ msgstr "verificando la integridad de los paquetes"
 
 #, c-format
 msgid "checking keys in keyring"
-msgstr "verificando llaves en el llavero"
+msgstr "comprobando las claves del llavero"
 
 #, c-format
 msgid "loading package files"
-msgstr "cargando los archivos del paquete..."
+msgstr "cargando los archivos de los paquetes"
 
 #, c-format
 msgid "downloading %s...\n"
@@ -218,15 +214,15 @@ msgstr "descargando %s...\n"
 
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr "%s: %s (El archivos no concuerda)\n"
+msgstr "%s: %s (El tipo de archivo no concuerda)\n"
 
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr "%s: %s (El UID no concuerda)\n"
+msgstr "%s: %s (El identificador de usuario -UID- no concuerda)\n"
 
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr "%s: %s (El GID no concuerda)\n"
+msgstr "%s: %s (El identificador de grupo -GID- no concuerda)\n"
 
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
@@ -238,11 +234,11 @@ msgstr "%s: %s (La fecha de modificación no concuerda)\n"
 
 #, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "no se pudo leer el enlace al archivo: %s\n"
+msgstr "imposible leer los contenidos de los enlaces simbólicos: %s\n"
 
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr "%s: %s (Dirección del enlace no concuerda)\n"
+msgstr "%s: %s (La ruta del enlace simbólico no concuerda\n"
 
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
@@ -266,7 +262,7 @@ msgstr[1] "%jd archivos no encontrados\n"
 
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr "%s: sin archivo .MTREE\n"
+msgstr "%s: sin archivo mtree\n"
 
 #, c-format
 msgid "file type not recognized: %s%s\n"
@@ -275,22 +271,20 @@ msgstr "tipo de archivo no reconocido: %s%s\n"
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] "%jd archivos alterados\n"
-msgstr[1] ""
-"%jd archivo alterado\n"
-"\n"
+msgstr[0] "%jd archivo alterado\n"
+msgstr[1] "%jd archivos alterados\n"
 
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "error en malloc: no se pudo reservar %zd bytes\n"
+msgstr "ha fallado la asignación de memoria (malloc): imposible reservar %zd bytes\n"
 
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "no se puede acceder al directorio actual de trabajo\n"
+msgstr "no se pudo determinar el directorio actual de trabajo\n"
 
 #, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "no se pudo cambiar al directorio de descargas %s\n"
+msgstr "no se pudo acceder al directorio de descargas %s\n"
 
 #, c-format
 msgid "running XferCommand: fork failed!\n"
@@ -298,42 +292,36 @@ msgstr "ejecutando XferCommand: ¡falló la creación del proceso!\n"
 
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "error al renombrar %s a %s (%s)\n"
+msgstr "no se pudo renombrar %s a %s (%s)\n"
 
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "no se puede restaurar el directorio de trabajo (%s)\n"
+msgstr "no se pudo restaurar el directorio de trabajo (%s)\n"
 
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
-"archivo de configuración %s, línea %d: valor incorrecto para '%s' : '%s'\n"
+msgstr "archivo de configuración %s, línea %d: valor incorrecto para «%s» : «%s»\n"
 
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr ""
-"archivo de configuración %s, línea %d: '%s' opción inválida, no existe "
-"soporte de firma\n"
+msgstr "archivo de configuración %s, línea %d: «%s» opción inválida, no existe soporte de firma\n"
 
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
-"archivo de configuración %s, linea %d: directiva '%s' en sección '%s' no "
-"reconocida.\n"
+msgstr "archivo de configuración %s, linea %d: directiva «%s» en sección «%s» no reconocida.\n"
 
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "espejo '%s' contiene la variable '%s', pero '%s' no está definido.\n"
+msgstr "el mirror «%s» contiene la variable «%s», pero «%s» no está definido.\n"
 
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr ""
-"no se pudo añadir la URL del servidor a la base de datos '%s': %s (%s)\n"
+msgstr "no se pudo añadir la dirección del servidor a la base de datos «%s»: %s (%s)\n"
 
 #, c-format
 msgid "failed to initialize alpm library (%s)\n"
-msgstr "falló al iniciar la biblioteca alpm (%s)\n"
+msgstr "hubo fallos al inicializar la biblioteca alpm (%s)\n"
 
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
@@ -341,33 +329,31 @@ msgstr "   intente ejecutar pacman-db-upgrade\n"
 
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
-msgstr "error al establecer logfile '%s' (%s)\n"
+msgstr "error al establecer el archivo de registros (logfile) «%s» (%s)\n"
 
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr "error al establecer gpgdir '%s' (%s)\n"
+msgstr "error al establecer el directorio gpg (gpgdir) «%s» (%s)\n"
 
 #, c-format
 msgid "no '%s' configured"
-msgstr "'%s' no está configurado"
+msgstr "no se ha configurado ningún «%s»"
 
 #, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr "no se pudo registrar la base de datos '%s' (%s)\n"
+msgstr "no se pudo registrar la base de datos «%s» (%s)\n"
 
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "error al añadir el mirror '%s' a la base de datos '%s' (%s)\n"
+msgstr "no se pudo añadir el mirror «%s» a la base de datos «%s» (%s)\n"
 
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
-"la lectura del archivo de configuración excedió la profundidad de recursión "
-"máxima: %d.\n"
+msgstr "el análisis de la configuración excedió la profundidad de recursión máxima de %d.\n"
 
 #, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "archivo de configuración  %s no pudo ser leído: %s\n"
+msgstr "el archivo de configuración  %s no pudo ser leído: %s\n"
 
 #, c-format
 msgid "config file %s, line %d: bad section name.\n"
@@ -375,19 +361,15 @@ msgstr "archivo de configuración %s, línea %d: nombre de sección erróneo.\n"
 
 #, c-format
 msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr ""
-"archivo de configuración %s, línea %d: error de sintaxis - falta la clave.\n"
+msgstr "archivo de configuración %s, línea %d: error de sintaxis - falta la clave.\n"
 
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr ""
-"archivo de configuración %s, línea %d: Todas las directivas deben pertenecer "
-"a una sección.\n"
+msgstr "archivo de configuración %s, línea %d: Todas las directivas deben pertenecer a una sección.\n"
 
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
-"archivo de configuración %s, linea %d: directiva '%s' necesita un valor\n"
+msgstr "archivo de configuración %s, linea %d: directiva «%s» necesita un valor\n"
 
 #, c-format
 msgid "no targets specified (use -h for help)\n"
@@ -399,26 +381,23 @@ msgstr "motivo de instalación no especificado (use -h para ayuda)\n"
 
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
-msgstr "no se pudo establecer motivo de instalación para el paquete %s (%s)\n"
+msgstr "no se pudo establecer el motivo de la instalación para el paquete %s (%s)\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
-msgstr ""
-"%s: motivo de instalación ha sido establecido como 'instalado como "
-"dependencia'\n"
+msgstr "%s: el motivo de la instalación ha sido establecido como «instalado como dependencia»\n"
 
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
-msgstr ""
-"%s: motivo de instalación ha sido establecido a 'explícitamente instalado'\n"
+msgstr "%s: el motivo de la instalación ha sido establecido como «explícitamente instalado»\n"
 
 #, c-format
 msgid " [installed]"
-msgstr "[instalado]"
+msgstr " [instalado]"
 
 #, c-format
 msgid "Optional Deps  :"
-msgstr "Dep. opcionales   :"
+msgstr "Depende opcionalmente en :"
 
 #, c-format
 msgid "Explicitly installed"
@@ -470,7 +449,7 @@ msgstr "Arquitectura      :"
 
 #, c-format
 msgid "URL            :"
-msgstr "URL               :"
+msgstr "Desarrollador principal  :"
 
 #, c-format
 msgid "Licenses       :"
@@ -494,7 +473,7 @@ msgstr "Requerido por     :"
 
 #, c-format
 msgid "Optional For   :"
-msgstr "Opcional Para   :"
+msgstr "Opcional para   :"
 
 #, c-format
 msgid "Conflicts With :"
@@ -502,19 +481,19 @@ msgstr "En conflicto con    :"
 
 #, c-format
 msgid "Replaces       :"
-msgstr "Reemplaza a         :"
+msgstr "Remplaza a         :"
 
 #, c-format
 msgid "Download Size  :"
-msgstr "Tamaño de Descarga  :"
+msgstr "Tamaño de la descarga  :"
 
 #, c-format
 msgid "Compressed Size:"
-msgstr "Tamaño Comprimido:"
+msgstr "Tamaño tras la compresión:"
 
 #, c-format
 msgid "Installed Size :"
-msgstr "Tamaño instalado :"
+msgstr "Ocupación de la instalación :"
 
 #, c-format
 msgid "Packager       :"
@@ -522,7 +501,7 @@ msgstr "Empaquetador      :"
 
 #, c-format
 msgid "Build Date     :"
-msgstr "Fecha de compilación :"
+msgstr "Fecha de construcción :"
 
 #, c-format
 msgid "Install Date   :"
@@ -530,11 +509,11 @@ msgstr "Fecha de instalación :"
 
 #, c-format
 msgid "Install Reason :"
-msgstr "Motivo de la instalación:"
+msgstr "Motivo de la instalación :"
 
 #, c-format
 msgid "Install Script :"
-msgstr "Script de instalación:"
+msgstr "Intérprete de instalación :"
 
 #, c-format
 msgid "Yes"
@@ -558,11 +537,11 @@ msgstr "Firmas            :"
 
 #, c-format
 msgid "Validated By   :"
-msgstr "Validado Por   :"
+msgstr "Validado por   :"
 
 #, c-format
 msgid "could not calculate checksums for %s\n"
-msgstr "no se pudo verificar la integridad de %s\n"
+msgstr "no se pudo calcular la suma de control para %s\n"
 
 #, c-format
 msgid "Backup Files:\n"
@@ -574,11 +553,11 @@ msgstr "(nada)\n"
 
 #, c-format
 msgid "no changelog available for '%s'.\n"
-msgstr "no hay registro de cambios disponible para '%s'.\n"
+msgstr "no hay registro de cambios disponible para «%s».\n"
 
 #, c-format
 msgid "Changelog for %s:\n"
-msgstr "Changelog para %s:\n"
+msgstr "Registro de cambios (changelog) para %s:\n"
 
 #, c-format
 msgid "installed"
@@ -612,17 +591,13 @@ msgstr "operaciones:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr ""
-"\n"
-"utilice '%s {-h --help}' con una operación para ver las opciones "
-"disponibles\n"
+msgstr "\nutilice «%s {-h --help}» con una operación para ver las opciones disponibles\n"
 
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr ""
-"  -c, --cascade        quita los paquetes, junto a todos los que dependan de "
-"éstos\n"
+"  -c, --cascade        remove packages and all packages that depend on "
+"them\n"
+msgstr "  -c, --cascade        quita los paquetes, junto a todos los que dependan de estos\n"
 
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
@@ -632,10 +607,7 @@ msgstr "  -n, --nosave         elimina los archivos de configuración\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr ""
-"  -s, --recursive     elimina las dependencias que no son necesarias\n"
-"                       (-ss hace que se incluyan las dependencias instaladas "
-"de forma explícita)\n"
+msgstr "  -s, --recursive      elimina las dependencias que no son necesarias\n                       (-ss hace que se incluyan las dependencias instaladas de forma explícita)\n"
 
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
@@ -643,7 +615,7 @@ msgstr "  -u, --unneeded       elimina los paquetes que no son necesarios\n"
 
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed         no reinstalar paquetes actualizados\n"
+msgstr "      --needed         no reinstala los paquetes actualizados\n"
 
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
@@ -652,104 +624,74 @@ msgstr "  -c, --changelog      muestra el registro de cambios de un paquete\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr ""
-"  -d, --deps           lista todos los paquetes instalados como dependencias "
-"[filtro]\n"
+msgstr "  -d, --deps           lista todos los paquetes instalados como dependencias [filtro]\n"
 
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr ""
-"  -e, --explicit       lista todos los paquetes instalados explícitamente "
-"[filtro]\n"
+msgstr "  -e, --explicit       lista todos los paquetes instalados explícitamente [filtro]\n"
 
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr ""
-"  -g, --groups         muestra todos los elementos del grupo de paquetes \n"
+msgstr "  -g, --groups         muestra todos los elementos del grupo de paquetes \n"
 
 #, c-format
-msgid ""
-"  -i, --info           view package information (-ii for backup files)\n"
-msgstr ""
-"  -i, --info           ver la información del paquete (-ii para archivos de "
-"respaldo)\n"
+msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgstr "  -i, --info           muestra la información del paquete (-ii para archivos de respaldo)\n"
 
 #, c-format
 msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
-msgstr ""
-"-k, --check verifica que los archivos del paquete existen (-kk para las "
-"propiedades del archivo)\n"
+msgstr "  -k, --check          verifica que los archivos del paquete existen (-kk para las propiedades del archivo)\n"
 
 #, c-format
 msgid "  -l, --list           list the contents of the queried package\n"
-msgstr ""
-"  -l, --list           lista los archivos contenidos en el paquete "
-"consultado\n"
+msgstr "  -l, --list           lista los archivos contenidos en el paquete consultado\n"
 
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr ""
-"  -m, --foreign        lista paquetes instalados que no se encuentran en "
-"la(s) base(s) de datos de sincronización [filtro]\n"
+msgstr "  -m, --foreign        lista los paquetes instalados, exceptuando los que tienen su equivalente en las bases de datos de sincronización [filtro]\n"
 
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
-msgstr ""
-"-n, --native lista los paquetes encontrados unicamente en la(s) base de "
-"datos sincronizada [filtro]\n"
+msgstr "-n, --native         lista los paquetes instalados, pero únicamente los que tienen su equivalente en las bases de datos de sincronización [filtro]\n"
 
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr ""
-"  -o, --owns <arch>    consulta el paquete que contiene el archivo indicado "
-"<arch>\n"
+msgstr "  -o, --owns <archivo>    consulta el paquete al que pertenece el <archivo>\n"
 
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
-msgstr ""
-"  -p, --file <paquete> consulta un archivo de paquetes en lugar de la base "
-"de datos\n"
+msgstr "  -p, --file <paquete> consulta un archivo de paquetes en lugar de la base de datos\n"
 
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr ""
-"  -q, --quiet          muestra menos información para la consulta y "
-"búsqueda\n"
+msgstr "  -q, --quiet          muestra menos información para la consulta y búsqueda\n"
 
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr ""
-"  -s, --search <regex> busca los paquetes instalados que coincidan con la "
-"cadena especificada\n"
+msgstr "  -s, --search <vocablo>\n                       busca los paquetes instalados que coincidan con la cadena especificada\n"
 
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr ""
-"  -t, --unrequired     lista todos los paquetes que no requiere algún otro "
-"paquete [filtro]\n"
+msgstr "  -t, --unrequired     lista los paquetes que no son requeridos por otro paquete [filtro]\n"
 
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
-msgstr ""
-"  -u, --upgrades       muestra todos los paquetes que pueden ser "
-"actualizados [filtro]\n"
+msgstr "  -u, --upgrades       muestra los paquetes no actualizados [filtro]\n"
 
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr ""
-"  -c, --clean          elimina paquetes antiguos del directorio de la cache "
-"(-cc para todos los paquetes)\n"
+msgstr "  -c, --clean          elimina paquetes antiguos del directorio de caché (-cc para todos los paquetes)\n"
 
 #, c-format
 msgid "  -i, --info           view package information\n"
@@ -757,172 +699,127 @@ msgstr "  -i, --info           visualiza la información del paquete\n"
 
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr ""
-"  -l, --list <repo>    visualiza una lista de paquetes en un repositorio\n"
+msgstr "  -l, --list <repositorio>\n                       visualiza una lista de los paquetes presentes en un repositorio\n"
 
 #, c-format
-msgid ""
-"  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr ""
-"  -s, --search <busq.> busca coincidencias de la cadena especificada en los "
-"repositorios remotos.\n"
+msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr "  -s, --search <vocablo>\n                       busca en los repositorios remotos las coincidencias con la cadena especificada\n"
 
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr ""
-"  -u, --sysupgrade     actualiza los paquetes instalados (-uu permite "
-"desactualizarlos)\n"
+msgstr "  -u, --sysupgrade     actualiza los paquetes instalados (-uu permite desactualizarlos)\n"
 
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr ""
-"  -w, --downloadonly   sólo descarga los paquetes, sin  instalar/actualizar "
-"nada\n"
+msgstr "  -w, --downloadonly   solamente descarga los paquetes, sin instalar/actualizar nada\n"
 
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr ""
-"  -y, --refresh        descarga las bases de datos de paquetes actualizadas "
-"desde el servidor\n"
+msgstr "  -y, --refresh        descarga las bases de datos de paquetes actualizadas desde el servidor\n"
 
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr ""
-"      --asdeps         marca los paquetes como instalados de forma no "
-"explícita\n"
+msgstr "      --asdeps         marca los paquetes como instalados de forma no explícita\n"
 
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr ""
-"      --asexplicit     marca los paquetes como instalados de forma "
-"explícita\n"
+msgstr "      --asexplicit     marca los paquetes como instalados de forma explícita\n"
 
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr ""
-"      --force         forza la instalación, y sobreescribe archivos en "
-"conflicto\n"
+msgstr "      --force          fuerza la instalación, y sobrescribe los archivos en conflicto\n"
 
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr ""
-"      --asdeps         instala paquetes como dependencia (no-"
-"explícitamente)\n"
+msgstr "      --asdeps         instala paquetes como dependencia (no-explícitamente)\n"
 
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr ""
-"      --asexplicit     instala paquetes como instalados explícitamente \n"
+msgstr "      --asexplicit     instala paquetes como instalados explícitamente \n"
 
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr ""
-"      --ignore <paq>   ignora una actualización de un paquete (puede ser "
-"usado más de una vez)\n"
+msgstr "      --ignore <paquete>\n                       ignora la actualización de un paquete (puede ser usado más de una vez)\n"
 
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr ""
-"      --ignoregroup <grp>\n"
-"                       ignora una actualización de un grupo de paquetes "
-"(puede ser usado más de una vez)\n"
+msgstr "      --ignoregroup <grupo>\n                       ignora la actualización de un grupo de paquetes (puede ser usado más de una vez)\n"
 
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr ""
-"  -d, --nodeps         se salta la(s) comprobación(es) de versión de las "
-"dependencias (-dd para saltarlas todas)\n"
+msgstr "  -d, --nodeps         omite las comprobaciones de las versiones de las dependencias (-dd omite todas las comprobaciones)\n"
 
 #, c-format
-msgid ""
-"      --dbonly         only modify database entries, not package files\n"
-msgstr ""
-"      --dbonly         sólo modificar las entradas de la base de datos, no "
-"los\n"
-"                       paquetes en sí\n"
+msgid "      --dbonly         only modify database entries, not package files\n"
+msgstr "--dbonly         solamente modifica las entradas de la base de datos, no los\n                       paquetes en sí\n"
 
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr ""
-"      --noprogressbar  no muestra la barra de progreso cuando se descargan "
-"archivos\n"
+msgstr "      --noprogressbar  no muestra la barra de progreso cuando se descargan archivos\n"
 
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr ""
-"      --noscriptlet    no ejecuta el script de instalación si existe alguno\n"
+msgstr "      --noscriptlet    no ejecuta el intérprete de instalación si existe alguno\n"
 
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr ""
-"  -p, --print          iimprimir los objetivos en lugar de realizar la "
-"operación\n"
+msgstr "  -p, --print          muestra los objetivos (paquetes) en lugar de realizar la operación\n"
 
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr ""
-"      --print-format <formato>\n"
-"                       define cómo será mostrado el objetivo\n"
+msgstr "      --print-format <cadena>\n                       define cómo serán mostrados los objetivos (paquetes)\n"
 
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr ""
-"  -b, --dbpath <ruta>  define una ruta para una base de datos alternativa\n"
+msgstr "  -b, --dbpath <ruta>  define una ubicación alternativa para la base de datos\n"
 
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr ""
-"  -r, --root <ruta>    define una ruta para una raíz de instalación "
-"alternativa\n"
+msgstr "  -r, --root <ruta>    define un directorio de root alternativo para la instalación\n"
 
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        mostrar todo\n"
+msgstr "  -v, --verbose        muestra toda la información\n"
 
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --arch <arq.>    define una arquitectura alternativa\n"
+msgstr "      --arch <arquitectura>\n                       define una arquitectura alternativa\n"
 
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr ""
-"      --cachedir <dir> define una ruta para un directorio caché de paquetes "
-"alternativo\n"
+msgstr "      --cachedir <directorio>\n                       define un directorio alternativo para el caché de los paquetes\n"
 
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr "     --color <cuando>   colorea la salida\n"
+msgstr "      --color <cuando> colorea la salida\n"
 
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
-msgstr ""
-"      --config <ruta>  define un archivo de configuración alternativo\n"
+msgstr "      --config <ruta>  define un archivo de configuración alternativo\n"
 
 #, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      --debug          muestra mensajes de depuración\n"
+msgstr "      --debug          muestra los mensajes de depuración de errores\n"
 
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
-"      --gpgdir <ruta>  configurar un directorio de inicio diferente para "
-"GnuPG\n"
+msgstr "      --gpgdir <ruta>  define un directorio principal alternativo para GnuPG\n"
 
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
@@ -936,22 +833,19 @@ msgstr "      --noconfirm      no solicita confirmación alguna\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr ""
-"                       Este programa puede distribuirse libremente bajo\n"
-"                       los términos de la licencia GNU General Public "
-"License\n"
+msgstr "                       Este programa puede distribuirse libremente bajo\n                       los términos de la licencia GNU General Public License\n"
 
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "argumento inválido '%s' para %s\n"
+msgstr "el argumento «%s» no es válido para %s\n"
 
 #, c-format
 msgid "'%s' is not a valid debug level\n"
-msgstr "'%s' no es un nivel de depuración válido\n"
+msgstr "«%s» no es un nivel de depuración de errores válido\n"
 
 #, c-format
 msgid "only one operation may be used at a time\n"
-msgstr "sólo una operación puede utilizarse a la vez\n"
+msgstr "solamente una operación puede utilizarse a la vez\n"
 
 #, c-format
 msgid "invalid option\n"
@@ -959,15 +853,15 @@ msgstr "opción no válida\n"
 
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr "se acaba la memoria en el análisis de argumentos\n"
+msgstr "memoria agotada en el análisis de los argumentos\n"
 
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
-msgstr "falló al abrir stdin para lectura: (%s)\n"
+msgstr "hubo fallos al reabrir stdin para su lectura: (%s)\n"
 
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr "argumento '-' sin una entrada especificada\n"
+msgstr "el argumento «-» se ha especificado sin referencia respecto a stdin\n"
 
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
@@ -979,7 +873,7 @@ msgstr "no se especificó una operación (utilice -h para ayuda)\n"
 
 #, c-format
 msgid "%s is owned by %s %s\n"
-msgstr "%s es propiedad de %s %s\n"
+msgstr "%s está contenido en %s %s\n"
 
 #, c-format
 msgid "no file was specified for --owns\n"
@@ -987,35 +881,35 @@ msgstr "no se indicó un archivo para --owns\n"
 
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
-msgstr "no se pudo determinar la ruta real de '%s': %s\n"
+msgstr "no se pudo determinar la ruta real de «%s»: %s\n"
 
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
-msgstr "no se pudo encontrar '%s' en PATH: %s\n"
+msgstr "no se pudo encontrar «%s» en la variable PATH: %s\n"
 
 #, c-format
 msgid "failed to read file '%s': %s\n"
-msgstr "no se pudo leer el archivo '%s': %s\n"
+msgstr "no se pudo leer el archivo «%s»: %s\n"
 
 #, c-format
 msgid "No package owns %s\n"
-msgstr "Ningún paquete posee %s\n"
+msgstr "Ningún paquete contiene %s\n"
 
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr "el grupo '%s' no se ha encontrado\n"
+msgstr "el grupo «%s» no se ha encontrado\n"
 
 #, c-format
 msgid "package '%s' was not found\n"
-msgstr "el paquete '%s' no fue encontrado\n"
+msgstr "el paquete «%s» no se ha encontrado\n"
 
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr "'%s' es un archivo, quizá quiera usar %s.\n"
+msgstr "«%s» es un archivo, quizá quiera usar %s.\n"
 
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr "No se puede cargar el paquete '%s': '%s'\n"
+msgstr "No se pudo cargar el paquete «%s»: «%s»\n"
 
 #, c-format
 msgid "target not found: %s\n"
@@ -1039,7 +933,7 @@ msgstr "HoldPkg fue encontrado en la lista de objetivos. ¿Desea continuar?"
 
 #, c-format
 msgid " there is nothing to do\n"
-msgstr " nada que hacer\n"
+msgstr " ...el sistema ya está actualizado.\n"
 
 #, c-format
 msgid "Do you want to remove these packages?"
@@ -1051,7 +945,7 @@ msgstr "error al realizar la transacción (%s)\n"
 
 #, c-format
 msgid "could not remove %s: %s\n"
-msgstr "no se puede quitar %s: %s\n"
+msgstr "no se pudo quitar %s: %s\n"
 
 #, c-format
 msgid "could not access database directory\n"
@@ -1087,7 +981,7 @@ msgstr "Directorio de caché: %s\n"
 
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
-msgstr "¿Quieres eliminar todos los otros paquetes de la caché?"
+msgstr "¿Desea quitar los restantes paquetes del caché?"
 
 #, c-format
 msgid "removing old packages from cache...\n"
@@ -1095,11 +989,11 @@ msgstr "quitando paquetes antiguos de la caché...\n"
 
 #, c-format
 msgid "Do you want to remove ALL files from cache?"
-msgstr "¿Desea quitar TODOS los paquetes de la caché?"
+msgstr "¿Desea quitar TODOS los archivos del caché?"
 
 #, c-format
 msgid "removing all files from cache...\n"
-msgstr "quitando todos los paquetes de la caché...\n"
+msgstr "quitando todos los archivos del caché...\n"
 
 #, c-format
 msgid "could not access cache directory %s\n"
@@ -1119,15 +1013,15 @@ msgstr "no se pudo sincronizar ninguna base de datos\n"
 
 #, c-format
 msgid "repository '%s' does not exist\n"
-msgstr "el repositorio '%s' no existe\n"
+msgstr "el repositorio «%s» no existe\n"
 
 #, c-format
 msgid "repository \"%s\" was not found.\n"
-msgstr "el repositorio \"%s\" no fue encontrado.\n"
+msgstr "el repositorio «%s» no fue encontrado.\n"
 
 #, c-format
 msgid "skipping target: %s\n"
-msgstr "saltando el objetivo: %s\n"
+msgstr "ignorando el objetivo: %s\n"
 
 #, c-format
 msgid "There are %d members in group %s:\n"
@@ -1139,7 +1033,7 @@ msgstr "base de datos no encontrada: %s\n"
 
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr "'%s' es un archivo, quizo decir %s en lugar de %s?\n"
+msgstr "«%s» es un archivo, ¿quizo decir %s en lugar de %s?\n"
 
 #, c-format
 msgid "Starting full system upgrade...\n"
@@ -1147,7 +1041,7 @@ msgstr "Iniciando actualización completa del sistema...\n"
 
 #, c-format
 msgid "package %s does not have a valid architecture\n"
-msgstr "::el paquete '%s' no posee una arquitectura válida\n"
+msgstr "el paquete «%s» no posee una arquitectura válida\n"
 
 #, c-format
 msgid "%s and %s are in conflict\n"
@@ -1167,11 +1061,11 @@ msgstr "¿Continuar con la instalación?"
 
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr "No se puede %s conflictos en directorio-archivo\n"
+msgstr "Imposible determinar los conflictos de %s respecto de directorios-archivos\n"
 
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
-msgstr "%s existe tanto en '%s' como en '%s'\n"
+msgstr "%s existe tanto en «%s» como en «%s»\n"
 
 #, c-format
 msgid "%s: %s exists in filesystem\n"
@@ -1183,15 +1077,15 @@ msgstr "%s no es válido o está dañado\n"
 
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
-msgstr "Ocurrieron errores, no se actualizaron paquetes\n"
+msgstr "Ocurrieron errores, por lo que no se actualizaron los paquetes\n"
 
 #, c-format
 msgid "Synchronizing package databases...\n"
-msgstr "Sincronizando las bases de datos de paquetes...\n"
+msgstr "Sincronizando las bases de datos de los paquetes...\n"
 
 #, c-format
 msgid "loading packages...\n"
-msgstr "cargando paquetes...\n"
+msgstr "cargando los paquetes...\n"
 
 #, c-format
 msgid "failed to init transaction (%s)\n"
@@ -1199,19 +1093,17 @@ msgstr "error al iniciar la transacción (%s)\n"
 
 #, c-format
 msgid "could not lock database: %s\n"
-msgstr "no se puede bloquear la base de datos: %s\n"
+msgstr "no se pudo bloquear la base de datos: %s\n"
 
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr ""
-"  si está seguro que no se está ejecutando un\n"
-"  administrador de paquetes, puede eliminar %s.\n"
+msgstr "  si está seguro que no se está ejecutando un\n  administrador de paquetes, puede eliminar %s.\n"
 
 #, c-format
 msgid "failed to release transaction (%s)\n"
-msgstr "error al liberar la transacción (%s)\n"
+msgstr "no se pudo anular la transacción en curso (%s)\n"
 
 #, c-format
 msgid "no usable package repositories configured.\n"
@@ -1219,7 +1111,7 @@ msgstr "no hay ningún repositorio de paquetes configurado.\n"
 
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr "la base de datos '%s' no es válida (%s)\n"
+msgstr "la base de datos «%s» no es válida (%s)\n"
 
 #, c-format
 msgid "insufficient columns available for table display\n"
@@ -1247,7 +1139,7 @@ msgstr "Clave desconocida"
 
 #, c-format
 msgid "Key disabled"
-msgstr "Llave deshabilitada"
+msgstr "Clave deshabilitada"
 
 #, c-format
 msgid "Signature error"
@@ -1255,23 +1147,23 @@ msgstr "Error en la firma"
 
 #, c-format
 msgid "full trust"
-msgstr "confiar siempre"
+msgstr "confianza plena"
 
 #, c-format
 msgid "marginal trust"
-msgstr "confianza dudosa"
+msgstr "confianza mínima"
 
 #, c-format
 msgid "never trust"
-msgstr "nunca confiar"
+msgstr "confianza nula"
 
 #, c-format
 msgid "unknown trust"
-msgstr "confianza desconocida"
+msgstr "confianza dudosa"
 
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr "%s, %s desde \"%s\""
+msgstr "%s, %s desde «%s»"
 
 #, c-format
 msgid "Name"
@@ -1287,7 +1179,7 @@ msgstr "Versión nueva"
 
 #, c-format
 msgid "Net Change"
-msgstr "Cambio Neto"
+msgstr "Diferencia neta"
 
 #, c-format
 msgid "Download Size"
@@ -1303,19 +1195,19 @@ msgstr "Paquetes"
 
 #, c-format
 msgid "Total Download Size:"
-msgstr "Tamaño Total de Descarga:"
+msgstr "Tamaño total de la descarga:"
 
 #, c-format
 msgid "Total Installed Size:"
-msgstr "Tamaño Total Instalado:"
+msgstr "Ocupación total de la instalación:"
 
 #, c-format
 msgid "Total Removed Size:"
-msgstr "Tamaño Total Eliminado:"
+msgstr "Tamaño total de los paquetes eliminados:"
 
 #, c-format
 msgid "Net Upgrade Size:"
-msgstr "Tamaño neto a actualizar:"
+msgstr "Uso neto tras actualizar:"
 
 #, c-format
 msgid " [pending]"
@@ -1323,7 +1215,7 @@ msgstr " [pendiente]"
 
 #, c-format
 msgid "New optional dependencies for %s\n"
-msgstr "Nuevas dependencias opcionales para %s\n"
+msgstr "Dependencias opcionales nuevas para %s\n"
 
 #, c-format
 msgid "Optional dependencies for %s\n"
@@ -1343,11 +1235,11 @@ msgstr "Número inválido: %s\n"
 
 #, c-format
 msgid "Enter a selection (default=all)"
-msgstr "Introduzca una selección (por defecto=todos)"
+msgstr "Introduzca una selección (por omisión=todos)"
 
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr "Introduzca un número (por defecto=%d)"
+msgstr "Introduzca un número (por omisión=%d)"
 
 #, c-format
 msgid "[Y/n]"
@@ -1363,7 +1255,7 @@ msgstr "S"
 
 #, c-format
 msgid "YES"
-msgstr "SI"
+msgstr "SÍ"
 
 #, c-format
 msgid "N"
@@ -1383,7 +1275,7 @@ msgstr "error: %s"
 
 #, c-format
 msgid "warning: %s"
-msgstr "atención: %s"
+msgstr "advertencia: %s"
 
 #, c-format
 msgid "error: "
@@ -1391,4 +1283,4 @@ msgstr "error: "
 
 #, c-format
 msgid "warning: "
-msgstr "atención: "
+msgstr "advertencia: "

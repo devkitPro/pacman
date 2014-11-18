@@ -1,0 +1,616 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"PO-Revision-Date: 2013-11-20 10:04+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"Language-Team: Bulgarian (http://www.transifex.com/projects/p/archlinux-pacman/language/bg/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, c-format
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "%s-%s е актуален -- пропускане\n"
+
+#, c-format
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "%s-%s е актуален -- преинсталиране\n"
+
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "понижаване на пакет %s (%s => %s)\n"
+
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr "има предупреждение при извличане %s (%s)\n"
+
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "не може да се извлече %s (%s)\n"
+
+#, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "не може да се преименува %s на %s (%s)\n"
+
+#, c-format
+msgid ""
+"directory permissions differ on %s\n"
+"filesystem: %o  package: %o\n"
+msgstr "разлика в правата на папка за %s\nfilesystem: %o  пакет: %o\n"
+
+#, c-format
+msgid "extract: not overwriting dir with file %s\n"
+msgstr "извличане: не се презаписва папка с файл %s\n"
+
+#, c-format
+msgid "extract: symlink %s does not point to dir\n"
+msgstr "извличане: symlink %s не сочи към папка\n"
+
+#, c-format
+msgid "%s saved as %s\n"
+msgstr "%s запазен както %s\n"
+
+#, c-format
+msgid "%s installed as %s\n"
+msgstr "%s инсталиран като %s\n"
+
+#, c-format
+msgid "extracting %s as %s.pacnew\n"
+msgstr "извличане %s като %s.pacnew\n"
+
+#, c-format
+msgid "could not get current working directory\n"
+msgstr "не може да се разбере текущата директория\n"
+
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "не може да се смени директория на %s (%s)\n"
+
+#, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "не може да се възстанови работната директория (%s)\n"
+
+#, c-format
+msgid "problem occurred while upgrading %s\n"
+msgstr "възникнал проблем при подновяване %s\n"
+
+#, c-format
+msgid "problem occurred while installing %s\n"
+msgstr "възникнал проблем при инсталиране %s\n"
+
+#, c-format
+msgid "could not update database entry %s-%s\n"
+msgstr "не може да се поднови запис в базата %s-%s\n"
+
+#, c-format
+msgid "could not add entry '%s' in cache\n"
+msgstr "не може да се добави запис '%s' в кеша\n"
+
+#, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "грешка при четене на файл %s: %s\n"
+
+#, c-format
+msgid "removing invalid database: %s\n"
+msgstr "премахване на невалидна база: %s\n"
+
+#, c-format
+msgid "invalid name for database entry '%s'\n"
+msgstr "невалидно име за запис в базата '%s'\n"
+
+#, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "дублиран запис в базата '%s'\n"
+
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "повреден запис в базата '%s'\n"
+
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "не се отваря файл %s: %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s несъответствие в базата: името не съответства на пакета %s\n"
+
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s несъответствие в базата: версията не съответства на пакета %s\n"
+
+#, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr "непознат валидиращ тип на пакета %s: %s\n"
+
+#, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "не се създава директория %s: %s\n"
+
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "не може да се анализира описателния файл в %s\n"
+
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "липсващо име на пакет в %s\n"
+
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "липсваща версия на пакет в %s\n"
+
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "грешка при четене на пакет %s: %s\n"
+
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "липсват метаданни за пакета %s\n"
+
+#, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "не се чете подписващият файл: %s\n"
+
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr "нужния ключ липсва от keyring\n"
+
+#, c-format
+msgid "removing invalid file: %s\n"
+msgstr "премахване невалиден файл: %s\n"
+
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "не се премахва заключен файл %s\n"
+
+#, c-format
+msgid "could not parse package description file '%s' from db '%s'\n"
+msgstr "не може да се анализира описателния файл '%s' от db '%s'\n"
+
+#, c-format
+msgid "%s database is inconsistent: filename of package %s is illegal\n"
+msgstr "%s базата е непълна: името на пакета %s е  недопустимо\n"
+
+#, c-format
+msgid "%s database is inconsistent: filename of package %s is too long\n"
+msgstr "%s базата е непълна: името на пакета %s е твърде дълго\n"
+
+#, c-format
+msgid "database path is undefined\n"
+msgstr "пътя към базата е неопределен\n"
+
+#, c-format
+msgid "dependency cycle detected:\n"
+msgstr "открит цикъл на зависимост:\n"
+
+#, c-format
+msgid "%s will be removed after its %s dependency\n"
+msgstr "%s ще бъде премахната след зависимостта %s\n"
+
+#, c-format
+msgid "%s will be installed before its %s dependency\n"
+msgstr "%s ще бъде инсталиран преди зависимостта %s\n"
+
+#, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "пренебрегване на пакет %s-%s\n"
+
+#, c-format
+msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
+msgstr "не може да се разреши \"%s\", зависи от \"%s\"\n"
+
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr "не се получава системната информация за %s: %s\n"
+
+#, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "не се отворя файл: %s: %s\n"
+
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "не се получава системна информация\n\n"
+
+#, c-format
+msgid "could not determine mount point for file %s\n"
+msgstr "не може да се определи точката за монтиране на %s\n"
+
+#, c-format
+msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Дялът %s е пълен: %jd необходими блока, %jd свободни блока\n"
+
+#, c-format
+msgid "could not determine filesystem mount points\n"
+msgstr "не може да се опреди filesystem mount points\n"
+
+#, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "не може да се определи cachedir mount point %s\n"
+
+#, c-format
+msgid "could not determine root mount point %s\n"
+msgstr "не може да се определи root mount point %s\n"
+
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr "Дялът %s е монтиран само за четене\n"
+
+#, c-format
+msgid "disk"
+msgstr "диск"
+
+#, c-format
+msgid "failed to create temporary file for download\n"
+msgstr "не може да се създаде временен файл за сваляне\n"
+
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' е невалиден\n"
+
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "неуспех при извличане на файл '%s' от %s : %s\n"
+
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr "%s appears to be truncated: %jd/%jd bytes\n"
+
+#, c-format
+msgid "failed to download %s\n"
+msgstr "неуспех при сваляне на %s\n"
+
+#, c-format
+msgid "out of memory!"
+msgstr "липса на памет!"
+
+#, c-format
+msgid "unexpected system error"
+msgstr "неочаквана системна грешка"
+
+#, c-format
+msgid "permission denied"
+msgstr "достъп отказан"
+
+#, c-format
+msgid "could not find or read file"
+msgstr "не се открива или чете файл"
+
+#, c-format
+msgid "could not find or read directory"
+msgstr "не се открива или чете директория"
+
+#, c-format
+msgid "wrong or NULL argument passed"
+msgstr "подаден грешен или NULL аргумент"
+
+#, c-format
+msgid "not enough free disk space"
+msgstr "няма достатъчно място на диска"
+
+#, c-format
+msgid "library not initialized"
+msgstr "library not initialized"
+
+#, c-format
+msgid "library already initialized"
+msgstr "library already initialized"
+
+#, c-format
+msgid "unable to lock database"
+msgstr "не може да се заключи базата"
+
+#, c-format
+msgid "could not open database"
+msgstr "не може да се отвори базата"
+
+#, c-format
+msgid "could not create database"
+msgstr "не може да се създаде база"
+
+#, c-format
+msgid "database not initialized"
+msgstr "базата не е инициализирана"
+
+#, c-format
+msgid "database already registered"
+msgstr "базата вече е регистрирана"
+
+#, c-format
+msgid "could not find database"
+msgstr "не може да се открие базата"
+
+#, c-format
+msgid "invalid or corrupted database"
+msgstr "невалидна или поведена база"
+
+#, c-format
+msgid "invalid or corrupted database (PGP signature)"
+msgstr "невалидна или повредена база (PGP signature)"
+
+#, c-format
+msgid "database is incorrect version"
+msgstr "некоректна версия на базата"
+
+#, c-format
+msgid "could not update database"
+msgstr "не може да се обнови базата"
+
+#, c-format
+msgid "could not remove database entry"
+msgstr "не може да се премахне запис в базата"
+
+#, c-format
+msgid "invalid url for server"
+msgstr "невалиден url  за сървър"
+
+#, c-format
+msgid "no servers configured for repository"
+msgstr "няма конфигуриран сърър за източник"
+
+#, c-format
+msgid "transaction already initialized"
+msgstr "транзакцията вече е инициализирана"
+
+#, c-format
+msgid "transaction not initialized"
+msgstr " транзакцията не е инициализирана"
+
+#, c-format
+msgid "duplicate target"
+msgstr "дублирана цел"
+
+#, c-format
+msgid "transaction not prepared"
+msgstr "транзакцията не е подготвена"
+
+#, c-format
+msgid "transaction aborted"
+msgstr "транзакцията е преустановена"
+
+#, c-format
+msgid "operation not compatible with the transaction type"
+msgstr "операцията е несъвместима с типа транзакция"
+
+#, c-format
+msgid "transaction commit attempt when database is not locked"
+msgstr "транзакцията иска достъп до незаключена база"
+
+#, c-format
+msgid "could not find or read package"
+msgstr "няма или не се чете пакет"
+
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr "отменена операция според ignorepkg"
+
+#, c-format
+msgid "invalid or corrupted package"
+msgstr "невалиден или повреден пакет"
+
+#, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "невалиден или повреден пакет (checksum)"
+
+#, c-format
+msgid "invalid or corrupted package (PGP signature)"
+msgstr "невалиден или повреден пакет (PGP signature)"
+
+#, c-format
+msgid "cannot open package file"
+msgstr "не се отваря пакетен файл"
+
+#, c-format
+msgid "cannot remove all files for package"
+msgstr "не се премахват всички файлове на пакета"
+
+#, c-format
+msgid "package filename is not valid"
+msgstr "името на пакета не е валидно"
+
+#, c-format
+msgid "package architecture is not valid"
+msgstr "архитектурата на пакета не е валидна"
+
+#, c-format
+msgid "could not find repository for target"
+msgstr "не може да се открие източник за целта"
+
+#, c-format
+msgid "missing PGP signature"
+msgstr "липса на PGP подпис"
+
+#, c-format
+msgid "invalid PGP signature"
+msgstr "невалиден PGP подпис"
+
+#, c-format
+msgid "invalid or corrupted delta"
+msgstr "невалидна или повредена delta"
+
+#, c-format
+msgid "delta patch failed"
+msgstr "delta patch failed"
+
+#, c-format
+msgid "could not satisfy dependencies"
+msgstr "зависимостите не са решени"
+
+#, c-format
+msgid "conflicting dependencies"
+msgstr "зависимости в конфликт"
+
+#, c-format
+msgid "conflicting files"
+msgstr "файлове в конфликт"
+
+#, c-format
+msgid "failed to retrieve some files"
+msgstr "не могат да се извлекат файлове"
+
+#, c-format
+msgid "invalid regular expression"
+msgstr "невалиден регулярен израз"
+
+#, c-format
+msgid "libarchive error"
+msgstr "libarchive error"
+
+#, c-format
+msgid "download library error"
+msgstr "download library error"
+
+#, c-format
+msgid "gpgme error"
+msgstr "gpgme error"
+
+#, c-format
+msgid "error invoking external downloader"
+msgstr "error invoking external downloader"
+
+#, c-format
+msgid "unexpected error"
+msgstr "неочаквана грешка"
+
+#, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "не пълно извеждане на метаданни за пакет %s-%s\n"
+
+#, c-format
+msgid "could not find %s in database -- skipping\n"
+msgstr "няма %s в базата -- пропускане\n"
+
+#, c-format
+msgid "removing %s from target list\n"
+msgstr "премахване %s от списъка с целите\n"
+
+#, c-format
+msgid "cannot remove file '%s': %s\n"
+msgstr "не се премахва файла '%s': %s\n"
+
+#, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "не се отваря папка: %s: %s\n"
+
+#, c-format
+msgid "cannot remove %s (%s)\n"
+msgstr "не се премахва %s (%s)\n"
+
+#, c-format
+msgid "could not remove database entry %s-%s\n"
+msgstr "не може да се премахне запис в базата %s-%s\n"
+
+#, c-format
+msgid "could not remove entry '%s' from cache\n"
+msgstr "не може да се премахне '%s' от кеша\n"
+
+#, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: игнориране надграждането на пакет (%s => %s)\n"
+
+#, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s: игнориране на пакетен downgrade (%s => %s)\n"
+
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr "%s: снижаване на версията от %s към версия %s\n"
+
+#, c-format
+msgid "%s: local (%s) is newer than %s (%s)\n"
+msgstr "%s: текущият (%s) е по-нов от %s (%s)\n"
+
+#, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
+msgstr "игнориране замяната на пакет (%s-%s => %s-%s)\n"
+
+#, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "не може да се замести %s от %s\n"
+
+#, c-format
+msgid "unresolvable package conflicts detected\n"
+msgstr "засечени нерешени пакетни конфликти\n"
+
+#, c-format
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "премахване '%s' от целевия списък заради конфликт с '%s'\n"
+
+#, c-format
+msgid "failed to retrieve some files\n"
+msgstr "неуспех при извличане на файлове\n"
+
+#, c-format
+msgid "not enough free disk space\n"
+msgstr "няма свободно място на диска\n"
+
+#, c-format
+msgid "could not commit removal transaction\n"
+msgstr "не се потвърждава транзакцията по премахване\n"
+
+#, c-format
+msgid "could not commit transaction\n"
+msgstr "не се потвърждава транзакцията\n"
+
+#, c-format
+msgid "could not create temp directory\n"
+msgstr "не се създава temp папка\n"
+
+#, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "не се копира tempfile в %s (%s)\n"
+
+#, c-format
+msgid "could not remove %s\n"
+msgstr "не се премахва %s\n"
+
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "не се премахва tmpdir %s\n"
+
+#, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "не се коригира %s: %s\n"
+
+#, c-format
+msgid "could not create pipe (%s)\n"
+msgstr "не се създава pipe (%s)\n"
+
+#, c-format
+msgid "could not fork a new process (%s)\n"
+msgstr "could not fork a new process (%s)\n"
+
+#, c-format
+msgid "could not change the root directory (%s)\n"
+msgstr "не може да се промени root папката (%s)\n"
+
+#, c-format
+msgid "call to execv failed (%s)\n"
+msgstr "неуспех при извикване execv (%s)\n"
+
+#, c-format
+msgid "call to waitpid failed (%s)\n"
+msgstr "неуспех при извикване на waitpid (%s)\n"
+
+#, c-format
+msgid "could not open pipe (%s)\n"
+msgstr "не може да се отвори pipe (%s)\n"
+
+#, c-format
+msgid "command failed to execute correctly\n"
+msgstr "неуспешно правилно изпълнение на команда\n"
+
+#, c-format
+msgid "no %s cache exists, creating...\n"
+msgstr "не %s съществуваш кеш, създаване...\n"
+
+#, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
+msgstr "не се открива или създава пакетен кеш, използва се %s\n"
