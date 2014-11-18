@@ -12,610 +12,818 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
 "PO-Revision-Date: 2013-11-20 10:04+0000\n"
 "Last-Translator: Chris Darnell <chris@cedeel.com>\n"
-"Language-Team: Danish (http://www.transifex.com/projects/p/archlinux-pacman/language/da/)\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/da/)\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s er opdateret - springer over\n"
 
+#: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s er opdateret - springer over\n"
 
+#: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "nedgraderer pakke %s (%s => %s)\n"
 
+#: lib/libalpm/add.c:122 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "advarsel givet under udpakning %s (%s)\n"
 
+#: lib/libalpm/add.c:125 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "kunne ikke udpakke %s (%s)\n"
 
+#: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kunne ikke omdøbe %s til %s (%s)\n"
 
+#: lib/libalpm/add.c:184
+#, c-format
+msgid "file not found in file list for package %s. skipping extraction of %s\n"
+msgstr ""
+
+#: lib/libalpm/add.c:230
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "mapperettigheder er forskellige for %s\nfilsystem: %o  pakke: %o\n"
+msgstr ""
+"mapperettigheder er forskellige for %s\n"
+"filsystem: %o  pakke: %o\n"
 
+#: lib/libalpm/add.c:240
+#, fuzzy, c-format
+msgid ""
+"directory ownership differs on %s\n"
+"filesystem: %u:%u  package: %u:%u\n"
+msgstr ""
+"mapperettigheder er forskellige for %s\n"
+"filsystem: %o  pakke: %o\n"
+
+#: lib/libalpm/add.c:255
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "udtræk: overskriver ikke mappe med fil %s\n"
 
-#, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "udtræk: symlink %s peger ikke på mappe\n"
-
-#, c-format
-msgid "%s saved as %s\n"
-msgstr "%s gemt som %s\n"
-
-#, c-format
-msgid "%s installed as %s\n"
-msgstr "%s installeret som %s\n"
-
-#, c-format
-msgid "extracting %s as %s.pacnew\n"
-msgstr "udpakker %s som %s.pacnew\n"
-
+#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "kunne ikke hente nuværende arbejdsmappe\n"
 
+#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kunne ikke ændre mappe til %s (%s)\n"
 
+#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "kunne ikke genskabe arbejdsmappe (%s)\n"
 
+#: lib/libalpm/add.c:647
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "der opstod et problem under opgradering %s\n"
 
+#: lib/libalpm/add.c:653
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "der opstod et problem under installation af %s\n"
 
+#: lib/libalpm/add.c:669
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "kunne ikke opdatere databasepunkt %s-%s\n"
 
+#: lib/libalpm/add.c:680
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "kunne ikke tilføje punkt »%s« i cache\n"
 
+#: lib/libalpm/be_local.c:249
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "der opstod en fejl under læsning af fil %s: %s\n"
 
+#: lib/libalpm/be_local.c:343
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "fjerner ugyldig database: %s\n"
 
-#, c-format
-msgid "invalid name for database entry '%s'\n"
-msgstr "ugyldigt navn for databasepunkt '%s'\n"
-
-#, c-format
-msgid "duplicated database entry '%s'\n"
-msgstr "duplikeret databasepunkt '%s'\n"
-
-#, c-format
-msgid "corrupted database entry '%s'\n"
-msgstr "beskadiget databasepunkt '%s'\n"
-
-#, c-format
-msgid "could not open file %s: %s\n"
-msgstr "kunne ikke åbne fil %s: %s\n"
-
-#, c-format
-msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "%s-database er inkonsistent: forskellige navne på pakke %s\n"
-
-#, c-format
-msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "%s-database er inkonsistent: forskellige versioner på pakke %s\n"
-
-#, c-format
-msgid "unknown validation type for package %s: %s\n"
-msgstr "ukendt valideringstype for pakke %s: %s\n"
-
+#: lib/libalpm/be_local.c:389 lib/libalpm/be_local.c:849
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "kunne ikke oprette mappe %s: %s\n"
 
+#: lib/libalpm/be_local.c:559 lib/libalpm/be_sync.c:358
 #, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "kunne ikke fortolke pakkebeskrivelsesfil i %s\n"
+msgid "invalid name for database entry '%s'\n"
+msgstr "ugyldigt navn for databasepunkt '%s'\n"
 
+#: lib/libalpm/be_local.c:567
 #, c-format
-msgid "missing package name in %s\n"
-msgstr "manglende pakkenavn i %s\n"
+msgid "duplicated database entry '%s'\n"
+msgstr "duplikeret databasepunkt '%s'\n"
 
+#: lib/libalpm/be_local.c:579
 #, c-format
-msgid "missing package version in %s\n"
-msgstr "manglende pakkeversion i %s\n"
+msgid "corrupted database entry '%s'\n"
+msgstr "beskadiget databasepunkt '%s'\n"
 
+#: lib/libalpm/be_local.c:679 lib/libalpm/be_local.c:769
+#: lib/libalpm/be_local.c:898 lib/libalpm/be_local.c:991
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
+#: lib/libalpm/util.c:266
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "kunne ikke åbne fil %s: %s\n"
+
+#: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s-database er inkonsistent: forskellige navne på pakke %s\n"
+
+#: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s-database er inkonsistent: forskellige versioner på pakke %s\n"
+
+#: lib/libalpm/be_local.c:740
+#, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr "ukendt valideringstype for pakke %s: %s\n"
+
+#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:625
+#: lib/libalpm/be_package.c:638
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "der opstod en fejl under læsning af pakke %s: %s\n"
 
+#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
+#, fuzzy, c-format
+msgid "error while reading mtree of package %s: %s\n"
+msgstr "der opstod en fejl under læsning af pakke %s: %s\n"
+
+#: lib/libalpm/be_package.c:588
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "kunne ikke fortolke pakkebeskrivelsesfil i %s\n"
+
+#: lib/libalpm/be_package.c:593
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "manglende pakkenavn i %s\n"
+
+#: lib/libalpm/be_package.c:597
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "manglende pakkeversion i %s\n"
+
+#: lib/libalpm/be_package.c:601
+#, fuzzy, c-format
+msgid "invalid package version in %s\n"
+msgstr "manglende pakkeversion i %s\n"
+
+#: lib/libalpm/be_package.c:645
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "manglende pakkemetadata i %s\n"
 
+#: lib/libalpm/be_package.c:734
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "kunne ikke læse underskriftfil: %s\n"
 
+#: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "krævede nøgle mangler fra nøglering\n"
 
+#: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "fjerner ugyldig fil: %s\n"
 
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "kunne ikke fjerne låsningsfil %s\n"
-
+#: lib/libalpm/be_sync.c:476
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "kunne ikke fortolke pakkebeskrivelsesfil '%s' fra db '%s'\n"
 
+#: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "%s-database er inkonsistent: filnavnet på pakken %s er ugyldigt\n"
 
+#: lib/libalpm/be_sync.c:519
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s-database er inkonsistent: filnavnet på pakken %s er for langt\n"
 
+#: lib/libalpm/be_sync.c:585
+#, fuzzy, c-format
+msgid "unknown database file: %s\n"
+msgstr "kunne ikke køre (stat) fil %s: %s\n"
+
+#: lib/libalpm/db.c:369
 #, c-format
 msgid "database path is undefined\n"
 msgstr "databasesti er udefineret\n"
 
+#: lib/libalpm/deps.c:218
 #, c-format
 msgid "dependency cycle detected:\n"
 msgstr "afhængighedscyklus detekteret:\n"
 
+#: lib/libalpm/deps.c:221
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s vil blive fjernet efter dennes %s-afhængighed\n"
 
+#: lib/libalpm/deps.c:225
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s vil blive installeret før dennes %s-afhængighed\n"
 
+#: lib/libalpm/deps.c:657 lib/libalpm/deps.c:689
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "ignorerer pakke %s-%s\n"
 
+#: lib/libalpm/deps.c:844
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "kan ikke læse '%s', en afhængighed af '%s'\n"
 
+#: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "kunne ikke hente filsysteminformation for %s: %s\n"
 
+#: lib/libalpm/diskspace.c:108
 #, c-format
 msgid "could not open file: %s: %s\n"
 msgstr "kunne ikke åbne fil: %s: %s\n"
 
+#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
 msgstr "kunne ikke hente filsysteminformation\n"
 
+#: lib/libalpm/diskspace.c:249 lib/libalpm/diskspace.c:308
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "kunne ikke bestemme monteringspunkt for fil %s\n"
 
+#: lib/libalpm/diskspace.c:347
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "Partition %s for fuld: %jd blokke nødvendig(e), %jd blokke fri(e)\n"
 
+#: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "kunne ikke bestemme monteringspunkter for filsystem\n"
 
+#: lib/libalpm/diskspace.c:378
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "kunne ikke bestemme monteringspunkt for cachedir %s\n"
 
+#: lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "kunne ikke bestemme rodmonteringspunkt %s\n"
 
+#: lib/libalpm/diskspace.c:479
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partition %s er monteret som læs-kun\n"
 
+#: lib/libalpm/dload.c:149
 #, c-format
 msgid "disk"
 msgstr "disk"
 
+#: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "kunne ikke oprette midlertidig fil til hentning\n"
 
+#: lib/libalpm/dload.c:418
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "adressen '%s' er ugyldig\n"
 
+#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "fejlede i indhentning af fil '%s' fra %s: %s\n"
 
+#: lib/libalpm/dload.c:500
+#, fuzzy, c-format
+msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
+msgstr "fejlede i indhentning af fil '%s' fra %s: %s\n"
+
+#: lib/libalpm/dload.c:548
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s ser ud til at være afkortet: %jd/%jd byte\n"
 
+#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
 msgstr "kunne ikke hente %s\n"
 
+#: lib/libalpm/error.c:40
 #, c-format
 msgid "out of memory!"
 msgstr "ikke nok hukommelse!"
 
+#: lib/libalpm/error.c:42
 #, c-format
 msgid "unexpected system error"
 msgstr "uventet systemfejl"
 
+#: lib/libalpm/error.c:44
 #, c-format
 msgid "permission denied"
 msgstr "tilladelse nægtet"
 
+#: lib/libalpm/error.c:46
 #, c-format
 msgid "could not find or read file"
 msgstr "kunne ikke finde eller læse fil"
 
+#: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
 msgstr "kunne ikke finde eller læse mappe"
 
+#: lib/libalpm/error.c:50
 #, c-format
 msgid "wrong or NULL argument passed"
 msgstr "forkert eller NULL-argument vidersendt"
 
+#: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
 msgstr "ikke nok fri diskplads"
 
+#: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
 msgstr "bibliotek er ikke initialiseret"
 
+#: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
 msgstr "bibliotek er allerede initialiseret"
 
+#: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
 msgstr "kunne ikke låse database"
 
+#: lib/libalpm/error.c:62
 #, c-format
 msgid "could not open database"
 msgstr "kunne ikke åbne database"
 
+#: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
 msgstr "kunne ikke oprette database"
 
+#: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
 msgstr "database er ikke initialiseret"
 
+#: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
 msgstr "database er allerede registreret"
 
+#: lib/libalpm/error.c:70
 #, c-format
 msgid "could not find database"
 msgstr "kunne ikke finde database"
 
+#: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
 msgstr "ugyldig eller beskadiget database"
 
+#: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
 msgstr "ugyldig eller beskadiget database (PGP-signatur)"
 
+#: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
 msgstr "version af database er ukorrekt"
 
+#: lib/libalpm/error.c:78
 #, c-format
 msgid "could not update database"
 msgstr "kunne ikke opdatere database"
 
+#: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
 msgstr "kunne ikke fjerne databasepunkt"
 
+#: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
 msgstr "ugyldig adresse for server"
 
+#: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
 msgstr "ingen servere konfigureret for arkiv"
 
+#: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
 msgstr "transaktion allerede initialiseret"
 
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
 msgstr "transaktion er ikke initialiseret"
 
+#: lib/libalpm/error.c:92
 #, c-format
 msgid "duplicate target"
 msgstr "dupliker mål"
 
+#: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
 msgstr "transaktion er ikke forberedt"
 
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
 msgstr "transaktion afbrudt"
 
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "handling er ikke kompatibel med transaktionstype"
 
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "forsøg på transaktionsindsendelse (commit) når database ikke er låst"
 
+#: lib/libalpm/error.c:105
 #, c-format
 msgid "could not find or read package"
 msgstr "kunne ikke finde eller læse pakke"
 
+#: lib/libalpm/error.c:107
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "handling afbrudt på grund af igonrepkg"
 
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "ugyldig eller beskadiget pakke"
 
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "ugyldig eller beskadiget database (kontrolsum)"
 
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "ugyldig eller beskadiget pakke (PGP-signatur)"
 
+#: lib/libalpm/error.c:115
+#, fuzzy, c-format
+msgid "package missing required signature"
+msgstr "manglende PGP-signatur"
+
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "cannot open package file"
 msgstr "kan ikke åbne pakkefil"
 
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "kan ikke fjerne alle filer for pakke"
 
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "package filename is not valid"
 msgstr "pakkefilnavn er ugyldigt"
 
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "package architecture is not valid"
 msgstr "pakkearkitektur er ikke gyldig"
 
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "could not find repository for target"
 msgstr "kunne ikke finde arkiv for mål"
 
+#: lib/libalpm/error.c:128
 #, c-format
 msgid "missing PGP signature"
 msgstr "manglende PGP-signatur"
 
+#: lib/libalpm/error.c:130
 #, c-format
 msgid "invalid PGP signature"
 msgstr "ugyldig PGP-signatur"
 
+#: lib/libalpm/error.c:133
 #, c-format
 msgid "invalid or corrupted delta"
 msgstr "ugyldig eller ødelagt delta"
 
+#: lib/libalpm/error.c:135
 #, c-format
 msgid "delta patch failed"
 msgstr "deltarettelse (patch) fejlede"
 
+#: lib/libalpm/error.c:138
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "kunne ikke tilfredsstille afhængigheder"
 
+#: lib/libalpm/error.c:140
 #, c-format
 msgid "conflicting dependencies"
 msgstr "konfliktende afhængigheder"
 
+#: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting files"
 msgstr "konfliktende filer"
 
+#: lib/libalpm/error.c:145
 #, c-format
 msgid "failed to retrieve some files"
 msgstr "kunne ikke indhente nogle filer"
 
+#: lib/libalpm/error.c:147
 #, c-format
 msgid "invalid regular expression"
 msgstr "ugyldigt regulært udtryk"
 
+#: lib/libalpm/error.c:153
 #, c-format
 msgid "libarchive error"
 msgstr "biblioteksarkivfejl"
 
+#: lib/libalpm/error.c:155
 #, c-format
 msgid "download library error"
 msgstr "hent biblioteksfejl"
 
+#: lib/libalpm/error.c:157
 #, c-format
 msgid "gpgme error"
 msgstr "gpgme fejl"
 
+#: lib/libalpm/error.c:159
 #, c-format
 msgid "error invoking external downloader"
 msgstr "fejl under opstart af ekstern hentningsprogram"
 
+#: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
 msgstr "uventet fejl"
 
+#: lib/libalpm/handle.c:139
+#, c-format
+msgid "lock file missing %s\n"
+msgstr ""
+
+#: lib/libalpm/handle.c:145
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "kunne ikke fjerne låsningsfil %s\n"
+
+#: lib/libalpm/package.c:559
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "kunne ikke fuldt indlæse metadata for pakke %s-%s\n"
 
+#: lib/libalpm/remove.c:118
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "kunne ikke finde %s i database - springer over\n"
 
+#: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
 msgstr "fjerner %s fra målliste\n"
 
+#: lib/libalpm/remove.c:348
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "kan ikke fjerne fil »%s«:%s\n"
 
+#: lib/libalpm/remove.c:388
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "kunne ikke åbne mappe: %s: %s\n"
 
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "kan ikke fjerne %s (%s)\n"
 
+#: lib/libalpm/remove.c:727
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "kunne ikke fjerne databasepunkt %s-%s\n"
 
+#: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "kunne ikke fjerne punkt '%s' fra cache\n"
 
+#: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ignorerer pakkeopgradering (%s => %s)\n"
 
+#: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: ignorerer pakkenedgradering (%s => %s)\n"
 
+#: lib/libalpm/sync.c:113
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: nedgraderer fra version %s til version %s\n"
 
+#: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokal (%s) er nyere end %s (%s)\n"
 
+#: lib/libalpm/sync.c:160
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "ignorerer pakkeerstatning (%s-%s => %s-%s)\n"
 
+#: lib/libalpm/sync.c:176
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "kan ikke erstatte %s med %s\n"
 
+#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "pakkekonflikter, der ikke kan løses, er detekteret\n"
 
+#: lib/libalpm/sync.c:556
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "fjerner »%s« fra målliste da det konflikter med »%s«\n"
 
+#: lib/libalpm/sync.c:1014
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "kunne ikke indhente nogle filer\n"
 
+#: lib/libalpm/sync.c:1176
+#, fuzzy, c-format
+msgid "%s: missing required signature\n"
+msgstr "manglende PGP-signatur"
+
+#: lib/libalpm/sync.c:1357
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "ikke nok ledig diskplads\n"
 
+#: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kunne ikke indsende (commit) fjernelsestransaktion\n"
 
+#: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kunne ikke indsende (commit) transaktion\n"
 
+#: lib/libalpm/trans.c:339
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "kunne ikke oprette midlertidig mappe\n"
 
+#: lib/libalpm/trans.c:354
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "kunne ikke kopier midlertidig fil til %s (%s)\n"
 
+#: lib/libalpm/trans.c:385
 #, c-format
 msgid "could not remove %s\n"
 msgstr "kunne ikke slette %s\n"
 
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kunne ikke fjerne tmpdir %s\n"
 
+#: lib/libalpm/util.c:256
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr "kunne ikke køre (stat) fil %s: %s\n"
 
+#: lib/libalpm/util.c:524
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "kunne ikke oprette pipe (%s)\n"
 
+#: lib/libalpm/util.c:532
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "kunne ikke forgren en ny proces (%s)\n"
 
+#: lib/libalpm/util.c:549
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "kunne ikke ændre rodmappen (%s)\n"
 
+#: lib/libalpm/util.c:560
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "kald til execv fejlede (%s)\n"
 
+#: lib/libalpm/util.c:590
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "kald til waitpid fejlede (%s)\n"
 
+#: lib/libalpm/util.c:598
 #, c-format
 msgid "could not open pipe (%s)\n"
 msgstr "kunne ikke åbne pipe (%s)\n"
 
+#: lib/libalpm/util.c:605
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "kommando kunne ikke udføres korrekt\n"
 
+#: lib/libalpm/util.c:612
+#, c-format
+msgid "Unknown signal"
+msgstr ""
+
+#: lib/libalpm/util.c:614
+#, c-format
+msgid "command terminated by signal %d: %s\n"
+msgstr ""
+
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "ingen %s-cache findes, opretter...\n"
 
+#: lib/libalpm/util.c:742
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kunne ikke finde eller oprette pakke-cache, bruger i stedet %s\n"
+
+#~ msgid "extract: symlink %s does not point to dir\n"
+#~ msgstr "udtræk: symlink %s peger ikke på mappe\n"
+
+#~ msgid "%s saved as %s\n"
+#~ msgstr "%s gemt som %s\n"
+
+#~ msgid "%s installed as %s\n"
+#~ msgstr "%s installeret som %s\n"
+
+#~ msgid "extracting %s as %s.pacnew\n"
+#~ msgstr "udpakker %s som %s.pacnew\n"

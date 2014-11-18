@@ -17,1266 +17,1721 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
 "PO-Revision-Date: 2014-07-12 23:37+0000\n"
 "Last-Translator: Lasse Liehu <larso@gmx.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/language/fi/)\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/fi/)\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/pacman/callback.c:171
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "tarkastetaan riippuvuuksia...\n"
 
+#: src/pacman/callback.c:175
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "Tietokantakansio siivottu\n"
 
+#: src/pacman/callback.c:179
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "selvitetään riippuvuuksia...\n"
 
-#, c-format
-msgid "looking for inter-conflicts...\n"
+#: src/pacman/callback.c:182
+#, fuzzy, c-format
+msgid "looking for conflicting packages...\n"
 msgstr "tarkastetaan ristiriitojen syntymistä...\n"
 
+#: src/pacman/callback.c:189
 #, c-format
 msgid "installing %s...\n"
 msgstr "asennetaan pakettia %s...\n"
 
-#, c-format
-msgid "removing %s...\n"
-msgstr "poistetaan pakettia %s...\n"
-
+#: src/pacman/callback.c:192
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "päivitetään pakettia %s...\n"
 
-#, c-format
-msgid "downgrading %s...\n"
-msgstr "varhennetaan pakettia %s...\n"
-
+#: src/pacman/callback.c:195
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "asennetaan pakettia %s uudelleen...\n"
 
+#: src/pacman/callback.c:198
+#, c-format
+msgid "downgrading %s...\n"
+msgstr "varhennetaan pakettia %s...\n"
+
+#: src/pacman/callback.c:201
+#, c-format
+msgid "removing %s...\n"
+msgstr "poistetaan pakettia %s...\n"
+
+#: src/pacman/callback.c:225
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "tarkastetaan pakettien virheettömyyttä...\n"
 
+#: src/pacman/callback.c:230
 #, c-format
 msgid "checking keyring...\n"
 msgstr "tarkistetaan avainrengasta...\n"
 
+#: src/pacman/callback.c:234
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "ladataan vaadittuja avaimia...\n"
 
+#: src/pacman/callback.c:238
 #, c-format
 msgid "loading package files...\n"
 msgstr "ladataan paketteja...\n"
 
+#: src/pacman/callback.c:242
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "tarkastetaan deltojen virheettömyyttä...\n"
 
+#: src/pacman/callback.c:245
 #, c-format
 msgid "applying deltas...\n"
 msgstr "asennetaan deltoja...\n"
 
+#: src/pacman/callback.c:248
 #, c-format
 msgid "generating %s with %s... "
 msgstr "luodaan %s käyttämällä %s:aa/ää"
 
+#: src/pacman/callback.c:253
 #, c-format
 msgid "success!\n"
 msgstr "onnistui!\n"
 
+#: src/pacman/callback.c:256
 #, c-format
 msgid "failed.\n"
 msgstr "epäonnistui.\n"
 
+#: src/pacman/callback.c:262
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "Noudetaan paketteja...\n"
 
+#: src/pacman/callback.c:266
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "tarkastetaan saatavilla olevaa levytilaa...\n"
 
+#: src/pacman/callback.c:272
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s vaatii valinnaisesti paketin %s\n"
 
+#: src/pacman/callback.c:289 src/pacman/callback.c:295
+#, c-format
+msgid "%s installed as %s.pacnew\n"
+msgstr ""
+
+#: src/pacman/callback.c:305 src/pacman/callback.c:311
+#, c-format
+msgid "%s saved as %s.pacsave\n"
+msgstr ""
+
+#: src/pacman/callback.c:321 src/pacman/callback.c:327
+#, c-format
+msgid "%s saved as %s.pacorig\n"
+msgstr ""
+
+#: src/pacman/callback.c:372
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr "Paketti %s on IgnorePkg/IgnoreGroup -listalla. Asenna siitä huolimatta?"
+msgstr ""
+"Paketti %s on IgnorePkg/IgnoreGroup -listalla. Asenna siitä huolimatta?"
 
+#: src/pacman/callback.c:382
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Korvaa paketti %s paketilla %s/%s?"
 
+#: src/pacman/callback.c:394
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
-msgstr "Paketit %s ja %s ovat ristiriidassa keskenään. Poistetaanko paketti %s?"
+msgstr ""
+"Paketit %s ja %s ovat ristiriidassa keskenään. Poistetaanko paketti %s?"
 
+#: src/pacman/callback.c:399
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
-msgstr "Paketit %s ja %s ovat ristiriidassa keskenään (%s). Poistetaanko paketti %s?"
+msgstr ""
+"Paketit %s ja %s ovat ristiriidassa keskenään (%s). Poistetaanko paketti %s?"
 
+#: src/pacman/callback.c:418
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Seuraavaa pakettia ei voida päivittää selvittämättömien riippuvuuksien vuoksi:\n"
-msgstr[1] "Seuraavia paketteja ei voida päivittää selvittämättömien riippuvuuksien vuoksi:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Seuraavaa pakettia ei voida päivittää selvittämättömien riippuvuuksien "
+"vuoksi:\n"
+msgstr[1] ""
+"Seuraavia paketteja ei voida päivittää selvittämättömien riippuvuuksien "
+"vuoksi:\n"
 
+#: src/pacman/callback.c:424
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Haluatko ohittaa yllä olevan paketin päivittämisen?"
 msgstr[1] "Haluatko ohittaa yllä olevien pakettien päivittämisen?"
 
+#: src/pacman/callback.c:435
 #, c-format
 msgid "There are %zd providers available for %s:\n"
 msgstr "%zd pakettia tarjoaa paketin %s:\n"
 
-#, c-format
-msgid "%s-%s: local version is newer. Upgrade anyway?"
-msgstr "Paikallinen paketti %s-%s on uudempi. Asenna siitä huolimatta?"
-
+#: src/pacman/callback.c:445
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Tiedosto %s on vahingoittunut (%s).\nHaluatko poistaa sen?"
+msgstr ""
+"Tiedosto %s on vahingoittunut (%s).\n"
+"Haluatko poistaa sen?"
 
+#: src/pacman/callback.c:459
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
 msgstr "Tuodaanko PGP-avain %d%c/%s, \"%s\", luotu: %s (kumottu)?"
 
+#: src/pacman/callback.c:462
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
 msgstr "Tuodaanko PGP-avain %d%c/%s, \"%s\", luotu: %s?"
 
+#: src/pacman/callback.c:522
 #, c-format
 msgid "installing"
 msgstr "asennetaan"
 
+#: src/pacman/callback.c:525
 #, c-format
 msgid "upgrading"
 msgstr "päivitetään"
 
+#: src/pacman/callback.c:528
 #, c-format
 msgid "downgrading"
 msgstr "varhennetaan"
 
+#: src/pacman/callback.c:531
 #, c-format
 msgid "reinstalling"
 msgstr "asennetaan uudelleen"
 
+#: src/pacman/callback.c:534
 #, c-format
 msgid "removing"
 msgstr "poistetaan"
 
+#: src/pacman/callback.c:537
 #, c-format
 msgid "checking for file conflicts"
 msgstr "tarkastetaan tiedostoristiriitojen syntymistä"
 
+#: src/pacman/callback.c:540
 #, c-format
 msgid "checking available disk space"
 msgstr "tarkastetaan saatavilla olevaa levytilaa"
 
+#: src/pacman/callback.c:543
 #, c-format
 msgid "checking package integrity"
 msgstr "tarkastetaan pakettien virheettömyyttä"
 
+#: src/pacman/callback.c:546
 #, c-format
 msgid "checking keys in keyring"
 msgstr "tarkistetaan avainrenkaan avaimia"
 
+#: src/pacman/callback.c:549
 #, c-format
 msgid "loading package files"
 msgstr "ladataan paketteja"
 
+#: src/pacman/callback.c:664
 #, c-format
 msgid "downloading %s...\n"
 msgstr "ladataan pakettia %s...\n"
 
+#: src/pacman/check.c:63 src/pacman/check.c:232
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
 msgstr "%s: %s (Tiedostotyyppi ei täsmää)\n"
 
+#: src/pacman/check.c:82
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
 msgstr "%s: %s (UID ei täsmää)\n"
 
+#: src/pacman/check.c:91
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
 msgstr "%s: %s (GID ei täsmää)\n"
 
+#: src/pacman/check.c:101
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (Käyttöoikeudet ei täsmää)\n"
 
+#: src/pacman/check.c:115 src/pacman/check.c:162
+#, fuzzy, c-format
+msgid "backup file"
+msgstr "Varmuuskopiot           :\n"
+
+#: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
 msgstr "%s: %s (Muokkausaika ei täsmää)\n"
 
+#: src/pacman/check.c:140
 #, c-format
 msgid "unable to read symlink contents: %s\n"
 msgstr "symbolisen linkin sisältöä ei voitu lukea: %s\n"
 
+#: src/pacman/check.c:147
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
 msgstr "%s: %s (Symbolisen linkin polku ei täsmää)\n"
 
+#: src/pacman/check.c:164 src/pacman/check.c:170
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
 msgstr "%s: %s (Koko ei täsmää)\n"
 
+#: src/pacman/check.c:207 src/pacman/check.c:222 src/pacman/check.c:267
+#: src/pacman/check.c:316
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "polku on liian pitkä: %s%s\n"
 
+#: src/pacman/check.c:242 src/pacman/check.c:380
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: yhteensä %jd tiedosto, "
 msgstr[1] "%s: yhteensä %jd tiedostoa, "
 
+#: src/pacman/check.c:244
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
 msgstr[0] "%jd puuttuva tiedosto\n"
 msgstr[1] "%jd puuttuvaa tiedostoa\n"
 
+#: src/pacman/check.c:277
 #, c-format
 msgid "%s: no mtree file\n"
 msgstr "%s: ei mtree-tiedostoa\n"
 
+#: src/pacman/check.c:333
 #, c-format
 msgid "file type not recognized: %s%s\n"
 msgstr "tiedostotyyppiä ei tunnistettu: %s%s\n"
 
+#: src/pacman/check.c:382
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
 msgstr[0] "%jd muutettu tiedosto\n"
 msgstr[1] "%jd muutettua tiedostoa\n"
 
+#: src/pacman/conf.c:97
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "malloc-virhe: %zd tavua ei voitu varata\n"
 
+#: src/pacman/conf.c:234
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nykyisen kansion sijaintia ei kyetty määrittämään\n"
 
+#: src/pacman/conf.c:239
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "latauskansioon '%s' ei voitu siirtyä\n"
 
+#: src/pacman/conf.c:248
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand: haarauttaminen epäonnistui!\n"
 
+#: src/pacman/conf.c:260
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "tiedoston %s nimeksi ei voitu muuttaa %s (%s)\n"
 
+#: src/pacman/conf.c:271
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "ei voitu palauttaa työhakemistoa (%s)\n"
 
+#: src/pacman/conf.c:388 src/pacman/conf.c:444 src/pacman/conf.c:536
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "asetustiedosto %s, rivi %d: virheellinen '%s'-arvo : '%s'\n"
 
+#: src/pacman/conf.c:399
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "asetustiedosto %s, rivi %d: virheellinen valinta '%s', ei allekirjoitustukea\n"
+msgstr ""
+"asetustiedosto %s, rivi %d: virheellinen valinta '%s', ei "
+"allekirjoitustukea\n"
 
+#: src/pacman/conf.c:501 src/pacman/conf.c:601 src/pacman/conf.c:855
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "asetustiedosto %s rivi %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
+msgstr ""
+"asetustiedosto %s rivi %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
 
+#: src/pacman/conf.c:624
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "peilipalvelimen '%s' asetuksissa on '%s'-muuttuja, mutta arvoa '%s' ei ole määritetty.\n"
+msgstr ""
+"peilipalvelimen '%s' asetuksissa on '%s'-muuttuja, mutta arvoa '%s' ei ole "
+"määritetty.\n"
 
+#: src/pacman/conf.c:633
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "palvelimen osoitetta ei voitu lisätä tietokantaan '%s': %s(%s)\n"
 
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
+#: src/pacman/conf.c:680
+#, fuzzy, c-format
+msgid ""
+"failed to initialize alpm library\n"
+"(%s: %s)\n"
 msgstr "alpm-kirjaston alustaminen epäonnistui (%s)\n"
 
+#: src/pacman/conf.c:683
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
 msgstr "  yritä pacman-db-upgrade scriptin suorittamista\n"
 
+#: src/pacman/conf.c:698
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "ongelma asetettaessa lokitiedostoa \"%s\" (%s)\n"
 
+#: src/pacman/conf.c:708
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "ongelma asetettaessa gpg-kansiota \"%s\" (%s)\n"
 
-#, c-format
-msgid "no '%s' configured"
+#: src/pacman/conf.c:730
+#, fuzzy, c-format
+msgid "no '%s' configured\n"
 msgstr "'%s' ei ole asetettu"
 
+#: src/pacman/conf.c:757
 #, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "tietokannan '%s' rekisteroiminen epäonnistui (%s)\n"
+msgid "Failed to pass assume installed entry to libalpm"
+msgstr ""
 
-#, c-format
-msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "ei voitu lisätä peilipalvelinta \"%s\" tietokantaan \"%s\" (%s)\n"
+#: src/pacman/conf.c:803
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
+msgstr ""
+"asetustiedosto %s rivi %d: direktiiviä '%s' osiossa '%s' ei tunnistettu.\n"
 
-#, c-format
-msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "asetusten jäsentäminen ylitti rekursion enimmäissyvyyden (%d).\n"
-
-#, c-format
-msgid "config file %s could not be read: %s\n"
-msgstr "asetustiedostoa %s ei voitu lukea: %s\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "asetustiedosto %s, sisältää viallisen osionimen rivillä: %d.\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "asetustiedosto %s, rivi %d: syntaksivirhe, avain puuttuu.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "asetustiedosto %s, rivi %d: Kaikkien asetusvalintojen tulee kuulua johonkin osioon.\n"
-
+#: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "asetustiedosto %s rivi %d: direktiivi '%s' tarvitsee arvon\n"
 
+#: src/pacman/conf.c:887
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "tietokannan '%s' rekisteroiminen epäonnistui (%s)\n"
+
+#: src/pacman/conf.c:903
+#, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "ei voitu lisätä peilipalvelinta \"%s\" tietokantaan \"%s\" (%s)\n"
+
+#: src/pacman/conf.c:937
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"asetustiedosto %s, rivi %d: Kaikkien asetusvalintojen tulee kuulua johonkin "
+"osioon.\n"
+
+#: src/pacman/database.c:46 src/pacman/query.c:423 src/pacman/remove.c:91
+#: src/pacman/sync.c:957 src/pacman/upgrade.c:47
 #, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "yhtään kohdetta ei ole määritelty (-h tulostaa ohjeen)\n"
 
+#: src/pacman/database.c:55
 #, c-format
 msgid "no install reason specified (use -h for help)\n"
 msgstr "asennussyytä ei ole määritelty (-h näyttää ohjeen)\n"
 
+#: src/pacman/database.c:69
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
 msgstr "paketin %s asennusyytä ei voitu asettaa (%s)\n"
 
+#: src/pacman/database.c:74
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
 msgstr "%s: asennussyyksi on merkitty 'asennettu riippuvuutena'\n"
 
+#: src/pacman/database.c:76
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: asennussyyksi on merkitty 'itsenäisesti asennettu'\n"
 
+#: src/pacman/package.c:65 src/pacman/util.c:1210
 #, c-format
 msgid " [installed]"
 msgstr " [asennettu]"
 
+#: src/pacman/package.c:72
 #, c-format
 msgid "Optional Deps  :"
 msgstr "Valinnaiset riippuvuudet:"
 
+#: src/pacman/package.c:108
 #, c-format
 msgid "Explicitly installed"
 msgstr "Asennettu itsenäisesti"
 
+#: src/pacman/package.c:111
 #, c-format
 msgid "Installed as a dependency for another package"
 msgstr "Asennettu toisen paketin riippuvuutena"
 
+#: src/pacman/package.c:114 src/pacman/package.c:134
 #, c-format
 msgid "Unknown"
 msgstr "Vanha versio"
 
+#: src/pacman/package.c:121 src/pacman/package.c:205 src/pacman/package.c:219
+#: src/pacman/util.c:494 src/pacman/util.c:681 src/pacman/util.c:721
+#: src/pacman/util.c:749
 #, c-format
 msgid "None"
 msgstr "Ei ole"
 
+#: src/pacman/package.c:124
 #, c-format
 msgid "MD5 Sum"
 msgstr "MD5-summa"
 
+#: src/pacman/package.c:127
 #, c-format
 msgid "SHA256 Sum"
 msgstr "SHA256-summa"
 
+#: src/pacman/package.c:130
 #, c-format
 msgid "Signature"
 msgstr "Allekirjoitus"
 
+#: src/pacman/package.c:147
 #, c-format
 msgid "Repository     :"
 msgstr "Pakettivarasto          :"
 
+#: src/pacman/package.c:150
 #, c-format
 msgid "Name           :"
 msgstr "Nimi                    :"
 
+#: src/pacman/package.c:151
 #, c-format
 msgid "Version        :"
 msgstr "Versio                  :"
 
+#: src/pacman/package.c:152
 #, c-format
 msgid "Description    :"
 msgstr "Kuvaus                  :"
 
+#: src/pacman/package.c:153
 #, c-format
 msgid "Architecture   :"
 msgstr "Arkkitehtuuri           :"
 
+#: src/pacman/package.c:154
 #, c-format
 msgid "URL            :"
 msgstr "Kotisivu                :"
 
+#: src/pacman/package.c:155
 #, c-format
 msgid "Licenses       :"
 msgstr "Lisenssit               :"
 
+#: src/pacman/package.c:156
 #, c-format
 msgid "Groups         :"
 msgstr "Ryhmät                  :"
 
+#: src/pacman/package.c:157
 #, c-format
 msgid "Provides       :"
 msgstr "Tarjoaa                 :"
 
+#: src/pacman/package.c:158
 #, c-format
 msgid "Depends On     :"
 msgstr "Riippuu paketeista      :"
 
+#: src/pacman/package.c:162
 #, c-format
 msgid "Required By    :"
 msgstr "Riippuvuutena paketeille:"
 
+#: src/pacman/package.c:163
 #, c-format
 msgid "Optional For   :"
 msgstr "Valinnainen paketeille  :"
 
+#: src/pacman/package.c:165
 #, c-format
 msgid "Conflicts With :"
 msgstr "Ristiriidassa paketeille:"
 
+#: src/pacman/package.c:166
 #, c-format
 msgid "Replaces       :"
 msgstr "Korvaa paketit          :"
 
+#: src/pacman/package.c:170
 #, c-format
 msgid "Download Size  :"
 msgstr "Latauksen koko          :"
 
+#: src/pacman/package.c:173
 #, c-format
 msgid "Compressed Size:"
 msgstr "Pakattu koko            :"
 
+#: src/pacman/package.c:181
 #, c-format
 msgid "Installed Size :"
 msgstr "Koko asennettuna        :"
 
+#: src/pacman/package.c:184
 #, c-format
 msgid "Packager       :"
 msgstr "Pakkaaja                :"
 
+#: src/pacman/package.c:185
 #, c-format
 msgid "Build Date     :"
 msgstr "Luomispäivä             :"
 
+#: src/pacman/package.c:187
 #, c-format
 msgid "Install Date   :"
 msgstr "Asennuspäivä            :"
 
+#: src/pacman/package.c:188
 #, c-format
 msgid "Install Reason :"
 msgstr "Asennuksen syy          :"
 
+#: src/pacman/package.c:191
 #, c-format
 msgid "Install Script :"
 msgstr "Asennusskripti          :"
 
+#: src/pacman/package.c:192
 #, c-format
 msgid "Yes"
 msgstr "Kyllä"
 
+#: src/pacman/package.c:192
 #, c-format
 msgid "No"
 msgstr "Ei"
 
+#: src/pacman/package.c:208
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "MD5-summa               :"
 
-#, c-format
-msgid "SHA256 Sum     :"
+#: src/pacman/package.c:209
+#, fuzzy, c-format
+msgid "SHA-256 Sum    :"
 msgstr "SHA256-summa            :"
 
+#: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
+#: src/pacman/package.c:224
 #, c-format
 msgid "Signatures     :"
 msgstr "Allekirjoitukset        :"
 
+#: src/pacman/package.c:212
 #, c-format
 msgid "Validated By   :"
 msgstr "Validoitu tavoilla      :"
 
+#: src/pacman/package.c:256
 #, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "paketin %s tarkistussummaa ei voitu laskea\n"
 
+#: src/pacman/package.c:288
 #, c-format
 msgid "Backup Files:\n"
 msgstr "Varmuuskopiot           :\n"
 
+#: src/pacman/package.c:303
 #, c-format
 msgid "(none)\n"
 msgstr "(Ei ole)\n"
 
+#: src/pacman/package.c:340
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "paketille '%s' ei ole muutoslokia.\n"
 
+#: src/pacman/package.c:344
 #, c-format
 msgid "Changelog for %s:\n"
 msgstr "Paketin %s muutosloki:\n"
 
+#: src/pacman/package.c:369 src/pacman/package.c:371
 #, c-format
 msgid "installed"
 msgstr "asennettu"
 
+#: src/pacman/pacman.c:100
 #, c-format
 msgid "options"
 msgstr "valinnat"
 
+#: src/pacman/pacman.c:101
 #, c-format
 msgid "file(s)"
 msgstr "tiedosto(t)"
 
+#: src/pacman/pacman.c:102
 #, c-format
 msgid "package(s)"
 msgstr "paketti(tit)"
 
+#: src/pacman/pacman.c:103
 #, c-format
 msgid "usage"
 msgstr "Käyttö"
 
+#: src/pacman/pacman.c:104
 #, c-format
 msgid "operation"
 msgstr "operaatio"
 
+#: src/pacman/pacman.c:109
 #, c-format
 msgid "operations:\n"
 msgstr "operaatiot:\n"
 
+#: src/pacman/pacman.c:118
 #, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nsuorita '%s {-h --help}' operaation kanssa käytettävissä olevien valitsimien listaamiseksi.\n"
+msgstr ""
+"\n"
+"suorita '%s {-h --help}' operaation kanssa käytettävissä olevien valitsimien "
+"listaamiseksi.\n"
 
+#: src/pacman/pacman.c:124
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade          poista paketit ja kaikki niiden riippuvuudet\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade          poista paketit ja kaikki niiden riippuvuudet\n"
 
+#: src/pacman/pacman.c:125
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
 msgstr "  -n, --nosave           poista myös asetustiedostot\n"
 
+#: src/pacman/pacman.c:126
 #, c-format
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive        poista tarpeettomat riippuvuuden\n                         (-ss poista myös itsenäisesti asennetut riippuvuudet)\n"
+msgstr ""
+"  -s, --recursive        poista tarpeettomat riippuvuuden\n"
+"                         (-ss poista myös itsenäisesti asennetut "
+"riippuvuudet)\n"
 
+#: src/pacman/pacman.c:128
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded         poista tarpeettomat paketit\n"
 
+#: src/pacman/pacman.c:131 src/pacman/pacman.c:166
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed           älä asenna ajan tasalla olevia pakatteja uudelleen\n"
+msgstr ""
+"      --needed           älä asenna ajan tasalla olevia pakatteja uudelleen\n"
 
+#: src/pacman/pacman.c:136
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog        näytä paketin muutosloki\n"
 
+#: src/pacman/pacman.c:137
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps             listaa riippuvuuksina asennetut paketit [suodatin]\n"
+msgstr ""
+"  -d, --deps             listaa riippuvuuksina asennetut paketit [suodatin]\n"
 
+#: src/pacman/pacman.c:138
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit         listaa itsenäisesti asennetut paketit [suodatin]\n"
+msgstr ""
+"  -e, --explicit         listaa itsenäisesti asennetut paketit [suodatin]\n"
 
+#: src/pacman/pacman.c:139
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups           listaa ryhmän paketit\n"
 
+#: src/pacman/pacman.c:140
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info             näytä paketin tiedot (-ii listaa varmuuskopiot)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info             näytä paketin tiedot (-ii listaa varmuuskopiot)\n"
 
+#: src/pacman/pacman.c:141
 #, c-format
 msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
-msgstr "  -k, --check            varmistaa, että kaikki paketin tiedostot ovat levyllä (-kk tarkistaa myös tiedostojen ominaisuudet)\n"
+msgstr ""
+"  -k, --check            varmistaa, että kaikki paketin tiedostot ovat "
+"levyllä (-kk tarkistaa myös tiedostojen ominaisuudet)\n"
 
-#, c-format
-msgid "  -l, --list           list the contents of the queried package\n"
+#: src/pacman/pacman.c:142
+#, fuzzy, c-format
+msgid "  -l, --list           list the files owned by the queried package\n"
 msgstr "  -l, --list             listaa paketin tiedostot\n"
 
+#: src/pacman/pacman.c:143
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign          listaa paketit, jotka eivät ole millään pakettilistalla [suodatin]\n"
+msgstr ""
+"  -m, --foreign          listaa paketit, jotka eivät ole millään "
+"pakettilistalla [suodatin]\n"
 
+#: src/pacman/pacman.c:144
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
-msgstr "  -n, --native         listaa vain ne paketit, jotka ovat pakettilistalla [suodatin]\n"
+msgstr ""
+"  -n, --native         listaa vain ne paketit, jotka ovat pakettilistalla "
+"[suodatin]\n"
 
+#: src/pacman/pacman.c:145
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "  -o, --owns <tiedosto>  etsi pakettia, joka omistaa kyseisen tiedoston\n"
+msgstr ""
+"  -o, --owns <tiedosto>  etsi pakettia, joka omistaa kyseisen tiedoston\n"
 
+#: src/pacman/pacman.c:146
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <paketti>   etsi paketista pakettitietokannan sijaan\n"
 
+#: src/pacman/pacman.c:147 src/pacman/pacman.c:160
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr "  -q, --quiet            näytä vähemmän tietoja\n"
 
+#: src/pacman/pacman.c:148
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr "  -s, --search <regex>   etsi merkkijonoa asennetuista paketeista\n"
 
-#, c-format
+#: src/pacman/pacman.c:149
+#, fuzzy, c-format
 msgid ""
-"  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired       listaa paketit, jotka eivät ole riippuvuuksia [suodatin]\n"
+"  -t, --unrequired     list packages not (optionally) required by any\n"
+"                       package (-tt to ignore optdepends) [filter]\n"
+msgstr ""
+"  -t, --unrequired       listaa paketit, jotka eivät ole riippuvuuksia "
+"[suodatin]\n"
 
+#: src/pacman/pacman.c:151
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
-msgstr "  -u, --upgrades         listaa paketit, joille on saatavilla päivityksiä [suodatin]\n"
+msgstr ""
+"  -u, --upgrades         listaa paketit, joille on saatavilla päivityksiä "
+"[suodatin]\n"
 
+#: src/pacman/pacman.c:155
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean            poista vanhat paketit varastosta (-cc poistaa kaikki)\n"
+msgstr ""
+"  -c, --clean            poista vanhat paketit varastosta (-cc poistaa "
+"kaikki)\n"
 
-#, c-format
-msgid "  -i, --info           view package information\n"
-msgstr "  -i, --info             näytä paketin tiedot\n"
+#: src/pacman/pacman.c:156
+#, fuzzy, c-format
+msgid ""
+"  -g, --groups         view all members of a package group\n"
+"                       (-gg to view all groups and members)\n"
+msgstr "  -g, --groups           listaa ryhmän paketit\n"
 
+#: src/pacman/pacman.c:158
+#, fuzzy, c-format
+msgid ""
+"  -i, --info           view package information (-ii for extended "
+"information)\n"
+msgstr ""
+"  -i, --info             näytä paketin tiedot (-ii listaa varmuuskopiot)\n"
+
+#: src/pacman/pacman.c:159
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <varasto>   listaa varaston sisältämät paketit\n"
 
-#, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex>   etsi merkkijonoa pakettivarastoista\n"
-
+#: src/pacman/pacman.c:161
 #, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade       päivitä asennetut paketit (-uu sallii pakettien varhentamisen)\n"
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr "  -s, --search <regex>   etsi merkkijonoa pakettivarastoista\n"
 
+#: src/pacman/pacman.c:162
+#, fuzzy, c-format
+msgid ""
+"  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
+msgstr ""
+"  -u, --sysupgrade       päivitä asennetut paketit (-uu sallii pakettien "
+"varhentamisen)\n"
+
+#: src/pacman/pacman.c:163
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly     lataa paketit, mutta älä asenna/päivitä mitään\n"
+msgstr ""
+"  -w, --downloadonly     lataa paketit, mutta älä asenna/päivitä mitään\n"
 
-#, c-format
+#: src/pacman/pacman.c:164
+#, fuzzy, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
+"                       (-yy to force a refresh even if up to date)\n"
 msgstr "  -y, --refresh          lataa uusimmat pakettilistat palvelimelta\n"
 
+#: src/pacman/pacman.c:170
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps           merkitse paketit riippuvuuksina asennetuiksi\n"
+msgstr ""
+"      --asdeps           merkitse paketit riippuvuuksina asennetuiksi\n"
 
+#: src/pacman/pacman.c:171
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit       merkitse paketit itsenäisesti asennetuiksi\n"
 
+#: src/pacman/pacman.c:179
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr "      --force          pakota asennus korvaamalla ristiriidassa olevat tiedostot\n"
+msgstr ""
+"      --force          pakota asennus korvaamalla ristiriidassa olevat "
+"tiedostot\n"
 
+#: src/pacman/pacman.c:180
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "      --asdeps           asenna paketit riippuvuuksina\n"
 
+#: src/pacman/pacman.c:181
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
 msgstr "      --asexplicit       asenna paketit itsenäisinä\n"
 
+#: src/pacman/pacman.c:182
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <paketti> ohita paketin päivitys (voidaan käyttää useamman kerran)\n"
+msgstr ""
+"      --ignore <paketti> ohita paketin päivitys (voidaan käyttää useamman "
+"kerran)\n"
 
+#: src/pacman/pacman.c:183
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <ryhmä>\n                         ohita ryhmän päivitys (voidaan käyttää useamman kerran)\n"
+msgstr ""
+"      --ignoregroup <ryhmä>\n"
+"                         ohita ryhmän päivitys (voidaan käyttää useamman "
+"kerran)\n"
 
+#: src/pacman/pacman.c:187
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps           ohita versio riippuvuudet (-dd ohittaa kaikki riippuvuudet)\n"
+msgstr ""
+"  -d, --nodeps           ohita versio riippuvuudet (-dd ohittaa kaikki "
+"riippuvuudet)\n"
 
+#: src/pacman/pacman.c:188
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly           tee muutokset vain tietokantamerkintöihin, ei paketteihin\n"
+msgid ""
+"      --assume-installed <package=version>\n"
+"                       add a virtual package to satisfy dependencies\n"
+msgstr ""
 
+#: src/pacman/pacman.c:190
+#, c-format
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly           tee muutokset vain tietokantamerkintöihin, ei "
+"paketteihin\n"
+
+#: src/pacman/pacman.c:191
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
-msgstr "      --noprogressbar    älä näytä edistymispalkkia tiedostoja ladattaessa\n"
+msgstr ""
+"      --noprogressbar    älä näytä edistymispalkkia tiedostoja ladattaessa\n"
 
+#: src/pacman/pacman.c:192
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriplet       älä suorita asennusskriptiä, jos sellainen on olemassa\n"
+msgstr ""
+"      --noscriplet       älä suorita asennusskriptiä, jos sellainen on "
+"olemassa\n"
 
+#: src/pacman/pacman.c:193
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print            tulosta kohteet toiminnon suorittamisen sijasta\n"
+msgstr ""
+"  -p, --print            tulosta kohteet toiminnon suorittamisen sijasta\n"
 
+#: src/pacman/pacman.c:194
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <rimpsu>\n                         missä muodossa paketit tulisi listata\n"
+msgstr ""
+"      --print-format <rimpsu>\n"
+"                         missä muodossa paketit tulisi listata\n"
 
+#: src/pacman/pacman.c:199
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <polku>   määritä vaihtoehtoinen sijainti tietokannalle\n"
+msgstr ""
+"  -b, --dbpath <polku>   määritä vaihtoehtoinen sijainti tietokannalle\n"
 
+#: src/pacman/pacman.c:200
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr "  -r, --root <polku>     määritä vaihtoehtoinen juuri asennukselle\n"
 
+#: src/pacman/pacman.c:201
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose          näytä yksityiskohtaisempia tietoja\n"
 
+#: src/pacman/pacman.c:202
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>      määritä vaihtoehtoinen arkkitehtuuri\n"
 
+#: src/pacman/pacman.c:203
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <kansio> määritä vaihtoehtoinen sijainti välimuistille\n"
+msgstr ""
+"      --cachedir <kansio> määritä vaihtoehtoinen sijainti välimuistille\n"
 
+#: src/pacman/pacman.c:204
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "      --color <milloin>   väritä tuloste\n"
 
+#: src/pacman/pacman.c:205
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <polku>   määritä vaihtoehtoinen asetustiedosto\n"
 
+#: src/pacman/pacman.c:206
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug            näytä ohjelmavirheiden viestit\n"
 
+#: src/pacman/pacman.c:207
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "      --gpgdir <polku>   määritä vaihtoehtoinen kotikansio GnuPG:lle\n"
 
+#: src/pacman/pacman.c:208
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <polku>  määritä vaihtoehtoinen lokitiedosto\n"
 
+#: src/pacman/pacman.c:209
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm        älä pyydä vahvistusta\n"
 
+#: src/pacman/pacman.c:210
+#, fuzzy, c-format
+msgid "      --confirm        always ask for confirmation\n"
+msgstr "      --noconfirm        älä pyydä vahvistusta\n"
+
+#: src/pacman/pacman.c:229
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                     Tätä ohjelmaa saa jakaa vapaasti GNU\n                     General Public Licensen ehtojen mukaisesti.\n"
+msgstr ""
+"                     Tätä ohjelmaa saa jakaa vapaasti GNU\n"
+"                     General Public Licensen ehtojen mukaisesti.\n"
 
+#: src/pacman/pacman.c:336
+#, c-format
+msgid "invalid option: '%s' and '%s' may not be used together\n"
+msgstr ""
+
+#: src/pacman/pacman.c:418
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "virheellinen parametri '%s' valitsimelle %s\n"
 
+#: src/pacman/pacman.c:441
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' ei ole kelvollinen debuggaustaso\n"
 
+#: src/pacman/pacman.c:902
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "vain yksi operaatio voidaan suorittaa kerralla\n"
 
-#, c-format
-msgid "invalid option\n"
+#: src/pacman/pacman.c:957
+#, fuzzy, c-format
+msgid "invalid option '-%c'\n"
 msgstr "virheellinen valitsin\n"
 
+#: src/pacman/pacman.c:959
+#, fuzzy, c-format
+msgid "invalid option '--%s'\n"
+msgstr "virheellinen valitsin\n"
+
+#: src/pacman/pacman.c:1124
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "muisti kulutettiin loppuun parametrien jäsennyksessä\n"
 
+#: src/pacman/pacman.c:1133
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "stdin:in uudelleen avaaminen epäonnistui: (%s)\n"
 
+#: src/pacman/pacman.c:1138
+#, fuzzy, c-format
+msgid "argument '-' specified with empty stdin\n"
+msgstr "parametri '-' annettiin ilman syötettä stdinissä\n"
+
+#: src/pacman/pacman.c:1143
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "parametri '-' annettiin ilman syötettä stdinissä\n"
 
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "tämän operaation suorittamiseen vaaditaan ylläpitäjän oikeudet.\n"
 
+#: src/pacman/pacman.c:1218
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "mitään operaatiota ei annettu (-h tulostaa ohjeen)\n"
 
+#: src/pacman/query.c:86
 #, c-format
 msgid "%s is owned by %s %s\n"
 msgstr "tiedosto '%s' on paketin %s %s omistuksessa\n"
 
+#: src/pacman/query.c:147
 #, c-format
 msgid "no file was specified for --owns\n"
 msgstr "valitsimelle --owns ei annettu tiedostoa\n"
 
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "kohteen '%s' todellisen sijainnin selvittäminen epäonnistui: %s\n"
-
+#: src/pacman/query.c:176
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "Ohjelmaa '%s' ei löydy PATH-sijainneista: %s\n"
 
+#: src/pacman/query.c:181
 #, c-format
 msgid "failed to read file '%s': %s\n"
 msgstr "tiedoston '%s' luku epäonnistui: %s\n"
 
+#: src/pacman/query.c:188
+#, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "kohteen '%s' todellisen sijainnin selvittäminen epäonnistui: %s\n"
+
+#: src/pacman/query.c:195 src/pacman/query.c:216
 #, c-format
 msgid "No package owns %s\n"
 msgstr "Tiedosto %s ei ole minkään paketin omistuksessa\n"
 
+#: src/pacman/query.c:204
+#, fuzzy, c-format
+msgid "path too long: %s/\n"
+msgstr "polku on liian pitkä: %s%s\n"
+
+#: src/pacman/query.c:329
+#, c-format
+msgid "[ignored]"
+msgstr ""
+
+#: src/pacman/query.c:380
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "ryhmää '%s' ei löytynyt\n"
 
+#: src/pacman/query.c:471 src/pacman/sync.c:474
 #, c-format
 msgid "package '%s' was not found\n"
 msgstr "pakettia '%s' ei löydy\n"
 
+#: src/pacman/query.c:474
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
 msgstr "'%s' on tiedosto. Haluat ehkä käyttää komentoa %s.\n"
 
+#: src/pacman/query.c:480
 #, c-format
 msgid "could not load package '%s': %s\n"
 msgstr "pakettia '%s' ei voitu ladata: %s\n"
 
-#, c-format
-msgid "target not found: %s\n"
-msgstr "kohdetta %s ei löydy\n"
-
-#, c-format
-msgid "failed to prepare transaction (%s)\n"
-msgstr "latauksen valmistelu epäonnistui (%s)\n"
-
-#, c-format
-msgid "%s: requires %s\n"
-msgstr "%s: riippuu paketeista %s\n"
-
-#, c-format
-msgid "%s is designated as a HoldPkg.\n"
-msgstr "paketti %s on HoldPkg-listalla.\n"
-
-#, c-format
-msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr "HoldPkg löytyi kohdelistasta. Haluatko jatkaa?"
-
-#, c-format
-msgid " there is nothing to do\n"
-msgstr " ei mitään tehtävää\n"
-
-#, c-format
-msgid "Do you want to remove these packages?"
-msgstr "Haluatko poistaa nämä paketit?"
-
-#, c-format
-msgid "failed to commit transaction (%s)\n"
-msgstr "latauksen suorittaminen epäonnistui (%s)\n"
-
-#, c-format
-msgid "could not remove %s: %s\n"
-msgstr "ei voida poistaa kohdetta %s: %s\n"
-
-#, c-format
-msgid "could not access database directory\n"
-msgstr "tietokantakansion avaaminen epäonnistui\n"
-
-#, c-format
-msgid "Database directory: %s\n"
-msgstr "Tietokantakansio: %s\n"
-
-#, c-format
-msgid "Do you want to remove unused repositories?"
-msgstr "Haluatko poistaa käyttämättömät pakettivarastot?"
-
-#, c-format
-msgid "removing unused sync repositories...\n"
-msgstr "poistetaan käyttämättömiä tietokantoja...\n"
-
-#, c-format
-msgid "Packages to keep:\n"
-msgstr "Säilytettävät paketit:\n"
-
-#, c-format
-msgid "  All locally installed packages\n"
-msgstr "  Kaikki asennetut paketit\n"
-
-#, c-format
-msgid "  All current sync database packages\n"
-msgstr "  Kaikki pakettilistan paketit\n"
-
-#, c-format
-msgid "Cache directory: %s\n"
-msgstr "Välimuistikansio: %s\n"
-
-#, c-format
-msgid "Do you want to remove all other packages from cache?"
-msgstr "Haluatko poistaa kaikki muut paketit välimuistista?"
-
-#, c-format
-msgid "removing old packages from cache...\n"
-msgstr "poistetaan vanhoja paketteja välimuistista...\n"
-
-#, c-format
-msgid "Do you want to remove ALL files from cache?"
-msgstr "Haluatko poistaa KAIKKI tiedostot välimuistista?"
-
-#, c-format
-msgid "removing all files from cache...\n"
-msgstr "poistetaan kaikkia tiedostoja välimuistista...\n"
-
-#, c-format
-msgid "could not access cache directory %s\n"
-msgstr "välimuistikansion %s avaaminen epäonnistui\n"
-
-#, c-format
-msgid "failed to update %s (%s)\n"
-msgstr "Pakettivaraston %s päivittäminen epäonnistui (%s)\n"
-
-#, c-format
-msgid " %s is up to date\n"
-msgstr " %s on ajan tasalla\n"
-
-#, c-format
-msgid "failed to synchronize any databases\n"
-msgstr "minkään pakettitietokannan päivittäminen ei onistunut\n"
-
-#, c-format
-msgid "repository '%s' does not exist\n"
-msgstr "pakettivarastoa '%s' ei ole olemassa\n"
-
-#, c-format
-msgid "repository \"%s\" was not found.\n"
-msgstr "pakettivarastoa '%s' ei löydy.\n"
-
+#: src/pacman/remove.c:49 src/pacman/sync.c:571 src/pacman/sync.c:655
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "ohitetaan kohde: %s\n"
 
+#: src/pacman/remove.c:63 src/pacman/sync.c:591
 #, c-format
-msgid "There are %d members in group %s:\n"
-msgstr "%d jäsentä ryhmässä %s:\n"
+msgid "target not found: %s\n"
+msgstr "kohdetta %s ei löydy\n"
 
+#: src/pacman/remove.c:118 src/pacman/sync.c:763
+#, c-format
+msgid "failed to prepare transaction (%s)\n"
+msgstr "latauksen valmistelu epäonnistui (%s)\n"
+
+#: src/pacman/remove.c:125 src/pacman/sync.c:777
+#, c-format
+msgid "%s: requires %s\n"
+msgstr "%s: riippuu paketeista %s\n"
+
+#: src/pacman/remove.c:143
+#, c-format
+msgid "%s is designated as a HoldPkg.\n"
+msgstr "paketti %s on HoldPkg-listalla.\n"
+
+#: src/pacman/remove.c:148
+#, c-format
+msgid "HoldPkg was found in target list. Do you want to continue?"
+msgstr "HoldPkg löytyi kohdelistasta. Haluatko jatkaa?"
+
+#: src/pacman/remove.c:156 src/pacman/sync.c:809
+#, c-format
+msgid " there is nothing to do\n"
+msgstr " ei mitään tehtävää\n"
+
+#: src/pacman/remove.c:168
+#, c-format
+msgid "Do you want to remove these packages?"
+msgstr "Haluatko poistaa nämä paketit?"
+
+#: src/pacman/remove.c:174 src/pacman/sync.c:836
+#, c-format
+msgid "failed to commit transaction (%s)\n"
+msgstr "latauksen suorittaminen epäonnistui (%s)\n"
+
+#: src/pacman/sync.c:47 src/pacman/sync.c:100
+#, c-format
+msgid "could not remove %s: %s\n"
+msgstr "ei voida poistaa kohdetta %s: %s\n"
+
+#: src/pacman/sync.c:65
+#, c-format
+msgid "could not access database directory\n"
+msgstr "tietokantakansion avaaminen epäonnistui\n"
+
+#: src/pacman/sync.c:147
+#, c-format
+msgid "Database directory: %s\n"
+msgstr "Tietokantakansio: %s\n"
+
+#: src/pacman/sync.c:148
+#, c-format
+msgid "Do you want to remove unused repositories?"
+msgstr "Haluatko poistaa käyttämättömät pakettivarastot?"
+
+#: src/pacman/sync.c:151
+#, c-format
+msgid "removing unused sync repositories...\n"
+msgstr "poistetaan käyttämättömiä tietokantoja...\n"
+
+#: src/pacman/sync.c:181
+#, c-format
+msgid "Packages to keep:\n"
+msgstr "Säilytettävät paketit:\n"
+
+#: src/pacman/sync.c:183
+#, c-format
+msgid "  All locally installed packages\n"
+msgstr "  Kaikki asennetut paketit\n"
+
+#: src/pacman/sync.c:186
+#, c-format
+msgid "  All current sync database packages\n"
+msgstr "  Kaikki pakettilistan paketit\n"
+
+#: src/pacman/sync.c:196
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Välimuistikansio: %s\n"
+
+#: src/pacman/sync.c:199
+#, c-format
+msgid "Do you want to remove all other packages from cache?"
+msgstr "Haluatko poistaa kaikki muut paketit välimuistista?"
+
+#: src/pacman/sync.c:203
+#, c-format
+msgid "removing old packages from cache...\n"
+msgstr "poistetaan vanhoja paketteja välimuistista...\n"
+
+#: src/pacman/sync.c:205
+#, c-format
+msgid "Do you want to remove ALL files from cache?"
+msgstr "Haluatko poistaa KAIKKI tiedostot välimuistista?"
+
+#: src/pacman/sync.c:209
+#, c-format
+msgid "removing all files from cache...\n"
+msgstr "poistetaan kaikkia tiedostoja välimuistista...\n"
+
+#: src/pacman/sync.c:215
+#, c-format
+msgid "could not access cache directory %s\n"
+msgstr "välimuistikansion %s avaaminen epäonnistui\n"
+
+#: src/pacman/sync.c:332
+#, c-format
+msgid "failed to update %s (%s)\n"
+msgstr "Pakettivaraston %s päivittäminen epäonnistui (%s)\n"
+
+#: src/pacman/sync.c:335
+#, c-format
+msgid " %s is up to date\n"
+msgstr " %s on ajan tasalla\n"
+
+#: src/pacman/sync.c:347
+#, c-format
+msgid "failed to synchronize any databases\n"
+msgstr "minkään pakettitietokannan päivittäminen ei onistunut\n"
+
+#: src/pacman/sync.c:469
+#, c-format
+msgid "repository '%s' does not exist\n"
+msgstr "pakettivarastoa '%s' ei ole olemassa\n"
+
+#: src/pacman/sync.c:515
+#, c-format
+msgid "repository \"%s\" was not found.\n"
+msgstr "pakettivarastoa '%s' ei löydy.\n"
+
+#: src/pacman/sync.c:605
+#, fuzzy, c-format
+msgid "There is %d member in group %s:\n"
+msgid_plural "There are %d members in group %s:\n"
+msgstr[0] "%d jäsentä ryhmässä %s:\n"
+msgstr[1] "%d jäsentä ryhmässä %s:\n"
+
+#: src/pacman/sync.c:684
 #, c-format
 msgid "database not found: %s\n"
 msgstr "tietokantaa ei löydy: %s\n"
 
+#: src/pacman/sync.c:712
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr "'%s' on tiedosto. Tarkoititko komentoa %s komennon %s sijasta?\n"
 
+#: src/pacman/sync.c:742
 #, c-format
 msgid "Starting full system upgrade...\n"
 msgstr "Aloitetaan järjestelmäpäivitys...\n"
 
+#: src/pacman/sync.c:769
 #, c-format
 msgid "package %s does not have a valid architecture\n"
 msgstr "paketilla %s ei ole kelvollista arkkitehtuuria\n"
 
+#: src/pacman/sync.c:787
 #, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s ja %s ovat ristiriidassa keskenään\n"
 
+#: src/pacman/sync.c:791
 #, c-format
 msgid "%s and %s are in conflict (%s)\n"
 msgstr "%s ja %s ovat ristiriidassa keskenään (%s)\n"
 
+#: src/pacman/sync.c:825
 #, c-format
 msgid "Proceed with download?"
 msgstr "Jatka lataamiseen?"
 
+#: src/pacman/sync.c:827
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Jatketaanko asentamista?"
 
+#: src/pacman/sync.c:841
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
 msgstr ""
 
+#: src/pacman/sync.c:847
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "tiedosto %s löytyy sekä paketista '%s' että '%s'\n"
 
+#: src/pacman/sync.c:851
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: tiedosto %s on jo asennettuna tiedostojärjestelmään\n"
 
+#: src/pacman/sync.c:864
 #, c-format
 msgid "%s is invalid or corrupted\n"
 msgstr "paketti %s ei ole kelvollinen tai se on vahingoittunut\n"
 
+#: src/pacman/sync.c:872
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Yhtään pakettia ei päivitetty tapahtuneiden virheiden vuoksi.\n"
 
+#: src/pacman/sync.c:917
 #, c-format
 msgid "Synchronizing package databases...\n"
 msgstr "Päivitetään pakettitietokantoja...\n"
 
+#: src/pacman/upgrade.c:56
+#, fuzzy, c-format
+msgid "memory exhausted\n"
+msgstr "muisti kulutettiin loppuun parametrien jäsennyksessä\n"
+
+#: src/pacman/upgrade.c:87
 #, c-format
 msgid "loading packages...\n"
 msgstr "ladataan paketteja...\n"
 
+#: src/pacman/util.c:81
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "latauksen alustaminen epäonnistui (%s)\n"
 
+#: src/pacman/util.c:85
 #, c-format
 msgid "could not lock database: %s\n"
 msgstr "tietokantaa ei voitu lukita: %s\n"
 
+#: src/pacman/util.c:88
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  jos olet varma, että pakettienhallinta ei ole\n  käynnissä, niin voit poistaa tiedoston %s\n"
+msgstr ""
+"  jos olet varma, että pakettienhallinta ei ole\n"
+"  käynnissä, niin voit poistaa tiedoston %s\n"
 
+#: src/pacman/util.c:97
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "latauksen vapauttaminen epäonnistui (%s)\n"
 
+#: src/pacman/util.c:128
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "yhtään kunnollista pakettivarastoa ei ole määritelty.\n"
 
+#: src/pacman/util.c:137
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
 msgstr "tietokanta '%s' ei ole kelvollinen (%s)\n"
 
+#: src/pacman/util.c:645
 #, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "ei tarpeeksi leveyttä taulukon näyttämiseen\n"
 
+#: src/pacman/util.c:766
 #, c-format
 msgid "Valid"
 msgstr "Kelvollinen"
 
+#: src/pacman/util.c:769
 #, c-format
 msgid "Key expired"
 msgstr "Avain vanhentunut"
 
+#: src/pacman/util.c:772
 #, c-format
 msgid "Expired"
 msgstr "Vanhentunut"
 
+#: src/pacman/util.c:775
 #, c-format
 msgid "Invalid"
 msgstr "Virheellinen"
 
+#: src/pacman/util.c:778
 #, c-format
 msgid "Key unknown"
 msgstr "Avain tuntematon"
 
+#: src/pacman/util.c:781
 #, c-format
 msgid "Key disabled"
 msgstr "Avain poissa käytöstä"
 
+#: src/pacman/util.c:784
 #, c-format
 msgid "Signature error"
 msgstr "Allekirjoitusvirhe"
 
+#: src/pacman/util.c:789
 #, c-format
 msgid "full trust"
 msgstr "täysi luotto"
 
+#: src/pacman/util.c:792
 #, c-format
 msgid "marginal trust"
 msgstr "vähäinen luotto"
 
+#: src/pacman/util.c:795
 #, c-format
 msgid "never trust"
 msgstr "ei luottoa"
 
+#: src/pacman/util.c:799
 #, c-format
 msgid "unknown trust"
 msgstr "tuntematon luottotaso"
 
+#: src/pacman/util.c:803
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s käyttäjältä \"%s\""
 
-#, c-format
-msgid "Name"
-msgstr "Nimi"
+#: src/pacman/util.c:821
+#, fuzzy, c-format
+msgid "Package"
+msgstr "Paketit"
 
+#: src/pacman/util.c:824
 #, c-format
 msgid "Old Version"
 msgstr "Vanha version"
 
+#: src/pacman/util.c:825
 #, c-format
 msgid "New Version"
 msgstr "Uusi versio"
 
+#: src/pacman/util.c:826
 #, c-format
 msgid "Net Change"
 msgstr "Nettomuutos"
 
+#: src/pacman/util.c:827
 #, c-format
 msgid "Download Size"
 msgstr "Ladattava koko"
 
+#: src/pacman/util.c:924
 #, c-format
 msgid "removal"
 msgstr "poisto"
 
+#: src/pacman/util.c:930
 #, c-format
 msgid "Packages"
 msgstr "Paketit"
 
+#: src/pacman/util.c:951
 #, c-format
 msgid "Total Download Size:"
 msgstr "Latauksen yhteiskoko:"
 
+#: src/pacman/util.c:955
 #, c-format
 msgid "Total Installed Size:"
 msgstr "Asennettavan yhteiskoko:"
 
+#: src/pacman/util.c:958
 #, c-format
 msgid "Total Removed Size:"
 msgstr "Poistettavan yhteiskoko:"
 
+#: src/pacman/util.c:962
 #, c-format
 msgid "Net Upgrade Size:"
 msgstr "Päivityksen yhteiskoko:"
 
+#: src/pacman/util.c:1212
 #, c-format
 msgid " [pending]"
 msgstr " [odottaa]"
 
+#: src/pacman/util.c:1236
 #, c-format
 msgid "New optional dependencies for %s\n"
 msgstr "Paketilla %s on uusia valinnaisia riippuvuuksia\n"
 
+#: src/pacman/util.c:1258
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "Paketin %s valinnaiset riippuvuudet\n"
 
+#: src/pacman/util.c:1271
 #, c-format
 msgid "Repository %s\n"
 msgstr "Pakettivarasto %s\n"
 
+#: src/pacman/util.c:1311
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
 msgstr "virheellinen arvo: %d ei ole arvojen %d ja %d välillä\n"
 
+#: src/pacman/util.c:1318
 #, c-format
 msgid "invalid number: %s\n"
 msgstr "virheellinen luku: %s\n"
 
+#: src/pacman/util.c:1403
 #, c-format
 msgid "Enter a selection (default=all)"
 msgstr "Anna valinta (oletus=kaikki)"
 
+#: src/pacman/util.c:1467
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "Anna luku (oletus=%d)"
 
+#: src/pacman/util.c:1517
 #, c-format
 msgid "[Y/n]"
 msgstr "[K/e]"
 
+#: src/pacman/util.c:1519
 #, c-format
 msgid "[y/N]"
 msgstr "[k/E]"
 
+#: src/pacman/util.c:1544
 #, c-format
 msgid "Y"
 msgstr "K"
 
+#: src/pacman/util.c:1544
 #, c-format
 msgid "YES"
 msgstr "KYLLÄ"
 
+#: src/pacman/util.c:1546
 #, c-format
 msgid "N"
 msgstr "E"
 
+#: src/pacman/util.c:1546
 #, c-format
 msgid "NO"
 msgstr "EI"
 
+#: src/pacman/util.c:1613
 #, c-format
 msgid "failed to allocate string\n"
 msgstr "merkkijonoa ei voitu varata\n"
 
-#, c-format
-msgid "error: %s"
-msgstr "virhe: %s"
-
-#, c-format
-msgid "warning: %s"
-msgstr "varoitus: %s"
-
+#: src/pacman/util.c:1650 src/pacman/util.c:1700
 #, c-format
 msgid "error: "
 msgstr "virhe: "
 
+#: src/pacman/util.c:1654 src/pacman/util.c:1704
 #, c-format
 msgid "warning: "
 msgstr "varoitus: "
+
+#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
+#~ msgstr "Paikallinen paketti %s-%s on uudempi. Asenna siitä huolimatta?"
+
+#~ msgid "config parsing exceeded max recursion depth of %d.\n"
+#~ msgstr "asetusten jäsentäminen ylitti rekursion enimmäissyvyyden (%d).\n"
+
+#~ msgid "config file %s could not be read: %s\n"
+#~ msgstr "asetustiedostoa %s ei voitu lukea: %s\n"
+
+#~ msgid "config file %s, line %d: bad section name.\n"
+#~ msgstr "asetustiedosto %s, sisältää viallisen osionimen rivillä: %d.\n"
+
+#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+#~ msgstr "asetustiedosto %s, rivi %d: syntaksivirhe, avain puuttuu.\n"
+
+#~ msgid "  -i, --info           view package information\n"
+#~ msgstr "  -i, --info             näytä paketin tiedot\n"
+
+#~ msgid "Name"
+#~ msgstr "Nimi"
+
+#~ msgid "error: %s"
+#~ msgstr "virhe: %s"
+
+#~ msgid "warning: %s"
+#~ msgstr "varoitus: %s"

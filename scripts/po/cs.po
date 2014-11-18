@@ -13,1206 +13,1919 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
 "PO-Revision-Date: 2013-11-19 16:14+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/archlinux-pacman/language/cs/)\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/cs/)\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
+#: scripts/makepkg.sh.in:120 scripts/makepkg.sh.in:1517
+#: scripts/makepkg.sh.in:1521 scripts/library/output_format.sh:26
 msgid "WARNING:"
 msgstr "VAROVÁNÍ:"
 
+#: scripts/makepkg.sh.in:125 scripts/library/output_format.sh:31
 msgid "ERROR:"
 msgstr "CHYBA:"
 
+#: scripts/makepkg.sh.in:163
 msgid "Cleaning up..."
 msgstr "Probíhá čištění..."
 
+#: scripts/makepkg.sh.in:198
 msgid "Entering %s environment..."
 msgstr "Vstupuje se do %s prostředí..."
 
+#: scripts/makepkg.sh.in:303 scripts/makepkg.sh.in:2890
 msgid "Unknown download protocol: %s"
 msgstr "Neznámý protokol pro stahování: %s"
 
+#: scripts/makepkg.sh.in:304 scripts/makepkg.sh.in:313
+#: scripts/makepkg.sh.in:377 scripts/makepkg.sh.in:441
+#: scripts/makepkg.sh.in:470 scripts/makepkg.sh.in:480
+#: scripts/makepkg.sh.in:487 scripts/makepkg.sh.in:518
+#: scripts/makepkg.sh.in:533 scripts/makepkg.sh.in:538
+#: scripts/makepkg.sh.in:561 scripts/makepkg.sh.in:569
+#: scripts/makepkg.sh.in:604 scripts/makepkg.sh.in:610
+#: scripts/makepkg.sh.in:627 scripts/makepkg.sh.in:635
+#: scripts/makepkg.sh.in:659 scripts/makepkg.sh.in:697
+#: scripts/makepkg.sh.in:706 scripts/makepkg.sh.in:711
+#: scripts/makepkg.sh.in:745 scripts/makepkg.sh.in:755
+#: scripts/makepkg.sh.in:893 scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1601 scripts/makepkg.sh.in:2208
+#: scripts/makepkg.sh.in:2891 scripts/makepkg.sh.in:3327
+#: scripts/makepkg.sh.in:3375 scripts/makepkg.sh.in:3382
+#: scripts/makepkg.sh.in:3395 scripts/makepkg.sh.in:3403
+#: scripts/makepkg.sh.in:3412 scripts/makepkg.sh.in:3425
 msgid "Aborting..."
 msgstr "Rušení..."
 
+#: scripts/makepkg.sh.in:312
 msgid "The download program %s is not installed."
 msgstr "Program pro stahování %s není nainstalován."
 
+#: scripts/makepkg.sh.in:325 scripts/makepkg.sh.in:338
 msgid "Found %s"
 msgstr "Nalezen %s"
 
+#: scripts/makepkg.sh.in:328
 msgid "%s was not found in the build directory and is not a URL."
-msgstr "Soubor %s nebyl nalezen v adresáři, kde se provádí sestavení, a není ani URL."
+msgstr ""
+"Soubor %s nebyl nalezen v adresáři, kde se provádí sestavení, a není ani URL."
 
+#: scripts/makepkg.sh.in:357
 msgid "Downloading %s..."
 msgstr "Stahuje se %s..."
 
+#: scripts/makepkg.sh.in:376
 msgid "Failure while downloading %s"
 msgstr "Selhalo stažení %s"
 
+#: scripts/makepkg.sh.in:432
 msgid "Extracting %s with %s"
 msgstr "Rozbaluje se %s pomocí %s"
 
+#: scripts/makepkg.sh.in:440
 msgid "Failed to extract %s"
 msgstr "Selhalo rozbalení %s"
 
+#: scripts/makepkg.sh.in:467
 msgid "Branching %s ..."
 msgstr "Vytváření větve %s ..."
 
+#: scripts/makepkg.sh.in:469
 msgid "Failure while branching %s"
 msgstr "Chyba při vytváření nové větve %s"
 
+#: scripts/makepkg.sh.in:479 scripts/makepkg.sh.in:485
 msgid "%s is not a branch of %s"
 msgstr "%s není větví od %s"
 
+#: scripts/makepkg.sh.in:486
 msgid "The local URL is %s"
 msgstr "Místní URL je %s "
 
+#: scripts/makepkg.sh.in:491
 msgid "Pulling %s ..."
 msgstr "Stahuji %s ..."
 
+#: scripts/makepkg.sh.in:495
 msgid "Failure while pulling %s"
 msgstr "Selhalo stažení %s"
 
+#: scripts/makepkg.sh.in:517 scripts/makepkg.sh.in:626
+#: scripts/makepkg.sh.in:696 scripts/makepkg.sh.in:744
 msgid "Unrecognized reference: %s"
 msgstr "Nerozpoznaný odkaz: %s"
 
+#: scripts/makepkg.sh.in:526 scripts/makepkg.sh.in:595
+#: scripts/makepkg.sh.in:686 scripts/makepkg.sh.in:777
 msgid "Creating working copy of %s %s repo..."
 msgstr "Vytváření pracovní kopie repozitáře %s %s ..."
 
+#: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
+#: scripts/makepkg.sh.in:705
+#, fuzzy
+msgid "Failure while updating working copy of %s %s repo"
+msgstr "Chyba při vytváření pracovní kopie repozitáře %s %s "
+
+#: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
+#: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
 msgid "Failure while creating working copy of %s %s repo"
 msgstr "Chyba při vytváření pracovní kopie repozitáře %s %s "
 
+#: scripts/makepkg.sh.in:558 scripts/makepkg.sh.in:656
+#: scripts/makepkg.sh.in:751
 msgid "Cloning %s %s repo..."
 msgstr "Klonování repozitáře %s %s ..."
 
+#: scripts/makepkg.sh.in:560 scripts/makepkg.sh.in:658
+#: scripts/makepkg.sh.in:754
 msgid "Failure while downloading %s %s repo"
 msgstr "Chyba při stahování repozitáře %s %s "
 
+#: scripts/makepkg.sh.in:568
 msgid "%s is not a clone of %s"
 msgstr "%s není klonem %s "
 
+#: scripts/makepkg.sh.in:572 scripts/makepkg.sh.in:663
+#: scripts/makepkg.sh.in:759
 msgid "Updating %s %s repo..."
 msgstr "Aktualizuji repozitář %s %s ..."
 
+#: scripts/makepkg.sh.in:575 scripts/makepkg.sh.in:667
+#: scripts/makepkg.sh.in:763
 msgid "Failure while updating %s %s repo"
 msgstr "Chyba při aktualizaci repozitáře %s %s "
 
+#: scripts/makepkg.sh.in:816
 msgid "Retrieving sources..."
 msgstr "Získávají se zdrojové soubory..."
 
+#: scripts/makepkg.sh.in:868
+msgid "pkgver() generated an invalid version: %s"
+msgstr ""
+
+#: scripts/makepkg.sh.in:875
+#, fuzzy
+msgid "Failed to update %s from %s to %s"
+msgstr "Nelze přejít do adresáře %s"
+
+#: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
 msgstr "Aktualizovaná verze: %s"
 
+#: scripts/makepkg.sh.in:884
 msgid "%s is not writeable -- pkgver will not be updated"
 msgstr "%s není zapisovatelný -- pkgver nebude aktualizován"
 
+#: scripts/makepkg.sh.in:892
 msgid "Unable to find source file %s."
 msgstr "Nepodařilo se nalézt zdrojový soubor %s."
 
+#: scripts/makepkg.sh.in:1072
 msgid "'%s' returned a fatal error (%i): %s"
 msgstr "%s vrátil fatální chybu (%i): %s"
 
+#: scripts/makepkg.sh.in:1091
 msgid "Installing missing dependencies..."
 msgstr "Instalují se chybějící závislosti..."
 
+#: scripts/makepkg.sh.in:1094
 msgid "'%s' failed to install missing dependencies."
 msgstr "%s selhal při instalaci chybějících závislostí."
 
+#: scripts/makepkg.sh.in:1125
 msgid "Missing dependencies:"
 msgstr "Chybějící závislosti: "
 
+#: scripts/makepkg.sh.in:1141 scripts/makepkg.sh.in:1155
 msgid "Failed to remove installed dependencies."
 msgstr "Selhalo odstranění nainstalovaných závislostí."
 
+#: scripts/makepkg.sh.in:1230
 msgid "Generating checksums for source files..."
 msgstr "Počítají se kontrolní součty zdrojových souborů..."
 
-msgid ""
-"Cannot find the %s binary required for generating sourcefile checksums."
+#: scripts/makepkg.sh.in:1233
+msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr "Nelze nalézt soubor %s potřebný pro vytvoření kontrolních součtů."
 
+#: scripts/makepkg.sh.in:1247
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "Zadán chybný algoritmus '%s' pro kontrolu integrity."
 
-msgid "Validating source files with %s..."
-msgstr "Kontrola zdrojových souborů pomocí %s..."
-
+#: scripts/makepkg.sh.in:1265
 msgid "Skipped"
 msgstr "Vynecháno"
 
+#: scripts/makepkg.sh.in:1270
 msgid "NOT FOUND"
 msgstr "NENALEZEN"
 
+#: scripts/makepkg.sh.in:1277 scripts/makepkg.sh.in:1514
 msgid "Passed"
 msgstr "Prošel"
 
+#: scripts/makepkg.sh.in:1279 scripts/makepkg.sh.in:1490
+#: scripts/makepkg.sh.in:1508 scripts/makepkg.sh.in:1511
 msgid "FAILED"
 msgstr "NEPROŠEL"
 
+#: scripts/makepkg.sh.in:1302
+msgid "Validating source files with %s..."
+msgstr "Kontrola zdrojových souborů pomocí %s..."
+
+#: scripts/makepkg.sh.in:1309
 msgid "One or more files did not pass the validity check!"
 msgstr "Jeden nebo více souborů neprošlo kontrolou validity!"
 
+#: scripts/makepkg.sh.in:1313
 msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Kontrolní součty (%s) nesouhlasí s velikostí pole zdrojů."
 
+#: scripts/makepkg.sh.in:1361
 msgid "Integrity checks are missing."
 msgstr "Kontrolní součty nebyly nalezeny."
 
+#: scripts/makepkg.sh.in:1428
 msgid "Verifying source file signatures with %s..."
 msgstr "Kontrola podpisů zdrojových souborů pomocí %s..."
 
+#: scripts/makepkg.sh.in:1453
 msgid "SIGNATURE NOT FOUND"
 msgstr "PODPIS NENALEZEN"
 
+#: scripts/makepkg.sh.in:1466
 msgid "SOURCE FILE NOT FOUND"
 msgstr "ZDROJOVÝ SOUBOR NENALEZEN"
 
+#: scripts/makepkg.sh.in:1493
 msgid "unknown public key"
 msgstr "neznámý veřejný klíč"
 
-msgid "the key has been revoked."
+#: scripts/makepkg.sh.in:1496
+#, fuzzy
+msgid "public key %s has been revoked"
 msgstr "tento klíč byl odvolán. "
 
+#: scripts/makepkg.sh.in:1499
+msgid "bad signature from public key"
+msgstr ""
+
+#: scripts/makepkg.sh.in:1502
+#, fuzzy
+msgid "error during signature verification"
+msgstr "Nenalezen žádný podpis, přeskakuji ověřování."
+
+#: scripts/makepkg.sh.in:1508
+msgid "the public key %s is not trusted"
+msgstr ""
+
+#: scripts/makepkg.sh.in:1511
+#, fuzzy
+msgid "invalid public key"
+msgstr "neznámý veřejný klíč"
+
+#: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
 msgstr "platnost podpisu vypršela."
 
+#: scripts/makepkg.sh.in:1521
 msgid "the key has expired."
 msgstr "platnost klíče vypršela."
 
+#: scripts/makepkg.sh.in:1533
 msgid "One or more PGP signatures could not be verified!"
 msgstr "Jeden nebo více podpisů PGP se nepodařilo ověřit!"
 
+#: scripts/makepkg.sh.in:1538
 msgid "Warnings have occurred while verifying the signatures."
 msgstr "Během kontroly podpisů nastala varování."
 
+#: scripts/makepkg.sh.in:1539
 msgid "Please make sure you really trust them."
 msgstr "Prosím ověřte, že jim skutečně důvěřujete."
 
+#: scripts/makepkg.sh.in:1545
 msgid "Skipping all source file integrity checks."
 msgstr "Vynechává se kontrola integrity."
 
+#: scripts/makepkg.sh.in:1547
 msgid "Skipping verification of source file checksums."
 msgstr "Vynechává se ověřování kontrolních součtů."
 
+#: scripts/makepkg.sh.in:1550
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Vynechává se ověřování PGP podpisů zdrojových souborů."
 
+#: scripts/makepkg.sh.in:1559
 msgid "Extracting sources..."
 msgstr "Rozbalují se zdrojové soubory..."
 
+#: scripts/makepkg.sh.in:1592
 msgid "A failure occurred in %s()."
 msgstr "Došlo k chybě v %s()."
 
+#: scripts/makepkg.sh.in:1600
 msgid "Failed to change to directory %s"
 msgstr "Nelze přejít do adresáře %s"
 
+#: scripts/makepkg.sh.in:1609
 msgid "Failed to source %s"
 msgstr "Nelze najít %s"
 
+#: scripts/makepkg.sh.in:1671
 msgid "Starting %s()..."
 msgstr "Spouští se %s()..."
 
+#: scripts/makepkg.sh.in:1796
 msgid "Tidying install..."
 msgstr "Pročišťuje se instalace..."
 
+#: scripts/makepkg.sh.in:1799
 msgid "Removing doc files..."
 msgstr "Odstraňují se doc soubory..."
 
+#: scripts/makepkg.sh.in:1804
 msgid "Purging unwanted files..."
 msgstr "Promazávají se zbytečné soubory..."
 
+#: scripts/makepkg.sh.in:1816
 msgid "Removing %s files..."
 msgstr "Odstraňují se %s soubory..."
 
+#: scripts/makepkg.sh.in:1821
+#, fuzzy
+msgid "Removing static library files..."
+msgstr "Odstraňují se %s soubory..."
+
+#: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
 msgstr "Odstraňují se prázdné adresáře..."
 
+#: scripts/makepkg.sh.in:1839
 msgid "%s entry file not in package : %s"
 msgstr "%s soubor není v balíčku: %s"
 
+#: scripts/makepkg.sh.in:1845 scripts/makepkg.sh.in:1848
 msgid "Package contains reference to %s"
 msgstr "Balíček obsahuje odkaz na %s"
 
+#: scripts/makepkg.sh.in:1852
 msgid "Compressing man and info pages..."
 msgstr "Komprimují se man a info stránky..."
 
+#: scripts/makepkg.sh.in:1880
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Odstraňují se nepotřebné ladící informace z binárních souborů a knihoven..."
+msgstr ""
+"Odstraňují se nepotřebné ladící informace z binárních souborů a knihoven..."
 
+#: scripts/makepkg.sh.in:1914
 msgid "Compressing binaries with %s..."
 msgstr "Kompimují se soubory (%s)..."
 
+#: scripts/makepkg.sh.in:1919
 msgid "Could not compress binary : %s"
 msgstr "Nepodařilo se komprimovat soubor: %s"
 
+#: scripts/makepkg.sh.in:1976
 msgid "Library listed in %s is not required by any files: %s"
 msgstr "Knihovna uvedená v %s není používaná žádnými soubory: %s "
 
+#: scripts/makepkg.sh.in:2005
 msgid "Library listed in %s is not versioned: %s"
 msgstr "Knihovna v %s není verzovaná: %s "
 
+#: scripts/makepkg.sh.in:2018
 msgid "Library listed in %s is not a shared object: %s"
 msgstr "Knihovna v %s není sdíleným objektem: %s "
 
+#: scripts/makepkg.sh.in:2033
 msgid "Cannot find library listed in %s: %s"
 msgstr "Nelze nalézt knihovnu ovedenou v %s: %s"
 
-msgid "Please add a license line to your %s!"
-msgstr "Přidejte, prosím, informace o licenci do vašeho %s!"
-
-msgid "Example for GPL'ed software: %s."
-msgstr "Ukázka pro software pod GPL licencí: %s."
-
+#: scripts/makepkg.sh.in:2147 scripts/makepkg.sh.in:2351
 msgid "Generating %s file..."
 msgstr "Vytváření %s souboru..."
 
+#: scripts/makepkg.sh.in:2207
 msgid "Missing %s directory."
 msgstr "Chybí složka %s."
 
+#: scripts/makepkg.sh.in:2213
 msgid "Creating package \"%s\"..."
 msgstr "Vytváří se balíček \"%s\"..."
 
+#: scripts/makepkg.sh.in:2225
 msgid "Adding %s file..."
 msgstr "Přidán soubor %s..."
 
+#: scripts/makepkg.sh.in:2227
+#, fuzzy
+msgid "Failed to add %s file to package."
+msgstr "Selhala instalace vytvořeného balíčku."
+
+#: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
 msgstr "Vytváření .MTREE souboru ..."
 
+#: scripts/makepkg.sh.in:2253
 msgid "Compressing package..."
 msgstr "Komprimuje se balíček..."
 
+#: scripts/makepkg.sh.in:2268 scripts/makepkg.sh.in:2394
 msgid "'%s' is not a valid archive extension."
 msgstr "'%s' není platná přípona archívu."
 
+#: scripts/makepkg.sh.in:2276
 msgid "Failed to create package file."
 msgstr "Selhalo vytvoření balíčku."
 
+#: scripts/makepkg.sh.in:2293
 msgid "Failed to create symlink to package file."
 msgstr "Selhalo vytváření symbolického odkazu na soubor balíčku."
 
+#: scripts/makepkg.sh.in:2325
 msgid "Signing package..."
 msgstr "Podepisování balíčku..."
 
+#: scripts/makepkg.sh.in:2336
 msgid "Created signature file %s."
 msgstr "Vytvořen podpisový soubor %s."
 
+#: scripts/makepkg.sh.in:2338
 msgid "Failed to sign package file."
 msgstr "Selhalo podepisování balíčku."
 
+#: scripts/makepkg.sh.in:2344
 msgid "Creating source package..."
 msgstr "Vytváří se zdrojový balíček..."
 
+#: scripts/makepkg.sh.in:2348 scripts/makepkg.sh.in:2361
 msgid "Adding %s..."
 msgstr "Přidává se %s..."
 
+#: scripts/makepkg.sh.in:2379
 msgid "Adding %s file (%s)..."
 msgstr "Přidává se soubor %s (%s)..."
 
+#: scripts/makepkg.sh.in:2402
 msgid "Compressing source package..."
 msgstr "Komprimuje se zdrojový balíček..."
 
+#: scripts/makepkg.sh.in:2405
 msgid "Failed to create source package file."
 msgstr "Selhalo vytváření zdrojového balíčku."
 
+#: scripts/makepkg.sh.in:2422
 msgid "Failed to create symlink to source package file."
 msgstr "Nepodařilo se vytvořit symbolický odkaz na soubor zdrojového balíčku."
 
+#: scripts/makepkg.sh.in:2434
 msgid "Installing package %s with %s..."
 msgstr "Instaluje se balíček %s pomocí %s ..."
 
+#: scripts/makepkg.sh.in:2436
 msgid "Installing %s package group with %s..."
 msgstr "Instaluje se skupina balíčků %s pomocí %s ..."
 
+#: scripts/makepkg.sh.in:2454
 msgid "Failed to install built package(s)."
 msgstr "Selhala instalace vytvořeného balíčku."
 
-msgid "%s is not allowed to be empty."
-msgstr "%s nemůže být prázdné."
-
+#: scripts/makepkg.sh.in:2546 scripts/makepkg.sh.in:2561
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s nemůže začínat pomlčkou."
 
+#: scripts/makepkg.sh.in:2556 scripts/makepkg.sh.in:2580
+#: scripts/makepkg.sh.in:2869
+msgid "%s is not allowed to be empty."
+msgstr "%s nemůže být prázdné."
+
+#: scripts/makepkg.sh.in:2565
 msgid "%s is not allowed to start with a dot."
 msgstr "%s nemůže začínat tečkou. "
 
+#: scripts/makepkg.sh.in:2569 scripts/makepkg.sh.in:2615
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s obsahuje nepovolené znaky: '%s'"
 
-msgid "%s must be a decimal."
+#: scripts/makepkg.sh.in:2585
+#, fuzzy
+msgid "%s must be a decimal, not %s."
 msgstr "%s musí být desetiné číslo."
 
-msgid "%s must be an integer."
+#: scripts/makepkg.sh.in:2601
+#, fuzzy
+msgid "%s must be an integer, not %s."
 msgstr "%s musí být celé číslo."
 
+#: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s není dostupný pro architekturu '%s'."
 
+#: scripts/makepkg.sh.in:2623
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Všimněte si, že mnohé balíčky potřebují přidat řádek do %s,"
 
+#: scripts/makepkg.sh.in:2624
 msgid "such as %s."
 msgstr "jako %s."
 
+#: scripts/makepkg.sh.in:2662
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Pole %s nemůže obsahovat operátory porovnání (< nebo >)."
 
+#: scripts/makepkg.sh.in:2682
 msgid "%s entry should not contain leading slash : %s"
 msgstr "%s by neměl obsahovat počáteční lomítko: %s"
 
-msgid "Invalid syntax for %s : '%s'"
+#: scripts/makepkg.sh.in:2715
+#, fuzzy
+msgid "Invalid syntax for %s: '%s'"
 msgstr "Neplatná syntaxe pro %s: '%s'"
 
-msgid "%s file (%s) does not exist."
-msgstr "Instalační skript %s (%s) neexistuje."
+#: scripts/makepkg.sh.in:2728
+#, fuzzy
+msgid "%s file (%s) does not exist or is not a regular file."
+msgstr "%s neexistuje, nebo není adresář."
 
+#: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
 msgstr "seznam %s obsahuje neznámou volbu '%s'"
 
-msgid "Missing %s function for split package '%s'"
-msgstr "chybí funkce balíčku %s pro rozdělení balíčku '%s'"
+#: scripts/makepkg.sh.in:2792
+msgid "Sparse arrays are not allowed for source"
+msgstr ""
 
+#: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "Požadovaný balíček %s není poskytovaný balíčkem %s"
 
+#: scripts/makepkg.sh.in:2815
+#, fuzzy
+msgid "Missing %s function in %s"
+msgstr "chybí funkce balíčku %s pro rozdělení balíčku '%s'"
+
+#: scripts/makepkg.sh.in:2821
+msgid "Missing %s function for split package '%s'"
+msgstr "chybí funkce balíčku %s pro rozdělení balíčku '%s'"
+
+#: scripts/makepkg.sh.in:2862
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s nesmí obsahovat dvojtečky, pomlčky nebo mezery."
 
+#: scripts/makepkg.sh.in:2907
+#, fuzzy
+msgid "Cannot find the %s binary needed to check VCS source requirements."
+msgstr "Nelze najít program %s požadovaný k ověření zdrojových souborů."
+
+#: scripts/makepkg.sh.in:2925
+#, fuzzy
+msgid "Cannot find the %s package needed to handle %s sources."
+msgstr "Nelze nalézt program %s nutný ke všem %s operacím."
+
+#: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr "Nelze nalézt program %s nutný ke všem závysejícím operacím."
 
+#: scripts/makepkg.sh.in:2956
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "%s nebylo nalezeno. K získání práv roota bude použito %s."
 
-msgid "Cannot find the %s binary required for building as non-root user."
-msgstr "Nelze najít program %s požadovaný pro sestavení jako non-root uživatel."
+#: scripts/makepkg.sh.in:2963
+#, fuzzy
+msgid "Cannot find the %s binary."
+msgstr "Nelze najít program %s požadovaný k podepisování balíčků."
 
+#: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Nelze najít program %s požadovaný k podepisování balíčků."
 
+#: scripts/makepkg.sh.in:2979
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Nelze najít program %s požadovaný k ověření zdrojových souborů."
 
-msgid ""
-"Cannot find the %s binary required for validating sourcefile checksums."
-msgstr "Nelze najít program %s nutný k ověření kontrolních součtů u zdrojových souborů."
+#: scripts/makepkg.sh.in:2987
+msgid "Cannot find the %s binary required for validating sourcefile checksums."
+msgstr ""
+"Nelze najít program %s nutný k ověření kontrolních součtů u zdrojových "
+"souborů."
 
+#: scripts/makepkg.sh.in:2995
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Nelze najít program %s nutný pro kompresi souborů."
 
+#: scripts/makepkg.sh.in:3003
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "Nelze najít program %s nutný pro distribuovanou kompilaci."
 
+#: scripts/makepkg.sh.in:3011
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr "Nelze najít program %s nutný pro použití compiler cache."
 
+#: scripts/makepkg.sh.in:3019
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr "Nelze najít program %s nutný ke \"stripování object souborů\"."
 
+#: scripts/makepkg.sh.in:3027
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr "Nelze najít program %s nutný ke kompresi man a info stránek."
 
+#: scripts/makepkg.sh.in:3047
 msgid "A package has already been built, installing existing package..."
 msgstr "Balíček je již sestaven, instaluje se existující balíček..."
 
+#: scripts/makepkg.sh.in:3051
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Balíček je již sestaven. (použijte %s pro přepsání)"
 
+#: scripts/makepkg.sh.in:3070
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Skupina balíčků je již sestavena, instalují se existující balíčky..."
 
+#: scripts/makepkg.sh.in:3074
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Skupina balíčků je již sestavena. (použijte %s pro přepsání)"
 
-msgid ""
-"Part of the package group has already been built. (use %s to overwrite)"
+#: scripts/makepkg.sh.in:3079
+msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr "Část skupiny balíčků je již sestavena. (použijte %s pro přepsání)"
 
+#: scripts/makepkg.sh.in:3149
+msgid "Make packages compatible for use with pacman"
+msgstr ""
+
+#: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
 msgstr "Použití: %s [volby]"
 
+#: scripts/makepkg.sh.in:3153 scripts/pacman-key.sh.in:81
 msgid "Options:"
 msgstr "Volby:"
 
+#: scripts/makepkg.sh.in:3154
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignorovat nekompletní pole %s v %s"
 
+#: scripts/makepkg.sh.in:3155
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Odstranit pracovní soubory po sestavení"
 
+#: scripts/makepkg.sh.in:3156
+msgid "  -C, --cleanbuild Remove %s dir before building the package"
+msgstr ""
+
+#: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Přeskočit všechny kontroly závislostí"
 
+#: scripts/makepkg.sh.in:3158
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr "  -e, --noextract  Nerozbalovat zdrojové soubory (použít existující %s složku)"
+msgstr ""
+"  -e, --noextract  Nerozbalovat zdrojové soubory (použít existující %s "
+"složku)"
 
+#: scripts/makepkg.sh.in:3159
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Přepsat existující balíček"
 
+#: scripts/makepkg.sh.in:3160
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Vygenerovat kontrolní součty zdrojových souborů"
 
+#: scripts/makepkg.sh.in:3161
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Vypsat nápovědu"
 
+#: scripts/makepkg.sh.in:3162
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Po úspěšném sestavení nainstalovat balíček"
 
+#: scripts/makepkg.sh.in:3163
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        Zaznamenat proces sestavení balíčku"
 
+#: scripts/makepkg.sh.in:3164
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Zakázat barevný výstup zpráv"
 
+#: scripts/makepkg.sh.in:3165
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Pouze stáhnout a rozbalit soubory"
 
+#: scripts/makepkg.sh.in:3166
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <file>        Použít alternativní build skript (namísto '%s')"
 
+#: scripts/makepkg.sh.in:3167
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr "  -r, --rmdeps     Po úspěšném sestavení odstranit nainstalované závislosti"
+msgstr ""
+"  -r, --rmdeps     Po úspěšném sestavení odstranit nainstalované závislosti"
 
-msgid ""
-"  -R, --repackage  Repackage contents of the package without rebuilding"
+#: scripts/makepkg.sh.in:3168
+msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Znovu zabalit obsah balícku bez sestavení"
 
+#: scripts/makepkg.sh.in:3169
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Nainstalovat chybějící závislosti pomocí %s"
 
+#: scripts/makepkg.sh.in:3170
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr "  -S, --source     Vytvoří zdrojový archiv, bez stahovaných souborů"
 
+#: scripts/makepkg.sh.in:3171
 msgid "  -V, --version    Show version information and exit"
 msgstr "  -V, --version      Verze programu"
 
+#: scripts/makepkg.sh.in:3172
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr "  --allsource      Vytvořit zdrojový archiv, včetně stahovaných souborů"
+msgstr ""
+"  --allsource      Vytvořit zdrojový archiv, včetně stahovaných souborů"
 
-msgid ""
-"  --verifysource   Download source files (if needed) and perform integrity "
-"checks"
-msgstr "--verifysource Stáhne zdrojové soubory (pokud je to potřeba) a provede kontrolu integrity"
-
-msgid "  --asroot         Allow %s to run as root user"
-msgstr "  --asroot         Spustit %s pod uživatelem root"
-
+#: scripts/makepkg.sh.in:3173
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Spustí funkci %s v %s"
 
+#: scripts/makepkg.sh.in:3174
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr "  --config <file>  Použít alternativní konfigurační soubor (namísto '%s')"
+msgstr ""
+"  --config <file>  Použít alternativní konfigurační soubor (namísto '%s')"
 
+#: scripts/makepkg.sh.in:3175
 msgid "  --holdver        Do not update VCS sources"
 msgstr "--holdver Neaktualizuje VCS zdroje"
 
+#: scripts/makepkg.sh.in:3176
 msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the "
-"default"
+"  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr "  --key <klíč>     Určí klíč pro podepisování %s namísto výchozího"
 
+#: scripts/makepkg.sh.in:3177
+#, fuzzy
+msgid "  --noarchive      Do not create package archive"
+msgstr "  --nosign         Nepodepisovat balíček"
+
+#: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Nespouštět funkci %s v %s"
 
+#: scripts/makepkg.sh.in:3179
+#, fuzzy
+msgid "  --noprepare      Do not run the %s function in the %s"
+msgstr "  --nocheck        Nespouštět funkci %s v %s"
+
+#: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Nepodepisovat balíček"
 
+#: scripts/makepkg.sh.in:3181
 msgid "  --pkg <list>     Only build listed packages from a split package"
-msgstr "  --pkg <list>     Sestavit jen vyjmenované balíčky z rozděleného balíčku"
+msgstr ""
+"  --pkg <list>     Sestavit jen vyjmenované balíčky z rozděleného balíčku"
 
+#: scripts/makepkg.sh.in:3182
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Podepsat výsledný balíček pomocí %s"
 
+#: scripts/makepkg.sh.in:3183
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  Neověřuje kontrolní součty na zdrojových souborech"
 
+#: scripts/makepkg.sh.in:3184
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg     Neověřuje integritu (pokud chybí kontrol. součty)"
 
+#: scripts/makepkg.sh.in:3185
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Neověřovat PGP podpisy u zdrojových souborů"
 
+#: scripts/makepkg.sh.in:3186
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr ""
+"--verifysource Stáhne zdrojové soubory (pokud je to potřeba) a provede "
+"kontrolu integrity"
+
+#: scripts/makepkg.sh.in:3188
 msgid "These options can be passed to %s:"
 msgstr "Tyto volby se předají %s:"
 
+#: scripts/makepkg.sh.in:3190
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "      --asdeps         nainstalovat balíčky jako závislosti"
 
+#: scripts/makepkg.sh.in:3191
+msgid ""
+"  --needed         Do not reinstall the targets that are already up to date"
+msgstr ""
+"      --needed         nepřeinstalovávát balíčky, které jsou stále aktuální"
+
+#: scripts/makepkg.sh.in:3192
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Nedotazovat se na potvrzení"
 
-msgid ""
-"  --needed         Do not reinstall the targets that are already up to date"
-msgstr "      --needed         nepřeinstalovávát balíčky, které jsou stále aktuální"
-
+#: scripts/makepkg.sh.in:3193
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Nezobrazovat průběh stahování souborů"
 
+#: scripts/makepkg.sh.in:3195
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Když není zadáno %s, %s bude hledat '%s'"
 
+#: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
-"copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
-"law.\\n"
-msgstr "Copyright (c) 2006-2013 Pacman Development Team &lt;pacman-dev@archlinux.org&gt;.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\nToto je svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2013 Pacman Development Team &lt;pacman-dev@archlinux."
+"org&gt;.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\nToto "
+"je svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou "
+"poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
 
+#: scripts/makepkg.sh.in:3302 scripts/repo-add.sh.in:612
 msgid "%s signal caught. Exiting..."
 msgstr "Zachycen signál %s. Ukončování..."
 
-msgid "Aborted by user! Exiting..."
-msgstr "Zrušeno uživatelem! Ukončování..."
-
-msgid "An unknown error has occurred. Exiting..."
-msgstr "Nastala neznámá chyba. Ukončování..."
-
+#: scripts/makepkg.sh.in:3326
 msgid "%s not found."
 msgstr "%s nebyl nalezen."
 
+#: scripts/makepkg.sh.in:3374 scripts/makepkg.sh.in:3381
 msgid "You do not have write permission to create packages in %s."
 msgstr "Nemáte práva zápisu k uložení balíčků do %s."
 
+#: scripts/makepkg.sh.in:3394
 msgid "You do not have write permission to store packages in %s."
 msgstr "Nemáte práva zápisu k uložení stažených balíčků do %s."
 
+#: scripts/makepkg.sh.in:3402
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Nemáte práva zápisu k uložení stažených souborů do %s."
 
+#: scripts/makepkg.sh.in:3411
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "Nemáte práva zápisu k uložení stažených zdrojových balíčků do %s."
 
+#: scripts/makepkg.sh.in:3424
 msgid "You do not have write permission to store logs in %s."
 msgstr "Nemáte práva zápisu k uložení logů do %s."
 
+#: scripts/makepkg.sh.in:3437
+#, fuzzy
 msgid ""
-"Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
-"damage to your system. If you wish to run as root, please\\nuse the %s "
-"option."
-msgstr "Spouštění %s jako root je ŠPATNÝ nápad a může způsobit trvalou,\\n\nkatastrofickou škodu na vašem systému. Pokud si opravdu přejete spustit to jako root, \\npoužijte volnu %s. "
+"Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
+"damage to your system."
+msgstr ""
+"Spouštění %s jako root je ŠPATNÝ nápad a může způsobit trvalou,\\n\n"
+"katastrofickou škodu na vašem systému. Pokud si opravdu přejete spustit to "
+"jako root, \\npoužijte volnu %s. "
 
-msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
-msgstr "Volba %s je pouze pro root uživatele. Prosím\\nspusťte bez přepínače %s. "
-
-msgid ""
-"Running %s as an unprivileged user will result in non-root\\nownership of "
-"the packaged files. Try using the %s environment by\\nplacing %s in the %s "
-"array in %s."
-msgstr "Spušťení %s jako neprivilegovaný uživatel způsobí ne-rootovská vlastnická práva k souborům v balíčku.\\n Zkuste použít prostředí %s \\n přidáním %s do pole %s v %s."
-
+#: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Nepoužívejte volbu %s. Tato volba je použitelná jen pro %s."
 
+#: scripts/makepkg.sh.in:3454
 msgid "%s does not exist."
 msgstr "%s neexistuje."
 
+#: scripts/makepkg.sh.in:3458
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s obsahuje %s znaky a nemůže být načten."
 
+#: scripts/makepkg.sh.in:3463
+#, fuzzy
+msgid "%s must be in the current working directory."
+msgstr "%s neexistuje, nebo není adresář."
+
+#: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
 msgstr "Klíč %s neexistuje ve vaší klíčence."
 
+#: scripts/makepkg.sh.in:3546 scripts/repo-add.sh.in:635
 msgid "There is no key in your keyring."
 msgstr "Ve vaší klíčence není žádný klíč."
 
+#: scripts/makepkg.sh.in:3560 scripts/makepkg.sh.in:3578
 msgid "Leaving %s environment."
 msgstr "Opouští se prostředí %s."
 
-msgid "Repackaging without the use of a %s function is deprecated."
-msgstr "Znovu-zabalení bez použití funkce %s je zastaralé."
-
-msgid "File permissions may not be preserved."
-msgstr "Přístupová práva souborů nemusí být zachována."
-
+#: scripts/makepkg.sh.in:3582
 msgid "Making package: %s"
 msgstr "Vytváří se balíček: %s"
 
-msgid "Using a %s without a %s function is deprecated."
-msgstr "Použití %s bez funkce %s je zastaralé."
-
+#: scripts/makepkg.sh.in:3588
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Zdrojový balíček je již sestaven. (použijte %s pro přepsání)"
 
+#: scripts/makepkg.sh.in:3607
 msgid "Source package created: %s"
 msgstr "Zdrojový balíček vytvořen: %s"
 
+#: scripts/makepkg.sh.in:3614
 msgid "Skipping dependency checks."
 msgstr "Neprovádí se kontrola závislostí."
 
+#: scripts/makepkg.sh.in:3622
 msgid "Checking runtime dependencies..."
 msgstr "Kontrola runtime závislostí..."
 
+#: scripts/makepkg.sh.in:3629
 msgid "Checking buildtime dependencies..."
 msgstr "Kontrola buildtime závislostí..."
 
+#: scripts/makepkg.sh.in:3641
 msgid "Could not resolve all dependencies."
 msgstr "Nelze vyřešit všechny závislosti."
 
+#: scripts/makepkg.sh.in:3652
 msgid "Using existing %s tree"
 msgstr "Používám existující %s strom"
 
-msgid "The package directory is empty, there is nothing to repackage!"
-msgstr "Adresář s balíčkem je prázdný, není nic k opětovnému zabalení!"
-
-msgid "Sources are ready."
-msgstr "Zdroje jsou připraveny."
-
+#: scripts/makepkg.sh.in:3659 scripts/makepkg.sh.in:3680
 msgid "Removing existing %s directory..."
 msgstr "Odstraňuje se existující adresář %s ..."
 
+#: scripts/makepkg.sh.in:3675
+msgid "Sources are ready."
+msgstr "Zdroje jsou připraveny."
+
+#: scripts/makepkg.sh.in:3698
+msgid "Package directory is ready."
+msgstr ""
+
+#: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
 msgstr "Dokončeno vytváření: %s"
 
-msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr "Použití: %s [--nocolor] [kořen_databáze_pacmana]"
+#: scripts/makepkg-template.pl.in:55
+#, perl-format
+msgid "can't create '%s': %s"
+msgstr ""
 
+#: scripts/makepkg-template.pl.in:73
+#, perl-format
 msgid ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-"
-"dev@archlinux.org>.\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2010-2013 Pacman Development Team &lt;pacman-dev@archlinux.org&gt;.\\nToto je svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
+"invalid key/value pair\n"
+"%s:%s: %s"
+msgstr ""
 
+#: scripts/makepkg-template.pl.in:82
+msgid "invalid template line: can't find template name\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:87
+#, perl-format
+msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:112
+#, perl-format
+msgid "Couldn't detect version for template '%s'"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:131
+#, fuzzy, perl-format
+msgid "failed to open '%s': %s"
+msgstr "Nelze najít %s"
+
+#: scripts/makepkg-template.pl.in:148
+#, perl-format
+msgid "Unknown template marker '%s'\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:170
+msgid "makepkg-template [options]\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:172
+#, fuzzy
+msgid "Options:\n"
+msgstr "Volby:"
+
+#: scripts/makepkg-template.pl.in:173
+#, perl-format
+msgid "  --input, -p <file>    Build script to read (default: %s)\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:174
+msgid "  --output, -o <file>   file to output to (default: input file)\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:175
+msgid "  --newest, -n          update templates to newest version\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:176
+msgid ""
+"                        (default: use version specified in the template "
+"markers)\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:177
+msgid "  --template-dir <dir>  directory to search for templates\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:178
+#, perl-format
+msgid "                        (default: %s)\n"
+msgstr ""
+
+#: scripts/makepkg-template.pl.in:179
+#, fuzzy
+msgid "  --help, -h            This help message\n"
+msgstr "  -h, --help       Vypsat nápovědu"
+
+#: scripts/makepkg-template.pl.in:180
+#, fuzzy
+msgid "  --version             Version information\n"
+msgstr "  -V, --version      Verze programu"
+
+#: scripts/makepkg-template.pl.in:189
+#, fuzzy
+msgid ""
+"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"This is free software; see the source for copying conditions.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Copyright (c) 2010-2013 Pacman Development Team &lt;pacman-dev@archlinux."
+"org&gt;.\\nToto je svobodný software; vizte zdrojový kód pro podmínky "
+"kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem."
+"\\n"
+
+#: scripts/pacman-db-upgrade.sh.in:35
+msgid "Upgrade the local pacman database to a newer format"
+msgstr ""
+
+#: scripts/pacman-db-upgrade.sh.in:39
+#, fuzzy
+msgid "options:"
+msgstr "Volby:"
+
+#: scripts/pacman-db-upgrade.sh.in:40
+msgid "  -b, --dbpath <path>  set an alternate database location"
+msgstr ""
+
+#: scripts/pacman-db-upgrade.sh.in:41
+#, fuzzy
+msgid "  -h, --help           show this help message and exit"
+msgstr "  -h, --help       Vypsat nápovědu"
+
+#: scripts/pacman-db-upgrade.sh.in:42
+msgid "  -r, --root <path>    set an alternate installation root"
+msgstr ""
+
+#: scripts/pacman-db-upgrade.sh.in:43
+#, fuzzy
+msgid "  -V, --version        show version information and exit"
+msgstr "  -V, --version      Verze programu"
+
+#: scripts/pacman-db-upgrade.sh.in:44
+#, fuzzy
+msgid "  --config <path>      set an alternate configuration file"
+msgstr ""
+"  --config <file>  Použít alternativní konfigurační soubor (namísto '%s')"
+
+#: scripts/pacman-db-upgrade.sh.in:45
+#, fuzzy
+msgid "  --nocolor            disable colorized output messages"
+msgstr "  -m, --nocolor    Zakázat barevný výstup zpráv"
+
+#: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
+#, fuzzy
+msgid ""
+"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2010-2013 Pacman Development Team &lt;pacman-dev@archlinux."
+"org&gt;.\\nToto je svobodný software; vizte zdrojový kód pro podmínky "
+"kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem."
+"\\n"
+
+#: scripts/pacman-db-upgrade.sh.in:129 scripts/pacman-optimize.sh.in:105
+#: scripts/repo-add.sh.in:459
 msgid "%s does not exist or is not a directory."
 msgstr "%s neexistuje, nebo není adresář."
 
+#: scripts/pacman-db-upgrade.sh.in:133
 msgid "%s is not a pacman database directory."
 msgstr "%s není adresář databáze pacman."
 
+#: scripts/pacman-db-upgrade.sh.in:137
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Musíte mít správná oprávnění k aktualizaci databáze."
 
+#: scripts/pacman-db-upgrade.sh.in:147 scripts/pacman-optimize.sh.in:119
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr "Byl nalezen zámek pacmana. Nelze pokračovat, pokud pacman běží."
 
+#: scripts/pacman-db-upgrade.sh.in:159
 msgid "Pre-3.5 database format detected - upgrading..."
 msgstr "Zjištěn formát databáze před verzí 3.5 - aktualizuje se..."
 
+#: scripts/pacman-db-upgrade.sh.in:166
 msgid "Done."
 msgstr "Hotovo."
 
+#: scripts/pacman-db-upgrade.sh.in:180
+#, fuzzy
+msgid "Pre-4.2 database format detected - upgrading..."
+msgstr "Zjištěn formát databáze před verzí 3.5 - aktualizuje se..."
+
+#: scripts/pacman-db-upgrade.sh.in:189
+msgid "symlink '%s' points outside pacman root, manual repair required"
+msgstr ""
+
+#: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
 msgstr "Použití: %s [volby] akce [cíle] "
 
+#: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
 msgstr "Správa seznamu důvěryhodných klíčů pro pacman"
 
+#: scripts/pacman-key.sh.in:62
 msgid "Operations:"
 msgstr "Akce: "
 
+#: scripts/pacman-key.sh.in:63
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr "  -a, --add  Přidá uvedené klíče (prázdné pro stdin)"
 
+#: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
 msgstr "  -d, --delete  Odstraní zadané klíče"
 
+#: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
 msgstr "  -e, --export  Exportuje uvedené, nebo všechny, keyids"
 
+#: scripts/pacman-key.sh.in:66
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
 msgstr "  -f, --finger      Vypíše otisky uvedených (nebo všech) klíčů"
 
+#: scripts/pacman-key.sh.in:67
 msgid "  -l, --list-keys           List the specified or all keys"
 msgstr "  -l, --list-keys   Vypíše uvedené (nebo všechny) klíče"
 
+#: scripts/pacman-key.sh.in:68
 msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys   Stáhne uvedené klíče"
 
+#: scripts/pacman-key.sh.in:69
 msgid "  -u, --updatedb            Update the trustdb of pacman"
-msgstr "  -u, --updatedb      Aktualizuje databázi důvěry (trustdb) v pacmanovi"
+msgstr ""
+"  -u, --updatedb      Aktualizuje databázi důvěry (trustdb) v pacmanovi"
 
+#: scripts/pacman-key.sh.in:70
 msgid ""
 "  -v, --verify              Verify the file(s) specified by the signature(s)"
 msgstr "  -v, --verify   Ověří soubor(y) podpisu"
 
+#: scripts/pacman-key.sh.in:71
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
 msgstr "  --edit-key     Zobrazí menu pro správu klíčů"
 
+#: scripts/pacman-key.sh.in:72
 msgid "  --import                  Imports pubring.gpg from dir(s)"
 msgstr "  --import    Načte pupring.gpg z adresáře(ů)"
 
+#: scripts/pacman-key.sh.in:73
 msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
-msgstr "  --import-trustdb   Načte \"důvěryhodnost vlastníků\" z trustdb.gpg ze zadaných složek "
+msgstr ""
+"  --import-trustdb   Načte \"důvěryhodnost vlastníků\" z trustdb.gpg ze "
+"zadaných složek "
 
+#: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr " --init      Zajistí správnou inicializaci klíčenky"
 
+#: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
 msgstr "  --list-sigs    Výpis klíčů a jejich podpisů"
 
+#: scripts/pacman-key.sh.in:76
 msgid "  --lsign-key               Locally sign the specified keyid"
 msgstr "  --lsign-key   Lokálně podepíše uvedené keyid"
 
+#: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) "
-"keyrings\\n                            in '%s'"
-msgstr "  --populate    Znovu načte výchozí klíče z (zadaných) klíčenek\\n  v '%s'"
+"  --populate                Reload the default keys from the (given) keyrings"
+"\\n                            in '%s'"
+msgstr ""
+"  --populate    Znovu načte výchozí klíče z (zadaných) klíčenek\\n  v '%s'"
 
+#: scripts/pacman-key.sh.in:79
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys   Aktualizuje uvedené (nebo všechny) klíče ze serveru s klíči"
+msgstr ""
+"  --refresh-keys   Aktualizuje uvedené (nebo všechny) klíče ze serveru s "
+"klíči"
 
+#: scripts/pacman-key.sh.in:82
 msgid ""
-"  --config <file>           Use an alternate config file (instead of\\n"
-"                            '%s')"
-msgstr "  --config <soubor>    Použije zadaný konfigurační soubor (namísto\\n                                                         '%s')"
+"  --config <file>           Use an alternate config file (instead of"
+"\\n                            '%s')"
+msgstr ""
+"  --config <soubor>    Použije zadaný konfigurační soubor (namísto"
+"\\n                                                         '%s')"
 
+#: scripts/pacman-key.sh.in:84
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
-"                            of '%s')"
-msgstr "  --gpgdir <složka>     nastaví vlastní adresář pro GnuPG (namísto \\n                                                                                        '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
+"\\n                            of '%s')"
+msgstr ""
+"  --gpgdir <složka>     nastaví vlastní adresář pro GnuPG (namísto "
+"\\n                                                                                        "
+"'%s')"
 
+#: scripts/pacman-key.sh.in:86
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
-msgstr "  --keyserver <server-url>          Určí, který server s klíči se má v případě potřeby použít"
+msgstr ""
+"  --keyserver <server-url>          Určí, který server s klíči se má v "
+"případě potřeby použít"
 
+#: scripts/pacman-key.sh.in:88
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help       Vypsat nápovědu"
 
+#: scripts/pacman-key.sh.in:89
 msgid "  -V, --version             Show program version"
 msgstr "  -V, --version      Verze programu"
 
+#: scripts/pacman-key.sh.in:130
 msgid "Failed to lookup key by name:"
 msgstr "Nelze najít klíč podle jména: "
 
+#: scripts/pacman-key.sh.in:138
 msgid "Key name is ambiguous:"
 msgstr "Jméno klíče je dvojznačné: "
 
+#: scripts/pacman-key.sh.in:180
 msgid "The key identified by %s could not be found locally."
 msgstr "Klíč určený %s nebyl lokálně nalezen."
 
+#: scripts/pacman-key.sh.in:223
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nemáte dostatečná oprávnění pro čteni klíčenky %s."
 
+#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Použije '%s' k opravě práv klíčenky."
 
+#: scripts/pacman-key.sh.in:230
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Nemáte dostatečná oprávnění spouštět tento příkaz."
 
+#: scripts/pacman-key.sh.in:238
 msgid "There is no secret key available to sign with."
 msgstr "Neexistuje žádný soukromý klíč, kterým by se dalo podepsat. "
 
+#: scripts/pacman-key.sh.in:239
 msgid "Use '%s' to generate a default secret key."
 msgstr "Použijte '%s' pro vytvoření výchozího soukromého klíče."
 
+#: scripts/pacman-key.sh.in:258
 msgid "No keyring files exist in %s."
 msgstr "V %s nejsou žádné soubory s klíčenkou."
 
+#: scripts/pacman-key.sh.in:265
 msgid "The keyring file %s does not exist."
 msgstr "Soubor s klíčenkou %s neexistuje."
 
+#: scripts/pacman-key.sh.in:280
 msgid "Appending keys from %s.gpg..."
 msgstr "Přídávám klíče z %s.gpg..."
 
+#: scripts/pacman-key.sh.in:303
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Lokálně podepisuji důvěřované klíče v klíčence..."
 
+#: scripts/pacman-key.sh.in:305
 msgid "Importing owner trust values..."
 msgstr "Načítání důvěry vlastníků..."
 
+#: scripts/pacman-key.sh.in:323
 msgid "Disabling revoked keys in keyring..."
 msgstr "Rušení odvolaných klíčů v klíčence..."
 
+#: scripts/pacman-key.sh.in:325
 msgid "Disabling key %s..."
 msgstr "Rušení klíče %s..."
 
+#: scripts/pacman-key.sh.in:333
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Uvedený soubor s klíči nemohl být přidán do klíčenky. "
 
+#: scripts/pacman-key.sh.in:341
 msgid "A specified key could not be removed from the keyring."
 msgstr "Uvedený klíč se nepodařilo odebrat z klíčenky. "
 
+#: scripts/pacman-key.sh.in:351
 msgid "The key identified by %s could not be edited."
 msgstr "Klíč určený %s se nepodařilo upravit."
 
+#: scripts/pacman-key.sh.in:363
 msgid "A specified key could not be exported from the keyring."
 msgstr "Uvedený klíč se nepodařilo exportovat z klíčenky. "
 
+#: scripts/pacman-key.sh.in:371
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Nepodařilo se určit otisk vybraného klíče."
 
+#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
 msgid "%s could not be imported."
 msgstr "%s se nepodařilo importovat."
 
+#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
 msgid "File %s does not exist and could not be imported."
 msgstr "Soubor %s neexistuje a nemohl být importován."
 
+#: scripts/pacman-key.sh.in:419
 msgid "A specified key could not be listed."
 msgstr "Požadovaný klíč nemůže být vypsán. "
 
+#: scripts/pacman-key.sh.in:427
 msgid "A specified signature could not be listed."
 msgstr "Požadovaný podpis lze vypsat. "
 
+#: scripts/pacman-key.sh.in:437
 msgid "Locally signing key %s..."
 msgstr "Lokálně podepisuji klíč %s..."
 
+#: scripts/pacman-key.sh.in:441
 msgid "%s could not be locally signed."
 msgstr "%s se nepodařilo lokálně podepsat. "
 
+#: scripts/pacman-key.sh.in:468
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Vzdálený klíč nebyl správně stáhnut ze serveru s klíči. "
 
+#: scripts/pacman-key.sh.in:476
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Požadovaný místní klíč se nepodařilo aktualizovat ze serveru s klíči. "
 
+#: scripts/pacman-key.sh.in:486
 msgid "The signature identified by %s could not be verified."
 msgstr "Klíč určený %s se nepodařilo ověřit. "
 
+#: scripts/pacman-key.sh.in:494
 msgid "Updating trust database..."
 msgstr "Aktualizuje se databáze důvěry..."
 
+#: scripts/pacman-key.sh.in:496
 msgid "Trust database could not be updated."
 msgstr "Databáze důvěry nebyla aktualizována. "
 
+#: scripts/pacman-key.sh.in:558
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nelze nalézt program %s nutný ke všem %s operacím."
 
+#: scripts/pacman-key.sh.in:563
 msgid "%s needs to be run as root for this operation."
 msgstr "%s musí být spuštěn jako root pro tuto operaci."
 
+#: scripts/pacman-key.sh.in:569
 msgid "%s configuration file '%s' not found."
 msgstr "%s konfigurační soubor '%s' nenalezen."
 
+#: scripts/pacman-key.sh.in:590
 msgid "no operation specified (use -h for help)"
 msgstr "nezadána žádná operace ( -h pro nápovědu)"
 
+#: scripts/pacman-key.sh.in:595
 msgid "Multiple operations specified."
 msgstr "Uvedeno více operací."
 
+#: scripts/pacman-key.sh.in:596
 msgid "Please run %s with each operation separately."
 msgstr "Prosím spusťte %s pro každou operaci samostatně."
 
+#: scripts/pacman-key.sh.in:604
 msgid "No targets specified"
 msgstr "nejsou specifikovány žádné cíle "
 
+#: scripts/pacman-optimize.sh.in:38
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
+msgstr "Použití: %s [--nocolor] [kořen_databáze_pacmana]"
+
+#: scripts/pacman-optimize.sh.in:39
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
-msgstr "pacman-optimize je malý hack, který pomáhá zlepšit výkon pacmana\\npři čtení a zápisu do databáze na bázi souborového systému.\\n\\n"
+msgstr ""
+"pacman-optimize je malý hack, který pomáhá zlepšit výkon pacmana\\npři čtení "
+"a zápisu do databáze na bázi souborového systému.\\n\\n"
 
+#: scripts/pacman-optimize.sh.in:42
 msgid ""
-"Because pacman uses many small files to keep track of packages,\\nthere is a"
-" tendency for these files to become fragmented over time.\\nThis script "
+"Because pacman uses many small files to keep track of packages,\\nthere is a "
+"tendency for these files to become fragmented over time.\\nThis script "
 "attempts to relocate these small files into one\\ncontinuous location on "
 "your hard drive. The result is that the hard\\ndrive should be able to read "
 "them faster, since the hard drive head\\ndoes not have to move around the "
 "disk as much.\\n"
-msgstr "Protože pacman používá mnoho malých souborů pro udržování informací\\no balíčcích, má tendenci v průběhu času tyto soubory fragmentovat.\\nTento skript se pokouší přemístit tyto malé soubory do jedné souvislé\\noblasti na disku. Ve výsledku by měl disk být schopen číst tyto soubory\\nrychleji, protože hlavičky disku se nemusí tak často přesouvat.\\n"
+msgstr ""
+"Protože pacman používá mnoho malých souborů pro udržování informací\\no "
+"balíčcích, má tendenci v průběhu času tyto soubory fragmentovat.\\nTento "
+"skript se pokouší přemístit tyto malé soubory do jedné souvislé\\noblasti na "
+"disku. Ve výsledku by měl disk být schopen číst tyto soubory\\nrychleji, "
+"protože hlavičky disku se nemusí tak často přesouvat.\\n"
 
+#: scripts/pacman-optimize.sh.in:101
 msgid "Cannot find the %s binary required for verifying integrity."
 msgstr "Nelze najít program %s požadovaný k ověření integrity souborů."
 
+#: scripts/pacman-optimize.sh.in:109
 msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mít správná oprávnění k optimalizaci databáze."
 
-msgid "Can not create temp directory for database building."
+#: scripts/pacman-optimize.sh.in:125
+#, fuzzy
+msgid "Cannot create temporary directory for database building."
 msgstr "Nelze vytvořit dočasný adresář pro sestavení databáze."
 
+#: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
 msgstr "Počítá se MD5 součtu staré databáze..."
 
+#: scripts/pacman-optimize.sh.in:133
 msgid "Tar'ing up %s..."
 msgstr "Balí se %s pomocí tar..."
 
+#: scripts/pacman-optimize.sh.in:137
 msgid "Tar'ing up %s failed."
 msgstr "Balení %s pomocí tar selhalo."
 
+#: scripts/pacman-optimize.sh.in:141
 msgid "Making and MD5sum'ing the new database..."
 msgstr "Vytváří se nová databáze a počítá se MD5 součet..."
 
+#: scripts/pacman-optimize.sh.in:146
 msgid "Untar'ing %s failed."
 msgstr "Rozbalení %s pomocí tar selhalo."
 
+#: scripts/pacman-optimize.sh.in:149
 msgid "Syncing database to disk..."
 msgstr "Databáze se synchronizuje na disk..."
 
+#: scripts/pacman-optimize.sh.in:155
 msgid "Checking integrity..."
 msgstr "Kontroluje se integrita..."
 
+#: scripts/pacman-optimize.sh.in:162
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Kontrola integrity SELHALA, vrací se stará databáze."
 
+#: scripts/pacman-optimize.sh.in:166
 msgid "Rotating database into place..."
 msgstr "Vyměňují se databáze..."
 
-msgid ""
-"New database substitution failed. Check for %s, %s, and %s directories."
+#: scripts/pacman-optimize.sh.in:175
+msgid "New database substitution failed. Check for %s, %s, and %s directories."
 msgstr "Nahrazení nové databáze sehlalo. Zkontrolujte složky %s, %s a %s. "
 
+#: scripts/pacman-optimize.sh.in:184
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Dokončeno. Databáze pacmana byla optimalizována."
 
+#: scripts/pkgdelta.sh.in:51
 msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Použití: pkgdelta [-q] <balíček1><balíček2>\\n"
 
+#: scripts/pkgdelta.sh.in:53
+#, fuzzy
 msgid ""
-"\tpkgdelta will create a delta file between two packages.\\nThis delta file "
-"can then be added to a database using repo-add.\\n\\n"
-msgstr "»Pkgdelta vytvoří delta rozdíl mezi dvěma balíčky.\\nTento delta rozdíl pak může být přidán do databáze pomocí repo-add.\\n\\n"
+"pkgdelta will create a delta file between two packages.\\nThis delta file "
+"can then be added to a database using repo-add.\\n"
+msgstr ""
+"»Pkgdelta vytvoří delta rozdíl mezi dvěma balíčky.\\nTento delta rozdíl pak "
+"může být přidán do databáze pomocí repo-add.\\n\\n"
 
+#: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "Příklad:    pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 
+#: scripts/pkgdelta.sh.in:59 scripts/repo-add.sh.in:59
+#: scripts/repo-add.sh.in:72
 msgid "Options:\\n"
 msgstr "Volby:\\n"
 
+#: scripts/pkgdelta.sh.in:60 scripts/repo-add.sh.in:78
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet    omezí výpisy\\n"
 
+#: scripts/pkgdelta.sh.in:61
 msgid "  --nocolor         remove color from output\\n"
 msgstr "--nocolor výstup bez barev\\n"
 
+#: scripts/pkgdelta.sh.in:62
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr "--min-pkg-size velikost nejmenšího balíčku, pro generovaní deltas\\n"
 
+#: scripts/pkgdelta.sh.in:63
 msgid ""
 "  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
-msgstr "--max-delta-size procenta. Pokud jsou změny větší, nepoužije se delta. \\n"
+msgstr ""
+"--max-delta-size procenta. Pokud jsou změny větší, nepoužije se delta. \\n"
 
+#: scripts/pkgdelta.sh.in:68
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
-msgstr "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nToto je svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
+msgstr ""
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nToto je "
+"svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou "
+"poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
 
+#: scripts/pkgdelta.sh.in:94 scripts/repo-add.sh.in:293
 msgid "Invalid package file '%s'."
 msgstr "Neplatný soubor balíčku '%s'."
 
+#: scripts/pkgdelta.sh.in:120
 msgid "Skipping delta creation for small package: %s - size %s"
 msgstr "Vynechávám vytváření deltas pro malý balíček:  %s - velikost  %s"
 
+#: scripts/pkgdelta.sh.in:125
 msgid "The package names don't match : '%s' and '%s'"
 msgstr "Jména balíčků nesouhlasí: '%s' a '%s'"
 
+#: scripts/pkgdelta.sh.in:130
 msgid "The package architectures don't match : '%s' and '%s'"
 msgstr "Architektury balíčků nesouhlasí: '%s' a '%s'"
 
+#: scripts/pkgdelta.sh.in:135
 msgid "Both packages have the same version : '%s'"
 msgstr "Oba balíčky mají stejnou verzi: '%s'"
 
+#: scripts/pkgdelta.sh.in:139
 msgid "Generating delta from version %s to version %s"
 msgstr "Generuje se delta z verze %s na verzi %s"
 
+#: scripts/pkgdelta.sh.in:145
 msgid "Delta could not be created."
 msgstr "Delta rozdíl nemohl být vytvořen."
 
+#: scripts/pkgdelta.sh.in:152
 msgid "Delta package larger than maximum size. Removing."
 msgstr "Delta balíček je větší než maximální velikost. Odstraňuji. "
 
+#: scripts/pkgdelta.sh.in:157
 msgid "Generated delta : '%s'"
 msgstr "Vygenerován delta rozdíl: '%s'"
 
+#: scripts/pkgdelta.sh.in:214
 msgid "File '%s' does not exist"
 msgstr "Soubor '%s' neexistuje"
 
+#: scripts/pkgdelta.sh.in:220 scripts/repo-add.sh.in:513
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Nelze nalézt příkaz xdelta3! Je xdelta3 nainstalován?"
 
+#: scripts/repo-add.sh.in:53
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Použití: repo-add [volby] <cesta-k-databázi> <balíček|delta> ...\\n"
 
+#: scripts/repo-add.sh.in:55
 msgid ""
-"repo-add will update a package database by reading a package "
-"file.\\nMultiple packages to add can be specified on the command line.\\n"
-msgstr "repo-add aktualizuje databázi balíčků pomocí čtení souboru balíčku.\\nNa příkazové řádce může být uvedeno více balíčků pro přidání.\\n\\n"
+"repo-add will update a package database by reading a package file."
+"\\nMultiple packages to add can be specified on the command line.\\n"
+msgstr ""
+"repo-add aktualizuje databázi balíčků pomocí čtení souboru balíčku.\\nNa "
+"příkazové řádce může být uvedeno více balíčků pro přidání.\\n\\n"
 
+#: scripts/repo-add.sh.in:60
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr "  -d, --delta    vytvoří a přidá rozdíly (delta) pro update balíčků\\n"
 
+#: scripts/repo-add.sh.in:61
 msgid ""
-"  -n, --new         only add packages that are not already in the "
-"database\\n"
+"  -n, --new         only add packages that are not already in the database\\n"
 msgstr "-n, --new přidat pouze balíčky, které ještě nejsou v DB\\n"
 
-msgid "  -f, --files       update database's file list\\n"
-msgstr "  -f/--files přepínač k aktualizaci databáze včetně záznamů o souborech.\\n"
+#: scripts/repo-add.sh.in:62
+msgid ""
+"  -R, --remove      remove package file from disk when updating database "
+"entry\\n"
+msgstr ""
 
+#: scripts/repo-add.sh.in:63
+msgid "  -f, --files       update database's file list\\n"
+msgstr ""
+"  -f/--files přepínač k aktualizaci databáze včetně záznamů o souborech.\\n"
+
+#: scripts/repo-add.sh.in:65
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr "Použití: repo-remove [volby] <cesta-k-db> <jmenobalicku|delta> ...\\n"
 
+#: scripts/repo-add.sh.in:67
 msgid ""
-"repo-remove will update a package database by removing the package "
-"name\\nspecified on the command line from the given repo database. "
-"Multiple\\npackages to remove can be specified on the command line.\\n"
-msgstr "repo-remove aktualizuje databázi balíčků odstraňováním balíčků podle jména\\nuvedeného na příkazové řádce z dané databáze. Na příkazové řádce může být\\nuvedeno více balíčků pro odebrání.\\n"
+"repo-remove will update a package database by removing the package name"
+"\\nspecified on the command line from the given repo database. Multiple"
+"\\npackages to remove can be specified on the command line.\\n"
+msgstr ""
+"repo-remove aktualizuje databázi balíčků odstraňováním balíčků podle jména"
+"\\nuvedeného na příkazové řádce z dané databáze. Na příkazové řádce může být"
+"\\nuvedeno více balíčků pro odebrání.\\n"
 
+#: scripts/repo-add.sh.in:74
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Prosím jděte dál, zde není nic k vidění. \\n"
 
+#: scripts/repo-add.sh.in:77
 msgid "  --nocolor         turn off color in output\\n"
 msgstr "--nocolor výpis bez barev\\n"
 
+#: scripts/repo-add.sh.in:79
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign    po update podepíše databázi pomocí GnuPG\\n"
 
+#: scripts/repo-add.sh.in:80
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr "  -k, --key <klíč>    podepíše databázi tímto klíčem\\n"
 
+#: scripts/repo-add.sh.in:81
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify    ověří podpis databáze před aktualizací\\n"
 
+#: scripts/repo-add.sh.in:82
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr "\\nViz %s(8) pro více informací a popis dostupných voleb. \\n"
 
+#: scripts/repo-add.sh.in:86
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr "Příklad:  repo-add /cesta/k/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr ""
+"Příklad:  repo-add /cesta/k/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
+#: scripts/repo-add.sh.in:88
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Příklad:  repo-remove /cesta/k/repo.db.tar.gz kernel26\\n"
 
+#: scripts/repo-add.sh.in:95
+#, fuzzy
 msgid ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-"
-"dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
-"conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2006-2013 Pacman Development Team &lt;pacman-dev@archlinux.org&gt;.\\nToto je svobodný software; vizte zdrojový kód pro podmínky kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem.\\n"
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
+msgstr ""
+"Copyright (c) 2006-2013 Pacman Development Team &lt;pacman-dev@archlinux."
+"org&gt;.\\nToto je svobodný software; vizte zdrojový kód pro podmínky "
+"kopírování.\\nNejsou poskytovány žádné záruky, v rozsahu povoleném zákonem."
+"\\n"
 
+#: scripts/repo-add.sh.in:143
 msgid "No database entry for package '%s'."
 msgstr "Žádné záznamy v databázi pro balíček '%s'."
 
+#: scripts/repo-add.sh.in:161
 msgid "Adding 'deltas' entry : %s -> %s"
 msgstr "Přidávají se záznamy o delta rozdílech: %s -> %s"
 
+#: scripts/repo-add.sh.in:184 scripts/repo-add.sh.in:429
 msgid "Removing existing entry '%s'..."
 msgstr "Odstraňuje se existující záznam '%s'..."
 
+#: scripts/repo-add.sh.in:187
 msgid "Removing empty deltas file ..."
 msgstr "Odstraňují se prázdné delta soubory..."
 
+#: scripts/repo-add.sh.in:198
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Nelze najít program gpg! Máte nainstalované GnuPG?"
 
+#: scripts/repo-add.sh.in:208
 msgid "Signing database..."
 msgstr "Podepisování databáze..."
 
+#: scripts/repo-add.sh.in:217
 msgid "Created signature file '%s'"
 msgstr "Vytvořen podpisový soubor '%s'"
 
+#: scripts/repo-add.sh.in:219
 msgid "Failed to sign package database."
 msgstr "Nepodařilo se podepsat databázi balíčků."
 
+#: scripts/repo-add.sh.in:228
 msgid "Verifying database signature..."
 msgstr "Ověřuje se podpis databáze..."
 
+#: scripts/repo-add.sh.in:231
 msgid "No existing signature found, skipping verification."
 msgstr "Nenalezen žádný podpis, přeskakuji ověřování."
 
+#: scripts/repo-add.sh.in:236
 msgid "Database signature file verified."
 msgstr "Soubor s podpisem databáze ověřen."
 
+#: scripts/repo-add.sh.in:238
 msgid "Database signature was NOT valid!"
 msgstr "Podpis databáze NEBYL platný!"
 
+#: scripts/repo-add.sh.in:252
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' nemá platnou příponu archivu."
 
+#: scripts/repo-add.sh.in:298
 msgid "An entry for '%s' already existed"
 msgstr "Záznam pro '%s' již existuje"
 
+#: scripts/repo-add.sh.in:315
+#, fuzzy
+msgid "Removing existing package '%s'"
+msgstr "Odstraňuje se existující záznam '%s'..."
+
+#: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
 msgstr "Neplatný podpis souboru balíčku '%s'."
 
+#: scripts/repo-add.sh.in:328
 msgid "Adding package signature..."
 msgstr "Přidávání podpisu balíčku..."
 
+#: scripts/repo-add.sh.in:335
 msgid "Computing checksums..."
 msgstr "Vytváření kontrolních součtů..."
 
+#: scripts/repo-add.sh.in:353 scripts/repo-add.sh.in:380
+#: scripts/repo-add.sh.in:395
 msgid "Creating '%s' db entry..."
 msgstr "Vytváření záznamu databáze '%s'..."
 
+#: scripts/repo-add.sh.in:410
 msgid "Old package file not found: %s"
 msgstr "Starý soubor balíčku nebyl nalezen: %s"
 
+#: scripts/repo-add.sh.in:467
 msgid "Failed to acquire lockfile: %s."
 msgstr "Selhalo získání zamykacího souboru: %s."
 
+#: scripts/repo-add.sh.in:468
 msgid "Held by process %s"
 msgstr "Vlastněný procesem %s"
 
+#: scripts/repo-add.sh.in:478
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "Soubor repozitáře '%s' není vhodná databáze pacman."
 
+#: scripts/repo-add.sh.in:483
 msgid "Extracting database to a temporary location..."
 msgstr "Rozbaluje se databáze do dočasného umístění..."
 
+#: scripts/repo-add.sh.in:488
 msgid "Repository file '%s' was not found."
 msgstr "Repozitář \"%s\" nebyl nalezen."
 
+#: scripts/repo-add.sh.in:494
 msgid "Repository file '%s' could not be created."
 msgstr "Nepodařilo se vytvořit soubor repozitáře %s."
 
+#: scripts/repo-add.sh.in:505
 msgid "File '%s' not found."
 msgstr "Soubor '%s' nebyl nalezen."
 
+#: scripts/repo-add.sh.in:511
 msgid "Adding delta '%s'"
 msgstr "Přidává se delta rozdíl '%s'"
 
+#: scripts/repo-add.sh.in:525
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' není soubor balíčku, přeskočit"
 
+#: scripts/repo-add.sh.in:529
 msgid "Adding package '%s'"
 msgstr "Přidává se balíček '%s'"
 
+#: scripts/repo-add.sh.in:537
 msgid "Searching for delta '%s'..."
 msgstr "Vyhledává se delta rozdíl '%s'..."
 
+#: scripts/repo-add.sh.in:541
 msgid "Delta matching '%s' not found."
 msgstr "Delta rozdíl odpovídající '%s' nebyl nalezen."
 
+#: scripts/repo-add.sh.in:547
 msgid "Searching for package '%s'..."
 msgstr "Vyhledává se balíček '%s'..."
 
+#: scripts/repo-add.sh.in:553
 msgid "Package matching '%s' not found."
 msgstr "Balíček odpovídající '%s' nebyl nalezen."
 
+#: scripts/repo-add.sh.in:601
 msgid "Invalid command name '%s' specified."
 msgstr "Byl zadán chybný příkaz '%s'."
 
+#: scripts/repo-add.sh.in:606
 msgid "Cannot create temp directory for database building."
 msgstr "Nelze vytvořit dočasný adresář pro sestavení databáze."
 
+#: scripts/repo-add.sh.in:686
 msgid "Creating updated database file '%s'"
 msgstr "Vytváří se aktualizovaný soubor databáze '%s'"
 
+#: scripts/repo-add.sh.in:700
 msgid "No packages remain, creating empty database."
 msgstr "Nezůstaly žádné balíčky, vytváří se prázdná databáze."
 
+#: scripts/repo-add.sh.in:737
 msgid "No packages modified, nothing to do."
 msgstr "Nebyl změněn žádný balíček, není co dělat."
 
+#: scripts/library/parseopts.sh:37
 msgid "option '%s' is ambiguous; possibilities:"
 msgstr "volba '%s' je nejasná; možnosti: "
 
+#: scripts/library/parseopts.sh:56 scripts/library/parseopts.sh:119
 msgid "invalid option"
 msgstr "neplatný přepínač"
 
+#: scripts/library/parseopts.sh:75
 msgid "option requires an argument"
 msgstr "volba vyžaduje nějaký argument"
 
+#: scripts/library/parseopts.sh:89
 msgid "option '%s' does not allow an argument"
 msgstr "volba '%s' nedovoluje žádný argument"
 
+#: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "volba '%s' vyžaduje nějaký argument"
+
+#~ msgid "Please add a license line to your %s!"
+#~ msgstr "Přidejte, prosím, informace o licenci do vašeho %s!"
+
+#~ msgid "Example for GPL'ed software: %s."
+#~ msgstr "Ukázka pro software pod GPL licencí: %s."
+
+#~ msgid "%s file (%s) does not exist."
+#~ msgstr "Instalační skript %s (%s) neexistuje."
+
+#~ msgid "Cannot find the %s binary required for building as non-root user."
+#~ msgstr ""
+#~ "Nelze najít program %s požadovaný pro sestavení jako non-root uživatel."
+
+#~ msgid "  --asroot         Allow %s to run as root user"
+#~ msgstr "  --asroot         Spustit %s pod uživatelem root"
+
+#~ msgid "Aborted by user! Exiting..."
+#~ msgstr "Zrušeno uživatelem! Ukončování..."
+
+#~ msgid "An unknown error has occurred. Exiting..."
+#~ msgstr "Nastala neznámá chyba. Ukončování..."
+
+#~ msgid ""
+#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
+#~ "the %s flag."
+#~ msgstr ""
+#~ "Volba %s je pouze pro root uživatele. Prosím\\nspusťte bez přepínače %s. "
+
+#~ msgid ""
+#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
+#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
+#~ "%s array in %s."
+#~ msgstr ""
+#~ "Spušťení %s jako neprivilegovaný uživatel způsobí ne-rootovská vlastnická "
+#~ "práva k souborům v balíčku.\\n Zkuste použít prostředí %s \\n přidáním %s "
+#~ "do pole %s v %s."
+
+#~ msgid "Repackaging without the use of a %s function is deprecated."
+#~ msgstr "Znovu-zabalení bez použití funkce %s je zastaralé."
+
+#~ msgid "File permissions may not be preserved."
+#~ msgstr "Přístupová práva souborů nemusí být zachována."
+
+#~ msgid "Using a %s without a %s function is deprecated."
+#~ msgstr "Použití %s bez funkce %s je zastaralé."
+
+#~ msgid "The package directory is empty, there is nothing to repackage!"
+#~ msgstr "Adresář s balíčkem je prázdný, není nic k opětovnému zabalení!"
+
+#~ msgid "Can not create temp directory for database building."
+#~ msgstr "Nelze vytvořit dočasný adresář pro sestavení databáze."

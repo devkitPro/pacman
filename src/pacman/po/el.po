@@ -19,1266 +19,1712 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
 "PO-Revision-Date: 2013-11-20 12:33+0000\n"
 "Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/archlinux-pacman/language/el/)\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/el/)\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/pacman/callback.c:171
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "έλεγχος εξαρτήσεων...\n"
 
+#: src/pacman/callback.c:175
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "έλεγχος διενέξεων αρχείων...\n"
 
+#: src/pacman/callback.c:179
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "επίλυση εξαρτήσεων...\n"
 
-#, c-format
-msgid "looking for inter-conflicts...\n"
+#: src/pacman/callback.c:182
+#, fuzzy, c-format
+msgid "looking for conflicting packages...\n"
 msgstr "διερεύνηση διενέξεων...\n"
 
+#: src/pacman/callback.c:189
 #, c-format
 msgid "installing %s...\n"
 msgstr "εγκατάσταση %s...\n"
 
-#, c-format
-msgid "removing %s...\n"
-msgstr "κατάργηση %s...\n"
-
+#: src/pacman/callback.c:192
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "αναβάθμιση %s...\n"
 
-#, c-format
-msgid "downgrading %s...\n"
-msgstr "υποβάθμιση %s...\n"
-
+#: src/pacman/callback.c:195
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "επανεγκατάσταση %s...\n"
 
+#: src/pacman/callback.c:198
+#, c-format
+msgid "downgrading %s...\n"
+msgstr "υποβάθμιση %s...\n"
+
+#: src/pacman/callback.c:201
+#, c-format
+msgid "removing %s...\n"
+msgstr "κατάργηση %s...\n"
+
+#: src/pacman/callback.c:225
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "έλεγχος ακεραιότητας πακέτων...\n"
 
+#: src/pacman/callback.c:230
 #, c-format
 msgid "checking keyring...\n"
 msgstr "έλεγχος κλειδοθήκης...\n"
 
+#: src/pacman/callback.c:234
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "λήψη απαιτούμενων κλειδιών...\n"
 
+#: src/pacman/callback.c:238
 #, c-format
 msgid "loading package files...\n"
 msgstr "φόρτωση αρχείων πακέτου... \n"
 
+#: src/pacman/callback.c:242
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "έλεγχος ακεραιότητας delta...\n"
 
+#: src/pacman/callback.c:245
 #, c-format
 msgid "applying deltas...\n"
 msgstr "εφαρμογή των deltas...\n"
 
+#: src/pacman/callback.c:248
 #, c-format
 msgid "generating %s with %s... "
 msgstr "δημιουργία %s με %s... "
 
+#: src/pacman/callback.c:253
 #, c-format
 msgid "success!\n"
 msgstr "επιτυχία!\n"
 
+#: src/pacman/callback.c:256
 #, c-format
 msgid "failed.\n"
 msgstr "αποτυχία.\n"
 
+#: src/pacman/callback.c:262
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "Λήψη πακέτων...\n"
 
+#: src/pacman/callback.c:266
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "έλεγχος διαθέσιμου χώρου δίσκου...\n"
 
+#: src/pacman/callback.c:272
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "το %s απαιτεί προαιρετικά το %s\n"
 
+#: src/pacman/callback.c:289 src/pacman/callback.c:295
+#, c-format
+msgid "%s installed as %s.pacnew\n"
+msgstr ""
+
+#: src/pacman/callback.c:305 src/pacman/callback.c:311
+#, c-format
+msgid "%s saved as %s.pacsave\n"
+msgstr ""
+
+#: src/pacman/callback.c:321 src/pacman/callback.c:327
+#, c-format
+msgid "%s saved as %s.pacorig\n"
+msgstr ""
+
+#: src/pacman/callback.c:372
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "Το %s είναι στο IgnorePkg/IgnoreGroup. Εγκατάσταση;"
 
+#: src/pacman/callback.c:382
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Αντικατάσταση %s με %s/%s;"
 
+#: src/pacman/callback.c:394
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "Διένεξη %s με %s. Κατάργηση %s;"
 
+#: src/pacman/callback.c:399
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "Διένεξη %s με %s (%s). Κατάργηση %s;"
 
+#: src/pacman/callback.c:418
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Αδυναμία αναβάθμισης του ακόλουθου πακέτου λόγω ανεπίλυτων εξαρτήσεων:\n"
-msgstr[1] "Αδυναμία αναβάθμισης των ακόλουθων πακέτων λόγω ανεπίλυτων εξαρτήσεων:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Αδυναμία αναβάθμισης του ακόλουθου πακέτου λόγω ανεπίλυτων εξαρτήσεων:\n"
+msgstr[1] ""
+"Αδυναμία αναβάθμισης των ακόλουθων πακέτων λόγω ανεπίλυτων εξαρτήσεων:\n"
 
+#: src/pacman/callback.c:424
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Παράλειψη του παραπάνω πακέτου από την αναβάθμιση;"
 msgstr[1] "Παράλειψη των παραπάνω πακέτων από την αναβάθμιση;"
 
+#: src/pacman/callback.c:435
 #, c-format
 msgid "There are %zd providers available for %s:\n"
 msgstr "Το %2$s παρέχεται από %1$zd πακέτα:\n"
 
-#, c-format
-msgid "%s-%s: local version is newer. Upgrade anyway?"
-msgstr "%s-%s: η τοπική έκδοση είναι νεότερη. Αναβάθμιση;"
-
+#: src/pacman/callback.c:445
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Το αρχείο %s είναι κατεστραμμένο (%s).\nΔιαγραφή;"
+msgstr ""
+"Το αρχείο %s είναι κατεστραμμένο (%s).\n"
+"Διαγραφή;"
 
+#: src/pacman/callback.c:459
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "Εισαγωγή κλειδιού PGP %d%c/%s, \"%s\", δημιουργημένου την: %s (ανακλήθηκε);"
+msgstr ""
+"Εισαγωγή κλειδιού PGP %d%c/%s, \"%s\", δημιουργημένου την: %s (ανακλήθηκε);"
 
+#: src/pacman/callback.c:462
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
 msgstr "Εισαγωγή κλειδιού PGP %d%c/%s, \"%s\", δημιουργημένου την: %s;"
 
+#: src/pacman/callback.c:522
 #, c-format
 msgid "installing"
 msgstr "εγκατάσταση"
 
+#: src/pacman/callback.c:525
 #, c-format
 msgid "upgrading"
 msgstr "αναβάθμιση"
 
+#: src/pacman/callback.c:528
 #, c-format
 msgid "downgrading"
 msgstr "υποβάθμιση"
 
+#: src/pacman/callback.c:531
 #, c-format
 msgid "reinstalling"
 msgstr "επανεγκατάσταση"
 
+#: src/pacman/callback.c:534
 #, c-format
 msgid "removing"
 msgstr "κατάργηση"
 
+#: src/pacman/callback.c:537
 #, c-format
 msgid "checking for file conflicts"
 msgstr "έλεγχος διενέξεων αρχείων"
 
+#: src/pacman/callback.c:540
 #, c-format
 msgid "checking available disk space"
 msgstr "έλεγχος διαθέσιμου χώρου δίσκου"
 
+#: src/pacman/callback.c:543
 #, c-format
 msgid "checking package integrity"
 msgstr "έλεγχος ακεραιότητας πακέτων"
 
+#: src/pacman/callback.c:546
 #, c-format
 msgid "checking keys in keyring"
 msgstr "έλεγχος κλειδιών"
 
+#: src/pacman/callback.c:549
 #, c-format
 msgid "loading package files"
 msgstr "φόρτωση αρχείων πακέτων"
 
+#: src/pacman/callback.c:664
 #, c-format
 msgid "downloading %s...\n"
 msgstr "λήψη %s...\n"
 
+#: src/pacman/check.c:63 src/pacman/check.c:232
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
 msgstr "%s: %s (Αναντιστοιχία τύπου αρχείου)\n"
 
+#: src/pacman/check.c:82
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
 msgstr "%s: %s (Αναντιστοιχία UID)\n"
 
+#: src/pacman/check.c:91
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
 msgstr "%s: %s (Αναντιστοιχία GID)\n"
 
+#: src/pacman/check.c:101
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (Αναντιστοιχία δικαιωμάτων)\n"
 
+#: src/pacman/check.c:115 src/pacman/check.c:162
+#, fuzzy, c-format
+msgid "backup file"
+msgstr "Εφεδρικά αρχεία:\n"
+
+#: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
 msgstr "%s: %s (Αναντιστοιχία ώρας τροποποίησης)\n"
 
+#: src/pacman/check.c:140
 #, c-format
 msgid "unable to read symlink contents: %s\n"
 msgstr "αδυναμία ανάγνωσης των περιεχομένων του symlink: %s\n"
 
+#: src/pacman/check.c:147
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
 msgstr "%s: %s (Αναντιστοιχία διαδρομής symlink)\n"
 
+#: src/pacman/check.c:164 src/pacman/check.c:170
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
 msgstr "%s: %s (Αναντιστοιχία μεγέθους)\n"
 
+#: src/pacman/check.c:207 src/pacman/check.c:222 src/pacman/check.c:267
+#: src/pacman/check.c:316
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "υπερβολικό μήκος διαδρομής: %s%s\n"
 
+#: src/pacman/check.c:242 src/pacman/check.c:380
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %jd συνολικό αρχείο, "
 msgstr[1] "%s: %jd συνολικά αρχεία, "
 
+#: src/pacman/check.c:244
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
 msgstr[0] "%jd απόν αρχείο\n"
 msgstr[1] "%jd απόντα αρχεία\n"
 
+#: src/pacman/check.c:277
 #, c-format
 msgid "%s: no mtree file\n"
 msgstr "%s: από αρχείο mtree\n"
 
+#: src/pacman/check.c:333
 #, c-format
 msgid "file type not recognized: %s%s\n"
 msgstr "μη αναγνωρίσιμος τύπος αρχείου: %s%s\n"
 
+#: src/pacman/check.c:382
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
 msgstr[0] "%jd τροποποιημένο αρχείο\n"
 msgstr[1] "%jd τροποποιημένα αρχεία\n"
 
+#: src/pacman/conf.c:97
 #, c-format
 msgid "malloc failure: could not allocate %zd bytes\n"
 msgstr "σφάλμα malloc: αποτυχία δέσμευσης %zd bytes\n"
 
+#: src/pacman/conf.c:234
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "αδυναμία προσδιορισμού τρέχοντος καταλόγου\n"
 
+#: src/pacman/conf.c:239
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "αδυναμία χρήσης του καταλόγου λήψης %s\n"
 
+#: src/pacman/conf.c:248
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "εκτέλεση XferCommand: αποτυχία fork!\n"
 
+#: src/pacman/conf.c:260
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "αδυναμία μετονομασίας %s σε %s (%s)\n"
 
+#: src/pacman/conf.c:271
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "αδυναμία επαναφοράς καταλόγου εργασίας (%s)\n"
 
+#: src/pacman/conf.c:388 src/pacman/conf.c:444 src/pacman/conf.c:536
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άκυρη τιμή του '%s' : '%s'\n"
 
+#: src/pacman/conf.c:399
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: επιλογή '%s' άκυρη, χωρίς υποστήριξη υπογραφής\n"
+msgstr ""
+"αρχείο ρυθμίσεων %s, γραμμή %d: επιλογή '%s' άκυρη, χωρίς υποστήριξη "
+"υπογραφής\n"
 
+#: src/pacman/conf.c:501 src/pacman/conf.c:601 src/pacman/conf.c:855
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "αρχείο επιλογών %s, γραμμή %d: άγνωστη εντολή '%s' στο τμήμα '%s'\n"
 
+#: src/pacman/conf.c:624
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "ο διακομιστής '%s' περιέχει την μεταβλητή '%s', αλλά δεν έχει ορισθεί '%s'\n"
+msgstr ""
+"ο διακομιστής '%s' περιέχει την μεταβλητή '%s', αλλά δεν έχει ορισθεί '%s'\n"
 
+#: src/pacman/conf.c:633
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "αδυναμία προσθήκης διεύθυνσης διακομιστή στην βάση '%s': %s (%s)\n"
 
-#, c-format
-msgid "failed to initialize alpm library (%s)\n"
+#: src/pacman/conf.c:680
+#, fuzzy, c-format
+msgid ""
+"failed to initialize alpm library\n"
+"(%s: %s)\n"
 msgstr "αδυναμία φόρτωσης βιβλιοθήκης alpm (%s)\n"
 
+#: src/pacman/conf.c:683
 #, c-format
 msgid "  try running pacman-db-upgrade\n"
 msgstr "  δοκίμασε την pacman-db-upgrade\n"
 
+#: src/pacman/conf.c:698
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "πρόβλημα στον ορισμό του αρχείου καταγραφής '%s' (%s)\n"
 
+#: src/pacman/conf.c:708
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "πρόβλημα ορισμού καταλόγου GPG '%s' (%s)\n"
 
-#, c-format
-msgid "no '%s' configured"
+#: src/pacman/conf.c:730
+#, fuzzy, c-format
+msgid "no '%s' configured\n"
 msgstr "δεν έχει ρυθμιστεί '%s'"
 
+#: src/pacman/conf.c:757
 #, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "αδυναμία καταχώρησης βάσης '%s' (%s)\n"
+msgid "Failed to pass assume installed entry to libalpm"
+msgstr ""
 
-#, c-format
-msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "αδυναμία προσθήκης διακομιστή '%s' στην βάση '%s' (%s)\n"
+#: src/pacman/conf.c:803
+#, fuzzy, c-format
+msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
+msgstr "αρχείο επιλογών %s, γραμμή %d: άγνωστη εντολή '%s' στο τμήμα '%s'\n"
 
-#, c-format
-msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr "υπέρβαση μέγιστου βάθους αναδρομής (%d) κατά την ανάλυση αρχείου ρυθμίσεων.\n"
-
-#, c-format
-msgid "config file %s could not be read: %s\n"
-msgstr "αδυναμία ανάγνωσης αρχείου ρυθμίσεων %s: %s\n"
-
-#, c-format
-msgid "config file %s, line %d: bad section name.\n"
-msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άκυρο όνομα ενότητας.\n"
-
-#, c-format
-msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: συντακτικό σφάλμα- απόν όρισμα.\n"
-
-#, c-format
-msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: όλες οι οδηγίες πρέπει να ανήκουν σε ενότητα.\n"
-
+#: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: η εντολή '%s' απαιτεί τιμή\n"
 
+#: src/pacman/conf.c:887
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "αδυναμία καταχώρησης βάσης '%s' (%s)\n"
+
+#: src/pacman/conf.c:903
+#, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "αδυναμία προσθήκης διακομιστή '%s' στην βάση '%s' (%s)\n"
+
+#: src/pacman/conf.c:937
+#, c-format
+msgid "config file %s, line %d: All directives must belong to a section.\n"
+msgstr ""
+"αρχείο ρυθμίσεων %s, γραμμή %d: όλες οι οδηγίες πρέπει να ανήκουν σε "
+"ενότητα.\n"
+
+#: src/pacman/database.c:46 src/pacman/query.c:423 src/pacman/remove.c:91
+#: src/pacman/sync.c:957 src/pacman/upgrade.c:47
 #, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "δεν καθορίστηκε πακέτο-στόχος (-h για βοήθεια)\n"
 
+#: src/pacman/database.c:55
 #, c-format
 msgid "no install reason specified (use -h for help)\n"
 msgstr "δεν ορίστηκε αιτία εγκατάστασης (-h για βοήθεια)\n"
 
+#: src/pacman/database.c:69
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
 msgstr "αδυναμία ορισμού αιτίας εγκατάστασης πακέτου %s (%s)\n"
 
+#: src/pacman/database.c:74
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
 msgstr "%s: ορισμός αιτίας εγκατάστασης 'ως εξάρτηση'\n"
 
+#: src/pacman/database.c:76
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: ορισμός αιτίας εγκατάστασης 'ρητώς εγκατεστημένο'\n"
 
+#: src/pacman/package.c:65 src/pacman/util.c:1210
 #, c-format
 msgid " [installed]"
 msgstr " [εγκατεστημένο]"
 
+#: src/pacman/package.c:72
 #, c-format
 msgid "Optional Deps  :"
 msgstr "Προαιρετικές εξαρτήσεις:"
 
+#: src/pacman/package.c:108
 #, c-format
 msgid "Explicitly installed"
 msgstr "Ρητώς εγκατεστημένο"
 
+#: src/pacman/package.c:111
 #, c-format
 msgid "Installed as a dependency for another package"
 msgstr "Εγκατεστημένο ως εξάρτηση άλλου πακέτου"
 
+#: src/pacman/package.c:114 src/pacman/package.c:134
 #, c-format
 msgid "Unknown"
 msgstr "Άγνωστη"
 
+#: src/pacman/package.c:121 src/pacman/package.c:205 src/pacman/package.c:219
+#: src/pacman/util.c:494 src/pacman/util.c:681 src/pacman/util.c:721
+#: src/pacman/util.c:749
 #, c-format
 msgid "None"
 msgstr "Ουδέν"
 
+#: src/pacman/package.c:124
 #, c-format
 msgid "MD5 Sum"
 msgstr "Άθροισμα MD5"
 
+#: src/pacman/package.c:127
 #, c-format
 msgid "SHA256 Sum"
 msgstr "Άθροισμα SHA256"
 
+#: src/pacman/package.c:130
 #, c-format
 msgid "Signature"
 msgstr "Υπογραφή"
 
+#: src/pacman/package.c:147
 #, c-format
 msgid "Repository     :"
 msgstr "Αποθήκη                :"
 
+#: src/pacman/package.c:150
 #, c-format
 msgid "Name           :"
 msgstr "Όνομα                  :"
 
+#: src/pacman/package.c:151
 #, c-format
 msgid "Version        :"
 msgstr "Έκδοση                 :"
 
+#: src/pacman/package.c:152
 #, c-format
 msgid "Description    :"
 msgstr "Περιγραφή              :"
 
+#: src/pacman/package.c:153
 #, c-format
 msgid "Architecture   :"
 msgstr "Αρχιτεκτονική          :"
 
+#: src/pacman/package.c:154
 #, c-format
 msgid "URL            :"
 msgstr "Ιστοσελίδα             :"
 
+#: src/pacman/package.c:155
 #, c-format
 msgid "Licenses       :"
 msgstr "Άδειες                 :"
 
+#: src/pacman/package.c:156
 #, c-format
 msgid "Groups         :"
 msgstr "Ομάδες                 :"
 
+#: src/pacman/package.c:157
 #, c-format
 msgid "Provides       :"
 msgstr "Παρέχει                :"
 
+#: src/pacman/package.c:158
 #, c-format
 msgid "Depends On     :"
 msgstr "Εξαρτάται από          :"
 
+#: src/pacman/package.c:162
 #, c-format
 msgid "Required By    :"
 msgstr "Απαιτείται από         :"
 
+#: src/pacman/package.c:163
 #, c-format
 msgid "Optional For   :"
 msgstr "Προαιρετική εξάρτηση σε:"
 
+#: src/pacman/package.c:165
 #, c-format
 msgid "Conflicts With :"
 msgstr "Διένεξη με             :"
 
+#: src/pacman/package.c:166
 #, c-format
 msgid "Replaces       :"
 msgstr "Αντικαθιστά            :"
 
+#: src/pacman/package.c:170
 #, c-format
 msgid "Download Size  :"
 msgstr "Μέγεθος Λήψης          :"
 
+#: src/pacman/package.c:173
 #, c-format
 msgid "Compressed Size:"
 msgstr "Συμπιεσμένο Μέγεθος    :"
 
+#: src/pacman/package.c:181
 #, c-format
 msgid "Installed Size :"
 msgstr "Εγκατεστημένο μέγεθος  :"
 
+#: src/pacman/package.c:184
 #, c-format
 msgid "Packager       :"
 msgstr "Υπεύθυνος πακέτου      :"
 
+#: src/pacman/package.c:185
 #, c-format
 msgid "Build Date     :"
 msgstr "Ημερομηνία δημιουργίας :"
 
+#: src/pacman/package.c:187
 #, c-format
 msgid "Install Date   :"
 msgstr "Ημερομηνία εγκατάστασης:"
 
+#: src/pacman/package.c:188
 #, c-format
 msgid "Install Reason :"
 msgstr "Αιτία εγκατάστασης     :"
 
+#: src/pacman/package.c:191
 #, c-format
 msgid "Install Script :"
 msgstr "Σενάριο εγκατάστασης   :"
 
+#: src/pacman/package.c:192
 #, c-format
 msgid "Yes"
 msgstr "Ναι"
 
+#: src/pacman/package.c:192
 #, c-format
 msgid "No"
 msgstr "Όχι"
 
+#: src/pacman/package.c:208
 #, c-format
 msgid "MD5 Sum        :"
 msgstr "Άθροισμα MD5           :"
 
-#, c-format
-msgid "SHA256 Sum     :"
+#: src/pacman/package.c:209
+#, fuzzy, c-format
+msgid "SHA-256 Sum    :"
 msgstr "Άθροισμα SHA256        :"
 
+#: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
+#: src/pacman/package.c:224
 #, c-format
 msgid "Signatures     :"
 msgstr "Υπογραφές              :"
 
+#: src/pacman/package.c:212
 #, c-format
 msgid "Validated By   :"
 msgstr "Επικυρωμένο από        :"
 
+#: src/pacman/package.c:256
 #, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "αποτυχία υπολογισμού αθροίσματος ελέγχου του %s\n"
 
+#: src/pacman/package.c:288
 #, c-format
 msgid "Backup Files:\n"
 msgstr "Εφεδρικά αρχεία:\n"
 
+#: src/pacman/package.c:303
 #, c-format
 msgid "(none)\n"
 msgstr "(ουδέν)\n"
 
+#: src/pacman/package.c:340
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "μη διαθέσιμο ημερολόγιο αλλαγών για '%s'.\n"
 
+#: src/pacman/package.c:344
 #, c-format
 msgid "Changelog for %s:\n"
 msgstr "Ημερολόγιο αλλαγών για %s:\n"
 
+#: src/pacman/package.c:369 src/pacman/package.c:371
 #, c-format
 msgid "installed"
 msgstr "εγκατεστημένο"
 
+#: src/pacman/pacman.c:100
 #, c-format
 msgid "options"
 msgstr "επιλογές"
 
+#: src/pacman/pacman.c:101
 #, c-format
 msgid "file(s)"
 msgstr "αρχείο(-α)"
 
+#: src/pacman/pacman.c:102
 #, c-format
 msgid "package(s)"
 msgstr "πακέτο(-α)"
 
+#: src/pacman/pacman.c:103
 #, c-format
 msgid "usage"
 msgstr "χρήση"
 
+#: src/pacman/pacman.c:104
 #, c-format
 msgid "operation"
 msgstr "λειτουργία"
 
+#: src/pacman/pacman.c:109
 #, c-format
 msgid "operations:\n"
 msgstr "λειτουργίες:\n"
 
+#: src/pacman/pacman.c:118
 #, c-format
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nχρήση: '%s {-h --help}' με μια λειτουργία για προβολή διαθέσιμων επιλογών\n"
+msgstr ""
+"\n"
+"χρήση: '%s {-h --help}' με μια λειτουργία για προβολή διαθέσιμων επιλογών\n"
 
+#: src/pacman/pacman.c:124
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade        κατάργηση πακέτων και όλων όσων εξαρτώνται από αυτά\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        κατάργηση πακέτων και όλων όσων εξαρτώνται από αυτά\n"
 
+#: src/pacman/pacman.c:125
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
 msgstr "  -n, --nosave         διαγραφή αρχείων ρυθμίσεων\n"
 
+#: src/pacman/pacman.c:126
 #, c-format
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      κατάργηση αχρείαστων εξαρτήσεων\n                       (-ss και ρητώς εγκατεστημένων εξαρτήσεων)\n"
+msgstr ""
+"  -s, --recursive      κατάργηση αχρείαστων εξαρτήσεων\n"
+"                       (-ss και ρητώς εγκατεστημένων εξαρτήσεων)\n"
 
+#: src/pacman/pacman.c:128
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded       κατάργηση αχρείαστων πακέτων\n"
 
+#: src/pacman/pacman.c:131 src/pacman/pacman.c:166
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "      --needed         μη επανεγκατάσταση ενημερωμένων πακέτων\n"
 
+#: src/pacman/pacman.c:136
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      εμφάνιση του ημερολογίου αλλαγών\n"
 
+#: src/pacman/pacman.c:137
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           παράθεση πακέτων εγκατεστημένων ως εξαρτήσεις [φίλτρο]\n"
+msgstr ""
+"  -d, --deps           παράθεση πακέτων εγκατεστημένων ως εξαρτήσεις "
+"[φίλτρο]\n"
 
+#: src/pacman/pacman.c:138
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       παράθεση πακέτων εγκατεστημένων ρητώς [φίλτρο]\n"
+msgstr ""
+"  -e, --explicit       παράθεση πακέτων εγκατεστημένων ρητώς [φίλτρο]\n"
 
+#: src/pacman/pacman.c:139
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         εμφάνιση όλων των πακέτων μιας ομάδας\n"
 
+#: src/pacman/pacman.c:140
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           εμφάνιση πληροφοριών πακέτου (-ii για εφεδρικά αρχεία)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           εμφάνιση πληροφοριών πακέτου (-ii για εφεδρικά "
+"αρχεία)\n"
 
+#: src/pacman/pacman.c:141
 #, c-format
 msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
-msgstr "  -k, --check          έλεγχος παρουσίας αρχείων που ανήκουν σε πακέτα (-kk για έλεγχο ιδιοτήτων)\n"
+msgstr ""
+"  -k, --check          έλεγχος παρουσίας αρχείων που ανήκουν σε πακέτα (-kk "
+"για έλεγχο ιδιοτήτων)\n"
 
-#, c-format
-msgid "  -l, --list           list the contents of the queried package\n"
+#: src/pacman/pacman.c:142
+#, fuzzy, c-format
+msgid "  -l, --list           list the files owned by the queried package\n"
 msgstr "  -l, --list           παράθεση αρχείων πακέτου\n"
 
+#: src/pacman/pacman.c:143
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        παράθεση εγκατεστημένων πακέτων εκτός βάσης συγχρονισμού [φίλτρο]\n"
+msgstr ""
+"  -m, --foreign        παράθεση εγκατεστημένων πακέτων εκτός βάσης "
+"συγχρονισμού [φίλτρο]\n"
 
+#: src/pacman/pacman.c:144
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
-msgstr "  -n, --native         παράθεση μόνο πακέτων εντός βάσεων συγχρονισμού [φίλτρο]\n"
+msgstr ""
+"  -n, --native         παράθεση μόνο πακέτων εντός βάσεων συγχρονισμού "
+"[φίλτρο]\n"
 
+#: src/pacman/pacman.c:145
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "  -o, --owns <file>    αναζήτηση πακέτου στο οποίο ανήκει το <αρχείο>\n"
+msgstr ""
+"  -o, --owns <file>    αναζήτηση πακέτου στο οποίο ανήκει το <αρχείο>\n"
 
+#: src/pacman/pacman.c:146
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <pkg>     αναζήτηση σε αρχείο πακέτου αντί στην βάση\n"
 
+#: src/pacman/pacman.c:147 src/pacman/pacman.c:160
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr "  -q, --quiet          εμφάνιση λιγότερων πληροφοριών στην αναζήτηση\n"
 
+#: src/pacman/pacman.c:148
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> αναζήτηση συμβολοσειράς στα εγκατεστημένα πακέτα\n"
+msgstr ""
+"  -s, --search <regex> αναζήτηση συμβολοσειράς στα εγκατεστημένα πακέτα\n"
 
-#, c-format
+#: src/pacman/pacman.c:149
+#, fuzzy, c-format
 msgid ""
-"  -t, --unrequired     list packages not required by any package [filter]\n"
-msgstr "  -t, --unrequired     παράθεση πακέτων που δεν απαιτούνται από άλλα [φίλτρο]\n"
+"  -t, --unrequired     list packages not (optionally) required by any\n"
+"                       package (-tt to ignore optdepends) [filter]\n"
+msgstr ""
+"  -t, --unrequired     παράθεση πακέτων που δεν απαιτούνται από άλλα "
+"[φίλτρο]\n"
 
+#: src/pacman/pacman.c:151
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr "  -u, --upgrades       παράθεση αναβαθμίσιμων πακέτων [φίλτρο]\n"
 
+#: src/pacman/pacman.c:155
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          διαγραφή παλαιών πακέτων από την τοπική κρύπτη (-cc για διαγραφή όλων)\n"
+msgstr ""
+"  -c, --clean          διαγραφή παλαιών πακέτων από την τοπική κρύπτη (-cc "
+"για διαγραφή όλων)\n"
 
-#, c-format
-msgid "  -i, --info           view package information\n"
-msgstr "  -i, --info           εμφάνιση πληροφοριών πακέτου\n"
+#: src/pacman/pacman.c:156
+#, fuzzy, c-format
+msgid ""
+"  -g, --groups         view all members of a package group\n"
+"                       (-gg to view all groups and members)\n"
+msgstr "  -g, --groups         εμφάνιση όλων των πακέτων μιας ομάδας\n"
 
+#: src/pacman/pacman.c:158
+#, fuzzy, c-format
+msgid ""
+"  -i, --info           view package information (-ii for extended "
+"information)\n"
+msgstr ""
+"  -i, --info           εμφάνιση πληροφοριών πακέτου (-ii για εφεδρικά "
+"αρχεία)\n"
+
+#: src/pacman/pacman.c:159
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <repo>    εμφάνιση λίστας πακέτων αποθήκης\n"
 
-#, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex> αναζήτηση συμβολοσειρών στις αποθήκες\n"
-
+#: src/pacman/pacman.c:161
 #, c-format
 msgid ""
-"  -u, --sysupgrade     upgrade installed packages (-uu allows downgrade)\n"
-msgstr "  -u, --sysupgrade     αναβάθμιση εγκατεστημένων πακέτων (-uu επιτρέπει υποβάθμιση)\n"
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr "  -s, --search <regex> αναζήτηση συμβολοσειρών στις αποθήκες\n"
 
+#: src/pacman/pacman.c:162
+#, fuzzy, c-format
+msgid ""
+"  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
+msgstr ""
+"  -u, --sysupgrade     αναβάθμιση εγκατεστημένων πακέτων (-uu επιτρέπει "
+"υποβάθμιση)\n"
+
+#: src/pacman/pacman.c:163
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   μόνο λήψη πακέτων, χωρίς εγκατάσταση/αναβάθμιση\n"
+msgstr ""
+"  -w, --downloadonly   μόνο λήψη πακέτων, χωρίς εγκατάσταση/αναβάθμιση\n"
 
-#, c-format
+#: src/pacman/pacman.c:164
+#, fuzzy, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
-msgstr "  -y, --refresh        λήψη ανανεωμένων βάσεων πακέτων από τον διακομιστή\n"
+"                       (-yy to force a refresh even if up to date)\n"
+msgstr ""
+"  -y, --refresh        λήψη ανανεωμένων βάσεων πακέτων από τον διακομιστή\n"
 
+#: src/pacman/pacman.c:170
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr "      --asdeps         σήμανση πακέτων ως μη-ρητώς εγκατεστημένων\n"
 
+#: src/pacman/pacman.c:171
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     σήμανση πακέτων ως ρητώς εγκατεστημένων\n"
 
+#: src/pacman/pacman.c:179
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          επιβολή εγκατάστασης, αντικατάσταση υπαρχόντων αρχείων\n"
+msgstr ""
+"  -f, --force          επιβολή εγκατάστασης, αντικατάσταση υπαρχόντων "
+"αρχείων\n"
 
+#: src/pacman/pacman.c:180
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         εγκατάσταση πακέτων ως μη-ρητώς εγκατεστημένων\n"
+msgstr ""
+"      --asdeps         εγκατάσταση πακέτων ως μη-ρητώς εγκατεστημένων\n"
 
+#: src/pacman/pacman.c:181
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
 msgstr "      --asexplicit     εγκατάσταση πακέτων ως ρητώς εγκατεστημένων\n"
 
+#: src/pacman/pacman.c:182
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pkg>   παράβλεψη αναβάθμισης πακέτου (επιτρέπεται πολλαπλή χρήση)\n"
+msgstr ""
+"      --ignore <pkg>   παράβλεψη αναβάθμισης πακέτου (επιτρέπεται πολλαπλή "
+"χρήση)\n"
 
+#: src/pacman/pacman.c:183
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <grp>\n                       παράβλεψη αναβάθμισης ομάδας (επιτρέπεται πολλαπλή χρήση)\n"
+msgstr ""
+"      --ignoregroup <grp>\n"
+"                       παράβλεψη αναβάθμισης ομάδας (επιτρέπεται πολλαπλή "
+"χρήση)\n"
 
+#: src/pacman/pacman.c:187
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         παράλειψη ελέγχου έκδοσης εξαρτήσεων (-dd για παράλειψη όλων των ελέγχων)\n"
+msgstr ""
+"  -d, --nodeps         παράλειψη ελέγχου έκδοσης εξαρτήσεων (-dd για "
+"παράλειψη όλων των ελέγχων)\n"
 
+#: src/pacman/pacman.c:188
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         τροποποίηση μόνο εγγραφών βάσης, χωρίς εγκατάσταση πακέτων\n"
+msgid ""
+"      --assume-installed <package=version>\n"
+"                       add a virtual package to satisfy dependencies\n"
+msgstr ""
 
+#: src/pacman/pacman.c:190
+#, c-format
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         τροποποίηση μόνο εγγραφών βάσης, χωρίς εγκατάσταση "
+"πακέτων\n"
+
+#: src/pacman/pacman.c:191
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr "      --noprogressbar  απόκρυψη γραμμής προόδου λήψης πακέτων\n"
 
+#: src/pacman/pacman.c:192
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    μη εκτέλεση σεναρίου εγκατάστασης, εάν υφίσταται τέτοιο\n"
+msgstr ""
+"      --noscriptlet    μη εκτέλεση σεναρίου εγκατάστασης, εάν υφίσταται "
+"τέτοιο\n"
 
+#: src/pacman/pacman.c:193
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "  -p, --print          προβολή στόχων, χωρίς εκτέλεση λειτουργίας\n"
 
+#: src/pacman/pacman.c:194
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <string>\n                       ορισμός τρόπου εμφάνισης στόχων\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       ορισμός τρόπου εμφάνισης στόχων\n"
 
+#: src/pacman/pacman.c:199
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "  -b, --dbpath <path>  ορισμός εναλλακτικής θέσης βάσης πακέτων\n"
 
+#: src/pacman/pacman.c:200
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr "  -r, --root <path>    ορισμός εναλλακτικού καταλόγου ρίζας\n"
 
+#: src/pacman/pacman.c:201
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        περισσότερες πληροφορίες\n"
 
+#: src/pacman/pacman.c:202
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>    ορισμός εναλλακτικής αρχιτεκτονικής\n"
 
+#: src/pacman/pacman.c:203
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> ορισμός εναλλακτικής θέσης κρύπτης πακέτων\n"
 
+#: src/pacman/pacman.c:204
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "  --color <when>       χρωματισμός πληροφοριών εξόδου\n"
 
+#: src/pacman/pacman.c:205
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <path>  ορισμός εναλλακτικού αρχείου ρυθμίσεων\n"
 
+#: src/pacman/pacman.c:206
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          εμφάνιση μηνυμάτων αποσφαλμάτωσης\n"
 
+#: src/pacman/pacman.c:207
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "      --gpgdir <path>  ορισμός εναλλακτικού καταλόγου GnuPG\n"
 
+#: src/pacman/pacman.c:208
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <path> ορισμός εναλλακτικού αρχείου καταγραφής\n"
 
+#: src/pacman/pacman.c:209
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      λειτουργία χωρίς επιβεβαίωση\n"
 
+#: src/pacman/pacman.c:210
+#, fuzzy, c-format
+msgid "      --confirm        always ask for confirmation\n"
+msgstr "      --noconfirm      λειτουργία χωρίς επιβεβαίωση\n"
+
+#: src/pacman/pacman.c:229
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Το πρόγραμμα αυτό μπορεί να αναδιανεμηθεί ελεύθερα\n                       υπό τους όρους της Γενικής Δημόσιας Άδειας GNU GPL.\n"
+msgstr ""
+"                       Το πρόγραμμα αυτό μπορεί να αναδιανεμηθεί ελεύθερα\n"
+"                       υπό τους όρους της Γενικής Δημόσιας Άδειας GNU GPL.\n"
 
+#: src/pacman/pacman.c:336
+#, c-format
+msgid "invalid option: '%s' and '%s' may not be used together\n"
+msgstr ""
+
+#: src/pacman/pacman.c:418
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "άκυρο όρισμα '%s' στο %s\n"
 
+#: src/pacman/pacman.c:441
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "το '%s' δεν είναι έγκυρο επίπεδο αποσφαλμάτωσης\n"
 
+#: src/pacman/pacman.c:902
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "μπορεί να οριστεί μόνο μία λειτουργία τη φορά\n"
 
-#, c-format
-msgid "invalid option\n"
+#: src/pacman/pacman.c:957
+#, fuzzy, c-format
+msgid "invalid option '-%c'\n"
 msgstr "άκυρη επιλογή\n"
 
+#: src/pacman/pacman.c:959
+#, fuzzy, c-format
+msgid "invalid option '--%s'\n"
+msgstr "άκυρη επιλογή\n"
+
+#: src/pacman/pacman.c:1124
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "εξάντληση μνήμης κατά την ανάλυση ορισμάτων\n"
 
+#: src/pacman/pacman.c:1133
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "αποτυχία ανάγνωσης από stdin: (%s)\n"
 
+#: src/pacman/pacman.c:1138
+#, fuzzy, c-format
+msgid "argument '-' specified with empty stdin\n"
+msgstr "το όρισμα '-' απαιτεί είσοδο από stdin\n"
+
+#: src/pacman/pacman.c:1143
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "το όρισμα '-' απαιτεί είσοδο από stdin\n"
 
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "αυτή η λειτουργία απαιτεί προνόμια root.\n"
 
+#: src/pacman/pacman.c:1218
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "δεν καθορίστηκε λειτουργία ('-h' για βοήθεια)\n"
 
+#: src/pacman/query.c:86
 #, c-format
 msgid "%s is owned by %s %s\n"
 msgstr "Το %s ανήκει στο %s %s\n"
 
+#: src/pacman/query.c:147
 #, c-format
 msgid "no file was specified for --owns\n"
 msgstr "δεν ορίστηκε αρχείο στην --owns\n"
 
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "αδύνατος ο προσδιορισμός της πραγματικής διαδρομής για το '%s': %s\n"
-
+#: src/pacman/query.c:176
 #, c-format
 msgid "failed to find '%s' in PATH: %s\n"
 msgstr "αποτυχία εύρεσης αρχείου '%s' στο PATH: %s\n"
 
+#: src/pacman/query.c:181
 #, c-format
 msgid "failed to read file '%s': %s\n"
 msgstr "αποτυχία ανάγνωσης αρχείου '%s': %s\n"
 
+#: src/pacman/query.c:188
+#, c-format
+msgid "cannot determine real path for '%s': %s\n"
+msgstr "αδύνατος ο προσδιορισμός της πραγματικής διαδρομής για το '%s': %s\n"
+
+#: src/pacman/query.c:195 src/pacman/query.c:216
 #, c-format
 msgid "No package owns %s\n"
 msgstr "Το %s δεν ανήκει σε κανένα πακέτο\n"
 
+#: src/pacman/query.c:204
+#, fuzzy, c-format
+msgid "path too long: %s/\n"
+msgstr "υπερβολικό μήκος διαδρομής: %s%s\n"
+
+#: src/pacman/query.c:329
+#, c-format
+msgid "[ignored]"
+msgstr ""
+
+#: src/pacman/query.c:380
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "δε βρέθηκε ομάδα '%s'\n"
 
+#: src/pacman/query.c:471 src/pacman/sync.c:474
 #, c-format
 msgid "package '%s' was not found\n"
 msgstr "το πακέτο '%s' δε βρέθηκε\n"
 
+#: src/pacman/query.c:474
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
 msgstr "το '%s' είναι αρχείο, ίσως θες να χρησιμοποιήσεις '%s'\n"
 
+#: src/pacman/query.c:480
 #, c-format
 msgid "could not load package '%s': %s\n"
 msgstr "αδυναμία φόρτωσης πακέτου '%s': %s\n"
 
-#, c-format
-msgid "target not found: %s\n"
-msgstr "δε βρέθηκε το πακέτο-στόχος: %s\n"
-
-#, c-format
-msgid "failed to prepare transaction (%s)\n"
-msgstr "αποτυχία προετοιμασίας διεκπεραίωσης (%s)\n"
-
-#, c-format
-msgid "%s: requires %s\n"
-msgstr "%s: απαιτεί το %s\n"
-
-#, c-format
-msgid "%s is designated as a HoldPkg.\n"
-msgstr "Το %s έχει οριστεί ως HoldPkg.\n"
-
-#, c-format
-msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr "Βρέθηκε πακέτο HoldPkg στην λίστα διεκπεραίωσης. Συνέχεια;"
-
-#, c-format
-msgid " there is nothing to do\n"
-msgstr "ουδέν πρακτέον\n"
-
-#, c-format
-msgid "Do you want to remove these packages?"
-msgstr "Κατάργηση πακέτων;"
-
-#, c-format
-msgid "failed to commit transaction (%s)\n"
-msgstr "αποτυχία διεκπεραίωσης (%s)\n"
-
-#, c-format
-msgid "could not remove %s: %s\n"
-msgstr "αδυναμία κατάργησης %s: %s\n"
-
-#, c-format
-msgid "could not access database directory\n"
-msgstr "αδυναμία πρόσβασης στον κατάλογο βάσης\n"
-
-#, c-format
-msgid "Database directory: %s\n"
-msgstr "Κατάλογος βάσης: %s\n"
-
-#, c-format
-msgid "Do you want to remove unused repositories?"
-msgstr "Διαγραφή άχρηστων αποθηκών;"
-
-#, c-format
-msgid "removing unused sync repositories...\n"
-msgstr "διαγραφή άχρηστων αποθηκών...\n"
-
-#, c-format
-msgid "Packages to keep:\n"
-msgstr "Πακέτα που θα διατηρηθούν:\n"
-
-#, c-format
-msgid "  All locally installed packages\n"
-msgstr "  Όλα τα τοπικώς εγκατεστημένα πακέτα\n"
-
-#, c-format
-msgid "  All current sync database packages\n"
-msgstr "  Όλα τα πακέτα σε βάσεις συγχρονισμού\n"
-
-#, c-format
-msgid "Cache directory: %s\n"
-msgstr "Κατάλογος κρύπτης: %s\n"
-
-#, c-format
-msgid "Do you want to remove all other packages from cache?"
-msgstr "Διαγραφή όλων των άλλων πακέτων από την κρύπτη;"
-
-#, c-format
-msgid "removing old packages from cache...\n"
-msgstr "διαγραφή παλαιών πακέτων από την κρύπτη...\n"
-
-#, c-format
-msgid "Do you want to remove ALL files from cache?"
-msgstr "Διαγραφή ΟΛΩΝ των πακέτων από την κρύπτη;"
-
-#, c-format
-msgid "removing all files from cache...\n"
-msgstr "διαγραφή όλων των πακέτων από την κρύπτη...\n"
-
-#, c-format
-msgid "could not access cache directory %s\n"
-msgstr "αδυναμία πρόσβασης στον κατάλογο κρύπτης %s\n"
-
-#, c-format
-msgid "failed to update %s (%s)\n"
-msgstr "αδυναμία ενημέρωσης %s (%s)\n"
-
-#, c-format
-msgid " %s is up to date\n"
-msgstr " %s ενημερωμένο\n"
-
-#, c-format
-msgid "failed to synchronize any databases\n"
-msgstr "αποτυχία συγχρονισμού βάσεων\n"
-
-#, c-format
-msgid "repository '%s' does not exist\n"
-msgstr "μη έγκυρη αποθήκη '%s'\n"
-
-#, c-format
-msgid "repository \"%s\" was not found.\n"
-msgstr "η αποθήκη '%s' δε βρέθηκε.\n"
-
+#: src/pacman/remove.c:49 src/pacman/sync.c:571 src/pacman/sync.c:655
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "παράλειψη πακέτου-στόχου: %s\n"
 
+#: src/pacman/remove.c:63 src/pacman/sync.c:591
 #, c-format
-msgid "There are %d members in group %s:\n"
-msgstr "Υπάρχουν %d μέλη στην ομάδα %s:\n"
+msgid "target not found: %s\n"
+msgstr "δε βρέθηκε το πακέτο-στόχος: %s\n"
 
+#: src/pacman/remove.c:118 src/pacman/sync.c:763
+#, c-format
+msgid "failed to prepare transaction (%s)\n"
+msgstr "αποτυχία προετοιμασίας διεκπεραίωσης (%s)\n"
+
+#: src/pacman/remove.c:125 src/pacman/sync.c:777
+#, c-format
+msgid "%s: requires %s\n"
+msgstr "%s: απαιτεί το %s\n"
+
+#: src/pacman/remove.c:143
+#, c-format
+msgid "%s is designated as a HoldPkg.\n"
+msgstr "Το %s έχει οριστεί ως HoldPkg.\n"
+
+#: src/pacman/remove.c:148
+#, c-format
+msgid "HoldPkg was found in target list. Do you want to continue?"
+msgstr "Βρέθηκε πακέτο HoldPkg στην λίστα διεκπεραίωσης. Συνέχεια;"
+
+#: src/pacman/remove.c:156 src/pacman/sync.c:809
+#, c-format
+msgid " there is nothing to do\n"
+msgstr "ουδέν πρακτέον\n"
+
+#: src/pacman/remove.c:168
+#, c-format
+msgid "Do you want to remove these packages?"
+msgstr "Κατάργηση πακέτων;"
+
+#: src/pacman/remove.c:174 src/pacman/sync.c:836
+#, c-format
+msgid "failed to commit transaction (%s)\n"
+msgstr "αποτυχία διεκπεραίωσης (%s)\n"
+
+#: src/pacman/sync.c:47 src/pacman/sync.c:100
+#, c-format
+msgid "could not remove %s: %s\n"
+msgstr "αδυναμία κατάργησης %s: %s\n"
+
+#: src/pacman/sync.c:65
+#, c-format
+msgid "could not access database directory\n"
+msgstr "αδυναμία πρόσβασης στον κατάλογο βάσης\n"
+
+#: src/pacman/sync.c:147
+#, c-format
+msgid "Database directory: %s\n"
+msgstr "Κατάλογος βάσης: %s\n"
+
+#: src/pacman/sync.c:148
+#, c-format
+msgid "Do you want to remove unused repositories?"
+msgstr "Διαγραφή άχρηστων αποθηκών;"
+
+#: src/pacman/sync.c:151
+#, c-format
+msgid "removing unused sync repositories...\n"
+msgstr "διαγραφή άχρηστων αποθηκών...\n"
+
+#: src/pacman/sync.c:181
+#, c-format
+msgid "Packages to keep:\n"
+msgstr "Πακέτα που θα διατηρηθούν:\n"
+
+#: src/pacman/sync.c:183
+#, c-format
+msgid "  All locally installed packages\n"
+msgstr "  Όλα τα τοπικώς εγκατεστημένα πακέτα\n"
+
+#: src/pacman/sync.c:186
+#, c-format
+msgid "  All current sync database packages\n"
+msgstr "  Όλα τα πακέτα σε βάσεις συγχρονισμού\n"
+
+#: src/pacman/sync.c:196
+#, c-format
+msgid "Cache directory: %s\n"
+msgstr "Κατάλογος κρύπτης: %s\n"
+
+#: src/pacman/sync.c:199
+#, c-format
+msgid "Do you want to remove all other packages from cache?"
+msgstr "Διαγραφή όλων των άλλων πακέτων από την κρύπτη;"
+
+#: src/pacman/sync.c:203
+#, c-format
+msgid "removing old packages from cache...\n"
+msgstr "διαγραφή παλαιών πακέτων από την κρύπτη...\n"
+
+#: src/pacman/sync.c:205
+#, c-format
+msgid "Do you want to remove ALL files from cache?"
+msgstr "Διαγραφή ΟΛΩΝ των πακέτων από την κρύπτη;"
+
+#: src/pacman/sync.c:209
+#, c-format
+msgid "removing all files from cache...\n"
+msgstr "διαγραφή όλων των πακέτων από την κρύπτη...\n"
+
+#: src/pacman/sync.c:215
+#, c-format
+msgid "could not access cache directory %s\n"
+msgstr "αδυναμία πρόσβασης στον κατάλογο κρύπτης %s\n"
+
+#: src/pacman/sync.c:332
+#, c-format
+msgid "failed to update %s (%s)\n"
+msgstr "αδυναμία ενημέρωσης %s (%s)\n"
+
+#: src/pacman/sync.c:335
+#, c-format
+msgid " %s is up to date\n"
+msgstr " %s ενημερωμένο\n"
+
+#: src/pacman/sync.c:347
+#, c-format
+msgid "failed to synchronize any databases\n"
+msgstr "αποτυχία συγχρονισμού βάσεων\n"
+
+#: src/pacman/sync.c:469
+#, c-format
+msgid "repository '%s' does not exist\n"
+msgstr "μη έγκυρη αποθήκη '%s'\n"
+
+#: src/pacman/sync.c:515
+#, c-format
+msgid "repository \"%s\" was not found.\n"
+msgstr "η αποθήκη '%s' δε βρέθηκε.\n"
+
+#: src/pacman/sync.c:605
+#, fuzzy, c-format
+msgid "There is %d member in group %s:\n"
+msgid_plural "There are %d members in group %s:\n"
+msgstr[0] "Υπάρχουν %d μέλη στην ομάδα %s:\n"
+msgstr[1] "Υπάρχουν %d μέλη στην ομάδα %s:\n"
+
+#: src/pacman/sync.c:684
 #, c-format
 msgid "database not found: %s\n"
 msgstr "δεν βρέθηκε η βάση: %s\n"
 
+#: src/pacman/sync.c:712
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr "το '%s' είναι αρχείο, μήπως εννοούσες %s αντί για %s;\n"
 
+#: src/pacman/sync.c:742
 #, c-format
 msgid "Starting full system upgrade...\n"
 msgstr "Έναρξη πλήρους αναβάθμισης συστήματος...\n"
 
+#: src/pacman/sync.c:769
 #, c-format
 msgid "package %s does not have a valid architecture\n"
 msgstr "η αρχιτεκτονική του πακέτου '%s' δεν είναι έγκυρη\n"
 
+#: src/pacman/sync.c:787
 #, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "διένεξη %s με %s\n"
 
+#: src/pacman/sync.c:791
 #, c-format
 msgid "%s and %s are in conflict (%s)\n"
 msgstr "διένεξη %s με %s (%s)\n"
 
+#: src/pacman/sync.c:825
 #, c-format
 msgid "Proceed with download?"
 msgstr "Συνέχιση λήψης;"
 
+#: src/pacman/sync.c:827
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Συνέχιση εγκατάστασης;"
 
+#: src/pacman/sync.c:841
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
 msgstr "δε γίνεται %s σε διενέξεις καταλόγου-αρχείου\n"
 
+#: src/pacman/sync.c:847
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "Το %s υπάρχει και στο '%s' και στο '%s'\n"
 
+#: src/pacman/sync.c:851
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: το %s υπάρχει ήδη στο δίσκο\n"
 
+#: src/pacman/sync.c:864
 #, c-format
 msgid "%s is invalid or corrupted\n"
 msgstr "το %s είναι άκυρο ή κατεστραμμένο\n"
 
+#: src/pacman/sync.c:872
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Προέκυψαν σφάλματα, δεν αναβαθμίστηκαν πακέτα.\n"
 
+#: src/pacman/sync.c:917
 #, c-format
 msgid "Synchronizing package databases...\n"
 msgstr "Συγχρονισμός βάσεων πακέτων...\n"
 
+#: src/pacman/upgrade.c:56
+#, fuzzy, c-format
+msgid "memory exhausted\n"
+msgstr "εξάντληση μνήμης κατά την ανάλυση ορισμάτων\n"
+
+#: src/pacman/upgrade.c:87
 #, c-format
 msgid "loading packages...\n"
 msgstr "φόρτωση πακέτων...\n"
 
+#: src/pacman/util.c:81
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "αποτυχία έναρξης διεκπεραίωσης (%s)\n"
 
+#: src/pacman/util.c:85
 #, c-format
 msgid "could not lock database: %s\n"
 msgstr "αδυναμία κλειδώματος βάσης: %s\n"
 
+#: src/pacman/util.c:88
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  εάν είσαι βέβαιος ότι ο διαχειριστής πακέτων δεν εκτελείται ήδη,\n  μπορείς να διαγράψεις το %s\n"
+msgstr ""
+"  εάν είσαι βέβαιος ότι ο διαχειριστής πακέτων δεν εκτελείται ήδη,\n"
+"  μπορείς να διαγράψεις το %s\n"
 
+#: src/pacman/util.c:97
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "αποτυχία ολοκλήρωσης διεκπεραίωσης (%s)\n"
 
+#: src/pacman/util.c:128
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "δεν έχουν οριστεί αποθήκες πακέτων.\n"
 
+#: src/pacman/util.c:137
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
 msgstr "μη έγκυρη βάση'%s' (%s)\n"
 
+#: src/pacman/util.c:645
 #, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "ανεπαρκής αριθμός στηλών για προβολή πίνακα\n"
 
+#: src/pacman/util.c:766
 #, c-format
 msgid "Valid"
 msgstr "Έγκυρο"
 
+#: src/pacman/util.c:769
 #, c-format
 msgid "Key expired"
 msgstr "Ληγμένο κλειδί"
 
+#: src/pacman/util.c:772
 #, c-format
 msgid "Expired"
 msgstr "Ληγμένο"
 
+#: src/pacman/util.c:775
 #, c-format
 msgid "Invalid"
 msgstr "Άκυρο"
 
+#: src/pacman/util.c:778
 #, c-format
 msgid "Key unknown"
 msgstr "Άγνωστο κλειδί"
 
+#: src/pacman/util.c:781
 #, c-format
 msgid "Key disabled"
 msgstr "Απενεργοποιημένο κλειδί"
 
+#: src/pacman/util.c:784
 #, c-format
 msgid "Signature error"
 msgstr "Σφάλμα υπογραφής"
 
+#: src/pacman/util.c:789
 #, c-format
 msgid "full trust"
 msgstr "πλήρους εμπιστοσύνης"
 
+#: src/pacman/util.c:792
 #, c-format
 msgid "marginal trust"
 msgstr "οριακής εμπιστοσύνης"
 
+#: src/pacman/util.c:795
 #, c-format
 msgid "never trust"
 msgstr "μηδενικής εμπιστοσύνης"
 
+#: src/pacman/util.c:799
 #, c-format
 msgid "unknown trust"
 msgstr "άγνωστης εμπιστοσύνης"
 
+#: src/pacman/util.c:803
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s από \"%s\""
 
-#, c-format
-msgid "Name"
-msgstr "Όνομα"
+#: src/pacman/util.c:821
+#, fuzzy, c-format
+msgid "Package"
+msgstr "Πακέτα"
 
+#: src/pacman/util.c:824
 #, c-format
 msgid "Old Version"
 msgstr "Παλιό"
 
+#: src/pacman/util.c:825
 #, c-format
 msgid "New Version"
 msgstr "Νέο"
 
+#: src/pacman/util.c:826
 #, c-format
 msgid "Net Change"
 msgstr "Διαφορά"
 
+#: src/pacman/util.c:827
 #, c-format
 msgid "Download Size"
 msgstr "Λήψη"
 
+#: src/pacman/util.c:924
 #, c-format
 msgid "removal"
 msgstr "κατάργηση"
 
+#: src/pacman/util.c:930
 #, c-format
 msgid "Packages"
 msgstr "Πακέτα"
 
+#: src/pacman/util.c:951
 #, c-format
 msgid "Total Download Size:"
 msgstr "Συνολικό Μέγεθος Λήψης:"
 
+#: src/pacman/util.c:955
 #, c-format
 msgid "Total Installed Size:"
 msgstr "Συνολικό Μέγεθος Εγκατάστασης:"
 
+#: src/pacman/util.c:958
 #, c-format
 msgid "Total Removed Size:"
 msgstr "Συνολικό Μέγεθος Κατάργησης:"
 
+#: src/pacman/util.c:962
 #, c-format
 msgid "Net Upgrade Size:"
 msgstr "Καθαρό Μέγεθος Αναβάθμισης:"
 
+#: src/pacman/util.c:1212
 #, c-format
 msgid " [pending]"
 msgstr "[σε εκκρεμότητα]"
 
+#: src/pacman/util.c:1236
 #, c-format
 msgid "New optional dependencies for %s\n"
 msgstr "Νέες προαιρετικές εξαρτήσεις του %s\n"
 
+#: src/pacman/util.c:1258
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "Προαιρετικές εξαρτήσεις του %s\n"
 
+#: src/pacman/util.c:1271
 #, c-format
 msgid "Repository %s\n"
 msgstr "Αποθήκη %s\n"
 
+#: src/pacman/util.c:1311
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
 msgstr "μη έγκυρη τιμή: το %d δεν είναι μεταξύ %d και %d\n"
 
+#: src/pacman/util.c:1318
 #, c-format
 msgid "invalid number: %s\n"
 msgstr "άκυρος αριθμός: %s\n"
 
+#: src/pacman/util.c:1403
 #, c-format
 msgid "Enter a selection (default=all)"
 msgstr " Δώσε επιλογή (προεπιλογή: όλα)"
 
+#: src/pacman/util.c:1467
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "Δώσε αριθμό (προεπιλογή: %d)"
 
+#: src/pacman/util.c:1517
 #, c-format
 msgid "[Y/n]"
 msgstr "[Y/n]"
 
+#: src/pacman/util.c:1519
 #, c-format
 msgid "[y/N]"
 msgstr "[y/N]"
 
+#: src/pacman/util.c:1544
 #, c-format
 msgid "Y"
 msgstr "Y"
 
+#: src/pacman/util.c:1544
 #, c-format
 msgid "YES"
 msgstr "ΝΑΙ"
 
+#: src/pacman/util.c:1546
 #, c-format
 msgid "N"
 msgstr "N"
 
+#: src/pacman/util.c:1546
 #, c-format
 msgid "NO"
 msgstr "ΟΧΙ"
 
+#: src/pacman/util.c:1613
 #, c-format
 msgid "failed to allocate string\n"
 msgstr "αποτυχία δέσμευσης συμβολοσειράς\n"
 
-#, c-format
-msgid "error: %s"
-msgstr "σφάλμα: %s"
-
-#, c-format
-msgid "warning: %s"
-msgstr "προσοχή: %s"
-
+#: src/pacman/util.c:1650 src/pacman/util.c:1700
 #, c-format
 msgid "error: "
 msgstr "σφάλμα: "
 
+#: src/pacman/util.c:1654 src/pacman/util.c:1704
 #, c-format
 msgid "warning: "
 msgstr "προσοχή: "
+
+#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
+#~ msgstr "%s-%s: η τοπική έκδοση είναι νεότερη. Αναβάθμιση;"
+
+#~ msgid "config parsing exceeded max recursion depth of %d.\n"
+#~ msgstr ""
+#~ "υπέρβαση μέγιστου βάθους αναδρομής (%d) κατά την ανάλυση αρχείου "
+#~ "ρυθμίσεων.\n"
+
+#~ msgid "config file %s could not be read: %s\n"
+#~ msgstr "αδυναμία ανάγνωσης αρχείου ρυθμίσεων %s: %s\n"
+
+#~ msgid "config file %s, line %d: bad section name.\n"
+#~ msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: άκυρο όνομα ενότητας.\n"
+
+#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
+#~ msgstr "αρχείο ρυθμίσεων %s, γραμμή %d: συντακτικό σφάλμα- απόν όρισμα.\n"
+
+#~ msgid "  -i, --info           view package information\n"
+#~ msgstr "  -i, --info           εμφάνιση πληροφοριών πακέτου\n"
+
+#~ msgid "Name"
+#~ msgstr "Όνομα"
+
+#~ msgid "error: %s"
+#~ msgstr "σφάλμα: %s"
+
+#~ msgid "warning: %s"
+#~ msgstr "προσοχή: %s"

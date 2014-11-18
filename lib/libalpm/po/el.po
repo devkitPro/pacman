@@ -12,610 +12,821 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
 "PO-Revision-Date: 2013-11-20 10:04+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/archlinux-pacman/language/el/)\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/el/)\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s ενημερωμένο -- παράλειψη\n"
 
+#: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s ενημερωμένο -- επανεγκατάσταση\n"
 
+#: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "υποβάθμιση πακέτου %s (%s => %s)\n"
 
+#: lib/libalpm/add.c:122 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "προειδοποίηση κατά την εξαγωγή του %s (%s)\n"
 
+#: lib/libalpm/add.c:125 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "αδυναμία εξαγωγής %s (%s)\n"
 
+#: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "αδυναμία μετονομασίας %s σε %s (%s)\n"
 
+#: lib/libalpm/add.c:184
+#, c-format
+msgid "file not found in file list for package %s. skipping extraction of %s\n"
+msgstr ""
+
+#: lib/libalpm/add.c:230
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "τα δικαιώματα καταλόγου διαφέρουν στο %s\nσύστημα αρχείων: %o  πακέτο: %o\n"
+msgstr ""
+"τα δικαιώματα καταλόγου διαφέρουν στο %s\n"
+"σύστημα αρχείων: %o  πακέτο: %o\n"
 
+#: lib/libalpm/add.c:240
+#, fuzzy, c-format
+msgid ""
+"directory ownership differs on %s\n"
+"filesystem: %u:%u  package: %u:%u\n"
+msgstr ""
+"τα δικαιώματα καταλόγου διαφέρουν στο %s\n"
+"σύστημα αρχείων: %o  πακέτο: %o\n"
+
+#: lib/libalpm/add.c:255
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "εξαγωγή: μη αντικατάσταση καταλόγου με αρχείο %s\n"
 
-#, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "εξαγωγή: ο συμβολικός δεσμός %s δεν δείχνει σε κατάλογο\n"
-
-#, c-format
-msgid "%s saved as %s\n"
-msgstr "αποθήκευση %s ως %s\n"
-
-#, c-format
-msgid "%s installed as %s\n"
-msgstr "εγκατάσταση %s ως %s\n"
-
-#, c-format
-msgid "extracting %s as %s.pacnew\n"
-msgstr "εξαγωγή %s ως %s.pacnew\n"
-
+#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "αδυναμία χρήσης τρέχοντος καταλόγου\n"
 
+#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "αδυναμία μετάβασης στον κατάλογο %s (%s)\n"
 
+#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "αδυναμία επαναφοράς καταλόγου εργασίας (%s)\n"
 
+#: lib/libalpm/add.c:647
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "πρόβλημα κατά την αναβάθμιση του %s\n"
 
+#: lib/libalpm/add.c:653
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "πρόβλημα κατά την εγκατάσταση του %s\n"
 
+#: lib/libalpm/add.c:669
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "αδυναμία ενημέρωσης εγγραφής %s-%s στην βάση\n"
 
+#: lib/libalpm/add.c:680
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "αδυναμία προσθήκης εγγραφής '%s' στην κρύπτη\n"
 
+#: lib/libalpm/be_local.c:249
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "σφάλμα ανάγνωσης αρχείου %s: %s\n"
 
+#: lib/libalpm/be_local.c:343
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "διαγραφή άκυρης βάσης: %s\n"
 
-#, c-format
-msgid "invalid name for database entry '%s'\n"
-msgstr "άκυρο όνομα εγγραφής βάσης '%s'\n"
-
-#, c-format
-msgid "duplicated database entry '%s'\n"
-msgstr "διπλότυπη εγγραφή βάσης '%s'\n"
-
-#, c-format
-msgid "corrupted database entry '%s'\n"
-msgstr "κατεστραμμένη εγγραφή βάσης '%s'\n"
-
-#, c-format
-msgid "could not open file %s: %s\n"
-msgstr "αδυναμία ανάγνωσης αρχείου %s: %s\n"
-
-#, c-format
-msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "ανακολουθία στην βάση %s: ασυμφωνία ονόματος πακέτου %s\n"
-
-#, c-format
-msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "ανακολουθία στην βάση %s: ασυμφωνία έκδοσης πακέτου %s\n"
-
-#, c-format
-msgid "unknown validation type for package %s: %s\n"
-msgstr "άγνωστος τύπος επικύρωσης πακέτου %s: %s\n"
-
+#: lib/libalpm/be_local.c:389 lib/libalpm/be_local.c:849
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "αδυναμία δημιουργίας καταλόγου %s: %s\n"
 
+#: lib/libalpm/be_local.c:559 lib/libalpm/be_sync.c:358
 #, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "αδυναμία ανάλυσης αρχείου περιγραφής πακέτου στο %s\n"
+msgid "invalid name for database entry '%s'\n"
+msgstr "άκυρο όνομα εγγραφής βάσης '%s'\n"
 
+#: lib/libalpm/be_local.c:567
 #, c-format
-msgid "missing package name in %s\n"
-msgstr "απόν όνομα πακέτου στο %s\n"
+msgid "duplicated database entry '%s'\n"
+msgstr "διπλότυπη εγγραφή βάσης '%s'\n"
 
+#: lib/libalpm/be_local.c:579
 #, c-format
-msgid "missing package version in %s\n"
-msgstr "απούσα έκδοση πακέτου στο %s\n"
+msgid "corrupted database entry '%s'\n"
+msgstr "κατεστραμμένη εγγραφή βάσης '%s'\n"
 
+#: lib/libalpm/be_local.c:679 lib/libalpm/be_local.c:769
+#: lib/libalpm/be_local.c:898 lib/libalpm/be_local.c:991
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
+#: lib/libalpm/util.c:266
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "αδυναμία ανάγνωσης αρχείου %s: %s\n"
+
+#: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "ανακολουθία στην βάση %s: ασυμφωνία ονόματος πακέτου %s\n"
+
+#: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "ανακολουθία στην βάση %s: ασυμφωνία έκδοσης πακέτου %s\n"
+
+#: lib/libalpm/be_local.c:740
+#, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr "άγνωστος τύπος επικύρωσης πακέτου %s: %s\n"
+
+#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:625
+#: lib/libalpm/be_package.c:638
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "σφάλμα ανάγνωσης πακέτου %s: %s\n"
 
+#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
+#, fuzzy, c-format
+msgid "error while reading mtree of package %s: %s\n"
+msgstr "σφάλμα ανάγνωσης πακέτου %s: %s\n"
+
+#: lib/libalpm/be_package.c:588
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "αδυναμία ανάλυσης αρχείου περιγραφής πακέτου στο %s\n"
+
+#: lib/libalpm/be_package.c:593
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "απόν όνομα πακέτου στο %s\n"
+
+#: lib/libalpm/be_package.c:597
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "απούσα έκδοση πακέτου στο %s\n"
+
+#: lib/libalpm/be_package.c:601
+#, fuzzy, c-format
+msgid "invalid package version in %s\n"
+msgstr "απούσα έκδοση πακέτου στο %s\n"
+
+#: lib/libalpm/be_package.c:645
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "απόντα μετα-δεδομένα πακέτου στο %s\n"
 
+#: lib/libalpm/be_package.c:734
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "αδυναμία ανάγνωσης αρχείου υπογραφής: %s\n"
 
+#: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "απόν κλειδί από τον κλειδούχο\n\n"
+msgstr ""
+"απόν κλειδί από τον κλειδούχο\n"
+"\n"
 
+#: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "διαγραφή άκυρου αρχείου: %s\n"
 
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "αδυναμία διαγραφής αρχείου κλειδώματος %s\n"
-
+#: lib/libalpm/be_sync.c:476
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "αδυναμία ανάλυσης αρχείου περιγραφής πακέτου '%s' βάσης '%s'\n"
 
+#: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "ασυνέπεια βάσης %s: μη έγκυρο όνομα πακέτου %s\n"
 
+#: lib/libalpm/be_sync.c:519
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "ασυνέπεια βάσης %s: πολύ μακρύ όνομα πακέτου %s\n"
 
+#: lib/libalpm/be_sync.c:585
+#, fuzzy, c-format
+msgid "unknown database file: %s\n"
+msgstr "αδυναμία εντοπισμού αρχείου %s: %s\n"
+
+#: lib/libalpm/db.c:369
 #, c-format
 msgid "database path is undefined\n"
 msgstr "ακαθόριστη διαδρομή βάσης\n"
 
+#: lib/libalpm/deps.c:218
 #, c-format
 msgid "dependency cycle detected:\n"
 msgstr "εντοπισμός κυκλικής εξάρτησης:\n"
 
+#: lib/libalpm/deps.c:221
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "κατάργηση του %s μετά την εξάρτησή του %s\n"
 
+#: lib/libalpm/deps.c:225
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "εγκατάσταση του %s πρίν από την εξάρτησή του %s\n"
 
+#: lib/libalpm/deps.c:657 lib/libalpm/deps.c:689
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "παράβλεψη πακέτου %s-%s\n"
 
+#: lib/libalpm/deps.c:844
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "αδυναμία εύρεσης του \"%s\", εξάρτησης του \"%s\"\n"
 
+#: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "αδυναμία λήψης πληροφοριών συστήματος αρχείων για το %s: %s\n"
 
+#: lib/libalpm/diskspace.c:108
 #, c-format
 msgid "could not open file: %s: %s\n"
 msgstr "αδυναμία ανοίγματος αρχείου %s: %s\n"
 
+#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
 msgstr "αδυναμία λήψης πληροφοριών συστήματος αρχείων\n"
 
+#: lib/libalpm/diskspace.c:249 lib/libalpm/diskspace.c:308
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "αδυναμία καθορισμού σημείου προσάρτησης αρχείου %s\n"
 
+#: lib/libalpm/diskspace.c:347
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "Κατάτμηση %s πλήρης: %jd ελεύθερα μπλοκ, %jd απαιτούνται\n"
 
+#: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "αδυναμία καθορισμού σημείων προσάρτησης στο σύστημα αρχείων\n"
 
+#: lib/libalpm/diskspace.c:378
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "αδυναμία προσδιορισμού σημείου προσάρτησης καταλόγου κρύπτης %s\n"
 
+#: lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "αδυναμία καθορισμού ριζικού σημείου προσάρτησης %s\n"
 
+#: lib/libalpm/diskspace.c:479
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Η κατάτμηση %s είναι προσαρτημένη μόνο για ανάγνωση\n"
 
+#: lib/libalpm/dload.c:149
 #, c-format
 msgid "disk"
 msgstr "δίσκο"
 
+#: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "αποτυχία δημιουργίας προσωρινού αρχείου λήψης\n"
 
+#: lib/libalpm/dload.c:418
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "άκυρη διεύθυνση '%s'\n"
 
+#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "αποτυχία λήψης αρχείου '%s' από %s : %s\n"
 
+#: lib/libalpm/dload.c:500
+#, fuzzy, c-format
+msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
+msgstr "αποτυχία λήψης αρχείου '%s' από %s : %s\n"
+
+#: lib/libalpm/dload.c:548
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "το %s δείχνει ημιτελές: %jd/%jd bytes\n"
 
+#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
 msgstr "αποτυχία λήψης %s\n"
 
+#: lib/libalpm/error.c:40
 #, c-format
 msgid "out of memory!"
 msgstr "ανεπαρκής μνήμη!"
 
+#: lib/libalpm/error.c:42
 #, c-format
 msgid "unexpected system error"
 msgstr "απροσδόκητο σφάλμα συστήματος"
 
+#: lib/libalpm/error.c:44
 #, c-format
 msgid "permission denied"
 msgstr "άρνηση πρόσβασης"
 
+#: lib/libalpm/error.c:46
 #, c-format
 msgid "could not find or read file"
 msgstr "αδυναμία εύρεσης ή ανάγνωσης αρχείου"
 
+#: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
 msgstr "αδυναμία εύρεσης ή ανάγνωσης καταλόγου"
 
+#: lib/libalpm/error.c:50
 #, c-format
 msgid "wrong or NULL argument passed"
 msgstr "εσφαλμένο ή NULL όρισμα"
 
+#: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
 msgstr "ανεπαρκής ελεύθερος χώρος στον δίσκο"
 
+#: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
 msgstr "βιβλιοθήκη μη εκκινηθείσα"
 
+#: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
 msgstr "βιβλιοθήκη ήδη εκκινηθείσα"
 
+#: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
 msgstr "αδυναμία κλειδώματος βάσης"
 
+#: lib/libalpm/error.c:62
 #, c-format
 msgid "could not open database"
 msgstr "αδυναμία ανάγνωσης βάσης"
 
+#: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
 msgstr "αδυναμία δημιουργίας βάσης"
 
+#: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
 msgstr "βάση μη εκκινηθείσα"
 
+#: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
 msgstr "βάση ήδη καταχωρημένη"
 
+#: lib/libalpm/error.c:70
 #, c-format
 msgid "could not find database"
 msgstr "αδυναμία εύρεσης βάσης"
 
+#: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
 msgstr "άκυρη ή κατεστραμμένη βάση"
 
+#: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
 msgstr "άκυρη ή κατεστραμμένη βάση (υπογραφή PGP)"
 
+#: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
 msgstr "εσφαλμένη έκδοση βάσης"
 
+#: lib/libalpm/error.c:78
 #, c-format
 msgid "could not update database"
 msgstr "αδυναμία ενημέρωσης βάσης"
 
+#: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
 msgstr "αδυναμία διαγραφής εγγραφής βάσης"
 
+#: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
 msgstr "άκυρη διεύθυνση διακομιστή"
 
+#: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
 msgstr "ακαθόριστοι διακομιστές αποθήκης"
 
+#: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
 msgstr "διεκπεραίωση ήδη εκκινηθείσα"
 
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
 msgstr "διεκπεραίωση μη εκκινηθείσα"
 
+#: lib/libalpm/error.c:92
 #, c-format
 msgid "duplicate target"
 msgstr "διπλότυπος στόχος"
 
+#: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
 msgstr "απροετοίμαστη διεκπεραίωση"
 
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
 msgstr "ματαίωση διεκπεραίωσης"
 
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "λειτουργία ασύμβατη με τον τύπο διεκπεραίωσης"
 
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "προσπάθεια διεκπεραίωσης σε μη κλειδωμένη βάση"
 
+#: lib/libalpm/error.c:105
 #, c-format
 msgid "could not find or read package"
 msgstr "αδυναμία εύρεσης ή ανάγνωσης πακέτου"
 
+#: lib/libalpm/error.c:107
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "ακύρωση λειτουργίας λόγω ignorepkg"
 
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "άκυρο ή κατεστραμμένο πακέτο"
 
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "άκυρο ή κατεστραμμένο πακέτο (άθροισμα ελέγχου)"
 
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "άκυρο ή κατεστραμμένο πακέτο (υπογραφή PGP)"
 
+#: lib/libalpm/error.c:115
+#, fuzzy, c-format
+msgid "package missing required signature"
+msgstr "απούσα υπογραφή PGP"
+
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "cannot open package file"
 msgstr "αδυναμία ανοίγματος πακέτου"
 
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "αδυναμία διαγραφής όλων των αρχείων του πακέτου"
 
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "package filename is not valid"
 msgstr "μη έγκυρο όνομα πακέτου"
 
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "package architecture is not valid"
 msgstr "μη έγκυρη αρχιτεκτονική πακέτου"
 
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "could not find repository for target"
 msgstr "αδυναμία εύρεσης αποθήκης για διεκπεραίωση"
 
+#: lib/libalpm/error.c:128
 #, c-format
 msgid "missing PGP signature"
 msgstr "απούσα υπογραφή PGP"
 
+#: lib/libalpm/error.c:130
 #, c-format
 msgid "invalid PGP signature"
 msgstr "άκυρη υπογραφή PGP"
 
+#: lib/libalpm/error.c:133
 #, c-format
 msgid "invalid or corrupted delta"
 msgstr "άκυρο ή κατεστραμμένο delta"
 
+#: lib/libalpm/error.c:135
 #, c-format
 msgid "delta patch failed"
 msgstr "αποτυχία μπάλωματος delta"
 
+#: lib/libalpm/error.c:138
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "αδυναμία επίλυσης εξαρτήσεων"
 
+#: lib/libalpm/error.c:140
 #, c-format
 msgid "conflicting dependencies"
 msgstr "διένεξη εξαρτήσεων"
 
+#: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting files"
 msgstr "διένεξη αρχείων"
 
+#: lib/libalpm/error.c:145
 #, c-format
 msgid "failed to retrieve some files"
 msgstr "αποτυχία λήψης κάποιων αρχείων"
 
+#: lib/libalpm/error.c:147
 #, c-format
 msgid "invalid regular expression"
 msgstr "άκυρη κανονική έκφραση"
 
+#: lib/libalpm/error.c:153
 #, c-format
 msgid "libarchive error"
 msgstr "σφάλμα libarchive"
 
+#: lib/libalpm/error.c:155
 #, c-format
 msgid "download library error"
 msgstr "σφάλμα βιβλιοθήκης λήψης"
 
+#: lib/libalpm/error.c:157
 #, c-format
 msgid "gpgme error"
 msgstr "σφάλμα gpgme"
 
+#: lib/libalpm/error.c:159
 #, c-format
 msgid "error invoking external downloader"
 msgstr "σφάλμα κλήσης προγράμματος λήψης"
 
+#: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
 msgstr "απροσδόκητο σφάλμα"
 
+#: lib/libalpm/handle.c:139
+#, c-format
+msgid "lock file missing %s\n"
+msgstr ""
+
+#: lib/libalpm/handle.c:145
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "αδυναμία διαγραφής αρχείου κλειδώματος %s\n"
+
+#: lib/libalpm/package.c:559
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "αδυναμία πλήρους φόρτωσης μεταδεδομένων πακέτου %s-%s\n"
 
+#: lib/libalpm/remove.c:118
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "δεν βρέθηκε το %s στη βάση -- παράλειψη\n"
 
+#: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
 msgstr "αφαίρεση του %s από λίστα διεκπεραίωσης\n"
 
+#: lib/libalpm/remove.c:348
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "αδυναμία διαγραφής αρχείου '%s': %s\n"
 
+#: lib/libalpm/remove.c:388
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "αδυναμία ανοίγματος καταλόγου %s: %s\n"
 
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "αδυναμία κατάργησης %s (%s)\n"
 
+#: lib/libalpm/remove.c:727
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "αδυναμία κατάργησης εγγραφής βάσης %s-%s\n"
 
+#: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "αδυναμία κατάργησης εγγραφής '%s' από κρύπτη\n"
 
+#: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: παράβλεψη αναβάθμισης πακέτου (%s => %s)\n"
 
+#: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: παράβλεψη υποβάθμισης πακέτου (%s => %s)\n"
 
+#: lib/libalpm/sync.c:113
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: υποβάθμιση από έκδοση %s στην έκδοση %s\n"
 
+#: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: τοπικό (%s) νεότερο από του [%s] (%s)\n"
 
+#: lib/libalpm/sync.c:160
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "παράβλεψη αντικαταστάτη πακέτου (%s-%s => %s-%s)\n"
 
+#: lib/libalpm/sync.c:176
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "αδυναμία αντικατάστασης του %s από το %s\n"
 
+#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "εντοπισμός ανεπίλυτων διενέξεων πακέτων\n"
 
+#: lib/libalpm/sync.c:556
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "αφαίρεση του '%s' από την λίστα διεκπεραίωσης λόγω διένεξης με το '%s'\n"
+msgstr ""
+"αφαίρεση του '%s' από την λίστα διεκπεραίωσης λόγω διένεξης με το '%s'\n"
 
+#: lib/libalpm/sync.c:1014
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "σφάλμα λήψης μερικών αρχείων\n"
 
+#: lib/libalpm/sync.c:1176
+#, fuzzy, c-format
+msgid "%s: missing required signature\n"
+msgstr "απούσα υπογραφή PGP"
+
+#: lib/libalpm/sync.c:1357
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "μη αρκετός ελεύθερος χώρος στο δίσκο\n"
 
+#: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "αδυναμία διεκπεραίωσης διαγραφής\n"
 
+#: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "αδυναμία διεκπεραίωσης\n"
 
+#: lib/libalpm/trans.c:339
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "αδυναμία δημιουργίας προσωρινού καταλόγου\n"
 
+#: lib/libalpm/trans.c:354
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "αδυναμία αντιγραφής προσωρινού αρχείου στο %s (%s)\n"
 
+#: lib/libalpm/trans.c:385
 #, c-format
 msgid "could not remove %s\n"
 msgstr "αδυναμία κατάργησης %s\n"
 
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "αδυναμία διαγραφής προσωρινού καταλόγου %s\n"
 
+#: lib/libalpm/util.c:256
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr "αδυναμία εντοπισμού αρχείου %s: %s\n"
 
+#: lib/libalpm/util.c:524
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "αδυναμία δημιουργίας αγωγού (%s)\n"
 
+#: lib/libalpm/util.c:532
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "αποτυχία εκκίνησης νέας διεργασίας (%s)\n"
 
+#: lib/libalpm/util.c:549
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "αδυναμία αλλαγής ριζικού καταλόγου (%s)\n"
 
+#: lib/libalpm/util.c:560
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "αποτυχία κλήσης execv (%s)\n"
 
+#: lib/libalpm/util.c:590
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "αποτυχία κλήσης waitpid (%s)\n"
 
+#: lib/libalpm/util.c:598
 #, c-format
 msgid "could not open pipe (%s)\n"
 msgstr "αποτυχία ανοίγματος αγωγού (%s)\n"
 
+#: lib/libalpm/util.c:605
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "αποτυχία σωστής εκτέλεσης εντολής\n"
 
+#: lib/libalpm/util.c:612
+#, c-format
+msgid "Unknown signal"
+msgstr ""
+
+#: lib/libalpm/util.c:614
+#, c-format
+msgid "command terminated by signal %d: %s\n"
+msgstr ""
+
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "δημιουργία κρύπτης %s...\n"
 
+#: lib/libalpm/util.c:742
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "αδυναμία εύρεσης ή δημιουργίας κρύπτης πακέτων, χρήση %s\n"
+
+#~ msgid "extract: symlink %s does not point to dir\n"
+#~ msgstr "εξαγωγή: ο συμβολικός δεσμός %s δεν δείχνει σε κατάλογο\n"
+
+#~ msgid "%s saved as %s\n"
+#~ msgstr "αποθήκευση %s ως %s\n"
+
+#~ msgid "%s installed as %s\n"
+#~ msgstr "εγκατάσταση %s ως %s\n"
+
+#~ msgid "extracting %s as %s.pacnew\n"
+#~ msgstr "εξαγωγή %s ως %s.pacnew\n"

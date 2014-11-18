@@ -11,610 +11,822 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
 "PO-Revision-Date: 2013-11-20 10:04+0000\n"
 "Last-Translator: Sungjin Kang <potopro@gmail.com>\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/archlinux-pacman/language/ko/)\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/archlinux-pacman/"
+"language/ko/)\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s은(는) 최신 버전입니다 -- 넘김\n"
 
+#: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s은(는) 최신 버전입니다. -- 재설치\n"
 
+#: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "패키지 %s (%s => %s) 다운그래이드\n"
 
+#: lib/libalpm/add.c:122 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "%s 추출시 경고 발생 (%s)\n"
 
+#: lib/libalpm/add.c:125 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "%s을(를) 추출할 수 없습니다. (%s)\n"
 
+#: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s(으)로 %s의 이름을 바꾸지 못했습니다.(%s)\n"
 
+#: lib/libalpm/add.c:184
+#, c-format
+msgid "file not found in file list for package %s. skipping extraction of %s\n"
+msgstr ""
+
+#: lib/libalpm/add.c:230
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "%s 디렉토리 권한이 다릅니다.\n파일시스템 : %o 패키지 : %o \n"
+msgstr ""
+"%s 디렉토리 권한이 다릅니다.\n"
+"파일시스템 : %o 패키지 : %o \n"
 
+#: lib/libalpm/add.c:240
+#, fuzzy, c-format
+msgid ""
+"directory ownership differs on %s\n"
+"filesystem: %u:%u  package: %u:%u\n"
+msgstr ""
+"%s 디렉토리 권한이 다릅니다.\n"
+"파일시스템 : %o 패키지 : %o \n"
+
+#: lib/libalpm/add.c:255
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "추출물 : %s 파일을 디렉토리에 덮어쓰지 않기\n"
 
-#, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "추출물 : 심볼릭링크 %s은(는) 디렉토리를 가르키지 않습니다.\n"
-
-#, c-format
-msgid "%s saved as %s\n"
-msgstr "%s은(는) %s로 저장\n"
-
-#, c-format
-msgid "%s installed as %s\n"
-msgstr "%s은(는) %s(으)로 설치\n"
-
-#, c-format
-msgid "extracting %s as %s.pacnew\n"
-msgstr "%s은(는) %s.pacnew(으)로 추출. \n"
-
+#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "현재 작업 디렉토리를 가져올 수 없습니다.\n"
 
+#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "%s(으)로 디렉토리를 변경할 수 없습니다. (%s)\n"
 
+#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "작업 디렉토리를 복원할 수 없습니다. (%s)\n"
 
+#: lib/libalpm/add.c:647
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "%s을(를) 업그레이드하는 동안 문제가 발생했습니다.\n"
 
+#: lib/libalpm/add.c:653
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "%s을(를) 설치하는 동안 문제가 발생했습니다.\n"
 
+#: lib/libalpm/add.c:669
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "데이터베이스 항목인 %s-%s을(를) 업데이트 할 수 없습니다.\n"
 
+#: lib/libalpm/add.c:680
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "캐시에 '%'s을(를) 추가할 수 없습니다.\n"
 
+#: lib/libalpm/be_local.c:249
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "%s 파일을 읽는 동안 오류가 발생하였습니다: %s\n"
 
+#: lib/libalpm/be_local.c:343
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "잘못된 데이터베이스를 삭제 : %s\n"
 
-#, c-format
-msgid "invalid name for database entry '%s'\n"
-msgstr "데이터베이스 항목에서 '%s'을(를) 찾을 수 없습니다.\n"
-
-#, c-format
-msgid "duplicated database entry '%s'\n"
-msgstr "데이터베이스 항목인 '%s'가 중복되었습니다.\n"
-
-#, c-format
-msgid "corrupted database entry '%s'\n"
-msgstr "데이터 베이스 항목인 '%s'이(가) 손상되었습니다.\n"
-
-#, c-format
-msgid "could not open file %s: %s\n"
-msgstr "%s 파일을 열수 없습니다. : %s \n"
-
-#, c-format
-msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "%s 데이터 베이스 일관성 : %s 패키지와 이름이 맞지 않습니다.\n"
-
-#, c-format
-msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "%s 데이터베이스 일관성 : %s패키지의 버전이 맞지 않습니다. \n"
-
-#, c-format
-msgid "unknown validation type for package %s: %s\n"
-msgstr "패키지 %s는 알 수 없는 인증 형식입니다.: %s\n"
-
+#: lib/libalpm/be_local.c:389 lib/libalpm/be_local.c:849
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "%s 디렉토리를 만들 수 없습니다.: %s\n"
 
+#: lib/libalpm/be_local.c:559 lib/libalpm/be_sync.c:358
 #, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "%s에서 패키지 설명 파일을 알아내지 못했습니다.\n"
+msgid "invalid name for database entry '%s'\n"
+msgstr "데이터베이스 항목에서 '%s'을(를) 찾을 수 없습니다.\n"
 
+#: lib/libalpm/be_local.c:567
 #, c-format
-msgid "missing package name in %s\n"
-msgstr "%s에서 이름이 누락되었습니다.\n"
+msgid "duplicated database entry '%s'\n"
+msgstr "데이터베이스 항목인 '%s'가 중복되었습니다.\n"
 
+#: lib/libalpm/be_local.c:579
 #, c-format
-msgid "missing package version in %s\n"
-msgstr "%s에서 페키지 버전이 누락되었습니다.\n"
+msgid "corrupted database entry '%s'\n"
+msgstr "데이터 베이스 항목인 '%s'이(가) 손상되었습니다.\n"
 
+#: lib/libalpm/be_local.c:679 lib/libalpm/be_local.c:769
+#: lib/libalpm/be_local.c:898 lib/libalpm/be_local.c:991
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
+#: lib/libalpm/util.c:266
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "%s 파일을 열수 없습니다. : %s \n"
+
+#: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s 데이터 베이스 일관성 : %s 패키지와 이름이 맞지 않습니다.\n"
+
+#: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s 데이터베이스 일관성 : %s패키지의 버전이 맞지 않습니다. \n"
+
+#: lib/libalpm/be_local.c:740
+#, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr "패키지 %s는 알 수 없는 인증 형식입니다.: %s\n"
+
+#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:625
+#: lib/libalpm/be_package.c:638
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "%s 패키지를 읽는 동안 오류가 발생하였습니다.: %s\n"
 
+#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
+#, fuzzy, c-format
+msgid "error while reading mtree of package %s: %s\n"
+msgstr "%s 패키지를 읽는 동안 오류가 발생하였습니다.: %s\n"
+
+#: lib/libalpm/be_package.c:588
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "%s에서 패키지 설명 파일을 알아내지 못했습니다.\n"
+
+#: lib/libalpm/be_package.c:593
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "%s에서 이름이 누락되었습니다.\n"
+
+#: lib/libalpm/be_package.c:597
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "%s에서 페키지 버전이 누락되었습니다.\n"
+
+#: lib/libalpm/be_package.c:601
+#, fuzzy, c-format
+msgid "invalid package version in %s\n"
+msgstr "%s에서 페키지 버전이 누락되었습니다.\n"
+
+#: lib/libalpm/be_package.c:645
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "%s에서 메타정보가 누락되었습니다.\n"
 
+#: lib/libalpm/be_package.c:734
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "파일 서명을 읽는 데 실패: %s\n"
 
+#: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "keyring에서 필수키를 잊어먹었습니다.\n"
 
+#: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "잘못된 파일 제거: %s\n"
 
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "%s 파일이 잠겨있어서 삭제하지 못하였습니다.\n"
-
+#: lib/libalpm/be_sync.c:476
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "'%s' 파일 패키지 설명파일을 '%s' db에서 알아내지 못하였습니다.\n"
 
+#: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
-msgstr "%s 데이터 베이스가 일치하지 않습니다. : %s 패키지의 파일이 규칙에 어긋났습니다.\n"
+msgstr ""
+"%s 데이터 베이스가 일치하지 않습니다. : %s 패키지의 파일이 규칙에 어긋났습니"
+"다.\n"
 
+#: lib/libalpm/be_sync.c:519
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
-msgstr "%s 데이터 베이스가 일치하지 않습니다.: %s 패키지의 파일이름이 너무 깁니다.\n"
+msgstr ""
+"%s 데이터 베이스가 일치하지 않습니다.: %s 패키지의 파일이름이 너무 깁니다.\n"
 
+#: lib/libalpm/be_sync.c:585
+#, fuzzy, c-format
+msgid "unknown database file: %s\n"
+msgstr "%s 파일 상태를 알 수 없음: %s\n"
+
+#: lib/libalpm/db.c:369
 #, c-format
 msgid "database path is undefined\n"
 msgstr "데이터베이스 경로가 정의 되지 않았습니다.\n"
 
+#: lib/libalpm/deps.c:218
 #, c-format
 msgid "dependency cycle detected:\n"
 msgstr "종속성 사이클을 파악합니다.:\n"
 
+#: lib/libalpm/deps.c:221
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s은(는) %s 의존성을 제거한 후 삭제 됩니다.\n"
 
+#: lib/libalpm/deps.c:225
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s는 %s 의존성을 설정한 후 설치 됩니다.\n"
 
+#: lib/libalpm/deps.c:657 lib/libalpm/deps.c:689
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "%s-%s 패키지는 무시\n"
 
+#: lib/libalpm/deps.c:844
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "\"%s\"에서 \"%s\"의 의존성을 확인할 수 없습니다.\n"
 
+#: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "%s에 대한 파일 시스템 정보를 가져올 수 없습니다.: %s\n"
 
+#: lib/libalpm/diskspace.c:108
 #, c-format
 msgid "could not open file: %s: %s\n"
 msgstr "%s 파일을 열 수 없습니다.: %s\n"
 
+#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
 msgstr "파일 시스템 정보를 가져올 수 없습니다.\n"
 
+#: lib/libalpm/diskspace.c:249 lib/libalpm/diskspace.c:308
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "파일 %s에 대한 마운트 지점을 지정하지 못했습니다.\n"
 
+#: lib/libalpm/diskspace.c:347
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "파티션 %s가 꽉찼습니다.: %jd 블럭이 필요하니, %jd 블럭을 비워주십시오.\n"
+msgstr ""
+"파티션 %s가 꽉찼습니다.: %jd 블럭이 필요하니, %jd 블럭을 비워주십시오.\n"
 
+#: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "파일 시스템 마운트 지점을 지정할 수 없습니다.\n"
 
+#: lib/libalpm/diskspace.c:378
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "cachedir 마운트 %s를 확인 할 수 없습니다.\n"
 
+#: lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "root 마운트 포인트 %s에 지정할 수 없습니다.\n"
 
+#: lib/libalpm/diskspace.c:479
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "파티션 %s를 일기 전용으로 마운트 하였습니다.\n"
 
+#: lib/libalpm/dload.c:149
 #, c-format
 msgid "disk"
 msgstr "디스크"
 
+#: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "다운로드한 임시파일을 만드는데 실패하였습니다.\n"
 
+#: lib/libalpm/dload.c:418
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "url '%s'가 잘못되었습니다.\n"
 
+#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "'%s' 파일을 %s에서 찾을 수 없습니다.: %s\n"
 
+#: lib/libalpm/dload.c:500
+#, fuzzy, c-format
+msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
+msgstr "'%s' 파일을 %s에서 찾을 수 없습니다.: %s\n"
+
+#: lib/libalpm/dload.c:548
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s가 다 나올 것 같지 않습니다.: %jd/%jd bytes\n"
 
+#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
 msgstr "%s을(를) 다운받지 못했습니다.\n"
 
+#: lib/libalpm/error.c:40
 #, c-format
 msgid "out of memory!"
 msgstr "메모리 부족!"
 
+#: lib/libalpm/error.c:42
 #, c-format
 msgid "unexpected system error"
 msgstr "예기치 않은 시스템 오류"
 
+#: lib/libalpm/error.c:44
 #, c-format
 msgid "permission denied"
 msgstr "권한이 없습니다."
 
+#: lib/libalpm/error.c:46
 #, c-format
 msgid "could not find or read file"
 msgstr "파일을 찾거나 읽을 수 없습니다."
 
+#: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
 msgstr "디렉토리를 찾거나 읽을 수 없습니다."
 
+#: lib/libalpm/error.c:50
 #, c-format
 msgid "wrong or NULL argument passed"
 msgstr "틀리거나 NULL 인수 전달"
 
+#: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
 msgstr "디스크 여유 공간이 부족합니다."
 
+#: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
 msgstr "라이브러리가 초기화가 안됐습니다."
 
+#: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
 msgstr "라이브러리 초기와 완료."
 
+#: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
 msgstr "데이터베이스를 잠글 수 없습니다."
 
+#: lib/libalpm/error.c:62
 #, c-format
 msgid "could not open database"
 msgstr "데이터베이스를 열 수 없습니다."
 
+#: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
 msgstr "데이터베이스를 만들 수 없습니다."
 
+#: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
 msgstr "데이터베이스가 초기화되지 않았습니다."
 
+#: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
 msgstr "데이터베이스가 이미 등록되었습니다."
 
+#: lib/libalpm/error.c:70
 #, c-format
 msgid "could not find database"
 msgstr "데이터베이스를 찾을 수 없습니다."
 
+#: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
 msgstr "데이터 베이스가 잘못되었거나 손상되었습니다."
 
+#: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
 msgstr "데이터 베이스가 잘못 되었거나 손상되었습니다. (PGP 서명)"
 
+#: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
 msgstr "데이터베이스의 버전이 잘못되었습니다."
 
+#: lib/libalpm/error.c:78
 #, c-format
 msgid "could not update database"
 msgstr "데이터베이스를 업데이트할 수 없습니다."
 
+#: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
 msgstr "데이터베이스 항목을 제거할 수 없습니다."
 
+#: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
 msgstr "서버 url이 잘못되었습니다."
 
+#: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
 msgstr "저장소에 대한 서버 구성이 안되어있습니다."
 
+#: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
 msgstr "처리 과정을 먼저 초기화했습니다."
 
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
 msgstr "처리 과정이 초기화되지 않았습니다."
 
+#: lib/libalpm/error.c:92
 #, c-format
 msgid "duplicate target"
 msgstr "타겟이 중복되었습니다."
 
+#: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
 msgstr "처리 과정이 준비되지 않았습니다."
 
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
 msgstr "처리 중단"
 
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "처리 유형과 호환되어 작동되지 않습니다."
 
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "데이터베이스가 잠겨 있지 않을 때 트랜잭션 커밋을 시도 하였습니다."
 
+#: lib/libalpm/error.c:105
 #, c-format
 msgid "could not find or read package"
 msgstr "패키지를 찾거나 읽을 수 없습니다."
 
+#: lib/libalpm/error.c:107
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "무시된 패키지 때문에 작업이 취소되었습니다."
 
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "패키지가 잘못되었거나 손상되었습니다."
 
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "패키지가 잘못되었거나 손상되었습니다. (checksum)"
 
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "패키지가 잘못되었거나 손상되었습니다. (PGP 서명)"
 
+#: lib/libalpm/error.c:115
+#, fuzzy, c-format
+msgid "package missing required signature"
+msgstr "PGP 사인이 누락되었습니다."
+
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "cannot open package file"
 msgstr "패키지 파일을 열지 못하였습니다."
 
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "패키지에 대해 모든 파일을 제거할 수 없습니다."
 
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "package filename is not valid"
 msgstr "패키지 파일 이름이 유효하지 않습니다."
 
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "package architecture is not valid"
 msgstr "패키지 구조가 유효하지 않습니다."
 
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "could not find repository for target"
 msgstr "대상에 대한 저장소를 찾을 수 없습니다."
 
+#: lib/libalpm/error.c:128
 #, c-format
 msgid "missing PGP signature"
 msgstr "PGP 사인이 누락되었습니다."
 
+#: lib/libalpm/error.c:130
 #, c-format
 msgid "invalid PGP signature"
 msgstr "PGP 사인이 잘못되었습니다."
 
+#: lib/libalpm/error.c:133
 #, c-format
 msgid "invalid or corrupted delta"
 msgstr "delta가 잘못되었거나 손상되었습니다."
 
+#: lib/libalpm/error.c:135
 #, c-format
 msgid "delta patch failed"
 msgstr "delta 패치 실패"
 
+#: lib/libalpm/error.c:138
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "의존성이 만족되지 못하였습니다."
 
+#: lib/libalpm/error.c:140
 #, c-format
 msgid "conflicting dependencies"
 msgstr "의존성이 충돌합니다."
 
+#: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting files"
 msgstr "파일이 충돌합니다."
 
+#: lib/libalpm/error.c:145
 #, c-format
 msgid "failed to retrieve some files"
 msgstr "일부 파일을 검색하는데 실패했습니다."
 
+#: lib/libalpm/error.c:147
 #, c-format
 msgid "invalid regular expression"
 msgstr "정규식이 잘못되었습니다."
 
+#: lib/libalpm/error.c:153
 #, c-format
 msgid "libarchive error"
 msgstr "libarchive 오류입니다."
 
+#: lib/libalpm/error.c:155
 #, c-format
 msgid "download library error"
 msgstr "라이브러리 다운로드 에러"
 
+#: lib/libalpm/error.c:157
 #, c-format
 msgid "gpgme error"
 msgstr "gpgme 오류"
 
+#: lib/libalpm/error.c:159
 #, c-format
 msgid "error invoking external downloader"
 msgstr "외부 다운로더 호출 에러"
 
+#: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
 msgstr "예기치 않은 에러"
 
+#: lib/libalpm/handle.c:139
+#, c-format
+msgid "lock file missing %s\n"
+msgstr ""
+
+#: lib/libalpm/handle.c:145
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "%s 파일이 잠겨있어서 삭제하지 못하였습니다.\n"
+
+#: lib/libalpm/package.c:559
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "%s-%s 페키지의 메타 데이터를 로드할 수 없습니다.\n"
 
+#: lib/libalpm/remove.c:118
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "데이터 베이스에서 %s을(를) 찾을 수 없습니다. -- 넘김\n"
 
+#: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
 msgstr "대상 목록에서 %s을(를) 제거\n"
 
+#: lib/libalpm/remove.c:348
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "파일 '%s'을(를) 제거 할 수 없습니다.: %s\n"
 
+#: lib/libalpm/remove.c:388
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "디렉토리를 열수 없습니다.: %s: %s\n"
 
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "%s을(를) 제거할 수 없습니다. (%s)\n"
 
+#: lib/libalpm/remove.c:727
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "데이터베이스 항목인 %s-%s을(를) 제거하지 못했습니다.\n"
 
+#: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "캐시에서 '%s' 항목을 제거하지 못 했습니다.\n"
 
+#: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: 제외 패키지 업그래이드 (%s => %s)\n"
 
+#: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: 제외 페키지 다운그래이드 (%s => %s)\n"
 
+#: lib/libalpm/sync.c:113
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: 버전 %s으로 버전%s을(를) 다운그래이드\n"
 
+#: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: 가지고 있는 (%s)가 %s 보다 최신입니다.(%s)\n"
 
+#: lib/libalpm/sync.c:160
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "패키지 교체 제외 (%s-%s => %s-%s)\n"
 
+#: lib/libalpm/sync.c:176
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "%s을(를) %s 때문에 대채할 수 없습니다.\n"
 
+#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "해결할 수 없는 패키지 충돌이 있습니다.\n"
 
+#: lib/libalpm/sync.c:556
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "대상 목록에 있는 '%s' 삭제로 '%s'와(과) 충돌이 일어납니다.\n"
 
+#: lib/libalpm/sync.c:1014
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "일부 파일을 검색하지 못했습니다.\n"
 
+#: lib/libalpm/sync.c:1176
+#, fuzzy, c-format
+msgid "%s: missing required signature\n"
+msgstr "PGP 사인이 누락되었습니다."
+
+#: lib/libalpm/sync.c:1357
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "디스크 여유 공간이 부족합니다.\n"
 
+#: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "삭제 처리를 커밋하지 못하였습니다.\n"
 
+#: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "처리를 커밋하지 못하였습니다.\n"
 
+#: lib/libalpm/trans.c:339
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "temp 디렉토리를 만들 수 없습니다.\n"
 
+#: lib/libalpm/trans.c:354
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "%s을(를) tempfile로 복사할 수 없습니다.(%s)\n"
 
+#: lib/libalpm/trans.c:385
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s를 제거할 수 없습니다.\n"
 
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "tmpdir에 있는 %s를 제거하지 못하였습니다.\n"
 
+#: lib/libalpm/util.c:256
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr "%s 파일 상태를 알 수 없음: %s\n"
 
+#: lib/libalpm/util.c:524
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "파이프를 만들 수 없습니다.(%s)\n"
 
+#: lib/libalpm/util.c:532
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "새 프로세스를 포크 할 수 없습니다.(%s)\n"
 
+#: lib/libalpm/util.c:549
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "루트 디렉토리를 변경할 수 없습니다.(%s)\n"
 
+#: lib/libalpm/util.c:560
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "execv 실패에 대한 콜(%s)\n"
 
+#: lib/libalpm/util.c:590
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid 실패로 인한 콜(%s)\n"
 
+#: lib/libalpm/util.c:598
 #, c-format
 msgid "could not open pipe (%s)\n"
 msgstr "파이프를 열 수 없습니다.(%s)\n"
 
+#: lib/libalpm/util.c:605
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "명령이 올바르게 실행되지 못하였습니다.\n"
 
+#: lib/libalpm/util.c:612
+#, c-format
+msgid "Unknown signal"
+msgstr ""
+
+#: lib/libalpm/util.c:614
+#, c-format
+msgid "command terminated by signal %d: %s\n"
+msgstr ""
+
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "%s 캐쉬가 없으므로 생성중...\n"
 
+#: lib/libalpm/util.c:742
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "%s 대신 사용할 패키지 캐시를 찾거나 생성할 수 없습니다.\n"
+
+#~ msgid "extract: symlink %s does not point to dir\n"
+#~ msgstr "추출물 : 심볼릭링크 %s은(는) 디렉토리를 가르키지 않습니다.\n"
+
+#~ msgid "%s saved as %s\n"
+#~ msgstr "%s은(는) %s로 저장\n"
+
+#~ msgid "%s installed as %s\n"
+#~ msgstr "%s은(는) %s(으)로 설치\n"
+
+#~ msgid "extracting %s as %s.pacnew\n"
+#~ msgstr "%s은(는) %s.pacnew(으)로 추출. \n"
