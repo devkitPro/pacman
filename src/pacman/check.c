@@ -26,18 +26,23 @@
 #include "conf.h"
 #include "util.h"
 
-static int check_file_exists(const char *pkgname, char *filepath,
+static int check_file_exists(const char *pkgname, char *filepath, size_t rootlen,
 		struct stat *st)
 {
 	/* use lstat to prevent errors from symlinks */
 	if(llstat(filepath, st) != 0) {
-		if(config->quiet) {
-			printf("%s %s\n", pkgname, filepath);
+		if(alpm_option_match_noextract(config->handle, filepath + rootlen) == 0) {
+			/* NoExtract */
+			return -1;
 		} else {
-			pm_printf(ALPM_LOG_WARNING, "%s: %s (%s)\n",
-					pkgname, filepath, strerror(errno));
+			if(config->quiet) {
+				printf("%s %s\n", pkgname, filepath);
+			} else {
+				pm_printf(ALPM_LOG_WARNING, "%s: %s (%s)\n",
+						pkgname, filepath, strerror(errno));
+			}
+			return 1;
 		}
-		return 1;
 	}
 
 	return 0;
@@ -209,6 +214,7 @@ int check_pkg_fast(alpm_pkg_t *pkg)
 	for(i = 0; i < filelist->count; i++) {
 		const alpm_file_t *file = filelist->files + i;
 		struct stat st;
+		int exists;
 		const char *path = file->name;
 		size_t plen = strlen(path);
 
@@ -218,7 +224,8 @@ int check_pkg_fast(alpm_pkg_t *pkg)
 		}
 		strcpy(filepath + rootlen, path);
 
-		if(check_file_exists(pkgname, filepath, &st) == 0) {
+		exists = check_file_exists(pkgname, filepath, rootlen, &st);
+		if(exists == 0) {
 			int expect_dir = path[plen - 1] == '/' ? 1 : 0;
 			int is_dir = S_ISDIR(st.st_mode) ? 1 : 0;
 			if(expect_dir != is_dir) {
@@ -226,7 +233,7 @@ int check_pkg_fast(alpm_pkg_t *pkg)
 						pkgname, filepath);
 				++errors;
 			}
-		} else {
+		} else if(exists == 1) {
 			++errors;
 		}
 	}
@@ -278,6 +285,7 @@ int check_pkg_full(alpm_pkg_t *pkg)
 		mode_t type;
 		size_t file_errors = 0;
 		int backup = 0;
+		int exists;
 
 		/* strip leading "./" from path entries */
 		if(path[0] == '.' && path[1] == '/') {
@@ -310,8 +318,12 @@ int check_pkg_full(alpm_pkg_t *pkg)
 		}
 		strcpy(filepath + rootlen, path);
 
-		if(check_file_exists(pkgname, filepath, &st) == 1) {
+		exists = check_file_exists(pkgname, filepath, rootlen, &st);
+		if(exists == 1) {
 			errors++;
+			continue;
+		} else if(exists == -1) {
+			/* NoExtract */
 			continue;
 		}
 
