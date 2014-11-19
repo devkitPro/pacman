@@ -44,7 +44,7 @@ eval $(awk -F' *= *' '$1 ~ /DBPath/ { print $1 "=" $2 }' @sysconfdir@/pacman.con
 mkdir -p "$CHECKUPDATES_DB"
 ln -s "${DBPath}/local" "$CHECKUPDATES_DB" &> /dev/null
 fakeroot pacman -Sy --dbpath "$CHECKUPDATES_DB" --logfile /dev/null &> /dev/null
-pacman -Qqu --dbpath "$CHECKUPDATES_DB" 2> /dev/null
+pacman -Qqu --dbpath "$CHECKUPDATES_DB" 2> /dev/null | grep -v '\[.*\]'
 
 exit 0
 
