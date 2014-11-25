@@ -174,7 +174,10 @@ if [[ -z "$db_version" ]]; then
 		dirlist+=("${pacroot}${dir%/}")
 	done < <(grep -h '/$' "$dbroot"/local/*/files | sort -ru)
 
-	mapfile -t dirlist < <(find "${dirlist[@]}" -maxdepth 0 -type l)
+	mapfile -t dirlist < <(
+		for dir in "${dirlist[@]}"; do
+			[[ -L "$dir" ]] && echo "$dir"
+		done)
 
 	if [[ ${#dirlist[@]} != 0 ]]; then
 		msg "$(gettext "Pre-4.2 database format detected - upgrading...")"
