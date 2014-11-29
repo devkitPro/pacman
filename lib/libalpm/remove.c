@@ -317,19 +317,12 @@ static int dir_is_mountpoint(alpm_handle_t *handle, const char *directory,
  *
  * @param handle the context handle
  * @param file file to be removed
- * @param skip_remove list of files that will not be removed
  *
  * @return 1 if the file can be deleted, 0 if it cannot be deleted
  */
-static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
-		alpm_list_t *skip_remove)
+static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file)
 {
 	char filepath[PATH_MAX];
-
-	if(_alpm_fnmatch_patterns(skip_remove, file->name) == 0) {
-		/* return success because we will never actually remove this file */
-		return 1;
-	}
 
 	snprintf(filepath, PATH_MAX, "%s%s", handle->root, file->name);
 
@@ -433,29 +426,18 @@ cleanup:
  * @param oldpkg the package being removed
  * @param newpkg the package replacing \a oldpkg
  * @param fileobj file to remove
- * @param skip_remove list of files that shouldn't be removed
  * @param nosave whether files should be backed up
  *
  * @return 0 on success, -1 if there was an error unlinking the file, 1 if the
  * file was skipped or did not exist
  */
 static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
-		alpm_pkg_t *newpkg, const alpm_file_t *fileobj, alpm_list_t *skip_remove,
-		int nosave)
+		alpm_pkg_t *newpkg, const alpm_file_t *fileobj, int nosave)
 {
 	struct stat buf;
 	char file[PATH_MAX];
 
 	snprintf(file, PATH_MAX, "%s%s", handle->root, fileobj->name);
-
-	/* check the remove skip list before removing the file.
-	 * see the big comment block in db_find_fileconflicts() for an
-	 * explanation. */
-	if(_alpm_fnmatch_patterns(skip_remove, fileobj->name) == 0) {
-		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"%s is in skip_remove, skipping removal\n", file);
-		return 1;
-	}
 
 	if(llstat(file, &buf)) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "file %s does not exist\n", file);
@@ -564,6 +546,24 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 }
 
 /**
+ * @brief Check if a package file should be removed.
+ *
+ * @param handle the context handle
+ * @param newpkg the package replacing the current owner of \a path
+ * @param path file to be removed
+ *
+ * @return 1 if the file should be skipped, 0 if it should be removed
+ */
+static int should_skip_file(alpm_handle_t *handle,
+		alpm_pkg_t *newpkg, const char *path)
+{
+	return _alpm_fnmatch_patterns(handle->noupgrade, path) == 0
+		|| alpm_list_find_str(handle->trans->skip_remove, path)
+		|| (newpkg && _alpm_needbackup(path, newpkg)
+				&& alpm_filelist_contains(alpm_pkg_get_files(newpkg), path));
+}
+
+/**
  * @brief Remove a package's files, optionally skipping its replacement's
  * files.
  *
@@ -580,44 +580,19 @@ static int remove_package_files(alpm_handle_t *handle,
 		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg,
 		size_t targ_count, size_t pkg_count)
 {
-	alpm_list_t *skip_remove;
 	alpm_filelist_t *filelist;
 	size_t i;
 	int err = 0;
 	int nosave = handle->trans->flags & ALPM_TRANS_FLAG_NOSAVE;
 
-	if(newpkg) {
-		alpm_filelist_t *newfiles;
-		alpm_list_t *b;
-		skip_remove = alpm_list_join(
-				alpm_list_strdup(handle->trans->skip_remove),
-				alpm_list_strdup(handle->noupgrade));
-		/* Add files in the NEW backup array to the skip_remove array
-		 * so this removal operation doesn't kill them */
-		/* old package backup list */
-		newfiles = alpm_pkg_get_files(newpkg);
-		for(b = alpm_pkg_get_backup(newpkg); b; b = b->next) {
-			const alpm_backup_t *backup = b->data;
-			/* safety check (fix the upgrade026 pactest) */
-			if(!alpm_filelist_contains(newfiles, backup->name)) {
-				continue;
-			}
-			_alpm_log(handle, ALPM_LOG_DEBUG, "adding %s to the skip_remove array\n",
-					backup->name);
-			skip_remove = alpm_list_add(skip_remove, strdup(backup->name));
-		}
-	} else {
-		skip_remove = alpm_list_strdup(handle->trans->skip_remove);
-	}
-
 	filelist = alpm_pkg_get_files(oldpkg);
 	for(i = 0; i < filelist->count; i++) {
 		alpm_file_t *file = filelist->files + i;
-		if(!can_remove_file(handle, file, skip_remove)) {
+		if(!should_skip_file(handle, newpkg, file->name)
+				&& !can_remove_file(handle, file)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"not removing package '%s', can't remove all files\n",
 					oldpkg->name);
-			FREELIST(skip_remove);
 			RET_ERR(handle, ALPM_ERR_PKG_CANT_REMOVE, -1);
 		}
 	}
@@ -633,7 +608,17 @@ static int remove_package_files(alpm_handle_t *handle,
 	/* iterate through the list backwards, unlinking files */
 	for(i = filelist->count; i > 0; i--) {
 		alpm_file_t *file = filelist->files + i - 1;
-		if(unlink_file(handle, oldpkg, newpkg, file, skip_remove, nosave) < 0) {
+
+		/* check the remove skip list before removing the file.
+		 * see the big comment block in db_find_fileconflicts() for an
+		 * explanation. */
+		if(should_skip_file(handle, newpkg, file->name)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"%s is in skip_remove, skipping removal\n", file->name);
+			continue;
+		}
+
+		if(unlink_file(handle, oldpkg, newpkg, file, nosave) < 0) {
 			err++;
 		}
 
@@ -644,7 +629,6 @@ static int remove_package_files(alpm_handle_t *handle,
 					percent, pkg_count, targ_count);
 		}
 	}
-	FREELIST(skip_remove);
 
 	if(!newpkg) {
 		/* set progress to 100% after we finish unlinking files */
