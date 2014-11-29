@@ -815,6 +815,7 @@ alpm_list_t *alpm_option_get_noupgrades(alpm_handle_t *handle);
 int alpm_option_add_noupgrade(alpm_handle_t *handle, const char *path);
 int alpm_option_set_noupgrades(alpm_handle_t *handle, alpm_list_t *noupgrade);
 int alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *path);
+int alpm_option_match_noupgrade(alpm_handle_t *handle, const char *path);
 /** @} */
 
 /** @name Accessors to the list of no-extract files.

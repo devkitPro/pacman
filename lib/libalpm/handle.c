@@ -527,6 +527,11 @@ int SYMEXPORT alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *pk
 	return _alpm_option_strlist_rem(handle, &(handle->noupgrade), pkg);
 }
 
+int SYMEXPORT alpm_option_match_noupgrade(alpm_handle_t *handle, const char *path)
+{
+	return _alpm_fnmatch_patterns(handle->noupgrade, path);
+}
+
 int SYMEXPORT alpm_option_add_noextract(alpm_handle_t *handle, const char *path)
 {
 	return _alpm_option_strlist_add(handle, &(handle->noextract), path);
