@@ -326,7 +326,7 @@ static int can_remove_file(alpm_handle_t *handle, const alpm_file_t *file,
 {
 	char filepath[PATH_MAX];
 
-	if(alpm_list_find(skip_remove, file->name, _alpm_fnmatch)) {
+	if(_alpm_fnmatch_patterns(skip_remove, file->name) == 0) {
 		/* return success because we will never actually remove this file */
 		return 1;
 	}
@@ -451,7 +451,7 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 	/* check the remove skip list before removing the file.
 	 * see the big comment block in db_find_fileconflicts() for an
 	 * explanation. */
-	if(alpm_list_find(skip_remove, fileobj->name, _alpm_fnmatch)) {
+	if(_alpm_fnmatch_patterns(skip_remove, fileobj->name) == 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				"%s is in skip_remove, skipping removal\n", file);
 		return 1;
