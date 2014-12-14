@@ -341,8 +341,7 @@ static void invalid_opt(int used, const char *opt1, const char *opt2)
 
 static int parsearg_util_addlist(alpm_list_t **list)
 {
-	char *i, *save;
-
+	char *i, *save = NULL;
 
 	for(i = strtok_r(optarg, ",", &save); i; i = strtok_r(NULL, ",", &save)) {
 		*list = alpm_list_add(*list, strdup(i));

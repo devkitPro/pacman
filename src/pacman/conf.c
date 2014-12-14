@@ -459,7 +459,7 @@ static int process_cleanmethods(alpm_list_t *values,
 static void setrepeatingoption(char *ptr, const char *option,
 		alpm_list_t **list)
 {
-	char *val, *saveptr;
+	char *val, *saveptr = NULL;
 
 	val = strtok_r(ptr, " ", &saveptr);
 	while(val) {
