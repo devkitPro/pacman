@@ -2367,7 +2367,7 @@ create_srcpackage() {
 	for i in 'changelog' 'install'; do
 		local file files
 
-		[[ $install ]] && files+=("$install")
+		[[ ${!i} ]] && files+=("${!i}")
 		for name in "${pkgname[@]}"; do
 			if extract_function_var "package_$name" "$i" 0 file; then
 				files+=("$file")
