@@ -40,6 +40,11 @@ version() {
 	echo 'Copyright (C) 2012-2013 Dave Reisner <dreisner@archlinux.org>'
 }
 
+die() {
+	printf "==> ERROR: $1\n" "${@:2}" >&2
+	exit 1
+}
+
 case $1 in
 	-h|--help) usage; exit ;;
 	-V|--version) version; exit ;;
@@ -47,8 +52,7 @@ esac
 
 buildfile=${1:-PKGBUILD}
 if [[ ! -f $buildfile ]]; then
-	printf "==> ERROR: %s not found or is not a file\n" "$buildfile"
-	exit 1
+	die "%s not found or is not a file" "$buildfile"
 fi
 
 # Resolve any symlinks to avoid replacing the symlink with a file. But, we
@@ -71,18 +75,19 @@ fi
 
 # Check $PWD/ for permission to unlink the $buildfile and write a new one
 if [[ ! -w . ]]; then
-	printf "==> ERROR: No write permission in '%s'\n" "$PWD"
-	exit 1
+	die "No write permission in '%s'" "$PWD"
 fi
 
-{
-	# Generate the new sums and try to unlink the file before writing stdin back
-	# into it. This final precaution shouldn't fail based on the previous checks,
-	# but it's better to be extra careful before unlinking files.
-	export BUILDDIR=$(mktemp -d --tmpdir updpkgsums.XXXXXX)
-	trap "rm -rf '$BUILDDIR'" EXIT
-	newsums=$(makepkg -g -p "$buildfile") && rm -f "$buildfile" &&
-	awk -v newsums="$newsums" '
+# Generate the new sums
+export BUILDDIR=$(mktemp -d --tmpdir updpkgsums.XXXXXX)
+newbuildfile=$(mktemp --tmpdir updpkgsums.XXXXXX)
+
+# In case the eventual replacement fails, we don't want to leave behind
+# $newbuildfile as garbage in $TMPDIR. This fails silently if the replacement
+# succeeds.
+trap "rm -rf '$BUILDDIR' '$newbuildfile'" EXIT
+newsums=$(makepkg -g -p "$buildfile") &&
+awk -v newsums="$newsums" '
 	/^[[:blank:]]*(md|sha)[[:digit:]]+sums(_[^=]+)?=/,/\)[[:blank:]]*(#.*)?$/ {
 		if (!w) {
 			print newsums
@@ -93,7 +98,11 @@ fi
 
 	1
 	END { if (!w) print newsums }
-	' > "$buildfile"
-} < "$buildfile"
+' "$buildfile" > "$newbuildfile"
+
+# Replace the original buildfile.
+if ! mv -- "$newbuildfile" "$buildfile"; then
+	die "Failed to update %s. The file has not been modified." "$buildfile"
+fi
 
 # vim: set noet:
