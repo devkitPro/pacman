@@ -97,11 +97,11 @@ static void usage(int op, const char * const myname)
 	alpm_list_t *list = NULL, *i;
 	/* prefetch some strings for usage below, which moves a lot of calls
 	 * out of gettext. */
-	char const * const str_opt = _("options");
-	char const * const str_file = _("file(s)");
-	char const * const str_pkg = _("package(s)");
-	char const * const str_usg = _("usage");
-	char const * const str_opr = _("operation");
+	char const *const str_opt  = _("options");
+	char const *const str_file = _("file(s)");
+	char const *const str_pkg  = _("package(s)");
+	char const *const str_usg  = _("usage");
+	char const *const str_opr  = _("operation");
 
 	/* please limit your strings to 80 characters in width */
 	if(op == PM_OP_MAIN) {

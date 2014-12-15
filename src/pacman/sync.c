@@ -230,7 +230,7 @@ static int sync_cleancache(int level)
 			}
 
 			if(level <= 1) {
-				static const char * const glob_skips[] = {
+				static const char *const glob_skips[] = {
 					/* skip signature files - they are removed with their package file */
 					"*.sig",
 					/* skip package database within the cache directory */

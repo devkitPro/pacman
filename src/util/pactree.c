@@ -339,7 +339,7 @@ static void cleanup(void)
 static void print_text(const char *pkg, const char *provision,
 		tdepth *depth, int last)
 {
-	const char* tip = "";
+	const char *tip = "";
 	int level = 1;
 	if(!pkg && !provision) {
 		/* not much we can do */

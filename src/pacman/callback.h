@@ -28,7 +28,7 @@
 void cb_event(alpm_event_t *event);
 
 /* callback to handle questions from libalpm (yes/no) */
-void cb_question(alpm_question_t* question);
+void cb_question(alpm_question_t *question);
 
 /* callback to handle display of progress */
 void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
