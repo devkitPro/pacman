@@ -507,3 +507,56 @@ API CHANGES BETWEEN 4.0 AND 4.1
    ALPM_EVENT_OPTDEP_REQUIRED, ALPM_EVENT_DATABASE_MISSING,
    ALPM_EVENT_KEYRING_START, ALPM_EVENT_KEYRING_DONE, ALPM_EVENT_KEY_DOWNLOAD_START,
    ALPM_EVENT_KEY_DOWNLOAD_DONE, ALPM_PROGRESS_KEYRING_START
+
+
+API CHANGES BETWEEN 4.1 AND 4.2
+===============================
+
+[CHANGED]
+- alpm_filelist_t - removed member resolved_path
+- alpm_filelist_contains - now returns alpm_file_t
+- event callback
+   - alpm_event_t renamed to alpm_event_type_t
+   - alpm_event_t union added
+   - alpm_event_cb now takes only an alpm_event_t parameter
+   - alpm_event_any_t, alpm_package_operation_t, alpm_event_package_operation_t,
+     alpm_event_optdep_removal_t, alpm_event_delta_patch_t, alpm_event_scriptlet_info_t,
+     alpm_event_database_missing_t, alpm_event_pkgdownload_t, alpm_event_pacnew_created_t,
+     alpm_event_pacsave_created_t, alpm_event_pacorig_created_t added
+   - ALPM_EVENT_*_START -> ALPM_EVENT_PACKAGE_OPERATION_START
+   - ALPM_EVENT_*_DONE -> ALPM_EVENT_PACKAGE_OPERATION_DONE
+- question callback
+   - alpm_question_t renamed to alpm_question_type_t
+   - alpm_question_t union added
+   - alpm_cb_question now takes only an alpm_question_t parameter
+   - alpm_question_any_t, alpm_question_install_ignorepkg_t, alpm_question_replace_t
+     alpm_question_conflict_t, alpm_question_corrupted_t, alpm_question_remove_pkgs_t,
+     alpm_question_select_provider_t, alpm_question_import_key_t added
+
+[ADDED]
+- memory management
+  - alpm_fileconflict_free()
+  - alpm_depmissing_free()
+  - alpm_conflict_free()
+  - alpm_dep_free()
+- database usage
+  - alpm_db_usage_t
+  - alpm_db_set_usage()
+  - alpm_db_get_usage()
+- assume installed
+  - alpm_option_get_assumeinstalled()
+  - alpm_option_add_assumeinstalled()
+  - alpm_option_set_assumeinstalled()
+  - alpm_option_remove_assumeinstalled()
+- using noupgrade/noextract
+  - alpm_option_match_noupgrade()
+  - alpm_option_match_noextract()
+- utility functions
+  - alpm_dep_from_string()
+  - alpm_pkg_should_ignore()
+  - alpm_decode_signature()
+  - alpm_extract_keyid()
+- flags
+  - ALPM_EVENT_RETRIEVE_DONE, ALPM_EVENT_RETRIEVE_FAILED, ALPM_EVENT_PKGDOWNLOAD_START,
+    ALPM_EVENT_PKGDOWNLOAD_DONE, ALPM_EVENT_PKGDOWNLOAD_FAILED, ALPM_EVENT_OPTDEP_REMOVAL,
+    ALPM_EVENT_PACNEW_CREATED, ALPM_EVENT_PACSVAE_CREATED, ALPM_EVENT_PACORIG_CREATED
