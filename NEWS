@@ -1,5 +1,86 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+4.2.0         - symlinks to directories on the filesystem are no longer
+                treated as directories
+              - pacman-db-upgrade - fix local database for files installed
+                into directory symlinks
+              - added --assume-installed option to help upgrades where not all
+                installed packages have been rebuilt
+              - --unrequired now filters needed optdepends too. Use twice
+                to only filter direct dependencies
+              - improved dependency resolving ensures correct ordering when
+                installing updates (FS#32764)
+              - A new configure keyword Usage can limit what operations a
+                repository is used for
+              - NoExtract and NoUpgrade can use inverted pattern matches
+                (FS#31749)
+              - Group queries can be filtered with --explicit/--deps (FS#19716)
+              - Filesystem checking now only produces a warning for altered
+                backup files (FS#34739)
+              - pacman prints a warning if an installed directory has different
+                permission to that already on the filesystem (FS#34740)
+              - both current and new versions are displayed when querying
+                updates
+              - --print-format now implies --print
+              - package scriptlets are not run when using --dbonly
+              - invalid option combinations cause pacman to abort (FS#20950)
+              - improve output when a package is missing a required signature
+                (FS#28014)
+              - PGP signature key IDs are listed with -Sii (FS#34742)
+              - indicate ignored packages in -Qu output
+              - use appropriate file size units with -Si/-Qi
+              - plugged several memory leaks
+              - read filelists from a packages .MTREE file if possible
+              - ensure packages have all the required metadata before installing
+                (FS#35514)
+              - always remove lock file on exit (FS#35603)
+              - fix overflow in integrity checking progress bar (FS#36608)
+              - ensure downloads use correct filename even if the mirror uses a
+                redirect (FS#36791)
+              - cache PGP key IDs during availability checking (FS#38042)
+              - fix reading responses with leading whitespace (FS#39976)
+              - fix potential issues when handling of UTF8 filenames
+                (FS#40805, FS#40762)
+              - makepkg:
+                - PKGBUILDs can now specify architecture specific sources,
+                  dependencies, etc.
+                - A .SRCINFO file is added to source packages for easy parsing
+                - VCS package building attempts to be incremental (FS#35050)
+                - bzr sources can have a '+' in them (FS#35244)
+                - allow sources containing "::"
+                - add --noprepare option
+                - add -C/--cleanbuild option (FS#17175)
+                - add --noarchive option
+                - remove --asroot and enforce fakeroot usage
+                - all PKGBUILDs require a package() function
+                - PKGBUILDs can no longer be read from stdin
+                - enable make style environmental overrides
+                - Read CARCH environmental variable (FS#35030)
+                - makedepends and checkdepends are installed together (FS#31557)
+                - added support for sha224 checksums (FS#36776)
+                - remove warning when license is not specified in PKGBUILD
+                  (FS#37011)
+                - only remove static libraries if they have a shared version
+                - prevent makepkg creating armored signatures (FS#38503)
+                - support stripping kernel modules
+                - support the kernel.org PGP signing scheme (FS#31592)
+                - sign created source package when using --sign
+                - enforce source signatures to be trusted or have their full
+                  fingerprint listed in the validpgpkeys array of the PKGBUILD
+                - look for configuration in XDG_CONFIG_HOME/pacman/makepkg.conf
+                  (FS#43030)
+                - ensure vcs tools are available when source entries require
+                  them
+                - disallow pkgver/pkgrel/epoch overrides in split packages
+                - improve parsing of PKGBUILD variables (FS#40361)
+              - makepkg-template - new package build templating utility
+                (FS#10375)
+              - repo-add:
+                - add option to remove package files from disk
+              - contrib:
+                - checkupdates: rename CHECKUPDATE_DB to CHECKUPDATES_DB
+                - pacdiff: add a "Quit" option, and many other improvements
+                - pacsysclean is removed
 4.1.2         - validate %FILEPATH% when parsing repos to prevent arbitary
                 file overwrites from malicious databases
               - makepkg:
