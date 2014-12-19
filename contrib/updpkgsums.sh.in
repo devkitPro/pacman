@@ -86,7 +86,7 @@ newbuildfile=$(mktemp --tmpdir updpkgsums.XXXXXX)
 # $newbuildfile as garbage in $TMPDIR. This fails silently if the replacement
 # succeeds.
 trap "rm -rf '$BUILDDIR' '$newbuildfile'" EXIT
-newsums=$(makepkg -g -p "$buildfile") &&
+newsums=$(makepkg -g -p "$buildfile") || die 'Failed to generate new checksums'
 awk -v newsums="$newsums" '
 	/^[[:blank:]]*(md|sha)[[:digit:]]+sums(_[^=]+)?=/,/\)[[:blank:]]*(#.*)?$/ {
 		if (!w) {
@@ -98,7 +98,7 @@ awk -v newsums="$newsums" '
 
 	1
 	END { if (!w) print newsums }
-' "$buildfile" > "$newbuildfile"
+' "$buildfile" > "$newbuildfile" || die 'Failed to write new PKGBUILD'
 
 # Replace the original buildfile.
 if ! mv -- "$newbuildfile" "$buildfile"; then
