@@ -6,14 +6,15 @@
 # Hector Mtz-Seara <hseara@gmail.com>, 2011-2013
 # Josep <jpreales@gmail.com>, 2013
 # Josep <jpreales@gmail.com>, 2013
+# Ramon Buldó <rbuldo@gmail.com>, 2014
 # xanb <xancorreu@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-02-22 13:23+0000\n"
-"Last-Translator: xanb <xancorreu@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-30 22:10+0000\n"
+"Last-Translator: Ramon Buldó <rbuldo@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -127,9 +128,8 @@ msgstr "Creant una còpia del repositori %s %s ..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Error al crear la còpia de treball del repositori %s %s"
+msgstr "Error al actualitzar la còpia de treball del repositori %s %s"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -166,12 +166,11 @@ msgstr "Recuperant codi font ..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() genera una versió invalida: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "No s'ha pogut canviar al directori %s"
+msgstr "Ha fallat en actualitzar %s a %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -271,27 +270,24 @@ msgid "unknown public key"
 msgstr "clau pública desconeguda"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "la clau ha estat revocada."
+msgstr "la clau pública %s ha estat revocada."
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
 msgstr ""
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "No s'ha trobat signatura, saltant verificació."
+msgstr "error durant la verificació de la signatura"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "la clau pública %s no és de confiança"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "clau pública desconeguda"
+msgstr "clau pública invalida"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -362,9 +358,8 @@ msgid "Removing %s files..."
 msgstr "S'estan eliminant fitxers %s..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "S'estan eliminant fitxers %s..."
+msgstr ""
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -429,9 +424,8 @@ msgid "Adding %s file..."
 msgstr "Afegint fitxer %s..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Ha fallat en instal·lar els paquets construïts."
+msgstr "Ha fallat al afegir el fitxer %s al paquet."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -519,14 +513,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s té caràcters no valids:'%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s ha de ser un decimal."
+msgstr "%s ha de ser un decimal, no %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s ha de ser un nombre enter."
+msgstr "%s ha de ser un nombre enter, no %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -549,14 +541,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "l'entrada %s no pot començar amb guió: %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
 msgstr "Sintaxi no vàlida per a %s: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s no existeix o no és un directori."
+msgstr "el fitxer %s (%s) no existeix o no és un fitxer normal."
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -571,9 +561,8 @@ msgid "Requested package %s is not provided in %s"
 msgstr "El paquet demanat %s no es troba a %s"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Falta la funció %s per dividir el paquet '%s'"
+msgstr "Falta la funció %s en %s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -584,14 +573,15 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s no pot contenir dos punts, guions o espais en blanc."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
-msgstr "No es pot trobar el binari %s necessari per comprovar els arxius font."
+msgstr ""
+"No es pot trobar el binari %s necessari per comprovar els requeriments de "
+"les fonts VCS."
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr "No es pot trobar el binari %s necessari per totels les operacions %s."
+msgstr ""
+"No es pot trobar el binari %s necessari per manejar els arxius font de %s."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -605,9 +595,8 @@ msgstr ""
 "root."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "No es pot trobar el binari %s necessari per a la signatura de paquets."
+msgstr "No es pot trobar el binari %s."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -801,18 +790,16 @@ msgstr ""
 "la per defecte"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "   --nosign        No crear signatura pel paquet"
+msgstr ""
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        No executar la funció %s a %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        No executar la funció %s a %s"
+msgstr ""
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -878,18 +865,16 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Si %s no s'ha especificat, %s buscarà '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Drets d'autor (c) 2006-2013 Equip de Desenvolupament Pacman <pacman-"
-"dev@archlinux.org>.\\nDrets d'autor (C) 2002-2006 Judd Vinet "
-"<jvinet@zeroflux.org>.\\n\\nAixò és programari lliure, vegeu el codi font "
-"per les condicions de còpia.\\nNO hi ha GARANTIA, en la mesura permesa per "
-"la llei.\\n"
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAquest es "
+"un programa lliure; consulteu el codi font per a les condicions de còpia."
+"\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 #: scripts/makepkg.sh.in:3302 scripts/repo-add.sh.in:612
 msgid "%s signal caught. Exiting..."
@@ -920,14 +905,10 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "No té permís d'escriptura per emmagatzemar els registres en %s."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"Executar %s com a root es una MALA idea que pot causar danys\\npermanents o "
-"catastrofics en el teu sistema. Si vols executar-la com a root, si us plau"
-"\\nfes ús de l'opció %s."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -942,9 +923,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s conté %s caràcters i no pot ser analitzats."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s no existeix o no és un directori."
+msgstr ""
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -1009,7 +989,7 @@ msgstr "S'ha acabat de fer: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "no es pot crear '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -1033,9 +1013,9 @@ msgid "Couldn't detect version for template '%s'"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Error en el codi %s"
+msgstr "ha fallta en obrir '%s': %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
@@ -1044,12 +1024,11 @@ msgstr ""
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [opcions]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Opcions:"
+msgstr "Opcions:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
@@ -1077,77 +1056,70 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (defecte: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                Mostra aquest missatge d'ajuda i sortir"
+msgstr ""
+"  --help, -h            Mostra aquest missatge d'ajuda\n"
+"\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "  -V, --version Mostra la versió del programa"
+msgstr "  --version             Versió del programa\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nThis is free software; see the source for copying conditions.\\nThere is "
-"NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Aquest es un programa lliure; consulteu el codi font per a les condicions de "
+"còpia.\n"
+"NO hi ha cap GARANTIA, en la mesura permesa per la llei.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Opcions:"
+msgstr "opcions:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       Mostra aquest missatge d'ajuda i surt"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "  -V, --version Mostra la versió del programa"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
 msgstr ""
-"  --config <file>  Usa un fitxer de configuració alternatiu (enlloc de «%s»)"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    Deshabilita els missatges de sortida acolorits"
+msgstr "  --nocolor            deshabilita els missatges de sortida acolorits"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nThis is free software; see the source for copying conditions.\\nThere is "
-"NO WARRANTY, to the extent permitted by law.\\n"
+"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nAquest es un programa lliure; consulteu el codi font per a les condicions "
+"de còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:129 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:459
@@ -1176,12 +1148,11 @@ msgstr "Format base de dades Pre-3.5 detectat - actualitzant..."
 msgid "Done."
 msgstr "Fet."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "Format base de dades Pre-3.5 detectat - actualitzant..."
+msgstr "Format de base de dades Pre-4.2 detectada - actualitzant..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
 
@@ -1330,149 +1301,149 @@ msgstr "Error en buscar la clau pel nom:"
 msgid "Key name is ambiguous:"
 msgstr "Nom de la clau és ambigu:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "No s'ha pogut trobar localment la clau identificada per %s ."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "No tens suficients permisos per llegir %s del clauer."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Utilitza '%s' per corregir els permisos del clauer."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "No tens suficients permisos per executar aquesta comanda."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "No hi ha clau secreta disponible per signar."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Usant '%s' per generar una clau secreta per defecte."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "No hi ha arxius clauer a %s."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "L'arxiu clauer %s no existeix."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Afegint claus desde %s.gpg..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Signant localment claus de confiança en el clauer..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Impotant valors de confiança del propietari..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Deshabilitant claus revocades del clauer..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "Deshabilitant clau %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Un arxiu-clau especificat no s'ha pogut afegir a l'anell de claus."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Una clau especificada no s'ha pogut esborrar de l'anell de claus."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "No s'ha pogut editar la clau identificada per %s ."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Una clau especificada no s'ha pogut exportar a l'anell de claus."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "No s'ha pogut determinar l'empremta digital d'una clau especificada."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "No s'ha pogut importar %s."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "L'arxiu %s no existeix i no s'ha pogut importar."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "No s'ha pogut mostrar una clau specificada."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "No s'ha pogut mostrar una signatura digital specificada."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "Signant localment clau %s..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s no s'ha pogut signar localment."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Clau remota no obtinguda correctament del servidor de claus."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 "No s'ha pogut actualitzar en el servidor de claus una clau local "
 "espcificada ."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "No s'ha pogut verificar la signatura identificada per %s."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Actualitzant la base de dades de confiaça... "
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "No s'ha pogut actualitzar la base de dades de confiança."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "No es pot trobar el binari %s necessari per totels les operacions %s."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "%s s'ha d'executar com a root per aquesta operació."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "%s configuration file '%s' not found."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "Cap operació especificada( useu -h per ajuda)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Multiples operacions especificades."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Si us plau executa %s amb cada operació per separat."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "No s'han especificat objectius"
 
@@ -1514,7 +1485,6 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Heu de tenir els permisos correctes per optimitzar la base de dades."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
 msgstr ""
 "No s'ha pogut crear el directori temporal per construir la base de dades."
@@ -1571,13 +1541,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Ús: pkgdelta [opcions] <paquet1> <paquet2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tpkgdelta crearà un fitxer delta file entre dos paquets.\\nAquest fitxer "
-"delta pot ser afegit a la base de dades mitjançant repo-add.\\n\\n"
+"pkgdelta crearà un fitxer delta entre dos paquets.\\nAquest fitxer delta pot "
+"ser afegit a la base de dades mitjançant repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1760,16 +1729,14 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exemple:  repo-remove /ruta/a/repositoi.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Drets d'autor (c) 2006-2013 Equip de Desenvolupament Pacman <pacman-"
-"dev@archlinux.org>.\\n\\nAixò és programari lliure, vegeu el codi font per "
-"les condicions de còpia.\\nNO hi ha GARANTIA, en la mesura permesa per la "
-"llei.\\n"
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nAquest es un programa lliure; consulteu el codi font per a les condicions "
+"de còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 #: scripts/repo-add.sh.in:143
 msgid "No database entry for package '%s'."
@@ -1828,9 +1795,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Ja existeix una entrada per '%s'"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "S'està eliminant l'entrada existent '%s'..."
+msgstr "Esborrant el paquet existent '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1950,58 +1916,3 @@ msgstr "L'opció '%s' no accepta cap argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "l'opció '%s' requereix un argument"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Si us plau, afegiu una línia de llicència al vostre %s!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Exemple de programari sota GPL: %s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "el fitxer %s (%s) no existeix."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "No es pot trobar el binari %s necessari per a la construcció sense "
-#~ "privilegis de \"root\"."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "  --asroot         Permetre %s ser executat com a usuari root"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Interrumput per l'usuari! Sortint..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Un error desconegut ha succeït. Sortint..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "L'opció %s està pensada només per a l'usuari root. Si us plau"
-#~ "\\nreexecuteu %s sense la opció %s."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "Executant %s com a usuari sense privilegis resultarà en arxius"
-#~ "\\nempaquetats no pertanyents a root. Intenta usar l'entorn %s posant\\n"
-#~ "%s en el vector %s a %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Rempaquetant sense l'ús de la funció obsoleta %s."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "No es poden preservar els permisos del fitxer."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "Usant %s sense %s la funció és obsoleta."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "El directori del paquet és buit, no hi ha res a reempaquetar!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr ""
-#~ "No es pot crear el directory temporal per construir la base de dades."

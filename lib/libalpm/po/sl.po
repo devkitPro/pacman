@@ -5,15 +5,18 @@
 # Translators:
 # Abomination1 <drozic1989@gmail.com>, 2014
 # ansich <mojmejlzaforume@gmail.com>, 2014
+# Abomination1 <drozic1989@gmail.com>, 2014
+# ansich <mojmejlzaforume@gmail.com>, 2014
 # smlu <smluprenos@gmail.com>, 2012
 # smlu <smluprenos@gmail.com>, 2012
+# Tom Medved <age.empire1@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-02-03 21:54+0000\n"
-"Last-Translator: ansich <mojmejlzaforume@gmail.com>\n"
+"PO-Revision-Date: 2014-11-30 17:56+0000\n"
+"Last-Translator: Tom Medved <age.empire1@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/sl/)\n"
 "Language: sl\n"
@@ -57,6 +60,8 @@ msgstr "%s ni mogoče preimenovati v %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
+"datoteke ni bilo mogoče najti v seznamu datotek za paket %s. preskoči "
+"razširjanje %s\n"
 
 #: lib/libalpm/add.c:230
 #, c-format
@@ -68,13 +73,13 @@ msgstr ""
 "datotečni sistem: %o paket: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"dovoljenje mape na %s se razlikuje\n"
-"datotečni sistem: %o paket: %o\n"
+"lastnik mape na %s se razlikuje\n"
+"datotečni sistem: %u:%u paket: %u:%u\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -179,9 +184,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "napaka pri branju paketa %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "napaka pri branju paketa %s: %s\n"
+msgstr "napaka pri branju mtree od paketa %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -199,9 +204,9 @@ msgid "missing package version in %s\n"
 msgstr "v %s manjka različica paketa\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "v %s manjka različica paketa\n"
+msgstr "napačna različica paketa v %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -242,9 +247,9 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s podatkovna baza je v neskladju: ime paketa %s je predolgo\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "ne morem prebrati statusa datoteke %s:%s\n"
+msgstr "neznana podatkovna baza datoteke: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -344,9 +349,11 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "napaka pri pridobivanju datoteke '%s' iz %s : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "napaka pri pridobivanju datoteke '%s' iz %s : %s\n"
+msgstr ""
+"napaka pri pridobivanju datoteke '%s' iz %s : pričakovana velikost prenosa "
+"presežena\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -529,9 +536,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "neveljaven ali pokvarjen paket (PGP podpis)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "manjka PGP podpis"
+msgstr "paket pogreša zahtevan podpis"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -631,7 +638,7 @@ msgstr "nepričakovana napaka"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "zaklenjena datoteka manjka %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -724,9 +731,9 @@ msgid "failed to retrieve some files\n"
 msgstr "ni mogoče prejeti nekaterih datotek\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "manjka PGP podpis"
+msgstr "%s: manjka zahtevan podpis\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -806,12 +813,12 @@ msgstr "ukaza ni bilo mogoče pravilno izvesti\n"
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Neznan signal"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "ukaz koncan s signalom %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
@@ -824,15 +831,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "predpomnilnika paketa ni bilo mogoče najti ali ustvariti, zato se uporabi "
 "%s\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "razširi: simbolna povezava %s ne kaže na mapo\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s shranjeno kot %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s nameščeno kot %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "razširjanje %s kot %s.pacnew\n"

@@ -4,6 +4,7 @@
 #
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011
+# J5lx <j5lx@fmail.co.uk>, 2014
 # mar77i <mysatyre@gmail.com>, 2013
 # Matthias Gorissen <matthias@archlinux.de>, 2011
 # Wieland Hoffmann <themineo+transifex@googlemail.com>, 2013
@@ -15,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-07-20 15:19+0000\n"
+"PO-Revision-Date: 2014-11-24 10:03+0000\n"
 "Last-Translator: Thomas Lange <thomas-lange2@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/de/)\n"
@@ -59,6 +60,8 @@ msgstr "Konnte %s nicht in %s umbenennen (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
+"Datei nicht in Dateiliste des Pakets %s gefunden. Überspringe Entpacken von "
+"%s\n"
 
 #: lib/libalpm/add.c:230
 #, c-format
@@ -70,13 +73,13 @@ msgstr ""
 "Dateisystem: %o Paket: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
 "Verzeichnis-Berechtigungen unterscheiden sich für %s\n"
-"Dateisystem: %o Paket: %o\n"
+"Dateisystem: %u:%u Paket: %u:%u\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -183,9 +186,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "Fehler beim Lesen des Paketes %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "Fehler beim Lesen des Paketes %s: %s\n"
+msgstr "Fehler beim Lesen des mtrees des Pakets %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -200,12 +203,12 @@ msgstr "Fehlender Paketname in %s\n"
 #: lib/libalpm/be_package.c:597
 #, c-format
 msgid "missing package version in %s\n"
-msgstr "Fehlende Paket-Version in %s\n"
+msgstr "Fehlende Paketversion in %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "Fehlende Paket-Version in %s\n"
+msgstr "Ungültige Paketversion in %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -246,12 +249,11 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr ""
 "Die Datenbank von %s ist inkonsistent: Der Dateiname des Paketes %s ist zu "
 "lang\n"
-"\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "Konnte Status-Information für die Datei %s nicht ermitteln: %s\n"
+msgstr "Unbekannte Datenbankdatei: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -351,9 +353,11 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
+msgstr ""
+"Konnte Datei '%s' nicht von %s empfangen: Erwartete Downloadgröße "
+"überschritten\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -398,7 +402,7 @@ msgstr "Falsches oder NULL-Argument übergeben"
 #: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
-msgstr "Nicht genug freier Festplattenplatz"
+msgstr "Nicht genug freier Festplattenspeicher"
 
 #: lib/libalpm/error.c:55
 #, c-format
@@ -537,9 +541,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "Ungültiges oder beschädigtes Paket (PGP-Signatur)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "Fehlende PGP-Signatur"
+msgstr "Erforderliche Signatur für Paket fehlt"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -639,7 +643,7 @@ msgstr "Unerwarteter Fehler"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "%s fehlt in Sperrdatei\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -732,14 +736,14 @@ msgid "failed to retrieve some files\n"
 msgstr "Konnte einige Dateien nicht übertragen\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "Fehlende PGP-Signatur"
+msgstr "%s: Erforderliche Signatur fehlt\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
 msgid "not enough free disk space\n"
-msgstr "Nicht genügend freier Platz auf der Festplatte\n"
+msgstr "Nicht genug freier Festplattenspeicher\n"
 
 #: lib/libalpm/sync.c:1370
 #, c-format
@@ -814,12 +818,12 @@ msgstr "Befehl konnte nicht korrekt ausgeführt werden\n"
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Unbekanntes Signal"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "Befehl unterbrochen durch Signal %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
@@ -831,15 +835,3 @@ msgstr "Es existiert kein %s-Puffer, erstelle...\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "Konnte den Paket-Puffer nicht finden oder erstellen, benutze stattdessen %s\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "Entpacken: Symlink %s zeigt nicht zum Verzeichnis\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s gespeichert als %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s installiert als %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "Entpacke %s als %s.pacnew\n"

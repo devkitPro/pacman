@@ -7,15 +7,16 @@
 # Mladen Pejaković <pejakm@autistici.org>, 2013
 # Mladen Pejaković <pejakm@autistici.org>, 2013
 # Mladen Pejaković <pejakm@autistici.org>, 2013
+# Mladen Pejaković <pejakm@autistici.org>, 2013
 # Slobodan Terzić <githzerai06@gmail.com>, 2011-2012
 # Zoran Olujić <olujicz@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 12:33+0000\n"
-"Last-Translator: Mladen Pejaković <pejakm@autistici.org>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-18 05:18+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/sr/)\n"
 "Language: sr\n"
@@ -41,9 +42,9 @@ msgid "resolving dependencies...\n"
 msgstr "разрешавам зависности...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "тражим унутрашње сукобе...\n"
+msgstr ""
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -288,9 +289,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (дозволе се не поклапају)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Резервни фајлови:\n"
+msgstr ""
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -412,11 +413,11 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "не могу да додам УРЛ сервера у базу „%s“: %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "грешка при учитавању библиотеке alpm (%s)\n"
+msgstr ""
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -434,9 +435,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "проблем при постављању гпг фасцикле „%s“ (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "„%s“ није дефинисано"
+msgstr ""
 
 #: src/pacman/conf.c:757
 #, c-format
@@ -444,10 +445,9 @@ msgid "Failed to pass assume installed entry to libalpm"
 msgstr ""
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr ""
-"фајл поставки %s, линија %d: директива „%s“ у одељку „%s“ није препозната.\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -669,9 +669,9 @@ msgid "MD5 Sum        :"
 msgstr "МД5 сума         :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "SHA256 сума      :"
+msgstr ""
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -826,9 +826,9 @@ msgstr ""
 "фајла)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list             излистај садржај траженог пакета\n"
+msgstr ""
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -874,13 +874,11 @@ msgstr ""
 "нискама\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired       излистај пакете које не захтева ниједан други пакет "
-"[филтер]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -896,20 +894,18 @@ msgstr ""
 "  -c, --clean            уклони старе пакете из фасцикле кеша (-cc за све)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups           прикажи све пакете из групе\n"
+msgstr ""
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info             прикажи податке о пакету (--ii за резервне "
-"фајлове)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -925,12 +921,10 @@ msgstr ""
 "ниски\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"  -u, --sysupgrade       надогради инсталиране пакете (-uu дозвољава "
-"разградњу)\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -941,12 +935,11 @@ msgstr ""
 "  -w, --downloadonly     преузми пакете, али их не инсталирај/надограђуј\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh          поново потпуно преузми базу пакета са сервера\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -1106,9 +1099,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm        не тражи никакве потврде\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --noconfirm        не тражи никакве потврде\n"
+msgstr ""
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1124,57 +1117,57 @@ msgstr ""
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr ""
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "неисправан аргумент „%s“ за %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "„%s“ није исправан ниво излаза за исправљање грешака\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "може се задати само једна операција истовремено\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "неисправна опција\n"
+msgstr ""
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "неисправна опција\n"
+msgstr ""
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "у обради аргумента је исцрпљена меморија\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "грешка при поновном отварању стандардног улаза за читање: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "аргумент „-“ назнечен без уносу на stdin\n"
+msgstr ""
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "аргумент „-“ назнечен без уносу на stdin\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "не можете извршити ову операцију ако нисте корени корисник.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "није назначена операција (употребите -h за помоћ)\n"
@@ -1210,9 +1203,9 @@ msgid "No package owns %s\n"
 msgstr "Ниједан пакет не садржи %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "предуга путања: %s%s\n"
+msgstr ""
 
 #: src/pacman/query.c:329
 #, c-format
@@ -1380,12 +1373,12 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "није нађена ризница „%s“.\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "Има %d чланова у групи %s:\n"
-msgstr[1] "Има %d чланова у групи %s:\n"
-msgstr[2] "Има %d чланова у групи %s:\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1458,9 +1451,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Синхронизујем базе пакета...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "у обради аргумента је исцрпљена меморија\n"
+msgstr ""
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1567,9 +1560,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s од „%s“"
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "Пакети"
+msgstr ""
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1707,35 +1700,3 @@ msgstr "грешка: "
 #, c-format
 msgid "warning: "
 msgstr "упозорење: "
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s: локална верзија је новија. Свеједно надоградити?"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr ""
-#~ "при обради фајла поставки премашена је максимална дубина рекурзије од "
-#~ "%d.\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr ""
-#~ "не могу да прочитам фајл поставки %s: %s\n"
-#~ "\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "фајл поставки %s, линија %d: погрешан назив одељка.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr ""
-#~ "фајл поставки %s, линија %d: синтаксна грешка у фајлу — недостаје кључ.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info             прикажи податке о пакету\n"
-
-#~ msgid "Name"
-#~ msgstr "Име"
-
-#~ msgid "error: %s"
-#~ msgstr "грешка: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "упозорење: %s"

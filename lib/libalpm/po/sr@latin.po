@@ -5,7 +5,7 @@
 # Translators:
 # Mladen Pejaković <pejakm@autistici.org>, 2013
 # Mladen Pejaković <pejakm@autistici.org>, 2013
-# Mladen Pejaković <pejakm@autistici.org>, 2014
+# Mladen Pejaković <pejakm@autistici.org>, 2013-2014
 # Mladen Pejaković <pejakm@autistici.org>, 2013
 # Mladen Pejaković <pejakm@autistici.org>, 2013
 # Slobodan Terzić <githzerai06@gmail.com>, 2011
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-10-27 17:03+0000\n"
-"Last-Translator: Mladen Pejaković <pejakm@autistici.org>\n"
+"PO-Revision-Date: 2014-11-18 05:16+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/sr@latin/)\n"
 "Language: sr@latin\n"
@@ -70,13 +70,11 @@ msgstr ""
 "sistem fajlova: %o paket: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"dozvole fascikle se razlikuju za %s\n"
-"sistem fajlova: %o paket: %o\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -179,9 +177,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "greška pri čitanju paketa %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "greška pri čitanju paketa %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -199,9 +197,9 @@ msgid "missing package version in %s\n"
 msgstr "nedostaje verzija paketa u %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "nedostaje verzija paketa u %s\n"
+msgstr ""
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -239,9 +237,9 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "nedoslednost baze „%s“: ime fajla paketa %s je predugačko\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "ne mogu da odredim osobine fajla %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -339,9 +337,9 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "neuspešno preuzimanje fajla „%s“ sa „%s“: %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "neuspešno preuzimanje fajla „%s“ sa „%s“: %s\n"
+msgstr ""
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -524,9 +522,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "neispravan ili pokvaren paket (PGP potpis)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "nedostaje PGP potpis"
+msgstr ""
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -719,9 +717,9 @@ msgid "failed to retrieve some files\n"
 msgstr "neuspešno preuzimanje nekih fajlova\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "nedostaje PGP potpis"
+msgstr ""
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -817,15 +815,3 @@ msgstr "ne postoji keš za %s; pravim....\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "ne mogu da nađem ili napravim keš paketa, kao zamenu koristim %s\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "raspakivanje: simbolička veza %s ne upućuje na fasciklu\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "sačuvah %s kao %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "instalirah %s kao %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "raspakujem %s kao %s.pacnew\n"

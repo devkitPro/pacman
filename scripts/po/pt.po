@@ -3,18 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Gaspar Santos <omeuviolino@gmail.com>, 2011
+# ArchGalileu <geral@gasparsantos.eu>, 2014
+# ArchGalileu <geral@gasparsantos.eu>, 2011
 # R00KIE <registosites@hotmail.com>, 2013
 # R00KIE <registosites@hotmail.com>, 2013
 # R00KIE <registosites@hotmail.com>, 2011-2012
+# DarkVenger <thedarkvenger@gmail.com>, 2014
 # DarkVenger <thedarkvenger@gmail.com>, 2011-2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
-"Last-Translator: R00KIE <registosites@hotmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-20 21:41+0000\n"
+"Last-Translator: DarkVenger <thedarkvenger@gmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/pt/)\n"
 "Language: pt\n"
@@ -128,9 +130,8 @@ msgstr "A criar uma cópia de trabalho %s do repositório %s ..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Falha ao criar uma copia de trabalho de %s do repositório %s"
+msgstr "Falha ao atualizar a cópia em uso de %s %s repositório"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -167,12 +168,11 @@ msgstr "A obter as fontes ..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() gerou uma versão inválida: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Falha ao mudar para o diretório %s"
+msgstr "Falha ao atualizar %s de %s para %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -270,27 +270,24 @@ msgid "unknown public key"
 msgstr "chave pública desconhecida"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "a chave foi anulada."
+msgstr "a chave pública %s foi revogada"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "má assinatura a partir da chave pública"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Ignorando verificação; não foi encontrada alguma assinatura."
+msgstr "falha ao verificar assinatura"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "a chave pública %s não é confiável"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "chave pública desconhecida"
+msgstr "chave pública inválida"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -362,9 +359,8 @@ msgid "Removing %s files..."
 msgstr "A remover %s ficheiros..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "A remover %s ficheiros..."
+msgstr "A remover ficheiros de bibliotecas estáticas..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -428,9 +424,8 @@ msgid "Adding %s file..."
 msgstr "A adicionar %s ficheiros..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Falhou ao instalar pacote(s) compilado(s)."
+msgstr "Falha ao adicionar o ficheiro %s ao pacote."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -518,14 +513,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s contem carateres inválidos: '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s tem de ser um decimal."
+msgstr "%s tem de ser decimal, não %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s tem que ser um inteiro."
+msgstr "% tem de ser um inteiro, não %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -551,14 +544,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "As entradas %s  não devem ter uma barra no início: %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
 msgstr "Sintaxe inválida para %s: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s não existe ou não é um diretório."
+msgstr "o ficheiro de %s (%s) não existe ou não é um ficheiro regular."
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -566,16 +557,15 @@ msgstr "A variável %s contém opção desconhecida '%s'"
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Vectores esparsos não são permitidos como código fonte"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "O pacote pretendido %s não está disponível em %s"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Função %s em falta para separar o pacote '%s'"
+msgstr "Falta a função %s em %s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -586,17 +576,15 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s não pode conter dois pontos, hífens ou espaços."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
-"Incapaz de encontrar o comando %s necessário para a verificação dos "
-"ficheiros-fonte."
+"Incapaz de encontrar o executável %s necessário para verificar os requisitos "
+"de Sistema de Controlo de Versões do código fonte."
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr ""
-"Incapaz de encontrar o comando %s necessário para todas as operações %s."
+"Incapaz de encontrar o pacote %s necessário para lidar com o código-fonte %s."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -611,9 +599,8 @@ msgstr ""
 "privilégios de root."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Incapaz de encontrar o comando %s necessário para assinar pacotes."
+msgstr "Incapaz de encontrar o executável %s."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -681,7 +668,7 @@ msgstr "Parte do grupo de pacotes já foi compilado. (use %s para sobrepor)"
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Tornar os pacotes compatíveis para uso com o pacman"
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -703,7 +690,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "  -C, --cleanbuild Remove o diretório %s antes de construir o pacote"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -807,18 +794,16 @@ msgstr ""
 "omissão"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --nosign         Não criar uma assinatura para o pacote"
+msgstr "--noarchive Não criar arquivo do pacote"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Não executar a função %s no %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        Não executar a função %s no %s"
+msgstr "  --noprepare      Não executar a função %s no %s"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -889,14 +874,13 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Se %s não se encontra especificado, %s irá procurar por '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Equipa de Desenvolvimento do Pacman <pacman-"
+"Copyright (c) 2006-2014 Equipa de Desenvolvimento do Pacman <pacman-"
 "dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux."
 "org>.\\n\\nEste é um software livre; veja o código fonte para condições de "
 "cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
@@ -930,14 +914,12 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "Não tem permissão de escrita para armazenar os ficheiros de log em %s."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"Executar %s como super-utilizador é uma MÁ ideia e pode causar danos "
-"permanentes,\\n e catastróficos ao seu sistema. Se pretende executar como "
-"super-utilizador, por favor,\\n use a opção %s."
+"Executar %s como root não é permitido dado que pode causar danos permanentes"
+"\\n e catastróficos ao seu sistema."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -952,9 +934,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s contém %s caracteres e não pode ser lido."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s não existe ou não é um diretório."
+msgstr "%s tem de estar no diretório de trabalho atual."
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -1010,7 +991,7 @@ msgstr "As fontes estão prontos."
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "O diretório do pacote está pronto."
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -1019,7 +1000,7 @@ msgstr "Compilação concluída: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "incapaz de criar '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -1027,136 +1008,140 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"Par chave/valor inválido\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "linha inválida no modelo: incapaz de encontrar o nome do modelo\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-msgstr ""
+msgstr "Caracteres inválidos no nome '%s'. permitidos: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "Incapaz de detetar a versão do modelo '%s'"
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Falha ao fazer \"source\" de %s"
+msgstr "Falha ao abrir '%s': %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Marcador de modelo, desconhecido '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "modelo-makepkg [opções]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Opções:"
+msgstr "Opções:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
 msgstr ""
+"  --input, -p <file>    Script a ler, com instruções de construção (por "
+"omissão: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
+"  --output, -o <file>   ficheiro onde colocar os resultados (por omissão: "
+"ficheiro de entrada)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
 msgstr ""
+"  --newest, -n          atualizar modelos para a versão mais recente\n"
+"\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
-msgstr ""
+msgstr "(por omissão: usar a versão especificada nos marcadores do modelo)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
 msgstr ""
+"  --template-dir <dir>  diretório onde procurar por modelos\n"
+"\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "(por omissão: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                Mostra esta mensagem de ajuda e termina"
+msgstr ""
+"  --help, -h            Esta mensagem de ajuda\n"
+"\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "-V, --version Mostra a versão do programa e sai"
+msgstr ""
+"  --version             Informação relativa à versão\n"
+"\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2010-2013 Equipa de Desenvolvimento do Pacman <pacman-"
-"dev@archlinux.org>.\\nEste é um software livre; veja o código fonte para "
-"condições de cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
+"Copyright (c) 2013-2014 Equipa de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>.\n"
+"Este é um software livre; veja o código fonte para condições de cópia.\n"
+"NÃO HÁ GARANTIA, na extensão permitida pela lei.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Atualize a base de dados local do pacman para um novo formato"
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Opções:"
+msgstr "opções:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
 msgstr ""
+"  -b, --dbpath <path>  define um local alternativo para a base de dados"
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       Mostra esta mensagem de ajuda e termina"
+msgstr "  -h, --help           mostra esta mensagem de ajuda e sai"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "  -r, --root <path>    define um local alternativo para a instalação"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "-V, --version Mostra a versão do programa e sai"
+msgstr "  -V, --version        mostra informação sobre a versão e sai"
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
-"  --config <arquivo>   Usar um ficheiro de configuração alternativo (ao "
-"invés de \"%s\")"
+msgstr "  --config <path>      define um ficheiro de configuração alternativo"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor          Inabilitar mensagens de saída coloridas"
+msgstr "  --nocolor            desativa cores nas mensagem de resultados"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2013 Equipa de Desenvolvimento do Pacman <pacman-"
+"Copyright (c) 2010-2014 Equipa de Desenvolvimento do Pacman <pacman-"
 "dev@archlinux.org>.\\nEste é um software livre; veja o código fonte para "
 "condições de cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
@@ -1188,14 +1173,15 @@ msgstr "Formato da base de dados pré 3.5 detectado - a actualizar..."
 msgid "Done."
 msgstr "Feito."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "Formato da base de dados pré 3.5 detectado - a actualizar..."
+msgstr "Base de dados pre-4.2 detetada - a atualizar..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
+"atalho simbólico '%s' aponta para fora do diretório base do pacman, "
+"reparação manual necessária"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1329,152 +1315,152 @@ msgstr "Falha ao procurar chave por nome:"
 msgid "Key name is ambiguous:"
 msgstr "Nome da chave é ambíguo:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "A chave identificada por %s não pôde ser encontrada localmente."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Não tem permissões suficientes para ler o chaveiro %s."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Use '%s' para corrigir as permissões do gestor de chaves."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Não tem permissões suficientes para efectuar este comando."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Não existe nenhuma chave secreta disponível para assinar."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Use '%s' para gerar a chave secreta por omissão."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "Não existem ficheiros de chaveiro em %s."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "O ficheiro do chaveiro %s não existe."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "A adicionar chaves a partir de %s.gpg..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "A assinar localmente as chaves de confiança no chaveiro..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "A importar os valores de confiança do proprietário..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "A desactivar as chaves revogadas no chaveiro..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "A desactivar a chave %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr ""
 "Não foi possível adicionar ao chaveiro o ficheiro de chaves especificado."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Não foi possível remover do chaveiro a chave especificada."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "A chave identificada por %s não pôde ser editada."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Não foi possível exportar do chaveiro a chave especificada."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "A impressão digital da chave especificada não pôde ser determinada."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "Não foi possível importar %s."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "O ficheiro %s não existe e não pôde ser importado."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "A chave especificada não pôde ser listada."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "A assinatura especificada não pôde ser listada."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "A assinar localmente a chave %s..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s não pode ser assinado localmente."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr ""
 "A chave remota não foi obtida correctamente a partir do servidor de chaves."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 "A chave local especificada não pôde ser actualizada a partir do servidor de "
 "chaves."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "A assinatura identificada por %s não pôde ser verificada."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Atualizando a base de dados confiável..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "A base de dados de confiança não pôde ser actualizada."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Incapaz de encontrar o comando %s necessário para todas as operações %s."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "%s precisa de ser executado como super-utilizador para esta operação."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "%s ficheiro de configuração '%s' não encontrado."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "nenhuma operação especificada (use -h para ajuda)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Múltiplas operações especificadas. "
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Por favor, execute %s para cada operação em separado."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "Nenhum alvo especificado"
 
@@ -1518,10 +1504,9 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Deve ter as permissões correctas para optimizar a base de dados."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
 msgstr ""
-"Não foi possível criar diretório temporário para criação da base de dados."
+"Incapaz de criar um diretório temporário para construir a base de dados."
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1574,13 +1559,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Uso: pkgdelta [opções] <pacote1> <pacote2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\\tpkgdelta vai criar um ficheiro delta entre dois pacotes.\\nEste ficheiro "
-"poderá então ser adicionado à base de dados usando repo-add.\\n\\n"
+"pkgdelta irá criar um ficheiro de diferenças entre os dois pacotes.\\n Este "
+"ficheiro pode ser adicionado à base de dados usando repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1698,6 +1682,8 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"  -R, --remove      remove o ficheiro do pacote do disco ao atualizar a "
+"entrada na base de dados\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1763,13 +1749,12 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exemplo:  repo-remove /caminho/para/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Equipa de Desenvolvimento do Pacman <pacman-"
+"Copyright (c) 2006-2014 Equipa de Desenvolvimento do Pacman <pacman-"
 "dev@archlinux.org>.\\n\\nEste é um software livre; veja o código fonte para "
 "condições de cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
@@ -1830,9 +1815,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Uma entrada para '%s' já existe"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "A remover entrada existente '%s'..."
+msgstr "A remover o pacote existente '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1951,59 +1935,3 @@ msgstr "opção '%s' não permite argumentos"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "opção '%s' requer um argumento"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Por favor, adicione uma linha de licença a %s!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Exemplo GPL para o software:%s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "%s ficheiro (%s) não existe."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Incapaz de encontrar o comando %s para compilação como não super-"
-#~ "utilizador."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "  --asroot         Permitir %s ser executado como super-utilizador"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Abortado pelo utilizador! A sair..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Ocorreu um erro desconhecido. A sair..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "A opção %s é apenas para o super-utilizador. Por favor\\n execute %s sem "
-#~ "a opção %s."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "Executar %s como utilizador não-privilegiado irá resultar em pacotes de "
-#~ "ficheiros que não serão propriedade do super-utilizador. Tente usar o "
-#~ "ambiente %s colocando\\n %s no vetor %s em %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr ""
-#~ "Recriação do pacote sem o uso de uma função %s encontra-se obsoleta."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "As permissões do ficheiro não podem ser preservadas."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "Utilizar %s sem a função %s encontra-se obsoleto."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "O diretório do pacote está vazio, não há nada para re-empacotar!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr ""
-#~ "Incapaz de criar diretório temporário para a criação da base de dados."

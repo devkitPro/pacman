@@ -9,14 +9,15 @@
 # Lasse Liehu <larso@gmx.com>, 2013
 # Lasse Liehu <larso@gmx.com>, 2011
 # Lasse Liehu <larso@gmx.com>, 2011,2013
-# Lasse Liehu <larso@gmx.com>, 2013-2014
+# Lasse Liehu <larso@gmx.com>, 2011,2013-2014
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011,2013
+# No User, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-06-21 22:30+0000\n"
+"PO-Revision-Date: 2014-11-18 13:02+0000\n"
 "Last-Translator: Lasse Liehu <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/fi/)\n"
@@ -60,6 +61,8 @@ msgstr "kohdetta %s ei voitu nimetä uudelleen kohteeksi %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
+"tiedostoa ei löydy paketin %s tiedostolistalta. ohitetaan paketin %s "
+"purkaminen\n"
 
 #: lib/libalpm/add.c:230
 #, c-format
@@ -71,13 +74,13 @@ msgstr ""
 "tiedostojärjestelmä: %o   paketti: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"kansion oikeuksissa eroavaisuuksia kohdassa %s\n"
-"tiedostojärjestelmä: %o   paketti: %o\n"
+"kansion omistajuus eroaa tiedostossa %s\n"
+"tiedostojärjestelmä: %u:%u  paketti: %u:%u\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -180,9 +183,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "virhe luettaessa pakettia %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "virhe luettaessa pakettia %s: %s\n"
+msgstr "virhe luettaessa paketin %s mtreetä: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -200,9 +203,9 @@ msgid "missing package version in %s\n"
 msgstr "paketin versio puuttuu tiedostosta %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "paketin versio puuttuu tiedostosta %s\n"
+msgstr "virheellinen paketin versio tiedostossa %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -242,9 +245,9 @@ msgstr ""
 "tietokanta %s on epäyhtenäinen: paketin %s tiedostonimi on liian pitkä\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "tiedoston %s stat-toiminnon ei voitu tehdä: %s\n"
+msgstr "tuntematon tietokantatiedosto: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -342,9 +345,11 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "tiedoston '%s' nouto palvelimelta %s epäonnistui : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "tiedoston '%s' nouto palvelimelta %s epäonnistui : %s\n"
+msgstr ""
+"tiedoston '%s' noutaminen koneelta %s epäonnistui: odotettu latauskoko "
+"ylittyi\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -527,9 +532,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "virheellinen tai vahingoittunut paketti (PGP-allekirjoitus)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "puuttuva PGP-allekirjoitus"
+msgstr "paketista puuttuu pakollinen allekirjoitus"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -629,7 +634,7 @@ msgstr "odottamaton virhe"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "puuttuva lukkotiedosto %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -724,9 +729,9 @@ msgid "failed to retrieve some files\n"
 msgstr "joidenkin tiedostojen noutaminen epäonnistui\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "puuttuva PGP-allekirjoitus"
+msgstr "%s: pakollinen allekirjoitus puuttuu\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -806,12 +811,12 @@ msgstr "komento päättyi virheeseen\n"
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Tuntematon signaali"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "signaali %d päätti komennon: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
@@ -824,15 +829,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "pakettivälimuistia ei ollut olemassa eikä sitä voitu luoda. Käytetään %s sen "
 "sijaan\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "purku: symbolinen linkki %s ei osoita kansioon\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "kohde %s tallennettu kohteena %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s asennettu %s:na\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "tiedosto %s puretaan tiedostona %s.pacnew\n"

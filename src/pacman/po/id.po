@@ -5,12 +5,13 @@
 # Translators:
 # Gregori, 2013
 # Gregori, 2013
+# Gregori, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 12:33+0000\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-24 05:50+0000\n"
 "Last-Translator: Gregori\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/id/)\n"
@@ -23,7 +24,7 @@ msgstr ""
 #: src/pacman/callback.c:171
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "memeriksa dependensi...\n"
+msgstr "memeriksa ketergantungan...\n"
 
 #: src/pacman/callback.c:175
 #, c-format
@@ -33,12 +34,12 @@ msgstr "memeriksa konflik berkas...\n"
 #: src/pacman/callback.c:179
 #, c-format
 msgid "resolving dependencies...\n"
-msgstr "menyelesaikan dependensi...\n"
+msgstr "menyelesaikan ketergantungan...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "mencari konflik...\n"
+msgstr "mencari paket paket yang tidak berkecocokan...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -58,7 +59,7 @@ msgstr "memasang ulang %s...\n"
 #: src/pacman/callback.c:198
 #, c-format
 msgid "downgrading %s...\n"
-msgstr "Menurunkan %s...\n"
+msgstr "menurunkan %s...\n"
 
 #: src/pacman/callback.c:201
 #, c-format
@@ -83,7 +84,7 @@ msgstr "mengunduh key yang dibutuhkan...\n"
 #: src/pacman/callback.c:238
 #, c-format
 msgid "loading package files...\n"
-msgstr "memuat berkas paket...\n"
+msgstr "memuat berkas-berkas paket...\n"
 
 #: src/pacman/callback.c:242
 #, c-format
@@ -103,7 +104,7 @@ msgstr "menghasilkan %s dengan %s..."
 #: src/pacman/callback.c:253
 #, c-format
 msgid "success!\n"
-msgstr "berhasil berhasil berhasil hore!\n"
+msgstr "berhasil! berhasil! berhasil! hore!\n"
 
 #: src/pacman/callback.c:256
 #, c-format
@@ -128,17 +129,17 @@ msgstr "%s dibutuhkan %s secara opsional\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s terpasang sebagai %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s disimpan sebagai %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s tersimpan sebagai %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -274,9 +275,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (Izin tidak cocok)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Berkas Cadangan :\n"
+msgstr "berkas cadangan"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -393,11 +394,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "tidak dapat menambah URL server ke database '%s':%s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "gagal memulai pustaka alpm (%s)\n"
+msgstr ""
+"gagal memulai pustaka alpm\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -415,21 +418,19 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "masalah pengaturan gpgdir '%s' (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "tidak ada '%s' yang dikonfigurasi"
+msgstr "tidak ada '%s' yang terkonfigurasi\n"
 
 #: src/pacman/conf.c:757
 #, c-format
 msgid "Failed to pass assume installed entry to libalpm"
-msgstr ""
+msgstr "Gagal meneruskan asumsi masukan sudah terpasang ke libalpm"
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr ""
-"berkas konfigurasi %s, baris %d: direktif '%s' pada bagian '%s' tidak "
-"dikenal.\n"
+msgstr "berkas konfig %s, baris %d: '%s' opsi '%s' tidak dikenal\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -653,9 +654,9 @@ msgid "MD5 Sum        :"
 msgstr "MD5 Sum :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "Sha256 Sum :"
+msgstr "SHA-256 Sum :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -805,9 +806,9 @@ msgstr ""
 "properti berkas)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "-l, --list melihat daftar konten dari paket yang diberikan\n"
+msgstr "-l, --list daftar dari berkas yang dimiliki oleh paket terkueri\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -854,12 +855,13 @@ msgstr ""
 "string\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"-t, --unrequired daftar paket yang tidak dibutuhkan paket manapun [filter]\n"
+"-t, --unrequired daftar paket yang tidak (opsional) dibutuhkan oleh paket\n"
+"manapun (-tt untuk mengabaikan optdepends) [filter]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -874,18 +876,20 @@ msgid ""
 msgstr "-c, --clean hapus paket lama dari direktori cache (-cc untuk semua)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "-g, --groups melihat semua anggota dari grup paket\n"
+msgstr ""
+"-g, --groups melihat semua anggota dari grup paket\n"
+"(-gg untuk melihat semua grup dan anggota)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr "-i, --info melihat informasi paket (-ii untuk berkas cadangan)\n"
+msgstr "-i, --info melihat informasi paket (-ii untuk informasi lanjutan)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -900,11 +904,11 @@ msgstr ""
 "-s, --search <regex> mencari pada repositori remote yang sama dengan string\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"-u, --sysupgrade meningkatkan paket yang terpasang (-uu memperbolehkan "
+"-u, --sysupgrade meningkatkan paket terpasang (-uu untuk mengaktifkan "
 "penurunan)\n"
 
 #: src/pacman/pacman.c:163
@@ -916,11 +920,13 @@ msgstr ""
 "-w, --downloadonly mengunduh paket namun tidak dipasang/tingkatkan apapun\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
-msgstr "-y, --refresh mengunduh database paket yang baru dari server\n"
+msgstr ""
+"-y, --refresh mengunduh database paket baru dari server\n"
+"(-yy untuk memaksa penyegaran bahkan jika sudah terbaru)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -980,6 +986,8 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"--assume-installed <package=version>\n"
+"tambahkan sebuah paket virtual untuk mencukupkan ketergantungan\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1071,9 +1079,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "--noconfirm jangan tanya konfirmasi apapun\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "--noconfirm jangan tanya konfirmasi apapun\n"
+msgstr "--confirm selalu minta konfirmasi\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1087,59 +1095,59 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "opsi tak valid: '%s' dan '%s' tidak bisa digunakan bersama sama\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "argumen tidak valid '%s' untuk %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' bukan merupakan tingkat debug yang valid\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "hanya satu operasi yang bisa digunakan dalam satu waktu\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "opsi tidak valid\n"
+msgstr "opsi tak valid '-%c'\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "opsi tidak valid\n"
+msgstr "opsi tak valid '--%s'\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "memori habis saat parsing argumen\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "gagal membuka stdin untuk pembacaan: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "argumen '-' ditentukan tanpa input dari stdin\n"
+msgstr "argumen '-' berisi stdin kosong\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argumen '-' ditentukan tanpa input dari stdin\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "anda tidak dapat menjalankan operasi ini kecuali anda adalah root.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "tidak ada operasi yang ditentukan (gunakan -h untuk bantuan)\n"
@@ -1175,14 +1183,14 @@ msgid "No package owns %s\n"
 msgstr "Tidak ada paket yang memiliki %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "path terlalu panjang: %s%s\n"
+msgstr "path terlalu panjang: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[diabaikan]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1345,10 +1353,10 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "repositori \"%s\" tidak ditemukan.\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "Ada %d anggota pada grup %s:\n"
+msgstr[0] "Ada %d anggota di grup %s:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1421,9 +1429,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Sinkronisasi database paket...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "memori habis saat parsing argumen\n"
+msgstr "kehabisan memori\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1530,7 +1538,7 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s dari \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
 msgstr "Paket"
 
@@ -1668,32 +1676,3 @@ msgstr "galat:"
 #, c-format
 msgid "warning: "
 msgstr "peringatan:"
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s: versi lokal lebih baru. Tetap upgrade?"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr "parsing konfigurasi melebihi batas maksimal rekursi %d\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "berkas konfigurasi %s tidak dapat dibaca: %s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "berkas konfigurasi %s, baris %d:bad section name.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr ""
-#~ "berkas konfigurasi %s, baris %d: sintaks salah pada berkas konfigurasi- "
-#~ "key hilang.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "-i, --info lihat informasi paket\n"
-
-#~ msgid "Name"
-#~ msgstr "Nama"
-
-#~ msgid "error: %s"
-#~ msgstr "galat: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "peringatan: %s"

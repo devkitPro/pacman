@@ -4,14 +4,14 @@
 #
 # Translators:
 # Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013
-# Данило Коростіль <ted.korostiled@gmail.com>, 2011
+# Данило Коростіль <ted.korostiled@gmail.com>, 2011,2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 10:04+0000\n"
-"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
+"PO-Revision-Date: 2014-11-18 22:01+0000\n"
+"Last-Translator: Данило Коростіль <ted.korostiled@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -55,6 +55,8 @@ msgstr "неможливо перейменувати %s на %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
+"файл не знайдено в переліку файлів для пакунку %s, пропускаємо витягування з "
+"%s\n"
 
 #: lib/libalpm/add.c:230
 #, c-format
@@ -66,13 +68,14 @@ msgstr ""
 "файловій системі %s: %o  пакунок: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"права каталогу відрізняються у\n"
-"файловій системі %s: %o  пакунок: %o\n"
+"власність каталогу відрізняється на %s\n"
+"\n"
+"файлова система: %u:%u пакунок: %u:%u\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -177,9 +180,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "помилка при читанні пакунка %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "помилка при читанні пакунка %s: %s\n"
+msgstr "помилка читання mtree з пакунка %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -197,9 +200,9 @@ msgid "missing package version in %s\n"
 msgstr "бракує версії пакунка в %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "бракує версії пакунка в %s\n"
+msgstr "неправильна версія пакунка в %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -237,9 +240,9 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "база даних %s неоднорідна: назва пакунка %s задовга\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "не вдається отримати статус файлу  %s: %s\n"
+msgstr "невідомий файл бази даних: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -337,9 +340,9 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не вдалось одержати файл «%s» з %s : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "не вдалось одержати файл «%s» з %s : %s\n"
+msgstr "не вдалось одержати файл «%s» з %s : перевищено сподіваний розмір\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -522,9 +525,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "неправильний або пошкоджений пакунок (підпис PGP)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "немає підпису "
+msgstr "пакунку бракує підпису"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -624,7 +627,7 @@ msgstr "неочікувана помилка"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "бракує блокувального файла %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -717,9 +720,9 @@ msgid "failed to retrieve some files\n"
 msgstr "не вдалось одержати деякі файли\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "немає підпису "
+msgstr "%s: бракує підпису\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -799,12 +802,12 @@ msgstr "команда не змогла виконатись коректно\n
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Невідомий сигнал"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "команду завершено сигналом %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
@@ -816,15 +819,3 @@ msgstr "кеш %s не існує, створюється…\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "неможливо знайти або створити кеш пакунків, використовуючи %s натомість\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "розпакування: символьне посилання %s не вказує на каталог\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s збережено як %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s встановлено як %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "розпакування %s як %s.pacnew\n"

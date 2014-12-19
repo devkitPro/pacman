@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Alexander F Rødseth <rodseth@gmail.com>, 2014
 # Alexander F Rødseth <rodseth@gmail.com>, 2011-2014
-# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013
+# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-02-11 13:02+0000\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-12-06 14:40+0000\n"
 "Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/nb/)\n"
@@ -38,9 +39,9 @@ msgid "resolving dependencies...\n"
 msgstr "undersøker avhengigheter...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "ser etter interne konflikter...\n"
+msgstr "søker etter pakkekonflikter...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -130,17 +131,17 @@ msgstr "%s kan trenge %s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s ble installert som %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s ble lagret som %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s ble lagret som %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -281,9 +282,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (Forskjellige rettigheter)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Backup-filer:\n"
+msgstr "ekstrakopi"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -404,11 +405,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "kunne ikke legge server-URL til databasen '%s': %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "kunne ikke initialisere alpm-biblioteket (%s)\n"
+msgstr ""
+"kunne ikke initialisere alpm-biblioteket\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -426,21 +429,19 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problem ved valg av gpgdir '%s' (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "ingen '%s' er konfigurert"
+msgstr "ingen '%s' har blitt konfigurert\n"
 
 #: src/pacman/conf.c:757
 #, c-format
 msgid "Failed to pass assume installed entry to libalpm"
-msgstr ""
+msgstr "Kunne ikke få libalpm til å anta at enheten var installert"
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr ""
-"konfigurasjonsfil %s, linje %d: direktiv '%s' i seksjon '%s' ikke "
-"gjenkjent.\n"
+msgstr "konfigurasjonsfil %s, linje %d: '%s' direktivet '%s' er ukjent\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -662,9 +663,9 @@ msgid "MD5 Sum        :"
 msgstr "MD5 sum        :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "SHA256 sum     :"
+msgstr "SHA-256 sum:"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -819,9 +820,9 @@ msgstr ""
 "filegenskaper)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           list opp alle filene i den angitte pakken\n"
+msgstr "-l, --list list filer eid av den gitte pakken\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -868,12 +869,13 @@ msgstr ""
 "strenger\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired     lister opp pakker som ikke behøves av noen pakker "
+"-t, --unrequired vis pakker som ikke kreves av (eller er valgfrie for)\n"
+"noen installerte pakker (bruk -tt for å ignorere valgfrie avhengigeter) "
 "[filter]\n"
 
 #: src/pacman/pacman.c:151
@@ -891,20 +893,20 @@ msgstr ""
 "alt)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         list opp alle pakker i en pakkegruppe\n"
+msgstr ""
+"-g, --groups vis alle medlemmer i pakkens gruppe\n"
+"(bruk -gg for å vise all grupper og medlemmer)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr ""
-"  -i, --info           vis pakkeinformasjon (-ii for sikkerhetskopierte "
-"filer)\n"
+msgstr "-i, --info vis pakkeinformasjon (bruk -ii for utvidet informasjon)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -920,12 +922,12 @@ msgstr ""
 "strenger\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"  -u, --sysupgrade     oppgrader installerte pakker (-uu tillater "
-"nedgradering)\n"
+"-u, --sysupgrade oppgradér installerte pakker (--uu tillater "
+"nedgraderinger)\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -937,12 +939,13 @@ msgstr ""
 "ting\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh        laster ned friske nye pakkedatabaser fra tjeneren\n"
+"-y, --refresh last ned oppdaterte pakkedatabaser fra serveren\n"
+"(bruk -yy for å tvinge nedlasting av oppdarerte lister)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -1005,6 +1008,8 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"--assume-installed <pakke=versjon>\n"
+"legger til en virtuell pakke for å tilfredsstille avhengigheter\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1102,9 +1107,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --nocorfirm      ikke spør om bekreftelse\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --nocorfirm      ikke spør om bekreftelse\n"
+msgstr "--confirm alltid spør om bekreftelse\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1118,59 +1123,59 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "ugyldig direktiv: '%s' og '%s' kan ikke bli brukt samtidig\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "ugyldig parameter '%s' for %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' er ikke et gyldig feilsøkingsnivå\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "kan bare utføre en handling om gangen\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "ugyldig valg\n"
+msgstr "ugyldig direktiv '-%c'\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "ugyldig valg\n"
+msgstr "ugyldig direktiv '--%s'\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "minnet gikk fullt ved parametertolkning\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "klarte ikke å åpne stdin for lesing: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "'-' oppgitt uten tilgjengelig data på stdin\n"
+msgstr "'-' ble oppgitt, men programmet mottok ingen data\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "'-' oppgitt uten tilgjengelig data på stdin\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "du kan ikke gjøre denne handlingen hvis ikke du er root.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "ingen handling angitt (bruk -h for hjelp)\n"
@@ -1206,14 +1211,14 @@ msgid "No package owns %s\n"
 msgstr "Ingen pakke eier %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "stien er for lang: %s%s\n"
+msgstr "stien er for lang: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[ignorert]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1376,11 +1381,11 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "fant ikke pakkebrønnen \"%s\".\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "Det er %d elementer i gruppen %s:\n"
-msgstr[1] "Det er %d elementer i gruppen %s:\n"
+msgstr[0] "Det er %d medlem i gruppen %s:\n"
+msgstr[1] "Det er %d medlemmer i gruppen %s:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1453,9 +1458,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Synkroniserer pakkedatabaser...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "minnet gikk fullt ved parametertolkning\n"
+msgstr "minnet er fullt\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1563,9 +1568,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s fra \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "Pakker"
+msgstr "Pakke"
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1620,7 +1625,7 @@ msgstr "Netto oppgraderingsstørrelse:"
 #: src/pacman/util.c:1212
 #, c-format
 msgid " [pending]"
-msgstr "[venter]"
+msgstr "[underveis]"
 
 #: src/pacman/util.c:1236
 #, c-format
@@ -1701,33 +1706,3 @@ msgstr "feil: "
 #, c-format
 msgid "warning: "
 msgstr "advarsel: "
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s: lokal versjon er nyere. Oppgradér likevel?"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr ""
-#~ "tolkning av konfigurasjon gikk forbi maks rekursjonsdybde (på %d).\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "kunne ikke lese konfigurasjonsfil %s: %s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "konfigurasjonsfil %s, linje %d: ugyldig seksjonsnavn.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr ""
-#~ "konfigurasjonsfil %s, linje %d: syntaksfeil i konfigurasjonsfil, mangler\n"
-#~ "nøkkel.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info           vis pakkeinformasjon\n"
-
-#~ msgid "Name"
-#~ msgstr "Navn"
-
-#~ msgid "error: %s"
-#~ msgstr "feil: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "advarsel: %s"

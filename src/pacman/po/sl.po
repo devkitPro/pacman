@@ -5,15 +5,18 @@
 # Translators:
 # Abomination1 <drozic1989@gmail.com>, 2014
 # ansich <mojmejlzaforume@gmail.com>, 2014
+# Abomination1 <drozic1989@gmail.com>, 2014
+# ansich <mojmejlzaforume@gmail.com>, 2014
 # smlu <smluprenos@gmail.com>, 2012
 # smlu <smluprenos@gmail.com>, 2012
+# Tom Medved <age.empire1@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-02-04 19:20+0000\n"
-"Last-Translator: ansich <mojmejlzaforume@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-30 17:56+0000\n"
+"Last-Translator: Tom Medved <age.empire1@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/sl/)\n"
 "Language: sl\n"
@@ -39,9 +42,9 @@ msgid "resolving dependencies...\n"
 msgstr "razreševanje odvisnosti ...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "iskanje sporov ...\n"
+msgstr "iskanje spornih paketkov...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -135,17 +138,17 @@ msgstr "%s izbirno potrebuje %s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s nameščeno kot %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s shranjeno kot %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s shranjeno kot %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -212,12 +215,12 @@ msgstr ""
 #: src/pacman/callback.c:459
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
-msgstr ""
+msgstr "Uvoz PGP ključa %d%c/%s, \"%s\", ustvaril: %s (preklicano)?"
 
 #: src/pacman/callback.c:462
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
-msgstr ""
+msgstr "Uvoz PGP ključa %d%c/%s, \"%s\", ustvarjen: %s?"
 
 #: src/pacman/callback.c:522
 #, c-format
@@ -295,9 +298,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (neujemanje dovoljenj)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Varnostna kopija datotek:\n"
+msgstr "varnostna kopija datoteke"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -339,28 +342,32 @@ msgstr[3] ""
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
 msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+"Manjkajoča datoteka %jd\n"
+"\n"
+msgstr[1] "Manjkajoči datoteki %jd\n"
+msgstr[2] "Manjkajoče datoteke %jd\n"
 msgstr[3] ""
+"Manjkajoče datoteke %jd\n"
+"\n"
 
 #: src/pacman/check.c:277
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: ni mtree datoteke\n"
 
 #: src/pacman/check.c:333
 #, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr ""
+msgstr "neznan tip datoteke: %s%s\n"
 
 #: src/pacman/check.c:382
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%jd spremenjena datoteka\n"
+msgstr[1] "%jd spremenjeni datoteki\n"
+msgstr[2] "%jd spremenjenih datotek\n"
+msgstr[3] "%jd spremenjenih datotek\n"
 
 #: src/pacman/conf.c:97
 #, c-format
@@ -425,11 +432,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "URL strežnika ni bilo mogoče dodati v podatkovno bazo '%s': %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "spodletela inicializacija alpm knjižice (%s)\n"
+msgstr ""
+"napaka pri inicializaciji alpm knjižnice\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -447,9 +456,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "Problem nastavitve gpgdir '%s' (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "ni '%s' konfigurirarno"
+msgstr " '%s' ni nastavljen\n"
 
 #: src/pacman/conf.c:757
 #, c-format
@@ -457,11 +466,11 @@ msgid "Failed to pass assume installed entry to libalpm"
 msgstr ""
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr ""
-"konfiguracijska datoteka %s, vrstica %d: direktiva '%s' v odseku '%s' ni "
-"bila prepoznana.\n"
+"konfiguracijska datoteka %s, vrstica %d: '%s' možnost '%s' ni bila "
+"prepoznana.\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -686,9 +695,9 @@ msgid "MD5 Sum        :"
 msgstr "MD5 vsota        :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "SHA256 vsota     :"
+msgstr "SHA-256 Sum :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -837,11 +846,13 @@ msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
 msgstr ""
+"  -k, --check preverjanje, če so datoteke, ki jih poseduje paket, na voljo (-"
+"kk za lastnosti datotek)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           seznam vsebine poizvedenega paketa\n"
+msgstr "  -l, --list seznam vsebine poizvedenega paketa\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -885,13 +896,11 @@ msgid ""
 msgstr "  -s, --search <izraz> iskanje nameščenih paketov po izrazu\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired     seznam paketov, ki niso zahtevani s strani nobenega "
-"paketa [filter]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -908,18 +917,20 @@ msgstr ""
 "imenika (-cc za vse)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         izpis vseh pripadnikov skupine paketa\n"
+msgstr ""
+"-g, --groups izpis vseh pripadnikov skupine paketa\n"
+"(-gg izpis vseh skupin in pripadnikov)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr "  -i, --info           izpis podatkov o paketu (-ii rezervne kopije)\n"
+msgstr "-i, --info prikaže informacije o paketu (-ii razširiti informacije)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -933,7 +944,7 @@ msgid ""
 msgstr "  -s, --search <izraz> iskanje po oddaljenih skladiščih po izrazu\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
@@ -948,11 +959,13 @@ msgid ""
 msgstr "  -w, --downloadonly   prenos paketov, brez namestitve/posodobitve\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
-msgstr "  -y, --refresh       osvežitev podatkovnih baz preko strežnika\n"
+msgstr ""
+"  -y, --refresh osvežitev podatkovnih baz preko strežnika (-yy prisili "
+"osvežitev, tudi če je baza podatkov že posodobljeno)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -1012,6 +1025,8 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"--assume-installed <package=version>\n"
+"Dodaj virtualni paket za zadovoljevanje odvisnosti\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1107,9 +1122,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "--noconfirm ne sprašuj za potrditve\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "--noconfirm ne sprašuj za potrditve\n"
+msgstr "--confirm vedno vprašaj za potrditev\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1123,19 +1138,19 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "neveljavno stikalo: '%s' in '%s' se ne sme uporabljati skupaj\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr ""
+msgstr "neveljavna trditev '%s' za %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' ni veljavna stopnja razhroščevalnika\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr ""
@@ -1143,42 +1158,42 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "neveljavno stikalo\n"
+msgstr "neveljavno stikalo '-%c'\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "neveljavno stikalo\n"
+msgstr "neveljavno stikalo '--%s'\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "pri razčlenjevanju argumenta je zmanjkalo pomnilnika\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "neuspelo ponovno odpiranje stdin za branje: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "argument '-' je bil podan brez vhoda na stdin\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argument '-' je bil podan brez vhoda na stdin\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "to operacijo je možno izvesti samo kot skrbnik.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nobeno stikalo ni določena (za pomoč uporabite stikalo -h  )\n"
@@ -1214,14 +1229,14 @@ msgid "No package owns %s\n"
 msgstr "Noben paket ne poseduje %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "pot je predolga: %s%s\n"
+msgstr "pot je predolga: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[prezri]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1386,13 +1401,13 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "skladišča \"%s\" ni bilo mogoče najti.\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "V skupini %s je %d članov:\n"
-msgstr[1] "V skupini %s je %d članov:\n"
-msgstr[2] "V skupini %s je %d članov:\n"
-msgstr[3] "V skupini %s je %d članov:\n"
+msgstr[0] "V skupini %2$s je %1$d član:\n"
+msgstr[1] "V skupini %2$s sta %1$d člana:\n"
+msgstr[2] "V skupini %2$s je %1$d članov:\n"
+msgstr[3] "V skupini %2$s je %1$d članov:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1465,9 +1480,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Sinhronizacija podatkovnih baz ...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "pri razčlenjevanju argumenta je zmanjkalo pomnilnika\n"
+msgstr "pomnilnik izčrpan\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1556,7 +1571,7 @@ msgstr "polno zaupanje"
 #: src/pacman/util.c:792
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "minimalno zaupanje"
 
 #: src/pacman/util.c:795
 #, c-format
@@ -1574,9 +1589,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s od \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "Paketi"
+msgstr "Paket"
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1712,33 +1727,3 @@ msgstr "napaka: "
 #, c-format
 msgid "warning: "
 msgstr "opozorilo: "
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s: nameščena različica je novejša. Ali naj vseeno posodobim?"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr ""
-#~ "razčlenjevanje nastavitev je preseglo maksimalno globino rekurzije %d.\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "nastavitvene datoteke %s ni bilo mogoče prebrati: %s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "konfiguracijska datoteka %s, vrstica %d: neveljavno ime odseka.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr ""
-#~ "konfiguracijska datoteka %s, vrstica %d: Napačna sintaksa v "
-#~ "konfiguracijski datoteki- manjkajoč ključ.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info           izpis podatkov o paketu\n"
-
-#~ msgid "Name"
-#~ msgstr "Naziv"
-
-#~ msgid "error: %s"
-#~ msgstr "napaka: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "opozorilo: %s"

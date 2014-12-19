@@ -9,14 +9,16 @@
 # Lasse Liehu <larso@gmx.com>, 2013
 # Lasse Liehu <larso@gmx.com>, 2011-2012
 # Lasse Liehu <larso@gmx.com>, 2013
+# Lasse Liehu <larso@gmx.com>, 2013-2014
 # Lasse Liehu <lasse.liehu@gmail.com>, 2012
+# No User, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-01-11 12:14+0000\n"
-"Last-Translator: J. S. Tuomisto <jstuomisto@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-23 14:51+0000\n"
+"Last-Translator: Lasse Liehu <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/fi/)\n"
 "Language: fi\n"
@@ -112,11 +114,11 @@ msgstr "Paikallinen URL on %s"
 
 #: scripts/makepkg.sh.in:491
 msgid "Pulling %s ..."
-msgstr ""
+msgstr "Vedetään sijainnista %s..."
 
 #: scripts/makepkg.sh.in:495
 msgid "Failure while pulling %s"
-msgstr ""
+msgstr "Virhe vedettäessä sijainnista %s"
 
 #: scripts/makepkg.sh.in:517 scripts/makepkg.sh.in:626
 #: scripts/makepkg.sh.in:696 scripts/makepkg.sh.in:744
@@ -130,9 +132,8 @@ msgstr "Luodaan työkopio varastosta %s %s ..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Varaston %s %s työkopion luominen epäonnistui"
+msgstr "Virhe päivitettäessä työkopiota %s %s-varastosta"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -151,7 +152,7 @@ msgstr "Varaston %s %s lataaminen epäonnistui"
 
 #: scripts/makepkg.sh.in:568
 msgid "%s is not a clone of %s"
-msgstr ""
+msgstr "%s ei ole varaston %s klooni"
 
 #: scripts/makepkg.sh.in:572 scripts/makepkg.sh.in:663
 #: scripts/makepkg.sh.in:759
@@ -169,12 +170,11 @@ msgstr "Noudetaan lähdetiedostoja..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() loi virheellisen version: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Kansioon %s vaihtaminen epäonnistui"
+msgstr "%s-kentän päivittäminen arvosta %s arvoon %s epäonnistui"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -182,7 +182,7 @@ msgstr "Päivitetty versio: %s"
 
 #: scripts/makepkg.sh.in:884
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr ""
+msgstr "Tiedostoon %s ei voi kirjoittaa -- pkgveriä ei päivitetä"
 
 #: scripts/makepkg.sh.in:892
 msgid "Unable to find source file %s."
@@ -271,27 +271,24 @@ msgid "unknown public key"
 msgstr "julkista avainta ei tunnisteta"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "avain on mitätöity."
+msgstr "julkinen avain %s on mitätöity"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "kelvoton allekirjoitus julkiselta avaimelta"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Tietokantaa ei ole allekirjoitettu, ohitetaan tarkastus."
+msgstr "virhe tarkistettaessa allekirjoitusta"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "julkinen avain %s ei ole luotettava"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "julkista avainta ei tunnisteta"
+msgstr "kelvoton julkinen avain"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -339,7 +336,7 @@ msgstr "Kansioon %s vaihtaminen epäonnistui"
 
 #: scripts/makepkg.sh.in:1609
 msgid "Failed to source %s"
-msgstr ""
+msgstr "source epäonnistui tiedostolle %s"
 
 #: scripts/makepkg.sh.in:1671
 msgid "Starting %s()..."
@@ -362,9 +359,8 @@ msgid "Removing %s files..."
 msgstr "Poistetaan %s tiedostoa..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "Poistetaan %s tiedostoa..."
+msgstr "Poistetaan staattisia kirjastotiedostoja..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -427,9 +423,8 @@ msgid "Adding %s file..."
 msgstr "Lisätään %s-tiedostoa..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Käännettyjen pakettien asentaminen epäonnistui."
+msgstr ""
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -517,14 +512,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s sisältää virheellisiä merkkejä: \"%s\""
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s:n tulee olla desimaaliluku."
+msgstr ""
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s:n tulee olla luku."
+msgstr ""
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -547,14 +540,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "%s-merkintä ei saa alkaa kauttaviivalla : %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
-msgstr "Virheellinen %s-syntaksi : \"%s\""
+msgstr ""
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s ei ole olemassa, tai se ei ole kansio."
+msgstr ""
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -569,9 +560,8 @@ msgid "Requested package %s is not provided in %s"
 msgstr "Pyydettyä pakettia %s ei löydy kohteesta %s"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Funktio %s puuttuu jaetusta paketista '%s'"
+msgstr ""
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -582,14 +572,12 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s ei saa sisältää tavuviivoja, kaksoispisteitä eikä tyhjiä välejä."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
-msgstr "Lähdetiedostojen tarkastamiseen tarvittavaa ohjelmaa %s ei löydy."
+msgstr ""
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr "Kaikille %s-operaatioille tarvittavaa ohjelmaa %s ei löydy."
+msgstr ""
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -600,9 +588,8 @@ msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Pakettien allekirjoittamiseen tarvittavaa ohjelmaa %s ei löydy."
+msgstr ""
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -783,18 +770,16 @@ msgstr ""
 "  --key <avain>    Määrritä paketin allekirjoittamiseen käytettävä %s avain"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --nosign         Älä allekirjoita pakettia"
+msgstr ""
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Älä suorita funktiota %s kohteessa %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        Älä suorita funktiota %s kohteessa %s"
+msgstr ""
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -854,16 +839,12 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Jos tiedostoa ei anneta %s-valitsimella, %s etsii tiedostoa \"%s\""
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
 #: scripts/makepkg.sh.in:3302 scripts/repo-add.sh.in:612
 msgid "%s signal caught. Exiting..."
@@ -894,14 +875,10 @@ msgid "You do not have write permission to store logs in %s."
 msgstr ""
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"%s:n suorittaminen pääkäyttäjänä on HUONO idea, ja voi aiheuttaa pysyvää,"
-"\\nkatastrofaalista tuhoa järjestelmääsi. Jos kuitenkin haluat suorittaa "
-"pääkäyttäjänä, käytä %s-valitsinta."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -916,9 +893,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s sisältää %s-merkkejä eikä sille voi tehdä source-toimintoa."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s ei ole olemassa, tai se ei ole kansio."
+msgstr ""
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -1009,9 +985,9 @@ msgid "Couldn't detect version for template '%s'"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "tiedoston %s purkaminen epäonnistui"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
@@ -1023,9 +999,8 @@ msgid "makepkg-template [options]\n"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Valinnat:"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
@@ -1056,74 +1031,58 @@ msgid "                        (default: %s)\n"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                    Näyttää tämän ohjeen"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "  -V, --version                 Kertoo ohjelman version"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Valinnat:"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       Näytä tämä ohje"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "  -V, --version                 Kertoo ohjelman version"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
 msgstr ""
-"  --config<tiedosto> Käytä vaihtoehtoista asetustiedostoa ('%s':in sijaan)"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    Älä käytä värejä viesteissä"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:129 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:459
@@ -1153,14 +1112,11 @@ msgstr ""
 msgid "Done."
 msgstr "Tehty."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
 msgstr ""
-"Vanhanaikainen pakettitietokantaformaatti havaittu. Päivitetään sitä uuteen "
-"3.5 formaattiin..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
 
@@ -1284,147 +1240,147 @@ msgstr ""
 msgid "Key name is ambiguous:"
 msgstr "Avaimen nimi on moniselitteinen:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "Avainta tunnisteella %s ei voitu löytää paikallisesti."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Sinulla ei ole riittäviä oikeuksia lukea avainnippua %s."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Korjaa avainnipun oikeudet suorittamalla \"%s\"."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Sinulla ei ole riittäviä oikeuksia tämän komennon suorittamiseen."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Ei ole salaista avainta, jolla allekirjoittaa."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Luo oletusarvoinen salainen avain suorittamalla \"%s\"."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "Kansiossa %s ei ole avainnipputiedostoja."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "Avainnipputiedostoa %s ei ole olemassa."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Lisätään avaimia tiedostosta %s.gpg..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Allekirjoitetaan avainnipun luotettuja avaimia paikallisesti..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Tuodaan omistajan luotetut arvot..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Poistetaan avainnipun mitätöidyt avaimet käytöstä..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "Poistetaan avain %s käytöstä..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Määritettyä avaintiedostoa ei voitu lisätä avainketjuun."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Määritettyä avainta ei voitu poistaa avainketjusta."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "Avainta tunnisteella %s ei voitu muokata."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Määritettyä avainta ei voitu viedä avainketjusta."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Määritetyn avaimen sormenjälkeä ei voitu selvittää."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "%s ei voitu tuoda."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "Tiedostoa %s ei ole olemassa ja sitä ei voitu tuoda."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "Määritettyä avainta ei voitu luetella."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "Määritettyä allekirjoitusta ei voitu luetella."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "Allekirjoitetaan avainta %s paikallisesti..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr ""
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Etäavaimen  nouto avainpalvelimelta ei onnistunut."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Määritettyä paikallista avainta ei voitu päivittää avainpalvelimelta."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "Allekirjoitusta tunnisteella %s ei voitu tarkastaa."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Päivitetään luotettujen tietokantaa..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "Luotettujen tietokantaa ei voitu päivittää."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Kaikille %s-operaatioille tarvittavaa ohjelmaa %s ei löydy."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "Tämä operaatio vaatii, että %s suoritetaan pääkäyttäjänä."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "%s-asetustiedostoa \"%s\" ei löydy."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "mitään operaatiota ei annettu (-h tulostaa ohjeen)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Annettiin useampia operaatioita."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Suorita %s erikseen joka operaatiolle."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr ""
 
@@ -1465,9 +1421,8 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Sinulla tulee olla kunnolliset oikeudet tietokannan optimoimiseen."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
-msgstr "Tietokannan luontiin tarvittavaa väliaikaiskansiota ei voida luoda."
+msgstr ""
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1518,13 +1473,10 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Käyttö: pkgdelta [valinnat] <paketti1> <paketti2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tpkgdelta luo kahden tiedoston välisen deltatiedoston.\\nTämä deltatiedosto "
-"voidaan sitten lisätä pakettitietokantaan\\nkäyttäen repo-add-ohjelmaa.\\n\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1545,7 +1497,7 @@ msgstr "  --nocolor         poista värit tulosteesta\\n"
 
 #: scripts/pkgdelta.sh.in:62
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
-msgstr ""
+msgstr "  --min-pkg-size    paketin vähimmäiskoko, jotta delta luodaan\\n"
 
 #: scripts/pkgdelta.sh.in:63
 msgid ""
@@ -1693,15 +1645,11 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Esimerkki:  repo-remove /polku/varastoon/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
 #: scripts/repo-add.sh.in:143
 msgid "No database entry for package '%s'."
@@ -1717,7 +1665,7 @@ msgstr "Poistetaan pakettia '%s' tietokannasta..."
 
 #: scripts/repo-add.sh.in:187
 msgid "Removing empty deltas file ..."
-msgstr ""
+msgstr "Poistetaan tyhjää deltas-tiedostoa..."
 
 #: scripts/repo-add.sh.in:198
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
@@ -1760,9 +1708,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Paketti '%s' on jo tietokannassa"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "Poistetaan pakettia '%s' tietokannasta..."
+msgstr ""
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1881,54 +1828,3 @@ msgstr "valitsin '%s' ei salli parametria"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "valitsin '%s' tarvitsee parametrin"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Lisää lisenssirivi tiedostoosi %s!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Esimerkki GPL-lisenssöidystä ohjelmistosta: %s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "%s tiedostoa (%s) ei ole olemassa."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Muuna kuin pääkäyttäjänä kääntämiseen tarvittavaa ohjelmaa %s ei löydy."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr ""
-#~ "  --asroot         Salli %s-ohjelman suorittaminen ylläpitäjän oikeuksilla"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Käyttäjä keskeytti. Lopetetaan..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Tapahtui tuntematon virhe. Lopetetaan..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "%s-valitsin on tarkoitettu vain pääkäyttäjälle. Suorita\\n%s uudelleen "
-#~ "ilman %s-valitsinta."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "%s suorittamisesta tavallisena käyttäjänä seuraa, että pääkäyttäjä ei"
-#~ "\\nomista paketoituja tiedostoja. Yritä käyttää %s-ympäristöä "
-#~ "\\nlisäämällä %s %s-taulukkoon tiedostossa %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Uudelleenpakkaaminen ilman %s-funktiota on vanhentunut."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "Tiedostojen omistussuhteet saattavat kärsiä."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "Pakettikansio on tyhjä, ei ole mitään uudelleenpakattavaa."
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "Tietokannan luontiin tarvittavaa väliaikaiskansiota ei voida luoda."

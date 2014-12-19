@@ -5,12 +5,13 @@
 # Translators:
 # Ḷḷumex03 <tornes@opmbx.org>, 2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014
+# Ḷḷumex03 <tornes@opmbx.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
-"PO-Revision-Date: 2014-06-17 09:17+0000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
+"PO-Revision-Date: 2014-12-13 22:50+0000\n"
 "Last-Translator: Ḷḷumex03 <tornes@opmbx.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/archlinux-pacman/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -19,600 +20,791 @@ msgstr ""
 "Language: ast\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr ""
+msgstr "%s-%s ta anováu -- saltando\n"
 
+#: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr ""
+msgstr "%s-%s ta anováu -- reinstalando\n"
 
+#: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr ""
+msgstr "baxando de versión el paquete %s (%s => %s)\n"
 
+#: lib/libalpm/add.c:122 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
-msgstr ""
+msgstr "avisu dau al estrayer el paquete %s (%s)\n"
 
+#: lib/libalpm/add.c:125 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "nun estrayese %s (%s)\n"
 
+#: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "Nun pudo renomase %s a %s (%s)\n"
 
+#: lib/libalpm/add.c:184
+#, c-format
+msgid "file not found in file list for package %s. skipping extraction of %s\n"
+msgstr "ficheru non alcontráu na llista de ficheros pal paquete %s. saltando la estraición de %s\n"
+
+#: lib/libalpm/add.c:230
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr ""
+msgstr "los permisos del direutoriu ye distintu en %s\nsistema de ficheros: %o paquete: %o\n"
 
+#: lib/libalpm/add.c:240
+#, c-format
+msgid ""
+"directory ownership differs on %s\n"
+"filesystem: %u:%u  package: %u:%u\n"
+msgstr "la propiedá del direutoriu ye distintu en %s\nsistema de ficheros: %u:%u paquete: %u:%u\n"
+
+#: lib/libalpm/add.c:255
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr ""
 
-#, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr ""
-
-#, c-format
-msgid "%s saved as %s\n"
-msgstr "%s guardáu como %s\n"
-
-#, c-format
-msgid "%s installed as %s\n"
-msgstr "%s instaláu como %s\n"
-
-#, c-format
-msgid "extracting %s as %s.pacnew\n"
-msgstr "estrayendo %s como %s.pacnew\n"
-
+#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
-msgstr ""
+msgstr "nun pudo consiguise'l direutoriu de trabayu actual\n"
 
+#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr ""
+msgstr "nun pudo cambiase'l direutoriu a %s (%s)\n"
 
+#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "nun pudo restaurase'l direutoriu de trabayu (%s)\n"
 
+#: lib/libalpm/add.c:647
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr ""
+msgstr "asocedió un problema al anovar %s\n"
 
+#: lib/libalpm/add.c:653
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr ""
+msgstr "asocedió un problema al instalar %s\n"
 
+#: lib/libalpm/add.c:669
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr ""
+msgstr "nun pudo anovase la entrada de base de datos %s-%s\n"
 
+#: lib/libalpm/add.c:680
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr ""
+msgstr "nun pudo amestase la entrada '%s' na caché\n"
 
+#: lib/libalpm/be_local.c:249
 #, c-format
 msgid "error while reading file %s: %s\n"
-msgstr ""
+msgstr "fallu al lleer el ficheru %s: %s\n"
 
+#: lib/libalpm/be_local.c:343
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr ""
+msgstr "desaniciando base de datos non válida: %s\n"
 
+#: lib/libalpm/be_local.c:389 lib/libalpm/be_local.c:849
+#, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "nun pudo crease'l direutoriu %s: %s\n"
+
+#: lib/libalpm/be_local.c:559 lib/libalpm/be_sync.c:358
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr ""
+msgstr "nome non válidu pa la base de datos '%s'\n"
 
+#: lib/libalpm/be_local.c:567
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr ""
+msgstr "entrada de base de datos duplicada '%s'\n"
 
+#: lib/libalpm/be_local.c:579
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr ""
+msgstr "entrada de base de datos toyida '%s'\n"
 
+#: lib/libalpm/be_local.c:679 lib/libalpm/be_local.c:769
+#: lib/libalpm/be_local.c:898 lib/libalpm/be_local.c:991
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
+#: lib/libalpm/util.c:266
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "nun pudo abrise'l ficheru %s: %s\n"
 
+#: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr ""
+msgstr "la base de datos %s ye inconsistente: el nome nun concasa nel paquete %s\n"
 
+#: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr ""
+msgstr "la base de datos %s ye inconsistente: la versión nun concasa nel paquete %s\n"
 
+#: lib/libalpm/be_local.c:740
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr ""
+msgstr "triba de validación desconocida pal paquete %s: %s\n"
 
+#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:625
+#: lib/libalpm/be_package.c:638
 #, c-format
-msgid "could not create directory %s: %s\n"
-msgstr ""
+msgid "error while reading package %s: %s\n"
+msgstr "fallu al lleer el paquete %s: %s\n"
 
+#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
+#, c-format
+msgid "error while reading mtree of package %s: %s\n"
+msgstr "fallu al lleer el mtree del paquete %s: %s\n"
+
+#: lib/libalpm/be_package.c:588
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr ""
 
+#: lib/libalpm/be_package.c:593
 #, c-format
 msgid "missing package name in %s\n"
-msgstr ""
+msgstr "nome de paquete faltante en %s\n"
 
+#: lib/libalpm/be_package.c:597
 #, c-format
 msgid "missing package version in %s\n"
-msgstr ""
+msgstr "versión de paquete faltante en %s\n"
 
+#: lib/libalpm/be_package.c:601
 #, c-format
-msgid "error while reading package %s: %s\n"
-msgstr ""
+msgid "invalid package version in %s\n"
+msgstr "versión del paquete non válida en %s\n"
 
+#: lib/libalpm/be_package.c:645
 #, c-format
 msgid "missing package metadata in %s\n"
-msgstr ""
+msgstr "datos meta de paquete faltantes en %s\n"
 
+#: lib/libalpm/be_package.c:734
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr ""
+msgstr "fallu al lleer el ficheru de robla: %s\n"
 
+#: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr ""
+msgstr "clave riquida del aniellu claves faltante\n"
 
+#: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr ""
+msgstr "desaniciando ficheru non válidu: %s\n"
 
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr ""
-
+#: lib/libalpm/be_sync.c:476
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr ""
 
+#: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
-msgstr ""
+msgstr "la base de datos %s ye inconsistente: el nome del paquete %s ye illegal\n"
 
+#: lib/libalpm/be_sync.c:519
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
-msgstr ""
+msgstr "la base de datos %s ye inconsistente: el nome del paquete %s ye perllargu\n"
 
+#: lib/libalpm/be_sync.c:585
+#, c-format
+msgid "unknown database file: %s\n"
+msgstr "ficheru de base de datos desconocíu: %s\n"
+
+#: lib/libalpm/db.c:369
 #, c-format
 msgid "database path is undefined\n"
-msgstr ""
+msgstr "nun ta definíu'l camín de la base de datos\n"
 
+#: lib/libalpm/deps.c:218
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr ""
+msgstr "deteutáu ciclu de dependencia:\n"
 
+#: lib/libalpm/deps.c:221
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr ""
+msgstr "%s desaniciaráse dempués de la so dependencia %s\n"
 
+#: lib/libalpm/deps.c:225
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr ""
+msgstr "%s desaniciaráse enantes de la so dependencia %s\n"
 
+#: lib/libalpm/deps.c:657 lib/libalpm/deps.c:689
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "inorando paquete %s-%s\n"
 
+#: lib/libalpm/deps.c:844
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr ""
+msgstr "nun pue iguase \"%s\", una dependencia de \"%s\"\n"
 
+#: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr ""
+msgstr "nun pudo consiguise la información del sistema ficheros pa %s: %s\n"
 
+#: lib/libalpm/diskspace.c:108
 #, c-format
 msgid "could not open file: %s: %s\n"
-msgstr ""
+msgstr "nun pudo abrise'l ficheru: %s: %s\n"
 
+#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr ""
+msgstr "nun pudo consiguise la información del sistema de ficheros\n"
 
+#: lib/libalpm/diskspace.c:249 lib/libalpm/diskspace.c:308
 #, c-format
 msgid "could not determine mount point for file %s\n"
-msgstr ""
+msgstr "nun pudo determinase'l puntu montaxe pal ficheru %s\n"
 
+#: lib/libalpm/diskspace.c:347
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr ""
+msgstr "La partición %s ta enllena: %jd bloques necesarios, %jd bloques llibres\n"
 
+#: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr ""
 
+#: lib/libalpm/diskspace.c:378
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr ""
 
+#: lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr ""
 
+#: lib/libalpm/diskspace.c:479
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr ""
+msgstr "La partición %s ta montada como namái llectura\n"
 
+#: lib/libalpm/dload.c:149
 #, c-format
 msgid "disk"
 msgstr "discu"
 
+#: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr ""
+msgstr "fallu al crear el ficheru temporal pa la descarga\n"
 
+#: lib/libalpm/dload.c:418
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "l'enllaz '%s' ye inválidu\n"
 
+#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "fallu recibiendo'l ficheru '%s' de %s: %s\n"
 
+#: lib/libalpm/dload.c:500
+#, c-format
+msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
+msgstr "fallu recibiendo'l ficheru '%s' de %s: tamañu de descarga superáu\n"
+
+#: lib/libalpm/dload.c:548
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr ""
 
+#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
-msgstr ""
+msgstr "fallu al lleer %s\n"
 
+#: lib/libalpm/error.c:40
 #, c-format
 msgid "out of memory!"
 msgstr "¡ensin memoria!"
 
+#: lib/libalpm/error.c:42
 #, c-format
 msgid "unexpected system error"
 msgstr "Fallu non esperáu del sistema"
 
+#: lib/libalpm/error.c:44
 #, c-format
 msgid "permission denied"
-msgstr ""
+msgstr "permisu refugáu"
 
+#: lib/libalpm/error.c:46
 #, c-format
 msgid "could not find or read file"
 msgstr "nun pue alcontrase o lleese'l ficheru"
 
+#: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
 msgstr "nun pue alcontrase o lleese'l direutoriu"
 
+#: lib/libalpm/error.c:50
 #, c-format
 msgid "wrong or NULL argument passed"
 msgstr ""
 
+#: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
-msgstr ""
+msgstr "nun hai espaciu en discu abondu"
 
+#: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
 msgstr "llibrería ensin aniciar"
 
+#: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
 msgstr "llibrería xá aniciada"
 
+#: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
 msgstr "nun pue bloquiase la bas de datos"
 
+#: lib/libalpm/error.c:62
 #, c-format
 msgid "could not open database"
 msgstr "nun pudo abrise la bas de datos"
 
+#: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
 msgstr "nun pudo criase la bas de datos"
 
+#: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
 msgstr "bas de datos ensin aniciar"
 
+#: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
 msgstr "bas de datos xá rexistrada"
 
+#: lib/libalpm/error.c:70
 #, c-format
 msgid "could not find database"
 msgstr "nun pudo alcontrase la bas de datos"
 
+#: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
-msgstr ""
+msgstr "base de datos toriada o non válida"
 
+#: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr ""
+msgstr "base de datos toriada o non válida (robla PGP)"
 
+#: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
-msgstr ""
+msgstr "la base de datos ta nuna versión incorreuta"
 
+#: lib/libalpm/error.c:78
 #, c-format
 msgid "could not update database"
 msgstr "nun pudo anovase la bas de datos"
 
+#: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
 msgstr ""
 
+#: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
-msgstr ""
+msgstr "url non válida pal sirvidor"
 
+#: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
-msgstr ""
+msgstr "nun se configuró dengún sirvidor pal repositoriu"
 
+#: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
-msgstr ""
+msgstr "transaición yá aniciada"
 
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
-msgstr ""
+msgstr "transaición non aniciada"
 
+#: lib/libalpm/error.c:92
 #, c-format
 msgid "duplicate target"
-msgstr ""
+msgstr "oxetivu duplicáu"
 
+#: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
-msgstr ""
+msgstr "transaición non tresnada"
 
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
-msgstr ""
+msgstr "transaición albortada"
 
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr ""
+msgstr "la operación nun ye compatible cola triba de transaición"
 
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr ""
 
+#: lib/libalpm/error.c:105
 #, c-format
 msgid "could not find or read package"
-msgstr ""
+msgstr "nun pudo alcontrase o lleese'l paquete"
 
+#: lib/libalpm/error.c:107
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr ""
+msgstr "operación encaboxada pola mor de ignorepkg"
 
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "invalid or corrupted package"
-msgstr ""
+msgstr "paquete toriáu o non válidu"
 
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr ""
+msgstr "paquete toriáu o non válidu (suma de comprobación)"
 
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr ""
+msgstr "paquete toriáu o non válidu (robla PGP)"
 
+#: lib/libalpm/error.c:115
+#, c-format
+msgid "package missing required signature"
+msgstr "el paquete rique una robla que falta"
+
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "cannot open package file"
-msgstr ""
+msgstr "nun pue abrise'l ficheru de paquete"
 
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot remove all files for package"
-msgstr ""
+msgstr "nun puen desaniciase tolos ficheros del paquete"
 
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "package filename is not valid"
-msgstr ""
+msgstr "el nome del paquete nun ye válidu"
 
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "package architecture is not valid"
-msgstr ""
+msgstr "l'arquietctura del paquete nun ye válida"
 
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "could not find repository for target"
-msgstr ""
+msgstr "nun pudo alcontrase'l repositoriu pal oxetivu"
 
+#: lib/libalpm/error.c:128
 #, c-format
 msgid "missing PGP signature"
-msgstr ""
+msgstr "falta la robla PGP"
 
+#: lib/libalpm/error.c:130
 #, c-format
 msgid "invalid PGP signature"
-msgstr ""
+msgstr "robla PGP non válida"
 
+#: lib/libalpm/error.c:133
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr ""
+msgstr "delta non válidu o toriáu"
 
+#: lib/libalpm/error.c:135
 #, c-format
 msgid "delta patch failed"
-msgstr ""
+msgstr "fallu del parche delta"
 
+#: lib/libalpm/error.c:138
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr ""
+msgstr "nun pudieron satisfacese les dependencies"
 
+#: lib/libalpm/error.c:140
 #, c-format
 msgid "conflicting dependencies"
-msgstr ""
+msgstr "dependencies en conflictu"
 
+#: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting files"
-msgstr ""
+msgstr "ficheros en conflictu"
 
+#: lib/libalpm/error.c:145
 #, c-format
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "fallu al recibir dello ficheros"
 
+#: lib/libalpm/error.c:147
 #, c-format
 msgid "invalid regular expression"
-msgstr ""
+msgstr "espresión regular non válida"
 
+#: lib/libalpm/error.c:153
 #, c-format
 msgid "libarchive error"
-msgstr ""
+msgstr "fallu de libarchive"
 
+#: lib/libalpm/error.c:155
 #, c-format
 msgid "download library error"
-msgstr ""
+msgstr "fallu de llibrería de descarga"
 
+#: lib/libalpm/error.c:157
 #, c-format
 msgid "gpgme error"
-msgstr ""
+msgstr "fallu de gpgme"
 
+#: lib/libalpm/error.c:159
 #, c-format
 msgid "error invoking external downloader"
-msgstr ""
+msgstr "fallu invocando'l descargador esternu"
 
+#: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
-msgstr ""
+msgstr "fallu inesperáu"
 
+#: lib/libalpm/handle.c:139
+#, c-format
+msgid "lock file missing %s\n"
+msgstr "falta'l ficheru de bloquéu %s\n"
+
+#: lib/libalpm/handle.c:145
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "nun pudo desaniciase'l ficheru de bloquéu %s\n"
+
+#: lib/libalpm/package.c:559
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr ""
+msgstr "nun pudieron cargase dafechu los datos meta pal paquete %s-%s\n"
 
+#: lib/libalpm/remove.c:118
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr ""
+msgstr "nun pudo alcontrase %s na base de datos -- saltando\n"
 
+#: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
-msgstr ""
+msgstr "desaniciando %s de la llista d'oxetivos\n"
 
+#: lib/libalpm/remove.c:348
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr ""
+msgstr "nun pue desaniciase'l ficheru '%s': %s\n"
 
+#: lib/libalpm/remove.c:388
 #, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr ""
+msgstr "nun pudo abrise'l direutoriu: %s: %s\n"
 
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr ""
+msgstr "nun pue desaniciase %s (%s)\n"
 
+#: lib/libalpm/remove.c:727
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr ""
+msgstr "nun pudo desaniciase la entrada de la base de datos %s-%s\n"
 
+#: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr ""
+msgstr "nun pudo desaniciase la entrada '%s' de la caché\n"
 
+#: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr ""
+msgstr "%s: inorando anovamientu del paquete (%s => %s)\n"
 
+#: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr ""
+msgstr "%s: inorando baxada de versión del paquete (%s => %s)\n"
 
+#: lib/libalpm/sync.c:113
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr ""
+msgstr "%s: baxando de la versión %s a la %s\n"
 
+#: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr ""
+msgstr "%s: llocal (%s) ye más nuevu que %s (%s)\n"
 
+#: lib/libalpm/sync.c:160
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr ""
+msgstr "inorando troquéu de paquete (%s-%s => %s-%s)\n"
 
+#: lib/libalpm/sync.c:176
 #, c-format
 msgid "cannot replace %s by %s\n"
-msgstr ""
+msgstr "nun pue trocase %s por %s\n"
 
+#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr ""
+msgstr "deteutaos conflictos de paquete que nun puen iguase\n"
 
+#: lib/libalpm/sync.c:556
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr ""
+msgstr "desaniciando '%s' de la llista d'oxetivos porque ta en conflictu con '%s'\n"
 
+#: lib/libalpm/sync.c:1014
 #, c-format
 msgid "failed to retrieve some files\n"
-msgstr ""
+msgstr "fallu al recuperar dellos ficheros\n"
 
+#: lib/libalpm/sync.c:1176
+#, c-format
+msgid "%s: missing required signature\n"
+msgstr "%s: falta la robla riquida\n"
+
+#: lib/libalpm/sync.c:1357
 #, c-format
 msgid "not enough free disk space\n"
-msgstr ""
+msgstr "nun hai espaciu llibre abondu\n"
 
+#: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr ""
 
+#: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
 msgstr ""
 
+#: lib/libalpm/trans.c:339
 #, c-format
 msgid "could not create temp directory\n"
-msgstr ""
+msgstr "nun pudo creaase'l direutoriu temporal\n"
 
+#: lib/libalpm/trans.c:354
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
-msgstr ""
+msgstr "nun pudo copiase'l ficheru temporal a %s (%s)\n"
 
+#: lib/libalpm/trans.c:385
 #, c-format
 msgid "could not remove %s\n"
-msgstr ""
+msgstr "nun pudo desaniciase %s\n"
 
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr ""
+msgstr "nun pudo desaniciase'l direutoriu temporal %s\n"
 
+#: lib/libalpm/util.c:256
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr ""
 
+#: lib/libalpm/util.c:524
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr ""
 
+#: lib/libalpm/util.c:532
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr ""
 
+#: lib/libalpm/util.c:549
 #, c-format
 msgid "could not change the root directory (%s)\n"
-msgstr ""
+msgstr "nun pudo cambiase'l direutoriu root (%s)\n"
 
+#: lib/libalpm/util.c:560
 #, c-format
 msgid "call to execv failed (%s)\n"
-msgstr ""
+msgstr "llamada a execv fallida (%s)\n"
 
+#: lib/libalpm/util.c:590
 #, c-format
 msgid "call to waitpid failed (%s)\n"
-msgstr ""
+msgstr "llamada a waitpid fallida (%s)\n"
 
+#: lib/libalpm/util.c:598
 #, c-format
 msgid "could not open pipe (%s)\n"
 msgstr ""
 
+#: lib/libalpm/util.c:605
 #, c-format
 msgid "command failed to execute correctly\n"
-msgstr ""
+msgstr "el comandu falló al executase afayadizamente\n"
 
+#: lib/libalpm/util.c:612
+#, c-format
+msgid "Unknown signal"
+msgstr "Señal desconocida"
+
+#: lib/libalpm/util.c:614
+#, c-format
+msgid "command terminated by signal %d: %s\n"
+msgstr "comandu fináu pola señal %d: %s\n"
+
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr ""
+msgstr "nun esiste'l caché %s, creando...\n"
 
+#: lib/libalpm/util.c:742
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr ""
+msgstr "nun pudo alcontrase o crease'l paquete caché, usando nel so llugar %s\n"

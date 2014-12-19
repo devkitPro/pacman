@@ -5,14 +5,16 @@
 # Translators:
 # Gregori, 2013
 # Gregori, 2013
+# Gregori, 2013-2014
+# Hasan Al Banna, 2013
 # Hasan Al Banna, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
-"Last-Translator: Hasan Al Banna\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-23 11:40+0000\n"
+"Last-Translator: Gregori\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/id/)\n"
 "Language: id\n"
@@ -126,9 +128,8 @@ msgstr "Membuat salinan kerja dari %s %s repo..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Gagal ketika membuat salinan kerja dari repo %s %s"
+msgstr "Gagal ketika memutakhirkan salinan kerja dari repo %s %s"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -165,12 +166,11 @@ msgstr "Mendapatkan sumber..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() menghasilkan versi tak valid: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Gagal mengubah direktori %s"
+msgstr "Gagal memutakhirkan %s dari %s ke %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -268,27 +268,24 @@ msgid "unknown public key"
 msgstr "public key tidak dikenal"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "kunci sudah dihapus."
+msgstr "kunci publik %s sudah dihapus"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "signature buruk dari kunci publik"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Tidak menemukan signature yang ada, lewati verifikasi."
+msgstr "galat saat verifikasi signature"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "kunci publik %s tidak dipercayai"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "public key tidak dikenal"
+msgstr "public key tak valid"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -359,9 +356,8 @@ msgid "Removing %s files..."
 msgstr "Menghapus berkas %s..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "Menghapus berkas %s..."
+msgstr "Menghapus berkas pustaka statis..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -424,9 +420,8 @@ msgid "Adding %s file..."
 msgstr "Menambahkan %s berkas..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Gagal memasang paket(-paket) yang terbuat."
+msgstr "Gagal menambah berkas %s ke paket."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -514,14 +509,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s berisi karakter tidak valid: '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s harus berupa desimal."
+msgstr "%s harus berupa desimal, bukan %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s harus berupa integer."
+msgstr "%s harus berupa integer, bukan %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -546,14 +539,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "Masukan %s harus mengandung garis miring : %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
-msgstr "Sintaks tidak valid untuk %s: '%s'"
+msgstr "Sintaks tak valid untuk %s: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s tidak ada atau bukan sebuah direktori."
+msgstr "berkas %s (%s) tidak ada atau bukan merupakan berkas biasa"
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -561,16 +552,15 @@ msgstr "array %s berisi opsi tidak diketahui '%s'"
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Array kosong tidak dibolehkan untuk sumber"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "Paket %s yang diminta tidak terdapat pada %s"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Tidak ada fungsi %s untuk paket terpisah '%s'"
+msgstr "Fungsi %s tidak ada pada %s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -581,16 +571,15 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s tidak diperbolehkan mengandung titik dua, strip, atau spasi."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
-"Tidak dapat mencari berkas binary %s yang dibutuhkan untuk memverifikasi "
-"berkas sumber"
+"Tidak dapat menemukan binary %s yang dibutuhkan untuk memeriksa kebutuhan "
+"sumber VCS"
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr "Tidak dapat mencari binary %s yang dibutuhkan untuk semua %s operasi."
+msgstr ""
+"Tidak dapat menemukan paket %s yang dibutuhkan untuk menangani sumber %s."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -603,9 +592,8 @@ msgstr ""
 "khusus root."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Tidak dapat mencari binari %s yang dibutuhkan untuk menandai paket."
+msgstr "Tidak dapat mencari binary %s."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -674,7 +662,7 @@ msgstr "Bagian dari grup paket sudah dibuat. (gunakan %s untuk menimpa)"
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Buat paket sesuai dengan penggunaan pacman"
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -694,7 +682,7 @@ msgstr "-c, --clean Bersihkan berkas berkas setelah pembuatan"
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "-C, --cleanbuild Menghapus direktori %s sebelum membuat paket"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -788,18 +776,16 @@ msgstr ""
 "dibanding bawaan"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "--nosign Jangan buat signature untuk paket"
+msgstr "--noarchive Jangan buat arsip paket"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "--nocheck Jangan jalankan fungsi %s pada %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "--nocheck Jangan jalankan fungsi %s pada %s"
+msgstr "--noprapare Jangan jalankan fungsi %s pada %s"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -865,17 +851,16 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Jika %s tidak dispesifikkan, %s akan mencari '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Hak Cipta (c) 2006-2013 Tim Pengembang Pacman <pacman-dev@archlinux.org>."
-"\\nHak Cipta (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nIni "
-"merupakan perangkat lunak bebas; lihat kode sumber untuk persyaratan "
-"penyalinan.\\nTAK ADA GARANSI, sesuai hukum.\\n"
+"Hak cipta (c) 2006-2014 Tim Pengembang Pacman <pacman-dev@archlinux.org>."
+"\\nHak cipta (c) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\\n\\nPacman "
+"merupakan perangkat lunak bebas; lihat sumber untuk menyalin ketentuan."
+"\\nTAK ADA GARANSI, sampai pada batas yang diizinkan oleh hukum.\\n"
 
 #: scripts/makepkg.sh.in:3302 scripts/repo-add.sh.in:612
 msgid "%s signal caught. Exiting..."
@@ -906,15 +891,12 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "Anda tidak punya hak untuk menulis log pada %s."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"Menjalankan %s sebagai root merupakan ide yang SANGAT AMAT LUAR BIASA "
-"POKOKNYA buruk dan dapat menyebabkan kekacauan\\n dan kerusakan permanen "
-"pada sistem anda. Jika anda ingin menjalankan sebagai root, silakan\\n "
-"gunakan opsi %s. Dan jangan lupa, BERDOA."
+"Menjalankan %s sebagai root dapat menyebabkan kerusakan permanen dan azab "
+"Tuhan pada sistem anda."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -929,9 +911,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s mengandung karaketer %s dan tidak dapat digunakan sebagai sumber."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s tidak ada atau bukan sebuah direktori."
+msgstr "%s harus berada pada direktori kerja saat ini."
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -987,7 +968,7 @@ msgstr "Sumber sudah siap."
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "Direktori paket siap."
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -996,7 +977,7 @@ msgstr "Selesai membuat: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "tidak dapat membuat '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -1004,136 +985,132 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"key / pasangan tak valid\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "baris pola tidak valid: tidak dapat mencari nama pola\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr ""
+"karakter tak valid digunakan pada nama '%s'. yang diperbolehkan: [:alnum:]+_."
+"@\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "Tidak dapat mendeteksi versi untuk pola '%s'"
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Gagal untuk sumber %s"
+msgstr "gagal membuka '%s': %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Penanda pola tak dikenal '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [opsi]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Opsi:"
+msgstr "Opsi:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr ""
+msgstr "--input, -p <file> Buat skrip untuk membaca (bawaan: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
-msgstr ""
+msgstr "--output, -o <file> berkas keluaran ke (bawaan: berkas masukan)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "--newest, -n mutakhirkan pola ke versi terbaru\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
-msgstr ""
+msgstr "(bawaan: gunakan versi yang ditentukan pada penanda pola)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "--template-dir <dir> direktori pencarian pola\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "(bawaan: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "-h, --help tunjukkan pesan bantuan ini dan keluar"
+msgstr "--help, -h Pesan bantuan ini\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "-V, --version Perlihatkan informasi versi dan keluar"
+msgstr "--version Informasi versi\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Hak Cipta (c) 2010-2013 Tim Pengembang Pacman <pacman-dev@archlinux.org>."
-"\\nIni merupakan perangkat lunak bebas; lihat sumber untuk syarat menyalin."
-"\\n TIDAK ADA JAMINAN, yang diizinkan oleh hukum.\\n"
+"Hak cipta (c) 2013-2014 Tim Pengembangan Pacman <pacman-dev@archlinux.org>\n"
+"Script Pacman merupakan perangkat lunak bebas; lihat sumber untuk "
+"persyaratan penyalinan.\n"
+"TAK ADA GARANSI, sampai pada batas yang ditentukan oleh hukum.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Perbarui database lokal pacman ke format yang lebih baru"
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
 msgstr "Opsi:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "-b, --dbpath <path> atur lokasi database alternatif"
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "-h, --help Tunjukkan pesan bantuan ini dan keluar"
+msgstr "-h, --help perlihatkan pesan ini dan keluar"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "-r, --root <path> atur root pemasangan alternatif"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "-V, --version Perlihatkan informasi versi dan keluar"
+msgstr "-V, --version perlihatkan informasi versi dan keluar"
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
-msgstr "--config <berkas> gunakan berkas konfigurasi alternatif (selain '%s')"
+msgstr "--config <pat> atur berkas konfigurasi alternatif"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "-m, --nocolor Non-aktifkan pesan keluaran berwarna"
+msgstr "--nocolor lumpuhkan pesan keluaran berwarna"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Hak Cipta (c) 2010-2013 Tim Pengembang Pacman <pacman-dev@archlinux.org>."
-"\\nIni merupakan perangkat lunak bebas; lihat sumber untuk syarat menyalin."
-"\\n TIDAK ADA JAMINAN, yang diizinkan oleh hukum.\\n"
+"Hak cipta (c) 2010-2014 Tim Pengembangan Pacman <pacman-dev@archlinux.org>."
+"\\nPerangkat lunak ini merupakan perangkat lunak bebas; lihat sumber untuk "
+"persyaratan penyalinan.\\nTAK ADA GARANSI, sampai pada batas yang ditentukan "
+"oleh hukum.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:129 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:459
@@ -1162,14 +1139,13 @@ msgstr "Format database pra-3.5 terdeteksi - meningkatkan..."
 msgid "Done."
 msgstr "Selesai."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "Format database pra-3.5 terdeteksi - meningkatkan..."
+msgstr "Format database Pra-4.2 terdeteksi - meningkatkan..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
-msgstr ""
+msgstr "symlink '%s' mengacu diluar root pacman, perbaikan manual dibutuhkan"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1295,147 +1271,147 @@ msgstr "Gagal untuk mencari kunci dengan nama:"
 msgid "Key name is ambiguous:"
 msgstr "Nama kunci ambigu:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "Kunci diidentifikasi oleh %s tidak dapat ditemukan pada lokal."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Anda tidak mempunyai izin yang cukup untuk membaca keyring %s."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Gunakan '%s' untuk membenarkan izin keyring."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Anda tidak memiliki izin yang cukup untuk menjalankan perintah ini."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Tak ada kunci rahasia yang tersedia untuk menandai."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Menggunakan '%s' untuk menghasilkan kunci rahasia default."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "Tidak ada berkas keyring ada di %s."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "Berkas keyring %s tidak ada."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Menambahkan kunci dari %s.gpg..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Menandai kunci terpercaya lokal pada keyring..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Mengimpor nilai trust dari pemilik..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Menonaktifkan kunci yang dihapus pada keyring..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "Menonaktifkan kunci %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "BerkasKunci yang ditentukan tidak dapat ditambahkan ke keyring."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Kunci yang ditentukan tidak dapat dihapus dari keyring."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "Kunci yang diidentifikasi sebagai %s tidak dapat disunting."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Kunci yang ditentukan tidak dapat diekspor dari keyring."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Sidik jari dari kunci yang ditentukan tidak dapat ditentukan."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "%s tidak dapat diimpor."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "Berkas %s tidak ada dan tidak dapat diimpor."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "Sebuah kunci yang ditentukan tidak dapat didaftar."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "Sebuah signature yang ditentukan tidak dapat didaftarkan."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "Menandai kunci %s secara lokal..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s tidak dapat ditandai secara lokal."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Kunci remote tidak dapat diambil dengan benar dari kunci server."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Kunci lokal spesifik tidak bisa dimutakhirkan dari server kunci."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "Signature diidentifikasi oleh %s tidak dapat diverifikasi."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Memutakhirkan database trust..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "Trust database tidak dapat dimutakhirkan."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Tidak dapat mencari binary %s yang dibutuhkan untuk semua %s operasi."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "%s harus dijalankan sebagai root untuk operasi ini."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "%s berkas konfigurasi '%s' tidak ditemukan."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "tidak ada operasi yang ditentukan (gunakan -h untuk bantuan)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Operasi jamak ditentukan."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Mohon jalankan %s pada tiap operasi terpisah."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "Tak ada target yang ditentukan"
 
@@ -1478,7 +1454,6 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Anda harus mempunyai izin yang tepat untuk mengoptimisasi database."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
 msgstr "Tidak dapat membuat direktori temporari untuk pembuatan database."
 
@@ -1531,13 +1506,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Penggunaaan: pkgdelta [opsi] <paket1> <paket2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"»pkgdelta akan membuat berkas delta diantar dua paket.\\nBerkas delta ini "
-"dapat ditambahkan ke database menggunakan repo-add.\\n\\n"
+"pkgdelta akan membuat berkas delta diantara kedua paket.\\nBerkas delta ini "
+"dapat ditambahkan ke database menggunakan repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1648,6 +1622,8 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"-R, --remove hapus berkas paket dari diska ketika memutakhirkan entri "
+"database\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1704,15 +1680,14 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Contoh: repo-remove /path/ke/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
 "Hak Cipta (c) 2006-2013 Tim Pengembang Pacman <pacman-dev@archlinux.org>\\n"
-"\\nIni merupakan perangkat lunak bebas; lihat sumber untuk syarat menyalin."
-"\\n TIDAK ADA JAMINAN, yang diizinkan oleh hukum.\\n"
+"\\nIni merupakan perangkat lunak bebas; lihat sumber untuk syarat penyalinan."
+"\\n TIDAK ADA JAMINAN, sampai batas yang diizinkan oleh hukum.\\n"
 
 #: scripts/repo-add.sh.in:143
 msgid "No database entry for package '%s'."
@@ -1771,9 +1746,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Masukan untuk '%s' sudah ada"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "Menghapus masukan yang ada '%s'..."
+msgstr "Menghapus paket '%s' yang ada"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1891,57 +1865,3 @@ msgstr "opsi '%s' tidak membutuhkan argumen"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "opsi '%s' membutuhkan argumen"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Silakan tambahkan baris lisensi pada %s anda!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Contoh perangkat lunak dengan lisensi GPL: %s"
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "%s berkas (%s) tidak ada."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Tidak dapat mencari binary %s yang dibutuhkan untuk membangun sebagai "
-#~ "pengguna non-root."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "--asroot Perbolehkan %s untuk berjalan sebagai pengguna root"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Dibatalkan oleh pengguna! Keluar..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Sebuah galat tak dikenal ditemui. Keluar..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "Opsi %s dimaksudkan hanya untuk pengguna root. Silakan \\njalankan ulang "
-#~ "%s menggunakan tanda %s."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "Menjalankan %s sebagai pengguna yang tak berwenang mengakibatkan "
-#~ "kepemilikan\\nberkas paket non-root. Coba gunakan lingkungan %s dengan\\n "
-#~ "meletakkan %s pada array %s di %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Memaketkan ulang tanpa menggunakan fungsi %s yang ditinggalkan."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "Permisi file mungkin tidak bisa dipertahankan."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "Menggunakan %s tanpa fungsi %s sudah usang."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "Direktori paket kosong, tidak ada yang harus dipaketkan!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "Tidak dapat membuat direktori sementara untuk pembuatan database."

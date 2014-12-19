@@ -6,6 +6,7 @@
 # kraim <biskraim@gmail.com>, 2013
 # سند <0otibi0@gmail.com>, 2013
 # kraim <biskraim@gmail.com>, 2013
+# kraim <biskraim@gmail.com>, 2013
 # Mosaab Alzoubi <moceap@hotmail.com>, 2013
 # Mosaab Alzoubi <moceap@hotmail.com>, 2013
 # سند <0otibi0@gmail.com>, 2013
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 10:04+0000\n"
-"Last-Translator: Mosaab Alzoubi <moceap@hotmail.com>\n"
+"PO-Revision-Date: 2014-11-18 05:16+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ar/)\n"
 "Language: ar\n"
@@ -70,13 +71,11 @@ msgstr ""
 "نظام الملفات: %o  الحزمة: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"صلاحيات المجلد تختلف عن %s\n"
-"نظام الملفات: %o  الحزمة: %o\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -179,9 +178,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "خطأ أثناء قراءة الحزمة %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "خطأ أثناء قراءة الحزمة %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -199,9 +198,9 @@ msgid "missing package version in %s\n"
 msgstr "إصدارة الحزمة مفقودة في %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "إصدارة الحزمة مفقودة في %s\n"
+msgstr ""
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -239,9 +238,9 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s قاعدة البيانات غير متناسقة : اسم ملف الحزمة طويل جدًا %s\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "تعذّر إحصاء الملف %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -339,9 +338,9 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "فشل في استقبال الملف '%s' من %s : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "فشل في استقبال الملف '%s' من %s : %s\n"
+msgstr ""
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -524,9 +523,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "حزمة معطوبة أو غير صالحة (توقيع PGP)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "توقيع PGP مفقود"
+msgstr ""
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -721,9 +720,9 @@ msgid "failed to retrieve some files\n"
 msgstr "تعذّر استقبال بعض الملفات\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "توقيع PGP مفقود"
+msgstr ""
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -821,15 +820,3 @@ msgstr "لا يوجد %s مخبئي، يجري الإنشاء...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "تعذّر إيجاد أو إنشاء مخبئية للحزم ، استخدم %s بدلًا عنها\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "الاستخراج: الاختصار %s لا يشير إلى المجلد\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s تم حفظه كـ %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s ثبتت كـ %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "يستخرج %s كـ %s.pacnew\n"

@@ -4,6 +4,7 @@
 #
 # Translators:
 # György Balló <ballogy@freestart.hu>, 2013
+# Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2012
 # György Balló <ballogy@freestart.hu>, 2011-2013
 # JUHASZ, Peter Karoly <stone@midway.hu>, 2013
 # Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2012
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
-"Last-Translator: JUHASZ, Peter Karoly <stone@midway.hu>\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-12-01 08:41+0000\n"
+"Last-Translator: György Balló <ballogy@freestart.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/hu/)\n"
 "Language: hu\n"
@@ -127,9 +128,8 @@ msgstr "%s %s tároló munkamásolatának elkészítése..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Hiba történt %s %s tároló munkamásolatának elkészítése közben"
+msgstr "Hiba történt %s %s tároló munkamásolatának frissítése közben"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -166,12 +166,11 @@ msgstr "Források letöltése..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() érvénytelen verziót generált: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Nem sikerült belépni a %s könyvtárba"
+msgstr "A %s frissítése sikertelen erről: %s erre: %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -266,30 +265,27 @@ msgstr "NEM TALÁLHATÓ FORRÁSFÁJL"
 
 #: scripts/makepkg.sh.in:1493
 msgid "unknown public key"
-msgstr "ismeretlen publikus kulcs"
+msgstr "ismeretlen nyilvános kulcs"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "a kulcsot visszavonták."
+msgstr "a(z) %s nyilvános kulcs visszavonva"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "rossz aláírás a nyilvános kulcsról"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Nem található meglévő aláírás, ellenőrzés kihagyása."
+msgstr "hiba az aláírás ellenőrzése közben"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "a(z) %s nyilvános kulcs nem megbízható"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "ismeretlen publikus kulcs"
+msgstr "érvénytelen nyilvános kulcs"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -360,9 +356,8 @@ msgid "Removing %s files..."
 msgstr "%s fájlok eltávolítása..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "%s fájlok eltávolítása..."
+msgstr "Statikus függvénytárfájlok eltávolítása..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -425,9 +420,8 @@ msgid "Adding %s file..."
 msgstr "%s fájl hozzáadása..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Nem sikerült a lefordított csomag(ok) telepítése."
+msgstr "A(z) %s fájl csomaghoz adása nem sikerült."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -516,14 +510,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s érvénytelen karaktereket tartalmaz: '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s-nak decimálisnak kell lennie."
+msgstr "a %s-nek számnak kell lennie ehelyett: %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s-nak egész számnak kell lennie."
+msgstr "az %s-nak egész számnak kell lennie ehelyett: %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -546,14 +538,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "A %s bejegyzés nem tartalmazhat kezdő perjelet : %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
-msgstr "Érvénytelen szintaxis az %shez : '%s'"
+msgstr "Érvénytelen szintaxis az %s-hez: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "A %s nem létezik vagy nem egy könyvtár."
+msgstr "a(z) %s fájl (%s) nem létezik, vagy nem szabványos fájl."
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -561,16 +551,15 @@ msgstr "Az %s tömb ismeretlen opciót tartalmaz: '%s'"
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Ritka tömbök nem engedélyezettek forrásnak"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "A(z) %s igényelt csomagot a %s nem szolgáltatja"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Hiányzó %s funkció a '%s' osztott csomaghoz"
+msgstr "Hiányzó %s funkció: %s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -581,15 +570,15 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "A %s nem tartalmazhat kettőspontot, kötőjelet vagy szóközt."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
-"Nem található a %s bináris, ami a forrásfájlok ellenőrzéséhez szükséges."
+"Nem található a %s bináris, ami a VCS forrás követelményeinek ellenőrzéséhez "
+"szükséges."
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr "Nem található a %s bináris, ami minden %s művelethez szükséges."
+msgstr ""
+"Nem található a(z) %s csomag, ami a(z) %s források kezeléséhez szükséges."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -602,9 +591,8 @@ msgstr ""
 "%s lesz használva."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Nem található a %s bináris, ami a csomagok aláírásához szükséges."
+msgstr "Nem található a %s bináris."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -672,7 +660,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Csomagok kompatibilitássá tétele pacman-nel történő használathoz"
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -692,7 +680,7 @@ msgstr "  -c, --clean      Munkafájlok tisztítása fordítás után"
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "  -C, --cleanbuild %s könyvtár eltávolítása a csomag építése előtt"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -790,18 +778,16 @@ msgstr ""
 "  --key <kulcs>    Kulcs megadása %s aláíráshoz az alapértelmezett helyett"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --nosign         Ne készítsen aláírást a csomaghoz"
+msgstr "  --noarchive      Ne készítsen csomagarchívumot"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Ne futtassa a %s funkciót a %s-ben"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        Ne futtassa a %s funkciót a %s-ben"
+msgstr "  --noprepare      Ne futtassa a %s funkciót a %s-ben"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -867,14 +853,13 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Ha %s nincs megadva, %s a '%s'-et fogja keresni"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nEz egy "
 "szabad szoftver; a forráskódban leírtak szerint terjeszthető.\\nNINCS "
 "GARANCIA, a jog által engedélyezett mértékig.\\n"
@@ -914,14 +899,12 @@ msgstr ""
 "Nincs írási jogosultsága ahhoz, hogy naplófájlokat tároljon a %s könyvtárban."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"A %s futtatása rendszergazdaként ROSSZ ötlet, és megmaradó,\\nvégzetes "
-"sérülést okozhat rendszerének. Ha szeretné rendszergazdaként\\nfuttatni, "
-"használja az %s opciót."
+"A %s futtatása rendszergazdaként nem engedélyezett, mivel a\\nrendszer "
+"végzetes, katasztrofális károsodását okozhatja."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -936,9 +919,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "A %s %s karaktereket tartalmaz, így nem használható forrásként."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "A %s nem létezik vagy nem egy könyvtár."
+msgstr "A %s-nek a jelenlegi munkakönyvtárban kell lennie."
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -995,7 +977,7 @@ msgstr "A források készen állnak."
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "A csomagkönyvtár kész."
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -1004,7 +986,7 @@ msgstr "Létrehozás befejezve: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "'%s' nem hozható létre: %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -1012,136 +994,133 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"érvénytelen kulcs/érték pár\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "érvénytelen sablonsor: nem található sablonnév\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr ""
+"a(z) '%s' név érvénytelen karaktereket tartalmaz. Engedélyezett: [:alnum:]+_."
+"@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "Nem állapítható meg a(z) '%s' sablon verziója"
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Nem sikerült %s beolvasása"
+msgstr "'%s' megnyitása nem sikerült: %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Ismeretlen sablonjelölő: '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [opciók]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Opciók:"
+msgstr "Opciók:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
 msgstr ""
+"  --input, -p <fájl>    Beolvasandó fordítószkript (alapértelmezett: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
+"  --output, -o <fájl>   fájl, amibe a kimenet kerül (alapértelmezett: "
+"bemeneti fájl)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "  --newest, -n          sablonok frissítése a legújabb verzióra\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
 msgstr ""
+"                        (alapértelmezett: a sablonjelölőkben megadott verzió "
+"használata)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "  --template-dir <könyvtár> könyvtár, ahol a sablonok keresendők\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (alapértelmezett: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                Megjeleníti ezt a súgót, majd kilép"
+msgstr "  -h, --help                Ez a súgóüzenet\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "  -V, --version    Verzióinformációk kiírása és kilépés"
+msgstr "  --version             Verzióinformáció\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nEz egy szabad szoftver; a forráskódban leírtak szerint terjeszthető."
-"\\nNINCS GARANCIA, a jog által engedélyezett mértékig.\\n"
+"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Ez egy szabad szoftver; a forráskódban leírtak szerint terjeszthető.\n"
+"NINCS GARANCIA, a jog által engedélyezett mértékig.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "A helyi pacman adatbázis frissítése egy újabb formátumra"
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Opciók:"
+msgstr "opciók:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "  -b, --dbpath <útvonal> alternatív adatbázishely beállítása"
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       Súgószöveg megjelenítése és kilépés"
+msgstr "  -h, --help           megjeleníti ezt a súgót, majd kilép"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "  -r, --root <útvonal> alternatív telepítési gyökérkönyvtár beállítása"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "  -V, --version    Verzióinformációk kiírása és kilépés"
+msgstr "  -V, --version        megjeleníti a verzióinformációt, majd kilép"
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
-"  --config <fájl>  Használjon egy alternatív konfiguráció fájlt ('%s' "
-"helyett)"
+msgstr "  --config <útvonal>   egy alternatív konfigurációs fájl beállítása"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    Színezett kimeneti üzenetek kikapcsolása"
+msgstr "  --nocolor            színezett kimeneti üzenetek kikapcsolása"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nEz egy szabad szoftver; a forráskódban leírtak szerint terjeszthető."
 "\\nNINCS GARANCIA, a jog által engedélyezett mértékig.\\n"
 
@@ -1172,14 +1151,15 @@ msgstr "3.5 verzió előtti adatbázist észleltem - frissítés..."
 msgid "Done."
 msgstr "Kész."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "3.5 verzió előtti adatbázist észleltem - frissítés..."
+msgstr "4.2-es verzió előtti adatbázis-formátumot találtam - frissítés..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
+"a '%s' szimbolikus link a pacman gyökérkönyvtáron kívülre mutat, kézi "
+"javítás szükséges"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1321,148 +1301,148 @@ msgstr "Nem sikerült megtalálni a kulcsot név alapján:"
 msgid "Key name is ambiguous:"
 msgstr "A kulcs neve kétértelmű:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "Nem található %s azonosítójú kulcs helyben."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nincs megfelelő jogosultsága, hogy olvassa a %s kulcstartót."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "A kulcstartó jogosultságainak javításához használja a '%s' parancsot."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Nincs megfelelő jogosultsága, hogy futtassa ezt a parancsot."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Nem érhető el titkos kulcs az aláíráshoz."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr ""
 "Egy alapértelmezett titkos kulcs generálásához használja a '%s' parancsot."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "Nem létezik kulcstartó a %s könyvtárban."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "A(z) %s kulcstartófájl nem létezik."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Kulcsok hozzáfűzése a(z) %s.gpg fájlból..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Megbízható kulcsok aláírása helyileg a kulcstartóban..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Megbízhatósági értékek importálása..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Visszavont kulcsok tiltása a kulcstartóban..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "%s kulcs tiltása..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Egy megadott kulcsfájlt nem sikerült hozzáadni a kulcstartóhoz."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Egy megadott kulcsot nem sikerült eltávolítani a kulcstartóból."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "A %s azonosítójú kulcsot nem sikerült szerkeszteni."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Egy megadott kulcsot nem sikerült exportálni a kulcstartóból."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Egy megadott kulcs ujjlenyomatát nem sikerült meghatározni."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "%s-t nem sikerült importálni."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "A %s fájl nem létezik, és nem sikerült importálni."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "Egy megadott kulcsot nem sikerült listázni."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "Egy megadott aláírást nem sikerült listázni."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "%s kulcs aláírása helyileg..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s nem írható alá helyileg."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "A távoli kulcs nem töltődött le helyesen a kulcsszerverről."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "A megadott helyi kulcsot nem sikerült frissíteni a kulcsszerverről."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "A %s azonosítójú aláírást nem sikerült ellenőrizni."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Megbízhatósági adatbázis frissítése..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "A megbízhatósági adatbázist nem sikerült frissíteni."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nem található a %s bináris, ami minden %s művelethez szükséges."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "A %st rendszergazdaként kell futtatni ehhez a művelethez."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "Nem található a %s konfigurációs fájlja: '%s'."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "nincs művelet megadva (használja a \"-h\"-t segítségért)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Több művelet lett megadva."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Kérem, futtassa a %st minden művelethez külön-külön."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "Nincs cél megadva"
 
@@ -1505,10 +1485,8 @@ msgstr ""
 "Az adatbázis optimalizálásához megfelelő jogosultságokkal kell rendelkeznie."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
-msgstr ""
-"Nem sikerült létrehozni az ideiglenes könyvtárat az adatbázis építéséhez."
+msgstr "Ideiglenes könyvtár nem hozható létre az adatbázis építéséhez."
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1561,13 +1539,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Használat: pkgdelta [opció] <csomag1> <csomag2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tA pkgdelta két csomag között delta különbségfájlt készít.\\nEz a delta "
-"fájl a repo-add paranccsal adható az adatbázishoz.\\n\\n"
+"a pkgdelta egy deltafájlt hoz létre két csomag között.\\nEz a deltafájl "
+"később hozzáadható egy adatbázishoz a repo-add használatával.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1683,6 +1660,8 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"  -R, --remove      csomagfájl eltávolítása a lemezről adatbázis-bejegyzés "
+"frissítésekor\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1743,13 +1722,12 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Példa:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\n\\nEz egy szabad szoftver; a forráskódban leírtak szerint terjeszthető."
 "\\nNINCS GARANCIA, a jog által engedélyezett mértékig.\\n"
 
@@ -1810,9 +1788,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Egy bejegyzés már létezett ehhez: '%s'"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "Létező '%s' bejegyzés eltávolítása..."
+msgstr "Meglévő csomag eltávolítása: '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1931,57 +1908,3 @@ msgstr "a(z) '%s' opció nem enged meg argumentumot"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "a(z) '%s' opció igényel egy argumentumot"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Kérem adjon license sort a %s-hez!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Példa GPL szoftverre: %s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "A(z) %s fájl (%s) nem létezik."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Nem található a %s bináris, ami a nem rendszergazdaként történő "
-#~ "fordításhoz szükséges."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "  --asroot         Engedélyezi, hogy a %s rendszergazdaként fusson"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Felhasználó által megszakítva! Kilépés..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Egy ismeretlen hiba történt. Kilépés..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "Az %s opciót csak rendszergazdák használhatják. Futtassa\\nújra a %s-t a "
-#~ "%s opció nélkül."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "A %s futtatása normál felhasználóként azt eredményezi, hogy a csomagolt"
-#~ "\\nfájloknak nem rendszergazda lesz a tulajdonosa. Próbálja a %s"
-#~ "\\nkörnyezet használatát elhelyezve a %s-ot a %s tömbben a %s fájlban."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Nem javasolt az újracsomagolás %s függvény használata nélkül."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "Lehetséges, hogy a fájljogosultságok nem lesznek megőrizve."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "%s használata egy %s függvény nélkül már nem javasolt."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "A csomagkönyvtár üres, nincs mit újracsomagolni!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "Nem hozható létre ideiglenes könyvtár az adatbázis építéséhez."

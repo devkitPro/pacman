@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 12:33+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-24 03:11+0000\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/kk/)\n"
 "Language: kk\n"
@@ -35,9 +35,9 @@ msgid "resolving dependencies...\n"
 msgstr "тәуелділіктер шешілуде...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "дестелер арасындағы ерегістерін тексеру...\n"
+msgstr "ерегісетін дестелерді іздеу...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -52,12 +52,12 @@ msgstr "%s жаңартылуда...\n"
 #: src/pacman/callback.c:195
 #, c-format
 msgid "reinstalling %s...\n"
-msgstr ""
+msgstr "%s қайта орнатылуда...\n"
 
 #: src/pacman/callback.c:198
 #, c-format
 msgid "downgrading %s...\n"
-msgstr ""
+msgstr "%s нұсқасы төмендетілуде...\n"
 
 #: src/pacman/callback.c:201
 #, c-format
@@ -72,17 +72,17 @@ msgstr "дестенің бүтіндігі тексерілуде...\n"
 #: src/pacman/callback.c:230
 #, c-format
 msgid "checking keyring...\n"
-msgstr ""
+msgstr "кілттер бауы тексерілуде...\n"
 
 #: src/pacman/callback.c:234
 #, c-format
 msgid "downloading required keys...\n"
-msgstr ""
+msgstr "керек кілттер жүктеліп алынуда...\n"
 
 #: src/pacman/callback.c:238
 #, c-format
 msgid "loading package files...\n"
-msgstr ""
+msgstr "дестелер файлдары жүктелуде...\n"
 
 #: src/pacman/callback.c:242
 #, c-format
@@ -112,7 +112,7 @@ msgstr "қатемен аяқталды.\n"
 #: src/pacman/callback.c:262
 #, c-format
 msgid "Retrieving packages ...\n"
-msgstr ""
+msgstr "Дестелер алынуда ...\n"
 
 #: src/pacman/callback.c:266
 #, c-format
@@ -122,22 +122,22 @@ msgstr "дискідегі қолжетерлік бос орынды тексе
 #: src/pacman/callback.c:272
 #, c-format
 msgid "%s optionally requires %s\n"
-msgstr ""
+msgstr "%s міндетті емес түрде %s талап етеді\n"
 
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s енді %s.pacnew ретінде орнатылды\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s енді %s.pacsave ретінде сақталды\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s енді %s.pacorig ретінде сақталды\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -177,7 +177,7 @@ msgstr[0] "Бұл жаңарту үшін жоғарыдағы десте(лер
 #: src/pacman/callback.c:435
 #, c-format
 msgid "There are %zd providers available for %s:\n"
-msgstr ""
+msgstr "%zd ұсынушы бар %s үшін:\n"
 
 #: src/pacman/callback.c:445
 #, c-format
@@ -185,16 +185,20 @@ msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
+"%s файлы зақымдалған (%s).\n"
+"Оны өшіруді қалайсыз ба?"
 
 #: src/pacman/callback.c:459
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
 msgstr ""
+"%d%c/%s PGP кілтін, \"%s\", жасалған: %s (қайта шақырылған), импорттау керек "
+"пе?"
 
 #: src/pacman/callback.c:462
 #, c-format
 msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
-msgstr ""
+msgstr "%d%c/%s PGP кілтін, \"%s\", жасалған: %s, импорттау керек пе?"
 
 #: src/pacman/callback.c:522
 #, c-format
@@ -209,12 +213,12 @@ msgstr "жаңартылуда"
 #: src/pacman/callback.c:528
 #, c-format
 msgid "downgrading"
-msgstr ""
+msgstr "нұсқасы төмендетілуде"
 
 #: src/pacman/callback.c:531
 #, c-format
 msgid "reinstalling"
-msgstr ""
+msgstr "қайта орнатылуда"
 
 #: src/pacman/callback.c:534
 #, c-format
@@ -239,12 +243,12 @@ msgstr "десте бүтіндігін тексеру"
 #: src/pacman/callback.c:546
 #, c-format
 msgid "checking keys in keyring"
-msgstr ""
+msgstr "кілттер бауында кілттерді тексеру"
 
 #: src/pacman/callback.c:549
 #, c-format
 msgid "loading package files"
-msgstr ""
+msgstr "дестелер файлдары жүктелуде"
 
 #: src/pacman/callback.c:664
 #, c-format
@@ -254,47 +258,47 @@ msgstr "%s жүктелуде...\n"
 #: src/pacman/check.c:63 src/pacman/check.c:232
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Файл түрі сәйкес емес)\n"
 
 #: src/pacman/check.c:82
 #, c-format
 msgid "%s: %s (UID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (UID сәйкес емес)\n"
 
 #: src/pacman/check.c:91
 #, c-format
 msgid "%s: %s (GID mismatch)\n"
-msgstr ""
+msgstr "%s: %s (GID сәйкес емес)\n"
 
 #: src/pacman/check.c:101
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Рұқсаттар сәйкес емес)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Резервті файлдар      :\n"
+msgstr "қор көшірме файлы"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
 msgid "%s: %s (Modification time mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Өзгерту уақыты сәйкес емес)\n"
 
 #: src/pacman/check.c:140
 #, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr ""
+msgstr "символдық сілтеме құрамасын оқу мүмкін емес: %s\n"
 
 #: src/pacman/check.c:147
 #, c-format
 msgid "%s: %s (Symlink path mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Символдық сілтеме сәйкес емес)\n"
 
 #: src/pacman/check.c:164 src/pacman/check.c:170
 #, c-format
 msgid "%s: %s (Size mismatch)\n"
-msgstr ""
+msgstr "%s: %s (Өлшемі сәйкес емес)\n"
 
 #: src/pacman/check.c:207 src/pacman/check.c:222 src/pacman/check.c:267
 #: src/pacman/check.c:316
@@ -306,29 +310,29 @@ msgstr "жол тым ұзын: %s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] ""
+msgstr[0] "%s: жалпы %jd файл, "
 
 #: src/pacman/check.c:244
 #, c-format
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
-msgstr[0] ""
+msgstr[0] "%jd жоқ файл\n"
 
 #: src/pacman/check.c:277
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr ""
+msgstr "%s: mtree файлы жоқ\n"
 
 #: src/pacman/check.c:333
 #, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr ""
+msgstr "файл түрі танылмады: %s%s\n"
 
 #: src/pacman/check.c:382
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
-msgstr[0] ""
+msgstr[0] "%jd өзгерген файл\n"
 
 #: src/pacman/conf.c:97
 #, c-format
@@ -353,33 +357,36 @@ msgstr "XferCommand орындау: үрдісті жасау сәтсіз ая�
 #: src/pacman/conf.c:260
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
+msgstr "%s атын жаңа %s атына ауыстыру мүмкін емес (%s)\n"
 
 #: src/pacman/conf.c:271
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr ""
+msgstr "жұмыс бумасын (%s) қалпына келтіру мүмкін емес\n"
 
 #: src/pacman/conf.c:388 src/pacman/conf.c:444 src/pacman/conf.c:536
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr ""
+msgstr "баптаулар файлы %s, жол %d: '%s' үшін мән қате : '%s'\n"
 
 #: src/pacman/conf.c:399
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"баптаулар файлы %s, жол %d: '%s' опциясы қате, қолтаңбаларға қолдау жоқ\n"
 
 #: src/pacman/conf.c:501 src/pacman/conf.c:601 src/pacman/conf.c:855
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
+"баптаулар файлы %s, жол %d: '%s' директивасына, '%s' секциясында, "
+"танылмады.\n"
 
 #: src/pacman/conf.c:624
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "'%s' айнасында '%s' айнымалысы бар, бірақ, ешбір '%s' анықталмаған.\n"
 
 #: src/pacman/conf.c:633
 #, c-format
@@ -387,11 +394,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "'%s' дерекқорына сервер адресін қосу мүмкін емес: %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "alpm жинағын іске қосу мүмкін емес (%s)\n"
+msgstr ""
+"alpm библиотекасын іске қосу қатесі\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -406,12 +415,12 @@ msgstr "'%s' лог-файлын қолдану қатесі (%s)\n"
 #: src/pacman/conf.c:708
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
-msgstr ""
+msgstr "gpg '%s' (%s) бумасын орнату қатесі\n"
 
 #: src/pacman/conf.c:730
 #, c-format
 msgid "no '%s' configured\n"
-msgstr ""
+msgstr "ешбіру '%s' бапталмаған\n"
 
 #: src/pacman/conf.c:757
 #, c-format
@@ -419,14 +428,14 @@ msgid "Failed to pass assume installed entry to libalpm"
 msgstr ""
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr "баптаулар файлы %s, жол %d: секцияның аты қате.\n"
+msgstr "баптаулар файлы %s, жол %d: '%s' опциясы '%s' танылмады\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
-msgstr ""
+msgstr "баптаулар файлы %s, жол %d: '%s' директивасы мәнді талап етеді\n"
 
 #: src/pacman/conf.c:887
 #, c-format
@@ -436,7 +445,7 @@ msgstr "'%s' (%s) дерекқорын тіркеу мүмкін емес\n"
 #: src/pacman/conf.c:903
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "'%s' айнасын '%s' (%s) дерекқорына қосу мүмкін емес\n"
 
 #: src/pacman/conf.c:937
 #, c-format
@@ -474,7 +483,7 @@ msgstr "%s: орнату себебі 'нақты орнатылған' етіп
 #: src/pacman/package.c:65 src/pacman/util.c:1210
 #, c-format
 msgid " [installed]"
-msgstr ""
+msgstr " [орнатылған]"
 
 #: src/pacman/package.c:72
 #, c-format
@@ -506,17 +515,17 @@ msgstr "Көрсетілмеген"
 #: src/pacman/package.c:124
 #, c-format
 msgid "MD5 Sum"
-msgstr ""
+msgstr "MD5 сомасы"
 
 #: src/pacman/package.c:127
 #, c-format
 msgid "SHA256 Sum"
-msgstr ""
+msgstr "SHA256 сомасы"
 
 #: src/pacman/package.c:130
 #, c-format
 msgid "Signature"
-msgstr ""
+msgstr "Қолтаңба"
 
 #: src/pacman/package.c:147
 #, c-format
@@ -576,7 +585,7 @@ msgstr "Осыны талап ететіндер :"
 #: src/pacman/package.c:163
 #, c-format
 msgid "Optional For   :"
-msgstr ""
+msgstr "Міндетті емес  :"
 
 #: src/pacman/package.c:165
 #, c-format
@@ -591,17 +600,17 @@ msgstr "Алмастырады           :"
 #: src/pacman/package.c:170
 #, c-format
 msgid "Download Size  :"
-msgstr ""
+msgstr "Жүктеп алу өлш.:"
 
 #: src/pacman/package.c:173
 #, c-format
 msgid "Compressed Size:"
-msgstr ""
+msgstr "Сығылған өлшемі:"
 
 #: src/pacman/package.c:181
 #, c-format
 msgid "Installed Size :"
-msgstr ""
+msgstr "Орнатылған өлш.:"
 
 #: src/pacman/package.c:184
 #, c-format
@@ -644,20 +653,20 @@ msgid "MD5 Sum        :"
 msgstr "MD5 сомасы            :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "MD5 сомасы            :"
+msgstr "SHA-256 сомасы :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
 #, c-format
 msgid "Signatures     :"
-msgstr ""
+msgstr "Қолтаңбалар    :"
 
 #: src/pacman/package.c:212
 #, c-format
 msgid "Validated By   :"
-msgstr ""
+msgstr "Тексерген      :"
 
 #: src/pacman/package.c:256
 #, c-format
@@ -682,7 +691,7 @@ msgstr "'%s' үшін өзгерістер тарихы жоқ.\n"
 #: src/pacman/package.c:344
 #, c-format
 msgid "Changelog for %s:\n"
-msgstr ""
+msgstr "%s үшін өзгерістер журналы:\n"
 
 #: src/pacman/package.c:369 src/pacman/package.c:371
 #, c-format
@@ -740,7 +749,7 @@ msgstr ""
 #: src/pacman/pacman.c:125
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
-msgstr ""
+msgstr "  -n, --nosave         баптаулар файлдарын өшіру\n"
 
 #: src/pacman/pacman.c:126
 #, c-format
@@ -748,16 +757,18 @@ msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
+"  -s, --recursive      керек емес тәуелділіктерді өшіру\n"
+"                       (-ss нақты орнатылған тәуелділіктерді де қоса)\n"
 
 #: src/pacman/pacman.c:128
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr ""
+msgstr "  -u, --unneeded       керек емес дестелерді өшіру\n"
 
 #: src/pacman/pacman.c:131 src/pacman/pacman.c:166
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr ""
+msgstr "      --needed         ескірмеген дестелерді қайта орнатпау\n"
 
 #: src/pacman/pacman.c:136
 #, c-format
@@ -798,11 +809,13 @@ msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
 msgstr ""
+"  -k, --check          дестенің бар болғанын тексеру (-kk файл қасиеттері "
+"үшін)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           сұралған дестенің құрамасын тізіп шығару\n"
+msgstr "  -l, --list           сұралған дестенің файлдарын тізіп шығару\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -819,6 +832,8 @@ msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
+"  -n, --native         тек синхродау дерекқорынан табылған орнатылған "
+"дестелерді тізіп шығару [сүзгі]\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
@@ -847,13 +862,15 @@ msgstr ""
 "ішінен іздеу\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired     ешбір десте керек етпейтін барлық дестелер тізімін "
-"шығару [фильтр]\n"
+"  -t, --unrequired     бірде-бір десте талап етпейтін (міндетті емес) "
+"дестелер\n"
+"                       тізімін шығару (-tt міндетті емес тәуелділіктерді "
+"елемеу) [сүзгі]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -869,20 +886,21 @@ msgstr ""
 "  -c, --clean          кэштен ескі дестелерді өшіру (-cc барлығы үшін)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         бұл топтағы барлық дестелер тізімін шығару\n"
+msgstr ""
+"  -g, --groups         дестелер тобының барлық мүшелерін қарау\n"
+"                       (-gg барлық топтар және мүшелерді қарау үшін)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info           десте ақпаратын шығару (-ii резервті көшірмелері "
-"үшін)\n"
+"  -i, --info           десте ақпаратын қарау (-ii кеңейтілген ақпарат үшін)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -899,12 +917,12 @@ msgstr ""
 "мәтінді іздеу\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"  -u, --sysupgrade     орнатылған дестелерді жаңарту (-uu нұсқасын төмендету "
-"үшін)\n"
+"  -u, --sysupgrade     орнатылған дестелерді жаңарту (-uu нұсқаны "
+"төмендетуді рұқсат етеді)\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -915,12 +933,13 @@ msgstr ""
 "  -w, --downloadonly   дестелерді серверден жүктеп алу, бірақ орнатпау\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh        дестелердің жаңа дерекқорларын серверден жүктеп алу\n"
+"  -y, --refresh        серверден дестелердің жаңалау дерекқорын жүктеп алу\n"
+"                       (-yy жергілікті нұсқасы жаңа болса да жаңарту)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -936,6 +955,8 @@ msgstr "      --asexplicit     дестелерді нақты орнатылғ�
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
+"      --force          орнатуды мәжбүрлету, ерегісетін файлдарды үстінен "
+"жазу\n"
 
 #: src/pacman/pacman.c:180
 #, c-format
@@ -971,6 +992,8 @@ msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr ""
+"  -d, --nodeps         тәуелділіктер нұсқаларын тексеруді аттап кету (-dd "
+"барлық тексерулерді аттап кету)\n"
 
 #: src/pacman/pacman.c:188
 #, c-format
@@ -978,12 +1001,17 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"      --assume-installed <десте=нұсқасы>\n"
+"                       тәуелділіктерді қанағаттандыру үшін виртуалды дестені "
+"қосу\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
+"      --dbonly         тек дерекқор жазбаларын өзгерту, дестелер файлдарын "
+"емес\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
@@ -1004,6 +1032,7 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
+"  -p, --print          әрекетті орындау орнына мақсаттарды тізіп шығару\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1042,7 +1071,7 @@ msgstr "      --cachedir <бума> басқа кэш бумасын қолда�
 #: src/pacman/pacman.c:204
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr ""
+msgstr "      --color <when>   шығысты түспен бояу\n"
 
 #: src/pacman/pacman.c:205
 #, c-format
@@ -1057,7 +1086,7 @@ msgstr "      --debug          жөндеу хабарламаларын көр�
 #: src/pacman/pacman.c:207
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr ""
+msgstr "      --gpgdir <path>  GnuPG үшін альтернативті үй бумасын орнату\n"
 
 #: src/pacman/pacman.c:208
 #, c-format
@@ -1070,9 +1099,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      растауды сұрамау\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --noconfirm      растауды сұрамау\n"
+msgstr "      --confirm        әрқашан растауды сұрау\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1086,59 +1115,59 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "опциялар қатесі: '%s' және '%s' бірге қолдануға болмайды\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr ""
+msgstr "'%s' аргументі қате, %s үшін\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' - жөндеудің қате деңгейі\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "бір уақытта тек бір әрекет орындалуы мүмкін\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "опция қате\n"
+msgstr "'-%c' опциясы қате\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "опция қате\n"
+msgstr "'--%s' опциясы қате\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
-msgstr ""
+msgstr "аргументтерді талдау кезінде жады бітті\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "оқу үшін stdin қайта ашу сәтсіз: (%s)\n"
 
-#: src/pacman/pacman.c:1138
+#: src/pacman/pacman.c:1137
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr ""
+msgstr "'-' аргументі бос стандартты кіріспен (stdin) көрсетілді\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr ""
+msgstr "'-' аргументі стандартты кірісте (stdin) ешбір енгізусіз көрсетілді\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "Бұл әрекетті жасай алмайсыз, өйткені сіз әкімші емессіз (root).\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "әрекет көрсетілмеді (көмек үшін -h қолданыңыз)\n"
@@ -1174,19 +1203,19 @@ msgid "No package owns %s\n"
 msgstr "Бірде-бір десте құрамында %s жоқ\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "жол тым ұзын: %s%s\n"
+msgstr "орналасқан жолы тым ұзын: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[елемейміз]"
 
 #: src/pacman/query.c:380
 #, c-format
 msgid "group '%s' was not found\n"
-msgstr ""
+msgstr "'%s' тобы табылмады\n"
 
 #: src/pacman/query.c:471 src/pacman/sync.c:474
 #, c-format
@@ -1196,12 +1225,12 @@ msgstr "'%s' дестесі табылмады\n"
 #: src/pacman/query.c:474
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
-msgstr ""
+msgstr "'%s' файл болып тұр, орнына %s қолдануға болады.\n"
 
 #: src/pacman/query.c:480
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr ""
+msgstr "'%s' дестесін жүктеу мүмкін емес: %s\n"
 
 #: src/pacman/remove.c:49 src/pacman/sync.c:571 src/pacman/sync.c:655
 #, c-format
@@ -1251,7 +1280,7 @@ msgstr "әрекетті аяқтау мүмкін емес (%s)\n"
 #: src/pacman/sync.c:47 src/pacman/sync.c:100
 #, c-format
 msgid "could not remove %s: %s\n"
-msgstr ""
+msgstr "%s өшіру мүмкін емес: %s\n"
 
 #: src/pacman/sync.c:65
 #, c-format
@@ -1271,7 +1300,7 @@ msgstr "Қолданылмайтын репозиторийларды өшіру
 #: src/pacman/sync.c:151
 #, c-format
 msgid "removing unused sync repositories...\n"
-msgstr ""
+msgstr "қолданылмайтын синхрондау репозиторийлерін өшіру...\n"
 
 #: src/pacman/sync.c:181
 #, c-format
@@ -1344,7 +1373,7 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "\"%s\" репозиторийі табылмады.\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
 msgstr[0] "%d мүше бар, %s тобында:\n"
@@ -1357,7 +1386,7 @@ msgstr "дерекқор табылмады: %s\n"
 #: src/pacman/sync.c:712
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
-msgstr ""
+msgstr "'%s' файл болып тұр, сіздің қалағаңыныз %s болған ба (%s орнына)?\n"
 
 #: src/pacman/sync.c:742
 #, c-format
@@ -1392,7 +1421,7 @@ msgstr "Орнатуды бастау керек пе?"
 #: src/pacman/sync.c:841
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr ""
+msgstr "буманы %s мүмкін емес -файлдар ерегісуі\n"
 
 #: src/pacman/sync.c:847
 #, c-format
@@ -1422,12 +1451,12 @@ msgstr "Дестелер дерекқоры синхрондалуда...\n"
 #: src/pacman/upgrade.c:56
 #, c-format
 msgid "memory exhausted\n"
-msgstr ""
+msgstr "жады таусылды\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
 msgid "loading packages...\n"
-msgstr ""
+msgstr "дестелерді жүктеу...\n"
 
 #: src/pacman/util.c:81
 #, c-format
@@ -1437,7 +1466,7 @@ msgstr "әрекетті бастау қатемен аяқталды (%s)\n"
 #: src/pacman/util.c:85
 #, c-format
 msgid "could not lock database: %s\n"
-msgstr ""
+msgstr "дерекқорды блоктау мүмкін емес: %s\n"
 
 #: src/pacman/util.c:88
 #, c-format
@@ -1461,132 +1490,132 @@ msgstr "бірде-бір репозиторий тиісті түрде бап�
 #: src/pacman/util.c:137
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
-msgstr ""
+msgstr "'%s' дерекқоры жарамсыз (%s)\n"
 
 #: src/pacman/util.c:645
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr ""
+msgstr "кестелік көрініс үшін қолжетерлік бағандар саны аз\n"
 
 #: src/pacman/util.c:766
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "Жарамды"
 
 #: src/pacman/util.c:769
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "Кілт мерзімі біткен"
 
 #: src/pacman/util.c:772
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "Мерзімі біткен"
 
 #: src/pacman/util.c:775
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "Жарамсыз"
 
 #: src/pacman/util.c:778
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "Кілт белгісіз"
 
 #: src/pacman/util.c:781
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "Кілт сөндірілген"
 
 #: src/pacman/util.c:784
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "Қолтаңба қатесі"
 
 #: src/pacman/util.c:789
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "толық сенім"
 
 #: src/pacman/util.c:792
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "шексіз сенім"
 
 #: src/pacman/util.c:795
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "ешқашан сенбеу"
 
 #: src/pacman/util.c:799
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "белгісіз сенім"
 
 #: src/pacman/util.c:803
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s, \"%s\" жерінен"
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "десте(лер)"
+msgstr "Десте"
 
 #: src/pacman/util.c:824
 #, c-format
 msgid "Old Version"
-msgstr ""
+msgstr "Ескі нұсқасы"
 
 #: src/pacman/util.c:825
 #, c-format
 msgid "New Version"
-msgstr ""
+msgstr "Жаңа нұсқасы"
 
 #: src/pacman/util.c:826
 #, c-format
 msgid "Net Change"
-msgstr ""
+msgstr "Өлшемнің өзгеруі"
 
 #: src/pacman/util.c:827
 #, c-format
 msgid "Download Size"
-msgstr ""
+msgstr "Жүктеп алу өлшемі"
 
 #: src/pacman/util.c:924
 #, c-format
 msgid "removal"
-msgstr ""
+msgstr "өшіру"
 
 #: src/pacman/util.c:930
 #, c-format
 msgid "Packages"
-msgstr ""
+msgstr "Дестелер"
 
 #: src/pacman/util.c:951
 #, c-format
 msgid "Total Download Size:"
-msgstr ""
+msgstr "Жалпы жүктеп алу өлшемі:"
 
 #: src/pacman/util.c:955
 #, c-format
 msgid "Total Installed Size:"
-msgstr ""
+msgstr "Жалпы орнатылған өлшемі:"
 
 #: src/pacman/util.c:958
 #, c-format
 msgid "Total Removed Size:"
-msgstr ""
+msgstr "Жалпы өшірілген өлшемі:"
 
 #: src/pacman/util.c:962
 #, c-format
 msgid "Net Upgrade Size:"
-msgstr ""
+msgstr "Өлшемнің өзгеруі:"
 
 #: src/pacman/util.c:1212
 #, c-format
 msgid " [pending]"
-msgstr ""
+msgstr " [кезекте]"
 
 #: src/pacman/util.c:1236
 #, c-format
@@ -1606,12 +1635,12 @@ msgstr "Репозиторий %s\n"
 #: src/pacman/util.c:1311
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
-msgstr ""
+msgstr "мәні қате: %d мәні %d және %d арасында емес\n"
 
 #: src/pacman/util.c:1318
 #, c-format
 msgid "invalid number: %s\n"
-msgstr ""
+msgstr "қате нөмір: %s\n"
 
 #: src/pacman/util.c:1403
 #, c-format
@@ -1667,20 +1696,3 @@ msgstr "қате: "
 #, c-format
 msgid "warning: "
 msgstr "ескерту: "
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr ""
-#~ "%s-%s: орнатылған нұсқасы жаңалау болып тұр. Сонда да жаңартуды қалайсыз "
-#~ "ба?"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr "баптаулар файлы %s, жол %d: синтаксис қатесі - кілт жоқ.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info           десте ақпаратын қарау\n"
-
-#~ msgid "error: %s"
-#~ msgstr "қате: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "ескерту: %s"

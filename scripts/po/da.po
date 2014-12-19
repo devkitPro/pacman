@@ -4,7 +4,8 @@
 #
 # Translators:
 # Chris Darnell <chris@cedeel.com>, 2013
-# Chris Darnell <chris@cedeel.com>, 2013
+# Chris Darnell <chris@cedeel.com>, 2013-2014
+# Freso <transifex.net@freso.dk>, 2012-2013
 # Freso <transifex.net@freso.dk>, 2012-2013
 # jakobw <jakob.wadsager@gmail.com>, 2012
 # jakobw <jakob.wadsager@gmail.com>, 2012
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-23 23:50+0000\n"
 "Last-Translator: Chris Darnell <chris@cedeel.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/da/)\n"
@@ -131,9 +132,8 @@ msgstr "Opretter arbejdskopi af %s %s arkiv ..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Fejl under oprettelse af arbejdskopi for %s %s arkiv"
+msgstr "Fejl under opdatering af arbejdskopi for %s %s repo"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -170,12 +170,11 @@ msgstr "Henter kilder ..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() dannede en ugyldig version: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Kunne ikke ændre til mappe %s"
+msgstr "Kunne ikke opdatere %s fra %s til %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -273,27 +272,24 @@ msgid "unknown public key"
 msgstr "ukendt offentlig nøgle"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "nøglen er blevet tilbagekaldt"
+msgstr "offentlig nøgle %s er blevet tilbagekaldt"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "forkert signatur fra offentlig nøgle"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Ingen eksisterende signatur fundet, springer over verificering."
+msgstr "fejl ved verificering af signatur"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "den offentlige nøgle %s er ikke betroet"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "ukendt offentlig nøgle"
+msgstr "ugyldig offentlig nøgle"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -364,9 +360,8 @@ msgid "Removing %s files..."
 msgstr "Fjerner %s filer..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "Fjerner %s filer..."
+msgstr "Fjerner statiske biblioteksfiler..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -429,9 +424,8 @@ msgid "Adding %s file..."
 msgstr "Tilføjer %s-fil..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Kunne ikke installere bygget pakke/byggede pakker."
+msgstr "Kunne ikke tilføje %s fil til pakke."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -519,14 +513,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s indeholder ugyldige tegn: '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s skal være et decimaltal."
+msgstr "%s skal være et decimaltal, ikke %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s skal være et heltal."
+msgstr "%s skal være et heltal, ikke %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -550,14 +542,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "%s pakkefil bør ikke indeholde begyndelsesskråstreg: %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
 msgstr "Ugyldig syntaks for %s: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s findes ikke elelr er ikke en mappe."
+msgstr "%s-fil (%s) findes ikke eller er ikke en regulær fil."
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -565,16 +555,15 @@ msgstr "%s tabel indeholder ukendt indstilling '%s'"
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Sparsomme matricer er ikke tilladte i kilden"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "Ønsket pakke %s tilbydes ikke i %s"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Manglende %s funktion for opdelt pakke '%s'"
+msgstr "Manglende %s funktion i %s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -585,16 +574,13 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s må ikke indeholde koloner, bindestreger eller mellemrum."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
-"Kan ikke finde den binære fil %s, der er krævet for at verificere kildefiler."
+"Kan ikke finde den binære fil %s der er krævet for at tjekke VCS-kildekrav"
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr ""
-"Kan ikke finde den binære fil %s, der er krævet for alle %s operationer."
+msgstr "Kan ikke finde pakken %s som er påkrævet til at håndtere %s-kilder."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -608,9 +594,8 @@ msgstr ""
 "privilegier."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Kan ikke finde den binære fil %s, der er krævet for at signere pakker."
+msgstr "Kan ikke finde den binære fil %s."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -679,7 +664,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Gør pakker kompatible med pacman-brug"
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -699,7 +684,7 @@ msgstr "  -c, --clean      Ryd arbejdsfiler op efter kompilering"
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "  -C, --cleanbuild Fjern stien %s før pakken bygges"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -793,18 +778,16 @@ msgstr ""
 "--key <nøgle> Angiv en nøgle til %s-signering i stedet for standardnøglen"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "--nosign         Opret ikke en signatur for pakken"
+msgstr "  --noarchive      Opret ikke pakkearkiv"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "--nocheck Kør ikke funktionen %s i %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "--nocheck Kør ikke funktionen %s i %s"
+msgstr "  --noprepare      Kør ikke funktionen %s i %s"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -867,14 +850,13 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Hvis %s ikke er angivet, vil %s kigge efter '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman-udviklingsholdet <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2014 Pacman-udviklingsholdet <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nDette er "
 "fri software; se kildeteksten for kopieringsbetingelser.\\nDer er INGEN "
 "GARANTI i det omfang det er tilladt ved lov.\\n"
@@ -908,14 +890,12 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "Du har ikke skriverettigheder til at gemme logfiler i %s."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"At køre %s som root er en DÅRLIG ide og kan forårsage permanent,"
-"\\nkatastrofal skade på dit system. Hvis du ønsker at køre som root, brug"
-"\\nvenligst %s indstillingen."
+"Det er ikke tilladt at køre %s som root, da det kan forårsage permanent,"
+"\\nkatastrofisk skade i dit system."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -930,9 +910,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s indeholder %s-tegn og kan ikke bruges som kilde."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s findes ikke elelr er ikke en mappe."
+msgstr "%s skal være i den nuværende arbejdsmappe."
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -988,7 +967,7 @@ msgstr "Kilder er klar."
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "Pakkemappe er klar."
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -997,7 +976,7 @@ msgstr "Færdig med fremstilling: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "Kan ikke oprette '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -1005,6 +984,8 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"ugyldigt nøgle/værdi-par\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
@@ -1021,9 +1002,9 @@ msgid "Couldn't detect version for template '%s'"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Kunne ikke finde %s"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
@@ -1035,9 +1016,8 @@ msgid "makepkg-template [options]\n"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Valgmuligheder:"
+msgstr "Valgmuligheder:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
@@ -1068,72 +1048,62 @@ msgid "                        (default: %s)\n"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h --help                Vis denne hjælpebesked og afslut"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr " -v, --version Vis programversion og afslut"
+msgstr " -v, --version Versionsinformation\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman-udviklingsholdet <pacman-dev@archlinux.org>."
-"\\nDette er fri software; se kildeteksten for kopieringsbetingelser.\\nDer "
-"er INGEN GARANTI i det omfang det er tilladt ved lov.\\n"
+"Copyright (c) 2013-2014 Pacman-udviklingsholdet <pacman-dev@archlinux.org>.\n"
+"Dette er fri software; se kildeteksten for kopieringsbetingelser.\n"
+"Der er INGEN GARANTI i det omfang det er tilladt ved lov.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Valgmuligheder:"
+msgstr "valgmuligheder:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "-h, --help       Vis denne hjælpetekst og afslut"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr " -v, --version Vis programversion og afslut"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
 msgstr ""
-"  --config <fil>  Brug en alternativ konfigurationsfil (i stedet for '%s')"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    Deaktiver farvelagte uddatabeskeder"
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman-udviklingsholdet <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2014 Pacman-udviklingsholdet <pacman-dev@archlinux.org>."
 "\\nDette er fri software; se kildeteksten for kopieringsbetingelser.\\nDer "
 "er INGEN GARANTI i det omfang det er tilladt ved lov.\\n"
 
@@ -1162,12 +1132,11 @@ msgstr "Pre-3.5 database format detekteret - opgraderer..."
 msgid "Done."
 msgstr "Færdig."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "Pre-3.5 database format detekteret - opgraderer..."
+msgstr ""
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
 
@@ -1294,148 +1263,148 @@ msgstr "Kunne ikke slå en nøgle op ved navn:"
 msgid "Key name is ambiguous:"
 msgstr "Nøglenavn er tvetydigt:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "Nøglen identificeret ved %s kunne ikke findes lokalt."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Du har ikke tilstrækkelige tilladelser til at læse nøgleringen %s."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Brug '%s' til at rette nøglerings-tilladelserne"
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Du har ikke tilstrækkelige tilladelser til at køre denne kommando."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Der er ingen hemmelig nøgle tilgængelig at signere med."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Brug '%s' til at generere en standard hemmelig nøgle."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "Der eksisterer ingen nøglering-filer i %s."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "Nøglering-filen %s eksisterer ikke."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Tilføjer nøgler fra %s.gpg..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Signerer pålidelige nøgler i nøglering lokalt..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Importerer ejerpålideligheds-værdier..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Deaktiverer tilbagekaldte nøgler i nøglering..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "Deaktiverer nøgle %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "En angivet nøglefil kunne ikke tilføjes til nøgleringen."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "En angivet nøgle kunne ikke fjernes fra nøgleringen."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "Nøglen identificeret ved %s kunne ikke redigeres."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "En angivet nøgle kunne ikke eksporteres fra nøgleringen."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Fingeraftrykket af den angivne nøgle kunne ikke bestemmes."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "%s kunne ikke blive importeret."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "Filen %s eksisterer ikke og kunne ikke blive importeret."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "En angivet nøgle kunne ikke anføres."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "En angivet signatur kunne ikke anføres."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "Signerer nøglen %s lokalt..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s kunne ikke ikke signeres lokalt."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Fjern-nøgle ikke hentet korrekt fra nøgleserver."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "En angivet lokalt nøgle kunne ikke opdateres fra nøgleserver."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "Signaturen identificeret ved %s kunne ikke verficeres."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Opdaterer tillidsdatabase..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "Tillidsdatabase kunne ikke opdateres."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Kan ikke finde den binære fil %s, der er krævet for alle %s operationer."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "%s skal køres som root for denne operation."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "%s konfigurationsfil '%s' ikke fundet."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "ingen operation angivet (brug -h for hjælp)."
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Flere operationer angivet."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Kør venligst %s seperat med hver operation."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "Ingen mål angivet"
 
@@ -1477,9 +1446,8 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Du skal have korrekte rettigheder for at optimere databasen."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
-msgstr "Kan ikke oprette temp-mappe for databasebygning."
+msgstr ""
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1530,13 +1498,10 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Brug: pkgdelta [tilvalg] <pakke1> <pakke2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tpkgdelta opretter en delta-fil mellem to pakker.\\nDenne delta-fil kan "
-"derefter tilføjes til en database med repo-add\\n\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1707,13 +1672,12 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Eksempel:  repo-remove /sti/til/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman Udviklingsholdet <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2014 Pacman Udviklingsholdet <pacman-dev@archlinux.org>\\n"
 "\\nDette er fri software; se kildeteksten for kopieringsbetingelser \\nDer "
 "er INGEN GARANTI, i det omfang det er tilladt ved lov.\\n"
 
@@ -1774,9 +1738,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Et punkt for '%s' findes allerede"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "Fjerner eksisterende punkt '%s'..."
+msgstr ""
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1894,57 +1857,3 @@ msgstr "valgmuligheden '%s' må ikke have et argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "valgmuligheden '%s' kræver et argument"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Tilføj venligst en licenslinie til din %s!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Eksempel for software under GPL: %s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "%s-fil (%s) findes ikke."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Kan ikke finde den binære fil %s, der er krævet for at bygge som ikke-"
-#~ "root bruger."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "--asroot Tillad %s at køre som root-bruger"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Afbrudt af bruger! Afslutter..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "En ukendt fejl er forekommet. Afslutter..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "Valgmuligheden %s er kun beregnet til root-brugeren. Kør\\nvenligst %s "
-#~ "uden %s indstillingen."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "At køre %s som uprivilegeret bruger vil resultere i ikke-root\\ejerskab "
-#~ "af de pakkede filer. Prøv at anvende %s miljøet ved\\nat placere %s i %s "
-#~ "tabellen i %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Ompakker uden brug af en %s, funktionen er frarådet."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "Filrettigheder bliver muligvis ikke bevaret."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "Brug af %s uden en %s-funktion er frarådet"
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "Pakkemappen er tom, der er ikke noget at ompakke!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "Kan ikke oprette temp-mappe til bygning af database"

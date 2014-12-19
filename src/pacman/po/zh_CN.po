@@ -3,22 +3,25 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Allan McRae <allan@archlinux.org>, 2014
 # Blask <blaskyy@gmail.com>, 2013
 # Blask <blaskyy@gmail.com>, 2013
+# leonfeng <chaofeng111@gmail.com>, 2011,2013
 # leonfeng <chaofeng111@gmail.com>, 2011,2013
 # mytbk <mytbk920423@gmail.com>, 2013-2014
 # mytbk <mytbk920423@gmail.com>, 2013
 # leonfeng <chaofeng111@gmail.com>, 2013
 # leonfeng <chaofeng111@gmail.com>, 2011
+# ykelvis <ykelvis@users.noreply.github.com>, 2014
 # 甘 露 <rhythm.gan@gmail.com>, 2011-2012
 # 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-03-20 15:59+0000\n"
-"Last-Translator: mytbk <mytbk920423@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-27 02:00+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -43,9 +46,9 @@ msgid "resolving dependencies...\n"
 msgstr "正在解决依赖关系...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "正在查找相互冲突...\n"
+msgstr "正在查找软件包冲突...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -135,17 +138,17 @@ msgstr "%s可选依赖%s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s 已被安装为 %s.pacorig\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s 已被保存为 %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s 已被保存为 %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -282,9 +285,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (许可不匹配)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "备份文件：\n"
+msgstr "备份文件"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -397,11 +400,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "初始化 alpm 库失败 (%s)\n"
+msgstr ""
+"初始化 alpm 库失败\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -419,9 +424,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "设定 gpgdir '%s' 时出现问题 (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "没有配置 '%s' "
+msgstr "没有配置 '%s' \n"
 
 #: src/pacman/conf.c:757
 #, c-format
@@ -429,9 +434,9 @@ msgid "Failed to pass assume installed entry to libalpm"
 msgstr ""
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr "配置文件 %s，第 %d 行：指令 '%s'(位于章节 '%s' 中) 无法识别。\n"
+msgstr "配置文件 %s，第 %d 行：'%s' 选项 '%s' 无法识别\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -652,9 +657,9 @@ msgid "MD5 Sum        :"
 msgstr "MD5校验值："
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "SHA256 校验值："
+msgstr "SHA-256 校验值："
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -801,9 +806,9 @@ msgid ""
 msgstr "  -k, --check          检查软件包的文件存在(-kk检查文件属性)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           列出被查询软件包的内容\n"
+msgstr "-l, --list 列出被查询软件包的内容\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -843,11 +848,11 @@ msgid ""
 msgstr "  -s, --search <regex> 搜寻符合指定字符串的已安装本地的软件包\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
-msgstr "  -t, --unrequired     列出所有不被其他软件包要求的软件包 [过滤器]\n"
+msgstr ""
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -862,18 +867,20 @@ msgid ""
 msgstr "  -c, --clean          从缓存目录中删除旧软件包 (-cc 清除所有) \n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         查看某软件包组所属的所有软件包\n"
+msgstr ""
+"-g, --groups 查看某软件包组所属的所有软件包\n"
+"(-gg 查看所有软件包组和所属于它们的软件包)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr "  -i, --info           查看软件包信息 (-ii 查看备份文件) \n"
+msgstr "-i, --info 查看软件包信息 (-ii 查看更多信息)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -887,10 +894,10 @@ msgid ""
 msgstr "  -s, --search <正则表达式> 按照指定字符串查询远端软件库\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
-msgstr "  -u, --sysupgrade     升级所有已安装的软件包 (-uu 可启用降级)\n"
+msgstr "-u, --sysupgrade 升级所有已安装的软件包 (-uu 可启用降级)\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -900,11 +907,13 @@ msgid ""
 msgstr "  -w, --downloadonly   下载但不安装/升级软件包\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
-msgstr "  -y, --refresh        从服务器下载新的软件包数据库\n"
+msgstr ""
+"-y, --refresh 从服务器下载新的软件包数据库\n"
+"(-yy 强制更新软件包数据库)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -919,7 +928,7 @@ msgstr "      --asexplicit     标记为明确指定安装的软件包\n"
 #: src/pacman/pacman.c:179
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr "  -f, --force          强制安装，覆盖存在冲突的文件\n"
+msgstr "      --force          强制安装，覆盖存在冲突的文件\n"
 
 #: src/pacman/pacman.c:180
 #, c-format
@@ -1051,9 +1060,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      不询问确认\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --noconfirm      不询问确认\n"
+msgstr "--confirm 总是询问确认\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1067,59 +1076,59 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "无效选项： 选项 '%s' 和 '%s' 不可以同时使用\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr " '%s' 不是 %s 的合法参数\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' 不是有效的调试级别\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "一次只能运行一个操作\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "无效选项\n"
+msgstr "无效选项 '-%c'\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "无效选项\n"
+msgstr "无效选项 '--%s'\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "参数解析时内存耗尽\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "无法打开 stdin 以读取：(%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "有参数'-'但标准输入中没有数据\n"
+msgstr "有参数 '-' 但标准输入中没有数据\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "有参数'-'但标准输入中没有数据\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "非 root (根用户) 无法执行指定操作。\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "没有指定的操作 (使用 -h 获取帮助) \n"
@@ -1155,14 +1164,14 @@ msgid "No package owns %s\n"
 msgstr "没有软件包拥有 %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "路径过长：%s%s\n"
+msgstr "路径过长：%s\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[被忽略的]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1325,7 +1334,7 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "软件库 \"%s\" 未找到\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
 msgstr[0] "共有 %d 组员在组 %s 中：\n"
@@ -1401,9 +1410,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "正在同步软件包数据库...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "参数解析时内存耗尽\n"
+msgstr "内存耗尽\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1510,7 +1519,7 @@ msgid "%s, %s from \"%s\""
 msgstr "%s，%s 来自 \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
 msgstr "软件包"
 
@@ -1648,30 +1657,3 @@ msgstr "错误："
 #, c-format
 msgid "warning: "
 msgstr "警告："
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s：本地版本较新。确定要更新吗？"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr "配置解析时超过最大 %d 的递归深度。\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "无法读取配置文件 %s: %s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "配置文件 %s，第 %d 行：坏的章节名字。\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr "配置文件 %s，第 %d 行：配置文件中语法错误－缺少关键字。\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info           查看软件包信息\n"
-
-#~ msgid "Name"
-#~ msgstr "名字"
-
-#~ msgid "error: %s"
-#~ msgstr "错误：%s"
-
-#~ msgid "warning: %s"
-#~ msgstr "警告：%s"

@@ -5,10 +5,11 @@
 # Translators:
 # Allan McRae <allan@archlinux.org>, 2013
 # Allan McRae <allan@archlinux.org>, 2013
+# ArchGalileu <geral@gasparsantos.eu>, 2014
 # Bruno Guerreiro <american.jesus.pt@gmail.com>, 2013
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # DarkVenger <thedarkvenger@gmail.com>, 2012
-# Gaspar Santos <omeuviolino@gmail.com>, 2011
+# ArchGalileu <geral@gasparsantos.eu>, 2011
 # Paulo Santos <paulo.r.santos@sapo.pt>, 2011
 # R00KIE <registosites@hotmail.com>, 2011
 # R00KIE <registosites@hotmail.com>, 2011
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 12:33+0000\n"
-"Last-Translator: Bruno Guerreiro <american.jesus.pt@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-19 03:20+0000\n"
+"Last-Translator: ArchGalileu <geral@gasparsantos.eu>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/pt/)\n"
 "Language: pt\n"
@@ -44,9 +45,9 @@ msgid "resolving dependencies...\n"
 msgstr "a resolver dependências...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "a procurar por conflitos internos...\n"
+msgstr "a procurar pacotes em conflito...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -138,17 +139,17 @@ msgstr "%s  requer opcionalmente %s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s instalado como %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s salvo como %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s salvo como %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -290,9 +291,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (Permissões não correspondem) \n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Ficheiros em Cópia de Segurança :\n"
+msgstr "ficheiro de cópia de segurança"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -415,11 +416,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "não foi possível registrar a URL da base de dados '%s': %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "falha ao iniciar a biblioteca alpm (%s)\n"
+msgstr ""
+"falhou a inicialização da libraria alpm\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -437,21 +440,21 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problema ao configurar gpgdir '%s' (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "'%s' não está configurada"
+msgstr "não está configurado '%s'\n"
 
 #: src/pacman/conf.c:757
 #, c-format
 msgid "Failed to pass assume installed entry to libalpm"
-msgstr ""
+msgstr "Falhou o teste que assume entrada instalada para o libalpm"
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr ""
-"ficheiro de configuração %s, linha %d: directiva '%s' na secção '%s' não "
-"reconhecida.\n"
+"No ficheiro de configurações %s, linha %d: '%s' opção '%s' não é "
+"reconhecida\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -676,9 +679,9 @@ msgid "MD5 Sum        :"
 msgstr "Soma MD5                      :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "SHA256 Sum     :"
+msgstr "SHA-256 Sum :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -837,11 +840,10 @@ msgstr ""
 "para propriedades dos ficheiros)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
 msgstr ""
-"  -l, --list                          listar o conteúdo do pacote "
-"consultado\n"
+"-l, --listar listar os ficheiros em propriedade pelo pacote requerido\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -890,13 +892,13 @@ msgstr ""
 "instalados\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired            listar pacotes desnecessários por qualquer "
-"outropacote [filtro]\n"
+"-t --não-requeridas listar pacotes não (opcional) requerido por qualquer\n"
+"pacote (-tt para ignorar dependências-opcionais) [filtrar]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -915,22 +917,22 @@ msgstr ""
 "cache (usar -cc para remover todos)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
 msgstr ""
-"  -g, --groups                 visualizar todos os membros de um grupo de "
-"pacotes\n"
+"-g, --grupos visualizar todos os membros do grupo de pacotes\n"
+"(-gg para visualizar todos os grupos e membros)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info                        visualizar informações do pacote (-ii "
-"para ficheiros em cópia de segurança)\n"
+"-i, --info visualizar a informação do pacote (-ii para informações "
+"completa)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -948,12 +950,12 @@ msgstr ""
 "correspondentes\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"  -u, --sysupgrade         actualizar os pacotes instalados (-uu permite "
-"desactualizar)\n"
+"-u, --atualizar-sistema atualizar os pacotes instalados (-uu aciona os "
+"downgrades)\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -965,13 +967,13 @@ msgstr ""
 "nenhum\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh                 actualizar a base de dados de pacotes a "
-"partir do servidor\n"
+"-y, --recarregar descarregar a base de dados de pacotes atualizada\n"
+"(-yy para forçar a atualização mesmo que já atualizada)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -1039,6 +1041,8 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"--assumir-instalado <package=version>\n"
+"adicionar o pacote virtual para satisfazer as dependências\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1146,9 +1150,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm              não pedir nenhuma confirmação\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --noconfirm              não pedir nenhuma confirmação\n"
+msgstr "--confirmar perguntar sempre por confirmação\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1162,59 +1166,59 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "opção inválida: '%s' ee '%s' não podem ser utilizados em conjunto\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "argumento invalido '%s' para %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' não é um nível de depuração válido\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "somente uma operação pode ser usada de cada vez\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "Opção inválida\n"
+msgstr "opção inválida '-%c'\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "Opção inválida\n"
+msgstr "opção inválida '--%s'\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "memória esgotada na análise de argumento\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "falha ao reabrir o stdin para leitura: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "argumento '-' especificado sem entrada em stdin\n"
+msgstr "o argumento '-' apresentado com stdin inexistente\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argumento '-' especificado sem entrada em stdin\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "não pode realizar esta operação a menos que seja o root.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nenhuma operação definida (use -h para obter ajuda)\n"
@@ -1250,14 +1254,14 @@ msgid "No package owns %s\n"
 msgstr "Nenhum pacote possui %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "caminho demasiado longo: %s%s\n"
+msgstr "caminho demasiado longo: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[ignorado]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1420,11 +1424,11 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "repositório \"%s\" não foi encontrado.\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "Há %d membros no grupo %s:\n"
-msgstr[1] "Há %d membros no grupo %s:\n"
+msgstr[0] "Existe %d membro no grupo %s:\n"
+msgstr[1] "Existem %d membros nos grupos %s:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1497,9 +1501,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "A sincronizar a base de dados de pacotes...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "memória esgotada na análise de argumento\n"
+msgstr "memória esgotada\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1609,9 +1613,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s,%s de \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "Pacotes"
+msgstr "Pacote"
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1747,36 +1751,3 @@ msgstr "erro: "
 #, c-format
 msgid "warning: "
 msgstr "atenção: "
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr ""
-#~ "%s-%s: a versão local é mais recente. Deseja actualizar mesmo assim?"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr ""
-#~ "análise de configuração ultrapassou profundidade de recursão máxima de "
-#~ "%d.\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "ficheiro de configuração %s não pode ser lido: %s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "ficheiro de configuração %s, linha %d: nome de secção inválido.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr ""
-#~ "ficheiro de configuração %s, linha %d: erro de sintaxe no ficheiro de "
-#~ "configuração - chave em falta.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr ""
-#~ "  -i, --info                        visualizar as informações do pacote\n"
-
-#~ msgid "Name"
-#~ msgstr "Nome"
-
-#~ msgid "error: %s"
-#~ msgstr "erro: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "atenção: %s"

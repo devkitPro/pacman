@@ -8,14 +8,15 @@
 # kyak <peselnik@gmail.com>, 2013
 # partizan <serg.partizan@gmail.com>, 2011-2012
 # kyak <peselnik@gmail.com>, 2013
+# partizan <serg.partizan@gmail.com>, 2014
 # partizan <serg.partizan@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 10:04+0000\n"
-"Last-Translator: kyak <peselnik@gmail.com>\n"
+"PO-Revision-Date: 2014-11-26 18:41+0000\n"
+"Last-Translator: partizan <serg.partizan@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -70,13 +71,11 @@ msgstr ""
 "файловая система: %o  пакет: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"права доступа различаются у каталога %s\n"
-"файловая система: %o  пакет: %o\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -102,17 +101,17 @@ msgstr "не удалось восстановить рабочий катало
 #: lib/libalpm/add.c:647
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr "обнаружена проблема во время обновления %s\n"
+msgstr "обнаружена проблема при обновлении %s\n"
 
 #: lib/libalpm/add.c:653
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr "обнаружена проблема во время установки %s\n"
+msgstr "обнаружена проблема при установке %s\n"
 
 #: lib/libalpm/add.c:669
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr "не удалось обновить в базе данных запись %s-%s\n"
+msgstr "не удалось обновить запись в базе данных %s-%s\n"
 
 #: lib/libalpm/add.c:680
 #, c-format
@@ -181,9 +180,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "ошибка при чтении пакета %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "ошибка при чтении пакета %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -201,9 +200,9 @@ msgid "missing package version in %s\n"
 msgstr "пропущена версия пакета в %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "пропущена версия пакета в %s\n"
+msgstr ""
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -245,9 +244,9 @@ msgstr ""
 "длинное\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "не удалось определить статус файла %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -345,9 +344,9 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не удалось получить файл '%s' из %s : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "не удалось получить файл '%s' из %s : %s\n"
+msgstr ""
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -462,7 +461,7 @@ msgstr "не удалось удалить запись в базе данных
 #: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
-msgstr "неверный url"
+msgstr "неверный url для сервера"
 
 #: lib/libalpm/error.c:85
 #, c-format
@@ -472,12 +471,12 @@ msgstr "не настроены сервера для репозитория"
 #: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
-msgstr "запрос уже инициализирован"
+msgstr "транзакция уже инициализирована"
 
 #: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
-msgstr "запрос не инициализирован"
+msgstr "транзакция не инициализирована"
 
 #: lib/libalpm/error.c:92
 #, c-format
@@ -487,22 +486,22 @@ msgstr "повторение целей"
 #: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
-msgstr "запрос не подготовлен"
+msgstr "транзакция не подготовлена"
 
 #: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
-msgstr "запрос прерван"
+msgstr "транзакция прервана"
 
 #: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "операция не совместима с типом запроса"
+msgstr "операция не совместима с типом транзакции"
 
 #: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr "попытка завершить запрос без блокировки базы данных"
+msgstr "попытка завершить транзакцию без блокировки базы данных"
 
 #: lib/libalpm/error.c:105
 #, c-format
@@ -530,9 +529,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "неверный или поврежденный пакет(PGP-подпись)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "не хватает PGP-подписи"
+msgstr ""
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -557,7 +556,7 @@ msgstr "архитектура пакета недопустима"
 #: lib/libalpm/error.c:125
 #, c-format
 msgid "could not find repository for target"
-msgstr "не удалось репозиторий для цели"
+msgstr "не найден репозиторий для цели"
 
 #: lib/libalpm/error.c:128
 #, c-format
@@ -637,7 +636,7 @@ msgstr ""
 #: lib/libalpm/handle.c:145
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "не удалось удалить блокировочный файл %s\n"
+msgstr "не удалось удалить  локфайл %s\n"
 
 #: lib/libalpm/package.c:559
 #, c-format
@@ -725,9 +724,9 @@ msgid "failed to retrieve some files\n"
 msgstr "не удалось получить некоторые файлы\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "не хватает PGP-подписи"
+msgstr ""
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -737,12 +736,12 @@ msgstr "недостаточно места на диске\n"
 #: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "не удалось совершить запрос на удаление\n"
+msgstr "не удалось завершить транзакцию удаления\n"
 
 #: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
-msgstr "не удалось совершить запрос\n"
+msgstr "не удалось завершить транзакцию\n"
 
 #: lib/libalpm/trans.c:339
 #, c-format
@@ -823,15 +822,3 @@ msgstr "кэш %s не существует, создается...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "не удалось найти или создать кеш пакета, используется %s\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "извлечение: символическая ссылка %s не указывает на каталог\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s сохранён как %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s установлен как %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "%s извлекается как %s.pacnew\n"

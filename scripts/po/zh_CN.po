@@ -3,19 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Isaac Ge <acgtyrant@gmail.com>, 2014
+# leonfeng <chaofeng111@gmail.com>, 2011
 # leonfeng <chaofeng111@gmail.com>, 2011
 # mytbk <mytbk920423@gmail.com>, 2013
 # mytbk <mytbk920423@gmail.com>, 2013
 # leonfeng <chaofeng111@gmail.com>, 2011
 # Yangtse Su <yangtsesu@gmail.com>, 2012-2013
+# ykelvis <ykelvis@users.noreply.github.com>, 2014
 # 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
-"Last-Translator: mytbk <mytbk920423@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-12-12 14:51+0000\n"
+"Last-Translator: Isaac Ge <acgtyrant@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -129,9 +132,8 @@ msgstr "正在建立%s %s仓库的拷贝......"
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "建立%s %s仓库的拷贝失败"
+msgstr ""
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -168,12 +170,11 @@ msgstr "获取源代码......"
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() 生成了无效的版本：%s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "无法切换到目录%s"
+msgstr "从 %s 升级到 %s 失败"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -269,27 +270,24 @@ msgid "unknown public key"
 msgstr "未知的公共密匙"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "该密匙已激活。"
+msgstr "公钥 %s 已被吊销"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "公钥签名错误"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "未发现已有签名，正在跳过验证。"
+msgstr "验证签名时发生错误"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "公钥 %s 不被信任"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "未知的公共密匙"
+msgstr "无效的公共密匙"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -360,9 +358,8 @@ msgid "Removing %s files..."
 msgstr "正在删除 %s 文件..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "正在删除 %s 文件..."
+msgstr "正在移除静态库文件……"
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -425,9 +422,8 @@ msgid "Adding %s file..."
 msgstr "正在添加 %s 文件..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "安装创建的软件包失败。"
+msgstr "无法添加文件 %s 到软件包。"
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -515,14 +511,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s 包含无效字符： '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s 必须是个十进制数。"
+msgstr "%s 必须是十进制，不是 %s。"
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s 必须是个整数。"
+msgstr "%s 必须是整数，不是%s。"
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -545,14 +539,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "%s 条目不应当包含前斜杠：%s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
 msgstr "%s 的语法无效：'%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s 不存在或不是一个目录。"
+msgstr "文件 %s (%s) 不存在，或者不是一个常规文件。"
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -560,16 +552,15 @@ msgstr "%s 陈列包含未知的选项 '%s'"
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "源里不允许使用稀疏数组"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "要求的软件包 %s 在 %s 中不提供"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "缺失 %s 功能以分割软件包 '%s'"
+msgstr "%2$s 中缺少函数 %1$s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -580,14 +571,12 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s 不允许包含冒号，连字号及空格。"
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
-msgstr "无法找到验证源文件所需的 %s 二进制文件。"
+msgstr "找不到用来检查 VCS 源需求的 %s 库"
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr "无法找到所需的 %s 二进制文件以进行所有 %s 操作。"
+msgstr "找不到 % 软件包以处理 %s 源。"
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -598,9 +587,8 @@ msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "无法找到二进制文件%s. 将使用%s获得root权限。"
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "无法找到签名软件包所需的 %s 二进制文件。"
+msgstr "无法找到 %s 的二进制文件。"
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -657,7 +645,7 @@ msgstr "软件包组的一部分已经创建过。(使用 %s 覆盖)"
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "让软件包兼容于 pacman 的用法"
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -677,7 +665,7 @@ msgstr "  -c, --clean      编译后清理工作文件"
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "-C, --cleanbuild 在编译软件包之前删除 %s 文件夹"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -765,18 +753,16 @@ msgid ""
 msgstr "  --key <密匙>      指定签名 %s 使用的密匙而不用默认密匙"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --nosign         不为该软件包创建签名"
+msgstr "--noarchive 不生成软件包归档"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        不运行 %s 功能在 %s 中"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        不运行 %s 功能在 %s 中"
+msgstr "--noprepare 不运行 %2$s 中的 %1$s 函数"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -836,14 +822,13 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "如果没有指定 %s，%s 将寻找 '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman 开发小组 <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2014 Pacman 开发小组 <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\n本程序是自"
 "由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。 \\n"
 
@@ -876,13 +861,10 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "你没有权限将日志保存至 %s。"
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
-msgstr ""
-"作为根用户运行 %s 是一个糟透了的主意，\\n可能会导致对系统灾难性的损坏。如果您"
-"的确想以根用户\\n身份运行，请使用 %s 选项。"
+msgstr "不能使用 root 用户运行 %s，\\n因为可能会系统造成灾难性的损坏。"
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -897,9 +879,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s 包含 %s 字符，无法供源。"
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s 不存在或不是一个目录。"
+msgstr "%s 必须在当前工作目录。"
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -955,7 +936,7 @@ msgstr "源代码已就绪。"
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "软件包目录已准备好。"
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -964,7 +945,7 @@ msgstr "完成创建：%s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "无法创建 '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -972,133 +953,126 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"无效的 key/value\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "无效的模板行： 找不到模板名\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-msgstr ""
+msgstr "名字 `%s` 中使用了无效的字符。有效字符： [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "检测不到模板版本 '%s'"
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "载入%s失败"
+msgstr "打开 '%s': %s 失败"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "不明模板标识 '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [选项]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "选项："
+msgstr "选项：\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr ""
+msgstr "--input, -p <file> 创建脚本以读取 (默认：%s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
-msgstr ""
+msgstr "--output, -o <file> 输出到某文件 (默认：input file)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "--newest, -n 更新模板到最新版本\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
-msgstr ""
+msgstr "（默认：使用模板标识中指定的版本）\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "--template-dir <目录> 在指定目录中搜索模板\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "(默认：%s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                显示本帮助并退出"
+msgstr "-h, --help 显示帮助信息\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "  -V, --version             显示版本信息并退出"
+msgstr "--version 显示版本信息\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
-"是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
+"Copyright (c) 2013-2014 Pacman 开发小组 <pacman-dev@archlinux.org>。\n"
+"本程序是自由软件；版权情况请详见源代码。\n"
+"无法律所允许范围内的任何担保。\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "升级本地 pacman 数据库到更新的格式"
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
 msgstr "选项："
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "-b, --dbpath <路径> 指定另外的数据库位置"
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       显示本帮助信息并退出"
+msgstr "-h, --help 显示本帮助信息并退出"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "-r, --root <路径> 指定另外的安装根目录"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "  -V, --version             显示版本信息并退出"
+msgstr "  -V, --version 显示版本信息并退出"
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
-msgstr "  --config <文件> 使用替代的配置文件 (而不是 '%s')"
+msgstr "--config <路径> 指定另外的配置文件"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    禁止彩色输出信息"
+msgstr "--nocolor 禁止彩色输出信息"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
+"Copyright (c) 2010-2014 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
 "是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:129 scripts/pacman-optimize.sh.in:105
@@ -1126,12 +1100,11 @@ msgstr "探测到 3.5 版本以前的数据库格式 - 正在升级中..."
 msgid "Done."
 msgstr "完成。"
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "探测到 3.5 版本以前的数据库格式 - 正在升级中..."
+msgstr "探测到 4.2 版本以前的数据库格式 - 正在升级中..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
 
@@ -1256,147 +1229,147 @@ msgstr "根据名字查询密钥失败："
 msgid "Key name is ambiguous:"
 msgstr "关键字有歧义："
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "本地没有找到由 %s 认定的密匙。"
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "您没有足够的许可权来读取 %s 密匙环。"
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "使用 '%s' 更正密匙环许可。"
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "您没有足够的许可权来运行该命令。"
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "没有签名可用的机密密匙。"
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "使用 '%s' 来生成默认的机密密匙。"
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "在 %s 中没有密匙环文件。"
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "密匙环文件 %s 不存在。"
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "正在从 %s.gpg 添加密匙..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "正在本地签名密匙环中的可信密匙..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "正在导入拥有者信任值..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "正在密匙环中禁用已激活密匙..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "正在禁用密匙 %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "指定的键文件无法添加到密钥环。"
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "无法从密钥环删除指定的键。"
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "由 %s 认定的密匙不能编辑。"
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "无法从密钥环导出指定的键。"
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "无法确定指定密匙的指纹。"
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "%s 无法导入。"
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "文件 %s 不存在且无法导入。"
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "指定密匙无法列出。"
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "指定签名无法列出。"
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "正在本地签名密匙 %s..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s无法在本地签署。"
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "无法从密匙服务器中正确取回远端密匙。"
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "指定的本地密匙无法从密匙服务器中更新。"
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "由 %s 认定的签名无法验证。"
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "正在更新可信数据库..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "信任数据库无法更新。"
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "无法找到所需的 %s 二进制文件以进行所有 %s 操作。"
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "本操作需要 %s 才可用根用户身份运行"
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "%s 配置文件 '%s' 没有找到"
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "没有指定的操作 (使用 -h 获取帮助)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "多个操作已指定。"
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "请分别加 %s 每个操作运行。"
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "没有指定目标"
 
@@ -1434,7 +1407,6 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "你必须拥有相应的权限才能优化数据库。"
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
 msgstr "无法为建立数据库而创建临时目录。"
 
@@ -1487,13 +1459,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "用法： pkgdelta [options] <package1> <package2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tpkgdelta 将在两个软件包中创建增量文件。\\n该增量文件可通过使用 repo-add 添"
-"加到数据库中。\\n\\n"
+"pkgdelta 将在两个软件包中创建增量文件。\\n该增量文件可通过使用 repo-add 添加"
+"到数据库中。\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1600,7 +1571,7 @@ msgstr " -n, --new 只增加数据库中没有的包\\n"
 msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
-msgstr ""
+msgstr "-R, --remove 当更新数据库条目时，删除软件包\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1655,14 +1626,13 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "示例：repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"版权所有 (c) 2006-2013 Pacman开发团队 <pacman-dev@archlinux.org>\\n\\n这是自"
-"由软件; 请看源代码以获知复制条件.\\n在法律的范围内没有任何担保.\\n"
+"Copyright (c) 2006-2014 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
+"是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
 
 #: scripts/repo-add.sh.in:143
 msgid "No database entry for package '%s'."
@@ -1721,9 +1691,8 @@ msgid "An entry for '%s' already existed"
 msgstr "已存在条目 '%s'"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "正在删除现有的条目 '%s'..."
+msgstr "正在删除现有的软件 '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1841,52 +1810,3 @@ msgstr "选项'%s'不能带参数"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "选项 %s 要求接一个参数"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "请添加软件许可证行到你的 %s！"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "如 GPL 版权的软件有： %s。"
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "%s 文件 (%s) 不存在。"
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr "无法找到以非根用户创建软件包所需的 %s 二进制文件。"
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "  --asroot         允许 %s 以根用户身份运行"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "用户放弃！退出中..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "发生未知错误。退出中..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr "该 %s 选项仅供根用户使用。\\n请重新运行 %s 且无 %s 标志。"
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "作为非特权用户运行会导致软件包文件的\\n非根用户拥有权。请尝试使用 %s 环"
-#~ "境，\\n 可通过放置 %s 于 %s 数组内 (位于 %s 中) 调用。"
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "不使用 %s 函数而重新打包软件包已被弃用。"
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "文件权限无法保留。"
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "%s 因无 %s 函数而不建议使用。"
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "软件包目录为空，没有东西可重新打包。"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "无法为数据库创建建立临时目录。"

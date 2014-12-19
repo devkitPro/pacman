@@ -4,13 +4,13 @@
 #
 # Translators:
 # Rax Garfield <admin@dvizho.ks.ua>, 2012
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-19 19:31+0000\n"
 "Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/uk/)\n"
@@ -126,9 +126,8 @@ msgstr "Створення робочої копії %s %s сховища..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Помилка створення робочої копії %s %s сховища"
+msgstr "Невдача оновлення робочої копії %s сховища %s"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -165,12 +164,11 @@ msgstr "Отримання вихідних файлів..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "функція pkgver() згенерувала неправильну версію: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Не вдалося змінити на теку %s"
+msgstr "Невдача оновлення %s з %s до %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -268,27 +266,24 @@ msgid "unknown public key"
 msgstr "невідомий публічний ключ"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "ключ був відкликаний."
+msgstr "публічний ключ %s відкликаний"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "неправильний підпис з публічного ключа"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Не знайдено існуючого підпису, пропускаю перевірку."
+msgstr "помилка під час перевірки підпису"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "публічний ключ %s не є довіреним"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "невідомий публічний ключ"
+msgstr "неправильний публічний ключ"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -359,9 +354,8 @@ msgid "Removing %s files..."
 msgstr "Вилучення %s файлів..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "Вилучення %s файлів..."
+msgstr "Вилучення файлів статичних бібліотек..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -424,9 +418,8 @@ msgid "Adding %s file..."
 msgstr "Додаю файл %s..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Не вдалося встановити зібрані пакунки."
+msgstr "Невдача додавання файлу %s до пакунку."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -514,14 +507,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s містить неправильні символи: '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s повинно бути десятковим числом."
+msgstr "%s повинно бути десятковим, а не %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s повинно бути цілим числом."
+msgstr "%s повинно бути цілим, а не %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -545,14 +536,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "Запис %s не повинен містити слеш: %s."
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
-msgstr "Невірний синтаксис для %s: '%s'"
+msgstr "Неправильний синтаксис для %s: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s не існує, або не є текою."
+msgstr "файл %s (%s) не існує або не є звичайним файлом."
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -560,16 +549,15 @@ msgstr "Масив %s містить невідомі опції '%s'"
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Розкидані масиви не дозволені для джерела"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "Шуканий пакунок %s не міститься в %s."
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Відсутня функція %s для поділу пакунка '%s'"
+msgstr "Пропущено функцію %s в %s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -580,14 +568,14 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s не дозволяє містити двокрапки, тире або пробіли."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
-msgstr "Не можу знайти бінарник %s, потрібний для перевірки джерельних файлів."
+msgstr ""
+"Неможливо знайти бінарник %s, який потрібен для перевірки вимагань VCS "
+"джерела."
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr "Не можу знайти бінарник %s, який вимагається для всіх операцій %s."
+msgstr "Неможливо знайти пакунок %s, який потрібен для керування джерелами %s."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -600,9 +588,8 @@ msgstr ""
 "суперкористувача."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Не можу знайти бінарник %s, який вимагається для підписання пакунків."
+msgstr "Неможливо знайти бінарник %s."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -664,7 +651,7 @@ msgstr "Частина групи пакунків вже зібрано. (Ви�
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Робить пакунки узгодженими для використання з pacman"
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -684,7 +671,7 @@ msgstr "  -c, --clean      Очистити робочі файли після �
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "  -C, --cleanbuild Вилучає теку %s перед збиранням пакунку"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -782,18 +769,16 @@ msgstr ""
 "типового ключа"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --nosign         Не створювати підпис для пакунку"
+msgstr "  --noarchive      Не створювати архів пакунку"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Не запускати функцію %s в %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        Не запускати функцію %s в %s"
+msgstr "  --noprepare      Не запускати функцію %s в %s"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -859,17 +844,16 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Якщо %s не вказано, %s буде шукати '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Всі права застережено (c) 2006-2013 Група розробників Pacman <pacman-"
+"Всі права застережено (c) 2006-2014 Групою Розробників Pacman <pacman-"
 "dev@archlinux.org>.\\nВсі права застережено (C) 2002-2006 Judd Vinet "
 "<jvinet@zeroflux.org>.\\n\\nЦе є вільне програмне забезпечення; перегляньте "
-"джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ, в межах, "
+"джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ в межах, "
 "дозволених законом.\\n"
 
 #: scripts/makepkg.sh.in:3302 scripts/repo-add.sh.in:612
@@ -901,15 +885,12 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "У Вас немає прав для того, щоб зберегти журнал в %s."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
 "Запуск %s з привілеями суперкористувача - це ДУЖЕ ПОГАНА ІДЕЯ і може "
-"спричинити невідворотну,\\nкатастрофічну шкоду Вашій системі. Якщо Ви все "
-"таки бажаєте запустити від імені суперкористувача,\\nвикористайте параметр "
-"%s."
+"спричинити невідворотну,\\nкатастрофічну шкоду Вашій системі."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -925,9 +906,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s містить %s символи і не може бути отриманий."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s не існує, або не є текою."
+msgstr "%s повинне бути в поточній робочій теці."
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -983,7 +963,7 @@ msgstr "Вихідні файли готові."
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "Тека пакунку готова."
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -992,7 +972,7 @@ msgstr "Закінчено створення: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "неможливо створити '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -1000,136 +980,133 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"неправильна пара ключ/значення\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "неправильне лінійка шаблону: неможливо знайти назву шаблону\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr ""
+"в назві використано неправильні символи '%s'. дозволено: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "Неможливо визначити версію для шаблону '%s'"
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Не вдалося розпакувати %s"
+msgstr "помилка відкривання '%s': %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Невідомий маркер шаблону '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [параметри]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Опції:"
+msgstr "Параметри:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr ""
+msgstr "  --input, -p <file>    Скрипт збирання для читання (типово: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
-msgstr ""
+msgstr "  --output, -o <файл>   файл для виводу (типово: вхідний файл)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "  --newest, -n          оновлення шаблонів до новіших версій\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
 msgstr ""
+"                        (типово: використання версії, вказаній в маркерах "
+"шаблону)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "  --template-dir <тека>  тека для пошуку шаблонів\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (типово: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                Показати це повідомлення і вийти"
+msgstr "  --help, -h            Це повідомлення-допомога\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "  -V, --version             Показати версію програми і вийти"
+msgstr "  -V, --version             Версія програми\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Всі права застережено (c) 2010-2013 Група розробників Pacman <pacman-"
-"dev@archlinux.org>.\\nЦе є вільне програмне забезпечення; перегляньте "
-"джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ, в межах, "
-"дозволених законом.\\n"
+"Всі права застережено (c) 2013-2014 Групою Розробників Pacman <pacman-"
+"dev@archlinux.org>.\n"
+"Це є вільне програмне забезпечення; перегляньте джерельний код щодо умов "
+"копіювання.\n"
+"Не існує ЖОДНИХ ГАРАНТІЙ в межах, дозволених законом.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Оновлення локальної бази пакунків pacman до нового формату"
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Опції:"
+msgstr "параметри:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
 msgstr ""
+"  -b, --dbpath <path>  використовувати альтернативний шлях до бази даних"
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       Показати це повідомлення і вийти"
+msgstr "  -h, --help показати це повідомлення і вийти"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
 msgstr ""
+"  -r, --root <path> використати альтернативний кореневий каталог встановлення"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "  -V, --version             Показати версію програми і вийти"
+msgstr "  -V, --version показати версію програми і вийти"
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
-"  --config <file>  Використовувати інший файл налаштувань (замість '%s')"
+msgstr "  --config <file>  використати інший файл налаштувань"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    Вимкнути кольорові повідомлення"
+msgstr "  -m, --nocolor вимкнути кольорові повідомлення"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Всі права застережено (c) 2010-2013 Група розробників Pacman <pacman-"
+"Всі права застережено (c) 2010-2014 Групою Розробників Pacman <pacman-"
 "dev@archlinux.org>.\\nЦе є вільне програмне забезпечення; перегляньте "
 "джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ, в межах, "
 "дозволених законом.\\n"
@@ -1159,14 +1136,15 @@ msgstr "Виявлено перед-3.5 формат бази даних  - мо
 msgid "Done."
 msgstr "Зроблено."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "Виявлено перед-3.5 формат бази даних  - модернізація..."
+msgstr "Виявлено формат бази даних перед версією 4.2  - модернізація..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
+"символьне посилання '%s' провадить поза кореневу теку pacman, потрібне ручне "
+"втручання"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1301,147 +1279,147 @@ msgstr "Не вдалося знайти ключ за назвою:"
 msgid "Key name is ambiguous:"
 msgstr "Назва ключа неоднозначна:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "Не вдалося локально знайти ключ, ідентифікований %s."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "У Вас немає достатніх прав для читання зв’язки ключів %s."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Використайте '%s' для виправлення прав доступу до зв’язки ключів."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "У Вас немає достатніх прав для виконання цієї команди."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Немає секретного ключа для підпису."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Використайте '%s' для створення типового секретного ключа."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "Жодного файлу зв’язки ключів не існує в %s."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "Файл зв’язки ключів %s не існує."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Додаю ключі з %s.gpg..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Локально підписані довірені ключі у зв’язці..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Імпорт ступенів довіри власників ключів..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Відключення скасованих ключів у зв’язці..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "Відключення ключа %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Вказаний файл ключів неможливо додати до в’язки ключів"
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Вказаний файл ключів неможливо вилучити з в’язки ключів"
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "Ключ ідентифікований через %s неможливо відредагувати."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Вказаний файл ключів неможливо експортувати з в’язки ключів"
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Відбиток зазначеного ключа неможливо визначити."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "Не вдалося імпортувати %s."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "Файл %s не існує, тож імпортувати його не вдалося."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "Зазначений файл ключа не можна показати."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "Зазначений підпис не можна показати."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "Локально підписаний ключ %s..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s неможливо локально підписати."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Віддалений ключ неможливо коректно оновити з сервера ключів."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Зазначений локальний ключ неможливо оновити з сервера ключів."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "Підпис ідентифікований через %s неможливо перевірити."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Оновлення довірчої бази даних..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "Базу даних неможливо оновити."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Не можу знайти бінарник %s, який вимагається для всіх операцій %s."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "%s повинен мати права суперкористувача для цієї операції."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "Файл конфігурації %s для '%s' не знайдено."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "не вказано операцію (використовуйте -h для довідки)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Вказано кілька операцій."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Будь ласка, запустіть %s з кожною операцією окремо."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "Не вказано цілі"
 
@@ -1481,9 +1459,8 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Ви повинні мати коректні права, щоб оптимізувати базу даних."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
-msgstr "Не можливо створити тимчасовий каталог для побудови бази даних."
+msgstr "Неможливо створити тимчасову теку для побудови бази даних."
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1534,13 +1511,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Використання: pkgdelta [параметри] <пакунок1> <пакунок2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tpkgdelta створить дельта-файл відмінностей між двома пакетами.\\nЦей "
-"дельта-файл можна буде додати до бази даних за допомогою repo-add.\\n\\n"
+"pkgdelta створить дельта-файл відмінностей між двома пакунками.\\nЦей дельта-"
+"файл можна буде додати до бази даних за допомогою repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1654,6 +1630,7 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"  -R, --remove      вилучити файл пакунку з диску при оновленні бази даних\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1711,13 +1688,12 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Приклад:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Всі права застережено (c) 2006-2013 Група розробників Pacman <pacman-"
+"Всі права застережено (c) 2006-2014 Групою Розробників Pacman <pacman-"
 "dev@archlinux.org>.\\nЦе є вільне програмне забезпечення; перегляньте "
 "джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ, в межах, "
 "дозволених законом.\\n"
@@ -1779,9 +1755,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Запис для '%s' вже існував"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "Вилучення існуючого запису '%s'..."
+msgstr "Вилучення існуючого пакунку '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1899,57 +1874,3 @@ msgstr "параметр '%s' не дозволяє аргументу"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "параметр '%s' вимагає аргументу"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Будь-ласка, додайте рядок ліцензії до вашого %s!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Приклад для програм з ліцензією GPL: %s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "файл %s (%s) не існує."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Не можу знайти бінарник %s для будови від імені не супер-користувача."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr ""
-#~ "  --asroot         Дозволити запускати %s від імені суперкористувача"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Перервано користувачем! Виходжу..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Сталася невідома помилка. Виходжу..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "Параметр %s призначений тільки для суперкористувача. \\nПерезапустіть %s "
-#~ "без вказівника %s."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "Запуск %s як непривілейований користувач може поміняти права доступу"
-#~ "\\nфайлів пакунку. Спробуйте використати середовище %s \\nпоміщаючи %s в "
-#~ "масив %s в %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Перепакування без використання функції %s є застарілим."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "Права доступу до файлів можуть бути не збережені."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "Використання %s без використання функції %s є застарілим."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "Каталог пакунка порожній, нема нічого для перепакування!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "Не можу створити тимчасову директорію для побудови бази даних."

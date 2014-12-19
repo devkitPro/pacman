@@ -5,16 +5,17 @@
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Hector Mtz-Seara <hseara@gmail.com>, 2011-2013
-# Josep <jpreales@gmail.com>, 2013-2014
+# Josep <jpreales@gmail.com>, 2011,2013-2014
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011
+# Ramon Buldó <rbuldo@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-02-22 13:27+0000\n"
-"Last-Translator: xanb <xancorreu@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-27 14:41+0000\n"
+"Last-Translator: Ramon Buldó <rbuldo@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -39,9 +40,9 @@ msgid "resolving dependencies...\n"
 msgstr "s'estan resolent les dependències...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "s'estan cercant conflictes interns...\n"
+msgstr "s'estan cercant conflictes entre paquets...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -131,17 +132,17 @@ msgstr "%s requereix opcionalment %s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s instal·lat com %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s desat com %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s desat com %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -283,9 +284,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (Permisos no coincidents)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Còpia de seguretat dels fitxers:\n"
+msgstr "fitxer de còpia de seguretat"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -407,11 +408,13 @@ msgstr ""
 "no es pot afegir l'URL del servidor a la base de dades «%s» : %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "ha fallat en iniciar la llibreria alpm (%s)\n"
+msgstr ""
+"ha fallat en iniciar la llibreria alpm\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -429,21 +432,20 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problema en establir el directori gpg '%s' (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "'%s' sense configurar"
+msgstr "'%s' sense configurar\n"
 
 #: src/pacman/conf.c:757
 #, c-format
 msgid "Failed to pass assume installed entry to libalpm"
-msgstr ""
+msgstr "Error al passar la opció de assumir entrada instal·lada a libalpm"
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr ""
-"fitxer de configuració %s, línia %d: la directiva '%s' en la secció '%s' no "
-"és reconeguda.\n"
+"fitxer de configuració %s, línia %d: '%s' opció '%s' no és reconeguda\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -669,9 +671,9 @@ msgid "MD5 Sum        :"
 msgstr "Suma MS5       :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "Suma SHA256    :"
+msgstr "Suma SHA-256 :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -827,9 +829,10 @@ msgstr ""
 "propietats d'arxiu)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           llista el contingut del paquet consultat\n"
+msgstr ""
+"  -l, --list           llista els fitxers propietat del paquet consultat\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -877,12 +880,14 @@ msgstr ""
 "localment\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired     llista els paquets no requerits per cap paquet "
+"  -t, --unrequired     llista els paquets no (opcionalment) requerits per "
+"cap\n"
+"                       paquet (-tt per ignorar dependències opcionals) "
 "[filtre]\n"
 
 #: src/pacman/pacman.c:151
@@ -900,20 +905,22 @@ msgstr ""
 "cc per tots)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         mostra tots els membre d'un grup de paquets\n"
+msgstr ""
+"  -g, --groups         mostra tots els membres d'un grup de paquets\n"
+"                       (-gg per veure tots els grups i membres)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info           mostra informació dels paquets (-ii per fitxers de "
-"còpia de seguretat)\n"
+"  -i, --info            mostra informació dels paquets (-ii per obtenir "
+"informació ampliada)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -929,7 +936,7 @@ msgstr ""
 "  -s, --search <exreg> cerca cadenes coincidents en repositoris remots\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
@@ -945,12 +952,14 @@ msgstr ""
 "  -w, --downloadonly   baixa paquets però no instal·la/actualitza res\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh        baixa bases de dades fresques des del servidor\n"
+"  -y, --refresh        baixa base de dades de paquets des del servidor\n"
+"                       (-yy per forçar una actualització de la base de "
+"dades, encara que ja estigui actualitzada)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -1016,6 +1025,9 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"      --assume-installed <paquet=versió>\n"
+"                       afegir un paquet virtual per satisfer les "
+"dependències\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1119,9 +1131,11 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      no demana cap confirmació\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --noconfirm      no demana cap confirmació\n"
+msgstr ""
+"      --confirm        sempre demana confirmació\n"
+"\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1135,59 +1149,61 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "opció invalida: '%s' o '%s' no poden ser utilitzades alhora\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "l'argument '%s' no és vàlid per %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "«%s» no és un nivell de depuració vàlid\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "només es pot usar una operació alhora\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "opció no vàlida\n"
+msgstr "opció invalida '--%c'\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "opció no vàlida\n"
+msgstr "opció invalida '--%s'\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "s'ha exhaurit la memòria en l'anàlisi d'arguments\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "Errada al reobrir stdin per a la lectura: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "argument '-' especificat sense entrada a stdin\n"
+msgstr ""
+"argument '-' especificat amb stdin buit\n"
+"\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argument '-' especificat sense entrada a stdin\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "no podeu realitzar aquesta operació si no sou root.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "no s'ha especificat cap operació (useu -h per ajuda)\n"
@@ -1223,14 +1239,14 @@ msgid "No package owns %s\n"
 msgstr "Cap paquet conté %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "la ruta d'accés és massa llarga:%s%s\n"
+msgstr "ruta d'accés massa llarga: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[ignorat]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1393,10 +1409,10 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "no s'ha trobat el repositori \"%s\".\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "Hi ha %d membres en el grup %s:\n"
+msgstr[0] "Hi ha %d membre en el grup %s:\n"
 msgstr[1] "Hi ha %d membres en el grup %s:\n"
 
 #: src/pacman/sync.c:684
@@ -1470,9 +1486,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "S'estan sincronitzant les bases de dades de paquets...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "s'ha exhaurit la memòria en l'anàlisi d'arguments\n"
+msgstr "memòria exhaurida\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1580,9 +1596,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s des de \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "Paquets"
+msgstr "Paquet"
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1718,34 +1734,3 @@ msgstr "error: "
 #, c-format
 msgid "warning: "
 msgstr "avís: "
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s: la versió local és més nova. S'actualitza igualment?"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr ""
-#~ "L'anàlisi de configuració ha superat la profunditat màxima de recursió en "
-#~ "%d.\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "no s'ha pogut llegir el fitxer %s de configuració: %s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "fitxer de configuració %s, línia %d: nom de secció incorrecte.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr ""
-#~ "fitxer de configuració %s, línia %d: error de sintaxi en el fitxer de "
-#~ "configuració- falta una clau.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info           mostra informació del paquet\n"
-
-#~ msgid "Name"
-#~ msgstr "Nom"
-
-#~ msgid "error: %s"
-#~ msgstr "error: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "avís: %s"

@@ -5,6 +5,8 @@
 # Translators:
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2012
 # Dan McGee <dpmcgee@gmail.com>, 2011
+# dlin <dlin.tw@gmail.com>, 2014
+# dlin <dlin.tw@gmail.com>, 2014
 # dlin <dlin.tw@gmail.com>, 2011-2012
 # Huei-Horng Yo <hiroshiyui@gmail.com>, 2012
 # Jeff Huang <s8321414@gmail.com>, 2014
@@ -12,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-10-20 13:29+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-26 22:13+0000\n"
+"Last-Translator: dlin <dlin.tw@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -39,9 +41,9 @@ msgid "resolving dependencies...\n"
 msgstr "正在解決依賴關係...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "正在查找內部衝突...\n"
+msgstr "檢察衝突的套件\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -71,7 +73,7 @@ msgstr "正在刪除 %s...\n"
 #: src/pacman/callback.c:225
 #, c-format
 msgid "checking package integrity...\n"
-msgstr "正在檢查軟體包完整性...\n"
+msgstr "正在檢查套件完整性...\n"
 
 #: src/pacman/callback.c:230
 #, c-format
@@ -86,7 +88,7 @@ msgstr "正在下載需要的鑰匙...\n"
 #: src/pacman/callback.c:238
 #, c-format
 msgid "loading package files...\n"
-msgstr "正在載入軟體包檔案中...\n"
+msgstr "正在載入套件檔案中...\n"
 
 #: src/pacman/callback.c:242
 #, c-format
@@ -116,7 +118,7 @@ msgstr "失敗。\n"
 #: src/pacman/callback.c:262
 #, c-format
 msgid "Retrieving packages ...\n"
-msgstr "正在擷取軟體包...\n"
+msgstr "正在擷取套件...\n"
 
 #: src/pacman/callback.c:266
 #, c-format
@@ -131,23 +133,23 @@ msgstr "%s 選擇性需要 %s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s 以 %s.pacnew 檔名安裝\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s 已存至 %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s 已存至 %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
-"%s 位於 IgnorePkg/IgnoreGroup (忽略軟體包/忽略軟體包群組) 中。確定要安裝嗎？"
+"%s 位於 IgnorePkg/IgnoreGroup (忽略套件/忽略套件群組) 中。確定要安裝嗎？"
 
 #: src/pacman/callback.c:382
 #, c-format
@@ -170,13 +172,13 @@ msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
-msgstr[0] "因爲無法解決依賴關係，以下軟體包無法進行更新：\n"
+msgstr[0] "因爲無法解決依賴關係，以下套件無法進行更新：\n"
 
 #: src/pacman/callback.c:424
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
-msgstr[0] "您想在本次更新中跳過上述軟體包嗎？"
+msgstr[0] "您想在本次更新中跳過上述套件嗎？"
 
 #: src/pacman/callback.c:435
 #, c-format
@@ -240,7 +242,7 @@ msgstr "正在檢查可用磁碟空間"
 #: src/pacman/callback.c:543
 #, c-format
 msgid "checking package integrity"
-msgstr "正在檢查軟體包完整性"
+msgstr "正在檢查套件完整性"
 
 #: src/pacman/callback.c:546
 #, c-format
@@ -250,7 +252,7 @@ msgstr "正在檢查鑰匙圈中的鑰匙"
 #: src/pacman/callback.c:549
 #, c-format
 msgid "loading package files"
-msgstr "正在載入軟體包檔案"
+msgstr "正在載入套件檔案"
 
 #: src/pacman/callback.c:664
 #, c-format
@@ -278,9 +280,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s：%s (權限不符)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "備份檔案 ：\n"
+msgstr "備份檔案"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -397,11 +399,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "無法添加伺服器 URL 到資料庫 '%s'：%s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "初始化 alpm 庫失敗 (%s)\n"
+msgstr ""
+"alpm函式庫初始化失敗\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -419,19 +423,19 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "設定 gpgdir '%s' 發生問題 (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "'%s' 並未被設定"
+msgstr "缺乏 '%s' 設定\n"
 
 #: src/pacman/conf.c:757
 #, c-format
 msgid "Failed to pass assume installed entry to libalpm"
-msgstr ""
+msgstr "無法傳遞預定安裝的項目到 libalpm"
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr "組態檔 %s，第 %d 列：指令 '%s'(位於區段 '%s' 中) 無法識別。\n"
+msgstr "設定檔 %s, 第 %d 行: '%s' 選項 '%s' 無法識別\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -467,7 +471,7 @@ msgstr "沒有指定安裝原因 ( 使用 -h 獲取幫助)\n"
 #: src/pacman/database.c:69
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
-msgstr "無法爲軟體包 %s 指定安裝原因 (%s)\n"
+msgstr "無法爲套件 %s 指定安裝原因 (%s)\n"
 
 #: src/pacman/database.c:74
 #, c-format
@@ -497,7 +501,7 @@ msgstr "單獨指定安裝"
 #: src/pacman/package.c:111
 #, c-format
 msgid "Installed as a dependency for another package"
-msgstr "作爲其他軟體包的依賴關係安裝"
+msgstr "作爲其他套件的依賴關係安裝"
 
 #: src/pacman/package.c:114 src/pacman/package.c:134
 #, c-format
@@ -554,7 +558,7 @@ msgstr "架構　　　："
 #: src/pacman/package.c:154
 #, c-format
 msgid "URL            :"
-msgstr "URL網址　："
+msgstr "URL 網址　："
 
 #: src/pacman/package.c:155
 #, c-format
@@ -584,7 +588,7 @@ msgstr "需要它　　："
 #: src/pacman/package.c:163
 #, c-format
 msgid "Optional For   :"
-msgstr "為這些軟體包的可選依賴　："
+msgstr "為這些套件的可選依賴　："
 
 #: src/pacman/package.c:165
 #, c-format
@@ -652,9 +656,9 @@ msgid "MD5 Sum        :"
 msgstr "MD5總和碼："
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "SHA256碼 :"
+msgstr "SHA-256 檢查碼 :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -665,7 +669,7 @@ msgstr "數位簽章　:"
 #: src/pacman/package.c:212
 #, c-format
 msgid "Validated By   :"
-msgstr "驗證者   ："
+msgstr "驗證者    ："
 
 #: src/pacman/package.c:256
 #, c-format
@@ -710,7 +714,7 @@ msgstr "檔案"
 #: src/pacman/pacman.c:102
 #, c-format
 msgid "package(s)"
-msgstr "軟體包"
+msgstr "套件"
 
 #: src/pacman/pacman.c:103
 #, c-format
@@ -740,7 +744,7 @@ msgstr ""
 #, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
-msgstr "  -c, --cascade        刪除軟體包及所有依賴於此的軟體包\n"
+msgstr "  -c, --cascade        刪除套件及所有依賴於此的套件\n"
 
 #: src/pacman/pacman.c:125
 #, c-format
@@ -759,7 +763,7 @@ msgstr ""
 #: src/pacman/pacman.c:128
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr "  -u, --unneeded       刪除不需要的軟體包\n"
+msgstr "  -u, --unneeded       刪除不需要的套件\n"
 
 #: src/pacman/pacman.c:131 src/pacman/pacman.c:166
 #, c-format
@@ -769,41 +773,43 @@ msgstr "      --needed         不要重裝已經是最新的檔案\n"
 #: src/pacman/pacman.c:136
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
-msgstr "  -c, --changelog      查看某軟體包的更新日誌\n"
+msgstr "  -c, --changelog      查看某套件的更新日誌\n"
 
 #: src/pacman/pacman.c:137
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           列出所有作爲依賴關係安裝的軟體包 [過濾器]\n"
+msgstr "  -d, --deps           列出所有作爲依賴關係安裝的套件 [過濾器]\n"
 
 #: src/pacman/pacman.c:138
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
-msgstr "  -e, --explicit       列出所有單獨指定安裝的軟體包 [過濾器]\n"
+msgstr "  -e, --explicit       列出所有單獨指定安裝的套件 [過濾器]\n"
 
 #: src/pacman/pacman.c:139
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr "  -g, --groups         查看某軟體包群組所屬的所有軟體包\n"
+msgstr "  -g, --groups         查看某套件群組所屬的所有套件\n"
 
 #: src/pacman/pacman.c:140
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           查看軟體包信息 (-ii 查看備份檔案) \n"
+msgstr "  -i, --info           查看套件信息 (-ii 查看備份檔案) \n"
 
 #: src/pacman/pacman.c:141
 #, c-format
 msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
-msgstr "  -k, --check          檢查軟體包檔案是否存在 (-kk 則查詢檔案數性)\n"
+msgstr "  -k, --check          檢查套件檔案是否存在 (-kk 則查詢檔案數性)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           列出被查詢軟體包的內容\n"
+msgstr ""
+"-l, --list 列出被查詢套件的檔名列表\n"
+"\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -811,7 +817,7 @@ msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        列出沒有在同步資料庫時找到的已安裝軟體包 [過濾器]\n"
+"  -m, --foreign        列出沒有在同步資料庫時找到的已安裝套件 [過濾器]\n"
 
 #: src/pacman/pacman.c:144
 #, c-format
@@ -819,17 +825,17 @@ msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -n, --native         列出僅可在同步資料庫中找到的已安裝軟體包 [過濾器]\n"
+"  -n, --native         列出僅可在同步資料庫中找到的已安裝套件 [過濾器]\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "  -o, --owns <檔案>     查詢哪個軟體包擁有  <檔案>\n"
+msgstr "  -o, --owns <檔案>    查詢哪個套件擁有 <檔案>\n"
 
 #: src/pacman/pacman.c:146
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
-msgstr "  -p, --file <軟體包> 從某個軟體包而不是資料庫查詢\n"
+msgstr "  -p, --file <套件>    從某個套件而不是資料庫查詢\n"
 
 #: src/pacman/pacman.c:147 src/pacman/pacman.c:160
 #, c-format
@@ -841,19 +847,21 @@ msgstr "  -q, --quiet          在查詢或搜索時顯示較少的資訊\n"
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regex> 搜尋符合指定字符串的已安裝本地的軟體包\n"
+msgstr "  -s, --search <regex> 搜尋符合指定字符串的已安裝本地的套件\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
-msgstr "  -t, --unrequired     列出所有不被其他軟體套件要求的軟體包 [過濾器]\n"
+msgstr ""
+"-t, --unrequired 列出所有不被其他套件(包含選項)需要的套件\n"
+"(-tt 忽略 optdepends)[過濾器]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
-msgstr "  -u, --upgrades       列出所有可升級的軟體包 [過濾器]\n"
+msgstr "  -u, --upgrades       列出所有可升級的套件 [過濾器]\n"
 
 #: src/pacman/pacman.c:155
 #, c-format
@@ -863,23 +871,26 @@ msgid ""
 msgstr "  -c, --clean          從快取目錄中刪除舊軟體套件 (-cc 清除所有) \n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         查看某軟體包群組所屬的所有軟體包\n"
+msgstr ""
+"-g, --groups 查看某套件群組所屬的所有套件\n"
+"(-gg 顯示所有群組及成員)\n"
+"\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr "  -i, --info           查看軟體包信息 (-ii 查看備份檔案) \n"
+msgstr "  -i, --info           查看套件資訊 (-ii 可取得更多資訊) \n"
 
 #: src/pacman/pacman.c:159
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "  -l, --list <軟體庫>    查看在該軟體庫中的軟體包清單\n"
+msgstr "  -l, --list <軟體庫>    查看在該軟體庫中的套件清單\n"
 
 #: src/pacman/pacman.c:161
 #, c-format
@@ -888,34 +899,37 @@ msgid ""
 msgstr "  -s, --search <regex 表達式> 按照指定字符串查詢遠端軟體庫\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
-msgstr "  -u, --sysupgrade     升級所有已安裝的軟體包 (-uu 可啓用降級)\n"
+msgstr "  -u, --sysupgrade     升級所有已安裝的套件 (-uu 可啓用降級)\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   下載但不安裝/升級軟體包\n"
+msgstr "  -w, --downloadonly   下載但不安裝/升級套件\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
-msgstr "  -y, --refresh        從伺服器下載新的軟體包資料庫\n"
+msgstr ""
+"  -y, --refresh        從伺服器下載新的套件列表資料庫\n"
+"(-yy 強迫再次更新)\n"
+"\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
-msgstr "      --asdeps         標記爲非單獨指定安裝的軟體包\n"
+msgstr "      --asdeps         標記爲非單獨指定安裝的套件\n"
 
 #: src/pacman/pacman.c:171
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
-msgstr "      --asexplicit     標記爲明確指定安裝的軟體包\n"
+msgstr "      --asexplicit     標記爲明確指定安裝的套件\n"
 
 #: src/pacman/pacman.c:179
 #, c-format
@@ -925,19 +939,19 @@ msgstr "      --force          強迫安裝，覆寫衝突檔案\n"
 #: src/pacman/pacman.c:180
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         作爲非單獨指定安裝的軟體包安裝\n"
+msgstr "      --asdeps         作爲非單獨指定安裝的套件安裝\n"
 
 #: src/pacman/pacman.c:181
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     作爲單獨指定安裝的軟體包安裝\n"
+msgstr "      --asexplicit     作爲單獨指定安裝的套件安裝\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <軟件包>   升級時忽略某個軟體包 (可多次使用) \n"
+msgstr "      --ignore <套件>   升級時忽略某個套件 (可多次使用) \n"
 
 #: src/pacman/pacman.c:183
 #, c-format
@@ -945,15 +959,15 @@ msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
-"      --ignoregroup <軟體包組>\n"
-"                         升級時忽略某個軟體包組 (可多次使用) \n"
+"      --ignoregroup <套件組>\n"
+"                         升級時忽略某個套件組 (可多次使用) \n"
 
 #: src/pacman/pacman.c:187
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "-d, --nodeps         跳過依賴關係的版本檢查 (-dd 跳過所有檢查)\n"
+msgstr "  -d, --nodeps         跳過依賴關係的版本檢查 (-dd 跳過所有檢查)\n"
 
 #: src/pacman/pacman.c:188
 #, c-format
@@ -961,6 +975,9 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"      --assume-installed <package=version>\n"
+"                       加上需擬套件假裝滿足相依性\n"
+"\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1019,7 +1036,7 @@ msgstr "      --arch <架構>    設定另外的架構\n"
 #: src/pacman/pacman.c:203
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <目錄> 指定另外的軟體包快取位置\n"
+msgstr "      --cachedir <目錄> 指定另外的套件快取位置\n"
 
 #: src/pacman/pacman.c:204
 #, c-format
@@ -1034,7 +1051,7 @@ msgstr "      --config <路徑>  指定另外的組態檔\n"
 #: src/pacman/pacman.c:206
 #, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      -- debug        顯示除錯信息\n"
+msgstr "      --debug          顯示除錯信息\n"
 
 #: src/pacman/pacman.c:207
 #, c-format
@@ -1052,9 +1069,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      不詢問確認\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --noconfirm      不詢問確認\n"
+msgstr "--confirm 永遠詢問確認\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1068,59 +1085,59 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "無效選項: '%s' 和 '%s' 不能同時使用\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "無效的引數「%s」被傳給 %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' 不是有效的調試級別\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "一次只能運行一個操作\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "無效選項\n"
+msgstr "無效選項 '-%c'\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "無效選項\n"
+msgstr "無效選項 '--%s'\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "記憶體於解析引數時耗盡\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "無法打開 stdin 以讀取：(%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "引數 '-' 指定卻無附上 stdin 中的輸入\n"
+msgstr "指定參數 '-' 但沒有標準輸入資料\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "引數 '-' 指定卻無附上 stdin 中的輸入\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "非 root (根用戶) 無法執行指定操作。\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "沒有指定的操作 (使用 -h 獲取幫助) \n"
@@ -1153,17 +1170,17 @@ msgstr "無法確定 '%s' 的真實路徑：%s\n"
 #: src/pacman/query.c:195 src/pacman/query.c:216
 #, c-format
 msgid "No package owns %s\n"
-msgstr "沒有軟體包擁有 %s\n"
+msgstr "沒有套件擁有 %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "路徑過長：%s%s\n"
+msgstr "檔名路徑太長: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[忽略]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1173,7 +1190,7 @@ msgstr "找不到 '%s' 群組\n"
 #: src/pacman/query.c:471 src/pacman/sync.c:474
 #, c-format
 msgid "package '%s' was not found\n"
-msgstr "軟體包 '%s' 未找到\n"
+msgstr "套件 '%s' 未找到\n"
 
 #: src/pacman/query.c:474
 #, c-format
@@ -1183,12 +1200,12 @@ msgstr "'%s' 是個檔案，您可能想要用 %s。\n"
 #: src/pacman/query.c:480
 #, c-format
 msgid "could not load package '%s': %s\n"
-msgstr "無法載入軟體包 '%s': %s\n"
+msgstr "無法載入套件 '%s': %s\n"
 
 #: src/pacman/remove.c:49 src/pacman/sync.c:571 src/pacman/sync.c:655
 #, c-format
 msgid "skipping target: %s\n"
-msgstr "正在跳過軟體包：%s\n"
+msgstr "正在跳過套件：%s\n"
 
 #: src/pacman/remove.c:63 src/pacman/sync.c:591
 #, c-format
@@ -1208,12 +1225,12 @@ msgstr "%s: 要求 %s\n"
 #: src/pacman/remove.c:143
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
-msgstr "%s 被指定爲 HoldPkg (保留軟體包) 。\n"
+msgstr "%s 被指定爲 HoldPkg (保留套件) 。\n"
 
 #: src/pacman/remove.c:148
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr "在目標清單中發現 HoldPkg 指定的軟體包。你確定要繼續嗎？"
+msgstr "在目標清單中發現 HoldPkg 指定的套件。你確定要繼續嗎？"
 
 #: src/pacman/remove.c:156 src/pacman/sync.c:809
 #, c-format
@@ -1223,7 +1240,7 @@ msgstr "已無事可做\n"
 #: src/pacman/remove.c:168
 #, c-format
 msgid "Do you want to remove these packages?"
-msgstr "打算刪除這些軟體包嗎？"
+msgstr "打算刪除這些套件嗎？"
 
 #: src/pacman/remove.c:174 src/pacman/sync.c:836
 #, c-format
@@ -1253,22 +1270,22 @@ msgstr "打算刪除無用的軟體庫？"
 #: src/pacman/sync.c:151
 #, c-format
 msgid "removing unused sync repositories...\n"
-msgstr "移除未使用的同步軟體包庫…\n"
+msgstr "移除未使用的同步套件庫…\n"
 
 #: src/pacman/sync.c:181
 #, c-format
 msgid "Packages to keep:\n"
-msgstr "要保留的軟體包：\n"
+msgstr "要保留的套件：\n"
 
 #: src/pacman/sync.c:183
 #, c-format
 msgid "  All locally installed packages\n"
-msgstr "  所有本地安裝的軟體包\n"
+msgstr "  所有本地安裝的套件\n"
 
 #: src/pacman/sync.c:186
 #, c-format
 msgid "  All current sync database packages\n"
-msgstr "  所有目前同步資料庫的軟體包\n"
+msgstr "  所有目前同步資料庫的套件\n"
 
 #: src/pacman/sync.c:196
 #, c-format
@@ -1278,12 +1295,12 @@ msgstr "快取目錄：%s\n"
 #: src/pacman/sync.c:199
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
-msgstr "您想從快取中刪除全部其他軟體包嗎？"
+msgstr "您想從快取中刪除全部其他套件嗎？"
 
 #: src/pacman/sync.c:203
 #, c-format
 msgid "removing old packages from cache...\n"
-msgstr "正在從快取中刪除舊軟體包...\n"
+msgstr "正在從快取中刪除舊套件...\n"
 
 #: src/pacman/sync.c:205
 #, c-format
@@ -1326,10 +1343,10 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "軟體庫 \"%s\" 未找到\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "共有 %d 組員在組 %s 中：\n"
+msgstr[0] "有  %d 個成員在群組 %s:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1349,7 +1366,7 @@ msgstr "正在進行全面系統更新...\n"
 #: src/pacman/sync.c:769
 #, c-format
 msgid "package %s does not have a valid architecture\n"
-msgstr "軟體包 '%s' 未包含一個有效的架構\n"
+msgstr "套件 '%s' 未包含一個有效的架構\n"
 
 #: src/pacman/sync.c:787
 #, c-format
@@ -1394,22 +1411,22 @@ msgstr "%s 無效或已損壞\n"
 #: src/pacman/sync.c:872
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
-msgstr "發生錯誤，沒有軟體包被更新。\n"
+msgstr "發生錯誤，沒有套件被更新。\n"
 
 #: src/pacman/sync.c:917
 #, c-format
 msgid "Synchronizing package databases...\n"
-msgstr "正在同步軟體包資料庫...\n"
+msgstr "正在同步套件資料庫...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "記憶體於解析引數時耗盡\n"
+msgstr "記憶體耗盡\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
 msgid "loading packages...\n"
-msgstr "正在載入軟體包...\n"
+msgstr "正在載入套件...\n"
 
 #: src/pacman/util.c:81
 #, c-format
@@ -1427,7 +1444,7 @@ msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
 msgstr ""
-"  如果你確認軟體包管理器沒有在運行，\n"
+"  如果你確認套件管理器沒有在運行，\n"
 "  你可以刪除 %s。\n"
 
 #: src/pacman/util.c:97
@@ -1438,7 +1455,7 @@ msgstr "無法釋放事務處理 (%s)\n"
 #: src/pacman/util.c:128
 #, c-format
 msgid "no usable package repositories configured.\n"
-msgstr "沒有設置可用的軟體包庫。\n"
+msgstr "沒有設置可用的套件庫。\n"
 
 #: src/pacman/util.c:137
 #, c-format
@@ -1511,9 +1528,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s 從 \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "軟體包"
+msgstr "套件"
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1543,7 +1560,7 @@ msgstr "移除"
 #: src/pacman/util.c:930
 #, c-format
 msgid "Packages"
-msgstr "軟體包"
+msgstr "套件"
 
 #: src/pacman/util.c:951
 #, c-format
@@ -1649,30 +1666,3 @@ msgstr "錯誤："
 #, c-format
 msgid "warning: "
 msgstr "警告："
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s：本地版本較新。確定要更新嗎？"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr "解析組態檔超出最大遞迴深度 %d\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "組態檔 %s 無法讀取：%s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "組態檔 %s，第 %d 列：壞的區段名字。\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr "組態檔 %s，第 %d 列：組態檔中語法錯誤－缺少關鍵字。\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info           查看軟體包信息\n"
-
-#~ msgid "Name"
-#~ msgstr "名稱"
-
-#~ msgid "error: %s"
-#~ msgstr "錯誤：%s"
-
-#~ msgid "warning: %s"
-#~ msgstr "警告：%s"

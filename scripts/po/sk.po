@@ -4,15 +4,15 @@
 #
 # Translators:
 # archetyp <archetyp@linuxmail.org>, 2013
-# archetyp <archetyp@linuxmail.org>, 2013
+# archetyp <archetyp@linuxmail.org>, 2013-2014
 # archetyp <archetyp@linuxmail.org>, 2011-2012
 # Dušan Lago <dusan.lago@gmail.com>, 2011,2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-19 20:20+0000\n"
 "Last-Translator: archetyp <archetyp@linuxmail.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/sk/)\n"
@@ -128,9 +128,8 @@ msgstr "Vytváram pracovnú kópiu %s %s repozitára..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Chyba pri vytváraní pracovnej kópie %s %s repozitára"
+msgstr "Chyba pri aktualizovaní pracovnej kópie %s repozitára %s"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
@@ -167,12 +166,11 @@ msgstr "Získavam zdrojové súbory..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() vygeneroval neplatnú verziu: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Chyba pri zmene adresára %s"
+msgstr "Nepodarilo sa aktualizovať %s z %s na %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -270,27 +268,24 @@ msgid "unknown public key"
 msgstr "neznámy verejný kľúč"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "kľúč bol odvolaný."
+msgstr "verejný kľúč %s bol odvolaný."
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "zlý podpis z verejného kľúča"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Žiaden existujúci podpis nebol nájdený, preskakujem overovanie."
+msgstr "chyba pri overovaní podpisu"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "verejný kľúč %s nie je dôverovaný"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "neznámy verejný kľúč"
+msgstr "neplatný verejný kľúč"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -361,9 +356,8 @@ msgid "Removing %s files..."
 msgstr "Odstraňujem %s súborov..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "Odstraňujem %s súborov..."
+msgstr "Odstraňujem súbory statických knižníc..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -427,9 +421,8 @@ msgid "Adding %s file..."
 msgstr "Pridávam súbor %s..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Chyba počas inštalácie vytvoreného balíčku(ov)."
+msgstr "Nepodarilo sa pridať súbor %s do balíčka."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -517,14 +510,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "%s obsahuje nepovolené znaky: '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "%s musí byť dekadické."
+msgstr "%s musí byť dekadické, nie %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "%s musí byť celé číslo."
+msgstr "%s musí byť celé číslo, nie %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -547,14 +538,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "Zápis %s nesmie obsahovať počiatočné lomítko: %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
-msgstr "Neplatná syntax pre %s : '%s'"
+msgstr "Neplatná syntax pre %s: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "%s neexistuje, alebo nie je adresárom."
+msgstr "%s súbor (%s) neexistuje alebo to nie je regulárny súbor."
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -562,16 +551,15 @@ msgstr "%s pole obsahuje neznámu voľbu '%s'"
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Riedke polia nie sú povolené ako zdroj"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "Požadovaný balíček %s nie je poskytovaný balíčkom %s"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Chýba %s funkcia pre rozdelenie balíčka '%s'"
+msgstr "Chýba funkcia %s v %s"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -582,14 +570,15 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s nesmie obsahovať dvojbodky, pomlčky alebo medzery."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
-msgstr "Nemôžem nájsť súbor %s potrebný pre overenie zdrojových súborov."
+msgstr ""
+"Nepodarilo sa nájsť %s súbor potrebný pre overenie požiadaviek VCS zdroja."
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr "Nepodarilo sa nájsť súbor %s potrebný pre všetky %s operácie."
+msgstr ""
+"Nepodarilo sa nájsť balíček %s potrebný pre spracovanie %s zdrojových "
+"súborov."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -601,9 +590,8 @@ msgstr ""
 "Nepodarilo sa nájsť súbor %s. Na získanie rootovských práv bude použitý %s."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Nemôžem nájsť súbor %s potrebný pre podpisovanie balíčkov."
+msgstr "Súbor %s nebol nájdený."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -665,7 +653,7 @@ msgstr "Časť balíčkov zo skupiny  je už vytvorená. (použite %s pre prepí
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Vytvorí balíčky kompatibilné na použitie s pacman-om."
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -685,7 +673,7 @@ msgstr "  -c, --clean      Odstrániť pracovné súbory po zostavení"
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "  -C, --cleanbuild Odstrániť adresár %s pred vytvorením balíčka"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -778,18 +766,16 @@ msgid ""
 msgstr "  --key <key>      Zadaj kľúč na podpísanie %s namiesto predvoleného"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --nosign         Nevytváraj podpis pre balíček"
+msgstr "  --noarchive      Nevytvárať archív balíčka"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Nespúšťaj %s funkciu v %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        Nespúšťaj %s funkciu v %s"
+msgstr "  --noprepare      Preskočiť funkciu %s v %s"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -852,14 +838,13 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Ak nie je zadané %s, %s bude hľadať '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2014 Pacman development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nToto je "
 "slobodný softvér; podmienky kopírovania nájdete v zdrojových súboroch.\\nNa "
 "software sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného zákonom.\\n"
@@ -893,14 +878,12 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "Nemáte právo na zápis log súborov do %s."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"Spustenie %s ako root je ZLÁ myšlienka a môže spôsobiť trvalé, "
-"\\nkatastrofálne poškodenie Vášho systému. Ak chcete skutočne spúšťať ako "
-"root, použite\\n prosím voľbu %s."
+"Spustiť %s ako root nie je povolené, nakoľko by mohlo prísť k trvalému,"
+"\\nkatastrofálnemu poškodeniu Vášho systému."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -915,9 +898,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s obsahuje %s znaky a nemôže byť preto načítaný."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "%s neexistuje, alebo nie je adresárom."
+msgstr "%s musí byť aktuálny pracovný adresár."
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -973,7 +955,7 @@ msgstr "Zdroje sú pripravené."
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "Adresár balíčka je pripravený."
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -982,7 +964,7 @@ msgstr "Dokončené vytváranie: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "nepodarilo sa vytvoriť '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -990,138 +972,133 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"neplatná dvojica kľúč/hodnota\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "neplatný riadok šablóny: nepodaril sa nájsť názov šablóny\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-msgstr ""
+msgstr "neplatné znaky použité v názve '%s'. povolené: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "Nepodarilo sa zistiť verziu šablóny '%s'"
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Chyba pri vykonávaní %s"
+msgstr "nepodarilo sa otvoriť  '%s': %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Neznáma značka šablóny '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [voľby]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Voľby:"
+msgstr "Voľby:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
 msgstr ""
+"  --input, -p <file>    Zostavovací skript na čítanie (prednastavené: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
+"  --output, -o <file>   výstupný súbor (prednastavené: súbor so vstupom)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "  --newest, -n          aktualizovať šablóny na najnovšiu verziu\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
 msgstr ""
+"                        (prednastavené: použiť verziu uvedenú v značkách "
+"šablóny)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "  --template-dir <dir>  adresár na hľadanie šablón\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (prednastavené: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                Zobraz túto nápovedu a skonči"
+msgstr "  --help, -h            Táto správa s nápovedou\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr " -V, --version Zobraz informácie o verzií programu a skonči"
+msgstr "  --version             Verzia programu\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>"
-"\\nToto je slobodný softvér; podmienky kopírovania nájdete v zdrojových "
-"súboroch\\nNa softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného "
-"zákonom.\\n"
+"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Toto je slobodný softvér; podmienky kopírovania nájdete v zdrojových "
+"súboroch.\n"
+"Na softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného zákonom.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Aktualizujem lokálnu databázu pacmana na novší formát"
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Voľby:"
+msgstr "voľby:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "  -b, --dbpath <path>  nastaviť iné umiestnenie databázy"
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       Zobraz túto správu a skonči"
+msgstr "  -h, --help           zobraziť túto nápovedu a skončiť"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "  -r, --root <path>     nastaviť iný koreňový adresár pre inštaláciu"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr " -V, --version Zobraz informácie o verzií programu a skonči"
+msgstr "  -V, --version        zobraziť verziu programu a skončiť"
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
-"  --config <file>  Použiť alternatívny konfiguračný súbor (miesto '%s')"
+msgstr "  --config <path>      nastaviť alternatívny konfiguračný súbor"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    Vypnúť farebný výstup správ"
+msgstr "  --nocolor            vypnúť farebný výstup správ"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>"
+"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nToto je slobodný softvér; podmienky kopírovania nájdete v zdrojových "
-"súboroch\\nNa softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného "
+"súboroch.\\nNa softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného "
 "zákonom.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:129 scripts/pacman-optimize.sh.in:105
@@ -1149,14 +1126,14 @@ msgstr "Zistený formát databáze pred verziu 3.5 - aktualizujem..."
 msgid "Done."
 msgstr "Hotovo."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "Zistený formát databáze pred verziu 3.5 - aktualizujem..."
+msgstr "Zistený formát databáze pred verziou 4.2 - aktualizujem..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
+"symlink '%s' ukazuje mimo koreňový adresár pacmana, manuálna oprava je nutná"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1291,147 +1268,147 @@ msgstr "Nepodarilo sa vyhľadať kľúč podľa mena:"
 msgid "Key name is ambiguous:"
 msgstr "Meno kľúča nie je jednoznačné:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "Kľúč identifikovaný ako %s sa nepodarilo nájsť lokálne."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nemáte dostatočné práve pre čítanie kľúčenky %s."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Použite '%s' pre opravu práv kľúčenky."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Nemáte dostatočné práva na spustenie tohto príkazu."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Nie je k dispozícií žiadny tajný kľúč pre podpisovanie."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Použi '%s' pre vygenerovanie prednastaveného kľúča."
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "V %s sa nenachádza žiadny súbor kľúčenky."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "Súbor kľúčenky %s neexistuje."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Pridávam kľúče z %s.gpg ..."
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Lokálne podpisujem dôverované kľúče z kľúčenky..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Načítavam dôverovaných vlastníkov..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Deaktivujem odobraté kľúče z kľúčenky..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "Vyraďujem kľúč %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Zadaný kľúč sa nepodarilo pridať do kľúčenky."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Zadaný kľúč sa nepodarilo odobrať z kľúčenky."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "Kľúč identifikovaný ako %s sa nepodarilo editovať."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Zadaný kľúč sa nepodarilo exportovať z kľúčenky."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Nepodarilo sa zistiť odtlačok zadaného kľúča."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "%s sa nepodarilo importovať."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "Súbor %s neexistuje a preto ho nemožno importovať."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "Zadaný kľúč sa nepodarilo pridať do zoznamu."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "Zadaný podpis sa nepodarilo pridať do zoznamu."
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "Lokálne podpisujem kľúč %s..."
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "%s nemohol byť lokálne podpísaný."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Kľúč sa nepodarilo stiahnuť zo servera kľúčov."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Zadaný lokálny kľúč sa nepodarilo aktualizovať zo servera kľúčov."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "Podpis identifikovaný ako %s sa nepodarilo overiť."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Aktualizujem databázu dôveryhodnosti..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "nepodarilo sa aktualizovať databázu dôvery."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nepodarilo sa nájsť súbor %s potrebný pre všetky %s operácie."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "%s musí byť spustený ako root pre túto operáciu."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "%s konfiguračný súbor '%s' nebol nájdený."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "nebola zadaná žiadna operácia (použite -h pre nápovedu)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Bolo zadaných viacero operácií."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Spustite prosím %s pre každú operáciou samostatne."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "Žiadne ciele neboli špecifikované"
 
@@ -1471,7 +1448,6 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Musíte mať správne oprávnenia na optimalizáciu databázy."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
 msgstr "Nie je možné vytvoriť dočasný adresár pre zostavenie databázy."
 
@@ -1524,13 +1500,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Použitie: pkgdelta [voľby] <balíček1> <balíček2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tpkgdelta vytvorí delta rozdiel medzi dvoma balíčkami.\\nTento delta "
-"rozdiel potom môže byť pridaný do databáze pomocou repo-add.\\n\\n"
+"pkgdelta vytvorí delta súbor rozdielu medzi dvoma balíčkami.\\nTento delta "
+"súbor môže potom byť pridaný do databáze pomocou repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1645,6 +1620,8 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"  -R, --remove      vymazať balíček z disku pri aktualizovaní záznamu "
+"databázy\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1702,13 +1679,12 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Príklad:  repo-remove /cesta/d/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nToto je slobodný softvér; podmienky kopírovania nájdete v zdrojových "
 "súboroch\\nNa softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného "
 "zákonom.\\n"
@@ -1770,9 +1746,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Záznam pre '%s' už existuje"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "Odstraňujem existujúci záznam '%s'..."
+msgstr "Odstraňujem existujúci balíček '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1890,56 +1865,3 @@ msgstr "voľba '%s' neumožňuje argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "voľba '%s' vyžaduje argument"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Prosím, pridajte informáciu o licencii do vášho %s!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Príklad pre software s licenciou GPL: %s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "Inštalačný skript %s (%s) neexistuje."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Nemôžem nájsť súbor %s potrebný pre vytváranie ako nie-root užívateľ."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "  --asroot         Umožni %s spustiť ako užívateľ root"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Prerušené užívateľom! Ukončujem..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Vyskytla sa neznáma chyba. Ukončujem..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "Voľba %s je určená iba pre užívateľa root. Spustite prosím\\nznova %s bez "
-#~ "voľby %s."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "Spustiť %s ako neprivilegovaný užívateľ znamená nie-rootovské"
-#~ "\\nvlastníctvo balíčkovaných súborov. Skúste použiť %s prostredie"
-#~ "\\numiestnením %s do poľa %s v %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Znovuzabalenie bez použitia funkcie %s nie je podporované."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "Prístupové práva súborov nemusia byť zachované."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "Používanie %s bez %s funkcie je zavrhnuté."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "Adresár s balíčkom je prázdny, nie je nič k opätovnému zabaleniu!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "Nie je možné vytvoriť dočasný adresár pre vytvorenie databázy."

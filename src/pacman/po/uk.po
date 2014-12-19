@@ -3,18 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Allan McRae <allan@archlinux.org>, 2014
 # Rax Garfield <admin@dvizho.ks.ua>, 2012
 # sevenfourk <sevenfourk@gmail.com>, 2012
 # sevenfourk <sevenfourk@gmail.com>, 2012
 # Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013
-# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2013
+# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 12:33+0000\n"
-"Last-Translator: Данило Коростіль <ted.korostiled@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-27 02:00+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -40,9 +41,9 @@ msgid "resolving dependencies...\n"
 msgstr "перевірка конфліктів між файлами…\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "пошук конфліктів між пакунками…\n"
+msgstr "пошук конфліктних пакунків…\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -132,17 +133,17 @@ msgstr "%s необов’язково потребує %s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s встановлено як %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s збережено як %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s збережено як %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -285,9 +286,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (Дозволи не збігаються)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "Резервні файли:\n"
+msgstr "резервна копія"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -409,11 +410,13 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "неможливо додати адресу сервера до бази даних «%s»: %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "не вдалось запустити бібліотеку alpm (%s)\n"
+msgstr ""
+"не вдалося запустити бібліотеку alpm\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -433,20 +436,19 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "проблемне налаштування gpgdir «%s» (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "не налаштовано «%s»"
+msgstr "не налаштовано «'%s»\n"
 
 #: src/pacman/conf.c:757
 #, c-format
 msgid "Failed to pass assume installed entry to libalpm"
-msgstr ""
+msgstr "Не вдалося передати запис у libalpm"
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr ""
-"файл налаштувань %s, рядок %d: каталог «%s» у секції «%s» не розпізнано.\n"
+msgstr "файл налаштування %s, рядок %d: «%s» параметр «%s» не розпізнано\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -667,9 +669,9 @@ msgid "MD5 Sum        :"
 msgstr "Сума MD5                :"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "SHA256 Sum              :"
+msgstr "Сума SHA-256 :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -824,9 +826,9 @@ msgstr ""
 "властивостей файла)⏎\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           показати вміст пакунка\n"
+msgstr " -l, --list перелічити файли, які належать заданому пакунку\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -873,13 +875,13 @@ msgstr ""
 "рядку\n"
 
 #: src/pacman/pacman.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired     показати пакунки, яких не потребує жоден інший "
-"пакунок [фільтр]\n"
+" -t, --unrequired перелічити пакунки, які (необов'язоков) потрібні\n"
+"жодному інгшому пакунку (-tt для нехтування optdepends) [фільтер]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -894,20 +896,22 @@ msgid ""
 msgstr "  -c, --clean          вилучити старі пакунки з кешу (-cc для усіх)\n"
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         показати всіх учасників групи пакунків\n"
+msgstr ""
+"-g, --groups переглянути всі елементи групи пакунка\n"
+"(-gg для переглядання всіх груп і елеметів)\n"
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info           показати інформацію про пакунок (-ii для резервних "
-"файлів)\n"
+" -i, --info переглянути відомості про пакунок (-ii для рощиреної "
+"інформації)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -921,12 +925,12 @@ msgid ""
 msgstr "  -s, --search <regex> шукати задані рядки у віддалених сховищах\n"
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"  -u, --sysupgrade     оновити встановлені пакунки (-uu дозволяє пониження "
-"версії)\n"
+"-u, --sysupgrade оновити встановлені пакунки (-uu дозволяє пониження "
+"версій)\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -938,13 +942,13 @@ msgstr ""
 "оновлювати\n"
 
 #: src/pacman/pacman.c:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh        звантажити свіжі бази даних пакунків з сервера\n"
-"\n"
+"-y, --refresh звантажити свіжу базу даних пакунків з сервера\n"
+"(-yy для примусового оновлення навіть коли нічого нового)\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -960,7 +964,7 @@ msgstr "      --asexplicit     позначити пакунки як явно �
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"  -f, --force          примусово встановити, перезаписуючи конфліктні файли\n"
+"      --force          примусово встановити, перезаписуючи конфліктні файли\n"
 
 #: src/pacman/pacman.c:180
 #, c-format
@@ -1006,6 +1010,8 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"--assume-installed <пакунок=версія>\n"
+"додати віртуальний пакунок, щоб задовольнити залежності\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1104,9 +1110,9 @@ msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      не питати підтвердження\n"
 
 #: src/pacman/pacman.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --noconfirm      не питати підтвердження\n"
+msgstr "--confirm завжди прохати підтвердження\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1120,59 +1126,59 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "хибний параметр: «%s» і «%s» не можна використовувати разом\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "неправильний аргумент '%s' для %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "рівень зневадження «%s» неправильний\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "тільки одна операція може використовуватися одночасно\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "неправильний параметр\n"
+msgstr "помилковий параметр «-%c»\n"
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "неправильний параметр\n"
+msgstr "помилковий параметр «--%s»\n"
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "вичерпано пам'ять у аналізуванні аргументу\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "не вдалось знову відкрити stdin для читання: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "аргумент '-' вказаний без вводу на стандартний ввід\n"
+msgstr "аргумент '-' вказано з порожнім stdin\n"
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "аргумент '-' вказаний без вводу на стандартний ввід\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "ви можете виконати цю операцію тільки як адміністратор.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "не вказано операцію (використайте -h для довідки)\n"
@@ -1208,14 +1214,14 @@ msgid "No package owns %s\n"
 msgstr "Жоден пакунок не є власником %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "шлях надто довгий: %s%s\n"
+msgstr "шлях надто довгий: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[знехтувано]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1380,12 +1386,12 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "сховище «%s» не знайдено.\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "%d учасників у групі %s:\n"
-msgstr[1] "%d учасників у групі %s:\n"
-msgstr[2] "%d учасників у групі %s:\n"
+msgstr[0] "В групі %2$s %1$d елемент:\n"
+msgstr[1] "В групі %2$s %1$d елементи:\n"
+msgstr[2] "В групі %2$s %1$d елементі:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1458,9 +1464,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Синхронізування бази даних пакунків...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "вичерпано пам'ять у аналізуванні аргументу\n"
+msgstr "пам'ять вичерпано\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1567,9 +1573,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s, %s з «%s»"
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "Пакунки"
+msgstr "Пакунок"
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1705,33 +1711,3 @@ msgstr "помилка: "
 #, c-format
 msgid "warning: "
 msgstr "попередження: "
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s: локальна версія новіша. Оновити попри все?"
-
-#~ msgid "config parsing exceeded max recursion depth of %d.\n"
-#~ msgstr ""
-#~ "розбирання налаштувань досягнуло максимальної глибини рекурсії %d.\n"
-
-#~ msgid "config file %s could not be read: %s\n"
-#~ msgstr "неможливо прочитати файл налаштувань %s: %s\n"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "файл налаштувань %s, рядок %d: погана назва секції.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr ""
-#~ "файл налаштувань %s, рядок %d: синтаксична помилка у файлі налаштувань — "
-#~ "немає ключа.\n"
-
-#~ msgid "  -i, --info           view package information\n"
-#~ msgstr "  -i, --info           показати інформацію про пакунок\n"
-
-#~ msgid "Name"
-#~ msgstr "Назва"
-
-#~ msgid "error: %s"
-#~ msgstr "помилка: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "попередження: %s"

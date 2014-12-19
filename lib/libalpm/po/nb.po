@@ -4,14 +4,16 @@
 #
 # Translators:
 # Alexander F Rødseth <rodseth@gmail.com>, 2011,2013
+# Alexander F Rødseth <rodseth@gmail.com>, 2011,2013
+# Eyolf Østrem <eyolf@oestrem.com>, 2014
 # Jon Gjengset <jon@thesquareplanet.com>, 2011,2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 10:04+0000\n"
-"Last-Translator: Jon Gjengset <jon@thesquareplanet.com>\n"
+"PO-Revision-Date: 2014-11-20 17:31+0000\n"
+"Last-Translator: Eyolf Østrem <eyolf@oestrem.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/nb/)\n"
 "Language: nb\n"
@@ -54,6 +56,7 @@ msgstr "kunne ikke omdøpe %s til %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
+"filen finnes ikke i fillisten for pakken %s. hopper over utpakking av %s\n"
 
 #: lib/libalpm/add.c:230
 #, c-format
@@ -65,13 +68,13 @@ msgstr ""
 "filsystem %s: %o  pakke: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"mapperettigheter er forskjellige i\n"
-"filsystem %s: %o  pakke: %o\n"
+"mapperettigheter er forskjellige for %s\n"
+"i filsystem: %u:%u pakke: %u:%u\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -174,9 +177,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "feil oppstod ved lesing av pakke: %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "feil oppstod ved lesing av pakke: %s: %s\n"
+msgstr "feil oppstod ved lesning av mtree for pakke %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -194,9 +197,9 @@ msgid "missing package version in %s\n"
 msgstr "mangler pakkeversjon i %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "mangler pakkeversjon i %s\n"
+msgstr "ugyldig pakkeversjon i %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -234,9 +237,9 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s databasen er ikke konsistent: filnavnet i pakken %s er for langt\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "kunne ikke inspisere fil: %s: %s\n"
+msgstr "ukjent databasefil: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -334,9 +337,9 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "kunne ikke hente filen '%s' fra %s : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "kunne ikke hente filen '%s' fra %s : %s\n"
+msgstr "kunne ikke hente filen '%s' fra %s : filen er større enn forventet\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -519,9 +522,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "ugyldig eller korrupt pakke (PGP signatur)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "mangler PGP signatur"
+msgstr "pakken mangler påkrevd signatur"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -621,7 +624,7 @@ msgstr "uventet feil"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "låsefil mangler %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -714,9 +717,9 @@ msgid "failed to retrieve some files\n"
 msgstr "noen filer kunne ikke hentes\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "mangler PGP signatur"
+msgstr "%s: mangler påkrevd signatur\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -796,12 +799,12 @@ msgstr "kommandoen feilet\n"
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Ukjent signal"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "kommando avbrutt med signal %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
@@ -814,15 +817,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "kunne ikke finne eller opprette mellomlager for pakker, bruker %s "
 "istedenfor\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "utpakking: symbolsk lenke %s peker ikke til mappe\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s lagret som %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s installert som %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "pakker ut %s som %s.pacnew\n"

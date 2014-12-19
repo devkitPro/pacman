@@ -7,15 +7,16 @@
 # kraim <biskraim@gmail.com>, 2013
 # kraim <biskraim@gmail.com>, 2013
 # kraim <biskraim@gmail.com>, 2013
+# kraim <biskraim@gmail.com>, 2013
 # Mosaab Alzoubi <moceap@hotmail.com>, 2013
 # Mosaab Alzoubi <moceap@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 12:33+0000\n"
-"Last-Translator: kraim <biskraim@gmail.com>\n"
+"POT-Creation-Date: 2014-12-19 13:29+1000\n"
+"PO-Revision-Date: 2014-11-18 05:19+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ar/)\n"
 "Language: ar\n"
@@ -41,9 +42,9 @@ msgid "resolving dependencies...\n"
 msgstr "تحليل الاعتماديات...\n"
 
 #: src/pacman/callback.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "البحث عن تعارضات داخلية...\n"
+msgstr ""
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -289,9 +290,9 @@ msgid "%s: %s (Permissions mismatch)\n"
 msgstr "%s: %s (الصلاحيات غير مطابقة)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "backup file"
-msgstr "ملفات النسخ الاحتياطي:\n"
+msgstr ""
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -419,11 +420,11 @@ msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "تعذر إضافة عنوان الخادم لقاعدة البيانات '%s': %s (%s)\n"
 
 #: src/pacman/conf.c:680
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "فشل في تجهيز المُبادلة (%s)\n"
+msgstr ""
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -441,9 +442,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "مُشكلة في إعدادات مجلد gpg '%s' (%s)\n"
 
 #: src/pacman/conf.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "no '%s' configured\n"
-msgstr "لا '%s' مهيئ"
+msgstr ""
 
 #: src/pacman/conf.c:757
 #, c-format
@@ -451,9 +452,9 @@ msgid "Failed to pass assume installed entry to libalpm"
 msgstr ""
 
 #: src/pacman/conf.c:803
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr "يحتاج ملف الاعداد %s، سطر %d: تعليمة '%s' إلى قيمة\n"
+msgstr ""
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -674,9 +675,9 @@ msgid "MD5 Sum        :"
 msgstr "مجموع MD5:"
 
 #: src/pacman/package.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum    :"
-msgstr "بصمة SHA256 :"
+msgstr ""
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -822,9 +823,9 @@ msgid ""
 msgstr "-k، --check التحقق من أن ملفات الحزمة موجودة (-kk لخصائص الملف)\n"
 
 #: src/pacman/pacman.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           أظهر قائمة بمحتويات الحُزمة المُستعلم عنها\n"
+msgstr ""
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -884,19 +885,18 @@ msgid ""
 msgstr ""
 
 #: src/pacman/pacman.c:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "-g, --groups عرض عناصر مجموعة الحزمة\n"
+msgstr ""
 
 #: src/pacman/pacman.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info           أظهر معلومات الحزمة (-ii من أجل الملفات الاحتياطية)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -910,10 +910,10 @@ msgid ""
 msgstr ""
 
 #: src/pacman/pacman.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
-msgstr "  -u, --upgrades       أظهر قائمة بالحُزم القديمة [مُرشّح]\n"
+msgstr ""
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -1090,57 +1090,57 @@ msgstr ""
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr ""
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "مدخل غير صالح '%s' لأجل %s\n"
 
-#: src/pacman/pacman.c:441
+#: src/pacman/pacman.c:440
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' ليس مستوى إصلاحي\n"
 
-#: src/pacman/pacman.c:902
+#: src/pacman/pacman.c:901
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "عملية واحدة فقط مسموحة في نفس الوقت\n"
 
-#: src/pacman/pacman.c:957
-#, fuzzy, c-format
+#: src/pacman/pacman.c:956
+#, c-format
 msgid "invalid option '-%c'\n"
-msgstr "خيار غير صالح\n"
+msgstr ""
 
-#: src/pacman/pacman.c:959
-#, fuzzy, c-format
+#: src/pacman/pacman.c:958
+#, c-format
 msgid "invalid option '--%s'\n"
-msgstr "خيار غير صالح\n"
+msgstr ""
 
-#: src/pacman/pacman.c:1124
+#: src/pacman/pacman.c:1123
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "استنفذت الذاكرة في تحليل المعطيات\n"
 
-#: src/pacman/pacman.c:1133
+#: src/pacman/pacman.c:1132
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "فشل في إعادة قراءة المدخلات: (%s)\n"
 
-#: src/pacman/pacman.c:1138
-#, fuzzy, c-format
+#: src/pacman/pacman.c:1137
+#, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "المعطى '-' تم تخصيصه بدون إدخالات\n"
+msgstr ""
 
-#: src/pacman/pacman.c:1143
+#: src/pacman/pacman.c:1142
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "المعطى '-' تم تخصيصه بدون إدخالات\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1171
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "لا يمكنك تنفيذ هذه العملية إلا إذا كنت الجذر.\n"
 
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1217
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "لم يتم تحديد أية عملية (استخدم -h للمساعدة)\n"
@@ -1176,9 +1176,9 @@ msgid "No package owns %s\n"
 msgstr "لا توجد حزمة تملك %s\n"
 
 #: src/pacman/query.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %s/\n"
-msgstr "المسار طويل جدًا: %s %s\n"
+msgstr ""
 
 #: src/pacman/query.c:329
 #, c-format
@@ -1346,15 +1346,15 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "لم يتم العثور على المستودع \"%s\".\n"
 
 #: src/pacman/sync.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] "يوجد %d أعضاء في المجموعة %s:\n"
-msgstr[1] "يوجد %d أعضاء في المجموعة %s:\n"
-msgstr[2] "يوجد %d أعضاء في المجموعة %s:\n"
-msgstr[3] "يوجد %d أعضاء في المجموعة %s:\n"
-msgstr[4] "يوجد %d أعضاء في المجموعة %s:\n"
-msgstr[5] "يوجد %d أعضاء في المجموعة %s:\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1431,9 +1431,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "تجري مزامنة قاعدة بيانات الحزم...\n"
 
 #: src/pacman/upgrade.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "memory exhausted\n"
-msgstr "استنفذت الذاكرة في تحليل المعطيات\n"
+msgstr ""
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1540,9 +1540,9 @@ msgid "%s, %s from \"%s\""
 msgstr "%s، %s من \"%s\""
 
 #: src/pacman/util.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Package"
-msgstr "الحزم"
+msgstr ""
 
 #: src/pacman/util.c:824
 #, c-format
@@ -1678,21 +1678,3 @@ msgstr "خطأ:"
 #, c-format
 msgid "warning: "
 msgstr "تحذير:"
-
-#~ msgid "%s-%s: local version is newer. Upgrade anyway?"
-#~ msgstr "%s-%s: الإصدار المحلي أحدث. هل تريد الترقية على أي حال؟"
-
-#~ msgid "config file %s, line %d: bad section name.\n"
-#~ msgstr "ملف الإعداد %s، السطر %d: اسم مقطع سيئ.\n"
-
-#~ msgid "config file %s, line %d: syntax error in config file- missing key.\n"
-#~ msgstr "ملف الإعداد %s، السطر %d: خطأ تركيب في ملف الإعداد- مفتاح مفقود.\n"
-
-#~ msgid "Name"
-#~ msgstr "الاسم"
-
-#~ msgid "error: %s"
-#~ msgstr "خطأ: %s"
-
-#~ msgid "warning: %s"
-#~ msgstr "تحذير: %s"

@@ -4,16 +4,19 @@
 #
 # Translators:
 # Bartek Piotrowski <barthalion@gmail.com>, 2011
+# Bartłomiej Piotrowski <spam@bpiotrowski.pl>, 2014
 # Chris Warrick <kwpolska@gmail.com>, 2013
 # Chris Warrick <kwpolska@gmail.com>, 2013
+# Chris Warrick <kwpolska@gmail.com>, 2013
+# megamann, 2014
 # Piotr Strębski <strebski@o2.pl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 10:04+0000\n"
-"Last-Translator: Piotr Strębski <strebski@o2.pl>\n"
+"PO-Revision-Date: 2014-11-24 18:41+0000\n"
+"Last-Translator: megamann\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/pl/)\n"
 "Language: pl\n"
@@ -57,6 +60,8 @@ msgstr "nie udało się zmienić nazwy %s na %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
+"plik nie został znaleziony na liście plików pakietu %s, pomijam rozpakowanie "
+"%s\n"
 
 #: lib/libalpm/add.c:230
 #, c-format
@@ -68,13 +73,13 @@ msgstr ""
 "system plików: %o pakiet: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"Różne uprawnienia dla katalogu dla %s\n"
-"system plików: %o pakiet: %o\n"
+"różne uprawnienia dla katalogu dla %s\n"
+"system plików: %u:%u pakiet: %u:%u\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -177,9 +182,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "błąd odczytywania pakietu: %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "błąd odczytywania pakietu: %s: %s\n"
+msgstr "błąd odczytywania mtree z pakietu %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -197,9 +202,9 @@ msgid "missing package version in %s\n"
 msgstr "brak wersji pakietu w %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "brak wersji pakietu w %s\n"
+msgstr "Błędna wersja pakietu w %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -238,9 +243,9 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "Baza danych %s jest niespójna: nazwa pliku pakietu %s jest za długa\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "nie udało się odczytać stat dla pliku %s: %s\n"
+msgstr "nieznana baza danych pliku: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -338,9 +343,11 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nie udało się pobrać pliku '%s' z %s : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "nie udało się pobrać pliku '%s' z %s : %s\n"
+msgstr ""
+"nie powiodło się pobieranie pliku '%s' z %s : oczekiwany rozmiar pobierania "
+"został przekroczony\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -523,9 +530,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "Niepoprawny lub uszkodzony pakiet (podpis PGP)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "brakujący podpis PGP"
+msgstr "pakietowi brakuje wymaganego podpisu"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -626,7 +633,7 @@ msgstr "niespodziewany błąd"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "brakująca blokada pliku %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -719,9 +726,9 @@ msgid "failed to retrieve some files\n"
 msgstr "nie udało się pobrać niektórych plików\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "brakujący podpis PGP"
+msgstr "%s: brakuje wymaganego podpisu\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -801,12 +808,12 @@ msgstr "komenda nie wykonała się poprawnie\n"
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Nieznany sygnał"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "polecenie zakończone sygnałem %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
@@ -819,15 +826,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "nie można odnaleźć lub stworzyć pamięci podręcznej pakietu, używam %s w "
 "zamian\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "rozpakowywanie: dowiązanie symboliczne %s nie kieruje do katalogu\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s zachowane jako %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s zainstalowano jako %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "rozpakowywanie %s jako %s.pacnew\n"

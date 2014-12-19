@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Peter van den Hurk, 2014
 # swilkens <stefanwilkens@gmail.com>, 2011
 # swilkens <stefanwilkens@gmail.com>, 2011
 # zenlord <zenlord@gmail.com>, 2013
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-20 10:04+0000\n"
-"Last-Translator: zenlord <zenlord@gmail.com>\n"
+"PO-Revision-Date: 2014-11-23 13:30+0000\n"
+"Last-Translator: Peter van den Hurk\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/nl/)\n"
 "Language: nl\n"
@@ -56,6 +57,8 @@ msgstr "kan %s niet hernoemen als %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
+"bestand niet gevonden in de bestandslijst voor pakket %s. Uitpakken %s wordt "
+"overgeslagen\n"
 
 #: lib/libalpm/add.c:230
 #, c-format
@@ -67,13 +70,13 @@ msgstr ""
 "bestandssysteem: %o pakket: %o\n"
 
 #: lib/libalpm/add.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"rechten voor map %s verschillen\n"
-"bestandssysteem: %o pakket: %o\n"
+"eigenaar van map %s verschilt\n"
+"bestandssysteem: %u:%u pakket: %u:%u\n"
 
 #: lib/libalpm/add.c:255
 #, c-format
@@ -178,9 +181,9 @@ msgid "error while reading package %s: %s\n"
 msgstr "fout tijdens lezen van pakket %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "fout tijdens lezen van pakket %s: %s\n"
+msgstr "fout tijdens het lezen van de mtree van pakket %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -198,9 +201,9 @@ msgid "missing package version in %s\n"
 msgstr "ontbrekende pakketversie in %s\n"
 
 #: lib/libalpm/be_package.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package version in %s\n"
-msgstr "ontbrekende pakketversie in %s\n"
+msgstr "ongeldige pakketversie in %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -238,9 +241,9 @@ msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s database is niet consistent: bestandsnaam te lang voor pakket %s\n"
 
 #: lib/libalpm/be_sync.c:585
-#, fuzzy, c-format
+#, c-format
 msgid "unknown database file: %s\n"
-msgstr "kan bestand niet 'stat'ten %s: %s\n"
+msgstr "onbekend database bestand: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -338,9 +341,11 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "kan het bestand '%s' niet ophalen van %s : %s\n"
 
 #: lib/libalpm/dload.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "kan het bestand '%s' niet ophalen van %s : %s\n"
+msgstr ""
+"kon het bestand '%s' niet ophalen van %s : verwachte download grootte "
+"overschreden\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -523,9 +528,9 @@ msgid "invalid or corrupted package (PGP signature)"
 msgstr "ongeldig of corrupt pakket (PGP handtekening)"
 
 #: lib/libalpm/error.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "package missing required signature"
-msgstr "ontbrekende PGP handtekening"
+msgstr "pakket mist verplichte PGP handtekening"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -625,7 +630,7 @@ msgstr "onverwachte fout"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "slotbestand mist %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -719,9 +724,9 @@ msgid "failed to retrieve some files\n"
 msgstr "Niet alle bestanden konden worden opgehaald\n"
 
 #: lib/libalpm/sync.c:1176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: missing required signature\n"
-msgstr "ontbrekende PGP handtekening"
+msgstr "%s: ontbrekende PGP handtekening\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -801,12 +806,12 @@ msgstr "fout tijdens uitvoeren van commando\n"
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Onbekend signaal"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "opdracht afgebroken door signaal %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
@@ -817,15 +822,3 @@ msgstr "%s-cache bestaat niet, wordt aangemaakt...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kan pakket-cache niet vinden of aanmaken, %s wordt gebruikt\n"
-
-#~ msgid "extract: symlink %s does not point to dir\n"
-#~ msgstr "uitpakken: symbolische link %s verwijst niet naar een map\n"
-
-#~ msgid "%s saved as %s\n"
-#~ msgstr "%s is opgeslaan als %s\n"
-
-#~ msgid "%s installed as %s\n"
-#~ msgstr "%s is geïnstalleerd als %s\n"
-
-#~ msgid "extracting %s as %s.pacnew\n"
-#~ msgstr "%s wordt uitgepakt als %s.pacnew\n"

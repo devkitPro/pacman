@@ -4,18 +4,20 @@
 #
 # Translators:
 # Achilleas Pipinellis, 2013
+# Achilleas Pipinellis, 2013
 # Axilleas P <markeleas@gmail.com>, 2011
 # Achilleas Pipinellis, 2013
-# Christos Nouskas <nous@archlinux.us>, 2011-2013
+# Christos Nouskas <nous@archlinux.us>, 2011-2014
 # Christos Nouskas <nous@archlinux.us>, 2013
 # ifaigios <ifaigios@gmail.com>, 2013
 # ifaigios <ifaigios@gmail.com>, 2013
+# th_ts <tsesmelistheodore@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
+"POT-Creation-Date: 2014-12-19 13:24+1000\n"
+"PO-Revision-Date: 2014-11-23 19:21+0000\n"
 "Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/el/)\n"
@@ -28,7 +30,7 @@ msgstr ""
 #: scripts/makepkg.sh.in:120 scripts/makepkg.sh.in:1517
 #: scripts/makepkg.sh.in:1521 scripts/library/output_format.sh:26
 msgid "WARNING:"
-msgstr "ΠΡΟΣΟΧΗ:"
+msgstr "ΠΡΟΕΙΔΟΠΟΙΗΣΗ:"
 
 #: scripts/makepkg.sh.in:125 scripts/library/output_format.sh:31
 msgid "ERROR:"
@@ -126,28 +128,27 @@ msgstr "Μη αναγνωρίσιμη αναφορά: %s"
 #: scripts/makepkg.sh.in:526 scripts/makepkg.sh.in:595
 #: scripts/makepkg.sh.in:686 scripts/makepkg.sh.in:777
 msgid "Creating working copy of %s %s repo..."
-msgstr "Δημιουργία αντιγράφου εργασίας αποθήκης %s %s..."
+msgstr "Δημιουργία αντιγράφου εργασίας του αποθετηρίου %s %s ..."
 
 #: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
 #: scripts/makepkg.sh.in:705
-#, fuzzy
 msgid "Failure while updating working copy of %s %s repo"
-msgstr "Αποτυχία δημιουργίας αντιγράφου εργασίας αποθήκης %s %s"
+msgstr "Αποτυχία ενημέρωσης αντιγράφου εργασίας αποθετηρίου %s με %s"
 
 #: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
 #: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
 msgid "Failure while creating working copy of %s %s repo"
-msgstr "Αποτυχία δημιουργίας αντιγράφου εργασίας αποθήκης %s %s"
+msgstr "Αποτυχία δημιουργίας αντιγράφου εργασίας στο αποθετήριο %s %s"
 
 #: scripts/makepkg.sh.in:558 scripts/makepkg.sh.in:656
 #: scripts/makepkg.sh.in:751
 msgid "Cloning %s %s repo..."
-msgstr "Κλωνοποίηση αποθήκης %s %s"
+msgstr "Κλωνοποίηση του αποθετηρίου %s %s"
 
 #: scripts/makepkg.sh.in:560 scripts/makepkg.sh.in:658
 #: scripts/makepkg.sh.in:754
 msgid "Failure while downloading %s %s repo"
-msgstr "Αποτυχία λήψης αποθήκης %s %s"
+msgstr "Αποτυχία λήψης του αποθετηρίου %s %s"
 
 #: scripts/makepkg.sh.in:568
 msgid "%s is not a clone of %s"
@@ -156,12 +157,12 @@ msgstr "το %s δεν είναι κλώνος του %s"
 #: scripts/makepkg.sh.in:572 scripts/makepkg.sh.in:663
 #: scripts/makepkg.sh.in:759
 msgid "Updating %s %s repo..."
-msgstr "Ενημέρωση αποθήκης %s %s"
+msgstr "Ενημέρωση του αποθετηρίου %s %s"
 
 #: scripts/makepkg.sh.in:575 scripts/makepkg.sh.in:667
 #: scripts/makepkg.sh.in:763
 msgid "Failure while updating %s %s repo"
-msgstr "Αποτυχία ενημέρωσης αποθήκης %s %s"
+msgstr "Αποτυχία ενημέρωσης του αποθετηρίου %s %s"
 
 #: scripts/makepkg.sh.in:816
 msgid "Retrieving sources..."
@@ -169,12 +170,11 @@ msgstr "Λήψη πηγών..."
 
 #: scripts/makepkg.sh.in:868
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "η pkgver() δημιούργησε άκυρη έκδοση: %s"
 
 #: scripts/makepkg.sh.in:875
-#, fuzzy
 msgid "Failed to update %s from %s to %s"
-msgstr "Αποτυχία εισόδου στον κατάλογο %s"
+msgstr "Αποτυχία ενημέρωσης του %s από %s μέχρι %s"
 
 #: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
@@ -271,27 +271,24 @@ msgid "unknown public key"
 msgstr "άγνωστο δημόσιο κλειδί"
 
 #: scripts/makepkg.sh.in:1496
-#, fuzzy
 msgid "public key %s has been revoked"
-msgstr "το κλειδί έχει ανακληθεί."
+msgstr "δημόσιο κλειδί %s ανακλήθηκε"
 
 #: scripts/makepkg.sh.in:1499
 msgid "bad signature from public key"
-msgstr ""
+msgstr "κακή υπογραφή δημοσίου κλειδιού"
 
 #: scripts/makepkg.sh.in:1502
-#, fuzzy
 msgid "error during signature verification"
-msgstr "Δεν βρέθηκε υπογραφή, παράλειψη επαλήθευσης."
+msgstr "σφάλμα επιβεβαίωσης υπογραφής"
 
 #: scripts/makepkg.sh.in:1508
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "το δημόσιο κλειδί %s δεν είναι αξιόπιστο"
 
 #: scripts/makepkg.sh.in:1511
-#, fuzzy
 msgid "invalid public key"
-msgstr "άγνωστο δημόσιο κλειδί"
+msgstr "άκυρο δημόσιο κλειδί"
 
 #: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
@@ -362,9 +359,8 @@ msgid "Removing %s files..."
 msgstr "Διαγραφή αρχείων %s..."
 
 #: scripts/makepkg.sh.in:1821
-#, fuzzy
 msgid "Removing static library files..."
-msgstr "Διαγραφή αρχείων %s..."
+msgstr "Διαγραφή αρχείων στατικών βιβλιοθηκών..."
 
 #: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
@@ -429,9 +425,8 @@ msgid "Adding %s file..."
 msgstr "Προσθήκη αρχείου %s..."
 
 #: scripts/makepkg.sh.in:2227
-#, fuzzy
 msgid "Failed to add %s file to package."
-msgstr "Αποτυχία εγκατάστασης πακέτου(-ων)."
+msgstr "Αποτυχία προσθήκης αρχείου %s στο πακέτο."
 
 #: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
@@ -519,14 +514,12 @@ msgid "%s contains invalid characters: '%s'"
 msgstr "το %s περιέχει άκυρους  χαρακτήρες: '%s'"
 
 #: scripts/makepkg.sh.in:2585
-#, fuzzy
 msgid "%s must be a decimal, not %s."
-msgstr "Το %s πρέπει να είναι δεκαδικός."
+msgstr "το %s πρέπει να είναι δεκαδικό, όχι %s."
 
 #: scripts/makepkg.sh.in:2601
-#, fuzzy
 msgid "%s must be an integer, not %s."
-msgstr "Το %s πρέπει να είναι ακέραιος."
+msgstr "το %s πρέπει να είναι ακέραιος, όχι %s."
 
 #: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
@@ -549,14 +542,12 @@ msgid "%s entry should not contain leading slash : %s"
 msgstr "Η εγγραφή %s δεν μπορεί να περιέχει αρχική κάθετο: %s"
 
 #: scripts/makepkg.sh.in:2715
-#, fuzzy
 msgid "Invalid syntax for %s: '%s'"
 msgstr "Άκυρη σύνταξη του %s: '%s'"
 
 #: scripts/makepkg.sh.in:2728
-#, fuzzy
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "Το %s δεν υπάρχει ή δεν είναι κατάλογος."
+msgstr "το αρχείο %s (%s) δεν υπάρχει ή δεν είναι κανονικό αρχείο."
 
 #: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
@@ -564,16 +555,15 @@ msgstr "Ο πίνακας %s περιέχει άγνωστη επιλογή '%s'
 
 #: scripts/makepkg.sh.in:2792
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Δεν επιτρέπονται αραιοί πίνακες για ανάγνωση"
 
 #: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "Το ζητούμενο πακέτο %s δεν παρέχεται από το %s"
 
 #: scripts/makepkg.sh.in:2815
-#, fuzzy
 msgid "Missing %s function in %s"
-msgstr "Απούσα συνάρτηση %s στο διαιρεμένο πακέτο '%s'"
+msgstr "Απούσα συνάρτηση %s στο '%s'"
 
 #: scripts/makepkg.sh.in:2821
 msgid "Missing %s function for split package '%s'"
@@ -584,16 +574,14 @@ msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "Δεν επιτρέπεται η χρήση ερωτηματικού, παύλας ή διαστήματος στο %s."
 
 #: scripts/makepkg.sh.in:2907
-#, fuzzy
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
-"Δεν βρέθηκε το εκτελέσιμο %s που απαιτείται για επαλήθευση πηγαίων αρχείων."
+"Αδυναμία εύρεσης εκτελέσιμου %s που απαιτείται για έλεγχο πηγαίου κώδικα VCS."
 
 #: scripts/makepkg.sh.in:2925
-#, fuzzy
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr ""
-"Δεν βρέθηκε το εκτελέσιμο %s που απαιτείται για όλες τις λειτουργίες του %s."
+"Αδυναμία εύρεσης πακέτου %s που απαιτείται για χειρισμό πηγαίου κώδικα %s."
 
 #: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
@@ -604,9 +592,8 @@ msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "Δεν βρέθηκε το εκτελέσιμο %s. Χρήση %s για απόκτηση προνομίων root."
 
 #: scripts/makepkg.sh.in:2963
-#, fuzzy
 msgid "Cannot find the %s binary."
-msgstr "Δεν βρέθηκε το εκτελέσιμο %s που απαιτείται για υπογραφή πακέτων."
+msgstr "Αδυναμία εύρεσης του εκτελέσιμου %s."
 
 #: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
@@ -672,7 +659,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:3149
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Δημιουργία πακέτων συμβατών για χρήση με τον pacman."
 
 #: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
@@ -692,7 +679,7 @@ msgstr "  -c, --clean      Διαγραφή αρχείων εργασίας με
 
 #: scripts/makepkg.sh.in:3156
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "  -C, --cleanbuild Διαγραφή καταλόγου %s dir προ δημιουργίας πακέτου"
 
 #: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -789,18 +776,16 @@ msgstr ""
 "  --key <key>      Ορισμός κλειδιού για υπογραφή %s αντί του προεπιλεγμένου"
 
 #: scripts/makepkg.sh.in:3177
-#, fuzzy
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --nosign         Χωρίς δημουργία υπογραφής για το πακέτο"
+msgstr "  --noarchive      Μη δημιουργία αρχειοθετημένου πακέτου"
 
 #: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
-msgstr "  --nocheck        Χωρίς εκτέλεση της συνάρτησης %s στο %s"
+msgstr "  --nocheck        Μη εκτέλεση της συνάρτησης %s στο %s"
 
 #: scripts/makepkg.sh.in:3179
-#, fuzzy
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --nocheck        Χωρίς εκτέλεση της συνάρτησης %s στο %s"
+msgstr "  --noprepare      Μη εκτέλεση της συνάρτησης %s στο %s"
 
 #: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
@@ -863,17 +848,16 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Εάν το %s δεν καθοριστεί, το %s θα αναζητήσει το '%s'"
 
 #: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Πνευματική ιδιοκτησία (c) 2006-2013 Ομάδα Ανάπτυξης Pacman <pacman-"
+"Πνευματική ιδιοκτησία (c) 2006-2014 Ομάδα Ανάπτυξης Pacman <pacman-"
 "dev@archlinux.org>.\\nΠνευματική ιδιοκτησία (c) 2002-2006 Judd Vinet "
 "<jvinet@zeroflux.org>.\\n\\nΑυτό είναι ελεύθερο λογισμικό, οι όροι "
-"αντιγραφής βρίσκονται στον πηγαίο κώδικα.\\nΚΑΜΜΙΑ ΕΓΓΥΗΣΗ δεν δίδεται, στον "
+"αντιγραφής βρίσκονται στον πηγαίο κώδικα. ΚΑΜΜΙΑ ΕΓΓΥΗΣΗ δεν δίδεται, στον "
 "βαθμό που δια νόμου επιτρέπεται.\\n"
 
 #: scripts/makepkg.sh.in:3302 scripts/repo-add.sh.in:612
@@ -905,14 +889,12 @@ msgid "You do not have write permission to store logs in %s."
 msgstr "Δεν έχεις δικαίωμα εγγραφής στο %s για αποθήκευση καταγραφής στο %s."
 
 #: scripts/makepkg.sh.in:3437
-#, fuzzy
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"Η εκτέλεση του %s ως root είναι ΚΑΚΗ ιδέα και μπορεί να προξενήσει\\nμη "
-"αναστρέψιμη, καταστροφική ζημιά στο σύστημα. Εάν επιθυμείς την\\n εκτέλεσή "
-"του ως root, όρισε την παράμετρο %s."
+"Εκτέλεση του %s ως root δεν επιτρέπεται καθώς μπορεί να προξενήσει μόνιμη, "
+"καταστροφική ζημία στο σύστημα."
 
 #: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -927,9 +909,8 @@ msgid "%s contains %s characters and cannot be sourced."
 msgstr "Το %s περιέχει χαρακτήρες %s και δεν μπορεί να αναλυθεί."
 
 #: scripts/makepkg.sh.in:3463
-#, fuzzy
 msgid "%s must be in the current working directory."
-msgstr "Το %s δεν υπάρχει ή δεν είναι κατάλογος."
+msgstr "το %s πρέπει να βρίσκεται στον τρέχοντα κατάλογο εργασίας."
 
 #: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
@@ -985,7 +966,7 @@ msgstr "Πηγαίος κώδικας έτοιμος."
 
 #: scripts/makepkg.sh.in:3698
 msgid "Package directory is ready."
-msgstr ""
+msgstr "Κατάλογος πακέτου έτοιμος."
 
 #: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
@@ -994,7 +975,7 @@ msgstr "Τέλος δημιουργίας: %s"
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "αδυναμία δημιουργίας '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 #, perl-format
@@ -1002,136 +983,128 @@ msgid ""
 "invalid key/value pair\n"
 "%s:%s: %s"
 msgstr ""
+"άκυρο ζεύγος κλειδιού/τιμής\n"
+"%s:%s: %s"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "άκυρη γραμμή προτύπου: αδυναμία εύρεσης ονόματος προτύπου\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-msgstr ""
+msgstr "άκυροι χαρακτήρες στο '%s'. επιτρεπτοί [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "Αδυναμία εντοπισμού έκδοσης προτύπου '%s'"
 
 #: scripts/makepkg-template.pl.in:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s"
-msgstr "Αποτυχία ανάλυσης %s"
+msgstr "αποτυχία ανοίγματος '%s': %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Άγνωστος δείκτης προτύπου '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-πρότυπο [επιλογές]\n"
 
 #: scripts/makepkg-template.pl.in:172
-#, fuzzy
 msgid "Options:\n"
-msgstr "Επιλογές:"
+msgstr "Επιλογές:\n"
 
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr ""
+msgstr "  --input, -p <file>    Χρήση εναλλακτικού σεναρίου (τυπικό: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
-msgstr ""
+msgstr "  --output, -o <file>   Αρχείο εξόδου (τυπικό: αρχείο εισόδου)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "  --newest, -n          Ενημέρωση προτύπων στην τρέχουσα έκδοση\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
-msgstr ""
+msgstr "                        (τυπικό: χρήση έκδοσης των δεικτών προτύπου)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "  --template-dir <dir>  Κατάλογος αναζήτησης προτύπων\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (τυπικό: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
-#, fuzzy
 msgid "  --help, -h            This help message\n"
-msgstr "  -h, --help                Εμφάνιση αυτού του μηνύματος και έξοδος"
+msgstr "  --help, -h            Αυτή η βοήθεια\n"
 
 #: scripts/makepkg-template.pl.in:180
-#, fuzzy
 msgid "  --version             Version information\n"
-msgstr "  -V, --version    Εμφάνιση αριθμού έκδοσης και έξοδος"
+msgstr "  --version             Πληροφορίες έκδοσης\n"
 
 #: scripts/makepkg-template.pl.in:189
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Πνευματική ιδιοκτησία (c) 2006-2013 Ομάδα Ανάπτυξης Pacman <pacman-"
-"dev@archlinux.org>.\\nΑυτό είναι ελεύθερο λογισμικό, οι όροι αντιγραφής "
-"βρίσκονται στον πηγαίο κώδικα.\\nΚΑΜΜΙΑ ΕΓΓΥΗΣΗ δεν δίδεται, στον βαθμό που "
-"δια νόμου επιτρέπεται.\\n"
+"Πνευματική ιδιοκτησία (c) 2006-2014 Ομάδα Ανάπτυξης Pacman <pacman-"
+"dev@archlinux.org>.\n"
+"Αυτό είναι ελεύθερο λογισμικό, οι όροι αντιγραφής βρίσκονται στον πηγαίο "
+"κώδικα.\n"
+"ΚΑΜΜΙΑ ΕΓΓΥΗΣΗ δεν δίδεται, στον βαθμό που δια νόμου επιτρέπεται.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:35
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Αναβάθμιση τοπικής βάσης πακέτων του pacman σε νεότερη μορφή"
 
 #: scripts/pacman-db-upgrade.sh.in:39
-#, fuzzy
 msgid "options:"
-msgstr "Επιλογές:"
+msgstr "επιλογές:"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "  -b, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "  -b, --dbpath <path>  Ορισμός εναλλακτικής θέσης πακέτων"
 
 #: scripts/pacman-db-upgrade.sh.in:41
-#, fuzzy
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help       Εμφάνιση αυτού του μηνύματος και έξοδος"
+msgstr "  -h, --help           Εμφάνιση αυτής της βοήθειας και έξοδος"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "  -r, --root <path>    Ορισμός εναλλακτικού ριζικού καταλόγου"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -V, --version        show version information and exit"
-msgstr "  -V, --version    Εμφάνιση αριθμού έκδοσης και έξοδος"
+msgstr "  -V, --version        Εμφάνιση πληροφοριών έκδοσης και έξοδος"
 
 #: scripts/pacman-db-upgrade.sh.in:44
-#, fuzzy
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
-"  --config <file>  Χρήση εναλλακτικού αρχείου ρυθμίσεων (αντί του '%s')"
+msgstr "  --config <path>      Ορισμός εναλλακτικού αρχείου ρυθμίσεων"
 
 #: scripts/pacman-db-upgrade.sh.in:45
-#, fuzzy
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  -m, --nocolor    Απενεργοποίηση χρώματος μηνυμάτων"
+msgstr "  --nocolor            Απενεργοποίηση χρώματος μηνυμάτων"
 
 #: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Πνευματική ιδιοκτησία (c) 2006-2013 Ομάδα Ανάπτυξης Pacman <pacman-"
+"Πνευματική ιδιοκτησία (c) 2006-2014 Ομάδα Ανάπτυξης Pacman <pacman-"
 "dev@archlinux.org>.\\nΑυτό είναι ελεύθερο λογισμικό, οι όροι αντιγραφής "
 "βρίσκονται στον πηγαίο κώδικα.\\nΚΑΜΜΙΑ ΕΓΓΥΗΣΗ δεν δίδεται, στον βαθμό που "
 "δια νόμου επιτρέπεται.\\n"
@@ -1163,14 +1136,15 @@ msgstr "Εντοπίστηκε μορφή βάσης προ-3.5 - αναβάθμ
 msgid "Done."
 msgstr "Πέρας."
 
-#: scripts/pacman-db-upgrade.sh.in:180
-#, fuzzy
+#: scripts/pacman-db-upgrade.sh.in:183
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr "Εντοπίστηκε μορφή βάσης προ-3.5 - αναβάθμιση..."
+msgstr "Εντοπισμός μορφής βάσης δεδομένων προ-4.2 - αναβάθμιση..."
 
-#: scripts/pacman-db-upgrade.sh.in:189
+#: scripts/pacman-db-upgrade.sh.in:192
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
+"ο συμβολικός δεσμός '%s' δείχνει εκτός ριζικού καταλόγου pacman, απαιτείται "
+"χειροκίνητη επιδιόρθωση"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1242,7 +1216,7 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr "  --init                    Εξασφάλιση αρχικοποίησης κλειδούχους"
+msgstr "  --init                    Εξασφάλιση αρχικοποίησης κλειδούχου"
 
 #: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
@@ -1257,8 +1231,8 @@ msgid ""
 "  --populate                Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
-"  --populate                Ανανέωση προεπιλεγμένων κλειδιών από (δοθέντες) "
-"κλειδούχους\\n                            στο '%s'"
+"  --populate                Ανανέωση προεπιλεγμένων κλειδιών από "
+"(δοθέντες)\\n                            κλειδούχους στο '%s'"
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
@@ -1304,148 +1278,148 @@ msgstr "Αποτυχία ονομαστικής αναζήτησης κλειδ�
 msgid "Key name is ambiguous:"
 msgstr "Ασαφές όνομα κλειδιού:"
 
-#: scripts/pacman-key.sh.in:180
+#: scripts/pacman-key.sh.in:181
 msgid "The key identified by %s could not be found locally."
 msgstr "Αδυναμία τοπικής ευρέσεως κλειδιού %s."
 
-#: scripts/pacman-key.sh.in:223
+#: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Ανεπαρκή δικαιώματα ανάγνωσης κλειδούχου %s."
 
-#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
+#: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Τρέξε το '%s' για ρύθμιση των αδειών του κλειδούχου."
 
-#: scripts/pacman-key.sh.in:230
+#: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Ανεπαρκή δικαιώματα εκτέλεσης εντολής."
 
-#: scripts/pacman-key.sh.in:238
+#: scripts/pacman-key.sh.in:239
 msgid "There is no secret key available to sign with."
 msgstr "Μη διαθέσιμο κρυφό κλειδί για υπογραφή."
 
-#: scripts/pacman-key.sh.in:239
+#: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
 msgstr "Δημιούργησε ένα τυπικό κρυφό κλειδί με το '%s'"
 
-#: scripts/pacman-key.sh.in:258
+#: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
 msgstr "Δεν υπάρχουν κλειδούχοι στο %s."
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
 msgstr "Ανύπαρκτο αρχείο κλειδούχου %s."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
 msgstr "Προσάρτηση κλειδιών από %s.gpg"
 
-#: scripts/pacman-key.sh.in:303
+#: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Τοπική υπογραφή έμπιστων κλειδιών στον κλειδούχο..."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
 msgstr "Εισαγωγή τιμών εμπιστοσύνης ιδιοκτήτη..."
 
-#: scripts/pacman-key.sh.in:323
+#: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
 msgstr "Απενεργοποίηση ανακληθέντων κλειδιών στον κλειδούχο..."
 
-#: scripts/pacman-key.sh.in:325
+#: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
 msgstr "Απενεργοποίηση κλειδιού %s..."
 
-#: scripts/pacman-key.sh.in:333
+#: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Αδυναμία προσθήκης ενός καθορισμένου αρχείου κλειδιών στον κλειδούχο."
 
-#: scripts/pacman-key.sh.in:341
+#: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
 msgstr "Αδυναμία διαγραφής ενός καθορισμένου κλειδιού από τον κλειδούχο."
 
-#: scripts/pacman-key.sh.in:351
+#: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
 msgstr "Αδυναμία επεξεργασίας κλειδιού %s."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
 msgstr "Αδυναμία εξαγωγής ενός καθορισμένου κλειδιού από τον κλειδούχο."
 
-#: scripts/pacman-key.sh.in:371
+#: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Αδυναμία προσδιορισμού αποτυπώματος κλειδιού."
 
-#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
+#: scripts/pacman-key.sh.in:385 scripts/pacman-key.sh.in:404
 msgid "%s could not be imported."
 msgstr "Αδυναμία εισαγωγής %s."
 
-#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:389 scripts/pacman-key.sh.in:408
 msgid "File %s does not exist and could not be imported."
 msgstr "Το αρχείο %s δεν υπάρχει και δεν εισήχθη."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
 msgstr "Αδυναμία παράθεσης κλειδιού."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
 msgstr "Αδυναμία παράθεσης υπογραφής. "
 
-#: scripts/pacman-key.sh.in:437
+#: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
 msgstr "Τοπική υπογραφή κλειδιού %s"
 
-#: scripts/pacman-key.sh.in:441
+#: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
 msgstr "Αδυναμία τοπικής υπογραφής %s."
 
-#: scripts/pacman-key.sh.in:468
+#: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Αδυναμία λήψης απομεμακρυσμένου κλειδιού από διακομιστή."
 
-#: scripts/pacman-key.sh.in:476
+#: scripts/pacman-key.sh.in:477
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Αδυναμία ενημέρωσης κλειδιού από διακομιστή."
 
-#: scripts/pacman-key.sh.in:486
+#: scripts/pacman-key.sh.in:487
 msgid "The signature identified by %s could not be verified."
 msgstr "Αδυναμία επαλήθευσης υπογραφής %s."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:495
 msgid "Updating trust database..."
 msgstr "Ενημέρωση βάσης εμπιστοσύνης..."
 
-#: scripts/pacman-key.sh.in:496
+#: scripts/pacman-key.sh.in:497
 msgid "Trust database could not be updated."
 msgstr "Αδυναμία ενημέρωσης βάσης εμπιστοσύνης."
 
-#: scripts/pacman-key.sh.in:558
+#: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Δεν βρέθηκε το εκτελέσιμο %s που απαιτείται για όλες τις λειτουργίες του %s."
 
-#: scripts/pacman-key.sh.in:563
+#: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
 msgstr "Για αυτήν την λειτουργία το %s απαιτείται να εκτελεστεί ως root."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
 msgstr "Το αρχείο ρυθμίσεων '%s' του %s δεν βρέθηκε."
 
-#: scripts/pacman-key.sh.in:590
+#: scripts/pacman-key.sh.in:591
 msgid "no operation specified (use -h for help)"
 msgstr "Ακαθόριστη λειτουργία (δώσε -h για βοήθεια)"
 
-#: scripts/pacman-key.sh.in:595
+#: scripts/pacman-key.sh.in:596
 msgid "Multiple operations specified."
 msgstr "Ορίσθηκαν πολλαπλές διεργασίες."
 
-#: scripts/pacman-key.sh.in:596
+#: scripts/pacman-key.sh.in:597
 msgid "Please run %s with each operation separately."
 msgstr "Τρέξε τον %s με κάθε διεργασία χωριστά."
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
 msgstr "Ακαθόριστοι στόχοι."
 
@@ -1487,9 +1461,8 @@ msgid "You must have correct permissions to optimize the database."
 msgstr "Χρειάζονται επαρκή δικαιώματα για την βελτιστοποίηση της βάσης."
 
 #: scripts/pacman-optimize.sh.in:125
-#, fuzzy
 msgid "Cannot create temporary directory for database building."
-msgstr "Αδυναμία δημιουργίας προσωρινού καταλόγου για δημιουργία βάσης."
+msgstr "Αδυναμία δημιουργίας προσωρινού καταλόγου δημιουργίας βάσης πακέτων."
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1541,13 +1514,12 @@ msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Χρήση: pkgdelta [επιλογές] <πακέτο1> <πακέτο2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
-#, fuzzy
 msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
-"\tτο pkgdelta δημιουργεί αρχείο δέλτα μεταξύ δύο πακέτων. Αυτό το\\nαρχείο "
-"δέλτα μπορεί κατόπιν να προστεθεί σε μια βάση με το repo-add.\\n\\n"
+"το pkgdelta δημιουργεί αρχείο δέλτα μεταξύ δύο πακέτων.\\nΑυτό το αρχείο "
+"δέλτα μπορεί κατόπιν να προστεθεί σε μια βάση με το repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1661,6 +1633,8 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"  -R, --remove      διαγραφή πακέτου από τον δίσκο κατά την ενημέρωση "
+"εγγραφών της βάσης πακέτων\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1719,16 +1693,15 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Παράδειγμα:  repo-remove /διαδρομή/προς/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Πνευματική ιδιοκτησία (c) 2006-2013 Ομάδα Ανάπτυξης Pacman <pacman-"
-"dev@archlinux.org>\\n\\nΑυτό είναι ελεύθερο λογισμικό· οι όροι αντιγραφής "
-"βρίσκονται στον πηγαίο κώδικα.\\nΚΑΜΜΙΑ ΕΓΓΥΗΣΗ δεν δίδεται, στο βαθμό που "
-"δια νόμου επιτρέπεται.\\n"
+"Πνευματική ιδιοκτησία (c) 2006-2014 Ομάδα Ανάπτυξης Pacman <pacman-"
+"dev@archlinux.org>.\\n\\nΑυτό είναι ελεύθερο λογισμικό, οι όροι αντιγραφής "
+"βρίσκονται στον πηγαίο κώδικα.\\nΚΑΜΜΙΑ ΕΓΓΥΗΣΗ δεν παρέχεται, στον βαθμό "
+"που δια νόμου επιτρέπεται.\\n"
 
 #: scripts/repo-add.sh.in:143
 msgid "No database entry for package '%s'."
@@ -1787,9 +1760,8 @@ msgid "An entry for '%s' already existed"
 msgstr "Υπήρχε ήδη εγγραφή για το '%s'"
 
 #: scripts/repo-add.sh.in:315
-#, fuzzy
 msgid "Removing existing package '%s'"
-msgstr "Διαγραφή υπάρχουσας εγγραφής '%s'..."
+msgstr "Διαγραφή υπάρχοντος πακέτου '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1822,7 +1794,7 @@ msgstr "Κρατείται από την διεργασία %s"
 
 #: scripts/repo-add.sh.in:478
 msgid "Repository file '%s' is not a proper pacman database."
-msgstr "Το αρχείο αποθήκης '%s' δεν είναι κατάλληλη βάση pacman."
+msgstr "Το αρχείο αποθετηρίου '%s' δεν είναι κατάλληλη βάση pacman."
 
 #: scripts/repo-add.sh.in:483
 msgid "Extracting database to a temporary location..."
@@ -1830,11 +1802,11 @@ msgstr "Εξαγωγή βάσης σε προσωρινή θέση..."
 
 #: scripts/repo-add.sh.in:488
 msgid "Repository file '%s' was not found."
-msgstr "Το αρχείο αποθήκης '%s' δεν βρέθηκε."
+msgstr "Το αρχείο αποθετηρίου '%s' δεν βρέθηκε."
 
 #: scripts/repo-add.sh.in:494
 msgid "Repository file '%s' could not be created."
-msgstr "Αδυναμία δημιουργίας αρχείου αποθήκης '%s'."
+msgstr "Αδυναμία δημιουργίας αρχείου αποθετηρίου '%s'."
 
 #: scripts/repo-add.sh.in:505
 msgid "File '%s' not found."
@@ -1907,56 +1879,3 @@ msgstr "η επιλογή '%s' δεν επιτρέπει όρισμα"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "η επιλογή '%s' απαιτεί όρισμα"
-
-#~ msgid "Please add a license line to your %s!"
-#~ msgstr "Παρακαλώ πρόσθεσε γραμμή license στο %s!"
-
-#~ msgid "Example for GPL'ed software: %s."
-#~ msgstr "Παράδειγμα λογισμικού άδειας GPL: %s."
-
-#~ msgid "%s file (%s) does not exist."
-#~ msgstr "Ανύπαρκτο αρχείο %s (%s)."
-
-#~ msgid "Cannot find the %s binary required for building as non-root user."
-#~ msgstr ""
-#~ "Δεν βρέθηκε το εκτελέσιμο %s που απαιτείται για δημιουργία πακέτου χωρίς "
-#~ "προνόμια root."
-
-#~ msgid "  --asroot         Allow %s to run as root user"
-#~ msgstr "  --asroot         Αποδοχή εκτέλεσης %s ως root"
-
-#~ msgid "Aborted by user! Exiting..."
-#~ msgstr "Ματαίωση από τον χρήστη! Έξοδος..."
-
-#~ msgid "An unknown error has occurred. Exiting..."
-#~ msgstr "Προέκυψε άγνωστο σφάλμα. Έξοδος..."
-
-#~ msgid ""
-#~ "The %s option is meant for the root user only. Please\\nrerun %s without "
-#~ "the %s flag."
-#~ msgstr ""
-#~ "Η επιλογή %s έχει νόημα μόνο για τον root.\\nΞανατρέξε το %s χωρίς την "
-#~ "επιλογή %s."
-
-#~ msgid ""
-#~ "Running %s as an unprivileged user will result in non-root\\nownership of "
-#~ "the packaged files. Try using the %s environment by\\nplacing %s in the "
-#~ "%s array in %s."
-#~ msgstr ""
-#~ "Εκτέλεση του %s ως απλός χρήστης δημιουργεί αρχεία πακέτων ιδιοκτησίας "
-#~ "του.\\nΔοκίμασε το περιβάλλον %s ορίζοντας το %s στον πίνακα %s του %s."
-
-#~ msgid "Repackaging without the use of a %s function is deprecated."
-#~ msgstr "Η ανακατασκευή πακέτου χωρίς χρήση συνάρτησης %s αποθαρρύνεται."
-
-#~ msgid "File permissions may not be preserved."
-#~ msgstr "Αδυναμία διατήρησης δικαιωμάτων αρχείου."
-
-#~ msgid "Using a %s without a %s function is deprecated."
-#~ msgstr "Η χρήση %s χωρίς συνάρτηση %s είναι παρωχημένη."
-
-#~ msgid "The package directory is empty, there is nothing to repackage!"
-#~ msgstr "Ο κατάλογος πακέτου είναι κενός, ουδέν προς πακετάρισμα!"
-
-#~ msgid "Can not create temp directory for database building."
-#~ msgstr "Αδυναμία δημιουργίας προσωρινού καταλόγου για κτίσιμο βάσης."

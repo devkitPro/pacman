@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Osoitz <oelkoro@gmail.com>, 2013
+# Osoitz <oelkoro@gmail.com>, 2013-2014
 # Osoitz <oelkoro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
-"PO-Revision-Date: 2013-11-19 16:14+0000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
+"PO-Revision-Date: 2014-11-30 20:08+0000\n"
 "Last-Translator: Osoitz <oelkoro@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/archlinux-pacman/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -19,892 +19,1354 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: scripts/makepkg.sh.in:120 scripts/makepkg.sh.in:1517
+#: scripts/makepkg.sh.in:1521 scripts/library/output_format.sh:26
 msgid "WARNING:"
 msgstr "OHARRA:"
 
+#: scripts/makepkg.sh.in:125 scripts/library/output_format.sh:31
 msgid "ERROR:"
 msgstr "ERROREA:"
 
+#: scripts/makepkg.sh.in:163
 msgid "Cleaning up..."
 msgstr "Garbitzen..."
 
+#: scripts/makepkg.sh.in:198
 msgid "Entering %s environment..."
 msgstr "%s ingurunean sartzen..."
 
+#: scripts/makepkg.sh.in:303 scripts/makepkg.sh.in:2890
 msgid "Unknown download protocol: %s"
 msgstr "Deskarga protokolo ezezaguna: %s"
 
+#: scripts/makepkg.sh.in:304 scripts/makepkg.sh.in:313
+#: scripts/makepkg.sh.in:377 scripts/makepkg.sh.in:441
+#: scripts/makepkg.sh.in:470 scripts/makepkg.sh.in:480
+#: scripts/makepkg.sh.in:487 scripts/makepkg.sh.in:518
+#: scripts/makepkg.sh.in:533 scripts/makepkg.sh.in:538
+#: scripts/makepkg.sh.in:561 scripts/makepkg.sh.in:569
+#: scripts/makepkg.sh.in:604 scripts/makepkg.sh.in:610
+#: scripts/makepkg.sh.in:627 scripts/makepkg.sh.in:635
+#: scripts/makepkg.sh.in:659 scripts/makepkg.sh.in:697
+#: scripts/makepkg.sh.in:706 scripts/makepkg.sh.in:711
+#: scripts/makepkg.sh.in:745 scripts/makepkg.sh.in:755
+#: scripts/makepkg.sh.in:893 scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1601 scripts/makepkg.sh.in:2208
+#: scripts/makepkg.sh.in:2891 scripts/makepkg.sh.in:3327
+#: scripts/makepkg.sh.in:3375 scripts/makepkg.sh.in:3382
+#: scripts/makepkg.sh.in:3395 scripts/makepkg.sh.in:3403
+#: scripts/makepkg.sh.in:3412 scripts/makepkg.sh.in:3425
 msgid "Aborting..."
 msgstr "Abortatzen..."
 
+#: scripts/makepkg.sh.in:312
 msgid "The download program %s is not installed."
 msgstr "%s deskarga programa ez dago instalatuta."
 
+#: scripts/makepkg.sh.in:325 scripts/makepkg.sh.in:338
 msgid "Found %s"
 msgstr "%s aurkituta"
 
+#: scripts/makepkg.sh.in:328
 msgid "%s was not found in the build directory and is not a URL."
 msgstr "%s ez da aurkitu eraikitze direktorioan eta ez da URL bat."
 
+#: scripts/makepkg.sh.in:357
 msgid "Downloading %s..."
 msgstr "%s deskargatzen...."
 
+#: scripts/makepkg.sh.in:376
 msgid "Failure while downloading %s"
 msgstr "%s deskargatzean huts egin du"
 
+#: scripts/makepkg.sh.in:432
 msgid "Extracting %s with %s"
 msgstr "%s erauzten %s bidez"
 
+#: scripts/makepkg.sh.in:440
 msgid "Failed to extract %s"
 msgstr "%s erauztean huts egin du"
 
+#: scripts/makepkg.sh.in:467
 msgid "Branching %s ..."
 msgstr "%s adarrarazten..."
 
+#: scripts/makepkg.sh.in:469
 msgid "Failure while branching %s"
 msgstr "Huts egin du %s adarrarazten"
 
+#: scripts/makepkg.sh.in:479 scripts/makepkg.sh.in:485
 msgid "%s is not a branch of %s"
 msgstr "%s ez da %s adar bat"
 
+#: scripts/makepkg.sh.in:486
 msgid "The local URL is %s"
 msgstr "URL lokala %s da"
 
+#: scripts/makepkg.sh.in:491
 msgid "Pulling %s ..."
 msgstr "%s deskargatzen ..."
 
+#: scripts/makepkg.sh.in:495
 msgid "Failure while pulling %s"
 msgstr "Huts egin du %s deskargatzean"
 
+#: scripts/makepkg.sh.in:517 scripts/makepkg.sh.in:626
+#: scripts/makepkg.sh.in:696 scripts/makepkg.sh.in:744
 msgid "Unrecognized reference: %s"
 msgstr "Erreferentzia ezezaguna: %s"
 
+#: scripts/makepkg.sh.in:526 scripts/makepkg.sh.in:595
+#: scripts/makepkg.sh.in:686 scripts/makepkg.sh.in:777
 msgid "Creating working copy of %s %s repo..."
 msgstr "%s %s biltegiaren lanerako kopia bat sortzen..."
 
+#: scripts/makepkg.sh.in:532 scripts/makepkg.sh.in:603
+#: scripts/makepkg.sh.in:705
+msgid "Failure while updating working copy of %s %s repo"
+msgstr "Huts egin du %s %s biltegiaren lanerako kopia eguneratzean"
+
+#: scripts/makepkg.sh.in:537 scripts/makepkg.sh.in:609
+#: scripts/makepkg.sh.in:634 scripts/makepkg.sh.in:710
 msgid "Failure while creating working copy of %s %s repo"
 msgstr "Huts egin du %s %s biltegiaren lanerako kopia bat sortzean"
 
+#: scripts/makepkg.sh.in:558 scripts/makepkg.sh.in:656
+#: scripts/makepkg.sh.in:751
 msgid "Cloning %s %s repo..."
 msgstr "%s %s biltegia klonatzen..."
 
+#: scripts/makepkg.sh.in:560 scripts/makepkg.sh.in:658
+#: scripts/makepkg.sh.in:754
 msgid "Failure while downloading %s %s repo"
 msgstr "%s %s biltegia deskargatzeak huts egin du"
 
+#: scripts/makepkg.sh.in:568
 msgid "%s is not a clone of %s"
 msgstr "%s ez da %s klon bat"
 
+#: scripts/makepkg.sh.in:572 scripts/makepkg.sh.in:663
+#: scripts/makepkg.sh.in:759
 msgid "Updating %s %s repo..."
 msgstr "Eguneratzen %s %s biltegia..."
 
+#: scripts/makepkg.sh.in:575 scripts/makepkg.sh.in:667
+#: scripts/makepkg.sh.in:763
 msgid "Failure while updating %s %s repo"
 msgstr "Huts egin du %s %s biltegia eguneratzean"
 
+#: scripts/makepkg.sh.in:816
 msgid "Retrieving sources..."
 msgstr "Iturburuak eskuratzen..."
 
+#: scripts/makepkg.sh.in:868
+msgid "pkgver() generated an invalid version: %s"
+msgstr "pkgver() funtzioak baliogabeko bertsioa sortu du: %s"
+
+#: scripts/makepkg.sh.in:875
+msgid "Failed to update %s from %s to %s"
+msgstr "Huts egin du %s eguneratzean hemendik %s hona %s"
+
+#: scripts/makepkg.sh.in:882
 msgid "Updated version: %s"
 msgstr "Eguneratutako bertsioa: %s"
 
+#: scripts/makepkg.sh.in:884
 msgid "%s is not writeable -- pkgver will not be updated"
 msgstr "%s ezin da idatzi -- pkgver ez da eguneratuko"
 
+#: scripts/makepkg.sh.in:892
 msgid "Unable to find source file %s."
 msgstr "Ezin izan da %s iturburu fitxategia aurkitu."
 
+#: scripts/makepkg.sh.in:1072
 msgid "'%s' returned a fatal error (%i): %s"
 msgstr "'%s' errore larria bueltatu du (%i): %s"
 
+#: scripts/makepkg.sh.in:1091
 msgid "Installing missing dependencies..."
 msgstr "Falta diren menpekotasunak instalatzen..."
 
+#: scripts/makepkg.sh.in:1094
 msgid "'%s' failed to install missing dependencies."
 msgstr "'%s' falta ziren menpekotasunak instalatzean huts egin du."
 
+#: scripts/makepkg.sh.in:1125
 msgid "Missing dependencies:"
 msgstr "Falta diren menpekotasunak:"
 
+#: scripts/makepkg.sh.in:1141 scripts/makepkg.sh.in:1155
 msgid "Failed to remove installed dependencies."
 msgstr "Instalatutako menpekotasunak ezabatzean huts egin du."
 
+#: scripts/makepkg.sh.in:1230
 msgid "Generating checksums for source files..."
 msgstr "Iturburu fitxategien kontrol-baturak sortzen..."
 
+#: scripts/makepkg.sh.in:1233
 msgid ""
 "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr "Ezin da aurkitu iturburu fitxategien kontrol-batura sortzeko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:1247
 msgid "Invalid integrity algorithm '%s' specified."
 msgstr "'%s' osotasun algoritmo baliogabea zehaztu da."
 
-msgid "Validating source files with %s..."
-msgstr "Iturburu fitxategiak %s bidez balioztatzen..."
-
+#: scripts/makepkg.sh.in:1265
 msgid "Skipped"
 msgstr "Saltatua"
 
+#: scripts/makepkg.sh.in:1270
 msgid "NOT FOUND"
 msgstr "EZ DA AURKITU"
 
+#: scripts/makepkg.sh.in:1277 scripts/makepkg.sh.in:1514
 msgid "Passed"
 msgstr "Gainditua"
 
+#: scripts/makepkg.sh.in:1279 scripts/makepkg.sh.in:1490
+#: scripts/makepkg.sh.in:1508 scripts/makepkg.sh.in:1511
 msgid "FAILED"
 msgstr "HUTS EGIN DU"
 
+#: scripts/makepkg.sh.in:1302
+msgid "Validating source files with %s..."
+msgstr "Iturburu fitxategiak %s bidez balioztatzen..."
+
+#: scripts/makepkg.sh.in:1309
 msgid "One or more files did not pass the validity check!"
 msgstr "Gutxienez fitxategi batek ez du gainditu baliozkotasun egiaztaketa!"
 
+#: scripts/makepkg.sh.in:1313
 msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Osotasun egiaztaketak (%s) tamainan desberdinak dira iturburu taularekiko."
 
+#: scripts/makepkg.sh.in:1361
 msgid "Integrity checks are missing."
 msgstr "Osotasun egiaztaketak falta dira."
 
+#: scripts/makepkg.sh.in:1428
 msgid "Verifying source file signatures with %s..."
 msgstr "Iturburu fitxategien sinadura %s bidez egiaztatzen..."
 
+#: scripts/makepkg.sh.in:1453
 msgid "SIGNATURE NOT FOUND"
 msgstr "EZ DA SINADURA AURKITU"
 
+#: scripts/makepkg.sh.in:1466
 msgid "SOURCE FILE NOT FOUND"
 msgstr "EZ DA ITURBURU-FITXATEGIA AURKITU"
 
+#: scripts/makepkg.sh.in:1493
 msgid "unknown public key"
 msgstr "gako publiko ezezaguna"
 
-msgid "the key has been revoked."
-msgstr "gako hau indargabetuta dago."
+#: scripts/makepkg.sh.in:1496
+msgid "public key %s has been revoked"
+msgstr "%s gako publikoa indargabetua dago"
 
+#: scripts/makepkg.sh.in:1499
+msgid "bad signature from public key"
+msgstr "gako publikoaren sinadura baliogabea"
+
+#: scripts/makepkg.sh.in:1502
+msgid "error during signature verification"
+msgstr "errorea sinadura egiaztatzean"
+
+#: scripts/makepkg.sh.in:1508
+msgid "the public key %s is not trusted"
+msgstr "%s gako publikoarengan konfidantzarik ez"
+
+#: scripts/makepkg.sh.in:1511
+msgid "invalid public key"
+msgstr "gako publiko baliogabea"
+
+#: scripts/makepkg.sh.in:1517
 msgid "the signature has expired."
 msgstr "Sinadurak iraungi du."
 
+#: scripts/makepkg.sh.in:1521
 msgid "the key has expired."
 msgstr "gako honek iraungi du."
 
+#: scripts/makepkg.sh.in:1533
 msgid "One or more PGP signatures could not be verified!"
 msgstr "Gutxienez PGP sinadura bat ezin izan da egiaztatu!"
 
+#: scripts/makepkg.sh.in:1538
 msgid "Warnings have occurred while verifying the signatures."
 msgstr "Sinadurak egiaztatzean oharrak jaso dira."
 
+#: scripts/makepkg.sh.in:1539
 msgid "Please make sure you really trust them."
 msgstr "Benetan zure konfiantzazkoak direla ziurtatu."
 
+#: scripts/makepkg.sh.in:1545
 msgid "Skipping all source file integrity checks."
 msgstr "iturburu-fitxategien osotasun egiaztaketa guztiak saltatzen."
 
+#: scripts/makepkg.sh.in:1547
 msgid "Skipping verification of source file checksums."
 msgstr "Iturburu fitxategien kontrol-batura egiaztapena saltatzen."
 
+#: scripts/makepkg.sh.in:1550
 msgid "Skipping verification of source file PGP signatures."
 msgstr "Iturburu-fitxategien PGP sinaduren egiaztaketa saltatzen."
 
+#: scripts/makepkg.sh.in:1559
 msgid "Extracting sources..."
 msgstr "Iturburuak erauzten..."
 
+#: scripts/makepkg.sh.in:1592
 msgid "A failure occurred in %s()."
 msgstr "Hutsegitea hemen %s()."
 
+#: scripts/makepkg.sh.in:1600
 msgid "Failed to change to directory %s"
 msgstr "Huts egin du %s direktoriora aldatzean"
 
+#: scripts/makepkg.sh.in:1609
 msgid "Failed to source %s"
 msgstr "Huts egin du %s iturbururatzean"
 
+#: scripts/makepkg.sh.in:1671
 msgid "Starting %s()..."
 msgstr "Abiarazten %s()..."
 
+#: scripts/makepkg.sh.in:1796
 msgid "Tidying install..."
 msgstr "Instalazioa txukuntzen..."
 
+#: scripts/makepkg.sh.in:1799
 msgid "Removing doc files..."
 msgstr "Doc fitxategiak ezabatzen..."
 
+#: scripts/makepkg.sh.in:1804
 msgid "Purging unwanted files..."
 msgstr "Nahi ez diren fitxategiak purgatzen..."
 
+#: scripts/makepkg.sh.in:1816
 msgid "Removing %s files..."
 msgstr "%s fitxategi ezabatzen..."
 
+#: scripts/makepkg.sh.in:1821
+msgid "Removing static library files..."
+msgstr "Libururegi estatikoen fitxategiak ezabatzen..."
+
+#: scripts/makepkg.sh.in:1831
 msgid "Removing empty directories..."
 msgstr "Direktorio hutsak ezabatzen..."
 
+#: scripts/makepkg.sh.in:1839
 msgid "%s entry file not in package : %s"
 msgstr "%s sarrera ez dago paketean: %s"
 
+#: scripts/makepkg.sh.in:1845 scripts/makepkg.sh.in:1848
 msgid "Package contains reference to %s"
 msgstr "Paketeak erreferentzia egiten dio honi %s "
 
+#: scripts/makepkg.sh.in:1852
 msgid "Compressing man and info pages..."
 msgstr "Man eta info orriak trinkotzen..."
 
+#: scripts/makepkg.sh.in:1880
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Binario eta liburutegietatik behar ez diren sinboloak eranzten..."
 
+#: scripts/makepkg.sh.in:1914
 msgid "Compressing binaries with %s..."
 msgstr "Bitarrak %s erabiliz trinkotzen..."
 
+#: scripts/makepkg.sh.in:1919
 msgid "Could not compress binary : %s"
 msgstr "Ezin izan da bitarra trinkotu: %s"
 
+#: scripts/makepkg.sh.in:1976
 msgid "Library listed in %s is not required by any files: %s"
 msgstr "%s-k zerrendatutako liburutegia behar duen fitxategirik ez dago: %s"
 
+#: scripts/makepkg.sh.in:2005
 msgid "Library listed in %s is not versioned: %s"
 msgstr "%s-k zerrendatutako liburutegiak ez du bertsiorik: %s"
 
+#: scripts/makepkg.sh.in:2018
 msgid "Library listed in %s is not a shared object: %s"
 msgstr "%s-k zerrendatutako liburutegia ez da partekatutako objetktua: %s"
 
+#: scripts/makepkg.sh.in:2033
 msgid "Cannot find library listed in %s: %s"
 msgstr "Ezin izan da %s zerrendan agertzen den liburutegia: %s"
 
-msgid "Please add a license line to your %s!"
-msgstr "Mesedez gehitu lizentzia lerro bat zure %s ra!"
-
-msgid "Example for GPL'ed software: %s."
-msgstr "GPL lizentziadun softwarearen adibidea: %s."
-
+#: scripts/makepkg.sh.in:2147 scripts/makepkg.sh.in:2351
 msgid "Generating %s file..."
 msgstr "%s fitxategia sortzen..."
 
+#: scripts/makepkg.sh.in:2207
 msgid "Missing %s directory."
 msgstr "%s direktorioa falta da."
 
+#: scripts/makepkg.sh.in:2213
 msgid "Creating package \"%s\"..."
 msgstr "\"%s\" paketea sortzen..."
 
+#: scripts/makepkg.sh.in:2225
 msgid "Adding %s file..."
 msgstr "%s fitxategia gehitzen..."
 
+#: scripts/makepkg.sh.in:2227
+msgid "Failed to add %s file to package."
+msgstr "Huts egin du %s fitxategia paketera gehitzean."
+
+#: scripts/makepkg.sh.in:2247
 msgid "Generating .MTREE file..."
 msgstr ".MTREE fitxategia sortzen..."
 
+#: scripts/makepkg.sh.in:2253
 msgid "Compressing package..."
 msgstr "Paketea trinkotzen..."
 
+#: scripts/makepkg.sh.in:2268 scripts/makepkg.sh.in:2394
 msgid "'%s' is not a valid archive extension."
 msgstr "'%s' ez da artxibo luzapen baliagarria."
 
+#: scripts/makepkg.sh.in:2276
 msgid "Failed to create package file."
 msgstr "Pakete fitxategia sortzean huts egin du."
 
+#: scripts/makepkg.sh.in:2293
 msgid "Failed to create symlink to package file."
 msgstr "pakete fitxategira lotura sinbolikoa sortzean huts egin du."
 
+#: scripts/makepkg.sh.in:2325
 msgid "Signing package..."
 msgstr "Paketea sinatzen..."
 
+#: scripts/makepkg.sh.in:2336
 msgid "Created signature file %s."
 msgstr "%s sinadura fitxategia sortu da."
 
+#: scripts/makepkg.sh.in:2338
 msgid "Failed to sign package file."
 msgstr "Pakete fitxategia sinatzean huts egin du."
 
+#: scripts/makepkg.sh.in:2344
 msgid "Creating source package..."
 msgstr "iturburu paketea sortzen..."
 
+#: scripts/makepkg.sh.in:2348 scripts/makepkg.sh.in:2361
 msgid "Adding %s..."
 msgstr "%s gehitzen..."
 
+#: scripts/makepkg.sh.in:2379
 msgid "Adding %s file (%s)..."
 msgstr "%s fitxategia gehitzen (%s)..."
 
+#: scripts/makepkg.sh.in:2402
 msgid "Compressing source package..."
 msgstr "Iturburu paketea trinkotzen..."
 
+#: scripts/makepkg.sh.in:2405
 msgid "Failed to create source package file."
 msgstr "Iturburu pakete fitxategia sortzean huts egin du."
 
+#: scripts/makepkg.sh.in:2422
 msgid "Failed to create symlink to source package file."
 msgstr "Iturburu pakete fitxategira lotura sinbolikoa sortzean huts egin du."
 
+#: scripts/makepkg.sh.in:2434
 msgid "Installing package %s with %s..."
 msgstr "%s paketea %s bidez instalatzen..."
 
+#: scripts/makepkg.sh.in:2436
 msgid "Installing %s package group with %s..."
 msgstr "%s pakete taldea %s bidez instalatzen..."
 
+#: scripts/makepkg.sh.in:2454
 msgid "Failed to install built package(s)."
 msgstr "Eraikitako paketea(k) instalatzean huts egin du."
 
-msgid "%s is not allowed to be empty."
-msgstr "%s ezin da hutsik egon."
-
+#: scripts/makepkg.sh.in:2546 scripts/makepkg.sh.in:2561
 msgid "%s is not allowed to start with a hyphen."
 msgstr "%s ezin da marratxo betekin hasi."
 
+#: scripts/makepkg.sh.in:2556 scripts/makepkg.sh.in:2580
+#: scripts/makepkg.sh.in:2869
+msgid "%s is not allowed to be empty."
+msgstr "%s ezin da hutsik egon."
+
+#: scripts/makepkg.sh.in:2565
 msgid "%s is not allowed to start with a dot."
 msgstr "%s ezin da puntu batekin hasi."
 
+#: scripts/makepkg.sh.in:2569 scripts/makepkg.sh.in:2615
 msgid "%s contains invalid characters: '%s'"
 msgstr "%s karaktere baliogabeak ditu: '%s'"
 
-msgid "%s must be a decimal."
-msgstr "%s dezimala izan behar du."
+#: scripts/makepkg.sh.in:2585
+msgid "%s must be a decimal, not %s."
+msgstr "%s dezimala izan behar du, ez %s."
 
-msgid "%s must be an integer."
-msgstr "%s zenbaki oso bat izan behar du."
+#: scripts/makepkg.sh.in:2601
+msgid "%s must be an integer, not %s."
+msgstr "%s zenbaki osoa izan behar du, ez %s."
 
+#: scripts/makepkg.sh.in:2622 scripts/makepkg.sh.in:2632
 msgid "%s is not available for the '%s' architecture."
 msgstr "%s ez dago '%s' arkitekturarako eskuragarri."
 
+#: scripts/makepkg.sh.in:2623
 msgid "Note that many packages may need a line added to their %s"
 msgstr "Kontuan izan pakete askok lerro bat gehitzea behar dezaketela hemen : %s"
 
+#: scripts/makepkg.sh.in:2624
 msgid "such as %s."
 msgstr "Adibidez %s."
 
+#: scripts/makepkg.sh.in:2662
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "%s taulak ezin du konparaketa operadorerik izan (< or >)."
 
+#: scripts/makepkg.sh.in:2682
 msgid "%s entry should not contain leading slash : %s"
 msgstr "%s sarrerak ez luke aurretik barra bat izan behar: %s"
 
-msgid "Invalid syntax for %s : '%s'"
+#: scripts/makepkg.sh.in:2715
+msgid "Invalid syntax for %s: '%s'"
 msgstr "%s sintaxi baliogabea: '%s'"
 
-msgid "%s file (%s) does not exist."
-msgstr "%s fitxategia (%s) ez da existitzen."
+#: scripts/makepkg.sh.in:2728
+msgid "%s file (%s) does not exist or is not a regular file."
+msgstr "%s fitxategia (%s) ez dago edo ez da ohiko fitxategi bat."
 
+#: scripts/makepkg.sh.in:2781
 msgid "%s array contains unknown option '%s'"
 msgstr "%s arrayak '%s' aukera ezezaguna du."
 
-msgid "Missing %s function for split package '%s'"
-msgstr "%s funtzioa falta da '%s' zatitutako paketean"
+#: scripts/makepkg.sh.in:2792
+msgid "Sparse arrays are not allowed for source"
+msgstr "Array ahulak ez dira onartzen iturri gisa"
 
+#: scripts/makepkg.sh.in:2802
 msgid "Requested package %s is not provided in %s"
 msgstr "Eskatutako %s paketea ez du %s honek hornitzen"
 
+#: scripts/makepkg.sh.in:2815
+msgid "Missing %s function in %s"
+msgstr "%s funtzioa falta da hemen: %s' "
+
+#: scripts/makepkg.sh.in:2821
+msgid "Missing %s function for split package '%s'"
+msgstr "%s funtzioa falta da '%s' zatitutako paketean"
+
+#: scripts/makepkg.sh.in:2862
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
 msgstr "%s baitan ezin da bi puntu, marratxoa edo zuriunea egon."
 
+#: scripts/makepkg.sh.in:2907
+msgid "Cannot find the %s binary needed to check VCS source requirements."
+msgstr "Ezin da aurkitu VCS iturburu betebeharrak egiaztatzeko beharrezkoa den %s binarioa."
+
+#: scripts/makepkg.sh.in:2925
+msgid "Cannot find the %s package needed to handle %s sources."
+msgstr "Ezin da aurkitu iturburu fitxategiak kudeatzeko beharrezkoa den %s binarioa."
+
+#: scripts/makepkg.sh.in:2948
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr "Ezin izan da aurkitu menpekotasun eragiketetarako beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:2956
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "Ezin izan da aurkitu %s bitarra. %s erabiliko da root pribilegioak eskuratzeko."
 
-msgid "Cannot find the %s binary required for building as non-root user."
-msgstr "Ezin izan da aurkitu root ez den erabiltzaile gisa eraikitzeko beharrezkoa den %s bitarra."
+#: scripts/makepkg.sh.in:2963
+msgid "Cannot find the %s binary."
+msgstr "Ezin izan da aurkitu %s bitarra."
 
+#: scripts/makepkg.sh.in:2971
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Ezin izan da aurkitu paketeak sinatzeko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:2979
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Ezin da aurkitu iturburu fitxategiak egiaztatzeko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:2987
 msgid ""
 "Cannot find the %s binary required for validating sourcefile checksums."
 msgstr "Ezin da aurkitu iturburu fitxategien kontrol-batura balioztatzeko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:2995
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Ezin izan da aurkitu bitarrak trinkotzeko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:3003
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "Ezin izan da banatutako konpilaziorako beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:3011
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr "Ezin izan da aurkitu konpilatzailearen cachea erabiltzeko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:3019
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr "Ezin izan da aurkitu objektu fitxategia eranzteko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:3027
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr "Ezin izan da aurkitu man eta info orriak trinkotzeko beharrezkoa den %s bitarra."
 
+#: scripts/makepkg.sh.in:3047
 msgid "A package has already been built, installing existing package..."
 msgstr "Pakete bat eraiki da dagoeneko, badagoen paketea instalatzen..."
 
+#: scripts/makepkg.sh.in:3051
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Pakete bat eraiki da dagoeneko. (Erabili %s gainidazteko)"
 
+#: scripts/makepkg.sh.in:3070
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Pakete taldea eraiki da dagoeneko, badauden paketeak instalatzen..."
 
+#: scripts/makepkg.sh.in:3074
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Pakete taldea eraiki da dagoeneko. (Erabili %s gainidazteko)"
 
+#: scripts/makepkg.sh.in:3079
 msgid ""
 "Part of the package group has already been built. (use %s to overwrite)"
 msgstr "Pakete taldearen parte bat eraiki da dagoeneko. (Erabili %s gainidazteko)"
 
+#: scripts/makepkg.sh.in:3149
+msgid "Make packages compatible for use with pacman"
+msgstr "Paketeak Pacman erabiltzeko bateragarriak egin"
+
+#: scripts/makepkg.sh.in:3151 scripts/pacman-db-upgrade.sh.in:37
 msgid "Usage: %s [options]"
 msgstr "Erabilera: %s [aukerak]"
 
+#: scripts/makepkg.sh.in:3153 scripts/pacman-key.sh.in:81
 msgid "Options:"
 msgstr "Aukerak:"
 
+#: scripts/makepkg.sh.in:3154
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ezikusi osatu gabeko %s eremua hemen %s"
 
+#: scripts/makepkg.sh.in:3155
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Garbitu lan fitxategiak eraiki eta gero"
 
+#: scripts/makepkg.sh.in:3156
+msgid "  -C, --cleanbuild Remove %s dir before building the package"
+msgstr "  -C, --cleanbuild Ezabatu %s direktorioa paketea eraiki aurretik"
+
+#: scripts/makepkg.sh.in:3157
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Saltatu menpekotasun egiaztaketa guztiak"
 
+#: scripts/makepkg.sh.in:3158
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr "  -e, --noextract  Ez erauzi iturburu-fitxategiak (erabili aurretik dagoen %s direktorioa)"
 
+#: scripts/makepkg.sh.in:3159
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Gainidatzi aurretik dagoen paketea"
 
+#: scripts/makepkg.sh.in:3160
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Sortu iturburu-fitxategien osotasun egiaztaketak"
 
+#: scripts/makepkg.sh.in:3161
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Bistaratu laguntza mezu hau eta irten"
 
+#: scripts/makepkg.sh.in:3162
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Instalatu paketea eraikuntza arrakastatsua eta gero"
 
+#: scripts/makepkg.sh.in:3163
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        Eraikitze prozesuaren egunkaria gorde"
 
+#: scripts/makepkg.sh.in:3164
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Desgaitu koloredun irteera mezuak"
 
+#: scripts/makepkg.sh.in:3165
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Fitxategiak deskargatu eta erauzi soilik"
 
+#: scripts/makepkg.sh.in:3166
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <fitxategia>        Erabili beste eraikitze script bat ('%s' ordez)"
 
+#: scripts/makepkg.sh.in:3167
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr "  -r, --rmdeps     Ezabatu instalatutako menpekotasunak eraikuntza arrakastatsua eta gero"
 
+#: scripts/makepkg.sh.in:3168
 msgid ""
 "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Birpaketatu paketearen edukiak berriro eraiki gabe"
 
+#: scripts/makepkg.sh.in:3169
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Instalatu falta diren menpekotasunak %s bidez"
 
+#: scripts/makepkg.sh.in:3170
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr "  -S, --source     Sortu iturburu hutsez osatutako tarball bat deskargatutako iturbururik gabe"
 
+#: scripts/makepkg.sh.in:3171
 msgid "  -V, --version    Show version information and exit"
 msgstr "  -V, --version    Bistaratu bertsio informazioa eta irten"
 
+#: scripts/makepkg.sh.in:3172
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr "  --allsource      Sortu iturburuak soilik dituen tarball bat deskargatutako iturburuekin"
 
-msgid ""
-"  --verifysource   Download source files (if needed) and perform integrity "
-"checks"
-msgstr "--verifysource   Deskargatu iturburu-fitxategiak (beharrezkoa bada) eta egin osotasun egiaztaketak"
-
-msgid "  --asroot         Allow %s to run as root user"
-msgstr "  --asroot         Baimendu %s root erabiltzaile gisa aritzea"
-
+#: scripts/makepkg.sh.in:3173
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Abiarazi %s funtzioa hemen %s"
 
+#: scripts/makepkg.sh.in:3174
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <fitxategia>  Erabili beste konfigurazio fitxategi bat ('%s' ordez)"
 
+#: scripts/makepkg.sh.in:3175
 msgid "  --holdver        Do not update VCS sources"
 msgstr "  --holdver        Ez eguneratu VCS iturburuak"
 
+#: scripts/makepkg.sh.in:3176
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the "
 "default"
 msgstr "  --key <gakoa>      Zehaztu %s bidez sinatzeko gakoa, lehenetsitakoaren ordez"
 
+#: scripts/makepkg.sh.in:3177
+msgid "  --noarchive      Do not create package archive"
+msgstr "  --noarchive         Ez sortu paketearen artxiboa"
+
+#: scripts/makepkg.sh.in:3178
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Ez erabili %s funtzioa hemen %s"
 
+#: scripts/makepkg.sh.in:3179
+msgid "  --noprepare      Do not run the %s function in the %s"
+msgstr "--noprepare Ez erabili %s funtzioa hemen %s"
+
+#: scripts/makepkg.sh.in:3180
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Ez sortu sinadura bat paketearentzat"
 
+#: scripts/makepkg.sh.in:3181
 msgid "  --pkg <list>     Only build listed packages from a split package"
 msgstr "  --pkg <zerrenda>     Soilik eraiki zerrendatutako paketeak zatitutako pakete batetik"
 
+#: scripts/makepkg.sh.in:3182
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Sinatu sortutako paketea %s erabilita"
 
+#: scripts/makepkg.sh.in:3183
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  Ez egiaztatu iturburu fitxategien kontrol-baturak"
 
+#: scripts/makepkg.sh.in:3184
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Ez egin iturburu-fitxategien inolako egiaztaketarik."
 
+#: scripts/makepkg.sh.in:3185
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "--skippgpcheck  Ez egiaztatu iturburu fitxategien PGP sinadurak"
 
+#: scripts/makepkg.sh.in:3186
+msgid ""
+"  --verifysource   Download source files (if needed) and perform integrity "
+"checks"
+msgstr "--verifysource   Deskargatu iturburu-fitxategiak (beharrezkoa bada) eta egin osotasun egiaztaketak"
+
+#: scripts/makepkg.sh.in:3188
 msgid "These options can be passed to %s:"
 msgstr "Aukera hauek onartzen ditu %s:"
 
+#: scripts/makepkg.sh.in:3190
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "  --asdeps         Instalatu paketeak ez esplizituki instalatuta gisa"
 
-msgid ""
-"  --noconfirm      Do not ask for confirmation when resolving dependencies"
-msgstr "  --noconfirm      Ez eskatu berrestea menpekotasunak ebaztean"
-
+#: scripts/makepkg.sh.in:3191
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "  --needed         Ez berrinstalatu egunean dauden helburuak"
 
+#: scripts/makepkg.sh.in:3192
+msgid ""
+"  --noconfirm      Do not ask for confirmation when resolving dependencies"
+msgstr "  --noconfirm      Ez eskatu berrestea menpekotasunak ebaztean"
+
+#: scripts/makepkg.sh.in:3193
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Ez bistaratu aurrerapen-barra fitxategiak deskargatzean"
 
+#: scripts/makepkg.sh.in:3195
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "%s zehaztu ez bada, %sek %s bilatuko du"
 
+#: scripts/makepkg.sh.in:3201 scripts/pacman-optimize.sh.in:53
 msgid ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-"
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-"
 "dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet "
 "<jvinet@zeroflux.org>.\\n\\nThis is free software; see the source for "
 "copying conditions.\\nThere is NO WARRANTY, to the extent permitted by "
 "law.\\n"
-msgstr "Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\Hau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\\n EZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\\n"
+msgstr "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nHau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\\nEZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\\n"
 
+#: scripts/makepkg.sh.in:3302 scripts/repo-add.sh.in:612
 msgid "%s signal caught. Exiting..."
 msgstr "%s seinalea jaso da. Irteten..."
 
-msgid "Aborted by user! Exiting..."
-msgstr "Erabiltzaileak abortatua! Irteten..."
-
-msgid "An unknown error has occurred. Exiting..."
-msgstr "Errore ezezaguna gertatu da. Irteten..."
-
+#: scripts/makepkg.sh.in:3326
 msgid "%s not found."
 msgstr "%s ez da aurkitu."
 
+#: scripts/makepkg.sh.in:3374 scripts/makepkg.sh.in:3381
 msgid "You do not have write permission to create packages in %s."
 msgstr "Ez duzu idazteko baimenik %s direktorioan paketeak sortzeko."
 
+#: scripts/makepkg.sh.in:3394
 msgid "You do not have write permission to store packages in %s."
 msgstr "Ez duzu idazteko baimenik %s direktorioan paketeak gordetzeko."
 
+#: scripts/makepkg.sh.in:3402
 msgid "You do not have write permission to store downloads in %s."
 msgstr "Ez duzu idazteko baimenik %s direktorioan deskargak gordetzeko."
 
+#: scripts/makepkg.sh.in:3411
 msgid "You do not have write permission to store source tarballs in %s."
 msgstr "Ez duzu idazteko baimenik iturburu tarball-ak hemen gordetzeko %s."
 
+#: scripts/makepkg.sh.in:3424
 msgid "You do not have write permission to store logs in %s."
 msgstr "Ez duzu idazteko baimenik egunkari fitxategiak hemen gordetzeko %s."
 
+#: scripts/makepkg.sh.in:3437
 msgid ""
-"Running %s as root is a BAD idea and can cause permanent,\\ncatastrophic "
-"damage to your system. If you wish to run as root, please\\nuse the %s "
-"option."
-msgstr "%s root gisa exekutatzea idea TXARRA da eta zure sisteman \\nbehin-betiko kalte katastrofikoa sor lezake. Root gisa exekutatu nahi baduzu\\n erabili %s aukera."
+"Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
+"damage to your system."
+msgstr "%s root gisa exekutatzea ez dago baimenduta zure sisteman \\nbehin-betiko kalte katastrofikoa sor dezakelako."
 
-msgid ""
-"The %s option is meant for the root user only. Please\\nrerun %s without the"
-" %s flag."
-msgstr "%s aukera root erabiltzailearentzat da soilik.\\n %s berriro exekutatu %s aukera gabe."
-
-msgid ""
-"Running %s as an unprivileged user will result in non-root\\nownership of "
-"the packaged files. Try using the %s environment by\\nplacing %s in the %s "
-"array in %s."
-msgstr "%s pribilegio gabeko erabiltzaile gisa exekutatzea paketeen jabetza ez-root erabiltzaileak izatea dakar. Saiatu %s erabiltzen %s kokatuz %s array-an hemen %s."
-
+#: scripts/makepkg.sh.in:3443
 msgid "Do not use the %s option. This option is only for use by %s."
 msgstr "Ez erabili %s aukera. Aukera hau %s bidez erabiltzeko da soilik."
 
+#: scripts/makepkg.sh.in:3454
 msgid "%s does not exist."
 msgstr "%s ez da existitzen."
 
+#: scripts/makepkg.sh.in:3458
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s baditu %s karaktereak eta ezin da iturbururatu."
 
+#: scripts/makepkg.sh.in:3463
+msgid "%s must be in the current working directory."
+msgstr "%s oraingo laneko direktorioan egon behar du."
+
+#: scripts/makepkg.sh.in:3544
 msgid "The key %s does not exist in your keyring."
 msgstr "%s gakoa ez dago zure gako-sortan."
 
+#: scripts/makepkg.sh.in:3546 scripts/repo-add.sh.in:635
 msgid "There is no key in your keyring."
 msgstr "Ez dago gakorik zure gako-sortan."
 
+#: scripts/makepkg.sh.in:3560 scripts/makepkg.sh.in:3578
 msgid "Leaving %s environment."
 msgstr "%s ingurunetik irtetzen."
 
-msgid "Repackaging without the use of a %s function is deprecated."
-msgstr "%s funtzioa erabili gabe birpaketatzea zaharkitua dago."
-
-msgid "File permissions may not be preserved."
-msgstr "Fitxategi baimenak ez gordetzea gerta liteke."
-
+#: scripts/makepkg.sh.in:3582
 msgid "Making package: %s"
 msgstr "Paketea egiten: %s"
 
-msgid "Using a %s without a %s function is deprecated."
-msgstr "%s erabiltzea %s funtziorik gabe zaharkitua dago."
-
+#: scripts/makepkg.sh.in:3588
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Iturburu pakete bat eraiki da dagoeneko. (Erabili %s gainidazteko)"
 
+#: scripts/makepkg.sh.in:3607
 msgid "Source package created: %s"
 msgstr "Iturburu paketea sortu da: %s"
 
+#: scripts/makepkg.sh.in:3614
 msgid "Skipping dependency checks."
 msgstr "Menpekotasun egiaztaketak saltatzen."
 
+#: scripts/makepkg.sh.in:3622
 msgid "Checking runtime dependencies..."
 msgstr "Exekuzio-denborako menpekotasunak egiaztatzen..."
 
+#: scripts/makepkg.sh.in:3629
 msgid "Checking buildtime dependencies..."
 msgstr "Eraikuntza-orduko menpekotasunak egiaztatzen..."
 
+#: scripts/makepkg.sh.in:3641
 msgid "Could not resolve all dependencies."
 msgstr "Ezin izan dira menpekotasun guztiak ebatzi."
 
+#: scripts/makepkg.sh.in:3652
 msgid "Using existing %s tree"
 msgstr "Badagoen %s zuhaitza erabiltzen"
 
-msgid "The package directory is empty, there is nothing to repackage!"
-msgstr "Pakete direktorioa hutsik dago, ez dago birpaketatzeko ezer!"
-
-msgid "Sources are ready."
-msgstr "Iturburuak prest daude."
-
+#: scripts/makepkg.sh.in:3659 scripts/makepkg.sh.in:3680
 msgid "Removing existing %s directory..."
 msgstr "Ezabatzen badagoen %s direktorioa..."
 
+#: scripts/makepkg.sh.in:3675
+msgid "Sources are ready."
+msgstr "Iturburuak prest daude."
+
+#: scripts/makepkg.sh.in:3698
+msgid "Package directory is ready."
+msgstr "Pakete direktorioa prest dago."
+
+#: scripts/makepkg.sh.in:3702
 msgid "Finished making: %s"
 msgstr "Egiten bukatua: %s"
 
-msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr "Erabilera: %s [--nocolor] [pacman_db_erroa]"
+#: scripts/makepkg-template.pl.in:55
+#, perl-format
+msgid "can't create '%s': %s"
+msgstr "ezin izan da '%s' sortu: %s"
 
+#: scripts/makepkg-template.pl.in:73
+#, perl-format
 msgid ""
-"Copyright (c) 2010-2013 Pacman Development Team <pacman-"
+"invalid key/value pair\n"
+"%s:%s: %s"
+msgstr "baliogabeko gako/balio bikotea\n%s:%s: %s"
+
+#: scripts/makepkg-template.pl.in:82
+msgid "invalid template line: can't find template name\n"
+msgstr "baliogabeko txantiloi lerroa: ezin izan da txantiloiaren izena aurkitu\n"
+
+#: scripts/makepkg-template.pl.in:87
+#, perl-format
+msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
+msgstr "baliogabeko karaktereak izenean '%s'. baimenduta: [:alnum:]+_.@-\n"
+
+#: scripts/makepkg-template.pl.in:112
+#, perl-format
+msgid "Couldn't detect version for template '%s'"
+msgstr "Ezin izan da txantiloiaren bertsioa antzeman: '%s'"
+
+#: scripts/makepkg-template.pl.in:131
+#, perl-format
+msgid "failed to open '%s': %s"
+msgstr "ezin izan da '%s' ireki: %s"
+
+#: scripts/makepkg-template.pl.in:148
+#, perl-format
+msgid "Unknown template marker '%s'\n"
+msgstr "Txantiloi markagailu ezezaguna '%s'\n"
+
+#: scripts/makepkg-template.pl.in:170
+msgid "makepkg-template [options]\n"
+msgstr "makepkg-template [aukerak]\n"
+
+#: scripts/makepkg-template.pl.in:172
+msgid "Options:\n"
+msgstr "Aukerak:\n"
+
+#: scripts/makepkg-template.pl.in:173
+#, perl-format
+msgid "  --input, -p <file>    Build script to read (default: %s)\n"
+msgstr "  --input, -p <fitxategia>    Irakurri behar den eraiketa script-a (lehenetsita: %s)\n"
+
+#: scripts/makepkg-template.pl.in:174
+msgid "  --output, -o <file>   file to output to (default: input file)\n"
+msgstr "  --output, -o <fitxategia>   irteera fitxategia (lehenetsita: sarrera fitxategia)\n"
+
+#: scripts/makepkg-template.pl.in:175
+msgid "  --newest, -n          update templates to newest version\n"
+msgstr "  --newest, -n          eguneratu txantiloiak bertsio berrienera\n\n"
+
+#: scripts/makepkg-template.pl.in:176
+msgid ""
+"                        (default: use version specified in the template "
+"markers)\n"
+msgstr "(lehenetsita: erabili txantiloi markagailuetan zehaztutako bertsioa)\n"
+
+#: scripts/makepkg-template.pl.in:177
+msgid "  --template-dir <dir>  directory to search for templates\n"
+msgstr "  --template-dir <dir>  txantiloiak bilatzeko direktorioa\n"
+
+#: scripts/makepkg-template.pl.in:178
+#, perl-format
+msgid "                        (default: %s)\n"
+msgstr "(lehenetsia: %s)\n"
+
+#: scripts/makepkg-template.pl.in:179
+msgid "  --help, -h            This help message\n"
+msgstr "--help, -h Laguntza testu hau\n"
+
+#: scripts/makepkg-template.pl.in:180
+msgid "  --version             Version information\n"
+msgstr "--version Bertsio informazioa\n"
+
+#: scripts/makepkg-template.pl.in:189
+msgid ""
+"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"This is free software; see the source for copying conditions.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr "Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\nHau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\nEZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\n"
+
+#: scripts/pacman-db-upgrade.sh.in:35
+msgid "Upgrade the local pacman database to a newer format"
+msgstr "Bertsioberritu pacman datu-base lokala formatu berriago batetara"
+
+#: scripts/pacman-db-upgrade.sh.in:39
+msgid "options:"
+msgstr "aukerak:"
+
+#: scripts/pacman-db-upgrade.sh.in:40
+msgid "  -b, --dbpath <path>  set an alternate database location"
+msgstr "-b, --dbpath <bidea>  ezarri beste datu-base kokapen bat"
+
+#: scripts/pacman-db-upgrade.sh.in:41
+msgid "  -h, --help           show this help message and exit"
+msgstr "-h, --help bistaratu laguntza mezu hau eta irten"
+
+#: scripts/pacman-db-upgrade.sh.in:42
+msgid "  -r, --root <path>    set an alternate installation root"
+msgstr "-r, --root <bidea> ezarri beste instalazio erro bat"
+
+#: scripts/pacman-db-upgrade.sh.in:43
+msgid "  -V, --version        show version information and exit"
+msgstr "-V, --version bistaratu bertsio informazioa eta irten"
+
+#: scripts/pacman-db-upgrade.sh.in:44
+msgid "  --config <path>      set an alternate configuration file"
+msgstr "--config <bidea>  ezarri beste konfigurazio fitxategi bat"
+
+#: scripts/pacman-db-upgrade.sh.in:45
+msgid "  --nocolor            disable colorized output messages"
+msgstr "--nocolor desgaitu koloredun irteera mezuak"
+
+#: scripts/pacman-db-upgrade.sh.in:51 scripts/pacman-key.sh.in:94
+msgid ""
+"Copyright (c) 2010-2014 Pacman Development Team <pacman-"
 "dev@archlinux.org>.\\nThis is free software; see the source for copying "
 "conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2010-2013 Pacman Development Team <pacman-dev@archlinux.org>.\\Hau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\\n EZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\\n"
+msgstr "Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>.\\nHau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\\nEZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\\n"
 
+#: scripts/pacman-db-upgrade.sh.in:129 scripts/pacman-optimize.sh.in:105
+#: scripts/repo-add.sh.in:459
 msgid "%s does not exist or is not a directory."
 msgstr "%s ez dago edo ez da direktorio bat."
 
+#: scripts/pacman-db-upgrade.sh.in:133
 msgid "%s is not a pacman database directory."
 msgstr "%s ez da pacman datu-base direktorio bat."
 
+#: scripts/pacman-db-upgrade.sh.in:137
 msgid "You must have correct permissions to upgrade the database."
 msgstr "Baimen egokiak izan behar dituzu datu-basea eguneratzeko."
 
+#: scripts/pacman-db-upgrade.sh.in:147 scripts/pacman-optimize.sh.in:119
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr "Pacman blokeo fitxategia aurkitu da. Ezin da hau erabili pacman erabiltzen dn bitartean."
 
+#: scripts/pacman-db-upgrade.sh.in:159
 msgid "Pre-3.5 database format detected - upgrading..."
 msgstr "3.5 bertsio aurreko datu-base formatua aurkitu da - bertsio berritzen..."
 
+#: scripts/pacman-db-upgrade.sh.in:166
 msgid "Done."
 msgstr "Egina."
 
+#: scripts/pacman-db-upgrade.sh.in:180
+msgid "Pre-4.2 database format detected - upgrading..."
+msgstr "4.2 bertsio aurreko datu-base formatua aurkitu da - bertsio berritzen..."
+
+#: scripts/pacman-db-upgrade.sh.in:189
+msgid "symlink '%s' points outside pacman root, manual repair required"
+msgstr "'%s' esteka sinbolikoak pacman errotik kanpora bideratzen du, eskuzko konponketa behar da."
+
+#: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
 msgstr "Erabilera: %s [aukerak] eragiketak [helburuak]"
 
+#: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
 msgstr "Kudeatu Pacman-en konfiantzazko gakoen zerrenda"
 
+#: scripts/pacman-key.sh.in:62
 msgid "Operations:"
 msgstr "Eragiketak:"
 
+#: scripts/pacman-key.sh.in:63
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr "  -a, --add                 Gehitu zehaztutako gakoak (hutsik stdin erabiltzeko)"
 
+#: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
 msgstr "  -d, --delete              Ezabatu zehaztutako gako id-ak"
 
+#: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
 msgstr "  -e, --export              Esportatu zehatutako gako id-ak edo guztiak"
 
+#: scripts/pacman-key.sh.in:66
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
 msgstr "  -f, --finger              Zerrendatu zehaztutako gako id-en edo guztien hatz-markak"
 
+#: scripts/pacman-key.sh.in:67
 msgid "  -l, --list-keys           List the specified or all keys"
 msgstr "  -l, --list-keys           Zerrendatu zehaztutako gakoak edo guztiak"
 
+#: scripts/pacman-key.sh.in:68
 msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr "  -r, --recv-keys           Eskuratu zehaztutako gako id-ak"
 
+#: scripts/pacman-key.sh.in:69
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr "  -u, --updatedb            Eguneratu trustdb pacman-en konfiantza datu-basea"
 
+#: scripts/pacman-key.sh.in:70
 msgid ""
 "  -v, --verify              Verify the file(s) specified by the signature(s)"
 msgstr "  -v, --verify              Egiaztatu sinadura(k) bidez zehaztutako fitxategia(k)"
 
+#: scripts/pacman-key.sh.in:71
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
 msgstr "  --edit-key                Aurkeztu gako id-etan gako kudeaketa lanerako menu bat"
 
+#: scripts/pacman-key.sh.in:72
 msgid "  --import                  Imports pubring.gpg from dir(s)"
 msgstr "  --import                  pubring.gpg direktori(eta)tik inportatzen du"
 
+#: scripts/pacman-key.sh.in:73
 msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr "  --import-trustdb          Jabe konfiantza balioak direktorio(eta)ko trustdb.gpg fitxategi(eta)tik inportatzen du"
 
+#: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr "  --init                    Ziurtatu gako-sorta behar bezala hasieratuta dagoela"
 
+#: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
 msgstr "  --list-sigs               Zerrendatu gakoak eta beraien sinadurak"
 
+#: scripts/pacman-key.sh.in:76
 msgid "  --lsign-key               Locally sign the specified keyid"
 msgstr "  --lsign-key               Sinatu lokalki zehaztutako gako id-ak"
 
+#: scripts/pacman-key.sh.in:77
 msgid ""
 "  --populate                Reload the default keys from the (given) "
 "keyrings\\n                            in '%s'"
 msgstr "  --populate                Birkargatu lehenetsitako gakoak %stik (aukeratutako) gako-sortetatik"
 
+#: scripts/pacman-key.sh.in:79
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 msgstr "  --refresh-keys            Eguneratu zehaztutako giltzak edo guztiak gako zerbitzari batetik"
 
+#: scripts/pacman-key.sh.in:82
 msgid ""
 "  --config <file>           Use an alternate config file (instead of\\n"
 "                            '%s')"
 msgstr "  --config <fitxategia>           Erabili beste konfigurazio fitxategia bat ( '%s' ordez)"
 
+#: scripts/pacman-key.sh.in:84
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
 "                            of '%s')"
 msgstr "  --gpgdir <dir>            Ezarri beste GnuPG direktorio bat ('%s' ordez)"
 
+#: scripts/pacman-key.sh.in:86
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
 msgstr "  --keyserver <zerbitzari url-a>  Zehaztu beharrezkoa bada erabiliko den gako zerbitzaria"
 
+#: scripts/pacman-key.sh.in:88
 msgid "  -h, --help                Show this help message and exit"
 msgstr "  -h, --help                Bistaratu laguntza testu hau eta irten."
 
+#: scripts/pacman-key.sh.in:89
 msgid "  -V, --version             Show program version"
 msgstr "  -V, --version             Bistaratu programa bertsioa"
 
+#: scripts/pacman-key.sh.in:130
 msgid "Failed to lookup key by name:"
 msgstr "Huts egin du gakoa izenez bilatzeak:"
 
+#: scripts/pacman-key.sh.in:138
 msgid "Key name is ambiguous:"
 msgstr "Gako izena anbiguoa da:"
 
+#: scripts/pacman-key.sh.in:180
 msgid "The key identified by %s could not be found locally."
 msgstr "%s bidez identifikatutako gakoa ezin izan da lokalki aurkitu."
 
+#: scripts/pacman-key.sh.in:223
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Ez duzu baimenik %s gako-sorta irakurtzeko."
 
+#: scripts/pacman-key.sh.in:224 scripts/pacman-key.sh.in:231
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "Erabili '%s' gako-sorta baimenak zuzentzeko."
 
+#: scripts/pacman-key.sh.in:230
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Ez duzu baimenik komando hau exekutatzeko."
 
+#: scripts/pacman-key.sh.in:238
 msgid "There is no secret key available to sign with."
 msgstr "ez dago sinatzeko gako pribaturik eskuragarri."
 
+#: scripts/pacman-key.sh.in:239
 msgid "Use '%s' to generate a default secret key."
 msgstr "Erabili '%s' lehenetsitako gako sekretu bat sortzeko."
 
+#: scripts/pacman-key.sh.in:258
 msgid "No keyring files exist in %s."
 msgstr "Ez dago gako-sorta fitxategirik hemen %s."
 
+#: scripts/pacman-key.sh.in:265
 msgid "The keyring file %s does not exist."
 msgstr "%s gako-sorta fitxategia ez da existitzen."
 
+#: scripts/pacman-key.sh.in:280
 msgid "Appending keys from %s.gpg..."
 msgstr "%s.gpg fitxategitik gakoak eransten..."
 
+#: scripts/pacman-key.sh.in:303
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Gako-sortako konfiantzazko gakoak lokalki sinatzen..."
 
+#: scripts/pacman-key.sh.in:305
 msgid "Importing owner trust values..."
 msgstr "Inportatzen jabe konfiantza balioak..."
 
+#: scripts/pacman-key.sh.in:323
 msgid "Disabling revoked keys in keyring..."
 msgstr "Gako-sortako indargabetutako gakoak desgaitzen..."
 
+#: scripts/pacman-key.sh.in:325
 msgid "Disabling key %s..."
 msgstr "%s gakoa desgaitzen..."
 
+#: scripts/pacman-key.sh.in:333
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Zehaztutako gako fitxategi bat ezin izan da gehitu gako-sortara."
 
+#: scripts/pacman-key.sh.in:341
 msgid "A specified key could not be removed from the keyring."
 msgstr "Zehaztutako gako bat ezin izan da ezabatu gako-sortatik."
 
+#: scripts/pacman-key.sh.in:351
 msgid "The key identified by %s could not be edited."
 msgstr "%s bidez identifikatutako gakoa ezin izan da editatu."
 
+#: scripts/pacman-key.sh.in:363
 msgid "A specified key could not be exported from the keyring."
 msgstr "Zehaztutako gako bat ezin izan da esportatu gako-sortatik."
 
+#: scripts/pacman-key.sh.in:371
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Zehaztutako gako baten hatz-marka ezin izan da finkatu."
 
+#: scripts/pacman-key.sh.in:384 scripts/pacman-key.sh.in:403
 msgid "%s could not be imported."
 msgstr "%s ezin izan da inportatu."
 
+#: scripts/pacman-key.sh.in:388 scripts/pacman-key.sh.in:407
 msgid "File %s does not exist and could not be imported."
 msgstr "%s fitxategia ez dago eta ezin izan da inportatu."
 
+#: scripts/pacman-key.sh.in:419
 msgid "A specified key could not be listed."
 msgstr "Zehaztutako gako bat ezin izan da zerrendatu."
 
+#: scripts/pacman-key.sh.in:427
 msgid "A specified signature could not be listed."
 msgstr "Zehaztutako sinadura bat ezin izan da zerrendatu."
 
+#: scripts/pacman-key.sh.in:437
 msgid "Locally signing key %s..."
 msgstr "Lokalki sinatzen %s gakoa..."
 
+#: scripts/pacman-key.sh.in:441
 msgid "%s could not be locally signed."
 msgstr "%s ezin izan da lokalki sinatu."
 
+#: scripts/pacman-key.sh.in:468
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Urruneko gakoa ez da ongi eskuratu gako zerbitzaritik."
 
+#: scripts/pacman-key.sh.in:476
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Zehaztutako gako lokal bat ezin izan da eguneratu gako zerbitzaritik."
 
+#: scripts/pacman-key.sh.in:486
 msgid "The signature identified by %s could not be verified."
 msgstr "%s bidez identifikatutako sinadura ezin izan da egiaztatu."
 
+#: scripts/pacman-key.sh.in:494
 msgid "Updating trust database..."
 msgstr "Eguneratzen konfiantza datu-basea... "
 
+#: scripts/pacman-key.sh.in:496
 msgid "Trust database could not be updated."
 msgstr "Konfiantza datu-basea ezin izan da eguneratu."
 
+#: scripts/pacman-key.sh.in:558
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Ezin izan da aurkitu %s bitarra, %s eragiketa guztietarako beharrezkoa da."
 
+#: scripts/pacman-key.sh.in:563
 msgid "%s needs to be run as root for this operation."
 msgstr "%s root erabiltzaile bezala exekutatu behar da eragiketa hau egin ahal izateko"
 
+#: scripts/pacman-key.sh.in:569
 msgid "%s configuration file '%s' not found."
 msgstr "%s konfigurazio fitxategia '%s' ez da aurkitu."
 
+#: scripts/pacman-key.sh.in:590
 msgid "no operation specified (use -h for help)"
 msgstr "Ez da eragiketarik zehaztu (erabili -h laguntza lortzeko)"
 
+#: scripts/pacman-key.sh.in:595
 msgid "Multiple operations specified."
 msgstr "Hainbat eragiketa zehaztu dira."
 
+#: scripts/pacman-key.sh.in:596
 msgid "Please run %s with each operation separately."
 msgstr "Exekutatu %s hainbat aldiz eragitea bakoitza bere aldetik."
 
+#: scripts/pacman-key.sh.in:604
 msgid "No targets specified"
 msgstr "Ez da helbururik zehaztu"
 
+#: scripts/pacman-optimize.sh.in:38
+msgid "Usage: %s [--nocolor] [pacman_db_root]"
+msgstr "Erabilera: %s [--nocolor] [pacman_db_erroa]"
+
+#: scripts/pacman-optimize.sh.in:39
 msgid ""
 "pacman-optimize is a little hack that should improve the performance\\nof "
 "pacman when reading/writing to its filesystem-based database.\\n\\n"
 msgstr "pacman-optimize hack txiki bat da, pacman-en errendimendua hobetu\\n beharko luke fitxategi sisteman oinarritutako datu-baseetan idatzi/irakurtzean.\\n\\n"
 
+#: scripts/pacman-optimize.sh.in:42
 msgid ""
 "Because pacman uses many small files to keep track of packages,\\nthere is a"
 " tendency for these files to become fragmented over time.\\nThis script "
@@ -914,301 +1376,406 @@ msgid ""
 "disk as much.\\n"
 msgstr "Pacman-ek fitxategi txiki ugari erabiltzen dituenez, badago fitxategi hauek denboran zehar fragmentatzeko tendentzia. Script hau fitxategi hauek disko gogorrean jarraian birkokatzen saiatzen da. Ondorioz disko gogorrak fitxategiak azkarrago irakurri beharko lituzke, ez bait du diskoan gora eta behera hainbeste egin behar.\\n"
 
+#: scripts/pacman-optimize.sh.in:101
 msgid "Cannot find the %s binary required for verifying integrity."
 msgstr "Ezin izan da aurkitu osotasuna egiaztatzeko beharrezkoa den %s bitarra."
 
+#: scripts/pacman-optimize.sh.in:109
 msgid "You must have correct permissions to optimize the database."
 msgstr "Baimen egokiak behar dituzu datu-basea optimizatzeko."
 
-msgid "Can not create temp directory for database building."
-msgstr "Ezin izan da sortu behin behineko direktorioa datu-basea eraikitzeko."
+#: scripts/pacman-optimize.sh.in:125
+msgid "Cannot create temporary directory for database building."
+msgstr "Ezin izan da behin-behineko direktorioa sortu datu-basea eraikitzeko."
 
+#: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
 msgstr "Datu-base zaharraren MD5 kontrol-batura sortzen..."
 
+#: scripts/pacman-optimize.sh.in:133
 msgid "Tar'ing up %s..."
 msgstr "%s tar batean sartzen..."
 
+#: scripts/pacman-optimize.sh.in:137
 msgid "Tar'ing up %s failed."
 msgstr "%s tar batean sartzeak huts egin du."
 
+#: scripts/pacman-optimize.sh.in:141
 msgid "Making and MD5sum'ing the new database..."
 msgstr "Datu- base berria sortzen eta MD5 kontrol-batura sortzen..."
 
+#: scripts/pacman-optimize.sh.in:146
 msgid "Untar'ing %s failed."
 msgstr "%s tar paketetik erauzteak huts egin du."
 
+#: scripts/pacman-optimize.sh.in:149
 msgid "Syncing database to disk..."
 msgstr "Datu-basea diskora sinkronizatzen..."
 
+#: scripts/pacman-optimize.sh.in:155
 msgid "Checking integrity..."
 msgstr "Osotasuna egiaztatzen..."
 
+#: scripts/pacman-optimize.sh.in:162
 msgid "Integrity check FAILED, reverting to old database."
 msgstr "Osotasun egiaztaketak HUTS EGIN DU, datu-base zaharrera itzultzen."
 
+#: scripts/pacman-optimize.sh.in:166
 msgid "Rotating database into place..."
 msgstr "Datu-basea tokian biratzen..."
 
+#: scripts/pacman-optimize.sh.in:175
 msgid ""
 "New database substitution failed. Check for %s, %s, and %s directories."
 msgstr "Datu-base berriaren ordezkatzeak huts egin du. Egiaztatu %s, %s, eta %s direktorioak."
 
+#: scripts/pacman-optimize.sh.in:184
 msgid "Finished. Your pacman database has been optimized."
 msgstr "Bukatu da. Zure pacman datu-basea optimizatu da."
 
+#: scripts/pkgdelta.sh.in:51
 msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
 msgstr "Erabilera: pkgdelta [aukerak] <1paketea> <2paketea>\\n"
 
+#: scripts/pkgdelta.sh.in:53
 msgid ""
-"\tpkgdelta will create a delta file between two packages.\\nThis delta file "
-"can then be added to a database using repo-add.\\n\\n"
-msgstr "\\tpkgdelta-k bi paketeen arteko delta fitxategi  bat sortuko du. \\n Delta fitxategi hau datu-base batetara gehitu daiteke repo-add erabilita.\\n\\n"
+"pkgdelta will create a delta file between two packages.\\nThis delta file "
+"can then be added to a database using repo-add.\\n"
+msgstr "pkgdelta-k bi paketeen arteko delta fitxategi  bat sortuko du. \\n Delta fitxategi hau datu-base batetara gehitu daiteke repo-add erabilita.\\n\\n"
 
+#: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 msgstr "Adibidea: pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
 
+#: scripts/pkgdelta.sh.in:59 scripts/repo-add.sh.in:59
+#: scripts/repo-add.sh.in:72
 msgid "Options:\\n"
 msgstr "Aukerak:\\n"
 
+#: scripts/pkgdelta.sh.in:60 scripts/repo-add.sh.in:78
 msgid "  -q, --quiet       minimize output\\n"
 msgstr "  -q, --quiet       irteera gutxienekora eraman\\n"
 
+#: scripts/pkgdelta.sh.in:61
 msgid "  --nocolor         remove color from output\\n"
 msgstr "  --nocolor         kendu kolorea irteeratik\\n"
 
+#: scripts/pkgdelta.sh.in:62
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr "  --min-pkg-size    paketearen gutxienezko tamaina deltak sortu aurretik\\n"
 
+#: scripts/pkgdelta.sh.in:63
 msgid ""
 "  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
 msgstr "--max-delta-size  pakete berriaren ehunekoa, honen gainetik delta baztertu egingo da\\n"
 
+#: scripts/pkgdelta.sh.in:68
 msgid ""
 "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nHau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\\n EZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\\n"
 
+#: scripts/pkgdelta.sh.in:94 scripts/repo-add.sh.in:293
 msgid "Invalid package file '%s'."
 msgstr "Pakete baliogabea '%s'."
 
+#: scripts/pkgdelta.sh.in:120
 msgid "Skipping delta creation for small package: %s - size %s"
 msgstr "pakete txikiaren delta sorrera saltatzen: %s - tamaina %s"
 
+#: scripts/pkgdelta.sh.in:125
 msgid "The package names don't match : '%s' and '%s'"
 msgstr "Pakete izenak ez datoz bat: '%s' eta '%s'"
 
+#: scripts/pkgdelta.sh.in:130
 msgid "The package architectures don't match : '%s' and '%s'"
 msgstr "Pakete arkitekturak ez datoz bat: '%s' eta '%s'"
 
+#: scripts/pkgdelta.sh.in:135
 msgid "Both packages have the same version : '%s'"
 msgstr "Bi paketeek bertsio bera dute: '%s'"
 
+#: scripts/pkgdelta.sh.in:139
 msgid "Generating delta from version %s to version %s"
 msgstr "Delta sortzen %s bertsiotik %s bertsiora"
 
+#: scripts/pkgdelta.sh.in:145
 msgid "Delta could not be created."
 msgstr "Ezin izan da delta sortu."
 
+#: scripts/pkgdelta.sh.in:152
 msgid "Delta package larger than maximum size. Removing."
 msgstr "Delta paketea gehienezko tamaina baino handiagoa: Ezabatzen."
 
+#: scripts/pkgdelta.sh.in:157
 msgid "Generated delta : '%s'"
 msgstr "Delta sortu da: '%s'"
 
+#: scripts/pkgdelta.sh.in:214
 msgid "File '%s' does not exist"
 msgstr "'%s' fitxategia ez dago"
 
+#: scripts/pkgdelta.sh.in:220 scripts/repo-add.sh.in:513
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
 msgstr "Ezin izan da aurkitu xdelta3 bitarra. xdelta3 instalatuta dago?"
 
+#: scripts/repo-add.sh.in:53
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr "Erabilera: repo-add [aukerak] <datu-basera-bidea> <paketea | delta> ...\\n"
 
+#: scripts/repo-add.sh.in:55
 msgid ""
 "repo-add will update a package database by reading a package "
 "file.\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr "repo-add komandoak pakete datu-base bat eguneratuko du pakete fitxategi bat irakurriz.\\nGehitu beharreko hainbat pakete zehaztu daitezke komando lerroan.\\n"
 
+#: scripts/repo-add.sh.in:60
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr "  -d, --delta       sortu eta gehitu delta pakete eguneraketarentzat\\n"
 
+#: scripts/repo-add.sh.in:61
 msgid ""
 "  -n, --new         only add packages that are not already in the "
 "database\\n"
 msgstr "  -n, --new         soilik gehitu dagoeneko datu-basean ez dauden paketeak\\n"
 
+#: scripts/repo-add.sh.in:62
+msgid ""
+"  -R, --remove      remove package file from disk when updating database "
+"entry\\n"
+msgstr "  -R, --remove      ezabatu pakete fitxategia diskotik datu-base sarrera eguneratzean\\n"
+
+#: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
 msgstr "  -f, --files       eguneratu datu-basearen fitxategi zerrenda\\n"
 
+#: scripts/repo-add.sh.in:65
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr "Erabilera: repo-remove [aukerak] <datu-basera-bidea> <pakete-izena |delta> ...\\n"
 
+#: scripts/repo-add.sh.in:67
 msgid ""
 "repo-remove will update a package database by removing the package "
 "name\\nspecified on the command line from the given repo database. "
 "Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr "repo-remove komandoak datubase bat eguneratuko du komando lerroan zehaztutako pakete izena ezabatuz. Ezabatu beharreko hainbat  pakete zehaztu daitezke komando lerroan.\\n"
 
+#: scripts/repo-add.sh.in:74
 msgid "Please move along, there is nothing to see here.\\n"
 msgstr "Mesedez jarraitu aurrera, ez dago ezer ikusteko hemen.\\n"
 
+#: scripts/repo-add.sh.in:77
 msgid "  --nocolor         turn off color in output\\n"
 msgstr "  --nocolor         desgaitu kolorea irteeran\\n"
 
+#: scripts/repo-add.sh.in:79
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr "  -s, --sign        sinatu datu-basea GnuPG erabiliz eguneraketa eta gero\\n"
 
+#: scripts/repo-add.sh.in:80
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr "  -k, --key <gakoa>   erabili zehaztutako gakoa datu-basea sinatzeko\\n"
 
+#: scripts/repo-add.sh.in:81
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr "  -v, --verify      egiaztatu datu-basearen sinadura eguneratu aurretik\\n"
 
+#: scripts/repo-add.sh.in:82
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
 msgstr "\\nIkusi %s(8) eskuragarri dauden aukeren xehetasun gehiagorako.\\n"
 
+#: scripts/repo-add.sh.in:86
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr "Adibidea: repo-add /bidea/hona/repo.db.tar.gz gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
+#: scripts/repo-add.sh.in:88
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Adibidea: repo-remove /bidea/hona/repo.db.tar.gz kernel26\\n"
 
+#: scripts/repo-add.sh.in:95
 msgid ""
-"Copyright (c) 2006-2013 Pacman Development Team <pacman-"
+"Copyright (c) 2006-2014 Pacman Development Team <pacman-"
 "dev@archlinux.org>\\n\\nThis is free software; see the source for copying "
 "conditions.\\nThere is NO WARRANTY, to the extent permitted by law.\\n"
-msgstr "Copyright (c) 2006-2013 Pacman Development Team <pacman-dev@archlinux.org>\\n\\nTHau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\\n EZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\\n"
+msgstr "Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n\\nTHau software librea da; Begiratu iturburua kopiatzeko baldintzak ikusteko.\\n EZ DAGO GARANTIARIK, legeak baimentzen duen heinean.\\n"
 
+#: scripts/repo-add.sh.in:143
 msgid "No database entry for package '%s'."
 msgstr "Ez dago datu-base sarrerarik '%s' paketearentzat."
 
+#: scripts/repo-add.sh.in:161
 msgid "Adding 'deltas' entry : %s -> %s"
 msgstr "'deltas' sarrera gehitzen: %s -> %s"
 
+#: scripts/repo-add.sh.in:184 scripts/repo-add.sh.in:429
 msgid "Removing existing entry '%s'..."
 msgstr "Ezabatzen badagoen %s sarrera..."
 
+#: scripts/repo-add.sh.in:187
 msgid "Removing empty deltas file ..."
 msgstr "Delta fitxategi hutsa ezabatzen ..."
 
+#: scripts/repo-add.sh.in:198
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Ezin izan da aurkitu gpg bitarra. GnuPG instalatuta dago?"
 
+#: scripts/repo-add.sh.in:208
 msgid "Signing database..."
 msgstr "Datu-basea sinatzen..."
 
+#: scripts/repo-add.sh.in:217
 msgid "Created signature file '%s'"
 msgstr "'%s' sinadura fitxategia sortu da"
 
+#: scripts/repo-add.sh.in:219
 msgid "Failed to sign package database."
 msgstr "Pakete datu-basea sinatzean huts egin du."
 
+#: scripts/repo-add.sh.in:228
 msgid "Verifying database signature..."
 msgstr "Datu-base sinadura egiaztatzen..."
 
+#: scripts/repo-add.sh.in:231
 msgid "No existing signature found, skipping verification."
 msgstr "Ez da sinadurarik aurkitu, egiaztaketa saltatzen."
 
+#: scripts/repo-add.sh.in:236
 msgid "Database signature file verified."
 msgstr "Datu-base sinadura fitxategia egiaztatu da."
 
+#: scripts/repo-add.sh.in:238
 msgid "Database signature was NOT valid!"
 msgstr "Datu-base sinadura EZ da baliagarria!"
 
+#: scripts/repo-add.sh.in:252
 msgid "'%s' does not have a valid archive extension."
 msgstr "'%s' ez du artxibo luzapen baliagarria."
 
+#: scripts/repo-add.sh.in:298
 msgid "An entry for '%s' already existed"
 msgstr "'%s' sarrera bazegoen aurretik"
 
+#: scripts/repo-add.sh.in:315
+msgid "Removing existing package '%s'"
+msgstr "Ezabatzen badagoen '%s' paketea"
+
+#: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
 msgstr "Pakete sinadura fitxategi baliogabea '%s'."
 
+#: scripts/repo-add.sh.in:328
 msgid "Adding package signature..."
 msgstr "Pakete sinadura gehitzen..."
 
+#: scripts/repo-add.sh.in:335
 msgid "Computing checksums..."
 msgstr "Kontrol-baturak kalkulatzen..."
 
+#: scripts/repo-add.sh.in:353 scripts/repo-add.sh.in:380
+#: scripts/repo-add.sh.in:395
 msgid "Creating '%s' db entry..."
 msgstr "'%s' datu-base sarrera sortzen..."
 
+#: scripts/repo-add.sh.in:410
 msgid "Old package file not found: %s"
 msgstr "Pakete fitxategi zaharra ez da aurkitu: %s"
 
+#: scripts/repo-add.sh.in:467
 msgid "Failed to acquire lockfile: %s."
 msgstr "Blokeo fitxategia eskuratzean huts egin du: %s"
 
+#: scripts/repo-add.sh.in:468
 msgid "Held by process %s"
 msgstr "%s prozesuak eutsita"
 
+#: scripts/repo-add.sh.in:478
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr "'%s' biltegi fitxategia ez da behar bezalako pacman datu-base bat."
 
+#: scripts/repo-add.sh.in:483
 msgid "Extracting database to a temporary location..."
 msgstr "Datu-basea behin-behineko kokagune batetara erauzten..."
 
+#: scripts/repo-add.sh.in:488
 msgid "Repository file '%s' was not found."
 msgstr "'%s' biltegi fitxategia ez da aurkitu."
 
+#: scripts/repo-add.sh.in:494
 msgid "Repository file '%s' could not be created."
 msgstr "'%s' biltegi fitxategia ezin izan da sortu."
 
+#: scripts/repo-add.sh.in:505
 msgid "File '%s' not found."
 msgstr "'%s' fitxategia ez da aurkitu."
 
+#: scripts/repo-add.sh.in:511
 msgid "Adding delta '%s'"
 msgstr "'%s' delta gehitzen"
 
+#: scripts/repo-add.sh.in:525
 msgid "'%s' is not a package file, skipping"
 msgstr "'%s' ez da pakete fitxategi bat, saltatzen"
 
+#: scripts/repo-add.sh.in:529
 msgid "Adding package '%s'"
 msgstr "'%s' paketea gehitzen"
 
+#: scripts/repo-add.sh.in:537
 msgid "Searching for delta '%s'..."
 msgstr "'%s' delta bilatzen..."
 
+#: scripts/repo-add.sh.in:541
 msgid "Delta matching '%s' not found."
 msgstr "Ez da aurkitu '%s'-rekin bat datorren deltarik."
 
+#: scripts/repo-add.sh.in:547
 msgid "Searching for package '%s'..."
 msgstr "'%s' paketea bilatzen..."
 
+#: scripts/repo-add.sh.in:553
 msgid "Package matching '%s' not found."
 msgstr "Ez da aurkitu '%s'-rekin bat datorren paketerik."
 
+#: scripts/repo-add.sh.in:601
 msgid "Invalid command name '%s' specified."
 msgstr "'%s' komando izen baliogabea zehaztu da."
 
+#: scripts/repo-add.sh.in:606
 msgid "Cannot create temp directory for database building."
 msgstr "Ezin izan da behin-behineko direktorioa sortu datu-basea eraikitzeko."
 
+#: scripts/repo-add.sh.in:686
 msgid "Creating updated database file '%s'"
 msgstr "Eguneratutako '%s' datu-base fitxategia sortzen"
 
+#: scripts/repo-add.sh.in:700
 msgid "No packages remain, creating empty database."
 msgstr "Ez da paketerik geratzen, datu-base hutsa sortzen."
 
+#: scripts/repo-add.sh.in:737
 msgid "No packages modified, nothing to do."
 msgstr "Ez da paketerik aldatu, ez dago ezer egiteko."
 
+#: scripts/library/parseopts.sh:37
 msgid "option '%s' is ambiguous; possibilities:"
 msgstr "'%s' aukera anbiguoa da; izan liteke:"
 
+#: scripts/library/parseopts.sh:56 scripts/library/parseopts.sh:119
 msgid "invalid option"
 msgstr "aukera baliogabea"
 
+#: scripts/library/parseopts.sh:75
 msgid "option requires an argument"
 msgstr "aukerak argumentu bat behar du"
 
+#: scripts/library/parseopts.sh:89
 msgid "option '%s' does not allow an argument"
 msgstr "'%s' aukerak ez du argumenturik onartzen"
 
+#: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "'%s' aukerak argumentu bat behar du"

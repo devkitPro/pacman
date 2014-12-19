@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Osoitz <oelkoro@gmail.com>, 2013
+# Osoitz <oelkoro@gmail.com>, 2013-2014
 # Osoitz <oelkoro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2013-06-06 13:07+1000\n"
-"PO-Revision-Date: 2013-11-20 10:04+0000\n"
+"POT-Creation-Date: 2014-11-18 15:12+1000\n"
+"PO-Revision-Date: 2014-11-18 19:33+0000\n"
 "Last-Translator: Osoitz <oelkoro@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/archlinux-pacman/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -19,600 +19,791 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s egunean dago -- ezikusi\n"
 
+#: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s egunean dago -- berrinstalatu\n"
 
+#: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "bertsio zahartzen %s paketea (%s => %s)\n"
 
+#: lib/libalpm/add.c:122 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "oharra eman da %s erauztean (%s)\n"
 
+#: lib/libalpm/add.c:125 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "ezin izan da %s erauzi (%s)\n"
 
+#: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "ezin izan da %s berrizendatu %s gisa (%s)\n"
 
+#: lib/libalpm/add.c:184
+#, c-format
+msgid "file not found in file list for package %s. skipping extraction of %s\n"
+msgstr "ez da fitxategia aurkitu %s paketearen fitxategi zerrendan. %s ez da erauziko\n"
+
+#: lib/libalpm/add.c:230
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "direktorio baimenak desberdinak dira hemen %s\nfitxategi sistema: %o  paketea: %o\n"
+msgstr "direktorioaren baimenak desberdinak dira hemen %s\nfitxategi sistema: %o  paketea: %o\n"
 
+#: lib/libalpm/add.c:240
+#, c-format
+msgid ""
+"directory ownership differs on %s\n"
+"filesystem: %u:%u  package: %u:%u\n"
+msgstr "direktorioaren jabetza desberdina da hemen %s \nfitxategi sistema: %u:%u paketea: %u:%u\n\n"
+
+#: lib/libalpm/add.c:255
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "erauzi: ez da direktorioa %s fitxategiarekin gainidatziko\n"
 
-#, c-format
-msgid "extract: symlink %s does not point to dir\n"
-msgstr "erauzi: %s lotura sinbolikoak ez darama direktorio batera\n"
-
-#, c-format
-msgid "%s saved as %s\n"
-msgstr "%s gorde da %s gisa\n"
-
-#, c-format
-msgid "%s installed as %s\n"
-msgstr "%s instalatu da %s gisa\n"
-
-#, c-format
-msgid "extracting %s as %s.pacnew\n"
-msgstr "%s erauzten %s.pacnew gisa\n"
-
+#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "ezin izan da uneko lan direktorioa lortu\n"
 
+#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "ezin izan da direktorioa hona aldatu %s (%s)\n"
 
+#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "ezin izan da laneko direktorioa berreskuratu (%s)\n"
 
+#: lib/libalpm/add.c:647
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "arazo bat egon da %s bertsio berritzean\n"
 
+#: lib/libalpm/add.c:653
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "arazo bat egon da %s instalatzean\n"
 
+#: lib/libalpm/add.c:669
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "ezin izan da datu-base sarrera eguneratu %s-%s\n"
 
+#: lib/libalpm/add.c:680
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "ezin izan da '%s' sarrera katxean gehitu\n"
 
+#: lib/libalpm/be_local.c:249
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "errorea %s fitxategia irakurtzean: %s\n"
 
+#: lib/libalpm/be_local.c:343
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "datu-base baliogabea ezabatzen:%s\n"
 
-#, c-format
-msgid "invalid name for database entry '%s'\n"
-msgstr "izen baliogabea '%s' datu-base sarreran\n"
-
-#, c-format
-msgid "duplicated database entry '%s'\n"
-msgstr "bikoiztutako datu-base sarrera '%s'\n"
-
-#, c-format
-msgid "corrupted database entry '%s'\n"
-msgstr "datu-base sarrera hondatua '%s'\n"
-
-#, c-format
-msgid "could not open file %s: %s\n"
-msgstr "ezin izan da %s fitxategia ireki: %s\n"
-
-#, c-format
-msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "%s datu-basea kontraesankorra da: izenak ez datoz bat %s paketean\n"
-
-#, c-format
-msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "%s datu-basea kontraesankorra da: bertsioak ez datoz bat %s paketean\n"
-
-#, c-format
-msgid "unknown validation type for package %s: %s\n"
-msgstr "Balidazio mota ezezaguna %s paketearentzat: %s\n"
-
+#: lib/libalpm/be_local.c:389 lib/libalpm/be_local.c:849
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "ezin izan da %s direktorioa sortu: %s\n\n"
 
+#: lib/libalpm/be_local.c:559 lib/libalpm/be_sync.c:358
 #, c-format
-msgid "could not parse package description file in %s\n"
-msgstr "ezin izan da paketearen deskripzioa prozesatu %s fitxategian\n"
+msgid "invalid name for database entry '%s'\n"
+msgstr "izen baliogabea '%s' datu-base sarreran\n"
 
+#: lib/libalpm/be_local.c:567
 #, c-format
-msgid "missing package name in %s\n"
-msgstr "paketearen izena falta da hemen: %s\n"
+msgid "duplicated database entry '%s'\n"
+msgstr "bikoiztutako datu-base sarrera '%s'\n"
 
+#: lib/libalpm/be_local.c:579
 #, c-format
-msgid "missing package version in %s\n"
-msgstr "paketearen bertsioa falta da hemen: %s\n"
+msgid "corrupted database entry '%s'\n"
+msgstr "datu-base sarrera hondatua '%s'\n"
 
+#: lib/libalpm/be_local.c:679 lib/libalpm/be_local.c:769
+#: lib/libalpm/be_local.c:898 lib/libalpm/be_local.c:991
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
+#: lib/libalpm/util.c:266
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "ezin izan da %s fitxategia ireki: %s\n"
+
+#: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "%s datu-basea kontraesankorra da: izenak ez datoz bat %s paketean\n"
+
+#: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr "%s datu-basea kontraesankorra da: bertsioak ez datoz bat %s paketean\n"
+
+#: lib/libalpm/be_local.c:740
+#, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr "Balidazio mota ezezaguna %s paketearentzat: %s\n"
+
+#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:625
+#: lib/libalpm/be_package.c:638
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "errorea %s paketea irakurtzean: %s\n"
 
+#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
+#, c-format
+msgid "error while reading mtree of package %s: %s\n"
+msgstr "errorea %s paketearen mtree-a irakurtzean: %s\n"
+
+#: lib/libalpm/be_package.c:588
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "ezin izan da paketearen deskripzioa prozesatu %s fitxategian\n"
+
+#: lib/libalpm/be_package.c:593
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "paketearen izena falta da hemen: %s\n"
+
+#: lib/libalpm/be_package.c:597
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "paketearen bertsioa falta da hemen: %s\n"
+
+#: lib/libalpm/be_package.c:601
+#, c-format
+msgid "invalid package version in %s\n"
+msgstr "paketearen bertsio baliogabea hemen %s\n"
+
+#: lib/libalpm/be_package.c:645
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "paketearen metadatuak falta dira hemen: %s\n"
 
+#: lib/libalpm/be_package.c:734
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "sinadura fitxategiaren irakurketak huts egin du: %s\n"
 
+#: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "beharrezko gakoa falta da gako sortan\n"
 
+#: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "fitxategi baliogabea ezabatzen: %s\n"
 
-#, c-format
-msgid "could not remove lock file %s\n"
-msgstr "ezin izan da %s blokeo fitxategia ezabatu\n"
-
+#: lib/libalpm/be_sync.c:476
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "ezin izan da '%s' fitxategi deskripzioa prozesatu '%s' datu-basetik\n"
 
+#: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "%s datu-basea kontraesankorra da: %s paketearen fitxategi izena legez kanpokoa da\n"
 
+#: lib/libalpm/be_sync.c:519
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s datu-basea kontraesankorra da: %s paketearen fitxategi izena luzeegia da\n"
 
+#: lib/libalpm/be_sync.c:585
+#, c-format
+msgid "unknown database file: %s\n"
+msgstr "datu-base fitxategi ezezaguna: %s\n"
+
+#: lib/libalpm/db.c:369
 #, c-format
 msgid "database path is undefined\n"
 msgstr "datu-basearen bide-izena definitu gabe dago\n"
 
+#: lib/libalpm/deps.c:218
 #, c-format
 msgid "dependency cycle detected:\n"
 msgstr "menpekotasun zikloa aurkitu da:\n"
 
+#: lib/libalpm/deps.c:221
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s ezabatuko da bere %s menpekotasuna eta gero\n"
 
+#: lib/libalpm/deps.c:225
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s instalatuko da bere %s menpekotasuna baino lehenago\n"
 
+#: lib/libalpm/deps.c:657 lib/libalpm/deps.c:689
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "paketea ezikusten %s-%s\n"
 
+#: lib/libalpm/deps.c:844
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "ezin ebatzi \"%s\", \"%s\" paketearen menpekotasun bat\n"
 
+#: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
 msgstr "ezin izan da %s fitxategi sistema informazioa jaso: %s\n"
 
+#: lib/libalpm/diskspace.c:108
 #, c-format
 msgid "could not open file: %s: %s\n"
 msgstr "ezin izan da fitxategia ireki: %s :%s\n"
 
+#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr "ezin fitxategi sistemaren informazioa jaso\n"
+msgstr "ezin izan da fitxategi sistemaren informazioa jaso\n"
 
+#: lib/libalpm/diskspace.c:249 lib/libalpm/diskspace.c:308
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "ezin izan da %s fitxategiaren muntatze puntua zehaztu\n"
 
+#: lib/libalpm/diskspace.c:347
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
 msgstr "%s partizioa beteta dago: %jd bloke behar dira, %jd bloke daude libre\n"
 
+#: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "ezin izan dira fitxategi sistemaren muntatze puntuak zehaztu\n"
 
+#: lib/libalpm/diskspace.c:378
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "ezin izan da cachedir muntatze puntua zehaztu %s\n"
 
+#: lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "ezin izan da %s erro muntatze puntua zehaztu\n"
 
+#: lib/libalpm/diskspace.c:479
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "%s partizioa soilik irakurtzeko moduan muntatuta dago\n"
 
+#: lib/libalpm/dload.c:149
 #, c-format
 msgid "disk"
 msgstr "diskoa"
 
+#: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "huts egin du deskargarako behin behineko fitxategiaren sorrerak\n"
 
+#: lib/libalpm/dload.c:418
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "'%s' url baliogabea da\n\n"
 
+#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "huts egin du '%s' fitxategia '%s'-tik erauzteak: %s\n"
 
+#: lib/libalpm/dload.c:500
+#, c-format
+msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
+msgstr "huts egin du '%s' fitxategia eskuratzean hemendik: %s :  aurreikusitako deskarga tamaina gainditu da\n"
+
+#: lib/libalpm/dload.c:548
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s ez dago osorik antza: %jd/%jd byte\n"
 
+#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
 msgstr "%s deskargatzeak huts egin du\n"
 
+#: lib/libalpm/error.c:40
 #, c-format
 msgid "out of memory!"
 msgstr "memoriarik ez!"
 
+#: lib/libalpm/error.c:42
 #, c-format
 msgid "unexpected system error"
 msgstr "ustegabeko sistema errorea"
 
+#: lib/libalpm/error.c:44
 #, c-format
 msgid "permission denied"
 msgstr "baimena ukatua"
 
+#: lib/libalpm/error.c:46
 #, c-format
 msgid "could not find or read file"
 msgstr "ezin izan da fitxategia aurkitu edo irakurri"
 
+#: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
 msgstr "ezin izan da direktorioa aurkitu edo irakurri"
 
+#: lib/libalpm/error.c:50
 #, c-format
 msgid "wrong or NULL argument passed"
 msgstr "argumentu okerra edo NULL pasatu da"
 
+#: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
 msgstr "ez dago nahiko leku libre diskoan"
 
+#: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
 msgstr "liburutegia ez da hasieratu"
 
+#: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
 msgstr "liburutegia dagoeneko hasieratu da"
 
+#: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
 msgstr "ezin da datu-basea blokeatu"
 
+#: lib/libalpm/error.c:62
 #, c-format
 msgid "could not open database"
 msgstr "ezin izan da datu-basea ireki"
 
+#: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
 msgstr "ezin izan da datu-basea sortu"
 
+#: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
 msgstr "datu-basea ez hasieratua"
 
+#: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
 msgstr "datu-basea dagoeneko erregistratu da"
 
+#: lib/libalpm/error.c:70
 #, c-format
 msgid "could not find database"
 msgstr "ezin izan da datu-basea aurkitu"
 
+#: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
 msgstr "datu-base baliogabea edo hondatua"
 
+#: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
 msgstr "datu-base baliogabea edo hondatua (PGP sinadura)"
 
+#: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
 msgstr "datu-basearen bertsioa ez da zuzena"
 
+#: lib/libalpm/error.c:78
 #, c-format
 msgid "could not update database"
 msgstr "ezin izan da datu-basea eguneratu"
 
+#: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
 msgstr "ezin izan da datu-base sarrera ezabatu"
 
+#: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
 msgstr "url baliogabea zerbitzariarentzat"
 
+#: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
 msgstr "ez da zerbitzaririk konfiguratu biltegiarentzat"
 
+#: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
 msgstr "transakzioa dagoeneko hasieratua"
 
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
 msgstr "transakzioa ez hasieratua"
 
+#: lib/libalpm/error.c:92
 #, c-format
 msgid "duplicate target"
 msgstr "bikoiztutako helburua"
 
+#: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
 msgstr "transakzioa ez dago prest"
 
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
 msgstr "transakzioa bertan behera utzi da"
 
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "eragiketa ez da transakzio motarekin bateragarria"
 
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "transakzioa egikaritzeko saiakera datu-basea blokeatuta ez dagoenean"
 
+#: lib/libalpm/error.c:105
 #, c-format
 msgid "could not find or read package"
 msgstr "ezin izan da paketea aurkitu edo irakurri"
 
+#: lib/libalpm/error.c:107
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "eragiketa bertan behera utzi da ignorepkg dela eta"
 
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "pakete baliogabe edo hondatua"
 
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "pakete baliogabe edo hondatua (checksum)"
 
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "pakete baliogabe edo hondatua (PGP sinadura)"
 
+#: lib/libalpm/error.c:115
+#, c-format
+msgid "package missing required signature"
+msgstr "paketeari beharrezko sinadura falta zaio"
+
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "cannot open package file"
 msgstr "ezin ireki pakete fitxategia"
 
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "ezin ezabatu paketeko fitxategi guztiak"
 
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "package filename is not valid"
 msgstr "paketearen fitxategi izena baliogabea da"
 
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "package architecture is not valid"
 msgstr "paketearen arkitektura baliogabea da"
 
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "could not find repository for target"
 msgstr "ezin izan da biltegirik aurkitu helburuarentzat"
 
+#: lib/libalpm/error.c:128
 #, c-format
 msgid "missing PGP signature"
 msgstr "PGP sinadura falta da"
 
+#: lib/libalpm/error.c:130
 #, c-format
 msgid "invalid PGP signature"
 msgstr "PGP sinadura baliogabea"
 
+#: lib/libalpm/error.c:133
 #, c-format
 msgid "invalid or corrupted delta"
 msgstr "delta baliogabea edo hondatua"
 
+#: lib/libalpm/error.c:135
 #, c-format
 msgid "delta patch failed"
 msgstr "delta adabakiak huts egin du"
 
+#: lib/libalpm/error.c:138
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "ezin dira menpekotasunak bete"
 
+#: lib/libalpm/error.c:140
 #, c-format
 msgid "conflicting dependencies"
 msgstr "menpekotasunen arteko gatazka"
 
+#: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting files"
 msgstr "fitxategien arteko gatazka"
 
+#: lib/libalpm/error.c:145
 #, c-format
 msgid "failed to retrieve some files"
 msgstr "ezin izan dira fitxategi batzuk eskuratu"
 
+#: lib/libalpm/error.c:147
 #, c-format
 msgid "invalid regular expression"
 msgstr "adierazpen erregular baliogabea"
 
+#: lib/libalpm/error.c:153
 #, c-format
 msgid "libarchive error"
 msgstr "libarchive errorea"
 
+#: lib/libalpm/error.c:155
 #, c-format
 msgid "download library error"
 msgstr "errorea liburutegia deskargatzean"
 
+#: lib/libalpm/error.c:157
 #, c-format
 msgid "gpgme error"
 msgstr "gpgme errorea"
 
+#: lib/libalpm/error.c:159
 #, c-format
 msgid "error invoking external downloader"
 msgstr "errorea kanpo deskarga programa deitzean"
 
+#: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
 msgstr "ustegabeko errorea"
 
+#: lib/libalpm/handle.c:139
+#, c-format
+msgid "lock file missing %s\n"
+msgstr "blokeo fitxategia falta da %s\n"
+
+#: lib/libalpm/handle.c:145
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "ezin izan da %s blokeo fitxategia ezabatu\n"
+
+#: lib/libalpm/package.c:559
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "ezin izan dira %s-%s paketearen meta-datuak guztiz kargatu\n"
 
+#: lib/libalpm/remove.c:118
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "ezin izan da %s aurkitu datu-basean -- ezikusi\n"
 
+#: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
 msgstr "%s helburu zerrendatik ezabatzen\n"
 
+#: lib/libalpm/remove.c:348
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "ezin '%s' fitxategia ezabatu: %s\n"
 
+#: lib/libalpm/remove.c:388
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "ezin izan da direktorioa ireki: %s: %s\n"
 
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "ezin ezabatu %s (%s)\n"
 
+#: lib/libalpm/remove.c:727
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "ezin izan da datu-base sarrera ezabatu %s-%s\n"
 
+#: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "ezin izan da '%s' sarrera ezabatu katxetik\n"
 
+#: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ezikusi pakete bertsio berritzea (%s => %s)\n"
 
+#: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: ezikusi paketea bertsio zahartzea (%s => %s)\n"
 
+#: lib/libalpm/sync.c:113
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: bertsio zahartzen %s bertsiotik %s bertsiora\n"
 
+#: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokala (%s) %s (%s) baino berriagoa da\n"
 
+#: lib/libalpm/sync.c:160
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "ezikusi pakete ordezkapena  (%s-%s => %s-%s)\n"
 
+#: lib/libalpm/sync.c:176
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "ezin %s ordezkatu %s paketearekin\n"
 
+#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "ebatzi ezineko paketeen arteko gatazka detektatu da\n"
 
+#: lib/libalpm/sync.c:556
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' helburutik ezabatzen gatazka sortzen duelako '%s' paketearekin\n"
 
+#: lib/libalpm/sync.c:1014
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "fitxategi batzuk eskuratzeak huts egin du\n"
 
+#: lib/libalpm/sync.c:1176
+#, c-format
+msgid "%s: missing required signature\n"
+msgstr "%s: beharrezko sinadura falta da\n"
+
+#: lib/libalpm/sync.c:1357
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "ez dago behar beste leku libre diskoan\n"
 
+#: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "ezin izan da ezabaketa transakzioa egikaritu\n"
 
+#: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "ezin izan da transakzioa egikaritu\n"
 
+#: lib/libalpm/trans.c:339
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "ezin izan da temp direktorioa sortu\n"
 
+#: lib/libalpm/trans.c:354
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "ezin izan da tempfile hona kopiatu %s (%s)\n"
 
+#: lib/libalpm/trans.c:385
 #, c-format
 msgid "could not remove %s\n"
 msgstr "ezin izan da %s ezabatu\n"
 
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "ezin tempdir ezabatu %s\n"
 
+#: lib/libalpm/util.c:256
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr "ezin izan da fitxategiaren egoera zehaztu: %s: %s\n"
 
+#: lib/libalpm/util.c:524
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "ezin izan da kanalizazioa sortu (%s)\n"
 
+#: lib/libalpm/util.c:532
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "ezin izan da prozesu berri bat sardetu (%s)\n"
 
+#: lib/libalpm/util.c:549
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "ezin izan da erro direktorioa aldatu (%s)\n"
 
+#: lib/libalpm/util.c:560
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "execv deiak huts egin du (%s)\n"
 
+#: lib/libalpm/util.c:590
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid deiak huts egin du (%s)\n"
 
+#: lib/libalpm/util.c:598
 #, c-format
 msgid "could not open pipe (%s)\n"
 msgstr "ezin izan da kanalizazioa ireki (%s)\n"
 
+#: lib/libalpm/util.c:605
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "komandoa ez da behar bezala exekutatu\n"
 
+#: lib/libalpm/util.c:612
+#, c-format
+msgid "Unknown signal"
+msgstr "Seinale ezezaguna"
+
+#: lib/libalpm/util.c:614
+#, c-format
+msgid "command terminated by signal %d: %s\n"
+msgstr "%d seinaleak eten du komandoa: %s\n"
+
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "ez dago %s katxerik, sortzen...\n"
 
+#: lib/libalpm/util.c:742
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "ezin izan da pakete katxea aurkitu edo sortu, %s erabiliko da ordez\n"
