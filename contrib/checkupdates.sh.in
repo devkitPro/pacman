@@ -21,6 +21,9 @@
 declare -r myname='checkupdates'
 declare -r myver='@PACKAGE_VERSION@'
 
+m4_include(../scripts/library/output_format.sh)
+m4_include(../scripts/library/term_colors.sh)
+
 if (( $# > 0 )); then
 	echo "${myname} (pacman) v${myver}"
 	echo
@@ -30,6 +33,11 @@ if (( $# > 0 )); then
 	echo
 	echo 'Note: Export the "CHECKUPDATES_DB" variable to change the path of the temporary database.'
 	exit 0
+fi
+
+if ! type -P fakeroot >/dev/null; then
+	error 'Cannot find the fakeroot binary.'
+	exit 1
 fi
 
 if [[ -z $CHECKUPDATES_DB ]]; then
