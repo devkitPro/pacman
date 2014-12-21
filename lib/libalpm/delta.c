@@ -306,10 +306,10 @@ alpm_delta_t *_alpm_delta_parse(alpm_handle_t *handle, const char *line)
 
 	/* start at index 1 -- match 0 is the entire match */
 	len = pmatch[1].rm_eo - pmatch[1].rm_so;
-	STRNDUP(delta->delta, &line[pmatch[1].rm_so], len, return NULL);
+	STRNDUP(delta->delta, &line[pmatch[1].rm_so], len, goto error);
 
 	len = pmatch[2].rm_eo - pmatch[2].rm_so;
-	STRNDUP(delta->delta_md5, &line[pmatch[2].rm_so], len, return NULL);
+	STRNDUP(delta->delta_md5, &line[pmatch[2].rm_so], len, goto error);
 
 	len = pmatch[3].rm_eo - pmatch[3].rm_so;
 	if(len < sizeof(filesize)) {
@@ -319,12 +319,16 @@ alpm_delta_t *_alpm_delta_parse(alpm_handle_t *handle, const char *line)
 	}
 
 	len = pmatch[4].rm_eo - pmatch[4].rm_so;
-	STRNDUP(delta->from, &line[pmatch[4].rm_so], len, return NULL);
+	STRNDUP(delta->from, &line[pmatch[4].rm_so], len, goto error);
 
 	len = pmatch[5].rm_eo - pmatch[5].rm_so;
-	STRNDUP(delta->to, &line[pmatch[5].rm_so], len, return NULL);
+	STRNDUP(delta->to, &line[pmatch[5].rm_so], len, goto error);
 
 	return delta;
+
+error:
+	_alpm_delta_free(delta);
+	return NULL;
 }
 
 #undef NUM_MATCHES
