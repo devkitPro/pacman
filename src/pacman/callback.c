@@ -269,9 +269,11 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_OPTDEP_REMOVAL:
 			{
 				alpm_event_optdep_removal_t *e = &event->optdep_removal;
+				char *dep_string = alpm_dep_compute_string(e->optdep);
 				colon_printf(_("%s optionally requires %s\n"),
 						alpm_pkg_get_name(e->pkg),
-						alpm_dep_compute_string(e->optdep));
+						dep_string);
+				free(dep_string);
 			}
 			break;
 		case ALPM_EVENT_DATABASE_MISSING:
