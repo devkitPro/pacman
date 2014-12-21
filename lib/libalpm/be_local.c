@@ -801,6 +801,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 					alpm_backup_t *backup;
 					CALLOC(backup, 1, sizeof(alpm_backup_t), goto error);
 					if(_alpm_split_backup(line, &backup)) {
+						FREE(backup);
 						goto error;
 					}
 					info->backup = alpm_list_add(info->backup, backup);
