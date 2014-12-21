@@ -342,14 +342,18 @@ alpm_delta_t *_alpm_delta_dup(const alpm_delta_t *delta)
 {
 	alpm_delta_t *newdelta;
 	CALLOC(newdelta, 1, sizeof(alpm_delta_t), return NULL);
-	STRDUP(newdelta->delta, delta->delta, return NULL);
-	STRDUP(newdelta->delta_md5, delta->delta_md5, return NULL);
-	STRDUP(newdelta->from, delta->from, return NULL);
-	STRDUP(newdelta->to, delta->to, return NULL);
+	STRDUP(newdelta->delta, delta->delta, goto error);
+	STRDUP(newdelta->delta_md5, delta->delta_md5, goto error);
+	STRDUP(newdelta->from, delta->from, goto error);
+	STRDUP(newdelta->to, delta->to, goto error);
 	newdelta->delta_size = delta->delta_size;
 	newdelta->download_size = delta->download_size;
 
 	return newdelta;
+
+error:
+	_alpm_delta_free(newdelta);
+	return NULL;
 }
 
 /* vim: set noet: */
