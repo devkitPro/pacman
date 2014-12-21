@@ -284,6 +284,7 @@ void indentprint(const char *str, unsigned short indent, unsigned short cols)
 	cidx = indent;
 
 	if(!p || !len) {
+		free(wcstr);
 		return;
 	}
 
