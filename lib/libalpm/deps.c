@@ -527,13 +527,17 @@ alpm_depend_t *_alpm_dep_dup(const alpm_depend_t *dep)
 	alpm_depend_t *newdep;
 	CALLOC(newdep, 1, sizeof(alpm_depend_t), return NULL);
 
-	STRDUP(newdep->name, dep->name, return NULL);
-	STRDUP(newdep->version, dep->version, return NULL);
-	STRDUP(newdep->desc, dep->desc, return NULL);
+	STRDUP(newdep->name, dep->name, goto error);
+	STRDUP(newdep->version, dep->version, goto error);
+	STRDUP(newdep->desc, dep->desc, goto error);
 	newdep->name_hash = dep->name_hash;
 	newdep->mod = dep->mod;
 
 	return newdep;
+
+error:
+	alpm_dep_free(newdep);
+	return NULL;
 }
 
 /* These parameters are messy. We check if this package, given a list of
