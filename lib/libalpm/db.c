@@ -542,7 +542,10 @@ alpm_pkghash_t *_alpm_db_get_pkgcache_hash(alpm_db_t *db)
 	}
 
 	if(!(db->status & DB_STATUS_PKGCACHE)) {
-		load_pkgcache(db);
+		if(load_pkgcache(db)) {
+			/* handle->error set in local/sync-db-populate */
+			return NULL;
+		}
 	}
 
 	return db->pkgcache;
