@@ -50,11 +50,15 @@ static alpm_depmissing_t *depmiss_new(const char *target, alpm_depend_t *dep,
 
 	MALLOC(miss, sizeof(alpm_depmissing_t), return NULL);
 
-	STRDUP(miss->target, target, return NULL);
+	STRDUP(miss->target, target, goto error);
 	miss->depend = _alpm_dep_dup(dep);
-	STRDUP(miss->causingpkg, causingpkg, return NULL);
+	STRDUP(miss->causingpkg, causingpkg, goto error);
 
 	return miss;
+
+error:
+	alpm_depmissing_free(miss);
+	return NULL;
 }
 
 void SYMEXPORT alpm_depmissing_free(alpm_depmissing_t *miss)
