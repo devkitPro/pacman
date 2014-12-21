@@ -862,7 +862,7 @@ static struct dload_payload *build_payload(alpm_handle_t *handle,
 		struct dload_payload *payload;
 
 		CALLOC(payload, 1, sizeof(*payload), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		STRDUP(payload->remote_name, filename, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		STRDUP(payload->remote_name, filename, FREE(payload); RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		payload->max_size = size;
 		payload->servers = servers;
 		return payload;
