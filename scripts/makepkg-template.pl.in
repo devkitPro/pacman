@@ -70,7 +70,7 @@ sub parse_template_line {
 	foreach my $element (@elements) {
 		my ($key, $val) = ($element =~ /^([a-z0-9]+)=(.*)$/);
 		unless ($key and $val) {
-			die gettext("invalid key/value pair\n%s:%s: %s"),
+			die gettext("invalid key/value pair\n"),
 				"$filename:$linenumber: $line";
 		}
 		$values{$key} = $val;
