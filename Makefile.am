@@ -28,6 +28,7 @@ $(top_srcdir)/test/pacman/tests/TESTS: $(wildcard test/pacman/tests/*.py*)
 
 TESTS =  test/scripts/parseopts_test.sh \
 				 test/scripts/human_to_size_test.sh \
+				 test/scripts/makepkg-template_test.sh \
 				 test/scripts/pacman-db-upgrade-v9.py \
 				 test/util/pacsorttest.sh \
 				 test/util/vercmptest.sh
@@ -37,6 +38,7 @@ TEST_SUITE_LOG = test/test-suite.log
 TEST_EXTENSIONS = .py
 AM_TESTS_ENVIRONMENT = \
 	PMTEST_UTIL_DIR=$(top_builddir)/src/util/; export PMTEST_UTIL_DIR; \
+	PMTEST_SCRIPT_DIR=$(top_builddir)/scripts/; export PMTEST_SCRIPT_DIR; \
 	PMTEST_SCRIPTLIB_DIR=$(top_srcdir)/scripts/library/; export PMTEST_SCRIPTLIB_DIR;
 LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 								 $(top_srcdir)/build-aux/tap-driver.sh
