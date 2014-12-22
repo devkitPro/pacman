@@ -566,6 +566,7 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 
 	newpkg->name_hash = pkg->name_hash;
 	STRDUP(newpkg->filename, pkg->filename, goto cleanup);
+	STRDUP(newpkg->base, pkg->base, goto cleanup);
 	STRDUP(newpkg->name, pkg->name, goto cleanup);
 	STRDUP(newpkg->version, pkg->version, goto cleanup);
 	STRDUP(newpkg->desc, pkg->desc, goto cleanup);
@@ -641,6 +642,7 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	}
 
 	FREE(pkg->filename);
+	FREE(pkg->base);
 	FREE(pkg->name);
 	FREE(pkg->version);
 	FREE(pkg->desc);

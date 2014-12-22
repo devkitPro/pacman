@@ -85,6 +85,7 @@ extern struct pkg_operations default_pkg_ops;
 struct __alpm_pkg_t {
 	unsigned long name_hash;
 	char *filename;
+	char *base;
 	char *name;
 	char *version;
 	char *desc;

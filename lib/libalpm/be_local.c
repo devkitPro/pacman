@@ -701,6 +701,8 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 					_alpm_log(db->handle, ALPM_LOG_ERROR, _("%s database is inconsistent: version "
 								"mismatch on package %s\n"), db->treename, info->name);
 				}
+			} else if(strcmp(line, "%BASE%") == 0) {
+				READ_AND_STORE(info->base);
 			} else if(strcmp(line, "%DESC%") == 0) {
 				READ_AND_STORE(info->desc);
 			} else if(strcmp(line, "%GROUPS%") == 0) {
@@ -905,6 +907,10 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 		free(path);
 		fprintf(fp, "%%NAME%%\n%s\n\n"
 						"%%VERSION%%\n%s\n\n", info->name, info->version);
+		if(info->base) {
+			fprintf(fp, "%%BASE%%\n"
+							"%s\n\n", info->base);
+		}
 		if(info->desc) {
 			fprintf(fp, "%%DESC%%\n"
 							"%s\n\n", info->desc);

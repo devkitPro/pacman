@@ -614,6 +614,8 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				if(_alpm_validate_filename(db, pkg->name, pkg->filename) < 0) {
 					return -1;
 				}
+			} else if(strcmp(line, "%BASE%") == 0) {
+				READ_AND_STORE(pkg->base);
 			} else if(strcmp(line, "%DESC%") == 0) {
 				READ_AND_STORE(pkg->desc);
 			} else if(strcmp(line, "%GROUPS%") == 0) {
