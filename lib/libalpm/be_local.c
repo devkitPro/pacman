@@ -63,6 +63,12 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
  * initialized.
  */
 
+static const char *_cache_get_base(alpm_pkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC, NULL);
+	return pkg->base;
+}
+
 static const char *_cache_get_desc(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, NULL);
@@ -297,6 +303,7 @@ static int _cache_force_load(alpm_pkg_t *pkg)
  * logic.
  */
 static struct pkg_operations local_pkg_ops = {
+	.get_base        = _cache_get_base,
 	.get_desc        = _cache_get_desc,
 	.get_url         = _cache_get_url,
 	.get_builddate   = _cache_get_builddate,

@@ -43,6 +43,7 @@
  * defined default_pkg_ops struct to work just fine for their needs.
  */
 struct pkg_operations {
+	const char *(*get_base) (alpm_pkg_t *);
 	const char *(*get_desc) (alpm_pkg_t *);
 	const char *(*get_url) (alpm_pkg_t *);
 	alpm_time_t (*get_builddate) (alpm_pkg_t *);

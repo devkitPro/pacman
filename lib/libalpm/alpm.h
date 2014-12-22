@@ -1101,6 +1101,12 @@ int alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg);
  */
 const char *alpm_pkg_get_filename(alpm_pkg_t *pkg);
 
+/** Returns the package base name.
+ * @param pkg a pointer to package
+ * @return a reference to an internal string
+ */
+const char *alpm_pkg_get_base(alpm_pkg_t *pkg);
+
 /** Returns the package name.
  * @param pkg a pointer to package
  * @return a reference to an internal string
