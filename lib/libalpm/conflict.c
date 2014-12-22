@@ -79,11 +79,15 @@ alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 
 	newconflict->package1_hash = conflict->package1_hash;
 	newconflict->package2_hash = conflict->package2_hash;
-	STRDUP(newconflict->package1, conflict->package1, return NULL);
-	STRDUP(newconflict->package2, conflict->package2, return NULL);
+	STRDUP(newconflict->package1, conflict->package1, goto error);
+	STRDUP(newconflict->package2, conflict->package2, goto error);
 	newconflict->reason = conflict->reason;
 
 	return newconflict;
+
+error:
+	alpm_conflict_free(newconflict);
+	return NULL;
 }
 
 /**
