@@ -473,7 +473,7 @@ alpm_depend_t SYMEXPORT *alpm_dep_from_string(const char *depstring)
 
 	/* Note the extra space in ": " to avoid matching the epoch */
 	if((desc = strstr(depstring, ": ")) != NULL) {
-		STRDUP(depend->desc, desc + 2, return NULL);
+		STRDUP(depend->desc, desc + 2, goto error);
 		deplen = desc - depstring;
 	} else {
 		/* no description- point desc at NULL at end of string for later use */
@@ -513,13 +513,17 @@ alpm_depend_t SYMEXPORT *alpm_dep_from_string(const char *depstring)
 	}
 
 	/* copy the right parts to the right places */
-	STRNDUP(depend->name, depstring, ptr - depstring, return NULL);
+	STRNDUP(depend->name, depstring, ptr - depstring, goto error);
 	depend->name_hash = _alpm_hash_sdbm(depend->name);
 	if(version) {
-		STRNDUP(depend->version, version, desc - version, return NULL);
+		STRNDUP(depend->version, version, desc - version, goto error);
 	}
 
 	return depend;
+
+error:
+	alpm_dep_free(depend);
+	return NULL;
 }
 
 alpm_depend_t *_alpm_dep_dup(const alpm_depend_t *dep)
