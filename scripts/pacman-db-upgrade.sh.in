@@ -167,6 +167,8 @@ if [[ -z "$db_version" ]]; then
 	fi
 
 	# pacman 4.1 to 4.2 upgrade - remove directory symlink support
+	msg "$(gettext "Pre-4.2 database format detected - upgrading...")"
+
 	dirlist=()
 
 	unset GREP_OPTIONS
@@ -180,8 +182,6 @@ if [[ -z "$db_version" ]]; then
 		done)
 
 	if [[ ${#dirlist[@]} != 0 ]]; then
-		msg "$(gettext "Pre-4.2 database format detected - upgrading...")"
-
 		pacroot="$(resolve_dir "$pacroot")"
 
 		for dir in "${dirlist[@]}"; do
