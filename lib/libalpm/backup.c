@@ -47,11 +47,10 @@ int _alpm_split_backup(const char *string, alpm_backup_t **backup)
 	*ptr = '\0';
 	ptr++;
 	/* now str points to the filename and ptr points to the hash */
-	STRDUP((*backup)->name, str, return -1);
-	STRDUP((*backup)->hash, ptr, return -1);
+	STRDUP((*backup)->name, str, FREE(str); return -1);
+	STRDUP((*backup)->hash, ptr, FREE(str); return -1);
 	FREE(str);
-	return 0;
-}
+	return 0;}
 
 /* Look for a filename in a alpm_pkg_t.backup list. If we find it,
  * then we return the full backup entry.
