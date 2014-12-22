@@ -3607,7 +3607,7 @@ if (( SOURCEONLY )); then
 		download_sources allarch
 	elif ( (( ! SKIPCHECKSUMS )) || \
 			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ); then
-		download_sources novcs
+		download_sources allarch novcs
 	fi
 	check_source_integrity all
 	cd_safe "$startdir"
