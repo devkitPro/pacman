@@ -52,7 +52,7 @@ int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *prefix,
 		int fd;
 		do {
 			fd = open(handle->logfile, O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC,
-					0000);
+					0644);
 		} while(fd == -1 && errno == EINTR);
 		if(fd >= 0) {
 			handle->logstream = fdopen(fd, "a");
