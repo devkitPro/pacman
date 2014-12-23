@@ -276,12 +276,12 @@ resolve_deps() {
 	# deplist cannot be declared like this: local deplist=$(foo)
 	# Otherwise, the return value will depend on the assignment.
 	local deplist
-	deplist="$(check_deps $*)" || exit 1
+	deplist=$(check_deps "$@") || exit 1
 	[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 
 	if handle_deps $deplist; then
 		# check deps again to make sure they were resolved
-		deplist="$(check_deps $*)" || exit 1
+		deplist=$(check_deps "$@") || exit 1
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 	fi
 
@@ -962,7 +962,7 @@ check_vcs_software() {
 					client=$(get_vcsclient "$proto") || exit $?
 					# ensure specified program is installed
 					local uninstalled
-					uninstalled="$(check_deps $client)" || exit 1
+					uninstalled=$(check_deps "$client") || exit 1
 					# if not installed, check presence in depends or makedepends
 					if [[ -n "$uninstalled" ]] && (( ! NODEPS || ( VERIFYSOURCE && !DEP_BIN ) )); then
 						if ! in_array "$client" ${all_deps[@]}; then
