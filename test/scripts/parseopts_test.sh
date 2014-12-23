@@ -1,17 +1,17 @@
 #!/bin/bash
 
-declare -i testcount=0 pass=0 fail=0 total=25
+source "$(dirname "$0")"/../tap.sh || exit 1
 
 # source the library function
 lib=${1:-${PMTEST_SCRIPTLIB_DIR}parseopts.sh}
 if [[ -z $lib || ! -f $lib ]]; then
-	printf "Bail out! parseopts library ($lib) could not be located\n"
+	tap_bail "parseopts library ($lib) could not be located"
 	exit 1
 fi
 . "$lib"
 
 if ! type -t parseopts &>/dev/null; then
-	printf "Bail out! parseopts function not found\n"
+	tap_bail "parseopts function not found"
 	exit 1
 fi
 
@@ -25,43 +25,13 @@ OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean:' 'cleanall' 'nodeps'
 
 parse() {
 	local result=$1 tokencount=$2; shift 2
-
-	(( ++testcount ))
 	parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@" 2>/dev/null
-	test_result "$result" "$tokencount" "$*" "${OPTRET[@]}"
+	tap_is_int "${#OPTRET[@]}" "$tokencount" "$* - tokencount"
+	tap_is_str "$result" "${OPTRET[*]}" "$* - result"
 	unset OPTRET
 }
 
-test_result() {
-	local result=$1 tokencount=$2 input=$3; shift 3
-
-	if [[ $result = "$*" ]] && (( tokencount == $# )); then
-		(( ++pass ))
-		printf 'ok %d - %s\n' "$testcount" "$input"
-	else
-		printf 'not ok %d - %s\n' "$testcount" "$input"
-		printf '# [TEST %3s]: FAIL\n' "$testcount"
-		printf '#      input: %s\n' "$input"
-		printf '#     output: %s (%s tokens)\n' "$*" "$#"
-		printf '#   expected: %s (%s tokens)\n' "$result" "$tokencount"
-		(( ++fail ))
-	fi
-}
-
-summarize() {
-	if (( !fail )); then
-		printf '# All %s tests successful\n\n' "$testcount"
-		exit 0
-	else
-		printf '# %s of %s tests failed\n\n' "$fail" "$testcount"
-		exit 1
-	fi
-}
-trap 'summarize' EXIT
-
-printf '# Beginning parseopts tests\n'
-
-echo "1..$total"
+tap_plan 50
 
 # usage: parse <expected result> <token count> test-params...
 # a failed parse will match only the end of options marker '--'
@@ -140,5 +110,7 @@ parse '--force --' 2 --force
 
 # exact match on possible stem (opt has optarg)
 parse '--clean foo --' 3 --clean=foo
+
+tap_finish
 
 # vim: set noet:

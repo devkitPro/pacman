@@ -18,57 +18,28 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+source "$(dirname "$0")"/../tap.sh || exit 1
+
 # default binary if one was not specified as $1
 bin=${1:-${PMTEST_UTIL_DIR}vercmp}
-# holds counts of tests
-total=92
-run=0
-failure=0
 
 # use first arg as our binary if specified
 if ! type -p "$bin" &>/dev/null; then
-	echo "Bail out! vercmp binary ($bin) could not be located"
+	tap_bail "vercmp binary ($bin) could not be located"
 	exit 1
 fi
 
 # args:
-# pass ver1 ver2 ret expected
-pass() {
-	echo "ok $run - ver1: $1 ver2: $2 ret: $3"
-}
-
-# args:
-# fail ver1 ver2 ret expected
-fail() {
-	echo "not ok $run - test: ver1: $1 ver2: $2 ret: $3 expected: $4"
-	((failure++))
-}
-
-# args:
 # runtest ver1 ver2 expected
 runtest() {
-	# run the test
-	((run++))
-	ret=$($bin $1 $2)
-	func='pass'
-	[[ -n $ret && $ret -eq $3 ]] || func='fail'
-	$func $1 $2 $ret $3
+	local ver1=$1 ver2=$2 exp=$3
+	tap_is_str "$($bin "$ver1" "$ver2")" "$exp" "$ver1 $ver2"
 	# and run its mirror case just to be sure
-	((run++))
-	reverse=0
-	[[ $3 -eq 1 ]] && reverse=-1
-	[[ $3 -eq -1 ]] && reverse=1
-	ret=$($bin $2 $1)
-	func='pass'
-	[[ -n $ret && $ret -eq $reverse ]] || func='fail'
-	$func $2 $1 $ret $reverse
+	(( exp *= -1 ))
+	tap_is_str "$($bin "$ver2" "$ver1")" "$exp" "$ver2 $ver1"
 }
 
-echo "# Running vercmp tests..."
-
-echo "1..$total"
-
-# BEGIN TESTS
+tap_plan 92
 
 # all similar length, no pkgrel
 runtest 1.5.0 1.5.0  0
@@ -142,14 +113,6 @@ runtest 1:1.0    1.0   1
 runtest 1:1.0    1.1   1
 runtest 1:1.1    1.1   1
 
-#END TESTS
-
-if [[ $failure -eq 0 ]]; then
-	echo "# All $run tests successful"
-	exit 0
-fi
-
-echo "# $failure of $run tests failed"
-exit 1
+tap_finish
 
 # vim: set noet:

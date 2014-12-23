@@ -18,15 +18,13 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+source "$(dirname "$0")"/../tap.sh || exit 1
+
 # default binary if one was not specified as $1
 bin=${1:-${PMTEST_UTIL_DIR}pacsort}
-# holds counts of tests
-total=26
-run=0
-failure=0
 
 if ! type -p "$bin" &>/dev/null; then
-	echo "Bail out! pacsort binary ($bin) could not be located"
+	tap_bail "pacsort binary ($bin) could not be located"
 	exit 1
 fi
 
@@ -34,24 +32,10 @@ fi
 # runtest input expected test_description optional_opts
 runtest() {
 	# run the test
-	((run++))
-	out=$(diff -u <(printf "$1" | $bin $4) <(printf "$2"))
-	if [[ $? -eq 0 ]]; then
-		echo "ok $run - $3"
-	else
-		((failure++))
-		echo "not ok $run - $3"
-		while read line; do
-			echo "    # $line"
-		done <<<"$out"
-	fi
+	tap_diff <(printf "$1" | $bin $4) <(printf "$2") "$3"
 }
 
-echo "# Running pacsort tests..."
-
-echo "1..$total"
-
-# BEGIN TESTS
+tap_plan 26
 
 in="1\n2\n3\n4\n"
 runtest $in $in "already ordered"
@@ -124,14 +108,6 @@ runtest "$separator_reverse" "$separator" "really long input, sort key, separato
 runtest "$separator_reverse" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
 runtest "$separator" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
 
-#END TESTS
-
-if [[ $failure -eq 0 ]]; then
-	echo "# All $run tests successful"
-	exit 0
-fi
-
-echo "# $failure of $run tests failed"
-exit 1
+tap_finish
 
 # vim: set noet:

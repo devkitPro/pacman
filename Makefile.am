@@ -13,7 +13,7 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-doc --disable-git-version
 
 # Some files automatically included, so they aren't specified below:
 #   AUTHORS, COPYING, NEWS, README
-EXTRA_DIST = HACKING
+EXTRA_DIST = HACKING test/tap.sh
 
 # Sample makepkg prototype files
 pkgdatadir = ${datadir}/${PACKAGE}
