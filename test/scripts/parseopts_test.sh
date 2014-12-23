@@ -23,7 +23,7 @@ OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean:' 'cleanall' 'nodeps'
           'repackage' 'skipinteg' 'sign' 'source' 'syncdeps' 'version' 'config:'
           'noconfirm' 'noprogressbar')
 
-parse() {
+tap_parse() {
 	local result=$1 tokencount=$2; shift 2
 	parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@" 2>/dev/null
 	tap_is_int "${#OPTRET[@]}" "$tokencount" "$* - tokencount"
@@ -33,83 +33,83 @@ parse() {
 
 tap_plan 50
 
-# usage: parse <expected result> <token count> test-params...
-# a failed parse will match only the end of options marker '--'
+# usage: tap_parse <expected result> <token count> test-params...
+# a failed tap_parse will match only the end of options marker '--'
 
 # no options
-parse '--' 1
+tap_parse '--' 1
 
 # short options
-parse '-s -r --' 3 -s -r
+tap_parse '-s -r --' 3 -s -r
 
 # short options, no spaces
-parse '-s -r --' 3 -sr
+tap_parse '-s -r --' 3 -sr
 
 # short opt missing an opt arg
-parse '--' 1 -s -p
+tap_parse '--' 1 -s -p
 
 # short opt with an opt arg
-parse '-p PKGBUILD -L --' 4 -p PKGBUILD -L
+tap_parse '-p PKGBUILD -L --' 4 -p PKGBUILD -L
 
 # short opt with an opt arg, no space
-parse '-p PKGBUILD --' 3 -pPKGBUILD
+tap_parse '-p PKGBUILD --' 3 -pPKGBUILD
 
 # valid shortopts as a long opt
-parse '--' 1 --sir
+tap_parse '--' 1 --sir
 
 # long opt with no optarg
-parse '--log --' 2 --log
+tap_parse '--log --' 2 --log
 
 # long opt with missing optarg
-parse '--' 1 -sr --pkg
+tap_parse '--' 1 -sr --pkg
 
 # long opt with optarg
-parse '--pkg foo --' 3 --pkg foo
+tap_parse '--pkg foo --' 3 --pkg foo
 
 # long opt with optarg with whitespace
-parse '--pkg foo bar -- baz' 4 --pkg "foo bar" baz
+tap_parse '--pkg foo bar -- baz' 4 --pkg "foo bar" baz
 
 # long opt with optarg with =
-parse '--pkg foo=bar -- baz' 4 --pkg foo=bar baz
+tap_parse '--pkg foo=bar -- baz' 4 --pkg foo=bar baz
 
 # long opt with explicit optarg
-parse '--pkg bar -- foo baz' 5 foo --pkg=bar baz
+tap_parse '--pkg bar -- foo baz' 5 foo --pkg=bar baz
 
 # long opt with explicit optarg, with whitespace
-parse '--pkg foo bar -- baz' 4 baz --pkg="foo bar"
+tap_parse '--pkg foo bar -- baz' 4 baz --pkg="foo bar"
 
 # long opt with explicit optarg that doesn't take optarg
-parse '--' 1 --force=always -s
+tap_parse '--' 1 --force=always -s
 
 # long opt with explicit optarg with =
-parse '--pkg foo=bar --' 3 --pkg=foo=bar
+tap_parse '--pkg foo=bar --' 3 --pkg=foo=bar
 
 # explicit end of options with options after
-parse '-s -r -- foo bar baz' 6 -s -r -- foo bar baz
+tap_parse '-s -r -- foo bar baz' 6 -s -r -- foo bar baz
 
 # non-option parameters mixed in with options
-parse '-s -r -- foo baz' 5 -s foo baz -r
+tap_parse '-s -r -- foo baz' 5 -s foo baz -r
 
 # optarg with whitespace
-parse '-p foo bar -s --' 4 -p'foo bar' -s
+tap_parse '-p foo bar -s --' 4 -p'foo bar' -s
 
 # non-option parameter with whitespace
-parse '-i -- foo bar' 3 -i 'foo bar'
+tap_parse '-i -- foo bar' 3 -i 'foo bar'
 
 # successful stem match (opt has no arg)
-parse '--nocolor --' 2 --nocol
+tap_parse '--nocolor --' 2 --nocol
 
 # successful stem match (opt has arg)
-parse '--config foo --' 3 --conf foo
+tap_parse '--config foo --' 3 --conf foo
 
 # ambiguous long opt
-parse '--' 1 '--for'
+tap_parse '--' 1 '--for'
 
 # exact match on a possible stem (--force & --forcever)
-parse '--force --' 2 --force
+tap_parse '--force --' 2 --force
 
 # exact match on possible stem (opt has optarg)
-parse '--clean foo --' 3 --clean=foo
+tap_parse '--clean foo --' 3 --clean=foo
 
 tap_finish
 

@@ -31,7 +31,7 @@ fi
 
 # args:
 # runtest ver1 ver2 expected
-runtest() {
+tap_runtest() {
 	local ver1=$1 ver2=$2 exp=$3
 	tap_is_str "$($bin "$ver1" "$ver2")" "$exp" "$ver1 $ver2"
 	# and run its mirror case just to be sure
@@ -42,76 +42,76 @@ runtest() {
 tap_plan 92
 
 # all similar length, no pkgrel
-runtest 1.5.0 1.5.0  0
-runtest 1.5.1 1.5.0  1
+tap_runtest 1.5.0 1.5.0  0
+tap_runtest 1.5.1 1.5.0  1
 
 # mixed length
-runtest 1.5.1 1.5    1
+tap_runtest 1.5.1 1.5    1
 
 # with pkgrel, simple
-runtest 1.5.0-1 1.5.0-1  0
-runtest 1.5.0-1 1.5.0-2 -1
-runtest 1.5.0-1 1.5.1-1 -1
-runtest 1.5.0-2 1.5.1-1 -1
+tap_runtest 1.5.0-1 1.5.0-1  0
+tap_runtest 1.5.0-1 1.5.0-2 -1
+tap_runtest 1.5.0-1 1.5.1-1 -1
+tap_runtest 1.5.0-2 1.5.1-1 -1
 
 # with pkgrel, mixed lengths
-runtest 1.5-1   1.5.1-1 -1
-runtest 1.5-2   1.5.1-1 -1
-runtest 1.5-2   1.5.1-2 -1
+tap_runtest 1.5-1   1.5.1-1 -1
+tap_runtest 1.5-2   1.5.1-1 -1
+tap_runtest 1.5-2   1.5.1-2 -1
 
 # mixed pkgrel inclusion
-runtest 1.5   1.5-1 0
-runtest 1.5-1 1.5   0
-runtest 1.1-1 1.1   0
-runtest 1.0-1 1.1  -1
-runtest 1.1-1 1.0   1
+tap_runtest 1.5   1.5-1 0
+tap_runtest 1.5-1 1.5   0
+tap_runtest 1.1-1 1.1   0
+tap_runtest 1.0-1 1.1  -1
+tap_runtest 1.1-1 1.0   1
 
 # alphanumeric versions
-runtest 1.5b-1  1.5-1  -1
-runtest 1.5b    1.5    -1
-runtest 1.5b-1  1.5    -1
-runtest 1.5b    1.5.1  -1
+tap_runtest 1.5b-1  1.5-1  -1
+tap_runtest 1.5b    1.5    -1
+tap_runtest 1.5b-1  1.5    -1
+tap_runtest 1.5b    1.5.1  -1
 
 # from the manpage
-runtest 1.0a     1.0alpha -1
-runtest 1.0alpha 1.0b     -1
-runtest 1.0b     1.0beta  -1
-runtest 1.0beta  1.0rc    -1
-runtest 1.0rc    1.0      -1
+tap_runtest 1.0a     1.0alpha -1
+tap_runtest 1.0alpha 1.0b     -1
+tap_runtest 1.0b     1.0beta  -1
+tap_runtest 1.0beta  1.0rc    -1
+tap_runtest 1.0rc    1.0      -1
 
 # going crazy? alpha-dotted versions
-runtest 1.5.a    1.5     1
-runtest 1.5.b    1.5.a   1
-runtest 1.5.1    1.5.b   1
+tap_runtest 1.5.a    1.5     1
+tap_runtest 1.5.b    1.5.a   1
+tap_runtest 1.5.1    1.5.b   1
 
 # alpha dots and dashes
-runtest 1.5.b-1  1.5.b   0
-runtest 1.5-1    1.5.b  -1
+tap_runtest 1.5.b-1  1.5.b   0
+tap_runtest 1.5-1    1.5.b  -1
 
 # same/similar content, differing separators
-runtest 2.0    2_0     0
-runtest 2.0_a  2_0.a   0
-runtest 2.0a   2.0.a  -1
-runtest 2___a  2_a     1
+tap_runtest 2.0    2_0     0
+tap_runtest 2.0_a  2_0.a   0
+tap_runtest 2.0a   2.0.a  -1
+tap_runtest 2___a  2_a     1
 
 # epoch included version comparisons
-runtest 0:1.0    0:1.0   0
-runtest 0:1.0    0:1.1  -1
-runtest 1:1.0    0:1.0   1
-runtest 1:1.0    0:1.1   1
-runtest 1:1.0    2:1.1  -1
+tap_runtest 0:1.0    0:1.0   0
+tap_runtest 0:1.0    0:1.1  -1
+tap_runtest 1:1.0    0:1.0   1
+tap_runtest 1:1.0    0:1.1   1
+tap_runtest 1:1.0    2:1.1  -1
 
 # epoch + sometimes present pkgrel
-runtest 1:1.0    0:1.0-1  1
-runtest 1:1.0-1  0:1.1-1  1
+tap_runtest 1:1.0    0:1.0-1  1
+tap_runtest 1:1.0-1  0:1.1-1  1
 
 # epoch included on one version
-runtest 0:1.0    1.0   0
-runtest 0:1.0    1.1  -1
-runtest 0:1.1    1.0   1
-runtest 1:1.0    1.0   1
-runtest 1:1.0    1.1   1
-runtest 1:1.1    1.1   1
+tap_runtest 0:1.0    1.0   0
+tap_runtest 0:1.0    1.1  -1
+tap_runtest 0:1.1    1.0   1
+tap_runtest 1:1.0    1.0   1
+tap_runtest 1:1.0    1.1   1
+tap_runtest 1:1.1    1.1   1
 
 tap_finish
 

@@ -30,7 +30,7 @@ fi
 
 # args:
 # runtest input expected test_description optional_opts
-runtest() {
+tap_runtest() {
 	# run the test
 	tap_diff <(printf "$1" | $bin $4) <(printf "$2") "$3"
 }
@@ -38,49 +38,49 @@ runtest() {
 tap_plan 26
 
 in="1\n2\n3\n4\n"
-runtest $in $in "already ordered"
+tap_runtest $in $in "already ordered"
 
 in="4\n2\n3\n1\n"
 ex="1\n2\n3\n4\n"
-runtest $in $ex "easy reordering"
+tap_runtest $in $ex "easy reordering"
 
 in="1\n2\n3\n4"
 ex="1\n2\n3\n4\n"
-runtest $in $ex "add trailing newline"
+tap_runtest $in $ex "add trailing newline"
 
 in="1\n2\n4\n3"
 ex="1\n2\n3\n4\n"
-runtest $in $ex "add trailing newline"
+tap_runtest $in $ex "add trailing newline"
 
 in="1.0-1\n1.0\n1.0-2\n1.0\n"
-runtest $in $in "stable sort"
+tap_runtest $in $in "stable sort"
 
 in="firefox-18.0-2-x86_64.pkg.tar.xz\nfirefox-18.0.1-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort" "--files"
+tap_runtest $in $in "filename sort" "--files"
 
 in="firefox-18.0-2\nfirefox-18.0.1-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort with invalid filename" "--files"
+tap_runtest $in $in "filename sort with invalid filename" "--files"
 
 in="firefox-18.0-2-x86_64.pkg.tar.xz\n/path2/firefox-18.0.1-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort maybe with leading paths" "--files"
+tap_runtest $in $in "filename sort maybe with leading paths" "--files"
 
 in="/path1/firefox-18.0-2-x86_64.pkg.tar.xz\n/path2/firefox-18.0.1-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort with different leading paths" "--files"
+tap_runtest $in $in "filename sort with different leading paths" "--files"
 
 in="/path2/firefox-18.0-2-x86_64.pkg.tar.xz\n/path1/path2/firefox-18.0.1-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort with uneven leading path components" "--files"
+tap_runtest $in $in "filename sort with uneven leading path components" "--files"
 
 in="firefox-18.0-2-i686.pkg.tar.xz\nfirefox-18.0.1-1-x86_64.pkg.tar.gz\n"
-runtest $in $in "filename sort with different extensions" "--files"
+tap_runtest $in $in "filename sort with different extensions" "--files"
 
 in="/packages/dialog-1.2_20131001-1-x86_64.pkg.tar.xz\n/packages/dialog-1:1.2_20130928-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort with epoch" "--files"
+tap_runtest $in $in "filename sort with epoch" "--files"
 
 in="/packages/dia-log-1:1.2_20130928-1-x86_64.pkg.tar.xz\n/packages/dialog-1.2_20131001-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort with differing package names and epoch" "--files"
+tap_runtest $in $in "filename sort with differing package names and epoch" "--files"
 
 in="/packages/systemd-217-1-x86_64.pkg.tar.xz\n/packages/systemd-sysvcompat-217-1-x86_64.pkg.tar.xz\n"
-runtest $in $in "filename sort with package names as shared substring" "--files"
+tap_runtest $in $in "filename sort with package names as shared substring" "--files"
 
 # generate some long input/expected for the next few tests
 declare normal reverse names_normal names_reverse
@@ -93,20 +93,20 @@ for ((i=1; i<600; i++)); do
 	separator_reverse="${separator_reverse}colA|bogus${i}|$((600 - ${i}))\n"
 done
 
-runtest $normal $normal "really long input"
-runtest $reverse $normal "really long input"
-runtest $reverse $reverse "really long input, reversed" "-r"
-runtest $normal $reverse "really long input, reversed" "-r"
+tap_runtest $normal $normal "really long input"
+tap_runtest $reverse $normal "really long input"
+tap_runtest $reverse $reverse "really long input, reversed" "-r"
+tap_runtest $normal $reverse "really long input, reversed" "-r"
 
-runtest "$fields" "$fields" "really long input, sort key" "-k3"
-runtest "$fields_reverse" "$fields" "really long input, sort key" "-k3"
-runtest "$fields_reverse" "$fields_reverse" "really long input, sort key, reversed" "-k 3 -r"
-runtest "$fields" "$fields_reverse" "really long input, sort key, reversed" "-k 3 -r"
+tap_runtest "$fields" "$fields" "really long input, sort key" "-k3"
+tap_runtest "$fields_reverse" "$fields" "really long input, sort key" "-k3"
+tap_runtest "$fields_reverse" "$fields_reverse" "really long input, sort key, reversed" "-k 3 -r"
+tap_runtest "$fields" "$fields_reverse" "really long input, sort key, reversed" "-k 3 -r"
 
-runtest "$separator" "$separator" "really long input, sort key, separator" "-k3 -t|"
-runtest "$separator_reverse" "$separator" "really long input, sort key, separator" "-k3 -t|"
-runtest "$separator_reverse" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
-runtest "$separator" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
+tap_runtest "$separator" "$separator" "really long input, sort key, separator" "-k3 -t|"
+tap_runtest "$separator_reverse" "$separator" "really long input, sort key, separator" "-k3 -t|"
+tap_runtest "$separator_reverse" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
+tap_runtest "$separator" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
 
 tap_finish
 
