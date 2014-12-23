@@ -133,3 +133,5 @@ fi
 
 echo "# $failure of $run tests failed"
 exit 1
+
+# vim: set noet:

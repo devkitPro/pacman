@@ -140,3 +140,5 @@ parse '--force --' 2 --force
 
 # exact match on possible stem (opt has optarg)
 parse '--clean foo --' 3 --clean=foo
+
+# vim: set noet:

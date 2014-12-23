@@ -80,3 +80,5 @@ parse_hts '1M' 1048576
 parse_hts ' 1 G ' 1073741824
 
 parse_hts '1Q' ''
+
+# vim: set noet:
