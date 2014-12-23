@@ -243,7 +243,7 @@ handle_deps() {
 
 	(( $# == 0 )) && return $R_DEPS_SATISFIED
 
-	local deplist="$*"
+	local deplist=("$@")
 
 	if (( ! DEP_BIN )); then
 		return $R_DEPS_MISSING
@@ -253,7 +253,7 @@ handle_deps() {
 		# install missing deps from binary packages (using pacman -S)
 		msg "$(gettext "Installing missing dependencies...")"
 
-		if ! run_pacman -S --asdeps $deplist; then
+		if ! run_pacman -S --asdeps "${deplist[@]}"; then
 			error "$(gettext "'%s' failed to install missing dependencies.")" "$PACMAN"
 			exit 1 # TODO: error code
 		fi
@@ -276,10 +276,10 @@ resolve_deps() {
 	# deplist cannot be declared like this: local deplist=$(foo)
 	# Otherwise, the return value will depend on the assignment.
 	local deplist
-	deplist=$(check_deps "$@") || exit 1
+	deplist=($(check_deps "$@")) || exit 1
 	[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 
-	if handle_deps $deplist; then
+	if handle_deps "${deplist[@]}"; then
 		# check deps again to make sure they were resolved
 		deplist=$(check_deps "$@") || exit 1
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
