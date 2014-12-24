@@ -1352,7 +1352,7 @@ check_checksums() {
 	done
 
 	if (( ${#correlation[*]} )); then
-		error "$(gettext "Integrity checks are missing.")"
+		error "$(gettext "Integrity checks are missing for: %s")" "${!correlation[*]}"
 		exit 1 # TODO: error code
 	fi
 }
