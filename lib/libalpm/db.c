@@ -572,6 +572,8 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 	}
 
 	if(_alpm_pkg_dup(pkg, &newpkg)) {
+		/* we return memory on "non-fatal" error in _alpm_pkg_dup */
+		_alpm_pkg_free(newpkg);
 		return -1;
 	}
 
