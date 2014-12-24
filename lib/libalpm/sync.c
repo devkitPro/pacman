@@ -736,11 +736,11 @@ static int apply_deltas(alpm_handle_t *handle)
 			} else {
 				/* len = cachedir len + from len + '/' + null */
 				len = strlen(cachedir) + strlen(d->from) + 2;
-				MALLOC(from, len, RET_ERR(handle, ALPM_ERR_MEMORY, 1));
+				MALLOC(from, len, free(delta); RET_ERR(handle, ALPM_ERR_MEMORY, 1));
 				snprintf(from, len, "%s/%s", cachedir, d->from);
 			}
 			len = strlen(cachedir) + strlen(d->to) + 2;
-			MALLOC(to, len, free(from); RET_ERR(handle, ALPM_ERR_MEMORY, 1));
+			MALLOC(to, len, free(delta); free(from); RET_ERR(handle, ALPM_ERR_MEMORY, 1));
 			snprintf(to, len, "%s/%s", cachedir, d->to);
 
 			/* build the patch command */
