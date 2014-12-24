@@ -1036,11 +1036,6 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq
 
 cleanup:
 	umask(oldmask);
-
-	if(fp) {
-		fclose(fp);
-	}
-
 	return retval;
 }
 
