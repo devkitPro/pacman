@@ -614,6 +614,8 @@ int _alpm_recursedeps(alpm_db_t *db, alpm_list_t **targs, int include_explicit)
 						deppkg->name);
 				/* add it to the target list */
 				if(_alpm_pkg_dup(deppkg, &copy)) {
+					/* we return memory on "non-fatal" error in _alpm_pkg_dup */
+					_alpm_pkg_free(copy);
 					return -1;
 				}
 				*targs = alpm_list_add(*targs, copy);
