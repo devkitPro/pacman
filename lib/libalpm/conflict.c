@@ -52,11 +52,15 @@ static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 
 	conflict->package1_hash = pkg1->name_hash;
 	conflict->package2_hash = pkg2->name_hash;
-	STRDUP(conflict->package1, pkg1->name, return NULL);
-	STRDUP(conflict->package2, pkg2->name, return NULL);
+	STRDUP(conflict->package1, pkg1->name, goto error);
+	STRDUP(conflict->package2, pkg2->name, goto error);
 	conflict->reason = reason;
 
 	return conflict;
+
+error:
+	alpm_conflict_free(conflict);
+	return NULL;
 }
 
 /**
