@@ -288,6 +288,7 @@ static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 	return conflicts;
 
 error:
+	alpm_fileconflict_free(conflict);
 	RET_ERR(handle, ALPM_ERR_MEMORY, conflicts);
 }
 
