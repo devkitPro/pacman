@@ -227,6 +227,7 @@ static struct input_t *input_new(const char *path, int pathlen)
 
 	in->data = strndup(path, pathlen);
 	if(in->data == NULL) {
+		free(in);
 		return NULL;
 	}
 
