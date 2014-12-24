@@ -48,7 +48,7 @@ static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 {
 	alpm_conflict_t *conflict;
 
-	MALLOC(conflict, sizeof(alpm_conflict_t), return NULL);
+	CALLOC(conflict, 1, sizeof(alpm_conflict_t), return NULL);
 
 	conflict->package1_hash = pkg1->name_hash;
 	conflict->package2_hash = pkg2->name_hash;
@@ -273,7 +273,7 @@ static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 		alpm_pkg_t *pkg1, alpm_pkg_t *pkg2)
 {
 	alpm_fileconflict_t *conflict;
-	MALLOC(conflict, sizeof(alpm_fileconflict_t), goto error);
+	CALLOC(conflict, 1, sizeof(alpm_fileconflict_t), goto error);
 
 	STRDUP(conflict->target, pkg1->name, goto error);
 	STRDUP(conflict->file, filestr, goto error);
