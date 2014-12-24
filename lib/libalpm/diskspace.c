@@ -112,7 +112,7 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 
 	while((mnt = getmntent(fp))) {
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		STRDUP(mp->mount_dir, mnt->mnt_dir, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		STRDUP(mp->mount_dir, mnt->mnt_dir, free(mp); RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir_len = strlen(mp->mount_dir);
 
 		mount_points = alpm_list_add(mount_points, mp);
@@ -135,7 +135,7 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 
 	while((ret = getmntent(fp, &mnt)) == 0) {
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		STRDUP(mp->mount_dir, mnt->mnt_mountp,  RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		STRDUP(mp->mount_dir, mnt->mnt_mountp,  free(mp); RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir_len = strlen(mp->mount_dir);
 
 		mount_points = alpm_list_add(mount_points, mp);
@@ -162,7 +162,7 @@ static alpm_list_t *mount_point_list(alpm_handle_t *handle)
 
 	for(; entries-- > 0; fsp++) {
 		CALLOC(mp, 1, sizeof(alpm_mountpoint_t), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		STRDUP(mp->mount_dir, fsp->f_mntonname, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		STRDUP(mp->mount_dir, fsp->f_mntonname, free(mp); RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		mp->mount_dir_len = strlen(mp->mount_dir);
 		memcpy(&(mp->fsp), fsp, sizeof(FSSTATSTYPE));
 #if defined(HAVE_GETMNTINFO_STATVFS) && defined(HAVE_STRUCT_STATVFS_F_FLAG)
