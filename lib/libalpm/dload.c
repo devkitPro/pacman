@@ -379,7 +379,7 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 	payload->tempfile_name = randpath;
 	free(payload->remote_name);
 	STRDUP(payload->remote_name, strrchr(randpath, '/') + 1,
-			RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
+			fclose(fp); RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
 
 	return fp;
 }
