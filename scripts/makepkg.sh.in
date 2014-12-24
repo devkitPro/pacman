@@ -1284,22 +1284,23 @@ verify_integrity_one() {
 }
 
 verify_integrity_sums() {
-	local integ=$1 arch=$2 integrity_sums=() sources=()
+	local integ=$1 arch=$2 integrity_sums=() sources=() srcname
 
 	if [[ $arch ]]; then
 		array_build integrity_sums "${integ}sums_$arch"
-		array_build sources "source_$arch"
+		srcname=source_$arch
 	else
 		array_build integrity_sums "${integ}sums"
-		array_build sources source
+		srcname=source
 	fi
 
+	array_build sources "$srcname"
 	if (( ${#integrity_sums[@]} == 0 && ${#sources[@]} == 0 )); then
 		return 1
 	fi
 
 	if (( ${#integrity_sums[@]} == ${#sources[@]} )); then
-		msg "$(gettext "Validating source files with %s...")" "${integ}sums"
+		msg "$(gettext "Validating %s files with %s...")" "$srcname" "${integ}sums"
 		local idx errors=0
 		for (( idx = 0; idx < ${#sources[*]}; idx++ )); do
 			verify_integrity_one "${sources[idx]}" "$integ" "${integrity_sums[idx]}" || errors=1
