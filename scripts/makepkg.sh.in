@@ -2925,7 +2925,7 @@ check_vcs_software() {
 					uninstalled="$(set +E; check_deps $client)" || exit 1
 					# if not installed, check presence in depends or makedepends
 					if [[ -n "$uninstalled" ]] && (( ! NODEPS || ( VERIFYSOURCE && !DEP_BIN ) )); then
-						if ! in_array "$client" ${alldeps[@]}; then
+						if ! in_array "$client" ${all_deps[@]}; then
 							error "$(gettext "Cannot find the %s package needed to handle %s sources.")" \
 									"$client" "${proto%%+*}"
 							ret=1
