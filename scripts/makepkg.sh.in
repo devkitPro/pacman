@@ -1455,7 +1455,11 @@ fi
 
 unset pkgname pkgbase pkgver pkgrel epoch pkgdesc url license groups provides
 unset md5sums replaces depends conflicts backup source install changelog build
-unset makedepends optdepends options noextract validpgpkeys
+unset sha{1,224,256,384,512}sums makedepends optdepends options noextract validpgpkeys
+unset "${!makedepends_@}" "${!depends_@}" "${!source_@}" "${!checkdepends_@}"
+unset "${!optdepends_@}" "${!conflicts_@}" "${!provides_@}" "${!replaces_@}"
+unset "${!md5sums_@}" "${!sha1sums_@}" "${!sha224sums_@}" "${!sha256sums_@}"
+unset "${!sha384sums_@}" "${!sha512sums_@}"
 
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
 if [[ ! -f $BUILDFILE ]]; then
