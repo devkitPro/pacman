@@ -584,7 +584,7 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 	newpkg->installdate = pkg->installdate;
 	STRDUP(newpkg->packager, pkg->packager, goto cleanup);
 	STRDUP(newpkg->md5sum, pkg->md5sum, goto cleanup);
-	STRDUP(newpkg->sha256sum, pkg->md5sum, goto cleanup);
+	STRDUP(newpkg->sha256sum, pkg->sha256sum, goto cleanup);
 	STRDUP(newpkg->arch, pkg->arch, goto cleanup);
 	newpkg->size = pkg->size;
 	newpkg->isize = pkg->isize;
