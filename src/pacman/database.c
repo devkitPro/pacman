@@ -35,11 +35,12 @@
  *
  * @return 0 on success, 1 on failure
  */
-int pacman_database(alpm_list_t *targets)
+static int change_install_reason(alpm_list_t *targets)
 {
 	alpm_list_t *i;
 	alpm_db_t *db_local;
-	int retval = 0;
+	int ret = 0;
+
 	alpm_pkgreason_t reason;
 
 	if(targets == NULL) {
@@ -68,7 +69,7 @@ int pacman_database(alpm_list_t *targets)
 		if(!pkg || alpm_pkg_set_reason(pkg, reason)) {
 			pm_printf(ALPM_LOG_ERROR, _("could not set install reason for package %s (%s)\n"),
 							pkgname, alpm_strerror(alpm_errno(config->handle)));
-			retval = 1;
+			ret = 1;
 		} else {
 			if(reason == ALPM_PKG_REASON_DEPEND) {
 				printf(_("%s: install reason has been set to 'installed as dependency'\n"), pkgname);
@@ -82,7 +83,20 @@ int pacman_database(alpm_list_t *targets)
 	if(trans_release() == -1) {
 		return 1;
 	}
-	return retval;
+	return ret;
+}
+
+
+int pacman_database(alpm_list_t *targets)
+{
+	int ret = 0;
+
+	if(config->flags & (ALPM_TRANS_FLAG_ALLDEPS | ALPM_TRANS_FLAG_ALLEXPLICIT)) {
+		ret = change_install_reason(targets);
+		return ret;
+	}
+
+	return ret;
 }
 
 /* vim: set noet: */
