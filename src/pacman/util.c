@@ -105,7 +105,7 @@ int needs_root(void)
 {
 	switch(config->op) {
 		case PM_OP_DATABASE:
-			return 1;
+			return !config->op_q_check;
 		case PM_OP_UPGRADE:
 		case PM_OP_REMOVE:
 			return !config->print;

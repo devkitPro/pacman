@@ -18,6 +18,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <dirent.h>
+#include <errno.h>
+#include <limits.h>
 #include <stdio.h>
 
 #include <alpm.h>
@@ -86,14 +89,207 @@ static int change_install_reason(alpm_list_t *targets)
 	return ret;
 }
 
+static int check_db_missing_deps(alpm_list_t *pkglist)
+{
+	alpm_list_t *data, *i;
+	int ret = 0;
+	/* check dependencies */
+	data = alpm_checkdeps(config->handle, NULL, NULL, pkglist, 0);
+	for(i = data; i; i = alpm_list_next(i)) {
+		alpm_depmissing_t *miss = i->data;
+		char *depstring = alpm_dep_compute_string(miss->depend);
+		pm_printf(ALPM_LOG_ERROR, "missing '%s' dependency for '%s'\n",
+				depstring, miss->target);
+		free(depstring);
+		ret++;
+	}
+	FREELIST(data);
+	return ret;
+}
+
+static int check_db_local_files(void)
+{
+	struct dirent *ent;
+	const char *dbpath;
+	char path[PATH_MAX];
+	int ret = 0;
+	DIR *dbdir;
+
+	dbpath = alpm_option_get_dbpath(config->handle);
+	snprintf(path, PATH_MAX, "%slocal", dbpath);
+	if(!(dbdir = opendir(path))) {
+		pm_printf(ALPM_LOG_ERROR, "could not open local database directory %s: %s\n",
+				path, strerror(errno));
+		return 1;
+	}
+
+	while((ent = readdir(dbdir)) != NULL) {
+		if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0
+				|| strcmp(ent->d_name, "ALPM_DB_VERSION") == 0) {
+			continue;
+		}
+		/* check for expected db files in local database */
+		snprintf(path, PATH_MAX, "%slocal/%s/desc", dbpath, ent->d_name);
+		if(access(path, F_OK)) {
+			pm_printf(ALPM_LOG_ERROR, "'%s': description file is missing\n", ent->d_name);
+			ret++;
+		}
+		snprintf(path, PATH_MAX, "%slocal/%s/files", dbpath, ent->d_name);
+		if(access(path, F_OK)) {
+			pm_printf(ALPM_LOG_ERROR, "'%s': file list is missing\n", ent->d_name);
+			ret++;
+		}
+	}
+	closedir(dbdir);
+
+	return ret;
+}
+
+static int check_db_local_package_conflicts(alpm_list_t *pkglist)
+{
+	alpm_list_t *data, *i;
+	int ret = 0;
+	/* check conflicts */
+	data = alpm_checkconflicts(config->handle, pkglist);
+	for(i = data; i; i = i->next) {
+		alpm_conflict_t *conflict = i->data;
+		pm_printf(ALPM_LOG_ERROR, "'%s' conflicts with '%s'\n",
+				conflict->package1, conflict->package2);
+		ret++;
+	}
+	FREELIST(data);
+	return ret;
+}
+
+struct fileitem {
+	alpm_file_t *file;
+	alpm_pkg_t *pkg;
+};
+
+static int fileitem_cmp(const void *p1, const void *p2)
+{
+	const struct fileitem * fi1 = p1;
+	const struct fileitem * fi2 = p2;
+	return strcmp(fi1->file->name, fi2->file->name);
+}
+
+static int check_db_local_filelist_conflicts(alpm_list_t *pkglist)
+{
+	alpm_list_t *i;
+	int ret = 0;
+	size_t list_size = 4096;
+	size_t offset = 0, j;
+	struct fileitem *all_files;
+	struct fileitem *prev_fileitem = NULL;
+
+	all_files = malloc(list_size * sizeof(struct fileitem));
+
+	for(i = pkglist; i; i = i->next) {
+		alpm_pkg_t *pkg = i->data;
+		alpm_filelist_t *filelist = alpm_pkg_get_files(pkg);
+		for(j = 0; j < filelist->count; j++) {
+			alpm_file_t *file = filelist->files + j;
+			/* only add files, not directories, to our big list */
+			if(file->name[strlen(file->name) - 1] == '/') {
+				continue;
+			}
+
+			/* do we need to reallocate and grow our array? */
+			if(offset >= list_size) {
+				struct fileitem *new_files;
+				new_files = realloc(all_files, list_size * 2 * sizeof(struct fileitem));
+				if(!new_files) {
+					free(all_files);
+					return 1;
+				}
+				all_files = new_files;
+				list_size *= 2;
+			}
+
+			/* we can finally add it to the list */
+			all_files[offset].file = file;
+			all_files[offset].pkg = pkg;
+			offset++;
+		}
+	}
+
+	/* now sort the list so we can find duplicates */
+	qsort(all_files, offset, sizeof(struct fileitem), fileitem_cmp);
+
+	/* do a 'uniq' style check on the list */
+	for(j = 0; j < offset; j++) {
+		struct fileitem *fileitem = all_files + j;
+		if(prev_fileitem && fileitem_cmp(prev_fileitem, fileitem) == 0) {
+			pm_printf(ALPM_LOG_ERROR, "file owned by '%s' and '%s': '%s'\n",
+					alpm_pkg_get_name(prev_fileitem->pkg),
+					alpm_pkg_get_name(fileitem->pkg),
+					fileitem->file->name);
+		}
+		prev_fileitem = fileitem;
+	}
+
+	free(all_files);
+	return ret;
+}
+
+/**
+ * @brief Check 'local' package database for consistency
+ *
+ * @return 0 on success, >=1 on failure
+ */
+static int check_db_local(void) {
+	int ret = 0;
+	alpm_db_t *db = NULL;
+	alpm_list_t *pkglist;
+
+	ret = check_db_local_files();
+	if(ret) {
+		return ret;
+	}
+
+	db = alpm_get_localdb(config->handle);
+	pkglist = alpm_db_get_pkgcache(db);
+	ret += check_db_missing_deps(pkglist);
+	ret += check_db_local_package_conflicts(pkglist);
+	ret += check_db_local_filelist_conflicts(pkglist);
+
+	return 0;
+}
+
+/**
+ * @brief Check 'sync' package databases for consistency
+ *
+ * @return 0 on success, >=1 on failure
+ */
+static int check_db_sync(void) {
+	int ret = 0;
+	alpm_list_t *i, *dblist, *pkglist, *syncpkglist = NULL;
+
+	dblist = alpm_get_syncdbs(config->handle);
+	for(i = dblist; i; i = alpm_list_next(i)) {
+		pkglist = alpm_db_get_pkgcache(i->data);
+		syncpkglist = alpm_list_join(syncpkglist, alpm_list_copy(pkglist));
+	}
+	ret = check_db_missing_deps(syncpkglist);
+
+	alpm_list_free(syncpkglist);
+	return ret;
+}
 
 int pacman_database(alpm_list_t *targets)
 {
 	int ret = 0;
 
+	if(config->op_q_check) {
+		if(config->op_q_check == 1) {
+			ret = check_db_local();
+		} else {
+			ret = check_db_sync();
+		}
+	}
+
 	if(config->flags & (ALPM_TRANS_FLAG_ALLDEPS | ALPM_TRANS_FLAG_ALLEXPLICIT)) {
 		ret = change_install_reason(targets);
-		return ret;
 	}
 
 	return ret;

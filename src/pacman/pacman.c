@@ -169,6 +169,7 @@ static void usage(int op, const char * const myname)
 			printf("%s:\n", str_opt);
 			addlist(_("      --asdeps         mark packages as non-explicitly installed\n"));
 			addlist(_("      --asexplicit     mark packages as explicitly installed\n"));
+			addlist(_("  -k, --check          test local database for validity (-kk for sync databases)\n"));
 		} else if(op == PM_OP_DEPTEST) {
 			printf("%s:  %s {-T --deptest} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -484,9 +485,18 @@ static int parsearg_global(int opt)
 static int parsearg_database(int opt)
 {
 	switch(opt) {
-		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
-		default: return 1;
+		case OP_ASDEPS:
+			config->flags |= ALPM_TRANS_FLAG_ALLDEPS;
+			break;
+		case OP_ASEXPLICIT:
+			config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT;
+			break;
+		case OP_CHECK:
+		case 'k':
+			(config->op_q_check)++;
+			break;
+		default:
+			return 1;
 	}
 	return 0;
 }
@@ -496,6 +506,13 @@ static void checkargs_database(void)
 	invalid_opt(config->flags & ALPM_TRANS_FLAG_ALLDEPS
 			&& config->flags & ALPM_TRANS_FLAG_ALLEXPLICIT,
 			"--asdeps", "--asexplicit");
+
+	if(config->op_q_check) {
+		invalid_opt(config->flags & ALPM_TRANS_FLAG_ALLDEPS,
+				"--asdeps", "--check");
+		invalid_opt(config->flags & ALPM_TRANS_FLAG_ALLEXPLICIT,
+				"--asexplicit", "--check");
+	}
 }
 
 static int parsearg_query(int opt)
