@@ -35,10 +35,10 @@ as an argument, targets will be read from stdin.
 Operations
 ----------
 *-D, \--database*::
-	Modify the package database. This operation allows you to modify certain
-	attributes of the installed packages in pacman's database. At the
-	moment, you can only change the install reason using '\--asdeps' and
-	'\--asexplicit' options.
+	Operate on the package database. This operation allows you to modify
+	certain attributes of the installed packages in pacman's database. It
+	also allows you to check the databases for internal consistency.
+	See <<DO,Database Options>> below.
 
 *-Q, \--query*::
 	Query the package database. This operation allows you to view installed
@@ -429,6 +429,27 @@ system upgrade and install/upgrade the "foo" package in the same operation.
 	you use	'\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y' flags
 	will force a refresh of all package lists, even if they appear to be up-
 	to-date.
+
+
+Database Options[[QO]]
+----------------------
+*\--asdeps* <package>::
+	Mark a package as non-explicitly installed; in other words, set their install
+	reason to be installed as a dependency.
+
+*\--asexplicit<package>*::
+	Mark a package as explicitly installed; in other words, set their install
+	reason to be explicitly installed. This is useful it you want to keep a
+	package installed even when it was initially installed as a dependency
+	of another package.
+
+*-k \--check*::
+	Check the local package database is internally consistent. This will
+	check all required files are present and that installed packages have
+	the required dependencies, do not conflict and that multiple packages
+	do not own the same file. Specifying this option twice will perform
+	a check on the sync databases to ensure all specified dependencies
+	are available.
 
 
 Handling Config Files[[HCF]]
