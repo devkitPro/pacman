@@ -109,7 +109,7 @@ sub load_template {
 	my ($version) = (abs_path($path) =~ /-([0-9.]+)[.]template$/);
 
 	if (!$version) {
-		die sprintf(gettext("Couldn't detect version for template '%s'"), $values->{name});
+		die sprintf(gettext("Couldn't detect version for template '%s'\n"), $values->{name});
 	}
 
 	my $parsed = process_file($path);
@@ -128,7 +128,7 @@ sub process_file {
 	my $nesting_level = 0;
 	my $linenumber = 0;
 
-	open (my $fh, "<", $filename) or die sprintf(gettext("failed to open '%s': %s"), $filename, $!);
+	open (my $fh, "<", $filename) or die sprintf(gettext("failed to open '%s': %s\n"), $filename, $!);
 	my @lines = <$fh>;
 	close $fh;
 
