@@ -4,7 +4,7 @@ dbpath    = ${localstatedir}/lib/pacman/
 gpgdir    = ${sysconfdir}/pacman.d/gnupg/
 cachedir  = ${localstatedir}/cache/pacman/pkg/
 
-bin_PROGRAMS = vercmp testpkg testdb cleanupdelta pacsort pactree
+bin_PROGRAMS = vercmp testpkg cleanupdelta pacsort pactree
 
 AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h \
@@ -25,9 +25,6 @@ pacsort_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 pactree_SOURCES = pactree.c
 pactree_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
-
-testdb_SOURCES = testdb.c
-testdb_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 testpkg_SOURCES = testpkg.c
 testpkg_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
