@@ -1498,7 +1498,7 @@ check_pgpsigs() {
 			esac
 			errors=1
 		else
-			if (( ${#validpgpkeys[@]} == 0 && ! $trusted )); then
+			if (( ${#validpgpkeys[@]} == 0 && !trusted )); then
 				printf "%s ($(gettext "the public key %s is not trusted"))" $(gettext "FAILED") "$fingerprint" >&2
 				errors=1
 			elif (( ${#validpgpkeys[@]} > 0 )) && ! in_array "$fingerprint" "${validpgpkeys[@]}"; then
