@@ -82,9 +82,6 @@ fi
 export BUILDDIR=$(mktemp -d --tmpdir updpkgsums.XXXXXX)
 newbuildfile=$(mktemp --tmpdir updpkgsums.XXXXXX)
 
-# In case the eventual replacement fails, we don't want to leave behind
-# $newbuildfile as garbage in $TMPDIR. This fails silently if the replacement
-# succeeds.
 trap "rm -rf '$BUILDDIR' '$newbuildfile'" EXIT
 newsums=$(makepkg -g -p "$buildfile") || die 'Failed to generate new checksums'
 awk -v newsums="$newsums" '
@@ -100,8 +97,9 @@ awk -v newsums="$newsums" '
 	END { if (!w) print newsums }
 ' "$buildfile" > "$newbuildfile" || die 'Failed to write new PKGBUILD'
 
-# Replace the original buildfile.
-if ! mv -- "$newbuildfile" "$buildfile"; then
+# Rewrite the original buildfile. Use cat instead of mv/cp to preserve
+# permissions implicitly.
+if ! cat -- "$newbuildfile" >"$buildfile"; then
 	die "Failed to update %s. The file has not been modified." "$buildfile"
 fi
 
