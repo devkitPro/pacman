@@ -216,7 +216,7 @@ underscore and the architecture name e.g., 'checkdepends_x86_64=()'.
 	and are not utilized by pacman during dependency resolution. The format
 	for specifying optdepends is:
 
-	optdepends=('fakeroot: for makepkg usage as normal user')
+	optdepends=('python: for library bindings')
 +
 Additional architecture-specific optdepends can be added by appending an
 underscore and the architecture name e.g., 'optdepends_x86_64=()'.
@@ -336,10 +336,9 @@ files into the packaging directory, with optional `prepare()`, `build()`, and
 *package() Function*::
 	The `package()` function is used to install files into the directory that
 	will become the root directory of the built package and is run after all
-	the optional functions listed below. When specified in combination with
-	the fakeroot BUILDENV option in linkman:makepkg.conf[5], fakeroot usage
-	will be limited to running the packaging stage. All other functions will
-	be run as the user calling makepkg.
+	the optional functions listed below. The packaging stage is run using
+	fakeroot to ensure correct file permissions in the resulting package.
+	All other functions will be run as the user calling makepkg.
 
 *prepare() Function*::
 	An optional `prepare()` function can be specified in which operations to
