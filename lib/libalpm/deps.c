@@ -609,7 +609,7 @@ int _alpm_recursedeps(alpm_db_t *db, alpm_list_t **targs, int include_explicit)
 			alpm_pkg_t *deppkg = j->data;
 			if(_alpm_pkg_depends_on(pkg, deppkg)
 					&& can_remove_package(db, deppkg, *targs, include_explicit)) {
-				alpm_pkg_t *copy;
+				alpm_pkg_t *copy = NULL;
 				_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding '%s' to the targets\n",
 						deppkg->name);
 				/* add it to the target list */

@@ -565,7 +565,7 @@ alpm_list_t *_alpm_db_get_pkgcache(alpm_db_t *db)
 /* "duplicate" pkg then add it to pkgcache */
 int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 {
-	alpm_pkg_t *newpkg;
+	alpm_pkg_t *newpkg = NULL;
 
 	if(db == NULL || pkg == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
 		return -1;
