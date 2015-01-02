@@ -437,6 +437,7 @@ static int add_entry_to_files_list(alpm_pkg_t *pkg, size_t *files_size,
 static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, struct archive *archive)
 {
 	int ret = 0;
+	size_t i;
 	size_t mtree_maxsize = 0;
 	size_t mtree_cursize = 0;
 	size_t files_size = 0; /* we clean up the existing array so this is fine */
@@ -448,7 +449,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 			"found mtree for package %s, getting file list\n", pkg->filename);
 
 	/* throw away any files we might have already found */
-	for (size_t i = 0; i < pkg->files.count; i++) {
+	for(i = 0; i < pkg->files.count; i++) {
 		free(pkg->files.files[i].name);
 	}
 	free(pkg->files.files);
