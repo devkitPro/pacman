@@ -1832,7 +1832,7 @@ tidy_install() {
 	# check existence of backup files
 	local file
 	for file in "${backup[@]}"; do
-		if [[ ! -f $file ]]; then
+		if [[ ! -f $file && ! -h $file ]]; then
 			warning "$(gettext "%s entry file not in package : %s")" "backup" "$file"
 		fi
 	done
