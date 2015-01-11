@@ -256,6 +256,8 @@ while :; do
 			delete=1 ;;
 		-u|--uninstalled)
 			IFS=$'\n' read -r -d '' -a ign < <(pacman -Qq)
+			# pacman -Qq may exit with an error, thus making ign an empty array
+			(( ${#ign[@]} )) || die 'failed to retrieve the list of installed packages'
 			blacklist+=("${ign[@]}")
 			unset ign ;;
 		-V|--version)
