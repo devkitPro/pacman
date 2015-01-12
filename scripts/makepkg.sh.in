@@ -2467,6 +2467,9 @@ array_build() {
 	# Build an array of the indicies of the source array.
 	eval "keys=(\"\${!$2[@]}\")"
 
+	# Clear the destination array
+	eval "$dest=()"
+
 	# Read values indirectly via their index. This approach gives us support
 	# for associative arrays, sparse arrays, and empty strings as elements.
 	for i in "${keys[@]}"; do
