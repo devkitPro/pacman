@@ -1326,7 +1326,7 @@ void *_alpm_greedy_grow(void **data, size_t *current, const size_t required)
 		return NULL;
 	}
 
-	return _alpm_realloc(data, current, required);
+	return _alpm_realloc(data, current, newsize);
 }
 
 void _alpm_alloc_fail(size_t size)
