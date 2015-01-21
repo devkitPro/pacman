@@ -1,7 +1,7 @@
 /*
  *  testpkg.c : Test a pacman package for validity
  *
- *  Copyright (c) 2007-2014 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2007-2015 Pacman Development Team <pacman-dev@archlinux.org>
  *  Copyright (c) 2007 by Aaron Griffin <aaronmgriffin@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
