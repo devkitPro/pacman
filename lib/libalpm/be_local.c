@@ -789,7 +789,7 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				while(safe_fgets(line, sizeof(line), fp) &&
 						(len = _alpm_strip_newline(line, 0))) {
 					if(!_alpm_greedy_grow((void **)&files, &files_size,
-								(files_size ? files_size + sizeof(alpm_file_t) : 8 * sizeof(alpm_file_t)))) {
+								(files_count ? (files_count + 1) * sizeof(alpm_file_t) : 8 * sizeof(alpm_file_t)))) {
 						goto error;
 					}
 					/* since we know the length of the file string already,
