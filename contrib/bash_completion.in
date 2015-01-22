@@ -75,10 +75,10 @@ _makepkg() {
   COMPREPLY=()
   _get_comp_words_by_ref cur prev
   if [[ $cur = -* && ! $prev =~ ^-(-(config|help)$|\w*[Chp]) ]]; then
-    opts=('allsource asdeps asroot check clean config force geninteg help holdver ignorearch
-           install key log needed noarchive nobuild nocheck nocolor noconfirm nodeps noextract
-           noprepare noprogressbar nosign pkg repackage rmdeps sign skipchecksums skipinteg
-           skippgpcheck source syncdeps verifysource version'
+    opts=('allsource asdeps check clean config force geninteg help holdver ignorearch install
+           key log needed noarchive nobuild nocheck nocolor noconfirm nodeps noextract noprepare
+           noprogressbar nosign pkg repackage rmdeps sign skipchecksums skipinteg skippgpcheck
+           source syncdeps verifysource version'
           'A L R S c d e f g h i m o p r s')
     _arch_ptr2comp opts
   fi
