@@ -249,7 +249,7 @@ verify_repo_extension() {
 		*.@(db|files).tar.xz)  TAR_OPT="J" ;;
 		*.@(db|files).tar.Z)   TAR_OPT="Z" ;;
 		*.@(db|files).tar)     TAR_OPT="" ;;
-		*) error "$(gettext "'%s' does not have a valid archive extension.")" \
+		*) error "$(gettext "'%s' does not have a valid database archive extension.")" \
 				"$repofile"
 			exit 1 ;;
 	esac
