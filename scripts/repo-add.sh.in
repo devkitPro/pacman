@@ -715,12 +715,13 @@ if (( success )); then
 	if [[ -f $REPO_DB_FILE ]]; then
 		ln -f "$REPO_DB_FILE" "$REPO_DB_FILE.old" 2>/dev/null || \
 			mv -f "$REPO_DB_FILE" "$REPO_DB_FILE.old"
-	fi
-	if [[ -f $REPO_DB_FILE.sig ]]; then
-		ln -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig" 2>/dev/null || \
-			mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
-	else
-		rm -f "$REPO_DB_FILE.old.sig"
+
+		if [[ -f $REPO_DB_FILE.sig ]]; then
+			ln -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig" 2>/dev/null || \
+				mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
+		else
+			rm -f "$REPO_DB_FILE.old.sig"
+		fi
 	fi
 
 	# rotate the newly-created database and signature into place
