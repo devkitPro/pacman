@@ -34,6 +34,7 @@ ONLYADDNEW=0
 RMEXISTING=0
 WITHFILES=0
 SIGN=0
+KEY=0
 VERIFY=0
 REPO_DB_FILE=
 LOCKFILE=
@@ -197,6 +198,17 @@ check_gpg() {
 	if ! type -p gpg >/dev/null; then
 		error "$(gettext "Cannot find the gpg binary! Is GnuPG installed?")"
 		exit 1 # $E_MISSING_PROGRAM
+	fi
+
+	if (( ! VERIFY )); then
+		if ! gpg --list-key ${GPGKEY} &>/dev/null; then
+			if [[ ! -z $GPGKEY ]]; then
+				error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
+			elif (( ! KEY )); then
+				error "$(gettext "There is no key in your keyring.")"
+			fi
+			exit 1
+		fi
 	fi
 }
 
@@ -630,28 +642,14 @@ while (( $# )); do
 		-f|--files) WITHFILES=1;;
 		--nocolor) USE_COLOR='n';;
 		-s|--sign)
-			check_gpg
 			SIGN=1
-			if ! gpg --list-key ${GPGKEY} &>/dev/null; then
-				if [[ ! -z $GPGKEY ]]; then
-					error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
-				else
-					error "$(gettext "There is no key in your keyring.")"
-				fi
-				exit 1
-			fi
 			;;
 		-k|--key)
-			check_gpg
+			KEY=1
 			shift
 			GPGKEY=$1
-			if ! gpg --list-key ${GPGKEY} &>/dev/null; then
-				error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
-				exit 1
-			fi
 			;;
 		-v|--verify)
-			check_gpg
 			VERIFY=1
 			;;
 		*)
@@ -677,6 +675,10 @@ fi
 
 verify_repo_extension "$REPO_DB_FILE" >/dev/null
 check_repo_db
+
+if (( SIGN || KEY || VERIFY )); then
+	check_gpg
+fi
 
 for arg in "${args[@]:1}"; do
 	case $cmd in
