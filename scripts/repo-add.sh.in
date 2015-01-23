@@ -59,7 +59,7 @@ Multiple packages to add can be specified on the command line.\n")"
 		printf -- "$(gettext "Options:\n")"
 		printf -- "$(gettext "  -d, --delta       generate and add delta for package update\n")"
 		printf -- "$(gettext "  -n, --new         only add packages that are not already in the database\n")"
-		printf -- "$(gettext "  -R, --remove      remove package file from disk when updating database entry\n")"
+		printf -- "$(gettext "  -R, --remove      remove old package file from disk after updating database\n")"
 		printf -- "$(gettext "  -f, --files       update database's file list\n")"
 	elif [[ $cmd == "repo-remove" ]] ; then
 		printf -- "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\n")"
@@ -306,14 +306,13 @@ db_write_entry() {
 				local oldfilename=$(grep -A1 FILENAME "$pkgentry/desc" | tail -n1)
 				local oldfile="$(dirname "$1")/$oldfilename"
 			fi
-		elif (( RMEXISTING )); then
-			# only remove existing package if we're not doing deltas
+		fi
+		if (( RMEXISTING )); then
+			# gather information needed to remove old file
 			pkgentry=$(find_pkgentry "$pkgname")
 			if [[ -n $pkgentry ]]; then
 				local oldfilename="$(sed -n '/^%FILENAME%$/ {n;p;q;}' "$pkgentry/desc")"
 				local oldfile="$(dirname "$1")/$oldfilename"
-				msg2 "$(gettext "Removing existing package '%s'")" "$oldfilename"
-				rm -f ${oldfile} ${oldfile}.sig
 			fi
 		fi
 	fi
@@ -410,6 +409,11 @@ db_write_entry() {
 				warning "$(gettext "Old package file not found: %s")" "$oldfilename"
 			fi
 		fi
+	fi
+
+	if (( RMEXISTING )); then
+		msg2 "$(gettext "Removing old package file '%s'")" "$oldfilename"
+		rm -f ${oldfile} ${oldfile}.sig
 	fi
 
 	return 0
