@@ -571,6 +571,42 @@ remove() {
 	fi
 }
 
+rotate_db() {
+	filename=${REPO_DB_FILE##*/}
+	tempname=$dirname/.tmp.$filename
+
+	# hardlink or move the previous version of the database and signature to .old
+	# extension as a backup measure
+	if [[ -f $REPO_DB_FILE ]]; then
+		ln -f "$REPO_DB_FILE" "$REPO_DB_FILE.old" 2>/dev/null || \
+			mv -f "$REPO_DB_FILE" "$REPO_DB_FILE.old"
+
+		if [[ -f $REPO_DB_FILE.sig ]]; then
+			ln -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig" 2>/dev/null || \
+				mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
+		else
+			rm -f "$REPO_DB_FILE.old.sig"
+		fi
+	fi
+
+	# rotate the newly-created database and signature into place
+	mv "$tempname" "$REPO_DB_FILE"
+	if [[ -f $tempname.sig ]]; then
+		mv "$tempname.sig" "$REPO_DB_FILE.sig"
+	fi
+
+	dblink=${REPO_DB_FILE%.tar*}
+	rm -f "$dblink" "$dblink.sig"
+	ln -s "$filename" "$dblink" 2>/dev/null || \
+		ln "$filename" "$dblink" 2>/dev/null || \
+		cp "$REPO_DB_FILE" "$dblink"
+	if [[ -f "$REPO_DB_FILE.sig" ]]; then
+		ln -s "$filename.sig" "$dblink.sig" 2>/dev/null || \
+			ln "$filename.sig" "$dblink.sig" 2>/dev/null || \
+			cp "$REPO_DB_FILE.sig" "$dblink.sig"
+	fi
+}
+
 trap_exit() {
 	# unhook all traps to avoid race conditions
 	trap '' EXIT TERM HUP QUIT INT ERR
@@ -710,36 +746,7 @@ if (( success )); then
 
 	create_signature "$tempname"
 
-	# hardlink or move the previous version of the database and signature to .old
-	# extension as a backup measure
-	if [[ -f $REPO_DB_FILE ]]; then
-		ln -f "$REPO_DB_FILE" "$REPO_DB_FILE.old" 2>/dev/null || \
-			mv -f "$REPO_DB_FILE" "$REPO_DB_FILE.old"
-
-		if [[ -f $REPO_DB_FILE.sig ]]; then
-			ln -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig" 2>/dev/null || \
-				mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
-		else
-			rm -f "$REPO_DB_FILE.old.sig"
-		fi
-	fi
-
-	# rotate the newly-created database and signature into place
-	mv "$tempname" "$REPO_DB_FILE"
-	if [[ -f $tempname.sig ]]; then
-		mv "$tempname.sig" "$REPO_DB_FILE.sig"
-	fi
-
-	dblink=${REPO_DB_FILE%.tar*}
-	rm -f "$dblink" "$dblink.sig"
-	ln -s "$filename" "$dblink" 2>/dev/null || \
-		ln "$filename" "$dblink" 2>/dev/null || \
-		cp "$REPO_DB_FILE" "$dblink"
-	if [[ -f "$REPO_DB_FILE.sig" ]]; then
-		ln -s "$filename.sig" "$dblink.sig" 2>/dev/null || \
-			ln "$filename.sig" "$dblink.sig" 2>/dev/null || \
-			cp "$REPO_DB_FILE.sig" "$dblink.sig"
-	fi
+	rotate_db
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
 	exit 1
