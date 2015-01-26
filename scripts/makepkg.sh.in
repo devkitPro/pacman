@@ -49,7 +49,7 @@ declare -r startdir="$PWD"
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman'
-                   'purge' 'upx' 'debug')
+                   'purge' 'upx' 'optipng' 'debug')
 other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
 splitpkg_overrides=('pkgdesc' 'arch' 'url' 'license' 'groups' 'depends'
                     'optdepends' 'provides' 'conflicts' 'replaces' 'backup'
@@ -1918,6 +1918,17 @@ tidy_install() {
 			fi
 		done
 	fi
+
+	if check_option "optipng" "y"; then
+		msg2 "$(gettext "Optimizing PNG images...")"
+		local png
+		find . -type f -iname "*.png" 2>/dev/null | while read -r png ; do
+			if [[ $(file --brief --mime-type "$png") = 'image/png' ]]; then
+				optipng "${OPTIPNGFLAGS[@]}" "$png" &>/dev/null ||
+					warning "$(gettext "Could not optimize PNG image : %s")" "${png/$pkgdir\//}"
+			fi
+		done
+	fi
 }
 
 find_libdepends() {
@@ -3004,6 +3015,14 @@ check_software() {
 	if check_option "upx" "y"; then
 		if ! type -p upx >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for compressing binaries.")" "upx"
+			ret=1
+		fi
+	fi
+
+	# optipng - PNG image optimization
+	if check_option "optipng" "y"; then
+		if ! type -p optipng >/dev/null; then
+			error "$(gettext "Cannot find the %s binary required for optimizing PNG images.")" "optipng"
 			ret=1
 		fi
 	fi
