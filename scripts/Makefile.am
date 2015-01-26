@@ -28,7 +28,8 @@ EXTRA_DIST = \
 	pacman-optimize.sh.in \
 	pkgdelta.sh.in \
 	repo-add.sh.in \
-	$(LIBRARY)
+	$(LIBRARY) \
+	$(LIBMAKEPKG_DIST)
 
 LIBRARY = \
 	library/output_format.sh \
@@ -37,10 +38,23 @@ LIBRARY = \
 	library/size_to_human.sh \
 	library/term_colors.sh
 
-# Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = $(bin_SCRIPTS)
+libmakepkgdir = $(datarootdir)/makepkg
 
-libmakepkgdir = $(libdir)/makepkg
+LIBMAKEPKGDIRS = \
+	util
+
+LIBMAKEPKG = \
+	libmakepkg/util/message.sh
+
+LIBMAKEPKG_IN = \
+	libmakepkg/util.sh
+
+LIBMAKEPKG_DIST = \
+	$(LIBMAKEPKG) \
+	$(addsuffix .in, $(LIBMAKEPKG_IN))
+
+# Files that should be removed, but which Automake does not know.
+MOSTLYCLEANFILES = $(bin_SCRIPTS) $(LIBMAKEPKG_IN)
 
 clean-local:
 	$(AM_V_at)$(RM) -r .lib
@@ -87,10 +101,18 @@ $(OURSCRIPTS): Makefile
 	$(AM_V_at)chmod +x,a-w $@
 	@$(BASH_SHELL) -O extglob -n $@
 
+$(LIBMAKEPKG_IN): %: %.in Makefile
+	$(AM_V_at)$(RM) $@
+	$(AM_V_at)$(MKDIR_P) $(dir $@)
+	$(AM_V_GEN)test -f $(srcdir)/$@.in && $(edit) $(srcdir)/$@.in >$@
+	$(AM_V_at)chmod a-w $@
+	@$(BASH_SHELL) -O extglob -n $@
+
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
 	$(srcdir)/makepkg-wrapper.sh.in \
-	$(srcdir)/library/parseopts.sh
+	$(srcdir)/library/parseopts.sh \
+	$(LIBMAKEPKG_IN)
 
 makepkg-template: \
 	$(srcdir)/makepkg-template.pl.in \
@@ -150,6 +172,15 @@ install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
 		$(RM) makepkg makepkg-wrapper
 	$(INSTALL) .lib/makepkg $(DESTDIR)$(bindir)/makepkg
+	for dir in $(LIBMAKEPKGDIRS); do \
+		$(MKDIR_P) $(DESTDIR)$(libmakepkgdir)/$$dir; \
+	done
+	for lib in $(LIBMAKEPKG); do \
+		$(INSTALL) $(srcdir)/$$lib $(DESTDIR)$(libmakepkgdir)/$${lib#libmakepkg}; \
+	done
+	for lib in $(LIBMAKEPKG_IN); do \
+		$(INSTALL) $$lib $(DESTDIR)$(libmakepkgdir)/$${lib#libmakepkg}; \
+	done
 	cd $(DESTDIR)$(bindir) && \
 		$(RM) repo-elephant && \
 		( $(LN_S) repo-add repo-elephant || \
@@ -164,5 +195,11 @@ install-exec-hook:
 uninstall-hook:
 	cd $(DESTDIR)$(bindir) && \
 		$(RM) repo-remove repo-elephant
+	for lib in $(LIBMAKEPKG) $(LIBMAKEPKG_IN); do \
+		$(RM) $(DESTDIR)$(libmakepkgdir)/$${lib#libmakepkg}; \
+	done
+	for dir in $(LIBMAKEPKGDIRS); do \
+		$(RM) -r $(DESTDIR)$(libmakepkgdir)/$$dir; \
+	done
 
 # vim:set noet:
