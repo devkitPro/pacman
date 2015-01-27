@@ -548,7 +548,7 @@ add() {
 }
 
 remove() {
-	if [[ ${1##*.} == "delta" ]]; then
+	if [[ $1 = *-*-*_to_*-*-*.delta ]]; then
 		deltafile=$1
 		msg "$(gettext "Searching for delta '%s'...")" "$deltafile"
 		if db_remove_delta "$deltafile"; then
