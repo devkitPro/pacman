@@ -50,11 +50,11 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman'
                    'purge' 'upx' 'optipng' 'debug')
-other_options=('ccache' 'distcc' 'buildflags' 'makeflags')
+build_options=('ccache' 'distcc' 'buildflags' 'makeflags')
 splitpkg_overrides=('pkgdesc' 'arch' 'url' 'license' 'groups' 'depends'
                     'optdepends' 'provides' 'conflicts' 'replaces' 'backup'
                     'options' 'install' 'changelog')
-readonly -a packaging_options other_options splitpkg_overrides
+readonly -a packaging_options build_options splitpkg_overrides
 
 known_hash_algos=('md5' 'sha1' 'sha224' 'sha256' 'sha384' 'sha512')
 
@@ -2762,7 +2762,7 @@ lint_options() {
 
 	for i in "${options_list[@]}"; do
 		# check if option matches a known option or its inverse
-		for kopt in "${packaging_options[@]}" "${other_options[@]}"; do
+		for kopt in "${packaging_options[@]}" "${build_options[@]}"; do
 			if [[ $i = "$kopt" || $i = "!$kopt" ]]; then
 				# continue to the next $i
 				continue 2
