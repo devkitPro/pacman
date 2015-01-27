@@ -44,7 +44,8 @@ LIBMAKEPKGDIRS = \
 	util
 
 LIBMAKEPKG = \
-	libmakepkg/util/message.sh
+	libmakepkg/util/message.sh \
+	libmakepkg/util/option.sh
 
 LIBMAKEPKG_IN = \
 	libmakepkg/util.sh
