@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+#   strip.sh - Strip debugging symbols from binary files
+#
+#   Copyright (c) 2007-2015 Pacman Development Team <pacman-dev@archlinux.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[ -n "$LIBMAKEPKG_TIDY_STRIP_SH" ] && return
+LIBMAKEPKG_TIDY_STRIP_SH=1
+
+LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+
+source "$LIBRARY/util/message.sh"
+source "$LIBRARY/util/option.sh"
+
+
+tidy_strip() {
+	if check_option "strip" "y"; then
+		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
+		# make sure library stripping variables are defined to prevent excess stripping
+		[[ -z ${STRIP_SHARED+x} ]] && STRIP_SHARED="-S"
+		[[ -z ${STRIP_STATIC+x} ]] && STRIP_STATIC="-S"
+
+		if check_option "debug" "y"; then
+			dbgdir="$pkgdir-@DEBUGSUFFIX@/usr/lib/debug"
+			mkdir -p "$dbgdir"
+		fi
+
+		local binary strip_flags
+		find . -type f -perm -u+w -print0 2>/dev/null | while read -rd '' binary ; do
+			case "$(file -bi "$binary")" in
+				*application/x-sharedlib*)  # Libraries (.so)
+					strip_flags="$STRIP_SHARED";;
+				*application/x-archive*)    # Libraries (.a)
+					strip_flags="$STRIP_STATIC";;
+				*application/x-object*)
+					case "$binary" in
+						*.ko)                   # Kernel module
+							strip_flags="$STRIP_SHARED";;
+						*)
+							continue;;
+					esac;;
+				*application/x-executable*) # Binaries
+					strip_flags="$STRIP_BINARIES";;
+				*)
+					continue ;;
+			esac
+			strip_file "$binary" ${strip_flags}
+		done
+	fi
+}

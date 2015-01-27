@@ -48,13 +48,11 @@ declare -r startdir="$PWD"
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman'
-                   'purge' 'upx' 'optipng' 'debug')
 build_options=('ccache' 'distcc' 'buildflags' 'makeflags')
 splitpkg_overrides=('pkgdesc' 'arch' 'url' 'license' 'groups' 'depends'
                     'optdepends' 'provides' 'conflicts' 'replaces' 'backup'
                     'options' 'install' 'changelog')
-readonly -a packaging_options build_options splitpkg_overrides
+readonly -a build_options splitpkg_overrides
 
 known_hash_algos=('md5' 'sha1' 'sha224' 'sha256' 'sha384' 'sha512')
 
@@ -1680,148 +1678,6 @@ strip_file() {
 	fi
 
 	strip $@ "$binary"
-}
-
-tidy_install() {
-	cd_safe "$pkgdir"
-	msg "$(gettext "Tidying install...")"
-
-	if check_option "docs" "n" && [[ -n ${DOC_DIRS[*]} ]]; then
-		msg2 "$(gettext "Removing doc files...")"
-		rm -rf -- ${DOC_DIRS[@]}
-	fi
-
-	if check_option "purge" "y" && [[ -n ${PURGE_TARGETS[*]} ]]; then
-		msg2 "$(gettext "Purging unwanted files...")"
-		local pt
-		for pt in "${PURGE_TARGETS[@]}"; do
-			if [[ ${pt} = "${pt//\/}" ]]; then
-				find . ! -type d -name "${pt}" -exec rm -f -- '{}' +
-			else
-				rm -f ${pt}
-			fi
-		done
-	fi
-
-	if check_option "libtool" "n"; then
-		msg2 "$(gettext "Removing "%s" files...")" "libtool"
-		find . ! -type d -name "*.la" -exec rm -f -- '{}' +
-	fi
-
-	if check_option "staticlibs" "n"; then
-		msg2 "$(gettext "Removing static library files...")"
-		local l
-		while read -rd '' l; do
-			if [[ -f "${l%.a}.so" || -h "${l%.a}.so" ]]; then
-				rm "$l"
-			fi
-		done < <(find . ! -type d -name "*.a" -print0)
-	fi
-
-	if check_option "emptydirs" "n"; then
-		msg2 "$(gettext "Removing empty directories...")"
-		find . -depth -type d -exec rmdir '{}' + 2>/dev/null
-	fi
-
-	# check existence of backup files
-	local file
-	for file in "${backup[@]}"; do
-		if [[ ! -f $file ]]; then
-			warning "$(gettext "%s entry file not in package : %s")" "backup" "$file"
-		fi
-	done
-
-	# check for references to the build and package directory
-	if find "${pkgdir}" -type f -print0 | xargs -0 grep -q -I "${srcdir}" ; then
-		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
-	fi
-	if find "${pkgdir}" -type f -print0 | xargs -0 grep -q -I "${pkgdirbase}" ; then
-		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
-	fi
-
-	if check_option "zipman" "y" && [[ -n ${MAN_DIRS[*]} ]]; then
-		msg2 "$(gettext "Compressing man and info pages...")"
-		local file files inode link
-		while read -rd ' ' inode; do
-			read file
-			find ${MAN_DIRS[@]} -type l 2>/dev/null |
-			while read -r link ; do
-				if [[ "${file}" -ef "${link}" ]] ; then
-					rm -f "$link" "${link}.gz"
-					if [[ ${file%/*} = ${link%/*} ]]; then
-						ln -s -- "${file##*/}.gz" "${link}.gz"
-					else
-						ln -s -- "/${file}.gz" "${link}.gz"
-					fi
-				fi
-			done
-			if [[ -z ${files[$inode]} ]]; then
-				files[$inode]=$file
-				gzip -9 -n -f "$file"
-			else
-				rm -f "$file"
-				ln "${files[$inode]}.gz" "${file}.gz"
-				chmod 644 "${file}.gz"
-			fi
-		done < <(find ${MAN_DIRS[@]} -type f \! -name "*.gz" \! -name "*.bz2" \
-			-exec @INODECMD@ '{}' + 2>/dev/null)
-	fi
-
-	if check_option "strip" "y"; then
-		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"
-		# make sure library stripping variables are defined to prevent excess stripping
-		[[ -z ${STRIP_SHARED+x} ]] && STRIP_SHARED="-S"
-		[[ -z ${STRIP_STATIC+x} ]] && STRIP_STATIC="-S"
-
-		if check_option "debug" "y"; then
-			dbgdir="$pkgdir-@DEBUGSUFFIX@/usr/lib/debug"
-			mkdir -p "$dbgdir"
-		fi
-
-		local binary strip_flags
-		find . -type f -perm -u+w -print0 2>/dev/null | while read -rd '' binary ; do
-			case "$(file -bi "$binary")" in
-				*application/x-sharedlib*)  # Libraries (.so)
-					strip_flags="$STRIP_SHARED";;
-				*application/x-archive*)    # Libraries (.a)
-					strip_flags="$STRIP_STATIC";;
-				*application/x-object*)
-					case "$binary" in
-						*.ko)                   # Kernel module
-							strip_flags="$STRIP_SHARED";;
-						*)
-							continue;;
-					esac;;
-				*application/x-executable*) # Binaries
-					strip_flags="$STRIP_BINARIES";;
-				*)
-					continue ;;
-			esac
-			strip_file "$binary" ${strip_flags}
-		done
-	fi
-
-	if check_option "upx" "y"; then
-		msg2 "$(gettext "Compressing binaries with %s...")" "UPX"
-		local binary
-		find . -type f -perm -u+w 2>/dev/null | while read -r binary ; do
-			if [[ $(file --brief --mime-type "$binary") = 'application/x-executable' ]]; then
-				upx "${UPXFLAGS[@]}" "$binary" &>/dev/null ||
-						warning "$(gettext "Could not compress binary : %s")" "${binary/$pkgdir\//}"
-			fi
-		done
-	fi
-
-	if check_option "optipng" "y"; then
-		msg2 "$(gettext "Optimizing PNG images...")"
-		local png
-		find . -type f -iname "*.png" 2>/dev/null | while read -r png ; do
-			if [[ $(file --brief --mime-type "$png") = 'image/png' ]]; then
-				optipng "${OPTIPNGFLAGS[@]}" "$png" &>/dev/null ||
-					warning "$(gettext "Could not optimize PNG image : %s")" "${png/$pkgdir\//}"
-			fi
-		done
-	fi
 }
 
 find_libdepends() {

@@ -41,6 +41,7 @@ LIBRARY = \
 libmakepkgdir = $(datarootdir)/makepkg
 
 LIBMAKEPKGDIRS = \
+	tidy \
 	util
 
 LIBMAKEPKG = \
@@ -48,6 +49,18 @@ LIBMAKEPKG = \
 	libmakepkg/util/option.sh
 
 LIBMAKEPKG_IN = \
+	libmakepkg/tidy.sh \
+	libmakepkg/tidy/build_references.sh \
+	libmakepkg/tidy/docs.sh \
+	libmakepkg/tidy/emptydirs.sh \
+	libmakepkg/tidy/libtool.sh \
+	libmakepkg/tidy/missing_backup.sh \
+	libmakepkg/tidy/optipng.sh \
+	libmakepkg/tidy/purge.sh \
+	libmakepkg/tidy/staticlibs.sh \
+	libmakepkg/tidy/strip.sh \
+	libmakepkg/tidy/upx.sh \
+	libmakepkg/tidy/zipman.sh \
 	libmakepkg/util.sh
 
 LIBMAKEPKG_DIST = \
