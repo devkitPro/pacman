@@ -34,9 +34,9 @@ delta specified on the command line. Multiple packages and/or delta to remove
 can be specified on the command line.
 
 A package database is a tar file, optionally compressed. Valid extensions are
-``.db'' or ``.files'' followed by an archive extension of ``.tar'',
-``.tar.gz'', ``.tar.bz2'', ``.tar.xz'', or ``.tar.Z''. The file does not need
-to exist, but all parent directories must exist.
+``.db'' followed by an archive extension of ``.tar'', ``.tar.gz'', ``.tar.bz2'',
+``.tar.xz'', or ``.tar.Z''. The file does not need to exist, but all parent
+directories must exist.
 
 
 Common Options
@@ -71,11 +71,6 @@ repo-add Options
 	Automatically generate and add a delta file between the old entry and the
 	new one, if the old package file is found next to the new one.
 
-*-f, \--files*::
-	Tells 'repo-add' also to create and include a list of the files in the
-	specified packages. This is useful for creating databases listing all files
-	in a given sync repository for tools that may use this information.
-
 *-n, \--new*::
 	Only add packages that are not already in the database.  Warnings will be
 	printed upon detection of existing packages, but they will not be re-added.
@@ -87,15 +82,12 @@ repo-add Options
 
 Example
 -------
-'repo-add' is often invoked twice to create two separate databases; a smaller
-database used by pacman and a large database containing package file lists for
-use by other utilities.
-
 'repo-add' foo.db.tar.xz <pkg1> [<pkg2> ...]
-'repo-add' -f foo.files.tar.xz <pkg1> [<pkg2> ...]
 
-While pacman can use the large database (if given a db.tar* extension), there
-is currently no additional benefit for the larger download.
+This creates two separate databases; a smaller database ``foo.db.tar.xz'' used by
+pacman and a large database containing package file lists ``foo.files.tar.xz'' for
+use by other utilities. While pacman can use the large database (if renamed with a
+db.tar* extension), there is currently no additional benefit for the larger download.
 
 
 See Also
