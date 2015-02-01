@@ -192,13 +192,17 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 	if(trans->add == NULL) {
 		if(_alpm_remove_packages(handle, 1) == -1) {
 			/* pm_errno is set by _alpm_remove_packages() */
+			alpm_errno_t save = handle->pm_errno;
 			alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction failed\n");
+			handle->pm_errno = save;
 			return -1;
 		}
 	} else {
 		if(_alpm_sync_commit(handle, data) == -1) {
 			/* pm_errno is set by _alpm_sync_commit() */
+			alpm_errno_t save = handle->pm_errno;
 			alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction failed\n");
+			handle->pm_errno = save;
 			return -1;
 		}
 	}

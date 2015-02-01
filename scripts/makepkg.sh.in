@@ -605,7 +605,7 @@ extract_git() {
 			exit 1
 		fi
 		cd_safe "$srcdir"
-	elif ! git clone "$dir"; then
+	elif ! git clone "$dir" "${dir##*/}"; then
 		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "git"
 		plain "$(gettext "Aborting...")"
 		exit 1
@@ -1819,7 +1819,7 @@ tidy_install() {
 		msg2 "$(gettext "Removing static library files...")"
 		local l
 		while read -rd '' l; do
-			if [[ -f "${l%.a}.so" ]]; then
+			if [[ -f "${l%.a}.so" || -h "${l%.a}.so" ]]; then
 				rm "$l"
 			fi
 		done < <(find . ! -type d -name "*.a" -print0)
@@ -1833,7 +1833,7 @@ tidy_install() {
 	# check existence of backup files
 	local file
 	for file in "${backup[@]}"; do
-		if [[ ! -f $file && ! -h $file ]]; then
+		if [[ ! -f $file ]]; then
 			warning "$(gettext "%s entry file not in package : %s")" "backup" "$file"
 		fi
 	done
