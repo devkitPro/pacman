@@ -41,6 +41,7 @@ LIBRARY = \
 libmakepkgdir = $(datarootdir)/makepkg
 
 LIBMAKEPKGDIRS = \
+	lint_package \
 	tidy \
 	util
 
@@ -49,12 +50,13 @@ LIBMAKEPKG = \
 	libmakepkg/util/option.sh
 
 LIBMAKEPKG_IN = \
+	libmakepkg/lint_package.sh \
+	libmakepkg/lint_package/build_references.sh \
+	libmakepkg/lint_package/missing_backup.sh \
 	libmakepkg/tidy.sh \
-	libmakepkg/tidy/build_references.sh \
 	libmakepkg/tidy/docs.sh \
 	libmakepkg/tidy/emptydirs.sh \
 	libmakepkg/tidy/libtool.sh \
-	libmakepkg/tidy/missing_backup.sh \
 	libmakepkg/tidy/optipng.sh \
 	libmakepkg/tidy/purge.sh \
 	libmakepkg/tidy/staticlibs.sh \
