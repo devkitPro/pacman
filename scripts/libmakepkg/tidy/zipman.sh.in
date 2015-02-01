@@ -27,6 +27,9 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 
+packaging_options+=('zipman')
+tidy_modify+=('tidy_zipman')
+
 tidy_zipman() {
 	if check_option "zipman" "y" && [[ -n ${MAN_DIRS[*]} ]]; then
 		msg2 "$(gettext "Compressing man and info pages...")"

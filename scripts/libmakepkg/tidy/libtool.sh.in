@@ -27,6 +27,9 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 
+packaging_options+=('libtool')
+tidy_remove+=('tidy_libtool')
+
 tidy_libtool() {
 	if check_option "libtool" "n"; then
 		msg2 "$(gettext "Removing "%s" files...")" "libtool"

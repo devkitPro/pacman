@@ -27,6 +27,9 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 
+packaging_options+=('strip' 'debug')
+tidy_modify+=('tidy_strip')
+
 tidy_strip() {
 	if check_option "strip" "y"; then
 		msg2 "$(gettext "Stripping unneeded symbols from binaries and libraries...")"

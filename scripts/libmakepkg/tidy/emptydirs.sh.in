@@ -27,6 +27,9 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 
+packaging_options+=('emptydirs')
+tidy_remove+=('tidy_emptydirs')
+
 tidy_emptydirs() {
 	if check_option "emptydirs" "n"; then
 		msg2 "$(gettext "Removing empty directories...")"

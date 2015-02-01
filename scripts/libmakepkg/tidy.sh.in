@@ -26,14 +26,14 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 source "$LIBRARY/util/message.sh"
 
+
+declare -a packaging_options tidy_remove tidy_modify
+
 for lib in "$LIBRARY/tidy/"*.sh; do
 	source "$lib"
 done
 
-
-packaging_options=('strip' 'docs' 'libtool' 'staticlibs' 'emptydirs' 'zipman'
-                   'purge' 'upx' 'optipng' 'debug')
-readonly -a packaging_options
+readonly -a packaging_options tidy_remove tidy_modify
 
 
 tidy_install() {
@@ -41,15 +41,12 @@ tidy_install() {
 	msg "$(gettext "Tidying install...")"
 
 	# options that remove unwanted files
-	tidy_docs
-	tidy_purge
-	tidy_libtool
-	tidy_staticlibs
-	tidy_emptydirs
+	for func in ${tidy_remove[@]}; do
+		$func
+	done
 
-	# options that reduce file sizes
-	tidy_zipman
-	tidy_strip
-	tidy_upx
-	tidy_optipng
+	# options that modify files
+	for func in ${tidy_modify[@]}; do
+		$func
+	done
 }

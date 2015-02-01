@@ -27,6 +27,9 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 
+packaging_options+=('optipng')
+tidy_modify+=('tidy_optipng')
+
 tidy_optipng() {
 	if check_option "optipng" "y"; then
 		msg2 "$(gettext "Optimizing PNG images...")"

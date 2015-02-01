@@ -27,6 +27,9 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 
+packaging_options+=('purge')
+tidy_remove+=('tidy_purge')
+
 tidy_purge() {
 	if check_option "purge" "y" && [[ -n ${PURGE_TARGETS[*]} ]]; then
 		msg2 "$(gettext "Purging unwanted files...")"

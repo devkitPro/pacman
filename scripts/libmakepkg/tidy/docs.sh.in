@@ -26,6 +26,8 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
+packaging_options+=('docs')
+tidy_remove+=('tidy_docs')
 
 tidy_docs() {
 	if check_option "docs" "n" && [[ -n ${DOC_DIRS[*]} ]]; then

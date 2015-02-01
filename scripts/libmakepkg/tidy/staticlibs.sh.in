@@ -27,6 +27,9 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 
+packaging_options+=('staticlibs')
+tidy_remove+=('tidy_staticlibs')
+
 tidy_staticlibs() {
 	if check_option "staticlibs" "n"; then
 		msg2 "$(gettext "Removing static library files...")"
