@@ -25,14 +25,21 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 source "$LIBRARY/util/message.sh"
 
+
+declare -a lint_package_functions
+
 for lib in "$LIBRARY/lint_package/"*.sh; do
 	source "$lib"
 done
+
+readonly -a lint_package_functions
+
 
 lint_package() {
 	cd_safe "$pkgdir"
 	msg "$(gettext "Checking for packaging issue...")"
 
-	warn_missing_backup
-	warn_build_references
+	for func in ${lint_package_functions[@]}; do
+		$func
+	done
 }

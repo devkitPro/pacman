@@ -26,6 +26,8 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 source "$LIBRARY/util/message.sh"
 
 
+lint_package_functions+=('warn_missing_backup')
+
 warn_missing_backup() {
 	local file
 	for file in "${backup[@]}"; do

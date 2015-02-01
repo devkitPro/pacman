@@ -26,6 +26,8 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 source "$LIBRARY/util/message.sh"
 
 
+lint_package_functions+=('warn_build_references')
+
 warn_build_references() {
 	if find "${pkgdir}" -type f -print0 | xargs -0 grep -q -I "${srcdir}" ; then
 		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
