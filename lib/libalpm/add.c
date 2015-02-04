@@ -220,8 +220,10 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 	} else {
 		if(S_ISDIR(lsbuf.st_mode)) {
 			if(S_ISDIR(entrymode)) {
+#if 0
 				uid_t entryuid = archive_entry_uid(entry);
 				gid_t entrygid = archive_entry_gid(entry);
+#endif
 
 				/* case 6: existing dir, ignore it */
 				if(lsbuf.st_mode != entrymode) {
@@ -236,6 +238,11 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 							entrymode & mask);
 				}
 
+#if 0
+				/* Disable this warning until our user management in packages has improved.
+				   Currently many packages have to create users in post_install and chown the
+				   directories. These all resulted in "false-positive" warnings. */
+
 				if((entryuid != lsbuf.st_uid) || (entrygid != lsbuf.st_gid)) {
 					_alpm_log(handle, ALPM_LOG_WARNING, _("directory ownership differs on %s\n"
 							"filesystem: %u:%u  package: %u:%u\n"), filename,
@@ -245,6 +252,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 							"filesystem: %u:%u  package: %u:%u\n", filename,
 							lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
 				}
+#endif
 
 				_alpm_log(handle, ALPM_LOG_DEBUG, "extract: skipping dir extraction of %s\n",
 						filename);
