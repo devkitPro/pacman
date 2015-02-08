@@ -27,6 +27,7 @@ declare -a cachedirs=() candidates=() cmdopts=() whitelist=() blacklist=()
 declare -i delete=0 dryrun=0 filecount=0 move=0 needsroot=0 totalsaved=0 verbose=0
 declare    delim=$'\n' keep=3 movedir= scanarch=
 
+QUIET=0
 USE_COLOR='y'
 
 m4_include(../scripts/library/output_format.sh)
@@ -135,6 +136,8 @@ runcmd() {
 }
 
 summarize() {
+	(( QUIET )) && return
+
 	local -i filecount=$1; shift
 	local seenarch= seen= arch= name=
 	local -r pkg_re='(.+)-[^-]+-[0-9]+-([^.]+)\.pkg.*'
@@ -192,6 +195,7 @@ Usage: ${myname} <operation> [options] [targets...]
                           delimited.
     -k, --keep <num>      keep "num" of each package in the cache (default: 3).
         --nocolor         remove color from output.
+    -q, --quiet           minimize output
     -u, --uninstalled     target uninstalled packages.
     -v, --verbose         increase verbosity. specify up to 3 times.
     -z, --null            use null delimiters for candidate names (only with -v
@@ -205,9 +209,9 @@ version() {
 	echo 'Copyright (C) 2011 Dave Reisner <dreisner@archlinux.org>'
 }
 
-OPT_SHORT=':a:c:dfhi:k:m:rsuVvz'
+OPT_SHORT=':a:c:dfhi:k:m:qrsuVvz'
 OPT_LONG=('arch:' 'cachedir:' 'dryrun' 'force' 'help' 'ignore:' 'keep:' 'move'
-          'nocolor' 'remove' 'uninstalled' 'version' 'verbose' 'null')
+          'nocolor' 'quiet' 'remove' 'uninstalled' 'version' 'verbose' 'null')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1
@@ -247,11 +251,13 @@ while :; do
 				keep=$(( 10#$keep ))
 			fi
 			shift ;;
-		--nocolor)
-			USE_COLOR='n' ;;
 		-m|--move)
 			move=1 movedir=$2
 			shift ;;
+		--nocolor)
+			USE_COLOR='n' ;;
+		-q|--quiet)
+			QUIET=1 ;;
 		-r|--remove)
 			delete=1 ;;
 		-u|--uninstalled)
