@@ -1,7 +1,6 @@
 self.description = "Synchronize the local database"
 
-if len("@LIBCURL@") == 0:
-	self.option['XferCommand'] = ['/usr/bin/curl %u > %o']
+self.option['XferCommand'] = ['/usr/bin/curl %u > %o']
 
 sp1 = pmpkg("spkg1", "1.0-1")
 sp1.depends = ["spkg2"]
