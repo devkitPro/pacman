@@ -579,6 +579,13 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 
 	_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding entry '%s' in '%s' cache\n",
 						newpkg->name, db->treename);
+	if(newpkg->origin == ALPM_PKG_FROM_FILE) {
+		free(newpkg->origin_data.file);
+	}
+	newpkg->origin = (db->status & DB_STATUS_LOCAL)
+		? ALPM_PKG_FROM_LOCALDB
+		: ALPM_PKG_FROM_SYNCDB;
+	newpkg->origin_data.db = db;
 	db->pkgcache = _alpm_pkghash_add_sorted(db->pkgcache, newpkg);
 
 	free_groupcache(db);
