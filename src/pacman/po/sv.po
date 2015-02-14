@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Daniel Sandman <revoltism@gmail.com>, 2013
+# Daniel Sandman <revoltism@gmail.com>, 2013,2015
 # Kim Svensson <ks6g10@soton.ac.uk>, 2011-2012
 #   <pojk3n@gmail.com>, 2011
 msgid ""
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-12-19 13:29+1000\n"
-"PO-Revision-Date: 2014-11-18 05:18+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2015-01-06 21:20+0000\n"
+"Last-Translator: Daniel Sandman <revoltism@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -39,7 +39,7 @@ msgstr "löser beroenden...\n"
 #: src/pacman/callback.c:182
 #, c-format
 msgid "looking for conflicting packages...\n"
-msgstr ""
+msgstr "Söker efter paket med konflikter...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -129,17 +129,17 @@ msgstr "%s behöver eventuellt %s⏎\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s installerade som %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s sparades som %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s sparades som %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -281,7 +281,7 @@ msgstr "%s: %s (Behörigheter matchar inte)⏎\n"
 #: src/pacman/check.c:115 src/pacman/check.c:162
 #, c-format
 msgid "backup file"
-msgstr ""
+msgstr "säkerhetskopierad fil"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -404,6 +404,8 @@ msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
 msgstr ""
+"misslyckades att initialisera alpm bibliotek\n"
+"(%s: %s)\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -423,17 +425,17 @@ msgstr "problem att ställa in gpgdir '%s' (%s)\n"
 #: src/pacman/conf.c:730
 #, c-format
 msgid "no '%s' configured\n"
-msgstr ""
+msgstr "ingen '%s' konfigurerad\n"
 
 #: src/pacman/conf.c:757
 #, c-format
 msgid "Failed to pass assume installed entry to libalpm"
-msgstr ""
+msgstr "Misslyckades att ställa in antag installerad i libalpm"
 
 #: src/pacman/conf.c:803
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr ""
+msgstr "konfigurationsfil %s, rad %d: '%s' val '%s' ej igenkänd\n"
 
 #: src/pacman/conf.c:822 src/pacman/conf.c:830
 #, c-format
@@ -659,7 +661,7 @@ msgstr "MD5 summa       :"
 #: src/pacman/package.c:209
 #, c-format
 msgid "SHA-256 Sum    :"
-msgstr ""
+msgstr "SHA-256 Summa :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -815,6 +817,7 @@ msgstr ""
 #, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
 msgstr ""
+"  -l, --list           visa innehållet ägt av det efterfrågade paketet\n"
 
 #: src/pacman/pacman.c:143
 #, c-format
@@ -865,6 +868,8 @@ msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
+"-t, --unrequired visa paket som inte (valfritt) behövs av något annat\n"
+"paket (-tt för att ignorera optdepends) [filtrera]\n"
 
 #: src/pacman/pacman.c:151
 #, c-format
@@ -886,6 +891,9 @@ msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
 msgstr ""
+"-g, --groups visa alla medlemmar ur paketgruppen\n"
+"(-gg gör att se alla grupper och medlemmar)\n"
+"\n"
 
 #: src/pacman/pacman.c:158
 #, c-format
@@ -893,6 +901,8 @@ msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
+"-i, --info visa paketinformation (-ii för utökad information)\n"
+"\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -910,6 +920,9 @@ msgstr "  -s, --search <regex> sök i externa förråd efter matchande strängar
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
+"-u, --sysupgrade uppgradera alla utdaterade paket (-uu möjliggör "
+"nedgradering)\n"
+"\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -925,6 +938,9 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
+"-y, --refresh ladda ner ny paketdatabas från servern\n"
+"(-yy för att tvinga igenom en uppdatering)\n"
+"\n"
 
 #: src/pacman/pacman.c:170
 #, c-format
@@ -987,6 +1003,8 @@ msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
+"--assume-installed <paket=version>\n"
+"lägg till ett virtuellt paket för att tillfredsställa beroenden\n"
 
 #: src/pacman/pacman.c:190
 #, c-format
@@ -1086,7 +1104,7 @@ msgstr "      --noconfirm      fråga inte efter bekräftelse\n"
 #: src/pacman/pacman.c:210
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr ""
+msgstr "--confirm fråga alltid efter bekräftelse\n"
 
 #: src/pacman/pacman.c:229
 #, c-format
@@ -1100,7 +1118,7 @@ msgstr ""
 #: src/pacman/pacman.c:336
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr ""
+msgstr "ogiltigt val: '%s' och '%s' kan inte användas tillsammans\n"
 
 #: src/pacman/pacman.c:417
 #, c-format
@@ -1120,12 +1138,12 @@ msgstr "enbart en operation kan användas på samma gång\n"
 #: src/pacman/pacman.c:956
 #, c-format
 msgid "invalid option '-%c'\n"
-msgstr ""
+msgstr "ogiltigt val '-%c'\n"
 
 #: src/pacman/pacman.c:958
 #, c-format
 msgid "invalid option '--%s'\n"
-msgstr ""
+msgstr "ogiltigt val '--%s'\n"
 
 #: src/pacman/pacman.c:1123
 #, c-format
@@ -1141,6 +1159,8 @@ msgstr "misslyckades att återöppna stdin för läsning: (%s)\n"
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr ""
+"argumentet '-' angavs med tomt stdin\n"
+"\n"
 
 #: src/pacman/pacman.c:1142
 #, c-format
@@ -1191,11 +1211,13 @@ msgstr "Inget paket äger %s\n"
 #, c-format
 msgid "path too long: %s/\n"
 msgstr ""
+"sökväg för lång: %s/\n"
+"\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[ignorerad]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1361,8 +1383,8 @@ msgstr "förrådet \"%s\" hittades inte.\n"
 #, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Det finns %d medlem i grupp %s:\n"
+msgstr[1] "Det finns %d medlemmar i grupp %s:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1437,7 +1459,7 @@ msgstr "Synkroniserar paketdatabasen...\n"
 #: src/pacman/upgrade.c:56
 #, c-format
 msgid "memory exhausted\n"
-msgstr ""
+msgstr "uttömt minne\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1546,7 +1568,7 @@ msgstr "%s, %s från \"%s\""
 #: src/pacman/util.c:821
 #, c-format
 msgid "Package"
-msgstr ""
+msgstr "Paket"
 
 #: src/pacman/util.c:824
 #, c-format

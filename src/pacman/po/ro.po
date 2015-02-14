@@ -5,7 +5,8 @@
 # Translators:
 # Arthur Țițeică <arthur.titeica@gmail.com>, 2013
 # Arthur Titeica <arthur@psw.ro>, 2013
-# Arthur Țițeică <arthur.titeica@gmail.com>, 2013
+# Arthur Țițeică <arthur.titeica@gmail.com>, 2013,2015
+# cantabile <inactive+cantabile@transifex.com>, 2011
 # cantabile <inactive+cantabile@transifex.com>, 2011
 # Ionut Biru <ibiru@archlinux.org>, 2011-2013
 # Mihai Coman <mihai@m1x.ro>, 2011,2013
@@ -15,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2014-12-19 13:29+1000\n"
-"PO-Revision-Date: 2014-11-18 05:18+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2015-01-16 17:43+0000\n"
+"Last-Translator: Arthur Țițeică <arthur.titeica@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/archlinux-"
 "pacman/language/ro/)\n"
 "Language: ro\n"
@@ -44,7 +45,7 @@ msgstr "se rezolvă dependențele...\n"
 #: src/pacman/callback.c:182
 #, c-format
 msgid "looking for conflicting packages...\n"
-msgstr ""
+msgstr "se caută pachete în conflict...\n"
 
 #: src/pacman/callback.c:189
 #, c-format
@@ -134,17 +135,17 @@ msgstr "%s cere opțional %s\n"
 #: src/pacman/callback.c:289 src/pacman/callback.c:295
 #, c-format
 msgid "%s installed as %s.pacnew\n"
-msgstr ""
+msgstr "%s a fost instalat ca %s.pacnew\n"
 
 #: src/pacman/callback.c:305 src/pacman/callback.c:311
 #, c-format
 msgid "%s saved as %s.pacsave\n"
-msgstr ""
+msgstr "%s a fost salvat ca %s.pacsave\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s saved as %s.pacorig\n"
-msgstr ""
+msgstr "%s a fost salvat ca %s.pacorig\n"
 
 #: src/pacman/callback.c:372
 #, c-format
@@ -292,7 +293,7 @@ msgstr "%s: %s (Nepotrivire la nivel de permisiuni)\n"
 #: src/pacman/check.c:115 src/pacman/check.c:162
 #, c-format
 msgid "backup file"
-msgstr ""
+msgstr "fișier backup"
 
 #: src/pacman/check.c:117 src/pacman/check.c:123
 #, c-format
@@ -423,6 +424,9 @@ msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
 msgstr ""
+"eșec la inițializarea bibliotecii alpm\n"
+"(%s: %s)\n"
+"\n"
 
 #: src/pacman/conf.c:683
 #, c-format
@@ -442,7 +446,7 @@ msgstr "problemă la setarea gpgdir ca '%s' (%s)\n"
 #: src/pacman/conf.c:730
 #, c-format
 msgid "no '%s' configured\n"
-msgstr ""
+msgstr "niciun '%s' configurat\n"
 
 #: src/pacman/conf.c:757
 #, c-format
@@ -681,7 +685,7 @@ msgstr "Suma MD5            :"
 #: src/pacman/package.c:209
 #, c-format
 msgid "SHA-256 Sum    :"
-msgstr ""
+msgstr "Sumă SHA-256 :"
 
 #: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
 #: src/pacman/package.c:224
@@ -1154,12 +1158,12 @@ msgstr "doar o operațiune poate fi utilizată în același timp\n"
 #: src/pacman/pacman.c:956
 #, c-format
 msgid "invalid option '-%c'\n"
-msgstr ""
+msgstr "opțiune nevalidă '-%c'\n"
 
 #: src/pacman/pacman.c:958
 #, c-format
 msgid "invalid option '--%s'\n"
-msgstr ""
+msgstr "opțiune nevalidă '--%s'\n"
 
 #: src/pacman/pacman.c:1123
 #, c-format
@@ -1224,12 +1228,12 @@ msgstr "Niciun pachet nu deține %s\n"
 #: src/pacman/query.c:204
 #, c-format
 msgid "path too long: %s/\n"
-msgstr ""
+msgstr "cale prea lungă: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
 msgid "[ignored]"
-msgstr ""
+msgstr "[ignorat]"
 
 #: src/pacman/query.c:380
 #, c-format
@@ -1397,9 +1401,9 @@ msgstr "depozitul \"%s\" nu a fost găsit.\n"
 #, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Există %d membru în grupul %s:\n"
+msgstr[1] "Există %d membri în grupul %s:\n"
+msgstr[2] "Există %d de membri în grupul %s:\n"
 
 #: src/pacman/sync.c:684
 #, c-format
@@ -1478,7 +1482,7 @@ msgstr "Se sincronizează bazele de date cu pachete...\n"
 #: src/pacman/upgrade.c:56
 #, c-format
 msgid "memory exhausted\n"
-msgstr ""
+msgstr "memorie epuizată\n"
 
 #: src/pacman/upgrade.c:87
 #, c-format
@@ -1587,7 +1591,7 @@ msgstr "%s, %s din \"%s\""
 #: src/pacman/util.c:821
 #, c-format
 msgid "Package"
-msgstr ""
+msgstr "Pachet"
 
 #: src/pacman/util.c:824
 #, c-format
