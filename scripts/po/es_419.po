@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2015-02-14 11:18+1000\n"
-"PO-Revision-Date: 2015-01-05 04:51+0000\n"
+"PO-Revision-Date: 2015-02-14 16:31+0000\n"
 "Last-Translator: Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/projects/p/"
 "archlinux-pacman/language/es_419/)\n"
@@ -592,7 +592,7 @@ msgstr ""
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
 "No se pudo encontrar el binario %s. Se usará %s para obtener privilegios de "
-"superusuario."
+"administrador."
 
 #: scripts/makepkg.sh.in:2956
 msgid "Cannot find the %s binary."
@@ -910,7 +910,7 @@ msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"Ejecutar %s como superusuario no está permitido ya que puede causar daños"
+"Ejecutar %s como administrador no está permitido ya que puede causar daños"
 "\\npermanentes y catastróficos a su sistema."
 
 #: scripts/makepkg.sh.in:3436
@@ -995,11 +995,8 @@ msgid "can't create '%s': %s"
 msgstr "no se pudo crear «%s»: %s"
 
 #: scripts/makepkg-template.pl.in:73
-#, fuzzy
 msgid "invalid key/value pair\n"
-msgstr ""
-"el emparejamiento clave/valor no es válido\n"
-"%s:%s: %s"
+msgstr "el par clave/valor no es válido\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
@@ -1446,7 +1443,7 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:564
 msgid "%s needs to be run as root for this operation."
-msgstr "%s debe ser ejecutado como superusuario para esta operación."
+msgstr "%s debe ser ejecutado como administrador para esta operación."
 
 #: scripts/pacman-key.sh.in:570
 msgid "%s configuration file '%s' not found."
@@ -1470,7 +1467,7 @@ msgstr "No se especificaron objetivos"
 
 #: scripts/pacman-optimize.sh.in:38
 msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr "Uso: %s [--nocolor] [pacman_db_root]"
+msgstr "Uso: %s [--nocolor] [raíz_de_bd_de_pacman]"
 
 #: scripts/pacman-optimize.sh.in:39
 msgid ""
@@ -1943,9 +1940,3 @@ msgstr "la opción «%s» no permite argumentos"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "la opción «%s» requiere un argumento"
-
-#~ msgid "%s is not a branch of %s"
-#~ msgstr "%s no es una rama de %s"
-
-#~ msgid "The local URL is %s"
-#~ msgstr "La dirección URL local es %s"

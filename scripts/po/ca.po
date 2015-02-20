@@ -6,15 +6,15 @@
 # Hector Mtz-Seara <hseara@gmail.com>, 2011-2013
 # Josep <jpreales@gmail.com>, 2013
 # Josep <jpreales@gmail.com>, 2013
-# Ramon Buldó <rbuldo@gmail.com>, 2014
+# Ramon Buldó <rbuldo@gmail.com>, 2014-2015
 # xanb <xancorreu@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2015-02-14 11:18+1000\n"
-"PO-Revision-Date: 2014-12-19 03:51+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2015-02-15 00:20+0000\n"
+"Last-Translator: Ramon Buldó <rbuldo@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -266,7 +266,7 @@ msgstr "la clau pública %s ha estat revocada."
 
 #: scripts/makepkg.sh.in:1476
 msgid "bad signature from public key"
-msgstr ""
+msgstr "signatura no vàlida en la clau pública"
 
 #: scripts/makepkg.sh.in:1479
 msgid "error during signature verification"
@@ -350,7 +350,7 @@ msgstr "S'estan eliminant fitxers %s..."
 
 #: scripts/makepkg.sh.in:1801
 msgid "Removing static library files..."
-msgstr ""
+msgstr "S'estan eliminant els fitxers de les llibreries estàtiques..."
 
 #: scripts/makepkg.sh.in:1811
 msgid "Removing empty directories..."
@@ -545,7 +545,7 @@ msgstr "el vector %s conté l'opció desconeguda '%s'"
 
 #: scripts/makepkg.sh.in:2775
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Les matrius disperses no estan permeses per font"
 
 #: scripts/makepkg.sh.in:2785
 msgid "Requested package %s is not provided in %s"
@@ -657,7 +657,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:3142
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Generar paquets compatibles amb pacman"
 
 #: scripts/makepkg.sh.in:3144 scripts/pacman-db-upgrade.sh.in:40
 msgid "Usage: %s [options]"
@@ -678,6 +678,7 @@ msgstr "  -c, --clean      Neteja els fitxers de treball després de construir"
 #: scripts/makepkg.sh.in:3149
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr ""
+"  -C, --cleanbuild Elimina el directori %s abans de compilar el paquet."
 
 #: scripts/makepkg.sh.in:3150
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -782,7 +783,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:3170
 msgid "  --noarchive      Do not create package archive"
-msgstr ""
+msgstr "  --noarchive      No crea el fitxer del paquet."
 
 #: scripts/makepkg.sh.in:3171
 msgid "  --nocheck        Do not run the %s function in the %s"
@@ -790,7 +791,7 @@ msgstr "  --nocheck        No executar la funció %s a %s"
 
 #: scripts/makepkg.sh.in:3172
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr ""
+msgstr "  --noprepare      No executa la funció %s en %s"
 
 #: scripts/makepkg.sh.in:3173
 msgid "  --nosign         Do not create a signature for the package"
@@ -900,6 +901,8 @@ msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
+"Executar %s com a root no està permès ja que pot causar danys\\npermanents o "
+"catastrofics en el teu sistema."
 
 #: scripts/makepkg.sh.in:3436
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -915,7 +918,7 @@ msgstr "%s conté %s caràcters i no pot ser analitzats."
 
 #: scripts/makepkg.sh.in:3456
 msgid "%s must be in the current working directory."
-msgstr ""
+msgstr "%s ha d'estar en el directori de treball actual."
 
 #: scripts/makepkg.sh.in:3537
 msgid "The key %s does not exist in your keyring."
@@ -971,7 +974,7 @@ msgstr "Les fonts estan preparades."
 
 #: scripts/makepkg.sh.in:3691
 msgid "Package directory is ready."
-msgstr ""
+msgstr "El directori del paquet està llest."
 
 #: scripts/makepkg.sh.in:3695
 msgid "Finished making: %s"
@@ -984,21 +987,24 @@ msgstr "no es pot crear '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 msgid "invalid key/value pair\n"
-msgstr ""
+msgstr "parella clau/valor invàlida\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
 msgstr ""
+"la línia plantilla no es valida: no s'ha pogut trobat el nom de la "
+"plantilla\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr ""
+"s'han utilitzat caracters invalids en el nom '%s'. permes: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "No s'ha detectat la versió per a la plantilla '%s'"
 
 #: scripts/makepkg-template.pl.in:131
 #, perl-format
@@ -1008,7 +1014,7 @@ msgstr "ha fallta en obrir '%s': %s"
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Etiqueta de la plantilla '%s' desconeguda\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
@@ -1021,25 +1027,29 @@ msgstr "Opcions:\n"
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr ""
+msgstr "  --input, -p <fitxer>    Script de compilació (defecte: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
+"  --output, -o <fitxer>   fitxer de sortida (defecte: fitxer d'entrada)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
 msgstr ""
+"  --newest, -n          actualitza les plantilles a la versió més nova\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
 msgstr ""
+"(per defecte: utilitza la versió especificada en les etiquetes de les "
+"plantilles)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "  --template-dir <dir>  directori en el que buscar les plantilles\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
@@ -1069,7 +1079,7 @@ msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Actualitzar la base de dades local de pacman a un format nou"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "options:"
@@ -1078,22 +1088,23 @@ msgstr "opcions:"
 #: scripts/pacman-db-upgrade.sh.in:43
 msgid "  -b, --dbpath <path>  set an alternate database location"
 msgstr ""
+"  -b, --dbpath <ruta>  estableix una ubicació alternativa de la base de dades"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
-msgstr ""
+msgstr "  -h, --help           mostra aquest missatge d'ajuda i surt"
 
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "  -r, --root <ruta>    estableix una arrel d'instal·lació alternativa"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -V, --version        show version information and exit"
-msgstr ""
+msgstr "  -V, --version        mostra la versió del programa i surt"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
+msgstr "  --config <ruta>       estableix un fitxer de configuració alternatiu"
 
 #: scripts/pacman-db-upgrade.sh.in:48
 msgid "  --nocolor            disable colorized output messages"
@@ -1143,6 +1154,8 @@ msgstr "Format de base de dades Pre-4.2 detectada - actualitzant..."
 #: scripts/pacman-db-upgrade.sh.in:195
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
+"el enllaç simbòlic '%s' apunta fora de l'arrel de pacman, es necessària una "
+"reparació manual."
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1650,6 +1663,8 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"  -R, --remove      elimina el fitxer del paquet del disc en actualitzar la "
+"entrada de la base de dades\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1904,9 +1919,3 @@ msgstr "L'opció '%s' no accepta cap argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "l'opció '%s' requereix un argument"
-
-#~ msgid "%s is not a branch of %s"
-#~ msgstr "%s no és una branca de %s"
-
-#~ msgid "The local URL is %s"
-#~ msgstr "L'URL local és %s"

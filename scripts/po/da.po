@@ -10,6 +10,7 @@
 # jakobw <jakob.wadsager@gmail.com>, 2012
 # jakobw <jakob.wadsager@gmail.com>, 2012
 # Joe Hansen <joedalton2@yahoo.dk>, 2013
+# nickoe <oe.nick@gmail.com>, 2015
 # Freso <transifex.net@freso.dk>, 2013
 # Freso <transifex.net@freso.dk>, 2012
 msgid ""
@@ -17,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2015-02-14 11:18+1000\n"
-"PO-Revision-Date: 2014-12-19 03:51+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2015-02-14 21:50+0000\n"
+"Last-Translator: nickoe <oe.nick@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/da/)\n"
 "Language: da\n"
@@ -970,39 +971,36 @@ msgid "can't create '%s': %s"
 msgstr "Kan ikke oprette '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
-#, fuzzy
 msgid "invalid key/value pair\n"
-msgstr ""
-"ugyldigt nøgle/værdi-par\n"
-"%s:%s: %s"
+msgstr "ugyldig nøgle/værdi par\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "ugyldig skabelon linje: kan ikke finde skabelonnavn\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-msgstr ""
+msgstr "ugyldige karakterer anvendt i navn '%s'. tilladt: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:112
 #, perl-format
 msgid "Couldn't detect version for template '%s'"
-msgstr ""
+msgstr "Kunne ikke genkende version af skabelon '%s'"
 
 #: scripts/makepkg-template.pl.in:131
 #, perl-format
 msgid "failed to open '%s': %s"
-msgstr ""
+msgstr "kunne ikke åbne '%s': %s"
 
 #: scripts/makepkg-template.pl.in:148
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Ukendt skabelonmarkør '%s'\n"
 
 #: scripts/makepkg-template.pl.in:170
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [valgmuligheder]\n"
 
 #: scripts/makepkg-template.pl.in:172
 msgid "Options:\n"
@@ -1011,34 +1009,36 @@ msgstr "Valgmuligheder:\n"
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr ""
+msgstr "  --input, -p <filnavn>    Byggescript for læsning (forvalg: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
-msgstr ""
+msgstr "  --output, -o <filnavn>   fil til output til (forvalg: input fil)\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "  --newest, -n          opdater skabeloner til nyeste version\n"
 
 #: scripts/makepkg-template.pl.in:176
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
 msgstr ""
+"                        (forvalg: brug versionen angivet i "
+"skabelonmarkørene)\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "  --template-dir <katalog>  katalog til søgning af skabeloner\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (forvalg: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
 msgid "  --help, -h            This help message\n"
-msgstr ""
+msgstr "  --help, -h            Denne hjælpetekst\n"
 
 #: scripts/makepkg-template.pl.in:180
 msgid "  --version             Version information\n"
@@ -1056,7 +1056,7 @@ msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Opdater den lokale pacman database til et nyere format"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "options:"
@@ -1064,27 +1064,27 @@ msgstr "valgmuligheder:"
 
 #: scripts/pacman-db-upgrade.sh.in:43
 msgid "  -b, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "  -b, --dbpath <sti>  angiv alternativ database placering"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
-msgstr ""
+msgstr "  -h, --help           vis denne hjælpetekst of afslut"
 
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
+msgstr "  -r, --root <sti>    angiv en alternatic rod"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -V, --version        show version information and exit"
-msgstr ""
+msgstr "  -V, --version        vis versionsinformation of afslut"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
+msgstr "  --config <sti>      angiv alternativ konfigurationsfil"
 
 #: scripts/pacman-db-upgrade.sh.in:48
 msgid "  --nocolor            disable colorized output messages"
-msgstr ""
+msgstr "  --nocolor            deaktiver farvede output-tekst"
 
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 msgid ""
@@ -1123,11 +1123,11 @@ msgstr "Færdig."
 
 #: scripts/pacman-db-upgrade.sh.in:173
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr ""
+msgstr "Før-4.2 database format opdaget - opgraderer..."
 
 #: scripts/pacman-db-upgrade.sh.in:195
 msgid "symlink '%s' points outside pacman root, manual repair required"
-msgstr ""
+msgstr "symlink '%s' peger udenfor pacman roden, manuel reparation nødvendig"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1436,7 +1436,7 @@ msgstr "Du skal have korrekte rettigheder for at optimere databasen."
 
 #: scripts/pacman-optimize.sh.in:125
 msgid "Cannot create temporary directory for database building."
-msgstr ""
+msgstr "Kan ikke lave midlertidigt katalog til konstruktion af database."
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1491,6 +1491,8 @@ msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
+"pkgdelta vil lave en delta-fil mellem to pakker.\\nDenne delta-fil kan "
+"efterfølgende tilføjes til en database ved brug af repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1602,6 +1604,8 @@ msgid ""
 "  -R, --remove      remove package file from disk when updating database "
 "entry\\n"
 msgstr ""
+"  -R, --remove      fjern pakke-fil fra disken ved opdatering af en "
+"databaseindgang\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid "  -f, --files       update database's file list\\n"
@@ -1728,7 +1732,7 @@ msgstr "Et punkt for '%s' findes allerede"
 
 #: scripts/repo-add.sh.in:315
 msgid "Removing existing package '%s'"
-msgstr ""
+msgstr "Fjerner eksisterende pakke '%s'"
 
 #: scripts/repo-add.sh.in:325
 msgid "Invalid package signature file '%s'."
@@ -1846,9 +1850,3 @@ msgstr "valgmuligheden '%s' må ikke have et argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "valgmuligheden '%s' kræver et argument"
-
-#~ msgid "%s is not a branch of %s"
-#~ msgstr "%s er ikke en forgrening af %s"
-
-#~ msgid "The local URL is %s"
-#~ msgstr "Den lokale URL er %s"

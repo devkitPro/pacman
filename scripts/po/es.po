@@ -11,16 +11,17 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # Leonel <leonelmalon@gmail.com>, 2013
 # Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013
-# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2014
+# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2015
 # Pedro Román <roizheim@gmail.com>, 2013-2015
+# picodotdev <pico.dev@gmail.com>, 2015
 # Pedro Román <roizheim@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2015-02-14 11:18+1000\n"
-"PO-Revision-Date: 2015-01-01 14:08+0000\n"
-"Last-Translator: Pedro Román <roizheim@gmail.com>\n"
+"PO-Revision-Date: 2015-02-19 18:11+0000\n"
+"Last-Translator: Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -791,7 +792,7 @@ msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
 "  --key <clave>   Especifica la clave a usar para firmar %s en lugar de la "
-"clave por defecto"
+"clave por omisión"
 
 #: scripts/makepkg.sh.in:3170
 msgid "  --noarchive      Do not create package archive"
@@ -937,11 +938,11 @@ msgstr "%s debe estar en el directorio de trabajo actual."
 
 #: scripts/makepkg.sh.in:3537
 msgid "The key %s does not exist in your keyring."
-msgstr "La clave %s no existe en su llavero."
+msgstr "La clave %s no existe en el depósito."
 
 #: scripts/makepkg.sh.in:3539 scripts/repo-add.sh.in:635
 msgid "There is no key in your keyring."
-msgstr "No hay ninguna clave en su llavero."
+msgstr "No hay ninguna clave en el dpósito."
 
 #: scripts/makepkg.sh.in:3553 scripts/makepkg.sh.in:3571
 msgid "Leaving %s environment."
@@ -1001,11 +1002,8 @@ msgid "can't create '%s': %s"
 msgstr "no se pudo crear «%s»: %s"
 
 #: scripts/makepkg-template.pl.in:73
-#, fuzzy
 msgid "invalid key/value pair\n"
-msgstr ""
-"el emparejamiento clave/valor no es válido\n"
-"%s:%s: %s"
+msgstr "par clave/valor inválido\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
@@ -1046,12 +1044,13 @@ msgstr "Opciones:\n"
 #: scripts/makepkg-template.pl.in:173
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr "  --input, -p <archivo>    Script de compilación (por defecto: %s)\n"
+msgstr ""
+"  --input, -p <archivo>    Intérprete de compilación (por omisión: %s)\n"
 
 #: scripts/makepkg-template.pl.in:174
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
-"  --output, -o <archivo>   archivo de salida (por defecto: archivo de "
+"  --output, -o <archivo>   archivo de salida (por omisión: archivo de "
 "entrada)\n"
 
 #: scripts/makepkg-template.pl.in:175
@@ -1075,7 +1074,7 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr "                        (por defecto:: %s)\n"
+msgstr "                        (por omisión:: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
 msgid "  --help, -h            This help message\n"
@@ -1262,7 +1261,9 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr "  --init Asegurarse de que el llavero está inicializado correctamente"
+msgstr ""
+"  --init Asegúrese de que el depósito de claves está inicializado "
+"correctamente"
 
 #: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
@@ -1277,7 +1278,7 @@ msgid ""
 "  --populate                Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
-"  --populate Recarga las claves por defecto de los llaveros (dados)\\n en "
+"  --populate Recarga las claves por omisión de los depósitos (dados)\\n en "
 "«%s»"
 
 #: scripts/pacman-key.sh.in:79
@@ -1331,11 +1332,11 @@ msgstr "La clave identificada por %s no se pudo encontrar localmente."
 
 #: scripts/pacman-key.sh.in:224
 msgid "You do not have sufficient permissions to read the %s keyring."
-msgstr "No tiene permisos suficientes para leer el llavero %s."
+msgstr "No tiene permisos suficientes para leer el depósito %s."
 
 #: scripts/pacman-key.sh.in:225 scripts/pacman-key.sh.in:232
 msgid "Use '%s' to correct the keyring permissions."
-msgstr "Use «%s» para corregir los permisos del llavero."
+msgstr "Use «%s» para corregir los permisos del depósito."
 
 #: scripts/pacman-key.sh.in:231
 msgid "You do not have sufficient permissions to run this command."
@@ -1347,15 +1348,15 @@ msgstr "No hay ninguna clave secreta con la cual firmar."
 
 #: scripts/pacman-key.sh.in:240
 msgid "Use '%s' to generate a default secret key."
-msgstr "Use «%s» para generar una clave secreta por defecto."
+msgstr "Use «%s» para generar una clave secreta por omisión."
 
 #: scripts/pacman-key.sh.in:259
 msgid "No keyring files exist in %s."
-msgstr "No existen archivos de llavero en %s."
+msgstr "No existen archivos del depósito de claves en %s."
 
 #: scripts/pacman-key.sh.in:266
 msgid "The keyring file %s does not exist."
-msgstr "El archivo de llavero %s no existe."
+msgstr "El archivo de depósito %s no existe."
 
 #: scripts/pacman-key.sh.in:281
 msgid "Appending keys from %s.gpg..."
@@ -1363,7 +1364,7 @@ msgstr "Añadiendo las claves de %s.gpg..."
 
 #: scripts/pacman-key.sh.in:304
 msgid "Locally signing trusted keys in keyring..."
-msgstr "Firmando localmente las claves de confianza en el llavero..."
+msgstr "Firmando localmente las claves de confianza en el depósito..."
 
 #: scripts/pacman-key.sh.in:306
 msgid "Importing owner trust values..."
@@ -1371,7 +1372,7 @@ msgstr "Importando los valores de los propietarios de confianza..."
 
 #: scripts/pacman-key.sh.in:324
 msgid "Disabling revoked keys in keyring..."
-msgstr "Deshabilitando las claves revocadas en el llavero..."
+msgstr "Deshabilitando las claves revocadas en el depósito..."
 
 #: scripts/pacman-key.sh.in:326
 msgid "Disabling key %s..."
@@ -1379,11 +1380,11 @@ msgstr "Deshabilitando la clave %s..."
 
 #: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
-msgstr "El archivo de clave especificado no se pudo agregar al llavero."
+msgstr "El archivo de clave especificado no se pudo agregar al depósito."
 
 #: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
-msgstr "La clave especificada no se pudo quitar del llavero."
+msgstr "La clave especificada no se pudo quitar del depósito."
 
 #: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
@@ -1391,7 +1392,7 @@ msgstr "La clave identificada por %s no se pudo editar."
 
 #: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
-msgstr "La clave especificada no se pudo exportar desde el llavero."
+msgstr "La clave especificada no se pudo exportar desde el depósito."
 
 #: scripts/pacman-key.sh.in:372
 msgid "The fingerprint of a specified key could not be determined."
@@ -1949,9 +1950,3 @@ msgstr "la opción «%s» no permite argumentos"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "la opción «%s» requiere un argumento"
-
-#~ msgid "%s is not a branch of %s"
-#~ msgstr "%s no es una rama de %s"
-
-#~ msgid "The local URL is %s"
-#~ msgstr "La dirección URL local es %s"
