@@ -5,18 +5,19 @@
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # J5lx <j5lx@fmail.co.uk>, 2014
-# mar77i <mysatyre@gmail.com>, 2013
+# mar77i <inactive+mar77i@transifex.com>, 2013
+# mar77i <inactive+mar77i@transifex.com>, 2013
 # Matthias Gorissen <matthias@archlinux.de>, 2011
 # Wieland Hoffmann <themineo+transifex@googlemail.com>, 2013
-# mar77i <mysatyre@gmail.com>, 2013
+# mar77i <inactive+mar77i@transifex.com>, 2013
 # Wieland Hoffmann <themineo+transifex@googlemail.com>, 2013
 # Wieland Hoffmann <themineo+transifex@googlemail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-11-24 10:03+0000\n"
+"POT-Creation-Date: 2015-02-14 11:13+1000\n"
+"PO-Revision-Date: 2015-01-29 17:21+0000\n"
 "Last-Translator: Thomas Lange <thomas-lange2@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/de/)\n"
@@ -63,61 +64,61 @@ msgstr ""
 "Datei nicht in Dateiliste des Pakets %s gefunden. Überspringe Entpacken von "
 "%s\n"
 
-#: lib/libalpm/add.c:230
+#: lib/libalpm/add.c:232
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
 "Verzeichnis-Berechtigungen unterscheiden sich für %s\n"
-"Dateisystem: %o Paket: %o\n"
+"Dateisystem: %o  Paket: %o\n"
 
-#: lib/libalpm/add.c:240
+#: lib/libalpm/add.c:247
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"Verzeichnis-Berechtigungen unterscheiden sich für %s\n"
-"Dateisystem: %u:%u Paket: %u:%u\n"
+"Verzeichnis-Eigentümer unterscheidet sich für %s\n"
+"Dateisystem: %u:%u  Paket: %u:%u\n"
 
-#: lib/libalpm/add.c:255
+#: lib/libalpm/add.c:263
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "Entpacken: Überschreibe Verzeichnis nicht mit Datei %s\n"
 
-#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
+#: lib/libalpm/add.c:603 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "Konnte aktuelles Arbeitsverzeichnis nicht ermitteln\n"
 
-#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/add.c:608 lib/libalpm/util.c:336 lib/libalpm/util.c:512
 #: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "Konnte nicht zu Verzeichnis %s wechseln (%s)\n"
 
-#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
+#: lib/libalpm/add.c:647 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "Konnte das Arbeitsverzeichnis (%s) nicht wiederherstellen\n"
 
-#: lib/libalpm/add.c:647
+#: lib/libalpm/add.c:655
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "Fehler traten auf, während %s aktualisiert wurde\n"
 
-#: lib/libalpm/add.c:653
+#: lib/libalpm/add.c:661
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "Fehler traten bei der Installation von %s auf\n"
 
-#: lib/libalpm/add.c:669
+#: lib/libalpm/add.c:677
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "Konnte Datenbankeintrag %s-%s nicht aktualisieren\n"
 
-#: lib/libalpm/add.c:680
+#: lib/libalpm/add.c:688
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "Konnte Eintrag '%s' nicht zum Pufferspeicher hinzufügen\n"
@@ -723,7 +724,7 @@ msgstr "Kann %s nicht durch %s ersetzen\n"
 #: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr "Nicht lösbare Paketkonflikte gefunden\n"
+msgstr "Nicht auflösbare Paketkonflikte gefunden\n"
 
 #: lib/libalpm/sync.c:556
 #, c-format
@@ -748,29 +749,29 @@ msgstr "Nicht genug freier Festplattenspeicher\n"
 #: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "Konnte Lösch-Vorgang nicht durchführen\n"
+msgstr "Konnte Löschvorgang nicht durchführen\n"
 
 #: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "Konnte den Vorgang nicht durchführen\n"
 
-#: lib/libalpm/trans.c:339
+#: lib/libalpm/trans.c:343
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "Konnte temporäres Verzeichnis nicht erstellen\n"
 
-#: lib/libalpm/trans.c:354
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "Konnte temporäre Datei nicht nach %s kopieren (%s)\n"
 
-#: lib/libalpm/trans.c:385
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove %s\n"
 msgstr "Konnte %s nicht entfernen\n"
 
-#: lib/libalpm/trans.c:389
+#: lib/libalpm/trans.c:393
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "Konnte temporäres Verzeichnis %s nicht entfernen\n"
@@ -803,7 +804,7 @@ msgstr "Konnte execv nicht aufrufen (%s)\n"
 #: lib/libalpm/util.c:590
 #, c-format
 msgid "call to waitpid failed (%s)\n"
-msgstr "Aufruf von 'waitpid' fehlgeschlagen (%s)\n"
+msgstr "Aufruf von waitpid fehlgeschlagen (%s)\n"
 
 #: lib/libalpm/util.c:598
 #, c-format

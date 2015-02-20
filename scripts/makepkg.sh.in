@@ -448,23 +448,6 @@ download_bzr() {
 			exit 1
 		fi
 	elif (( ! HOLDVER )); then
-		# Make sure we are fetching the right repo
-		local distant_url="$(bzr info $url 2> /dev/null | sed -n '/branch root/{s/  branch root: //p;q;}')"
-		local local_url="$(bzr config parent_location -d $dir)"
-		if [[ -n $distant_url ]]; then
-			if [[ $distant_url != "$local_url" ]]; then
-				error "$(gettext "%s is not a branch of %s")" "$dir" "$url"
-				plain "$(gettext "Aborting...")"
-				exit 1
-			fi
-		else
-			if [[ $url != "$local_url" ]] ; then
-				error "$(gettext "%s is not a branch of %s")" "$dir" "$url"
-				error "$(gettext "The local URL is %s")" "$local_url"
-				plain "$(gettext "Aborting...")"
-				exit 1
-			fi
-		fi
 		msg2 "$(gettext "Pulling %s ...")" "${displaylocation}"
 		cd_safe "$dir"
 		if ! bzr pull "$url"; then

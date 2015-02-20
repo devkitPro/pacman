@@ -11,14 +11,14 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
-# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2014
+# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2015
 # Pedro Román <roizheim@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-12-09 05:30+0000\n"
+"POT-Creation-Date: 2015-02-14 11:13+1000\n"
+"PO-Revision-Date: 2015-02-19 18:11+0000\n"
 "Last-Translator: Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/es/)\n"
@@ -65,16 +65,16 @@ msgstr ""
 "el archivo no figura en la lista de archivos del paquete %s. omitiendo "
 "extracción de %s\n"
 
-#: lib/libalpm/add.c:230
+#: lib/libalpm/add.c:232
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
 "los permisos del directorio difieren respecto de %s\n"
-"sistema de archivos : %o   paquete: %o\n"
+"sistema de archivos: %o   paquete: %o\n"
 
-#: lib/libalpm/add.c:240
+#: lib/libalpm/add.c:247
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
@@ -83,43 +83,43 @@ msgstr ""
 "la propiedad del directorio difiere respecto de %s\n"
 "sistema de archivos: %u:%u  paquete: %u:%u\n"
 
-#: lib/libalpm/add.c:255
+#: lib/libalpm/add.c:263
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "extracto: no se puede sobrescribir el directorio con el archivo %s\n"
 
-#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
+#: lib/libalpm/add.c:603 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "no se pudo determinar el directorio de trabajo actual\n"
 
-#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/add.c:608 lib/libalpm/util.c:336 lib/libalpm/util.c:512
 #: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "no se pudo cambiar el directorio a %s (%s)\n"
 
-#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
+#: lib/libalpm/add.c:647 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "no se pudo restaurar el directorio de trabajo (%s)\n"
 
-#: lib/libalpm/add.c:647
+#: lib/libalpm/add.c:655
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "ocurrió un error durante la actualización de %s\n"
 
-#: lib/libalpm/add.c:653
+#: lib/libalpm/add.c:661
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "ocurrió un error durante la instalación de %s\n"
 
-#: lib/libalpm/add.c:669
+#: lib/libalpm/add.c:677
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "no se pudo actualizar la entrada %s-%s en la base de datos\n"
 
-#: lib/libalpm/add.c:680
+#: lib/libalpm/add.c:688
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "no se pudo agregar la entrada «%s» a la caché\n"
@@ -225,12 +225,12 @@ msgstr "no se pudo leer correctamente el archivo de firma: %s\n"
 #: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "la clave requerida no está presente en el llavero\n"
+msgstr "la clave requerida no está presente en el depósito\n"
 
 #: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr "eliminando archivo inválido: %s\n"
+msgstr "eliminando archivo no válido: %s\n"
 
 #: lib/libalpm/be_sync.c:476
 #, c-format
@@ -250,8 +250,8 @@ msgstr ""
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr ""
-"la base de datos %s es incosistente: el nombre del archivo del paquete %s es "
-"demasiado largo\n"
+"la base de datos %s es inconsistente: el nombre del archivo del paquete %s "
+"es demasiado largo\n"
 
 #: lib/libalpm/be_sync.c:585
 #, c-format
@@ -332,7 +332,7 @@ msgstr ""
 #: lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine root mount point %s\n"
-msgstr "no se pudo determinar el punto de montaje de la raiz %s\n"
+msgstr "no se pudo determinar el punto de montaje de la raíz %s\n"
 
 #: lib/libalpm/diskspace.c:479
 #, c-format
@@ -479,7 +479,7 @@ msgstr "no se pudo quitar la entrada de la base de datos"
 #: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
-msgstr "dirección inválida para el servidor"
+msgstr "dirección no válida para el servidor"
 
 #: lib/libalpm/error.c:85
 #, c-format
@@ -765,22 +765,22 @@ msgstr "no se pudo realizar la operación de eliminación\n"
 msgid "could not commit transaction\n"
 msgstr "no se pudo realizar la operación\n"
 
-#: lib/libalpm/trans.c:339
+#: lib/libalpm/trans.c:343
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "no se pudo crear el directorio temporal\n"
 
-#: lib/libalpm/trans.c:354
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "no se pudo copiar el archivo temporal a %s (%s)\n"
 
-#: lib/libalpm/trans.c:385
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove %s\n"
 msgstr "no se pudo eliminar %s\n"
 
-#: lib/libalpm/trans.c:389
+#: lib/libalpm/trans.c:393
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "no se pudo eliminar el directorio temporal %s\n"

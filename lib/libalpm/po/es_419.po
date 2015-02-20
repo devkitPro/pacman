@@ -3,57 +3,64 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Angel Velasquez <angvp@archlinux.org>, 2011
+# Dan McGee <dpmcgee@gmail.com>, 2011
+# Juan Antonio Cánovas Pérez <traumness@gmail.com>, 2011
+# juantascon <juantascon@gmail.com>, 2011
+# Leonel <leonelmalon@gmail.com>, 2013
+# neiko <neikokz+tsfx@gmail.com>, 2011
+# Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2015-02-14 11:13+1000\n"
-"PO-Revision-Date: 2014-11-18 12:03+0000\n"
-"Last-Translator: kusakata <shohei@kusakata.com>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/archlinux-"
-"pacman/language/ja/)\n"
-"Language: ja\n"
+"PO-Revision-Date: 2015-01-05 04:51+0000\n"
+"Last-Translator: Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
+"Language-Team: Spanish (Latin America) (http://www.transifex.com/projects/p/"
+"archlinux-pacman/language/es_419/)\n"
+"Language: es_419\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s は最新です -- スキップ\n"
+msgstr "%s-%s ya está actualizado -- omitiendo\n"
 
 #: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s は最新です -- 再インストール\n"
+msgstr "%s-%s ya está actualizado -- reinstalando\n"
 
 #: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "パッケージ %s のダウングレード (%s => %s)\n"
+msgstr "regresando a una versión anterior del paquete %s (%s => %s)\n"
 
 #: lib/libalpm/add.c:122 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
-msgstr "%s の展開中に警告が発生しました (%s)\n"
+msgstr "alerta producida mientras se extraía %s (%s)\n"
 
 #: lib/libalpm/add.c:125 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "%s を展開できませんでした (%s)\n"
+msgstr "no se pudo extraer %s (%s)\n"
 
 #: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "%s を %s に名前を変更できませんでした (%s)\n"
+msgstr "no se pudo renombrar %s a %s (%s)\n"
 
 #: lib/libalpm/add.c:184
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
-"パッケージ %s のファイルリストに含まれているファイルが見つかりませんでし"
-"た。%s の展開をスキップします。\n"
+"el archivo no figura en la lista de archivos del paquete %s. omitiendo "
+"extracción de %s\n"
 
 #: lib/libalpm/add.c:232
 #, c-format
@@ -61,8 +68,8 @@ msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
-"%s のディレクトリのパーミッションが異なっています\n"
-"ファイルシステム: %o  パッケージ: %o\n"
+"los permisos del directorio difieren respecto de %s\n"
+"sistema de archivos: %o   paquete: %o\n"
 
 #: lib/libalpm/add.c:247
 #, c-format
@@ -70,79 +77,79 @@ msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"%s のディレクトリ所有者が異なっています\n"
-"ファイルシステム: %u:%u  パッケージ: %u:%u\n"
+"la propiedad del directorio difiere respecto de %s\n"
+"sistema de archivos: %u:%u  paquete: %u:%u\n"
 
 #: lib/libalpm/add.c:263
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "extract: ディレクトリをファイルで上書きできません %s\n"
+msgstr "extracto: no se puede sobrescribir el directorio con el archivo %s\n"
 
 #: lib/libalpm/add.c:603 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "現在の作業ディレクトリを取得できませんでした\n"
+msgstr "no se pudo determinar el directorio de trabajo actual\n"
 
 #: lib/libalpm/add.c:608 lib/libalpm/util.c:336 lib/libalpm/util.c:512
 #: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr "ディレクトリを %s に変更できませんでした (%s)\n"
+msgstr "no se pudo cambiar el directorio a %s (%s)\n"
 
 #: lib/libalpm/add.c:647 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "作業ディレクトリを復帰できませんでした (%s)\n"
+msgstr "no se pudo restaurar el directorio de trabajo (%s)\n"
 
 #: lib/libalpm/add.c:655
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr "更新中に問題が発生しました %s\n"
+msgstr "ocurrió un error durante la actualización de %s\n"
 
 #: lib/libalpm/add.c:661
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr "インストール中に問題が発生しました %s\n"
+msgstr "ocurrió un error durante la instalación de %s\n"
 
 #: lib/libalpm/add.c:677
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr "データベースエントリ %s-%s を更新できませんでした\n"
+msgstr "no se pudo actualizar la entrada %s-%s en la base de datos\n"
 
 #: lib/libalpm/add.c:688
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr "キャッシュにエントリ '%s' を追加できませんでした\n"
+msgstr "no se pudo agregar la entrada «%s» a la caché\n"
 
 #: lib/libalpm/be_local.c:249
 #, c-format
 msgid "error while reading file %s: %s\n"
-msgstr "ファイル %s の読込中にエラーが発生しました: %s\n"
+msgstr "error durante la lectura del archivo %s: %s\n"
 
 #: lib/libalpm/be_local.c:343
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr "無効なデータベースを削除: %s\n"
+msgstr "quitando la base de datos no válida: %s\n"
 
 #: lib/libalpm/be_local.c:389 lib/libalpm/be_local.c:849
 #, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "キャッシュディレクトリ %s を作成できませんでした: %s\n"
+msgstr "no se pudo crear el directorio %s: %s\n"
 
 #: lib/libalpm/be_local.c:559 lib/libalpm/be_sync.c:358
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "無効な名前のデータベースエントリ '%s'\n"
+msgstr "nombre no válido para la entrada «%s» de la base de datos\n"
 
 #: lib/libalpm/be_local.c:567
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "重複したデータベースエントリ '%s'\n"
+msgstr "entrada «%s» duplicada en la base de datos\n"
 
 #: lib/libalpm/be_local.c:579
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "破損したデータベースエントリ '%s'\n"
+msgstr "la entrada «%s» de la base de datos está dañada\n"
 
 #: lib/libalpm/be_local.c:679 lib/libalpm/be_local.c:769
 #: lib/libalpm/be_local.c:898 lib/libalpm/be_local.c:991
@@ -150,671 +157,689 @@ msgstr "破損したデータベースエントリ '%s'\n"
 #: lib/libalpm/util.c:266
 #, c-format
 msgid "could not open file %s: %s\n"
-msgstr "ファイル %s を開けませんでした: %s\n"
+msgstr "no se pudo abrir el archivo %s: %s\n"
 
 #: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "%s データベースは矛盾しています: パッケージ %s の名前の不整合\n"
+msgstr ""
+"la base de datos %s es inconsistente: nombre mal emparejado en el paquete "
+"%s\n"
 
 #: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "%s データベースは矛盾しています: パッケージ %s のバージョンの不整合\n"
+msgstr ""
+"la base de datos %s es inconsistente: versión mal emparejada en el paquete "
+"%s\n"
 
 #: lib/libalpm/be_local.c:740
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr "パッケージ %s の不明な検証タイプ: %s\n"
+msgstr "tipo de validación desconocida para el paquete %s: %s\n"
 
 #: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:625
 #: lib/libalpm/be_package.c:638
 #, c-format
 msgid "error while reading package %s: %s\n"
-msgstr "パッケージ %s の読込中にエラーが発生しました: %s\n"
+msgstr "error mientras se leía el paquete %s: %s\n"
 
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "パッケージ %s の mtree の読み取り時にエラー: %s\n"
+msgstr "error al leer mtree del paquete %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "%s のパッケージ説明ファイルをパースできませんでした\n"
+msgstr "no se pudo analizar el archivo de descripción del paquete en %s\n"
 
 #: lib/libalpm/be_package.c:593
 #, c-format
 msgid "missing package name in %s\n"
-msgstr "%s にパッケージの名前が見つかりません\n"
+msgstr "falta el nombre del paquete en %s\n"
 
 #: lib/libalpm/be_package.c:597
 #, c-format
 msgid "missing package version in %s\n"
-msgstr "%s にパッケージのバージョンが見つかりません\n"
+msgstr "falta la versión del paquete en %s\n"
 
 #: lib/libalpm/be_package.c:601
 #, c-format
 msgid "invalid package version in %s\n"
-msgstr "%s のパッケージバージョンは無効です\n"
+msgstr "versión del paquete no válida en %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
 msgid "missing package metadata in %s\n"
-msgstr "%s にパッケージのメタデータが見つかりません\n"
+msgstr "faltan los metadatos del paquete en %s\n"
 
 #: lib/libalpm/be_package.c:734
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "署名ファイルの読み込みに失敗しました: %s\n"
+msgstr "no se pudo leer correctamente el archivo de firma: %s\n"
 
 #: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "キーリングに必要なキーがありません\n"
+msgstr "la clave requerida no está presente en el llavero\n"
 
 #: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr "無効なファイルを削除: %s\n"
+msgstr "eliminando archivo no válido: %s\n"
 
 #: lib/libalpm/be_sync.c:476
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr ""
-"パッケージ定義ファイル '%s' (データベース '%s') をパースできませんでした\n"
+"no se pudo analizar el archivo de descripción del paquete «%s» de la base de "
+"datos «%s»\n"
 
 #: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr ""
-"%s データベースは矛盾しています: パッケージ %s のファイル名が不正です\n"
+"la base de datos %s es inconsistente: el nombre del archivo del paquete %s "
+"es ilegal\n"
 
 #: lib/libalpm/be_sync.c:519
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr ""
-"%s データベースは矛盾しています: パッケージ %s のファイル名が長すぎます\n"
+"la base de datos %s es inconsistente: el nombre del archivo del paquete %s "
+"es demasiado largo\n"
 
 #: lib/libalpm/be_sync.c:585
 #, c-format
 msgid "unknown database file: %s\n"
-msgstr "未知のデータベースファイル: %s\n"
+msgstr "archivo de base de datos desconocido: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
 msgid "database path is undefined\n"
-msgstr "データベースパスが定義されていません\n"
+msgstr "la ruta de la base de datos no está definida\n"
 
 #: lib/libalpm/deps.c:218
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "依存サイクルが検出されました:\n"
+msgstr "bucle de dependencias detectado:\n"
 
 #: lib/libalpm/deps.c:221
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s は依存パッケージ %s の後に削除されます\n"
+msgstr "%s será eliminado después de su dependencia %s\n"
 
 #: lib/libalpm/deps.c:225
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr "%s は依存パッケージ %s の前にインストールされます\n"
+msgstr "%s será instalado antes que su dependencia %s\n"
 
 #: lib/libalpm/deps.c:657 lib/libalpm/deps.c:689
 #, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "パッケージ %s-%s を無視\n"
+msgstr "ignorando el paquete %s-%s\n"
 
 #: lib/libalpm/deps.c:844
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "\"%s\" を解決できません、\"%s\" の依存\n"
+msgstr "no se pudo resolver «%s», una dependencia de «%s»\n"
 
 #: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr "%s のファイルシステム情報を取得できませんでした: %s\n"
+msgstr ""
+"no se pudo obtener información del sistema de archivos para %s: %s\n"
+"\n"
 
 #: lib/libalpm/diskspace.c:108
 #, c-format
 msgid "could not open file: %s: %s\n"
-msgstr "ファイルを開けませんでした: %s: %s\n"
+msgstr "No se pudo abrir el archivo: %s: %s\n"
 
 #: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr "ファイルシステムの情報を取得できませんでした\n"
+msgstr "no se pudo obtener información del sistema de archivos\n"
 
 #: lib/libalpm/diskspace.c:249 lib/libalpm/diskspace.c:308
 #, c-format
 msgid "could not determine mount point for file %s\n"
-msgstr "ファイル %s のマウントポイントを決定できませんでした\n"
+msgstr "no se pudo determinar el punto de montaje para el archivo %s\n"
 
 #: lib/libalpm/diskspace.c:347
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "パーティション %s が一杯です: %jd ブロック必要、 %jd ブロック空き\n"
+msgstr ""
+"Partición %s demasiado llena: %jd bloques son necesarios, %jd bloques "
+"libres\n"
 
 #: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
 #, c-format
 msgid "could not determine filesystem mount points\n"
-msgstr "ファイルシステムのマウントポイントを決定できませんでした\n"
+msgstr "no se puede determinar el punto de montaje del sistema de archivos\n"
 
 #: lib/libalpm/diskspace.c:378
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "キャッシュディレクトリ %s のマウントポイントを決定できませんでした\n"
+msgstr ""
+"no se pudo determinar el punto de montaje del directorio de la memoria caché "
+"%s\n"
 
 #: lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine root mount point %s\n"
-msgstr "root マウントポイント %s を決定できませんでした\n"
+msgstr "no se pudo determinar el punto de montaje de la raíz %s\n"
 
 #: lib/libalpm/diskspace.c:479
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr "パーティション %s は読み込み専用でマウントされています\n"
+msgstr "La partición %s está montada como solamente lectura\n"
 
 #: lib/libalpm/dload.c:149
 #, c-format
 msgid "disk"
-msgstr "ディスク"
+msgstr "disco"
 
 #: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "ダウンロードのための一時ファイルを作成できませんでした\n"
+msgstr "no se pudo crear el archivo temporal para la descarga\n"
 
 #: lib/libalpm/dload.c:418
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "url '%s' は無効です\n"
+msgstr "la dirección «%s» no es válida\n"
 
 #: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "ファイル '%s' を %s から取得するのに失敗しました : %s\n"
+msgstr "no se pudo obtener el archivo «%s» desde %s: %s\n"
 
 #: lib/libalpm/dload.c:500
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
-"ファイル '%s' を %s から取得するのに失敗しました : 想定されるダウンロードサイ"
-"ズを超過しています\n"
+"no se pudo obtener el archivo «%s» desde %s : tamaño de la descarga superior "
+"del esperado\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s が途中で切れています: %jd/%jd バイト\n"
+msgstr "%s parece estar incompleto: %jd/%jd bytes\n"
 
 #: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
-msgstr "%s のダウンロードに失敗しました\n"
+msgstr "no se pudo descargar %s\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
 msgid "out of memory!"
-msgstr "メモリが足りません！"
+msgstr "¡memoria insuficiente!"
 
 #: lib/libalpm/error.c:42
 #, c-format
 msgid "unexpected system error"
-msgstr "予期しないシステムエラー"
+msgstr "error inesperado del sistema"
 
 #: lib/libalpm/error.c:44
 #, c-format
 msgid "permission denied"
-msgstr "アクセス拒否"
+msgstr "permiso denegado"
 
 #: lib/libalpm/error.c:46
 #, c-format
 msgid "could not find or read file"
-msgstr "ファイルを読み込めませんでした"
+msgstr "no se pudo encontrar o leer el archivo"
 
 #: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
-msgstr "ディレクトリを読み込めませんでした"
+msgstr "no se pudo encontrar o leer el directorio"
 
 #: lib/libalpm/error.c:50
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "無効または空の引数が渡されました"
+msgstr "se pasó un argumento erróneo o NULO"
 
 #: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
-msgstr "空き容量が足りません"
+msgstr "no hay suficiente espacio en el disco"
 
 #: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
-msgstr "ライブラリが初期化されていません"
+msgstr "la biblioteca no está inicializada"
 
 #: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
-msgstr "ライブラリは既に初期化されています"
+msgstr "la biblioteca ya ha sido inicializada"
 
 #: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
-msgstr "データベースをロックできません"
+msgstr "no se pudo bloquear la base de datos"
 
 #: lib/libalpm/error.c:62
 #, c-format
 msgid "could not open database"
-msgstr "データベースを開けませんでした"
+msgstr "no se pudo abrir la base de datos"
 
 #: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
-msgstr "データベースを作成できませんでした"
+msgstr "no se pudo crear la base de datos"
 
 #: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
-msgstr "データベースが初期化されていません"
+msgstr "base de datos no inicializada"
 
 #: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
-msgstr "データベースは既に登録されています"
+msgstr "base de datos ya registrada"
 
 #: lib/libalpm/error.c:70
 #, c-format
 msgid "could not find database"
-msgstr "データベースを見つけられませんでした"
+msgstr "no se pudo encontrar la base de datos"
 
 #: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
-msgstr "無効または破損したデータベース"
+msgstr "base de datos no válida o dañada"
 
 #: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr "無効または破損したデータベース (PGP 鍵)"
+msgstr "base de datos no válida o dañada (firma PGP)"
 
 #: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
-msgstr "データベースのバージョンが間違っています"
+msgstr "la base de datos es de una versión incorrecta"
 
 #: lib/libalpm/error.c:78
 #, c-format
 msgid "could not update database"
-msgstr "データベースを更新できませんでした"
+msgstr "no se pudo actualizar la base de datos"
 
 #: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
-msgstr "データベースエントリを削除できませんでした"
+msgstr "no se pudo quitar la entrada de la base de datos"
 
 #: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
-msgstr "サーバーの無効な url"
+msgstr "dirección no válida para el servidor"
 
 #: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
-msgstr "リポジトリに設定されたサーバーがありません"
+msgstr "no hay servidores configurados para el repositorio"
 
 #: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
-msgstr "トランザクションはすでに初期化されています"
+msgstr "la operación ya se inició"
 
 #: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
-msgstr "トランザクションが初期化されていません"
+msgstr "la operación no está iniciada"
 
 #: lib/libalpm/error.c:92
 #, c-format
 msgid "duplicate target"
-msgstr "重複する対象"
+msgstr "objetivo duplicado"
 
 #: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
-msgstr "処理の準備がされていません"
+msgstr "la operación no está lista"
 
 #: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
-msgstr "処理が中断されました"
+msgstr "operación cancelada"
 
 #: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "トランザクションタイプと互換性のないオペレーション"
+msgstr "la operación no es compatible con el tipo de transacción"
 
 #: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr "データベースがロックされていない間にトランザクションが終了しました"
+msgstr ""
+"intento de realizar la operación cuando la base de datos no está bloqueada"
 
 #: lib/libalpm/error.c:105
 #, c-format
 msgid "could not find or read package"
-msgstr "パッケージが見つからないまたは読み込めませんでした"
+msgstr "no se pudo encontrar o leer el paquete"
 
 #: lib/libalpm/error.c:107
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr "ignorepkg によって操作が中止されました"
+msgstr "operación cancelada debido a ignorepkg"
 
 #: lib/libalpm/error.c:109
 #, c-format
 msgid "invalid or corrupted package"
-msgstr "無効または破損したパッケージ"
+msgstr "paquete no válido o dañado"
 
 #: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr "無効または破損したパッケージ (チェックサム)"
+msgstr "paquete no válido o dañado (suma de verificación)"
 
 #: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr "無効または破損したパッケージ (PGP 鍵)"
+msgstr "paquete no válido o dañado (firma PGP)"
 
 #: lib/libalpm/error.c:115
 #, c-format
 msgid "package missing required signature"
-msgstr "パッケージに必要な署名が見つかりません"
+msgstr "paquete sin la firma exigida"
 
 #: lib/libalpm/error.c:117
 #, c-format
 msgid "cannot open package file"
-msgstr "パッケージファイルを開けませんでした"
+msgstr "no se pudo abrir el archivo del paquete"
 
 #: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "パッケージのために全てのファイルを削除できません"
+msgstr "no se pudieron quitar todos los archivos del paquete"
 
 #: lib/libalpm/error.c:121
 #, c-format
 msgid "package filename is not valid"
-msgstr "パッケージの名前が無効です"
+msgstr "el nombre de archivo del paquete no es válido"
 
 #: lib/libalpm/error.c:123
 #, c-format
 msgid "package architecture is not valid"
-msgstr "パッケージのアーキテクチャが無効です"
+msgstr "la arquitectura del paquete no es válida"
 
 #: lib/libalpm/error.c:125
 #, c-format
 msgid "could not find repository for target"
-msgstr "対象のリポジトリを見つけられませんでした"
+msgstr "no se pudo encontrar un repositorio que contenga el paquete"
 
 #: lib/libalpm/error.c:128
 #, c-format
 msgid "missing PGP signature"
-msgstr "不明な PGP 鍵"
+msgstr "falta la firma PGP"
 
 #: lib/libalpm/error.c:130
 #, c-format
 msgid "invalid PGP signature"
-msgstr "無効な PGP 鍵"
+msgstr "firma PGP no válida"
 
 #: lib/libalpm/error.c:133
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr "無効または破損した差分"
+msgstr "el archivo diferencial no es válido o está dañado"
 
 #: lib/libalpm/error.c:135
 #, c-format
 msgid "delta patch failed"
-msgstr "差分パッチ失敗"
+msgstr "el parche del diferencial ha fallado"
 
 #: lib/libalpm/error.c:138
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr "依存関係を解決できませんでした"
+msgstr "no se pudieron satisfacer las dependencias"
 
 #: lib/libalpm/error.c:140
 #, c-format
 msgid "conflicting dependencies"
-msgstr "衝突する依存関係"
+msgstr "dependencias en conflicto"
 
 #: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting files"
-msgstr "衝突しているファイル"
+msgstr "archivos en conflicto"
 
 #: lib/libalpm/error.c:145
 #, c-format
 msgid "failed to retrieve some files"
-msgstr "ファイルの取得に失敗しました"
+msgstr "no se pudieron descargar algunos archivos"
 
 #: lib/libalpm/error.c:147
 #, c-format
 msgid "invalid regular expression"
-msgstr "無効な正規表現"
+msgstr "expresión regular no válida"
 
 #: lib/libalpm/error.c:153
 #, c-format
 msgid "libarchive error"
-msgstr "libarchive エラー"
+msgstr "error de la biblioteca libarchive"
 
 #: lib/libalpm/error.c:155
 #, c-format
 msgid "download library error"
-msgstr "ダウンロードライブラリエラー"
+msgstr "error de la biblioteca de descarga"
 
 #: lib/libalpm/error.c:157
 #, c-format
 msgid "gpgme error"
-msgstr "gpgme エラー"
+msgstr "error de gpgme"
 
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "error invoking external downloader"
-msgstr "外部のダウンローダーの呼び出しエラー"
+msgstr "error al invocar al gestor de descargas externo"
 
 #: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
-msgstr "予期しないエラー"
+msgstr "error inesperado"
 
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr "ロックファイル %s が見つかりません\n"
+msgstr "falta el archivo de bloqueo %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "ロックファイル %s を削除できませんでした\n"
+msgstr "no se pudo eliminar el archivo de bloqueo %s\n"
 
 #: lib/libalpm/package.c:559
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "パッケージ %s-%s のメタデータを読み込めませんでした\n"
+msgstr ""
+"no se pudieron cargar completamente los metadatos para el paquete %s-%s\n"
 
 #: lib/libalpm/remove.c:118
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "データベースに %s が見つかりませんでした -- スキップ\n"
+msgstr "no se pudo encontrar %s en la base de datos -- ignorándolo\n"
 
 #: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
-msgstr "対象リストから %s を削除\n"
+msgstr "quitando %s de la lista de objetivos\n"
 
 #: lib/libalpm/remove.c:348
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "ファイル '%s' を削除できません: %s\n"
+msgstr "no se pudo quitar el archivo «%s»: %s\n"
 
 #: lib/libalpm/remove.c:388
 #, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "ディレクトリを開けませんでした: %s: %s\n"
+msgstr "no se pudo abrir el directorio: %s: %s\n"
 
 #: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr "%s を削除できません (%s)\n"
+msgstr "no se pudo eliminar %s (%s)\n"
 
 #: lib/libalpm/remove.c:727
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "データベースエントリ %s-%s を削除できませんでした\n"
+msgstr "no se pudo quitar la entrada %s-%s de la base de datos\n"
 
 #: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "キャッシュからエントリ '%s' を削除できませんでした\n"
+msgstr "no se pudo quitar la entrada «%s» de la caché\n"
 
 #: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: パッケージの更新を無視 (%s => %s)\n"
+msgstr "%s: ignorando la actualización del paquete (%s => %s)\n"
 
 #: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: パッケージのダウングレードを無視 (%s => %s)\n"
+msgstr "%s: ignorando la desactualización del paquete (%s => %s)\n"
 
 #: lib/libalpm/sync.c:113
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr "%s: バージョン %s からバージョン %s にダウングレード\n"
+msgstr "%s: desactualizando de la versión %s a la versión %s\n"
 
 #: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: ローカル (%s) のほうが %s よりも最新です (%s)\n"
+msgstr "%s: la versión instalada (%s) es más nueva que %s (%s)\n"
 
 #: lib/libalpm/sync.c:160
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "パッケージの置き換えを無視 (%s-%s => %s-%s)\n"
+msgstr "ignorando el remplazo del paquete (%s-%s => %s-%s)\n"
 
 #: lib/libalpm/sync.c:176
 #, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "%s を %s で置き換えられません\n"
+msgstr "no se pudo remplazar el archivo %s por %s\n"
 
 #: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr "解決できないパッケージの衝突が検出されました\n"
+msgstr "se han detectado paquetes con conflictos irresolubles\n"
 
 #: lib/libalpm/sync.c:556
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "対象リストから '%s' を削除。'%s' と衝突しています\n"
+msgstr ""
+"quitando «%s» de la lista de objetivos debido a que tiene conflictos con "
+"«%s»\n"
 
 #: lib/libalpm/sync.c:1014
 #, c-format
 msgid "failed to retrieve some files\n"
-msgstr "複数のファイルの取得に失敗しました\n"
+msgstr "no se pudieron recibir algunos archivos\n"
 
 #: lib/libalpm/sync.c:1176
 #, c-format
 msgid "%s: missing required signature\n"
-msgstr "%s: 必要な署名が見つかりません\n"
+msgstr "%s: falta la firma exigida\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
 msgid "not enough free disk space\n"
-msgstr "十分な空き容量がありません\n"
+msgstr "no hay suficiente espacio libre en el disco\n"
 
 #: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "削除処理が完了できませんでした\n"
+msgstr "no se pudo realizar la operación de eliminación\n"
 
 #: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
-msgstr "処理が完了できませんでした\n"
+msgstr "no se pudo realizar la operación\n"
 
 #: lib/libalpm/trans.c:343
 #, c-format
 msgid "could not create temp directory\n"
-msgstr "一時ディレクトリを作成できません\n"
+msgstr "no se pudo crear el directorio temporal\n"
 
 #: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
-msgstr "一時ファイルを %s にコピーできません (%s)\n"
+msgstr "no se pudo copiar el archivo temporal a %s (%s)\n"
 
 #: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove %s\n"
-msgstr "%s を削除できません\n"
+msgstr "no se pudo eliminar %s\n"
 
 #: lib/libalpm/trans.c:393
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr "一時ディレクトリ %s を削除できません\n"
+msgstr "no se pudo eliminar el directorio temporal %s\n"
 
 #: lib/libalpm/util.c:256
 #, c-format
 msgid "could not stat file %s: %s\n"
-msgstr "ファイル %s を確認できませんでした: %s\n"
+msgstr "no se pudo recuperar la información del archivo %s: %s\n"
 
 #: lib/libalpm/util.c:524
 #, c-format
 msgid "could not create pipe (%s)\n"
-msgstr "パイプを作成できません (%s)\n"
+msgstr "no se pudo crear la tubería (%s)\n"
 
 #: lib/libalpm/util.c:532
 #, c-format
 msgid "could not fork a new process (%s)\n"
-msgstr "新しいプロセスをフォークできません (%s)\n"
+msgstr "no se pudo crear un nuevo proceso (%s)\n"
 
 #: lib/libalpm/util.c:549
 #, c-format
 msgid "could not change the root directory (%s)\n"
-msgstr "ルートディレクトリを変更できません (%s)\n"
+msgstr "no se pudo cambiar el directorio raíz (%s)\n"
 
 #: lib/libalpm/util.c:560
 #, c-format
 msgid "call to execv failed (%s)\n"
-msgstr "execv のコールに失敗しました (%s)\n"
+msgstr "llamada a execv fallida (%s)\n"
 
 #: lib/libalpm/util.c:590
 #, c-format
 msgid "call to waitpid failed (%s)\n"
-msgstr "waitpid のコールに失敗しました (%s)\n"
+msgstr "llamada a waitpid fallida (%s)\n"
 
 #: lib/libalpm/util.c:598
 #, c-format
 msgid "could not open pipe (%s)\n"
-msgstr "パイプを開けません (%s)\n"
+msgstr "no se pudo abrir la tubería (%s)\n"
 
 #: lib/libalpm/util.c:605
 #, c-format
 msgid "command failed to execute correctly\n"
-msgstr "コマンドの実行に失敗しました\n"
+msgstr "la orden no se ejecutó correctamente\n"
 
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr "不明なシグナル"
+msgstr "firma desconocida"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr "コマンドはシグナル %d で終了しました: %s\n"
+msgstr "orden terminada por la señal %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "%s キャッシュが存在しません、作成します...\n"
+msgstr "no existe la caché de %s, creándola...\n"
 
 #: lib/libalpm/util.c:742
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
-"パッケージキャッシュを発見・作成できませんでした、かわりに %s を使用します\n"
+"no se pudo encontrar o crear la caché del paquete, en su lugar se utilizará "
+"%s\n"

@@ -3,6 +3,34 @@ VERSION         DESCRIPTION
 5.0.0         - pacman can check the validity of the local and sync databases
                 (-Dk and -Dkk respectively).  This replaces the 'testdb'
                 software
+4.2.1         - Remove warnings about incorrect directory ownership until
+                packaging files with dynamic users/groups is improved
+              - Do not require a specific automake version when building from
+                the source tarball (FS#43655)
+              - A number of typos and translation errors have been fixed
+                (FS#43257, FS#43280, FS#43279, FS#43617, FS#43739)
+              - set sane umask in pacman-db-upgrade (FS#43200) and make it
+                more verbose
+              - Use correct permissions when creating the log file
+              - Fix memory management for file list storage
+              - Set package origin when adding to db cache
+              - makepkg:
+                - Fix error when encountering an expired PGP key (FS#43269)
+                - Fix error extracting PKGBUILD attributes (FS#43387)
+                - Fix removal of static libraries when the shared library
+                  uses the absolute path in symbolic links (FS#43395)
+                - Improve Bazaar cloning (FS#43448)
+                - Fix issues with architecture dependant checksum
+                  verification (FS#43192)
+                - Fix .SRCINFO file with architecture dependant fields
+                  (FS#43247)
+                - Fix compatibility with older bash versions
+                - Allow git checkouts to be downloaded into directory ending
+                  with ".git".
+              - contrib:
+                - updpkgsums no longer changes file permissions (FS#43272)
+                - paccache does not remove all packages on libalpm error
+                  (FS#43286)
 4.2.0         - symlinks to directories on the filesystem are no longer
                 treated as directories
               - pacman-db-upgrade - fix local database for files installed

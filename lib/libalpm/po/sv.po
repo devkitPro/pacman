@@ -4,14 +4,14 @@
 #
 # Translators:
 # , 2011
-# Daniel Sandman <revoltism@gmail.com>, 2013
+# Daniel Sandman <revoltism@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-11-18 05:16+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2015-02-14 11:13+1000\n"
+"PO-Revision-Date: 2015-01-04 00:10+0000\n"
+"Last-Translator: Daniel Sandman <revoltism@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -53,9 +53,9 @@ msgstr "kunde inte döpa om %s till %s (%s)\n"
 #: lib/libalpm/add.c:184
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
-msgstr ""
+msgstr "fil fans ej i fillistan för paket %s. Hoppa över uppackning av %s\n"
 
-#: lib/libalpm/add.c:230
+#: lib/libalpm/add.c:232
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
@@ -64,50 +64,52 @@ msgstr ""
 "katalogrättigheter skiljer sig på %s\n"
 "filsystem: %o  paket: %o\n"
 
-#: lib/libalpm/add.c:240
+#: lib/libalpm/add.c:247
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
+"katalogens ägare skiljer sig på %s\n"
+"filsystem: %u:%u paket: %u:%u\n"
 
-#: lib/libalpm/add.c:255
+#: lib/libalpm/add.c:263
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "extrahera: ersätter ej katalog med fil %s\n"
 
-#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
+#: lib/libalpm/add.c:603 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "kunde inte hitta nuvarande sökväg\n"
 
-#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/add.c:608 lib/libalpm/util.c:336 lib/libalpm/util.c:512
 #: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kunde inte byta katalog till %s (%s)\n"
 
-#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
+#: lib/libalpm/add.c:647 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "Kunde ej återställa arbetskatalogen (%s)\n"
 
-#: lib/libalpm/add.c:647
+#: lib/libalpm/add.c:655
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "problem uppstod under uppgraderingen %s\n"
 
-#: lib/libalpm/add.c:653
+#: lib/libalpm/add.c:661
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "problem uppstod under installationen %s\n"
 
-#: lib/libalpm/add.c:669
+#: lib/libalpm/add.c:677
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "kunde inte uppdatera databasinlägget %s-%s\n"
 
-#: lib/libalpm/add.c:680
+#: lib/libalpm/add.c:688
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "kunde inte lägga till '%s' i cachen\n"
@@ -174,7 +176,7 @@ msgstr "fel vid läsning av paketet %s: %s\n"
 #: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr ""
+msgstr "fel vid läsning av mtree för paket %s: %s\n"
 
 #: lib/libalpm/be_package.c:588
 #, c-format
@@ -194,7 +196,7 @@ msgstr "saknar paketversionen för %s\n"
 #: lib/libalpm/be_package.c:601
 #, c-format
 msgid "invalid package version in %s\n"
-msgstr ""
+msgstr "ogiltig paketversion i %s\n"
 
 #: lib/libalpm/be_package.c:645
 #, c-format
@@ -236,7 +238,7 @@ msgstr "%s databasen är inkonsekvent: namn på paketet %s är för långt⏎\n"
 #: lib/libalpm/be_sync.c:585
 #, c-format
 msgid "unknown database file: %s\n"
-msgstr ""
+msgstr "okänd databasfil: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -341,6 +343,9 @@ msgstr "misslyckades hämta filen '%s' från %s : %s\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
+"misslyckades hämta filen '%s' från %s : förväntad nedladdningsstorlek "
+"överskreds\n"
+"\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -525,7 +530,7 @@ msgstr "ogiltigt eller korrupt paket (PGP-signatur)"
 #: lib/libalpm/error.c:115
 #, c-format
 msgid "package missing required signature"
-msgstr ""
+msgstr "paket saknar nödvändig signatur"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -625,7 +630,7 @@ msgstr "oväntat fel"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr ""
+msgstr "låsfil saknar %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -722,7 +727,7 @@ msgstr "misslyckades att hämta några filer⏎\n"
 #: lib/libalpm/sync.c:1176
 #, c-format
 msgid "%s: missing required signature\n"
-msgstr ""
+msgstr "%s: saknar nödvändig signatur\n"
 
 #: lib/libalpm/sync.c:1357
 #, c-format
@@ -739,22 +744,22 @@ msgstr "kunde inte skicka överföring för borttagning\n"
 msgid "could not commit transaction\n"
 msgstr "kunde inte skicka överföring\n"
 
-#: lib/libalpm/trans.c:339
+#: lib/libalpm/trans.c:343
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "kunde inte skapa temporär katalog\n"
 
-#: lib/libalpm/trans.c:354
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "kunde inte kopiera temporär fil till %s (%s)\n"
 
-#: lib/libalpm/trans.c:385
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove %s\n"
 msgstr "kunde ej ta bort %s\n"
 
-#: lib/libalpm/trans.c:389
+#: lib/libalpm/trans.c:393
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kunde inte ta bort tmpdir %s\n"
@@ -804,12 +809,12 @@ msgstr "kommando misslyckades att exekveras korrekt\n"
 #: lib/libalpm/util.c:612
 #, c-format
 msgid "Unknown signal"
-msgstr ""
+msgstr "Okänd signal"
 
 #: lib/libalpm/util.c:614
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr ""
+msgstr "kommando avslutades av signal %d: %s\n"
 
 #: lib/libalpm/util.c:711
 #, c-format

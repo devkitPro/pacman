@@ -4,17 +4,20 @@
 #
 # Translators:
 # Peter van den Hurk, 2014
+# Peter van den Hurk, 2014-2015
+# Ruben Van Boxem <vanboxem.ruben@gmail.com>, 2015
+# swilkens <stefanwilkens@gmail.com>, 2015
 # swilkens <stefanwilkens@gmail.com>, 2011
-# swilkens <stefanwilkens@gmail.com>, 2011
+# swilkens <stefanwilkens@gmail.com>, 2011,2015
 # zenlord <zenlord@gmail.com>, 2013
 # zenlord <zenlord@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-11-18 15:12+1000\n"
-"PO-Revision-Date: 2014-11-23 13:30+0000\n"
-"Last-Translator: Peter van den Hurk\n"
+"POT-Creation-Date: 2015-02-14 11:13+1000\n"
+"PO-Revision-Date: 2015-02-14 11:40+0000\n"
+"Last-Translator: Ruben Van Boxem <vanboxem.ruben@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/archlinux-pacman/"
 "language/nl/)\n"
 "Language: nl\n"
@@ -36,7 +39,7 @@ msgstr "%s-%s is up to date -- opnieuw installeren\n"
 #: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "pakket %s wordt gedowngradet (%s => %s)\n"
+msgstr "pakket %s wordt gedowngraded (%s => %s)\n"
 
 #: lib/libalpm/add.c:122 lib/libalpm/util.c:379
 #, c-format
@@ -46,7 +49,7 @@ msgstr "waarschuwing tijdens uitpakken van %s (%s)\n"
 #: lib/libalpm/add.c:125 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "kan %s (%s) niet uitpakken\n"
+msgstr "kon %s (%s) niet uitpakken\n"
 
 #: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
 #, c-format
@@ -60,7 +63,7 @@ msgstr ""
 "bestand niet gevonden in de bestandslijst voor pakket %s. Uitpakken %s wordt "
 "overgeslagen\n"
 
-#: lib/libalpm/add.c:230
+#: lib/libalpm/add.c:232
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
@@ -69,7 +72,7 @@ msgstr ""
 "rechten voor map %s verschillen\n"
 "bestandssysteem: %o pakket: %o\n"
 
-#: lib/libalpm/add.c:240
+#: lib/libalpm/add.c:247
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
@@ -78,43 +81,43 @@ msgstr ""
 "eigenaar van map %s verschilt\n"
 "bestandssysteem: %u:%u pakket: %u:%u\n"
 
-#: lib/libalpm/add.c:255
+#: lib/libalpm/add.c:263
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "uitpakken: map wordt niet overschreven met bestand %s\n"
 
-#: lib/libalpm/add.c:595 lib/libalpm/util.c:331 lib/libalpm/util.c:507
+#: lib/libalpm/add.c:603 lib/libalpm/util.c:331 lib/libalpm/util.c:507
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "kan de huidige werkmap niet bepalen\n"
 
-#: lib/libalpm/add.c:600 lib/libalpm/util.c:336 lib/libalpm/util.c:512
+#: lib/libalpm/add.c:608 lib/libalpm/util.c:336 lib/libalpm/util.c:512
 #: lib/libalpm/util.c:553
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kan niet naar de map %s (%s) wisselen\n"
 
-#: lib/libalpm/add.c:639 lib/libalpm/util.c:400 lib/libalpm/util.c:624
+#: lib/libalpm/add.c:647 lib/libalpm/util.c:400 lib/libalpm/util.c:624
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "kan werkmap (%s) niet terugzetten\n"
 
-#: lib/libalpm/add.c:647
+#: lib/libalpm/add.c:655
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "probleem tijdens bijwerken van %s\n"
 
-#: lib/libalpm/add.c:653
+#: lib/libalpm/add.c:661
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "probleem tijdens installatie van %s\n"
 
-#: lib/libalpm/add.c:669
+#: lib/libalpm/add.c:677
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "kan database record %s-%s niet bijwerken\n"
 
-#: lib/libalpm/add.c:680
+#: lib/libalpm/add.c:688
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "kan '%s' niet toevoegen in cache\n"
@@ -160,13 +163,13 @@ msgstr "kan bestand %s: %s niet openen\n"
 #: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "%s database is niet consistent: naam onjuist voor pakket %s\n"
+msgstr "%s database is inconsistent: naam onjuist voor pakket %s\n"
 
 #: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
-"%s database is niet consistent: versie onjuist voor pakket %s\n"
+"%s database is inconsistent: versie onjuist voor pakket %s\n"
 "\n"
 
 #: lib/libalpm/be_local.c:740
@@ -188,7 +191,7 @@ msgstr "fout tijdens het lezen van de mtree van pakket %s: %s\n"
 #: lib/libalpm/be_package.c:588
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "kan het bestand met pakket beschrijving in %s niet verwerken\n"
+msgstr "kan het bestand met pakketbeschrijving in %s niet verwerken\n"
 
 #: lib/libalpm/be_package.c:593
 #, c-format
@@ -223,7 +226,7 @@ msgstr "vereiste sleutel ontbreekt in sleutelhanger\n"
 #: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr "ongeldig bestand: %s wordt verwijderd\n"
+msgstr "ongeldig bestand '%s' wordt verwijderd\n"
 
 #: lib/libalpm/be_sync.c:476
 #, c-format
@@ -233,17 +236,17 @@ msgstr "kan bestand met pakketbeschrijving '%s' uit db '%s' niet verwerken\n"
 #: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
-msgstr "%s database is niet consistent: bestandsnaam onjuist voor pakket %s\n"
+msgstr "%s database is inconsistent: foutieve bestandsnaam voor pakket %s\n"
 
 #: lib/libalpm/be_sync.c:519
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
-msgstr "%s database is niet consistent: bestandsnaam te lang voor pakket %s\n"
+msgstr "%s database is inconsistent: te lange bestandsnaam voor pakket %s\n"
 
 #: lib/libalpm/be_sync.c:585
 #, c-format
 msgid "unknown database file: %s\n"
-msgstr "onbekend database bestand: %s\n"
+msgstr "onbekend databasebestand: %s\n"
 
 #: lib/libalpm/db.c:369
 #, c-format
@@ -298,7 +301,7 @@ msgstr "kan koppelpunt niet bepalen voor bestand %s\n"
 #: lib/libalpm/diskspace.c:347
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
-msgstr "Partitie %s te vol: %jd blocks benodigd, %jd blocks beschikbaar\n"
+msgstr "Partitie %s is te vol: %jd blocks benodigd, %jd blocks beschikbaar\n"
 
 #: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
 #, c-format
@@ -355,7 +358,7 @@ msgstr "%s werd onderbroken: %jd/%jd bytes\n"
 #: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
-msgstr "%s downloaden mislukt\n"
+msgstr "downloaden van %s mislukt\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -425,7 +428,7 @@ msgstr "database niet geïnitialiseerd"
 #: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
-msgstr "database werd al geregistreerd"
+msgstr "database is al geregistreerd"
 
 #: lib/libalpm/error.c:70
 #, c-format
@@ -445,7 +448,7 @@ msgstr "ongeldige of corrupte database (PGP handtekening)"
 #: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
-msgstr "database-versie is onjuist"
+msgstr "databaseversie is onjuist"
 
 #: lib/libalpm/error.c:78
 #, c-format
@@ -455,7 +458,7 @@ msgstr "kan database niet bijwerken"
 #: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
-msgstr "kan database record niet verwijderen"
+msgstr "kan databasevermelding niet verwijderen"
 
 #: lib/libalpm/error.c:83
 #, c-format
@@ -465,7 +468,7 @@ msgstr "ongeldige URL voor server"
 #: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
-msgstr "geen server ingesteld voor repository"
+msgstr "er zijn geen servers ingesteld voor de repository"
 
 #: lib/libalpm/error.c:88
 #, c-format
@@ -495,7 +498,7 @@ msgstr "transactie afgebroken"
 #: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "actie niet compatibel met dit transactie-type"
+msgstr "actie niet compatibel met deze transactiesoort"
 
 #: lib/libalpm/error.c:102
 #, c-format
@@ -530,7 +533,7 @@ msgstr "ongeldig of corrupt pakket (PGP handtekening)"
 #: lib/libalpm/error.c:115
 #, c-format
 msgid "package missing required signature"
-msgstr "pakket mist verplichte PGP handtekening"
+msgstr "pakket mist de verplichte PGP handtekening"
 
 #: lib/libalpm/error.c:117
 #, c-format
@@ -540,7 +543,7 @@ msgstr "kan pakketbestand niet openen"
 #: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "kan niet alle bestanden van pakket verwijderen"
+msgstr "kan niet alle bestanden van het pakket verwijderen"
 
 #: lib/libalpm/error.c:121
 #, c-format
@@ -575,12 +578,12 @@ msgstr "ongeldige of corrupte delta"
 #: lib/libalpm/error.c:135
 #, c-format
 msgid "delta patch failed"
-msgstr "delta-patch mislukt"
+msgstr "deltapatch mislukt"
 
 #: lib/libalpm/error.c:138
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr "kan niet alle afhankelijkheden voldoen"
+msgstr "kan niet aan afhankelijkheden voldoen"
 
 #: lib/libalpm/error.c:140
 #, c-format
@@ -610,7 +613,7 @@ msgstr "libarchive fout"
 #: lib/libalpm/error.c:155
 #, c-format
 msgid "download library error"
-msgstr "download-bibliotheek fout"
+msgstr "downloadbibliotheek fout"
 
 #: lib/libalpm/error.c:157
 #, c-format
@@ -630,7 +633,7 @@ msgstr "onverwachte fout"
 #: lib/libalpm/handle.c:139
 #, c-format
 msgid "lock file missing %s\n"
-msgstr "slotbestand mist %s\n"
+msgstr "vergrendelbestand mist %s\n"
 
 #: lib/libalpm/handle.c:145
 #, c-format
@@ -736,29 +739,29 @@ msgstr "Onvoldoende vrije schijfruimte\n"
 #: lib/libalpm/sync.c:1370
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "kan de verwijder-transactie niet voltooien\n"
+msgstr "kan de verwijdertransactie niet voltooien\n"
 
 #: lib/libalpm/sync.c:1378
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kan transactie niet voltooien\n"
 
-#: lib/libalpm/trans.c:339
+#: lib/libalpm/trans.c:343
 #, c-format
 msgid "could not create temp directory\n"
-msgstr "kan tijdelijke map niet aanmaken\n"
+msgstr "kon tijdelijke map niet aanmaken\n"
 
-#: lib/libalpm/trans.c:354
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "kan het tijdelijke bestand niet naar %s (%s) kopiëren\n"
 
-#: lib/libalpm/trans.c:385
+#: lib/libalpm/trans.c:389
 #, c-format
 msgid "could not remove %s\n"
 msgstr "kan %s niet verwijderen\n"
 
-#: lib/libalpm/trans.c:389
+#: lib/libalpm/trans.c:393
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kan de tijdelijke map %s niet verwijderen\n"
