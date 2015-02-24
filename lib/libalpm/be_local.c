@@ -384,6 +384,11 @@ static int local_db_add_version(alpm_db_t UNUSED *db, const char *dbpath)
 	snprintf(dbverpath, PATH_MAX, "%sALPM_DB_VERSION", dbpath);
 
 	dbverfile = fopen(dbverpath, "w");
+
+	if(dbverfile == NULL) {
+		return 1;
+	}
+
 	fprintf(dbverfile, "%zu\n", ALPM_LOCAL_DB_VERSION);
 	fclose(dbverfile);
 
@@ -397,7 +402,10 @@ static int local_db_create(alpm_db_t *db, const char *dbpath)
 				dbpath, strerror(errno));
 		RET_ERR(db->handle, ALPM_ERR_DB_CREATE, -1);
 	}
-	local_db_add_version(db, dbpath);
+	if(local_db_add_version(db, dbpath) != 0) {
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -459,7 +467,9 @@ static int local_db_validate(alpm_db_t *db)
 			}
 		}
 
-		local_db_add_version(db, dbpath);
+		if(local_db_add_version(db, dbpath) != 0) {
+			goto version_error;
+		}
 		goto version_latest;
 	}
 
