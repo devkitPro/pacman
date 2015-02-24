@@ -94,7 +94,10 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 		snprintf(path, PATH_MAX, "%s%s", dbpath, dname);
 
 		/* remove all non-skipped directories and non-database files */
-		stat(path, &buf);
+		if(stat(path, &buf) == -1) {
+			pm_printf(ALPM_LOG_ERROR, _("could not remove %s: %s\n"),
+					path, strerror(errno));
+		}
 		if(S_ISDIR(buf.st_mode)) {
 			if(rmrf(path)) {
 				pm_printf(ALPM_LOG_ERROR, _("could not remove %s: %s\n"),
