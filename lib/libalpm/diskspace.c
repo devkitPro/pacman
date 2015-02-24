@@ -235,7 +235,12 @@ static int calculate_removed_size(alpm_handle_t *handle,
 		const char *filename = file->name;
 
 		snprintf(path, PATH_MAX, "%s%s", handle->root, filename);
-		llstat(path, &st);
+
+		if(llstat(path, &st) == -1) {
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("could not get file information for %s\n"), filename);
+			continue;
+		}
 
 		/* skip directories and symlinks to be consistent with libarchive that
 		 * reports them to be zero size */
