@@ -399,9 +399,13 @@ static int vercmp(const void *p1, const void *p2)
 
 static char escape_char(const char *string)
 {
+	if(!string) {
+		return -1;
+	}
+
 	const size_t len = strlen(string);
 
-	if(!string || len > 2) {
+	if(len > 2) {
 		return -1;
 	}
 
