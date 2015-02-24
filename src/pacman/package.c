@@ -201,6 +201,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 			alpm_decode_signature(base64_sig, &decoded_sigdata, &data_len);
 			alpm_extract_keyid(config->handle, alpm_pkg_get_name(pkg),
 					decoded_sigdata, data_len, &keys);
+			free(decoded_sigdata);
 		} else {
 			keys = alpm_list_add(keys, _("None"));
 		}
@@ -208,6 +209,10 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg), cols);
 		string_display(_("SHA-256 Sum    :"), alpm_pkg_get_sha256sum(pkg), cols);
 		list_display(_("Signatures     :"), keys, cols);
+
+		if(base64_sig) {
+			FREELIST(keys);
+		}
 	} else {
 		list_display(_("Validated By   :"), validation, cols);
 	}
