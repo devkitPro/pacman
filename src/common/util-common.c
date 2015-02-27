@@ -127,7 +127,7 @@ char *safe_fgets(char *s, int size, FILE *stream)
 	return ret;
 }
 
-#ifndef HAVE_STRNDUP
+#ifndef HAVE_STRNLEN
 /* A quick and dirty implementation derived from glibc */
 /** Determines the length of a fixed-size string.
  * @param s string to be measured
@@ -140,7 +140,9 @@ static size_t strnlen(const char *s, size_t max)
 	for(p = s; *p && max--; ++p);
 	return (p - s);
 }
+#endif
 
+#ifndef HAVE_STRNDUP
 /** Copies a string.
  * Returned string needs to be freed
  * @param s string to be copied
