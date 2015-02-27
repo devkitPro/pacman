@@ -29,6 +29,8 @@
 #include <langinfo.h>
 #endif
 
+#include "util-common.h"
+
 #define LINE_MAX     512
 
 typedef struct tdepth {
@@ -120,28 +122,6 @@ int unique = 0;
 int searchsyncs = 0;
 const char *dbpath = DBPATH;
 const char *configfile = CONFFILE;
-
-#ifndef HAVE_STRNDUP
-/* A quick and dirty implementation derived from glibc */
-static size_t strnlen(const char *s, size_t max)
-{
-	register const char *p;
-	for(p = s; *p && max--; ++p);
-	return (p - s);
-}
-
-char *strndup(const char *s, size_t n)
-{
-	size_t len = strnlen(s, n);
-	char *new = (char *) malloc(len + 1);
-
-	if(new == NULL)
-		return NULL;
-
-	new[len] = '\0';
-	return (char *)memcpy(new, s, len);
-}
-#endif
 
 static size_t strtrim(char *str)
 {

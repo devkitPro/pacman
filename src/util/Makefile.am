@@ -20,10 +20,10 @@ AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
 cleanupdelta_SOURCES = cleanupdelta.c
 cleanupdelta_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
-pacsort_SOURCES = pacsort.c
+pacsort_SOURCES = pacsort.c util-common.c
 pacsort_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
-pactree_SOURCES = pactree.c
+pactree_SOURCES = pactree.c util-common.c
 pactree_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 testpkg_SOURCES = testpkg.c
