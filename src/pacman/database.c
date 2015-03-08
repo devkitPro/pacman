@@ -253,7 +253,7 @@ static int check_db_local(void) {
 	ret += check_db_local_package_conflicts(pkglist);
 	ret += check_db_local_filelist_conflicts(pkglist);
 
-	return 0;
+	return ret;
 }
 
 /**
