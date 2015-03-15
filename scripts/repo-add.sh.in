@@ -688,7 +688,6 @@ trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
 declare -a args
-success=0
 # parse arguments
 while (( $# )); do
 	case $1 in
@@ -737,15 +736,16 @@ if (( SIGN || KEY || VERIFY )); then
 	check_gpg
 fi
 
+fail=0
 for arg in "${args[@]:1}"; do
 	case $cmd in
 		repo-add) add "$arg" ;;
 		repo-remove) remove "$arg" ;;
-	esac && success=1
+	esac || fail=1
 done
 
-# if at least one operation was a success, re-zip database
-if (( success )); then
+# if the whole operation was a success, re-zip and rotate database
+if (( !fail )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 	create_db
 	rotate_db
