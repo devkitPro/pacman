@@ -334,15 +334,7 @@ db_write_entry() {
 			return 0;
 		fi
 	else
-		if (( DELTA )); then
-			pkgentry=$(find_pkgentry "$pkgname")
-			if [[ -n $pkgentry ]]; then
-				local oldfilename=$(grep -A1 FILENAME "$pkgentry/desc" | tail -n1)
-				local oldfile="$(dirname "$1")/$oldfilename"
-			fi
-		fi
-		if (( RMEXISTING )); then
-			# gather information needed to remove old file
+		if (( DELTA || RMEXISTING )); then
 			pkgentry=$(find_pkgentry "$pkgname")
 			if [[ -n $pkgentry ]]; then
 				local oldfilename="$(sed -n '/^%FILENAME%$/ {n;p;q;}' "$pkgentry/desc")"
