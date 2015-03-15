@@ -32,11 +32,12 @@ QUIET=0
 DELTA=0
 ONLYADDNEW=0
 RMEXISTING=0
-WITHFILES=0
 SIGN=0
 KEY=0
 VERIFY=0
 REPO_DB_FILE=
+REPO_DB_PREFIX=
+REPO_DB_SUFFIX=
 LOCKFILE=
 CLEAN_LOCK=0
 USE_COLOR='y'
@@ -61,7 +62,6 @@ Multiple packages to add can be specified on the command line.\n")"
 		printf -- "$(gettext "  -d, --delta       generate and add delta for package update\n")"
 		printf -- "$(gettext "  -n, --new         only add packages that are not already in the database\n")"
 		printf -- "$(gettext "  -R, --remove      remove old package file from disk after updating database\n")"
-		printf -- "$(gettext "  -f, --files       update database's file list\n")"
 	elif [[ $cmd == "repo-remove" ]] ; then
 		printf -- "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\n")"
 		printf -- "\n"
@@ -99,6 +99,7 @@ This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
 
+
 # format a metadata entry
 #		arg1 - Entry name
 #		...  - value(s)
@@ -115,7 +116,8 @@ format_entry() {
 find_pkgentry() {
 	local pkgname=$1
 	local pkgentry
-	for pkgentry in "$tmpdir/tree/$pkgname"*; do
+
+	for pkgentry in "$tmpdir/db/$pkgname"*; do
 		name=${pkgentry##*/}
 		if [[ ${name%-*-*} = $pkgname ]]; then
 			echo $pkgentry
@@ -162,6 +164,11 @@ db_write_delta() {
 	msg2 "$(gettext "Adding 'deltas' entry : %s -> %s")" "$oldfile" "$newfile"
 	echo "${deltafile##*/} $md5sum $csize $oldfile $newfile" >> "$deltas"
 
+	# copy updated deltas entry into "files" database
+	local filesentry=$(echo "$pkgentry" | sed 's/\(.*\)\/db\//\1\/files\//')
+	mkdir -p "$filesentry"
+	cp $deltas "$filesentry"
+
 	return 0
 } # end db_write_delta
 
@@ -188,6 +195,16 @@ db_remove_delta() {
 			msg2 "$(gettext "Removing empty deltas file ...")"
 			rm "$deltas"
 		fi
+
+		# copy updated deltas entry into "files" database
+		local filesentry=$(echo "$pkgentry" | sed 's/\(.*\)\/db\//\1\/files\//')
+		if [[ -f $deltas ]]; then
+			mkdir -p "$filesentry"
+			cp $deltas "$filesentry"
+		else
+			rm -f "$filesentry/deltas"
+		fi
+
 		return 0
 	fi
 
@@ -218,12 +235,14 @@ check_xdelta() {
 	if (( DELTA )); then
 		need_xdelta=1
 	else
-		if [[ $cmd == "repo-add" ]];
+		if [[ $cmd == "repo-add" ]]; then
 			for f in ${args[@]:1}; do
 				case $f in
 					*.delta) need_xdelta=1 ;;
 					*) ;;
+				esac
 			done
+		fi
 	fi
 
 	if (( need_xdelta )); then
@@ -239,7 +258,7 @@ create_signature() {
 	(( ! SIGN )) && return
 	local dbfile=$1
 	local ret=0
-	msg "$(gettext "Signing database...")"
+	msg "$(gettext "Signing database '%s'...")" "${dbfile##*/.tmp.}"
 
 	local SIGNWITHKEY=""
 	if [[ -n $GPGKEY ]]; then
@@ -250,7 +269,7 @@ create_signature() {
 	if (( ! ret )); then
 		msg2 "$(gettext "Created signature file '%s'")" "${dbfile##*/.tmp.}.sig"
 	else
-		warning "$(gettext "Failed to sign package database.")"
+		warning "$(gettext "Failed to sign package database file '%s'")" "${dbfile##*/.tmp.}"
 	fi
 }
 
@@ -278,11 +297,11 @@ verify_repo_extension() {
 	local repofile=$1
 
 	case $repofile in
-		*.@(db|files).tar.gz)  TAR_OPT="z" ;;
-		*.@(db|files).tar.bz2) TAR_OPT="j" ;;
-		*.@(db|files).tar.xz)  TAR_OPT="J" ;;
-		*.@(db|files).tar.Z)   TAR_OPT="Z" ;;
-		*.@(db|files).tar)     TAR_OPT="" ;;
+		*.db.tar.gz)  TAR_OPT="z" ;;
+		*.db.tar.bz2) TAR_OPT="j" ;;
+		*.db.tar.xz)  TAR_OPT="J" ;;
+		*.db.tar.Z)   TAR_OPT="Z" ;;
+		*.db.tar)     TAR_OPT="" ;;
 		*) error "$(gettext "'%s' does not have a valid database archive extension.")" \
 				"$repofile"
 			exit 1 ;;
@@ -328,7 +347,7 @@ db_write_entry() {
 		return 1
 	fi
 
-	if [[ -d $tmpdir/tree/$pkgname-$pkgver ]]; then
+	if [[ -d $tmpdir/db/$pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 		if (( ONLYADDNEW )); then
 			return 0;
@@ -367,7 +386,7 @@ db_write_entry() {
 	db_remove_entry "$pkgname"
 
 	# create package directory
-	pushd "$tmpdir/tree" >/dev/null
+	pushd "$tmpdir/db" >/dev/null
 	mkdir "$pkgname-$pkgver"
 	pushd "$pkgname-$pkgver" >/dev/null
 
@@ -415,14 +434,6 @@ db_write_entry() {
 	popd >/dev/null
 	popd >/dev/null
 
-	# create files file if wanted
-	if (( WITHFILES )); then
-		msg2 "$(gettext "Creating '%s' db entry...")" 'files'
-		local files_path="$tmpdir/tree/$pkgname-$pkgver/files"
-		echo "%FILES%" >"$files_path"
-		bsdtar --exclude='^.*' -tf "$pkgfile" >>"$files_path"
-	fi
-
 	# create a delta file
 	if (( DELTA )); then
 		if [[ -n $oldfilename ]]; then
@@ -436,6 +447,15 @@ db_write_entry() {
 			fi
 		fi
 	fi
+
+	# copy updated package entry into "files" database
+	cp -a "$tmpdir/db/$pkgname-$pkgver" "$tmpdir/files/$pkgname-$pkgver"
+
+	# create files file
+	msg2 "$(gettext "Creating '%s' db entry...")" 'files'
+	local files_path="$tmpdir/files/$pkgname-$pkgver/files"
+	echo "%FILES%" >"$files_path"
+	bsdtar --exclude='^.*' -tf "$pkgfile" >>"$files_path"
 
 	if (( RMEXISTING )); then
 		msg2 "$(gettext "Removing old package file '%s'")" "$oldfilename"
@@ -454,11 +474,16 @@ db_remove_entry() {
 	while [[ -n $pkgentry ]]; do
 		notfound=0
 		if [[ -f $pkgentry/deltas ]]; then
-			mv "$pkgentry/deltas" "$tmpdir/tree/$pkgname.deltas"
+			mv "$pkgentry/deltas" "$tmpdir/db/$pkgname.deltas"
 		fi
 		msg2 "$(gettext "Removing existing entry '%s'...")" \
 		"${pkgentry##*/}"
 		rm -rf "$pkgentry"
+
+		# remove entries in "files" database
+		local filesentry=$(echo "$pkgentry" | sed 's/\(.*\)\/db\//\1\/files\//')
+		rm -rf "$filesentry"
+
 		pkgentry=$(find_pkgentry "$pkgname")
 	done
 	return $notfound
@@ -479,8 +504,8 @@ elephant() {
 	esac | openssl base64 -d | gzip -d
 }
 
-check_repo_db() {
-	local repodir
+prepare_repo_db() {
+	local repodir dbfile
 
 	# ensure the path to the DB exists; $LOCKFILE is always an absolute path
 	repodir=${LOCKFILE%/*}/
@@ -499,35 +524,43 @@ check_repo_db() {
 		exit 1
 	fi
 
-	if [[ -f $REPO_DB_FILE ]]; then
-		# there are two situations we can have here- a DB with some entries,
-		# or a DB with no contents at all.
-		if ! bsdtar -tqf "$REPO_DB_FILE" '*/desc' >/dev/null 2>&1; then
-			# check empty case
-			if [[ -n $(bsdtar -tqf "$REPO_DB_FILE" '*' 2>/dev/null) ]]; then
-				error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$REPO_DB_FILE"
-				exit 1
+	for repo in "db" "files"; do
+		dbfile=${repodir}/$REPO_DB_PREFIX.$repo.$REPO_DB_SUFFIX
+
+		if [[ -f $dbfile ]]; then
+			# there are two situations we can have here:
+			# a DB with some entries, or a DB with no contents at all.
+			if ! bsdtar -tqf "$dbfile" '*/desc' >/dev/null 2>&1; then
+				# check empty case
+				if [[ -n $(bsdtar -tqf "$dbfile" '*' 2>/dev/null) ]]; then
+					error "$(gettext "Repository file '%s' is not a proper pacman database.")" "$dbfile"
+					exit 1
+				fi
 			fi
+			verify_signature "$dbfile"
+			msg "$(gettext "Extracting database to a temporary location...")"
+			bsdtar -xf "$dbfile" -C "$tmpdir/$repo"
+		else
+			case $cmd in
+				repo-remove)
+					# only a missing "db" database is currently an error
+					# TODO: remove if statement
+					if [[ $repo == "db" ]]; then
+						error "$(gettext "Repository file '%s' was not found.")" "$dbfile"
+					fi
+					exit 1
+					;;
+				repo-add)
+					# check if the file can be created (write permission, directory existence, etc)
+					if ! touch "$dbfile"; then
+						error "$(gettext "Repository file '%s' could not be created.")" "$dbfile"
+						exit 1
+					fi
+					rm -f "$dbfile"
+					;;
+			esac
 		fi
-		verify_signature "$REPO_DB_FILE"
-		msg "$(gettext "Extracting database to a temporary location...")"
-		bsdtar -xf "$REPO_DB_FILE" -C "$tmpdir/tree"
-	else
-		case $cmd in
-			repo-remove)
-			error "$(gettext "Repository file '%s' was not found.")" "$REPO_DB_FILE"
-			exit 1
-			;;
-			repo-add)
-			# check if the file can be created (write permission, directory existence, etc)
-			if ! touch "$REPO_DB_FILE"; then
-				error "$(gettext "Repository file '%s' could not be created.")" "$REPO_DB_FILE"
-				exit 1
-			fi
-			rm -f "$REPO_DB_FILE"
-			;;
-		esac
-	fi
+	done
 }
 
 add() {
@@ -536,7 +569,7 @@ add() {
 		return 1
 	fi
 
-	if [[ ${1##*.} == "delta" ]]; then
+	if [[ $1 = *-*-*_to_*-*-*.delta ]]; then
 		deltafile=$1
 		msg "$(gettext "Adding delta '%s'")" "$deltafile"
 		if db_write_delta "$deltafile"; then
@@ -582,60 +615,71 @@ remove() {
 }
 
 rotate_db() {
-	filename=${REPO_DB_FILE##*/}
-	tempname=$dirname/.tmp.$filename
+	dirname=${LOCKFILE%/*}
 
-	# hardlink or move the previous version of the database and signature to .old
-	# extension as a backup measure
-	if [[ -f $REPO_DB_FILE ]]; then
-		ln -f "$REPO_DB_FILE" "$REPO_DB_FILE.old" 2>/dev/null || \
-			mv -f "$REPO_DB_FILE" "$REPO_DB_FILE.old"
+	pushd $dirname >/dev/null
 
-		if [[ -f $REPO_DB_FILE.sig ]]; then
-			ln -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig" 2>/dev/null || \
-				mv -f "$REPO_DB_FILE.sig" "$REPO_DB_FILE.old.sig"
-		else
-			rm -f "$REPO_DB_FILE.old.sig"
+	for repo in "db" "files"; do
+		filename=${REPO_DB_PREFIX}.${repo}.${REPO_DB_SUFFIX}
+		tempname=$dirname/.tmp.$filename
+
+		# hardlink or move the previous version of the database and signature to .old
+		# extension as a backup measure
+		if [[ -f $filename ]]; then
+			ln -f "$filename" "$filename.old" 2>/dev/null || \
+				mv -f "$filename" "$filename.old"
+
+			if [[ -f $filename.sig ]]; then
+				ln -f "$filename.sig" "$filename.old.sig" 2>/dev/null || \
+					mv -f "$filename.sig" "$filename.old.sig"
+			else
+				rm -f "$filename.old.sig"
+			fi
 		fi
-	fi
 
-	# rotate the newly-created database and signature into place
-	mv "$tempname" "$REPO_DB_FILE"
-	if [[ -f $tempname.sig ]]; then
-		mv "$tempname.sig" "$REPO_DB_FILE.sig"
-	fi
+		# rotate the newly-created database and signature into place
+		mv "$tempname" "$filename"
+		if [[ -f $tempname.sig ]]; then
+			mv "$tempname.sig" "$filename.sig"
+		fi
 
-	dblink=${REPO_DB_FILE%.tar*}
-	rm -f "$dblink" "$dblink.sig"
-	ln -s "$filename" "$dblink" 2>/dev/null || \
-		ln "$filename" "$dblink" 2>/dev/null || \
-		cp "$REPO_DB_FILE" "$dblink"
-	if [[ -f "$REPO_DB_FILE.sig" ]]; then
-		ln -s "$filename.sig" "$dblink.sig" 2>/dev/null || \
-			ln "$filename.sig" "$dblink.sig" 2>/dev/null || \
-			cp "$REPO_DB_FILE.sig" "$dblink.sig"
-	fi
+		dblink=${filename%.tar*}
+		rm -f "$dblink" "$dblink.sig"
+		ln -s "$filename" "$dblink" 2>/dev/null || \
+			ln "$filename" "$dblink" 2>/dev/null || \
+			cp "$filename" "$dblink"
+		if [[ -f "$filename.sig" ]]; then
+			ln -s "$filename.sig" "$dblink.sig" 2>/dev/null || \
+				ln "$filename.sig" "$dblink.sig" 2>/dev/null || \
+				cp "$filename.sig" "$dblink.sig"
+		fi
+	done
+
+	popd >/dev/null
 }
 
 create_db() {
 	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
 	# $LOCKFILE is already guaranteed to be absolute so this is safe
 	dirname=${LOCKFILE%/*}
-	filename=${REPO_DB_FILE##*/}
-	# this ensures we create it on the same filesystem, making moves atomic
-	tempname=$dirname/.tmp.$filename
 
-	pushd "$tmpdir/tree" >/dev/null
-	if ( shopt -s nullglob; files=(*); (( ${#files[*]} )) ); then
-		bsdtar -c${TAR_OPT}f "$tempname" *
-	else
-		# we have no packages remaining? zip up some emptyness
-		warning "$(gettext "No packages remain, creating empty database.")"
-		bsdtar -c${TAR_OPT}f "$tempname" -T /dev/null
-	fi
-	popd >/dev/null
+	for repo in "db" "files"; do
+		filename=${REPO_DB_PREFIX}.${repo}.${REPO_DB_SUFFIX}
+		# this ensures we create it on the same filesystem, making moves atomic
+		tempname=$dirname/.tmp.$filename
 
-	create_signature "$tempname"
+		pushd "$tmpdir/$repo" >/dev/null
+		if ( shopt -s nullglob; files=(*); (( ${#files[*]} )) ); then
+			bsdtar -c${TAR_OPT}f "$tempname" *
+		else
+			# we have no packages remaining? zip up some emptyness
+			warning "$(gettext "No packages remain, creating empty database.")"
+			bsdtar -c${TAR_OPT}f "$tempname" -T /dev/null
+		fi
+		popd >/dev/null
+
+		create_signature "$tempname"
+	done
 }
 
 trap_exit() {
@@ -658,6 +702,7 @@ clean_up() {
 
 	exit $exit_code
 }
+
 
 # PROGRAM START
 
@@ -688,7 +733,10 @@ fi
 tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/repo-tools.XXXXXXXXXX") || (\
 	error "$(gettext "Cannot create temp directory for database building.")"; \
 	exit 1)
-mkdir "$tmpdir/tree"
+
+for repo in "db" "files"; do
+	mkdir "$tmpdir/$repo"
+done
 
 trap 'clean_up' EXIT
 for signal in TERM HUP QUIT; do
@@ -705,7 +753,6 @@ while (( $# )); do
 		-d|--delta) DELTA=1;;
 		-n|--new) ONLYADDNEW=1;;
 		-R|--remove) RMEXISTING=1;;
-		-f|--files) WITHFILES=1;;
 		--nocolor) USE_COLOR='n';;
 		-s|--sign)
 			SIGN=1
@@ -740,23 +787,27 @@ else
 fi
 
 verify_repo_extension "$REPO_DB_FILE" >/dev/null
-check_repo_db
 
-if (( SIGN || KEY || VERIFY )); then
+REPO_DB_PREFIX=${REPO_DB_FILE##*/}
+REPO_DB_PREFIX=${REPO_DB_PREFIX%.db.*}
+REPO_DB_SUFFIX=${REPO_DB_FILE##*.db.}
+
+if (( SIGN || VERIFY )); then
 	check_gpg
 fi
 
 check_xdelta
 
-fail=0
+prepare_repo_db
+
 for arg in "${args[@]:1}"; do
 	case $cmd in
 		repo-add) add "$arg" ;;
 		repo-remove) remove "$arg" ;;
-	esac || fail=1
+	esac && success=1
 done
 
-# if the whole operation was a success, re-zip and rotate database
+# if the whole operation was a success, re-zip and rotate databases
 if (( !fail )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 	create_db
