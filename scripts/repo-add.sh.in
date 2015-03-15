@@ -607,6 +607,27 @@ rotate_db() {
 	fi
 }
 
+create_db() {
+	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
+	# $LOCKFILE is already guaranteed to be absolute so this is safe
+	dirname=${LOCKFILE%/*}
+	filename=${REPO_DB_FILE##*/}
+	# this ensures we create it on the same filesystem, making moves atomic
+	tempname=$dirname/.tmp.$filename
+
+	pushd "$tmpdir/tree" >/dev/null
+	if ( shopt -s nullglob; files=(*); (( ${#files[*]} )) ); then
+		bsdtar -c${TAR_OPT}f "$tempname" *
+	else
+		# we have no packages remaining? zip up some emptyness
+		warning "$(gettext "No packages remain, creating empty database.")"
+		bsdtar -c${TAR_OPT}f "$tempname" -T /dev/null
+	fi
+	popd >/dev/null
+
+	create_signature "$tempname"
+}
+
 trap_exit() {
 	# unhook all traps to avoid race conditions
 	trap '' EXIT TERM HUP QUIT INT ERR
@@ -726,26 +747,7 @@ done
 # if at least one operation was a success, re-zip database
 if (( success )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
-
-	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
-	# $LOCKFILE is already guaranteed to be absolute so this is safe
-	dirname=${LOCKFILE%/*}
-	filename=${REPO_DB_FILE##*/}
-	# this ensures we create it on the same filesystem, making moves atomic
-	tempname=$dirname/.tmp.$filename
-
-	pushd "$tmpdir/tree" >/dev/null
-	if ( shopt -s nullglob; files=(*); (( ${#files[*]} )) ); then
-		bsdtar -c${TAR_OPT}f "$tempname" *
-	else
-		# we have no packages remaining? zip up some emptyness
-		warning "$(gettext "No packages remain, creating empty database.")"
-		bsdtar -c${TAR_OPT}f "$tempname" -T /dev/null
-	fi
-	popd >/dev/null
-
-	create_signature "$tempname"
-
+	create_db
 	rotate_db
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
