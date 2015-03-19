@@ -418,18 +418,14 @@ db_write_entry() {
 		format_entry "BUILDDATE" "$builddate"
 		format_entry "PACKAGER"  "$packager"
 		format_entry "REPLACES"  "${_replaces[@]}"
-	} >'desc'
-
-	# create depends entry
-	msg2 "$(gettext "Creating '%s' db entry...")" 'depends'
-	{
-		format_entry "DEPENDS" "${_depends[@]}"
 		format_entry "CONFLICTS" "${_conflicts[@]}"
-		format_entry "PROVIDES" "${_provides[@]}"
+		format_entry "PROVIDES"  "${_provides[@]}"
+
+		format_entry "DEPENDS" "${_depends[@]}"
 		format_entry "OPTDEPENDS" "${_optdepends[@]}"
 		format_entry "MAKEDEPENDS" "${_makedepends[@]}"
 		format_entry "CHECKDEPENDS" "${_checkdepends[@]}"
-	} >'depends'
+	} >'desc'
 
 	popd >/dev/null
 	popd >/dev/null
