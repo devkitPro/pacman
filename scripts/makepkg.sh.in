@@ -2834,6 +2834,21 @@ run_split_packaging() {
 	pkgname=${pkgname_backup[@]}
 }
 
+print_all_package_names() {
+	local version=$(get_full_version)
+	local architecture pkg opts a
+	for pkg in ${pkgname[@]}; do
+		pkgbuild_get_attribute "$pkg" 'arch' 1 architecture
+		pkgbuild_get_attribute "$pkg" 'options' 1 opts
+		for a in ${architecture[@]}; do
+			printf "%s-%s-%s\n" "$pkg" "$version" "$a"
+			if in_opt_array "debug" ${opts[@]} && in_opt_array "strip" ${opts[@]}; then
+				printf "%s-%s-%s-%s\n" "$pkg" "@DEBUGSUFFIX@" "$version" "$a"
+			fi
+		done
+	done
+}
+
 # Canonicalize a directory path if it exists
 canonicalize_path() {
 	local path="$1";
@@ -2893,6 +2908,7 @@ usage() {
 	printf -- "$(gettext "  --nocheck        Do not run the %s function in the %s")\n" "check()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --noprepare      Do not run the %s function in the %s")\n" "prepare()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
+	printf -- "$(gettext "  --packagelist    Only list packages that would be produced, without PKGEXT")\n"
 	printf -- "$(gettext "  --pkg <list>     Only build listed packages from a split package")\n"
 	printf -- "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
 	printf -- "$(gettext "  --skipchecksums  Do not verify checksums of the source files")\n"
@@ -2938,9 +2954,9 @@ ARGLIST=("$@")
 OPT_SHORT="AcCdefFghiLmop:rRsSV"
 OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
           'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'noarchive' 'nobuild'
-          'nocolor' 'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'pkg:' 'repackage'
-          'rmdeps' 'sign' 'skipchecksums' 'skipinteg' 'skippgpcheck' 'source' 'syncdeps'
-          'verifysource' 'version')
+          'nocolor' 'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'packagelist'
+          'pkg:' 'repackage' 'rmdeps' 'sign' 'skipchecksums' 'skipinteg'
+          'skippgpcheck' 'source' 'syncdeps' 'verifysource' 'version')
 
 # Pacman Options
 OPT_LONG+=('asdeps' 'noconfirm' 'needed' 'noprogressbar')
@@ -2983,6 +2999,7 @@ while true; do
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
 		--pkg)            shift; IFS=, read -ra p <<<"$1"; PKGLIST+=("${p[@]}"); unset p ;;
+		--packagelist)    PACKAGELIST=1 IGNOREARCH=1;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--sign)           SIGNPKG='y' ;;
@@ -3262,6 +3279,11 @@ if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]];
 		fi
 		exit 1
 	fi
+fi
+
+if (( PACKAGELIST )); then
+	print_all_package_names
+	exit 0
 fi
 
 if (( ! PKGVERFUNC )); then
