@@ -902,7 +902,7 @@ get_pkg_arch() {
 		fi
 	else
 		local arch_override
-		pkgbuild_get_attribute "$1" arch 0 arch_override
+		pkgbuild_get_attribute "$1" arch 1 arch_override
 		(( ${#arch_override[@]} == 0 )) && arch_override=("${arch[@]}")
 		if [[ $arch_override = "any" ]]; then
 			printf "%s\n" "any"
