@@ -536,6 +536,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 
 	if(pid == 0) {
 		/* this code runs for the child only (the actual chroot/exec) */
+		close(0);
 		close(1);
 		close(2);
 		while(dup2(pipefd[1], 1) == -1 && errno == EINTR);
