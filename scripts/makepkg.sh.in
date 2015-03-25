@@ -2393,8 +2393,8 @@ create_srcpackage() {
 		ln -s "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
 		ret=$?
 		if [[ -f $pkg_file.sig ]]; then
-			rm -f "${pkg_file/$PKGDEST/$startdir}.sig"
-			ln -s "$pkg_file.sig" "${pkg_file/$PKGDEST/$startdir}.sig"
+			rm -f "${pkg_file/$SRCPKGDEST/$startdir}.sig"
+			ln -s "$pkg_file.sig" "${pkg_file/$SRCPKGDEST/$startdir}.sig"
 		fi
 	fi
 
