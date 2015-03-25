@@ -384,15 +384,16 @@ static int handle_simple_path(alpm_pkg_t *pkg, const char *path)
  * @param path path of the file to be added
  * @return <0 on error, 0 on success
  */
-static int add_entry_to_files_list(alpm_pkg_t *pkg, size_t *files_size,
-		struct archive_entry *entry, const char *path)
+static int add_entry_to_files_list(alpm_filelist_t *filelist,
+		size_t *files_size, struct archive_entry *entry, const char *path)
 {
-	const size_t files_count = pkg->files.count;
+	const size_t files_count = filelist->count;
 	alpm_file_t *current_file;
 	mode_t type;
 	size_t pathlen;
 
-	if(!_alpm_greedy_grow((void **)&pkg->files.files, files_size, (files_count + 1) * sizeof(alpm_file_t))) {
+	if(!_alpm_greedy_grow((void **)&filelist->files,
+				files_size, (files_count + 1) * sizeof(alpm_file_t))) {
 		return -1;
 	}
 
@@ -400,7 +401,7 @@ static int add_entry_to_files_list(alpm_pkg_t *pkg, size_t *files_size,
 
 	pathlen = strlen(path);
 
-	current_file = pkg->files.files + files_count;
+	current_file = filelist->files + files_count;
 
 	/* mtree paths don't contain a tailing slash, those we get from
 	 * the archive directly do (expensive way)
@@ -418,7 +419,7 @@ static int add_entry_to_files_list(alpm_pkg_t *pkg, size_t *files_size,
 	}
 	current_file->size = archive_entry_size(entry);
 	current_file->mode = archive_entry_mode(entry);
-	pkg->files.count++;
+	filelist->count++;
 	return 0;
 }
 
@@ -509,7 +510,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 			continue;
 		}
 
-		if(add_entry_to_files_list(pkg, &files_size, mtree_entry, path) < 0) {
+		if(add_entry_to_files_list(&pkg->files, &files_size, mtree_entry, path) < 0) {
 			goto error;
 		}
 	}
@@ -617,7 +618,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 			continue;
 		} else if(full && !hit_mtree) {
 			/* building the file list: expensive way */
-			if(add_entry_to_files_list(newpkg, &files_size, entry, entry_name) < 0) {
+			if(add_entry_to_files_list(&newpkg->files, &files_size, entry, entry_name) < 0) {
 				goto error;
 			}
 		}
