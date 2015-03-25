@@ -445,17 +445,12 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 	char *mtree_data = NULL;
 	struct archive *mtree;
 	struct archive_entry *mtree_entry = NULL;
+	alpm_filelist_t filelist;
 
 	_alpm_log(handle, ALPM_LOG_DEBUG,
 			"found mtree for package %s, getting file list\n", pkg->filename);
 
-	/* throw away any files we might have already found */
-	for(i = 0; i < pkg->files.count; i++) {
-		free(pkg->files.files[i].name);
-	}
-	free(pkg->files.files);
-	pkg->files.files = NULL;
-	pkg->files.count = 0;
+	memset(&filelist, 0, sizeof(alpm_filelist_t));
 
 	/* create a new archive to parse the mtree and load it from archive into memory */
 	/* TODO: split this into a function */
@@ -478,7 +473,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 		size = archive_read_data(archive, mtree_data + mtree_cursize, ALPM_BUFFER_SIZE);
 
 		if(size < 0) {
-			_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading package %s: %s\n"),
+			_alpm_log(handle, ALPM_LOG_DEBUG, _("error while reading package %s: %s\n"),
 					pkg->filename, archive_error_string(archive));
 			handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 			goto error;
@@ -491,7 +486,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 	}
 
 	if(archive_read_open_memory(mtree, mtree_data, mtree_cursize)) {
-		_alpm_log(handle, ALPM_LOG_ERROR,
+		_alpm_log(handle, ALPM_LOG_DEBUG,
 				_("error while reading mtree of package %s: %s\n"),
 				pkg->filename, archive_error_string(mtree));
 		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
@@ -510,23 +505,38 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 			continue;
 		}
 
-		if(add_entry_to_files_list(&pkg->files, &files_size, mtree_entry, path) < 0) {
+		if(add_entry_to_files_list(&filelist, &files_size, mtree_entry, path) < 0) {
 			goto error;
 		}
 	}
 
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occurred */
-		_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading mtree of package %s: %s\n"),
+		_alpm_log(handle, ALPM_LOG_DEBUG, _("error while reading mtree of package %s: %s\n"),
 				pkg->filename, archive_error_string(mtree));
 		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 		goto error;
 	}
+
+	/* throw away any files we loaded directly from the archive */
+	for(i = 0; i < pkg->files.count; i++) {
+		free(pkg->files.files[i].name);
+	}
+	free(pkg->files.files);
+
+	/* copy over new filelist */
+	memcpy(&pkg->files, &filelist, sizeof(alpm_filelist_t));
 
 	free(mtree_data);
 	_alpm_archive_read_free(mtree);
 	_alpm_log(handle, ALPM_LOG_DEBUG, "finished mtree reading for %s\n", pkg->filename);
 	return 0;
 error:
+	/* throw away any files we loaded from the mtree */
+	for(i = 0; i < filelist.count; i++) {
+		free(filelist.files[i].name);
+	}
+	free(filelist.files);
+
 	free(mtree_data);
 	_alpm_archive_read_free(mtree);
 	return -1;
@@ -609,10 +619,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 			/* building the file list: cheap way
 			 * get the filelist from the mtree file rather than scanning
 			 * the whole archive  */
-			if(build_filelist_from_mtree(handle, newpkg, archive) < 0) {
-				goto error;
-			}
-			hit_mtree = 1;
+			hit_mtree = build_filelist_from_mtree(handle, newpkg, archive) == 0;
 			continue;
 		} else if(handle_simple_path(newpkg, entry_name)) {
 			continue;
