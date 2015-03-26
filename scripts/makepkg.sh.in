@@ -3413,10 +3413,13 @@ if (( NOBUILD )); then
 	msg "$(gettext "Sources are ready.")"
 	exit 0 #E_OK
 else
-	# clean existing pkg directory
+	# clean existing pkg directories
 	if [[ -d $pkgdirbase ]]; then
 		msg "$(gettext "Removing existing %s directory...")" "\$pkgdir/"
-		rm -rf "$pkgdirbase"
+		for pkg in "${pkgname[@]}"; do
+			rm -rf "$pkgdirbase/$pkg"
+		done
+		unset pkg
 	fi
 	mkdir -p "$pkgdirbase"
 	chmod a-srwx "$pkgdirbase"
