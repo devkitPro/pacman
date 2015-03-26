@@ -879,7 +879,7 @@ get_pkg_arch() {
 		fi
 	else
 		local arch_override
-		pkgbuild_get_attribute "$1" arch 0 arch_override
+		pkgbuild_get_attribute "$1" arch 1 arch_override
 		(( ${#arch_override[@]} == 0 )) && arch_override=("${arch[@]}")
 		if [[ $arch_override = "any" ]]; then
 			printf "%s\n" "any"
@@ -2106,8 +2106,8 @@ create_srcpackage() {
 		ln -s "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
 		ret=$?
 		if [[ -f $pkg_file.sig ]]; then
-			rm -f "${pkg_file/$PKGDEST/$startdir}.sig"
-			ln -s "$pkg_file.sig" "${pkg_file/$PKGDEST/$startdir}.sig"
+			rm -f "${pkg_file/$SRCPKGDEST/$startdir}.sig"
+			ln -s "$pkg_file.sig" "${pkg_file/$SRCPKGDEST/$startdir}.sig"
 		fi
 	fi
 
