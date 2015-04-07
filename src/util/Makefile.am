@@ -15,7 +15,8 @@ AM_CPPFLAGS = \
 	-DGPGDIR=\"$(gpgdir)\" \
 	-DCACHEDIR=\"$(cachedir)\"
 
-AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)
+AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS) \
+	$(LIBARCHIVE_CFLAGS)
 
 cleanupdelta_SOURCES = cleanupdelta.c
 cleanupdelta_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
