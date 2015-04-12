@@ -119,9 +119,6 @@ int _alpm_unpack(alpm_handle_t *handle, const char *archive, const char *prefix,
 
 ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path, int full_count);
 
-int _alpm_logaction(alpm_handle_t *handle, const char *prefix, const char *fmt, va_list args)
-	__attribute__((format(printf, 3, 0)));
-
 int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[]);
 int _alpm_ldconfig(alpm_handle_t *handle);
 int _alpm_str_cmp(const void *s1, const void *s2);
