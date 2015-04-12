@@ -68,7 +68,7 @@ int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *prefix,
 			} else {
 				handle->pm_errno = ALPM_ERR_SYSTEM;
 			}
-			return -1;
+			ret = -1;
 		}
 	}
 
