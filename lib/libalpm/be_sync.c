@@ -247,7 +247,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 				/* print final_db_url into a buffer (leave space for .sig) */
 				len = strlen(final_db_url) + 5;
 			} else {
-				/* print server + filename into a buffer (leave space for .sig) */
+				/* print server + filename into a buffer (leave space for separator and .db.sig) */
 				len = strlen(server) + strlen(db->treename) + 9;
 			}
 
