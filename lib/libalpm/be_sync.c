@@ -241,9 +241,16 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			unlink(sigpath);
 			free(sigpath);
 
-			/* if we downloaded a DB, we want the .sig from the same server -
-			   this information is only available from the internal downloader */
-			if(handle->fetchcb == NULL) {
+
+			/* check if the final URL from internal downloader looks reasonable */
+			if(final_db_url != NULL) {
+				if(strlen(final_db_url) < 3 || strcmp(final_db_url + strlen(final_db_url) - 3, ".db") != 0) {
+					final_db_url = NULL;
+				}
+			}
+
+			/* if we downloaded a DB, we want the .sig from the same server */
+			if(final_db_url != NULL) {
 				/* print final_db_url into a buffer (leave space for .sig) */
 				len = strlen(final_db_url) + 5;
 			} else {
@@ -254,7 +261,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			/* TODO fix leak syncpath and umask unset */
 			MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
-			if(handle->fetchcb == NULL) {
+			if(final_db_url != NULL) {
 				snprintf(payload.fileurl, len, "%s.sig", final_db_url);
 			} else {
 				snprintf(payload.fileurl, len, "%s/%s.db.sig", server, db->treename);
