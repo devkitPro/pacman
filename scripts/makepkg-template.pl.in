@@ -27,7 +27,7 @@ use Module::Load::Conditional qw(can_load);
 
 my %opts = (
 	input => '@BUILDSCRIPT@',
-	template_dir => '@TEMPLATE_DIR@',
+	template_dir => ['@TEMPLATE_DIR@'],
 );
 
 my $template_name_charset = qr/[[:alnum:]+_.@-]/;
@@ -98,26 +98,31 @@ sub load_template {
 
 	my $ret = "";
 
-	my $path;
+	my $template_name = "$values->{name}";
 	if (!$opts{newest} and $values->{version}) {
-		$path = "$opts{template_dir}/$values->{name}-$values->{version}.template";
-	} else {
-		$path = "$opts{template_dir}/$values->{name}.template";
+		$template_name .= "-$values->{version}";
 	}
+	$template_name .= ".template";
 
-	# resolve symlink(s) and use the real file's name for version detection
-	my ($version) = (abs_path($path) =~ /-([0-9.]+)[.]template$/);
+	foreach my $dir (reverse @{$opts{template_dir}}) {
+		my $path = "$dir/$template_name";
+		if ( -e $path ) {
+			# resolve symlink(s) and use the real file's name for version detection
+			my ($version) = (abs_path($path) =~ /-([0-9.]+)[.]template$/);
 
-	if (!$version) {
-		die sprintf(gettext("Couldn't detect version for template '%s'\n"), $values->{name});
+			if (!$version) {
+				die sprintf(gettext("Couldn't detect version for template '%s'\n"), $path);
+			}
+
+			my $parsed = process_file($path);
+
+			$ret .= "# template start; name=$values->{name}; version=$version;\n";
+			$ret .= $parsed;
+			$ret .= "# template end;\n";
+			return $ret;
+		}
 	}
-
-	my $parsed = process_file($path);
-
-	$ret .= "# template start; name=$values->{name}; version=$version;\n";
-	$ret .= $parsed;
-	$ret .= "# template end;\n";
-	return $ret;
+	die sprintf(gettext("Failed to find template file matching '%s'\n"), $template_name);
 }
 
 # process input file and load templates for all markers found
@@ -199,7 +204,7 @@ GetOptions(
 	"input|p=s" => \$opts{input},
 	"output|o=s" => \$opts{output},
 	"newest|n" => \$opts{newest},
-	"template-dir=s" => \$opts{template_dir},
+	"template-dir=s@" => \$opts{template_dir},
 ) or usage(1);
 
 $opts{output} = $opts{input} unless $opts{output};

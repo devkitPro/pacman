@@ -7,7 +7,7 @@ _setup_testcase() {
 
 # set IFS="" if you want trailing new lines, otherwise remove it
 IFS="" read -d '' expected_output <<'EOF'
-failed to open './makepkg-template-tests/missing-template-file/templates/perl-module-1.0.template': No such file or directory
+Failed to find template file matching 'perl-module-1.0.template'
 EOF
 
 IFS="" read -d '' expected_result <<'EOF'

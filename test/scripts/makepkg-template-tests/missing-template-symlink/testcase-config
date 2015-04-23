@@ -1,8 +1,8 @@
 arguments+=()
-expected_exitcode=255
+expected_exitcode=2
 
 IFS="" read -d '' expected_output <<'EOF'
-Couldn't detect version for template 'perl-module'
+Failed to find template file matching 'perl-module.template'
 EOF
 
 IFS="" read -d '' expected_result <<'EOF'
