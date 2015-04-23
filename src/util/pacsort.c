@@ -308,7 +308,7 @@ static const char *nth_column(const char *string)
 	int col;
 
 	ptr = prev = string;
-	for(col = 1; ptr && col <= opts.sortkey; col++) {
+	for(col = 0; ptr && col < opts.sortkey; col++) {
 		prev = ptr;
 		ptr = strchr(ptr, opts.delim);
 		if(ptr) {
