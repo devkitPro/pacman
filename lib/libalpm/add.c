@@ -148,7 +148,7 @@ static int extract_db_file(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, alpm_pkg_t *newpkg, const char *entryname)
 {
 	char filename[PATH_MAX]; /* the actual file we're extracting */
-	const char *dbfile;
+	const char *dbfile = NULL;
 	if(strcmp(entryname, ".INSTALL") == 0) {
 		dbfile = "install";
 	} else if(strcmp(entryname, ".CHANGELOG") == 0) {
