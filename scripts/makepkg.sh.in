@@ -889,20 +889,6 @@ get_pkg_arch() {
 	fi
 }
 
-##
-#  usage : in_array( $needle, $haystack )
-# return : 0 - found
-#          1 - not found
-##
-in_array() {
-	local needle=$1; shift
-	local item
-	for item in "$@"; do
-		[[ $item = "$needle" ]] && return 0 # Found
-	done
-	return 1 # Not Found
-}
-
 source_has_signatures() {
 	local file all_sources
 

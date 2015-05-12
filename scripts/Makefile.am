@@ -48,7 +48,8 @@ LIBMAKEPKGDIRS = \
 LIBMAKEPKG = \
 	libmakepkg/util/message.sh \
 	libmakepkg/util/option.sh \
-	libmakepkg/util/pkgbuild.sh
+	libmakepkg/util/pkgbuild.sh \
+	libmakepkg/util/util.sh
 
 LIBMAKEPKG_IN = \
 	libmakepkg/lint_package.sh \
