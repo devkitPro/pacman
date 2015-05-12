@@ -407,8 +407,10 @@ An optional global directive is available when building a split package:
 *pkgbase*::
 	The name used to refer to the group of packages in the output of makepkg
 	and in the naming of source-only tarballs. If not specified, the first
-	element in the `pkgname` array is used. The variable is not allowed to
-	begin with a hyphen.
+	element in the `pkgname` array is used. Valid characters for this
+	variable are alphanumerics, and any of the following characters:
+	```@ . _ + -`''. Additionally, the variable is not allowed to start with
+	hyphens or dots.
 
 
 Install/Upgrade/Remove Scripting

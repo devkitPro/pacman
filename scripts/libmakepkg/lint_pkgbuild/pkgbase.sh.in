@@ -34,4 +34,13 @@ lint_pkgbase() {
 		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
 		return 1
 	fi
+	if [[ ${pkgbase:0:1} = "." ]]; then
+		error "$(gettext "%s is not allowed to start with a dot.")" "pkgbase"
+		ret=1
+	fi
+	if [[ $pkgbase = *[^[:alnum:]+_.@-]* ]]; then
+		error "$(gettext "%s contains invalid characters: '%s'")" \
+				'pkgbase' "${i//[[:alnum:]+_.@-]}"
+		ret=1
+	fi
 }
