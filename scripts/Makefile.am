@@ -42,6 +42,7 @@ libmakepkgdir = $(datarootdir)/makepkg
 
 LIBMAKEPKGDIRS = \
 	lint_package \
+	lint_pkgbuild \
 	tidy \
 	util
 
@@ -55,6 +56,23 @@ LIBMAKEPKG_IN = \
 	libmakepkg/lint_package.sh \
 	libmakepkg/lint_package/build_references.sh \
 	libmakepkg/lint_package/missing_backup.sh \
+	libmakepkg/lint_pkgbuild.sh \
+	libmakepkg/lint_pkgbuild/arch.sh \
+	libmakepkg/lint_pkgbuild/backup.sh \
+	libmakepkg/lint_pkgbuild/changelog.sh \
+	libmakepkg/lint_pkgbuild/epoch.sh \
+	libmakepkg/lint_pkgbuild/install.sh \
+	libmakepkg/lint_pkgbuild/optdepends.sh \
+	libmakepkg/lint_pkgbuild/options.sh \
+	libmakepkg/lint_pkgbuild/package_function.sh \
+	libmakepkg/lint_pkgbuild/pkgbase.sh \
+	libmakepkg/lint_pkgbuild/pkglist.sh \
+	libmakepkg/lint_pkgbuild/pkgname.sh \
+	libmakepkg/lint_pkgbuild/pkgrel.sh \
+	libmakepkg/lint_pkgbuild/pkgver.sh \
+	libmakepkg/lint_pkgbuild/provides.sh \
+	libmakepkg/lint_pkgbuild/source.sh \
+	libmakepkg/lint_pkgbuild/util.sh \
 	libmakepkg/tidy.sh \
 	libmakepkg/tidy/docs.sh \
 	libmakepkg/tidy/emptydirs.sh \
