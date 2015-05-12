@@ -109,3 +109,38 @@ get_pkgbuild_attribute() {
 		extract_global_variable "$attrname" "$isarray" "$outputvar"
 	fi
 }
+
+##
+#  usage : get_full_version()
+# return : full version spec, including epoch (if necessary), pkgver, pkgrel
+##
+get_full_version() {
+	if (( epoch > 0 )); then
+		printf "%s\n" "$epoch:$pkgver-$pkgrel"
+	else
+		printf "%s\n" "$pkgver-$pkgrel"
+	fi
+}
+
+##
+#  usage : get_pkg_arch( [$pkgname] )
+# return : architecture of the package
+##
+get_pkg_arch() {
+	if [[ -z $1 ]]; then
+		if [[ $arch = "any" ]]; then
+			printf "%s\n" "any"
+		else
+			printf "%s\n" "$CARCH"
+		fi
+	else
+		local arch_override
+		get_pkgbuild_attribute "$1" arch 1 arch_override
+		(( ${#arch_override[@]} == 0 )) && arch_override=("${arch[@]}")
+		if [[ $arch_override = "any" ]]; then
+			printf "%s\n" "any"
+		else
+			printf "%s\n" "$CARCH"
+		fi
+	fi
+}
