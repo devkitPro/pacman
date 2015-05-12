@@ -18,7 +18,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-[ -n "$LIBMAKEPKG_LINT_PACKAGE_SH" ] && return
+[[ -n "$LIBMAKEPKG_LINT_PACKAGE_SH" ]] && return
 LIBMAKEPKG_LINT_PACKAGE_SH=1
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
