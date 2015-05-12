@@ -29,20 +29,16 @@ source "$LIBRARY/util/message.sh"
 lint_pkgbuild_functions+=('lint_pkgver')
 
 
-validate_pkgver() {
-	if [[ $1 = *[[:space:]:-]* ]]; then
-		error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
-		return 1
-	fi
-}
-
 check_pkgver() {
 	if [[ -z ${pkgver} ]]; then
 		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
 		return 1
 	fi
 
-	validate_pkgver "$pkgver"
+	if [[ $1 = *[[:space:]:-]* ]]; then
+		error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
+		return 1
+	fi
 }
 
 lint_pkgver() {
