@@ -879,7 +879,7 @@ get_pkg_arch() {
 		fi
 	else
 		local arch_override
-		pkgbuild_get_attribute "$1" arch 1 arch_override
+		get_pkgbuild_attribute "$1" arch 1 arch_override
 		(( ${#arch_override[@]} == 0 )) && arch_override=("${arch[@]}")
 		if [[ $arch_override = "any" ]]; then
 			printf "%s\n" "any"
@@ -1759,7 +1759,7 @@ pkgbuild_extract_to_srcinfo() {
 
 	local pkgname=$1 attrname=$2 isarray=$3 outvalue=
 
-	if pkgbuild_get_attribute "$pkgname" "$attrname" "$isarray" 'outvalue'; then
+	if get_pkgbuild_attribute "$pkgname" "$attrname" "$isarray" 'outvalue'; then
 		srcinfo_write_attr "$attrname" "${outvalue[@]}"
 	fi
 }
@@ -1778,7 +1778,7 @@ srcinfo_write_section_details() {
 		pkgbuild_extract_to_srcinfo "$1" "$attr" 1
 	done
 
-	pkgbuild_get_attribute "$1" 'arch' 1 'package_arch'
+	get_pkgbuild_attribute "$1" 'arch' 1 'package_arch'
 	for a in "${package_arch[@]}"; do
 		# 'any' is special. there's no support for, e.g. depends_any.
 		[[ $a = any ]] && continue
@@ -2062,7 +2062,7 @@ create_srcpackage() {
 
 		[[ ${!i} ]] && files+=("${!i}")
 		for name in "${pkgname[@]}"; do
-			if extract_function_var "package_$name" "$i" 0 file; then
+			if extract_function_variable "package_$name" "$i" 0 file; then
 				files+=("$file")
 			fi
 		done
@@ -2146,94 +2146,6 @@ install_package() {
 	if ! run_pacman -U "${pkglist[@]}"; then
 		warning "$(gettext "Failed to install built package(s).")"
 		return 0
-	fi
-}
-
-have_function() {
-	declare -f "$1" >/dev/null
-}
-
-array_build() {
-	local dest=$1 src=$2 i keys values
-
-	# it's an error to try to copy a value which doesn't exist.
-	declare -p "$2" &>/dev/null || return 1
-
-	# Build an array of the indicies of the source array.
-	eval "keys=(\"\${!$2[@]}\")"
-
-	# Clear the destination array
-	eval "$dest=()"
-
-	# Read values indirectly via their index. This approach gives us support
-	# for associative arrays, sparse arrays, and empty strings as elements.
-	for i in "${keys[@]}"; do
-		values+=("printf -v '$dest[$i]' %s \"\${$src[$i]}\";")
-	done
-
-	eval "${values[*]}"
-}
-
-funcgrep() {
-	{ declare -f "$1" || declare -f package; } 2>/dev/null | grep -E "$2"
-}
-
-extract_global_var() {
-	# $1: variable name
-	# $2: multivalued
-	# $3: name of output var
-
-	local attr=$1 isarray=$2 outputvar=$3 ref
-
-	if (( isarray )); then
-		array_build ref "$attr"
-		[[ ${ref[@]} ]] && array_build "$outputvar" "$attr"
-	else
-		[[ ${!attr} ]] && printf -v "$outputvar" %s "${!attr}"
-	fi
-}
-
-extract_function_var() {
-	# $1: function name
-	# $2: variable name
-	# $3: multivalued
-	# $4: name of output var
-
-	local funcname=$1 attr=$2 isarray=$3 outputvar=$4 attr_regex= decl= r=1
-
-	if (( isarray )); then
-		printf -v attr_regex '^[[:space:]]* %s\+?=\(' "$2"
-	else
-		printf -v attr_regex '^[[:space:]]* %s\+?=[^(]' "$2"
-	fi
-
-	while read -r; do
-		# strip leading whitespace and any usage of declare
-		decl=${REPLY##*([[:space:]])}
-		eval "${decl/#$attr/$outputvar}"
-
-		# entering this loop at all means we found a match, so notify the caller.
-		r=0
-	done < <(funcgrep "$funcname" "$attr_regex")
-
-	return $r
-}
-
-pkgbuild_get_attribute() {
-	# $1: package name
-	# $2: attribute name
-	# $3: multivalued
-	# $4: name of output var
-
-	local pkgname=$1 attrname=$2 isarray=$3 outputvar=$4
-
-	printf -v "$outputvar" %s ''
-
-	if [[ $pkgname ]]; then
-		extract_global_var "$attrname" "$isarray" "$outputvar"
-		extract_function_var "package_$pkgname" "$attrname" "$isarray" "$outputvar"
-	else
-		extract_global_var "$attrname" "$isarray" "$outputvar"
 	fi
 }
 
@@ -2322,7 +2234,7 @@ lint_arch() {
 	fi
 
 	for name in "${pkgname[@]}"; do
-		pkgbuild_get_attribute "$name" 'arch' 1 list
+		get_pkgbuild_attribute "$name" 'arch' 1 list
 		if [[ $list && $list != 'any' ]] && ! in_array $CARCH "${list[@]}"; then
 			if (( ! IGNOREARCH )); then
 				error "$(gettext "%s is not available for the '%s' architecture.")" "$name" "$CARCH"
@@ -2342,12 +2254,12 @@ lint_provides() {
 	done
 
 	for name in "${pkgname[@]}"; do
-		if extract_function_var "package_$name" provides 1 list; then
+		if extract_function_variable "package_$name" provides 1 list; then
 			provides_list+=("${list[@]}")
 		fi
 
 		for a in "${arch[@]}"; do
-			if extract_function_var "package_$name" "provides_$a" 1 list; then
+			if extract_function_variable "package_$name" "provides_$a" 1 list; then
 				provides_list+=("${list[@]}")
 			fi
 		done
@@ -2368,7 +2280,7 @@ lint_backup() {
 
 	backup_list=("${backup[@]}")
 	for name in "${pkgname[@]}"; do
-		if extract_function_var "package_$name" backup 1 list; then
+		if extract_function_variable "package_$name" backup 1 list; then
 			backup_list+=("${list[@]}")
 		fi
 	done
@@ -2393,12 +2305,12 @@ lint_optdepends() {
 	done
 
 	for name in "${pkgname[@]}"; do
-		if extract_function_var "package_$name" optdepends 1 list; then
+		if extract_function_variable "package_$name" optdepends 1 list; then
 			optdepends_list+=("${list[@]}")
 		fi
 
 		for a in "${arch[@]}"; do
-			if extract_function_var "package_$name" "optdepends_$a" 1 list; then
+			if extract_function_variable "package_$name" "optdepends_$a" 1 list; then
 				optdepends_list+=("${list[@]}")
 			fi
 		done
@@ -2435,7 +2347,7 @@ lint_install() {
 
 	install_list=("${install[@]}")
 	for name in "${pkgname[@]}"; do
-		extract_function_var "package_$name" install 0 file
+		extract_function_variable "package_$name" install 0 file
 		install_list+=("$file")
 	done
 
@@ -2447,7 +2359,7 @@ lint_changelog() {
 
 	changelog_list=("${changelog[@]}")
 	for name in "${pkgname[@]}"; do
-		if extract_function_var "package_$name" changelog 0 file; then
+		if extract_function_variable "package_$name" changelog 0 file; then
 			changelog_list+=("$file")
 		fi
 	done
@@ -2460,7 +2372,7 @@ lint_options() {
 
 	options_list=("${options[@]}")
 	for name in "${pkgname[@]}"; do
-		if extract_function_var "package_$name" options 1 list; then
+		if extract_function_variable "package_$name" options 1 list; then
 			options_list+=("${list[@]}")
 		fi
 	done
@@ -2606,10 +2518,10 @@ check_vcs_software() {
 
 	# we currently only use global depends/makedepends arrays for --syncdeps
 	for attr in depends makedepends; do
-		pkgbuild_get_attribute "$pkg" "$attr" 1 'deps'
+		get_pkgbuild_attribute "$pkg" "$attr" 1 'deps'
 		all_deps+=("${deps[@]}")
 
-		pkgbuild_get_attribute "$pkg" "${attr}_$CARCH" 1 'deps'
+		get_pkgbuild_attribute "$pkg" "${attr}_$CARCH" 1 'deps'
 		all_deps+=("${deps[@]}")
 	done
 
@@ -2838,8 +2750,8 @@ print_all_package_names() {
 	local version=$(get_full_version)
 	local architecture pkg opts a
 	for pkg in ${pkgname[@]}; do
-		pkgbuild_get_attribute "$pkg" 'arch' 1 architecture
-		pkgbuild_get_attribute "$pkg" 'options' 1 opts
+		get_pkgbuild_attribute "$pkg" 'arch' 1 architecture
+		get_pkgbuild_attribute "$pkg" 'options' 1 opts
 		for a in ${architecture[@]}; do
 			printf "%s-%s-%s\n" "$pkg" "$version" "$a"
 			if in_opt_array "debug" ${opts[@]} && in_opt_array "strip" ${opts[@]}; then
