@@ -18,7 +18,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-[ -n "$LIBMAKEPKG_UTIL_PKGBUILD_SH" ] && return
+[[ -n "$LIBMAKEPKG_UTIL_PKGBUILD_SH" ]] && return
 LIBMAKEPKG_UTIL_PKGBUILD_SH=1
 
 
@@ -143,4 +143,49 @@ get_pkg_arch() {
 			printf "%s\n" "$CARCH"
 		fi
 	fi
+}
+
+print_all_package_names() {
+	local version=$(get_full_version)
+	local architecture pkg opts a
+	for pkg in ${pkgname[@]}; do
+		get_pkgbuild_attribute "$pkg" 'arch' 1 architecture
+		get_pkgbuild_attribute "$pkg" 'options' 1 opts
+		for a in ${architecture[@]}; do
+			printf "%s-%s-%s\n" "$pkg" "$version" "$a"
+			if in_opt_array "debug" ${opts[@]} && in_opt_array "strip" ${opts[@]}; then
+				printf "%s-%s-%s-%s\n" "$pkg" "@DEBUGSUFFIX@" "$version" "$a"
+			fi
+		done
+	done
+}
+
+get_all_sources() {
+	local aggregate l a
+
+	if array_build l 'source'; then
+		aggregate+=("${l[@]}")
+	fi
+
+	for a in "${arch[@]}"; do
+		if array_build l "source_$a"; then
+			aggregate+=("${l[@]}")
+		fi
+	done
+
+	array_build "$1" "aggregate"
+}
+
+get_all_sources_for_arch() {
+	local aggregate l
+
+	if array_build l 'source'; then
+		aggregate+=("${l[@]}")
+	fi
+
+	if array_build l "source_$CARCH"; then
+		aggregate+=("${l[@]}")
+	fi
+
+	array_build "$1" "aggregate"
 }
