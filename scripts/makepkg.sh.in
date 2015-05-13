@@ -1415,14 +1415,6 @@ error_function() {
 	exit 2 # $E_BUILD_FAILED
 }
 
-cd_safe() {
-	if ! cd "$1"; then
-		error "$(gettext "Failed to change to directory %s")" "$1"
-		plain "$(gettext "Aborting...")"
-		exit 1
-	fi
-}
-
 source_safe() {
 	shopt -u extglob
 	if ! source "$@"; then
@@ -2378,28 +2370,6 @@ print_all_package_names() {
 			fi
 		done
 	done
-}
-
-# Canonicalize a directory path if it exists
-canonicalize_path() {
-	local path="$1";
-
-	if [[ -d $path ]]; then
-		(
-			cd_safe "$path"
-			pwd -P
-		)
-	else
-		printf "%s\n" "$path"
-	fi
-}
-
-dir_is_empty() {
-	(
-		shopt -s dotglob nullglob
-		files=("$1"/*)
-		(( ${#files} == 0 ))
-	)
 }
 
 m4_include(library/parseopts.sh)

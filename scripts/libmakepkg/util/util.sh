@@ -19,7 +19,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-[ -n "$LIBMAKEPKG_UTIL_UTIL_SH" ] && return
+[[ -n "$LIBMAKEPKG_UTIL_UTIL_SH" ]] && return
 LIBMAKEPKG_UTIL_UTIL_SH=1
 
 
@@ -35,4 +35,34 @@ in_array() {
 		[[ $item = "$needle" ]] && return 0 # Found
 	done
 	return 1 # Not Found
+}
+
+# Canonicalize a directory path if it exists
+canonicalize_path() {
+	local path="$1";
+
+	if [[ -d $path ]]; then
+		(
+			cd_safe "$path"
+			pwd -P
+		)
+	else
+		printf "%s\n" "$path"
+	fi
+}
+
+dir_is_empty() {
+	(
+		shopt -s dotglob nullglob
+		files=("$1"/*)
+		(( ${#files} == 0 ))
+	)
+}
+
+cd_safe() {
+	if ! cd "$1"; then
+		error "$(gettext "Failed to change to directory %s")" "$1"
+		plain "$(gettext "Aborting...")"
+		exit 1
+	fi
 }
