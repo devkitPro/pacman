@@ -43,6 +43,7 @@ libmakepkgdir = $(datarootdir)/makepkg
 LIBMAKEPKGDIRS = \
 	lint_package \
 	lint_pkgbuild \
+	source \
 	tidy \
 	util
 
@@ -73,6 +74,13 @@ LIBMAKEPKG_IN = \
 	libmakepkg/lint_pkgbuild/provides.sh \
 	libmakepkg/lint_pkgbuild/source.sh \
 	libmakepkg/lint_pkgbuild/util.sh \
+	libmakepkg/source.sh \
+	libmakepkg/source/bzr.sh \
+	libmakepkg/source/file.sh \
+	libmakepkg/source/git.sh \
+	libmakepkg/source/hg.sh \
+	libmakepkg/source/local.sh \
+	libmakepkg/source/svn.sh \
 	libmakepkg/tidy.sh \
 	libmakepkg/tidy/docs.sh \
 	libmakepkg/tidy/emptydirs.sh \
