@@ -83,7 +83,8 @@ LIBMAKEPKG_IN = \
 	libmakepkg/tidy/strip.sh \
 	libmakepkg/tidy/upx.sh \
 	libmakepkg/tidy/zipman.sh \
-	libmakepkg/util.sh
+	libmakepkg/util.sh \
+	libmakepkg/util/source.sh
 
 LIBMAKEPKG_DIST = \
 	$(LIBMAKEPKG) \
