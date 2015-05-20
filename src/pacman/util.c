@@ -1204,9 +1204,10 @@ static int depend_cmp(const void *d1, const void *d2)
 
 static char *make_optstring(alpm_depend_t *optdep)
 {
+	alpm_db_t *localdb = alpm_get_localdb(config->handle);
 	char *optstring = alpm_dep_compute_string(optdep);
 	char *status = NULL;
-	if(alpm_db_get_pkg(alpm_get_localdb(config->handle), optdep->name)) {
+	if(alpm_find_satisfier(alpm_db_get_pkgcache(localdb), optdep->name)) {
 		status = _(" [installed]");
 	} else if(alpm_pkg_find(alpm_trans_get_add(config->handle), optdep->name)) {
 		status = _(" [pending]");
