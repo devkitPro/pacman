@@ -1723,6 +1723,7 @@ usage() {
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
 	printf -- "$(gettext "  --packagelist    Only list packages that would be produced, without PKGEXT")\n"
 	printf -- "$(gettext "  --pkg <list>     Only build listed packages from a split package")\n"
+	printf -- "$(gettext "  --printsrcinfo   Print the generated SRCINFO and exit")\n"
 	printf -- "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
 	printf -- "$(gettext "  --skipchecksums  Do not verify checksums of the source files")\n"
 	printf -- "$(gettext "  --skipinteg      Do not perform any verification checks on source files")\n"
@@ -1768,7 +1769,7 @@ OPT_SHORT="AcCdefFghiLmop:rRsSV"
 OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
           'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'noarchive' 'nobuild'
           'nocolor' 'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'packagelist'
-          'pkg:' 'repackage' 'rmdeps' 'sign' 'skipchecksums' 'skipinteg'
+          'pkg:' 'printsrcinfo' 'repackage' 'rmdeps' 'sign' 'skipchecksums' 'skipinteg'
           'skippgpcheck' 'source' 'syncdeps' 'verifysource' 'version')
 
 # Pacman Options
@@ -1813,6 +1814,7 @@ while true; do
 		-p)               shift; BUILDFILE=$1 ;;
 		--pkg)            shift; IFS=, read -ra p <<<"$1"; PKGLIST+=("${p[@]}"); unset p ;;
 		--packagelist)    PACKAGELIST=1 IGNOREARCH=1;;
+		--printsrcinfo)   PRINTSRCINFO=1 ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--sign)           SIGNPKG='y' ;;
@@ -2096,6 +2098,11 @@ fi
 
 if (( PACKAGELIST )); then
 	print_all_package_names
+	exit 0
+fi
+
+if (( PRINTSRCINFO )); then
+	write_srcinfo
 	exit 0
 fi
 
