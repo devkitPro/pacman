@@ -264,7 +264,7 @@ create_signature() {
 	if [[ -n $GPGKEY ]]; then
 		SIGNWITHKEY="-u ${GPGKEY}"
 	fi
-	gpg --detach-sign --use-agent ${SIGNWITHKEY} "$dbfile" &>/dev/null || ret=$?
+	gpg --detach-sign --use-agent --no-armor ${SIGNWITHKEY} "$dbfile" &>/dev/null || ret=$?
 
 	if (( ! ret )); then
 		msg2 "$(gettext "Created signature file '%s'")" "${dbfile##*/.tmp.}.sig"
