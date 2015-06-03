@@ -47,8 +47,8 @@ and end markers and the template code on the first run.
 Template files should be stored in one directory and filenames should be
 "$template_name-$version.template" with a symlink "$template_name.template"
 pointing to the most recent template. If the version is not set in the marker,
-'makepkg-template' will automatically use the most recent version of the
-template, otherwise the specified version will be used.  This allows for easier
+'makepkg-template' will automatically use the target of "$template_name.template",
+otherwise the specified version will be used.  This allows for easier
 verification of untrusted PKGBUILDs if the template is trusted. You verify the
 non-template code and then use a command similar to this:
 
