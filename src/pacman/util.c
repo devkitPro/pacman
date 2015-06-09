@@ -612,7 +612,6 @@ static size_t table_calc_widths(const alpm_list_t *header,
 
 /** Displays the list in table format
  *
- * @param title the tables title
  * @param header the column headers. column count is determined by the nr
  *               of headers
  * @param rows the rows to display as a list of lists of strings. the outer
