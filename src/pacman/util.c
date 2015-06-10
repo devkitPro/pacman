@@ -1363,13 +1363,12 @@ static int multiselect_parse(char *array, int count, char *response)
 		if(!ends) {
 			array[start - 1] = include;
 		} else {
-			int d;
 			if(parseindex(ends, &end, start, count) != 0) {
 				return -1;
 			}
-			for(d = start; d <= end; d++) {
-				array[d - 1] = include;
-			}
+			do {
+				array[start - 1] = include;
+			} while(start++ < end);
 		}
 	}
 

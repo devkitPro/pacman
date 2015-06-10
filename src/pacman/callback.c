@@ -99,7 +99,7 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 		const int proglen)
 {
 	/* 8 = 1 space + 1 [ + 1 ] + 5 for percent */
-	const int hashlen = proglen - 8;
+	const int hashlen = proglen > 8 ? proglen - 8 : 0;
 	const int hash = bar_percent * hashlen / 100;
 	static int lasthash = 0, mouth = 0;
 	int i;
@@ -580,7 +580,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 		int i = textlen - 3;
 		wchar_t *p = wcstr;
 		/* grab the max number of char columns we can fill */
-		while(i > 0 && wcwidth(*p) < i) {
+		while(i - wcwidth(*p) > 0) {
 			i -= wcwidth(*p);
 			p++;
 		}
