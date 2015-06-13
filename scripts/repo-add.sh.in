@@ -364,6 +364,10 @@ db_write_entry() {
 
 	# compute base64'd PGP signature
 	if [[ -f "$pkgfile.sig" ]]; then
+		if grep -q 'BEGIN PGP SIGNATURE' "$pkgfile.sig"; then
+			error "$(gettext "Cannot use armored signatures for packages: %s")" "$pkgfile.sig"
+			return 1
+		fi
 		pgpsigsize=$(@SIZECMD@ -L "$pkgfile.sig")
 		if (( pgpsigsize > 16384 )); then
 			error "$(gettext "Invalid package signature file '%s'.")" "$pkgfile.sig"
