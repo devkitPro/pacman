@@ -143,6 +143,37 @@ int check_syncdbs(size_t need_repos, int check_valid)
 	return ret;
 }
 
+int sync_syncdbs(int level, alpm_list_t *syncs)
+{
+	alpm_list_t *i;
+	unsigned int success = 0;
+
+	for(i = syncs; i; i = alpm_list_next(i)) {
+		alpm_db_t *db = i->data;
+
+		int ret = alpm_db_update((level < 2 ? 0 : 1), db);
+		if(ret < 0) {
+			pm_printf(ALPM_LOG_ERROR, _("failed to update %s (%s)\n"),
+					alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));
+		} else if(ret == 1) {
+			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
+			success++;
+		} else {
+			success++;
+		}
+	}
+
+	/* We should always succeed if at least one DB was upgraded - we may possibly
+	 * fail later with unresolved deps, but that should be rare, and would be
+	 * expected
+	 */
+	if(!success) {
+		pm_printf(ALPM_LOG_ERROR, _("failed to synchronize any databases\n"));
+		trans_init_error();
+	}
+	return (success > 0);
+}
+
 /* discard unhandled input on the terminal's input buffer */
 static int flush_term_input(int fd)
 {

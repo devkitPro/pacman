@@ -305,37 +305,6 @@ static int sync_cleancache(int level)
 	return ret;
 }
 
-static int sync_synctree(int level, alpm_list_t *syncs)
-{
-	alpm_list_t *i;
-	unsigned int success = 0;
-
-	for(i = syncs; i; i = alpm_list_next(i)) {
-		alpm_db_t *db = i->data;
-
-		int ret = alpm_db_update((level < 2 ? 0 : 1), db);
-		if(ret < 0) {
-			pm_printf(ALPM_LOG_ERROR, _("failed to update %s (%s)\n"),
-					alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));
-		} else if(ret == 1) {
-			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
-			success++;
-		} else {
-			success++;
-		}
-	}
-
-	/* We should always succeed if at least one DB was upgraded - we may possibly
-	 * fail later with unresolved deps, but that should be rare, and would be
-	 * expected
-	 */
-	if(!success) {
-		pm_printf(ALPM_LOG_ERROR, _("failed to synchronize any databases\n"));
-		trans_init_error();
-	}
-	return (success > 0);
-}
-
 /* search the sync dbs for a matching package */
 static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 {
@@ -903,7 +872,7 @@ int pacman_sync(alpm_list_t *targets)
 		colon_printf(_("Synchronizing package databases...\n"));
 		alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
 				"synchronizing package lists\n");
-		if(!sync_synctree(config->op_s_sync, sync_dbs)) {
+		if(!sync_syncdbs(config->op_s_sync, sync_dbs)) {
 			return 1;
 		}
 	}

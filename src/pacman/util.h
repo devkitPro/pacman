@@ -49,6 +49,7 @@ int trans_init(alpm_transflag_t flags, int check_valid);
 int trans_release(void);
 int needs_root(void);
 int check_syncdbs(size_t need_repos, int check_valid);
+int sync_syncdbs(int level, alpm_list_t *syncs);
 unsigned short getcols(void);
 void columns_cache_reset(void);
 int rmrf(const char *path);
