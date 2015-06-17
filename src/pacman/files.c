@@ -26,7 +26,59 @@
 #include "conf.h"
 
 
-static int files_fileowner(alpm_list_t __attribute__((unused)) *syncs, alpm_list_t __attribute__((unused)) *targets) {
+static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
+	int ret = 0;
+	alpm_list_t *t;
+
+	for(t = targets; t; t = alpm_list_next(t)) {
+		char *filename = NULL, *f;
+		int found = 0;
+		alpm_list_t *s;
+		size_t len;
+
+		if((filename = strdup(t->data)) == NULL) {
+			goto notfound;
+		}
+
+		len = strlen(filename);
+		f = filename;
+		while(len > 1 && f[0] == '/') {
+			f = f + 1;
+			len--;
+		}
+
+		for(s = syncs; s; s = alpm_list_next(s)) {
+			alpm_list_t *p;
+			alpm_db_t *repo = s->data;
+			alpm_list_t *packages = alpm_db_get_pkgcache(repo);
+
+			for(p = packages; p; p = alpm_list_next(p)) {
+				alpm_pkg_t *pkg = p->data;
+				alpm_filelist_t *files = alpm_pkg_get_files(pkg);
+
+				if(alpm_filelist_contains(files, f)) {
+
+					if(!config->quiet) {
+						printf(_("%s is owned by %s/%s %s\n"), filename,
+								alpm_db_get_name(repo), alpm_pkg_get_name(pkg),
+								alpm_pkg_get_version(pkg));
+					} else {
+						printf("%s/%s\n", alpm_db_get_name(repo), alpm_pkg_get_name(pkg));
+					}
+
+					found = 1;
+				}
+			}
+		}
+
+		free(filename);
+
+notfound:
+		if(!found) {
+			ret++;
+		}
+	}
+
 	return 0;
 }
 
