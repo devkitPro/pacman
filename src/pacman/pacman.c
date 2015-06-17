@@ -724,10 +724,18 @@ static int parsearg_upgrade(int opt)
 		return 0;
 	}
 	switch(opt) {
-		case OP_FORCE: config->flags |= ALPM_TRANS_FLAG_FORCE; break;
-		case OP_ASDEPS: config->flags |= ALPM_TRANS_FLAG_ALLDEPS; break;
-		case OP_ASEXPLICIT: config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT; break;
-		case OP_NEEDED: config->flags |= ALPM_TRANS_FLAG_NEEDED; break;
+		case OP_FORCE:
+			config->flags |= ALPM_TRANS_FLAG_FORCE;
+			break;
+		case OP_ASDEPS:
+			config->flags |= ALPM_TRANS_FLAG_ALLDEPS;
+			break;
+		case OP_ASEXPLICIT:
+			config->flags |= ALPM_TRANS_FLAG_ALLEXPLICIT;
+			break;
+		case OP_NEEDED:
+			config->flags |= ALPM_TRANS_FLAG_NEEDED;
+			break;
 		case OP_IGNORE:
 			parsearg_util_addlist(&(config->ignorepkg));
 			break;
