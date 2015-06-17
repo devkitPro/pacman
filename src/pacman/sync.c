@@ -51,9 +51,7 @@ static int unlink_verbose(const char *pathname, int ignore_missing)
 	return ret;
 }
 
-/* if keep_used != 0, then the db files which match an used syncdb
- * will be kept  */
-static int sync_cleandb(const char *dbpath, int keep_used)
+static int sync_cleandb(const char *dbpath)
 {
 	DIR *dir;
 	struct dirent *ent;
@@ -77,16 +75,9 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 		const char *dname = ent->d_name;
 		char *dbname;
 		size_t len;
+		alpm_list_t *i;
 
 		if(strcmp(dname, ".") == 0 || strcmp(dname, "..") == 0) {
-			continue;
-		}
-		/* skip the local and sync directories */
-		if(strcmp(dname, "sync") == 0 || strcmp(dname, "local") == 0) {
-			continue;
-		}
-		/* skip the db.lck file */
-		if(strcmp(dname, "db.lck") == 0) {
 			continue;
 		}
 
@@ -116,24 +107,16 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 			continue;
 		}
 
-		if(keep_used) {
-			alpm_list_t *i;
-			for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
-				alpm_db_t *db = i->data;
-				found = !strcmp(dbname, alpm_db_get_name(db));
-			}
+		for(i = syncdbs; i && !found; i = alpm_list_next(i)) {
+			alpm_db_t *db = i->data;
+			found = !strcmp(dbname, alpm_db_get_name(db));
 		}
 
-		/* We have a database that doesn't match any syncdb. */
+		/* We have a file that doesn't match any syncdb. */
 		if(!found) {
-			/* ENOENT check is because the signature and database could come in any
-			 * order in our readdir() call, so either file may already be gone. */
-			snprintf(path, PATH_MAX, "%s%s.db", dbpath, dbname);
-			ret += unlink_verbose(path, 1);
-			/* unlink a signature file if present too */
-			snprintf(path, PATH_MAX, "%s%s.db.sig", dbpath, dbname);
-			ret += unlink_verbose(path, 1);
+			ret += unlink_verbose(path, 0);
 		}
+
 		free(dbname);
 	}
 	closedir(dir);
@@ -143,7 +126,7 @@ static int sync_cleandb(const char *dbpath, int keep_used)
 static int sync_cleandb_all(void)
 {
 	const char *dbpath;
-	char *newdbpath;
+	char *syncdbpath;
 	int ret = 0;
 
 	dbpath = alpm_option_get_dbpath(config->handle);
@@ -152,17 +135,13 @@ static int sync_cleandb_all(void)
 		return 0;
 	}
 	printf(_("removing unused sync repositories...\n"));
-	/* The sync dbs were previously put in dbpath/ but are now in dbpath/sync/.
-	 * We will clean everything in dbpath/ except local/, sync/ and db.lck, and
-	 * only the unused sync dbs in dbpath/sync/ */
-	ret += sync_cleandb(dbpath, 0);
 
-	if(asprintf(&newdbpath, "%s%s", dbpath, "sync/") < 0) {
+	if(asprintf(&syncdbpath, "%s%s", dbpath, "sync/") < 0) {
 		ret += 1;
 		return ret;
 	}
-	ret += sync_cleandb(newdbpath, 1);
-	free(newdbpath);
+	ret += sync_cleandb(syncdbpath);
+	free(syncdbpath);
 
 	return ret;
 }
