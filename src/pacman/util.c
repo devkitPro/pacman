@@ -113,6 +113,8 @@ int needs_root(void)
 			return (config->op_s_clean || config->op_s_sync ||
 					(!config->group && !config->op_s_info && !config->op_q_list &&
 					 !config->op_s_search && !config->print));
+		case PM_OP_FILES:
+			return config->op_s_sync;
 		default:
 			return 0;
 	}

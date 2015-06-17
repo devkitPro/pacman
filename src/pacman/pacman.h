@@ -28,6 +28,8 @@
 int pacman_database(alpm_list_t *targets);
 /* deptest.c */
 int pacman_deptest(alpm_list_t *targets);
+/* files.c */
+int pacman_files(alpm_list_t *files);
 /* query.c */
 int pacman_query(alpm_list_t *targets);
 /* remove.c */

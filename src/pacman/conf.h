@@ -138,7 +138,8 @@ enum {
 	PM_OP_QUERY,
 	PM_OP_SYNC,
 	PM_OP_DEPTEST,
-	PM_OP_DATABASE
+	PM_OP_DATABASE,
+	PM_OP_FILES
 };
 
 /* Long Operations */

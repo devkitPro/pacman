@@ -729,6 +729,10 @@ static int setup_libalpm(void)
 	alpm_option_set_questioncb(handle, cb_question);
 	alpm_option_set_progresscb(handle, cb_progress);
 
+	if(config->op == PM_OP_FILES) {
+		alpm_option_set_dbext(handle, ".files");
+	}
+
 	config->logfile = config->logfile ? config->logfile : strdup(LOGFILE);
 	ret = alpm_option_set_logfile(handle, config->logfile);
 	if(ret != 0) {

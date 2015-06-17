@@ -110,6 +110,7 @@ static void usage(int op, const char * const myname)
 		printf("    %s {-h --help}\n", myname);
 		printf("    %s {-V --version}\n", myname);
 		printf("    %s {-D --database} <%s> <%s>\n", myname, str_opt, str_pkg);
+		printf("    %s {-F --files}    [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-Q --query}    [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-R --remove}   [%s] <%s>\n", myname, str_opt, str_pkg);
 		printf("    %s {-S --sync}     [%s] [%s]\n", myname, str_opt, str_pkg);
@@ -173,6 +174,12 @@ static void usage(int op, const char * const myname)
 		} else if(op == PM_OP_DEPTEST) {
 			printf("%s:  %s {-T --deptest} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
+		} else if(op == PM_OP_FILES) {
+			addlist(_("  -l, --list           list the files owned by the queried package\n"));
+			addlist(_("  -o, --owns <file>    query the package that owns <file>\n"));
+			addlist(_("  -s, --search <regex> search package file names for matching strings\n"));
+			addlist(_("  -y, --refresh        download fresh package databases from the server\n"
+			          "                       (-yy to force a refresh even if up to date)\n"));
 		}
 		switch(op) {
 			case PM_OP_SYNC:
@@ -363,6 +370,9 @@ static int parsearg_op(int opt, int dryrun)
 		case 'D':
 			if(dryrun) break;
 			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_DATABASE); break;
+		case 'F':
+			if(dryrun) break;
+			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_FILES); break;
 		case 'Q':
 			if(dryrun) break;
 			config->op = (config->op != PM_OP_MAIN ? 0 : PM_OP_QUERY); break;
@@ -755,6 +765,48 @@ static void checkargs_upgrade(void)
 			"--asdeps", "--asexplicit");
 }
 
+static int parsearg_files(int opt)
+{
+	if(parsearg_trans(opt) == 0) {
+		return 0;
+	}
+	switch(opt) {
+		case OP_OWNS:
+		case 'o':
+			config->op_q_owns = 1;
+			break;
+		case OP_LIST:
+		case 'l':
+			config->op_q_list = 1;
+			break;
+		case OP_SEARCH:
+		case 's':
+			config->op_s_search = 1;
+			break;
+		case OP_REFRESH:
+		case 'y':
+			(config->op_s_sync)++;
+			break;
+		case OP_QUIET:
+		case 'q':
+			config->quiet = 1;
+			break;
+		default:
+			return 1;
+	}
+	return 0;
+}
+
+static void checkargs_files(void)
+{
+	if(config->op_q_owns) {
+		invalid_opt(config->op_q_list, "--owns", "--list");
+		invalid_opt(config->op_q_search, "--owns", "--search");
+	} else if(config->op_q_list) {
+		invalid_opt(config->op_q_search, "--list", "--search");
+	}
+}
+
 static int parsearg_sync(int opt)
 {
 	if(parsearg_upgrade(opt) == 0) {
@@ -847,10 +899,11 @@ static int parseargs(int argc, char *argv[])
 	int opt;
 	int option_index = 0;
 	int result;
-	const char *optstring = "DQRSTUVb:cdefghiklmnopqr:stuvwy";
+	const char *optstring = "DFQRSTUVb:cdefghiklmnopqr:stuvwy";
 	static const struct option opts[] =
 	{
 		{"database",   no_argument,       0, 'D'},
+		{"files",      no_argument,       0, 'F'},
 		{"query",      no_argument,       0, 'Q'},
 		{"remove",     no_argument,       0, 'R'},
 		{"sync",       no_argument,       0, 'S'},
@@ -964,6 +1017,9 @@ static int parseargs(int argc, char *argv[])
 			case PM_OP_UPGRADE:
 				result = parsearg_upgrade(opt);
 				break;
+			case PM_OP_FILES:
+				result = parsearg_files(opt);
+				break;
 			case PM_OP_DEPTEST:
 			default:
 				result = 1;
@@ -1011,6 +1067,9 @@ static int parseargs(int argc, char *argv[])
 			break;
 		case PM_OP_UPGRADE:
 			checkargs_upgrade();
+			break;
+		case PM_OP_FILES:
+			checkargs_files();
 			break;
 		default:
 			break;
@@ -1237,6 +1296,9 @@ int main(int argc, char *argv[])
 			break;
 		case PM_OP_DEPTEST:
 			ret = pacman_deptest(pm_targets);
+			break;
+		case PM_OP_FILES:
+			ret = pacman_files(pm_targets);
 			break;
 		default:
 			pm_printf(ALPM_LOG_ERROR, _("no operation specified (use -h for help)\n"));
