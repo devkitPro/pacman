@@ -102,6 +102,10 @@ static int sync_cleandb(const char *dbpath)
 			dbname = strndup(dname, len - 3);
 		} else if(len > 7 && strcmp(dname + len - 7, ".db.sig") == 0) {
 			dbname = strndup(dname, len - 7);
+		} else if(len > 6 && strcmp(dname + len - 6, ".files") == 0) {
+			dbname = strndup(dname, len - 6);
+		} else if(len > 6 && strcmp(dname + len - 6, ".files.sig") == 0) {
+			dbname = strndup(dname, len - 10);
 		} else {
 			ret += unlink_verbose(path, 0);
 			continue;
@@ -215,8 +219,8 @@ static int sync_cleancache(int level)
 				static const char *const glob_skips[] = {
 					/* skip signature files - they are removed with their package file */
 					"*.sig",
-					/* skip package database within the cache directory */
-					"*.db*",
+					/* skip package databases within the cache directory */
+					"*.db*", "*.files*",
 					/* skip source packages within the cache directory */
 					"*.src.tar.*",
 					/* skip package deltas, we aren't smart enough to clean these yet */

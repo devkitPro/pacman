@@ -750,7 +750,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 	fname = malloc(len + 1);
 	memcpy(fname, filename, len);
 	/* strip package or DB extension for cleaner look */
-	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db"))) {
+	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db")) || (p = strstr(fname, ".files"))) {
 		/* tack on a .sig suffix for signatures */
 		if(memcmp(&filename[len - 4], ".sig", 4) == 0) {
 			memcpy(p, ".sig", 4);
