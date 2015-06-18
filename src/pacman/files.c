@@ -24,6 +24,7 @@
 #include "pacman.h"
 #include "util.h"
 #include "conf.h"
+#include "package.h"
 
 
 static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
@@ -86,8 +87,41 @@ static int files_search(alpm_list_t __attribute__((unused)) *syncs, alpm_list_t 
 	return 0;
 }
 
-static int files_list(alpm_list_t __attribute__((unused)) *syncs, alpm_list_t __attribute__((unused)) *targets) {
-	return 0;
+static int files_list(alpm_list_t *syncs, alpm_list_t *targets) {
+	alpm_list_t *i, *j;
+	int ret = 0, found = 0;
+
+	if(targets != NULL) {
+		for(i = targets; i; i = alpm_list_next(i)) {
+			/* TODO: handle repo/pkg stype arguements */
+			char *targ = i->data;
+			
+			for(j = syncs; j; j = alpm_list_next(j)) {
+				alpm_pkg_t *pkg;
+				alpm_db_t *db = j->data;
+				if((pkg = alpm_db_get_pkg(db, targ)) != NULL) {
+					found = 1;
+					dump_pkg_files(pkg, config->quiet);
+				}
+			}
+			if(!found) {
+				pm_printf(ALPM_LOG_ERROR,
+						_("package '%s' was not found\n"), targ);
+				ret += 1;
+			}
+		}
+	} else {
+		for(i = syncs; i; i = alpm_list_next(i)) {
+		alpm_db_t *db = i->data;
+
+			for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
+				alpm_pkg_t *pkg = j->data;
+				dump_pkg_files(pkg, config->quiet);
+			}
+		}
+	}
+
+	return ret;
 }
 
 
