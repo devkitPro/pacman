@@ -19,6 +19,7 @@
 
 #include <alpm.h>
 #include <alpm_list.h>
+#include <regex.h>
 
 /* pacman */
 #include "pacman.h"
@@ -83,24 +84,33 @@ notfound:
 	return 0;
 }
 
-static int files_search(alpm_list_t *syncs, alpm_list_t *targets) {
+static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 	int ret = 0;
 	alpm_list_t *t;
 	const colstr_t *colstr = &config->colstr;
 
 	for(t = targets; t; t = alpm_list_next(t)) {
-		char *filename = NULL;
+		char *targ = NULL;
 		alpm_list_t *s;
 		int found = 0;
+		regex_t reg;
 
-		if((filename = strdup(t->data)) == NULL) {
+		if((targ = strdup(t->data)) == NULL) {
 			goto notfound;
+		}
+
+		if(regex) {
+			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
+				/* TODO: error message */
+				goto notfound;
+			}
 		}
 
 		for(s = syncs; s; s = alpm_list_next(s)) {
 			alpm_list_t *p;
 			alpm_db_t *repo = s->data;
 			alpm_list_t *packages = alpm_db_get_pkgcache(repo);
+			int m;
 
 			for(p = packages; p; p = alpm_list_next(p)) {
 				size_t f = 0;
@@ -112,7 +122,12 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets) {
 				while(f < files->count) {
 					c = strrchr(files->files[f].name, '/');
 					if(c && *(c + 1)) {
-						if(strcmp(c + 1, filename) == 0) {
+						if(regex) {
+							m = regexec(&reg, (c + 1), 0, 0, 0);
+						} else {
+							m = strcmp(c + 1, targ);
+						}
+						if(m == 0) {
 							match = alpm_list_add(match, strdup(files->files[f].name));
 							found = 1;
 						}
@@ -138,7 +153,8 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets) {
 				}
 			}
 		}
-		free(filename);
+
+		free(targ);
 
 notfound:
 		if(!found) {
@@ -219,7 +235,7 @@ int pacman_files(alpm_list_t *targets)
 
 	/* search for a file */
 	if(config->op_s_search) {
-		return files_search(files_dbs, targets);
+		return files_search(files_dbs, targets, config->op_f_regex);
 	}
 
 	/* get a listing of files in sync DBs */

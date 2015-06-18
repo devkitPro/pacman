@@ -177,7 +177,8 @@ static void usage(int op, const char * const myname)
 		} else if(op == PM_OP_FILES) {
 			addlist(_("  -l, --list           list the files owned by the queried package\n"));
 			addlist(_("  -o, --owns <file>    query the package that owns <file>\n"));
-			addlist(_("  -s, --search <regex> search package file names for matching strings\n"));
+			addlist(_("  -s, --search <file>  search package file names for matching strings\n"));
+			addlist(_("  -x, --regex          enable searching using regular expressions\n"));
 			addlist(_("  -y, --refresh        download fresh package databases from the server\n"
 			          "                       (-yy to force a refresh even if up to date)\n"));
 		}
@@ -787,6 +788,10 @@ static int parsearg_files(int opt)
 		case 'y':
 			(config->op_s_sync)++;
 			break;
+		case OP_REGEX:
+		case 'x':
+			config->op_f_regex = 1;
+			break;
 		case OP_QUIET:
 		case 'q':
 			config->quiet = 1;
@@ -802,8 +807,10 @@ static void checkargs_files(void)
 	if(config->op_q_owns) {
 		invalid_opt(config->op_q_list, "--owns", "--list");
 		invalid_opt(config->op_q_search, "--owns", "--search");
+		invalid_opt(config->op_f_regex, "--owns", "--regex");
 	} else if(config->op_q_list) {
 		invalid_opt(config->op_q_search, "--list", "--search");
+		invalid_opt(config->op_f_regex, "--list", "--regex");
 	}
 }
 
@@ -899,7 +906,7 @@ static int parseargs(int argc, char *argv[])
 	int opt;
 	int option_index = 0;
 	int result;
-	const char *optstring = "DFQRSTUVb:cdefghiklmnopqr:stuvwy";
+	const char *optstring = "DFQRSTUVb:cdefghiklmnopqr:stuvwxy";
 	static const struct option opts[] =
 	{
 		{"database",   no_argument,       0, 'D'},
@@ -933,6 +940,7 @@ static int parseargs(int argc, char *argv[])
 		{"root",       required_argument, 0, OP_ROOT},
 		{"recursive",  no_argument,       0, OP_RECURSIVE},
 		{"search",     no_argument,       0, OP_SEARCH},
+		{"regex",      no_argument,       0, OP_REGEX},
 		{"unrequired", no_argument,       0, OP_UNREQUIRED},
 		{"upgrades",   no_argument,       0, OP_UPGRADES},
 		{"sysupgrade", no_argument,       0, OP_SYSUPGRADE},
