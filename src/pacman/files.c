@@ -83,7 +83,69 @@ notfound:
 	return 0;
 }
 
-static int files_search(alpm_list_t __attribute__((unused)) *syncs, alpm_list_t __attribute__((unused)) *targets) {
+static int files_search(alpm_list_t *syncs, alpm_list_t *targets) {
+	int ret = 0;
+	alpm_list_t *t;
+	const colstr_t *colstr = &config->colstr;
+
+	for(t = targets; t; t = alpm_list_next(t)) {
+		char *filename = NULL;
+		alpm_list_t *s;
+		int found = 0;
+
+		if((filename = strdup(t->data)) == NULL) {
+			goto notfound;
+		}
+
+		for(s = syncs; s; s = alpm_list_next(s)) {
+			alpm_list_t *p;
+			alpm_db_t *repo = s->data;
+			alpm_list_t *packages = alpm_db_get_pkgcache(repo);
+
+			for(p = packages; p; p = alpm_list_next(p)) {
+				size_t f = 0;
+				char* c;
+				alpm_pkg_t *pkg = p->data;
+				alpm_filelist_t *files = alpm_pkg_get_files(pkg);
+				alpm_list_t *match = NULL;
+
+				while(f < files->count) {
+					c = strrchr(files->files[f].name, '/');
+					if(c && *(c + 1)) {
+						if(strcmp(c + 1, filename) == 0) {
+							match = alpm_list_add(match, strdup(files->files[f].name));
+							found = 1;
+						}
+					}
+					f++;
+				}
+
+				if(match != NULL) {
+					if(config->quiet) {
+						printf("%s/%s\n", alpm_db_get_name(repo), alpm_pkg_get_name(pkg));
+					} else {
+						alpm_list_t *ml;
+						printf("%s%s/%s%s %s%s%s\n", colstr->repo, alpm_db_get_name(repo),
+							colstr->title, alpm_pkg_get_name(pkg),
+							colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
+
+						for(ml = match; ml; ml = alpm_list_next(ml)) {
+							c = ml->data;
+							printf("    %s\n", c);
+						}
+						FREELIST(match);
+					}
+				}
+			}
+		}
+		free(filename);
+
+notfound:
+		if(!found) {
+			ret++;
+		}
+	}
+
 	return 0;
 }
 
