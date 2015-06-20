@@ -171,22 +171,45 @@ static int files_list(alpm_list_t *syncs, alpm_list_t *targets) {
 
 	if(targets != NULL) {
 		for(i = targets; i; i = alpm_list_next(i)) {
-			/* TODO: handle repo/pkg stype arguements */
 			char *targ = i->data;
-			
+			char *repo = NULL;
+			char *c = strchr(targ, '/');
+
+			if(c) {
+				if(! *(c + 1)) {
+					pm_printf(ALPM_LOG_ERROR,
+						_("invalid package: '%s'\n"), targ);
+					ret += 1;
+					continue;
+				}
+
+				repo = strndup(targ, c - targ);
+				targ = c + 1;
+			}
+
 			for(j = syncs; j; j = alpm_list_next(j)) {
 				alpm_pkg_t *pkg;
 				alpm_db_t *db = j->data;
+
+				if(repo) {
+					if(strcmp(alpm_db_get_name(db), repo) != 0) {
+						continue;
+					}
+				}
+
 				if((pkg = alpm_db_get_pkg(db, targ)) != NULL) {
 					found = 1;
 					dump_pkg_files(pkg, config->quiet);
+					break;
 				}
 			}
 			if(!found) {
+				targ = i->data;
 				pm_printf(ALPM_LOG_ERROR,
 						_("package '%s' was not found\n"), targ);
 				ret += 1;
 			}
+			free(repo);
 		}
 	} else {
 		for(i = syncs; i; i = alpm_list_next(i)) {
