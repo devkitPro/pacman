@@ -198,6 +198,11 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		return -1;
 	}
 
+	/* force update of invalid databases to fix potential mismatched database/signature */
+	if(db->status & DB_STATUS_INVALID) {
+		force = 1;
+	}
+
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
 
