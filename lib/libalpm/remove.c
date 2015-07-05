@@ -261,7 +261,9 @@ int _alpm_remove_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	}
 
 	/* Note packages being removed that are optdepends for installed packages */
-	remove_notify_needed_optdepends(handle, trans->remove);
+	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
+		remove_notify_needed_optdepends(handle, trans->remove);
+	}
 
 	if(!(trans->flags & ALPM_TRANS_FLAG_NODEPS)) {
 		event.type = ALPM_EVENT_CHECKDEPS_DONE;
