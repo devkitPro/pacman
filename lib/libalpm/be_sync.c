@@ -40,6 +40,7 @@
 #include "delta.h"
 #include "deps.h"
 #include "dload.h"
+#include "filelist.h"
 
 static char *get_sync_dir(alpm_handle_t *handle)
 {
@@ -438,6 +439,7 @@ static size_t estimate_package_count(struct stat *st, struct archive *archive)
 			/* assume it is at least somewhat compressed */
 			per_package = 500;
 	}
+
 	return (size_t)((st->st_size / per_package) + 1);
 }
 
@@ -469,6 +471,12 @@ static int sync_db_populate(alpm_db_t *db)
 		return -1;
 	}
 	est_count = estimate_package_count(&buf, archive);
+
+	/* currently only .files dbs contain file lists - make flexible when required*/
+	if(strcmp(db->handle->dbext, ".files") == 0) {
+		/* files databases are about four times larger on average */
+		est_count /= 4;
+	}
 
 	db->pkgcache = _alpm_pkghash_create(est_count);
 	if(db->pkgcache == NULL) {
@@ -600,6 +608,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 	}
 
 	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
+			|| strcmp(filename, "files") == 0
 			|| (strcmp(filename, "deltas") == 0 && db->handle->deltaratio > 0.0) ) {
 		int ret;
 		while((ret = _alpm_archive_fgets(archive, &buf)) == ARCHIVE_OK) {
@@ -685,6 +694,33 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 					pkg->deltas = alpm_list_add(pkg->deltas,
 							_alpm_delta_parse(db->handle, line));
 				}
+			} else if(strcmp(line, "%FILES%") == 0) {
+				/* TODO: this could lazy load if there is future demand */
+				size_t files_count = 0, files_size = 0;
+				alpm_file_t *files = NULL;
+
+				while(1) {
+					if(_alpm_archive_fgets(archive, &buf) != ARCHIVE_OK) {
+						goto error;
+					}
+					line = buf.line;
+					if(_alpm_strip_newline(line, buf.real_line_size) == 0) {
+						break;
+					}
+
+					if(!_alpm_greedy_grow((void **)&files, &files_size,
+								(files_count ? (files_count + 1) * sizeof(alpm_file_t) : 8 * sizeof(alpm_file_t)))) {
+						goto error;
+					}
+					STRDUP(files[files_count].name, line, goto error);
+					files_count++;
+				}
+				/* attempt to hand back any memory we don't need */
+				files = realloc(files, sizeof(alpm_file_t) * files_count);
+				/* make sure the list is sorted */
+				qsort(files, files_count, sizeof(alpm_file_t), _alpm_files_cmp);
+				pkg->files.count = files_count;
+				pkg->files.files = files;
 			}
 		}
 		if(ret != ARCHIVE_EOF) {
@@ -693,8 +729,6 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		*likely_pkg = pkg;
 	} else if(strcmp(filename, "deltas") == 0) {
 		/* skip reading delta files if UseDelta is unset */
-	} else if(strcmp(filename, "files") == 0) {
-		/* currently do nothing with this file */
 	} else {
 		/* unknown database file */
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "unknown database file: %s\n", filename);
