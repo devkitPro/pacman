@@ -174,6 +174,7 @@ valid:
 int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 {
 	char *syncpath;
+	const char *dbext;
 	alpm_list_t *i;
 	int ret = -1;
 	mode_t oldmask;
@@ -208,6 +209,8 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		RET_ERR(handle, ALPM_ERR_HANDLE_LOCK, -1);
 	}
 
+	dbext = db->handle->dbext;
+
 	for(i = db->servers; i; i = i->next) {
 		const char *server = i->data, *final_db_url = NULL;
 		struct dload_payload payload;
@@ -220,10 +223,10 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		payload.max_size = 25 * 1024 * 1024;
 
 		/* print server + filename into a buffer */
-		len = strlen(server) + strlen(db->treename) + 5;
+		len = strlen(server) + strlen(db->treename) + strlen(dbext) + 2;
 		/* TODO fix leak syncpath and umask unset */
 		MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		snprintf(payload.fileurl, len, "%s/%s.db", server, db->treename);
+		snprintf(payload.fileurl, len, "%s/%s%s", server, db->treename, dbext);
 		payload.handle = handle;
 		payload.force = force;
 		payload.unlink_on_fail = 1;
@@ -244,7 +247,9 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 			/* check if the final URL from internal downloader looks reasonable */
 			if(final_db_url != NULL) {
-				if(strlen(final_db_url) < 3 || strcmp(final_db_url + strlen(final_db_url) - 3, ".db") != 0) {
+				if(strlen(final_db_url) < 3
+						|| strcmp(final_db_url + strlen(final_db_url) - strlen(dbext),
+								dbext) != 0) {
 					final_db_url = NULL;
 				}
 			}
@@ -254,8 +259,8 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 				/* print final_db_url into a buffer (leave space for .sig) */
 				len = strlen(final_db_url) + 5;
 			} else {
-				/* print server + filename into a buffer (leave space for separator and .db.sig) */
-				len = strlen(server) + strlen(db->treename) + 9;
+				/* print server + filename into a buffer (leave space for separator and .sig) */
+				len = strlen(server) + strlen(db->treename) + strlen(dbext) + 6;
 			}
 
 			/* TODO fix leak syncpath and umask unset */
@@ -264,7 +269,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 			if(final_db_url != NULL) {
 				snprintf(payload.fileurl, len, "%s.sig", final_db_url);
 			} else {
-				snprintf(payload.fileurl, len, "%s/%s.db.sig", server, db->treename);
+				snprintf(payload.fileurl, len, "%s/%s%s.sig", server, db->treename, dbext);
 			}
 
 			payload.handle = handle;

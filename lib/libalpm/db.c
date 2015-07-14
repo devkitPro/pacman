@@ -375,10 +375,12 @@ const char *_alpm_db_path(alpm_db_t *db)
 			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
 			sprintf(db->_path, "%s%s/", dbpath, db->treename);
 		} else {
-			pathsize = strlen(dbpath) + 5 + strlen(db->treename) + 4;
+			const char *dbext = db->handle->dbext;
+
+			pathsize = strlen(dbpath) + 5 + strlen(db->treename) + strlen(dbext) + 1;
 			CALLOC(db->_path, 1, pathsize, RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
 			/* all sync DBs now reside in the sync/ subdir of the dbpath */
-			sprintf(db->_path, "%ssync/%s.db", dbpath, db->treename);
+			sprintf(db->_path, "%ssync/%s%s", dbpath, db->treename, dbext);
 		}
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "database path for tree %s set to %s\n",
 				db->treename, db->_path);

@@ -81,6 +81,7 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	_alpm_trans_free(handle->trans);
 	FREE(handle->root);
 	FREE(handle->dbpath);
+	FREE(handle->dbext);
 	FREELIST(handle->cachedirs);
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
@@ -282,6 +283,12 @@ int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	return handle->checkspace;
+}
+
+const char SYMEXPORT *alpm_option_get_dbext(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->dbext;
 }
 
 int SYMEXPORT alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb)
@@ -661,6 +668,21 @@ int SYMEXPORT alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->checkspace = checkspace;
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_dbext(alpm_handle_t *handle, const char *dbext)
+{
+	CHECK_HANDLE(handle, return -1);
+	ASSERT(dbext, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+
+	if(handle->dbext) {
+		FREE(handle->dbext);
+	}
+
+	STRDUP(handle->dbext, dbext, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'dbext' = %s\n", handle->dbext);
 	return 0;
 }
 

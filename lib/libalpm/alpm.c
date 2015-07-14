@@ -64,6 +64,9 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 		goto cleanup;
 	}
 
+	/* set default database extension */
+	STRDUP(myhandle->dbext, ".db", goto cleanup);
+
 	lockfilelen = strlen(myhandle->dbpath) + strlen(lf) + 1;
 	myhandle->lockfile = calloc(lockfilelen, sizeof(char));
 	snprintf(myhandle->lockfile, lockfilelen, "%s%s", myhandle->dbpath, lf);
