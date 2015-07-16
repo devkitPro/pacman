@@ -597,6 +597,8 @@ int SYMEXPORT alpm_option_add_assumeinstalled(alpm_handle_t *handle, const alpm_
 			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	ASSERT((depcpy = _alpm_dep_dup(dep)), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
+	/* fill in name_hash in case dep was built by hand */
+	depcpy->name_hash = _alpm_hash_sdbm(dep->name);
 	handle->assumeinstalled = alpm_list_add(handle->assumeinstalled, depcpy);
 	return 0;
 }
