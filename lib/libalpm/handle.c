@@ -591,11 +591,13 @@ int SYMEXPORT alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *
 
 int SYMEXPORT alpm_option_add_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep)
 {
+	alpm_depend_t *depcpy;
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(dep->mod == ALPM_DEP_MOD_EQ || dep->mod == ALPM_DEP_MOD_ANY,
 			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+	ASSERT((depcpy = _alpm_dep_dup(dep)), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 
-	handle->assumeinstalled = alpm_list_add(handle->assumeinstalled, (void *)dep);
+	handle->assumeinstalled = alpm_list_add(handle->assumeinstalled, depcpy);
 	return 0;
 }
 
@@ -606,7 +608,12 @@ int SYMEXPORT alpm_option_set_assumeinstalled(alpm_handle_t *handle, alpm_list_t
 		alpm_list_free_inner(handle->assumeinstalled, (alpm_list_fn_free)alpm_dep_free);
 		alpm_list_free(handle->assumeinstalled);
 	}
-	handle->assumeinstalled = deps;
+	while(deps) {
+		if(alpm_option_add_assumeinstalled(handle, deps->data) != 0) {
+			return -1;
+		}
+		deps = deps->next;
+	}
 	return 0;
 }
 

@@ -801,9 +801,9 @@ static int setup_libalpm(void)
 		pm_printf(ALPM_LOG_DEBUG, "parsed assume installed: %s %s\n", dep->name, dep->version);
 
 		ret = alpm_option_add_assumeinstalled(handle, dep);
+		alpm_dep_free(dep);
 		if(ret) {
 			pm_printf(ALPM_LOG_ERROR, _("Failed to pass %s entry to libalpm"), "assume-installed");
-			alpm_dep_free(dep);
 			return ret;
 		}
 	 }
