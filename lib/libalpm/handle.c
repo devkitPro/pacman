@@ -613,9 +613,20 @@ static int assumeinstalled_cmp(const void *d1, const void *d2)
 	const alpm_depend_t *dep1 = d1;
 	const alpm_depend_t *dep2 = d2;
 
-	if(strcmp(dep1->name, dep2->name) == 0 && strcmp(dep1->version, dep2->version) == 0) {
+	if(dep1->name_hash != dep2->name_hash
+			|| strcmp(dep1->name, dep2->name) != 0) {
+		return -1;
+	}
+
+	if(dep1->version && dep2->version
+			&& strcmp(dep1->version, dep2->version) == 0) {
 		return 0;
 	}
+
+	if(dep1->version == NULL && dep2->version == NULL) {
+		return 0;
+	}
+
 
 	return -1;
 }
