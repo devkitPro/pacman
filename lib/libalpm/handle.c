@@ -592,6 +592,8 @@ int SYMEXPORT alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *
 int SYMEXPORT alpm_option_add_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep)
 {
 	CHECK_HANDLE(handle, return -1);
+	ASSERT(dep->mod == ALPM_DEP_MOD_EQ || dep->mod == ALPM_DEP_MOD_ANY,
+			RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	handle->assumeinstalled = alpm_list_add(handle->assumeinstalled, (void *)dep);
 	return 0;
