@@ -2242,7 +2242,7 @@ else
 		unset pkg
 	fi
 	mkdir -p "$pkgdirbase"
-	chmod a-srwx "$pkgdirbase"
+	chmod a-srw "$pkgdirbase"
 	cd_safe "$startdir"
 
 	if (( ! REPKG )); then
