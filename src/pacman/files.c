@@ -102,6 +102,7 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 		if(regex) {
 			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
 				/* TODO: error message */
+				free(targ);
 				goto notfound;
 			}
 		}
