@@ -73,6 +73,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/lint_pkgbuild/provides.sh \
 	libmakepkg/lint_pkgbuild/source.sh \
 	libmakepkg/lint_pkgbuild/util.sh \
+	libmakepkg/lint_pkgbuild/variable.sh \
 	libmakepkg/source.sh \
 	libmakepkg/source/bzr.sh \
 	libmakepkg/source/file.sh \
