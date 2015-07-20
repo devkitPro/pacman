@@ -1449,11 +1449,14 @@ int multiselect_question(char *array, int count)
 			size_t len;
 			/* handle buffer not being large enough to read full line case */
 			while(*lastchar == '\0' && lastchar[-1] != '\n') {
+				char *new_response;
 				response_len += response_incr;
-				response = realloc(response, response_len);
-				if(!response) {
+				new_response = realloc(response, response_len);
+				if(!new_response) {
+					free(response);
 					return -1;
 				}
+				response = new_response;
 				lastchar = response + response_len - 1;
 				/* sentinel byte */
 				*lastchar = 1;
