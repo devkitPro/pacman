@@ -50,7 +50,6 @@ LIBMAKEPKGDIRS = \
 LIBMAKEPKG = \
 	libmakepkg/util/message.sh \
 	libmakepkg/util/option.sh \
-	libmakepkg/util/pkgbuild.sh \
 	libmakepkg/util/util.sh
 
 LIBMAKEPKG_IN = \
@@ -92,6 +91,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/tidy/upx.sh \
 	libmakepkg/tidy/zipman.sh \
 	libmakepkg/util.sh \
+	libmakepkg/util/pkgbuild.sh \
 	libmakepkg/util/source.sh
 
 LIBMAKEPKG_DIST = \
