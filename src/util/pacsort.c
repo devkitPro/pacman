@@ -484,6 +484,7 @@ int main(int argc, char *argv[])
 	struct list_t *list;
 	struct buffer_t *buffer;
 	size_t i;
+	int ret = 0;
 
 	/* option defaults */
 	opts.order = 1;
@@ -507,7 +508,8 @@ int main(int argc, char *argv[])
 	if(optind == argc) {
 		if(splitfile(stdin, buffer, list) != 0) {
 			fprintf(stderr, "%s: memory exhausted\n", argv[0]);
-			return ENOMEM;
+			ret = ENOMEM;
+			goto cleanup;
 		}
 	} else {
 		while(optind < argc) {
@@ -515,7 +517,9 @@ int main(int argc, char *argv[])
 			if(input) {
 				if(splitfile(input, buffer, list) != 0) {
 					fprintf(stderr, "%s: memory exhausted\n", argv[0]);
-					return ENOMEM;
+					fclose(input);
+					ret = ENOMEM;
+					goto cleanup;
 				}
 				fclose(input);
 			} else {
@@ -534,10 +538,11 @@ int main(int argc, char *argv[])
 		}
 	}
 
+cleanup:
 	list_free(list, input_free);
 	buffer_free(buffer);
 
-	return 0;
+	return ret;
 }
 
 /* vim: set noet: */
