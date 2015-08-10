@@ -104,10 +104,11 @@ static void buffer_free(struct buffer_t *buf)
 static int buffer_grow(struct buffer_t *buffer)
 {
 	size_t newsz = buffer->maxlen * 2.5;
-	buffer->mem = realloc(buffer->mem, newsz * sizeof(char));
-	if(!buffer->mem) {
+	char* new_mem = realloc(buffer->mem, newsz * sizeof(char));
+	if(!new_mem) {
 		return 1;
 	}
+	buffer->mem = new_mem;
 	buffer->maxlen = newsz;
 
 	return 0;
@@ -136,11 +137,12 @@ static struct list_t *list_new(size_t initial_size)
 static int list_grow(struct list_t *list)
 {
 	size_t newsz = list->maxcount * 2.5;
-	list->list = realloc(list->list, newsz * sizeof(char *));
-	if(!list->list) {
+	void **new_list = realloc(list->list, newsz * sizeof(char *));
+	if(!new_list) {
 		return 1;
 	}
 
+	list->list = new_list;
 	list->maxcount = newsz;
 
 	return 0;
