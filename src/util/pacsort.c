@@ -254,7 +254,10 @@ static char *explode(struct buffer_t *buffer, struct list_t *list)
 	while((end = memchr(ptr, linedelim, &buffer->mem[buffer->len] - ptr))) {
 		*end = '\0';
 		meta = input_new(ptr, end - ptr);
-		list_add(list, meta);
+		if(meta == NULL || list_add(list, meta) != 0) {
+			input_free(meta);
+			return NULL;
+		}
 		ptr = end + 1;
 	}
 
@@ -294,6 +297,7 @@ static int splitfile(FILE *stream, struct buffer_t *buffer, struct list_t *list)
 	if(buffer->len) {
 		struct input_t *meta = input_new(buffer->mem, buffer->len + 1);
 		if(meta == NULL || list_add(list, meta) != 0) {
+			input_free(meta);
 			return 1;
 		}
 	}
