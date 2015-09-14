@@ -183,6 +183,10 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 		if(trans->flags & ALPM_TRANS_FLAG_DOWNLOADONLY) {
 			return 0;
 		}
+		if(_alpm_sync_check(handle, data) != 0) {
+			/* pm_errno is set by _alpm_sync_check() */
+			return -1;
+		}
 	}
 
 	trans->state = STATE_COMMITING;
@@ -198,7 +202,7 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 			return -1;
 		}
 	} else {
-		if(_alpm_sync_commit(handle, data) == -1) {
+		if(_alpm_sync_commit(handle) == -1) {
 			/* pm_errno is set by _alpm_sync_commit() */
 			alpm_errno_t save = handle->pm_errno;
 			alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction failed\n");

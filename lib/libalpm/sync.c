@@ -1338,7 +1338,7 @@ int _alpm_sync_load(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
+int _alpm_sync_check(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_trans_t *trans = handle->trans;
 	alpm_event_t event;
@@ -1355,7 +1355,8 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 			if(data) {
 				*data = conflict;
 			} else {
-				alpm_list_free_inner(conflict, (alpm_list_fn_free)alpm_fileconflict_free);
+				alpm_list_free_inner(conflict,
+						(alpm_list_fn_free)alpm_fileconflict_free);
 				alpm_list_free(conflict);
 			}
 			RET_ERR(handle, ALPM_ERR_FILE_CONFLICTS, -1);
@@ -1380,12 +1381,21 @@ int _alpm_sync_commit(alpm_handle_t *handle, alpm_list_t **data)
 		EVENT(handle, &event);
 	}
 
+	return 0;
+}
+
+int _alpm_sync_commit(alpm_handle_t *handle)
+{
+	alpm_trans_t *trans = handle->trans;
+
 	/* remove conflicting and to-be-replaced packages */
 	if(trans->remove) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "removing conflicting and to-be-replaced packages\n");
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"removing conflicting and to-be-replaced packages\n");
 		/* we want the frontend to be aware of commit details */
 		if(_alpm_remove_packages(handle, 0) == -1) {
-			_alpm_log(handle, ALPM_LOG_ERROR, _("could not commit removal transaction\n"));
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("could not commit removal transaction\n"));
 			return -1;
 		}
 	}
