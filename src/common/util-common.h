@@ -30,6 +30,8 @@ int llstat(char *path, struct stat *buf);
 
 char *safe_fgets(char *s, int size, FILE *stream);
 
+size_t strtrim(char *str);
+
 #ifndef HAVE_STRNDUP
 char *strndup(const char *s, size_t n);
 #endif
