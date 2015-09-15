@@ -851,15 +851,22 @@ run_prepare() {
 }
 
 run_build() {
-	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildoption "distcc" "y"; then
-		[[ -d /usr/lib/distcc/bin ]] && export PATH="/usr/lib/distcc/bin:$PATH"
-		export DISTCC_HOSTS
-	fi
+	local ccache=0
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildoption "ccache" "y"; then
-		[[ -d /usr/lib/ccache/bin ]] && export PATH="/usr/lib/ccache/bin:$PATH"
+	if check_buildoption "ccache" "y" && [[ -d /usr/lib/ccache/bin ]]; then
+		export PATH="/usr/lib/ccache/bin:$PATH"
+		ccache=1
+	fi
+
+	# use distcc if it is requested (check buildenv and PKGBUILD opts)
+	if check_buildoption "distcc" "y"; then
+		if (( ccache )); then
+			export CCACHE_PREFIX="${CCACHE_PREFIX:+$CCACHE_PREFIX }distcc"
+		elif [[ -d /usr/lib/distcc/bin ]]; then
+			export PATH="/usr/lib/distcc/bin:$PATH"
+		fi
+		export DISTCC_HOSTS
 	fi
 
 	run_function_safe "build"
