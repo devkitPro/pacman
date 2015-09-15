@@ -105,7 +105,13 @@ static alpm_list_t *dep_graph_init(alpm_handle_t *handle,
 	alpm_list_t *i, *j;
 	alpm_list_t *vertices = NULL;
 	alpm_list_t *localpkgs = alpm_list_diff(
-			alpm_db_get_pkgcache(handle->db_local), ignore, _alpm_pkg_cmp);
+			alpm_db_get_pkgcache(handle->db_local), targets, _alpm_pkg_cmp);
+
+	if(ignore) {
+		alpm_list_t *oldlocal = localpkgs;
+		localpkgs = alpm_list_diff(oldlocal, ignore, _alpm_pkg_cmp);
+		alpm_list_free(oldlocal);
+	}
 
 	/* We create the vertices */
 	for(i = targets; i; i = i->next) {
@@ -137,8 +143,7 @@ static alpm_list_t *dep_graph_init(alpm_handle_t *handle,
 				alpm_graph_t *vertex_j = _alpm_graph_new();
 				vertex_j->data = (void *)j->data;
 				vertices = alpm_list_add(vertices, vertex_j);
-				vertex_i->children =
-					alpm_list_add(vertex_i->children, vertex_j);
+				vertex_i->children = alpm_list_add(vertex_i->children, vertex_j);
 				localpkgs = alpm_list_remove_item(localpkgs, j);
 				free(j);
 			}
