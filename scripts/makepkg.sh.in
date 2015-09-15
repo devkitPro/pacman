@@ -863,6 +863,7 @@ run_build() {
 	if check_buildoption "distcc" "y"; then
 		if (( ccache )); then
 			export CCACHE_PREFIX="${CCACHE_PREFIX:+$CCACHE_PREFIX }distcc"
+			export CCACHE_BASEDIR="$srcdir"
 		elif [[ -d /usr/lib/distcc/bin ]]; then
 			export PATH="/usr/lib/distcc/bin:$PATH"
 		fi
