@@ -76,7 +76,6 @@ NOBUILD=0
 NODEPS=0
 NOEXTRACT=0
 PKGFUNC=0
-PKGLIST=()
 PKGVERFUNC=0
 PREPAREFUNC=0
 REPKG=0
@@ -1718,7 +1717,6 @@ usage() {
 	printf -- "$(gettext "  --noprepare      Do not run the %s function in the %s")\n" "prepare()" "$BUILDSCRIPT"
 	printf -- "$(gettext "  --nosign         Do not create a signature for the package")\n"
 	printf -- "$(gettext "  --packagelist    Only list packages that would be produced, without PKGEXT")\n"
-	printf -- "$(gettext "  --pkg <list>     Only build listed packages from a split package")\n"
 	printf -- "$(gettext "  --printsrcinfo   Print the generated SRCINFO and exit")\n"
 	printf -- "$(gettext "  --sign           Sign the resulting package with %s")\n" "gpg"
 	printf -- "$(gettext "  --skipchecksums  Do not verify checksums of the source files")\n"
@@ -1808,7 +1806,6 @@ while true; do
 		--nosign)         SIGNPKG='n' ;;
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
-		--pkg)            shift; IFS=, read -ra p <<<"$1"; PKGLIST+=("${p[@]}"); unset p ;;
 		--packagelist)    PACKAGELIST=1 IGNOREARCH=1;;
 		--printsrcinfo)   PRINTSRCINFO=1 ;;
 		-r|--rmdeps)      RMDEPS=1 ;;
@@ -2058,11 +2055,6 @@ if have_function package; then
 	PKGFUNC=1
 elif [[ $SPLITPKG -eq 0 ]] && have_function package_${pkgname}; then
 	SPLITPKG=1
-fi
-
-if [[ -n "${PKGLIST[@]}" ]]; then
-	unset pkgname
-	pkgname=("${PKGLIST[@]}")
 fi
 
 # check if gpg signature is to be created and if signing key is valid
