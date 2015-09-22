@@ -47,8 +47,6 @@ lint_arch() {
 
 	if (( ! IGNOREARCH )) && ! in_array "$CARCH" "${arch[@]}"; then
 		error "$(gettext "%s is not available for the '%s' architecture.")" "$pkgbase" "$CARCH"
-		plain "$(gettext "Note that many packages may need a line added to their %s")" "$BUILDSCRIPT"
-		plain "$(gettext "such as %s.")" "arch=('$CARCH')"
 		return 1
 	fi
 
@@ -61,4 +59,6 @@ lint_arch() {
 			fi
 		fi
 	done
+
+	return $ret
 }
