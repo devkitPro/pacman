@@ -32,7 +32,7 @@ lint_pkgbuild_functions+=('lint_changelog')
 
 
 lint_changelog() {
-	local list name file changelog_list ret=0
+	local name file changelog_list
 
 	changelog_list=("${changelog[@]}")
 	for name in "${pkgname[@]}"; do
