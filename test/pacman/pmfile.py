@@ -20,7 +20,32 @@ import stat
 
 import util
 
-class PacmanFile(object):
+class pmfile(object):
+    def __init__(self, path, content, mode=0o644):
+        self.path = path
+        self.content = content
+        self.mode = mode
+
+    def mkfile(self, root):
+        path = os.path.join(root, self.path)
+
+        dir_path = os.path.dirname(path)
+        if dir_path and not os.path.isdir(dir_path):
+            os.makedirs(dir_path, 0o755)
+
+        fd = open(path, "w")
+        if self.content:
+            fd.write(self.content)
+            if self.content[-1] != "\n":
+                fd.write("\n")
+        fd.close()
+
+        os.chmod(path, self.mode)
+
+        return path
+
+
+class snapshot(object):
     """File object
     """
 

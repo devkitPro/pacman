@@ -179,10 +179,14 @@ class pmtest(object):
         # Filesystem
         vprint("    Populating file system")
         for f in self.filesystem:
-            vprint("\t%s" % f)
-            path = util.mkfile(self.root, f, f)
-            if os.path.isfile(path):
-                os.utime(path, (355, 355))
+            if type(f) is pmfile.pmfile:
+                vprint("\t%s" % f.path)
+                f.mkfile(self.root);
+            else:
+                vprint("\t%s" % f)
+                path = util.mkfile(self.root, f, f)
+                if os.path.isfile(path):
+                    os.utime(path, (355, 355))
         for pkg in self.db["local"].pkgs:
             vprint("\tinstalling %s" % pkg.fullname())
             pkg.install_package(self.root)
@@ -193,10 +197,21 @@ class pmtest(object):
         # Done.
         vprint("    Taking a snapshot of the file system")
         for filename in self.snapshots_needed():
-            f = pmfile.PacmanFile(self.root, filename)
+            f = pmfile.snapshot(self.root, filename)
             self.files.append(f)
             vprint("\t%s" % f.name)
 
+    def add_hook(self, name, content):
+        if not name.endswith(".hook"):
+            name = name + ".hook"
+        path = os.path.join("etc/pacman.d/hooks/", name)
+        self.filesystem.append(pmfile.pmfile(path, content))
+
+    def add_script(self, name, content):
+        if not content.startswith("#!"):
+            content = "#!/bin/sh\n" + content
+        path = os.path.join("bin/", name)
+        self.filesystem.append(pmfile.pmfile(path, content, mode=0o755))
 
     def snapshots_needed(self):
         files = set()
