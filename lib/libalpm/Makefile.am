@@ -43,6 +43,8 @@ libalpm_la_SOURCES = \
 	graph.h graph.c \
 	group.h group.c \
 	handle.h handle.c \
+	hook.h hook.c \
+	ini.h ini.c \
 	libarchive-compat.h \
 	log.h log.c \
 	package.h package.c \

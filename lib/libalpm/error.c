@@ -100,6 +100,8 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 			return _("operation not compatible with the transaction type");
 		case ALPM_ERR_TRANS_NOT_LOCKED:
 			return _("transaction commit attempt when database is not locked");
+		case ALPM_ERR_TRANS_HOOK_FAILED:
+			return _("failed to run transaction hooks");
 		/* Packages */
 		case ALPM_ERR_PKG_NOT_FOUND:
 			return _("could not find or read package");

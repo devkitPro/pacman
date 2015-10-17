@@ -17,11 +17,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <dirent.h>
 #include <errno.h>
+#include <string.h>
 
 #include "handle.h"
 #include "hook.h"
+#include "ini.h"
 #include "log.h"
+#include "trans.h"
 #include "util.h"
 
 enum _alpm_hook_op_t {
@@ -151,6 +155,281 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 #undef error
 
 	return 0;
+}
+
+static int _alpm_hook_trigger_match_file(alpm_handle_t *handle, struct _alpm_trigger_t *t)
+{
+	alpm_list_t *i, *j, *install = NULL, *upgrade = NULL, *remove = NULL;
+	size_t isize = 0, rsize = 0;
+	int ret = 0;
+
+	/* check if file will be installed */
+	for(i = handle->trans->add; i; i = i->next) {
+		alpm_pkg_t *pkg = i->data;
+		alpm_filelist_t filelist = pkg->files;
+		size_t f;
+		for(f = 0; f < filelist.count; f++) {
+			if(alpm_option_match_noextract(handle, filelist.files[f].name) == 0) {
+				continue;
+			}
+			if(_alpm_fnmatch_patterns(t->targets, filelist.files[f].name) == 0) {
+				install = alpm_list_add(install, filelist.files[f].name);
+				isize++;
+			}
+		}
+	}
+
+	/* check if file will be removed due to package upgrade */
+	for(i = handle->trans->add; i; i = i->next) {
+		alpm_pkg_t *spkg = i->data;
+		alpm_pkg_t *pkg = alpm_db_get_pkg(handle->db_local, spkg->name);
+		if(pkg) {
+			alpm_filelist_t filelist = pkg->files;
+			size_t f;
+			for(f = 0; f < filelist.count; f++) {
+				if(_alpm_fnmatch_patterns(t->targets, filelist.files[f].name) == 0) {
+					remove = alpm_list_add(remove, filelist.files[f].name);
+					rsize++;
+				}
+			}
+		}
+	}
+
+	/* check if file will be removed due to package removal */
+	for(i = handle->trans->remove; i; i = i->next) {
+		alpm_pkg_t *pkg = i->data;
+		alpm_filelist_t filelist = pkg->files;
+		size_t f;
+		for(f = 0; f < filelist.count; f++) {
+			if(_alpm_fnmatch_patterns(t->targets, filelist.files[f].name) == 0) {
+				remove = alpm_list_add(remove, filelist.files[f].name);
+				rsize++;
+			}
+		}
+	}
+
+	i = install = alpm_list_msort(install, isize, (alpm_list_fn_cmp)strcmp);
+	j = remove = alpm_list_msort(remove, rsize, (alpm_list_fn_cmp)strcmp);
+	while(i) {
+		while(j && strcmp(i->data, j->data) > 0) {
+			j = j->next;
+		}
+		if(j == NULL) {
+			break;
+		}
+		if(strcmp(i->data, j->data) == 0) {
+			char *path = i->data;
+			upgrade = alpm_list_add(upgrade, path);
+			while(i && strcmp(i->data, path) == 0) {
+				alpm_list_t *next = i->next;
+				install = alpm_list_remove_item(install, i);
+				free(i);
+				i = next;
+			}
+			while(j && strcmp(j->data, path) == 0) {
+				alpm_list_t *next = j->next;
+				remove = alpm_list_remove_item(remove, j);
+				free(j);
+				j = next;
+			}
+		} else {
+			i = i->next;
+		}
+	}
+
+	ret = (t->op & ALPM_HOOK_OP_INSTALL && install)
+			|| (t->op & ALPM_HOOK_OP_UPGRADE && upgrade)
+			|| (t->op & ALPM_HOOK_OP_REMOVE && remove);
+
+	alpm_list_free(install);
+	alpm_list_free(upgrade);
+	alpm_list_free(remove);
+
+	return ret;
+}
+
+static int _alpm_hook_trigger_match_pkg(alpm_handle_t *handle, struct _alpm_trigger_t *t)
+{
+	if(t->op & ALPM_HOOK_OP_INSTALL || t->op & ALPM_HOOK_OP_UPGRADE) {
+		alpm_list_t *i;
+		for(i = handle->trans->add; i; i = i->next) {
+			alpm_pkg_t *pkg = i->data;
+			if(_alpm_fnmatch_patterns(t->targets, pkg->name) == 0) {
+				if(alpm_db_get_pkg(handle->db_local, pkg->name)) {
+					if(t->op & ALPM_HOOK_OP_UPGRADE) {
+						return 1;
+					}
+				} else {
+					if(t->op & ALPM_HOOK_OP_INSTALL) {
+						return 1;
+					}
+				}
+			}
+		}
+	}
+
+	if(t->op & ALPM_HOOK_OP_REMOVE) {
+		alpm_list_t *i;
+		for(i = handle->trans->remove; i; i = i->next) {
+			alpm_pkg_t *pkg = i->data;
+			if(pkg && _alpm_fnmatch_patterns(t->targets, pkg->name) == 0) {
+				if(!alpm_list_find(handle->trans->add, pkg, _alpm_pkg_cmp)) {
+					return 1;
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
+static int _alpm_hook_trigger_match(alpm_handle_t *handle, struct _alpm_trigger_t *t)
+{
+	return t->type == ALPM_HOOK_TYPE_PACKAGE
+		? _alpm_hook_trigger_match_pkg(handle, t)
+		: _alpm_hook_trigger_match_file(handle, t);
+}
+
+static int _alpm_hook_triggered(alpm_handle_t *handle, struct _alpm_hook_t *hook)
+{
+	alpm_list_t *i;
+	for(i = hook->triggers; i; i = i->next) {
+		if(_alpm_hook_trigger_match(handle, i->data)) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+static alpm_list_t *find_hook(alpm_list_t *haystack, const void *needle)
+{
+	while(haystack) {
+		struct _alpm_hook_t *h = haystack->data;
+		if(h && strcmp(h->name, needle) == 0) {
+			return haystack;
+		}
+		haystack = haystack->next;
+	}
+	return NULL;
+}
+
+static int _alpm_hook_run_hook(alpm_handle_t *handle, struct _alpm_hook_t *hook)
+{
+	alpm_list_t *i, *pkgs = _alpm_db_get_pkgcache(handle->db_local);
+	char *const argv[] = { hook->cmd, NULL };
+
+	for(i = hook->depends; i; i = i->next) {
+		if(!alpm_find_satisfier(pkgs, i->data)) {
+			_alpm_log(handle, ALPM_LOG_ERROR, _("unable to run hook %s: %s\n"),
+					hook->name, _("could not satisfy dependencies"));
+			return -1;
+		}
+	}
+
+	return _alpm_run_chroot(handle, hook->cmd, argv);
+}
+
+int _alpm_hook_run(alpm_handle_t *handle, enum _alpm_hook_when_t when)
+{
+	alpm_list_t *i, *hooks = NULL;
+	const char *suffix = ".hook";
+	size_t suflen = strlen(suffix);
+	int ret = 0;
+
+	for(i = alpm_list_last(handle->hookdirs); i; i = alpm_list_previous(i)) {
+		int err;
+		char path[PATH_MAX];
+		size_t dirlen;
+		struct dirent entry, *result;
+		DIR *d;
+
+		if(!(d = opendir(i->data))) {
+			if(errno == ENOENT) {
+				continue;
+			} else {
+				_alpm_log(handle, ALPM_LOG_ERROR, _("could not open directory: %s: %s\n"),
+						(char *)i->data, strerror(errno));
+				ret = -1;
+				continue;
+			}
+		}
+
+		strncpy(path, i->data, PATH_MAX);
+		dirlen = strlen(i->data);
+
+		while((err = readdir_r(d, &entry, &result)) == 0 && result) {
+			struct _alpm_hook_cb_ctx ctx = { handle, NULL };
+			struct stat buf;
+			size_t name_len = strlen(entry.d_name);
+
+			if(strcmp(entry.d_name, ".") == 0 || strcmp(entry.d_name, "..") == 0) {
+					continue;
+			}
+
+			strncpy(path + dirlen, entry.d_name, PATH_MAX - dirlen);
+
+			if(name_len < suflen
+					|| strcmp(entry.d_name + name_len - suflen, suffix) != 0) {
+				_alpm_log(handle, ALPM_LOG_DEBUG, "skipping non-hook file %s\n", path);
+				continue;
+			}
+
+			if(find_hook(hooks, entry.d_name)) {
+				_alpm_log(handle, ALPM_LOG_DEBUG, "skipping overridden hook %s\n", path);
+				continue;
+			}
+
+			if(fstatat(dirfd(d), entry.d_name, &buf, 0) != 0) {
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("could not stat file %s: %s\n"), path, strerror(errno));
+				ret = -1;
+				continue;
+			}
+
+			if(S_ISDIR(buf.st_mode)) {
+				_alpm_log(handle, ALPM_LOG_DEBUG, "skipping directory %s\n", path);
+				continue;
+			}
+
+			CALLOC(ctx.hook, sizeof(struct _alpm_hook_t), 1,
+					ret = -1; closedir(d); goto cleanup);
+
+			_alpm_log(handle, ALPM_LOG_DEBUG, "parsing hook file %s\n", path);
+			if(parse_ini(path, _alpm_hook_parse_cb, &ctx) != 0) {
+				_alpm_log(handle, ALPM_LOG_DEBUG, "parsing hook file %s failed\n", path);
+				_alpm_hook_free(ctx.hook);
+				ret = -1;
+				continue;
+			}
+
+			STRDUP(ctx.hook->name, entry.d_name, ret = -1; closedir(d); goto cleanup);
+			hooks = alpm_list_add(hooks, ctx.hook);
+		}
+
+		if(err != 0) {
+			_alpm_log(handle, ALPM_LOG_ERROR, _("could not read directory: %s: %s\n"),
+					(char *) i->data, strerror(errno));
+			ret = -1;
+		}
+
+		closedir(d);
+	}
+
+	for(i = hooks; i; i = i->next) {
+		struct _alpm_hook_t *hook = i->data;
+		if(hook && hook->when == when && _alpm_hook_triggered(handle, hook)) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "running hook %s\n", hook->name);
+			if(_alpm_hook_run_hook(handle, hook) != 0 && hook->abort_on_fail) {
+				ret = -1;
+			}
+		}
+	}
+
+cleanup:
+	alpm_list_free_inner(hooks, (alpm_list_fn_free) _alpm_hook_free);
+	alpm_list_free(hooks);
+
+	return ret;
 }
 
 /* vim: set noet: */
