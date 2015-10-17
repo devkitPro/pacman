@@ -79,7 +79,6 @@ static void optdeplist_display(alpm_pkg_t *pkg, unsigned short cols)
  * Extra information entails 'required by' info for sync packages and backup
  * files info for local packages.
  * @param pkg package to display information for
- * @param from the type of package we are dealing with
  * @param extra should we show extra information
  */
 void dump_pkg_full(alpm_pkg_t *pkg, int extra)
