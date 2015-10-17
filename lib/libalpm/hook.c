@@ -79,6 +79,68 @@ static void _alpm_hook_free(struct _alpm_hook_t *hook)
 	}
 }
 
+static int _alpm_trigger_validate(alpm_handle_t *handle,
+		struct _alpm_trigger_t *trigger, const char *file)
+{
+	int ret = 0;
+
+	if(trigger->targets == NULL) {
+		ret = -1;
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("Missing trigger targets in hook: %s\n"), file);
+	}
+
+	if(trigger->type == 0) {
+		ret = -1;
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("Missing trigger type in hook: %s\n"), file);
+	}
+
+	if(trigger->op == 0) {
+		ret = -1;
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("Missing trigger operation in hook: %s\n"), file);
+	}
+
+	return ret;
+}
+
+static int _alpm_hook_validate(alpm_handle_t *handle,
+		struct _alpm_hook_t *hook, const char *file)
+{
+	alpm_list_t *i;
+	int ret = 0;
+
+	if(hook->triggers == NULL) {
+		/* special case: allow triggerless hooks as a way of creating dummy
+		 * hooks that can be used to mask lower priority hooks */
+		return 0;
+	}
+
+	for(i = hook->triggers; i; i = i->next) {
+		if(_alpm_trigger_validate(handle, i->data, file) != 0) {
+			ret = -1;
+		}
+	}
+
+	if(hook->cmd == NULL) {
+		ret = -1;
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("Missing Exec option in hook: %s\n"), file);
+	}
+
+	if(hook->when == 0) {
+		ret = -1;
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("Missing When option in hook: %s\n"), file);
+	} else if(hook->when != ALPM_HOOK_PRE_TRANSACTION && hook->abort_on_fail) {
+		_alpm_log(handle, ALPM_LOG_WARNING,
+				_("AbortOnFail set for PostTransaction hook: %s\n"), file);
+	}
+
+	return ret;
+}
+
 static int _alpm_hook_parse_cb(const char *file, int line,
 		const char *section, char *key, char *value, void *data)
 {
@@ -395,7 +457,8 @@ int _alpm_hook_run(alpm_handle_t *handle, enum _alpm_hook_when_t when)
 					ret = -1; closedir(d); goto cleanup);
 
 			_alpm_log(handle, ALPM_LOG_DEBUG, "parsing hook file %s\n", path);
-			if(parse_ini(path, _alpm_hook_parse_cb, &ctx) != 0) {
+			if(parse_ini(path, _alpm_hook_parse_cb, &ctx) != 0
+					|| _alpm_hook_validate(handle, ctx.hook, path)) {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "parsing hook file %s failed\n", path);
 				_alpm_hook_free(ctx.hook);
 				ret = -1;
