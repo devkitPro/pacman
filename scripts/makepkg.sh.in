@@ -223,7 +223,7 @@ run_pacman() {
 	else
 		cmd=("$PACMAN_PATH" "$@")
 	fi
-	if [[ $1 != -@(T|Qq) ]]; then
+	if [[ $1 != -@(T|Qq|Q) ]]; then
 		if type -p sudo >/dev/null; then
 			cmd=(sudo "${cmd[@]}")
 		else
@@ -1147,19 +1147,23 @@ write_pkginfo() {
 	[[ $optdepends ]]   && printf "optdepend = %s\n"   "${optdepends[@]//+([[:space:]])/ }"
 	[[ $makedepends ]]  && printf "makedepend = %s\n"  "${makedepends[@]}"
 	[[ $checkdepends ]] && printf "checkdepend = %s\n" "${checkdepends[@]}"
+}
 
-	local it
-	for it in "${packaging_options[@]}"; do
-		check_option "$it" "y"
-		case $? in
-			0)
-				printf "makepkgopt = %s\n" "$it"
-				;;
-			1)
-				printf "makepkgopt = %s\n" "!$it"
-				;;
-		esac
-	done
+write_buildinfo() {
+	msg2 "$(gettext "Generating %s file...")" ".BUILDINFO"
+
+	printf "builddir = %s\n"  "${BUILDDIR}"
+
+	local sum="$(openssl dgst -sha256 "${BUILDFILE}")"
+	sum=${sum##* }
+
+	printf "pkgbuild_sha256sum = %s\n" $sum
+
+	printf "buildenv = %s\n" "${BUILDENV[@]}"
+	printf "options = %s\n" "${OPTIONS[@]}"
+
+	local pkglist=($(run_pacman -Q | sed "s# #-#"))
+	printf "installed = %s\n" "${pkglist[@]}"
 }
 
 create_package() {
@@ -1176,8 +1180,9 @@ create_package() {
 
 	pkgarch=$(get_pkg_arch)
 	write_pkginfo > .PKGINFO
+	write_buildinfo > .BUILDINFO
 
-	local comp_files=('.PKGINFO')
+	local comp_files=('.PKGINFO' '.BUILDINFO')
 
 	# check for changelog/install files
 	for i in 'changelog/.CHANGELOG' 'install/.INSTALL'; do
