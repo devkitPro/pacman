@@ -30,6 +30,7 @@ PM_SYNCDBPATH = "var/lib/pacman/sync"
 PM_LOCK     = "var/lib/pacman/db.lck"
 PM_CACHEDIR = "var/cache/pacman/pkg"
 PM_EXT_PKG  = ".pkg.tar.gz"
+PM_HOOKDIR  = "etc/pacman.d/hooks"
 
 # Pacman
 PACCONF     = "etc/pacman.conf"

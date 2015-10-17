@@ -43,6 +43,7 @@ class pmtest(object):
                 "--config", self.configfile(),
                 "--root", self.rootdir(),
                 "--dbpath", self.dbdir(),
+                "--hookdir", self.hookdir(),
                 "--cachedir", self.cachedir()]
 
     def __str__(self):
@@ -305,5 +306,8 @@ class pmtest(object):
 
     def cachedir(self):
         return os.path.join(self.root, util.PM_CACHEDIR)
+
+    def hookdir(self):
+        return os.path.join(self.root, util.PM_HOOKDIR)
 
 # vim: set ts=4 sw=4 et:
