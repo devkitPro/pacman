@@ -66,6 +66,7 @@ typedef struct __config_t {
 	char *dbpath;
 	char *logfile;
 	char *gpgdir;
+	alpm_list_t *hookdirs;
 	alpm_list_t *cachedirs;
 
 	unsigned short op_q_isfile;
@@ -156,6 +157,7 @@ enum {
 	OP_NOSCRIPTLET,
 	OP_ASK,
 	OP_CACHEDIR,
+	OP_HOOKDIR,
 	OP_ASDEPS,
 	OP_LOGFILE,
 	OP_IGNOREGROUP,

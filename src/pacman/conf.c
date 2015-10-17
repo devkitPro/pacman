@@ -146,6 +146,7 @@ int config_free(config_t *oldconfig)
 	free(oldconfig->dbpath);
 	free(oldconfig->logfile);
 	free(oldconfig->gpgdir);
+	FREELIST(oldconfig->hookdirs);
 	FREELIST(oldconfig->cachedirs);
 	free(oldconfig->xfercommand);
 	free(oldconfig->print_format);
@@ -515,6 +516,8 @@ static int _parse_options(const char *key, char *value,
 			setrepeatingoption(value, "HoldPkg", &(config->holdpkg));
 		} else if(strcmp(key, "CacheDir") == 0) {
 			setrepeatingoption(value, "CacheDir", &(config->cachedirs));
+		} else if(strcmp(key, "HookDir") == 0) {
+			setrepeatingoption(value, "HookDir", &(config->hookdirs));
 		} else if(strcmp(key, "Architecture") == 0) {
 			if(!config->arch) {
 				config_set_arch(value);
@@ -749,6 +752,25 @@ static int setup_libalpm(void)
 		pm_printf(ALPM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
 				config->gpgdir, alpm_strerror(alpm_errno(handle)));
 		return ret;
+	}
+
+	/* Set user hook directory. This is not relative to rootdir, even if
+	 * rootdir is defined. Reasoning: hookdir contains configuration data. */
+	if(config->hookdirs == NULL) {
+		if((ret = alpm_option_add_hookdir(handle, HOOKDIR)) != 0) {
+			pm_printf(ALPM_LOG_ERROR, _("problem adding hookdir '%s' (%s)\n"),
+					HOOKDIR, alpm_strerror(alpm_errno(handle)));
+			return ret;
+		}
+	} else {
+		/* add hook directories 1-by-1 to avoid overwriting the system directory */
+		for(i = config->hookdirs; i; i = alpm_list_next(i)) {
+			if((ret = alpm_option_add_hookdir(handle, i->data)) != 0) {
+				pm_printf(ALPM_LOG_ERROR, _("problem adding hookdir '%s' (%s)\n"),
+						(char *) i->data, alpm_strerror(alpm_errno(handle)));
+				return ret;
+			}
+		}
 	}
 
 	/* add a default cachedir if one wasn't specified */

@@ -210,6 +210,7 @@ static void usage(int op, const char * const myname)
 		addlist(_("  -v, --verbose        be verbose\n"));
 		addlist(_("      --arch <arch>    set an alternate architecture\n"));
 		addlist(_("      --cachedir <dir> set an alternate package cache location\n"));
+		addlist(_("      --hookdir <dir>  set an alternate hook location\n"));
 		addlist(_("      --color <when>   colorize the output\n"));
 		addlist(_("      --config <path>  set an alternate configuration file\n"));
 		addlist(_("      --debug          display debug messages\n"));
@@ -462,6 +463,9 @@ static int parsearg_global(int opt)
 		case OP_GPGDIR:
 			free(config->gpgdir);
 			config->gpgdir = strdup(optarg);
+			break;
+		case OP_HOOKDIR:
+			config->hookdirs = alpm_list_add(config->hookdirs, strdup(optarg));
 			break;
 		case OP_LOGFILE:
 			free(config->logfile);
@@ -959,6 +963,7 @@ static int parseargs(int argc, char *argv[])
 		{"noscriptlet", no_argument,      0, OP_NOSCRIPTLET},
 		{"ask",        required_argument, 0, OP_ASK},
 		{"cachedir",   required_argument, 0, OP_CACHEDIR},
+		{"hookdir",    required_argument, 0, OP_HOOKDIR},
 		{"asdeps",     no_argument,       0, OP_ASDEPS},
 		{"logfile",    required_argument, 0, OP_LOGFILE},
 		{"ignoregroup", required_argument, 0, OP_IGNOREGROUP},
@@ -1271,6 +1276,11 @@ int main(int argc, char *argv[])
 		printf("DB Path   : %s\n", alpm_option_get_dbpath(config->handle));
 		printf("Cache Dirs: ");
 		for(j = alpm_option_get_cachedirs(config->handle); j; j = alpm_list_next(j)) {
+			printf("%s  ", (const char *)j->data);
+		}
+		printf("\n");
+		printf("Hook Dirs : ");
+		for(j = alpm_option_get_hookdirs(config->handle); j; j = alpm_list_next(j)) {
 			printf("%s  ", (const char *)j->data);
 		}
 		printf("\n");
