@@ -173,7 +173,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Compressed Size:"),
 			config->colstr.nocolor, size, label);
 	} else {
-		// autodetect size for "Installed Size"
+		/* autodetect size for "Installed Size" */
 		label = "\0";
 	}
 
