@@ -61,7 +61,7 @@ static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
 				if(alpm_filelist_contains(files, f)) {
 
 					if(!config->quiet) {
-						printf(_("%s is owned by %s/%s %s\n"), filename,
+						printf(_("%s is owned by %s/%s %s\n"), f,
 								alpm_db_get_name(repo), alpm_pkg_get_name(pkg),
 								alpm_pkg_get_version(pkg));
 					} else {
@@ -166,6 +166,28 @@ notfound:
 	return 0;
 }
 
+static void dump_file_list(alpm_pkg_t *pkg) {
+	const char *pkgname;
+	alpm_filelist_t *pkgfiles;
+	size_t i;
+
+	pkgname = alpm_pkg_get_name(pkg);
+	pkgfiles = alpm_pkg_get_files(pkg);
+
+	for(i = 0; i < pkgfiles->count; i++) {
+		const alpm_file_t *file = pkgfiles->files + i;
+		/* Regular: '<pkgname> <filepath>\n'
+		 * Quiet  : '<filepath>\n'
+		 */
+		if(!config->quiet) {
+			printf("%s%s%s ", config->colstr.title, pkgname, config->colstr.nocolor);
+		}
+		printf("%s\n", file->name);
+	}
+
+	fflush(stdout);
+}
+
 static int files_list(alpm_list_t *syncs, alpm_list_t *targets) {
 	alpm_list_t *i, *j;
 	int ret = 0, found = 0;
@@ -200,7 +222,7 @@ static int files_list(alpm_list_t *syncs, alpm_list_t *targets) {
 
 				if((pkg = alpm_db_get_pkg(db, targ)) != NULL) {
 					found = 1;
-					dump_pkg_files(pkg, config->quiet);
+					dump_file_list(pkg);
 					break;
 				}
 			}
@@ -218,7 +240,7 @@ static int files_list(alpm_list_t *syncs, alpm_list_t *targets) {
 
 			for(j = alpm_db_get_pkgcache(db); j; j = alpm_list_next(j)) {
 				alpm_pkg_t *pkg = j->data;
-				dump_pkg_files(pkg, config->quiet);
+				dump_file_list(pkg);
 			}
 		}
 	}
