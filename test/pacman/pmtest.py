@@ -180,8 +180,7 @@ class pmtest(object):
         vprint("    Populating file system")
         for f in self.filesystem:
             vprint("\t%s" % f)
-            util.mkfile(self.root, f, f)
-            path = os.path.join(self.root, f)
+            path = util.mkfile(self.root, f, f)
             if os.path.isfile(path):
                 os.utime(path, (355, 355))
         for pkg in self.db["local"].pkgs:

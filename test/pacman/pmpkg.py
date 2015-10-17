@@ -174,8 +174,7 @@ class pmpkg(object):
     def install_package(self, root):
         """Install the package in the given root."""
         for f in self.files:
-            util.mkfile(root, f, f)
-            path = os.path.join(root, f)
+            path = util.mkfile(root, f, f)
             if os.path.isfile(path):
                 os.utime(path, (355, 355))
 
