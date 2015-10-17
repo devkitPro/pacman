@@ -481,6 +481,11 @@ File Options[[FO]]
 	pacman's output is processed in a script, however, you may want to use
 	'--machinereadable' instead.
 
+*--machinereadable*::
+	Use a machine readable output format for '--list', '--search' and
+	'--owns'. The format is 'repository\0pkgname\0pkgver\0path\n' with '\0'
+	being the NULL character and '\n' a linefeed.
+
 Handling Config Files[[HCF]]
 ----------------------------
 Pacman uses the same logic as 'rpm' to determine action against files that are

@@ -90,6 +90,7 @@ typedef struct __config_t {
 	unsigned short op_s_upgrade;
 
 	unsigned short op_f_regex;
+	unsigned short op_f_machinereadable;
 
 	unsigned short group;
 	unsigned short noask;
@@ -192,6 +193,7 @@ enum {
 	OP_RECURSIVE,
 	OP_SEARCH,
 	OP_REGEX,
+	OP_MACHINEREADABLE,
 	OP_UNREQUIRED,
 	OP_UPGRADES,
 	OP_SYSUPGRADE,
