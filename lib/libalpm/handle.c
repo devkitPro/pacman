@@ -83,6 +83,7 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	FREE(handle->dbpath);
 	FREE(handle->dbext);
 	FREELIST(handle->cachedirs);
+	FREELIST(handle->hookdirs);
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
 	FREE(handle->arch);
@@ -205,6 +206,12 @@ const char SYMEXPORT *alpm_option_get_dbpath(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->dbpath;
+}
+
+alpm_list_t SYMEXPORT *alpm_option_get_hookdirs(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->hookdirs;
 }
 
 alpm_list_t SYMEXPORT *alpm_option_get_cachedirs(alpm_handle_t *handle)
@@ -383,6 +390,58 @@ alpm_errno_t _alpm_set_directory_option(const char *value,
 	*storage = canonicalize_path(path);
 	if(!*storage) {
 		return ALPM_ERR_MEMORY;
+	}
+	return 0;
+}
+
+int SYMEXPORT alpm_option_add_hookdir(alpm_handle_t *handle, const char *hookdir)
+{
+	char *newhookdir;
+
+	CHECK_HANDLE(handle, return -1);
+	ASSERT(hookdir != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+
+	newhookdir = canonicalize_path(hookdir);
+	if(!newhookdir) {
+		RET_ERR(handle, ALPM_ERR_MEMORY, -1);
+	}
+	handle->hookdirs = alpm_list_add(handle->hookdirs, newhookdir);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'hookdir' = %s\n", newhookdir);
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_hookdirs(alpm_handle_t *handle, alpm_list_t *hookdirs)
+{
+	alpm_list_t *i;
+	CHECK_HANDLE(handle, return -1);
+	if(handle->hookdirs) {
+		FREELIST(handle->hookdirs);
+	}
+	for(i = hookdirs; i; i = i->next) {
+		int ret = alpm_option_add_hookdir(handle, i->data);
+		if(ret) {
+			return ret;
+		}
+	}
+	return 0;
+}
+
+int SYMEXPORT alpm_option_remove_hookdir(alpm_handle_t *handle, const char *hookdir)
+{
+	char *vdata = NULL;
+	char *newhookdir;
+	CHECK_HANDLE(handle, return -1);
+	ASSERT(hookdir != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+
+	newhookdir = canonicalize_path(hookdir);
+	if(!newhookdir) {
+		RET_ERR(handle, ALPM_ERR_MEMORY, -1);
+	}
+	handle->hookdirs = alpm_list_remove_str(handle->hookdirs, newhookdir, &vdata);
+	FREE(newhookdir);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return 1;
 	}
 	return 0;
 }

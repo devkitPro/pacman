@@ -775,6 +775,15 @@ int alpm_option_add_cachedir(alpm_handle_t *handle, const char *cachedir);
 int alpm_option_remove_cachedir(alpm_handle_t *handle, const char *cachedir);
 /** @} */
 
+/** @name Accessors to the list of package hook directories.
+ * @{
+ */
+alpm_list_t *alpm_option_get_hookdirs(alpm_handle_t *handle);
+int alpm_option_set_hookdirs(alpm_handle_t *handle, alpm_list_t *hookdirs);
+int alpm_option_add_hookdir(alpm_handle_t *handle, const char *hookdir);
+int alpm_option_remove_hookdir(alpm_handle_t *handle, const char *hookdir);
+/** @} */
+
 /** Returns the logfile name. */
 const char *alpm_option_get_logfile(alpm_handle_t *handle);
 /** Sets the logfile name. */

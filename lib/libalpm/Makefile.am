@@ -7,6 +7,7 @@ include_HEADERS = alpm_list.h alpm.h
 
 AM_CPPFLAGS = \
 	-imacros $(top_builddir)/config.h \
+	-DSYSHOOKDIR=\"@datarootdir@/libalpm/hooks/\" \
 	-DLOCALEDIR=\"@localedir@\"
 
 AM_CFLAGS = -pedantic -D_GNU_SOURCE $(WARNING_CFLAGS)

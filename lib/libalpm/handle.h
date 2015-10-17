@@ -82,6 +82,7 @@ struct __alpm_handle_t {
 	char *lockfile;          /* Name of the lock file */
 	char *gpgdir;            /* Directory where GnuPG files are stored */
 	alpm_list_t *cachedirs;  /* Paths to pacman cache directories */
+	alpm_list_t *hookdirs;   /* Paths to hook directories */
 
 	/* package lists */
 	alpm_list_t *noupgrade;   /* List of packages NOT to be upgraded */

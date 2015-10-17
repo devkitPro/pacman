@@ -50,6 +50,7 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 {
 	alpm_errno_t myerr;
 	const char *lf = "db.lck";
+	char *hookdir;
 	size_t lockfilelen;
 	alpm_handle_t *myhandle = _alpm_handle_new();
 
@@ -63,6 +64,10 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 	if((myerr = _alpm_set_directory_option(dbpath, &(myhandle->dbpath), 1))) {
 		goto cleanup;
 	}
+
+	MALLOC(hookdir, strlen(myhandle->root) + strlen(SYSHOOKDIR) + 1, goto cleanup);
+	sprintf(hookdir, "%s%s", myhandle->root, SYSHOOKDIR);
+	myhandle->hookdirs = alpm_list_add(NULL, hookdir);
 
 	/* set default database extension */
 	STRDUP(myhandle->dbext, ".db", goto cleanup);
