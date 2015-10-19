@@ -44,14 +44,14 @@ download_bzr() {
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"
 
 	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
-		msg2 "$(gettext "Branching %s ...")" "${displaylocation}"
+		msg2 "$(gettext "Branching %s...")" "${displaylocation}"
 		if ! bzr branch "$url" "$dir" --no-tree --use-existing-dir; then
 			error "$(gettext "Failure while branching %s")" "${displaylocation}"
 			plain "$(gettext "Aborting...")"
 			exit 1
 		fi
 	elif (( ! HOLDVER )); then
-		msg2 "$(gettext "Pulling %s ...")" "${displaylocation}"
+		msg2 "$(gettext "Pulling %s...")" "${displaylocation}"
 		cd_safe "$dir"
 		if ! bzr pull "$url"; then
 			# only warn on failure to allow offline builds

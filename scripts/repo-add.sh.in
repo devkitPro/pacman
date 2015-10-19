@@ -192,7 +192,7 @@ db_remove_delta() {
 		msg2 "$(gettext "Removing existing entry '%s'...")" "$filename"
 		# empty deltas file contains only "%DELTAS%"
 		if (( $(wc -l < "$deltas") == 1 )); then
-			msg2 "$(gettext "Removing empty deltas file ...")"
+			msg2 "$(gettext "Removing empty deltas file...")"
 			rm "$deltas"
 		fi
 
