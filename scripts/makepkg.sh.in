@@ -1535,7 +1535,7 @@ check_software() {
 	# openssl - checksum operations
 	if (( ! SKIPCHECKSUMS )); then
 		if ! type -p openssl >/dev/null; then
-			error "$(gettext "Cannot find the %s binary required for validating sourcefile checksums.")" "openssl"
+			error "$(gettext "Cannot find the %s binary required for validating source file checksums.")" "openssl"
 			ret=1
 		fi
 	fi
