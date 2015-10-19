@@ -852,13 +852,13 @@ run_prepare() {
 
 run_build() {
 	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildenv "distcc" "y" && ! check_option "distcc" "n"; then
+	if check_buildoption "distcc" "y"; then
 		[[ -d /usr/lib/distcc/bin ]] && export PATH="/usr/lib/distcc/bin:$PATH"
 		export DISTCC_HOSTS
 	fi
 
 	# use ccache if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildenv "ccache" "y" && ! check_option "ccache" "n"; then
+	if check_buildoption "ccache" "y"; then
 		[[ -d /usr/lib/ccache/bin ]] && export PATH="/usr/lib/ccache/bin:$PATH"
 	fi
 
@@ -1557,7 +1557,7 @@ check_software() {
 	fi
 
 	# distcc - compilation with distcc
-	if check_buildenv "distcc" "y" && ! check_option "distcc" "n"; then
+	if check_buildoption "distcc" "y"; then
 		if ! type -p distcc >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for distributed compilation.")" "distcc"
 			ret=1
@@ -1565,7 +1565,7 @@ check_software() {
 	fi
 
 	# ccache - compilation with ccache
-	if check_buildenv "ccache" "y" && ! check_option "ccache" "n"; then
+	if check_buildoption "ccache" "y"; then
 		if ! type -p ccache >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for compiler cache usage.")" "ccache"
 			ret=1

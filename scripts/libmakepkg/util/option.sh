@@ -106,3 +106,37 @@ check_buildenv() {
 	# not found
 	return 127
 }
+
+##
+# Checks to see if options are present in BUILDENV or PKGBUILD;
+# PKGBUILD options always take precedence.
+#
+#  usage : check_buildoption( $option, $expected_val )
+# return : 0   - matches expected
+#          1   - does not match expected
+#          127 - not found
+##
+check_buildoption() {
+	in_opt_array "$1" ${options[@]}
+	case $? in
+		0) # assert enabled
+			[[ $2 = y ]]
+			return ;;
+		1) # assert disabled
+			[[ $2 = n ]]
+			return
+	esac
+
+	in_opt_array "$1" ${BUILDENV[@]}
+	case $? in
+		0) # assert enabled
+			[[ $2 = y ]]
+			return ;;
+		1) # assert disabled
+			[[ $2 = n ]]
+			return
+	esac
+
+	# not found
+	return 127
+}
