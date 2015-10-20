@@ -75,15 +75,7 @@ alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
        NOT
     return(0);
 
-6.  The sizeof() operator should accept a type, not a value. (TODO: in certain
-    cases, it may be better- should this be a set guideline? Read "The Practice
-    of Programming")
-
-    sizeof(alpm_list_t);
-       NOT
-    sizeof(*mylist);
-
-7.  When using strcmp() (or any function that returns 0 on success) in a
+6.  When using strcmp() (or any function that returns 0 on success) in a
     conditional statement, use != 0 or == 0 and not the negation (!) operator.
     It reads much cleaner for humans (using a negative to check for success is
     confusing) and the compiler will treat it correctly anyway.
@@ -92,7 +84,7 @@ alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
        NOT
     if(!strcmp(a, b))
 
-8.  Use spaces around almost all arithmetic, comparison and assignment
+7.  Use spaces around almost all arithmetic, comparison and assignment
     operators and after all ',;:' separators.
 
 	foobar[2 * size + 1] = function(a, 6);
@@ -103,7 +95,7 @@ alpm_list_t *alpm_list_add(alpm_list_t *list, void *data)
 	   NOT
 	for(a=0;a<n&&n>0;a++,n--) {}
 
-9.  Declare all variables at the start of the block.
+8.  Declare all variables at the start of the block.
 [source,C]
 -------------------------------------------
 int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
