@@ -1075,7 +1075,7 @@ double humanize_size(off_t bytes, const char target_unit, int precision,
 {
 	static const char *labels[] = {"B", "KiB", "MiB", "GiB",
 		"TiB", "PiB", "EiB", "ZiB", "YiB"};
-	static const int unitcount = sizeof(labels) / sizeof(labels[0]);
+	static const int unitcount = ARRAYSIZE(labels);
 
 	double val = (double)bytes;
 	int index;

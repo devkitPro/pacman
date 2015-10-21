@@ -228,7 +228,7 @@ static int sync_cleancache(int level)
 				};
 				size_t j;
 
-				for(j = 0; j < sizeof(glob_skips) / sizeof(glob_skips[0]); j++) {
+				for(j = 0; j < ARRAYSIZE(glob_skips); j++) {
 					if(fnmatch(glob_skips[j], ent->d_name, 0) == 0) {
 						delete = 0;
 						break;

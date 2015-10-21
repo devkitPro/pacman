@@ -1141,7 +1141,7 @@ int main(int argc, char *argv[])
 	new_action.sa_flags = SA_RESTART;
 
 	/* assign our handler to any signals we care about */
-	for(i = 0; i < sizeof(signals) / sizeof(signals[0]); i++) {
+	for(i = 0; i < ARRAYSIZE(signals); i++) {
 		int signal = signals[i];
 		sigaction(signal, NULL, &old_action);
 		if(old_action.sa_handler != SIG_IGN) {

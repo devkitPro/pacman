@@ -36,6 +36,8 @@ size_t strtrim(char *str);
 char *strndup(const char *s, size_t n);
 #endif
 
+#define ARRAYSIZE(a) (sizeof (a) / sizeof (a[0]))
+
 #endif /* _PM_UTIL_COMMON_H */
 
 /* vim: set noet: */
