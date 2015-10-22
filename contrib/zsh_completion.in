@@ -252,23 +252,36 @@ _pacman_completions_all_groups() {
 	_pacman_get_command
 	groups=( $(_call_program groups $cmd[@] -Sg) )
 	typeset -U groups
-	compadd "$@" -a groups
+
+	if [[ ${words[CURRENT-1]} == '--ignoregroup' ]]; then
+		_sequence compadd -S ',' "$@" -a groups
+	else
+		compadd "$@" -a groups
+	fi
 }
 
 # provides completions for packages available from repositories
 # these can be specified as either 'package' or 'repository/package'
 _pacman_completions_all_packages() {
-	local -a cmd packages repositories packages_long
+	local -a seq sep cmd packages repositories packages_long
 	_pacman_get_command
+
+	if [[ ${words[CURRENT-1]} == '--ignore' ]]; then
+		seq='_sequence'
+		sep=(-S ',')
+	else
+		seq=
+		sep=()
+	fi
 
 	if compset -P1 '*/*'; then
 		packages=( $(_call_program packages $cmd[@] -Sql ${words[CURRENT]%/*}) )
 		typeset -U packages
-		_wanted repo_packages expl "repository/package" compadd ${(@)packages}
+		${seq} _wanted repo_packages expl "repository/package" compadd ${sep[@]} ${(@)packages}
 	else
 		packages=( $(_call_program packages $cmd[@] -Sql) )
 		typeset -U packages
-		_wanted packages expl "packages" compadd - "${(@)packages}"
+		${seq} _wanted packages expl "packages" compadd ${sep[@]} - "${(@)packages}"
 
 		repositories=(${(o)${${${(M)${(f)"$(<@sysconfdir@/pacman.conf)"}:#\[*}/\[/}/\]/}:#options})
 		typeset -U repositories
