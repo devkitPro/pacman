@@ -41,6 +41,8 @@ _pacman_opts_pkgfile=(
 	'--dbonly[Only remove database entry, do not remove files]'
 	'--force[Overwrite conflicting files]'
 	'--needed[Do not reinstall up to date packages]'
+	'--asdeps[mark packages as non-explicitly installed]'
+	'--asexplicit[mark packages as explicitly installed]'
 	'*:package file:_files -g "*.pkg.tar*~*.sig(.,@)"'
 )
 
