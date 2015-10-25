@@ -110,6 +110,12 @@ greater than `1:3.6-1`.
 	Options>> below; also see <<HCF,Handling Config Files>> for an explanation
 	on how pacman takes care of configuration files.
 
+*-F, \--files*::
+	Query the files database. This operation allows you to look for packages
+	owning certain files or display files owned by certain packages. Only
+	packages that are part of your sync databases are searched. See
+	<<FO,File Options>> below.
+
 *-V, \--version*::
 	Display version and exit.
 
@@ -451,6 +457,29 @@ Database Options[[QO]]
 	a check on the sync databases to ensure all specified dependencies
 	are available.
 
+File Options[[FO]]
+------------------
+
+*-y, --refresh*::
+	Download fresh package databases from the server. Use twice to force a
+	refresh even if databases are up to date.
+
+*-l, \--list*::
+	List the files owned by the queried package.
+
+*-s, \--search*::
+	Search package file names for matching strings.
+
+*-x, --regex*::
+	Treat arguments to '--search' as regular expressions.
+
+*-o, \--owns*::
+	Search for packages that own a particular file.
+
+*-q, \--quiet*::
+	Show less information for certain file operations. This is useful when
+	pacman's output is processed in a script, however, you may want to use
+	'--machinereadable' instead.
 
 Handling Config Files[[HCF]]
 ----------------------------
