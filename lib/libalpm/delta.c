@@ -335,6 +335,7 @@ error:
 
 void _alpm_delta_free(alpm_delta_t *delta)
 {
+	ASSERT(delta != NULL, return);
 	FREE(delta->delta);
 	FREE(delta->delta_md5);
 	FREE(delta->from);

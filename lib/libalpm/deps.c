@@ -37,6 +37,7 @@
 
 void SYMEXPORT alpm_dep_free(alpm_depend_t *dep)
 {
+	ASSERT(dep != NULL, return);
 	FREE(dep->name);
 	FREE(dep->version);
 	FREE(dep->desc);
@@ -63,6 +64,7 @@ error:
 
 void SYMEXPORT alpm_depmissing_free(alpm_depmissing_t *miss)
 {
+	ASSERT(miss != NULL, return);
 	alpm_dep_free(miss->depend);
 	FREE(miss->target);
 	FREE(miss->causingpkg);

@@ -76,9 +76,10 @@ alpm_backup_t *_alpm_needbackup(const char *file, alpm_pkg_t *pkg)
 
 void _alpm_backup_free(alpm_backup_t *backup)
 {
-	free(backup->name);
-	free(backup->hash);
-	free(backup);
+	ASSERT(backup != NULL, return);
+	FREE(backup->name);
+	FREE(backup->hash);
+	FREE(backup);
 }
 
 alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup)

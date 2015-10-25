@@ -31,6 +31,7 @@ alpm_graph_t *_alpm_graph_new(void)
 
 void _alpm_graph_free(void *data)
 {
+	ASSERT(data != NULL, return);
 	alpm_graph_t *graph = data;
 	alpm_list_free(graph->children);
 	free(graph);

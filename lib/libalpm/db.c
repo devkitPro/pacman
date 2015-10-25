@@ -344,6 +344,7 @@ alpm_db_t *_alpm_db_new(const char *treename, int is_local)
 
 void _alpm_db_free(alpm_db_t *db)
 {
+	ASSERT(db != NULL, return);
 	/* cleanup pkgcache */
 	_alpm_db_free_pkgcache(db);
 	/* cleanup server list */

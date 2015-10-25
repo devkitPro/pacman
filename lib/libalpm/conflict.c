@@ -68,6 +68,7 @@ error:
  */
 void SYMEXPORT alpm_conflict_free(alpm_conflict_t *conflict)
 {
+	ASSERT(conflict != NULL, return);
 	FREE(conflict->package2);
 	FREE(conflict->package1);
 	FREE(conflict);
@@ -301,6 +302,7 @@ error:
  */
 void SYMEXPORT alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 {
+	ASSERT(conflict != NULL, return);
 	FREE(conflict->ctarget);
 	FREE(conflict->file);
 	FREE(conflict->target);
