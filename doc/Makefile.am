@@ -4,6 +4,7 @@
 # man_MANS if --enable-asciidoc and/or --enable-doxygen are used.
 
 ASCIIDOC_MANS = \
+	alpm-hooks.5 \
 	pacman.8 \
 	makepkg.8 \
 	makepkg-template.1 \
@@ -20,6 +21,7 @@ ASCIIDOC_MANS = \
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
 HTML_MANPAGES = \
+	alpm-hooks.5.html \
 	pacman.8.html \
 	makepkg.8.html \
 	makepkg-template.1.html \
@@ -46,6 +48,7 @@ HTML_DOCS = \
 EXTRA_DIST = \
 	asciidoc.conf \
 	asciidoc-override.css \
+	alpm-hooks.5.txt \
 	pacman.8.txt \
 	makepkg.8.txt \
 	makepkg-template.1.txt \
@@ -147,6 +150,7 @@ $(HTML_OTHER): asciidoc.conf Makefile.am
 %.3.html: ASCIIDOC_OPTS += -d manpage
 
 # Dependency rules
+alpm-hooks.5 alpm-hooks.5.html: alpm-hooks.5.txt
 pacman.8 pacman.8.html: pacman.8.txt
 makepkg.8 makepkg.8.html: makepkg.8.txt
 makepkg-template.1 makepkg-template.1.html: makepkg-template.1.txt
