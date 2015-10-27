@@ -363,6 +363,11 @@ static int _alpm_hook_triggered(alpm_handle_t *handle, struct _alpm_hook_t *hook
 	return 0;
 }
 
+static int _alpm_hook_cmp(struct _alpm_hook_t *h1, struct _alpm_hook_t *h2)
+{
+	return strcmp(h1->name, h2->name);
+}
+
 static alpm_list_t *find_hook(alpm_list_t *haystack, const void *needle)
 {
 	while(haystack) {
@@ -477,6 +482,9 @@ int _alpm_hook_run(alpm_handle_t *handle, enum _alpm_hook_when_t when)
 
 		closedir(d);
 	}
+
+	hooks = alpm_list_msort(hooks, alpm_list_count(hooks),
+			(alpm_list_fn_cmp)_alpm_hook_cmp);
 
 	for(i = hooks; i; i = i->next) {
 		struct _alpm_hook_t *hook = i->data;
