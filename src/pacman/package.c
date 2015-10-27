@@ -25,6 +25,7 @@
 #include <limits.h>
 #include <errno.h>
 #include <time.h>
+#include <wchar.h>
 
 #include <alpm.h>
 #include <alpm_list.h>
@@ -35,6 +36,107 @@
 #include "conf.h"
 
 #define CLBUF_SIZE 4096
+
+/* The term "title" refers to the first field of each line in the package
+ * information displayed by pacman. Titles are stored in the `titles` array and
+ * referenced by the following indices.
+ */
+enum {
+	T_ARCHITECTURE = 0,
+	T_BACKUP_FILES,
+	T_BUILD_DATE,
+	T_COMPRESSED_SIZE,
+	T_CONFLICTS_WITH,
+	T_DEPENDS_ON,
+	T_DESCRIPTION,
+	T_DOWNLOAD_SIZE,
+	T_GROUPS,
+	T_INSTALL_DATE,
+	T_INSTALL_REASON,
+	T_INSTALL_SCRIPT,
+	T_INSTALLED_SIZE,
+	T_LICENSES,
+	T_MD5_SUM,
+	T_NAME,
+	T_OPTIONAL_DEPS,
+	T_OPTIONAL_FOR,
+	T_PACKAGER,
+	T_PROVIDES,
+	T_REPLACES,
+	T_REPOSITORY,
+	T_REQUIRED_BY,
+	T_SHA_256_SUM,
+	T_SIGNATURES,
+	T_URL,
+	T_VALIDATED_BY,
+	T_VERSION,
+	/* the following is a sentinel and should remain in last position */
+	_T_MAX
+};
+
+/* As of 2015/10/20, the longest title (all locales considered) was less than 30
+ * characters long. We set the title maximum length to 50 to allow for some
+ * potential growth.
+ */
+#define TITLE_MAXLEN 50
+
+static char titles[_T_MAX][TITLE_MAXLEN * sizeof(wchar_t)];
+
+/** Build the `titles` array of localized titles and pad them with spaces so
+ * that they align with the longest title. Storage for strings is stack
+ * allocated and naively truncated to TITLE_MAXLEN characters.
+ */
+static void make_aligned_titles(void)
+{
+	unsigned int i;
+	size_t max = 0;
+	static const wchar_t *title_suffix = L" :";
+	static const size_t title_suffix_len = sizeof(title_suffix);
+	wchar_t wbuf[ARRAYSIZE(titles)][TITLE_MAXLEN + title_suffix_len];
+	size_t wlen[ARRAYSIZE(wbuf)];
+	char *buf[ARRAYSIZE(wbuf)];
+	buf[T_ARCHITECTURE] = _("Architecture");
+	buf[T_BACKUP_FILES] = _("Backup Files");
+	buf[T_BUILD_DATE] = _("Build Date");
+	buf[T_COMPRESSED_SIZE] = _("Compressed Size");
+	buf[T_CONFLICTS_WITH] = _("Conflicts With");
+	buf[T_DEPENDS_ON] = _("Depends On");
+	buf[T_DESCRIPTION] = _("Description");
+	buf[T_DOWNLOAD_SIZE] = _("Download Size");
+	buf[T_GROUPS] = _("Groups");
+	buf[T_INSTALL_DATE] = _("Install Date");
+	buf[T_INSTALL_REASON] = _("Install Reason");
+	buf[T_INSTALL_SCRIPT] = _("Install Script");
+	buf[T_INSTALLED_SIZE] = _("Installed Size");
+	buf[T_LICENSES] = _("Licenses");
+	buf[T_MD5_SUM] = _("MD5 Sum");
+	buf[T_NAME] = _("Name");
+	buf[T_OPTIONAL_DEPS] = _("Optional Deps");
+	buf[T_OPTIONAL_FOR] = _("Optional For");
+	buf[T_PACKAGER] = _("Packager");
+	buf[T_PROVIDES] = _("Provides");
+	buf[T_REPLACES] = _("Replaces");
+	buf[T_REPOSITORY] = _("Repository");
+	buf[T_REQUIRED_BY] = _("Required By");
+	buf[T_SHA_256_SUM] = _("SHA-256 Sum");
+	buf[T_SIGNATURES] = _("Signatures");
+	buf[T_URL] = _("URL");
+	buf[T_VALIDATED_BY] = _("Validated By");
+	buf[T_VERSION] = _("Version");
+
+	for(i = 0; i < ARRAYSIZE(wbuf); i++) {
+		wlen[i] = mbstowcs(wbuf[i], buf[i], strlen(buf[i]) + 1);
+		if(wlen[i] > max) {
+			max = wlen[i];
+		}
+	}
+
+	for(i = 0; i < ARRAYSIZE(wbuf); i++) {
+		wmemset(wbuf[i] + wlen[i], L' ', max - wlen[i]);
+		wmemcpy(wbuf[i] + max, title_suffix, title_suffix_len);
+		wcstombs(titles[i], wbuf[i], sizeof(wbuf[i]));
+	}
+}
 
 /** Turn a depends list into a text list.
  * @param deps a list with items of type alpm_depend_t
@@ -70,7 +172,7 @@ static void optdeplist_display(alpm_pkg_t *pkg, unsigned short cols)
 		}
 		text = alpm_list_add(text, depstring);
 	}
-	list_display_linebreak(_("Optional Deps  :"), text, cols);
+	list_display_linebreak(titles[T_OPTIONAL_DEPS], text, cols);
 	FREELIST(text);
 }
 
@@ -90,6 +192,13 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	char bdatestr[50] = "", idatestr[50] = "";
 	const char *label, *reason;
 	alpm_list_t *validation = NULL, *requiredby = NULL, *optionalfor = NULL;
+
+	/* make aligned titles once only */
+	static int need_alignment = 1;
+	if(need_alignment) {
+		need_alignment = 0;
+		make_aligned_titles();
+	}
 
 	from = alpm_pkg_get_origin(pkg);
 
@@ -124,7 +233,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 				validation = alpm_list_add(validation, _("MD5 Sum"));
 			}
 			if(v & ALPM_PKG_VALIDATION_SHA256SUM) {
-				validation = alpm_list_add(validation, _("SHA256 Sum"));
+				validation = alpm_list_add(validation, _("SHA-256 Sum"));
 			}
 			if(v & ALPM_PKG_VALIDATION_SIGNATURE) {
 				validation = alpm_list_add(validation, _("Signature"));
@@ -144,33 +253,33 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 
 	/* actual output */
 	if(from == ALPM_PKG_FROM_SYNCDB) {
-		string_display(_("Repository     :"),
+		string_display(titles[T_REPOSITORY],
 				alpm_db_get_name(alpm_pkg_get_db(pkg)), cols);
 	}
-	string_display(_("Name           :"), alpm_pkg_get_name(pkg), cols);
-	string_display(_("Version        :"), alpm_pkg_get_version(pkg), cols);
-	string_display(_("Description    :"), alpm_pkg_get_desc(pkg), cols);
-	string_display(_("Architecture   :"), alpm_pkg_get_arch(pkg), cols);
-	string_display(_("URL            :"), alpm_pkg_get_url(pkg), cols);
-	list_display(_("Licenses       :"), alpm_pkg_get_licenses(pkg), cols);
-	list_display(_("Groups         :"), alpm_pkg_get_groups(pkg), cols);
-	deplist_display(_("Provides       :"), alpm_pkg_get_provides(pkg), cols);
-	deplist_display(_("Depends On     :"), alpm_pkg_get_depends(pkg), cols);
+	string_display(titles[T_NAME], alpm_pkg_get_name(pkg), cols);
+	string_display(titles[T_VERSION], alpm_pkg_get_version(pkg), cols);
+	string_display(titles[T_DESCRIPTION], alpm_pkg_get_desc(pkg), cols);
+	string_display(titles[T_ARCHITECTURE], alpm_pkg_get_arch(pkg), cols);
+	string_display(titles[T_URL], alpm_pkg_get_url(pkg), cols);
+	list_display(titles[T_LICENSES], alpm_pkg_get_licenses(pkg), cols);
+	list_display(titles[T_GROUPS], alpm_pkg_get_groups(pkg), cols);
+	deplist_display(titles[T_PROVIDES], alpm_pkg_get_provides(pkg), cols);
+	deplist_display(titles[T_DEPENDS_ON], alpm_pkg_get_depends(pkg), cols);
 	optdeplist_display(pkg, cols);
 
 	if(extra || from == ALPM_PKG_FROM_LOCALDB) {
-		list_display(_("Required By    :"), requiredby, cols);
-		list_display(_("Optional For   :"), optionalfor, cols);
+		list_display(titles[T_REQUIRED_BY], requiredby, cols);
+		list_display(titles[T_OPTIONAL_FOR], optionalfor, cols);
 	}
-	deplist_display(_("Conflicts With :"), alpm_pkg_get_conflicts(pkg), cols);
-	deplist_display(_("Replaces       :"), alpm_pkg_get_replaces(pkg), cols);
+	deplist_display(titles[T_CONFLICTS_WITH], alpm_pkg_get_conflicts(pkg), cols);
+	deplist_display(titles[T_REPLACES], alpm_pkg_get_replaces(pkg), cols);
 
 	size = humanize_size(alpm_pkg_get_size(pkg), '\0', 2, &label);
 	if(from == ALPM_PKG_FROM_SYNCDB) {
-		printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Download Size  :"),
+		printf("%s%s%s %6.2f %s\n", config->colstr.title, titles[T_DOWNLOAD_SIZE],
 			config->colstr.nocolor, size, label);
 	} else if(from == ALPM_PKG_FROM_FILE) {
-		printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Compressed Size:"),
+		printf("%s%s%s %6.2f %s\n", config->colstr.title, titles[T_COMPRESSED_SIZE],
 			config->colstr.nocolor, size, label);
 	} else {
 		/* autodetect size for "Installed Size" */
@@ -178,17 +287,17 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	}
 
 	size = humanize_size(alpm_pkg_get_isize(pkg), label[0], 2, &label);
-	printf("%s%s%s %6.2f %s\n", config->colstr.title, _("Installed Size :"),
+	printf("%s%s%s %6.2f %s\n", config->colstr.title, titles[T_INSTALLED_SIZE],
 			config->colstr.nocolor, size, label);
 
-	string_display(_("Packager       :"), alpm_pkg_get_packager(pkg), cols);
-	string_display(_("Build Date     :"), bdatestr, cols);
+	string_display(titles[T_PACKAGER], alpm_pkg_get_packager(pkg), cols);
+	string_display(titles[T_BUILD_DATE], bdatestr, cols);
 	if(from == ALPM_PKG_FROM_LOCALDB) {
-		string_display(_("Install Date   :"), idatestr, cols);
-		string_display(_("Install Reason :"), reason, cols);
+		string_display(titles[T_INSTALL_DATE], idatestr, cols);
+		string_display(titles[T_INSTALL_REASON], reason, cols);
 	}
 	if(from == ALPM_PKG_FROM_FILE || from == ALPM_PKG_FROM_LOCALDB) {
-		string_display(_("Install Script :"),
+		string_display(titles[T_INSTALL_SCRIPT],
 				alpm_pkg_has_scriptlet(pkg) ? _("Yes") : _("No"), cols);
 	}
 
@@ -206,27 +315,27 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 			keys = alpm_list_add(keys, _("None"));
 		}
 
-		string_display(_("MD5 Sum        :"), alpm_pkg_get_md5sum(pkg), cols);
-		string_display(_("SHA-256 Sum    :"), alpm_pkg_get_sha256sum(pkg), cols);
-		list_display(_("Signatures     :"), keys, cols);
+		string_display(titles[T_MD5_SUM], alpm_pkg_get_md5sum(pkg), cols);
+		string_display(titles[T_SHA_256_SUM], alpm_pkg_get_sha256sum(pkg), cols);
+		list_display(titles[T_SIGNATURES], keys, cols);
 
 		if(base64_sig) {
 			FREELIST(keys);
 		}
 	} else {
-		list_display(_("Validated By   :"), validation, cols);
+		list_display(titles[T_VALIDATED_BY], validation, cols);
 	}
 
 	if(from == ALPM_PKG_FROM_FILE) {
 		alpm_siglist_t siglist;
 		int err = alpm_pkg_check_pgp_signature(pkg, &siglist);
 		if(err && alpm_errno(config->handle) == ALPM_ERR_SIG_MISSING) {
-			string_display(_("Signatures     :"), _("None"), cols);
+			string_display(titles[T_SIGNATURES], _("None"), cols);
 		} else if(err) {
-			string_display(_("Signatures     :"),
+			string_display(titles[T_SIGNATURES],
 					alpm_strerror(alpm_errno(config->handle)), cols);
 		} else {
-			signature_display(_("Signatures     :"), &siglist, cols);
+			signature_display(titles[T_SIGNATURES], &siglist, cols);
 		}
 		alpm_siglist_cleanup(&siglist);
 	}
@@ -290,7 +399,7 @@ void dump_pkg_backups(alpm_pkg_t *pkg)
 {
 	alpm_list_t *i;
 	const char *root = alpm_option_get_root(config->handle);
-	printf("%s%s%s", config->colstr.title, _("Backup Files:\n"),
+	printf("%s%s\n%s", config->colstr.title, titles[T_BACKUP_FILES],
 				 config->colstr.nocolor);
 	if(alpm_pkg_get_backup(pkg)) {
 		/* package has backup files, so print them */
