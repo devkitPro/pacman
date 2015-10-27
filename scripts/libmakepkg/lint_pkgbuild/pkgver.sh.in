@@ -30,7 +30,7 @@ lint_pkgbuild_functions+=('lint_pkgver')
 
 
 check_pkgver() {
-	if [[ -z ${pkgver} ]]; then
+	if [[ -z $1 ]]; then
 		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
 		return 1
 	fi
@@ -47,5 +47,5 @@ lint_pkgver() {
 		return 0
 	fi
 
-	check_pkgver
+	check_pkgver $pkgver
 }
