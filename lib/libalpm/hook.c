@@ -210,7 +210,7 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 		} else if(strcmp(key, "Exec") == 0) {
 			STRDUP(hook->cmd, value, return 1);
 		} else {
-			error(_("hook %s line %d: invalid option %s\n"), file, line, value);
+			error(_("hook %s line %d: invalid option %s\n"), file, line, key);
 		}
 	}
 
