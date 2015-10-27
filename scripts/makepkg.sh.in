@@ -1672,7 +1672,7 @@ restore_package_variables() {
 }
 
 run_split_packaging() {
-	local pkgname_backup=${pkgname[@]}
+	local pkgname_backup=("${pkgname[@]}")
 	for pkgname in ${pkgname_backup[@]}; do
 		pkgdir="$pkgdirbase/$pkgname"
 		mkdir "$pkgdir"
@@ -1684,7 +1684,7 @@ run_split_packaging() {
 		create_debug_package
 		restore_package_variables
 	done
-	pkgname=${pkgname_backup[@]}
+	pkgname=("${pkgname_backup[@]}")
 }
 
 m4_include(library/parseopts.sh)
