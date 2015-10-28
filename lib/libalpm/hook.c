@@ -410,30 +410,41 @@ int _alpm_hook_run(alpm_handle_t *handle, enum _alpm_hook_when_t when)
 		struct dirent entry, *result;
 		DIR *d;
 
-		if(!(d = opendir(i->data))) {
+		if((dirlen = strlen(i->data)) >= PATH_MAX) {
+			_alpm_log(handle, ALPM_LOG_ERROR, _("could not open directory: %s: %s\n"),
+					(char *)i->data, strerror(ENAMETOOLONG));
+			ret = -1;
+			continue;
+		}
+		memcpy(path, i->data, dirlen + 1);
+
+		if(!(d = opendir(path))) {
 			if(errno == ENOENT) {
 				continue;
 			} else {
-				_alpm_log(handle, ALPM_LOG_ERROR, _("could not open directory: %s: %s\n"),
-						(char *)i->data, strerror(errno));
+				_alpm_log(handle, ALPM_LOG_ERROR,
+						_("could not open directory: %s: %s\n"), path, strerror(errno));
 				ret = -1;
 				continue;
 			}
 		}
 
-		strncpy(path, i->data, PATH_MAX);
-		dirlen = strlen(i->data);
-
 		while((err = readdir_r(d, &entry, &result)) == 0 && result) {
 			struct _alpm_hook_cb_ctx ctx = { handle, NULL };
 			struct stat buf;
-			size_t name_len = strlen(entry.d_name);
+			size_t name_len;
 
 			if(strcmp(entry.d_name, ".") == 0 || strcmp(entry.d_name, "..") == 0) {
 					continue;
 			}
 
-			strncpy(path + dirlen, entry.d_name, PATH_MAX - dirlen);
+			if((name_len = strlen(entry.d_name)) >= PATH_MAX - dirlen) {
+				_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file: %s%s: %s\n"),
+						path, entry.d_name, strerror(ENAMETOOLONG));
+				ret = -1;
+				continue;
+			}
+			memcpy(path + dirlen, entry.d_name, name_len + 1);
 
 			if(name_len < suflen
 					|| strcmp(entry.d_name + name_len - suflen, suffix) != 0) {
