@@ -169,6 +169,9 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 			}
 		}
 
+		if(regex) {
+			regfree(&reg);
+		}
 
 notfound:
 		if(!found) {
