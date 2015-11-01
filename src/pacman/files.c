@@ -54,19 +54,13 @@ static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
 	alpm_list_t *t;
 
 	for(t = targets; t; t = alpm_list_next(t)) {
-		char *filename = NULL, *f;
+		char *filename = t->data;
 		int found = 0;
 		alpm_list_t *s;
-		size_t len;
+		size_t len = strlen(filename);
 
-		if((filename = strdup(t->data)) == NULL) {
-			goto notfound;
-		}
-
-		len = strlen(filename);
-		f = filename;
-		while(len > 1 && f[0] == '/') {
-			f = f + 1;
+		while(len > 1 && filename[0] == '/') {
+			filename++;
 			len--;
 		}
 
@@ -79,11 +73,11 @@ static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
 				alpm_pkg_t *pkg = p->data;
 				alpm_filelist_t *files = alpm_pkg_get_files(pkg);
 
-				if(alpm_filelist_contains(files, f)) {
+				if(alpm_filelist_contains(files, filename)) {
 					if(config->op_f_machinereadable) {
-						print_line_machinereadable(repo, pkg, f);
+						print_line_machinereadable(repo, pkg, filename);
 					} else if(!config->quiet) {
-						printf(_("%s is owned by %s/%s %s\n"), f,
+						printf(_("%s is owned by %s/%s %s\n"), filename,
 								alpm_db_get_name(repo), alpm_pkg_get_name(pkg),
 								alpm_pkg_get_version(pkg));
 					} else {
@@ -95,9 +89,6 @@ static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
 			}
 		}
 
-		free(filename);
-
-notfound:
 		if(!found) {
 			ret++;
 		}
@@ -112,19 +103,14 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 	const colstr_t *colstr = &config->colstr;
 
 	for(t = targets; t; t = alpm_list_next(t)) {
-		char *targ = NULL;
+		char *targ = t->data;
 		alpm_list_t *s;
 		int found = 0;
 		regex_t reg;
 
-		if((targ = strdup(t->data)) == NULL) {
-			goto notfound;
-		}
-
 		if(regex) {
 			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
 				/* TODO: error message */
-				free(targ);
 				goto notfound;
 			}
 		}
@@ -151,7 +137,7 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 							m = strcmp(c + 1, targ);
 						}
 						if(m == 0) {
-							match = alpm_list_add(match, strdup(files->files[f].name));
+							match = alpm_list_add(match, files->files[f].name);
 							found = 1;
 						}
 					}
@@ -178,12 +164,11 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 							printf("    %s\n", c);
 						}
 					}
-					FREELIST(match);
+					alpm_list_free(match);
 				}
 			}
 		}
 
-		free(targ);
 
 notfound:
 		if(!found) {
