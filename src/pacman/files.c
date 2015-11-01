@@ -206,10 +206,11 @@ static void dump_file_list(alpm_pkg_t *pkg) {
 
 static int files_list(alpm_list_t *syncs, alpm_list_t *targets) {
 	alpm_list_t *i, *j;
-	int ret = 0, found = 0;
+	int ret = 0;
 
 	if(targets != NULL) {
 		for(i = targets; i; i = alpm_list_next(i)) {
+			int found = 0;
 			char *targ = i->data;
 			char *repo = NULL;
 			char *c = strchr(targ, '/');
