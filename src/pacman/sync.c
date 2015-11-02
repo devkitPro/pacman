@@ -707,6 +707,26 @@ static int sync_trans(alpm_list_t *targets)
 	return sync_prepare_execute();
 }
 
+static void print_broken_dep(alpm_depmissing_t *miss)
+{
+	char *depstring = alpm_dep_compute_string(miss->depend);
+	alpm_list_t *trans_add = alpm_trans_get_add(config->handle);
+	alpm_pkg_t *pkg;
+	if(miss->causingpkg == NULL) {
+		/* package being installed/upgraded has unresolved dependency */
+		colon_printf(_("%s: requires %s\n"), miss->target, depstring);
+	} else if((pkg = alpm_pkg_find(trans_add, miss->causingpkg))) {
+		/* upgrading a package breaks a local dependency */
+		colon_printf(_("%s: installing %s (%s) breaks dependency '%s'\n"),
+				miss->target, miss->causingpkg, alpm_pkg_get_version(pkg), depstring);
+	} else {
+		/* removing a package breaks a local dependency */
+		colon_printf(_("%s: removing %s breaks dependency '%s'\n"),
+				miss->target, miss->causingpkg, depstring);
+	}
+	free(depstring);
+}
+
 int sync_prepare_execute(void)
 {
 	alpm_list_t *i, *packages, *data = NULL;
@@ -727,11 +747,8 @@ int sync_prepare_execute(void)
 				break;
 			case ALPM_ERR_UNSATISFIED_DEPS:
 				for(i = data; i; i = alpm_list_next(i)) {
-					alpm_depmissing_t *miss = i->data;
-					char *depstring = alpm_dep_compute_string(miss->depend);
-					colon_printf(_("%s: requires %s\n"), miss->target, depstring);
-					free(depstring);
-					alpm_depmissing_free(miss);
+					print_broken_dep(i->data);
+					alpm_depmissing_free(i->data);
 				}
 				break;
 			case ALPM_ERR_CONFLICTING_DEPS:
