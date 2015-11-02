@@ -90,9 +90,8 @@ static void make_aligned_titles(void)
 {
 	unsigned int i;
 	size_t max = 0;
-	static const wchar_t *title_suffix = L" :";
-	static const size_t title_suffix_len = sizeof(title_suffix);
-	wchar_t wbuf[ARRAYSIZE(titles)][TITLE_MAXLEN + title_suffix_len];
+	static const wchar_t title_suffix[] = L" :";
+	wchar_t wbuf[ARRAYSIZE(titles)][TITLE_MAXLEN + ARRAYSIZE(title_suffix)];
 	size_t wlen[ARRAYSIZE(wbuf)];
 	char *buf[ARRAYSIZE(wbuf)];
 	buf[T_ARCHITECTURE] = _("Architecture");
@@ -133,7 +132,7 @@ static void make_aligned_titles(void)
 
 	for(i = 0; i < ARRAYSIZE(wbuf); i++) {
 		wmemset(wbuf[i] + wlen[i], L' ', max - wlen[i]);
-		wmemcpy(wbuf[i] + max, title_suffix, title_suffix_len);
+		wmemcpy(wbuf[i] + max, title_suffix, ARRAYSIZE(title_suffix));
 		wcstombs(titles[i], wbuf[i], sizeof(wbuf[i]));
 	}
 }
