@@ -810,9 +810,13 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 					files_count++;
 				}
 				/* attempt to hand back any memory we don't need */
-				files = realloc(files, sizeof(alpm_file_t) * files_count);
-				/* make sure the list is sorted */
-				qsort(files, files_count, sizeof(alpm_file_t), _alpm_files_cmp);
+				if(files_count > 0) {
+					files = realloc(files, sizeof(alpm_file_t) * files_count);
+					/* make sure the list is sorted */
+					qsort(files, files_count, sizeof(alpm_file_t), _alpm_files_cmp);
+				} else {
+					FREE(files);
+				}
 				info->files.count = files_count;
 				info->files.files = files;
 			} else if(strcmp(line, "%BACKUP%") == 0) {
