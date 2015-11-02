@@ -177,6 +177,7 @@ static void usage(int op, const char * const myname)
 		} else if(op == PM_OP_FILES) {
 			addlist(_("  -l, --list           list the files owned by the queried package\n"));
 			addlist(_("  -o, --owns <file>    query the package that owns <file>\n"));
+			addlist(_("  -q, --quiet          show less information for query and search\n"));
 			addlist(_("  -s, --search <file>  search package file names for matching strings\n"));
 			addlist(_("  -x, --regex          enable searching using regular expressions\n"));
 			addlist(_("  -y, --refresh        download fresh package databases from the server\n"
