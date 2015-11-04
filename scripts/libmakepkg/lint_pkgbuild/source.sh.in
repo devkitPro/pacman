@@ -32,7 +32,7 @@ lint_pkgbuild_functions+=('lint_source')
 lint_source() {
 	local idx=("${!source[@]}")
 
-	if (( ${#source[*]} > 0 && (idx[-1] + 1) != ${#source[*]} )); then
+	if (( ${#source[*]} > 0 && (${idx[@]: -1} + 1) != ${#source[*]} )); then
 		error "$(gettext "Sparse arrays are not allowed for source")"
 		return 1
 	fi
