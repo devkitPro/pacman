@@ -144,17 +144,13 @@ size_t strtrim(char *str)
 	}
 	if(pch != str) {
 		size_t len = strlen(pch);
-		if(len) {
-			memmove(str, pch, len + 1);
-			pch = str;
-		} else {
+		/* check if there wasn't anything but whitespace in the string. */
+		if(len == 0) {
 			*str = '\0';
+			return 0;
 		}
-	}
-
-	/* check if there wasn't anything but whitespace in the string. */
-	if(*str == '\0') {
-		return 0;
+		memmove(str, pch, len + 1);
+		pch = str;
 	}
 
 	end = (str + strlen(str) - 1);
