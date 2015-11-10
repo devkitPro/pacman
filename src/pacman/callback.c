@@ -418,8 +418,8 @@ void cb_question(alpm_question_t *question)
 				alpm_question_select_provider_t *q = &question->select_provider;
 				size_t count = alpm_list_count(q->providers);
 				char *depstring = alpm_dep_compute_string(q->depend);
-				colon_printf(_n("There is %zd provider available for %s\n",
-						"There are %zd providers available for %s:\n", count),
+				colon_printf(_n("There is %zu provider available for %s\n",
+						"There are %zu providers available for %s:\n", count),
 						count, depstring);
 				free(depstring);
 				select_display(q->providers);
@@ -443,10 +443,10 @@ void cb_question(alpm_question_t *question)
 				strftime(created, 12, "%Y-%m-%d", localtime(&time));
 
 				if(q->key->revoked) {
-					q->import = yesno(_("Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"),
+					q->import = yesno(_("Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"),
 							q->key->length, q->key->pubkey_algo, q->key->fingerprint, q->key->uid, created);
 				} else {
-					q->import = yesno(_("Import PGP key %d%c/%s, \"%s\", created: %s?"),
+					q->import = yesno(_("Import PGP key %u%c/%s, \"%s\", created: %s?"),
 							q->key->length, q->key->pubkey_algo, q->key->fingerprint, q->key->uid, created);
 				}
 			}
@@ -590,8 +590,8 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 
 	}
 
-	printf("(%*ld/%*ld) %ls%-*s", digits, (unsigned long)current,
-			digits, (unsigned long)howmany, wcstr, padwid, "");
+	printf("(%*zu/%*zu) %ls%-*s", digits, current,
+			digits, howmany, wcstr, padwid, "");
 
 	free(wcstr);
 

@@ -349,7 +349,7 @@ static int check_mountpoint(alpm_handle_t *handle, alpm_mountpoint_t *mp)
 			(uintmax_t)cushion, (uintmax_t)mp->fsp.f_bfree);
 	if(needed >= 0 && (fsblkcnt_t)needed > mp->fsp.f_bfree) {
 		_alpm_log(handle, ALPM_LOG_ERROR,
-				_("Partition %s too full: %jd blocks needed, %jd blocks free\n"),
+				_("Partition %s too full: %jd blocks needed, %ju blocks free\n"),
 				mp->mount_dir, (intmax_t)needed, (uintmax_t)mp->fsp.f_bfree);
 		return 1;
 	}

@@ -599,7 +599,7 @@ static int remove_package_files(alpm_handle_t *handle,
 		}
 	}
 
-	_alpm_log(handle, ALPM_LOG_DEBUG, "removing %zd files\n", filelist->count);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "removing %zu files\n", filelist->count);
 
 	if(!newpkg) {
 		/* init progress bar, but only on true remove transactions */

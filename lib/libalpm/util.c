@@ -1290,7 +1290,7 @@ void *_alpm_greedy_grow(void **data, size_t *current, const size_t required)
 
 void _alpm_alloc_fail(size_t size)
 {
-	fprintf(stderr, "alloc failure: could not allocate %zd bytes\n", size);
+	fprintf(stderr, "alloc failure: could not allocate %zu bytes\n", size);
 }
 
 /* vim: set noet: */

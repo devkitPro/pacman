@@ -323,7 +323,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 		curl_easy_setopt(curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(curl, CURLOPT_TIMEVALUE, (long)st.st_mtime);
 		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"using time condition: %lu\n", (long)st.st_mtime);
+				"using time condition: %ld\n", (long)st.st_mtime);
 	} else if(stat(payload->tempfile_name, &st) == 0 && payload->allow_resume) {
 		/* a previous partial download exists, resume from end of file. */
 		payload->tempfile_openmode = "ab";

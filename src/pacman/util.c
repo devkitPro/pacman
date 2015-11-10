@@ -812,7 +812,7 @@ static alpm_list_t *create_verbose_header(size_t count)
 	alpm_list_t *ret = NULL;
 
 	char *header;
-	pm_asprintf(&header, "%s (%zd)", _("Package"), count);
+	pm_asprintf(&header, "%s (%zu)", _("Package"), count);
 
 	add_table_cell(&ret, header, CELL_TITLE | CELL_FREE);
 	add_table_cell(&ret, _("Old Version"), CELL_TITLE);
@@ -921,7 +921,7 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 	}
 
 	/* print to screen */
-	pm_asprintf(&str, "%s (%zd)", _("Packages"), alpm_list_count(targets));
+	pm_asprintf(&str, "%s (%zu)", _("Packages"), alpm_list_count(targets));
 	printf("\n");
 
 	cols = getcols();
