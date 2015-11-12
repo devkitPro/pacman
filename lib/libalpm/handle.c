@@ -129,7 +129,7 @@ int _alpm_handle_lock(alpm_handle_t *handle)
 /** Remove a lock file */
 int _alpm_handle_unlock(alpm_handle_t *handle)
 {
-	ASSERT(handle->lockfile != NULL, return -1);
+	ASSERT(handle->lockfile != NULL, return 0);
 	ASSERT(handle->lockfd >= 0, return 0);
 
 	close(handle->lockfd);
