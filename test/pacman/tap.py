@@ -19,7 +19,7 @@ level = 0
 failed = 0
 
 def _output(msg):
-    print("%s%s" % ("    "*level, msg))
+    print("%s%s" % ("    "*level, str(msg).replace("\n", "\\n")))
 
 def ok(ok, description=""):
     global count, failed
