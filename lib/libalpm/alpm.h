@@ -1559,6 +1559,7 @@ char *alpm_compute_sha256sum(const char *filename);
 alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
 		alpm_errno_t *err);
 int alpm_release(alpm_handle_t *handle);
+int alpm_unlock(alpm_handle_t *handle);
 
 enum alpm_caps {
 	ALPM_CAPABILITY_NLS = (1 << 0),

@@ -126,8 +126,13 @@ int _alpm_handle_lock(alpm_handle_t *handle)
 	return (handle->lockfd >= 0 ? 0 : -1);
 }
 
-/** Remove a lock file */
-int _alpm_handle_unlock(alpm_handle_t *handle)
+/** Remove the database lock file
+ * @param handle the context handle
+ * @return 0 on success, -1 on error
+ *
+ * @note Safe to call from inside signal handlers.
+ */
+int SYMEXPORT alpm_unlock(alpm_handle_t *handle)
 {
 	ASSERT(handle->lockfile != NULL, return 0);
 	ASSERT(handle->lockfd >= 0, return 0);
@@ -136,6 +141,15 @@ int _alpm_handle_unlock(alpm_handle_t *handle)
 	handle->lockfd = -1;
 
 	if(unlink(handle->lockfile) != 0) {
+		RET_ERR(handle, ALPM_ERR_SYSTEM, -1);
+	} else {
+		return 0;
+	}
+}
+
+int _alpm_handle_unlock(alpm_handle_t *handle)
+{
+	if(alpm_unlock(handle) != 0) {
 		if(errno == ENOENT) {
 			_alpm_log(handle, ALPM_LOG_WARNING,
 					_("lock file missing %s\n"), handle->lockfile);
@@ -150,6 +164,7 @@ int _alpm_handle_unlock(alpm_handle_t *handle)
 			return -1;
 		}
 	}
+
 	return 0;
 }
 
