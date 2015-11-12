@@ -120,6 +120,12 @@ class pmrule(object):
                 if not (os.path.isfile(filename)
                         and os.path.getsize(filename) == 0):
                     success = 0
+            elif case == "CONTENTS":
+                try:
+                    with open(filename, 'r') as f:
+                        success = f.read() == value
+                except:
+                    success = 0
             elif case == "MODIFIED":
                 for f in test.files:
                     if f.name == key:
