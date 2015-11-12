@@ -31,6 +31,7 @@
 #include <limits.h>
 #include <sys/wait.h>
 #include <fnmatch.h>
+#include <poll.h>
 
 /* libarchive */
 #include <archive.h>
@@ -445,16 +446,119 @@ ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path,
 	return files;
 }
 
+static int _alpm_chroot_write_to_child(alpm_handle_t *handle, int fd,
+		char *buf, ssize_t *buf_size, ssize_t buf_limit,
+		_alpm_cb_io out_cb, void *cb_ctx)
+{
+	ssize_t nwrite;
+	struct sigaction newaction, oldaction;
+
+	if(*buf_size == 0) {
+		/* empty buffer, ask the callback for more */
+		if((*buf_size = out_cb(buf, buf_limit, cb_ctx)) == 0) {
+			/* no more to write, close the pipe */
+			return -1;
+		}
+	}
+
+	/* ignore SIGPIPE in case the pipe has been closed */
+	newaction.sa_handler = SIG_IGN;
+	sigemptyset(&newaction.sa_mask);
+	newaction.sa_flags = 0;
+	sigaction(SIGPIPE, &newaction, &oldaction);
+
+	nwrite = write(fd, buf, *buf_size);
+
+	/* restore previous SIGPIPE handler */
+	sigaction(SIGPIPE, &oldaction, NULL);
+
+	if(nwrite != -1) {
+		/* write was successful, remove the written data from the buffer */
+		*buf_size -= nwrite;
+		memmove(buf, buf + nwrite, *buf_size);
+	} else if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
+		/* nothing written, try again later */
+	} else {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("unable to write to pipe (%s)\n"), strerror(errno));
+		return -1;
+	}
+
+	return 0;
+}
+
+static void _alpm_chroot_process_output(alpm_handle_t *handle, const char *line)
+{
+	alpm_event_scriptlet_info_t event = {
+		.type = ALPM_EVENT_SCRIPTLET_INFO,
+		.line = line
+	};
+	alpm_logaction(handle, "ALPM-SCRIPTLET", "%s", line);
+	EVENT(handle, &event);
+}
+
+static int _alpm_chroot_read_from_child(alpm_handle_t *handle, int fd,
+		char *buf, ssize_t *buf_size, ssize_t buf_limit)
+{
+	ssize_t space = buf_limit - *buf_size - 2; /* reserve 2 for "\n\0" */
+	ssize_t nread = read(fd, buf + *buf_size, space);
+	if(nread > 0) {
+		char *newline = memchr(buf + *buf_size, '\n', nread);
+		*buf_size += nread;
+		if(newline) {
+			while(newline) {
+				size_t linelen = newline - buf + 1;
+				char old = buf[linelen];
+				buf[linelen] = '\0';
+				_alpm_chroot_process_output(handle, buf);
+				buf[linelen] = old;
+
+				*buf_size -= linelen;
+				memmove(buf, buf + linelen, *buf_size);
+				newline = memchr(buf, '\n', *buf_size);
+			}
+		} else if(nread == space) {
+			/* we didn't read a full line, but we're out of space */
+			strcpy(buf + *buf_size, "\n");
+			_alpm_chroot_process_output(handle, buf);
+			*buf_size = 0;
+		}
+	} else if(nread == 0) {
+		/* end-of-file */
+		if(*buf_size) {
+			strcpy(buf + *buf_size, "\n");
+			_alpm_chroot_process_output(handle, buf);
+		}
+		return -1;
+	} else if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
+		/* nothing read, try again */
+	} else {
+		/* read error */
+		if(*buf_size) {
+			strcpy(buf + *buf_size, "\n");
+			_alpm_chroot_process_output(handle, buf);
+		}
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("unable to read from pipe (%s)\n"), strerror(errno));
+		return -1;
+	}
+	return 0;
+}
+
 /** Execute a command with arguments in a chroot.
  * @param handle the context handle
  * @param cmd command to execute
  * @param argv arguments to pass to cmd
+ * @param stdin_cb callback to provide input to the chroot on stdin
+ * @param stdin_ctx context to be passed to @a stdin_cb
  * @return 0 on success, 1 on error
  */
-int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
+int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
+		_alpm_cb_io stdin_cb, void *stdin_ctx)
 {
 	pid_t pid;
-	int pipefd[2], cwdfd;
+	int child2parent_pipefd[2], parent2child_pipefd[2];
+	int cwdfd;
 	int retval = 0;
 
 	/* save the cwd so we can restore it later */
@@ -476,7 +580,13 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 	/* Flush open fds before fork() to avoid cloning buffers */
 	fflush(NULL);
 
-	if(pipe(pipefd) == -1) {
+	if(pipe(child2parent_pipefd) == -1) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not create pipe (%s)\n"), strerror(errno));
+		retval = 1;
+		goto cleanup;
+	}
+
+	if(stdin_cb && pipe(parent2child_pipefd) == -1) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not create pipe (%s)\n"), strerror(errno));
 		retval = 1;
 		goto cleanup;
@@ -495,10 +605,15 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 		close(0);
 		close(1);
 		close(2);
-		while(dup2(pipefd[1], 1) == -1 && errno == EINTR);
-		while(dup2(pipefd[1], 2) == -1 && errno == EINTR);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		while(dup2(child2parent_pipefd[1], 1) == -1 && errno == EINTR);
+		while(dup2(child2parent_pipefd[1], 2) == -1 && errno == EINTR);
+		if(stdin_cb) {
+			while(dup2(parent2child_pipefd[0], 0) == -1 && errno == EINTR);
+			close(parent2child_pipefd[0]);
+			close(parent2child_pipefd[1]);
+		}
+		close(child2parent_pipefd[0]);
+		close(child2parent_pipefd[1]);
 		if(cwdfd >= 0) {
 			close(cwdfd);
 		}
@@ -521,27 +636,59 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[])
 	} else {
 		/* this code runs for the parent only (wait on the child) */
 		int status;
-		FILE *pipe_file;
+		char obuf[PIPE_BUF]; /* writes <= PIPE_BUF are guaranteed atomic */
+		char ibuf[LINE_MAX];
+		ssize_t olen = 0, ilen = 0;
+		nfds_t nfds = 2;
+		struct pollfd fds[2], *child2parent = &(fds[0]), *parent2child = &(fds[1]);
 
-		close(pipefd[1]);
-		pipe_file = fdopen(pipefd[0], "r");
-		if(pipe_file == NULL) {
-			close(pipefd[0]);
-			retval = 1;
+		child2parent->fd = child2parent_pipefd[0];
+		child2parent->events = POLLIN;
+		fcntl(child2parent->fd, F_SETFL, O_NONBLOCK);
+		close(child2parent_pipefd[1]);
+
+		if(stdin_cb) {
+			parent2child->fd = parent2child_pipefd[1];
+			parent2child->events = POLLOUT;
+			fcntl(parent2child->fd, F_SETFL, O_NONBLOCK);
+			close(parent2child_pipefd[0]);
 		} else {
-			while(!feof(pipe_file)) {
-				char line[PATH_MAX];
-				alpm_event_scriptlet_info_t event = {
-					.type = ALPM_EVENT_SCRIPTLET_INFO,
-					.line = line
-				};
-				if(safe_fgets(line, PATH_MAX, pipe_file) == NULL) {
-					break;
+			parent2child->fd = -1;
+			parent2child->events = 0;
+		}
+
+#define STOP_POLLING(p) do { close(p->fd); p->fd = -1; } while(0)
+
+		while((child2parent->fd != -1 || parent2child->fd != -1)
+				&& poll(fds, nfds, -1) > 0) {
+			if(child2parent->revents & POLLIN) {
+				if(_alpm_chroot_read_from_child(handle, child2parent->fd,
+							ibuf, &ilen, sizeof(ibuf)) != 0) {
+					/* we encountered end-of-file or an error */
+					STOP_POLLING(child2parent);
 				}
-				alpm_logaction(handle, "ALPM-SCRIPTLET", "%s", line);
-				EVENT(handle, &event);
+			} else if(child2parent->revents) {
+				/* anything but POLLIN indicates an error */
+				STOP_POLLING(child2parent);
 			}
-			fclose(pipe_file);
+			if(parent2child->revents & POLLOUT) {
+				if(_alpm_chroot_write_to_child(handle, parent2child->fd, obuf, &olen,
+							sizeof(obuf), stdin_cb, stdin_ctx) != 0) {
+					STOP_POLLING(parent2child);
+				}
+			} else if(parent2child->revents) {
+				/* anything but POLLOUT indicates an error */
+				STOP_POLLING(parent2child);
+			}
+		}
+
+#undef STOP_POLLING
+
+		if(parent2child->fd != -1) {
+			close(parent2child->fd);
+		}
+		if(child2parent->fd != -1) {
+			close(child2parent->fd);
 		}
 
 		while(waitpid(pid, &status, 0) == -1) {
@@ -605,7 +752,7 @@ int _alpm_ldconfig(alpm_handle_t *handle)
 			char arg0[32];
 			char *argv[] = { arg0, NULL };
 			strcpy(arg0, "ldconfig");
-			return _alpm_run_chroot(handle, LDCONFIG, argv);
+			return _alpm_run_chroot(handle, LDCONFIG, argv, NULL, NULL);
 		}
 	}
 

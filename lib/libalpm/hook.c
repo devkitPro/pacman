@@ -512,7 +512,7 @@ static int _alpm_hook_run_hook(alpm_handle_t *handle, struct _alpm_hook_t *hook)
 		}
 	}
 
-	return _alpm_run_chroot(handle, hook->cmd[0], hook->cmd);
+	return _alpm_run_chroot(handle, hook->cmd[0], hook->cmd, NULL, NULL);
 }
 
 int _alpm_hook_run(alpm_handle_t *handle, enum _alpm_hook_when_t when)
