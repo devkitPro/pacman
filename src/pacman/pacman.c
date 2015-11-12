@@ -1091,6 +1091,7 @@ int main(int argc, char *argv[])
 	size_t i;
 	uid_t myuid = getuid();
 
+	install_segv_handler();
 	install_signal_handlers();
 
 	/* i18n init */

@@ -44,29 +44,39 @@ static ssize_t xwrite(int fd, const void *buf, size_t count)
  */
 static void handler(int signum)
 {
-	if(signum == SIGSEGV) {
-		const char msg[] = "\nerror: segmentation fault\n"
-			"Please submit a full bug report with --debug if appropriate.\n";
+	if(signum == SIGINT) {
+		const char msg[] = "\nInterrupt signal received\n";
 		xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
-		exit(signum);
-	} else if(signum == SIGINT || signum == SIGHUP) {
-		if(signum == SIGINT) {
-			const char msg[] = "\nInterrupt signal received\n";
-			xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
-		} else {
-			const char msg[] = "\nHangup signal received\n";
-			xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
-		}
-		if(alpm_trans_interrupt(config->handle) == 0) {
-			/* a transaction is being interrupted, don't exit pacman yet. */
-			return;
-		}
+	} else {
+		const char msg[] = "\nHangup signal received\n";
+		xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
+	}
+	if(alpm_trans_interrupt(config->handle) == 0) {
+		/* a transaction is being interrupted, don't exit pacman yet. */
+		return;
 	}
 	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman */
 	alpm_unlock(config->handle);
 	/* output a newline to be sure we clear any line we may be on */
 	xwrite(STDOUT_FILENO, "\n", 1);
 	_Exit(128 + signum);
+}
+
+static void segv_handler(int signum)
+{
+	const char msg[] = "\nerror: segmentation fault\n"
+		"Please submit a full bug report with --debug if appropriate.\n";
+	xwrite(STDERR_FILENO, msg, sizeof(msg) - 1);
+	_Exit(signum);
+}
+
+void install_segv_handler(void)
+{
+	struct sigaction new_action;
+	new_action.sa_handler = segv_handler;
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_flags = SA_RESTART;
+	sigaction(SIGSEGV, &new_action, NULL);
 }
 
 static void winch_handler(int signum)
@@ -87,7 +97,7 @@ void install_winch_handler(void)
 void install_signal_handlers(void)
 {
 	struct sigaction new_action;
-	const int signals[] = { SIGHUP, SIGINT, SIGSEGV };
+	const int signals[] = { SIGHUP, SIGINT };
 	size_t i;
 
 	/* Set signal handlers */

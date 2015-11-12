@@ -20,6 +20,7 @@
 #ifndef _PM_SIGHANDLER_H
 #define _PM_SIGHANDLER_H
 
+void install_segv_handler(void);
 void install_winch_handler(void);
 void install_signal_handlers(void);
 
