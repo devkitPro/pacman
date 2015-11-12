@@ -51,8 +51,9 @@ struct _alpm_hook_t {
 	alpm_list_t *triggers;
 	alpm_list_t *depends;
 	char **cmd;
+	alpm_list_t *matches;
 	enum _alpm_hook_when_t when;
-	int abort_on_fail;
+	int abort_on_fail, needs_targets;
 };
 
 struct _alpm_hook_cb_ctx {
@@ -86,6 +87,7 @@ static void _alpm_hook_free(struct _alpm_hook_t *hook)
 		_alpm_wordsplit_free(hook->cmd);
 		alpm_list_free_inner(hook->triggers, (alpm_list_fn_free) _alpm_trigger_free);
 		alpm_list_free(hook->triggers);
+		alpm_list_free(hook->matches);
 		FREELIST(hook->depends);
 		free(hook);
 	}
@@ -320,6 +322,8 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 			hook->depends = alpm_list_add(hook->depends, val);
 		} else if(strcmp(key, "AbortOnFail") == 0) {
 			hook->abort_on_fail = 1;
+		} else if(strcmp(key, "NeedsTargets") == 0) {
+			hook->needs_targets = 1;
 		} else if(strcmp(key, "Exec") == 0) {
 			if((hook->cmd = _alpm_wordsplit(value)) == NULL) {
 				if(errno == EINVAL) {
@@ -339,7 +343,8 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 	return 0;
 }
 
-static int _alpm_hook_trigger_match_file(alpm_handle_t *handle, struct _alpm_trigger_t *t)
+static int _alpm_hook_trigger_match_file(alpm_handle_t *handle,
+		struct _alpm_hook_t *hook, struct _alpm_trigger_t *t)
 {
 	alpm_list_t *i, *j, *install = NULL, *upgrade = NULL, *remove = NULL;
 	size_t isize = 0, rsize = 0;
@@ -423,15 +428,31 @@ static int _alpm_hook_trigger_match_file(alpm_handle_t *handle, struct _alpm_tri
 			|| (t->op & ALPM_HOOK_OP_UPGRADE && upgrade)
 			|| (t->op & ALPM_HOOK_OP_REMOVE && remove);
 
-	alpm_list_free(install);
-	alpm_list_free(upgrade);
-	alpm_list_free(remove);
+	if(hook->needs_targets) {
+#define _save_matches(_op, _matches) \
+	if(t->op & _op && _matches) { \
+		hook->matches = alpm_list_join(hook->matches, _matches); \
+	} else { \
+		alpm_list_free(_matches); \
+	}
+		_save_matches(ALPM_HOOK_OP_INSTALL, install);
+		_save_matches(ALPM_HOOK_OP_UPGRADE, upgrade);
+		_save_matches(ALPM_HOOK_OP_REMOVE, remove);
+#undef _save_matches
+	} else {
+		alpm_list_free(install);
+		alpm_list_free(upgrade);
+		alpm_list_free(remove);
+	}
 
 	return ret;
 }
 
-static int _alpm_hook_trigger_match_pkg(alpm_handle_t *handle, struct _alpm_trigger_t *t)
+static int _alpm_hook_trigger_match_pkg(alpm_handle_t *handle,
+		struct _alpm_hook_t *hook, struct _alpm_trigger_t *t)
 {
+	alpm_list_t *install = NULL, *upgrade = NULL, *remove = NULL;
+
 	if(t->op & ALPM_HOOK_OP_INSTALL || t->op & ALPM_HOOK_OP_UPGRADE) {
 		alpm_list_t *i;
 		for(i = handle->trans->add; i; i = i->next) {
@@ -439,11 +460,19 @@ static int _alpm_hook_trigger_match_pkg(alpm_handle_t *handle, struct _alpm_trig
 			if(_alpm_fnmatch_patterns(t->targets, pkg->name) == 0) {
 				if(alpm_db_get_pkg(handle->db_local, pkg->name)) {
 					if(t->op & ALPM_HOOK_OP_UPGRADE) {
-						return 1;
+						if(hook->needs_targets) {
+							upgrade = alpm_list_add(upgrade, pkg->name);
+						} else {
+							return 1;
+						}
 					}
 				} else {
 					if(t->op & ALPM_HOOK_OP_INSTALL) {
-						return 1;
+						if(hook->needs_targets) {
+							install = alpm_list_add(install, pkg->name);
+						} else {
+							return 1;
+						}
 					}
 				}
 			}
@@ -456,31 +485,47 @@ static int _alpm_hook_trigger_match_pkg(alpm_handle_t *handle, struct _alpm_trig
 			alpm_pkg_t *pkg = i->data;
 			if(pkg && _alpm_fnmatch_patterns(t->targets, pkg->name) == 0) {
 				if(!alpm_list_find(handle->trans->add, pkg, _alpm_pkg_cmp)) {
-					return 1;
+					if(hook->needs_targets) {
+						remove = alpm_list_add(remove, pkg->name);
+					} else {
+						return 1;
+					}
 				}
 			}
 		}
 	}
 
-	return 0;
+	/* if we reached this point we either need the target lists or we didn't
+	 * match anything and the following calls will all be no-ops */
+	hook->matches = alpm_list_join(hook->matches, install);
+	hook->matches = alpm_list_join(hook->matches, upgrade);
+	hook->matches = alpm_list_join(hook->matches, remove);
+
+	return install || upgrade || remove;
 }
 
-static int _alpm_hook_trigger_match(alpm_handle_t *handle, struct _alpm_trigger_t *t)
+static int _alpm_hook_trigger_match(alpm_handle_t *handle,
+		struct _alpm_hook_t *hook, struct _alpm_trigger_t *t)
 {
 	return t->type == ALPM_HOOK_TYPE_PACKAGE
-		? _alpm_hook_trigger_match_pkg(handle, t)
-		: _alpm_hook_trigger_match_file(handle, t);
+		? _alpm_hook_trigger_match_pkg(handle, hook, t)
+		: _alpm_hook_trigger_match_file(handle, hook, t);
 }
 
 static int _alpm_hook_triggered(alpm_handle_t *handle, struct _alpm_hook_t *hook)
 {
 	alpm_list_t *i;
+	int ret = 0;
 	for(i = hook->triggers; i; i = i->next) {
-		if(_alpm_hook_trigger_match(handle, i->data)) {
-			return 1;
+		if(_alpm_hook_trigger_match(handle, hook, i->data)) {
+			if(!hook->needs_targets) {
+				return 1;
+			} else {
+				ret = 1;
+			}
 		}
 	}
-	return 0;
+	return ret;
 }
 
 static int _alpm_hook_cmp(struct _alpm_hook_t *h1, struct _alpm_hook_t *h2)
@@ -500,6 +545,44 @@ static alpm_list_t *find_hook(alpm_list_t *haystack, const void *needle)
 	return NULL;
 }
 
+static ssize_t _alpm_hook_feed_targets(char *buf, ssize_t needed, alpm_list_t **pos)
+{
+	size_t remaining = needed, written = 0;;
+	size_t len;
+
+	while(*pos && (len = strlen((*pos)->data)) + 1 <= remaining) {
+		memcpy(buf, (*pos)->data, len);
+		buf[len++] = '\n';
+		*pos = (*pos)->next;
+		buf += len;
+		remaining -= len;
+		written += len;
+	}
+
+	if(*pos && remaining) {
+		memcpy(buf, (*pos)->data, remaining);
+		(*pos)->data = (char*) (*pos)->data + remaining;
+		written += remaining;
+	}
+
+	return written;
+}
+
+static alpm_list_t *_alpm_strlist_dedup(alpm_list_t *list)
+{
+	alpm_list_t *i = list;
+	while(i) {
+		alpm_list_t *next = i->next;
+		while(next && strcmp(i->data, next->data) == 0) {
+			list = alpm_list_remove_item(list, next);
+			free(next);
+			next = i->next;
+		}
+		i = next;
+	}
+	return list;
+}
+
 static int _alpm_hook_run_hook(alpm_handle_t *handle, struct _alpm_hook_t *hook)
 {
 	alpm_list_t *i, *pkgs = _alpm_db_get_pkgcache(handle->db_local);
@@ -512,7 +595,17 @@ static int _alpm_hook_run_hook(alpm_handle_t *handle, struct _alpm_hook_t *hook)
 		}
 	}
 
-	return _alpm_run_chroot(handle, hook->cmd[0], hook->cmd, NULL, NULL);
+	if(hook->needs_targets) {
+		alpm_list_t *ctx;
+		hook->matches = alpm_list_msort(hook->matches,
+				alpm_list_count(hook->matches), (alpm_list_fn_cmp)strcmp);
+		/* hooks with multiple triggers could have duplicate matches */
+		ctx = hook->matches = _alpm_strlist_dedup(hook->matches);
+		return _alpm_run_chroot(handle, hook->cmd[0], hook->cmd,
+				(_alpm_cb_io) _alpm_hook_feed_targets, &ctx);
+	} else {
+		return _alpm_run_chroot(handle, hook->cmd[0], hook->cmd, NULL, NULL);
+	}
 }
 
 int _alpm_hook_run(alpm_handle_t *handle, enum _alpm_hook_when_t when)

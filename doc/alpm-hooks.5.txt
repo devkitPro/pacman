@@ -23,6 +23,7 @@ When = PreTransaction|PostTransaction (Required)
 Exec = <Command> (Required)
 Depends = <PkgName> (Optional)
 AbortOnFail (Optional, PreTransaction only)
+NeedsTargets (Optional)
 --------
 
 DESCRIPTION
@@ -76,6 +77,10 @@ ACTIONS
 *AbortOnFail*::
 	Causes the transaction to be aborted if the hook exits non-zero.  Only
 	applies to PreTransaction hooks.
+
+*NeedsTargets*::
+	Causes the list of matched trigger targets to be passed to the running hook
+	on 'stdin'.
 
 OVERRIDING HOOKS
 ----------------
