@@ -62,8 +62,9 @@ defined the hook will run if the transaction matches *any* of the triggers.
 ACTIONS
 -------
 
-*Exec =* /path/to/executable::
-	Executable to run.  Required.
+*Exec =* <command>::
+	Command to run.  Command arguments are split on whitespace.  Values
+	containing whitespace should be enclosed in quotes.  Required.
 
 *When =* PreTransaction|PostTransaction::
 	When to run the hook.  Required.
