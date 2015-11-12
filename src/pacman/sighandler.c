@@ -61,9 +61,6 @@ static void handler(int signum)
 			/* a transaction is being interrupted, don't exit pacman yet. */
 			return;
 		}
-	} else if(signum == SIGWINCH) {
-		columns_cache_reset();
-		return;
 	}
 	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman */
 	alpm_unlock(config->handle);
@@ -72,11 +69,27 @@ static void handler(int signum)
 	_Exit(128 + signum);
 }
 
+static void winch_handler(int signum)
+{
+	(void)signum; /* suppress unused variable warnings */
+	columns_cache_reset();
+}
+
+void install_winch_handler(void)
+{
+	struct sigaction new_action;
+	new_action.sa_handler = winch_handler;
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_flags = SA_RESTART;
+	sigaction(SIGWINCH, &new_action, NULL);
+}
+
 void install_signal_handlers(void)
 {
 	struct sigaction new_action;
-	const int signals[] = { SIGHUP, SIGINT, SIGSEGV, SIGWINCH };
+	const int signals[] = { SIGHUP, SIGINT, SIGSEGV };
 	size_t i;
+
 	/* Set signal handlers */
 	/* Set up the structure to specify the new action. */
 	new_action.sa_handler = handler;

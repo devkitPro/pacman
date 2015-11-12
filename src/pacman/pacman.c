@@ -1107,9 +1107,12 @@ int main(int argc, char *argv[])
 		cleanup(1);
 	}
 
-	/* disable progressbar if the output is redirected */
 	if(!isatty(fileno(stdout))) {
+		/* disable progressbar if the output is redirected */
 		config->noprogressbar = 1;
+	} else {
+		/* install signal handler to update output width */
+		install_winch_handler();
 	}
 
 	/* Priority of options:
