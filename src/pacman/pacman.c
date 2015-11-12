@@ -336,10 +336,10 @@ static void handler(int signum)
 	}
 	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman
 	 * SIGTERM: release no matter what */
-	alpm_trans_release(config->handle);
+	alpm_unlock(config->handle);
 	/* output a newline to be sure we clear any line we may be on */
 	xwrite(out, "\n", 1);
-	cleanup(128 + signum);
+	_Exit(128 + signum);
 }
 
 static void invalid_opt(int used, const char *opt1, const char *opt2)
