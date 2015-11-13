@@ -24,7 +24,7 @@ LIBMAKEPKG_LINT_PKGBUILD_VARIABLE_SH=1
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 source "$LIBRARY/util/message.sh"
-
+source "$LIBRARY/util/pkgbuild.sh"
 
 lint_pkgbuild_functions+=('lint_variable')
 
@@ -37,11 +37,16 @@ lint_variable() {
 	                  replaces sha1sums sha256sums sha384sums sha512sums source)
 	local string=(changelog epoch install pkgdesc pkgrel pkgver url)
 
-	local i
-	for i in ${array[@]}; do
-		if grep -w -q -e "$i=[^(]" -e "$i+=[^(]" "$BUILDSCRIPT"; then
-			error "$(gettext "%s should be an array")" "$i"
-			ret=1
+	local i a v pkg keys out bad ret=0
+
+	# global variables
+	for i in ${array[@]} ${arch_array[@]}; do
+		eval "keys=(\"\${!$i[@]}\")"
+		if (( ${#keys[*]} > 0 )); then
+				if [[ "$(declare -p $i)" != "declare -a "* ]]; then
+				error "$(gettext "%s should be an array")" "$i"
+				ret=1
+			fi
 		fi
 	done
 
@@ -49,17 +54,54 @@ lint_variable() {
 		[[ $a == "any" ]] && continue
 
 		for i in ${arch_array[@]}; do
-			if grep -w -q -e "$i_$a=[^(]" -e "$i_$a+=[^(]" "$BUILDSCRIPT"; then
-				error "$(gettext "%s_%s should be an array")" "$i" "$a"
-				ret=1
+			v="${i}_${a}"
+			eval "keys=(\"\${!${v}[@]}\")"
+			if (( ${#keys[*]} > 0 )); then
+				if [[ "$(declare -p $i)" != "declare -a "* ]]; then
+					error "$(gettext "%s_%s should be an array")" "$i" "$a"
+					ret=1
+				fi
 			fi
 		done
 	done
 
 	for i in ${string[@]}; do
-		if grep -w -q -e "$i=(" -e "$i+=(" "$BUILDSCRIPT"; then
-			error "$(gettext "%s should not be an array")" "$i"
-			ret=1
+		eval "keys=(\"\${!$i[@]}\")"
+		if (( ${#keys[*]} > 0 )); then
+			if [[ "$(declare -p $i)" == "declare -a "* ]]; then
+				error "$(gettext "%s should not be an array")" "$i"
+				ret=1
+			fi
 		fi
 	done
+
+	# package function variables
+	for pkg in ${pkgname[@]}; do
+		for i in ${array[@]} ${arch_array[@]}; do
+			if extract_function_variable "package_$pkg" $i 0 out; then
+				error "$(gettext "%s should be an array")" "$i"
+				ret=1
+			fi
+		done
+
+		for a in ${arch[@]}; do
+			[[ $a == "any" ]] && continue
+
+			for i in ${arch_array[@]}; do
+				if extract_function_variable "package_$pkg" "${i}_${a}" 0 out; then
+					error "$(gettext "%s_%s should be an array")" "$i" "$a"
+					ret=1
+				fi
+			done
+		done
+
+		for i in ${string[@]}; do
+			if extract_function_variable "package_$pkg" $i 1 out; then
+				error "$(gettext "%s should not be an array")" "$i"
+				ret=1
+			fi
+		done
+	done
+
+	return $ret
 }
