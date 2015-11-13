@@ -40,5 +40,7 @@ lint_install() {
 		install_list+=("$file")
 	done
 
-	check_files_exist 'install' "${install_list[@]}"
+	check_files_exist 'install' "${install_list[@]}" || ret=1
+
+	return $ret
 }

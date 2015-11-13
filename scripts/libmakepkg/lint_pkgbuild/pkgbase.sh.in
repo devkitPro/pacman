@@ -30,6 +30,8 @@ lint_pkgbuild_functions+=('lint_pkgbase')
 
 
 lint_pkgbase() {
+	local ret=0
+
 	if [[ ${pkgbase:0:1} = "-" ]]; then
 		error "$(gettext "%s is not allowed to start with a hyphen.")" "pkgname"
 		return 1
@@ -43,4 +45,6 @@ lint_pkgbase() {
 				'pkgbase' "${i//[[:alnum:]+_.@-]}"
 		ret=1
 	fi
+
+	return $ret
 }

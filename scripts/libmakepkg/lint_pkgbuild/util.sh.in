@@ -27,7 +27,7 @@ source "$LIBRARY/util/message.sh"
 
 
 check_files_exist() {
-	local kind=$1 files=("${@:2}") file ret
+	local kind=$1 files=("${@:2}") file ret=0
 
 	for file in "${files[@]}"; do
 		if [[ $file && ! -f $file ]]; then

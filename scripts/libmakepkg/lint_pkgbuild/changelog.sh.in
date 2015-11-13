@@ -41,5 +41,7 @@ lint_changelog() {
 		fi
 	done
 
-	check_files_exist 'changelog' "${changelog_list[@]}"
+	check_files_exist 'changelog' "${changelog_list[@]}" || ret=1
+
+	return $ret
 }

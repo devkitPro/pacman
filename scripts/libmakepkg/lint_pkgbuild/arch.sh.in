@@ -31,7 +31,7 @@ lint_pkgbuild_functions+=('lint_arch')
 
 
 lint_arch() {
-	local a name list
+	local a name list ret=0
 
 	if [[ $arch == 'any' ]]; then
 		return 0
