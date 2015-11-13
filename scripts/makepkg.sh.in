@@ -761,10 +761,6 @@ merge_arch_attrs() {
 
 source_buildfile() {
 	source_safe "$@"
-
-	if (( !SOURCEONLY )); then
-		merge_arch_attrs
-	fi
 }
 
 run_function_safe() {
@@ -2004,8 +2000,15 @@ else
 	source_buildfile "$BUILDFILE"
 fi
 
-# set defaults if they weren't specified in buildfile
 pkgbase=${pkgbase:-${pkgname[0]}}
+
+# check the PKGBUILD for some basic requirements
+lint_pkgbuild || exit 1
+
+if (( !SOURCEONLY )); then
+	merge_arch_attrs
+fi
+
 basever=$(get_full_version)
 
 if [[ $BUILDDIR = "$startdir" ]]; then
@@ -2032,9 +2035,6 @@ fi
 if have_function pkgver; then
 	PKGVERFUNC=1
 fi
-
-# check the PKGBUILD for some basic requirements
-lint_pkgbuild || exit 1
 
 # check we have the software required to process the PKGBUILD
 check_software || exit 1
