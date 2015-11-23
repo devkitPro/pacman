@@ -2149,7 +2149,6 @@ if (( SOURCEONLY )); then
 fi
 
 if (( NODEPS || ( VERIFYSOURCE && !DEP_BIN ) )); then
-	# no warning message needed for nobuild
 	if (( NODEPS )); then
 		warning "$(gettext "Skipping dependency checks.")"
 	fi
