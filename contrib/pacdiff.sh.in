@@ -118,7 +118,7 @@ done
 
 m4_include(../scripts/library/term_colors.sh)
 
-if ! type -p ${diffprog%% *} >/dev/null; then
+if ! type -p ${diffprog%% *} >/dev/null && (( ! OUTPUTONLY )); then
 	error "Cannot find the $diffprog binary required for viewing differences."
 	exit 1
 fi
