@@ -681,6 +681,12 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 				STOP_POLLING(parent2child);
 			}
 		}
+		/* process anything left in the input buffer */
+		if(ilen) {
+			/* buffer would have already been flushed if it had a newline */
+			strcpy(ibuf + ilen, "\n");
+			_alpm_chroot_process_output(handle, ibuf);
+		}
 
 #undef STOP_POLLING
 
