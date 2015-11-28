@@ -165,6 +165,15 @@ AC_ARG_ENABLE(git-version,
 # testing compilation against gpgme).
 AC_SYS_LARGEFILE
 
+# Record large file flags in pkgconfig file
+if test "$enable_largefile" != no; then
+	if test "$ac_cv_sys_file_offset_bits" != 'no'; then
+		LFS_CFLAGS="-D_FILE_OFFSET_BITS=$ac_cv_sys_file_offset_bits"
+	fi
+fi
+AC_SUBST(LFS_CFLAGS)
+
+
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC_C99
