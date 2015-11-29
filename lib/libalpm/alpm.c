@@ -65,8 +65,11 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 		goto cleanup;
 	}
 
-	MALLOC(hookdir, strlen(myhandle->root) + strlen(SYSHOOKDIR) + 1, goto cleanup);
-	sprintf(hookdir, "%s%s", myhandle->root, SYSHOOKDIR);
+	/* to contatenate myhandle->root (ends with a slash) with SYSHOOKDIR (starts
+	 * with a slash) correctly, we skip SYSHOOKDIR[0]; the regular +1 therefore
+	 * disappears from the allocation */
+	MALLOC(hookdir, strlen(myhandle->root) + strlen(SYSHOOKDIR), goto cleanup);
+	sprintf(hookdir, "%s%s", myhandle->root, SYSHOOKDIR + 1);
 	myhandle->hookdirs = alpm_list_add(NULL, hookdir);
 
 	/* set default database extension */
