@@ -334,8 +334,7 @@ static void handler(int signum)
 		columns_cache_reset();
 		return;
 	}
-	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman
-	 * SIGTERM: release no matter what */
+	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman */
 	alpm_unlock(config->handle);
 	/* output a newline to be sure we clear any line we may be on */
 	xwrite(out, "\n", 1);
@@ -1138,7 +1137,7 @@ int main(int argc, char *argv[])
 	int ret = 0;
 	size_t i;
 	struct sigaction new_action, old_action;
-	const int signals[] = { SIGHUP, SIGINT, SIGTERM, SIGSEGV, SIGWINCH };
+	const int signals[] = { SIGHUP, SIGINT, SIGSEGV, SIGWINCH };
 	uid_t myuid = getuid();
 
 	/* Set signal handlers */
