@@ -30,7 +30,6 @@
 #include <limits.h>
 #include <getopt.h>
 #include <string.h>
-#include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/utsname.h> /* uname */
@@ -45,6 +44,7 @@
 #include "pacman.h"
 #include "util.h"
 #include "conf.h"
+#include "sighandler.h"
 
 /* list of targets specified on command line */
 static alpm_list_t *pm_targets;
@@ -292,51 +292,6 @@ static void cleanup(int ret)
 	/* free memory */
 	FREELIST(pm_targets);
 	exit(ret);
-}
-
-/** Write function that correctly handles EINTR.
- */
-static ssize_t xwrite(int fd, const void *buf, size_t count)
-{
-	ssize_t ret;
-	do {
-		ret = write(fd, buf, count);
-	} while(ret == -1 && errno == EINTR);
-	return ret;
-}
-
-/** Catches thrown signals. Performs necessary cleanup to ensure database is
- * in a consistent state.
- * @param signum the thrown signal
- */
-static void handler(int signum)
-{
-	if(signum == SIGSEGV) {
-		const char msg[] = "\nerror: segmentation fault\n"
-			"Please submit a full bug report with --debug if appropriate.\n";
-		xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
-		exit(signum);
-	} else if(signum == SIGINT || signum == SIGHUP) {
-		if(signum == SIGINT) {
-			const char msg[] = "\nInterrupt signal received\n";
-			xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
-		} else {
-			const char msg[] = "\nHangup signal received\n";
-			xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
-		}
-		if(alpm_trans_interrupt(config->handle) == 0) {
-			/* a transaction is being interrupted, don't exit pacman yet. */
-			return;
-		}
-	} else if(signum == SIGWINCH) {
-		columns_cache_reset();
-		return;
-	}
-	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman */
-	alpm_unlock(config->handle);
-	/* output a newline to be sure we clear any line we may be on */
-	xwrite(STDOUT_FILENO, "\n", 1);
-	_Exit(128 + signum);
 }
 
 static void invalid_opt(int used, const char *opt1, const char *opt2)
@@ -1134,20 +1089,9 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	size_t i;
-	struct sigaction new_action;
-	const int signals[] = { SIGHUP, SIGINT, SIGSEGV, SIGWINCH };
 	uid_t myuid = getuid();
 
-	/* Set signal handlers */
-	/* Set up the structure to specify the new action. */
-	new_action.sa_handler = handler;
-	sigemptyset(&new_action.sa_mask);
-	new_action.sa_flags = SA_RESTART;
-
-	/* assign our handler to any signals we care about */
-	for(i = 0; i < ARRAYSIZE(signals); i++) {
-		sigaction(signals[i], &new_action, NULL);
-	}
+	install_signal_handlers();
 
 	/* i18n init */
 #if defined(ENABLE_NLS)

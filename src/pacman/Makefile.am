@@ -40,6 +40,7 @@ pacman_SOURCES = \
 	pacman.h pacman.c \
 	query.c \
 	remove.c \
+	sighandler.h sighandler.c \
 	sync.c \
 	callback.h callback.c \
 	upgrade.c \
