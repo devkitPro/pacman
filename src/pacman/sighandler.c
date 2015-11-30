@@ -42,7 +42,7 @@ static ssize_t xwrite(int fd, const void *buf, size_t count)
  * in a consistent state.
  * @param signum the thrown signal
  */
-static void handler(int signum)
+static void soft_interrupt_handler(int signum)
 {
 	if(signum == SIGINT) {
 		const char msg[] = "\nInterrupt signal received\n";
@@ -55,11 +55,23 @@ static void handler(int signum)
 		/* a transaction is being interrupted, don't exit pacman yet. */
 		return;
 	}
-	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman */
 	alpm_unlock(config->handle);
 	/* output a newline to be sure we clear any line we may be on */
 	xwrite(STDOUT_FILENO, "\n", 1);
 	_Exit(128 + signum);
+}
+
+void install_soft_interrupt_handler(void)
+{
+	struct sigaction new_action;
+	new_action.sa_handler = soft_interrupt_handler;
+	new_action.sa_flags = SA_RESTART;
+	sigemptyset(&new_action.sa_mask);
+	sigaddset(&new_action.sa_mask, SIGINT);
+	sigaddset(&new_action.sa_mask, SIGHUP);
+
+	sigaction(SIGINT, &new_action, NULL);
+	sigaction(SIGHUP, &new_action, NULL);
 }
 
 static void segv_handler(int signum)
@@ -92,24 +104,6 @@ void install_winch_handler(void)
 	sigemptyset(&new_action.sa_mask);
 	new_action.sa_flags = SA_RESTART;
 	sigaction(SIGWINCH, &new_action, NULL);
-}
-
-void install_signal_handlers(void)
-{
-	struct sigaction new_action;
-	const int signals[] = { SIGHUP, SIGINT };
-	size_t i;
-
-	/* Set signal handlers */
-	/* Set up the structure to specify the new action. */
-	new_action.sa_handler = handler;
-	sigemptyset(&new_action.sa_mask);
-	new_action.sa_flags = SA_RESTART;
-
-	/* assign our handler to any signals we care about */
-	for(i = 0; i < ARRAYSIZE(signals); i++) {
-		sigaction(signals[i], &new_action, NULL);
-	}
 }
 
 /* vim: set noet: */

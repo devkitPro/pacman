@@ -1092,7 +1092,6 @@ int main(int argc, char *argv[])
 	uid_t myuid = getuid();
 
 	install_segv_handler();
-	install_signal_handlers();
 
 	/* i18n init */
 #if defined(ENABLE_NLS)
@@ -1107,6 +1106,8 @@ int main(int argc, char *argv[])
 		/* config_new prints the appropriate error message */
 		cleanup(1);
 	}
+
+	install_soft_interrupt_handler();
 
 	if(!isatty(fileno(stdout))) {
 		/* disable progressbar if the output is redirected */
