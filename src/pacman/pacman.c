@@ -311,21 +311,19 @@ static ssize_t xwrite(int fd, const void *buf, size_t count)
  */
 static void handler(int signum)
 {
-	int out = fileno(stdout);
-	int err = fileno(stderr);
-	const char *msg;
 	if(signum == SIGSEGV) {
-		msg = "\nerror: segmentation fault\n"
+		const char msg[] = "\nerror: segmentation fault\n"
 			"Please submit a full bug report with --debug if appropriate.\n";
-		xwrite(err, msg, strlen(msg));
+		xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
 		exit(signum);
 	} else if(signum == SIGINT || signum == SIGHUP) {
 		if(signum == SIGINT) {
-			msg = "\nInterrupt signal received\n";
+			const char msg[] = "\nInterrupt signal received\n";
+			xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
 		} else {
-			msg = "\nHangup signal received\n";
+			const char msg[] = "\nHangup signal received\n";
+			xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
 		}
-		xwrite(err, msg, strlen(msg));
 		if(alpm_trans_interrupt(config->handle) == 0) {
 			/* a transaction is being interrupted, don't exit pacman yet. */
 			return;
@@ -337,7 +335,7 @@ static void handler(int signum)
 	/* SIGINT/SIGHUP: no committing transaction, release it now and then exit pacman */
 	alpm_unlock(config->handle);
 	/* output a newline to be sure we clear any line we may be on */
-	xwrite(out, "\n", 1);
+	xwrite(STDOUT_FILENO, "\n", 1);
 	_Exit(128 + signum);
 }
 
