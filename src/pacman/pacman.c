@@ -1136,7 +1136,7 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	size_t i;
-	struct sigaction new_action, old_action;
+	struct sigaction new_action;
 	const int signals[] = { SIGHUP, SIGINT, SIGSEGV, SIGWINCH };
 	uid_t myuid = getuid();
 
@@ -1148,11 +1148,7 @@ int main(int argc, char *argv[])
 
 	/* assign our handler to any signals we care about */
 	for(i = 0; i < ARRAYSIZE(signals); i++) {
-		int signal = signals[i];
-		sigaction(signal, NULL, &old_action);
-		if(old_action.sa_handler != SIG_IGN) {
-			sigaction(signal, &new_action, NULL);
-		}
+		sigaction(signals[i], &new_action, NULL);
 	}
 
 	/* i18n init */
