@@ -279,6 +279,7 @@ static void setuseragent(void)
  */
 static void cleanup(int ret)
 {
+	remove_soft_interrupt_handler();
 	if(config) {
 		/* free alpm library resources */
 		if(config->handle && alpm_release(config->handle) == -1) {

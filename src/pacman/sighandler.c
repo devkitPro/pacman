@@ -74,6 +74,16 @@ void install_soft_interrupt_handler(void)
 	sigaction(SIGHUP, &new_action, NULL);
 }
 
+void remove_soft_interrupt_handler(void)
+{
+	struct sigaction new_action;
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_handler = SIG_DFL;
+	new_action.sa_flags = 0;
+	sigaction(SIGINT, &new_action, NULL);
+	sigaction(SIGHUP, &new_action, NULL);
+}
+
 static void segv_handler(int signum)
 {
 	const char msg[] = "\nerror: segmentation fault\n"

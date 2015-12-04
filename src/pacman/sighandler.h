@@ -23,6 +23,7 @@
 void install_segv_handler(void);
 void install_winch_handler(void);
 void install_soft_interrupt_handler(void);
+void remove_soft_interrupt_handler(void);
 
 #endif /* _PM_SIGHANDLER_H */
 
