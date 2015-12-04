@@ -103,11 +103,11 @@ Options
 	linkman:pacman[8].
 
 *-L, \--log*::
-	Enable makepkg build logging. This will use the *tee* program to send
-	output of the `build()` function to both the console and to a text file in
-	the build directory named `pkgname-pkgver-pkgrel-arch.log`. As mentioned
-	above, the build log will be localized so you may want to set your locale
-	accordingly if sharing the log output with others.
+	Enable logging. This will use the *tee* program to send the output of each
+	of the PKGBUILD functions to both the console and to a text file in the
+	build directory named `pkgbase-pkgver-pkgrel-arch-<function>.log`.
+	As mentioned above, the logs will be localized so you may want to set your
+	locale accordingly if sharing the log output with others.
 
 *-m, \--nocolor*::
 	Disable color in output messages.
