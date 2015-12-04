@@ -24,5 +24,3 @@ self.addrule("FILE_TYPE=usr/include/foo|dir")
 self.addrule("!FILE_TYPE=usr/include/bar|link")
 self.addrule("FILE_EXIST=usr/include/foo/header.h")
 self.addrule("FILE_EXIST=usr/include/bar/header.h")
-
-self.expectfailure = True
