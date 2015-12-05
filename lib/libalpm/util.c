@@ -705,11 +705,6 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 			}
 		}
 
-		/* report error from above after the child has exited */
-		if(retval != 0) {
-			_alpm_log(handle, ALPM_LOG_ERROR, _("could not open pipe (%s)\n"), strerror(errno));
-			goto cleanup;
-		}
 		/* check the return status, make sure it is 0 (success) */
 		if(WIFEXITED(status)) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "call to waitpid succeeded\n");
