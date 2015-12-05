@@ -177,6 +177,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	char *syncpath;
 	const char *dbext;
 	alpm_list_t *i;
+	int updated = 0;
 	int ret = -1;
 	mode_t oldmask;
 	alpm_handle_t *handle;
@@ -239,8 +240,9 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 		ret = _alpm_download(&payload, syncpath, NULL, &final_db_url);
 		_alpm_dload_payload_reset(&payload);
+		updated = (updated || ret == 0);
 
-		if(ret == 0 && (level & ALPM_SIG_DATABASE)) {
+		if(ret != -1 && updated && (level & ALPM_SIG_DATABASE)) {
 			/* an existing sig file is no good at this point */
 			char *sigpath = _alpm_sigpath(handle, _alpm_db_path(db));
 			if(!sigpath) {
@@ -296,32 +298,31 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		}
 	}
 
-	if(ret == 1) {
-		/* files match, do nothing */
-		handle->pm_errno = 0;
-		goto cleanup;
-	} else if(ret == -1) {
+	if(updated) {
+		/* Cache needs to be rebuilt */
+		_alpm_db_free_pkgcache(db);
+
+		/* clear all status flags regarding validity/existence */
+		db->status &= ~DB_STATUS_VALID;
+		db->status &= ~DB_STATUS_INVALID;
+		db->status &= ~DB_STATUS_EXISTS;
+		db->status &= ~DB_STATUS_MISSING;
+
+		/* if the download failed skip validation to preserve the download error */
+		if(ret != -1 && sync_db_validate(db) != 0) {
+			/* pm_errno should be set */
+			ret = -1;
+		}
+	}
+
+	if(ret == -1) {
 		/* pm_errno was set by the download code */
 		_alpm_log(handle, ALPM_LOG_DEBUG, "failed to sync db: %s\n",
 				alpm_strerror(handle->pm_errno));
-		goto cleanup;
+	} else {
+		handle->pm_errno = 0;
 	}
 
-	/* Cache needs to be rebuilt */
-	_alpm_db_free_pkgcache(db);
-
-	/* clear all status flags regarding validity/existence */
-	db->status &= ~DB_STATUS_VALID;
-	db->status &= ~DB_STATUS_INVALID;
-	db->status &= ~DB_STATUS_EXISTS;
-	db->status &= ~DB_STATUS_MISSING;
-
-	if(sync_db_validate(db)) {
-		/* pm_errno should be set */
-		ret = -1;
-	}
-
-cleanup:
 	_alpm_handle_unlock(handle);
 	free(syncpath);
 	umask(oldmask);
