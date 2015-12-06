@@ -167,6 +167,13 @@ void cb_event(alpm_event_t *event)
 		return;
 	}
 	switch(event->type) {
+		case ALPM_EVENT_HOOK_START:
+			if(event->hook.when == ALPM_HOOK_PRE_TRANSACTION) {
+				colon_printf(_("Running pre-transaction hooks...\n"));
+			} else {
+				colon_printf(_("Running post-transaction hooks...\n"));
+			}
+			break;
 		case ALPM_EVENT_CHECKDEPS_START:
 			printf(_("checking dependencies...\n"));
 			break;
@@ -329,6 +336,7 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_DISKSPACE_DONE:
 		case ALPM_EVENT_RETRIEVE_DONE:
 		case ALPM_EVENT_RETRIEVE_FAILED:
+		case ALPM_EVENT_HOOK_DONE:
 		/* we can safely ignore those as well */
 		case ALPM_EVENT_PKGDOWNLOAD_START:
 		case ALPM_EVENT_PKGDOWNLOAD_DONE:

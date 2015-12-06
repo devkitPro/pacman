@@ -22,12 +22,7 @@
 
 #include "alpm.h"
 
-enum _alpm_hook_when_t {
-	ALPM_HOOK_PRE_TRANSACTION = 1,
-	ALPM_HOOK_POST_TRANSACTION
-};
-
-int _alpm_hook_run(alpm_handle_t *handle, enum _alpm_hook_when_t when);
+int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when);
 
 #endif /* _ALPM_HOOK_H */
 

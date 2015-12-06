@@ -337,6 +337,16 @@ typedef struct _alpm_siglist_t {
 	alpm_sigresult_t *results;
 } alpm_siglist_t;
 
+
+/*
+ * Hooks
+ */
+
+typedef enum _alpm_hook_when_t {
+	ALPM_HOOK_PRE_TRANSACTION = 1,
+	ALPM_HOOK_POST_TRANSACTION
+} alpm_hook_when_t;
+
 /*
  * Logging facilities
  */
@@ -443,7 +453,11 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_PACNEW_CREATED,
 	/** A .pacsave file was created; See alpm_event_pacsave_created_t for
 	 * arguments */
-	ALPM_EVENT_PACSAVE_CREATED
+	ALPM_EVENT_PACSAVE_CREATED,
+	/** Processing hooks will be started. */
+	ALPM_EVENT_HOOK_START,
+	/** Processing hooks is finished. */
+	ALPM_EVENT_HOOK_DONE
 } alpm_event_type_t;
 
 typedef struct _alpm_event_any_t {
@@ -534,6 +548,13 @@ typedef struct _alpm_event_pacsave_created_t {
 	const char *file;
 } alpm_event_pacsave_created_t;
 
+typedef struct _alpm_event_hook_t {
+	/** Type of event.*/
+	alpm_event_type_t type;
+	/** Type of hooks. */
+	alpm_hook_when_t when;
+} alpm_event_hook_t;
+
 /** Events.
  * This is an union passed to the callback, that allows the frontend to know
  * which type of event was triggered (via type). It is then possible to
@@ -550,6 +571,7 @@ typedef union _alpm_event_t {
 	alpm_event_pkgdownload_t pkgdownload;
 	alpm_event_pacnew_created_t pacnew_created;
 	alpm_event_pacsave_created_t pacsave_created;
+	alpm_event_hook_t hook;
 } alpm_event_t;
 
 /** Event callback. */
