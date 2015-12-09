@@ -13,10 +13,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-02-14 11:13+1000\n"
+"POT-Creation-Date: 2015-12-09 15:58+1000\n"
 "PO-Revision-Date: 2014-11-18 05:45+0000\n"
 "Last-Translator: Algimantas Margevičius <gymka@archlinux.lt>\n"
-"Language-Team: Lithuanian (http://www.transifex.com/projects/p/archlinux-"
+"Language-Team: Lithuanian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/lt/)\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -40,28 +40,33 @@ msgstr "%s-%s yra naujausias -- perrašoma\n"
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "pasendinamas paketas %s (%s => %s)\n"
 
-#: lib/libalpm/add.c:122 lib/libalpm/util.c:379
+#: lib/libalpm/add.c:124 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "bandant išskleisti gautas įspėjimas %s (%s)\n"
 
-#: lib/libalpm/add.c:125 lib/libalpm/util.c:382
+#: lib/libalpm/add.c:127 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "nepavyko išskleisti %s (%s)\n"
 
-#: lib/libalpm/add.c:138 lib/libalpm/dload.c:589 lib/libalpm/remove.c:536
+#: lib/libalpm/add.c:140 lib/libalpm/dload.c:589 lib/libalpm/remove.c:520
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nepavyko pervadint %s į %s (%s)\n"
 
-#: lib/libalpm/add.c:184
+#: lib/libalpm/add.c:191
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
 "paketo %s failų sąraše failas nerastas. praledžiama %s išarchyvavimas\n"
 
-#: lib/libalpm/add.c:232
+#: lib/libalpm/add.c:200
+#, c-format
+msgid "unable to extract %s%s: path too long"
+msgstr ""
+
+#: lib/libalpm/add.c:241
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
@@ -70,7 +75,7 @@ msgstr ""
 "%s aplanko leidimai skiriasi\n"
 "failų sistema: %o  paketas: %o\n"
 
-#: lib/libalpm/add.c:247
+#: lib/libalpm/add.c:256
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
@@ -79,200 +84,205 @@ msgstr ""
 "aplanko nuosavybės teisės skiriasi %s\n"
 "failų sistema: %u:%u paketas: %u:%u\n"
 
-#: lib/libalpm/add.c:263
+#: lib/libalpm/add.c:272
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "išskleidimas: nepakeistas aplankas failu %s\n"
 
-#: lib/libalpm/add.c:603 lib/libalpm/util.c:331 lib/libalpm/util.c:507
+#: lib/libalpm/add.c:300
+#, c-format
+msgid "unable to extract %s.pacnew: path too long"
+msgstr ""
+
+#: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nepavyko nustatyt dabartinio aplanko\n"
 
-#: lib/libalpm/add.c:608 lib/libalpm/util.c:336 lib/libalpm/util.c:512
-#: lib/libalpm/util.c:553
+#: lib/libalpm/add.c:506 lib/libalpm/util.c:336 lib/libalpm/util.c:572
+#: lib/libalpm/util.c:627
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nepavyko pakeist aplanko į %s (%s)\n"
 
-#: lib/libalpm/add.c:647 lib/libalpm/util.c:400 lib/libalpm/util.c:624
+#: lib/libalpm/add.c:545 lib/libalpm/util.c:400 lib/libalpm/util.c:731
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "nepavyko atstatyt darbinio aplanko (%s)\n"
 
-#: lib/libalpm/add.c:655
+#: lib/libalpm/add.c:553
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "kilo bėdų atnaujinant %s\n"
 
-#: lib/libalpm/add.c:661
+#: lib/libalpm/add.c:559
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "kilo bėdų diegiant %s\n"
 
-#: lib/libalpm/add.c:677
+#: lib/libalpm/add.c:575
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "nepavyko atnaujint duomenų bazės įrašo %s-%s\n"
 
-#: lib/libalpm/add.c:688
+#: lib/libalpm/add.c:586
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "į podėlį pridėti „%s“ nepavyko\n"
 
-#: lib/libalpm/be_local.c:249
+#: lib/libalpm/be_local.c:255
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "klaida skaitant failą %s: %s\n"
 
-#: lib/libalpm/be_local.c:343
+#: lib/libalpm/be_local.c:350
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "šalinama neteisinga duomenų bazė: %s\n"
 
-#: lib/libalpm/be_local.c:389 lib/libalpm/be_local.c:849
+#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:873
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "nepavyko sukurti aplanko %s: %s\n"
 
-#: lib/libalpm/be_local.c:559 lib/libalpm/be_sync.c:358
+#: lib/libalpm/be_local.c:576 lib/libalpm/be_sync.c:377
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "neteisingas duomenų bazės įrašo pavadinimas „%s“\n"
 
-#: lib/libalpm/be_local.c:567
+#: lib/libalpm/be_local.c:584
 #, c-format
 msgid "duplicated database entry '%s'\n"
 msgstr "toks pavadinimas jau yra „%s“\n"
 
-#: lib/libalpm/be_local.c:579
+#: lib/libalpm/be_local.c:596
 #, c-format
 msgid "corrupted database entry '%s'\n"
 msgstr "duomenų bazės įrašas sugadintas „%s“\n"
 
-#: lib/libalpm/be_local.c:679 lib/libalpm/be_local.c:769
-#: lib/libalpm/be_local.c:898 lib/libalpm/be_local.c:991
+#: lib/libalpm/be_local.c:696 lib/libalpm/be_local.c:788
+#: lib/libalpm/be_local.c:922 lib/libalpm/be_local.c:1019
 #: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
 #: lib/libalpm/util.c:266
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "nepavyko atverti failo %s: %s\n"
 
-#: lib/libalpm/be_local.c:695 lib/libalpm/be_sync.c:603
+#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:630
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr ""
 "%s duomenų bazės nesuderinamumas: pavadinimas neatitinka nurodyto pakete %s\n"
 
-#: lib/libalpm/be_local.c:701 lib/libalpm/be_sync.c:609
+#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:636
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
 "%s duomenų bazės nesuderinamumas: versija neatitinka nurodytos pakete %s\n"
 
-#: lib/libalpm/be_local.c:740
+#: lib/libalpm/be_local.c:759
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "nežinomas paketo %s tikrinimo tipas: %s\n"
 
-#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:625
-#: lib/libalpm/be_package.c:638
+#: lib/libalpm/be_package.c:476 lib/libalpm/be_package.c:634
+#: lib/libalpm/be_package.c:647
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "klaida skaitant paketą %s: %s\n"
 
-#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
+#: lib/libalpm/be_package.c:490 lib/libalpm/be_package.c:514
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
 msgstr "skaitant paketo %s „mtree“ įvyko klaida: %s\n"
 
-#: lib/libalpm/be_package.c:588
+#: lib/libalpm/be_package.c:600
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "nepavyko perskaityt aprašymo failo %s\n"
 
-#: lib/libalpm/be_package.c:593
+#: lib/libalpm/be_package.c:605
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "trūksta paketo pavadinimo %s\n"
 
-#: lib/libalpm/be_package.c:597
+#: lib/libalpm/be_package.c:609
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "trūksta paketo versijos %s\n"
 
-#: lib/libalpm/be_package.c:601
+#: lib/libalpm/be_package.c:613
 #, c-format
 msgid "invalid package version in %s\n"
 msgstr "netinkama paketo versija %s\n"
 
-#: lib/libalpm/be_package.c:645
+#: lib/libalpm/be_package.c:654
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "trūksta paketo meta duomenų %s\n"
 
-#: lib/libalpm/be_package.c:734
+#: lib/libalpm/be_package.c:743
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "nepavyko perskaityt parašo failo: %s\n"
 
-#: lib/libalpm/be_package.c:755 lib/libalpm/sync.c:1108
+#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1108
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "reikia rakto kurio nėra raktinėje\n"
 
-#: lib/libalpm/be_sync.c:61
+#: lib/libalpm/be_sync.c:62
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "šalinamas neteisingas failas: %s\n"
 
-#: lib/libalpm/be_sync.c:476
+#: lib/libalpm/be_sync.c:502
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "nepavyko perskaityt paketo aprašymo failo %s iš duomenų bazės „%s“\n"
 
-#: lib/libalpm/be_sync.c:509 lib/libalpm/be_sync.c:514
+#: lib/libalpm/be_sync.c:535 lib/libalpm/be_sync.c:540
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr ""
 "%s duomenų bazės nesuderinamumas: netinkamas paketo „%s“ failo vardas\n"
 
-#: lib/libalpm/be_sync.c:519
+#: lib/libalpm/be_sync.c:545
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s duomenų bazės nesuderinamumas: paketo %s failo vardas per ilgas\n"
 
-#: lib/libalpm/be_sync.c:585
+#: lib/libalpm/be_sync.c:611
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "nežinomas duomenų bazės failas: %s\n"
 
-#: lib/libalpm/db.c:369
+#: lib/libalpm/db.c:370
 #, c-format
 msgid "database path is undefined\n"
 msgstr "nenurodytas duomenų bazės kelias\n"
 
-#: lib/libalpm/deps.c:218
+#: lib/libalpm/deps.c:229
 #, c-format
 msgid "dependency cycle detected:\n"
 msgstr "aptiktas priklausomybių ciklas:\n"
 
-#: lib/libalpm/deps.c:221
+#: lib/libalpm/deps.c:232
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s bus pašalintas kai bus pašalinta jo priklausomybė %s\n"
 
-#: lib/libalpm/deps.c:225
+#: lib/libalpm/deps.c:236
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s bus įdiegta prieš jo priklausomybę %s\n"
 
-#: lib/libalpm/deps.c:657 lib/libalpm/deps.c:689
+#: lib/libalpm/deps.c:678 lib/libalpm/deps.c:710
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "paketas nepaisomas %s-%s\n"
 
-#: lib/libalpm/deps.c:844
+#: lib/libalpm/deps.c:865
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nepavyko išspręsti „%s“, „%s“ priklausomybė\n"
@@ -292,34 +302,39 @@ msgstr "nepavyko atverti failo %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "nepavyko gauti failų sistemos informacijos\n"
 
-#: lib/libalpm/diskspace.c:249 lib/libalpm/diskspace.c:308
+#: lib/libalpm/diskspace.c:241
+#, fuzzy, c-format
+msgid "could not get file information for %s\n"
+msgstr "nepavyko gauti failų sistemos informacijos %s: %s\n"
+
+#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "nepavyko nustatyti prijungimo taško failui %s\n"
 
-#: lib/libalpm/diskspace.c:347
-#, c-format
-msgid "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+#: lib/libalpm/diskspace.c:352
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 msgstr "Skirsnis %s perpildytas: reikia %jd blokų, laisvi %jd\n"
 
-#: lib/libalpm/diskspace.c:372 lib/libalpm/diskspace.c:426
+#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "nepavyko nustatyt failų sistemos prijungimo taškų\n"
 
-#: lib/libalpm/diskspace.c:378
+#: lib/libalpm/diskspace.c:383
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr ""
 "nepavyko nustatyt „cachedir“ prijungimo taško %s\n"
 "\n"
 
-#: lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:436
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "nepavyko nustatyt šakninio prijungimo taško %s\n"
 
-#: lib/libalpm/diskspace.c:479
+#: lib/libalpm/diskspace.c:484
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Skirsnis %s prijungtas tik skaitymui\n"
@@ -505,142 +520,147 @@ msgstr "operacija nesuderinama su perdavimo tipu"
 msgid "transaction commit attempt when database is not locked"
 msgstr "bandoma perduoti kai duomenų bazė neužrakinta"
 
-#: lib/libalpm/error.c:105
+#: lib/libalpm/error.c:104
+#, c-format
+msgid "failed to run transaction hooks"
+msgstr ""
+
+#: lib/libalpm/error.c:107
 #, c-format
 msgid "could not find or read package"
 msgstr "nepavyko rasti ar perskaityti paketo"
 
-#: lib/libalpm/error.c:107
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "veiksmas atšauktas dėl ignorepkg"
 
-#: lib/libalpm/error.c:109
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "neteisingas arba sugadintas paketas"
 
-#: lib/libalpm/error.c:111
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "neteisingas arba sugadintas paketas (kontrolinė suma)"
 
-#: lib/libalpm/error.c:113
+#: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "neteisingas arba sugadintas paketas (PGP parašas)"
 
-#: lib/libalpm/error.c:115
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "package missing required signature"
 msgstr "paketas neturi reikiamo parašo"
 
-#: lib/libalpm/error.c:117
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot open package file"
 msgstr "nepavyko atverti paketo failo"
 
-#: lib/libalpm/error.c:119
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "negalima pašalinti visų paketo failų"
 
-#: lib/libalpm/error.c:121
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "package filename is not valid"
 msgstr "paketo vardas neteisingas"
 
-#: lib/libalpm/error.c:123
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "package architecture is not valid"
 msgstr "paketo architektūra neteisinga"
 
-#: lib/libalpm/error.c:125
+#: lib/libalpm/error.c:127
 #, c-format
 msgid "could not find repository for target"
 msgstr "nepavyko rasti saugyklos objektui"
 
-#: lib/libalpm/error.c:128
+#: lib/libalpm/error.c:130
 #, c-format
 msgid "missing PGP signature"
 msgstr "trūksta PGP parašo"
 
-#: lib/libalpm/error.c:130
+#: lib/libalpm/error.c:132
 #, c-format
 msgid "invalid PGP signature"
 msgstr "neteisingas PGP parašas"
 
-#: lib/libalpm/error.c:133
+#: lib/libalpm/error.c:135
 #, c-format
 msgid "invalid or corrupted delta"
 msgstr "neteisinga arba sugadinta delta"
 
-#: lib/libalpm/error.c:135
+#: lib/libalpm/error.c:137
 #, c-format
 msgid "delta patch failed"
 msgstr "nepavyko ištaisyti delta"
 
-#: lib/libalpm/error.c:138
+#: lib/libalpm/error.c:140
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "nepavyko patenkinti priklausomybių"
 
-#: lib/libalpm/error.c:140
+#: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting dependencies"
 msgstr "nesuderinamos priklausomybės"
 
-#: lib/libalpm/error.c:142
+#: lib/libalpm/error.c:144
 #, c-format
 msgid "conflicting files"
 msgstr "nesuderinami failai"
 
-#: lib/libalpm/error.c:145
+#: lib/libalpm/error.c:147
 #, c-format
 msgid "failed to retrieve some files"
 msgstr "nepavyko gauti kai kurių failų"
 
-#: lib/libalpm/error.c:147
+#: lib/libalpm/error.c:149
 #, c-format
 msgid "invalid regular expression"
 msgstr "netinkamos reguliariosios išraiškos"
 
-#: lib/libalpm/error.c:153
+#: lib/libalpm/error.c:155
 #, c-format
 msgid "libarchive error"
 msgstr "libarchive klaida"
 
-#: lib/libalpm/error.c:155
+#: lib/libalpm/error.c:157
 #, c-format
 msgid "download library error"
 msgstr "parsiuntimo bibliotekos klaida"
 
-#: lib/libalpm/error.c:157
+#: lib/libalpm/error.c:159
 #, c-format
 msgid "gpgme error"
 msgstr "gpgme klaida"
 
-#: lib/libalpm/error.c:159
+#: lib/libalpm/error.c:161
 #, c-format
 msgid "error invoking external downloader"
 msgstr "klaida iškviečiant išorinį parsiuntėją"
 
-#: lib/libalpm/error.c:162
+#: lib/libalpm/error.c:164
 #, c-format
 msgid "unexpected error"
 msgstr "netikėta klaida"
 
-#: lib/libalpm/handle.c:139
+#: lib/libalpm/handle.c:155
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "failas %s neužrakintas\n"
 
-#: lib/libalpm/handle.c:145
+#: lib/libalpm/handle.c:161
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "nepavyko pašalinti užrakinto failo %s\n"
 
-#: lib/libalpm/package.c:559
+#: lib/libalpm/package.c:568
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "paketui %s-%s nepavyko įkrauti visų meta duomenų\n"
@@ -655,27 +675,27 @@ msgstr "duomenų bazėj nepavyko rasti %s -- praleidžiama\n"
 msgid "removing %s from target list\n"
 msgstr "šalinamas %s iš objektų sąrašo\n"
 
-#: lib/libalpm/remove.c:348
+#: lib/libalpm/remove.c:343
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "nepavyko pašalinti failo „%s“: %s\n"
 
-#: lib/libalpm/remove.c:388
+#: lib/libalpm/remove.c:383
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "nepavyko atverti aplanko %s: %s\n"
 
-#: lib/libalpm/remove.c:556
+#: lib/libalpm/remove.c:540
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "nepavyko pašalinti %s (%s)\n"
 
-#: lib/libalpm/remove.c:727
+#: lib/libalpm/remove.c:713
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "nepavyko pašalinti duomenų bazės įrašo %s-%s\n"
 
-#: lib/libalpm/remove.c:732
+#: lib/libalpm/remove.c:718
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "iš podėlio nepavyko pašalinti įrašo „%s“\n"
@@ -730,37 +750,37 @@ msgstr "nepavyko gauti kai kurių failų\n"
 msgid "%s: missing required signature\n"
 msgstr "%s: trūksta parašo\n"
 
-#: lib/libalpm/sync.c:1357
+#: lib/libalpm/sync.c:1376
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "nepakanka laisvos vietos\n"
 
-#: lib/libalpm/sync.c:1370
+#: lib/libalpm/sync.c:1398
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "nepavyko įvykdyti šalinimo perdavimo\n"
 
-#: lib/libalpm/sync.c:1378
+#: lib/libalpm/sync.c:1406
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "nepavyko įvykdyti perdavimo\n"
 
-#: lib/libalpm/trans.c:343
+#: lib/libalpm/trans.c:353
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "nepavyko sukurti lakino aplanko\n"
 
-#: lib/libalpm/trans.c:358
+#: lib/libalpm/trans.c:368
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "negaliu nukopijuoti laikino failo į %s (%s)\n"
 
-#: lib/libalpm/trans.c:389
+#: lib/libalpm/trans.c:399
 #, c-format
 msgid "could not remove %s\n"
 msgstr "nepavyko pašalinti %s\n"
 
-#: lib/libalpm/trans.c:393
+#: lib/libalpm/trans.c:403
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nepavyko pašalinti tmpdir %s\n"
@@ -770,57 +790,65 @@ msgstr "nepavyko pašalinti tmpdir %s\n"
 msgid "could not stat file %s: %s\n"
 msgstr "nepavyko sukurti failo %s: %s\n"
 
-#: lib/libalpm/util.c:524
+#: lib/libalpm/util.c:483
+#, fuzzy, c-format
+msgid "unable to write to pipe (%s)\n"
+msgstr "nepavyko sukurti pipe (%s)\n"
+
+#: lib/libalpm/util.c:542
+#, fuzzy, c-format
+msgid "unable to read from pipe (%s)\n"
+msgstr "nepavyko sukurti pipe (%s)\n"
+
+#: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "nepavyko sukurti pipe (%s)\n"
 
-#: lib/libalpm/util.c:532
+#: lib/libalpm/util.c:598
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "nepavyko iššakoti naujo proceso (%s)\n"
 
-#: lib/libalpm/util.c:549
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "nepavyko pakeisti šakninio aplanko (%s)\n"
 
-#: lib/libalpm/util.c:560
+#: lib/libalpm/util.c:634
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "nepavyko iškviesti execv (%s)\n"
 
-#: lib/libalpm/util.c:590
+#: lib/libalpm/util.c:702
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "nepavyko iškviesti waitpid (%s)\n"
 
-#: lib/libalpm/util.c:598
-#, c-format
-msgid "could not open pipe (%s)\n"
-msgstr "nepavyko atverti pipe (%s)\n"
-
-#: lib/libalpm/util.c:605
+#: lib/libalpm/util.c:712
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "nepavyko teisingai įvykdyti komandos\n"
 
-#: lib/libalpm/util.c:612
+#: lib/libalpm/util.c:719
 #, c-format
 msgid "Unknown signal"
 msgstr "Nežinomas signalas"
 
-#: lib/libalpm/util.c:614
+#: lib/libalpm/util.c:721
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "komanda nutraukta signalo %d: %s\n"
 
-#: lib/libalpm/util.c:711
+#: lib/libalpm/util.c:818
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "%s podėlis neegzistuoja, kuriamas...\n"
 
-#: lib/libalpm/util.c:742
+#: lib/libalpm/util.c:849
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "nepavyko rasti ar sukurti podėlio paketui, vietoj jo naudojama %s\n"
+
+#~ msgid "could not open pipe (%s)\n"
+#~ msgstr "nepavyko atverti pipe (%s)\n"

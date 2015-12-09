@@ -1,0 +1,852 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Gwenn M <tornoz@laposte.net>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Arch Linux Pacman package manager\n"
+"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
+"POT-Creation-Date: 2015-12-09 15:58+1000\n"
+"PO-Revision-Date: 2015-07-14 18:49+0000\n"
+"Last-Translator: Gwenn M <tornoz@laposte.net>\n"
+"Language-Team: Breton (http://www.transifex.com/toofishes/archlinux-pacman/"
+"language/br/)\n"
+"Language: br\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: lib/libalpm/add.c:86
+#, c-format
+msgid "%s-%s is up to date -- skipping\n"
+msgstr "hizivaet eo %s - %s -- laosket a-gostez\n"
+
+#: lib/libalpm/add.c:90
+#, c-format
+msgid "%s-%s is up to date -- reinstalling\n"
+msgstr "Hizivaet eo %s - %s -- adstaliadur\n"
+
+#: lib/libalpm/add.c:95
+#, c-format
+msgid "downgrading package %s (%s => %s)\n"
+msgstr "o pellgargañ ar pakad %s (%s => %s)\n"
+
+#: lib/libalpm/add.c:124 lib/libalpm/util.c:379
+#, c-format
+msgid "warning given when extracting %s (%s)\n"
+msgstr "ur galv diwall a zo bet roet en ur eztennañ %s (%s)\n"
+
+#: lib/libalpm/add.c:127 lib/libalpm/util.c:382
+#, c-format
+msgid "could not extract %s (%s)\n"
+msgstr "n'haller ket eztennañ %s (%s)\n"
+
+#: lib/libalpm/add.c:140 lib/libalpm/dload.c:589 lib/libalpm/remove.c:520
+#, c-format
+msgid "could not rename %s to %s (%s)\n"
+msgstr "n'haller ket adenvel %s e %s (%s)\n"
+
+#: lib/libalpm/add.c:191
+#, c-format
+msgid "file not found in file list for package %s. skipping extraction of %s\n"
+msgstr ""
+"n'eo ket bet kavet ar restr er roll restroù evit ar pakad %s. o tremen "
+"eztennadur %s\n"
+
+#: lib/libalpm/add.c:200
+#, c-format
+msgid "unable to extract %s%s: path too long"
+msgstr ""
+
+#: lib/libalpm/add.c:241
+#, c-format
+msgid ""
+"directory permissions differ on %s\n"
+"filesystem: %o  package: %o\n"
+msgstr ""
+"disheñvel eo an aotreoù kavlec'hioù war %s\n"
+"reizhad restroù : %o pakad : %o\n"
+
+#: lib/libalpm/add.c:256
+#, c-format
+msgid ""
+"directory ownership differs on %s\n"
+"filesystem: %u:%u  package: %u:%u\n"
+msgstr ""
+"disheñvel eo perc'henniezh ar c'havlec'hioù evit %s\n"
+"reizhad restroù : %u:%u pakad : %u:%u\n"
+
+#: lib/libalpm/add.c:272
+#, c-format
+msgid "extract: not overwriting dir with file %s\n"
+msgstr "eztannadur : flastradur kavlec'h gant restr %s ebet \n"
+
+#: lib/libalpm/add.c:300
+#, c-format
+msgid "unable to extract %s.pacnew: path too long"
+msgstr ""
+
+#: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
+#, c-format
+msgid "could not get current working directory\n"
+msgstr "n'haller ket kaout ar c'havlec'h labour bremanel\n"
+
+#: lib/libalpm/add.c:506 lib/libalpm/util.c:336 lib/libalpm/util.c:572
+#: lib/libalpm/util.c:627
+#, c-format
+msgid "could not change directory to %s (%s)\n"
+msgstr "n'haller ket kemmañ ar c'havlec'h da %s (%s)\n"
+
+#: lib/libalpm/add.c:545 lib/libalpm/util.c:400 lib/libalpm/util.c:731
+#, c-format
+msgid "could not restore working directory (%s)\n"
+msgstr "n'haller ket assav ar c'havlec'h labour (%s)\n"
+
+#: lib/libalpm/add.c:553
+#, c-format
+msgid "problem occurred while upgrading %s\n"
+msgstr "ur fazi a zo bet en ur hizivaat %s\n"
+
+#: lib/libalpm/add.c:559
+#, c-format
+msgid "problem occurred while installing %s\n"
+msgstr "ur fazi a zo bet en ur staliañ %s\n"
+
+#: lib/libalpm/add.c:575
+#, c-format
+msgid "could not update database entry %s-%s\n"
+msgstr "n'haller ket hizivaat an enankad stlennvon %s-%s\n"
+
+#: lib/libalpm/add.c:586
+#, c-format
+msgid "could not add entry '%s' in cache\n"
+msgstr "n'haller ket ouzhpennañ an enankad '%s' er skurzer\n"
+
+#: lib/libalpm/be_local.c:255
+#, c-format
+msgid "error while reading file %s: %s\n"
+msgstr "fazi en ul lenn ar restr %s : %s\n"
+
+#: lib/libalpm/be_local.c:350
+#, c-format
+msgid "removing invalid database: %s\n"
+msgstr "o dilemel ar stlennvon direizh : %s\n"
+
+#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:873
+#, c-format
+msgid "could not create directory %s: %s\n"
+msgstr "n'haller ker krouiñ ar c'havlec'h %s : %s\n"
+
+#: lib/libalpm/be_local.c:576 lib/libalpm/be_sync.c:377
+#, c-format
+msgid "invalid name for database entry '%s'\n"
+msgstr "anv direizh evit an enankad stlennvon '%s'\n"
+
+#: lib/libalpm/be_local.c:584
+#, c-format
+msgid "duplicated database entry '%s'\n"
+msgstr "enankad stlennvon eilet '%s'\n"
+
+#: lib/libalpm/be_local.c:596
+#, c-format
+msgid "corrupted database entry '%s'\n"
+msgstr "enankad stlennvon kontronet '%s'\n"
+
+#: lib/libalpm/be_local.c:696 lib/libalpm/be_local.c:788
+#: lib/libalpm/be_local.c:922 lib/libalpm/be_local.c:1019
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
+#: lib/libalpm/util.c:266
+#, c-format
+msgid "could not open file %s: %s\n"
+msgstr "n'haller ket digeriñ ar restr %s : %s\n"
+
+#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:630
+#, c-format
+msgid "%s database is inconsistent: name mismatch on package %s\n"
+msgstr "digantalc'hek eo ar stlennvon %s : digenglotus eo anvioù ar pakad %s\n"
+
+#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:636
+#, c-format
+msgid "%s database is inconsistent: version mismatch on package %s\n"
+msgstr ""
+"digantalc'hek eo ar stlennvon %s : digenglotus eo handelvioù ar pakad %s\n"
+
+#: lib/libalpm/be_local.c:759
+#, c-format
+msgid "unknown validation type for package %s: %s\n"
+msgstr "doare gwiriadur dianav evit ar pakad %s : %s\n"
+
+#: lib/libalpm/be_package.c:476 lib/libalpm/be_package.c:634
+#: lib/libalpm/be_package.c:647
+#, c-format
+msgid "error while reading package %s: %s\n"
+msgstr "fazi en ul lenn ar pakad %s : %s\n"
+
+#: lib/libalpm/be_package.c:490 lib/libalpm/be_package.c:514
+#, c-format
+msgid "error while reading mtree of package %s: %s\n"
+msgstr "fazi en ul lenn mtree ar pakad %s : %s\n"
+
+#: lib/libalpm/be_package.c:600
+#, c-format
+msgid "could not parse package description file in %s\n"
+msgstr "n'haller ket dezrannañ restr deskrivañ ar pakad e %s\n"
+
+#: lib/libalpm/be_package.c:605
+#, c-format
+msgid "missing package name in %s\n"
+msgstr "mankout a ra an anv pakad e %s\n"
+
+#: lib/libalpm/be_package.c:609
+#, c-format
+msgid "missing package version in %s\n"
+msgstr "mankout a ra handelv ar pakad e %s\n"
+
+#: lib/libalpm/be_package.c:613
+#, c-format
+msgid "invalid package version in %s\n"
+msgstr "handelv pakad direizh e %s\n"
+
+#: lib/libalpm/be_package.c:654
+#, c-format
+msgid "missing package metadata in %s\n"
+msgstr "mankout a ra metaroadennoù ar pakad e %s\n"
+
+#: lib/libalpm/be_package.c:743
+#, c-format
+msgid "failed to read signature file: %s\n"
+msgstr "fazi en ul lenn ar restr sinadur : %s\n"
+
+#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1108
+#, c-format
+msgid "required key missing from keyring\n"
+msgstr "mankout a ra an alc'hwez goulennet en droñsell\n"
+
+#: lib/libalpm/be_sync.c:62
+#, c-format
+msgid "removing invalid file: %s\n"
+msgstr "o dilemel ar restr direizh : %s\n"
+
+#: lib/libalpm/be_sync.c:502
+#, c-format
+msgid "could not parse package description file '%s' from db '%s'\n"
+msgstr ""
+"n'haller ket dezrannañ ar restr deskrivadur pakadoù '%s' adalek ar sv '%s'\n"
+
+#: lib/libalpm/be_sync.c:535 lib/libalpm/be_sync.c:540
+#, c-format
+msgid "%s database is inconsistent: filename of package %s is illegal\n"
+msgstr ""
+"digantalc'hek eo ar stlennvon %s : didalvoudek eo anv restr ar pakad %s\n"
+
+#: lib/libalpm/be_sync.c:545
+#, c-format
+msgid "%s database is inconsistent: filename of package %s is too long\n"
+msgstr "digantalc'hek eo ar stlennvon %s : re hir eo anv restr ar pakad %s\n"
+
+#: lib/libalpm/be_sync.c:611
+#, c-format
+msgid "unknown database file: %s\n"
+msgstr "restr stlennvon dianav : %s\n"
+
+#: lib/libalpm/db.c:370
+#, c-format
+msgid "database path is undefined\n"
+msgstr "andespizet eo treug ar stlennvon\n"
+
+#: lib/libalpm/deps.c:229
+#, c-format
+msgid "dependency cycle detected:\n"
+msgstr "Kelc'hiad amzalc'h dinoet :\n"
+
+#: lib/libalpm/deps.c:232
+#, c-format
+msgid "%s will be removed after its %s dependency\n"
+msgstr "dilamet e vo %s goude e %s amzalc'h\n"
+
+#: lib/libalpm/deps.c:236
+#, c-format
+msgid "%s will be installed before its %s dependency\n"
+msgstr "staliet e vo %s goude e %s amzalc'h\n"
+
+#: lib/libalpm/deps.c:678 lib/libalpm/deps.c:710
+#, c-format
+msgid "ignoring package %s-%s\n"
+msgstr "o leuskel ar pakad %s - %s a-gostez\n"
+
+#: lib/libalpm/deps.c:865
+#, c-format
+msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
+msgstr "n'haller ket diskoulmañ \"%s\", un amzalc'h \"%s\"\n"
+
+#: lib/libalpm/diskspace.c:78
+#, c-format
+msgid "could not get filesystem information for %s: %s\n"
+msgstr "n'haller ket kaout titouroù ar reizhad evit %s : %s\n"
+
+#: lib/libalpm/diskspace.c:108
+#, c-format
+msgid "could not open file: %s: %s\n"
+msgstr "n'haller ket digeriñ ar restr : %s : %s\n"
+
+#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
+#, c-format
+msgid "could not get filesystem information\n"
+msgstr "n'haller ket kaout titouroù ar reizhad restroù\n"
+
+#: lib/libalpm/diskspace.c:241
+#, fuzzy, c-format
+msgid "could not get file information for %s\n"
+msgstr "n'haller ket kaout titouroù ar reizhad evit %s : %s\n"
+
+#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#, c-format
+msgid "could not determine mount point for file %s\n"
+msgstr "n'haller ket despizañ ar poentoù kenstrollañ evit ar restr %s\n"
+
+#: lib/libalpm/diskspace.c:352
+#, fuzzy, c-format
+msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
+msgstr ""
+"Re leun eo ar parzhad %s : %jd a bloc'hoù a zo dleet, %jd a bloc'hoù dieub\n"
+
+#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#, c-format
+msgid "could not determine filesystem mount points\n"
+msgstr "n'haller ket despizañ poentoù kenstrollañ ar reizhad restroù\n"
+
+#: lib/libalpm/diskspace.c:383
+#, c-format
+msgid "could not determine cachedir mount point %s\n"
+msgstr "n'haller ket despizañ poent kenstrollañ ar c'havlec'h krubuilh %s\n"
+
+#: lib/libalpm/diskspace.c:436
+#, c-format
+msgid "could not determine root mount point %s\n"
+msgstr "n'haller ket despizañ poent kenstrollañ ar gwrizienn %s\n"
+
+#: lib/libalpm/diskspace.c:484
+#, c-format
+msgid "Partition %s is mounted read only\n"
+msgstr "E mod lenn nemetken eo kenstrollet ar parzhad %s\n"
+
+#: lib/libalpm/dload.c:149
+#, c-format
+msgid "disk"
+msgstr "pladenn"
+
+#: lib/libalpm/dload.c:373
+#, c-format
+msgid "failed to create temporary file for download\n"
+msgstr "fazi en ur c'hrouiñ ar restr padennek evit ar pellgargañ\n"
+
+#: lib/libalpm/dload.c:418
+#, c-format
+msgid "url '%s' is invalid\n"
+msgstr "direizh eo an url '%s'\n"
+
+#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "fazi en ur adkavout ar restr '%s' adalek %s : %s\n"
+
+#: lib/libalpm/dload.c:500
+#, c-format
+msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
+msgstr ""
+"fazi en ur adkavout ar restr '%s' adalek %s : re vras eo ment ar "
+"pellgargadur\n"
+
+#: lib/libalpm/dload.c:548
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr "krennet e seblant bezañ %s : %jd/%jd eizhbit\n"
+
+#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
+#, c-format
+msgid "failed to download %s\n"
+msgstr "fazi en ur pellgargañ %s\n"
+
+#: lib/libalpm/error.c:40
+#, c-format
+msgid "out of memory!"
+msgstr "n'eus memor ebet ken"
+
+#: lib/libalpm/error.c:42
+#, c-format
+msgid "unexpected system error"
+msgstr "fazi reizhad dic'hortoz"
+
+#: lib/libalpm/error.c:44
+#, c-format
+msgid "permission denied"
+msgstr "aotre nac'het"
+
+#: lib/libalpm/error.c:46
+#, c-format
+msgid "could not find or read file"
+msgstr "n'haller ket kavout pe lenn ar restr"
+
+#: lib/libalpm/error.c:48
+#, c-format
+msgid "could not find or read directory"
+msgstr "n'haller ket kavout pe lenn ar c'havlec'h"
+
+#: lib/libalpm/error.c:50
+#, c-format
+msgid "wrong or NULL argument passed"
+msgstr "gaou pe NULL eo an arguzenn tremenet"
+
+#: lib/libalpm/error.c:52
+#, c-format
+msgid "not enough free disk space"
+msgstr "n'eus ket plas dieub a-walc'h war ar bladenn"
+
+#: lib/libalpm/error.c:55
+#, c-format
+msgid "library not initialized"
+msgstr "n'eo ket bet deraouekaet al levraoueg"
+
+#: lib/libalpm/error.c:57
+#, c-format
+msgid "library already initialized"
+msgstr "deraouekaet eo bet al levraoueg endeo"
+
+#: lib/libalpm/error.c:59
+#, c-format
+msgid "unable to lock database"
+msgstr "n'haller ket prennañ ar stlennvon"
+
+#: lib/libalpm/error.c:62
+#, c-format
+msgid "could not open database"
+msgstr "n'heller ket digeriñ ar stlennvon"
+
+#: lib/libalpm/error.c:64
+#, c-format
+msgid "could not create database"
+msgstr "n'heller ket krouiñ ar stlennvon"
+
+#: lib/libalpm/error.c:66
+#, c-format
+msgid "database not initialized"
+msgstr "n'eo ket bet deraouekaet ar stlennvon"
+
+#: lib/libalpm/error.c:68
+#, c-format
+msgid "database already registered"
+msgstr "marilhet eo bet ar stlennvon endeo"
+
+#: lib/libalpm/error.c:70
+#, c-format
+msgid "could not find database"
+msgstr "n'haller ket kavout ar stlennvon"
+
+#: lib/libalpm/error.c:72
+#, c-format
+msgid "invalid or corrupted database"
+msgstr "direizh pe kontronet eo ar stlennvon"
+
+#: lib/libalpm/error.c:74
+#, c-format
+msgid "invalid or corrupted database (PGP signature)"
+msgstr "direizh pe kontronet eo ar stlennvon (sinadur PGP)"
+
+#: lib/libalpm/error.c:76
+#, c-format
+msgid "database is incorrect version"
+msgstr "direizh eo handelv ar stlennvon"
+
+#: lib/libalpm/error.c:78
+#, c-format
+msgid "could not update database"
+msgstr "n'haller ket hizivaat ar stlennvon"
+
+#: lib/libalpm/error.c:80
+#, c-format
+msgid "could not remove database entry"
+msgstr "n'haller ket dilemel enankad ar stlennvon"
+
+#: lib/libalpm/error.c:83
+#, c-format
+msgid "invalid url for server"
+msgstr "url direizh evit an dafariad"
+
+#: lib/libalpm/error.c:85
+#, c-format
+msgid "no servers configured for repository"
+msgstr "n'eus dafariad ebet kefluniet evit ar mirlec'h"
+
+#: lib/libalpm/error.c:88
+#, c-format
+msgid "transaction already initialized"
+msgstr "deraouekaet eo bet an treuzkas"
+
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#, c-format
+msgid "transaction not initialized"
+msgstr "n'eo ket bet deraouekaet an treuzkas"
+
+#: lib/libalpm/error.c:92
+#, c-format
+msgid "duplicate target"
+msgstr "bukenn eilet"
+
+#: lib/libalpm/error.c:96
+#, c-format
+msgid "transaction not prepared"
+msgstr "n'eo ket bet prientet an treuzkas"
+
+#: lib/libalpm/error.c:98
+#, c-format
+msgid "transaction aborted"
+msgstr "dilezet eo bet an treuzkas"
+
+#: lib/libalpm/error.c:100
+#, c-format
+msgid "operation not compatible with the transaction type"
+msgstr "n'eo ket kenglotus an oberatadenn gant doare an treuzkas"
+
+#: lib/libalpm/error.c:102
+#, c-format
+msgid "transaction commit attempt when database is not locked"
+msgstr ""
+"klasket eo bet erounit an treuzkas padal ne oa ket prennet ar stlennvon"
+
+#: lib/libalpm/error.c:104
+#, c-format
+msgid "failed to run transaction hooks"
+msgstr ""
+
+#: lib/libalpm/error.c:107
+#, c-format
+msgid "could not find or read package"
+msgstr "n'haller ket kavout pe lenn ar pakad"
+
+#: lib/libalpm/error.c:109
+#, c-format
+msgid "operation cancelled due to ignorepkg"
+msgstr "nullet eo bet an oberatadenn abalamour da ignorepkg"
+
+#: lib/libalpm/error.c:111
+#, c-format
+msgid "invalid or corrupted package"
+msgstr "direizh pe kontronet eo ar pakad"
+
+#: lib/libalpm/error.c:113
+#, c-format
+msgid "invalid or corrupted package (checksum)"
+msgstr "direizh pe kontronet eo ar pakad (checksum)"
+
+#: lib/libalpm/error.c:115
+#, c-format
+msgid "invalid or corrupted package (PGP signature)"
+msgstr "direizh pe kontronet eo ar pakad (sinadur PGP)"
+
+#: lib/libalpm/error.c:117
+#, c-format
+msgid "package missing required signature"
+msgstr "mankout a ra ar sinadur dleet gant ar pakad"
+
+#: lib/libalpm/error.c:119
+#, c-format
+msgid "cannot open package file"
+msgstr "n'haller ket digeriñ restr ar pakad"
+
+#: lib/libalpm/error.c:121
+#, c-format
+msgid "cannot remove all files for package"
+msgstr "n'haller ket dilemel holl restroù ar pakad"
+
+#: lib/libalpm/error.c:123
+#, c-format
+msgid "package filename is not valid"
+msgstr "direizh eo anv restr ar pakad"
+
+#: lib/libalpm/error.c:125
+#, c-format
+msgid "package architecture is not valid"
+msgstr "direizh eo savouriezh ar pakad"
+
+#: lib/libalpm/error.c:127
+#, c-format
+msgid "could not find repository for target"
+msgstr "n'haller ket kavout mirlec'h ar vukenn"
+
+#: lib/libalpm/error.c:130
+#, c-format
+msgid "missing PGP signature"
+msgstr "mankout a ra ar sinadur PGP"
+
+#: lib/libalpm/error.c:132
+#, c-format
+msgid "invalid PGP signature"
+msgstr "direizh eo ar sinadur PGP"
+
+#: lib/libalpm/error.c:135
+#, c-format
+msgid "invalid or corrupted delta"
+msgstr "direizh pe kontronet eo an delta"
+
+#: lib/libalpm/error.c:137
+#, c-format
+msgid "delta patch failed"
+msgstr "c'hwitadenn war pegell an delta"
+
+#: lib/libalpm/error.c:140
+#, c-format
+msgid "could not satisfy dependencies"
+msgstr "n'haller ket kejañ an holl amzalc'hoù"
+
+#: lib/libalpm/error.c:142
+#, c-format
+msgid "conflicting dependencies"
+msgstr "tabutoù en amzalc'hoù"
+
+#: lib/libalpm/error.c:144
+#, c-format
+msgid "conflicting files"
+msgstr "tabut er restroù"
+
+#: lib/libalpm/error.c:147
+#, c-format
+msgid "failed to retrieve some files"
+msgstr "c'hwitadenn war atoradur restroù 'zo"
+
+#: lib/libalpm/error.c:149
+#, c-format
+msgid "invalid regular expression"
+msgstr "direizh eo ar bomm reol"
+
+#: lib/libalpm/error.c:155
+#, c-format
+msgid "libarchive error"
+msgstr "fazi libarchive"
+
+#: lib/libalpm/error.c:157
+#, c-format
+msgid "download library error"
+msgstr "pellgargañ fazi al levraoueg"
+
+#: lib/libalpm/error.c:159
+#, c-format
+msgid "gpgme error"
+msgstr "fazi gpgme"
+
+#: lib/libalpm/error.c:161
+#, c-format
+msgid "error invoking external downloader"
+msgstr "fazi en ur gervel ar pellgarger diavaez"
+
+#: lib/libalpm/error.c:164
+#, c-format
+msgid "unexpected error"
+msgstr "fazi dic'hortoz"
+
+#: lib/libalpm/handle.c:155
+#, c-format
+msgid "lock file missing %s\n"
+msgstr "mankout a ra ar restr marilhañ %s\n"
+
+#: lib/libalpm/handle.c:161
+#, c-format
+msgid "could not remove lock file %s\n"
+msgstr "n'haller ket dilemel ar restr marilhañ %s\n"
+
+#: lib/libalpm/package.c:568
+#, c-format
+msgid "could not fully load metadata for package %s-%s\n"
+msgstr "n'haller ket kargañ ar metaroadennoù a-bezh evit ar pakad %s-%s\n"
+
+#: lib/libalpm/remove.c:118
+#, c-format
+msgid "could not find %s in database -- skipping\n"
+msgstr "n'haller ket kavout %s er stlennvon -- laosket a-gostez\n"
+
+#: lib/libalpm/remove.c:153
+#, c-format
+msgid "removing %s from target list\n"
+msgstr "o dilemel %s eus ar roll bukenn\n"
+
+#: lib/libalpm/remove.c:343
+#, c-format
+msgid "cannot remove file '%s': %s\n"
+msgstr "n'heller ket dilemel ar restr '%s' : %s\n"
+
+#: lib/libalpm/remove.c:383
+#, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "n'haller ket digeriñ ar c'havlec'h : %s : %s\n"
+
+#: lib/libalpm/remove.c:540
+#, c-format
+msgid "cannot remove %s (%s)\n"
+msgstr "n'heller ket dilemel %s (%s)\n"
+
+#: lib/libalpm/remove.c:713
+#, c-format
+msgid "could not remove database entry %s-%s\n"
+msgstr "n'haller ket dilemel an enankad stlennvon %s-%s\n"
+
+#: lib/libalpm/remove.c:718
+#, c-format
+msgid "could not remove entry '%s' from cache\n"
+msgstr "n'haller ket dilemel an enankad '%s' eus ar c'hrubuilh\n"
+
+#: lib/libalpm/sync.c:98
+#, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s : o leuskel an hizivadenn pakad a-gostez (%s => %s)\n"
+
+#: lib/libalpm/sync.c:110
+#, c-format
+msgid "%s: ignoring package downgrade (%s => %s)\n"
+msgstr "%s : o leuskel a-gostez an distro d'an handelv kozhoc'h (%s => %s)\n"
+
+#: lib/libalpm/sync.c:113
+#, c-format
+msgid "%s: downgrading from version %s to version %s\n"
+msgstr "%s : o distreiñ eus an handelv %s betek an hini %s\n"
+
+#: lib/libalpm/sync.c:119
+#, c-format
+msgid "%s: local (%s) is newer than %s (%s)\n"
+msgstr "%s : nevezoc'h eo an handelv lec'hel (%s) evit %s (%s)\n"
+
+#: lib/libalpm/sync.c:160
+#, c-format
+msgid "ignoring package replacement (%s-%s => %s-%s)\n"
+msgstr "o leuskel an erlec'hiadur pakad a-gostez (%s-%s => %s-%s)\n"
+
+#: lib/libalpm/sync.c:176
+#, c-format
+msgid "cannot replace %s by %s\n"
+msgstr "n'haller ket erlec'hiañ %s gant %s\n"
+
+#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
+#, c-format
+msgid "unresolvable package conflicts detected\n"
+msgstr "tabutoù n'haller ket diskoulmañ a zo bet dinoet\n"
+
+#: lib/libalpm/sync.c:556
+#, c-format
+msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgstr "o dilemel '%s' eus ar roll bukenn dre m'en deus un tabut gant '%s'\n"
+
+#: lib/libalpm/sync.c:1014
+#, c-format
+msgid "failed to retrieve some files\n"
+msgstr "c'hwitadenn war atoradur restroù 'zo\n"
+
+#: lib/libalpm/sync.c:1176
+#, c-format
+msgid "%s: missing required signature\n"
+msgstr "%s : mankout a ra ar sinadur dleet\n"
+
+#: lib/libalpm/sync.c:1376
+#, c-format
+msgid "not enough free disk space\n"
+msgstr "n'eus ket plas dieub a-walc'h war ar bladenn\n"
+
+#: lib/libalpm/sync.c:1398
+#, c-format
+msgid "could not commit removal transaction\n"
+msgstr "n'haller ket erounit an treuzkas dilemel\n"
+
+#: lib/libalpm/sync.c:1406
+#, c-format
+msgid "could not commit transaction\n"
+msgstr "n'haller ket erounit an treuzkas\n"
+
+#: lib/libalpm/trans.c:353
+#, c-format
+msgid "could not create temp directory\n"
+msgstr "n'haller ket krouiñ ur c'havlec'h padennek\n"
+
+#: lib/libalpm/trans.c:368
+#, c-format
+msgid "could not copy tempfile to %s (%s)\n"
+msgstr "n'haller ket eilañ ar restr padennek e %s (%s)\n"
+
+#: lib/libalpm/trans.c:399
+#, c-format
+msgid "could not remove %s\n"
+msgstr "n'haller ket dilemel %s\n"
+
+#: lib/libalpm/trans.c:403
+#, c-format
+msgid "could not remove tmpdir %s\n"
+msgstr "n'haller ket dilemel ar c'havlec'h padennek e %s\n"
+
+#: lib/libalpm/util.c:256
+#, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "n'heller ket kaout stad ar restr %s : %s\n"
+
+#: lib/libalpm/util.c:483
+#, fuzzy, c-format
+msgid "unable to write to pipe (%s)\n"
+msgstr "n'haller ket krouiñ ar gorzenn (%s)\n"
+
+#: lib/libalpm/util.c:542
+#, fuzzy, c-format
+msgid "unable to read from pipe (%s)\n"
+msgstr "n'haller ket krouiñ ar gorzenn (%s)\n"
+
+#: lib/libalpm/util.c:584 lib/libalpm/util.c:590
+#, c-format
+msgid "could not create pipe (%s)\n"
+msgstr "n'haller ket krouiñ ar gorzenn (%s)\n"
+
+#: lib/libalpm/util.c:598
+#, c-format
+msgid "could not fork a new process (%s)\n"
+msgstr "n'haller ket genel un araezad nevez (%s)\n"
+
+#: lib/libalpm/util.c:623
+#, c-format
+msgid "could not change the root directory (%s)\n"
+msgstr "n'haller ket kemmañ ar c'havlec'h gwrizienn (%s)\n"
+
+#: lib/libalpm/util.c:634
+#, c-format
+msgid "call to execv failed (%s)\n"
+msgstr "c'hwitadenn war galv execv (%s)\n"
+
+#: lib/libalpm/util.c:702
+#, c-format
+msgid "call to waitpid failed (%s)\n"
+msgstr "c'hwitadenn war galv waitpid (%s)\n"
+
+#: lib/libalpm/util.c:712
+#, c-format
+msgid "command failed to execute correctly\n"
+msgstr "c'hwitadenn war erounezadur an urzh\n"
+
+#: lib/libalpm/util.c:719
+#, c-format
+msgid "Unknown signal"
+msgstr "Arhent dianav"
+
+#: lib/libalpm/util.c:721
+#, c-format
+msgid "command terminated by signal %d: %s\n"
+msgstr "arsavet eo bet an urzh gant an arhent %d : %s\n"
+
+#: lib/libalpm/util.c:818
+#, c-format
+msgid "no %s cache exists, creating...\n"
+msgstr "n'eus krubuilh %s ebet, o krouiñ...\n"
+
+#: lib/libalpm/util.c:849
+#, c-format
+msgid "couldn't find or create package cache, using %s instead\n"
+msgstr ""
+"n'haller ket kavout pe implijout ar c'hrubuilh pakad, oc'h implijout %s e "
+"plas\n"
+
+#~ msgid "could not open pipe (%s)\n"
+#~ msgstr "n'haller ket digeriñ ar gorzenn (%s)\n"

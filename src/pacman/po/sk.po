@@ -4,7 +4,7 @@
 #
 # Translators:
 # archetyp <archetyp@linuxmail.org>, 2013
-# archetyp <archetyp@linuxmail.org>, 2013-2014
+# archetyp <archetyp@linuxmail.org>, 2013-2015
 # archetyp <archetyp@linuxmail.org>, 2011-2012
 # Dušan Lago <dusan.lago@gmail.com>, 2011,2013
 # Jose Riha <jose1711@gmail.com>, 2011
@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2014-12-19 13:29+1000\n"
-"PO-Revision-Date: 2014-12-19 03:51+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Slovak (http://www.transifex.com/projects/p/archlinux-pacman/"
+"POT-Creation-Date: 2015-12-09 16:01+1000\n"
+"PO-Revision-Date: 2015-02-20 17:32+0000\n"
+"Last-Translator: archetyp <archetyp@linuxmail.org>\n"
+"Language-Team: Slovak (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sk/)\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "sťahujem potrebné kľúče...\n"
 #: src/pacman/callback.c:238
 #, c-format
 msgid "loading package files...\n"
-msgstr "náčítavanie balíčkov...\n"
+msgstr "načítavanie balíčkov...\n"
 
 #: src/pacman/callback.c:242
 #, c-format
@@ -125,47 +125,42 @@ msgstr "Získavam balíčky ...\n"
 msgid "checking available disk space...\n"
 msgstr "zisťujem voľné miesto na disku...\n"
 
-#: src/pacman/callback.c:272
+#: src/pacman/callback.c:273
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s voliteľne vyžaduje %s\n"
 
-#: src/pacman/callback.c:289 src/pacman/callback.c:295
+#: src/pacman/callback.c:291 src/pacman/callback.c:297
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s bol inštalovaný ako as %s.pacnew\n"
 
-#: src/pacman/callback.c:305 src/pacman/callback.c:311
+#: src/pacman/callback.c:307 src/pacman/callback.c:313
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s bol uložený ako as %s.pacsave\n"
 
-#: src/pacman/callback.c:321 src/pacman/callback.c:327
-#, c-format
-msgid "%s saved as %s.pacorig\n"
-msgstr "%s bol uložený ako %s.pacorig\n"
-
-#: src/pacman/callback.c:372
+#: src/pacman/callback.c:358
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s je v IgnorePkg/IgnoreGroup. Napriek tomu nainštalovať?"
 
-#: src/pacman/callback.c:382
+#: src/pacman/callback.c:368
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Nahradiť %s za %s/%s?"
 
-#: src/pacman/callback.c:394
+#: src/pacman/callback.c:380
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s a %s sú v konflikte. Odstrániť %s?"
 
-#: src/pacman/callback.c:399
+#: src/pacman/callback.c:385
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s a %s sú v konflikte (%s). Odstrániť %s?"
 
-#: src/pacman/callback.c:418
+#: src/pacman/callback.c:404
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -181,20 +176,23 @@ msgstr[2] ""
 "Nasledovné balíčky nemohli byť aktualizované kvôli nevyriešiteľným "
 "závislostiam:\n"
 
-#: src/pacman/callback.c:424
+#: src/pacman/callback.c:410
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
-msgstr[0] "Chcete preskočiť aktualizáciu balíčka vyššie?"
-msgstr[1] "Chete preskočiť aktualizáciu balíčkov vyššie?"
-msgstr[2] "Chete preskočiť aktualizáciu balíčkov vyššie?"
+msgstr[0] "Chcete preskočiť aktualizáciu vyššie uvedeného balíčka?"
+msgstr[1] "Chcete preskočiť aktualizáciu vyššie uvedených balíčkov?"
+msgstr[2] "Chcete preskočiť aktualizáciu vyššie uvedených balíčkov?"
 
-#: src/pacman/callback.c:435
-#, c-format
-msgid "There are %zd providers available for %s:\n"
-msgstr "Existujú %zd balíčky pre %s:\n"
+#: src/pacman/callback.c:421
+#, fuzzy, c-format
+msgid "There is %zu provider available for %s\n"
+msgid_plural "There are %zu providers available for %s:\n"
+msgstr[0] "Existujú %zd balíčky pre %s:\n"
+msgstr[1] "Existujú %zd balíčky pre %s:\n"
+msgstr[2] "Existujú %zd balíčky pre %s:\n"
 
-#: src/pacman/callback.c:445
+#: src/pacman/callback.c:432
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -203,67 +201,67 @@ msgstr ""
 "Súbor %s je poškodený (%s).\n"
 "Chcete ho vymazať?"
 
-#: src/pacman/callback.c:459
-#, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s (revoked)?"
+#: src/pacman/callback.c:446
+#, fuzzy, c-format
+msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
 msgstr "Importovať PGP kľúč %d%c/%s, \"%s\", vytvorený: %s (odobraný)?"
 
-#: src/pacman/callback.c:462
-#, c-format
-msgid "Import PGP key %d%c/%s, \"%s\", created: %s?"
+#: src/pacman/callback.c:449
+#, fuzzy, c-format
+msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
 msgstr "Importovať PGP kľúč %d%c/%s, \"%s\", vytvorený: %s?"
 
-#: src/pacman/callback.c:522
+#: src/pacman/callback.c:509
 #, c-format
 msgid "installing"
 msgstr "inštalujem"
 
-#: src/pacman/callback.c:525
+#: src/pacman/callback.c:512
 #, c-format
 msgid "upgrading"
 msgstr "aktualizujem"
 
-#: src/pacman/callback.c:528
+#: src/pacman/callback.c:515
 #, c-format
 msgid "downgrading"
 msgstr "znižujem verziu"
 
-#: src/pacman/callback.c:531
+#: src/pacman/callback.c:518
 #, c-format
 msgid "reinstalling"
 msgstr "reinštalujem"
 
-#: src/pacman/callback.c:534
+#: src/pacman/callback.c:521
 #, c-format
 msgid "removing"
 msgstr "odstraňujem"
 
-#: src/pacman/callback.c:537
+#: src/pacman/callback.c:524
 #, c-format
 msgid "checking for file conflicts"
 msgstr "kontrolujem konflikty súborov"
 
-#: src/pacman/callback.c:540
+#: src/pacman/callback.c:527
 #, c-format
 msgid "checking available disk space"
 msgstr "zisťujem voľné miesto na disku"
 
-#: src/pacman/callback.c:543
+#: src/pacman/callback.c:530
 #, c-format
 msgid "checking package integrity"
 msgstr "kontrolujem integritu balíčkov"
 
-#: src/pacman/callback.c:546
+#: src/pacman/callback.c:533
 #, c-format
 msgid "checking keys in keyring"
 msgstr "overujem kľúče v kľúčenke"
 
-#: src/pacman/callback.c:549
+#: src/pacman/callback.c:536
 #, c-format
 msgid "loading package files"
 msgstr "načítavam súbory balíčkov"
 
-#: src/pacman/callback.c:664
+#: src/pacman/callback.c:651
 #, c-format
 msgid "downloading %s...\n"
 msgstr "sťahujem %s...\n"
@@ -353,49 +351,52 @@ msgstr[0] "%jd zmenený súbor\n"
 msgstr[1] "%jd zmenené súbory\n"
 msgstr[2] "%jd zmenených súborov\n"
 
-#: src/pacman/conf.c:97
-#, c-format
-msgid "malloc failure: could not allocate %zd bytes\n"
-msgstr "malloc zlyhal: nie je možné alokovať %zd bytov\n"
+#: src/pacman/conf.c:98
+#, fuzzy, c-format
+msgid "malloc failure: could not allocate %zu byte\n"
+msgid_plural "malloc failure: could not allocate %zu bytes\n"
+msgstr[0] "malloc zlyhal: nie je možné alokovať %zd bytov\n"
+msgstr[1] "malloc zlyhal: nie je možné alokovať %zd bytov\n"
+msgstr[2] "malloc zlyhal: nie je možné alokovať %zd bytov\n"
 
-#: src/pacman/conf.c:234
+#: src/pacman/conf.c:251
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nepodarilo sa zistiť aktuálny pracovný adresár\n"
 
-#: src/pacman/conf.c:239
+#: src/pacman/conf.c:256
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "nie je možné sa prepnúť do adresára pre sťahovanie %s)\n"
 
-#: src/pacman/conf.c:248
+#: src/pacman/conf.c:265
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "spustenie XferCommand: bolo neúspešné!\n"
 
-#: src/pacman/conf.c:260
+#: src/pacman/conf.c:277
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nepodarilo sa premenovať %s na %s (%s)\n"
 
-#: src/pacman/conf.c:271
+#: src/pacman/conf.c:288
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "nie je možné obnoviť pracovný adresár (%s)\n"
 
-#: src/pacman/conf.c:388 src/pacman/conf.c:444 src/pacman/conf.c:536
+#: src/pacman/conf.c:397 src/pacman/conf.c:447 src/pacman/conf.c:541
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "konfiguračný súbor %s, riadok %d: neplatná hodnota pre '%s' : '%s'\n"
 
-#: src/pacman/conf.c:399
+#: src/pacman/conf.c:411
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "konfiguračný súbor %s, riadok %d: voľba '%s'  nie je platná, cýba podpora "
 "pre podpisovanie\n"
 
-#: src/pacman/conf.c:501 src/pacman/conf.c:601 src/pacman/conf.c:855
+#: src/pacman/conf.c:504 src/pacman/conf.c:609 src/pacman/conf.c:921
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -403,17 +404,27 @@ msgstr ""
 "konfiguračný súbor %s, riadok %d: direktíva '%s' v sekcii '%s' nebola "
 "rozpoznaná.\n"
 
-#: src/pacman/conf.c:624
+#: src/pacman/conf.c:632
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "zrkadlo '%s' obsahuje  premmenú \"%s\", ale '%s' nie je definovaná.\n"
 
-#: src/pacman/conf.c:633
+#: src/pacman/conf.c:641
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "nebolo možné pridať URL servera k databáze '%s': %s (%s)\n"
 
-#: src/pacman/conf.c:680
+#: src/pacman/conf.c:661
+#, c-format
+msgid "could not register '%s' database (%s)\n"
+msgstr "nie je možné zaregistrovať databázu '%s' (%s)\n"
+
+#: src/pacman/conf.c:676
+#, c-format
+msgid "could not add mirror '%s' to database '%s' (%s)\n"
+msgstr "nepodarilo sa pridať mirror '%s' do databáze '%s' (%s)\n"
+
+#: src/pacman/conf.c:722
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -422,301 +433,295 @@ msgstr ""
 "zlyhala inicializácia knižnice alpm\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:683
-#, c-format
-msgid "  try running pacman-db-upgrade\n"
+#: src/pacman/conf.c:725
+#, fuzzy, c-format
+msgid "try running pacman-db-upgrade\n"
 msgstr "  skúste spustiť pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:698
+#: src/pacman/conf.c:744
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problém s nastavením log súboru '%s' (%s)\n"
 
-#: src/pacman/conf.c:708
+#: src/pacman/conf.c:754
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problém pri nastavovaní gpgdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:730
+#: src/pacman/conf.c:763 src/pacman/conf.c:771
+#, fuzzy, c-format
+msgid "problem adding hookdir '%s' (%s)\n"
+msgstr "problém pri nastavovaní gpgdir '%s' (%s)\n"
+
+#: src/pacman/conf.c:802
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s' nie je nastavený\n"
 
-#: src/pacman/conf.c:757
-#, c-format
-msgid "Failed to pass assume installed entry to libalpm"
+#: src/pacman/conf.c:830
+#, fuzzy, c-format
+msgid "Failed to pass %s entry to libalpm"
 msgstr ""
 "Zlyhalo predanie záznamu o predpokladaných inštalovaných balíčkoch knižnici "
 "libalpm"
 
-#: src/pacman/conf.c:803
+#: src/pacman/conf.c:870
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "konfiguračný súbor %s, riadok %d: '%s' voľba '%s' nebola rozpoznaná\n"
 
-#: src/pacman/conf.c:822 src/pacman/conf.c:830
+#: src/pacman/conf.c:890 src/pacman/conf.c:898 src/pacman/conf.c:941
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "konfiguračný súbor %s, riadok %d: direktíva '%s' vyžaduje hodnotu\n"
 
-#: src/pacman/conf.c:887
+#: src/pacman/conf.c:948
 #, c-format
-msgid "could not register '%s' database (%s)\n"
-msgstr "nie je možné zaregistrovať databázu '%s' (%s)\n"
+msgid "config parsing exceeded max recursion depth of %d.\n"
+msgstr ""
 
-#: src/pacman/conf.c:903
-#, c-format
-msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "nepodarilo sa pridať mirror '%s' do databáze '%s' (%s)\n"
+#: src/pacman/conf.c:996
+#, fuzzy, c-format
+msgid "config file %s could not be read: %s\n"
+msgstr "konfiguračný súbor %s, riadok %d: neplatná hodnota pre '%s' : '%s'\n"
 
-#: src/pacman/conf.c:937
+#: src/pacman/conf.c:1019
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 "konfiguračný súbor %s, riadok %d: Všetky položky konfigurácie musia patriť "
 "do nejakej sekcie.\n"
 
-#: src/pacman/database.c:46 src/pacman/query.c:423 src/pacman/remove.c:91
-#: src/pacman/sync.c:957 src/pacman/upgrade.c:47
+#: src/pacman/database.c:50 src/pacman/query.c:423 src/pacman/remove.c:91
+#: src/pacman/sync.c:929 src/pacman/upgrade.c:47
 #, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "nie sú špecifikované ciele (použite -h pre nápovedu)\n"
 
-#: src/pacman/database.c:55
+#: src/pacman/database.c:59
 #, c-format
 msgid "no install reason specified (use -h for help)\n"
 msgstr "nie je špecifikovaný dôvod inštalácie (použite -h pre nápovedu)\n"
 
-#: src/pacman/database.c:69
+#: src/pacman/database.c:73
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
 msgstr "nepodarilo sa nastaviť dôvod pre inštaláciu balíčku %s (%s)\n"
 
-#: src/pacman/database.c:74
+#: src/pacman/database.c:78
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
 msgstr ""
 "%s: dôvod pre inštaláciu bol nastavený na 'inštalovaný ako závislosť'\n"
 
-#: src/pacman/database.c:76
+#: src/pacman/database.c:80
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: dôvod pre inštaláciu bol nastavený na 'explicitne nainštalovaný'\n"
 
-#: src/pacman/package.c:65 src/pacman/util.c:1210
-#, c-format
-msgid " [installed]"
-msgstr "[inštalovaný]"
+#: src/pacman/package.c:97
+#, fuzzy, c-format
+msgid "Architecture"
+msgstr "Architektúra   :"
 
-#: src/pacman/package.c:72
+#: src/pacman/package.c:98
+#, fuzzy, c-format
+msgid "Backup Files"
+msgstr "Zálohované súbory :\n"
+
+#: src/pacman/package.c:99
+#, fuzzy, c-format
+msgid "Build Date"
+msgstr "Dátum zostav.  :"
+
+#: src/pacman/package.c:100
+#, fuzzy, c-format
+msgid "Compressed Size"
+msgstr "Komprimovaná veľkosť:"
+
+#: src/pacman/package.c:101
+#, fuzzy, c-format
+msgid "Conflicts With"
+msgstr "Konfliktný s   :"
+
+#: src/pacman/package.c:102
+#, fuzzy, c-format
+msgid "Depends On"
+msgstr "Závisí na      :"
+
+#: src/pacman/package.c:103
+#, fuzzy, c-format
+msgid "Description"
+msgstr "Popis          :"
+
+#: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
-msgid "Optional Deps  :"
-msgstr "Voliteľné záv. :"
+msgid "Download Size"
+msgstr "Veľkosť na prevzatie"
+
+#: src/pacman/package.c:105
+#, c-format
+msgid "Groups"
+msgstr ""
+
+#: src/pacman/package.c:106
+#, fuzzy, c-format
+msgid "Install Date"
+msgstr "Dátum inštal.  :"
+
+#: src/pacman/package.c:107
+#, fuzzy, c-format
+msgid "Install Reason"
+msgstr "Dôvod inštal.  :"
 
 #: src/pacman/package.c:108
-#, c-format
-msgid "Explicitly installed"
-msgstr "Explicitne nainštalovaný"
+#, fuzzy, c-format
+msgid "Install Script"
+msgstr "Inštal. skript :"
 
-#: src/pacman/package.c:111
-#, c-format
-msgid "Installed as a dependency for another package"
-msgstr "Nainštalovaný ako závislosť iného balíčka"
+#: src/pacman/package.c:109
+#, fuzzy, c-format
+msgid "Installed Size"
+msgstr "Inštal. veľkosť:"
 
-#: src/pacman/package.c:114 src/pacman/package.c:134
-#, c-format
-msgid "Unknown"
-msgstr "Neznámy"
+#: src/pacman/package.c:110
+#, fuzzy, c-format
+msgid "Licenses"
+msgstr "Licencia       :"
 
-#: src/pacman/package.c:121 src/pacman/package.c:205 src/pacman/package.c:219
-#: src/pacman/util.c:494 src/pacman/util.c:681 src/pacman/util.c:721
-#: src/pacman/util.c:749
-#, c-format
-msgid "None"
-msgstr "Nič"
-
-#: src/pacman/package.c:124
+#: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
 msgid "MD5 Sum"
 msgstr "MD5 súčet"
 
-#: src/pacman/package.c:127
+#: src/pacman/package.c:112
 #, c-format
-msgid "SHA256 Sum"
+msgid "Name"
+msgstr ""
+
+#: src/pacman/package.c:113
+#, fuzzy, c-format
+msgid "Optional Deps"
+msgstr "Voliteľné záv. :"
+
+#: src/pacman/package.c:114
+#, fuzzy, c-format
+msgid "Optional For"
+msgstr "Voliteľný pre  :"
+
+#: src/pacman/package.c:115
+#, fuzzy, c-format
+msgid "Packager"
+msgstr "Balíček"
+
+#: src/pacman/package.c:116
+#, fuzzy, c-format
+msgid "Provides"
+msgstr "Poskytuje      :"
+
+#: src/pacman/package.c:117
+#, fuzzy, c-format
+msgid "Replaces"
+msgstr "Nahrádza       :"
+
+#: src/pacman/package.c:118
+#, fuzzy, c-format
+msgid "Repository"
+msgstr "Repozitár %s\n"
+
+#: src/pacman/package.c:119
+#, fuzzy, c-format
+msgid "Required By"
+msgstr "Požadovaný     :"
+
+#: src/pacman/package.c:120 src/pacman/package.c:235
+#, fuzzy, c-format
+msgid "SHA-256 Sum"
 msgstr "SHA256 súčet"
 
-#: src/pacman/package.c:130
+#: src/pacman/package.c:121
+#, fuzzy, c-format
+msgid "Signatures"
+msgstr "Podpis"
+
+#: src/pacman/package.c:122
+#, c-format
+msgid "URL"
+msgstr ""
+
+#: src/pacman/package.c:123
+#, fuzzy, c-format
+msgid "Validated By"
+msgstr "Overenie       :"
+
+#: src/pacman/package.c:124
+#, fuzzy, c-format
+msgid "Version"
+msgstr "Pôvodná verzia"
+
+#: src/pacman/package.c:167 src/pacman/util.c:1205
+#, c-format
+msgid " [installed]"
+msgstr "[inštalovaný]"
+
+#: src/pacman/package.c:216
+#, c-format
+msgid "Explicitly installed"
+msgstr "Explicitne nainštalovaný"
+
+#: src/pacman/package.c:219
+#, c-format
+msgid "Installed as a dependency for another package"
+msgstr "Nainštalovaný ako závislosť iného balíčka"
+
+#: src/pacman/package.c:222 src/pacman/package.c:242
+#, c-format
+msgid "Unknown"
+msgstr "Neznámy"
+
+#: src/pacman/package.c:229 src/pacman/package.c:314 src/pacman/package.c:332
+#: src/pacman/util.c:489 src/pacman/util.c:675 src/pacman/util.c:715
+#: src/pacman/util.c:743
+#, c-format
+msgid "None"
+msgstr "Nič"
+
+#: src/pacman/package.c:238
 #, c-format
 msgid "Signature"
 msgstr "Podpis"
 
-#: src/pacman/package.c:147
-#, c-format
-msgid "Repository     :"
-msgstr "Repozitár      :"
-
-#: src/pacman/package.c:150
-#, c-format
-msgid "Name           :"
-msgstr "Meno           :"
-
-#: src/pacman/package.c:151
-#, c-format
-msgid "Version        :"
-msgstr "Verzia         :"
-
-#: src/pacman/package.c:152
-#, c-format
-msgid "Description    :"
-msgstr "Popis          :"
-
-#: src/pacman/package.c:153
-#, c-format
-msgid "Architecture   :"
-msgstr "Architektúra   :"
-
-#: src/pacman/package.c:154
-#, c-format
-msgid "URL            :"
-msgstr "URL            :"
-
-#: src/pacman/package.c:155
-#, c-format
-msgid "Licenses       :"
-msgstr "Licencia       :"
-
-#: src/pacman/package.c:156
-#, c-format
-msgid "Groups         :"
-msgstr "Skupiny        :"
-
-#: src/pacman/package.c:157
-#, c-format
-msgid "Provides       :"
-msgstr "Poskytuje      :"
-
-#: src/pacman/package.c:158
-#, c-format
-msgid "Depends On     :"
-msgstr "Závisí na      :"
-
-#: src/pacman/package.c:162
-#, c-format
-msgid "Required By    :"
-msgstr "Požadovaný     :"
-
-#: src/pacman/package.c:163
-#, c-format
-msgid "Optional For   :"
-msgstr "Voliteľný pre  :"
-
-#: src/pacman/package.c:165
-#, c-format
-msgid "Conflicts With :"
-msgstr "Konfliktný s   :"
-
-#: src/pacman/package.c:166
-#, c-format
-msgid "Replaces       :"
-msgstr "Nahrádza       :"
-
-#: src/pacman/package.c:170
-#, c-format
-msgid "Download Size  :"
-msgstr "Veľkosť na prevzatie :"
-
-#: src/pacman/package.c:173
-#, c-format
-msgid "Compressed Size:"
-msgstr "Komprimovaná veľkosť:"
-
-#: src/pacman/package.c:181
-#, c-format
-msgid "Installed Size :"
-msgstr "Inštal. veľkosť:"
-
-#: src/pacman/package.c:184
-#, c-format
-msgid "Packager       :"
-msgstr "Zabalil        :"
-
-#: src/pacman/package.c:185
-#, c-format
-msgid "Build Date     :"
-msgstr "Dátum zostav.  :"
-
-#: src/pacman/package.c:187
-#, c-format
-msgid "Install Date   :"
-msgstr "Dátum inštal.  :"
-
-#: src/pacman/package.c:188
-#, c-format
-msgid "Install Reason :"
-msgstr "Dôvod inštal.  :"
-
-#: src/pacman/package.c:191
-#, c-format
-msgid "Install Script :"
-msgstr "Inštal. skript :"
-
-#: src/pacman/package.c:192
+#: src/pacman/package.c:300
 #, c-format
 msgid "Yes"
 msgstr "Áno"
 
-#: src/pacman/package.c:192
+#: src/pacman/package.c:300
 #, c-format
 msgid "No"
 msgstr "Nie"
 
-#: src/pacman/package.c:208
-#, c-format
-msgid "MD5 Sum        :"
-msgstr "MD5 súčet      :"
-
-#: src/pacman/package.c:209
-#, c-format
-msgid "SHA-256 Sum    :"
-msgstr "SHA-256 súčet :"
-
-#: src/pacman/package.c:210 src/pacman/package.c:219 src/pacman/package.c:221
-#: src/pacman/package.c:224
-#, c-format
-msgid "Signatures     :"
-msgstr "Podpisy        :"
-
-#: src/pacman/package.c:212
-#, c-format
-msgid "Validated By   :"
-msgstr "Overenie       :"
-
-#: src/pacman/package.c:256
+#: src/pacman/package.c:369
 #, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "nie je možné spočítať kontrolný súčet pre %s\n"
 
-#: src/pacman/package.c:288
-#, c-format
-msgid "Backup Files:\n"
-msgstr "Zálohované súbory :\n"
-
-#: src/pacman/package.c:303
+#: src/pacman/package.c:416
 #, c-format
 msgid "(none)\n"
 msgstr "(žiadny)\n"
 
-#: src/pacman/package.c:340
+#: src/pacman/package.c:453
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "zoznam zmien pre '%s' nie je dostupný.\n"
 
-#: src/pacman/package.c:344
+#: src/pacman/package.c:457
 #, c-format
 msgid "Changelog for %s:\n"
 msgstr "Changelog pre %s:\n"
 
-#: src/pacman/package.c:369 src/pacman/package.c:371
+#: src/pacman/package.c:482 src/pacman/package.c:484
 #, c-format
 msgid "installed"
 msgstr "nainštalovaný"
@@ -751,7 +756,7 @@ msgstr "operácia"
 msgid "operations:\n"
 msgstr "operacie:\n"
 
-#: src/pacman/pacman.c:118
+#: src/pacman/pacman.c:119
 #, c-format
 msgid ""
 "\n"
@@ -760,7 +765,7 @@ msgstr ""
 "\n"
 "použite '%s {-h --help}' s operáciou pre dalšie dostupné voľby\n"
 
-#: src/pacman/pacman.c:124
+#: src/pacman/pacman.c:125
 #, c-format
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
@@ -768,12 +773,12 @@ msgstr ""
 "  -c, --cascade        odstrániť balíčky vrátane všetkých, ktoré na nich "
 "závisia\n"
 
-#: src/pacman/pacman.c:125
+#: src/pacman/pacman.c:126
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
 msgstr "  -n, --nosave         odstrániť konfiguračné súbory\n"
 
-#: src/pacman/pacman.c:126
+#: src/pacman/pacman.c:127
 #, c-format
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
@@ -782,22 +787,22 @@ msgstr ""
 "  -s, --recursive      odstrániť nepotrebné závislosti\n"
 "                       (-ss zahŕňa explicitne nainštalované závislosti)\n"
 
-#: src/pacman/pacman.c:128
+#: src/pacman/pacman.c:129
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
 msgstr "  -u, --unneeded       odstrániť nepotrebné balíčky\n"
 
-#: src/pacman/pacman.c:131 src/pacman/pacman.c:166
+#: src/pacman/pacman.c:132 src/pacman/pacman.c:167
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
 msgstr "--needed nepreinštalovávať balíčky, ktoré sú stále aktuálne\n"
 
-#: src/pacman/pacman.c:136
+#: src/pacman/pacman.c:137
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
 msgstr "  -c, --changelog      vypísať zoznam zmien balíčka\n"
 
-#: src/pacman/pacman.c:137
+#: src/pacman/pacman.c:138
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
@@ -805,19 +810,19 @@ msgstr ""
 "  -d, --deps           zoznam všetkých balíčkov inštalovaných ako závislosti "
 "[filter]\n"
 
-#: src/pacman/pacman.c:138
+#: src/pacman/pacman.c:139
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr ""
 "  -e, --explicit       zoznam všetkých explicitne inštalovaných balíčkov "
 "[filter]\n"
 
-#: src/pacman/pacman.c:139
+#: src/pacman/pacman.c:140
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
 msgstr "  -g, --groups         vypísať všetky balíčky v skupine\n"
 
-#: src/pacman/pacman.c:140
+#: src/pacman/pacman.c:141
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
@@ -825,7 +830,7 @@ msgstr ""
 "  -i, --info           zobraziť informácie o balíčku (-ii zálohované "
 "súbory)\n"
 
-#: src/pacman/pacman.c:141
+#: src/pacman/pacman.c:142
 #, c-format
 msgid ""
 "  -k, --check          check that package files exist (-kk for file "
@@ -834,12 +839,12 @@ msgstr ""
 "  -k, --check          over, že súbory balíčka existujú (-kk pre vlastnosti "
 "súboru)\n"
 
-#: src/pacman/pacman.c:142
+#: src/pacman/pacman.c:143 src/pacman/pacman.c:178
 #, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
 msgstr "  -l, --list           zoznam súborov v balíčku\n"
 
-#: src/pacman/pacman.c:143
+#: src/pacman/pacman.c:144
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
@@ -848,7 +853,7 @@ msgstr ""
 "  -m, --foreign        zoznam nainštalovaných balíčkov nenájdených v "
 "repozitároch [filter]\n"
 
-#: src/pacman/pacman.c:144
+#: src/pacman/pacman.c:145
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
@@ -857,23 +862,23 @@ msgstr ""
 "  -n, --native         vypíš inštalované balíčky nachádzajúce sa iba v sync "
 "db(s) [filter]\n"
 
-#: src/pacman/pacman.c:145
+#: src/pacman/pacman.c:146 src/pacman/pacman.c:179
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr "  -o, --owns <file>    vyhľadať balíček obsahujúci <file>\n"
 
-#: src/pacman/pacman.c:146
+#: src/pacman/pacman.c:147
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <package> otázka na súbor balíčku miesto na databázu\n"
 
-#: src/pacman/pacman.c:147 src/pacman/pacman.c:160
+#: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:180
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr ""
 "  -q, --quiet          zobraziť menej informácii pri otázke a hľadaní\n"
 
-#: src/pacman/pacman.c:148
+#: src/pacman/pacman.c:149
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
@@ -882,7 +887,7 @@ msgstr ""
 "  -s, --search <regex> vyhľadať nainštalované balíčky, zodpovedajúce "
 "reťazcu\n"
 
-#: src/pacman/pacman.c:149
+#: src/pacman/pacman.c:150
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
@@ -893,14 +898,14 @@ msgstr ""
 "                        balíčkom (-tt pre ignorovanie voliteľných "
 "závislostí) [filter]\n"
 
-#: src/pacman/pacman.c:151
+#: src/pacman/pacman.c:152
 #, c-format
 msgid "  -u, --upgrades       list outdated packages [filter]\n"
 msgstr ""
 "  -u, --upgrades       vypísať zoznam všetkých aktualizovaných balíčkov "
 "[filter]\n"
 
-#: src/pacman/pacman.c:155
+#: src/pacman/pacman.c:156
 #, c-format
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
@@ -908,7 +913,7 @@ msgid ""
 msgstr ""
 "  -c, --clean          odstrániť staré balíčky z cache (-cc pre všetky)\n"
 
-#: src/pacman/pacman.c:156
+#: src/pacman/pacman.c:157
 #, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
@@ -917,7 +922,7 @@ msgstr ""
 "  -g, --groups         vypísať všetky balíčky v skupine\n"
 "                       (-gg pre zobrazenie všetkých skupín a ich balíčkov)\n"
 
-#: src/pacman/pacman.c:158
+#: src/pacman/pacman.c:159
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
@@ -926,12 +931,12 @@ msgstr ""
 "  -i, --info            zobraziť informácie o balíčku (-ii pre rozšírenú "
 "informáciu)\n"
 
-#: src/pacman/pacman.c:159
+#: src/pacman/pacman.c:160
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr "  -l, --list <repo>    zobraziť zoznam balíčkov v repozitári\n"
 
-#: src/pacman/pacman.c:161
+#: src/pacman/pacman.c:162
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
@@ -939,7 +944,7 @@ msgstr ""
 "  -s, --search <regex> vyhľadať balíčky vo vzdialených repozitároch podľa "
 "reťazca\n"
 
-#: src/pacman/pacman.c:162
+#: src/pacman/pacman.c:163
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
@@ -947,15 +952,15 @@ msgstr ""
 "  -u, --sysupgrade     aktualizovať nainštalované balíčky (-uu povoľuje "
 "downgrade)\n"
 
-#: src/pacman/pacman.c:163
+#: src/pacman/pacman.c:164
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
 msgstr ""
-"  -w, --downloadonly   iba stiahnuť balíčky, nainštalovať/neaktualizovať\n"
+"  -w, --downloadonly   iba stiahnuť balíčky, neinštalovať/neaktualizovať\n"
 
-#: src/pacman/pacman.c:164
+#: src/pacman/pacman.c:165 src/pacman/pacman.c:183
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
@@ -965,33 +970,61 @@ msgstr ""
 "                       (-yy pre vynútenie aktualizácie aj aktuálnych "
 "databáz)\n"
 
-#: src/pacman/pacman.c:170
+#: src/pacman/pacman.c:171
 #, c-format
 msgid "      --asdeps         mark packages as non-explicitly installed\n"
 msgstr "      --asdeps         označiť balíčky ako závislosti\n"
 
-#: src/pacman/pacman.c:171
+#: src/pacman/pacman.c:172
 #, c-format
 msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     označiť balíčky ako explicitne inštalované\n"
 
-#: src/pacman/pacman.c:179
+#: src/pacman/pacman.c:173
+#, fuzzy, c-format
+msgid ""
+"  -k, --check          test local database for validity (-kk for sync "
+"databases)\n"
+msgstr ""
+"  -k, --check          over, že súbory balíčka existujú (-kk pre vlastnosti "
+"súboru)\n"
+
+#: src/pacman/pacman.c:181
+#, fuzzy, c-format
+msgid "  -s, --search <file>  search package file names for matching strings\n"
+msgstr ""
+"  -s, --search <regex> vyhľadať nainštalované balíčky, zodpovedajúce "
+"reťazcu\n"
+
+#: src/pacman/pacman.c:182
+#, c-format
+msgid "  -x, --regex          enable searching using regular expressions\n"
+msgstr ""
+
+#: src/pacman/pacman.c:185
+#, c-format
+msgid ""
+"      --machinereadable\n"
+"                       produce machine-readable output\n"
+msgstr ""
+
+#: src/pacman/pacman.c:191
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr "      --force          vynúť inštaláciu, prepíš konfliktné súbory\n"
 
-#: src/pacman/pacman.c:180
+#: src/pacman/pacman.c:192
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "      --asdeps         nainštalovať balíčky ako závislosti\n"
 
-#: src/pacman/pacman.c:181
+#: src/pacman/pacman.c:193
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
 msgstr ""
 "      --asexplicit     nainštalovať balíčky ako explicitne inštalované\n"
 
-#: src/pacman/pacman.c:182
+#: src/pacman/pacman.c:194
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
@@ -1000,7 +1033,7 @@ msgstr ""
 "      --ignore <pkg>   ignorovať aktualizáciu balíčka (možno použiť "
 "viackrát)\n"
 
-#: src/pacman/pacman.c:183
+#: src/pacman/pacman.c:195
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
@@ -1010,7 +1043,7 @@ msgstr ""
 "                       ignorovať aktualizáciu skupiny (možno poutiť "
 "viackrát)\n"
 
-#: src/pacman/pacman.c:187
+#: src/pacman/pacman.c:199
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
@@ -1019,7 +1052,7 @@ msgstr ""
 "  -d, --nodeps         odstrániť kontroly závislostí verzii (-dd pre "
 "preskočenie všetkých kontrol)\n"
 
-#: src/pacman/pacman.c:188
+#: src/pacman/pacman.c:200
 #, c-format
 msgid ""
 "      --assume-installed <package=version>\n"
@@ -1028,32 +1061,32 @@ msgstr ""
 "      --assume-installed <package=version>\n"
 "                       pridať virtuálny balíček pre splnenie závislostí\n"
 
-#: src/pacman/pacman.c:190
+#: src/pacman/pacman.c:202
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
-msgstr "--dbonly upraví len záznamy, nie balíčky\n"
+msgstr "--dbonly upraviť len záznamy v databáze, nie balíčky\n"
 
-#: src/pacman/pacman.c:191
+#: src/pacman/pacman.c:203
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr "      --noprogressbar  nezobrazovať priebeh sťahovania súborov\n"
 
-#: src/pacman/pacman.c:192
+#: src/pacman/pacman.c:204
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "      --noscriptlet    nespúšťať inštalačné skripty\n"
 
-#: src/pacman/pacman.c:193
+#: src/pacman/pacman.c:205
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "-p, --print vypíše ciele, nevykoná operáciu\n"
 
-#: src/pacman/pacman.c:194
+#: src/pacman/pacman.c:206
 #, c-format
 msgid ""
 "      --print-format <string>\n"
@@ -1062,68 +1095,73 @@ msgstr ""
 "      --print-format <string>\n"
 "                       určí, ako majú byť ciele vypísané\n"
 
-#: src/pacman/pacman.c:199
+#: src/pacman/pacman.c:211
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "  -b, --dbpath <path>  nastaviť iné umiestnenie databáze\n"
 
-#: src/pacman/pacman.c:200
+#: src/pacman/pacman.c:212
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr "  -r, --root <path>    nastaviť iný koreňový adresár pre inštaláciu\n"
 
-#: src/pacman/pacman.c:201
+#: src/pacman/pacman.c:213
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        zobraziť viac informácii\n"
 
-#: src/pacman/pacman.c:202
+#: src/pacman/pacman.c:214
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>    nastaviť alternatívnu architektúru\n"
 
-#: src/pacman/pacman.c:203
+#: src/pacman/pacman.c:215
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> nastaviť cestu k adresáru s cache\n"
 
-#: src/pacman/pacman.c:204
+#: src/pacman/pacman.c:216
+#, fuzzy, c-format
+msgid "      --hookdir <dir>  set an alternate hook location\n"
+msgstr "      --cachedir <dir> nastaviť cestu k adresáru s cache\n"
+
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "      --color <kedy>   kolorizuj výstup\n"
 
-#: src/pacman/pacman.c:205
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <path>  nastaviť cestu ku konfiguračnému súboru\n"
 
-#: src/pacman/pacman.c:206
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          zobraziť ladiace správy\n"
 
-#: src/pacman/pacman.c:207
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr ""
 "      --gpgdir <cesta> nastaviť alternatívny domáci adresár pre GnuPG\n"
 
-#: src/pacman/pacman.c:208
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <path  nastaviť cestu k log súboru\n"
 
-#: src/pacman/pacman.c:209
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      nepýtať sa na žiadne potvrdenia\n"
 
-#: src/pacman/pacman.c:210
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "      --confirm        vždy požaduj potvrdenie\n"
 
-#: src/pacman/pacman.c:229
+#: src/pacman/pacman.c:242
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1132,64 +1170,64 @@ msgstr ""
 "                       Tento program smie byť slobodne šírený pod\n"
 "                       licenciou GNU GPL (General Public License).\n"
 
-#: src/pacman/pacman.c:336
+#: src/pacman/pacman.c:302
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "neplatná voľba: '%s' a '%s' nemôžu byť použité súčasne\n"
 
-#: src/pacman/pacman.c:417
+#: src/pacman/pacman.c:386
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr ""
 "neplatný argument '%s' pre %s\n"
 "\n"
 
-#: src/pacman/pacman.c:440
+#: src/pacman/pacman.c:409
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' nie je platná ladiaca úroveň\n"
 
-#: src/pacman/pacman.c:901
+#: src/pacman/pacman.c:952
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "súčasne je možné spustiť len jednu operáciu\n"
 
-#: src/pacman/pacman.c:956
+#: src/pacman/pacman.c:1010
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "neplatná voľba '-%c'\n"
 
-#: src/pacman/pacman.c:958
+#: src/pacman/pacman.c:1012
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "neplatná voľba '--%s'\n"
 
-#: src/pacman/pacman.c:1123
+#: src/pacman/pacman.c:1170
 #, c-format
 msgid "memory exhausted in argument parsing\n"
 msgstr "pri načítaní parametrov došlo k vyčerpaniu pamäti:\n"
 
-#: src/pacman/pacman.c:1132
+#: src/pacman/pacman.c:1179
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "nepodarilo sa znovuotvoriť štandardný vstup na čítanie: (%s)\n"
 
-#: src/pacman/pacman.c:1137
+#: src/pacman/pacman.c:1184
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "argument '-' zadaný s prázdnym vstupom na stdin\n"
 
-#: src/pacman/pacman.c:1142
+#: src/pacman/pacman.c:1189
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argument '-' špecifikovaný bez vstupu na stdin\n"
 
-#: src/pacman/pacman.c:1171
+#: src/pacman/pacman.c:1218
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "operáciu nie je možné uskutočniť, ak nie ste root.\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1272
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nebola špecifikovaná operácia (použite -h pre nápovedu)\n"
@@ -1239,7 +1277,7 @@ msgstr "[ignorovaný]"
 msgid "group '%s' was not found\n"
 msgstr "skupina '%s' nebola nájdená\n"
 
-#: src/pacman/query.c:471 src/pacman/sync.c:474
+#: src/pacman/query.c:471 src/pacman/sync.c:429
 #, c-format
 msgid "package '%s' was not found\n"
 msgstr "balíček '%s' nebol nájdený\n"
@@ -1254,148 +1292,133 @@ msgstr "'%s' je súbor, môžno budete chcieť použiť %s.\n"
 msgid "could not load package '%s': %s\n"
 msgstr "nie je možné načítať balíček '%s': %s\n"
 
-#: src/pacman/remove.c:49 src/pacman/sync.c:571 src/pacman/sync.c:655
+#: src/pacman/remove.c:49 src/pacman/sync.c:526 src/pacman/sync.c:610
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "preskakujem cieľ: %s\n"
 
-#: src/pacman/remove.c:63 src/pacman/sync.c:591
+#: src/pacman/remove.c:63 src/pacman/sync.c:546
 #, c-format
 msgid "target not found: %s\n"
 msgstr "cieľ nebol nájdený: %s\n"
 
-#: src/pacman/remove.c:118 src/pacman/sync.c:763
+#: src/pacman/remove.c:118 src/pacman/sync.c:738
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "zlyhala príprava transakcie (%s)\n"
 
-#: src/pacman/remove.c:125 src/pacman/sync.c:777
+#: src/pacman/remove.c:125 src/pacman/sync.c:724
 #, c-format
-msgid "%s: requires %s\n"
-msgstr "%s: vyžaduje %s\n"
+msgid "%s: removing %s breaks dependency '%s'\n"
+msgstr ""
 
-#: src/pacman/remove.c:143
+#: src/pacman/remove.c:144
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
 msgstr "%s je označený jako HoldPkg.\n"
 
-#: src/pacman/remove.c:148
+#: src/pacman/remove.c:149
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr ""
 "Medzi cieľmi bol nájdený balíček označený ako HoldPkg. Chcete pokračovať?"
 
-#: src/pacman/remove.c:156 src/pacman/sync.c:809
+#: src/pacman/remove.c:157 src/pacman/sync.c:781
 #, c-format
 msgid " there is nothing to do\n"
 msgstr " nie je čo robiť\n"
 
-#: src/pacman/remove.c:168
+#: src/pacman/remove.c:169
 #, c-format
 msgid "Do you want to remove these packages?"
 msgstr "Chcete odstrániť tieto balíčky?"
 
-#: src/pacman/remove.c:174 src/pacman/sync.c:836
+#: src/pacman/remove.c:175 src/pacman/sync.c:808
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr "zlyhalo vykonávanie transakcie (%s)\n"
 
-#: src/pacman/sync.c:47 src/pacman/sync.c:100
+#: src/pacman/sync.c:47 src/pacman/sync.c:89 src/pacman/sync.c:94
 #, c-format
 msgid "could not remove %s: %s\n"
 msgstr "nepodarilo sa odstrániť %s: %s\n"
 
-#: src/pacman/sync.c:65
+#: src/pacman/sync.c:63
 #, c-format
 msgid "could not access database directory\n"
 msgstr "nie je možné pristupovať k adresáru s databázou\n"
 
-#: src/pacman/sync.c:147
+#: src/pacman/sync.c:137
 #, c-format
 msgid "Database directory: %s\n"
 msgstr "Adresár databáze: %s\n"
 
-#: src/pacman/sync.c:148
+#: src/pacman/sync.c:138
 #, c-format
 msgid "Do you want to remove unused repositories?"
 msgstr "Chcete odstrániť nepoužívané repozitáre?"
 
-#: src/pacman/sync.c:151
+#: src/pacman/sync.c:141
 #, c-format
 msgid "removing unused sync repositories...\n"
 msgstr "odstraňujem nepoužívané repozitáre...\n"
 
-#: src/pacman/sync.c:181
+#: src/pacman/sync.c:167
 #, c-format
 msgid "Packages to keep:\n"
 msgstr "Balíčky, ktoré nebudú odstránené:\n"
 
-#: src/pacman/sync.c:183
+#: src/pacman/sync.c:169
 #, c-format
 msgid "  All locally installed packages\n"
 msgstr "  Všetky lokálne nainštalované balíčky\n"
 
-#: src/pacman/sync.c:186
+#: src/pacman/sync.c:172
 #, c-format
 msgid "  All current sync database packages\n"
 msgstr "  Všetky balíčky v databáze\n"
 
-#: src/pacman/sync.c:196
+#: src/pacman/sync.c:182
 #, c-format
 msgid "Cache directory: %s\n"
 msgstr "Adresár cache: %s\n"
 
-#: src/pacman/sync.c:199
+#: src/pacman/sync.c:185
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
 msgstr "Chcete odstrániť všetky ostatné balíčky z cache?"
 
-#: src/pacman/sync.c:203
+#: src/pacman/sync.c:189
 #, c-format
 msgid "removing old packages from cache...\n"
 msgstr "odstraňujem staré balíčky z cache...\n"
 
-#: src/pacman/sync.c:205
+#: src/pacman/sync.c:191
 #, c-format
 msgid "Do you want to remove ALL files from cache?"
 msgstr "Chcete odstrániť VŠETKY súbory z cache?"
 
-#: src/pacman/sync.c:209
+#: src/pacman/sync.c:195
 #, c-format
 msgid "removing all files from cache...\n"
 msgstr "odstraňujem všetky súbory z cache...\n"
 
-#: src/pacman/sync.c:215
+#: src/pacman/sync.c:201
 #, c-format
 msgid "could not access cache directory %s\n"
 msgstr "nie je možné pristupovať k adresáru s cache %s\n"
 
-#: src/pacman/sync.c:332
-#, c-format
-msgid "failed to update %s (%s)\n"
-msgstr "zlyhala aktualizácia %s (%s)\n"
-
-#: src/pacman/sync.c:335
-#, c-format
-msgid " %s is up to date\n"
-msgstr " %s je aktuálny\n"
-
-#: src/pacman/sync.c:347
-#, c-format
-msgid "failed to synchronize any databases\n"
-msgstr "zlyhala synchronizácia databáze\n"
-
-#: src/pacman/sync.c:469
+#: src/pacman/sync.c:424
 #, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "repozitár '%s' neexistuje\n"
 
-#: src/pacman/sync.c:515
+#: src/pacman/sync.c:470
 #, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "repozitár \"%s\" nebol nájdený.\n"
 
-#: src/pacman/sync.c:605
+#: src/pacman/sync.c:560
 #, c-format
 msgid "There is %d member in group %s:\n"
 msgid_plural "There are %d members in group %s:\n"
@@ -1403,72 +1426,83 @@ msgstr[0] "V skupine %2$s sa nachádza %1$d člen:\n"
 msgstr[1] "V skupine %2$s sa nachádzajú %1$d členovia:\n"
 msgstr[2] "V skupine %2$s sa nachádza %1$d členov:\n"
 
-#: src/pacman/sync.c:684
+#: src/pacman/sync.c:639
 #, c-format
 msgid "database not found: %s\n"
 msgstr "databáza nebola nájdená: %s\n"
 
-#: src/pacman/sync.c:712
+#: src/pacman/sync.c:667
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr "'%s' je súbor, mysleli ste %s namiesto %s?\n"
 
-#: src/pacman/sync.c:742
+#: src/pacman/sync.c:697
 #, c-format
 msgid "Starting full system upgrade...\n"
 msgstr "Spúšťam aktualizáciu celého systému...\n"
 
-#: src/pacman/sync.c:769
+#: src/pacman/sync.c:717
+#, c-format
+msgid "%s: requires %s\n"
+msgstr "%s: vyžaduje %s\n"
+
+#: src/pacman/sync.c:720
+#, fuzzy, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'\n"
+msgstr ""
+"%s: dôvod pre inštaláciu bol nastavený na 'inštalovaný ako závislosť'\n"
+
+#: src/pacman/sync.c:744
 #, c-format
 msgid "package %s does not have a valid architecture\n"
 msgstr "balíček %s nemá platnú architektúru\n"
 
-#: src/pacman/sync.c:787
+#: src/pacman/sync.c:759
 #, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s a %s sú v konflikte\n"
 
-#: src/pacman/sync.c:791
+#: src/pacman/sync.c:763
 #, c-format
 msgid "%s and %s are in conflict (%s)\n"
 msgstr "%s a %s sú v konflikte (%s)\n"
 
-#: src/pacman/sync.c:825
+#: src/pacman/sync.c:797
 #, c-format
 msgid "Proceed with download?"
 msgstr "Pokračovať v sťahovaní?"
 
-#: src/pacman/sync.c:827
+#: src/pacman/sync.c:799
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Pokračovať v inštalácii?"
 
-#: src/pacman/sync.c:841
+#: src/pacman/sync.c:813
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
 msgstr "nepodarilo sa %s adresár-konflikt súbor\n"
 
-#: src/pacman/sync.c:847
+#: src/pacman/sync.c:819
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s sa nachádza v '%s' a '%s'\n"
 
-#: src/pacman/sync.c:851
+#: src/pacman/sync.c:823
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: %s už existuje v súborovom systéme\n"
 
-#: src/pacman/sync.c:864
+#: src/pacman/sync.c:836
 #, c-format
 msgid "%s is invalid or corrupted\n"
 msgstr "%s je neplatný alebo poškodený\n"
 
-#: src/pacman/sync.c:872
+#: src/pacman/sync.c:844
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Vyskytli sa chyby, žiadne balíčky neboli aktualizované.\n"
 
-#: src/pacman/sync.c:917
+#: src/pacman/sync.c:889
 #, c-format
 msgid "Synchronizing package databases...\n"
 msgstr "Synchronizujem databázu balíčkov...\n"
@@ -1483,17 +1517,17 @@ msgstr "pamäť vyčerpaná\n"
 msgid "loading packages...\n"
 msgstr "načítavam balíčky...\n"
 
-#: src/pacman/util.c:81
+#: src/pacman/util.c:80
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "zlyhala príprava transakcie (%s)\n"
 
-#: src/pacman/util.c:85
+#: src/pacman/util.c:84
 #, c-format
 msgid "could not lock database: %s\n"
 msgstr "nepodarilo sa uzamknúť databázu: %s\n"
 
-#: src/pacman/util.c:88
+#: src/pacman/util.c:87
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
@@ -1502,222 +1536,265 @@ msgstr ""
 "  ak ste si istý, že práve nebeží správca balíčkov,\n"
 "  môžete odstrániť %s\n"
 
-#: src/pacman/util.c:97
+#: src/pacman/util.c:96
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "zlyhalo dokončenie transakcie (%s)\n"
 
-#: src/pacman/util.c:128
+#: src/pacman/util.c:129
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "nie sú nastavené žiadne použiteľné repozitáre.\n"
 
-#: src/pacman/util.c:137
+#: src/pacman/util.c:138
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
 msgstr "databáza '%s' nie je platná (%s)\n"
 
-#: src/pacman/util.c:645
+#: src/pacman/util.c:157
+#, c-format
+msgid "failed to update %s (%s)\n"
+msgstr "zlyhala aktualizácia %s (%s)\n"
+
+#: src/pacman/util.c:160
+#, c-format
+msgid " %s is up to date\n"
+msgstr " %s je aktuálny\n"
+
+#: src/pacman/util.c:172
+#, c-format
+msgid "failed to synchronize any databases\n"
+msgstr "zlyhala synchronizácia databáze\n"
+
+#: src/pacman/util.c:639
 #, c-format
 msgid "insufficient columns available for table display\n"
 msgstr " nedostatok stĺpcov na zobrazenie tabuľky\n"
 
-#: src/pacman/util.c:766
+#: src/pacman/util.c:760
 #, c-format
 msgid "Valid"
 msgstr "Platný"
 
-#: src/pacman/util.c:769
+#: src/pacman/util.c:763
 #, c-format
 msgid "Key expired"
 msgstr "Kľúč expiroval"
 
-#: src/pacman/util.c:772
+#: src/pacman/util.c:766
 #, c-format
 msgid "Expired"
 msgstr "Expirovaný"
 
-#: src/pacman/util.c:775
+#: src/pacman/util.c:769
 #, c-format
 msgid "Invalid"
 msgstr "Neplatný"
 
-#: src/pacman/util.c:778
+#: src/pacman/util.c:772
 #, c-format
 msgid "Key unknown"
 msgstr "Neznámy kľúč"
 
-#: src/pacman/util.c:781
+#: src/pacman/util.c:775
 #, c-format
 msgid "Key disabled"
 msgstr "Kľúč vypnutý"
 
-#: src/pacman/util.c:784
+#: src/pacman/util.c:778
 #, c-format
 msgid "Signature error"
 msgstr "Chyba podpisu"
 
-#: src/pacman/util.c:789
+#: src/pacman/util.c:783
 #, c-format
 msgid "full trust"
 msgstr "plná dôvera"
 
-#: src/pacman/util.c:792
+#: src/pacman/util.c:786
 #, c-format
 msgid "marginal trust"
 msgstr "čiastočná dôvera"
 
-#: src/pacman/util.c:795
+#: src/pacman/util.c:789
 #, c-format
 msgid "never trust"
 msgstr "žiadna dôvera"
 
-#: src/pacman/util.c:799
+#: src/pacman/util.c:793
 #, c-format
 msgid "unknown trust"
 msgstr "neznáma dôvera"
 
-#: src/pacman/util.c:803
+#: src/pacman/util.c:797
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s z \"%s\""
 
-#: src/pacman/util.c:821
+#: src/pacman/util.c:815
 #, c-format
 msgid "Package"
 msgstr "Balíček"
 
-#: src/pacman/util.c:824
+#: src/pacman/util.c:818
 #, c-format
 msgid "Old Version"
 msgstr "Pôvodná verzia"
 
-#: src/pacman/util.c:825
+#: src/pacman/util.c:819
 #, c-format
 msgid "New Version"
 msgstr "Nová verzia"
 
-#: src/pacman/util.c:826
+#: src/pacman/util.c:820
 #, c-format
 msgid "Net Change"
 msgstr "Približná zmena"
 
-#: src/pacman/util.c:827
-#, c-format
-msgid "Download Size"
-msgstr "Veľkosť na prevzatie"
-
-#: src/pacman/util.c:924
+#: src/pacman/util.c:918
 #, c-format
 msgid "removal"
 msgstr "odstránenie"
 
-#: src/pacman/util.c:930
+#: src/pacman/util.c:924
 #, c-format
 msgid "Packages"
 msgstr "Balíčky"
 
-#: src/pacman/util.c:951
+#: src/pacman/util.c:945
 #, c-format
 msgid "Total Download Size:"
 msgstr "Celková veľkosť sťahovania:"
 
-#: src/pacman/util.c:955
+#: src/pacman/util.c:949
 #, c-format
 msgid "Total Installed Size:"
 msgstr "Celková inštalovaná veľkosť:"
 
-#: src/pacman/util.c:958
+#: src/pacman/util.c:952
 #, c-format
 msgid "Total Removed Size:"
 msgstr "Celková uvoľnená veľkosť:"
 
-#: src/pacman/util.c:962
+#: src/pacman/util.c:956
 #, c-format
 msgid "Net Upgrade Size:"
 msgstr "Čistá zmena aktualizácie:"
 
-#: src/pacman/util.c:1212
+#: src/pacman/util.c:1207
 #, c-format
 msgid " [pending]"
 msgstr " [čaká na vykonanie]"
 
-#: src/pacman/util.c:1236
+#: src/pacman/util.c:1231
 #, c-format
 msgid "New optional dependencies for %s\n"
 msgstr "Nové voliteľné závislosti pre %s\n"
 
-#: src/pacman/util.c:1258
+#: src/pacman/util.c:1253
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "Voliteľné závislosti pre %s\n"
 
-#: src/pacman/util.c:1271
+#: src/pacman/util.c:1266
 #, c-format
 msgid "Repository %s\n"
 msgstr "Repozitár %s\n"
 
-#: src/pacman/util.c:1311
+#: src/pacman/util.c:1306
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
 msgstr "neplatná hodnota: %d nie je medzi %d a %d\n"
 
-#: src/pacman/util.c:1318
+#: src/pacman/util.c:1313
 #, c-format
 msgid "invalid number: %s\n"
 msgstr "neplatné číslo: %s\n"
 
-#: src/pacman/util.c:1403
+#: src/pacman/util.c:1397
 #, c-format
 msgid "Enter a selection (default=all)"
 msgstr "Zadajte výber (východzie=všetky)"
 
-#: src/pacman/util.c:1467
+#: src/pacman/util.c:1464
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "Zadajte číslo (východzie=%d)"
 
-#: src/pacman/util.c:1517
+#: src/pacman/util.c:1514
 #, c-format
 msgid "[Y/n]"
 msgstr "[A/n]"
 
-#: src/pacman/util.c:1519
+#: src/pacman/util.c:1516
 #, c-format
 msgid "[y/N]"
 msgstr "[a/N]"
 
-#: src/pacman/util.c:1544
+#: src/pacman/util.c:1541
 #, c-format
 msgid "Y"
 msgstr "A"
 
-#: src/pacman/util.c:1544
+#: src/pacman/util.c:1541
 #, c-format
 msgid "YES"
 msgstr "ÁNO"
 
-#: src/pacman/util.c:1546
+#: src/pacman/util.c:1543
 #, c-format
 msgid "N"
 msgstr "N"
 
-#: src/pacman/util.c:1546
+#: src/pacman/util.c:1543
 #, c-format
 msgid "NO"
 msgstr "NIE"
 
-#: src/pacman/util.c:1613
+#: src/pacman/util.c:1610
 #, c-format
 msgid "failed to allocate string\n"
 msgstr "nepodarilo sa alokovať reťazec\n"
 
-#: src/pacman/util.c:1650 src/pacman/util.c:1700
+#: src/pacman/util.c:1647 src/pacman/util.c:1697
 #, c-format
 msgid "error: "
 msgstr "chyba: "
 
-#: src/pacman/util.c:1654 src/pacman/util.c:1704
+#: src/pacman/util.c:1651 src/pacman/util.c:1701
 #, c-format
 msgid "warning: "
 msgstr "varovanie: "
+
+#~ msgid "%s saved as %s.pacorig\n"
+#~ msgstr "%s bol uložený ako %s.pacorig\n"
+
+#~ msgid "Repository     :"
+#~ msgstr "Repozitár      :"
+
+#~ msgid "Name           :"
+#~ msgstr "Meno           :"
+
+#~ msgid "Version        :"
+#~ msgstr "Verzia         :"
+
+#~ msgid "URL            :"
+#~ msgstr "URL            :"
+
+#~ msgid "Groups         :"
+#~ msgstr "Skupiny        :"
+
+#~ msgid "Download Size  :"
+#~ msgstr "Veľkosť na prevzatie :"
+
+#~ msgid "Packager       :"
+#~ msgstr "Zabalil        :"
+
+#~ msgid "MD5 Sum        :"
+#~ msgstr "MD5 súčet      :"
+
+#~ msgid "SHA-256 Sum    :"
+#~ msgstr "SHA-256 súčet :"
+
+#~ msgid "Signatures     :"
+#~ msgstr "Podpisy        :"
