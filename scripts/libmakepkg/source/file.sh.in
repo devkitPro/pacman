@@ -71,7 +71,7 @@ download_file() {
 
 	if ! command -- "${cmdline[@]}" >&2; then
 		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
-		error "$(gettext "Failure while downloading %s")" "$filename"
+		error "$(gettext "Failure while downloading %s")" "$url"
 		plain "$(gettext "Aborting...")"
 		exit 1
 	fi
