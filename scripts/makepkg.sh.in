@@ -2205,14 +2205,15 @@ elif (( !REPKG )); then
 	fi
 
 	extract_sources
-	if (( PKGVERFUNC )); then
-		update_pkgver
-		basever=$(get_full_version)
-		check_build_status
-	fi
-	if (( PREPAREFUNC )); then
-		run_prepare
-	fi
+fi
+
+if (( PKGVERFUNC )); then
+	update_pkgver
+	basever=$(get_full_version)
+	check_build_status
+fi
+if (( PREPAREFUNC )); then
+	run_prepare
 fi
 
 if (( NOBUILD )); then
