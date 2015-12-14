@@ -19,6 +19,7 @@ Type = File|Package (Required)
 Target = <Path|PkgName> (Required, Repeatable)
 
 [Action] (Required)
+Description = ... (Optional)
 When = PreTransaction|PostTransaction (Required)
 Exec = <Command> (Required)
 Depends = <PkgName> (Optional)
@@ -62,6 +63,10 @@ defined the hook will run if the transaction matches *any* of the triggers.
 
 ACTIONS
 -------
+
+* Description =* ...::
+	An optional description that describes the action being taken by the
+	hook for use in front-end output.
 
 *Exec =* <command>::
 	Command to run.  Command arguments are split on whitespace.  Values

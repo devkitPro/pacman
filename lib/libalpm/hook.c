@@ -48,6 +48,7 @@ struct _alpm_trigger_t {
 
 struct _alpm_hook_t {
 	char *name;
+	char *desc;
 	alpm_list_t *triggers;
 	alpm_list_t *depends;
 	char **cmd;
@@ -84,6 +85,7 @@ static void _alpm_hook_free(struct _alpm_hook_t *hook)
 {
 	if(hook) {
 		free(hook->name);
+		free(hook->desc);
 		_alpm_wordsplit_free(hook->cmd);
 		alpm_list_free_inner(hook->triggers, (alpm_list_fn_free) _alpm_trigger_free);
 		alpm_list_free(hook->triggers);
@@ -316,6 +318,8 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 			} else {
 				error(_("hook %s line %d: invalid value %s\n"), file, line, value);
 			}
+		} else if(strcmp(key, "Description") == 0) {
+			STRDUP(hook->desc, value, return 1);
 		} else if(strcmp(key, "Depends") == 0) {
 			char *val;
 			STRDUP(val, value, return 1);
@@ -732,6 +736,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 
 			hook_event.type = ALPM_EVENT_HOOK_RUN_START;
 			hook_event.name = hook->name;
+			hook_event.desc = hook->desc;
 			EVENT(handle, &hook_event);
 
 			if(_alpm_hook_run_hook(handle, hook) != 0 && hook->abort_on_fail) {

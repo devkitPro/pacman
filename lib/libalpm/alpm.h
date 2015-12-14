@@ -568,6 +568,8 @@ typedef struct _alpm_event_hook_run_t {
 	alpm_event_type_t type;
 	/** Name of hook */
 	const char *name;
+	/** Description of hook to be outputted */
+	const char *desc;
 	/** position of hook being run */
 	size_t position;
 	/** total hooks being run */

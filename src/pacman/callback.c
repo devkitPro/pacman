@@ -189,7 +189,8 @@ void cb_event(alpm_event_t *event)
 				alpm_event_hook_run_t *e = &event->hook_run;
 				int digits = number_length(e->total);
 				printf("(%*zu/%*zu) %s\n", digits, e->position,
-						digits, e->total, e->name);
+						digits, e->total, 
+						e->desc ? e->desc : e->name);
 			}
 			break;
 		case ALPM_EVENT_CHECKDEPS_START:
