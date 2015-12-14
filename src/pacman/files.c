@@ -294,7 +294,7 @@ int pacman_files(alpm_list_t *targets)
 		}
 	}
 
-	if(targets == NULL && (config->op_s_search || config->op_q_owns)) {
+	if(targets == NULL && (config->op_q_owns | config->op_s_search)) {
 		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return 1;
 	}
@@ -312,6 +312,11 @@ int pacman_files(alpm_list_t *targets)
 	/* get a listing of files in sync DBs */
 	if(config->op_q_list) {
 		return files_list(files_dbs, targets);
+	}
+
+	if(targets != NULL) {
+		pm_printf(ALPM_LOG_ERROR, _("no options specified (use -h for help)\n"));
+		return 1;
 	}
 
 	return 0;
