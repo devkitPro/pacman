@@ -461,7 +461,11 @@ typedef enum _alpm_event_type_t {
 	/** Processing hooks will be started. */
 	ALPM_EVENT_HOOK_START,
 	/** Processing hooks is finished. */
-	ALPM_EVENT_HOOK_DONE
+	ALPM_EVENT_HOOK_DONE,
+	/** A hook is starting */
+	ALPM_EVENT_HOOK_RUN_START,
+	/** A hook has finnished runnning */
+	ALPM_EVENT_HOOK_RUN_DONE
 } alpm_event_type_t;
 
 typedef struct _alpm_event_any_t {
@@ -559,6 +563,17 @@ typedef struct _alpm_event_hook_t {
 	alpm_hook_when_t when;
 } alpm_event_hook_t;
 
+typedef struct _alpm_event_hook_run_t {
+	/** Type of event.*/
+	alpm_event_type_t type;
+	/** Name of hook */
+	const char *name;
+	/** position of hook being run */
+	size_t position;
+	/** total hooks being run */
+	size_t total;
+} alpm_event_hook_run_t;
+
 /** Events.
  * This is an union passed to the callback, that allows the frontend to know
  * which type of event was triggered (via type). It is then possible to
@@ -576,6 +591,7 @@ typedef union _alpm_event_t {
 	alpm_event_pacnew_created_t pacnew_created;
 	alpm_event_pacsave_created_t pacsave_created;
 	alpm_event_hook_t hook;
+	alpm_event_hook_run_t hook_run;
 } alpm_event_t;
 
 /** Event callback. */

@@ -160,6 +160,16 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	fflush(stdout);
 }
 
+static int number_length(size_t n)
+{
+	int digits = 1;
+	while((n /= 10)) {
+		++digits;
+	}
+
+	return digits;
+}
+
 /* callback to handle messages/notifications from libalpm transactions */
 void cb_event(alpm_event_t *event)
 {
@@ -172,6 +182,14 @@ void cb_event(alpm_event_t *event)
 				colon_printf(_("Running pre-transaction hooks...\n"));
 			} else {
 				colon_printf(_("Running post-transaction hooks...\n"));
+			}
+			break;
+		case ALPM_EVENT_HOOK_RUN_START:
+			{
+				alpm_event_hook_run_t *e = &event->hook_run;
+				int digits = number_length(e->total);
+				printf("(%*zu/%*zu) %s\n", digits, e->position,
+						digits, e->total, e->name);
 			}
 			break;
 		case ALPM_EVENT_CHECKDEPS_START:
@@ -341,6 +359,7 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_RETRIEVE_DONE:
 		case ALPM_EVENT_RETRIEVE_FAILED:
 		case ALPM_EVENT_HOOK_DONE:
+		case ALPM_EVENT_HOOK_RUN_DONE:
 		/* we can safely ignore those as well */
 		case ALPM_EVENT_PKGDOWNLOAD_START:
 		case ALPM_EVENT_PKGDOWNLOAD_DONE:
@@ -481,7 +500,6 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	/* size of line to allocate for text printing (e.g. not progressbar) */
 	int infolen;
 	int digits, textlen;
-	size_t tmp;
 	char *opr = NULL;
 	/* used for wide character width determination and printing */
 	int len, wclen, wcwid, padwid;
@@ -557,11 +575,8 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	}
 
 	/* find # of digits in package counts to scale output */
-	digits = 1;
-	tmp = howmany;
-	while((tmp /= 10)) {
-		++digits;
-	}
+	digits = number_length(howmany);
+
 	/* determine room left for non-digits text [not ( 1/12) part] */
 	textlen = infolen - 3 /* (/) */ - (2 * digits) - 1 /* space */;
 

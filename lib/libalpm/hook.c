@@ -611,9 +611,10 @@ static int _alpm_hook_run_hook(alpm_handle_t *handle, struct _alpm_hook_t *hook)
 int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 {
 	alpm_event_hook_t event = { .when = when };
+	alpm_event_hook_run_t hook_event;
 	alpm_list_t *i, *hooks = NULL, *hooks_triggered = NULL;
 	const char *suffix = ".hook";
-	size_t suflen = strlen(suffix);
+	size_t suflen = strlen(suffix), triggered = 0;
 	int ret = 0;
 
 	for(i = alpm_list_last(handle->hookdirs); i; i = alpm_list_previous(i)) {
@@ -714,6 +715,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 		struct _alpm_hook_t *hook = i->data;
 		if(hook && hook->when == when && _alpm_hook_triggered(handle, hook)) {
 			hooks_triggered = alpm_list_add(hooks_triggered, hook);
+			triggered++;
 		}
 	}
 
@@ -721,12 +723,23 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 		event.type = ALPM_EVENT_HOOK_START;
 		EVENT(handle, &event);
 
-		for(i = hooks_triggered; i; i = i->next) {
+		hook_event.position = 1;
+		hook_event.total = triggered;
+
+		for(i = hooks_triggered; i; i = i->next, hook_event.position++) {
 			struct _alpm_hook_t *hook = i->data;
 			_alpm_log(handle, ALPM_LOG_DEBUG, "running hook %s\n", hook->name);
+
+			hook_event.type = ALPM_EVENT_HOOK_RUN_START;
+			hook_event.name = hook->name;
+			EVENT(handle, &hook_event);
+
 			if(_alpm_hook_run_hook(handle, hook) != 0 && hook->abort_on_fail) {
 				ret = -1;
 			}
+
+			hook_event.type = ALPM_EVENT_HOOK_RUN_DONE;
+			EVENT(handle, &hook_event);
 		}
 
 		alpm_list_free(hooks_triggered);
