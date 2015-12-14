@@ -188,6 +188,9 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_INTERCONFLICTS_START:
 			printf(_("looking for conflicting packages...\n"));
 			break;
+		case ALPM_EVENT_TRANSACTION_START:
+			colon_printf(_("Processing package changes...\n"));
+			break;
 		case ALPM_EVENT_PACKAGE_OPERATION_START:
 			if(config->noprogressbar) {
 				alpm_event_package_operation_t *e = &event->package_operation;
@@ -327,6 +330,7 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_CHECKDEPS_DONE:
 		case ALPM_EVENT_RESOLVEDEPS_DONE:
 		case ALPM_EVENT_INTERCONFLICTS_DONE:
+		case ALPM_EVENT_TRANSACTION_DONE:
 		case ALPM_EVENT_INTEGRITY_DONE:
 		case ALPM_EVENT_KEYRING_DONE:
 		case ALPM_EVENT_KEY_DOWNLOAD_DONE:

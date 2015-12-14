@@ -160,6 +160,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data)
 int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_trans_t *trans;
+	alpm_event_any_t event;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -197,6 +198,8 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 	trans->state = STATE_COMMITING;
 
 	alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction started\n");
+	event.type = ALPM_EVENT_TRANSACTION_START;
+	EVENT(handle, &event);
 
 	if(trans->add == NULL) {
 		if(_alpm_remove_packages(handle, 1) == -1) {
@@ -219,6 +222,8 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 	if(trans->state == STATE_INTERRUPTED) {
 		alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction interrupted\n");
 	} else {
+		event.type = ALPM_EVENT_TRANSACTION_DONE;
+		EVENT(handle, &event);
 		alpm_logaction(handle, ALPM_CALLER_PREFIX, "transaction completed\n");
 		_alpm_hook_run(handle, ALPM_HOOK_POST_TRANSACTION);
 	}

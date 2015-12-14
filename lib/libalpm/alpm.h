@@ -384,6 +384,10 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_INTERCONFLICTS_START,
 	/** Inter-conflicts were checked for target package. */
 	ALPM_EVENT_INTERCONFLICTS_DONE,
+	/** Processing the package transaction is starting. */
+	ALPM_EVENT_TRANSACTION_START,
+	/** Processing the package transaction is finished. */
+	ALPM_EVENT_TRANSACTION_DONE,
 	/** Package will be installed/upgraded/downgraded/re-installed/removed; See
 	 * alpm_event_package_operation_t for arguments. */
 	ALPM_EVENT_PACKAGE_OPERATION_START,
