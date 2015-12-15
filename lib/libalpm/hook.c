@@ -712,6 +712,10 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 		closedir(d);
 	}
 
+	if(ret != 0 && when == ALPM_HOOK_PRE_TRANSACTION) {
+		goto cleanup;
+	}
+
 	hooks = alpm_list_msort(hooks, alpm_list_count(hooks),
 			(alpm_list_fn_cmp)_alpm_hook_cmp);
 
@@ -745,6 +749,10 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 
 			hook_event.type = ALPM_EVENT_HOOK_RUN_DONE;
 			EVENT(handle, &hook_event);
+
+			if(ret != 0 && when == ALPM_HOOK_PRE_TRANSACTION) {
+				break;
+			}
 		}
 
 		alpm_list_free(hooks_triggered);
