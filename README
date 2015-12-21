@@ -567,11 +567,28 @@ API CHANGES BETWEEN 4.2 AND 5.0
 
 [REMOVED]
 - alpm_siglevel_t - removed members ALPM_SIG_PACKAGE_SET, ALPM_SIG_PACKAGE_TRUST_SET
-
-- ALPM_EVENT_PACORIG_CREATED
-- alpm_event_pacorig_created_t
-- alpm_event_t.pacorig_created
+- removed .pacorig generation
+  - ALPM_EVENT_PACORIG_CREATED
+  - alpm_event_pacorig_created_t
+  - alpm_event_t.pacorig_created
 
 [ADDED]
+- hook support
+  - alpm_option_get_hookdirs()
+  - alpm_option_set_hookdirs()
+  - alpm_option_add_hookdir()
+  - alpm_option_remove_hookdir()
+  - alpm_event_hook_t, alpm_event_hook_run_t
+  - alpm_hook_when_t
+  - ALPM_EVENT_HOOK_START, ALPM_EVENT_HOOK_DONE
+  - ALPM_EVENT_HOOK_RUN_START, ALPM_EVENT_HOOK_RUN_DONE
+  - ALPM_ERR_TRANS_HOOK_FAILED
+- different database extension support
+  - alpm_option_get_dbext()
+  - alpm_option_set_dbext()
 - pkgbase accessor
   - alpm_pkg_get_base()
+- transaction events
+  - ALPM_EVENT_TRANSACTION_START, ALPM_EVENT_TRANSACTION_DONE
+- database unlocking
+  - alpm_unlock()
