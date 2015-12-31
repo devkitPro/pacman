@@ -79,8 +79,8 @@ if [[ ! -w . ]]; then
 fi
 
 # Generate the new sums
-export BUILDDIR=$(mktemp -d --tmpdir updpkgsums.XXXXXX)
-newbuildfile=$(mktemp --tmpdir updpkgsums.XXXXXX)
+export BUILDDIR=$(mktemp -d  "${TMPDIR:-/tmp}/updpkgsums.XXXXXX")
+newbuildfile=$(mktemp "${TMPDIR:-/tmp}/updpkgsums.XXXXXX")
 
 trap "rm -rf '$BUILDDIR' '$newbuildfile'" EXIT
 newsums=$(makepkg -g -p "$buildfile") || die 'Failed to generate new checksums'

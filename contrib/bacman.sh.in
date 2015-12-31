@@ -147,7 +147,7 @@ fi
 # Begin
 #
 msg "Package: ${pkg_namver}"
-work_dir=$(mktemp -d --tmpdir bacman.XXXXXXXXXX)
+work_dir=$(mktemp -d "${TMPDIR:-/tmp}/bacman.XXXXXXXXXX")
 cd "$work_dir" || exit 1
 
 #
