@@ -35,7 +35,16 @@ tap_runtest() {
 	tap_diff <(printf "$1" | $bin $4) <(printf "$2") "$3"
 }
 
-tap_plan 26
+# args:
+# check_return_value input expected_return_value test_description optional_opts
+tap_check_return_value() {
+    # run the test
+    printf "$1" | $bin $4 2>/dev/null
+    tap_is_int "$?" "$2" "$3"
+
+}
+
+tap_plan 32
 
 in="1\n2\n3\n4\n"
 tap_runtest $in $in "already ordered"
@@ -107,6 +116,13 @@ tap_runtest "$separator" "$separator" "really long input, sort key, separator" "
 tap_runtest "$separator_reverse" "$separator" "really long input, sort key, separator" "-k3 -t|"
 tap_runtest "$separator_reverse" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
 tap_runtest "$separator" "$separator_reverse" "really long input, sort key, separator, reversed" "-k 3 -t| -r"
+
+tap_check_return_value "" "2" "invalid sort key (no argument)" "-k"
+tap_check_return_value "" "2" "invalid sort key (non-numeric)" "-k asd"
+tap_check_return_value "" "2" "invalid field separator (no argument)" "-t"
+tap_check_return_value "" "2" "invalid field separator (multiple characters)" "-t sda"
+tap_check_return_value "" "2" "invalid field separator (two characters must start with a slash)" "-t ag"
+tap_check_return_value "" "2" "invalid field separator (\g is invalid)" '-t \g'
 
 tap_finish
 
