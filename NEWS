@@ -1,8 +1,68 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
-5.0.0         - pacman can check the validity of the local and sync databases
+5.0.0         - pacman can run hooks pre- and post-transaction. See the
+                alpm-hooks(5) man page for details and an example hook (FS#2985)
+              - pacman can now sync and read .files databases (-Fy) and do basic
+                searching for files in sync repos (-Fs, -Fo) (FS#23787)
+              - pacman can check the validity of the local and sync databases
                 (-Dk and -Dkk respectively).  This replaces the 'testdb'
-                software
+                software (FS#42444)
+              - the package description output (-Si ,-Qi) is now correctly
+                aligned regardless of locale (FS#43983, FS#45997)
+              - ensure internal package version matches database version after
+                downloading (FS#45687)
+              - improved signal handling and lock file removal (FS#45995,
+                FS#46375, FS#47011)
+              - print more information when encountering dependency errors
+              - improved configuration parsing with a new ini parser
+              - handle a symlink to a directory being replaced by a directory
+              - The 'pkgbase' variable is now recorded in the local package db
+              - Remove support for ".pacorig" files.  Instead, packages files
+                are extracted as a ".pacnew" and the original stays in place
+              - prevent install scriptlets using stdin for user interaction
+              - provides are considered when displaying optdepends install
+                status (FS#36412)
+              - always update corrupt database whether or not a newer version
+                is found on the remote server
+              - fix build issues when libarchive was in a non-standard location
+              - Many issues found using Coverity were address (primarily freeing
+                memory on error conditions)
+              - The pactest suite was upgraded to allow parallel testing using
+                the tap.sh library
+              - makepkg:
+                - makepkg is in the process of being split into a library. This
+                  allows various areas to be extended by adding a file into
+                  libmakepkg (e.g. package/PKGBUILD checking, adjusting
+                  files before creating the final package).
+                - PKGBUILD variables checked to be arrays or not as appropriate
+                - pkgver() and prepare() are now run with --noextract (FS#43498,
+                  FS#46800)
+                - the ability to build a single package in a PKGBUILD has been
+                  removed
+                - the output when checking checksums for architecture specific
+                  sources is improved (FS#43444)
+                - improved handling of bazaar sources (FS#43448)
+                - fix source package signing with SRCPKGDIR set
+                - add option to compress png images with optipng
+                - add --packagelist option, which lists all packages build from
+                  a PKGBUILD
+                - add --printsrcinfo flag to print SRCINFO file for a PKGBUILD
+                - record build information in a .BUILDINFO file
+                - add whirlpool to list of hashing options (FS#45859)
+              - makepkg-template:
+                - support multiple --template-dir
+                - added a testsuite
+              - repo-add:
+                - Always generate the .files database
+                - Only update database if the entire operation succeeds
+                - unarmored package signatures are rejected
+              - contrib:
+                - checkupdates: give error when fakeroot is missing
+                - checkupdates: provide packages versions in output
+                - checkupdates: fix failure in some locales (FS#40405)
+                - paccache: Add -q/--quiet
+                - pacdiff: do not require DIFFPROG for -o/--output (FS#46184)
+                - zsh_completion: updated to fix many missing options
 4.2.1         - Remove warnings about incorrect directory ownership until
                 packaging files with dynamic users/groups is improved
               - Do not require a specific automake version when building from
