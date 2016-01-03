@@ -2,7 +2,7 @@
 #
 #   strip.sh - Strip debugging symbols from binary files
 #
-#   Copyright (c) 2007-2015 Pacman Development Team <pacman-dev@archlinux.org>
+#   Copyright (c) 2007-2016 Pacman Development Team <pacman-dev@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
