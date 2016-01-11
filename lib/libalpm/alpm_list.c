@@ -93,28 +93,42 @@ void SYMEXPORT alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
  */
 alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 {
-	alpm_list_t *ptr, *lp;
+	alpm_list_append(&list, data);
+	return list;
+}
+
+/**
+ * @brief Add a new item to the end of the list.
+ *
+ * @param list the list to add to
+ * @param data the new item to be added to the list
+ *
+ * @return the newly added item
+ */
+alpm_list_t SYMEXPORT *alpm_list_append(alpm_list_t **list, void *data)
+{
+	alpm_list_t *ptr;
 
 	ptr = malloc(sizeof(alpm_list_t));
 	if(ptr == NULL) {
-		return list;
+		return NULL;
 	}
 
 	ptr->data = data;
 	ptr->next = NULL;
 
 	/* Special case: the input list is empty */
-	if(list == NULL) {
+	if(*list == NULL) {
+		*list = ptr;
 		ptr->prev = ptr;
-		return ptr;
+	} else {
+		alpm_list_t *lp = alpm_list_last(*list);
+		lp->next = ptr;
+		ptr->prev = lp;
+		(*list)->prev = ptr;
 	}
 
-	lp = alpm_list_last(list);
-	lp->next = ptr;
-	ptr->prev = lp;
-	list->prev = ptr;
-
-	return list;
+	return ptr;
 }
 
 /**

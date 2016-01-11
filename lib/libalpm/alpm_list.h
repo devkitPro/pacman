@@ -57,6 +57,7 @@ void alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn);
 
 /* item mutators */
 alpm_list_t *alpm_list_add(alpm_list_t *list, void *data);
+alpm_list_t *alpm_list_append(alpm_list_t **list, void *data);
 alpm_list_t *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cmp fn);
 alpm_list_t *alpm_list_join(alpm_list_t *first, alpm_list_t *second);
 alpm_list_t *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp fn);
