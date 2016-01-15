@@ -729,7 +729,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 
 	if(hooks_triggered != NULL) {
 		event.type = ALPM_EVENT_HOOK_START;
-		EVENT(handle, &event);
+		EVENT(handle, (void *)&event);
 
 		hook_event.position = 1;
 		hook_event.total = triggered;
@@ -758,7 +758,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 		alpm_list_free(hooks_triggered);
 
 		event.type = ALPM_EVENT_HOOK_DONE;
-		EVENT(handle, &event);
+		EVENT(handle, (void *)&event);
 	}
 
 cleanup:
