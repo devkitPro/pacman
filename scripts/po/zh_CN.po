@@ -13,14 +13,15 @@
 # Yangtse Su <yangtsesu@gmail.com>, 2012-2013
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
 # 张海, 2015
+# 张海, 2015
 # 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-08-09 02:44+0000\n"
-"Last-Translator: 张海\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 07:39+0000\n"
+"Last-Translator: mytbk <mytbk920423@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -133,9 +134,8 @@ msgid "FAILED"
 msgstr "失败"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "正在验证源代码文件 %s..."
+msgstr "正在验证 %s 文件，使用%s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -146,9 +146,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "完整性检查 (%s) 与源阵列大小不一致。"
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "完整性检查 (%s) 缺失。"
+msgstr "对这些文件的完整性检查缺失: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -373,7 +372,6 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "无法找到验证源文件所需的 %s 二进制文件。"
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr "无法找到验证源文件校验值所需的 %s 二进制文件。"
@@ -383,9 +381,8 @@ msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "无法找到压缩二进制文件所需的 %s 二进制文件。"
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "无法找到签名软件包所需的 %s 二进制文件。"
+msgstr "无法找到优化PNG图像所需的 %s 二进制文件。"
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -552,11 +549,11 @@ msgstr "  --nosign         不为该软件包创建签名"
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
-msgstr ""
+msgstr "--packagelist 只列出将会产生的包，不带PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "--printsrcinfo 打印出生成的SRCINFO并退出"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -610,12 +607,12 @@ msgstr "如果没有指定 %s，%s 将寻找 '%s'"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman 开发小组 <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2015 Pacman 开发小组 <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\n本程序是自"
 "由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。 \\n"
 
@@ -713,19 +710,19 @@ msgstr "无法解决所有的依赖关系。"
 msgid "Using existing %s tree"
 msgstr "使用现存的 %s 树"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "正在删除现存的 %s 目录..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "源代码已就绪。"
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "软件包目录已准备好。"
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "完成创建：%s"
 
@@ -748,19 +745,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "名字 '%s' 中使用了无效的字符。有效字符： [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "检测不到模板版本 '%s'"
+msgstr "无法检测模板 '%s' 的版本\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "查找匹配 '%s' 的模板文件失败\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "打开 '%s': %s 失败"
+msgstr "打开 '%s': %s 失败\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -814,11 +811,11 @@ msgstr "--version 显示版本信息\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Pacman 开发小组 <pacman-dev@archlinux.org>。\n"
+"Copyright (c) 2013-2015 Pacman 开发小组 <pacman-dev@archlinux.org>。\n"
 "本程序是自由软件；版权情况请详见源代码。\n"
 "无法律所允许范围内的任何担保。\n"
 
@@ -857,11 +854,11 @@ msgstr "--nocolor 禁止彩色输出信息"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
+"Copyright (c) 2010-2015 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
 "是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
@@ -1355,11 +1352,10 @@ msgid ""
 msgstr " -n, --new 只增加数据库中没有的包\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
-msgstr "-R, --remove 当更新数据库条目时，删除软件包\\n"
+msgstr "-R, --remove 在更新数据库之后，删除旧的软件包文件\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1412,11 +1408,11 @@ msgstr "示例：repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
+"Copyright (c) 2006-2015 Pacman 开发小组 <pacman-dev@archlinux.org>.\\n本程序"
 "是自由软件；版权情况请详见源代码。\\n无法律所允许范围内的任何担保。\\n"
 
 #: scripts/repo-add.sh.in:146
@@ -1432,7 +1428,6 @@ msgid "Removing existing entry '%s'..."
 msgstr "正在删除现有的条目 '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
 msgstr "正在删除空增量包文件..."
 
@@ -1441,18 +1436,16 @@ msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "无法找到 gpg 运行文件！已安装 GnuPG了吗？"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "正在签名数据库..."
+msgstr "正在签名数据库 '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "已创建签名文件 '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "无法签名软件包数据库。"
+msgstr "签名软件包数据库 '%s' 失败。"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1471,9 +1464,8 @@ msgid "Database signature was NOT valid!"
 msgstr "数据库签名无效！"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' 未包含有效的压缩包扩展名。"
+msgstr "'%s' 未包含有效的数据库存档扩展名。"
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1481,7 +1473,7 @@ msgstr "已存在条目 '%s'"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "无法对这些软件包使用明文签名: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1504,9 +1496,8 @@ msgid "Old package file not found: %s"
 msgstr "没有找到旧的软件包：%s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "无效的软件包文件 '%s'。"
+msgstr "正在移除旧的软件包文件 '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1585,9 +1576,8 @@ msgid "No packages modified, nothing to do."
 msgstr "没有软件包被修改，无事可做。"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "正在搜索软件包 '%s'..."
+msgstr "正在检查打包的问题..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1676,18 +1666,17 @@ msgstr "文件 %s (%s) 不存在，或者不是一个常规文件。"
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s 应该是个数组"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s 应该是个数组"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s 无法导入。"
+msgstr "%s 不应该是个数组"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1698,16 +1687,14 @@ msgid "Extracting sources..."
 msgstr "正在释放源码..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "正在取出 %s..."
+msgstr "正在取出分支 %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "获取 %s 的最新版本失败"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
 msgstr "正在获取 %s 的最新版本..."
 
@@ -1806,12 +1793,11 @@ msgstr "正在删除 %s 文件..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "正在优化PNG图像..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "无法压缩二进制文件：%s"
+msgstr "无法优化PNG图像: %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1864,21 +1850,3 @@ msgstr "选项 '%s' 不能带参数"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "选项 '%s' 要求带一个参数"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "无法切换到目录 %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "注意许多软件包可能需要在 %s 中添加"
-
-#~ msgid "such as %s."
-#~ msgstr "诸如 %s。"
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr "  --pkg <清单>     仅从分割软件包中创建清单中所列的软件包"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       更新数据库的文件列表\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "正在删除现有的软件 '%s'"

@@ -5,6 +5,7 @@
 # Translators:
 # Alberto Sánchez Molero <alsamolero@gmail.com>, 2013
 # Dan McGee <dpmcgee@gmail.com>, 2011
+# Davidmp <medipas@gmail.com>, 2015
 # Hector Mtz-Seara <hseara@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011,2013
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-11-24 16:06+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 16:51+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -66,7 +67,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "no es pot extreure %s%s: camí massa llarg"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -94,7 +95,7 @@ msgstr "extracció: no se sobreescriurà el directori amb el fitxer %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "no es pot extreure %s.pacnew: camí massa llarg"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -224,7 +225,7 @@ msgstr "falten les metadades del paquet a %s\n"
 #: lib/libalpm/be_package.c:743
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "ha fallat en llegir el fitxer de signatures: %s\n"
+msgstr "ha fallat llegir el fitxer de signatures: %s\n"
 
 #: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1108
 #, c-format
@@ -304,41 +305,40 @@ msgstr "no s'ha pogut obrir el fitxer: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "no s'ha pogut obtenir informació del sistema de fitxers\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "no s'ha pogut obtenir informació del sistema de fitxers per a %s: %s\n"
+msgstr "no s'ha pogut obtenir informació de fitxer per a %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "no s'ha pogut determinar el punt de muntatge per al fitxer %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 msgstr ""
-"La partició %s està molt plena. Nombre de blocs requerits: %jd, nombre de "
-"blocs lliures: %jd\n"
+"La partició %s és massa plena: %jd blocs necessaris, %ju blocs lliures\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr ""
 "no s'han pogut determinar els punts de muntatge dels sistemes de fitxers\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "no s'ha pogut determinar el punt de muntatge cachedir %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr ""
 "no s'ha pogut determinar el punt de muntatge del directori d'arrel %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "La partició %s està muntada només en mode de lectura\n"
@@ -351,7 +351,7 @@ msgstr "disc"
 #: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "ha fallat en crear un fitxer temporal per la baixada\n"
+msgstr "ha fallat crear un fitxer temporal per la baixada\n"
 
 #: lib/libalpm/dload.c:418
 #, c-format
@@ -378,7 +378,7 @@ msgstr "%s sembla que està truncat: %jd/%jd bytes\n"
 #: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
-msgstr "ha fallat en baixar %s\n"
+msgstr "ha fallat baixar %s\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -529,7 +529,7 @@ msgstr ""
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "ha fallat l'execució dels ganxos de la transacció"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -774,22 +774,22 @@ msgstr "no s'ha pogut fer la transacció d'eliminació\n"
 msgid "could not commit transaction\n"
 msgstr "no s'ha pogut fer la transacció\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "no s'ha pogut crear el directori temporal\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "no s'ha pogut copiar el fitxer temporal a %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "no s'ha pogut eliminar %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "no s'ha pogut eliminar el directori temporal %s\n"
@@ -800,14 +800,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "no s'ha pogut validar l'estat del fitxer %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "no s'ha pogut crear la canonada (%s)\n"
+msgstr "no es pot escriure a la canonada (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "no s'ha pogut crear la canonada (%s)\n"
+msgstr "no es pot llegir des de la canonada (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -860,6 +860,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "no s'ha trobat o creat el paquet de memòria cau, s'està usant "
 "alternativament %s\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "no s'ha pogut obrir la canonada (%s)\n"

@@ -9,15 +9,16 @@
 # Achilleas Pipinellis, 2013
 # Christos Nouskas <nous@archlinux.us>, 2011,2013-2014
 # Dan McGee <dpmcgee@gmail.com>, 2011
+# ifaigios <ifaigios@gmail.com>, 2015
 # Christos Nouskas <nous@archlinux.us>, 2011
 # th_ts <tsesmelistheodore@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2014-11-23 19:21+0000\n"
-"Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 08:28+0000\n"
+"Last-Translator: ifaigios <ifaigios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/el/)\n"
 "Language: el\n"
@@ -66,7 +67,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "αδυναμία εξαγωγής %s%s: πολύ μεγάλο μήκος διαδρομής"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -94,7 +95,7 @@ msgstr "εξαγωγή: μη αντικατάσταση καταλόγου με 
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "αδυναμία εξαγωγής %s.pacnew: πολύ μεγάλο μήκος διαδρομής"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -304,37 +305,39 @@ msgstr "αδυναμία ανοίγματος αρχείου %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "αδυναμία λήψης πληροφοριών συστήματος αρχείων\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "αδυναμία λήψης πληροφοριών συστήματος αρχείων για το %s: %s\n"
+msgstr ""
+"αδυναμία λήψης πληροφοριών αρχείου για το %s:\n"
+"\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "αδυναμία καθορισμού σημείου προσάρτησης αρχείου %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Κατάτμηση %s πλήρης: %jd ελεύθερα μπλοκ, %jd απαιτούνται\n"
+msgstr "Κατάτμηση %s πλήρης: απαιτούνται %jd μπλοκ, %ju ελεύθερα \n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "αδυναμία καθορισμού σημείων προσάρτησης στο σύστημα αρχείων\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "αδυναμία προσδιορισμού σημείου προσάρτησης καταλόγου κρύπτης %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "αδυναμία καθορισμού ριζικού σημείου προσάρτησης %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Η κατάτμηση %s είναι προσαρτημένη μόνο για ανάγνωση\n"
@@ -523,7 +526,7 @@ msgstr "προσπάθεια διεκπεραίωσης σε μη κλειδωμ
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "αποτυχία εκτέλεσης hooks"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -766,22 +769,22 @@ msgstr "αδυναμία διεκπεραίωσης διαγραφής\n"
 msgid "could not commit transaction\n"
 msgstr "αδυναμία διεκπεραίωσης\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "αδυναμία δημιουργίας προσωρινού καταλόγου\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "αδυναμία αντιγραφής προσωρινού αρχείου στο %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "αδυναμία κατάργησης %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "αδυναμία διαγραφής προσωρινού καταλόγου %s\n"
@@ -792,14 +795,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "αδυναμία εντοπισμού αρχείου %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "αδυναμία δημιουργίας αγωγού (%s)\n"
+msgstr "αποτυχία εγγραφής σε αγωγό (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "αδυναμία δημιουργίας αγωγού (%s)\n"
+msgstr "αποτυχία ανάγνωσης από αγωγό (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -850,6 +853,3 @@ msgstr "μη υπάρχουσα κρύπτη %s, δημιουργία...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "αδυναμία εύρεσης ή δημιουργίας κρύπτης πακέτων, χρήση %s\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "αδυναμία ανοίγματος αγωγού (%s)\n"

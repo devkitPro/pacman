@@ -4,14 +4,14 @@
 #
 # Translators:
 # Allan McRae <allan@archlinux.org>, 2013
-# Allan McRae <allan@archlinux.org>, 2013-2014
+# Allan McRae <allan@archlinux.org>, 2013-2015
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2014-11-18 05:43+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 06:13+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/en_GB/)\n"
@@ -60,7 +60,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "unable to extract %s%s: path too long"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -88,7 +88,7 @@ msgstr "extract: not overwriting dir with file %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "unable to extract %s.pacnew: path too long"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -295,37 +295,37 @@ msgstr "could not open file: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "could not get filesystem information\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "could not get filesystem information for %s: %s\n"
+msgstr "could not get file information for %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "could not determine mount point for file %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Partition %s too full: %jd blocks needed, %jd blocks free\n"
+msgstr "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "could not determine filesystem mount points\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "could not determine cachedir mount point %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "could not determine root mount point %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partition %s is mounted read only\n"
@@ -514,7 +514,7 @@ msgstr "transaction commit attempt when database is not locked"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "failed to run transaction hooks"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -756,22 +756,22 @@ msgstr "could not commit removal transaction\n"
 msgid "could not commit transaction\n"
 msgstr "could not commit transaction\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "could not create temp directory\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "could not copy tempfile to %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "could not remove %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "could not remove tmpdir %s\n"
@@ -782,14 +782,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "could not stat file %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "could not create pipe (%s)\n"
+msgstr "unable to write to pipe (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "could not create pipe (%s)\n"
+msgstr "unable to read from pipe (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -840,6 +840,3 @@ msgstr "no %s cache exists, creating...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "couldn't find or create package cache, using %s instead\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "could not open pipe (%s)\n"

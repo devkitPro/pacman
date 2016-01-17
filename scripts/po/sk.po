@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-20 17:32+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-28 07:22+0000\n"
 "Last-Translator: archetyp <archetyp@linuxmail.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sk/)\n"
@@ -128,9 +128,8 @@ msgid "FAILED"
 msgstr "NEPREŠIEL"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Kontrolujem zdrojové súbory pomocou %s..."
+msgstr "Overujem súbory %s s %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -141,9 +140,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Kontrolné súčty (%s) nesúhlasia s dĺžkou uvedenou v zdrojovom poli."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Kontrolné súčty chýbajú."
+msgstr "Kontrolné súčty chýbajú pre: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -365,47 +363,48 @@ msgstr "Súbor %s nebol nájdený."
 
 #: scripts/makepkg.sh.in:1531
 msgid "Cannot find the %s binary required for signing packages."
-msgstr "Nemôžem nájsť súbor %s potrebný pre podpisovanie balíčkov."
+msgstr "Nepodarilo sa nájsť súbor %s potrebný pre podpisovanie balíčkov."
 
 #: scripts/makepkg.sh.in:1539
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr "Nemôžem nájsť súbor %s potrebný pre overenie zdrojových súborov."
+msgstr "Nepodarilo sa nájsť súbor %s potrebný pre overenie zdrojových súborov."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
-"Nemôžem nájsť súbor %s potrebný pre overenie kontrolných súčtov zdrojových "
-"súborov."
+"Nepodarilo sa nájsť súbor %s potrebný pre overenie kontrolných súčtov "
+"zdrojových súborov."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr "Nemôžem nájsť súbor %s potrebný pre komprimovanie binárnych súborov."
+msgstr ""
+"Nepodarilo sa nájsť súbor %s potrebný pre komprimovanie binárnych súborov."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Nemôžem nájsť súbor %s potrebný pre podpisovanie balíčkov."
+msgstr "Nepodarilo sa nájsť súbor %s potrebný pre optimalizáciu obrázkov PNG."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
-msgstr "Nemôžem nájsť súbor %s potrebný pre distribuovanú kompiláciu."
+msgstr "Nepodarilo sa nájsť súbor %s potrebný pre distribuovanú kompiláciu."
 
 #: scripts/makepkg.sh.in:1579
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
-"Nemôžem nájsť súbor %s  potrebný pre použitie vyrovnávacej pamäte "
+"Nepodarilo sa nájsť súbor %s  potrebný pre použitie vyrovnávacej pamäte "
 "kompilátora."
 
 #: scripts/makepkg.sh.in:1587
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr "Nemôžem nájsť binárny %s potrebný na odstraňovanie objektov súboru."
+msgstr ""
+"Nepodarilo sa nájsť binárny %s potrebný na odstraňovanie objektov súboru."
 
 #: scripts/makepkg.sh.in:1595
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
-"Nemôžem nájsť binárny %s  potrebný pre kompresiu manuálových a info stránok."
+"Nepodarilo sa nájsť binárny %s  potrebný pre kompresiu manuálových a info "
+"stránok."
 
 #: scripts/makepkg.sh.in:1615
 msgid "A package has already been built, installing existing package..."
@@ -446,15 +445,15 @@ msgstr "  -A, --ignorearch Ignoruj neúplné %s pole v %s"
 
 #: scripts/makepkg.sh.in:1702
 msgid "  -c, --clean      Clean up work files after build"
-msgstr "  -c, --clean      Odstrániť pracovné súbory po zostavení"
+msgstr "  -c, --clean      Odstráň pracovné súbory po zostavení"
 
 #: scripts/makepkg.sh.in:1703
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr "  -C, --cleanbuild Odstrániť adresár %s pred vytvorením balíčka"
+msgstr "  -C, --cleanbuild Odstráň adresár %s pred vytvorením balíčka"
 
 #: scripts/makepkg.sh.in:1704
 msgid "  -d, --nodeps     Skip all dependency checks"
-msgstr "  -d, --nodeps     Preskočiť všetky kontroly závislostí"
+msgstr "  -d, --nodeps     Preskoč všetky kontroly závislostí"
 
 #: scripts/makepkg.sh.in:1705
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
@@ -463,11 +462,11 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1706
 msgid "  -f, --force      Overwrite existing package"
-msgstr "  -f, --force      Prepísať existujúci balíček"
+msgstr "  -f, --force      Prepíš existujúci balíček"
 
 #: scripts/makepkg.sh.in:1707
 msgid "  -g, --geninteg   Generate integrity checks for source files"
-msgstr "  -g, --geninteg   Vygenerovať kontrolné súčty zdrojových súborov"
+msgstr "  -g, --geninteg   Vygeneruj kontrolné súčty zdrojových súborov"
 
 #: scripts/makepkg.sh.in:1708
 msgid "  -h, --help       Show this help message and exit"
@@ -475,33 +474,33 @@ msgstr "  -h, --help       Zobraz túto správu a skonči"
 
 #: scripts/makepkg.sh.in:1709
 msgid "  -i, --install    Install package after successful build"
-msgstr "  -i, --install    Po úspešnom zostavení nainštalovať balíček"
+msgstr "  -i, --install    Po úspešnom zostavení nainštaluj balíček"
 
 #: scripts/makepkg.sh.in:1710
 msgid "  -L, --log        Log package build process"
-msgstr "  -L, --log        Zaznamenať proces zostavenia balíčka"
+msgstr "  -L, --log        Zaznamenaj proces zostavenia balíčka"
 
 #: scripts/makepkg.sh.in:1711
 msgid "  -m, --nocolor    Disable colorized output messages"
-msgstr "  -m, --nocolor    Vypnúť farebný výstup správ"
+msgstr "  -m, --nocolor    Vypni farebný výstup správ"
 
 #: scripts/makepkg.sh.in:1712
 msgid "  -o, --nobuild    Download and extract files only"
-msgstr "  -o, --nobuild    Iba stiahnuť a rozbaliť súbory"
+msgstr "  -o, --nobuild    Iba stiahni a rozbaľ súbory"
 
 #: scripts/makepkg.sh.in:1713
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr "  -p <file>        Použiť alternatívny build skript (miesto '%s')"
+msgstr "  -p <file>        Použi alternatívny build skript (miesto '%s')"
 
 #: scripts/makepkg.sh.in:1714
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps     Po úspešnom zostavení odstrániť nainštalované závislosti"
+"  -r, --rmdeps     Po úspešnom zostavení odstráň nainštalované závislosti"
 
 #: scripts/makepkg.sh.in:1715
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
-msgstr "  -R, --repackage  Znovu zabaliť obsah balíčka bez zostavenia"
+msgstr "  -R, --repackage  Znovu zabaľ obsah balíčka bez zostavenia"
 
 #: scripts/makepkg.sh.in:1716
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
@@ -521,8 +520,7 @@ msgstr " -V, --version Zobraz informácie o verzií programu a skonči"
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr ""
-"  --allsource      Vytvoriť zdrojový archív, vrátane sťahovaných súborov"
+msgstr "  --allsource      Vytvor zdrojový archív, vrátane sťahovaných súborov"
 
 #: scripts/makepkg.sh.in:1720
 msgid "  --check          Run the %s function in the %s"
@@ -530,8 +528,7 @@ msgstr "  --check          Spusti %s funkciu v  %s"
 
 #: scripts/makepkg.sh.in:1721
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr ""
-"  --config <file>  Použiť alternatívny konfiguračný súbor (miesto '%s')"
+msgstr "  --config <file>  Použi alternatívny konfiguračný súbor (miesto '%s')"
 
 #: scripts/makepkg.sh.in:1722
 msgid "  --holdver        Do not update VCS sources"
@@ -544,7 +541,7 @@ msgstr "  --key <key>      Zadaj kľúč na podpísanie %s namiesto predvolenéh
 
 #: scripts/makepkg.sh.in:1724
 msgid "  --noarchive      Do not create package archive"
-msgstr "  --noarchive      Nevytvárať archív balíčka"
+msgstr "  --noarchive      Nevytváraj archív balíčka"
 
 #: scripts/makepkg.sh.in:1725
 msgid "  --nocheck        Do not run the %s function in the %s"
@@ -552,24 +549,25 @@ msgstr "  --nocheck        Nespúšťaj %s funkciu v %s"
 
 #: scripts/makepkg.sh.in:1726
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --noprepare      Preskočiť funkciu %s v %s"
+msgstr "  --noprepare      Preskoč funkciu %s v %s"
 
 #: scripts/makepkg.sh.in:1727
 msgid "  --nosign         Do not create a signature for the package"
-msgstr "  --nosign         Nevytvárať podpis pre balíček"
+msgstr "  --nosign         Nevytváraj podpis pre balíček"
 
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist    Zobraz iba balíčky, ktoré by boli vytvorené, bez PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   Vypíš vygenerované SRCINFO a skonči"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
-msgstr "  --sign           Podpísať výsledný balíček s %s"
+msgstr "  --sign           Podpíš výsledný balíček s %s"
 
 #: scripts/makepkg.sh.in:1731
 msgid "  --skipchecksums  Do not verify checksums of the source files"
@@ -598,7 +596,7 @@ msgstr "Tieto voľby bude spracovávať %s:"
 
 #: scripts/makepkg.sh.in:1738
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr "  --asdeps         Inštalovať balíčky ako nie-explicitne inštalované"
+msgstr "  --asdeps         Inštaluj balíčky ako nie-explicitne inštalované"
 
 #: scripts/makepkg.sh.in:1739
 msgid ""
@@ -608,11 +606,11 @@ msgstr "  --needed         Nepreinštalovávaj ciele, ktoré sú aktuálne"
 #: scripts/makepkg.sh.in:1740
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
-msgstr "  --noconfirm      Nepýtať sa na potvrdenie pri riešení závislostí"
+msgstr "  --noconfirm      Nepýtaj potvrdenie pri riešení závislostí"
 
 #: scripts/makepkg.sh.in:1741
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr "  --noprogressbar  Nezobrazovať priebeh sťahovania súborov"
+msgstr "  --noprogressbar  Nezobrazuj priebeh sťahovania súborov"
 
 #: scripts/makepkg.sh.in:1743
 msgid "If %s is not specified, %s will look for '%s'"
@@ -621,12 +619,12 @@ msgstr "Ak nie je zadané %s, %s bude hľadať '%s'"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2015 Pacman development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nToto je "
 "slobodný softvér; podmienky kopírovania nájdete v zdrojových súboroch.\\nNa "
 "software sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného zákonom.\\n"
@@ -727,19 +725,19 @@ msgstr "Nie je možné vyriešiť všetky závislosti."
 msgid "Using existing %s tree"
 msgstr "Používam existujúci %s strom"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Odstraňovanie existujúceho adresára %s..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Zdroje sú pripravené."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Adresár balíčka je pripravený."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Dokončené vytváranie: %s"
 
@@ -762,19 +760,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "neplatné znaky použité v názve '%s'. povolené: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Nepodarilo sa zistiť verziu šablóny '%s'"
+msgstr "Nepodarilo sa zistiť verziu šablóny '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Nepodarilo sa nájsť súbor šablóny zodpovedajúci '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "nepodarilo sa otvoriť  '%s': %s"
+msgstr "nepodarilo sa otvoriť  '%s': %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -832,11 +830,11 @@ msgstr "  --version             Verzia programu\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "Toto je slobodný softvér; podmienky kopírovania nájdete v zdrojových "
 "súboroch.\n"
 "Na softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného zákonom.\n"
@@ -876,11 +874,11 @@ msgstr "  --nocolor            vypnúť farebný výstup správ"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nToto je slobodný softvér; podmienky kopírovania nájdete v zdrojových "
 "súboroch.\\nNa softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného "
 "zákonom.\\n"
@@ -1391,22 +1389,20 @@ msgstr ""
 #: scripts/repo-add.sh.in:62
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
-"  -d, --delta       vygenerovať a pridať delta pre aktualizáciu balíčka\\n"
+"  -d, --delta       vygeneruj a pridaj deltu pre aktualizáciu balíčka\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
 msgstr ""
-"  -n, --new         pridať len tie balíčky, ktoré ešte nie sú v databáze\\n"
+"  -n, --new         pridaj len tie balíčky, ktoré ešte nie sú v databáze\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      vymazať balíček z disku pri aktualizovaní záznamu "
-"databázy\\n"
+"  -R, --remove      odstráň staré balíčky z disku po aktualizácii databázy\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1430,7 +1426,7 @@ msgstr "Prosím, posuňte sa ďalej, tu nie je nič k videniu.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "  --nocolor         turn off color in output\\n"
-msgstr "  --nocolor         vypne kolorizáciu výstupu\\n"
+msgstr "  --nocolor         vypni farebný výstup\\n"
 
 #: scripts/repo-add.sh.in:80
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
@@ -1462,11 +1458,11 @@ msgstr "Príklad:  repo-remove /cesta/d/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nToto je slobodný softvér; podmienky kopírovania nájdete v zdrojových "
 "súboroch\\nNa softvér sa nevzťahuje ŽIADNA ZÁRUKA, v rozsahu povoleného "
 "zákonom.\\n"
@@ -1484,27 +1480,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Odstraňujem existujúci záznam '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Odstraňujem prázdne súbory delta..."
+msgstr "Odstraňujem prázdne delta súbory..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Nemôžem nájsť binárny súbor pre gpg! Je GnuPG je nainštalované?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Podpisujem databázu ..."
+msgstr "Podpisujem databázu '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Vytvorený súbor s podpisom '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Nepodarilo sa podpísať databázu balíčkov."
+msgstr "Nepodarilo sa podpísať súbor databázy balíčkov '%s'"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1523,9 +1516,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Podpis databázy nebol platný!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' nemá platnú príponu archívu."
+msgstr "'%s' nemá platnú príponu archívu databázy."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1533,7 +1525,7 @@ msgstr "Záznam pre '%s' už existuje"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Nemožno použiť zosilnené podpisy pre balíčky: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1556,9 +1548,8 @@ msgid "Old package file not found: %s"
 msgstr "Staršia verzia balíčku nebol nájdená: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Neplatný súbor balíčka '%s'."
+msgstr "Odstraňujem starý balíček '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1637,9 +1628,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Nebol zmenený žiaden balíček, nie je čo robiť."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Vyhľadávam balíček '%s'..."
+msgstr "Kontrolujem chyby balíčka..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1728,18 +1718,17 @@ msgstr "%s súbor (%s) neexistuje alebo to nie je regulárny súbor."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s má byť pole"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s má byť pole"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s sa nepodarilo importovať."
+msgstr "%s nemá byť pole"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1750,7 +1739,6 @@ msgid "Extracting sources..."
 msgstr "Rozbaľujem zdrojové súbory..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
 msgstr "Vetvím %s..."
 
@@ -1759,9 +1747,8 @@ msgid "Failure while branching %s"
 msgstr "Chyba počas vetvenia %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Sťahujem %s"
+msgstr "Sťahujem %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1859,12 +1846,11 @@ msgstr "Odstraňujem %s súborov..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Optimalizujem obrázky PNG..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Nemožno vykonať kompresiu binárneho súboru: %s"
+msgstr "Nepodarilo sa optimalizovať obrázok PNG: %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1918,22 +1904,3 @@ msgstr "voľba '%s' neumožňuje argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "voľba '%s' vyžaduje argument"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Chyba pri zmene adresára %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "Všimnite si, že mnoho balíčkov potrebuje pridať riadok do %s,"
-
-#~ msgid "such as %s."
-#~ msgstr "ako %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <list>     Zostaviť len vymenované balíčky z rozdeleného balíčka"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       aktualizuj zoznam súborov databázy\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Odstraňujem existujúci balíček '%s'"

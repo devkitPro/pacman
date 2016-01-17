@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# BrLi <rainman59118@gmail.com>, 2015
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2012
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # dlin <dlin.tw@gmail.com>, 2014
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 16:01+1000\n"
-"PO-Revision-Date: 2015-05-03 10:18+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-11 15:57+0000\n"
+"Last-Translator: BrLi <rainman59118@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -25,143 +26,158 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:182
+#, c-format
+msgid "Running pre-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:184
+#, c-format
+msgid "Running post-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:197
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "正在檢查依賴關係...\n"
 
-#: src/pacman/callback.c:175
+#: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "正在檢查檔案衝突...\n"
 
-#: src/pacman/callback.c:179
+#: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "正在解決依賴關係...\n"
 
-#: src/pacman/callback.c:182
+#: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
 msgstr "正在檢查衝突的套件...\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "Processing package changes...\n"
+msgstr "正在載入套件檔案中...\n"
+
+#: src/pacman/callback.c:218
 #, c-format
 msgid "installing %s...\n"
 msgstr "正在安裝 %s...\n"
 
-#: src/pacman/callback.c:192
+#: src/pacman/callback.c:221
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "正在升級 %s...\n"
 
-#: src/pacman/callback.c:195
+#: src/pacman/callback.c:224
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "正在重裝 %s...\n"
 
-#: src/pacman/callback.c:198
+#: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
 msgstr "正在降級 %s...\n"
 
-#: src/pacman/callback.c:201
+#: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
 msgstr "正在刪除 %s...\n"
 
-#: src/pacman/callback.c:225
+#: src/pacman/callback.c:254
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "正在檢查套件完整性...\n"
 
-#: src/pacman/callback.c:230
+#: src/pacman/callback.c:259
 #, c-format
 msgid "checking keyring...\n"
 msgstr "正在檢查鑰匙圈...\n"
 
-#: src/pacman/callback.c:234
+#: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "正在下載需要的金鑰...\n"
 
-#: src/pacman/callback.c:238
+#: src/pacman/callback.c:267
 #, c-format
 msgid "loading package files...\n"
 msgstr "正在載入套件檔案中...\n"
 
-#: src/pacman/callback.c:242
+#: src/pacman/callback.c:271
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "正在檢查增量包完整性...\n"
 
-#: src/pacman/callback.c:245
+#: src/pacman/callback.c:274
 #, c-format
 msgid "applying deltas...\n"
 msgstr "正在套用增量包...\n"
 
-#: src/pacman/callback.c:248
+#: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
 msgstr "正在生成 %s (使用 %s) ..."
 
-#: src/pacman/callback.c:253
+#: src/pacman/callback.c:282
 #, c-format
 msgid "success!\n"
 msgstr "成功！\n"
 
-#: src/pacman/callback.c:256
+#: src/pacman/callback.c:285
 #, c-format
 msgid "failed.\n"
 msgstr "失敗。\n"
 
-#: src/pacman/callback.c:262
+#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "正在擷取套件...\n"
 
-#: src/pacman/callback.c:266
+#: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "正在檢查可用磁碟空間...\n"
 
-#: src/pacman/callback.c:273
+#: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s 選擇性需要 %s\n"
 
-#: src/pacman/callback.c:291 src/pacman/callback.c:297
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s 以 %s.pacnew 檔名安裝\n"
 
-#: src/pacman/callback.c:307 src/pacman/callback.c:313
+#: src/pacman/callback.c:336 src/pacman/callback.c:342
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s 已存至 %s.pacsave\n"
 
-#: src/pacman/callback.c:358
+#: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr ""
 "%s 位於 IgnorePkg/IgnoreGroup (忽略套件/忽略套件群組) 中。確定要安裝嗎？"
 
-#: src/pacman/callback.c:368
+#: src/pacman/callback.c:400
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "替換 %s 嗎 (使用 %s/%s )？"
 
-#: src/pacman/callback.c:380
+#: src/pacman/callback.c:412
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s 與 %s 有衝突。刪除 %s 嗎？"
 
-#: src/pacman/callback.c:385
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s 與 %s 有衝突 (%s)。刪除 %s 嗎？"
 
-#: src/pacman/callback.c:404
+#: src/pacman/callback.c:436
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -169,19 +185,19 @@ msgid_plural ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] "因爲無法解決依賴關係，以下套件無法進行更新：\n"
 
-#: src/pacman/callback.c:410
+#: src/pacman/callback.c:442
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "您想在本次更新中跳過上述套件嗎？"
 
-#: src/pacman/callback.c:421
-#, fuzzy, c-format
+#: src/pacman/callback.c:453
+#, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "::有 %zd 個提供者可供 %s:\n"
+msgstr[0] "有 %zu 個提供者可供 %s：\n"
 
-#: src/pacman/callback.c:432
+#: src/pacman/callback.c:464
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -190,67 +206,67 @@ msgstr ""
 " %s 檔案毀損(%s)。\n"
 "你要刪除它嗎?"
 
-#: src/pacman/callback.c:446
-#, fuzzy, c-format
+#: src/pacman/callback.c:478
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "匯入 PGP 金鑰 %d%c/%s，「%s」，建立於：%s (已撤銷)？"
+msgstr "匯入建立於：%5$s (已撤銷)的 PGP 金鑰 %1$u%2$c/%3$s，「%4$s」，？"
 
-#: src/pacman/callback.c:449
-#, fuzzy, c-format
+#: src/pacman/callback.c:481
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
-msgstr "匯入 PGP 金鑰 %d%c/%s，「%s」，建立於：%s？"
+msgstr "匯入建立於：%5$s 的 PGP 金鑰 %1$u%2$c/%3$s，「%4$s」？"
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:540
 #, c-format
 msgid "installing"
 msgstr "正在安裝"
 
-#: src/pacman/callback.c:512
+#: src/pacman/callback.c:543
 #, c-format
 msgid "upgrading"
 msgstr "正在更新"
 
-#: src/pacman/callback.c:515
+#: src/pacman/callback.c:546
 #, c-format
 msgid "downgrading"
 msgstr "正在下載"
 
-#: src/pacman/callback.c:518
+#: src/pacman/callback.c:549
 #, c-format
 msgid "reinstalling"
 msgstr "正在重裝"
 
-#: src/pacman/callback.c:521
+#: src/pacman/callback.c:552
 #, c-format
 msgid "removing"
 msgstr "正在刪除"
 
-#: src/pacman/callback.c:524
+#: src/pacman/callback.c:555
 #, c-format
 msgid "checking for file conflicts"
 msgstr "正在檢查檔案衝突"
 
-#: src/pacman/callback.c:527
+#: src/pacman/callback.c:558
 #, c-format
 msgid "checking available disk space"
 msgstr "正在檢查可用磁碟空間"
 
-#: src/pacman/callback.c:530
+#: src/pacman/callback.c:561
 #, c-format
 msgid "checking package integrity"
 msgstr "正在檢查套件完整性"
 
-#: src/pacman/callback.c:533
+#: src/pacman/callback.c:564
 #, c-format
 msgid "checking keys in keyring"
 msgstr "正在檢查鑰匙圈中的鑰匙"
 
-#: src/pacman/callback.c:536
+#: src/pacman/callback.c:567
 #, c-format
 msgid "loading package files"
 msgstr "正在載入套件檔案"
 
-#: src/pacman/callback.c:651
+#: src/pacman/callback.c:679
 #, c-format
 msgid "downloading %s...\n"
 msgstr "正在下載 %s...\n"
@@ -335,10 +351,10 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "%jd 個檔案經修改\n"
 
 #: src/pacman/conf.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] "記憶體分配失敗：無法分配 %zd 位元組\n"
+msgstr[0] "記憶體配置失敗：無法對齊 %zu 位元組\n"
 
 #: src/pacman/conf.c:251
 #, c-format
@@ -413,9 +429,9 @@ msgstr ""
 "(%s: %s)\n"
 
 #: src/pacman/conf.c:725
-#, fuzzy, c-format
+#, c-format
 msgid "try running pacman-db-upgrade\n"
-msgstr "  請嘗試執行 pacman-db-upgrade\n"
+msgstr "請嘗試執行 pacman-db-upgrade\n"
 
 #: src/pacman/conf.c:744
 #, c-format
@@ -428,9 +444,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "設定 gpgdir 「%s」 發生問題 (%s)\n"
 
 #: src/pacman/conf.c:763 src/pacman/conf.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "設定 gpgdir 「%s」 發生問題 (%s)\n"
+msgstr "問題已加入掛鉤目錄「%s」 (%s)\n"
 
 #: src/pacman/conf.c:802
 #, c-format
@@ -438,9 +454,9 @@ msgid "no '%s' configured\n"
 msgstr "「%s」未設定\n"
 
 #: src/pacman/conf.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to pass %s entry to libalpm"
-msgstr "無法傳遞預定安裝的項目到 libalpm"
+msgstr "無法傳遞 %s 項目給 libalpm"
 
 #: src/pacman/conf.c:870
 #, c-format
@@ -455,12 +471,12 @@ msgstr "組態檔 %s，第 %d 列：指令「%s」需要賦值\n"
 #: src/pacman/conf.c:948
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "解析組態檔超出最大遞迴深度 %d\n"
 
 #: src/pacman/conf.c:996
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "組態檔 %s 的第 %d 列：不正確的值「%s」：「%s」\n"
+msgstr "組態檔 %s 無法讀取：%s\n"
 
 #: src/pacman/conf.c:1019
 #, c-format
@@ -494,39 +510,39 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s：安裝原因設定爲「單獨指定安裝」\n"
 
 #: src/pacman/package.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Architecture"
-msgstr "架構："
+msgstr "架構"
 
 #: src/pacman/package.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Backup Files"
-msgstr "備份檔案：\n"
+msgstr "備份檔案"
 
 #: src/pacman/package.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "Build Date"
-msgstr "建置日期："
+msgstr "建置日期"
 
 #: src/pacman/package.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size"
-msgstr "壓縮後大小："
+msgstr "壓縮後大小"
 
 #: src/pacman/package.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Conflicts With"
-msgstr "與它衝突："
+msgstr "與它衝突"
 
 #: src/pacman/package.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Depends On"
-msgstr "它依賴："
+msgstr "它依賴"
 
 #: src/pacman/package.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Description"
-msgstr "描述："
+msgstr "描述"
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -536,32 +552,32 @@ msgstr "下載大小"
 #: src/pacman/package.c:105
 #, c-format
 msgid "Groups"
-msgstr ""
+msgstr "群組"
 
 #: src/pacman/package.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Install Date"
-msgstr "安裝日期："
+msgstr "安裝日期"
 
 #: src/pacman/package.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Install Reason"
-msgstr "安裝原因："
+msgstr "安裝原因"
 
 #: src/pacman/package.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Install Script"
-msgstr "安裝指令稿："
+msgstr "安裝指令稿"
 
 #: src/pacman/package.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size"
-msgstr "安裝後大小："
+msgstr "安裝後大小"
 
 #: src/pacman/package.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Licenses"
-msgstr "軟體授權："
+msgstr "軟體授權"
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -571,67 +587,67 @@ msgstr "MD5 總和碼"
 #: src/pacman/package.c:112
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: src/pacman/package.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Optional Deps"
-msgstr "可選依賴："
+msgstr "可選依賴"
 
 #: src/pacman/package.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For"
-msgstr "為這些套件的可選依賴："
+msgstr "為這些套件的可選依賴"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Packager"
-msgstr "套件"
+msgstr "打包者"
 
 #: src/pacman/package.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Provides"
-msgstr "它提供："
+msgstr "它提供"
 
 #: src/pacman/package.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Replaces"
-msgstr "它會取代："
+msgstr "它會取代"
 
 #: src/pacman/package.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Repository"
-msgstr "軟體庫 %s\n"
+msgstr "套件庫"
 
 #: src/pacman/package.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Required By"
-msgstr "需要它："
+msgstr "需要它"
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum"
-msgstr "SHA256 總和碼"
+msgstr "SHA-256 總和碼"
 
 #: src/pacman/package.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures"
-msgstr "簽章"
+msgstr "數位簽章"
 
 #: src/pacman/package.c:122
 #, c-format
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/pacman/package.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By"
-msgstr "驗證者："
+msgstr "驗證者"
 
 #: src/pacman/package.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Version"
-msgstr "舊版本"
+msgstr "版本"
 
 #: src/pacman/package.c:167 src/pacman/util.c:1205
 #, c-format
@@ -927,21 +943,21 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     標記爲單獨指定安裝的套件\n"
 
 #: src/pacman/pacman.c:173
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
-msgstr "  -k, --check          檢查套件檔案是否存在 (-kk 則查詢檔案屬性)\n"
+msgstr "  -k, --check          測試本機資料庫的有效性 (-kk 以同步資料庫)\n"
 
 #: src/pacman/pacman.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
-msgstr "  -s, --search <regex> 搜尋符合指定字符串的已安裝本地的套件\n"
+msgstr "  -s, --search <檔案>  搜尋符合字串的套件檔案名稱\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
-msgstr ""
+msgstr "  -x, --regex          啟用使用正規表達式搜尋\n"
 
 #: src/pacman/pacman.c:185
 #, c-format
@@ -949,6 +965,8 @@ msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
+"      --machinereadable\n"
+"                       產生機器可讀的輸出\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
@@ -1058,9 +1076,9 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <目錄> 指定另外的套件快取位置\n"
 
 #: src/pacman/pacman.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr "      --cachedir <目錄> 指定另外的套件快取位置\n"
+msgstr "      --hookdir <dir>  設定替代的掛鉤路徑\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1244,7 +1262,7 @@ msgstr "無法準備事務處理 (%s)\n"
 #: src/pacman/remove.c:125 src/pacman/sync.c:724
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr ""
+msgstr "%s：移除 %s 會破壞相依性「%s」\n"
 
 #: src/pacman/remove.c:144
 #, c-format
@@ -1378,9 +1396,9 @@ msgid "%s: requires %s\n"
 msgstr "%s：要求 %s\n"
 
 #: src/pacman/sync.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "%s: installing %s (%s) breaks dependency '%s'\n"
-msgstr "%s：安裝原因設定爲「作爲依賴關係安裝」\n"
+msgstr "%s：安裝 %s (%s) 會破壞相依性「%s」\n"
 
 #: src/pacman/sync.c:744
 #, c-format
@@ -1695,36 +1713,3 @@ msgstr "錯誤："
 #, c-format
 msgid "warning: "
 msgstr "警告："
-
-#~ msgid "%s saved as %s.pacorig\n"
-#~ msgstr "%s 已存至 %s.pacorig\n"
-
-#~ msgid "Repository     :"
-#~ msgstr "套件庫："
-
-#~ msgid "Name           :"
-#~ msgstr "名稱："
-
-#~ msgid "Version        :"
-#~ msgstr "版本："
-
-#~ msgid "URL            :"
-#~ msgstr "URL 網址："
-
-#~ msgid "Groups         :"
-#~ msgstr "軟體群組："
-
-#~ msgid "Download Size  :"
-#~ msgstr "下載大小 ："
-
-#~ msgid "Packager       :"
-#~ msgstr "打包者："
-
-#~ msgid "MD5 Sum        :"
-#~ msgstr "MD5總和碼："
-
-#~ msgid "SHA-256 Sum    :"
-#~ msgstr "SHA-256 檢查碼："
-
-#~ msgid "Signatures     :"
-#~ msgstr "數位簽章："

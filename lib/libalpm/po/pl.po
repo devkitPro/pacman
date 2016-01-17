@@ -10,13 +10,14 @@
 # Chris Warrick <kwpolska@gmail.com>, 2013
 # megamann, 2014
 # megamann, 2014
+# megamann, 2015
 # Piotr Strębski <strebski@o2.pl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2014-11-24 18:41+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-19 08:55+0000\n"
 "Last-Translator: megamann\n"
 "Language-Team: Polish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/pl/)\n"
@@ -67,7 +68,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "nie można wyodrębnić %s%s: ścieżka zbyt długa"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -95,7 +96,7 @@ msgstr "rozpakowywanie: nie nadpisuję katalogu plikiem %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "nie można wyodrębnić %s.pacnew: ścieżka zbyt długa"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -303,37 +304,37 @@ msgstr "nie udało się otworzyć pliku: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "nie można odczytać informacji o systemie plików\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "nie można odczytać informacji o systemie plików %s: %s\n"
+msgstr "nie można uzyskać informacji o pliku dla %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "nie można określić punktu montowania pliku %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Partycja %s jest zbyt pełna: potrzebne jest %jd bloków, %jd wolnych\n"
+msgstr "Partycja %s jest zbyt pełna: potrzebne jest %jd bloków, %ju wolnych\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "nie można określić punktów montowania systemu plików\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "nie można określić punktu montowania katalogu cache %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "nie można określić punktu montowania partycji systemowej %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partycja %s jest zamontowana tylko do odczytu\n"
@@ -523,7 +524,7 @@ msgstr "zmiana tranzakcji następuje, kiedy baza danych nie jest zablokowana"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "nie udało się uruchomić transakcji"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -766,22 +767,22 @@ msgstr "nie udało się wykonać transakcji usuwania\n"
 msgid "could not commit transaction\n"
 msgstr "nie udało się wykonać transakcji\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "nie udało się stworzyć katalogu tymczasowego\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nie udało się skopiować pliku tymczasowego do %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "nie można usunąć %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nie udało się usunąć katalogu tymczasowego %s\n"
@@ -792,14 +793,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "nie udało się odczytać stat dla pliku %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "nie można stworzyć potoku (%s)\n"
+msgstr "nie można zapisać do potoku (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "nie można stworzyć potoku (%s)\n"
+msgstr "nie można odczytać z potoku (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -852,6 +853,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "nie można odnaleźć lub stworzyć pamięci podręcznej pakietu, używam %s w "
 "zamian\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "nie można otworzyć potoku (%s)\n"

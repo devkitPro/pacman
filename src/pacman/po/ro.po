@@ -12,13 +12,14 @@
 # Mihai Coman <mihai@m1x.ro>, 2011,2013
 # mihaicris <Mihai.cristescu@gmail.com>, 2015
 # mihaicris <Mihai.cristescu@gmail.com>, 2015
+# Mihai Cristescu <mihai.cristescu@archlinux.info>, 2015
 # Arthur Țițeică <arthur.titeica@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 16:01+1000\n"
-"PO-Revision-Date: 2015-07-26 19:22+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 17:58+0000\n"
 "Last-Translator: mihaicris <Mihai.cristescu@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ro/)\n"
@@ -29,142 +30,157 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
 "2:1));\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:182
+#, c-format
+msgid "Running pre-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:184
+#, c-format
+msgid "Running post-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:197
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "se verifică dependențele...\n"
 
-#: src/pacman/callback.c:175
+#: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "se verifică dacă sunt conflicte între fișiere...\n"
 
-#: src/pacman/callback.c:179
+#: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "se rezolvă dependențele...\n"
 
-#: src/pacman/callback.c:182
+#: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
 msgstr "se caută pachete în conflict...\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "Processing package changes...\n"
+msgstr "se încarcă fișierele pachetului...\n"
+
+#: src/pacman/callback.c:218
 #, c-format
 msgid "installing %s...\n"
 msgstr "se instalează %s...\n"
 
-#: src/pacman/callback.c:192
+#: src/pacman/callback.c:221
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "se actualizează %s...\n"
 
-#: src/pacman/callback.c:195
+#: src/pacman/callback.c:224
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "se reinstalează %s...\n"
 
-#: src/pacman/callback.c:198
+#: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
 msgstr "se retrogradează %s...\n"
 
-#: src/pacman/callback.c:201
+#: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
 msgstr "se elimină %s...\n"
 
-#: src/pacman/callback.c:225
+#: src/pacman/callback.c:254
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "se verifică integritatea pachetului...\n"
 
-#: src/pacman/callback.c:230
+#: src/pacman/callback.c:259
 #, c-format
 msgid "checking keyring...\n"
 msgstr "se verifică inelul de chei...\n"
 
-#: src/pacman/callback.c:234
+#: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "se descarcă cheile necesare...\n"
 
-#: src/pacman/callback.c:238
+#: src/pacman/callback.c:267
 #, c-format
 msgid "loading package files...\n"
 msgstr "se încarcă fișierele pachetului...\n"
 
-#: src/pacman/callback.c:242
+#: src/pacman/callback.c:271
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "se verifică integritatea delta...\n"
 
-#: src/pacman/callback.c:245
+#: src/pacman/callback.c:274
 #, c-format
 msgid "applying deltas...\n"
 msgstr "se aplică delta...\n"
 
-#: src/pacman/callback.c:248
+#: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
 msgstr "se generează %s cu %s..."
 
-#: src/pacman/callback.c:253
+#: src/pacman/callback.c:282
 #, c-format
 msgid "success!\n"
 msgstr "succes!\n"
 
-#: src/pacman/callback.c:256
+#: src/pacman/callback.c:285
 #, c-format
 msgid "failed.\n"
 msgstr "eșuat.\n"
 
-#: src/pacman/callback.c:262
+#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "Se preiau pachetele ...\n"
 
-#: src/pacman/callback.c:266
+#: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "se verifică spațiul disponibil pe disc...\n"
 
-#: src/pacman/callback.c:273
+#: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s necesită opțional %s\n"
 
-#: src/pacman/callback.c:291 src/pacman/callback.c:297
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s a fost instalat ca %s.pacnew\n"
 
-#: src/pacman/callback.c:307 src/pacman/callback.c:313
+#: src/pacman/callback.c:336 src/pacman/callback.c:342
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s a fost salvat ca %s.pacsave\n"
 
-#: src/pacman/callback.c:358
+#: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s este în IgnorePkg/IgnoreGroup. Se instalează oricum?"
 
-#: src/pacman/callback.c:368
+#: src/pacman/callback.c:400
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Se înlocuiește %s cu %s/%s?"
 
-#: src/pacman/callback.c:380
+#: src/pacman/callback.c:412
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s și %s sunt în conflict. Elimină %s?"
 
-#: src/pacman/callback.c:385
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s și %s sunt în conflict (%s). Elimină %s?"
 
-#: src/pacman/callback.c:404
+#: src/pacman/callback.c:436
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -180,7 +196,7 @@ msgstr[2] ""
 "Următoarele pachete nu pot fi actualizate datorită unor dependențe "
 "nerezolvabile:\n"
 
-#: src/pacman/callback.c:410
+#: src/pacman/callback.c:442
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
@@ -188,15 +204,15 @@ msgstr[0] "Dorești omiterea pachetului de mai sus pentru această actualizare?"
 msgstr[1] "Dorești omiterea pachetelor de mai sus pentru această actualizare?"
 msgstr[2] "Dorești omiterea pachetelor de mai sus pentru această actualizare?"
 
-#: src/pacman/callback.c:421
-#, fuzzy, c-format
+#: src/pacman/callback.c:453
+#, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "Există %zd furnizori disponibili pentru %s:\n"
-msgstr[1] "Există %zd furnizori disponibili pentru %s:\n"
-msgstr[2] "Există %zd furnizori disponibili pentru %s:\n"
+msgstr[0] "Există %zu furnizor disponibil pentru %s\n"
+msgstr[1] "Există %zu furnizori disponibili pentru %s\n"
+msgstr[2] "Există %zu de furnizori disponibili pentru %s\n"
 
-#: src/pacman/callback.c:432
+#: src/pacman/callback.c:464
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -205,67 +221,67 @@ msgstr ""
 "Fișierul %s este corupt (%s).\n"
 "Doriți să îl ștergeți?"
 
-#: src/pacman/callback.c:446
-#, fuzzy, c-format
+#: src/pacman/callback.c:478
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "Se importă cheia PGP %d%c/%s, \"%s\", creată: %s (revocată)?"
+msgstr "Se importă cheia PGP %u%c/%s, \"%s\", creată: %s (revocată)?"
 
-#: src/pacman/callback.c:449
-#, fuzzy, c-format
+#: src/pacman/callback.c:481
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
-msgstr "Se importă cheia PGP %d%c/%s, \"%s\", creată: %s?"
+msgstr "Se importă cheia PGP %u%c/%s, \"%s\", creată: %s?"
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:540
 #, c-format
 msgid "installing"
 msgstr "se instalează"
 
-#: src/pacman/callback.c:512
+#: src/pacman/callback.c:543
 #, c-format
 msgid "upgrading"
 msgstr "se actualizează"
 
-#: src/pacman/callback.c:515
+#: src/pacman/callback.c:546
 #, c-format
 msgid "downgrading"
 msgstr "se retrogradează"
 
-#: src/pacman/callback.c:518
+#: src/pacman/callback.c:549
 #, c-format
 msgid "reinstalling"
 msgstr "se reinstalează"
 
-#: src/pacman/callback.c:521
+#: src/pacman/callback.c:552
 #, c-format
 msgid "removing"
 msgstr "se elimină"
 
-#: src/pacman/callback.c:524
+#: src/pacman/callback.c:555
 #, c-format
 msgid "checking for file conflicts"
 msgstr "se caută conflicte între fișiere"
 
-#: src/pacman/callback.c:527
+#: src/pacman/callback.c:558
 #, c-format
 msgid "checking available disk space"
 msgstr "se verifică spațiul disponibil pe disc"
 
-#: src/pacman/callback.c:530
+#: src/pacman/callback.c:561
 #, c-format
 msgid "checking package integrity"
 msgstr "se verifică integritatea pachetului"
 
-#: src/pacman/callback.c:533
+#: src/pacman/callback.c:564
 #, c-format
 msgid "checking keys in keyring"
 msgstr "se verifică cheile din inelul de chei"
 
-#: src/pacman/callback.c:536
+#: src/pacman/callback.c:567
 #, c-format
 msgid "loading package files"
 msgstr "se încarcă fișierele pachetului"
 
-#: src/pacman/callback.c:651
+#: src/pacman/callback.c:679
 #, c-format
 msgid "downloading %s...\n"
 msgstr "se descarcă %s...\n"
@@ -356,12 +372,12 @@ msgstr[1] "%jd fișiere modificate\n"
 msgstr[2] "%jd de fișiere modificate\n"
 
 #: src/pacman/conf.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] "eșec malloc: nu se pot aloca %zd octeți\n"
-msgstr[1] "eșec malloc: nu se pot aloca %zd octeți\n"
-msgstr[2] "eșec malloc: nu se pot aloca %zd octeți\n"
+msgstr[0] "eșec malloc: nu s-a putut aloca %zu octet\n"
+msgstr[1] "eșec malloc: nu s-au putut aloca %zu octeți\n"
+msgstr[2] "eșec malloc: nu s-au putut aloca %zu de octeți\n"
 
 #: src/pacman/conf.c:251
 #, c-format
@@ -376,7 +392,7 @@ msgstr "nu s-a putut schimba directorul în cel de descărcare %s\n"
 #: src/pacman/conf.c:265
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr "se rulează XferCommand: raminificarea a eșuat!\n"
+msgstr "se rulează XferCommand: ramificarea a eșuat!\n"
 
 #: src/pacman/conf.c:277
 #, c-format
@@ -441,9 +457,9 @@ msgstr ""
 "(%s: %s)\n"
 
 #: src/pacman/conf.c:725
-#, fuzzy, c-format
+#, c-format
 msgid "try running pacman-db-upgrade\n"
-msgstr "  încercați să rulați pacman-db-upgrade\n"
+msgstr "încercați să rulați pacman-db-upgrade\n"
 
 #: src/pacman/conf.c:744
 #, c-format
@@ -456,9 +472,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problemă la setarea gpgdir '%s' (%s)\n"
 
 #: src/pacman/conf.c:763 src/pacman/conf.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "problemă la setarea gpgdir '%s' (%s)\n"
+msgstr "problemă la adăugarea hookdir '%s' (%s)\n"
 
 #: src/pacman/conf.c:802
 #, c-format
@@ -466,9 +482,9 @@ msgid "no '%s' configured\n"
 msgstr "niciun '%s' configurat\n"
 
 #: src/pacman/conf.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to pass %s entry to libalpm"
-msgstr "Eșec la transmiterea intrării instalate asumate către libalpm"
+msgstr "Eșec la transmiterea intrării %s către libalpm"
 
 #: src/pacman/conf.c:870
 #, c-format
@@ -488,12 +504,12 @@ msgstr ""
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"parcurgerea configurării a depășit adâncimea max de recursivitate %d.\n"
 
 #: src/pacman/conf.c:996
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr ""
-"fișierul de configurare %s, linia %d: valoare nevalidă pentru '%s' : '%s'\n"
+msgstr "fișierul de configurare %s nu a putut fi citit: %s\n"
 
 #: src/pacman/conf.c:1019
 #, c-format
@@ -531,39 +547,39 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: motivul pentru instalare a fost schimbat în: 'instalat explicit'\n"
 
 #: src/pacman/package.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Architecture"
-msgstr "Arhitectură         :"
+msgstr "Arhitectură"
 
 #: src/pacman/package.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Backup Files"
-msgstr "Fișiere copie de siguranță:\n"
+msgstr "Fișiere copie de siguranță"
 
 #: src/pacman/package.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "Build Date"
-msgstr "Dată construire     :"
+msgstr "Dată construcție"
 
 #: src/pacman/package.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size"
-msgstr "Mărime comprimată   :"
+msgstr "Mărime comprimată"
 
 #: src/pacman/package.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Conflicts With"
-msgstr "În conflict cu      :"
+msgstr "În conflict cu"
 
 #: src/pacman/package.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Depends On"
-msgstr "Depinde de          :"
+msgstr "Depinde de"
 
 #: src/pacman/package.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Description"
-msgstr "Descriere           :"
+msgstr "Descriere"
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -573,32 +589,32 @@ msgstr "Mărime descărcare"
 #: src/pacman/package.c:105
 #, c-format
 msgid "Groups"
-msgstr ""
+msgstr "Grupuri"
 
 #: src/pacman/package.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Install Date"
-msgstr "Dată instalare      :"
+msgstr "Dată instalare"
 
 #: src/pacman/package.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Install Reason"
-msgstr "Motiv instalare     :"
+msgstr "Motiv instalare"
 
 #: src/pacman/package.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Install Script"
-msgstr "Script de instalare :"
+msgstr "Script de instalare"
 
 #: src/pacman/package.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size"
-msgstr "Mărime instalat     :"
+msgstr "Mărime instalat"
 
 #: src/pacman/package.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Licenses"
-msgstr "Licențe             :"
+msgstr "Licențe"
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -608,67 +624,67 @@ msgstr "Suma MD5"
 #: src/pacman/package.c:112
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Nume"
 
 #: src/pacman/package.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Optional Deps"
-msgstr "Dep. opționale      :"
+msgstr "Dep. opționale"
 
 #: src/pacman/package.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For"
-msgstr "Opțional pentru     :"
+msgstr "Opțional pentru"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Packager"
-msgstr "Pachet"
+msgstr "Autor pachet"
 
 #: src/pacman/package.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Provides"
-msgstr "Furnizează          :"
+msgstr "Furnizează"
 
 #: src/pacman/package.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Replaces"
-msgstr "Înlocuiește         :"
+msgstr "Înlocuiește"
 
 #: src/pacman/package.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Repository"
-msgstr "Depozitul %s\n"
+msgstr "Depozit"
 
 #: src/pacman/package.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Required By"
-msgstr "Cerut de            :"
+msgstr "Cerut de"
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum"
-msgstr "Sumă SHA256"
+msgstr "Sumă SHA-256"
 
 #: src/pacman/package.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures"
-msgstr "Semnătură"
+msgstr "Semnături"
 
 #: src/pacman/package.c:122
 #, c-format
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/pacman/package.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By"
-msgstr "Validat de          :"
+msgstr "Validat de"
 
 #: src/pacman/package.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Version"
-msgstr "Versiune precedentă"
+msgstr "Versiune"
 
 #: src/pacman/package.c:167 src/pacman/util.c:1205
 #, c-format
@@ -796,12 +812,12 @@ msgid ""
 "                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
 "  -s, --recursive      elimină dependențele inutile\n"
-"                       (-ss include dependețele instalate explicit\n"
+"                       (-ss include dependențele instalate explicit\n"
 
 #: src/pacman/pacman.c:129
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr "  -u, --unneeded       eliminină pachetele care nu sunt necesare\n"
+msgstr "  -u, --unneeded       elimină pachetele care nu sunt necesare\n"
 
 #: src/pacman/pacman.c:132 src/pacman/pacman.c:167
 #, c-format
@@ -838,8 +854,8 @@ msgstr "  -g, --groups         afișează toți membrii unui grup de pachete\n"
 msgid ""
 "  -i, --info           view package information (-ii for backup files)\n"
 msgstr ""
-"  -i, --info           afișează informații despre pachet (-ii pentru "
-"fișierele copie de siguranță)\n"
+"  -i, --info           afișează informații despre pachet\n"
+"                       (-ii pentru fișierele copie de siguranță)\n"
 
 #: src/pacman/pacman.c:142
 #, c-format
@@ -847,8 +863,8 @@ msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
 msgstr ""
-"  -k, --check          verifică dacă fișierele pachetului există (-kk pentru "
-"proprietățile fișierului)\n"
+"  -k, --check          verifică dacă fișierele pachetului există\n"
+"                       (-kk pentru proprietățile fișierului)\n"
 
 #: src/pacman/pacman.c:143 src/pacman/pacman.c:178
 #, c-format
@@ -863,7 +879,8 @@ msgid ""
 "[filter]\n"
 msgstr ""
 "  -m, --foreign        listează pachetele instalate ce nu se găsesc în "
-"bazele de date ale depozitelor [filtru]\n"
+"bazele\n"
+"                       de date ale depozitelor [filtru]\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
@@ -872,7 +889,8 @@ msgid ""
 "[filter]\n"
 msgstr ""
 "  -n, --native         listează doar pachetele instalate care se regăsesc în "
-"bazele de date ale depozitelor [filtru]\n"
+"bazele\n"
+"                       de date ale depozitelor [filtru]\n"
 
 #: src/pacman/pacman.c:146 src/pacman/pacman.c:179
 #, c-format
@@ -996,25 +1014,28 @@ msgstr ""
 "      --asexplicit     marchează pachetele ca instalate în mod explicit\n"
 
 #: src/pacman/pacman.c:173
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
 msgstr ""
-"  -k, --check          verifică dacă fișierele pachetului există (-kk pentru "
-"proprietățile fișierului)\n"
+"  -k, --check          testează baza de date locală pentru valabilitate\n"
+"                       (-kk pentru baze de date sync)\n"
 
 #: src/pacman/pacman.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
 msgstr ""
-"  -s, --search <regex> caută pachete instalate local care se potrivesc "
-"șirurilor de caractere\n"
+"  -s, --search <fișier>\n"
+"                       caută nume de fișiere de pachete pentru șiruri\n"
+"                       de caractere care se potrivesc\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
 msgstr ""
+"  -x, --regex          activează căutarea prin folosirea expresiilor "
+"regulate\n"
 
 #: src/pacman/pacman.c:185
 #, c-format
@@ -1022,6 +1043,8 @@ msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
+"      --machinereadable\n"
+"                       produce un format optimizat pentru mașină\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
@@ -1057,7 +1080,7 @@ msgid ""
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
 "      --ignoregroup <grp>\n"
-"                       ignoră o actualizăre de grup (se poate folosi de mai "
+"                       ignoră o actualizare de grup (se poate folosi de mai "
 "multe ori)\n"
 
 #: src/pacman/pacman.c:199
@@ -1122,7 +1145,7 @@ msgstr ""
 #: src/pacman/pacman.c:211
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
-msgstr "  -b, --dbpath <cale>  seteaza o locație alternativă a bazei de date\n"
+msgstr "  -b, --dbpath <cale>  setează o locație alternativă a bazei de date\n"
 
 #: src/pacman/pacman.c:212
 #, c-format
@@ -1147,11 +1170,9 @@ msgstr ""
 "pachetului\n"
 
 #: src/pacman/pacman.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr ""
-"      --cachedir <dir> setează o locație alternativă pentru cache-ul "
-"pachetului\n"
+msgstr "      --hookdir <dir>  setează o locație alternativă pentru hook\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1335,7 +1356,7 @@ msgstr "eșec la pregătirea tranzacției (%s)\n"
 #: src/pacman/remove.c:125 src/pacman/sync.c:724
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr ""
+msgstr "%s: prin eliminarea %s se întrerupe dependența '%s'\n"
 
 #: src/pacman/remove.c:144
 #, c-format
@@ -1471,10 +1492,9 @@ msgid "%s: requires %s\n"
 msgstr "%s: necesită %s\n"
 
 #: src/pacman/sync.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "%s: installing %s (%s) breaks dependency '%s'\n"
-msgstr ""
-"%s: motivul pentru instalare a fost schimbat în 'instalat ca dependență'\n"
+msgstr "%s: prin instalarea %s (%s) se întrerupe dependența  '%s'\n"
 
 #: src/pacman/sync.c:744
 #, c-format
@@ -1558,7 +1578,7 @@ msgid ""
 "  running, you can remove %s\n"
 msgstr ""
 "  dacă sunteți sigur că niciun manager de pachete\n"
-"  nu este activ, atunci eliminați %s\n"
+"  nu este activ, atunci puteți elimina %s\n"
 
 #: src/pacman/util.c:96
 #, c-format
@@ -1789,36 +1809,3 @@ msgstr "eroare: "
 #, c-format
 msgid "warning: "
 msgstr "avertisment: "
-
-#~ msgid "%s saved as %s.pacorig\n"
-#~ msgstr "%s a fost salvat ca %s.pacorig\n"
-
-#~ msgid "Repository     :"
-#~ msgstr "Depozit             :"
-
-#~ msgid "Name           :"
-#~ msgstr "Nume                :"
-
-#~ msgid "Version        :"
-#~ msgstr "Versiune            :"
-
-#~ msgid "URL            :"
-#~ msgstr "URL                 :"
-
-#~ msgid "Groups         :"
-#~ msgstr "Grupuri             :"
-
-#~ msgid "Download Size  :"
-#~ msgstr "Mărime descărcare   :"
-
-#~ msgid "Packager       :"
-#~ msgstr "Autor pachet        :"
-
-#~ msgid "MD5 Sum        :"
-#~ msgstr "Sumă MD5            :"
-
-#~ msgid "SHA-256 Sum    :"
-#~ msgstr "Sumă SHA-256        :"
-
-#~ msgid "Signatures     :"
-#~ msgstr "Semnături           :"

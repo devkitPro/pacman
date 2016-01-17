@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-07-25 20:38+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-17 23:59+0000\n"
 "Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/br/)\n"
@@ -125,9 +125,8 @@ msgid "FAILED"
 msgstr "C'HWITET"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "O wiriañ ar restroù tarzh gant %s..."
+msgstr "O wiriañ %s restr gant %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -139,9 +138,8 @@ msgstr ""
 "Gwiriadurioù anterinder (%s) o deus ur ment disheñvel evit an daolenn tarzh."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Mankout a ra ar gwiriadurioù anterinder."
+msgstr "Mankout a ra ar gwiriadurioù anterinder evit : %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -370,21 +368,20 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "N'haller ket kavout an daouredel %s dleet evit gwiriañ an tarzhioù."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
 "N'haller ket kavout an daouredel %s dleet evit talvoudekaat sammad-gwiriañ "
-"ar restr tarzh. "
+"ar restr tarzh."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "N'haller ket kavout an daouredel %s dleet evit koazhañ daouredeloù."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "N'haller ket kavout an daouredel %s dleet evit sinañ pakadoù."
+msgstr ""
+"N'haller ket kavout an daouredel dleet %s evit gwellekaat ar skeudennoù PNG. "
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -566,10 +563,11 @@ msgstr "--nosign Chom hep krouiñ ur sinadur evit ar pakad"
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"--packagelist Diskouez ar roll pakadoù a vefe produet nemetken, hep PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "--printsrcinfo Moullañ an SRCINFO savet ha kuitaat"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -627,12 +625,12 @@ msgstr "Ma n'eo ket erspizet %s e vo klasket gant %s war-lec'h '%s'"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nUr meziant "
 "frank eo; sellit ouzh an tarzh evit an diferadennoù.\\nN'eus GWARANT EBET, "
 "d'an astenn aotreet gant al lezenn.\\n"
@@ -733,19 +731,19 @@ msgstr "N'haller ket diskoulmañ an holl amzalc'hoù."
 msgid "Using existing %s tree"
 msgstr "Oc'h implijout ar wezenn %s"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "O tilemel ar c'havlec'h %s..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Prest eo an tarzhioù."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Prest eo ar pakad kavlec'hioù."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Echuet eo savadur %s"
 
@@ -769,19 +767,19 @@ msgstr ""
 "arouezennoù direizh a zo implijet en anv '%s'. aotreet : [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "N'haller ket dinoiñ an handelv evit ar patrom '%s'"
+msgstr "N'haller ket dinoiñ an handelv evit ar patrom '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "C'hwitadenn evit kavout ar restr patrom o kenglotañ gant  '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "c'hwitadenn war digoradur '%s' : %s"
+msgstr "c'hwitadenn war digoradur '%s' : %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -836,11 +834,11 @@ msgstr "--version Titouroù handelv\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "Ur meziant frank eo; sellit ouzh an tarzh evit an diferadennoù.\n"
 "N'eus GWARANT EBET, d'an astenn aotreet gant al lezenn.\\n"
 
@@ -879,11 +877,11 @@ msgstr "--nocolor Diweredekaat ar c'hemennadennoù ec'hankad livet"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "Ur meziant frank eo; sellit ouzh an tarzh evit an diferadennoù.\n"
 "N'eus GWARANT EBET, d'an astenn aotreet gant al lezenn.\\n"
 
@@ -1403,13 +1401,12 @@ msgid ""
 msgstr "-n, --new ouzhpennañ pakadoù ha n'int ket er stlennvon nemetken\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"-R, --remove dilemel ar restroù pakad eus ar bladenn pa vez hizivaet an "
-"enankad stlennvon\\n"
+"-R, --remove dilemel ar restroù pakad kozh eus ar bladenn pa vez hizivaet ar "
+"stlennvon\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1467,11 +1464,11 @@ msgstr "Skouer:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "Ur meziant frank eo; sellit ouzh an tarzh evit an diferadennoù.\n"
 "N'eus GWARANT EBET, d'an astenn aotreet gant al lezenn.\\n"
 
@@ -1488,7 +1485,6 @@ msgid "Removing existing entry '%s'..."
 msgstr "O tilemel an enankad '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
 msgstr "O tilemel ar restroù delta goulo..."
 
@@ -1497,18 +1493,16 @@ msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "N'haller ket kavout an daouredel gpg ! Ha staliet eo GnuPG ?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "O sinañ ar stlennvon..."
+msgstr "O sinañ ar stlennvon '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "O krouiñ ar restr sinadur '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "C'hwitadenn en ur sinañ ar stlennvon pakadoù."
+msgstr "C'hwitadenn en ur sinañ ar restr stlennvon pakadoù '%s'"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1527,9 +1521,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Ne oa KET reizh ar sinadur stlennvon !"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "N'eus ket un astenn diell reizh gant '%s'."
+msgstr "N'eus ket un astenn diell stlennvon talvoudek gant '%s'."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1537,7 +1530,7 @@ msgstr "Un enankad gant '%s' a oa endeo"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "N'haller ket arverañ ar sinadurioù gwarezet evit ar pakadoù : %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1560,9 +1553,8 @@ msgid "Old package file not found: %s"
 msgstr "N'eo ket bet kavet ar restr pakad kozh : %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Restr pakad direizh '%s'."
+msgstr "O tilemel ar restr pakad kozh '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1641,9 +1633,8 @@ msgid "No packages modified, nothing to do."
 msgstr "N'eo bet kemmet pakad ebet, n'eus netra d'ober."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "O klask war-lec'h ar pakad '%s'..."
+msgstr "O klask war-lec'h kudennoù pakadiñ..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1732,18 +1723,17 @@ msgstr "N'eus ket eus ar restr %s (%s) pe n'eo ket ur restr boutin."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "Un daolenn a rank %s bezañ"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "Un daolenn a rank %s_%s bezañ"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "N'haller ket enporzhiañ %s."
+msgstr "Ne rank ket %s bezañ un daolenn"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1754,7 +1744,6 @@ msgid "Extracting sources..."
 msgstr "Oc'h eztennañ an tarzhioù..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
 msgstr "O skourrañ %s..."
 
@@ -1763,7 +1752,6 @@ msgid "Failure while branching %s"
 msgstr "C'hwitet war skourrañ %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
 msgstr "O sachañ %s ..."
 
@@ -1862,12 +1850,11 @@ msgstr "O tilemel %s restr..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "O gwellekaat ar skeudennoù PNG..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "N'haller ket koazhañ ar restr daouredel : %s"
+msgstr "N'haller ket gwellekaat ar skeudennoù PNG : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1921,23 +1908,3 @@ msgstr "N'eo ket aotreet un arguzen gant an dibarzh '%s'"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "Un arguzenn a zo azgoulennet gant an dibarzh '%s'"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "C'hwitet en ur vont er c'havlec'h %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr ""
-#~ "Dalc'hit soñj n'eus ket kalz a pakadoù a tle kaout ul linenn ouzhpennet "
-#~ "d'o %s"
-
-#~ msgid "such as %s."
-#~ msgstr "evel %s"
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr "--pkg <roll> Kempunañ ar pakadoù er roll adalek ur pakad troc'het"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "-f, --files hizivaat roll restroù ar stlennvon\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "O tilemel ar pakad '%s'"

@@ -9,15 +9,15 @@
 # Lasse Liehu <larso@gmx.com>, 2013
 # Lasse Liehu <larso@gmx.com>, 2011
 # Lasse Liehu <larso@gmx.com>, 2011,2013
-# Lasse Liehu <larso@gmx.com>, 2011,2013-2014
+# Lasse Liehu <larso@gmx.com>, 2011,2013-2014,2016
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011,2013
 # No User, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2014-11-18 13:02+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2016-01-05 20:25+0000\n"
 "Last-Translator: Lasse Liehu <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/fi/)\n"
@@ -67,7 +67,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "ei voitu purkaa %s%s: polku liian pitkä"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -95,7 +95,7 @@ msgstr "purku: kansiota ei korvata tiedostolla %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "ei voitu purkaa %s.pacnew: polku liian pitkä"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -304,37 +304,37 @@ msgstr "tiedostoa ei voitu avata: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "ei saatu tietoja tiedostojärjestelmästä\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "ei saatu tietoja tiedostojärjestelmästä %s: %s\n"
+msgstr "ei voitu saada tietoja tiedostolle %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "tiedoston %s tiedostojärjestelmän liitospistettä ei voitu selvittää\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Osio %s on liian täynnä: %jd lohkoa tarvitaan, %jd lohkoa vapaana\n"
+msgstr "Osio %s liian täynnä: %jd lohkoa tarvitaan, %ju lohkoa vapaana\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "tiedostojärjestelmien liitospisteitä ei voitu selvittää\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "välimuistikansion liitospistettä %s ei voitu selvittää\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "juuren %s liitospistettä ei voitu selvittää\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Osio %s on liitetty vain lukutilassa\n"
@@ -768,22 +768,22 @@ msgstr "poistotoimenpidettä ei voitu suorittaa\n"
 msgid "could not commit transaction\n"
 msgstr "toimenpidettä ei voitu suorittaa\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "väliaikaiskansiota ei voitu luoda\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "väliaikaistiedostoa ei voitu kopioida kansioon %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s ei voitu poistaa\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "väliaikaiskansiota %s ei voitu poistaa\n"
@@ -794,14 +794,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "tiedoston %s stat-toiminnon ei voitu tehdä: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "ei voitu luoda putkea (%s)\n"
+msgstr "ei voitu kirjoittaa putkeen (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "ei voitu luoda putkea (%s)\n"
+msgstr "ei voitu lukea putkesta (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -854,6 +854,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "pakettivälimuistia ei ollut olemassa eikä sitä voitu luoda. Käytetään %s sen "
 "sijaan\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "ei voitu avata putkea (%s)\n"

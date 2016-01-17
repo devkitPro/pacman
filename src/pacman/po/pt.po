@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 16:01+1000\n"
-"PO-Revision-Date: 2015-10-01 20:40+0000\n"
-"Last-Translator: Bruno Guerreiro <american.jesus.pt@gmail.com>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 06:04+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Portuguese (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/pt/)\n"
 "Language: pt\n"
@@ -29,144 +29,161 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:182
+#, c-format
+msgid "Running pre-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:184
+#, c-format
+msgid "Running post-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:197
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "a verificar dependências...\n"
 
-#: src/pacman/callback.c:175
+#: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "a verificar conflitos nos ficheiros...\n"
 
-#: src/pacman/callback.c:179
+#: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "a resolver dependências...\n"
 
-#: src/pacman/callback.c:182
+#: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
 msgstr "a procurar pacotes em conflito...\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "Processing package changes...\n"
+msgstr ""
+"a carregar ficheiros dos pacotes...\n"
+"\n"
+
+#: src/pacman/callback.c:218
 #, c-format
 msgid "installing %s...\n"
 msgstr "a instalar %s...\n"
 
-#: src/pacman/callback.c:192
+#: src/pacman/callback.c:221
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "a actualizar %s...\n"
 
-#: src/pacman/callback.c:195
+#: src/pacman/callback.c:224
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "a reinstalar %s...\n"
 
-#: src/pacman/callback.c:198
+#: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
 msgstr "a desactualizar %s...\n"
 
-#: src/pacman/callback.c:201
+#: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
 msgstr "a remover %s...\n"
 
-#: src/pacman/callback.c:225
+#: src/pacman/callback.c:254
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "a verificar a integridade do pacote...\n"
 
-#: src/pacman/callback.c:230
+#: src/pacman/callback.c:259
 #, c-format
 msgid "checking keyring...\n"
 msgstr "a verificar chaveiro...\n"
 
-#: src/pacman/callback.c:234
+#: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "a transferir chaves necessárias...\n"
 
-#: src/pacman/callback.c:238
+#: src/pacman/callback.c:267
 #, c-format
 msgid "loading package files...\n"
 msgstr ""
 "a carregar ficheiros dos pacotes...\n"
 "\n"
 
-#: src/pacman/callback.c:242
+#: src/pacman/callback.c:271
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "a verificar a integridade delta...\n"
 
-#: src/pacman/callback.c:245
+#: src/pacman/callback.c:274
 #, c-format
 msgid "applying deltas...\n"
 msgstr "a aplicar deltas...\n"
 
-#: src/pacman/callback.c:248
+#: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
 msgstr "a gerar %s com %s... "
 
-#: src/pacman/callback.c:253
+#: src/pacman/callback.c:282
 #, c-format
 msgid "success!\n"
 msgstr "sucesso!\n"
 
-#: src/pacman/callback.c:256
+#: src/pacman/callback.c:285
 #, c-format
 msgid "failed.\n"
 msgstr "falhou.\n"
 
-#: src/pacman/callback.c:262
+#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "A obter pacotes ...\n"
 
-#: src/pacman/callback.c:266
+#: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "a verificar espaço disponível no disco...\n"
 
-#: src/pacman/callback.c:273
+#: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s  requer opcionalmente %s\n"
 
-#: src/pacman/callback.c:291 src/pacman/callback.c:297
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s instalado como %s.pacnew\n"
 
-#: src/pacman/callback.c:307 src/pacman/callback.c:313
+#: src/pacman/callback.c:336 src/pacman/callback.c:342
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s salvo como %s.pacsave\n"
 
-#: src/pacman/callback.c:358
+#: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s está no Pacotes Ignorados/Grupos Ignorados. Instalar mesmo assim?"
 
-#: src/pacman/callback.c:368
+#: src/pacman/callback.c:400
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Substituir %s por %s/%s?"
 
-#: src/pacman/callback.c:380
+#: src/pacman/callback.c:412
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s e %s estão em conflito. Remover %s?"
 
-#: src/pacman/callback.c:385
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s e %s estão em conflito (%s). Remover %s?"
 
-#: src/pacman/callback.c:404
+#: src/pacman/callback.c:436
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -179,21 +196,21 @@ msgstr[1] ""
 "Os seguintes pacotes não pode ser actualizados devido a dependências não "
 "resolvidas:\n"
 
-#: src/pacman/callback.c:410
+#: src/pacman/callback.c:442
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Deseja ignorar o pacote acima para esta atualização?"
 msgstr[1] "Deseja ignorar os pacotes acima para esta atualização?"
 
-#: src/pacman/callback.c:421
-#, fuzzy, c-format
+#: src/pacman/callback.c:453
+#, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "Existem %zd fornecedores disponíveis para %s:\n"
-msgstr[1] "Existem %zd fornecedores disponíveis para %s:\n"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/pacman/callback.c:432
+#: src/pacman/callback.c:464
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -202,67 +219,67 @@ msgstr ""
 "O ficheiro %s está corrompido (%s).\n"
 "Deseja apagá-lo?"
 
-#: src/pacman/callback.c:446
-#, fuzzy, c-format
+#: src/pacman/callback.c:478
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "Importar chave PGP %d%c/%s, \"%s\", criado: %s (revogada)?"
+msgstr ""
 
-#: src/pacman/callback.c:449
-#, fuzzy, c-format
+#: src/pacman/callback.c:481
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
-msgstr "Importar chave PGP %d%c/%s, \"%s\", criado: %s?"
+msgstr ""
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:540
 #, c-format
 msgid "installing"
 msgstr "a instalar"
 
-#: src/pacman/callback.c:512
+#: src/pacman/callback.c:543
 #, c-format
 msgid "upgrading"
 msgstr "a actualizar"
 
-#: src/pacman/callback.c:515
+#: src/pacman/callback.c:546
 #, c-format
 msgid "downgrading"
 msgstr "a desactualizar"
 
-#: src/pacman/callback.c:518
+#: src/pacman/callback.c:549
 #, c-format
 msgid "reinstalling"
 msgstr "a reinstalar"
 
-#: src/pacman/callback.c:521
+#: src/pacman/callback.c:552
 #, c-format
 msgid "removing"
 msgstr "a remover"
 
-#: src/pacman/callback.c:524
+#: src/pacman/callback.c:555
 #, c-format
 msgid "checking for file conflicts"
 msgstr "a verificar conflitos em ficheiros"
 
-#: src/pacman/callback.c:527
+#: src/pacman/callback.c:558
 #, c-format
 msgid "checking available disk space"
 msgstr "a verificar espaço disponível no disco"
 
-#: src/pacman/callback.c:530
+#: src/pacman/callback.c:561
 #, c-format
 msgid "checking package integrity"
 msgstr "a verificar integridade dos pacotes"
 
-#: src/pacman/callback.c:533
+#: src/pacman/callback.c:564
 #, c-format
 msgid "checking keys in keyring"
 msgstr "a verificar chaves no chaveiro"
 
-#: src/pacman/callback.c:536
+#: src/pacman/callback.c:567
 #, c-format
 msgid "loading package files"
 msgstr "a carregar ficheiros dos pacotes"
 
-#: src/pacman/callback.c:651
+#: src/pacman/callback.c:679
 #, c-format
 msgid "downloading %s...\n"
 msgstr "a descarregar %s...\n"
@@ -350,11 +367,11 @@ msgstr[0] "%jd ficheiro alterado\n"
 msgstr[1] "%jd ficheiro alterados\n"
 
 #: src/pacman/conf.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] "falha malloc: não foi possível fixar %zd bytes\n"
-msgstr[1] "falha malloc: não foi possível fixar %zd bytes\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/pacman/conf.c:251
 #, c-format
@@ -435,9 +452,9 @@ msgstr ""
 "(%s: %s)\n"
 
 #: src/pacman/conf.c:725
-#, fuzzy, c-format
+#, c-format
 msgid "try running pacman-db-upgrade\n"
-msgstr "  tente executar pacman-db-upgrade\n"
+msgstr ""
 
 #: src/pacman/conf.c:744
 #, c-format
@@ -450,9 +467,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problema ao configurar gpgdir '%s' (%s)\n"
 
 #: src/pacman/conf.c:763 src/pacman/conf.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "problema ao configurar gpgdir '%s' (%s)\n"
+msgstr ""
 
 #: src/pacman/conf.c:802
 #, c-format
@@ -460,9 +477,9 @@ msgid "no '%s' configured\n"
 msgstr "não está configurado '%s'\n"
 
 #: src/pacman/conf.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to pass %s entry to libalpm"
-msgstr "Falhou o teste que assume entrada instalada para o libalpm"
+msgstr ""
 
 #: src/pacman/conf.c:870
 #, c-format
@@ -480,12 +497,12 @@ msgstr "no ficheiro de configuração %s, linha %d: '%s' necessita um valor\n"
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
+"análise de configuração ultrapassou profundidade de recursão máxima de %d.\n"
 
 #: src/pacman/conf.c:996
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr ""
-"ficheiro de configuração %s, linha %d: valor inválido para '%s' : '%s'\n"
+msgstr "ficheiro de configuração %s não pode ser lido: %s\n"
 
 #: src/pacman/conf.c:1019
 #, c-format
@@ -522,39 +539,39 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: razão de instalação definida para \"instalado explicitamente\"\n"
 
 #: src/pacman/package.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Architecture"
-msgstr "Arquitectura                  :"
+msgstr ""
 
 #: src/pacman/package.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Backup Files"
-msgstr "Ficheiros em Cópia de Segurança :\n"
+msgstr ""
 
 #: src/pacman/package.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "Build Date"
-msgstr "Data da Compilação     :"
+msgstr ""
 
 #: src/pacman/package.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size"
-msgstr "Tamanho comprimido:"
+msgstr ""
 
 #: src/pacman/package.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Conflicts With"
-msgstr "Conflitos com                :"
+msgstr ""
 
 #: src/pacman/package.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Depends On"
-msgstr "Depende de                  :"
+msgstr ""
 
 #: src/pacman/package.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Description"
-msgstr "Descrição                       :"
+msgstr ""
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -567,29 +584,29 @@ msgid "Groups"
 msgstr ""
 
 #: src/pacman/package.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Install Date"
-msgstr "Data da Instalação       :"
+msgstr ""
 
 #: src/pacman/package.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Install Reason"
-msgstr "Motivo da instalação    :"
+msgstr ""
 
 #: src/pacman/package.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Install Script"
-msgstr "Script de Instalação     :"
+msgstr ""
 
 #: src/pacman/package.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size"
-msgstr "Tamanho instalado:"
+msgstr ""
 
 #: src/pacman/package.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Licenses"
-msgstr "Licenças                        :"
+msgstr ""
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -599,52 +616,52 @@ msgstr "MD5 Sum"
 #: src/pacman/package.c:112
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: src/pacman/package.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Optional Deps"
-msgstr "Dep. Opcionais             :"
+msgstr ""
 
 #: src/pacman/package.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For"
-msgstr "Opcional Para:"
+msgstr ""
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Packager"
-msgstr "Pacote"
+msgstr ""
 
 #: src/pacman/package.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Provides"
-msgstr "Fornece                         :"
+msgstr ""
 
 #: src/pacman/package.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Replaces"
-msgstr "Substitui                        :"
+msgstr ""
 
 #: src/pacman/package.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Repository"
-msgstr "Repositório %s\n"
+msgstr ""
 
 #: src/pacman/package.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Required By"
-msgstr "Exigido por                    :"
+msgstr ""
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum"
-msgstr "SHA256 Sum"
+msgstr ""
 
 #: src/pacman/package.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures"
-msgstr "Assinatura"
+msgstr ""
 
 #: src/pacman/package.c:122
 #, c-format
@@ -652,14 +669,14 @@ msgid "URL"
 msgstr ""
 
 #: src/pacman/package.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By"
-msgstr "Validado por:"
+msgstr ""
 
 #: src/pacman/package.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Version"
-msgstr "Versão Anterior"
+msgstr ""
 
 #: src/pacman/package.c:167 src/pacman/util.c:1205
 #, c-format
@@ -994,20 +1011,16 @@ msgstr ""
 "instalado(s)\n"
 
 #: src/pacman/pacman.c:173
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
 msgstr ""
-"-k, --check verifica se os ficheiros do(s) pacote(s) estão presentes (-kk "
-"para propriedades dos ficheiros)\n"
 
 #: src/pacman/pacman.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
 msgstr ""
-"  -s, --search <regex>   pesquisar as palavras correspondentes nos pacotes "
-"instalados\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1151,11 +1164,9 @@ msgstr ""
 "de pacotes\n"
 
 #: src/pacman/pacman.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr ""
-"      --cachedir <dir>      definir uma localização diferente para a cache "
-"de pacotes\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1475,9 +1486,9 @@ msgid "%s: requires %s\n"
 msgstr "%s: exige %s\n"
 
 #: src/pacman/sync.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "%s: installing %s (%s) breaks dependency '%s'\n"
-msgstr "%s: razão de instalação definida para \"instalado como dependência\"\n"
+msgstr ""
 
 #: src/pacman/sync.c:744
 #, c-format
@@ -1795,36 +1806,3 @@ msgstr "erro: "
 #, c-format
 msgid "warning: "
 msgstr "atenção: "
-
-#~ msgid "%s saved as %s.pacorig\n"
-#~ msgstr "%s salvo como %s.pacorig\n"
-
-#~ msgid "Repository     :"
-#~ msgstr "Repositório                    :"
-
-#~ msgid "Name           :"
-#~ msgstr "Nome                             :"
-
-#~ msgid "Version        :"
-#~ msgstr "Versão                           :"
-
-#~ msgid "URL            :"
-#~ msgstr "Endereço                       :"
-
-#~ msgid "Groups         :"
-#~ msgstr "Grupos                           :"
-
-#~ msgid "Download Size  :"
-#~ msgstr "Tamanho da Transferência:"
-
-#~ msgid "Packager       :"
-#~ msgstr "Empacotador                 :"
-
-#~ msgid "MD5 Sum        :"
-#~ msgstr "Soma MD5                      :"
-
-#~ msgid "SHA-256 Sum    :"
-#~ msgstr "SHA-256 Sum :"
-
-#~ msgid "Signatures     :"
-#~ msgstr "Assinaturas     :"

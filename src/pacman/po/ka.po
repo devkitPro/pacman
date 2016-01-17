@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 16:01+1000\n"
-"PO-Revision-Date: 2015-11-30 19:51+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-19 11:40+0000\n"
 "Last-Translator: arabuli <arabulibeqa@yahoo.com>\n"
 "Language-Team: Georgian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ka/)\n"
@@ -20,144 +20,159 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:182
+#, c-format
+msgid "Running pre-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:184
+#, c-format
+msgid "Running post-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:197
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "მოწმდება დამოკიდებულებები...\n"
 
-#: src/pacman/callback.c:175
+#: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "მოწმდება ფაილების წინააღმდეგობა...\n"
 
-#: src/pacman/callback.c:179
+#: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "გვარდება დამოკიდებულებები...\n"
 
-#: src/pacman/callback.c:182
+#: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
 msgstr "იძებნება შეუთავსებელი პაკეტები...\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "Processing package changes...\n"
+msgstr "იტვირთება პაკეტის ფაილები...\n"
+
+#: src/pacman/callback.c:218
 #, c-format
 msgid "installing %s...\n"
 msgstr "ინსტალირდება %s...\n"
 
-#: src/pacman/callback.c:192
+#: src/pacman/callback.c:221
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "ნახლდება %s...\n"
 
-#: src/pacman/callback.c:195
+#: src/pacman/callback.c:224
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "ხელახლა ყენდება %s...\n"
 
-#: src/pacman/callback.c:198
+#: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
 msgstr "ადრეულ ვერსიაზე გადადის %s...\n"
 
-#: src/pacman/callback.c:201
+#: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
 msgstr ""
 "იშლება %s...\n"
 "\n"
 
-#: src/pacman/callback.c:225
+#: src/pacman/callback.c:254
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "მოწმდება პაკეტის მთლიანობა...\n"
 
-#: src/pacman/callback.c:230
+#: src/pacman/callback.c:259
 #, c-format
 msgid "checking keyring...\n"
 msgstr "მოწმდება გასაღებების ასხმა...\n"
 
-#: src/pacman/callback.c:234
+#: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "იტვირთება საჭირო გასაღებები...\n"
 
-#: src/pacman/callback.c:238
+#: src/pacman/callback.c:267
 #, c-format
 msgid "loading package files...\n"
 msgstr "იტვირთება პაკეტის ფაილები...\n"
 
-#: src/pacman/callback.c:242
+#: src/pacman/callback.c:271
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "მოწმდება დელტას მთლიანობა...\n"
 
-#: src/pacman/callback.c:245
+#: src/pacman/callback.c:274
 #, c-format
 msgid "applying deltas...\n"
 msgstr "აქტიურდება დელტები...\n"
 
-#: src/pacman/callback.c:248
+#: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
 msgstr "იქმნება %s %s-ის დახმარებით..."
 
-#: src/pacman/callback.c:253
+#: src/pacman/callback.c:282
 #, c-format
 msgid "success!\n"
 msgstr "წარმატებით დასრულდა!\n"
 
-#: src/pacman/callback.c:256
+#: src/pacman/callback.c:285
 #, c-format
 msgid "failed.\n"
 msgstr "ჩაიშალა.\n"
 
-#: src/pacman/callback.c:262
+#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "მოიპოვება პაკეტები...\n"
 
-#: src/pacman/callback.c:266
+#: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "მოწმდება ხელმისაწვდომი ადგილი...\n"
 
-#: src/pacman/callback.c:273
+#: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s დამატებით მოითხოვს %s\n"
 
-#: src/pacman/callback.c:291 src/pacman/callback.c:297
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s დაინსტალირებულია როგორც %s.pacnew\n"
 
-#: src/pacman/callback.c:307 src/pacman/callback.c:313
+#: src/pacman/callback.c:336 src/pacman/callback.c:342
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s შენახულია როგორც %s.pacsave\n"
 
-#: src/pacman/callback.c:358
+#: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s დაყენებულია IgnorePkg/IgnoreGroup-ში. მაინც დაინსტალირდეს?"
 
-#: src/pacman/callback.c:368
+#: src/pacman/callback.c:400
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "ჩანაცვლდეს %s %s/%s-ით?"
 
-#: src/pacman/callback.c:380
+#: src/pacman/callback.c:412
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s და %s კონფლიქტში არიან. წაიშალოს %s?"
 
-#: src/pacman/callback.c:385
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s და %s კონფლქიტში არიან (%s). წაიშალოს %s?"
 
-#: src/pacman/callback.c:404
+#: src/pacman/callback.c:436
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -165,19 +180,19 @@ msgid_plural ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] "ეს პაკეტები გადაუჭრელი დამოკიდებულებების გამო ვერ განახლდება:\n"
 
-#: src/pacman/callback.c:410
+#: src/pacman/callback.c:442
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "დარწმუნებული ხართ, რომ განახლებაში ამ პაკეტების გამოტოვება გსურთ?"
 
-#: src/pacman/callback.c:421
-#, fuzzy, c-format
+#: src/pacman/callback.c:453
+#, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "ნაპოვნია %zd ვარიანტი %s-სთვის:\n"
+msgstr[0] "%2$s-სთვის ხელმისაწვდომია %1$zu პროვაიდერი:\n"
 
-#: src/pacman/callback.c:432
+#: src/pacman/callback.c:464
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -186,67 +201,67 @@ msgstr ""
 "ფაილი %s დაზიანებულია (%s).\n"
 "გსურთ მისი წაშლა?"
 
-#: src/pacman/callback.c:446
-#, fuzzy, c-format
+#: src/pacman/callback.c:478
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "შემოვიდეს PGP გასაღები %d%c/%s, \"%s\", შექმნილი: %s (გაუქმებული)?  "
+msgstr "შემოვიდეს PGP გასაღები %u%c/%s, \"%s\", შექმნილი: %s (გაუქმებული)?"
 
-#: src/pacman/callback.c:449
-#, fuzzy, c-format
+#: src/pacman/callback.c:481
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
-msgstr "შემოვიდეს PGP გასაღები %d%c/%s, \"%s\", შექმნილი: %s?  "
+msgstr "შემოვიდეს PGP გასაღები %u%c/%s, \"%s\", შექმნილი: %s?  "
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:540
 #, c-format
 msgid "installing"
 msgstr "ინსტალირდება"
 
-#: src/pacman/callback.c:512
+#: src/pacman/callback.c:543
 #, c-format
 msgid "upgrading"
 msgstr "ნახლდება"
 
-#: src/pacman/callback.c:515
+#: src/pacman/callback.c:546
 #, c-format
 msgid "downgrading"
 msgstr "ადრეულ ვერსიაზე გადადის"
 
-#: src/pacman/callback.c:518
+#: src/pacman/callback.c:549
 #, c-format
 msgid "reinstalling"
 msgstr "ხელახლა ინსტალირდება"
 
-#: src/pacman/callback.c:521
+#: src/pacman/callback.c:552
 #, c-format
 msgid "removing"
 msgstr "იშლება"
 
-#: src/pacman/callback.c:524
+#: src/pacman/callback.c:555
 #, c-format
 msgid "checking for file conflicts"
 msgstr "მოწმდება ფაილის წინააღმდეგობები"
 
-#: src/pacman/callback.c:527
+#: src/pacman/callback.c:558
 #, c-format
 msgid "checking available disk space"
 msgstr "მოწმდება ხელმისაწვდომი ადგილი"
 
-#: src/pacman/callback.c:530
+#: src/pacman/callback.c:561
 #, c-format
 msgid "checking package integrity"
 msgstr "მოწმდება პაკეტის მთლიანობა"
 
-#: src/pacman/callback.c:533
+#: src/pacman/callback.c:564
 #, c-format
 msgid "checking keys in keyring"
 msgstr "მოწმდება გასაღებების ასხმა"
 
-#: src/pacman/callback.c:536
+#: src/pacman/callback.c:567
 #, c-format
 msgid "loading package files"
 msgstr "იტვირთება პაკეტის ფაილები"
 
-#: src/pacman/callback.c:651
+#: src/pacman/callback.c:679
 #, c-format
 msgid "downloading %s...\n"
 msgstr "იტვირთება %s...\n"
@@ -331,10 +346,10 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "%jd გადაკეთებული ფაილი\n"
 
 #: src/pacman/conf.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] "malloc შეცდომა: ვერ მოხეხდა %zd ბიტის განთავსება\n"
+msgstr[0] "malloc შეცდომა: ვერ მოხერხდა %zu ბაიტის გამოყოფა\n"
 
 #: src/pacman/conf.c:251
 #, c-format
@@ -370,32 +385,34 @@ msgstr "კონფიგის ფაილი %s, ხაზი %d: არა�
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
+"კონფიგ ფაილი %s, ხაზი %d: '%s' არასწორი პარამეტრი, ხელმოწერის მხარდაჭერა "
+"არაა\n"
 
 #: src/pacman/conf.c:504 src/pacman/conf.c:609 src/pacman/conf.c:921
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr ""
+msgstr "კონფიგ ფაილი %s, ხაზი %d: '%s' დირექტივა სექციაში '%s' უცნობია.\n"
 
 #: src/pacman/conf.c:632
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr ""
+msgstr "სარკე '%s' შეიცავს '%s' ცვლადს, მაგრამ '%s' განსაზღვრული არაა.\n"
 
 #: src/pacman/conf.c:641
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
-msgstr ""
+msgstr "ვერ მოხერდა სერვერის URL-ს დამატება მონაცემთა ბაზაში '%s': %s (%s)\n"
 
 #: src/pacman/conf.c:661
 #, c-format
 msgid "could not register '%s' database (%s)\n"
-msgstr ""
+msgstr "ვერ დარეგისტრირდა '%s' მონაცემთა ბაზა (%s)\n"
 
 #: src/pacman/conf.c:676
 #, c-format
 msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr ""
+msgstr "ვერ მოხერდა სარკის დამატება მონაცემთა ბაზაში '%s': %s (%s)\n"
 
 #: src/pacman/conf.c:722
 #, c-format
@@ -405,9 +422,9 @@ msgid ""
 msgstr ""
 
 #: src/pacman/conf.c:725
-#, fuzzy, c-format
+#, c-format
 msgid "try running pacman-db-upgrade\n"
-msgstr " სცადეთ გაუშვათ pacman-db-upgrade\n"
+msgstr ""
 
 #: src/pacman/conf.c:744
 #, c-format
@@ -450,9 +467,9 @@ msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 
 #: src/pacman/conf.c:996
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "კონფიგის ფაილი %s, ხაზი %d: არასწორი ღირებულება '%s'-სთვის : '%s'\n"
+msgstr ""
 
 #: src/pacman/conf.c:1019
 #, c-format
@@ -486,39 +503,39 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr ""
 
 #: src/pacman/package.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Architecture"
-msgstr "არქიტექტურა :"
+msgstr "არქიტექტურა"
 
 #: src/pacman/package.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Backup Files"
-msgstr "სამარქაფე ფაილები:\n"
+msgstr "მარქაფის ფაილები"
 
 #: src/pacman/package.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "Build Date"
-msgstr "აწყობის თარიღი :"
+msgstr "აგების თარიღი"
 
 #: src/pacman/package.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size"
-msgstr "შეკუმშული ზომა :"
+msgstr "შეკუმშული ზომა"
 
 #: src/pacman/package.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Conflicts With"
-msgstr "კონფლიქტშია პაკეტებთან :"
+msgstr "კონფლიქტშია პაკეტებთან"
 
 #: src/pacman/package.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Depends On"
-msgstr "დამოკიდებულიაპაკეტებზე :"
+msgstr "დამოკიდებულია პაკეტებზე"
 
 #: src/pacman/package.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Description"
-msgstr "აღწერა :"
+msgstr "აღწერა"
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -528,32 +545,32 @@ msgstr "ჩამოტვირთვის ზომა"
 #: src/pacman/package.c:105
 #, c-format
 msgid "Groups"
-msgstr ""
+msgstr "ჯგუფები"
 
 #: src/pacman/package.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Install Date"
-msgstr "დაინსტალირების თარიღი :"
+msgstr "დაინსტალირების თარიღი"
 
 #: src/pacman/package.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Install Reason"
-msgstr "დაინსტალირების მიზეზი :"
+msgstr "დაინსტალირების მიზეზი"
 
 #: src/pacman/package.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Install Script"
-msgstr "დაინსტალირების სკრიპტი :"
+msgstr "დაინსტალირების სკრიპტი"
 
 #: src/pacman/package.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size"
-msgstr "დაინსტალირების ზომა :"
+msgstr "დაინსტალირებული ზომა"
 
 #: src/pacman/package.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Licenses"
-msgstr "ლიცენზიები :"
+msgstr "ლიცენზიები"
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -563,67 +580,67 @@ msgstr "MD5"
 #: src/pacman/package.c:112
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "სახელი"
 
 #: src/pacman/package.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Optional Deps"
-msgstr "დამატებითი :"
+msgstr "დამატებითი დამოკ."
 
 #: src/pacman/package.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For"
-msgstr "დამატებითია პაკეტებისთვის :"
+msgstr "დამატებითი რისთვის"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Packager"
-msgstr "პაკეტი"
+msgstr "შემფუთავი"
 
 #: src/pacman/package.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Provides"
-msgstr "უზრუნველყოფს პაკეტებს :"
+msgstr "უზრუნველჰყოფს"
 
 #: src/pacman/package.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Replaces"
-msgstr "ანაცვლებს პაკეტს :"
+msgstr "ანაცვლებს"
 
 #: src/pacman/package.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Repository"
-msgstr "რეპოზიტორია %s\n"
+msgstr "რეპოზიტორია"
 
 #: src/pacman/package.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Required By"
-msgstr "საჭიროა პაკეტებისთვის:"
+msgstr "რა მოითხოვს"
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum"
-msgstr "SHA256"
+msgstr "SHA-256 Sum"
 
 #: src/pacman/package.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures"
-msgstr "ხელმოწერა"
+msgstr "ხელმოწერები"
 
 #: src/pacman/package.c:122
 #, c-format
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/pacman/package.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By"
-msgstr "დამამტკიცებელი :"
+msgstr "დამამტკიცებელი"
 
 #: src/pacman/package.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Version"
-msgstr "ძველი ვერსია"
+msgstr "ვერსია"
 
 #: src/pacman/package.c:167 src/pacman/util.c:1205
 #, c-format
@@ -803,11 +820,13 @@ msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
 msgstr ""
+"-k, --check შემოწმება, არსებობს თუ არა პაკეტის ფაილები (-kk ფაილის "
+"თვისებებისთვის)\n"
 
 #: src/pacman/pacman.c:143 src/pacman/pacman.c:178
 #, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr ""
+msgstr "-l, --list მოკითხული პაკეტის კუთვნული ფაილების სია\n"
 
 #: src/pacman/pacman.c:144
 #, c-format
@@ -815,6 +834,8 @@ msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
 msgstr ""
+"-m, --foreign სინქრონიზაციის მბ(ებ)-ში ვერ ნაპოვნი დაინსტალირებული პაკეტების "
+"სია [filter]\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
@@ -1486,62 +1507,62 @@ msgstr ""
 #: src/pacman/util.c:760
 #, c-format
 msgid "Valid"
-msgstr ""
+msgstr "მართებული"
 
 #: src/pacman/util.c:763
 #, c-format
 msgid "Key expired"
-msgstr ""
+msgstr "გასაღები ამოიწურა"
 
 #: src/pacman/util.c:766
 #, c-format
 msgid "Expired"
-msgstr ""
+msgstr "ამოწურული"
 
 #: src/pacman/util.c:769
 #, c-format
 msgid "Invalid"
-msgstr ""
+msgstr "არასწორი"
 
 #: src/pacman/util.c:772
 #, c-format
 msgid "Key unknown"
-msgstr ""
+msgstr "გასაღები უცნობია"
 
 #: src/pacman/util.c:775
 #, c-format
 msgid "Key disabled"
-msgstr ""
+msgstr "გასაღები გამორთულია"
 
 #: src/pacman/util.c:778
 #, c-format
 msgid "Signature error"
-msgstr ""
+msgstr "ხელმოწერის შეცდომა"
 
 #: src/pacman/util.c:783
 #, c-format
 msgid "full trust"
-msgstr ""
+msgstr "სრული ნდობა"
 
 #: src/pacman/util.c:786
 #, c-format
 msgid "marginal trust"
-msgstr ""
+msgstr "მარგინალური ნდობა"
 
 #: src/pacman/util.c:789
 #, c-format
 msgid "never trust"
-msgstr ""
+msgstr "არასდროს ნდობა"
 
 #: src/pacman/util.c:793
 #, c-format
 msgid "unknown trust"
-msgstr ""
+msgstr "უცნობი ნდობა"
 
 #: src/pacman/util.c:797
 #, c-format
 msgid "%s, %s from \"%s\""
-msgstr ""
+msgstr "%s, %s \"%s\"-დან"
 
 #: src/pacman/util.c:815
 #, c-format
@@ -1616,12 +1637,12 @@ msgstr "რეპოზიტორია %s\n"
 #: src/pacman/util.c:1306
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
-msgstr ""
+msgstr "არასწორი მნიშვნელობა: %d არ არის %d-ს და %d-ს შორის\n"
 
 #: src/pacman/util.c:1313
 #, c-format
 msgid "invalid number: %s\n"
-msgstr ""
+msgstr "არასწორი ციფრი: %s\n"
 
 #: src/pacman/util.c:1397
 #, c-format
@@ -1677,36 +1698,3 @@ msgstr "შეცდომა:"
 #, c-format
 msgid "warning: "
 msgstr "გაფრთხილება:"
-
-#~ msgid "%s saved as %s.pacorig\n"
-#~ msgstr "%s შენახულია როგორც %s.pacorig\n"
-
-#~ msgid "Repository     :"
-#~ msgstr "რეპოზიტორია :"
-
-#~ msgid "Name           :"
-#~ msgstr "სახელი :"
-
-#~ msgid "Version        :"
-#~ msgstr "ვერსია :"
-
-#~ msgid "URL            :"
-#~ msgstr "URL :"
-
-#~ msgid "Groups         :"
-#~ msgstr "ჯგუფები :"
-
-#~ msgid "Download Size  :"
-#~ msgstr "ჩამოტვირთვის ზომა :"
-
-#~ msgid "Packager       :"
-#~ msgstr "ამწყობი :"
-
-#~ msgid "MD5 Sum        :"
-#~ msgstr "MD5 :"
-
-#~ msgid "SHA-256 Sum    :"
-#~ msgstr "SHA-256 :"
-
-#~ msgid "Signatures     :"
-#~ msgstr "ხელმოწერები :"

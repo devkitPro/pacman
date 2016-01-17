@@ -5,6 +5,7 @@
 # Translators:
 # Andrea Scarpino <inactive+bash@transifex.com>, 2014
 # Andrea Scarpino <inactive+bash@transifex.com>, 2014
+# Andrea Scarpino <inactive+bash@transifex.com>, 2014
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Giovanni Scafora <giovanni@archlinux.org>, 2011-2013,2015
 # ~Smlb <smlb@riseup.net>, 2014
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-06-10 06:33+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-19 13:18+0000\n"
 "Last-Translator: Giovanni Scafora <giovanni@archlinux.org>\n"
 "Language-Team: Italian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/it/)\n"
@@ -65,7 +66,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "impossibile estrarre %s%s: percorso troppo lungo"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -93,7 +94,7 @@ msgstr "estrazione: impossibile sovrascrivere la directory con il file %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "impossibile estrarre %s.pacnew: percorso troppo lungo"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -309,41 +310,40 @@ msgstr "impossibile aprire il file: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "impossibile ottenere le informazioni relative al filesystem\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr ""
-"impossibile ottenere le informazione relative al filesystem di %s: %s\n"
+msgstr "impossibile ottenere le informazioni relative al file %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "impossibile determinare il punto di montaggio del file %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 msgstr ""
-"La partizione %s è troppo piena: %jd blocchi necessari, %jd blocchi liberi\n"
+"La partizione %s è troppo piena: %jd blocchi necessari, %ju blocchi liberi\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "impossibile determinare i punti di montaggio del filesystem\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr ""
 "impossibile determinare il punto di montaggio della directory della cache "
 "%s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "impossibile determinare il punto di montaggio della root %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "La partizione %s è montata in sola lettura\n"
@@ -533,7 +533,7 @@ msgstr "prova il commit dell'operazione quando il database non è bloccato"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "impossibile avviare l'inizializzazione"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -777,22 +777,22 @@ msgstr "impossibile eseguire l'operazione di rimozione\n"
 msgid "could not commit transaction\n"
 msgstr "impossibile eseguire l'operazione\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "impossibile creare la directory temporanea\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "impossibile copiare il file temporaneo in %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "impossibile rimuovere %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "impossibile rimuovere la directory temporanea %s\n"
@@ -803,14 +803,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "impossibile trovare il file %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "impossibile creare una pipe (%s)\n"
+msgstr "impossibile scrivere nella pipe (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "impossibile creare una pipe (%s)\n"
+msgstr "impossibile leggere dalla pipe (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -863,6 +863,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "impossibile trovare o creare la cache del pacchetto, al suo posto sarà usato "
 "%s\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "impossibile aprire una pipe (%s)\n"

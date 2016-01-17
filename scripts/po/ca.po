@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Davidmp <medipas@gmail.com>, 2015
 # Hector Mtz-Seara <hseara@gmail.com>, 2011-2013
 # Josep <jpreales@gmail.com>, 2013
 # Josep <jpreales@gmail.com>, 2013
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-11-24 18:38+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 16:59+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -38,7 +39,7 @@ msgstr "pkgver() ha generat una versió no vàlida: %s"
 
 #: scripts/makepkg.sh.in:185
 msgid "Failed to update %s from %s to %s"
-msgstr "Ha fallat en actualitzar %s a %s"
+msgstr "Ha fallat actualitzar %s de %s a %s"
 
 #: scripts/makepkg.sh.in:192
 msgid "Updated version: %s"
@@ -96,7 +97,7 @@ msgstr "Dependències que falten:"
 
 #: scripts/makepkg.sh.in:316 scripts/makepkg.sh.in:330
 msgid "Failed to remove installed dependencies."
-msgstr "Ha fallat en eliminar les dependències instal·lades."
+msgstr "Ha fallat eliminar les dependències instal·lades."
 
 #: scripts/makepkg.sh.in:405
 msgid "Generating checksums for source files..."
@@ -131,9 +132,8 @@ msgid "FAILED"
 msgstr "HA FALLAT"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "S'estan validant els fitxers de codi font amb %s..."
+msgstr "S'estan validant %s fitxers amb %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -146,9 +146,8 @@ msgstr ""
 "les fonts."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Falten les comprovacions de la integritat."
+msgstr "Falten les comprovacions d'integritat per a "
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -271,7 +270,7 @@ msgstr "S'està afegint el fitxer %s..."
 
 #: scripts/makepkg.sh.in:1194
 msgid "Failed to add %s file to package."
-msgstr "Ha fallat en afegir el fitxer %s al paquet."
+msgstr "Ha fallat afegir el fitxer %s al paquet."
 
 #: scripts/makepkg.sh.in:1214
 msgid "Generating .MTREE file..."
@@ -287,11 +286,11 @@ msgstr "'%s' no és una extensió d'arxiu vàlida."
 
 #: scripts/makepkg.sh.in:1243
 msgid "Failed to create package file."
-msgstr "Ha fallat en crear el fitxer de paquet."
+msgstr "Ha fallat crear el fitxer de paquet."
 
 #: scripts/makepkg.sh.in:1260
 msgid "Failed to create symlink to package file."
-msgstr "Ha fallat en crear l'enllaç simbòlic al fitxer de paquet."
+msgstr "Ha fallat crear l'enllaç simbòlic al fitxer de paquet."
 
 #: scripts/makepkg.sh.in:1292
 msgid "Signing package..."
@@ -323,7 +322,7 @@ msgstr "S'està comprimint el paquet de codi font..."
 
 #: scripts/makepkg.sh.in:1372
 msgid "Failed to create source package file."
-msgstr "Ha fallat en crear el fitxer de paquet de codi font."
+msgstr "Ha fallat crear el fitxer de paquet de codi font."
 
 #: scripts/makepkg.sh.in:1389
 msgid "Failed to create symlink to source package file."
@@ -339,7 +338,7 @@ msgstr "S'està instal·lant el grup de paquets %s amb %s... "
 
 #: scripts/makepkg.sh.in:1421
 msgid "Failed to install built package(s)."
-msgstr "Ha fallat en instal·lar els paquets construïts."
+msgstr "Ha fallat instal·lar els paquets construïts."
 
 #: scripts/makepkg.sh.in:1440 scripts/libmakepkg/util/source.sh.in:129
 msgid "Unknown download protocol: %s"
@@ -380,7 +379,6 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "No es pot trobar el binari %s necessari per comprovar els arxius font."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
@@ -393,9 +391,8 @@ msgstr ""
 "No es pot trobar el binari %s necessari per a la compressió dels binaris."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "No es pot trobar el binari %s necessari per a la signatura de paquets."
+msgstr "No es pot trobar el binari %s necessari per optimitzar imatges PNG."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -594,10 +591,12 @@ msgstr "  --nosign         No creïs una signatura per al paquet"
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist    Només llista els paquests que serien produïts, sense "
+"PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   Imprimeix la SRCINFO generada i surt"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -658,14 +657,14 @@ msgstr "Si %s no s'ha especificat, %s buscarà \"%s\""
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAquest és "
-"un programa lliure; consulteu el codi font per a les condicions de còpia."
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAixò és "
+"programari lliure; consulteu el codi font per a les condicions de còpia."
 "\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
@@ -765,19 +764,19 @@ msgstr "No s'han pogut resoldre totes les dependències."
 msgid "Using existing %s tree"
 msgstr "S'està usant l'arbre existent %s"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "S'està esborrant el directori %s existent..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Les fonts estan preparades."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "El directori del paquet està llest."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "S'ha acabat de fer: %s"
 
@@ -803,19 +802,19 @@ msgstr ""
 "s'han utilitzat caràcters no vàlids al nom \"%s\". Permès: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "No s'ha detectat la versió per a la plantilla \"%s\""
+msgstr "No s'ha pogut detectar la versió per a la plantilla \"%s\"\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Ha fallat trobar un fitxer de plantilla que coincideixi amb \"%s\"\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "ha fallat en obrir \"%s\": %s"
+msgstr "ha fallat obrir \"%s\": %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -879,12 +878,12 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
-"Aquest és un programa lliure; consulteu el codi font per a les condicions de "
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Això és programari lliure; consulteu el codi font per a les condicions de "
 "còpia.\n"
 "NO hi ha cap GARANTIA, en la mesura permesa per la llei.\n"
 
@@ -924,13 +923,13 @@ msgstr "  --nocolor            inhabilita els missatges de sortida acolorits"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nAquest és un programa lliure; consulteu el codi font per a les condicions "
-"de còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
+"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nAixò és programari lliure; consulteu el codi font per a les condicions de "
+"còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -1319,7 +1318,7 @@ msgstr "S'està fent i MD5sumant la nova base de dades..."
 
 #: scripts/pacman-optimize.sh.in:146
 msgid "Untar'ing %s failed."
-msgstr "Ha fallat en fer untar de %s."
+msgstr "Ha fallat l'extracció del Tar de %s."
 
 #: scripts/pacman-optimize.sh.in:149
 msgid "Syncing database to disk..."
@@ -1397,9 +1396,9 @@ msgid ""
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nAquest és un "
-"programa lliure; consulteu el codi font per a les condicions de còpia.\\nNO "
-"hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nAixò és "
+"programari lliure; consulteu el codi font per a les condicions de còpia."
+"\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 #: scripts/pkgdelta.sh.in:94 scripts/repo-add.sh.in:346
 msgid "Invalid package file '%s'."
@@ -1472,13 +1471,12 @@ msgstr ""
 "dades\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      elimina el fitxer del paquet del disc en actualitzar "
-"l'entrada de la base de dades\\n"
+"  -R, --remove      elimina el fitxer antic del paquet del disc després "
+"d'actualitzar la base de dades\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1543,13 +1541,13 @@ msgstr "Exemple:  repo-remove /ruta/a/repositori.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
-"\\nAquest es un programa lliure; consulteu el codi font per a les condicions "
-"de còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nAixò és programari lliure; consulteu el codi font per a les condicions de "
+"còpia.\\nNO hi ha cap GARANTIA, en la mesura permesa per la llei.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1564,7 +1562,6 @@ msgid "Removing existing entry '%s'..."
 msgstr "S'està eliminant l'entrada existent \"%s\"..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
 msgstr "S'estan eliminant els fitxers delta buits..."
 
@@ -1573,18 +1570,17 @@ msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "No s'ha pogut trobar el binary gpg! Hi ha GnuPG instal·lat?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "S'està signant la base de dades..."
+msgstr "S'està signant la base de dades \"%s\"..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "S'ha creat el fitxer de signatura \"%s\""
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Ha fallat la signatura de la base de dades de paquets."
+msgstr ""
+"Ha fallat la signatura del fitxer de la base de dades de paquets \"%s\""
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1603,9 +1599,8 @@ msgid "Database signature was NOT valid!"
 msgstr "La singantura de la base de dades NO és vàlida!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "«%s» no té una extensió d'arxiu vàlida."
+msgstr "\"%s\" no té una extensió vàlida d'arxiu de base de dades ."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1613,7 +1608,7 @@ msgstr "Ja existeix una entrada per a \"%s\""
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "No es poden usar signatures blindades per als paquets: "
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1636,13 +1631,12 @@ msgid "Old package file not found: %s"
 msgstr "Fitxer antic del paquet no trobat: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Fitxer de paquet no vàlid \"%\"."
+msgstr "S'està eliminant el fitxer antic de paquet \"%s\""
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
-msgstr "Ha fallat en adquirir el fitxer de bloqueig: %s."
+msgstr "Ha fallat adquirir el fitxer de bloqueig: %s."
 
 #: scripts/repo-add.sh.in:523
 msgid "Held by process %s"
@@ -1719,9 +1713,8 @@ msgid "No packages modified, nothing to do."
 msgstr "No s'ha modificat cap paquet, res per fer."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "S'està cercant el paquet \"%s\"..."
+msgstr "S'està comprovant si hi ha assumptes d'empaquetament..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1810,18 +1803,17 @@ msgstr "el fitxer %s (%s) no existeix o no és un fitxer normal."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s hauria de ser una matriu"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s hauria de ser una matriu"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "No s'ha pogut importar %s."
+msgstr "%s no hauria de ser una matriu"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1832,16 +1824,14 @@ msgid "Extracting sources..."
 msgstr "Extracció de codi font ..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Ramificant %s ..."
+msgstr "S'està bifurcant %s ..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
-msgstr "Error durant la ramificació %s"
+msgstr "Fallada mentre es bifurcava %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
 msgstr "Obtenint %s ..."
 
@@ -1892,7 +1882,7 @@ msgstr "S'està extraient  %s amb %s"
 
 #: scripts/libmakepkg/source/file.sh.in:138
 msgid "Failed to extract %s"
-msgstr "Ha fallat en extreure %s"
+msgstr "Ha fallat extreure %s"
 
 #: scripts/libmakepkg/source/git.sh.in:44 scripts/libmakepkg/source/hg.sh.in:44
 #: scripts/libmakepkg/source/svn.sh.in:64
@@ -1940,12 +1930,11 @@ msgstr "S'estan eliminant fitxers %s..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "S'estan optimitzant imatges PNG..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "No s'ha pogut comprimir el binari: %s "
+msgstr "No s'ha pogut optimitzar la imatge PNG: "
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -2000,25 +1989,3 @@ msgstr "L'opció \"%s\" no accepta cap argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "l'opció \"%s\" requereix un argument"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "No s'ha pogut canviar al directori %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr ""
-#~ "Noteu que molts paquets poden necessitar una línia afegida als seus %s"
-
-#~ msgid "such as %s."
-#~ msgstr "com ara %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <list>     Construeix només els paquets llistats d'un paquet "
-#~ "dividit"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr ""
-#~ "  -f, --files       actualitza la llista de fitxers de la base de dades\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "S'està eliminant el paquet existent \"%s\""

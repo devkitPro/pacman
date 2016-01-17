@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# kusakata <shohei@kusakata.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-14 09:21+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 12:17+0000\n"
 "Last-Translator: kusakata <shohei@kusakata.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ja/)\n"
@@ -124,9 +125,8 @@ msgid "FAILED"
 msgstr "失敗"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "%s でソースファイルを検証..."
+msgstr "%s で %s ファイルを検証..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -137,9 +137,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "整合性チェック (%s) で source 行のサイズが異なっています。"
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "整合性チェックが見つかりません。"
+msgstr "整合性チェックが見つかりません: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -366,7 +365,6 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "ソースファイルを検証するのに必要な %s バイナリが見つかりません。"
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
@@ -378,9 +376,8 @@ msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "バイナリを圧縮するのに必要な %s バイナリが見つかりません。"
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "パッケージに署名するのに必要な %s バイナリが見つかりません。"
+msgstr "PNG 画像を圧縮するのに必要な %s バイナリが見つかりません。"
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -561,10 +558,11 @@ msgstr "  --nosign         パッケージに署名を作成しない"
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist    Only list packages that would be produced, without PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   生成された SRCINFO を出力して終了"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -623,12 +621,12 @@ msgstr "%s が指定されていない場合、%s は '%s' を探します"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -730,19 +728,19 @@ msgstr "全ての依存関係を解決できませんでした。"
 msgid "Using existing %s tree"
 msgstr "既存の %s ツリーを使用"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "既存の %s ディレクトリを削除..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "ソースの準備ができました。"
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "パッケージディレクトリの準備ができました。"
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "作成完了: %s"
 
@@ -766,19 +764,19 @@ msgstr ""
 "名前 '%s' に不正な文字が使用されています。使用可能文字: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "テンプレート '%s' のバージョンが検出できませんでした"
+msgstr "テンプレート '%s' のバージョンが検出できませんでした\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "'%s' に一致するテンプレートファイルが見つけられませんでした\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "'%s' を開けませんでした: %s"
+msgstr "'%s' を開けませんでした: %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -834,11 +832,11 @@ msgstr "  --version             バージョン情報\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 
@@ -877,11 +875,11 @@ msgstr "  --nocolor            メッセージの出力をカラーにしない"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -1398,13 +1396,12 @@ msgid ""
 msgstr "  -n, --new         データベースにないパッケージのみを追加\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      データベースエントリを更新する際にディスクからパッケージ"
-"ファイルを削除\\n"
+"  -R, --remove      データベースの更新後に古いパッケージファイルをディスクか"
+"ら削除\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1459,11 +1456,11 @@ msgstr "例:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -1480,27 +1477,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "既存のエントリ '%s' を削除..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "空の差分ファイルを削除 ..."
+msgstr "空の差分ファイルを削除..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "gpg バイナリが見つかりません！GnuPG がインストールされていますか？"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "データベースに署名..."
+msgstr "データベース '%s' に署名..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "作成された署名ファイル '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "パッケージデータベースの署名に失敗しました。"
+msgstr "パッケージデータベースファイル '%s' の署名に失敗しました"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1519,9 +1513,8 @@ msgid "Database signature was NOT valid!"
 msgstr "データベースの署名が不正です！"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s'  に圧縮ファイルの拡張子がありません。"
+msgstr "'%s' にデータベースアーカイブの拡張子がありません。"
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1529,7 +1522,7 @@ msgstr "'%s' のエントリは既に存在します"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "パッケージに armored 署名を使うことはできません: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1552,9 +1545,8 @@ msgid "Old package file not found: %s"
 msgstr "古いパッケージが見つかりませんでした: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "不正なパッケージファイル '%s'。"
+msgstr "古いパッケージファイル '%s' を削除"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1633,9 +1625,8 @@ msgid "No packages modified, nothing to do."
 msgstr "変更されたパッケージはありません。"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "パッケージ '%s' を検索..."
+msgstr "パッケージの問題をチェック..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1724,18 +1715,17 @@ msgstr "%s ファイル (%s) が存在しないか正しいファイルではあ
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s は配列である必要があります"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s は配列である必要があります"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s をインポートできませんでした。"
+msgstr "%s は配列にはできません"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1746,18 +1736,16 @@ msgid "Extracting sources..."
 msgstr "ソースを展開..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "%s ブランチを作成 ..."
+msgstr "%s ブランチを作成..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "%s ブランチの作成に失敗"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Pulling %s ..."
+msgstr "Pulling %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1854,12 +1842,11 @@ msgstr "%s ファイルを削除..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "PNG 画像を最適化..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "バイナリを圧縮できませんでした : %s"
+msgstr "PNG 画像を最適化できませんでした : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1912,23 +1899,3 @@ msgstr "オプション '%s' に引数はつけられません"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "オプション '%s' には引数が必要です"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "ディレクトリの変更に失敗 %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "ほとんどのパッケージは %s に行を追加する必要があります"
-
-#~ msgid "such as %s."
-#~ msgstr "例えば %s。"
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <list>     分割パッケージからリストされているパッケージだけをビル"
-#~ "ド"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       データベースのファイルリストを更新\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "既存のパッケージ '%s' を削除"

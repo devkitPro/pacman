@@ -15,13 +15,14 @@
 # Pedro Román <roizheim@gmail.com>, 2013-2015
 # picodotdev <pico.dev@gmail.com>, 2015
 # Pedro Román <roizheim@gmail.com>, 2013
+# Swyter <Swyterzone@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-08-25 00:34+0000\n"
-"Last-Translator: Pedro Román <roizheim@gmail.com>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 12:42+0000\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -136,9 +137,8 @@ msgid "FAILED"
 msgstr "HA FALLADO"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Validando las fuentes con %s…"
+msgstr "Validando %s fuentes con %s…"
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -151,9 +151,8 @@ msgstr ""
 "la fuente."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Faltan las comprobaciones de integridad."
+msgstr "Faltan las comprobaciones de integridad de: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -387,11 +386,10 @@ msgstr ""
 "No se pudo encontrar el binario %s requerido para verificar las fuentes."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para verificar las sumas de "
+"No se pudo encontrar el binario %s necesario para verificar las sumas de "
 "control de las fuentes."
 
 #: scripts/makepkg.sh.in:1555
@@ -400,9 +398,9 @@ msgstr ""
 "No se pudo encontrar el binario %s requerido para comprimir los binarios."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "No se pudo encontrar el binario %s requerido para firmar paquetes."
+msgstr ""
+"No se pudo encontrar el binario %s necesario para optimizar imágenes PNG."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -508,7 +506,7 @@ msgstr "  -m, --nocolor    Desactiva los colores de los mensajes de salida"
 
 #: scripts/makepkg.sh.in:1712
 msgid "  -o, --nobuild    Download and extract files only"
-msgstr "  -o, --nobuild Únicamente descarga y extrae los archivos"
+msgstr "  -o, --nobuild    Únicamente descarga y extrae los archivos"
 
 #: scripts/makepkg.sh.in:1713
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
@@ -537,20 +535,20 @@ msgstr "  -s, --syncdeps   Instala las dependencias que faltan para %s"
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"  -S, --source Genera un archivo comprimido de fuentes únicamente, "
-"excluyendo las fuentes descargadas"
+"  -S, --source     Genera un archivo comprimido «tar» sólo de fuentes,\n"
+"                   excluyendo las fuentes descargadas"
 
 #: scripts/makepkg.sh.in:1718
 msgid "  -V, --version    Show version information and exit"
-msgstr "  -V, --version Muestra información de la versión y sale"
+msgstr "  -V, --version    Muestra información de la versión y sale"
 
 #: scripts/makepkg.sh.in:1719
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"  --allsource Genera un archivo comprimido de fuentes únicamente, incluyendo "
-"las fuentes descargadas"
+"  --allsource      Genera un archivo comprimido «tar» de fuentes,\n"
+"                   incluyendo las fuentes descargadas"
 
 #: scripts/makepkg.sh.in:1720
 msgid "  --check          Run the %s function in the %s"
@@ -559,18 +557,18 @@ msgstr "  --check          Ejecuta la función %s en el %s"
 #: scripts/makepkg.sh.in:1721
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
-"  --config <archivo>  Usa un archivo de configuración alternativo (en vez de "
+"  --config <ruta>  Usa un archivo de configuración alternativo (en vez de "
 "«%s»)"
 
 #: scripts/makepkg.sh.in:1722
 msgid "  --holdver        Do not update VCS sources"
-msgstr "  --holdver          No actualiza las fuentes VCS"
+msgstr "  --holdver        No actualiza las fuentes VCS"
 
 #: scripts/makepkg.sh.in:1723
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
-"  --key <clave>   Especifica la clave a usar para firmar %s en lugar de la "
+"  --key <clave>    Especifica la clave a usar para firmar %s en lugar de la "
 "clave por omisión"
 
 #: scripts/makepkg.sh.in:1724
@@ -592,11 +590,12 @@ msgstr "  --nosign         No crea una firma para el paquete"
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
-msgstr ""
+msgstr "  --packagelist    Lista únicamente paquetes reproducibles, sin PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr ""
+"  --printsrcinfo   Muestra en pantalla el archivo SRCINFO generado y sale"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -621,28 +620,28 @@ msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
-"  --verifysource    Descarga el código fuente (si es necesario) y realiza "
-"las comprobaciones de integridad"
+"  --verifysource   Descarga el código fuente (si es necesario) y comprueba "
+"su integridad"
 
 #: scripts/makepkg.sh.in:1736
 msgid "These options can be passed to %s:"
-msgstr "Estas opciones pueden ser pasadas a %s:"
+msgstr "Se pueden pasar estas opciones a %s:"
 
 #: scripts/makepkg.sh.in:1738
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr "  --asdeps Instala paquetes como dependencias (no como explicitamente)"
+msgstr "  --asdeps         Instala paquetes como dependencias (no explícitas)"
 
 #: scripts/makepkg.sh.in:1739
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
-msgstr "--needed          No reinstala los objetivos que ya están actualizados"
+msgstr ""
+"  --needed         No reinstala los objetivos que ya están actualizados"
 
 #: scripts/makepkg.sh.in:1740
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
-"      --noconfirm      No solicita confirmación alguna cuando se encuentra "
-"resolviendo dependencias"
+"  --noconfirm      No solicita confirmación alguna al resolver dependencias"
 
 #: scripts/makepkg.sh.in:1741
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
@@ -651,17 +650,17 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1743
 msgid "If %s is not specified, %s will look for '%s'"
-msgstr "Si %s no es especificado, %s buscará «%s»"
+msgstr "Si no se especifica %s, %s intentará utilizar «%s»"
 
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2006-2014 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2006-2015 Equipo desarrollador de pacman <pacman-"
 "dev@archlinux.org>\\nDerechos de autor (c) 2002-2006 Judit Vinet "
 "<jvinet@zeroflux.org>\\n\\nEsto es software libre; véase el código fuente "
 "para condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el "
@@ -763,19 +762,19 @@ msgstr "No se pudieron resolver todas las dependencias."
 msgid "Using existing %s tree"
 msgstr "Usando el árbol existente %s"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Eliminando el directorio %s…"
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Las fuentes están listas."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "El directorio del paquete está ya listo."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Compilación terminada: %s"
 
@@ -802,19 +801,19 @@ msgstr ""
 "alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "No se pudo detectar la versión de la plantilla «%s»"
+msgstr "No se pudo detectar la versión de la plantilla «%s»\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "no se pudo encontrar archivos de plantilla que coincidan con «%s»\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "error al abrir «%s»: %s"
+msgstr "error al abrir «%s»: %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -875,11 +874,11 @@ msgstr "  --version             Información de la versión\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Derechos de autor (c) 2013-2014 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2013-2015 Equipo desarrollador de pacman <pacman-"
 "dev@archlinux.org>.\n"
 "Esto es software libre; véase el código fuente para condiciones de copia.\n"
 "No se ofrece NINGUNA GARANTÍA sobre el programa, hasta lo permitido por las "
@@ -923,11 +922,11 @@ msgstr "  --nocolor            desactiva los mensajes de salida coloreados"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2010-2014 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2010-2015 Equipo desarrollador de pacman <pacman-"
 "dev@archlinux.org>.\\nEsto es software libre; véase el código fuente para "
 "condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el programa, "
 "hasta lo permitido por las leyes aplicables.\\n"
@@ -990,20 +989,20 @@ msgstr ""
 #: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
 msgstr ""
-"  -d, --delete                Elimina los identificadores de claves (keyids) "
+"  -d, --delete               Elimina los identificadores de claves (keyids) "
 "especificados"
 
 #: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
 msgstr ""
-"  -e, --export                Exporta todos los identificadores de claves o "
+"  -e, --export               Exporta todos los identificadores de claves o "
 "los especificados"
 
 #: scripts/pacman-key.sh.in:66
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger                Lista las huellas de todos los identificadores "
+"  -f, --finger               Lista las huellas de todos los identificadores "
 "de claves o los especificados"
 
 #: scripts/pacman-key.sh.in:67
@@ -1020,7 +1019,8 @@ msgstr ""
 #: scripts/pacman-key.sh.in:69
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
-"  -u, --updatedb            Actualiza la base de datos de confianza de pacman"
+"  -u, --updatedb             Actualiza la base de datos de confianza de "
+"pacman"
 
 #: scripts/pacman-key.sh.in:70
 msgid ""
@@ -1039,74 +1039,76 @@ msgstr ""
 #: scripts/pacman-key.sh.in:72
 msgid "  --import                  Imports pubring.gpg from dir(s)"
 msgstr ""
-"  --import                    Importa pubring.gpg desde el directorio(s)"
+"  --import                   Importa pubring.gpg desde el directorio(s)"
 
 #: scripts/pacman-key.sh.in:73
 msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr ""
-"  --import-trustdb            Importa los valores de los propietarios de "
+"  --import-trustdb           Importa los valores de los propietarios de "
 "confianza desde trustdb.gpg en el directorio(s)"
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init Asegúrese de que el depósito de claves está inicializado "
-"correctamente"
+"  --init                     Asegurar que el depósito de claves esté "
+"correctamente inicializado"
 
 #: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
-msgstr "--list-sigs Lista las claves y sus firmas"
+msgstr "  --list-sigs                Lista las claves y sus firmas"
 
 #: scripts/pacman-key.sh.in:76
 msgid "  --lsign-key               Locally sign the specified keyid"
-msgstr "  --lsign-key Firma localmente el identificador de clave especificado"
+msgstr ""
+"  --lsign-key                Firma localmente el identificador de clave "
+"especificado"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
 "  --populate                Reload the default keys from the (given) keyrings"
 "\\n                            in '%s'"
 msgstr ""
-"  --populate Recarga las claves por omisión de los depósitos (dados)\\n en "
-"«%s»"
+"  --populate                 Recarga las claves por omisión de los depósitos "
+"(seleccionados)\\n en «%s»"
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 msgstr ""
-"  --refresh-keys            Actualiza todas las claves o las especificadas "
-"desde un servidor de claves"
+"  --refresh-keys             Actualiza todas las claves (o las "
+"especificadas) desde un servidor de claves"
 
 #: scripts/pacman-key.sh.in:82
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
-"  --config <archivo>        Usa un archivo de configuración alternativo"
-"\\n                            (en lugar de «%s»)"
+"  --config <archivo>         Usa un archivo de configuración alternativo\n"
+"                             (en lugar de «%s»)"
 
 #: scripts/pacman-key.sh.in:84
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
-"  --gpgdir <directorio>            Configura un directorio alternativo para "
-"GnuPG\\n                            (en lugar de «%s»)"
+"  --gpgdir <directorio>      Configura un directorio alternativo para GnuPG\n"
+"                             (en lugar de «%s»)"
 
 #: scripts/pacman-key.sh.in:86
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
 msgstr ""
-"  --keyserver <dirección URL del servidor> Especifica un servidor de claves "
-"para utilizar cuando sea necesario"
+"  --keyserver <dirección>    Especifica un servidor de claves para utilizar "
+"cuando sea necesario"
 
 #: scripts/pacman-key.sh.in:88
 msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help                Muestra este mensaje de ayuda y sale"
+msgstr "  -h, --help                 Muestra este mensaje de ayuda y sale"
 
 #: scripts/pacman-key.sh.in:89
 msgid "  -V, --version             Show program version"
-msgstr "  -V, --version             Muestra la versión del programa"
+msgstr "  -V, --version              Muestra la versión del programa"
 
 #: scripts/pacman-key.sh.in:130
 msgid "Failed to lookup key by name:"
@@ -1378,24 +1380,25 @@ msgstr "Opciones:\\n"
 
 #: scripts/pkgdelta.sh.in:60 scripts/repo-add.sh.in:79
 msgid "  -q, --quiet       minimize output\\n"
-msgstr "  -q, --quiet       reduce la salida\\n"
+msgstr ""
+"  -q, --quiet       reduce al mínimo la cantidad de información de salida\\n"
 
 #: scripts/pkgdelta.sh.in:61
 msgid "  --nocolor         remove color from output\\n"
-msgstr "  --nocolor quita el color de la salida\\n"
+msgstr "      --nocolor     quita el color de la salida\\n"
 
 #: scripts/pkgdelta.sh.in:62
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
 msgstr ""
-"  --min-pkg-size tamaño mínimo del paquete a partir del cual se crearán los "
-"diferenciales (deltas)\\n"
+"  --min-pkg-size    tamaño mínimo del paquete a partir del cual se crearán "
+"los diferenciales (deltas)\\n"
 
 #: scripts/pkgdelta.sh.in:63
 msgid ""
 "  --max-delta-size  percent of new package above which the delta will be "
 "discarded\\n"
 msgstr ""
-"  --max-delta-size porcentaje del paquete nuevo a partir del cual se "
+"  --max-delta-size  porcentaje del paquete nuevo a partir del cual se "
 "descartará la creación del diferencial (delta)\\n"
 
 #: scripts/pkgdelta.sh.in:68
@@ -1465,28 +1468,26 @@ msgid ""
 "\\nMultiple packages to add can be specified on the command line.\\n"
 msgstr ""
 "repo-add actualizará la base de datos de paquetes leyendo desde un paquete."
-"\\nPueden ser agregados varios paquetes especificándolo en la línea de "
-"órdenes.\\n"
+"\\nPueden añadirse varios paquetes especificándolo en la línea de órdenes.\\n"
 
 #: scripts/repo-add.sh.in:62
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
-"  -d, --delta       genera y añade un diferencial para la actualización del"
-"\\n                    paquete\\n"
+"  -d, --delta       genera y añade un diferencial para la actualización del "
+"paquete\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
-msgstr "-n, --new solamente agrega paquetes nuevos a la base de datos\\n"
+msgstr "  -n, --new         sólo añade paquetes nuevos a la base de datos\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      elimina el archivo del paquete del disco cuando la "
-"entrada de la base de datos sea actualizada\\n"
+"  -R, --remove      elimina el paquete obsoleto del disco tras actualizar la "
+"base de datos\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1511,7 +1512,7 @@ msgstr "Por favor siga, no hay nada que ver aquí.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "  --nocolor         turn off color in output\\n"
-msgstr "--nocolor desactiva los colores de la salida\\n"
+msgstr "      --nocolor     desactiva los colores de los mensajes de salida\\n"
 
 #: scripts/repo-add.sh.in:80
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
@@ -1550,11 +1551,11 @@ msgstr "Ejemplo:  repo-remove /ruta/hasta/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2006-2014 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2006-2015 Equipo desarrollador de pacman <pacman-"
 "dev@archlinux.org>\\n\\nEsto es software libre; véase el código fuente para "
 "condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el programa, "
 "hasta lo permitido por las leyes aplicables.\\n"
@@ -1572,7 +1573,6 @@ msgid "Removing existing entry '%s'..."
 msgstr "Quitando la entrada existente «%s»…"
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
 msgstr "Quitando los archivos diferenciales vacíos…"
 
@@ -1581,7 +1581,6 @@ msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "¡No se pudo encontrar el binario gpg! ¿GnuPG está instalado?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
 msgstr "Firmando la base de datos…"
 
@@ -1590,7 +1589,6 @@ msgid "Created signature file '%s'"
 msgstr "Creado el archivo de firma «%s»"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
 msgstr "No se pudo firmar la base de datos de paquetes."
 
@@ -1611,9 +1609,8 @@ msgid "Database signature was NOT valid!"
 msgstr "¡La firma de la base de datos NO era válida!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "«%s» no tiene una extensión de archivo válida."
+msgstr "«%s» no tiene una extensión de archivo de base de datos válida."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1621,7 +1618,7 @@ msgstr "Ya existía una entrada para «%s» "
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "No se pueden usar firmas con armadura para los paquetes: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1644,9 +1641,8 @@ msgid "Old package file not found: %s"
 msgstr "No ha sido encontrado el antiguo archivo del paquete: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "El archivo del paquete «%s» no es válido."
+msgstr "Eliminando archivo del paquete antiguo «%s»"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1727,9 +1723,8 @@ msgid "No packages modified, nothing to do."
 msgstr "No se modificaron los paquetes, no hay nada que hacer."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Buscando el paquete «%s»…"
+msgstr "Buscando problemas de empaquetado…"
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1818,18 +1813,17 @@ msgstr "el archivo «%s» (%s) no existe o no es un archivo regular."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s debería de ser un «array»"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s debería de ser un «array»"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s no se pudo importar."
+msgstr "%s no debería de ser un «array»"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1840,7 +1834,6 @@ msgid "Extracting sources..."
 msgstr "Extrayendo las fuentes…"
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
 msgstr "Desglosando %s…"
 
@@ -1849,7 +1842,6 @@ msgid "Failure while branching %s"
 msgstr "Hubo fallos durante el desglose de %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
 msgstr "Sondeando %s…"
 
@@ -1954,12 +1946,11 @@ msgstr "Quitando los archivos %s…"
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Optimizando imágenes PNG..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "No se pudo comprimir el binario: %s"
+msgstr "No se pudo optimizar la imagen PNG: %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -2013,26 +2004,3 @@ msgstr "la opción «%s» no permite argumentos"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "la opción «%s» requiere un argumento"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Hubo fallos al cambiar al directorio %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr ""
-#~ "Tenga en cuenta que muchos paquetes pueden necesitar añadir una línea a "
-#~ "sus %s"
-
-#~ msgid "such as %s."
-#~ msgstr "como por ejemplo %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <lista> Compila únicamente los paquetes listados desde un paquete "
-#~ "separado"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr ""
-#~ "  -f, --files       actualiza la lista de archivos de la base de datos\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Eliminando paquete existente «%s»"

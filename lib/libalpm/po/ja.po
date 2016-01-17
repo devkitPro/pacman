@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-11-21 21:51+0000\n"
-"Last-Translator: ABE Satoru <s@polamjag.info>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 12:19+0000\n"
+"Last-Translator: kusakata <shohei@kusakata.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ja/)\n"
 "Language: ja\n"
@@ -59,7 +59,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "%s%s を展開できませんでした: パスが長すぎます"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -87,7 +87,7 @@ msgstr "extract: ディレクトリをファイルで上書きできません %s
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "%s.pacnew を展開できませんでした: パスが長すぎます"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -297,37 +297,37 @@ msgstr "ファイルを開けませんでした: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "ファイルシステムの情報を取得できませんでした\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "%s のファイルシステム情報を取得できませんでした: %s\n"
+msgstr "%s のファイル情報を取得できませんでした\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "ファイル %s のマウントポイントを決定できませんでした\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "パーティション %s が一杯です: %jd ブロック必要、 %jd ブロック空き\n"
+msgstr "パーティション %s が一杯です: %jd ブロック必要、 %ju ブロック空き\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "ファイルシステムのマウントポイントを決定できませんでした\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "キャッシュディレクトリ %s のマウントポイントを決定できませんでした\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "root マウントポイント %s を決定できませんでした\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "パーティション %s は読み込み専用でマウントされています\n"
@@ -517,7 +517,7 @@ msgstr "データベースがロックされていない間にトランザクシ
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "トランザクションのフックを実行できませんでした"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -759,22 +759,22 @@ msgstr "削除処理が完了できませんでした\n"
 msgid "could not commit transaction\n"
 msgstr "処理が完了できませんでした\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "一時ディレクトリを作成できません\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "一時ファイルを %s にコピーできません (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s を削除できません\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "一時ディレクトリ %s を削除できません\n"
@@ -785,14 +785,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "ファイル %s を確認できませんでした: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "パイプを作成できません (%s)\n"
+msgstr "パイプに書き込めません (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "パイプを作成できません (%s)\n"
+msgstr "パイプを読み込めません (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -844,6 +844,3 @@ msgstr "%s キャッシュが存在しません、作成します...\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "パッケージキャッシュを発見・作成できませんでした、かわりに %s を使用します\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "パイプを開けません (%s)\n"

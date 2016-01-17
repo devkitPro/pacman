@@ -7,14 +7,16 @@
 # Gregori, 2013
 # Ibnu Daru Aji, 2013-2014
 # Hasan Al Banna, 2013
+# Ibnu Daru Aji, 2013
 # Mohamad Hasan Al Banna <se7entime@openmailbox.org>, 2013
+# Mohamad Hasan Al Banna <se7entime@openmailbox.org>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2014-11-23 11:00+0000\n"
-"Last-Translator: Ibnu Daru Aji\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-10 07:09+0000\n"
+"Last-Translator: Mohamad Hasan Al Banna <se7entime@openmailbox.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/id/)\n"
 "Language: id\n"
@@ -63,7 +65,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "gagal mengekstrak %s%s: jalur terlalu panjang"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -91,7 +93,7 @@ msgstr "ekstrak: tidak menimpa direktori dengan berkas %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "gagal mengekstrak %s.pacnew: jalur terlalu panjang"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -298,37 +300,37 @@ msgstr "tidak dapat membuka berkas: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "tidak dapat mendapatkan informasi sistem berkas\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "tidak dapat mendapatkan informasi sistem berkas untuk %s: %s\n"
+msgstr "tidak bisa mendapatkan informasi berkas untuk %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "tidak dapat menentukan titik kait untuk berkas %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Partisi %s terlalu penuh: %jd blok dibutuhkan, %jd blok bebas\n"
+msgstr "Partisi %s terlalu penuh: %jd blok dibutuhkan, %ju blok bebas\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "tidak dapat menentukan titik kait sistem berkas\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "tidak dapat menentukan titik kait cachedir %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "tidak dapat menentukan titik kait root %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partisi %s dikaitkan hanya baca\n"
@@ -517,7 +519,7 @@ msgstr "percobaan transaksi dilakukan ketika database tidak dikunci"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "gagal untuk menjalankan kaitan transaksi"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -759,22 +761,22 @@ msgstr "tidak dapat melakukan transaksi penghapusan\n"
 msgid "could not commit transaction\n"
 msgstr "tidak dapat melakukan transaksi\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "tidak dapat membuat direktori temporer\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "tidak dapat menyalin berkas temporer ke %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "tidak dapat menghapus %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "tidak dapat menghapus direktori temporer %s\n"
@@ -785,14 +787,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "tidak dapat mencatat stat berkas %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "tidak dapat membuat pipe (%s)\n"
+msgstr "gagal menulis ke pipa (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "tidak dapat membuat pipe (%s)\n"
+msgstr "gagal membaca dari pipa (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -843,6 +845,3 @@ msgstr "tidak ada %s cache yang ada, membuat...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "tidak dapat membuat cache paket, gunakan %s saja\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "tidak dapat membuka pipe (%s)\n"

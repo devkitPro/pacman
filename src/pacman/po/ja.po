@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# ABE Satoru <s@polamjag.info>, 2015
 #  <info@astaricsoft.net>, 2013
+# kusakata <shohei@kusakata.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 16:01+1000\n"
-"PO-Revision-Date: 2014-11-18 12:03+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 12:20+0000\n"
 "Last-Translator: kusakata <shohei@kusakata.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ja/)\n"
@@ -19,142 +21,157 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:182
+#, c-format
+msgid "Running pre-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:184
+#, c-format
+msgid "Running post-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:197
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "依存関係を確認しています...\n"
 
-#: src/pacman/callback.c:175
+#: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "ファイルの衝突を確認しています...\n"
 
-#: src/pacman/callback.c:179
+#: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "依存関係を解決しています...\n"
 
-#: src/pacman/callback.c:182
+#: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
 msgstr "衝突するパッケージがないか確認しています...\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "Processing package changes...\n"
+msgstr "パッケージファイルのロード...\n"
+
+#: src/pacman/callback.c:218
 #, c-format
 msgid "installing %s...\n"
 msgstr "インストール %s...\n"
 
-#: src/pacman/callback.c:192
+#: src/pacman/callback.c:221
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "更新 %s...\n"
 
-#: src/pacman/callback.c:195
+#: src/pacman/callback.c:224
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "再インストール %s...\n"
 
-#: src/pacman/callback.c:198
+#: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
 msgstr "ダウングレード %s...\n"
 
-#: src/pacman/callback.c:201
+#: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
 msgstr "削除 %s...\n"
 
-#: src/pacman/callback.c:225
+#: src/pacman/callback.c:254
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "パッケージの整合性を確認しています...\n"
 
-#: src/pacman/callback.c:230
+#: src/pacman/callback.c:259
 #, c-format
 msgid "checking keyring...\n"
 msgstr "キーリングを確認...\n"
 
-#: src/pacman/callback.c:234
+#: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "必要なキーをダウンロード...\n"
 
-#: src/pacman/callback.c:238
+#: src/pacman/callback.c:267
 #, c-format
 msgid "loading package files...\n"
 msgstr "パッケージファイルのロード...\n"
 
-#: src/pacman/callback.c:242
+#: src/pacman/callback.c:271
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "差分の整合性を確認しています...\n"
 
-#: src/pacman/callback.c:245
+#: src/pacman/callback.c:274
 #, c-format
 msgid "applying deltas...\n"
 msgstr "差分を適用...\n"
 
-#: src/pacman/callback.c:248
+#: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
 msgstr "%s を %s で生成... "
 
-#: src/pacman/callback.c:253
+#: src/pacman/callback.c:282
 #, c-format
 msgid "success!\n"
 msgstr "成功！\n"
 
-#: src/pacman/callback.c:256
+#: src/pacman/callback.c:285
 #, c-format
 msgid "failed.\n"
 msgstr "失敗。\n"
 
-#: src/pacman/callback.c:262
+#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "パッケージを取得します ...\n"
 
-#: src/pacman/callback.c:266
+#: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "空き容量の確認...\n"
 
-#: src/pacman/callback.c:273
+#: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s は任意で %s を必要とします\n"
 
-#: src/pacman/callback.c:291 src/pacman/callback.c:297
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s は %s.pacnew としてインストールされました\n"
 
-#: src/pacman/callback.c:307 src/pacman/callback.c:313
+#: src/pacman/callback.c:336 src/pacman/callback.c:342
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s は %s.pacsave として保存されました\n"
 
-#: src/pacman/callback.c:358
+#: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s は IgnorePkg/IgnoreGroup です。それでもインストールしますか？"
 
-#: src/pacman/callback.c:368
+#: src/pacman/callback.c:400
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "%s を %s/%s に置き換えますか？"
 
-#: src/pacman/callback.c:380
+#: src/pacman/callback.c:412
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s と %s が衝突しています。%s を削除しますか？"
 
-#: src/pacman/callback.c:385
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s と %s が衝突しています (%s)。%s を削除しますか？"
 
-#: src/pacman/callback.c:404
+#: src/pacman/callback.c:436
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -162,19 +179,19 @@ msgid_plural ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] "依存関係を解決できないために以下のパッケージを更新できません:\n"
 
-#: src/pacman/callback.c:410
+#: src/pacman/callback.c:442
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "更新のために上記のパッケージをスキップしますか？"
 
-#: src/pacman/callback.c:421
-#, fuzzy, c-format
+#: src/pacman/callback.c:453
+#, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "%zd の選択肢が %s にあります:\n"
+msgstr[0] "%zu 個の選択肢が %s にはあります:\n"
 
-#: src/pacman/callback.c:432
+#: src/pacman/callback.c:464
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -183,67 +200,67 @@ msgstr ""
 "ファイル %s は破損しています (%s)。\n"
 "ファイルを削除しますか?"
 
-#: src/pacman/callback.c:446
-#, fuzzy, c-format
+#: src/pacman/callback.c:478
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "PGP 鍵 %d%c/%s, \"%s\", 作成日: %s (無効) をインポートしますか？"
+msgstr "PGP 鍵 %u%c/%s, \"%s\", 作成日: %s (無効) をインポートしますか？"
 
-#: src/pacman/callback.c:449
-#, fuzzy, c-format
+#: src/pacman/callback.c:481
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
-msgstr "PGP 鍵 %d%c/%s, \"%s\", 作成日: %s をインポートしますか？"
+msgstr "PGP 鍵 %u%c/%s, \"%s\", 作成日: %s をインポートしますか？"
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:540
 #, c-format
 msgid "installing"
 msgstr "インストール"
 
-#: src/pacman/callback.c:512
+#: src/pacman/callback.c:543
 #, c-format
 msgid "upgrading"
 msgstr "更新"
 
-#: src/pacman/callback.c:515
+#: src/pacman/callback.c:546
 #, c-format
 msgid "downgrading"
 msgstr "ダウングレード"
 
-#: src/pacman/callback.c:518
+#: src/pacman/callback.c:549
 #, c-format
 msgid "reinstalling"
 msgstr "再インストール"
 
-#: src/pacman/callback.c:521
+#: src/pacman/callback.c:552
 #, c-format
 msgid "removing"
 msgstr "削除"
 
-#: src/pacman/callback.c:524
+#: src/pacman/callback.c:555
 #, c-format
 msgid "checking for file conflicts"
 msgstr "ファイルの衝突をチェック"
 
-#: src/pacman/callback.c:527
+#: src/pacman/callback.c:558
 #, c-format
 msgid "checking available disk space"
 msgstr "空き容量を確認"
 
-#: src/pacman/callback.c:530
+#: src/pacman/callback.c:561
 #, c-format
 msgid "checking package integrity"
 msgstr "パッケージの整合性をチェック"
 
-#: src/pacman/callback.c:533
+#: src/pacman/callback.c:564
 #, c-format
 msgid "checking keys in keyring"
 msgstr "キーリングのキーを確認"
 
-#: src/pacman/callback.c:536
+#: src/pacman/callback.c:567
 #, c-format
 msgid "loading package files"
 msgstr "パッケージファイルのロード"
 
-#: src/pacman/callback.c:651
+#: src/pacman/callback.c:679
 #, c-format
 msgid "downloading %s...\n"
 msgstr "%s をダウンロード...\n"
@@ -328,10 +345,10 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "変更されたファイル %jd\n"
 
 #: src/pacman/conf.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] "malloc failure: %zd バイトのメモリを獲得できませんでした\n"
+msgstr[0] "malloc failure: %zu バイトのメモリを獲得できませんでした\n"
 
 #: src/pacman/conf.c:251
 #, c-format
@@ -407,9 +424,9 @@ msgstr ""
 "(%s: %s)\n"
 
 #: src/pacman/conf.c:725
-#, fuzzy, c-format
+#, c-format
 msgid "try running pacman-db-upgrade\n"
-msgstr "  pacman-db-upgrade を実行してください\n"
+msgstr "pacman-db-upgrade を実行してください\n"
 
 #: src/pacman/conf.c:744
 #, c-format
@@ -422,9 +439,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "gpgdir '%s' の設定に問題発生 (%s)\n"
 
 #: src/pacman/conf.c:763 src/pacman/conf.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "gpgdir '%s' の設定に問題発生 (%s)\n"
+msgstr "フックディレクトリ '%s' の追加に問題発生 (%s)\n"
 
 #: src/pacman/conf.c:802
 #, c-format
@@ -432,9 +449,9 @@ msgid "no '%s' configured\n"
 msgstr "'%s' が設定されていません\n"
 
 #: src/pacman/conf.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to pass %s entry to libalpm"
-msgstr "libalpm に仮想インストールエントリを設定できませんでした"
+msgstr "libalpm に %s エントリを設定できませんでした"
 
 #: src/pacman/conf.c:870
 #, c-format
@@ -449,12 +466,12 @@ msgstr "設定ファイル %s, %d 行: ディレクティブ '%s' には値が�
 #: src/pacman/conf.c:948
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "パースする設定が %d の最大再帰の深さを超えています。\n"
 
 #: src/pacman/conf.c:996
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "設定ファイル %s, %d 行: '%s' の値が無効です : '%s'\n"
+msgstr "設定ファイル %s を読み込めませんでした: %s\n"
 
 #: src/pacman/conf.c:1019
 #, c-format
@@ -472,58 +489,58 @@ msgstr "対象が指定されていません (-h を使ってヘルプを見て�
 #: src/pacman/database.c:59
 #, c-format
 msgid "no install reason specified (use -h for help)\n"
-msgstr "install reason が指定されていません (-h を使ってヘルプを見て下さい)\n"
+msgstr "インストール方法が指定されていません (-h を使ってヘルプを見て下さい)\n"
 
 #: src/pacman/database.c:73
 #, c-format
 msgid "could not set install reason for package %s (%s)\n"
-msgstr "パッケージ %s の install reason を設定できませんでした (%s)\n"
+msgstr "パッケージ %s のインストール方法を設定できませんでした (%s)\n"
 
 #: src/pacman/database.c:78
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
 msgstr ""
-"%s: install reason は '依存関係としてインストール' に設定されています\n"
+"%s: インストール方法は '依存関係としてインストール' に設定されています\n"
 
 #: src/pacman/database.c:80
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
-msgstr "%s: install reason は '明示的にインストール' に設定されています\n"
+msgstr "%s: インストール方法は '明示的にインストール' に設定されています\n"
 
 #: src/pacman/package.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Architecture"
-msgstr "アーキテクチャ　:"
+msgstr "アーキテクチャ"
 
 #: src/pacman/package.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Backup Files"
-msgstr "バックアップファイル:\n"
+msgstr "バックアップファイル"
 
 #: src/pacman/package.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "Build Date"
-msgstr "ビルド日時　　　:"
+msgstr "ビルド日時"
 
 #: src/pacman/package.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size"
-msgstr "圧縮した容量　　:"
+msgstr "圧縮した容量"
 
 #: src/pacman/package.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Conflicts With"
-msgstr "衝突パッケージ　:"
+msgstr "衝突パッケージ"
 
 #: src/pacman/package.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Depends On"
-msgstr "依存パッケージ　:"
+msgstr "依存パッケージ"
 
 #: src/pacman/package.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Description"
-msgstr "説明　　　　　　:"
+msgstr "説明"
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -533,32 +550,32 @@ msgstr "ダウンロード容量"
 #: src/pacman/package.c:105
 #, c-format
 msgid "Groups"
-msgstr ""
+msgstr "グループ"
 
 #: src/pacman/package.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Install Date"
-msgstr "インストール日時:"
+msgstr "インストール日時"
 
 #: src/pacman/package.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Install Reason"
-msgstr "Install Reason  :"
+msgstr "インストール方法"
 
 #: src/pacman/package.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Install Script"
-msgstr "Install Script  :"
+msgstr "インストールスクリプト"
 
 #: src/pacman/package.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size"
-msgstr "インストール容量:"
+msgstr "インストール容量"
 
 #: src/pacman/package.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Licenses"
-msgstr "ライセンス　　　:"
+msgstr "ライセンス"
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -568,67 +585,67 @@ msgstr "MD5 Sum"
 #: src/pacman/package.c:112
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: src/pacman/package.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Optional Deps"
-msgstr "提案パッケージ　:"
+msgstr "提案パッケージ"
 
 #: src/pacman/package.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For"
-msgstr "Optional For    :"
+msgstr "任意パッケージ"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Packager"
-msgstr "パッケージ"
+msgstr "パッケージ作成者"
 
 #: src/pacman/package.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Provides"
-msgstr "Provides        :"
+msgstr "提供"
 
 #: src/pacman/package.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Replaces"
-msgstr "置換パッケージ　:"
+msgstr "置換パッケージ"
 
 #: src/pacman/package.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Repository"
-msgstr "リポジトリ %s\n"
+msgstr "リポジトリ"
 
 #: src/pacman/package.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Required By"
-msgstr "Required By     :"
+msgstr "必要パッケージ"
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum"
-msgstr "SHA256 Sum"
+msgstr "SHA-256 Sum"
 
 #: src/pacman/package.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures"
 msgstr "署名"
 
 #: src/pacman/package.c:122
 #, c-format
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/pacman/package.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By"
-msgstr "Validated By    :"
+msgstr "検証方法"
 
 #: src/pacman/package.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Version"
-msgstr "古いバージョン"
+msgstr "バージョン"
 
 #: src/pacman/package.c:167 src/pacman/util.c:1205
 #, c-format
@@ -949,23 +966,23 @@ msgstr ""
 "      --asexplicit     パッケージを明示的にインストールしたと印をつける\n"
 
 #: src/pacman/pacman.c:173
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
 msgstr ""
-"  -k, --check          パッケージファイルが存在しているかチェックする (-kk で"
-"ファイルプロパティ)\n"
+"  -k, --check          ローカルデータベースの整合性をテスト (-kk でデータベー"
+"スを同期)\n"
 
 #: src/pacman/pacman.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
-msgstr "  -s, --search <regex> インストールされたパッケージの部分一致検索\n"
+msgstr "  -s, --search <file>  パッケージのファイル名の部分一致検索\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
-msgstr ""
+msgstr "  -x, --regex          正規表現による検索を使用する\n"
 
 #: src/pacman/pacman.c:185
 #, c-format
@@ -973,6 +990,8 @@ msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
+"      --machinereadable\n"
+"                       コンピュータが扱える出力を生成\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
@@ -1093,9 +1112,9 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> パッケージキャッシュのディレクトリを指定\n"
 
 #: src/pacman/pacman.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr "      --cachedir <dir> パッケージキャッシュのディレクトリを指定\n"
+msgstr "      --hookdir <dir>  フックのディレクトリを指定\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1279,7 +1298,7 @@ msgstr "処理の準備に失敗しました (%s)\n"
 #: src/pacman/remove.c:125 src/pacman/sync.c:724
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr ""
+msgstr "%s: %s を削除すると '%s' の依存関係が壊れます\n"
 
 #: src/pacman/remove.c:144
 #, c-format
@@ -1414,10 +1433,9 @@ msgid "%s: requires %s\n"
 msgstr "%s: %s を必要としています\n"
 
 #: src/pacman/sync.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "%s: installing %s (%s) breaks dependency '%s'\n"
-msgstr ""
-"%s: install reason は '依存関係としてインストール' に設定されています\n"
+msgstr "%s: %s (%s) をインストールすると '%s' の依存関係が壊れます\n"
 
 #: src/pacman/sync.c:744
 #, c-format
@@ -1732,36 +1750,3 @@ msgstr "エラー: "
 #, c-format
 msgid "warning: "
 msgstr "警告: "
-
-#~ msgid "%s saved as %s.pacorig\n"
-#~ msgstr "%s は %s.pacorig として保存されました\n"
-
-#~ msgid "Repository     :"
-#~ msgstr "リポジトリ　　　:"
-
-#~ msgid "Name           :"
-#~ msgstr "名前　　　　　　:"
-
-#~ msgid "Version        :"
-#~ msgstr "バージョン　　　:"
-
-#~ msgid "URL            :"
-#~ msgstr "URL             :"
-
-#~ msgid "Groups         :"
-#~ msgstr "グループ　　　　:"
-
-#~ msgid "Download Size  :"
-#~ msgstr "ダウンロード容量:"
-
-#~ msgid "Packager       :"
-#~ msgstr "パッケージ作成者:"
-
-#~ msgid "MD5 Sum        :"
-#~ msgstr "MD5 Sum         :"
-
-#~ msgid "SHA-256 Sum    :"
-#~ msgstr "SHA-256 Sum    :"
-
-#~ msgid "Signatures     :"
-#~ msgstr "署名　　　　　　:"

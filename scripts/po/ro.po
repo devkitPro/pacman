@@ -10,13 +10,14 @@
 # Mihai Coman <mihai@m1x.ro>, 2011-2013
 # mihaicris <Mihai.cristescu@gmail.com>, 2015
 # mihaicris <Mihai.cristescu@gmail.com>, 2015
+# Mihai Cristescu <mihai.cristescu@archlinux.info>, 2015
 # Arthur Țițeică <arthur.titeica@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-03-26 06:30+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 17:59+0000\n"
 "Last-Translator: mihaicris <Mihai.cristescu@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ro/)\n"
@@ -133,9 +134,8 @@ msgid "FAILED"
 msgstr "EȘUAT"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Se validează fișierele sursă cu %s..."
+msgstr "Se validează %s fișiere cu %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -147,9 +147,8 @@ msgstr ""
 "Verificările de integritate (%s) diferă ca mărime față de matricea sursă."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Verificările de integritate lipsesc."
+msgstr "Lipsesc verificările de integritate pentru: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -377,7 +376,6 @@ msgstr ""
 "Nu se poate găsi binarul %s necesar pentru verificarea fișierelor sursă."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
@@ -389,9 +387,8 @@ msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Nu se poate găsi binarul %s necesar pentru comprimarea binarelor."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Nu se poate găsi binarul %s necesar pentru semnarea pachetelor."
+msgstr "Nu se poate găsi binarul %s necesar pentru optimizarea imaginilor PNG."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -586,10 +583,11 @@ msgstr "  --nosign          Nu crea o semnătură pentru pachet"
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist     Listează doar pachetele care ar fi produse, fără PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo    Se tipărește SRCINFO generat și se termină"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -646,15 +644,15 @@ msgstr "Dacă %s nu este specificat, %s va căuta '%s'"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Echipa Dezvoltatorilor Pacman <pacman-dev@archlinux."
+"Copyright (c) 2006-2015 Echipa de dezvoltare Pacman <pacman-dev@archlinux."
 "org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nAcest "
-"program este gratuit; vezi sursa pentru condițiile de copiere.\\nNu există "
-"NICIO GARANȚIE, în măsura permisă de lege.\\n"
+"program este gratuit; se vor vedea sursele pentru condițiile de copiere."
+"\\nNu există NICIO GARANȚIE, în măsura permisă de lege.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -690,7 +688,7 @@ msgid ""
 "damage to your system."
 msgstr ""
 "Executarea %s ca root nu este permisă și poate cauza daune permanente,"
-"\\ncatastrofale sistemului Dumneavoastră."
+"\\ncatastrofale pentru sistem."
 
 #: scripts/makepkg.sh.in:1978
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -710,11 +708,11 @@ msgstr "%s trebuie să fie în directorul de lucru curent."
 
 #: scripts/makepkg.sh.in:2078
 msgid "The key %s does not exist in your keyring."
-msgstr "Cheia %s nu există în inelul Dumneavoastră de chei."
+msgstr "Cheia %s nu există în inelul de chei."
 
 #: scripts/makepkg.sh.in:2080 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
-msgstr "Nu există chei în inelul Dumneavoastră de chei."
+msgstr "Nu există chei în inelul de chei."
 
 #: scripts/makepkg.sh.in:2104 scripts/makepkg.sh.in:2123
 msgid "Leaving %s environment."
@@ -753,19 +751,19 @@ msgstr "Nu pot fi rezolvate toate dependențele."
 msgid "Using existing %s tree"
 msgstr "Se folosește arborele %s existent"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Se elimină directorul %s existent..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Sursele sunt pregătite."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Directorul de pachete este gata."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "S-a terminat de făcut: %s"
 
@@ -788,19 +786,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "caractere nevalide folosite în numele '%s'. permise: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Nu s-a putut detecta versiunea pentru șablonul '%s'"
+msgstr "Nu s-a putut detecta versiunea pentru șablonul '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Eșec la găsirea fișierului șablon care se potrivește cu '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "eșec la deschiderea '%s': %s"
+msgstr "eșec la deschiderea '%s': %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -830,7 +828,7 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:180
 msgid "  --newest, -n          update templates to newest version\n"
 msgstr ""
-"  --newest, -n            actualizează șabloanele la cea mai nouă verisune\n"
+"  --newest, -n            actualizează șabloanele la cea mai nouă versiune\n"
 
 #: scripts/makepkg-template.pl.in:181
 msgid ""
@@ -860,13 +858,14 @@ msgstr "  --version               Informații despre versiune\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Echipa Dezvoltatorilor Pacman <pacman-dev@archlinux."
+"Copyright (c) 2013-2015 Echipa de dezvoltare Pacman <pacman-dev@archlinux."
 "org>.\n"
-"Acest program este gratuit; vezi sursa pentru condițiile de copiere.\n"
+"Acest program este gratuit; se vor vedea sursele pentru condițiile de "
+"copiere.\n"
 "Nu există NICIO GARANȚIE, în măsura permisă de lege.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
@@ -880,7 +879,7 @@ msgstr "opțiuni:"
 #: scripts/pacman-db-upgrade.sh.in:43
 msgid "  -b, --dbpath <path>  set an alternate database location"
 msgstr ""
-"  -b, --dbpath <cale>     seteaza o locație alternativă a bazei de date"
+"  -b, --dbpath <cale>     setează o locație alternativă a bazei de date"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
@@ -906,13 +905,13 @@ msgstr ""
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Echipa Dezvoltatorilor Pacman <pacman-dev@archlinux."
-"org>.\\nAcesta este un program liber; Vezi sursa pentru condiții de copiere."
-"\\nNu există NICIO GARANȚIE, în măsura permisă de lege.\\n"
+"Copyright (c) 2010-2015 Echipa de dezvoltare Pacman <pacman-dev@archlinux."
+"org>.\\nAcest program este gratuit; se vor vedea sursele pentru condițiile "
+"de copiere.\\nNu există NICIO GARANȚIE, în măsura permisă de lege.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -1043,7 +1042,7 @@ msgid ""
 "\\n                            in '%s'"
 msgstr ""
 "  --populate                Reîncarcă cheile implicite din fișierele (date) "
-"de chei\\n                            din „%s”"
+"de chei\\n                            din '%s'"
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
@@ -1445,13 +1444,12 @@ msgstr ""
 "\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      se elimină fișierul pachetului de pe disc la "
-"actualizarea intrării din baza de date\\n"
+"  -R, --remove      elimină fișierul vechi al pachetului de pe disc după "
+"actualizarea bazei de date\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1514,13 +1512,13 @@ msgstr "Exemplu: repo-remove /cale/către/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Echipa Dezvoltatorilor Pacman <pacman-dev@archlinux."
-"org>\\n\\nAcest program este gratuit; vezi sursa pentru condițiile de "
-"copiere.\\nNu există NICIO GARANȚIE, în măsura permisă de lege.\\n"
+"Copyright (c) 2010-2015 Echipa de dezvoltare Pacman <pacman-dev@archlinux."
+"org>.\\nAcest program este gratuit; se vor vedea sursele pentru condițiile "
+"de copiere.\\nNu există NICIO GARANȚIE, în măsura permisă de lege.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1535,27 +1533,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Se elimină intrarea existentă '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Se elimină fișierul delta gol ..."
+msgstr "Se elimină fișierul delta gol..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Nu se poate găsi binarul gpg! Este GnuPG instalat?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Se semnează baza de date..."
+msgstr "Se semnează baza de date '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "S-a creat fișierul de semnătură '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Eșec la semnarea bazei de date de pachete."
+msgstr "Eșec la semnarea fișierului '%s' al bazei de date de pachete"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1574,9 +1569,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Semnătura bazei de date NU a fost validă!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' nu are o extensie validă de arhivă."
+msgstr "'%s' nu are o extensie validă de arhivă de bază de date."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1584,7 +1578,7 @@ msgstr "O intrare pentru '%s' există deja"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Nu se pot folosi semnături securizate pentru pachetele: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1607,9 +1601,8 @@ msgid "Old package file not found: %s"
 msgstr "Fișierul pachet vechi nu a fost găsit: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Fișier pachet '%s' nevalid."
+msgstr "Se elimină fișierul pachet vechi '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1689,9 +1682,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Nu sunt pachete modificate, nu e nimic de făcut."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Se caută pachetul '%s'..."
+msgstr "Se fac verificări la problemele de creare pachet..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1780,18 +1772,17 @@ msgstr "Fișierul %s (%s) nu există sau nu este un fișier obișnuit."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s ar trebui să fie un array"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s ar trebui să fie un array"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s nu s-a putut importa."
+msgstr "%s nu ar trebui să fie un array"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1802,18 +1793,16 @@ msgid "Extracting sources..."
 msgstr "Se extrag sursele..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Se ramifică %s ..."
+msgstr "Se ramifică %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "Eșec la ramificarea %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Se preia %s ..."
+msgstr "Se preia %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1910,12 +1899,11 @@ msgstr "Se elimină fișierele %s..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Se optimizează imaginile PNG..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Nu s-a putut comprima binarul: %s"
+msgstr "Nu s-a putut optimiza imaginea PNG : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1969,26 +1957,3 @@ msgstr "opțiunea '%s' nu permite un argument"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "opțiunea '%s' necesită un argument"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Eșec la schimbarea directorului %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr ""
-#~ "Rețineți faptul că multe pachete ar putea avea nevoie de o linie adăugata "
-#~ "la %s lor"
-
-#~ msgid "such as %s."
-#~ msgstr "precum ar fi %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <listă>     Construiește doar pachetele listate dintr-un pachet "
-#~ "împărțit."
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr ""
-#~ "  -f, --files       actualizează lista de fișiere a bazei de date\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Se elimină pachetul existent '%s'"

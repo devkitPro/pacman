@@ -5,12 +5,13 @@
 # Translators:
 # pizzaiolo, 2015
 # pizzaiolo, 2015
+# pizzaiolo, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-11-16 00:13+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-25 12:09+0000\n"
 "Last-Translator: pizzaiolo\n"
 "Language-Team: Esperanto (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/eo/)\n"
@@ -125,9 +126,8 @@ msgid "FAILED"
 msgstr "FIASKIS"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Validante fontdosierojn kun %s..."
+msgstr "Validante dosierojn %s kun %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -139,9 +139,8 @@ msgstr ""
 "Kontroloj de integreco (%s) malsamas pri grandeco rilate al la fonta tabelo."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Mankas integrecajn kontrolojn."
+msgstr "Mankas integrecajn kontrolojn por: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -368,7 +367,6 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Ne eblas trovi la duumon %s bezonata por konfirmi fontdosierojn."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
@@ -380,9 +378,8 @@ msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Ne eblas trovi la duumon %s, bezonata por kompaktigi duumojn."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Ne eblas trovi la duumon %s, bezonata por subskribi pakaĵojn."
+msgstr "Ne eblas trovi la duumon %s, bezonata por optimigumi PNG-bildojn."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -559,10 +556,11 @@ msgstr "  --nosign         Ne krei subskribon por la pakaĵo"
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist    Nur listigi pakaĵojn, ke estus produktitaj sen PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   Printi la generitan SRCINFO-n kaj eliri"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -619,12 +617,12 @@ msgstr "Se %s ne estos difinita, %s serĉos '%s'"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Kopirajto (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Kopirajto (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nKopirajto (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nĈi tiu "
 "estas libera programo; vidu la fonton por kopiaj kondiĉoj.\\nNE estas "
 "GARANTIOJ, kiom tiom la leĝo eblas.\\n"
@@ -725,19 +723,19 @@ msgstr "Ne eblis solvi ĉiujn dependencojn."
 msgid "Using existing %s tree"
 msgstr "Uzante estantan arbon %s"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Forviŝante estantan dosierujon %s..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "La fontoj estas pretaj."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "La pakaĵa dosierujo estas preta."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Finis faradon de %s"
 
@@ -760,19 +758,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "nevalidaj signoj uzataj en nomo '%s'. permesataj: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Ne eblis detekti version de la ŝablono '%s'"
+msgstr "Ne eblis detekti version de la ŝablono '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Malsukcesis trovi ŝablonan dosieron kongruante al '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "malsukcesis malfermi '%s': %s"
+msgstr "malsukcesis malfermi '%s': %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -828,11 +826,11 @@ msgstr "  --version             Versia informo\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Kopirajto (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Kopirajto (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "Ĉi tiu estas libera programo; vidu la fonton por kopiaj kondiĉoj.\n"
 "NE estas GARANTIOJ, kiom tiom la leĝo eblas.\n"
 
@@ -871,11 +869,11 @@ msgstr "  --nocolor            malebligi kolorajn eligajn mesaĝojn"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Kopirajto (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Kopirajto (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nĈi tiu estas libera programo; vidu la fonton por kopiaj kondiĉoj.\\nNE "
 "estas GARANTIOJ, kiom tiom la leĝo eblas.\\n"
 
@@ -1404,13 +1402,12 @@ msgstr ""
 "  -n, --new         nur aldoni pakaĵojn ke ne jam estas en la datumbazo\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      forviŝi pakaĵan dosieron el la disko dum ĝisdatigado de "
-"datumbaza enigo\\n"
+"  -R, --remove      forviŝi malnovan pakaĵan dosieron el la disko post "
+"ĝisdatigado de datumbazo\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1469,11 +1466,11 @@ msgstr "Ekzemple:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Kopirajto (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Kopirajto (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nĈi tiu estas libera programo; vidu la fonton por kopiaj kondiĉoj.\\nNE "
 "estas GARANTIOJ, kiom tiom la leĝo eblas.\\n"
 
@@ -1490,27 +1487,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Forigante estantan enigon '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Forviŝante malplenajn diferencodosierojn..."
+msgstr "Forviŝante malplenan diferencodosieron..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Ne eblas trovi la gpg-duumo! Ĉu GnuPG estas instalita?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Subskribante datumbazon..."
+msgstr "Subskribante datumbazon '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Kreita subskriban dosieron '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Malsukcesis subskribi pakaĵan datumbazon."
+msgstr "Malsukcesis subskribi pakaĵan datumbazan dosieron '%s'."
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1529,9 +1523,8 @@ msgid "Database signature was NOT valid!"
 msgstr "La datumbaza subskribo NE estis valida!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' ne havas validan arkivan afikson."
+msgstr "'%s' ne havas validan datumbazan arkivan afikson."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1539,7 +1532,7 @@ msgstr "Enigo por '%s' jam ekzistis"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Ne eblas uzi kirasitajn subskribojn por pakaĵoj: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1562,9 +1555,8 @@ msgid "Old package file not found: %s"
 msgstr "Malnova pakaĵa dosiero ne trovita: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Nevalida pakaĵa dosiero '%s'."
+msgstr "Forviŝante malnovan pakaĵan dosieron '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1643,9 +1635,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Neniu pakaĵo ŝanĝita, neniu por fari."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Serĉante pakaĵon '%s'..."
+msgstr "Kontrolante problemon dum pakado..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1734,18 +1725,17 @@ msgstr "Dosiero %s (%s) ne ekzistas aŭ ne estas regula dosiero."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s devus esti tabelo"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s devus esti tabelo"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "Ne eblis importi %s."
+msgstr "%s ne devus esti tabelo"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1756,7 +1746,6 @@ msgid "Extracting sources..."
 msgstr "Eltirante fontojn..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
 msgstr "Kreante branĉon de %s..."
 
@@ -1765,7 +1754,6 @@ msgid "Failure while branching %s"
 msgstr "Malsukcesis krei branĉon de %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
 msgstr "Tirante %s..."
 
@@ -1864,12 +1852,11 @@ msgstr "Forviŝante %s dosierojn..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Optimumigante PNG-bildojn..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Ne eblis kompaktigi duumon %s"
+msgstr "Ne eblis optimumigi PNG-bildon: %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1922,23 +1909,3 @@ msgstr "opcio '%s' ne permesas argumenton"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "opcio '%s' bezonas argumenton"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Ne eblis ŝanĝi al dosierujo %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr ""
-#~ "Rimarku ke multaj pakaĵoj eble bezonos unu linion aldonita al liaj %s"
-
-#~ msgid "such as %s."
-#~ msgstr "kiel %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <list>     Nur konstrui listigitajn pakaĵojn el dividita pakaĵo"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       ĝistadigi la datumbazan liston de dosieroj\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Forviŝante estantan pakaĵon '%s'"

@@ -5,13 +5,13 @@
 # Translators:
 # Alexander F Rødseth <rodseth@gmail.com>, 2015
 # Alexander F Rødseth <rodseth@gmail.com>, 2011-2013
-# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013-2014
+# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-09-13 17:42+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-16 14:15+0000\n"
 "Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/nb/)\n"
@@ -127,9 +127,8 @@ msgid "FAILED"
 msgstr "FEILET"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Validerer kildefiler med %s..."
+msgstr "Validerer %s filer med %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -140,9 +139,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Integritetstester (%s) har forskjellig lengde fra de i kildelisten."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Integritetssjekker mangler."
+msgstr "Integritetssjekker mangler for: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -372,12 +370,9 @@ msgstr ""
 "Kunne ikke finne %s programmet, som trengs for å verifisere kildefiler."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
-msgstr ""
-"Fant ikke programmet %s, som trengs for å verifisere sjekksummer på "
-"kildefiler."
+msgstr "Fant ikke programmet %s som kreves for a verifisere kildefiler."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
@@ -385,9 +380,8 @@ msgstr ""
 "Kunne ikke finne %s programmet, som trengs for å komprimere binærfiler."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Kunne ikke finne %s programmet, som trengs for å signere pakker."
+msgstr "Fant ikke programmet %s som kreves for å optimalisere PNG bildefiler."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -566,11 +560,11 @@ msgstr "  --nosign         Ikke lag en signatur for pakken"
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
-msgstr ""
+msgstr "--packagelist List kun pakker som ville blitt produsert, uten PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "--printsrcinfo Vis den genererte SRCINFO filen og avslutt"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -628,12 +622,12 @@ msgstr "Dersom %s ikke er spesifisert vil %s se etter '%s'."
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Opphavsrett (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nOpphavsrett (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nDette er "
 "fri programvare; se kildekoden for kopibetingelser.\\nDet gis INGEN GARANTI "
 "så langt det er tillatt innenfor loven.\\n"
@@ -734,19 +728,19 @@ msgstr "Kunne ikke finne alle avhengigheter."
 msgid "Using existing %s tree"
 msgstr "Bruker eksisterende %s mappe"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Fjerner eksisterende %s mappe..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Kildene er klare."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Pakkemappen er klar."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Bygget ferdig: %s"
 
@@ -769,19 +763,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "ugyldige tegn brukt i navnet '%s'. Tillatt: [:alnum]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Kunne ikke finne versjonsnummer for formatet '%s'"
+msgstr "Kunne ikke finne versionsnummer for malen '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Kunne ikke finne en malfil som passer '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "kunne ikke åpne '%s': %s"
+msgstr "kunne ikke åpne '%s': %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -835,11 +829,11 @@ msgstr "--version Versjonsinformasjon\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Opphavsrett (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux."
+"Opphavsrett (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux."
 "org>.\n"
 "Dette er fri programvare; se kildekoden for kopibetingelser.\n"
 "Det gis INGEN GARANTI, så langt dette er tillatt innenfor loven.\n"
@@ -879,11 +873,11 @@ msgstr "--nocolor ikke bruk farge i utskrevne meldinger"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Opphavsrett (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nDette er fri programvare; se kildekoden for kopibetingelser.\\nDet gis "
 "INGEN GARANTI, så langt det er tillatt innenfor loven.\\n"
 
@@ -1405,11 +1399,11 @@ msgstr ""
 "\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
-msgstr "-R, --remove fjern pakkefilen når databasen har blitt oppdatert\\n"
+msgstr ""
+"-R, --remove fjern den gamle pakkefilen når databasen har blitt oppdatert\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1465,11 +1459,11 @@ msgstr "Eksempel: repo-remove /sti/til/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Opphavsrett (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Opphavsrett (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\n\\nDette er fri programvare; se kildekoden for kopibetingelser.\\nDet gis "
 "INGEN GARANTI så langt det er tillatt innenfor loven.\\n"
 
@@ -1486,27 +1480,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Fjerner eksisterende oppføring '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Fjerner tom endringsfil ..."
+msgstr "Fjerner tom endringsfil..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Kunne ikke finne gpg programmet! Er GnuPG installert?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Signerer database..."
+msgstr "Signerer '%s' databasen..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Opprettet signaturfil '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Kunne ikke signere database."
+msgstr "Kunne ikke signere pakkedatabasefilen '%s'"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1525,9 +1516,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Databasesignaturen er IKKE gyldig!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' har ikke en gyldig filendelse for at arkiv."
+msgstr "'%s' har ikke en gyldig filendelse for databasearkiver."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1535,7 +1525,7 @@ msgstr "En oppføring for '%s' finnes allerede"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Kunne ikke bruke herdete signaturer for følgende pakker: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1558,9 +1548,8 @@ msgid "Old package file not found: %s"
 msgstr "Kunne ikke finne gammel pakkefil: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Ugyldig pakkefil '%s'."
+msgstr "Fjerner gammel pakkefil '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1639,9 +1628,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Ingen pakker ble endret, ferdig med jobben."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Søker etter pakke '%s' ..."
+msgstr "Sjekker for pakkeproblemer..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1730,18 +1718,17 @@ msgstr "%s-fil (%s) finnes ikke, eller er ikke en gyldig fil."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s burde være en liste"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s burde være en liste"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s kunne ikke importeres."
+msgstr "%s burde ikke være en liste"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1752,18 +1739,16 @@ msgid "Extracting sources..."
 msgstr "Pakker ut kilder..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Henter kopi av %s ..."
+msgstr "Lager forgreining %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "Kunne ikke hente kopi av %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Henter %s ..."
+msgstr "Henter %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1860,12 +1845,11 @@ msgstr "Fjerner %s filer..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Optimaliserer PNG bildefiler..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Kunne ikke komprimere binærfil : %s"
+msgstr "Kunne ikke optimalisere PNG bildefil : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1918,21 +1902,3 @@ msgstr "valg '%s' kan ikke ta en parameter"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "valg '%s' krever en parameter"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Kunne ikke åpne mappen %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "Merk at mange pakker kan behøve en linje lagt til sin %s"
-
-#~ msgid "such as %s."
-#~ msgstr "slik som %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr "  --pkg <liste>    Bygg kun oppgitte pakker fra en oppdelt pakke"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files        oppdater databasens filliste\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Fjern eksisterende pakke '%s'"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-05-23 18:30+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-15 14:16+0000\n"
 "Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sr/)\n"
@@ -63,7 +63,7 @@ msgstr "фајл није нађен у списку фајлова пакета
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "не могу да распакујем %s%s: путања је предугачка"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -91,7 +91,7 @@ msgstr "распакивање: не преписујем фасциклу фа�
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "не могу да распакујем %s.pacnew: путања је предугачка"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -298,37 +298,37 @@ msgstr "не могу да отворим фајл: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "не могу да добавим податке о систему фајлова\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "не могу да добавим податке о систему фајлова за %s: %s\n"
+msgstr "не могу да добавим податке о фајлу за %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "не могу да одредим тачку монтирања за фајл %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Партиција %s је препуна: потребно је %jd блокова, а слободно је %jd\n"
+msgstr "Партиција %s је препуна: потребно је %jd блокова, а слободно је %ju\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "не могу да утврдим тачке монтирања система фајлова\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "не могу да одредим тачку монтирања %s за фасциклу кеша\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "не могу да утврдим корену тачку монтирања %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Партиција %s је монтирана само за читање\n"
@@ -518,7 +518,7 @@ msgstr "покушај преноса док база није закључан�
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "не могу да покренем копче преноса"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -760,22 +760,22 @@ msgstr "не могу да обавим уклањање\n"
 msgid "could not commit transaction\n"
 msgstr "не могу да обавим пренос\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "не могу да направим привремену фасциклу\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "не могу да копирам привремени фајл у %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "не могу да уклоним %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "не могу да уклоним привремену фасциклу %s\n"
@@ -786,14 +786,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "не могу да одредим особине фајла %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "не могу да направим цев (%s)\n"
+msgstr "не могу да пишем у цев (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "не могу да направим цев (%s)\n"
+msgstr "не могу да читам из цеви (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -844,6 +844,3 @@ msgstr "не постоји кеш за %s; правим....\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "не могу да нађем или направим кеш пакета, као замену користим %s\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "не могу да отворим цев (%s)\n"

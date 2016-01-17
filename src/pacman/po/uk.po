@@ -8,15 +8,15 @@
 # Rax Garfield <admin@dvizho.ks.ua>, 2012
 # sevenfourk <sevenfourk@gmail.com>, 2012
 # sevenfourk <sevenfourk@gmail.com>, 2012
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013
-# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2014
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013,2015
+# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 16:01+1000\n"
-"PO-Revision-Date: 2015-07-05 18:21+0000\n"
-"Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2016-01-16 16:18+0000\n"
+"Last-Translator: Данило Коростіль <ted.korostiled@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -26,142 +26,157 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:182
+#, c-format
+msgid "Running pre-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:184
+#, c-format
+msgid "Running post-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:197
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "перевірка залежностей…\n"
+msgstr "перевіряння залежностей…\n"
 
-#: src/pacman/callback.c:175
+#: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "перевірка конфліктів між файлами…\n"
+msgstr "перевіряння конфліктів між файлами…\n"
 
-#: src/pacman/callback.c:179
+#: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
-msgstr "перевірка конфліктів між файлами…\n"
+msgstr "перевіряння конфліктів між файлами…\n"
 
-#: src/pacman/callback.c:182
+#: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
 msgstr "пошук конфліктних пакунків…\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "Processing package changes...\n"
+msgstr "завантаження файлів пакунка…\n"
+
+#: src/pacman/callback.c:218
 #, c-format
 msgid "installing %s...\n"
 msgstr "встановлення %s...\n"
 
-#: src/pacman/callback.c:192
+#: src/pacman/callback.c:221
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "оновлення %s...\n"
 
-#: src/pacman/callback.c:195
+#: src/pacman/callback.c:224
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "перевстановлення %s...\n"
 
-#: src/pacman/callback.c:198
+#: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
 msgstr "пониження %s...\n"
 
-#: src/pacman/callback.c:201
+#: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
 msgstr "вилучення %s...\n"
 
-#: src/pacman/callback.c:225
+#: src/pacman/callback.c:254
 #, c-format
 msgid "checking package integrity...\n"
-msgstr "перевірка цілісності пакунків…\n"
+msgstr "перевіряння цілісності пакунків…\n"
 
-#: src/pacman/callback.c:230
+#: src/pacman/callback.c:259
 #, c-format
 msgid "checking keyring...\n"
-msgstr "перевірка ключів…\n"
+msgstr "перевіряння ключів…\n"
 
-#: src/pacman/callback.c:234
+#: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "звантаження потрібних ключів...\n"
 
-#: src/pacman/callback.c:238
+#: src/pacman/callback.c:267
 #, c-format
 msgid "loading package files...\n"
 msgstr "завантаження файлів пакунка…\n"
 
-#: src/pacman/callback.c:242
+#: src/pacman/callback.c:271
 #, c-format
 msgid "checking delta integrity...\n"
-msgstr "перевірка цілісності різниці...\n"
+msgstr "перевіряння цілісності різниці...\n"
 
-#: src/pacman/callback.c:245
+#: src/pacman/callback.c:274
 #, c-format
 msgid "applying deltas...\n"
 msgstr "накладання різниці...\n"
 
-#: src/pacman/callback.c:248
+#: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
 msgstr "породження %s з %s... "
 
-#: src/pacman/callback.c:253
+#: src/pacman/callback.c:282
 #, c-format
 msgid "success!\n"
 msgstr "успішно!\n"
 
-#: src/pacman/callback.c:256
+#: src/pacman/callback.c:285
 #, c-format
 msgid "failed.\n"
 msgstr "невдало.\n"
 
-#: src/pacman/callback.c:262
+#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "Одержання пакунків ...\n"
 
-#: src/pacman/callback.c:266
+#: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "перевірка доступного місця на диску…\n"
+msgstr "перевіряння доступного місця на диску…\n"
 
-#: src/pacman/callback.c:273
+#: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s необов’язково потребує %s\n"
 
-#: src/pacman/callback.c:291 src/pacman/callback.c:297
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s встановлено як %s.pacnew\n"
 
-#: src/pacman/callback.c:307 src/pacman/callback.c:313
+#: src/pacman/callback.c:336 src/pacman/callback.c:342
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s збережено як %s.pacsave\n"
 
-#: src/pacman/callback.c:358
+#: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s є в IgnorePkg/IgnoreGroup. Встановити попри все?"
 
-#: src/pacman/callback.c:368
+#: src/pacman/callback.c:400
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Замінити %s на %s/%s?"
 
-#: src/pacman/callback.c:380
+#: src/pacman/callback.c:412
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s та %s конфліктують. Вилучити %s?"
 
-#: src/pacman/callback.c:385
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s та %s конфліктують (%s). Вилучити %s?"
 
-#: src/pacman/callback.c:404
+#: src/pacman/callback.c:436
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -171,10 +186,9 @@ msgstr[0] ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[1] ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
-msgstr[2] ""
-"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[2] "Такі пакунки неможливо оновити через нерозвʼязані залежності:\n"
 
-#: src/pacman/callback.c:410
+#: src/pacman/callback.c:442
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
@@ -182,84 +196,84 @@ msgstr[0] "Пропустити верхній пакунок для цього 
 msgstr[1] "Пропустити верхні пакунки для цього оновлення?"
 msgstr[2] "Пропустити верхні пакунки для цього оновлення?"
 
-#: src/pacman/callback.c:421
-#, fuzzy, c-format
+#: src/pacman/callback.c:453
+#, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "Доступно %zd постачальників для %s:\n"
-msgstr[1] "Доступно %zd постачальників для %s:\n"
-msgstr[2] "Доступно %zd постачальників для %s:\n"
+msgstr[0] "Доступно %zu постачальник для %s:\n"
+msgstr[1] "Доступно %zu постачальників для %s:\n"
+msgstr[2] "Доступно %zu постачальників для %s:\n"
 
-#: src/pacman/callback.c:432
+#: src/pacman/callback.c:464
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
 "Файл %s пошкоджено (%s).\n"
-"вилучити його?"
+"Вилучити його?"
 
-#: src/pacman/callback.c:446
-#, fuzzy, c-format
+#: src/pacman/callback.c:478
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "Імпортувати ключ PGP %d%c/%s, «%s», створено: %s (скасовано)?"
+msgstr "Імпортувати ключ PGP %u%c/%s, «%s», створено: %s (скасовано)?"
 
-#: src/pacman/callback.c:449
-#, fuzzy, c-format
+#: src/pacman/callback.c:481
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
-msgstr "Імпортувати ключ PGP %d%c/%s, «%s», створено: %s?"
+msgstr "Імпортувати ключ PGP %u%c/%s, «%s», створено: %s?"
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:540
 #, c-format
 msgid "installing"
 msgstr "встановлення"
 
-#: src/pacman/callback.c:512
+#: src/pacman/callback.c:543
 #, c-format
 msgid "upgrading"
 msgstr "оновлення"
 
-#: src/pacman/callback.c:515
+#: src/pacman/callback.c:546
 #, c-format
 msgid "downgrading"
-msgstr "пониження встановлення"
+msgstr "пониження версії"
 
-#: src/pacman/callback.c:518
+#: src/pacman/callback.c:549
 #, c-format
 msgid "reinstalling"
 msgstr "перевстановлення"
 
-#: src/pacman/callback.c:521
+#: src/pacman/callback.c:552
 #, c-format
 msgid "removing"
 msgstr "вилучення"
 
-#: src/pacman/callback.c:524
+#: src/pacman/callback.c:555
 #, c-format
 msgid "checking for file conflicts"
-msgstr "перевірка файлових конфліктів"
+msgstr "перевіряння файлових конфліктів"
 
-#: src/pacman/callback.c:527
+#: src/pacman/callback.c:558
 #, c-format
 msgid "checking available disk space"
-msgstr "перевірка доступного місця на диску"
+msgstr "перевіряння доступного місця на диску"
 
-#: src/pacman/callback.c:530
+#: src/pacman/callback.c:561
 #, c-format
 msgid "checking package integrity"
-msgstr "перевірка цілісності пакунків"
+msgstr "перевіряння цілісності пакунків"
 
-#: src/pacman/callback.c:533
+#: src/pacman/callback.c:564
 #, c-format
 msgid "checking keys in keyring"
-msgstr "перевірка ключів у зв’язці"
+msgstr "перевіряння ключів у зв’язці"
 
-#: src/pacman/callback.c:536
+#: src/pacman/callback.c:567
 #, c-format
 msgid "loading package files"
 msgstr "завантаження файлів пакунка"
 
-#: src/pacman/callback.c:651
+#: src/pacman/callback.c:679
 #, c-format
 msgid "downloading %s...\n"
 msgstr "звантаження %s...\n"
@@ -267,7 +281,7 @@ msgstr "звантаження %s...\n"
 #: src/pacman/check.c:63 src/pacman/check.c:232
 #, c-format
 msgid "%s: %s (File type mismatch)\n"
-msgstr "%s: %s (Тип файлу збігається)\n"
+msgstr "%s: %s (Тип файла збігається)\n"
 
 #: src/pacman/check.c:82
 #, c-format
@@ -334,12 +348,12 @@ msgstr[2] "бракує %jd файлів\n"
 #: src/pacman/check.c:277
 #, c-format
 msgid "%s: no mtree file\n"
-msgstr "%s: немає файлу mtree\n"
+msgstr "%s: немає файла mtree\n"
 
 #: src/pacman/check.c:333
 #, c-format
 msgid "file type not recognized: %s%s\n"
-msgstr "тип файлу не розпізнаний: %s%s\n"
+msgstr "тип файла не розпізнаний: %s%s\n"
 
 #: src/pacman/check.c:382
 #, c-format
@@ -350,17 +364,17 @@ msgstr[1] "%jd змінених файлів\n"
 msgstr[2] "%jd змінених файлів\n"
 
 #: src/pacman/conf.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] "помилка malloc: неможливо розмістити %zd байтів\n"
-msgstr[1] "помилка malloc: неможливо розмістити %zd байтів\n"
-msgstr[2] "помилка malloc: неможливо розмістити %zd байтів\n"
+msgstr[0] "помилка malloc: неможливо розмістити %zu байт\n"
+msgstr[1] "помилка malloc: неможливо розмістити %zu байти\n"
+msgstr[2] "помилка malloc: неможливо розмістити %zu байтів\n"
 
 #: src/pacman/conf.c:251
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "неможливо досягнути до поточного робочого каталогу\n"
+msgstr "неможливо добратись до поточного робочого каталогу\n"
 
 #: src/pacman/conf.c:256
 #, c-format
@@ -431,11 +445,9 @@ msgstr ""
 "(%s: %s)\n"
 
 #: src/pacman/conf.c:725
-#, fuzzy, c-format
+#, c-format
 msgid "try running pacman-db-upgrade\n"
-msgstr ""
-"  спробуйте запустити pacman-db-upgrade\n"
-"\n"
+msgstr "спробуйте запустити pacman-db-upgrade\n"
 
 #: src/pacman/conf.c:744
 #, c-format
@@ -448,19 +460,19 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "проблемне налаштування gpgdir «%s» (%s)\n"
 
 #: src/pacman/conf.c:763 src/pacman/conf.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "проблемне налаштування gpgdir «%s» (%s)\n"
+msgstr "проблема додавання теки перехоплення «%s» (%s)\n"
 
 #: src/pacman/conf.c:802
 #, c-format
 msgid "no '%s' configured\n"
-msgstr "не налаштовано «'%s»\n"
+msgstr "не налаштовано «%s»\n"
 
 #: src/pacman/conf.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to pass %s entry to libalpm"
-msgstr "Не вдалося передати запис у libalpm"
+msgstr "Не вдалося передати запис %s у libalpm"
 
 #: src/pacman/conf.c:870
 #, c-format
@@ -475,12 +487,12 @@ msgstr "файл налаштувань %s, рядок %d: каталог «%s»
 #: src/pacman/conf.c:948
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "розбирання налаштувань досягнуло максимальної глибини рекурсії %d.\n"
 
 #: src/pacman/conf.c:996
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "файл налаштувань %s, рядок %d: недійсне значення для «%s» : «%s»\n"
+msgstr "неможливо прочитати файл налаштувань %s: %s\n"
 
 #: src/pacman/conf.c:1019
 #, c-format
@@ -514,39 +526,39 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: причину встановлення вказано на «явно встановлений»\n"
 
 #: src/pacman/package.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Architecture"
-msgstr "Архітектура             :"
+msgstr "Архітектура"
 
 #: src/pacman/package.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Backup Files"
-msgstr "Резервні файли:\n"
+msgstr "Резервні файли"
 
 #: src/pacman/package.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "Build Date"
-msgstr "Дата збирання           :"
+msgstr "Дата збирання"
 
 #: src/pacman/package.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size"
-msgstr "Розмір стиснення:"
+msgstr "Розмір стиснення"
 
 #: src/pacman/package.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Conflicts With"
-msgstr "Конфліктує з            :"
+msgstr "Конфліктує з"
 
 #: src/pacman/package.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Depends On"
-msgstr "Залежить від            :"
+msgstr "Залежить від"
 
 #: src/pacman/package.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Description"
-msgstr "Опис                    :"
+msgstr "Опис"
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -556,32 +568,32 @@ msgstr "Розмір звантаження"
 #: src/pacman/package.c:105
 #, c-format
 msgid "Groups"
-msgstr ""
+msgstr "Групи"
 
 #: src/pacman/package.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Install Date"
-msgstr "Дата встановлення       :"
+msgstr "Дата встановлення"
 
 #: src/pacman/package.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Install Reason"
-msgstr "Причина встановлення    :"
+msgstr "Причина встановлення"
 
 #: src/pacman/package.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Install Script"
-msgstr "Скрипт встановлення     :"
+msgstr "Сценарій встановлення"
 
 #: src/pacman/package.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size"
-msgstr "Розмір встановлення :"
+msgstr "Розмір встановлення"
 
 #: src/pacman/package.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Licenses"
-msgstr "Ліцензії                :"
+msgstr "Ліцензії"
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -591,67 +603,67 @@ msgstr "Сума MD5"
 #: src/pacman/package.c:112
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "Назва"
 
 #: src/pacman/package.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Optional Deps"
-msgstr "Необов'язкові залежності:"
+msgstr "Необов'язкові залежності"
 
 #: src/pacman/package.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For"
-msgstr "Необов’язково для :"
+msgstr "Необов’язково для"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Packager"
-msgstr "Пакунок"
+msgstr "Пакувальник"
 
 #: src/pacman/package.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Provides"
-msgstr "Забезпечує              :"
+msgstr "Забезпечує"
 
 #: src/pacman/package.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Replaces"
-msgstr "Замінює                 :"
+msgstr "Замінює"
 
 #: src/pacman/package.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Repository"
-msgstr "Сховище %s\n"
+msgstr "Сховище"
 
 #: src/pacman/package.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Required By"
-msgstr "Потрібен для            :"
+msgstr "Потрібен для"
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum"
-msgstr "Сума SHA256"
+msgstr "Сума SHA-256"
 
 #: src/pacman/package.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures"
 msgstr "Підпис"
 
 #: src/pacman/package.c:122
 #, c-format
 msgid "URL"
-msgstr ""
+msgstr "Посилання"
 
 #: src/pacman/package.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By"
-msgstr "Підтверджено через :"
+msgstr "Підтверджено через"
 
 #: src/pacman/package.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Version"
-msgstr "Стара версія"
+msgstr "Версія"
 
 #: src/pacman/package.c:167 src/pacman/util.c:1205
 #, c-format
@@ -757,7 +769,7 @@ msgid ""
 "use '%s {-h --help}' with an operation for available options\n"
 msgstr ""
 "\n"
-"використайте '%s {-h --help}' з операцією, щоб взнати доступні опції\n"
+"виконайте «%s {-h --help}» з операцією, щоб взнати доступні параметри\n"
 
 #: src/pacman/pacman.c:125
 #, c-format
@@ -812,7 +824,7 @@ msgstr ""
 #: src/pacman/pacman.c:140
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr "  -g, --groups         показати всіх учасників групи пакунків\n"
+msgstr "  -g, --groups         показати всі елемети групи пакунків\n"
 
 #: src/pacman/pacman.c:141
 #, c-format
@@ -886,8 +898,8 @@ msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-" -t, --unrequired перелічити пакунки, які (необов'язоков) потрібні\n"
-"жодному інгшому пакунку (-tt для нехтування optdepends) [фільтер]\n"
+" -t, --unrequired перелічити пакунки, які (необов'язкові) потрібні\n"
+"жодному іншому пакунку (-tt для нехтування optdepends) [фільтер]\n"
 
 #: src/pacman/pacman.c:152
 #, c-format
@@ -916,7 +928,7 @@ msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-" -i, --info переглянути відомості про пакунок (-ii для рощиреної "
+" -i, --info переглянути відомості про пакунок (-ii для розширеної "
 "інформації)\n"
 
 #: src/pacman/pacman.c:160
@@ -967,25 +979,24 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     позначити пакунки як явно встановлені\n"
 
 #: src/pacman/pacman.c:173
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
 msgstr ""
-"  -k, --check          перевірити, чи файл пакунка існує (-kk для "
-"властивостей файла)⏎\n"
+"  -k, --check          перевірити локальну базу даних (-kk для "
+"синхронізування бази даних)\n"
 
 #: src/pacman/pacman.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
 msgstr ""
-"  -s, --search <regex> шукати локально встановлені пакунки, які відповідають "
-"рядку\n"
+"  -s, --search <файл>  пошук по назвах файлів, які відповідають рядку\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
-msgstr ""
+msgstr "  -x, --regex          увімкнути пошук формальними виразами\n"
 
 #: src/pacman/pacman.c:185
 #, c-format
@@ -993,12 +1004,14 @@ msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
+"      --machinereadable\n"
+"                       виводити інформацію, який зрозумілий для машини\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
 msgstr ""
-"      --force          примусово встановити, перезаписуючи конфліктні файли\n"
+"      --force          примусово встановити, перезаписавши конфліктні файли\n"
 
 #: src/pacman/pacman.c:192
 #, c-format
@@ -1114,10 +1127,11 @@ msgstr ""
 "      --cachedir <dir> використати альтернативний шлях до кеша пакунків\n"
 
 #: src/pacman/pacman.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr ""
-"      --cachedir <dir> використати альтернативний шлях до кеша пакунків\n"
+"      --hookdir <тека>  визначити альтернативне положення для теки "
+"перехоплення\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1137,7 +1151,8 @@ msgstr "      --debug          показувати повідомлення п�
 #: src/pacman/pacman.c:220
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --gpgdir <path>  вказати an alternate home directory for GnuPG\n"
+msgstr ""
+"      --gpgdir <path>  вказати альтернативний домашній каталог для GnuPG\n"
 
 #: src/pacman/pacman.c:221
 #, c-format
@@ -1171,7 +1186,7 @@ msgstr "хибний параметр: «%s» і «%s» не можна вико
 #: src/pacman/pacman.c:386
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr "неправильний аргумент '%s' для %s\n"
+msgstr "неправильний аргумент «%s» для %s\n"
 
 #: src/pacman/pacman.c:409
 #, c-format
@@ -1206,12 +1221,12 @@ msgstr "не вдалось знову відкрити stdin для читан�
 #: src/pacman/pacman.c:1184
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "аргумент '-' вказано з порожнім stdin\n"
+msgstr "аргумент «-» вказано з порожнім stdin\n"
 
 #: src/pacman/pacman.c:1189
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr "аргумент '-' вказаний без вводу на стандартний ввід\n"
+msgstr "аргумент «-» вказаний без вводу на стандартний ввід\n"
 
 #: src/pacman/pacman.c:1218
 #, c-format
@@ -1301,7 +1316,7 @@ msgstr "не вдалось підготувати операцію (%s)\n"
 #: src/pacman/remove.c:125 src/pacman/sync.c:724
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr ""
+msgstr "%s: вилучення %s створить конфлікт залежностей «%s»\n"
 
 #: src/pacman/remove.c:144
 #, c-format
@@ -1421,7 +1436,7 @@ msgstr[2] "В групі %2$s %1$d елементі:\n"
 #: src/pacman/sync.c:639
 #, c-format
 msgid "database not found: %s\n"
-msgstr "Базу даних не знайдено: %s\n"
+msgstr "базу даних не знайдено: %s\n"
 
 #: src/pacman/sync.c:667
 #, c-format
@@ -1439,9 +1454,9 @@ msgid "%s: requires %s\n"
 msgstr "%s: потребує %s\n"
 
 #: src/pacman/sync.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "%s: installing %s (%s) breaks dependency '%s'\n"
-msgstr "%s: причину встановлення вказано на «встановлено як залежність»\n"
+msgstr "%s: встановлення %s (%s) створить конфлікт залежностей «%s»\n"
 
 #: src/pacman/sync.c:744
 #, c-format
@@ -1471,7 +1486,7 @@ msgstr "Продовжити встановлення?"
 #: src/pacman/sync.c:813
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr "неможливо %s теку-конфлікт файлів\n"
+msgstr "неможливо розвʼязати конфлікт між директорією і файлами %s\n"
 
 #: src/pacman/sync.c:819
 #, c-format
@@ -1560,7 +1575,7 @@ msgstr "не вдалось синхронізувати жодну базу д�
 #: src/pacman/util.c:639
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr "Недостатньо стовпчиків для показу таблиці\n"
+msgstr "недостатньо стовпчиків для показу таблиці\n"
 
 #: src/pacman/util.c:760
 #, c-format
@@ -1570,7 +1585,7 @@ msgstr "Правильний"
 #: src/pacman/util.c:763
 #, c-format
 msgid "Key expired"
-msgstr "Ключ утрати силу"
+msgstr "Ключ утратив силу"
 
 #: src/pacman/util.c:766
 #, c-format
@@ -1705,7 +1720,7 @@ msgstr "неприпустиме число: %s\n"
 #: src/pacman/util.c:1397
 #, c-format
 msgid "Enter a selection (default=all)"
-msgstr "Введіть вибір (типово=всі)"
+msgstr "Зробіть вибір (типово=всі)"
 
 #: src/pacman/util.c:1464
 #, c-format
@@ -1715,17 +1730,17 @@ msgstr "Введіть число (типово=%d)"
 #: src/pacman/util.c:1514
 #, c-format
 msgid "[Y/n]"
-msgstr "[Y/n]"
+msgstr "[Т/н]"
 
 #: src/pacman/util.c:1516
 #, c-format
 msgid "[y/N]"
-msgstr "[y/N]"
+msgstr "[т/Н]"
 
 #: src/pacman/util.c:1541
 #, c-format
 msgid "Y"
-msgstr "Y"
+msgstr "Т"
 
 #: src/pacman/util.c:1541
 #, c-format
@@ -1735,7 +1750,7 @@ msgstr "ТАК"
 #: src/pacman/util.c:1543
 #, c-format
 msgid "N"
-msgstr "N"
+msgstr "Н"
 
 #: src/pacman/util.c:1543
 #, c-format
@@ -1756,36 +1771,3 @@ msgstr "помилка: "
 #, c-format
 msgid "warning: "
 msgstr "попередження: "
-
-#~ msgid "%s saved as %s.pacorig\n"
-#~ msgstr "%s збережено як %s.pacorig\n"
-
-#~ msgid "Repository     :"
-#~ msgstr "Сховище                 :"
-
-#~ msgid "Name           :"
-#~ msgstr "Назва                   :"
-
-#~ msgid "Version        :"
-#~ msgstr "Версія                  :"
-
-#~ msgid "URL            :"
-#~ msgstr "Посилання               :"
-
-#~ msgid "Groups         :"
-#~ msgstr "Групи                   :"
-
-#~ msgid "Download Size  :"
-#~ msgstr "Розмір звантаження :"
-
-#~ msgid "Packager       :"
-#~ msgstr "Пакувальник             :"
-
-#~ msgid "MD5 Sum        :"
-#~ msgstr "Сума MD5                :"
-
-#~ msgid "SHA-256 Sum    :"
-#~ msgstr "Сума SHA-256 :"
-
-#~ msgid "Signatures     :"
-#~ msgstr "Підписи                 :"

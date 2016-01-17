@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# BrLi <rainman59118@gmail.com>, 2014
+# BrLi <rainman59118@gmail.com>, 2014-2015
 # dlin <dlin.tw@gmail.com>, 2014
 # dlin <dlin.tw@gmail.com>, 2014
 # Jeff Huang <s8321414@gmail.com>, 2014-2015
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-05-03 10:23+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-11 15:55+0000\n"
+"Last-Translator: BrLi <rainman59118@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -126,9 +126,8 @@ msgid "FAILED"
 msgstr "失敗"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "正以 %s 驗證來源檔案..."
+msgstr "正在以 %s 驗證 %s 檔案..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -139,9 +138,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "完整性檢驗 (%s) 與來源陣列在大小上有差異。"
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "遺失完整性檢驗。"
+msgstr "遺失完整性校驗：%s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -366,7 +364,6 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "找不到核對來源檔案所需要的 %s 二進位檔。"
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr "找不到核對來源檔完整性校驗碼所需要的 %s 二進位檔。"
@@ -376,9 +373,8 @@ msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "找不到壓縮二進位檔所需要的 %s 二進位檔。"
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "找不到簽署套件所需要的 %s 二進位檔。"
+msgstr "找不到最佳化 PNG 圖片所需要的 %s 二進位檔。"
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -545,11 +541,11 @@ msgstr "  --nosign         不產生套件的數位簽章"
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
-msgstr ""
+msgstr "  --packagelist    只列出產生的套件，不含 PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   印出已生成的 SRCINFO 並離開"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -603,14 +599,14 @@ msgstr "若未指定 %s，則 %s 將查找「%s」"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"著作權所有 (c) 2006-2014 Pacman 開發團隊 <pacman-dev@archlinux.org>。\\n著作"
-"權所有 (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>。\\n\\n這是自由軟體；請"
-"見原始碼瞭解授權條款。\\n於法律許可範圍之內「不予任何保證」。\\n"
+"著作權所有 (c) 2006-2015 Pacman 開發團隊 <pacman-dev@archlinux.org>。\\n著作"
+"權所有 (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>。\\n\\n這是自由軟體；詳"
+"細授權條款請參閱原始碼。\\n於法律許可範圍之內「不予任何保證」。\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -708,19 +704,19 @@ msgstr "無法解析出所有的依賴關係。"
 msgid "Using existing %s tree"
 msgstr "使用既有的 %s 樹"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "正在移除既有的 %s 目錄..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "來源檔案準備就緒。"
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "套件目錄準備就緒。"
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "製作完成：%s"
 
@@ -743,19 +739,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "名稱「%s」中有使用無效字元。允許字元為：[:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "無法偵測到「%s」模板的版本"
+msgstr "無法偵測到「%s」模板的版本\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "找不到符合「%s」的模板檔案\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "「%s」開啟失敗：%s"
+msgstr "「%s」開啟失敗：%s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -809,12 +805,12 @@ msgstr "  --version             版本資訊\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"著作權所有 (c) 2013-2014 Pacman 開發團隊 <pacman-dev@archlinux.org>。\n"
-"這是自由軟體；請見原始碼瞭解授權條款。\n"
+"著作權所有 (c) 2013-2015 Pacman 開發團隊 <pacman-dev@archlinux.org>。\n"
+"這是自由軟體；詳細授權條款請參閱原始碼。\n"
 "於法律許可範圍之內「不予任何保證」。\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
@@ -852,12 +848,12 @@ msgstr "  --nocolor            停用色彩化輸出訊息"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"著作權所有 (c) 2006-2014 Pacman 開發團隊 <pacman-dev@archlinux.org>。\\n\\n這"
-"是自由軟體；請見原始碼瞭解授權規約。\\n於法律許可範圍之內「不予任何保"
+"著作權所有 (c) 2010-2015 Pacman 開發團隊 <pacman-dev@archlinux.org>。\\n\\n這"
+"是自由軟體；詳細授權條款請參閱原始碼。\\n於法律許可範圍之內「不予任何保"
 "證」。\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
@@ -1355,11 +1351,10 @@ msgid ""
 msgstr "  -n, --new         僅加入尚未在資料庫中的套件\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
-msgstr "  -R, --remove      更新資料庫記錄時從磁碟移除套件檔案\\n"
+msgstr "  -R, --remove      更新資料庫後從磁碟移除舊的套件檔案\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1412,12 +1407,13 @@ msgstr "範例：repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"著作權所有 (c) 2006-2014 Pacman 開發團隊 <pacman-dev@archlinux.org>\\n\\n這是"
-"自由軟體；請見原始碼瞭解授權條款。\\n於法律許可範圍之內「不予任何保證」。\\n"
+"著作權所有 (c) 2006-2015 Pacman 開發團隊 <pacman-dev@archlinux.org>\\n\\n這是"
+"自由軟體；詳細授權條款請參閱原始碼。\\n於法律許可範圍之內「不予任何保"
+"證」。\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1432,27 +1428,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "正在移除既有的條目「%s」..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "正在移除空白的增修檔 ..."
+msgstr "正在移除空白的增修檔..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "找不到 gpg 二進位檔！確定有安裝 GnuPG？"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "正在簽署資料庫..."
+msgstr "正在簽署資料庫「%s」..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "已建立簽章檔「%s」"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "無法簽署套件資料庫。"
+msgstr "簽署套件資料庫檔案「%s」失敗"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1471,9 +1464,8 @@ msgid "Database signature was NOT valid!"
 msgstr "資料庫簽章「無效」！"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "「%s」不含有效的封存檔副檔名。"
+msgstr "「%s」不含有效的資料庫封裝檔副檔名。"
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1481,7 +1473,7 @@ msgstr "「%s」記錄早已經存在"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "無法使用裝甲簽章在套件上：%s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1504,9 +1496,8 @@ msgid "Old package file not found: %s"
 msgstr "找不到舊的套件檔案：%s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "無效的套件檔案「%s」。"
+msgstr "正在移除舊的套件檔案「%s」"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1585,9 +1576,8 @@ msgid "No packages modified, nothing to do."
 msgstr "無套件要修改，沒有要處理的事。"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "正在搜尋「%s」套件..."
+msgstr "正在檢查包裹問題..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1676,18 +1666,17 @@ msgstr "%s 檔 (%s) 不存在，或不是正規檔案。"
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s 必須為一陣列"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s 必須為一陣列"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "無法匯入 %s。"
+msgstr "%s 不應為一陣列"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1698,7 +1687,6 @@ msgid "Extracting sources..."
 msgstr "正在解開來源..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
 msgstr "正在分支 %s..."
 
@@ -1707,9 +1695,8 @@ msgid "Failure while branching %s"
 msgstr "分支 %s 時失敗"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "拉出 %s ..."
+msgstr "正在拉出 %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1806,12 +1793,11 @@ msgstr "正在移除 %s 份檔案..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "正在最佳化 PNG 圖片..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "無法壓縮二進位檔：%s"
+msgstr "無法最佳化 PNG 圖片：%s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1864,21 +1850,3 @@ msgstr "選項「%s」不允許引數"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "選項「%s」需要引數"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "無法切換至 %s 目錄"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "請注意許多套件可能需要在其 %s 中加入一列"
-
-#~ msgid "such as %s."
-#~ msgstr "如 %s。"
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr "  --pkg <list>     只從切分的套件中建立列出的套件"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       更新資料庫的檔案清單\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "正在移除既有的套件「%s」"

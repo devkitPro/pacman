@@ -10,14 +10,15 @@
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # FULL NAME <EMAIL@ADDRESS>, 2011
 # Kiprianas Spiridonovas <k.spiridonovas@gmail.com>, 2013
+# Moo, 2015-2016
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-14 01:24+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2016-01-15 10:29+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/lt/)\n"
 "Language: lt\n"
@@ -37,7 +38,7 @@ msgstr "Įeinama į %s aplinką..."
 
 #: scripts/makepkg.sh.in:178
 msgid "pkgver() generated an invalid version: %s"
-msgstr ""
+msgstr "pkgver() sugeneravo neteisingą versiją: %s"
 
 #: scripts/makepkg.sh.in:185
 msgid "Failed to update %s from %s to %s"
@@ -133,9 +134,8 @@ msgid "FAILED"
 msgstr "NEPAVYKO"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Pradinio kodo failai tikrinami su %s..."
+msgstr ""
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -146,9 +146,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Vientisumo patikros dydis (%s) skiriasi nuo pradinio kodo masyvo."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Nėra vientisumo patikros."
+msgstr ""
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -176,7 +175,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:672
 msgid "error during signature verification"
-msgstr ""
+msgstr "klaida, parašo patikrinimo metu"
 
 #: scripts/makepkg.sh.in:678
 msgid "the public key %s is not trusted"
@@ -184,7 +183,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:681
 msgid "invalid public key"
-msgstr ""
+msgstr "neteisingas viešas raktas"
 
 #: scripts/makepkg.sh.in:687 scripts/makepkg.sh.in:691
 #: scripts/libmakepkg/util/message.sh:63 scripts/library/output_format.sh:26
@@ -270,7 +269,7 @@ msgstr "Pridedamas failas %s..."
 
 #: scripts/makepkg.sh.in:1194
 msgid "Failed to add %s file to package."
-msgstr ""
+msgstr "Nepavyko pridėti %s failo į paketą."
 
 #: scripts/makepkg.sh.in:1214
 msgid "Generating .MTREE file..."
@@ -380,12 +379,9 @@ msgstr ""
 "kodų failus."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
-"Negaliu rasti %s sukompiliuotos programos pradinių kodų kontrolinių sumų "
-"tikrinimui."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
@@ -394,10 +390,8 @@ msgstr ""
 "kompiliuotas programas."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
 msgstr ""
-"Negaliu rasti %s sukompiliuotos programos reikalingos paketų pasirašymui."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -441,7 +435,7 @@ msgstr "Dalis paketo jau sukurta. (naudok %s perrašyt)"
 
 #: scripts/makepkg.sh.in:1696
 msgid "Make packages compatible for use with pacman"
-msgstr ""
+msgstr "Padaryti paketus suderinamus naudojimui su pacman"
 
 #: scripts/makepkg.sh.in:1698 scripts/pacman-db-upgrade.sh.in:40
 msgid "Usage: %s [options]"
@@ -461,7 +455,7 @@ msgstr "  -c, --clean      Po darbo ištrinti darbinius failus"
 
 #: scripts/makepkg.sh.in:1703
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
+msgstr "  -C, --cleanbuild Prieš kuriant paketą, šalinti %s katalogą"
 
 #: scripts/makepkg.sh.in:1704
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -639,7 +633,7 @@ msgstr "Jei %s nenurodytas, %s ieškos „%s“"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -696,7 +690,7 @@ msgstr "%s turi %s simbolių ir negali būt naudojama kaip pradinis kodas."
 
 #: scripts/makepkg.sh.in:1998
 msgid "%s must be in the current working directory."
-msgstr ""
+msgstr "%s privalo būti esamame darbiniame kataloge."
 
 #: scripts/makepkg.sh.in:2078
 msgid "The key %s does not exist in your keyring."
@@ -742,26 +736,26 @@ msgstr "Neįmanoma išspręsti visų priklausomybių."
 msgid "Using existing %s tree"
 msgstr "Naudojamas esamas %s medis"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Šalinamas egzistuojantis %s aplankas..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Pradiniai kodai paruošti."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
-msgstr ""
+msgstr "Paketo katalogas paruoštas."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Sukurta: %s"
 
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr ""
+msgstr "nepavyksta sukurti \"%s\": %s"
 
 #: scripts/makepkg-template.pl.in:73
 msgid "invalid key/value pair\n"
@@ -780,6 +774,8 @@ msgstr ""
 #, perl-format
 msgid "Couldn't detect version for template '%s'\n"
 msgstr ""
+"Nepavyko aptikti versijos \"%s\" šablonui\n"
+"\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
@@ -787,9 +783,9 @@ msgid "Failed to find template file matching '%s'\n"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "Nepavyko įkelti šaltinio %s"
+msgstr "nepavyko atverti \"%s\": %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -802,7 +798,7 @@ msgstr ""
 
 #: scripts/makepkg-template.pl.in:177
 msgid "Options:\n"
-msgstr ""
+msgstr "Pasirinktys:\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
@@ -834,16 +830,16 @@ msgstr ""
 
 #: scripts/makepkg-template.pl.in:184
 msgid "  --help, -h            This help message\n"
-msgstr ""
+msgstr "  --help, -h            Šis pagalbos pranešimas\n"
 
 #: scripts/makepkg-template.pl.in:185
 msgid "  --version             Version information\n"
-msgstr ""
+msgstr "  --version             Versijos informacija\n"
 
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
@@ -857,7 +853,7 @@ msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "options:"
-msgstr ""
+msgstr "pasirinktys:"
 
 #: scripts/pacman-db-upgrade.sh.in:43
 msgid "  -b, --dbpath <path>  set an alternate database location"
@@ -865,7 +861,7 @@ msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
-msgstr ""
+msgstr "  -h, --help           parodyti šį pagalbos pranešimą ir išeiti"
 
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -r, --root <path>    set an alternate installation root"
@@ -886,7 +882,7 @@ msgstr ""
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1238,7 +1234,7 @@ msgstr "Norint optimizuoti duomenų bazę tau reikia atitinkamų teisių."
 
 #: scripts/pacman-optimize.sh.in:125
 msgid "Cannot create temporary directory for database building."
-msgstr ""
+msgstr "Nepavyko sukurti laikino katalogo duomenų bazės kūrimui."
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1402,12 +1398,10 @@ msgstr ""
 "  -n, --new         pridėti tik tuos paketus kurių nėra duomenų bazėje\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -n, --new         pridėti tik tuos paketus kurių nėra duomenų bazėje\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1468,7 +1462,7 @@ msgstr "Pavyzdys:  repo-remove /kelias/iki/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1489,27 +1483,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Šalinamas egzistuojantis įrašas „%s“..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Šalinamas tuščias delta failas..."
+msgstr ""
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Negaliu rasti gpg programos! Ar GnuPG įdiegta?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Pasirašoma duomenų bazė..."
+msgstr ""
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Parašo failas „%s“ sukurtas"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Nepavyko pasirašyt paketų duomenų bazės."
+msgstr ""
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1528,9 +1519,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Duomenų bazės parašas NETINKAMAS!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "„%s“ neturi tinkamo archyvo plėtinio."
+msgstr ""
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1561,9 +1551,8 @@ msgid "Old package file not found: %s"
 msgstr "Senas paketo failas nerastas: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Netinkamas paketo failas „%s“."
+msgstr "Šalinamas senas paketo failas \"%s\""
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1642,9 +1631,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Paketai nepakeisti, nėra ką daryti."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Ieškomas paketas „%s“..."
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1742,9 +1730,8 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "Nepavyko importuoti %s."
+msgstr ""
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1755,18 +1742,16 @@ msgid "Extracting sources..."
 msgstr "Išarchyvuojami pradiniai kodai..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Kuriama šaka %s..."
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "Klaida kurian šaką %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Gaunama %s..."
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1863,12 +1848,11 @@ msgstr "Šalinami %s failai..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Optimizuojami PNG paveikslai..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Nepavyko suarchyvuoti sukompiliuotos programos: %s"
+msgstr "Nepavyko optimizuoti PNG paveikslo : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1876,7 +1860,7 @@ msgstr "Šalinami nepageidaujami failai..."
 
 #: scripts/libmakepkg/tidy/staticlibs.sh.in:35
 msgid "Removing static library files..."
-msgstr ""
+msgstr "Šalinami nekintami bibliotekos failai..."
 
 #: scripts/libmakepkg/tidy/strip.sh.in:85
 msgid "Stripping unneeded symbols from binaries and libraries..."
@@ -1922,19 +1906,3 @@ msgstr "parinktis „%s“ neleidžia argumentų"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "parinkčiai „%s“ reikia argumento"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Pakeisti darbinį aplanką į „%s“ nepavyko"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "Turėk omeny jog daugumai paketų reikia pridėt eilutę prie jų %s"
-
-#~ msgid "such as %s."
-#~ msgstr "pavyzdžiui %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <sąrašas>     Sukurti tik išvardintus paketus iš perskirto paketo"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       atnaujinti duomenų bazės failų sąrašą\\n"

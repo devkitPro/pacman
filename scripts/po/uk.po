@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-07-10 17:57+0000\n"
-"Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-29 09:15+0000\n"
+"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -28,7 +28,7 @@ msgstr "Очищення..."
 
 #: scripts/makepkg.sh.in:169
 msgid "Entering %s environment..."
-msgstr "Входжу в середовище %s"
+msgstr "Входжу в середовище %s..."
 
 #: scripts/makepkg.sh.in:178
 msgid "pkgver() generated an invalid version: %s"
@@ -128,9 +128,8 @@ msgid "FAILED"
 msgstr "НЕВДАЛО"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Звірення вихідного коду з %s..."
+msgstr "Звірення %s файлів з %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -141,9 +140,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Перевірки цілісності (%s) відрізняються за розміром від масиву source."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Перевірки цілісності відсутні."
+msgstr "Відсутні перевірки цілісності для: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -372,7 +370,6 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Не можу знайти бінарник %s, потрібний для перевірки джерельних файлів."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
@@ -384,9 +381,9 @@ msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Не можу знайти бінарник %s, потрібний для стиснення бінарних файлів."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Не можу знайти бінарник %s, який вимагається для підписання пакунків."
+msgstr ""
+"Не можу знайти бінарник %s, який вимагається для оптимізації малюнків PNG."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -566,11 +563,11 @@ msgstr "  --nosign         Не створювати підпис для пак�
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
-msgstr ""
+msgstr "  --packagelist    Отримується список пакунків, без PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   Видати згенерований SRCINFO і вийти"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -629,12 +626,12 @@ msgstr "Якщо %s не вказано, %s буде шукати '%s'"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Всі права захищено (c) 2006-2014 Групою Розробників Pacman <pacman-"
+"Всі права захищено (c) 2006-2015 Групою Розробників Pacman <pacman-"
 "dev@archlinux.org>.\\nВсі права захищено (C) 2002-2006 Judd Vinet "
 "<jvinet@zeroflux.org>.\\n\\nЦе є вільне програмне забезпечення; перегляньте "
 "джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ в межах, "
@@ -737,19 +734,19 @@ msgstr "Неможливо розв'язати усі залежності."
 msgid "Using existing %s tree"
 msgstr "Використання існуючого дерева %s"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Видалення існуючої теки %s..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Вихідні файли готові."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Тека пакунку готова."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Закінчено створення: %s"
 
@@ -773,19 +770,19 @@ msgstr ""
 "в назві використано неправильні символи '%s'. дозволено: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Неможливо визначити версію для шаблону '%s'"
+msgstr "Неможливо визначити версію для шаблону '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Не вдалося знайти файл шаблону, що збігається з '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "помилка відкривання '%s': %s"
+msgstr "помилка відкривання '%s': %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -841,11 +838,11 @@ msgstr "  -V, --version             Версія програми\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Всі права застережено (c) 2013-2014 Групою Розробників Pacman <pacman-"
+"Всі права застережено (c) 2013-2015 Групою Розробників Pacman <pacman-"
 "dev@archlinux.org>.\n"
 "Це є вільне програмне забезпечення; перегляньте джерельний код щодо умов "
 "копіювання.\n"
@@ -888,11 +885,11 @@ msgstr "  -m, --nocolor вимкнути кольорові повідомлен
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Всі права застережено (c) 2010-2014 Групою Розробників Pacman <pacman-"
+"Всі права застережено (c) 2010-2015 Групою Розробників Pacman <pacman-"
 "dev@archlinux.org>.\\nЦе є вільне програмне забезпечення; перегляньте "
 "джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ, в межах, "
 "дозволених законом.\\n"
@@ -1412,12 +1409,12 @@ msgid ""
 msgstr "  -n, --new         тільки додати пакунки, яких ще немає в базі\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      вилучити файл пакунку з диску при оновленні бази даних\\n"
+"  -R, --remove      вилучити старий файл пакунку з диску після оновлення "
+"бази даних\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1473,11 +1470,11 @@ msgstr "Приклад:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Всі права застережено (c) 2006-2014 Групою Розробників Pacman <pacman-"
+"Всі права застережено (c) 2006-2015 Групою Розробників Pacman <pacman-"
 "dev@archlinux.org>.\\nЦе є вільне програмне забезпечення; перегляньте "
 "джерельний код щодо умов копіювання.\\nНе існує ЖОДНИХ ГАРАНТІЙ, в межах, "
 "дозволених законом.\\n"
@@ -1495,7 +1492,6 @@ msgid "Removing existing entry '%s'..."
 msgstr "Вилучення існуючого запису '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
 msgstr "Вилучення порожнього файлу різниць ..."
 
@@ -1504,18 +1500,16 @@ msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Не можу знайти бінарник gpg! Чи GnuPG встановлено?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Підписання бази даних..."
+msgstr "Підписування бази даних '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Створено файл підпису '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Не вдалося підписати базу даних пакунків."
+msgstr "Не вдалося підписати файл бази даних пакунків '%s'"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1534,9 +1528,8 @@ msgid "Database signature was NOT valid!"
 msgstr "База даних підписів НЕ дійсна!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' не має вірного розширення архіву."
+msgstr "'%s' не має вірного розширення архіву бази даних."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1544,7 +1537,7 @@ msgstr "Запис для '%s' вже існував"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Неможливо використати вставлених підписів для пакунків: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1567,9 +1560,8 @@ msgid "Old package file not found: %s"
 msgstr "Старий файл пакунку не знайдений: %s."
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Невірний файл пакунка '%s'."
+msgstr "Вилучення старого файлу пакунка '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1648,9 +1640,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Не змінено жодного пакунка, нема що робити."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Пошук пакунка '%s'..."
+msgstr "Перевірка на правильність пакування..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1739,18 +1730,17 @@ msgstr "файл %s (%s) не існує або не є звичайним фа�
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s мусить бути масивом"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s мусить бути масивом"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "Не вдалося імпортувати %s."
+msgstr "%s не мусить бути масивом"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1761,18 +1751,16 @@ msgid "Extracting sources..."
 msgstr "Розпаковування  вихідних файлів..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Розгалуження %s ..."
+msgstr "Розгалуження %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "Помилка при розгалуженні %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Долучення %s ..."
+msgstr "Долучення %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1869,12 +1857,11 @@ msgstr "Вилучення файлів %s ..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Оптимізація малюнків PNG..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Не вдалося стиснути бінарний файл: %s."
+msgstr "Не вдалося оптимізувати малюнок PNG : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1927,23 +1914,3 @@ msgstr "параметр '%s' не дозволяє аргументу"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "параметр '%s' вимагає аргументу"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Не вдалося змінити на теку %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr ""
-#~ "Зверніть увагу, що для багатьох пакунків потрібно додати рядок до їхніх %s"
-
-#~ msgid "such as %s."
-#~ msgstr "таким як %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "  --pkg <list>     Тільки зібрати вказані пакунки з розділеного пакунку"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       оновлює список файлів бази дани\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Вилучення існуючого пакунку '%s'"

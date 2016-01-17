@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-01-01 14:08+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 11:23+0000\n"
 "Last-Translator: Taegil Bae <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
@@ -65,7 +65,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "%s%s를 추출할 수 없습니다: 경로가 너무 깁니다"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -93,7 +93,7 @@ msgstr "추출: %s 파일로 디렉터리를 덮어쓰지 못함\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "%s.pacnew를 추출할 수 없습니다: 경로가 너무 깁니다"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -300,37 +300,37 @@ msgstr "파일을 열 수 없습니다: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "파일 시스템 정보를 가져올 수 없습니다.\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "%s에 대한 파일 시스템 정보를 가져올 수 없습니다: %s\n"
+msgstr "%s의 파일 정보를 얻을 수 없습니다\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "파일 %s에 대한 마운트 지점을 확인하지 못했습니다.\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "파티션 %s가 꽉 찼습니다: %jd 블럭 필요하나 %jd 블럭 비었음.\n"
+msgstr "파티션 %s이 너무 찼습니다: %jd 블록 필요, %ju 블록 빔\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "파일 시스템 마운트 지점을 확인할 수 없습니다.\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "캐시 디렉터리 마운트 지점 %s를 확인할 수 없습니다.\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "루트 마운트 지점 %s를 확인할 수 없습니다.\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "파티션 %s가 읽기 전용으로 마운트되었습니다.\n"
@@ -518,7 +518,7 @@ msgstr "데이터베이스가 잠겨 있지 않을 때 처리 커밋을 시도�
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "처리 훅을 실행하는 데 실패했습니다"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -760,22 +760,22 @@ msgstr "삭제 처리를 커밋하지 못하였습니다.\n"
 msgid "could not commit transaction\n"
 msgstr "처리를 커밋하지 못하였습니다.\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "임시 디렉터리를 만들 수 없습니다.\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "임시 파일을 %s로 복사할 수 없습니다.(%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s를 제거할 수 없습니다.\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "임시 디렉터리 %s를 제거하지 못하였습니다.\n"
@@ -786,14 +786,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "%s 파일 상태를 알 수 없음: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "파이프를 만들 수 없습니다.(%s)\n"
+msgstr "파이프에 기록할 수 없습니다.(%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "파이프를 만들 수 없습니다.(%s)\n"
+msgstr "파이프로부터 읽을 수 없습니다.(%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -844,6 +844,3 @@ msgstr "%s 캐시가 없으므로 생성 중...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "꾸러미 캐시를 찾거나 생성할 수 없어 대신 %s를 사용합니다.\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "파이프를 열 수 없습니다.(%s)\n"

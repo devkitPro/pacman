@@ -8,16 +8,16 @@
 # kyak <peselnik@gmail.com>, 2013
 # partizan <serg.partizan@gmail.com>, 2011-2012,2014
 # kyak <peselnik@gmail.com>, 2013
-# partizan <serg.partizan@gmail.com>, 2014
+# partizan <serg.partizan@gmail.com>, 2014-2015
 # partizan <serg.partizan@gmail.com>, 2012
 # Vasiliy Polyakov <vp@psu.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-25 09:16+0000\n"
-"Last-Translator: Vasiliy Polyakov <vp@psu.ru>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-11 10:01+0000\n"
+"Last-Translator: partizan <serg.partizan@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -66,7 +66,7 @@ msgstr "файл не найден в составе пакета %s; извле
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "не удалось извлечь %s%s: путь слишком длинный"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -94,7 +94,7 @@ msgstr "извлечение: не перезаписывается катало
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "не удалось извлечь %s.pacnew: путь слишком длинный"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -307,37 +307,37 @@ msgstr "не удалось открыть файл %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "не удалось получить информацию о файловой системе\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "не удалось получить информацию о файловой системе для %s: %s\n"
+msgstr "не удалось получить информацию о файле для %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "не удалось определить точку подключения для файла %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Раздел %s переполнен: %jd блоков требуется, %jd блоков свободно\n"
+msgstr "Раздел %s заполнен: %jd блоков необходимо, %ju блоков свободно\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "не удалось определить точку монтирования для файловой системы\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "для cachedir не удалось определить точку монтирования %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "не удалось определить точку монтированиия корня %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Раздел %s смонтирован только для чтения\n"
@@ -655,7 +655,7 @@ msgstr "непредвиденная ошибка"
 #: lib/libalpm/handle.c:155
 #, c-format
 msgid "lock file missing %s\n"
-msgstr "не найден lock-файл '%s'\n"
+msgstr "не найден lock-файл %s\n"
 
 #: lib/libalpm/handle.c:161
 #, c-format
@@ -767,22 +767,22 @@ msgstr "не удалось завершить транзакцию удален
 msgid "could not commit transaction\n"
 msgstr "не удалось завершить транзакцию\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "не удалось создать временный каталог\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "не удалось скопировать временный файл в %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "не удалось удалить %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "не удалось удалить временный каталог %s\n"
@@ -793,14 +793,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "не удалось определить статус файла %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "не удалось создать канал (%s)\n"
+msgstr "не удалось записать в пайп (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "не удалось создать канал (%s)\n"
+msgstr "не удалось чтение из пайпа (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -851,6 +851,3 @@ msgstr "кэш %s не существует, создается...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "не удалось найти или создать кеш пакета, используется %s\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "не удалось открыть канал (%s)\n"

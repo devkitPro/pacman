@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-05-23 18:50+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 20:29+0000\n"
 "Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/sr@latin/)\n"
@@ -129,9 +129,8 @@ msgid "FAILED"
 msgstr "NEUSPEH"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Proveravam ispravnost fajlova izvora putem %s..."
+msgstr "Overavam %s fajlova putem %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -143,9 +142,8 @@ msgstr ""
 "Provere integriteta (%s) se razlikuju veličinom u odnosu na odeljak izvora."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Nedostaju provere integriteta."
+msgstr "nedostaju provere integriteta za: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -374,12 +372,9 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Ne mogu da nađem izvršni fajl %s neophodan za overu izvornih fajlova."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
-msgstr ""
-"Ne mogu da nađem izvršni fajl %s neophodan za overu kontrolnih suma izvornih "
-"fajlova."
+msgstr "Ne mogu da nađem binar %s, neophodan za proveru suma fajla izvora."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
@@ -387,9 +382,8 @@ msgstr ""
 "Ne mogu da nađem izvršni fajl %s neophodan za kompresovanje binarnih fajlova."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Ne mogu da nađem izvršni fajl %s neophodan za potpisivanje paketa."
+msgstr "Ne mogu da nađem binar %s, neophodan za optimizaciju PNG slika."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -567,10 +561,12 @@ msgstr "  --nosign         Ne potpisuj paket"
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"--packagelist  Samo lista pakete koji će biti napravljeni, bez ekstenzija "
+"(PKGEXT)"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "--printsrcinfo  Štampa stvoreni SRCINFO i napušta"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -626,15 +622,15 @@ msgstr "Ukoliko %s nije određeno, %s će tražiti „%s“"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"© 2006-2014 Pacmanov razvojni tim <pacman-dev@archlinux.org>.\\n© 2002-2006 "
-"Judd Vinet <jvinet@zeroflux.org>.\\n\\nOvo je slobodan softver; uslove "
-"umnožavanja potražiti u izvoru.\\nNe postoji garancija, u zakonom dopuštenim "
-"granicama.\\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
+"free software; see the source for copying conditions.\\nThere is NO "
+"WARRANTY, to the extent permitted by law.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -732,19 +728,19 @@ msgstr "Ne mogu da razrešim sve zavisnosti"
 msgid "Using existing %s tree"
 msgstr "Koristim postojeće %s stablo"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Uklanjam postojeću %s fasciklu..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Izvori su pripremljeni."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Fascikla paketa je spremna."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Završih gradnju: %s"
 
@@ -767,19 +763,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "nedozvoljeni znakovi u imenu „%s“: dozvoljeno: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Ne mogu da odredim verziju šablona „%s“"
+msgstr "Ne mogu da odredim verziju šablona „%s“\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Neuspelo pronalaženje fajla šablona koji se poklapa sa „%s“\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "ne mogu da otvorim „%s“: %s"
+msgstr "neuspelo otvaranje „%s“:%s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -837,13 +833,13 @@ msgstr "  --version             Podaci o verziji\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"© 2013-2014 Pacmanov razvojni tim <pacman-dev@archlinux.org>.\n"
-"Ovo je slobodan softver; uslove umnožavanja potražiti u izvoru.\n"
-"Ne postoji garancija, u zakonom dopuštenim granicama.\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"This is free software; see the source for copying conditions.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
@@ -880,13 +876,13 @@ msgstr "  --nocolor            bez obojenih izlaznih poruka"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"© 2010-2014 Pacmanov razvojni tim <pacman-dev@archlinux.org>.\n"
-"Ovo je slobodan softver; uslove umnožavanja potražiti u izvoru.\n"
-"Ne postoji garancija, u zakonom dopuštenim granicama.\\n"
+"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -1405,12 +1401,12 @@ msgid ""
 msgstr "  -n, --new         samo paketi koji nisu već u bazi\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      Uklanja fajl paketa prilikom ažuriranja unosa u bazi\\n"
+"  -R, --remove      uklanja stari fajl paketa sa diska nakon ažuriranja baze"
+"\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1466,13 +1462,13 @@ msgstr "Example:  repo-remove /putanja/do/riznica.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"© 2006-2014 Pacmanov razvojni tim <pacman-dev@archlinuxorg>.\\nOvo je "
-"slobodan softver; uslove umnožavanja potražiti u izvoru.\\nNe postoji "
-"garancija, u zakonom dopuštenim granicama.\\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\nThis is free software; see the source for copying conditions.\\nThere is "
+"NO WARRANTY, to the extent permitted by law.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1487,27 +1483,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Uklanjam postojeći unos „%s“..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Uklanjam prazan fajl delte..."
+msgstr "Uklanjam prazan fajl delti..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Ne mogu da nađem izvršni fajl gpg. Da li je GnuPG instaliran?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Potpisujem bazu..."
+msgstr "Potpisujem bazu „%s“..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Napravljen je fajl potpisa „%s“"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Neuspelo potpisivanje baze paketa."
+msgstr "Neuspelo potpisivanje fajla baze paketa „%s“"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1526,9 +1519,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Fajl potpisa baze NIJE ispravan!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "%s nema ispravnu ekstenziju arhive."
+msgstr "„%s“ nema ispravnu ekstenziju arhive baze."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1536,7 +1528,7 @@ msgstr "Unos za „%s“ je već postojao"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Ne mogu koristiti ojačane potpise za pakete: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1559,9 +1551,8 @@ msgid "Old package file not found: %s"
 msgstr "Nije nađen stari fajl paketa: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Neispravan fajl paketa „%s“."
+msgstr "Uklanjam stari fajl paketa „%s“"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1640,9 +1631,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Nema izmenjenih paketa; ništa za raditi."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Tražim paket „%s“..."
+msgstr "Tražim probleme u pakiranju..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1731,18 +1721,17 @@ msgstr "Fajl %s (%s) ne postoji ili nije uobičajen fajl."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s bi trebalo da bude oblast"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s bi trebalo da bude oblast"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s se ne može uvesti."
+msgstr "%s ne bi smelo da bude oblast"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1753,18 +1742,16 @@ msgid "Extracting sources..."
 msgstr "Raspakujem izvore..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Granam %s..."
+msgstr "Granam %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "Neuspešno grananje %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Dovlačim %s ..."
+msgstr "Šaljem %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1861,12 +1848,11 @@ msgstr "Uklanjam %s fajlove..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Optimizujem PNG slike..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Ne mogu da kompresujem binarni fajl: %s"
+msgstr "Ne mogu d optimizujem PNG sliku: %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1919,21 +1905,3 @@ msgstr "opcija „%s“ ne dozvoljava argumente"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "opcija „%s“ zahteva argument"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Neuspela promena fascikle %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "Imajte u vidu da je mnogim paketima neophodna linija u fajlu %s"
-
-#~ msgid "such as %s."
-#~ msgstr "poput %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr "  --pkg <spisak>   Gradi samo navedene pakete iz razdeljenog paketa"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       ažuriraj spisak fajlova baze\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Uklanjam postojeći paket „%s“"

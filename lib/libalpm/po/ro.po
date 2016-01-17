@@ -13,13 +13,14 @@
 # Mihai Coman <mihai@m1x.ro>, 2011,2013
 # mihaicris <Mihai.cristescu@gmail.com>, 2015
 # mihaicris <Mihai.cristescu@gmail.com>, 2015
+# Mihai Cristescu <mihai.cristescu@archlinux.info>, 2015
 # Arthur Țițeică <arthur.titeica@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-03-26 06:30+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 17:58+0000\n"
 "Last-Translator: mihaicris <Mihai.cristescu@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ro/)\n"
@@ -70,7 +71,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "nu se poate extrage %s%s: cale prea lungă"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -98,7 +99,7 @@ msgstr "extragere: nu se suprascrie dir cu fișierul %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "nu se poate extrage %s.pacnew: cale prea lungă"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -205,7 +206,7 @@ msgstr "eroare la citirea mtree pentru pachetul %s: %s\n"
 #: lib/libalpm/be_package.c:600
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "nu a putut fi analizat fișierul de descriere a pachetului în %s\n"
+msgstr "nu s-a putut analiza fișierul de descriere a pachetului în %s\n"
 
 #: lib/libalpm/be_package.c:605
 #, c-format
@@ -313,39 +314,38 @@ msgstr "nu s-a putut deschide fișierul %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "nu s-au putut obține informații despre sistemul de fișiere\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr ""
-"nu s-au putut obține informații despre sistemul de fișiere pentru %s: %s\n"
+msgstr "nu s-au putut obține informațiile despre fișier pentru %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "nu s-a putut determina locul de montare al fișierului %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Partiția %s prea plină: %jd blocuri necesare,%jd blocuri libere\n"
+msgstr "Partiția %s prea plină: %jd blocuri necesare, %ju blocuri libere\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr ""
 "nu s-au putut determina locurile de montare ale sistemului de fișiere\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "nu s-a putut determina partiția de montare pentru cachedir %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "nu s-a putut determina locul de montare al partiției root %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partiția %s este montată numai pentru citire\n"
@@ -435,7 +435,7 @@ msgstr "bibliotecă deja inițializată"
 #: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
-msgstr "imposibilitate de a bloca baza de date"
+msgstr "nu se poate bloca baza de date"
 
 #: lib/libalpm/error.c:62
 #, c-format
@@ -535,7 +535,7 @@ msgstr "efectuarea tranzacției așteaptă până baza de date nu va fi blocată
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "eșec la executarea hook-urilor de tranzacție"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -777,22 +777,22 @@ msgstr "nu s-a putut efectua tranzacția de eliminare\n"
 msgid "could not commit transaction\n"
 msgstr "nu s-a putut efectua tranzacția\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "nu s-a putut crea directorul temp\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nu s-a putut copia tempfile în %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "nu s-a putut elimina %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nu s-a putut elimina tmpdir %s\n"
@@ -803,14 +803,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "nu s-a putut determina starea fișierului %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "nu s-a putut crea o redirecționare (%s)\n"
+msgstr "nu se poate scrie în redirecționare (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "nu s-a putut crea o redirecționare (%s)\n"
+msgstr "nu se poate citi din redirecționare (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -863,6 +863,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "nu s-a putut găsi sau crea cache-ul pentru pachet; se folosește %s în "
 "schimb.\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "nu s-a putut deschide redirecționarea (%s)\n"

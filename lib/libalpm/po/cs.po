@@ -5,7 +5,7 @@
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # David Kolibáč <david@kolibac.cz>, 2011
-# Jaroslav Lichtblau <dragonlord@seznam.cz>, 2014
+# Jaroslav Lichtblau <dragonlord@seznam.cz>, 2014-2015
 # Jaroslav Lichtblau <dragonlord@seznam.cz>, 2014
 # mmm <markotahal@gmail.com>, 2013
 # mmm <markotahal@gmail.com>, 2011
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-03-11 18:35+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-12 18:41+0000\n"
 "Last-Translator: Jaroslav Lichtblau <dragonlord@seznam.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/cs/)\n"
@@ -65,7 +65,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "nelze rozbalit %s%s: příliš dlouhá cesta"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -93,7 +93,7 @@ msgstr "rozbalení: adresář nebyl přepsán souborem %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "nelze rozbalit %s.pacnew: příliš dlouhá cesta"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -300,37 +300,37 @@ msgstr "nelze otevřít soubor: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "nepodařilo se získat informace o souborovém systému\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "nepodařilo se získat informace o souborovém systému %s: %s\n"
+msgstr "nelze získat informace o souboru pro %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "nepodařilo se určit připojovací bod pro soubor %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Oddíl %s je plný: je potřeba %jd bloků, ale k dispozici je jen %jd\n"
+msgstr "Oddíl %s je plný: je potřeba %jd bloků, ale k dispozici je jen %ju\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "nepodařilo se určit přípojné body souborového systému\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "nepodařilo se určit kořen přípojného bodu %s pro cachedir\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "nepodařilo se určit kořen přípojného bodu %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Diskový oddíl %s je připojen jen pro čtení\n"
@@ -520,7 +520,7 @@ msgstr "pokus o uskutečnění transakce v době, kdy není uzamčena databáze"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "selhalo spuštění hook transakcí"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -762,22 +762,22 @@ msgstr "nelze provést transakci pro odstranění\n"
 msgid "could not commit transaction\n"
 msgstr "nelze provést transakci\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "nelze vytvořit dočasný adresář\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nelze zkopírovat dočasný soubor do %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "nelze odstranit %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nelze odstranit dočasný adresář %s\n"
@@ -788,14 +788,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "nelze najít soubor %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "nepodařilo se vytvořit rouru (%s)\n"
+msgstr "nelze zapisovat do roury (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "nepodařilo se vytvořit rouru (%s)\n"
+msgstr "nelze číst z roury (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -848,6 +848,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "nepodařilo se najít nebo vytvořit mezipaměť pro balíčky, používám místo toho "
 "%s\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "nepodařilo se otevřít rouru (%s)\n"

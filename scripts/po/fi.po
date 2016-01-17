@@ -9,15 +9,15 @@
 # Lasse Liehu <larso@gmx.com>, 2013
 # Lasse Liehu <larso@gmx.com>, 2011-2012
 # Lasse Liehu <larso@gmx.com>, 2013
-# Lasse Liehu <larso@gmx.com>, 2013-2015
+# Lasse Liehu <larso@gmx.com>, 2013-2016
 # Lasse Liehu <lasse.liehu@gmail.com>, 2012
 # No User, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-16 09:50+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2016-01-07 19:46+0000\n"
 "Last-Translator: Lasse Liehu <larso@gmx.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/fi/)\n"
@@ -132,9 +132,8 @@ msgid "FAILED"
 msgstr "Virheellinen"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Lähdetiedostojen virheettömyyttä tarkastetaan algoritmilla '%s'..."
+msgstr "Tarkastetaan paketin %s tiedostojen virheettömyyttä ohjelmalla %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -145,9 +144,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Tarkistussummien (%s) lukumäärä ei vastaa lähdetiedostojen määrää."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Tarkistussummat puuttuvat."
+msgstr "Tarkistussummat puuttuvat: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -269,7 +267,7 @@ msgstr "Lisätään %s-tiedostoa..."
 
 #: scripts/makepkg.sh.in:1194
 msgid "Failed to add %s file to package."
-msgstr ""
+msgstr "Tiedoston %s lisääminen pakettiin epäonnistui."
 
 #: scripts/makepkg.sh.in:1214
 msgid "Generating .MTREE file..."
@@ -358,10 +356,12 @@ msgstr ""
 #: scripts/makepkg.sh.in:1516
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
+"Ohjelmaa %s ei löydy. Käytetään ohjelmaa %s ylläpitäjän oikeuksien "
+"saamiseksi."
 
 #: scripts/makepkg.sh.in:1523
 msgid "Cannot find the %s binary."
-msgstr ""
+msgstr "Ohjelmaa %s ei löydy."
 
 #: scripts/makepkg.sh.in:1531
 msgid "Cannot find the %s binary required for signing packages."
@@ -372,7 +372,6 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Lähdetiedostojen tarkastamiseen tarvittavaa ohjelmaa %s ei löydy."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
@@ -384,9 +383,8 @@ msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Ohjelmien pakkaamiseen tarvittavaa ohjelmaa %s ei löydy."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Pakettien allekirjoittamiseen tarvittavaa ohjelmaa %s ei löydy."
+msgstr "PNG-kuvien optimointiin tarvittavaa ohjelmaa %s ei löydy."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -625,7 +623,7 @@ msgstr "Jos tiedostoa ei anneta %s-valitsimella, %s etsii tiedostoa \"%s\""
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
@@ -660,7 +658,7 @@ msgstr "Sinulla ei ole oikeuksia säilöä lähdekoodiarkistoja sijainnissa %s."
 
 #: scripts/makepkg.sh.in:1959
 msgid "You do not have write permission to store logs in %s."
-msgstr ""
+msgstr "Sinulla ei ole oikeuksia säilöä lokeja sijainnissa %s."
 
 #: scripts/makepkg.sh.in:1972
 msgid ""
@@ -730,19 +728,19 @@ msgstr "Kaikkia riippuvuuksia ei pystytty selvittämään."
 msgid "Using existing %s tree"
 msgstr ""
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Poistetaan jo olemassaolevaa %s-kansiota..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Lähdetiedostot ovat valmiita."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
-msgstr ""
+msgstr "Pakettihakemisto on valmis."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Saatiin valmiiksi paketti: %s"
 
@@ -753,7 +751,7 @@ msgstr ""
 
 #: scripts/makepkg-template.pl.in:73
 msgid "invalid key/value pair\n"
-msgstr ""
+msgstr "virheellinen avain/arvo-pari\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
@@ -775,9 +773,9 @@ msgid "Failed to find template file matching '%s'\n"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "source epäonnistui tiedostolle %s"
+msgstr "ei voitu avata \"%s\": %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -786,11 +784,11 @@ msgstr ""
 
 #: scripts/makepkg-template.pl.in:175
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [valinnat]\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "Options:\n"
-msgstr ""
+msgstr "Valinnat:\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
@@ -818,20 +816,20 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:183
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (oletus: %s)\n"
 
 #: scripts/makepkg-template.pl.in:184
 msgid "  --help, -h            This help message\n"
-msgstr ""
+msgstr "  --help, -h            Näyttää tämän ohjeen\n"
 
 #: scripts/makepkg-template.pl.in:185
 msgid "  --version             Version information\n"
-msgstr ""
+msgstr "  --version             Kertoo ohjelman version\n"
 
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
@@ -841,11 +839,11 @@ msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Päivitä paikallinen pacman-tietokanta uudempaan muotoon"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "options:"
-msgstr ""
+msgstr "valinnat:"
 
 #: scripts/pacman-db-upgrade.sh.in:43
 msgid "  -b, --dbpath <path>  set an alternate database location"
@@ -874,7 +872,7 @@ msgstr ""
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -920,7 +918,7 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
-msgstr ""
+msgstr "Käyttö: %s [valinnat] operaatio [kohteet]"
 
 #: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
@@ -928,19 +926,21 @@ msgstr "Hallitse pacmanin tietokantaa luotetuista avaimista"
 
 #: scripts/pacman-key.sh.in:62
 msgid "Operations:"
-msgstr ""
+msgstr "Operaatiot:"
 
 #: scripts/pacman-key.sh.in:63
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr ""
+"  -a, --add                 Lisää luetellut avaimet (tyhjäksi jätettynä "
+"luetaan stdinistä)"
 
 #: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr ""
+msgstr "  -d, --delete              Poista luetellut avaimet"
 
 #: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
-msgstr ""
+msgstr "  -e, --export               Vie luetellut avaimet"
 
 #: scripts/pacman-key.sh.in:66
 msgid ""
@@ -1132,7 +1132,7 @@ msgstr "Allekirjoitetaan avainta %s paikallisesti..."
 
 #: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
-msgstr ""
+msgstr "%s ei voitu allekirjoittaa paikallisesti."
 
 #: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
@@ -1180,11 +1180,11 @@ msgstr "Suorita %s erikseen joka operaatiolle."
 
 #: scripts/pacman-key.sh.in:605
 msgid "No targets specified"
-msgstr ""
+msgstr "Kohteita ei annettu"
 
 #: scripts/pacman-optimize.sh.in:38
 msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr ""
+msgstr "Käyttö: %s [--nocolor] [pacman_tietokannan_juuri]"
 
 #: scripts/pacman-optimize.sh.in:39
 msgid ""
@@ -1220,7 +1220,7 @@ msgstr "Sinulla tulee olla kunnolliset oikeudet tietokannan optimoimiseen."
 
 #: scripts/pacman-optimize.sh.in:125
 msgid "Cannot create temporary directory for database building."
-msgstr ""
+msgstr "Tietokannan luontiin tarvittavaa väliaikaiskansiota ei voida luoda."
 
 #: scripts/pacman-optimize.sh.in:128
 msgid "MD5sum'ing the old database..."
@@ -1441,7 +1441,7 @@ msgstr "Esimerkki:  repo-remove /polku/varastoon/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
@@ -1462,7 +1462,6 @@ msgid "Removing existing entry '%s'..."
 msgstr "Poistetaan pakettia '%s' tietokannasta..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
 msgstr "Poistetaan tyhjää deltas-tiedostoa..."
 
@@ -1471,18 +1470,16 @@ msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "gpg-ohjelmaa ei löydy! Onko gpg-asennettuna?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Allekirjoitetaan tietokantaa..."
+msgstr "Allekirjoitetaan tietokantaa '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Luotiin allekirjoitustiedosto '%s'"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Pakettitietokannan allekirjoittaminen epäonnistui."
+msgstr "Pakettitietokantatiedoston \"%s\" allekirjoittaminen epäonnistui"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1501,9 +1498,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Tietokannan allekirjoite oli VIRHEELLINEN!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "kohteella '%s' ei ole kelvollista arkistopäätettä."
+msgstr ""
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1534,9 +1530,8 @@ msgid "Old package file not found: %s"
 msgstr "Vanhaa pakettia ei löydy: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Pakettitiedosto '%s' ei ole kelvollinen."
+msgstr "Poistetaan vanha pakettitiedosto \"%s\""
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1616,9 +1611,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Yhtään pakettia ei ole muokattu, ei ole mitään tehtävää jäljellä."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Etsitään pakettia '%s'..."
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1650,7 +1644,7 @@ msgstr "%s:n tulee olla kokonaisluku, ei %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/optdepends.sh.in:58
 msgid "Invalid syntax for %s: '%s'"
-msgstr ""
+msgstr "Virheellinen %s-syntaksi : \"%s\""
 
 #: scripts/libmakepkg/lint_pkgbuild/options.sh.in:52
 msgid "%s array contains unknown option '%s'"
@@ -1716,9 +1710,8 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s ei voitu tuoda."
+msgstr ""
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1729,16 +1722,14 @@ msgid "Extracting sources..."
 msgstr "Puretaan lähdetiedostoja..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Haaroitetaan %s ..."
+msgstr "Haaroitetaan %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "%s haaroitus epäonnistui"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
 msgstr "Vedetään sijainnista %s..."
 
@@ -1837,12 +1828,11 @@ msgstr "Poistetaan %s tiedostoa..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "Optimoidaan PNG-kuvia..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Ohjelmaa ei voitu pakata : %s"
+msgstr "PNG-kuvaa ei voitu optimoida : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1895,21 +1885,3 @@ msgstr "valitsin '%s' ei salli parametria"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "valitsin '%s' tarvitsee parametrin"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Kansioon %s vaihtaminen epäonnistui"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "Huomioi että monet paketit saattavat tarvita rivin %s:iinsa"
-
-#~ msgid "such as %s."
-#~ msgstr "esim. %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr "  --pkg <lista>    Käännä vain listatut paketit jaetustapaketista"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       päivitä tietokannan tiedostolistaus\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Poistetaan olemassa olevaa pakettia '%s'"

@@ -9,15 +9,15 @@
 # swilkens <stefanwilkens@gmail.com>, 2015
 # swilkens <stefanwilkens@gmail.com>, 2011
 # swilkens <stefanwilkens@gmail.com>, 2011,2015
-# zenlord <zenlord@gmail.com>, 2013
+# zenlord <zenlord@gmail.com>, 2013,2015
 # zenlord <zenlord@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-14 11:40+0000\n"
-"Last-Translator: Ruben Van Boxem <vanboxem.ruben@gmail.com>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-15 14:43+0000\n"
+"Last-Translator: zenlord <zenlord@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/nl/)\n"
 "Language: nl\n"
@@ -39,7 +39,7 @@ msgstr "%s-%s is up to date -- opnieuw installeren\n"
 #: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "pakket %s wordt gedowngraded (%s => %s)\n"
+msgstr "pakket %s downgraden (%s => %s)\n"
 
 #: lib/libalpm/add.c:124 lib/libalpm/util.c:379
 #, c-format
@@ -61,12 +61,12 @@ msgstr "kan %s niet hernoemen als %s (%s)\n"
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
 "bestand niet gevonden in de bestandslijst voor pakket %s. Uitpakken %s wordt "
-"overgeslagen\n"
+"overgeslaan\n"
 
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "kan %s%s niet uitpakken: pad te lang"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -94,7 +94,7 @@ msgstr "uitpakken: map wordt niet overschreven met bestand %s\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "kan %s.pacnew niet uitpakken: pad te lang"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -303,37 +303,37 @@ msgstr "kan bestand niet openen: %s :%s\n"
 msgid "could not get filesystem information\n"
 msgstr "kan geen informatie van bestandssysteem verkrijgen\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "kan geen informatie van bestandssysteem krijgen voor %s: %s\n"
+msgstr "kan bestandsinformatie voor %s niet ophalen\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "kan koppelpunt niet bepalen voor bestand %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Partitie %s is te vol: %jd blocks benodigd, %jd blocks beschikbaar\n"
+msgstr "Partitie %s vol: %jd blokken nodig, %ju blokken beschikbaar\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "kan koppelpunten voor het bestandssysteem niet bepalen\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "kan koppelpunt voor cachedir %s niet bepalen\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "kan koppelpunt voor root niet bepalen %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Partitie %s is gekoppeld als alleen-lezen\n"
@@ -523,7 +523,7 @@ msgstr "poging om transactie te voltooien terwijl database niet vergrendeld is"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "transactie hooks uitvoeren mislukt"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -766,22 +766,22 @@ msgstr "kan de verwijdertransactie niet voltooien\n"
 msgid "could not commit transaction\n"
 msgstr "kan transactie niet voltooien\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "kon tijdelijke map niet aanmaken\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "kan het tijdelijke bestand niet naar %s (%s) kopiëren\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "kan %s niet verwijderen\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kan de tijdelijke map %s niet verwijderen\n"
@@ -792,14 +792,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "kan bestand niet 'stat'ten %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "kan geen pipe aanmaken (%s)\n"
+msgstr "kan niet schrijven naar pipe (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "kan geen pipe aanmaken (%s)\n"
+msgstr "kan niet lezen uit pipe (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -850,6 +850,3 @@ msgstr "%s-cache bestaat niet, wordt aangemaakt...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kan pakket-cache niet vinden of aanmaken, %s wordt gebruikt\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "kan geen pipe openen (%s)\n"

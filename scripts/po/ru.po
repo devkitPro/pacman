@@ -9,14 +9,15 @@
 # Ivan Yurasov <vdk@gmx.us>, 2011
 # kyak <peselnik@gmail.com>, 2013
 # kyak <peselnik@gmail.com>, 2013
+# partizan <serg.partizan@gmail.com>, 2015
 # Vasiliy Polyakov <vp@psu.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-25 08:06+0000\n"
-"Last-Translator: Vasiliy Polyakov <vp@psu.ru>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-11 12:11+0000\n"
+"Last-Translator: partizan <serg.partizan@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -83,7 +84,7 @@ msgstr "Прерывание..."
 
 #: scripts/makepkg.sh.in:247
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "%s: критическая ошибка (%i): %s"
+msgstr "'%s' завершился с критической ошибкой (%i): %s"
 
 #: scripts/makepkg.sh.in:266
 msgid "Installing missing dependencies..."
@@ -108,7 +109,8 @@ msgstr "Подсчёт контрольных сумм исходных файл
 #: scripts/makepkg.sh.in:408
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr ""
-"Не найдена программа '%s' для подсчёта контрольных сумм исходных файлов."
+"Не удалось найти %s , необходимый для генерации контрольных сумм исходных "
+"файлов."
 
 #: scripts/makepkg.sh.in:422
 msgid "Invalid integrity algorithm '%s' specified."
@@ -120,7 +122,7 @@ msgstr "Пропущено"
 
 #: scripts/makepkg.sh.in:445
 msgid "NOT FOUND"
-msgstr "НЕ НАЙДЕНО"
+msgstr "НЕ НАЙДЕН"
 
 #: scripts/makepkg.sh.in:452 scripts/makepkg.sh.in:684
 msgid "Passed"
@@ -132,9 +134,8 @@ msgid "FAILED"
 msgstr "СБОЙ"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Проверка исходных файлов с помощью %s..."
+msgstr "Проверка файлов %s с использованием %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -146,9 +147,8 @@ msgstr ""
 "Количество контрольных сумм (%s) не совпадает с количеством исходных файлов."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Нет контрольных сумм."
+msgstr "Не хватает проверок целостности для: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -201,7 +201,7 @@ msgstr "этот ключ просрочен."
 
 #: scripts/makepkg.sh.in:703
 msgid "One or more PGP signatures could not be verified!"
-msgstr "PGP-подписи не прошли проверку!"
+msgstr "Одна или больше PGP-подписей не могут быть проверены!"
 
 #: scripts/makepkg.sh.in:708
 msgid "Warnings have occurred while verifying the signatures."
@@ -209,7 +209,7 @@ msgstr "В процессе проверки подписей возникли �
 
 #: scripts/makepkg.sh.in:709
 msgid "Please make sure you really trust them."
-msgstr "Вы точно им доверяете?"
+msgstr "Убедитесь что вы действительно им доверяете."
 
 #: scripts/makepkg.sh.in:715
 msgid "Skipping all source file integrity checks."
@@ -225,15 +225,15 @@ msgstr "Пропуск проверки PGP-подписей исходных ф
 
 #: scripts/makepkg.sh.in:734
 msgid "A failure occurred in %s()."
-msgstr "Ошибка в функции '%s()'."
+msgstr "Произошел сбой в %s()."
 
 #: scripts/makepkg.sh.in:743
 msgid "Failed to source %s"
-msgstr "Не удалось прочитать '%s'"
+msgstr "Не удалось включить '%s'"
 
 #: scripts/makepkg.sh.in:804
 msgid "Starting %s()..."
-msgstr "Выполняется функция '%s()'..."
+msgstr "Запускается %s()..."
 
 #: scripts/makepkg.sh.in:938
 msgid "Library listed in %s is not required by any files: %s"
@@ -258,11 +258,11 @@ msgstr "Создание файла '%s'..."
 
 #: scripts/makepkg.sh.in:1173
 msgid "Missing %s directory."
-msgstr "Не найдена директория '%s'."
+msgstr "Отсутствует каталог %s."
 
 #: scripts/makepkg.sh.in:1179
 msgid "Creating package \"%s\"..."
-msgstr "Создание пакета '%s'..."
+msgstr "Создание пакета \"%s\"..."
 
 #: scripts/makepkg.sh.in:1192
 msgid "Adding %s file..."
@@ -270,7 +270,7 @@ msgstr "Добавление файла '%s'..."
 
 #: scripts/makepkg.sh.in:1194
 msgid "Failed to add %s file to package."
-msgstr "Ошибка при добавлении файла '%s'."
+msgstr "Не удалось добавить файл '%s' к пакету."
 
 #: scripts/makepkg.sh.in:1214
 msgid "Generating .MTREE file..."
@@ -286,27 +286,27 @@ msgstr "'%s' -- недопустимое расширение для архив�
 
 #: scripts/makepkg.sh.in:1243
 msgid "Failed to create package file."
-msgstr "Ошибка при создании пакета."
+msgstr "Не удалось создать файл пакета."
 
 #: scripts/makepkg.sh.in:1260
 msgid "Failed to create symlink to package file."
-msgstr "Ошибка при создании символической ссылки на пакет."
+msgstr "Не удалось создать символическую ссылку на файл пакета."
 
 #: scripts/makepkg.sh.in:1292
 msgid "Signing package..."
-msgstr "Создание подписи для пакета..."
+msgstr "Подпись пакета..."
 
 #: scripts/makepkg.sh.in:1303
 msgid "Created signature file %s."
-msgstr "Создание файла с подписью %s."
+msgstr "Создан файл подписи %s."
 
 #: scripts/makepkg.sh.in:1305
 msgid "Failed to sign package file."
-msgstr "Ошибка при создании подписи пакета."
+msgstr "Не удалось подписать файл пакета."
 
 #: scripts/makepkg.sh.in:1311
 msgid "Creating source package..."
-msgstr "Создание пакета с исходными файлами..."
+msgstr "Создание пакета с исходным кодом..."
 
 #: scripts/makepkg.sh.in:1315 scripts/makepkg.sh.in:1328
 msgid "Adding %s..."
@@ -318,15 +318,15 @@ msgstr "Добавление файла %s (%s)... "
 
 #: scripts/makepkg.sh.in:1369
 msgid "Compressing source package..."
-msgstr "Сжатие пакета с исходными файлами..."
+msgstr "Сжатие пакета с исходным кодом..."
 
 #: scripts/makepkg.sh.in:1372
 msgid "Failed to create source package file."
-msgstr "Ошибка при создании пакета с исходным кодом."
+msgstr "Не удалось создать пакет с исходным кодом."
 
 #: scripts/makepkg.sh.in:1389
 msgid "Failed to create symlink to source package file."
-msgstr "Ошибка создания символической ссылки на исходный файл пакета."
+msgstr "Ошибка создания символической ссылки на пакет с исходным кодом."
 
 #: scripts/makepkg.sh.in:1401
 msgid "Installing package %s with %s..."
@@ -338,11 +338,11 @@ msgstr "Установка группы пакетов '%s' c помощью '%s
 
 #: scripts/makepkg.sh.in:1421
 msgid "Failed to install built package(s)."
-msgstr "Ошибка при установке собранных пакетов."
+msgstr "Не удалось установить собранные пакеты."
 
 #: scripts/makepkg.sh.in:1440 scripts/libmakepkg/util/source.sh.in:129
 msgid "Unknown download protocol: %s"
-msgstr "Неизвестный протокол: %s"
+msgstr "Неизвестный протокол загрузки: %s"
 
 #: scripts/makepkg.sh.in:1457
 msgid "Cannot find the %s binary needed to check VCS source requirements."
@@ -375,20 +375,18 @@ msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Не найдена программа '%s' для проверки подписей исходных файлов."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
-"Не найдена программа '%s' для проверки контрольных сумм исходных файлов."
+"Не найден %s, необходимый для проверки контрольных сумм исходных файлов."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr "Не найдена программа '%s' для сжатия бинарных файлов."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Не найдена программа '%s' для подписывания пакетов."
+msgstr "Не найден %s, необходимый для оптимизации PNG."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -567,10 +565,12 @@ msgstr "      --nosign         Не создавать подпись для п�
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist    Только вывести список пакетов которые будут созданы, без "
+"PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   Вывести сгенерированную SRCINFO и выйти"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -628,15 +628,15 @@ msgstr "Если параметр '%s' не указан, то %s будет и�
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nЭто "
 "свободное программное обеспечение; условия копирования — в исходном коде."
-"\\nНИКАКИХ ГАРАНТИЙ в соответствии с законодательством.\\n"
+"\\nНе предоставляется НИКАКИХ ГАРАНТИЙ в степени разрешенной законом.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -737,19 +737,19 @@ msgstr "Не удалось разрешить все зависимости."
 msgid "Using existing %s tree"
 msgstr "Использование существующего дерева исходных файлов в '%s'"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Удаление директории '%s'..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Исходные файлы готовы."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Директория для сборки готова."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Завершена сборка пакета %s"
 
@@ -772,19 +772,19 @@ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr "неверные символы в имени: '%s'; допустимы: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Не могу определить версию для шаблона '%s'"
+msgstr "Не удалось определить версию для шаблона '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Не удалось найти шаблон соответствующий '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "ошибка при открытии '%s': %s"
+msgstr "не удалось открыть '%s': %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -841,14 +841,14 @@ msgstr "      --version             Показать версию и выйти\
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "Это свободное программное обеспечение; условия копирования — в исходном "
 "коде.\n"
-"НИКАКИХ ГАРАНТИЙ в соответствии с законодательством.\n"
+"Не предоставляется НИКАКИХ ГАРАНТИЙ в степени разрешенной законом.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
@@ -885,13 +885,14 @@ msgstr "      --nocolor        отключить цветные сообщен�
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nЭто свободное программное обеспечение; условия копирования — в исходном "
-"коде.\\nНИКАКИХ ГАРАНТИЙ в соответствии с законодательством.\\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Это свободное программное обеспечение; условия копирования — в исходном "
+"коде.\n"
+"Не предоставляется НИКАКИХ ГАРАНТИЙ в степени разрешенной законом.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -1407,13 +1408,10 @@ msgstr ""
 "  -n, --new         добавлять только пакеты, которых ещё нет в базе данных\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      удалять файл пакета при обновлении записи в базе данных"
-"\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1470,13 +1468,14 @@ msgstr "Пример:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
-"\\nЭто свободное программное обеспечение; условия копирования — в исходном "
-"коде.\\nНИКАКИХ ГАРАНТИЙ в соответствии с законодательством.\\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Это свободное программное обеспечение; условия копирования — в исходном "
+"коде.\n"
+"Не предоставляется НИКАКИХ ГАРАНТИЙ в степени разрешенной законом.\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1491,27 +1490,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Удаление записи '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Удаление пустых дельта-файлов..."
+msgstr ""
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Не найдена программа 'gpg'! GnuPG установлен?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Подписывание базы данных..."
+msgstr ""
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Создана подпись '%s'."
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Ошибка при подписании базы данных."
+msgstr ""
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1530,9 +1526,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Подпись базы данных пакетов НЕ ПРОШЛА проверку!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' -- недопустимое расширение для архива."
+msgstr ""
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1563,9 +1558,8 @@ msgid "Old package file not found: %s"
 msgstr "Старый пакет не найден: '%s'"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Неверный файл пакета '%s'."
+msgstr ""
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1644,9 +1638,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Пакеты не изменились -- делать нечего."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Поиск пакета '%s'..."
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1744,9 +1737,8 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "Не удалось импортировать '%s'."
+msgstr ""
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1757,18 +1749,16 @@ msgid "Extracting sources..."
 msgstr "Распаковка исходных файлов..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Создание ветки '%s'..."
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "Ошибка при создании ветки '%s'"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Получение '%s'..."
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1868,9 +1858,8 @@ msgid "Optimizing PNG images..."
 msgstr ""
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Не удалось сжать бинарник: %s"
+msgstr ""
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1923,23 +1912,3 @@ msgstr "параметр '%s' не имеет аргументов"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "параметр '%s' требует аргумента"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Не удалось перейти в каталог '%s'"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "Имейте ввиду, что многим пакетам в %s может понадобиться"
-
-#~ msgid "such as %s."
-#~ msgstr "строка вида '%s'."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "      --pkg <список>   Собрать только указанные пакеты из разделённого "
-#~ "пакета"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       обновить список файлов базы данных\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Удаление пакета '%s'"

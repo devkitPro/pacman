@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2011
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2011,2015
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2014-11-18 12:03+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 09:12+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/kk/)\n"
@@ -60,7 +60,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "%s%s тарқату мүмкін емес: жол тым ұзын"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -88,7 +88,7 @@ msgstr "тарқату: бума %s файлымен ауыстырылмайд�
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "%s.pacnew тарқату мүмкін емес: жол тым ұзын"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -295,37 +295,37 @@ msgstr "файлды ашу мүмкін емес: %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "файлдық жүйе ақпаратын алу мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "%s үшін файлдық жүйе ақпаратын алу мүмкін емес: %s\n"
+msgstr "%s үшін файл ақпаратын алу мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "%s файлы үшін тіркеу нүктесін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "%s бөлімі тым толып тұр: %jd блок керек, %jd блок бос\n"
+msgstr "%s бөлімі тым толық: %jd блок керек, %ju блок бос\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "файлдық жүйесінің тіркелу нүктелерін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "%s кэш бумасының тіркелу нүктесін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "%s түбірлік бумасының тіркелу нүктесін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "%s бөлімі тек оқу үшін тіркелген\n"
@@ -757,22 +757,22 @@ msgstr "өшіруге сұранымды орындау мүмкін емес\n
 msgid "could not commit transaction\n"
 msgstr "сұранымды аяқтау мүмкін емес\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "уақытша буманы құру мүмкін емес\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "уақытша файлды %s ішіне көшіру мүмкін емес (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s өшіру мүмкін емес\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "%s уақытша бумасын өшіру мүмкін емес\n"
@@ -783,14 +783,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "%s файлын табу мүмкін емес: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "pipe жасау мүмкін емес (%s)\n"
+msgstr ""
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "pipe жасау мүмкін емес (%s)\n"
+msgstr ""
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -841,6 +841,3 @@ msgstr "%s кэші жоқ болып тұр, құрылады...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "дестелер кэшін табу не жасау мүмкін емес, орнына %s қолданылады\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "pipe ашу мүмкін емес (%s)\n"

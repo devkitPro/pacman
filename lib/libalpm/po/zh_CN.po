@@ -9,13 +9,14 @@
 # mytbk <mytbk920423@gmail.com>, 2013,2015
 # mytbk <mytbk920423@gmail.com>, 2013,2015
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
+# 张海, 2015
 # 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-01-01 14:08+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-25 16:12+0000\n"
 "Last-Translator: mytbk <mytbk920423@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
@@ -63,7 +64,7 @@ msgstr "在包 %s 的文件列表中没找到文件。跳过 %s 的提取\n"
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "无法解压缩 %s%s：路径过长"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -91,7 +92,7 @@ msgstr "解压缩：没有用文件 %s 覆盖目录\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "无法解压缩 %s.pacnew：路径过长"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -298,39 +299,39 @@ msgstr "无法打开文件 %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "无法获取文件系统的信息\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "无法为 %s 获得文件系统信息：%s\n"
+msgstr "无法获取 %s 的文件信息\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "无法确定文件 %s 的挂载点\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "分区 %s 太满：需要 %jd 区块，可用 %jd 区块\n"
+msgstr "分区 %s 过满：需要 %jd 个块，剩余 %ju 个块\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "无法测定文件系统挂载点\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr ""
 "无法确定缓存目录挂载点 %s\n"
 "\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "无法测定根分区挂载点 %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr ""
@@ -520,7 +521,7 @@ msgstr "未锁定数据库即提交了事务处理尝试"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "运行事务处理钩子函数失败"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -700,12 +701,12 @@ msgstr "无法从缓存中删除记录 '%s'\n"
 #: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%1$s：忽略软件包更新（%2$s => %3$s）\n"
+msgstr "%s：忽略软件包更新 (%s => %s)\n"
 
 #: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%1$s：正在忽略软件包降级（%2$s => %3$s）\n"
+msgstr "%s：正在忽略软件包降级 (%s => %s)\n"
 
 #: lib/libalpm/sync.c:113
 #, c-format
@@ -715,7 +716,7 @@ msgstr "%s：正在从版本 %s 降级为 %s \n"
 #: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%1$s：本地（%2$s）比 %3$s 的版本更新 (%4$s)\n"
+msgstr "%s：本地 (%s) 比 %s 的版本更新 (%s)\n"
 
 #: lib/libalpm/sync.c:160
 #, c-format
@@ -762,22 +763,22 @@ msgstr "无法交付可撤销处理\n"
 msgid "could not commit transaction\n"
 msgstr "无法交付处理\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "无法创建临时目录\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "无法复制临时文件到 %1$s (%2$s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "无法删除 %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "无法删除临时目录 %s\n"
@@ -788,19 +789,19 @@ msgid "could not stat file %s: %s\n"
 msgstr "无法确定文件%s的状态: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "无法创建管道(%s)\n"
+msgstr "无法写入管道 (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "无法创建管道(%s)\n"
+msgstr "无法读取管道 (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
 msgid "could not create pipe (%s)\n"
-msgstr "无法创建管道(%s)\n"
+msgstr "无法创建管道 (%s)\n"
 
 #: lib/libalpm/util.c:598
 #, c-format
@@ -846,6 +847,3 @@ msgstr "没有 %s 缓存存在，正在创建...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "无法找到或创建软件包缓存，使用 %s 中\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "无法打开管道(%s)\n"

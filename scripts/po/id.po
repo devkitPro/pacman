@@ -7,14 +7,16 @@
 # Gregori, 2013
 # Ibnu Daru Aji, 2013-2015
 # Hasan Al Banna, 2013
+# Ibnu Daru Aji, 2013
 # Mohamad Hasan Al Banna <se7entime@openmailbox.org>, 2013
+# Mohamad Hasan Al Banna <se7entime@openmailbox.org>, 2013,2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-14 13:21+0000\n"
-"Last-Translator: Ibnu Daru Aji\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2016-01-01 23:09+0000\n"
+"Last-Translator: Mohamad Hasan Al Banna <se7entime@openmailbox.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/id/)\n"
 "Language: id\n"
@@ -129,9 +131,8 @@ msgid "FAILED"
 msgstr "GAGAL"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "Memvalidasi berkas sumber dengan %s..."
+msgstr "Memvalidasi berkas %s dengan %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -142,9 +143,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "Cek integritas (%s) berbeda pada ukuran di array sumber."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "Pemeriksaan integritas hilang."
+msgstr "Pemeriksaan integritas hilang untuk: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -376,12 +376,9 @@ msgstr ""
 "berkas sumber"
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
-"Tidak dapat mencari binary %s yang dibutuhkan untuk memvalidasi checksum "
-"berkas sumber."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
@@ -389,9 +386,8 @@ msgstr ""
 "Tidak dapat mencari binary %s yang dibutuhkan untuk mengkompres binari."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "Tidak dapat mencari binari %s yang dibutuhkan untuk menandai paket."
+msgstr ""
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -634,15 +630,14 @@ msgstr "Jika %s tidak dispesifikkan, %s akan mencari '%s'"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Hak cipta (c) 2006-2014 Tim Pengembang Pacman <pacman-dev@archlinux.org>."
-"\\nHak cipta (c) 2002-2006 Judd Vinet <jvinet@zeroflux.org>\\n\\nPacman "
-"merupakan perangkat lunak bebas; lihat sumber untuk menyalin ketentuan."
-"\\nTAK ADA GARANSI, sampai pada batas yang diizinkan oleh hukum.\\n"
+"Hak Cipta (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n Ini merupakan "
+"perangkat lunak bebas; lihat sumber untuk kondisi penyalinan.\\nTIDAK ADA "
+"GARANSI, untuk memperpanjang izin oleh hukum.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -740,19 +735,19 @@ msgstr "Tidak dapat memuaskan semua dependensi."
 msgid "Using existing %s tree"
 msgstr "Menggunakan tree %s yang sudah ada"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "Menghapus direktori %s yang ada..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "Sumber sudah siap."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "Direktori paket siap."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "Selesai membuat: %s"
 
@@ -777,9 +772,9 @@ msgstr ""
 "@\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Tidak dapat mendeteksi versi untuk pola '%s'"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
@@ -787,9 +782,9 @@ msgid "Failed to find template file matching '%s'\n"
 msgstr ""
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "gagal membuka '%s': %s"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -843,14 +838,13 @@ msgstr "--version Informasi versi\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Hak cipta (c) 2013-2014 Tim Pengembangan Pacman <pacman-dev@archlinux.org>\n"
-"Script Pacman merupakan perangkat lunak bebas; lihat sumber untuk "
-"persyaratan penyalinan.\n"
-"TAK ADA GARANSI, sampai pada batas yang ditentukan oleh hukum.\n"
+"Hak Cipta (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n Ini merupakan "
+"perangkat lunak bebas; lihat sumber untuk kondisi penyalinan.\\nTIDAK ADA "
+"GARANSI, untuk memperpanjang izin oleh hukum.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
@@ -887,14 +881,13 @@ msgstr "--nocolor lumpuhkan pesan keluaran berwarna"
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Hak cipta (c) 2010-2014 Tim Pengembangan Pacman <pacman-dev@archlinux.org>."
-"\\nPerangkat lunak ini merupakan perangkat lunak bebas; lihat sumber untuk "
-"persyaratan penyalinan.\\nTAK ADA GARANSI, sampai pada batas yang ditentukan "
-"oleh hukum.\\n"
+"Hak Cipta (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n Ini merupakan "
+"perangkat lunak bebas; lihat sumber untuk kondisi penyalinan.\\nTIDAK ADA "
+"GARANSI, untuk memperpanjang izin oleh hukum.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -1402,13 +1395,10 @@ msgid ""
 msgstr "-n, --new hanya menambah paket yang tidak ada pada database\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"-R, --remove hapus berkas paket dari diska ketika memutakhirkan entri "
-"database\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1463,13 +1453,13 @@ msgstr "Contoh: repo-remove /path/ke/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Hak Cipta (c) 2006-2013 Tim Pengembang Pacman <pacman-dev@archlinux.org>\\n"
-"\\nIni merupakan perangkat lunak bebas; lihat sumber untuk syarat penyalinan."
-"\\n TIDAK ADA JAMINAN, sampai batas yang diizinkan oleh hukum.\\n"
+"Hak Cipta (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n Ini merupakan "
+"perangkat lunak bebas; lihat sumber untuk kondisi penyalinan.\\nTIDAK ADA "
+"GARANSI, untuk memperpanjang izin oleh hukum.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1484,27 +1474,24 @@ msgid "Removing existing entry '%s'..."
 msgstr "Menghapus masukan yang ada '%s'..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "Hapus berkas delta kosong..."
+msgstr ""
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "Tidak dapat menemukan binary gpg! Apakah GnuPG terinstall?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "Menandai database.."
+msgstr ""
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "Signature berkas '%s' dibuat"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "Gagal untuk menandai database paket."
+msgstr ""
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1523,9 +1510,8 @@ msgid "Database signature was NOT valid!"
 msgstr "Signature database TIDAK valid!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s' tidak memiliki ekstensi arsip yang valid."
+msgstr ""
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1556,9 +1542,8 @@ msgid "Old package file not found: %s"
 msgstr "Paket lama tidak ditemukan: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "Berkas paket '%s' tidak valid."
+msgstr ""
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1637,9 +1622,8 @@ msgid "No packages modified, nothing to do."
 msgstr "Tidak ada paket diubah, tidak ada yang harus dilakukan."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "Mencari paket '%s'..."
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1737,9 +1721,8 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s tidak dapat diimpor."
+msgstr ""
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1750,18 +1733,16 @@ msgid "Extracting sources..."
 msgstr "Mengekstrak sumber..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "Branching %s ..."
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "Gagal ketika branching %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "Pulling %s"
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1861,9 +1842,8 @@ msgid "Optimizing PNG images..."
 msgstr ""
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "Tidak dapat mengkompres binari : %s"
+msgstr ""
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1916,24 +1896,3 @@ msgstr "opsi '%s' tidak membutuhkan argumen"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "opsi '%s' membutuhkan argumen"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "Gagal mengubah direktori %s"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr ""
-#~ "Perhatikan banyak paket mungkin membutuhkan penambahan sebuah garis ke  "
-#~ "%s mereka"
-
-#~ msgid "such as %s."
-#~ msgstr "seperti %s."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr ""
-#~ "--pkg <daftar> Hanya buat paket yang terdaftar dibanding paket terpisah"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "-f, --files memutakhirkan daftar berkas database\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "Menghapus paket '%s' yang ada"

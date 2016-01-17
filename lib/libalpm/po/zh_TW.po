@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-05-01 05:01+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 08:24+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/zh_TW/)\n"
@@ -62,7 +62,7 @@ msgstr "套件 %s 忽略無法找到的檔案 %s\n"
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "無法解壓縮 %s%s：路徑太長了"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -91,7 +91,7 @@ msgstr "解壓縮：沒有用檔案 %s 覆蓋目錄\n"
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "無法解壓縮 %s.pacnew：路徑太長了"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -298,37 +298,37 @@ msgstr "無法打開檔案：%s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "無法取得檔案系統資訊\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "無法爲 %s 獲得檔案系統資訊：%s\n"
+msgstr "無法取得 %s 的檔案資訊\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "無法確定檔案 %s 的掛載點\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "磁碟分割區 %s 太滿了：需要 %jd 磁區，剩餘 %jd 磁區\n"
+msgstr "分割區 %s 太滿了：需要 %jd 個區塊，但只剩 %ju 個區塊\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "無法測定檔案系統掛載點\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "無法決定快取目錄掛載點 %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "無法測定根分割區掛載點 %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "分區 %s 爲唯讀\n"
@@ -516,7 +516,7 @@ msgstr "未鎖定資料庫即提交了事務處理嘗試"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "執行處理事務掛鉤失敗"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -758,22 +758,22 @@ msgstr "無法遞交移除事務處理\n"
 msgid "could not commit transaction\n"
 msgstr "無法遞交事務處理\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "無法創建臨時目錄\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "無法複製臨時檔案到 %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "無法移除 %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "無法刪除臨時目錄 %s\n"
@@ -784,14 +784,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "無法取得檔案統計資訊 %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "無法建立管道(%s)\n"
+msgstr "無法寫入到管線 (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "無法建立管道(%s)\n"
+msgstr "無法從管線讀取 (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -842,6 +842,3 @@ msgstr "沒有 %s 快取存在，正在建立...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "無法建立套件快取，以 %s 取代\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "無法打開管道 (%s)\n"

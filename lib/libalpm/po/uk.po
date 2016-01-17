@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013
+# Max Lyashuk <m_lyashuk@ukr.net>, 2015
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013,2015
 # Данило Коростіль <ted.korostiled@gmail.com>, 2011,2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2014-11-18 22:01+0000\n"
-"Last-Translator: Данило Коростіль <ted.korostiled@gmail.com>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2016-01-16 12:27+0000\n"
+"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -61,7 +62,7 @@ msgstr ""
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "не вдається розпакувати %s%s: шлях занадто довгий"
 
 #: lib/libalpm/add.c:241
 #, c-format
@@ -90,7 +91,7 @@ msgstr "розпакування: каталог не перезаписано �
 #: lib/libalpm/add.c:300
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "не вдається розпакувати %s.pacnew: шлях занадто довгий"
 
 #: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
@@ -197,7 +198,7 @@ msgstr "помилка читання mtree з пакунка %s: %s\n"
 #: lib/libalpm/be_package.c:600
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "неможливо розібрати файл опису пакунка %s\n"
+msgstr "неможливо провести аналіз файлу опису пакунка %s\n"
 
 #: lib/libalpm/be_package.c:605
 #, c-format
@@ -237,7 +238,7 @@ msgstr "вилучення неправильного файла : %s\n"
 #: lib/libalpm/be_sync.c:502
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr "неможливо розібрати файла опису пакунка «%s» з бази даних «%s»\n"
+msgstr "неможливо провести аналіз файлу опису пакунка «%s» з бази даних «%s»\n"
 
 #: lib/libalpm/be_sync.c:535 lib/libalpm/be_sync.c:540
 #, c-format
@@ -299,37 +300,37 @@ msgstr "неможливо відкрити файл %s: %s\n"
 msgid "could not get filesystem information\n"
 msgstr "неможливо одержати інформації про файлову систему\n"
 
-#: lib/libalpm/diskspace.c:241
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:242
+#, c-format
 msgid "could not get file information for %s\n"
-msgstr "неможливо одержати інформації про файлову систему для %s: %s\n"
+msgstr "неможливо одержати інформації про файл %s\n"
 
-#: lib/libalpm/diskspace.c:254 lib/libalpm/diskspace.c:313
+#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "неможливо визначити точки монтування для файла %s\n"
 
-#: lib/libalpm/diskspace.c:352
-#, fuzzy, c-format
+#: lib/libalpm/diskspace.c:354
+#, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Розділ %s — надто повний; %jd блоків потрібно, %jd блоків вільно\n"
+msgstr "Розділ %s – надто повний: %jd блоків потрібно, %ju блоків вільно\n"
 
-#: lib/libalpm/diskspace.c:377 lib/libalpm/diskspace.c:431
+#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "неможливо визначити файлові системи точок монтування\n"
 
-#: lib/libalpm/diskspace.c:383
+#: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "неможливо визначити точку монтування теку кешу %s\n"
 
-#: lib/libalpm/diskspace.c:436
+#: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "неможливо визначити корінь точки монтування %s\n"
 
-#: lib/libalpm/diskspace.c:484
+#: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "Розділ %s змонтовано лише для читання\n"
@@ -517,7 +518,7 @@ msgstr "спроба здійснити транзакцію, коли базу 
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "не вдалось розпочати транзакції"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -759,22 +760,22 @@ msgstr "неможливо здійснити транзакцію вилуче�
 msgid "could not commit transaction\n"
 msgstr "неможливо здійснити транзакцію\n"
 
-#: lib/libalpm/trans.c:353
+#: lib/libalpm/trans.c:358
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "неможливо створити тимчасовий каталог\n"
 
-#: lib/libalpm/trans.c:368
+#: lib/libalpm/trans.c:373
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "неможливо скопіювати тимчасовий файл до %s (%s)\n"
 
-#: lib/libalpm/trans.c:399
+#: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
 msgstr "неможливо вилучити %s\n"
 
-#: lib/libalpm/trans.c:403
+#: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "неможливо вилучити тимчасовий каталог %s\n"
@@ -785,14 +786,14 @@ msgid "could not stat file %s: %s\n"
 msgstr "не вдається отримати статус файлу  %s: %s\n"
 
 #: lib/libalpm/util.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "неможливо створити вузол (%s)\n"
+msgstr "неможливо записати у вузол (%s)\n"
 
 #: lib/libalpm/util.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "неможливо створити вузол (%s)\n"
+msgstr "неможливо прочитати з вузла (%s)\n"
 
 #: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
@@ -844,6 +845,3 @@ msgstr "кеш %s не існує, створюється…\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "неможливо знайти або створити кеш пакунків, використовуючи %s натомість\n"
-
-#~ msgid "could not open pipe (%s)\n"
-#~ msgstr "неможливо відкрити вузол (%s)\n"

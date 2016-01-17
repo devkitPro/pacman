@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 16:01+1000\n"
-"PO-Revision-Date: 2015-07-02 20:12+0000\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 11:21+0000\n"
 "Last-Translator: Taegil Bae <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
@@ -27,142 +27,157 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/pacman/callback.c:171
+#: src/pacman/callback.c:182
+#, c-format
+msgid "Running pre-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:184
+#, c-format
+msgid "Running post-transaction hooks...\n"
+msgstr ""
+
+#: src/pacman/callback.c:197
 #, c-format
 msgid "checking dependencies...\n"
 msgstr "의존성 검사 중...\n"
 
-#: src/pacman/callback.c:175
+#: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
 msgstr "파일 충돌 검사 중...\n"
 
-#: src/pacman/callback.c:179
+#: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
 msgstr "의존성 해결 중...\n"
 
-#: src/pacman/callback.c:182
+#: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
 msgstr "꾸러미 충돌을 찾는 중...\n"
 
-#: src/pacman/callback.c:189
+#: src/pacman/callback.c:211
+#, fuzzy, c-format
+msgid "Processing package changes...\n"
+msgstr "꾸러미 파일 불러오는 중...\n"
+
+#: src/pacman/callback.c:218
 #, c-format
 msgid "installing %s...\n"
 msgstr "%s 설치 중...\n"
 
-#: src/pacman/callback.c:192
+#: src/pacman/callback.c:221
 #, c-format
 msgid "upgrading %s...\n"
 msgstr "%s 업그레이드 중...\n"
 
-#: src/pacman/callback.c:195
+#: src/pacman/callback.c:224
 #, c-format
 msgid "reinstalling %s...\n"
 msgstr "%s 재설치 중...\n"
 
-#: src/pacman/callback.c:198
+#: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
 msgstr "%s 다운그레이드 중...\n"
 
-#: src/pacman/callback.c:201
+#: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
 msgstr "%s 삭제 중...\n"
 
-#: src/pacman/callback.c:225
+#: src/pacman/callback.c:254
 #, c-format
 msgid "checking package integrity...\n"
 msgstr "꾸러미 무결성 검사 중...\n"
 
-#: src/pacman/callback.c:230
+#: src/pacman/callback.c:259
 #, c-format
 msgid "checking keyring...\n"
 msgstr "키링 검사 중...\n"
 
-#: src/pacman/callback.c:234
+#: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
 msgstr "필요한 키 다운로드 중...\n"
 
-#: src/pacman/callback.c:238
+#: src/pacman/callback.c:267
 #, c-format
 msgid "loading package files...\n"
 msgstr "꾸러미 파일 불러오는 중...\n"
 
-#: src/pacman/callback.c:242
+#: src/pacman/callback.c:271
 #, c-format
 msgid "checking delta integrity...\n"
 msgstr "델타 무결성 검사 중...\n"
 
-#: src/pacman/callback.c:245
+#: src/pacman/callback.c:274
 #, c-format
 msgid "applying deltas...\n"
 msgstr "델타를 적용 중...\n"
 
-#: src/pacman/callback.c:248
+#: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
 msgstr "%2$s로 %1$s 생성 중... "
 
-#: src/pacman/callback.c:253
+#: src/pacman/callback.c:282
 #, c-format
 msgid "success!\n"
 msgstr "성공!\n"
 
-#: src/pacman/callback.c:256
+#: src/pacman/callback.c:285
 #, c-format
 msgid "failed.\n"
 msgstr "실패.\n"
 
-#: src/pacman/callback.c:262
+#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages ...\n"
 msgstr "꾸러미 가져오는 중...\n"
 
-#: src/pacman/callback.c:266
+#: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "사용 가능한 디스크 공간 검사 중...\n"
 
-#: src/pacman/callback.c:273
+#: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s는 선택사항으로 %s를 요구합니다\n"
 
-#: src/pacman/callback.c:291 src/pacman/callback.c:297
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%2$s.pacnew로 %1$s를 설치합니다\n"
 
-#: src/pacman/callback.c:307 src/pacman/callback.c:313
+#: src/pacman/callback.c:336 src/pacman/callback.c:342
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%2$s.pacsave로 %1$s를 저장합니다\n"
 
-#: src/pacman/callback.c:358
+#: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s는 IgnorePkg/IgnoreGroup에 있습니다. 그래도 설치하시겠습니까?"
 
-#: src/pacman/callback.c:368
+#: src/pacman/callback.c:400
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "%s를 %s/%s로 바꾸시겠습니까?"
 
-#: src/pacman/callback.c:380
+#: src/pacman/callback.c:412
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s와 %s가 충돌합니다. %s를 제거하시겠습니까?"
 
-#: src/pacman/callback.c:385
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s와 %s가 충돌합니다(%s). %s를 제거하시겠습니까?"
 
-#: src/pacman/callback.c:404
+#: src/pacman/callback.c:436
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -171,19 +186,19 @@ msgid_plural ""
 msgstr[0] ""
 "해결할 수 없는 의존성 때문에 다음 꾸러미를 업그레이드 할 수 없습니다:\n"
 
-#: src/pacman/callback.c:410
+#: src/pacman/callback.c:442
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "이 업그레이드에 대해 위 꾸러미를 건너뛰시겠습니까?"
 
-#: src/pacman/callback.c:421
-#, fuzzy, c-format
+#: src/pacman/callback.c:453
+#, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "%2$s에 대해 사용할 수 있는 %1$zd 제공자가 있습니다:\n"
+msgstr[0] "%2$s에 대해 이용할 수 있는 %1$zu 제공자가 있습니다:\n"
 
-#: src/pacman/callback.c:432
+#: src/pacman/callback.c:464
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -192,67 +207,67 @@ msgstr ""
 "%s 파일이 깨졌습니다(%s).\n"
 "삭제하시겠습니까?"
 
-#: src/pacman/callback.c:446
-#, fuzzy, c-format
+#: src/pacman/callback.c:478
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "%5$s에 만든 PGP 키(파기됨) %1$d%2$c/%3$s, \"%4$s\"를 가져오시겠습니까?"
+msgstr "PGP 키[%u%c/%s, \"%s\", 생성: %s (폐기됨)]를 불러들일까요?"
 
-#: src/pacman/callback.c:449
-#, fuzzy, c-format
+#: src/pacman/callback.c:481
+#, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
-msgstr "%5$s에 만든 PGP 키 %1$d%2$c/%3$s, \"%4$s\"를 가져오시겠습니까?"
+msgstr "PGP 키[%u%c/%s, \"%s\", 생성: %s]를 불러들일까요?"
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:540
 #, c-format
 msgid "installing"
 msgstr "설치 중"
 
-#: src/pacman/callback.c:512
+#: src/pacman/callback.c:543
 #, c-format
 msgid "upgrading"
 msgstr "업그레이드 중"
 
-#: src/pacman/callback.c:515
+#: src/pacman/callback.c:546
 #, c-format
 msgid "downgrading"
 msgstr "다운그레이드 중"
 
-#: src/pacman/callback.c:518
+#: src/pacman/callback.c:549
 #, c-format
 msgid "reinstalling"
 msgstr "재설치 중"
 
-#: src/pacman/callback.c:521
+#: src/pacman/callback.c:552
 #, c-format
 msgid "removing"
 msgstr "삭제 중"
 
-#: src/pacman/callback.c:524
+#: src/pacman/callback.c:555
 #, c-format
 msgid "checking for file conflicts"
 msgstr "파일 충돌 검사 중"
 
-#: src/pacman/callback.c:527
+#: src/pacman/callback.c:558
 #, c-format
 msgid "checking available disk space"
 msgstr "사용 가능한 디스크 공간 검사 중"
 
-#: src/pacman/callback.c:530
+#: src/pacman/callback.c:561
 #, c-format
 msgid "checking package integrity"
 msgstr "꾸러미 무결성 검사 중"
 
-#: src/pacman/callback.c:533
+#: src/pacman/callback.c:564
 #, c-format
 msgid "checking keys in keyring"
 msgstr "키링의 키를 검사 중"
 
-#: src/pacman/callback.c:536
+#: src/pacman/callback.c:567
 #, c-format
 msgid "loading package files"
 msgstr "꾸러미 파일 불러오는 중"
 
-#: src/pacman/callback.c:651
+#: src/pacman/callback.c:679
 #, c-format
 msgid "downloading %s...\n"
 msgstr "%s 다운로드 중...\n"
@@ -337,10 +352,10 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "대체한 파일 %jd개\n"
 
 #: src/pacman/conf.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] "malloc 실패: %zd 바이트를 할당할 수 없습니다\n"
+msgstr[0] "malloc 실패: %zu 바이트를 할당할 수 없습니다\n"
 
 #: src/pacman/conf.c:251
 #, c-format
@@ -416,9 +431,9 @@ msgstr ""
 "(%s: %s)\n"
 
 #: src/pacman/conf.c:725
-#, fuzzy, c-format
+#, c-format
 msgid "try running pacman-db-upgrade\n"
-msgstr "  pacman-db-upgrade를 실행해보십시오\n"
+msgstr "pacman-db-upgrade를 실행해 보세요\n"
 
 #: src/pacman/conf.c:744
 #, c-format
@@ -431,9 +446,9 @@ msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "GPG 디렉터리를 '%s'로 설정하는 데 문제가 있습니다(%s)\n"
 
 #: src/pacman/conf.c:763 src/pacman/conf.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "GPG 디렉터리를 '%s'로 설정하는 데 문제가 있습니다(%s)\n"
+msgstr "훅 디렉토리 '%s'를 추가하는 데 문제가 있습니다(%s)\n"
 
 #: src/pacman/conf.c:802
 #, c-format
@@ -441,9 +456,9 @@ msgid "no '%s' configured\n"
 msgstr "'%s'를 구성하지 않았습니다\n"
 
 #: src/pacman/conf.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to pass %s entry to libalpm"
-msgstr "libalpm에 가설치 항목을 넘기는 데 실패했습니다"
+msgstr "libalpm에 %s 항목을 넘기는 데 실패했습니다"
 
 #: src/pacman/conf.c:870
 #, c-format
@@ -458,12 +473,12 @@ msgstr "구성파일 %s, %d번째 줄: '%s' 지시자에 값이 필요합니다\
 #: src/pacman/conf.c:948
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
-msgstr ""
+msgstr "설정 내용 해석에 %d 최대 재귀 단계를 초과했습니다.\n"
 
 #: src/pacman/conf.c:996
-#, fuzzy, c-format
+#, c-format
 msgid "config file %s could not be read: %s\n"
-msgstr "구성파일 %s, %d번째 줄: '%s'에 대한 잘못된 값입니다: '%s'\n"
+msgstr "%s 설정 파일을 읽을 수 없습니다: %s\n"
 
 #: src/pacman/conf.c:1019
 #, c-format
@@ -497,39 +512,39 @@ msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: 설치 이유를 '명시적으로 설치함'으로 설정했습니다\n"
 
 #: src/pacman/package.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Architecture"
-msgstr "아키텍처       :"
+msgstr "아키텍처"
 
 #: src/pacman/package.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Backup Files"
-msgstr "백업 파일 :\n"
+msgstr "백업 파일들"
 
 #: src/pacman/package.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "Build Date"
-msgstr "빌드 일자      :"
+msgstr "빌드 날짜"
 
 #: src/pacman/package.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Compressed Size"
-msgstr "압축 크기      :"
+msgstr "압축된 크기"
 
 #: src/pacman/package.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Conflicts With"
-msgstr "다음과 충돌함  :"
+msgstr "다음과 충돌"
 
 #: src/pacman/package.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Depends On"
-msgstr "의존           :"
+msgstr "다음에 의존"
 
 #: src/pacman/package.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Description"
-msgstr "설명           :"
+msgstr "설명"
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -539,32 +554,32 @@ msgstr "다운로드 크기"
 #: src/pacman/package.c:105
 #, c-format
 msgid "Groups"
-msgstr ""
+msgstr "그룹들"
 
 #: src/pacman/package.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Install Date"
-msgstr "설치 일자      :"
+msgstr "설치 날짜"
 
 #: src/pacman/package.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Install Reason"
-msgstr "설치 이유      :"
+msgstr "설치 이유"
 
 #: src/pacman/package.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Install Script"
-msgstr "설치 스크립트  :"
+msgstr "설치 스크립트"
 
 #: src/pacman/package.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Installed Size"
-msgstr "설치 크기      :"
+msgstr "설치된 크기"
 
 #: src/pacman/package.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Licenses"
-msgstr "라이선스       :"
+msgstr "라이선스"
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -574,67 +589,67 @@ msgstr "MD5 합"
 #: src/pacman/package.c:112
 #, c-format
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 #: src/pacman/package.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Optional Deps"
-msgstr "선택적 의존    :"
+msgstr "선택 의존성"
 
 #: src/pacman/package.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Optional For"
-msgstr "다음이 선택요구:"
+msgstr "다음의 선택 의존성"
 
 #: src/pacman/package.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Packager"
-msgstr "꾸러미"
+msgstr "꾸러미 만든이"
 
 #: src/pacman/package.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Provides"
-msgstr "제공           :"
+msgstr "다음을 제공"
 
 #: src/pacman/package.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Replaces"
-msgstr "대체항목       :"
+msgstr "다음을 대체"
 
 #: src/pacman/package.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Repository"
-msgstr "%s 저장소\n"
+msgstr "저장소"
 
 #: src/pacman/package.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Required By"
-msgstr "다음이 요구함  :"
+msgstr "다음이 요구"
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "SHA-256 Sum"
-msgstr "SHA256 합"
+msgstr "SHA-256 합"
 
 #: src/pacman/package.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Signatures"
-msgstr "서명"
+msgstr "서명들"
 
 #: src/pacman/package.c:122
 #, c-format
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/pacman/package.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Validated By"
-msgstr "검증 방법      :"
+msgstr "유효검사자"
 
 #: src/pacman/package.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Version"
-msgstr "옛 버전"
+msgstr "버전"
 
 #: src/pacman/package.c:167 src/pacman/util.c:1205
 #, c-format
@@ -908,7 +923,7 @@ msgstr "  -l, --list <저장소>  저장소에 있는 꾸러미 목록을 봅니
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regex> 문자열이 일치하는 원격 저장소를 검색합니다.\n"
+msgstr "  -s, --search <regex> 문자열과 일치하는 원격 저장소를 검색합니다.\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
@@ -948,24 +963,23 @@ msgid "      --asexplicit     mark packages as explicitly installed\n"
 msgstr "      --asexplicit     꾸러미를 명시적으로 설치한 것으로 표시합니다.\n"
 
 #: src/pacman/pacman.c:173
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
 msgstr ""
-"  -k, --check          꾸러미 파일이 존재하는지 검사합니다. (파일 속성은 -"
-"kk)\n"
+"  -k, --check          로컬 데이터베이스가 유효한지 검사 (-kk 경우 데이터베이"
+"스 동기화)\n"
 
 #: src/pacman/pacman.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
-msgstr ""
-"  -s, --search <regex> 로컬에 설치한 문자열이 일치하는 꾸러미를 검색합니다.\n"
+msgstr "  -s, --search <file>  문자열과 일치하는 꾸러미 파일 이름 검색합니다\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
-msgstr ""
+msgstr "  -x, --regex          정규표현식을 사용해서 검색할 수 있게 합니다.\n"
 
 #: src/pacman/pacman.c:185
 #, c-format
@@ -973,6 +987,8 @@ msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
+"      --machinereadable\n"
+"                       기계가 읽을 수 있는 출력을 생성합니다.\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
@@ -1089,9 +1105,9 @@ msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> 대체 꾸러미 캐시 경로를 설정합니다.\n"
 
 #: src/pacman/pacman.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr "      --cachedir <dir> 대체 꾸러미 캐시 경로를 설정합니다.\n"
+msgstr "      --hookdir <dir>  대체 훅 경로를 설정합니다\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1275,7 +1291,7 @@ msgstr "트랜잭션을 준비하는데 실패했습니다(%s)\n"
 #: src/pacman/remove.c:125 src/pacman/sync.c:724
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr ""
+msgstr "%s: %s 제거로 의존성 '%s'가 깨집니다\n"
 
 #: src/pacman/remove.c:144
 #, c-format
@@ -1409,9 +1425,9 @@ msgid "%s: requires %s\n"
 msgstr "%s: %s를 필요로 합니다\n"
 
 #: src/pacman/sync.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "%s: installing %s (%s) breaks dependency '%s'\n"
-msgstr "%s: 설치 이유를 '의존성 요소로 설치'로 설정했습니다\n"
+msgstr "%s: %s (%s) 설치로 의존성 '%s'가 깨집니다\n"
 
 #: src/pacman/sync.c:744
 #, c-format
@@ -1726,36 +1742,3 @@ msgstr "오류: "
 #, c-format
 msgid "warning: "
 msgstr "경고: "
-
-#~ msgid "%s saved as %s.pacorig\n"
-#~ msgstr "%2$s.pacorig로 %1$s를 저장합니다\n"
-
-#~ msgid "Repository     :"
-#~ msgstr "저장소         :"
-
-#~ msgid "Name           :"
-#~ msgstr "이름           :"
-
-#~ msgid "Version        :"
-#~ msgstr "버전           :"
-
-#~ msgid "URL            :"
-#~ msgstr "URL            :"
-
-#~ msgid "Groups         :"
-#~ msgstr "그룹           :"
-
-#~ msgid "Download Size  :"
-#~ msgstr "다운로드 크기  :"
-
-#~ msgid "Packager       :"
-#~ msgstr "꾸러미 만든이  :"
-
-#~ msgid "MD5 Sum        :"
-#~ msgstr "MD5 합         :"
-
-#~ msgid "SHA-256 Sum    :"
-#~ msgstr "SHA-256 합     :"
-
-#~ msgid "Signatures     :"
-#~ msgstr "서명           :"

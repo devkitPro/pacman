@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2015-12-09 15:58+1000\n"
-"PO-Revision-Date: 2015-02-14 15:01+0000\n"
-"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
+"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"PO-Revision-Date: 2015-12-09 11:20+0000\n"
+"Last-Translator: Taegil Bae <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -131,9 +131,8 @@ msgid "FAILED"
 msgstr "실패"
 
 #: scripts/makepkg.sh.in:478
-#, fuzzy
 msgid "Validating %s files with %s..."
-msgstr "%s로 원본 파일 검증 중..."
+msgstr "%s로 %s 파일을 유효검사 중..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -144,9 +143,8 @@ msgid "Integrity checks (%s) differ in size from the source array."
 msgstr "무결성 검사(%s) 결과가 원본 배열의 크기와 다릅니다."
 
 #: scripts/makepkg.sh.in:531
-#, fuzzy
 msgid "Integrity checks are missing for: %s"
-msgstr "무결성 검사가 빠졌습니다."
+msgstr "무결성 검사가 빠졌습니다: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -336,7 +334,7 @@ msgstr "%s 꾸러미 그룹을 %s로 설치 중..."
 
 #: scripts/makepkg.sh.in:1421
 msgid "Failed to install built package(s)."
-msgstr "빌드한 꾸러미를 설치하는데 실패했습니다."
+msgstr "빌드한 꾸러미를 설치하는 데 실패했습니다."
 
 #: scripts/makepkg.sh.in:1440 scripts/libmakepkg/util/source.sh.in:129
 msgid "Unknown download protocol: %s"
@@ -364,26 +362,24 @@ msgstr "%s 바이너리를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1531
 msgid "Cannot find the %s binary required for signing packages."
-msgstr "꾸러미에 서명하는데 필요한 %s 바이너리를 찾을 수 없습니다."
+msgstr "꾸러미에 서명하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1539
 msgid "Cannot find the %s binary required for verifying source files."
-msgstr "원본 파일을 검증하는데 필요한 %s 바이너리를 찾을 수 없습니다."
+msgstr "원본 파일을 검증하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1547
-#, fuzzy
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
-msgstr "원본 파일 검사합을 검증하는데 필요한 %s 바이너리를 찾을 수 없습니다."
+msgstr "원본 파일 검사합의 유효검사에 필요한 %s 바이너리를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
-msgstr "바이너리를 압축하는데 필요한 %s 바이너리를 찾을 수 없습니다."
+msgstr "바이너리를 압축하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1563
-#, fuzzy
 msgid "Cannot find the %s binary required for optimizing PNG images."
-msgstr "꾸러미에 서명하는데 필요한 %s 바이너리를 찾을 수 없습니다."
+msgstr "PNG 이미지를 최적화하는 데 필요한 %s 바이너를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -395,12 +391,12 @@ msgstr "컴파일러 캐시 사용에 필요한 %s 바이너리를 찾을 수 �
 
 #: scripts/makepkg.sh.in:1587
 msgid "Cannot find the %s binary required for object file stripping."
-msgstr "목적 파일을 스트리핑 하는데 필요한 %s 바이너리를 찾을 수 없습니다."
+msgstr "목적 파일을 스트리핑 하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1595
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
-"맨페이지와 info 페이지를 압축하는데 필요한 %s 바이너리를 찾을 수 없습니다."
+"맨페이지와 info 페이지를 압축하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:1615
 msgid "A package has already been built, installing existing package..."
@@ -556,11 +552,11 @@ msgstr "  --nosign         꾸러미 서명을 만들지 않습니다"
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
-msgstr ""
+msgstr "  --packagelist    생성될 꾸러미만 PKGEXT 없이 나열합니다"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   생성된 SRCINFO를 출력하고 나갑니다"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -617,15 +613,15 @@ msgstr "%s를 지정하지 않으면, %s는 %s를 찾습니다"
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\n이 프로그램"
-"은 자유 소프트웨어입니다. 복제 조항에 대해서는 소스코드를 참조하십시오.\\n법"
-"이 허용하는 범위에서 어떠한 보증도 없습니다.\\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\n이것은 자유"
+"소프트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오.\\n법이 허용하"
+"는 한에서 어떤 것도 보증하지 않습니다.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -723,19 +719,19 @@ msgstr "모든 의존성을 해결할 수 없습니다."
 msgid "Using existing %s tree"
 msgstr "기존의 %s 트리를 사용합니다"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2224
+#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
 msgid "Removing existing %s directory..."
 msgstr "기존의 %s 디렉터리 제거중..."
 
-#: scripts/makepkg.sh.in:2219
+#: scripts/makepkg.sh.in:2220
 msgid "Sources are ready."
 msgstr "원본이 준비되었습니다."
 
-#: scripts/makepkg.sh.in:2245
+#: scripts/makepkg.sh.in:2246
 msgid "Package directory is ready."
 msgstr "꾸러미 디렉터리가 준비되었습니다."
 
-#: scripts/makepkg.sh.in:2249
+#: scripts/makepkg.sh.in:2250
 msgid "Finished making: %s"
 msgstr "만들기 완료: %s"
 
@@ -759,19 +755,19 @@ msgstr ""
 "이름 '%s'에 유효하지 않은 글자가 사용되었습니다. 허용글자: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "템플릿 '%s'를 위한 버전을 감지할 수 없습니다."
+msgstr "템플릿 '%s'의 버전을 발견할 수 없습니다\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "'%s'와 일치하는 템플릿 파일을 찾는 데 실패했습니다\n"
 
 #: scripts/makepkg-template.pl.in:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "'%s'를 여는 데 실패했습니다: %s"
+msgstr "'%s'를 여는 데 실패했습니다: %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -826,14 +822,13 @@ msgstr "  --version             버전 정보 표시\n"
 #: scripts/makepkg-template.pl.in:194
 #, fuzzy
 msgid ""
-"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2014 Pacman Development Team <pacman-dev@archlinux.org>.\n"
-"이 프로그램은 자유 소프트웨어입니다. 복제 조항에 대해서는 소스 코드를 참조하"
-"십시오.\n"
-"법이 허용하는 범위에서 어떠한 보증도 없습니다.\n"
+"Copyright (c) 2013-2015 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"이것은 자유소프트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오.\n"
+"법이 허용하는 한에서 어떤 보증도 하지 않습니다.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
@@ -870,13 +865,13 @@ msgstr "  --nocolor            출력 메시지의 색 구분 기능을 끕니�
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
 #, fuzzy
 msgid ""
-"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2014 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\n이 프로그램은 자유 소프트웨어입니다. 복제 조항에 대해서는 소스 코드를 참조"
-"하십시오.\\n법이 허용하는 범위에서 어떠한 보증도 없습니다.\\n"
+"Copyright (c) 2010-2015 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\n이것은 자유소프트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오."
+"\\n법이 허용하는 한에서 어떤 보증도 하지 않습니다.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -1314,9 +1309,9 @@ msgid ""
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n이 프로그램은 "
-"자유 소프트웨어입니다. 복제 조항에 대해서는 소스 코드를 참조하십시오.\\n법이 "
-"허용하는 범위에서 어떠한 보증도 없습니다.\\n"
+"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\n이것은 자유소프"
+"트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오.\\n법이 허용하는 한"
+"에서 어떤 보증도 하지 않습니다.\\n"
 
 #: scripts/pkgdelta.sh.in:94 scripts/repo-add.sh.in:346
 msgid "Invalid package file '%s'."
@@ -1385,13 +1380,12 @@ msgid ""
 msgstr "  -n, --new         데이터베이스에 없는 꾸러미만 추가합니다\\n"
 
 #: scripts/repo-add.sh.in:64
-#, fuzzy
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      데이터베이스 항목을 업데이트할 때 디스크에서 꾸러미 파일"
-"을 삭제합니다\\n"
+"  -R, --remove      데이터베이스 갱신 후 디스크로부터 오래된 꾸러미 파일 삭제"
+"\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1448,13 +1442,13 @@ msgstr "예시:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 #: scripts/repo-add.sh.in:96
 #, fuzzy
 msgid ""
-"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2014 Pacman Development Team <pacman-dev@archlinux.org>\\n"
-"\\n이 프로그램은 자유 소프트웨어입니다. 복제 조항에 대해서는 소스 코드를 참조"
-"하십시오.\\n법이 허용하는 범위에서 어떠한 보증도 없습니다.\\n"
+"Copyright (c) 2006-2015 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\n이것은 자유소프트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오."
+"\\n법이 허용하는 한에서 어떤 보증도 하지 않습니다.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1462,38 +1456,35 @@ msgstr "'%s' 꾸러미에 데이터베이스 항목이 없습니다."
 
 #: scripts/repo-add.sh.in:164
 msgid "Adding 'deltas' entry : %s -> %s"
-msgstr "'델타' 항목 추가중: %s -> %s"
+msgstr "'델타' 항목 추가 중: %s -> %s"
 
 #: scripts/repo-add.sh.in:192 scripts/repo-add.sh.in:479
 msgid "Removing existing entry '%s'..."
-msgstr "기존의 '%s' 항목 제거중..."
+msgstr "기존의 '%s' 항목 제거 중..."
 
 #: scripts/repo-add.sh.in:195
-#, fuzzy
 msgid "Removing empty deltas file..."
-msgstr "빈 델타 파일 제거중..."
+msgstr "비어 있는 델타 파일 삭제 중..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
 msgstr "gpg 바이너리를 찾을 수 없습니다! GnuPG를 설치했습니까?"
 
 #: scripts/repo-add.sh.in:261
-#, fuzzy
 msgid "Signing database '%s'..."
-msgstr "데이터베이스 서명중..."
+msgstr "데이터베이스 '%s'에 서명 중..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
 msgstr "'%s' 서명 파일을 만들었습니다"
 
 #: scripts/repo-add.sh.in:272
-#, fuzzy
 msgid "Failed to sign package database file '%s'"
-msgstr "꾸러미 데이터베이스 서명에 실패했습니다."
+msgstr "꾸러미 데이터베이스 파일 '%s'에 서명에 실패했습니다"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
-msgstr "데이터베이스 서명 검증중..."
+msgstr "데이터베이스 서명 검증 중..."
 
 #: scripts/repo-add.sh.in:284
 msgid "No existing signature found, skipping verification."
@@ -1508,9 +1499,8 @@ msgid "Database signature was NOT valid!"
 msgstr "데이터베이스 서명이 유효하지 않습니다!"
 
 #: scripts/repo-add.sh.in:305
-#, fuzzy
 msgid "'%s' does not have a valid database archive extension."
-msgstr "'%s'에 유효한 아카이브 확장자가 없습니다."
+msgstr "'%s'는 유효한 데이터베이스 보관 확장자를 가지지 않았습니다."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1518,7 +1508,7 @@ msgstr "'%s' 항목이 이미 존재합니다"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "꾸러미들에 외장 서명을 사용할 수 없습니다: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1541,9 +1531,8 @@ msgid "Old package file not found: %s"
 msgstr "이전 꾸러미 파일이 없습니다: %s"
 
 #: scripts/repo-add.sh.in:461
-#, fuzzy
 msgid "Removing old package file '%s'"
-msgstr "잘못된 꾸러미 파일 '%s'입니다."
+msgstr "오래된 꾸러미 파일 '%s' 삭제 중"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1622,9 +1611,8 @@ msgid "No packages modified, nothing to do."
 msgstr "수정된 꾸러미가 없어 할 일이 없습니다."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issue..."
-msgstr "'%s' 꾸러미 검색중..."
+msgstr "꾸러미 생성 문제를 검사 중..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1713,18 +1701,17 @@ msgstr "%s 파일 (%s)는 존재하지 않거나 보통 파일이 아닙니다."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s는 배열이어야 합니다"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s는 배열이어야 합니다"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
-#, fuzzy
 msgid "%s should not be an array"
-msgstr "%s를 가져올 수 없습니다."
+msgstr "%s는 배열이면 안 됩니다"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1735,18 +1722,16 @@ msgid "Extracting sources..."
 msgstr "원본 추출 중..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
-#, fuzzy
 msgid "Branching %s..."
-msgstr "%s 브랜치 쪼개는 중..."
+msgstr "%s 브랜치 만드는 중..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
 msgstr "%s 브랜치를 쪼개는데 실패했습니다"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
-#, fuzzy
 msgid "Pulling %s..."
-msgstr "%s 끌어 오는 중..."
+msgstr "%s를 끌어오는 중..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1843,12 +1828,11 @@ msgstr "%s 파일 삭제 중..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "PNG 이미지를 최적화 중..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
-#, fuzzy
 msgid "Could not optimize PNG image : %s"
-msgstr "바이너리를 압축할 수 없습니다 : %s"
+msgstr "PNG 이미지를 최적화할 수 없습니다: %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
@@ -1901,21 +1885,3 @@ msgstr "'%s' 옵션은 인자를 허용하지 않습니다"
 #: scripts/library/parseopts.sh:107
 msgid "option '%s' requires an argument"
 msgstr "'%s' 옵션은 인자 하나가 필요합니다"
-
-#~ msgid "Failed to change to directory %s"
-#~ msgstr "%s 디렉터리로 이동하는데 실패했습니다"
-
-#~ msgid "Note that many packages may need a line added to their %s"
-#~ msgstr "참고로 많은 꾸러미들은 %s에 다음과 같은 줄을 넣을 필요가 있습니다."
-
-#~ msgid "such as %s."
-#~ msgstr "이런 %s 줄 말입니다."
-
-#~ msgid "  --pkg <list>     Only build listed packages from a split package"
-#~ msgstr "  --pkg <목록>     쪼갠 꾸러미에서 나온 꾸러미만 빌드합니다"
-
-#~ msgid "  -f, --files       update database's file list\\n"
-#~ msgstr "  -f, --files       데이터베이스 파일 목록을 업데이트합니다\\n"
-
-#~ msgid "Removing existing package '%s'"
-#~ msgstr "기존 꾸러미 '%s'를 삭제합니다."
