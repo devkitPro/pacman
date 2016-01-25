@@ -275,10 +275,10 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 
 	size = humanize_size(alpm_pkg_get_size(pkg), '\0', 2, &label);
 	if(from == ALPM_PKG_FROM_SYNCDB) {
-		printf("%s%s%s %6.2f %s\n", config->colstr.title, titles[T_DOWNLOAD_SIZE],
+		printf("%s%s%s %.2f %s\n", config->colstr.title, titles[T_DOWNLOAD_SIZE],
 			config->colstr.nocolor, size, label);
 	} else if(from == ALPM_PKG_FROM_FILE) {
-		printf("%s%s%s %6.2f %s\n", config->colstr.title, titles[T_COMPRESSED_SIZE],
+		printf("%s%s%s %.2f %s\n", config->colstr.title, titles[T_COMPRESSED_SIZE],
 			config->colstr.nocolor, size, label);
 	} else {
 		/* autodetect size for "Installed Size" */
@@ -286,7 +286,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 	}
 
 	size = humanize_size(alpm_pkg_get_isize(pkg), label[0], 2, &label);
-	printf("%s%s%s %6.2f %s\n", config->colstr.title, titles[T_INSTALLED_SIZE],
+	printf("%s%s%s %.2f %s\n", config->colstr.title, titles[T_INSTALLED_SIZE],
 			config->colstr.nocolor, size, label);
 
 	string_display(titles[T_PACKAGER], alpm_pkg_get_packager(pkg), cols);
