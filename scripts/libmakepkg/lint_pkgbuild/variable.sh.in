@@ -57,7 +57,7 @@ lint_variable() {
 			v="${i}_${a}"
 			eval "keys=(\"\${!${v}[@]}\")"
 			if (( ${#keys[*]} > 0 )); then
-				if [[ "$(declare -p $i)" != "declare -a "* ]]; then
+				if [[ "$(declare -p $v)" != "declare -a "* ]]; then
 					error "$(gettext "%s_%s should be an array")" "$i" "$a"
 					ret=1
 				fi
