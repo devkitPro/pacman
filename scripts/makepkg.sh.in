@@ -2192,28 +2192,30 @@ mkdir -p "$srcdir"
 chmod a-s "$srcdir"
 cd_safe "$srcdir"
 
-if (( NOEXTRACT && ! VERIFYSOURCE )); then
-	warning "$(gettext "Using existing %s tree")" "\$srcdir/"
-elif (( !REPKG )); then
-	download_sources
-	check_source_integrity
-	(( VERIFYSOURCE )) && exit 0 # $E_OK
+if (( !REPKG )); then
+	if (( NOEXTRACT && ! VERIFYSOURCE )); then
+		warning "$(gettext "Using existing %s tree")" "\$srcdir/"
+	else
+		download_sources
+		check_source_integrity
+		(( VERIFYSOURCE )) && exit 0 # $E_OK
 
-	if (( CLEANBUILD )); then
-		msg "$(gettext "Removing existing %s directory...")" "\$srcdir/"
-		rm -rf "$srcdir"/*
+		if (( CLEANBUILD )); then
+			msg "$(gettext "Removing existing %s directory...")" "\$srcdir/"
+			rm -rf "$srcdir"/*
+		fi
+
+		extract_sources
 	fi
 
-	extract_sources
-fi
-
-if (( PKGVERFUNC )); then
-	update_pkgver
-	basever=$(get_full_version)
-	check_build_status
-fi
-if (( PREPAREFUNC )); then
-	run_prepare
+	if (( PKGVERFUNC )); then
+		update_pkgver
+		basever=$(get_full_version)
+		check_build_status
+	fi
+	if (( PREPAREFUNC )); then
+		run_prepare
+	fi
 fi
 
 if (( NOBUILD )); then
