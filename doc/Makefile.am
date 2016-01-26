@@ -121,7 +121,8 @@ ASCIIDOC_OPTS = \
 	-a pacman_date="`date +%Y-%m-%d`" \
 	-a pkgdatadir=$(pkgdatadir) \
 	-a localstatedir=$(localstatedir) \
-	-a sysconfdir=$(sysconfdir)
+	-a sysconfdir=$(sysconfdir) \
+	-a datarootdir=$(datarootdir)
 
 A2X_OPTS = \
 	--no-xmllint \

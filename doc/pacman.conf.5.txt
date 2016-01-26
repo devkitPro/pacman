@@ -71,7 +71,8 @@ Options
 	path, the root path is not automatically prepended.
 
 *HookDir =* path/to/hook/dir::
-	Add directories to search for alpm hooks.  A typical default is
+	Add directories to search for alpm hooks in addition to the system hook
+	directory (+{datarootdir}/libalpm/hooks/+).  A typical default is
 	+{sysconfdir}/pacman.d/hooks+.  Multiple directories can be specified with
 	hooks in later directories taking precedence over hooks in earlier
 	directories.  *NOTE*: this is an absolute path, the root path is not
