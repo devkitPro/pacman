@@ -101,6 +101,7 @@ _pacman() {
   COMPREPLY=()
   _get_comp_words_by_ref cur prev
   database=('asdeps asexplicit')
+  files=('list machinereadable owns search refresh regex' 'l o s x y')
   query=('changelog check deps explicit file foreign groups info list owns
           search unrequired upgrades' 'c e g i k l m o p s t u')
   remove=('cascade dbonly nodeps assume-installed nosave print recursive unneeded' 'c n p s u')
@@ -108,23 +109,26 @@ _pacman() {
          info list needed nodeps assume-installed print refresh recursive search sysupgrade'
         'c g i l p s u w y')
   upgrade=('asdeps asexplicit force needed nodeps assume-installed print recursive' 'p')
-  common=('arch cachedir color config dbpath debug help logfile noconfirm
-           noprogressbar noscriptlet quiet root verbose' 'b d h q r v')
-  core=('database help query remove sync upgrade version' 'D Q R S U V h')
+  common=('arch cachedir color config confirm dbpath debug gpgdir help hookdir logfile
+           noconfirm noprogressbar noscriptlet quiet root verbose' 'b d h q r v')
+  core=('database files help query remove sync upgrade version' 'D F Q R S U V h')
 
-  for o in 'D database' 'Q query' 'R remove' 'S sync' 'U upgrade'; do
+  for o in 'D database' 'F files' 'Q query' 'R remove' 'S sync' 'U upgrade'; do
     _arch_incomp "$o" && break
   done
 
   if [[ $? != 0 ]]; then
     _arch_ptr2comp core
   elif [[ ! $prev =~ ^-\w*[Vbhr] &&
-    ! $prev = --@(cachedir|color|config|dbpath|help|logfile|root|version) ]]
+    ! $prev = --@(cachedir|color|config|dbpath|help|hookdir|gpgdir|logfile|root|version) ]]
   then
     [[ $cur = -* ]] && _arch_ptr2comp ${o#* } common ||
       case ${o% *} in
       D|R)
           _pacman_pkg Qq;;
+      F)
+          _arch_incomp 'l list'   && _pacman_pkg Slq;
+          ;;
       Q)
         { _arch_incomp 'g groups' && _pacman_pkg Qg sort; }    ||
         { _arch_incomp 'p file'   && _pacman_file; }           ||
