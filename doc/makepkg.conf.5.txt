@@ -39,8 +39,9 @@ Options
 **DLAGENTS=(**\'protocol::/path/to/command [options]' ...**)**::
 	Sets the download agents used to fetch source files specified with a URL in
 	the linkman:PKGBUILD[5] file. Options can be specified for each command as
-	well, and any protocol can have a download agent. Several examples are provided
-	in the default makepkg.conf.
+	well, and any protocol can have a download agent.  Any spaces in option
+	arguments are required to be escaped to avoid being split.  Several
+	examples are provided in the default makepkg.conf.
 	+
 	If present, `%u` will be replaced with the download URL. Otherwise, the
 	download URL will be placed on the end of the command. If present, `%o` will
