@@ -175,6 +175,13 @@ Options
 	specifies that the keys are authentic and trusted. *NOTE*: This is an absolute
 	path, and the root path is not automatically prepended.
 
+*\--hookdir* <dir>::
+	Specify a alternative directory containing hook files (a typical default is
+	+{sysconfdir}/pacman.d/hooks+). Multiple hook directories can be specified
+	with hooks in later directories taking precedence over hooks in earlier
+	directories. *NOTE*: This is an absolute path, and the root path is not
+	automatically prepended.
+
 *\--logfile* <file>::
 	Specify an alternate log file. This is an absolute path, regardless of
 	the installation root setting.
