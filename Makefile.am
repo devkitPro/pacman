@@ -51,9 +51,10 @@ AM_PY_LOG_FLAGS = \
 		--bindir $(top_builddir)/src/pacman \
 		--bindir $(top_builddir)/scripts
 
-# create the pacman DB and cache directories upon install
+# create the pacman DB, cache, makepkg-template and system hook directories upon install
 install-data-local:
-	for dir in "$(DESTDIR)$(localstatedir)/lib/pacman" "$(DESTDIR)$(localstatedir)/cache/pacman/pkg"; do \
+	for dir in "$(DESTDIR)$(localstatedir)/lib/pacman" "$(DESTDIR)$(localstatedir)/cache/pacman/pkg" \
+	           "$(DESTDIR)$(datarootdir)/makepkg-template" "$(DESTDIR)$(datarootdir)/libalpm/hooks"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 
