@@ -402,6 +402,11 @@ each split package's packaging function:
 `provides`, `conflicts`, `replaces`, `backup`, `options`, `install`, and
 `changelog`.
 
+Note that makepkg does not consider split package `depends` when checking
+if dependencies are installed before package building and with `--syncdeps`.
+All packages required to make the package are required to be specified in
+the global `depends` and `makedepends` arrays.
+
 An optional global directive is available when building a split package:
 
 *pkgbase*::
