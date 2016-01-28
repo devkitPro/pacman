@@ -8,6 +8,7 @@ setopt extendedglob
 # options for passing to _arguments: main pacman commands
 _pacman_opts_commands=(
 	{-D,--database}'[Modify database]'
+	{-F,--files}'[Query the files database]'
 	{-Q,--query}'[Query the package database]'
 	{-R,--remove}'[Remove a package from the system]'
 	{-S,--sync}'[Synchronize packages]'
@@ -19,6 +20,7 @@ _pacman_opts_commands=(
 
 # options for passing to _arguments: options common to all commands
 _pacman_opts_common=(
+	'--arch[Set an alternate architecture]'
 	{-b,--dbpath}'[Alternate database location]:database_location:_files -/'
 	'--color[colorize the output]:color options:(always never auto)'
 	{-h,--help}'[Display syntax for the given operation]'
@@ -26,11 +28,14 @@ _pacman_opts_common=(
 	{-v,--verbose}'[Be more verbose]'
 	'--cachedir[Alternate package cache location]:cache_location:_files -/'
 	'--config[An alternate configuration file]:config file:_files'
+	'--confirm[Always ask for confirmation]'
+	'--debug[Display debug messages]'
+	'--gpgdir[Set an alternate directory for GnuPG (instead of @sysconfdir@/pacman.d/gnupg)]: :_files -/'
+	'--hookdir[Set an alternate hook location]: :_files -/'
 	'--logfile[An alternate log file]:config file:_files'
 	'--noconfirm[Do not ask for confirmation]'
 	'--noprogressbar[Do not show a progress bar when downloading files]'
 	'--noscriptlet[Do not execute the install scriptlet if one exists]'
-	'--print[Only print the targets instead of performing the operation]'
 )
 
 # options for passing to _arguments: options for --upgrade commands
@@ -43,6 +48,10 @@ _pacman_opts_pkgfile=(
 	'--needed[Do not reinstall up to date packages]'
 	'--asdeps[mark packages as non-explicitly installed]'
 	'--asexplicit[mark packages as explicitly installed]'
+	{-p,--print}'[Only print the targets instead of performing the operation]'
+	'*--ignore[Ignore a package upgrade]:package: _pacman_completions_all_packages'
+	'*--ignoregroup[Ignore a group upgrade]:package group:_pacman_completions_all_groups'
+	'--print-format[Specify how the targets should be printed]'
 	'*:package file:_files -g "*.pkg.tar*~*.sig(.,@)"'
 )
 
@@ -73,11 +82,14 @@ _pacman_opts_query_modifiers=(
 # options for passing to _arguments: options for --remove command
 _pacman_opts_remove=(
 	{-c,--cascade}'[Remove all dependent packages]'
-	{*-d,*--nodeps}'[Skip dependency checks]'
+	{-d,--nodeps}'[Skip dependency checks]'
 	'*--assume-installed[Add virtual package to satisfy dependencies]'
 	{-n,--nosave}'[Remove protected configuration files]'
+	{-p,--print}'[Only print the targets instead of performing the operation]'
 	{\*-s,\*--recursive}'[Remove dependencies not required by other packages]'
+	{-u,--unneeded}'[Remove unneeded packages]'
 	'--dbonly[Only remove database entry, do not remove files]'
+	'--print-format[Specify how the targets should be printed]'
 	'*:installed package:_pacman_completions_installed_packages'
 )
 
@@ -85,6 +97,16 @@ _pacman_opts_database=(
 	'--asdeps[mark packages as non-explicitly installed]'
 	'--asexplicit[mark packages as explicitly installed]'
 	'*:installed package:_pacman_completions_installed_packages'
+)
+
+_pacman_opts_files=(
+	{-l,--list}'[List the files owned by the queried package]:package:_pacman_completions_all_packages'
+	{-o,--owns}'[Query the package that owns]:files:_files'
+	{-s,--search}'[Search package file names for matching strings]:files:_files'
+	{-x,--regex}'[Enable searching using regluar expressions]:regex:'
+	{-y,--refresh}'[Download fresh files databases from the server]'
+	'--machinereadable[Produce machine-readable output]'
+	{-q,--quiet}'[Show less information for query and search]'
 )
 
 # options for passing to _arguments: options for --sync command
@@ -114,6 +136,7 @@ _pacman_opts_sync_modifiers=(
 	'--asdeps[Install packages as non-explicitly installed]'
 	'--asexplicit[Install packages as explicitly installed]'
 	'--force[Overwrite conflicting files]'
+	'--print-format[Specify how the targets should be printed]'
 )
 
 # handles --help subcommand
@@ -182,6 +205,14 @@ _pacman_action_database() {
 		'(--database -D)'{-D,--database} \
 		"$_pacman_opts_common[@]" \
 		"$_pacman_opts_database[@]"
+}
+
+# handles --files subcommand
+_pacman_action_files() {
+	_arguments -s : \
+		'(--files -F)'{-F,--files} \
+		"$_pacman_opts_common[@]" \
+		"$_pacman_opts_files[@]"
 }
 
 _pacman_action_deptest () {
@@ -359,6 +390,9 @@ _pacman_zsh_comp() {
 		D*)
 			_pacman_action_database
 			;;
+		F*)
+			_pacman_action_files
+			;;
 		Q*g*) # ipkg groups
 			_arguments -s : \
 				"$_pacman_opts_common[@]" \
@@ -448,6 +482,9 @@ _pacman_zsh_comp() {
 					;;
 				*--database*)
 					_pacman_action_database
+					;;
+				*--files*)
+					_pacman_action_files
 					;;
 				*--version*)
 					_pacman_action_version
