@@ -737,7 +737,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 
 		for(i = hooks_triggered; i; i = i->next, hook_event.position++) {
 			struct _alpm_hook_t *hook = i->data;
-			_alpm_log(handle, ALPM_LOG_DEBUG, "running hook %s\n", hook->name);
+			alpm_logaction(handle, ALPM_CALLER_PREFIX, "running '%s'...\n", hook->name);
 
 			hook_event.type = ALPM_EVENT_HOOK_RUN_START;
 			hook_event.name = hook->name;
