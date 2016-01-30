@@ -288,7 +288,7 @@ void cb_event(alpm_event_t *event)
 			fputs(event->scriptlet_info.line, stdout);
 			break;
 		case ALPM_EVENT_RETRIEVE_START:
-			colon_printf(_("Retrieving packages ...\n"));
+			colon_printf(_("Retrieving packages...\n"));
 			break;
 		case ALPM_EVENT_DISKSPACE_START:
 			if(config->noprogressbar) {
