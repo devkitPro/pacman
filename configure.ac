@@ -41,13 +41,13 @@ AC_PREREQ(2.62)
 #   Bugfix releases:
 #     pacman_version_micro += 1
 
-m4_define([lib_current], [9])
-m4_define([lib_revision], [1])
+m4_define([lib_current], [10])
+m4_define([lib_revision], [0])
 m4_define([lib_age], [0])
 
-m4_define([pacman_version_major], [4])
-m4_define([pacman_version_minor], [2])
-m4_define([pacman_version_micro], [1])
+m4_define([pacman_version_major], [5])
+m4_define([pacman_version_minor], [0])
+m4_define([pacman_version_micro], [0])
 m4_define([pacman_version],
           [pacman_version_major.pacman_version_minor.pacman_version_micro])
 
