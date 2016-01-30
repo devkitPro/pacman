@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-01-17 13:21+1000\n"
-"PO-Revision-Date: 2016-01-15 10:29+0000\n"
+"POT-Creation-Date: 2016-01-30 10:08+1000\n"
+"PO-Revision-Date: 2016-01-21 23:26+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/lt/)\n"
@@ -42,7 +42,7 @@ msgstr "pkgver() sugeneravo neteisingą versiją: %s"
 
 #: scripts/makepkg.sh.in:185
 msgid "Failed to update %s from %s to %s"
-msgstr ""
+msgstr "Nepavyko atnaujinti %s iš %s į %s"
 
 #: scripts/makepkg.sh.in:192
 msgid "Updated version: %s"
@@ -135,7 +135,7 @@ msgstr "NEPAVYKO"
 
 #: scripts/makepkg.sh.in:478
 msgid "Validating %s files with %s..."
-msgstr ""
+msgstr "Tikrinami %s failai su %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -147,7 +147,7 @@ msgstr "Vientisumo patikros dydis (%s) skiriasi nuo pradinio kodo masyvo."
 
 #: scripts/makepkg.sh.in:531
 msgid "Integrity checks are missing for: %s"
-msgstr ""
+msgstr "Vientisumo patikrinimų trūksta paketams: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -167,11 +167,11 @@ msgstr "nežinomas viešas raktas"
 
 #: scripts/makepkg.sh.in:666
 msgid "public key %s has been revoked"
-msgstr ""
+msgstr "viešas raktas %s buvo atšauktas"
 
 #: scripts/makepkg.sh.in:669
 msgid "bad signature from public key"
-msgstr ""
+msgstr "blogas parašas iš viešo rakto"
 
 #: scripts/makepkg.sh.in:672
 msgid "error during signature verification"
@@ -179,7 +179,7 @@ msgstr "klaida, parašo patikrinimo metu"
 
 #: scripts/makepkg.sh.in:678
 msgid "the public key %s is not trusted"
-msgstr ""
+msgstr "viešas raktas %s nėra patikimas"
 
 #: scripts/makepkg.sh.in:681
 msgid "invalid public key"
@@ -346,10 +346,12 @@ msgstr "Nežinomas parsiuntimo protokolas: %s"
 #: scripts/makepkg.sh.in:1457
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
+"Nepavyksta rasti %s sukompiliuotos programos, reikalingos patikrinti VCS "
+"šaltinių reikalavimus."
 
 #: scripts/makepkg.sh.in:1485
 msgid "Cannot find the %s package needed to handle %s sources."
-msgstr ""
+msgstr "Nepavyksta rasti %s paketo, reikalingo apdoroti %s šaltinius."
 
 #: scripts/makepkg.sh.in:1508
 msgid "Cannot find the %s binary required for dependency operations."
@@ -365,7 +367,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1523
 msgid "Cannot find the %s binary."
-msgstr ""
+msgstr "Nepavyksta rasti %s sukompiliuotos programos."
 
 #: scripts/makepkg.sh.in:1531
 msgid "Cannot find the %s binary required for signing packages."
@@ -382,6 +384,8 @@ msgstr ""
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
+"Nepavyksta rasti %s sukompiliuotos programos, reikalingos šaltinio failo "
+"kontrolinės sumos patikrinimui."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
@@ -392,6 +396,8 @@ msgstr ""
 #: scripts/makepkg.sh.in:1563
 msgid "Cannot find the %s binary required for optimizing PNG images."
 msgstr ""
+"Nepavyksta rasti %s sukompiliuotos programos, reikalingos PNG paveikslų "
+"optimizavimui."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -556,7 +562,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1724
 msgid "  --noarchive      Do not create package archive"
-msgstr ""
+msgstr "  --noarchive      Nekurti paketo archyvo"
 
 #: scripts/makepkg.sh.in:1725
 msgid "  --nocheck        Do not run the %s function in the %s"
@@ -564,7 +570,7 @@ msgstr "  --nocheck        Nevykdyti funkcijos %s %s"
 
 #: scripts/makepkg.sh.in:1726
 msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr ""
+msgstr "  --noprepare      Nevykdyti %s funkcijos ties %s"
 
 #: scripts/makepkg.sh.in:1727
 msgid "  --nosign         Do not create a signature for the package"
@@ -574,10 +580,11 @@ msgstr "  --nosign         Nekurti paketo parašo"
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist    Išvardinti tik paketus, kurie būtų sukurti, be PKGEXT"
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   Parodyti sugeneruotą SRCINFO ir išeiti"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -631,16 +638,17 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Jei %s nenurodytas, %s ieškos „%s“"
 
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Autorinės teisės (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nTai "
-"nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS "
-"GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+"Autorių teisės (c) 2006-2016 Pacman kūrimo komanda <pacman-dev@archlinux."
+"org>.\\nAutorių teisės (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n"
+"\\nTai yra laisva programinė įranga; norėdami sužinoti apie kopijavimo "
+"sąlygas, žiūrėkite pirminį kodą.\\nNėra JOKIOS GARANTIJOS, tiek, kiek tai "
+"leidžiama pagal įstatymus.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -675,6 +683,8 @@ msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
+"%s vykdymas \"root\" teisėmis nėra leidžiamas, kadangi jis gali sukelti "
+"ilgalaikę,\\npražūtingą žalą jūsų sistemai."
 
 #: scripts/makepkg.sh.in:1978
 msgid "Do not use the %s option. This option is only for use by %s."
@@ -732,23 +742,23 @@ msgstr "Tikrinama kūrimo laiko priklausomybės..."
 msgid "Could not resolve all dependencies."
 msgstr "Neįmanoma išspręsti visų priklausomybių."
 
-#: scripts/makepkg.sh.in:2196
+#: scripts/makepkg.sh.in:2197
 msgid "Using existing %s tree"
 msgstr "Naudojamas esamas %s medis"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
+#: scripts/makepkg.sh.in:2204 scripts/makepkg.sh.in:2227
 msgid "Removing existing %s directory..."
 msgstr "Šalinamas egzistuojantis %s aplankas..."
 
-#: scripts/makepkg.sh.in:2220
+#: scripts/makepkg.sh.in:2222
 msgid "Sources are ready."
 msgstr "Pradiniai kodai paruošti."
 
-#: scripts/makepkg.sh.in:2246
+#: scripts/makepkg.sh.in:2248
 msgid "Package directory is ready."
 msgstr "Paketo katalogas paruoštas."
 
-#: scripts/makepkg.sh.in:2250
+#: scripts/makepkg.sh.in:2252
 msgid "Finished making: %s"
 msgstr "Sukurta: %s"
 
@@ -759,16 +769,17 @@ msgstr "nepavyksta sukurti \"%s\": %s"
 
 #: scripts/makepkg-template.pl.in:73
 msgid "invalid key/value pair\n"
-msgstr ""
+msgstr "neteisinga rakto/reikšmės pora\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr ""
+msgstr "neteisinga šablono eilutė: nepavyksta rasti šablono pavadinimo\n"
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
 msgstr ""
+"pavadinime panaudoti neteisingi simboliai \"%s\". leidžiami: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
 #, perl-format
@@ -780,7 +791,7 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Nepavyko rasti šablono failą, kuris atitiktų \"%s\"\n"
 
 #: scripts/makepkg-template.pl.in:136
 #, perl-format
@@ -790,11 +801,11 @@ msgstr "nepavyko atverti \"%s\": %s\n"
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr ""
+msgstr "Nežinoma šablono žymė \"%s\"\n"
 
 #: scripts/makepkg-template.pl.in:175
 msgid "makepkg-template [options]\n"
-msgstr ""
+msgstr "makepkg-template [pasirinktys]\n"
 
 #: scripts/makepkg-template.pl.in:177
 msgid "Options:\n"
@@ -804,29 +815,35 @@ msgstr "Pasirinktys:\n"
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
 msgstr ""
+"  --input, -p <failas>    Kūrimo scenarijus, kurį skaityti (numatytasis: "
+"%s)\n"
 
 #: scripts/makepkg-template.pl.in:179
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
+"  --output, -o <failas>   failas, į kurį išvesti informaciją (numatytasis: "
+"įvesties failas)\n"
 
 #: scripts/makepkg-template.pl.in:180
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr ""
+msgstr "  --newest, -n          atnaujinti šablonus į naujausią versiją\n"
 
 #: scripts/makepkg-template.pl.in:181
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
 msgstr ""
+"                        (pagal numatymą: naudoti versiją, nurodytą šablono "
+"žymėse)\n"
 
 #: scripts/makepkg-template.pl.in:182
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr ""
+msgstr "  --template-dir <katalogas>  katalogas, kuriame ieškoti šablonų\n"
 
 #: scripts/makepkg-template.pl.in:183
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
+msgstr "                        (pagal numatymą: %s)\n"
 
 #: scripts/makepkg-template.pl.in:184
 msgid "  --help, -h            This help message\n"
@@ -837,19 +854,20 @@ msgid "  --version             Version information\n"
 msgstr "  --version             Versijos informacija\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Autorinės teisės (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nTai "
-"nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS "
-"GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+"Autorių teisės (c) 2013-2016 Pacman kūrimo komanda <pacman-dev@archlinux."
+"org>.\n"
+"Tai yra laisva programinė įranga; norėdami sužinoti apie kopijavimo sąlygas, "
+"žiūrėkite pirminį kodą.\n"
+"Nėra JOKIOS GARANTIJOS, tiek, kiek tai leidžiama pagal įstatymus.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
+msgstr "Atnaujinti vietinę pacman duomenų bazę į naujesnį formatą"
 
 #: scripts/pacman-db-upgrade.sh.in:42
 msgid "options:"
@@ -857,7 +875,7 @@ msgstr "pasirinktys:"
 
 #: scripts/pacman-db-upgrade.sh.in:43
 msgid "  -b, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "  -b, --dbpath <kelias>  nustatyti alternatyvią duomenų bazės vietą"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
@@ -866,29 +884,30 @@ msgstr "  -h, --help           parodyti šį pagalbos pranešimą ir išeiti"
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -r, --root <path>    set an alternate installation root"
 msgstr ""
+"  -r, --root <kelias>    nustatyti alternatyvų įdiegimo šakninį katalogą"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -V, --version        show version information and exit"
-msgstr ""
+msgstr "  -V, --version        parodyti programos versiją ir išeiti"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
+msgstr "  --config <kelias>      nustatyti alternatyvų konfigūracijos failą"
 
 #: scripts/pacman-db-upgrade.sh.in:48
 msgid "  --nocolor            disable colorized output messages"
-msgstr ""
+msgstr "  --nocolor            išjungti spalvotus išvesties pranešimus"
 
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Autorinės teisės (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nTai "
-"nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS "
-"GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+"Autorių teisės (c) 2010-2016 Pacman kūrimo komanda <pacman-dev@archlinux."
+"org>.\\nTai yra laisva programinė įranga; norėdami sužinoti apie kopijavimo "
+"sąlygas, žiūrėkite pirminį kodą.\\nNėra JOKIOS GARANTIJOS, tiek, kiek tai "
+"leidžiama pagal įstatymus.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -917,11 +936,13 @@ msgstr "Atlikta."
 
 #: scripts/pacman-db-upgrade.sh.in:173
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr ""
+msgstr "Aptiktas pre-4.2 duomenų bazės formatas - atnaujinama..."
 
 #: scripts/pacman-db-upgrade.sh.in:195
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
+"simbolinė nuoroda \"%s\" nurodo už pacman root ribų, reikalingas taisymas "
+"rankiniu būdu"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1290,6 +1311,8 @@ msgid ""
 "pkgdelta will create a delta file between two packages.\\nThis delta file "
 "can then be added to a database using repo-add.\\n"
 msgstr ""
+"pkgdelta sukurs delta tarp dviejų paketų.\\nTada šį delta failą bus galima "
+"pridėti į duomenų bazę naudojant repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:57
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1402,6 +1425,8 @@ msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
+"  -R, --remove      atnaujinus duomenų bazę, šalinti seną paketo failą iš "
+"disko\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1460,15 +1485,15 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Pavyzdys:  repo-remove /kelias/iki/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Autorinės teisės (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nTai "
-"nemokama programa; peržiūrėk pradinį kodą platinimo sąlygom.\\nNėra JOKIOS "
-"GARANTIJOS, tiek kiek tai leidžiama pagal įstatymus.\\n"
+"Autorių teisės (c) 2006-2016 Pacman kūrimo komanda <pacman-dev@archlinux.org>"
+"\\n\\nTai yra laisva programinė įranga; norėdami sužinoti apie kopijavimo "
+"sąlygas, žiūrėkite pirminį kodą.\\nNėra JOKIOS GARANTIJOS, tiek, kiek tai "
+"leidžiama pagal įstatymus.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1484,7 +1509,7 @@ msgstr "Šalinamas egzistuojantis įrašas „%s“..."
 
 #: scripts/repo-add.sh.in:195
 msgid "Removing empty deltas file..."
-msgstr ""
+msgstr "Šalinamas tuščių deltų failas..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
@@ -1492,7 +1517,7 @@ msgstr "Negaliu rasti gpg programos! Ar GnuPG įdiegta?"
 
 #: scripts/repo-add.sh.in:261
 msgid "Signing database '%s'..."
-msgstr ""
+msgstr "Pasirašoma duomenų bazė \"%s\"..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
@@ -1500,7 +1525,7 @@ msgstr "Parašo failas „%s“ sukurtas"
 
 #: scripts/repo-add.sh.in:272
 msgid "Failed to sign package database file '%s'"
-msgstr ""
+msgstr "Nepavyko pasirašyti paketų duomenų bazės failo \"%s\""
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1520,7 +1545,7 @@ msgstr "Duomenų bazės parašas NETINKAMAS!"
 
 #: scripts/repo-add.sh.in:305
 msgid "'%s' does not have a valid database archive extension."
-msgstr ""
+msgstr "\"%s\" neturi teisingo duomenų bazės archyvo plėtinio."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1528,7 +1553,7 @@ msgstr "Įrašas apie „%s“ jau yra"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Nepavyksta naudoti šarvuotų parašų paketams: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1632,7 +1657,7 @@ msgstr "Paketai nepakeisti, nėra ką daryti."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issue..."
-msgstr ""
+msgstr "Tikrinama pakavimo problema..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1660,11 +1685,11 @@ msgstr "%s įrašas negali prasidėt paverstu brūkšniu : %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/epoch.sh.in:34
 msgid "%s must be an integer, not %s."
-msgstr ""
+msgstr "%s privalo būti sveikasis skaičius, o ne %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/optdepends.sh.in:58
 msgid "Invalid syntax for %s: '%s'"
-msgstr ""
+msgstr "Neteisinga %s sintaksė: \"%s\""
 
 #: scripts/libmakepkg/lint_pkgbuild/options.sh.in:52
 msgid "%s array contains unknown option '%s'"
@@ -1672,7 +1697,7 @@ msgstr "%s masyvas turi nežinomą pasirinktį „%s“"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:38
 msgid "Missing %s function in %s"
-msgstr ""
+msgstr "Trūksta %s funkcijos ties %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:44
 msgid "Missing %s function for split package '%s'"
@@ -1700,7 +1725,7 @@ msgstr "%s negali būti tuščias."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgrel.sh.in:39
 msgid "%s must be a decimal, not %s."
-msgstr ""
+msgstr "%s privalo būti dešimtainis, o ne %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:39
 msgid "%s is not allowed to contain colons, hyphens or whitespace."
@@ -1712,26 +1737,26 @@ msgstr "%s masyvas negali turėt lyginimo operatorių (< arba >)."
 
 #: scripts/libmakepkg/lint_pkgbuild/source.sh.in:36
 msgid "Sparse arrays are not allowed for source"
-msgstr ""
+msgstr "Reti masyvai šaltiniui neleidžiami"
 
 #: scripts/libmakepkg/lint_pkgbuild/util.sh.in:34
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr ""
+msgstr "%s failo (%s) nėra arba jis nėra normalus failas."
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s turėtų būti masyvas"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s turėtų būti masyvas"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
 msgid "%s should not be an array"
-msgstr ""
+msgstr "%s neturėtų būti masyvas"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1743,7 +1768,7 @@ msgstr "Išarchyvuojami pradiniai kodai..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
 msgid "Branching %s..."
-msgstr ""
+msgstr "Iššakojama %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
@@ -1751,7 +1776,7 @@ msgstr "Klaida kurian šaką %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
 msgid "Pulling %s..."
-msgstr ""
+msgstr "Traukiama %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1772,7 +1797,7 @@ msgstr "Kuriama %s %s saugyklos darbinė kopija..."
 #: scripts/libmakepkg/source/bzr.sh.in:95
 #: scripts/libmakepkg/source/git.sh.in:89 scripts/libmakepkg/source/hg.sh.in:93
 msgid "Failure while updating working copy of %s %s repo"
-msgstr ""
+msgstr "Nesėkmė, atnaujinant darbinę %s %s saugyklos kopiją"
 
 #: scripts/libmakepkg/source/bzr.sh.in:100
 #: scripts/libmakepkg/source/git.sh.in:95

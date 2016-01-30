@@ -7,6 +7,7 @@
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
+# Daniel, 2016
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
 msgid ""
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2016-01-17 13:21+1000\n"
-"PO-Revision-Date: 2015-12-09 06:04+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2016-01-22 21:15+0000\n"
+"Last-Translator: Daniel\n"
 "Language-Team: Galician (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/gl/)\n"
 "Language: gl\n"
@@ -55,9 +56,9 @@ msgid "looking for conflicting packages...\n"
 msgstr "Buscando conflitos entre paquetes…\n"
 
 #: src/pacman/callback.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "Processing package changes...\n"
-msgstr "Cargando os ficheiros do paquete…\n"
+msgstr ""
 
 #: src/pacman/callback.c:218
 #, c-format
@@ -361,8 +362,10 @@ msgstr[1] "%jd ficheiros alterados.\n"
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
-msgstr[0] ""
+msgstr[0] "erro en malloc: non se puido reservar %zu byte\n"
 msgstr[1] ""
+"erro en malloc: non se puido reservar %zu bytes\n"
+"\n"
 
 #: src/pacman/conf.c:251
 #, c-format
@@ -538,37 +541,37 @@ msgstr "%s: definiuse como motivo da instalación «instalado explicitamente».\
 #: src/pacman/package.c:97
 #, c-format
 msgid "Architecture"
-msgstr ""
+msgstr "Arquitectura"
 
 #: src/pacman/package.c:98
 #, c-format
 msgid "Backup Files"
-msgstr ""
+msgstr "Ficheiros da copia de seguranza"
 
 #: src/pacman/package.c:99
 #, c-format
 msgid "Build Date"
-msgstr ""
+msgstr "Data de compilación"
 
 #: src/pacman/package.c:100
 #, c-format
 msgid "Compressed Size"
-msgstr ""
+msgstr "Tamaño comprimido"
 
 #: src/pacman/package.c:101
 #, c-format
 msgid "Conflicts With"
-msgstr ""
+msgstr "En conflito con"
 
 #: src/pacman/package.c:102
 #, c-format
 msgid "Depends On"
-msgstr ""
+msgstr "Require"
 
 #: src/pacman/package.c:103
 #, c-format
 msgid "Description"
-msgstr ""
+msgstr "Descrición"
 
 #: src/pacman/package.c:104 src/pacman/util.c:821
 #, c-format
@@ -578,32 +581,32 @@ msgstr "Tamaño de descarga"
 #: src/pacman/package.c:105
 #, c-format
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
 #: src/pacman/package.c:106
 #, c-format
 msgid "Install Date"
-msgstr ""
+msgstr "Data de instalación"
 
 #: src/pacman/package.c:107
 #, c-format
 msgid "Install Reason"
-msgstr ""
+msgstr "Movito da instalación"
 
 #: src/pacman/package.c:108
 #, c-format
 msgid "Install Script"
-msgstr ""
+msgstr "Script de instalación"
 
 #: src/pacman/package.c:109
 #, c-format
 msgid "Installed Size"
-msgstr ""
+msgstr "Tamaño instalado"
 
 #: src/pacman/package.c:110
 #, c-format
 msgid "Licenses"
-msgstr ""
+msgstr "Licenzas"
 
 #: src/pacman/package.c:111 src/pacman/package.c:232
 #, c-format
@@ -618,37 +621,37 @@ msgstr "Nome"
 #: src/pacman/package.c:113
 #, c-format
 msgid "Optional Deps"
-msgstr ""
+msgstr "Dependencias opcionais"
 
 #: src/pacman/package.c:114
 #, c-format
 msgid "Optional For"
-msgstr ""
+msgstr "Opcional para"
 
 #: src/pacman/package.c:115
 #, c-format
 msgid "Packager"
-msgstr ""
+msgstr "Empaquetador"
 
 #: src/pacman/package.c:116
 #, c-format
 msgid "Provides"
-msgstr ""
+msgstr "Fornece"
 
 #: src/pacman/package.c:117
 #, c-format
 msgid "Replaces"
-msgstr ""
+msgstr "Substitúe"
 
 #: src/pacman/package.c:118
 #, c-format
 msgid "Repository"
-msgstr ""
+msgstr "Repositorio"
 
 #: src/pacman/package.c:119
 #, c-format
 msgid "Required By"
-msgstr ""
+msgstr "Requíreno"
 
 #: src/pacman/package.c:120 src/pacman/package.c:235
 #, c-format
@@ -1541,7 +1544,7 @@ msgstr "%s existe tanto en «%s» como en «%s».\n"
 #: src/pacman/sync.c:823
 #, c-format
 msgid "%s: %s exists in filesystem\n"
-msgstr "%s: %s existe non sistema de ficheiros.\n"
+msgstr "%s: %s existe no sistema de ficheiros.\n"
 
 #: src/pacman/sync.c:836
 #, c-format

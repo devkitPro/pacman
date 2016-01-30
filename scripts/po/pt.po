@@ -7,7 +7,7 @@
 # DarkVenger <thedarkvenger@gmail.com>, 2014
 # ArchGalileu <geral@gasparsantos.eu>, 2011
 # R00KIE <registosites@hotmail.com>, 2013
-# R00KIE <registosites@hotmail.com>, 2013
+# R00KIE <registosites@hotmail.com>, 2013,2016
 # R00KIE <registosites@hotmail.com>, 2011-2012
 # DarkVenger <thedarkvenger@gmail.com>, 2014-2015
 # DarkVenger <thedarkvenger@gmail.com>, 2011-2012
@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-01-17 13:21+1000\n"
-"PO-Revision-Date: 2015-12-09 06:06+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2016-01-30 10:08+1000\n"
+"PO-Revision-Date: 2016-01-17 15:03+0000\n"
+"Last-Translator: R00KIE <registosites@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/pt/)\n"
 "Language: pt\n"
@@ -133,7 +133,7 @@ msgstr "FALHOU"
 
 #: scripts/makepkg.sh.in:478
 msgid "Validating %s files with %s..."
-msgstr ""
+msgstr "A validar %s ficheiros com %s..."
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -145,7 +145,7 @@ msgstr "Testes de integridade (%s) diferem no tamanho da ordem das fontes."
 
 #: scripts/makepkg.sh.in:531
 msgid "Integrity checks are missing for: %s"
-msgstr ""
+msgstr "Testes de integridade em falta para: %s"
 
 #: scripts/makepkg.sh.in:598
 msgid "Verifying source file signatures with %s..."
@@ -383,6 +383,8 @@ msgstr ""
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
+"Incapaz de encontrar o comando %s necessário para validar os códigos de "
+"verificação dos ficheiros-fonte."
 
 #: scripts/makepkg.sh.in:1555
 msgid "Cannot find the %s binary required for compressing binaries."
@@ -391,6 +393,7 @@ msgstr "Incapaz de encontrar o comando %s necessário para compactar binários."
 #: scripts/makepkg.sh.in:1563
 msgid "Cannot find the %s binary required for optimizing PNG images."
 msgstr ""
+"Incapaz de encontrar o comando %s necessário para optimizar as imagens PNG."
 
 #: scripts/makepkg.sh.in:1571
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -582,11 +585,11 @@ msgstr "  --nosign         Não criar uma assinatura para o pacote"
 #: scripts/makepkg.sh.in:1728
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
-msgstr ""
+msgstr "--packagelist Listar apenas pacotes que iriam ser produzidos, sem "
 
 #: scripts/makepkg.sh.in:1729
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "--printsrcinfo Mostrar o SRCINFO gerado e sair"
 
 #: scripts/makepkg.sh.in:1730
 msgid "  --sign           Sign the resulting package with %s"
@@ -647,16 +650,16 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Se %s não se encontra especificado, %s irá procurar por '%s'"
 
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nEste é um "
-"software livre; veja o código fonte para condições de cópia.\\nNÃO HÁ "
-"GARANTIA, na extensão permitida pela lei.\\n"
+"Copyright (c) 2006-2016 Equipa de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux."
+"org>.\\n\\nEste é um software livre; veja o código fonte para condições de "
+"cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
 #: scripts/makepkg.sh.in:1851 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -750,23 +753,23 @@ msgstr "A verificar as dependências para construir a aplicação..."
 msgid "Could not resolve all dependencies."
 msgstr "Não foi possível resolver todas as dependências."
 
-#: scripts/makepkg.sh.in:2196
+#: scripts/makepkg.sh.in:2197
 msgid "Using existing %s tree"
 msgstr "A utilizar a árvore existente %s"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
+#: scripts/makepkg.sh.in:2204 scripts/makepkg.sh.in:2227
 msgid "Removing existing %s directory..."
 msgstr "Removendo o diretório existente %s..."
 
-#: scripts/makepkg.sh.in:2220
+#: scripts/makepkg.sh.in:2222
 msgid "Sources are ready."
 msgstr "As fontes estão prontos."
 
-#: scripts/makepkg.sh.in:2246
+#: scripts/makepkg.sh.in:2248
 msgid "Package directory is ready."
 msgstr "O diretório do pacote está pronto."
 
-#: scripts/makepkg.sh.in:2250
+#: scripts/makepkg.sh.in:2252
 msgid "Finished making: %s"
 msgstr "Compilação concluída: %s"
 
@@ -791,17 +794,17 @@ msgstr "Caracteres inválidos no nome '%s'. permitidos: [:alnum:]+_.@-\n"
 #: scripts/makepkg-template.pl.in:114
 #, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr ""
+msgstr "Incapaz de detectar a versão do modelo '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "Incapaz de encontrar o ficheiro do modelo correspondente a '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
 #, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr ""
+msgstr "Falha ao abrir '%s': %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -865,15 +868,15 @@ msgstr ""
 "\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nEste é um "
-"software livre; veja o código fonte para condições de cópia.\\nNÃO HÁ "
-"GARANTIA, na extensão permitida pela lei.\\n"
+"Copyright (c) 2013-2016 Equipa de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>.\n"
+"Este é um software livre; veja o código fonte para condições de cópia.\n"
+"NÃO HÁ GARANTIA, na extensão permitida pela lei.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
@@ -909,15 +912,14 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "  --nocolor            desativa cores nas mensagem de resultados"
 
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nEste é um "
-"software livre; veja o código fonte para condições de cópia.\\nNÃO HÁ "
-"GARANTIA, na extensão permitida pela lei.\\n"
+"Copyright (c) 2010-2016 Equipa de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>.\\nEste é um software livre; veja o código fonte para "
+"condições de cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -1456,6 +1458,8 @@ msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
+"-R, --remove remove o ficheiro do pacote do disco após atualizar a base de "
+"dados\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1517,15 +1521,14 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exemplo:  repo-remove /caminho/para/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nEste é um "
-"software livre; veja o código fonte para condições de cópia.\\nNÃO HÁ "
-"GARANTIA, na extensão permitida pela lei.\\n"
+"Copyright (c) 2006-2016 Equipa de Desenvolvimento do Pacman <pacman-"
+"dev@archlinux.org>.\\n\\nEste é um software livre; veja o código fonte para "
+"condições de cópia.\\nNÃO HÁ GARANTIA, na extensão permitida pela lei.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1541,7 +1544,7 @@ msgstr "A remover entrada existente '%s'..."
 
 #: scripts/repo-add.sh.in:195
 msgid "Removing empty deltas file..."
-msgstr ""
+msgstr "A remover ficheiro de deltas vazio..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
@@ -1549,7 +1552,7 @@ msgstr "Incapaz de encontrar o comando gpg! O GnuPG está instalado?"
 
 #: scripts/repo-add.sh.in:261
 msgid "Signing database '%s'..."
-msgstr ""
+msgstr "A assinar a base de dados '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
@@ -1557,7 +1560,7 @@ msgstr "Criado ficheiro de assinatura '%s'"
 
 #: scripts/repo-add.sh.in:272
 msgid "Failed to sign package database file '%s'"
-msgstr ""
+msgstr "Falha ao assinar o ficheiro da base de dados do pacote '%s'"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
@@ -1578,6 +1581,7 @@ msgstr "A base de dados as assinaturas NÃO era válida!"
 #: scripts/repo-add.sh.in:305
 msgid "'%s' does not have a valid database archive extension."
 msgstr ""
+"'%s' não possui uma extensão válida de arquivo de base de dados de pacotes."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1585,7 +1589,7 @@ msgstr "Uma entrada para '%s' já existe"
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Incapaz de utilizar assinaturas blindadas para os pacotes: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1609,7 +1613,7 @@ msgstr "Ficheiro de pacotes antigo não encontrado: %s"
 
 #: scripts/repo-add.sh.in:461
 msgid "Removing old package file '%s'"
-msgstr ""
+msgstr "A remover ficheiro de pacote antigo: '%s'"
 
 #: scripts/repo-add.sh.in:522
 msgid "Failed to acquire lockfile: %s."
@@ -1690,7 +1694,7 @@ msgstr "Nenhum pacote modificado, nada a fazer."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issue..."
-msgstr ""
+msgstr "A verificar por problema de empacotamento..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:33
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
@@ -1781,17 +1785,17 @@ msgstr "o ficheiro de %s (%s) não existe ou não é um ficheiro regular."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s deve ser um array"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s deve ser um array"
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
 msgid "%s should not be an array"
-msgstr ""
+msgstr "%s não deve ser um array"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1803,7 +1807,7 @@ msgstr "A extrair as fontes..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
 msgid "Branching %s..."
-msgstr ""
+msgstr "A ramificar %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
@@ -1811,7 +1815,7 @@ msgstr "Falha ao ramificar %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
 msgid "Pulling %s..."
-msgstr ""
+msgstr "A puxar %s..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1908,11 +1912,11 @@ msgstr "A remover %s ficheiros..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:35
 msgid "Optimizing PNG images..."
-msgstr ""
+msgstr "A optimizar as imagens PNG..."
 
 #: scripts/libmakepkg/tidy/optipng.sh.in:40
 msgid "Could not optimize PNG image : %s"
-msgstr ""
+msgstr "Não foi possivel optimizar a imagem PNG : %s"
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."

@@ -12,17 +12,17 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013
 # Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2015
-# Pedro Román <roizheim@gmail.com>, 2013-2015
-# picodotdev <pico.dev@gmail.com>, 2015
+# Pedro Román <roizheim@gmail.com>, 2013-2016
+# picodotdev <pico.dev@gmail.com>, 2015-2016
 # Pedro Román <roizheim@gmail.com>, 2013
 # Swyter <Swyterzone@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-01-17 13:21+1000\n"
-"PO-Revision-Date: 2015-12-09 12:42+0000\n"
-"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
+"POT-Creation-Date: 2016-01-30 10:08+1000\n"
+"PO-Revision-Date: 2016-01-18 16:40+0000\n"
+"Last-Translator: Pedro Román <roizheim@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -41,7 +41,7 @@ msgstr "Entrando en entorno %s…"
 
 #: scripts/makepkg.sh.in:178
 msgid "pkgver() generated an invalid version: %s"
-msgstr "pkgver() genera una versión no válida: %s"
+msgstr "pkgver() ha generado una versión no válida: %s"
 
 #: scripts/makepkg.sh.in:185
 msgid "Failed to update %s from %s to %s"
@@ -138,7 +138,7 @@ msgstr "HA FALLADO"
 
 #: scripts/makepkg.sh.in:478
 msgid "Validating %s files with %s..."
-msgstr "Validando %s fuentes con %s…"
+msgstr "Validando los archivos %s con %s…"
 
 #: scripts/makepkg.sh.in:485
 msgid "One or more files did not pass the validity check!"
@@ -176,7 +176,7 @@ msgstr "La clave pública %s ha sido revocada."
 
 #: scripts/makepkg.sh.in:669
 msgid "bad signature from public key"
-msgstr "Firma no válida en la clave pública"
+msgstr "Firma viciada en relación con la clave pública"
 
 #: scripts/makepkg.sh.in:672
 msgid "error during signature verification"
@@ -209,9 +209,7 @@ msgstr "¡Una o más firmas PGP no pudieron ser verificadas!"
 
 #: scripts/makepkg.sh.in:708
 msgid "Warnings have occurred while verifying the signatures."
-msgstr ""
-"Se han producido avisos de problemas durante las verificaciones de las "
-"firmas."
+msgstr "Se han advertido errores al verificar las firmas."
 
 #: scripts/makepkg.sh.in:709
 msgid "Please make sure you really trust them."
@@ -469,8 +467,7 @@ msgstr "  -c, --clean      Limpia los archivos tras la compilación"
 
 #: scripts/makepkg.sh.in:1703
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
-"  -C, --cleanbuild Elimina el directorio %s antes de compilar el paquete"
+msgstr "  -C, --cleanbuild Quita el directorio %s antes de compilar el paquete"
 
 #: scripts/makepkg.sh.in:1704
 msgid "  -d, --nodeps     Skip all dependency checks"
@@ -518,7 +515,7 @@ msgstr ""
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps     Elimina las dependencias instaladas tras una compilación "
+"  -r, --rmdeps Quita las dependencias instaladas tras una compilación "
 "exitosa."
 
 #: scripts/makepkg.sh.in:1715
@@ -653,14 +650,13 @@ msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Si no se especifica %s, %s intentará utilizar «%s»"
 
 #: scripts/makepkg.sh.in:1749 scripts/pacman-optimize.sh.in:53
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2006-2015 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2006-2016 Equipo de desarrollo de pacman <pacman-"
 "dev@archlinux.org>\\nDerechos de autor (c) 2002-2006 Judit Vinet "
 "<jvinet@zeroflux.org>\\n\\nEsto es software libre; véase el código fuente "
 "para condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el "
@@ -724,7 +720,7 @@ msgstr "La clave %s no existe en el depósito."
 
 #: scripts/makepkg.sh.in:2080 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
-msgstr "No hay ninguna clave en el dpósito."
+msgstr "No hay ninguna clave en el depósito."
 
 #: scripts/makepkg.sh.in:2104 scripts/makepkg.sh.in:2123
 msgid "Leaving %s environment."
@@ -758,23 +754,23 @@ msgstr "Comprobando dependencias mientras se compila…"
 msgid "Could not resolve all dependencies."
 msgstr "No se pudieron resolver todas las dependencias."
 
-#: scripts/makepkg.sh.in:2196
+#: scripts/makepkg.sh.in:2197
 msgid "Using existing %s tree"
 msgstr "Usando el árbol existente %s"
 
-#: scripts/makepkg.sh.in:2203 scripts/makepkg.sh.in:2225
+#: scripts/makepkg.sh.in:2204 scripts/makepkg.sh.in:2227
 msgid "Removing existing %s directory..."
 msgstr "Eliminando el directorio %s…"
 
-#: scripts/makepkg.sh.in:2220
+#: scripts/makepkg.sh.in:2222
 msgid "Sources are ready."
 msgstr "Las fuentes están listas."
 
-#: scripts/makepkg.sh.in:2246
+#: scripts/makepkg.sh.in:2248
 msgid "Package directory is ready."
 msgstr "El directorio del paquete está ya listo."
 
-#: scripts/makepkg.sh.in:2250
+#: scripts/makepkg.sh.in:2252
 msgid "Finished making: %s"
 msgstr "Compilación terminada: %s"
 
@@ -785,12 +781,12 @@ msgstr "no se pudo crear «%s»: %s"
 
 #: scripts/makepkg-template.pl.in:73
 msgid "invalid key/value pair\n"
-msgstr "par clave/valor inválido\n"
+msgstr "emparejamiento clave/valor no válido\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
 msgstr ""
-"la línea plantilla no es válida: no se pudo encontrar el nombre de la "
+"la línea «template» no es válida: no se pudo encontrar el nombre de la "
 "plantilla\n"
 
 #: scripts/makepkg-template.pl.in:87
@@ -808,7 +804,7 @@ msgstr "No se pudo detectar la versión de la plantilla «%s»\n"
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr "no se pudo encontrar archivos de plantilla que coincidan con «%s»\n"
+msgstr "no se pudo encontrar el archivo de plantilla que coincidan con «%s»\n"
 
 #: scripts/makepkg-template.pl.in:136
 #, perl-format
@@ -872,13 +868,12 @@ msgid "  --version             Version information\n"
 msgstr "  --version             Información de la versión\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Derechos de autor (c) 2013-2015 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2013-2016 Equipo de desarrollo de pacman <pacman-"
 "dev@archlinux.org>.\n"
 "Esto es software libre; véase el código fuente para condiciones de copia.\n"
 "No se ofrece NINGUNA GARANTÍA sobre el programa, hasta lo permitido por las "
@@ -920,13 +915,12 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "  --nocolor            desactiva los mensajes de salida coloreados"
 
 #: scripts/pacman-db-upgrade.sh.in:54 scripts/pacman-key.sh.in:94
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2010-2015 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2010-2016 Equipo de desarrollo de pacman <pacman-"
 "dev@archlinux.org>.\\nEsto es software libre; véase el código fuente para "
 "condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el programa, "
 "hasta lo permitido por las leyes aplicables.\\n"
@@ -974,7 +968,7 @@ msgstr "Uso: %s [opciones] operación [objetivos]"
 
 #: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
-msgstr "Administre la lista de claves de confianza de pacman"
+msgstr "Administrar la lista de claves de confianza de pacman"
 
 #: scripts/pacman-key.sh.in:62
 msgid "Operations:"
@@ -984,13 +978,11 @@ msgstr "Operaciones:"
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr ""
 "  -a, --add                  Añade las claves especificadas (vacío para la "
-"entrada)"
+"entrada estándar)"
 
 #: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr ""
-"  -d, --delete               Elimina los identificadores de claves (keyids) "
-"especificados"
+msgstr "  -d, --delete Quita los identificadores de claves especificados"
 
 #: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
@@ -1013,8 +1005,8 @@ msgstr ""
 #: scripts/pacman-key.sh.in:68
 msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr ""
-"  -r, --recv-keys            Obtiene los identificadores de claves "
-"especificados"
+"  -r, --recv-keys            Recupera los identificadores de las claves "
+"especificadas"
 
 #: scripts/pacman-key.sh.in:69
 msgid "  -u, --updatedb            Update the trustdb of pacman"
@@ -1047,7 +1039,7 @@ msgid ""
 "dir(s)"
 msgstr ""
 "  --import-trustdb           Importa los valores de los propietarios de "
-"confianza desde trustdb.gpg en el directorio(s)"
+"confianza desde trustdb.gpg al directorio(s)"
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
@@ -1331,7 +1323,7 @@ msgstr "Hubo fallos al desempaquetar %s."
 
 #: scripts/pacman-optimize.sh.in:149
 msgid "Syncing database to disk..."
-msgstr "Sincronizando la base de datos al disco…"
+msgstr "Sincronizando la base de datos del disco…"
 
 #: scripts/pacman-optimize.sh.in:155
 msgid "Checking integrity..."
@@ -1340,11 +1332,11 @@ msgstr "Comprobando la integridad…"
 #: scripts/pacman-optimize.sh.in:162
 msgid "Integrity check FAILED, reverting to old database."
 msgstr ""
-"HA FALLADO el control de integridad, volviéndose a la base de datos antigua."
+"HA FALLADO el control de integridad, restaurando la base de datos antigua."
 
 #: scripts/pacman-optimize.sh.in:166
 msgid "Rotating database into place..."
-msgstr "Rotando la base de datos en su ubicación…"
+msgstr "Rotando la base de datos de lugar…"
 
 #: scripts/pacman-optimize.sh.in:175
 msgid "New database substitution failed. Check for %s, %s, and %s directories."
@@ -1354,7 +1346,7 @@ msgstr ""
 
 #: scripts/pacman-optimize.sh.in:184
 msgid "Finished. Your pacman database has been optimized."
-msgstr "Finalizado. Su base de datos de pacman ha sido optimizada."
+msgstr "Finalizado. La base de datos de pacman ha sido optimizada."
 
 #: scripts/pkgdelta.sh.in:51
 msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
@@ -1385,7 +1377,7 @@ msgstr ""
 
 #: scripts/pkgdelta.sh.in:61
 msgid "  --nocolor         remove color from output\\n"
-msgstr "      --nocolor     quita el color de la salida\\n"
+msgstr "--nocolor quita el color de los mensajes de salida\\n"
 
 #: scripts/pkgdelta.sh.in:62
 msgid "  --min-pkg-size    minimum package size before deltas are generated\\n"
@@ -1486,8 +1478,8 @@ msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"  -R, --remove      elimina el paquete obsoleto del disco tras actualizar la "
-"base de datos\\n"
+"-R, --remove quita el paquete obsoleto del disco tras actualizar la base de "
+"datos\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1501,8 +1493,8 @@ msgid ""
 "\\nspecified on the command line from the given repo database. Multiple"
 "\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove actualiza una base de datos de paquetes al eliminar el nombre "
-"del paquete\\nespecificado en la linea de órdenes de la base de datos del "
+"repo-remove actualiza una base de datos de paquetes al quitar el nombre del "
+"paquete\\nespecificado en la linea de órdenes de la base de datos del "
 "repositorio en cuestión. Es posible\\nquitar varios paquetes especificándolo "
 "en la línea de órdenes.\\n"
 
@@ -1549,13 +1541,12 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Ejemplo:  repo-remove /ruta/hasta/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2006-2015 Equipo desarrollador de pacman <pacman-"
+"Derechos de autor (c) 2006-2016 Equipo de desarrollo de pacman <pacman-"
 "dev@archlinux.org>\\n\\nEsto es software libre; véase el código fuente para "
 "condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el programa, "
 "hasta lo permitido por las leyes aplicables.\\n"
@@ -1618,7 +1609,7 @@ msgstr "Ya existía una entrada para «%s» "
 
 #: scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr "No se pueden usar firmas con armadura para los paquetes: %s"
+msgstr "No se pueden usar firmas blindadas para los paquetes: %s"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
@@ -1699,7 +1690,7 @@ msgstr "Buscando el paquete «%s»…"
 
 #: scripts/repo-add.sh.in:612
 msgid "Package matching '%s' not found."
-msgstr "No fueron encontrados paquetes que coincidan con «%s»."
+msgstr "No se encontraron paquetes que coincidan con «%s»."
 
 #: scripts/repo-add.sh.in:676
 msgid "No packages remain, creating empty database."
@@ -1782,7 +1773,7 @@ msgstr "%s no puede comenzar con un punto."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkglist.sh.in:38
 msgid "Requested package %s is not provided in %s"
-msgstr "El paquete %s solicitado no se proporciona en %s"
+msgstr "El paquete %s solicitado no se proporciona por %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:37
 #: scripts/libmakepkg/lint_pkgbuild/pkgrel.sh.in:34

@@ -12,15 +12,16 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
 # Pablo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>, 2013-2015
-# Pedro Román <roizheim@gmail.com>, 2013-2014
+# Pedro Román <roizheim@gmail.com>, 2013-2014,2016
+# picodotdev <pico.dev@gmail.com>, 2016
 # Swyter <Swyterzone@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2016-01-17 13:21+1000\n"
-"PO-Revision-Date: 2015-12-09 11:06+0000\n"
-"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
+"PO-Revision-Date: 2016-01-19 21:49+0000\n"
+"Last-Translator: Pedro Román <roizheim@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -32,12 +33,12 @@ msgstr ""
 #: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s está actualizado -- omitiendo\n"
+msgstr "%s-%s está actualizado -- omitiéndolo\n"
 
 #: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s está actualizado -- reinstalando\n"
+msgstr "%s-%s está actualizado -- reinstalándolo\n"
 
 #: lib/libalpm/add.c:95
 #, c-format
@@ -47,7 +48,7 @@ msgstr "revertiendo a una versión anterior del paquete %s (%s => %s)\n"
 #: lib/libalpm/add.c:124 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
-msgstr "alerta producida mientras se extraía %s (%s)\n"
+msgstr "se han advertido errores mientras se extraía %s (%s)\n"
 
 #: lib/libalpm/add.c:127 lib/libalpm/util.c:382
 #, c-format
@@ -63,7 +64,7 @@ msgstr "no se pudo renombrar %s a %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
-"el archivo no figura en la lista de archivos del paquete %s. omitiendo "
+"el archivo no figura en la lista de archivos del paquete %s. Omitiendo la "
 "extracción de %s\n"
 
 #: lib/libalpm/add.c:200
@@ -138,7 +139,7 @@ msgstr "no se pudo agregar la entrada «%s» a la caché\n"
 #: lib/libalpm/be_local.c:255
 #, c-format
 msgid "error while reading file %s: %s\n"
-msgstr "error durante la lectura del archivo %s: %s\n"
+msgstr "error al leer el archivo %s: %s\n"
 
 #: lib/libalpm/be_local.c:350
 #, c-format
@@ -196,7 +197,7 @@ msgstr "tipo de validación desconocida para el paquete %s: %s\n"
 #: lib/libalpm/be_package.c:647
 #, c-format
 msgid "error while reading package %s: %s\n"
-msgstr "error mientras se leía el paquete %s: %s\n"
+msgstr "error al leer el paquete %s: %s\n"
 
 #: lib/libalpm/be_package.c:490 lib/libalpm/be_package.c:514
 #, c-format
@@ -282,7 +283,7 @@ msgstr "bucle de dependencias detectado:\n"
 #: lib/libalpm/deps.c:232
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s será eliminado después de su dependencia %s\n"
+msgstr "%s será quitado después de su dependencia %s\n"
 
 #: lib/libalpm/deps.c:236
 #, c-format
@@ -302,9 +303,7 @@ msgstr "no se pudo resolver «%s», una dependencia de «%s»\n"
 #: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr ""
-"no se pudo obtener información del sistema de archivos para %s: %s\n"
-"\n"
+msgstr "no se pudo obtener información del sistema de archivos para %s: %s\n"
 
 #: lib/libalpm/diskspace.c:108
 #, c-format
@@ -353,7 +352,7 @@ msgstr "no se pudo determinar el punto de montaje de la raíz %s\n"
 #: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr "La partición %s está montada como solamente lectura\n"
+msgstr "La partición %s está montada solamente en modo lectura\n"
 
 #: lib/libalpm/dload.c:149
 #, c-format
@@ -676,7 +675,7 @@ msgstr "falta el archivo de bloqueo %s\n"
 #: lib/libalpm/handle.c:161
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "no se pudo eliminar el archivo de bloqueo %s\n"
+msgstr "no se pudo quitar el archivo de bloqueo %s\n"
 
 #: lib/libalpm/package.c:568
 #, c-format
@@ -707,7 +706,7 @@ msgstr "no se pudo abrir el directorio: %s: %s\n"
 #: lib/libalpm/remove.c:540
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr "no se pudo eliminar %s (%s)\n"
+msgstr "no se pudo quitar %s (%s)\n"
 
 #: lib/libalpm/remove.c:713
 #, c-format
@@ -799,12 +798,12 @@ msgstr "no se pudo copiar el archivo temporal a %s (%s)\n"
 #: lib/libalpm/trans.c:404
 #, c-format
 msgid "could not remove %s\n"
-msgstr "no se pudo eliminar %s\n"
+msgstr "no se pudo quitar %s\n"
 
 #: lib/libalpm/trans.c:408
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr "no se pudo eliminar el directorio temporal %s\n"
+msgstr "no se pudo quitar el directorio temporal %s\n"
 
 #: lib/libalpm/util.c:256
 #, c-format
