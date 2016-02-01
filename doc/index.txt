@@ -31,6 +31,9 @@ alternative front ends.
 Version 4.0 added package signing and verification capabilities to the entire
 makepkg/repo-add/pacman toolchain via GnuPG and GPGME.
 
+Version 5.0 added support for pre/post-transaction hooks and sync database file
+list operations.
+
 Documentation
 -------------
 
@@ -39,6 +42,7 @@ Man Pages
 There are several man pages available for the programs, utilities, and
 configuration files dealing with pacman.
 
+* linkman:alpm-hooks[5]
 * linkman:PKGBUILD[5]
 * linkman:libalpm[3]
 * linkman:makepkg[8]
@@ -71,6 +75,7 @@ Releases
 [frame="topbot",grid="none",options="header,autowidth"]
 !======
 !Version !Date
+!5.0.0  !2016-01-30
 !4.2.1  !2015-02-20
 !4.2.0  !2014-12-19
 !4.1.2  !2013-06-18
@@ -100,14 +105,14 @@ Releases
 !3.2.1 !2008-08-26
 !3.2.0 !2008-07-30
 !3.1.4 !2008-04-01
-!3.1.3 !2008-03-06
-!3.1.2 !2008-02-20
-!3.1.1 !2008-01-20
 !======
 |
 [frame="topbot",grid="none",options="header,autowidth"]
 !======
 !Version !Date
+!3.1.3 !2008-03-06
+!3.1.2 !2008-02-20
+!3.1.1 !2008-01-20
 !3.1.0 !2008-01-09
 !3.0.6 !2007-09-16
 !3.0.5 !2007-06-17
@@ -135,12 +140,12 @@ Releases
 !2.8 !2004-07-03
 !2.7.9 !2004-04-30
 !2.7.8 !2004-04-29
-!2.7.7 !2004-04-15
 !======
 |
 [frame="topbot",grid="none",options="header,autowidth"]
 !======
 !Version !Date
+!2.7.7 !2004-04-15
 !2.7.6 !2004-04-04
 !2.7.5 !2004-03-02
 !2.7.4 !2004-02-18
