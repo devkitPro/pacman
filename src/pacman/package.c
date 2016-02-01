@@ -89,10 +89,12 @@ static char titles[_T_MAX][TITLE_MAXLEN * sizeof(wchar_t)];
 static void make_aligned_titles(void)
 {
 	unsigned int i;
-	size_t max = 0;
+	size_t maxlen = 0;
+	int maxcol = 0;
 	static const wchar_t title_suffix[] = L" :";
 	wchar_t wbuf[ARRAYSIZE(titles)][TITLE_MAXLEN + ARRAYSIZE(title_suffix)];
 	size_t wlen[ARRAYSIZE(wbuf)];
+	int wcol[ARRAYSIZE(wbuf)];
 	char *buf[ARRAYSIZE(wbuf)];
 	buf[T_ARCHITECTURE] = _("Architecture");
 	buf[T_BACKUP_FILES] = _("Backup Files");
@@ -125,14 +127,19 @@ static void make_aligned_titles(void)
 
 	for(i = 0; i < ARRAYSIZE(wbuf); i++) {
 		wlen[i] = mbstowcs(wbuf[i], buf[i], strlen(buf[i]) + 1);
-		if(wlen[i] > max) {
-			max = wlen[i];
+		wcol[i] = wcswidth(wbuf[i], wlen[i]);
+		if(wcol[i] > maxcol) {
+			maxcol = wcol[i];
+		}
+		if(wlen[i] > maxlen) {
+			maxlen = wlen[i];
 		}
 	}
 
 	for(i = 0; i < ARRAYSIZE(wbuf); i++) {
-		wmemset(wbuf[i] + wlen[i], L' ', max - wlen[i]);
-		wmemcpy(wbuf[i] + max, title_suffix, ARRAYSIZE(title_suffix));
+		size_t padlen = maxcol - wcol[i];
+		wmemset(wbuf[i] + wlen[i], L' ', padlen);
+		wmemcpy(wbuf[i] + wlen[i] + padlen, title_suffix, ARRAYSIZE(title_suffix));
 		wcstombs(titles[i], wbuf[i], sizeof(wbuf[i]));
 	}
 }
