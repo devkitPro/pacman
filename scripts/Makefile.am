@@ -85,11 +85,9 @@ LIBMAKEPKG_IN = \
 	libmakepkg/tidy/docs.sh \
 	libmakepkg/tidy/emptydirs.sh \
 	libmakepkg/tidy/libtool.sh \
-	libmakepkg/tidy/optipng.sh \
 	libmakepkg/tidy/purge.sh \
 	libmakepkg/tidy/staticlibs.sh \
 	libmakepkg/tidy/strip.sh \
-	libmakepkg/tidy/upx.sh \
 	libmakepkg/tidy/zipman.sh \
 	libmakepkg/util.sh \
 	libmakepkg/util/pkgbuild.sh \

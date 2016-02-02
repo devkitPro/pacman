@@ -141,7 +141,7 @@ Options
 	Specify a key to use for GPG signing instead of the default key in the
 	keyring. Can be overridden with makepkg's '\--key' option.
 
-**OPTIONS=(**strip docs libtool staticlibs emptydirs zipman purge !upx !optipng**)**::
+**OPTIONS=(**strip docs libtool staticlibs emptydirs zipman purge**)**::
 	This array contains options that affect default packaging. They are
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
 	shown here. All options should always be left in the array; to enable or
@@ -177,14 +177,6 @@ Options
 	*purge*;;
 		Remove files specified by the `PURGE_TARGETS` variable from the
 		package.
-
-	*upx*;;
-		Compress binary executable files using UPX. Additional options
-		can be passed to UPX by specifying the `UPXFLAGS` array variable.
-
-	*optipng*;;
-		Optimize PNG images with optipng. Additional options can be passed
-		to optipng by specifying the `OPTIPNGFLAGS` array variable.
 
 	*debug*;;
 		Add the user-specified debug flags as specified in DEBUG_CFLAGS and
