@@ -1803,7 +1803,8 @@ while true; do
 		-e|--noextract)   NOEXTRACT=1 ;;
 		-f|--force)       FORCE=1 ;;
 		-F)               INFAKEROOT=1 ;;
-		-g|--geninteg)    GENINTEG=1 ;;
+		# generating integrity checks does not depend on architecture
+		-g|--geninteg)    GENINTEG=1 IGNOREARCH=1;;
 		--holdver)        HOLDVER=1 ;;
 		-i|--install)     INSTALL=1 ;;
 		--key)            shift; GPGKEY=$1 ;;
