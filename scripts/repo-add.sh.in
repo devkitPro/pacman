@@ -547,8 +547,8 @@ prepare_repo_db() {
 					# TODO: remove if statement
 					if [[ $repo == "db" ]]; then
 						error "$(gettext "Repository file '%s' was not found.")" "$dbfile"
+						exit 1
 					fi
-					exit 1
 					;;
 				repo-add)
 					# check if the file can be created (write permission, directory existence, etc)
