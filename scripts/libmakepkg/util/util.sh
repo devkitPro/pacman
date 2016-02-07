@@ -37,6 +37,23 @@ in_array() {
 	return 1 # Not Found
 }
 
+# tests if a variable is an array
+is_array() {
+	local v=$1
+	local ret=1
+
+	# this function requires extglob - save current options to restore later
+	local shellopts=$(shopt -p)
+	shopt -s extglob
+
+	if [[ $(declare -p "$i") == declare\ -*([[:alnum:]])a*([[:alnum:]])\ * ]]; then
+		ret=0
+	fi
+
+	eval "$shellopts"
+	return $ret
+}
+
 # Canonicalize a directory path if it exists
 canonicalize_path() {
 	local path="$1";
