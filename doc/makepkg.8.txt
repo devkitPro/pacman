@@ -55,11 +55,11 @@ Options
 	installed.
 
 *-e, \--noextract*::
-	Do not extract source files; use whatever source already exists in the
-	$srcdir/ directory. This is handy if you want to go into $srcdir/ and
-	manually patch or tweak code, then make a package out of the result.
-	Keep in mind that creating a patch may be a better solution to allow
-	others to use your PKGBUILD.
+	Do not extract source files or run the prepare() function (if present);
+	use whatever source already exists in the $srcdir/ directory. This is
+	handy if you want to go into $srcdir/ and manually patch or tweak code,
+	then make a package out of the result. Keep in mind that creating a
+	patch may be a better solution to allow others to use your PKGBUILD.
 
 *\--verifysource*::
 	For each source file in the source array of PKGBUILD, download the file
