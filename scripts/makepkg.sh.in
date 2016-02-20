@@ -87,7 +87,7 @@ SPLITPKG=0
 SOURCEONLY=0
 VERIFYSOURCE=0
 
-PACMAN_OPTS=
+PACMAN_OPTS=()
 
 shopt -s extglob
 
@@ -219,7 +219,7 @@ source_has_signatures() {
 run_pacman() {
 	local cmd
 	if [[ $1 != -@(T|Qq) ]]; then
-		cmd=("$PACMAN_PATH" $PACMAN_OPTS "$@")
+		cmd=("$PACMAN_PATH" "${PACMAN_OPTS[@]}" "$@")
 	else
 		cmd=("$PACMAN_PATH" "$@")
 	fi
@@ -1780,8 +1780,8 @@ while true; do
 		# Pacman Options
 		--asdeps)         ASDEPS=1;;
 		--needed)         NEEDED=1;;
-		--noconfirm)      PACMAN_OPTS+=" --noconfirm" ;;
-		--noprogressbar)  PACMAN_OPTS+=" --noprogressbar" ;;
+		--noconfirm)      PACMAN_OPTS+=("--noconfirm") ;;
+		--noprogressbar)  PACMAN_OPTS+=("--noprogressbar") ;;
 
 		# Makepkg Options
 		--allsource)      SOURCEONLY=2 ;;
@@ -1800,7 +1800,7 @@ while true; do
 		-i|--install)     INSTALL=1 ;;
 		--key)            shift; GPGKEY=$1 ;;
 		-L|--log)         LOGGING=1 ;;
-		-m|--nocolor)     USE_COLOR='n'; PACMAN_OPTS+=" --color never" ;;
+		-m|--nocolor)     USE_COLOR='n'; PACMAN_OPTS+=("--color never") ;;
 		--noarchive)      NOARCHIVE=1 ;;
 		--nocheck)        RUN_CHECK='n' ;;
 		--noprepare)      RUN_PREPARE='n' ;;
