@@ -180,7 +180,7 @@ static void remove_notify_needed_optdepends(alpm_handle_t *handle, alpm_list_t *
 			alpm_list_t *j;
 			for(j = optdeps; j; j = alpm_list_next(j)) {
 				alpm_depend_t *optdep = j->data;
-				if(alpm_pkg_find(lp, optdep->name)) {
+				if(alpm_find_satisfier(lp, optdep->name)) {
 					alpm_event_optdep_removal_t event = {
 						.type = ALPM_EVENT_OPTDEP_REMOVAL,
 						.pkg = pkg,
