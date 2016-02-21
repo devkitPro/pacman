@@ -798,6 +798,17 @@ fi
 
 check_xdelta
 
+if (( VERIFY && ${#args[@]} == 1 )); then
+	for repo in "db" "files"; do
+		dbfile=${repodir}/$REPO_DB_PREFIX.$repo.$REPO_DB_SUFFIX
+
+		if [[ -f $dbfile ]]; then
+			verify_signature "$dbfile"
+		fi
+	done
+	exit 0
+fi
+
 prepare_repo_db
 
 for arg in "${args[@]:1}"; do
