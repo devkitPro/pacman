@@ -1201,9 +1201,9 @@ static char *make_optstring(alpm_depend_t *optdep)
 	alpm_db_t *localdb = alpm_get_localdb(config->handle);
 	char *optstring = alpm_dep_compute_string(optdep);
 	char *status = NULL;
-	if(alpm_find_satisfier(alpm_db_get_pkgcache(localdb), optdep->name)) {
+	if(alpm_find_satisfier(alpm_db_get_pkgcache(localdb), optstring)) {
 		status = _(" [installed]");
-	} else if(alpm_find_satisfier(alpm_trans_get_add(config->handle), optdep->name)) {
+	} else if(alpm_find_satisfier(alpm_trans_get_add(config->handle), optstring)) {
 		status = _(" [pending]");
 	}
 	if(status) {
