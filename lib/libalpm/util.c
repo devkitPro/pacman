@@ -586,7 +586,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		goto cleanup;
 	}
 
-	if(stdin_cb && pipe(parent2child_pipefd) == -1) {
+	if(pipe(parent2child_pipefd) == -1) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("could not create pipe (%s)\n"), strerror(errno));
 		retval = 1;
 		goto cleanup;
@@ -607,11 +607,9 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		close(2);
 		while(dup2(child2parent_pipefd[1], 1) == -1 && errno == EINTR);
 		while(dup2(child2parent_pipefd[1], 2) == -1 && errno == EINTR);
-		if(stdin_cb) {
-			while(dup2(parent2child_pipefd[0], 0) == -1 && errno == EINTR);
-			close(parent2child_pipefd[0]);
-			close(parent2child_pipefd[1]);
-		}
+		while(dup2(parent2child_pipefd[0], 0) == -1 && errno == EINTR);
+		close(parent2child_pipefd[0]);
+		close(parent2child_pipefd[1]);
 		close(child2parent_pipefd[0]);
 		close(child2parent_pipefd[1]);
 		if(cwdfd >= 0) {
@@ -646,15 +644,16 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		child2parent->events = POLLIN;
 		fcntl(child2parent->fd, F_SETFL, O_NONBLOCK);
 		close(child2parent_pipefd[1]);
+		close(parent2child_pipefd[0]);
 
 		if(stdin_cb) {
 			parent2child->fd = parent2child_pipefd[1];
 			parent2child->events = POLLOUT;
 			fcntl(parent2child->fd, F_SETFL, O_NONBLOCK);
-			close(parent2child_pipefd[0]);
 		} else {
 			parent2child->fd = -1;
 			parent2child->events = 0;
+			close(parent2child_pipefd[1]);
 		}
 
 #define STOP_POLLING(p) do { close(p->fd); p->fd = -1; } while(0)
