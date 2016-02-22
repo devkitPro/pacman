@@ -542,17 +542,11 @@ int SYMEXPORT alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile
 
 int SYMEXPORT alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir)
 {
+	int err;
 	CHECK_HANDLE(handle, return -1);
-	if(!gpgdir) {
-		handle->pm_errno = ALPM_ERR_WRONG_ARGS;
-		return -1;
+	if((err = _alpm_set_directory_option(gpgdir, &(handle->gpgdir), 0))) {
+		RET_ERR(handle, err, -1);
 	}
-
-	if(handle->gpgdir) {
-		FREE(handle->gpgdir);
-	}
-	STRDUP(handle->gpgdir, gpgdir, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-
 	_alpm_log(handle, ALPM_LOG_DEBUG, "option 'gpgdir' = %s\n", handle->gpgdir);
 	return 0;
 }
