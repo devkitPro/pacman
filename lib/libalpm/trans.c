@@ -233,7 +233,9 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-/** Interrupt a transaction. */
+/** Interrupt a transaction.
+ * @note Safe to call from inside signal handlers.
+ */
 int SYMEXPORT alpm_trans_interrupt(alpm_handle_t *handle)
 {
 	alpm_trans_t *trans;
@@ -242,9 +244,9 @@ int SYMEXPORT alpm_trans_interrupt(alpm_handle_t *handle)
 	CHECK_HANDLE(handle, return -1);
 
 	trans = handle->trans;
-	ASSERT(trans != NULL, RET_ERR(handle, ALPM_ERR_TRANS_NULL, -1));
+	ASSERT(trans != NULL, RET_ERR_ASYNC_SAFE(handle, ALPM_ERR_TRANS_NULL, -1));
 	ASSERT(trans->state == STATE_COMMITING || trans->state == STATE_INTERRUPTED,
-			RET_ERR(handle, ALPM_ERR_TRANS_TYPE, -1));
+			RET_ERR_ASYNC_SAFE(handle, ALPM_ERR_TRANS_TYPE, -1));
 
 	trans->state = STATE_INTERRUPTED;
 

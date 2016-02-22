@@ -141,7 +141,7 @@ int SYMEXPORT alpm_unlock(alpm_handle_t *handle)
 	handle->lockfd = -1;
 
 	if(unlink(handle->lockfile) != 0) {
-		RET_ERR(handle, ALPM_ERR_SYSTEM, -1);
+		RET_ERR_ASYNC_SAFE(handle, ALPM_ERR_SYSTEM, -1);
 	} else {
 		return 0;
 	}
