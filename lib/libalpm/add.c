@@ -409,9 +409,8 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	ASSERT(trans != NULL, return -1);
 
 	/* see if this is an upgrade. if so, remove the old package first */
-	alpm_pkg_t *local = _alpm_db_get_pkgfromcache(db, newpkg->name);
-	if(local) {
-		int cmp = _alpm_pkg_compare_versions(newpkg, local);
+	if((oldpkg = newpkg->oldpkg)) {
+		int cmp = _alpm_pkg_compare_versions(newpkg, oldpkg);
 		if(cmp < 0) {
 			log_msg = "downgrading";
 			progress = ALPM_PROGRESS_DOWNGRADE_START;
@@ -427,14 +426,8 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		}
 		is_upgrade = 1;
 
-		/* we'll need to save some record for backup checks later */
-		if(_alpm_pkg_dup(local, &oldpkg) == -1) {
-			ret = -1;
-			goto cleanup;
-		}
-
 		/* copy over the install reason */
-		newpkg->reason = alpm_pkg_get_reason(local);
+		newpkg->reason = alpm_pkg_get_reason(oldpkg);
 	} else {
 		event.operation = ALPM_PACKAGE_INSTALL;
 	}
@@ -630,7 +623,6 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	EVENT(handle, &event);
 
 cleanup:
-	_alpm_pkg_free(oldpkg);
 	return ret;
 }
 

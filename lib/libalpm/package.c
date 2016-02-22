@@ -682,6 +682,7 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	alpm_list_free(pkg->deltas);
 	alpm_list_free(pkg->delta_path);
 	alpm_list_free(pkg->removes);
+	_alpm_pkg_free(pkg->oldpkg);
 
 	if(pkg->origin == ALPM_PKG_FROM_FILE) {
 		FREE(pkg->origin_data.file);
@@ -707,6 +708,8 @@ void _alpm_pkg_free_trans(alpm_pkg_t *pkg)
 
 	alpm_list_free(pkg->removes);
 	pkg->removes = NULL;
+	_alpm_pkg_free(pkg->oldpkg);
+	pkg->oldpkg = NULL;
 }
 
 /* Is spkg an upgrade for localpkg? */

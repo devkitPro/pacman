@@ -117,6 +117,7 @@ struct __alpm_pkg_t {
 	alpm_list_t *deltas;
 	alpm_list_t *delta_path;
 	alpm_list_t *removes; /* in transaction targets only */
+	alpm_pkg_t *oldpkg; /* in transaction targets only */
 
 	struct pkg_operations *ops;
 

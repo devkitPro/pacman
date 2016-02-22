@@ -659,7 +659,12 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	for(i = trans->add; i; i = i->next) {
 		/* update download size field */
 		alpm_pkg_t *spkg = i->data;
+		alpm_pkg_t *lpkg = alpm_db_get_pkg(handle->db_local, spkg->name);
 		if(compute_download_size(spkg) < 0) {
+			ret = -1;
+			goto cleanup;
+		}
+		if(lpkg && _alpm_pkg_dup(lpkg, &spkg->oldpkg) != 0) {
 			ret = -1;
 			goto cleanup;
 		}
@@ -1260,6 +1265,9 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 		pkgfile->reason = spkg->reason;
 		/* copy over validation method */
 		pkgfile->validation = spkg->validation;
+		/* transfer oldpkg */
+		pkgfile->oldpkg = spkg->oldpkg;
+		spkg->oldpkg = NULL;
 		i->data = pkgfile;
 		/* spkg has been removed from the target list, so we can free the
 		 * sync-specific fields */
