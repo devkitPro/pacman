@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <wchar.h>
+#include <wctype.h>
 #ifdef HAVE_TERMIOS_H
 #include <termios.h> /* tcflush */
 #endif
@@ -1480,6 +1481,37 @@ int select_question(int count)
 	return (preset - 1);
 }
 
+static int mbscasecmp(const char *s1, const char *s2)
+{
+	size_t len1 = strlen(s1), len2 = strlen(s2);
+	wchar_t c1, c2;
+	const char *p1 = s1, *p2 = s2;
+	mbstate_t ps1, ps2;
+	memset(&ps1, 0, sizeof(mbstate_t));
+	memset(&ps2, 0, sizeof(mbstate_t));
+	while(*p1 && *p2) {
+		size_t b1 = mbrtowc(&c1, p1, len1, &ps1);
+		size_t b2 = mbrtowc(&c2, p2, len2, &ps2);
+		if(b1 == (size_t) -2 || b1 == (size_t) -1
+				|| b2 == (size_t) -2 || b2 == (size_t) -1) {
+			/* invalid multi-byte string, fall back to strcasecmp */
+			return strcasecmp(p1, p2);
+		}
+		if(b1 == 0 || b2 == 0) {
+			return c1 - c2;
+		}
+		c1 = towlower(c1);
+		c2 = towlower(c2);
+		if(c1 != c2) {
+			return c1 - c2;
+		}
+		p1 += b1;
+		p2 += b2;
+		len1 -= b1;
+		len2 -= b2;
+	}
+	return *p1 - *p2;
+}
 
 /* presents a prompt and gets a Y/N answer */
 __attribute__((format(printf, 2, 0)))
@@ -1531,9 +1563,9 @@ static int question(short preset, const char *format, va_list args)
 			fprintf(stream, "%s\n", response);
 		}
 
-		if(strcasecmp(response, _("Y")) == 0 || strcasecmp(response, _("YES")) == 0) {
+		if(mbscasecmp(response, _("Y")) == 0 || mbscasecmp(response, _("YES")) == 0) {
 			return 1;
-		} else if(strcasecmp(response, _("N")) == 0 || strcasecmp(response, _("NO")) == 0) {
+		} else if(mbscasecmp(response, _("N")) == 0 || mbscasecmp(response, _("NO")) == 0) {
 			return 0;
 		}
 	}
