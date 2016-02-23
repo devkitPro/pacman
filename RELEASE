@@ -1,0 +1,23 @@
+The following checklist should be used for making a pacman release.
+
+- Ensure "make distcheck" succeeds
+- Call a freeze to development.
+- Send translation updates to Transifex at least two weeks before a major
+  release (see below).  At this stage, strings can only be changed for a
+  major issue.
+- Update NEWS and README files
+- Pull translation updates from Transifex
+- Update version in configure.ac as described in file
+- Update doc/index.txt
+- Create a signed git tag (git tag -x vX.Y.Z -m "commit message")
+- Create and sign release tarballs (generate with "make distcheck")
+- Update pacman website
+
+Transifex updates are handled using the transifex client. The basic process is:
+- Pull updates from transifex ("tx pull -a -f")
+- Update po files ("make update-po")
+- Fix all translation errors found
+- Add any new locales to the relevant LINGUAS file
+- Optional: Make any manual changes needed (e.g. fixing spacing in a string)
+  and update po files again
+- Push updated po files to transifex ("tx push -s -t --skip")
