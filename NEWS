@@ -1,5 +1,22 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.0.1         - fix alignment issues with wide character locales (FS#47980)
+              - fix removal of .pacnew files (FS#47993)
+              - fix triggering of Install hooks (FS#47996)
+              - fix handling of stdin scripts called by pacman
+              - hook activity is logged
+              - documentataion updates for alpm-hooks (FS#48080)
+              - makepkg:
+                - increase robustness of variable array checks
+                - makepkg -g does not perform current architecture checks
+                - do not run prepare() with --noextract
+                - all directories in the packaging directory are cleared
+                  before each build
+                - fix translations issues (FS#48057, FS#48298)
+              - repo-add:
+                - fix checking for non-existent database
+              - contrib:
+                - zsh_completion: updated makepkg options
 5.0.0         - pacman can run hooks pre- and post-transaction. See the
                 alpm-hooks(5) man page for details and an example hook (FS#2985)
               - pacman can now sync and read .files databases (-Fy) and do basic
