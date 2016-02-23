@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Chris Darnell <chris@cedeel.com>, 2014
 # Freso <transifex.net@freso.dk>, 2011,2013
@@ -17,14 +17,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"POT-Creation-Date: 2016-02-23 13:06+1000\n"
 "PO-Revision-Date: 2016-01-19 11:20+0000\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
-"Language-Team: Danish (http://www.transifex.com/toofishes/archlinux-pacman/language/da/)\n"
+"Language-Team: Danish (http://www.transifex.com/toofishes/archlinux-pacman/"
+"language/da/)\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/pacman/callback.c:182
@@ -182,10 +183,11 @@ msgstr "%s og %s er i konflikt (%s). Fjern %s?"
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
-msgstr[0] "Følgende pakke kan ikke opgraderes på grund af uløselige afhængigheder:\n"
-msgstr[1] "Følgende pakker kan ikke opgraderes på grund af uløselige afhængigheder:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+msgstr[0] ""
+"Følgende pakke kan ikke opgraderes på grund af uløselige afhængigheder:\n"
+msgstr[1] ""
+"Følgende pakker kan ikke opgraderes på grund af uløselige afhængigheder:\n"
 
 #: src/pacman/callback.c:442
 #, c-format
@@ -206,7 +208,9 @@ msgstr[1] "Der er %zu udbydere tilgængelige for %s:\n"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "Filen %s er ødelagt (%s).\nØnsker du at slette den?"
+msgstr ""
+"Filen %s er ødelagt (%s).\n"
+"Ønsker du at slette den?"
 
 #: src/pacman/callback.c:478
 #, c-format
@@ -395,18 +399,23 @@ msgstr "konfigurationsfil %s, linie %d: ugyldig værdi for '%s': '%s'\n"
 #: src/pacman/conf.c:411
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
-msgstr "konfigurationsfil %s, linie %d: '%s' valgmulighed ugyldig, ingen signaturrapport\n"
+msgstr ""
+"konfigurationsfil %s, linie %d: '%s' valgmulighed ugyldig, ingen "
+"signaturrapport\n"
 
 #: src/pacman/conf.c:504 src/pacman/conf.c:609 src/pacman/conf.c:921
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "konfigurationsfil: %s, linie %d: direktiv '%s' i sektion '%s' blev ikke genkendt.\n"
+msgstr ""
+"konfigurationsfil: %s, linie %d: direktiv '%s' i sektion '%s' blev ikke "
+"genkendt.\n"
 
 #: src/pacman/conf.c:632
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
-msgstr "filspejl '%s' indeholder variablen '%s', men ingen '%s' er defineret.\n"
+msgstr ""
+"filspejl '%s' indeholder variablen '%s', men ingen '%s' er defineret.\n"
 
 #: src/pacman/conf.c:641
 #, c-format
@@ -428,7 +437,10 @@ msgstr "kunne ikke tilføje filspejl '%s' til database '%s' (%s)\n"
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "kunne ikke initialisere alpm-bibliotek\n(%s: %s)\n\n"
+msgstr ""
+"kunne ikke initialisere alpm-bibliotek\n"
+"(%s: %s)\n"
+"\n"
 
 #: src/pacman/conf.c:725
 #, c-format
@@ -463,7 +475,8 @@ msgstr "Kunne ikke vidregive %s indtastningen til libalpm"
 #: src/pacman/conf.c:870
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
-msgstr "kofigurationsfil %s, linje %d: '%s' valgmulighed '%s' blev ikke genkendt\n"
+msgstr ""
+"kofigurationsfil %s, linje %d: '%s' valgmulighed '%s' blev ikke genkendt\n"
 
 #: src/pacman/conf.c:890 src/pacman/conf.c:898 src/pacman/conf.c:941
 #, c-format
@@ -483,7 +496,8 @@ msgstr "konfigurationsfil %s kunne ikke læses: %s\n"
 #: src/pacman/conf.c:1019
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
-msgstr "konfigurationsfil %s, linje %d: Alle direktiver skal tilhøre et afsnit.\n"
+msgstr ""
+"konfigurationsfil %s, linje %d: Alle direktiver skal tilhøre et afsnit.\n"
 
 #: src/pacman/database.c:50 src/pacman/query.c:423 src/pacman/remove.c:91
 #: src/pacman/sync.c:929 src/pacman/upgrade.c:47
@@ -504,216 +518,217 @@ msgstr "kunne ikke angive installationsårsag for pakke %s (%s)\n"
 #: src/pacman/database.c:78
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
-msgstr "%s: installationsårsag er blevet angivet til 'installeret som afhængighed'\n"
+msgstr ""
+"%s: installationsårsag er blevet angivet til 'installeret som afhængighed'\n"
 
 #: src/pacman/database.c:80
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: installationsårsag er blevet angivet til 'installeret eksplicit'\n"
 
-#: src/pacman/package.c:97
+#: src/pacman/package.c:99
 #, c-format
 msgid "Architecture"
 msgstr "Arkitektur"
 
-#: src/pacman/package.c:98
+#: src/pacman/package.c:100
 #, c-format
 msgid "Backup Files"
 msgstr "Sikkerhedskopier"
 
-#: src/pacman/package.c:99
+#: src/pacman/package.c:101
 #, c-format
 msgid "Build Date"
 msgstr "Byggedato"
 
-#: src/pacman/package.c:100
+#: src/pacman/package.c:102
 #, c-format
 msgid "Compressed Size"
 msgstr "Komprimeret størrelse"
 
-#: src/pacman/package.c:101
+#: src/pacman/package.c:103
 #, c-format
 msgid "Conflicts With"
 msgstr "I konflikt med"
 
-#: src/pacman/package.c:102
+#: src/pacman/package.c:104
 #, c-format
 msgid "Depends On"
 msgstr "Afhænger af"
 
-#: src/pacman/package.c:103
+#: src/pacman/package.c:105
 #, c-format
 msgid "Description"
 msgstr "Beskrivelse"
 
-#: src/pacman/package.c:104 src/pacman/util.c:821
+#: src/pacman/package.c:106 src/pacman/util.c:821
 #, c-format
 msgid "Download Size"
 msgstr "Overførselsstørrelse"
 
-#: src/pacman/package.c:105
+#: src/pacman/package.c:107
 #, c-format
 msgid "Groups"
 msgstr "Grupper"
 
-#: src/pacman/package.c:106
+#: src/pacman/package.c:108
 #, c-format
 msgid "Install Date"
 msgstr "Installerings dato"
 
-#: src/pacman/package.c:107
+#: src/pacman/package.c:109
 #, c-format
 msgid "Install Reason"
 msgstr "Installerings årsag"
 
-#: src/pacman/package.c:108
+#: src/pacman/package.c:110
 #, c-format
 msgid "Install Script"
 msgstr "Installationsscript"
 
-#: src/pacman/package.c:109
+#: src/pacman/package.c:111
 #, c-format
 msgid "Installed Size"
 msgstr "Installeret størrelse"
 
-#: src/pacman/package.c:110
+#: src/pacman/package.c:112
 #, c-format
 msgid "Licenses"
 msgstr "Licenser"
 
-#: src/pacman/package.c:111 src/pacman/package.c:232
+#: src/pacman/package.c:113 src/pacman/package.c:239
 #, c-format
 msgid "MD5 Sum"
 msgstr "MD5-sum"
 
-#: src/pacman/package.c:112
+#: src/pacman/package.c:114
 #, c-format
 msgid "Name"
 msgstr "Navn"
 
-#: src/pacman/package.c:113
+#: src/pacman/package.c:115
 #, c-format
 msgid "Optional Deps"
 msgstr "Valgfrie afhængigheder"
 
-#: src/pacman/package.c:114
+#: src/pacman/package.c:116
 #, c-format
 msgid "Optional For"
 msgstr "Valgfri for"
 
-#: src/pacman/package.c:115
+#: src/pacman/package.c:117
 #, c-format
 msgid "Packager"
 msgstr "Pakkevedligeholder"
 
-#: src/pacman/package.c:116
+#: src/pacman/package.c:118
 #, c-format
 msgid "Provides"
 msgstr "Tilbyder"
 
-#: src/pacman/package.c:117
+#: src/pacman/package.c:119
 #, c-format
 msgid "Replaces"
 msgstr "Erstatter"
 
-#: src/pacman/package.c:118
+#: src/pacman/package.c:120
 #, c-format
 msgid "Repository"
 msgstr "Arkiv"
 
-#: src/pacman/package.c:119
+#: src/pacman/package.c:121
 #, c-format
 msgid "Required By"
 msgstr "Krævet af"
 
-#: src/pacman/package.c:120 src/pacman/package.c:235
+#: src/pacman/package.c:122 src/pacman/package.c:242
 #, c-format
 msgid "SHA-256 Sum"
 msgstr "SHA-256 Sum"
 
-#: src/pacman/package.c:121
+#: src/pacman/package.c:123
 #, c-format
 msgid "Signatures"
 msgstr "Signaturer"
 
-#: src/pacman/package.c:122
+#: src/pacman/package.c:124
 #, c-format
 msgid "URL"
 msgstr "URL"
 
-#: src/pacman/package.c:123
+#: src/pacman/package.c:125
 #, c-format
 msgid "Validated By"
 msgstr "Valideret af"
 
-#: src/pacman/package.c:124
+#: src/pacman/package.c:126
 #, c-format
 msgid "Version"
 msgstr "Version"
 
-#: src/pacman/package.c:167 src/pacman/util.c:1205
+#: src/pacman/package.c:174 src/pacman/util.c:1205
 #, c-format
 msgid " [installed]"
 msgstr "[installeret]"
 
-#: src/pacman/package.c:216
+#: src/pacman/package.c:223
 #, c-format
 msgid "Explicitly installed"
 msgstr "Direkte installeret"
 
-#: src/pacman/package.c:219
+#: src/pacman/package.c:226
 #, c-format
 msgid "Installed as a dependency for another package"
 msgstr "Installeret som en afhængighed af en anden pakke"
 
-#: src/pacman/package.c:222 src/pacman/package.c:242
+#: src/pacman/package.c:229 src/pacman/package.c:249
 #, c-format
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: src/pacman/package.c:229 src/pacman/package.c:314 src/pacman/package.c:332
+#: src/pacman/package.c:236 src/pacman/package.c:321 src/pacman/package.c:339
 #: src/pacman/util.c:489 src/pacman/util.c:675 src/pacman/util.c:715
 #: src/pacman/util.c:743
 #, c-format
 msgid "None"
 msgstr "Ingen"
 
-#: src/pacman/package.c:238
+#: src/pacman/package.c:245
 #, c-format
 msgid "Signature"
 msgstr "Signatur"
 
-#: src/pacman/package.c:300
+#: src/pacman/package.c:307
 #, c-format
 msgid "Yes"
 msgstr "Ja"
 
-#: src/pacman/package.c:300
+#: src/pacman/package.c:307
 #, c-format
 msgid "No"
 msgstr "Nej"
 
-#: src/pacman/package.c:369
+#: src/pacman/package.c:376
 #, c-format
 msgid "could not calculate checksums for %s\n"
 msgstr "kunne ikke beregne tjeksummer for %s\n"
 
-#: src/pacman/package.c:416
+#: src/pacman/package.c:423
 #, c-format
 msgid "(none)\n"
 msgstr "(ingen)\n"
 
-#: src/pacman/package.c:453
+#: src/pacman/package.c:460
 #, c-format
 msgid "no changelog available for '%s'.\n"
 msgstr "ingen ændringslog tilgængelig for »%s«.\n"
 
-#: src/pacman/package.c:457
+#: src/pacman/package.c:464
 #, c-format
 msgid "Changelog for %s:\n"
 msgstr "Ændringslog for %s:\n"
 
-#: src/pacman/package.c:482 src/pacman/package.c:484
+#: src/pacman/package.c:489 src/pacman/package.c:491
 #, c-format
 msgid "installed"
 msgstr "installeret"
@@ -753,26 +768,34 @@ msgstr "handlinger:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nBrug »%s {-h --help}« sammen med en handling for at se tilgængelige indstillinger\n"
+msgstr ""
+"\n"
+"Brug »%s {-h --help}« sammen med en handling for at se tilgængelige "
+"indstillinger\n"
 
 #: src/pacman/pacman.c:125
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
-msgstr "  -c, --cascade        fjern pakker og alle pakker som afhænger af dem\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
+msgstr ""
+"  -c, --cascade        fjern pakker og alle pakker som afhænger af dem\n"
 
 #: src/pacman/pacman.c:126
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
-msgstr "  -n, --nosave         fjern konfigurationsfiler\n\n"
+msgstr ""
+"  -n, --nosave         fjern konfigurationsfiler\n"
+"\n"
 
 #: src/pacman/pacman.c:127
 #, c-format
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "  -s, --recursive      fjern unødvendige afhængigheder\n                       (-ss inkluderer eksplicit installerede afhængigheder)\n"
+msgstr ""
+"  -s, --recursive      fjern unødvendige afhængigheder\n"
+"                       (-ss inkluderer eksplicit installerede "
+"afhængigheder)\n"
 
 #: src/pacman/pacman.c:129
 #, c-format
@@ -793,7 +816,8 @@ msgstr "  -c, --changelog      vis ændringsloggen for en pakke\n"
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
-msgstr "  -d, --deps           vis pakker installeret som afhængigheder [filter]\n"
+msgstr ""
+"  -d, --deps           vis pakker installeret som afhængigheder [filter]\n"
 
 #: src/pacman/pacman.c:139
 #, c-format
@@ -807,8 +831,10 @@ msgstr "  -g, --groups         vis alle medlemmer af en pakkegruppe\n"
 
 #: src/pacman/pacman.c:141
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
-msgstr "  -i, --info           vis pakkeinformation (-ii for sikkerhedskopier)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
+msgstr ""
+"  -i, --info           vis pakkeinformation (-ii for sikkerhedskopier)\n"
 
 #: src/pacman/pacman.c:142
 #, c-format
@@ -820,21 +846,27 @@ msgstr "-k, --check kontroller at pakkefiler findes (-kk for filegenskaber)\n"
 #: src/pacman/pacman.c:143 src/pacman/pacman.c:178
 #, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
-msgstr "  -l, --list           vis filerne som ejes af pakked der er sat i kø\n\n"
+msgstr ""
+"  -l, --list           vis filerne som ejes af pakked der er sat i kø\n"
+"\n"
 
 #: src/pacman/pacman.c:144
 #, c-format
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "  -m, --foreign        vis installerede pakker der ikke blev fundet i sync db(s) [filter]\n"
+msgstr ""
+"  -m, --foreign        vis installerede pakker der ikke blev fundet i sync "
+"db(s) [filter]\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
-msgstr "-n, --native vis installerede pakker som kun er fundet i sync db(s) [filter]\n"
+msgstr ""
+"-n, --native vis installerede pakker som kun er fundet i sync db(s) "
+"[filter]\n"
 
 #: src/pacman/pacman.c:146 src/pacman/pacman.c:179
 #, c-format
@@ -849,21 +881,26 @@ msgstr "  -p, --file <pakke> forespørg en pakkefil i steden for databasen\n"
 #: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:180
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "  -q, --quiet          vis mindre information for forespørgsel og søgning\n"
+msgstr ""
+"  -q, --quiet          vis mindre information for forespørgsel og søgning\n"
 
 #: src/pacman/pacman.c:149
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "  -s, --search <regulært udtryk> søg i lokalt installerede pakker for ens strenge\n"
+msgstr ""
+"  -s, --search <regulært udtryk> søg i lokalt installerede pakker for ens "
+"strenge\n"
 
 #: src/pacman/pacman.c:150
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
-msgstr "  -t, --unrequired     vis pakker som ikke (eventuelt) er krævet af\nandre pakker (-tt for at ignorere valgfrie pakker) [filter]\n"
+msgstr ""
+"  -t, --unrequired     vis pakker som ikke (eventuelt) er krævet af\n"
+"andre pakker (-tt for at ignorere valgfrie pakker) [filter]\n"
 
 #: src/pacman/pacman.c:152
 #, c-format
@@ -875,21 +912,26 @@ msgstr "  -u, --upgrades       vis uddaterede pakker [filter]\n"
 msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
-msgstr "  -c, --clean          fjern gamle pakker fra mellemlagermappe (-cc for alle)\n"
+msgstr ""
+"  -c, --clean          fjern gamle pakker fra mellemlagermappe (-cc for "
+"alle)\n"
 
 #: src/pacman/pacman.c:157
 #, c-format
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "  -g, --groups         vis alle medlemmer af en pakkegruppe\n(-gg for at vise alle grupper og medlemmer)\n"
+msgstr ""
+"  -g, --groups         vis alle medlemmer af en pakkegruppe\n"
+"(-gg for at vise alle grupper og medlemmer)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr "  -i, --info           vis pakkeinformation (-ii for udvidet information)\n"
+msgstr ""
+"  -i, --info           vis pakkeinformation (-ii for udvidet information)\n"
 
 #: src/pacman/pacman.c:160
 #, c-format
@@ -898,28 +940,36 @@ msgstr "  -l, --list <arkiv>    vis en liste over pakker i et arkiv\n"
 
 #: src/pacman/pacman.c:162
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
-msgstr "  -s, --search <regulært udtryk> søg i eksterne arkiver efter ens strenge\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
+msgstr ""
+"  -s, --search <regulært udtryk> søg i eksterne arkiver efter ens strenge\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
-msgstr "  -u, --sysupgrade     opgrader installerede pakker (-uu slår nedgraderinger til)\n"
+msgstr ""
+"  -u, --sysupgrade     opgrader installerede pakker (-uu slår nedgraderinger "
+"til)\n"
 
 #: src/pacman/pacman.c:164
 #, c-format
 msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
-msgstr "  -w, --downloadonly   hent pakker men installer ikke eller opgrader ikke noget\n"
+msgstr ""
+"  -w, --downloadonly   hent pakker men installer ikke eller opgrader ikke "
+"noget\n"
 
 #: src/pacman/pacman.c:165 src/pacman/pacman.c:183
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
-msgstr "  -y, --refresh        hent friske pakkedatabaser fra serveren\n(-yy for at gennemtvinge en opfriskning selvom databasen er ajour)\n"
+msgstr ""
+"  -y, --refresh        hent friske pakkedatabaser fra serveren\n"
+"(-yy for at gennemtvinge en opfriskning selvom databasen er ajour)\n"
 
 #: src/pacman/pacman.c:171
 #, c-format
@@ -936,12 +986,16 @@ msgstr "      --asexplicit     marker pakker som eksplicit installeret\n"
 msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
-msgstr "  -k, --check          test lokal database for validitet (-kk for synkronisering af databaser)\n"
+msgstr ""
+"  -k, --check          test lokal database for validitet (-kk for "
+"synkronisering af databaser)\n"
 
 #: src/pacman/pacman.c:181
 #, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
-msgstr "  -s, --search <fil>  søg efter arkiver med matchende strenge\n\n"
+msgstr ""
+"  -s, --search <fil>  søg efter arkiver med matchende strenge\n"
+"\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -953,55 +1007,73 @@ msgstr " -x, --regex aktiver søgning med regulære udtryk\n"
 msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
-msgstr "--machinereadable\nlav mankin-læsbar uddata\n"
+msgstr ""
+"--machinereadable\n"
+"lav mankin-læsbar uddata\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
 msgid "      --force          force install, overwrite conflicting files\n"
-msgstr "      --force          tving installation, overskriv filer i konflikt\n"
+msgstr ""
+"      --force          tving installation, overskriv filer i konflikt\n"
 
 #: src/pacman/pacman.c:192
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
-msgstr "      --asdeps         installer pakker så de fremstår som værende ikkeeksplicit installeret\n"
+msgstr ""
+"      --asdeps         installer pakker så de fremstår som værende "
+"ikkeeksplicit installeret\n"
 
 #: src/pacman/pacman.c:193
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "      --asexplicit     installer pakker som værende eksplicit installerede\n"
+msgstr ""
+"      --asexplicit     installer pakker som værende eksplicit installerede\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
-msgstr "      --ignore <pakke>   ignorer en pakkeopgradering (kan bruges mere end en gang)\n"
+msgstr ""
+"      --ignore <pakke>   ignorer en pakkeopgradering (kan bruges mere end en "
+"gang)\n"
 
 #: src/pacman/pacman.c:195
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "      --ignoregroup <gruppe>\n                       ignorer en gruppeopgradering (kan bruges mere end en gang)\n"
+msgstr ""
+"      --ignoregroup <gruppe>\n"
+"                       ignorer en gruppeopgradering (kan bruges mere end en "
+"gang)\n"
 
 #: src/pacman/pacman.c:199
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
-msgstr "  -d, --nodeps         spring over versionstjek af afhængigheder (-dd for at springe over alle tjek)\n"
+msgstr ""
+"  -d, --nodeps         spring over versionstjek af afhængigheder (-dd for at "
+"springe over alle tjek)\n"
 
 #: src/pacman/pacman.c:200
 #, c-format
 msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
-msgstr "      --assume-installed <pakke=version>\n                       tilføj en virtuel pakke for at tilfredsstille afhængigheder\n"
+msgstr ""
+"      --assume-installed <pakke=version>\n"
+"                       tilføj en virtuel pakke for at tilfredsstille "
+"afhængigheder\n"
 
 #: src/pacman/pacman.c:202
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
-msgstr "      --dbonly         modificer kun databasepunkter, ikke pakkefiler\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
+msgstr ""
+"      --dbonly         modificer kun databasepunkter, ikke pakkefiler\n"
 
 #: src/pacman/pacman.c:203
 #, c-format
@@ -1013,21 +1085,25 @@ msgstr "      --noprogressbar  vis ikke en statusbjælke når der hentes filer\n
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
-msgstr "      --noscriptlet    kør ikke installationsskriplet hvis en sådan findes\n"
+msgstr ""
+"      --noscriptlet    kør ikke installationsskriplet hvis en sådan findes\n"
 
 #: src/pacman/pacman.c:205
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
-msgstr "  -p, --print          udskriv målene i stedet for at udføre operationen\n"
+msgstr ""
+"  -p, --print          udskriv målene i stedet for at udføre operationen\n"
 
 #: src/pacman/pacman.c:206
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr "      --print-format <string>\n                       angiv hvordan målene skal vises\n"
+msgstr ""
+"      --print-format <string>\n"
+"                       angiv hvordan målene skal vises\n"
 
 #: src/pacman/pacman.c:211
 #, c-format
@@ -1052,7 +1128,8 @@ msgstr "      --arch <arkit.>    angiv en alternativ arkitektur\n"
 #: src/pacman/pacman.c:215
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "      --cachedir <mappe> angiv en alternativ pakkemellemlagerplacering\n"
+msgstr ""
+"      --cachedir <mappe> angiv en alternativ pakkemellemlagerplacering\n"
 
 #: src/pacman/pacman.c:216
 #, c-format
@@ -1099,7 +1176,9 @@ msgstr "      --confirm        spørg altid om bekræftelse\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       Dette program kan frit videredistribueres under\n                       betingelserne i GNU General Public License.\n"
+msgstr ""
+"                       Dette program kan frit videredistribueres under\n"
+"                       betingelserne i GNU General Public License.\n"
 
 #: src/pacman/pacman.c:302
 #, c-format
@@ -1154,7 +1233,8 @@ msgstr "argumentet '-' angivet uden inddata til stdin\n"
 #: src/pacman/pacman.c:1218
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
-msgstr "du kan ikke udføre denne handling med mindre du er administrator (root).\n"
+msgstr ""
+"du kan ikke udføre denne handling med mindre du er administrator (root).\n"
 
 #: src/pacman/pacman.c:1272
 #, c-format
@@ -1458,7 +1538,9 @@ msgstr "kunne ikke låse database: %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  hvis du er sikker på at en pakkehåndtering ikke \n  allerede kører, kan du fjerne %s\n"
+msgstr ""
+"  hvis du er sikker på at en pakkehåndtering ikke \n"
+"  allerede kører, kan du fjerne %s\n"
 
 #: src/pacman/util.c:96
 #, c-format

@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Chris Darnell <chris@cedeel.com>, 2013
 # Chris Darnell <chris@cedeel.com>, 2013-2014,2016
@@ -12,14 +12,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"POT-Creation-Date: 2016-02-23 13:08+1000\n"
 "PO-Revision-Date: 2016-02-22 22:03+0000\n"
 "Last-Translator: Chris Darnell <chris@cedeel.com>\n"
-"Language-Team: Danish (http://www.transifex.com/toofishes/archlinux-pacman/language/da/)\n"
+"Language-Team: Danish (http://www.transifex.com/toofishes/archlinux-pacman/"
+"language/da/)\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lib/libalpm/add.c:86
@@ -55,69 +56,74 @@ msgstr "kunne ikke omdøbe %s til %s (%s)\n"
 #: lib/libalpm/add.c:191
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
-msgstr "fil ikke fundet i fillisten for pakke %s. springer over udpakkelse af %s\n"
+msgstr ""
+"fil ikke fundet i fillisten for pakke %s. springer over udpakkelse af %s\n"
 
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
 msgstr "kan ikke pakke %s%s ud: sti for lang"
 
-#: lib/libalpm/add.c:241
+#: lib/libalpm/add.c:242
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "mapperettigheder er forskellige for %s\nfilsystem: %o  pakke: %o\n"
+msgstr ""
+"mapperettigheder er forskellige for %s\n"
+"filsystem: %o  pakke: %o\n"
 
-#: lib/libalpm/add.c:256
+#: lib/libalpm/add.c:257
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
-msgstr "mapperettigheder er forskellige for %s\nfilsystem: %u:%u pakke: %u:%u\n"
+msgstr ""
+"mapperettigheder er forskellige for %s\n"
+"filsystem: %u:%u pakke: %u:%u\n"
 
-#: lib/libalpm/add.c:272
+#: lib/libalpm/add.c:273
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "udtræk: overskriver ikke mappe med fil %s\n"
 
-#: lib/libalpm/add.c:300
+#: lib/libalpm/add.c:301
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "kan ikke pakke %s.pacnew ud: sti for lang"
 
-#: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
+#: lib/libalpm/add.c:498 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "kunne ikke hente nuværende arbejdsmappe\n"
 
-#: lib/libalpm/add.c:506 lib/libalpm/util.c:336 lib/libalpm/util.c:572
-#: lib/libalpm/util.c:627
+#: lib/libalpm/add.c:503 lib/libalpm/util.c:336 lib/libalpm/util.c:572
+#: lib/libalpm/util.c:625
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kunne ikke ændre mappe til %s (%s)\n"
 
-#: lib/libalpm/add.c:545 lib/libalpm/util.c:400 lib/libalpm/util.c:731
+#: lib/libalpm/add.c:542 lib/libalpm/util.c:400 lib/libalpm/util.c:730
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "kunne ikke genskabe arbejdsmappe (%s)\n"
 
-#: lib/libalpm/add.c:553
+#: lib/libalpm/add.c:550
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "der opstod et problem under opgradering %s\n"
 
-#: lib/libalpm/add.c:559
+#: lib/libalpm/add.c:556
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "der opstod et problem under installation af %s\n"
 
-#: lib/libalpm/add.c:575
+#: lib/libalpm/add.c:572
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "kunne ikke opdatere databasepunkt %s-%s\n"
 
-#: lib/libalpm/add.c:586
+#: lib/libalpm/add.c:583
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "kunne ikke tilføje punkt »%s« i cache\n"
@@ -216,7 +222,7 @@ msgstr "manglende pakkemetadata i %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "kunne ikke læse underskriftfil: %s\n"
 
-#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1108
+#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1113
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "krævede nøgle mangler fra nøglering\n"
@@ -349,7 +355,9 @@ msgstr "fejlede i indhentning af fil '%s' fra %s: %s\n"
 #: lib/libalpm/dload.c:500
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "kunne ikke indhente fil '%s' fra %s: forventet downloadstørrelse overskredet\n"
+msgstr ""
+"kunne ikke indhente fil '%s' fra %s: forventet downloadstørrelse "
+"overskredet\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -726,47 +734,47 @@ msgstr "pakkekonflikter, der ikke kan løses, er detekteret\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "fjerner »%s« fra målliste da det konflikter med »%s«\n"
 
-#: lib/libalpm/sync.c:1014
+#: lib/libalpm/sync.c:1019
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "kunne ikke indhente nogle filer\n"
 
-#: lib/libalpm/sync.c:1176
+#: lib/libalpm/sync.c:1181
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: mangler krævet signatur\n"
 
-#: lib/libalpm/sync.c:1376
+#: lib/libalpm/sync.c:1384
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "ikke nok ledig diskplads\n"
 
-#: lib/libalpm/sync.c:1398
+#: lib/libalpm/sync.c:1406
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kunne ikke indsende (commit) fjernelsestransaktion\n"
 
-#: lib/libalpm/sync.c:1406
+#: lib/libalpm/sync.c:1414
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kunne ikke indsende (commit) transaktion\n"
 
-#: lib/libalpm/trans.c:358
+#: lib/libalpm/trans.c:360
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "kunne ikke oprette midlertidig mappe\n"
 
-#: lib/libalpm/trans.c:373
+#: lib/libalpm/trans.c:375
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "kunne ikke kopier midlertidig fil til %s (%s)\n"
 
-#: lib/libalpm/trans.c:404
+#: lib/libalpm/trans.c:406
 #, c-format
 msgid "could not remove %s\n"
 msgstr "kunne ikke slette %s\n"
 
-#: lib/libalpm/trans.c:408
+#: lib/libalpm/trans.c:410
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kunne ikke fjerne tmpdir %s\n"
@@ -796,42 +804,42 @@ msgstr "kunne ikke oprette pipe (%s)\n"
 msgid "could not fork a new process (%s)\n"
 msgstr "kunne ikke forgren en ny proces (%s)\n"
 
-#: lib/libalpm/util.c:623
+#: lib/libalpm/util.c:621
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "kunne ikke ændre rodmappen (%s)\n"
 
-#: lib/libalpm/util.c:634
+#: lib/libalpm/util.c:632
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "kald til execv fejlede (%s)\n"
 
-#: lib/libalpm/util.c:702
+#: lib/libalpm/util.c:701
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "kald til waitpid fejlede (%s)\n"
 
-#: lib/libalpm/util.c:712
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "kommando kunne ikke udføres korrekt\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:718
 #, c-format
 msgid "Unknown signal"
 msgstr "Ukendt signal"
 
-#: lib/libalpm/util.c:721
+#: lib/libalpm/util.c:720
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "kommando afbrudt af signal %d: %s\n"
 
-#: lib/libalpm/util.c:818
+#: lib/libalpm/util.c:817
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "ingen %s-cache findes, opretter...\n"
 
-#: lib/libalpm/util.c:849
+#: lib/libalpm/util.c:848
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kunne ikke finde eller oprette pakke-cache, bruger i stedet %s\n"

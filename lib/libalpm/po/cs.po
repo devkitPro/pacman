@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # David Kolibáč <david@kolibac.cz>, 2011
@@ -15,14 +15,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-01-17 13:21+1000\n"
+"POT-Creation-Date: 2016-02-23 13:08+1000\n"
 "PO-Revision-Date: 2015-12-12 18:41+0000\n"
 "Last-Translator: Jaroslav Lichtblau <dragonlord@seznam.cz>\n"
-"Language-Team: Czech (http://www.transifex.com/toofishes/archlinux-pacman/language/cs/)\n"
+"Language-Team: Czech (http://www.transifex.com/toofishes/archlinux-pacman/"
+"language/cs/)\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: lib/libalpm/add.c:86
@@ -58,69 +59,74 @@ msgstr "nelze přejmenovat %s na %s (%s)\n"
 #: lib/libalpm/add.c:191
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
-msgstr "soubor nenalezen v seznamu souborů balíčku %s. přeskakuje se rozbalení %s\n"
+msgstr ""
+"soubor nenalezen v seznamu souborů balíčku %s. přeskakuje se rozbalení %s\n"
 
 #: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
 msgstr "nelze rozbalit %s%s: příliš dlouhá cesta"
 
-#: lib/libalpm/add.c:241
+#: lib/libalpm/add.c:242
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "přístupová práva adresáře %s se neshodují\nsouborový systém: %o   balíček: %o\n"
+msgstr ""
+"přístupová práva adresáře %s se neshodují\n"
+"souborový systém: %o   balíček: %o\n"
 
-#: lib/libalpm/add.c:256
+#: lib/libalpm/add.c:257
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
-msgstr "rozdílný vlastník adresáře %s\nsouborový systém: %u:%u balíček: %u:%u\n"
+msgstr ""
+"rozdílný vlastník adresáře %s\n"
+"souborový systém: %u:%u balíček: %u:%u\n"
 
-#: lib/libalpm/add.c:272
+#: lib/libalpm/add.c:273
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "rozbalení: adresář nebyl přepsán souborem %s\n"
 
-#: lib/libalpm/add.c:300
+#: lib/libalpm/add.c:301
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "nelze rozbalit %s.pacnew: příliš dlouhá cesta"
 
-#: lib/libalpm/add.c:501 lib/libalpm/util.c:331 lib/libalpm/util.c:567
+#: lib/libalpm/add.c:498 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nelze určit aktuální pracovní adresář\n"
 
-#: lib/libalpm/add.c:506 lib/libalpm/util.c:336 lib/libalpm/util.c:572
-#: lib/libalpm/util.c:627
+#: lib/libalpm/add.c:503 lib/libalpm/util.c:336 lib/libalpm/util.c:572
+#: lib/libalpm/util.c:625
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nelze změnit adresář na %s (%s)\n"
 
-#: lib/libalpm/add.c:545 lib/libalpm/util.c:400 lib/libalpm/util.c:731
+#: lib/libalpm/add.c:542 lib/libalpm/util.c:400 lib/libalpm/util.c:730
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "nelze obnovit pracovní adresář (%s)\n"
 
-#: lib/libalpm/add.c:553
+#: lib/libalpm/add.c:550
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "nastal problém při aktualizaci %s\n"
 
-#: lib/libalpm/add.c:559
+#: lib/libalpm/add.c:556
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "nastal problém při instalaci %s\n"
 
-#: lib/libalpm/add.c:575
+#: lib/libalpm/add.c:572
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "nelze aktualizovat záznam databáze %s-%s\n"
 
-#: lib/libalpm/add.c:586
+#: lib/libalpm/add.c:583
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "nelze přidat položku '%s' do mezipaměti\n"
@@ -219,7 +225,7 @@ msgstr "chybí metadata balíčku v %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "nelze načíst soubor s podpisy: %s\n"
 
-#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1108
+#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1113
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "požadovaný klíč není v klíčence\n"
@@ -352,7 +358,9 @@ msgstr "selhalo získání souboru '%s' z %s: %s\n"
 #: lib/libalpm/dload.c:500
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "selhalo získání souboru '%s' z %s : překročení očekávané velikosti stahování\n"
+msgstr ""
+"selhalo získání souboru '%s' z %s : překročení očekávané velikosti "
+"stahování\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -729,47 +737,47 @@ msgstr "zjištěn konflikt nerozlišitelných balíčků\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' odstraněn ze seznamu cílů, protože je konfliktní s '%s'\n"
 
-#: lib/libalpm/sync.c:1014
+#: lib/libalpm/sync.c:1019
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "selhalo získání některých souborů\n"
 
-#: lib/libalpm/sync.c:1176
+#: lib/libalpm/sync.c:1181
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: chybí vyžadovaný podpis\n"
 
-#: lib/libalpm/sync.c:1376
+#: lib/libalpm/sync.c:1384
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "není dostatek volného místa na disku\n"
 
-#: lib/libalpm/sync.c:1398
+#: lib/libalpm/sync.c:1406
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "nelze provést transakci pro odstranění\n"
 
-#: lib/libalpm/sync.c:1406
+#: lib/libalpm/sync.c:1414
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "nelze provést transakci\n"
 
-#: lib/libalpm/trans.c:358
+#: lib/libalpm/trans.c:360
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "nelze vytvořit dočasný adresář\n"
 
-#: lib/libalpm/trans.c:373
+#: lib/libalpm/trans.c:375
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nelze zkopírovat dočasný soubor do %s (%s)\n"
 
-#: lib/libalpm/trans.c:404
+#: lib/libalpm/trans.c:406
 #, c-format
 msgid "could not remove %s\n"
 msgstr "nelze odstranit %s\n"
 
-#: lib/libalpm/trans.c:408
+#: lib/libalpm/trans.c:410
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nelze odstranit dočasný adresář %s\n"
@@ -799,42 +807,44 @@ msgstr "nepodařilo se vytvořit rouru (%s)\n"
 msgid "could not fork a new process (%s)\n"
 msgstr "nelze spustit nový proces (%s)\n"
 
-#: lib/libalpm/util.c:623
+#: lib/libalpm/util.c:621
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "nelze změnit kořenový adresář (%s)\n"
 
-#: lib/libalpm/util.c:634
+#: lib/libalpm/util.c:632
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "volání execv selhalo (%s)\n"
 
-#: lib/libalpm/util.c:702
+#: lib/libalpm/util.c:701
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "volání waitpid selhalo (%s)\n"
 
-#: lib/libalpm/util.c:712
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "příkaz se nepodařilo spustit správně\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:718
 #, c-format
 msgid "Unknown signal"
 msgstr "Neznámý signál"
 
-#: lib/libalpm/util.c:721
+#: lib/libalpm/util.c:720
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "příkaz ukončen signálem %d: %s\n"
 
-#: lib/libalpm/util.c:818
+#: lib/libalpm/util.c:817
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "neexistuje mezipaměť %s, vytváří se...\n"
 
-#: lib/libalpm/util.c:849
+#: lib/libalpm/util.c:848
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "nepodařilo se najít nebo vytvořit mezipaměť pro balíčky, používám místo toho %s\n"
+msgstr ""
+"nepodařilo se najít nebo vytvořit mezipaměť pro balíčky, používám místo toho "
+"%s\n"
