@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # BrLi <rainman59118@gmail.com>, 2015
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2012
@@ -18,12 +18,11 @@ msgstr ""
 "POT-Creation-Date: 2016-01-17 13:21+1000\n"
 "PO-Revision-Date: 2016-01-18 03:11+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
-"archlinux-pacman/language/zh_TW/)\n"
-"Language: zh_TW\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/archlinux-pacman/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/pacman/callback.c:182
@@ -159,8 +158,7 @@ msgstr "%s 已存至 %s.pacsave\n"
 #: src/pacman/callback.c:390
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-"%s 位於 IgnorePkg/IgnoreGroup (忽略套件/忽略套件群組) 中。確定要安裝嗎？"
+msgstr "%s 位於 IgnorePkg/IgnoreGroup (忽略套件/忽略套件群組) 中。確定要安裝嗎？"
 
 #: src/pacman/callback.c:400
 #, c-format
@@ -182,7 +180,8 @@ msgstr "%s 與 %s 有衝突 (%s)。刪除 %s 嗎？"
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable dependencies:\n"
+"The following packages cannot be upgraded due to unresolvable "
+"dependencies:\n"
 msgstr[0] "因爲無法解決依賴關係，以下套件無法進行更新：\n"
 
 #: src/pacman/callback.c:442
@@ -202,9 +201,7 @@ msgstr[0] "有 %zu 個提供者可供 %s：\n"
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr ""
-" %s 檔案毀損(%s)。\n"
-"你要刪除它嗎?"
+msgstr " %s 檔案毀損(%s)。\n你要刪除它嗎?"
 
 #: src/pacman/callback.c:478
 #, c-format
@@ -374,9 +371,7 @@ msgstr "正在運行 XferCommand：fork 失敗！\n"
 #: src/pacman/conf.c:277
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr ""
-"不能將 %s 重命名為 %s (%s)\n"
-"\n"
+msgstr "不能將 %s 重命名為 %s (%s)\n\n"
 
 #: src/pacman/conf.c:288
 #, c-format
@@ -424,9 +419,7 @@ msgstr "無法新增鏡像檔案「%s」到資料庫「%s」(%s)\n"
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr ""
-"alpm 函式庫初始化失敗\n"
-"(%s: %s)\n"
+msgstr "alpm 函式庫初始化失敗\n(%s: %s)\n"
 
 #: src/pacman/conf.c:725
 #, c-format
@@ -751,14 +744,13 @@ msgstr "操作：\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr ""
-"\n"
-"使用 '%s {-h --help}' 及某個操作以查看可用選項\n"
+msgstr "\n使用 '%s {-h --help}' 及某個操作以查看可用選項\n"
 
 #: src/pacman/pacman.c:125
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on them\n"
+"  -c, --cascade        remove packages and all packages that depend on "
+"them\n"
 msgstr "  -c, --cascade        刪除套件及所有依賴於此的套件\n"
 
 #: src/pacman/pacman.c:126
@@ -771,9 +763,7 @@ msgstr "  -n, --nosave         刪除組態檔\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr ""
-"  -s, --recursive      刪除不需要的依賴關係\n"
-"                       (-ss 包括單獨指定安裝的依賴關係)\n"
+msgstr "  -s, --recursive      刪除不需要的依賴關係\n                       (-ss 包括單獨指定安裝的依賴關係)\n"
 
 #: src/pacman/pacman.c:129
 #, c-format
@@ -808,8 +798,7 @@ msgstr "  -g, --groups         查看某套件群組所屬的所有套件\n"
 
 #: src/pacman/pacman.c:141
 #, c-format
-msgid ""
-"  -i, --info           view package information (-ii for backup files)\n"
+msgid "  -i, --info           view package information (-ii for backup files)\n"
 msgstr "  -i, --info           查看套件資訊 (-ii 查看備份檔案) \n"
 
 #: src/pacman/pacman.c:142
@@ -829,16 +818,14 @@ msgstr "  -l, --list           列出被查詢套件的檔名列表\n"
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr ""
-"  -m, --foreign        列出沒有在同步資料庫時找到的已安裝套件 [過濾器]\n"
+msgstr "  -m, --foreign        列出沒有在同步資料庫時找到的已安裝套件 [過濾器]\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
-msgstr ""
-"  -n, --native         列出僅可在同步資料庫中找到的已安裝套件 [過濾器]\n"
+msgstr "  -n, --native         列出僅可在同步資料庫中找到的已安裝套件 [過濾器]\n"
 
 #: src/pacman/pacman.c:146 src/pacman/pacman.c:179
 #, c-format
@@ -867,9 +854,7 @@ msgstr "  -s, --search <regex> 搜尋符合指定字符串的已安裝本地的�
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
-msgstr ""
-"  -t, --unrequired     列出所有不被其他套件 (包含選擇性) 需要的套件\n"
-"                       (-tt 忽略可選依賴) [過濾器]\n"
+msgstr "  -t, --unrequired     列出所有不被其他套件 (包含選擇性) 需要的套件\n                       (-tt 忽略可選依賴) [過濾器]\n"
 
 #: src/pacman/pacman.c:152
 #, c-format
@@ -888,9 +873,7 @@ msgstr "  -c, --clean          從快取目錄中刪除舊軟體套件 (-cc 清�
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr ""
-"  -g, --groups         查看某套件群組所屬的所有套件\n"
-"                       (-gg 顯示所有群組及成員)\n"
+msgstr "  -g, --groups         查看某套件群組所屬的所有套件\n                       (-gg 顯示所有群組及成員)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -906,8 +889,7 @@ msgstr "  -l, --list <軟體庫>    查看在該軟體庫中的套件清單\n"
 
 #: src/pacman/pacman.c:162
 #, c-format
-msgid ""
-"  -s, --search <regex> search remote repositories for matching strings\n"
+msgid "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "  -s, --search <regex 表達式> 按照指定字符串查詢遠端軟體庫\n"
 
 #: src/pacman/pacman.c:163
@@ -928,9 +910,7 @@ msgstr "  -w, --downloadonly   下載但不安裝/升級套件\n"
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
-msgstr ""
-"  -y, --refresh        從伺服器下載新的套件列表資料庫\n"
-"                       (-yy 強迫再次更新)\n"
+msgstr "  -y, --refresh        從伺服器下載新的套件列表資料庫\n                       (-yy 強迫再次更新)\n"
 
 #: src/pacman/pacman.c:171
 #, c-format
@@ -964,9 +944,7 @@ msgstr "  -x, --regex          啟用使用正規表達式搜尋\n"
 msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
-msgstr ""
-"      --machinereadable\n"
-"                       產生機器可讀的輸出\n"
+msgstr "      --machinereadable\n                       產生機器可讀的輸出\n"
 
 #: src/pacman/pacman.c:191
 #, c-format
@@ -995,9 +973,7 @@ msgstr "      --ignore <套件>   升級時忽略某個套件 (可多次使用) 
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr ""
-"      --ignoregroup <套件組>\n"
-"                         升級時忽略某個套件組 (可多次使用) \n"
+msgstr "      --ignoregroup <套件組>\n                         升級時忽略某個套件組 (可多次使用) \n"
 
 #: src/pacman/pacman.c:199
 #, c-format
@@ -1011,15 +987,11 @@ msgstr "  -d, --nodeps         跳過依賴關係的版本檢查 (-dd 跳過所�
 msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
-msgstr ""
-"      --assume-installed <package=version>\n"
-"                       加上虛擬套件假裝滿足相依性\n"
-"\n"
+msgstr "      --assume-installed <package=version>\n                       加上虛擬套件假裝滿足相依性\n\n"
 
 #: src/pacman/pacman.c:202
 #, c-format
-msgid ""
-"      --dbonly         only modify database entries, not package files\n"
+msgid "      --dbonly         only modify database entries, not package files\n"
 msgstr "      --dbonly         只修改資料庫項目,非套件檔案\n"
 
 #: src/pacman/pacman.c:203
@@ -1046,9 +1018,7 @@ msgstr "  -p, --print          列印目標而不是執行操作\n"
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr ""
-"      --print-format <字串>\n"
-"                       指定如何列印目標\n"
+msgstr "      --print-format <字串>\n                       指定如何列印目標\n"
 
 #: src/pacman/pacman.c:211
 #, c-format
@@ -1120,9 +1090,7 @@ msgstr "      --confirm        永遠詢問確認\n"
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr ""
-"                       本程式可以在 GNU 通用公共授權條款 (GPL) 下\n"
-"                       自由散佈\n"
+msgstr "                       本程式可以在 GNU 通用公共授權條款 (GPL) 下\n                       自由散佈\n"
 
 #: src/pacman/pacman.c:302
 #, c-format
@@ -1480,9 +1448,7 @@ msgstr "無法鎖定資料庫：%s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr ""
-"  如果你確認套件管理器沒有在運行，\n"
-"  你可以刪除 %s。\n"
+msgstr "  如果你確認套件管理器沒有在運行，\n  你可以刪除 %s。\n"
 
 #: src/pacman/util.c:96
 #, c-format
