@@ -46,7 +46,7 @@ is_array() {
 	local shellopts=$(shopt -p)
 	shopt -s extglob
 
-	if [[ $(declare -p "$i") == declare\ -*([[:alnum:]])a*([[:alnum:]])\ * ]]; then
+	if [[ $(declare -p "$v") == declare\ -*([[:alnum:]])a*([[:alnum:]])\ * ]]; then
 		ret=0
 	fi
 
