@@ -254,7 +254,6 @@ int check_pkg_full(alpm_pkg_t *pkg)
 	const char *root, *pkgname;
 	size_t errors = 0;
 	size_t rootlen;
-	char filepath[PATH_MAX];
 	struct archive *mtree;
 	struct archive_entry *entry = NULL;
 	size_t file_count = 0;
@@ -267,7 +266,6 @@ int check_pkg_full(alpm_pkg_t *pkg)
 		pm_printf(ALPM_LOG_ERROR, _("path too long: %s%s\n"), root, "");
 		return 1;
 	}
-	strcpy(filepath, root);
 
 	pkgname = alpm_pkg_get_name(pkg);
 	mtree = alpm_pkg_mtree_open(pkg);
@@ -282,6 +280,8 @@ int check_pkg_full(alpm_pkg_t *pkg)
 	while(alpm_pkg_mtree_next(pkg, mtree, &entry) == ARCHIVE_OK) {
 		struct stat st;
 		const char *path = archive_entry_pathname(entry);
+		char filepath[PATH_MAX];
+		int filepath_len;
 		mode_t type;
 		size_t file_errors = 0;
 		int backup = 0;
@@ -292,31 +292,37 @@ int check_pkg_full(alpm_pkg_t *pkg)
 			path += 2;
 		}
 
-		if(strcmp(path, ".INSTALL") == 0) {
-			char filename[PATH_MAX];
-			snprintf(filename, PATH_MAX, "%slocal/%s-%s/install",
-					alpm_option_get_dbpath(config->handle) + 1,
-					pkgname, alpm_pkg_get_version(pkg));
-			archive_entry_set_pathname(entry, filename);
-			path = archive_entry_pathname(entry);
-		} else if(strcmp(path, ".CHANGELOG") == 0) {
-			char filename[PATH_MAX];
-			snprintf(filename, PATH_MAX, "%slocal/%s-%s/changelog",
-					alpm_option_get_dbpath(config->handle) + 1,
-					pkgname, alpm_pkg_get_version(pkg));
-			archive_entry_set_pathname(entry, filename);
-			path = archive_entry_pathname(entry);
-		} else if(*path == '.') {
-			continue;
+		if(*path == '.') {
+			const char *dbfile = NULL;
+
+			if(strcmp(path, ".INSTALL") == 0) {
+				dbfile = "install";
+			} else if(strcmp(path, ".CHANGELOG") == 0) {
+				dbfile = "changelog";
+			} else {
+				continue;
+			}
+
+			/* Do not append root directory as alpm_option_get_dbpath is already
+			 * an absoute path */
+			filepath_len = snprintf(filepath, PATH_MAX, "%slocal/%s-%s/%s",
+					alpm_option_get_dbpath(config->handle),
+					pkgname, alpm_pkg_get_version(pkg), dbfile);
+			if(filepath_len >= PATH_MAX) {
+				pm_printf(ALPM_LOG_WARNING, _("path too long: %slocal/%s-%s/%s\n"),
+						alpm_option_get_dbpath(config->handle),
+						pkgname, alpm_pkg_get_version(pkg), dbfile);
+				continue;
+			}
+		} else {
+			filepath_len = snprintf(filepath, PATH_MAX, "%s%s", root, path);
+			if(filepath_len >= PATH_MAX) {
+				pm_printf(ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
+				continue;
+			}
 		}
 
 		file_count++;
-
-		if(rootlen + 1 + strlen(path) > PATH_MAX) {
-			pm_printf(ALPM_LOG_WARNING, _("path too long: %s%s\n"), root, path);
-			continue;
-		}
-		strcpy(filepath + rootlen, path);
 
 		exists = check_file_exists(pkgname, filepath, rootlen, &st);
 		if(exists == 1) {
