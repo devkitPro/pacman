@@ -81,6 +81,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/source/hg.sh \
 	libmakepkg/source/local.sh \
 	libmakepkg/source/svn.sh \
+	libmakepkg/srcinfo.sh \
 	libmakepkg/tidy.sh \
 	libmakepkg/tidy/docs.sh \
 	libmakepkg/tidy/emptydirs.sh \
