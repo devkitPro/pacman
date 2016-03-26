@@ -57,13 +57,13 @@ Options
 	be inside this root path.
 
 *DBPath =* path/to/db/dir::
-	Overrides the default location of the toplevel database directory.  A
-	typical default is +{localstatedir}/lib/pacman/+. Most users will not need to set
+	Overrides the default location of the toplevel database directory. The
+	default is +{localstatedir}/lib/pacman/+. Most users will not need to set
 	this option. *NOTE*: if specified, this is an absolute path and the root
 	path is not automatically prepended.
 
 *CacheDir =* path/to/cache/dir::
-	Overrides the default location of the package cache directory. A typical
+	Overrides the default location of the package cache directory. The
 	default is +{localstatedir}/cache/pacman/pkg/+. Multiple cache directories can be
 	specified, and they are tried in the order they are listed in the config
 	file. If a file is not found in any cache directory, it will be downloaded
@@ -72,7 +72,7 @@ Options
 
 *HookDir =* path/to/hook/dir::
 	Add directories to search for alpm hooks in addition to the system hook
-	directory (+{datarootdir}/libalpm/hooks/+).  A typical default is
+	directory (+{datarootdir}/libalpm/hooks/+).  The default is
 	+{sysconfdir}/pacman.d/hooks+.  Multiple directories can be specified with
 	hooks in later directories taking precedence over hooks in earlier
 	directories.  *NOTE*: this is an absolute path, the root path is not
@@ -81,7 +81,7 @@ Options
 
 *GPGDir =* path/to/gpg/dir::
 	Overrides the default location of the directory containing configuration
-	files for GnuPG. A typical default is +{sysconfdir}/pacman.d/gnupg/+.
+	files for GnuPG. The default is +{sysconfdir}/pacman.d/gnupg/+.
 	This directory should contain two files: `pubring.gpg` and `trustdb.gpg`.
 	`pubring.gpg` holds the public keys of all packagers. `trustdb.gpg`
 	contains a so-called trust database, which specifies that the keys are
@@ -90,7 +90,7 @@ Options
 	prepended.
 
 *LogFile =* /path/to/file::
-	Overrides the default location of the pacman log file. A typical default
+	Overrides the default location of the pacman log file. The default
 	is +{localstatedir}/log/pacman.log+. This is an absolute path and the root directory
 	is not prepended.
 

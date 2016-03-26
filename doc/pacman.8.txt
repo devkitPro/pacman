@@ -127,7 +127,7 @@ greater than `1:3.6-1`.
 Options
 -------
 *-b, \--dbpath* <path>::
-	Specify an alternative database location (a typical default is
+	Specify an alternative database location (the default is
 	+{localstatedir}/lib/pacman+). This should not be used unless you know what
 	you are doing.
 	*NOTE*: If specified, this is an absolute path, and the root path is
@@ -149,7 +149,7 @@ Options
 	Specify an alternate architecture.
 
 *\--cachedir* <dir>::
-	Specify an alternative package cache location (a typical default is
+	Specify an alternative package cache location (the default is
 	+{localstatedir}/cache/pacman/pkg+). Multiple cache directories can be
 	specified, and they are tried in the order they are passed to pacman.
 	*NOTE*: This is an absolute path, and the root path is not automatically
@@ -168,15 +168,15 @@ Options
 	to be used.
 
 *\--gpgdir* <dir>::
-	Specify a directory of files used by GnuPG to verify package signatures (a
-	typical default is +{sysconfdir}/pacman.d/gnupg+). This directory should contain
+	Specify a directory of files used by GnuPG to verify package signatures
+	(the default is +{sysconfdir}/pacman.d/gnupg+). This directory should contain
 	two files: `pubring.gpg` and `trustdb.gpg`. `pubring.gpg` holds the public keys
 	of all packagers. `trustdb.gpg` contains a so-called trust database, which
 	specifies that the keys are authentic and trusted. *NOTE*: This is an absolute
 	path, and the root path is not automatically prepended.
 
 *\--hookdir* <dir>::
-	Specify a alternative directory containing hook files (a typical default is
+	Specify a alternative directory containing hook files (the default is
 	+{sysconfdir}/pacman.d/hooks+). Multiple hook directories can be specified
 	with hooks in later directories taking precedence over hooks in earlier
 	directories. *NOTE*: This is an absolute path, and the root path is not
