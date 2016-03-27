@@ -1256,8 +1256,9 @@ static void display_repo_list(const char *dbname, alpm_list_t *list,
 		unsigned short cols)
 {
 	const char *prefix = "  ";
+	const colstr_t *colstr = &config->colstr;
 
-	colon_printf(_("Repository %s\n"), dbname);
+	colon_printf(_("Repository %s%s\n"), colstr->repo, dbname);
 	list_display(prefix, list, cols);
 }
 

@@ -557,9 +557,10 @@ static int process_group(alpm_list_t *dbs, const char *group, int error)
 	if(config->print == 0) {
 		char *array = malloc(count);
 		int n = 0;
-		colon_printf(_n("There is %d member in group %s:\n",
-				"There are %d members in group %s:\n", count),
-				count, group);
+		const colstr_t *colstr = &config->colstr;
+		colon_printf(_n("There is %d member in group %s%s%s:\n",
+				"There are %d members in group %s%s%s:\n", count),
+				count, colstr->groups, group, colstr->title);
 		select_display(pkgs);
 		if(!array) {
 			ret = 1;
