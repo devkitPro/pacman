@@ -1025,16 +1025,37 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
 {
 	alpm_list_t *servers;
 	char *string = NULL;
-	switch(config->op) {
-		case PM_OP_SYNC:
+	switch(alpm_pkg_get_origin(pkg)) {
+		case ALPM_PKG_FROM_SYNCDB:
+			if(alpm_pkg_download_size(pkg) == 0) {
+				/* file is already in the package cache */
+				alpm_list_t *i;
+				const char *pkgfile = alpm_pkg_get_filename(pkg);
+				char path[PATH_MAX];
+				struct stat buf;
+
+				for(i = alpm_option_get_cachedirs(config->handle); i; i = i->next) {
+					snprintf(path, PATH_MAX, "%s%s", (char *)i->data, pkgfile);
+					if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
+						pm_asprintf(&string, "file://%s", path);
+						return string;
+					}
+				}
+			}
+
 			servers = alpm_db_get_servers(alpm_pkg_get_db(pkg));
 			if(servers) {
 				pm_asprintf(&string, "%s/%s", (char *)(servers->data),
 						alpm_pkg_get_filename(pkg));
 				return string;
 			}
-		case PM_OP_UPGRADE:
+
+			/* fallthrough - for theoretical serverless repos */
+
+		case ALPM_PKG_FROM_FILE:
 			return strdup(alpm_pkg_get_filename(pkg));
+
+		case ALPM_PKG_FROM_LOCALDB:
 		default:
 			pm_asprintf(&string, "%s-%s", alpm_pkg_get_name(pkg), alpm_pkg_get_version(pkg));
 			return string;
