@@ -375,10 +375,14 @@ void cb_event(alpm_event_t *event)
 void cb_question(alpm_question_t *question)
 {
 	if(config->print) {
-		if(question->type == ALPM_QUESTION_INSTALL_IGNOREPKG) {
-			question->any.answer = 1;
-		} else {
-			question->any.answer = 0;
+		switch(question->type) {
+			case ALPM_QUESTION_INSTALL_IGNOREPKG:
+			case ALPM_QUESTION_REPLACE_PKG:
+				question->any.answer = 1;
+				break;
+			default:
+				question->any.answer = 0;
+				break;
 		}
 		return;
 	}
