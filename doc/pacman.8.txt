@@ -232,7 +232,7 @@ Transaction Options (apply to '-S', '-R' and '-U')
 
 
 Upgrade Options (apply to '-S' and '-U')[[UO]]
---------------------------------------------
+----------------------------------------------
 *\--force*::
 	Bypass file conflict checks and overwrite conflicting files. If the
 	package that is about to be installed contains files that are already
@@ -267,8 +267,8 @@ Upgrade Options (apply to '-S' and '-U')[[UO]]
 	Do not reinstall the targets that are already up-to-date.
 
 
-Query Options[[QO]]
--------------------
+Query Options (apply to '-Q')[[QO]]
+-----------------------------------
 *-c, \--changelog*::
 	View the ChangeLog of a package if it exists.
 
@@ -350,8 +350,8 @@ Query Options[[QO]]
 	database is refreshed using '-Sy'.
 
 
-Remove Options[[RO]]
---------------------
+Remove Options (apply to '-R')[[RO]]
+------------------------------------
 *-c, \--cascade*::
 	Remove all target packages, as well as all packages that depend on one
 	or more target packages. This operation is recursive and must be used
@@ -375,8 +375,8 @@ Remove Options[[RO]]
 	to avoid breaking any dependencies.
 
 
-Sync Options[[SO]]
-------------------
+Sync Options (apply to '-S')[[SO]]
+----------------------------------
 *-c, \--clean*::
 	Remove packages that are no longer installed from the cache as well as
 	currently unused sync databases to free up disk space. When pacman
@@ -444,8 +444,8 @@ system upgrade and install/upgrade the "foo" package in the same operation.
 	up-to-date.
 
 
-Database Options[[QO]]
-----------------------
+Database Options (apply to '-D')[[QO]]
+--------------------------------------
 *\--asdeps* <package>::
 	Mark a package as non-explicitly installed; in other words, set their install
 	reason to be installed as a dependency.
@@ -464,9 +464,8 @@ Database Options[[QO]]
 	a check on the sync databases to ensure all specified dependencies
 	are available.
 
-File Options[[FO]]
-------------------
-
+File Options (apply to '-F')[[FO]]
+----------------------------------
 *-y, --refresh*::
 	Download fresh package databases from the server. Use twice to force a
 	refresh even if databases are up to date.
