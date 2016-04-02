@@ -468,6 +468,9 @@ int pacman_query(alpm_list_t *targets)
 			}
 		} else {
 			pkg = alpm_db_get_pkg(db_local, strname);
+			if(pkg == NULL) {
+				pkg = alpm_find_satisfier(alpm_db_get_pkgcache(db_local), strname);
+			}
 
 			if(pkg == NULL) {
 				pm_printf(ALPM_LOG_ERROR,
