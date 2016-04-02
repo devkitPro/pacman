@@ -763,6 +763,45 @@ source_buildfile() {
 	source_safe "$@"
 }
 
+prepare_buildenv() {
+	# clear user-specified buildflags if requested
+	if check_option "buildflags" "n"; then
+		unset CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
+	fi
+
+	if check_option "debug" "y"; then
+		CFLAGS+=" $DEBUG_CFLAGS"
+		CXXFLAGS+=" $DEBUG_CXXFLAGS"
+	fi
+
+	# clear user-specified makeflags if requested
+	if check_option "makeflags" "n"; then
+		unset MAKEFLAGS
+	fi
+
+	# ensure all necessary build variables are exported
+	export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
+
+	local ccache=0
+
+	# use ccache if it is requested (check buildenv and PKGBUILD opts)
+	if check_buildoption "ccache" "y" && [[ -d /usr/lib/ccache/bin ]]; then
+		export PATH="/usr/lib/ccache/bin:$PATH"
+		ccache=1
+	fi
+
+	# use distcc if it is requested (check buildenv and PKGBUILD opts)
+	if check_buildoption "distcc" "y"; then
+		if (( ccache )); then
+			export CCACHE_PREFIX="${CCACHE_PREFIX:+$CCACHE_PREFIX }distcc"
+			export CCACHE_BASEDIR="$srcdir"
+		elif [[ -d /usr/lib/distcc/bin ]]; then
+			export PATH="/usr/lib/distcc/bin:$PATH"
+		fi
+		export DISTCC_HOSTS
+	fi
+}
+
 run_function_safe() {
 	local restoretrap
 
@@ -786,26 +825,9 @@ run_function() {
 	fi
 	local pkgfunc="$1"
 
-	# clear user-specified buildflags if requested
-	if check_option "buildflags" "n"; then
-		unset CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
-	fi
-
-	if check_option "debug" "y"; then
-		CFLAGS+=" $DEBUG_CFLAGS"
-		CXXFLAGS+=" $DEBUG_CXXFLAGS"
-	fi
-
-	# clear user-specified makeflags if requested
-	if check_option "makeflags" "n"; then
-		unset MAKEFLAGS
-	fi
-
 	msg "$(gettext "Starting %s()...")" "$pkgfunc"
 	cd_safe "$srcdir"
 
-	# ensure all necessary build variables are exported
-	export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
 	# save our shell options so pkgfunc() can't override what we need
 	local shellopts=$(shopt -p)
 
@@ -847,25 +869,6 @@ run_prepare() {
 }
 
 run_build() {
-	local ccache=0
-
-	# use ccache if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildoption "ccache" "y" && [[ -d /usr/lib/ccache/bin ]]; then
-		export PATH="/usr/lib/ccache/bin:$PATH"
-		ccache=1
-	fi
-
-	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildoption "distcc" "y"; then
-		if (( ccache )); then
-			export CCACHE_PREFIX="${CCACHE_PREFIX:+$CCACHE_PREFIX }distcc"
-			export CCACHE_BASEDIR="$srcdir"
-		elif [[ -d /usr/lib/distcc/bin ]]; then
-			export PATH="/usr/lib/distcc/bin:$PATH"
-		fi
-		export DISTCC_HOSTS
-	fi
-
 	run_function_safe "build"
 }
 
@@ -1996,6 +1999,8 @@ if (( INFAKEROOT )); then
 		exit 0 # $E_OK
 	fi
 
+	prepare_buildenv
+
 	chmod 755 "$pkgdirbase"
 	if (( ! SPLITPKG )); then
 		pkgdir="$pkgdirbase/$pkgname"
@@ -2121,6 +2126,8 @@ else
 	mkdir -p "$pkgdirbase"
 	chmod a-srw "$pkgdirbase"
 	cd_safe "$startdir"
+
+	prepare_buildenv
 
 	if (( ! REPKG )); then
 		(( BUILDFUNC )) && run_build
