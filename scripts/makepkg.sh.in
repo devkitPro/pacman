@@ -1710,7 +1710,7 @@ while true; do
 		-o|--nobuild)     NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
 		--packagelist)    PACKAGELIST=1 IGNOREARCH=1;;
-		--printsrcinfo)   PRINTSRCINFO=1 ;;
+		--printsrcinfo)   PRINTSRCINFO=1 IGNOREARCH=1;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--sign)           SIGNPKG='y' ;;
