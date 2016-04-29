@@ -432,7 +432,7 @@ int _alpm_depcmp_literal(alpm_pkg_t *pkg, alpm_depend_t *dep)
 }
 
 /**
- * @param dep dependency to check agains the provision list
+ * @param dep dependency to check against the provision list
  * @param provisions provision list
  * @return 1 if provider is found, 0 otherwise
  */
