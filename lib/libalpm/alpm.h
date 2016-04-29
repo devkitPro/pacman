@@ -464,7 +464,7 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_HOOK_DONE,
 	/** A hook is starting */
 	ALPM_EVENT_HOOK_RUN_START,
-	/** A hook has finnished runnning */
+	/** A hook has finished running */
 	ALPM_EVENT_HOOK_RUN_DONE
 } alpm_event_type_t;
 

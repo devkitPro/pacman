@@ -356,7 +356,7 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 }
 
 /**
- * Handle the existance of simple paths for _alpm_load_pkg_internal()
+ * Handle the existence of simple paths for _alpm_load_pkg_internal()
  * @param pkg package to change
  * @param path path to examine
  * @return 0 if path doesn't match any rule, 1 if it has been handled
