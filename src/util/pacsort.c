@@ -427,7 +427,10 @@ static void usage(void)
 			"  -k, --key <index>       sort input starting on specified column\n"
 			"  -r, --reverse           sort in reverse order (default: oldest to newest)\n"
 			"  -t, --separator <sep>   specify field separator (default: space)\n"
-			"  -z, --null              lines end with null bytes, not newlines\n\n");
+			"  -z, --null              lines end with null bytes, not newlines\n\n"
+			"pacsort writes the sorted concatenation of all files, to standard output.\n"
+			"Files should contain a list of inputs to sort.\n\n"
+			"Standard input is read when no files are given.\n\n");
 }
 
 static int parse_options(int argc, char **argv)
