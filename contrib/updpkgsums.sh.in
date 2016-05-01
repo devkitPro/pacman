@@ -29,10 +29,13 @@ usage() {
 	echo "path specified by [build file], defaulting to PKGBUILD in the current"
 	echo "working directory."
 	echo
-	printf "Usage: %s [build file]\n" "${myname}"
+	printf "Usage: %s [options] [build file]\n" "${myname}"
 	echo
 	echo "    -h, --help        display this help message and exit"
 	echo "    -V, --version     display version information and exit"
+	echo
+	echo "These options can be passed to makepkg:"
+	echo "    -m, --nocolor     disable colorized output messages"
 }
 
 version() {
@@ -45,12 +48,18 @@ die() {
 	exit 1
 }
 
-case $1 in
-	-h|--help) usage; exit ;;
-	-V|--version) version; exit ;;
-esac
+MAKEPKG_OPTS=()
+buildfile='PKGBUILD'
 
-buildfile=${1:-PKGBUILD}
+while (( "$#" )); do
+	case "$1" in
+		-h|--help) usage; exit ;;
+		-m|--nocolor) MAKEPKG_OPTS+=("$1"); shift ;;
+		-V|--version) version; exit ;;
+		*) buildfile="$1"; break 2 ;;
+	esac
+done
+
 if [[ ! -f $buildfile ]]; then
 	die "%s not found or is not a file" "$buildfile"
 fi
@@ -83,7 +92,7 @@ export BUILDDIR=$(mktemp -d  "${TMPDIR:-/tmp}/updpkgsums.XXXXXX")
 newbuildfile=$(mktemp "${TMPDIR:-/tmp}/updpkgsums.XXXXXX")
 
 trap "rm -rf '$BUILDDIR' '$newbuildfile'" EXIT
-newsums=$(makepkg -g -p "$buildfile") || die 'Failed to generate new checksums'
+newsums=$(makepkg -g -p "$buildfile" "${MAKEPKG_OPTS[@]}") || die 'Failed to generate new checksums'
 awk -v newsums="$newsums" '
 	/^[[:blank:]]*(md|sha)[[:digit:]]+sums(_[^=]+)?=/,/\)[[:blank:]]*(#.*)?$/ {
 		if (!w) {
