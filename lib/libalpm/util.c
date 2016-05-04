@@ -446,6 +446,16 @@ ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path,
 	return files;
 }
 
+static int should_retry(int errnum)
+{
+	return errnum == EAGAIN
+/* EAGAIN may be the same value as EWOULDBLOCK (POSIX.1) - prevent GCC warning */
+#if EAGAIN != EWOULDBLOCK
+	|| errnum == EWOULDBLOCK
+#endif
+	|| errnum == EINTR;
+}
+
 static int _alpm_chroot_write_to_child(alpm_handle_t *handle, int fd,
 		char *buf, ssize_t *buf_size, ssize_t buf_limit,
 		_alpm_cb_io out_cb, void *cb_ctx)
@@ -476,7 +486,7 @@ static int _alpm_chroot_write_to_child(alpm_handle_t *handle, int fd,
 		/* write was successful, remove the written data from the buffer */
 		*buf_size -= nwrite;
 		memmove(buf, buf + nwrite, *buf_size);
-	} else if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
+	} else if(should_retry(errno)) {
 		/* nothing written, try again later */
 	} else {
 		_alpm_log(handle, ALPM_LOG_ERROR,
@@ -530,7 +540,7 @@ static int _alpm_chroot_read_from_child(alpm_handle_t *handle, int fd,
 			_alpm_chroot_process_output(handle, buf);
 		}
 		return -1;
-	} else if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
+	} else if(should_retry(errno)) {
 		/* nothing read, try again */
 	} else {
 		/* read error */
