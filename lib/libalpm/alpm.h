@@ -203,7 +203,7 @@ typedef enum _alpm_siglevel_t {
 	ALPM_SIG_DATABASE_MARGINAL_OK = (1 << 12),
 	ALPM_SIG_DATABASE_UNKNOWN_OK = (1 << 13),
 
-	ALPM_SIG_USE_DEFAULT = (1 << 31)
+	ALPM_SIG_USE_DEFAULT = (1 << 30)
 } alpm_siglevel_t;
 
 /** PGP signature verification status return codes */
