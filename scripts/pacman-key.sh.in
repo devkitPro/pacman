@@ -483,7 +483,7 @@ verify_sig() {
 	local ret=0
 	for sig; do
 		msg "Checking %s..." "$sig"
-		if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "$sig" | grep -qE '^\[GNUPG:\] TRUST_(FULLY|ULTIMATE)$'; then
+		if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "$sig" | grep -qE '^\[GNUPG:\] TRUST_(FULLY|ULTIMATE).*$'; then
 			error "$(gettext "The signature identified by %s could not be verified.")" "$sig"
 			ret=1
 		fi
