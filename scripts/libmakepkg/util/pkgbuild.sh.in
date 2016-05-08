@@ -2,7 +2,7 @@
 #
 #   pkgbuild.sh - functions to extract information from PKGBUILD files
 #
-#   Copyright (c) 2014-2016 Pacman Development Team <pacman-dev@archlinux.org>
+#   Copyright (c) 2009-2016 Pacman Development Team <pacman-dev@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -188,4 +188,22 @@ get_all_sources_for_arch() {
 	fi
 
 	array_build "$1" "aggregate"
+}
+
+get_integlist() {
+	local integ
+	local integlist=()
+
+	for integ in "${known_hash_algos[@]}"; do
+		local sumname="${integ}sums[@]"
+		if [[ -n ${!sumname} ]]; then
+			integlist+=("$integ")
+		fi
+	done
+
+	if (( ${#integlist[@]} > 0 )); then
+		printf "%s\n" "${integlist[@]}"
+	else
+		printf "%s\n" "${INTEGRITY_CHECK[@]}"
+	fi
 }
