@@ -551,44 +551,29 @@ error:
 	return NULL;
 }
 
-/* These parameters are messy. We check if this package, given a list of
- * targets and a db is safe to remove. We do NOT remove it if it is in the
- * target list, or if the package was explicitly installed and
- * include_explicit == 0 */
-static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
-		alpm_list_t *targets, int include_explicit)
+/** Move package dependencies from one list to another
+ * @param from list to scan for dependencies
+ * @param to list to add dependencies to
+ * @param pkg package whose dependencies are moved
+ * @param explicit if 0, explicitly installed packages are not moved
+ */
+static void _alpm_select_depends(alpm_list_t **from, alpm_list_t **to,
+		alpm_pkg_t *pkg, int explicit)
 {
-	alpm_list_t *i;
-
-	if(alpm_pkg_find(targets, pkg->name)) {
-		return 0;
+	alpm_list_t *i, *next;
+	if(!alpm_pkg_get_depends(pkg)) {
+		return;
 	}
-
-	if(!include_explicit) {
-		/* see if it was explicitly installed */
-		if(alpm_pkg_get_reason(pkg) == ALPM_PKG_REASON_EXPLICIT) {
-			_alpm_log(db->handle, ALPM_LOG_DEBUG,
-					"excluding %s -- explicitly installed\n", pkg->name);
-			return 0;
+	for(i = *from; i; i = next) {
+		alpm_pkg_t *deppkg = i->data;
+		next = i->next;
+		if((explicit || alpm_pkg_get_reason(deppkg) != ALPM_PKG_REASON_EXPLICIT)
+				&& _alpm_pkg_depends_on(pkg, deppkg)) {
+			*to = alpm_list_add(*to, deppkg);
+			*from = alpm_list_remove_item(*from, i);
+			free(i);
 		}
 	}
-
-	/* TODO: checkdeps could be used here, it handles multiple providers
-	 * better, but that also makes it slower.
-	 * Also this would require to first add the package to the targets list,
-	 * then call checkdeps with it, then remove the package from the targets list
-	 * if checkdeps detected it would break something */
-
-	/* see if other packages need it */
-	for(i = _alpm_db_get_pkgcache(db); i; i = i->next) {
-		alpm_pkg_t *lpkg = i->data;
-		if(_alpm_pkg_depends_on(lpkg, pkg) && !alpm_pkg_find(targets, lpkg->name)) {
-			return 0;
-		}
-	}
-
-	/* it's ok to remove */
-	return 1;
 }
 
 /**
@@ -604,31 +589,46 @@ static int can_remove_package(alpm_db_t *db, alpm_pkg_t *pkg,
  */
 int _alpm_recursedeps(alpm_db_t *db, alpm_list_t **targs, int include_explicit)
 {
-	alpm_list_t *i, *j;
+	alpm_list_t *i, *keep, *rem = NULL;
 
 	if(db == NULL || targs == NULL) {
 		return -1;
 	}
 
+	keep = alpm_list_copy(_alpm_db_get_pkgcache(db));
 	for(i = *targs; i; i = i->next) {
-		alpm_pkg_t *pkg = i->data;
-		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
-			alpm_pkg_t *deppkg = j->data;
-			if(_alpm_pkg_depends_on(pkg, deppkg)
-					&& can_remove_package(db, deppkg, *targs, include_explicit)) {
-				alpm_pkg_t *copy = NULL;
-				_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding '%s' to the targets\n",
-						deppkg->name);
-				/* add it to the target list */
-				if(_alpm_pkg_dup(deppkg, &copy)) {
-					/* we return memory on "non-fatal" error in _alpm_pkg_dup */
-					_alpm_pkg_free(copy);
-					return -1;
-				}
-				*targs = alpm_list_add(*targs, copy);
-			}
-		}
+		keep = alpm_list_remove(keep, i->data, _alpm_pkg_cmp, NULL);
 	}
+
+	/* recursively select all dependencies for removal */
+	for(i = *targs; i; i = i->next) {
+		_alpm_select_depends(&keep, &rem, i->data, include_explicit);
+	}
+	for(i = rem; i; i = i->next) {
+		_alpm_select_depends(&keep, &rem, i->data, include_explicit);
+	}
+
+	/* recursively select any still needed packages to keep */
+	for(i = keep; i && rem; i = i->next) {
+		_alpm_select_depends(&rem, &keep, i->data, 1);
+	}
+	alpm_list_free(keep);
+
+	/* copy selected packages into the target list */
+	for(i = rem; i; i = i->next) {
+		alpm_pkg_t *pkg = i->data, *copy = NULL;
+		_alpm_log(db->handle, ALPM_LOG_DEBUG,
+				"adding '%s' to the targets\n", pkg->name);
+		if(_alpm_pkg_dup(pkg, &copy)) {
+			/* we return memory on "non-fatal" error in _alpm_pkg_dup */
+			_alpm_pkg_free(copy);
+			alpm_list_free(rem);
+			return -1;
+		}
+		*targs = alpm_list_add(*targs, copy);
+	}
+	alpm_list_free(rem);
+
 	return 0;
 }
 
