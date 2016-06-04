@@ -84,8 +84,9 @@ static void print_query_fileowner(const char *filename, alpm_pkg_t *info)
 {
 	if(!config->quiet) {
 		const colstr_t *colstr = &config->colstr;
-		printf(_("%s is owned by %s%s %s%s\n"), filename, colstr->title,
-				alpm_pkg_get_name(info), colstr->version, alpm_pkg_get_version(info));
+		printf(_("%s is owned by %s%s %s%s%s\n"), filename, colstr->title,
+				alpm_pkg_get_name(info), colstr->version, alpm_pkg_get_version(info),
+				colstr->nocolor);
 	} else {
 		printf("%s\n", alpm_pkg_get_name(info));
 	}
