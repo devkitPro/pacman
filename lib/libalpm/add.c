@@ -466,7 +466,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		}
 	}
 
-	/* prepare directory for database entries so permission are correct after
+	/* prepare directory for database entries so permissions are correct after
 	   changelog/install script installation */
 	if(_alpm_local_db_prepare(db, newpkg)) {
 		alpm_logaction(handle, ALPM_CALLER_PREFIX,
@@ -503,6 +503,9 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
 					handle->root, strerror(errno));
 			_alpm_archive_read_free(archive);
+			if(cwdfd >= 0) {
+				close(cwdfd);
+			}
 			close(fd);
 			ret = -1;
 			goto cleanup;

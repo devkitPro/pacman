@@ -800,18 +800,24 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 						(len = _alpm_strip_newline(line, 0))) {
 					if(!_alpm_greedy_grow((void **)&files, &files_size,
 								(files_count ? (files_count + 1) * sizeof(alpm_file_t) : 8 * sizeof(alpm_file_t)))) {
-						goto error;
+						goto nomem;
 					}
 					/* since we know the length of the file string already,
 					 * we can do malloc + memcpy rather than strdup */
 					len += 1;
-					MALLOC(files[files_count].name, len, goto error);
+					MALLOC(files[files_count].name, len, goto nomem);
 					memcpy(files[files_count].name, line, len);
 					files_count++;
 				}
 				/* attempt to hand back any memory we don't need */
 				if(files_count > 0) {
-					files = realloc(files, sizeof(alpm_file_t) * files_count);
+					alpm_file_t *newfiles;
+
+					newfiles = realloc(files, sizeof(alpm_file_t) * files_count);
+					if(newfiles != NULL) {
+						files = newfiles;
+					}
+
 					/* make sure the list is sorted */
 					qsort(files, files_count, sizeof(alpm_file_t), _alpm_files_cmp);
 				} else {
@@ -819,6 +825,13 @@ static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
 				}
 				info->files.count = files_count;
 				info->files.files = files;
+				continue;
+nomem:
+				while(files_count > 0) {
+					FREE(files[--files_count].name);
+				}
+				FREE(files);
+				goto error;
 			} else if(strcmp(line, "%BACKUP%") == 0) {
 				while(safe_fgets(line, sizeof(line), fp) && _alpm_strip_newline(line, 0)) {
 					alpm_backup_t *backup;
