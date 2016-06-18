@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <limits.h>
 
 /* libarchive */
 #include <archive.h>
@@ -695,21 +696,24 @@ error:
 	return NULL;
 }
 
+/* adopted limit from repo-add */
+#define MAX_SIGFILE_SIZE 16384
+
 static int read_sigfile(const char *sigpath, unsigned char **sig)
 {
 	struct stat st;
 	FILE *fp;
 
-	if(stat(sigpath, &st) != 0) {
-		return -1;
-	}
-
-	MALLOC(*sig, st.st_size, return -1);
-
 	if((fp = fopen(sigpath, "rb")) == NULL) {
-		free(*sig);
 		return -1;
 	}
+
+	if(fstat(fileno(fp), &st) != 0 || st.st_size > MAX_SIGFILE_SIZE) {
+		fclose(fp);
+		return -1;
+	}
+
+	MALLOC(*sig, st.st_size, fclose(fp); return -1);
 
 	if(fread(*sig, st.st_size, 1, fp) != 1) {
 		free(*sig);
