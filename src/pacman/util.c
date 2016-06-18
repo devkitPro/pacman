@@ -1503,6 +1503,8 @@ int select_question(int count)
 	return (preset - 1);
 }
 
+#define CMP(x, y) ((x) < (y) ? -1 : ((x) > (y) ? 1 : 0))
+
 static int mbscasecmp(const char *s1, const char *s2)
 {
 	size_t len1 = strlen(s1), len2 = strlen(s2);
@@ -1520,19 +1522,19 @@ static int mbscasecmp(const char *s1, const char *s2)
 			return strcasecmp(p1, p2);
 		}
 		if(b1 == 0 || b2 == 0) {
-			return c1 - c2;
+			return CMP(c1, c2);
 		}
 		c1 = towlower(c1);
 		c2 = towlower(c2);
 		if(c1 != c2) {
-			return c1 - c2;
+			return CMP(c1, c2);
 		}
 		p1 += b1;
 		p2 += b2;
 		len1 -= b1;
 		len2 -= b2;
 	}
-	return *p1 - *p2;
+	return CMP(*p1, *p2);
 }
 
 /* presents a prompt and gets a Y/N answer */
