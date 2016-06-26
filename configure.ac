@@ -131,9 +131,9 @@ AC_ARG_WITH(gpgme,
 	[], [with_gpgme=check])
 
 # Help line for using libcurl
-AC_ARG_WITH(curl,
+AC_ARG_WITH(libcurl,
 	AS_HELP_STRING([--with-libcurl], [use libcurl for the internal downloader]),
-	[], [with_curl=check])
+	[], [with_libcurl=check])
 
 # Help line for documentation
 AC_ARG_ENABLE(doc,
