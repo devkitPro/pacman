@@ -623,10 +623,9 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 	int ret = 0;
 
 	for(i = alpm_list_last(handle->hookdirs); i; i = alpm_list_previous(i)) {
-		int err;
 		char path[PATH_MAX];
 		size_t dirlen;
-		struct dirent entry, *result;
+		struct dirent *entry;
 		DIR *d;
 
 		if((dirlen = strlen(i->data)) >= PATH_MAX) {
@@ -648,35 +647,35 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 			}
 		}
 
-		while((err = readdir_r(d, &entry, &result)) == 0 && result) {
+		while((errno = 0, entry = readdir(d))) {
 			struct _alpm_hook_cb_ctx ctx = { handle, NULL };
 			struct stat buf;
 			size_t name_len;
 
-			if(strcmp(entry.d_name, ".") == 0 || strcmp(entry.d_name, "..") == 0) {
-					continue;
+			if(strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+				continue;
 			}
 
-			if((name_len = strlen(entry.d_name)) >= PATH_MAX - dirlen) {
+			if((name_len = strlen(entry->d_name)) >= PATH_MAX - dirlen) {
 				_alpm_log(handle, ALPM_LOG_ERROR, _("could not open file: %s%s: %s\n"),
-						path, entry.d_name, strerror(ENAMETOOLONG));
+						path, entry->d_name, strerror(ENAMETOOLONG));
 				ret = -1;
 				continue;
 			}
-			memcpy(path + dirlen, entry.d_name, name_len + 1);
+			memcpy(path + dirlen, entry->d_name, name_len + 1);
 
 			if(name_len < suflen
-					|| strcmp(entry.d_name + name_len - suflen, suffix) != 0) {
+					|| strcmp(entry->d_name + name_len - suflen, suffix) != 0) {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "skipping non-hook file %s\n", path);
 				continue;
 			}
 
-			if(find_hook(hooks, entry.d_name)) {
+			if(find_hook(hooks, entry->d_name)) {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "skipping overridden hook %s\n", path);
 				continue;
 			}
 
-			if(fstatat(dirfd(d), entry.d_name, &buf, 0) != 0) {
+			if(fstatat(dirfd(d), entry->d_name, &buf, 0) != 0) {
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("could not stat file %s: %s\n"), path, strerror(errno));
 				ret = -1;
@@ -700,11 +699,10 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 				continue;
 			}
 
-			STRDUP(ctx.hook->name, entry.d_name, ret = -1; closedir(d); goto cleanup);
+			STRDUP(ctx.hook->name, entry->d_name, ret = -1; closedir(d); goto cleanup);
 			hooks = alpm_list_add(hooks, ctx.hook);
 		}
-
-		if(err != 0) {
+		if(errno != 0) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("could not read directory: %s: %s\n"),
 					(char *) i->data, strerror(errno));
 			ret = -1;
