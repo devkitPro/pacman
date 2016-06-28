@@ -675,7 +675,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 				continue;
 			}
 
-			if(fstatat(dirfd(d), entry->d_name, &buf, 0) != 0) {
+			if(stat(path, &buf) != 0) {
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("could not stat file %s: %s\n"), path, strerror(errno));
 				ret = -1;
