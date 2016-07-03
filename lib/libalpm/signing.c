@@ -998,21 +998,21 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 	while(pos < len) {
 		if(!(sig[pos] & 0x80)) {
 			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: signature format error"), identifier);
+					_("%s: signature format error\n"), identifier);
 			return -1;
 		}
 
 		if(sig[pos] & 0x40) {
 			/* "new" packet format is not supported */
 			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: unsupported signature format"), identifier);
+					_("%s: unsupported signature format\n"), identifier);
 			return -1;
 		}
 
 		if(((sig[pos] & 0x3f) >> 2) != 2) {
 			/* signature is not a "Signature Packet" */
 			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: signature format error"), identifier);
+					_("%s: signature format error\n"), identifier);
 			return -1;
 		}
 
@@ -1035,21 +1035,21 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 			case 3:
 				/* partial body length not supported */
 				_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: unsupported signature format"), identifier);
+					_("%s: unsupported signature format\n"), identifier);
 				return -1;
 		}
 
 		if(sig[pos] != 4) {
 			/* only support version 4 signature packet format */
 			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: unsupported signature format"), identifier);
+					_("%s: unsupported signature format\n"), identifier);
 			return -1;
 		}
 
 		if(sig[pos + 1] != 0x00) {
 			/* not a signature of a binary document */
 			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: signature format error"), identifier);
+					_("%s: signature format error\n"), identifier);
 			return -1;
 		}
 
