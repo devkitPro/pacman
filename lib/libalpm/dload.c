@@ -126,14 +126,24 @@ static int dload_progress_cb(void *file, double dltotal, double dlnow,
 	}
 
 	/* initialize the progress bar here to avoid displaying it when
-	 * a repo is up to date and nothing gets downloaded */
-	if(payload->prevprogress == 0) {
-		payload->handle->dlcb(payload->remote_name, 0, (off_t)dltotal);
-	}
-
+	 * a repo is up to date and nothing gets downloaded.
+	 * payload->handle->dlcb will receive the remote_name
+	 * and the following arguments:
+	 * 0, -1: download initialized
+	 * 0, 0: non-download event
+	 * x {x>0}, x: download complete
+	 * x {x>0, x<y}, y {y > 0}: download progress, expected total is known */
+	if(current_size == total_size) {
+		payload->handle->dlcb(payload->remote_name, (off_t)dlnow, (off_t)dltotal);
+	} else if(!payload->prevprogress) {
+		payload->handle->dlcb(payload->remote_name, 0, -1);
+	} else if(payload->prevprogress == current_size) {
+		payload->handle->dlcb(payload->remote_name, 0, 0);
+	} else {
 	/* do NOT include initial_size since it wasn't part of the package's
 	 * download_size (nor included in the total download size callback) */
-	payload->handle->dlcb(payload->remote_name, (off_t)dlnow, (off_t)dltotal);
+		payload->handle->dlcb(payload->remote_name, (off_t)dlnow, (off_t)dltotal);
+	}
 
 	payload->prevprogress = current_size;
 
