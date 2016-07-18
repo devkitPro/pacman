@@ -1,5 +1,11 @@
 # enforce that all scripts have a --help and --version option
 AUTOMAKE_OPTIONS = std-options
+SUBDIRS=
+if WANT_DOC
+SUBDIRS += doc
+endif
+
+DIST_SUBDIRS = $(SUBDIRS)
 
 bin_SCRIPTS = \
   $(OURSCRIPTS)
