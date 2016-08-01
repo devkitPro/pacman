@@ -337,10 +337,21 @@ get_integlist() {
 	local integlist=()
 
 	for integ in "${known_hash_algos[@]}"; do
+		# check for e.g. "sha256sums"
 		local sumname="${integ}sums[@]"
 		if [[ -n ${!sumname} ]]; then
 			integlist+=("$integ")
+			continue
 		fi
+
+		# check for e.g. "sha256sums_x86_64"
+		for a in "${arch[@]}"; do
+			local sumname="${integ}sums_${a}[@]"
+			if [[ -n ${!sumname} ]]; then
+				integlist+=("$integ")
+				break
+			fi
+		done
 	done
 
 	if (( ${#integlist[@]} > 0 )); then
