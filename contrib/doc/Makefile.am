@@ -3,11 +3,13 @@
 # files listed in EXTRA_DIST no matter what. However, we only add them to
 # man_MANS if --enable-asciidoc and/or --enable-doxygen are used.
 
-ASCIIDOC_MANS =
+ASCIIDOC_MANS = \
+	verify-pacman-repo-db.1
 
 EXTRA_DIST = \
 	asciidoc.conf \
 	footer.txt \
+	verify-pacman-repo-db.1.txt \
 	$(ASCIIDOC_MANS)
 
 # Files that should be removed, but which Automake does not know.
@@ -50,5 +52,6 @@ $(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile.am
 	$(AM_V_GEN)a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@" $(srcdir)/$@.txt
 
 # Dependency rules
+verify-pacman-repo-db.1: verify-pacman-repo-db.1.txt
 
 # vim:set noet:

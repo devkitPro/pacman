@@ -1,0 +1,60 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet spell spelllang=en_us:
+/////
+verify-pacman-repo-db(1)
+========================
+
+Name
+----
+verify-pacman-repo-db - package repository verification utility
+
+
+Synopsis
+--------
+'verify-pacman-repo-db' [options]
+
+
+Description
+-----------
+'verify-pacman-repo-db' looks at a pacman repo database and verifies its
+content with the actual package files. The database is expected to be in
+the same directory as the packages (or symlinks to the packages).
+
+The following properties are verified for each package in the database:
+
+	 - existence of the package file
+	 - file size
+	 - MD5 and SHA256 checksum (--checksum)
+
+Options
+-------
+*-h, \--help*::
+	Output a short help message.
+
+*\--debug*::
+	Enable debug output.
+
+*-c, \--checksum*::
+	Verify checksums of packages. Note that this means all packages files will
+	be read from disk. Otherwise only metadata is compared which does not
+	require to read package file contents.
+
+*-t, \--threads* <number>::
+	Use 'number' threads to verify packages. Note that each thread may use up
+	to approximately 128MiB of memory. Default: 1
+
+Notes
+-----
+
+This script does intentionally not use any ALPM libraries. The format is simple
+enough to be parsed and this way we might just detect more problems because the
+libalpm parsing code might also have bugs. We also stay much more portable
+which might be good for people that want to check a db, but don't actually have
+pacman installed.
+
+
+See Also
+--------
+linkman:repo-add[8]
+
+include::footer.txt[]
