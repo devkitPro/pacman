@@ -338,12 +338,12 @@ AC_CHECK_MEMBERS([struct statfs.f_flags],,,[[#include <sys/param.h>
 GCC_VISIBILITY_CC
 
 # Host-dependant definitions
+DEFAULT_DUFLAGS=" -sk --apparent-size"
 INODECMD="stat -c '%i %n'"
 OWNERCMD="stat -c '%u:%g'"
 MODECMD="stat -c '%a'"
 SIZECMD="stat -c %s"
 SEDINPLACE="sed --follow-symlinks -i"
-DUFLAGS="-sk --apparent-size"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
 STRIP_STATIC="--strip-debug"
@@ -354,7 +354,7 @@ case "${host_os}" in
 		MODECMD="stat -f '%Lp'"
 		SIZECMD="stat -f %z"
 		SEDINPLACE="sed -i \"\""
-		DUFLAGS="-sk"
+		DEFAULT_DUFLAGS=" -sk"
 		;;
 	darwin*)
 		host_os_darwin=yes
@@ -363,13 +363,12 @@ case "${host_os}" in
 		MODECMD="/usr/bin/stat -f '%Lp'"
 		SIZECMD="/usr/bin/stat -f %z"
 		SEDINPLACE="/usr/bin/sed -i ''"
-		DUFLAGS="-sk"
+		DEFAULT_DUFLAGS=" -sk"
 		STRIP_BINARIES=""
 		STRIP_SHARED="-S"
 		STRIP_STATIC="-S"
 		;;
 esac
-
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
@@ -377,10 +376,15 @@ AC_SUBST(OWNERCMD)
 AC_SUBST(MODECMD)
 AC_SUBST(SIZECMD)
 AC_SUBST(SEDINPLACE)
-AC_SUBST(DUFLAGS)
 AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)
+
+# Flags for du
+if test "${DUFLAGS+set}" != "set"; then
+    DUFLAGS="${DEFAULT_DUFLAGS}"
+fi
+AC_ARG_VAR(DUFLAGS, [flags for du, overriding the default])
 
 # Variables plugged into makepkg.conf
 CARCH="${host%%-*}"
