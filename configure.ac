@@ -232,10 +232,10 @@ AM_CONDITIONAL(HAVE_LIBSSL, [test "$have_openssl" = "yes"])
 # Check for libcurl
 have_libcurl=no
 if test "x$with_libcurl" != "xno"; then
-	PKG_CHECK_MODULES(LIBCURL, [libcurl >= 7.19.4],
+	PKG_CHECK_MODULES(LIBCURL, [libcurl >= 7.32.0],
 		[AC_DEFINE(HAVE_LIBCURL, 1, [Define if libcurl is available]) have_libcurl=yes], have_libcurl=no)
 	if test "x$have_libcurl" = xno -a "x$with_libcurl" = xyes; then
-		AC_MSG_ERROR([*** libcurl >= 7.19.4 is required for internal downloader support])
+		AC_MSG_ERROR([*** libcurl >= 7.32.0 is required for internal downloader support])
 	fi
 fi
 AM_CONDITIONAL(HAVE_LIBCURL, [test "$have_libcurl" = "yes"])
