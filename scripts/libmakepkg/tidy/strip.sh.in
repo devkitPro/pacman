@@ -35,6 +35,11 @@ build_id() {
 	LANG=C readelf -n $1 | sed -n '/Build ID/ { s/.*: //p; q; }'
 }
 
+source_files() {
+	LANG=C readelf $1 --debug-dump | \
+		awk '/DW_AT_name +:/{name=$8}/DW_AT_comp_dir +:/{print $8 "/" name}'
+}
+
 strip_file() {
 	local binary=$1; shift
 
@@ -50,6 +55,18 @@ strip_file() {
 			return
 		fi
 
+		# copy source files to debug directory
+		local f t
+		for f in $(source_files "$binary"); do
+			t=${f/$srcdir/$dbgsrc}
+			mkdir -p "${t%/*}"
+			cp "$f" "$t"
+		done
+
+		# adjust debug symbols to point at sources
+		debugedit -b "${srcdir}" -d /usr/src/debug/ -i "$binary" &> /dev/null
+
+		# copy debug symbols to debug directory
 		mkdir -p "$dbgdir/${binary%/*}"
 		objcopy --only-keep-debug "$binary" "$dbgdir/$binary.debug"
 		objcopy --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary"
@@ -89,7 +106,8 @@ tidy_strip() {
 
 		if check_option "debug" "y"; then
 			dbgdir="$pkgdir-@DEBUGSUFFIX@/usr/lib/debug"
-			mkdir -p "$dbgdir"
+			dbgsrc="$pkgdir-@DEBUGSUFFIX@/usr/src/debug"
+			mkdir -p "$dbgdir" "$dbgsrc"
 		fi
 
 		local binary strip_flags
