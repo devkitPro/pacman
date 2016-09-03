@@ -189,6 +189,7 @@ static void remove_notify_needed_optdepends(alpm_handle_t *handle, alpm_list_t *
 					};
 					EVENT(handle, &event);
 				}
+				free(optstring);
 			}
 		}
 	}
