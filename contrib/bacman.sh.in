@@ -66,7 +66,8 @@ done
 
 m4_include(../scripts/library/term_colors.sh)
 
-if (( $# != 1 )); then
+# Break if no argument was given
+if (( $# < 1 )); then
 	usage
 	exit 1
 fi
@@ -118,10 +119,6 @@ fi
 pkg_dest="${PKGDEST:-$PWD}"
 pkg_pkger=${PACKAGER:-'Unknown Packager'}
 
-pkg_name="$1"
-pkg_dir=("$pac_db/$pkg_name"-+([^-])-+([^-]))
-pkg_namver=("${pkg_dir[@]##*/}")
-
 #
 # Checks everything is in place
 #
@@ -130,227 +127,225 @@ if [[ ! -d $pac_db ]]; then
 	exit 1
 fi
 
-if (( ${#pkg_dir[@]} != 1 )); then
-	error "%d entries for package %s found in pacman database" \
-		${#pkg_dir[@]} "${pkg_name}"
-	msg2 "%s" "${pkg_dir[@]}"
-	exit 1
-fi
+# Assemble a single package: $1 = pkgname
+fakebuild() {
+	pkg_name="$1"
+	pkg_dir=("$pac_db/$pkg_name"-+([^-])-+([^-]))
+	pkg_namver=("${pkg_dir[@]##*/}")
 
-if [[ ! -d $pkg_dir ]]; then
-	error "package %s is found in pacman database," "${pkg_name}"
-	plain "       but '%s' is not a directory" "${pkg_dir}"
-	exit 1
-fi
-
-#
-# Begin
-#
-msg "Package: ${pkg_namver}"
-work_dir=$(mktemp -d "${TMPDIR:-/tmp}/bacman.XXXXXXXXXX")
-cd "$work_dir" || exit 1
-
-#
-# File copying
-#
-msg2 "Copying package files..."
-
-while read i; do
-	if [[ -z $i ]]; then
-		continue
+	# Checks database for specified package
+	if (( ${#pkg_dir[@]} != 1 )); then
+		error "%d entries for package %s found in pacman database" \
+			${#pkg_dir[@]} "${pkg_name}"
+		msg2 "%s" "${pkg_dir[@]}"
+		exit 1
+	fi
+	if [[ ! -d $pkg_dir ]]; then
+		error "package %s is found in pacman database," "${pkg_name}"
+		plain "       but '%s' is not a directory" "${pkg_dir}"
+		exit 1
 	fi
 
-	if [[ $i == %+([A-Z])% ]]; then
-		current=$i
-		continue
-	fi
+	# Create working directory
+	msg "Package: ${pkg_namver}"
+	work_dir=$(mktemp -d "${work_dir_root}.XXXXXXXXXX")
+	cd "$work_dir" || exit 1
 
-	case "$current" in
-		%FILES%)
-			local_file="/$i"
-			package_file="$work_dir/$i"
-
-			if [[ ! -e $local_file ]]; then
-				warning "package file $local_file is missing"
-				continue
-			fi
-			;;
-
-		%BACKUP%)
-			# Get the MD5 checksum.
-			original_md5="${i##*$'\t'}"
-			# Strip the md5sum after the tab.
-			i="${i%$'\t'*}"
-			local_file="/$i.pacnew"
-			package_file="$work_dir/$i"
-
-			# Include unmodified .pacnew files.
-			local_md5="$(md5sum "$local_file" | cut -d' ' -f1)"
-			if [[ $INCLUDE_PACNEW == 'n' ]] \
-			|| [[ ! -e $local_file ]] \
-			|| [[ $local_md5 != $original_md5 ]]; then
-				# Warn about modified files.
-				local_md5="$(md5sum "/$i" | cut -d' ' -f1)"
-				if [[ $local_md5 != $original_md5 ]]; then
-					warning "package file /$i has been modified"
-				fi
-				# Let the normal file be included in the %FILES% list.
-				continue
-			fi
-			;;
-
-		*)
+	# Assemble list of files which belong to the package and tar them
+	msg2 "Copying package files..."
+	while read i; do
+		if [[ -z $i ]]; then
 			continue
-			;;
-	esac
+		fi
 
-	ret=0
-	bsdtar -cnf - -s'/.pacnew$//' "$local_file" 2> /dev/null | bsdtar -xpf - 2> /dev/null
+		if [[ $i == %+([A-Z])% ]]; then
+			current=$i
+			continue
+		fi
 
-	# Workaround to bsdtar not reporting a missing file as an error
-	if ! [[ -e $package_file || -L $package_file ]]; then
-		error "unable to add $local_file to the package"
-		plain "       If your user does not have permission to read this file, then"
-		plain "       you will need to run $myname as root."
+		case "$current" in
+			%FILES%)
+				local_file="/$i"
+				package_file="$work_dir/$i"
+
+				if [[ ! -e $local_file ]]; then
+					warning "package file $local_file is missing"
+					continue
+				fi
+				;;
+
+			%BACKUP%)
+				# Get the MD5 checksum.
+				original_md5="${i##*$'\t'}"
+				# Strip the md5sum after the tab.
+				i="${i%$'\t'*}"
+				local_file="/$i.pacnew"
+				package_file="$work_dir/$i"
+
+				# Include unmodified .pacnew files.
+				local_md5="$(md5sum "$local_file" | cut -d' ' -f1)"
+				if [[ $INCLUDE_PACNEW == 'n' ]] \
+				|| [[ ! -e $local_file ]] \
+				|| [[ $local_md5 != $original_md5 ]]; then
+					# Warn about modified files.
+					local_md5="$(md5sum "/$i" | cut -d' ' -f1)"
+					if [[ $local_md5 != $original_md5 ]]; then
+						warning "package file /$i has been modified"
+					fi
+					# Let the normal file be included in the %FILES% list.
+					continue
+				fi
+				;;
+
+			*)
+				continue
+				;;
+		esac
+
+		# Tar files
+		ret=0
+		bsdtar -cnf - -s'/.pacnew$//' "$local_file" 2> /dev/null | bsdtar -xpf - 2> /dev/null
+		# Workaround to bsdtar not reporting a missing file as an error
+		if ! [[ -e $package_file || -L $package_file ]]; then
+			error "unable to add $local_file to the package"
+			plain "       If your user does not have permission to read this file, then"
+			plain "       you will need to run $myname as root."
+			rm -rf "$work_dir"
+			exit 1
+		fi
+	done < "$pkg_dir"/files
+
+	ret=$?
+	if (( ret )); then
 		rm -rf "$work_dir"
 		exit 1
 	fi
-done < "$pkg_dir"/files
 
-ret=$?
-if (( ret )); then
-	rm -rf "$work_dir"
-	exit 1
-fi
+	# Calculate package size
+	pkg_size=$(du -sk | awk '{print $1 * 1024}')
 
-pkg_size=$(du -sk | awk '{print $1 * 1024}')
+	# Reconstruct .PKGINFO from database
+	# TODO adopt makepkg's write_pkginfo() into this or scripts/library
+	msg2 "Generating .PKGINFO metadata..."
+	echo "# Generated by $myname $myver"    > .PKGINFO
+	if [[ $INFAKEROOT == "1" ]]; then
+		echo "# Using $(fakeroot -v)"    >> .PKGINFO
+	fi
+	echo "# $(LC_ALL=C date)"    >> .PKGINFO
+	echo "#"    >> .PKGINFO
+	while read i; do
+		if [[ -z $i ]]; then
+			continue;
+		fi
+		if [[ $i == %+([A-Z])% ]]; then
+			current=$i
+			continue
+		fi
 
-#
-# .PKGINFO stuff
-# TODO adopt makepkg's write_pkginfo() into this or scripts/library
-#
-msg2 "Generating .PKGINFO metadata..."
-echo "# Generated by $myname $myver"    > .PKGINFO
-if [[ $INFAKEROOT == "1" ]]; then
-	echo "# Using $(fakeroot -v)"    >> .PKGINFO
-fi
-echo "# $(LC_ALL=C date)"            >> .PKGINFO
-echo "#"                    >> .PKGINFO
+		case "$current" in
+			# desc
+			%NAME%)
+				echo "pkgname = $i"    >> .PKGINFO
+				;;
+			%VERSION%)
+				echo "pkgver = $i"    >> .PKGINFO
+				;;
+			%DESC%)
+				echo "pkgdesc = $i"    >> .PKGINFO
+				;;
+			%URL%)
+				echo "url = $i"    >> .PKGINFO
+				;;
+			%LICENSE%)
+				echo "license = $i"    >> .PKGINFO
+				;;
+			%ARCH%)
+				echo "arch = $i"    >> .PKGINFO
+				pkg_arch="$i"
+				;;
+			%BUILDDATE%)
+				echo "builddate = $(date -u "+%s")"    >> .PKGINFO
+				;;
+			%PACKAGER%)
+				echo "packager = $pkg_pkger"        >> .PKGINFO
+				;;
+			%SIZE%)
+				echo "size = $pkg_size"        >> .PKGINFO
+				;;
+			%GROUPS%)
+				echo "group = $i"    >> .PKGINFO
+				;;
+			%REPLACES%)
+				echo "replaces = $i"    >> .PKGINFO
+				;;
+			%DEPENDS%)
+				echo "depend = $i"   >> .PKGINFO
+				;;
+			%OPTDEPENDS%)
+				echo "optdepend = $i" >> .PKGINFO
+				;;
+			%CONFLICTS%)
+				echo "conflict = $i" >> .PKGINFO
+				;;
+			%PROVIDES%)
+				echo "provides = $i"  >> .PKGINFO
+				;;
+			%BACKUP%)
+				# Strip the md5sum after the tab
+				echo "backup = ${i%%$'\t'*}"   >> .PKGINFO
+				;;
+		esac
+	done < <(cat "$pkg_dir"/{desc,files})
 
-while read i; do
-	if [[ -z $i ]]; then
-		continue;
+	comp_files=".PKGINFO"
+
+	# Add instal file if present
+	if [[ -f $pkg_dir/install ]]; then
+		cp "$pkg_dir/install" "$work_dir/.INSTALL"
+		comp_files+=" .INSTALL"
+	fi
+	if [[ -f $pkg_dir/changelog ]]; then
+		cp "$pkg_dir/changelog" "$work_dir/.CHANGELOG"
+		comp_files+=" .CHANGELOG"
 	fi
 
-	if [[ $i == %+([A-Z])% ]]; then
-		current=$i
-		continue
+	# Fixes owner:group and permissions for .PKGINFO, .CHANGELOG, .INSTALL
+	chown root:root "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
+	chmod 644 "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
+
+	# Generate the package
+	msg2 "Generating the package..."
+
+	pkg_file="$pkg_dest/$pkg_namver-$pkg_arch${PKGEXT}"
+	ret=0
+
+	# TODO: Maybe this can be set globally for robustness
+	shopt -s -o pipefail
+	bsdtar -cf - $comp_files * |
+	case "$PKGEXT" in
+		*tar.gz)  gzip -c -f -n ;;
+		*tar.bz2) bzip2 -c -f ;;
+		*tar.xz)  xz -c -z - ;;
+		*tar.Z)   compress -c -f ;;
+		*tar)     cat ;;
+		*) warning "'%s' is not a valid archive extension." \
+		"$PKGEXT"; cat ;;
+	esac > "${pkg_file}"; ret=$?
+
+	# Move compressed package to destination
+	if (( ret )); then
+		error "Unable to write package to $pkg_dest"
+		plain "       Maybe the disk is full or you do not have write access"
+		rm -rf "$work_dir"
+		exit 1
 	fi
 
-	case "$current" in
-		# desc
-		%NAME%)
-			echo "pkgname = $i"    >> .PKGINFO
-			;;
-		%VERSION%)
-			echo "pkgver = $i"    >> .PKGINFO
-			;;
-		%DESC%)
-			echo "pkgdesc = $i"    >> .PKGINFO
-			;;
-		%URL%)
-			echo "url = $i"    >> .PKGINFO
-			;;
-		%LICENSE%)
-			echo "license = $i"    >> .PKGINFO
-			;;
-		%ARCH%)
-			echo "arch = $i"    >> .PKGINFO
-			pkg_arch="$i"
-			;;
-		%BUILDDATE%)
-			echo "builddate = $(date -u "+%s")"    >> .PKGINFO
-			;;
-		%PACKAGER%)
-			echo "packager = $pkg_pkger"        >> .PKGINFO
-			;;
-		%SIZE%)
-			echo "size = $pkg_size"        >> .PKGINFO
-			;;
-		%GROUPS%)
-			echo "group = $i"    >> .PKGINFO
-			;;
-		%REPLACES%)
-			echo "replaces = $i"    >> .PKGINFO
-			;;
-		%DEPENDS%)
-			echo "depend = $i"   >> .PKGINFO
-			;;
-		%OPTDEPENDS%)
-			echo "optdepend = $i" >> .PKGINFO
-			;;
-		%CONFLICTS%)
-			echo "conflict = $i" >> .PKGINFO
-			;;
-		%PROVIDES%)
-			echo "provides = $i"  >> .PKGINFO
-			;;
-
-		# files
-		%BACKUP%)
-			# Strip the md5sum after the tab
-			echo "backup = ${i%%$'\t'*}"   >> .PKGINFO
-			;;
-	esac
-done < <(cat "$pkg_dir"/{desc,files})
-
-comp_files=".PKGINFO"
-
-if [[ -f $pkg_dir/install ]]; then
-	cp "$pkg_dir/install" "$work_dir/.INSTALL"
-	comp_files+=" .INSTALL"
-fi
-if [[ -f $pkg_dir/changelog ]]; then
-	cp "$pkg_dir/changelog" "$work_dir/.CHANGELOG"
-	comp_files+=" .CHANGELOG"
-fi
-
-#
-# Fixes owner:group and permissions for .PKGINFO, .CHANGELOG, .INSTALL
-#
-chown root:root "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
-chmod 644 "$work_dir"/{.PKGINFO,.CHANGELOG,.INSTALL} 2> /dev/null
-
-#
-# Generate the package
-#
-msg2 "Generating the package..."
-
-pkg_file="$pkg_dest/$pkg_namver-$pkg_arch${PKGEXT}"
-ret=0
-
-# TODO: Maybe this can be set globally for robustness
-shopt -s -o pipefail
-bsdtar -cf - $comp_files * |
-case "$PKGEXT" in
-	*tar.gz)  gzip -c -f -n ;;
-	*tar.bz2) bzip2 -c -f ;;
-	*tar.xz)  xz -c -z - ;;
-	*tar.Z)   compress -c -f ;;
-	*tar)     cat ;;
-	*) warning "'%s' is not a valid archive extension." \
-	"$PKGEXT"; cat ;;
-esac > "${pkg_file}"; ret=$?
-
-if (( ret )); then
-	error "Unable to write package to $pkg_dest"
-	plain "       Maybe the disk is full or you do not have write access"
+	# Clean up working directory
 	rm -rf "$work_dir"
-	exit 1
-fi
+}
 
-rm -rf "$work_dir"
 
+for PKG in $@; do fakebuild $PKG; done
 msg "Done."
 
 exit 0
