@@ -57,10 +57,12 @@ usage() {
 	printf -- "$(gettext "  -h, --help       Show this help message and exit")\n"
 	printf -- "$(gettext "  -q, --quiet      Silence most of the status reporting")\n"
 	printf -- "$(gettext "  -m, --nocolor    Disable colorized output messages")\n"
+	printf -- "$(gettext "  -o, --out <dir>  Write output to specified directory (instead of \$PKGDEST)")\n"
 	printf -- "$(gettext "  --pacnew         Package .pacnew files")\n"
 	echo
 	printf -- "$(gettext "Examples:")" 
 	printf -- "    %s linux-headers\n" "$myname"
+	printf -- "    %s -o ~/packages libarchive\n" "$myname"
 	printf -- "    %s --nocolor --pacnew gzip make binutils\n" "$myname"
 	printf -- "    %s \$(pacman -Qq)\n" "$myname"
 	echo
@@ -80,8 +82,8 @@ for option in "$@"; do
 done
 
 # Parse arguments
-OPT_SHORT='qmv'
-OPT_LONG=('quiet' 'nocolor' 'pacnew' 'version')
+OPT_SHORT='o:qmv'
+OPT_LONG=('out:' 'quiet' 'nocolor' 'pacnew' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	usage
 	exit 1
@@ -91,6 +93,10 @@ unset OPT_SHORT OPT_LONG OPTRET
 
 while :; do
 	case "$1" in
+		-o|--out)
+			pkg_dest=$2
+			[[ ! -d "$2" ]] && echo -e "The directory \e[39;1m$2\e[0m does not exist!" && exit 3
+			shift ;;
 		-q|--quiet)
 			QUIET=1 ;;
 		-m|--nocolor)
@@ -145,7 +151,8 @@ source "@sysconfdir@/makepkg.conf"
 if [[ -r ~/.makepkg.conf ]]; then
 	source ~/.makepkg.conf
 fi
-pkg_dest="${PKGDEST:-$PWD}"
+PKGDEST="${PKGDEST:-$PWD}"
+pkg_dest="${pkg_dest:-$PKGDEST}"
 pkg_pkger="${PACKAGER:-'Unknown Packager'}"
 
 # Check for an existing database
