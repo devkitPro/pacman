@@ -142,7 +142,7 @@ if [[ -r ~/.makepkg.conf ]]; then
 	source ~/.makepkg.conf
 fi
 pkg_dest="${PKGDEST:-$PWD}"
-pkg_pkger=${PACKAGER:-'Unknown Packager'}
+pkg_pkger="${PACKAGER:-'Unknown Packager'}"
 
 # Check for an existing database
 if [[ ! -d $pac_db ]]; then
