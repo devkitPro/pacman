@@ -48,13 +48,22 @@ trap clean_up SIGHUP SIGINT SIGTERM
 # User Friendliness
 #
 usage() {
-	echo "${myname} (pacman) v${myver}"
+	printf "%s (pacman) %s\n" "$myname" "$myver"
 	echo
-	echo "Recreate a package using pacman's database and system files"
+	printf -- "$(gettext "Recreate packages using pacman's database and system files")\n"
 	echo
-	echo "Usage: ${myname} [--nocolor] [--pacnew] <installed package name>"
+	printf -- "$(gettext "Usage: %s [options] <package(s)>")\n" "$0"
 	echo
-	echo "Example: ${myname} linux-headers"
+	printf -- "$(gettext "Options:")\n"
+	printf -- "$(gettext "  -h, --help       Show this help message and exit")\n"
+	printf -- "$(gettext "  -m, --nocolor    Disable colorized output messages")\n"
+	printf -- "$(gettext "  --pacnew         Package .pacnew files")\n"
+	echo
+	printf -- "$(gettext "Examples:")" 
+	printf -- "    %s linux-headers\n" "$myname"
+	printf -- "    %s --nocolor --pacnew gzip make binutils\n" "$myname"
+	printf -- "    %s \$(pacman -Qq)\n" "$myname"
+	echo
 }
 
 version() {
