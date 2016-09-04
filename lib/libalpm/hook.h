@@ -17,13 +17,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _ALPM_HOOK_H
-#define _ALPM_HOOK_H
+#ifndef ALPM_HOOK_H
+#define ALPM_HOOK_H
 
 #include "alpm.h"
 
 int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when);
 
-#endif /* _ALPM_HOOK_H */
+#endif /* ALPM_HOOK_H */
 
 /* vim: set noet: */

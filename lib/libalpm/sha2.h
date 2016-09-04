@@ -21,8 +21,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _SHA2_H
-#define _SHA2_H
+#ifndef SHA2_H
+#define SHA2_H
 
 #include <string.h>
 

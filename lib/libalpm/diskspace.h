@@ -17,8 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _ALPM_DISKSPACE_H
-#define _ALPM_DISKSPACE_H
+#ifndef ALPM_DISKSPACE_H
+#define ALPM_DISKSPACE_H
 
 #if defined(HAVE_SYS_MOUNT_H)
 #include <sys/mount.h>
@@ -60,6 +60,6 @@ int _alpm_check_diskspace(alpm_handle_t *handle);
 int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 		size_t num_files, off_t *file_sizes);
 
-#endif /* _ALPM_DISKSPACE_H */
+#endif /* ALPM_DISKSPACE_H */
 
 /* vim: set noet: */

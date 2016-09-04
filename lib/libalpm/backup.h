@@ -17,8 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_BACKUP_H
-#define _ALPM_BACKUP_H
+#ifndef ALPM_BACKUP_H
+#define ALPM_BACKUP_H
 
 #include "alpm_list.h"
 #include "alpm.h"
@@ -28,6 +28,6 @@ alpm_backup_t *_alpm_needbackup(const char *file, alpm_pkg_t *pkg);
 void _alpm_backup_free(alpm_backup_t *backup);
 alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup);
 
-#endif /* _ALPM_BACKUP_H */
+#endif /* ALPM_BACKUP_H */
 
 /* vim: set noet: */

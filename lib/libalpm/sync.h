@@ -19,8 +19,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_SYNC_H
-#define _ALPM_SYNC_H
+#ifndef ALPM_SYNC_H
+#define ALPM_SYNC_H
 
 #include "alpm.h"
 
@@ -29,6 +29,6 @@ int _alpm_sync_load(alpm_handle_t *handle, alpm_list_t **data);
 int _alpm_sync_check(alpm_handle_t *handle, alpm_list_t **data);
 int _alpm_sync_commit(alpm_handle_t *handle);
 
-#endif /* _ALPM_SYNC_H */
+#endif /* ALPM_SYNC_H */
 
 /* vim: set noet: */

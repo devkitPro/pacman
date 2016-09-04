@@ -16,8 +16,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_GRAPH_H
-#define _ALPM_GRAPH_H
+#ifndef ALPM_GRAPH_H
+#define ALPM_GRAPH_H
 
 #include <sys/types.h> /* off_t */
 
@@ -35,6 +35,6 @@ typedef struct __alpm_graph_t {
 alpm_graph_t *_alpm_graph_new(void);
 void _alpm_graph_free(void *data);
 
-#endif /* _ALPM_GRAPH_H */
+#endif /* ALPM_GRAPH_H */
 
 /* vim: set noet: */

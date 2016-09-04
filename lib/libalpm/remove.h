@@ -17,8 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_REMOVE_H
-#define _ALPM_REMOVE_H
+#ifndef ALPM_REMOVE_H
+#define ALPM_REMOVE_H
 
 #include "db.h"
 #include "alpm_list.h"
@@ -31,6 +31,6 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		alpm_pkg_t *oldpkg, alpm_pkg_t *newpkg,
 		size_t targ_count, size_t pkg_count);
 
-#endif /* _ALPM_REMOVE_H */
+#endif /* ALPM_REMOVE_H */
 
 /* vim: set noet: */

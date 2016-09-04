@@ -16,8 +16,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_FILELIST_H
-#define _ALPM_FILELIST_H
+#ifndef ALPM_FILELIST_H
+#define ALPM_FILELIST_H
 
 #include "alpm.h"
 
@@ -29,6 +29,6 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 
 int _alpm_files_cmp(const void *f1, const void *f2);
 
-#endif /* _ALPM_FILELIST_H */
+#endif /* ALPM_FILELIST_H */
 
 /* vim: set noet: */

@@ -17,8 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_LIST_H
-#define _ALPM_LIST_H
+#ifndef ALPM_LIST_H
+#define ALPM_LIST_H
 
 #include <stdlib.h> /* size_t */
 
@@ -90,6 +90,6 @@ void *alpm_list_to_array(const alpm_list_t *list, size_t n, size_t size);
 #ifdef __cplusplus
 }
 #endif
-#endif /* _ALPM_LIST_H */
+#endif /* ALPM_LIST_H */
 
 /* vim: set noet: */

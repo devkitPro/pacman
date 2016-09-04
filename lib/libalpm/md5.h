@@ -21,8 +21,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _MD5_H
-#define _MD5_H
+#ifndef MD5_H
+#define MD5_H
 
 #include <string.h>
 
