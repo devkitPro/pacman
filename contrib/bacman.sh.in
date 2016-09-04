@@ -33,6 +33,16 @@ ARGS=("$@")
 
 m4_include(../scripts/library/output_format.sh)
 
+# Lazy recursive clean up of temporary dirs
+work_dir_root="${TMPDIR:-/tmp}/bacman"
+clean_up() {
+	rm -rf "$work_dir_root".*
+	echo
+	exit
+}
+# Trap termination signals
+trap clean_up SIGHUP SIGINT SIGTERM
+
 #
 # User Friendliness
 #
