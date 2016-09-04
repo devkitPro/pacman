@@ -44,9 +44,7 @@ clean_up() {
 # Trap termination signals
 trap clean_up SIGHUP SIGINT SIGTERM
 
-#
-# User Friendliness
-#
+# Print usage information
 usage() {
 	printf "%s (pacman) %s\n" "$myname" "$myver"
 	echo
@@ -66,6 +64,7 @@ usage() {
 	echo
 }
 
+# Print version information
 version() {
 	printf "%s %s\n" "$myname" "$myver"
 	echo 'Copyright (C) 2008 locci <carlocci_at_gmail_dot_com>'
@@ -114,9 +113,7 @@ if [[ ${#pkg_list[@]} == 0 ]]; then
 	exit 1
 fi
 
-#
-# Fakeroot support
-#
+# Run with fake root privileges if EUID is not root
 if (( EUID )); then
 	if [[ -f /usr/bin/fakeroot ]]; then
 		msg "Entering fakeroot environment"
@@ -129,33 +126,25 @@ if (( EUID )); then
 	fi
 fi
 
-#
-# Setting environmental variables
-#
+# Source environmental variables and specify fallbacks
 if [[ ! -r @sysconfdir@/pacman.conf ]]; then
 	error "unable to read @sysconfdir@/pacman.conf"
 	exit 1
 fi
-
 eval $(awk '/DBPath/ {print $1$2$3}' @sysconfdir@/pacman.conf)
 pac_db="${DBPath:-@localstatedir@/lib/pacman/}/local"
-
 if [[ ! -r @sysconfdir@/makepkg.conf ]]; then
 	error "unable to read @sysconfdir@/makepkg.conf"
 	exit 1
 fi
-
 source "@sysconfdir@/makepkg.conf"
 if [[ -r ~/.makepkg.conf ]]; then
 	source ~/.makepkg.conf
 fi
-
 pkg_dest="${PKGDEST:-$PWD}"
 pkg_pkger=${PACKAGER:-'Unknown Packager'}
 
-#
-# Checks everything is in place
-#
+# Check for an existing database
 if [[ ! -d $pac_db ]]; then
 	error "pacman database directory ${pac_db} not found"
 	exit 1
@@ -187,6 +176,7 @@ fakebuild() {
 
 	# Assemble list of files which belong to the package and tar them
 	msg2 "Copying package files..."
+
 	while read i; do
 		if [[ -z $i ]]; then
 			continue
@@ -353,6 +343,7 @@ fakebuild() {
 	pkg_file="$pkg_dest/$pkg_namver-$pkg_arch${PKGEXT}"
 	ret=0
 
+	# Move compressed package to destination
 	# TODO: Maybe this can be set globally for robustness
 	shopt -s -o pipefail
 	bsdtar -cf - $comp_files * |
@@ -366,7 +357,7 @@ fakebuild() {
 		"$PKGEXT"; cat ;;
 	esac > "${pkg_file}"; ret=$?
 
-	# Move compressed package to destination
+	# Evaluate return code
 	if (( ret )); then
 		error "Unable to write package to $pkg_dest"
 		plain "       Maybe the disk is full or you do not have write access"
