@@ -4,12 +4,14 @@
 # man_MANS if --enable-asciidoc and/or --enable-doxygen are used.
 
 ASCIIDOC_MANS = \
-	verify-pacman-repo-db.1
+	verify-pacman-repo-db.1 \
+	bacman.8
 
 EXTRA_DIST = \
 	asciidoc.conf \
 	footer.txt \
 	verify-pacman-repo-db.1.txt \
+	bacman.8.txt \
 	$(ASCIIDOC_MANS)
 
 # Files that should be removed, but which Automake does not know.
@@ -53,5 +55,6 @@ $(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile.am
 
 # Dependency rules
 verify-pacman-repo-db.1: verify-pacman-repo-db.1.txt
+bacman.8: bacman.8.txt
 
 # vim:set noet:

@@ -1,0 +1,67 @@
+/////
+vim:set ts=4 sw=4 syntax=asciidoc noet spell spelllang=en_us:
+/////
+bacman(8)
+==========
+
+Name
+----
+bacman - recreate installed packages
+
+
+Synopsis
+--------
+'bacman' [options] <package(s)>
+
+
+Description
+-----------
+'bacman' was designed to reassemble installed packages using pacman's database
+and system files.
+It is useful for regenerating an installed package that you are unable to
+download that is also not available in your package cache.
+
+'bacman' honors packaging settings from linkman:makepkg.conf[8].
+
+
+Options
+-------
+*-h, \--help*::
+	Display usage information.
+
+*-q, \--quiet*::
+	Silence most of the status reporting.
+
+*-m, \--nocolor*::
+	Disable colored output.
+
+*-o, \--out <dir>*::
+	Write the assembled package(s) to the specified directory.
+
+*\--pacnew*::
+	Package `.pacnew` files if available instead of the (possibly modified)
+	versions in place on the filesystem.
+
+
+Examples
+--------
+
+The following are example usages of the 'bacman' utility:
+
+$ bacman linux-headers::
+	Recreate the package ``linux-headers''.
+
+$ bacman gzip make binutils -o ~/packages::
+	Assemble the packages ``gzip'', ``make'', and ``binutils'' and place
+	the packages in the ``~/packages'' directory.
+
+$ bacman --nocolor --pacnew -o ~/backup $(pacman -Qq)::
+	Assemble all currently installed packages using ``.pacnew'' whenever
+	available, suppress colored output and place the desired packages in
+	the ``~/backup''. directory
+
+See Also
+--------
+linkman:makepkg[8], linkman:pacman[8]
+
+include::footer.txt[]
