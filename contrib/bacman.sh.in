@@ -32,6 +32,7 @@ INCLUDE_PACNEW='n'
 ARGS=("$@")
 
 m4_include(../scripts/library/output_format.sh)
+m4_include(../scripts/library/parseopts.sh)
 
 # Lazy recursive clean up of temporary dirs
 work_dir_root="${TMPDIR:-/tmp}/bacman"
@@ -62,32 +63,46 @@ version() {
 	echo 'Copyright (C) 2008-2016 Pacman Development Team <pacman-dev@archlinux.org>'
 }
 
-while [[ ! -z $1 ]]; do
-	if [[ $1 == "--nocolor" ]]; then
-		USE_COLOR='n'
-		shift
-	elif [[ $1 == "--pacnew" ]]; then
-		INCLUDE_PACNEW='y'
-		shift
-	else
-		break
-	fi
+
+# Printing the usage information takes precedence over every other parameter
+for option in "$@"; do
+	[[ $option == "-h" || $option == "--help" ]] && usage && exit 0
 done
 
-m4_include(../scripts/library/term_colors.sh)
-
-# Break if no argument was given
-if (( $# < 1 )); then
+# Parse arguments
+OPT_SHORT='mv'
+OPT_LONG=('nocolor' 'pacnew' 'version')
+if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	usage
 	exit 1
 fi
+set -- "${OPTRET[@]}"
+unset OPT_SHORT OPT_LONG OPTRET
 
-if [[ $1 = -@(h|-help) ]]; then
+while :; do
+	case "$1" in
+		-m|--nocolor)
+			USE_COLOR='n' ;;
+		--pacnew)
+			INCLUDE_PACNEW='y' ;;
+		-v|--version)
+			version
+			exit 0 ;;
+		--)
+			shift
+			break 2 ;;
+	esac
+	shift
+done
+
+# Configure colored output
+m4_include(../scripts/library/term_colors.sh)
+
+# Retrieve the list of packages to be assembled and break if none was specified
+pkg_list=($*)
+if [[ ${#pkg_list[@]} == 0 ]]; then
 	usage
-	exit 0
-elif [[ $1 = -@(V|-version) ]]; then
-	version
-	exit 0
+	exit 1
 fi
 
 #
@@ -355,7 +370,9 @@ fakebuild() {
 }
 
 
-for PKG in $@; do fakebuild $PKG; done
+for PKG in ${pkg_list[@]}; do
+	fakebuild $PKG
+done
 msg "Done."
 
 exit 0
