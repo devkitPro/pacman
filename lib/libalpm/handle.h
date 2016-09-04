@@ -17,8 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_HANDLE_H
-#define _ALPM_HANDLE_H
+#ifndef ALPM_HANDLE_H
+#define ALPM_HANDLE_H
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -123,6 +123,6 @@ int _alpm_handle_unlock(alpm_handle_t *handle);
 alpm_errno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist);
 
-#endif /* _ALPM_HANDLE_H */
+#endif /* ALPM_HANDLE_H */
 
 /* vim: set noet: */

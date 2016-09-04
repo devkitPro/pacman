@@ -17,8 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _ALPM_PKGHASH_H
-#define _ALPM_PKGHASH_H
+#ifndef ALPM_PKGHASH_H
+#define ALPM_PKGHASH_H
 
 #include <stdlib.h>
 
@@ -57,4 +57,4 @@ void _alpm_pkghash_free(alpm_pkghash_t *hash);
 
 alpm_pkg_t *_alpm_pkghash_find(alpm_pkghash_t *hash, const char *name);
 
-#endif /* _ALPM_PKGHASH_H */
+#endif /* ALPM_PKGHASH_H */

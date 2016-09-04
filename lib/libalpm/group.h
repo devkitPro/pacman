@@ -17,14 +17,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_GROUP_H
-#define _ALPM_GROUP_H
+#ifndef ALPM_GROUP_H
+#define ALPM_GROUP_H
 
 #include "alpm.h"
 
 alpm_group_t *_alpm_group_new(const char *name);
 void _alpm_group_free(alpm_group_t *grp);
 
-#endif /* _ALPM_GROUP_H */
+#endif /* ALPM_GROUP_H */
 
 /* vim: set noet: */

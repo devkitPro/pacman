@@ -21,8 +21,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_UTIL_H
-#define _ALPM_UTIL_H
+#ifndef ALPM_UTIL_H
+#define ALPM_UTIL_H
 
 #include "alpm_list.h"
 #include "alpm.h"
@@ -156,6 +156,6 @@ char *strsep(char **, const char *);
 
 #define UNUSED __attribute__((unused))
 
-#endif /* _ALPM_UTIL_H */
+#endif /* ALPM_UTIL_H */
 
 /* vim: set noet: */

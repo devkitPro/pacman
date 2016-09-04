@@ -17,8 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_DLOAD_H
-#define _ALPM_DLOAD_H
+#ifndef ALPM_DLOAD_H
+#define ALPM_DLOAD_H
 
 #include "alpm_list.h"
 #include "alpm.h"
@@ -51,6 +51,6 @@ void _alpm_dload_payload_reset(struct dload_payload *payload);
 int _alpm_download(struct dload_payload *payload, const char *localpath,
 		char **final_file, const char **final_url);
 
-#endif /* _ALPM_DLOAD_H */
+#endif /* ALPM_DLOAD_H */
 
 /* vim: set noet: */

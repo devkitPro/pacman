@@ -17,14 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PM_SIGHANDLER_H
-#define _PM_SIGHANDLER_H
+#ifndef PM_SIGHANDLER_H
+#define PM_SIGHANDLER_H
 
 void install_segv_handler(void);
 void install_winch_handler(void);
 void install_soft_interrupt_handler(void);
 void remove_soft_interrupt_handler(void);
 
-#endif /* _PM_SIGHANDLER_H */
+#endif /* PM_SIGHANDLER_H */
 
 /* vim: set noet: */

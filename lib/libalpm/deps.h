@@ -19,8 +19,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_DEPS_H
-#define _ALPM_DEPS_H
+#ifndef ALPM_DEPS_H
+#define ALPM_DEPS_H
 
 #include "db.h"
 #include "sync.h"
@@ -38,6 +38,6 @@ int _alpm_depcmp_literal(alpm_pkg_t *pkg, alpm_depend_t *dep);
 int _alpm_depcmp_provides(alpm_depend_t *dep, alpm_list_t *provisions);
 int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep);
 
-#endif /* _ALPM_DEPS_H */
+#endif /* ALPM_DEPS_H */
 
 /* vim: set noet: */

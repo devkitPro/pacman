@@ -22,8 +22,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _BASE64_H
-#define _BASE64_H
+#ifndef BASE64_H
+#define BASE64_H
 
 #include <string.h>
 

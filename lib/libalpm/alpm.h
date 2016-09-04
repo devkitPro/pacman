@@ -20,8 +20,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_H
-#define _ALPM_H
+#ifndef ALPM_H
+#define ALPM_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -1624,6 +1624,6 @@ void alpm_conflict_free(alpm_conflict_t *conflict);
 #ifdef __cplusplus
 }
 #endif
-#endif /* _ALPM_H */
+#endif /* ALPM_H */
 
 /* vim: set noet: */

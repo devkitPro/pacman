@@ -17,8 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _PM_CONF_H
-#define _PM_CONF_H
+#ifndef PM_CONF_H
+#define PM_CONF_H
 
 #include <alpm.h>
 
@@ -234,6 +234,6 @@ void config_repo_free(config_repo_t *repo);
 
 int config_set_arch(const char *arch);
 int parseconfig(const char *file);
-#endif /* _PM_CONF_H */
+#endif /* PM_CONF_H */
 
 /* vim: set noet: */

@@ -21,8 +21,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_PACKAGE_H
-#define _ALPM_PACKAGE_H
+#ifndef ALPM_PACKAGE_H
+#define ALPM_PACKAGE_H
 
 #include <sys/types.h> /* off_t */
 
@@ -153,6 +153,6 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
 
-#endif /* _ALPM_PACKAGE_H */
+#endif /* ALPM_PACKAGE_H */
 
 /* vim: set noet: */

@@ -20,8 +20,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_TRANS_H
-#define _ALPM_TRANS_H
+#ifndef ALPM_TRANS_H
+#define ALPM_TRANS_H
 
 #include "alpm.h"
 
@@ -50,6 +50,6 @@ int _alpm_trans_init(alpm_trans_t *trans, alpm_transflag_t flags);
 int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 		const char *script, const char *ver, const char *oldver, int is_archive);
 
-#endif /* _ALPM_TRANS_H */
+#endif /* ALPM_TRANS_H */
 
 /* vim: set noet: */

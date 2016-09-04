@@ -17,8 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _ALPM_CONFLICT_H
-#define _ALPM_CONFLICT_H
+#ifndef ALPM_CONFLICT_H
+#define ALPM_CONFLICT_H
 
 #include "alpm.h"
 #include "db.h"
@@ -30,6 +30,6 @@ alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages);
 alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		alpm_list_t *upgrade, alpm_list_t *remove);
 
-#endif /* _ALPM_CONFLICT_H */
+#endif /* ALPM_CONFLICT_H */
 
 /* vim: set noet: */

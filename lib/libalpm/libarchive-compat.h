@@ -1,5 +1,5 @@
-#ifndef _LIBARCHIVE_COMPAT_H
-#define _LIBARCHIVE_COMPAT_H
+#ifndef LIBARCHIVE_COMPAT_H
+#define LIBARCHIVE_COMPAT_H
 
 /*
  * libarchive-compat.h
@@ -68,6 +68,6 @@ static inline int _alpm_archive_read_support_filter_all(struct archive *archive)
 #endif
 }
 
-#endif /* _LIBARCHIVE_COMPAT_H */
+#endif /* LIBARCHIVE_COMPAT_H */
 
 /* vim: set noet: */

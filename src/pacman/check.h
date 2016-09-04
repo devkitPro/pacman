@@ -17,14 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PM_CHECK_H
-#define _PM_CHECK_H
+#ifndef PM_CHECK_H
+#define PM_CHECK_H
 
 #include <alpm.h>
 
 int check_pkg_fast(alpm_pkg_t *pkg);
 int check_pkg_full(alpm_pkg_t *pkg);
 
-#endif /* _PM_CHECK_H */
+#endif /* PM_CHECK_H */
 
 /* vim: set noet: */
