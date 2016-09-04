@@ -28,6 +28,7 @@ declare -r myname='bacman'
 declare -r myver='@PACKAGE_VERSION@'
 USE_COLOR='y'
 INCLUDE_PACNEW='n'
+QUIET=0
 # Required for fakeroot because options are shifted off the array.
 ARGS=("$@")
 
@@ -54,6 +55,7 @@ usage() {
 	echo
 	printf -- "$(gettext "Options:")\n"
 	printf -- "$(gettext "  -h, --help       Show this help message and exit")\n"
+	printf -- "$(gettext "  -q, --quiet      Silence most of the status reporting")\n"
 	printf -- "$(gettext "  -m, --nocolor    Disable colorized output messages")\n"
 	printf -- "$(gettext "  --pacnew         Package .pacnew files")\n"
 	echo
@@ -78,8 +80,8 @@ for option in "$@"; do
 done
 
 # Parse arguments
-OPT_SHORT='mv'
-OPT_LONG=('nocolor' 'pacnew' 'version')
+OPT_SHORT='qmv'
+OPT_LONG=('quiet' 'nocolor' 'pacnew' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	usage
 	exit 1
@@ -89,6 +91,8 @@ unset OPT_SHORT OPT_LONG OPTRET
 
 while :; do
 	case "$1" in
+		-q|--quiet)
+			QUIET=1 ;;
 		-m|--nocolor)
 			USE_COLOR='n' ;;
 		--pacnew)
