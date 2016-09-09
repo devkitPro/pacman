@@ -231,8 +231,13 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 		/* print server + filename into a buffer */
 		len = strlen(server) + strlen(db->treename) + strlen(dbext) + 2;
-		/* TODO fix leak syncpath and umask unset */
-		MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+		MALLOC(payload.fileurl, len,
+			{
+				free(syncpath);
+				umask(oldmask);
+				RET_ERR(handle, ALPM_ERR_MEMORY, -1);
+			}
+		);
 		snprintf(payload.fileurl, len, "%s/%s%s", server, db->treename, dbext);
 		payload.handle = handle;
 		payload.force = force;
@@ -271,8 +276,13 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 				len = strlen(server) + strlen(db->treename) + strlen(dbext) + 6;
 			}
 
-			/* TODO fix leak syncpath and umask unset */
-			MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+			MALLOC(payload.fileurl, len,
+				{
+					free(syncpath);
+					umask(oldmask);
+					RET_ERR(handle, ALPM_ERR_MEMORY, -1);
+				}
+			);
 
 			if(final_db_url != NULL) {
 				snprintf(payload.fileurl, len, "%s.sig", final_db_url);
