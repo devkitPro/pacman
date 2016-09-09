@@ -617,7 +617,7 @@ remove() {
 rotate_db() {
 	dirname=${LOCKFILE%/*}
 
-	pushd $dirname >/dev/null
+	pushd "$dirname" >/dev/null
 
 	for repo in "db" "files"; do
 		filename=${REPO_DB_PREFIX}.${repo}.${REPO_DB_SUFFIX}
