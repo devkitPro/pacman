@@ -501,7 +501,7 @@ version_error:
 static int local_db_populate(alpm_db_t *db)
 {
 	size_t est_count;
-	int count = 0;
+	size_t count = 0;
 	struct stat buf;
 	struct dirent *ent = NULL;
 	const char *dbpath;
@@ -607,9 +607,9 @@ static int local_db_populate(alpm_db_t *db)
 
 	closedir(dbdir);
 	if(count > 0) {
-		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, (size_t)count, _alpm_pkg_cmp);
+		db->pkgcache->list = alpm_list_msort(db->pkgcache->list, count, _alpm_pkg_cmp);
 	}
-	_alpm_log(db->handle, ALPM_LOG_DEBUG, "added %d packages to package cache for db '%s'\n",
+	_alpm_log(db->handle, ALPM_LOG_DEBUG, "added %zu packages to package cache for db '%s'\n",
 			count, db->treename);
 
 	return count;
