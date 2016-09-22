@@ -462,8 +462,8 @@ static size_t estimate_package_count(struct stat *st, struct archive *archive)
 static int sync_db_populate(alpm_db_t *db)
 {
 	const char *dbpath;
-	size_t est_count;
-	int count, fd;
+	size_t est_count, count;
+	int fd;
 	int ret = 0;
 	struct stat buf;
 	struct archive *archive;
@@ -520,10 +520,10 @@ static int sync_db_populate(alpm_db_t *db)
 	count = alpm_list_count(db->pkgcache->list);
 	if(count > 0) {
 		db->pkgcache->list = alpm_list_msort(db->pkgcache->list,
-				(size_t)count, _alpm_pkg_cmp);
+				count, _alpm_pkg_cmp);
 	}
 	_alpm_log(db->handle, ALPM_LOG_DEBUG,
-			"added %d packages to package cache for db '%s'\n",
+			"added %zu packages to package cache for db '%s'\n",
 			count, db->treename);
 
 cleanup:
