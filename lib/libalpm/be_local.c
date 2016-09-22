@@ -612,7 +612,7 @@ static int local_db_populate(alpm_db_t *db)
 	_alpm_log(db->handle, ALPM_LOG_DEBUG, "added %zu packages to package cache for db '%s'\n",
 			count, db->treename);
 
-	return count;
+	return 0;
 }
 
 /* Note: the return value must be freed by the caller */
