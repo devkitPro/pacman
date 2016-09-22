@@ -464,6 +464,7 @@ static int sync_db_populate(alpm_db_t *db)
 	const char *dbpath;
 	size_t est_count;
 	int count, fd;
+	int ret = 0;
 	struct stat buf;
 	struct archive *archive;
 	struct archive_entry *entry;
@@ -497,7 +498,7 @@ static int sync_db_populate(alpm_db_t *db)
 	db->pkgcache = _alpm_pkghash_create(est_count);
 	if(db->pkgcache == NULL) {
 		db->handle->pm_errno = ALPM_ERR_MEMORY;
-		count = -1;
+		ret = -1;
 		goto cleanup;
 	}
 
@@ -530,7 +531,7 @@ cleanup:
 	if(fd >= 0) {
 		close(fd);
 	}
-	return count;
+	return ret;
 }
 
 /* This function validates %FILENAME%. filename must be between 3 and
