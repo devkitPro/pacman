@@ -229,6 +229,11 @@ if test "x$with_openssl" != "xno"; then
 fi
 AM_CONDITIONAL(HAVE_LIBSSL, [test "$have_openssl" = "yes"])
 
+# Ensure one library for generating checksums is present
+if test "$have_openssl" != "yes"; then
+	AC_MSG_ERROR([*** no library for checksum generation found])
+fi
+
 # Check for libcurl
 have_libcurl=no
 if test "x$with_libcurl" != "xno"; then

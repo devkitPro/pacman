@@ -40,9 +40,6 @@
 #ifdef HAVE_LIBSSL
 #include <openssl/md5.h>
 #include <openssl/sha.h>
-#else
-#include "md5.h"
-#include "sha2.h"
 #endif
 
 /* libalpm */
@@ -990,7 +987,6 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 
 	ASSERT(filename != NULL, return NULL);
 
-	/* defined above for OpenSSL, otherwise defined in md5.h */
 	if(md5_file(filename, output) > 0) {
 		return NULL;
 	}
@@ -1009,7 +1005,6 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 
 	ASSERT(filename != NULL, return NULL);
 
-	/* defined above for OpenSSL, otherwise defined in sha2.h */
 	if(sha2_file(filename, output, 0) > 0) {
 		return NULL;
 	}
