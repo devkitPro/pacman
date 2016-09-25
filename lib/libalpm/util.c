@@ -897,14 +897,12 @@ static int md5_file(const char *path, unsigned char output[16])
 	return 0;
 }
 
-/* third param is so we match the PolarSSL definition */
-/** Compute the SHA-224 or SHA-256 message digest of a file.
- * @param path file path of file to compute SHA2 digest of
- * @param output string to hold computed SHA2 digest
- * @param is224 use SHA-224 instead of SHA-256
+/** Compute the SHA-256 message digest of a file.
+ * @param path file path of file to compute SHA256 digest of
+ * @param output string to hold computed SHA256 digest
  * @return 0 on success, 1 on file open error, 2 on file read error
  */
-static int sha2_file(const char *path, unsigned char output[32], int is224)
+static int sha256_file(const char *path, unsigned char output[32])
 {
 	SHA256_CTX ctx;
 	unsigned char *buf;
@@ -919,21 +917,13 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 		return 1;
 	}
 
-	if(is224) {
-		SHA224_Init(&ctx);
-	} else {
-		SHA256_Init(&ctx);
-	}
+	SHA256_Init(&ctx);
 
 	while((n = read(fd, buf, ALPM_BUFFER_SIZE)) > 0 || errno == EINTR) {
 		if(n < 0) {
 			continue;
 		}
-		if(is224) {
-			SHA224_Update(&ctx, buf, n);
-		} else {
-			SHA256_Update(&ctx, buf, n);
-		}
+		SHA256_Update(&ctx, buf, n);
 	}
 
 	close(fd);
@@ -943,11 +933,7 @@ static int sha2_file(const char *path, unsigned char output[32], int is224)
 		return 2;
 	}
 
-	if(is224) {
-		SHA224_Final(output, &ctx);
-	} else {
-		SHA256_Final(output, &ctx);
-	}
+	SHA256_Final(output, &ctx);
 	return 0;
 }
 #endif
@@ -1005,7 +991,7 @@ char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 
 	ASSERT(filename != NULL, return NULL);
 
-	if(sha2_file(filename, output, 0) > 0) {
+	if(sha256_file(filename, output) > 0) {
 		return NULL;
 	}
 
