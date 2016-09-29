@@ -1476,7 +1476,7 @@ pkgbase=${pkgbase:-${pkgname[0]}}
 # check the PKGBUILD for some basic requirements
 lint_pkgbuild || exit 1
 
-if (( !SOURCEONLY )); then
+if (( !SOURCEONLY && !PRINTSRCINFO )); then
 	merge_arch_attrs
 fi
 
