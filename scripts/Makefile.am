@@ -15,7 +15,6 @@ OURSCRIPTS = \
 	makepkg \
 	pacman-db-upgrade \
 	pacman-key \
-	pacman-optimize \
 	pkgdelta \
 	repo-add
 
@@ -25,7 +24,6 @@ EXTRA_DIST = \
 	makepkg-wrapper.sh.in \
 	pacman-db-upgrade.sh.in \
 	pacman-key.sh.in \
-	pacman-optimize.sh.in \
 	pkgdelta.sh.in \
 	repo-add.sh.in \
 	$(LIBRARY) \
@@ -181,10 +179,6 @@ pacman-key: \
 	$(srcdir)/pacman-key.sh.in \
 	$(srcdir)/library/output_format.sh \
 	$(srcdir)/library/parseopts.sh
-
-pacman-optimize: \
-	$(srcdir)/pacman-optimize.sh.in \
-	$(srcdir)/library/output_format.sh
 
 pkgdelta: \
 	$(srcdir)/pkgdelta.sh.in \
