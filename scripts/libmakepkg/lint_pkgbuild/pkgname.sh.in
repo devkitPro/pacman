@@ -32,6 +32,11 @@ lint_pkgbuild_functions+=('lint_pkgname')
 lint_pkgname() {
 	local ret=0 i
 
+	if [[ -z ${pkgname[@]} ]]; then
+		error "$(gettext "%s is not allowed to be empty.")" "pkgname"
+		return 1
+	fi
+
 	for i in "${pkgname[@]}"; do
 		if [[ -z $i ]]; then
 			error "$(gettext "%s is not allowed to be empty.")" "pkgname"
