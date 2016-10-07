@@ -171,6 +171,7 @@ static void usage(int op, const char * const myname)
 			addlist(_("      --asdeps         mark packages as non-explicitly installed\n"));
 			addlist(_("      --asexplicit     mark packages as explicitly installed\n"));
 			addlist(_("  -k, --check          test local database for validity (-kk for sync databases)\n"));
+			addlist(_("  -q, --quiet          suppress output of success messages\n"));
 		} else if(op == PM_OP_DEPTEST) {
 			printf("%s:  %s {-T --deptest} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
@@ -466,6 +467,10 @@ static int parsearg_database(int opt)
 		case 'k':
 			(config->op_q_check)++;
 			break;
+		case OP_QUIET:
+		case 'q':
+			config->quiet = 1;
+		break;
 		default:
 			return 1;
 	}

@@ -286,6 +286,10 @@ int pacman_database(alpm_list_t *targets)
 		} else {
 			ret = check_db_sync();
 		}
+
+		if(ret == 0 && !config->quiet) {
+			printf(_("No database errors have been found!\n"));
+		}
 	}
 
 	if(config->flags & (ALPM_TRANS_FLAG_ALLDEPS | ALPM_TRANS_FLAG_ALLEXPLICIT)) {

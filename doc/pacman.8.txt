@@ -456,13 +456,17 @@ Database Options (apply to '-D')[[QO]]
 	package installed even when it was initially installed as a dependency
 	of another package.
 
-*-k \--check*::
+*-k, \--check*::
 	Check the local package database is internally consistent. This will
 	check all required files are present and that installed packages have
 	the required dependencies, do not conflict and that multiple packages
 	do not own the same file. Specifying this option twice will perform
 	a check on the sync databases to ensure all specified dependencies
 	are available.
+
+*-q, \--quiet*::
+	Apply to '-q' or '--quiet' to suppress messages on successful
+	completion of database operations.
 
 File Options (apply to '-F')[[FO]]
 ----------------------------------
