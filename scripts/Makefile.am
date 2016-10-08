@@ -1,6 +1,10 @@
 # enforce that all scripts have a --help and --version option
 AUTOMAKE_OPTIONS = std-options
-AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = makepkg-wrapper
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = \
+	makepkg-wrapper \
+	pacman-db-upgrade-wrapper \
+	pacman-key-wrapper \
+	pkgdelta-wrapper
 
 SUBDIRS = po
 
@@ -47,11 +51,6 @@ LIBMAKEPKGDIRS = \
 	tidy \
 	util
 
-LIBMAKEPKG = \
-	libmakepkg/util/message.sh \
-	libmakepkg/util/option.sh \
-	libmakepkg/util/util.sh
-
 LIBMAKEPKG_IN = \
 	libmakepkg/integrity.sh \
 	libmakepkg/integrity/generate_checksum.sh \
@@ -96,11 +95,13 @@ LIBMAKEPKG_IN = \
 	libmakepkg/tidy/strip.sh \
 	libmakepkg/tidy/zipman.sh \
 	libmakepkg/util.sh \
+	libmakepkg/util/message.sh \
+	libmakepkg/util/option.sh \
 	libmakepkg/util/pkgbuild.sh \
-	libmakepkg/util/source.sh
+	libmakepkg/util/source.sh \
+	libmakepkg/util/util.sh
 
 LIBMAKEPKG_DIST = \
-	$(LIBMAKEPKG) \
 	$(addsuffix .in, $(LIBMAKEPKG_IN))
 
 COMPLETION_IN = \
