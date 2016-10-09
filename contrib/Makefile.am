@@ -22,14 +22,9 @@ OURSCRIPTS = \
 	$(BASHSCRIPTS) \
 	$(OTHERSCRIPTS)
 
-OURFILES = \
-	bash_completion \
-	zsh_completion
-
 EXTRA_DIST = \
 	PKGBUILD.vim \
 	bacman.sh.in \
-	bash_completion.in \
 	checkupdates.sh.in \
 	paccache.sh.in \
 	paclog-pkglist.sh.in \
@@ -40,11 +35,10 @@ EXTRA_DIST = \
 	rankmirrors.sh.in \
 	updpkgsums.sh.in \
 	vimprojects \
-	zsh_completion.in \
 	README
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = $(OURSCRIPTS) $(OURFILES) *.tmp
+MOSTLYCLEANFILES = $(OURSCRIPTS) *.tmp
 
 if USE_GIT_VERSION
 GIT_VERSION := $(shell sh -c 'git describe --abbrev=4 --dirty | sed s/^v//')
@@ -79,20 +73,9 @@ $(OURFILES): Makefile
 	$(AM_V_at)chmod a-w $@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
-all-am: $(OURSCRIPTS) $(OURFILES)
-
-install-data-local:
-	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/bash_completion.d/
-	$(INSTALL_DATA) bash_completion $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
-	$(MKDIR_P) $(DESTDIR)$(datarootdir)/zsh/site-functions/
-	$(INSTALL_DATA) zsh_completion $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
-
-uninstall-local:
-	$(RM) $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
-	$(RM) $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
+all-am: $(OURSCRIPTS)
 
 bacman: $(srcdir)/bacman.sh.in
-bash_completion: $(srcdir)/bash_completion.in
 checkupdates: $(srcdir)/checkupdates.sh.in
 paccache: $(srcdir)/paccache.sh.in $(top_srcdir)/scripts/library/parseopts.sh $(top_srcdir)/scripts/library/size_to_human.sh
 pacdiff: $(srcdir)/pacdiff.sh.in
@@ -102,6 +85,5 @@ pacscripts: $(srcdir)/pacscripts.sh.in
 pacsearch: $(srcdir)/pacsearch.in
 rankmirrors: $(srcdir)/rankmirrors.sh.in
 updpkgsums: $(srcdir)/updpkgsums.sh.in
-zsh_completion: $(srcdir)/zsh_completion.in
 
 # vim:set noet:

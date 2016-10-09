@@ -28,6 +28,7 @@ EXTRA_DIST = \
 	pacman-optimize.sh.in \
 	pkgdelta.sh.in \
 	repo-add.sh.in \
+	$(COMPLETION_DIST) \
 	$(LIBRARY) \
 	$(LIBMAKEPKG_DIST)
 
@@ -99,8 +100,15 @@ LIBMAKEPKG_DIST = \
 	$(LIBMAKEPKG) \
 	$(addsuffix .in, $(LIBMAKEPKG_IN))
 
+COMPLETION_IN = \
+	completion/bash_completion \
+	completion/zsh_completion
+
+COMPLETION_DIST = \
+	$(addsuffix .in, $(COMPLETION_IN))
+
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = $(bin_SCRIPTS) $(LIBMAKEPKG_IN)
+MOSTLYCLEANFILES = $(bin_SCRIPTS) $(LIBMAKEPKG_IN) $(COMPLETION_IN)
 
 clean-local:
 	$(AM_V_at)$(RM) -r .lib
@@ -153,6 +161,14 @@ $(LIBMAKEPKG_IN): %: %.in Makefile
 	$(AM_V_GEN)test -f $(srcdir)/$@.in && $(edit) $(srcdir)/$@.in >$@
 	$(AM_V_at)chmod a-w $@
 	@$(BASH_SHELL) -O extglob -n $@
+
+$(COMPLETION_IN): %: %.in Makefile
+	$(AM_V_at)$(RM) $@
+	$(AM_V_at)$(MKDIR_P) $(dir $@)
+	$(AM_V_GEN)$(edit) $(srcdir)/$@.in >$@
+	$(AM_V_at)chmod a-w $@
+
+all-am: $(COMPLETION_IN)
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
@@ -214,6 +230,16 @@ makepkg-wrapper: \
 	$(AM_V_at)chmod +x,a-w $@
 	$(AM_V_at)$(LN_S) makepkg-wrapper makepkg
 
+install-data-local:
+	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/bash_completion.d/
+	$(INSTALL_DATA) completion/bash_completion $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
+	$(MKDIR_P) $(DESTDIR)$(datarootdir)/zsh/site-functions/
+	$(INSTALL_DATA) completion/zsh_completion $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
+
+uninstall-local:
+	$(RM) $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
+	$(RM) $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
+
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
 		$(RM) makepkg makepkg-wrapper
@@ -247,5 +273,6 @@ uninstall-hook:
 	for dir in $(LIBMAKEPKGDIRS); do \
 		$(RM) -r $(DESTDIR)$(libmakepkgdir)/$$dir; \
 	done
+
 
 # vim:set noet:
