@@ -3,7 +3,7 @@ if WANT_DOC
 SUBDIRS += doc
 endif
 
-DIST_SUBDIRS = $(SUBDIRS) contrib src/common
+DIST_SUBDIRS = $(SUBDIRS) src/common
 
 ACLOCAL_AMFLAGS = -I m4 --install
 AM_MAKEFLAGS = --no-print-directory
