@@ -3,7 +3,7 @@
 source "$(dirname "$0")"/../tap.sh || exit 1
 
 # source the library function
-lib=${1:-${PMTEST_SCRIPTLIB_DIR}parseopts.sh}
+lib=${1:-${PMTEST_LIBMAKEPKG_DIR}util/parseopts.sh}
 if [[ -z $lib || ! -f $lib ]]; then
 	tap_bail "parseopts library ($lib) could not be located"
 	exit 1

@@ -30,7 +30,10 @@ declare -r myver='@PACKAGE_VERSION@'
 
 m4_include(library/output_format.sh)
 
-m4_include(library/parseopts.sh)
+LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+
+# Import parseopts.sh
+source "$LIBRARY"/util/parseopts.sh
 
 usage() {
 	printf "pacman-db-upgrade (pacman) %s\n" "${myver}"

@@ -26,6 +26,11 @@ export TEXTDOMAINDIR='@localedir@'
 
 declare -r myver="@PACKAGE_VERSION@"
 
+LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+
+# Import parseopts.sh
+source "$LIBRARY"/util/parseopts.sh
+
 # Options
 ADD=0
 DELETE=0
@@ -49,8 +54,6 @@ VERIFY=0
 DEFAULT_KEYSERVER='hkp://pool.sks-keyservers.net'
 
 m4_include(library/output_format.sh)
-
-m4_include(library/parseopts.sh)
 
 usage() {
 	printf "pacman-key (pacman) %s\n" ${myver}

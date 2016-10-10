@@ -1153,8 +1153,6 @@ run_split_packaging() {
 	pkgname=("${pkgname_backup[@]}")
 }
 
-m4_include(library/parseopts.sh)
-
 usage() {
 	printf "makepkg (pacman) %s\n" "$makepkg_version"
 	echo

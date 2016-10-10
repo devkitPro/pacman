@@ -28,6 +28,12 @@ export TEXTDOMAINDIR='@localedir@'
 
 declare -r myver='@PACKAGE_VERSION@'
 
+LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+
+# Import parseopts.sh
+source "$LIBRARY"/util/parseopts.sh
+
+# Options
 QUIET=0
 USE_COLOR='y'
 
@@ -41,7 +47,6 @@ max_delta_size=70
 # ensure we have a sane umask set
 umask 0022
 
-m4_include(library/parseopts.sh)
 m4_include(library/output_format.sh)
 
 # print usage instructions

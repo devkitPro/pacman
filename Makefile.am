@@ -39,7 +39,8 @@ TEST_EXTENSIONS = .py
 AM_TESTS_ENVIRONMENT = \
 	PMTEST_UTIL_DIR=$(top_builddir)/src/util/; export PMTEST_UTIL_DIR; \
 	PMTEST_SCRIPT_DIR=$(top_builddir)/scripts/; export PMTEST_SCRIPT_DIR; \
-	PMTEST_SCRIPTLIB_DIR=$(top_srcdir)/scripts/library/; export PMTEST_SCRIPTLIB_DIR;
+	PMTEST_SCRIPTLIB_DIR=$(top_srcdir)/scripts/library/; export PMTEST_SCRIPTLIB_DIR; \
+	PMTEST_LIBMAKEPKG_DIR=$(top_builddir)/scripts/libmakepkg/; export PMTEST_LIBMAKEPKG_DIR;
 LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 								 $(top_srcdir)/build-aux/tap-driver.sh
 PY_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \

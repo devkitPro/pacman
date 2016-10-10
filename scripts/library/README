@@ -8,26 +8,6 @@ stdout and can be silenced by defining 'QUIET'.  The 'warning' and 'error'
 functions print to stderr with the appropriate prefix added to the
 message.
 
-parseopts.sh:
-A getopt_long-like parser which portably supports longopts and shortopts
-with some GNU extensions. It does not allow for options with optional
-arguments. For both short and long opts, options requiring an argument
-should be suffixed with a colon. After the first argument containing
-the short opts, any number of valid long opts may be be passed. The end
-of the options delimiter must then be added, followed by the user arguments
-to the calling program.
-
-Recommended Usage:
-  OPT_SHORT='fb:z'
-  OPT_LONG=('foo' 'bar:' 'baz')
-  if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
-    exit 1
-  fi
-  set -- "${OPTRET[@]}"
-Returns:
-  0: parse success
-  1: parse failure (error message supplied)
-
 human_to_size.sh:
 A function to convert human readable sizes (such as "5.3 GiB") to raw byte
 equivalents. base10 and base2 suffixes are supported, case sensitively. If

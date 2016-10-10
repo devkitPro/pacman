@@ -36,7 +36,6 @@ EXTRA_DIST = \
 
 LIBRARY = \
 	library/output_format.sh \
-	library/parseopts.sh \
 	library/human_to_size.sh \
 	library/size_to_human.sh \
 	library/term_colors.sh
@@ -97,6 +96,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/util.sh \
 	libmakepkg/util/message.sh \
 	libmakepkg/util/option.sh \
+	libmakepkg/util/parseopts.sh \
 	libmakepkg/util/pkgbuild.sh \
 	libmakepkg/util/source.sh \
 	libmakepkg/util/util.sh
@@ -105,7 +105,10 @@ LIBMAKEPKG_DIST = \
 	$(addsuffix .in, $(LIBMAKEPKG_IN))
 
 WRAPPER = \
-	makepkg-wrapper
+	makepkg-wrapper \
+	pacman-db-upgrade-wrapper \
+	pacman-key-wrapper \
+	pkgdelta-wrapper
 
 COMPLETION_IN = \
 	completion/bash_completion \
@@ -180,7 +183,6 @@ all-am: $(COMPLETION_IN)
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
 	$(srcdir)/wrapper.sh.in \
-	$(srcdir)/library/parseopts.sh \
 	$(LIBMAKEPKG_IN)
 
 makepkg-template: \
@@ -197,13 +199,11 @@ pacman-db-upgrade: \
 
 pacman-key: \
 	$(srcdir)/pacman-key.sh.in \
-	$(srcdir)/library/output_format.sh \
-	$(srcdir)/library/parseopts.sh
+	$(srcdir)/library/output_format.sh
 
 pkgdelta: \
 	$(srcdir)/pkgdelta.sh.in \
-	$(srcdir)/library/output_format.sh \
-	$(srcdir)/library/parseopts.sh
+	$(srcdir)/library/output_format.sh
 
 repo-add: \
 	$(srcdir)/repo-add.sh.in \
