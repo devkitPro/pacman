@@ -65,13 +65,15 @@ libalpm_la_CFLAGS = \
 	$(GPGME_CFLAGS) \
 	$(LIBARCHIVE_CFLAGS) \
 	$(LIBCURL_CFLAGS) \
-	$(LIBSSL_CFLAGS)
+	$(LIBSSL_CFLAGS) \
+	$(NETTLE_CFLAGS)
 
 libalpm_la_LIBADD = \
 	$(LTLIBINTL) \
 	$(GPGME_LIBS) \
 	$(LIBARCHIVE_LIBS) \
 	$(LIBCURL_LIBS) \
-	$(LIBSSL_LIBS)
+	$(LIBSSL_LIBS) \
+	$(NETTLE_LIBS)
 
 # vim:set noet:

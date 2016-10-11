@@ -42,6 +42,11 @@
 #include <openssl/sha.h>
 #endif
 
+#ifdef HAVE_LIBNETTLE
+#include <nettle/md5.h>
+#include <nettle/sha2.h>
+#endif
+
 /* libalpm */
 #include "util.h"
 #include "log.h"
@@ -856,7 +861,7 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 	return cachedir;
 }
 
-#ifdef HAVE_LIBSSL
+#if defined  HAVE_LIBSSL || defined HAVE_LIBNETTLE
 /** Compute the MD5 message digest of a file.
  * @param path file path of file to compute  MD5 digest of
  * @param output string to hold computed MD5 digest
@@ -864,7 +869,11 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
  */
 static int md5_file(const char *path, unsigned char output[16])
 {
+#if HAVE_LIBSSL
 	MD5_CTX ctx;
+#else /* HAVE_LIBNETTLE */
+	struct md5_ctx ctx;
+#endif
 	unsigned char *buf;
 	ssize_t n;
 	int fd;
@@ -877,13 +886,21 @@ static int md5_file(const char *path, unsigned char output[16])
 		return 1;
 	}
 
+#if HAVE_LIBSSL
 	MD5_Init(&ctx);
+#else /* HAVE_LIBNETTLE */
+	md5_init(&ctx);
+#endif
 
 	while((n = read(fd, buf, ALPM_BUFFER_SIZE)) > 0 || errno == EINTR) {
 		if(n < 0) {
 			continue;
 		}
+#if HAVE_LIBSSL
 		MD5_Update(&ctx, buf, n);
+#else /* HAVE_LIBNETTLE */
+		md5_update(&ctx, n, buf);
+#endif
 	}
 
 	close(fd);
@@ -893,7 +910,11 @@ static int md5_file(const char *path, unsigned char output[16])
 		return 2;
 	}
 
+#if HAVE_LIBSSL
 	MD5_Final(output, &ctx);
+#else /* HAVE_LIBNETTLE */
+	md5_digest(&ctx, MD5_DIGEST_SIZE, output);
+#endif
 	return 0;
 }
 
@@ -904,7 +925,11 @@ static int md5_file(const char *path, unsigned char output[16])
  */
 static int sha256_file(const char *path, unsigned char output[32])
 {
+#if HAVE_LIBSSL
 	SHA256_CTX ctx;
+#else /* HAVE_LIBNETTLE */
+	struct sha256_ctx ctx;
+#endif
 	unsigned char *buf;
 	ssize_t n;
 	int fd;
@@ -917,13 +942,21 @@ static int sha256_file(const char *path, unsigned char output[32])
 		return 1;
 	}
 
+#if HAVE_LIBSSL
 	SHA256_Init(&ctx);
+#else /* HAVE_LIBNETTLE */
+	sha256_init(&ctx);
+#endif
 
 	while((n = read(fd, buf, ALPM_BUFFER_SIZE)) > 0 || errno == EINTR) {
 		if(n < 0) {
 			continue;
 		}
+#if HAVE_LIBSSL
 		SHA256_Update(&ctx, buf, n);
+#else /* HAVE_LIBNETTLE */
+		sha256_update(&ctx, n, buf);
+#endif
 	}
 
 	close(fd);
@@ -933,10 +966,14 @@ static int sha256_file(const char *path, unsigned char output[32])
 		return 2;
 	}
 
+#if HAVE_LIBSSL
 	SHA256_Final(output, &ctx);
+#else /* HAVE_LIBNETTLE */
+	sha256_digest(&ctx, SHA256_DIGEST_SIZE, output);
+#endif
 	return 0;
 }
-#endif
+#endif /* HAVE_LIBSSL || HAVE_LIBNETTLE */
 
 /** Create a string representing bytes in hexadecimal.
  * @param bytes the bytes to represent in hexadecimal

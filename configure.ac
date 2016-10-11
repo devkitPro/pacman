@@ -120,10 +120,11 @@ AC_ARG_WITH(ldconfig,
 		[set the full path to ldconfig]),
 	[LDCONFIG=$withval], [LDCONFIG=/sbin/ldconfig])
 
-# Help line for using OpenSSL
-AC_ARG_WITH(openssl,
-	AS_HELP_STRING([--with-openssl], [use OpenSSL crypto implementations instead of internal routines]),
-	[], [with_openssl=check])
+# Help line for selecting a crypto library
+AC_ARG_WITH(crypto,
+	AS_HELP_STRING([--with-crypto={openssl|nettle}],
+		[select crypto implementation @<:@default=openssl@:>@]),
+	[with_crypto=$withval], [with_crypto=openssl])
 
 # Help line for using gpgme
 AC_ARG_WITH(gpgme,
@@ -220,19 +221,25 @@ PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 2.8.0], ,
 
 # Check for OpenSSL
 have_openssl=no
-if test "x$with_openssl" != "xno"; then
+have_nettle=no
+if test "x$with_crypto" == "xnettle"; then
+	PKG_CHECK_MODULES(NETTLE, [nettle],
+		[AC_DEFINE(HAVE_LIBNETTLE, 1, [Define whether to use nettle]) have_nettle=yes], have_nettle=no)
+	if test "x$have_nettle" = xno -a "x$with_crypto" = xnettle; then
+		AC_MSG_ERROR([*** nettle support requested but libraries not found])
+	fi
+else if test "x$with_crypto" == "xopenssl"; then
 	PKG_CHECK_MODULES(LIBSSL, [libcrypto],
 		[AC_DEFINE(HAVE_LIBSSL, 1, [Define if libcrypto is available]) have_openssl=yes], have_openssl=no)
-	if test "x$have_openssl" = xno -a "x$with_openssl" = xyes; then
+	if test "x$have_openssl" = xno; then
 		AC_MSG_ERROR([*** openssl support requested but libraries not found])
 	fi
+else
+	AC_MSG_ERROR([*** unknown crypto support library requested - $with_crypto])
+fi
 fi
 AM_CONDITIONAL(HAVE_LIBSSL, [test "$have_openssl" = "yes"])
-
-# Ensure one library for generating checksums is present
-if test "$have_openssl" != "yes"; then
-	AC_MSG_ERROR([*** no library for checksum generation found])
-fi
+AM_CONDITIONAL(HAVE_LIBNETTLE, [test "$have_nettle" = "yes"])
 
 # Check for libcurl
 have_libcurl=no
@@ -542,7 +549,7 @@ ${PACKAGE_NAME}:
     compiler               : ${CC}
     preprocessor flags     : ${CPPFLAGS}
     compiler flags         : ${WARNING_CFLAGS} ${CFLAGS}
-    library flags          : ${LIBS} ${LIBSSL_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS} ${GPGME_LIBS}
+    library flags          : ${LIBS} ${LIBSSL_LIBS} ${NETTLE_LIBS} ${LIBARCHIVE_LIBS} ${LIBCURL_LIBS} ${GPGME_LIBS}
     linker flags           : ${LDFLAGS}
 
     Architecture           : ${CARCH}
@@ -569,6 +576,7 @@ ${PACKAGE_NAME}:
     Use libcurl            : ${have_libcurl}
     Use GPGME              : ${have_gpgme}
     Use OpenSSL            : ${have_openssl}
+    Use nettle             : ${have_nettle}
     Run make in doc/ dir   : ${wantdoc} ${asciidoc}
     Doxygen support        : ${usedoxygen}
     debug support          : ${debug}
