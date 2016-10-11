@@ -214,11 +214,8 @@ repo-elephant: $(srcdir)/repo-add.sh.in
 	$(AM_V_at)$(LN_S) repo-add repo-elephant
 
 makepkg-wrapper: \
-	Makefile \
-	$(srcdir)/makepkg-wrapper.sh.in \
-	$(srcdir)/makepkg.sh.in \
-	$(srcdir)/library/parseopts.sh \
-	| makepkg
+	makepkg
+
 	$(AM_V_at)$(MKDIR_P) .lib
 	$(AM_V_at)mv -f makepkg .lib
 	$(AM_V_at)$(RM) $@
