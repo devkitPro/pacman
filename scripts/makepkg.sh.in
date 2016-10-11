@@ -28,7 +28,7 @@
 # makepkg uses quite a few external programs during its execution. You
 # need to have at least the following installed for makepkg to function:
 #   awk, bsdtar (libarchive), bzip2, coreutils, fakeroot, file, find (findutils),
-#   gettext, gpg, grep, gzip, openssl, sed, tput (ncurses), xz
+#   gettext, gpg, grep, gzip, sed, tput (ncurses), xz
 
 # gettext initialization
 export TEXTDOMAIN='pacman-scripts'
@@ -658,8 +658,8 @@ write_buildinfo() {
 
 	printf "builddir = %s\n"  "${BUILDDIR}"
 
-	local sum="$(openssl dgst -sha256 "${BUILDFILE}")"
-	sum=${sum##* }
+	local sum="$(sha256sum "${BUILDFILE}")"
+	sum=${sum%% *}
 
 	printf "pkgbuild_sha256sum = %s\n" $sum
 
@@ -1022,12 +1022,18 @@ check_software() {
 		fi
 	fi
 
-	# openssl - checksum operations
-	if (( ! SKIPCHECKSUMS )); then
-		if ! type -p openssl >/dev/null; then
-			error "$(gettext "Cannot find the %s binary required for validating source file checksums.")" "openssl"
-			ret=1
-		fi
+	# checksum operations
+	if (( GENINTEG || ! SKIPCHECKSUMS )); then
+		local integlist
+		IFS=$'\n' read -rd '' -a integlist < <(get_integlist)
+
+		local integ
+		for integ in "${integlist[@]}"; do
+			if ! type -p "${integ}sum" >/dev/null; then
+				error "$(gettext "Cannot find the %s binary required for source file checksums operations.")" "${integ}sum"
+				ret=1
+			fi
+		done
 	fi
 
 	# distcc - compilation with distcc

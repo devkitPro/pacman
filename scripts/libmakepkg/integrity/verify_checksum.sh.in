@@ -82,8 +82,8 @@ verify_integrity_one() {
 		return 1
 	fi
 
-	local realsum="$(openssl dgst -${integ} "$file")"
-	realsum="${realsum##* }"
+	local realsum="$("${integ}sum" "$file")"
+	realsum="${realsum%% *}"
 	if [[ ${expectedsum,,} = "$realsum" ]]; then
 		printf '%s\n' "$(gettext "Passed")" >&2
 	else

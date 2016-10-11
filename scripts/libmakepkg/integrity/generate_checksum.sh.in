@@ -59,8 +59,8 @@ generate_one_checksum() {
 				if [[ $netfile != *.@(sig?(n)|asc) ]]; then
 					local file
 					file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
-					sum="$(openssl dgst -${integ} "$file")"
-					sum=${sum##* }
+					sum="$("${integ}sum" "$file")"
+					sum=${sum%% *}
 				else
 					sum="SKIP"
 				fi
@@ -79,11 +79,6 @@ generate_one_checksum() {
 
 generate_checksums() {
 	msg "$(gettext "Generating checksums for source files...")"
-
-	if ! type -p openssl >/dev/null; then
-		error "$(gettext "Cannot find the %s binary required for generating sourcefile checksums.")" "openssl"
-		exit 1 # $E_MISSING_PROGRAM
-	fi
 
 	local integlist
 	if (( $# == 0 )); then

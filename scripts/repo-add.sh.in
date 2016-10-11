@@ -151,8 +151,8 @@ db_write_delta() {
 		echo -e "%DELTAS%" >"$deltas"
 	fi
 	# get md5sum and compressed size of package
-	md5sum=$(openssl dgst -md5 "$deltafile")
-	md5sum=${md5sum##* }
+	md5sum=$(md5sum "$deltafile")
+	md5sum=${md5sum%% *}
 	csize=$(@SIZECMD@ -L "$deltafile")
 
 	oldfile=$(xdelta3 printhdr "$deltafile" | grep "XDELTA filename (source)" | sed 's/.*: *//')
@@ -374,17 +374,17 @@ db_write_entry() {
 			return 1
 		fi
 		msg2 "$(gettext "Adding package signature...")"
-		pgpsig=$(openssl base64 -in "$pkgfile.sig" | tr -d '\n')
+		pgpsig=$(base64 "$pkgfile.sig" | tr -d '\n')
 	fi
 
 	csize=$(@SIZECMD@ -L "$pkgfile")
 
 	# compute checksums
 	msg2 "$(gettext "Computing checksums...")"
-	md5sum=$(openssl dgst -md5 "$pkgfile")
-	md5sum=${md5sum##* }
-	sha256sum=$(openssl dgst -sha256 "$pkgfile")
-	sha256sum=${sha256sum##* }
+	md5sum=$(md5sum "$pkgfile")
+	md5sum=${md5sum%% *}
+	sha256sum=$(sha256sum "$pkgfile")
+	sha256sum=${sha256sum%% *}
 
 	# remove an existing entry if it exists, ignore failures
 	db_remove_entry "$pkgname"
@@ -501,7 +501,7 @@ elephant() {
 		                 "ZL9JFFZeAa0a2+lKjL2anpYfV+0Zx9LJ+/MC8nRayuDlSNy2rfAPibOzsiWHL0jL" \
 		                 "SsjFAQAA"
 		;;
-	esac | openssl base64 -d | gzip -d
+	esac | base64 -d | gzip -d
 }
 
 prepare_repo_db() {
