@@ -11,9 +11,9 @@ SUBDIRS = po
 bin_SCRIPTS = \
 	$(OURSCRIPTS) \
 	makepkg-template \
-	makepkg-wrapper \
 	repo-remove \
-	repo-elephant
+	repo-elephant \
+	$(WRAPPER)
 
 OURSCRIPTS = \
 	makepkg \
@@ -25,11 +25,11 @@ OURSCRIPTS = \
 EXTRA_DIST = \
 	makepkg.sh.in \
 	makepkg-template.pl.in \
-	makepkg-wrapper.sh.in \
 	pacman-db-upgrade.sh.in \
 	pacman-key.sh.in \
 	pkgdelta.sh.in \
 	repo-add.sh.in \
+	wrapper.sh.in \
 	$(COMPLETION_DIST) \
 	$(LIBRARY) \
 	$(LIBMAKEPKG_DIST)
@@ -104,6 +104,9 @@ LIBMAKEPKG_IN = \
 LIBMAKEPKG_DIST = \
 	$(addsuffix .in, $(LIBMAKEPKG_IN))
 
+WRAPPER = \
+	makepkg-wrapper
+
 COMPLETION_IN = \
 	completion/bash_completion \
 	completion/zsh_completion
@@ -176,7 +179,7 @@ all-am: $(COMPLETION_IN)
 
 makepkg: \
 	$(srcdir)/makepkg.sh.in \
-	$(srcdir)/makepkg-wrapper.sh.in \
+	$(srcdir)/wrapper.sh.in \
 	$(srcdir)/library/parseopts.sh \
 	$(LIBMAKEPKG_IN)
 
@@ -214,18 +217,20 @@ repo-elephant: $(srcdir)/repo-add.sh.in
 	$(AM_V_at)$(RM) repo-elephant
 	$(AM_V_at)$(LN_S) repo-add repo-elephant
 
-makepkg-wrapper: \
-	makepkg
+.SECONDEXPANSION:
+$(WRAPPER): \
+	$$(subst -wrapper,,$$@)
 
 	$(AM_V_at)$(MKDIR_P) .lib
-	$(AM_V_at)mv -f makepkg .lib
+	$(AM_V_at)mv -f $(subst -wrapper,,$@) .lib
 	$(AM_V_at)$(RM) $@
 	$(AM_V_GEN)sed \
 		-e "s|@PWD[@]|$$(pwd)|" \
+		-e "s|@PROGNAME[@]|$(subst -wrapper,,$@)|g" \
 		-e '1s|!/bin/bash|!$(BASH_SHELL)|g' \
-		$(srcdir)/$@.sh.in > $@
+		$(srcdir)/wrapper.sh.in > $@
 	$(AM_V_at)chmod +x,a-w $@
-	$(AM_V_at)$(LN_S) makepkg-wrapper makepkg
+	$(AM_V_at)$(LN_S) $@ $(subst -wrapper,,$@)
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/bash_completion.d/
@@ -238,8 +243,10 @@ uninstall-local:
 	$(RM) $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
 
 install-exec-hook:
-	cd $(DESTDIR)$(bindir) && \
-		$(RM) makepkg makepkg-wrapper
+	for wrapper in $(WRAPPER); do \
+		cd $(DESTDIR)$(bindir) && \
+		$(RM) $$wrapper; \
+	done
 	$(INSTALL) .lib/makepkg $(DESTDIR)$(bindir)/makepkg
 	for dir in $(LIBMAKEPKGDIRS); do \
 		$(MKDIR_P) $(DESTDIR)$(libmakepkgdir)/$$dir; \

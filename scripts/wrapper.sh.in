@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#   makepkg - a wrapper for running the real makepkg in the source tree
+#   @PROGNAME@ - a wrapper for running the real @PROGNAME@ in the source tree
 #
 #   Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>
 #
@@ -20,4 +20,4 @@
 
 DIR="@PWD@"
 
-LIBRARY="$DIR"/libmakepkg exec "$DIR"/.lib/makepkg "$@"
+LIBRARY="$DIR"/libmakepkg exec "$DIR"/.lib/@PROGNAME@ "$@"
