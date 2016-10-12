@@ -412,7 +412,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
 	CURL *curl = get_libcurl_handle(handle);
-	handle->pm_errno = 0;
+	handle->pm_errno = ALPM_ERR_OK;
 
 	/* make sure these are NULL */
 	FREE(payload->tempfile_name);

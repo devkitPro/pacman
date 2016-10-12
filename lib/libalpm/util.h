@@ -77,7 +77,7 @@ void _alpm_alloc_fail(size_t size);
 
 #define DOUBLE_EQ(x, y) (fabs((x) - (y)) < DBL_EPSILON)
 
-#define CHECK_HANDLE(handle, action) do { if(!(handle)) { action; } (handle)->pm_errno = 0; } while(0)
+#define CHECK_HANDLE(handle, action) do { if(!(handle)) { action; } (handle)->pm_errno = ALPM_ERR_OK; } while(0)
 
 /** Standard buffer size used throughout the library. */
 #ifdef BUFSIZ

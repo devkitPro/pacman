@@ -186,7 +186,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
 	handle = db->handle;
-	handle->pm_errno = 0;
+	handle->pm_errno = ALPM_ERR_OK;
 	ASSERT(db != handle->db_local, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	ASSERT(db->servers != NULL, RET_ERR(handle, ALPM_ERR_SERVER_NONE, -1));
 
@@ -330,7 +330,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		_alpm_log(handle, ALPM_LOG_DEBUG, "failed to sync db: %s\n",
 				alpm_strerror(handle->pm_errno));
 	} else {
-		handle->pm_errno = 0;
+		handle->pm_errno = ALPM_ERR_OK;
 	}
 
 	_alpm_handle_unlock(handle);

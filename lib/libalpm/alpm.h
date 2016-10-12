@@ -53,7 +53,8 @@ typedef struct __alpm_trans_t alpm_trans_t;
  * @{
  */
 typedef enum _alpm_errno_t {
-	ALPM_ERR_MEMORY = 1,
+	ALPM_ERR_OK = 0,
+	ALPM_ERR_MEMORY,
 	ALPM_ERR_SYSTEM,
 	ALPM_ERR_BADPERMS,
 	ALPM_ERR_NOT_A_FILE,

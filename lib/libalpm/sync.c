@@ -57,7 +57,7 @@ alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_syn
 	alpm_pkg_t *spkg = NULL;
 
 	ASSERT(pkg != NULL, return NULL);
-	pkg->handle->pm_errno = 0;
+	pkg->handle->pm_errno = ALPM_ERR_OK;
 
 	for(i = dbs_sync; !spkg && i; i = i->next) {
 		alpm_db_t *db = i->data;
@@ -460,7 +460,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				   transaction. The packages will be removed from the actual
 				   transaction when the transaction packages are replaced with a
 				   dependency-reordered list below */
-				handle->pm_errno = 0;
+				handle->pm_errno = ALPM_ERR_OK;
 				if(data) {
 					alpm_list_free_inner(*data,
 							(alpm_list_fn_free)alpm_depmissing_free);
@@ -1195,7 +1195,7 @@ static int check_validity(alpm_handle_t *handle,
 		}
 		alpm_list_free(errors);
 
-		if(!handle->pm_errno) {
+		if(handle->pm_errno == ALPM_ERR_OK) {
 			RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
 		}
 		return -1;
@@ -1280,7 +1280,7 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 	EVENT(handle, &event);
 
 	if(errors) {
-		if(!handle->pm_errno) {
+		if(handle->pm_errno == ALPM_ERR_OK) {
 			RET_ERR(handle, ALPM_ERR_PKG_INVALID, -1);
 		}
 		return -1;

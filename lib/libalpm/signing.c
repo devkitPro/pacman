@@ -771,7 +771,7 @@ int _alpm_check_pgp_helper(alpm_handle_t *handle, const char *path,
 	if(ret && handle->pm_errno == ALPM_ERR_SIG_MISSING) {
 		if(optional) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "missing optional signature\n");
-			handle->pm_errno = 0;
+			handle->pm_errno = ALPM_ERR_OK;
 			ret = 0;
 		} else {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "missing required signature\n");
@@ -931,7 +931,7 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
 {
 	ASSERT(pkg != NULL, return -1);
 	ASSERT(siglist != NULL, RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1));
-	pkg->handle->pm_errno = 0;
+	pkg->handle->pm_errno = ALPM_ERR_OK;
 
 	return _alpm_gpgme_checksig(pkg->handle, pkg->filename,
 			pkg->base64_sig, siglist);
@@ -948,7 +948,7 @@ int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
 {
 	ASSERT(db != NULL, return -1);
 	ASSERT(siglist != NULL, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 
 	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL, siglist);
 }

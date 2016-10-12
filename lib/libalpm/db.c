@@ -112,7 +112,7 @@ int SYMEXPORT alpm_db_unregister(alpm_db_t *db)
 	ASSERT(db != NULL, return -1);
 	/* Do not unregister a database if a transaction is on-going */
 	handle = db->handle;
-	handle->pm_errno = 0;
+	handle->pm_errno = ALPM_ERR_OK;
 	ASSERT(handle->trans == NULL, RET_ERR(handle, ALPM_ERR_TRANS_NOT_NULL, -1));
 
 	if(db == handle->db_local) {
@@ -179,7 +179,7 @@ int SYMEXPORT alpm_db_add_server(alpm_db_t *db, const char *url)
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
@@ -206,7 +206,7 @@ int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
@@ -249,7 +249,7 @@ alpm_siglevel_t SYMEXPORT alpm_db_get_siglevel(alpm_db_t *db)
 int SYMEXPORT alpm_db_get_valid(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 	return db->ops->validate(db);
 }
 
@@ -258,7 +258,7 @@ alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 {
 	alpm_pkg_t *pkg;
 	ASSERT(db != NULL, return NULL);
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 	ASSERT(name != NULL && strlen(name) != 0,
 			RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, NULL));
 
@@ -273,7 +273,7 @@ alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 	return _alpm_db_get_pkgcache(db);
 }
 
@@ -292,7 +292,7 @@ alpm_group_t SYMEXPORT *alpm_db_get_group(alpm_db_t *db, const char *name)
 alpm_list_t SYMEXPORT *alpm_db_get_groupcache(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 
 	return _alpm_db_get_groupcache(db);
 }
@@ -301,7 +301,7 @@ alpm_list_t SYMEXPORT *alpm_db_get_groupcache(alpm_db_t *db)
 alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 {
 	ASSERT(db != NULL, return NULL);
-	db->handle->pm_errno = 0;
+	db->handle->pm_errno = ALPM_ERR_OK;
 
 	return _alpm_db_search(db, needles);
 }
