@@ -37,7 +37,8 @@ typedef enum _alpm_transstate_t {
 
 /* Transaction */
 struct __alpm_trans_t {
-	alpm_transflag_t flags;
+	/* bitfield of alpm_transflag_t flags */
+	int flags;
 	alpm_transstate_t state;
 	alpm_list_t *unresolvable;  /* list of (alpm_pkg_t *) */
 	alpm_list_t *add;           /* list of (alpm_pkg_t *) */
@@ -46,7 +47,8 @@ struct __alpm_trans_t {
 };
 
 void _alpm_trans_free(alpm_trans_t *trans);
-int _alpm_trans_init(alpm_trans_t *trans, alpm_transflag_t flags);
+/* flags is a bitfield of alpm_transflag_t flags */
+int _alpm_trans_init(alpm_trans_t *trans, int flags);
 int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 		const char *script, const char *ver, const char *oldver, int is_archive);
 

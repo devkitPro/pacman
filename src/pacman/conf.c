@@ -325,10 +325,10 @@ int config_set_arch(const char *arch)
  * @param linenum current line number in file
  * @return 0 on success, 1 on any parsing error
  */
-static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
-		alpm_siglevel_t *storage_mask, const char *file, int linenum)
+static int process_siglevel(alpm_list_t *values, int *storage,
+		int *storage_mask, const char *file, int linenum)
 {
-	alpm_siglevel_t level = *storage, mask = *storage_mask;
+	int level = *storage, mask = *storage_mask;
 	alpm_list_t *i;
 	int ret = 0;
 
@@ -421,13 +421,12 @@ static int process_siglevel(alpm_list_t *values, alpm_siglevel_t *storage,
 }
 
 /**
- * Merge the package entires of two signature verification levels.
+ * Merge the package entries of two signature verification levels.
  * @param base initial siglevel
- * @param over overridden siglevel
+ * @param over overriding siglevel
  * @return merged siglevel
  */
-static alpm_siglevel_t merge_siglevel(alpm_siglevel_t base,
-		alpm_siglevel_t over, alpm_siglevel_t mask)
+static int merge_siglevel(int base, int over, int mask)
 {
 	return mask ? (over & mask) | (base & ~mask) : over;
 }
@@ -845,11 +844,11 @@ struct section_t {
 	int depth;
 };
 
-static int process_usage(alpm_list_t *values, alpm_db_usage_t *usage,
+static int process_usage(alpm_list_t *values, int *usage,
 		const char *file, int linenum)
 {
 	alpm_list_t *i;
-	alpm_db_usage_t level = *usage;
+	int level = *usage;
 	int ret = 0;
 
 	for(i = values; i; i = i->next) {

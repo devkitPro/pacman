@@ -89,15 +89,15 @@ int pacman_upgrade(alpm_list_t *targets)
 	for(i = targets, n = 0; i; i = alpm_list_next(i), n++) {
 		const char *targ = i->data;
 		alpm_pkg_t *pkg;
-		alpm_siglevel_t level;
+		int siglevel;
 
 		if(file_is_remote[n]) {
-			level = alpm_option_get_remote_file_siglevel(config->handle);
+			siglevel = alpm_option_get_remote_file_siglevel(config->handle);
 		} else {
-			level = alpm_option_get_local_file_siglevel(config->handle);
+			siglevel = alpm_option_get_local_file_siglevel(config->handle);
 		}
 
-		if(alpm_pkg_load(config->handle, targ, 1, level, &pkg) != 0) {
+		if(alpm_pkg_load(config->handle, targ, 1, siglevel, &pkg) != 0) {
 			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
 					targ, alpm_strerror(alpm_errno(config->handle)));
 			retval = 1;

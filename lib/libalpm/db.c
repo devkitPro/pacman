@@ -44,7 +44,7 @@
 
 /** Register a sync database of packages. */
 alpm_db_t SYMEXPORT *alpm_register_syncdb(alpm_handle_t *handle,
-		const char *treename, alpm_siglevel_t level)
+		const char *treename, int siglevel)
 {
 	alpm_list_t *i;
 
@@ -67,7 +67,7 @@ alpm_db_t SYMEXPORT *alpm_register_syncdb(alpm_handle_t *handle,
 		}
 	}
 
-	return _alpm_db_register_sync(handle, treename, level);
+	return _alpm_db_register_sync(handle, treename, siglevel);
 }
 
 /* Helper function for alpm_db_unregister{_all} */
@@ -235,7 +235,7 @@ const char SYMEXPORT *alpm_db_get_name(const alpm_db_t *db)
 }
 
 /** Get the signature verification level for a database. */
-alpm_siglevel_t SYMEXPORT alpm_db_get_siglevel(alpm_db_t *db)
+int SYMEXPORT alpm_db_get_siglevel(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
 	if(db->siglevel & ALPM_SIG_USE_DEFAULT) {
@@ -307,7 +307,7 @@ alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 }
 
 /** Sets the usage bitmask for a repo */
-int SYMEXPORT alpm_db_set_usage(alpm_db_t *db, alpm_db_usage_t usage)
+int SYMEXPORT alpm_db_set_usage(alpm_db_t *db, int usage)
 {
 	ASSERT(db != NULL, return -1);
 	db->usage = usage;
@@ -315,7 +315,7 @@ int SYMEXPORT alpm_db_set_usage(alpm_db_t *db, alpm_db_usage_t usage)
 }
 
 /** Gets the usage bitmask for a repo */
-int SYMEXPORT alpm_db_get_usage(alpm_db_t *db, alpm_db_usage_t *usage)
+int SYMEXPORT alpm_db_get_usage(alpm_db_t *db, int *usage)
 {
 	ASSERT(db != NULL, return -1);
 	ASSERT(usage != NULL, return -1);

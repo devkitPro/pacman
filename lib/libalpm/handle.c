@@ -777,7 +777,7 @@ int SYMEXPORT alpm_option_set_dbext(alpm_handle_t *handle, const char *dbext)
 }
 
 int SYMEXPORT alpm_option_set_default_siglevel(alpm_handle_t *handle,
-		alpm_siglevel_t level)
+		int level)
 {
 	CHECK_HANDLE(handle, return -1);
 #ifdef HAVE_LIBGPGME
@@ -790,14 +790,14 @@ int SYMEXPORT alpm_option_set_default_siglevel(alpm_handle_t *handle,
 	return 0;
 }
 
-alpm_siglevel_t SYMEXPORT alpm_option_get_default_siglevel(alpm_handle_t *handle)
+int SYMEXPORT alpm_option_get_default_siglevel(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	return handle->siglevel;
 }
 
 int SYMEXPORT alpm_option_set_local_file_siglevel(alpm_handle_t *handle,
-		alpm_siglevel_t level)
+		int level)
 {
 	CHECK_HANDLE(handle, return -1);
 #ifdef HAVE_LIBGPGME
@@ -810,7 +810,7 @@ int SYMEXPORT alpm_option_set_local_file_siglevel(alpm_handle_t *handle,
 	return 0;
 }
 
-alpm_siglevel_t SYMEXPORT alpm_option_get_local_file_siglevel(alpm_handle_t *handle)
+int SYMEXPORT alpm_option_get_local_file_siglevel(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->localfilesiglevel & ALPM_SIG_USE_DEFAULT) {
@@ -821,7 +821,7 @@ alpm_siglevel_t SYMEXPORT alpm_option_get_local_file_siglevel(alpm_handle_t *han
 }
 
 int SYMEXPORT alpm_option_set_remote_file_siglevel(alpm_handle_t *handle,
-		alpm_siglevel_t level)
+		int level)
 {
 	CHECK_HANDLE(handle, return -1);
 #ifdef HAVE_LIBGPGME
@@ -834,7 +834,7 @@ int SYMEXPORT alpm_option_set_remote_file_siglevel(alpm_handle_t *handle,
 	return 0;
 }
 
-alpm_siglevel_t SYMEXPORT alpm_option_get_remote_file_siglevel(alpm_handle_t *handle)
+int SYMEXPORT alpm_option_get_remote_file_siglevel(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return -1);
 	if(handle->remotefilesiglevel & ALPM_SIG_USE_DEFAULT) {

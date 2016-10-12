@@ -97,10 +97,10 @@ struct __alpm_handle_t {
 	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	int checkspace;          /* Check disk space before installing */
 	char *dbext;             /* Sync DB extension */
-	alpm_siglevel_t siglevel;   /* Default signature verification level */
-	alpm_siglevel_t localfilesiglevel;  /* Signature verification level for local file
+	int siglevel;            /* Default signature verification level */
+	int localfilesiglevel;   /* Signature verification level for local file
 	                                       upgrade operations */
-	alpm_siglevel_t remotefilesiglevel; /* Signature verification level for remote file
+	int remotefilesiglevel;  /* Signature verification level for remote file
 	                                       upgrade operations */
 
 	/* error code */

@@ -1056,7 +1056,7 @@ static int check_keyring(alpm_handle_t *handle)
 
 	for(i = handle->trans->add; i; i = i->next, current++) {
 		alpm_pkg_t *pkg = i->data;
-		alpm_siglevel_t level;
+		int level;
 
 		int percent = (current * 100) / numtargs;
 		PROGRESS(handle, ALPM_PROGRESS_KEYRING_START, "", percent,
@@ -1126,8 +1126,8 @@ static int check_validity(alpm_handle_t *handle,
 		alpm_pkg_t *pkg;
 		char *path;
 		alpm_siglist_t *siglist;
-		alpm_siglevel_t level;
-		alpm_pkgvalidation_t validation;
+		int siglevel;
+		int validation;
 		alpm_errno_t error;
 	};
 	size_t current = 0;
@@ -1151,10 +1151,10 @@ static int check_validity(alpm_handle_t *handle,
 
 		current_bytes += v.pkg->size;
 		v.path = _alpm_filecache_find(handle, v.pkg->filename);
-		v.level = alpm_db_get_siglevel(alpm_pkg_get_db(v.pkg));
+		v.siglevel = alpm_db_get_siglevel(alpm_pkg_get_db(v.pkg));
 
 		if(_alpm_pkg_validate_internal(handle, v.path, v.pkg,
-					v.level, &v.siglist, &v.validation) == -1) {
+					v.siglevel, &v.siglist, &v.validation) == -1) {
 			struct validity *invalid;
 			v.error = handle->pm_errno;
 			MALLOC(invalid, sizeof(struct validity), return -1);
@@ -1181,9 +1181,9 @@ static int check_validity(alpm_handle_t *handle,
 						_("%s: missing required signature\n"), v->pkg->name);
 			} else if(v->error == ALPM_ERR_PKG_INVALID_SIG) {
 				_alpm_process_siglist(handle, v->pkg->name, v->siglist,
-						v->level & ALPM_SIG_PACKAGE_OPTIONAL,
-						v->level & ALPM_SIG_PACKAGE_MARGINAL_OK,
-						v->level & ALPM_SIG_PACKAGE_UNKNOWN_OK);
+						v->siglevel & ALPM_SIG_PACKAGE_OPTIONAL,
+						v->siglevel & ALPM_SIG_PACKAGE_MARGINAL_OK,
+						v->siglevel & ALPM_SIG_PACKAGE_UNKNOWN_OK);
 				prompt_to_delete(handle, v->path, v->error);
 			} else if(v->error == ALPM_ERR_PKG_INVALID_CHECKSUM) {
 				prompt_to_delete(handle, v->path, v->error);

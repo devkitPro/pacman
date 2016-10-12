@@ -71,10 +71,14 @@ struct __alpm_db_t {
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
 	struct db_operations *ops;
-	/* flags determining validity, local, loaded caches, etc. */
-	enum _alpm_dbstatus_t status;
-	alpm_siglevel_t siglevel;
-	alpm_db_usage_t usage;
+
+	/* bitfields for validity, local, loaded caches, etc. */
+	/* From _alpm_dbstatus_t */
+	int status;
+	/* alpm_siglevel_t */
+	int siglevel;
+	/* alpm_db_usage_t */
+	int usage;
 };
 
 
@@ -86,12 +90,12 @@ int _alpm_db_cmp(const void *d1, const void *d2);
 alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
 alpm_db_t *_alpm_db_register_local(alpm_handle_t *handle);
 alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
-		alpm_siglevel_t level);
+		int level);
 void _alpm_db_unregister(alpm_db_t *db);
 
 /* be_*.c, backend specific calls */
 int _alpm_local_db_prepare(alpm_db_t *db, alpm_pkg_t *info);
-int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
+int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, int inforeq);
 int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info);
 char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info, const char *filename);
 

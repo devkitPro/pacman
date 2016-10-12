@@ -92,7 +92,7 @@ static const char *_pkg_get_packager(alpm_pkg_t *pkg)    { return pkg->packager;
 static const char *_pkg_get_arch(alpm_pkg_t *pkg)        { return pkg->arch; }
 static off_t _pkg_get_isize(alpm_pkg_t *pkg)             { return pkg->isize; }
 static alpm_pkgreason_t _pkg_get_reason(alpm_pkg_t *pkg) { return pkg->reason; }
-static alpm_pkgvalidation_t _pkg_get_validation(alpm_pkg_t *pkg) { return pkg->validation; }
+static int _pkg_get_validation(alpm_pkg_t *pkg) { return pkg->validation; }
 static int _pkg_has_scriptlet(alpm_pkg_t *pkg)           { return pkg->scriptlet; }
 
 static alpm_list_t *_pkg_get_licenses(alpm_pkg_t *pkg)   { return pkg->licenses; }
@@ -300,7 +300,7 @@ alpm_pkgreason_t SYMEXPORT alpm_pkg_get_reason(alpm_pkg_t *pkg)
 	return pkg->ops->get_reason(pkg);
 }
 
-alpm_pkgvalidation_t SYMEXPORT alpm_pkg_get_validation(alpm_pkg_t *pkg)
+int SYMEXPORT alpm_pkg_get_validation(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
 	pkg->handle->pm_errno = ALPM_ERR_OK;

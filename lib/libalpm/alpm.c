@@ -152,7 +152,7 @@ const char SYMEXPORT *alpm_version(void)
 /** Get the capabilities of the library.
  * @return a bitmask of the capabilities
  * */
-enum alpm_caps SYMEXPORT alpm_capabilities(void)
+int SYMEXPORT alpm_capabilities(void)
 {
 	return 0
 #ifdef ENABLE_NLS

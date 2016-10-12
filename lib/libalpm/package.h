@@ -52,7 +52,7 @@ struct pkg_operations {
 	const char *(*get_arch) (alpm_pkg_t *);
 	off_t (*get_isize) (alpm_pkg_t *);
 	alpm_pkgreason_t (*get_reason) (alpm_pkg_t *);
-	alpm_pkgvalidation_t (*get_validation) (alpm_pkg_t *);
+	int (*get_validation) (alpm_pkg_t *);
 	int (*has_scriptlet) (alpm_pkg_t *);
 
 	alpm_list_t *(*get_licenses) (alpm_pkg_t *);
@@ -130,11 +130,14 @@ struct __alpm_pkg_t {
 		char *file;
 	} origin_data;
 
-	alpm_dbinfrq_t infolevel;
-	alpm_pkgvalidation_t validation;
 	alpm_pkgfrom_t origin;
 	alpm_pkgreason_t reason;
 	int scriptlet;
+
+	/* Bitfield from alpm_dbinfrq_t */
+	int infolevel;
+	/* Bitfield from alpm_pkgvalidation_t */
+	int validation;
 };
 
 alpm_file_t *_alpm_file_copy(alpm_file_t *dest, const alpm_file_t *src);
@@ -145,8 +148,8 @@ void _alpm_pkg_free(alpm_pkg_t *pkg);
 void _alpm_pkg_free_trans(alpm_pkg_t *pkg);
 
 int _alpm_pkg_validate_internal(alpm_handle_t *handle,
-		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level,
-		alpm_siglist_t **sigdata, alpm_pkgvalidation_t *validation);
+		const char *pkgfile, alpm_pkg_t *syncpkg, int level,
+		alpm_siglist_t **sigdata, int *validation);
 alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		const char *pkgfile, int full);
 

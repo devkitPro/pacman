@@ -917,14 +917,14 @@ int alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace);
 const char *alpm_option_get_dbext(alpm_handle_t *handle);
 int alpm_option_set_dbext(alpm_handle_t *handle, const char *dbext);
 
-alpm_siglevel_t alpm_option_get_default_siglevel(alpm_handle_t *handle);
-int alpm_option_set_default_siglevel(alpm_handle_t *handle, alpm_siglevel_t level);
+int alpm_option_get_default_siglevel(alpm_handle_t *handle);
+int alpm_option_set_default_siglevel(alpm_handle_t *handle, int level);
 
-alpm_siglevel_t alpm_option_get_local_file_siglevel(alpm_handle_t *handle);
-int alpm_option_set_local_file_siglevel(alpm_handle_t *handle, alpm_siglevel_t level);
+int alpm_option_get_local_file_siglevel(alpm_handle_t *handle);
+int alpm_option_set_local_file_siglevel(alpm_handle_t *handle, int level);
 
-alpm_siglevel_t alpm_option_get_remote_file_siglevel(alpm_handle_t *handle);
-int alpm_option_set_remote_file_siglevel(alpm_handle_t *handle, alpm_siglevel_t level);
+int alpm_option_get_remote_file_siglevel(alpm_handle_t *handle);
+int alpm_option_set_remote_file_siglevel(alpm_handle_t *handle, int level);
 
 /** @} */
 
@@ -957,7 +957,7 @@ alpm_list_t *alpm_get_syncdbs(alpm_handle_t *handle);
  * @return an alpm_db_t* on success (the value), NULL on error
  */
 alpm_db_t *alpm_register_syncdb(alpm_handle_t *handle, const char *treename,
-		alpm_siglevel_t level);
+		int level);
 
 /** Unregister all package databases.
  * @param handle the context handle
@@ -983,7 +983,7 @@ const char *alpm_db_get_name(const alpm_db_t *db);
  * @param db pointer to the package database
  * @return the signature verification level
  */
-alpm_siglevel_t alpm_db_get_siglevel(alpm_db_t *db);
+int alpm_db_get_siglevel(alpm_db_t *db);
 
 /** Check the validity of a database.
  * This is most useful for sync databases and verifying signature status.
@@ -1050,14 +1050,14 @@ typedef enum _alpm_db_usage_ {
  * @param usage a bitmask of alpm_db_usage_t values
  * @return 0 on success, or -1 on error
  */
-int alpm_db_set_usage(alpm_db_t *db, alpm_db_usage_t usage);
+int alpm_db_set_usage(alpm_db_t *db, int usage);
 
 /** Gets the usage of a database.
  * @param db pointer to the package database to get the status of
  * @param usage pointer to an alpm_db_usage_t to store db's status
  * @return 0 on success, or -1 on error
  */
-int alpm_db_get_usage(alpm_db_t *db, alpm_db_usage_t *usage);
+int alpm_db_get_usage(alpm_db_t *db, int *usage);
 
 /** @} */
 
@@ -1081,7 +1081,7 @@ int alpm_db_get_usage(alpm_db_t *db, alpm_db_usage_t *usage);
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
-		alpm_siglevel_t level, alpm_pkg_t **pkg);
+		int level, alpm_pkg_t **pkg);
 
 /** Find a package in a list by name.
  * @param haystack a list of alpm_pkg_t
@@ -1318,7 +1318,7 @@ const char *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg);
  * @param pkg a pointer to package
  * @return an enum member giving the validation method
  */
-alpm_pkgvalidation_t alpm_pkg_get_validation(alpm_pkg_t *pkg);
+int alpm_pkg_get_validation(alpm_pkg_t *pkg);
 
 /* End of alpm_pkg_t accessors */
 /* @} */
@@ -1480,7 +1480,7 @@ typedef enum _alpm_transflag_t {
  * @param handle the context handle
  * @return the bitfield of transaction flags
  */
-alpm_transflag_t alpm_trans_get_flags(alpm_handle_t *handle);
+int alpm_trans_get_flags(alpm_handle_t *handle);
 
 /** Returns a list of packages added by the transaction.
  * @param handle the context handle
@@ -1496,10 +1496,10 @@ alpm_list_t *alpm_trans_get_remove(alpm_handle_t *handle);
 
 /** Initialize the transaction.
  * @param handle the context handle
- * @param flags flags of the transaction (like nodeps, etc)
+ * @param flags flags of the transaction (like nodeps, etc; see alpm_transflag_t)
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_trans_init(alpm_handle_t *handle, alpm_transflag_t flags);
+int alpm_trans_init(alpm_handle_t *handle, int flags);
 
 /** Prepare a transaction.
  * @param handle the context handle
@@ -1613,7 +1613,8 @@ enum alpm_caps {
 };
 
 const char *alpm_version(void);
-enum alpm_caps alpm_capabilities(void);
+/* Return a bitfield of capabilities using values from 'enum alpm_caps' */
+int alpm_capabilities(void);
 
 void alpm_fileconflict_free(alpm_fileconflict_t *conflict);
 void alpm_depmissing_free(alpm_depmissing_t *miss);

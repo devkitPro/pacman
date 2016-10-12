@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	alpm_handle_t *handle;
 	alpm_errno_t err;
 	alpm_pkg_t *pkg = NULL;
-	const alpm_siglevel_t level = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL;
+	const int siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL;
 
 	if(argc != 2) {
 		fprintf(stderr, "testpkg (pacman) v" PACKAGE_VERSION "\n\n"
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	/* set gpgdir to default */
 	alpm_option_set_gpgdir(handle, GPGDIR);
 
-	if(alpm_pkg_load(handle, argv[1], 1, level, &pkg) == -1
+	if(alpm_pkg_load(handle, argv[1], 1, siglevel, &pkg) == -1
 			|| pkg == NULL) {
 		err = alpm_errno(handle);
 		switch(err) {

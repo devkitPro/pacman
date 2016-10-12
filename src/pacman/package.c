@@ -230,7 +230,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 			break;
 	}
 
-	alpm_pkgvalidation_t v = alpm_pkg_get_validation(pkg);
+	int v = alpm_pkg_get_validation(pkg);
 	if(v) {
 		if(v & ALPM_PKG_VALIDATION_NONE) {
 			validation = alpm_list_add(validation, _("None"));

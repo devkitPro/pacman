@@ -270,8 +270,8 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
  * @return 0 if package is fully valid, -1 and pm_errno otherwise
  */
 int _alpm_pkg_validate_internal(alpm_handle_t *handle,
-		const char *pkgfile, alpm_pkg_t *syncpkg, alpm_siglevel_t level,
-		alpm_siglist_t **sigdata, alpm_pkgvalidation_t *validation)
+		const char *pkgfile, alpm_pkg_t *syncpkg, int level,
+		alpm_siglist_t **sigdata, int *validation)
 {
 	int has_sig;
 	handle->pm_errno = ALPM_ERR_OK;
@@ -726,9 +726,9 @@ static int read_sigfile(const char *sigpath, unsigned char **sig)
 }
 
 int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
-		alpm_siglevel_t level, alpm_pkg_t **pkg)
+		int level, alpm_pkg_t **pkg)
 {
-	alpm_pkgvalidation_t validation = 0;
+	int validation = 0;
 	char *sigpath;
 
 	CHECK_HANDLE(handle, return -1);

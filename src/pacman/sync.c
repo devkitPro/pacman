@@ -630,7 +630,7 @@ static int process_target(const char *target, int error)
 	if(targname && targname != targstring) {
 		alpm_db_t *db;
 		const char *dbname;
-		alpm_db_usage_t usage;
+		int usage;
 
 		*targname = '\0';
 		targname++;

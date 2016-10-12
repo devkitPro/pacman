@@ -71,7 +71,7 @@ static char *get_sync_dir(alpm_handle_t *handle)
 
 static int sync_db_validate(alpm_db_t *db)
 {
-	alpm_siglevel_t level;
+	int siglevel;
 	const char *dbpath;
 
 	if(db->status & DB_STATUS_VALID || db->status & DB_STATUS_MISSING) {
@@ -104,20 +104,20 @@ static int sync_db_validate(alpm_db_t *db)
 
 	/* this takes into account the default verification level if UNKNOWN
 	 * was assigned to this db */
-	level = alpm_db_get_siglevel(db);
+	siglevel = alpm_db_get_siglevel(db);
 
-	if(level & ALPM_SIG_DATABASE) {
+	if(siglevel & ALPM_SIG_DATABASE) {
 		int retry, ret;
 		do {
 			retry = 0;
 			alpm_siglist_t *siglist;
 			ret = _alpm_check_pgp_helper(db->handle, dbpath, NULL,
-					level & ALPM_SIG_DATABASE_OPTIONAL, level & ALPM_SIG_DATABASE_MARGINAL_OK,
-					level & ALPM_SIG_DATABASE_UNKNOWN_OK, &siglist);
+					siglevel & ALPM_SIG_DATABASE_OPTIONAL, siglevel & ALPM_SIG_DATABASE_MARGINAL_OK,
+					siglevel & ALPM_SIG_DATABASE_UNKNOWN_OK, &siglist);
 			if(ret) {
 				retry = _alpm_process_siglist(db->handle, db->treename, siglist,
-						level & ALPM_SIG_DATABASE_OPTIONAL, level & ALPM_SIG_DATABASE_MARGINAL_OK,
-						level & ALPM_SIG_DATABASE_UNKNOWN_OK);
+						siglevel & ALPM_SIG_DATABASE_OPTIONAL, siglevel & ALPM_SIG_DATABASE_MARGINAL_OK,
+						siglevel & ALPM_SIG_DATABASE_UNKNOWN_OK);
 			}
 			alpm_siglist_cleanup(siglist);
 			free(siglist);
@@ -181,7 +181,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	int ret = -1;
 	mode_t oldmask;
 	alpm_handle_t *handle;
-	alpm_siglevel_t level;
+	int siglevel;
 
 	/* Sanity checks */
 	ASSERT(db != NULL, return -1);
@@ -207,7 +207,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
 
-	level = alpm_db_get_siglevel(db);
+	siglevel = alpm_db_get_siglevel(db);
 
 	/* attempt to grab a lock */
 	if(_alpm_handle_lock(handle)) {
@@ -247,7 +247,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		_alpm_dload_payload_reset(&payload);
 		updated = (updated || ret == 0);
 
-		if(ret != -1 && updated && (level & ALPM_SIG_DATABASE)) {
+		if(ret != -1 && updated && (siglevel & ALPM_SIG_DATABASE)) {
 			/* an existing sig file is no good at this point */
 			char *sigpath = _alpm_sigpath(handle, _alpm_db_path(db));
 			if(!sigpath) {
@@ -292,7 +292,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 			payload.handle = handle;
 			payload.force = 1;
-			payload.errors_ok = (level & ALPM_SIG_DATABASE_OPTIONAL);
+			payload.errors_ok = (siglevel & ALPM_SIG_DATABASE_OPTIONAL);
 
 			/* set hard upper limit of 16KiB */
 			payload.max_size = 16 * 1024;
@@ -343,7 +343,7 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		struct archive_entry *entry, alpm_pkg_t **likely_pkg);
 
-static alpm_pkgvalidation_t _sync_get_validation(alpm_pkg_t *pkg)
+static int _sync_get_validation(alpm_pkg_t *pkg)
 {
 	if(pkg->validation) {
 		return pkg->validation;
@@ -769,7 +769,7 @@ struct db_operations sync_db_ops = {
 };
 
 alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
-		alpm_siglevel_t level)
+		int level)
 {
 	alpm_db_t *db;
 

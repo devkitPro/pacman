@@ -47,7 +47,7 @@
 /* local database format version */
 size_t ALPM_LOCAL_DB_VERSION = 9;
 
-static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq);
+static int local_db_read(alpm_pkg_t *info, int inforeq);
 
 #define LAZY_LOAD(info, errret) \
 	do { \
@@ -117,7 +117,7 @@ static alpm_pkgreason_t _cache_get_reason(alpm_pkg_t *pkg)
 	return pkg->reason;
 }
 
-static alpm_pkgvalidation_t _cache_get_validation(alpm_pkg_t *pkg)
+static int _cache_get_validation(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC, -1);
 	return pkg->validation;
@@ -660,7 +660,7 @@ char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 	f = alpm_list_add(f, alpm_dep_from_string(line)); \
 } while(1) /* note the while(1) and not (0) */
 
-static int local_db_read(alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
+static int local_db_read(alpm_pkg_t *info, int inforeq)
 {
 	FILE *fp = NULL;
 	char line[1024];
@@ -910,7 +910,7 @@ static void write_deps(FILE *fp, const char *header, alpm_list_t *deplist)
 	fputc('\n', fp);
 }
 
-int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, alpm_dbinfrq_t inforeq)
+int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, int inforeq)
 {
 	FILE *fp = NULL;
 	mode_t oldmask;

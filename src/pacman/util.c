@@ -61,7 +61,7 @@ enum {
 	CELL_FREE = (1 << 3)
 };
 
-int trans_init(alpm_transflag_t flags, int check_valid)
+int trans_init(int flags, int check_valid)
 {
 	int ret;
 

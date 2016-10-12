@@ -68,11 +68,11 @@ static void checkdbs(alpm_list_t *dbnames)
 {
 	alpm_db_t *db = NULL;
 	alpm_list_t *i;
-	const alpm_siglevel_t level = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
+	const int siglevel = ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
 
 	for(i = dbnames; i; i = alpm_list_next(i)) {
 		const char *dbname = i->data;
-		db = alpm_register_syncdb(handle, dbname, level);
+		db = alpm_register_syncdb(handle, dbname, siglevel);
 		if(db == NULL) {
 			fprintf(stderr, "error: could not register sync database '%s' (%s)\n",
 					dbname, alpm_strerror(alpm_errno(handle)));

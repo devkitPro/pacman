@@ -37,9 +37,9 @@ typedef struct __colstr_t {
 typedef struct __config_repo_t {
 	char *name;
 	alpm_list_t *servers;
-	alpm_db_usage_t usage;
-	alpm_siglevel_t siglevel;
-	alpm_siglevel_t siglevel_mask;
+	int usage;
+	int siglevel;
+	int siglevel_mask;
 } config_repo_t;
 
 typedef struct __config_t {
@@ -95,14 +95,16 @@ typedef struct __config_t {
 	unsigned short group;
 	unsigned short noask;
 	unsigned int ask;
-	alpm_transflag_t flags;
-	alpm_siglevel_t siglevel;
-	alpm_siglevel_t localfilesiglevel;
-	alpm_siglevel_t remotefilesiglevel;
+	/* Bitfield of alpm_transflag_t */
+	int flags;
+	/* Bitfields of alpm_siglevel_t */
+	int siglevel;
+	int localfilesiglevel;
+	int remotefilesiglevel;
 
-	alpm_siglevel_t siglevel_mask;
-	alpm_siglevel_t localfilesiglevel_mask;
-	alpm_siglevel_t remotefilesiglevel_mask;
+	int siglevel_mask;
+	int localfilesiglevel_mask;
+	int remotefilesiglevel_mask;
 
 	/* conf file options */
 	/* I Love Candy! */

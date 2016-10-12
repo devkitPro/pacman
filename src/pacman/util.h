@@ -45,7 +45,8 @@ typedef struct _pm_target_t {
 } pm_target_t;
 
 void trans_init_error(void);
-int trans_init(alpm_transflag_t flags, int check_valid);
+/* flags is a bitfield of alpm_transflag_t flags */
+int trans_init(int flags, int check_valid);
 int trans_release(void);
 int needs_root(void);
 int check_syncdbs(size_t need_repos, int check_valid);
