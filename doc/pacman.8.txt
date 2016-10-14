@@ -338,10 +338,10 @@ Query Options (apply to '-Q')[[QO]]
 	with descriptions matching ALL of those terms are returned.
 
 *-t, \--unrequired*::
-	Restrict or filter output to packages not required or optionally required by
-	any currently installed package. Specify this option twice to only filter
-	packages that are direct dependencies (i.e. do not filter optional
-	dependencies).
+	Restrict or filter output to print only packages neither required nor
+	optionally required by any currently installed package. Specify this
+	option twice to include packages which are optionally, but not directly,
+	required by another package.
 
 *-u, \--upgrades*::
 	Restrict or filter output to packages that are out-of-date on the local
