@@ -25,14 +25,16 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 source "$LIBRARY/util/message.sh"
 
-
 lint_package_functions+=('warn_build_references')
 
 warn_build_references() {
-	if find "${pkgdir}" -type f -print0 | xargs -0 grep -q -I "${srcdir}" ; then
-		warning "$(gettext "Package contains reference to %s")" "\$srcdir"
-	fi
-	if find "${pkgdir}" -type f -print0 | xargs -0 grep -q -I "${pkgdirbase}" ; then
-		warning "$(gettext "Package contains reference to %s")" "\$pkgdir"
-	fi
+	local refs
+
+	for var in srcdir pkgdir; do
+		mapfile -t refs < <(find "$pkgdir" -type f -exec grep -l "${!var}" {} +)
+		if  (( ${#refs} > 0 )); then
+			warning "$(gettext 'Package contains reference to %s')" "\$$var"
+			printf '%s\n' "${refs[@]}" >&2
+		fi
+	done
 }
