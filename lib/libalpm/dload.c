@@ -722,4 +722,14 @@ void _alpm_dload_payload_reset(struct dload_payload *payload)
 	memset(payload, '\0', sizeof(*payload));
 }
 
+void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload)
+{
+	ASSERT(payload, return);
+
+	FREE(payload->fileurl);
+	payload->initial_size += payload->prevprogress;
+	payload->prevprogress = 0;
+	payload->unlink_on_fail = 0;
+}
+
 /* vim: set noet: */

@@ -946,9 +946,7 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 			EVENT(handle, &event);
 			return 0;
 		}
-
-		FREE(payload->fileurl);
-		payload->unlink_on_fail = 0;
+		_alpm_dload_payload_reset_for_retry(payload);
 	}
 
 	event.type = ALPM_EVENT_PKGDOWNLOAD_FAILED;
