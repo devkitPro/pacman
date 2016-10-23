@@ -35,8 +35,8 @@ check_pkgver() {
 		return 1
 	fi
 
-	if [[ $1 = *[[:space:]:-]* ]]; then
-		error "$(gettext "%s is not allowed to contain colons, hyphens or whitespace.")" "pkgver"
+	if [[ $1 = *[[:space:]/:-]* ]]; then
+		error "$(gettext "%s is not allowed to contain colons, forward slashes, hyphens or whitespace.")" "pkgver"
 		return 1
 	fi
 }
