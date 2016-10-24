@@ -30,7 +30,6 @@ TESTS =  test/scripts/parseopts_test.sh \
 				 test/scripts/human_to_size_test.sh \
 				 test/scripts/makepkg-template_test.sh \
 				 test/scripts/pacman-db-upgrade-v9.py \
-				 test/util/pacsorttest.sh \
 				 test/util/vercmptest.sh
 include $(top_srcdir)/test/pacman/tests/TESTS
 
