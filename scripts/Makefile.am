@@ -244,10 +244,9 @@ uninstall-local:
 
 install-exec-hook:
 	for wrapper in $(WRAPPER); do \
-		cd $(DESTDIR)$(bindir) && \
-		$(RM) $$wrapper; \
+		$(RM) $(DESTDIR)$(bindir)/$${wrapper}; \
+		$(INSTALL) .lib/$${wrapper%-wrapper} $(DESTDIR)$(bindir)/$${wrapper%-wrapper}; \
 	done
-	$(INSTALL) .lib/makepkg $(DESTDIR)$(bindir)/makepkg
 	for dir in $(LIBMAKEPKGDIRS); do \
 		$(MKDIR_P) $(DESTDIR)$(libmakepkgdir)/$$dir; \
 	done
