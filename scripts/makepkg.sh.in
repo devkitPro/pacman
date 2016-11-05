@@ -497,7 +497,7 @@ find_libdepends() {
 	done
 
 	if (( sodepends == 0 )); then
-		printf '%s\n' "${depends[@]}"
+		(( ${#depends[@]} )) && printf '%s\n' "${depends[@]}"
 		return;
 	fi
 
@@ -546,7 +546,7 @@ find_libdepends() {
 		esac
 	done
 
-	printf '%s\n' "${libdepends[@]}"
+	(( ${#libdepends[@]} )) && printf '%s\n' "${libdepends[@]}"
 }
 
 
@@ -597,7 +597,7 @@ find_libprovides() {
 		fi
 	done
 
-	printf '%s\n' "${libprovides[@]}"
+	(( ${#libprovides[@]} )) && printf '%s\n' "${libprovides[@]}"
 }
 
 write_pkginfo() {
