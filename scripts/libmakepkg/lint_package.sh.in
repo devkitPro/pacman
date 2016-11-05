@@ -40,7 +40,9 @@ lint_package() {
 	cd_safe "$pkgdir"
 	msg "$(gettext "Checking for packaging issue...")"
 
+	local ret=0
 	for func in ${lint_package_functions[@]}; do
-		$func
+		$func || ret=1
 	done
+	return $ret
 }

@@ -1167,7 +1167,7 @@ run_split_packaging() {
 		backup_package_variables
 		run_package $pkgname
 		tidy_install
-		lint_package
+		lint_package || exit 1
 		create_package
 		create_debug_package
 		restore_package_variables
@@ -1605,7 +1605,7 @@ if (( INFAKEROOT )); then
 			run_package
 		fi
 		tidy_install
-		lint_package
+		lint_package || exit 1
 		create_package
 		create_debug_package
 	else

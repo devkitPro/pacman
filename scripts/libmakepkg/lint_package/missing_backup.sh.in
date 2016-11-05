@@ -35,4 +35,5 @@ warn_missing_backup() {
 			warning "$(gettext "%s entry file not in package : %s")" "backup" "$file"
 		fi
 	done
+	return 0
 }
