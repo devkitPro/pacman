@@ -58,6 +58,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/integrity/verify_signature.sh \
 	libmakepkg/lint_package.sh \
 	libmakepkg/lint_package/build_references.sh \
+	libmakepkg/lint_package/file_names.sh \
 	libmakepkg/lint_package/missing_backup.sh \
 	libmakepkg/lint_pkgbuild.sh \
 	libmakepkg/lint_pkgbuild/arch.sh \
