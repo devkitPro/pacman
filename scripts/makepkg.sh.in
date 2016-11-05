@@ -600,6 +600,19 @@ find_libprovides() {
 	(( ${#libprovides[@]} )) && printf '%s\n' "${libprovides[@]}"
 }
 
+write_kv_pair() {
+	local key="$1"
+	shift
+
+	for val in "$@"; do
+		if [[ $val = *$'\n'* ]]; then
+			error "$(gettext "Invalid value for %s: %s")" "$key" "$val"
+			exit 1
+		fi
+		printf "%s = %s\n" "$key" "$val"
+	done
+}
+
 write_pkginfo() {
 	local builddate=$(date -u "+%s")
 	if [[ -n $PACKAGER ]]; then
@@ -618,15 +631,15 @@ write_pkginfo() {
 	printf "# using %s\n" "$(fakeroot -v)"
 	printf "# %s\n" "$(LC_ALL=C date -u)"
 
-	printf "pkgname = %s\n" "$pkgname"
+	write_kv_pair "pkgname" "$pkgname"
 	if (( SPLITPKG )) || [[ "$pkgbase" != "$pkgname" ]]; then
-		printf "pkgbase = %s\n" "$pkgbase"
+		write_kv_pair "pkgbase" "$pkgbase"
 	fi
 
 	local fullver=$(get_full_version)
-	printf "pkgver = %s\n" "$fullver"
+	write_kv_pair "pkgver" "$fullver"
 	if [[ "$fullver" != "$basever" ]]; then
-		printf "basever = %s\n" "$basever"
+		write_kv_pair "basever" "$basever"
 	fi
 
 	# TODO: all fields should have this treatment
@@ -634,43 +647,43 @@ write_pkginfo() {
 	spd=("${spd[@]#[[:space:]]}")
 	spd=("${spd[@]%[[:space:]]}")
 
-	printf "pkgdesc = %s\n" "$spd"
-	printf "url = %s\n" "$url"
-	printf "builddate = %s\n" "$builddate"
-	printf "packager = %s\n" "$packager"
-	printf "size = %s\n" "$size"
-	printf "arch = %s\n" "$pkgarch"
+	write_kv_pair "pkgdesc" "$spd"
+	write_kv_pair "url" "$url"
+	write_kv_pair "builddate" "$builddate"
+	write_kv_pair "packager" "$packager"
+	write_kv_pair "size" "$size"
+	write_kv_pair "arch" "$pkgarch"
 
 	mapfile -t provides < <(find_libprovides)
 	mapfile -t depends < <(find_libdepends)
 
-	[[ $license ]]      && printf "license = %s\n"     "${license[@]}"
-	[[ $replaces ]]     && printf "replaces = %s\n"    "${replaces[@]}"
-	[[ $groups ]]       && printf "group = %s\n"       "${groups[@]}"
-	[[ $conflicts ]]    && printf "conflict = %s\n"    "${conflicts[@]}"
-	[[ $provides ]]     && printf "provides = %s\n"    "${provides[@]}"
-	[[ $backup ]]       && printf "backup = %s\n"      "${backup[@]}"
-	[[ $depends ]]      && printf "depend = %s\n"      "${depends[@]}"
-	[[ $optdepends ]]   && printf "optdepend = %s\n"   "${optdepends[@]//+([[:space:]])/ }"
-	[[ $makedepends ]]  && printf "makedepend = %s\n"  "${makedepends[@]}"
-	[[ $checkdepends ]] && printf "checkdepend = %s\n" "${checkdepends[@]}"
+	write_kv_pair "license"     "${license[@]}"
+	write_kv_pair "replaces"    "${replaces[@]}"
+	write_kv_pair "group"       "${groups[@]}"
+	write_kv_pair "conflict"    "${conflicts[@]}"
+	write_kv_pair "provides"    "${provides[@]}"
+	write_kv_pair "backup"      "${backup[@]}"
+	write_kv_pair "depend"      "${depends[@]}"
+	write_kv_pair "optdepend"   "${optdepends[@]//+([[:space:]])/ }"
+	write_kv_pair "makedepend"  "${makedepends[@]}"
+	write_kv_pair "checkdepend" "${checkdepends[@]}"
 }
 
 write_buildinfo() {
 	msg2 "$(gettext "Generating %s file...")" ".BUILDINFO"
 
-	printf "builddir = %s\n"  "${BUILDDIR}"
+	write_kv_pair "builddir"  "${BUILDDIR}"
 
 	local sum="$(sha256sum "${BUILDFILE}")"
 	sum=${sum%% *}
 
-	printf "pkgbuild_sha256sum = %s\n" $sum
+	write_kv_pair "pkgbuild_sha256sum" $sum
 
-	printf "buildenv = %s\n" "${BUILDENV[@]}"
-	printf "options = %s\n" "${OPTIONS[@]}"
+	write_kv_pair "buildenv" "${BUILDENV[@]}"
+	write_kv_pair "options" "${OPTIONS[@]}"
 
 	local pkglist=($(run_pacman -Q | sed "s# #-#"))
-	printf "installed = %s\n" "${pkglist[@]}"
+	write_kv_pair "installed" "${pkglist[@]}"
 }
 
 create_package() {
