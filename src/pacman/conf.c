@@ -498,6 +498,8 @@ static int _parse_options(const char *key, char *value,
 				config->color = isatty(fileno(stdout)) ? PM_COLOR_ON : PM_COLOR_OFF;
 				enable_colors(config->color);
 			}
+		} else if(strcmp(key, "DisableDownloadTimeout") == 0) {
+			config->disable_dl_timeout = 1;
 		} else {
 			pm_printf(ALPM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
@@ -814,6 +816,8 @@ static int setup_libalpm(void)
 	alpm_option_set_ignoregroups(handle, config->ignoregrp);
 	alpm_option_set_noupgrades(handle, config->noupgrade);
 	alpm_option_set_noextracts(handle, config->noextract);
+
+	alpm_option_set_disable_dl_timeout(handle, config->disable_dl_timeout);
 
 	for(i = config->assumeinstalled; i; i = i->next) {
 		char *entry = i->data;

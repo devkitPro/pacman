@@ -222,6 +222,8 @@ static void usage(int op, const char * const myname)
 		addlist(_("      --logfile <path> set an alternate log file\n"));
 		addlist(_("      --noconfirm      do not ask for any confirmation\n"));
 		addlist(_("      --confirm        always ask for confirmation\n"));
+		addlist(_("      --disable-download-timeout\n"
+		          "                       use relaxed timeouts for download\n"));
 	}
 	list = alpm_list_msort(list, alpm_list_count(list), options_cmp);
 	for(i = list; i; i = alpm_list_next(i)) {
@@ -443,6 +445,9 @@ static int parsearg_global(int opt)
 		case 'r':
 			free(config->rootdir);
 			config->rootdir = strdup(optarg);
+			break;
+		case OP_DISABLEDLTIMEOUT:
+			config->disable_dl_timeout = 1;
 			break;
 		case OP_VERBOSE:
 		case 'v':
@@ -939,6 +944,7 @@ static int parseargs(int argc, char *argv[])
 		{"gpgdir",     required_argument, 0, OP_GPGDIR},
 		{"dbonly",     no_argument,       0, OP_DBONLY},
 		{"color",      required_argument, 0, OP_COLOR},
+		{"disable-download-timeout", no_argument, 0, OP_DISABLEDLTIMEOUT},
 		{0, 0, 0, 0}
 	};
 

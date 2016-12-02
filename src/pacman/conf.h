@@ -55,6 +55,7 @@ typedef struct __config_t {
 	unsigned short checkspace;
 	unsigned short usesyslog;
 	unsigned short color;
+	unsigned short disable_dl_timeout;
 	double deltaratio;
 	char *arch;
 	char *print_format;
@@ -203,7 +204,8 @@ enum {
 	OP_VERBOSE,
 	OP_DOWNLOADONLY,
 	OP_REFRESH,
-	OP_ASSUMEINSTALLED
+	OP_ASSUMEINSTALLED,
+	OP_DISABLEDLTIMEOUT
 };
 
 /* clean method */
