@@ -74,10 +74,12 @@ static int change_install_reason(alpm_list_t *targets)
 							pkgname, alpm_strerror(alpm_errno(config->handle)));
 			ret = 1;
 		} else {
-			if(reason == ALPM_PKG_REASON_DEPEND) {
-				printf(_("%s: install reason has been set to 'installed as dependency'\n"), pkgname);
-			} else {
-				printf(_("%s: install reason has been set to 'explicitly installed'\n"), pkgname);
+			if(!config->quiet) {
+				if(reason == ALPM_PKG_REASON_DEPEND) {
+					printf(_("%s: install reason has been set to 'installed as dependency'\n"), pkgname);
+				} else {
+					printf(_("%s: install reason has been set to 'explicitly installed'\n"), pkgname);
+				}
 			}
 		}
 	}
