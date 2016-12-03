@@ -49,7 +49,7 @@ size_t ALPM_LOCAL_DB_VERSION = 9;
 
 static int local_db_read(alpm_pkg_t *info, int inforeq);
 
-#define LAZY_LOAD(info, errret) \
+#define LAZY_LOAD(info) \
 	do { \
 		if(!(pkg->infolevel & info)) { \
 			local_db_read(pkg, info); \
@@ -65,121 +65,121 @@ static int local_db_read(alpm_pkg_t *info, int inforeq);
 
 static const char *_cache_get_base(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->base;
 }
 
 static const char *_cache_get_desc(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->desc;
 }
 
 static const char *_cache_get_url(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->url;
 }
 
 static alpm_time_t _cache_get_builddate(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, 0);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->builddate;
 }
 
 static alpm_time_t _cache_get_installdate(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, 0);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->installdate;
 }
 
 static const char *_cache_get_packager(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->packager;
 }
 
 static const char *_cache_get_arch(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->arch;
 }
 
 static off_t _cache_get_isize(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, -1);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->isize;
 }
 
 static alpm_pkgreason_t _cache_get_reason(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, -1);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->reason;
 }
 
 static int _cache_get_validation(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, -1);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->validation;
 }
 
 static alpm_list_t *_cache_get_licenses(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->licenses;
 }
 
 static alpm_list_t *_cache_get_groups(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->groups;
 }
 
 static int _cache_has_scriptlet(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_SCRIPTLET, NULL);
+	LAZY_LOAD(INFRQ_SCRIPTLET);
 	return pkg->scriptlet;
 }
 
 static alpm_list_t *_cache_get_depends(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->depends;
 }
 
 static alpm_list_t *_cache_get_optdepends(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->optdepends;
 }
 
 static alpm_list_t *_cache_get_conflicts(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->conflicts;
 }
 
 static alpm_list_t *_cache_get_provides(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->provides;
 }
 
 static alpm_list_t *_cache_get_replaces(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_DESC, NULL);
+	LAZY_LOAD(INFRQ_DESC);
 	return pkg->replaces;
 }
 
 static alpm_filelist_t *_cache_get_files(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_FILES, NULL);
+	LAZY_LOAD(INFRQ_FILES);
 	return &(pkg->files);
 }
 
 static alpm_list_t *_cache_get_backup(alpm_pkg_t *pkg)
 {
-	LAZY_LOAD(INFRQ_FILES, NULL);
+	LAZY_LOAD(INFRQ_FILES);
 	return pkg->backup;
 }
 
