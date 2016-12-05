@@ -787,18 +787,24 @@ create_debug_package() {
 		return
 	fi
 
-	pkgdir="${pkgdir}-@DEBUGSUFFIX@"
+	pkgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@"
 
 	# check if we have any debug symbols to package
 	if dir_is_empty "$pkgdir/usr/lib/debug"; then
 		return
 	fi
 
-	depends=("$pkgname=$(get_full_version)")
-	pkgdesc="Detached debugging symbols for $pkgname"
-	pkgname=$pkgname-@DEBUGSUFFIX@
+	unset groups depends optdepends provides conflicts replaces backup install changelog
 
-	unset groups optdepends provides conflicts replaces backup install changelog
+	local pkg
+	for pkg in ${pkgname[@]}; do
+		if [[ $pkg != $pkgbase ]]; then
+			provides+=("$pkg-@DEBUGSUFFIX@")
+		fi
+	done
+
+	pkgdesc="Detached debugging symbols for $pkgname"
+	pkgname=$pkgbase-@DEBUGSUFFIX@
 
 	create_package
 }
@@ -1169,10 +1175,10 @@ run_split_packaging() {
 		tidy_install
 		lint_package || exit 1
 		create_package
-		create_debug_package
 		restore_package_variables
 	done
 	pkgname=("${pkgname_backup[@]}")
+	create_debug_package
 }
 
 usage() {

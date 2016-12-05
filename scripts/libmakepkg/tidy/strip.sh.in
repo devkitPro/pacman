@@ -88,7 +88,7 @@ tidy_strip() {
 		[[ -z ${STRIP_STATIC+x} ]] && STRIP_STATIC="-S"
 
 		if check_option "debug" "y"; then
-			dbgdir="$pkgdir-@DEBUGSUFFIX@/usr/lib/debug"
+			dbgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@/usr/lib/debug"
 			mkdir -p "$dbgdir"
 		fi
 
