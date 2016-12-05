@@ -32,7 +32,12 @@ tidy_modify+=('tidy_strip')
 
 
 build_id() {
-	LANG=C readelf -n $1 | sed -n '/Build ID/ { s/.*: //p; q; }'
+	LANG=C readelf -n "$1" | sed -n '/Build ID/ { s/.*: //p; q; }'
+}
+
+source_files() {
+	LANG=C readelf "$1" --debug-dump | \
+		awk '/DW_AT_name +:/{name=$8}/DW_AT_comp_dir +:/{print $8 "/" name}'
 }
 
 strip_file() {
@@ -50,6 +55,18 @@ strip_file() {
 			return
 		fi
 
+		# copy source files to debug directory
+		local f t
+		while read -r f; do
+			t=${f/"$srcdir"/$dbgsrc}
+			mkdir -p "${t%/*}"
+			cp -- "$f" "$t"
+		done < <(source_files "$binary")
+
+		# adjust debug symbols to point at sources
+		debugedit -b "${srcdir}" -d /usr/src/debug/ -i "$binary" &> /dev/null
+
+		# copy debug symbols to debug directory
 		mkdir -p "$dbgdir/${binary%/*}"
 		objcopy --only-keep-debug "$binary" "$dbgdir/$binary.debug"
 		objcopy --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary"
@@ -88,8 +105,10 @@ tidy_strip() {
 		[[ -z ${STRIP_STATIC+x} ]] && STRIP_STATIC="-S"
 
 		if check_option "debug" "y"; then
+
 			dbgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@/usr/lib/debug"
-			mkdir -p "$dbgdir"
+			dbgsrc="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@/usr/src/debug"
+			mkdir -p "$dbgdir" "$dbgsrc"
 		fi
 
 		local binary strip_flags
