@@ -405,6 +405,10 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 	alpm_event_package_operation_t event;
 	const char *log_msg = "adding";
 	const char *pkgfile;
+	struct archive *archive;
+	struct archive_entry *entry;
+	int fd, cwdfd;
+	struct stat buf;
 
 	ASSERT(trans != NULL, return -1);
 
@@ -477,39 +481,44 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		goto cleanup;
 	}
 
-	if(!(trans->flags & ALPM_TRANS_FLAG_DBONLY)) {
-		struct archive *archive;
-		struct archive_entry *entry;
-		struct stat buf;
-		int fd, cwdfd;
+	fd = _alpm_open_archive(db->handle, pkgfile, &buf,
+			&archive, ALPM_ERR_PKG_OPEN);
+	if(fd < 0) {
+		ret = -1;
+		goto cleanup;
+	}
 
-		_alpm_log(handle, ALPM_LOG_DEBUG, "extracting files\n");
+	/* save the cwd so we can restore it later */
+	OPEN(cwdfd, ".", O_RDONLY | O_CLOEXEC);
+	if(cwdfd < 0) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
+	}
 
-		fd = _alpm_open_archive(db->handle, pkgfile, &buf,
-				&archive, ALPM_ERR_PKG_OPEN);
-		if(fd < 0) {
-			ret = -1;
-			goto cleanup;
+	/* libarchive requires this for extracting hard links */
+	if(chdir(handle->root) != 0) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
+				handle->root, strerror(errno));
+		_alpm_archive_read_free(archive);
+		if(cwdfd >= 0) {
+			close(cwdfd);
 		}
+		close(fd);
+		ret = -1;
+		goto cleanup;
+	}
 
-		/* save the cwd so we can restore it later */
-		OPEN(cwdfd, ".", O_RDONLY | O_CLOEXEC);
-		if(cwdfd < 0) {
-			_alpm_log(handle, ALPM_LOG_ERROR, _("could not get current working directory\n"));
-		}
-
-		/* libarchive requires this for extracting hard links */
-		if(chdir(handle->root) != 0) {
-			_alpm_log(handle, ALPM_LOG_ERROR, _("could not change directory to %s (%s)\n"),
-					handle->root, strerror(errno));
-			_alpm_archive_read_free(archive);
-			if(cwdfd >= 0) {
-				close(cwdfd);
+	if(trans->flags & ALPM_TRANS_FLAG_DBONLY) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "extracting db files\n");
+		while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
+			const char *entryname = archive_entry_pathname(entry);
+			if(entryname[0] == '.') {
+				errors += extract_db_file(handle, archive, entry, newpkg, entryname);
+			} else {
+				archive_read_data_skip(archive);
 			}
-			close(fd);
-			ret = -1;
-			goto cleanup;
 		}
+	} else {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "extracting files\n");
 
 		/* call PROGRESS once with 0 percent, as we sort-of skip that here */
 		PROGRESS(handle, progress, newpkg->name, 0, pkg_count, pkg_current);
@@ -535,33 +544,34 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 			/* extract the next file from the archive */
 			errors += extract_single_file(handle, archive, entry, newpkg, oldpkg);
 		}
-		_alpm_archive_read_free(archive);
-		close(fd);
+	}
 
-		/* restore the old cwd if we have it */
-		if(cwdfd >= 0) {
-			if(fchdir(cwdfd) != 0) {
-				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("could not restore working directory (%s)\n"), strerror(errno));
-			}
-			close(cwdfd);
+	_alpm_archive_read_free(archive);
+	close(fd);
+
+	/* restore the old cwd if we have it */
+	if(cwdfd >= 0) {
+		if(fchdir(cwdfd) != 0) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("could not restore working directory (%s)\n"), strerror(errno));
 		}
+		close(cwdfd);
+	}
 
-		if(errors) {
-			ret = -1;
-			if(is_upgrade) {
-				_alpm_log(handle, ALPM_LOG_ERROR, _("problem occurred while upgrading %s\n"),
-						newpkg->name);
-				alpm_logaction(handle, ALPM_CALLER_PREFIX,
-						"error: problem occurred while upgrading %s\n",
-						newpkg->name);
-			} else {
-				_alpm_log(handle, ALPM_LOG_ERROR, _("problem occurred while installing %s\n"),
-						newpkg->name);
-				alpm_logaction(handle, ALPM_CALLER_PREFIX,
-						"error: problem occurred while installing %s\n",
-						newpkg->name);
-			}
+	if(errors) {
+		ret = -1;
+		if(is_upgrade) {
+			_alpm_log(handle, ALPM_LOG_ERROR, _("problem occurred while upgrading %s\n"),
+					newpkg->name);
+			alpm_logaction(handle, ALPM_CALLER_PREFIX,
+					"error: problem occurred while upgrading %s\n",
+					newpkg->name);
+		} else {
+			_alpm_log(handle, ALPM_LOG_ERROR, _("problem occurred while installing %s\n"),
+					newpkg->name);
+			alpm_logaction(handle, ALPM_CALLER_PREFIX,
+					"error: problem occurred while installing %s\n",
+					newpkg->name);
 		}
 	}
 
