@@ -135,8 +135,15 @@ alpm_file_t SYMEXPORT *alpm_filelist_contains(alpm_filelist_t *filelist,
 
 void _alpm_filelist_sort(alpm_filelist_t *filelist)
 {
-	qsort(filelist->files, filelist->count,
-			sizeof(alpm_file_t), _alpm_files_cmp);
+	size_t i;
+	for(i = 1; i < filelist->count; i++) {
+		if(strcmp(filelist->files[i - 1].name, filelist->files[i].name) > 0) {
+			/* filelist is not pre-sorted */
+			qsort(filelist->files, filelist->count,
+					sizeof(alpm_file_t), _alpm_files_cmp);
+			return;
+		}
+	}
 }
 
 /* vim: set noet: */
