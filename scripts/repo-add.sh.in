@@ -455,7 +455,7 @@ db_write_entry() {
 	msg2 "$(gettext "Creating '%s' db entry...")" 'files'
 	local files_path="$tmpdir/files/$pkgname-$pkgver/files"
 	echo "%FILES%" >"$files_path"
-	bsdtar --exclude='^.*' -tf "$pkgfile" >>"$files_path"
+	bsdtar --exclude='^.*' -tf "$pkgfile" | LC_ALL=C sort -u >>"$files_path"
 
 	if (( RMEXISTING )); then
 		msg2 "$(gettext "Removing old package file '%s'")" "$oldfilename"
