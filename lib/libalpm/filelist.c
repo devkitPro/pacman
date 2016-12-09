@@ -111,7 +111,7 @@ alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 
 /* Helper function for comparing files list entries
  */
-int _alpm_files_cmp(const void *f1, const void *f2)
+static int _alpm_files_cmp(const void *f1, const void *f2)
 {
 	const alpm_file_t *file1 = f1;
 	const alpm_file_t *file2 = f2;
@@ -130,6 +130,12 @@ alpm_file_t SYMEXPORT *alpm_filelist_contains(alpm_filelist_t *filelist,
 	key.name = (char *)path;
 
 	return bsearch(&key, filelist->files, filelist->count,
+			sizeof(alpm_file_t), _alpm_files_cmp);
+}
+
+void _alpm_filelist_sort(alpm_filelist_t *filelist)
+{
+	qsort(filelist->files, filelist->count,
 			sizeof(alpm_file_t), _alpm_files_cmp);
 }
 

@@ -735,13 +735,12 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				/* attempt to hand back any memory we don't need */
 				if(files_count > 0) {
 					files = realloc(files, sizeof(alpm_file_t) * files_count);
-					/* make sure the list is sorted */
-					qsort(files, files_count, sizeof(alpm_file_t), _alpm_files_cmp);
 				} else {
 					FREE(files);
 				}
 				pkg->files.count = files_count;
 				pkg->files.files = files;
+				_alpm_filelist_sort(&pkg->files);
 			}
 		}
 		if(ret != ARCHIVE_EOF) {

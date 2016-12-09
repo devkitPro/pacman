@@ -27,7 +27,7 @@ alpm_list_t *_alpm_filelist_difference(alpm_filelist_t *filesA,
 alpm_list_t *_alpm_filelist_intersection(alpm_filelist_t *filesA,
 		alpm_filelist_t *filesB);
 
-int _alpm_files_cmp(const void *f1, const void *f2);
+void _alpm_filelist_sort(alpm_filelist_t *filelist);
 
 #endif /* ALPM_FILELIST_H */
 

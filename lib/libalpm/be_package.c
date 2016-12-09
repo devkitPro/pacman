@@ -676,8 +676,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"sorting package filelist for %s\n", pkgfile);
 
-			qsort(newpkg->files.files, newpkg->files.count,
-					sizeof(alpm_file_t), _alpm_files_cmp);
+			_alpm_filelist_sort(&newpkg->files);
 		}
 		newpkg->infolevel |= INFRQ_FILES;
 	}

@@ -817,14 +817,12 @@ static int local_db_read(alpm_pkg_t *info, int inforeq)
 					if(newfiles != NULL) {
 						files = newfiles;
 					}
-
-					/* make sure the list is sorted */
-					qsort(files, files_count, sizeof(alpm_file_t), _alpm_files_cmp);
 				} else {
 					FREE(files);
 				}
 				info->files.count = files_count;
 				info->files.files = files;
+				_alpm_filelist_sort(&info->files);
 				continue;
 nomem:
 				while(files_count > 0) {
