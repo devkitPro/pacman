@@ -222,13 +222,13 @@ PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 2.8.0], ,
 # Check for OpenSSL
 have_openssl=no
 have_nettle=no
-if test "x$with_crypto" == "xnettle"; then
+if test "x$with_crypto" = "xnettle"; then
 	PKG_CHECK_MODULES(NETTLE, [nettle],
 		[AC_DEFINE(HAVE_LIBNETTLE, 1, [Define whether to use nettle]) have_nettle=yes], have_nettle=no)
 	if test "x$have_nettle" = xno -a "x$with_crypto" = xnettle; then
 		AC_MSG_ERROR([*** nettle support requested but libraries not found])
 	fi
-else if test "x$with_crypto" == "xopenssl"; then
+else if test "x$with_crypto" = "xopenssl"; then
 	PKG_CHECK_MODULES(LIBSSL, [libcrypto],
 		[AC_DEFINE(HAVE_LIBSSL, 1, [Define if libcrypto is available]) have_openssl=yes], have_openssl=no)
 	if test "x$have_openssl" = xno; then
