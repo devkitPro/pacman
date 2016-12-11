@@ -47,6 +47,9 @@ pacman_SOURCES = \
 	util.h util.c \
 	util-common.h util-common.c
 
-LDADD = $(LTLIBINTL) $(top_builddir)/lib/libalpm/.libs/libalpm.la
+pacman_LDADD = \
+	$(LTLIBINTL) \
+	$(top_builddir)/lib/libalpm/.libs/libalpm.la \
+	$(LIBARCHIVE_LIBS)
 
 # vim:set noet:
