@@ -419,7 +419,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 	for(current = 0, i = upgrade; i; i = i->next, current++) {
 		alpm_pkg_t *p1 = i->data;
 		alpm_list_t *j;
-		alpm_list_t *tmpfiles = NULL;
+		alpm_list_t *newfiles = NULL;
 		alpm_pkg_t *dbpkg;
 
 		int percent = (current * 100) / numtargs;
@@ -483,18 +483,18 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		 * be freed. */
 		if(dbpkg) {
 			/* older ver of package currently installed */
-			tmpfiles = _alpm_filelist_difference(alpm_pkg_get_files(p1),
+			newfiles = _alpm_filelist_difference(alpm_pkg_get_files(p1),
 					alpm_pkg_get_files(dbpkg));
 		} else {
 			/* no version of package currently installed */
 			alpm_filelist_t *fl = alpm_pkg_get_files(p1);
 			size_t filenum;
 			for(filenum = 0; filenum < fl->count; filenum++) {
-				tmpfiles = alpm_list_add(tmpfiles, fl->files[filenum].name);
+				newfiles = alpm_list_add(newfiles, fl->files[filenum].name);
 			}
 		}
 
-		for(j = tmpfiles; j; j = j->next) {
+		for(j = newfiles; j; j = j->next) {
 			const char *filestr = j->data;
 			const char *relative_path;
 			alpm_list_t *k;
@@ -667,12 +667,12 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					alpm_list_free_inner(conflicts,
 							(alpm_list_fn_free) alpm_conflict_free);
 					alpm_list_free(conflicts);
-					alpm_list_free(tmpfiles);
+					alpm_list_free(newfiles);
 					return NULL;
 				}
 			}
 		}
-		alpm_list_free(tmpfiles);
+		alpm_list_free(newfiles);
 	}
 	PROGRESS(handle, ALPM_PROGRESS_CONFLICTS_START, "", 100,
 			numtargs, current);
