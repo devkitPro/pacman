@@ -61,19 +61,14 @@ int parse_ini(const char *file, ini_parser_fn cb, void *data)
 	}
 
 	while(safe_fgets(line, PATH_MAX, fp)) {
-		char *key, *value, *ptr;
+		char *key, *value;
 		size_t line_len;
 
 		linenum++;
 
-		/* ignore whole line and end of line comments */
-		if((ptr = strchr(line, '#'))) {
-			*ptr = '\0';
-		}
-
 		line_len = strtrim(line);
 
-		if(line_len == 0) {
+		if(line_len == 0 || line[0] == '#') {
 			continue;
 		}
 
