@@ -39,6 +39,7 @@ download_git() {
 	local url=$(get_url "$netfile")
 	url=${url#git+}
 	url=${url%%#*}
+	url=${url%%\?*}
 
 	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
 		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "git"
@@ -66,14 +67,8 @@ download_git() {
 extract_git() {
 	local netfile=$1
 
-	local fragment=${netfile#*#}
-	if [[ $fragment = "$netfile" ]]; then
-		unset fragment
-	fi
-
-	local repo=${netfile##*/}
-	repo=${repo%%#*}
-	repo=${repo%%.git*}
+	local fragment=$(get_uri_fragment "$netfile")
+	local repo=$(get_filename "$netfile")
 
 	local dir=$(get_filepath "$netfile")
 	[[ -z "$dir" ]] && dir="$SRCDEST/$(get_filename "$netfile")"

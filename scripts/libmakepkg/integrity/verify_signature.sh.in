@@ -32,7 +32,7 @@ check_pgpsigs() {
 
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
-	local netfile pubkey success status fingerprint trusted
+	local netfile proto pubkey success status fingerprint trusted
 	local warning=0
 	local errors=0
 	local statusfile=$(mktemp)
@@ -47,7 +47,13 @@ check_pgpsigs() {
 			;;
 	esac
 	for netfile in "${all_sources[@]}"; do
-		verify_file_signature "$netfile" "$statusfile" || continue
+		proto="$(get_protocol "$netfile")"
+
+		if [[ $proto = git* ]]; then
+			verify_git_signature "$netfile" "$statusfile" || continue
+		else
+			verify_file_signature "$netfile" "$statusfile" || continue
+		fi
 
 		# these variables are assigned values in parse_gpg_statusfile
 		success=0
@@ -153,6 +159,42 @@ verify_file_signature() {
 	$decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null
 }
 
+verify_git_signature() {
+	local netfile=$1 statusfile=$2
+	local dir fragment query fragtype fragval
+
+	dir=$(get_filepath "$netfile")
+	fragment=$(get_uri_fragment "$netfile")
+	query=$(get_uri_query "$netfile")
+
+	if [[ $query != signed ]]; then
+		return 1
+	fi
+
+	case ${fragment%%=*} in
+		tag)
+			fragtype=tag
+			fragval=${fragment##*=}
+			;;
+		commit|branch)
+			fragtype=commit
+			fragval=${fragment##*=}
+			;;
+		'')
+			fragtype=commit
+			fragval=HEAD
+	esac
+
+	printf "    %s git repo ... " "${dir##*/}" >&2
+
+	git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile" 2>&1
+	if ! grep -qs NEWSIG "$statusfile"; then
+		printf '%s\n' "$(gettext "SIGNATURE NOT FOUND")" >&2
+		errors=1
+		return 1
+	fi
+}
+
 parse_gpg_statusfile() {
 	local type arg1 arg6 arg10
 
@@ -212,11 +254,14 @@ parse_gpg_statusfile() {
 }
 
 source_has_signatures() {
-	local file all_sources
+	local file all_sources proto
 
 	get_all_sources_for_arch 'all_sources'
 	for file in "${all_sources[@]}"; do
-		if [[ ${file%%::*} = *.@(sig?(n)|asc) ]]; then
+		proto="$(get_protocol "$file")"
+		query=$(get_uri_query "$netfile")
+
+		if [[ ${file%%::*} = *.@(sig?(n)|asc) || ( $proto = git* && $query = signed ) ]]; then
 			return 0
 		fi
 	done
