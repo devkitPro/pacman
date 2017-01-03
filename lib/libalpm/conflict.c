@@ -503,6 +503,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			struct stat lsbuf;
 			char path[PATH_MAX];
 			size_t pathlen;
+			int pfile_isdir;
 
 			pathlen = snprintf(path, PATH_MAX, "%s%s", handle->root, filestr);
 			relative_path = path + rootlen;
@@ -514,7 +515,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking possible conflict: %s\n", path);
 
-			if(path[pathlen - 1] == '/') {
+			pfile_isdir = path[pathlen - 1] == '/';
+			if(pfile_isdir) {
 				if(S_ISDIR(lsbuf.st_mode)) {
 					_alpm_log(handle, ALPM_LOG_DEBUG, "file is a directory, not a conflict\n");
 					continue;
@@ -551,6 +553,18 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					_alpm_log(handle, ALPM_LOG_DEBUG,
 							"local file will be removed, not a conflict\n");
 					resolved_conflict = 1;
+					if(pfile_isdir) {
+						/* go ahead and skip any files inside filestr as they will
+						 * necessarily be resolved by replacing the file with a dir
+						 * NOTE: afterward, j will point to the last file inside filestr */
+						size_t fslen = strlen(filestr);
+						for( ; j->next; j = j->next) {
+							const char *filestr2 = j->next->data;
+							if(strncmp(filestr, filestr2, fslen) != 0) {
+								break;
+							}
+						}
+					}
 				}
 			}
 
