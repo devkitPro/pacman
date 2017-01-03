@@ -99,6 +99,8 @@ static alpm_list_t *_pkg_get_licenses(alpm_pkg_t *pkg)   { return pkg->licenses;
 static alpm_list_t *_pkg_get_groups(alpm_pkg_t *pkg)     { return pkg->groups; }
 static alpm_list_t *_pkg_get_depends(alpm_pkg_t *pkg)    { return pkg->depends; }
 static alpm_list_t *_pkg_get_optdepends(alpm_pkg_t *pkg) { return pkg->optdepends; }
+static alpm_list_t *_pkg_get_checkdepends(alpm_pkg_t *pkg) { return pkg->checkdepends; }
+static alpm_list_t *_pkg_get_makedepends(alpm_pkg_t *pkg) { return pkg->makedepends; }
 static alpm_list_t *_pkg_get_conflicts(alpm_pkg_t *pkg)  { return pkg->conflicts; }
 static alpm_list_t *_pkg_get_provides(alpm_pkg_t *pkg)   { return pkg->provides; }
 static alpm_list_t *_pkg_get_replaces(alpm_pkg_t *pkg)   { return pkg->replaces; }
@@ -161,6 +163,8 @@ struct pkg_operations default_pkg_ops = {
 	.get_groups      = _pkg_get_groups,
 	.get_depends     = _pkg_get_depends,
 	.get_optdepends  = _pkg_get_optdepends,
+	.get_checkdepends = _pkg_get_checkdepends,
+	.get_makedepends = _pkg_get_makedepends,
 	.get_conflicts   = _pkg_get_conflicts,
 	.get_provides    = _pkg_get_provides,
 	.get_replaces    = _pkg_get_replaces,
@@ -333,6 +337,20 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_optdepends(alpm_pkg_t *pkg)
 	ASSERT(pkg != NULL, return NULL);
 	pkg->handle->pm_errno = ALPM_ERR_OK;
 	return pkg->ops->get_optdepends(pkg);
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_checkdepends(alpm_pkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return NULL);
+	pkg->handle->pm_errno = ALPM_ERR_OK;
+	return pkg->ops->get_checkdepends(pkg);
+}
+
+alpm_list_t SYMEXPORT *alpm_pkg_get_makedepends(alpm_pkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return NULL);
+	pkg->handle->pm_errno = ALPM_ERR_OK;
+	return pkg->ops->get_makedepends(pkg);
 }
 
 alpm_list_t SYMEXPORT *alpm_pkg_get_conflicts(alpm_pkg_t *pkg)

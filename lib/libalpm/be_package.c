@@ -223,9 +223,11 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 				alpm_depend_t *optdep = alpm_dep_from_string(ptr);
 				newpkg->optdepends = alpm_list_add(newpkg->optdepends, optdep);
 			} else if(strcmp(key, "makedepend") == 0) {
-				/* not used atm */
+				alpm_depend_t *makedep = alpm_dep_from_string(ptr);
+				newpkg->makedepends = alpm_list_add(newpkg->makedepends, makedep);
 			} else if(strcmp(key, "checkdepend") == 0) {
-				/* not used atm */
+				alpm_depend_t *checkdep = alpm_dep_from_string(ptr);
+				newpkg->checkdepends = alpm_list_add(newpkg->checkdepends, checkdep);
 			} else if(strcmp(key, "conflict") == 0) {
 				alpm_depend_t *conflict = alpm_dep_from_string(ptr);
 				newpkg->conflicts = alpm_list_add(newpkg->conflicts, conflict);

@@ -59,6 +59,8 @@ struct pkg_operations {
 	alpm_list_t *(*get_groups) (alpm_pkg_t *);
 	alpm_list_t *(*get_depends) (alpm_pkg_t *);
 	alpm_list_t *(*get_optdepends) (alpm_pkg_t *);
+	alpm_list_t *(*get_checkdepends) (alpm_pkg_t *);
+	alpm_list_t *(*get_makedepends) (alpm_pkg_t *);
 	alpm_list_t *(*get_conflicts) (alpm_pkg_t *);
 	alpm_list_t *(*get_provides) (alpm_pkg_t *);
 	alpm_list_t *(*get_replaces) (alpm_pkg_t *);
@@ -112,6 +114,8 @@ struct __alpm_pkg_t {
 	alpm_list_t *backup;
 	alpm_list_t *depends;
 	alpm_list_t *optdepends;
+	alpm_list_t *checkdepends;
+	alpm_list_t *makedepends;
 	alpm_list_t *conflicts;
 	alpm_list_t *provides;
 	alpm_list_t *deltas;

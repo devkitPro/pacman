@@ -1261,6 +1261,18 @@ alpm_list_t *alpm_pkg_get_depends(alpm_pkg_t *pkg);
  */
 alpm_list_t *alpm_pkg_get_optdepends(alpm_pkg_t *pkg);
 
+/** Returns a list of package check dependencies
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of alpm_depend_t structures.
+ */
+alpm_list_t *alpm_pkg_get_checkdepends(alpm_pkg_t *pkg);
+
+/** Returns a list of package make dependencies
+ * @param pkg a pointer to package
+ * @return a reference to an internal list of alpm_depend_t structures.
+ */
+alpm_list_t *alpm_pkg_get_makedepends(alpm_pkg_t *pkg);
+
 /** Returns the list of packages conflicting with pkg.
  * @param pkg a pointer to package
  * @return a reference to an internal list of alpm_depend_t structures.
