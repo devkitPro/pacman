@@ -32,7 +32,7 @@ check_pgpsigs() {
 
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
-	local file ext decompress found pubkey success status fingerprint trusted
+	local netfile pubkey success status fingerprint trusted
 	local warning=0
 	local errors=0
 	local statusfile=$(mktemp)
@@ -46,44 +46,9 @@ check_pgpsigs() {
 			get_all_sources_for_arch 'all_sources'
 			;;
 	esac
-	for file in "${all_sources[@]}"; do
-		file="$(get_filename "$file")"
-		if [[ $file != *.@(sig?(n)|asc) ]]; then
-			continue
-		fi
+	for netfile in "${all_sources[@]}"; do
+		verify_file_signature "$netfile" "$statusfile" || continue
 
-		printf "    %s ... " "${file%.*}" >&2
-
-		if ! file="$(get_filepath "$file")"; then
-			printf '%s\n' "$(gettext "SIGNATURE NOT FOUND")" >&2
-			errors=1
-			continue
-		fi
-
-		found=0
-		for ext in "" gz bz2 xz lrz lzo Z; do
-			if sourcefile="$(get_filepath "${file%.*}${ext:+.$ext}")"; then
-				found=1
-				break;
-			fi
-		done
-		if (( ! found )); then
-			printf '%s\n' "$(gettext "SOURCE FILE NOT FOUND")" >&2
-			errors=1
-			continue
-		fi
-
-		case "$ext" in
-			gz)  decompress="gzip -c -d -f" ;;
-			bz2) decompress="bzip2 -c -d -f" ;;
-			xz)  decompress="xz -c -d" ;;
-			lrz) decompress="lrzip -q -d" ;;
-			lzo) decompress="lzop -c -d -q" ;;
-			Z)   decompress="uncompress -c -f" ;;
-			"")  decompress="cat" ;;
-		esac
-
-		$decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null
 		# these variables are assigned values in parse_gpg_statusfile
 		success=0
 		status=
@@ -143,6 +108,49 @@ check_pgpsigs() {
 		warning "$(gettext "Warnings have occurred while verifying the signatures.")"
 		plain "$(gettext "Please make sure you really trust them.")"
 	fi
+}
+
+verify_file_signature() {
+	local netfile="$1" statusfile="$2"
+	local file ext decompress found sourcefile
+
+	file="$(get_filename "$netfile")"
+	if [[ $file != *.@(sig?(n)|asc) ]]; then
+		return 1
+	fi
+
+	printf "    %s ... " "${file%.*}" >&2
+
+	if ! file="$(get_filepath "$netfile")"; then
+		printf '%s\n' "$(gettext "SIGNATURE NOT FOUND")" >&2
+		errors=1
+		return 1
+	fi
+
+	found=0
+	for ext in "" gz bz2 xz lrz lzo Z; do
+		if sourcefile="$(get_filepath "${file%.*}${ext:+.$ext}")"; then
+			found=1
+			break;
+		fi
+	done
+	if (( ! found )); then
+		printf '%s\n' "$(gettext "SOURCE FILE NOT FOUND")" >&2
+		errors=1
+		return 1
+	fi
+
+	case "$ext" in
+		gz)  decompress="gzip -c -d -f" ;;
+		bz2) decompress="bzip2 -c -d -f" ;;
+		xz)  decompress="xz -c -d" ;;
+		lrz) decompress="lrzip -q -d" ;;
+		lzo) decompress="lzop -c -d -q" ;;
+		Z)   decompress="uncompress -c -f" ;;
+		"")  decompress="cat" ;;
+	esac
+
+	$decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null
 }
 
 parse_gpg_statusfile() {
