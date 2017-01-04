@@ -69,9 +69,9 @@ int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
 
 	retval = _alpm_test_checksum(fpath, pkg->md5sum, ALPM_PKG_VALIDATION_MD5SUM);
 
-	if(retval == 0) {
-		return 0;
-	} else if(retval == 1) {
+	FREE(fpath);
+
+	if(retval == 1) {
 		pkg->handle->pm_errno = ALPM_ERR_PKG_INVALID;
 		retval = -1;
 	}
