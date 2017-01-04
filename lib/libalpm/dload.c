@@ -672,7 +672,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 		size_t len;
 
 		len = strlen(final_pkg_url) + 5;
-		MALLOC(payload.fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
+		MALLOC(payload.fileurl, len, free(final_file); RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
 		snprintf(payload.fileurl, len, "%s.sig", final_pkg_url);
 
 		sig_filepath = filecache_find_url(handle, payload.fileurl);
