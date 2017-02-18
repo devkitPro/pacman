@@ -132,6 +132,26 @@ alpm_list_t SYMEXPORT *alpm_list_append(alpm_list_t **list, void *data)
 }
 
 /**
+ * @brief Duplicate and append a string to a list.
+ *
+ * @param list the list to append to
+ * @param data the string to duplicate and append
+ *
+ * @return the newly added item
+ */
+alpm_list_t SYMEXPORT *alpm_list_append_strdup(alpm_list_t **list, const char *data)
+{
+	alpm_list_t *ret;
+	char *dup;
+	if((dup = strdup(data)) && (ret = alpm_list_append(list, dup))) {
+		return ret;
+	} else {
+		free(dup);
+		return NULL;
+	}
+}
+
+/**
  * @brief Add items to a list in sorted order.
  *
  * @param list the list to add to
