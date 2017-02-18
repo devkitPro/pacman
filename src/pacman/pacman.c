@@ -1100,7 +1100,6 @@ static void cl_to_log(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	size_t i;
 	uid_t myuid = getuid();
 
 	install_segv_handler();
@@ -1148,44 +1147,36 @@ int main(int argc, char *argv[])
 	if(alpm_list_find_str(pm_targets, "-")) {
 		if(!isatty(fileno(stdin))) {
 			int target_found = 0;
-			size_t current_size = PATH_MAX;
-			char *vdata, *line = malloc(current_size);
-			int c;
+			char *vdata, *line = NULL;
+			size_t line_size = 0;
+			ssize_t nread;
 
 			/* remove the '-' from the list */
 			pm_targets = alpm_list_remove_str(pm_targets, "-", &vdata);
 			free(vdata);
 
-			i = 0;
-			do {
-				c = fgetc(stdin);
-				if(c == EOF || isspace(c)) {
-					/* avoid adding zero length arg when multiple spaces separate args */
-					if(i > 0) {
-						line[i] = '\0';
-						pm_targets = alpm_list_add(pm_targets, strdup(line));
-						target_found = 1;
-						i = 0;
-					}
-				} else {
-					line[i++] = (char)c;
-					/* we may be at the end of our allocated buffer now */
-					if(i >= current_size) {
-						char *new = realloc(line, current_size * 2);
-						if(new) {
-							line = new;
-							current_size *= 2;
-						} else {
-							free(line);
-							pm_printf(ALPM_LOG_ERROR,
-									_("memory exhausted in argument parsing\n"));
-							cleanup(EXIT_FAILURE);
-						}
-					}
+			while((nread = getline(&line, &line_size, stdin)) != -1) {
+				if(line[nread - 1] == '\n') {
+					/* remove trailing newline */
+					line[nread - 1] = '\0';
 				}
-			} while(c != EOF);
-
+				if(line[0] == '\0') {
+					/* skip empty lines */
+					continue;
+				}
+				if(!alpm_list_append_strdup(&pm_targets, line)) {
+					break;
+				}
+				target_found = 1;
+			}
 			free(line);
+
+			if(ferror(stdin)) {
+				pm_printf(ALPM_LOG_ERROR,
+						_("failed to read arguments from stdin: (%s)\n"), strerror(errno));
+				cleanup(EXIT_FAILURE);
+			}
+
 			if(!freopen(ctermid(NULL), "r", stdin)) {
 				pm_printf(ALPM_LOG_ERROR, _("failed to reopen stdin for reading: (%s)\n"),
 						strerror(errno));
