@@ -232,14 +232,14 @@ get_integlist() {
 			continue
 		fi
 
-               # check for e.g. "sha256sums_x86_64"
-               for a in "${arch[@]}"; do
-                       local sumname="${integ}sums_${a}[@]"
-                       if [[ -n ${!sumname} ]]; then
-                               integlist+=("$integ")
-                               break
-                       fi
-               done
+		# check for e.g. "sha256sums_x86_64"
+		for a in "${arch[@]}"; do
+			local sumname="${integ}sums_${a}[@]"
+			if [[ -n ${!sumname} ]]; then
+				integlist+=("$integ")
+				break
+			fi
+		done
 	done
 
 	if (( ${#integlist[@]} > 0 )); then
