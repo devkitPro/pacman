@@ -110,6 +110,7 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 		struct archive_entry *entry, const char *filename)
 {
 	int ret;
+	struct archive *archive_writer;
 	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
 	                          ARCHIVE_EXTRACT_PERM |
 	                          ARCHIVE_EXTRACT_TIME |
@@ -118,7 +119,20 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 
 	archive_entry_set_pathname(entry, filename);
 
-	ret = archive_read_extract(archive, entry, archive_flags);
+	archive_writer = archive_write_disk_new();
+	if (archive_writer == NULL) {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("cannot allocate disk archive object"));
+		alpm_logaction(handle, ALPM_CALLER_PREFIX,
+				"error: cannot allocate disk archive object");
+		return 1;
+	}
+
+	archive_write_disk_set_options(archive_writer, archive_flags);
+
+	ret = archive_read_extract2(archive, entry, archive_writer);
+
+	archive_write_free(archive_writer);
+
 	if(ret == ARCHIVE_WARN && archive_errno(archive) != ENOSPC) {
 		/* operation succeeded but a "non-critical" error was encountered */
 		_alpm_log(handle, ALPM_LOG_WARNING, _("warning given when extracting %s (%s)\n"),
