@@ -153,7 +153,7 @@ db_write_delta() {
 	# get md5sum and compressed size of package
 	md5sum=$(md5sum "$deltafile")
 	md5sum=${md5sum%% *}
-	csize=$(@SIZECMD@ -L "$deltafile")
+	csize=$(wc -c "$deltafile" | cut -d' ' -f1)
 
 	oldfile=$(xdelta3 printhdr "$deltafile" | grep "XDELTA filename (source)" | sed 's/.*: *//')
 	newfile=$(xdelta3 printhdr "$deltafile" | grep "XDELTA filename (output)" | sed 's/.*: *//')
@@ -368,7 +368,7 @@ db_write_entry() {
 			error "$(gettext "Cannot use armored signatures for packages: %s")" "$pkgfile.sig"
 			return 1
 		fi
-		pgpsigsize=$(@SIZECMD@ -L "$pkgfile.sig")
+		pgpsigsize=$(wc -c "$pkgfile.sig" | cut -d' ' -f1)
 		if (( pgpsigsize > 16384 )); then
 			error "$(gettext "Invalid package signature file '%s'.")" "$pkgfile.sig"
 			return 1
@@ -377,7 +377,7 @@ db_write_entry() {
 		pgpsig=$(base64 "$pkgfile.sig" | tr -d '\n')
 	fi
 
-	csize=$(@SIZECMD@ -L "$pkgfile")
+	csize=$(wc -c "$pkgfile" | cut -d' ' -f1)
 
 	# compute checksums
 	msg2 "$(gettext "Computing checksums...")"

@@ -342,7 +342,6 @@ DEFAULT_DUFLAGS=" -sk --apparent-size"
 INODECMD="stat -c '%i %n'"
 OWNERCMD="stat -c '%u:%g'"
 MODECMD="stat -c '%a'"
-SIZECMD="stat -c %s"
 SEDINPLACE="sed --follow-symlinks -i"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
@@ -352,7 +351,6 @@ case "${host_os}" in
 		INODECMD="stat -f '%i %N'"
 		OWNERCMD="stat -f '%u:%g'"
 		MODECMD="stat -f '%Lp'"
-		SIZECMD="stat -f %z"
 		SEDINPLACE="sed -i \"\""
 		DEFAULT_DUFLAGS=" -sk"
 		;;
@@ -361,7 +359,6 @@ case "${host_os}" in
 		INODECMD="/usr/bin/stat -f '%i %N'"
 		OWNERCMD="/usr/bin/stat -f '%u:%g'"
 		MODECMD="/usr/bin/stat -f '%Lp'"
-		SIZECMD="/usr/bin/stat -f %z"
 		SEDINPLACE="/usr/bin/sed -i ''"
 		DEFAULT_DUFLAGS=" -sk"
 		STRIP_BINARIES=""
@@ -374,7 +371,6 @@ AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
 AC_SUBST(OWNERCMD)
 AC_SUBST(MODECMD)
-AC_SUBST(SIZECMD)
 AC_SUBST(SEDINPLACE)
 AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
@@ -561,7 +557,6 @@ ${PACKAGE_NAME}:
     File inode command     : ${INODECMD}
     File owner command     : ${OWNERCMD}
     File mode command      : ${MODECMD}
-    Filesize command       : ${SIZECMD}
     In-place sed command   : ${SEDINPLACE}
 
     libalpm version        : ${LIB_VERSION}
