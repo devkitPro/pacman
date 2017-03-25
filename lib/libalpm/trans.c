@@ -305,6 +305,7 @@ void _alpm_trans_free(alpm_trans_t *trans)
 static int grep(const char *fn, const char *needle)
 {
 	FILE *fp;
+	char *ptr;
 
 	if((fp = fopen(fn, "r")) == NULL) {
 		return 0;
@@ -313,6 +314,9 @@ static int grep(const char *fn, const char *needle)
 		char line[1024];
 		if(safe_fgets(line, sizeof(line), fp) == NULL) {
 			continue;
+		}
+		if((ptr = strchr(line, '#')) != NULL) {
+			*ptr = '\0';
 		}
 		/* TODO: this will not work if the search string
 		 * ends up being split across line reads */
