@@ -23,6 +23,8 @@ import os
 import shutil
 import sys
 import tempfile
+import glob
+import subprocess
 
 import pmenv
 import tap
@@ -30,6 +32,30 @@ import util
 
 __author__ = "Aurelien FORET"
 __version__ = "0.4"
+
+# writer to send output to multiple destinations simultaneously
+class MultiWriter():
+    def __init__(self, *outputs):
+        self.outputs = outputs
+
+    def write(self, message):
+        for op in self.outputs:
+            op.write(message)
+
+# duplicate stdout/stderr to a temporary file
+class OutputSaver():
+    def __init__(self):
+        self.save_file = tempfile.NamedTemporaryFile(prefix='pactest-output-')
+
+    def __enter__(self):
+        sys.stdout = MultiWriter(sys.stdout, self.save_file)
+        sys.stderr = MultiWriter(sys.stderr, self.save_file)
+        return self.save_file
+
+    def __exit__(self, type, value, traceback):
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
+        self.save_file.flush()
 
 def create_parser():
     usage = "usage: %prog [options] <path/to/testfile.py>..."
@@ -71,6 +97,12 @@ def create_parser():
     parser.add_option("--ldconfig", type = "string",
                       dest = "ldconfig", default = "/sbin/ldconfig",
                       help = "specify path to ldconfig")
+    parser.add_option("--review", action = "store_true",
+                      dest = "review", default = False,
+                      help = "review test files, test output, and saved logs")
+    parser.add_option("--editor", action = "store",
+                      dest = "editor", default = os.getenv('EDITOR', 'vim'),
+                      help = "editor to use for viewing files")
     return parser
 
 
@@ -114,7 +146,14 @@ if __name__ == "__main__":
         sys.exit(2)
 
     # run tests
-    env.run()
+    if not opts.review:
+        env.run()
+    else:
+        # save output in tempfile for review
+        with OutputSaver() as save_file:
+            env.run()
+        files = [save_file.name] + args + glob.glob(root_path + "/var/log/*")
+        subprocess.call([opts.editor] + files)
 
     if not opts.keeproot:
         shutil.rmtree(root_path)
