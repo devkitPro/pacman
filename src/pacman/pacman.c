@@ -190,6 +190,8 @@ static void usage(int op, const char * const myname)
 			case PM_OP_SYNC:
 			case PM_OP_UPGRADE:
 				addlist(_("      --force          force install, overwrite conflicting files\n"));
+				addlist(_("      --overwrite <path>\n"
+				          "                       overwrite conflicting files (can be used more than once)\n"));
 				addlist(_("      --asdeps         install packages as non-explicitly installed\n"));
 				addlist(_("      --asexplicit     install packages as explicitly installed\n"));
 				addlist(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
@@ -708,6 +710,9 @@ static int parsearg_upgrade(int opt)
 		case OP_FORCE:
 			config->flags |= ALPM_TRANS_FLAG_FORCE;
 			break;
+		case OP_OVERWRITE_FILES:
+			parsearg_util_addlist(&(config->overwrite_files));
+			break;
 		case OP_ASDEPS:
 			config->flags |= ALPM_TRANS_FLAG_ALLDEPS;
 			break;
@@ -929,6 +934,7 @@ static int parseargs(int argc, char *argv[])
 		{"assume-installed",     required_argument, 0, OP_ASSUMEINSTALLED},
 		{"debug",      optional_argument, 0, OP_DEBUG},
 		{"force",      no_argument,       0, OP_FORCE},
+		{"overwrite",  required_argument, 0, OP_OVERWRITE_FILES},
 		{"noprogressbar", no_argument,    0, OP_NOPROGRESSBAR},
 		{"noscriptlet", no_argument,      0, OP_NOSCRIPTLET},
 		{"ask",        required_argument, 0, OP_ASK},

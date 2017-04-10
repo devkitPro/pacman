@@ -123,6 +123,7 @@ typedef struct __config_t {
 	alpm_list_t *assumeinstalled;
 	alpm_list_t *noupgrade;
 	alpm_list_t *noextract;
+	alpm_list_t *overwrite_files;
 	char *xfercommand;
 
 	/* our connection to libalpm */
@@ -172,6 +173,7 @@ enum {
 	OP_GPGDIR,
 	OP_DBONLY,
 	OP_FORCE,
+	OP_OVERWRITE_FILES,
 	OP_COLOR,
 	OP_DBPATH,
 	OP_CASCADE,

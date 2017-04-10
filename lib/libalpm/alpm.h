@@ -830,6 +830,11 @@ int alpm_option_add_hookdir(alpm_handle_t *handle, const char *hookdir);
 int alpm_option_remove_hookdir(alpm_handle_t *handle, const char *hookdir);
 /** @} */
 
+alpm_list_t *alpm_option_get_overwrite_files(alpm_handle_t *handle);
+int alpm_option_set_overwrite_files(alpm_handle_t *handle, alpm_list_t *globs);
+int alpm_option_add_overwrite_file(alpm_handle_t *handle, const char *glob);
+int alpm_option_remove_overwrite_file(alpm_handle_t *handle, const char *glob);
+
 /** Returns the logfile name. */
 const char *alpm_option_get_logfile(alpm_handle_t *handle);
 /** Sets the logfile name. */

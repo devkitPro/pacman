@@ -783,6 +783,8 @@ static int setup_libalpm(void)
 		alpm_option_set_cachedirs(handle, config->cachedirs);
 	}
 
+	alpm_option_set_overwrite_files(handle, config->overwrite_files);
+
 	alpm_option_set_default_siglevel(handle, config->siglevel);
 
 	config->localfilesiglevel = merge_siglevel(config->siglevel,

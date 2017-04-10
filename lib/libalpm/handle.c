@@ -283,6 +283,12 @@ alpm_list_t SYMEXPORT *alpm_option_get_ignoregroups(alpm_handle_t *handle)
 	return handle->ignoregroup;
 }
 
+alpm_list_t SYMEXPORT *alpm_option_get_overwrite_files(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->overwrite_files;
+}
+
 alpm_list_t SYMEXPORT *alpm_option_get_assumeinstalled(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
@@ -655,6 +661,21 @@ int SYMEXPORT alpm_option_set_ignoregroups(alpm_handle_t *handle, alpm_list_t *i
 int SYMEXPORT alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *grp)
 {
 	return _alpm_option_strlist_rem(handle, &(handle->ignoregroup), grp);
+}
+
+int SYMEXPORT alpm_option_add_overwrite_file(alpm_handle_t *handle, const char *glob)
+{
+	return _alpm_option_strlist_add(handle, &(handle->overwrite_files), glob);
+}
+
+int SYMEXPORT alpm_option_set_overwrite_files(alpm_handle_t *handle, alpm_list_t *globs)
+{
+	return _alpm_option_strlist_set(handle, &(handle->overwrite_files), globs);
+}
+
+int SYMEXPORT alpm_option_remove_overwrite_file(alpm_handle_t *handle, const char *glob)
+{
+	return _alpm_option_strlist_rem(handle, &(handle->overwrite_files), glob);
 }
 
 int SYMEXPORT alpm_option_add_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep)

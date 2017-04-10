@@ -270,6 +270,18 @@ Upgrade Options (apply to '-S' and '-U')[[UO]]
 *\--needed*::
 	Do not reinstall the targets that are already up-to-date.
 
+*\--overwrite* <glob>::
+	Bypass file conflict checks and overwrite conflicting files. If the
+	package that is about to be installed contains files that are already
+	installed and match 'glob', this option will cause all those files to be
+	overwritten.  Using '\--overwrite' will not allow overwriting a directory
+	with a file or installing packages with conflicting files and directories.
+	Multiple patterns can be specified by separating them with a comma. May be
+	specified multiple times.  Patterns can be negated, such that files
+	matching them will not be overwritten, by prefixing them with an
+	exclamation mark. Subsequent matches will override previous ones. A leading
+	literal exclamation mark or backslash needs to be escaped.
+
 
 Query Options (apply to '-Q')[[QO]]
 -----------------------------------

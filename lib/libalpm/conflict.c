@@ -385,6 +385,12 @@ static alpm_list_t *alpm_db_find_file_owners(alpm_db_t* db, const char *path)
 	return owners;
 }
 
+static int _alpm_can_overwrite_file(alpm_handle_t *handle, const char *path)
+{
+	return handle->trans->flags & ALPM_TRANS_FLAG_FORCE
+		|| _alpm_fnmatch_patterns(handle->overwrite_files, path) == 0;
+}
+
 /**
  * @brief Find file conflicts that may occur during the transaction.
  *
@@ -448,8 +454,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					/* can skip file-file conflicts when forced *
 					 * checking presence in p2_files detects dir-file or file-dir
 					 * conflicts as the path from p1 is returned */
-					if((handle->trans->flags & ALPM_TRANS_FLAG_FORCE) &&
-							alpm_filelist_contains(p2_files, filename)) {
+					if(_alpm_can_overwrite_file(handle, filename)
+							&& alpm_filelist_contains(p2_files, filename)) {
 						_alpm_log(handle, ALPM_LOG_DEBUG,
 							"%s exists in both '%s' and '%s'\n", filename,
 							p1->name, p2->name);
@@ -654,8 +660,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			}
 
 			/* skip file-file conflicts when being forced */
-			if((handle->trans->flags & ALPM_TRANS_FLAG_FORCE) &&
-					!S_ISDIR(lsbuf.st_mode)) {
+			if(!S_ISDIR(lsbuf.st_mode)
+					&& _alpm_can_overwrite_file(handle, filestr)) {
 				_alpm_log(handle, ALPM_LOG_DEBUG,
 							"conflict with file on filesystem being forced\n");
 				resolved_conflict = 1;

@@ -84,6 +84,7 @@ struct __alpm_handle_t {
 	char *gpgdir;            /* Directory where GnuPG files are stored */
 	alpm_list_t *cachedirs;  /* Paths to pacman cache directories */
 	alpm_list_t *hookdirs;   /* Paths to hook directories */
+	alpm_list_t *overwrite_files; /* Paths that may be overwritten */
 
 	/* package lists */
 	alpm_list_t *noupgrade;   /* List of packages NOT to be upgraded */
