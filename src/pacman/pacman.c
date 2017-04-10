@@ -189,7 +189,6 @@ static void usage(int op, const char * const myname)
 		switch(op) {
 			case PM_OP_SYNC:
 			case PM_OP_UPGRADE:
-				addlist(_("      --force          force install, overwrite conflicting files\n"));
 				addlist(_("      --overwrite <path>\n"
 				          "                       overwrite conflicting files (can be used more than once)\n"));
 				addlist(_("      --asdeps         install packages as non-explicitly installed\n"));
@@ -708,6 +707,8 @@ static int parsearg_upgrade(int opt)
 	}
 	switch(opt) {
 		case OP_FORCE:
+			pm_printf(ALPM_LOG_WARNING,
+					_("option --force is deprecated; use --overwrite instead\n"));
 			config->flags |= ALPM_TRANS_FLAG_FORCE;
 			break;
 		case OP_OVERWRITE_FILES:

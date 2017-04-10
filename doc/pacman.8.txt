@@ -237,14 +237,6 @@ Transaction Options (apply to '-S', '-R' and '-U')
 
 Upgrade Options (apply to '-S' and '-U')[[UO]]
 ----------------------------------------------
-*\--force*::
-	Bypass file conflict checks and overwrite conflicting files. If the
-	package that is about to be installed contains files that are already
-	installed, this option will cause all those files to be overwritten.
-	Using '\--force' will not allow overwriting a directory with a file or
-	installing packages with conflicting files and directories.
-	This option should be used with care, ideally not at all.
-
 *\--asdeps*::
 	Install packages non-explicitly; in other words, fake their install reason
 	to be installed as a dependency. This is useful for makepkg and other
