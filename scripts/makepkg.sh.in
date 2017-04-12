@@ -137,6 +137,12 @@ clean_up() {
 		if [[ -n $pkgbase ]]; then
 			local fullver=$(get_full_version)
 			# Can't do this unless the BUILDSCRIPT has been sourced.
+			if (( PKGVERFUNC )); then
+				rm -f "${pkgbase}-${fullver}-${CARCH}-pkgver.log"*
+			fi
+			if (( PREPAREFUNC )); then
+				rm -f "${pkgbase}-${fullver}-${CARCH}-prepare.log"*
+			fi
 			if (( BUILDFUNC )); then
 				rm -f "${pkgbase}-${fullver}-${CARCH}-build.log"*
 			fi
