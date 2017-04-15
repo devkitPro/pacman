@@ -158,6 +158,42 @@ static alpm_list_t *dep_graph_init(alpm_handle_t *handle,
 	return vertices;
 }
 
+static void _alpm_warn_dep_cycle(alpm_handle_t *handle, alpm_list_t *targets,
+		alpm_graph_t *ancestor, alpm_graph_t *vertex, int reverse)
+{
+	/* vertex depends on and is required by ancestor */
+	if(!alpm_list_find_ptr(targets, vertex->data)) {
+		/* child is not part of the transaction, not a problem */
+		return;
+	}
+
+	/* find the nearest ancestor that's part of the transaction */
+	while(ancestor) {
+		if(alpm_list_find_ptr(targets, ancestor->data)) {
+			break;
+		}
+		ancestor = ancestor->parent;
+	}
+
+	if(!ancestor || ancestor == vertex) {
+		/* no transaction package in our ancestry or the package has
+		 * a circular dependency with itself, not a problem */
+	} else {
+		alpm_pkg_t *ancestorpkg = ancestor->data;
+		alpm_pkg_t *childpkg = vertex->data;
+		_alpm_log(handle, ALPM_LOG_WARNING, _("dependency cycle detected:\n"));
+		if(reverse) {
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("%s will be removed after its %s dependency\n"),
+					ancestorpkg->name, childpkg->name);
+		} else {
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("%s will be installed before its %s dependency\n"),
+					ancestorpkg->name, childpkg->name);
+		}
+	}
+}
+
 /* Re-order a list of target packages with respect to their dependencies.
  *
  * Example (reverse == 0):
@@ -204,39 +240,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 				nextchild->parent = vertex;
 				vertex = nextchild;
 			} else if(nextchild->state == ALPM_GRAPH_STATE_PROCESSING) {
-				/* child is an ancestor of vertex */
-				alpm_graph_t *transvertex = vertex;
-
-				if(!alpm_list_find_ptr(targets, nextchild->data)) {
-					/* child is not part of the transaction, not a problem */
-					continue;
-				}
-
-				/* find the nearest parent that's part of the transaction */
-				while(transvertex) {
-					if(alpm_list_find_ptr(targets, transvertex->data)) {
-						break;
-					}
-					transvertex = transvertex->parent;
-				}
-
-				if(!transvertex || transvertex == nextchild) {
-					/* no transaction package in our ancestry or the package has
-					 * a circular dependency with itself, not a problem */
-				} else {
-					alpm_pkg_t *transpkg = transvertex->data;
-					alpm_pkg_t *childpkg = nextchild->data;
-					_alpm_log(handle, ALPM_LOG_WARNING, _("dependency cycle detected:\n"));
-					if(reverse) {
-						_alpm_log(handle, ALPM_LOG_WARNING,
-								_("%s will be removed after its %s dependency\n"),
-								transpkg->name, childpkg->name);
-					} else {
-						_alpm_log(handle, ALPM_LOG_WARNING,
-								_("%s will be installed before its %s dependency\n"),
-								transpkg->name, childpkg->name);
-					}
-				}
+				_alpm_warn_dep_cycle(handle, targets, vertex, nextchild, reverse);
 			}
 		}
 		if(!found) {
