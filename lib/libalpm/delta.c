@@ -130,7 +130,7 @@ static void dijkstra(alpm_list_t *vertices)
 		for(i = vertices; i; i = i->next) {
 			alpm_graph_t *v_i = i->data;
 
-			if(v_i->state == -1) {
+			if(v_i->state == ALPM_GRAPH_STATE_PROCESSING) {
 				continue;
 			}
 
@@ -142,7 +142,7 @@ static void dijkstra(alpm_list_t *vertices)
 			break;
 		}
 
-		v->state = -1;
+		v->state = ALPM_GRAPH_STATE_PROCESSING;
 
 		v->childptr = v->children;
 		while(v->childptr) {

@@ -194,16 +194,16 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 	vertex = vertices->data;
 	while(vptr) {
 		/* mark that we touched the vertex */
-		vertex->state = -1;
+		vertex->state = ALPM_GRAPH_STATE_PROCESSING;
 		int found = 0;
 		while(vertex->childptr && !found) {
 			alpm_graph_t *nextchild = vertex->childptr->data;
 			vertex->childptr = vertex->childptr->next;
-			if(nextchild->state == 0) {
+			if(nextchild->state == ALPM_GRAPH_STATE_UNPROCESSED) {
 				found = 1;
 				nextchild->parent = vertex;
 				vertex = nextchild;
-			} else if(nextchild->state == -1) {
+			} else if(nextchild->state == ALPM_GRAPH_STATE_PROCESSING) {
 				/* child is an ancestor of vertex */
 				alpm_graph_t *transvertex = vertex;
 
@@ -244,13 +244,13 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 				newtargs = alpm_list_add(newtargs, vertex->data);
 			}
 			/* mark that we've left this vertex */
-			vertex->state = 1;
+			vertex->state = ALPM_GRAPH_STATE_PROCESSED;
 			vertex = vertex->parent;
 			if(!vertex) {
 				/* top level vertex reached, move to the next unprocessed vertex */
 				for( vptr = vptr->next; vptr; vptr = vptr->next) {
 					vertex = vptr->data;
-					if(vertex->state == 0) {
+					if(vertex->state == ALPM_GRAPH_STATE_UNPROCESSED) {
 						break;
 					}
 				}

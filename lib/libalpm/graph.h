@@ -23,13 +23,19 @@
 
 #include "alpm_list.h"
 
+enum __alpm_graph_vertex_state {
+	ALPM_GRAPH_STATE_UNPROCESSED,
+	ALPM_GRAPH_STATE_PROCESSING,
+	ALPM_GRAPH_STATE_PROCESSED
+};
+
 typedef struct __alpm_graph_t {
 	void *data;
 	struct __alpm_graph_t *parent; /* where did we come from? */
 	alpm_list_t *children;
 	alpm_list_t *childptr; /* points to a child in children list */
 	off_t weight; /* weight of the node */
-	signed char state; /* 0: untouched, -1: entered, other: leaving time */
+	enum __alpm_graph_vertex_state state;
 } alpm_graph_t;
 
 alpm_graph_t *_alpm_graph_new(void);
