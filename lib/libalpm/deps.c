@@ -215,7 +215,7 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 {
 	alpm_list_t *newtargs = NULL;
 	alpm_list_t *vertices = NULL;
-	alpm_list_t *vptr;
+	alpm_list_t *i;
 	alpm_graph_t *vertex;
 
 	if(targets == NULL) {
@@ -226,9 +226,9 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 
 	vertices = dep_graph_init(handle, targets, ignore);
 
-	vptr = vertices;
+	i = vertices;
 	vertex = vertices->data;
-	while(vptr) {
+	while(i) {
 		/* mark that we touched the vertex */
 		vertex->state = ALPM_GRAPH_STATE_PROCESSING;
 		int switched_to_child = 0;
@@ -252,8 +252,8 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 			vertex = vertex->parent;
 			if(!vertex) {
 				/* top level vertex reached, move to the next unprocessed vertex */
-				for( vptr = vptr->next; vptr; vptr = vptr->next) {
-					vertex = vptr->data;
+				for(i = i->next; i; i = i->next) {
+					vertex = i->data;
 					if(vertex->state == ALPM_GRAPH_STATE_UNPROCESSED) {
 						break;
 					}
