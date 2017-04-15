@@ -278,12 +278,15 @@ static alpm_list_t *add_fileconflict(alpm_handle_t *handle,
 
 	STRDUP(conflict->target, pkg1->name, goto error);
 	STRDUP(conflict->file, filestr, goto error);
-	if(pkg2) {
-		conflict->type = ALPM_FILECONFLICT_TARGET;
-		STRDUP(conflict->ctarget, pkg2->name, goto error);
-	} else {
+	if(!pkg2) {
 		conflict->type = ALPM_FILECONFLICT_FILESYSTEM;
 		STRDUP(conflict->ctarget, "", goto error);
+	} else if(pkg2->origin == ALPM_PKG_FROM_LOCALDB) {
+		conflict->type = ALPM_FILECONFLICT_FILESYSTEM;
+		STRDUP(conflict->ctarget, pkg2->name, goto error);
+	} else {
+		conflict->type = ALPM_FILECONFLICT_TARGET;
+		STRDUP(conflict->ctarget, pkg2->name, goto error);
 	}
 
 	conflicts = alpm_list_add(conflicts, conflict);
@@ -383,6 +386,17 @@ static alpm_list_t *alpm_db_find_file_owners(alpm_db_t* db, const char *path)
 		}
 	}
 	return owners;
+}
+
+static alpm_pkg_t *_alpm_find_file_owner(alpm_handle_t *handle, const char *path)
+{
+	alpm_list_t *i;
+	for(i = alpm_db_get_pkgcache(handle->db_local); i; i = i->next) {
+		if(alpm_filelist_contains(alpm_pkg_get_files(i->data), path)) {
+			return i->data;
+		}
+	}
+	return NULL;
 }
 
 static int _alpm_can_overwrite_file(alpm_handle_t *handle, const char *path)
@@ -668,7 +682,8 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			}
 
 			if(!resolved_conflict) {
-				conflicts = add_fileconflict(handle, conflicts, path, p1, NULL);
+				conflicts = add_fileconflict(handle, conflicts, path, p1,
+						_alpm_find_file_owner(handle, relative_path));
 				if(handle->pm_errno == ALPM_ERR_MEMORY) {
 					alpm_list_free_inner(conflicts,
 							(alpm_list_fn_free) alpm_conflict_free);

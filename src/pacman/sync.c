@@ -823,8 +823,13 @@ int sync_prepare_execute(void)
 									conflict->file, conflict->target, conflict->ctarget);
 							break;
 						case ALPM_FILECONFLICT_FILESYSTEM:
-							printf(_("%s: %s exists in filesystem\n"),
-									conflict->target, conflict->file);
+							if(conflict->ctarget[0]) {
+								printf(_("%s: %s exists in filesystem (owned by %s)\n"),
+										conflict->target, conflict->file, conflict->ctarget);
+							} else {
+								printf(_("%s: %s exists in filesystem\n"),
+										conflict->target, conflict->file);
+							}
 							break;
 					}
 					alpm_fileconflict_free(conflict);
