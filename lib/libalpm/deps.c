@@ -231,19 +231,19 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 	while(vptr) {
 		/* mark that we touched the vertex */
 		vertex->state = ALPM_GRAPH_STATE_PROCESSING;
-		int found = 0;
-		while(vertex->iterator && !found) {
+		int switched_to_child = 0;
+		while(vertex->iterator && !switched_to_child) {
 			alpm_graph_t *nextchild = vertex->iterator->data;
 			vertex->iterator = vertex->iterator->next;
 			if(nextchild->state == ALPM_GRAPH_STATE_UNPROCESSED) {
-				found = 1;
+				switched_to_child = 1;
 				nextchild->parent = vertex;
 				vertex = nextchild;
 			} else if(nextchild->state == ALPM_GRAPH_STATE_PROCESSING) {
 				_alpm_warn_dep_cycle(handle, targets, vertex, nextchild, reverse);
 			}
 		}
-		if(!found) {
+		if(!switched_to_child) {
 			if(alpm_list_find_ptr(targets, vertex->data)) {
 				newtargs = alpm_list_add(newtargs, vertex->data);
 			}
