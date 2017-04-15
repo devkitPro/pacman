@@ -33,7 +33,7 @@ typedef struct __alpm_graph_t {
 	void *data;
 	struct __alpm_graph_t *parent; /* where did we come from? */
 	alpm_list_t *children;
-	alpm_list_t *childptr; /* points to a child in children list */
+	alpm_list_t *iterator; /* used for DFS without recursion */
 	off_t weight; /* weight of the node */
 	enum __alpm_graph_vertex_state state;
 } alpm_graph_t;

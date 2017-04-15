@@ -152,7 +152,7 @@ static alpm_list_t *dep_graph_init(alpm_handle_t *handle,
 			j = next;
 		}
 
-		vertex_i->childptr = vertex_i->children;
+		vertex_i->iterator = vertex_i->children;
 	}
 	alpm_list_free(localpkgs);
 	return vertices;
@@ -196,9 +196,9 @@ alpm_list_t *_alpm_sortbydeps(alpm_handle_t *handle,
 		/* mark that we touched the vertex */
 		vertex->state = ALPM_GRAPH_STATE_PROCESSING;
 		int found = 0;
-		while(vertex->childptr && !found) {
-			alpm_graph_t *nextchild = vertex->childptr->data;
-			vertex->childptr = vertex->childptr->next;
+		while(vertex->iterator && !found) {
+			alpm_graph_t *nextchild = vertex->iterator->data;
+			vertex->iterator = vertex->iterator->next;
 			if(nextchild->state == ALPM_GRAPH_STATE_UNPROCESSED) {
 				found = 1;
 				nextchild->parent = vertex;
