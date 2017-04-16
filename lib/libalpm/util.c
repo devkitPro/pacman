@@ -564,6 +564,9 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 	int cwdfd;
 	int retval = 0;
 
+#define HEAD 1
+#define TAIL 0
+
 	/* save the cwd so we can restore it later */
 	OPEN(cwdfd, ".", O_RDONLY | O_CLOEXEC);
 	if(cwdfd < 0) {
@@ -608,13 +611,13 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		close(0);
 		close(1);
 		close(2);
-		while(dup2(child2parent_pipefd[1], 1) == -1 && errno == EINTR);
-		while(dup2(child2parent_pipefd[1], 2) == -1 && errno == EINTR);
-		while(dup2(parent2child_pipefd[0], 0) == -1 && errno == EINTR);
-		close(parent2child_pipefd[0]);
-		close(parent2child_pipefd[1]);
-		close(child2parent_pipefd[0]);
-		close(child2parent_pipefd[1]);
+		while(dup2(child2parent_pipefd[HEAD], 1) == -1 && errno == EINTR);
+		while(dup2(child2parent_pipefd[HEAD], 2) == -1 && errno == EINTR);
+		while(dup2(parent2child_pipefd[TAIL], 0) == -1 && errno == EINTR);
+		close(parent2child_pipefd[TAIL]);
+		close(parent2child_pipefd[HEAD]);
+		close(child2parent_pipefd[TAIL]);
+		close(child2parent_pipefd[HEAD]);
 		if(cwdfd >= 0) {
 			close(cwdfd);
 		}
@@ -643,20 +646,20 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		nfds_t nfds = 2;
 		struct pollfd fds[2], *child2parent = &(fds[0]), *parent2child = &(fds[1]);
 
-		child2parent->fd = child2parent_pipefd[0];
+		child2parent->fd = child2parent_pipefd[TAIL];
 		child2parent->events = POLLIN;
 		fcntl(child2parent->fd, F_SETFL, O_NONBLOCK);
-		close(child2parent_pipefd[1]);
-		close(parent2child_pipefd[0]);
+		close(child2parent_pipefd[HEAD]);
+		close(parent2child_pipefd[TAIL]);
 
 		if(stdin_cb) {
-			parent2child->fd = parent2child_pipefd[1];
+			parent2child->fd = parent2child_pipefd[HEAD];
 			parent2child->events = POLLOUT;
 			fcntl(parent2child->fd, F_SETFL, O_NONBLOCK);
 		} else {
 			parent2child->fd = -1;
 			parent2child->events = 0;
-			close(parent2child_pipefd[1]);
+			close(parent2child_pipefd[HEAD]);
 		}
 
 #define STOP_POLLING(p) do { close(p->fd); p->fd = -1; } while(0)
@@ -691,6 +694,8 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		}
 
 #undef STOP_POLLING
+#undef HEAD
+#undef TAIL
 
 		if(parent2child->fd != -1) {
 			close(parent2child->fd);
