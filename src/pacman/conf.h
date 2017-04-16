@@ -67,6 +67,7 @@ typedef struct __config_t {
 	char *dbpath;
 	char *logfile;
 	char *gpgdir;
+	char *sysroot;
 	alpm_list_t *hookdirs;
 	alpm_list_t *cachedirs;
 
@@ -195,6 +196,7 @@ enum {
 	OP_PRINT,
 	OP_QUIET,
 	OP_ROOT,
+	OP_SYSROOT,
 	OP_RECURSIVE,
 	OP_SEARCH,
 	OP_REGEX,

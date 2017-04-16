@@ -214,6 +214,7 @@ static void usage(int op, const char * const myname)
 		addlist(_("  -r, --root <path>    set an alternate installation root\n"));
 		addlist(_("  -v, --verbose        be verbose\n"));
 		addlist(_("      --arch <arch>    set an alternate architecture\n"));
+		addlist(_("      --sysroot        operate on a mounted guest system (root-only)\n"));
 		addlist(_("      --cachedir <dir> set an alternate package cache location\n"));
 		addlist(_("      --hookdir <dir>  set an alternate hook location\n"));
 		addlist(_("      --color <when>   colorize the output\n"));
@@ -446,6 +447,10 @@ static int parsearg_global(int opt)
 		case 'r':
 			free(config->rootdir);
 			config->rootdir = strdup(optarg);
+			break;
+		case OP_SYSROOT:
+			free(config->sysroot);
+			config->sysroot = strdup(optarg);
 			break;
 		case OP_DISABLEDLTIMEOUT:
 			config->disable_dl_timeout = 1;
@@ -917,6 +922,7 @@ static int parseargs(int argc, char *argv[])
 		{"print",      no_argument,       0, OP_PRINT},
 		{"quiet",      no_argument,       0, OP_QUIET},
 		{"root",       required_argument, 0, OP_ROOT},
+		{"sysroot",    required_argument, 0, OP_SYSROOT},
 		{"recursive",  no_argument,       0, OP_RECURSIVE},
 		{"search",     no_argument,       0, OP_SEARCH},
 		{"regex",      no_argument,       0, OP_REGEX},
@@ -1150,6 +1156,18 @@ int main(int argc, char *argv[])
 		cleanup(ret);
 	}
 
+	/* check if we have sufficient permission for the requested operation */
+	if(myuid > 0 && needs_root()) {
+		pm_printf(ALPM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
+		cleanup(EXIT_FAILURE);
+	}
+
+	if(config->sysroot && (chroot(config->sysroot) != 0 || chdir("/") != 0)) {
+		pm_printf(ALPM_LOG_ERROR,
+				_("chroot to '%s' failed: (%s)\n"), config->sysroot, strerror(errno));
+		cleanup(EXIT_FAILURE);
+	}
+
 	/* we support reading targets from stdin if a cmdline parameter is '-' */
 	if(alpm_list_find_str(pm_targets, "-")) {
 		if(!isatty(fileno(stdin))) {
@@ -1220,12 +1238,6 @@ int main(int argc, char *argv[])
 		config->flags |= ALPM_TRANS_FLAG_NOLOCK;
 		/* Display only errors */
 		config->logmask &= ~ALPM_LOG_WARNING;
-	}
-
-	/* check if we have sufficient permission for the requested operation */
-	if(myuid > 0 && needs_root()) {
-		pm_printf(ALPM_LOG_ERROR, _("you cannot perform this operation unless you are root.\n"));
-		cleanup(EXIT_FAILURE);
 	}
 
 	if(config->verbose > 0) {
