@@ -771,20 +771,6 @@ create_package() {
 	fi
 
 	create_signature "$pkg_file"
-
-	if (( ! ret )) && [[ ! "$PKGDEST" -ef "${startdir}" ]]; then
-		rm -f "${pkg_file/$PKGDEST/$startdir}"
-		ln -s "${pkg_file}" "${pkg_file/$PKGDEST/$startdir}"
-		ret=$?
-		if [[ -f $pkg_file.sig ]]; then
-			rm -f "${pkg_file/$PKGDEST/$startdir}.sig"
-			ln -s "$pkg_file.sig" "${pkg_file/$PKGDEST/$startdir}.sig"
-		fi
-	fi
-
-	if (( ret )); then
-		warning "$(gettext "Failed to create symlink to package file.")"
-	fi
 }
 
 create_debug_package() {
@@ -883,20 +869,6 @@ create_srcpackage() {
 	fi
 
 	create_signature "$pkg_file"
-
-	if [[ ! "$SRCPKGDEST" -ef "${startdir}" ]]; then
-		rm -f "${pkg_file/$SRCPKGDEST/$startdir}"
-		ln -s "${pkg_file}" "${pkg_file/$SRCPKGDEST/$startdir}"
-		ret=$?
-		if [[ -f $pkg_file.sig ]]; then
-			rm -f "${pkg_file/$SRCPKGDEST/$startdir}.sig"
-			ln -s "$pkg_file.sig" "${pkg_file/$SRCPKGDEST/$startdir}.sig"
-		fi
-	fi
-
-	if (( ret )); then
-		warning "$(gettext "Failed to create symlink to source package file.")"
-	fi
 
 	cd_safe "${startdir}"
 	rm -rf "${srclinks}"
