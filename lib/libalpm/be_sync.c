@@ -465,6 +465,7 @@ static int sync_db_populate(alpm_db_t *db)
 	size_t est_count, count;
 	int fd;
 	int ret = 0;
+	int archive_ret;
 	struct stat buf;
 	struct archive *archive;
 	struct archive_entry *entry;
@@ -502,19 +503,25 @@ static int sync_db_populate(alpm_db_t *db)
 		goto cleanup;
 	}
 
-	while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
+	while((archive_ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
 		mode_t mode = archive_entry_mode(entry);
-		if(S_ISDIR(mode)) {
-			continue;
-		} else {
+		if(!S_ISDIR(mode)) {
 			/* we have desc, depends or deltas - parse it */
 			if(sync_db_read(db, archive, entry, &pkg) != 0) {
 				_alpm_log(db->handle, ALPM_LOG_ERROR,
 						_("could not parse package description file '%s' from db '%s'\n"),
 						archive_entry_pathname(entry), db->treename);
-				continue;
+				ret = -1;
 			}
 		}
+	}
+	if(archive_ret != ARCHIVE_EOF) {
+		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not read db '%s' (%s)\n"),
+				db->treename, archive_error_string(archive));
+		_alpm_db_free_pkgcache(db);
+		db->handle->pm_errno = ALPM_ERR_LIBARCHIVE;
+		ret = -1;
+		goto cleanup;
 	}
 
 	count = alpm_list_count(db->pkgcache->list);
