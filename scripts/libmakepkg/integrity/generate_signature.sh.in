@@ -27,11 +27,10 @@ source "$LIBRARY/util/message.sh"
 
 create_signature() {
 	if [[ $SIGNPKG != 'y' ]]; then
-		return
+		return 0
 	fi
 	local ret=0
 	local filename="$1"
-	msg "$(gettext "Signing package...")"
 
 	local SIGNWITHKEY=""
 	if [[ -n $GPGKEY ]]; then
@@ -42,8 +41,37 @@ create_signature() {
 
 
 	if (( ! ret )); then
-		msg2 "$(gettext "Created signature file %s.")" "$filename.sig"
+		msg2 "$(gettext "Created signature file %s.")" "${filename##*/}.sig"
 	else
 		warning "$(gettext "Failed to sign package file.")"
 	fi
+
+	return $ret
+}
+
+create_package_signatures() {
+	local pkgarch pkg_file
+	local pkgname_backup=("${pkgname[@]}")
+	local fullver=$(get_full_version)
+
+	msg "$(gettext "Signing package(s)...")"
+
+	for pkgname in ${pkgname_backup[@]}; do
+		pkgarch=$(get_pkg_arch $pkgname)
+		pkg_file="$PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT}"
+
+		create_signature "$pkg_file"
+	done
+
+	# check if debug package needs a signature
+	if ! check_option "debug" "y" || ! check_option "strip" "y"; then
+		return
+	fi
+
+	pkgname=$pkgbase-@DEBUGSUFFIX@
+	pkgarch=$(get_pkg_arch)
+	pkg_file="$PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT}"
+	create_signature "$pkg_file"
+
+	pkgname=("${pkgname_backup[@]}")
 }

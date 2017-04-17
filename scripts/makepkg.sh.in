@@ -769,8 +769,6 @@ create_package() {
 		error "$(gettext "Failed to create package file.")"
 		exit 1 # TODO: error code
 	fi
-
-	create_signature "$pkg_file"
 }
 
 create_debug_package() {
@@ -867,8 +865,6 @@ create_srcpackage() {
 		error "$(gettext "Failed to create source package file.")"
 		exit 1 # TODO: error code
 	fi
-
-	create_signature "$pkg_file"
 
 	cd_safe "${startdir}"
 	rm -rf "${srclinks}"
@@ -1625,6 +1621,9 @@ if (( SOURCEONLY )); then
 
 	enter_fakeroot
 
+	msg "$(gettext "Signing package...")"
+	create_signature "$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
+
 	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date))"
 	exit 0
 fi
@@ -1716,6 +1715,8 @@ else
 	fi
 
 	enter_fakeroot
+
+	create_package_signatures
 fi
 
 # if inhibiting archive creation, go no further
