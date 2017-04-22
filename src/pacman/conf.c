@@ -143,6 +143,7 @@ int config_free(config_t *oldconfig)
 	FREELIST(oldconfig->assumeinstalled);
 	FREELIST(oldconfig->noupgrade);
 	FREELIST(oldconfig->noextract);
+	FREELIST(oldconfig->overwrite_files);
 	free(oldconfig->configfile);
 	free(oldconfig->rootdir);
 	free(oldconfig->dbpath);

@@ -92,6 +92,7 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	FREELIST(handle->noextract);
 	FREELIST(handle->ignorepkg);
 	FREELIST(handle->ignoregroup);
+	FREELIST(handle->overwrite_files);
 
 	alpm_list_free_inner(handle->assumeinstalled, (alpm_list_fn_free)alpm_dep_free);
 	alpm_list_free(handle->assumeinstalled);
