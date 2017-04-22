@@ -169,3 +169,11 @@
    obj:/usr/lib/ld-*.so
    ...
 }
+{
+   msgsnd
+   Memcheck:Param
+   msgsnd(msgp->mtext)
+   fun:msgsnd
+   fun:send_fakem
+   ...
+}
