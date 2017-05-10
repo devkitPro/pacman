@@ -269,7 +269,7 @@ static void localize(void)
  */
 static void setuseragent(void)
 {
-	char agent[101];
+	char agent[100];
 	struct utsname un;
 	int len;
 
