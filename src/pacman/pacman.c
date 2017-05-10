@@ -271,10 +271,15 @@ static void setuseragent(void)
 {
 	char agent[101];
 	struct utsname un;
+	int len;
 
 	uname(&un);
-	snprintf(agent, 100, "pacman/%s (%s %s) libalpm/%s",
+	len = snprintf(agent, 100, "pacman/%s (%s %s) libalpm/%s",
 			PACKAGE_VERSION, un.sysname, un.machine, alpm_version());
+	if(len >= 100) {
+		pm_printf(ALPM_LOG_WARNING, _("HTTP_USER_AGENT truncated\n"));
+	}
+
 	setenv("HTTP_USER_AGENT", agent, 0);
 }
 
