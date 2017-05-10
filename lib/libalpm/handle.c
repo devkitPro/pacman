@@ -135,6 +135,7 @@ int _alpm_handle_lock(alpm_handle_t *handle)
  */
 int SYMEXPORT alpm_unlock(alpm_handle_t *handle)
 {
+	ASSERT(handle != NULL, return -1);
 	ASSERT(handle->lockfile != NULL, return 0);
 	ASSERT(handle->lockfd >= 0, return 0);
 
