@@ -204,6 +204,7 @@ static int query_fileowner(alpm_list_t *targets)
 			size_t rlen = strlen(rpath);
 			if(rlen + 2 >= PATH_MAX) {
 					pm_printf(ALPM_LOG_ERROR, _("path too long: %s/\n"), rpath);
+					goto targcleanup;
 			}
 			strcat(rpath + rlen, "/");
 		}
