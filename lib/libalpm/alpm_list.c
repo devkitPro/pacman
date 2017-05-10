@@ -461,7 +461,10 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 	alpm_list_t *newlist = NULL;
 	while(lp) {
 		if(!alpm_list_find_ptr(newlist, lp->data)) {
-			newlist = alpm_list_add(newlist, lp->data);
+			if(alpm_list_append(&newlist, lp->data) == NULL) {
+				alpm_list_free(newlist);
+				return NULL;
+			}
 		}
 		lp = lp->next;
 	}
@@ -480,7 +483,10 @@ alpm_list_t SYMEXPORT *alpm_list_strdup(const alpm_list_t *list)
 	const alpm_list_t *lp = list;
 	alpm_list_t *newlist = NULL;
 	while(lp) {
-		newlist = alpm_list_add(newlist, strdup(lp->data));
+		if(alpm_list_append_strdup(&newlist, lp->data) == NULL) {
+			FREELIST(newlist);
+			return NULL;
+		}
 		lp = lp->next;
 	}
 	return newlist;
@@ -498,7 +504,10 @@ alpm_list_t SYMEXPORT *alpm_list_copy(const alpm_list_t *list)
 	const alpm_list_t *lp = list;
 	alpm_list_t *newlist = NULL;
 	while(lp) {
-		newlist = alpm_list_add(newlist, lp->data);
+		if(alpm_list_append(&newlist, lp->data) == NULL) {
+			alpm_list_free(newlist);
+			return NULL;
+		}
 		lp = lp->next;
 	}
 	return newlist;
@@ -523,8 +532,15 @@ alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list,
 		void *newdata = malloc(size);
 		if(newdata) {
 			memcpy(newdata, lp->data, size);
-			newlist = alpm_list_add(newlist, newdata);
+			if(alpm_list_append(&newlist, newdata) == NULL) {
+				free(newdata);
+				FREELIST(newlist);
+				return NULL;
+			}
 			lp = lp->next;
+		} else {
+			FREELIST(newlist);
+			return NULL;
 		}
 	}
 	return newlist;
@@ -552,7 +568,10 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 	list->prev = NULL;
 
 	while(lp) {
-		newlist = alpm_list_add(newlist, lp->data);
+		if(alpm_list_append(&newlist, lp->data) == NULL) {
+			alpm_list_free(newlist);
+			return NULL;
+		}
 		lp = lp->prev;
 	}
 	list->prev = backup; /* restore tail pointer */
