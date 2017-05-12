@@ -87,6 +87,8 @@ SPLITPKG=0
 SOURCEONLY=0
 VERIFYSOURCE=0
 
+export SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH:-$(date +%s)}
+
 PACMAN_OPTS=()
 
 shopt -s extglob
@@ -620,7 +622,6 @@ write_kv_pair() {
 }
 
 write_pkginfo() {
-	local builddate=$(date -u "+%s")
 	if [[ -n $PACKAGER ]]; then
 		local packager="$PACKAGER"
 	else
@@ -654,7 +655,7 @@ write_pkginfo() {
 
 	write_kv_pair "pkgdesc" "$spd"
 	write_kv_pair "url" "$url"
-	write_kv_pair "builddate" "$builddate"
+	write_kv_pair "builddate" "$SOURCE_DATE_EPOCH"
 	write_kv_pair "packager" "$packager"
 	write_kv_pair "size" "$size"
 	write_kv_pair "arch" "$pkgarch"
@@ -738,10 +739,14 @@ create_package() {
 	[[ -f $pkg_file ]] && rm -f "$pkg_file"
 	[[ -f $pkg_file.sig ]] && rm -f "$pkg_file.sig"
 
+	# ensure all elements of the package have the same mtime
+	find . -exec touch -h -d @$SOURCE_DATE_EPOCH {} +
+
 	msg2 "$(gettext "Generating .MTREE file...")"
-	list_package_files | LANG=C bsdtar -cnzf .MTREE --format=mtree \
+	list_package_files | LANG=C bsdtar -cnf - --format=mtree \
 		--options='!all,use-set,type,uid,gid,mode,time,size,md5,sha256,link' \
-		--null --files-from - --exclude .MTREE
+		--null --files-from - --exclude .MTREE | gzip -c -f -n > .MTREE
+	touch -d @$SOURCE_DATE_EPOCH .MTREE
 
 	msg2 "$(gettext "Compressing package...")"
 	# TODO: Maybe this can be set globally for robustness
