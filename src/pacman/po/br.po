@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-02-23 13:06+1000\n"
-"PO-Revision-Date: 2016-01-17 15:55+0000\n"
-"Last-Translator: Gwenn M <tornoz@laposte.net>\n"
+"POT-Creation-Date: 2017-05-22 11:01+1000\n"
+"PO-Revision-Date: 2016-02-23 03:13+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Breton (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/br/)\n"
 "Language: br\n"
@@ -318,13 +318,13 @@ msgstr "%s : %s (treug an ere arouezius digenglotus)\n"
 msgid "%s: %s (Size mismatch)\n"
 msgstr "%s : %s (ment digenglotus)\n"
 
-#: src/pacman/check.c:207 src/pacman/check.c:222 src/pacman/check.c:267
-#: src/pacman/check.c:316
+#: src/pacman/check.c:207 src/pacman/check.c:222 src/pacman/check.c:266
+#: src/pacman/check.c:320
 #, c-format
 msgid "path too long: %s%s\n"
 msgstr "re hir eo an treug : %s%s\n"
 
-#: src/pacman/check.c:242 src/pacman/check.c:380
+#: src/pacman/check.c:242 src/pacman/check.c:386
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
@@ -338,17 +338,22 @@ msgid_plural "%jd missing files\n"
 msgstr[0] "mankout a ra %jd restr\n"
 msgstr[1] "mankout a ra %jd restr\n"
 
-#: src/pacman/check.c:277
+#: src/pacman/check.c:275
 #, c-format
 msgid "%s: no mtree file\n"
 msgstr "%s : restr mtree ebet\n"
 
-#: src/pacman/check.c:333
+#: src/pacman/check.c:312
+#, fuzzy, c-format
+msgid "path too long: %slocal/%s-%s/%s\n"
+msgstr "re hir eo an treug : %s%s\n"
+
+#: src/pacman/check.c:339
 #, c-format
 msgid "file type not recognized: %s%s\n"
 msgstr "n'eo ket anavezet ar rizh restr-mañ : %s%s\n"
 
-#: src/pacman/check.c:382
+#: src/pacman/check.c:388
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
@@ -560,7 +565,7 @@ msgstr "Amzalc'h war"
 msgid "Description"
 msgstr "Deskrivadur"
 
-#: src/pacman/package.c:106 src/pacman/util.c:821
+#: src/pacman/package.c:106 src/pacman/util.c:822
 #, c-format
 msgid "Download Size"
 msgstr "Ment pellgargañ"
@@ -665,7 +670,7 @@ msgstr "Talvoudekaet gant"
 msgid "Version"
 msgstr "Handelv"
 
-#: src/pacman/package.c:174 src/pacman/util.c:1205
+#: src/pacman/package.c:174 src/pacman/util.c:1206
 #, c-format
 msgid " [installed]"
 msgstr "[staliet]"
@@ -686,8 +691,8 @@ msgid "Unknown"
 msgstr "Dianav"
 
 #: src/pacman/package.c:236 src/pacman/package.c:321 src/pacman/package.c:339
-#: src/pacman/util.c:489 src/pacman/util.c:675 src/pacman/util.c:715
-#: src/pacman/util.c:743
+#: src/pacman/util.c:490 src/pacman/util.c:676 src/pacman/util.c:716
+#: src/pacman/util.c:744
 #, c-format
 msgid "None"
 msgstr "Hini ebet"
@@ -1507,17 +1512,17 @@ msgstr "kudenn memor\n"
 msgid "loading packages...\n"
 msgstr "o kargañ pakadoù...\n"
 
-#: src/pacman/util.c:80
+#: src/pacman/util.c:81
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "c'hwitadenn war deraouekaat an treuzkas (%s)\n"
 
-#: src/pacman/util.c:84
+#: src/pacman/util.c:85
 #, c-format
 msgid "could not lock database: %s\n"
 msgstr "n'haller ket prennañ ar stlennvon : %s\n"
 
-#: src/pacman/util.c:87
+#: src/pacman/util.c:88
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
@@ -1526,232 +1531,232 @@ msgstr ""
 "m'oc'h sur n'eus ardoer pakad ebet o vezañ erounezet\n"
 "tu zo deoc'h dilemel %s\n"
 
-#: src/pacman/util.c:96
+#: src/pacman/util.c:97
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "c'hwitadenn evit dieubiñ an treuzkas (%s)\n"
 
-#: src/pacman/util.c:129
+#: src/pacman/util.c:130
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "n'eo bet kefluniet mirlec'h pakad ebet\n"
 
-#: src/pacman/util.c:138
+#: src/pacman/util.c:139
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
 msgstr "direizh eo ar stlennvon '%s' (%s)\n"
 
-#: src/pacman/util.c:157
+#: src/pacman/util.c:158
 #, c-format
 msgid "failed to update %s (%s)\n"
 msgstr "c'hwitadenn war an hizivadur %s (%s)\n"
 
-#: src/pacman/util.c:160
+#: src/pacman/util.c:161
 #, c-format
 msgid " %s is up to date\n"
 msgstr "hizivaet eo %s\n"
 
-#: src/pacman/util.c:172
+#: src/pacman/util.c:173
 #, c-format
 msgid "failed to synchronize any databases\n"
 msgstr "c'hwitadenn evit goubredañ forzh peseurt stlennvon\n"
 
-#: src/pacman/util.c:639
+#: src/pacman/util.c:640
 #, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "n'eus ket trawalc'h a bannoù hegerz evit skrammañ an daolenn\n"
 
-#: src/pacman/util.c:760
+#: src/pacman/util.c:761
 #, c-format
 msgid "Valid"
 msgstr "Reizh"
 
-#: src/pacman/util.c:763
+#: src/pacman/util.c:764
 #, c-format
 msgid "Key expired"
 msgstr "Alc'hwez diamzeret"
 
-#: src/pacman/util.c:766
+#: src/pacman/util.c:767
 #, c-format
 msgid "Expired"
 msgstr "Diamzeret"
 
-#: src/pacman/util.c:769
+#: src/pacman/util.c:770
 #, c-format
 msgid "Invalid"
 msgstr "Direizh"
 
-#: src/pacman/util.c:772
+#: src/pacman/util.c:773
 #, c-format
 msgid "Key unknown"
 msgstr "Alc'hwez dianav"
 
-#: src/pacman/util.c:775
+#: src/pacman/util.c:776
 #, c-format
 msgid "Key disabled"
 msgstr "Alc'hwez diweredekaet"
 
-#: src/pacman/util.c:778
+#: src/pacman/util.c:779
 #, c-format
 msgid "Signature error"
 msgstr "Kudenn sinadur"
 
-#: src/pacman/util.c:783
+#: src/pacman/util.c:784
 #, c-format
 msgid "full trust"
 msgstr "fiziañs a-bezh"
 
-#: src/pacman/util.c:786
+#: src/pacman/util.c:787
 #, c-format
 msgid "marginal trust"
 msgstr "damm-fiziañs"
 
-#: src/pacman/util.c:789
+#: src/pacman/util.c:790
 #, c-format
 msgid "never trust"
 msgstr "morse fiziañ"
 
-#: src/pacman/util.c:793
+#: src/pacman/util.c:794
 #, c-format
 msgid "unknown trust"
 msgstr "fiziañs dianav"
 
-#: src/pacman/util.c:797
+#: src/pacman/util.c:798
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s adalek \"%s\""
 
-#: src/pacman/util.c:815
+#: src/pacman/util.c:816
 #, c-format
 msgid "Package"
 msgstr "Pakad"
 
-#: src/pacman/util.c:818
+#: src/pacman/util.c:819
 #, c-format
 msgid "Old Version"
 msgstr "Handelv kozh"
 
-#: src/pacman/util.c:819
+#: src/pacman/util.c:820
 #, c-format
 msgid "New Version"
 msgstr "Handelv nevez"
 
-#: src/pacman/util.c:820
+#: src/pacman/util.c:821
 #, c-format
 msgid "Net Change"
 msgstr "Kemmadur resis"
 
-#: src/pacman/util.c:918
+#: src/pacman/util.c:919
 #, c-format
 msgid "removal"
 msgstr "dilammadenn"
 
-#: src/pacman/util.c:924
+#: src/pacman/util.c:925
 #, c-format
 msgid "Packages"
 msgstr "Pakadoù"
 
-#: src/pacman/util.c:945
+#: src/pacman/util.c:946
 #, c-format
 msgid "Total Download Size:"
 msgstr "Ment pellgargañ a-bezh"
 
-#: src/pacman/util.c:949
+#: src/pacman/util.c:950
 #, c-format
 msgid "Total Installed Size:"
 msgstr "Ment staliet a-bezh :"
 
-#: src/pacman/util.c:952
+#: src/pacman/util.c:953
 #, c-format
 msgid "Total Removed Size:"
 msgstr "Ment dilammet a-bezh :"
 
-#: src/pacman/util.c:956
+#: src/pacman/util.c:957
 #, c-format
 msgid "Net Upgrade Size:"
 msgstr "Ment hizivadur resis :"
 
-#: src/pacman/util.c:1207
+#: src/pacman/util.c:1208
 #, c-format
 msgid " [pending]"
 msgstr "[o c'hortoz]"
 
-#: src/pacman/util.c:1231
+#: src/pacman/util.c:1232
 #, c-format
 msgid "New optional dependencies for %s\n"
 msgstr "Amzalc'hoù diret nevez evit %s\n"
 
-#: src/pacman/util.c:1253
+#: src/pacman/util.c:1254
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "Amzalc'hoù diret evit %s\n"
 
-#: src/pacman/util.c:1266
+#: src/pacman/util.c:1267
 #, c-format
 msgid "Repository %s\n"
 msgstr "Mirlec'h %s\n"
 
-#: src/pacman/util.c:1306
+#: src/pacman/util.c:1307
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
 msgstr "talvoud direizh : %d n'eo ket etre %d ha %d\n"
 
-#: src/pacman/util.c:1313
+#: src/pacman/util.c:1314
 #, c-format
 msgid "invalid number: %s\n"
 msgstr "niver direizh : %s\n"
 
-#: src/pacman/util.c:1397
+#: src/pacman/util.c:1398
 #, c-format
 msgid "Enter a selection (default=all)"
 msgstr "Enankit un diuzad (dre ziouer=pep tra)"
 
-#: src/pacman/util.c:1464
+#: src/pacman/util.c:1465
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "Enankit un niver (dre ziouer=%d)"
 
-#: src/pacman/util.c:1514
+#: src/pacman/util.c:1548
 #, c-format
 msgid "[Y/n]"
 msgstr "[Y/n]"
 
-#: src/pacman/util.c:1516
+#: src/pacman/util.c:1550
 #, c-format
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/pacman/util.c:1541
+#: src/pacman/util.c:1575
 #, c-format
 msgid "Y"
 msgstr "Y"
 
-#: src/pacman/util.c:1541
+#: src/pacman/util.c:1575
 #, c-format
 msgid "YES"
 msgstr "YA"
 
-#: src/pacman/util.c:1543
+#: src/pacman/util.c:1577
 #, c-format
 msgid "N"
 msgstr "N"
 
-#: src/pacman/util.c:1543
+#: src/pacman/util.c:1577
 #, c-format
 msgid "NO"
 msgstr "NANN"
 
-#: src/pacman/util.c:1610
+#: src/pacman/util.c:1644
 #, c-format
 msgid "failed to allocate string\n"
 msgstr "c'hwitadenn war derannañ ar chadenn\n"
 
-#: src/pacman/util.c:1647 src/pacman/util.c:1697
+#: src/pacman/util.c:1681 src/pacman/util.c:1731
 #, c-format
 msgid "error: "
 msgstr "fazi :"
 
-#: src/pacman/util.c:1651 src/pacman/util.c:1701
+#: src/pacman/util.c:1685 src/pacman/util.c:1735
 #, c-format
 msgid "warning: "
 msgstr "diwallit :"

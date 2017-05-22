@@ -3,856 +3,831 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# archetyp <archetyp@linuxmail.org>, 2013
-# archetyp <archetyp@linuxmail.org>, 2013-2015
-# Dušan Kazik <prescott66@gmail.com>, 2016
-# Dušan Lago <inactive+dudko@transifex.com>, 2011
-# Jose Riha <jose1711@gmail.com>, 2011
-# Jose Riha <jose1711@gmail.com>, 2011
-# Jose Riha <jose1711@gmail.com>, 2011
+# Osoitz <oelkoro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2017-05-22 11:00+1000\n"
-"PO-Revision-Date: 2016-01-22 14:03+0000\n"
-"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
-"Language-Team: Slovak (http://www.transifex.com/toofishes/archlinux-pacman/"
-"language/sk/)\n"
-"Language: sk\n"
+"POT-Creation-Date: 2016-02-23 13:08+1000\n"
+"PO-Revision-Date: 2017-04-13 21:19+0000\n"
+"Last-Translator: Osoitz <oelkoro@gmail.com>\n"
+"Language-Team: Basque (Spain) (http://www.transifex.com/toofishes/archlinux-pacman/language/eu_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: eu_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lib/libalpm/add.c:86
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s je aktuálny -- preskakujem\n"
+msgstr "%s-%s egunean dago -- ezikusi\n"
 
 #: lib/libalpm/add.c:90
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s je aktuálny -- preinštalovávam\n"
+msgstr "%s-%s egunean dago -- berrinstalatu\n"
 
 #: lib/libalpm/add.c:95
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "downgradujem balíček %s (%s => %s)\n"
+msgstr "bertsio zahartzen %s paketea (%s => %s)\n"
 
-#: lib/libalpm/add.c:124
-#, c-format
-msgid "cannot allocate disk archive object"
-msgstr ""
-
-#: lib/libalpm/add.c:138 lib/libalpm/util.c:379
+#: lib/libalpm/add.c:124 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
-msgstr "varovanie pri rozbaľovaní %s (%s)\n"
+msgstr "oharra eman da %s erauztean (%s)\n"
 
-#: lib/libalpm/add.c:141 lib/libalpm/util.c:382
+#: lib/libalpm/add.c:127 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "nie je možné rozbaliť %s (%s)\n"
+msgstr "ezin izan da %s erauzi (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:589 lib/libalpm/remove.c:533
+#: lib/libalpm/add.c:140 lib/libalpm/dload.c:589 lib/libalpm/remove.c:520
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
-msgstr "nie je možné premenovať %s na %s (%s)\n"
+msgstr "ezin izan da %s berrizendatu %s gisa (%s)\n"
 
-#: lib/libalpm/add.c:205
+#: lib/libalpm/add.c:191
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
-msgstr ""
-"súbor nebol nájdený v zozname súborov balíčka %s. preskakujem rozbaľovanie "
-"%s\n"
+msgstr "ez da fitxategia aurkitu %s paketearen fitxategi zerrendan. %s ez da erauziko\n"
 
-#: lib/libalpm/add.c:214
+#: lib/libalpm/add.c:200
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr "nepodarilo sa extrahovať %s%s: cesta je príliš dlhá"
+msgstr "ezin izan da %s%s erauzi: bidea luzeegia da"
 
-#: lib/libalpm/add.c:256
+#: lib/libalpm/add.c:242
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr ""
-"prístupové práva adresára %s sa nezhodujú\n"
-"súborový systém: %o  balíček: %o\n"
+msgstr "direktorioaren baimenak desberdinak dira hemen %s\nfitxategi sistema: %o  paketea: %o\n"
 
-#: lib/libalpm/add.c:271
+#: lib/libalpm/add.c:257
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
-msgstr ""
-"vlastníctvo adresára %s sa nezhoduje\n"
-"súborový systém: %u:%u  balíček: %u:%u\n"
+msgstr "direktorioaren jabetza desberdina da hemen %s \nfitxategi sistema: %u:%u paketea: %u:%u\n\n"
 
-#: lib/libalpm/add.c:287
+#: lib/libalpm/add.c:273
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "rozbalenie: adresár nebol prepísaný súborom %s\n"
+msgstr "erauzi: ez da direktorioa %s fitxategiarekin gainidatziko\n"
 
-#: lib/libalpm/add.c:315
+#: lib/libalpm/add.c:301
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr "nepodarilo sa extrahovať %s.pacnew: cesta je príliš dlhá"
+msgstr "ezin izan da %s.pacnew erauzi: bidea luzeegia da"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:331 lib/libalpm/util.c:577
+#: lib/libalpm/add.c:498 lib/libalpm/util.c:331 lib/libalpm/util.c:567
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "nie je možné zistiť aktuálny pracovný adresár\n"
+msgstr "ezin izan da uneko lan direktorioa lortu\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:336 lib/libalpm/util.c:582
-#: lib/libalpm/util.c:635
+#: lib/libalpm/add.c:503 lib/libalpm/util.c:336 lib/libalpm/util.c:572
+#: lib/libalpm/util.c:625
 #, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr "nie je možné prepnúť sa do adresára %s (%s)\n"
+msgstr "ezin izan da direktorioa hona aldatu %s (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:400 lib/libalpm/util.c:740
+#: lib/libalpm/add.c:542 lib/libalpm/util.c:400 lib/libalpm/util.c:730
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "nie je možné obnoviť pracovný adresár (%s)\n"
+msgstr "ezin izan da laneko direktorioa berreskuratu (%s)\n"
 
-#: lib/libalpm/add.c:578
+#: lib/libalpm/add.c:550
 #, c-format
 msgid "problem occurred while upgrading %s\n"
-msgstr "nastal problém pri aktualizácii %s\n"
+msgstr "arazo bat egon da %s bertsio berritzean\n"
 
-#: lib/libalpm/add.c:584
+#: lib/libalpm/add.c:556
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr "nastal problém pri inštalácii %s\n"
+msgstr "arazo bat egon da %s instalatzean\n"
 
-#: lib/libalpm/add.c:599
+#: lib/libalpm/add.c:572
 #, c-format
 msgid "could not update database entry %s-%s\n"
-msgstr "nie je možné aktualizovať záznam databáze %s-%s\n"
+msgstr "ezin izan da datu-base sarrera eguneratu %s-%s\n"
 
-#: lib/libalpm/add.c:610
+#: lib/libalpm/add.c:583
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr "nie je možné pridať položku '%s' do cache\n"
+msgstr "ezin izan da '%s' sarrera katxean gehitu\n"
 
 #: lib/libalpm/be_local.c:255
 #, c-format
 msgid "error while reading file %s: %s\n"
-msgstr "chyba pri čítaní súboru %s: %s\n"
+msgstr "errorea %s fitxategia irakurtzean: %s\n"
 
 #: lib/libalpm/be_local.c:350
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr "odstraňujem neplatnú databázu: %s\n"
+msgstr "datu-base baliogabea ezabatzen:%s\n"
 
-#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:886
+#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:873
 #, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "nie je možné vytvoriť adresár %s: %s\n"
+msgstr "ezin izan da %s direktorioa sortu: %s\n\n"
 
-#: lib/libalpm/be_local.c:576 lib/libalpm/be_sync.c:387
+#: lib/libalpm/be_local.c:576 lib/libalpm/be_sync.c:377
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "neplatná názov záznamu v databáze '%s'\n"
+msgstr "izen baliogabea '%s' datu-base sarreran\n"
 
 #: lib/libalpm/be_local.c:584
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "duplicitný záznam v databáze '%s'\n"
+msgstr "bikoiztutako datu-base sarrera '%s'\n"
 
 #: lib/libalpm/be_local.c:596
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "poškodený záznam v databáze '%s'\n"
+msgstr "datu-base sarrera hondatua '%s'\n"
 
 #: lib/libalpm/be_local.c:696 lib/libalpm/be_local.c:788
-#: lib/libalpm/be_local.c:935 lib/libalpm/be_local.c:1032
+#: lib/libalpm/be_local.c:922 lib/libalpm/be_local.c:1019
 #: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
 #: lib/libalpm/util.c:266
 #, c-format
 msgid "could not open file %s: %s\n"
-msgstr "nie je možné otvoriť súbor %s: %s\n"
+msgstr "ezin izan da %s fitxategia ireki: %s\n"
 
-#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:641
+#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:630
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr "%s databáza nie je konzistentná: nesúhlasí meno balíčka %s\n"
+msgstr "%s datu-basea kontraesankorra da: izenak ez datoz bat %s paketean\n"
 
-#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:647
+#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:636
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr "%s databáza nie je konzistentná: nesúhlasí verzia balíčka %s\n"
+msgstr "%s datu-basea kontraesankorra da: bertsioak ez datoz bat %s paketean\n"
 
 #: lib/libalpm/be_local.c:759
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr "neznámy validačný typ pre balíčerk %s: %s\n"
+msgstr "Balidazio mota ezezaguna %s paketearentzat: %s\n"
 
-#: lib/libalpm/be_package.c:477 lib/libalpm/be_package.c:635
-#: lib/libalpm/be_package.c:648
+#: lib/libalpm/be_package.c:476 lib/libalpm/be_package.c:634
+#: lib/libalpm/be_package.c:647
 #, c-format
 msgid "error while reading package %s: %s\n"
-msgstr "chyba pri čítaní balíčka %s: %s\n"
+msgstr "errorea %s paketea irakurtzean: %s\n"
 
-#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:515
+#: lib/libalpm/be_package.c:490 lib/libalpm/be_package.c:514
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "chyba pri čítaní mtree objektu balíčka %s: %s\n"
+msgstr "errorea %s paketearen mtree-a irakurtzean: %s\n"
 
-#: lib/libalpm/be_package.c:601
+#: lib/libalpm/be_package.c:600
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "nie je možné spracovať súbor s popisom balíčka v %s\n"
+msgstr "ezin izan da paketearen deskripzioa prozesatu %s fitxategian\n"
 
-#: lib/libalpm/be_package.c:606
+#: lib/libalpm/be_package.c:605
 #, c-format
 msgid "missing package name in %s\n"
-msgstr "chýba meno balíčka v %s\n"
+msgstr "paketearen izena falta da hemen: %s\n"
 
-#: lib/libalpm/be_package.c:610
+#: lib/libalpm/be_package.c:609
 #, c-format
 msgid "missing package version in %s\n"
-msgstr "chýba verzia balíčka v %s\n"
+msgstr "paketearen bertsioa falta da hemen: %s\n"
 
-#: lib/libalpm/be_package.c:614
+#: lib/libalpm/be_package.c:613
 #, c-format
 msgid "invalid package version in %s\n"
-msgstr "neplatná verzia balíčku v %s\n"
+msgstr "paketearen bertsio baliogabea hemen %s\n"
 
-#: lib/libalpm/be_package.c:655
+#: lib/libalpm/be_package.c:654
 #, c-format
 msgid "missing package metadata in %s\n"
-msgstr "chýbaju metadáta balíčka v %s\n"
+msgstr "paketearen metadatuak falta dira hemen: %s\n"
 
-#: lib/libalpm/be_package.c:747
+#: lib/libalpm/be_package.c:743
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "zlyhalo načítanie súboru s podpisom: %s\n"
+msgstr "sinadura fitxategiaren irakurketak huts egin du: %s\n"
 
-#: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:1113
+#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1113
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "požadovaný kľúč nebol nájdený v kľúčenke\n"
+msgstr "beharrezko gakoa falta da gako sortan\n"
 
 #: lib/libalpm/be_sync.c:62
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr "odstraňujem neplatný súbor: %s\n"
+msgstr "fitxategi baliogabea ezabatzen: %s\n"
 
-#: lib/libalpm/be_sync.c:513
+#: lib/libalpm/be_sync.c:502
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr "nie je možné nájsť súbor s popisom balíčku '%s' z databázy '%s'\n"
+msgstr "ezin izan da '%s' fitxategi deskripzioa prozesatu '%s' datu-basetik\n"
 
-#: lib/libalpm/be_sync.c:546 lib/libalpm/be_sync.c:551
+#: lib/libalpm/be_sync.c:535 lib/libalpm/be_sync.c:540
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
-msgstr "%s databáza nie je konzistentná: názov balíčka %s nie je povolený\n"
+msgstr "%s datu-basea kontraesankorra da: %s paketearen fitxategi izena legez kanpokoa da\n"
 
-#: lib/libalpm/be_sync.c:556
+#: lib/libalpm/be_sync.c:545
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
-msgstr "%s databáza nie je konzistentná: názov balíčka %s je príliš dlhý\n"
+msgstr "%s datu-basea kontraesankorra da: %s paketearen fitxategi izena luzeegia da\n"
 
-#: lib/libalpm/be_sync.c:622
+#: lib/libalpm/be_sync.c:611
 #, c-format
 msgid "unknown database file: %s\n"
-msgstr "neznámy databázový súbor: %s\n"
+msgstr "datu-base fitxategi ezezaguna: %s\n"
 
 #: lib/libalpm/db.c:370
 #, c-format
 msgid "database path is undefined\n"
-msgstr "cesta k databáze nie je definovaná\n"
+msgstr "datu-basearen bide-izena definitu gabe dago\n"
 
 #: lib/libalpm/deps.c:229
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "zistená cyklická závislosť:\n"
+msgstr "menpekotasun zikloa aurkitu da:\n"
 
 #: lib/libalpm/deps.c:232
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s bude odstránený po %s, na ktorom závisí\n"
+msgstr "%s ezabatuko da bere %s menpekotasuna eta gero\n"
 
 #: lib/libalpm/deps.c:236
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr "%s bude nainštalovaný pred %s, na ktorom závisí\n"
+msgstr "%s instalatuko da bere %s menpekotasuna baino lehenago\n"
 
 #: lib/libalpm/deps.c:678 lib/libalpm/deps.c:710
 #, c-format
 msgid "ignoring package %s-%s\n"
-msgstr "ignorujem balíček %s-%s\n"
+msgstr "paketea ezikusten %s-%s\n"
 
 #: lib/libalpm/deps.c:865
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "nie je možné vyriešiť \"%s\", závislosť \"%s\"\n"
+msgstr "ezin ebatzi \"%s\", \"%s\" paketearen menpekotasun bat\n"
 
 #: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr "nepodarilo sa zistiť informácie o súborovom systém pre %s: %s\n"
+msgstr "ezin izan da %s fitxategi sistema informazioa jaso: %s\n"
 
 #: lib/libalpm/diskspace.c:108
 #, c-format
 msgid "could not open file: %s: %s\n"
-msgstr "nepodarilo sa otvoriť súbor: %s: %s\n"
+msgstr "ezin izan da fitxategia ireki: %s :%s\n"
 
 #: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr "nepodarilo sa zistiť informácie o súborovom systéme\n"
+msgstr "ezin izan da fitxategi sistemaren informazioa jaso\n"
 
 #: lib/libalpm/diskspace.c:242
 #, c-format
 msgid "could not get file information for %s\n"
-msgstr "nepodarilo sa získať informácie o súbore %s\n"
+msgstr "ezin izan da %sren informazioa jaso\n"
 
 #: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
-msgstr "nepodarilo sa určiť bod pripojenia pre súbor %s\n"
+msgstr "ezin izan da %s fitxategiaren muntatze puntua zehaztu\n"
 
 #: lib/libalpm/diskspace.c:354
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr ""
-"Partícia %s je preplnená: %jd blokov je potrebných, %ju blokov je voľných\n"
+msgstr "%s partizioa beteta dago: %jd bloke behar dira, %ju bloke daude libre\n"
 
 #: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
-msgstr "nepodarilo sa uričť body pripojenia pre súborový systém\n"
+msgstr "ezin izan dira fitxategi sistemaren muntatze puntuak zehaztu\n"
 
 #: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr ""
-"nepodarilo sa určiť pripojenie adresára cachedir %s\n"
-"\n"
+msgstr "ezin izan da cachedir muntatze puntua zehaztu %s\n"
 
 #: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
-msgstr "nepodarilo sa určiť bod pripojenia pre koreň %s\n"
+msgstr "ezin izan da %s erro muntatze puntua zehaztu\n"
 
 #: lib/libalpm/diskspace.c:486
 #, c-format
 msgid "Partition %s is mounted read only\n"
-msgstr "Partícia %s je pripojená iba v režime na čítanie\n"
+msgstr "%s partizioa soilik irakurtzeko moduan muntatuta dago\n"
 
 #: lib/libalpm/dload.c:149
 #, c-format
 msgid "disk"
-msgstr "disk"
+msgstr "diskoa"
 
 #: lib/libalpm/dload.c:373
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "chyba pri vytváraní dočasného súboru pre sťahovanie\n"
+msgstr "huts egin du deskargarako behin behineko fitxategiaren sorrerak\n"
 
 #: lib/libalpm/dload.c:418
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "URL '%s' je neplatná\n"
+msgstr "'%s' url baliogabea da\n\n"
 
 #: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "chyba pri získavaní súboru '%s' z %s: %s\n"
+msgstr "huts egin du '%s' fitxategia '%s'-tik erauzteak: %s\n"
 
 #: lib/libalpm/dload.c:500
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr ""
-"chyba pri sťahovaní súboru '%s' z %s : očakávaná veľkosť sťahovaného súboru "
-"bola prekročená\n"
+msgstr "huts egin du '%s' fitxategia eskuratzean hemendik: %s :  aurreikusitako deskarga tamaina gainditu da\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s vyzerá byť skrátený:  %jd/%jd bytov\n"
+msgstr "%s ez dago osorik antza: %jd/%jd byte\n"
 
 #: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
 #, c-format
 msgid "failed to download %s\n"
-msgstr "chyba pri sťahovaní %s\n"
+msgstr "%s deskargatzeak huts egin du\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
 msgid "out of memory!"
-msgstr "nedostatok pamäte!"
+msgstr "memoriarik ez!"
 
 #: lib/libalpm/error.c:42
 #, c-format
 msgid "unexpected system error"
-msgstr "neočakávaná systémová chyba"
+msgstr "ustegabeko sistema errorea"
 
 #: lib/libalpm/error.c:44
 #, c-format
 msgid "permission denied"
-msgstr "prístup zamietnutý"
+msgstr "baimena ukatua"
 
 #: lib/libalpm/error.c:46
 #, c-format
 msgid "could not find or read file"
-msgstr "nie je možné nájsť alebo prečítať súbor"
+msgstr "ezin izan da fitxategia aurkitu edo irakurri"
 
 #: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
-msgstr "nie je možné nájsť alebo prečítať adresár"
+msgstr "ezin izan da direktorioa aurkitu edo irakurri"
 
 #: lib/libalpm/error.c:50
 #, c-format
 msgid "wrong or NULL argument passed"
-msgstr "odovzdaný chybný alebo NULL argument"
+msgstr "argumentu okerra edo NULL pasatu da"
 
 #: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
-msgstr "nedostatok voľného miesta na disku"
+msgstr "ez dago nahiko leku libre diskoan"
 
 #: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
-msgstr "knižnica nebola inicializovaná"
+msgstr "liburutegia ez da hasieratu"
 
 #: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
-msgstr "knižnica je už inicializovaná"
+msgstr "liburutegia dagoeneko hasieratu da"
 
 #: lib/libalpm/error.c:59
 #, c-format
 msgid "unable to lock database"
-msgstr "nie je možné zamknúť databázu"
+msgstr "ezin da datu-basea blokeatu"
 
 #: lib/libalpm/error.c:62
 #, c-format
 msgid "could not open database"
-msgstr "nie je možné otvoriť databázu"
+msgstr "ezin izan da datu-basea ireki"
 
 #: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
-msgstr "nie je možné vytvoriť databázu"
+msgstr "ezin izan da datu-basea sortu"
 
 #: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
-msgstr "databáza nebola inicializovaná"
+msgstr "datu-basea ez hasieratua"
 
 #: lib/libalpm/error.c:68
 #, c-format
 msgid "database already registered"
-msgstr "databáza je už zaregistrovaná"
+msgstr "datu-basea dagoeneko erregistratu da"
 
 #: lib/libalpm/error.c:70
 #, c-format
 msgid "could not find database"
-msgstr "nemožno nájsť databázu"
+msgstr "ezin izan da datu-basea aurkitu"
 
 #: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
-msgstr "neplatná alebo poškodená databáza"
+msgstr "datu-base baliogabea edo hondatua"
 
 #: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr "neplatná alebo poškodená databáza (PGP podpis)"
+msgstr "datu-base baliogabea edo hondatua (PGP sinadura)"
 
 #: lib/libalpm/error.c:76
 #, c-format
 msgid "database is incorrect version"
-msgstr "databáza má nesprávnu verziu"
+msgstr "datu-basearen bertsioa ez da zuzena"
 
 #: lib/libalpm/error.c:78
 #, c-format
 msgid "could not update database"
-msgstr "nemožno aktualizovať databázu"
+msgstr "ezin izan da datu-basea eguneratu"
 
 #: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
-msgstr "nie je možné odstrániť záznam v databáze"
+msgstr "ezin izan da datu-base sarrera ezabatu"
 
 #: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
-msgstr "neplatná URL pre server"
+msgstr "url baliogabea zerbitzariarentzat"
 
 #: lib/libalpm/error.c:85
 #, c-format
 msgid "no servers configured for repository"
-msgstr "pre repozitár nie sú nastavené žiadne servery"
+msgstr "ez da zerbitzaririk konfiguratu biltegiarentzat"
 
 #: lib/libalpm/error.c:88
 #, c-format
 msgid "transaction already initialized"
-msgstr "transakcia už bola inicializovaná"
+msgstr "transakzioa dagoeneko hasieratua"
 
 #: lib/libalpm/error.c:90 lib/libalpm/error.c:94
 #, c-format
 msgid "transaction not initialized"
-msgstr "transakcia nebola inicializovaná"
+msgstr "transakzioa ez hasieratua"
 
 #: lib/libalpm/error.c:92
 #, c-format
 msgid "duplicate target"
-msgstr "duplicitný cieľ"
+msgstr "bikoiztutako helburua"
 
 #: lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not prepared"
-msgstr "transakcia nie je pripravená"
+msgstr "transakzioa ez dago prest"
 
 #: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
-msgstr "transakcia bola zrušená"
+msgstr "transakzioa bertan behera utzi da"
 
 #: lib/libalpm/error.c:100
 #, c-format
 msgid "operation not compatible with the transaction type"
-msgstr "operácia nie je kompatibilná s typom transakcie"
+msgstr "eragiketa ez da transakzio motarekin bateragarria"
 
 #: lib/libalpm/error.c:102
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr "pokus o uskutočnenie transakcie v čas, kedy nie je databáza uzamknutá"
+msgstr "transakzioa egikaritzeko saiakera datu-basea blokeatuta ez dagoenean"
 
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr "zlyhalo spustenie hákov transakcie"
+msgstr "huts egin du transakzioaren kakoak abiatzean"
 
 #: lib/libalpm/error.c:107
 #, c-format
 msgid "could not find or read package"
-msgstr "nie je možné nájsť alebo prečítať balíček"
+msgstr "ezin izan da paketea aurkitu edo irakurri"
 
 #: lib/libalpm/error.c:109
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr "operácia bola zrušená kvôli ignorovanému balíčku"
+msgstr "eragiketa bertan behera utzi da ignorepkg dela eta"
 
 #: lib/libalpm/error.c:111
 #, c-format
 msgid "invalid or corrupted package"
-msgstr "neplatný alebo poškodený balíček"
+msgstr "pakete baliogabe edo hondatua"
 
 #: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr "neplatný alebo poškodený balíček (kontrolný súčet)"
+msgstr "pakete baliogabe edo hondatua (checksum)"
 
 #: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr "neplatný alebo poškodený balíček (PGP podpis)"
+msgstr "pakete baliogabe edo hondatua (PGP sinadura)"
 
 #: lib/libalpm/error.c:117
 #, c-format
 msgid "package missing required signature"
-msgstr "balíček postráda vyžadovaný podpis"
+msgstr "paketeari beharrezko sinadura falta zaio"
 
 #: lib/libalpm/error.c:119
 #, c-format
 msgid "cannot open package file"
-msgstr "nie je možné otvoriť súbor balíčka"
+msgstr "ezin ireki pakete fitxategia"
 
 #: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "nie je možné odstrániť všetky súbory balíčka"
+msgstr "ezin ezabatu paketeko fitxategi guztiak"
 
 #: lib/libalpm/error.c:123
 #, c-format
 msgid "package filename is not valid"
-msgstr "meno súboru balíčka je neplatné"
+msgstr "paketearen fitxategi izena baliogabea da"
 
 #: lib/libalpm/error.c:125
 #, c-format
 msgid "package architecture is not valid"
-msgstr "architektúra balíčka je neplatná"
+msgstr "paketearen arkitektura baliogabea da"
 
 #: lib/libalpm/error.c:127
 #, c-format
 msgid "could not find repository for target"
-msgstr "nie je možné nájsť repozitár cieľa"
+msgstr "ezin izan da biltegirik aurkitu helburuarentzat"
 
 #: lib/libalpm/error.c:130
 #, c-format
 msgid "missing PGP signature"
-msgstr "chýba PGP podpis"
+msgstr "PGP sinadura falta da"
 
 #: lib/libalpm/error.c:132
 #, c-format
 msgid "invalid PGP signature"
-msgstr "neplatný PGP podpis"
+msgstr "PGP sinadura baliogabea"
 
 #: lib/libalpm/error.c:135
 #, c-format
 msgid "invalid or corrupted delta"
-msgstr "neplatný alebo poškodený delta rozdiel"
+msgstr "delta baliogabea edo hondatua"
 
 #: lib/libalpm/error.c:137
 #, c-format
 msgid "delta patch failed"
-msgstr "aplikácia delta rozdielu zlyhala"
+msgstr "delta adabakiak huts egin du"
 
 #: lib/libalpm/error.c:140
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr "nie je možné vyriešiť závislosti"
+msgstr "ezin dira menpekotasunak bete"
 
 #: lib/libalpm/error.c:142
 #, c-format
 msgid "conflicting dependencies"
-msgstr "konfliktné závislosti"
+msgstr "menpekotasunen arteko gatazka"
 
 #: lib/libalpm/error.c:144
 #, c-format
 msgid "conflicting files"
-msgstr "konfliktné súbory"
+msgstr "fitxategien arteko gatazka"
 
 #: lib/libalpm/error.c:147
 #, c-format
 msgid "failed to retrieve some files"
-msgstr "chyba pri získavaní niektorých súborov"
+msgstr "ezin izan dira fitxategi batzuk eskuratu"
 
 #: lib/libalpm/error.c:149
 #, c-format
 msgid "invalid regular expression"
-msgstr "neplatný regulárny výraz"
+msgstr "adierazpen erregular baliogabea"
 
 #: lib/libalpm/error.c:155
 #, c-format
 msgid "libarchive error"
-msgstr "chyba knižnice libarchive"
+msgstr "libarchive errorea"
 
 #: lib/libalpm/error.c:157
 #, c-format
 msgid "download library error"
-msgstr "chyba knižnice pre sťahovanie súborov"
+msgstr "errorea liburutegia deskargatzean"
 
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "gpgme error"
-msgstr "chyba v gpgme"
+msgstr "gpgme errorea"
 
 #: lib/libalpm/error.c:161
 #, c-format
 msgid "error invoking external downloader"
-msgstr "chyba volania externého programu pre sťahovanie súborov"
+msgstr "errorea kanpo deskarga programa deitzean"
 
 #: lib/libalpm/error.c:164
 #, c-format
 msgid "unexpected error"
-msgstr "neočakávaná chyba"
+msgstr "ustegabeko errorea"
 
 #: lib/libalpm/handle.c:155
 #, c-format
 msgid "lock file missing %s\n"
-msgstr "chýba zamykací súbor %s\n"
+msgstr "blokeo fitxategia falta da %s\n"
 
 #: lib/libalpm/handle.c:161
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "nie je možné odstrániť zamykací súbor %s\n"
+msgstr "ezin izan da %s blokeo fitxategia ezabatu\n"
 
 #: lib/libalpm/package.c:568
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "nie je možné poriadne načítať metadáta pre balíček %s-%s\n"
+msgstr "ezin izan dira %s-%s paketearen meta-datuak guztiz kargatu\n"
 
 #: lib/libalpm/remove.c:118
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "nie je možné nájsť %s v databáze -- preskakujem\n"
+msgstr "ezin izan da %s aurkitu datu-basean -- ezikusi\n"
 
 #: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
-msgstr "'%s' odstránený zo zoznamu cieľov\n"
+msgstr "%s helburu zerrendatik ezabatzen\n"
 
-#: lib/libalpm/remove.c:345
+#: lib/libalpm/remove.c:343
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "nie je možné odstrániť súbor '%s': %s\n"
+msgstr "ezin '%s' fitxategia ezabatu: %s\n"
 
-#: lib/libalpm/remove.c:385
+#: lib/libalpm/remove.c:383
 #, c-format
 msgid "could not open directory: %s: %s\n"
-msgstr "nepodarilo sa otvoriť adresár: %s: %s\n"
+msgstr "ezin izan da direktorioa ireki: %s: %s\n"
 
-#: lib/libalpm/remove.c:553
+#: lib/libalpm/remove.c:540
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr "nie je možné vymazať %s (%s)\n"
+msgstr "ezin ezabatu %s (%s)\n"
 
-#: lib/libalpm/remove.c:726
+#: lib/libalpm/remove.c:713
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "nie je možné odstrániť záznam databáze %s-%s\n"
+msgstr "ezin izan da datu-base sarrera ezabatu %s-%s\n"
 
-#: lib/libalpm/remove.c:731
+#: lib/libalpm/remove.c:718
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "nie je možné odstrániť položku '%s' z cache\n"
+msgstr "ezin izan da '%s' sarrera ezabatu katxetik\n"
 
 #: lib/libalpm/sync.c:98
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: ignorujem aktualizáciu balíčka (%s => %s)\n"
+msgstr "%s: ezikusi pakete bertsio berritzea (%s => %s)\n"
 
 #: lib/libalpm/sync.c:110
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: ignorujem downgrade balíčka (%s => %s)\n"
+msgstr "%s: ezikusi paketea bertsio zahartzea (%s => %s)\n"
 
 #: lib/libalpm/sync.c:113
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr "%s: downgradujem z verzie %s na verziu %s\n"
+msgstr "%s: bertsio zahartzen %s bertsiotik %s bertsiora\n"
 
 #: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: lokálna verzia (%s) je novšia ako %s (%s)\n"
+msgstr "%s: lokala (%s) %s (%s) baino berriagoa da\n"
 
 #: lib/libalpm/sync.c:160
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "ignorujem náhradu balíčku (%s-%s => %s-%s)\n"
+msgstr "ezikusi pakete ordezkapena  (%s-%s => %s-%s)\n"
 
 #: lib/libalpm/sync.c:176
 #, c-format
 msgid "cannot replace %s by %s\n"
-msgstr "nedá sa nahradiť súbor %s súborom %s\n"
+msgstr "ezin %s ordezkatu %s paketearekin\n"
 
 #: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
 #, c-format
 msgid "unresolvable package conflicts detected\n"
-msgstr "zistený konflikt nerozlíšiteľných balíčkov\n"
+msgstr "ebatzi ezineko paketeen arteko gatazka detektatu da\n"
 
 #: lib/libalpm/sync.c:556
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "'%s' odstránený zo zoznamu cieľov, pretože je v konflikte s '%s'\n"
+msgstr "'%s' helburutik ezabatzen gatazka sortzen duelako '%s' paketearekin\n"
 
 #: lib/libalpm/sync.c:1019
 #, c-format
 msgid "failed to retrieve some files\n"
-msgstr "zlyhalo získanie niektorých súborov\n"
+msgstr "fitxategi batzuk eskuratzeak huts egin du\n"
 
 #: lib/libalpm/sync.c:1181
 #, c-format
 msgid "%s: missing required signature\n"
-msgstr "%s: chýba vyžadovaný podpis\n"
+msgstr "%s: beharrezko sinadura falta da\n"
 
 #: lib/libalpm/sync.c:1384
 #, c-format
 msgid "not enough free disk space\n"
-msgstr "nedostatok voľného miesta na disku\n"
+msgstr "ez dago behar beste leku libre diskoan\n"
 
 #: lib/libalpm/sync.c:1406
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "nie je možné uskutočniť transakciu pre odstránenie\n"
+msgstr "ezin izan da ezabaketa transakzioa egikaritu\n"
 
 #: lib/libalpm/sync.c:1414
 #, c-format
 msgid "could not commit transaction\n"
-msgstr "nie je možné uskutočniť transakciu\n"
+msgstr "ezin izan da transakzioa egikaritu\n"
 
 #: lib/libalpm/trans.c:360
 #, c-format
 msgid "could not create temp directory\n"
-msgstr "nie je možné vytvoriť dočasný adresár\n"
+msgstr "ezin izan da temp direktorioa sortu\n"
 
 #: lib/libalpm/trans.c:375
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
-msgstr "nie je možné skopírovať dočasný súbor do %s (%s)\n"
+msgstr "ezin izan da tempfile hona kopiatu %s (%s)\n"
 
 #: lib/libalpm/trans.c:406
 #, c-format
 msgid "could not remove %s\n"
-msgstr "%s nie je možné vymazať\n"
+msgstr "ezin izan da %s ezabatu\n"
 
 #: lib/libalpm/trans.c:410
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr "nie je možné odstrániť dočasný adresár %s\n"
+msgstr "ezin tempdir ezabatu %s\n"
 
 #: lib/libalpm/util.c:256
 #, c-format
 msgid "could not stat file %s: %s\n"
-msgstr "nepodarilo sa získať status súboru %s: %s\n"
+msgstr "ezin izan da fitxategiaren egoera zehaztu: %s: %s\n"
 
-#: lib/libalpm/util.c:493
+#: lib/libalpm/util.c:483
 #, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "nie je možné zapísať do zreťazenia (%s)\n"
+msgstr "ezin izan da kanalizazioan idatzi (%s)\n"
 
-#: lib/libalpm/util.c:552
+#: lib/libalpm/util.c:542
 #, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "nie je možné čítať zo zreťazenia (%s)\n"
+msgstr "ezin izan da kanalizaziotik irakurri (%s)\n"
 
-#: lib/libalpm/util.c:594 lib/libalpm/util.c:600
+#: lib/libalpm/util.c:584 lib/libalpm/util.c:590
 #, c-format
 msgid "could not create pipe (%s)\n"
-msgstr "nepodarilo sa vytvoriť rúru (%s)\n"
+msgstr "ezin izan da kanalizazioa sortu (%s)\n"
 
-#: lib/libalpm/util.c:608
+#: lib/libalpm/util.c:598
 #, c-format
 msgid "could not fork a new process (%s)\n"
-msgstr "nie je možné spustiť nový proces (%s)\n"
+msgstr "ezin izan da prozesu berri bat sardetu (%s)\n"
 
-#: lib/libalpm/util.c:631
+#: lib/libalpm/util.c:621
 #, c-format
 msgid "could not change the root directory (%s)\n"
-msgstr "nie je možné zmeniť koreňový adresár (%s)\n"
+msgstr "ezin izan da erro direktorioa aldatu (%s)\n"
 
-#: lib/libalpm/util.c:642
+#: lib/libalpm/util.c:632
 #, c-format
 msgid "call to execv failed (%s)\n"
-msgstr "volanie execv zlyhalo (%s)\n"
+msgstr "execv deiak huts egin du (%s)\n"
+
+#: lib/libalpm/util.c:701
+#, c-format
+msgid "call to waitpid failed (%s)\n"
+msgstr "waitpid deiak huts egin du (%s)\n"
 
 #: lib/libalpm/util.c:711
 #, c-format
-msgid "call to waitpid failed (%s)\n"
-msgstr "volanie waitpid zlyhalo (%s)\n"
-
-#: lib/libalpm/util.c:721
-#, c-format
 msgid "command failed to execute correctly\n"
-msgstr "príkaz sa nepodarilo spustiť správne\n"
+msgstr "komandoa ez da behar bezala exekutatu\n"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:718
 #, c-format
 msgid "Unknown signal"
-msgstr "Neznámy signál"
+msgstr "Seinale ezezaguna"
 
-#: lib/libalpm/util.c:730
+#: lib/libalpm/util.c:720
 #, c-format
 msgid "command terminated by signal %d: %s\n"
-msgstr "príkaz bol ukončený signálom %d: %s\n"
+msgstr "%d seinaleak eten du komandoa: %s\n"
 
-#: lib/libalpm/util.c:827
+#: lib/libalpm/util.c:817
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "neexistuje cache %s, vytváram...\n"
+msgstr "ez dago %s katxerik, sortzen...\n"
 
-#: lib/libalpm/util.c:858
+#: lib/libalpm/util.c:848
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr ""
-"nie je možné nájsť alebo vytvoriť cache pre balíček,  miesto toho sa používa "
-"%s\n"
+msgstr "ezin izan da pakete katxea aurkitu edo sortu, %s erabiliko da ordez\n"
