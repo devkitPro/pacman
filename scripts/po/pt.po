@@ -6,9 +6,10 @@
 # ArchGalileu <geral@gasparsantos.eu>, 2011,2014
 # Bruno Guerreiro <american.jesus.pt@gmail.com>, 2016
 # DarkVenger, 2014
+# DarkVenger, 2014
 # ArchGalileu <geral@gasparsantos.eu>, 2011
 # R00KIE <registosites@hotmail.com>, 2013,2016
-# R00KIE <registosites@hotmail.com>, 2013,2016
+# R00KIE <registosites@hotmail.com>, 2013,2016-2017
 # R00KIE <registosites@hotmail.com>, 2011-2012
 # DarkVenger, 2014-2015
 # DarkVenger, 2011-2012
@@ -17,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2017-05-22 11:00+1000\n"
-"PO-Revision-Date: 2016-02-01 20:39+0000\n"
-"Last-Translator: Bruno Guerreiro <american.jesus.pt@gmail.com>\n"
+"PO-Revision-Date: 2017-05-22 10:29+0000\n"
+"Last-Translator: R00KIE <registosites@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/pt/)\n"
 "Language: pt\n"
@@ -560,7 +561,7 @@ msgstr "  --holdver        Não atualizar as fontes VCS"
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
-"  --key <key>      Especificar uma chave para assinar %s ao invés da por "
+"  --key <chave>      Especificar uma chave para assinar %s ao invés da por "
 "omissão"
 
 #: scripts/makepkg.sh.in:1742
@@ -821,14 +822,14 @@ msgstr "Opções:\n"
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
 msgstr ""
-"  --input, -p <file>    Script a ler, com instruções de construção (por "
+"  --input, -p <ficheiro>    Script a ler, com instruções de construção (por "
 "omissão: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
-"  --output, -o <file>   ficheiro onde colocar os resultados (por omissão: "
-"ficheiro de entrada)\n"
+"  --output, -o <ficheiro>   ficheiro onde colocar os resultados (por "
+"omissão: ficheiro de entrada)\n"
 
 #: scripts/makepkg-template.pl.in:180
 msgid "  --newest, -n          update templates to newest version\n"
@@ -844,7 +845,7 @@ msgstr ""
 
 #: scripts/makepkg-template.pl.in:182
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr "  --template-dir <dir>  diretório onde procurar por modelos\n"
+msgstr "  --template-dir <directoria>  diretório onde procurar por modelos\n"
 
 #: scripts/makepkg-template.pl.in:183
 #, perl-format
@@ -879,10 +880,9 @@ msgid "options:"
 msgstr "opções:"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -d, --dbpath <path>  set an alternate database location"
 msgstr ""
-"  -b, --dbpath <path>  define um local alternativo para a base de dados"
+"  -d, --dbpath <caminho>  definir um caminho alternativo para a base de dados"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
@@ -890,7 +890,8 @@ msgstr "  -h, --help           mostra esta mensagem de ajuda e sai"
 
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr "  -r, --root <path>    define um local alternativo para a instalação"
+msgstr ""
+"  -r, --root <caminho>    define um local alternativo para a instalação"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -V, --version        show version information and exit"
@@ -898,7 +899,8 @@ msgstr "  -V, --version        mostra informação sobre a versão e sai"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  --config <path>      set an alternate configuration file"
-msgstr "  --config <path>      define um ficheiro de configuração alternativo"
+msgstr ""
+"  --config <caminho>      define um ficheiro de configuração alternativo"
 
 #: scripts/pacman-db-upgrade.sh.in:48
 msgid "  --nocolor            disable colorized output messages"
@@ -1067,8 +1069,8 @@ msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
-"  --gpgdir <dir>            Definir um diretório alternativo para o GnuPG "
-"(ao invés\\n                            de '%s')"
+"  --gpgdir <directoria>            Definir um diretório alternativo para o "
+"GnuPG (ao invés\\n                            de '%s')"
 
 #: scripts/pacman-key.sh.in:86
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
@@ -1432,7 +1434,7 @@ msgstr ""
 #: scripts/repo-add.sh.in:55
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
 msgstr ""
-"Uso: repo-add [opções] <diretório-base-de-dados> <pacote|diferença> ...\\n"
+"Uso: repo-add [opções] <caminho-para-base-de-dados> <pacote|diferença> ...\\n"
 
 #: scripts/repo-add.sh.in:57
 msgid ""

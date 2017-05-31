@@ -17,19 +17,19 @@
 # Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2012-2013
 # Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2016
 # Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2013-2016
-# Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2017
+# Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2016-2017
 # Pedro Román <roizheim@gmail.com>, 2013-2016
 # picodotdev <pico.dev@gmail.com>, 2014,2016
 # Rodrigo Cares <rcares@gmail.com>, 2012
 # Pedro Román <roizheim@gmail.com>, 2013
-# Swyter <Swyterzone@gmail.com>, 2015
+# Swyter <Swyterzone@gmail.com>, 2015,2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2017-05-22 11:01+1000\n"
-"PO-Revision-Date: 2017-02-09 01:52+0000\n"
-"Last-Translator: Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>\n"
+"PO-Revision-Date: 2017-05-22 14:15+0000\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -111,7 +111,7 @@ msgstr "comprobando el depósito de claves...\n"
 #: src/pacman/callback.c:263
 #, c-format
 msgid "downloading required keys...\n"
-msgstr "descargando las claves requeridas...\n"
+msgstr "descargando las claves necesarias...\n"
 
 #: src/pacman/callback.c:267
 #, c-format
@@ -322,7 +322,7 @@ msgstr "%s: %s (La fecha de modificación no concuerda)\n"
 #: src/pacman/check.c:140
 #, c-format
 msgid "unable to read symlink contents: %s\n"
-msgstr "imposible leer los contenidos de los enlaces simbólicos: %s\n"
+msgstr "no se pudo leer los contenidos de los enlaces simbólicos: %s\n"
 
 #: src/pacman/check.c:147
 #, c-format
@@ -338,7 +338,7 @@ msgstr "%s: %s (El tamaño no concuerda)\n"
 #: src/pacman/check.c:320
 #, c-format
 msgid "path too long: %s%s\n"
-msgstr "ruta muy larga: %s%s\n"
+msgstr "la ruta es demasiado larga: %s%s\n"
 
 #: src/pacman/check.c:242 src/pacman/check.c:386
 #, c-format
@@ -360,9 +360,9 @@ msgid "%s: no mtree file\n"
 msgstr "%s: sin archivo mtree\n"
 
 #: src/pacman/check.c:312
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr "ruta muy larga: %s%s\n"
+msgstr "la ruta es demasiado larga: %slocal/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -669,7 +669,7 @@ msgstr "Repositorio"
 #: src/pacman/package.c:121
 #, c-format
 msgid "Required By"
-msgstr "Requerido por"
+msgstr "Exigido por"
 
 #: src/pacman/package.c:122 src/pacman/package.c:242
 #, c-format
@@ -931,7 +931,7 @@ msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search <vocablo>\n"
+"  -s, --search <término>\n"
 "                       busca los paquetes instalados que coincidan con la "
 "cadena especificada\n"
 
@@ -990,7 +990,7 @@ msgstr ""
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search <vocablo>  busca en los repositorios remotos las "
+"  -s, --search <término>  busca en los repositorios remotos las "
 "coincidencias con la cadena especificada\n"
 
 #: src/pacman/pacman.c:163
@@ -1346,7 +1346,7 @@ msgstr "Ningún paquete contiene %s\n"
 #: src/pacman/query.c:204
 #, c-format
 msgid "path too long: %s/\n"
-msgstr "ruta muy larga: %s/\n"
+msgstr "la ruta es demasiado larga: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format
@@ -1381,7 +1381,7 @@ msgstr "ignorando el objetivo: %s\n"
 #: src/pacman/remove.c:63 src/pacman/sync.c:546
 #, c-format
 msgid "target not found: %s\n"
-msgstr "destino no encontrado: %s\n"
+msgstr "no se ha encontrado el objetivo: %s\n"
 
 #: src/pacman/remove.c:118 src/pacman/sync.c:738
 #, c-format
@@ -1560,7 +1560,7 @@ msgstr "¿Continuar con la instalación?"
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
 msgstr ""
-"Imposible determinar los conflictos de %s respecto de directorios y/o "
+"no se pudo determinar los conflictos de %s respecto de directorios y/o "
 "archivos\n"
 
 #: src/pacman/sync.c:819

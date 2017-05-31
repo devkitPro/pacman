@@ -7,7 +7,7 @@
 # Hector Mtz-Seara <hseara@gmail.com>, 2011-2013
 # Josep <jpreales@gmail.com>, 2013
 # Josep <jpreales@gmail.com>, 2013
-# Davidmp <medipas@gmail.com>, 2015-2016
+# Davidmp <medipas@gmail.com>, 2015-2017
 # Ramon Buldó <rbuldo@gmail.com>, 2014-2015
 # xanb <xancorreu@gmail.com>, 2014
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2017-05-22 11:00+1000\n"
-"PO-Revision-Date: 2016-03-29 15:34+0000\n"
+"PO-Revision-Date: 2017-05-22 07:21+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -447,7 +447,7 @@ msgstr "Genera paquets compatibles amb Pacman"
 
 #: scripts/makepkg.sh.in:1716 scripts/pacman-db-upgrade.sh.in:40
 msgid "Usage: %s [options]"
-msgstr "Sintaxi: %s (opcions)"
+msgstr "Sintaxi: %s [opcions]"
 
 #: scripts/makepkg.sh.in:1718 scripts/pacman-key.sh.in:81
 msgid "Options:"
@@ -743,7 +743,7 @@ msgstr "Paquet de codi font creat: %s"
 
 #: scripts/makepkg.sh.in:2177
 msgid "Skipping dependency checks."
-msgstr "Ometent la comprovació de les dependències."
+msgstr "S'omet la comprovació de dependències."
 
 #: scripts/makepkg.sh.in:2185
 msgid "Checking runtime dependencies..."
@@ -892,10 +892,9 @@ msgid "options:"
 msgstr "opcions:"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -d, --dbpath <path>  set an alternate database location"
 msgstr ""
-"  -b, --dbpath <ruta>  estableix una ubicació alternativa de la base de dades"
+"  -d, --dbpath <camí>  estableix una ubicació de base de dades alternativa"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
@@ -903,7 +902,7 @@ msgstr "  -h, --help           mostra aquest missatge d'ajuda i surt"
 
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr "  -r, --root <ruta>    estableix una arrel d'instal·lació alternativa"
+msgstr "  -r, --root <camí>    estableix una arrel d'instal·lació alternativa"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -V, --version        show version information and exit"
@@ -911,7 +910,7 @@ msgstr "  -V, --version        mostra la informació de la versió i surt"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  --config <path>      set an alternate configuration file"
-msgstr "  --config <ruta>       estableix un fitxer de configuració alternatiu"
+msgstr "  --config <camí>       estableix un fitxer de configuració alternatiu"
 
 #: scripts/pacman-db-upgrade.sh.in:48
 msgid "  --nocolor            disable colorized output messages"
@@ -966,7 +965,7 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
-msgstr "Ús: %s [opcions] operació [objectius]"
+msgstr "Sintaxi: %s [opcions] operació [objectius]"
 
 #: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
@@ -1257,7 +1256,7 @@ msgstr "No s'han especificat objectius"
 
 #: scripts/pacman-optimize.sh.in:38
 msgid "Usage: %s [--nocolor] [pacman_db_root]"
-msgstr "Ús: %s [--nocolor] [pacman_db_root]"
+msgstr "Sintaxi: %s [--nocolor] [pacman_db_root]"
 
 #: scripts/pacman-optimize.sh.in:39
 msgid ""
@@ -1346,7 +1345,7 @@ msgstr "Ha acabat. S'ha optimitzat la base de dades del pacman."
 
 #: scripts/pkgdelta.sh.in:51
 msgid "Usage: pkgdelta [options] <package1> <package2>\\n"
-msgstr "Ús: pkgdelta [opcions] <paquet1> <paquet2>\\n"
+msgstr "Sintaxi: pkgdelta [opcions] <paquet1> <paquet2>\\n"
 
 #: scripts/pkgdelta.sh.in:53
 msgid ""
@@ -1442,7 +1441,7 @@ msgstr "No es pot trobar el binari xdelta3! Està instal·lat xdelta3?"
 
 #: scripts/repo-add.sh.in:55
 msgid "Usage: repo-add [options] <path-to-db> <package|delta> ...\\n"
-msgstr "Utilització: repo-add [opcions] <path-to-db> <package|delta> ...\\n"
+msgstr "Sintaxi: repo-add [opcions] <path-to-db> <package|delta> ...\\n"
 
 #: scripts/repo-add.sh.in:57
 msgid ""
@@ -1477,8 +1476,7 @@ msgstr ""
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
 msgstr ""
-"Utilització: repo-remove [opcions] <ruta-a-baseDeDades> <nomPaquet|delta> ..."
-"\\n"
+"Sintaxi: repo-remove [opcions] <camí-a-baseDeDades> <nomPaquet|delta> ...\\n"
 
 #: scripts/repo-add.sh.in:68
 msgid ""
@@ -1527,12 +1525,12 @@ msgstr ""
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Exemple:  repo-add /ruta/a/repositori.db.tar.gz pacman-3.0.0-1-i686.pkg.tar."
+"Exemple:  repo-add /camí/a/repositori.db.tar.gz pacman-3.0.0-1-i686.pkg.tar."
 "gz\\n"
 
 #: scripts/repo-add.sh.in:89
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Exemple:  repo-remove /ruta/a/repositori.db.tar.gz kernel26\\n"
+msgstr "Exemple:  repo-remove /camí/a/repositori.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
 msgid ""

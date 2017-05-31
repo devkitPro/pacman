@@ -7,15 +7,15 @@
 # Alexander F Rødseth <rodseth@gmail.com>, 2011-2014
 # Harald H. <haarektrans@gmail.com>, 2015
 # Harald H. <haarektrans@gmail.com>, 2015
-# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013-2015
-# Thor K. H. <nitrolinken@gmail.com>, 2015-2016
+# Jon Gjengset <jon@thesquareplanet.com>, 2011,2013-2015,2017
+# Thor K. H. <nitrolinken@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2017-05-22 11:01+1000\n"
-"PO-Revision-Date: 2017-02-17 08:57+0000\n"
-"Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
+"PO-Revision-Date: 2017-05-22 06:06+0000\n"
+"Last-Translator: Thor K. H. <nitrolinken@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/nb/)\n"
 "Language: nb\n"
@@ -345,9 +345,9 @@ msgid "%s: no mtree file\n"
 msgstr "%s: ingen mtree fil\n"
 
 #: src/pacman/check.c:312
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr "stien er for lang: %s%s\n"
+msgstr "filstien er for lang: %slokal/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -799,7 +799,7 @@ msgstr "      -u, --unneeded fjern unødvendige pakker\n"
 #: src/pacman/pacman.c:132 src/pacman/pacman.c:167
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "--needed ikke reinstallér oppdaterte pakker\n"
+msgstr "      --needed         ikke reinstallér oppdaterte pakker\n"
 
 #: src/pacman/pacman.c:137
 #, c-format
@@ -907,7 +907,8 @@ msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr ""
-"-c, --clean fjern gamle pakker fra mellomlagringsmappen (-cc for alt)\n"
+"  -c, --clean          fjern gamle pakker fra mellomlagringsmappen (-cc for "
+"alt)\n"
 
 #: src/pacman/pacman.c:157
 #, c-format
@@ -915,20 +916,22 @@ msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
 msgstr ""
-"-g, --groups vis alle medlemmer i en pakkegruppe\n"
-"(bruk -gg for å vise alle grupper og medlemmer)\n"
+"  -g, --groups         vis alle medlemmer i en pakkegruppe\n"
+"                       (bruk -gg for å vise alle grupper og medlemmer)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr "-i, --info vis pakkeinformasjon (bruk -ii for utvidet informasjon)\n"
+msgstr ""
+"  -i, --info           vis pakkeinformasjon (bruk -ii for utvidet "
+"informasjon)\n"
 
 #: src/pacman/pacman.c:160
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
-msgstr "-l, --list <brønn> vis en liste over pakker i en pakkebrønn\n"
+msgstr "  -l, --list <brønn>   vis en liste over pakker i en pakkebrønn\n"
 
 #: src/pacman/pacman.c:162
 #, c-format
@@ -952,7 +955,8 @@ msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
 msgstr ""
-"-w, --downloadonly last ned pakker uten å installere/oppgradere noen ting\n"
+"  -w, --downloadonly   last ned pakker uten å installere/oppgradere noen "
+"ting\n"
 
 #: src/pacman/pacman.c:165 src/pacman/pacman.c:183
 #, c-format

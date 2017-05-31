@@ -9,14 +9,14 @@
 # Josep <jpreales@gmail.com>, 2011,2013-2014
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011
-# Davidmp <medipas@gmail.com>, 2015-2016
+# Davidmp <medipas@gmail.com>, 2015-2017
 # Ramon Buldó <rbuldo@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2017-05-22 11:01+1000\n"
-"PO-Revision-Date: 2016-05-17 14:36+0000\n"
+"PO-Revision-Date: 2017-05-22 07:29+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -348,9 +348,9 @@ msgid "%s: no mtree file\n"
 msgstr "%s: no hi ha fitxer mtree\n"
 
 #: src/pacman/check.c:312
-#, fuzzy, c-format
+#, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr "el camí és massa llarg:%s%s\n"
+msgstr "el camí és massa llarg: %slocal/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -1127,21 +1127,21 @@ msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
-"--print-format <string>\n"
+"--print-format <cadena>\n"
 "especifica com s'han d'imprimir els objectius\n"
 
 #: src/pacman/pacman.c:211
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr ""
-"  -b, --dbpath <ruta>  estableix una ubicació alternativa de la base de "
+"  -b, --dbpath <camí>  estableix una ubicació alternativa de la base de "
 "dades\n"
 
 #: src/pacman/pacman.c:212
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr ""
-"  -r, --root <ruta>    estableix una arrel d'instal·lació alternativa\n"
+"  -r, --root <camí>    estableix una arrel d'instal·lació alternativa\n"
 
 #: src/pacman/pacman.c:213
 #, c-format
@@ -1151,7 +1151,7 @@ msgstr "  -v, --verbose        detallat\n"
 #: src/pacman/pacman.c:214
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --arch <arch>    estableix una arquitectura alternativa\n"
+msgstr "      --arch <arq>    estableix una arquitectura alternativa\n"
 
 #: src/pacman/pacman.c:215
 #, c-format
@@ -1174,7 +1174,7 @@ msgstr "      --color <quan>   empra color al text de sortida\n"
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr ""
-"      --config <ruta>  estableix un fitxer de configuració alternatiu\n"
+"      --config <camí>  estableix un fitxer de configuració alternatiu\n"
 
 #: src/pacman/pacman.c:219
 #, c-format
@@ -1184,12 +1184,12 @@ msgstr "      --debug          mostra missatges de depuració\n"
 #: src/pacman/pacman.c:220
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --gpgdir <ruta>  estableix un directori alternatiu per a GnuPG\n"
+msgstr "      --gpgdir <camí>  estableix un directori alternatiu per a GnuPG\n"
 
 #: src/pacman/pacman.c:221
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <ruta> estableix un fitxer de registre alternatiu\n"
+msgstr "      --logfile <camí> estableix un fitxer de registre alternatiu\n"
 
 #: src/pacman/pacman.c:222
 #, c-format
@@ -1297,7 +1297,7 @@ msgstr "ha fallat llegir el fitxer «%s»: %s\n"
 #: src/pacman/query.c:188
 #, c-format
 msgid "cannot determine real path for '%s': %s\n"
-msgstr "no es pot determinar la ruta real per a «%s»: %s\n"
+msgstr "no es pot determinar el camí real per a «%s»: %s\n"
 
 #: src/pacman/query.c:195 src/pacman/query.c:216
 #, c-format
@@ -1307,7 +1307,7 @@ msgstr "Cap paquet no posseeix %s\n"
 #: src/pacman/query.c:204
 #, c-format
 msgid "path too long: %s/\n"
-msgstr "ruta d'accés massa llarga: %s/\n"
+msgstr "camí d'accés massa llarg: %s/\n"
 
 #: src/pacman/query.c:329
 #, c-format

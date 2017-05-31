@@ -13,18 +13,18 @@
 # Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2013
 # Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2016
 # Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2013-2016
-# Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2017
+# Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2013,2016-2017
 # Pedro Román <roizheim@gmail.com>, 2013-2016
 # picodotdev <pico.dev@gmail.com>, 2015-2016
 # Pedro Román <roizheim@gmail.com>, 2013
-# Swyter <Swyterzone@gmail.com>, 2015
+# Swyter <Swyterzone@gmail.com>, 2015,2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2017-05-22 11:00+1000\n"
-"PO-Revision-Date: 2017-02-09 01:53+0000\n"
-"Last-Translator: Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>\n"
+"PO-Revision-Date: 2017-05-22 14:23+0000\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -55,11 +55,11 @@ msgstr "Versión actualizada: %s"
 
 #: scripts/makepkg.sh.in:194
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr "%s no se puede escribir -- pkgver no se actualizará"
+msgstr "%s no se puede escribir -- no se actualizará el valor pkgver"
 
 #: scripts/makepkg.sh.in:202
 msgid "Unable to find source file %s."
-msgstr "Imposible encontrar el archivo fuente %s."
+msgstr "No se pudo encontrar el archivo fuente %s."
 
 #: scripts/makepkg.sh.in:203 scripts/makepkg.sh.in:746
 #: scripts/makepkg.sh.in:1192 scripts/makepkg.sh.in:1459
@@ -114,7 +114,7 @@ msgstr "Generando las sumas de control para los archivos fuentes..."
 #: scripts/makepkg.sh.in:419
 msgid "Cannot find the %s binary required for generating sourcefile checksums."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para generar las sumas de "
+"No se pudo encontrar el binario %s, necesario para generar las sumas de "
 "control de las fuentes."
 
 #: scripts/makepkg.sh.in:433
@@ -150,7 +150,7 @@ msgstr "¡Uno o más archivos no superaron el control de validación!"
 msgid "Integrity checks (%s) differ in size from the source array."
 msgstr ""
 "Los controles de integridad (%s) difieren en tamaño de los especificados en "
-"la fuente."
+"la fuente («source»)."
 
 #: scripts/makepkg.sh.in:542
 msgid "Integrity checks are missing for: %s"
@@ -207,15 +207,15 @@ msgstr "la clave ha caducado."
 
 #: scripts/makepkg.sh.in:714
 msgid "One or more PGP signatures could not be verified!"
-msgstr "¡Una o más firmas PGP no pudieron ser verificadas!"
+msgstr "¡No se ha podido verificar alguna de las firmas PGP!"
 
 #: scripts/makepkg.sh.in:719
 msgid "Warnings have occurred while verifying the signatures."
-msgstr "Se han advertido errores al verificar las firmas."
+msgstr "Se han encontrado posibles problemas al verificar las firmas."
 
 #: scripts/makepkg.sh.in:720
 msgid "Please make sure you really trust them."
-msgstr "Asegúrese de que realmente confía en ellas."
+msgstr "Asegúrese de confiar plenamente en ellas."
 
 #: scripts/makepkg.sh.in:726
 msgid "Skipping all source file integrity checks."
@@ -243,7 +243,7 @@ msgstr "Iniciando %s()..."
 
 #: scripts/makepkg.sh.in:949
 msgid "Library listed in %s is not required by any files: %s"
-msgstr "La biblioteca listada en %s no es requerida por los archivos: %s"
+msgstr "La biblioteca listada en %s no es necesaria: %s"
 
 #: scripts/makepkg.sh.in:978
 msgid "Library listed in %s is not versioned: %s"
@@ -345,7 +345,7 @@ msgstr "Instalando el grupo de paquetes %s con %s..."
 
 #: scripts/makepkg.sh.in:1439
 msgid "Failed to install built package(s)."
-msgstr "Hubo fallos al instalar el/los paquete(s) compilado(s)."
+msgstr "Hubo fallos al instalar el (o los) paquetes compilados."
 
 #: scripts/makepkg.sh.in:1458 scripts/libmakepkg/util/source.sh.in:129
 msgid "Unknown download protocol: %s"
@@ -354,7 +354,7 @@ msgstr "Protocolo de descarga desconocido: %s"
 #: scripts/makepkg.sh.in:1475
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
-"No se pudo encontrar el binario requerido %s para verificar las fuentes CVS."
+"No se pudo encontrar el binario necesario %s para verificar las fuentes CVS."
 
 #: scripts/makepkg.sh.in:1503
 msgid "Cannot find the %s package needed to handle %s sources."
@@ -363,8 +363,8 @@ msgstr "No se pudo encontrar el paquete %s para manejar las fuentes %s."
 #: scripts/makepkg.sh.in:1526
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para las operaciones de "
-"dependencia"
+"No se pudo encontrar el binario %s, necesario para resolver las operaciones "
+"de dependencia."
 
 #: scripts/makepkg.sh.in:1534
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
@@ -378,51 +378,52 @@ msgstr "No se pudo encontrar el binario %s."
 
 #: scripts/makepkg.sh.in:1549
 msgid "Cannot find the %s binary required for signing packages."
-msgstr "No se pudo encontrar el binario %s requerido para firmar paquetes."
+msgstr "No se pudo encontrar el binario %s, necesario para firmar paquetes."
 
 #: scripts/makepkg.sh.in:1557
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para verificar las fuentes."
+"No se pudo encontrar el binario %s, necesario para verificar las fuentes."
 
 #: scripts/makepkg.sh.in:1565
 msgid ""
 "Cannot find the %s binary required for validating source file checksums."
 msgstr ""
-"No se pudo encontrar el binario %s necesario para verificar las sumas de "
+"No se pudo encontrar el binario %s, necesario para verificar las sumas de "
 "control de las fuentes."
 
 #: scripts/makepkg.sh.in:1573
 msgid "Cannot find the %s binary required for compressing binaries."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para comprimir los binarios."
+"No se pudo encontrar el binario %s, necesario para comprimir los binarios."
 
 #: scripts/makepkg.sh.in:1581
 msgid "Cannot find the %s binary required for optimizing PNG images."
 msgstr ""
-"No se pudo encontrar el binario %s necesario para optimizar imágenes PNG."
+"No se pudo encontrar el binario %s, necesario para optimizar imágenes PNG."
 
 #: scripts/makepkg.sh.in:1589
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para la compilación distribuida."
+"No se pudo encontrar el binario %s, necesario para la compilación "
+"distribuida."
 
 #: scripts/makepkg.sh.in:1597
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para el uso de la caché del "
+"No se pudo encontrar el binario %s, necesario para utilizar la caché del "
 "compilador."
 
 #: scripts/makepkg.sh.in:1605
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para desmontar el archivo en "
-"cuestión."
+"No se pudo encontrar el binario %s, necesario para despojar los símbolos "
+"innecesarios de los binarios intermedios."
 
 #: scripts/makepkg.sh.in:1613
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para comprimir las páginas man "
+"No se pudo encontrar el binario %s, necesario para comprimir las páginas man "
 "e info."
 
 #: scripts/makepkg.sh.in:1633
@@ -657,11 +658,11 @@ msgid ""
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2006-2016 Equipo de desarrollo de pacman <pacman-"
-"dev@archlinux.org>\\nDerechos de autor (c) 2002-2006 Judit Vinet "
-"<jvinet@zeroflux.org>\\n\\nEsto es software libre; véase el código fuente "
-"para condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el "
-"programa, hasta lo permitido por las leyes aplicables.\\n"
+"Copyright (c) 2006-2016 El equipo de desarrollo de pacman <pacman-"
+"dev@archlinux.org>\\nCopyright (c) 2002-2006 Judit Vinet <jvinet@zeroflux."
+"org>\\n\\nEsto es software libre; véase el código fuente para las "
+"condiciones de copia.\\nEste programa no ofrece NINGUNA GARANTÍA más allá de "
+"la aplicable por ley.\\n"
 
 #: scripts/makepkg.sh.in:1870 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -701,7 +702,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1997
 msgid "Do not use the %s option. This option is only for use by %s."
-msgstr "No use la opción %s. Esta opción solamente debe ser usada por %s."
+msgstr "No use la opción %s. Sólo la puede usar %s."
 
 #: scripts/makepkg.sh.in:2008
 msgid "%s does not exist."
@@ -873,11 +874,11 @@ msgid ""
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Derechos de autor (c) 2013-2016 Equipo de desarrollo de pacman <pacman-"
+"Copyright  (c) 2013-2016 El equipo de desarrollo de pacman <pacman-"
 "dev@archlinux.org>.\n"
-"Esto es software libre; véase el código fuente para condiciones de copia.\n"
-"No se ofrece NINGUNA GARANTÍA sobre el programa, hasta lo permitido por las "
-"leyes aplicables.\n"
+"Esto es software libre; véase el código fuente para las condiciones de "
+"copia.\n"
+"Este programa no ofrece NINGUNA GARANTÍA más allá de la aplicable por ley.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:38
 msgid "Upgrade the local pacman database to a newer format"
@@ -888,11 +889,9 @@ msgid "options:"
 msgstr "opciones:"
 
 #: scripts/pacman-db-upgrade.sh.in:43
-#, fuzzy
 msgid "  -d, --dbpath <path>  set an alternate database location"
 msgstr ""
-"  -b, --dbpath <ruta>  establece una ubicación de la base de datos "
-"alternativa"
+"-d, --dbpath <ruta> establece una ubicación de base de datos alternativa"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -h, --help           show this help message and exit"
@@ -921,10 +920,10 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2010-2016 Equipo de desarrollo de pacman <pacman-"
+"Copyright  (c) 2010-2016 El equipo de desarrollo de pacman <pacman-"
 "dev@archlinux.org>.\\nEsto es software libre; véase el código fuente para "
-"condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el programa, "
-"hasta lo permitido por las leyes aplicables.\\n"
+"las condiciones de copia.\\nEste programa no ofrece NINGUNA GARANTÍA más "
+"allá de la aplicable por ley.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:132 scripts/pacman-optimize.sh.in:105
 #: scripts/repo-add.sh.in:514
@@ -960,8 +959,8 @@ msgstr "Formato de base de datos previo a 4.2 encontrado, actualizando..."
 #: scripts/pacman-db-upgrade.sh.in:195
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
-"el enlace simbólico «%s» apunta fuera de la raíz de pacman, es necesario una "
-"reparación manual"
+"el enlace simbólico «%s» apunta fuera de la raíz de pacman, por lo que se "
+"necesita una reparación manual"
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
@@ -1165,15 +1164,15 @@ msgstr "Desactivando la clave %s..."
 
 #: scripts/pacman-key.sh.in:334
 msgid "A specified keyfile could not be added to the keyring."
-msgstr "El archivo de clave especificado no se pudo agregar al depósito."
+msgstr "Uno de los archivos de claves no se ha podido añadir al depósito."
 
 #: scripts/pacman-key.sh.in:342
 msgid "A specified key could not be removed from the keyring."
-msgstr "La clave especificada no se pudo quitar del depósito."
+msgstr "Una de las claves no se ha podido quitar del depósito."
 
 #: scripts/pacman-key.sh.in:352
 msgid "The key identified by %s could not be edited."
-msgstr "La clave identificada por %s no se pudo editar."
+msgstr "No se ha podido editar la clave identificada por %s."
 
 #: scripts/pacman-key.sh.in:364
 msgid "A specified key could not be exported from the keyring."
@@ -1193,11 +1192,11 @@ msgstr "El archivo %s no existe y no puede ser importado."
 
 #: scripts/pacman-key.sh.in:420
 msgid "A specified key could not be listed."
-msgstr "La clave especificada no se pudo listar."
+msgstr "Una de las claves no se ha podido listar."
 
 #: scripts/pacman-key.sh.in:428
 msgid "A specified signature could not be listed."
-msgstr "La firma especificada no pudo ser listada."
+msgstr "Una de las firmas no se ha podido listar."
 
 #: scripts/pacman-key.sh.in:438
 msgid "Locally signing key %s..."
@@ -1205,7 +1204,7 @@ msgstr "Firmando localmente la clave %s..."
 
 #: scripts/pacman-key.sh.in:442
 msgid "%s could not be locally signed."
-msgstr "%s no pudo ser firmada localmente."
+msgstr "No se ha podido firmar %s localmente."
 
 #: scripts/pacman-key.sh.in:469
 msgid "Remote key not fetched correctly from keyserver."
@@ -1233,7 +1232,7 @@ msgstr "No se pudo actualizar la base de datos de claves de confianza."
 #: scripts/pacman-key.sh.in:559
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para todas las operaciones de "
+"No se pudo encontrar el binario %s, necesario para todas las operaciones de "
 "%s."
 
 #: scripts/pacman-key.sh.in:564
@@ -1291,7 +1290,7 @@ msgstr ""
 #: scripts/pacman-optimize.sh.in:101
 msgid "Cannot find the %s binary required for verifying integrity."
 msgstr ""
-"No se pudo encontrar el binario %s requerido para verificar la integridad."
+"No se pudo encontrar el binario %s, necesario para verificar la integridad."
 
 #: scripts/pacman-optimize.sh.in:109
 msgid "You must have correct permissions to optimize the database."
@@ -1400,10 +1399,9 @@ msgid ""
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nEsto "
-"es software libre; véase el código fuente para condiciones de copia.\\nNo se "
-"ofrece NINGUNA GARANTÍA sobre el programa, hasta lo permitido por las leyes "
-"aplicables.\\n"
+"Copyright  (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nEsto es "
+"software libre; véase el código fuente para las condiciones de copia.\\nEste "
+"programa no ofrece NINGUNA GARANTÍA más allá de la aplicable por ley.\\n"
 
 #: scripts/pkgdelta.sh.in:94 scripts/repo-add.sh.in:346
 msgid "Invalid package file '%s'."
@@ -1547,10 +1545,10 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Derechos de autor (c) 2006-2016 Equipo de desarrollo de pacman <pacman-"
+"Copyright (c) 2006-2016 El equipo de desarrollo de pacman <pacman-"
 "dev@archlinux.org>\\n\\nEsto es software libre; véase el código fuente para "
-"condiciones de copia.\\nNo se ofrece NINGUNA GARANTÍA sobre el programa, "
-"hasta lo permitido por las leyes aplicables.\\n"
+"las condiciones de copia.\\nEste programa no ofrece NINGUNA GARANTÍA más "
+"allá de la aplicable por ley.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1558,7 +1556,7 @@ msgstr "No hay registros en la base de datos para el paquete «%s»."
 
 #: scripts/repo-add.sh.in:164
 msgid "Adding 'deltas' entry : %s -> %s"
-msgstr "Agregando entradas de «diferenciales»: %s -> %s"
+msgstr "Añadiendo entradas de «diferenciales»: %s -> %s"
 
 #: scripts/repo-add.sh.in:192 scripts/repo-add.sh.in:479
 msgid "Removing existing entry '%s'..."
@@ -1667,7 +1665,7 @@ msgstr "No fue encontrado el archivo «%s»."
 
 #: scripts/repo-add.sh.in:574
 msgid "Adding delta '%s'"
-msgstr "Agregando el diferencial «%s»"
+msgstr "Añadiendo el diferencial «%s»"
 
 #: scripts/repo-add.sh.in:584
 msgid "'%s' is not a package file, skipping"
@@ -1675,7 +1673,7 @@ msgstr "«%s» no es un archivo del paquete, ignorándolo"
 
 #: scripts/repo-add.sh.in:588
 msgid "Adding package '%s'"
-msgstr "Agregando el paquete «%s»"
+msgstr "Añadiendo el paquete «%s»"
 
 #: scripts/repo-add.sh.in:596
 msgid "Searching for delta '%s'..."
@@ -1744,7 +1742,7 @@ msgstr "La entrada %s no debería contener barra diagonal inicial: %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/epoch.sh.in:34
 msgid "%s must be an integer, not %s."
-msgstr "%s debe ser un entero, no %s."
+msgstr "%s debe ser un número entero, no %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/optdepends.sh.in:58
 msgid "Invalid syntax for %s: '%s'"
@@ -1752,7 +1750,7 @@ msgstr "La sintaxis no es válida para %s: «%s»"
 
 #: scripts/libmakepkg/lint_pkgbuild/options.sh.in:52
 msgid "%s array contains unknown option '%s'"
-msgstr "La matriz %s contiene una opción desconocida: «%s»"
+msgstr "El «array» %s contiene una opción desconocida: «%s»"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:38
 msgid "Missing %s function in %s"
@@ -1792,11 +1790,13 @@ msgstr "%s no puede contener dos puntos, guiones o espacios en blanco."
 
 #: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:56
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr "La matriz %s no puede contener operadores de comparación (< o >)."
+msgstr "El «array» %s no puede contener operadores de comparación (< o >)."
 
 #: scripts/libmakepkg/lint_pkgbuild/source.sh.in:36
 msgid "Sparse arrays are not allowed for source"
-msgstr "Las matrices dispersas no están permitidas para el código fuente"
+msgstr ""
+"No se pueden utilizar valores dispersos («sparse arrays») en la fuente "
+"(«source»)"
 
 #: scripts/libmakepkg/lint_pkgbuild/util.sh.in:34
 msgid "%s file (%s) does not exist or is not a regular file."
@@ -1917,8 +1917,8 @@ msgstr "Hubo fallos durante la actualización de %s del repositorio %s"
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
 msgstr ""
-"%s no fue encontrado en el directorio de compilación, y no es una dirección "
-"URL."
+"No se ha encontrado %s en el directorio de compilación, y no es una "
+"dirección URL."
 
 #: scripts/libmakepkg/tidy.sh.in:41
 msgid "Tidying install..."

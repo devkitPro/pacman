@@ -12,15 +12,16 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
 # Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2013-2016
-# Pedro Román <roizheim@gmail.com>, 2013-2014,2016
+# Pablo Roberto “Jristz” Lezaeta Reyes <prflr88@gmail.com>, 2017
+# Pedro Román <roizheim@gmail.com>, 2013-2014,2016-2017
 # picodotdev <pico.dev@gmail.com>, 2016
-# Swyter <Swyterzone@gmail.com>, 2015
+# Swyter <Swyterzone@gmail.com>, 2015,2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2017-05-22 11:00+1000\n"
-"PO-Revision-Date: 2016-10-27 12:58+0000\n"
+"PO-Revision-Date: 2017-05-26 17:54+0000\n"
 "Last-Translator: Pedro Román <roizheim@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
@@ -49,6 +50,7 @@ msgstr "revertiendo a una versión anterior del paquete %s (%s => %s)\n"
 #, c-format
 msgid "cannot allocate disk archive object"
 msgstr ""
+"memoria insuficiente en el sistema para lograr los objetivos del archivo"
 
 #: lib/libalpm/add.c:138 lib/libalpm/util.c:379
 #, c-format
@@ -242,7 +244,7 @@ msgstr "no se pudo leer correctamente el archivo de firma: %s\n"
 #: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:1113
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "la clave requerida no está presente en el depósito\n"
+msgstr "la clave necesaria no está presente en el depósito\n"
 
 #: lib/libalpm/be_sync.c:62
 #, c-format
@@ -261,7 +263,7 @@ msgstr ""
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr ""
 "la base de datos %s es inconsistente: el nombre del archivo del paquete %s "
-"es ilegal\n"
+"no entra dentro de lo permisible\n"
 
 #: lib/libalpm/be_sync.c:556
 #, c-format
@@ -288,12 +290,12 @@ msgstr "bucle de dependencias detectado:\n"
 #: lib/libalpm/deps.c:232
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s será quitado después de su dependencia %s\n"
+msgstr "%s se quitará después de su dependencia %s\n"
 
 #: lib/libalpm/deps.c:236
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr "%s será instalado antes que su dependencia %s\n"
+msgstr "%s se instalará antes de su dependencia %s\n"
 
 #: lib/libalpm/deps.c:678 lib/libalpm/deps.c:710
 #, c-format
@@ -334,7 +336,7 @@ msgstr "no se pudo determinar el punto de montaje para el archivo %s\n"
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 msgstr ""
-"Partición %s demasiado llena: se necesitan %jd bloques, hay %ju bloques "
+"La partición %s está llena: se necesitan %jd bloques, hay %ju bloques "
 "libres\n"
 
 #: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
@@ -383,8 +385,8 @@ msgstr "no se pudo obtener el archivo «%s» desde %s: %s\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
-"no se pudo obtener el archivo «%s» desde %s : tamaño de la descarga superior "
-"del esperado\n"
+"no se pudo obtener el archivo «%s» desde %s : el tamaño de descarga supera "
+"lo esperado\n"
 
 #: lib/libalpm/dload.c:548
 #, c-format
@@ -419,7 +421,7 @@ msgstr "no se pudo encontrar o leer el archivo"
 #: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
-msgstr "no se pudo encontrar o leer el directorio"
+msgstr "no se pudo encontrar (o leer) el directorio"
 
 #: lib/libalpm/error.c:50
 #, c-format
