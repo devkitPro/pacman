@@ -1,5 +1,23 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.0.2         - fix database file checks with -Qkk and non-standard root
+                (FS#48563)
+              - improve optdepend detection for status messages (FS#44957)
+              - make Y/N prompt multi-byte-character aware (FS#47992)
+              - properly detect dependency cycles with --recursive (FS#41031)
+              - improve free disk space calculation (FS#37402)
+              - extract database files with --dbonly (FS#52052)
+              - repo-add:
+                - do not alter the database if only verifying signature
+                  (FS#48085)
+                - fix error for directories containing whitespace (FS#50285)
+              - makepkg:
+                - fix building packages with only architecture-specific
+                  sources (FS#48340)
+                - ignore PKGBUILD architecture for --printsrcinfo
+                - do not die on non-empty directories under !emptydirs
+                  (FS#48515)
+                - preserve checksum type for architecture-specific sources
 5.0.1         - fix alignment issues with wide character locales (FS#47980)
               - fix removal of .pacnew files (FS#47993)
               - fix triggering of Install hooks (FS#47996)
