@@ -64,7 +64,7 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 		goto cleanup;
 	}
 
-	/* to contatenate myhandle->root (ends with a slash) with SYSHOOKDIR (starts
+	/* to concatenate myhandle->root (ends with a slash) with SYSHOOKDIR (starts
 	 * with a slash) correctly, we skip SYSHOOKDIR[0]; the regular +1 therefore
 	 * disappears from the allocation */
 	MALLOC(hookdir, strlen(myhandle->root) + strlen(SYSHOOKDIR), goto nomem);
