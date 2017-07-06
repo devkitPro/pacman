@@ -33,7 +33,7 @@ check_pgpsigs() {
 	msg "$(gettext "Verifying source file signatures with %s...")" "gpg"
 
 	local netfile proto pubkey success status fingerprint trusted
-	local warning=0
+	local warnings=0
 	local errors=0
 	local statusfile=$(mktemp)
 	local all_sources
