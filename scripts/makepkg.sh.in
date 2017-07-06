@@ -667,13 +667,21 @@ write_pkginfo() {
 write_buildinfo() {
 	msg2 "$(gettext "Generating %s file...")" ".BUILDINFO"
 
-	write_kv_pair "builddir"  "${BUILDDIR}"
+	write_kv_pair "format" "1"
+
+	write_kv_pair "pkgname" "$pkgname"
+	write_kv_pair "pkgbase" "$pkgbase"
+
+	local fullver=$(get_full_version)
+	write_kv_pair "pkgver" "$fullver"
 
 	local sum="$(sha256sum "${BUILDFILE}")"
 	sum=${sum%% *}
-
 	write_kv_pair "pkgbuild_sha256sum" $sum
 
+	write_kv_pair "packager" "${PACKAGER}"
+	write_kv_pair "builddate" "${SOURCE_DATE_EPOCH}"
+	write_kv_pair "builddir"  "${BUILDDIR}"
 	write_kv_pair "buildenv" "${BUILDENV[@]}"
 	write_kv_pair "options" "${OPTIONS[@]}"
 
