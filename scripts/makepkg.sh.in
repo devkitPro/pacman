@@ -644,9 +644,6 @@ write_pkginfo() {
 
 	local fullver=$(get_full_version)
 	write_kv_pair "pkgver" "$fullver"
-	if [[ "$fullver" != "$basever" ]]; then
-		write_kv_pair "basever" "$basever"
-	fi
 
 	# TODO: all fields should have this treatment
 	local spd="${pkgdesc//+([[:space:]])/ }"
