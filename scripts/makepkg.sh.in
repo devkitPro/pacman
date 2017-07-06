@@ -638,9 +638,7 @@ write_pkginfo() {
 	printf "# using %s\n" "$(fakeroot -v)"
 
 	write_kv_pair "pkgname" "$pkgname"
-	if (( SPLITPKG )) || [[ "$pkgbase" != "$pkgname" ]]; then
-		write_kv_pair "pkgbase" "$pkgbase"
-	fi
+	write_kv_pair "pkgbase" "$pkgbase"
 
 	local fullver=$(get_full_version)
 	write_kv_pair "pkgver" "$fullver"
