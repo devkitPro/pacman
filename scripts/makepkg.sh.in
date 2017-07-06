@@ -622,12 +622,6 @@ write_kv_pair() {
 }
 
 write_pkginfo() {
-	if [[ -n $PACKAGER ]]; then
-		local packager="$PACKAGER"
-	else
-		local packager="Unknown Packager"
-	fi
-
 	local size="$(@DUPATH@ @DUFLAGS@)"
 	size="$(( ${size%%[^0-9]*} * 1024 ))"
 
@@ -651,7 +645,7 @@ write_pkginfo() {
 	write_kv_pair "pkgdesc" "$spd"
 	write_kv_pair "url" "$url"
 	write_kv_pair "builddate" "$SOURCE_DATE_EPOCH"
-	write_kv_pair "packager" "$packager"
+	write_kv_pair "packager" "$PACKAGER"
 	write_kv_pair "size" "$size"
 	write_kv_pair "arch" "$pkgarch"
 
@@ -1430,6 +1424,7 @@ PKGEXT=${_PKGEXT:-$PKGEXT}
 SRCEXT=${_SRCEXT:-$SRCEXT}
 GPGKEY=${_GPGKEY:-$GPGKEY}
 PACKAGER=${_PACKAGER:-$PACKAGER}
+PACKAGER=${PACKAGER:-"Unknown Packager"} #default if undefined
 CARCH=${_CARCH:-$CARCH}
 
 if (( ! INFAKEROOT )); then
