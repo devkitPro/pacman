@@ -308,8 +308,9 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_DATABASE_MISSING:
 			if(!config->op_s_sync) {
 				pm_printf(ALPM_LOG_WARNING,
-					"database file for '%s' does not exist\n",
-					event->database_missing.dbname);
+						"database file for '%s' does not exist (use '%s' to download)\n",
+						event->database_missing.dbname,
+						config->op == PM_OP_FILES ? "-Fy": "-Sy");
 			}
 			break;
 		case ALPM_EVENT_PACNEW_CREATED:
