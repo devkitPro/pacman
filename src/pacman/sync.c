@@ -717,15 +717,16 @@ static void print_broken_dep(alpm_depmissing_t *miss)
 	alpm_pkg_t *pkg;
 	if(miss->causingpkg == NULL) {
 		/* package being installed/upgraded has unresolved dependency */
-		colon_printf(_("%s: requires %s\n"), miss->target, depstring);
+		colon_printf(_("unable to satisfy dependency '%s' required by %s\n"),
+				depstring, miss->target);
 	} else if((pkg = alpm_pkg_find(trans_add, miss->causingpkg))) {
 		/* upgrading a package breaks a local dependency */
-		colon_printf(_("%s: installing %s (%s) breaks dependency '%s'\n"),
-				miss->target, miss->causingpkg, alpm_pkg_get_version(pkg), depstring);
+		colon_printf(_("installing %s (%s) breaks dependency '%s' required by %s\n"),
+				miss->causingpkg, alpm_pkg_get_version(pkg), depstring, miss->target);
 	} else {
 		/* removing a package breaks a local dependency */
-		colon_printf(_("%s: removing %s breaks dependency '%s'\n"),
-				miss->target, miss->causingpkg, depstring);
+		colon_printf(_("removing %s breaks dependency '%s' required by %s\n"),
+				miss->causingpkg, depstring, miss->target);
 	}
 	free(depstring);
 }
