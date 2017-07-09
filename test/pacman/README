@@ -1,7 +1,7 @@
 README
 ======
 
-pactest is a test suite for the ArchLinux package manager: pacman.
+pactest is a test suite for the Arch Linux package manager: pacman.
 
 It has a rather high level view of operations performed by pacman: it
 automatically creates a test environment based on a test case file 
@@ -9,7 +9,7 @@ description, the run pacman, and finally check the results of test according
 to a set of rules defined in the test case.
 
 It is written in Python and makes available most of what can be found in 
-pacman's code to create ArchLinux packages or read and write databases entries.
+pacman's code to create Arch Linux packages or read and write databases entries.
 
 Each test case is defined in a separate file that is sourced in order to set 
 the environment.
@@ -149,7 +149,7 @@ Example:
 	pkg1 = pmpkg("dummy", "2.1-1")
 	pkg2 = pmpkg("foobar")
 
-All fields from a ArchLinux package can be set and modified directly with no 
+All fields from a Arch Linux package can be set and modified directly with no
 methods to access them.
 Note: some fields are automatically set by pactest and should preferably not 
 be modified by hand (i.e. "md5sum", "size", or "csize").
