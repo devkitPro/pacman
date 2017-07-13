@@ -1299,8 +1299,9 @@ void select_display(const alpm_list_t *pkglist)
 		alpm_pkg_t *pkg = i->data;
 		alpm_db_t *db = alpm_pkg_get_db(pkg);
 
-		if(!dbname)
+		if(!dbname) {
 			dbname = alpm_db_get_name(db);
+		}
 		if(strcmp(alpm_db_get_name(db), dbname) != 0) {
 			display_repo_list(dbname, list, cols);
 			FREELIST(list);
@@ -1349,8 +1350,9 @@ static int multiselect_parse(char *array, int count, char *response)
 			break;
 		}
 		len = strtrim(starts);
-		if(len == 0)
+		if(len == 0) {
 			continue;
+		}
 
 		if(*starts == '^') {
 			starts++;
@@ -1370,8 +1372,9 @@ static int multiselect_parse(char *array, int count, char *response)
 			}
 		}
 
-		if(parseindex(starts, &start, 1, count) != 0)
+		if(parseindex(starts, &start, 1, count) != 0) {
 			return -1;
+		}
 
 		if(!ends) {
 			array[start - 1] = include;
@@ -1495,8 +1498,9 @@ int select_question(int count)
 			size_t len = strtrim(response);
 			if(len > 0) {
 				int n;
-				if(parseindex(response, &n, 1, count) != 0)
+				if(parseindex(response, &n, 1, count) != 0) {
 					continue;
+				}
 				return (n - 1);
 			}
 		}
