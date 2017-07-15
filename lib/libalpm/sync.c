@@ -271,8 +271,9 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 		alpm_db_t *db = i->data;
 		alpm_group_t *grp = alpm_db_get_group(db, name);
 
-		if(!grp)
+		if(!grp) {
 			continue;
+		}
 
 		for(j = grp->packages; j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
@@ -288,8 +289,9 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 				};
 				ignorelist = alpm_list_add(ignorelist, pkg);
 				QUESTION(db->handle, &question);
-				if(!question.install)
+				if(!question.install) {
 					continue;
+				}
 			}
 			if(!alpm_pkg_find(pkgs, pkg->name)) {
 				pkgs = alpm_list_add(pkgs, pkg);

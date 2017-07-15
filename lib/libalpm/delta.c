@@ -238,8 +238,7 @@ static alpm_list_t *find_unused(alpm_list_t *deltas, const char *to, off_t quota
 	for(i = vertices; i; i = i->next) {
 		alpm_graph_t *v = i->data;
 		alpm_delta_t *vdelta = v->data;
-		if(strcmp(vdelta->to, to) == 0)
-		{
+		if(strcmp(vdelta->to, to) == 0) {
 			v->weight = vdelta->download_size;
 		}
 	}
