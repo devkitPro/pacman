@@ -339,10 +339,10 @@ GCC_VISIBILITY_CC
 
 # Host-dependant definitions
 DEFAULT_DUFLAGS=" -sk --apparent-size"
+DEFAULT_SEDINPLACEFLAGS=" --follow-symlinks -i"
 INODECMD="stat -c '%i %n'"
 OWNERCMD="stat -c '%u:%g'"
 MODECMD="stat -c '%a'"
-SEDINPLACE="sed --follow-symlinks -i"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
 STRIP_STATIC="--strip-debug"
@@ -351,7 +351,7 @@ case "${host_os}" in
 		INODECMD="stat -f '%i %N'"
 		OWNERCMD="stat -f '%u:%g'"
 		MODECMD="stat -f '%Lp'"
-		SEDINPLACE="sed -i \"\""
+		DEFAULT_SEDINPLACEFLAGS=" -i \"\""
 		DEFAULT_DUFLAGS=" -sk"
 		;;
 	darwin*)
@@ -359,7 +359,7 @@ case "${host_os}" in
 		INODECMD="/usr/bin/stat -f '%i %N'"
 		OWNERCMD="/usr/bin/stat -f '%u:%g'"
 		MODECMD="/usr/bin/stat -f '%Lp'"
-		SEDINPLACE="/usr/bin/sed -i ''"
+		DEFAULT_SEDINPLACEFLAGS=" -i ''"
 		DEFAULT_DUFLAGS=" -sk"
 		STRIP_BINARIES=""
 		STRIP_SHARED="-S"
@@ -368,10 +368,10 @@ case "${host_os}" in
 esac
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
+AC_PATH_PROGS([SEDPATH], [sed], [sed], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
 AC_SUBST(OWNERCMD)
 AC_SUBST(MODECMD)
-AC_SUBST(SEDINPLACE)
 AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)
@@ -381,6 +381,12 @@ if test "${DUFLAGS+set}" != "set"; then
     DUFLAGS="${DEFAULT_DUFLAGS}"
 fi
 AC_ARG_VAR(DUFLAGS, [flags for du, overriding the default])
+
+# Flags for sed in place
+if test "${SEDINPLACEFLAGS+set}" != "set"; then
+    SEDINPLACEFLAGS="${DEFAULT_SEDINPLACEFLAGS}"
+fi
+AC_ARG_VAR(SEDINPLACEFLAGS, [flags for sed, overriding the default])
 
 # Variables plugged into makepkg.conf
 CARCH="${host%%-*}"
@@ -557,7 +563,7 @@ ${PACKAGE_NAME}:
     File inode command     : ${INODECMD}
     File owner command     : ${OWNERCMD}
     File mode command      : ${MODECMD}
-    In-place sed command   : ${SEDINPLACE}
+    In-place sed command   : ${SEDPATH} ${SEDINPLACEFLAGS}
 
     libalpm version        : ${LIB_VERSION}
     libalpm version info   : ${LIB_VERSION_INFO}

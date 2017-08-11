@@ -152,7 +152,8 @@ edit = sed \
 	-e "s|@OWNERCMD[@]|$(OWNERCMD)|g" \
 	-e "s|@MODECMD[@]|$(MODECMD)|g" \
 	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
-	-e 's|@SEDINPLACE[@]|$(SEDINPLACE)|g' \
+	-e 's|@SEDINPLACEFLAGS[@]|$(SEDINPLACEFLAGS)|g' \
+	-e 's|@SEDPATH[@]|$(SEDPATH)|g' \
 	-e 's|@DUFLAGS[@]|$(DUFLAGS)|g' \
 	-e 's|@DUPATH[@]|$(DUPATH)|g' \
 	-e 's|@SCRIPTNAME[@]|$@|g' \
