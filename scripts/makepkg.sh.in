@@ -754,21 +754,8 @@ create_package() {
 	msg2 "$(gettext "Compressing package...")"
 	# TODO: Maybe this can be set globally for robustness
 	shopt -s -o pipefail
-	# bsdtar's gzip compression always saves the time stamp, making one
-	# archive created using the same command line distinct from another.
-	# Disable bsdtar compression and use gzip -n for now.
 	list_package_files | LANG=C bsdtar -cnf - --null --files-from - |
-	case "$PKGEXT" in
-		*tar.gz)  ${COMPRESSGZ[@]:-gzip -c -f -n} ;;
-		*tar.bz2) ${COMPRESSBZ2[@]:-bzip2 -c -f} ;;
-		*tar.xz)  ${COMPRESSXZ[@]:-xz -c -z -} ;;
-		*tar.lrz) ${COMPRESSLRZ[@]:-lrzip -q} ;;
-		*tar.lzo) ${COMPRESSLZO[@]:-lzop -q} ;;
-		*tar.Z)   ${COMPRESSZ[@]:-compress -c -f} ;;
-		*tar)     cat ;;
-		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
-			"$PKGEXT"; cat ;;
-	esac > "${pkg_file}" || ret=$?
+		compress_as "$PKGEXT" > "${pkg_file}" || ret=$?
 
 	shopt -u -o pipefail
 
@@ -849,26 +836,20 @@ create_srcpackage() {
 		done
 	done
 
-	local TAR_OPT
-	case "$SRCEXT" in
-		*tar.gz)  TAR_OPT="-z" ;;
-		*tar.bz2) TAR_OPT="-j" ;;
-		*tar.xz)  TAR_OPT="-J" ;;
-		*tar.lrz) TAR_OPT="--lrzip" ;;
-		*tar.lzo) TAR_OPT="--lzop" ;;
-		*tar.Z)   TAR_OPT="-Z" ;;
-		*tar)     TAR_OPT=""  ;;
-		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
-		"$SRCEXT" ;;
-	esac
-
 	local fullver=$(get_full_version)
 	local pkg_file="$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
 
 	# tar it up
 	msg2 "$(gettext "Compressing source package...")"
 	cd_safe "${srclinks}"
-	if ! LANG=C bsdtar -cL ${TAR_OPT} -f "$pkg_file" ${pkgbase}; then
+
+	# TODO: Maybe this can be set globally for robustness
+	shopt -s -o pipefail
+	LANG=C bsdtar -cLf - ${pkgbase} | compress_as "$SRCEXT" > "${pkg_file}" || ret=$?
+
+	shopt -u -o pipefail
+
+	if (( ret )); then
 		error "$(gettext "Failed to create source package file.")"
 		exit $E_PACKAGE_FAILED
 	fi
