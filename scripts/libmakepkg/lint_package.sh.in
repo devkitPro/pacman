@@ -38,7 +38,7 @@ readonly -a lint_package_functions
 
 lint_package() {
 	cd_safe "$pkgdir"
-	msg "$(gettext "Checking for packaging issue...")"
+	msg "$(gettext "Checking for packaging issues...")"
 
 	local ret=0
 	for func in ${lint_package_functions[@]}; do
