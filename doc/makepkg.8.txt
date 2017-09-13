@@ -206,12 +206,26 @@ Options
 *\--printsrcinfo*::
 	Generate and print the SRCINFO file to stdout.
 
+
 Additional Features
 -------------------
 makepkg supports building development versions of packages without having to
 manually update the pkgver in the PKGBUILD. This was formerly done using the
 separate utility 'versionpkg'. See linkman:PKGBUILD[5] for details on how to
 set up a development PKGBUILD.
+
+
+Reproducibility
+---------------
+makepkg is designed to be compatible with
+link:https://reproducible-builds.org/docs/[Reproducible Builds]. If the
+**SOURCE_DATE_EPOCH** environment variable is set, it will be exported to
+subprocesses, and source and package file modification times and package
+metadata will be unified based on the timestamp specified.
+
+If the **SOURCE_DATE_EPOCH** environment variable is not set, makepkg will use
+its own start date for internal use, but will not unify source file timestamps
+before building.
 
 
 Environment Variables
@@ -265,6 +279,8 @@ Environment Variables
 	Specify a key to use when signing packages, overriding the GPGKEY setting
 	in linkman:makepkg.conf[5]
 
+**SOURCE_DATE_EPOCH=**"<date>"::
+	Used for link:https://reproducible-builds.org/docs/[Reproducible Builds].
 
 Configuration
 -------------

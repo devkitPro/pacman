@@ -79,6 +79,7 @@ PKGFUNC=0
 PKGVERFUNC=0
 PREPAREFUNC=0
 REPKG=0
+REPRODUCIBLE=0
 RMDEPS=0
 SKIPCHECKSUMS=0
 SKIPPGPCHECK=0
@@ -87,7 +88,12 @@ SPLITPKG=0
 SOURCEONLY=0
 VERIFYSOURCE=0
 
-export SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH:-$(date +%s)}
+if [[ -n $SOURCE_DATE_EPOCH ]]; then
+	REPRODUCIBLE=1
+else
+	SOURCE_DATE_EPOCH=$(date +%s)
+fi
+export SOURCE_DATE_EPOCH
 
 PACMAN_OPTS=()
 
@@ -1685,6 +1691,11 @@ if (( !REPKG )); then
 		extract_sources
 		if (( PREPAREFUNC )); then
 			run_prepare
+		fi
+		if (( REPRODUCIBLE )); then
+			# We have activated reproducible builds, so unify source times before
+			# building
+			find "$srcdir" -exec touch -h -d @$SOURCE_DATE_EPOCH {} +
 		fi
 	fi
 
