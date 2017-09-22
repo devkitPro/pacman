@@ -136,7 +136,7 @@ clean_up() {
 		return
 	fi
 
-	if (( ! EXIT_CODE && CLEANUP )); then
+	if (( (EXIT_CODE == E_OK || EXIT_CODE == E_INSTALL_FAILED) && CLEANUP )); then
 		local pkg file
 
 		# If it's a clean exit and -c/--clean has been passed...
@@ -190,7 +190,7 @@ update_pkgver() {
 	newpkgver=$(run_function_safe pkgver)
 	if ! check_pkgver "$newpkgver"; then
 		error "$(gettext "pkgver() generated an invalid version: %s")" "$newpkgver"
-		exit 1
+		exit $E_PKGBUILD_ERROR
 	fi
 
 	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
@@ -198,7 +198,7 @@ update_pkgver() {
 			if ! @SEDPATH@ @SEDINPLACEFLAGS@ "s:^pkgver=[^ ]*:pkgver=$newpkgver:" "$BUILDFILE"; then
 				error "$(gettext "Failed to update %s from %s to %s")" \
 						"pkgver" "$pkgver" "$newpkgver"
-				exit 1
+				exit $E_PKGBUILD_ERROR
 			fi
 			@SEDPATH@ @SEDINPLACEFLAGS@ "s:^pkgrel=[^ ]*:pkgrel=1:" "$BUILDFILE"
 			source_safe "$BUILDFILE"
@@ -215,7 +215,7 @@ update_pkgver() {
 missing_source_file() {
 	error "$(gettext "Unable to find source file %s.")" "$(get_filename "$1")"
 	plain "$(gettext "Aborting...")"
-	exit 1 # $E_MISSING_FILE
+	exit $E_MISSING_FILE
 }
 
 run_pacman() {
@@ -269,7 +269,7 @@ handle_deps() {
 
 		if ! run_pacman -S --asdeps "${deplist[@]}"; then
 			error "$(gettext "'%s' failed to install missing dependencies.")" "$PACMAN"
-			exit 1 # TODO: error code
+			exit $E_INSTALL_DEPS_FAILED
 		fi
 	fi
 
@@ -290,12 +290,12 @@ resolve_deps() {
 	# deplist cannot be declared like this: local deplist=$(foo)
 	# Otherwise, the return value will depend on the assignment.
 	local deplist
-	deplist=($(check_deps "$@")) || exit 1
+	deplist=($(check_deps "$@")) || exit $E_INSTALL_DEPS_FAILED
 	[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 
 	if handle_deps "${deplist[@]}"; then
 		# check deps again to make sure they were resolved
-		deplist=$(check_deps "$@") || exit 1
+		deplist=$(check_deps "$@") || exit $E_INSTALL_DEPS_FAILED
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 	fi
 
@@ -316,7 +316,7 @@ remove_deps() {
 	if [[ -n $(grep -xvFf <(printf '%s\n' "${current_pkglist[@]}") \
 			<(printf '%s\n' "${original_pkglist[@]}")) ]]; then
 		warning "$(gettext "Failed to remove installed dependencies.")"
-		return 0
+		return $E_REMOVE_DEPS_FAILED
 	fi
 
 	local deplist
@@ -330,7 +330,7 @@ remove_deps() {
 	# exit cleanly on failure to remove deps as package has been built successfully
 	if ! run_pacman -Rn ${deplist[@]}; then
 		warning "$(gettext "Failed to remove installed dependencies.")"
-		return 0
+		return $E_REMOVE_DEPS_FAILED
 	fi
 }
 
@@ -343,14 +343,14 @@ error_function() {
 		error "$(gettext "A failure occurred in %s().")" "$1"
 		plain "$(gettext "Aborting...")"
 	fi
-	exit 2 # $E_BUILD_FAILED
+	exit $E_USER_FUNCTION_FAILED
 }
 
 source_safe() {
 	shopt -u extglob
 	if ! source "$@"; then
 		error "$(gettext "Failed to source %s")" "$1"
-		exit 1
+		exit $E_MISSING_FILE
 	fi
 	shopt -s extglob
 }
@@ -621,7 +621,7 @@ write_kv_pair() {
 	for val in "$@"; do
 		if [[ $val = *$'\n'* ]]; then
 			error "$(gettext "Invalid value for %s: %s")" "$key" "$val"
-			exit 1
+			exit $E_PKGBUILD_ERROR
 		fi
 		printf "%s = %s\n" "$key" "$val"
 	done
@@ -710,7 +710,7 @@ create_package() {
 	if [[ ! -d $pkgdir ]]; then
 		error "$(gettext "Missing %s directory.")" "\$pkgdir/"
 		plain "$(gettext "Aborting...")"
-		exit 1 # $E_MISSING_PKGDIR
+		exit $E_MISSING_PKGDIR
 	fi
 
 	cd_safe "$pkgdir"
@@ -728,7 +728,7 @@ create_package() {
 			msg2 "$(gettext "Adding %s file...")" "$orig"
 			if ! cp "$startdir/${!orig}" "$dest"; then
 				error "$(gettext "Failed to add %s file to package.")" "$orig"
-				exit 1
+				exit $E_MISSING_FILE
 			fi
 			chmod 644 "$dest"
 		fi
@@ -774,7 +774,7 @@ create_package() {
 
 	if (( ret )); then
 		error "$(gettext "Failed to create package file.")"
-		exit 1 # TODO: error code
+		exit $E_PACKAGE_FAILED
 	fi
 }
 
@@ -870,14 +870,13 @@ create_srcpackage() {
 	cd_safe "${srclinks}"
 	if ! LANG=C bsdtar -cL ${TAR_OPT} -f "$pkg_file" ${pkgbase}; then
 		error "$(gettext "Failed to create source package file.")"
-		exit 1 # TODO: error code
+		exit $E_PACKAGE_FAILED
 	fi
 
 	cd_safe "${startdir}"
 	rm -rf "${srclinks}"
 }
 
-# this function always returns 0 to make sure clean-up will still occur
 install_package() {
 	(( ! INSTALL )) && return
 
@@ -903,7 +902,7 @@ install_package() {
 
 	if ! run_pacman -U "${pkglist[@]}"; then
 		warning "$(gettext "Failed to install built package(s).")"
-		return 0
+		return $E_INSTALL_FAILED
 	fi
 }
 
@@ -923,7 +922,7 @@ get_vcsclient() {
 	if [[ -z $client ]]; then
 		error "$(gettext "Unknown download protocol: %s")" "$proto"
 		plain "$(gettext "Aborting...")"
-		exit 1 # $E_CONFIG_ERROR
+		exit $E_CONFIG_ERROR
 	fi
 
 	printf "%s\n" "$client"
@@ -962,7 +961,7 @@ check_vcs_software() {
 					client=$(get_vcsclient "$proto") || exit $?
 					# ensure specified program is installed
 					local uninstalled
-					uninstalled=$(check_deps "$client") || exit 1
+					uninstalled=$(check_deps "$client") || exit $E_INSTALL_DEPS_FAILED
 					# if not installed, check presence in depends or makedepends
 					if [[ -n "$uninstalled" ]] && (( ! NODEPS || ( VERIFYSOURCE && !DEP_BIN ) )); then
 						if ! in_array "$client" ${all_deps[@]}; then
@@ -1087,11 +1086,11 @@ check_build_status() {
 				 && ! (( FORCE || SOURCEONLY || NOBUILD || NOARCHIVE)); then
 			if (( INSTALL )); then
 				warning "$(gettext "A package has already been built, installing existing package...")"
-				install_package
-				exit 0
+				status=$(install_package)
+				exit $status
 			else
 				error "$(gettext "A package has already been built. (use %s to overwrite)")" "-f"
-				exit 1
+				exit $E_ALREADY_BUILT
 			fi
 		fi
 	else
@@ -1110,16 +1109,16 @@ check_build_status() {
 			if (( allpkgbuilt )); then
 				if (( INSTALL )); then
 					warning "$(gettext "The package group has already been built, installing existing packages...")"
-					install_package
-					exit 0
+					status=$(install_package)
+					exit $status
 				else
 					error "$(gettext "The package group has already been built. (use %s to overwrite)")" "-f"
-					exit 1
+					exit $E_ALREADY_BUILT
 				fi
 			fi
 			if (( somepkgbuilt && ! PKGVERFUNC )); then
 				error "$(gettext "Part of the package group has already been built. (use %s to overwrite)")" "-f"
-				exit 1
+				exit $E_ALREADY_BUILT
 			fi
 		fi
 		unset allpkgbuilt somepkgbuilt
@@ -1154,7 +1153,7 @@ run_split_packaging() {
 		backup_package_variables
 		run_package $pkgname
 		tidy_install
-		lint_package || exit 1
+		lint_package || exit $E_PACKAGE_FAILED
 		create_package
 		restore_package_variables
 	done
@@ -1251,7 +1250,7 @@ OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
 OPT_LONG+=('asdeps' 'noconfirm' 'needed' 'noprogressbar')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
-	exit 1 # E_INVALID_OPTION;
+	exit $E_INVALID_OPTION;
 fi
 set -- "${OPTRET[@]}"
 unset OPT_SHORT OPT_LONG OPTRET
@@ -1300,8 +1299,8 @@ while true; do
 		-S|--source)      SOURCEONLY=1 ;;
 		--verifysource)   VERIFYSOURCE=1 ;;
 
-		-h|--help)        usage; exit 0 ;; # E_OK
-		-V|--version)     version; exit 0 ;; # E_OK
+		-h|--help)        usage; exit $E_OK ;;
+		-V|--version)     version; exit $E_OK ;;
 
 		--)               OPT_IND=0; shift; break 2;;
 	esac
@@ -1347,7 +1346,7 @@ if [[ -r $MAKEPKG_CONF ]]; then
 else
 	error "$(gettext "%s not found.")" "$MAKEPKG_CONF"
 	plain "$(gettext "Aborting...")"
-	exit 1 # $E_CONFIG_ERROR
+	exit $E_CONFIG_ERROR
 fi
 
 # Source user-specific makepkg.conf overrides, but only if no override config
@@ -1381,14 +1380,14 @@ if [[ ! -d $BUILDDIR ]]; then
 	if ! mkdir -p "$BUILDDIR"; then
 		error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
 		plain "$(gettext "Aborting...")"
-		exit 1
+		exit $E_FS_PERMISSIONS
 	fi
 	chmod a-s "$BUILDDIR"
 fi
 if [[ ! -w $BUILDDIR ]]; then
 	error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
 	plain "$(gettext "Aborting...")"
-	exit 1
+	exit $E_FS_PERMISSIONS
 fi
 
 # override settings from extra variables on commandline, if any
@@ -1401,7 +1400,7 @@ PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
 if (( ! (NOBUILD || GENINTEG) )) && [[ ! -w $PKGDEST ]]; then
 	error "$(gettext "You do not have write permission to store packages in %s.")" "$PKGDEST"
 	plain "$(gettext "Aborting...")"
-	exit 1
+	exit $E_FS_PERMISSIONS
 fi
 
 SRCDEST=${_SRCDEST:-$SRCDEST}
@@ -1409,7 +1408,7 @@ SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 if [[ ! -w $SRCDEST ]] ; then
 	error "$(gettext "You do not have write permission to store downloads in %s.")" "$SRCDEST"
 	plain "$(gettext "Aborting...")"
-	exit 1
+	exit $E_FS_PERMISSIONS
 fi
 
 SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
@@ -1418,7 +1417,7 @@ if (( SOURCEONLY )); then
 	if [[ ! -w $SRCPKGDEST ]]; then
 		error "$(gettext "You do not have write permission to store source tarballs in %s.")" "$SRCPKGDEST"
 		plain "$(gettext "Aborting...")"
-		exit 1
+		exit $E_FS_PERMISSIONS
 	fi
 
 	# If we're only making a source tarball, then we need to ignore architecture-
@@ -1431,7 +1430,7 @@ LOGDEST=${LOGDEST:-$startdir} #default to $startdir if undefined
 if (( LOGGING )) && [[ ! -w $LOGDEST ]]; then
 	error "$(gettext "You do not have write permission to store logs in %s.")" "$LOGDEST"
 	plain "$(gettext "Aborting...")"
-	exit 1
+	exit $E_FS_PERMISSIONS
 fi
 
 PKGEXT=${_PKGEXT:-$PKGEXT}
@@ -1445,12 +1444,12 @@ if (( ! INFAKEROOT )); then
 	if (( EUID == 0 )); then
 		error "$(gettext "Running %s as root is not allowed as it can cause permanent,\n\
 catastrophic damage to your system.")" "makepkg"
-		exit 1 # $E_USER_ABORT
+		exit $E_ROOT
 	fi
 else
 	if [[ -z $FAKEROOTKEY ]]; then
 		error "$(gettext "Do not use the %s option. This option is only for internal use by %s.")" "'-F'" "makepkg"
-		exit 1 # TODO: error code
+		exit $E_INVALID_OPTION
 	fi
 fi
 
@@ -1465,16 +1464,17 @@ unset "${!sha384sums_@}" "${!sha512sums_@}"
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
 if [[ ! -f $BUILDFILE ]]; then
 	error "$(gettext "%s does not exist.")" "$BUILDFILE"
-	exit 1
+	exit $E_USER_FUNCTION_FAILED
+
 else
 	if [[ $(<"$BUILDFILE") = *$'\r'* ]]; then
 		error "$(gettext "%s contains %s characters and cannot be sourced.")" "$BUILDFILE" "CRLF"
-		exit 1
+		exit $E_PKGBUILD_ERROR
 	fi
 
 	if [[ ! $BUILDFILE -ef $PWD/${BUILDFILE##*/} ]]; then
 		error "$(gettext "%s must be in the current working directory.")" "$BUILDFILE"
-		exit 1
+		exit $E_PKGBUILD_ERROR
 	fi
 
 	if [[ ${BUILDFILE:0:1} != "/" ]]; then
@@ -1486,7 +1486,7 @@ fi
 pkgbase=${pkgbase:-${pkgname[0]}}
 
 # check the PKGBUILD for some basic requirements
-lint_pkgbuild || exit 1
+lint_pkgbuild || exit $E_PKGBUILD_ERROR
 
 if (( !SOURCEONLY && !PRINTSRCINFO )); then
 	merge_arch_attrs
@@ -1512,7 +1512,7 @@ if (( GENINTEG )); then
 	cd_safe "$srcdir"
 	download_sources novcs allarch
 	generate_checksums
-	exit 0 # $E_OK
+	exit $E_OK
 fi
 
 if have_function pkgver; then
@@ -1520,7 +1520,7 @@ if have_function pkgver; then
 fi
 
 # check we have the software required to process the PKGBUILD
-check_software || exit 1
+check_software || exit $E_MISSING_MAKEPKG_DEPS
 
 if (( ${#pkgname[@]} > 1 )); then
 	SPLITPKG=1
@@ -1557,18 +1557,18 @@ if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]];
 		else
 			error "$(gettext "There is no key in your keyring.")"
 		fi
-		exit 1
+		exit $E_PRETTY_BAD_PRIVACY
 	fi
 fi
 
 if (( PACKAGELIST )); then
 	print_all_package_names
-	exit 0
+	exit $E_OK
 fi
 
 if (( PRINTSRCINFO )); then
 	write_srcinfo_content
-	exit 0
+	exit $E_OK
 fi
 
 if (( ! PKGVERFUNC )); then
@@ -1580,7 +1580,7 @@ if (( INFAKEROOT )); then
 	if (( SOURCEONLY )); then
 		create_srcpackage
 		msg "$(gettext "Leaving %s environment.")" "fakeroot"
-		exit 0 # $E_OK
+		exit $E_OK
 	fi
 
 	prepare_buildenv
@@ -1593,7 +1593,7 @@ if (( INFAKEROOT )); then
 			run_package
 		fi
 		tidy_install
-		lint_package || exit 1
+		lint_package || exit $E_PACKAGE_FAILED
 		create_package
 		create_debug_package
 	else
@@ -1601,7 +1601,7 @@ if (( INFAKEROOT )); then
 	fi
 
 	msg "$(gettext "Leaving %s environment.")" "fakeroot"
-	exit 0 # $E_OK
+	exit $E_OK
 fi
 
 msg "$(gettext "Making package: %s")" "$pkgbase $basever ($(date))"
@@ -1611,7 +1611,7 @@ if (( SOURCEONLY )); then
 	if [[ -f $SRCPKGDEST/${pkgbase}-${basever}${SRCEXT} ]] \
 			&& (( ! FORCE )); then
 		error "$(gettext "A source package has already been built. (use %s to overwrite)")" "-f"
-		exit 1
+		exit $E_ALREADY_BUILT
 	fi
 
 	# Get back to our src directory so we can begin with sources.
@@ -1633,7 +1633,7 @@ if (( SOURCEONLY )); then
 	create_signature "$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
 
 	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date))"
-	exit 0
+	exit $E_OK
 fi
 
 if (( NODEPS || ( VERIFYSOURCE && !DEP_BIN ) )); then
@@ -1666,7 +1666,7 @@ else
 
 	if (( deperr )); then
 		error "$(gettext "Could not resolve all dependencies.")"
-		exit 1
+		exit $E_INSTALL_DEPS_FAILED
 	fi
 fi
 
@@ -1681,7 +1681,7 @@ if (( !REPKG )); then
 	else
 		download_sources
 		check_source_integrity
-		(( VERIFYSOURCE )) && exit 0 # $E_OK
+		(( VERIFYSOURCE )) && exit $E_OK
 
 		if (( CLEANBUILD )); then
 			msg "$(gettext "Removing existing %s directory...")" "\$srcdir/"
@@ -1708,7 +1708,7 @@ fi
 
 if (( NOBUILD )); then
 	msg "$(gettext "Sources are ready.")"
-	exit 0 #E_OK
+	exit $E_OK
 else
 	# clean existing pkg directory
 	if [[ -d $pkgdirbase ]]; then
@@ -1735,13 +1735,11 @@ fi
 # if inhibiting archive creation, go no further
 if (( NOARCHIVE )); then
 	msg "$(gettext "Package directory is ready.")"
-	exit 0
+	exit $E_OK
 fi
 
 msg "$(gettext "Finished making: %s")" "$pkgbase $basever ($(date))"
 
-install_package
-
-exit 0 #E_OK
+install_package && exit $E_OK || exit $E_INSTALL_FAILED
 
 # vim: set noet:

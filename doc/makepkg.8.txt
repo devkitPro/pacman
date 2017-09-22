@@ -288,6 +288,63 @@ See linkman:makepkg.conf[5] for more details on configuring makepkg using the
 'makepkg.conf' file.
 
 
+Errors
+------
+On exit, makepkg will return one of the following error codes.
+
+0::
+	Normal exit condition.
+
+1::
+	Unknown cause of failure.
+
+2::
+	Error in configuration file.
+
+3::
+	User specified an invalid option
+
+4::
+	Error in user-supplied function in PKGBUILD.
+
+5::
+	Failed to create a viable package.
+
+6::
+	A source or auxiliary file specified in the PKGBUILD is
+	missing.
+
+7::
+	The PKGDIR is missing.
+
+8::
+	Failed to install dependencies.
+
+9::
+	Failed to remove dependencies.
+
+10::
+	User attempted to run makepkg as root.
+
+11::
+	User lacks permissions to build or install to a given
+	location.
+
+12::
+	Error parsing PKGBUILD.
+
+13::
+	A package has already been built.
+
+14::
+	The package failed to install.
+
+15::
+	Programs necessary to run makepkg are missing.
+
+16::
+	Specified GPG key does not exist.
+
 See Also
 --------
 linkman:makepkg.conf[5], linkman:PKGBUILD[5], linkman:pacman[8]

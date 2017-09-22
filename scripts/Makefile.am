@@ -96,6 +96,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/tidy/strip.sh \
 	libmakepkg/tidy/zipman.sh \
 	libmakepkg/util.sh \
+	libmakepkg/util/error.sh \
 	libmakepkg/util/message.sh \
 	libmakepkg/util/option.sh \
 	libmakepkg/util/parseopts.sh \
