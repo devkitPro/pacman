@@ -1449,7 +1449,7 @@ catastrophic damage to your system.")" "makepkg"
 	fi
 else
 	if [[ -z $FAKEROOTKEY ]]; then
-		error "$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
+		error "$(gettext "Do not use the %s option. This option is only for internal use by %s.")" "'-F'" "makepkg"
 		exit 1 # TODO: error code
 	fi
 fi
