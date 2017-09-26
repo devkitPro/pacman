@@ -92,7 +92,7 @@ Options
 **DEBUG_CXXFLAGS=**"debug_cxxflags"::
 	Debug flags used for the C++ compiler; see DEBUG_CFLAGS for more info.
 
-**BUILDENV=(**!distcc color !ccache check !sign**)**::
+**BUILDENV=(**!distcc !color !ccache check !sign**)**::
 	This array contains options that affect the build environment; the defaults
 	are shown here. All options should always be left in the array; to enable
 	or disable an option, simply remove or add an ``!'' at the front of the
@@ -141,7 +141,7 @@ Options
 	Specify a key to use for GPG signing instead of the default key in the
 	keyring. Can be overridden with makepkg's '\--key' option.
 
-**OPTIONS=(**strip docs libtool staticlibs emptydirs zipman purge**)**::
+**OPTIONS=(**!strip docs libtool staticlibs emptydirs !zipman !purge !debug**)**::
 	This array contains options that affect default packaging. They are
 	equivalent to options that can be placed in the PKGBUILD; the defaults are
 	shown here. All options should always be left in the array; to enable or

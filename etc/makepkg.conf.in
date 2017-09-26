@@ -48,7 +48,7 @@ CHOST="@CHOST@"
 # BUILD ENVIRONMENT
 #########################################################################
 #
-# Defaults: BUILDENV=(!distcc color !ccache check !sign)
+# Defaults: BUILDENV=(!distcc !color !ccache check !sign)
 #  A negated environment option will do the opposite of the comments below.
 #
 #-- distcc:   Use the Distributed C/C++/ObjC compiler
@@ -71,7 +71,7 @@ BUILDENV=(!distcc color !ccache check !sign)
 #   These are default values for the options=() settings
 #########################################################################
 #
-# Default: OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge !debug)
+# Default: OPTIONS=(!strip docs libtool staticlibs emptydirs !zipman !purge !debug)
 #  A negated option will do the opposite of the comments below.
 #
 #-- strip:      Strip symbols from binaries/libraries
