@@ -34,7 +34,7 @@ warn_build_references() {
 		mapfile -t refs < <(find "$pkgdir" -type f -exec grep -l "${!var}" {} +)
 		if  (( ${#refs} > 0 )); then
 			warning "$(gettext 'Package contains reference to %s')" "\$$var"
-			printf '%s\n' "${refs[@]}" >&2
+			printf '%s\n' "${refs[@]#"$pkgdir/"}" >&2
 		fi
 	done
 	return 0
