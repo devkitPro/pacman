@@ -986,6 +986,19 @@ int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 	return 0;
 }
 
+/* Check to avoid out of boundary reads */
+static size_t length_check(size_t length, size_t position, size_t a,
+		alpm_handle_t *handle, const char *identifier)
+{
+	if( a == 0 || length - position <= a) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+		_("%s: signature format error"), identifier);
+		return -1;
+	} else {
+		return 0;
+	}
+}
+
 /**
  * Extract the Issuer Key ID from a signature
  * @param sig PGP signature
@@ -1022,16 +1035,25 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 
 		switch(sig[pos] & 0x03) {
 			case 0:
+				if(length_check(len, pos, 2, handle, identifier) != 0) {
+					return -1;
+				}
 				blen = sig[pos + 1];
 				pos = pos + 2;
 				break;
 
 			case 1:
+				if(length_check(len, pos, 3, handle, identifier)) {
+					return -1;
+				}
 				blen = (sig[pos + 1] << 8) | sig[pos + 2];
 				pos = pos + 3;
 				break;
 
 			case 2:
+				if(length_check(len, pos, 5, handle, identifier)) {
+					return -1;
+				}
 				blen = (sig[pos + 1] << 24) | (sig[pos + 2] << 16) | (sig[pos + 3] << 8) | sig[pos + 4];
 				pos = pos + 5;
 				break;
@@ -1059,7 +1081,16 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 
 		pos = pos + 4;
 
+		/* pos got changed above, so an explicit check is necessary
+		 * check for 2 as that catches another some lines down */
+		if(length_check(len, pos, 2, handle, identifier)) {
+			return -1;
+		}
 		hlen = (sig[pos] << 8) | sig[pos + 1];
+
+		if(length_check(len, pos, hlen + 2, handle, identifier)) {
+			return -1;
+		}
 		pos = pos + hlen + 2;
 
 		ulen = (sig[pos] << 8) | sig[pos + 1];
@@ -1072,30 +1103,39 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 				slen = sig[spos];
 				spos = spos + 1;
 			} else if(sig[spos] < 255) {
+				if(length_check(pos + ulen, spos, 2, handle, identifier)){
+					return -1;
+				}
 				slen = (sig[spos] << 8) | sig[spos + 1];
 				spos = spos + 2;
 			} else {
+				/* check for pos and spos, as spos is still pos */
+				if(length_check(len, pos, 5, handle, identifier)) {
+					return -1;
+				}
 				slen = (sig[spos + 1] << 24) | (sig[spos + 2] << 16) | (sig[spos + 3] << 8) | sig[spos + 4];
 				spos = spos + 5;
 			}
-
 			if(sig[spos] == 16) {
 				/* issuer key ID */
 				char key[17];
 				size_t i;
+				if(length_check(pos + ulen, spos, 8, handle, identifier)) {
+					return -1;
+				}
 				for (i = 0; i < 8; i++) {
 					sprintf(&key[i * 2], "%02X", sig[spos + i + 1]);
 				}
 				*keys = alpm_list_add(*keys, strdup(key));
 				break;
 			}
-
+			if(length_check(pos + ulen + 1, spos, slen, handle, identifier)) {
+				return -1;
+			}
 			spos = spos + slen;
 		}
-
 		pos = pos + (blen - hlen - 8);
 	}
-
 	return 0;
 }
 
