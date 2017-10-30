@@ -1325,17 +1325,8 @@ done
 trap 'trap_exit INT "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit USR1 "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
-# preserve environment variables and canonicalize path
-[[ -n ${PKGDEST} ]] && _PKGDEST=$(canonicalize_path ${PKGDEST})
-[[ -n ${SRCDEST} ]] && _SRCDEST=$(canonicalize_path ${SRCDEST})
-[[ -n ${SRCPKGDEST} ]] && _SRCPKGDEST=$(canonicalize_path ${SRCPKGDEST})
-[[ -n ${LOGDEST} ]] && _LOGDEST=$(canonicalize_path ${LOGDEST})
-[[ -n ${BUILDDIR} ]] && _BUILDDIR=$(canonicalize_path ${BUILDDIR})
-[[ -n ${PKGEXT} ]] && _PKGEXT=${PKGEXT}
-[[ -n ${SRCEXT} ]] && _SRCEXT=${SRCEXT}
-[[ -n ${GPGKEY} ]] && _GPGKEY=${GPGKEY}
-[[ -n ${PACKAGER} ]] && _PACKAGER=${PACKAGER}
-[[ -n ${CARCH} ]] && _CARCH=${CARCH}
+# preserve environment variables to override makepkg.conf
+restore_envvars=$(declare -p PKGDEST SRCDEST SRCPKGDEST LOGDEST BUILDDIR PKGEXT SRCEXT GPGKEY PACKAGER CARCH 2>/dev/null || true)
 
 # default config is makepkg.conf
 MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
@@ -1360,6 +1351,20 @@ if [[ "$MAKEPKG_CONF" = "$confdir/makepkg.conf" ]]; then
 	fi
 fi
 
+eval "$restore_envvars"
+
+# override settings from extra variables on commandline, if any
+if (( ${#extra_environment[*]} )); then
+	export "${extra_environment[@]}"
+fi
+
+# canonicalize paths and provide defaults if anything is still undefined
+for var in PKGDEST SRCDEST SRCPKGDEST LOGDEST BUILDDIR; do
+	printf -v "$var" "$(canonicalize_path "${!var:-$startdir}")"
+done
+unset var
+PACKAGER=${PACKAGER:-"Unknown Packager"}
+
 # set pacman command if not already defined
 PACMAN=${PACMAN:-pacman}
 # save full path to command as PATH may change when sourcing /etc/profile
@@ -1373,9 +1378,6 @@ else
 fi
 
 
-# override settings with an environment variable for batch processing
-BUILDDIR=${_BUILDDIR:-$BUILDDIR}
-BUILDDIR=${BUILDDIR:-$startdir} #default to $startdir if undefined
 if [[ ! -d $BUILDDIR ]]; then
 	if ! mkdir -p "$BUILDDIR"; then
 		error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
@@ -1390,29 +1392,18 @@ if [[ ! -w $BUILDDIR ]]; then
 	exit $E_FS_PERMISSIONS
 fi
 
-# override settings from extra variables on commandline, if any
-if (( ${#extra_environment[*]} )); then
-	export "${extra_environment[@]}"
-fi
-
-PKGDEST=${_PKGDEST:-$PKGDEST}
-PKGDEST=${PKGDEST:-$startdir} #default to $startdir if undefined
 if (( ! (NOBUILD || GENINTEG) )) && [[ ! -w $PKGDEST ]]; then
 	error "$(gettext "You do not have write permission to store packages in %s.")" "$PKGDEST"
 	plain "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 
-SRCDEST=${_SRCDEST:-$SRCDEST}
-SRCDEST=${SRCDEST:-$startdir} #default to $startdir if undefined
 if [[ ! -w $SRCDEST ]] ; then
 	error "$(gettext "You do not have write permission to store downloads in %s.")" "$SRCDEST"
 	plain "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 
-SRCPKGDEST=${_SRCPKGDEST:-$SRCPKGDEST}
-SRCPKGDEST=${SRCPKGDEST:-$startdir} #default to $startdir if undefined
 if (( SOURCEONLY )); then
 	if [[ ! -w $SRCPKGDEST ]]; then
 		error "$(gettext "You do not have write permission to store source tarballs in %s.")" "$SRCPKGDEST"
@@ -1425,20 +1416,11 @@ if (( SOURCEONLY )); then
 	IGNOREARCH=1
 fi
 
-LOGDEST=${_LOGDEST:-$LOGDEST}
-LOGDEST=${LOGDEST:-$startdir} #default to $startdir if undefined
 if (( LOGGING )) && [[ ! -w $LOGDEST ]]; then
 	error "$(gettext "You do not have write permission to store logs in %s.")" "$LOGDEST"
 	plain "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
-
-PKGEXT=${_PKGEXT:-$PKGEXT}
-SRCEXT=${_SRCEXT:-$SRCEXT}
-GPGKEY=${_GPGKEY:-$GPGKEY}
-PACKAGER=${_PACKAGER:-$PACKAGER}
-PACKAGER=${PACKAGER:-"Unknown Packager"} #default if undefined
-CARCH=${_CARCH:-$CARCH}
 
 if (( ! INFAKEROOT )); then
 	if (( EUID == 0 )); then
