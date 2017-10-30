@@ -379,6 +379,10 @@ prepare_buildenv() {
 	fi
 
 	if check_option "debug" "y"; then
+		if [[ -v DBGSRCDIR ]]; then
+			DEBUG_CFLAGS+=" -fdebug-prefix-map=$srcdir=$DBGSRCDIR"
+			DEBUG_CXXFLAGS+=" -fdebug-prefix-map=$srcdir=$DBGSRCDIR"
+		fi
 		CFLAGS+=" $DEBUG_CFLAGS"
 		CXXFLAGS+=" $DEBUG_CXXFLAGS"
 	fi

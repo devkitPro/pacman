@@ -57,14 +57,11 @@ strip_file() {
 
 		# copy source files to debug directory
 		local f t
-		while read -r f; do
-			t=${f/"$srcdir"/$dbgsrc}
+		while read -r t; do
+			f=${t/$dbgsrc/"$srcdir"}
 			mkdir -p "${t%/*}"
 			cp -- "$f" "$t"
 		done < <(source_files "$binary")
-
-		# adjust debug symbols to point at sources
-		debugedit -b "${srcdir}" -d /usr/src/debug/ -i "$binary" &> /dev/null
 
 		# copy debug symbols to debug directory
 		mkdir -p "$dbgdir/${binary%/*}"
