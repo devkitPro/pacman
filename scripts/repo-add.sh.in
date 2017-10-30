@@ -301,6 +301,7 @@ verify_repo_extension() {
 		*.db.tar.gz)  TAR_OPT="z" ;;
 		*.db.tar.bz2) TAR_OPT="j" ;;
 		*.db.tar.xz)  TAR_OPT="J" ;;
+		*.db.tar.zst) TAR_OPT="--zstd" ;;
 		*.db.tar.Z)   TAR_OPT="Z" ;;
 		*.db.tar)     TAR_OPT="" ;;
 		*) error "$(gettext "'%s' does not have a valid database archive extension.")" \
