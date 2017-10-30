@@ -107,7 +107,7 @@ tidy_strip() {
 		if check_option "debug" "y"; then
 
 			dbgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@/usr/lib/debug"
-			dbgsrc="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@/usr/src/debug"
+			dbgsrc="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@${DBGSRCDIR:-/usr/src/debug}"
 			mkdir -p "$dbgdir" "$dbgsrc"
 		fi
 

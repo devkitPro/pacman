@@ -99,6 +99,8 @@ MAN_DIRS=({usr{,/local}{,/share},opt/*}/{man,info})
 DOC_DIRS=(usr/{,local/}{,share/}{doc,gtk-doc} opt/*/{doc,gtk-doc})
 #-- Files to be removed from all packages (if purge is specified)
 PURGE_TARGETS=(usr/{,share}/info/dir .packlist *.pod)
+#-- Directory to store source code in for debug packages
+DBGSRCDIR="/usr/src/debug"
 
 #########################################################################
 # PACKAGE OUTPUT

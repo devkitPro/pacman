@@ -218,6 +218,12 @@ Options
 	instruct makepkg which files to remove from the package. This is
 	useful for index files that are added by multiple packages.
 
+**DBGSRCDIR=**"/usr/src/debug"::
+	If `strip` and `debug` are specified in the `OPTIONS` array, this variable
+	will instruct makepkg where to place source files for installed binaries.
+	The binaries will be modified to link this directory for the debugger
+	search path.
+
 **PKGDEST=**"/path/to/directory"::
 	If this value is not set, packages will, by default, be placed in the
 	current directory (location of the linkman:PKGBUILD[5]). Many people
