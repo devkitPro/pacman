@@ -26,9 +26,6 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 source "$LIBRARY/util/message.sh"
 
 create_signature() {
-	if [[ $SIGNPKG != 'y' ]]; then
-		return 0
-	fi
 	local ret=0
 	local filename="$1"
 
@@ -50,6 +47,9 @@ create_signature() {
 }
 
 create_package_signatures() {
+	if [[ $SIGNPKG != 'y' ]]; then
+		return 0
+	fi
 	local pkgarch pkg_file
 	local pkgname_backup=("${pkgname[@]}")
 	local fullver=$(get_full_version)

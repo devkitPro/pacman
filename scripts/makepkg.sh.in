@@ -1587,8 +1587,10 @@ if (( SOURCEONLY )); then
 
 	enter_fakeroot
 
-	msg "$(gettext "Signing package...")"
-	create_signature "$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
+	if [[ $SIGNPKG = 'y' ]]; then
+		msg "$(gettext "Signing package...")"
+		create_signature "$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
+	fi
 
 	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date +%c))"
 	exit $E_OK
