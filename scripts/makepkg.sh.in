@@ -914,7 +914,7 @@ get_vcsclient() {
 }
 
 check_vcs_software() {
-	local all_sources all_deps deps ret=0
+	local netfile all_sources all_deps deps ret=0
 
 	if (( SOURCEONLY == 1 )); then
 		# we will not download VCS sources

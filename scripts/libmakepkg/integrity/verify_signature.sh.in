@@ -256,14 +256,14 @@ parse_gpg_statusfile() {
 }
 
 source_has_signatures() {
-	local file all_sources proto
+	local netfile all_sources proto
 
 	get_all_sources_for_arch 'all_sources'
-	for file in "${all_sources[@]}"; do
-		proto="$(get_protocol "$file")"
+	for netfile in "${all_sources[@]}"; do
+		proto="$(get_protocol "$netfile")"
 		query=$(get_uri_query "$netfile")
 
-		if [[ ${file%%::*} = *.@(sig?(n)|asc) || ( $proto = git* && $query = signed ) ]]; then
+		if [[ ${netfile%%::*} = *.@(sig?(n)|asc) || ( $proto = git* && $query = signed ) ]]; then
 			return 0
 		fi
 	done
