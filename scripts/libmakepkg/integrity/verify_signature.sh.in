@@ -157,6 +157,7 @@ verify_file_signature() {
 	esac
 
 	$decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null
+	return 0
 }
 
 verify_git_signature() {
@@ -193,6 +194,7 @@ verify_git_signature() {
 		errors=1
 		return 1
 	fi
+	return 0
 }
 
 parse_gpg_statusfile() {
