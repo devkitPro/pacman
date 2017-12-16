@@ -133,11 +133,11 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 	 * 0, 0: non-download event
 	 * x {x>0}, x: download complete
 	 * x {x>0, x<y}, y {y > 0}: download progress, expected total is known */
-	if(current_size == total_size) {
-		payload->handle->dlcb(payload->remote_name, dlnow, dltotal);
-	} else if(!payload->prevprogress) {
+	if(!payload->cb_initialized) {
 		payload->handle->dlcb(payload->remote_name, 0, -1);
-	} else if(payload->prevprogress == current_size) {
+		payload->cb_initialized = 1;
+	}
+	if(payload->prevprogress == current_size) {
 		payload->handle->dlcb(payload->remote_name, 0, 0);
 	} else {
 	/* do NOT include initial_size since it wasn't part of the package's
@@ -732,6 +732,7 @@ void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload)
 	payload->initial_size += payload->prevprogress;
 	payload->prevprogress = 0;
 	payload->unlink_on_fail = 0;
+	payload->cb_initialized = 0;
 }
 
 /* vim: set noet: */

@@ -41,6 +41,7 @@ struct dload_payload {
 	int errors_ok;
 	int unlink_on_fail;
 	int trust_remote_name;
+	int cb_initialized;
 #ifdef HAVE_LIBCURL
 	CURLcode curlerr;       /* last error produced by curl */
 #endif
