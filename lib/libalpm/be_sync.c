@@ -627,7 +627,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		/* A file exists outside of a subdirectory. This isn't a read error, so return
 		 * success and try to continue on. */
 		_alpm_log(db->handle, ALPM_LOG_WARNING, _("unknown database file: %s\n"),
-				filename);
+				entryname);
 		return 0;
 	}
 
