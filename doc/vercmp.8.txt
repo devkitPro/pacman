@@ -11,7 +11,7 @@ vercmp - version comparison utility
 
 Synopsis
 --------
-'vercmp' <version1> <version2>
+'vercmp' [-h] [--help] <version1> <version2>
 
 
 Description
@@ -44,8 +44,9 @@ mainly for supporting versioned dependencies that do not include the 'pkgrel'.
 Options
 -------
 *-h, \--help*::
-	Display syntax for the given operation. If no operation was supplied,
-	then the general syntax is shown.
+
+	Display summary of the available return codes. Must be the first option
+	specified.
 
 
 Examples
@@ -65,11 +66,6 @@ Examples
 
   $ vercmp 4.34 1:001
   -1
-
-
-Configuration
--------------
-There is none.
 
 
 See Also
