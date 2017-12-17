@@ -49,8 +49,7 @@ int main(int argc, char *argv[])
 		return 2;
 	}
 	if(argc > 1 &&
-			(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0
-			 || strcmp(argv[1], "--usage") == 0)) {
+			(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
 		usage();
 		return 0;
 	}
