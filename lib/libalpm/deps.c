@@ -698,10 +698,8 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 		}
 		for(j = _alpm_db_get_pkgcache(db); j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
-			/* with hash != hash, we can even skip the strcmp() as we know they can't
-			 * possibly be the same string */
-			if(pkg->name_hash != dep->name_hash && _alpm_depcmp(pkg, dep)
-					&& !alpm_pkg_find(excluding, pkg->name)) {
+			if((pkg->name_hash != dep->name_hash || strcmp(pkg->name, dep->name) != 0)
+					&& _alpm_depcmp(pkg, dep) && !alpm_pkg_find(excluding, pkg->name)) {
 				if(alpm_pkg_should_ignore(handle, pkg)) {
 					alpm_question_install_ignorepkg_t question = {
 						.type = ALPM_QUESTION_INSTALL_IGNOREPKG,
