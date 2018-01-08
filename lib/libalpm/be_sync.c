@@ -623,7 +623,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 
 	if(pkg == NULL) {
 		_alpm_log(db->handle, ALPM_LOG_DEBUG,
-				"entry %s could not be loaded into %s sync database",
+				"entry %s could not be loaded into %s sync database\n",
 				entryname, db->treename);
 		return -1;
 	}
