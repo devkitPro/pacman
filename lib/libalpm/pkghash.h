@@ -49,8 +49,8 @@ typedef struct __alpm_pkghash_t alpm_pkghash_t;
 
 alpm_pkghash_t *_alpm_pkghash_create(unsigned int size);
 
-alpm_pkghash_t *_alpm_pkghash_add(alpm_pkghash_t *hash, alpm_pkg_t *pkg);
-alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t *hash, alpm_pkg_t *pkg);
+alpm_pkghash_t *_alpm_pkghash_add(alpm_pkghash_t **hash, alpm_pkg_t *pkg);
+alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t **hash, alpm_pkg_t *pkg);
 alpm_pkghash_t *_alpm_pkghash_remove(alpm_pkghash_t *hash, alpm_pkg_t *pkg, alpm_pkg_t **data);
 
 void _alpm_pkghash_free(alpm_pkghash_t *hash);

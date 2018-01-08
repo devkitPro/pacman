@@ -589,7 +589,10 @@ int _alpm_db_add_pkgincache(alpm_db_t *db, alpm_pkg_t *pkg)
 		? ALPM_PKG_FROM_LOCALDB
 		: ALPM_PKG_FROM_SYNCDB;
 	newpkg->origin_data.db = db;
-	db->pkgcache = _alpm_pkghash_add_sorted(db->pkgcache, newpkg);
+	if(_alpm_pkghash_add_sorted(&db->pkgcache, newpkg) == NULL) {
+		_alpm_pkg_free(newpkg);
+		RET_ERR(db->handle, ALPM_ERR_MEMORY, -1);
+	}
 
 	free_groupcache(db);
 

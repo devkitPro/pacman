@@ -601,7 +601,10 @@ static int local_db_populate(alpm_db_t *db)
 		/* add to the collection */
 		_alpm_log(db->handle, ALPM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);
-		db->pkgcache = _alpm_pkghash_add(db->pkgcache, pkg);
+		if(_alpm_pkghash_add(&db->pkgcache, pkg) == NULL) {
+			_alpm_pkg_free(pkg);
+			RET_ERR(db->handle, ALPM_ERR_MEMORY, -1);
+		}
 		count++;
 	}
 

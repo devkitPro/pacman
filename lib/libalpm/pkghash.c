@@ -132,8 +132,7 @@ static alpm_pkghash_t *rehash(alpm_pkghash_t *oldhash)
 
 	newhash = _alpm_pkghash_create(newsize);
 	if(newhash == NULL) {
-		/* creation of newhash failed, stick with old one... */
-		return oldhash;
+		return NULL;
 	}
 
 	newhash->list = oldhash->list;
@@ -156,23 +155,29 @@ static alpm_pkghash_t *rehash(alpm_pkghash_t *oldhash)
 	return newhash;
 }
 
-static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
+static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t **hashref, alpm_pkg_t *pkg,
 		int sorted)
 {
 	alpm_list_t *ptr;
 	unsigned int position;
+	alpm_pkghash_t *hash;
 
-	if(pkg == NULL || hash == NULL) {
-		return hash;
+	if(pkg == NULL || hashref == NULL || *hashref == NULL) {
+		return NULL;
 	}
+	hash = *hashref;
 
 	if(hash->entries >= hash->limit) {
-		hash = rehash(hash);
+		if((hash = rehash(hash)) == NULL) {
+			/* resizing failed and there are no more open buckets */
+			return NULL;
+		}
+		*hashref = hash;
 	}
 
 	position = get_hash_position(pkg->name_hash, hash);
 
-	MALLOC(ptr, sizeof(alpm_list_t), return hash);
+	MALLOC(ptr, sizeof(alpm_list_t), return NULL);
 
 	ptr->data = pkg;
 	ptr->prev = ptr;
@@ -189,12 +194,12 @@ static alpm_pkghash_t *pkghash_add_pkg(alpm_pkghash_t *hash, alpm_pkg_t *pkg,
 	return hash;
 }
 
-alpm_pkghash_t *_alpm_pkghash_add(alpm_pkghash_t *hash, alpm_pkg_t *pkg)
+alpm_pkghash_t *_alpm_pkghash_add(alpm_pkghash_t **hash, alpm_pkg_t *pkg)
 {
 	return pkghash_add_pkg(hash, pkg, 0);
 }
 
-alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t *hash, alpm_pkg_t *pkg)
+alpm_pkghash_t *_alpm_pkghash_add_sorted(alpm_pkghash_t **hash, alpm_pkg_t *pkg)
 {
 	return pkghash_add_pkg(hash, pkg, 1);
 }
