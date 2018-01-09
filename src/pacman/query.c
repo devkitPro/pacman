@@ -165,6 +165,11 @@ static int query_fileowner(alpm_list_t *targets)
 			goto targcleanup;
 		}
 
+		if(strcmp(filename, "") == 0) {
+			pm_printf(ALPM_LOG_ERROR, _("empty string passed to file owner query\n"));
+			goto targcleanup;
+		}
+
 		/* trailing '/' causes lstat to dereference directory symlinks */
 		len = strlen(filename) - 1;
 		while(len > 0 && filename[len] == '/') {
