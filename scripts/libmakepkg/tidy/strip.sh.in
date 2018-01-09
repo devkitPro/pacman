@@ -58,9 +58,9 @@ strip_file() {
 		# copy source files to debug directory
 		local f t
 		while read -r t; do
-			f=${t/$dbgsrc/"$srcdir"}
-			mkdir -p "${t%/*}"
-			cp -- "$f" "$t"
+			f=${t/${dbgsrcdir}/"$srcdir"}
+			mkdir -p "${dbgsrc/"$dbgsrcdir"/}${t%/*}"
+			cp -- "$f" "${dbgsrc/"$dbgsrcdir"/}$t"
 		done < <(source_files "$binary")
 
 		# copy debug symbols to debug directory
@@ -104,7 +104,8 @@ tidy_strip() {
 		if check_option "debug" "y"; then
 
 			dbgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@/usr/lib/debug"
-			dbgsrc="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@${DBGSRCDIR:-/usr/src/debug}"
+			dbgsrcdir="${DBGSRCDIR:-/usr/src/debug}"
+			dbgsrc="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@$dbgsrcdir"
 			mkdir -p "$dbgdir" "$dbgsrc"
 		fi
 
