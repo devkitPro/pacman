@@ -486,6 +486,8 @@ static int sync_db_populate(alpm_db_t *db)
 	fd = _alpm_open_archive(db->handle, dbpath, &buf,
 			&archive, ALPM_ERR_DB_OPEN);
 	if(fd < 0) {
+		db->status &= ~DB_STATUS_VALID;
+		db->status |= DB_STATUS_INVALID;
 		return -1;
 	}
 	est_count = estimate_package_count(&buf, archive);
