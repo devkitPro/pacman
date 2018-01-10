@@ -999,6 +999,51 @@ static size_t length_check(size_t length, size_t position, size_t a,
 	}
 }
 
+static int parse_subpacket(alpm_handle_t *handle, const char *identifier,
+		const unsigned char *sig, const size_t len, const size_t pos,
+		const size_t plen, alpm_list_t **keys)
+{
+		size_t slen;
+		size_t spos = pos;
+
+		while(spos < pos + plen) {
+			if(sig[spos] < 192) {
+				slen = sig[spos];
+				spos = spos + 1;
+			} else if(sig[spos] < 255) {
+				if(length_check(len, spos, 2, handle, identifier) != 0){
+					return -1;
+				}
+				slen = (sig[spos] << 8) | sig[spos + 1];
+				spos = spos + 2;
+			} else {
+				if(length_check(len, spos, 5, handle, identifier) != 0) {
+					return -1;
+				}
+				slen = (sig[spos + 1] << 24) | (sig[spos + 2] << 16) | (sig[spos + 3] << 8) | sig[spos + 4];
+				spos = spos + 5;
+			}
+			if(sig[spos] == 16) {
+				/* issuer key ID */
+				char key[17];
+				size_t i;
+				if(length_check(len, spos, 8, handle, identifier) != 0) {
+					return -1;
+				}
+				for (i = 0; i < 8; i++) {
+					sprintf(&key[i * 2], "%02X", sig[spos + i + 1]);
+				}
+				*keys = alpm_list_add(*keys, strdup(key));
+				break;
+			}
+			if(length_check(len, spos, slen, handle, identifier) != 0) {
+				return -1;
+			}
+			spos = spos + slen;
+		}
+		return 0;
+}
+
 /**
  * Extract the Issuer Key ID from a signature
  * @param sig PGP signature
@@ -1009,7 +1054,7 @@ static size_t length_check(size_t length, size_t position, size_t a,
 int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 		const unsigned char *sig, const size_t len, alpm_list_t **keys)
 {
-	size_t pos, spos, blen, hlen, ulen, slen;
+	size_t pos, blen, hlen, ulen;
 	pos = 0;
 
 	while(pos < len) {
@@ -1020,49 +1065,69 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 		}
 
 		if(sig[pos] & 0x40) {
-			/* "new" packet format is not supported */
-			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: unsupported signature format\n"), identifier);
-			return -1;
-		}
+			/* new packet format */
+			if(length_check(len, pos, 1, handle, identifier) != 0) {
+				return -1;
+			}
+			pos = pos + 1;
 
-		if(((sig[pos] & 0x3f) >> 2) != 2) {
-			/* signature is not a "Signature Packet" */
-			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("%s: signature format error\n"), identifier);
-			return -1;
-		}
-
-		switch(sig[pos] & 0x03) {
-			case 0:
+			if(sig[pos] < 192) {
+				if(length_check(len, pos, 1, handle, identifier) != 0) {
+					return -1;
+				}
+				blen = sig[pos];
+				pos = pos + 1;
+			} else if (sig[pos] < 224) {
 				if(length_check(len, pos, 2, handle, identifier) != 0) {
 					return -1;
 				}
-				blen = sig[pos + 1];
+				blen = ((sig[pos] - 192) << 8) + sig[pos + 1] + 192;
 				pos = pos + 2;
-				break;
-
-			case 1:
-				if(length_check(len, pos, 3, handle, identifier)) {
-					return -1;
-				}
-				blen = (sig[pos + 1] << 8) | sig[pos + 2];
-				pos = pos + 3;
-				break;
-
-			case 2:
+			} else if (sig[pos] == 255) {
 				if(length_check(len, pos, 5, handle, identifier)) {
 					return -1;
 				}
 				blen = (sig[pos + 1] << 24) | (sig[pos + 2] << 16) | (sig[pos + 3] << 8) | sig[pos + 4];
 				pos = pos + 5;
-				break;
-
-			case 3:
+			} else {
 				/* partial body length not supported */
 				_alpm_log(handle, ALPM_LOG_ERROR,
 					_("%s: unsupported signature format\n"), identifier);
 				return -1;
+			}
+		} else {
+			/* old package format */
+			switch(sig[pos] & 0x03) {
+				case 0:
+					if(length_check(len, pos, 2, handle, identifier) != 0) {
+						return -1;
+					}
+					blen = sig[pos + 1];
+					pos = pos + 2;
+					break;
+
+				case 1:
+					if(length_check(len, pos, 3, handle, identifier) != 0) {
+						return -1;
+					}
+					blen = (sig[pos + 1] << 8) | sig[pos + 2];
+					pos = pos + 3;
+					break;
+
+				case 2:
+					if(length_check(len, pos, 5, handle, identifier) != 0) {
+						return -1;
+					}
+					blen = (sig[pos + 1] << 24) | (sig[pos + 2] << 16) | (sig[pos + 3] << 8) | sig[pos + 4];
+					pos = pos + 5;
+					break;
+
+				case 3:
+					/* partial body length not supported */
+					_alpm_log(handle, ALPM_LOG_ERROR,
+						_("%s: unsupported signature format\n"), identifier);
+					return -1;
+			}
 		}
 
 		if(sig[pos] != 4) {
@@ -1071,14 +1136,12 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 					_("%s: unsupported signature format\n"), identifier);
 			return -1;
 		}
-
 		if(sig[pos + 1] != 0x00) {
 			/* not a signature of a binary document */
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("%s: signature format error\n"), identifier);
 			return -1;
 		}
-
 		pos = pos + 4;
 
 		/* pos got changed above, so an explicit check is necessary
@@ -1087,55 +1150,28 @@ int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 			return -1;
 		}
 		hlen = (sig[pos] << 8) | sig[pos + 1];
-
-		if(length_check(len, pos, hlen + 2, handle, identifier)) {
+		if(length_check(len, pos, hlen + 2, handle, identifier) != 0) {
 			return -1;
 		}
-		pos = pos + hlen + 2;
-
-		ulen = (sig[pos] << 8) | sig[pos + 1];
 		pos = pos + 2;
 
-		spos = pos;
+		if(parse_subpacket(handle, identifier, sig, len, pos, hlen, keys) == -1) {
+			return -1;
+		}
+		pos = pos + hlen;
 
-		while(spos < pos + ulen) {
-			if(sig[spos] < 192) {
-				slen = sig[spos];
-				spos = spos + 1;
-			} else if(sig[spos] < 255) {
-				if(length_check(pos + ulen, spos, 2, handle, identifier)){
-					return -1;
-				}
-				slen = (sig[spos] << 8) | sig[spos + 1];
-				spos = spos + 2;
-			} else {
-				/* check for pos and spos, as spos is still pos */
-				if(length_check(len, pos, 5, handle, identifier)) {
-					return -1;
-				}
-				slen = (sig[spos + 1] << 24) | (sig[spos + 2] << 16) | (sig[spos + 3] << 8) | sig[spos + 4];
-				spos = spos + 5;
-			}
-			if(sig[spos] == 16) {
-				/* issuer key ID */
-				char key[17];
-				size_t i;
-				if(length_check(pos + ulen, spos, 8, handle, identifier)) {
-					return -1;
-				}
-				for (i = 0; i < 8; i++) {
-					sprintf(&key[i * 2], "%02X", sig[spos + i + 1]);
-				}
-				*keys = alpm_list_add(*keys, strdup(key));
-				break;
-			}
-			if(length_check(pos + ulen + 1, spos, slen, handle, identifier)) {
-				return -1;
-			}
-			spos = spos + slen;
+		ulen = (sig[pos] << 8) | sig[pos + 1];
+		if(length_check(len, pos, ulen + 2, handle, identifier) != 0) {
+			return -1;
+		}
+		pos = pos + 2;
+
+		if(parse_subpacket(handle, identifier, sig, len, pos, ulen, keys) == -1) {
+			return -1;
 		}
 		pos = pos + (blen - hlen - 8);
 	}
+
 	return 0;
 }
 
