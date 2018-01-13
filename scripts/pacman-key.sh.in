@@ -580,7 +580,7 @@ fi
 
 # if PACMAN_KEYRING_DIR isn't assigned, try to get it from the config
 # file, falling back on a hard default
-PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-$(get_from "$CONFIG" "GPGDir" "@sysconfdir@/pacman.d/gnupg")}
+PACMAN_KEYRING_DIR=${PACMAN_KEYRING_DIR:-$(pacman-conf --config="$CONFIG" gpgdir)}
 
 GPG_PACMAN=(gpg --homedir "${PACMAN_KEYRING_DIR}" --no-permission-warning)
 if [[ -n ${KEYSERVER} ]]; then

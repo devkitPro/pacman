@@ -70,18 +70,6 @@ die_r() {
 	die "$@"
 }
 
-get_opt_from_config() {
-	local keyname="$1" conffile="$2"
-	local key value
-
-	while IFS=$'= \t' read -r key value _; do
-		if [[ $key = $keyname ]]; then
-			echo "$value"
-			return
-		fi
-	done <"$conffile"
-}
-
 resolve_dir() {
 	local d="$(cd "$1"; pwd -P)"
 	[[ $d == */ ]] || d+=/
@@ -121,13 +109,8 @@ while true; do
 done
 
 conffile=${conffile:-@sysconfdir@/pacman.conf}
-[[ -z $pacroot ]] && pacroot="$(get_opt_from_config "RootDir" "$conffile")"
-[[ -z $dbroot ]] && dbroot="$(get_opt_from_config "DBPath" "$conffile")"
-
-[[ -z $dbroot && -n $pacroot ]] && dbroot="$pacroot/@localstatedir@/lib/pacman"
-
-[[ -z $pacroot ]] && pacroot="@rootdir@"
-[[ -z $dbroot ]] && dbroot="@localstatedir@/lib/pacman/"
+[[ -z $pacroot ]] && pacroot=$(pacman-conf --config="$conffile" rootdir)
+[[ -z $dbroot ]] && dbroot=$(pacman-conf --config="$conffile" --rootdir="$pacroot" dbpath)
 
 m4_include(library/term_colors.sh)
 
