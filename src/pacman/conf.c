@@ -1036,6 +1036,14 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 	}
 }
 
+int parseconfigfile(const char *file)
+{
+	struct section_t section;
+	memset(&section, 0, sizeof(struct section_t));
+	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
+	return parse_ini(file, _parse_directive, &section);
+}
+
 /** Parse a configuration file.
  * @param file path to the config file
  * @return 0 on success, non-zero on error
@@ -1043,10 +1051,7 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 int parseconfig(const char *file)
 {
 	int ret;
-	struct section_t section;
-	memset(&section, 0, sizeof(struct section_t));
-	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
-	if((ret = parse_ini(file, _parse_directive, &section))) {
+	if((ret = parseconfigfile(file))) {
 		return ret;
 	}
 	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
