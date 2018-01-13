@@ -243,6 +243,7 @@ void config_repo_free(config_repo_t *repo);
 int config_set_arch(const char *arch);
 int parseconfig(const char *file);
 int parseconfigfile(const char *file);
+int setdefaults(config_t *c);
 #endif /* PM_CONF_H */
 
 /* vim: set noet: */

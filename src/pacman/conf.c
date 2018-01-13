@@ -616,37 +616,39 @@ static int _parse_options(const char *key, char *value,
 	return 0;
 }
 
-static int _add_mirror(alpm_db_t *db, char *value)
+static char *replace_server_vars(config_t *c, config_repo_t *r, const char *s)
 {
-	const char *dbname = alpm_db_get_name(db);
-	/* let's attempt a replacement for the current repo */
-	char *temp = strreplace(value, "$repo", dbname);
-	/* let's attempt a replacement for the arch */
-	const char *arch = config->arch;
-	char *server;
-	if(arch) {
-		server = strreplace(temp, "$arch", arch);
-		free(temp);
-	} else {
-		if(strstr(temp, "$arch")) {
-			free(temp);
-			pm_printf(ALPM_LOG_ERROR,
-					_("mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"),
-					value, "$arch", "Architecture");
-			return 1;
-		}
-		server = temp;
+	if(c->arch == NULL && strstr(s, "$arch")) {
+		pm_printf(ALPM_LOG_ERROR,
+				_("mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"),
+				s, "$arch", "Architecture");
+		return NULL;
 	}
 
-	if(alpm_db_add_server(db, server) != 0) {
+	if(c->arch) {
+		char *temp, *replaced;
+
+		replaced = strreplace(s, "$arch", c->arch);
+
+		temp = replaced;
+		replaced = strreplace(temp, "$repo", r->name);
+		free(temp);
+
+		return replaced;
+	} else {
+		return strreplace(s, "$repo", r->name);
+	}
+}
+
+static int _add_mirror(alpm_db_t *db, char *value)
+{
+	if(alpm_db_add_server(db, value) != 0) {
 		/* pm_errno is set by alpm_db_setserver */
 		pm_printf(ALPM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
-				dbname, server, alpm_strerror(alpm_errno(config->handle)));
-		free(server);
+				alpm_db_get_name(db), value, alpm_strerror(alpm_errno(config->handle)));
 		return 1;
 	}
 
-	free(server);
 	return 0;
 }
 
@@ -655,9 +657,6 @@ static int register_repo(config_repo_t *repo)
 	alpm_list_t *i;
 	alpm_db_t *db;
 
-	repo->siglevel = merge_siglevel(config->siglevel,
-			repo->siglevel, repo->siglevel_mask);
-
 	db = alpm_register_syncdb(config->handle, repo->name, repo->siglevel);
 	if(db == NULL) {
 		pm_printf(ALPM_LOG_ERROR, _("could not register '%s' database (%s)\n"),
@@ -665,18 +664,12 @@ static int register_repo(config_repo_t *repo)
 		return 1;
 	}
 
-	pm_printf(ALPM_LOG_DEBUG,
-			"setting usage of %d for %s repository\n",
-			repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage,
-			repo->name);
-	alpm_db_set_usage(db, repo->usage == 0 ? ALPM_DB_USAGE_ALL : repo->usage);
+	pm_printf(ALPM_LOG_DEBUG, "setting usage of %d for %s repository\n",
+			repo->usage, repo->name);
+	alpm_db_set_usage(db, repo->usage);
 
 	for(i = repo->servers; i; i = alpm_list_next(i)) {
-		char *value = i->data;
-		if(_add_mirror(db, value) != 0) {
-			pm_printf(ALPM_LOG_ERROR,
-					_("could not add mirror '%s' to database '%s' (%s)\n"),
-					value, repo->name, alpm_strerror(alpm_errno(config->handle)));
+		if(_add_mirror(db, i->data) != 0) {
 			return 1;
 		}
 	}
@@ -698,25 +691,6 @@ static int setup_libalpm(void)
 	alpm_list_t *i;
 
 	pm_printf(ALPM_LOG_DEBUG, "setup_libalpm called\n");
-
-	/* Configure root path first. If it is set and dbpath/logfile were not
-	 * set, then set those as well to reside under the root. */
-	if(config->rootdir) {
-		char path[PATH_MAX];
-		if(!config->dbpath) {
-			snprintf(path, PATH_MAX, "%s/%s", config->rootdir, DBPATH + 1);
-			config->dbpath = strdup(path);
-		}
-		if(!config->logfile) {
-			snprintf(path, PATH_MAX, "%s/%s", config->rootdir, LOGFILE + 1);
-			config->logfile = strdup(path);
-		}
-	} else {
-		config->rootdir = strdup(ROOTDIR);
-		if(!config->dbpath) {
-			config->dbpath = strdup(DBPATH);
-		}
-	}
 
 	/* initialize library */
 	handle = alpm_initialize(config->rootdir, config->dbpath, &err);
@@ -740,7 +714,6 @@ static int setup_libalpm(void)
 		alpm_option_set_dbext(handle, ".files");
 	}
 
-	config->logfile = config->logfile ? config->logfile : strdup(LOGFILE);
 	ret = alpm_option_set_logfile(handle, config->logfile);
 	if(ret != 0) {
 		pm_printf(ALPM_LOG_ERROR, _("problem setting logfile '%s' (%s)\n"),
@@ -750,7 +723,6 @@ static int setup_libalpm(void)
 
 	/* Set GnuPG's home directory. This is not relative to rootdir, even if
 	 * rootdir is defined. Reasoning: gpgdir contains configuration data. */
-	config->gpgdir = config->gpgdir ? config->gpgdir : strdup(GPGDIR);
 	ret = alpm_option_set_gpgdir(handle, config->gpgdir);
 	if(ret != 0) {
 		pm_printf(ALPM_LOG_ERROR, _("problem setting gpgdir '%s' (%s)\n"),
@@ -760,38 +732,20 @@ static int setup_libalpm(void)
 
 	/* Set user hook directory. This is not relative to rootdir, even if
 	 * rootdir is defined. Reasoning: hookdir contains configuration data. */
-	if(config->hookdirs == NULL) {
-		if((ret = alpm_option_add_hookdir(handle, HOOKDIR)) != 0) {
+	/* add hook directories 1-by-1 to avoid overwriting the system directory */
+	for(i = config->hookdirs; i; i = alpm_list_next(i)) {
+		if((ret = alpm_option_add_hookdir(handle, i->data)) != 0) {
 			pm_printf(ALPM_LOG_ERROR, _("problem adding hookdir '%s' (%s)\n"),
-					HOOKDIR, alpm_strerror(alpm_errno(handle)));
+					(char *) i->data, alpm_strerror(alpm_errno(handle)));
 			return ret;
-		}
-	} else {
-		/* add hook directories 1-by-1 to avoid overwriting the system directory */
-		for(i = config->hookdirs; i; i = alpm_list_next(i)) {
-			if((ret = alpm_option_add_hookdir(handle, i->data)) != 0) {
-				pm_printf(ALPM_LOG_ERROR, _("problem adding hookdir '%s' (%s)\n"),
-						(char *) i->data, alpm_strerror(alpm_errno(handle)));
-				return ret;
-			}
 		}
 	}
 
-	/* add a default cachedir if one wasn't specified */
-	if(config->cachedirs == NULL) {
-		alpm_option_add_cachedir(handle, CACHEDIR);
-	} else {
-		alpm_option_set_cachedirs(handle, config->cachedirs);
-	}
+	alpm_option_set_cachedirs(handle, config->cachedirs);
 
 	alpm_option_set_overwrite_files(handle, config->overwrite_files);
 
 	alpm_option_set_default_siglevel(handle, config->siglevel);
-
-	config->localfilesiglevel = merge_siglevel(config->siglevel,
-			config->localfilesiglevel, config->localfilesiglevel_mask);
-	config->remotefilesiglevel = merge_siglevel(config->siglevel,
-			config->remotefilesiglevel, config->remotefilesiglevel_mask);
 
 	alpm_option_set_local_file_siglevel(handle, config->localfilesiglevel);
 	alpm_option_set_remote_file_siglevel(handle, config->remotefilesiglevel);
@@ -1036,6 +990,59 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 	}
 }
 
+int setdefaults(config_t *c)
+{
+	alpm_list_t *i;
+
+#define SETDEFAULT(opt, val) if(!opt) { opt = val; if(!opt) { return -1; } }
+
+	if(c->rootdir) {
+		char path[PATH_MAX];
+		if(!c->dbpath) {
+			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, DBPATH + 1);
+			SETDEFAULT(c->dbpath, strdup(path));
+		}
+		if(!c->logfile) {
+			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, LOGFILE + 1);
+			SETDEFAULT(c->logfile, strdup(path));
+		}
+	} else {
+		SETDEFAULT(c->rootdir, strdup(ROOTDIR));
+		SETDEFAULT(c->dbpath, strdup(DBPATH));
+	}
+
+	SETDEFAULT(c->logfile, strdup(LOGFILE));
+	SETDEFAULT(c->gpgdir, strdup(GPGDIR));
+	SETDEFAULT(c->cachedirs, alpm_list_add(NULL, strdup(CACHEDIR)));
+	SETDEFAULT(c->hookdirs, alpm_list_add(NULL, strdup(HOOKDIR)));
+	SETDEFAULT(c->cleanmethod, PM_CLEAN_KEEPINST);
+
+	c->localfilesiglevel = merge_siglevel(c->siglevel,
+			c->localfilesiglevel, c->localfilesiglevel_mask);
+	c->remotefilesiglevel = merge_siglevel(c->siglevel,
+			c->remotefilesiglevel, c->remotefilesiglevel_mask);
+
+	for(i = c->repos; i; i = i->next) {
+		config_repo_t *r = i->data;
+		alpm_list_t *j;
+		SETDEFAULT(r->usage, ALPM_DB_USAGE_ALL);
+		r->siglevel = merge_siglevel(c->siglevel, r->siglevel, r->siglevel_mask);
+		for(j = r->servers; j; j = j->next) {
+			char *newurl = replace_server_vars(c, r, j->data);
+			if(newurl == NULL) {
+				return -1;
+			} else {
+				free(j->data);
+				j->data = newurl;
+			}
+		}
+	}
+
+#undef SETDEFAULT
+
+	return 0;
+}
+
 int parseconfigfile(const char *file)
 {
 	struct section_t section;
@@ -1052,6 +1059,9 @@ int parseconfig(const char *file)
 {
 	int ret;
 	if((ret = parseconfigfile(file))) {
+		return ret;
+	}
+	if((ret = setdefaults(config))) {
 		return ret;
 	}
 	pm_printf(ALPM_LOG_DEBUG, "config: finished parsing %s\n", file);
