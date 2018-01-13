@@ -15,7 +15,8 @@ ASCIIDOC_MANS = \
 	PKGBUILD.5 \
 	makepkg.conf.5 \
 	pacman.conf.5 \
-	libalpm.3
+	libalpm.3 \
+	BUILDINFO.5
 
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
@@ -58,6 +59,7 @@ EXTRA_DIST = \
 	PKGBUILD-example.txt \
 	makepkg.conf.5.txt \
 	pacman.conf.5.txt \
+	BUILDINFO.5.txt \
 	libalpm.3.txt \
 	footer.txt \
 	index.txt \
