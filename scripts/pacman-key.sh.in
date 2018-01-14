@@ -51,8 +51,6 @@ UPDATEDB=0
 USE_COLOR='y'
 VERIFY=0
 
-DEFAULT_KEYSERVER='hkp://pool.sks-keyservers.net'
-
 m4_include(library/output_format.sh)
 
 usage() {
@@ -210,8 +208,6 @@ initialize() {
 	add_gpg_conf_option "$conffile" 'no-greeting'
 	add_gpg_conf_option "$conffile" 'no-permission-warning'
 	add_gpg_conf_option "$conffile" 'lock-never'
-	keyserv=${KEYSERVER:-$DEFAULT_KEYSERVER}
-	add_gpg_conf_option "$conffile" 'keyserver' "$keyserv"
 	add_gpg_conf_option "$conffile" 'keyserver-options' 'timeout=10'
 
 	# set up a private signing key (if none available)
