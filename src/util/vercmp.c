@@ -40,8 +40,6 @@ static void usage(void)
 
 int main(int argc, char *argv[])
 {
-	const char *s1 = "";
-	const char *s2 = "";
 	int ret;
 
 	if(argc == 1) {
@@ -53,14 +51,13 @@ int main(int argc, char *argv[])
 		usage();
 		return 0;
 	}
-	if(argc > 2) {
-		s2 = argv[2];
-	}
-	if(argc > 1) {
-		s1 = argv[1];
+	if(argc != 3) {
+		fprintf(stderr, "error: %d argument(s) specified\n\n"
+			"Usage: vercmp <ver1> <ver2>\n", argc - 1);
+		return EXIT_FAILURE;
 	}
 
-	ret = alpm_pkg_vercmp(s1, s2);
+	ret = alpm_pkg_vercmp(argv[1], argv[2]);
 	printf("%d\n", ret);
 	return EXIT_SUCCESS;
 }
