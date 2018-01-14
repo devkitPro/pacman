@@ -1069,8 +1069,8 @@ check_build_status() {
 				 && ! (( FORCE || SOURCEONLY || NOBUILD || NOARCHIVE)); then
 			if (( INSTALL )); then
 				warning "$(gettext "A package has already been built, installing existing package...")"
-				status=$(install_package)
-				exit $status
+				install_package
+				exit $?
 			else
 				error "$(gettext "A package has already been built. (use %s to overwrite)")" "-f"
 				exit $E_ALREADY_BUILT
@@ -1092,8 +1092,8 @@ check_build_status() {
 			if (( allpkgbuilt )); then
 				if (( INSTALL )); then
 					warning "$(gettext "The package group has already been built, installing existing packages...")"
-					status=$(install_package)
-					exit $status
+					install_package
+					exit $?
 				else
 					error "$(gettext "The package group has already been built. (use %s to overwrite)")" "-f"
 					exit $E_ALREADY_BUILT
