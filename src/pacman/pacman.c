@@ -211,7 +211,6 @@ static void usage(int op, const char * const myname)
 		}
 
 		addlist(_("  -b, --dbpath <path>  set an alternate database location\n"));
-		addlist(_("  -r, --root <path>    set an alternate installation root\n"));
 		addlist(_("  -v, --verbose        be verbose\n"));
 		addlist(_("      --arch <arch>    set an alternate architecture\n"));
 		addlist(_("      --sysroot        operate on a mounted guest system (root-only)\n"));
@@ -450,6 +449,8 @@ static int parsearg_global(int opt)
 			break;
 		case OP_ROOT:
 		case 'r':
+			pm_printf(ALPM_LOG_WARNING,
+					_("option --root is deprecated; use --sysroot instead\n"));
 			free(config->rootdir);
 			config->rootdir = strdup(optarg);
 			break;
