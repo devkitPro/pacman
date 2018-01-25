@@ -158,8 +158,9 @@ static int query_fileowner(alpm_list_t *targets)
 		char rpath[PATH_MAX], *rel_path;
 		struct stat buf;
 		alpm_list_t *i;
-		size_t len, is_dir;
+		size_t len;
 		unsigned int found = 0;
+		int is_dir;
 
 		if((filename = strdup(t->data)) == NULL) {
 			goto targcleanup;
