@@ -160,7 +160,7 @@ static int query_fileowner(alpm_list_t *targets)
 		alpm_list_t *i;
 		size_t len;
 		unsigned int found = 0;
-		int is_dir;
+		int is_dir = 0, is_missing = 0;
 
 		if((filename = strdup(t->data)) == NULL) {
 			goto targcleanup;
@@ -175,27 +175,21 @@ static int query_fileowner(alpm_list_t *targets)
 		len = strlen(filename) - 1;
 		while(len > 0 && filename[len] == '/') {
 			filename[len--] = '\0';
+			/* If a non-dir file exists, S_ISDIR will correct this later. */
+			is_dir = 1;
 		}
 
 		if(lstat(filename, &buf) == -1) {
+			is_missing = 1;
 			/* if it is not a path but a program name, then check in PATH */
-			if(strchr(filename, '/') == NULL) {
-				if(search_path(&filename, &buf) == -1) {
-					pm_printf(ALPM_LOG_ERROR, _("failed to find '%s' in PATH: %s\n"),
-							filename, strerror(errno));
-					goto targcleanup;
-				}
-			} else {
-				pm_printf(ALPM_LOG_ERROR, _("failed to read file '%s': %s\n"),
-						filename, strerror(errno));
-				goto targcleanup;
+			if ((strchr(filename, '/') == NULL) && (search_path(&filename, &buf) == 0)) {
+				is_missing = 0;
 			}
 		}
 
 		if(!lrealpath(filename, rpath)) {
-			pm_printf(ALPM_LOG_ERROR, _("cannot determine real path for '%s': %s\n"),
-					filename, strerror(errno));
-			goto targcleanup;
+			/* Can't canonicalize path, try to proceed anyway */
+			strncpy(rpath, filename, PATH_MAX);
 		}
 
 		if(strncmp(rpath, root, rootlen) != 0) {
@@ -206,7 +200,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 		rel_path = rpath + rootlen;
 
-		if((is_dir = S_ISDIR(buf.st_mode))) {
+		if((is_missing && is_dir) || (!is_missing && (is_dir = S_ISDIR(buf.st_mode)))) {
 			size_t rlen = strlen(rpath);
 			if(rlen + 2 >= PATH_MAX) {
 					pm_printf(ALPM_LOG_ERROR, _("path too long: %s/\n"), rpath);
