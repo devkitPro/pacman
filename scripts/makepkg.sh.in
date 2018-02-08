@@ -1365,35 +1365,25 @@ else
 fi
 
 
-if [[ ! -d $BUILDDIR ]]; then
-	if ! mkdir -p "$BUILDDIR"; then
-		error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
-		plain "$(gettext "Aborting...")"
-		exit $E_FS_PERMISSIONS
-	fi
-	chmod a-s "$BUILDDIR"
+# check that all settings directories are user-writable
+if ! ensure_writable_dir "BUILDDIR" "$BUILDDIR"; then
+	plain "$(gettext "Aborting...")"
+	exit $E_FS_PERMISSIONS
 fi
-if [[ ! -w $BUILDDIR ]]; then
-	error "$(gettext "You do not have write permission to create packages in %s.")" "$BUILDDIR"
+chmod a-s "$BUILDDIR"
+
+if (( ! (NOBUILD || GENINTEG) )) && ! ensure_writable_dir "PKGDEST" "$PKGDEST"; then
 	plain "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 
-if (( ! (NOBUILD || GENINTEG) )) && [[ ! -w $PKGDEST ]]; then
-	error "$(gettext "You do not have write permission to store packages in %s.")" "$PKGDEST"
-	plain "$(gettext "Aborting...")"
-	exit $E_FS_PERMISSIONS
-fi
-
-if [[ ! -w $SRCDEST ]] ; then
-	error "$(gettext "You do not have write permission to store downloads in %s.")" "$SRCDEST"
+if ! ensure_writable_dir "SRCDEST" "$SRCDEST" ; then
 	plain "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 
 if (( SOURCEONLY )); then
-	if [[ ! -w $SRCPKGDEST ]]; then
-		error "$(gettext "You do not have write permission to store source tarballs in %s.")" "$SRCPKGDEST"
+	if ! ensure_writable_dir "SRCPKGDEST" "$SRCPKGDEST"; then
 		plain "$(gettext "Aborting...")"
 		exit $E_FS_PERMISSIONS
 	fi
@@ -1403,8 +1393,7 @@ if (( SOURCEONLY )); then
 	IGNOREARCH=1
 fi
 
-if (( LOGGING )) && [[ ! -w $LOGDEST ]]; then
-	error "$(gettext "You do not have write permission to store logs in %s.")" "$LOGDEST"
+if (( LOGGING )) && ! ensure_writable_dir "LOGDEST" "$LOGDEST"; then
 	plain "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
