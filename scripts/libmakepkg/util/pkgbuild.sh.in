@@ -149,14 +149,12 @@ print_all_package_names() {
 	local version=$(get_full_version)
 	local architecture pkg opts a
 	for pkg in ${pkgname[@]}; do
-		get_pkgbuild_attribute "$pkg" 'arch' 1 architecture
+		architecture=$(get_pkg_arch $pkg)
 		get_pkgbuild_attribute "$pkg" 'options' 1 opts
-		for a in ${architecture[@]}; do
-			printf "%s-%s-%s\n" "$pkg" "$version" "$a"
-			if in_opt_array "debug" ${opts[@]} && in_opt_array "strip" ${opts[@]}; then
-				printf "%s-%s-%s-%s\n" "$pkg" "@DEBUGSUFFIX@" "$version" "$a"
-			fi
-		done
+		printf "%s/%s-%s-%s%s\n" "$PKGDEST" "$pkg" "$version" "$architecture" "$PKGEXT"
+		if in_opt_array "debug" ${opts[@]} && in_opt_array "strip" ${opts[@]}; then
+			printf "%s/%s-%s-%s-%s%s\n" "$PKGDEST" "$pkg" "@DEBUGSUFFIX@" "$version" "$architecture" "$PKGEXT"
+		fi
 	done
 }
 
