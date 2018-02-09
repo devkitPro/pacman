@@ -216,8 +216,8 @@ AC_CHECK_LIB([m], [fabs], ,
 	AC_MSG_ERROR([libm is needed to compile pacman!]))
 
 # Check for libarchive
-PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 2.8.0], ,
-	AC_MSG_ERROR([*** libarchive >= 2.8.0 is needed to compile pacman!]))
+PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 3.0.0], ,
+	AC_MSG_ERROR([*** libarchive >= 3.0.0 is needed to compile pacman!]))
 
 # Check for OpenSSL
 have_openssl=no
