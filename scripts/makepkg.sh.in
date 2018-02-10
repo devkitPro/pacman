@@ -1569,7 +1569,7 @@ if (( INFAKEROOT )); then
 	exit $E_OK
 fi
 
-msg "$(gettext "Making package: %s")" "$pkgbase $basever ($(date))"
+msg "$(gettext "Making package: %s")" "$pkgbase $basever ($(date +%c))"
 
 # if we are creating a source-only package, go no further
 if (( SOURCEONLY )); then
@@ -1597,7 +1597,7 @@ if (( SOURCEONLY )); then
 	msg "$(gettext "Signing package...")"
 	create_signature "$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
 
-	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date))"
+	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date +%c))"
 	exit $E_OK
 fi
 
@@ -1703,7 +1703,7 @@ if (( NOARCHIVE )); then
 	exit $E_OK
 fi
 
-msg "$(gettext "Finished making: %s")" "$pkgbase $basever ($(date))"
+msg "$(gettext "Finished making: %s")" "$pkgbase $basever ($(date +%c))"
 
 install_package && exit $E_OK || exit $E_INSTALL_FAILED
 
