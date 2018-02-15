@@ -42,13 +42,13 @@ static void usage(int ret)
 	hputs("usage:  pacman-conf [options] [<directive>...]");
 	hputs("        pacman-conf (--repo-list|--help|--version)");
 	hputs("options:");
-	hputs("  --config=<path>  set an alternate configuration file");
-	hputs("  --rootdir=<path> set an alternate installation root");
-	hputs("  --repo=<remote>  query options for a specific repo");
-	hputs("  --verbose        always show directive names");
-	hputs("  --repo-list      list configured repositories");
-	hputs("  --help           display this help information");
-	hputs("  --version        display version information");
+	hputs("  -c, --config=<path>  set an alternate configuration file");
+	hputs("  -R, --rootdir=<path> set an alternate installation root");
+	hputs("  -r, --repo=<remote>  query options for a specific repo");
+	hputs("  -v, --verbose        always show directive names");
+	hputs("  -l, --repo-list      list configured repositories");
+	hputs("  -h, --help           display this help information");
+	hputs("  -V, --version        display version information");
 #undef hputs
 	cleanup();
 	exit(ret);
@@ -59,7 +59,7 @@ static void parse_opts(int argc, char **argv)
 	int c;
 	config_file = CONFFILE;
 
-	const char *short_opts = "";
+	const char *short_opts = "c:hlR:r:Vv";
 	struct option long_opts[] = {
 		{ "config"    , required_argument , NULL , 'c' },
 		{ "rootdir"   , required_argument , NULL , 'R' },
