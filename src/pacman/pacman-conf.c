@@ -400,7 +400,10 @@ int main(int argc, char **argv)
 {
 	int ret = 0;
 
-	config = config_new();
+	if(!(config = config_new())) {
+		/* config_new prints the appropriate error message */
+		return 1;
+	}
 	parse_opts(argc, argv);
 	if(!config) {
 		ret = 1;
