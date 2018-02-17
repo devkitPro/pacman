@@ -77,7 +77,11 @@ static void parse_opts(int argc, char **argv)
 				config_file = optarg;
 				break;
 			case 'R':
-				config->rootdir = strdup(optarg);
+				if ((config->rootdir = strdup(optarg)) == NULL) {
+					fprintf(stderr, "error setting rootdir '%s': out of memory\n", optarg);
+					cleanup();
+					exit(1);
+				}
 				break;
 			case 'l':
 				repo_list = 1;
@@ -105,6 +109,8 @@ static void parse_opts(int argc, char **argv)
 
 	if(parseconfigfile(config_file) != 0 || setdefaults(config) != 0) {
 		fprintf(stderr, "error parsing '%s'\n", config_file);
+		cleanup();
+		exit(1);
 	}
 }
 
