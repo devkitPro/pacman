@@ -280,6 +280,10 @@ handle_deps() {
 	source /etc/profile &>/dev/null
 	eval "$shellopts"
 
+	# umask might have been changed in /etc/profile
+	# ensure that sane default is set again
+	umask 0022
+
 	return $R_DEPS_SATISFIED
 }
 
