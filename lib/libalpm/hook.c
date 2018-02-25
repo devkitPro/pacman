@@ -267,6 +267,7 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 	struct _alpm_hook_t *hook = ctx->hook;
 
 #define error(...) _alpm_log(handle, ALPM_LOG_ERROR, __VA_ARGS__); return 1;
+#define warning(...) _alpm_log(handle, ALPM_LOG_WARNING, __VA_ARGS__);
 
 	if(!section && !key) {
 		error(_("error while reading hook %s: %s\n"), file, strerror(errno));
@@ -296,6 +297,9 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 				error(_("hook %s line %d: invalid value %s\n"), file, line, value);
 			}
 		} else if(strcmp(key, "Type") == 0) {
+			if(t->type != 0) {
+				warning(_("hook %s line %d: overwriting previous definition of %s\n"), file, line, "Type");
+			}
 			if(strcmp(value, "Package") == 0) {
 				t->type = ALPM_HOOK_TYPE_PACKAGE;
 			} else if(strcmp(value, "File") == 0) {
@@ -312,6 +316,9 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 		}
 	} else if(strcmp(section, "Action") == 0) {
 		if(strcmp(key, "When") == 0) {
+			if(hook->when != 0) {
+				warning(_("hook %s line %d: overwriting previous definition of %s\n"), file, line, "When");
+			}
 			if(strcmp(value, "PreTransaction") == 0) {
 				hook->when = ALPM_HOOK_PRE_TRANSACTION;
 			} else if(strcmp(value, "PostTransaction") == 0) {
@@ -320,6 +327,10 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 				error(_("hook %s line %d: invalid value %s\n"), file, line, value);
 			}
 		} else if(strcmp(key, "Description") == 0) {
+			if(hook->desc != NULL) {
+				warning(_("hook %s line %d: overwriting previous definition of %s\n"), file, line, "Description");
+				FREE(hook->desc);
+			}
 			STRDUP(hook->desc, value, return 1);
 		} else if(strcmp(key, "Depends") == 0) {
 			char *val;
@@ -330,6 +341,10 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 		} else if(strcmp(key, "NeedsTargets") == 0) {
 			hook->needs_targets = 1;
 		} else if(strcmp(key, "Exec") == 0) {
+			if(hook->cmd != NULL) {
+				warning(_("hook %s line %d: overwriting previous definition of %s\n"), file, line, "Exec");
+				_alpm_wordsplit_free(hook->cmd);
+			}
 			if((hook->cmd = _alpm_wordsplit(value)) == NULL) {
 				if(errno == EINVAL) {
 					error(_("hook %s line %d: invalid value %s\n"), file, line, value);
@@ -344,6 +359,7 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 	}
 
 #undef error
+#undef warning
 
 	return 0;
 }
