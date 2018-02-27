@@ -210,6 +210,12 @@ initialize() {
 	add_gpg_conf_option "$conffile" 'lock-never'
 	add_gpg_conf_option "$conffile" 'keyserver-options' 'timeout=10'
 
+	# gpg-agent.conf
+	agent_conffile="${PACMAN_KEYRING_DIR}/gpg-agent.conf"
+	[[ -f $agent_conffile ]] || touch "$agent_conffile"
+	chmod 644 "$agent_conffile"
+	add_gpg_conf_option "$agent_conffile" 'disable-scdaemon'
+
 	# set up a private signing key (if none available)
 	if [[ $(secret_keys_available) -lt 1 ]]; then
 		generate_master_key
