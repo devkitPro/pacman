@@ -751,6 +751,7 @@ int _alpm_remove_packages(alpm_handle_t *handle, int run_ldconfig)
 	alpm_trans_t *trans = handle->trans;
 	int ret = 0;
 
+	run_ldconfig = 0;
 	pkg_count = alpm_list_count(trans->remove);
 	targ_count = 1;
 

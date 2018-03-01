@@ -111,7 +111,7 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 {
 	int ret;
 	struct archive *archive_writer;
-	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
+	const int archive_flags = /*ARCHIVE_EXTRACT_OWNER |*/\
 	                          ARCHIVE_EXTRACT_PERM |
 	                          ARCHIVE_EXTRACT_TIME |
 	                          ARCHIVE_EXTRACT_UNLINK |
@@ -656,7 +656,7 @@ cleanup:
 int _alpm_upgrade_packages(alpm_handle_t *handle)
 {
 	size_t pkg_count, pkg_current;
-	int skip_ldconfig = 0, ret = 0;
+	int skip_ldconfig = 1, ret = 0;
 	alpm_list_t *targ;
 	alpm_trans_t *trans = handle->trans;
 
