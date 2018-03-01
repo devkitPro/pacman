@@ -22,6 +22,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef __APPLE__
+#define MSG_NOSIGNAL 0
+#endif
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
