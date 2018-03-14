@@ -92,7 +92,7 @@ static void make_aligned_titles(void)
 	size_t maxlen = 0;
 	int maxcol = 0;
 	static const wchar_t title_suffix[] = L" :";
-	wchar_t wbuf[ARRAYSIZE(titles)][TITLE_MAXLEN + ARRAYSIZE(title_suffix)];
+	wchar_t wbuf[ARRAYSIZE(titles)][TITLE_MAXLEN + ARRAYSIZE(title_suffix)] = {{ 0 }};
 	size_t wlen[ARRAYSIZE(wbuf)];
 	int wcol[ARRAYSIZE(wbuf)];
 	char *buf[ARRAYSIZE(wbuf)];
