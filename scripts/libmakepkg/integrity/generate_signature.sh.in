@@ -50,28 +50,25 @@ create_package_signatures() {
 	if [[ $SIGNPKG != 'y' ]]; then
 		return 0
 	fi
-	local pkgarch pkg_file
-	local pkgname_backup=("${pkgname[@]}")
+	local pkg pkgarch pkg_file
 	local fullver=$(get_full_version)
 
 	msg "$(gettext "Signing package(s)...")"
 
-	for pkgname in ${pkgname_backup[@]}; do
-		pkgarch=$(get_pkg_arch $pkgname)
-		pkg_file="$PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT}"
+	for pkg in "${pkgname[@]}"; do
+		pkgarch=$(get_pkg_arch $pkg)
+		pkg_file="$PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}"
 
 		create_signature "$pkg_file"
 	done
 
 	# check if debug package needs a signature
 	if ! check_option "debug" "y" || ! check_option "strip" "y"; then
-		return
+		pkg=$pkgbase-@DEBUGSUFFIX@
+		pkgarch=$(get_pkg_arch)
+		pkg_file="$PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}"
+		if [[ -f $pkg_file ]]; then
+			create_signature "$pkg_file"
+		fi
 	fi
-
-	pkgname=$pkgbase-@DEBUGSUFFIX@
-	pkgarch=$(get_pkg_arch)
-	pkg_file="$PKGDEST/${pkgname}-${fullver}-${pkgarch}${PKGEXT}"
-	create_signature "$pkg_file"
-
-	pkgname=("${pkgname_backup[@]}")
 }
