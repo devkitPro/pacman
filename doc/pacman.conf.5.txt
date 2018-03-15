@@ -48,7 +48,7 @@ work.
 
 Options
 -------
-*RootDir =* path/to/root::
+*RootDir =* /path/to/root/dir::
 	Set the default root directory for pacman to install to. This option is
 	used if you want to install a package on a temporary mounted partition
 	which is "owned" by another system, or for a chroot install.
@@ -56,13 +56,13 @@ Options
 	command line or in linkman:pacman.conf[5], their default location will
 	be inside this root path.
 
-*DBPath =* path/to/db/dir::
+*DBPath =* /path/to/db/dir::
 	Overrides the default location of the toplevel database directory. The
 	default is +{localstatedir}/lib/pacman/+. Most users will not need to set
 	this option. *NOTE*: if specified, this is an absolute path and the root
 	path is not automatically prepended.
 
-*CacheDir =* path/to/cache/dir::
+*CacheDir =* /path/to/cache/dir::
 	Overrides the default location of the package cache directory. The
 	default is +{localstatedir}/cache/pacman/pkg/+. Multiple cache directories can be
 	specified, and they are tried in the order they are listed in the config
@@ -70,7 +70,7 @@ Options
 	to the first cache directory with write access. *NOTE*: this is an absolute
 	path, the root path is not automatically prepended.
 
-*HookDir =* path/to/hook/dir::
+*HookDir =* /path/to/hook/dir::
 	Add directories to search for alpm hooks in addition to the system hook
 	directory (+{datarootdir}/libalpm/hooks/+).  The default is
 	+{sysconfdir}/pacman.d/hooks+.  Multiple directories can be specified with
@@ -79,7 +79,7 @@ Options
 	automatically prepended.  For more information on the alpm hooks, see
 	linkman:alpm-hooks[5].
 
-*GPGDir =* path/to/gpg/dir::
+*GPGDir =* /path/to/gpg/dir::
 	Overrides the default location of the directory containing configuration
 	files for GnuPG. The default is +{sysconfdir}/pacman.d/gnupg/+.
 	This directory should contain two files: `pubring.gpg` and `trustdb.gpg`.
@@ -89,7 +89,7 @@ Options
 	*NOTE*: this is an absolute path, the root path is not automatically
 	prepended.
 
-*LogFile =* /path/to/file::
+*LogFile =* /path/to/log/file::
 	Overrides the default location of the pacman log file. The default
 	is +{localstatedir}/log/pacman.log+. This is an absolute path and the root directory
 	is not prepended.
@@ -108,7 +108,7 @@ Options
 	group when performing a '\--sysupgrade'. Shell-style glob patterns are
 	allowed.
 
-*Include =* path::
+*Include =* /path/to/config/file::
 	Include another configuration file. This file can include repositories or
 	general configuration options. Wildcards in the specified paths will get
 	expanded based on linkman:glob[7] rules.
