@@ -150,9 +150,8 @@ print_all_package_names() {
 	local architecture pkg opts a
 	for pkg in ${pkgname[@]}; do
 		architecture=$(get_pkg_arch $pkg)
-		get_pkgbuild_attribute "$pkg" 'options' 1 opts
 		printf "%s/%s-%s-%s%s\n" "$PKGDEST" "$pkg" "$version" "$architecture" "$PKGEXT"
-		if in_opt_array "debug" ${opts[@]} && in_opt_array "strip" ${opts[@]}; then
+		if check_option "debug" "y" && check_option "strip" "y"; then
 			printf "%s/%s-%s-%s-%s%s\n" "$PKGDEST" "$pkg" "@DEBUGSUFFIX@" "$version" "$architecture" "$PKGEXT"
 		fi
 	done
