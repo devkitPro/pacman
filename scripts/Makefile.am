@@ -44,6 +44,7 @@ libmakepkgdir = $(datarootdir)/makepkg
 
 LIBMAKEPKGDIRS = \
 	integrity \
+	lint_config \
 	lint_package \
 	lint_pkgbuild \
 	source \
@@ -56,6 +57,9 @@ LIBMAKEPKG_IN = \
 	libmakepkg/integrity/generate_signature.sh \
 	libmakepkg/integrity/verify_checksum.sh \
 	libmakepkg/integrity/verify_signature.sh \
+	libmakepkg/lint_config.sh \
+	libmakepkg/lint_config/paths.sh \
+	libmakepkg/lint_config/variable.sh \
 	libmakepkg/lint_package.sh \
 	libmakepkg/lint_package/build_references.sh \
 	libmakepkg/lint_package/dotfiles.sh \

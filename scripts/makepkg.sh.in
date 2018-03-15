@@ -1365,6 +1365,10 @@ else
 fi
 
 
+# check makepkg.conf for some basic requirements
+lint_config || exit $E_CONFIG_ERROR
+
+
 # check that all settings directories are user-writable
 if ! ensure_writable_dir "BUILDDIR" "$BUILDDIR"; then
 	plain "$(gettext "Aborting...")"
