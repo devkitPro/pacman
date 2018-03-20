@@ -80,6 +80,10 @@ extract_function_variable() {
 		printf -v attr_regex '^[[:space:]]* %s\+?=[^(]' "$2"
 	fi
 
+	# save our shell options and turn on extglob
+	local shellopts=$(shopt -p)
+	shopt -s extglob
+
 	while read -r; do
 		# strip leading whitespace and any usage of declare
 		decl=${REPLY##*([[:space:]])}
@@ -88,6 +92,8 @@ extract_function_variable() {
 		# entering this loop at all means we found a match, so notify the caller.
 		r=0
 	done < <(grep_function "$funcname" "$attr_regex")
+
+	eval "$shellopts"
 
 	return $r
 }
