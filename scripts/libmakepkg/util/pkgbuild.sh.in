@@ -116,6 +116,33 @@ get_pkgbuild_attribute() {
 	fi
 }
 
+get_pkgbuild_all_split_attributes() {
+	local attrname=$1 outputvar=$2 all_list list
+
+	if extract_global_variable "$attrname" 1 list; then
+		all_list+=("${list[@]}")
+	fi
+	for a in "${arch[@]}"; do
+		if extract_global_variable "${attrname}_$a" 1 list; then
+			all_list+=("${list[@]}")
+		fi
+	done
+
+	for name in "${pkgname[@]}"; do
+		if extract_function_variable "package_$name" "$attrname" 1 list; then
+			all_list+=("${list[@]}")
+		fi
+
+		for a in "${arch[@]}"; do
+			if extract_function_variable "package_$name" "${attrname}_$a" 1 list; then
+				all_list+=("${list[@]}")
+			fi
+		done
+	done
+
+	[[ ${all_list[@]} ]] && array_build "$outputvar" all_list
+}
+
 ##
 #  usage : get_full_version()
 # return : full version spec, including epoch (if necessary), pkgver, pkgrel

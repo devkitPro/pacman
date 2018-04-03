@@ -30,13 +30,15 @@ lint_pkgbuild_functions+=('lint_pkgver')
 
 
 check_pkgver() {
-	if [[ -z $1 ]]; then
-		error "$(gettext "%s is not allowed to be empty.")" "pkgver"
+	local ver=$1 type=$2
+
+	if [[ -z $ver ]]; then
+		error "$(gettext "%s is not allowed to be empty.")" "pkgver${type:+ in $type}"
 		return 1
 	fi
 
-	if [[ $1 = *[[:space:]/:-]* ]]; then
-		error "$(gettext "%s is not allowed to contain colons, forward slashes, hyphens or whitespace.")" "pkgver"
+	if [[ $ver = *[[:space:]/:-]* ]]; then
+		error "$(gettext "%s is not allowed to contain colons, forward slashes, hyphens or whitespace.")" "pkgver${type:+ in $type}"
 		return 1
 	fi
 }

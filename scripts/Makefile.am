@@ -69,8 +69,12 @@ LIBMAKEPKG_IN = \
 	libmakepkg/lint_pkgbuild/arch.sh \
 	libmakepkg/lint_pkgbuild/backup.sh \
 	libmakepkg/lint_pkgbuild/changelog.sh \
+	libmakepkg/lint_pkgbuild/checkdepends.sh \
+	libmakepkg/lint_pkgbuild/conflicts.sh \
+	libmakepkg/lint_pkgbuild/depends.sh \
 	libmakepkg/lint_pkgbuild/epoch.sh \
 	libmakepkg/lint_pkgbuild/install.sh \
+	libmakepkg/lint_pkgbuild/makedepends.sh \
 	libmakepkg/lint_pkgbuild/optdepends.sh \
 	libmakepkg/lint_pkgbuild/options.sh \
 	libmakepkg/lint_pkgbuild/package_function.sh \

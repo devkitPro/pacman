@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#   provides.sh - Check the 'provides' array conforms to requirements.
+#   checkdepends.sh - Check the 'checkdepends' array conforms to requirements.
 #
 #   Copyright (c) 2014-2018 Pacman Development Team <pacman-dev@archlinux.org>
 #
@@ -18,8 +18,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-[[ -n "$LIBMAKEPKG_LINT_PKGBUILD_PROVIDES_SH" ]] && return
-LIBMAKEPKG_LINT_PKGBUILD_PROVIDES_SH=1
+[[ -n "$LIBMAKEPKG_LINT_PKGBUILD_CHECKDEPENDS_SH" ]] && return
+LIBMAKEPKG_LINT_PKGBUILD_CHECKDEPENDS_SH=1
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
@@ -29,27 +29,28 @@ source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/pkgbuild.sh"
 
 
-lint_pkgbuild_functions+=('lint_provides')
+lint_pkgbuild_functions+=('lint_checkdepends')
 
 
-lint_provides() {
-	local provides_list provide name ver ret=0
+lint_checkdepends() {
+	local checkdepends_list checkdepend name ver ret=0
 
-	get_pkgbuild_all_split_attributes provides provides_list
+	get_pkgbuild_all_split_attributes checkdepends checkdepends_list
 
-	for provide in "${provides_list[@]}"; do
-		if [[ $provide == *['<>']* ]]; then
-			error "$(gettext "%s array cannot contain comparison (< or >) operators.")" "provides"
-			ret=1
-			continue
-		fi
-		name=${provide%%=*}
-		ver=${provide#*=}
-		lint_one_pkgname provides "$name" || ret=1
-		if [[ $ver != $provide ]]; then
-			check_pkgver "$ver" provides || ret=1
+	# save our shell options and turn on extglob
+	local shellopts=$(shopt -p)
+	shopt -s extglob
+
+	for checkdepend in "${checkdepends_list[@]}"; do
+		name=${checkdepend%%@(<|>|=|>=|<=)*}
+		ver=${checkdepend#*@(<|>|=|>=|<=)}
+		lint_one_pkgname checkdepends "$name" || ret=1
+		if [[ $ver != $checkdepend ]]; then
+			check_pkgver "$ver" checkdepends || ret=1
 		fi
 	done
+
+	eval "$shellopts"
 
 	return $ret
 }
