@@ -223,12 +223,14 @@ PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 3.0.0], ,
 have_openssl=no
 have_nettle=no
 if test "x$with_crypto" = "xnettle"; then
+	AC_SUBST(pc_crypto, [nettle])
 	PKG_CHECK_MODULES(NETTLE, [nettle],
 		[AC_DEFINE(HAVE_LIBNETTLE, 1, [Define whether to use nettle]) have_nettle=yes], have_nettle=no)
 	if test "x$have_nettle" = xno -a "x$with_crypto" = xnettle; then
 		AC_MSG_ERROR([*** nettle support requested but libraries not found])
 	fi
 else if test "x$with_crypto" = "xopenssl"; then
+	AC_SUBST(pc_crypto, [libcrypto])
 	PKG_CHECK_MODULES(LIBSSL, [libcrypto],
 		[AC_DEFINE(HAVE_LIBSSL, 1, [Define if libcrypto is available]) have_openssl=yes], have_openssl=no)
 	if test "x$have_openssl" = xno; then
@@ -251,6 +253,10 @@ if test "x$with_libcurl" != "xno"; then
 	fi
 fi
 AM_CONDITIONAL(HAVE_LIBCURL, [test "$have_libcurl" = "yes"])
+# used to generate libalpm.pc
+if test "x$have_libcurl" = xyes; then
+	AC_SUBST(pc_libcurl, [libcurl])
+fi
 
 # Check for gpgme
 AC_MSG_CHECKING(whether to link with libgpgme)
