@@ -125,6 +125,8 @@ tidy_strip() {
 					esac;;
 				*application/x-executable*) # Binaries
 					strip_flags="$STRIP_BINARIES";;
+				*application/x-pie-executable*)  # Relocatable binaries
+					strip_flags="$STRIP_SHARED";;
 				*)
 					continue ;;
 			esac
