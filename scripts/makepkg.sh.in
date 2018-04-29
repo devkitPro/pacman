@@ -305,7 +305,7 @@ resolve_deps() {
 
 	msg "$(gettext "Missing dependencies:")"
 	local dep
-	for dep in $deplist; do
+	for dep in ${deplist[@]}; do
 		msg2 "$dep"
 	done
 
