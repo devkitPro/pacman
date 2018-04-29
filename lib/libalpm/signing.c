@@ -992,7 +992,7 @@ static size_t length_check(size_t length, size_t position, size_t a,
 {
 	if( a == 0 || length - position <= a) {
 		_alpm_log(handle, ALPM_LOG_ERROR,
-		_("%s: signature format error"), identifier);
+				_("%s: signature format error\n"), identifier);
 		return -1;
 	} else {
 		return 0;
