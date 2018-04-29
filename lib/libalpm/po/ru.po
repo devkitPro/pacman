@@ -1,32 +1,31 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011
+# Ilya Ostapenko (Jacobtey) <jacobtey@gmail.com>, 2017
 # Ivan Yurasov <vdk@gmx.us>, 2011
 # kyak <peselnik@gmail.com>, 2013
 # partizan <serg.partizan@gmail.com>, 2011-2012,2014
 # kyak <peselnik@gmail.com>, 2013
-# partizan <serg.partizan@gmail.com>, 2014-2015
+# partizan <serg.partizan@gmail.com>, 2014-2015,2017
 # partizan <serg.partizan@gmail.com>, 2012
 # Vasiliy Polyakov <vp@psu.ru>, 2015
+# Анатолий Валерианович <ffox909@mail.ru>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2016-02-23 13:08+1000\n"
-"PO-Revision-Date: 2015-12-11 10:01+0000\n"
-"Last-Translator: partizan <serg.partizan@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
-"language/ru/)\n"
-"Language: ru\n"
+"POT-Creation-Date: 2017-05-22 11:00+1000\n"
+"PO-Revision-Date: 2017-12-06 20:18+0000\n"
+"Last-Translator: Ilya Ostapenko (Jacobtey) <jacobtey@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: lib/libalpm/add.c:86
 #, c-format
@@ -43,91 +42,92 @@ msgstr "%s-%s не устарел -- переустанавливается\n"
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "откат версии пакета %s (%s => %s)\n"
 
-#: lib/libalpm/add.c:124 lib/libalpm/util.c:379
+#: lib/libalpm/add.c:124
+#, c-format
+msgid "cannot allocate disk archive object"
+msgstr "не удалось выделить объект архивного диска"
+
+#: lib/libalpm/add.c:138 lib/libalpm/util.c:379
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "получено предупреждение при извлечении %s (%s)\n"
 
-#: lib/libalpm/add.c:127 lib/libalpm/util.c:382
+#: lib/libalpm/add.c:141 lib/libalpm/util.c:382
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "не удалось извлечь %s (%s)\n"
 
-#: lib/libalpm/add.c:140 lib/libalpm/dload.c:589 lib/libalpm/remove.c:520
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:589 lib/libalpm/remove.c:533
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "не удалось переименовать %s в %s (%s)\n"
 
-#: lib/libalpm/add.c:191
+#: lib/libalpm/add.c:205
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr "файл не найден в составе пакета %s; извлечение '%s' пропускается\n"
 
-#: lib/libalpm/add.c:200
+#: lib/libalpm/add.c:214
 #, c-format
 msgid "unable to extract %s%s: path too long"
 msgstr "не удалось извлечь %s%s: путь слишком длинный"
 
-#: lib/libalpm/add.c:242
+#: lib/libalpm/add.c:256
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr ""
-"права доступа различаются у каталога %s\n"
-"файловая система: %o  пакет: %o\n"
+msgstr "права доступа различаются у каталога %s\nфайловая система: %o  пакет: %o\n"
 
-#: lib/libalpm/add.c:257
+#: lib/libalpm/add.c:271
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
-msgstr ""
-"различаются владельцы директории '%s'\n"
-"файловая система: %u:%u  пакет: %u:%u\n"
+msgstr "различаются владельцы директории '%s'\nфайловая система: %u:%u  пакет: %u:%u\n"
 
-#: lib/libalpm/add.c:273
+#: lib/libalpm/add.c:287
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "извлечение: не перезаписывается каталог файлом %s\n"
 
-#: lib/libalpm/add.c:301
+#: lib/libalpm/add.c:315
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "не удалось извлечь %s.pacnew: путь слишком длинный"
 
-#: lib/libalpm/add.c:498 lib/libalpm/util.c:331 lib/libalpm/util.c:567
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:331 lib/libalpm/util.c:577
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "не удалось определить текущий рабочий каталог\n"
 
-#: lib/libalpm/add.c:503 lib/libalpm/util.c:336 lib/libalpm/util.c:572
-#: lib/libalpm/util.c:625
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:336 lib/libalpm/util.c:582
+#: lib/libalpm/util.c:635
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "не удалось изменить каталог на %s (%s)\n"
 
-#: lib/libalpm/add.c:542 lib/libalpm/util.c:400 lib/libalpm/util.c:730
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:400 lib/libalpm/util.c:740
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "не удалось восстановить рабочий каталог (%s)\n"
 
-#: lib/libalpm/add.c:550
+#: lib/libalpm/add.c:578
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "обнаружена проблема при обновлении %s\n"
 
-#: lib/libalpm/add.c:556
+#: lib/libalpm/add.c:584
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "обнаружена проблема при установке %s\n"
 
-#: lib/libalpm/add.c:572
+#: lib/libalpm/add.c:599
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "не удалось обновить запись в базе данных %s-%s\n"
 
-#: lib/libalpm/add.c:583
+#: lib/libalpm/add.c:610
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "не удалось добавить запись '%s' в кэш\n"
@@ -142,12 +142,12 @@ msgstr "ошибка чтения файла %s: %s\n"
 msgid "removing invalid database: %s\n"
 msgstr "удаление некорректной базы данных %s\n"
 
-#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:873
+#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:886
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "не удалось создать каталог %s: (%s)\n"
 
-#: lib/libalpm/be_local.c:576 lib/libalpm/be_sync.c:377
+#: lib/libalpm/be_local.c:576 lib/libalpm/be_sync.c:387
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "неправильное имя для записи в базе данных '%s'\n"
@@ -163,72 +163,70 @@ msgid "corrupted database entry '%s'\n"
 msgstr "повреждённая запись в базе данных '%s'\n"
 
 #: lib/libalpm/be_local.c:696 lib/libalpm/be_local.c:788
-#: lib/libalpm/be_local.c:922 lib/libalpm/be_local.c:1019
+#: lib/libalpm/be_local.c:935 lib/libalpm/be_local.c:1032
 #: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
 #: lib/libalpm/util.c:266
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "не удалось открыть файл %s: %s\n"
 
-#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:630
+#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:641
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
-msgstr ""
-"противоречивая информация в базе данных %s: не совпадает имя пакета %s\n"
+msgstr "противоречивая информация в базе данных %s: не совпадает имя пакета %s\n"
 
-#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:636
+#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:647
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
-msgstr ""
-"противоречивая информация в базе данных %s: не совпадает версия пакета %s\n"
+msgstr "противоречивая информация в базе данных %s: не совпадает версия пакета %s\n"
 
 #: lib/libalpm/be_local.c:759
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "неизвестный тип валидации для пакета %s: %s\n"
 
-#: lib/libalpm/be_package.c:476 lib/libalpm/be_package.c:634
-#: lib/libalpm/be_package.c:647
+#: lib/libalpm/be_package.c:477 lib/libalpm/be_package.c:635
+#: lib/libalpm/be_package.c:648
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "ошибка при чтении пакета %s: %s\n"
 
-#: lib/libalpm/be_package.c:490 lib/libalpm/be_package.c:514
+#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:515
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
 msgstr "ошибка при разборе файла mtree пакета %s: %s\n"
 
-#: lib/libalpm/be_package.c:600
+#: lib/libalpm/be_package.c:601
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "не удалось проанализировать файл с описанием пакета в %s\n"
 
-#: lib/libalpm/be_package.c:605
+#: lib/libalpm/be_package.c:606
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "пропущено имя пакета в %s\n"
 
-#: lib/libalpm/be_package.c:609
+#: lib/libalpm/be_package.c:610
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "пропущена версия пакета в %s\n"
 
-#: lib/libalpm/be_package.c:613
+#: lib/libalpm/be_package.c:614
 #, c-format
 msgid "invalid package version in %s\n"
 msgstr "неверная версия пакета в %s\n"
 
-#: lib/libalpm/be_package.c:654
+#: lib/libalpm/be_package.c:655
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "отсутствуют метаданные пакета в %s\n"
 
-#: lib/libalpm/be_package.c:743
+#: lib/libalpm/be_package.c:747
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "не удалось прочитать файл с подписью: %s\n"
 
-#: lib/libalpm/be_package.c:764 lib/libalpm/sync.c:1113
+#: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:1113
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "требуемый ключ отсутствует в цепочке ключей\n"
@@ -238,26 +236,22 @@ msgstr "требуемый ключ отсутствует в цепочке к�
 msgid "removing invalid file: %s\n"
 msgstr "удаляется ошибочный файл: %s\n"
 
-#: lib/libalpm/be_sync.c:502
+#: lib/libalpm/be_sync.c:513
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "не удалось разобрать файл описания '%s' из базы '%s'\n"
 
-#: lib/libalpm/be_sync.c:535 lib/libalpm/be_sync.c:540
+#: lib/libalpm/be_sync.c:546 lib/libalpm/be_sync.c:551
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
-msgstr ""
-"противоречивая информация в базе данных %s: неправильное имя файла для "
-"пакета %s\n"
+msgstr "противоречивая информация в базе данных %s: неправильное имя файла для пакета %s\n"
 
-#: lib/libalpm/be_sync.c:545
+#: lib/libalpm/be_sync.c:556
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
-msgstr ""
-"противоречивая информация в базе данных %s: имя файла пакета %s слишком "
-"длинное\n"
+msgstr "противоречивая информация в базе данных %s: имя файла пакета %s слишком длинное\n"
 
-#: lib/libalpm/be_sync.c:611
+#: lib/libalpm/be_sync.c:622
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "неизвестный файл базы данных: '%s'\n"
@@ -525,7 +519,7 @@ msgstr "попытка завершить транзакцию без блоки
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "не удалось запустить сценарии обработки"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -677,27 +671,27 @@ msgstr "не удалось найти %s в базе данных -- пропу
 msgid "removing %s from target list\n"
 msgstr "удаление '%s' из списка целей\n"
 
-#: lib/libalpm/remove.c:343
+#: lib/libalpm/remove.c:345
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "не удалось удалить файл '%s': %s\n"
 
-#: lib/libalpm/remove.c:383
+#: lib/libalpm/remove.c:385
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "не удалось открыть каталог %s: %s\n"
 
-#: lib/libalpm/remove.c:540
+#: lib/libalpm/remove.c:553
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "не удается удалить %s (%s)\n"
 
-#: lib/libalpm/remove.c:713
+#: lib/libalpm/remove.c:726
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "не удалось удалить из базы данных запись %s-%s\n"
 
-#: lib/libalpm/remove.c:718
+#: lib/libalpm/remove.c:731
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "не удалось удалить запись '%s' из кэша\n"
@@ -792,62 +786,62 @@ msgstr "не удалось удалить временный каталог %s\
 msgid "could not stat file %s: %s\n"
 msgstr "не удалось определить статус файла %s: %s\n"
 
-#: lib/libalpm/util.c:483
+#: lib/libalpm/util.c:493
 #, c-format
 msgid "unable to write to pipe (%s)\n"
 msgstr "не удалось записать в пайп (%s)\n"
 
-#: lib/libalpm/util.c:542
+#: lib/libalpm/util.c:552
 #, c-format
 msgid "unable to read from pipe (%s)\n"
 msgstr "не удалось чтение из пайпа (%s)\n"
 
-#: lib/libalpm/util.c:584 lib/libalpm/util.c:590
+#: lib/libalpm/util.c:594 lib/libalpm/util.c:600
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "не удалось создать канал (%s)\n"
 
-#: lib/libalpm/util.c:598
+#: lib/libalpm/util.c:608
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "не удалось создать новый процесс (%s)\n"
 
-#: lib/libalpm/util.c:621
+#: lib/libalpm/util.c:631
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "не удалось изменить корневой каталог (%s)\n"
 
-#: lib/libalpm/util.c:632
+#: lib/libalpm/util.c:642
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "вызов execv завершился неудачно (%s)\n"
 
-#: lib/libalpm/util.c:701
+#: lib/libalpm/util.c:711
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "вызов waitpid не удался (%s)\n"
 
-#: lib/libalpm/util.c:711
+#: lib/libalpm/util.c:721
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "не удалось корректно выполнить команду\n"
 
-#: lib/libalpm/util.c:718
+#: lib/libalpm/util.c:728
 #, c-format
 msgid "Unknown signal"
 msgstr "Неизвестный сигнал"
 
-#: lib/libalpm/util.c:720
+#: lib/libalpm/util.c:730
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "команда завершена по сигналу %d: %s\n"
 
-#: lib/libalpm/util.c:817
+#: lib/libalpm/util.c:827
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "кэш %s не существует, создается...\n"
 
-#: lib/libalpm/util.c:848
+#: lib/libalpm/util.c:858
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "не удалось найти или создать кеш пакета, используется %s\n"
