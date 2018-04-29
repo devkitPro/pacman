@@ -12,6 +12,9 @@ scripts/libmakepkg/integrity/generate_checksum.sh.in
 scripts/libmakepkg/integrity/generate_signature.sh.in
 scripts/libmakepkg/integrity/verify_checksum.sh.in
 scripts/libmakepkg/integrity/verify_signature.sh.in
+scripts/libmakepkg/lint_config.sh.in
+scripts/libmakepkg/lint_config/paths.sh.in
+scripts/libmakepkg/lint_config/variable.sh.in
 scripts/libmakepkg/lint_package.sh.in
 scripts/libmakepkg/lint_package/build_references.sh.in
 scripts/libmakepkg/lint_package/dotfiles.sh.in
@@ -21,6 +24,9 @@ scripts/libmakepkg/lint_pkgbuild.sh.in
 scripts/libmakepkg/lint_pkgbuild/arch.sh.in
 scripts/libmakepkg/lint_pkgbuild/backup.sh.in
 scripts/libmakepkg/lint_pkgbuild/changelog.sh.in
+scripts/libmakepkg/lint_pkgbuild/checkdepends.sh.in
+scripts/libmakepkg/lint_pkgbuild/conflicts.sh.in
+scripts/libmakepkg/lint_pkgbuild/depends.sh.in
 scripts/libmakepkg/lint_pkgbuild/epoch.sh.in
 scripts/libmakepkg/lint_pkgbuild/install.sh.in
 scripts/libmakepkg/lint_pkgbuild/optdepends.sh.in
@@ -42,6 +48,7 @@ scripts/libmakepkg/source/git.sh.in
 scripts/libmakepkg/source/hg.sh.in
 scripts/libmakepkg/source/local.sh.in
 scripts/libmakepkg/source/svn.sh.in
+scripts/libmakepkg/srcinfo.sh.in
 scripts/libmakepkg/tidy.sh.in
 scripts/libmakepkg/tidy/docs.sh.in
 scripts/libmakepkg/tidy/emptydirs.sh.in
@@ -50,7 +57,16 @@ scripts/libmakepkg/tidy/purge.sh.in
 scripts/libmakepkg/tidy/staticlibs.sh.in
 scripts/libmakepkg/tidy/strip.sh.in
 scripts/libmakepkg/tidy/zipman.sh.in
+scripts/libmakepkg/util.sh.in
+scripts/libmakepkg/util/compress.sh.in
+scripts/libmakepkg/util/error.sh.in
 scripts/libmakepkg/util/message.sh.in
+scripts/libmakepkg/util/option.sh.in
 scripts/libmakepkg/util/parseopts.sh.in
+scripts/libmakepkg/util/pkgbuild.sh.in
 scripts/libmakepkg/util/source.sh.in
+scripts/libmakepkg/util/util.sh.in
+scripts/library/human_to_size.sh
 scripts/library/output_format.sh
+scripts/library/size_to_human.sh
+scripts/library/term_colors.sh
