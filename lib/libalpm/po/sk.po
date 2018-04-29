@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # archetyp <archetyp@linuxmail.org>, 2013
 # archetyp <archetyp@linuxmail.org>, 2013-2015
@@ -15,14 +15,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2017-05-22 11:00+1000\n"
+"POT-Creation-Date: 2018-04-29 23:44+1000\n"
 "PO-Revision-Date: 2017-09-19 09:04+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Slovak (http://www.transifex.com/toofishes/archlinux-pacman/language/sk/)\n"
+"Language-Team: Slovak (http://www.transifex.com/toofishes/archlinux-pacman/"
+"language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: lib/libalpm/add.c:86
@@ -45,17 +46,17 @@ msgstr "downgradujem balíček %s (%s => %s)\n"
 msgid "cannot allocate disk archive object"
 msgstr ""
 
-#: lib/libalpm/add.c:138 lib/libalpm/util.c:379
+#: lib/libalpm/add.c:138 lib/libalpm/util.c:382
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "varovanie pri rozbaľovaní %s (%s)\n"
 
-#: lib/libalpm/add.c:141 lib/libalpm/util.c:382
+#: lib/libalpm/add.c:141 lib/libalpm/util.c:385
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "nie je možné rozbaliť %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:589 lib/libalpm/remove.c:533
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:533
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nie je možné premenovať %s na %s (%s)\n"
@@ -63,7 +64,9 @@ msgstr "nie je možné premenovať %s na %s (%s)\n"
 #: lib/libalpm/add.c:205
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
-msgstr "súbor nebol nájdený v zozname súborov balíčka %s. preskakujem rozbaľovanie %s\n"
+msgstr ""
+"súbor nebol nájdený v zozname súborov balíčka %s. preskakujem rozbaľovanie "
+"%s\n"
 
 #: lib/libalpm/add.c:214
 #, c-format
@@ -75,14 +78,18 @@ msgstr "nepodarilo sa extrahovať %s%s: cesta je príliš dlhá"
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "prístupové práva adresára %s sa nezhodujú\nsúborový systém: %o  balíček: %o\n"
+msgstr ""
+"prístupové práva adresára %s sa nezhodujú\n"
+"súborový systém: %o  balíček: %o\n"
 
 #: lib/libalpm/add.c:271
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
-msgstr "vlastníctvo adresára %s sa nezhoduje\nsúborový systém: %u:%u  balíček: %u:%u\n"
+msgstr ""
+"vlastníctvo adresára %s sa nezhoduje\n"
+"súborový systém: %u:%u  balíček: %u:%u\n"
 
 #: lib/libalpm/add.c:287
 #, c-format
@@ -94,18 +101,18 @@ msgstr "rozbalenie: adresár nebol prepísaný súborom %s\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "nepodarilo sa extrahovať %s.pacnew: cesta je príliš dlhá"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:331 lib/libalpm/util.c:577
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nie je možné zistiť aktuálny pracovný adresár\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:336 lib/libalpm/util.c:582
-#: lib/libalpm/util.c:635
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
+#: lib/libalpm/util.c:631
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "nie je možné prepnúť sa do adresára %s (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:400 lib/libalpm/util.c:740
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "nie je možné obnoviť pracovný adresár (%s)\n"
@@ -140,7 +147,7 @@ msgstr "chyba pri čítaní súboru %s: %s\n"
 msgid "removing invalid database: %s\n"
 msgstr "odstraňujem neplatnú databázu: %s\n"
 
-#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:886
+#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:887
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "nie je možné vytvoriť adresár %s: %s\n"
@@ -160,71 +167,71 @@ msgstr "duplicitný záznam v databáze '%s'\n"
 msgid "corrupted database entry '%s'\n"
 msgstr "poškodený záznam v databáze '%s'\n"
 
-#: lib/libalpm/be_local.c:696 lib/libalpm/be_local.c:788
-#: lib/libalpm/be_local.c:935 lib/libalpm/be_local.c:1032
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
-#: lib/libalpm/util.c:266
+#: lib/libalpm/be_local.c:699 lib/libalpm/be_local.c:791
+#: lib/libalpm/be_local.c:936 lib/libalpm/be_local.c:1033
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:419 lib/libalpm/util.c:253
+#: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "nie je možné otvoriť súbor %s: %s\n"
 
-#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:641
+#: lib/libalpm/be_local.c:715 lib/libalpm/be_sync.c:653
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr "%s databáza nie je konzistentná: nesúhlasí meno balíčka %s\n"
 
-#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:647
+#: lib/libalpm/be_local.c:721 lib/libalpm/be_sync.c:659
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s databáza nie je konzistentná: nesúhlasí verzia balíčka %s\n"
 
-#: lib/libalpm/be_local.c:759
+#: lib/libalpm/be_local.c:762
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "neznámy validačný typ pre balíčerk %s: %s\n"
 
-#: lib/libalpm/be_package.c:477 lib/libalpm/be_package.c:635
-#: lib/libalpm/be_package.c:648
+#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:637
+#: lib/libalpm/be_package.c:650
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "chyba pri čítaní balíčka %s: %s\n"
 
-#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:515
+#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
 msgstr "chyba pri čítaní mtree objektu balíčka %s: %s\n"
 
-#: lib/libalpm/be_package.c:601
+#: lib/libalpm/be_package.c:603
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "nie je možné spracovať súbor s popisom balíčka v %s\n"
 
-#: lib/libalpm/be_package.c:606
+#: lib/libalpm/be_package.c:608
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "chýba meno balíčka v %s\n"
 
-#: lib/libalpm/be_package.c:610
+#: lib/libalpm/be_package.c:612
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "chýba verzia balíčka v %s\n"
 
-#: lib/libalpm/be_package.c:614
+#: lib/libalpm/be_package.c:616
 #, c-format
 msgid "invalid package version in %s\n"
 msgstr "neplatná verzia balíčku v %s\n"
 
-#: lib/libalpm/be_package.c:655
+#: lib/libalpm/be_package.c:657
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "chýbaju metadáta balíčka v %s\n"
 
-#: lib/libalpm/be_package.c:747
+#: lib/libalpm/be_package.c:748
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "zlyhalo načítanie súboru s podpisom: %s\n"
 
-#: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:1113
+#: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:1113
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "požadovaný kľúč nebol nájdený v kľúčenke\n"
@@ -234,22 +241,27 @@ msgstr "požadovaný kľúč nebol nájdený v kľúčenke\n"
 msgid "removing invalid file: %s\n"
 msgstr "odstraňujem neplatný súbor: %s\n"
 
-#: lib/libalpm/be_sync.c:513
+#: lib/libalpm/be_sync.c:517
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "nie je možné nájsť súbor s popisom balíčku '%s' z databázy '%s'\n"
 
-#: lib/libalpm/be_sync.c:546 lib/libalpm/be_sync.c:551
+#: lib/libalpm/be_sync.c:524
+#, fuzzy, c-format
+msgid "could not read db '%s' (%s)\n"
+msgstr "nie je možné premenovať %s na %s (%s)\n"
+
+#: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "%s databáza nie je konzistentná: názov balíčka %s nie je povolený\n"
 
-#: lib/libalpm/be_sync.c:556
+#: lib/libalpm/be_sync.c:568
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s databáza nie je konzistentná: názov balíčka %s je príliš dlhý\n"
 
-#: lib/libalpm/be_sync.c:622
+#: lib/libalpm/be_sync.c:634
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "neznámy databázový súbor: %s\n"
@@ -259,27 +271,27 @@ msgstr "neznámy databázový súbor: %s\n"
 msgid "database path is undefined\n"
 msgstr "cesta k databáze nie je definovaná\n"
 
-#: lib/libalpm/deps.c:229
+#: lib/libalpm/deps.c:184
 #, c-format
 msgid "dependency cycle detected:\n"
 msgstr "zistená cyklická závislosť:\n"
 
-#: lib/libalpm/deps.c:232
+#: lib/libalpm/deps.c:187
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s bude odstránený po %s, na ktorom závisí\n"
 
-#: lib/libalpm/deps.c:236
+#: lib/libalpm/deps.c:191
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s bude nainštalovaný pred %s, na ktorom závisí\n"
 
-#: lib/libalpm/deps.c:678 lib/libalpm/deps.c:710
+#: lib/libalpm/deps.c:682 lib/libalpm/deps.c:712
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "ignorujem balíček %s-%s\n"
 
-#: lib/libalpm/deps.c:865
+#: lib/libalpm/deps.c:867
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "nie je možné vyriešiť \"%s\", závislosť \"%s\"\n"
@@ -312,7 +324,8 @@ msgstr "nepodarilo sa určiť bod pripojenia pre súbor %s\n"
 #: lib/libalpm/diskspace.c:354
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "Partícia %s je preplnená: %jd blokov je potrebných, %ju blokov je voľných\n"
+msgstr ""
+"Partícia %s je preplnená: %jd blokov je potrebných, %ju blokov je voľných\n"
 
 #: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
@@ -322,7 +335,9 @@ msgstr "nepodarilo sa uričť body pripojenia pre súborový systém\n"
 #: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "nepodarilo sa určiť pripojenie adresára cachedir %s\n\n"
+msgstr ""
+"nepodarilo sa určiť pripojenie adresára cachedir %s\n"
+"\n"
 
 #: lib/libalpm/diskspace.c:438
 #, c-format
@@ -334,37 +349,39 @@ msgstr "nepodarilo sa určiť bod pripojenia pre koreň %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Partícia %s je pripojená iba v režime na čítanie\n"
 
-#: lib/libalpm/dload.c:149
+#: lib/libalpm/dload.c:159
 #, c-format
 msgid "disk"
 msgstr "disk"
 
-#: lib/libalpm/dload.c:373
+#: lib/libalpm/dload.c:345
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "chyba pri vytváraní dočasného súboru pre sťahovanie\n"
 
-#: lib/libalpm/dload.c:418
+#: lib/libalpm/dload.c:390
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "URL '%s' je neplatná\n"
 
-#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
+#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "chyba pri získavaní súboru '%s' z %s: %s\n"
 
-#: lib/libalpm/dload.c:500
+#: lib/libalpm/dload.c:472
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "chyba pri sťahovaní súboru '%s' z %s : očakávaná veľkosť sťahovaného súboru bola prekročená\n"
+msgstr ""
+"chyba pri sťahovaní súboru '%s' z %s : očakávaná veľkosť sťahovaného súboru "
+"bola prekročená\n"
 
-#: lib/libalpm/dload.c:548
+#: lib/libalpm/dload.c:520
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s vyzerá byť skrátený:  %jd/%jd bytov\n"
 
-#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
+#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
 #, c-format
 msgid "failed to download %s\n"
 msgstr "chyba pri sťahovaní %s\n"
@@ -594,7 +611,7 @@ msgstr "neplatný alebo poškodený delta rozdiel"
 msgid "delta patch failed"
 msgstr "aplikácia delta rozdielu zlyhala"
 
-#: lib/libalpm/error.c:140
+#: lib/libalpm/error.c:140 lib/libalpm/hook.c:614
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "nie je možné vyriešiť závislosti"
@@ -644,17 +661,104 @@ msgstr "chyba volania externého programu pre sťahovanie súborov"
 msgid "unexpected error"
 msgstr "neočakávaná chyba"
 
-#: lib/libalpm/handle.c:155
+#: lib/libalpm/handle.c:157
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "chýba zamykací súbor %s\n"
 
-#: lib/libalpm/handle.c:161
+#: lib/libalpm/handle.c:163
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "nie je možné odstrániť zamykací súbor %s\n"
 
-#: lib/libalpm/package.c:568
+#: lib/libalpm/hook.c:107
+#, fuzzy, c-format
+msgid "Missing trigger targets in hook: %s\n"
+msgstr "chýba meno balíčka v %s\n"
+
+#: lib/libalpm/hook.c:113
+#, fuzzy, c-format
+msgid "Missing trigger type in hook: %s\n"
+msgstr "chýba meno balíčka v %s\n"
+
+#: lib/libalpm/hook.c:119
+#, fuzzy, c-format
+msgid "Missing trigger operation in hook: %s\n"
+msgstr "chýba verzia balíčka v %s\n"
+
+#: lib/libalpm/hook.c:146
+#, fuzzy, c-format
+msgid "Missing Exec option in hook: %s\n"
+msgstr "chýba verzia balíčka v %s\n"
+
+#: lib/libalpm/hook.c:152
+#, fuzzy, c-format
+msgid "Missing When option in hook: %s\n"
+msgstr "chýba verzia balíčka v %s\n"
+
+#: lib/libalpm/hook.c:155
+#, fuzzy, c-format
+msgid "AbortOnFail set for PostTransaction hook: %s\n"
+msgstr "zlyhalo spustenie hákov transakcie"
+
+#: lib/libalpm/hook.c:273
+#, fuzzy, c-format
+msgid "error while reading hook %s: %s\n"
+msgstr "chyba pri čítaní súboru %s: %s\n"
+
+#: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
+#, c-format
+msgid "hook %s line %d: invalid option %s\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:285
+#, c-format
+msgid "hook %s line %d: invalid section %s\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
+#: lib/libalpm/hook.c:350
+#, fuzzy, c-format
+msgid "hook %s line %d: invalid value %s\n"
+msgstr "odstraňujem neplatný súbor: %s\n"
+
+#: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
+#: lib/libalpm/hook.c:345
+#, c-format
+msgid "hook %s line %d: overwriting previous definition of %s\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:352
+#, c-format
+msgid "hook %s line %d: unable to set option (%s)\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:613
+#, fuzzy, c-format
+msgid "unable to run hook %s: %s\n"
+msgstr "nie je možné zapísať do zreťazenia (%s)\n"
+
+#: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
+#, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "nepodarilo sa otvoriť adresár: %s: %s\n"
+
+#: lib/libalpm/hook.c:676
+#, fuzzy, c-format
+msgid "could not open file: %s%s: %s\n"
+msgstr "nepodarilo sa otvoriť súbor: %s: %s\n"
+
+#: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
+#, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "nepodarilo sa získať status súboru %s: %s\n"
+
+#: lib/libalpm/hook.c:722
+#, fuzzy, c-format
+msgid "could not read directory: %s: %s\n"
+msgstr "nie je možné vytvoriť adresár %s: %s\n"
+
+#: lib/libalpm/package.c:586
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "nie je možné poriadne načítať metadáta pre balíček %s-%s\n"
@@ -674,11 +778,6 @@ msgstr "'%s' odstránený zo zoznamu cieľov\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "nie je možné odstrániť súbor '%s': %s\n"
 
-#: lib/libalpm/remove.c:385
-#, c-format
-msgid "could not open directory: %s: %s\n"
-msgstr "nepodarilo sa otvoriť adresár: %s: %s\n"
-
 #: lib/libalpm/remove.c:553
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -693,6 +792,92 @@ msgstr "nie je možné odstrániť záznam databáze %s-%s\n"
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "nie je možné odstrániť položku '%s' z cache\n"
+
+#: lib/libalpm/signing.c:171
+#, c-format
+msgid "Public keyring not found; have you run '%s'?\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
+#, c-format
+msgid "GPGME error: %s\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:402
+#, c-format
+msgid "keyring is not writable\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:460
+#, c-format
+msgid "key \"%s\" could not be imported\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:466
+#, c-format
+msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:471
+#, c-format
+msgid "key \"%s\" could not be looked up remotely\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1181
+#, c-format
+msgid "%s: missing required signature\n"
+msgstr "%s: chýba vyžadovaný podpis\n"
+
+#: lib/libalpm/signing.c:874
+#, c-format
+msgid "%s: signature from \"%s\" is marginal trust\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:882
+#, c-format
+msgid "%s: signature from \"%s\" is unknown trust\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:889
+#, c-format
+msgid "%s: signature from \"%s\" should never be trusted\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:901
+#, c-format
+msgid "%s: key \"%s\" is unknown\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:910
+#, c-format
+msgid "%s: key \"%s\" is disabled\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:914
+#, c-format
+msgid "%s: signature from \"%s\" is expired\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:918
+#, fuzzy, c-format
+msgid "%s: signature from \"%s\" is invalid\n"
+msgstr "URL '%s' je neplatná\n"
+
+#: lib/libalpm/signing.c:995
+#, c-format
+msgid "%s: signature format error"
+msgstr ""
+
+#: lib/libalpm/signing.c:1063 lib/libalpm/signing.c:1142
+#, c-format
+msgid "%s: signature format error\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
+#: lib/libalpm/signing.c:1136
+#, fuzzy, c-format
+msgid "%s: unsupported signature format\n"
+msgstr "%s: chýba vyžadovaný podpis\n"
 
 #: lib/libalpm/sync.c:98
 #, c-format
@@ -724,12 +909,12 @@ msgstr "ignorujem náhradu balíčku (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "nedá sa nahradiť súbor %s súborom %s\n"
 
-#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
+#: lib/libalpm/sync.c:538 lib/libalpm/sync.c:608
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "zistený konflikt nerozlíšiteľných balíčkov\n"
 
-#: lib/libalpm/sync.c:556
+#: lib/libalpm/sync.c:558
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' odstránený zo zoznamu cieľov, pretože je v konflikte s '%s'\n"
@@ -738,11 +923,6 @@ msgstr "'%s' odstránený zo zoznamu cieľov, pretože je v konflikte s '%s'\n"
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "zlyhalo získanie niektorých súborov\n"
-
-#: lib/libalpm/sync.c:1181
-#, c-format
-msgid "%s: missing required signature\n"
-msgstr "%s: chýba vyžadovaný podpis\n"
 
 #: lib/libalpm/sync.c:1384
 #, c-format
@@ -759,87 +939,84 @@ msgstr "nie je možné uskutočniť transakciu pre odstránenie\n"
 msgid "could not commit transaction\n"
 msgstr "nie je možné uskutočniť transakciu\n"
 
-#: lib/libalpm/trans.c:360
+#: lib/libalpm/trans.c:364
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "nie je možné vytvoriť dočasný adresár\n"
 
-#: lib/libalpm/trans.c:375
+#: lib/libalpm/trans.c:379
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "nie je možné skopírovať dočasný súbor do %s (%s)\n"
 
-#: lib/libalpm/trans.c:406
+#: lib/libalpm/trans.c:410
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s nie je možné vymazať\n"
 
-#: lib/libalpm/trans.c:410
+#: lib/libalpm/trans.c:414
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "nie je možné odstrániť dočasný adresár %s\n"
 
-#: lib/libalpm/util.c:256
-#, c-format
-msgid "could not stat file %s: %s\n"
-msgstr "nepodarilo sa získať status súboru %s: %s\n"
-
-#: lib/libalpm/util.c:493
+#: lib/libalpm/util.c:486
 #, c-format
 msgid "unable to write to pipe (%s)\n"
 msgstr "nie je možné zapísať do zreťazenia (%s)\n"
 
-#: lib/libalpm/util.c:552
+#: lib/libalpm/util.c:545
 #, c-format
 msgid "unable to read from pipe (%s)\n"
 msgstr "nie je možné čítať zo zreťazenia (%s)\n"
 
-#: lib/libalpm/util.c:594 lib/libalpm/util.c:600
+#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "nepodarilo sa vytvoriť rúru (%s)\n"
 
-#: lib/libalpm/util.c:608
+#: lib/libalpm/util.c:604
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "nie je možné spustiť nový proces (%s)\n"
 
-#: lib/libalpm/util.c:631
+#: lib/libalpm/util.c:627
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "nie je možné zmeniť koreňový adresár (%s)\n"
 
-#: lib/libalpm/util.c:642
+#: lib/libalpm/util.c:638
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "volanie execv zlyhalo (%s)\n"
 
-#: lib/libalpm/util.c:711
+#: lib/libalpm/util.c:709
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "volanie waitpid zlyhalo (%s)\n"
 
-#: lib/libalpm/util.c:721
+#: lib/libalpm/util.c:719
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "príkaz sa nepodarilo spustiť správne\n"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:726
 #, c-format
 msgid "Unknown signal"
 msgstr "Neznámy signál"
 
-#: lib/libalpm/util.c:730
+#: lib/libalpm/util.c:728
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "príkaz bol ukončený signálom %d: %s\n"
 
-#: lib/libalpm/util.c:827
+#: lib/libalpm/util.c:825
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "neexistuje cache %s, vytváram...\n"
 
-#: lib/libalpm/util.c:858
+#: lib/libalpm/util.c:856
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "nie je možné nájsť alebo vytvoriť cache pre balíček,  miesto toho sa používa %s\n"
+msgstr ""
+"nie je možné nájsť alebo vytvoriť cache pre balíček,  miesto toho sa používa "
+"%s\n"

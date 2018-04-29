@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # kraim <biskraim@gmail.com>, 2013
 # kraim <biskraim@gmail.com>, 2013
@@ -16,15 +16,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2017-05-22 11:01+1000\n"
+"POT-Creation-Date: 2018-04-29 23:49+1000\n"
 "PO-Revision-Date: 2017-09-19 12:25+0000\n"
 "Last-Translator: صفا الفليج <safaalfulaij@hotmail.com>\n"
-"Language-Team: Arabic (http://www.transifex.com/toofishes/archlinux-pacman/language/ar/)\n"
+"Language-Team: Arabic (http://www.transifex.com/toofishes/archlinux-pacman/"
+"language/ar/)\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: src/pacman/callback.c:182
 #, c-format
@@ -59,7 +61,7 @@ msgstr "يبحث عن الحزم المتضاربة...\n"
 #: src/pacman/callback.c:211
 #, c-format
 msgid "Processing package changes...\n"
-msgstr "يعالج تغييرات الحزم..."
+msgstr "يعالج تغييرات الحزم...\n"
 
 #: src/pacman/callback.c:218
 #, c-format
@@ -146,43 +148,42 @@ msgstr "يفحص مساحة القرص المتوفّرة...\n"
 msgid "%s optionally requires %s\n"
 msgstr "تطلب %s ‏%s اختياريًّا\n"
 
-#: src/pacman/callback.c:320 src/pacman/callback.c:326
+#: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "ثُبّتت %s كَـ %s.pacnew\n"
 
-#: src/pacman/callback.c:336 src/pacman/callback.c:342
+#: src/pacman/callback.c:337 src/pacman/callback.c:343
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "حُفظت %s كَـ %s.pacsave\n"
 
-#: src/pacman/callback.c:390
+#: src/pacman/callback.c:395
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s حزمة/مجموعة متجاهلة. أأثبّتها على أيّ حال؟"
 
-#: src/pacman/callback.c:400
+#: src/pacman/callback.c:405
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "أأستبدل %s بِـ %s/%s؟"
 
-#: src/pacman/callback.c:412
+#: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s تتعارض مع %s. أأزيل %s؟"
 
-#: src/pacman/callback.c:417
+#: src/pacman/callback.c:422
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s تتعارض مع %s ‏(%s). أأزيل %s؟"
 
-#: src/pacman/callback.c:436
+#: src/pacman/callback.c:441
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
 msgid_plural ""
-"The following packages cannot be upgraded due to unresolvable "
-"dependencies:\n"
+"The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[0] "رُقّيت كلّ الحزم\n"
 msgstr[1] "تعذّرت ترقية الحزمة الآتية بسبب عدم استيفاء اعتماديّاتها:\n"
 msgstr[2] "تعذّرت ترقية الحزمتين الآتيتين بسبب عدم استيفاء اعتماديّاتيهما:\n"
@@ -190,7 +191,7 @@ msgstr[3] "تعذّرت ترقية الحزم الآتية بسبب عدم اس�
 msgstr[4] "تعذّرت ترقية الحزم الآتية بسبب عدم استيفاء اعتماديّاتها:\n"
 msgstr[5] "تعذّرت ترقية الحزم الآتية بسبب عدم استيفاء اعتماديّاتها:\n"
 
-#: src/pacman/callback.c:442
+#: src/pacman/callback.c:447
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
@@ -201,7 +202,7 @@ msgstr[3] "أتريد تخطّي ترقية الحزم أعلاه؟"
 msgstr[4] "أتريد تخطّي ترقية الحزم أعلاه؟"
 msgstr[5] "أتريد تخطّي ترقية الحزم أعلاه؟"
 
-#: src/pacman/callback.c:453
+#: src/pacman/callback.c:458
 #, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
@@ -212,74 +213,76 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: src/pacman/callback.c:464
+#: src/pacman/callback.c:469
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
-msgstr "الملف %s تالف (%s).\nأتريد حذفه؟"
+msgstr ""
+"الملف %s تالف (%s).\n"
+"أتريد حذفه؟"
 
-#: src/pacman/callback.c:478
+#: src/pacman/callback.c:483
 #, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
 msgstr ""
 
-#: src/pacman/callback.c:481
+#: src/pacman/callback.c:486
 #, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
 msgstr ""
 
-#: src/pacman/callback.c:540
+#: src/pacman/callback.c:545
 #, c-format
 msgid "installing"
 msgstr "يثبّت"
 
-#: src/pacman/callback.c:543
+#: src/pacman/callback.c:548
 #, c-format
 msgid "upgrading"
 msgstr "يرقّي"
 
-#: src/pacman/callback.c:546
+#: src/pacman/callback.c:551
 #, c-format
 msgid "downgrading"
 msgstr "ينزل"
 
-#: src/pacman/callback.c:549
+#: src/pacman/callback.c:554
 #, c-format
 msgid "reinstalling"
 msgstr "يعيد تثبيت"
 
-#: src/pacman/callback.c:552
+#: src/pacman/callback.c:557
 #, c-format
 msgid "removing"
 msgstr "يزيل"
 
-#: src/pacman/callback.c:555
+#: src/pacman/callback.c:560
 #, c-format
 msgid "checking for file conflicts"
 msgstr "يفحص تعارضات الملفّات"
 
-#: src/pacman/callback.c:558
+#: src/pacman/callback.c:563
 #, c-format
 msgid "checking available disk space"
 msgstr "يفحص مساحة القرص المتوفّرة"
 
-#: src/pacman/callback.c:561
+#: src/pacman/callback.c:566
 #, c-format
 msgid "checking package integrity"
 msgstr "يفحص سلامة الحز"
 
-#: src/pacman/callback.c:564
+#: src/pacman/callback.c:569
 #, c-format
 msgid "checking keys in keyring"
 msgstr "يفحص المفاتيح في حلقة المفاتيح"
 
-#: src/pacman/callback.c:567
+#: src/pacman/callback.c:572
 #, c-format
 msgid "loading package files"
 msgstr "يحمّل ملفّات الحزم"
 
-#: src/pacman/callback.c:679
+#: src/pacman/callback.c:689
 #, c-format
 msgid "downloading %s...\n"
 msgstr "ينزّل %s...\n"
@@ -335,7 +338,7 @@ msgstr "%s: ‏%s (الحجم لا يتطابق)\n"
 msgid "path too long: %s%s\n"
 msgstr "المسار طويل جدًّا: %s ‏%s\n"
 
-#: src/pacman/check.c:242 src/pacman/check.c:386
+#: src/pacman/check.c:242 src/pacman/check.c:385
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
@@ -372,7 +375,7 @@ msgstr ""
 msgid "file type not recognized: %s%s\n"
 msgstr "تعذّر التّعرّف على نوع الملفّ: %s%s\n"
 
-#: src/pacman/check.c:388
+#: src/pacman/check.c:387
 #, c-format
 msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
@@ -394,131 +397,128 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: src/pacman/conf.c:251
+#: src/pacman/conf.c:252
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "تعذّر الحصول على دليل العمل الحاليّ\n"
 
-#: src/pacman/conf.c:256
+#: src/pacman/conf.c:257
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "تعذّر تغيير الدّليل (chdir) إلى دليل التّنزيل %s\n"
 
-#: src/pacman/conf.c:265
+#: src/pacman/conf.c:266
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "يشغّل XferCommand: فشل التّفريع!\n"
 
-#: src/pacman/conf.c:277
+#: src/pacman/conf.c:278
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "تعذّرت إعادة تسمية %s إلى %s ‏(%s)\n"
 
-#: src/pacman/conf.c:288
+#: src/pacman/conf.c:289
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "تعذّر استرجاع دليل العمل (%s)\n"
 
-#: src/pacman/conf.c:397 src/pacman/conf.c:447 src/pacman/conf.c:541
+#: src/pacman/conf.c:398 src/pacman/conf.c:447 src/pacman/conf.c:543
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "ملفّ الضّبط %s، السّطر %d: قيمة غير صالحة لِـ '%s':‏ '%s'\n"
 
-#: src/pacman/conf.c:411
+#: src/pacman/conf.c:412
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr "ملفّ الضّبط %s، السّطر %d: الخيار '%s' غير صالح، لا دعم للتّواقيع\n"
 
-#: src/pacman/conf.c:504 src/pacman/conf.c:609 src/pacman/conf.c:921
+#: src/pacman/conf.c:506 src/pacman/conf.c:611 src/pacman/conf.c:881
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "ملفّ الضّبط %s، السّطر %d: تعذّر التّعرّف على التّعليمة '%s' في القسم '%s'.\n"
 
-#: src/pacman/conf.c:632
+#: src/pacman/conf.c:623
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "المرآة '%s' تحوي المتغيّر '%s'، لكن لا '%s' معرّف.\n"
 
-#: src/pacman/conf.c:641
+#: src/pacman/conf.c:647
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "تعذّرت إضافة عنوان الخادوم إلى قاعدة البيانات '%s': ‏%s ‏(%s)\n"
 
-#: src/pacman/conf.c:661
+#: src/pacman/conf.c:662
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "تعذّر تسجيل قاعدة البيانات '%s' ‏(%s)\n"
 
-#: src/pacman/conf.c:676
-#, c-format
-msgid "could not add mirror '%s' to database '%s' (%s)\n"
-msgstr "تعذّرت إضافة المرآة '%s' إلى قاعدة البيانات '%s' ‏(%s)\n"
-
-#: src/pacman/conf.c:722
+#: src/pacman/conf.c:698
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
 "(%s: %s)\n"
-msgstr "تعذّر تمهيد مكتبة alpm\n(%s: %s)\n"
+msgstr ""
+"تعذّر تمهيد مكتبة alpm\n"
+"(%s: %s)\n"
 
-#: src/pacman/conf.c:725
+#: src/pacman/conf.c:701
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr ""
 
-#: src/pacman/conf.c:744
+#: src/pacman/conf.c:719
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "مشكلة في إعداد ملفّ الضّبط '%s ‏(%s)\n"
 
-#: src/pacman/conf.c:754
+#: src/pacman/conf.c:728
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "مشكلة في إعداد دليل gpg ‏'%s' ‏(%s)\n"
 
-#: src/pacman/conf.c:763 src/pacman/conf.c:771
+#: src/pacman/conf.c:738
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr ""
 
-#: src/pacman/conf.c:802
+#: src/pacman/conf.c:760
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "لا '%s' مضبوط\n"
 
-#: src/pacman/conf.c:830
+#: src/pacman/conf.c:790
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr ""
 
-#: src/pacman/conf.c:870
+#: src/pacman/conf.c:830
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "ملفّ الضّبط %s، السّطر %d: تعذّر التّعرّف على خيار '%s' ‏'%s'\n"
 
-#: src/pacman/conf.c:890 src/pacman/conf.c:898 src/pacman/conf.c:941
+#: src/pacman/conf.c:850 src/pacman/conf.c:858 src/pacman/conf.c:901
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "ملفّ الضّبط %s، السّطر %d: التّعليمة '%s' تحتاج قيمة\n"
 
-#: src/pacman/conf.c:948
+#: src/pacman/conf.c:908
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 
-#: src/pacman/conf.c:996
+#: src/pacman/conf.c:956
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr ""
 
-#: src/pacman/conf.c:1019
+#: src/pacman/conf.c:979
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr "ملفّ الضّبط %s، السّطر %d: يجب أن تنتمي كلّ التّعليمات إلى قسم.\n"
 
-#: src/pacman/database.c:50 src/pacman/query.c:423 src/pacman/remove.c:91
-#: src/pacman/sync.c:929 src/pacman/upgrade.c:47
+#: src/pacman/database.c:50 src/pacman/files.c:300 src/pacman/query.c:426
+#: src/pacman/remove.c:91 src/pacman/sync.c:938 src/pacman/upgrade.c:47
 #, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "لا أهداف محدّدة (استخدم ‎-h للمساعدة)\n"
@@ -533,15 +533,45 @@ msgstr "لا سبب تثبيت محدّد (استخدم ‎-h للمساعدة)\
 msgid "could not set install reason for package %s (%s)\n"
 msgstr "تعذّر ضبط سبب تثبيت للحزمة %s ‏(%s)\n"
 
-#: src/pacman/database.c:78
+#: src/pacman/database.c:79
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
 msgstr "%s: ضُبط سبب التّثبيت إلى 'ثُبّتت كاعتماديّة'\n"
 
-#: src/pacman/database.c:80
+#: src/pacman/database.c:81
 #, c-format
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: ضُبط سبب التّثبيت إلى 'تثبيت واضح'\n"
+
+#: src/pacman/database.c:293
+#, c-format
+msgid "No database errors have been found!\n"
+msgstr ""
+
+#: src/pacman/files.c:81
+#, fuzzy, c-format
+msgid "%s is owned by %s%s/%s%s %s%s%s\n"
+msgstr "%s مملوك من طرف %s %s\n"
+
+#: src/pacman/files.c:223
+#, fuzzy, c-format
+msgid "invalid package: '%s'\n"
+msgstr "عدد غير صالح: %s\n"
+
+#: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
+#, c-format
+msgid "package '%s' was not found\n"
+msgstr "الحزمة '%s' غير موجودة\n"
+
+#: src/pacman/files.c:291 src/pacman/sync.c:898
+#, c-format
+msgid "Synchronizing package databases...\n"
+msgstr "تجري مزامنة قاعدة بيانات الحزم...\n"
+
+#: src/pacman/files.c:320
+#, fuzzy, c-format
+msgid "no options specified (use -h for help)\n"
+msgstr "لم يتم تحديد أية عملية (استخدم -h للمساعدة)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -578,7 +608,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: src/pacman/package.c:106 src/pacman/util.c:822
+#: src/pacman/package.c:106 src/pacman/util.c:818
 #, c-format
 msgid "Download Size"
 msgstr "حجم التحميل"
@@ -683,7 +713,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: src/pacman/package.c:174 src/pacman/util.c:1206
+#: src/pacman/package.c:174 src/pacman/util.c:1223
 #, c-format
 msgid " [installed]"
 msgstr "[مثبّتة]"
@@ -704,8 +734,8 @@ msgid "Unknown"
 msgstr "مجهول"
 
 #: src/pacman/package.c:236 src/pacman/package.c:321 src/pacman/package.c:339
-#: src/pacman/util.c:490 src/pacman/util.c:676 src/pacman/util.c:716
-#: src/pacman/util.c:744
+#: src/pacman/util.c:486 src/pacman/util.c:672 src/pacman/util.c:712
+#: src/pacman/util.c:740
 #, c-format
 msgid "None"
 msgstr "بلا"
@@ -785,13 +815,14 @@ msgstr "العمليّات:\n"
 msgid ""
 "\n"
 "use '%s {-h --help}' with an operation for available options\n"
-msgstr "\nاستخدم '‎%s {-h --help}‎' مع عمليّة من الخيارات المتوفّرة\n"
+msgstr ""
+"\n"
+"استخدم '‎%s {-h --help}‎' مع عمليّة من الخيارات المتوفّرة\n"
 
 #: src/pacman/pacman.c:125
 #, c-format
 msgid ""
-"  -c, --cascade        remove packages and all packages that depend on "
-"them\n"
+"  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr "‎-c،‏ ‎--cascade أزل الحزم وأزل كلّ ما يعتمد عليها\n"
 
 #: src/pacman/pacman.c:126
@@ -804,7 +835,9 @@ msgstr "‎-n،‏ ‎--nosave أزل ملفّات الضّبط\n"
 msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
-msgstr "‎-s،‏ ‎--recursive أزل الحزم غير الضّروريّة\n(‎-ss يضمّن أيضًا الاعتماديّات المثبّتة بوضوح)\n"
+msgstr ""
+"‎-s،‏ ‎--recursive أزل الحزم غير الضّروريّة\n"
+"(‎-ss يضمّن أيضًا الاعتماديّات المثبّتة بوضوح)\n"
 
 #: src/pacman/pacman.c:129
 #, c-format
@@ -839,7 +872,8 @@ msgstr "‎-g،‏ ‎--groups اعرض كلّ أعضاء مجموعة حزم\n"
 
 #: src/pacman/pacman.c:141
 #, c-format
-msgid "  -i, --info           view package information (-ii for backup files)\n"
+msgid ""
+"  -i, --info           view package information (-ii for backup files)\n"
 msgstr "‎-i،‏ ‎--info اعرض معلومات الحزمة (‎-ii لملفّات النّسخ الاحتياطيّ)\n"
 
 #: src/pacman/pacman.c:142
@@ -849,7 +883,7 @@ msgid ""
 "properties)\n"
 msgstr "‎-k،‏ ‎--check افحص أنّ ملفّات الحزمة موجودة (‎-kk لخصائص الملفّ)\n"
 
-#: src/pacman/pacman.c:143 src/pacman/pacman.c:178
+#: src/pacman/pacman.c:143 src/pacman/pacman.c:179
 #, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
 msgstr "‎-l،‏ ‎--list اعرض الملفّات الّتي تملكها الحزمة المستعلم عنها\n"
@@ -859,16 +893,21 @@ msgstr "‎-l،‏ ‎--list اعرض الملفّات الّتي تملكها �
 msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
-msgstr "‎-m،‏ ‎--foreign اعرض الحزم المثبّتة غير المعثور عليها في قاعدة/قواعد بيانات المزامة [مرشّح]\n"
+msgstr ""
+"‎-m،‏ ‎--foreign اعرض الحزم المثبّتة غير المعثور عليها في قاعدة/قواعد بيانات "
+"المزامة [مرشّح]\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
 msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
-msgstr "‎-n،‏ ‎--native اسرد الحزم المثبّتة المعثور عليها فقط في قاعدة/قواعد البيانات [مرشّح]\n\n"
+msgstr ""
+"‎-n،‏ ‎--native اسرد الحزم المثبّتة المعثور عليها فقط في قاعدة/قواعد البيانات "
+"[مرشّح]\n"
+"\n"
 
-#: src/pacman/pacman.c:146 src/pacman/pacman.c:179
+#: src/pacman/pacman.c:146 src/pacman/pacman.c:180
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr "  -o, --owns <file>    استعلم عن الحُزمة التي تحوي <file>\n"
@@ -878,24 +917,29 @@ msgstr "  -o, --owns <file>    استعلم عن الحُزمة التي تحو�
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <package> استعلم عن ملف الحزمة بدلًا من قاعدة بياناتها\n"
 
-#: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:180
+#: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:181
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
-msgstr "‎-q،‏ ‎--quiet أظهر معلومات أقلّ للاستعلام والبحث\n\n"
+msgstr ""
+"‎-q،‏ ‎--quiet أظهر معلومات أقلّ للاستعلام والبحث\n"
+"\n"
 
 #: src/pacman/pacman.c:149
 #, c-format
 msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
-msgstr "-s,   --search <regex> بحث محليا عن الحزم المثبته في المقاطع المطابقة\n"
+msgstr ""
+"-s,   --search <regex> بحث محليا عن الحزم المثبته في المقاطع المطابقة\n"
 
 #: src/pacman/pacman.c:150
 #, c-format
 msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
-msgstr "‎-t،‏ ‎--unrequired اسرد الحزم الّتي لا تطلبها (الاختياريّة) أيّة حزمة (‎--t لتجاهل optdepends) [مرشّح]\n"
+msgstr ""
+"‎-t،‏ ‎--unrequired اسرد الحزم الّتي لا تطلبها (الاختياريّة) أيّة حزمة (‎--t لتجاهل "
+"optdepends) [مرشّح]\n"
 
 #: src/pacman/pacman.c:152
 #, c-format
@@ -914,14 +958,18 @@ msgstr "‎-c،‏ ‎--clean أزل الحزم القديمة من دليل ا�
 msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
-msgstr "‎-g،‏ ‎--groups اعرض كلّ أعضاء مجموعة حزم (‎--gg لعرض كلّ المجموعات وأعضائها)\n\n"
+msgstr ""
+"‎-g،‏ ‎--groups اعرض كلّ أعضاء مجموعة حزم (‎--gg لعرض كلّ المجموعات وأعضائها)\n"
+"\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
 msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
-msgstr "  -i, --info           أظهر معلومات الحزمة (-ii من أجل المعلومات الممتدة )\n\n"
+msgstr ""
+"  -i, --info           أظهر معلومات الحزمة (-ii من أجل المعلومات الممتدة )\n"
+"\n"
 
 #: src/pacman/pacman.c:160
 #, c-format
@@ -930,7 +978,8 @@ msgstr "-l, --list <repo> اظهر قائمة الحزم التى في repo\n"
 
 #: src/pacman/pacman.c:162
 #, c-format
-msgid "  -s, --search <regex> search remote repositories for matching strings\n"
+msgid ""
+"  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr "-s, --search <regex> ابحث في الحزم البعيدة عن المقاطع المطابقة\n"
 
 #: src/pacman/pacman.c:163
@@ -946,12 +995,14 @@ msgid ""
 "anything\n"
 msgstr "-w, --downloadonly حمل الحزم ولكن لا تثبتها او ترقي اي شي\n"
 
-#: src/pacman/pacman.c:165 src/pacman/pacman.c:183
+#: src/pacman/pacman.c:165 src/pacman/pacman.c:184
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
-msgstr "  -y, --refresh        نزّل قواعد حزم البيانات من الخادوم\n                       (-yy لإجبار إنعاشها حتّى لو كانت محدّثة)\n"
+msgstr ""
+"  -y, --refresh        نزّل قواعد حزم البيانات من الخادوم\n"
+"                       (-yy لإجبار إنعاشها حتّى لو كانت محدّثة)\n"
 
 #: src/pacman/pacman.c:171
 #, c-format
@@ -970,290 +1021,325 @@ msgid ""
 "databases)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:181
+#: src/pacman/pacman.c:174
+#, fuzzy, c-format
+msgid "  -q, --quiet          suppress output of success messages\n"
+msgstr ""
+"‎-q،‏ ‎--quiet أظهر معلومات أقلّ للاستعلام والبحث\n"
+"\n"
+
+#: src/pacman/pacman.c:182
 #, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
 msgstr ""
 
-#: src/pacman/pacman.c:182
+#: src/pacman/pacman.c:183
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
 msgstr ""
 
-#: src/pacman/pacman.c:185
+#: src/pacman/pacman.c:186
 #, c-format
 msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
 
-#: src/pacman/pacman.c:191
-#, c-format
-msgid "      --force          force install, overwrite conflicting files\n"
-msgstr "--force اجبره على التثبيت, واستبدل الملفات المتضاربة\n"
-
 #: src/pacman/pacman.c:192
+#, fuzzy, c-format
+msgid ""
+"      --overwrite <path>\n"
+"                       overwrite conflicting files (can be used more than "
+"once)\n"
+msgstr ""
+"--ignoregroup <grp>\n"
+"تجاهل ترقية المجموعة (ممكن ان يستخدم اكثر من مرة)\n"
+
+#: src/pacman/pacman.c:194
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "--asdeps تثبيت الحزم بشكل غير صريح\n"
 
-#: src/pacman/pacman.c:193
+#: src/pacman/pacman.c:195
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
 msgstr "--asdeps تثبيت الحزم بشكل صريح\n"
 
-#: src/pacman/pacman.c:194
+#: src/pacman/pacman.c:196
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr "--ignore <pkg> تجاهل ترقية الحزمة (ممكن ان يستخدم اكثر من مرة)\n"
 
-#: src/pacman/pacman.c:195
+#: src/pacman/pacman.c:197
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
-msgstr "--ignoregroup <grp>\nتجاهل ترقية المجموعة (ممكن ان يستخدم اكثر من مرة)\n"
+msgstr ""
+"--ignoregroup <grp>\n"
+"تجاهل ترقية المجموعة (ممكن ان يستخدم اكثر من مرة)\n"
 
-#: src/pacman/pacman.c:199
+#: src/pacman/pacman.c:201
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr "-d, --nodeps تخطى اعتمادية التحقق من الاصدار (-dd لتخطي كل التحقق)\n"
 
-#: src/pacman/pacman.c:200
+#: src/pacman/pacman.c:202
 #, c-format
 msgid ""
 "      --assume-installed <package=version>\n"
 "                       add a virtual package to satisfy dependencies\n"
-msgstr "--assume-installed <package=version>\nاضف حزمة وهميه لتلبية التبعيات\n"
+msgstr ""
+"--assume-installed <package=version>\n"
+"اضف حزمة وهميه لتلبية التبعيات\n"
 
-#: src/pacman/pacman.c:202
+#: src/pacman/pacman.c:204
 #, c-format
-msgid "      --dbonly         only modify database entries, not package files\n"
+msgid ""
+"      --dbonly         only modify database entries, not package files\n"
 msgstr "--dbonly عدل فقط مدخلات قاعدة البيانات ,وليس ملفات الحزمة\n"
 
-#: src/pacman/pacman.c:203
+#: src/pacman/pacman.c:205
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr "--noprogressbar لاتظهر شريط التقدم عند تحميل الملفات\n"
 
-#: src/pacman/pacman.c:204
+#: src/pacman/pacman.c:206
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "--noscriptlet لاتنفذ تنصيب scriptlet اذا كان موجود\n"
 
-#: src/pacman/pacman.c:205
+#: src/pacman/pacman.c:207
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "-p, --print اطبع الاهداف بدل من اداء العمليه\n"
 
-#: src/pacman/pacman.c:206
+#: src/pacman/pacman.c:208
 #, c-format
 msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
-msgstr " --print-format <string>\nحدد كيفية طباعة الأهداف\n"
+msgstr ""
+" --print-format <string>\n"
+"حدد كيفية طباعة الأهداف\n"
 
-#: src/pacman/pacman.c:211
+#: src/pacman/pacman.c:213
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "-b, --dbpath <path> ضع بديل لموقع قاعدة البيانات\n"
 
-#: src/pacman/pacman.c:212
-#, c-format
-msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "-r, --root <path> ضع بديل لتنصيب الروت\n"
-
-#: src/pacman/pacman.c:213
+#: src/pacman/pacman.c:214
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        كُن مطوّلًا\n"
 
-#: src/pacman/pacman.c:214
+#: src/pacman/pacman.c:215
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "--arch <arch> ضع بديل الاسلوب البناء\n"
 
-#: src/pacman/pacman.c:215
-#, c-format
-msgid "      --cachedir <dir> set an alternate package cache location\n"
-msgstr "--cachedir <dir> ضع بديل لموقع  الحزمة المخبأ\n"
-
 #: src/pacman/pacman.c:216
 #, c-format
-msgid "      --hookdir <dir>  set an alternate hook location\n"
+msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
 
 #: src/pacman/pacman.c:217
 #, c-format
+msgid "      --cachedir <dir> set an alternate package cache location\n"
+msgstr "--cachedir <dir> ضع بديل لموقع  الحزمة المخبأ\n"
+
+#: src/pacman/pacman.c:218
+#, c-format
+msgid "      --hookdir <dir>  set an alternate hook location\n"
+msgstr ""
+
+#: src/pacman/pacman.c:219
+#, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "--color <when> لون المخرجات\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "--config <path> ضع بديل لملفات الاعدادات\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          أظهِر رسائل الإصلاح\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "--gpgdir <path> ضع بديل للدليل الرئيسي لــ GnuPG\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "--logfile <path> ضع بديل لملفات السجل\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "  --noconfirm      لا تسأل عن اي تّوكيد \n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "  --confirm    إسأل دائماعن التّوكيد\n"
 
-#: src/pacman/pacman.c:242
+#: src/pacman/pacman.c:226
+#, c-format
+msgid ""
+"      --disable-download-timeout\n"
+"                       use relaxed timeouts for download\n"
+msgstr ""
+
+#: src/pacman/pacman.c:246
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
-msgstr "                       يمكن نشر هذا البرنامج بحرية تحت شروط\n                       رخصة غنو العمومية.\n"
+msgstr ""
+"                       يمكن نشر هذا البرنامج بحرية تحت شروط\n"
+"                       رخصة غنو العمومية.\n"
 
-#: src/pacman/pacman.c:302
+#: src/pacman/pacman.c:279
+#, c-format
+msgid "HTTP_USER_AGENT truncated\n"
+msgstr ""
+
+#: src/pacman/pacman.c:311
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "خيار غير صالح: '%s' و '%s' لاتستطيع استخدامهما معا\n"
 
-#: src/pacman/pacman.c:386
+#: src/pacman/pacman.c:395
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "مدخل غير صالح '%s' لأجل %s\n"
 
-#: src/pacman/pacman.c:409
+#: src/pacman/pacman.c:418
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' ليس مستوى إصلاحي\n"
 
-#: src/pacman/pacman.c:952
+#: src/pacman/pacman.c:453
+#, c-format
+msgid "option --root is deprecated; use --sysroot instead\n"
+msgstr ""
+
+#: src/pacman/pacman.c:722
+#, c-format
+msgid "option --force is deprecated; use --overwrite instead\n"
+msgstr ""
+
+#: src/pacman/pacman.c:982
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "عملية واحدة فقط مسموحة في نفس الوقت\n"
 
-#: src/pacman/pacman.c:1010
+#: src/pacman/pacman.c:1040
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "خيار غير صالح '-%c'\n"
 
-#: src/pacman/pacman.c:1012
+#: src/pacman/pacman.c:1042
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "خيار غير صالح '--%s'\n"
 
-#: src/pacman/pacman.c:1170
-#, c-format
-msgid "memory exhausted in argument parsing\n"
-msgstr "استنفذت الذاكرة في تحليل المعطيات\n"
-
-#: src/pacman/pacman.c:1179
-#, c-format
-msgid "failed to reopen stdin for reading: (%s)\n"
-msgstr "فشل في إعادة قراءة المدخلات: (%s)\n"
-
-#: src/pacman/pacman.c:1184
-#, c-format
-msgid "argument '-' specified with empty stdin\n"
-msgstr "المعطى '-' تم تخصيصه بدون إدخالات\n\n"
-
-#: src/pacman/pacman.c:1189
-#, c-format
-msgid "argument '-' specified without input on stdin\n"
-msgstr "المعطى '-' تم تخصيصه بدون إدخالات\n"
-
-#: src/pacman/pacman.c:1218
+#: src/pacman/pacman.c:1167
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "لا يمكنك تنفيذ هذه العملية إلا إذا كنت الجذر.\n"
 
-#: src/pacman/pacman.c:1272
+#: src/pacman/pacman.c:1173
+#, fuzzy, c-format
+msgid "chroot to '%s' failed: (%s)\n"
+msgstr "تعذّر تسجيل قاعدة البيانات '%s' ‏(%s)\n"
+
+#: src/pacman/pacman.c:1207
+#, fuzzy, c-format
+msgid "failed to read arguments from stdin: (%s)\n"
+msgstr "فشل في إعداد المُبادلة (%s)\n"
+
+#: src/pacman/pacman.c:1212
+#, c-format
+msgid "failed to reopen stdin for reading: (%s)\n"
+msgstr "فشل في إعادة قراءة المدخلات: (%s)\n"
+
+#: src/pacman/pacman.c:1217
+#, c-format
+msgid "argument '-' specified with empty stdin\n"
+msgstr ""
+"المعطى '-' تم تخصيصه بدون إدخالات\n"
+"\n"
+
+#: src/pacman/pacman.c:1222
+#, c-format
+msgid "argument '-' specified without input on stdin\n"
+msgstr "المعطى '-' تم تخصيصه بدون إدخالات\n"
+
+#: src/pacman/pacman.c:1299
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "لم يتم تحديد أية عملية (استخدم -h للمساعدة)\n"
 
-#: src/pacman/query.c:86
-#, c-format
-msgid "%s is owned by %s %s\n"
+#: src/pacman/query.c:87
+#, fuzzy, c-format
+msgid "%s is owned by %s%s %s%s%s\n"
 msgstr "%s مملوك من طرف %s %s\n"
 
-#: src/pacman/query.c:147
+#: src/pacman/query.c:149
 #, c-format
 msgid "no file was specified for --owns\n"
 msgstr "لا ملف مخصص بالخيار --owns\n"
 
-#: src/pacman/query.c:176
+#: src/pacman/query.c:170
 #, c-format
-msgid "failed to find '%s' in PATH: %s\n"
-msgstr "فشل العثور على '%s' في المسار: %s\n"
+msgid "empty string passed to file owner query\n"
+msgstr ""
 
-#: src/pacman/query.c:181
-#, c-format
-msgid "failed to read file '%s': %s\n"
-msgstr "فشل في قراءة الملف '%s': %s\n"
-
-#: src/pacman/query.c:188
-#, c-format
-msgid "cannot determine real path for '%s': %s\n"
-msgstr "فشل في تحديد المسار الحقيقي لـ '%s': %s\n"
-
-#: src/pacman/query.c:195 src/pacman/query.c:216
+#: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
 msgid "No package owns %s\n"
 msgstr "لا توجد حزمة تملك %s\n"
 
-#: src/pacman/query.c:204
+#: src/pacman/query.c:206
 #, c-format
 msgid "path too long: %s/\n"
 msgstr "المسار طويل جدًا: %s /\n"
 
-#: src/pacman/query.c:329
+#: src/pacman/query.c:332
 #, c-format
 msgid "[ignored]"
 msgstr "[تم التجاهل]"
 
-#: src/pacman/query.c:380
+#: src/pacman/query.c:383
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "لم يتم العثور على المجموعة '%s'\n"
 
-#: src/pacman/query.c:471 src/pacman/sync.c:429
-#, c-format
-msgid "package '%s' was not found\n"
-msgstr "الحزمة '%s' غير موجودة\n"
-
-#: src/pacman/query.c:474
-#, c-format
-msgid "'%s' is a file, you might want to use %s.\n"
-msgstr "'%s' ملف، ربما ترغب في استخدام %s.\n"
-
-#: src/pacman/query.c:480
+#: src/pacman/query.c:469
 #, c-format
 msgid "could not load package '%s': %s\n"
 msgstr "تعذر تحميل الحزمة '%s': %s\n"
 
-#: src/pacman/remove.c:49 src/pacman/sync.c:526 src/pacman/sync.c:610
+#: src/pacman/query.c:483
+#, c-format
+msgid "'%s' is a file, you might want to use %s.\n"
+msgstr "'%s' ملف، ربما ترغب في استخدام %s.\n"
+
+#: src/pacman/remove.c:49 src/pacman/sync.c:526 src/pacman/sync.c:611
 #, c-format
 msgid "skipping target: %s\n"
 msgstr "تخطي الهدف: %s\n"
@@ -1263,12 +1349,12 @@ msgstr "تخطي الهدف: %s\n"
 msgid "target not found: %s\n"
 msgstr "لم يتم العثور على الهدف: %s\n"
 
-#: src/pacman/remove.c:118 src/pacman/sync.c:738
+#: src/pacman/remove.c:118 src/pacman/sync.c:742
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "فشل في إعداد المُبادلة (%s)\n"
 
-#: src/pacman/remove.c:125 src/pacman/sync.c:724
+#: src/pacman/remove.c:125
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
 msgstr ""
@@ -1283,7 +1369,7 @@ msgstr "%s مصمم كحزمة ممسوكة.\n"
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "حزمة ممسوكة في قائمة الأهداف . هل ترغب في المتابعة؟"
 
-#: src/pacman/remove.c:157 src/pacman/sync.c:781
+#: src/pacman/remove.c:157 src/pacman/sync.c:785
 #, c-format
 msgid " there is nothing to do\n"
 msgstr "لا يوجد شيئ للقيام به\n"
@@ -1293,7 +1379,7 @@ msgstr "لا يوجد شيئ للقيام به\n"
 msgid "Do you want to remove these packages?"
 msgstr "هل تريد إزالة هذه الحزم؟"
 
-#: src/pacman/remove.c:175 src/pacman/sync.c:808
+#: src/pacman/remove.c:175 src/pacman/sync.c:812
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr "فشل في بدء المُبادلة (%s)\n"
@@ -1378,10 +1464,10 @@ msgstr "المستودع '%s' غير موجود\n"
 msgid "repository \"%s\" was not found.\n"
 msgstr "لم يتم العثور على المستودع \"%s\".\n"
 
-#: src/pacman/sync.c:560
+#: src/pacman/sync.c:561
 #, c-format
-msgid "There is %d member in group %s:\n"
-msgid_plural "There are %d members in group %s:\n"
+msgid "There is %d member in group %s%s%s:\n"
+msgid_plural "There are %d members in group %s%s%s:\n"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -1389,85 +1475,94 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: src/pacman/sync.c:639
+#: src/pacman/sync.c:640
 #, c-format
 msgid "database not found: %s\n"
 msgstr "لم يتم العثور على قاعدة البيانات: %s\n"
 
-#: src/pacman/sync.c:667
+#: src/pacman/sync.c:668
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr "'%s' ملف، هل تقصد %s بدلا من %s؟\n"
 
-#: src/pacman/sync.c:697
+#: src/pacman/sync.c:699
 #, c-format
 msgid "Starting full system upgrade...\n"
-msgstr "بدأ ترقية كاملة للنظام...\n\n"
-
-#: src/pacman/sync.c:717
-#, c-format
-msgid "%s: requires %s\n"
-msgstr "%s: يتطلب %s\n"
+msgstr ""
+"بدأ ترقية كاملة للنظام...\n"
+"\n"
 
 #: src/pacman/sync.c:720
 #, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'\n"
+msgid "unable to satisfy dependency '%s' required by %s\n"
 msgstr ""
 
-#: src/pacman/sync.c:744
+#: src/pacman/sync.c:724
+#, c-format
+msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
+msgstr ""
+
+#: src/pacman/sync.c:728
+#, c-format
+msgid "removing %s breaks dependency '%s' required by %s\n"
+msgstr ""
+
+#: src/pacman/sync.c:748
 #, c-format
 msgid "package %s does not have a valid architecture\n"
 msgstr "الحزمة %s ليس لديها بنية صالحة\n"
 
-#: src/pacman/sync.c:759
+#: src/pacman/sync.c:763
 #, c-format
 msgid "%s and %s are in conflict\n"
-msgstr "%s و %s في تعارض\n\n"
+msgstr ""
+"%s و %s في تعارض\n"
+"\n"
 
-#: src/pacman/sync.c:763
+#: src/pacman/sync.c:767
 #, c-format
 msgid "%s and %s are in conflict (%s)\n"
 msgstr "%s و %s في تعارض (%s)\n"
 
-#: src/pacman/sync.c:797
+#: src/pacman/sync.c:801
 #, c-format
 msgid "Proceed with download?"
 msgstr "مواصلة التحميل؟"
 
-#: src/pacman/sync.c:799
+#: src/pacman/sync.c:803
 #, c-format
 msgid "Proceed with installation?"
 msgstr "مواصلة التثبيت؟"
 
-#: src/pacman/sync.c:813
+#: src/pacman/sync.c:817
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
 msgstr "فشل في %s لتعارض الأدلة\n"
 
-#: src/pacman/sync.c:819
+#: src/pacman/sync.c:823
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s موجود في '%s' و '%s' معا\n"
 
-#: src/pacman/sync.c:823
+#: src/pacman/sync.c:828
+#, fuzzy, c-format
+msgid "%s: %s exists in filesystem (owned by %s)\n"
+msgstr "%s: %s موجود في نظام الملفات\n"
+
+#: src/pacman/sync.c:831
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: %s موجود في نظام الملفات\n"
 
-#: src/pacman/sync.c:836
+#: src/pacman/sync.c:845
 #, c-format
 msgid "%s is invalid or corrupted\n"
 msgstr "%s غير صالح أو معطوب\n"
 
-#: src/pacman/sync.c:844
+#: src/pacman/sync.c:853
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "حدثت بعض الأخطاء ، لان تحدّث الحزم.\n"
-
-#: src/pacman/sync.c:889
-#, c-format
-msgid "Synchronizing package databases...\n"
-msgstr "تجري مزامنة قاعدة بيانات الحزم...\n"
 
 #: src/pacman/upgrade.c:56
 #, c-format
@@ -1494,234 +1589,260 @@ msgstr "تعذر قفل قاعدة البيانات:  %s\n"
 msgid ""
 "  if you're sure a package manager is not already\n"
 "  running, you can remove %s\n"
-msgstr "  إذا كنت متأكدًا من أن مدير الحزم لا يعمل حاليًا ،\n  تستطيع أن تحذف %s\n"
+msgstr ""
+"  إذا كنت متأكدًا من أن مدير الحزم لا يعمل حاليًا ،\n"
+"  تستطيع أن تحذف %s\n"
 
 #: src/pacman/util.c:97
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "فشل في إطلاق المُبادلة (%s)\n"
 
-#: src/pacman/util.c:130
+#: src/pacman/util.c:133
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "لم تهيء مستودعات حزم صالحة.\n"
 
-#: src/pacman/util.c:139
+#: src/pacman/util.c:142
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
 msgstr "قاعدة البيانات '%s' غير صالحة (%s)\n"
 
-#: src/pacman/util.c:158
+#: src/pacman/util.c:161
 #, c-format
 msgid "failed to update %s (%s)\n"
 msgstr "فشل في تحديث %s (%s)\n"
 
-#: src/pacman/util.c:161
+#: src/pacman/util.c:165
 #, c-format
 msgid " %s is up to date\n"
 msgstr "%s تم تحديثه\n"
 
-#: src/pacman/util.c:173
-#, c-format
-msgid "failed to synchronize any databases\n"
+#: src/pacman/util.c:170
+#, fuzzy, c-format
+msgid "failed to synchronize all databases\n"
 msgstr "فشل في تحديث جميع قواعد البيانات\n"
 
-#: src/pacman/util.c:640
+#: src/pacman/util.c:636
 #, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "الأعمدة المتوفرة غير كافية لعرض الجدول\n"
 
-#: src/pacman/util.c:761
+#: src/pacman/util.c:757
 #, c-format
 msgid "Valid"
 msgstr "صالح"
 
-#: src/pacman/util.c:764
+#: src/pacman/util.c:760
 #, c-format
 msgid "Key expired"
 msgstr "انتهت صلاحية المفتاح"
 
-#: src/pacman/util.c:767
+#: src/pacman/util.c:763
 #, c-format
 msgid "Expired"
 msgstr "انتهى"
 
-#: src/pacman/util.c:770
+#: src/pacman/util.c:766
 #, c-format
 msgid "Invalid"
 msgstr "غير صالح"
 
-#: src/pacman/util.c:773
+#: src/pacman/util.c:769
 #, c-format
 msgid "Key unknown"
 msgstr "مفتاح غير معروف"
 
-#: src/pacman/util.c:776
+#: src/pacman/util.c:772
 #, c-format
 msgid "Key disabled"
 msgstr "تم تعطيل المفتاح"
 
-#: src/pacman/util.c:779
+#: src/pacman/util.c:775
 #, c-format
 msgid "Signature error"
 msgstr "خطأ في التوقيع"
 
-#: src/pacman/util.c:784
+#: src/pacman/util.c:780
 #, c-format
 msgid "full trust"
 msgstr "توثيق كامل"
 
-#: src/pacman/util.c:787
+#: src/pacman/util.c:783
 #, c-format
 msgid "marginal trust"
 msgstr "توثيق هامشي"
 
-#: src/pacman/util.c:790
+#: src/pacman/util.c:786
 #, c-format
 msgid "never trust"
 msgstr "لم يوثق به من قبل"
 
-#: src/pacman/util.c:794
+#: src/pacman/util.c:790
 #, c-format
 msgid "unknown trust"
 msgstr "توثيق غير معروف"
 
-#: src/pacman/util.c:798
+#: src/pacman/util.c:794
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s، %s من \"%s\""
 
-#: src/pacman/util.c:816
+#: src/pacman/util.c:812
 #, c-format
 msgid "Package"
 msgstr "حزمة"
 
-#: src/pacman/util.c:819
+#: src/pacman/util.c:815
 #, c-format
 msgid "Old Version"
 msgstr "إصدار قديم"
 
-#: src/pacman/util.c:820
+#: src/pacman/util.c:816
 #, c-format
 msgid "New Version"
 msgstr "إصدار جديد"
 
-#: src/pacman/util.c:821
+#: src/pacman/util.c:817
 #, c-format
 msgid "Net Change"
 msgstr "التغير الشبكي"
 
-#: src/pacman/util.c:919
+#: src/pacman/util.c:915
 #, c-format
 msgid "removal"
 msgstr "الإزالة"
 
-#: src/pacman/util.c:925
+#: src/pacman/util.c:921
 #, c-format
 msgid "Packages"
 msgstr "الحزم"
 
-#: src/pacman/util.c:946
+#: src/pacman/util.c:942
 #, c-format
 msgid "Total Download Size:"
 msgstr "محصلة حجوم التنزيلات:"
 
-#: src/pacman/util.c:950
+#: src/pacman/util.c:946
 #, c-format
 msgid "Total Installed Size:"
 msgstr "محصلة حجوم المثبّتات:"
 
-#: src/pacman/util.c:953
+#: src/pacman/util.c:949
 #, c-format
 msgid "Total Removed Size:"
 msgstr "محصلة حجوم المحذوفات:"
 
-#: src/pacman/util.c:957
+#: src/pacman/util.c:953
 #, c-format
 msgid "Net Upgrade Size:"
 msgstr "حجم التحديث الشبكي:"
 
-#: src/pacman/util.c:1208
+#: src/pacman/util.c:1225
 #, c-format
 msgid " [pending]"
 msgstr " [قيد الإرسال]"
 
-#: src/pacman/util.c:1232
+#: src/pacman/util.c:1249
 #, c-format
 msgid "New optional dependencies for %s\n"
 msgstr "تبعيات اختيارية جديدة لـ %s\n"
 
-#: src/pacman/util.c:1254
+#: src/pacman/util.c:1271
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "تبعيات اختيارية لـ %s\n"
 
-#: src/pacman/util.c:1267
-#, c-format
-msgid "Repository %s\n"
+#: src/pacman/util.c:1285
+#, fuzzy, c-format
+msgid "Repository %s%s\n"
 msgstr "مستودع %s\n"
 
-#: src/pacman/util.c:1307
+#: src/pacman/util.c:1326
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
 msgstr "قيمة غير صالحة: %d ليست بين %d و %d\n"
 
-#: src/pacman/util.c:1314
+#: src/pacman/util.c:1333
 #, c-format
 msgid "invalid number: %s\n"
 msgstr "عدد غير صالح: %s\n"
 
-#: src/pacman/util.c:1398
+#: src/pacman/util.c:1419
 #, c-format
 msgid "Enter a selection (default=all)"
 msgstr "أدخل اختيارًا (الإفتراضي=all)"
 
-#: src/pacman/util.c:1465
+#: src/pacman/util.c:1486
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "أدخل رقمًا (الإفتراضي=%d)"
 
-#: src/pacman/util.c:1548
+#: src/pacman/util.c:1570
 #, c-format
 msgid "[Y/n]"
 msgstr "[Y/n]"
 
-#: src/pacman/util.c:1550
+#: src/pacman/util.c:1572
 #, c-format
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/pacman/util.c:1575
+#: src/pacman/util.c:1597
 #, c-format
 msgid "Y"
 msgstr "Y"
 
-#: src/pacman/util.c:1575
+#: src/pacman/util.c:1597
 #, c-format
 msgid "YES"
 msgstr "نعم"
 
-#: src/pacman/util.c:1577
+#: src/pacman/util.c:1599
 #, c-format
 msgid "N"
 msgstr "N"
 
-#: src/pacman/util.c:1577
+#: src/pacman/util.c:1599
 #, c-format
 msgid "NO"
 msgstr "لا"
 
-#: src/pacman/util.c:1644
+#: src/pacman/util.c:1666
 #, c-format
 msgid "failed to allocate string\n"
 msgstr "فشل في تحديد السلسلة\n"
 
-#: src/pacman/util.c:1681 src/pacman/util.c:1731
+#: src/pacman/util.c:1703 src/pacman/util.c:1753
 #, c-format
 msgid "error: "
 msgstr "خطأ:"
 
-#: src/pacman/util.c:1685 src/pacman/util.c:1735
+#: src/pacman/util.c:1707 src/pacman/util.c:1757
 #, c-format
 msgid "warning: "
 msgstr "تحذير:"
+
+#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
+#~ msgstr "تعذّرت إضافة المرآة '%s' إلى قاعدة البيانات '%s' ‏(%s)\n"
+
+#~ msgid "      --force          force install, overwrite conflicting files\n"
+#~ msgstr "--force اجبره على التثبيت, واستبدل الملفات المتضاربة\n"
+
+#~ msgid "  -r, --root <path>    set an alternate installation root\n"
+#~ msgstr "-r, --root <path> ضع بديل لتنصيب الروت\n"
+
+#~ msgid "memory exhausted in argument parsing\n"
+#~ msgstr "استنفذت الذاكرة في تحليل المعطيات\n"
+
+#~ msgid "failed to find '%s' in PATH: %s\n"
+#~ msgstr "فشل العثور على '%s' في المسار: %s\n"
+
+#~ msgid "failed to read file '%s': %s\n"
+#~ msgstr "فشل في قراءة الملف '%s': %s\n"
+
+#~ msgid "cannot determine real path for '%s': %s\n"
+#~ msgstr "فشل في تحديد المسار الحقيقي لـ '%s': %s\n"
+
+#~ msgid "%s: requires %s\n"
+#~ msgstr "%s: يتطلب %s\n"

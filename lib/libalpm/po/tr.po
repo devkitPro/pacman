@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # tarakbumba <tarakbumba@gmail.com>, 2011,2014
 # Dan McGee <dpmcgee@gmail.com>, 2011
@@ -12,14 +12,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2017-05-22 11:00+1000\n"
+"POT-Creation-Date: 2018-04-29 23:44+1000\n"
 "PO-Revision-Date: 2017-09-19 09:04+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Turkish (http://www.transifex.com/toofishes/archlinux-pacman/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/toofishes/archlinux-pacman/"
+"language/tr/)\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: lib/libalpm/add.c:86
@@ -42,17 +43,17 @@ msgstr "%s paketi eski sürümüne çevriliyor (%s => %s)\n"
 msgid "cannot allocate disk archive object"
 msgstr ""
 
-#: lib/libalpm/add.c:138 lib/libalpm/util.c:379
+#: lib/libalpm/add.c:138 lib/libalpm/util.c:382
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "%s açılırken uyarı verildi (%s)\n"
 
-#: lib/libalpm/add.c:141 lib/libalpm/util.c:382
+#: lib/libalpm/add.c:141 lib/libalpm/util.c:385
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "%s açılamadı (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:589 lib/libalpm/remove.c:533
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:533
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s dosyasının ismi %s olarak değiştirilemiyor (%s)\n"
@@ -60,7 +61,9 @@ msgstr "%s dosyasının ismi %s olarak değiştirilemiyor (%s)\n"
 #: lib/libalpm/add.c:205
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
-msgstr "%s paketinin dosya listesinde dosya bulunamadı. %s paketinin açılması atlanıyor\n"
+msgstr ""
+"%s paketinin dosya listesinde dosya bulunamadı. %s paketinin açılması "
+"atlanıyor\n"
 
 #: lib/libalpm/add.c:214
 #, c-format
@@ -72,14 +75,18 @@ msgstr "%s%s dışarı aktarılamadı: yol çok uzun"
 msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
-msgstr "%s paketi üzerinde dizin izinleri farklı\ndosya sistemi: %o paket: %o\n"
+msgstr ""
+"%s paketi üzerinde dizin izinleri farklı\n"
+"dosya sistemi: %o paket: %o\n"
 
 #: lib/libalpm/add.c:271
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
-msgstr "%s üzerinde dizin sahipliği farklı\ndosya sistemi: %u:%u paket: %u:%u\n"
+msgstr ""
+"%s üzerinde dizin sahipliği farklı\n"
+"dosya sistemi: %u:%u paket: %u:%u\n"
 
 #: lib/libalpm/add.c:287
 #, c-format
@@ -91,18 +98,18 @@ msgstr "aç: %s dosyası dizinin üzerine yazılmıyor\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "%s.pacnew aktarılamadı: yol çok uzun"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:331 lib/libalpm/util.c:577
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "üzerinde çalışılan dizin algılanamadı\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:336 lib/libalpm/util.c:582
-#: lib/libalpm/util.c:635
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
+#: lib/libalpm/util.c:631
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "%s dizinine geçilemedi (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:400 lib/libalpm/util.c:740
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "çalışılan dizin (%s) geri yüklenemiyor\n"
@@ -137,7 +144,7 @@ msgstr "%s dosyası okunurken hata meydana geldi: %s\n"
 msgid "removing invalid database: %s\n"
 msgstr "geçersiz veritabanı siliniyor: %s\n"
 
-#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:886
+#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:887
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "dizin oluşturulamadı %s: %s\n"
@@ -157,71 +164,71 @@ msgstr "kopya veritabanı kaydı '%s'\n"
 msgid "corrupted database entry '%s'\n"
 msgstr "bozuk veritabanı kaydı '%s'\n"
 
-#: lib/libalpm/be_local.c:696 lib/libalpm/be_local.c:788
-#: lib/libalpm/be_local.c:935 lib/libalpm/be_local.c:1032
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:447 lib/libalpm/util.c:250
-#: lib/libalpm/util.c:266
+#: lib/libalpm/be_local.c:699 lib/libalpm/be_local.c:791
+#: lib/libalpm/be_local.c:936 lib/libalpm/be_local.c:1033
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:419 lib/libalpm/util.c:253
+#: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "%s dosyası açılamadı: %s\n"
 
-#: lib/libalpm/be_local.c:712 lib/libalpm/be_sync.c:641
+#: lib/libalpm/be_local.c:715 lib/libalpm/be_sync.c:653
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr "%s veritabanı tutarsız: %s paketinde isim uyuşmazlığı\n"
 
-#: lib/libalpm/be_local.c:718 lib/libalpm/be_sync.c:647
+#: lib/libalpm/be_local.c:721 lib/libalpm/be_sync.c:659
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s veritabanı tutarsız: %s paketinde sürüm uyuşmazlığı\n"
 
-#: lib/libalpm/be_local.c:759
+#: lib/libalpm/be_local.c:762
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "%s paketi için bilinmeyen doğrulama türü: %s\n"
 
-#: lib/libalpm/be_package.c:477 lib/libalpm/be_package.c:635
-#: lib/libalpm/be_package.c:648
+#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:637
+#: lib/libalpm/be_package.c:650
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "%s paketi okunurken hata meydana geldi: %s\n"
 
-#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:515
+#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
 msgstr "%s paketine ait mtree okunurken hata oluştu: %s\n"
 
-#: lib/libalpm/be_package.c:601
+#: lib/libalpm/be_package.c:603
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "%s içerisindeki paket açıklama dosyası ayrıştırılamadı\n"
 
-#: lib/libalpm/be_package.c:606
+#: lib/libalpm/be_package.c:608
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "%s içerisinde paket adı bulunmuyor\n"
 
-#: lib/libalpm/be_package.c:610
+#: lib/libalpm/be_package.c:612
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "%s içerisinde paket sürümü bulunmuyor\n"
 
-#: lib/libalpm/be_package.c:614
+#: lib/libalpm/be_package.c:616
 #, c-format
 msgid "invalid package version in %s\n"
 msgstr "%s içinde geçersiz paket sürümü\n"
 
-#: lib/libalpm/be_package.c:655
+#: lib/libalpm/be_package.c:657
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "%s içerisinde eksik paket bilgisi\n"
 
-#: lib/libalpm/be_package.c:747
+#: lib/libalpm/be_package.c:748
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "imza dosyası okunamadı: %s\n"
 
-#: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:1113
+#: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:1113
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "gerekli anahtar anahtarlıkta bulunamadı\n"
@@ -231,22 +238,27 @@ msgstr "gerekli anahtar anahtarlıkta bulunamadı\n"
 msgid "removing invalid file: %s\n"
 msgstr "silinen geçersiz dosya: %s\n"
 
-#: lib/libalpm/be_sync.c:513
+#: lib/libalpm/be_sync.c:517
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "'%s' paket açıklama dosyası '%s' veritabanından ayrıştırılamıyor\n"
 
-#: lib/libalpm/be_sync.c:546 lib/libalpm/be_sync.c:551
+#: lib/libalpm/be_sync.c:524
+#, fuzzy, c-format
+msgid "could not read db '%s' (%s)\n"
+msgstr "%s dosyasının ismi %s olarak değiştirilemiyor (%s)\n"
+
+#: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "%s veritabanı tutarsız: %s paketinin dosya adı geçersiz\n"
 
-#: lib/libalpm/be_sync.c:556
+#: lib/libalpm/be_sync.c:568
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s veritabanı tutarsız: %s paketinin dosya adı çok uzun\n"
 
-#: lib/libalpm/be_sync.c:622
+#: lib/libalpm/be_sync.c:634
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "bilinmeyen veritabanı dosyası: %s\n"
@@ -256,27 +268,27 @@ msgstr "bilinmeyen veritabanı dosyası: %s\n"
 msgid "database path is undefined\n"
 msgstr "veritabanı yolu belirtilmemiş\n"
 
-#: lib/libalpm/deps.c:229
+#: lib/libalpm/deps.c:184
 #, c-format
 msgid "dependency cycle detected:\n"
 msgstr "dolaylı bağımlılıklar bulundu:\n"
 
-#: lib/libalpm/deps.c:232
+#: lib/libalpm/deps.c:187
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
 msgstr "%s paketi %s bağımlılığından sonra kaldırılacak\n"
 
-#: lib/libalpm/deps.c:236
+#: lib/libalpm/deps.c:191
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s paketi %s bağımlılığından önce kurulacak\n"
 
-#: lib/libalpm/deps.c:678 lib/libalpm/deps.c:710
+#: lib/libalpm/deps.c:682 lib/libalpm/deps.c:712
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "paket gözardı ediliyor %s-%s\n"
 
-#: lib/libalpm/deps.c:865
+#: lib/libalpm/deps.c:867
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "\"%s\" paketi \"%s\" paketinin bağımlılığı olarak çözümlenemiyor\n"
@@ -309,7 +321,9 @@ msgstr "%s dosyası için bağlama noktası belirlenemedi\n"
 #: lib/libalpm/diskspace.c:354
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr "%s diski çok dolu: %jd blok gerekiyor, %ju blok boşta\n\n"
+msgstr ""
+"%s diski çok dolu: %jd blok gerekiyor, %ju blok boşta\n"
+"\n"
 
 #: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
@@ -331,37 +345,39 @@ msgstr "%s kök bağlama noktası belirlenemedi\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "%s bölümü salt okunur olarak bağlandı\n"
 
-#: lib/libalpm/dload.c:149
+#: lib/libalpm/dload.c:159
 #, c-format
 msgid "disk"
 msgstr "disk"
 
-#: lib/libalpm/dload.c:373
+#: lib/libalpm/dload.c:345
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "indirilecek geçici dosya oluşturulamıyor\n"
 
-#: lib/libalpm/dload.c:418
+#: lib/libalpm/dload.c:390
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "'%s' adresi geçersiz\n"
 
-#: lib/libalpm/dload.c:487 lib/libalpm/dload.c:512
+#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "%3$s hatası nedeniyle '%1$s' dosyası %2$s adresinden alınamadı\n"
 
-#: lib/libalpm/dload.c:500
+#: lib/libalpm/dload.c:472
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "'%s' dosyası %s üzerinden alınırken hata oluştu: beklenen indirme boyutuna ulaşıldı\n"
+msgstr ""
+"'%s' dosyası %s üzerinden alınırken hata oluştu: beklenen indirme boyutuna "
+"ulaşıldı\n"
 
-#: lib/libalpm/dload.c:548
+#: lib/libalpm/dload.c:520
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s eksik görünüyor: %jd/%jd bayt\n"
 
-#: lib/libalpm/dload.c:692 lib/libalpm/dload.c:721
+#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
 #, c-format
 msgid "failed to download %s\n"
 msgstr "%s dosyası indirilemedi\n"
@@ -591,7 +607,7 @@ msgstr "geçersiz ya da bozuk veri"
 msgid "delta patch failed"
 msgstr "fark yaması başarısız oldu"
 
-#: lib/libalpm/error.c:140
+#: lib/libalpm/error.c:140 lib/libalpm/hook.c:614
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "bağımlılıklar sağlanamadı"
@@ -641,17 +657,104 @@ msgstr "harici indiriciyi çağırırken hata oluştu"
 msgid "unexpected error"
 msgstr "beklenmedik hata"
 
-#: lib/libalpm/handle.c:155
+#: lib/libalpm/handle.c:157
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "kilit dosyasında %s yok\n"
 
-#: lib/libalpm/handle.c:161
+#: lib/libalpm/handle.c:163
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "kilit dosyası %s silinemedi\n"
 
-#: lib/libalpm/package.c:568
+#: lib/libalpm/hook.c:107
+#, fuzzy, c-format
+msgid "Missing trigger targets in hook: %s\n"
+msgstr "%s içerisinde paket adı bulunmuyor\n"
+
+#: lib/libalpm/hook.c:113
+#, fuzzy, c-format
+msgid "Missing trigger type in hook: %s\n"
+msgstr "%s içerisinde paket adı bulunmuyor\n"
+
+#: lib/libalpm/hook.c:119
+#, fuzzy, c-format
+msgid "Missing trigger operation in hook: %s\n"
+msgstr "%s içerisinde paket sürümü bulunmuyor\n"
+
+#: lib/libalpm/hook.c:146
+#, fuzzy, c-format
+msgid "Missing Exec option in hook: %s\n"
+msgstr "%s içerisinde paket sürümü bulunmuyor\n"
+
+#: lib/libalpm/hook.c:152
+#, fuzzy, c-format
+msgid "Missing When option in hook: %s\n"
+msgstr "%s içerisinde paket sürümü bulunmuyor\n"
+
+#: lib/libalpm/hook.c:155
+#, fuzzy, c-format
+msgid "AbortOnFail set for PostTransaction hook: %s\n"
+msgstr "bağlantılı işlemler çalıştırılamadı"
+
+#: lib/libalpm/hook.c:273
+#, fuzzy, c-format
+msgid "error while reading hook %s: %s\n"
+msgstr "%s dosyası okunurken hata meydana geldi: %s\n"
+
+#: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
+#, c-format
+msgid "hook %s line %d: invalid option %s\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:285
+#, c-format
+msgid "hook %s line %d: invalid section %s\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
+#: lib/libalpm/hook.c:350
+#, fuzzy, c-format
+msgid "hook %s line %d: invalid value %s\n"
+msgstr "silinen geçersiz dosya: %s\n"
+
+#: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
+#: lib/libalpm/hook.c:345
+#, c-format
+msgid "hook %s line %d: overwriting previous definition of %s\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:352
+#, c-format
+msgid "hook %s line %d: unable to set option (%s)\n"
+msgstr ""
+
+#: lib/libalpm/hook.c:613
+#, fuzzy, c-format
+msgid "unable to run hook %s: %s\n"
+msgstr "(%s) üzerine yazılamadı\n"
+
+#: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
+#, c-format
+msgid "could not open directory: %s: %s\n"
+msgstr "%s dizini açılamadı: %s\n"
+
+#: lib/libalpm/hook.c:676
+#, fuzzy, c-format
+msgid "could not open file: %s%s: %s\n"
+msgstr "dosya açılamadı: %s: %s\n"
+
+#: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
+#, c-format
+msgid "could not stat file %s: %s\n"
+msgstr "%s dosyası konumlandırılamadı: %s\n"
+
+#: lib/libalpm/hook.c:722
+#, fuzzy, c-format
+msgid "could not read directory: %s: %s\n"
+msgstr "dizin oluşturulamadı %s: %s\n"
+
+#: lib/libalpm/package.c:586
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "%s-%s paketi için meta verisi tam olarak yüklenemiyor\n"
@@ -671,11 +774,6 @@ msgstr "%s hedef listesinden kaldırılıyor\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "'%s' dosyası silinemiyor: %s\n"
 
-#: lib/libalpm/remove.c:385
-#, c-format
-msgid "could not open directory: %s: %s\n"
-msgstr "%s dizini açılamadı: %s\n"
-
 #: lib/libalpm/remove.c:553
 #, c-format
 msgid "cannot remove %s (%s)\n"
@@ -690,6 +788,92 @@ msgstr "veritabanı kaydı %s-%s silinemedi\n"
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "'%s' kaydı tampondan silinemedi\n"
+
+#: lib/libalpm/signing.c:171
+#, c-format
+msgid "Public keyring not found; have you run '%s'?\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
+#, c-format
+msgid "GPGME error: %s\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:402
+#, c-format
+msgid "keyring is not writable\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:460
+#, c-format
+msgid "key \"%s\" could not be imported\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:466
+#, c-format
+msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:471
+#, c-format
+msgid "key \"%s\" could not be looked up remotely\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1181
+#, c-format
+msgid "%s: missing required signature\n"
+msgstr "%s: gerekli imza kayıp\n"
+
+#: lib/libalpm/signing.c:874
+#, c-format
+msgid "%s: signature from \"%s\" is marginal trust\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:882
+#, c-format
+msgid "%s: signature from \"%s\" is unknown trust\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:889
+#, c-format
+msgid "%s: signature from \"%s\" should never be trusted\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:901
+#, c-format
+msgid "%s: key \"%s\" is unknown\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:910
+#, c-format
+msgid "%s: key \"%s\" is disabled\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:914
+#, c-format
+msgid "%s: signature from \"%s\" is expired\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:918
+#, fuzzy, c-format
+msgid "%s: signature from \"%s\" is invalid\n"
+msgstr "'%s' adresi geçersiz\n"
+
+#: lib/libalpm/signing.c:995
+#, c-format
+msgid "%s: signature format error"
+msgstr ""
+
+#: lib/libalpm/signing.c:1063 lib/libalpm/signing.c:1142
+#, c-format
+msgid "%s: signature format error\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
+#: lib/libalpm/signing.c:1136
+#, fuzzy, c-format
+msgid "%s: unsupported signature format\n"
+msgstr "%s: gerekli imza kayıp\n"
 
 #: lib/libalpm/sync.c:98
 #, c-format
@@ -709,7 +893,8 @@ msgstr "%s: %s sürümünden %s sürümüne çevriliyor.\n"
 #: lib/libalpm/sync.c:119
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
-msgstr "%s: yerel depodaki paket (%s) %s deposundaki paketten (%s) daha güncel\n"
+msgstr ""
+"%s: yerel depodaki paket (%s) %s deposundaki paketten (%s) daha güncel\n"
 
 #: lib/libalpm/sync.c:160
 #, c-format
@@ -721,12 +906,12 @@ msgstr "paket değiştirme işlemi göz ardı ediliyor (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "%s ile %s değiştirilemiyor\n"
 
-#: lib/libalpm/sync.c:536 lib/libalpm/sync.c:606
+#: lib/libalpm/sync.c:538 lib/libalpm/sync.c:608
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "çözülemeyen paket çakışmaları bulundu\n"
 
-#: lib/libalpm/sync.c:556
+#: lib/libalpm/sync.c:558
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' hedef listesindeki '%s' ile çakıştığı için kaldırıldı\n"
@@ -735,11 +920,6 @@ msgstr "'%s' hedef listesindeki '%s' ile çakıştığı için kaldırıldı\n"
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "bazı dosyalar alınamadı\n"
-
-#: lib/libalpm/sync.c:1181
-#, c-format
-msgid "%s: missing required signature\n"
-msgstr "%s: gerekli imza kayıp\n"
 
 #: lib/libalpm/sync.c:1384
 #, c-format
@@ -756,87 +936,83 @@ msgstr "kaldırma işlemi teslim edilemedi\n"
 msgid "could not commit transaction\n"
 msgstr "işlem teslim edilemedi\n"
 
-#: lib/libalpm/trans.c:360
+#: lib/libalpm/trans.c:364
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "geçici dizin oluşturulamadı\n"
 
-#: lib/libalpm/trans.c:375
+#: lib/libalpm/trans.c:379
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "geçici dosya %s üzerine kopyalanamadı (%s)\n"
 
-#: lib/libalpm/trans.c:406
+#: lib/libalpm/trans.c:410
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s kaldırılamıyor\n"
 
-#: lib/libalpm/trans.c:410
+#: lib/libalpm/trans.c:414
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "geçici dizin %s kaldırılamadı\n"
 
-#: lib/libalpm/util.c:256
-#, c-format
-msgid "could not stat file %s: %s\n"
-msgstr "%s dosyası konumlandırılamadı: %s\n"
-
-#: lib/libalpm/util.c:493
+#: lib/libalpm/util.c:486
 #, c-format
 msgid "unable to write to pipe (%s)\n"
 msgstr "(%s) üzerine yazılamadı\n"
 
-#: lib/libalpm/util.c:552
+#: lib/libalpm/util.c:545
 #, c-format
 msgid "unable to read from pipe (%s)\n"
 msgstr "(%s) okunamadı\n"
 
-#: lib/libalpm/util.c:594 lib/libalpm/util.c:600
+#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "boru oluşturulamadı (%s)\n"
 
-#: lib/libalpm/util.c:608
+#: lib/libalpm/util.c:604
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "yeni bir süreç çatallanamadı (%s)\n"
 
-#: lib/libalpm/util.c:631
+#: lib/libalpm/util.c:627
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "kök dizini değiştirilemedi (%s)\n"
 
-#: lib/libalpm/util.c:642
+#: lib/libalpm/util.c:638
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "execv çağrısı başarısız (%s)\n"
 
-#: lib/libalpm/util.c:711
+#: lib/libalpm/util.c:709
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid çağrısı başarısız (%s)\n"
 
-#: lib/libalpm/util.c:721
+#: lib/libalpm/util.c:719
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "komut düzgün çalıştırılamadı\n"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:726
 #, c-format
 msgid "Unknown signal"
 msgstr "Bilinmeyen sinyal"
 
-#: lib/libalpm/util.c:730
+#: lib/libalpm/util.c:728
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "Komut %d sinyali tarafından sonlandırıldı: %s\n"
 
-#: lib/libalpm/util.c:827
+#: lib/libalpm/util.c:825
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "%s önbelleği yok, oluşturuluyor...\n"
 
-#: lib/libalpm/util.c:858
+#: lib/libalpm/util.c:856
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
-msgstr "paket önbelleği oluşturulamıyor veya bulunamıyor, yerine %s kullanılıyor\n"
+msgstr ""
+"paket önbelleği oluşturulamıyor veya bulunamıyor, yerine %s kullanılıyor\n"
