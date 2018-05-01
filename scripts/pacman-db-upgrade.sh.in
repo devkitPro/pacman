@@ -103,7 +103,7 @@ while true; do
 		-h|--help)    usage; exit 0 ;;
 		--nocolor)    USE_COLOR='n' ;;
 		-V|--version) version; exit 0 ;;
-		-- )          shift; break 2 ;;
+		--)           shift; break ;;
 	esac
 	shift
 done
