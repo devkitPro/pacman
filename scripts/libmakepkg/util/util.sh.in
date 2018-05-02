@@ -42,8 +42,8 @@ is_array() {
 	local v=$1
 	local ret=1
 
-	# this function requires extglob - save current options to restore later
-	local shellopts=$(shopt -p)
+	# this function requires extglob - save current status to restore later
+	local shellopts=$(shopt -p extglob)
 	shopt -s extglob
 
 	if [[ $(declare -p "$v") == declare\ -*([[:alnum:]])a*([[:alnum:]])\ * ]]; then

@@ -80,8 +80,8 @@ extract_function_variable() {
 		printf -v attr_regex '^[[:space:]]* %s\+?=[^(]' "$2"
 	fi
 
-	# save our shell options and turn on extglob
-	local shellopts=$(shopt -p)
+	# this function requires extglob - save current status to restore later
+	local shellopts=$(shopt -p extglob)
 	shopt -s extglob
 
 	while read -r; do

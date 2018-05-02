@@ -275,7 +275,7 @@ handle_deps() {
 
 	# we might need the new system environment
 	# save our shell options and turn off extglob
-	local shellopts=$(shopt -p)
+	local shellopts=$(shopt -p extglob)
 	shopt -u extglob
 	source /etc/profile &>/dev/null
 	eval "$shellopts"

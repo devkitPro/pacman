@@ -37,8 +37,8 @@ lint_depends() {
 
 	get_pkgbuild_all_split_attributes depends depends_list
 
-	# save our shell options and turn on extglob
-	local shellopts=$(shopt -p)
+	# this function requires extglob - save current status to restore later
+	local shellopts=$(shopt -p extglob)
 	shopt -s extglob
 
 	for depend in "${depends_list[@]}"; do
