@@ -47,24 +47,24 @@ HTML_DOCS = \
 EXTRA_DIST = \
 	asciidoc.conf \
 	asciidoc-override.css \
-	alpm-hooks.5.txt \
-	pacman.8.txt \
-	makepkg.8.txt \
-	makepkg-template.1.txt \
-	repo-add.8.txt \
-	vercmp.8.txt \
-	pkgdelta.8.txt \
-	pacman-key.8.txt \
-	PKGBUILD.5.txt \
+	alpm-hooks.5.asciidoc \
+	pacman.8.asciidoc \
+	makepkg.8.asciidoc \
+	makepkg-template.1.asciidoc \
+	repo-add.8.asciidoc \
+	vercmp.8.asciidoc \
+	pkgdelta.8.asciidoc \
+	pacman-key.8.asciidoc \
+	PKGBUILD.5.asciidoc \
 	PKGBUILD-example.txt \
-	makepkg.conf.5.txt \
-	pacman.conf.5.txt \
-	BUILDINFO.5.txt \
-	libalpm.3.txt \
-	footer.txt \
-	index.txt \
-	submitting-patches.txt \
-	translation-help.txt \
+	makepkg.conf.5.asciidoc \
+	pacman.conf.5.asciidoc \
+	BUILDINFO.5.asciidoc \
+	libalpm.3.asciidoc \
+	footer.asciidoc \
+	index.asciidoc \
+	submitting-patches.asciidoc \
+	translation-help.asciidoc \
 	Doxyfile \
 	$(ASCIIDOC_MANS) \
 	$(DOXYGEN_MANS)
@@ -130,11 +130,11 @@ A2X_OPTS = \
 	--xsltproc-opts='-param man.endnotes.list.enabled 0 -param man.endnotes.are.numbered 0'
 
 # These rules are due to the includes and files of the asciidoc text
-$(ASCIIDOC_MANS): asciidoc.conf footer.txt Makefile.am
-	$(AM_V_GEN)a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@.xml" $(srcdir)/$@.txt
+$(ASCIIDOC_MANS): asciidoc.conf footer.asciidoc Makefile.am
+	$(AM_V_GEN)a2x $(A2X_OPTS) --asciidoc-opts="$(ASCIIDOC_OPTS) --out-file=./$@.xml" $(srcdir)/$@.asciidoc
 
-%.html: %.txt
-	$(AM_V_GEN)asciidoc $(ASCIIDOC_OPTS) -o - $*.txt | \
+%.html: %.asciidoc
+	$(AM_V_GEN)asciidoc $(ASCIIDOC_OPTS) -o - $*.asciidoc | \
 		sed -e 's/\r$$//' > $@
 
 HACKING.html: ../HACKING
@@ -142,7 +142,7 @@ HACKING.html: ../HACKING
 		sed -e 's/\r$$//' > $@
 
 # Customizations for certain HTML docs
-$(HTML_MANPAGES): asciidoc.conf footer.txt Makefile.am
+$(HTML_MANPAGES): asciidoc.conf footer.asciidoc Makefile.am
 $(HTML_OTHER): asciidoc.conf Makefile.am
 %.html: ASCIIDOC_OPTS += -a linkcss -a toc -a icons -a max-width=960px -a stylesheet=asciidoc-override.css
 %.8.html: ASCIIDOC_OPTS += -d manpage
@@ -150,18 +150,18 @@ $(HTML_OTHER): asciidoc.conf Makefile.am
 %.3.html: ASCIIDOC_OPTS += -d manpage
 
 # Dependency rules
-alpm-hooks.5 alpm-hooks.5.html: alpm-hooks.5.txt
-pacman.8 pacman.8.html: pacman.8.txt
-makepkg.8 makepkg.8.html: makepkg.8.txt
-makepkg-template.1 makepkg-template.1.html: makepkg-template.1.txt
-repo-add.8 repo-add.8.html: repo-add.8.txt
-vercmp.8 vercmp.8.html: vercmp.8.txt
-pkgdelta.8 pkgdelta.8.html: pkgdelta.8.txt
-pacman-key.8 pacman-key.8.html: pacman-key.8.txt
-PKGBUILD.5 PKGBUILD.5.html: PKGBUILD.5.txt PKGBUILD-example.txt
-makepkg.conf.5 makepkg.conf.5.html: makepkg.conf.5.txt
-pacman.conf.5 pacman.conf.5.html: pacman.conf.5.txt
-libalpm.3 libalpm.3.html: libalpm.3.txt
+alpm-hooks.5 alpm-hooks.5.html: alpm-hooks.5.asciidoc
+pacman.8 pacman.8.html: pacman.8.asciidoc
+makepkg.8 makepkg.8.html: makepkg.8.asciidoc
+makepkg-template.1 makepkg-template.1.html: makepkg-template.1.asciidoc
+repo-add.8 repo-add.8.html: repo-add.8.asciidoc
+vercmp.8 vercmp.8.html: vercmp.8.asciidoc
+pkgdelta.8 pkgdelta.8.html: pkgdelta.8.asciidoc
+pacman-key.8 pacman-key.8.html: pacman-key.8.asciidoc
+PKGBUILD.5 PKGBUILD.5.html: PKGBUILD.5.asciidoc PKGBUILD-example.txt
+makepkg.conf.5 makepkg.conf.5.html: makepkg.conf.5.asciidoc
+pacman.conf.5 pacman.conf.5.html: pacman.conf.5.asciidoc
+libalpm.3 libalpm.3.html: libalpm.3.asciidoc
 # this one is just a symlink
 repo-remove.8: repo-add.8
 	$(RM) repo-remove.8
