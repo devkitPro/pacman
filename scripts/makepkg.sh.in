@@ -687,6 +687,8 @@ write_buildinfo() {
 	local fullver=$(get_full_version)
 	write_kv_pair "pkgver" "$fullver"
 
+	write_kv_pair "pkgarch" "$pkgarch"
+
 	local sum="$(sha256sum "${BUILDFILE}")"
 	sum=${sum%% *}
 	write_kv_pair "pkgbuild_sha256sum" $sum
