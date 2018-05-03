@@ -257,5 +257,3 @@ class pmdb(object):
             serverpath = os.path.join(self.root, util.SYNCREPO, self.treename)
             util.mkdir(serverpath)
             shutil.copy(self.dbfile, serverpath)
-
-# vim: set ts=4 sw=4 et:

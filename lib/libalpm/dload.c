@@ -734,5 +734,3 @@ void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload)
 	payload->unlink_on_fail = 0;
 	payload->cb_initialized = 0;
 }
-
-/* vim: set noet: */

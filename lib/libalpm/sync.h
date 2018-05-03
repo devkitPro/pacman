@@ -30,5 +30,3 @@ int _alpm_sync_check(alpm_handle_t *handle, alpm_list_t **data);
 int _alpm_sync_commit(alpm_handle_t *handle);
 
 #endif /* ALPM_SYNC_H */
-
-/* vim: set noet: */

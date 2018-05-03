@@ -65,6 +65,3 @@ pacman_conf_SOURCES = pacman-conf.c \
 	conf.c
 
 pacman_conf_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
-
-
-# vim:set noet:

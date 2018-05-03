@@ -32,5 +32,3 @@ int _alpm_remove_single_package(alpm_handle_t *handle,
 		size_t targ_count, size_t pkg_count);
 
 #endif /* ALPM_REMOVE_H */
-
-/* vim: set noet: */

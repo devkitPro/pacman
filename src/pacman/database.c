@@ -300,5 +300,3 @@ int pacman_database(alpm_list_t *targets)
 
 	return ret;
 }
-
-/* vim: set noet: */

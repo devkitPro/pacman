@@ -568,5 +568,3 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 
 	return 0;
 }
-
-/* vim: set noet: */

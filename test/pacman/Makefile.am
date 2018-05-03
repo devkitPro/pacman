@@ -19,5 +19,3 @@ EXTRA_DIST = \
 	ChangeLog \
 	ldconfig.stub \
 	$(check_SCRIPTS)
-
-# vim:set noet:

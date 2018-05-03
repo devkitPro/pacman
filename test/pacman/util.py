@@ -185,5 +185,3 @@ def mkdir(path):
     elif os.path.isfile(path):
         raise OSError("'%s' already exists and is not a directory" % path)
     os.makedirs(path, 0o755)
-
-# vim: set ts=4 sw=4 et:

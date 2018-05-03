@@ -42,5 +42,3 @@ alpm_graph_t *_alpm_graph_new(void);
 void _alpm_graph_free(void *data);
 
 #endif /* ALPM_GRAPH_H */
-
-/* vim: set noet: */

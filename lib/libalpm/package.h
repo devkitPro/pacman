@@ -161,5 +161,3 @@ int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
 
 #endif /* ALPM_PACKAGE_H */
-
-/* vim: set noet: */

@@ -107,5 +107,3 @@ cleanup:
 	free(section_name);
 	return ret;
 }
-
-/* vim: set noet: */

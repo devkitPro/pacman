@@ -884,5 +884,3 @@ void cb_log(alpm_loglevel_t level, const char *fmt, va_list args)
 		pm_vfprintf(stderr, level, fmt, args);
 	}
 }
-
-/* vim: set noet: */

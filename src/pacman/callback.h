@@ -44,5 +44,3 @@ __attribute__((format(printf, 2, 0)))
 void cb_log(alpm_loglevel_t level, const char *fmt, va_list args);
 
 #endif /* PM_CALLBACK_H */
-
-/* vim: set noet: */

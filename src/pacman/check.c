@@ -390,5 +390,3 @@ int check_pkg_full(alpm_pkg_t *pkg)
 
 	return (errors != 0 ? 1 : 0);
 }
-
-/* vim: set noet: */

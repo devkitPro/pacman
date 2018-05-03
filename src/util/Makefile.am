@@ -26,5 +26,3 @@ testpkg_LDADD = $(top_builddir)/lib/libalpm/.libs/libalpm.la
 
 vercmp_SOURCES = vercmp.c
 vercmp_LDADD = $(top_builddir)/lib/libalpm/libalpm_la-version.lo
-
-# vim:set noet:

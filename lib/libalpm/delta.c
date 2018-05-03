@@ -359,5 +359,3 @@ error:
 	_alpm_delta_free(newdelta);
 	return NULL;
 }
-
-/* vim: set noet: */

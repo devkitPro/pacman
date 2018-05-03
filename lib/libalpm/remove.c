@@ -787,5 +787,3 @@ int _alpm_remove_packages(alpm_handle_t *handle, int run_ldconfig)
 
 	return ret;
 }
-
-/* vim: set noet: */

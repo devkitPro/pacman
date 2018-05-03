@@ -129,5 +129,3 @@ fail_free:
 
 	return retval;
 }
-
-/* vim: set noet: */

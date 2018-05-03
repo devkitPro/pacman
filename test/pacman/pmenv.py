@@ -69,5 +69,3 @@ class pmenv(object):
             tap.diag("==> Checking rules")
             tap.todo = t.expectfailure
             tap.subtest(lambda: t.check(), t.description)
-
-# vim: set ts=4 sw=4 et:

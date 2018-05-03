@@ -186,5 +186,3 @@ cleanup:
 	}
 	return retval;
 }
-
-/* vim: set noet: */

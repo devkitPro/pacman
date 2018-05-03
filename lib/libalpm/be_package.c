@@ -788,5 +788,3 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 
 	return 0;
 }
-
-/* vim: set noet: */

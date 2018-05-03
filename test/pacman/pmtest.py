@@ -323,5 +323,3 @@ class pmtest(object):
 
     def hookdir(self):
         return os.path.join(self.root, util.PM_HOOKDIR)
-
-# vim: set ts=4 sw=4 et:

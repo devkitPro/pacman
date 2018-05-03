@@ -84,5 +84,3 @@ int pm_sprintf(char **string, alpm_loglevel_t level, const char *format, ...) __
 int pm_vasprintf(char **string, alpm_loglevel_t level, const char *format, va_list args) __attribute__((format(printf,3,0)));
 
 #endif /* PM_UTIL_H */
-
-/* vim: set noet: */

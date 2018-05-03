@@ -176,5 +176,3 @@ install-data-hook:
 
 uninstall-hook:
 	$(RM) $(DESTDIR)$(mandir)/man8/repo-remove.8
-
-# vim:set noet:

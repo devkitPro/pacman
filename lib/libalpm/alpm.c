@@ -166,5 +166,3 @@ int SYMEXPORT alpm_capabilities(void)
 #endif
 		| 0;
 }
-
-/* vim: set noet: */

@@ -694,5 +694,3 @@ int _alpm_upgrade_packages(alpm_handle_t *handle)
 
 	return ret;
 }
-
-/* vim: set noet: */

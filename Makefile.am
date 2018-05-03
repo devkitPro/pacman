@@ -69,5 +69,3 @@ update-copyright:
 	done
 
 .PHONY: update-po update-copyright
-
-# vim:set noet:

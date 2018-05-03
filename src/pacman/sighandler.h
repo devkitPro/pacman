@@ -26,5 +26,3 @@ void install_soft_interrupt_handler(void);
 void remove_soft_interrupt_handler(void);
 
 #endif /* PM_SIGHANDLER_H */
-
-/* vim: set noet: */

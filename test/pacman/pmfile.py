@@ -80,5 +80,3 @@ class snapshot(object):
             return True
 
         return False
-
-# vim: set ts=4 sw=4 et:

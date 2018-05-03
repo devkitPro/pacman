@@ -159,5 +159,3 @@ char *strsep(char **, const char *);
 #define UNUSED __attribute__((unused))
 
 #endif /* ALPM_UTIL_H */
-
-/* vim: set noet: */

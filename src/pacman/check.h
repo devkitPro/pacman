@@ -26,5 +26,3 @@ int check_pkg_fast(alpm_pkg_t *pkg);
 int check_pkg_full(alpm_pkg_t *pkg);
 
 #endif /* PM_CHECK_H */
-
-/* vim: set noet: */

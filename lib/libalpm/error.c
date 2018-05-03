@@ -164,5 +164,3 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 			return _("unexpected error");
 	}
 }
-
-/* vim: set noet: */

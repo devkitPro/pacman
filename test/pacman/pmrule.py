@@ -189,5 +189,3 @@ class pmrule(object):
             success = not success
         self.result = success
         return success
-
-# vim: set ts=4 sw=4 et:

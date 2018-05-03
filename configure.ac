@@ -594,5 +594,3 @@ ${PACKAGE_NAME}:
     extra warning flags    : ${warningflags}
     use git version        : ${wantgitver}
 "
-
-# vim:set noet:

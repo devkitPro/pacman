@@ -245,5 +245,3 @@ int parseconfig(const char *file);
 int parseconfigfile(const char *file);
 int setdefaults(config_t *c);
 #endif /* PM_CONF_H */
-
-/* vim: set noet: */

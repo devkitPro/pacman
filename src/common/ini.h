@@ -26,5 +26,3 @@ typedef int (ini_parser_fn)(const char *file, int line, const char *section,
 int parse_ini(const char *file, ini_parser_fn cb, void *data);
 
 #endif /* PM_INI_H */
-
-/* vim: set noet: */

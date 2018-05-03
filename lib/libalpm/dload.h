@@ -54,5 +54,3 @@ int _alpm_download(struct dload_payload *payload, const char *localpath,
 		char **final_file, const char **final_url);
 
 #endif /* ALPM_DLOAD_H */
-
-/* vim: set noet: */

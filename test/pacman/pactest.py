@@ -162,5 +162,3 @@ if __name__ == "__main__":
 
     if env.failed > 0:
         sys.exit(1)
-
-# vim: set ts=4 sw=4 et:

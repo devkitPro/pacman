@@ -500,5 +500,3 @@ finish:
 
 	return 0;
 }
-
-/* vim: set noet: */

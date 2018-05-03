@@ -27,5 +27,3 @@
 int _alpm_upgrade_packages(alpm_handle_t *handle);
 
 #endif /* ALPM_ADD_H */
-
-/* vim: set noet: */

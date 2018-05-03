@@ -323,5 +323,3 @@ int pacman_files(alpm_list_t *targets)
 
 	return 0;
 }
-
-/* vim: set noet: */

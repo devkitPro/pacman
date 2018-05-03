@@ -1646,5 +1646,3 @@ void alpm_conflict_free(alpm_conflict_t *conflict);
 }
 #endif
 #endif /* ALPM_H */
-
-/* vim: set noet: */

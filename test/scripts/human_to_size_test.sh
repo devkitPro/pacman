@@ -53,5 +53,3 @@ tap_parse_hts '1M' 1048576
 tap_parse_hts ' 1 G ' 1073741824
 
 tap_parse_hts '1Q' ''
-
-# vim: set noet:

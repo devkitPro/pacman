@@ -805,5 +805,3 @@ int SYMEXPORT alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	return 0;
 }
-
-/* vim: set noet: */

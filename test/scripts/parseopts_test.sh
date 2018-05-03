@@ -112,5 +112,3 @@ tap_parse '--force --' 2 --force
 tap_parse '--clean foo --' 3 --clean=foo
 
 tap_finish
-
-# vim: set noet:

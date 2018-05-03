@@ -445,4 +445,3 @@ alpm_list_t SYMEXPORT *alpm_trans_get_remove(alpm_handle_t *handle)
 
 	return handle->trans->remove;
 }
-/* vim: set noet: */

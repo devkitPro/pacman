@@ -41,5 +41,3 @@ int sync_prepare_execute(void);
 int pacman_upgrade(alpm_list_t *targets);
 
 #endif /* PM_PACMAN_H */
-
-/* vim: set noet: */

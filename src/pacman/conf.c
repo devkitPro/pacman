@@ -1073,5 +1073,3 @@ int parseconfig(const char *file)
 	config->repos = NULL;
 	return ret;
 }
-
-/* vim: set noet: */

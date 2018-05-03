@@ -1417,5 +1417,3 @@ int _alpm_sync_commit(alpm_handle_t *handle)
 
 	return 0;
 }
-
-/* vim: set noet: */

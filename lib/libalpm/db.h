@@ -112,5 +112,3 @@ alpm_list_t *_alpm_db_get_groupcache(alpm_db_t *db);
 alpm_group_t *_alpm_db_get_groupfromcache(alpm_db_t *db, const char *target);
 
 #endif /* ALPM_DB_H */
-
-/* vim: set noet: */

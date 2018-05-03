@@ -726,5 +726,3 @@ alpm_group_t *_alpm_db_get_groupfromcache(alpm_db_t *db, const char *target)
 
 	return NULL;
 }
-
-/* vim: set noet: */

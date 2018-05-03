@@ -31,5 +31,3 @@ off_t _alpm_shortest_delta_path(alpm_handle_t *handle, alpm_list_t *deltas,
 		const char *to, alpm_list_t **path);
 
 #endif /* ALPM_DELTA_H */
-
-/* vim: set noet: */

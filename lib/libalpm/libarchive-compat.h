@@ -69,5 +69,3 @@ static inline int _alpm_archive_read_support_filter_all(struct archive *archive)
 }
 
 #endif /* LIBARCHIVE_COMPAT_H */
-
-/* vim: set noet: */

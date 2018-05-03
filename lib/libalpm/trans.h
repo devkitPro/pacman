@@ -53,5 +53,3 @@ int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 		const char *script, const char *ver, const char *oldver, int is_archive);
 
 #endif /* ALPM_TRANS_H */
-
-/* vim: set noet: */

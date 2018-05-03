@@ -36,5 +36,3 @@ void _alpm_graph_free(void *data)
 	alpm_list_free(graph->children);
 	free(graph);
 }
-
-/* vim: set noet: */

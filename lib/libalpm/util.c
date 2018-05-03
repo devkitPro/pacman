@@ -1463,5 +1463,3 @@ void _alpm_alloc_fail(size_t size)
 {
 	fprintf(stderr, "alloc failure: could not allocate %zu bytes\n", size);
 }
-
-/* vim: set noet: */

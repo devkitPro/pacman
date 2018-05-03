@@ -126,5 +126,3 @@ alpm_errno_t _alpm_set_directory_option(const char *value,
 		char **storage, int must_exist);
 
 #endif /* ALPM_HANDLE_H */
-
-/* vim: set noet: */

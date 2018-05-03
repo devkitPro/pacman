@@ -114,5 +114,3 @@ tap_runtest 1:1.0    1.1   1
 tap_runtest 1:1.1    1.1   1
 
 tap_finish
-
-# vim: set noet:

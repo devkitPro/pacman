@@ -133,5 +133,3 @@ int _alpm_raw_ncmp(const char *first, const char *second, size_t max)
 
 	return (raw_toupper(*first) - raw_toupper(*second));
 }
-
-/* vim: set noet: */

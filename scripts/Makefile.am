@@ -289,6 +289,3 @@ uninstall-hook:
 	for dir in $(LIBMAKEPKGDIRS); do \
 		$(RM) -r $(DESTDIR)$(libmakepkgdir)/$$dir; \
 	done
-
-
-# vim:set noet:

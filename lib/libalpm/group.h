@@ -26,5 +26,3 @@ alpm_group_t *_alpm_group_new(const char *name);
 void _alpm_group_free(alpm_group_t *grp);
 
 #endif /* ALPM_GROUP_H */
-
-/* vim: set noet: */

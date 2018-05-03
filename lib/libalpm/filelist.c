@@ -145,5 +145,3 @@ void _alpm_filelist_sort(alpm_filelist_t *filelist)
 		}
 	}
 }
-
-/* vim: set noet: */

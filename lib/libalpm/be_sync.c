@@ -805,5 +805,3 @@ alpm_db_t *_alpm_db_register_sync(alpm_handle_t *handle, const char *treename,
 	handle->dbs_sync = alpm_list_add(handle->dbs_sync, db);
 	return db;
 }
-
-/* vim: set noet: */

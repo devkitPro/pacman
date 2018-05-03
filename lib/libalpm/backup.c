@@ -98,5 +98,3 @@ error:
 	free(newbackup);
 	return NULL;
 }
-
-/* vim: set noet: */

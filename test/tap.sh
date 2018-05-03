@@ -159,5 +159,3 @@ tap_diff() {
     fi
     return $ret
 }
-
-# vim: ft=sh

@@ -876,5 +876,3 @@ int SYMEXPORT alpm_option_set_disable_dl_timeout(alpm_handle_t *handle,
 #endif
 	return 0;
 }
-
-/* vim: set noet: */

@@ -61,5 +61,3 @@ int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
 		size_t num_files, off_t *file_sizes);
 
 #endif /* ALPM_DISKSPACE_H */
-
-/* vim: set noet: */

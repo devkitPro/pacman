@@ -25,5 +25,3 @@ SED_PROCESS = \
 
 %.conf: %.conf.in Makefile
 	$(SED_PROCESS)
-
-# vim:set noet:

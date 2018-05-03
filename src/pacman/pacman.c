@@ -1304,5 +1304,3 @@ int main(int argc, char *argv[])
 	/* not reached */
 	return EXIT_SUCCESS;
 }
-
-/* vim: set noet: */

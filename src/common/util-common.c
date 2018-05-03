@@ -197,5 +197,3 @@ char *strndup(const char *s, size_t n)
 	return (char *)memcpy(new, s, len);
 }
 #endif
-
-/* vim: set noet: */

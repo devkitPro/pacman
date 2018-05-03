@@ -700,5 +700,3 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 	return conflicts;
 }
-
-/* vim: set noet: */

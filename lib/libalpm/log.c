@@ -121,5 +121,3 @@ void _alpm_log(alpm_handle_t *handle, alpm_loglevel_t flag, const char *fmt, ...
 	handle->logcb(flag, fmt, args);
 	va_end(args);
 }
-
-/* vim: set noet: */

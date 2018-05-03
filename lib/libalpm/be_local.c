@@ -1166,5 +1166,3 @@ alpm_db_t *_alpm_db_register_local(alpm_handle_t *handle)
 	handle->db_local = db;
 	return db;
 }
-
-/* vim: set noet: */

@@ -39,5 +39,3 @@ int _alpm_depcmp_provides(alpm_depend_t *dep, alpm_list_t *provisions);
 int _alpm_depcmp(alpm_pkg_t *pkg, alpm_depend_t *dep);
 
 #endif /* ALPM_DEPS_H */
-
-/* vim: set noet: */

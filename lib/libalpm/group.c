@@ -49,5 +49,3 @@ void _alpm_group_free(alpm_group_t *grp)
 	alpm_list_free(grp->packages);
 	FREE(grp);
 }
-
-/* vim: set noet: */

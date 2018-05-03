@@ -31,5 +31,3 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 		alpm_list_t *upgrade, alpm_list_t *remove);
 
 #endif /* ALPM_CONFLICT_H */
-
-/* vim: set noet: */

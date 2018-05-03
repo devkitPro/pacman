@@ -115,5 +115,3 @@ void install_winch_handler(void)
 	new_action.sa_flags = SA_RESTART;
 	sigaction(SIGWINCH, &new_action, NULL);
 }
-
-/* vim: set noet: */

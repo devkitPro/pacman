@@ -29,5 +29,3 @@ void _alpm_backup_free(alpm_backup_t *backup);
 alpm_backup_t *_alpm_backup_dup(const alpm_backup_t *backup);
 
 #endif /* ALPM_BACKUP_H */
-
-/* vim: set noet: */

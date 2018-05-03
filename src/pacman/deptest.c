@@ -53,5 +53,3 @@ int pacman_deptest(alpm_list_t *targets)
 	alpm_list_free(deps);
 	return 127;
 }
-
-/* vim: set noet: */
