@@ -699,8 +699,15 @@ write_buildinfo() {
 	write_kv_pair "buildenv" "${BUILDENV[@]}"
 	write_kv_pair "options" "${OPTIONS[@]}"
 
-	local pkglist=($(run_pacman -Q | sed "s# #-#"))
-	write_kv_pair "installed" "${pkglist[@]}"
+	local pkglist=($(run_pacman -Qq))
+	local pkginfos="$(LC_ALL=C run_pacman -Qi ${pkglist[@]})"
+	local pkginfos_parsed=($(awk -F': ' '\
+		/^Name .*/ {printf $2} \
+		/^Version .*/ {printf "-"$2} \
+		/^Architecture .*/ {print "-"$2} \
+		' <<< "${pkginfos}"))
+
+	write_kv_pair "installed" "${pkginfos_parsed[@]}"
 }
 
 # build a sorted NUL-separated list of the full contents of the current
