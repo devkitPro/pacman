@@ -496,14 +496,7 @@ run_check() {
 }
 
 run_package() {
-	local pkgfunc
-	if [[ -z $1 ]]; then
-		pkgfunc="package"
-	else
-		pkgfunc="package_$1"
-	fi
-
-	run_function_safe "$pkgfunc"
+	run_function_safe "package${1:+_$1}"
 }
 
 find_libdepends() {
