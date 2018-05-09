@@ -56,7 +56,7 @@ generate_one_checksum() {
 				sum="SKIP"
 				;;
 			*)
-				if [[ $netfile != *.@(sig?(n)|asc) ]]; then
+				if [[ ${netfile%%::*} != *.@(sig?(n)|asc) ]]; then
 					local file
 					file="$(get_filepath "$netfile")" || missing_source_file "$netfile"
 					sum="$("${integ}sum" "$file")"
