@@ -811,11 +811,12 @@ fi
 
 prepare_repo_db
 
+fail=0
 for arg in "${args[@]:1}"; do
 	case $cmd in
 		repo-add) add "$arg" ;;
 		repo-remove) remove "$arg" ;;
-	esac && success=1
+	esac || fail=1
 done
 
 # if the whole operation was a success, re-zip and rotate databases
