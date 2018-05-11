@@ -43,10 +43,12 @@ lint_conflicts() {
 
 	for conflict in "${conflicts_list[@]}"; do
 		name=${conflict%%@(<|>|=|>=|<=)*}
-		ver=${conflict#*@(<|>|=|>=|<=)}
+		# remove optional epoch in version specifier
+		ver=${conflict##$name@(<|>|=|>=|<=)?(+([0-9]):)}
 		lint_one_pkgname conflicts "$name" || ret=1
 		if [[ $ver != $conflict ]]; then
-			check_pkgver "$ver" conflicts || ret=1
+			# remove optional pkgrel in version specifier
+			check_pkgver "${ver%-+([0-9])?(.+([0-9]))}" conflicts || ret=1
 		fi
 	done
 

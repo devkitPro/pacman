@@ -37,19 +37,27 @@ lint_provides() {
 
 	get_pkgbuild_all_split_attributes provides provides_list
 
+	# this function requires extglob - save current status to restore later
+	local shellopts=$(shopt -p extglob)
+	shopt -s extglob
+
 	for provide in "${provides_list[@]}"; do
 		if [[ $provide == *['<>']* ]]; then
 			error "$(gettext "%s array cannot contain comparison (< or >) operators.")" "provides"
 			ret=1
 			continue
 		fi
-		name=${provide%%=*}
-		ver=${provide#*=}
+		name=${provide%=*}
+		# remove optional epoch in version specifier
+		ver=${provide##$name=?(+([0-9]):)}
 		lint_one_pkgname provides "$name" || ret=1
 		if [[ $ver != $provide ]]; then
-			check_pkgver "$ver" provides || ret=1
+			# remove optional pkgrel in version specifier
+			check_pkgver "${ver%-+([0-9])?(.+([0-9]))}" provides || ret=1
 		fi
 	done
+
+	eval "$shellopts"
 
 	return $ret
 }

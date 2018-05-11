@@ -43,10 +43,12 @@ lint_makedepends() {
 
 	for makedepend in "${makedepends_list[@]}"; do
 		name=${makedepend%%@(<|>|=|>=|<=)*}
-		ver=${makedepend#*@(<|>|=|>=|<=)}
+		# remove optional epoch in version specifier
+		ver=${makedepend##$name@(<|>|=|>=|<=)?(+([0-9]):)}
 		lint_one_pkgname makedepends "$name" || ret=1
 		if [[ $ver != $makedepend ]]; then
-			check_pkgver "$ver" makedepends || ret=1
+			# remove optional pkgrel in version specifier
+			check_pkgver "${ver%-+([0-9])?(.+([0-9]))}" makedepends || ret=1
 		fi
 	done
 

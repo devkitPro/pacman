@@ -43,10 +43,12 @@ lint_depends() {
 
 	for depend in "${depends_list[@]}"; do
 		name=${depend%%@(<|>|=|>=|<=)*}
-		ver=${depend#*@(<|>|=|>=|<=)}
+		# remove optional epoch in version specifier
+		ver=${depend##$name@(<|>|=|>=|<=)?(+([0-9]):)}
 		lint_one_pkgname depends "$name" || ret=1
 		if [[ $ver != $depend ]]; then
-			check_pkgver "$ver" depends || ret=1
+			# remove optional pkgrel in version specifier
+			check_pkgver "${ver%-+([0-9])?(.+([0-9]))}" depends || ret=1
 		fi
 	done
 
