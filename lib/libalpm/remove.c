@@ -404,14 +404,22 @@ static void shift_pacsave(alpm_handle_t *handle, const char *file)
 	/* Shift pacsaves */
 	unsigned long i;
 	for(i = log_max + 1; i > 1; i--) {
-		snprintf(oldfile, PATH_MAX, "%s.pacsave.%lu", file, i-1);
-		snprintf(newfile, PATH_MAX, "%s.pacsave.%lu", file, i);
+		if(snprintf(oldfile, PATH_MAX, "%s.pacsave.%lu", file, i-1) >= PATH_MAX
+				|| snprintf(newfile, PATH_MAX, "%s.pacsave.%lu", file, i) >= PATH_MAX) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("could not backup %s due to PATH_MAX overflow\n"), file);
+			goto cleanup;
+		}
 		rename(oldfile, newfile);
 	}
 
-	snprintf(oldfile, PATH_MAX, "%s.pacsave", file);
+	if(snprintf(oldfile, PATH_MAX, "%s.pacsave", file) >= PATH_MAX
+			|| snprintf(newfile, PATH_MAX, "%s.1", oldfile) >= PATH_MAX) {
+		_alpm_log(handle, ALPM_LOG_ERROR,
+				_("could not backup %s due to PATH_MAX overflow\n"), file);
+		goto cleanup;
+	}
 	if(stat(oldfile, &st) == 0) {
-		snprintf(newfile, PATH_MAX, "%s.1", oldfile);
 		rename(oldfile, newfile);
 	}
 
